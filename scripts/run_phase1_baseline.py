@@ -146,12 +146,17 @@ class LocalVLLMServer(AbstractContextManager[ChatClient]):
             "--disable-log-requests",
             "--generation-config",
             "vllm",
+            "--seed",
+            str(inference["server_seed"]),
         ]
         if model_reference == model["id"]:
             command.extend(["--revision", model["revision"]])
         environment = os.environ.copy()
         environment["HF_HOME"] = str(ROOT / "data/cache/huggingface")
         environment["TOKENIZERS_PARALLELISM"] = "false"
+        environment["VLLM_ENABLE_V1_MULTIPROCESSING"] = (
+            "1" if inference["v1_multiprocessing"] else "0"
+        )
         self.process = subprocess.Popen(
             command,
             cwd=ROOT,
@@ -438,7 +443,12 @@ def run_b1(
     )
 
 
-def build_manifest(run_id: str, config_path: Path, config: dict[str, Any]) -> dict[str, Any]:
+def build_manifest(
+    run_id: str,
+    config_path: Path,
+    config: dict[str, Any],
+    execution: dict[str, Any],
+) -> dict[str, Any]:
     if not MODEL_MANIFEST.is_file():
         raise RuntimeError(
             "Pinned model manifest is missing; run scripts/verify_phase1_model.py first"
@@ -465,6 +475,7 @@ def build_manifest(run_id: str, config_path: Path, config: dict[str, Any]) -> di
         "model": config["model"],
         "generation": config["generation"],
         "inference": config["inference"],
+        "execution": execution,
         "packages": {
             name: importlib.metadata.version(name)
             for name in ("torch", "transformers", "vllm", "modelscope")
@@ -490,7 +501,7 @@ def main() -> None:
     parser.add_argument("--run-id")
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--case-id")
-    parser.add_argument("--workers", type=int, default=8)
+    parser.add_argument("--workers", type=int)
     parser.add_argument("--methods", nargs="+", choices=METHODS, default=list(METHODS))
     parser.add_argument("--no-start-server", action="store_true")
     args = parser.parse_args()
@@ -510,6 +521,14 @@ def main() -> None:
         personas = personas[:1]
 
     run_id = args.run_id or f"phase1_{utc_now().strftime('%Y%m%dT%H%M%SZ')}"
+    workers = args.workers or int(config["inference"]["request_workers"])
+    execution = {
+        "workers": workers,
+        "methods": args.methods,
+        "smoke": args.smoke,
+        "case_id": args.case_id,
+        "auto_start_server": not args.no_start_server,
+    }
     run_root = ROOT / config["outputs"]["run_root"] / run_id
     trajectory_root = run_root / "trajectories"
     manifest_path = run_root / "manifest.json"
@@ -517,8 +536,10 @@ def main() -> None:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         if manifest["config_sha256"] != sha256_file(config_path):
             raise RuntimeError("Cannot resume a run with a different configuration")
+        if manifest.get("execution") != execution:
+            raise RuntimeError("Cannot resume a run with different execution settings")
     else:
-        manifest = build_manifest(run_id, config_path, config)
+        manifest = build_manifest(run_id, config_path, config, execution)
         atomic_json(manifest_path, manifest)
 
     adapter = DLawBenchAdapter(CASES, PERSONAS)
@@ -539,7 +560,7 @@ def main() -> None:
     failures: list[dict[str, str]] = []
     with LocalVLLMServer(
         config, run_root / "vllm_server.log", auto_start=not args.no_start_server
-    ) as model_client, ThreadPoolExecutor(max_workers=max(1, args.workers)) as executor:
+    ) as model_client, ThreadPoolExecutor(max_workers=max(1, workers)) as executor:
         future_tasks = {}
         for method, case_id, persona in pending:
             if method == "B0_direct":

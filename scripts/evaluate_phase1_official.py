@@ -111,11 +111,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
-    parser.add_argument("--workers", type=int, default=6)
+    parser.add_argument("--workers", type=int)
     parser.add_argument("--no-start-server", action="store_true")
     args = parser.parse_args()
 
     config = load_yaml(args.config.resolve())
+    workers = args.workers or int(config["inference"]["evaluation_workers"])
     run_root = ROOT / config["outputs"]["run_root"] / args.run_id
     manifest_path = run_root / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -164,7 +165,7 @@ def main() -> None:
             }
             return path, session
 
-        with ThreadPoolExecutor(max_workers=max(1, args.workers)) as executor:
+        with ThreadPoolExecutor(max_workers=max(1, workers)) as executor:
             futures = {executor.submit(evaluate_one, path): path for path in pending}
             for future in as_completed(futures):
                 path = futures[future]
@@ -203,6 +204,7 @@ def main() -> None:
         "failures": failures,
         "metrics_markdown": str(metrics_md.relative_to(ROOT)),
         "metrics_json": str(metrics_json.relative_to(ROOT)),
+        "workers": workers,
     }
     manifest["status"] = "failed" if failures else "evaluation_complete"
     atomic_json(manifest_path, manifest)
