@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "phase": 1,
+  "status": "engineering_pilot_complete_not_formal_paper_experiment",
+  "completed_at": "2026-08-07T17:31:16.239754+00:00",
+  "selected_run_id": "phase1_pilot_deterministic_seed42_a",
+  "replicate_run_id": "phase1_pilot_deterministic_seed42_b",
+  "git_commit": "f92a0340d95f11ffcd8882e196b65d66a98d1c12",
+  "source_tree_sha256": "b41fc7198e1c23ecf941611d85091781efe4a6a48cd68822387ec98431101a6e",
+  "config_sha256": "bc30809dba7c35c5fa09fbe550f797b84d76861e8ae42b972ab0b06ec7cdd804",
+  "data_manifest_sha256": "badfa50e31d24d14bded66a74942b70119a251bd1ffc963ffa4229a5e00c4236",
+  "split_manifest_sha256": "ea6eb089df4e2deebee6d5326d48c6cfba051b8710059492292bfd8f7b6e41d7",
+  "model_manifest_sha256": "e842cc2c71e527b27971d165c4a4a7af0da3b2b6caf0198d68326b4086770695",
+  "acceptance": {
+    "trajectories_expected": 100,
+    "trajectories_completed": 100,
+    "b1_case_persona_cells": 80,
+    "failures": 0,
+    "schema_valid": true,
+    "nonempty_memo_rate": 1.0,
+    "five_section_memo_rate": 1.0,
+    "lawyer_length_finish_count": 0,
+    "client_length_finish_count": 0,
+    "official_sessions": 100,
+    "official_missing_score_count": 0,
+    "semantic_hashes_compared": 100,
+    "semantic_hashes_equal": true
+  },
+  "artifacts": {
+    "report": "reports/phase1_no_skill_baseline.md",
+    "selected_manifest": "runs/phase1/phase1_pilot_deterministic_seed42_a/manifest.json",
+    "custom_metrics": {
+      "path": "runs/phase1/phase1_pilot_deterministic_seed42_a/evaluations/custom_metrics.json",
+      "sha256": "b359351ed0b7d8551cb10db848e0864f151db720f98aa0032de6038495de0b7d"
+    },
+    "official_metrics": {
+      "path": "runs/phase1/phase1_pilot_deterministic_seed42_a/evaluations/official_metrics.json",
+      "sha256": "2bd93511e64470dd297c1e4364b74f79854437546a812a53faf1964d8dd71107"
+    },
+    "reproducibility": {
+      "path": "runs/phase1/phase1_pilot_deterministic_seed42_b/evaluations/reproducibility.json",
+      "sha256": "42cefcd33bbe99a9ae71134ed87b2f131a3d417694ff6d50727636190a515506"
+    }
+  },
+  "limitations": [
+    "DLawBench public release has 30 CN cases, not the 264 CN paper corpus",
+    "public cases have no official per-case domain labels",
+    "B1 has four persona sessions per case while B0 has one direct session per case",
+    "the pilot uses the same Qwen3-4B checkpoint as lawyer, client simulator, and judge",
+    "LeCoDe dialogue data remains gated by institutional application"
+  ]
+}

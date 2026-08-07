@@ -1,8 +1,8 @@
 # LegalSkillGuard
 
 LegalSkillGuard is a research scaffold for verifier-gated, self-evolving skills in
-multi-turn Chinese legal consultation. **Phase 0 is complete** and Phase 1 baseline
-implementation is in progress. The repository does not yet claim that the skill
+multi-turn Chinese legal consultation. **Phase 0 and the Phase 1 public-30 engineering
+pilot are complete**; Phase 2 is the next implementation stage. The repository does not yet claim that the skill
 evolution loop or formal paper experiments are implemented.
 
 ## Current acceptance status
@@ -18,7 +18,27 @@ evolution loop or formal paper experiments are implemented.
   institutionally signed application and cannot be downloaded autonomously.
 
 See [the Phase 0 report](reports/phase0_environment_and_data.md) for evidence and
-entry criteria for Phase 1.
+data limitations. See [the Phase 1 report](reports/phase1_no_skill_baseline.md) for
+the deterministic B0/B1 baseline, official metrics, failure corrections, and Phase 2
+entry criteria.
+
+## Reproduce Phase 1
+
+After preparing DLawBench and the pinned local model snapshot:
+
+```bash
+../.tools/bin/uv run python scripts/verify_phase1_model.py
+../.tools/bin/uv run python scripts/run_phase1_baseline.py \
+  --run-id phase1_pilot_deterministic_seed42_a
+../.tools/bin/uv run python scripts/analyze_phase1_run.py \
+  --run-id phase1_pilot_deterministic_seed42_a
+../.tools/bin/uv run python scripts/evaluate_phase1_official.py \
+  --run-id phase1_pilot_deterministic_seed42_a
+```
+
+The frozen configuration deliberately uses one request at a time. vLLM 0.10.2 online
+serving is not batch-invariant; higher worker counts are throughput diagnostics, not the
+selected reproducible protocol.
 
 ## Reproduce Phase 0
 
