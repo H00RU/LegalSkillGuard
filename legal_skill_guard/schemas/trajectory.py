@@ -49,6 +49,8 @@ class TrajectoryStep(StrictModel):
     verifier_results: list[dict[str, Any]] = Field(default_factory=list)
     latency_ms: int = Field(ge=0)
     token_usage: TokenUsage
+    lawyer_finish_reason: str | None = None
+    client_finish_reason: str | None = None
 
 
 class Trajectory(StrictModel):

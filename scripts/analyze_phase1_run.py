@@ -51,6 +51,13 @@ def summarize(records: list[Trajectory]) -> dict[str, Any]:
         trajectories_with_internal_repeat += int(len(local) != len(set(local)))
 
     actions = [step.proposed_action for record in records for step in record.steps]
+    lawyer_finishes = [step.lawyer_finish_reason for record in records for step in record.steps]
+    client_finishes = [
+        step.client_finish_reason
+        for record in records
+        for step in record.steps
+        if step.client_response is not None
+    ]
     prompt_tokens = [sum(step.token_usage.prompt for step in record.steps) for record in records]
     completion_tokens = [
         sum(step.token_usage.completion for step in record.steps) for record in records
@@ -83,6 +90,8 @@ def summarize(records: list[Trajectory]) -> dict[str, Any]:
             [action.parse_mode in {"json", "json_fragment"} for action in actions]
         ),
         "fallback_action_count": sum(action.parse_mode == "fallback" for action in actions),
+        "lawyer_length_finish_count": sum(reason == "length" for reason in lawyer_finishes),
+        "client_length_finish_count": sum(reason == "length" for reason in client_finishes),
         "questions": len(questions),
         "exact_duplicate_question_rate": (
             round(duplicate_questions / len(questions), 4) if questions else 0.0

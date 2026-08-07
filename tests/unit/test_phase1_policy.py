@@ -28,3 +28,11 @@ def test_truncated_declared_memo_never_becomes_client_message() -> None:
     assert action.tool == "write_memo"
     assert action.parse_mode == "fallback"
     assert action.content == "案情概要\n内容尚未输出完"
+
+
+def test_known_talk_tool_typo_is_repaired_without_forwarding_json() -> None:
+    raw = '{"tool":"talk_to_to_client","message":"合同何时签订？"}'
+    action = parse_lawyer_action(raw)
+    assert action.tool == "talk_to_client"
+    assert action.content == "合同何时签订？"
+    assert action.parse_mode == "fallback"

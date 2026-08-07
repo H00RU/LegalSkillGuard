@@ -43,7 +43,8 @@ def _action_from_object(value: Any, raw: str, mode: str) -> Action | None:
     if not isinstance(value, dict):
         return None
     tool = value.get("tool")
-    if tool == "talk_to_client":
+    repaired_alias = tool == "talk_to_to_client"
+    if tool == "talk_to_client" or repaired_alias:
         content = str(value.get("message") or "").strip()
     elif tool == "write_memo":
         content = str(value.get("content") or "").strip()
@@ -51,7 +52,13 @@ def _action_from_object(value: Any, raw: str, mode: str) -> Action | None:
         return None
     if not content:
         return None
-    return Action(tool=tool, content=content, parse_mode=mode, raw_model_output=raw)
+    normalized_tool = "talk_to_client" if repaired_alias else tool
+    return Action(
+        tool=normalized_tool,
+        content=content,
+        parse_mode="fallback" if repaired_alias else mode,
+        raw_model_output=raw,
+    )
 
 
 def parse_lawyer_action(text: str) -> Action:

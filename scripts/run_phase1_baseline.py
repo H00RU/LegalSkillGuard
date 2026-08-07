@@ -245,6 +245,7 @@ def run_b0(
         token_usage=TokenUsage(
             prompt=response.prompt_tokens, completion=response.completion_tokens
         ),
+        lawyer_finish_reason=response.finish_reason,
     )
     return Trajectory(
         trajectory_id=f"B0_direct__{case_id}__seed{seed}",
@@ -334,6 +335,7 @@ def run_b1(
         action = parse_lawyer_action(lawyer_response.content)
         question = None
         client_response = None
+        client_finish_reason = None
         client_input_hash = None
         prompt_tokens = lawyer_response.prompt_tokens
         completion_tokens = lawyer_response.completion_tokens
@@ -344,6 +346,7 @@ def run_b1(
             question = action.content
             simulated, client_input_hash = simulator.respond(question, seed + 10_000 + turn)
             client_response = simulated.content
+            client_finish_reason = simulated.finish_reason
             dialogue.append((question, client_response))
             prompt_tokens += simulated.prompt_tokens
             completion_tokens += simulated.completion_tokens
@@ -369,6 +372,8 @@ def run_b1(
                 client_input_sha256=client_input_hash,
                 latency_ms=round((time.monotonic() - step_started) * 1000),
                 token_usage=TokenUsage(prompt=prompt_tokens, completion=completion_tokens),
+                lawyer_finish_reason=lawyer_response.finish_reason,
+                client_finish_reason=client_finish_reason,
             )
         )
         if memo:
@@ -409,6 +414,7 @@ def run_b1(
                     prompt=response.prompt_tokens,
                     completion=response.completion_tokens,
                 ),
+                lawyer_finish_reason=response.finish_reason,
             )
         )
 
