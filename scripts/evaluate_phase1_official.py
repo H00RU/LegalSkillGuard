@@ -12,13 +12,22 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
-from scripts.run_phase1_baseline import (
-    DEFAULT_CONFIG,
-    LocalVLLMServer,
-    atomic_json,
-    load_yaml,
-    utc_now,
-)
+try:
+    from scripts.run_phase1_baseline import (
+        DEFAULT_CONFIG,
+        LocalVLLMServer,
+        atomic_json,
+        load_yaml,
+        utc_now,
+    )
+except ModuleNotFoundError:  # Direct execution from the repository root.
+    from run_phase1_baseline import (  # type: ignore[no-redef]
+        DEFAULT_CONFIG,
+        LocalVLLMServer,
+        atomic_json,
+        load_yaml,
+        utc_now,
+    )
 
 ROOT = Path(__file__).resolve().parents[1]
 UPSTREAM = ROOT / "third_party/DLawBench"

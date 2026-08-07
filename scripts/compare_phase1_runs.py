@@ -9,7 +9,11 @@ from pathlib import Path
 from typing import Any
 
 from legal_skill_guard.utils.hashing import canonical_json_sha256
-from scripts.run_phase1_baseline import ROOT, atomic_json
+
+try:
+    from scripts.run_phase1_baseline import ROOT, atomic_json
+except ModuleNotFoundError:  # Direct execution from the repository root.
+    from run_phase1_baseline import ROOT, atomic_json  # type: ignore[no-redef]
 
 
 def normalized_trajectory(value: dict[str, Any]) -> dict[str, Any]:

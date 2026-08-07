@@ -45,6 +45,7 @@ CASES = (
 )
 PERSONAS = ROOT / "data/raw/dlawbench" / REVISION / "config/personas.json"
 DEFAULT_CONFIG = ROOT / "configs/experiments/phase1_pilot.yaml"
+MODEL_MANIFEST = ROOT / "data/manifests/qwen3_4b_model.json"
 PROMPT_DIR = ROOT / "configs/prompts"
 METHODS = ("B0_direct", "B1_prompted_multiturn")
 
@@ -428,6 +429,10 @@ def run_b1(
 
 
 def build_manifest(run_id: str, config_path: Path, config: dict[str, Any]) -> dict[str, Any]:
+    if not MODEL_MANIFEST.is_file():
+        raise RuntimeError(
+            "Pinned model manifest is missing; run scripts/verify_phase1_model.py first"
+        )
     split_path = ROOT / config["data"]["split_manifest"]
     prompts = sorted(PROMPT_DIR.glob("phase1_*.txt"))
     return {
@@ -442,6 +447,8 @@ def build_manifest(run_id: str, config_path: Path, config: dict[str, Any]) -> di
         "config_sha256": sha256_file(config_path),
         "data_manifest_sha256": sha256_file(ROOT / config["data"]["source_manifest"]),
         "split_manifest_sha256": sha256_file(split_path),
+        "model_manifest": str(MODEL_MANIFEST.relative_to(ROOT)),
+        "model_manifest_sha256": sha256_file(MODEL_MANIFEST),
         "prompt_sha256": {
             str(path.relative_to(ROOT)): sha256_file(path) for path in prompts
         },
@@ -450,7 +457,7 @@ def build_manifest(run_id: str, config_path: Path, config: dict[str, Any]) -> di
         "inference": config["inference"],
         "packages": {
             name: importlib.metadata.version(name)
-            for name in ("torch", "transformers", "vllm")
+            for name in ("torch", "transformers", "vllm", "modelscope")
         },
         "hardware": {
             "nvidia_smi": subprocess.run(

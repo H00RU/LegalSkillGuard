@@ -11,7 +11,16 @@ from pathlib import Path
 from typing import Any
 
 from legal_skill_guard.schemas.trajectory import Trajectory
-from scripts.run_phase1_baseline import DEFAULT_CONFIG, ROOT, atomic_json, load_yaml
+
+try:
+    from scripts.run_phase1_baseline import DEFAULT_CONFIG, ROOT, atomic_json, load_yaml
+except ModuleNotFoundError:  # Direct execution from the repository root.
+    from run_phase1_baseline import (  # type: ignore[no-redef]
+        DEFAULT_CONFIG,
+        ROOT,
+        atomic_json,
+        load_yaml,
+    )
 
 REQUIRED_MEMO_SECTIONS = ("案情概要", "关键事实", "法律问题", "风险评估", "下一步建议")
 
