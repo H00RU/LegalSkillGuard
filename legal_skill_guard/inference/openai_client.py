@@ -41,6 +41,9 @@ class ChatClient:
         self.api_key = api_key
         self.timeout_seconds = timeout_seconds
         self.retries = retries
+        # Research servers are loopback-only. Never route hidden prompts or responses
+        # through a workstation-wide HTTP(S) proxy.
+        self.opener = request.build_opener(request.ProxyHandler({}))
 
     def _request(self, method: str, path: str, payload: dict[str, Any] | None = None) -> Any:
         body = json.dumps(payload, ensure_ascii=False).encode() if payload is not None else None
@@ -51,7 +54,7 @@ class ChatClient:
         last_error: Exception | None = None
         for attempt in range(self.retries + 1):
             try:
-                with request.urlopen(req, timeout=self.timeout_seconds) as response:
+                with self.opener.open(req, timeout=self.timeout_seconds) as response:
                     return json.loads(response.read().decode("utf-8"))
             except (error.URLError, error.HTTPError, TimeoutError, json.JSONDecodeError) as exc:
                 last_error = exc

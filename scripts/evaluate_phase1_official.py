@@ -135,6 +135,10 @@ def main() -> None:
         config, run_root / "vllm_evaluator.log", auto_start=not args.no_start_server
     ):
         served_model = config["inference"]["served_model_name"]
+        no_proxy = {"127.0.0.1", "localhost"}
+        for key in ("NO_PROXY", "no_proxy"):
+            no_proxy.update(item.strip() for item in os.environ.get(key, "").split(","))
+            os.environ[key] = ",".join(sorted(item for item in no_proxy if item))
         os.environ["LOCALHOST_BASE_URL"] = (
             f"http://{config['inference']['host']}:{config['inference']['port']}/v1"
         )
