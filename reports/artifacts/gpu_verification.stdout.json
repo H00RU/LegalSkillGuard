@@ -1,0 +1,81 @@
+{
+  "verified_at": "2026-08-07T14:23:16.469834+00:00",
+  "nvidia_smi": {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=index,name,uuid,driver_version,memory.total,persistence_mode",
+      "--format=csv,noheader"
+    ],
+    "returncode": 0,
+    "output": "0, NVIDIA A40, GPU-ae41189f-fc85-bfc2-3db8-b140610cd50b, 570.133.20, 49140 MiB, Disabled"
+  },
+  "kernel_modules": {
+    "command": [
+      "bash",
+      "-lc",
+      "lsmod | grep '^nvidia'"
+    ],
+    "returncode": 0,
+    "output": "nvidia_uvm           1789952  2\nnvidia_drm            114688  0\nnvidia_modeset       1536000  1 nvidia_drm\nnvidia              89915392  9 nvidia_uvm,nvidia_modeset"
+  },
+  "nvidia_persistenced": {
+    "command": [
+      "systemctl",
+      "is-active",
+      "nvidia-persistenced.service"
+    ],
+    "returncode": 0,
+    "output": "active"
+  },
+  "pci_binding": {
+    "command": [
+      "lspci",
+      "-nnk",
+      "-s",
+      "00:1a.0"
+    ],
+    "returncode": 0,
+    "output": "00:1a.0 3D controller [0302]: NVIDIA Corporation Device [10de:2235] (rev a1)\n\tSubsystem: NVIDIA Corporation Device [10de:145a]\n\tKernel driver in use: nvidia\n\tKernel modules: nvidiafb, nouveau, nvidia_drm, nvidia"
+  },
+  "device_nodes": [
+    "/dev/nvidia-caps",
+    "/dev/nvidia-modeset",
+    "/dev/nvidia-uvm",
+    "/dev/nvidia-uvm-tools",
+    "/dev/nvidia0",
+    "/dev/nvidiactl"
+  ],
+  "proc_driver_version": "NVRM version: NVIDIA UNIX x86_64 Kernel Module  570.133.20  Sun Apr 13 04:50:56 UTC 2025\nGCC version:",
+  "cuda_driver_api": {
+    "library": "libcuda.so.1",
+    "loaded": true,
+    "cuInit_returncode": 0,
+    "cuDeviceGetCount_returncode": 0,
+    "device_count": 1,
+    "cuDriverGetVersion_returncode": 0,
+    "driver_api_version": 12080
+  },
+  "cuda_runtime_smoke": {
+    "available": true,
+    "compile": {
+      "command": [
+        "/usr/local/cuda/bin/nvcc",
+        "-O2",
+        "-o",
+        "/tmp/legal-skill-guard-cuda-_wj0nw4t/cuda_smoke",
+        "/home/yndx/hhy/legal-skill-guard/scripts/cuda_smoke_test.cu"
+      ],
+      "returncode": 0,
+      "output": ""
+    },
+    "execution": {
+      "command": [
+        "/tmp/legal-skill-guard-cuda-_wj0nw4t/cuda_smoke"
+      ],
+      "returncode": 0,
+      "output": "{\"passed\":true,\"device\":\"NVIDIA A40\",\"elements\":1048576,\"runtime_version\":12020,\"driver_api_version\":12080}"
+    },
+    "passed": true
+  },
+  "passed": true
+}

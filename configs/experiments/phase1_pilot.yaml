@@ -1,0 +1,56 @@
+schema_version: 1
+experiment_id: phase1_public30_no_skill_baseline
+status: pilot_not_formal_paper_experiment
+seed: 42
+
+data:
+  source_manifest: data/manifests/dlawbench_source.json
+  split_manifest: data/splits/dlawbench_public30_phase1_seed42.json
+  run_partition: pilot_generation
+  cases: 20
+  personas: [P_WD, P_WS, P_CS, P_CD]
+  domain_stratified: false
+  limitation: public records have no per-case domain metadata
+
+methods: [B0_direct, B1_prompted_multiturn]
+model:
+  id: Qwen/Qwen3-4B
+  revision: 1cfa9a7208912126459214e8b04321603b3df60c
+  dtype: bfloat16
+  quantization: null
+  trust_remote_code: false
+  license: apache-2.0
+  local_path: data/cache/modelscope/Qwen/Qwen3-4B
+  download_mirror: https://modelscope.cn/models/Qwen/Qwen3-4B
+
+generation:
+  lawyer:
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens_action: 160
+    max_tokens_memo: 768
+  client:
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 160
+  disable_thinking: true
+
+dialogue:
+  max_turns: 6
+  max_primary_questions: 1
+  skills_enabled: false
+  structured_state_enabled: false
+  risk_gate_enabled: false
+
+inference:
+  backend: vllm_openai_server
+  tensor_parallel_size: 1
+  max_model_len: 8192
+  gpu_memory_utilization: 0.85
+  served_model_name: Qwen3-4B-phase1
+  host: 127.0.0.1
+  port: 8011
+
+outputs:
+  run_root: runs/phase1
+  report: reports/phase1_no_skill_baseline.md

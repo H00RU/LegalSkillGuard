@@ -1,0 +1,34 @@
+schema_version: 1
+status: phase1_pilot_frozen
+
+roles:
+  lawyer_policy:
+    model_id: Qwen/Qwen3-4B
+    revision: 1cfa9a7208912126459214e8b04321603b3df60c
+    quantization: null
+    purpose: weak open-weight Chinese instruction model
+  state_extractor:
+    model_id: null
+    revision: null
+    quantization: null
+  client_simulator:
+    model_id: Qwen/Qwen3-4B
+    revision: 1cfa9a7208912126459214e8b04321603b3df60c
+    quantization: null
+    cache_responses: true
+  memo_renderer:
+    model_id: Qwen/Qwen3-4B
+    revision: 1cfa9a7208912126459214e8b04321603b3df60c
+    quantization: null
+    shared_across_methods: true
+  skill_teacher:
+    model_id: null
+    revision: null
+  semantic_judge:
+    model_id: Qwen/Qwen3-4B
+    revision: 1cfa9a7208912126459214e8b04321603b3df60c
+    temperature: 0.0
+
+# Phase 1 uses the same frozen 4B model for the lawyer, simulator, memo, and pilot judge
+# to stay within one A40. This is an engineering baseline, not an independent-judge claim.
+# State extraction and skill teaching remain null because they begin in later phases.

@@ -1,0 +1,31 @@
+.venv/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Local tooling and upstream checkouts are reproduced from manifests.
+third_party/DLawBench/
+third_party/LeCoDe/
+
+# Public/raw data are downloaded snapshots, never committed by default.
+data/raw/*
+!data/raw/.gitkeep
+data/cache/*
+!data/cache/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Runtime products.
+runs/trajectories/*
+!runs/trajectories/.gitkeep
+runs/evaluations/*
+!runs/evaluations/.gitkeep
+runs/manifests/*
+!runs/manifests/.gitkeep
+runs/phase1/*
+!runs/phase1/.gitkeep
+
+.env
+*.log
