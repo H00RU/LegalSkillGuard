@@ -322,7 +322,11 @@ def run_b1(
             GenerationConfig(
                 temperature=float(lawyer_settings["temperature"]),
                 top_p=float(lawyer_settings["top_p"]),
-                max_tokens=int(lawyer_settings["max_tokens_action"]),
+                max_tokens=int(
+                    lawyer_settings[
+                        "max_tokens_memo" if turn == max_turns else "max_tokens_action"
+                    ]
+                ),
                 seed=seed + turn,
                 disable_thinking=config["generation"]["disable_thinking"],
             ),

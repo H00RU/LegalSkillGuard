@@ -20,3 +20,11 @@ def test_unstructured_output_becomes_a_question_not_a_memo() -> None:
     action = parse_lawyer_action("请说明合同是什么时候签订的？")
     assert action.tool == "talk_to_client"
     assert action.parse_mode == "fallback"
+
+
+def test_truncated_declared_memo_never_becomes_client_message() -> None:
+    raw = '{"tool":"write_memo","content":"案情概要\\n内容尚未输出完'
+    action = parse_lawyer_action(raw)
+    assert action.tool == "write_memo"
+    assert action.parse_mode == "fallback"
+    assert action.content == "案情概要\n内容尚未输出完"

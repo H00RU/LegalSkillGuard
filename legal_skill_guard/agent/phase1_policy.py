@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 from legal_skill_guard.schemas.trajectory import Action
@@ -68,6 +69,20 @@ def parse_lawyer_action(text: str) -> Action:
             continue
         if action is not None:
             return action
+    if re.search(r'"tool"\s*:\s*"write_memo"', raw):
+        # A memo JSON may hit the generation cap after declaring its tool. It must
+        # never be reinterpreted as a client-facing question.
+        match = re.search(r'"content"\s*:\s*"(.*)', raw, flags=re.DOTALL)
+        content = match.group(1) if match else raw
+        if content.endswith('"}'):
+            content = content[:-2]
+        content = content.replace(r"\n", "\n").replace(r'\"', '"').replace(r"\\", "\\")
+        return Action(
+            tool="write_memo",
+            content=content.strip() or raw,
+            parse_mode="fallback",
+            raw_model_output=raw,
+        )
     return Action(
         tool="talk_to_client",
         content=raw,
