@@ -489,6 +489,7 @@ def main() -> None:
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--run-id")
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument("--case-id")
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--methods", nargs="+", choices=METHODS, default=list(METHODS))
     parser.add_argument("--no-start-server", action="store_true")
@@ -499,8 +500,13 @@ def main() -> None:
     split = json.loads((ROOT / config["data"]["split_manifest"]).read_text(encoding="utf-8"))
     case_ids = split["partitions"][config["data"]["run_partition"]]["case_ids"]
     personas = list(config["data"]["personas"])
-    if args.smoke:
+    if args.case_id:
+        if args.case_id not in case_ids:
+            raise ValueError(f"Case {args.case_id!r} is not in the configured run partition")
+        case_ids = [args.case_id]
+    elif args.smoke:
         case_ids = case_ids[:1]
+    if args.smoke:
         personas = personas[:1]
 
     run_id = args.run_id or f"phase1_{utc_now().strftime('%Y%m%dT%H%M%SZ')}"

@@ -127,6 +127,16 @@ def main() -> None:
         for method, persona in sorted({(record.method, record.persona) for record in records})
     }
     expected = int(manifest.get("expected_trajectories") or 0)
+    overall = summarize(records)
+    acceptance_checks_pass = (
+        expected == len(records)
+        and not manifest.get("failures")
+        and overall["nonempty_memo_rate"] == 1.0
+        and overall["five_section_memo_rate"] == 1.0
+        and overall["lawyer_length_finish_count"] == 0
+        and overall["client_length_finish_count"] == 0
+        and set(overall["status_counts"]) <= {"memo_submitted", "max_turns_forced_memo"}
+    )
     metrics = {
         "schema_version": 1,
         "run_id": args.run_id,
@@ -136,15 +146,16 @@ def main() -> None:
             "observed_trajectories": len(records),
             "complete": expected == len(records) and not manifest.get("failures"),
             "schema_valid": True,
+            "acceptance_checks_pass": acceptance_checks_pass,
         },
-        "overall": summarize(records),
+        "overall": overall,
         "by_method": by_method,
         "by_method_persona": by_method_persona,
     }
     output = run_root / "evaluations/custom_metrics.json"
     atomic_json(output, metrics)
     print(json.dumps(metrics, ensure_ascii=False, indent=2))
-    if not metrics["integrity"]["complete"]:
+    if not acceptance_checks_pass:
         raise SystemExit(1)
 
 
