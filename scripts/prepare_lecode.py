@@ -10,11 +10,20 @@ import shutil
 from datetime import UTC, datetime
 from pathlib import Path
 
-from scripts.prepare_dlawbench import (
-    build_file_manifest,
-    read_git_revision,
-    set_read_only,
-)
+try:
+    from scripts.prepare_dlawbench import (
+        build_file_manifest,
+        preserve_prepared_at,
+        read_git_revision,
+        set_read_only,
+    )
+except ModuleNotFoundError:  # Direct execution: python scripts/prepare_lecode.py
+    from prepare_dlawbench import (  # type: ignore[no-redef]
+        build_file_manifest,
+        preserve_prepared_at,
+        read_git_revision,
+        set_read_only,
+    )
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SOURCE = ROOT / "third_party" / "LeCoDe"
@@ -95,6 +104,7 @@ def main() -> None:
 
     snapshot, manifest = prepare(args.source, args.destination_root, args.expected_revision)
     args.manifest.parent.mkdir(parents=True, exist_ok=True)
+    preserve_prepared_at(args.manifest, manifest)
     args.manifest.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",

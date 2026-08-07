@@ -77,6 +77,12 @@ def render_report(
     gpu = environment["gpu"]
     cuda = environment["cuda"]
     packages = environment["packages"]
+    inference_ready = all(packages[name] for name in ("torch", "transformers", "vllm"))
+    inference_verdict = (
+        "**通过；Phase 1 已固定兼容版本**"
+        if inference_ready
+        else "按计划未安装，等待模型与推理后端冻结"
+    )
     gpu_runtime_usable = gpu["runtime_usable"]
     gpu_runtime_verdict = "**通过**" if gpu_runtime_usable else "**不通过**"
     gpu_phase_condition = (
@@ -126,7 +132,7 @@ DLawBench revision：`{REVISION}`
 | CUDA toolkit | {cuda["cuda_home"]}；nvcc return code={cuda["nvcc"]["returncode"]} | CUDA 12.2 工具链存在 |
 | NVIDIA PCI device | detected={gpu["nvidia_pci_detected"]} | PCI 层检测到设备 |
 | NVIDIA runtime | `nvidia-smi` return code={gpu["nvidia_smi"]["returncode"]}；device nodes={gpu["device_nodes"]} | {gpu_runtime_verdict} |
-| 推理框架 | torch={packages["torch"]}, transformers={packages["transformers"]}, vLLM={packages["vllm"]} | 按计划未安装，等待模型与推理后端冻结 |
+| 推理框架 | torch={packages["torch"]}, transformers={packages["transformers"]}, vLLM={packages["vllm"]} | {inference_verdict} |
 
 {gpu_evidence}
 

@@ -1,6 +1,6 @@
 # Phase 0：环境与数据审计报告
 
-生成时间：2026-08-07T15:32:09.091271+00:00  
+生成时间：2026-08-07T16:06:30.353684+00:00  
 DLawBench revision：`9f6325f29f07b296fac110a6e1880bdd5d9ca538`  
 阶段结论：**工程、公开数据和 GPU 运行环境的 Phase 0 闭环通过；论文全量数据尚未满足正式主实验条件。**
 
@@ -21,11 +21,11 @@ DLawBench revision：`9f6325f29f07b296fac110a6e1880bdd5d9ca538`
 | OS / Kernel | Linux-5.15.0-139-generic-x86_64-with-glibc2.31 | 可用 |
 | 项目 Python | 3.11.15 (`/home/yndx/hhy/legal-skill-guard/.venv/bin/python`) | 通过；系统 3.8 已由项目级 3.11 替代 |
 | CPU / RAM | 32 logical CPUs；见 `reports/artifacts/environment.json` | CPU 审计可用 |
-| 磁盘 | 919.62 GiB free / 1006.36 GiB total | 充足 |
+| 磁盘 | 899.55 GiB free / 1006.36 GiB total | 充足 |
 | CUDA toolkit | /usr/local/cuda-12.2；nvcc return code=0 | CUDA 12.2 工具链存在 |
 | NVIDIA PCI device | detected=True | PCI 层检测到设备 |
 | NVIDIA runtime | `nvidia-smi` return code=0；device nodes=['/dev/nvidia-caps', '/dev/nvidia-modeset', '/dev/nvidia-uvm', '/dev/nvidia-uvm-tools', '/dev/nvidia0', '/dev/nvidiactl'] | **通过** |
-| 推理框架 | torch=None, transformers=None, vLLM=None | 按计划未安装，等待模型与推理后端冻结 |
+| 推理框架 | torch=2.8.0, transformers=4.56.2, vLLM=0.10.2 | **通过；Phase 1 已固定兼容版本** |
 
 GPU 修复证据：NVIDIA A40 已绑定 `nvidia` kernel driver，`nvidia-smi`、CUDA Driver API 和设备节点均可用；独立 CUDA smoke test 已完成显存分配、主机/设备拷贝、核函数执行和结果校验。
 
@@ -51,10 +51,10 @@ LeCoDe 的 2,956 条训练对话和 740 条测试对话不在公开 Git 仓库�
 | 官方 smoke test | PASS | `reports/artifacts/dlawbench_smoke.log` |
 | 官方 release validator | PASS | `reports/artifacts/dlawbench_validation.log` |
 | 官方 metrics | PASS | `reports/artifacts/dlawbench_smoke_metrics.md` |
-| 项目测试 | 12 passed in 0.05s | `reports/artifacts/pytest.log` |
+| 项目测试 | 20 passed in 0.13s | `reports/artifacts/pytest.log` |
 | API / token 成本 | 0（全部使用 mock-lawyer、mock-client、mock-judge） | smoke log |
 
-阶段运行耗时（秒）：`{"data_audit": 0.071, "environment_audit": 0.641, "official_metrics": 0.033, "official_smoke": 0.139, "official_validation": 0.032, "prepare_lecode_snapshot": 0.031, "prepare_snapshot": 0.029, "tests": 0.19}`。
+阶段运行耗时（秒）：`{"data_audit": 0.069, "environment_audit": 0.855, "official_metrics": 0.035, "official_smoke": 0.143, "official_validation": 0.033, "prepare_lecode_snapshot": 0.03, "prepare_snapshot": 0.03, "tests": 0.334}`。
 
 ## 4. 真实公开数据统计
 

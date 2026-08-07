@@ -84,13 +84,19 @@ def main() -> None:
         "canonical_source": f"https://huggingface.co/{MODEL_ID}",
         "download_source": download_source,
         "license": "Apache-2.0",
-        "snapshot": str(snapshot),
+        "snapshot": str(snapshot.relative_to(ROOT)),
         "files": files,
         "expected_lfs_provenance": (
             f"https://huggingface.co/api/models/{MODEL_ID}/revision/{REVISION}?blobs=true"
         ),
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
+    if args.output.is_file():
+        previous = json.loads(args.output.read_text(encoding="utf-8"))
+        old_content = {key: value for key, value in previous.items() if key != "verified_at"}
+        new_content = {key: value for key, value in manifest.items() if key != "verified_at"}
+        if old_content == new_content:
+            manifest["verified_at"] = previous["verified_at"]
     args.output.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )

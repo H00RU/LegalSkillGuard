@@ -100,6 +100,17 @@ def copy_snapshot(source: Path, snapshot: Path) -> None:
             shutil.copy2(src, dst)
 
 
+def preserve_prepared_at(manifest_path: Path, manifest: dict[str, object]) -> None:
+    """Keep source manifests byte-stable when the verified snapshot is unchanged."""
+    if not manifest_path.is_file():
+        return
+    previous = json.loads(manifest_path.read_text(encoding="utf-8"))
+    previous_content = {key: value for key, value in previous.items() if key != "prepared_at"}
+    current_content = {key: value for key, value in manifest.items() if key != "prepared_at"}
+    if previous_content == current_content:
+        manifest["prepared_at"] = previous["prepared_at"]
+
+
 def prepare(
     source: Path,
     destination_root: Path,
@@ -147,6 +158,7 @@ def main() -> None:
         expected_revision=args.expected_revision,
     )
     args.manifest.parent.mkdir(parents=True, exist_ok=True)
+    preserve_prepared_at(args.manifest, manifest)
     args.manifest.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
