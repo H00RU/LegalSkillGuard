@@ -24,6 +24,9 @@ PUBLIC_KEYS = ("id", "jurisdiction", "language", "opening")
 HIDDEN_TOP_LEVEL_KEYS = frozenset({"facts", "evaluation_criteria", "sha256"})
 HIDDEN_FACT_KEYS = frozenset({"client_belief", "court_record"})
 HIDDEN_RUBRIC_KEYS = frozenset({"expected_inquiries", "memo_expectations"})
+ONLINE_PAYLOAD_FORBIDDEN_KEYS = HIDDEN_FACT_KEYS | HIDDEN_RUBRIC_KEYS | frozenset(
+    {"evaluation_criteria", "sha256"}
+)
 
 
 def _public_case_fields(case: Mapping[str, Any]) -> dict[str, Any]:
@@ -69,6 +72,31 @@ def find_hidden_field_names(value: Any) -> set[str]:
         for child in value:
             found.update(find_hidden_field_names(child))
     return found
+
+
+def find_online_payload_forbidden_fields(value: Any) -> set[str]:
+    """Find benchmark labels forbidden inside state/action/trajectory payloads.
+
+    A structured online state legitimately owns a ``facts`` collection. What it may
+    never contain are the benchmark's paired belief/record text or its rubrics.
+    """
+
+    found: set[str] = set()
+    if isinstance(value, Mapping):
+        for key, child in value.items():
+            if key in ONLINE_PAYLOAD_FORBIDDEN_KEYS:
+                found.add(str(key))
+            found.update(find_online_payload_forbidden_fields(child))
+    elif isinstance(value, list | tuple):
+        for child in value:
+            found.update(find_online_payload_forbidden_fields(child))
+    return found
+
+
+def assert_online_payload_safe(value: Mapping[str, Any]) -> None:
+    hidden = find_online_payload_forbidden_fields(value)
+    if hidden:
+        raise ValueError(f"Online payload contains benchmark-only fields: {sorted(hidden)}")
 
 
 def assert_online_view_safe(view: Mapping[str, Any]) -> None:

@@ -1,0 +1,23 @@
+schema_version: 1
+skill_id: general.repeated_question_guard
+name: Repeated Question Guard
+version: 1.0.0
+level: atomic
+domain: general
+status: active
+description: 阻止对同一事实进行无必要的精确重复询问。
+preconditions:
+  - field: state.candidate_target_repeated
+    op: truthy
+    value: true
+reads: [asked_targets, candidate_action]
+operation:
+  type: replace_target
+  target_type: fact
+  target_selector: highest_information_gain_unresolved_fact
+expected_effects: [reduce_repeated_questions]
+validators: [question_not_repeated]
+failure_modes: [necessary_recheck_blocked]
+guardrails: {max_activations_per_session: 3}
+provenance: {source: manual_seed}
+

@@ -1,0 +1,23 @@
+schema_version: 1
+skill_id: general.unanswerable_fact_fallback
+name: Unanswerable Fact Fallback
+version: 1.0.0
+level: atomic
+domain: general
+status: active
+description: 客户明确无法提供目标事实后，不继续追问同一事实。
+preconditions:
+  - field: state.candidate_target_unavailable
+    op: truthy
+    value: true
+reads: [facts.status, candidate_action]
+operation:
+  type: replace_target
+  target_type: fact
+  target_selector: highest_information_gain_unresolved_fact
+expected_effects: [reduce_unanswerable_repetition]
+validators: [question_not_repeated]
+failure_modes: [no_alternative_target]
+guardrails: {max_activations_per_session: 2}
+provenance: {source: manual_seed}
+

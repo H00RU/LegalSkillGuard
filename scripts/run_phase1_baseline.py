@@ -454,7 +454,9 @@ def build_manifest(
             "Pinned model manifest is missing; run scripts/verify_phase1_model.py first"
         )
     split_path = ROOT / config["data"]["split_manifest"]
-    prompts = sorted(PROMPT_DIR.glob("phase1_*.txt"))
+    # Keep a complete prompt inventory so later-phase manifests do not silently
+    # omit the stateful-policy or skill-teacher prompt they actually depend on.
+    prompts = sorted(PROMPT_DIR.glob("*.txt"))
     return {
         "schema_version": 1,
         "run_id": run_id,

@@ -1,0 +1,27 @@
+schema_version: 1
+skill_id: general.evidence_before_conclusion
+name: Evidence Before Conclusion
+version: 1.0.0
+level: atomic
+domain: general
+status: active
+description: 高关键客户主张尚无佐证时，先核验证据再作确定结论。
+preconditions:
+  - field: candidate_action.action_type
+    op: eq
+    value: final
+  - field: state.client_claimed_high_count
+    op: gt
+    value: 0
+reads: [facts.status, facts.evidence_ids, candidate_action]
+operation:
+  type: replace_type_and_target
+  new_action_type: verify
+  target_type: fact
+  target_selector: highest_unverified_claim
+expected_effects: [reduce_belief_as_fact]
+validators: [target_exists, question_not_repeated]
+failure_modes: [evidence_unavailable]
+guardrails: {max_activations_per_session: 2}
+provenance: {source: manual_seed}
+

@@ -1,0 +1,47 @@
+schema_version: 1
+skill_id: general.critical_fact_first
+name: Critical Fact First
+version: 1.0.0
+level: strategic
+domain: general
+status: active
+description: 有高关键度未知事实时把普通询问定向到最关键的未解决事实。
+preconditions:
+- field: candidate_action.action_type
+  op: in
+  value:
+  - ask
+  - clarify
+  all: []
+  any: []
+- field: state.high_critical_unknown_count
+  op: gt
+  value: 0
+  all: []
+  any: []
+reads:
+- facts.status
+- facts.criticality
+- candidate_action
+operation:
+  type: replace_target
+  target_type: fact
+  target_selector: highest_information_gain_unresolved_fact
+expected_effects:
+- increase_information_gain
+validators:
+- target_exists
+- question_not_repeated
+failure_modes:
+- incorrect_criticality
+guardrails:
+  max_activations_per_session: 3
+  disable_if: []
+provenance:
+  source: manual_seed
+  source_case_ids: []
+  source_trajectory_ids: []
+evaluation:
+  paired_cases: 0
+  triggered_pairs: 0
+  severe_risk_count: 0

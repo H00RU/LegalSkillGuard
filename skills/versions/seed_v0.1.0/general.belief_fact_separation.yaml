@@ -1,0 +1,44 @@
+schema_version: 1
+skill_id: general.belief_fact_separation
+name: Belief Fact Separation
+version: 1.0.0
+level: strategic
+domain: general
+status: active
+description: 客户主观判断不能直接升级为已证实事实，结论前必须澄清或核验。
+preconditions:
+- field: candidate_action.action_type
+  op: eq
+  value: final
+  all: []
+  any: []
+- field: state.client_claimed_high_count
+  op: gt
+  value: 0
+  all: []
+  any: []
+reads:
+- facts.status
+- candidate_action
+operation:
+  type: replace_type_and_target
+  new_action_type: clarify
+  target_type: fact
+  target_selector: highest_unverified_claim
+expected_effects:
+- reduce_belief_as_fact
+validators:
+- target_exists
+failure_modes:
+- unnecessary_skepticism
+guardrails:
+  max_activations_per_session: 2
+  disable_if: []
+provenance:
+  source: manual_seed
+  source_case_ids: []
+  source_trajectory_ids: []
+evaluation:
+  paired_cases: 0
+  triggered_pairs: 0
+  severe_risk_count: 0

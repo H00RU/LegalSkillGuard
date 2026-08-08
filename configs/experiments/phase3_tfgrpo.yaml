@@ -1,0 +1,54 @@
+schema_version: 1
+experiment_id: phase3_public30_tfgrpo_groups
+status: engineering_pilot_not_formal_paper_experiment
+seed: 42
+data:
+  source_manifest: data/manifests/dlawbench_source.json
+  split_manifest: data/splits/dlawbench_public30_phase1_seed42.json
+  run_partition: pilot_generation
+  personas: [P_WD, P_WS, P_CS, P_CD]
+skill_library:
+  path: skills/seed
+  version: seed_v0.1.0
+  expected_skills: 10
+evolution:
+  group_size: 4
+  target_valid_groups: 50
+  advantage_epsilon: 1.0e-8
+  allow_noop: true
+  reward:
+    elicitation_weight: 0.45
+    resolution_weight: 0.45
+    fidelity_weight: 0.10
+    extra_turn_penalty: 0.02
+    repeated_question_penalty: 0.05
+model:
+  id: Qwen/Qwen3-4B
+  revision: 1cfa9a7208912126459214e8b04321603b3df60c
+  dtype: bfloat16
+  quantization: null
+  local_path: data/cache/modelscope/Qwen/Qwen3-4B
+generation:
+  policy: {temperature: 0.7, top_p: 0.9, max_tokens: 1024}
+  memo: {temperature: 0.0, top_p: 1.0, max_tokens: 1536}
+  client: {temperature: 0.0, top_p: 1.0, max_tokens: 160}
+  teacher: {temperature: 0.2, top_p: 0.9, max_tokens: 1800}
+  disable_thinking: true
+dialogue:
+  max_turns: 6
+inference:
+  backend: vllm_openai_server
+  tensor_parallel_size: 1
+  max_model_len: 8192
+  gpu_memory_utilization: 0.85
+  served_model_name: Qwen3-4B-phase3
+  server_seed: 42
+  request_workers: 1
+  evaluation_workers: 1
+  v1_multiprocessing: false
+  host: 127.0.0.1
+  port: 8013
+outputs:
+  run_root: runs/phase3
+  report: reports/phase3_tfgrpo_skill_generation.md
+
