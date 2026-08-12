@@ -38,6 +38,18 @@ PROMPT = ROOT / "configs/prompts/phase3_skill_teacher_zh.txt"
 
 
 def trajectory_summary(trajectory: dict, reward: dict) -> dict:
+    def compact_action(action: dict) -> dict:
+        return {
+            key: action.get(key)
+            for key in (
+                "action_type",
+                "target_type",
+                "target_id",
+                "reason",
+                "constraints",
+            )
+        }
+
     return {
         "trajectory_id": trajectory["trajectory_id"],
         "reward": reward,
@@ -55,15 +67,13 @@ def trajectory_summary(trajectory: dict, reward: dict) -> dict:
                         "risk_flags",
                     )
                 },
-                "proposed_action": step["proposed_action"],
-                "final_action": step["action_decision"]["final"],
+                "proposed_action": compact_action(step["proposed_action"]),
+                "final_action": compact_action(step["action_decision"]["final"]),
                 "activated_skills": step["action_decision"]["activated_skill_ids"],
-                "question": step.get("rendered_question"),
-                "client_response": step.get("client_response"),
+                "question": (step.get("rendered_question") or "")[:240],
+                "client_response": (step.get("client_response") or "")[:240],
                 "failed_verifiers": [
-                    item["validator_id"]
-                    for item in step["verifier_results"]
-                    if not item["passed"]
+                    item["validator_id"] for item in step["verifier_results"] if not item["passed"]
                 ],
             }
             for step in trajectory["steps"]
@@ -138,9 +148,7 @@ def main() -> None:
                     for trajectory_id in selected_ids
                 ],
             }
-            prompt = template.replace(
-                "{contrast_payload}", json.dumps(payload, ensure_ascii=False)
-            )
+            prompt = template.replace("{contrast_payload}", json.dumps(payload, ensure_ascii=False))
             response = client.generate(
                 [{"role": "user", "content": prompt}],
                 GenerationConfig(
@@ -166,9 +174,7 @@ def main() -> None:
                 conflicts = find_trigger_conflicts(skill, existing_skills)
                 static_issues.extend(f"trigger_conflict:{item}" for item in conflicts)
                 near_duplicates = find_lexical_near_duplicates(skill, existing_skills)
-                static_issues.extend(
-                    f"lexical_near_duplicate:{item}" for item in near_duplicates
-                )
+                static_issues.extend(f"lexical_near_duplicate:{item}" for item in near_duplicates)
                 existing_ids = {item.skill_id for item in existing_skills}
                 if diagnosis.proposed_change == "CREATE" and skill.skill_id in existing_ids:
                     static_issues.append("create_reuses_existing_skill_id")
@@ -227,9 +233,7 @@ def main() -> None:
                 flush=True,
             )
     diagnosis_files = sorted((run_root / "evolution/diagnoses").glob("*.json"))
-    persisted_diagnoses = [
-        json.loads(path.read_text(encoding="utf-8")) for path in diagnosis_files
-    ]
+    persisted_diagnoses = [json.loads(path.read_text(encoding="utf-8")) for path in diagnosis_files]
     static_rejections_total = sum(
         "static_validation_rejected" in item["diagnosis"].get("known_risks", [])
         for item in persisted_diagnoses

@@ -15,8 +15,11 @@ model:
   quantization: null
   local_path: data/cache/modelscope/Qwen/Qwen3-4B
 generation:
-  policy: {temperature: 0.0, top_p: 1.0, max_tokens: 512}
-  memo: {temperature: 0.0, top_p: 1.0, max_tokens: 1536}
+  lawyer:
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens_action: 1536
+    max_tokens_memo: 1536
   client: {temperature: 0.0, top_p: 1.0, max_tokens: 160}
   disable_thinking: true
 dialogue:
