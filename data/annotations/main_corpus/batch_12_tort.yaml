@@ -1,0 +1,169 @@
+annotations:
+  - id: lsg_cn_0101
+    source_line: 152
+    source_case_sha256: a2b29ff52218ff8812191a128b444d4f2e305f54ed94765c453694b6635ce69d
+    split: train
+    legal_domain: tort_liability
+    client_role: 被酒驾车辆撞伤的摩托车驾驶人李某
+    consultation_stage: 事故认定作出后、索赔起诉前
+    opening: 我骑摩托车与一辆汽车发生事故受伤，车辆涉及驾驶人、车主和保险公司。我想查清事故责任以及三方赔偿范围。
+    admission_reason: 饮酒交车、超速逃逸、事故责任、保险和车主过错完整，所有人与使用人责任及商业险免责存在自然差异。
+    facts:
+      - {client_belief: "车主张某某和司机冯某同桌饮酒后，仍把自己的车交给冯某驾驶。", court_record: "张某某与冯某同桌饮酒后，将自己所有的机动车交与冯某驾驶。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "张某某与冯某同桌饮酒后，将自己所有的机动车交与冯某驾驶"}]}
+      - {client_belief: "冯某超速行驶与我的摩托车碰撞，导致我受伤。", court_record: "冯某超速驾驶并与李某的两轮摩托车碰撞，造成李某受伤。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "冯某超速行驶，与李某驾驶的两轮摩托车发生碰撞，致李某受伤"}]}
+      - {client_belief: "事故发生后冯某弃车逃逸。", court_record: "事故发生后，冯某弃车逃逸。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "事故发生后，冯某弃车逃逸"}]}
+      - {client_belief: "交管部门认定冯某承担全部事故责任，我没有责任。", court_record: "公安交管部门认定冯某承担事故全部责任、李某无责任。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "公安交管部门认定，冯某承担事故的全部责任，李某无责任"}]}
+      - {client_belief: "车主没有亲自驾驶，所以即使明知司机饮酒也不用对我的损失负责。", court_record: "车主明知使用人饮酒仍交车，对事故发生有过错，应在过错范围承担相应赔偿责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "张某某作为机动车所有人，明知冯某饮酒，仍将自己的机动车交与冯某驾驶，对交通事故的发生存在过错"}]}
+      - {client_belief: "车辆同时投保交强险和商业三者险，司机酒后逃逸也不会影响任何保险赔付。", court_record: "保险人已就相关免责条款提示说明时，酒后驾驶并逃逸可使其在商业三者险范围免责，但交强险责任另行承担。", gap_type: disputed, evidence: [{section: adjudication, quote: "某保险公司就相关免责条款已尽提示说明义务，其在商业三者险范围内免除赔偿责任"}, {section: adjudication, quote: "某保险公司在交强险责任限额内赔偿李某"}]}
+    expected_inquiries: ["事故认定书对超速、饮酒、逃逸及各方责任如何记载？", "车主何时何地与司机饮酒，交车时对司机状态知道到什么程度？", "车辆交强险、商业险保单及免责条款提示说明材料是否完整？", "伤情、治疗、误工和其他损失分别有哪些票据与鉴定材料？", "司机、车主或保险公司是否已经垫付，尚欠损失如何计算？"]
+    memo_expectations: ["区分机动车使用人的直接责任与所有人过错范围责任。", "以同饮和交车事实论证车主可预见风险及过错。", "分别审查交强险赔付与商业险酒驾逃逸免责及提示说明。", "按医疗、误工、伤残等证据核算损失并扣除已付款。", "设计司机、车主和保险人的请求层次及内部追偿关系。"]
+    editorial_review: &full_review {source_read_in_full: true, single_client_role: true, pre_outcome_timeline: true, opening_has_no_outcome: true, opening_information_boundary_checked: true, beliefs_are_natural: true, gap_labels_semantically_checked: true, inquiries_are_answerable: true, memo_points_are_substantive: true}
+    editorial_note: 客户知道事故和认定事实；差异聚焦车主非驾驶人是否免责及交强险、商业险不能混为一谈。
+
+  - id: lsg_cn_0102
+    source_line: 153
+    source_case_sha256: e1c2999f1c14dda4823c935598adf93965386a153d38d875b4069a0cf960f8d7
+    split: train
+    legal_domain: tort_liability
+    client_role: 被机动车乘客开门撞伤的电动自行车驾驶人潘某某
+    consultation_stage: 事故认定作出后、损害赔偿起诉前
+    opening: 我骑电动自行车经过一辆刚停下的汽车时，被乘客突然开门撞伤。交警认定司机和乘客各有责任，保险公司却只愿按司机那一半赔，我想确认赔偿范围。
+    admission_reason: 停车控制、司机提醒义务、乘客注意义务、同等责任与商业险抗辩完整，可评价共同侵权及机动车一方整体责任。
+    facts:
+      - {client_belief: "司机停车后没有提醒乘客注意车外情况，乘客开门与我的电动车碰撞。", court_record: "司机停车后未提醒车外情况，乘客开门与潘某某驾驶的电动自行车碰撞。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "乘车人杜某某开车门下车时驾驶人未提醒注意车外情况，车门与驾驶电动自行车的潘某某发生碰撞"}]}
+      - {client_belief: "事故造成我受伤，电动自行车也受损。", court_record: "碰撞造成潘某某受伤、车辆受损。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "造成潘某某受伤、车辆受损"}]}
+      - {client_belief: "交管部门认定司机和乘客负同等责任，我无责任。", court_record: "公安交管部门认定董某某、杜某某负同等责任，潘某某无责任。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "公安交管部门认定，董某某、杜某某负同等责任，潘某某无责任"}]}
+      - {client_belief: "事故车辆投保了交强险和商业三者险，事故在保险期内。", court_record: "案涉机动车投保交强险和商业三者险，事故发生于保险期间。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "案涉机动车在某保险公司投保了交强险和商业三者险，事故发生在保险期间内"}]}
+      - {client_belief: "司机和乘客分别被认定一半责任，就只能各自独立赔偿，二者不是共同侵权。", court_record: "司机未提醒与乘客开门未注意的行为相结合造成事故，构成共同侵权。", gap_type: disputed, evidence: [{section: adjudication, quote: "二者行为相结合共同导致了事故的发生，构成共同侵权"}]}
+      - {client_belief: "商业三者险只能赔司机个人所占的责任，乘客开门责任绝不属于保险范围。", court_record: "对受害人而言司机和乘客均属机动车一方，保险人应在交强险及商业三者险限额内承担该方责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "对于受害人潘某某而言，驾驶人及乘车人均为机动车一方的组成人员，系一个整体"}, {section: adjudication, quote: "某保险公司应在交强险以及商业三者险责任限额范围内承担赔偿责任"}]}
+    expected_inquiries: ["停车地点、车辆状态、开门方向和碰撞过程由哪些监控或现场证据反映？", "事故认定对司机提醒义务和乘客观察义务如何记载？", "交强险、商业三者险条款对乘客开门事故有无特别约定？", "伤情、修车、误工及后续治疗损失证据是否齐全？", "各方已经垫付或赔付多少，超出保险部分如何计算？"]
+    memo_expectations: ["分析司机与乘客行为结合形成共同侵权。", "区分交警内部责任划分与对受害人的机动车一方整体责任。", "审查商业三者险承保范围而非机械限于驾驶人份额。", "核定人身和财产损害及因果关系。", "明确保险限额内赔付与超限部分连带责任。"]
+    editorial_review: *full_review
+    editorial_note: 隐藏差异直接对应保险人的真实抗辩，并未把同等事故责任误当成必然的对外按份责任。
+
+  - id: lsg_cn_0103
+    source_line: 154
+    source_case_sha256: e52721932554aeef516a5fc74b5804e30e818a49c752e6accd4591e15a154e72
+    split: train
+    legal_domain: tort_liability
+    client_role: 免费搭同事顺风车受伤的李某
+    consultation_stage: 司机已支付部分费用后、起诉索赔前
+    opening: 我乘同事的私家车去另一个工作地点，途中发生单方事故致我受伤。对方主张乘车性质足以减轻赔偿，我想判断是否合理。
+    admission_reason: 顺路无偿搭载、犯困、单方事故、全责认定与已付款完整，可区分交通事故责任和好意同乘减责。
+    facts:
+      - {client_belief: "我和张某在同一地点干活，饭后都要去另一个相同地点。", court_record: "张某与李某在同一地点干活，午饭后均要前往另一相同地点。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "张某与李某均在同一地点干活，午饭后，两人均要去另一相同地点"}]}
+      - {client_belief: "张某开自己的车顺路免费搭我前往。", court_record: "张某驾驶自己的机动车顺路搭载李某前往。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "张某驾驶自己的机动车顺路搭载李某前往"}]}
+      - {client_belief: "张某驾驶中突然犯困，没来得及停车就撞上路边树木。", court_record: "张某驾驶中突然犯困，未来得及停靠，机动车撞到路边树木。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "张某驾驶中突然犯困，未来得及停靠，机动车撞到路边树木"}]}
+      - {client_belief: "交管部门认定这是单方事故，张某负全部事故责任。", court_record: "公安交管部门认定该事故为单方事故，张某负全部责任。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "公安交管部门认定，此次事故为单方事故，张某负事故全部责任"}]}
+      - {client_belief: "交警认定司机全责，就绝不可能因为免费搭乘而减轻民事赔偿责任。", court_record: "无偿搭乘且驾驶人无故意或重大过失时，即使负事故全部责任，仍可依法减轻赔偿责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "虽然公安交管部门认定张某负事故全部责任，但因张某系无偿搭载李某，也没有证据证明张某对损害的造成存在故意或者重大过失"}]}
+      - {client_belief: "既然是顺路帮忙，司机对搭乘人的损害可以完全免责。", court_record: "好意同乘只在法定条件下减轻责任，并不消灭驾驶人造成损害的赔偿责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "张某驾驶机动车造成无偿搭乘人李某损害，应承担赔偿责任"}, {section: adjudication, quote: "应依法减轻张某的赔偿责任"}]}
+    expected_inquiries: ["搭乘是否收费、是否基于经营运输或其他利益交换？", "司机犯困前是否饮酒、疲劳或出现警示，是否存在故意或重大过失证据？", "事故认定书、现场资料和车辆保险情况如何？", "伤情、医疗和误工等损失及司机已付款分别是多少？", "双方对顺路搭乘目的和行程安排是否存在争议？"]
+    memo_expectations: ["确认非营运机动车无偿搭乘的适用前提。", "区分事故全部责任与民事赔偿可依法减轻。", "重点审查驾驶人是否具有故意或重大过失以排除减责。", "核算损失并扣除已付款和保险赔付。", "说明好意同乘不是免责而是有限减责。"]
+    editorial_review: *full_review
+    editorial_note: 两个差异覆盖“全责即不得减轻”和“免费即完全免责”两个极端，保留法定例外审查。
+
+  - id: lsg_cn_0104
+    source_line: 156
+    source_case_sha256: 105f7693ee1c6c1133b857aaa116767d1463e015f6642339eab874f552be366f
+    split: train
+    legal_domain: tort_liability
+    client_role: 获路救基金垫付抢救费的受伤人周某
+    consultation_stage: 路救基金在赔偿诉讼中提出追偿请求后、实体审理前
+    opening: 我因机动车事故受伤，后续赔偿中出现道路救助基金与司机、保险公司之间的费用承担争议。我想确认能否在同一案件处理以及最终负担主体。
+    admission_reason: 主次责任、保险、基金垫付及第三人诉请完整，可评价合并审理、责任比例和保险款直接支付。
+    facts:
+      - {client_belief: "庞某驾驶汽车在路口与我的电动自行车碰撞，造成我受伤和车辆受损。", court_record: "庞某驾驶机动车与周某的电动自行车碰撞，造成周某受伤、车辆受损。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "与周某驾驶的电动自行车发生碰撞，造成周某受伤、电动自行车受损"}]}
+      - {client_belief: "交管部门认定庞某负主要责任，我负次要责任。", court_record: "公安交管部门认定庞某负事故主要责任、周某负次要责任。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "庞某负事故主要责任，周某负事故次要责任"}]}
+      - {client_belief: "事故车辆投保了交强险和商业三者险且在保险期内。", court_record: "庞某驾驶的机动车投保交强险和商业三者险，事故发生在保险期间。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "庞某驾驶的机动车在某保险公司投保了交强险和商业三者险，事故发生在保险期间内"}]}
+      - {client_belief: "路救基金为我垫付了抢救费用。", court_record: "道路交通事故社会救助基金为周某垫付抢救费用4.39万元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "道路交通事故社会救助基金（以下简称路救基金）为周某垫付抢救费用4.39万元"}]}
+      - {client_belief: "基金追偿属于另一个法律关系，法院不能在交通事故赔偿案中一并审理。", court_record: "基金管理机构请求处理垫付抢救费用具有法律依据，可以与交通事故赔偿请求合并审理。", gap_type: disputed, evidence: [{section: adjudication, quote: "路救基金管理机构请求法院对其垫付的抢救费用一并予以处理，具有法律依据，应予合并审理"}]}
+      - {client_belief: "基金既然用于救助受害人，垫付后就无需任何人返还。", court_record: "路救基金垫付后有权向交通事故责任人追偿，并可按责任比例从相应赔偿款中直接支付。", gap_type: disputed, evidence: [{section: adjudication, quote: "路救基金先行垫付部分或全部抢救费用后，其管理机构有权向交通事故责任人追偿"}, {section: adjudication, quote: "对于路救基金垫付的费用，应由庞某和周某分别按照上述责任比例返还"}]}
+    expected_inquiries: ["事故认定书和主次责任依据如何记载？", "基金垫付申请、金额、用途和支付凭证是否与本案抢救费对应？", "司机车辆保险范围、限额和已赔付情况如何？", "除垫付款外还有哪些损失，是否存在重复计入？", "基金管理机构提出了何种诉请，各方对直接支付方案有何意见？"]
+    memo_expectations: ["确认路救基金垫付事实及法定追偿权。", "论证在同一交通事故案件合并处理有利于避免重复诉讼。", "按事故责任确定垫付款最终负担而非全部由受害人承担。", "安排保险赔偿款向基金和受害人的直接支付及扣减。", "核查全部损失防止垫付款重复获赔。"]
+    editorial_review: *full_review
+    editorial_note: 客户不被要求知道基金内部程序，隐藏差异只涉及可咨询的追偿性质、合并处理和最终负担。
+
+  - id: lsg_cn_0105
+    source_line: 157
+    source_case_sha256: 734fab266f385a4cfa53dd5bb57cf621c646c4107a78098838dff3fe1b5b3532
+    split: train
+    legal_domain: tort_liability
+    client_role: 被执行工作任务的电动自行车撞伤的崔某
+    consultation_stage: 事故认定作出且准备起诉前
+    opening: 我卷入一起非机动车事故，考虑向肇事人之外的相关公司和保险公司主张损失，但不清楚能否一并处理以及各方责任基础。
+    admission_reason: 执行任务、全责认定、非机动车商业险及合并抗辩完整，可评价第三者直接请求与用人单位替代责任。
+    facts:
+      - {client_belief: "宗某是某公司员工，事故时正骑电动自行车外出执行工作任务。", court_record: "宗某系公司员工，驾驶电动自行车外出执行工作任务时发生碰撞。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "宗某系某公司员工，其驾驶电动自行车外出执行工作任务时与崔某发生碰撞"}]}
+      - {client_belief: "碰撞造成我受伤。", court_record: "宗某与崔某发生碰撞并造成崔某受伤。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "与崔某发生碰撞，造成崔某受伤"}]}
+      - {client_belief: "交管部门认定宗某负全部责任，我无责任。", court_record: "公安交管部门认定宗某负事故全部责任、崔某无责任。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "宗某负事故全部责任，崔某无责任"}]}
+      - {client_belief: "该电动自行车在保险公司投保了商业三者险。", court_record: "案涉电动自行车投保了商业三者险。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "该电动自行车在某保险公司投保了商业三者险"}]}
+      - {client_belief: "非机动车商业三者险属于纯合同关系，受害人不能把保险公司列为共同被告。", court_record: "非机动车商业三者险同样用于分散事故风险，受害人可将保险人列为共同被告合并审理。", gap_type: disputed, evidence: [{section: adjudication, quote: "被侵权人提起非机动车交通事故责任纠纷之诉，将承保非机动车商业三者险的保险人列为共同被告的，人民法院合并审理有利于一次性解决纠纷"}]}
+      - {client_belief: "员工个人被交警认定全责，保险不足部分就只能由员工本人赔。", court_record: "员工执行工作任务致人损害时，保险不足部分由其用人单位承担。", gap_type: disputed, evidence: [{section: adjudication, quote: "由于宗某是在执行工作任务时发生事故致人损害，超出保险赔付部分，由其用人单位某公司承担"}]}
+      - {client_belief: "我起诉时把员工、公司和保险公司列为共同被告，请求赔偿二十六万余元。", court_record: "崔某将员工、用人单位和保险人一并列为被告并请求赔偿二十六万余元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "将宗某、某公司、某保险公司一并列为被告，请求共同赔偿其各项损失合计26万余元"}]}
+    expected_inquiries: ["事故发生时员工接受了谁的指派，行程与公司业务如何关联？", "事故认定、现场和伤情证据是否完整？", "非机动车商业三者险的被保险人、责任范围、限额和免责条款是什么？", "用人单位对执行任务事实是否承认，是否存在劳务派遣或外包关系？", "医疗、误工、伤残等损失及已付款如何计算？"]
+    memo_expectations: ["认定员工执行工作任务与损害之间的联系。", "分析用人单位对工作人员职务侵权的责任。", "论证受害人对责任保险人的直接请求和合并审理。", "先由保险在限额内赔付，再确定公司承担不足部分。", "核定损失、免责条款和已付款，避免责任主体遗漏。"]
+    editorial_review: *full_review
+    editorial_note: 该案同时检验程序合并和实体替代责任，未因非机动车标签否定责任保险的风险分散功能。
+
+  - id: lsg_cn_0106
+    source_line: 158
+    source_case_sha256: 02549ac3c53614874e738b561fe4a8126437e763bf4961a58b5052e1a906525e
+    split: train
+    legal_domain: tort_liability
+    client_role: 疫情检查时骑车摔伤的访客黄某
+    consultation_stage: 受伤治疗后、向物业索赔前
+    opening: 我去小区探望祖母，骑车进门时保安追赶并伸手接触我背部，随后我摔倒受伤。我认为物业行为导致损害，想评估其是否应赔偿。
+    admission_reason: 防疫通知、亮码登记要求、呼喊、加速、追赶和接触完整，可评价管理行为正当性及受害人自身原因。
+    facts:
+      - {client_belief: "我从上海到该小区探望祖母。", court_record: "黄某由上海来到该小区探望祖母。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "黄某于2020年6月10日由上海市来到该小区探望祖母"}]}
+      - {client_belief: "当时有关部门要求社区出入口验码、亮码和登记。", court_record: "天津市有关部门要求社区严格落实出入口值守、验码、亮码和登记措施。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "天津市有关部门发布紧急防控通知，要求严格落实社区出入口值班值守，加强验码、亮码、登记等疫情防控措施"}]}
+      - {client_belief: "我骑共享单车进小区，保安呼喊让我停车接受检查。", court_record: "黄某骑车进入小区时，值守保安呼喊要求停车接受亮码、登记检查。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "黄某骑共享单车进入小区，物业公司值守保安当即呼喊要求其停车接受亮码、登记等疫情防控检查措施"}]}
+      - {client_belief: "我回头后加速前行，保安骑车追赶并伸手接触我背部时车辆失控。", court_record: "黄某听到呼喊后回头并加速，保安追赶接触其背部时车辆失控摔倒。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "黄某听到有人呼喊后回头观看，随即加速向前骑行。值守保安即骑车追赶，伸手接触原告背部时车辆失控摔倒"}]}
+      - {client_belief: "只要保安在我摔倒前追赶并接触过我，物业就必然存在侵权过错。", court_record: "物业依政策值守、验码登记并阻拦冲岗属于履职，结合全过程并不当然构成过错。", gap_type: disputed, evidence: [{section: adjudication, quote: "某物业服务有限公司依照有关政策要求派员值守、验码登记、阻拦冲岗，是履职尽责的体现，其行为没有过错"}]}
+      - {client_belief: "我是访客而不是业主，所以不负配合小区依法实施应急管理措施的义务。", court_record: "进入小区人员应依法配合管理人执行政府依法实施的应急处置和管理措施。", gap_type: disputed, evidence: [{section: adjudication, quote: "对于物业服务企业或者其他管理人执行政府依法实施的应急处置措施和其他管理措施，业主应当依法予以配合"}, {section: adjudication, quote: "黄某在物业人员大声呼喊之际却加速骑行，最终导致摔伤，应自行承担相应后果"}]}
+    expected_inquiries: ["当时有效的防控通知具体要求什么，物业如何公示和执行？", "入口监控能否完整呈现呼喊、加速、追赶、接触和摔倒顺序？", "保安接触的力度、目的及是否存在更温和替代措施？", "你是否听清检查要求、为何加速，现场是否有其他人员作证？", "伤情、费用及摔倒与接触之间的医学和事实因果证据如何？"]
+    memo_expectations: ["确定物业执行政府应急措施的权限、范围和方式。", "完整评价访客配合义务与加速行为，不能仅截取接触瞬间。", "审查追赶接触是否超出必要限度及与摔伤因果关系。", "区分无过错履职、自身过错和可能的过失相抵。", "按证据强度评估赔偿请求与诉讼风险。"]
+    editorial_review: *full_review
+    editorial_note: 未把历史防疫政策外推为现行规则；案件固定在来源时点，并要求从完整行为链判断过错与因果。
+
+  - id: lsg_cn_0107
+    source_line: 159
+    source_case_sha256: 37fc42cb3bdb8dadebe3121a8be1cd8156752f0500366ad23af71f4e476a40f4
+    split: train
+    legal_domain: tort_liability
+    client_role: 羽毛球比赛中眼部受伤的宋某祯
+    consultation_stage: 伤情稳定后、向击球者索赔前
+    opening: 我参加业余羽毛球比赛时被对方正常杀球击中右眼，伤情较重。对方认为这是运动风险不应赔偿，我想确认自愿参赛是否就完全失去救济。
+    admission_reason: 多年参赛、比赛组织、正常技术动作、严重伤情和规则遵守完整，可评价自甘风险及故意重大过失例外。
+    facts:
+      - {client_belief: "我和周某都是多年参加业余羽毛球比赛的爱好者。", court_record: "宋某祯、周某自2015年起自发参加羽毛球比赛。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "宋某祯、周某均为羽毛球业余爱好者，自2015年起自发参加羽毛球比赛"}]}
+      - {client_belief: "我们和另外四人在露天场地进行三对三比赛。", court_record: "宋某祯、周某与案外四人在露天场地进行羽毛球3对3比赛。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "宋某祯、周某与案外四人在北京市朝阳区红领巾公园内露天场地进行羽毛球3对3比赛"}]}
+      - {client_belief: "我回挑后，周某杀球进攻，我防守未果被球击中右眼。", court_record: "周某迅速杀球进攻，宋某祯直立举拍防守未果并被羽毛球击中右眼。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "周某迅速杀球进攻，宋某祯直立举拍防守未果，被羽毛球击中右眼"}]}
+      - {client_belief: "治疗后我的右眼最佳矫正视力仍很低。", court_record: "宋某祯术后五周余验光显示右眼最佳矫正视力为0.05。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "术后5周余验光提示右眼最佳矫正视力为0.05"}]}
+      - {client_belief: "只要运动造成严重人身损害，击球者无论动作是否正常都应赔偿。", court_record: "自愿参加有风险文体活动时，其他参加者仅在故意或重大过失造成损害时承担侵权责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "只有周某对宋某祯受伤的损害后果存在故意或重大过失时，才需承担侵权损害赔偿责任"}]}
+      - {client_belief: "自甘风险意味着哪怕对方故意击打或严重违反规则，我也一概不能请求赔偿。", court_record: "自甘风险不覆盖其他参加者的故意或重大过失；本案正常杀球且无明显违规才不构成重大过失。", gap_type: disputed, evidence: [{section: adjudication, quote: "周某杀球进攻的行为系该类运动的正常技术动作，周某并不存在明显违反比赛规则的情形，不应认定其存在重大过失"}]}
+    expected_inquiries: ["比赛是否自愿参加，双方运动经验和当时竞赛规则如何？", "击球动作、距离、方向及是否明显违反规则，有无录像或见证人？", "对方是否具有故意伤害动机或其他重大过失迹象？", "伤情、治疗、视力和损失鉴定材料如何？", "场地组织者、设施或安全保障是否另有缺陷？"]
+    memo_expectations: ["识别羽毛球对抗性活动的一般固有风险。", "适用自甘风险并保留故意、重大过失例外。", "以正常技术动作和规则遵守判断行为人注意义务。", "区分参加者责任与组织者可能的安全保障责任。", "说明损害严重程度本身不能替代过错证明。"]
+    editorial_review: *full_review
+    editorial_note: 差异不是简单写成“受伤即赔或永不赔”，而是要求律师查明正常风险、规则违反与故意重大过失边界。
+
+  - id: lsg_cn_0108
+    source_line: 160
+    source_case_sha256: 39d816a42e14ce5e1025d1ce64d355489a81c49afeb468e61da71a1273d1766e
+    split: train
+    legal_domain: tort_liability
+    client_role: 被高空抛下水瓶惊吓摔伤的庾某娴
+    consultation_stage: 监控确认抛物来源且治疗持续后、追索剩余损失前
+    opening: 我在小区散步时，一只水瓶从高楼落在身旁，我受惊摔倒并长期住院。监控已经确认是某户孩子抛下，家长只付过一部分，我想追索其余损失。
+    admission_reason: 高空抛物、监控、书面确认、无行为能力人、监护人和长期伤情完整，可评价间接惊吓因果及具体侵权人责任。
+    facts:
+      - {client_belief: "我在自家小区散步时，三十五楼落下的矿泉水瓶掉在身旁，导致我受惊摔倒。", court_record: "黄某辉家小孩从35楼抛下水瓶，水瓶落在庾某娴身旁并导致其惊吓、摔倒。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "黄某辉家小孩在房屋阳台从35楼抛下一瓶矿泉水，水瓶掉落到庾某娴身旁，导致其惊吓、摔倒"}]}
+      - {client_belief: "亲属和孩子家长一起查看监控后签了确认书，确认水瓶来源。", court_record: "双方查看监控并签订确认书，确认水瓶由黄某辉家小孩从阳台扔下。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "双方签订确认书，确认矿泉水瓶系黄某辉家小孩从阳台扔下"}]}
+      - {client_belief: "孩子家长已经向我支付过一万元。", court_record: "黄某辉向庾某娴支付1万元赔偿。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "黄某辉向庾某娴支付1万元赔偿"}]}
+      - {client_belief: "我住院二十二天后仍反复住院，累计超过六十天并被评定为十级伤残。", court_record: "庾某娴首次住院22天，后反复住院累计超过60天，并被鉴定为十级伤残。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "庾某娴住院治疗22天才出院，其后又因此事反复入院治疗，累计超过60天，且被鉴定为十级伤残"}]}
+      - {client_belief: "水瓶没有直接砸中身体，只是让我受惊摔倒，因此高空抛物与伤害之间不可能有法律因果关系。", court_record: "水瓶落在身旁造成惊吓摔倒并受伤，监控及确认书能够支持抛物行为与损害之间的因果链。", gap_type: disputed, evidence: [{section: adjudication, quote: "庾某娴散步时被从高空抛下的水瓶惊吓摔倒受伤"}, {section: adjudication, quote: "有视频及庾某娴、黄某辉签订的确认书证明"}]}
+      - {client_belief: "抛物者是没有民事行为能力的孩子，受害人就只能自行承担，家长不负责任。", court_record: "无民事行为能力人实施抛物造成损害时，其监护人依法承担相应赔偿责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "双方确认抛物者为无民事行为能力人，黄某辉是其监护人，庾某娴要求黄某辉承担赔偿责任"}]}
+    expected_inquiries: ["监控原始视频、确认书和抛物来源是否能够稳定保存并核验？", "孩子年龄、民事行为能力和监护关系由哪些材料证明？", "惊吓、摔倒、就医和后续反复住院之间的时间线与医学因果如何？", "已付款的性质和书面约定是否属于部分赔偿还是一次性和解？", "医疗、护理、伤残及精神损害等请求分别有何证据？"]
+    memo_expectations: ["以监控和确认书锁定具体抛物人，区别于无法确定侵权人的补偿规则。", "论证惊吓摔倒这种间接作用方式仍可形成事实和法律因果。", "根据无民事行为能力及监护关系确定责任主体。", "审查后续治疗与事故关联并核算各项损失。", "明确已付款扣减和是否存在有效和解范围。"]
+    editorial_review: *full_review
+    editorial_note: 将“未直接击中”和“儿童抛物”保留为自然误解，同时要求医学因果与既有付款性质接受真实证据审查。

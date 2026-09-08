@@ -1,0 +1,26 @@
+policy_version: 1
+lawyer_agent:
+  allow:
+    - id
+    - jurisdiction
+    - language
+    - opening
+  deny:
+    - facts.client_belief
+    - facts.court_record
+    - evaluation_criteria.expected_inquiries
+    - evaluation_criteria.memo_expectations
+client_simulator_prompt:
+  allow:
+    - id
+    - jurisdiction
+    - language
+    - opening
+    - facts.fact_id
+    - facts.client_belief
+  deny:
+    - facts.court_record
+    - facts.gap_type
+    - evaluation_criteria
+evaluator:
+  allow: ["*"]

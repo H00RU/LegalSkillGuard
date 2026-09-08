@@ -1,0 +1,150 @@
+annotations:
+  - id: lsg_cn_0109
+    source_line: 155
+    source_case_sha256: 1a36e2d08f3ef681ea447d4ffd024e2c444406407fad96f56e0031a5302c278f
+    split: train
+    legal_domain: insurance_contract
+    client_role: 被工地内倒车的混凝土搅拌车碾伤的施工员蔡某某
+    consultation_stage: 工地事故证明和伤残鉴定作出后、起诉前
+    opening: 我在一处施工区域发生车辆伤害，交管、施工方和保险公司对事故性质及保险责任看法不同。我想确认交强险是否适用以及其他责任主体。
+    admission_reason: 工程作业车辆、道路外通行、事故性质证明、伤残和交强险均明确，可评价道路外事故的比照赔付。
+    facts:
+      - {client_belief: "程某驾驶混凝土搅拌车在施工现场倒车时把我碾伤。", court_record: "程某驾驶混凝土搅拌车在施工现场倒车时碾压施工员蔡某某。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "程某驾驶混凝土搅拌车，在施工现场倒车时，不慎将施工员蔡某某碾压"}]}
+      - {client_belief: "我的伤情经鉴定构成六级伤残。", court_record: "蔡某某经鉴定构成六级伤残。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "经鉴定，蔡某某构成六级伤残"}]}
+      - {client_belief: "事故发生在封闭工地内部，交管材料把它认定为工地安全事故。", court_record: "事故发生在封闭工地内部，证明材料载明属于工地安全事故而非交通事故。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "事故发生在封闭的工地内部，事故属于工地安全事故，不属于交通事故"}]}
+      - {client_belief: "搅拌车投保了交强险，事故发生在保险期间。", court_record: "混凝土搅拌车投保交强险且事故发生于保险期间。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "该混凝土搅拌车在某保险公司投保了交强险，事故发生在保险期间内"}]}
+      - {client_belief: "交管材料写明不属于交通事故，交强险就必然不适用。", court_record: "工程专项作业机动车在道路外区域通行时发生事故，应比照适用交强险规则。", gap_type: disputed, evidence: [{section: adjudication, quote: "本案事故虽然发生在道路以外的施工区域，但系工程专项作业机动车在该区域通行时发生，应比照适用交强险条例"}]}
+      - {client_belief: "只有车辆在公共道路正常行驶时，交强险才可能赔偿人身损害。", court_record: "机动车在道路以外地方通行造成伤亡或财产损失的，交强险亦可比照赔付。", gap_type: disputed, evidence: [{section: adjudication, quote: "机动车在道路以外的地方通行时发生事故，造成人身伤亡、财产损失的赔偿，比照适用该条例"}]}
+    expected_inquiries: ["事故时车辆是否正在通行、倒车或从事静态施工，现场资料如何证明？", "工地封闭范围、事故证明和安全事故调查材料如何记载？", "交强险保单、保险期间和车辆性质是否清楚？", "驾驶人、车辆所有人、施工单位之间是什么关系？", "伤残、医疗、误工和护理等损失证据如何？"]
+    memo_expectations: ["区分道路交通事故定义与道路外通行事故比照适用交强险。", "证明搅拌车属于机动车且事故发生于通行过程。", "确定交强险先行赔付范围和其他责任主体。", "核验工伤、安全生产赔付与侵权赔偿的衔接。", "核算损失并避免重复补偿。"]
+    editorial_review: &full_review {source_read_in_full: true, single_client_role: true, pre_outcome_timeline: true, opening_has_no_outcome: true, opening_information_boundary_checked: true, beliefs_are_natural: true, gap_labels_semantically_checked: true, inquiries_are_answerable: true, memo_points_are_substantive: true}
+    editorial_note: 事故是否属于交警口径的交通事故和交强险是否比照赔付是两个不同问题，避免仅凭标签拒赔。
+
+  - id: lsg_cn_0110
+    source_line: 161
+    source_case_sha256: 9ca6034d1e4ab70645ff6fcf36cd41d3bd1869372d9cd6e2c4268294427d112f
+    split: train
+    legal_domain: insurance_contract
+    client_role: 骑超标电动车身故职工蒋某某的法定继承人傅某某
+    consultation_stage: 保险公司援引无证驾驶机动车免责条款拒赔后、起诉前
+    opening: 家人下班时骑一辆购买时按电动车宣传的车辆发生事故身故。保险公司事后按机动车驾驶资格相关免责条款拒赔，我们想核清车辆属性、条款提示和免责范围。
+    admission_reason: 产品标识、事后鉴定、免责文本、普通人认知及团体保险完整，可评价格式条款通常理解和不利解释。
+    facts:
+      - {client_belief: "蒋某某购买并骑行的是标有品牌名称的二轮电动车。", court_record: "蒋某某购买并骑行标记有“威震”的二轮电动车。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "蒋某某于2016年2月21日购买所骑行的标记有“威震”的二轮电动车"}]}
+      - {client_belief: "单位为包括蒋某某在内的职工投保了团体意外伤害保险。", court_record: "单位为蒋某某等15人投保平安团体意外伤害保险。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "为蒋某某等15人向被告平安鄞州支公司投保了平安团体意外伤害保险"}]}
+      - {client_belief: "免责条款包括无有效驾驶证驾驶或驾驶无有效行驶证机动车。", court_record: "特别提示约定无证驾驶或驾驶无有效行驶证机动车造成身故、残疾或医疗费用时保险人免责。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "被保险人酒后驾车、无有效驾驶证驾驶或驾驶无有效行驶证的机动车期间"}]}
+      - {client_belief: "事故后，交管部门把涉案电动车鉴定为属于机动车的轻便二轮摩托车。", court_record: "涉案二轮电动车在事故后被鉴定为轻便二轮摩托车并属于机动车。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "后被鉴定为轻便二轮摩托车，属于机动车"}]}
+      - {client_belief: "交管鉴定为机动车，就当然等于保险格式免责条款中的机动车。", court_record: "车辆产品说明、登记和投保管理及公众通常理解均可能使保险条款中的机动车存在不同解释。", gap_type: disputed, evidence: [{section: adjudication, quote: "被保险人蒋某某及三原告基于产品说明而认为涉案车辆系非机动车的理解，符合普通人的认知标准"}]}
+      - {client_belief: "只要保险人笼统写了无证驾驶机动车免责，未明确超标电动车类别也可直接拒赔。", court_record: "格式免责条款未明确机动车具体类别且存在两种解释时，应作有利于被保险人和受益人的解释。", gap_type: disputed, evidence: [{section: adjudication, quote: "责任免除条款中关于无有效驾驶证驾驶机动车的内容未能明确机动车的具体类别，故该免责条款不应适用于本案所涉车辆"}]}
+      - {client_belief: "蒋某某在投保单位持续工作近九年。", court_record: "蒋某某自二〇〇八年四月至二〇一七年四月在投保单位工作。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "死者蒋某某自2008年4月至2017年4月11日在位于余姚市泗门镇湖北村的余姚市百利特种纺织染整有限公司工作"}]}
+    expected_inquiries: ["购车凭证、产品说明、车辆标识和当时能否登记投保如何？", "保险单、投保声明和免责条款由谁接收，保险人如何提示说明？", "事故鉴定采用哪些技术标准，结论仅涉及交通管理还是保险定义？", "被保险人当时驾驶资格、事故责任和保险事故经过如何？", "身故保险与医疗费用补偿是否存在其他赔付或重复请求？"]
+    memo_expectations: ["区分交通管理鉴定与保险格式条款通常理解。", "审查保险人对免责条款的提示说明及具体类别界定。", "适用格式条款歧义的不利解释规则。", "分别处理定额身故给付与费用补偿型医疗保险。", "核对其他赔偿避免医疗费用重复补偿。"]
+    editorial_review: *full_review
+    editorial_note: 保留来源时点的车辆管理背景，不将本案规则不加区分地推广到所有现行电动车案件。
+
+  - id: lsg_cn_0111
+    source_line: 162
+    source_case_sha256: bf161f21d56c5d8d09064a7bae234debbea65c41cecca36ab58d297d2beac2b5
+    split: train
+    legal_domain: insurance_contract
+    client_role: 众包骑手叶某某的妻子段某某
+    consultation_stage: 骑手身故后、保险理赔争议起诉前
+    opening: 家人在众包平台首次接单时自己付费买了当天保险，后来配送另一平台订单期间突发脑出血身故。保险公司以跨平台配送和死因材料不足为由只愿少量赔付。
+    admission_reason: 电子投保、众包多平台属性、保险期间、突发疾病和免责提示均完整，可评价保障对象和格式免责效力。
+    facts:
+      - {client_belief: "叶某某首次接单时由平台扣收三元保费，购买了骑手保障保险。", court_record: "叶某某首次接单时投保骑手保障组合产品并由平台扣收3元保费。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "叶某某从美团平台首次接单时，福建人力宝科技有限公司为其在中国人民财产保险股份有限公司南京市分公司（以下简称人保南京公司）投保了美团骑手保障组合产品保险"}, {section: basic_facts, quote: "叶某某为此支付保费3元，由美团平台扣收"}]}
+      - {client_belief: "保险客户群体是众包骑手，保单没有投保人和被保险人签章。", court_record: "该险种客户群体为众包骑手，电子保单无投保人和被保险人签名或签章。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "该险种的客户群体为众包骑手"}, {section: basic_facts, quote: "人保南京公司出具的“美团骑手保障组合产品保险单（电子保单）”上并无投保人和被保险人签名或签章"}]}
+      - {client_belief: "家人在投保当晚晕倒，被诊断脑出血，次日在家中死亡。", court_record: "叶某某投保当晚因脑出血就医并于次日因脑内出血死亡。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "投保当日18时40分，叶某某在万春商业街晕倒"}, {section: basic_facts, quote: "当日，叶某某在家中死亡，原因为脑内出血"}]}
+      - {client_belief: "保险说明覆盖工作时间岗位突发疾病并在四十八小时内抢救无效死亡。", court_record: "保险说明将工作时间和岗位突发疾病或48小时内抢救无效死亡纳入责任范围。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "被保险人在工作时间和工作岗位突发疾病死亡或者在48小时之内经抢救无效死亡"}]}
+      - {client_belief: "保单从某平台接单触发，配送其他平台订单时发生事故就必然不在保障范围。", court_record: "众包骑手可跨平台工作，条款未明确排除跨平台订单时，保险保障骑手人身而非特定平台利益。", gap_type: disputed, evidence: [{section: adjudication, quote: "案涉保险保障的是骑手人身权益而非美团平台权益"}, {section: adjudication, quote: "但其在保险条款中并未特别说明"}]}
+      - {client_belief: "保险说明中写了既往症和死因证明要求，即使电子投保未特别提示也当然有效。", court_record: "免除保险人责任的格式条款未经足以引起注意的提示说明，不产生免责效力。", gap_type: disputed, evidence: [{section: adjudication, quote: "人保南京公司并未履行相应的提示和说明义务，故人保南京公司主张的免赔事由不能成立"}]}
+      - {client_belief: "保险期间从当日首次接单开始，通常到当日二十四时，送单未结束可有限延长。", court_record: "保险说明按首次接单起算至当日二十四时，并对未结束送单设定次日凌晨的最长延长期限。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "保险期间为被保险人当日第一次接单开始至当日24时，如在当日24时送单尚未结束的，保险期间最长可延续至次日凌晨1时30分，最长为25.5小时"}]}
+    expected_inquiries: ["首次接单、扣费、电子保单和保险说明能否完整导出？", "事故时配送哪一平台订单，众包骑手是否受单一平台排他管理？", "保险起止时间与发病、就医、死亡时间如何对应？", "病历、死亡原因及既往病史材料是否完整？", "电子投保页面对免责条款以何种方式提示和说明？"]
+    memo_expectations: ["确定扣费时保险合同成立及具体保险期间。", "根据众包工作特性和条款文本判断跨平台配送是否排除。", "判断突发疾病死亡是否落入约定责任范围。", "审查既往症、尸检等免责条款的提示说明效力。", "区分骑手人身保障与平台自身利益。"]
+    editorial_review: *full_review
+    editorial_note: 事实保持电子投保、跨平台和医学时间线三条独立证据链，不把众包身份等同于劳动关系结论。
+
+  - id: lsg_cn_0112
+    source_line: 163
+    source_case_sha256: 380b05d2e02e81b6958dc62969a21b906c3b4d47af6e02f63304a3249dc5429f
+    split: train
+    legal_domain: insurance_contract
+    client_role: 触礁全损游艇的所有人李某某
+    consultation_stage: 海上事故定损并被保险公司拒赔后、起诉前
+    opening: 我们的游艇在赛事结束返航及后续施救中严重受损，保险公司对适航条件和保证义务提出异议。我想查清事故过程与未携带纸质海图之间的因果关系及保险责任。
+    admission_reason: 触礁、台风施救、全损、适航证书、驾驶资格和电子海图均明确，可评价事故原因与不适航抗辩。
+    facts:
+      - {client_belief: "游艇参加帆船场地赛后返航途中触礁搁浅。", court_record: "‘温妮’号游艇参赛后返回三亚途中触礁搁浅。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "“温妮”号游艇参加大帆船场地赛后，返回三亚途中触礁搁浅"}]}
+      - {client_belief: "施救过程中连续遭受台风，游艇翻沉灭失并构成全损。", court_record: "施救期间连续遭受台风导致游艇翻沉灭失并构成全损。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "施救过程中连续遭受台风影响，导致游艇翻沉灭失，构成全损"}]}
+      - {client_belief: "游艇持有有效适航证书。", court_record: "案涉游艇持有有效的适航证书。", gap_type: undisputed, evidence: [{section: adjudication, quote: "案涉游艇持有有效的适航证书"}]}
+      - {client_belief: "驾驶人有相应资格，事发时配备了最新电子海图。", court_record: "驾驶人具有相应驾驶资格且事发时已配备最新电子海图。", gap_type: undisputed, evidence: [{section: adjudication, quote: "驾驶人具有相应驾驶资格，事发当时已配备最新的电子海图"}]}
+      - {client_belief: "只要未携带纸质海图，保险公司就可以不考虑适航证书和电子海图而认定不适航。", court_record: "在有效适航证书、合格驾驶人和最新电子海图情况下，未配纸质海图不当然构成不适航。", gap_type: disputed, evidence: [{section: adjudication, quote: "保险人关于案涉游艇未配备纸质海图属于不适航、违反保证义务的抗辩主张不能成立"}]}
+      - {client_belief: "触礁发生在比赛返航途中，必然不属于海上保险责任范围。", court_record: "应结合保险责任和除外责任判断；本次触礁、施救及台风导致的全损属于保险责任范围。", gap_type: disputed, evidence: [{section: adjudication, quote: "本次事故属于保险责任范围"}]}
+      - {client_belief: "我们向保险公司提出索赔后遭到拒绝。", court_record: "游艇所有人向保险公司索赔被拒后提起诉讼。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "李某某、林某某向天安财产保险股份有限公司深圳分公司索赔被拒后"}]}
+    expected_inquiries: ["保险单对航行区域、比赛、返航、适航及海图有何具体约定？", "适航证书、驾驶资格和电子海图版本在事故时是否有效？", "触礁、施救、台风和最终全损之间的时间线及海事证据如何？", "未配纸质海图是否违反明确保证条款，保险人如何提示说明？", "船舶价值、全损认定、残值和其他补偿如何计算？"]
+    memo_expectations: ["确定近因链及触礁、台风施救是否落入承保风险。", "审查适航状态应综合证书、驾驶资格和导航设备。", "解释纸质海图要求及违反保证义务抗辩的合同基础。", "核定全损、保险价值、残值和免赔额。", "处理比赛返航场景与除外责任的举证分配。"]
+    editorial_review: *full_review
+    editorial_note: 来源较短但六项事实均直接受原文支持；未虚构航线、保额或海况细节，需由律师继续核查保单和海事证据。
+
+  - id: lsg_cn_0113
+    source_line: 164
+    source_case_sha256: 8d5e108fa16a00b56717b7c0ba9948acd6a17c3cbd93226ca0246d0b7ef5d647
+    split: train
+    legal_domain: procedure_evidence
+    client_role: 被仲裁裁决约束的借款公司孙飞科技公司
+    consultation_stage: 仲裁裁决作出后、申请撤销期限内
+    opening: 我们原借款和抵押合同都约定由法院管辖，债权多次转让后受让人却拿到仲裁裁决。合同空白处后来出现印章或手写仲裁内容，但我们没有签字确认。
+    admission_reason: 原法院管辖、债权转让、后加仲裁内容、无签字确认和裁决完整，仲裁合意证据冲突清晰。
+    facts:
+      - {client_belief: "公司通过网贷平台签订借款合同，孙某以不动产提供抵押。", court_record: "孙飞科技公司签订借款合同，孙某以不动产提供抵押并签订三方抵押合同。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "借款人孙飞科技公司因资金周转需要，通过网络借贷平台与出借人曾某某签订《借款合同》"}, {section: basic_facts, quote: "孙某以其所有的不动产为案涉借款提供抵押担保"}]}
+      - {client_belief: "两份合同原本都约定由担保物所在地法院管辖。", court_record: "借款合同和抵押合同均约定争议由担保物所在地人民法院管辖。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "两份合同均约定发生争议由担保物所在地人民法院管辖"}]}
+      - {client_belief: "债权经过三次转让后由升恪公司受让。", court_record: "合同债权经三次转让并最终由升恪公司受让。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "此后该合同债权经三次转让，最终由升恪公司受让"}]}
+      - {client_belief: "升恪公司申请仲裁，仲裁委员会已经作出裁决。", court_record: "升恪公司申请仲裁后，仲裁委员会作出裁决书。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "升恪公司向某仲裁委员会申请仲裁，某仲裁委员会于2019年11月作出裁决书"}]}
+      - {client_belief: "合同上只要出现印章或手写仲裁字样，无论由谁添加都能证明双方同意仲裁。", court_record: "争议解决变更未经合同相对人签字或其他方式确认，不能仅凭印章或手写内容认定仲裁合意。", gap_type: disputed, evidence: [{section: adjudication, quote: "该变更未经孙飞科技公司和孙某以签字或其他方式予以确认"}]}
+      - {client_belief: "债权转让给新债权人后，新债权人可以单方把原法院管辖改成仲裁。", court_record: "受让人无证据证明原合同相对人确认变更时，债权转让不产生新的有效仲裁协议。", gap_type: disputed, evidence: [{section: adjudication, quote: "升恪公司亦无证据证明该印章及手写内容经过孙飞科技公司和孙某的确认"}, {section: adjudication, quote: "本案不存在合法有效的仲裁协议"}]}
+    expected_inquiries: ["借款和抵押合同原件、电子签约日志及法院管辖条款如何？", "印章和手写仲裁内容何时、由谁、在哪一版本加入？", "公司或孙某是否曾以邮件、短信、履行行为明确同意仲裁？", "历次债权转让通知和合同是否另有争议解决条款？", "仲裁送达、首次异议、裁决日期和撤销期限如何？"]
+    memo_expectations: ["确认原合同争议解决合意为法院管辖。", "审查后加印章和手写内容的真实性、形成时间及确认行为。", "说明仲裁协议须有明确合意，债权转让不赋予单方变更权。", "判断撤销仲裁裁决的法定事由和期限。", "同步评估实体债务不因仲裁协议无效当然消灭。"]
+    editorial_review: *full_review
+    editorial_note: 将仲裁管辖与实体债务分开，证据问题集中在后加内容是否获得合同相对人明确确认。
+
+  - id: lsg_cn_0114
+    source_line: 165
+    source_case_sha256: fb4c86237c6c04b6a30097507d19634a06651750142295f7a53578e5407862ab
+    split: train
+    legal_domain: procedure_evidence
+    client_role: 申请撤销建设工程仲裁裁决的中交一公司
+    consultation_stage: 仲裁裁决作出后、撤销申请审查中
+    opening: 建设工程仲裁中，仲裁员与对方代理人存在未披露的职业关联，代理人另在咨询机构任职，仲裁庭还向相关机构咨询过。我们担心程序公正受到影响。
+    admission_reason: 同所经历、专家委员会身份、未披露、实际咨询及会议记录缺失完整，可评价披露义务和回避权影响。
+    facts:
+      - {client_belief: "对方申请仲裁后，我们提出反请求。", court_record: "天贝公司提出仲裁申请，中交一公司提出仲裁反请求。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "天贝公司因与中交一公司建设工程施工合同纠纷一案，向某仲裁委员会提出仲裁申请，中交一公司提出仲裁反请求"}]}
+      - {client_belief: "仲裁庭因案件复杂、争议额大，向专家咨询委员会咨询。", court_record: "仲裁庭因案情复杂、争议额大而向仲裁委员会专家咨询委员会咨询。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "仲裁庭经审理后，认为案情复杂，争议额大，遂就双方争议问题于2018年4月向该仲裁委员会专家咨询委员会进行了咨询"}]}
+      - {client_belief: "对方代理人与一名仲裁员曾在同一律师事务所工作。", court_record: "天贝公司代理人杨某与仲裁员陈某曾在同一律师事务所工作。", gap_type: undisputed, evidence: [{section: adjudication, quote: "天贝公司在仲裁案件中的代理人杨某与仲裁员陈某曾在同一律师事务所工作"}]}
+      - {client_belief: "该代理人担任专家咨询委员会主任，相关身份在官网和仲裁中都未披露。", court_record: "杨某担任专家咨询委员会主任，但官网未显示且仲裁过程中未作披露。", gap_type: undisputed, evidence: [{section: adjudication, quote: "杨某担任某仲裁委员会专家咨询委员会主任期间"}, {section: adjudication, quote: "仲裁过程中亦未对其系专家咨询委员会主任情况进行过相应披露"}]}
+      - {client_belief: "只要仲裁员没有现实收受利益，既往同事或咨询委员会关系就从不需要披露。", court_record: "可能影响公正裁决的其他关系应按仲裁规则披露并保障当事人申请回避。", gap_type: disputed, evidence: [{section: adjudication, quote: "与本案当事人或其代理人有其他关系，可能影响公正裁决的，仲裁员应当自行向仲裁委员会披露并请求回避，当事人也有权提出回避申请"}]}
+      - {client_belief: "未披露只是形式瑕疵，不会影响回避权，也不能成为撤销裁决的程序理由。", court_record: "未披露关系影响当事人回避权且无法排除不当影响时，属于可能影响正确裁决的程序问题。", gap_type: disputed, evidence: [{section: adjudication, quote: "陈某等人未按照仲裁规则披露其与天贝公司代理人之间的关系，一定程度上影响了当事人回避权利的行使"}, {section: adjudication, quote: "不能排除担任专家咨询委员会主任的杨某对此次讨论施加不当影响的合理怀疑"}]}
+    expected_inquiries: ["代理人、仲裁员和首席仲裁员之间的任职时间与关系具体如何？", "仲裁规则对披露和回避规定了什么，何时应当披露？", "专家咨询的议题、参与人、程序和意见是否留有记录？", "当事人何时得知这些关系，是否及时提出异议？", "未披露如何具体影响回避权和裁决程序？"]
+    memo_expectations: ["以适用仲裁规则确定披露义务范围。", "区分一般职业接触与可能影响公正的具体关系。", "结合专家咨询和主任身份评价不当影响风险。", "说明会议记录缺失对举证和合理怀疑的作用。", "审查撤销申请事由、期限及程序后果。"]
+    editorial_review: *full_review
+    editorial_note: 未以“曾同所”单一事实自动推定偏私，而是结合未披露身份、实际咨询和记录拒绝提供综合评价。
+
+  - id: lsg_cn_0115
+    source_line: 166
+    source_case_sha256: 3f9f308fc4341545ebfd4d2e11a106fb2b1f047d4b94943070d6d42d4f600690
+    split: train
+    legal_domain: procedure_evidence
+    client_role: 收到执行通知才得知主播经纪仲裁裁决的张某
+    consultation_stage: 收到执行通知后、申请撤销仲裁裁决审查中
+    opening: 一份以我为当事人的主播经纪仲裁裁决进入执行，但我否认与申请执行的公司存在合同关系。相关协议和身份联系方式存在疑点，我想尽快阻止错误执行。
+    admission_reason: 身份冒用线索、未获送达、未参加庭审、签名鉴定和重新仲裁机制完整，可评价程序瑕疵纠正方式。
+    facts:
+      - {client_belief: "我在收到法院执行通知后才知道仲裁裁决。", court_record: "张某主张其收到法院执行通知书后才得知仲裁裁决。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "张某主张其在收到法院执行通知书后才得知该仲裁裁决"}]}
+      - {client_belief: "我与环星公司没有关系，主播协议不是我签的。", court_record: "张某否认与环星公司存在关系并否认签署主播独家合作经纪协议。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "其与环星公司之间没有任何关系"}, {section: basic_facts, quote: "《主播独家合作经纪协议书》并非张某所签"}]}
+      - {client_belief: "协议账户虽与我同名，但户主身份证号码不是我的。", court_record: "协议收款账户户名与张某同名，但账户户主身份证号码与张某不符。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "该银行账户户主身份证号码与张某的身份证号码不符"}]}
+      - {client_belief: "对方提供的联系电话不是我的，导致我没有收到开庭和仲裁文书。", court_record: "环星公司提供的联系电话非张某号码，张某未获开庭通知和仲裁文书并未参加庭审。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "环星公司向仲裁庭所提供的联系电话也并非张某的手机号码，致使张某没有收到开庭通知及仲裁文书，未能参加仲裁庭庭审"}]}
+      - {client_belief: "这些身份不符线索足以由法院立即断定签名伪造，无需任何鉴定。", court_record: "身份可能被冒用形成审查必要，但合同签名和手印是否本人所为仍需鉴定确定。", gap_type: disputed, evidence: [{section: adjudication, quote: "确认案涉合同上签名及手印是否为张某本人所为，需通过鉴定才能确定"}]}
+      - {client_belief: "法院处理程序瑕疵只能直接维持或撤销裁决，不能通知仲裁庭重新仲裁。", court_record: "为纠正程序瑕疵并尽快解纷，法院可以通知仲裁庭限期重新仲裁并中止撤销程序。", gap_type: disputed, evidence: [{section: adjudication, quote: "法院通知仲裁庭在一定期限内重新仲裁，同时裁定中止撤销程序"}]}
+    expected_inquiries: ["执行通知、仲裁裁决及送达材料何时实际取得？", "本人身份证、手机号、银行账户与协议所载信息如何逐项比对？", "协议签名、手印原件是否可供鉴定，是否存在身份资料泄露线索？", "仲裁机构采用何种联系方式送达，是否尽到合理核验？", "撤销、重新仲裁与执行程序分别处于何阶段，是否需申请中止执行？"]
+    memo_expectations: ["以多项身份不符证据建立冒用的初步可能。", "通过鉴定确认签名手印而非仅凭当事人否认。", "评价错误联系方式和未参加庭审对辩论权的影响。", "说明重新仲裁用于纠正程序瑕疵及其与撤销程序的衔接。", "安排撤销期限、执行中止和证据保全。"]
+    editorial_review: *full_review
+    editorial_note: 客户认知与记录并非预设伪造结论；隐藏差异强调身份线索触发鉴定而不是让模型凭文本直接判真伪。

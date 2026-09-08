@@ -1,0 +1,389 @@
+schema_version: 1
+experiment_id: legal_skill_guard_main
+status: prompt_memory_protocol_gpu_requalification_required
+preparation_note: >-
+  128案训练语料、8批×16案、官方30案污染隔离和852项事实CPU审计均已冻结。
+  正式在线骨干是固定revision的Qwen3-8B；gpt-oss-20b以权限隔离接口承担客户闭集事实路由与
+  离线结构化语义评估，gpt-5.6-luna
+  只在跨案件因果证据簇合格后生成候选技能，并受共享硬账本约束。训练从空技能库开始，八批各16案；
+  每批每案采用一个预声明且批内均衡的人格、K=4共享可见调查计划；没有待检候选时组成两个相同首问配对，
+  有待检候选时只在预先适用的案件子集内保留共享对照与候选干预；领域候选不占无关领域的轨迹臂，
+  通用候选稳定分摊未见案件，其余位置继续正常探索。证据跨批累积；
+  候选通过来源证据绑定后，以固定的会话级结构化技能文档从首个律师决策起注入后续连续未见训练块，
+  律师模型自主运用，系统不依据模型作答执行技能规则或改写动作；不另跑候选验收对话。
+  单块内安全正向但暴露覆盖不足者至多累计3块，负向、安全回归或到期仍不足者回滚。
+  技能库变化后的累计检查点及官方外测使用完整四人格矩阵检验稳健性，官方
+  DLawBench中文30案只在技能库冻结后外测。四人格是披露压力条件而非独立样本扩增，24轮只是异常
+  熔断。完整轨迹矩阵仍必须生成；若确定性policy/memo安全fallback接管了模型行为，则在任何奖励
+  或候选结果可见之前排除其完整K=4归因组并报告损耗，剩余完整组不足预声明门槛时失败关闭。
+  隐藏泄露、身份或哈希漂移等系统缺陷始终整批失败，不能通过组排除放行。
+  新正式run启动前只重做绑定当前实现和模型revision的客户模拟器、本地语义裁判与端点资格；
+  退役的64条首轮、20条完整对话、128案调查计划及其语义审计入口已从现行代码和配置删除，
+  真实planner-policy-client链由正式第一批的集成健康门验证。
+  受控分叉只出现在训练轨迹；官方外测不接受该训练干预。历史调试run及其轨迹、评分、候选和提示输出全部隔离，不进入训练或论文统计。
+  当前轨迹协议16在协议15的事实类型谱系上，进一步记录固定技能文档暴露及其哈希，并禁止旧运行时技能执行器；
+  F（新事实）、G（识别外部证据缺口）和安全停止是三个互不冒充的候选证据族。该状态只表示静态
+  数据、批次和前瞻候选生命周期已冻结并绑定schema-2批次计划，当前Qwen实模资格仍须在全新run中重做。当前仍无协议16正式技能、提升曲线或
+  官方30案外测结果；这些只能由通过新资格后的完整运行产生。
+# Randomness for bootstrap/sign-flip algorithms only; this is not a dialogue matrix.
+statistical_seed: 42
+# This is a circuit breaker for a malformed/non-terminating policy, not a target
+# dialogue length.  The lawyer policy, informed by prompt-delivered skills, chooses when to finish;
+# the ceiling is hidden from their online input and any hit invalidates the rollout.
+emergency_turn_ceiling: 24
+personas: [P_WD, P_WS, P_CS, P_CD]
+
+data:
+  training_cases: data/training/legal_skill_guard_dlawbench_style_cn.jsonl
+  provenance: data/training/legal_skill_guard_dlawbench_style_cn.provenance.jsonl
+  training_batches: configs/data/main_training_batches.yaml
+  training_split: train
+  external_evaluation: third_party/DLawBench/data/case_backgrounds/cases_cn.jsonl
+  external_evaluation_status: held_out_frozen_test_not_used_for_debugging
+
+comparison_arms:
+  - arm_id: control_no_library
+    active_skills: false
+    inference_role: primary_control
+    intervention: no_learned_experience
+    description: 冻结Qwen3-8B、状态管理开启、技能库不介入。
+  - arm_id: ungated_source_grounded_skills
+    active_skills: true
+    inference_role: explanatory_prospective_gate_ablation
+    intervention: source_grounded_candidates_without_outcome_gate_under_frozen_prompt_capacity
+    description: >-
+      不采用下一未见块的真实使用收益与安全门禁；候选按来源批次及来源报告中的预定顺序，在与主系统
+      相同的冻结提示容量内作不看效果的first-fit，不截断文档。仅作机制消融，并完整报告容量未纳入项。
+  - arm_id: legal_skill_guard
+    active_skills: true
+    inference_role: primary_treatment
+    intervention: accepted_prompt_skill_memory
+    description: 相同冻结Qwen3-8B和状态管理，仅增加经前瞻门禁验收的结构化技能文档。
+
+trajectory_sampling:
+  # K=4 structured counterfactual rollout group. A shared, visible Qwen planner
+  # writes the case agenda once; the four training arms form two target-matched
+  # pairs. Pair members share the first target and policy random stream. At turn
+  # two one member remains autonomous while the other receives a still-unasked
+  # highest-ranked remaining client-answerable visible-plan target (falling back
+  # to an evidence gap only when no client target remains); all later turns are autonomous. This exposes
+  # both premature-stop/continue and target-choice forks without reading outcomes.
+  # The same frozen lawyer formulates every question. Hidden case labels,
+  # the semantic judge and the skill teacher never select these targets. Paired
+  # candidate evaluation is embedded in the K matrix but does not receive forced
+  # target allocation: its control/treatment use one shared, unconstrained policy
+  # stream so the fixed skill-document bundle is the only policy-input intervention. External evaluation
+  # also does not receive the training exploration intervention.
+  group_size: 4
+  counterfactual_initial_target_allocation: true
+  counterfactual_initial_target_replicates: 2
+  counterfactual_followup_target_allocation: true
+  training_group_seeds: [42]
+  # DLawBench defines four case-style cells per case and runs each once. The main
+  # paired matrices therefore use one frozen dialogue seed; personas remain stress
+  # conditions and uncertainty is clustered by legal case.
+  external_evaluation_seeds: [42]
+  # Presentation shuffling was empirically unable to produce policy forks and is
+  # disabled so the source of every training contrast remains explicit.
+  shuffle_equal_criticality_fact_presentation: false
+
+# Development curves are measured prequentially on a fixed, outcome-blind
+# half-block sample.  The current accepted library is already evaluated by the
+# ordinary K=4 matrix; only a matching empty-library shadow is added after the
+# library becomes non-empty.  These shadows never enter TF-GRPO grouping,
+# candidate nomination, prospective acceptance, or the official external test.
+learning_curve:
+  mode: prequential_fixed_shadow
+  status: frozen_before_next_formal_run
+  cases_per_block: 8
+  bootstrap_samples: 10000
+  bootstrap_seed: 20260907
+  empty_library_identity_shortcut: true
+  evidence_role: development_diagnostic_only_never_teacher_or_candidate_acceptance
+  sentinel_case_ids_by_block:
+    training_batch_01:
+      - lsg_cn_0076
+      - lsg_cn_0066
+      - lsg_cn_0020
+      - lsg_cn_0055
+      - lsg_cn_0080
+      - lsg_cn_0122
+      - lsg_cn_0033
+      - lsg_cn_0061
+    training_batch_02:
+      - lsg_cn_0078
+      - lsg_cn_0120
+      - lsg_cn_0018
+      - lsg_cn_0012
+      - lsg_cn_0073
+      - lsg_cn_0088
+      - lsg_cn_0098
+      - lsg_cn_0101
+    training_batch_03:
+      - lsg_cn_0128
+      - lsg_cn_0049
+      - lsg_cn_0126
+      - lsg_cn_0023
+      - lsg_cn_0030
+      - lsg_cn_0011
+      - lsg_cn_0005
+      - lsg_cn_0093
+    training_batch_04:
+      - lsg_cn_0046
+      - lsg_cn_0026
+      - lsg_cn_0064
+      - lsg_cn_0081
+      - lsg_cn_0007
+      - lsg_cn_0041
+      - lsg_cn_0113
+      - lsg_cn_0103
+    training_batch_05:
+      - lsg_cn_0127
+      - lsg_cn_0124
+      - lsg_cn_0110
+      - lsg_cn_0068
+      - lsg_cn_0014
+      - lsg_cn_0001
+      - lsg_cn_0114
+      - lsg_cn_0099
+    training_batch_06:
+      - lsg_cn_0047
+      - lsg_cn_0121
+      - lsg_cn_0022
+      - lsg_cn_0083
+      - lsg_cn_0091
+      - lsg_cn_0109
+      - lsg_cn_0040
+      - lsg_cn_0108
+    training_batch_07:
+      - lsg_cn_0085
+      - lsg_cn_0069
+      - lsg_cn_0015
+      - lsg_cn_0009
+      - lsg_cn_0038
+      - lsg_cn_0059
+      - lsg_cn_0096
+      - lsg_cn_0106
+    training_batch_08:
+      - lsg_cn_0043
+      - lsg_cn_0024
+      - lsg_cn_0118
+      - lsg_cn_0054
+      - lsg_cn_0050
+      - lsg_cn_0125
+      - lsg_cn_0111
+      - lsg_cn_0013
+
+seed_sensitivity:
+  status: secondary_after_primary_external_test
+  affects_candidate_selection: false
+  affects_primary_inference: false
+  primary_seed_reused: 42
+  additional_dialogue_seeds: [43, 44]
+  # Stable systematic sample: every fifth public CN record from the frozen order.
+  # It spans 5--15 facts and 3--10 disputed facts without consulting outcomes.
+  external_case_ids:
+    - case_cn_0001
+    - case_cn_0006
+    - case_cn_0011
+    - case_cn_0016
+    - case_cn_0021
+    - case_cn_0026
+  personas: [P_WD, P_WS, P_CS, P_CD]
+  report_role: secondary_sampling_robustness_only
+
+reward:
+  elicitation_weight: 0.45
+  resolution_weight: 0.45
+  fidelity_weight: 0.10
+  extra_turn_penalty: 0.02
+  repeated_question_penalty: 0.05
+  premature_final_cap: 0.35
+  unsupported_claim_cap: 0.25
+  zero_inquiry_cap: 0.25
+  hidden_field_leak_reward: 0.0
+
+skill_evolution:
+  skill_schema_version: 2
+  skill_delivery_mode: fixed_session_prompt_memory
+  source_split: train
+  teacher_role: skill_teacher
+  initial_library: skills/bootstrap
+  candidate_workspace: runs/<run-id>/skills/candidates
+  active_library: runs/<run-id>/skills/versions/current
+  group_advantage_epsilon: 1.0e-8
+  skip_low_variance_groups: true
+  allow_noop: true
+
+prospective_validation:
+  mode: embedded_next_training_block
+  source_split: train
+  fixed_pool: false
+  paired: true
+  shared_control_per_case: true
+  require_no_leakage: true
+  require_no_safety_regression: true
+  # Fail-closed policy recoveries are never scored.  Quarantine the complete
+  # same-case control/treatment pair before outcomes are read, and require the
+  # remaining healthy paired matrix to retain at least the same 75% support used
+  # by training-group attribution.  Non-recovery treatment defects still reject
+  # the complete candidate.
+  minimum_healthy_pair_fraction: 0.75
+  # General hypotheses are exposed on all prospectively applicable unseen cases
+  # under the frozen assignment schedule. A general
+  # candidate already requires aligned positive source contrasts spanning at
+  # least two legal domains; admission additionally requires positive, safe reproduction
+  # in two independent unseen cases spanning two domains. A domain-bounded candidate may
+  # be nominated by one strict source fork, but remains inert until a distinct unseen
+  # same-domain case reproduces its mechanism and gain. This is a library
+  # admission rule, not the paper's confirmatory inference: the frozen official
+  # external matrix remains the final test.
+  minimum_exposed_sessions: 2
+  minimum_exposed_cases: 2
+  minimum_exposed_domains: 2
+  # 领域技能只可由严格同状态因果分叉提名，且在下一未见块之前不进入活动库；
+  # 这里要求它在本领域的新案件中受控暴露、产生增益且无安全回归。它不需要、
+  # 也不会被拿到无关法律领域凑覆盖。概念词重排因涉及词汇抽象，仍须两个
+  # 同领域来源案后才能提名。
+  domain_minimum_exposed_sessions: 1
+  domain_minimum_exposed_cases: 1
+  bootstrap_samples: 10000
+  confidence_level: 0.95
+  # 下一未见16案的正常K=4轨迹同时承担顺序候选评估，不另跑验收对话。
+  # 区间完整报告，但不把其下界>0作为激活条件；
+  # 实用效应、安全和有害尾门槛仍保留，最终推断只在冻结后的官方外测进行。
+  require_positive_confidence_lower: false
+  # Efficacy is not inferred from a tiny judge-only score change: the separate
+  # held-out mechanism gate must also reproduce an exact fact gain, a legitimate
+  # evidence-gap gain, or fewer questions without information loss.  Therefore
+  # require a strictly positive paired reward here, rather than an unrelated
+  # 0.02 composite cutoff that previously rejected a verified +1-fact outcome.
+  minimum_mean_delta: 0.0
+  # A case-clustered reward drop must exceed this practical-significance margin
+  # before it contributes to the harmful tail. Safety regressions remain
+  # independent zero-tolerance gates and are not covered by this margin. If a
+  # net-positive, safety-clean candidate has exactly one material loss while the
+  # exposed denominator is too small to represent the allowed 0.15 rate, it is
+  # DEFERRED to another unseen block instead of activated or permanently rejected.
+  # Two observed material losses still reject immediately.
+  minimum_material_harm_delta: 0.02
+  maximum_harmful_pair_rate: 0.15
+  maximum_global_mean_reward_drop: 0.01
+  # A positive, safe candidate that is merely rare is carried across at most
+  # three consecutive unseen 16-case blocks (48 cases total). This is a bounded
+  # evidence horizon, not a relaxed acceptance gate: safety harm and repeated
+  # material losses reject at once, and unresolved candidates are rejected at the
+  # horizon or final block.
+  maximum_validation_blocks: 3
+
+execution:
+  evolution_rounds: 8
+  # Genuine causal forks persist as inert evidence across rounds. A general
+  # hypothesis requires aligned source contrasts spanning at least two legal
+  # domains. One strict fork may nominate a domain-bounded provisional. The
+  # teacher expresses one natural-language consultation method, while the system
+  # independently binds its evidence identity. Admission then uses the frozen
+  # scope-aware next-block gate, practical gain, bounded harmful tail, and no
+  # safety regression.
+  # Each call receives one behavior-homogeneous cluster and at most 15 contrasts.
+  # Behaviorally distinct clusters are selected first. If only one mechanism is
+  # available, a separately grounded scope variant may use the remaining budget;
+  # its prospective
+  # trials are preassigned across applicable unseen cases instead of consuming two
+  # treatment arms in every case.
+  teacher_evidence_group_budget_per_candidate: 15
+  teacher_call_budget_per_round: 2
+  maximum_teacher_groups_per_case: 2
+  # This is the number of fresh hypotheses that one completed source block may
+  # nominate.  It is deliberately separate from the concurrent carry-over
+  # capacity below: two legitimate DEFER decisions must not silence Luna for the
+  # whole next block.
+  provisional_candidate_budget_per_block: 2
+  # At most two fresh candidates are added per block and a DEFER candidate is
+  # resolved within three consecutive validation blocks.  Six slots therefore
+  # cover the worst-case two fresh + four still-live carry-overs while preserving
+  # the normal K=4 matrix and one candidate treatment per case.
+  maximum_concurrent_provisional_candidates: 6
+  # This is an engineering ceiling for bounded same-model structure repair, not an
+  # effect-size parameter derived from one historical trajectory. Generation stops
+  # immediately on the first contract-valid action, so a healthy step uses one call.
+  policy_repair_attempts: 5
+  # 每次编辑仍由同一冻结模型提交完整计划对象；已经通过通用安全门的目标作为不可变状态保留，
+  # 只允许模型删除、拆分或去法律化被拒目标，防止修一个坏目标时丢掉无关的合格调查维度。
+  # 五轮是同一冻结模型的有限结构编辑上限而非按单个历史失败调出的效果参数；首个合格计划
+  # 立即停止，达到上限仍不合格则关闭轨迹，禁止伪造或确定性替换。
+  consultation_planning_attempts: 5
+  client_selection_attempts: 2
+  memo_generation_attempts: 3
+  semantic_judgment_attempts: 2
+  # Resource-bounded schema decomposition only: it never changes which frozen
+  # memo spans are judged or how their classifications are merged.
+  codex_timeout_seconds: 600
+  codex_retries: 0
+  # The hard ledger is independent of per-round scheduling and cumulative across
+  # diagnostic/formal runs; it is never silently reset.  Preflight must show that
+  # its live remainder covers at most two teacher calls in each unfinished
+  # candidate-producing block before a clean run is allowed to start.
+  teacher_total_invocation_budget: 200
+  judge_timeout_seconds: 900
+  judge_retries: 0
+  # A40实测的16K上下文并发容量约9.4；16路会造成Qwen策略采样退化。
+  # 8路只约束服务调度，不改变实验矩阵、随机种子或轨迹内容定义。
+  rollout_workers: 8
+  judge_workers: 8
+  resume_completed_units: true
+  fail_closed_on_incomplete_matrix: true
+
+# This is a descriptive productivity/futility diagnostic, not a health gate or a
+# target effect size. Requiring at least two independent failed checks prevents one
+# weak statistic from creating a noisy alert. A weak but protocol-valid initial
+# policy must still reach semantic scoring and the contrastive teacher; otherwise
+# the method would be unable to learn from the failure mode it is meant to improve.
+training_batch_productivity_review:
+  status: frozen_predeclared_productivity_diagnostic
+  expected_cases: 16
+  expected_trajectories: 64
+  minimum_cases_with_new_hidden_fact: 8
+  minimum_trajectory_question_rate: 0.50
+  minimum_trajectory_new_hidden_fact_rate: 0.20
+  minimum_new_hidden_fact_per_question: 0.05
+  review_if_failed_checks_at_least: 2
+  action: record_diagnostic_and_continue_to_teacher_evidence
+
+# GRPO-style relative evidence is valid only inside a complete model-attributable
+# K group. A deterministic safety fallback is neither a reward-worthy bad policy
+# action nor a system-wide corruption: before any semantic reward is observed, its
+# complete group is quarantined from candidate attribution. The full 64-trajectory
+# matrix is still scored and checkpointed for audit. Any non-local contract defect
+# remains globally blocking, and more than 25% group attrition stops the batch.
+training_group_attribution:
+  status: frozen_pre_reward_complete_group_quarantine
+  expected_groups: 16
+  group_size: 4
+  minimum_scoreable_groups: 12
+  minimum_scoreable_group_fraction: 0.75
+  action: exclude_complete_attribution_group_or_stop_before_semantic_scoring
+
+evaluation:
+  official_metrics: [fact_coverage, inquiry, elicitation, fact_resolution, issue_resolution, resolution, fidelity]
+  # The main claim concerns deterministic consultation efficiency, not judge
+  # prose preference.  Session ratios are paired within case/persona and
+  # uncertainty is clustered by legal case. Fact coverage and Resolution remain
+  # companion endpoints so a one-question early stop cannot masquerade as success.
+  behavior_metrics: [question_turns, distinct_targets, answered_question_turns, information_bearing_turns, unique_disclosed_facts, unique_disclosed_facts_per_question, identified_evidence_gaps, f_or_g_signal_turns]
+  safety_metrics: [premature_final_rate, unsupported_claim_rate, belief_as_fact_rate, repeated_question_rate, critical_fact_recall]
+  operational_metrics: [policy_repair_rate, policy_fallback_rate, client_repair_rate, client_fallback_rate, memo_retry, memo_guardrail_intervention, memo_fallback]
+  judge_diagnostics: [rubric_repair_rate, fact_repair_rate, grounding_repair_rate, rubric_normalization_rate, fact_normalization_rate, grounding_normalization_rate]
+  primary_endpoint: unique_disclosed_facts_per_question
+  secondary_endpoints: [unique_disclosed_facts, fact_coverage, resolution, elicitation, fidelity, critical_fact_recall]
+  aggregate: paired_case_persona_mean
+  multiplicity: benjamini_hochberg_secondary
+  report_effect_size: true
+  report_paired_95ci: true
+  randomization_samples: 20000
+
+freeze_order:
+  - training_corpus_hash
+  - prompts_and_model_revisions
+  - active_skill_library_hash
+  - external_evaluation

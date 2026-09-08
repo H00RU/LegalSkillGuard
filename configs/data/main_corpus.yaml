@@ -1,0 +1,98 @@
+schema_version: 7
+corpus_id: legal_skill_guard_dlawbench_style_cn
+status: frozen_128_cpu_audited_runtime_requalification_required
+construction_protocol: docs/data/main_corpus_build_protocol.md
+corpus_card: docs/data/main_corpus_card.md
+source_catalog: configs/data/main_training_sources.json
+source_pools:
+  - data/source_pool/spc_typical_cases.jsonl
+  - data/source_pool/spc_reference_cases.jsonl
+  - data/source_pool/spc_labor_consumer_cases.jsonl
+  - data/source_pool/spc_procedure_insurance_cases.jsonl
+  - data/source_pool/spc_expansion_128_cases.jsonl
+selection_manifest: data/manifests/main_corpus_selection.json
+exclusion_manifest: data/manifests/main_corpus_exclusions.json
+authoring_batches: data/annotations/main_corpus
+core_cases: data/training/legal_skill_guard_dlawbench_style_cn.jsonl
+provenance: data/training/legal_skill_guard_dlawbench_style_cn.provenance.jsonl
+training_batches: configs/data/main_training_batches.yaml
+quality_report: reports/artifacts/main_corpus_quality.json
+casewise_quality_report: reports/artifacts/main_corpus_casewise_quality_audit.json
+contamination_report: reports/artifacts/main_corpus_contamination.json
+training_batch_report: reports/artifacts/main_training_batch_audit.json
+opening_information_boundary_report: reports/artifacts/main_corpus_opening_information_boundary.json
+formal_cases: 128
+formal_split:
+  train: 128
+fixed_internal_validation_cases: 0
+source_catalog_pages: 36
+source_pool_cases: 179
+selected_source_pages: 35
+domains: 14
+domain_counts:
+  administrative: 10
+  company_commercial: 10
+  consumer_contract: 10
+  criminal: 8
+  environment_resources: 10
+  finance_bankruptcy: 8
+  insurance_contract: 6
+  intellectual_property: 10
+  labor_employment: 10
+  marriage_family: 10
+  personality_privacy: 10
+  procedure_evidence: 10
+  real_estate_construction: 8
+  tort_liability: 8
+fact_pairs: 852
+disputed_fact_pairs: 266
+undisputed_fact_pairs: 586
+expected_inquiries: 699
+memo_expectations: 683
+evidence_quotes_verified: 1128
+hashes:
+  core_sha256: 889ea7f6ff642147b190823e81d2cba9e49f3547e0aead48404a05a1b1cc4f46
+  provenance_sha256: a90df2bd5aff0619010004e8b2b18fdc43618897ef40adb50cd725d3f35936af
+  selection_sha256: 159036f26f50e9edd861ec65e3f38b8dea81397d27998c236592ee63586f680b
+  exclusion_sha256: 508256533deb8bb8624dbe1042c8aecdd8fd8a07a9d265aa997f0757d07653c4
+  training_batches_sha256: cb9e1e934585b380c9b77ddec42c133ecdcfb35efb82240a8b2ebb9f182324ac
+  source_catalog_sha256: 32a10bf4b013a5472b29f2496ca28eb04edefa8299645617ca2c3e4e62e7c6bc
+  deterministic_quality_report_sha256: 603d749b0b782d5df390e87f52e2c3110e2ddff6a5702139257a2301cd45d141
+  casewise_quality_report_sha256: 0fc56be5aa6ff12ee19f3492d05bbb638112a2a25da549d4c2840e41445913ab
+  contamination_report_sha256: 86d53a0e79734037ea48bcf9571271120f1c3d7b4c2a10c3866d764a53acfe72
+  training_batch_report_sha256: c9853e124e5d23274fadebd56d606f1d729b5482223dbef9da3ba0f0ddb233c3
+  opening_information_boundary_report_sha256: 0385a566c572dc4511d6e6ad28a14d7365adea28242f65c894aa24beceff3019
+opening_information_boundary_scope:
+  current_fact_pairs: 852
+  current_core_sha256: 889ea7f6ff642147b190823e81d2cba9e49f3547e0aead48404a05a1b1cc4f46
+  deterministic_exact_containment_status: passed
+  independent_dual_model_rerun_status: passed_model_screening_researcher_adjudicated
+  prior_report_core_sha256: 25312887adcd61acf25a018e34e8f6223f7d55b2b15a14468048b93b4ed8862f
+  stale_60_case_report_may_qualify_current_corpus: false
+requalification_requirements:
+  - regenerate_run_bound_client_simulator_observed_question_contract
+  - regenerate_local_semantic_judge_qualification
+  - complete_first_formal_block_integrated_runtime_gates_before_teacher
+external_benchmark_policy:
+  dlawbench_public_cn30: held_out_frozen_external_test
+  current_payload_sha256: 11e16b7d0bf68f8ddab706cda2c5ecdcd4cb4e8937bb8ba1f9f5148626571528
+  used_for_runtime_debugging: false
+  used_for_model_prompt_or_threshold_selection: false
+  evaluation_after_library_freeze_only: true
+  may_enter_training: false
+  may_enter_skill_teacher_context: false
+  # DLawBench is public.  Its task definition and schema may be described, so we
+  # claim a held-out execution boundary rather than an unseen/private blind test.
+  claim_unseen_private_blind_test: false
+candidate_validation_policy:
+  fixed_validation_pool: false
+  mode: embedded_next_training_block
+  shared_control_per_case: true
+  final_forward_validation_batch: training_batch_08
+  final_source_batch_candidates: no_candidate_generation
+label_claim: source_grounded_ai_authored_and_casewise_semantic_reviewed
+expert_gold_claim: false
+publication_note: >-
+  对外发布前仍需复核最高法页面使用条款、完成研究伦理审查，并由具备中国法律专业资质的人员
+  对分层样本做独立抽检；当前不得表述为律师专家金标。lsg_cn_0045保留官方页面内部材料名称
+  不一致并要求回查原始合同、检测报告和处罚决定，未把不确定材料强写成确定事实。

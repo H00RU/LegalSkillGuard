@@ -1,0 +1,50 @@
+.venv/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Local tooling and upstream checkouts are reproduced from manifests. The clean
+# repository snapshot force-tracks only DLawBench's runtime persona contract and
+# its license; benchmark cases and the rest of the checkout stay local.
+third_party/DLawBench/
+third_party/LeCoDe/
+
+# Public/raw data are downloaded snapshots, never committed by default.
+data/raw/*
+!data/raw/.gitkeep
+data/cache/*
+!data/cache/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Fetched court webpages are local source snapshots. Keep the authoritative
+# catalog, hashes, extracted pools, and rebuild script in version control.
+data/source_pool/raw_pages/
+
+# Runtime products are local evidence, caches, locks, and archived diagnostics.
+# Paper-facing summaries belong under reports/; never stage a run tree as source.
+runs/*
+
+# Superseded/rejected diagnostics remain local and must not define the public
+# research snapshot. Current machine-readable qualification reports stay tracked.
+reports/artifacts/rejected/
+reports/artifacts/rejected_diagnostics/
+reports/historical/
+
+.env
+.env.*
+!.env.example
+*.log
+
+# Editor, notebook, coverage, and local checkpoint products are not research source.
+.idea/
+.vscode/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+*.ckpt
+*.pt
+*.pth
+*.safetensors

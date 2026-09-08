@@ -1,0 +1,41 @@
+dataset_id: dlawbench_public
+source:
+  repository: https://github.com/SKYLENAGE-AI/DLawBench.git
+  revision: 9f6325f29f07b296fac110a6e1880bdd5d9ca538
+  code_license: MIT
+  data_license: CC-BY-4.0
+
+release:
+  status: public_subset_unresolved
+  observed_cases:
+    CN: 30
+    US: 30
+  paper_reported_cases:
+    CN: 264
+    US: 197
+  full_corpus_available: false
+  per_case_domain_metadata_available: false
+  upstream_issue: https://github.com/SKYLENAGE-AI/DLawBench/issues/1
+
+paths:
+  upstream_checkout: third_party/DLawBench
+  immutable_snapshot_root: data/raw/dlawbench
+  audit_output: reports/artifacts/dlawbench_audit.json
+
+visibility:
+  lawyer_allowed_fields: [id, jurisdiction, language, opening]
+  online_state_allowed_fields: [id, jurisdiction, language, opening]
+  client_simulator_fact_fields: [fact_id, client_belief]
+  evaluator_allowed_fields:
+    - id
+    - jurisdiction
+    - language
+    - opening
+    - facts
+    - evaluation_criteria
+    - sha256
+  lawyer_forbidden_fields:
+    - facts.client_belief
+    - facts.court_record
+    - evaluation_criteria.expected_inquiries
+    - evaluation_criteria.memo_expectations

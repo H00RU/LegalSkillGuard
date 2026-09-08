@@ -1,0 +1,438 @@
+annotations:
+  - id: lsg_cn_0023
+    source_line: 39
+    source_case_sha256: 171cd816ba0baa59e2ddcf0eac89b9e937071fd4473afade161de1d2a8cb63a5
+    split: train
+    legal_domain: insurance_contract
+    client_role: 因肺癌申请团体重疾险理赔被拒的被保险人尹某某
+    consultation_stage: 保险公司以既往症拒赔后、提起保险合同诉讼前
+    opening: 我参加公司投保的团体重疾险，患病治疗后被保险公司以投保前健康问题为由拒赔。我认为此前情况并未影响工作，想评估拒赔是否成立。
+    admission_reason: 投保前检查、如实告知、条款定义、确诊和拒赔理由完整，适合举证责任与格式免责条款解释任务。
+    facts:
+      - client_belief: 2020年体检发现结节后，我多次复查均无增大，医嘱只是定期随访。
+        court_record: 尹某某于2020年体检发现右肺磨玻璃结节，此后多次复查均无增大，医嘱为定期随访。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "尹某某体检发现右肺磨玻璃结节，多次复查均无增大，医嘱定期随访"}
+      - client_belief: 入职时我已经如实告知结节情况，并复诊确认没有异常。
+        court_record: 尹某某于2021年10月入职时如实告知肺结节情况，并经复诊确认无异常。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "已如实告知结节情况并复诊确认无异常"}
+      - client_belief: 只要投保前客观存在过肺结节，保险公司就可以直接把它视为既往疾病拒赔。
+        court_record: 保险合同的既往症免责条款没有定义“疾病”，保险公司也未能证明尹某某的肺结节属于医学定义上的疾病。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "保险合同含既往症免责条款但未明确“疾病”定义"}
+          - {section: basic_facts, quote: "某保险公司未能举证证明上述结节属于医学定义上的疾病"}
+      - client_belief: 条款里的“疾病”范围不清，可能应由被保险人承担解释不明的不利后果。
+        court_record: 保险公司提供的既往症免责条款未界定疾病范围，由此产生的不利后果由保险公司承担。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "由此导致疾病范围不明的不利责任，应由某保险公司自行承担"}
+      - client_belief: 公司在2021年至2023年连续为员工投保团体重疾险，我是被保险人。
+        court_record: 尹某某所在公司于2021年至2023年连续为员工投保团体重疾险，尹某某为被保险人。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "公司于2021-2023年连续为员工投保团体重疾险，尹某某为被保险人"}
+      - client_belief: 我在2023年2月确诊肺癌并完成手术，之后按重疾险申请理赔。
+        court_record: 尹某某于2023年2月确诊肺癌并接受手术，申请重疾险理赔后被保险公司以病症由投保前疾病引起为由拒赔。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2023年2月，尹某某确诊肺癌并手术"}
+          - {section: basic_facts, quote: "理赔时保险公司以病症系投保前疾病引起为由拒赔"}
+    expected_inquiries:
+      - 请提供历次体检、复查影像、医嘱和肺癌诊断手术病历，供医学关系核验。
+      - 入职告知通过何种表单或沟通完成，公司和保险人掌握了哪些健康资料？
+      - 各年度保险合同、投保名单、保险期间和既往症免责条款全文是否齐全？
+      - 合同或投保文件何处解释“疾病”“症状”或“异常指标”，保险公司在何时通过何种页面、文件或沟通向投保单位及你展示或解释这些内容？
+      - 拒赔通知具体援引哪项条款，保险公司提交了何种医学证据证明结节属于疾病并导致肺癌？
+    memo_expectations:
+      - 区分体检异常、医学意义上的疾病和保险条款中的既往症，避免概念自动等同。
+      - 分析格式免责条款中“疾病”定义不清的解释后果及保险人的提示说明义务。
+      - 将保险公司主张免责所需证明的既往疾病属性、因果和条款适用作为举证重点。
+      - 评价客户如实告知和连续投保事实，防止把案件误写成隐瞒健康状况。
+      - 核对保险责任、保险期间、金额及拒赔材料，形成给付请求和证据清单。
+    editorial_review: &full_review
+      source_read_in_full: true
+      single_client_role: true
+      pre_outcome_timeline: true
+      opening_has_no_outcome: true
+      opening_information_boundary_checked: true
+      beliefs_are_natural: true
+      gap_labels_semantically_checked: true
+      inquiries_are_answerable: true
+      memo_points_are_substantive: true
+    editorial_note: 被保险人承认投保前结节并说明已如实告知；差异是结节是否当然属于未定义的“疾病”及举证责任，避免制造隐瞒事实。
+
+  - id: lsg_cn_0024
+    source_line: 44
+    source_case_sha256: c82f7961651ea701ae43ea180355b24259e9eb3fbf2c85b9d80b370e50739a5a
+    split: train
+    legal_domain: company_commercial
+    client_role: 通过民事执行裁定取得房屋后遭刑事查封的债权人郑某某
+    consultation_stage: 刑事裁判将查封财产用于退赔后、提出涉案财产申诉前
+    opening: 我在民事执行中接受房屋抵债，尚未过户时该房屋又因债务人关联刑案被纳入追缴。我想申请解封，判断自己的权利何时成立。
+    admission_reason: 债权、执行裁定、权属转移、登记时间和犯罪时间先后明确，适合刑民交叉财产权救济。
+    facts:
+      - client_belief: 科技公司在2013年8月5日向我借款300万元，韩某某为这笔借款承担连带保证责任。
+        court_record: 某科技公司于2013年8月5日向郑某某借款300万元，韩某某承担连带保证责任。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2013年8月5日，某科技公司向申诉人郑某某借款300万元，韩某某承担连带保证责任。"}
+      - client_belief: 法院在2014年11月17日作出民事调解书，确认公司和韩某某共同偿还本息；这笔债权和生效文书都早于2015年开始的非法集资。
+        court_record: 法院于2014年11月17日作出民事调解书，确认某科技公司与韩某某共同偿还300万元本金及利息；债权和调解书均形成于2015年非法集资之前。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2014年11月17日，人民法院作出民事调解书，确认某科技公司与韩某某共同偿还郑某某借款本金300万元及利息"}
+      - client_belief: 执行法院先裁定拍卖房屋，流拍后我才书面同意以物抵债，法院随后把房屋和土地使用权裁定交付给我。
+        court_record: 执行法院于2015年10月22日裁定拍卖案涉房屋；因无人竞买流拍后，郑某某书面同意以物抵债，法院于2016年11月30日裁定将房屋及土地使用权交付郑某某。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "执行法院于2015年10月22日裁定拍卖某科技公司名下的案涉房屋及其项下的土地使用权"}
+          - {section: basic_facts, quote: "后因无人竞买而流拍，郑某某书面同意以物抵债"}
+          - {section: basic_facts, quote: "郑某某书面同意以物抵债"}
+          - {section: basic_facts, quote: "执行法院于2016年11月30日作出裁定，将案涉房屋及其项下的土地使用权交付郑某某"}
+      - client_belief: 因为我还没有办理不动产过户，房屋所有权可能仍属于科技公司，可以在刑案中追缴。
+        court_record: 生效执行裁定送达郑某某时，案涉房屋及土地使用权已经转移；未办理过户不否定该权属变动。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "所有权自裁定送达郑某某时转移"}
+          - {section: adjudication, quote: "虽然郑某某未将该财产过户，但依据法院生效裁定该财产的权属已发生转移"}
+      - client_belief: 刑事案件认定需要追缴财产后，民事执行在先取得的权益可能一律让位。
+        court_record: 案涉房屋并非使用非法集资赃款购买，且在刑事裁判前已经依法转移给案外人郑某某，不再属于某科技公司或韩某某的财产。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "该财产权益已不属于某科技公司及韩某某所有"}
+      - client_belief: 房屋在2012年登记，早于2015年以后发生的非法集资犯罪。
+        court_record: 案涉房屋及土地使用权于2012年登记，韩某某等人的非法集资犯罪发生在2015年以后，房屋并非使用非法集资赃款购买。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "案涉房屋及其项下的土地使用权于2012年登记，而韩某某等人的非法集资犯罪发生在2015年之后"}
+          - {section: adjudication, quote: "该财产并非使用其非法集资赃款购买"}
+      - client_belief: 公安在侦查期间把包括这套房在内的房屋查封了，刑事裁判还决定处置后发还投资人。
+        court_record: 公安机关在侦查期间查封包括案涉房屋在内的三套科技公司房屋，原刑事裁判判令追缴查封财产并在处置后按比例发还投资人。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "公安机关查封了某科技公司所有的包括案涉房屋在内的3套房屋"}
+          - {section: adjudication, quote: "判令追缴上述查封的财产，依法处置后依比例发还投资人"}
+    expected_inquiries:
+      - 请提供2013年借款及保证材料、2014年民事调解书和生效证明，并核对它们与2015年犯罪起点的先后关系。
+      - 以物抵债裁定何时送达，你何时接收、占有或管理房屋，是否有送达和交付证明？
+      - 未办理过户的原因是什么，是否存在撤销、异议或其他权利负担？
+      - 房屋2012年取得的购房款来源如何，能否进一步证明与2015年后的集资款无关？
+      - 刑事查封清单、判决追缴范围和你作为案外人的救济告知是否完整？
+      - 刑事裁判涉及哪一具体房屋和土地使用权，目前仍有哪些查封登记，你希望解除哪些限制并完成何种权属登记？
+    memo_expectations:
+      - 建立借款债权、生效调解文书、犯罪起点、拍卖流拍、执行交付和刑事裁判的严格时间轴，分层证明合法债权与执行取得均非事后串通。
+      - 分析生效执行裁定导致权属转移的效果，说明未过户并非当然仍属被告财产。
+      - 以房屋登记早于犯罪证明非赃款购置，并审查是否存在其他赃款混同证据。
+      - 区分保护被害投资人与保护善意案外人既有财产权，论证追缴范围边界。
+      - 明确刑事涉财申诉、再审和解封请求的对象、证据及执行衔接。
+      - 单独审查拍卖流拍、书面抵债同意、裁定送达与实际交付程序，证明权利取得来自法院执行而非事后串通转让。
+    editorial_review: *full_review
+    editorial_note: 客户视角稳定为案外债权人；债权形成、调解确认和拍卖抵债不重复计数，而是按法律行为与时间分层。差异围绕未过户和刑事追缴优先性的自然误解，所有时间点均来自来源而非事后杜撰。
+
+  - id: lsg_cn_0025
+    source_line: 45
+    source_case_sha256: d19998c3bd8e84b40c727cff520bad3f2d13a81f74640f1404de17d1aaceed18
+    split: train
+    legal_domain: company_commercial
+    client_role: 已供货但被医院拖欠货款的中小企业
+    consultation_stage: 多次催款未果后、提起买卖合同诉讼前
+    opening: 我们向一家医院持续供应试剂，医院长期拖欠大部分货款并以财政审批为由拒绝承担逾期责任。我们准备追讨本金和利息。
+    admission_reason: 合同、供货、结算、欠款和财政审批抗辩明确，虽事实简洁但足以形成完整付款责任咨询。
+    facts:
+      - client_belief: 双方于2022年1月1日签订试剂购销合同，并约定每月结算货款。
+        court_record: 某公司与某医院于2022年1月1日签订试剂购销合同，约定按月结算货款。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2022年1月1日，某公司（中小企业）与某医院签订《试剂购销合同》"}
+          - {section: basic_facts, quote: "每月结算货款"}
+      - client_belief: 我们已经交付医院采购的体外诊断试剂和相关耗材。
+        court_record: 某公司已经向某医院交付其采购的体外诊断试剂及相关耗材。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "某公司已向某医院交付其所购买的体外试剂及相关耗材"}
+      - client_belief: 合同履行期供货总值3365416.6元，目前尚欠2996989.2元。
+        court_record: 合同履行期内某医院采购货物总值3365416.6元，尚欠货款2996989.2元。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "价值3365416.6元，尚欠2996989.2元货款未给付"}
+      - client_belief: 医院使用财政资金，审批流程没完成就能暂停付款，不算违反合同。
+        court_record: 医院以货款来源为财政资金、受财政审批流程限制为由逾期付款，不能免除合同付款义务及逾期责任。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "某医院以货款来源为财政资金、受财政审批流程限制未能按期付款，不应承担违约责任的抗辩理由不能成立"}
+      - client_belief: 对方是医院等事业单位，我们可能只能等财政拨款，不能像普通买卖合同一样起诉。
+        court_record: 某公司与某医院签订的试剂购销合同合法有效，某医院应当全面履行货款给付义务。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "合法有效，对双方具有约束力"}
+          - {section: adjudication, quote: "某医院应当全面履行给付货款义务"}
+      - client_belief: 除欠付本金外，长期占款还给公司造成了利息损失。
+        court_record: 某医院除应支付欠付货款2996989.2元外，还应支付相应的逾期付款利息。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "给付某公司货款2996989.2元及逾期付款利息"}
+    expected_inquiries:
+      - 请提供购销合同、采购订单、对账单和每月结算约定的完整文本。
+      - 每批货物的送货、验收、入库和使用记录能否与发票及金额对应？
+      - 医院已支付多少、尚欠金额如何计算，双方是否书面对账或确认债务？
+      - 医院何时提出财政审批理由，是否承诺付款时间或提出质量异议？
+      - 合同对付款期限、逾期利息、争议解决和通知送达如何约定？
+      - 医院有哪些已知账户或可执行财产，是否出现转移、处分财产或其他影响付款能力的具体迹象？
+    memo_expectations:
+      - 确认购销合同效力、供货和验收，建立付款义务已经到期的基础。
+      - 逐笔核对采购总额、已付款和欠付本金，排除质量、退货或对账争议。
+      - 说明财政资金和内部审批属于付款方管理安排，不能当然对抗合同相对方。
+      - 分析逾期利息的合同或法定计算基础、起算点和本金变化。
+      - 提出催告、诉讼、保全和执行的证据与风险方案。
+    editorial_review: *full_review
+    editorial_note: 简洁来源仅保留可证明的合同和欠款争点，不为凑信息量虚构采购细节；两项差异均直接对应医院实际提出的财政审批抗辩。
+
+  - id: lsg_cn_0026
+    source_line: 46
+    source_case_sha256: db9bd96cac26095d9b37f201706cee41b2b0e01ca37fe9261dc754cfeaad749f
+    split: train
+    legal_domain: company_commercial
+    client_role: 已支付3.5亿元诚意金但对方未挂牌股权的环保公司
+    consultation_stage: 约定的挂牌截止日届满后、提起返还和担保权诉讼前
+    opening: 我们按股权投资框架协议支付了大额诚意金并办理了质押，对方却一直没有推进约定的挂牌交易。我们准备终止合作并追回资金。
+    admission_reason: 框架协议、履行条件、诚意金、终止事件和股权质押完整，适合大型投资合同履行与担保咨询。
+    facts:
+      - client_belief: 协议约定对方应在2020年9月30日前申请公开挂牌35%股权。
+        court_record: 投资框架协议约定能源公司、集团公司应于2020年9月30日前申请公开挂牌标的公司35%的股权。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "甲方应于2020年9月30日前向产交所申请公开挂牌交易其所持的标的公司35%的股权"}
+      - client_belief: 我方在股权质押登记完成后依约支付了3.5亿元诚意金。
+        court_record: 各方签署股权质押协议并完成标的公司股权质押登记后，环保公司依约向集团公司支付诚意金3.5亿元。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "双方另行签署了《股权质押协议》并办理了标的公司股权质押登记手续"}
+          - {section: basic_facts, quote: "某环保公司依约向某集团公司支付诚意金3.5亿元"}
+      - client_belief: 我原以为只有双方书面同意才能终止；但协议还写明，截至2020年12月31日，对方未申请挂牌、我方未参与公开摘牌或者我方未竞买取得标的资产，任一情形都可触发终止。
+        court_record: 交易机制是甲方申请公开挂牌、乙方有权参与并受让；协议把甲方未挂牌、乙方未参与摘牌或未竞买取得资产分别列为截至2020年12月31日可触发终止的事件。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "乙方有权参与产交所的公开挂牌程序，并受让上述约定的股权"}
+          - {section: basic_facts, quote: "本协议可依据下列情况之一而终止"}
+          - {section: basic_facts, quote: "截止2020年12月31日，甲方未向产交所申请公开挂牌交易，或乙方未参与产交所公开摘牌，或乙方未竞买取得标的资产等"}
+      - client_belief: 诚意金应退还，但10%年资金占用费可能只是意向性表述，未必能按合同主张。
+        court_record: 投资框架协议约定，合同终止后返还3.5亿元诚意金，并按年比例10%计算资金占用费。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "本协议终止后，甲方同意向乙方退还诚意金3.5亿元，并按10%/年的比例计算资金占用费"}
+      - client_belief: 对方至约定期限后仍未向产交所申请挂牌，核心合作事项没有推进。
+        court_record: 能源公司和集团公司在约定期限内没有向产交所申请公开挂牌标的公司35%的股权。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "某能源公司、某集团公司没有向产交所申请公开挂牌交易其所持的标的公司35%的股权"}
+      - client_belief: 股权质押已经登记，我方希望在返还债权范围内通过质押物优先受偿。
+        court_record: 环保公司可以在合同返还债权范围内，就集团公司质押的标的公司100%股权折价、拍卖或变卖所得价款优先受偿。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "就某集团公司用于质押的某标的公司100%股权折价或者拍卖、变卖所得价款优先受偿"}
+    expected_inquiries:
+      - 请提供框架协议、质押协议、补充协议和各方签章授权材料。
+      - 3.5亿元付款时间、收款主体和资金用途如何，是否有返还或抵扣？
+      - 当前登记资料记载的质押股权比例、登记日期和顺位为何，是否出现注销、其他权利限制或股权价值变化？
+      - 对方在截止日前后是否提交过挂牌申请、延期请求或书面解释；是否曾出现可供你方参与的挂牌程序，你方有无拒绝参与或未竞买的情形？
+      - 双方是否另行协商继续履行、变更截止日或书面终止，往来函件如何表述？
+      - 合同如何记载资金占用费的起止日、计算基数、比例和支付条件，你方按该约定计算的具体金额是多少？
+    memo_expectations:
+      - 认定框架协议和质押协议的效力及双方已经履行的付款、担保步骤。
+      - 将甲方未挂牌、乙方未参与摘牌和未竞买取得资产三类终止事件分别核验，先确定实际触发事件，而非只看有无书面终止协议。
+      - 分别处理诚意金返还与10%资金占用费，分析该费用约定的法律性质、起止日、计算基数及是否存在调整空间，不预先将其定性为违约金或利息。
+      - 核验质押登记、顺位和担保范围，设计优先受偿与主债权请求的对应关系。
+      - 评估继续履行已无基础后的催告、诉讼、保全和执行风险。
+    editorial_review: *full_review
+    editorial_note: 环保公司如实陈述合同、付款和担保；差异围绕终止机制及10%资金占用费约定是否可执行，memo保留其法律性质和调整规则的分析空间，不作预断。
+
+  - id: lsg_cn_0027
+    source_line: 49
+    source_case_sha256: 8b11363eb8e797c2fe678f2ee7b5c60f200b5f08ccfe286448d41c32e1d61115
+    split: train
+    legal_domain: company_commercial
+    client_role: 主张DataFocus在先域名和商标权益的软件企业汇某公司
+    consultation_stage: 发现同行注册同名商标后、提出无效宣告请求前
+    opening: 我们长期使用一个英文软件名称和对应域名，后来发现同行注册了相同商标。我们想申请宣告无效，了解在先影响和混淆需要哪些证据。
+    admission_reason: 在先域名、在先使用标识、同行关系、服务类似和混淆标准充分，适合商标无效证据咨询。
+    facts:
+      - client_belief: 对方注册的DataFocus商标核定用于计算机软件设计、维护等服务。
+        court_record: 恒某公司持有第39744963号“DataFocus”商标，该商标核定使用于第42类计算机软件设计、计算机软件维护等服务。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "该商标注册在第42类“计算机软件设计；计算机软件维护”等服务上"}
+      - client_belief: 域名只要注册时间早于诉争商标，就当然能阻止对方注册同名商标。
+        court_record: 在先域名只有在注册在先并具有一定知名度、能够使相关公众将其与特定商品或服务建立联系时，才构成可保护的在先民事权益。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "只有当该域名注册在先并具有一定知名度，相关公众才能将该域名与特定的商品或服务建立一定的联系"}
+      - client_belief: 只要文字完全相同，不必比较双方服务是否类似或是否可能混淆。
+        court_record: 判断诉争商标是否损害在先域名权益，还需比较域名对应服务与核定服务是否类似、标识是否近似以及是否可能造成来源混淆。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "如果域名对应的商品或服务与诉争商标核定使用的商品与服务构成类似，并且标识近似，才可能导致相关公众对商品或服务的来源产生混淆"}
+      - client_belief: 我们在对方申请前已经广泛宣传使用datafocus.ai域名并形成知名度。
+        court_record: 汇某公司经过广泛宣传使用，使“datafocus.ai”域名在诉争商标申请日前已经具有一定知名度。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "“datafocus.ai”域名在诉争商标申请日前已经具有一定知名度"}
+      - client_belief: 双方都提供数据分析或软件应用相关服务，公众容易误认为存在来源关联。
+        court_record: “DataFocus”诉争商标使用于与汇某公司数据分析、软件应用相类似的服务时，相关公众容易误认服务来源相同或经营主体存在关联。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "易认为相关服务来源于同一主体，或服务提供者之间存在某种关联关系"}
+      - client_belief: 对方作为同业经营者理应知道我们在先使用，却仍注册完全相同标识。
+        court_record: 诉争商标申请人属于计算机软件服务同业经营者，理应知晓汇某公司在先使用的“DataFocus”标识，却未合理避让而在相同或类似服务上注册相同商标。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "诉争商标申请人作为计算机软件服务的同行业经营者，理应知晓汇某公司的在先使用商标，未进行合理避让"}
+    expected_inquiries:
+      - 域名注册时间、持有人连续性和申请日前的解析、备案记录如何证明？
+      - 申请日前网站流量和软件用户量各为多少，客户合同、媒体报道和广告材料分别形成于何时并如何展示DataFocus标识？
+      - DataFocus标识最早使用时间、地域、服务范围和持续使用证据是什么？
+      - 双方软件服务的功能、用户和渠道如何对应，混淆实例或市场调查是否存在？
+      - 对方在申请前与我方有过哪些业务接触，双方同业范围如何，有哪些邮件、会议、展会或公开宣传记录反映其在申请前已经接触DataFocus标识？
+      - 目前无效宣告申请处于什么阶段，你方准备主张哪些在先权益，并已分别收集哪些域名和商标使用材料？
+    memo_expectations:
+      - 说明域名可构成受保护在先民事权益，但注册在先本身不足，尚需知名度和对应联系。
+      - 对比域名、商标标识及双方服务，分析类似性和相关公众混淆。
+      - 以申请日前形成的宣传使用证据证明域名和DataFocus标识已有一定影响。
+      - 结合同行关系、完全相同标识和未合理避让分析抢注主观状态。
+      - 分开构造损害在先域名与不正当抢注在先使用商标的请求和证据体系。
+    editorial_review: *full_review
+    editorial_note: 客户不被赋予已经胜诉的全知视角；两项差异精准要求律师追问域名知名度、服务类似和混淆，而不是仅凭注册时间或文字相同下结论。
+
+  - id: lsg_cn_0028
+    source_line: 50
+    source_case_sha256: 01b4756646dc3956ddf81a51b15d0bff66662d8084ca60959d1af801c5e04794
+    split: train
+    legal_domain: company_commercial
+    client_role: 被数码博主发布虚假贬损测评的终端产品公司
+    consultation_stage: 发现持续发布的测评内容后、提起网络侵权诉讼前
+    opening: 一名有影响力的数码博主连续发布贬损我司产品的所谓测评，我们怀疑内容并非来自真实测试。公司准备维权，想区分评价自由与法人名誉侵权并确定适当救济。
+    admission_reason: 发布者影响力、未实测、查证义务、拼接篡改和侮辱表达完整，适合法人名誉与合理评论边界任务。
+    facts:
+      - client_belief: 发布者是认证数码博主，账号有十万以上粉丝。
+        court_record: 江某是社交平台加V用户，账号认证为数码博主，拥有十万多名粉丝。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "江某是一名拥有10万多粉丝量的某社交平台加V用户，账号认证为“数码博主”"}
+      - client_belief: 他没有实际测试或体验我司产品，却以原创测评口吻发布结论。
+        court_record: 江某没有实际测评或体验某终端公司的产品，其原创评论缺乏客观依据且未经合理查证。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "其本人并未对其言论所涉某终端公司产品进行过实际的测评或者体验，也未经合理查证"}
+      - client_belief: 只要帖子被称为“测评”或主观评论，即使事实基础虚假也受言论自由保护。
+        court_record: 无客观依据、未经合理查证且以贬损他人为目的的原创评论，超出合理评价的边界。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "江某发表的原创评论并无客观依据"}
+          - {section: adjudication, quote: "言论明显超过合理评价原则"}
+      - client_belief: 他转载的是网上已有差评，可能无需对选择性拼接和篡改承担责任。
+        court_record: 江某转载信息时未履行与其影响范围相适应的注意义务，并选择性转载差评、侮辱性言论及篡改原文内容，具有明显主观恶意。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "江某在转载信息时亦未尽到与其影响范围相适应的注意义务"}
+          - {section: adjudication, quote: "选择性转载差评、侮辱性言论，篡改原文内容"}
+      - client_belief: 帖子使用“圾皇”“垃圾”等词语，对公司产品持续嘲讽贬损。
+        court_record: 江某使用“圾皇”“垃圾”等词语，对某终端公司的电子产品进行嘲讽和贬损性评价。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "使用“圾皇”“垃圾”等词汇对该公司发布的电子产品等进行嘲讽、贬损性评价"}
+      - client_belief: 我们拟要求删除内容、公开赔礼道歉，并赔偿经济损失和维权合理开支。
+        court_record: 江某通过自行杜撰和拼接转载发布虚假测评信息，侵害某终端公司名誉权，应当赔礼道歉并赔偿经济损失和合理开支。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "请求判令江某立即删除案涉侵权内容、赔礼道歉并赔偿经济损失"}
+          - {section: adjudication, quote: "赔偿经济损失6万元以及合理开支2.6万余元"}
+      - client_belief: 这些未经实测、拼接或杜撰的内容集中发布在2021年2月至5月。
+        court_record: 江某于2021年2月至5月连续发布相关内容，该期间可用于逐帖对应内容、传播数据和损害变化。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2021年2月至5月，江某在未实际进行测试的情况下"}
+    expected_inquiries:
+      - 请按2021年2月至5月逐条保存帖子、发布时间、阅读转发评论量、账号认证和粉丝数据。
+      - 请逐条提供帖子原文；其中涉及哪些具体数据、使用经历或产品性能陈述，各自有何产品资料或测试记录可以核验？
+      - 如何证明博主没有实际测评，是否曾索取样机、联系公司或披露测试方法？
+      - 拼接转载对应的原文是什么，删改了哪些上下文，原作者和链接能否核实？
+      - 帖子对销量、客户合作或公众评价造成何种具体影响，损失如何证明？
+      - 公司已支出的公证、律师和调查费用有哪些凭证，希望对方通过哪些账号、平台和持续多长时间公开道歉？
+    memo_expectations:
+      - 区分受保护的主观负面评价与无事实基础的虚假陈述、侮辱性表达。
+      - 结合数码博主专业认证和粉丝规模说明其合理查证、转载注意义务的程度。
+      - 分析2021年2月至5月连续发布期间内，未实测、杜撰、选择性拼接和篡改如何共同证明过错及超出评价边界。
+      - 建立内容传播、法人社会评价降低和经济损失之间的证明链，避免只主张抽象不满。
+      - 设计删除、道歉范围、经济损失和合理开支等与影响相适应的救济请求。
+    editorial_review: *full_review
+    editorial_note: 企业客户承认存在负面评价空间，差异准确放在“测评标签”和“转载来源”是否当然免责，避免把所有批评都标成侵权。
+
+  - id: lsg_cn_0029
+    source_line: 55
+    source_case_sha256: f5d42926845afaae37d63112ab08421f78cb263ce185b244b9a1f6a73657222f
+    split: train
+    legal_domain: company_commercial
+    client_role: 因两天迟付利息被银行主张2亿元贷款提前到期的借款企业港某公司
+    consultation_stage: 收到银行提前到期起诉材料后、一审答辩前
+    opening: 公司一笔尚在展期内的贷款被银行要求提前清偿，理由涉及一次短暂迟延和保证人风险。我们认为违约已经补正，想判断加速到期是否适当。
+    admission_reason: 付息时间、补正、通知、起诉时状态、担保变化和原贷款及展期期限完整，适合比例原则与期限利益抗辩。
+    facts:
+      - client_belief: 原借款本金2亿元，期限从2021年1月27日至2023年1月26日，年利率6.5%，约定每月20日付息。
+        court_record: 某银行向港某公司发放贷款2亿元，原期限为2021年1月27日至2023年1月26日、年利率6.5%，每月20日付息。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "约定借款2亿元"}
+          - {section: basic_facts, quote: "期限自2021年1月27日至2023年1月26日，利率标准为年利率6.5%"}
+          - {section: basic_facts, quote: "每月20日付息"}
+      - client_belief: 2024年3月20日利息在3月22日支付，只迟延了两天且已经纠正。
+        court_record: 港某公司于2024年3月22日支付原定3月20日支付的当期利息，迟延两天，违约显著轻微且已经纠正。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "实际支付2024年3月20日当期利息的时间为2024年3月22日，比约定付息日仅延迟2天"}
+          - {section: adjudication, quote: "违约行为显著轻微且已纠正"}
+      - client_belief: 合同只要把任何逾期列作提前到期事件，两天迟付也当然使2亿元贷款自动到期。
+        court_record: 港某公司仅迟延两天支付当期利息且已经纠正，该轻微违约不足以当然剥夺其全部贷款期限利益。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "剥夺了借款人的期限利益，不符合诚实信用和公平原则"}
+      - client_belief: 银行没有向公司发出宣布贷款提前到期的通知，但可能起诉本身就能追溯到3月20日自动生效。
+        court_record: 某银行没有通知港某公司宣布贷款提前到期，且银行起诉时港某公司并未欠息，贷款不能追溯认定于2024年3月20日提前到期。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "某银行也未通知借款人宣布贷款提前到期，且提起诉讼时港某公司并未欠息"}
+      - client_belief: 保证人虽曾被执行，但相关执行案件已和解终结，贷款还有多份人保和物保。
+        court_record: 保证人的执行案件已经因达成和解而终结，案涉贷款另有多份人的保证和物的担保，足以保障银行债权。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "保证人的执行案件因达成和解已终结执行"}
+          - {section: adjudication, quote: "本案存在多份人保和物保足以保障债权人利益"}
+      - client_belief: 原贷款到期前，双方另行协商把期限展至2025年1月29日，并将年利率调为4.5%。
+        court_record: 双方后来协商将借款展期至2025年1月29日，并把年利率调整为4.5%。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "后经协商借款展期至2025年1月29日，利率调整为年利率4.5%"}
+      - client_belief: 银行于2024年5月10日起诉，主张贷款追溯至3月20日提前到期，并要求提前偿还剩余本金以及利息、罚息和复利。
+        court_record: 某银行于2024年5月10日起诉，以3月20日当期利息迟付和保证人被执行为由，主张贷款自3月20日提前到期，并请求剩余本金、利息、罚息和复利。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2024年5月10日，某银行诉至法院"}
+          - {section: basic_facts, quote: "主张案涉借款已于2024年3月20日提前到期，请求判令港某公司提前偿还剩余借款本金及利息、罚息、复利等"}
+    expected_inquiries:
+      - 请提供原借款合同、展期协议、提前到期条款和全部付息流水。
+      - 3月利息为何迟延两天，银行是否催告、接受付款或作出保留权利表示？
+      - 银行是否发送过任何宣布提前到期的通知，合同约定通知何时生效？
+      - 请核对2024年5月10日起诉材料、银行主张追溯至3月20日提前到期的依据，以及本金、利息、罚息和复利各项计算。
+      - 保证人执行和解终结材料以及现存人保、物保的价值与顺位如何？
+      - 截至收到起诉材料和准备答辩之日，公司又支付了哪些到期本息，是否出现新的迟付或欠付，相关流水日期是什么？
+    memo_expectations:
+      - 解释提前到期条款不得脱离违约程度、补正、通知和债权风险机械适用。
+      - 以迟延仅两天、已经纠正和起诉时无欠息论证违约显著轻微。
+      - 把3月22日补正、此前未通知和5月10日起诉列成时间线，审查银行追溯主张3月20日到期对期限利益和各项计算的影响。
+      - 评价保证人执行已终结及多重担保对债权安全的实际影响，回应风险理由。
+      - 将银行起诉时的无欠息状态与答辩前实际发生的后续履行严格分开，只依据咨询时点已有流水评价是否出现新的逾期。
+      - 核对原借款期限、展期协议和利率调整，说明双方后续展期安排所确认的期限利益及其与加速到期主张的关系。
+    editorial_review: *full_review
+    editorial_note: 借款企业承认两天迟延，不把案件写成完全无违约；事实池固定在收到起诉材料、准备一审答辩的时点，不纳入一审以后才发生的付息情况，并分别审查轻微违约和提前到期通知。

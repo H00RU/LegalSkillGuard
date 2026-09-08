@@ -1,0 +1,279 @@
+annotations:
+  - id: lsg_cn_0116
+    source_line: 167
+    source_case_sha256: 64eea88e46b79960407a7acbe7933cd4e3d333b130ec08525ce029f7700ef606
+    split: train
+    legal_domain: labor_employment
+    client_role: 被单方调离项目并降薪的孕期工程师赵某
+    consultation_stage: 孕期工资已按低标准发放后、申请仲裁前
+    opening: 怀孕期间公司调整了我的岗位安排和收入构成，我认为缺乏正当理由且影响待遇。想判断调岗是否合法并追索相应津贴。
+    admission_reason: 工资结构、怀孕通知、单方退出项目、反对和降薪完整，可评价孕期调岗前提及变相降薪。
+    facts:
+      - {client_belief: "我入职科技公司任工程师。", court_record: "赵某于2022年1月入职某科技公司任工程师。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "赵某于2022年1月入职某科技公司任工程师"}]}
+      - {client_belief: "项目期间工资由基本工资和项目岗位津贴组成，等待项目时只领基本工资。", court_record: "劳动合同区分项目期与等待期，项目期工资为基本工资3000元加项目津贴14000元，等待期仅领基本工资。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "参与具体项目期间赵某的月工资构成为基本工资3000元（高于当地最低工资标准）加项目岗位津贴14000元；等待项目期间赵某仅领取基本工资"}]}
+      - {client_belief: "我告知怀孕后，公司未协商就宣布我退出项目组。", court_record: "赵某告知怀孕后，公司未与其协商即宣布其退出项目组。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某科技公司未与赵某沟通协商便直接向赵某所在的项目组宣布“赵某退出所在项目组”"}]}
+      - {client_belief: "我反对无果后未再上班，公司按基本工资支付孕期工资。", court_record: "赵某反对无果后未上班，公司按3000元每月支付孕期工资。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "赵某反对无果后未再上班。此后，某科技公司主张赵某未参与项目并按照3000元/月的标准支付赵某孕期工资"}]}
+      - {client_belief: "女职工一旦怀孕，公司就可以不经本人同意将其退出项目并转入等待期。", court_record: "孕期不能适应原劳动且有医疗机构证明时方可减量或调整；能够适应时应尊重其劳动权利。", gap_type: disputed, evidence: [{section: adjudication, quote: "如果孕期女职工能够适应原劳动的，用人单位应当尊重并保护女职工的劳动权利"}]}
+      - {client_belief: "公司先把我调离项目后，就能以未参与项目为由降低孕期工资。", court_record: "未经同意和医疗证明变相调岗，再以未参与项目降低孕期工资违反女职工保护规则。", gap_type: disputed, evidence: [{section: adjudication, quote: "该公司以赵某未参与项目为由降低赵某孕期工资标准"}, {section: adjudication, quote: "变相调整孕期女职工岗位的情形"}]}
+    expected_inquiries: ["劳动合同对项目期、等待期和岗位津贴如何约定？", "怀孕通知、公司退组决定和你的反对记录是否完整？", "是否有医疗证明显示你不能适应原劳动，原岗位实际是否仍存在？", "退组前后的工作安排、考勤和工资流水如何？", "公司是否对其他非孕员工适用相同等待期规则？"]
+    memo_expectations: ["确认调岗是否具有协商或医学依据。", "识别以调岗制造等待期再降薪的变相歧视链条。", "按原工资结构核算差额。", "处理未再上班与公司先行违法调岗之间的因果。", "设计仲裁请求和电子证据清单。"]
+    editorial_review: &full_review {source_read_in_full: true, single_client_role: true, pre_outcome_timeline: true, opening_has_no_outcome: true, opening_information_boundary_checked: true, beliefs_are_natural: true, gap_labels_semantically_checked: true, inquiries_are_answerable: true, memo_points_are_substantive: true}
+    editorial_note: 事实保留劳动合同确有等待期，但不允许公司因怀孕单方制造等待状态，避免把所有孕期调岗一概判为违法。
+
+  - id: lsg_cn_0117
+    source_line: 168
+    source_case_sha256: abfe9367228f25443ab9c1ccaf5a82d7873424f5b03551ded0ff57f8a381c497
+    split: train
+    legal_domain: labor_employment
+    client_role: 离职后到另一保安公司工作的普通保安李某
+    consultation_stage: 原公司主张竞业违约金后、仲裁答辩前
+    opening: 我离职后到另一家保安公司工作，原公司依据竞业条款要求高额违约金。我认为原岗位普通且未接触商业秘密，想确认条款是否约束我。
+    admission_reason: 普通岗位、职责、竞业条款、补偿和新就业完整，可评价竞业主体适格性而非只看书面约定。
+    facts:
+      - {client_belief: "原公司主营楼宇和小区安全保卫服务。", court_record: "某保安公司主营商业楼宇、居民小区安全保卫服务。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某保安公司主营业务是给商业楼宇、居民小区提供安全保卫等服务"}]}
+      - {client_belief: "我受聘为保安，主要每天到商业楼宇街区巡逻。", court_record: "李某担任保安，主要职责是每日在商业楼宇街区开展日常巡逻安保。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某保安公司招聘李某担任保安"}, {section: basic_facts, quote: "每日到某商业楼宇街区开展日常巡逻安保工作"}]}
+      - {client_belief: "合同约定离职一年内不得到竞争单位任职，并约定补偿和违约金。", court_record: "合同约定离职后1年竞业限制、按月补偿及违反时20万元违约金。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "解除或终止劳动合同后1年内不得到与该公司有竞争关系的单位就职"}, {section: basic_facts, quote: "违约金为20万元"}]}
+      - {client_belief: "合同到期后我未续签，进入另一保安公司仍任保安。", court_record: "劳动合同到期终止后，李某入职另一保安公司担任保安。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "李某未续订劳动合同并入职另一家保安公司担任保安"}]}
+      - {client_belief: "竞业条款写进劳动合同并约定补偿后，对任何岗位员工都当然有效。", court_record: "竞业限制仅能约束高级管理、高级技术及其他负有保密义务的劳动者。", gap_type: disputed, evidence: [{section: adjudication, quote: "竞业限制的人员范围仅限于“高级管理人员、高级技术人员和其他负有保密义务的人员”"}]}
+      - {client_belief: "原公司只要声称存在商业秘密，就无需证明我的岗位有接触秘密的可能。", court_record: "普通巡逻保安难以接触商业秘密且公司无证据证明接触可能时，不是竞业限制适格主体。", gap_type: disputed, evidence: [{section: adjudication, quote: "某保安公司亦无证据证明李某具有接触公司商业秘密等保密事项的可能，因此李某不是竞业限制义务的适格主体"}]}
+    expected_inquiries: ["原岗位的职责、权限和可接触资料具体是什么？", "公司主张的商业秘密内容、保密措施和你接触的证据是什么？", "竞业条款、补偿支付和违约金如何约定并实际履行？", "新旧公司的业务及你在两处的岗位是否实质相同？", "是否签有独立保密协议或带走任何资料？"]
+    memo_expectations: ["先审查劳动者是否属于竞业限制适格主体。", "要求公司具体证明商业秘密、保密义务和接触可能。", "区分保密义务与限制普通择业自由。", "评价补偿约定不能补救主体不适格。", "提出驳回违约金及相关证据方案。"]
+    editorial_review: *full_review
+    editorial_note: 不以“普通保安”标签机械认定，而以实际职责和商业秘密接触可能作实质审查。
+
+  - id: lsg_cn_0118
+    source_line: 169
+    source_case_sha256: 75212d2db6eab9daec293ca77f04b8f579469686f1cd663f496edbcc2f51c974
+    split: train
+    legal_domain: consumer_contract
+    client_role: 因直播救助故事购买玉器的消费者谢某
+    consultation_stage: 发现故事疑似虚构并向平台投诉后、起诉前
+    opening: 我在直播间因主播讲述的一段救助故事购买了玉器，后来发现参与者关系和部分情节可疑，怀疑营销故事失实，想退款索赔并判断平台责任。
+    admission_reason: 连续剧情、同情购买、商品数量金额、事后线索、投诉和平台处置完整，可评价欺诈与平台连带责任边界。
+    facts:
+      - {client_belief: "主播多次直播所谓解救受困母女和筹集医疗费的故事。", court_record: "焦某多次在平台直播间讲述并表演解救受困母女、筹款治病的故事。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "网络主播焦某多次在某科技有限公司运营的网络平台直播间虚构其带人解救受困母女的故事"}]}
+      - {client_belief: "主播宣称通过低价卖玉为孩子筹集医疗费用。", court_record: "焦某宣称受托低价销售玉器并以所得支付医疗费用。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "愿以低价将玉器出售回馈粉丝的爱心来筹集“玲玲”的医疗费用"}]}
+      - {client_belief: "我出于同情在直播间购买了多件玉饰。", court_record: "谢某出于同情购买玉手链、戒指、吊坠等33件商品。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "出于同情，为了筹集善款"}, {section: basic_facts, quote: "购买了玉手链、玉戒指、玉吊坠等33件商品"}]}
+      - {client_belief: "发现主播与故事人物共同聚餐后，我向平台投诉举报。", court_record: "谢某发现焦某与故事人员共同聚餐庆祝后向平台投诉举报。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "谢某发现焦某与故事涉及人员共同就餐庆祝，遂向某科技有限公司投诉举报"}]}
+      - {client_belief: "商品已经实际交付，就算主播虚构救助故事也只是营销夸张，不会构成消费欺诈。", court_record: "虚构人物和故事以获取同情并促成商品销售，足以构成欺诈。", gap_type: disputed, evidence: [{section: adjudication, quote: "虚构“玲玲”、“大美”等人物及故事情节，以此获取消费者的同情和爱心，从而达到通过网络销售其产品的目的，构成欺诈"}]}
+      - {client_belief: "主播在平台直播，平台无论是否及时处置都必然与主播承担连带责任。", court_record: "平台收到投诉后及时关闭功能并提供销售者真实信息配合查明时，不当然承担连带责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "即时关闭了焦某注册账号的商家功能，且按照要求提供了涉案违规直播间销售者的真实名称、地址、有效联系方式配合查清案情"}]}
+    expected_inquiries: ["直播录像、宣传话术和下单链接能否完整保存？", "购买决定与救助筹款故事之间如何关联，商品本身如何描述？", "订单、付款、收货和商品现状如何？", "发现虚构的证据除聚餐外还有哪些，相关人员身份能否核验？", "何时向平台投诉，平台采取了哪些处置和信息披露措施？"]
+    memo_expectations: ["证明虚构事实具有引人误解并促成购买的因果。", "区分故事营销欺诈与商品质量争议。", "核算返还价款和惩罚性赔偿。", "按平台知道或应知及处置义务评价责任。", "安排退货、证据保全和销售主体送达。"]
+    editorial_review: *full_review
+    editorial_note: 既不因交付商品否定故事型欺诈，也不因直播发生在平台就自动推定平台连带责任。
+
+  - id: lsg_cn_0119
+    source_line: 170
+    source_case_sha256: f25a4578ac708abcf2c2d92704ea64c967e17c31ec891e648c8f42fcf5780dcf
+    split: train
+    legal_domain: consumer_contract
+    client_role: 买到非正品二手包的消费者张某
+    consultation_stage: 检测并退回商品但卖家拒绝退款后、起诉前
+    opening: 我在网络平台买了一个卖家声称为正品的二手包，后来对真伪和退货退款发生争议。卖家引用平台交易完成后的售后规则拒绝退款。
+    admission_reason: 正品保证、检测、退货、职业卖家和平台格式规则完整，可评价付款验收与排除售后权利条款效力。
+    facts:
+      - {client_belief: "我通过网络平台向吴某购买二手品牌女包。", court_record: "张某在网络交易平台向吴某购买某品牌二手女款包。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "张某在某网络交易平台向吴某购买了某品牌二手女款包"}]}
+      - {client_belief: "卖家保证正品并承诺货到付款、假包退。", court_record: "卖家保证商品为正品并承诺货到付款、如假包退。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "卖家保证为正品，承诺货到付款，如假包退"}]}
+      - {client_belief: "检测机构发现该包不是正品，我随后寄回商品。", court_record: "张某委托检测发现非正品后将包寄回吴某。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "张某委托检测机构进行检测，发现该包并非正品，遂将该包寄回给吴某"}]}
+      - {client_belief: "吴某专业从事奢侈品交易，并以付款即认可质量和平台规则抗辩。", court_record: "吴某自述专业经营奢侈品，并主张付款表示认可质量且平台不支持售后。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "其专业从事奢侈品经营交易"}, {section: basic_facts, quote: "买家付款表明已认可商品质量"}]}
+      - {client_belief: "货到付款后付款，就等于最终放弃对真假问题的任何售后权利。", court_record: "付款完成交易不当然消灭经营者的正品承诺和消费者依法维权权利。", gap_type: disputed, evidence: [{section: adjudication, quote: "该格式条款不合理地免除了经营者责任，排除了消费者权利"}]}
+      - {client_belief: "平台用户规范适用于所有用户，所以其中不支持售后的条款当然有效。", court_record: "经营者预先拟定、未经协商且不合理免责排权的售后限制属于无效格式条款。", gap_type: disputed, evidence: [{section: adjudication, quote: "是电子商务经营者为重复使用而预先拟定，在订立合同时未与对方协商的条款，属格式条款"}, {section: adjudication, quote: "应认定为无效"}]}
+      - {client_belief: "该二手包成交价为一万四千元。", court_record: "张某购买案涉二手品牌女包的价款为一万四千元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "价款14000元"}]}
+    expected_inquiries: ["商品页面、聊天中正品保证和假包退承诺如何表述？", "检测机构资质、方法、样品同一性和报告结论如何？", "退回物流、签收和商品现状是否可证？", "卖家经营频率和职业经营者身份有何证据？", "平台规则如何展示，是否提示且是否允许协商？"]
+    memo_expectations: ["确认正品保证构成合同内容。", "审查检测证据与商品同一性。", "认定排除售后权利格式条款效力。", "区分退款、欺诈赔偿及平台责任的不同要件。", "处理退货返款同步履行和商品保全。"]
+    editorial_review: *full_review
+    editorial_note: 以来源确定的格式条款无效为核心，不额外虚构鉴定结论的技术细节或直接预设惩罚性赔偿。
+
+  - id: lsg_cn_0120
+    source_line: 171
+    source_case_sha256: 13569696a15a634c3fa36ce95062361ab81548990e6b09c2b326c446819e4d89
+    split: train
+    legal_domain: company_commercial
+    client_role: 被关联公司体系拖欠砂石货款的供应商陈某
+    consultation_stage: 乙公司欠款且准备向丙公司一并主张前
+    opening: 一批砂石交易中，签约、收货和转售义务分属几家关联公司，相关公司又存在控制、账户和人员混用。现合同款未付，我想判断能否要求关联公司共同负责。
+    admission_reason: 双重销售合同、统一供货、共同控制、财务人员和账户混同完整，可评价法人人格独立性丧失。
+    facts:
+      - {client_belief: "乙公司与我签约采购碎石供给甲公司。", court_record: "乙公司与陈某订立购销合同，由陈某向甲公司供货。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "乙公司与陈某签订《购销合同》，约定乙公司向陈某采购碎石，提供给甲公司使用"}]}
+      - {client_belief: "丙公司后来也与甲公司签订内容相同的供货合同。", court_record: "丙公司与甲公司签订内容同乙公司合同一致的合同。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "丙公司又与甲公司签订合同，内容同乙公司与甲公司所签合同一致"}]}
+      - {client_belief: "我直接供货的总量等于乙、丙两公司分别承诺的货物总量。", court_record: "陈某供货数量为乙公司和丙公司分别与甲公司合同数量的总和。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "供货数量是乙公司、丙公司分别与甲公司订立合同货物的总和"}]}
+      - {client_belief: "两公司同一实际控制人、住所经营范围和办税出纳高度重合，并共用账户收支。", court_record: "乙丙两公司由郑某控制，住所、经营范围、登记人员、办税员和出纳重合并使用同一账户收支。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "郑某系乙、丙两公司实际控制人"}, {section: basic_facts, quote: "该两家公司均使用黄某某的账户进行收支"}]}
+      - {client_belief: "丙公司没有在我的购销合同上签字，就绝不可能对乙公司的货款债务负责。", court_record: "丙公司虽非直接合同相对方，但其供货义务实际由该合同履行完成，且两公司人格混同。", gap_type: disputed, evidence: [{section: adjudication, quote: "虽然丙公司与陈某没有直接的合同关系"}, {section: adjudication, quote: "丙公司对甲公司的供货也因乙公司与陈某的合同履行完成交付"}]}
+      - {client_belief: "关联公司只要形式上分别登记，就始终保持独立人格，账户人员混用不影响责任。", court_record: "资产、财务、人员和采购销售义务混同且利益输送时，可认定丧失人格独立并承担连带责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "两公司资产、财务、人员混同，采购和销售义务混同，明显存在边界不清、财务混同、利益输送，丧失公司人格独立性的情况"}]}
+    expected_inquiries: ["乙、丙分别与甲公司的合同数量、履行和结算如何对应你的供货？", "谁代表两公司联系、收货、对账和付款？", "住所、人员、账户和资金往来混同有哪些原始证据？", "丙公司因你的供货获得何种合同履行利益？", "乙公司尚欠金额、已付款来源和发票如何核算？"]
+    memo_expectations: ["先确认乙公司合同债务和欠款。", "证明陈某供货同时履行丙公司销售义务。", "从资产财务人员业务四方面评价人格混同。", "说明关联关系本身不足，须证明人格独立性丧失和债权受损。", "提出丙公司连带责任并核定欠款。"]
+    editorial_review: *full_review
+    editorial_note: 未把同一控制人等同于当然连带责任，要求供货受益、账户和业务混同形成完整证据链。
+
+  - id: lsg_cn_0121
+    source_line: 172
+    source_case_sha256: 5f15c126cee1ab5a9dc7eb70c1fdcfbfa2bbdc99bc96491e0035a049ff4eab0d
+    split: train
+    legal_domain: company_commercial
+    client_role: 对无财产公司享有生效债权的建材公司
+    consultation_stage: 执行终本并发现关联方零对价股权转让后、另诉前
+    opening: 债务公司无财产可供执行，历史股东的出资、股权转让及出资期限调整都存在异常。我想判断能否追加相关股东承担责任。
+    admission_reason: 未届出资、债务形成、执行不能、两次零对价关联转让和延期决议完整，可评价恶意逃债及补充责任。
+    facts:
+      - {client_belief: "原大股东认缴大部分注册资本但只实缴少量。", court_record: "庄某某认缴995万元，仅实缴10万元并持股99.5%。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "庄某某认缴出资995万元，出资期限为2021年11月19日，仅实缴10万元，持股99.5%"}]}
+      - {client_belief: "公司欠我方债务经生效判决确认，执行时无财产可供执行。", court_record: "装饰公司债务经生效判决确认，因无财产可供执行而终结本次执行。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "经人民法院生效判决确认后进入执行程序"}, {section: basic_facts, quote: "因上海某装饰公司无财产可供执行，执行法院裁定终结本次执行程序"}]}
+      - {client_belief: "股权先后两次以零元价格转让。", court_record: "庄某某和某矿业公司先后以0元转让全部股权。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "庄某某将全部股权作价0元转让给某矿业公司"}, {section: basic_facts, quote: "某矿业公司将全部股权作价0元转让给上海某石业公司"}]}
+      - {client_belief: "新股东通过股东会把出资期限延长至二〇四〇年。", court_record: "装饰公司股东会决议将新股东出资期限延长至2040年11月19日。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "决议上海某石业公司出资期限延长至2040年11月19日"}]}
+      - {client_belief: "章程形式上延长出资期限后，哪怕为逃债作出也能对抗既有债权人。", court_record: "债务存续中为逃废债延长出资期限并损害债权人时，该决议对债权人不发生效力。", gap_type: disputed, evidence: [{section: adjudication, quote: "延长股东出资期限逃废债，损害债权人合法权益，故该延长出资期限的决议对某建材公司不发生法律效力"}]}
+      - {client_belief: "未届出资股权可以任意零价转让，原股东和中间受让人都绝不再承担责任。", court_record: "公司不能清偿、关联方零价转让且双方有逃债恶意时，转让人受让人可在未缴出资范围承担补充责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "两次股权转让均系零对价，明显不符合正常的交易惯例"}, {section: adjudication, quote: "两次股权转让的转让人和受让人均存在逃废债的主观恶意"}]}
+      - {client_belief: "原大股东认缴九百九十五万元但只实缴十万元。", court_record: "庄某某认缴九百九十五万元，仅实缴十万元并持有百分之九十九点五股权。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "庄某某认缴出资995万元，出资期限为2021年11月19日，仅实缴10万元，持股99.5%"}]}
+    expected_inquiries: ["债权形成、判决和终本时间与出资期限、股权转让时间如何对应？", "两次零价转让有无真实交易目的和付款证据？", "转让各方关联关系和实际控制如何？", "延长出资期限的股东会程序、目的和公司偿债状态如何？", "各股东已实缴及未缴金额分别是多少？"]
+    memo_expectations: ["确认公司不能清偿和债权受损。", "审查延期出资决议对既有债权人的效力。", "以零对价、关联关系和偿债状态证明主观恶意。", "分别确定转让人受让人的未缴出资责任。", "控制补充责任不超过未缴出资和公司不能清偿范围。"]
+    editorial_review: *full_review
+    editorial_note: 不否定正常未届出资股权转让，只对来源中公司不能清偿、零对价关联转让和恶意延期的组合事实归责。
+
+  - id: lsg_cn_0122
+    source_line: 173
+    source_case_sha256: e6b9068ee1d049a976ccf2f42012e892e8e6b5e52a5f05dae9936fa22e4944c8
+    split: train
+    legal_domain: finance_bankruptcy
+    client_role: 申请追加抽逃出资股东的债权人丙公司
+    consultation_stage: 追加申请被驳回后、提起执行异议之诉前
+    opening: 债务公司没有财产可执行，几名股东的出资在到账后很快向外转出，对方称属于公司借款但材料不足，其中还发生过股权转让。我想判断股东责任。
+    admission_reason: 出资到账即转出、借款抗辩无证据、执行不能与原股东转让完整，可评价抽逃出资和追加责任。
+    facts:
+      - {client_belief: "三名股东首期出资合计一千万元并分别有明确金额。", court_record: "乙公司、崔某、李某首期分别出资800万元、153.9万元和46.1万元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "分别由乙公司出资800万元，崔某出资153.9万元，李某出资46.1万元"}]}
+      - {client_belief: "出资转入公司账户两天后全部转给案外人潘某。", court_record: "乙公司、崔某和李某的首期出资款进入甲公司账户2日后全部转给潘某。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "上述出资款转入甲公司账户2日后全部转给案外人潘某"}]}
+      - {client_belief: "公司欠我方货款经调解书确认，执行后无财产。", court_record: "调解书确认甲公司欠丙公司货款，甲公司被执行后无财产可供执行。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "人民法院作出民事调解书确认甲公司欠付丙公司货款12364954.5元"}, {section: basic_facts, quote: "甲公司被申请强制执行后无财产可供执行"}]}
+      - {client_belief: "股东称转款是公司向潘某借款，但没有提交借款合同。", court_record: "股东主张转款基于借款合意但未提交借款合同等证据。", gap_type: undisputed, evidence: [{section: adjudication, quote: "虽称转出款项系基于甲公司与案外人达成的借款合意，但并未提交借款合同等证据予以证明"}]}
+      - {client_belief: "资金曾经短暂进入公司账户，就足以证明出资义务最终完成，不可能构成抽逃。", court_record: "出资到账后迅速无据转给案外人且不能证明真实交易时，可以认定抽逃出资。", gap_type: disputed, evidence: [{section: adjudication, quote: "乙公司、崔某、李某的行为构成抽逃出资"}]}
+      - {client_belief: "崔某后来转让股权，作为原股东就与此前抽逃出资完全无关。", court_record: "原股东未补足抽逃出资即转让股权，仍应在未履行出资范围承担补充责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "崔某作为甲公司原股东，在未补足抽逃出资的情况下转让股权，未依法履行出资义务，亦应承担补充责任"}]}
+    expected_inquiries: ["验资、银行流水和两日后转款指令由谁控制？", "转给潘某是否有合同、发票、借款或其他真实交易证据？", "公司债务、生效文书和执行不能材料是否齐全？", "崔某何时向谁转让股权，转让时是否补足出资？", "各股东抽逃金额和债务不能清偿范围如何对应？"]
+    memo_expectations: ["以资金回流时间和无交易依据证明抽逃。", "分配股东对转款真实基础的举证风险。", "确认公司财产不足以清偿。", "说明现股东与原股东转让后的责任边界。", "在抽逃范围内提出追加及补充赔偿请求。"]
+    editorial_review: *full_review
+    editorial_note: 不以短期转出单一现象自动定性，仍要求核查真实借款或交易基础；来源中该基础因无证据而未成立。
+
+  - id: lsg_cn_0123
+    source_line: 174
+    source_case_sha256: 06273d0a21f7d056d2062134da828781ddb01006d38fa563b1758cadc69b9cc3
+    split: train
+    legal_domain: finance_bankruptcy
+    client_role: 债务人离婚分走主要财产后的债权人吴某芳
+    consultation_stage: 债权判决执行终本后、提起债权人撤销诉讼前
+    opening: 债务人欠我借款，在案件判决前与配偶协议离婚，把大部分房产、商铺、车位和车辆分给对方，自己名下现无财产可执行。我想撤销影响债权实现的财产分割。
+    admission_reason: 借款时间、离婚分割、财产价值失衡、生效债权与执行不能完整，可评价身份协议的债权人撤销。
+    facts:
+      - {client_belief: "我通过银行转账出借款项，何某奇出具了借据。", court_record: "吴某芳通过银行转账向何某奇出借款项，何某奇出具360万元借据。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "吴某芳通过银行转账方式将借款转给何某奇，何某奇向吴某芳出具360万元《借据》"}]}
+      - {client_belief: "何某奇后来与唐某莲协议离婚并详细分割存款、房产、商铺、车位和车辆。", court_record: "何某奇与唐某莲签订自愿离婚协议并对双方主要财产作出分割。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "何某奇与唐某莲协议离婚并签订《自愿离婚协议书》"}]}
+      - {client_belief: "债权经判决确认后，我申请执行但未发现何某奇可供执行财产。", court_record: "何某奇被判还借款及利息，执行法院因无可供执行财产终结本次执行。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "何某奇被判决归还借款本金360万元及利息570100元"}, {section: basic_facts, quote: "未发现何某奇有可供执行的财产为由，裁定终结本次执行程序"}]}
+      - {client_belief: "离婚协议使何某奇分得财产价值明显少于唐某莲。", court_record: "何某奇分得财产价值远少于唐某莲，且其名下已无可供执行财产。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "何某奇分到的财产价值远远少于唐某莲所分到的财产价值"}]}
+      - {client_belief: "离婚财产分割属于夫妻身份自治，任何情况下都不能被外部债权人撤销。", court_record: "财产分割减少债务人应得共同财产、降低清偿能力并损害债权人时，可以成为撤销对象。", gap_type: disputed, evidence: [{section: basic_facts, quote: "不仅客观上减少了何某奇应分得的共同财产，而且实际上导致其清偿能力下降"}]}
+      - {client_belief: "只要双方真实离婚且协议自愿，就无需审查分割是否显失均衡和影响既有债权。", court_record: "真实离婚不排除对具体财产分割的债权人保护审查，应比较财产价值、债权时间和偿债能力。", gap_type: disputed, evidence: [{section: basic_facts, quote: "剩余财产不足以清偿债务，损害了债权人吴某芳的合法权益"}]}
+      - {client_belief: "借款在二〇一五年至二〇一六年间通过银行转账交付，借据金额为三百六十万元。", court_record: "吴某芳在二〇一五年至二〇一六年间转账出借款项，何某奇出具三百六十万元借据。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "2015年9月9日至2016年4月26日期间，吴某芳通过银行转账方式将借款转给何某奇，何某奇向吴某芳出具360万元《借据》"}]}
+    expected_inquiries: ["借款形成、到期与离婚协议签订时间如何对应？", "婚内各项财产的取得时间、权属和分割价值如何？", "债务人分得哪些财产，现有清偿能力和执行调查结果如何？", "配偶是否知道债务，分割是否存在真实对价或其他合理原因？", "拟撤销的具体条款和财产范围是否限于实现债权所需？"]
+    memo_expectations: ["确认受保护债权及其形成时间。", "识别离婚协议中财产分割的可撤销财产行为属性。", "比较双方分得价值及债务人清偿能力下降。", "控制撤销范围并衔接后续执行。", "区分撤销财产条款与否定离婚身份效力。"]
+    editorial_review: *full_review
+    editorial_note: 仅针对损害债权的财产分割条款，不将债权人撤销错误扩张到婚姻关系本身。
+
+  - id: lsg_cn_0124
+    source_line: 175
+    source_case_sha256: 3923894c14f5d88a71c8b6069268704e6f9d32c9db160c7f6f3332ee25ac9962
+    split: train
+    legal_domain: finance_bankruptcy
+    client_role: 接管甲公司破产财产的管理人
+    consultation_stage: 接管受阻且准备起诉取回关联方占有财产前
+    opening: 公司进入困境后，账册、厂房、车辆和部分资金由法定代表人、关联公司或亲属控制，资料交接和权属依据都不清。我受托清理公司财产，想追回应归公司所有的资产。
+    admission_reason: 关联关系、拒绝配合、异常长期租赁、租金来源、车辆资金占用完整，可评价管理人解除取回和不利推定。
+    facts:
+      - {client_belief: "甲公司进入破产清算并已指定管理人。", court_record: "甲公司因不能清偿到期债务被裁定破产清算并指定管理人。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "甲公司因不能清偿到期债务，被裁定进行破产清算并指定管理人"}]}
+      - {client_belief: "法定代表人拖延交账并多次擅自离开住所地。", court_record: "王某拖延移交财务资料并未经许可离开住所地，拒不配合清算。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "王某拖延移交财务资料，多次未经法院许可擅自离开住所地，拒不配合管理人开展破产清算工作"}]}
+      - {client_belief: "关联方申报巨额借款垫付款债权但拒交合同和依据。", court_record: "赵某、伍某及乙公司申报3000余万元债权但拒不提交借款合同、垫付款依据。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "共申报债权3000余万元，但拒不提交借款合同、垫付款依据"}]}
+      - {client_belief: "关联公司以长期租约占厂房并转租获利，租金来源与公司境外买方高度重合。", court_record: "乙公司以19年租约占有并转租厂房，其租金来源与甲公司境外购买方高度重合。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "签订租期长达19年的厂房租赁合同"}, {section: basic_facts, quote: "乙公司支付的租金来自境外付款方，与甲公司货物的境外购买方高度重合"}]}
+      - {client_belief: "关联方出示形式上的长期租赁合同后，管理人只能带租处置，不能解除取回厂房。", court_record: "关联方拒绝解释异常资金且不能证明支付租金时，可作不利认定并依法解除租赁取回厂房。", gap_type: disputed, evidence: [{section: adjudication, quote: "应当作出对乙公司不利的事实认定，即认定乙公司未支付租金"}, {section: adjudication, quote: "确认厂房租赁合同解除"}]}
+      - {client_belief: "进入破产后法定代表人和关联亲属不配合、占用车辆资金只是内部家事，管理人无权追收。", court_record: "债务人有关人员负配合义务，管理人可请求返还被占车辆和资金并追究拒不配合责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "债务人有关人员在债务人进入破产程序后有配合管理人工作的义务"}, {section: adjudication, quote: "审理法院分别判决伍某返还占用车辆，赵某退还占用资金5000余万元"}]}
+      - {client_belief: "关联公司的股东是法定代表人的母亲和前妻。", court_record: "乙公司股东分别为甲公司法定代表人王某的母亲赵某和前妻伍某。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "乙公司股东为王某的母亲赵某及前妻伍某"}]}
+    expected_inquiries: ["股权、亲属和控制关系如何，谁实际掌握账册与印章？", "长期租赁合同、租金流水和境外付款方交易背景能否核验？", "关联方申报债权的合同、付款和会计记录是否存在？", "车辆和资金由谁在何时基于何种依据占用？", "管理人已发出哪些接管、解除和返还通知，对方如何回应？"]
+    memo_expectations: ["落实债务人有关人员的破产配合义务。", "审查异常租赁的履行和租金真实性并依法解除。", "运用证据妨碍和不利推定须以对方掌握证据且拒绝解释为基础。", "分别追收厂房、车辆和资金。", "区分债权审查、取回诉讼和处罚程序。"]
+    editorial_review: *full_review
+    editorial_note: 不因关联关系自动否定合同和债权，而以异常期限、资金来源和拒绝提交基础材料支持逐项审查。
+
+  - id: lsg_cn_0125
+    source_line: 176
+    source_case_sha256: 62377c9ac92e9c58726221a62bcb5f1fce2c28c4bde6575a799a92f940f2fd21
+    split: train
+    legal_domain: finance_bankruptcy
+    client_role: 因申请公司破产被调查的法定代表人张某元
+    consultation_stage: 破产申请被驳回并被刑事立案后、审判前
+    opening: 我代表公司提交审计报告申请破产，但办案中发现报告里的工资、借款和应付款记录存在伪造或重复，法院已驳回破产申请并移送线索。我想评估刑事风险。
+    admission_reason: 篡改凭证、虚构债务、资产报告、破产受理后驳回及个人挪款完整，可区分虚假破产既遂未遂与挪用资金。
+    facts:
+      - {client_belief: "我委托会计师事务所进行公司财务审计。", court_record: "张某元委托会计师事务所对公司进行财务审计。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "张某元在他人介绍下委托某会计师事务所对公司进行财务审计"}]}
+      - {client_belief: "审计中提交了被篡改凭证，并以重复记账、假工资和虚列借款应付款形成债务。", court_record: "张某元提交篡改凭证，以重复记账、伪造工资、虚列借款应付款虚构公司债务。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "以重复记账、伪造员工工资支出、虚列公司借款、应付款等方式虚构公司债务共计2800余万元"}]}
+      - {client_belief: "会计师事务所据此出具显示公司资不抵债的资产清查报告。", court_record: "会计师事务所出具显示公司资不抵债的资产清查报告。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "该会计师事务所出具《资产清查报告》，显示公司资不抵债"}]}
+      - {client_belief: "法院受理破产后发现财务造假，又因清偿能力不确定驳回申请。", court_record: "破产办理中发现财务报告造假，法院因资不抵债或丧失清偿能力不确定而驳回申请。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "经审计发现该公司有财务报告造假的情况"}, {section: basic_facts, quote: "公司是否资不抵债或明显丧失清偿能力尚不确定为由，驳回某公司的破产申请"}]}
+      - {client_belief: "公司最终未被宣告破产，就绝对不构成虚假破产犯罪。", court_record: "以虚构债务实施虚假破产并严重损害利益，即使因申请被驳回未宣告破产，也可能构成犯罪未遂。", gap_type: disputed, evidence: [{section: adjudication, quote: "因人民法院审查后驳回其破产申请导致公司未被宣告破产，系犯罪未遂"}]}
+      - {client_belief: "用公司资金偿还个人债务只是股东内部结算，不会另行产生挪用资金风险。", court_record: "法定代表人挪用公司资金归个人使用、数额较大且超过期限未还，可构成挪用资金罪。", gap_type: disputed, evidence: [{section: adjudication, quote: "挪用公司资金归个人使用，数额较大，超过三个月未还，构成挪用资金罪"}]}
+    expected_inquiries: ["被篡改凭证和虚构科目由谁制作、指示和提交？", "会计师事务所是否知情，审计底稿和沟通记录如何？", "公司真实资产负债和清偿能力如何？", "破产申请造成了哪些程序和债权人利益影响？", "个人使用公司资金的金额、用途、授权和归还情况如何？"]
+    memo_expectations: ["分别分析虚假破产与挪用资金构成。", "核实虚构债务数额、主观目的及损害后果。", "说明未宣告破产影响犯罪形态而非当然无罪。", "审查个人用款的职务便利、用途和未还期限。", "评价自首、供述、退还等量刑情节但不预设结果。"]
+    editorial_review: *full_review
+    editorial_note: 刑事咨询固定在立案后审判前，不泄露具体刑期；同时避免把破产申请被驳回误写为行为无害。
+
+  - id: lsg_cn_0126
+    source_line: 177
+    source_case_sha256: 60582cb785b2c94308f3aaf893f0d46b1ea3890912bbf92a52c50b078d5f932d
+    split: train
+    legal_domain: finance_bankruptcy
+    client_role: 因转移征收补偿款被调查的被执行人洪某金
+    consultation_stage: 拒不执行案件被侦查后、刑事审判前
+    opening: 一笔借款纠纷后来因我的财产变动和资金去向受到法院质疑，线索又进入刑事程序。我想查清此前裁判和执行经过，并判断哪些行为可能构成规避执行以及如何补救。
+    admission_reason: 执行通知、终本、财产变动、近亲属账户转移、拘留和后续和解完整，可评价有能力履行而拒不履行。
+    facts:
+      - {client_belief: "法院判令我偿还借款，债权人随后申请强制执行。", court_record: "洪某金被判偿还借款后未履行，郑某长申请强制执行。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "洪某金在人民法院判令其向郑某长偿还借款50万元后，未履行还款义务"}]}
+      - {client_belief: "首次执行只冻结少量存款，因养殖场不易处置而终结本次执行。", court_record: "首次执行仅冻结2万余元，债权人领取后同意终结本次执行。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "仅冻结到洪某金银行存款2万余元"}, {section: basic_facts, quote: "郑某长同意领取上述2万余元执行款后终结本次执行"}]}
+      - {client_belief: "养殖场后来获得征收补偿，我要求把补偿款汇入女儿账户。", court_record: "养殖场房屋被征收获得补偿款，洪某金要求汇入女儿银行账户。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "洪某金的养殖场房屋被征收，获得补偿款140余万元，洪某金要求将该款汇入其女儿洪某园银行账户"}]}
+      - {client_belief: "被拘留后我隐匿行踪，侦查期间又与债权人和解并部分还款。", court_record: "洪某金拘留期满后隐匿行踪，侦查期间和解并偿还部分借款。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "拘留期满后，洪某金故意隐匿行踪，躲避执行"}, {section: basic_facts, quote: "侦查期间，洪某金主动与郑某长达成和解协议并偿还部分借款"}]}
+      - {client_belief: "终结本次执行后即使后来取得大额财产，也无需报告或继续履行。", court_record: "执行义务未消灭，财产发生变动并具备清偿能力时仍须报告并履行。", gap_type: disputed, evidence: [{section: adjudication, quote: "在其财产发生变动、能够清偿债务的情况下，未依法及时报告"}]}
+      - {client_belief: "把自己的补偿款汇入女儿账户只是家庭内部安排，不可能被认定为规避执行。", court_record: "明知执行义务而将应得补偿款直接转入近亲属账户，可认定隐藏转移财产、情节严重。", gap_type: disputed, evidence: [{section: adjudication, quote: "将其应得的征收补偿款直接汇入其女儿银行账户，故意规避执行"}]}
+    expected_inquiries: ["执行通知、财产报告令和失信措施何时送达？", "征收补偿权利人、金额、支付指令和女儿账户流向如何？", "所谓偿还其他债务是否真实、到期且有凭证？", "拘留后行踪和履行能力如何，是否仍有可供执行财产？", "和解、部分还款、坦白和谅解材料是否真实完整？"]
+    memo_expectations: ["确认生效义务持续存在及执行文书送达。", "以财产变动和转入亲属账户证明履行能力与规避行为。", "审查其他债务抗辩的真实性和优先性。", "评价情节严重及拒不执行罪构成。", "将和解还款作为后续情节而非消灭既往行为。"]
+    editorial_review: *full_review
+    editorial_note: 未将正常家庭转账犯罪化，关键是已知执行义务、财产足以清偿、未报告并定向转移的组合事实。
+
+  - id: lsg_cn_0127
+    source_line: 178
+    source_case_sha256: 1b4d2ee611e848545271a66b9ad6476eeb8ecf9a7640dda7f45d42018ced0e40
+    split: train
+    legal_domain: criminal
+    client_role: 重大坍塌事故饭店投资经营者祁某华
+    consultation_stage: 事故调查认定后、刑事审判前
+    opening: 一处由我经营的饭店在宴会期间发生严重坍塌，建筑经历过多次改扩建且设计、监理和验收资料不完备。调查和司法程序正在厘清原因，我需要评估经营者责任。
+    admission_reason: 经营者控制、多次无资质扩建、行政处罚、安全隐患、事故因果和严重后果完整，可评价首要生产经营责任。
+    facts:
+      - {client_belief: "聚仙饭店由我投资经营。", court_record: "聚仙饭店由祁某华投资经营。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "聚仙饭店由被告人祁某华投资经营"}]}
+      - {client_belief: "建筑未经用地审批并经多次违规扩建，形成用于宴会和住人的双层空间。", court_record: "祁某华未取得审批自建并多次违规扩建形成饭店经营和住人空间。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "在未取得集体土地建设用地审批手续的情况下"}, {section: basic_facts, quote: "后经多次违规扩建于2016年形成现有规制"}]}
+      - {client_belief: "扩建由无资质人员实施，没有专业设计、监理、竣工验收和维护记录。", court_record: "历次扩建无资质施工、无专业设计、无工程监理、无竣工验收和维护记录。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "扩建活动无专业设计、无工程监理、无竣工验收、无相关资料、无维护记录"}]}
+      - {client_belief: "事故调查认定盲目扩建和工程质量缺陷导致经营中坍塌。", court_record: "调查认定违法占地、无设计无资质施工、多次扩建和严重质量缺陷导致坍塌。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "在无专业设计、无资质施工的情形下，多次盲目改造扩建，建筑物工程质量存在严重缺陷，导致在经营活动中部分建筑物坍塌"}]}
+      - {client_belief: "实际动手施工的是包工头和亲友，投资经营者没有亲自砌建就不负生产安全刑事责任。", court_record: "实际投资经营者长期决定无资质扩建并在未评估隐患情况下经营，可对重大事故负主要首要责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "祁某华作为发生坍塌事故的聚仙饭店的实际投资人和经营者"}, {section: adjudication, quote: "对事故发生负主要责任和首要责任"}]}
+      - {client_belief: "事故时可能有强降雨，只要存在自然因素就能完全切断长期结构缺陷与坍塌的因果。", court_record: "需综合事故调查；强降雨可能影响不当然排除长期违规扩建、超载和严重结构缺陷的直接作用。", gap_type: disputed, evidence: [{section: basic_facts, quote: "事故发生时，不排除当地八月份强降雨的影响"}, {section: adjudication, quote: "在建筑物工程质量存在严重缺陷、对安全隐患未作全面评估的情况下用于从事经营活动，导致在经营过程中出现坍塌"}]}
+      - {client_belief: "我在违法建设期间曾拒不执行国土部门处罚决定和法院行政裁定。", court_record: "祁某华违法占地建设期间拒不执行行政处罚决定和人民法院行政裁定。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "拒不执行原襄汾县国土资源局下达的处罚决定书和襄汾县人民法院下达的行政裁定书"}]}
+    expected_inquiries: ["每次扩建由谁决策、设计、施工和付款，你掌握哪些风险信息？", "行政处罚和裁定如何送达，为何未执行？", "事故前是否出现裂缝、超载或其他预警并采取措施？", "事故调查、结构鉴定和强降雨因素如何评价因果？", "经营证照、人员伤亡赔付、自首认罪和整改情况如何？"]
+    memo_expectations: ["确定投资经营者对建设和经营安全的实际控制。", "串联长期违规扩建、拒绝处罚和未评估隐患。", "依据事故调查区分直接原因、间接因素和自然因素。", "评价重大责任事故罪及主要首要责任。", "审查补偿、认罪等情节但不以其替代构成判断。"]
+    editorial_review: *full_review
+    editorial_note: 未仅以事故后果倒推犯罪，以经营控制、长期违规行为、已知处罚和结构因果共同支撑风险评价。
+
+  - id: lsg_cn_0128
+    source_line: 179
+    source_case_sha256: e0e26769ffb3aaf124ffe584d0de653edb0f764bd770c5288604b12227763bc1
+    split: train
+    legal_domain: criminal
+    client_role: 擅自驾渔船出海并发生沉没事故的船主吴某波
+    consultation_stage: 自行到案后、刑事审判前
+    opening: 我组织渔船出海后发生触损侧翻，所幸人员获救。事前船员配置和证件曾被执法部门检查，现在我被按危险作业调查。
+    admission_reason: 虚假应检、禁止离港命令、拒不整改、严重配员不足、沉没和全员获救完整，可评价现实危险而非唯结果论。
+    facts:
+      - {client_belief: "我是涉案渔船所有人并百分之百持股。", court_record: "吴某波为浙岱渔15381船所有人并百分百占股。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "吴某波为该船所有人并百分百占股"}]}
+      - {client_belief: "开捕前检查时，实际船副和轮机长只是找来应付检查，并不随船作业。", court_record: "检查中登记的实际船副和轮机长并不作业，系吴某波找来应付检查。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "实际船副和轮机长并不在该船作业，系由吴某波找来应付检查"}]}
+      - {client_belief: "执法部门发现无证船员后责令禁止离港并停业整改，我没有整改。", court_record: "行政执法部门因船员不符合出航条件责令禁止离港、停业整改，吴某波未整改。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "遂指令吴某波禁止离港并停业整改，但吴某波未予整改"}]}
+      - {client_belief: "我仍搭载船员出航，之后因操作、航道和航线问题触损侧翻沉没，所有人员最终获救。", court_record: "吴某波擅自出海后渔船触损侧翻沉没，21人乘救生筏并全部获救。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "擅自从岱山县南峰码头单船开航往长江口方向航行出海作业"}, {section: basic_facts, quote: "吴某波等21人乘坐两只救生筏逃生"}, {section: basic_facts, quote: "船上人员全部获救"}]}
+      - {client_belief: "危险作业罪必须实际造成人员伤亡，所有人获救就没有现实危险。", court_record: "严重配员不足、拒绝整改并导致沉船和多人深夜落水，已形成随时危及生命的现实危险。", gap_type: disputed, evidence: [{section: adjudication, quote: "21名人员落水深夜在大海上漂流，具有随时可能危及生命的现实危险"}]}
+      - {client_belief: "职务船员形式上达到过最低配备标准，就算人员不实际作业、无证且被责令停航也不影响合法出航。", court_record: "虚假应检不等于实际合规；明知重大事故隐患并拒绝行政整改仍出航可构成危险作业。", gap_type: disputed, evidence: [{section: adjudication, quote: "职务船员严重配备不足，属于有关行业标准规定的存在重大事故隐患的情形"}, {section: adjudication, quote: "明知案涉渔船存在重大事故隐患，故意弄虚作假、逃避检查"}]}
+      - {client_belief: "实际出航的十九名船员中有十二人没有船员证书。", court_record: "吴某波出航时搭载十九名船员，其中七人有证、十二人无证。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "19名船员（其中7人有船员证书，12人无船员证书）"}]}
+    expected_inquiries: ["船员名单、证书、实际岗位和值班安排如何？", "检查、禁止离港和整改命令何时送达，具体要求什么？", "为何未整改仍决定出航，谁参与决策？", "沉船原因、航线、天气、操作和救生过程由哪些记录证明？", "自行到案、供述、损失赔偿和安全整改情况如何？"]
+    memo_expectations: ["以实际在船配员而非应检名单判断重大隐患。", "确认行政命令、明知和拒不整改。", "分析擅自出航与沉船落水现实危险的因果。", "说明危险作业罪不以实际死亡为必要。", "评价自首等情节但不弱化安全构成要件。"]
+    editorial_review: *full_review
+    editorial_note: 将轻微或幸免结果与现实危险分开，事实重点是虚假应检、明确停航命令和二十一人落水的实际风险。

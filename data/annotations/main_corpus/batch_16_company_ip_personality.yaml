@@ -1,0 +1,189 @@
+annotations:
+  - id: lsg_cn_0066
+    source_line: 51
+    source_case_sha256: d8b662b6b1cd4096e3e057a8aa1c1b1d4e62398d19bdb7ab4601a67dfeba228a
+    split: train
+    legal_domain: company_commercial
+    client_role: 被西班牙买方主张警示牌质量不合格的浙江出口公司
+    consultation_stage: 国际买方提起索赔诉讼后、答辩前
+    opening: 我们与境外客户有一批三角警示牌交易，客户后来以产品不符合其所称标准为由索赔。双方对合同适用规则、质量标准是否约定及如何确定存在争议。
+    admission_reason: 跨境营业地、长期交易、发票、未约定标准和既往无异议完整，可评价公约适用及合理质量标准。
+    facts:
+      - {client_belief: "双方长期开展三角警示牌贸易。", court_record: "西班牙公司与浙江公司自2014年至2018年开展三角警示牌贸易。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "西班牙某公司与浙江某公司自2014年3月至2018年10月开展贸易往来"}]}
+      - {client_belief: "形式发票记载型号、数量和单价，但没有特定质量标准。", court_record: "形式发票记载产品型号数量单价，未记载需达到ECER27标准。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "在其出具的形式发票中记载产品型号、数量、单价等信息，但未记载该货物需达到特定质量标准（ECER27标准）"}]}
+      - {client_belief: "后续数次交易也未书面约定产品质量标准。", court_record: "双方2018年至2020年的交易均未书面约定质量标准。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "双方自2018年至2020年再次开展三角警告牌交易，均未书面约定产品质量标准"}]}
+      - {client_belief: "买方曾表示继续沿用原约定规格，此前同类产品也未提出质量异议。", court_record: "买方表示沿用原规格且此前数次交易未对同类产品质量提出异议。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "西班牙某公司向浙江某公司表示继续沿用原约定的三角警示牌规格"}, {section: adjudication, quote: "在此前的数次交易中，西班牙某公司均未就浙江某公司交付的同类产品质量提出异议"}]}
+      - {client_belief: "双方没选法律，中国法院就只能适用中国国内合同法，国际公约不会自动适用。", court_record: "双方营业地位于销售公约不同缔约国且未选择法律时，可以自动适用该公约。", gap_type: disputed, evidence: [{section: adjudication, quote: "双方营业地分别位于《联合国国际货物销售合同公约》不同的缔约国内，故自动适用该公约"}]}
+      - {client_belief: "卖方必须主动了解并满足买方所在国一切非强制标准，即使合同和交易习惯从未提及。", court_record: "无明确约定或共同明示默示时，卖方通常无义务了解买方国适销或强制标准，应依合理期待判断。", gap_type: disputed, evidence: [{section: adjudication, quote: "卖方没有义务了解买方所在国的商品适销标准与强制性标准，除非双方在合同中有明确约定或者双方都明示、默认产品质量标准"}]}
+    expected_inquiries: ["双方营业地、合同成立方式和是否排除销售公约如何？", "全部订单、发票和规格沟通是否出现特定标准？", "买方是否告知特殊用途或本国监管要求？", "既往同类交易、验收、异议和转售情况如何？", "货物一般使用价值、检测和损失证据如何？"]
+    memo_expectations: ["确定销售公约适用。", "从明示约定、交易习惯和特定用途识别质量标准。", "采用合理质量与买方合理期待评价。", "处理买方国家标准的告知和可预见性。", "审查不符、通知、损失及减损证据。"]
+    editorial_review: &full_review {source_read_in_full: true, single_client_role: true, pre_outcome_timeline: true, opening_has_no_outcome: true, opening_information_boundary_checked: true, beliefs_are_natural: true, gap_labels_semantically_checked: true, inquiries_are_answerable: true, memo_points_are_substantive: true}
+    editorial_note: 未把公约规则泛化成卖方永不负责买方国标准，仍保留明确约定、默示共识和特殊用途例外。
+
+  - id: lsg_cn_0067
+    source_line: 57
+    source_case_sha256: df7d8cbaf6090841b930926a4bfe98747bd683a72540b4479e90e3503788f917
+    split: train
+    legal_domain: company_commercial
+    client_role: 被申请追加为被执行人的投资公司
+    consultation_stage: 执行追加裁定作出后、提起异议之诉阶段
+    opening: 我们向被投公司增资时资金曾在账户间往返，但最终转入公司定期存款并有验资报告。债权人据此说我们未出资或抽逃，要求把我们追加为被执行人。
+    admission_reason: 两次转账、最终定期存款、验资、超额转款解释及无抽逃证据完整，可评价异常流水而非形式推定。
+    facts:
+      - {client_belief: "债权人以未足额增资为由申请追加我方。", court_record: "集团公司以未实际足额增资为由申请追加投资公司为被执行人。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "以未实际足额增资为由，申请追加山西某公司原股东及现股东为被执行人"}]}
+      - {client_belief: "一审裁定曾在新增注册资本范围追加我方。", court_record: "一审法院裁定投资公司在新增注册资本4500万元范围承担责任。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "对山西某公司的债务在新增注册资本4500万元的范围内承担连带清偿责任"}]}
+      - {client_belief: "我方首次汇入资金次日转回，同日又转入公司账户并转为定期存款。", court_record: "投资公司资金次日转回后同日再次转入山西公司并形成定期存款。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "同日，某投资公司又将5500万元转账至山西某公司账户，并转为山西某公司定期存款"}]}
+      - {client_belief: "会计师事务所出具验资报告，我方也解释了资金往返和超额转款。", court_record: "验资报告载明收到新增资本，投资公司对资金流转及超额金额作出合理解释。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某会计师事务所出具《验资报告》，载明已收到某投资公司缴纳的新增注册资本4500万元"}, {section: basic_facts, quote: "某投资公司对前述账款流转和实际向山西某公司转款金额超出增资金额的问题作出了合理解释"}]}
+      - {client_belief: "出资款曾短暂转回股东账户，就足以自动认定未出资或抽逃。", court_record: "异常流水须结合最终资金归属、验资和解释审查，短暂转回不当然证明抽逃。", gap_type: disputed, evidence: [{section: adjudication, quote: "在案证据能够证明某投资公司已履行对山西某公司新增注册资本4500万元的出资义务"}]}
+      - {client_belief: "只要债务公司不能清偿，现股东不论是否足额出资都可以被追加。", court_record: "股东已履行出资且无证据证明抽逃时，有限责任制度下不应被追加承担公司债务。", gap_type: disputed, evidence: [{section: adjudication, quote: "现无证据证明某投资公司抽逃了出资，依法不应被追加为相关执行案件的被执行人"}]}
+    expected_inquiries: ["每笔资金往返的时间、账户、用途和授权如何？", "最终定期存款是否由山西公司控制并持续存在？", "验资底稿、银行询证和会计处理是否真实？", "超出增资金额部分的性质和返还依据是什么？", "债权人有哪些具体抽逃证据，追加程序处于何阶段？"]
+    memo_expectations: ["区分资金异动线索与抽逃出资结论。", "证明最终资本到位和公司控制。", "评价验资报告与银行流水的相互印证。", "由主张抽逃方提供相应证据并允许合理解释。", "适用股东有限责任排除错误追加。"]
+    editorial_review: *full_review
+    editorial_note: 不把验资报告单独视为决定性证据，也不因流水往返单独定罪，要求完整追踪最终资金归属。
+
+  - id: lsg_cn_0068
+    source_line: 70
+    source_case_sha256: 0dd304dd11a41073d312447339d5ec0cb7d9a9d805c079c8ce00cc7213d6b627
+    split: train
+    legal_domain: intellectual_property
+    client_role: 被诉芯片专利侵权的茂某公司
+    consultation_stage: 一审认定等同侵权后、二审答辩论证阶段
+    opening: 我们的电源管理芯片一审被认定落入一项专利权利要求，但我们认为争议电路的连接、信号流向和控制时序均不同，准备上诉。
+    admission_reason: 专利权利要求、被诉模块、一审等同结论及电学逻辑差异完整，可评价整体解释与等同原则。
+    facts:
+      - {client_belief: "对方是涉案发明专利权人并指控我方制造销售芯片侵权。", court_record: "芯某公司为专利权人并主张茂某公司制造、销售电源管理芯片侵权。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "芯某公司）系涉案发明专利的专利权人"}, {section: basic_facts, quote: "茂某（深圳）科技有限公司（以下简称茂某公司）制造、许诺销售、销售电源管理芯片的行为侵害了涉案专利权"}]}
+      - {client_belief: "争议集中在权利要求一的脉冲信号生成特征。", court_record: "一审以被诉电路模块与权利要求1脉冲信号生成特征等同认定落入保护范围。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "电路模块与涉案专利权利要求1中的脉冲信号生成特征构成等同技术特征"}]}
+      - {client_belief: "我们认为电路模块在手段、功能和效果上均不同。", court_record: "被诉模块与专利脉冲生成特征在手段、功能、效果上均不相同。", gap_type: undisputed, evidence: [{section: adjudication, quote: "在手段、功能、效果上均不相同"}]}
+      - {client_belief: "被诉方案不具备该脉冲信号生成特征。", court_record: "被诉侵权技术方案不具备脉冲信号生成特征。", gap_type: undisputed, evidence: [{section: adjudication, quote: "被诉侵权技术方案不具备脉冲信号生成特征"}]}
+      - {client_belief: "判断电学专利等同只需孤立比较单个模块名称和大致用途。", court_record: "解释逻辑电路权利要求应重点审查特征间逻辑连接、信号流向与控制时序，不能割裂解读。", gap_type: disputed, evidence: [{section: adjudication, quote: "应当重点理解各技术特征之间的逻辑连接关系、信号流向与控制时序，避免将技术特征从其所处的逻辑链条中割裂出来解读"}]}
+      - {client_belief: "只要实现总体目的相近，即使技术手段功能效果均不同也可认定等同。", court_record: "手段、功能、效果均不同且缺少相应特征时，不构成相同或等同并不落入保护范围。", gap_type: disputed, evidence: [{section: adjudication, quote: "二者既不构成相同特征亦不构成等同特征"}, {section: adjudication, quote: "未落入涉案专利权利要求1的保护范围"}]}
+    expected_inquiries: ["权利要求、说明书和附图如何定义脉冲生成及逻辑链条？", "被诉芯片的电路图、信号流向和时序如何可靠取得？", "两方案手段、功能、效果逐项有什么差异？", "本领域公知常识和权利要求撰写背景如何解释？", "技术资料如何保密、鉴定并与被诉产品同一性对应？"]
+    memo_expectations: ["从本领域技术人员视角整体解释权利要求。", "围绕逻辑连接、信号流向和时序比对。", "严格审查等同原则的手段功能效果。", "避免用总体目的替代全部技术特征。", "形成不侵权技术比对表及证据保全方案。"]
+    editorial_review: *full_review
+    editorial_note: 技术事实只复述官方案例可支持的逻辑差异，不虚构芯片内部具体电路参数。
+
+  - id: lsg_cn_0069
+    source_line: 76
+    source_case_sha256: df6c37502fbfe3b4af32b422766ab26c62d227fb8b6ab1bb38b3c7dab4994870
+    split: train
+    legal_domain: intellectual_property
+    client_role: 被网络账号持续虚假贬损的胖某公司
+    consultation_stage: 虚假视频已造成退货和销售影响后、起诉前
+    opening: 一个有影响力的账号持续发布涉及我公司及创始人的负面视频，并借相关流量开展商业推广。我们认为部分内容失实，想判断名誉侵权与不正当竞争责任。
+    admission_reason: 虚假信息、侮辱词汇、流量带货、账号出借、关联企业受益及市场损害完整，可区分商业诋毁和自然人名誉侵权。
+    facts:
+      - {client_belief: "柴某某借他人实名账号在多个平台持续发布涉及公司和创始人的视频。", court_record: "柴某某使用温某某实名账号在多个社交平台发布涉及胖某公司及于某某的视频。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "柴某某借助温某某实名注册的账号“柴某怼”，在多个网络社交媒体平台上不断发布"}]}
+      - {client_belief: "视频涉及盈利模式、产品质量、企业商誉和创始人个人名誉。", court_record: "视频内容涉及公司盈利模式、产品质量、企业商誉及于某某个人名誉。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "涉及胖某公司盈利模式、产品质量、企业商誉以及于某某个人名誉的视频"}]}
+      - {client_belief: "其借机吸粉引流带货，为关联珠宝企业营造竞争优势。", court_record: "柴某某借贬损信息吸粉带货并为关联珠宝企业获取竞争优势。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "并借机吸粉引流带货，为其关联企业温州市某珠宝有限公司、武汉市某珠宝有限公司营造竞争优势"}]}
+      - {client_belief: "相关信息造成消费者退货并间接影响其他业态销售。", court_record: "虚假误导信息造成公司部分商品退货并对其他业态销售产生间接影响。", gap_type: undisputed, evidence: [{section: adjudication, quote: "造成胖某公司部分商品被退货，对其他业态商品销售亦产生间接负面影响"}]}
+      - {client_belief: "网络测评和批评属于表达自由，只要形式是评论就绝不构成商业诋毁或名誉侵权。", court_record: "编造传播虚假误导信息扰乱竞争，以及侮辱诽谤降低个人评价，均可能超出正当评论边界。", gap_type: disputed, evidence: [{section: adjudication, quote: "编造、传播虚假和误导性信息的行为"}, {section: adjudication, quote: "构成商业诋毁"}]}
+      - {client_belief: "出借账号者和享受流量利益的关联企业没有亲自拍视频，就一概不用承担责任。", court_record: "账号出借者不监督补救、关联企业明知并放任以获取利益且行为结合造成同一损害时，可构成共同侵权。", gap_type: disputed, evidence: [{section: adjudication, quote: "温某某出借其社交媒体账号后既未履行监督义务核查账号使用情况，也未采取注销账号等补救措施"}, {section: adjudication, quote: "上述行为与柴某某的被诉行为直接结合发生同一损害后果，构成共同侵权"}]}
+    expected_inquiries: ["逐条视频的事实陈述、意见表达和侮辱词语如何区分？", "哪些内容虚假，真实产品和经营资料如何反证？", "账号注册、绑定、共同管理和出借关系如何？", "关联企业与发布者的控制、收益和带货流水如何？", "退货、销售和商誉损失与视频传播如何证明因果？"]
+    memo_expectations: ["区分正当监督评论与虚假误导信息。", "分别分析公司商业诋毁和创始人名誉侵权。", "证明竞争关系、引流获利和市场损害。", "评价账号出借者及受益企业共同过错。", "设计删除致歉、停止传播和损失赔偿。"]
+    editorial_review: *full_review
+    editorial_note: 不以负面内容本身认定侵权，评分要求证明虚假性、竞争目的、传播和实际市场影响。
+
+  - id: lsg_cn_0070
+    source_line: 78
+    source_case_sha256: 050cbc40ccdfde97990e5e0ecef89eba4dc23ea2e8c95ff382ca64745c9cafe4
+    split: train
+    legal_domain: intellectual_property
+    client_role: 遭同业反复申请近似商标的蓝某公司
+    consultation_stage: 多项近似商标已被驳回无效后、提起不正当竞争诉讼前
+    opening: 同业公司多年反复申请与我方知名啤酒商标近似的标识，相关代理机构在部分申请受挫后仍继续参与。我们想判断申请、许可和代理行为是否构成不正当竞争。
+    admission_reason: 在先知名商标、同业反复申请、在先否定裁判、许可牟利和代理机构明知完整，可评价注册行为与帮助侵权。
+    facts:
+      - {client_belief: "我方系列商标长期注册使用并具有一定知名度。", court_record: "蓝某公司自2001年注册使用系列啤酒商标并经持续推广具有一定知名度。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "自2001年开始获准注册了“蓝妹”“蓝妹金装”系列商标"}, {section: basic_facts, quote: "经持续宣传推广，具有一定的知名度"}]}
+      - {client_belief: "同业经营者多年委托代理机构申请十余枚近似商标并许可其中两枚。", court_record: "金某公司2017年至2022年委托谷某代理公司申请十余枚相关商标并许可两枚使用。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "2017年至2022年期间多次委托广州谷某知识产权代理有限公司"}, {section: basic_facts, quote: "并将其中两枚商标许可他人使用"}]}
+      - {client_belief: "相关申请已有行政裁决和法院判决认定近似或恶意。", court_record: "多份行政裁决和在先判决认定系列申请近似、复制抄袭并扰乱注册秩序。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "已有国家知识产权局裁决及人民法院在先判决认定"}]}
+      - {client_belief: "这些系列商标最终均被驳回、不准注册或宣告无效。", court_record: "金某公司相关系列商标均被驳回申请、不准注册或宣告无效。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "现均已被驳回注册申请、不准予注册或宣告无效"}]}
+      - {client_belief: "申请商标是法定程序，只要尚未实际使用，无论反复恶意申请和囤积许可都不可能构成不正当竞争。", court_record: "同业明知在先商标仍持续反复申请、超出经营需要并许可牟利，可因恶意攀附和破坏竞争秩序构成不正当竞争。", gap_type: disputed, evidence: [{section: adjudication, quote: "明显超出正常生产经营需要，具有攀附蓝某公司商誉、谋取不正当利益的目的"}, {section: adjudication, quote: "构成不正当竞争"}]}
+      - {client_belief: "专业代理机构只是按委托办手续，即使此前申请已被法院否定仍绝不承担帮助责任。", court_record: "代理机构在知悉客户恶意注册后仍继续提供代理服务，可构成帮助侵权。", gap_type: disputed, evidence: [{section: adjudication, quote: "明知金某公司系恶意注册商标，仍接受金某公司委托提供商标代理服务，构成帮助侵权"}]}
+    expected_inquiries: ["在先商标注册、使用、宣传和知名度证据如何？", "对方每次申请的标识、商品、时间和结果如何排列？", "在先裁决判决何时送达申请人和代理机构？", "对方实际使用、许可、转让或囤积获利证据有哪些？", "代理机构何时达到明知并继续实施哪些代理行为？"]
+    memo_expectations: ["证明在先权益和同业知悉。", "以系列、持续、超需申请与许可行为证明恶意。", "区分单次申请失败与整体不正当竞争。", "确定代理机构明知后的帮助行为和责任范围。", "设计停止申请使用、赔偿和合理费用请求。"]
+    editorial_review: *full_review
+    editorial_note: 不将正常商标申请诉权化为侵权，必须满足反复、同业明知、超经营需要及既有否定评价等组合证据。
+
+  - id: lsg_cn_0071
+    source_line: 80
+    source_case_sha256: 4fb56daa10091ec4d3acb2ba14ae69f41f1f1bf3e1a60c236815041254738c27
+    split: train
+    legal_domain: personality_privacy
+    client_role: 被故意从养父母新墓碑遗漏姓名的养女石某连
+    consultation_stage: 迁坟立新碑完成后、提起诉讼前
+    opening: 养父母迁坟后，新墓碑的署名和搬迁款分配发生争议。我认为自己的身份和祭奠利益受到侵害，想了解可否要求更正并赔偿。
+    admission_reason: 收养继承身份、旧碑刻名、迁坟名单、故意遗漏和精神寄托完整，可评价一般人格权益。
+    facts:
+      - {client_belief: "我是已故养父母的养女和唯一继承人。", court_record: "石某连系已故石某信夫妇养女和唯一继承人。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "石某连系已故石某信夫妇养女和唯一继承人"}]}
+      - {client_belief: "旧墓碑上原本刻有我的名字。", court_record: "此前搬迁所立墓碑上刻有石某连名字。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "当时所立石某信夫妇墓碑上刻有石某连名字"}]}
+      - {client_belief: "社区新立墓碑按各家上报名单刻名。", court_record: "迁坟中新墓碑由社区提供并按各家上报名单镌刻姓名。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "新立墓碑由社区提供并按照各家上报的名单镌刻姓名"}]}
+      - {client_belief: "堂侄上报名单时没有列我，导致新碑漏刻。", court_record: "石某荷上报名单时未列石某连，导致新墓碑未刻其名。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "石某荷在向居委会上报名单时未列入石某连，导致新立墓碑未刻石某连名字"}]}
+      - {client_belief: "墓碑刻名只是家族习惯，不属于法律保护的人格利益。", court_record: "亲人墓碑刻名体现追思、身份关系和社会评价，关系人格尊严并受法律保护。", gap_type: disputed, evidence: [{section: adjudication, quote: "墓碑刻名关系到子女的人格尊严，相应权益应受法律保护"}]}
+      - {client_belief: "养女与亲生子女地位不同，过世养父母墓碑上没有刻名权益。", court_record: "养子女在养父母墓碑刻名符合公序良俗并彰显特殊身份关系。", gap_type: disputed, evidence: [{section: adjudication, quote: "养子女在过世父母墓碑上镌刻自己的姓名，符合公序良俗和传统习惯"}]}
+    expected_inquiries: ["合法收养、唯一继承人身份由哪些材料证明？", "旧碑照片和此前刻名情况是否可核验？", "迁坟上报名单由谁形成，遗漏是否故意？", "社区刻碑流程和更正可行性如何？", "搬迁补偿归属、已领取和精神损害请求如何区分？"]
+    memo_expectations: ["识别墓碑刻名承载的人格尊严和身份利益。", "确认养亲关系及旧碑历史。", "证明上报名单遗漏与新碑结果因果。", "优先设计补刻姓名的停止侵害恢复措施。", "分别处理搬迁款和精神损害。"]
+    editorial_review: *full_review
+    editorial_note: 保护对象不是逝者权利，而是生者基于亲属身份、追思和人格尊严产生的具体利益。
+
+  - id: lsg_cn_0072
+    source_line: 85
+    source_case_sha256: d5ae59e7c82a834f582b30cf0bfeadebf9a63edcfef23aef1e025371650f0fe7
+    split: train
+    legal_domain: personality_privacy
+    client_role: 因业主群负面言论准备维权的物业公司
+    consultation_stage: 业主拒绝道歉且公司准备起诉前
+    opening: 一名业主在小区群以激烈措辞质疑维修资金使用和物业管理。我们认为言论损害公司名誉，但内容又围绕业主自身权益和信息公示问题。
+    admission_reason: 业主监督事项、群聊范围、具体措辞、工作人员回应和容忍义务完整，可评价负面评价必要限度。
+    facts:
+      - {client_belief: "我公司为小区提供物业管理服务，发言人是该小区业主。", court_record: "某物业公司提供小区物业服务，吴某系小区业主。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "原告某物业公司为某小区提供物业管理服务"}, {section: basic_facts, quote: "被告吴某、案外人徐某系该小区业主"}]}
+      - {client_belief: "群聊起因是业主质疑维修资金使用是否经签字同意。", court_record: "业主在群内质疑小区门口工程动用维修资金及签字同意。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "小区大门口动用该房屋维修金，你们大家签了字，同意了吗"}]}
+      - {client_belief: "吴某发表维修基金会被套完、物业黑心等言论并要求公示名单。", court_record: "吴某在业主群发表关于维修基金、物业和公示名单的负面言论。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "维修基金被物业套完了"}, {section: basic_facts, quote: "要求公示名单"}]}
+      - {client_belief: "工作人员要求其道歉后，吴某拒绝并称所说是事实。", court_record: "物业工作人员制止并要求道歉，吴某拒绝并坚持其言论。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "物业公司工作人员在该群内制止吴某并要求吴某道歉"}, {section: basic_facts, quote: "我说的是事实"}]}
+      - {client_belief: "言论含有‘黑心’等不文明词语，就必然构成法人名誉侵权。", court_record: "措辞不文明不严谨但未超出围绕维修资金监督的必要限度时，不足以构成名誉侵权。", gap_type: disputed, evidence: [{section: adjudication, quote: "措辞虽有不文明、不严谨之处，但未超过必要的限度"}]}
+      - {client_belief: "物业作为法人对任何公开质疑都无需容忍，可以要求删除致歉。", court_record: "服务企业对业主在特定群内围绕切身权益所作发言负有一定容忍义务。", gap_type: disputed, evidence: [{section: adjudication, quote: "物业公司系为业主提供服务的企业法人，对业主在业主群内围绕其切身权益所作发言具有一定容忍义务"}]}
+    expected_inquiries: ["维修资金申领使用是否规范，业主质疑有何事实基础？", "群成员范围、传播程度和完整上下文如何？", "哪些内容是事实陈述，哪些是意见或侮辱？", "言论是否持续扩散并造成具体社会评价或经营损害？", "物业是否及时公示解释，业主是否拒绝更正已证伪事实？"]
+    memo_expectations: ["确认法人享有名誉权但须证明侵权要件。", "结合公共利益、业主监督权和群聊语境评价限度。", "区分不文明意见与虚假事实诽谤。", "审查实际传播和社会评价降低后果。", "优先考虑公示澄清而非压制合理监督。"]
+    editorial_review: *full_review
+    editorial_note: 未因来源结果预设所有业主负评均免责；若存在捏造、超范围传播或显著损害仍须另行评价。
+
+  - id: lsg_cn_0073
+    source_line: 90
+    source_case_sha256: d9c9f57fe30c869a7baa5fa7cb3bf35557ef240b216a71998a5f110511b4bcfd
+    split: train
+    legal_domain: personality_privacy
+    client_role: 肖像被换脸软件商业使用的彭某某
+    consultation_stage: 发现软件上架肖像并牟利后、起诉前
+    opening: 我发现一款商业化换脸软件使用了与我有关的肖像素材。我想确认平台取得授权的范围、具体使用方式及可主张的停止侵害、道歉和赔偿。
+    admission_reason: 软件功能、付费会员、未经同意、肖像模板和营利目的完整，可评价技术处理不消灭肖像使用。
+    facts:
+      - {client_belief: "该公司开发运营付费会员使用的换脸软件。", court_record: "某软件公司运营供付费会员进行面部替换的软件。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某软件运营公司开发运营一款软件，用于供付费会员使用他人的照片进行面部替换"}]}
+      - {client_belief: "软件可用他人照片生成面部为该他人的作品。", court_record: "软件换脸后生成面部为照片中他人的作品。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "进而生成面部为该他人的作品"}]}
+      - {client_belief: "公司没有取得我的同意。", court_record: "软件公司未经彭某某同意使用其肖像。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "未经彭某某同意"}]}
+      - {client_belief: "公司自行上架我的肖像供会员换脸并牟利。", court_record: "公司上架彭某某肖像供会员换脸并以此牟利。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "自行在软件中上架彭某某的肖像供会员“换脸”并牟利"}]}
+      - {client_belief: "照片经过面部替换技术处理后就不再属于对我肖像的制作或使用。", court_record: "可识别肖像被作为商业模板制作、使用或公开，不因换脸技术而当然脱离肖像权保护。", gap_type: disputed, evidence: [{section: adjudication, quote: "未经自然人同意，他人不得制作、使用、公开自然人的肖像"}]}
+      - {client_belief: "平台只提供工具、由会员实际生成内容，所以运营公司自行上架模板并牟利也无需负责。", court_record: "运营公司未经授权以营利目的使用含肖像的照片视频，构成其自身侵权行为。", gap_type: disputed, evidence: [{section: adjudication, quote: "某软件运营公司未经彭某某授权同意，以营利为目的使用含有彭某某肖像的照片、视频，侵害了彭某某的肖像权"}]}
+    expected_inquiries: ["软件中模板、界面、会员收费和生成流程如何取证？", "肖像能否识别为本人，原照片来源和权属如何？", "是否曾作任何授权，授权范围、期限和商业用途是什么？", "模板使用次数、收益、传播和下架情况如何？", "请求停止、道歉和损失赔偿分别有何证据？"]
+    memo_expectations: ["确认可识别肖像及未经同意。", "区分运营者自行上架与用户生成行为。", "营利目的和收费模式用于评价损失。", "设计停止使用删除模板和消除影响。", "合理确定赔偿而非仅以请求金额推算。"]
+    editorial_review: *full_review
+    editorial_note: 未泛化为所有生成式换脸均违法，案件限定于运营者未经同意主动上架可识别肖像并商业牟利。
+
+  - id: lsg_cn_0074
+    source_line: 91
+    source_case_sha256: ff5bb70ee26f8ca80bc2e0b90ad57cb95cd06a61d05213019f8d4bcb2fd48401
+    split: train
+    legal_domain: personality_privacy
+    client_role: 被粉丝超话账号挂人网暴的陈某
+    consultation_stage: 持续被投诉辱骂后、提起名誉权诉讼前
+    opening: 我发布演出观后感并与他人争执后，遭遇某大型粉丝账号集中曝光和投诉，随后受到网络攻击。我想判断组织者及参与者是否侵害我的人格权益。
+    admission_reason: 普通观后感、争执、账号共同管理、置顶个人信息、号召投诉和粉丝辱骂完整，可评价组织化网暴与共同管理责任。
+    facts:
+      - {client_belief: "涉案粉丝账号由孟某手机绑定、高某实名注册并共同管理。", court_record: "涉案账号由孟某手机绑定、高某实名注册，二人共同管理使用。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "由孟某手机绑定、高某身份信息实名注册，孟某、高某对该账号共同管理使用"}]}
+      - {client_belief: "我发布观后感后因意见不同与部分粉丝发生网络争执。", court_record: "陈某发布演出观后感后因意见不合与粉丝发生争执。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "陈某观看前述相声演员的演出后通过自己的社交账号发布观后感，因意见不合与该相声演员的粉丝在网络社交平台发生争执"}]}
+      - {client_belief: "该账号置顶我的账号等个人信息和争执链接。", court_record: "涉案账号将陈某社交账号等个人信息和多条争执链接置顶公示。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "将陈某的社交账号等个人信息置顶公示"}, {section: basic_facts, quote: "列出陈某的多条与粉丝争执的消息网址链接"}]}
+      - {client_belief: "账号公开投诉模板并号召粉丝投诉，我还收到众多私信辱骂。", court_record: "涉案账号置顶投诉模板号召投诉，陈某收到众多粉丝私聊辱骂。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "置顶公开投诉模板，号召该相声演员的其他粉丝投诉陈某的社交账号"}, {section: basic_facts, quote: "陈某的社交账号还收到众多粉丝的私聊辱骂"}]}
+      - {client_belief: "粉丝账号声称维护演员声誉，就可以公开挂人并持续动员网暴。", court_record: "普通观后感和个别争执不足以正当化组织粉丝持续投诉网暴并严重侵害名誉。", gap_type: disputed, evidence: [{section: adjudication, quote: "涉案账号借维护相声演员声誉为由，号召其他粉丝投诉陈某社交账号，持续对其网暴，严重侵犯陈某的名誉权"}]}
+      - {client_belief: "账号由多人共同使用就无法确定责任，实名人和绑定人都可相互推脱。", court_record: "能够证明共同管理使用时，共同使用人应对账号实施的侵权行为承担责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "孟某、高某作为账户的共同使用人，应当对涉案账号的行为承担相应责任"}]}
+    expected_inquiries: ["原观后感和争执完整上下文是什么，是否含违法内容？", "挂人帖、置顶链接、投诉模板及传播数据如何保全？", "私信辱骂与号召行为的时间和内容是否关联？", "孟某、高某共同管理的登录、发布和分工证据如何？", "账号信息中哪些属于个人信息，造成何种名誉和生活影响？"]
+    memo_expectations: ["区分正当批评投诉与组织化持续网暴。", "证明号召行为、粉丝响应和损害之间联系。", "评估公开个人信息的必要性和侵害程度。", "根据共同管理认定责任主体。", "设计删除、停止、道歉及合理损失请求。"]
+    editorial_review: *full_review
+    editorial_note: 不把所有集体投诉认定侵权，核心是置顶挂人、公开模板、持续动员和大量辱骂形成的组织化损害。

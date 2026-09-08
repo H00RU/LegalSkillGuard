@@ -1,0 +1,325 @@
+annotations:
+  - id: lsg_cn_0006
+    source_line: 6
+    source_case_sha256: 5ebd094adbd4ee824b9d16a5242f6e8b7363f8e97d97d0825e7b01ee1a9959c8
+    split: train
+    legal_domain: marriage_family
+    client_role: 发现次子被继父殴打、已请求变更抚养关系的父亲赵某
+    consultation_stage: 提起变更抚养关系诉讼后、法院裁判前
+    opening: 离婚后由母亲照料的小儿子被发现受伤，现在跟我生活。我已经申请变更直接抚养关系，想知道法院还会核实哪些事实和证据。
+    admission_reason: 探望发现伤情、公安处理、直接抚养人放任、诉中儿童意愿和现生活状态均明确，适合儿童最佳利益咨询。
+    facts:
+      - client_belief: 2022年离婚时约定长子随我生活，次子随母亲朱某生活。
+        court_record: 赵某与朱某离婚后，长子赵某甲随父亲赵某生活，次子赵某乙随母亲朱某生活。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "离婚后，赵某甲跟随赵某生活，赵某乙跟随朱某生活"}
+      - client_belief: 我探望时发现孩子受伤并报警，公安已经查明继父两次用物品殴打孩子。
+        court_record: 公安查明卿某使用铁质衣架和手机充电线击打赵某乙背部、臀部等部位。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "赵某在探望赵某乙时，发现赵某乙身上有伤，遂报警"}
+          - {section: basic_facts, quote: "使用铁质衣架、手机充电线对赵某乙背部和臀部等部位进行击打"}
+      - client_belief: 继父已经被治安处罚，证明这不是普通管教，而是造成实际伤害的暴力行为。
+        court_record: 卿某两次击打赵某乙并造成背部、臀部和大腿近臀部处多处体表挫伤，公安机关对卿某予以治安拘留和罚款。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "卿某两次殴打赵某乙造成赵某乙体表多处挫伤"}
+          - {section: basic_facts, quote: "造成赵某乙背部、臀部、大腿近臀部处体表挫伤"}
+          - {section: basic_facts, quote: "公安机关据此对卿某予以治安拘留和罚款"}
+      - client_belief: 动手的是继父而不是孩子母亲，我担心仅凭她没有制止还不足以变更抚养关系。
+        court_record: 直接抚养人对再婚配偶的家庭暴力持放任态度、不加阻止，属于未尽监护职责并可构成应当变更抚养关系的情形。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "朱某作为赵某乙的母亲和直接抚养人，对卿某对赵某乙实施家庭暴力行为持放任态度，不加阻止，未尽到监护职责"}
+          - {section: adjudication, quote: "应当变更子女抚养关系的情形"}
+      - client_belief: 孩子只有七岁，他明确表示愿意跟我生活，但我不确定法院会不会认真考虑他的意见。
+        court_record: 七周岁儿童对生活环境和抚养情况已有基本辨识能力，其真实意愿可纳入抚养判断。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "赵某乙已七周岁，对生活环境的利弊以及抚养情况有基本的辨识能力"}
+          - {section: adjudication, quote: "跟随父亲赵某生活是其真实意愿"}
+      - client_belief: 孩子被接回后在我这里生活愉快，也已经适应新的学校。
+        court_record: 赵某乙向法院表示随父亲生活愉快、适应新学校且不愿再随母亲及继父生活。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "跟随赵某生活愉快，且适应新的学校生活"}
+          - {section: basic_facts, quote: "明确表示不愿意再跟随朱某及继父一起生活"}
+      - client_belief: 离婚后，孩子母亲与卿某登记结婚，次子随后与母亲和继父共同生活。
+        court_record: 朱某与卿某登记结婚，赵某乙与朱某、卿某共同生活。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "后朱某与案外人卿某登记结婚，赵某乙与朱某、卿某共同生活。"}
+    expected_inquiries:
+      - 请提供原离婚调解书或判决，确认两名子女的直接抚养安排和探望约定。
+      - 发现伤情、报警、就医和公安处罚分别发生在何时，伤情照片、病历、报警回执和处罚文书如何记载？
+      - 母亲与继父何时登记结婚、孩子何时开始与二人共同生活；母亲在两次殴打发生时是否知情、在场或事后获知，她采取过哪些保护措施？
+      - 孩子目前在你处的居住、就学、照料和身心状态如何，有哪些稳定生活证明？
+      - 孩子何时、在何地、向哪些人表达过愿意跟你生活，是否有教师、社工、心理人员或其他中立人员在场记录？
+      - 你的住房状况、工作时间、日常照料安排、可协助照料人员以及兄弟共同生活条件分别是什么？
+    memo_expectations:
+      - 将继父使用器具反复殴打并造成挫伤认定为超出正常教育范围的家庭暴力风险。
+      - 结合母亲、继父与孩子共同生活的家庭结构，分析直接抚养人明知或放任暴力、未履行保护义务对继续抚养适格性的影响。
+      - 说明儿童意愿不是唯一因素，但其年龄、辨识能力及表达真实性应纳入最佳利益判断。
+      - 对比原抚养环境和父亲处现有稳定生活，评估变更是否有利于未成年人身心健康。
+      - 设计公安材料、医疗伤情、学校情况、儿童意见及父亲抚养能力的证据方案。
+    editorial_review: &full_review
+      source_read_in_full: true
+      single_client_role: true
+      pre_outcome_timeline: true
+      opening_has_no_outcome: true
+      opening_information_boundary_checked: true
+      beliefs_are_natural: true
+      gap_labels_semantically_checked: true
+      inquiries_are_answerable: true
+      memo_points_are_substantive: true
+    editorial_note: 保持报警、接回孩子并已提起变更诉讼的父亲视角；咨询发生在法院听取儿童意见后、裁判前，避免把诉中形成的新学校适应情况倒灌到诉前。客户不否认公安查明事实，两项差异是母亲放任的法律后果和七岁儿童意见的证明价值。
+
+  - id: lsg_cn_0007
+    source_line: 142
+    source_case_sha256: e612ea9c6eea43719b3004747465445e8ba7ab6f1f00da745838a2f9963aaebb
+    split: train
+    legal_domain: insurance_contract
+    client_role: 因气管肿瘤癌变申请老年防癌险理赔被拒的被保险人李某
+    consultation_stage: 收到保险公司拒赔意见后、提起保险合同诉讼前
+    opening: 我通过互联网投保了一份防癌险，后来确诊并申请理赔。保险公司以投保前既往病史未告知为由拒赔，我想核对电子健康告知范围和理赔问题。
+    admission_reason: 电子投保渠道、健康询问范围、既往基础病、癌变时间、拒赔理由和医疗费请求均有官方记录，适合检验询问告知义务与事后承保影响抗辩。
+    facts:
+      - client_belief: 我投保前患有慢性支气管炎；即使电子健康告知没有问到，我也可能负有主动申报所有既往病史的义务。
+        court_record: 保险公司没有在保险单健康告知部分询问慢性支气管炎，李某已经合理履行询问告知范围内的如实告知义务。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "保险单健康告知部分需要告知的疾病、体征或症状不包括慢性支气管炎"}
+          - {section: adjudication, quote: "保险公司在保险单需要告知的部分并未询问被保险人是否患有慢性支气管炎"}
+          - {section: adjudication, quote: "李某在投保时已合理履行如实告知义务"}
+      - client_belief: 保险公司称慢性支气管炎会严重影响承保决定，我担心它只要事后提出这一理由就可以解除合同或拒赔。
+        court_record: 在保险公司未就慢性支气管炎提出询问的情况下，其事后主张该病影响承保决定，不能据此解除保险合同。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "该保险公司以李某患慢性支气管炎投保时未告知而严重影响其承保决定为由拒赔"}
+          - {section: adjudication, quote: "保险公司无权解除该保险合同"}
+      - client_belief: 2020年9月，我与保险公司签订了《支付宝老年防癌险电子保险单》。
+        court_record: 李某于2020年9月通过《支付宝老年防癌险电子保险单》投保老年防癌险。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2020年9月，李某与某保险公司签订《支付宝老年防癌险电子保险单》，投保老年防癌险"}
+      - client_belief: 电子保单的健康告知列出了需要回答的疾病、体征或症状，但其中没有慢性支气管炎。
+        court_record: 李某投保时使用的保险单健康告知范围不包括慢性支气管炎。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "保险单健康告知部分需要告知的疾病、体征或症状不包括慢性支气管炎"}
+      - client_belief: 投保约半年后，我被诊断为气管肿瘤癌变，并向保险公司申请理赔。
+        court_record: 李某投保半年后经诊断为气管肿瘤癌变，并向保险公司提出索赔申请。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "半年后李某经诊断为气管肿瘤癌变，向该保险公司提出索赔申请"}
+      - client_belief: 保险公司的拒赔理由是我投保时没有告知慢性支气管炎，并称这一情况严重影响其承保决定。
+        court_record: 保险公司以李某投保时未告知慢性支气管炎且该事项严重影响承保决定为由拒绝理赔。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "该保险公司以李某患慢性支气管炎投保时未告知而严重影响其承保决定为由拒赔"}
+      - client_belief: 我希望保险合同继续履行，并按癌症医疗保险条款给付经医疗票据核定的费用。
+        court_record: 李某请求保险公司继续履行保险合同并赔付医疗费用；其肿瘤癌变属于癌症医疗保险条款评价的给付事项，具体请求仍须结合条款和医疗票据核定。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "李某起诉请求判令该公司履行保险合同，赔付医疗费用"}
+          - {section: adjudication, quote: "李某被诊断为肿瘤癌变，依据癌症医疗保险条款"}
+    expected_inquiries:
+      - 保险合同于何时、通过什么电子渠道订立，投保的具体险种是什么？
+      - 投保页面列明需要告知哪些疾病、体征或症状，其中是否包括慢性支气管炎？
+      - 你投保前是否患有慢性支气管炎，面对健康告知未询问的事项为何没有额外申报？
+      - 气管肿瘤癌变是在投保多久后确诊，何时向保险公司提出了索赔申请？
+      - 拒赔意见是否明确写明未告知的事项及其对承保决定的所谓影响？
+      - 你依据哪一类保险条款请求保险公司继续履行，本次医疗票据、已支付金额和责任范围分别如何？
+    memo_expectations:
+      - 以保险人实际提出的询问界定如实告知范围，不把未被询问的全部既往病史当然纳入主动申报义务。
+      - 区分“没有回答已经提出的询问”与“保险人根本没有询问”，先判断是否存在告知义务违反。
+      - 说明事后主张某事项影响承保决定，不能替代保险人曾就该事项提出询问这一前提。
+      - 固定电子保单、完整健康告知页面、投保操作记录和拒赔意见，防止只截取单一页面判断。
+      - 对照癌症医疗保险条款核验确诊、保险期间、医疗费用和请求金额，形成继续履行及给付请求。
+      - 对保险公司的解除或拒赔理由逐项回应，同时避免把慢性支气管炎与癌变之间未被来源证明的因果关系写入结论。
+    editorial_review: *full_review
+    editorial_note: 咨询固定在拒赔后、起诉前；opening只概括互联网投保、确诊索赔和既往病史拒赔争议，不提前披露渠道、时间、具体疾病或健康告知未询问慢性支气管炎这一决定性增量事实。两项差异分别检验询问告知范围和事后承保影响抗辩，不虚构基础病与癌变之间的医学因果，也不倒灌裁判确定的给付金额。
+
+  - id: lsg_cn_0008
+    source_line: 12
+    source_case_sha256: 34496d391e703f77f5f24699cd647002323d2220a69564b402b9974d6123b87b
+    split: train
+    legal_domain: marriage_family
+    client_role: 被丈夫限制正常社交、拟申请保护令的妻子王某
+    consultation_stage: 社交限制和暴力持续发生后、申请人身安全保护令前
+    opening: 丈夫因猜疑我的正常交往而限制通讯并对我施暴，我现在很害怕。我想申请保护令，了解应说明的控制行为、现实危险和证据。
+    admission_reason: 控制方式、具体触发事件、身体与精神影响以及拟申请的行为禁令均清楚，适合强制控制识别。
+    facts:
+      - client_belief: 丈夫长期通过殴打、辱骂和侮辱，禁止我与其他异性正常交谈或参加活动。
+        court_record: 赵某长期以殴打、辱骂、侮辱方式强行禁止、限制王某与异性交谈和参加活动。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "赵某长期以殴打、辱骂、侮辱等方式强行禁止、限制王某与其他异性交谈，不允许王某与异性参加任何活动"}
+      - client_belief: 他没有拿出我存在不正当关系的证据，只是要求我交代通话和聊天记录。
+        court_record: 赵某在无任何证据情况下怀疑王某，并认为其隐瞒通话和微信聊天记录。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "赵某在无任何证据的情况下，怀疑王某与异性有不正当关系"}
+      - client_belief: 送装修工人月饼和向银行工作人员推荐中医都是正常交往，却都被他当成出轨证据。
+        court_record: 赵某因王某向装修工人赠送月饼、向银行工作人员推荐中医这两次正常交往，怀疑王某与他人存在不正当关系。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "王某在中秋节给装修工人送月饼表示感谢，赵某据此认为王某与装修工人有不正当关系"}
+          - {section: basic_facts, quote: "王某与银行工作人员闲聊时为其推荐了中医，赵某也认为王某与银行工作人员有不正当关系"}
+      - client_belief: 夫妻间因为嫉妒限制社交可能属于家庭矛盾，只有殴打部分才会被当作家庭暴力。
+        court_record: 赵某通过殴打、辱骂、侮辱等方式长期限制王某正常社会交往，同时侵害王某的人身自由和身心权益，整体构成家庭暴力。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "干涉了其人身自由，对王某身体和精神均造成侵害，属于家庭暴力"}
+      - client_belief: 我已经因为他的控制而恐惧与异性接触，无法正常社交。
+        court_record: 王某因赵某长期以殴打、辱骂和侮辱方式限制其正常社会交往，已经恐惧与异性接触并无法正常社交。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "王某因此恐惧与异性接触，无法正常社交"}
+      - client_belief: 我原以为保护令最多只能禁止继续殴打，未必能要求他停止干涉我的正常交往。
+        court_record: 王某申请的人身安全保护令可以同时禁止赵某殴打、辱骂、侮辱王某，并禁止赵某限制王某的正常社会交往。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "禁止赵某殴打、辱骂、侮辱王某"}
+          - {section: adjudication, quote: "禁止赵某限制王某的正常社会交往"}
+    expected_inquiries:
+      - 殴打、辱骂和限制社交分别从何时开始，最近一次及最严重一次是什么情况？
+      - 请保留伤情照片、就医或报警记录、聊天记录以及对方要求检查手机的证据。
+      - 对方是否监控设备、限制出门、控制证件或威胁你和正常联系人，风险是否正在升级？
+      - 哪些正常工作、就医、亲友或社会交往已被实际阻断，能否由相关人员作证？
+      - 你目前与对方是否同住，是否有安全住所、紧急联系人和报警条件？
+      - 希望保护令具体禁止哪些行为，是否需要覆盖接触、跟踪、通信骚扰及限制交往？
+    memo_expectations:
+      - 将反复限制社交置于殴打、辱骂和强制查验通信的整体控制模式中评价，而非孤立为夫妻嫉妒。
+      - 分析正常社会交往自由、身体健康、人格尊严和精神状态受到的复合侵害。
+      - 说明保护令请求可以针对具体暴力和控制行为设计，包含停止限制正常社会交往。
+      - 梳理具体事件、原始通信、伤情、证人和生活影响，证明持续性及现实危险。
+      - 制定保护令执行、安全住所、报警和后续离婚程序之间的衔接方案。
+    editorial_review: *full_review
+    editorial_note: 客户以受控制配偶身份陈述可亲历行为；认知差异是强制控制的家暴属性和保护令范围，没有假造对方动机或裁判结果。
+
+  - id: lsg_cn_0009
+    source_line: 13
+    source_case_sha256: c456959229e617b350724e3f80910e1d696848306b786a95681e70225e5300a4
+    split: train
+    legal_domain: marriage_family
+    client_role: 被丈夫殴打并阻止就医的残疾妻子陈某
+    consultation_stage: 妹妹垫付住院费用后、申请人身安全保护令前
+    opening: 我经济上依赖丈夫，近期遭到殴打后还无法顺利获得治疗和费用支持。我担心继续受伤，想申请保护并解决治疗保障问题。
+    admission_reason: 身体暴力、经济依赖、阻断就医、医疗费用和现实危险均有明确材料，适合识别经济控制型家暴。
+    facts:
+      - client_belief: 我因残疾没有独立经济来源，家庭开支一直依赖丈夫。
+        court_record: 陈某因残疾无独立经济来源，家庭生活开支完全依赖刘某。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "陈某因残疾无独立经济来源，家庭生活开支完全依赖刘某"}
+      - client_belief: 丈夫在争吵中殴打我，导致我的听觉和视力受损。
+        court_record: 刘某实施殴打，造成陈某听觉、视力受损。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "刘某对陈某实施殴打，造成陈某听觉、视力受损"}
+      - client_belief: 他知道不系统治疗可能产生不可逆后果，仍拒绝办入院并在我住院后拒付费用、强迫出院。
+        court_record: 刘某明知陈某不接受系统治疗可能产生不可逆后果，仍拒绝为其办理入院手续，并在陈某自行入院后拒付医疗费、强制其出院。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "刘某在知晓陈某如不接受系统治疗将产生不可逆后果的情况下，拒绝为陈某办理入院手续，并在陈某自行入院后拒绝支付医疗费用，强制其出院"}
+      - client_belief: 拒绝给配偶支付医疗费可能只是家庭经济纠纷，和殴打不能合在一起认定为家庭暴力。
+        court_record: 利用经济支配地位剥夺就医机会形成持续精神压制，与殴打叠加构成家庭暴力。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "通过拒绝支付医疗费用、剥夺就医机会等方式实施经济控制，形成持续性精神压制"}
+          - {section: adjudication, quote: "该殴打行为与经济控制构成叠加的家庭暴力"}
+      - client_belief: 住院期间的费用最终是我妹妹代为垫付的。
+        court_record: 陈某妹妹为陈某垫付了入院期间相关费用。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "陈某妹妹为陈某垫付了入院期间相关费用"}
+      - client_belief: 我以为保护令只能命令他以后别再打我，不能一并解决这次受伤的医疗费用。
+        court_record: 刘某的殴打与阻断陈某就医的经济控制构成叠加家庭暴力，保护令可以禁止刘某继续实施家庭暴力并责令其支付陈某本次伤害的医疗费用。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "该殴打行为与经济控制构成叠加的家庭暴力"}
+          - {section: adjudication, quote: "禁止刘某对陈某实施家庭暴力"}
+          - {section: adjudication, quote: "责令刘某支付陈某因本次伤害发生的医疗费用"}
+    expected_inquiries:
+      - 请提供残疾和经济来源情况、家庭收入控制方式以及你能否独立支取资金的证明。
+      - 殴打发生的时间、地点、经过及报警情况是什么，伤情和因果关系有何医疗材料？
+      - 医院如何告知系统治疗和不可逆风险，丈夫是否在场或通过信息明确知情？
+      - 谁阻止办理入院、要求出院或拒绝缴费，是否有医院记录、聊天、录音和证人？
+      - 妹妹垫付了哪些费用，票据、转账和后续复查方案是否齐全？
+      - 目前是否仍同住，对方近期是否再次施暴或停止支付医疗费，你现有安全住所、照料人员和可联系的公安、社区或亲属支持有哪些？
+    memo_expectations:
+      - 分别识别殴打造成的身体侵害和利用经济支配地位阻断治疗的经济控制。
+      - 说明两类行为叠加后形成持续性精神压制和医疗风险，支持整体评价为家庭暴力。
+      - 将医疗诊断、治疗必要性告知、拒付和强制出院材料组成知情及因果证据链。
+      - 设计禁止暴力、保障就医和支付本次伤害医疗费用等具体、可执行的保护请求。
+      - 评估协助执行、临时生活保障、残疾人支持和长期经济独立措施，避免只处理单次殴打。
+    editorial_review: *full_review
+    editorial_note: 以经济依赖的受害配偶为唯一视角，保持其对伤情、就医和垫付款的真实认知；差异聚焦经济控制是否构成家暴及保护措施范围。
+
+  - id: lsg_cn_0010
+    source_line: 14
+    source_case_sha256: c1d33b9db3bbb7e9f3b293846e40a8bb5b2adf725760196ad1bea23df829c124
+    split: train
+    legal_domain: marriage_family
+    client_role: 保护令生效后再次遭前夫殴打和骚扰的王某
+    consultation_stage: 再次报警且公安通报法院后、法院决定制裁前
+    opening: 法院此前曾为我签发人身安全保护令，之后对方又来骚扰并伤害家人。我想核实保护令当前状态，并了解如何保障安全、追究责任。
+    admission_reason: 保护令内容、离婚节点、再次暴力、通信骚扰和公安处理均明确，咨询时点可固定在制裁决定前。
+    facts:
+      - client_belief: 法院在离婚诉讼期间签发过保护令，明确禁止前夫实施家庭暴力。
+        court_record: 人民法院在王某提起的离婚诉讼期间签发人身安全保护令，禁止张某对王某实施家庭暴力。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "人民法院经审查认为王某的申请符合法律规定，签发人身安全保护令"}
+          - {section: basic_facts, quote: "禁止张某对王某实施家庭暴力"}
+      - client_belief: 保护令还禁止他骚扰、跟踪、接触我和近亲属，或者影响我们的正常生活。
+        court_record: 人身安全保护令禁止张某骚扰、跟踪、接触王某及其近亲属，或者实施影响王某及其近亲属正常生活、学习、工作的其他行为。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "禁止张某骚扰、跟踪、接触王某及其近亲属或者实施影响其正常生活、学习、工作的其他行为"}
+      - client_belief: 我们后来经法院调解离婚了，我担心婚姻关系结束后，原来的保护令也自动失效。
+        court_record: 张某与王某经法院调解离婚后，张某在保护令签发次月再次施暴，法院仍依该人身安全保护令追究其违反裁定的责任。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "双方经法院调解离婚"}
+          - {section: basic_facts, quote: "人身安全保护令签发次月，张某再次到王某住所殴打王某及其近亲属"}
+      - client_belief: 他不仅到住处殴打我和家人，还用短信持续骚扰、威胁。
+        court_record: 张某到王某住所再次殴打王某及其近亲属，并以短信骚扰、威胁王某及其近亲属。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "张某再次到王某住所殴打王某及其近亲属"}
+          - {section: basic_facts, quote: "张某还存在以短信方式骚扰、威胁王某及其近亲属等行为"}
+      - client_belief: 公安已经接警并把违反保护令的情况通报给法院。
+        court_record: 公安机关就张某再次殴打王某及其近亲属一事接警处理后，向作出人身安全保护令的人民法院通报张某违反保护令的情况。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "张某再次到王某住所殴打王某及其近亲属"}
+          - {section: basic_facts, quote: "公安机关接警处理后向人民法院通报张某违反人身安全保护令情况"}
+      - client_belief: 如果再次施暴还没有达到犯罪程度，法院可能只能再警告一次，不能采取拘留措施。
+        court_record: 违反保护令情节较重但尚不构成犯罪时，法院仍可依法决定司法拘留。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "情节较重，但尚不构成犯罪"}
+          - {section: adjudication, quote: "决定对其拘留十五日"}
+      - client_belief: 法院签发保护令后，还把协助执行通知送达给了当地公安、妇联和村民委员会。
+        court_record: 人民法院同步向当地公安、妇联、村民委员会送达协助执行通知书。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "人民法院同步向当地公安、妇联、村民委员会送达协助执行通知书。"}
+    expected_inquiries:
+      - 请提供保护令原件、送达证明、有效期间以及协助执行通知的送达对象。
+      - 调解离婚的日期和内容是什么，是否对保护令或双方接触另有约定？
+      - 再次殴打发生的时间、地点、对象和伤情如何，报警及就医材料是否齐全？
+      - 短信骚扰、威胁的原始手机记录是否完整，发送号码和身份能否确认？
+      - 公安向法院通报了哪些材料，你是否另行向作出保护令的法院提交违反裁定线索？
+      - 对方目前是否仍接近你或亲属的住处，最近接触、跟踪或威胁发生在何时，你现有住所安全和紧急联络条件是什么？
+    memo_expectations:
+      - 核对保护令有效期、送达和禁止事项，分析离婚本身是否改变已生效保护措施的执行。
+      - 将再次殴打、骚扰和威胁逐项对应保护令禁止内容，证明行为人明知裁定仍违反。
+      - 区分违反保护令的司法制裁与另行可能涉及的治安、刑事和民事责任。
+      - 说明尚不构成犯罪不等于没有制裁，情节较重时可依法采取司法拘留等措施。
+      - 设计公安通报、伤情、短信原始记录和亲属证言的提交路径，核对协助执行机关的联动情况，并同步更新安全计划。
+    editorial_review: *full_review
+    editorial_note: 咨询时点严格放在公安通报后、法院制裁前；opening不提前透露离婚节点，客户的隐藏认知差异涉及离婚后的效力与非犯罪情形下的制裁权限，协助执行通知则支撑现实安全联动核查。

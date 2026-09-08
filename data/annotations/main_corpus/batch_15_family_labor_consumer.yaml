@@ -1,0 +1,108 @@
+annotations:
+  - id: lsg_cn_0061
+    source_line: 11
+    source_case_sha256: fbb3b9b99f9fa3c39f825c5bd349a5b00d2f72862f7ea2331a12371fb7837456
+    split: train
+    legal_domain: marriage_family
+    client_role: 长期遭配偶酒后辱骂恐吓的赵某
+    consultation_stage: 决定离婚并准备起诉前
+    opening: 我长期遭受一名家庭成员的辱骂和贬损，虽然很少发生肢体冲突，但精神伤害持续存在。我想知道是否属于家庭暴力并能否主张损害赔偿。
+    admission_reason: 经常性辱骂、触发情形、庭审自认和聊天视频证据完整，可评价精神暴力而非仅限身体伤害。
+    facts:
+      - {client_belief: "我与张某是夫妻。", court_record: "赵某与张某系夫妻关系。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "赵某与张某系夫妻关系"}]}
+      - {client_belief: "张某婚后经常酒后无故谩骂我。", court_record: "婚后张某经常酒后无故谩骂赵某。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "婚后，张某经常酒后无故谩骂赵某"}]}
+      - {client_belief: "他打麻将输钱心情不好时也经常侮辱、诋毁我。", court_record: "张某打麻将输钱后经常因心情不好侮辱、诋毁赵某。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "也经常因为输钱心情不好，侮辱、诋毁赵某"}]}
+      - {client_belief: "我保存了微信聊天和视频，他也承认长期辱骂。", court_record: "张某自认几乎每天辱骂赵某，微信聊天记录和视频亦能证明辱骂恐吓。", gap_type: undisputed, evidence: [{section: adjudication, quote: "张某自认其几乎每天都在辱骂赵某"}, {section: adjudication, quote: "赵某提交的微信聊天记录和视频等证据亦证明张某长期对赵某实施辱骂和言语恐吓"}]}
+      - {client_belief: "没有殴打和可见伤痕，就绝不属于家庭暴力。", court_record: "经常性谩骂、恐吓等精神侵害同样属于家庭暴力。", gap_type: disputed, evidence: [{section: adjudication, quote: "以经常性谩骂、恐吓等方式实施的精神侵害行为属于家庭暴力"}]}
+      - {client_belief: "精神暴力最多能作为感情不和事实，不能支持离婚损害赔偿。", court_record: "有证据认定配偶实施家庭暴力时，无过错方请求离婚损害赔偿具有法律基础。", gap_type: disputed, evidence: [{section: adjudication, quote: "赵某要求张某支付离婚损害赔偿金，于法有据"}]}
+      - {client_belief: "庭审中张某仍发表过把辱骂妻子合理化的言论。", court_record: "张某庭审中发表错误言论并认可自己长期辱骂赵某。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "庭审中，张某多次发表“女人不打不骂不听话”等错误言论，对自己在家庭生活中长期辱骂赵某的事实予以认可"}]}
+    expected_inquiries: ["辱骂恐吓持续多久、频率和具体内容如何？", "是否存在控制、威胁、自伤风险或对子女的影响？", "聊天、录音、视频和证人材料能否保持原始完整性？", "对方有无道歉、承认或反向指控，双方是否曾报警求助？", "离婚、财产、子女及人身安全保护的具体诉求是什么？", "持续精神侵害对生活、工作和就医造成了哪些可证明影响？"]
+    memo_expectations: ["识别经常性精神侵害可构成家庭暴力。", "以自认和电子证据证明持续性、严重性。", "分析家庭暴力与感情破裂及损害赔偿。", "评估人身安全保护令和紧急安全安排。", "统筹离婚、财产和子女问题且避免二次伤害。", "区分偶发争执与长期贬损控制的事实强度。"]
+    editorial_review: &full_review {source_read_in_full: true, single_client_role: true, pre_outcome_timeline: true, opening_has_no_outcome: true, opening_information_boundary_checked: true, beliefs_are_natural: true, gap_labels_semantically_checked: true, inquiries_are_answerable: true, memo_points_are_substantive: true}
+    editorial_note: 以持续辱骂恐吓及多源证据为边界，不把一般夫妻争吵一概标注成家庭暴力。
+
+  - id: lsg_cn_0062
+    source_line: 18
+    source_case_sha256: d9d36377f8eb1ac028b6cc852a409312cdd7284f1c1867b0dda2c1058b85f0c9
+    split: train
+    legal_domain: labor_employment
+    client_role: 离职后进入另一生物公司的前首席技术官郑某
+    consultation_stage: 原公司起诉主张竞业违约责任后、答辩前
+    opening: 我从医药公司离职后去了另一家生物公司，原公司认为新旧单位存在竞争并索要高额竞业违约金。我只接触过有限的关联公司药物信息，想判断业务是否真的竞争。
+    admission_reason: 高管岗位、具体秘密、协议范围、新公司产品和可替代性完整，可评价竞业范围必要性及竞争关系。
+    facts:
+      - {client_belief: "我担任原医药公司生产运营部首席技术官。", court_record: "郑某在某甲医药公司担任生产运营部首席技术官。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "担任生产运营部首席技术官"}]}
+      - {client_belief: "我接触过关联公司两款药物的化学成分生产控制保密信息。", court_record: "郑某接触过某乙医药公司两款药物化学成分生产与控制细节等保密信息。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "郑某接触过关联公司某乙医药公司两款药物化学成分生产与控制细节等保密信息"}]}
+      - {client_belief: "离职协议约定竞业限制期限二十四个月。", court_record: "郑某辞职时订立竞业限制协议，期限为24个月。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "约定的竞业限制期为24个月"}]}
+      - {client_belief: "我入职生物公司任高级副总裁并主动告知原公司。", court_record: "郑某离职后任某生物公司高级副总裁并告知某甲医药公司。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "郑某离职后入职某生物公司，担任高级副总裁并告知某甲医药公司"}]}
+      - {client_belief: "协议覆盖关联公司后，我就对关联公司的全部药物和全部业务承担竞业义务。", court_record: "竞业范围应与劳动者实际知悉的商业秘密相适应，本案仅限其接触的两款药物。", gap_type: disputed, evidence: [{section: adjudication, quote: "郑某仅接触过某乙医药公司两款药物的保密信息，其负有的不竞争义务应当限于上述两款药物"}]}
+      - {client_belief: "两家公司都有癌症治疗产品，就足以认定存在竞争关系。", court_record: "医药产品竞争须比较适应症、作用机理和用药方案等可替代性，领域相同不等于紧密替代。", gap_type: disputed, evidence: [{section: adjudication, quote: "应根据经营的药品适应症、作用机理、临床用药方案等，在判断药品之间可替代性的基础上进行认定"}, {section: adjudication, quote: "虽然均包括癌症治疗产品，但从适应症和用药方案上看，不具有可替代性"}]}
+    expected_inquiries: ["原岗位实际接触哪些保密信息，保密载体和措施是什么？", "竞业协议对主体、产品、地域和期限如何约定？", "新旧公司具体产品的适应症、机理和临床方案如何比较？", "新岗位职责是否会使用原秘密，有无信息带出或披露？", "竞业补偿、通知和高额违约金请求如何履行提出？"]
+    memo_expectations: ["以实际知悉秘密限定竞业保护范围。", "用产品可替代性而非宽泛行业标签判断竞争。", "审查新岗位与特定秘密之间联系。", "评价协议必要性、补偿和违约金比例。", "处理关联公司范围不能超过秘密保护需要。"]
+    editorial_review: *full_review
+    editorial_note: 保留高管确有保密义务，但避免由此推导覆盖整个生物医药行业的无限竞业限制。
+
+  - id: lsg_cn_0063
+    source_line: 19
+    source_case_sha256: 06bb92cb3d6dca810414e8f17f0f92c1a1a8b1b5a23f427e2847b0999aef03d8
+    split: train
+    legal_domain: labor_employment
+    client_role: 在职期间自行向公司客户卖布的销售经理黄某
+    consultation_stage: 公司提起竞业违约诉讼后、答辩前
+    opening: 我曾在一家纺织公司从事销售，任职期间签过一份竞业协议。公司现在指控我违反协议并要求承担违约责任，我想了解协议效力、行为定性和责任范围。
+    admission_reason: 销售岗位、客户信息、在职条款、竞争交易和个人收款完整，可评价在职竞业约定及违约行为。
+    facts:
+      - {client_belief: "我在纺织公司从事布匹销售并任销售经理。", court_record: "黄某在某纺织公司从事布匹销售并担任销售经理。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "约定其从事布匹销售工作，担任销售经理"}]}
+      - {client_belief: "协议约定合同期内和离职后不得自营或为他人经营竞争业务。", court_record: "竞业协议覆盖合同期内及离职后两年，并禁止自营或为他人经营竞争业务。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "竞业限制的期限包括但不限于合同期内及离职后两年内，不得自营或者为他人经营与某纺织公司有竞争的业务"}]}
+      - {client_belief: "签约后我多次联系其他供货商向公司的客户出售布匹。", court_record: "黄某订立协议后多次自行联系供货商向某纺织公司客户出售布匹。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "黄某多次自行联系供货商向某纺织公司的客户于某出售布匹"}]}
+      - {client_belief: "客户向我个人支付货款，所得归我。", court_record: "黄某自行销售所得货款归其个人所有。", gap_type: undisputed, evidence: [{section: adjudication, quote: "所得货款归己所有"}]}
+      - {client_belief: "竞业限制制度只可能约束离职后的工作，在职期间自营竞争业务不受书面约定约束。", court_record: "对掌握客户信息的销售经理，双方可依法约定在职期间不得自营竞争业务并要求履行。", gap_type: disputed, evidence: [{section: adjudication, quote: "约定合同期内不得自营或者为他人经营与某纺织公司有竞争关系的业务，否则应承担相应的违约责任"}]}
+      - {client_belief: "我只是个人撮合并未成立公司，所以向原公司客户卖同类布匹不算自营竞争业务。", court_record: "自行联系其他供货商向公司客户销售布匹并将货款归己，属于自营竞争业务。", gap_type: disputed, evidence: [{section: adjudication, quote: "此属于自营与某纺织公司有竞争关系业务的行为，违反了协议约定"}]}
+    expected_inquiries: ["销售经理掌握哪些客户信息及保密资料？", "协议签署、条款提示和违约责任如何约定？", "每次自行交易的供货商、客户、货物和收款如何证明？", "相关客户是否原属公司，交易是否抢占公司机会或造成损失？", "签约前交易与签约后交易如何分开计算？"]
+    memo_expectations: ["确认在职竞业条款的真实合意和合法范围。", "识别销售经理客户信息保密义务。", "证明签约后个人交易构成自营竞争业务。", "区分协议前行为与协议后违约。", "审查违约责任与实际损失并防止重复赔偿。"]
+    editorial_review: *full_review
+    editorial_note: 仅把协议签订后的竞争交易作为核心，不用此前销售额不当扩大违约范围。
+
+  - id: lsg_cn_0064
+    source_line: 32
+    source_case_sha256: 038b51e3fac2d8a7087ab4ab79f8786e70f5c272c7f4a15a6fb5540967e92d8f
+    split: train
+    legal_domain: consumer_contract
+    client_role: 预订后两小时申请退房的消费者鲁某
+    consultation_stage: 客栈以限时规则拒绝退款后、起诉前
+    opening: 我提前预订节假日客房并支付预付款，因行程无法成行很快申请取消，离入住还有较长时间。客栈援引订单中的严格取消规则拒绝退款。
+    admission_reason: 提前预订、首页提示、两小时退订、距入住时间和二次销售条件完整，可评价格式条款与实际损失。
+    facts:
+      - {client_belief: "我通过旅游平台提前十四日预订三天两晚客房并付清房费。", court_record: "鲁某提前14日在线预订三天两晚客房并支付全部房费。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "提前14日预订了“十一黄金周”的三天两晚客房一间，并支付全部房费1281元"}]}
+      - {client_belief: "订单首页标注成功三十分钟后不可取消，取消扣全额预付款。", court_record: "订单首页标注预订成功30分钟后不可取消且取消扣全额预付款。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "预订成功30分钟后不可取消、取消需扣除全额预付款"}]}
+      - {client_belief: "因没买到车票，我在预订两小时后申请全额退款。", court_record: "鲁某未购得车票，在预订成功两小时后申请退订和全额退款。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "在客房预订成功两小时后即在线申请退订客房并申请全额退款"}]}
+      - {client_belief: "申请退订时距离入住日期仍有十四日。", court_record: "鲁某申请退订时距入住尚有14日，客栈具有再销售的合理期间和市场条件。", gap_type: undisputed, evidence: [{section: adjudication, quote: "此时距入住日期尚有14日，某客栈完全具备再销售客房的合理期间和市场条件"}]}
+      - {client_belief: "限时规则醒目写在首页，就必然可以扣除全部房费而不问实际损失。", court_record: "提示并不当然使不合理加重消费者责任的格式条款有效。", gap_type: disputed, evidence: [{section: adjudication, quote: "案涉“预订成功30分钟后不可取消、取消需扣除全额预付款”条款虽在订单首页作出提示"}, {section: adjudication, quote: "会不合理地加重消费者责任，不符合公平原则"}]}
+      - {client_belief: "客栈没有任何损失就必须全退，法院不能考虑我退订的过错或经营成本。", court_record: "退款应以实际损失为基础，兼顾履行、二次销售和双方过错合理确定。", gap_type: disputed, evidence: [{section: adjudication, quote: "应以某客栈的实际损失为基础，兼顾合同履行情况、退订是否影响二次销售、当事人过错等因素，合理确定双方责任"}]}
+      - {client_belief: "我支付的三天两晚客房总价为一千二百八十一元。", court_record: "鲁某预订三天两晚客房并支付全部房费一千二百八十一元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "三天两晚客房一间，并支付全部房费1281元"}]}
+    expected_inquiries: ["订单页面和取消条款在下单流程如何展示？", "预订、退订和入住日期时间戳能否导出？", "未购得车票的记录和通知客栈经过如何？", "客栈在剩余期间是否重新销售房间及实际损失多少？", "平台和客栈是否提供改期、转售或部分退款方案？", "房价、平台佣金及客栈主张扣除项目各有何凭证？"]
+    memo_expectations: ["审查限时全扣格式条款的公平性。", "提示义务履行不替代内容效力审查。", "以实际损失和二次销售机会确定扣款。", "兼顾消费者退订原因与经营者减损义务。", "提出合理部分退款而非预设全额。", "逐项核算房价、佣金和可避免成本。"]
+    editorial_review: *full_review
+    editorial_note: 同时避免两个极端：醒目即全扣和无入住即全退，评分要求以可证实际损失为中心。
+
+  - id: lsg_cn_0065
+    source_line: 33
+    source_case_sha256: c872d7fcdef80c677783d3b518148e982d49e25a911733c25b37b96ae5d6b595
+    split: train
+    legal_domain: consumer_contract
+    client_role: 因治病宣传购买理疗疗程的老年消费者孙某某
+    consultation_stage: 完成部分疗程无效且协商退款未果后、起诉前
+    opening: 我因理疗店宣传的疾病调理效果购买了多个疗程，接受几次服务后发现实际内容与宣传差距很大，店家又拒绝退款。我想判断能否解除合同并索赔。
+    admission_reason: 明确疾病功效宣传、老年消费者、合同疗程、普通护肤品和无效果完整，可评价虚假宣传欺诈。
+    facts:
+      - {client_belief: "经营者在网络宣传理疗产品具有降三高和治疗糖尿病并发症功效。", court_record: "赵某某在网络平台宣传理疗产品具有“降三高”“治疗糖尿病并发症”等功效。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "赵某某在网络平台宣传某理疗产品具有“降三高”“治疗糖尿病并发症”等功效"}]}
+      - {client_belief: "我看到宣传后到店体验并签订调理合同购买十个疗程。", court_record: "孙某某看到宣传后体验、签约并购买10个疗程。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "孙某某（60岁）看到后至赵某某经营的理疗店体验，并与赵某某签订《调理合同》，购买了10个疗程的理疗项目"}]}
+      - {client_belief: "理疗过程中店里只使用普通护肤品。", court_record: "理疗店仅使用普通护肤品提供理疗服务。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "理疗店仅使用普通的护肤品进行理疗服务"}]}
+      - {client_belief: "完成四个疗程后没有效果，协商退款未果。", court_record: "四个疗程后无效果，孙某某与赵某某协商退款未果。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "4个疗程后并无效果，孙某某与赵某某协商退款未果"}]}
+      - {client_belief: "治病功效只是广告修辞，即使完全没有依据也不会影响消费决定或构成欺诈。", court_record: "经营者夸大治病功能、诱导消费者购买服务，属于虚假宣传并可构成欺诈。", gap_type: disputed, evidence: [{section: adjudication, quote: "虚假宣传其理疗产品有“降三高”等治病功能，夸大功效，诱导老年人消费，构成欺诈"}]}
+      - {client_belief: "理疗属于服务而非有形商品，即使欺诈也不能适用增加赔偿规则。", court_record: "经营者提供商品或服务有欺诈行为时，消费者均可依法主张相应惩罚性赔偿。", gap_type: disputed, evidence: [{section: adjudication, quote: "经营者提供商品或者服务有欺诈行为的，应当按照消费者的要求增加赔偿其受到的损失"}]}
+      - {client_belief: "我购买十个疗程的总价是一万余元。", court_record: "孙某某购买十个疗程理疗项目，总价一万余元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "购买了10个疗程的理疗项目，总价1万余元"}]}
+    expected_inquiries: ["广告页面、视频和店员话术如何具体承诺疾病功效？", "经营者是否具有医疗资质，所用产品成分和批准用途是什么？", "合同、付款、疗程记录和服务内容如何？", "身体状况、用药和店家是否要求停药等风险事实如何？", "退款沟通、剩余疗程和已接受服务价值如何？", "购买决定与治病宣传之间有何聊天、证人或录音证据？"]
+    memo_expectations: ["确认治病宣传的具体内容和证据。", "判断虚假信息是否足以影响购买决定。", "区分一般体验评价与客观医疗功效承诺。", "适用服务消费欺诈的退款和增加赔偿。", "处理已消费疗程、健康风险和行政线索。", "分别核算退费基数、已履行价值与增加赔偿。"]
+    editorial_review: *full_review
+    editorial_note: 未将“疗程无效”本身等同欺诈，关键是经营者事前对疾病治疗功能的无据明确宣传。
