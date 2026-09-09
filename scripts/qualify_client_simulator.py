@@ -464,6 +464,9 @@ def write_qualification_artifacts(
 
 def main() -> None:
     args = _parse_args()
+    experiment = yaml.safe_load(
+        (ROOT / "configs/experiments/main_experiment.yaml").read_text(encoding="utf-8")
+    )
     roles = yaml.safe_load((ROOT / "configs/models/roles.yaml").read_text(encoding="utf-8"))[
         "roles"
     ]
@@ -578,7 +581,12 @@ def main() -> None:
                 seed=10_000,
                 reasoning_effort=selector_role.get("reasoning_effort"),
             ),
-            max_selection_attempts=2,
+            # Qualification and formal execution must exercise the same bounded
+            # client-routing repair contract; a divergent hard-coded value can
+            # qualify a different environment from the one used in training.
+            max_selection_attempts=int(
+                experiment["execution"]["client_selection_attempts"]
+            ),
         )
         simulator.disclosed_fact_ids.update(chain["pre_disclosed_fact_ids"])
         expected_disclosed_fact_ids = set(chain["pre_disclosed_fact_ids"])

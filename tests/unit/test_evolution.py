@@ -4,18 +4,11 @@ from types import SimpleNamespace
 import pytest
 from pydantic import ValidationError
 
-from legal_skill_guard.evolution.acceptance import (
-    AcceptanceThresholds,
-    PairOutcome,
-    decide_skill,
-    global_regression_passes,
-    mechanism_direction_gate,
-)
 from legal_skill_guard.evolution.advantage import (
     AdvantageGroup,
-    CausalEvidencePatch,
     ContrastSelection,
     ScoredMember,
+    TrajectoryContrastPatch,
     compute_advantages,
     select_contrasts,
 )
@@ -24,7 +17,6 @@ from legal_skill_guard.evolution.diagnosis import (
     FailureState,
     SkillDiagnosis,
     TeacherDiagnosisDraft,
-    diagnosis_quality_issues,
     parse_diagnosis,
 )
 from legal_skill_guard.evolution.reward import (
@@ -87,7 +79,6 @@ def prompt_skill(
             "contraindications": ["该关系已由客户明确说明时不再重复询问"],
             "failure_modes": ["问题过于抽象时客户可能仍无法回答"],
             "provenance": {"source": "tf_grpo"},
-            "evaluation": {},
         }
     )
 
@@ -146,6 +137,8 @@ def causal_contrast(
             state_patch=StatePatch(),
             proposed_action=action,
             action_decision=ActionDecision(original=action, final=action),
+            rendered_question=(action.content or None),
+            client_response=("客户补充了关系事实。" if selected else None),
             client_response_kind=("new_hidden_fact" if selected else "unavailable"),
             client_selected_fact_ids=selected,
             stop_gate_verdict="ALLOW",
@@ -159,6 +152,7 @@ def causal_contrast(
         domain=domain,
         persona="P_WD",
         status="memo_submitted",
+        initial_investigation_plan=StatePatch(),
         steps=[step(positive_action, ["F2"])],
     )
     low = SimpleNamespace(
@@ -167,6 +161,7 @@ def causal_contrast(
         domain=domain,
         persona="P_WD",
         status="memo_submitted",
+        initial_investigation_plan=StatePatch(),
         steps=[step(negative_action, [])],
     )
     group = AdvantageGroup(
@@ -241,14 +236,54 @@ def test_rejected_document_is_history_but_not_a_runtime_reservation() -> None:
         candidate, historical_skills=[rejected], runtime_skills=[rejected]
     )
     assert not any(item.startswith("scope_redundancy:") for item in issues)
+    assert not any(item.startswith("lexical_near_duplicate:") for item in issues)
+
+
+def test_cluster_selection_prefers_an_unattempted_mechanism_before_revisiting() -> None:
+    attempted = {
+        "cluster_id": "already_attempted",
+        "group_ids": ["old.1", "old.2", "new.3"],
+        "source_case_count": 3,
+        "source_domain_count": 2,
+        "source_domains": ["criminal", "labor_employment"],
+        "group_count": 3,
+        "eligible": True,
+        "eligible_skill_scopes": ["general"],
+        "evidence_scope": "general",
+        "signal_family": "fact_elicitation",
+        "negative_action_type": "final",
+        "positive_action_type": "ask",
+        "behavior_family": "continue_inquiry",
+        "total_fact_gain": 20,
+    }
+    unseen = {
+        **attempted,
+        "cluster_id": "unseen_target_choice",
+        "group_ids": ["unseen.1"],
+        "source_case_count": 1,
+        "source_domain_count": 1,
+        "source_domains": ["criminal"],
+        "group_count": 1,
+        "eligible_skill_scopes": ["criminal"],
+        "evidence_scope": "criminal",
+        "negative_action_type": "ask",
+        "behavior_family": "target_selection",
+        "total_fact_gain": 1,
+    }
+    selected = select_teacher_evidence_clusters(
+        [attempted, unseen],
+        attempted_fingerprints=set(),
+        attempted_cluster_ids={"already_attempted"},
+        budget=1,
+    )
+
+    assert selected[0][0]["cluster_id"] == "unseen_target_choice"
 
 
 def test_history_blocks_exact_rename_and_live_general_blocks_domain_copy() -> None:
     rejected = prompt_skill(status="rejected")
     renamed = rejected.model_copy(update={"skill_id": "fact_elicitation.renamed"})
-    issues = candidate_overlap_issues(
-        renamed, historical_skills=[rejected], runtime_skills=[]
-    )
+    issues = candidate_overlap_issues(renamed, historical_skills=[rejected], runtime_skills=[])
     assert f"structural_duplicate:{rejected.skill_id}" in issues
 
     active = rejected.model_copy(update={"status": "active"})
@@ -261,7 +296,7 @@ def test_history_blocks_exact_rename_and_live_general_blocks_domain_copy() -> No
     assert f"scope_redundancy:{active.skill_id}" in issues
 
 
-def _minimal_causal_patch_payload() -> dict[str, object]:
+def _minimal_trajectory_contrast_payload() -> dict[str, object]:
     group = AdvantageGroup(
         group_id="case.P_WD",
         members=[
@@ -273,7 +308,7 @@ def _minimal_causal_patch_payload() -> dict[str, object]:
         informative=True,
     )
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "round_index": 1,
         "partition": "training_batch_01",
         "group": group.model_dump(mode="json"),
@@ -288,32 +323,19 @@ def _minimal_causal_patch_payload() -> dict[str, object]:
     }
 
 
-def test_causal_patch_rejects_legacy_schema_and_implicit_signal_family() -> None:
-    payload = _minimal_causal_patch_payload()
-    assert CausalEvidencePatch.model_validate(payload).selection.signal_family == (
+def test_trajectory_contrast_rejects_legacy_schema_and_implicit_signal_family() -> None:
+    payload = _minimal_trajectory_contrast_payload()
+    assert TrajectoryContrastPatch.model_validate(payload).selection.signal_family == (
         "fact_elicitation"
     )
     legacy = dict(payload)
-    legacy["schema_version"] = 1
-    with pytest.raises(ValueError, match="Input should be 2"):
-        CausalEvidencePatch.model_validate(legacy)
+    legacy["schema_version"] = 2
+    with pytest.raises(ValueError, match="Input should be 3"):
+        TrajectoryContrastPatch.model_validate(legacy)
     implicit = dict(payload)
     implicit["selection"] = {"highest_id": "high", "lowest_id": "low"}
     with pytest.raises(ValueError, match="explicit signal_family"):
-        CausalEvidencePatch.model_validate(implicit)
-
-
-def acceptance_thresholds(**updates) -> AcceptanceThresholds:
-    values = {
-        "minimum_exposed_pairs": 10,
-        "minimum_exposed_cases": 1,
-        "minimum_exposed_domains": 1,
-        "minimum_mean_delta": 0.02,
-        "minimum_material_harm_delta": 0.02,
-        "maximum_harmful_pair_rate": 0.15,
-    }
-    values.update(updates)
-    return AcceptanceThresholds.model_validate(values)
+        TrajectoryContrastPatch.model_validate(implicit)
 
 
 def test_reward_applies_safety_caps_and_leak_zero() -> None:
@@ -407,115 +429,6 @@ def test_advantage_skips_low_variance_and_selects_contrasts() -> None:
     assert selection.safety_failure_id == "unsafe"
 
 
-def outcomes(
-    count: int,
-    delta: float,
-    *,
-    harmful: int = 0,
-    severe: bool = False,
-    unsupported: float = 0,
-) -> list[PairOutcome]:
-    values = []
-    for index in range(count):
-        pair_delta = -0.03 if index < harmful else delta
-        values.append(
-            PairOutcome(
-                pair_id=str(index),
-                exposed=True,
-                reward_without=0.4,
-                reward_with=0.4 + pair_delta,
-                severe_risk_with=severe and index == 0,
-                unsupported_claim_delta=unsupported,
-            )
-        )
-    return values
-
-
-def test_acceptance_paths_and_safety_fail_closed() -> None:
-    limits = acceptance_thresholds()
-    assert decide_skill(outcomes(5, 0.1), limits).decision == "DEFER"
-    assert decide_skill(outcomes(10, -0.01), limits).decision == "REJECT"
-    assert decide_skill(outcomes(10, 0.1, harmful=2), limits).decision == "REJECT"
-    assert decide_skill(outcomes(10, 0.1), limits).decision == "ACCEPT"
-    assert decide_skill(outcomes(10, 0.1, severe=True), limits).decision == "REJECT"
-    assert decide_skill(outcomes(10, 0.1, unsupported=0.01), limits).decision == "REJECT"
-
-
-def test_sparse_positive_defers_but_observed_risk_rejects() -> None:
-    sparse = outcomes(2, 0.1)
-    assert decide_skill(sparse, acceptance_thresholds()).decision == "DEFER"
-    sparse[0].client_fallback_delta = 1.0
-    assert decide_skill(sparse, acceptance_thresholds()).decision == "REJECT"
-
-
-def test_safety_regression_cannot_be_cancelled_by_another_pair() -> None:
-    values = outcomes(2, 0.1)
-    for index, item in enumerate(values):
-        item.case_id = f"case_{index}"
-        item.domain = f"domain_{index}"
-    values[0].unsupported_claim_delta = 1.0
-    values[1].unsupported_claim_delta = -1.0
-
-    decision = decide_skill(
-        values,
-        acceptance_thresholds(
-            minimum_exposed_pairs=2,
-            minimum_exposed_cases=2,
-            minimum_exposed_domains=2,
-            minimum_mean_delta=0.0,
-        ),
-    )
-
-    assert decision.unsupported_claim_delta == 0.0
-    assert decision.decision == "REJECT"
-    assert decision.reason == "positive_mean_but_risk_or_harmful_tail"
-
-
-def test_acceptance_requires_independent_case_and_domain_coverage() -> None:
-    repeated = outcomes(12, 0.1)
-    for item in repeated:
-        item.case_id = "case_a"
-        item.domain = "labor"
-    limits = acceptance_thresholds(
-        minimum_exposed_pairs=8,
-        minimum_exposed_cases=3,
-        minimum_exposed_domains=2,
-    )
-    assert decide_skill(repeated, limits).decision == "DEFER"
-    independent = outcomes(12, 0.1)
-    for index, item in enumerate(independent):
-        item.case_id = f"case_{index % 3}"
-        item.domain = "labor" if index % 2 else "contract"
-    assert decide_skill(independent, limits).decision == "ACCEPT"
-
-
-@pytest.mark.parametrize(
-    ("family", "fact_delta", "gap_delta", "question_delta", "passed"),
-    [
-        ("fact_elicitation", 1.0, 0.0, 1.0, True),
-        ("fact_elicitation", 0.0, 1.0, 1.0, False),
-        ("evidence_gap_identification", 0.0, 1.0, 1.0, True),
-        ("evidence_gap_identification", 1.0, 0.0, 1.0, False),
-        ("safe_stop", 0.0, 0.0, -1.0, True),
-        ("safe_stop", 0.0, 0.0, 0.0, False),
-    ],
-)
-def test_mechanism_direction_gate_requires_claimed_effect(
-    family: str,
-    fact_delta: float,
-    gap_delta: float,
-    question_delta: float,
-    passed: bool,
-) -> None:
-    values = outcomes(4, 0.1)
-    for index, item in enumerate(values):
-        item.case_id = f"case_{index % 2}"
-        item.newly_elicited_fact_delta = fact_delta
-        item.identified_evidence_gap_delta = gap_delta
-        item.question_turn_delta = question_delta
-    assert mechanism_direction_gate(values, family).passed is passed  # type: ignore[arg-type]
-
-
 def test_invalid_teacher_output_becomes_noop() -> None:
     diagnosis, mode = parse_diagnosis("not json", "group-1")
     assert diagnosis.proposed_change == "NOOP"
@@ -586,7 +499,52 @@ def test_source_witness_accepts_document_without_executable_replay() -> None:
     assert supported == [group.group_id]
 
 
-def test_source_witness_rejects_nonshared_state_and_wrong_objective() -> None:
+def test_source_grounding_uses_system_divergence_for_one_and_many_sources() -> None:
+    first_group, first_selection, first_trajectories = causal_contrast(
+        "labor_a", "labor_employment"
+    )
+    second_group, second_selection, second_trajectories = causal_contrast(
+        "labor_b", "labor_employment"
+    )
+    diagnosis = SkillDiagnosis(
+        group_id="teacher-authored-diagnostic",
+        # Deliberately wrong: this prose field must not decide the artifact gate.
+        failure_state=FailureState(turn=99, relevant_fields=["visible_fact_plan"]),
+        behavior_difference=BehaviorDifference(
+            positive_action="继续询问一个尚未说明的关系事实",
+            negative_action="在相同可见状态下直接结束咨询",
+        ),
+        causal_hypothesis="明确追问未说明关系可能增加可用于分析的事实，仍需后续评估。",
+        proposed_change="CREATE",
+        skill_scope="labor_employment",
+        candidate_skill=prompt_skill(domain="labor_employment"),
+    )
+
+    assert (
+        candidate_source_grounding_issues(
+            diagnosis,
+            first_selection,
+            first_trajectories,
+        )
+        == []
+    )
+    one_issues, one_supported = candidate_batch_source_grounding_issues(
+        diagnosis,
+        [(first_group, first_selection, first_trajectories)],
+    )
+    many_issues, many_supported = candidate_batch_source_grounding_issues(
+        diagnosis,
+        [
+            (first_group, first_selection, first_trajectories),
+            (second_group, second_selection, second_trajectories),
+        ],
+    )
+    assert one_issues == many_issues == []
+    assert one_supported == [first_group.group_id]
+    assert many_supported == [first_group.group_id, second_group.group_id]
+
+
+def test_source_witness_allows_independent_state_but_rejects_wrong_objective() -> None:
     group, selection, trajectories = causal_contrast()
     high = trajectories[selection.highest_id]
     high.steps[0].state_before["asked_targets"] = ["F2"]
@@ -604,7 +562,7 @@ def test_source_witness_rejects_nonshared_state_and_wrong_objective() -> None:
         candidate_skill=skill,
     )
     issues = candidate_source_grounding_issues(diagnosis, selection, trajectories)
-    assert "source_grounding_not_a_shared_visible_state" in issues
+    assert issues == ["source_failure_objective_mismatch"]
 
 
 def test_clusters_allow_local_hypothesis_but_require_cross_domain_generalization() -> None:
@@ -614,7 +572,14 @@ def test_clusters_allow_local_hypothesis_but_require_cross_domain_generalization
     scoped = next(item for item in summaries if item["evidence_scope"] == "labor_employment")
     assert general["eligible"] is False
     assert scoped["eligible"] is True
+    assert scoped["ineligible_reason"] is None
     assert scoped["behavior_family"] == "continue_inquiry"
+
+    same_domain_second = causal_contrast("labor_b", "labor_employment")
+    summaries = teacher_evidence_cluster_summaries([first, same_domain_second])
+    scoped = next(item for item in summaries if item["evidence_scope"] == "labor_employment")
+    assert scoped["eligible"] is True
+    assert scoped["source_case_count"] == 2
 
     second = causal_contrast("criminal_a", "criminal")
     summaries = teacher_evidence_cluster_summaries([first, second])
@@ -645,11 +610,15 @@ def test_cluster_labels_same_target_different_question_as_formulation() -> None:
         negative_action=vague,
     )
 
-    summaries = teacher_evidence_cluster_summaries([contrast])
-
-    scoped = next(
-        item for item in summaries if item["evidence_scope"] == "labor_employment"
+    second_contrast = causal_contrast(
+        "labor_formulation_b",
+        "labor_employment",
+        positive_action=precise,
+        negative_action=vague,
     )
+    summaries = teacher_evidence_cluster_summaries([contrast, second_contrast])
+
+    scoped = next(item for item in summaries if item["evidence_scope"] == "labor_employment")
     assert scoped["eligible"] is True
     assert scoped["behavior_family"] == "question_formulation"
 
@@ -682,6 +651,203 @@ def test_cluster_selection_covers_distinct_behavior_before_scope_alias() -> None
         budget=2,
     )
     assert [item[0]["cluster_id"] for item in selected] == ["continuation", "target"]
+
+
+def test_cluster_selection_prefers_durable_fact_or_gap_gain_over_large_noisy_cluster() -> None:
+    noisy = {
+        "cluster_id": "large_question_wording_cluster",
+        "group_ids": [f"noisy.{index}" for index in range(12)],
+        "source_case_count": 12,
+        "source_domain_count": 8,
+        "group_count": 12,
+        "eligible": True,
+        "signal_family": "fact_elicitation",
+        "negative_action_type": "ask",
+        "positive_action_type": "ask",
+        "behavior_family": "question_formulation",
+        "total_fact_gain": 0,
+        "total_gap_gain": 0,
+        "total_immediate_fact_gain": 1,
+        "total_immediate_gap_gain": 0,
+        "total_reward_gap": 4.0,
+    }
+    durable = {
+        "cluster_id": "smaller_durable_target_cluster",
+        "group_ids": ["durable.1", "durable.2"],
+        "source_case_count": 2,
+        "source_domain_count": 2,
+        "group_count": 2,
+        "eligible": True,
+        "signal_family": "fact_elicitation",
+        "negative_action_type": "ask",
+        "positive_action_type": "ask",
+        "behavior_family": "target_choice",
+        "total_fact_gain": 2,
+        "total_gap_gain": 0,
+        "total_immediate_fact_gain": 2,
+        "total_immediate_gap_gain": 0,
+        "total_reward_gap": 1.0,
+    }
+    selected = select_teacher_evidence_clusters(
+        [noisy, durable],
+        attempted_fingerprints=set(),
+        attempted_cluster_ids=set(),
+        budget=1,
+    )
+    assert selected[0][0]["cluster_id"] == "smaller_durable_target_cluster"
+
+
+def test_cluster_selection_budget_three_covers_scope_mechanism_and_domain() -> None:
+    def cluster(
+        cluster_id: str,
+        *,
+        scope: str,
+        behavior: str,
+        gain: int,
+    ) -> dict:
+        return {
+            "cluster_id": cluster_id,
+            "group_ids": [f"{cluster_id}.group"],
+            "source_case_count": 1,
+            "source_domain_count": 2 if scope == "general" else 1,
+            "source_domains": (["labor_employment", "criminal"] if scope == "general" else [scope]),
+            "group_count": 1,
+            "eligible": True,
+            "eligible_skill_scopes": [scope],
+            "evidence_scope": scope,
+            "signal_family": "fact_elicitation",
+            "negative_action_type": "ask",
+            "positive_action_type": "ask",
+            "behavior_family": behavior,
+            "total_fact_gain": gain,
+        }
+
+    values = [
+        cluster(
+            "general_continue",
+            scope="general",
+            behavior="continue_inquiry",
+            gain=10,
+        ),
+        cluster(
+            "general_target",
+            scope="general",
+            behavior="target_choice",
+            gain=9,
+        ),
+        cluster(
+            "labor_formulation",
+            scope="labor_employment",
+            behavior="question_formulation",
+            gain=2,
+        ),
+        cluster(
+            "criminal_evidence",
+            scope="criminal",
+            behavior="evidence_target_choice",
+            gain=1,
+        ),
+    ]
+    selected = select_teacher_evidence_clusters(
+        values,
+        attempted_fingerprints=set(),
+        attempted_cluster_ids=set(),
+        budget=3,
+    )
+
+    assert [item[0]["cluster_id"] for item in selected] == [
+        "general_continue",
+        "labor_formulation",
+        "criminal_evidence",
+    ]
+    assert {item[0]["evidence_scope"] for item in selected} >= {
+        "general",
+        "labor_employment",
+    }
+    assert len({item[0]["behavior_family"] for item in selected}) == 3
+
+
+def test_cluster_selection_never_repeats_a_fingerprint() -> None:
+    general = {
+        "cluster_id": "general_continue",
+        "group_ids": ["shared.group"],
+        "source_case_count": 2,
+        "source_domain_count": 2,
+        "source_domains": ["labor_employment", "criminal"],
+        "group_count": 2,
+        "eligible": True,
+        "eligible_skill_scopes": ["general"],
+        "evidence_scope": "general",
+        "signal_family": "fact_elicitation",
+        "negative_action_type": "final",
+        "positive_action_type": "ask",
+        "behavior_family": "continue_inquiry",
+        "total_fact_gain": 3,
+    }
+    labor = {
+        **general,
+        "cluster_id": "labor_target",
+        "group_ids": ["labor.group"],
+        "source_case_count": 1,
+        "source_domain_count": 1,
+        "source_domains": ["labor_employment"],
+        "group_count": 1,
+        "eligible_skill_scopes": ["labor_employment"],
+        "evidence_scope": "labor_employment",
+        "behavior_family": "target_choice",
+        "total_fact_gain": 2,
+    }
+    selected = select_teacher_evidence_clusters(
+        [general, dict(general), labor],
+        attempted_fingerprints=set(),
+        attempted_cluster_ids=set(),
+        budget=3,
+    )
+
+    assert [item[0]["cluster_id"] for item in selected] == [
+        "general_continue",
+        "labor_target",
+    ]
+    assert len({fingerprint for _, fingerprint in selected}) == len(selected)
+
+    retried = select_teacher_evidence_clusters(
+        [general, dict(general), labor],
+        attempted_fingerprints={selected[0][1]},
+        attempted_cluster_ids=set(),
+        budget=3,
+    )
+    assert [item[0]["cluster_id"] for item in retried] == ["labor_target"]
+
+
+def test_cluster_selection_does_not_invent_missing_scope_coverage() -> None:
+    values = [
+        {
+            "cluster_id": f"general_{index}",
+            "group_ids": [f"general.{index}"],
+            "source_case_count": 2,
+            "source_domain_count": 2,
+            "source_domains": ["labor_employment", "criminal"],
+            "group_count": 2,
+            "eligible": True,
+            "eligible_skill_scopes": ["general"],
+            "evidence_scope": "general",
+            "signal_family": "fact_elicitation",
+            "negative_action_type": "ask",
+            "positive_action_type": "ask",
+            "behavior_family": behavior,
+            "total_fact_gain": 3 - index,
+        }
+        for index, behavior in enumerate(["continue_inquiry", "target_choice"])
+    ]
+    selected = select_teacher_evidence_clusters(
+        values,
+        attempted_fingerprints=set(),
+        attempted_cluster_ids=set(),
+        budget=3,
+    )
+
+    assert len(selected) == 2
+    assert {item[0]["evidence_scope"] for item in selected} == {"general"}
 
 
 def test_candidate_scope_and_objective_are_bound_to_cluster() -> None:
@@ -719,9 +885,10 @@ class FakeTeacherClient:
 
 def test_teacher_authors_only_document_and_system_binds_source_witness() -> None:
     group, selection, trajectories = causal_contrast()
-    draft = prompt_skill(domain="labor_employment").model_dump(
-        mode="json", exclude={"provenance", "evaluation"}
+    second_group, second_selection, second_trajectories = causal_contrast(
+        "case_b", "labor_employment"
     )
+    draft = prompt_skill(domain="labor_employment").model_dump(mode="json", exclude={"provenance"})
     value = {
         "group_id": group.group_id,
         "failure_state": {"turn": 1, "relevant_fields": ["visible_fact_plan"]},
@@ -738,12 +905,18 @@ def test_teacher_authors_only_document_and_system_binds_source_witness() -> None
     client = FakeTeacherClient(value)
     teacher = SkillTeacher(
         client=client,
-        prompt_path=Path(__file__).resolve().parents[2]
-        / "configs/prompts/skill_teacher_zh.txt",
+        prompt_path=Path(__file__).resolve().parents[2] / "configs/prompts/skill_teacher_zh.txt",
+        baseline_policy_paths=[
+            Path(__file__).resolve().parents[2] / "configs/prompts/consultation_planner_zh.txt",
+            Path(__file__).resolve().parents[2] / "configs/prompts/consultation_policy_zh.txt",
+        ],
     )
     proposal = teacher.propose_batch(
         batch_id=group.group_id,
-        contrasts=[(group, selection, trajectories)],
+        contrasts=[
+            (group, selection, trajectories),
+            (second_group, second_selection, second_trajectories),
+        ],
         evaluations={},
         existing_skills=[],
         runtime_skills=[],
@@ -753,30 +926,36 @@ def test_teacher_authors_only_document_and_system_binds_source_witness() -> None
     assert proposal.source_witness.forks[0].visible_state_sha256
     candidate = proposal.usable_candidate
     assert candidate is not None
-    assert candidate.provenance.source_case_ids == ["case_a"]
+    assert candidate.provenance.source_case_ids == ["case_a", "case_b"]
     assert candidate.provenance.generator_model == "gpt-test"
     schema_text = str(client.output_schema)
     assert "provenance" not in schema_text
     assert "evaluation" not in schema_text
     assert "preconditions" not in schema_text
     assert "operation" not in schema_text
+    assert client.system_prompt is not None
+    assert '"initial_plan"' in client.system_prompt
+    assert '"steps"' in client.system_prompt
+    assert '"client_response"' in client.system_prompt
+    assert "客户补充了关系事实" in client.system_prompt
 
 
 def test_teacher_history_exposes_status_and_document_but_not_private_outcomes() -> None:
     client = FakeTeacherClient({})
     teacher = SkillTeacher(
         client=client,
-        prompt_path=Path(__file__).resolve().parents[2]
-        / "configs/prompts/skill_teacher_zh.txt",
+        prompt_path=Path(__file__).resolve().parents[2] / "configs/prompts/skill_teacher_zh.txt",
+        baseline_policy_paths=[
+            Path(__file__).resolve().parents[2] / "configs/prompts/consultation_planner_zh.txt",
+            Path(__file__).resolve().parents[2] / "configs/prompts/consultation_policy_zh.txt",
+        ],
     )
     historical = prompt_skill()
     historical.status = "rejected"
-    historical.evaluation.mean_delta_reward = -0.4
     historical.provenance.source_case_ids = ["private-case"]
 
     prompt = teacher._system_prompt(
         existing_skills=[historical],
-        prior_validation_feedback=[],
         contrast_payload={},
     )
 
@@ -785,24 +964,11 @@ def test_teacher_history_exposes_status_and_document_but_not_private_outcomes() 
     assert "private-case" not in prompt
     assert "mean_delta_reward" not in prompt
     assert '"provenance"' not in prompt
-
-
-def test_diagnosis_quality_does_not_claim_unseen_efficacy() -> None:
-    candidate = prompt_skill()
-    candidate.evaluation.mean_delta_reward = 0.2
-    diagnosis = SkillDiagnosis(
-        group_id="g",
-        failure_state=FailureState(turn=1),
-        behavior_difference=BehaviorDifference(
-            positive_action="询问尚未明确的事实关系",
-            negative_action="直接结束当前咨询过程",
-        ),
-        causal_hypothesis="具体追问可能增加事实信息，仍需下一块确认。",
-        proposed_change="CREATE",
-        skill_scope="general",
-        candidate_skill=candidate,
-    )
-    assert "teacher_claimed_unseen_evaluation" in diagnosis_quality_issues(diagnosis)
+    assert "consultation_planner_zh.txt" in prompt
+    assert "consultation_policy_zh.txt" in prompt
+    assert "{baseline_policy_contract}" not in prompt
+    assert "{method_guidance}" not in prompt
+    assert "当前工作库没有适用咨询技能文档" in prompt
 
 
 def test_static_validation_rejects_retired_runtime_language() -> None:
@@ -811,11 +977,6 @@ def test_static_validation_rejects_retired_runtime_language() -> None:
     issues = validate_skill_static(candidate)
     assert "retired_runtime_language:candidate_action" in issues
     assert "retired_runtime_language:replace_target" in issues
-
-
-def test_global_regression_gate() -> None:
-    assert global_regression_passes(0.5, 0.49, maximum_drop=0.01)
-    assert not global_regression_passes(0.5, 0.48, maximum_drop=0.01)
 
 
 def test_registry_freeze_is_immutable_and_can_rollback(tmp_path: Path) -> None:
@@ -835,6 +996,5 @@ def test_registry_freeze_is_immutable_and_can_rollback(tmp_path: Path) -> None:
         evidence={"audit": "pass"},
     )
     registry.activate("v0.2.0")
-    if not global_regression_passes(0.5, 0.47, maximum_drop=0.01):
-        pointer = registry.rollback()
+    pointer = registry.rollback()
     assert pointer["version"] == "v0.1.0"

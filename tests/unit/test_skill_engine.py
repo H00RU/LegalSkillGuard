@@ -298,8 +298,10 @@ def test_teacher_prompt_describes_prompt_documents_not_old_execution_dsl() -> No
         "max_activations_per_session",
     ):
         assert retired not in prompt
-    assert "前一批生成、后一批前瞻验证" in prompt
-    assert "不为单个候选另跑验收对话" in prompt
+    assert "直接成为工作技能" in prompt
+    assert "不用单个候选的小样本收益决定准入" in prompt
+    assert "{baseline_policy_contract}" in prompt
+    assert "相同问题的近义改写" in prompt
 
 
 def test_applicable_documents_are_active_general_plus_matching_domain_only(
@@ -353,7 +355,7 @@ def test_skill_memory_is_deterministic_and_contains_only_policy_facing_fields(
 
 def test_empty_memory_is_explicit_and_stable() -> None:
     assert render_skill_memory([], domain="criminal") == (
-        "本会话没有已验收的咨询技能文档。请仅依据客户开场、可见对话和在线状态自主决策。",
+        "本会话的当前工作库没有适用咨询技能文档。请仅依据客户开场、可见对话和在线状态自主决策。",
         [],
     )
 
@@ -415,14 +417,14 @@ def test_directory_loader_validates_documents_and_active_filter(
     tmp_path: Path, skills: list[SkillContract]
 ) -> None:
     active = skills[0]
-    provisional = skills[1].model_copy(deep=True)
-    provisional.status = "provisional"
+    candidate = skills[1].model_copy(deep=True)
+    candidate.status = "candidate"
     _write_skill(tmp_path / "active.yaml", active)
-    _write_skill(tmp_path / "provisional.yaml", provisional)
+    _write_skill(tmp_path / "candidate.yaml", candidate)
 
     assert [skill.skill_id for skill in load_skill_directory(tmp_path)] == [
         active.skill_id,
-        provisional.skill_id,
+        candidate.skill_id,
     ]
     assert [skill.skill_id for skill in load_skill_directory(tmp_path, active_only=True)] == [
         active.skill_id

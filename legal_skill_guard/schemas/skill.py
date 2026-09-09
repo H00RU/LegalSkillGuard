@@ -12,7 +12,7 @@ from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-SkillStatus = Literal["candidate", "provisional", "active", "rejected", "deprecated"]
+SkillStatus = Literal["candidate", "active", "rejected", "deprecated"]
 SkillObjective = Literal[
     "fact_elicitation",
     "evidence_gap_identification",
@@ -33,18 +33,6 @@ class Provenance(SkillModel):
     source_trajectory_ids: list[str] = Field(default_factory=list)
     generator_model: str | None = None
     diagnosis_hash: str | None = None
-
-
-class SkillEvaluation(SkillModel):
-    paired_cases: int = 0
-    exposed_pairs: int = 0
-    exposed_cases: int = 0
-    exposed_domains: int = 0
-    mean_delta_reward: float | None = None
-    median_delta_reward: float | None = None
-    harmful_pair_rate: float | None = None
-    severe_risk_count: int = 0
-    accepted_at: str | None = None
 
 
 class SkillDocumentFields(SkillModel):
@@ -89,14 +77,17 @@ class SkillDocumentFields(SkillModel):
 
 
 class SkillDocumentDraft(SkillDocumentFields):
-    """Teacher-owned fields; causal identity and outcome statistics are excluded."""
+    """Teacher-owned fields; source identity and outcome statistics are excluded."""
 
     status: Literal["candidate"] = "candidate"
 
 
 class SkillContract(SkillDocumentFields):
-    """One immutable prompt-memory skill learned from causal trajectory contrasts."""
+    """One system-owned prompt-memory skill record.
+
+    Candidate status may change during the block transaction; once active, the
+    registry publishes the document only inside an immutable library version.
+    """
 
     status: SkillStatus = "candidate"
     provenance: Provenance
-    evaluation: SkillEvaluation = Field(default_factory=SkillEvaluation)

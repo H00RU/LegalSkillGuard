@@ -121,7 +121,7 @@ def _paired_cell(
     )
     current = _trajectory(
         trajectory_id=f"current-{case_id}-{persona}",
-        method="legal_skill_guard",
+        method="legal_skill_evolve",
         case_id=case_id,
         persona=persona,
         library_version="current-hash",
@@ -231,8 +231,7 @@ def test_prequential_report_pairs_exact_cells_and_bootstraps_case_clusters() -> 
     "method",
     [
         "training_policy_sample",
-        "candidate_without",
-        "legal_skill_guard",
+        "legal_skill_evolve",
         "control_no_library",
     ],
 )
@@ -269,11 +268,11 @@ def test_empty_current_library_uses_explicit_zero_identity_baseline(method: str)
     )
 
 
-def test_training_sentinel_reuses_each_normal_sample_zero_method_in_shadow() -> None:
+def test_training_sentinel_reuses_normal_sample_zero_method_in_shadow() -> None:
     cells = []
     for case_id, method in (
-        ("case_candidate", "candidate_without"),
-        ("case_exploration", "training_policy_sample"),
+        ("case_a", "training_policy_sample"),
+        ("case_b", "training_policy_sample"),
     ):
         empty = _trajectory(
             trajectory_id=f"empty-{case_id}",
@@ -314,7 +313,6 @@ def test_training_sentinel_reuses_each_normal_sample_zero_method_in_shadow() -> 
     )
 
     assert report["initial_infrastructure_identity"]["method_pairs"] == [
-        ("candidate_without", "candidate_without"),
         ("training_policy_sample", "training_policy_sample"),
     ]
     assert report["pair_count"] == 2
@@ -324,10 +322,6 @@ def test_training_sentinel_reuses_each_normal_sample_zero_method_in_shadow() -> 
     ("mutation", "match"),
     [
         ({"persona": "P_CD"}, "not paired exactly"),
-        (
-            {"initial_investigation_plan": {"facts": [{"fact_id": "different"}]}},
-            "initial infrastructure identity",
-        ),
         ({"method": "training_policy_sample"}, "method pair is not compatible"),
     ],
 )
@@ -403,10 +397,36 @@ def test_prequential_report_rejects_evaluator_or_skill_membership_drift() -> Non
         )
 
 
+def test_prequential_report_allows_skill_mediated_plan_difference() -> None:
+    baseline, baseline_evaluation, current, current_evaluation = _paired_cell(
+        case_id="case_a",
+        persona="P_WD",
+        baseline_reward=0.2,
+        current_reward=0.4,
+        baseline_resolution=0.3,
+        current_resolution=0.5,
+    )
+    current.initial_investigation_plan = {"facts": [{"fact_id": "skill-mediated"}]}
+    report = build_prequential_sentinel_report(
+        sentinel_id="S1",
+        current_trajectories=[current],
+        current_evaluations={current.trajectory_id: current_evaluation},
+        current_partition="development_sentinel_02",
+        current_library_version="current-hash",
+        current_skill_ids={"skill.ask_next"},
+        empty_library_version="empty-hash",
+        empty_partition="development_sentinel_02_empty_shadow",
+        empty_trajectories=[baseline],
+        empty_evaluations={baseline.trajectory_id: baseline_evaluation},
+        bootstrap_samples=100,
+    )
+    assert report["initial_infrastructure_identity"]["passed"] is True
+
+
 def test_identity_baseline_is_fail_closed_for_nonempty_or_duplicate_inputs() -> None:
     current = _trajectory(
         trajectory_id="current",
-        method="legal_skill_guard",
+        method="legal_skill_evolve",
         case_id="case_a",
         library_version="current-hash",
         exposed_skill_ids=("skill.ask_next",),

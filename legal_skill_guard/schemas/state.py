@@ -139,8 +139,9 @@ def candidate_action_targets_known_fact(facts: list[FactSlot], action: dict[str,
 
     Exact IDs remain authoritative.  The lexical branch only detects high-overlap
     paraphrases against values already stated in the visible dialogue; it neither
-    imports hidden facts nor blocks an action by itself.  Candidate skills must still
-    survive paired acceptance before this feature can change the active policy.
+    imports hidden facts nor blocks an action by itself.  It remains only an
+    observable state feature: a prompt-delivered working-library document may teach
+    the lawyer to use it, but deterministic code never converts it into an action.
     """
 
     if action.get("action_type") != "ask":

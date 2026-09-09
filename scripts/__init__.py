@@ -1,1 +1,1 @@
-"""LegalSkillGuard command-line utilities."""
+"""LegalSkillEvolve command-line utilities."""

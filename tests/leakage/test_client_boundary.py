@@ -67,8 +67,37 @@ def test_real_client_selector_template_renders_literal_json() -> None:
     assert "fact_ids只能选择一条" in messages[0]["content"]
     assert '"disclosure"' not in messages[0]["content"]
     assert "若所有候选都是not_answer则必须为空" in messages[0]["content"]
-    assert "- F1 [客户知道但尚未披露]：客户认知" in messages[0]["content"]
-    assert "- O1 [开场已公开]：这是开场咨询" in messages[0]["content"]
+    assert "- F1 [客户有限认知]：客户认知" in messages[0]["content"]
+    assert "- O1 [开场陈述]：这是开场咨询" in messages[0]["content"]
+
+
+def test_client_route_input_is_independent_of_disclosure_state() -> None:
+    model = RecordingClient()
+    simulator = ClientSimulator.from_template_file(
+        {
+            "id": "c1",
+            "opening": "公司股东出资后发生争议。",
+            "facts": [
+                {"fact_id": "F1", "client_belief": "三名股东首期出资合计一千万元。"},
+                {"fact_id": "F4", "client_belief": "对方称转款属于公司借款。"},
+            ],
+        },
+        {"persona_id": "P_WD", "who": {"zh": "合作"}, "voice": {"zh": "直接"}},
+        model,
+        Path("configs/prompts/client_fact_selector_zh.txt"),
+        GenerationConfig(temperature=0, top_p=1, max_tokens=10, seed=42),
+        max_selection_attempts=2,
+    )
+    question = "股东出资到账后转出的具体金额是多少？"
+    before = simulator._messages(question)
+    simulator.disclosed_fact_ids.add("F4")
+    after_unrelated_disclosure = simulator._messages(question)
+    simulator.disclosed_fact_ids.add("F1")
+    after_matching_disclosure = simulator._messages(question)
+
+    assert before == after_unrelated_disclosure == after_matching_disclosure
+    assert "此前已披露" not in str(before)
+    assert "尚未披露" not in str(before)
 
 
 def test_provenance_client_role_cannot_enter_runtime_prompt() -> None:

@@ -1,4 +1,4 @@
-"""Audit frozen 8x16 sequential blocks and next-block prospective validation."""
+"""Audit frozen 8x16 sequential direct skill-accumulation blocks."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ import yaml
 
 from legal_skill_guard.environment.dlawbench_adapter import DLawBenchAdapter
 from legal_skill_guard.experiment.batches import load_training_batch_plan
+from legal_skill_guard.utils.hashing import sha256_file
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -80,6 +81,9 @@ def main() -> None:
     for item in plan["batches"]:
         cumulative.update(item["case_ids"])
         summary = summarize_cases(item["case_ids"], core, provenance)
+        summary["persona_counts"] = dict(
+            sorted(Counter(item["persona_assignment"].values()).items())
+        )
         summary["cumulative_cases"] = len(cumulative)
         summary["cumulative_domains"] = len(
             {provenance[case_id]["annotation"]["legal_domain"] for case_id in cumulative}
@@ -104,24 +108,19 @@ def main() -> None:
         if int(summary["maximum_cases_from_one_source_page"]) > maximum_per_page:
             errors.append(f"{batch_id} concentrates too many cases from one source page")
     report = {
-        "schema_version": 2,
+        "schema_version": 3,
         "status": "passed" if not errors else "failed",
         "design": plan["design"],
         "evidence_boundary": "formal_corpus_and_frozen_batch_plan_only",
         "training": summarize_cases(all_ids, core, provenance),
+        "controlled_training_persona": plan["coverage_requirements"]["training_persona"],
         "batches": batches,
-        "prospective_validation": {
-            "mode": plan["candidate_validation"]["mode"],
-            "final_batch_candidate_policy": plan["candidate_validation"][
-                "final_batch_candidate_policy"
-            ],
-            "mapping": {
-                item["batch_id"]: item["prospective_validation_for"]
-                for item in plan["batches"]
-                if item["prospective_validation_for"] is not None
-            },
-            "fixed_validation_pool": False,
-        },
+        "training_batch_plan_sha256": sha256_file(plan_path),
+        "skill_accumulation": plan["skill_accumulation"],
+        "candidate_outcome_validation_pool": False,
+        "all_blocks_generate_skills": bool(
+            plan["skill_accumulation"]["final_batch_generates_skills"]
+        ),
         "official_public_cn_release": official,
         "official_public_cn_file_cases": len(
             jsonl(ROOT / "third_party/DLawBench/data/case_backgrounds/cases_cn.jsonl")

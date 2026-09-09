@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -16,18 +17,17 @@ class BatchModel(BaseModel):
 
 class TrainingBatch(BatchModel):
     batch_id: str
-    prospective_validation_for: str | None
     case_ids: list[str] = Field(min_length=1)
     persona_assignment: dict[str, str]
 
 
-class CandidateValidation(BatchModel):
-    mode: str
-    cluster_unit: str
-    shared_control_per_case: bool
+class SkillAccumulation(BatchModel):
+    mode: Literal["source_grounded_direct_admission"]
     first_source_batch: str
-    last_validation_batch: str
-    final_batch_candidate_policy: str
+    final_source_batch: str
+    effect_assessment: Literal["prequential_library_level_shadow"]
+    maintenance_interval_blocks: int = Field(ge=1)
+    final_batch_generates_skills: bool
 
 
 class CoverageRequirements(BatchModel):
@@ -36,18 +36,18 @@ class CoverageRequirements(BatchModel):
     minimum_source_pages_per_batch: int = Field(ge=1)
     maximum_cases_from_one_source_page_per_batch: int = Field(ge=1)
     cases_must_appear_once: bool
-    personas_per_batch: dict[str, int]
+    training_persona: str
 
 
 class TrainingBatchPlan(BatchModel):
-    schema_version: int = 2
+    schema_version: int = 3
     design: str
     status: str
     random_seed: int
     training_cases: int = Field(ge=1)
     training_batches: int = Field(ge=1)
     cases_per_batch: int = Field(ge=1)
-    candidate_validation: CandidateValidation
+    skill_accumulation: SkillAccumulation
     design_notes: list[str]
     batches: list[TrainingBatch]
     coverage_requirements: CoverageRequirements
@@ -56,42 +56,29 @@ class TrainingBatchPlan(BatchModel):
     def declared_sizes_are_consistent(self) -> TrainingBatchPlan:
         if len(self.batches) != self.training_batches:
             raise ValueError("training_batches does not match the batch list")
-        if self.schema_version != 2:
-            raise ValueError("only the 128-case schema-2 batch plan is supported")
-        if self.candidate_validation.mode != "embedded_next_training_block":
-            raise ValueError("candidate validation must be embedded in the next training block")
-        if self.candidate_validation.cluster_unit != "case_id":
-            raise ValueError("prospective statistics must be clustered by case_id")
-        if not self.candidate_validation.shared_control_per_case:
-            raise ValueError("embedded candidate evaluation requires one shared control per case")
+        if self.schema_version != 3:
+            raise ValueError("only the 128-case schema-3 accumulation plan is supported")
         if any(len(item.case_ids) != self.cases_per_batch for item in self.batches):
             raise ValueError("a training batch has the wrong number of cases")
         batch_ids = [item.batch_id for item in self.batches]
         if len(batch_ids) != len(set(batch_ids)):
             raise ValueError("training batch IDs must be unique")
-        if self.candidate_validation.first_source_batch != batch_ids[0]:
+        if self.skill_accumulation.first_source_batch != batch_ids[0]:
             raise ValueError("first_source_batch must identify the first training block")
-        if self.candidate_validation.last_validation_batch != batch_ids[-1]:
-            raise ValueError("last_validation_batch must identify the final training block")
-        if self.candidate_validation.final_batch_candidate_policy != "no_candidate_generation":
-            raise ValueError("the final block must not generate unvalidated candidates")
-        for index, item in enumerate(self.batches):
-            expected_predecessor = None if index == 0 else batch_ids[index - 1]
-            if item.prospective_validation_for != expected_predecessor:
-                raise ValueError(
-                    f"prospective validation predecessor mismatch: {item.batch_id}"
-                )
+        if self.skill_accumulation.final_source_batch != batch_ids[-1]:
+            raise ValueError("final_source_batch must identify the final training block")
+        if not self.skill_accumulation.final_batch_generates_skills:
+            raise ValueError("all 128 training cases must be allowed to contribute skills")
+        for item in self.batches:
             if set(item.persona_assignment) != set(item.case_ids):
                 raise ValueError(
                     f"training persona assignment does not match cases: {item.batch_id}"
                 )
-            counts = {
-                persona: list(item.persona_assignment.values()).count(persona)
-                for persona in set(item.persona_assignment.values())
-            }
-            if counts and max(counts.values()) - min(counts.values()) > 1:
+            if set(item.persona_assignment.values()) != {
+                self.coverage_requirements.training_persona
+            }:
                 raise ValueError(
-                    f"training persona assignment is not balanced: {item.batch_id}"
+                    f"training persona assignment is not the controlled persona: {item.batch_id}"
                 )
         flattened = [case_id for item in self.batches for case_id in item.case_ids]
         if len(flattened) != self.training_cases or len(flattened) != len(set(flattened)):
@@ -109,22 +96,12 @@ class TrainingBatchPlan(BatchModel):
         unknown_personas = sorted(configured_personas - set(adapter.persona_keys))
         if unknown_personas:
             raise ValueError(f"persona assignments contain unknown values: {unknown_personas}")
-        required_personas = set(adapter.persona_keys)
+        training_persona = self.coverage_requirements.training_persona
+        if training_persona not in set(adapter.persona_keys):
+            raise ValueError("controlled training persona is not defined by DLawBench")
         for batch in self.batches:
-            if set(batch.persona_assignment.values()) != required_personas:
-                raise ValueError(
-                    f"training batch does not cover every persona: {batch.batch_id}"
-                )
-        declared_persona_counts = self.coverage_requirements.personas_per_batch
-        if set(declared_persona_counts) != required_personas:
-            raise ValueError("personas_per_batch does not match the persona contract")
-        for batch in self.batches:
-            actual_counts = {
-                persona: list(batch.persona_assignment.values()).count(persona)
-                for persona in required_personas
-            }
-            if actual_counts != declared_persona_counts:
-                raise ValueError(f"persona counts drifted: {batch.batch_id}")
+            if set(batch.persona_assignment.values()) != {training_persona}:
+                raise ValueError(f"controlled training persona drifted: {batch.batch_id}")
         training_ids = {case_id for item in self.batches for case_id in item.case_ids}
         declared_training = set(adapter.case_ids("train"))
         if training_ids != declared_training:

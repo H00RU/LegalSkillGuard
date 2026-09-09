@@ -28,7 +28,7 @@ def _executor(tmp_path: Path, *, run_id: str = "curve_contract") -> MainExperime
     executor.local_revision = "revision-1"
     executor.experiment = {
         "execution": {
-            "provisional_candidate_budget_per_block": 2,
+            "maximum_new_skills_per_block": 3,
         },
         "personas": ["P_WD"],
         "trajectory_sampling": {
@@ -38,15 +38,15 @@ def _executor(tmp_path: Path, *, run_id: str = "curve_contract") -> MainExperime
         "learning_curve": {
             "bootstrap_samples": 100,
             "bootstrap_seed": 17,
+            "confidence_level": 0.95,
             "evidence_role": "development_only_never_teacher_or_acceptance",
         },
-        "prospective_validation": {"confidence_level": 0.95},
+        "skill_admission": {"maintenance_interval_blocks": 2},
     }
     executor.training_plan = SimpleNamespace(
         batches=[
             SimpleNamespace(
                 batch_id="training_batch_01",
-                prospective_validation_for=None,
                 case_ids=["case_test"],
                 persona_assignment={"case_test": "P_WD"},
             )
@@ -139,9 +139,7 @@ def _persist_empty_library_training_cell(
 def _prepare_identity_point(
     executor: MainExperimentExecutor,
 ) -> tuple[ResearchTrajectory, dict[str, object], str]:
-    executor.store.write_manifest(
-        "run", {"schema_version": 2, "run_id": executor.run_id}
-    )
+    executor.store.write_manifest("run", {"schema_version": 2, "run_id": executor.run_id})
     run_hash = sha256_file(executor.store.root / "manifests/run.json")
     trajectory, evaluations = _persist_empty_library_training_cell(executor)
     point = executor.prepare_development_curve_point(
@@ -180,9 +178,7 @@ def test_empty_library_curve_is_identity_bound_without_shadow_rollout(
     assert pair["current_trajectory_id"] == trajectory.trajectory_id
     assert pair["empty_trajectory_id"] == trajectory.trajectory_id
     assert all(value == 0 for value in pair["paired_delta"].values())
-    shadow_root = (
-        executor.store.root / "trajectories/learning_curve_shadow_training_batch_01"
-    )
+    shadow_root = executor.store.root / "trajectories/learning_curve_shadow_training_batch_01"
     assert not shadow_root.exists()
 
 
@@ -294,39 +290,6 @@ def test_nonempty_curve_contamination_fails_before_semantic_scoring(
     assert isolation["passed"] is False
 
 
-def test_provisionals_checkpoint_rejects_curve_artifact_hash_drift(
-    tmp_path: Path,
-) -> None:
-    executor = _executor(tmp_path, run_id="curve_hash_drift")
-    trajectory, _, run_hash = _prepare_identity_point(executor)
-    executor.store.atomic_json(
-        executor.store.root / "health/pre_scoring_health_training_batch_01.json",
-        {"healthy": True, "counts": {}},
-    )
-    curve_path = executor._learning_curve_point_path(1)
-    executor._write_provisionals_ready_checkpoint(
-        round_index=1,
-        case_limit=None,
-        run_manifest_sha256=run_hash,
-        input_skills=[],
-        trajectories=[trajectory],
-        candidates=[],
-        development_curve_artifact=executor._relative_artifact_record(curve_path),
-    )
-    point = json.loads(curve_path.read_text(encoding="utf-8"))
-    point["post_checkpoint_edit"] = True
-    executor.store.atomic_json(curve_path, point)
-
-    with pytest.raises(ExecutionError, match="artifact is missing or changed"):
-        executor._validate_provisionals_ready_checkpoint(
-            round_index=1,
-            case_limit=None,
-            run_manifest_sha256=run_hash,
-            expected_input_skill_ids=[],
-            expected_input_skill_library_sha256=skill_library_sha256([]),
-        )
-
-
 def test_learning_checkpoint_rejects_curve_input_library_binding_drift(
     tmp_path: Path,
 ) -> None:
@@ -339,7 +302,7 @@ def test_learning_checkpoint_rejects_curve_input_library_binding_drift(
             round_index=1,
             case_limit=None,
             run_manifest_sha256=run_hash,
-            accepted_skill_ids=[],
+            admitted_skill_ids=[],
             input_skills=[synthetic_skills()[0]],
             development_curve_artifact=executor._relative_artifact_record(curve_path),
         )

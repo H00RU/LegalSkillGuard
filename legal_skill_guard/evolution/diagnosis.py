@@ -77,17 +77,8 @@ def diagnosis_quality_issues(diagnosis: SkillDiagnosis) -> list[str]:
     if len(diagnosis.causal_hypothesis.strip()) < 12:
         issues.append("non_specific_causal_hypothesis")
     skill = diagnosis.candidate_skill
-    if skill is not None:
-        if diagnosis.skill_scope != skill.domain:
-            issues.append("diagnosis_skill_scope_mismatch")
-        if skill.evaluation.model_dump(exclude_none=True) != {
-            "paired_cases": 0,
-            "exposed_pairs": 0,
-            "exposed_cases": 0,
-            "exposed_domains": 0,
-            "severe_risk_count": 0,
-        }:
-            issues.append("teacher_claimed_unseen_evaluation")
+    if skill is not None and diagnosis.skill_scope != skill.domain:
+        issues.append("diagnosis_skill_scope_mismatch")
     return sorted(set(issues))
 
 

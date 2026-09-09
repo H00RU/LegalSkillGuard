@@ -28,7 +28,6 @@ from legal_skill_guard.evaluation.semantic import (
     grounding_judgment_schema,
     grounding_wire_contract_issues,
     memo_claim_spans,
-    monotone_expected_action_scores,
     normalize_exact_visible_grounding,
     normalize_official_grounding_contract,
     official_grounding_judgment_schema,
@@ -39,16 +38,10 @@ from legal_skill_guard.evaluation.semantic import (
     rubric_judgment_schema,
 )
 from legal_skill_guard.evaluation.statistics import (
-    PairedEstimate,
     benjamini_hochberg,
     clustered_mean_deltas,
     paired_bootstrap_interval,
     paired_sign_flip_p_value,
-)
-from legal_skill_guard.evolution.acceptance import (
-    AuditDecision,
-    MechanismDirectionGate,
-    PairOutcome,
 )
 from legal_skill_guard.evolution.diagnosis import SkillDiagnosis
 from legal_skill_guard.evolution.reward import RewardParameters
@@ -57,29 +50,19 @@ from legal_skill_guard.evolution.teacher import (
     SourceWitness,
     TeacherProposal,
 )
-from legal_skill_guard.experiment.batches import load_training_batch_plan
 from legal_skill_guard.experiment.executor import (
     ExecutionError,
     MainExperimentExecutor,
-    ProspectiveCandidateAudit,
     TrainingSummary,
     _teacher_proposal_matches_candidate,
     _validate_persona_seed_protocol,
-    candidate_pair_health_selection,
-    fresh_candidate_nomination_slots,
     paired_behavior_estimates,
     parallel_map_ordered,
-    prospective_audit_teacher_feedback,
-    prospective_exposure_minima,
     require_distinct_learning_traces,
-    select_causally_aligned_contrast,
-    select_causally_aligned_contrasts,
     select_diverse_teacher_groups,
-    skill_contract_definition_sha256,
-    skill_document_semantic_sha256,
+    select_trajectory_level_contrasts,
     skill_library_sha256,
     teacher_response_cache_root,
-    tf_grpo_teacher_evidence_groups,
     trajectory_behavior_summary,
     trajectory_learning_signature,
     verify_model_manifest,
@@ -89,9 +72,7 @@ from legal_skill_guard.experiment.runner import (
     InvestigationPlanningError,
     TrajectoryRunner,
     asks_response_event_existence,
-    counterfactual_followup_target,
-    counterfactual_initial_target,
-    counterfactual_target_guidance,
+    client_environment_seed,
     parse_investigation_plan,
     planner_target_has_recoverable_observable_core,
     policy_sampling_seed,
@@ -99,7 +80,6 @@ from legal_skill_guard.experiment.runner import (
     response_event_terms_in,
     shared_component_seed,
     termination_contract_check,
-    uses_counterfactual_target_allocation,
 )
 from legal_skill_guard.experiment.storage import RunStore, trajectory_identity
 from legal_skill_guard.experiment.trajectory_health import trajectory_health_report
@@ -123,15 +103,16 @@ from legal_skill_guard.schemas.experiment import (
     assert_current_trajectory_contract,
     current_trajectory_contract_issues,
 )
-from legal_skill_guard.schemas.state import FactObservation, FactSlot, Interaction, StatePatch
+from legal_skill_guard.schemas.skill import SkillContract
+from legal_skill_guard.schemas.state import FactObservation, FactSlot, StatePatch
 from legal_skill_guard.schemas.trajectory import Message
 from legal_skill_guard.skills.memory import (
     extract_rendered_skill_memory,
     parse_rendered_skill_memory,
     render_skill_memory,
 )
-from legal_skill_guard.skills.registry import SkillRegistry
 from legal_skill_guard.utils.hashing import canonical_json_sha256
+from legal_skill_guard.verifiers.deterministic import VerificationResult
 from tests.skill_fixtures import synthetic_skills
 
 TEST_REWARD_PARAMETERS = RewardParameters(
@@ -189,7 +170,7 @@ def _policy(action: dict, observations: list[dict]) -> str:
                 "target_type": "fact" if action["action_type"] != "final" else "session",
                 "target_id": action.get("target_id"),
                 "reason": "test",
-                "expected_information": "可观察事实",
+                "expected_information": action.get("expected_information", "可观察事实"),
                 "content": action.get("content", ""),
                 "constraints": [],
                 "confidence": 0.8,
@@ -322,18 +303,6 @@ def _runner() -> tuple[TrajectoryRunner, ScriptedChatClient, ScriptedChatClient]
         policy,
         selector,
     )
-
-
-def test_prospective_exposure_minima_respect_candidate_scope() -> None:
-    policy = {
-        "minimum_exposed_sessions": 4,
-        "minimum_exposed_cases": 4,
-        "minimum_exposed_domains": 2,
-        "domain_minimum_exposed_sessions": 1,
-        "domain_minimum_exposed_cases": 1,
-    }
-    assert prospective_exposure_minima("general", policy) == (4, 4, 2)
-    assert prospective_exposure_minima("criminal", policy) == (1, 1, 1)
 
 
 def test_real_multiturn_chain_stores_grounded_dialogue_without_hidden_labels() -> None:
@@ -712,7 +681,7 @@ def test_nonrepairable_management_patch_is_discarded_before_state_merge() -> Non
         partition="training_round_01",
         seed=42,
         sample_index=0,
-        max_turns=1,
+        max_turns=3,
         group_id="group_test",
         skill_library_version="empty",
     )
@@ -725,7 +694,7 @@ def test_nonrepairable_management_patch_is_discarded_before_state_merge() -> Non
     assert opening_facts[0]["source_turns"] == [0]
 
 
-def test_policy_repair_receives_the_rejected_json_it_must_edit() -> None:
+def test_known_target_repeat_is_preserved_as_scoreable_policy_behavior() -> None:
     runner, policy, _ = _runner()
     invalid = _policy(
         {
@@ -744,7 +713,7 @@ def test_policy_repair_receives_the_rejected_json_it_must_edit() -> None:
         [],
     )
     policy.responses = [invalid, repaired]
-    runner.run(
+    trajectory = runner.run(
         raw_case=_case(),
         persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
         skills=[],
@@ -758,8 +727,11 @@ def test_policy_repair_receives_the_rejected_json_it_must_edit() -> None:
         group_id="group_test",
         skill_library_version="empty",
     )
-    assert policy.seen[1][-2] == {"role": "assistant", "content": invalid}
-    assert "上一份JSON违反契约" in policy.seen[1][-1]["content"]
+    assert len(policy.seen) == 1
+    assert trajectory.steps[0].rendered_question == "请重复开场？"
+    assert trajectory.steps[0].policy_health_violations == [
+        "ask_target_not_unresolved:opening_statement:client_claimed"
+    ]
 
 
 def test_empty_policy_completion_uses_bounded_role_repair_without_refeeding() -> None:
@@ -797,222 +769,7 @@ def test_empty_policy_completion_uses_bounded_role_repair_without_refeeding() ->
     assert "invalid_structured_output" in policy.seen[1][-1]["content"]
 
 
-def test_counterfactual_initial_targets_form_two_matched_continuation_pairs() -> None:
-    state = StateManager().initial("counterfactual-allocation", "开场", max_turns=6)
-    state.facts.extend(
-        [
-            FactSlot(
-                fact_id="target_a",
-                label="目标A",
-                status="unknown",
-                criticality="high",
-                target_kind="client_fact",
-            ),
-            FactSlot(
-                fact_id="target_b",
-                label="目标B",
-                status="unknown",
-                criticality="medium",
-                target_kind="evidence_or_third_party",
-            ),
-            FactSlot(
-                fact_id="already_known",
-                label="已知事实",
-                status="client_claimed",
-                value="开场可见",
-                target_kind="client_fact",
-            ),
-        ]
-    )
-
-    allocated = [
-        counterfactual_initial_target(state, index, replicates_per_target=2) for index in range(4)
-    ]
-
-    assert [item.fact_id if item else None for item in allocated] == [
-        "target_a",
-        "target_a",
-        "target_b",
-        "target_b",
-    ]
-
-    with pytest.raises(ValueError, match="replicates_per_target must be positive"):
-        counterfactual_initial_target(state, 0, replicates_per_target=0)
-
-
-def test_counterfactual_followup_targets_fork_inside_each_matched_pair() -> None:
-    state = StateManager().initial("counterfactual-followup", "开场", max_turns=6)
-    state.facts.extend(
-        [
-            FactSlot(
-                fact_id="next_a",
-                label="后续目标A",
-                status="unknown",
-                criticality="high",
-                target_kind="client_fact",
-            ),
-            FactSlot(
-                fact_id="next_b",
-                label="后续目标B",
-                status="unknown",
-                criticality="medium",
-                target_kind="client_fact",
-            ),
-        ]
-    )
-
-    allocated = [
-        counterfactual_followup_target(state, index, branches_per_pair=2) for index in range(4)
-    ]
-
-    assert [item.fact_id if item else None for item in allocated] == [
-        None,
-        "next_a",
-        None,
-        "next_a",
-    ]
-
-
-def test_counterfactual_followup_does_not_immediately_retry_withheld_first_target() -> None:
-    state = StateManager().initial("counterfactual-withheld", "开场", max_turns=6)
-    state.facts.extend(
-        [
-            FactSlot(
-                fact_id="withheld_first",
-                label="首轮暂未披露事实",
-                status="unknown",
-                criticality="high",
-                target_kind="client_fact",
-            ),
-            FactSlot(
-                fact_id="next_a",
-                label="后续目标A",
-                status="unknown",
-                criticality="high",
-                target_kind="client_fact",
-            ),
-            FactSlot(
-                fact_id="next_b",
-                label="后续目标B",
-                status="unknown",
-                criticality="medium",
-                target_kind="client_fact",
-            ),
-        ]
-    )
-    state.interactions.append(
-        Interaction(
-            turn=1,
-            action_type="ask",
-            target_id="withheld_first",
-            question="请说明首轮事实？",
-            response_kind="withheld",
-        )
-    )
-
-    assert state.asked_targets == []
-    allocated = [
-        counterfactual_followup_target(state, index, branches_per_pair=2) for index in range(2)
-    ]
-    assert [item.fact_id if item else None for item in allocated] == [
-        None,
-        "next_a",
-    ]
-
-
-def test_counterfactual_followup_prefers_visible_client_fact_over_external_gap() -> None:
-    state = StateManager().initial("counterfactual-client-first", "开场", max_turns=6)
-    state.facts.extend(
-        [
-            FactSlot(
-                fact_id="external_record",
-                label="第三方记录",
-                status="unknown",
-                criticality="high",
-                target_kind="evidence_or_third_party",
-            ),
-            FactSlot(
-                fact_id="client_event",
-                label="客户亲历事件",
-                status="unknown",
-                criticality="medium",
-                target_kind="client_fact",
-            ),
-        ]
-    )
-
-    allocated = counterfactual_followup_target(state, 1, branches_per_pair=2)
-
-    assert allocated is not None
-    assert allocated.fact_id == "client_event"
-
-
-def test_counterfactual_initial_target_uses_same_model_repair_and_fails_closed() -> None:
-    runner, policy, _ = _runner()
-    state = StateManager().initial("counterfactual-repair", "合同履行发生争议。", max_turns=6)
-    target_a = FactSlot(
-        fact_id="payment_time",
-        label="客户实际付款时间",
-        status="unknown",
-        criticality="high",
-        target_kind="client_fact",
-    )
-    target_b = FactSlot(
-        fact_id="delivery_time",
-        label="对方实际交付时间",
-        status="unknown",
-        criticality="high",
-        target_kind="client_fact",
-    )
-    state.facts.extend([target_a, target_b])
-    wrong = _policy(
-        {
-            "action_type": "ask",
-            "target_id": "delivery_time",
-            "content": "对方实际是在什么时候交付的？",
-        },
-        [],
-    )
-    repaired = _policy(
-        {
-            "action_type": "ask",
-            "target_id": "payment_time",
-            "content": "您付款的具体时间是什么时候？",
-        },
-        [],
-    )
-    policy.responses = [wrong, repaired]
-
-    envelope, attempts, violations = runner._generate_policy(
-        [Message(role="system", content="只输出动作JSON")],
-        state,
-        42,
-        required_target=target_a,
-    )
-
-    assert envelope.action.target_id == "payment_time"
-    assert violations == []
-    assert any(
-        item.startswith("counterfactual_initial_target_mismatch:payment_time:")
-        for item in attempts[0].health_violations
-    )
-    assert all(
-        "counterfactual_initial_target_assignment:payment_time" in item.deterministic_changes
-        for item in attempts
-    )
-    assert "target_id必须精确等于payment_time" in policy.seen[1][-1]["content"]
-
-    policy.responses = [wrong, wrong, wrong]
-    with pytest.raises(RuntimeError, match="assignment failed closed"):
-        runner._generate_policy(
-            [Message(role="system", content="只输出动作JSON")],
-            state,
-            42,
-            required_target=target_a,
-        )
-
-
-def test_stagnated_policy_repair_drops_rejected_assistant_anchor() -> None:
+def test_compound_policy_behavior_does_not_enter_contract_repair_loop() -> None:
     runner, policy, _ = _runner()
     state = StateManager().initial(
         "stagnated-policy-role-repair",
@@ -1051,15 +808,15 @@ def test_stagnated_policy_repair_drops_rejected_assistant_anchor() -> None:
         [Message(role="system", content="只输出动作JSON")], state, 42
     )
 
-    assert envelope.action.content == "您是否签署过替代社保的补助协议？"
-    assert violations == []
-    assert len(attempts) == 3
-    assert policy.seen[1][-2] == {"role": "assistant", "content": compound}
-    assert all(message["role"] != "assistant" for message in policy.seen[2])
-    assert "multiple_primary_questions" in policy.seen[2][-1]["content"]
+    assert envelope.action.content == (
+        "您是否签署了替代社会保险的补助协议？如果签署了，请说明协议的具体内容和签署过程。"
+    )
+    assert violations == ["multiple_primary_questions"]
+    assert len(attempts) == 1
+    assert len(policy.seen) == 1
 
 
-def test_policy_repair_budget_covers_sequential_violation_transitions() -> None:
+def test_policy_behavior_warning_does_not_consume_contract_repair_budget() -> None:
     runner, policy, _ = _runner()
     runner.max_policy_attempts = 5
     state = StateManager().initial(
@@ -1113,17 +870,16 @@ def test_policy_repair_budget_covers_sequential_violation_transitions() -> None:
         [Message(role="system", content="只输出动作JSON")], state, 42
     )
 
-    assert envelope.action.action_type == "final"
-    assert violations == []
-    assert len(attempts) == 5
+    assert envelope.action.action_type == "ask"
+    assert envelope.action.content == (
+        "您是否签署了替代社会保险的补助协议？如果签了，协议中具体写了哪些内容？"
+    )
+    assert violations == ["multiple_primary_questions"]
+    assert len(attempts) == 1
     assert attempts[0].health_violations == ["multiple_primary_questions"]
-    assert attempts[1].health_violations == ["multiple_primary_questions"]
-    assert attempts[2].health_violations == ["repeated_question_text"]
-    assert "terminal_unsupported_blanket_low_value_claim" in attempts[3].health_violations
-    assert attempts[4].health_violations == []
 
 
-def test_exact_repeat_repair_does_not_refeed_rejected_action() -> None:
+def test_exact_repeat_is_preserved_without_contract_repair() -> None:
     runner, policy, _ = _runner()
     state = StateManager().initial("repeat-repair-clean-context", "合同履行发生争议。", max_turns=6)
     state.facts.append(
@@ -1164,12 +920,11 @@ def test_exact_repeat_repair_does_not_refeed_rejected_action() -> None:
         [Message(role="system", content="只输出动作JSON")], state, 42
     )
 
-    assert envelope.action.action_type == "final"
-    assert len(attempts) == 3
-    assert violations == []
-    assert all(message["role"] != "assistant" for message in policy.seen[1])
-    assert "本轮不得选择这些目标" in policy.seen[1][-1]["content"]
-    assert "本轮只修复上一稿final的理由表述" in policy.seen[2][-1]["content"]
+    assert envelope.action.action_type == "ask"
+    assert envelope.action.content == "您是否实际付款？"
+    assert len(attempts) == 1
+    assert violations == ["repeated_question_text"]
+    assert len(policy.seen) == 1
 
 
 def test_pre_scoring_health_gate_blocks_persisted_management_patch(tmp_path: Path) -> None:
@@ -1404,7 +1159,7 @@ def test_scoring_refuses_stale_evolution_metric_schema(tmp_path: Path) -> None:
         MainExperimentExecutor.score_trajectories(executor, [trajectory], adapter)
 
 
-def test_pre_scoring_health_gate_blocks_abstention_with_visible_substance() -> None:
+def test_pre_scoring_health_reports_abstention_with_visible_substance_as_quality() -> None:
     runner, _, _ = _runner()
     trajectory = runner.run(
         raw_case=_case(),
@@ -1420,12 +1175,14 @@ def test_pre_scoring_health_gate_blocks_abstention_with_visible_substance() -> N
         group_id="group_test",
         skill_library_version="empty",
     )
-    # Runtime repair should prevent this state.  Mutate only the persisted status to
-    # prove the independent pre-scoring contract still fails closed.
+    # Mutate only the persisted status to isolate policy quality from data integrity.
     trajectory.status = "abstained"
     report = trajectory_health_report([trajectory], {trajectory.case_id: _case()})
-    assert report["healthy"] is False
-    assert report["counts"] == {"abstention_with_substantive_visible_state": 1}
+    assert report["healthy"] is True
+    assert report["counts"] == {}
+    assert report["quality_diagnostics"]["model_behavior_warning_counts"] == {
+        "abstention_with_substantive_visible_state": 1
+    }
 
 
 def test_pre_scoring_health_preserves_semantic_repeat_as_quality_signal() -> None:
@@ -1455,6 +1212,54 @@ def test_pre_scoring_health_preserves_semantic_repeat_as_quality_signal() -> Non
     assert report["healthy"] is True
     assert report["counts"] == {}
     assert report["quality_diagnostics"]["client_semantic_repetition_no_new_information"] == 1
+
+
+def test_pre_scoring_health_separates_verifier_warning_from_integrity_failure() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_verifier_tiers",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    warning_only = trajectory.model_copy(deep=True)
+    warning_only.steps[0].verifier_results = [
+        VerificationResult(
+            validator_id="question_not_repeated",
+            passed=False,
+            severity="warning",
+            detail="policy repeated a visible question",
+        )
+    ]
+    warning_report = trajectory_health_report([warning_only], {warning_only.case_id: _case()})
+    assert warning_report["healthy"] is True
+    assert warning_report["counts"] == {}
+    assert warning_report["quality_diagnostics"]["model_behavior_warning_counts"] == {
+        "verifier_warning:question_not_repeated": 1
+    }
+
+    integrity_failure = trajectory.model_copy(deep=True)
+    integrity_failure.steps[0].verifier_results = [
+        VerificationResult(
+            validator_id="no_hidden_fields",
+            passed=False,
+            severity="severe",
+            detail="hidden evaluator field reached the online action",
+        )
+    ]
+    severe_report = trajectory_health_report(
+        [integrity_failure], {integrity_failure.case_id: _case()}
+    )
+    assert severe_report["healthy"] is False
+    assert severe_report["counts"] == {"verifier_failure": 1}
 
 
 def test_pre_scoring_health_rejects_unavailable_without_valid_empty_route() -> None:
@@ -1750,6 +1555,31 @@ def test_investigation_planner_preserves_official_procedure_mechanism() -> None:
     existence_patch, _, existence_violations, _ = parse_investigation_plan(existence_value, state)
     assert existence_violations == []
     assert [item.fact_id for item in existence_patch.observations] == ["execution_order_exists"]
+
+    custody_instrument_value = json.dumps(
+        {
+            "issue_labels": ["子女抚养安排"],
+            "unknowns": [
+                {
+                    "fact_id": "custody_instrument_exists",
+                    "label": "是否存在关于子女抚养权的书面协议或判决",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    custody_patch, _, custody_violations, _ = parse_investigation_plan(
+        custody_instrument_value,
+        StateManager().initial(
+            "planner-custody-instrument-existence",
+            "丈夫未经同意把孩子带到外省。",
+            max_turns=24,
+        ),
+    )
+    assert custody_violations == []
+    assert [item.fact_id for item in custody_patch.observations] == ["custody_instrument_exists"]
 
     private_state = StateManager().initial(
         "planner-private-deed",
@@ -2154,6 +1984,63 @@ def test_planner_does_not_treat_missing_delivery_evidence_as_no_notice_event() -
     assert [item.fact_id for item in patch.observations] == ["notice_recipients"]
 
 
+def test_planner_distinguishes_normative_notice_and_recorded_document_attributes() -> None:
+    state = StateManager().initial(
+        "planner-normative-basis-document",
+        "我被按当地方案收取污水处理费，但实际排污状况与城市管网关系存在争议。",
+        max_turns=24,
+    )
+    value = json.dumps(
+        {
+            "issue_labels": ["污水处理费收费合法性争议", "排污管网关系认定争议"],
+            "unknowns": [
+                {
+                    "fact_id": "charging_amount",
+                    "label": "实际收取的污水处理费金额",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "communication_existence",
+                    "label": "是否存在与收费部门沟通的具体内容和书面答复",
+                    "criticality": "medium",
+                    "target_kind": "evidence_or_third_party",
+                },
+                {
+                    "fact_id": "actual_discharge_status",
+                    "label": "实际排污行为与城市管网关系的具体描述",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "charging_basis_existence",
+                    "label": "是否存在收取费用所依据的具体政策文件或通知",
+                    "criticality": "high",
+                    "target_kind": "evidence_or_third_party",
+                },
+                {
+                    "fact_id": "receipt_content",
+                    "label": "缴费凭证上明确记载的收费项目和计算依据",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+
+    patch, _, violations, _ = parse_investigation_plan(value, state)
+
+    assert violations == []
+    assert [item.fact_id for item in patch.observations] == [
+        "charging_amount",
+        "actual_discharge_status",
+        "charging_basis_existence",
+        "receipt_content",
+        "communication_existence",
+    ]
+
+
 def test_planner_projects_only_literal_safe_atomic_prefixes() -> None:
     state = StateManager().initial(
         "planner-atomic-projection",
@@ -2247,7 +2134,7 @@ def test_planner_projects_only_literal_safe_atomic_prefixes() -> None:
     assert atomic_factual_target_projection("evidence", "付款的具体凭证和金额明细") is None
     assert atomic_factual_target_projection("awareness", "客户是否察觉到行为异常") is None
     assert (
-            atomic_factual_target_projection("compensation", "实际垫付的金额以及具体项目")
+        atomic_factual_target_projection("compensation", "实际垫付的金额以及具体项目")
         == "实际垫付的金额"
     )
     assert atomic_factual_target_projection("land", "取得土地的具体情况及证明文件") is None
@@ -2383,6 +2270,38 @@ def test_investigation_planner_normalizes_non_ascii_internal_id_without_losing_t
     ]
 
 
+def test_investigation_planner_receives_the_fixed_session_skill_memory() -> None:
+    runner, _, _ = _runner()
+    response = json.dumps(
+        {
+            "issue_labels": ["合同履行"],
+            "unknowns": [
+                {
+                    "fact_id": "performance_status",
+                    "label": "对方目前实际履行到哪一步",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([response])
+    runner.planner_client = planner
+    runner.planner_prompt = "会话前事实规划。\n当前方法规则：\n{method_guidance}"
+    state = StateManager().initial("planner-memory", "合同履行发生争议。", max_turns=6)
+
+    patch, attempts, safe_partial = runner._generate_investigation_plan(
+        "合同履行发生争议。", state, 42, "SKILL_MEMORY_SENTINEL"
+    )
+
+    assert len(patch.observations) == 1
+    assert len(attempts) == 1
+    assert safe_partial is False
+    assert "SKILL_MEMORY_SENTINEL" in planner.seen[0][0]["content"]
+    assert "{method_guidance}" not in planner.seen[0][0]["content"]
+
+
 def test_investigation_planner_rejects_agenda_containing_only_client_outcome() -> None:
     state = StateManager().initial("planner-outcome", "行政申请被退件。", max_turns=6)
     value = json.dumps(
@@ -2509,6 +2428,65 @@ def test_planner_rebuilds_clean_json_after_deletion_only_stagnation() -> None:
     assert "不要再参考或复述上一稿全文" in clean_request
     assert "争议财产目前的市场价值" in clean_request
     assert clean_request.count("离婚所需材料清单") == 1
+
+
+def test_planner_drops_repeated_unestablished_event_attribute_after_one_rewrite() -> None:
+    runner, _, _ = _runner()
+    rejected = json.dumps(
+        {
+            "issue_labels": ["行政处理"],
+            "unknowns": [
+                {
+                    "fact_id": "application_date",
+                    "label": "客户提交申请的日期",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "decision_reason",
+                    "label": "行政处理决定书载明的具体理由",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    clean = json.dumps(
+        {
+            "issue_labels": ["行政处理"],
+            "unknowns": [
+                {
+                    "fact_id": "application_date",
+                    "label": "客户提交申请的日期",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([rejected, rejected, clean])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    opening = "我向行政机关提交了申请，目前想了解处理进展。"
+    state = StateManager().initial("planner-event-attribute-stagnation", opening, max_turns=6)
+
+    patch, attempts, safe_partial = runner._generate_investigation_plan(opening, state, 42)
+
+    assert safe_partial is False
+    assert [item.fact_id for item in patch.observations] == ["application_date"]
+    assert len(attempts) == 3
+    assert any(
+        change.startswith("planner_repair_mandatory_drop:")
+        and "行政处理决定书载明的具体理由" in change
+        for change in attempts[1].deterministic_changes
+    )
+    assert (
+        "planner_repair_rebuild_from_approved_targets_after_drop_stagnation"
+        in attempts[1].deterministic_changes
+    )
 
 
 def test_planner_rebuilds_from_approved_targets_after_mixed_stagnation() -> None:
@@ -3455,10 +3433,7 @@ def test_prompt_skill_is_exposed_but_never_rewrites_scripted_policy_action() -> 
         item.startswith(("repeated_fact_target", "ask_target_not_unresolved"))
         for item in second_step.post_skill_health_violations
     )
-    assert not any(
-        item.get("skill_id")
-        for item in second_step.action_decision.changes
-    )
+    assert not any(item.get("skill_id") for item in second_step.action_decision.changes)
     assert selector.responses == []
 
 
@@ -3495,7 +3470,7 @@ def test_prompt_skill_document_is_identical_in_every_policy_turn() -> None:
     assert all('"active_skills"' not in messages[-1]["content"] for messages in policy.seen)
 
 
-def test_training_allocation_guidance_does_not_corrupt_skill_memory_suffix() -> None:
+def test_training_policy_has_skill_memory_without_program_selected_target() -> None:
     runner, _, _ = _runner()
     skill = synthetic_skills()[0]
     memory, expected_ids = render_skill_memory([skill], domain="insurance_contract")
@@ -3505,44 +3480,19 @@ def test_training_allocation_guidance_does_not_corrupt_skill_memory_suffix() -> 
         max_turns=24,
         domain="insurance_contract",
     )
-    target = FactSlot(
-        fact_id="contract_date",
-        label="合同签署日期",
-        status="unknown",
-        criticality="high",
-        target_kind="client_fact",
-    )
-    state = StateManager().merge(
-        state,
-        StatePatch(
-            observations=[
-                FactObservation(
-                    fact_id=target.fact_id,
-                    label=target.label,
-                    status=target.status,
-                    criticality=target.criticality,
-                    target_kind=target.target_kind,
-                )
-            ]
-        ),
-        0,
-    )
-
     messages = runner._visible_messages(
         "客户开场。",
         [],
         state,
         1,
         policy_method_guidance=memory,
-        policy_sampling_guidance=counterfactual_target_guidance(target),
+        policy_sampling_guidance="",
     )
     system_prompt = messages[0].content
 
-    assert "训练期结构化反事实首问" in system_prompt
+    assert "训练期结构化反事实" not in system_prompt
     assert system_prompt.endswith(memory)
-    assert parse_rendered_skill_memory(
-        extract_rendered_skill_memory(system_prompt)
-    ) == expected_ids
+    assert parse_rendered_skill_memory(extract_rendered_skill_memory(system_prompt)) == expected_ids
 
 
 def test_empty_library_policy_turns_contain_no_skill_document_or_legacy_state_field() -> None:
@@ -3742,31 +3692,6 @@ def test_rubric_schema_freezes_case_specific_array_lengths() -> None:
     assert properties["expected_action_scores"]["maxItems"] == 6
     assert properties["memo_expectation_scores"]["minItems"] == 5
     assert properties["memo_expectation_scores"]["maxItems"] == 5
-
-
-def test_paired_inquiry_scores_cannot_lose_credit_under_exact_question_extension() -> None:
-    reconciled, inherited = monotone_expected_action_scores(
-        ["是否已经向保险人披露健康情况？"],
-        [
-            "是否已经向保险人披露健康情况？",
-            "拒赔通知援引了哪项条款？",
-        ],
-        [1, 0, 0],
-        [0, 1, 0],
-    )
-    assert reconciled == [1, 1, 0]
-    assert inherited == [0]
-
-
-def test_paired_inquiry_scores_are_untouched_without_exact_question_prefix() -> None:
-    reconciled, inherited = monotone_expected_action_scores(
-        ["基线问题"],
-        ["经过技能改写的问题"],
-        [1, 0],
-        [0, 1],
-    )
-    assert reconciled == [0, 1]
-    assert inherited == []
 
 
 def test_claim_chunking_preserves_exact_ids_order_and_text() -> None:
@@ -3998,9 +3923,7 @@ def test_semantic_facts_subdivide_only_length_exhausted_multi_fact_unit() -> Non
     assert [trace.fact_ids for trace in evaluation.fact_chunks] == [["F1"], ["F2"]]
     assert all(trace.attempts == 1 for trace in evaluation.fact_chunks)
     assert evaluation.fact_repair_used is True
-    assert evaluation.fact_normalizations == [
-        "adaptive_length_split:1:F1,F2->F1|F2"
-    ]
+    assert evaluation.fact_normalizations == ["adaptive_length_split:1:F1,F2->F1|F2"]
     assert evaluation.official_metrics.fact_coverage == 1.0
 
 
@@ -5457,29 +5380,610 @@ def test_teacher_group_budget_covers_cases_before_repeating_one_case() -> None:
     assert Counter(selected_cases).most_common(1)[0][1] == 2
 
 
+def test_general_teacher_group_truncation_preserves_two_source_domains() -> None:
+    groups = []
+    for index in range(16):
+        group = SimpleNamespace(std_reward=2.0 - index * 0.01, group_id=f"civil_{index}")
+        trajectory = SimpleNamespace(
+            case_id=f"civil_case_{index}",
+            domain="consumer_contract",
+        )
+        groups.append((group, {f"civil_t_{index}": trajectory}))
+    minority_group = SimpleNamespace(std_reward=0.01, group_id="labor_rare")
+    minority_trajectory = SimpleNamespace(case_id="labor_case", domain="labor_employment")
+    groups.append((minority_group, {"labor_t": minority_trajectory}))
+
+    selected = select_diverse_teacher_groups(
+        groups,
+        budget=15,
+        maximum_per_case=2,
+        minimum_source_domains=2,
+    )
+
+    assert len(selected) == 15
+    assert {next(iter(mapped.values())).domain for _, mapped in selected} == {
+        "consumer_contract",
+        "labor_employment",
+    }
+
+
 def test_training_random_streams_vary_only_for_sampled_policy() -> None:
     assert policy_sampling_seed(42, 0, 1) != policy_sampling_seed(42, 1, 1)
     assert shared_component_seed(42, 1) == shared_component_seed(42, 1)
     assert shared_component_seed(42, 1) != shared_component_seed(42, 2)
+    assert client_environment_seed(42) == shared_component_seed(42, 1)
 
 
-def test_embedded_candidate_arms_share_policy_stream_but_exploration_does_not() -> None:
-    assert policy_stream_index("candidate_without", 0) == 0
-    assert policy_stream_index("candidate_with", 1) == 0
-    assert policy_stream_index("candidate_with", 2) == 0
-    assert policy_stream_index("training_policy_sample", 3) == 3
-    assert policy_stream_index(
-        "training_policy_sample", 1, counterfactual_pair_size=2
-    ) == 0
-    assert policy_stream_index(
-        "training_policy_sample", 3, counterfactual_pair_size=2
-    ) == 2
+def test_policy_stream_index_never_rewrites_method_specific_arms() -> None:
+    for method in ("training_policy_sample", "no_skill", "frozen_skill_library"):
+        assert [policy_stream_index(method, index) for index in range(4)] == [0, 1, 2, 3]
+    with pytest.raises(ValueError, match="sample_index must be non-negative"):
+        policy_stream_index("training_policy_sample", -1)
 
 
-def test_counterfactual_target_allocation_never_masks_embedded_candidate_effect() -> None:
-    assert uses_counterfactual_target_allocation("training_policy_sample") is True
-    assert uses_counterfactual_target_allocation("candidate_without") is False
-    assert uses_counterfactual_target_allocation("candidate_with") is False
+def test_trajectory_level_teacher_contrast_uses_fact_dominance_without_shared_state() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+    from legal_skill_guard.schemas.action import StructuredAction  # noqa: PLC0415
+
+    def trajectory(trajectory_id: str, target_id: str, selected: list[str], reward: float):
+        action = StructuredAction(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=f"请说明{target_id}？",
+        )
+        state = {
+            "session_id": trajectory_id,
+            "facts": [
+                {
+                    "fact_id": "F1",
+                    "label": "事实一",
+                    "status": "unknown",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "F2",
+                    "label": "事实二",
+                    "status": "unknown",
+                    "target_kind": "client_fact",
+                },
+            ],
+        }
+        item = SimpleNamespace(
+            turn=1,
+            state_before=state,
+            state_patch=StatePatch(),
+            proposed_action=action,
+            rendered_question=action.content,
+            client_response_kind="new_hidden_fact" if selected else "unavailable",
+            client_selected_fact_ids=selected,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+        return SimpleNamespace(trajectory_id=trajectory_id, steps=[item]), ScoredMember(
+            trajectory_id=trajectory_id, reward=reward, turns=1
+        )
+
+    positive, positive_score = trajectory("positive", "F1", ["F1"], 0.7)
+    negative, negative_score = trajectory("negative", "F2", [], 0.2)
+    group = AdvantageGroup(
+        group_id="independent-grpo",
+        members=[positive_score, negative_score],
+        mean_reward=0.45,
+        std_reward=0.25,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(
+        group, {"positive": positive, "negative": negative}
+    )
+
+    assert len(selections) == 1
+    assert selections[0].signal_family == "fact_elicitation"
+    assert selections[0].fact_gain == 1
+    assert selections[0].immediate_fact_gain == 0
+    assert selections[0].selection_basis == "trajectory_level_fact_dominance"
+
+
+def test_trajectory_level_teacher_contrast_rejects_fact_tradeoff() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    action = SimpleNamespace(
+        action_type="ask",
+        target_type="fact",
+        constraints=[],
+        expected_information="",
+    )
+
+    def trajectory(trajectory_id: str, target_id: str, selected: str):
+        proposed = SimpleNamespace(**vars(action), target_id=target_id, content=target_id)
+        return SimpleNamespace(
+            trajectory_id=trajectory_id,
+            steps=[
+                SimpleNamespace(
+                    turn=1,
+                    rendered_question=target_id,
+                    proposed_action=proposed,
+                    action_decision=SimpleNamespace(final=proposed),
+                    client_selected_fact_ids=[selected],
+                    client_response_kind="new_hidden_fact",
+                    client_safe_fallback=False,
+                    policy_health_violations=[],
+                    post_skill_health_violations=[],
+                    verifier_results=[],
+                )
+            ],
+        )
+
+    higher = trajectory("higher", "F1", "F1")
+    lower = trajectory("lower", "F2", "F2")
+    group = AdvantageGroup(
+        group_id="fact-tradeoff",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.7),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.55,
+        std_reward=0.15,
+        informative=True,
+    )
+
+    assert select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower}) == []
+
+
+def test_trajectory_level_teacher_contrast_uses_net_fact_count_not_id_superset() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(turn: int, target_id: str, selected: str):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=f"请说明{target_id}？",
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ]
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=action.content,
+            client_response_kind="new_hidden_fact",
+            client_selected_fact_ids=[selected],
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    higher = SimpleNamespace(
+        trajectory_id="higher",
+        steps=[step(1, "F1", "F1"), step(2, "F2", "F2")],
+    )
+    lower = SimpleNamespace(
+        trajectory_id="lower",
+        steps=[step(1, "F3", "F3")],
+    )
+    group = AdvantageGroup(
+        group_id="fact-net-count",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower})
+
+    assert len(selections) == 1
+    assert selections[0].signal_family == "fact_elicitation"
+    assert selections[0].positive_fact_count == 2
+    assert selections[0].negative_fact_count == 1
+    assert selections[0].fact_gain == 1
+
+
+def test_trajectory_level_teacher_contrast_uses_fact_count_preserving_efficiency() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(turn: int, target_id: str, selected: list[str]):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ]
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=target_id,
+            client_response_kind=("new_hidden_fact" if selected else "unavailable"),
+            client_selected_fact_ids=selected,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    efficient = SimpleNamespace(
+        trajectory_id="efficient",
+        steps=[step(1, "F1", ["F1"])],
+    )
+    wasteful = SimpleNamespace(
+        trajectory_id="wasteful",
+        steps=[step(1, "F2", ["F2"]), step(2, "F3", [])],
+    )
+    group = AdvantageGroup(
+        group_id="fact-count-preserving-efficiency",
+        members=[
+            ScoredMember(trajectory_id="efficient", reward=0.8),
+            ScoredMember(trajectory_id="wasteful", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(
+        group, {"efficient": efficient, "wasteful": wasteful}
+    )
+
+    assert len(selections) == 1
+    assert selections[0].signal_family == "fact_elicitation"
+    assert selections[0].fact_gain == 0
+    assert selections[0].selection_basis == "trajectory_level_fact_efficiency"
+
+
+def test_trajectory_level_teacher_contrast_uses_net_gap_count_with_no_fact_regression() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def gap_step(turn: int, target_id: str):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=f"能否提供{target_id}？",
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "evidence_or_third_party",
+                    }
+                ],
+                "asked_targets": [],
+                "interactions": [],
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=action.content,
+            client_response_kind="unavailable",
+            client_selected_fact_ids=[],
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    def fact_step(turn: int, target_id: str):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=f"请说明{target_id}？",
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ]
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=action.content,
+            client_response_kind="new_hidden_fact",
+            client_selected_fact_ids=[target_id],
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    higher = SimpleNamespace(
+        trajectory_id="higher",
+        steps=[gap_step(1, "G1"), gap_step(2, "G2"), fact_step(3, "F1")],
+    )
+    lower = SimpleNamespace(
+        trajectory_id="lower",
+        steps=[gap_step(1, "G1"), fact_step(2, "F2")],
+    )
+    group = AdvantageGroup(
+        group_id="gap-net-count",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower})
+
+    assert len(selections) == 1
+    assert selections[0].signal_family == "evidence_gap_identification"
+    assert selections[0].gap_gain == 1
+    assert selections[0].positive_fact_count == selections[0].negative_fact_count == 1
+
+
+def test_trajectory_level_teacher_contrast_rejects_gap_gain_with_fact_regression() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(
+        turn: int,
+        target_id: str,
+        *,
+        target_kind: str,
+        response_kind: str,
+        selected: list[str],
+    ):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": target_kind,
+                    }
+                ],
+                "asked_targets": [],
+                "interactions": [],
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=target_id,
+            client_response_kind=response_kind,
+            client_selected_fact_ids=selected,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    higher = SimpleNamespace(
+        trajectory_id="higher",
+        steps=[
+            step(
+                1,
+                "G1",
+                target_kind="evidence_or_third_party",
+                response_kind="unavailable",
+                selected=[],
+            ),
+            step(
+                2,
+                "G2",
+                target_kind="evidence_or_third_party",
+                response_kind="unavailable",
+                selected=[],
+            ),
+        ],
+    )
+    lower = SimpleNamespace(
+        trajectory_id="lower",
+        steps=[
+            step(
+                1,
+                "G3",
+                target_kind="evidence_or_third_party",
+                response_kind="unavailable",
+                selected=[],
+            ),
+            step(
+                2,
+                "F1",
+                target_kind="client_fact",
+                response_kind="new_hidden_fact",
+                selected=["F1"],
+            ),
+        ],
+    )
+    group = AdvantageGroup(
+        group_id="gap-fact-regression",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    assert select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower}) == []
+
+
+def test_semantic_target_alias_is_not_a_learnable_trajectory_fork() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def trajectory(trajectory_id: str, target_id: str, selected: list[str]):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content="迁址加油站名称是什么？",
+            expected_information="迁址加油站名称",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            trajectory_id=trajectory_id,
+            steps=[
+                SimpleNamespace(
+                    turn=1,
+                    state_before={
+                        "facts": [
+                            {
+                                "fact_id": target_id,
+                                "label": "迁址加油站名称",
+                                "target_kind": "client_fact",
+                            }
+                        ]
+                    },
+                    proposed_action=action,
+                    action_decision=SimpleNamespace(final=action),
+                    rendered_question=action.content,
+                    client_response_kind=("new_hidden_fact" if selected else "unavailable"),
+                    client_selected_fact_ids=selected,
+                    client_safe_fallback=False,
+                    policy_health_violations=[],
+                    post_skill_health_violations=[],
+                    verifier_results=[],
+                )
+            ],
+        )
+
+    higher = trajectory("higher", "F_station_name", ["F_station_name"])
+    lower = trajectory("lower", "F_relocation_name", [])
+    group = AdvantageGroup(
+        group_id="semantic-target-alias",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    assert select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower}) == []
+
+
+def test_trajectory_level_teacher_contrast_keeps_information_preserving_efficiency() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def action(target_id: str):
+        return SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information="",
+            constraints=[],
+        )
+
+    def step(turn: int, target_id: str, selected: list[str]):
+        proposed = action(target_id)
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ]
+            },
+            rendered_question=target_id,
+            proposed_action=proposed,
+            action_decision=SimpleNamespace(final=proposed),
+            client_selected_fact_ids=selected,
+            client_response_kind="new_hidden_fact" if selected else "unavailable",
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    efficient = SimpleNamespace(trajectory_id="efficient", steps=[step(1, "F1", ["F1"])])
+    wasteful = SimpleNamespace(
+        trajectory_id="wasteful",
+        steps=[step(1, "F1", ["F1"]), step(2, "F2", [])],
+    )
+    group = AdvantageGroup(
+        group_id="efficiency",
+        members=[
+            ScoredMember(trajectory_id="efficient", reward=0.7),
+            ScoredMember(trajectory_id="wasteful", reward=0.5),
+        ],
+        mean_reward=0.6,
+        std_reward=0.1,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(
+        group, {"efficient": efficient, "wasteful": wasteful}
+    )
+    assert len(selections) == 1
+    assert selections[0].signal_family == "safe_stop"
+    assert selections[0].selection_basis == "trajectory_level_information_preserving_efficiency"
 
 
 def test_surface_paraphrase_cannot_become_teacher_contrast() -> None:
@@ -5505,578 +6009,6 @@ def test_surface_paraphrase_cannot_become_teacher_contrast() -> None:
     guarded = require_distinct_learning_traces(group, {"a": first, "b": second})
     assert guarded.informative is False
     assert guarded.skip_reason == "identical_policy_trace"
-
-
-def test_teacher_contrast_requires_shared_state_policy_fork_and_fact_gain() -> None:
-    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
-        AdvantageGroup,
-        ScoredMember,
-    )
-    from legal_skill_guard.schemas.action import StructuredAction  # noqa: PLC0415
-
-    shared_first = StructuredAction(
-        action_type="ask", target_type="fact", target_id="F1", content="第一项事实？"
-    )
-    positive_second = StructuredAction(
-        action_type="ask", target_type="fact", target_id="F2", content="第二项事实？"
-    )
-    negative_second = StructuredAction(action_type="final", content="")
-
-    def step(turn, state, action, facts):
-        return SimpleNamespace(
-            turn=turn,
-            state_before=state,
-            proposed_action=action,
-            client_response_kind="new_hidden_fact" if facts else None,
-            client_selected_fact_ids=facts,
-            client_response="已回答" if facts else None,
-        )
-
-    positive = SimpleNamespace(
-        steps=[
-            step(1, {"session_id": "positive", "turn": 0}, shared_first, ["F1"]),
-            step(2, {"session_id": "positive", "turn": 1}, positive_second, ["F2"]),
-        ]
-    )
-    negative = SimpleNamespace(
-        steps=[
-            step(1, {"session_id": "negative", "turn": 0}, shared_first, ["F1"]),
-            step(2, {"session_id": "negative", "turn": 1}, negative_second, []),
-        ]
-    )
-    group = AdvantageGroup(
-        group_id="g",
-        members=[
-            ScoredMember(trajectory_id="positive", reward=0.4),
-            ScoredMember(trajectory_id="negative", reward=0.1),
-        ],
-        mean_reward=0.25,
-        std_reward=0.15,
-        informative=True,
-    )
-    selection = select_causally_aligned_contrast(
-        group, {"positive": positive, "negative": negative}
-    )
-    assert selection is not None
-    assert selection.highest_id == "positive"
-    assert selection.lowest_id == "negative"
-    assert selection.aligned_divergence_turn == 2
-    assert selection.immediate_fact_gain == 1
-    assert selection.fact_gain == 1
-    assert selection.selection_basis == "shared_visible_state_immediate_fact_gain_policy_fork"
-
-    # A fact-bearing branch with a lower declared reward is useful diagnostic
-    # evidence, but it is not a TF-GRPO-style winner and must not reach the teacher.
-    memo_confounded_group = group.model_copy(
-        update={
-            "members": [
-                ScoredMember(trajectory_id="positive", reward=0.1),
-                ScoredMember(trajectory_id="negative", reward=0.4),
-            ],
-            "mean_reward": 0.25,
-            "std_reward": 0.15,
-        }
-    )
-    memo_confounded = select_causally_aligned_contrast(
-        memo_confounded_group, {"positive": positive, "negative": negative}
-    )
-    assert memo_confounded is None
-
-    # Two different facts obtained at the divergence are ordinary rollout
-    # variation, not an immediate fact-gain contrast.  A later difference in
-    # trajectory totals cannot be attributed to either local action alone.
-    positive.steps = [
-        step(1, {"session_id": "positive", "turn": 0}, positive_second, ["F2"]),
-        step(2, {"session_id": "positive", "turn": 1}, shared_first, ["F1"]),
-    ]
-    negative.steps = [
-        step(1, {"session_id": "negative", "turn": 0}, shared_first, ["F1"]),
-    ]
-    assert (
-        select_causally_aligned_contrast(group, {"positive": positive, "negative": negative})
-        is None
-    )
-
-    # Wording alone is not an executable skill fork, even if the environment gives
-    # the paraphrases different outcomes.
-    paraphrase = StructuredAction(
-        action_type="ask", target_type="fact", target_id="F1", content="请问第一项事实？"
-    )
-    positive.steps = [step(1, {"session_id": "positive", "turn": 0}, paraphrase, ["F1"])]
-    negative.steps = [step(1, {"session_id": "negative", "turn": 0}, shared_first, [])]
-    assert (
-        select_causally_aligned_contrast(group, {"positive": positive, "negative": negative})
-        is None
-    )
-
-
-def test_causal_state_signature_uses_the_policy_patch_execution_state() -> None:
-    from legal_skill_guard.experiment.executor import _causal_state_signature  # noqa: PLC0415
-    from legal_skill_guard.schemas.action import StructuredAction  # noqa: PLC0415
-    from legal_skill_guard.schemas.state import ConsultationState  # noqa: PLC0415
-
-    state = ConsultationState(session_id="shared", max_turns=8)
-    action = StructuredAction(
-        action_type="ask",
-        target_type="fact",
-        target_id="F1",
-        content="合同何时签订？",
-    )
-    base = SimpleNamespace(
-        turn=1,
-        state_before=state.model_dump(mode="json"),
-        proposed_action=action,
-        state_patch=StatePatch(),
-    )
-    patched = SimpleNamespace(
-        turn=1,
-        state_before=state.model_dump(mode="json"),
-        proposed_action=action,
-        state_patch=StatePatch(
-            observations=[
-                FactObservation(
-                    fact_id="F1",
-                    label="合同签订时间",
-                    status="unknown",
-                    criticality="high",
-                    target_kind="client_fact",
-                )
-            ]
-        ),
-    )
-
-    assert _causal_state_signature(base) != _causal_state_signature(patched)
-
-
-def test_causal_state_signature_excludes_current_action_derived_criticality() -> None:
-    from legal_skill_guard.experiment.executor import _causal_state_signature  # noqa: PLC0415
-    from legal_skill_guard.schemas.action import StructuredAction  # noqa: PLC0415
-    from legal_skill_guard.schemas.state import ConsultationState  # noqa: PLC0415
-
-    state = ConsultationState(
-        session_id="shared",
-        max_turns=8,
-        facts=[
-            FactSlot(
-                fact_id="F1",
-                label="关键事实",
-                status="unknown",
-                criticality="high",
-                target_kind="client_fact",
-            )
-        ],
-    )
-    final_step = SimpleNamespace(
-        turn=2,
-        state_before=state.model_dump(mode="json"),
-        proposed_action=StructuredAction(action_type="final", content=""),
-        state_patch=StatePatch(),
-    )
-    ask_step = SimpleNamespace(
-        turn=2,
-        state_before=state.model_dump(mode="json"),
-        proposed_action=StructuredAction(
-            action_type="ask",
-            target_type="fact",
-            target_id="F1",
-            content="请说明关键事实。",
-        ),
-        state_patch=StatePatch(),
-    )
-
-    # The current actions are the treatment difference.  Their derived target
-    # criticality must not be mistaken for a different pre-action state.
-    assert _causal_state_signature(final_step) == _causal_state_signature(ask_step)
-
-
-def test_causal_fork_uses_executed_actions_after_existing_skills() -> None:
-    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
-        AdvantageGroup,
-        ScoredMember,
-    )
-    from legal_skill_guard.schemas.action import (  # noqa: PLC0415
-        ActionDecision,
-        StructuredAction,
-    )
-    from legal_skill_guard.schemas.state import ConsultationState  # noqa: PLC0415
-
-    state = ConsultationState(
-        session_id="shared",
-        max_turns=8,
-        facts=[
-            FactSlot(fact_id="F1", label="事实一", target_kind="client_fact"),
-            FactSlot(fact_id="F2", label="事实二", target_kind="client_fact"),
-        ],
-    ).model_dump(mode="json")
-    proposed_f1 = StructuredAction(
-        action_type="ask", target_type="fact", target_id="F1", content="事实一？"
-    )
-    proposed_f2 = StructuredAction(
-        action_type="ask", target_type="fact", target_id="F2", content="事实二？"
-    )
-    executed = StructuredAction(
-        action_type="ask", target_type="fact", target_id="F1", content="事实一？"
-    )
-
-    def step(proposed, response_kind, selected):
-        return SimpleNamespace(
-            turn=1,
-            state_before=state,
-            state_patch=StatePatch(),
-            proposed_action=proposed,
-            action_decision=ActionDecision(original=proposed, final=executed),
-            client_response_kind=response_kind,
-            client_selected_fact_ids=selected,
-            client_response="已回答" if selected else "不知道",
-        )
-
-    positive = SimpleNamespace(steps=[step(proposed_f1, "new_hidden_fact", ["F1"])])
-    negative = SimpleNamespace(steps=[step(proposed_f2, "unavailable", [])])
-    group = AdvantageGroup(
-        group_id="same-executed-action",
-        members=[
-            ScoredMember(trajectory_id="positive", reward=0.5),
-            ScoredMember(trajectory_id="negative", reward=0.2),
-        ],
-        mean_reward=0.35,
-        std_reward=0.15,
-        informative=True,
-    )
-
-    assert (
-        select_causally_aligned_contrast(group, {"positive": positive, "negative": negative})
-        is None
-    )
-
-
-def test_teacher_contrast_keeps_same_target_question_formulation_fork() -> None:
-    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
-        AdvantageGroup,
-        ScoredMember,
-    )
-    from legal_skill_guard.schemas.action import StructuredAction  # noqa: PLC0415
-    from legal_skill_guard.schemas.state import ConsultationState  # noqa: PLC0415
-
-    state = ConsultationState(
-        session_id="shared",
-        max_turns=8,
-        facts=[
-            FactSlot(
-                fact_id="F1",
-                label="合同签署日期",
-                target_kind="client_fact",
-                criticality="high",
-            )
-        ],
-    ).model_dump(mode="json")
-    precise = StructuredAction(
-        action_type="ask",
-        target_type="fact",
-        target_id="F1",
-        expected_information="合同签署的具体日期",
-        content="合同具体是哪一天签署的？",
-    )
-    vague = StructuredAction(
-        action_type="ask",
-        target_type="fact",
-        target_id="F1",
-        expected_information="合同相关情况",
-        content="合同方面是什么情况？",
-    )
-
-    def step(action, response_kind, selected):
-        return SimpleNamespace(
-            turn=1,
-            state_before=state,
-            state_patch=StatePatch(),
-            proposed_action=action,
-            client_response_kind=response_kind,
-            client_selected_fact_ids=selected,
-            client_response="2024年1月3日" if selected else "不知道",
-            policy_health_violations=[],
-            post_skill_health_violations=[],
-            verifier_results=[],
-        )
-
-    positive = SimpleNamespace(steps=[step(precise, "new_hidden_fact", ["F1"])])
-    negative = SimpleNamespace(steps=[step(vague, "unavailable", [])])
-    group = AdvantageGroup(
-        group_id="same-target-question-formulation",
-        members=[
-            ScoredMember(trajectory_id="positive", reward=0.6),
-            ScoredMember(trajectory_id="negative", reward=0.2),
-        ],
-        mean_reward=0.4,
-        std_reward=0.2,
-        informative=True,
-    )
-
-    selection = select_causally_aligned_contrast(
-        group, {"positive": positive, "negative": negative}
-    )
-    assert selection is not None
-    assert selection.aligned_divergence_turn == 1
-    assert selection.immediate_fact_gain == 1
-    assert selection.fact_gain == 1
-
-    # Punctuation and spacing alone remain the same auditable formulation.
-    negative.steps[0].proposed_action = precise.model_copy(
-        update={
-            "content": " 合同具体是哪一天签署的 ! ",
-            "expected_information": "合同签署的具体日期。",
-        }
-    )
-    assert (
-        select_causally_aligned_contrast(
-            group, {"positive": positive, "negative": negative}
-        )
-        is None
-    )
-
-
-def test_teacher_contrast_accepts_direct_information_efficiency_when_later_caught_up() -> None:
-    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
-        AdvantageGroup,
-        ScoredMember,
-    )
-    from legal_skill_guard.schemas.action import StructuredAction  # noqa: PLC0415
-
-    informative = StructuredAction(
-        action_type="ask", target_type="fact", target_id="F1", content="关键日期是什么？"
-    )
-    zero_information = StructuredAction(
-        action_type="ask", target_type="fact", target_id="F2", content="无法确认的细节是什么？"
-    )
-    shared = {
-        "session_id": "ignored",
-        "turn": 0,
-        "high_critical_unknown_count": 2,
-        "unavailable_turn_count": 0,
-        "facts": [
-            {"fact_id": "F1", "target_kind": "client_fact", "status": "unknown"},
-            {"fact_id": "F2", "target_kind": "client_fact", "status": "unknown"},
-        ],
-    }
-
-    def step(turn, state, action, kind, facts):
-        return SimpleNamespace(
-            turn=turn,
-            state_before=state,
-            proposed_action=action,
-            client_response_kind=kind,
-            client_selected_fact_ids=facts,
-            client_response="回答" if kind == "new_hidden_fact" else "不知道",
-        )
-
-    positive = SimpleNamespace(steps=[step(1, shared, informative, "new_hidden_fact", ["F1"])])
-    negative = SimpleNamespace(
-        steps=[
-            step(1, shared, zero_information, "unavailable", []),
-            step(2, {**shared, "turn": 1}, informative, "new_hidden_fact", ["F1"]),
-        ]
-    )
-    group = AdvantageGroup(
-        group_id="efficiency",
-        members=[
-            ScoredMember(trajectory_id="positive", reward=0.5),
-            ScoredMember(trajectory_id="negative", reward=0.4),
-        ],
-        mean_reward=0.45,
-        std_reward=0.05,
-        informative=True,
-    )
-
-    selection = select_causally_aligned_contrast(
-        group, {"positive": positive, "negative": negative}
-    )
-    assert selection is not None
-    assert selection.highest_id == "positive"
-    assert selection.lowest_id == "negative"
-    assert selection.aligned_divergence_turn == 1
-    assert selection.immediate_fact_gain == 1
-    assert selection.fact_gain == 0
-    assert selection.reward_gap == 0.1
-    assert selection.selection_basis == (
-        "shared_visible_state_immediate_information_efficiency_policy_fork"
-    )
-
-    # Earlier information is not a safe winner if that branch ultimately loses
-    # unique coverage; the held-out gate must never be asked to rescue such evidence.
-    negative.steps.append(
-        step(3, {**shared, "turn": 2}, zero_information, "new_hidden_fact", ["F2"])
-    )
-    assert (
-        select_causally_aligned_contrast(group, {"positive": positive, "negative": negative})
-        is None
-    )
-
-    # A later fact seen only on the positive branch is not attributable to the
-    # earlier action fork. It must not turn a clean immediate efficiency signal
-    # into a purported durable coverage gain.
-    positive.steps = [
-        step(1, shared, informative, "new_hidden_fact", ["F1"]),
-        step(2, {**shared, "turn": 1}, zero_information, "new_hidden_fact", ["F2"]),
-    ]
-    negative.steps = [
-        step(1, shared, zero_information, "unavailable", []),
-        step(2, {**shared, "turn": 1}, informative, "new_hidden_fact", ["F1"]),
-    ]
-    assert (
-        select_causally_aligned_contrast(group, {"positive": positive, "negative": negative})
-        is None
-    )
-
-
-def test_teacher_contrast_admits_only_grounded_zero_information_stop_fork() -> None:
-    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
-        AdvantageGroup,
-        ScoredMember,
-    )
-    from legal_skill_guard.schemas.action import StructuredAction  # noqa: PLC0415
-
-    final = StructuredAction(action_type="final", content="")
-    needless_question = StructuredAction(
-        action_type="ask",
-        target_type="fact",
-        target_id="remaining_detail",
-        content="还有其他细节吗？",
-    )
-    shared_state = {
-        "session_id": "ignored",
-        "turn": 2,
-        "high_critical_unknown_count": 0,
-        "unavailable_turn_count": 1,
-        "all_remaining_facts_not_available": False,
-        "facts": [
-            {
-                "fact_id": "remaining_detail",
-                "target_kind": "client_fact",
-                "status": "unknown",
-            }
-        ],
-    }
-
-    def step(action, response_kind):
-        return SimpleNamespace(
-            turn=3,
-            state_before=shared_state,
-            proposed_action=action,
-            action_decision=SimpleNamespace(final=action),
-            client_response_kind=response_kind,
-            client_selected_fact_ids=[],
-        )
-
-    positive = SimpleNamespace(steps=[step(final, None)])
-    negative = SimpleNamespace(steps=[step(needless_question, "unavailable")])
-    group = AdvantageGroup(
-        group_id="safe-stop",
-        members=[
-            ScoredMember(trajectory_id="positive", reward=0.6),
-            ScoredMember(trajectory_id="negative", reward=0.4),
-        ],
-        mean_reward=0.5,
-        std_reward=0.1,
-        informative=True,
-    )
-
-    selection = select_causally_aligned_contrast(
-        group, {"positive": positive, "negative": negative}
-    )
-
-    assert selection is not None
-    assert selection.highest_id == "positive"
-    assert selection.lowest_id == "negative"
-    assert selection.fact_gain == 0
-    assert selection.selection_basis == (
-        "shared_visible_state_true_zero_question_to_safe_final_fork"
-    )
-    assert selection.signal_family == "safe_stop"
-
-    # Removing prior unanswerability makes stopping speculative, so it is excluded.
-    positive.steps[0].state_before = {**shared_state, "unavailable_turn_count": 0}
-    negative.steps[0].state_before = {**shared_state, "unavailable_turn_count": 0}
-    assert (
-        select_causally_aligned_contrast(group, {"positive": positive, "negative": negative})
-        is None
-    )
-
-
-def test_teacher_contrast_treats_external_evidence_gap_as_positive_signal() -> None:
-    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
-        AdvantageGroup,
-        ScoredMember,
-    )
-    from legal_skill_guard.schemas.action import StructuredAction  # noqa: PLC0415
-
-    ask_gap = StructuredAction(
-        action_type="ask",
-        target_type="fact",
-        target_id="external_record",
-        content="能否调取该记录？",
-    )
-    final = StructuredAction(action_type="final", content="")
-    shared_state = {
-        "session_id": "ignored",
-        "turn": 0,
-        "high_critical_unknown_count": 0,
-        "unavailable_turn_count": 0,
-        "evidence_or_third_party_unresolved_count": 1,
-        "asked_targets": [],
-        "interactions": [],
-        "facts": [
-            {
-                "fact_id": "external_record",
-                "status": "unknown",
-                "target_kind": "evidence_or_third_party",
-            }
-        ],
-    }
-
-    def step(action, response_kind):
-        return SimpleNamespace(
-            turn=1,
-            state_before=shared_state,
-            proposed_action=action,
-            action_decision=SimpleNamespace(final=action),
-            client_response_kind=response_kind,
-            client_selected_fact_ids=[],
-            client_safe_fallback=False,
-            policy_health_violations=[],
-            post_skill_health_violations=[],
-        )
-
-    gap = SimpleNamespace(steps=[step(ask_gap, "unavailable")])
-    stopped = SimpleNamespace(steps=[step(final, None)])
-    group = AdvantageGroup(
-        group_id="gap-fork",
-        members=[
-            ScoredMember(trajectory_id="gap", reward=0.6),
-            ScoredMember(trajectory_id="stopped", reward=0.4),
-        ],
-        mean_reward=0.5,
-        std_reward=0.1,
-        informative=True,
-    )
-
-    selections = select_causally_aligned_contrasts(group, {"gap": gap, "stopped": stopped})
-    assert len(selections) == 1
-    assert selections[0].signal_family == "evidence_gap_identification"
-    assert selections[0].immediate_gap_gain == 1
-    assert selections[0].gap_gain == 1
-
-    # Even a higher-scoring final cannot call the still-unresolved evidence target
-    # a needless zero-information question.
-    reversed_group = group.model_copy(
-        update={
-            "members": [
-                ScoredMember(trajectory_id="gap", reward=0.4),
-                ScoredMember(trajectory_id="stopped", reward=0.6),
-            ]
-        }
-    )
-    assert (
-        select_causally_aligned_contrast(reversed_group, {"gap": gap, "stopped": stopped}) is None
-    )
 
 
 def test_different_elicitation_outcome_is_teacher_visible() -> None:
@@ -6128,12 +6060,8 @@ def test_behavior_summary_does_not_count_repeated_fact_as_new_information() -> N
     assert summary["mean_information_bearing_turns"] == 1.0
     assert summary["information_bearing_question_rate"] == pytest.approx(1 / 3, abs=1e-6)
     assert summary["mean_unique_disclosed_facts"] == 1.0
-    assert summary["mean_unique_disclosed_facts_per_question"] == pytest.approx(
-        1 / 3, abs=1e-6
-    )
-    assert summary["pooled_unique_disclosed_facts_per_question"] == pytest.approx(
-        1 / 3, abs=1e-6
-    )
+    assert summary["mean_unique_disclosed_facts_per_question"] == pytest.approx(1 / 3, abs=1e-6)
+    assert summary["pooled_unique_disclosed_facts_per_question"] == pytest.approx(1 / 3, abs=1e-6)
 
 
 def test_paired_behavior_estimates_measure_new_information_not_just_more_turns() -> None:
@@ -6171,1674 +6099,6 @@ def test_paired_behavior_estimates_measure_new_information_not_just_more_turns()
     assert report["metrics"]["unique_disclosed_facts_per_question"]["mean_delta"] == 0.5
 
 
-def test_training_batches_continue_after_noop_and_resume_without_regeneration(
-    tmp_path: Path,
-) -> None:
-    execution_order: list[tuple[str, int]] = []
-    (tmp_path / "skills/bootstrap").mkdir(parents=True)
-
-    def executor_with(generate):
-        executor = object.__new__(MainExperimentExecutor)
-        executor.root = tmp_path
-        executor.run_id = "resume_test"
-        executor.store = RunStore(tmp_path / "runs", executor.run_id)
-        executor.judge_qualification_contract_sha256 = "a" * 64
-        executor.registry = SimpleNamespace(current=lambda: None)
-        executor.candidate_root = executor.store.root / "skills/candidates"
-        executor.local_model = "model/test"
-        executor.local_revision = "revision-1"
-        executor.experiment = {
-            "execution": {
-                "evolution_rounds": 2,
-                "provisional_candidate_budget_per_block": 2,
-            },
-            "personas": ["P_WD"],
-            "trajectory_sampling": {
-                "group_size": 1,
-                "training_group_seeds": [42],
-            },
-            "learning_curve": {"evidence_role": "development_only_never_teacher"},
-            "skill_evolution": {"initial_library": "skills/bootstrap"},
-        }
-        executor.training_plan = SimpleNamespace(
-            batches=[
-                SimpleNamespace(
-                    batch_id="training_batch_01",
-                    prospective_validation_for=None,
-                    case_ids=["case_01"],
-                    persona_assignment={"case_01": "P_WD"},
-                ),
-                SimpleNamespace(
-                    batch_id="training_batch_02",
-                    prospective_validation_for="training_batch_01",
-                    case_ids=["case_02"],
-                    persona_assignment={"case_02": "P_WD"},
-                ),
-            ]
-        )
-        executor.generate_training_round = generate
-
-        def score(trajectories, adapter, **kwargs):
-            del adapter, kwargs
-            round_index = int(trajectories[0].partition.rsplit("_", 1)[1])
-            execution_order.append(("score", round_index))
-            for trajectory in trajectories:
-                executor.store.atomic_json(
-                    executor.store.evaluation_path(trajectory.trajectory_id),
-                    {
-                        "schema_version": 13,
-                        "trajectory_id": trajectory.trajectory_id,
-                        "case_id": trajectory.case_id,
-                        "judge_qualification_contract_sha256": "a" * 64,
-                    },
-                )
-            partition = trajectories[0].partition
-            executor.store.atomic_json(
-                executor.store.root / "health" / f"pre_scoring_health_{partition}.json",
-                {"healthy": True, "counts": {}},
-            )
-            return {}
-
-        executor.score_trajectories = score
-        executor._validate_learning_curve_point_artifact = lambda **_: {
-            "identity_baseline": True
-        }
-
-        def prepare_curve(*, round_index, **kwargs):
-            del kwargs
-            execution_order.append(("curve", round_index))
-            value = {"round": round_index, "identity_baseline": True}
-            executor.store.atomic_json(
-                executor.store.root
-                / "reports"
-                / f"development_curve_point_{round_index:02d}.json",
-                value,
-            )
-            return value
-
-        executor.prepare_development_curve_point = prepare_curve
-
-        def curve_summary():
-            completed = len(
-                list((executor.store.root / "reports").glob("learning_checkpoint_*.json"))
-            )
-            value = {
-                "run_id": executor.run_id,
-                "status": "complete" if completed == 2 else "partial",
-                "completed_points": completed,
-            }
-            executor.store.atomic_json(
-                executor.store.root / "reports/development_learning_curve.json",
-                value,
-            )
-            return value
-
-        executor.write_development_learning_curve_summary = curve_summary
-        def propose_candidates(**kwargs):
-            execution_order.append(("propose", int(kwargs["round_index"])))
-            return []
-
-        executor.propose_candidates = propose_candidates
-
-        def revalidate(*, round_index, candidates, carryover_candidates=None):
-            del carryover_candidates
-            executor.store.atomic_json(
-                executor.store.root
-                / "reports"
-                / f"candidate_source_grounding_round_{round_index:02d}.json",
-                {
-                    "run_id": executor.run_id,
-                    "round": round_index,
-                    "valid_candidate_files": [],
-                },
-            )
-            return candidates
-
-        executor.revalidate_candidate_source_grounding = revalidate
-
-        def validate_preceding(
-            *, round_index, case_limit, run_manifest_sha256, trajectories, evaluations
-        ):
-            del case_limit, run_manifest_sha256, trajectories, evaluations
-            execution_order.append(("validate", round_index))
-            batch_id = f"training_batch_{round_index:02d}"
-            source_id = None if round_index == 1 else f"training_batch_{round_index - 1:02d}"
-            value = {
-                "schema_version": 1,
-                "run_id": executor.run_id,
-                "validation_batch_id": batch_id,
-                "source_batch_id": source_id,
-                "status": (
-                    "no_predecessor_candidates"
-                    if source_id is None
-                    else "next_unseen_block_validation_complete"
-                ),
-                "baseline_active_skill_ids": [],
-                "baseline_skill_library_sha256": skill_library_sha256([]),
-                "provisional_skill_ids": [],
-                "audit_artifacts": {},
-                "accepted_skill_ids": [],
-                "deferred_skill_ids": [],
-                "rejected_skill_ids": [],
-                "output_active_skill_ids": [],
-                "output_skill_library_sha256": skill_library_sha256([]),
-                "completed_at": "2026-08-27T00:00:00+00:00",
-            }
-            executor.store.atomic_json(
-                executor.store.root / "reports" / f"prospective_validation_{batch_id}.json",
-                value,
-            )
-            return [], value
-
-        executor.validate_preceding_block_candidates = validate_preceding
-        executor.active_skills = lambda: []
-        executor.main_adapter = object()
-        executor.store.write_manifest("run", {"schema_version": 2, "run_id": executor.run_id})
-        executor.verify_run_manifest = lambda: executor.store.read_manifest("run")
-        return executor
-
-    calls: list[int] = []
-
-    def first_generate(round_index, *, case_limit=None, input_skills=None):
-        del case_limit
-        assert input_skills == []
-        calls.append(round_index)
-        execution_order.append(("generate", round_index))
-        batch_id = f"training_batch_{round_index:02d}"
-        case_id = f"case_{round_index:02d}"
-        library_hash = skill_library_sha256([])
-        trajectory_id = trajectory_identity(
-            run_id="resume_test",
-            partition=batch_id,
-            method="training_policy_sample",
-            case_id=case_id,
-            persona="P_WD",
-            seed=42,
-            sample_index=0,
-            skill_library_version=library_hash,
-        )
-        trajectory = _resume_trajectory(
-            trajectory_id=trajectory_id,
-            group_id=f"{batch_id}.{case_id}.P_WD.seed_42",
-            run_id="resume_test",
-            partition=batch_id,
-            case_id=case_id,
-            skill_library_version=library_hash,
-        )
-        first.store.save_model(first.store.trajectory_path(batch_id, trajectory_id), trajectory)
-        return [trajectory]
-
-    first = executor_with(first_generate)
-    first_summary = MainExperimentExecutor.train(first)
-    assert first_summary.rounds_completed == 2
-    assert calls == [1, 2]
-    assert execution_order == [
-        ("generate", 1),
-        ("score", 1),
-        ("curve", 1),
-        ("validate", 1),
-        ("propose", 1),
-        ("generate", 2),
-        ("score", 2),
-        ("curve", 2),
-        ("validate", 2),
-    ]
-    report = json.loads(
-        (tmp_path / "runs/resume_test/reports/learning_checkpoint_02.json").read_text(
-            encoding="utf-8"
-        )
-    )
-    assert report["status"] == "measured_prequential_learning_checkpoint"
-    assert report["accepted_from_preceding_block"] == []
-
-    def must_not_generate(round_index, *, case_limit=None, input_skills=None):
-        del input_skills
-        pytest.fail("completed checkpoint must not regenerate trajectories")
-
-    resumed = executor_with(must_not_generate)
-    resumed_summary = MainExperimentExecutor.train(resumed)
-    assert resumed_summary.rounds_completed == 2
-    assert execution_order == [
-        ("generate", 1),
-        ("score", 1),
-        ("curve", 1),
-        ("validate", 1),
-        ("propose", 1),
-        ("generate", 2),
-        ("score", 2),
-        ("curve", 2),
-        ("validate", 2),
-    ]
-
-
-def test_accepted_skill_is_loaded_by_the_next_training_batch(tmp_path: Path) -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.root = tmp_path
-    executor.run_id = "skill_carryover_test"
-    (tmp_path / "skills/bootstrap").mkdir(parents=True)
-    executor.registry = SkillRegistry(tmp_path / "skill_versions")
-    executor.experiment = {
-        "skill_evolution": {"initial_library": "skills/bootstrap"}
-    }
-
-    candidate = synthetic_skills()[-1]
-    candidate.status = "active"
-    audit = _completed_candidate_audit(
-        skill_id=candidate.skill_id,
-        source_batch_id="training_batch_01",
-        validation_batch_id="training_batch_02",
-    )
-    audit = audit.model_copy(
-        update={"decision": audit.decision.model_copy(update={"decision": "ACCEPT"})}
-    )
-    MainExperimentExecutor._activate_accepted_skill(executor, candidate, audit)
-
-    executor.training_plan = SimpleNamespace(
-        batches=[
-            SimpleNamespace(
-                batch_id="training_batch_01",
-                case_ids=["case_01"],
-                persona_assignment={"case_01": "P_WD"},
-            ),
-            SimpleNamespace(
-                batch_id="training_batch_02",
-                case_ids=["case_02"],
-                persona_assignment={"case_02": "P_WD"},
-            ),
-        ]
-    )
-    executor.experiment = {
-        "skill_evolution": {"initial_library": "skills/bootstrap"},
-        "trajectory_sampling": {
-            "group_size": 1,
-            "training_group_seeds": [42],
-        },
-        "execution": {"rollout_workers": 1},
-    }
-    executor.main_adapter = SimpleNamespace(persona=lambda _: {"id": "P_WD"})
-    executor._runner = lambda **_: object()
-    observed_skills: list[list[str]] = []
-
-    def load_or_run(**kwargs):
-        observed_skills.append([item.skill_id for item in kwargs["skills"]])
-        return SimpleNamespace(
-            status="memo_submitted",
-            trajectory_id=kwargs["trajectory_id"],
-        )
-
-    executor._load_or_run = load_or_run
-    values = MainExperimentExecutor.generate_training_round(executor, 2)
-
-    assert len(values) == 1
-    assert observed_skills == [[candidate.skill_id]]
-    assert executor.registry.current() is not None
-
-
-def test_training_round_uses_checkpoint_library_instead_of_post_crash_registry(
-    tmp_path: Path,
-) -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.root = tmp_path
-    executor.run_id = "resume_library_binding"
-    executor.training_plan = SimpleNamespace(
-        batches=[
-            SimpleNamespace(
-                batch_id="training_batch_01",
-                case_ids=["case_01"],
-                persona_assignment={"case_01": "P_WD"},
-            )
-        ]
-    )
-    executor.experiment = {
-        "trajectory_sampling": {"group_size": 1, "training_group_seeds": [42]},
-        "execution": {
-            "rollout_workers": 1,
-            "provisional_candidate_budget_per_block": 2,
-        },
-    }
-    post_crash_skill = synthetic_skills()[0].model_copy(deep=True)
-    post_crash_skill.status = "active"
-    executor.active_skills = lambda: [post_crash_skill]
-    executor.main_adapter = SimpleNamespace(persona=lambda _: {"id": "P_WD"})
-    executor._runner = lambda **_: object()
-    observed: list[list[str]] = []
-
-    def load_or_run(**kwargs):
-        observed.append([item.skill_id for item in kwargs["skills"]])
-        return SimpleNamespace(status="memo_submitted", trajectory_id=kwargs["trajectory_id"])
-
-    executor._load_or_run = load_or_run
-
-    MainExperimentExecutor.generate_training_round(executor, 1, input_skills=[])
-
-    assert observed == [[]]
-
-
-def test_accepted_candidate_cohort_publishes_one_library_version(tmp_path: Path) -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.root = tmp_path
-    executor.run_id = "cohort_activation"
-    (tmp_path / "skills/bootstrap").mkdir(parents=True)
-    executor.registry = SkillRegistry(tmp_path / "skill_versions")
-    executor.experiment = {"skill_evolution": {"initial_library": "skills/bootstrap"}}
-    candidates = [item.model_copy(deep=True) for item in synthetic_skills()[:2]]
-    for candidate in candidates:
-        candidate.status = "provisional"
-    audits = []
-    for candidate in candidates:
-        audit = _completed_candidate_audit(
-            skill_id=candidate.skill_id,
-            source_batch_id="training_batch_01",
-            validation_batch_id="training_batch_02",
-        )
-        audits.append(
-            audit.model_copy(
-                update={"decision": audit.decision.model_copy(update={"decision": "ACCEPT"})}
-            )
-        )
-
-    version = MainExperimentExecutor._activate_accepted_skills(
-        executor,
-        candidates,
-        audits,
-    )
-
-    assert executor.registry.current() == version
-    assert len([path for path in executor.registry.versions.iterdir() if path.is_dir()]) == 1
-    manifest = executor.registry.validate(version, require_current_static_schema=True)
-    assert manifest["skills"] == sorted(candidate.skill_id for candidate in candidates)
-    assert manifest["evidence"]["transaction"] == "prospective_validation_cohort"
-
-
-def test_candidate_trials_preserve_irrelevant_case_exploration() -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.experiment = {
-        "execution": {"provisional_candidate_budget_per_block": 2}
-    }
-    domains = {
-        "labor_case": "labor_employment",
-        "civil_a": "consumer_contract",
-        "civil_b": "tort_liability",
-        "civil_c": "marriage_family",
-    }
-    executor.main_adapter = SimpleNamespace(case_domain=lambda case_id: domains[case_id])
-    general, domain = [item.model_copy(deep=True) for item in synthetic_skills()[:2]]
-    general.domain = "general"
-    domain.domain = "labor_employment"
-
-    assigned = MainExperimentExecutor._embedded_candidate_assignments(
-        executor,
-        [general, domain],
-        list(domains),
-        block_index=1,
-    )
-
-    assert [item.skill_id for item in assigned["labor_case"]] == [domain.skill_id]
-    assert all(
-        [item.skill_id for item in assigned[case_id]] == [general.skill_id]
-        for case_id in ("civil_a", "civil_b", "civil_c")
-    )
-
-
-def test_two_general_candidate_trials_split_formal_case_support() -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.experiment = {
-        "execution": {"provisional_candidate_budget_per_block": 2}
-    }
-    executor.main_adapter = SimpleNamespace(case_domain=lambda _: "general")
-    candidates = [item.model_copy(deep=True) for item in synthetic_skills()[:2]]
-    for candidate in candidates:
-        candidate.domain = "general"
-    candidates.sort(key=lambda item: item.skill_id)
-    case_ids = [f"case_{index}" for index in range(8)]
-
-    assigned = MainExperimentExecutor._embedded_candidate_assignments(
-        executor,
-        candidates,
-        case_ids,
-        block_index=1,
-    )
-
-    assert [[item.skill_id for item in assigned[case_id]] for case_id in case_ids] == [
-        [candidates[(index + 1) % 2].skill_id] for index in range(8)
-    ]
-
-
-def test_same_domain_candidate_trials_rotate_across_singleton_domain_blocks() -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.experiment = {
-        "execution": {"provisional_candidate_budget_per_block": 2}
-    }
-    executor.main_adapter = SimpleNamespace(case_domain=lambda _: "labor_employment")
-    candidates = [item.model_copy(deep=True) for item in synthetic_skills()[:2]]
-    for candidate in candidates:
-        candidate.domain = "labor_employment"
-    candidates.sort(key=lambda item: item.skill_id)
-
-    first = MainExperimentExecutor._embedded_candidate_assignments(
-        executor,
-        candidates,
-        ["block_02_labor_case"],
-        block_index=1,
-    )
-    second = MainExperimentExecutor._embedded_candidate_assignments(
-        executor,
-        candidates,
-        ["block_03_labor_case"],
-        block_index=2,
-    )
-
-    assert [item.skill_id for item in first["block_02_labor_case"]] == [
-        candidates[1].skill_id
-    ]
-    assert [item.skill_id for item in second["block_03_labor_case"]] == [
-        candidates[0].skill_id
-    ]
-
-
-def test_older_deferred_candidate_precedes_newcomer_without_starving_it() -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.experiment = {
-        "execution": {"maximum_concurrent_provisional_candidates": 6}
-    }
-    executor.main_adapter = SimpleNamespace(case_domain=lambda _: "labor_employment")
-    older, newcomer = [item.model_copy(deep=True) for item in synthetic_skills()[:2]]
-    older.domain = newcomer.domain = "labor_employment"
-    ages = {older.skill_id: 2, newcomer.skill_id: 0}
-
-    assigned = MainExperimentExecutor._embedded_candidate_assignments(
-        executor,
-        [newcomer, older],
-        ["labor_case_a", "labor_case_b"],
-        block_index=5,
-        candidate_validation_ages=ages,
-    )
-
-    assert [item.skill_id for item in assigned["labor_case_a"]] == [older.skill_id]
-    assert [item.skill_id for item in assigned["labor_case_b"]] == [newcomer.skill_id]
-
-
-def test_fresh_candidate_budget_is_not_reduced_by_valid_carryovers() -> None:
-    assert fresh_candidate_nomination_slots(
-        fresh_budget=2,
-        concurrent_budget=6,
-        carryover_count=2,
-    ) == 2
-    assert fresh_candidate_nomination_slots(
-        fresh_budget=2,
-        concurrent_budget=6,
-        carryover_count=4,
-    ) == 2
-    with pytest.raises(ExecutionError, match="reserved fresh nomination capacity"):
-        fresh_candidate_nomination_slots(
-            fresh_budget=2,
-            concurrent_budget=6,
-            carryover_count=5,
-        )
-
-
-def test_tf_grpo_teacher_evidence_excludes_candidate_treatment() -> None:
-    group_id = "training_batch_02.case_02.P_WD.seed_42"
-    shared_hash = "a" * 64
-    rows = [
-        SimpleNamespace(
-            trajectory_id="control",
-            group_id=group_id,
-            method="candidate_without",
-            skill_library_version=shared_hash,
-        ),
-        SimpleNamespace(
-            trajectory_id="treatment",
-            group_id=group_id,
-            method="candidate_with",
-            skill_library_version="b" * 64,
-        ),
-        SimpleNamespace(
-            trajectory_id="explore_1",
-            group_id=group_id,
-            method="training_policy_sample",
-            skill_library_version=shared_hash,
-        ),
-        SimpleNamespace(
-            trajectory_id="explore_2",
-            group_id=group_id,
-            method="training_policy_sample",
-            skill_library_version=shared_hash,
-        ),
-    ]
-
-    selected = tf_grpo_teacher_evidence_groups(rows, {group_id})
-
-    assert [item.trajectory_id for item in selected[group_id]] == [
-        "control",
-        "explore_1",
-        "explore_2",
-    ]
-
-
-def test_candidate_cohort_deduplicates_renamed_prompt_document(tmp_path: Path) -> None:
-    original = synthetic_skills()[0]
-    alias = original.model_copy(
-        deep=True,
-        update={"skill_id": "general.renamed_alias", "name": "Renamed alias"},
-    )
-    assert skill_document_semantic_sha256(original) == skill_document_semantic_sha256(alias)
-    paths: list[Path] = []
-    for candidate in (original, alias):
-        path = tmp_path / f"{candidate.skill_id}.yaml"
-        path.write_text(
-            yaml.safe_dump(candidate.model_dump(mode="json"), sort_keys=False),
-            encoding="utf-8",
-        )
-        paths.append(path)
-
-    unique, duplicates = MainExperimentExecutor._deduplicate_candidate_paths(paths)
-
-    assert unique == [paths[0]]
-    assert duplicates == [
-        {
-            "candidate_path": str(paths[1]),
-            "canonical_path": str(paths[0]),
-            "canonical_skill_id": original.skill_id,
-            "reason": "duplicate_document",
-        }
-    ]
-
-
-def test_candidate_cohort_rejects_one_id_with_two_documents(tmp_path: Path) -> None:
-    original = synthetic_skills()[0]
-    changed = original.model_copy(
-        deep=True,
-        update={"description": original.description + " 该版本提出了不同的额外建议。"},
-    )
-    paths = [tmp_path / "first.yaml", tmp_path / "second.yaml"]
-    for path, candidate in zip(paths, (original, changed), strict=True):
-        path.write_text(
-            yaml.safe_dump(candidate.model_dump(mode="json"), sort_keys=False),
-            encoding="utf-8",
-        )
-
-    with pytest.raises(ExecutionError, match="reuses one skill_id"):
-        MainExperimentExecutor._deduplicate_candidate_paths(paths)
-
-
-def test_prospective_report_is_durable_before_library_pointer_commit(tmp_path: Path) -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.root = tmp_path
-    executor.run_id = "prospective_transaction"
-    executor.store = RunStore(tmp_path / "runs", executor.run_id)
-    executor.training_plan = SimpleNamespace(
-        batches=[
-            SimpleNamespace(batch_id="training_batch_01"),
-            SimpleNamespace(
-                batch_id="training_batch_02",
-                prospective_validation_for="training_batch_01",
-            ),
-        ]
-    )
-    executor.experiment = {"execution": {"provisional_candidate_budget_per_block": 2}}
-    candidate = synthetic_skills()[0].model_copy(deep=True)
-    candidate.status = "provisional"
-    candidate_path = executor.store.root / "skills" / "candidates" / f"{candidate.skill_id}.yaml"
-    candidate_path.parent.mkdir(parents=True)
-    candidate_path.write_text(
-        yaml.safe_dump(candidate.model_dump(mode="json"), sort_keys=False),
-        encoding="utf-8",
-    )
-    executor.store.write_manifest(
-        "training_batch_01__provisionals_ready",
-        {
-            "input_active_skill_ids": [],
-            "input_skill_library_sha256": skill_library_sha256([]),
-        },
-    )
-    executor._validate_provisionals_ready_checkpoint = lambda **_: ({}, [candidate_path])
-    audit = _completed_candidate_audit(
-        skill_id=candidate.skill_id,
-        source_batch_id="training_batch_01",
-        validation_batch_id="training_batch_02",
-    )
-    audit = audit.model_copy(
-        update={"decision": audit.decision.model_copy(update={"decision": "ACCEPT"})}
-    )
-    audit_path = (
-        executor.store.root
-        / "prospective_audits"
-        / f"training_batch_01__on__training_batch_02__{candidate.skill_id}.json"
-    )
-    executor.store.save_model(audit_path, audit)
-    executor.validate_provisional_candidate = lambda *args, **kwargs: audit
-    active: list = []
-    executor.active_skills = lambda: list(active)
-    report_path = executor.store.root / "reports/prospective_validation_training_batch_02.json"
-
-    def commit(candidates, audits):
-        assert report_path.is_file(), "commit intent must precede the pointer switch"
-        active[:] = MainExperimentExecutor._merged_accepted_library(active, candidates, audits)
-        return f"library_{skill_library_sha256(active)[:16]}"
-
-    executor._activate_accepted_skills = commit
-
-    accepted, report = MainExperimentExecutor.validate_preceding_block_candidates(
-        executor,
-        round_index=2,
-        case_limit=None,
-        run_manifest_sha256="a" * 64,
-        trajectories=[],
-        evaluations={},
-    )
-
-    assert accepted == [candidate.skill_id]
-    assert report["activation_transaction"]["protocol"] == (
-        "durable_intent_then_single_pointer_commit_v1"
-    )
-    assert [item.skill_id for item in active] == [candidate.skill_id]
-
-    # Simulate a crash after the durable report write but before publication.
-    active.clear()
-    resumed, resumed_report = MainExperimentExecutor.validate_preceding_block_candidates(
-        executor,
-        round_index=2,
-        case_limit=None,
-        run_manifest_sha256="a" * 64,
-        trajectories=[],
-        evaluations={},
-    )
-    assert resumed == [candidate.skill_id]
-    assert resumed_report == report
-    assert [item.skill_id for item in active] == [candidate.skill_id]
-
-
-def test_training_k4_embeds_at_most_one_candidate_and_keeps_three_prompt_peers(
-    tmp_path: Path,
-) -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.root = tmp_path
-    executor.run_id = "embedded_candidates"
-    executor.training_plan = SimpleNamespace(
-        batches=[
-            SimpleNamespace(
-                batch_id="training_batch_02",
-                case_ids=["case_02"],
-                persona_assignment={"case_02": "P_WD"},
-            )
-        ]
-    )
-    executor.experiment = {
-        "trajectory_sampling": {"group_size": 4, "training_group_seeds": [42]},
-        "execution": {
-            "rollout_workers": 1,
-            "provisional_candidate_budget_per_block": 2,
-        },
-    }
-    executor.main_adapter = SimpleNamespace(
-        persona=lambda _: {"id": "P_WD"},
-        case_domain=lambda _: "general",
-    )
-    executor.active_skills = lambda: []
-    executor._runner = lambda **_: object()
-
-    candidate_paths = []
-    staged_candidates = synthetic_skills()[:2]
-    for candidate in staged_candidates:
-        candidate.status = "provisional"
-        path = tmp_path / f"{candidate.skill_id}.yaml"
-        path.write_text(
-            yaml.safe_dump(candidate.model_dump(mode="json"), sort_keys=False),
-            encoding="utf-8",
-        )
-        candidate_paths.append(path)
-
-    observed: list[dict] = []
-
-    def load_or_run(**kwargs):
-        observed.append(kwargs)
-        return SimpleNamespace(status="memo_submitted", trajectory_id=kwargs["trajectory_id"])
-
-    executor._load_or_run = load_or_run
-    values = MainExperimentExecutor.generate_training_round(
-        executor,
-        1,
-        preceding_candidates=candidate_paths,
-    )
-
-    assert len(values) == len(observed) == 4
-    assert [item["method"] for item in observed] == [
-        "candidate_without",
-        "candidate_with",
-        "training_policy_sample",
-        "training_policy_sample",
-    ]
-    assert [[skill.skill_id for skill in item["skills"]] for item in observed] == [
-        [],
-        [staged_candidates[0].skill_id],
-        [],
-        [],
-    ]
-    assert [item["sample_index"] for item in observed] == [0, 1, 2, 3]
-    assert len({item["trajectory_id"] for item in observed}) == 4
-
-
-def test_sparse_embedded_candidate_audit_uses_only_assigned_shared_controls(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.root = tmp_path
-    executor.run_id = "embedded_audit"
-    executor.store = RunStore(tmp_path / "runs", executor.run_id)
-    executor.training_plan = SimpleNamespace(
-        batches=[
-            SimpleNamespace(batch_id="training_batch_01"),
-            SimpleNamespace(
-                batch_id="training_batch_02",
-                prospective_validation_for="training_batch_01",
-                case_ids=["case_02", "case_other_candidate"],
-                persona_assignment={
-                    "case_02": "P_WD",
-                    "case_other_candidate": "P_WD",
-                },
-            ),
-            SimpleNamespace(
-                batch_id="training_batch_03",
-                prospective_validation_for="training_batch_02",
-                case_ids=["case_03"],
-                persona_assignment={"case_03": "P_WD"},
-            ),
-        ]
-    )
-    executor.experiment = {
-        "trajectory_sampling": {"training_group_seeds": [42]},
-        "prospective_validation": {
-            "minimum_exposed_sessions": 1,
-            "minimum_exposed_cases": 1,
-            "minimum_exposed_domains": 1,
-            "minimum_mean_delta": 0.02,
-            "minimum_material_harm_delta": 0.02,
-            "maximum_harmful_pair_rate": 0.15,
-            "bootstrap_samples": 100,
-            "confidence_level": 0.95,
-            "require_positive_confidence_lower": False,
-            "maximum_global_mean_reward_drop": 0.01,
-            "maximum_validation_blocks": 3,
-        },
-        "statistical_seed": 42,
-    }
-    executor.main_adapter = SimpleNamespace(
-        evaluator_case=lambda _: {},
-        case_domain=lambda case_id: (
-            "procedure_evidence" if case_id == "case_other_candidate" else "general"
-        ),
-    )
-    executor._candidate_source_signal_family = lambda _: "fact_elicitation"
-    executor._runner = lambda **_: pytest.fail("embedded audit must not create a runner")
-    monkeypatch.setattr(
-        "legal_skill_guard.experiment.executor.trajectory_health_report",
-        lambda *args, **kwargs: {
-            "healthy": True,
-            "blocking_issue_count": 0,
-            "counts": {},
-        },
-    )
-
-    candidate = synthetic_skills()[0]
-    candidate.status = "provisional"
-    candidate_path = tmp_path / f"{candidate.skill_id}.yaml"
-    candidate_path.write_text(
-        yaml.safe_dump(candidate.model_dump(mode="json"), sort_keys=False),
-        encoding="utf-8",
-    )
-    other_candidate = synthetic_skills()[1]
-    other_candidate.status = "provisional"
-    other_candidate_path = tmp_path / f"{other_candidate.skill_id}.yaml"
-    other_candidate_path.write_text(
-        yaml.safe_dump(other_candidate.model_dump(mode="json"), sort_keys=False),
-        encoding="utf-8",
-    )
-    enabled = candidate.model_copy(deep=True)
-    enabled.status = "active"
-    other_enabled = other_candidate.model_copy(deep=True)
-    other_enabled.status = "active"
-    baseline_hash = skill_library_sha256([])
-    candidate_hash = skill_library_sha256([enabled])
-    other_candidate_hash = skill_library_sha256([other_enabled])
-    group_id = "training_batch_02.case_02.P_WD.seed_42"
-    baseline = _resume_trajectory(
-        trajectory_id="traj_control",
-        group_id=group_id,
-        run_id=executor.run_id,
-        partition="training_batch_02",
-        method="candidate_without",
-        case_id="case_02",
-        domain="general",
-        sample_index=0,
-        skill_library_version=baseline_hash,
-    )
-    treatment = _resume_trajectory(
-        trajectory_id="traj_treatment",
-        group_id=group_id,
-        run_id=executor.run_id,
-        partition="training_batch_02",
-        method="candidate_with",
-        case_id="case_02",
-        domain="general",
-        sample_index=1,
-        skill_library_version=candidate_hash,
-        skill_delivery_mode="prompt_memory",
-        exposed_skill_ids=[candidate.skill_id],
-        skill_memory_sha256="b" * 64,
-    )
-    other_group_id = "training_batch_02.case_other_candidate.P_WD.seed_42"
-    other_baseline = _resume_trajectory(
-        trajectory_id="traj_other_control",
-        group_id=other_group_id,
-        run_id=executor.run_id,
-        partition="training_batch_02",
-        method="candidate_without",
-        case_id="case_other_candidate",
-        domain="general",
-        sample_index=0,
-        skill_library_version=baseline_hash,
-    )
-    other_treatment = _resume_trajectory(
-        trajectory_id="traj_other_treatment",
-        group_id=other_group_id,
-        run_id=executor.run_id,
-        partition="training_batch_02",
-        method="candidate_with",
-        case_id="case_other_candidate",
-        domain="general",
-        sample_index=1,
-        skill_library_version=other_candidate_hash,
-        skill_delivery_mode="prompt_memory",
-        exposed_skill_ids=[other_candidate.skill_id],
-        skill_memory_sha256="c" * 64,
-    )
-
-    def evaluation(reward: float):
-        return SimpleNamespace(
-            reward=SimpleNamespace(final_reward=reward),
-            rubric_judgment=SimpleNamespace(expected_action_scores=[]),
-            training_metrics=SimpleNamespace(
-                substantive_fact_coverage=0.0,
-                resolution=0.0,
-            ),
-            official_metrics=SimpleNamespace(fidelity=1.0),
-            safety_metrics=SimpleNamespace(
-                repeated_question_rate=0.0,
-                premature_final_rate=0.0,
-                unsupported_claim_rate=0.0,
-                belief_as_fact_rate=0.0,
-                critical_fact_recall=0.0,
-                hidden_field_leak=False,
-            ),
-            operational_metrics=SimpleNamespace(
-                policy_fallback_rate=0.0,
-                client_fallback_rate=0.0,
-                memo_fallback=False,
-            ),
-            mechanism_signals=SimpleNamespace(
-                newly_elicited_fact_count=0,
-                identified_evidence_gap_count=0,
-            ),
-        )
-
-    audit = MainExperimentExecutor.validate_provisional_candidate(
-        executor,
-        candidate_path,
-        source_round_index=1,
-        validation_round_index=2,
-        trajectories=[baseline, treatment, other_baseline, other_treatment],
-        evaluations={
-            "traj_control": evaluation(0.4),
-            # Prompt exposure is the treatment, so its judged effect is retained;
-            # the separate mechanism-direction gate still prevents score-only
-            # acceptance when no fact/gap/efficiency mechanism is observed.
-            "traj_treatment": evaluation(0.7),
-            "traj_other_control": evaluation(0.4),
-            "traj_other_treatment": evaluation(0.4),
-        },
-        baseline_skills=[],
-        cohort_candidate_paths=[candidate_path, other_candidate_path],
-    )
-
-    assert audit.baseline_trajectory_ids == ["traj_control"]
-    assert audit.candidate_trajectory_ids == ["traj_treatment"]
-    assert audit.decision.reason == "held_out_mechanism_direction_failed"
-    assert audit.mechanism_direction_gate is not None
-    assert audit.mechanism_direction_gate.reason == "claimed_fact_mechanism_not_reproduced"
-    assert audit.current_outcomes[0].delta == pytest.approx(0.3)
-    assert audit.current_outcomes[0].raw_reward_with == 0.7
-
-
-def test_candidate_accumulates_positive_evidence_across_unseen_blocks(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.root = tmp_path
-    executor.run_id = "cumulative_audit"
-    executor.store = RunStore(tmp_path / "runs", executor.run_id)
-    executor.training_plan = SimpleNamespace(
-        batches=[
-            SimpleNamespace(batch_id="training_batch_01"),
-            SimpleNamespace(
-                batch_id="training_batch_02",
-                prospective_validation_for="training_batch_01",
-                case_ids=["case_02"],
-            ),
-            SimpleNamespace(
-                batch_id="training_batch_03",
-                prospective_validation_for="training_batch_02",
-                case_ids=["case_03"],
-            ),
-            SimpleNamespace(
-                batch_id="training_batch_04",
-                prospective_validation_for="training_batch_03",
-                case_ids=["case_04"],
-            ),
-        ]
-    )
-    executor.experiment = {
-        "trajectory_sampling": {"training_group_seeds": [42]},
-        "prospective_validation": {
-            "minimum_exposed_sessions": 2,
-            "minimum_exposed_cases": 2,
-            "minimum_exposed_domains": 1,
-            "minimum_mean_delta": 0.02,
-            "minimum_material_harm_delta": 0.02,
-            "maximum_harmful_pair_rate": 0.15,
-            "bootstrap_samples": 100,
-            "confidence_level": 0.95,
-            "require_positive_confidence_lower": False,
-            "maximum_global_mean_reward_drop": 0.01,
-            "maximum_validation_blocks": 3,
-        },
-        "statistical_seed": 42,
-    }
-    executor.main_adapter = SimpleNamespace(evaluator_case=lambda _: {})
-    executor._candidate_source_signal_family = lambda _: "fact_elicitation"
-    monkeypatch.setattr(
-        "legal_skill_guard.experiment.executor.trajectory_health_report",
-        lambda *args, **kwargs: {
-            "healthy": True,
-            "blocking_issue_count": 0,
-            "counts": {},
-            "issues": [],
-        },
-    )
-    candidate = synthetic_skills()[0]
-    candidate.status = "provisional"
-    candidate_path = tmp_path / "skills/candidates" / f"{candidate.skill_id}.yaml"
-    candidate_path.parent.mkdir(parents=True)
-    candidate_path.write_text(
-        yaml.safe_dump(candidate.model_dump(mode="json"), sort_keys=False),
-        encoding="utf-8",
-    )
-    enabled = candidate.model_copy(deep=True)
-    enabled.status = "active"
-    baseline_hash = skill_library_sha256([])
-    candidate_hash = skill_library_sha256([enabled])
-
-    def trajectory(batch: str, case_id: str, treatment: bool):
-        return SimpleNamespace(
-            trajectory_id=f"{batch}_{case_id}_{'with' if treatment else 'without'}",
-            group_id=f"{batch}.{case_id}.P_WD.seed_42",
-            partition=batch,
-            method="candidate_with" if treatment else "candidate_without",
-            case_id=case_id,
-                domain="general",
-                skill_library_version=candidate_hash if treatment else baseline_hash,
-                skill_delivery_mode="prompt_memory" if treatment else "none",
-                exposed_skill_ids=[candidate.skill_id] if treatment else [],
-                skill_memory_sha256=("b" if treatment else "a") * 64,
-                status="memo_submitted",
-            steps=[
-                SimpleNamespace(
-                        rendered_question=None,
-                        action_decision=SimpleNamespace(
-                            retrieved_skill_ids=[candidate.skill_id] if treatment else [],
-                            activated_skill_ids=[],
-                        ),
-                )
-            ],
-        )
-
-    def evaluation(reward: float, fact_count: int):
-        return SimpleNamespace(
-            reward=SimpleNamespace(final_reward=reward),
-            rubric_judgment=SimpleNamespace(expected_action_scores=[]),
-            training_metrics=SimpleNamespace(
-                substantive_fact_coverage=float(fact_count), resolution=0.0
-            ),
-            official_metrics=SimpleNamespace(fidelity=1.0),
-            safety_metrics=SimpleNamespace(
-                repeated_question_rate=0.0,
-                premature_final_rate=0.0,
-                unsupported_claim_rate=0.0,
-                belief_as_fact_rate=0.0,
-                critical_fact_recall=0.0,
-                hidden_field_leak=False,
-            ),
-            operational_metrics=SimpleNamespace(
-                policy_fallback_rate=0.0,
-                client_fallback_rate=0.0,
-                memo_fallback=False,
-            ),
-            mechanism_signals=SimpleNamespace(
-                newly_elicited_fact_count=fact_count,
-                identified_evidence_gap_count=0,
-            ),
-        )
-
-    first_pair = [
-        trajectory("training_batch_02", "case_02", False),
-        trajectory("training_batch_02", "case_02", True),
-    ]
-    first_evaluations = {
-        first_pair[0].trajectory_id: evaluation(0.40, 0),
-        first_pair[1].trajectory_id: evaluation(0.45, 1),
-    }
-    first = MainExperimentExecutor.validate_provisional_candidate(
-        executor,
-        candidate_path,
-        source_round_index=1,
-        validation_round_index=2,
-        trajectories=first_pair,
-        evaluations=first_evaluations,
-        baseline_skills=[],
-        activate_on_accept=False,
-    )
-    assert first.decision.decision == "DEFER"
-    assert first.validation_batch_ids == ["training_batch_02"]
-    assert first.decision.mean_delta_reward == 0.05
-
-    second_pair = [
-        trajectory("training_batch_03", "case_03", False),
-        trajectory("training_batch_03", "case_03", True),
-    ]
-    second_evaluations = {
-        second_pair[0].trajectory_id: evaluation(0.40, 0),
-        second_pair[1].trajectory_id: evaluation(0.45, 1),
-    }
-    second = MainExperimentExecutor.validate_provisional_candidate(
-        executor,
-        candidate_path,
-        source_round_index=2,
-        validation_round_index=3,
-        trajectories=second_pair,
-        evaluations=second_evaluations,
-        baseline_skills=[],
-        activate_on_accept=False,
-    )
-    assert second.decision.decision == "ACCEPT"
-    assert second.validation_batch_ids == ["training_batch_02", "training_batch_03"]
-    assert len(second.current_outcomes) == 1
-    assert len(second.outcomes) == 2
-    assert second.decision.exposed_cases == 2
-    assert len(second.prior_audit_artifacts) == 1
-
-
-def test_candidate_pair_health_quarantines_recovery_before_outcomes() -> None:
-    reports = [
-        {
-            "case_id": f"case_{index}",
-            "baseline_trajectory_id": f"control_{index}",
-            "candidate_trajectory_id": f"treatment_{index}",
-            "report": {
-                "healthy": index != 0,
-                "counts": {"policy_fallback_used": 1} if index == 0 else {},
-                "issues": (
-                    [
-                        {
-                            "code": "policy_fallback_used",
-                            "trajectory_id": "treatment_0",
-                            "turn": 3,
-                            "detail": "policy_contract_safe_fallback",
-                        }
-                    ]
-                    if index == 0
-                    else []
-                ),
-            },
-        }
-        for index in range(4)
-    ]
-
-    selection = candidate_pair_health_selection(reports, minimum_healthy_pair_fraction=0.75)
-
-    assert selection["healthy"] is True
-    assert selection["eligible_case_ids"] == ["case_1", "case_2", "case_3"]
-    assert selection["excluded_pair_count"] == 1
-    assert selection["eligible_pair_fraction"] == 0.75
-    assert selection["selection_uses_reward_or_candidate_outcome"] is False
-
-
-def test_singleton_pair_quarantine_is_insufficient_evidence_not_candidate_failure() -> None:
-    selection = candidate_pair_health_selection(
-        [
-            {
-                "case_id": "case_sparse",
-                "baseline_trajectory_id": "control_sparse",
-                "candidate_trajectory_id": "treatment_sparse",
-                "report": {
-                    "healthy": False,
-                    "counts": {"policy_fallback_used": 1},
-                    "issues": [
-                        {
-                            "code": "policy_fallback_used",
-                            "trajectory_id": "treatment_sparse",
-                            "turn": 2,
-                            "detail": "policy_contract_safe_fallback",
-                        }
-                    ],
-                },
-            }
-        ],
-        minimum_healthy_pair_fraction=0.75,
-    )
-
-    assert selection["candidate_wide_health_passed"] is True
-    assert selection["matrix_coverage_passed"] is False
-    assert selection["healthy"] is False
-    assert selection["hard_treatment_issue_count"] == 0
-    assert selection["eligible_case_ids"] == []
-
-
-def test_singleton_quarantine_defers_cumulatively_until_validation_horizon(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.root = tmp_path
-    executor.run_id = "singleton_quarantine_horizon"
-    executor.store = RunStore(tmp_path / "runs", executor.run_id)
-    executor.training_plan = SimpleNamespace(
-        batches=[
-            SimpleNamespace(batch_id="training_batch_01"),
-            SimpleNamespace(
-                batch_id="training_batch_02",
-                prospective_validation_for="training_batch_01",
-                case_ids=["case_02"],
-            ),
-            SimpleNamespace(
-                batch_id="training_batch_03",
-                prospective_validation_for="training_batch_02",
-                case_ids=["case_03"],
-            ),
-            SimpleNamespace(
-                batch_id="training_batch_04",
-                prospective_validation_for="training_batch_03",
-                case_ids=["case_04"],
-            ),
-            SimpleNamespace(
-                batch_id="training_batch_05",
-                prospective_validation_for="training_batch_04",
-                case_ids=["case_05"],
-            ),
-        ]
-    )
-    executor.experiment = {
-        "trajectory_sampling": {"training_group_seeds": [42]},
-        "prospective_validation": {
-            "minimum_exposed_sessions": 1,
-            "minimum_exposed_cases": 1,
-            "minimum_exposed_domains": 1,
-            "minimum_mean_delta": 0.02,
-            "minimum_material_harm_delta": 0.02,
-            "maximum_harmful_pair_rate": 0.15,
-            "bootstrap_samples": 100,
-            "confidence_level": 0.95,
-            "require_positive_confidence_lower": False,
-            "maximum_global_mean_reward_drop": 0.01,
-            "maximum_validation_blocks": 3,
-            "minimum_healthy_pair_fraction": 0.75,
-        },
-        "statistical_seed": 42,
-    }
-    executor.main_adapter = SimpleNamespace(evaluator_case=lambda _: {})
-    executor._candidate_source_signal_family = lambda _: "fact_elicitation"
-
-    def quarantined_pair_health(trajectories, *args, **kwargs):
-        treatment = next(item for item in trajectories if item.method == "candidate_with")
-        return {
-            "healthy": False,
-            "blocking_issue_count": 1,
-            "counts": {"policy_fallback_used": 1},
-            "issues": [
-                {
-                    "code": "policy_fallback_used",
-                    "trajectory_id": treatment.trajectory_id,
-                    "turn": 2,
-                    "detail": "policy_contract_safe_fallback",
-                }
-            ],
-        }
-
-    monkeypatch.setattr(
-        "legal_skill_guard.experiment.executor.trajectory_health_report",
-        quarantined_pair_health,
-    )
-    candidate = synthetic_skills()[0]
-    candidate.status = "provisional"
-    candidate_path = tmp_path / "skills/candidates" / f"{candidate.skill_id}.yaml"
-    candidate_path.parent.mkdir(parents=True)
-    candidate_path.write_text(
-        yaml.safe_dump(candidate.model_dump(mode="json"), sort_keys=False),
-        encoding="utf-8",
-    )
-    enabled = candidate.model_copy(deep=True)
-    enabled.status = "active"
-    baseline_hash = skill_library_sha256([])
-    candidate_hash = skill_library_sha256([enabled])
-
-    def trajectory(batch: str, case_id: str, treatment: bool):
-        return SimpleNamespace(
-            trajectory_id=f"{batch}_{case_id}_{'with' if treatment else 'without'}",
-            group_id=f"{batch}.{case_id}.P_WD.seed_42",
-            partition=batch,
-            method="candidate_with" if treatment else "candidate_without",
-            case_id=case_id,
-            domain="general",
-            skill_library_version=candidate_hash if treatment else baseline_hash,
-            skill_delivery_mode="prompt_memory" if treatment else "none",
-            exposed_skill_ids=[candidate.skill_id] if treatment else [],
-            skill_memory_sha256=("b" if treatment else "a") * 64,
-            status="memo_submitted",
-            steps=[
-                SimpleNamespace(
-                    rendered_question=None,
-                    action_decision=SimpleNamespace(
-                        retrieved_skill_ids=[candidate.skill_id] if treatment else [],
-                        activated_skill_ids=[],
-                    ),
-                )
-            ],
-        )
-
-    audits = []
-    for source_round, validation_round, case_id in [
-        (1, 2, "case_02"),
-        (2, 3, "case_03"),
-        (3, 4, "case_04"),
-    ]:
-        batch_id = f"training_batch_{validation_round:02d}"
-        pair = [
-            trajectory(batch_id, case_id, False),
-            trajectory(batch_id, case_id, True),
-        ]
-        audits.append(
-            MainExperimentExecutor.validate_provisional_candidate(
-                executor,
-                candidate_path,
-                source_round_index=source_round,
-                validation_round_index=validation_round,
-                trajectories=pair,
-                evaluations={},
-                baseline_skills=[],
-                activate_on_accept=False,
-            )
-        )
-
-    first, second, terminal = audits
-    assert first.decision.decision == "DEFER"
-    assert first.decision.reason == "insufficient_independent_exposure_coverage"
-    assert first.validation_batch_ids == ["training_batch_02"]
-    assert first.candidate_contract_health_passed is True
-    assert first.candidate_matrix_coverage_passed is False
-    assert first.current_outcomes == []
-    assert first.outcomes == []
-
-    assert second.decision.decision == "DEFER"
-    assert second.validation_batch_ids == ["training_batch_02", "training_batch_03"]
-    assert len(second.prior_audit_artifacts) == 1
-    assert second.current_outcomes == []
-    assert second.outcomes == []
-
-    # The third quarantined block exhausts the declared horizon before the final
-    # training block, so the bounded evidence chain resolves to rejection.
-    assert terminal.validation_batch_id == "training_batch_04"
-    assert terminal.validation_batch_id != executor.training_plan.batches[-1].batch_id
-    assert terminal.decision.decision == "REJECT"
-    assert (
-        terminal.decision.reason
-        == "insufficient_prospective_exposure_after_validation_horizon"
-    )
-    assert terminal.validation_batch_ids == [
-        "training_batch_02",
-        "training_batch_03",
-        "training_batch_04",
-    ]
-    assert len(terminal.prior_audit_artifacts) == 2
-    assert terminal.candidate_contract_health_passed is True
-    assert terminal.candidate_matrix_coverage_passed is False
-    assert terminal.current_outcomes == []
-    assert terminal.outcomes == []
-    assert (
-        executor.store.root / "skills/rejected" / f"{candidate.skill_id}.yaml"
-    ).is_file()
-
-
-@pytest.mark.parametrize(
-    "recovery_code", ["client_selection_fallback_used", "memo_fallback_used"]
-)
-def test_nonpolicy_model_recovery_quarantines_pair_instead_of_rejecting_candidate(
-    recovery_code: str,
-) -> None:
-    selection = candidate_pair_health_selection(
-        [
-            {
-                "case_id": "case_recovery",
-                "baseline_trajectory_id": "control_recovery",
-                "candidate_trajectory_id": "treatment_recovery",
-                "report": {
-                    "healthy": False,
-                    "counts": {recovery_code: 1},
-                    "issues": [
-                        {
-                            "code": recovery_code,
-                            "trajectory_id": "treatment_recovery",
-                            "turn": 2,
-                            "detail": "bounded model recovery",
-                        }
-                    ],
-                },
-            }
-        ],
-        minimum_healthy_pair_fraction=0.75,
-    )
-
-    assert selection["candidate_wide_health_passed"] is True
-    assert selection["matrix_coverage_passed"] is False
-    assert selection["hard_treatment_issue_count"] == 0
-
-
-def test_persisted_policy_failure_requires_same_trajectory_policy_fallback() -> None:
-    def selection(codes: list[str]) -> dict[str, object]:
-        return candidate_pair_health_selection(
-            [
-                {
-                    "case_id": "case_policy",
-                    "baseline_trajectory_id": "control_policy",
-                    "candidate_trajectory_id": "treatment_policy",
-                    "report": {
-                        "healthy": False,
-                        "counts": dict(Counter(codes)),
-                        "issues": [
-                            {
-                                "code": code,
-                                "trajectory_id": "treatment_policy",
-                                "turn": 1,
-                                "detail": "policy health",
-                            }
-                            for code in codes
-                        ],
-                    },
-                }
-            ],
-            minimum_healthy_pair_fraction=0.75,
-        )
-
-    unanchored = selection(["persisted_policy_contract_failure"])
-    anchored = selection(
-        ["persisted_policy_contract_failure", "policy_fallback_used"]
-    )
-
-    assert unanchored["candidate_wide_health_passed"] is False
-    assert unanchored["hard_treatment_issue_count"] == 1
-    assert anchored["candidate_wide_health_passed"] is True
-    assert anchored["hard_treatment_issue_count"] == 0
-
-
-def test_truncated_candidate_health_provenance_fails_closed() -> None:
-    with pytest.raises(ExecutionError, match="lacks complete issue provenance"):
-        candidate_pair_health_selection(
-            [
-                {
-                    "case_id": "case_truncated",
-                    "baseline_trajectory_id": "control_truncated",
-                    "candidate_trajectory_id": "treatment_truncated",
-                    "report": {
-                        "healthy": False,
-                        "blocking_issue_count": 1,
-                        "counts": {"hidden_field_leak": 1},
-                        "issues": [],
-                        "issues_truncated": 1,
-                    },
-                }
-            ],
-            minimum_healthy_pair_fraction=0.75,
-        )
-
-
-def test_candidate_pair_health_keeps_hard_treatment_defect_candidate_wide() -> None:
-    selection = candidate_pair_health_selection(
-        [
-            {
-                "case_id": "case_0",
-                "baseline_trajectory_id": "control_0",
-                "candidate_trajectory_id": "treatment_0",
-                "report": {
-                    "healthy": False,
-                    "counts": {"hidden_field_leak": 1},
-                    "issues": [
-                        {
-                            "code": "hidden_field_leak",
-                            "trajectory_id": "treatment_0",
-                            "turn": 1,
-                            "detail": "forbidden evaluator field",
-                        }
-                    ],
-                },
-            },
-            *[
-                {
-                    "case_id": f"case_{index}",
-                    "baseline_trajectory_id": f"control_{index}",
-                    "candidate_trajectory_id": f"treatment_{index}",
-                    "report": {"healthy": True, "counts": {}, "issues": []},
-                }
-                for index in range(1, 4)
-            ],
-        ],
-        minimum_healthy_pair_fraction=0.75,
-    )
-
-    assert selection["eligible_fraction_passed"] is True
-    assert selection["healthy"] is False
-    assert selection["hard_treatment_issue_count"] == 1
-
-
-def _completed_candidate_audit(
-    *, skill_id: str, source_batch_id: str, validation_batch_id: str
-) -> ProspectiveCandidateAudit:
-    return ProspectiveCandidateAudit(
-        skill_id=skill_id,
-        source_batch_id=source_batch_id,
-        validation_batch_id=validation_batch_id,
-        validation_case_ids=["case_secret"],
-        pair_seeds=[42],
-        decision=AuditDecision(
-            decision="REJECT",
-            reason="positive_mean_but_risk_or_harmful_tail",
-            pairs=2,
-            exposed_pairs=1,
-            exposed_cases=1,
-            exposed_domains=1,
-            mean_delta_reward=0.03,
-            median_delta_reward=0.03,
-            harmful_pair_rate=0.0,
-            severe_risk_count=0,
-            unsupported_claim_delta=0.1,
-            premature_final_delta=0.0,
-            belief_as_fact_delta=0.0,
-            repeated_question_delta=0.0,
-            critical_fact_recall_delta=0.0,
-            policy_fallback_delta=0.0,
-            client_fallback_delta=0.0,
-            memo_fallback_delta=0.0,
-        ),
-        paired_estimate=PairedEstimate(
-            pairs=1,
-            mean_delta=0.03,
-            median_delta=0.03,
-            confidence_level=0.95,
-            lower=-0.01,
-            upper=0.07,
-            bootstrap_samples=100,
-            seed=42,
-        ),
-        global_regression_passed=True,
-        outcomes=[
-            PairOutcome(
-                pair_id="pair_secret",
-                case_id="case_secret",
-                domain="contract",
-                exposed=True,
-                reward_without=0.4,
-                reward_with=0.43,
-                unsupported_claim_delta=0.1,
-                newly_elicited_fact_delta=1.0,
-            )
-        ],
-        baseline_trajectory_ids=["baseline_secret"],
-        candidate_trajectory_ids=["candidate_secret"],
-        candidate_contract_health_passed=True,
-        candidate_matrix_coverage_passed=True,
-        source_signal_family="fact_elicitation",
-        mechanism_direction_gate=MechanismDirectionGate(
-            signal_family="fact_elicitation",
-            exposed_cases=1,
-            mean_newly_elicited_fact_delta=1.0,
-            mean_identified_evidence_gap_delta=0.0,
-            mean_question_turn_delta=0.0,
-            passed=True,
-            reason="fact_gain_positive_without_gap_regression",
-        ),
-        completed_at="2026-08-31T00:00:00+00:00",
-    )
-
-
-def test_deferred_candidate_audit_chain_cannot_skip_an_unseen_block(
-    tmp_path: Path,
-) -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.store = RunStore(tmp_path / "runs", "deferred_chain")
-    executor.training_plan = SimpleNamespace(
-        batches=[
-            SimpleNamespace(batch_id=f"training_batch_{index:02d}")
-            for index in range(1, 5)
-        ]
-    )
-    audit = _completed_candidate_audit(
-        skill_id="skill_skipped_block",
-        source_batch_id="training_batch_03",
-        validation_batch_id="training_batch_04",
-    )
-    audit = audit.model_copy(
-        update={
-            "validation_batch_ids": ["training_batch_02", "training_batch_04"],
-            "decision": audit.decision.model_copy(update={"decision": "DEFER"}),
-        }
-    )
-    executor.store.save_model(
-        executor.store.root / "prospective_audits/skipped.json",
-        audit,
-    )
-
-    with pytest.raises(ExecutionError, match="chain is not contiguous"):
-        MainExperimentExecutor._prior_deferred_candidate_audit(
-            executor,
-            skill_id="skill_skipped_block",
-            source_batch_id="training_batch_04",
-        )
-
-
-def test_teacher_feedback_uses_only_completed_observable_case_anonymous_audits(
-    tmp_path: Path,
-) -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.run_id = "feedback_test"
-    executor.store = RunStore(tmp_path / "runs", executor.run_id)
-    executor.training_plan = SimpleNamespace(
-        batches=[
-            SimpleNamespace(batch_id="training_batch_01"),
-            SimpleNamespace(batch_id="training_batch_02"),
-            SimpleNamespace(batch_id="training_batch_03"),
-        ]
-    )
-    audit_root = executor.store.root / "prospective_audits"
-    first = _completed_candidate_audit(
-        skill_id="skill_first",
-        source_batch_id="training_batch_01",
-        validation_batch_id="training_batch_02",
-    )
-    future = _completed_candidate_audit(
-        skill_id="skill_future",
-        source_batch_id="training_batch_02",
-        validation_batch_id="training_batch_03",
-    )
-    executor.store.save_model(audit_root / "first.json", first)
-    executor.store.save_model(audit_root / "future.json", future)
-
-    feedback = MainExperimentExecutor._completed_validation_feedback_for_teacher(executor, 2)
-
-    assert [item["skill_id"] for item in feedback] == ["skill_first"]
-    serialized = json.dumps(feedback, ensure_ascii=False, sort_keys=True)
-    assert "case_secret" not in serialized
-    assert "pair_secret" not in serialized
-    assert "baseline_secret" not in serialized
-    assert feedback[0]["exposed_domain_outcomes"] == [
-        {
-            "domain": "contract",
-            "exposed_pairs": 1,
-            "mean_reward_delta": 0.03,
-            "minimum_reward_delta": 0.03,
-            "harmful_pair_rate": 0.0,
-            "mean_newly_elicited_fact_delta": 1.0,
-            "mean_identified_evidence_gap_delta": 0.0,
-            "mean_question_turn_delta": 0.0,
-            "mean_unsupported_claim_delta": 0.1,
-            "mean_premature_final_delta": 0.0,
-            "mean_belief_as_fact_delta": 0.0,
-            "mean_repeated_question_delta": 0.0,
-            "mean_critical_fact_recall_delta": 0.0,
-            "mean_policy_fallback_delta": 0.0,
-            "mean_client_fallback_delta": 0.0,
-            "mean_memo_fallback_delta": 0.0,
-        }
-    ]
-    assert len(feedback[0]["audit_artifact_sha256"]) == 64
-    assert feedback[0]["candidate_contract_health_passed"] is True
-    assert feedback[0]["candidate_matrix_coverage_passed"] is True
-    assert "candidate_health_passed" not in feedback[0]
-    assert prospective_audit_teacher_feedback(first)["decision"]["reason"] == (
-        "positive_mean_but_risk_or_harmful_tail"
-    )
-
-
-def test_frozen_training_batches_exactly_partition_formal_splits() -> None:
-    root = Path(__file__).resolve().parents[2]
-    adapter = DLawBenchAdapter(
-        root / "data/training/legal_skill_guard_dlawbench_style_cn.jsonl",
-        root / "third_party/DLawBench/config/personas.json",
-        root / "data/training/legal_skill_guard_dlawbench_style_cn.provenance.jsonl",
-    )
-    plan = load_training_batch_plan(root / "configs/data/main_training_batches.yaml", adapter)
-    assert [len(item.case_ids) for item in plan.batches] == [16] * 8
-    assert [item.prospective_validation_for for item in plan.batches] == [
-        None,
-        "training_batch_01",
-        "training_batch_02",
-        "training_batch_03",
-        "training_batch_04",
-        "training_batch_05",
-        "training_batch_06",
-        "training_batch_07",
-    ]
-    assert len({case_id for batch in plan.batches for case_id in batch.case_ids}) == 128
-    assert all(
-        len({adapter.case_domain(item) for item in batch.case_ids}) >= 13 for batch in plan.batches
-    )
-
-
 def test_paired_runner_reuses_only_exact_requests_within_one_run(tmp_path: Path) -> None:
     root = Path(__file__).resolve().parents[2]
     executor = object.__new__(MainExperimentExecutor)
@@ -7857,12 +6117,8 @@ def test_paired_runner_reuses_only_exact_requests_within_one_run(tmp_path: Path)
     executor.planner_client = executor.local_client
     executor.shared_experiment_root = tmp_path / "shared"
 
-    first = MainExperimentExecutor._runner(
-        executor, paired=True, cache_namespace="acceptance_candidate_a"
-    )
-    second = MainExperimentExecutor._runner(
-        executor, paired=True, cache_namespace="prospective_validation_02"
-    )
+    first = executor._runner(paired=True, cache_namespace="library_shadow_a")
+    second = executor._runner(paired=True, cache_namespace="library_shadow_b")
 
     assert isinstance(first.policy_client, ReplayCachedChatClient)
     assert first.policy_client.cache_root == second.policy_client.cache_root
@@ -7871,17 +6127,11 @@ def test_paired_runner_reuses_only_exact_requests_within_one_run(tmp_path: Path)
     assert str(first.policy_client.cache_root).startswith(str(executor.store.root))
 
     executor.local_revision = "frozen_revision_b"
-    changed_model = MainExperimentExecutor._runner(
-        executor, paired=True, cache_namespace="acceptance_candidate_a"
-    )
+    changed_model = executor._runner(paired=True, cache_namespace="library_shadow_a")
     assert changed_model.policy_client.cache_root != first.policy_client.cache_root
 
-    nonpaired_a = MainExperimentExecutor._runner(
-        executor, paired=False, cache_namespace="training_batch_01"
-    )
-    nonpaired_b = MainExperimentExecutor._runner(
-        executor, paired=False, cache_namespace="training_batch_02"
-    )
+    nonpaired_a = executor._runner(paired=False, cache_namespace="training_batch_01")
+    nonpaired_b = executor._runner(paired=False, cache_namespace="training_batch_02")
     assert isinstance(nonpaired_a.policy_client, ReplayCachedChatClient)
     assert nonpaired_a.policy_client.cache_root == nonpaired_b.policy_client.cache_root
     assert nonpaired_a.memo_client.cache_root == nonpaired_b.memo_client.cache_root
@@ -7893,7 +6143,6 @@ def test_paired_runner_reuses_only_exact_requests_within_one_run(tmp_path: Path)
 
 def test_prompt_memory_uses_skill_knowledge_without_development_outcomes() -> None:
     skill = synthetic_skills()[-1]
-    skill.evaluation.mean_delta_reward = 0.75
     skill.provenance.source_case_ids = ["hidden-development-case"]
 
     memory, exposed = render_skill_memory([skill], domain=skill.domain)
@@ -7903,7 +6152,7 @@ def test_prompt_memory_uses_skill_knowledge_without_development_outcomes() -> No
     assert '"procedure"' in memory
     assert '"question_guidance"' in memory
     assert "candidate_action" not in memory
-    assert "0.75" not in memory
+    assert "evaluation" not in SkillContract.model_fields
     assert "hidden-development-case" not in memory
     assert "不会在你作答后调用规则引擎修改动作" in memory
     assert exposed == [skill.skill_id]
@@ -7970,61 +6219,10 @@ def test_candidate_identity_ignores_invalid_same_name_teacher_sibling() -> None:
         },
     )
     stored = candidate.model_copy(deep=True)
-    stored.status = "provisional"
+    stored.status = "candidate"
 
     assert _teacher_proposal_matches_candidate(valid, stored) is True
     assert _teacher_proposal_matches_candidate(invalid_sibling, stored) is False
-
-
-def test_ungated_ablation_loads_source_grounded_candidate_after_audit_metadata_change(
-    tmp_path: Path,
-) -> None:
-    executor = object.__new__(MainExperimentExecutor)
-    executor.root = tmp_path
-    executor.run_id = "ablation_test"
-    executor.store = RunStore(tmp_path / "runs", executor.run_id)
-    executor.experiment = {"execution": {"evolution_rounds": 1}}
-    candidate = synthetic_skills()[-1]
-    candidate.status = "candidate"
-    candidate_path = executor.store.root / "skills/candidates" / f"{candidate.skill_id}.yaml"
-    candidate_path.parent.mkdir(parents=True)
-    candidate_path.write_text(
-        yaml.safe_dump(candidate.model_dump(mode="json"), allow_unicode=True, sort_keys=False),
-        encoding="utf-8",
-    )
-    contract_hash = skill_contract_definition_sha256(candidate)
-    relative = str(candidate_path.relative_to(tmp_path))
-    report_path = executor.store.root / "reports/candidate_source_grounding_round_01.json"
-    report_path.parent.mkdir(parents=True)
-    report_path.write_text(
-        json.dumps(
-            {
-                "schema_version": 2,
-                "status": "provisional_candidates_staged_after_source_grounding",
-                "valid_candidate_files": [relative],
-                "records": [
-                    {
-                        "candidate_file": relative,
-                        "candidate_contract_sha256": contract_hash,
-                        "valid": True,
-                    }
-                ],
-            }
-        ),
-        encoding="utf-8",
-    )
-    candidate.status = "rejected"
-    candidate.evaluation.mean_delta_reward = -0.2
-    candidate_path.write_text(
-        yaml.safe_dump(candidate.model_dump(mode="json"), allow_unicode=True, sort_keys=False),
-        encoding="utf-8",
-    )
-
-    loaded = MainExperimentExecutor.source_grounded_skills_for_ablation(executor)
-
-    assert [item.skill_id for item in loaded] == [candidate.skill_id]
-    assert loaded[0].status == "active"
-    assert skill_contract_definition_sha256(loaded[0]) == contract_hash
 
 
 def test_external_test_refuses_to_consume_benchmark_with_empty_library(tmp_path: Path) -> None:
@@ -8040,10 +6238,12 @@ def test_external_test_refuses_to_consume_benchmark_with_empty_library(tmp_path:
         run_manifest_sha256=run_hash,
         trajectory_schema_version=16,
         evaluation_schema_version=13,
-        rounds_completed=3,
+        rounds_completed=8,
         round_completion_manifests={},
         round_completion_set_sha256=canonical_json_sha256({}),
-        accepted_skill_ids=[],
+        admitted_skill_ids=[],
+        skill_admission_reports={},
+        library_maintenance_reports={},
         active_skill_ids=[],
         active_skill_library_version="bootstrap_empty",
         active_skill_library_sha256=skill_library_sha256([]),
@@ -8055,7 +6255,7 @@ def test_external_test_refuses_to_consume_benchmark_with_empty_library(tmp_path:
     executor._verified_run_manifest_sha256 = lambda: run_hash
     executor._load_validated_training_summary = lambda **kwargs: summary
 
-    with pytest.raises(ExecutionError, match="empty accepted skill library"):
+    with pytest.raises(ExecutionError, match="empty learned skill library"):
         MainExperimentExecutor.external_test(executor)
 
 
@@ -8109,9 +6309,7 @@ def test_main_persona_and_dialogue_seed_matrices_are_frozen_and_separated() -> N
         )
 
     drifted_metrics = json.loads(json.dumps(config))
-    drifted_metrics["evaluation"]["behavior_metrics"].remove(
-        "unique_disclosed_facts_per_question"
-    )
+    drifted_metrics["evaluation"]["behavior_metrics"].remove("unique_disclosed_facts_per_question")
     with pytest.raises(ValueError, match="implemented reporting contract"):
         _validate_persona_seed_protocol(
             drifted_metrics,
@@ -8119,13 +6317,13 @@ def test_main_persona_and_dialogue_seed_matrices_are_frozen_and_separated() -> N
             external_case_ids=external.case_ids(),
         )
 
-    prospective_pairs_per_block = 16 * len(sampling["training_group_seeds"])
+    training_sessions_per_block = 16 * len(sampling["training_group_seeds"])
     external_pairs = (
         len(external.case_ids()) * len(personas) * len(sampling["external_evaluation_seeds"])
     )
     sensitivity_new_trajectories = (
         len(sensitivity_cases) * len(personas) * len(sensitivity["additional_dialogue_seeds"]) * 2
     )
-    assert prospective_pairs_per_block == 16
+    assert training_sessions_per_block == 16
     assert external_pairs == 120
     assert sensitivity_new_trajectories == 96

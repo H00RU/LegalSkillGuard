@@ -55,12 +55,12 @@ hashes:
   provenance_sha256: a90df2bd5aff0619010004e8b2b18fdc43618897ef40adb50cd725d3f35936af
   selection_sha256: 159036f26f50e9edd861ec65e3f38b8dea81397d27998c236592ee63586f680b
   exclusion_sha256: 508256533deb8bb8624dbe1042c8aecdd8fd8a07a9d265aa997f0757d07653c4
-  training_batches_sha256: cb9e1e934585b380c9b77ddec42c133ecdcfb35efb82240a8b2ebb9f182324ac
+  training_batches_sha256: cd64796bae44abce5e53bee835b1e3ab136501408e4a461cf41d1b7608969cfa
   source_catalog_sha256: 32a10bf4b013a5472b29f2496ca28eb04edefa8299645617ca2c3e4e62e7c6bc
   deterministic_quality_report_sha256: 603d749b0b782d5df390e87f52e2c3110e2ddff6a5702139257a2301cd45d141
   casewise_quality_report_sha256: 0fc56be5aa6ff12ee19f3492d05bbb638112a2a25da549d4c2840e41445913ab
   contamination_report_sha256: 86d53a0e79734037ea48bcf9571271120f1c3d7b4c2a10c3866d764a53acfe72
-  training_batch_report_sha256: c9853e124e5d23274fadebd56d606f1d729b5482223dbef9da3ba0f0ddb233c3
+  training_batch_report_sha256: e271d093d6a72ca7b1da45e33562d159db85ad5c7cbe9114b8ace270993b3718
   opening_information_boundary_report_sha256: 0385a566c572dc4511d6e6ad28a14d7365adea28242f65c894aa24beceff3019
 opening_information_boundary_scope:
   current_fact_pairs: 852
@@ -84,12 +84,13 @@ external_benchmark_policy:
   # DLawBench is public.  Its task definition and schema may be described, so we
   # claim a held-out execution boundary rather than an unseen/private blind test.
   claim_unseen_private_blind_test: false
-candidate_validation_policy:
+skill_accumulation_policy:
   fixed_validation_pool: false
-  mode: embedded_next_training_block
-  shared_control_per_case: true
-  final_forward_validation_batch: training_batch_08
-  final_source_batch_candidates: no_candidate_generation
+  mode: source_grounded_direct_admission
+  per_candidate_outcome_gate: false
+  downstream_effect_unit: whole_working_library
+  maintenance_interval_blocks: 2
+  final_source_batch_generates_skills: true
 label_claim: source_grounded_ai_authored_and_casewise_semantic_reviewed
 expert_gold_claim: false
 publication_note: >-

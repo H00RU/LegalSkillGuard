@@ -1259,40 +1259,6 @@ class StructuredJudgeResponse(Protocol):
     response_sha256: str
 
 
-def monotone_expected_action_scores(
-    control_questions: list[str],
-    treatment_questions: list[str],
-    control_scores: list[Literal[0, 1]],
-    treatment_scores: list[Literal[0, 1]],
-) -> tuple[list[Literal[0, 1]], list[int]]:
-    """Preserve existential inquiry credit under an exact dialogue extension.
-
-    DLawBench inquiry items ask whether the lawyer ever made a corresponding
-    substantive inquiry.  Therefore, when the treatment contains every control
-    question as an exact prefix, later questions cannot erase a previously
-    satisfied item.  Independent LLM judgments can violate that logical
-    invariant.  This helper is used only by paired internal skill acceptance;
-    standalone official metrics remain the untouched judge outputs.
-    """
-
-    if len(control_scores) != len(treatment_scores):
-        raise ValueError("paired inquiry score arrays have unequal cardinality")
-    if treatment_questions[: len(control_questions)] != control_questions:
-        return list(treatment_scores), []
-    inherited = [
-        index
-        for index, (before, after) in enumerate(
-            zip(control_scores, treatment_scores, strict=True)
-        )
-        if before == 1 and after == 0
-    ]
-    reconciled: list[Literal[0, 1]] = [
-        1 if before == 1 or after == 1 else 0
-        for before, after in zip(control_scores, treatment_scores, strict=True)
-    ]
-    return reconciled, inherited
-
-
 class StructuredJudgeClient(Protocol):
     model: str
 

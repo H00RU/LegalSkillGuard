@@ -13,7 +13,7 @@ fi
 
 exec > >(tee -a "$install_log") 2>&1
 
-echo "[$(date --iso-8601=seconds)] LegalSkillGuard NVIDIA driver repair started"
+echo "[$(date --iso-8601=seconds)] LegalSkillEvolve NVIDIA driver repair started"
 
 if [[ "$driver_branch" != "570" ]]; then
     echo "Refusing unreviewed branch '$driver_branch'; this host was audited for branch 570." >&2

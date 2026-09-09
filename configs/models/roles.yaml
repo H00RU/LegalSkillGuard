@@ -41,7 +41,7 @@ roles:
     sees: [opening, visible_dialogue, online_state, fixed_session_skill_documents]
     forbidden: [client_belief_labels, court_record, evaluation_criteria, split_metadata]
     rationale: >-
-      被研究的冻结小型律师模型；会话开始时按公开案件领域确定已验收技能文档包，随后每个律师决策回合
+      被研究的冻结小型律师模型；会话开始时按公开案件领域确定当前工作技能文档包，随后每个律师决策回合
       注入同一文档包，由模型自主运用。系统不依据模型作答执行技能规则或改写动作；比较臂只改变该文档包。
 
   consultation_planner:
@@ -58,13 +58,16 @@ roles:
     repair_enable_thinking: false
     max_tokens: 4096
     repair_max_tokens: 1200
-    sees: [opening]
+    sees: [opening, fixed_session_skill_documents]
     forbidden: [client_belief_labels, court_record, evaluation_criteria, split_metadata]
     rationale: >-
-      与被研究律师共享冻结Qwen3-8B快照，但作为无状态、仅见客户开场的独立规划调用，
-      把开场转为可见事实调查图谱；不访问客户隐藏认知、案件记录、评测rubric、技能或臂标签。
-      精确缓存使同案组和两比较臂共享同一图谱；首稿启用同一冻结模型的有界推理以先覆盖跨决策
-      角色的调查广度，再形成自然事件目标；结构不合格时由同一角色在关闭推理的严格结构输出下
+      与被研究律师共享冻结Qwen3-8B快照，作为同一咨询代理的无状态会话前规划调用，
+      把开场转为可见事实调查图谱；除与逐轮策略相同的固定会话技能文档外，不访问客户隐藏认知、
+      案件记录、评测rubric或臂标签。无技能臂收到明确的空文档，工作库中的活动文档只通过提示上下文
+      影响模型自行生成的图谱，系统不执行目标增删或重排规则。
+      精确缓存使技能文档相同的同案组共享同一图谱；块级prequential影子与最终外测允许工作库文档
+      造成规划差异，且该文档包是比较臂间唯一干预。首稿启用同一冻结模型的有界推理以先覆盖跨决策角色的调查广度，再形成自然事件目标；
+      结构不合格时由同一角色在关闭推理的严格结构输出下
       编辑，代码层不可变地保留此前已通过目标。训练标签只用于可选离线诊断，绝不进入逐案在线
       规划或实验放行。
       历史轨迹只用于发现规划广度缺口，不作为当前配置的效果证据。运行时规划、策略与客户链的资格由
@@ -85,7 +88,7 @@ roles:
     cache_responses: true
     qualification_protocol: 44
     qualification_min_cases: 50
-    qualification_min_contrasts: 143
+    qualification_min_contrasts: 144
     qualification_min_match_accuracy: 0.90
     qualification_min_matched_accuracy: 0.95
     qualification_min_unmatched_accuracy: 0.85
@@ -93,19 +96,19 @@ roles:
     qualification_min_response_kind_accuracy: 0.90
     qualification_min_transition_accuracy: 1.0
     qualification_max_contract_fallback_rate: 0.0
-    sees: [lawyer_question, public_opening_claims, client_belief, disclosure_state]
+    sees: [lawyer_question, public_opening_claims, client_belief]
     forbidden: [court_record, evaluation_criteria, active_skills, arm_label]
     rationale: >-
       使用与被研究Qwen律师独立的冻结开放权重模型，在公开开场的第一人称指代、全部有限认知和当前自然问题之间
       执行一次闭集语义路由；正常选择保持已通过资格的中等推理强度，仅当可观测到输出因长度截断且正文为空时，
       第二次结构修复才降为低推理强度，避免重复耗尽预算；不评价问题质量，不访问人格，
-      不生成答案，也不运行第二语义裁判。相同当前问题、客户身份、候选集合和披露状态形成相同请求，
-      无关历史不能改变匹配结果。程序验证JSON结构和候选编号，并以冻结的七类高精度属性充分性约束
+      不生成答案，也不运行第二语义裁判。相同案件、客户身份和当前问题始终对完整且排序固定的客户认知
+      集合形成同一请求；披露状态和无关历史都不能改变匹配结果。程序验证JSON结构和候选编号，并以冻结的七类高精度属性充分性约束
       拒绝文本中根本未陈述所问属性的候选；同一冻结路由器可在既有两次尝试预算内根据通用属性不足反馈
       自行修正一次，第二次结构化选择排除所有被同一高精度文字门证明不能回答该属性的编号。程序本身不重排候选、
       不恢复空匹配、不推断新事实或法律结论，修正后仍不合格才标记合同失败。
       为避免把环境路由变成主要推理成本，模型保留问题的主体、事件和属性分解，并只返回最佳候选ID
-      及其relation；143项冻结真假对照直接验证选择。逐候选自然语言理由或关系数组不进入任何决策，
+      及其relation；144项冻结真假对照直接验证选择。逐候选自然语言理由或关系数组不进入任何决策，
       故不输出。该角色与后续语义评审虽复用同一冻结权重和服务，但使用隔离的无状态提示与缓存，
       只见本轮问题和客户有限认知；它不见轨迹评分、rubric、技能、比较臂或法院记录，也不判断律师优劣。
       复用本地模型避免新增供应商，同时保持客户环境独立于被研究律师。该压缩不改变有限候选、选择规则或答案渲染。
@@ -177,17 +180,20 @@ roles:
     reasoning_effort: low
     structured_output: true
     temperature: 0.0
-    sees: [training_causal_evidence_clusters, training_offline_scores, current_skill_documents]
+    sees: [training_trajectory_contrast_clusters, training_offline_scores, current_skill_documents]
     forbidden: [future_block_hidden_labels, external_benchmark_cases, arm_test_results]
     rationale: >-
-      只把合格的同状态训练轨迹差异压缩为自然语言结构化候选技能文档；项目级真实硬账本累积保留
-      全部历史及诊断调用，用户于2026-09-06明确授权将累计硬上限提高到200次；当前已用量和余量
-      只从硬账本动态读取，preflight必须证明余量足以覆盖本run尚未完成的最坏教师调用；缓存命中不重复调用；
+      只把健康、同案同块首工作库且在事实、证据缺口或效率上支配低分轨迹的完整训练对照压缩为
+      自然语言结构化候选技能文档；来源对照提供可审计的学习根据，但不能冒充技能的最终效果证明。
+      项目级真实硬账本累积保留全部历史及诊断调用；200次额度用尽后依据用户后续的重置授权，
+      当前配置与硬账本上限统一为225次；它只覆盖既有200次、fresh八块最坏24次教师调用及最多1次预检。
+      当前已用量和余量只从硬账本动态读取，不在说明文档硬写易漂移计数；
+      preflight必须证明余量足以覆盖本run尚未完成的最坏教师调用，缓存命中不重复调用；
       固定使用保留部署环境代理的系统Codex二进制，避免用户包装脚本改变联网语义。教师不能填写来源身份、
-      不能自报未见效果，也不输出机器条件或行动变换；系统独立绑定来源证据并执行静态安全和重复性检查。接受与否由
-      后续最多3个连续未见训练块上的盲化本地语义评审和确定性累计配对门禁共同决定；负收益或
-      安全回归立即拒绝，安全正向但独立案件覆盖不足者可保持DEFER继续累计。候选在适用领域的分配案
-      从首轮起固定暴露，因此准入衡量真实使用收益、机制方向和安全，而不是旧规则执行频率。
+      不能自报未见效果，也不输出机器条件或行动变换；系统独立绑定来源证据，并执行结构、来源因果、
+      隐藏信息隔离、法律与运行安全、语义去重及联合提示容量硬门。全部通过者在来源块末直接写入工作库，
+      从下一块起按适用法域固定暴露；后续prequential影子、库级维护与最终外测只评估累计工作库，
+      不用单个候选的16/18案收益阻断积累，也不把领域技能在无关法域的表现作为准入条件。
 
   semantic_judge:
     model_id: openai/gpt-oss-20b
@@ -225,7 +231,7 @@ roles:
       “事项已披露但详情待核实”“客户明确不知道却被memo反向归因为否定陈述”，以及“分析/评估/审查
       任务不等于已经断言待分析结果”的压力样本校验方向；
       案件事实或对话任一支持即为grounded，两处均无依据才触发幻觉惩罚。开场、后续对话与离线记录
-      的细来源位置只作非阻断诊断，不进入正式评分、奖励、组选择或候选验收；程序仅可对
+      的细来源位置只作非阻断诊断，不进入正式评分、奖励、组选择或技能文档硬门；程序仅可对
       “明确客户归因前缀后逐字等于完整客户回答”
       的片段作可审计来源归一化，且资格门禁把其使用率限制为不超过5%。事实分区通常一次处理
       全案事实；只有整组连续观测到finish_reason=length时才保持原fact ID、顺序、完整对话与
@@ -242,7 +248,9 @@ non_llm_components:
   - skill_prompt_memory_renderer
   - skill_source_evidence_binding
   - tf_grpo_advantage
-  - embedded_next_block_skill_gate
+  - source_grounded_direct_skill_admission
+  - prequential_library_shadow
+  - working_library_maintenance
   - hashing_and_manifests
   - paired_bootstrap_statistics
 

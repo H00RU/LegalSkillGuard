@@ -28,6 +28,46 @@ POLICY_FALLBACK_REASONS = frozenset(
     }
 )
 
+# These findings describe an executable lawyer action, not a corrupted research
+# artifact.  They must remain visible to the reward, the TF-GRPO contrast miner,
+# and downstream working-library comparisons.  Treating them as policy-contract
+# failures caused the bounded repair loop (or its deterministic fallback) to erase
+# exactly the weak behaviour that the skill learner is meant to improve.
+POLICY_BEHAVIOR_WARNING_CODES = frozenset(
+    {
+        "generic_or_abstract_question",
+        "excessive_phrase_repetition",
+        "question_requests_legal_judgment_from_client",
+        "multiple_primary_questions",
+        "repeated_question_text",
+        "premature_abstention_with_grounded_target",
+        "premature_abstention_without_substantive_investigation",
+        "abstention_when_conditional_memo_available",
+        "terminal_unsupported_blanket_low_value_claim",
+        "terminal_reason_admits_material_unresolved_target",
+        "terminal_collapses_withheld_into_unavailable",
+    }
+)
+POLICY_BEHAVIOR_WARNING_PREFIXES = (
+    "action_metadata_excessive_phrase_repetition:",
+    "ask_target_not_unresolved:",
+    "target_not_available:",
+    "repeated_fact_target:",
+    "repeated_action_target_without_content:",
+)
+
+
+def policy_behavior_issue_is_soft(issue: str) -> bool:
+    """Whether ``issue`` is scoreable lawyer behaviour rather than invalid data."""
+
+    raw = str(issue)
+    if raw.startswith("warning:model_behavior:"):
+        raw = raw.removeprefix("warning:model_behavior:")
+    return raw in POLICY_BEHAVIOR_WARNING_CODES or raw.startswith(
+        POLICY_BEHAVIOR_WARNING_PREFIXES
+    )
+
+
 # Only explicit separators are safe without a Chinese tokenizer or a structured
 # planner field.  A bare ``及``/``和``/``与`` is also an ordinary character in words
 # such as ``及时`` and ``和好`` (and can connect the actors of one relation).  Older
@@ -140,6 +180,67 @@ ABSTRACT_FACT_LABEL_MARKERS = (
     "单一事实",
     "特定事实",
 )
+
+
+def _document_binds_authority_or_deadline(value: str) -> bool:
+    """Return whether authority/deadline language asks for recorded document text."""
+
+    artifact = (
+        r"(?:合同|协议|委托书|授权书|通知书|决定书|判决书|裁定书|"
+        r"函件|文件|文书|记录)"
+    )
+    return bool(
+        re.search(
+            artifact
+            + r".{0,16}(?:载明|写明|注明|约定|记录|内容|原文|中的|内的|上的|里的)",
+            value,
+        )
+    )
+
+
+def _requests_authority_or_deadline_judgment(
+    value: str,
+    *,
+    document_bound: bool = False,
+) -> bool:
+    """Detect role-reversed authority and statutory-deadline judgments.
+
+    The same semantic family is used for planner targets and rendered lawyer
+    questions.  This prevents a nominalized unsafe target from surviving planning
+    and later being rendered into a slightly different question that escapes the
+    online guard.  Recorded wording in a contract, authorization or official
+    document remains an observable fact and is deliberately excluded.
+    """
+
+    if document_bound or _document_binds_authority_or_deadline(value):
+        return False
+    focus = re.sub(r"\s+", "", value).rstrip("？?。.!！；;,，：:")
+    authority_actor = (
+        r"(?:法院|仲裁庭|仲裁机构|公安机关|检察院|行政机关|监管机关|监管部门|"
+        r"财政部门|采购人|招标方|政府部门|主管部门|执法机关)"
+    )
+    return bool(
+        re.search(
+            r"(?:是否|有无|能否).{0,18}(?:有权|有.{0,12}(?:权限|职权|权力)|"
+            r"(?:具有|具备|享有|拥有).{0,12}(?:权限|职权|权力))",
+            focus,
+        )
+        or re.search(
+            authority_actor
+            + r".{0,28}(?:法定)?(?:处理|审查|调查|核实|决定|裁决|执法)?"
+            r"(?:权限|职权|权力)(?:范围|边界|依据)?(?:是什么)?$",
+            focus,
+        )
+        or re.search(
+            r"(?:是否|有无).{0,18}(?:在|符合|超过|早于|晚于)?"
+            r"(?:法定|法律规定|规定的).{0,8}(?:期限|时限)",
+            focus,
+        )
+        or re.search(
+            r"(?:诉讼时效|除斥期间).{0,10}(?:是否)?(?:届满|经过|过期)",
+            focus,
+        )
+    )
 
 
 def has_excessive_phrase_repetition(value: str) -> bool:
@@ -403,7 +504,9 @@ def factual_target_question_safety_violations(fact_id: str, label: str) -> list[
         r"(?:是否存在|有无).{0,12}(?:第三方|证人).{0,8}"
         r"(?:能|可以)证明.{0,8}(?:真实|真实性)",
     )
-    if any(re.search(pattern, label) for pattern in legal_judgment_patterns):
+    if _requests_authority_or_deadline_judgment(label) or any(
+        re.search(pattern, label) for pattern in legal_judgment_patterns
+    ):
         return ["legal_or_evidentiary_judgment"]
     # A small instruction model sometimes serializes an otherwise atomic factual
     # target as the exact client-facing question (for example, “您实际工作的单位名称
@@ -647,100 +750,9 @@ def normalize_policy_envelope(
         changes.append("normalize_terminal_target_to_session")
         normalized.action = action.model_copy(update={"target_id": None, "target_type": "session"})
         action = normalized.action
-    # Small instruction models often append an illustrative “例如……” sentence to
-    # an otherwise atomic question.  The example adds no requested attribute and can
-    # bias the simulated client toward facts the lawyer supplied.  Remove only a
-    # clearly delimited illustrative suffix, retain the model's original target and
-    # first question verbatim, and accept the projection only if the ordinary quality
-    # contract then passes.  This is interface normalization, not target selection.
-    if action.action_type in {"ask", "clarify", "verify", "summarize"}:
-        illustrative = re.split(
-            r"(?<=[？?。；;，,])\s*(?:例如|比如|包括|举例(?:来说)?|譬如)[，,:：]?",
-            action.content.strip(),
-            maxsplit=1,
-        )
-        if len(illustrative) == 1:
-            illustrative = re.split(
-                r"(?<=[？?])\s*具体(?:包括|例如|可以包括).*$",
-                action.content.strip(),
-                maxsplit=1,
-            )
-        if len(illustrative) == 2:
-            projected_content = illustrative[0].strip().rstrip(" ，,；;。")
-            projected = action.model_copy(update={"content": projected_content})
-            if projected_content and not action_question_quality_violations(projected):
-                changes.append("drop_illustrative_question_suffix")
-                normalized.action = projected
-                action = normalized.action
-        # Surface-question failures remain policy failures.  The health gate below
-        # returns their exact violations to the same frozen lawyer for a bounded
-        # rewrite on the same target.  Do not synthesize a label-shaped generic
-        # question here: that would make deterministic infrastructure, rather than
-        # the sampled policy, author the behaviour being compared and can erase
-        # relational meaning such as payer/recipient direction.
-        #
-        # There is one narrower representation case: the frozen planner may expose
-        # two explicitly named attributes in one visible target while the policy
-        # asks both in a compound surface question.  The target choice is already
-        # fixed (and is shared by every comparison arm), so projecting that failed
-        # surface to one *model-named* atomic unit does not choose a new topic.  It
-        # merely realizes the single-question interface promised to the client.
-        # Apply this only when the sampled surface actually fails for multiplicity,
-        # only to a current visible target, and only when the chosen unit is visibly
-        # aligned with the model's own content/expected-information.  All ordinary
-        # question and target-alignment checks still run on the result.
-        current_target = current.get(action.target_id or "")
-        surface_violations = action_question_quality_violations(action)
-        if current_target is not None and "multiple_primary_questions" in surface_violations:
-            atomic_units = visible_target_atomic_units(current_target.label)
-            model_surface = f"{action.content}\n{action.expected_information}"
-            aligned_units = [
-                unit
-                for unit in atomic_units
-                if factual_target_is_question_safe(current_target.fact_id, unit)
-                and _alignment_unit_matches(unit, model_surface)
-            ]
-            if len(atomic_units) > 1 and aligned_units:
-                # Preserve the sampled policy's emphasis: when it mentioned more
-                # than one visible unit, use the one appearing first in its surface
-                # rather than a configured/domain-specific priority.
-                def _surface_position(unit: str) -> tuple[int, int]:
-                    compact_surface = _alignment_text(model_surface)
-                    compact_unit = _alignment_text(unit)
-                    positions = [
-                        compact_surface.find(value)
-                        for value in (compact_unit, *_alignment_bigrams(compact_unit))
-                        if compact_surface.find(value) >= 0
-                    ]
-                    position = min(positions) if positions else len(compact_surface)
-                    return position, atomic_units.index(unit)
-
-                selected_unit = min(aligned_units, key=_surface_position)
-                rendered = safe_factual_question_surface(
-                    current_target.fact_id,
-                    selected_unit,
-                    target_kind=current_target.target_kind,
-                )
-                if rendered is not None:
-                    surface_label, content = rendered
-                    projected = action.model_copy(
-                        update={
-                            "expected_information": surface_label,
-                            "content": content,
-                        }
-                    )
-                    if (
-                        not action_question_quality_violations(projected)
-                        and not action_target_alignment_violations(
-                            projected, current_target.label
-                        )
-                    ):
-                        changes.append(
-                            "project_compound_surface_to_visible_atomic_unit:"
-                            f"{current_target.fact_id}:{selected_unit}"
-                        )
-                        normalized.action = projected
-                        action = normalized.action
+    # Do not rewrite stylistically weak or compound questions here.  They are valid
+    # sampled lawyer behaviour and must remain observable to reward/contrast scoring;
+    # only schema and state-transport defects belong in this normalizer.
     # Runtime-created targets use a label-derived canonical ID.  The policy still
     # chooses the missing factual dimension and its visible label; a misleading
     # English join key can no longer contradict the actual question or contaminate
@@ -784,7 +796,7 @@ def normalize_policy_envelope(
             if fact.status in {"unknown", "disputed"}
             and fact.fact_id not in state.asked_targets
             and fact.fact_id not in NON_SUBSTANTIVE_FACT_IDS
-            and not action_target_alignment_violations(action, fact.label)
+            and _target_alignment_is_confirmed(action, fact.label)
         ]
         if len(aligned_open_targets) == 1:
             visible_target_id = aligned_open_targets[0].fact_id
@@ -852,7 +864,7 @@ def exhausted_visible_target_surface_projection(
         target is None
         or target.status not in {"unknown", "disputed"}
         or target.fact_id in state.asked_targets
-        or action_target_alignment_violations(action, target.label)
+        or not _target_alignment_is_confirmed(action, target.label)
     ):
         return None
     rendered = safe_factual_question_surface(
@@ -962,7 +974,9 @@ def policy_health_violations(envelope: PolicyEnvelope, state: ConsultationState)
         ("expected_information", action.expected_information),
     ):
         if has_excessive_phrase_repetition(field_value):
-            violations.append(f"action_metadata_excessive_phrase_repetition:{field_name}")
+            violations.append(
+                f"action_metadata_excessive_phrase_repetition:{field_name}"
+            )
     visible_text = "\n".join(
         str(fact.value or "")
         for fact in state.facts
@@ -973,22 +987,22 @@ def policy_health_violations(envelope: PolicyEnvelope, state: ConsultationState)
         if anchor not in visible_text:
             violations.append(f"unseen_specific_numeric_anchor:{anchor}")
     target = action.target_id
-    provisional = dict(current)
+    projected = dict(current)
     for fact_id, observation in observations.items():
         if fact_id not in current or not (
             observation.status == "unknown" and current[fact_id].status != "unknown"
         ):
-            provisional[fact_id] = observation
+            projected[fact_id] = observation
     actionable_unresolved = {
         fact_id
-        for fact_id, fact in provisional.items()
+        for fact_id, fact in projected.items()
         if fact.status in {"unknown", "disputed"}
         and fact_id not in state.asked_targets
         and fact_id not in NON_SUBSTANTIVE_FACT_IDS
     }
     substantive = {
         fact_id
-        for fact_id, fact in provisional.items()
+        for fact_id, fact in projected.items()
         if fact.status in {"client_claimed", "corroborated", "disputed"}
         and fact_id not in NON_SUBSTANTIVE_FACT_IDS
     }
@@ -1028,7 +1042,7 @@ def policy_health_violations(envelope: PolicyEnvelope, state: ConsultationState)
                 # agreement may affect a right).  Treating every such phrase as
                 # an admission of a missing material fact rejects exactly the
                 # cautious memo rationale that a terminal action should use.
-                # Strong prospective wording remains blocked, as does an
+                # Strong forward-looking wording remains blocked, as does an
                 # explicit ``可能直接影响`` admission.
                 r"|(?:将|会).{0,6}(?:直接)?影响"
                 r"|可能.{0,2}直接影响"
@@ -1050,8 +1064,8 @@ def policy_health_violations(envelope: PolicyEnvelope, state: ConsultationState)
             for item in state.interactions
             if item.response_kind == "withheld"
             and item.target_id
-            and item.target_id in provisional
-            and provisional[item.target_id].status in {"unknown", "disputed"}
+            and item.target_id in projected
+            and projected[item.target_id].status in {"unknown", "disputed"}
         }
         collapses_withheld_into_unavailable = bool(
             open_withheld_targets
@@ -1099,16 +1113,61 @@ def policy_health_violations(envelope: PolicyEnvelope, state: ConsultationState)
             for item in state.interactions
         )
     ):
-        violations.append(f"repeated_action_target_without_content:{action.action_type}:{target}")
+        violations.append(
+            f"repeated_action_target_without_content:{action.action_type}:{target}"
+        )
 
     violations.extend(action_question_quality_violations(action))
-    if target and target in current:
-        violations.extend(action_target_alignment_violations(action, current[target].label))
+    # Validate the surface against the complete projected state, including a
+    # genuinely new runtime target carried by this envelope.  Validating only
+    # ``current`` let a newly created target pass here and then fail after the
+    # state patch was merged, forcing a post-policy fallback that could not be
+    # attributed to the frozen lawyer.  The same visible label must be checked at
+    # both boundaries.
+    if target and target in projected:
+        target_alignment_issues = action_target_alignment_violations(
+            action, projected[target].label
+        )
+        # A lack of character overlap is not proof of misalignment.  There is,
+        # however, positive evidence of a target switch when the question fails
+        # to match its declared target but clearly matches another visible fact.
+        # This state-aware comparison preserves the important closed-world guard
+        # without rejecting ordinary Chinese paraphrases that match no competing
+        # target (their actual information yield is measured by the client router).
+        if (
+            not target_alignment_issues
+            and not _target_alignment_is_confirmed(action, projected[target].label)
+            and (
+                # A runtime target's label and question are authored together in
+                # this envelope, so failure to align is a positive internal
+                # contradiction rather than uncertainty about a planner paraphrase.
+                (target in observations and target not in current)
+                or any(
+                    fact_id != target
+                    and fact.status in {"unknown", "disputed"}
+                    and _target_alignment_is_confirmed(action, fact.label)
+                    for fact_id, fact in projected.items()
+                )
+            )
+        ):
+            target_alignment_issues.append("question_target_misaligned")
+        violations.extend(target_alignment_issues)
     return violations
 
 
 def blocking_policy_health_violations(violations: list[str]) -> list[str]:
-    return [item for item in violations if not item.startswith("warning:")]
+    """Return only integrity/safety failures that make an action unusable.
+
+    Raw detector codes remain stable in persisted traces.  This central tier
+    classifier, rather than code rewriting at every detector, determines whether
+    the bounded contract-repair loop is allowed to intervene.
+    """
+
+    return [
+        item
+        for item in violations
+        if not item.startswith("warning:") and not policy_behavior_issue_is_soft(item)
+    ]
 
 
 def policy_repair_instruction(violations: list[str], state: ConsultationState) -> str:
@@ -1176,19 +1235,6 @@ def policy_repair_instruction(violations: list[str], state: ConsultationState) -
         if target_reselection_repair and withheld_target_ids
         else ""
     )
-    must_repair_question = any(
-        item == "multiple_primary_questions"
-        or item == "generic_or_abstract_question"
-        or item == "excessive_phrase_repetition"
-        or item == "question_requests_legal_judgment_from_client"
-        or item == "question_target_misaligned"
-        or item.startswith("question_target_unbound_coordinated_actors:")
-        or item.startswith("unsafe_new_fact_target:")
-        or item.startswith("unseen_specific_numeric_anchor:")
-        or item.startswith("action_metadata_excessive_phrase_repetition:")
-        or item.startswith("factual_target_missing_from_state:")
-        for item in violations
-    )
     atomic_question_repair = (
         "本轮只修复问题表面：保持原action.target_id，不改选其他事实。content必须改成"
         "恰好一个疑问句且全文最多一个问号；删除第二个问句、条件追问和例示性追问。"
@@ -1210,7 +1256,9 @@ def policy_repair_instruction(violations: list[str], state: ConsultationState) -
         "本轮只修复目标对齐：保持原action.target_id，并逐项保留目标标签中的事实主语、"
         "实际行为或状态、对象和事件阶段。不得把第三方是否实际介入替换成客户是否尝试"
         "联系第三方，也不得加入目标标签没有绑定的并列行为主体；只把目标标签所指的"
-        "同一可观察命题改写成自然问题。"
+        "同一可观察命题改写成自然问题。为避免连续同义改写仍发生语义漂移，"
+        "expected_information必须直接沿用当前online facts中该target_id对应的中文label，"
+        "content也必须以该label原文为事实核心，不得另换主语、事件、阶段或新增例子。"
         + (
             "上一稿自行加入而本轮必须从content、expected_information和reason中删除的"
             "未绑定并列主体是：" + "、".join(unbound_actor_pairs) + "。"
@@ -1220,18 +1268,17 @@ def policy_repair_instruction(violations: list[str], state: ConsultationState) -
         if "question_target_misaligned" in violations or unbound_actor_pairs
         else ""
     )
-    repair_mode = (
-        "这次是问题及目标对齐修复，不能改用final或abstain逃避。保留被拒问题中真正缺失、"
-        "可由客户回答的一个可观察属性，为它创建不与现有ID重复的新unknown，然后只问这一项。"
-        if must_repair_question and not available
-        else ""
-    )
+    # Exhausting the visible agenda does not prove a closed world, but it also
+    # must not force the small policy to invent a replacement target merely to
+    # avoid termination.  That former precedence error made every repair attempt
+    # repeat an answered/unavailable target and converted an otherwise ordinary
+    # adaptive stop into a deterministic fallback.  The model may still add a
+    # genuinely distinct observable dimension under the base policy contract.
     no_target_guidance = (
-        ""
-        if repair_mode
-        else "若无可选目标，先重新检查客户目标是否还存在另一项适用且会改变分析的事实维度；"
-        "确有则创建一个新的准确unknown并询问，否则已有实质事实时输出final"
-        '（content必须为""），不能重复旧目标或abstain。'
+        "若无可选目标，不得重复已问或不可得目标，也不得为了避免结束而虚构新目标。"
+        "只有当前可见对话确实出现另一项会改变分析、且与旧目标不同的可观察事实维度时，"
+        "才可创建一个新的准确unknown并只问该项；否则已有实质事实时必须输出final"
+        '（target_type=session、target_id=null、content=""），没有实质事实时输出abstain。'
     )
     action_repair_guidance = (
         (
@@ -1268,7 +1315,6 @@ def policy_repair_instruction(violations: list[str], state: ConsultationState) -
         f"{repeated_question_guidance}"
         f"{atomic_question_repair}"
         f"{alignment_question_repair}"
-        f"{repair_mode}"
         f"{action_repair_guidance}"
         f"{withheld_terminal_guidance}"
         "问题不能让客户给出法律规则、责任判断、程序要求或材料清单，不能包含多个问法，"
@@ -1652,6 +1698,10 @@ def action_question_quality_violations(action: StructuredAction) -> list[str]:
         )
         and not reports_an_actor_statement
     )
+    authority_entitlement_judgment = _requests_authority_or_deadline_judgment(
+        focus,
+        document_bound=asks_document_text,
+    )
     evidentiary_sufficiency_judgment = bool(
         re.search(r"(?:证据|材料).{0,12}(?:能否|是否能够|足以|可以).{0,8}证明", focus)
         or re.search(
@@ -1751,6 +1801,7 @@ def action_question_quality_violations(action: StructuredAction) -> list[str]:
         or asks_normative_instruction
         or asks_general_authority_practice
         or compliance_judgment
+        or authority_entitlement_judgment
         or evidentiary_sufficiency_judgment
         or instrument_validity_judgment
         or asks_client_legal_responsibility
@@ -2041,6 +2092,21 @@ def _alignment_bigrams(value: str) -> set[str]:
     return {value[index : index + 2] for index in range(max(0, len(value) - 1))}
 
 
+_ALIGNMENT_GENERIC_CHARACTERS = frozenset(
+    "的了是否有无请问您客户当前目前具体实际相关情况事实信息一项以及和或在于对与为由"
+)
+
+
+def _alignment_informative_characters(value: str) -> set[str]:
+    """Return order-insensitive content characters for Chinese paraphrase proof."""
+
+    return {
+        char
+        for char in _alignment_text(value)
+        if "\u4e00" <= char <= "\u9fff" and char not in _ALIGNMENT_GENERIC_CHARACTERS
+    }
+
+
 _TRAILING_BOOLEAN_OPERATOR = re.compile(r"(?:是否|有无|能否|可否)$")
 
 
@@ -2129,15 +2195,33 @@ def _alignment_unit_matches(source: str, target: str) -> bool:
         return True
     left_bigrams = _alignment_bigrams(left)
     shared = left_bigrams & _alignment_bigrams(right)
-    return len(shared) >= 2 and len(shared) / max(1, len(left_bigrams)) >= 0.16
+    if len(shared) >= 2 and len(shared) / max(1, len(left_bigrams)) >= 0.16:
+        return True
+    # Chinese paraphrases often invert formal noun compounds ("犬只购买时间"
+    # versus "什么时候购买这只犬") or replace one relation noun while retaining
+    # the same actor/event/attribute anchors.  Character order then destroys
+    # bigrams even though the observable proposition is clear.  Require four
+    # non-functional anchors and substantial coverage on both surfaces; this is
+    # positive alignment evidence, not a fallback for generic keyword overlap.
+    left_chars = _alignment_informative_characters(source)
+    right_chars = _alignment_informative_characters(target)
+    shared_chars = left_chars & right_chars
+    return (
+        len(shared_chars) >= 4
+        and len(shared_chars) / max(1, len(left_chars)) >= 0.35
+        and len(shared_chars) / max(1, len(right_chars)) >= 0.25
+    )
 
 
-def action_target_alignment_violations(action: StructuredAction, target_label: str) -> list[str]:
-    """Reject a surface question that asks about a different subject than its target.
+def _explicit_target_alignment_violations(
+    action: StructuredAction, target_label: str
+) -> list[str]:
+    """Return only contradictions that the visible strings positively establish.
 
-    The check uses only the planner-approved visible label and model output.  It does
-    not select a topic or inspect hidden facts; it keeps policy choice and rendered
-    question on the same auditable action boundary.
+    Character overlap can establish that two surfaces are related, but its absence
+    cannot establish that a natural Chinese paraphrase changed topic.  This helper
+    therefore contains only directional actor/stage mutations that can be proved
+    from the question and the visible target label themselves.
     """
 
     if action.action_type not in {"ask", "clarify", "verify", "summarize"}:
@@ -2206,12 +2290,29 @@ def action_target_alignment_violations(action: StructuredAction, target_label: s
             + "+"
             + coordinated_institution.group("right")
         ]
+    return []
+
+
+def _target_alignment_is_confirmed(action: StructuredAction, target_label: str) -> bool:
+    """Whether visible text positively confirms an aligned surface.
+
+    This positive predicate is used only by deterministic representation helpers
+    that may rebind or project a model action.  It is deliberately stricter than
+    the execution health boundary: infrastructure may alter an action only with
+    positive evidence, while a sampled natural paraphrase is not rejected merely
+    because a character n-gram heuristic cannot prove equivalence.
+    """
+
+    if action.action_type not in {"ask", "clarify", "verify", "summarize"}:
+        return False
+    if _explicit_target_alignment_violations(action, target_label):
+        return False
     target = _alignment_text(target_label)
     question = _alignment_text(action.content)
     if len(target) < 4 or len(question) < 4:
-        return []
+        return False
     if target in question or question in target:
-        return []
+        return True
     # Formal investigation plans often name a temporal attribute as
     # “X过程的具体时间”, while a natural client question asks “什么时候开始X”.
     # The event anchor and the requested attribute are identical even though
@@ -2227,7 +2328,7 @@ def action_target_alignment_violations(action: StructuredAction, target_label: s
         and _alignment_text(temporal_anchor) in question
         and re.search(r"(?:何时|什么时候|哪天|哪一日|具体时间|时间是)", action.content)
     ):
-        return []
+        return True
     # Likewise, “X行为的具体情况” and “X的具体情况怎样” are the same
     # observable event-detail target.  Require a substantive event anchor and an
     # explicit detail interrogative so this cannot license an unrelated topic.
@@ -2242,7 +2343,7 @@ def action_target_alignment_violations(action: StructuredAction, target_label: s
         and normalized_detail_anchor in question
         and re.search(r"(?:具体情况|具体细节|具体内容|怎样|如何|哪些|什么)", action.content)
     ):
-        return []
+        return True
     # Chinese consultation questions naturally replace the planner's formal
     # witness nouns with an ordinary-person paraphrase.  This is the same
     # observable proposition (whether another person saw or knew of the event),
@@ -2257,21 +2358,37 @@ def action_target_alignment_violations(action: StructuredAction, target_label: s
         or re.search(r"(?:目击者|知情人)", action.content)
     )
     if witness_target and witness_question:
-        return []
+        return True
     target_units = _alignment_target_units(target_label)
     if any(_alignment_unit_matches(unit, action.content) for unit in target_units):
-        return []
+        return True
     # A repair may deliberately ask just one attribute of a compound planner label.
     # Use expected_information only as a grounded semantic bridge: it must first
     # align with an explicitly visible target unit, and the question must in turn
     # align with it.  This accepts a genuine atomic projection without trusting
     # metadata that introduces a new topic.
     expected = action.expected_information.strip()
-    if expected and any(_alignment_unit_matches(unit, expected) for unit in target_units) and (
+    return bool(expected) and any(
+        _alignment_unit_matches(unit, expected) for unit in target_units
+    ) and (
         _alignment_unit_matches(expected, action.content)
-    ):
+    )
+
+
+def action_target_alignment_violations(action: StructuredAction, target_label: str) -> list[str]:
+    """Return proven target contradictions, not failures of lexical proof.
+
+    Target identity and expected-information metadata are bound at the structured
+    action boundary.  The client router then evaluates the natural question alone,
+    without seeing that metadata, and any irrelevant question earns no new fact.
+    Consequently, an unconfirmed paraphrase is ordinary policy quality to be
+    scored, whereas a positively detected actor or event-stage mutation is a
+    protocol defect and remains blocking.
+    """
+
+    if action.action_type not in {"ask", "clarify", "verify", "summarize"}:
         return []
-    return ["question_target_misaligned"]
+    return _explicit_target_alignment_violations(action, target_label)
 
 
 def _question_focus(value: str) -> str:
@@ -2462,6 +2579,46 @@ def _requested_fact_categories(value: str) -> set[str]:
             for marker in markers
         )
     }
+    if len(found) > 1 and re.search(
+        r"(?:是否|有无|有没有)(?:已经|已|实际|曾经|曾)?.{0,24}"
+        r"(?:记录|凭证|报告|材料|证据).{0,28}(?:佐证|证明|显示|反映)"
+        r".{0,28}(?:行为|事实|情况|经过|结果)(?:[？?。.]|$)",
+        scan_value.strip(),
+    ):
+        # “是否有一份记录可佐证某行为” requests the existence of one
+        # evidentiary object.  The conduct named after 佐证/证明 describes that
+        # object's probative topic; it is not a second answer dimension.  Treating
+        # the document and its topic as two questions caused valid atomic evidence
+        # inquiries to exhaust all model repairs.
+        return set()
+    if "reason" in found and re.search(
+        r"依据(?:何种|什么|哪种)?(?:具体)?(?:方式|方法|公式|口径)"
+        r"(?:.{0,8}(?:参数|要素|系数|基数|费率))?.{0,12}(?:计算|计费)",
+        scan_value,
+    ):
+        # In “依据何种具体方法和参数进行计算”, ``依据`` is the
+        # prepositional head of one calculation-method proposition; it does not
+        # request a second, free-standing reason.  Keep genuine two-slot requests
+        # such as “收费依据和计算方法分别是什么” compound because the coordinated
+        # noun ``依据`` is not followed directly by the governing method phrase.
+        found.discard("reason")
+    if (
+        "amount" in found
+        and not any(
+            marker in scan_value
+            for marker in ("金额", "数额", "价格", "价值", "估值", "比例", "份额")
+        )
+        and re.search(
+            r"(?:收取|征收|缴纳|支付).{0,12}(?:费用|收费).{0,24}"
+            r"(?:依据|政策|文件|通知|项目|主体)",
+            scan_value,
+        )
+    ):
+        # Here ``费用`` names the charged object whose basis/document/item is
+        # requested; it is not a request for a numeric amount.  Retaining an
+        # ``amount`` category turned one legal-basis proposition into a false
+        # compound while genuine “费用金额和时间” bundles remain detectable.
+        found.discard("amount")
     if len(found) > 1 and re.search(
         r"(?:是否|有无|有没有)(?:已经|已|实际|曾经|曾)?.{0,48}"
         r"(?:作出|给出|发出|收到|获得)?(?:答复|回复|回应)(?:过|了)?"
@@ -2729,6 +2886,21 @@ def _requested_fact_categories(value: str) -> set[str]:
             scan_value,
         )
     ):
+        found.discard("document")
+    if (
+        "document" in found
+        and len(found) > 1
+        and re.search(
+            r"(?:文件|材料|合同|协议|通知书|决定书|判决书|裁定书|报告|"
+            r"记录|凭证).{0,20}(?:载明|写明|注明|记载).{0,32}"
+            r"(?:项目|依据|时间|日期|金额|数额|内容|条款|主体)",
+            scan_value,
+        )
+    ):
+        # The document is the visible source of the requested recorded attribute,
+        # not an additional answer dimension.  Other coordinated attributes stay
+        # in ``found`` and still trigger the compound-question guard (for example,
+        # a receipt's amount *and* date).
         found.discard("document")
     if (
         "document" in found

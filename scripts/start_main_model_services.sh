@@ -57,7 +57,7 @@ service_lock_path="${service_lock_dir}/main_model_services.lock"
 mkdir -p "${service_lock_dir}"
 exec 9>"${service_lock_path}"
 if ! flock -n 9; then
-    echo "Another LegalSkillGuard model-service check/start is already in progress." >&2
+    echo "Another LegalSkillEvolve model-service check/start is already in progress." >&2
     exit 1
 fi
 

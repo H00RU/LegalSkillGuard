@@ -122,6 +122,14 @@ CLIENT_DISCLOSURE_SIGNALS_SCHEMA: dict[str, object] = {
 }
 
 
+CLIENT_ROUTE_STRUCTURE_REPAIR_INSTRUCTION = (
+    "上一输出结构或字段关系无效。仅返回符合给定schema的完整JSON对象。"
+    "fact_ids为空时selected_relation必须为not_answer；"
+    "selected_relation为direct_answer、partial_answer或premise_correction时，"
+    "fact_ids必须且只能包含一个候选编号。"
+)
+
+
 EVENT_CONCEPT_PATTERNS: dict[str, tuple[str, ...]] = {
     "purchase": ("购买", "购房", "买房", "购置"),
     "property_registration": (
@@ -293,10 +301,11 @@ def client_fact_attribute_sufficiency_violations(
 
     This is deliberately not a second semantic router.  The checks neither rank
     facts nor recover a match after the model returns none.  They only verify
-    literal evidence for seven high-precision attribute forms whose absence
+    literal evidence for eight high-precision attribute forms whose absence
     cannot answer the question: formal acceptance, registered ownership,
     completion of every questionnaire item, itemised amounts, an application
-    channel, a legal/authorisation basis, and an identified target audience.
+    channel, a legal/authorisation basis, authority status, and an identified
+    target audience.
     """
 
     query = re.sub(r"\s+", "", question)
@@ -369,6 +378,17 @@ def client_fact_attribute_sufficiency_violations(
     )
     if asks_legal_basis and not states_legal_basis:
         violations.append("legal_basis_not_stated")
+
+    asks_authority_status = re.search(
+        r"(?:是否|有无).{0,12}(?:有权|有权限|"
+        r"(?:具有|具备|享有|拥有).{0,12}(?:权限|权力|职权))",
+        query,
+    )
+    states_authority_status = re.search(
+        r"(?:有权|无权|权限|授权|职权|职责范围)", belief
+    )
+    if asks_authority_status and not states_authority_status:
+        violations.append("authority_status_not_stated")
 
     asks_target_audience = bool(
         re.search(
@@ -522,22 +542,19 @@ class ClientSimulator:
         rows = []
         for fact in facts:
             fact_id = str(fact["fact_id"])
-            if fact_id.startswith("O"):
-                status = "开场已公开"
-            elif fact_id in self.disclosed_fact_ids:
-                status = "此前已披露"
-            else:
-                status = "客户知道但尚未披露"
-            rows.append(f"- {fact_id} [{status}]：{fact['client_belief']}")
+            source = "开场陈述" if fact_id.startswith("O") else "客户有限认知"
+            rows.append(f"- {fact_id} [{source}]：{fact['client_belief']}")
         system = self.prompt_template.format(
             persona_id=str(self.persona.get("persona_id") or ""),
             persona_who=localized(self.persona.get("who")),
             persona_voice=localized(self.persona.get("voice")),
             facts_block="\n".join(rows),
         )
-        # Deliberately omit dialogue history.  Generated lawyer questions must be
-        # self-contained; irrelevant preceding turns may not alter what proposition
-        # the same current question asks or which finite fact answers it.
+        # Deliberately omit dialogue history and disclosure state. Generated lawyer
+        # questions must be self-contained; neither irrelevant preceding turns nor
+        # another fact's disclosure may alter which fixed client belief answers the
+        # same current question. The state machine classifies a selected belief as
+        # new, repeated, or opening information only after this semantic routing.
         return [
             {"role": "system", "content": system},
             {"role": "user", "content": f"律师本轮问题：{lawyer_question.strip()}"},
@@ -597,7 +614,7 @@ class ClientSimulator:
                 messages.append(
                     {
                         "role": "user",
-                        "content": "上一输出结构无效。仅返回符合给定schema的完整JSON对象。",
+                        "content": CLIENT_ROUTE_STRUCTURE_REPAIR_INSTRUCTION,
                     }
                 )
             attempt_generation = self.generation
@@ -634,9 +651,7 @@ class ClientSimulator:
             self.last_selection_attempts.append(response.content)
             selection = parse_fact_selection_decision(response.content, allowed_fact_ids)
             if selection is None:
-                repair_instruction = (
-                    "上一输出结构无效。仅返回符合给定schema的完整JSON对象。"
-                )
+                repair_instruction = CLIENT_ROUTE_STRUCTURE_REPAIR_INSTRUCTION
                 continue
             if not selection.fact_ids:
                 break

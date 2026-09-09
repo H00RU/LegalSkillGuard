@@ -1,28 +1,29 @@
-schema_version: 2
-design: balanced_sequential_embedded_skill_blocks
-status: frozen_for_128_case_embedded_design
+schema_version: 3
+design: balanced_sequential_skill_accumulation_blocks
+status: frozen_for_128_case_direct_skill_accumulation
 random_seed: 20260827
 training_cases: 128
 training_batches: 8
 cases_per_batch: 16
-candidate_validation:
-  mode: embedded_next_training_block
-  cluster_unit: case_id
-  shared_control_per_case: true
+skill_accumulation:
+  mode: source_grounded_direct_admission
   first_source_batch: training_batch_01
-  last_validation_batch: training_batch_08
-  final_batch_candidate_policy: no_candidate_generation
+  final_source_batch: training_batch_08
+  effect_assessment: prequential_library_level_shadow
+  maintenance_interval_blocks: 2
+  final_batch_generates_skills: true
 design_notes:
   - 八批均为等预算顺序经验块，不是按难度从低到高安排的课程学习。
-  - 128案全部属于训练流程且每案只归属一个经验块；不再保留固定18案开发验收集。
-  - 第二至第八批的正常K=4轨迹内嵌新候选或上一块仍待累计的候选：领域候选只进入同领域案件，通用候选按冻结顺序分摊其余案件；被分配案件保留共享对照，空余轨迹继续探索，不另跑验收对话，教师不可见该批隐藏事实。
-  - 第八批强制处理全部剩余候选并冻结主技能库；不再调用教师产生无法前瞻验证的新候选。
+  - 128案全部属于训练流程且每案只归属一个经验块；不保留固定开发验收集，也不为单个候选占用K=4轨迹臂。
+  - 每批K=4均在同一个批首技能库下独立探索；教师从完整组内差异中提出0至3个通用或领域技能。
+  - 候选只要通过结构、来源、泄漏、法律安全、去重和提示容量硬门，就在本批结束时直接加入工作库，从下一批起对所有适用轨迹生效。
+  - 每两批输出一次库级维护报告；效果通过下一批固定prequential空库影子和最终外测在库级评估，不以单个候选的一次小样本收益决定是否入库。
+  - 第八批仍可使用最后16案生成技能，随后冻结完整工作库并仅在官方外测检验整体效果。
   - 每批16案覆盖13至14个法域、至少15个最高法来源页，同一来源页每批最多2案；各批事实量和新旧来源比例近似均衡。
-  - 每案采用一个预声明人格，每批四人格各4案。人格是环境压力条件，不把同案四人格交叉当作新增训练样本。
-  - 候选从下一批开始作为固定会话文档真实暴露；安全正向但暴露覆盖不足者至多累计3个连续未见块，保留的技能从决策后的下一批起进入正式累积库。
+  - 128案训练、后一块自然使用与块级prequential观察统一使用合作型P_WD；客户如实回答已匹配事实，使训练差异归因于律师策略和技能文档。四人格只用于技能库冻结后的官方外测及预声明种子稳健性分析。
+  - 新技能从下一批开始作为固定会话文档真实暴露；来源批只提供学习证据，不把同批轨迹冒充技能效果证明。
 batches:
   - batch_id: training_batch_01
-    prospective_validation_for: null
     case_ids:
       - lsg_cn_0076
       - lsg_cn_0066
@@ -42,23 +43,22 @@ batches:
       - lsg_cn_0105
     persona_assignment:
       lsg_cn_0076: P_WD
-      lsg_cn_0066: P_WS
-      lsg_cn_0020: P_CS
-      lsg_cn_0021: P_CD
+      lsg_cn_0066: P_WD
+      lsg_cn_0020: P_WD
+      lsg_cn_0021: P_WD
       lsg_cn_0055: P_WD
-      lsg_cn_0080: P_WS
-      lsg_cn_0122: P_CS
-      lsg_cn_0033: P_CD
+      lsg_cn_0080: P_WD
+      lsg_cn_0122: P_WD
+      lsg_cn_0033: P_WD
       lsg_cn_0016: P_WD
-      lsg_cn_0117: P_WS
-      lsg_cn_0003: P_CS
-      lsg_cn_0061: P_CD
+      lsg_cn_0117: P_WD
+      lsg_cn_0003: P_WD
+      lsg_cn_0061: P_WD
       lsg_cn_0042: P_WD
-      lsg_cn_0058: P_WS
-      lsg_cn_0094: P_CS
-      lsg_cn_0105: P_CD
+      lsg_cn_0058: P_WD
+      lsg_cn_0094: P_WD
+      lsg_cn_0105: P_WD
   - batch_id: training_batch_02
-    prospective_validation_for: training_batch_01
     case_ids:
       - lsg_cn_0078
       - lsg_cn_0027
@@ -77,24 +77,23 @@ batches:
       - lsg_cn_0098
       - lsg_cn_0101
     persona_assignment:
-      lsg_cn_0078: P_WS
-      lsg_cn_0027: P_CS
-      lsg_cn_0120: P_CD
+      lsg_cn_0078: P_WD
+      lsg_cn_0027: P_WD
+      lsg_cn_0120: P_WD
       lsg_cn_0018: P_WD
-      lsg_cn_0056: P_WS
-      lsg_cn_0079: P_CS
-      lsg_cn_0092: P_CD
+      lsg_cn_0056: P_WD
+      lsg_cn_0079: P_WD
+      lsg_cn_0092: P_WD
       lsg_cn_0032: P_WD
-      lsg_cn_0034: P_WS
-      lsg_cn_0012: P_CS
-      lsg_cn_0010: P_CD
+      lsg_cn_0034: P_WD
+      lsg_cn_0012: P_WD
+      lsg_cn_0010: P_WD
       lsg_cn_0037: P_WD
-      lsg_cn_0073: P_WS
-      lsg_cn_0088: P_CS
-      lsg_cn_0098: P_CD
+      lsg_cn_0073: P_WD
+      lsg_cn_0088: P_WD
+      lsg_cn_0098: P_WD
       lsg_cn_0101: P_WD
   - batch_id: training_batch_03
-    prospective_validation_for: training_batch_02
     case_ids:
       - lsg_cn_0075
       - lsg_cn_0077
@@ -113,24 +112,23 @@ batches:
       - lsg_cn_0093
       - lsg_cn_0104
     persona_assignment:
-      lsg_cn_0075: P_CS
-      lsg_cn_0077: P_CD
+      lsg_cn_0075: P_WD
+      lsg_cn_0077: P_WD
       lsg_cn_0067: P_WD
-      lsg_cn_0017: P_WS
-      lsg_cn_0128: P_CS
-      lsg_cn_0049: P_CD
+      lsg_cn_0017: P_WD
+      lsg_cn_0128: P_WD
+      lsg_cn_0049: P_WD
       lsg_cn_0051: P_WD
-      lsg_cn_0126: P_WS
-      lsg_cn_0023: P_CS
-      lsg_cn_0030: P_CD
+      lsg_cn_0126: P_WD
+      lsg_cn_0023: P_WD
+      lsg_cn_0030: P_WD
       lsg_cn_0011: P_WD
-      lsg_cn_0005: P_WS
-      lsg_cn_0072: P_CS
-      lsg_cn_0086: P_CD
+      lsg_cn_0005: P_WD
+      lsg_cn_0072: P_WD
+      lsg_cn_0086: P_WD
       lsg_cn_0093: P_WD
-      lsg_cn_0104: P_WS
+      lsg_cn_0104: P_WD
   - batch_id: training_batch_04
-    prospective_validation_for: training_batch_03
     case_ids:
       - lsg_cn_0046
       - lsg_cn_0026
@@ -149,24 +147,23 @@ batches:
       - lsg_cn_0097
       - lsg_cn_0103
     persona_assignment:
-      lsg_cn_0046: P_CD
+      lsg_cn_0046: P_WD
       lsg_cn_0026: P_WD
-      lsg_cn_0064: P_WS
-      lsg_cn_0057: P_CS
-      lsg_cn_0081: P_CD
+      lsg_cn_0064: P_WD
+      lsg_cn_0057: P_WD
+      lsg_cn_0081: P_WD
       lsg_cn_0123: P_WD
-      lsg_cn_0007: P_WS
-      lsg_cn_0070: P_CS
-      lsg_cn_0116: P_CD
+      lsg_cn_0007: P_WD
+      lsg_cn_0070: P_WD
+      lsg_cn_0116: P_WD
       lsg_cn_0004: P_WD
-      lsg_cn_0006: P_WS
-      lsg_cn_0041: P_CS
-      lsg_cn_0089: P_CD
+      lsg_cn_0006: P_WD
+      lsg_cn_0041: P_WD
+      lsg_cn_0089: P_WD
       lsg_cn_0113: P_WD
-      lsg_cn_0097: P_WS
-      lsg_cn_0103: P_CS
+      lsg_cn_0097: P_WD
+      lsg_cn_0103: P_WD
   - batch_id: training_batch_05
-    prospective_validation_for: training_batch_04
     case_ids:
       - lsg_cn_0045
       - lsg_cn_0028
@@ -186,23 +183,22 @@ batches:
       - lsg_cn_0102
     persona_assignment:
       lsg_cn_0045: P_WD
-      lsg_cn_0028: P_WS
-      lsg_cn_0029: P_CS
-      lsg_cn_0019: P_CD
+      lsg_cn_0028: P_WD
+      lsg_cn_0029: P_WD
+      lsg_cn_0019: P_WD
       lsg_cn_0127: P_WD
-      lsg_cn_0053: P_WS
-      lsg_cn_0124: P_CS
-      lsg_cn_0110: P_CD
+      lsg_cn_0053: P_WD
+      lsg_cn_0124: P_WD
+      lsg_cn_0110: P_WD
       lsg_cn_0068: P_WD
-      lsg_cn_0014: P_WS
-      lsg_cn_0063: P_CS
-      lsg_cn_0001: P_CD
+      lsg_cn_0014: P_WD
+      lsg_cn_0063: P_WD
+      lsg_cn_0001: P_WD
       lsg_cn_0039: P_WD
-      lsg_cn_0114: P_WS
-      lsg_cn_0099: P_CS
-      lsg_cn_0102: P_CD
+      lsg_cn_0114: P_WD
+      lsg_cn_0099: P_WD
+      lsg_cn_0102: P_WD
   - batch_id: training_batch_06
-    prospective_validation_for: training_batch_05
     case_ids:
       - lsg_cn_0047
       - lsg_cn_0121
@@ -221,24 +217,23 @@ batches:
       - lsg_cn_0095
       - lsg_cn_0108
     persona_assignment:
-      lsg_cn_0047: P_WS
-      lsg_cn_0121: P_CS
-      lsg_cn_0022: P_CD
+      lsg_cn_0047: P_WD
+      lsg_cn_0121: P_WD
+      lsg_cn_0022: P_WD
       lsg_cn_0119: P_WD
-      lsg_cn_0084: P_WS
-      lsg_cn_0083: P_CS
-      lsg_cn_0091: P_CD
+      lsg_cn_0084: P_WD
+      lsg_cn_0083: P_WD
+      lsg_cn_0091: P_WD
       lsg_cn_0109: P_WD
-      lsg_cn_0031: P_WS
-      lsg_cn_0035: P_CS
-      lsg_cn_0062: P_CD
+      lsg_cn_0031: P_WD
+      lsg_cn_0035: P_WD
+      lsg_cn_0062: P_WD
       lsg_cn_0008: P_WD
-      lsg_cn_0040: P_WS
-      lsg_cn_0060: P_CS
-      lsg_cn_0095: P_CD
+      lsg_cn_0040: P_WD
+      lsg_cn_0060: P_WD
+      lsg_cn_0095: P_WD
       lsg_cn_0108: P_WD
   - batch_id: training_batch_07
-    prospective_validation_for: training_batch_06
     case_ids:
       - lsg_cn_0044
       - lsg_cn_0048
@@ -257,24 +252,23 @@ batches:
       - lsg_cn_0096
       - lsg_cn_0106
     persona_assignment:
-      lsg_cn_0044: P_CS
-      lsg_cn_0048: P_CD
+      lsg_cn_0044: P_WD
+      lsg_cn_0048: P_WD
       lsg_cn_0025: P_WD
-      lsg_cn_0065: P_WS
-      lsg_cn_0085: P_CS
-      lsg_cn_0052: P_CD
+      lsg_cn_0065: P_WD
+      lsg_cn_0085: P_WD
+      lsg_cn_0052: P_WD
       lsg_cn_0090: P_WD
-      lsg_cn_0112: P_WS
-      lsg_cn_0069: P_CS
-      lsg_cn_0015: P_CD
+      lsg_cn_0112: P_WD
+      lsg_cn_0069: P_WD
+      lsg_cn_0015: P_WD
       lsg_cn_0009: P_WD
-      lsg_cn_0038: P_WS
-      lsg_cn_0074: P_CS
-      lsg_cn_0059: P_CD
+      lsg_cn_0038: P_WD
+      lsg_cn_0074: P_WD
+      lsg_cn_0059: P_WD
       lsg_cn_0096: P_WD
-      lsg_cn_0106: P_WS
+      lsg_cn_0106: P_WD
   - batch_id: training_batch_08
-    prospective_validation_for: training_batch_07
     case_ids:
       - lsg_cn_0043
       - lsg_cn_0024
@@ -293,22 +287,22 @@ batches:
       - lsg_cn_0100
       - lsg_cn_0107
     persona_assignment:
-      lsg_cn_0043: P_CD
+      lsg_cn_0043: P_WD
       lsg_cn_0024: P_WD
-      lsg_cn_0118: P_WS
-      lsg_cn_0054: P_CS
-      lsg_cn_0050: P_CD
+      lsg_cn_0118: P_WD
+      lsg_cn_0054: P_WD
+      lsg_cn_0050: P_WD
       lsg_cn_0082: P_WD
-      lsg_cn_0125: P_WS
-      lsg_cn_0111: P_CS
-      lsg_cn_0036: P_CD
+      lsg_cn_0125: P_WD
+      lsg_cn_0111: P_WD
+      lsg_cn_0036: P_WD
       lsg_cn_0013: P_WD
-      lsg_cn_0002: P_WS
-      lsg_cn_0071: P_CS
-      lsg_cn_0087: P_CD
+      lsg_cn_0002: P_WD
+      lsg_cn_0071: P_WD
+      lsg_cn_0087: P_WD
       lsg_cn_0115: P_WD
-      lsg_cn_0100: P_WS
-      lsg_cn_0107: P_CS
+      lsg_cn_0100: P_WD
+      lsg_cn_0107: P_WD
 
 coverage_requirements:
   cumulative_training_domains: 14
@@ -316,8 +310,4 @@ coverage_requirements:
   minimum_source_pages_per_batch: 15
   maximum_cases_from_one_source_page_per_batch: 2
   cases_must_appear_once: true
-  personas_per_batch:
-    P_WD: 4
-    P_WS: 4
-    P_CS: 4
-    P_CD: 4
+  training_persona: P_WD

@@ -336,6 +336,11 @@ def test_attribute_sufficiency_contract_covers_only_literal_requested_fields() -
             "legal_basis_not_stated",
         ),
         (
+            "招标方和财政部门是否有权处理该类质疑事项？",
+            "招标公司审查后维持了原中标结果。",
+            "authority_status_not_stated",
+        ),
+        (
             "您实际使用该标识时所针对的消费者群体是哪些？",
             "多个平台上的消费者和媒体已经用这句话指代特定款香水。",
             "target_audience_not_stated",
@@ -359,6 +364,10 @@ def test_attribute_sufficiency_contract_covers_only_literal_requested_fields() -
         (
             "决定的法律依据是什么？",
             "该决定依据某条例第十条作出。",
+        ),
+        (
+            "该机构是否有权处理这项申请？",
+            "授权文件载明该机构有权处理这类申请。",
         ),
         (
             "平台通过什么方式发送续费提醒？",

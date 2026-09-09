@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Preflight, run, resume, and freeze the LegalSkillGuard main experiment."""
+"""Preflight, run, resume, and freeze the LegalSkillEvolve main experiment."""
 
 from __future__ import annotations
 
@@ -120,8 +120,11 @@ def _execute_command(args: argparse.Namespace) -> None:
             "trajectory_files": len(list((root / "trajectories").rglob("*.json"))),
             "evaluation_files": len(list((root / "evaluations").glob("*.json"))),
             "teacher_proposals": len(list((root / "teacher").rglob("*.json"))),
-            "prospective_candidate_audits": len(
-                list((root / "prospective_audits").glob("*.json"))
+            "source_grounded_admission_reports": len(
+                list((root / "reports").glob("skill_admission_round_*.json"))
+            ),
+            "library_maintenance_reports": len(
+                list((root / "reports").glob("library_maintenance_*.json"))
             ),
             "training_complete": (root / "manifests/training_complete.json").is_file(),
             "external_test_complete": (root / "reports/external_test.json").is_file(),
@@ -195,7 +198,7 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     external = commands.add_parser(
         "external-test",
-        help="Run the frozen primary contrast and explanatory ablations on public cases",
+        help="Run the frozen no-library versus evolved-library contrast on public cases",
     )
     external.add_argument("--confirm", required=True, metavar=TEST_CONFIRMATION)
     sensitivity = commands.add_parser(

@@ -11,6 +11,7 @@ from legal_skill_guard.agent.stateful_policy import (
     POLICY_FALLBACK_REASONS,
     action_question_quality_violations,
     blocking_policy_health_violations,
+    policy_behavior_issue_is_soft,
     policy_health_violations,
 )
 from legal_skill_guard.data_visibility import find_online_payload_forbidden_fields
@@ -216,23 +217,6 @@ def trajectory_health_issues(
                         "initial_visible_state_coverage_not_persisted",
                         attempt.target_id,
                     )
-    if trajectory.status == "abstained" and trajectory.steps:
-        final_state = trajectory.steps[-1].state_after
-        substantive = [
-            fact
-            for fact in final_state.get("facts", [])
-            if fact.get("fact_id") not in NON_SUBSTANTIVE_FACT_IDS
-            and fact.get("status") in {"client_claimed", "corroborated", "disputed"}
-        ]
-        if substantive:
-            _record(
-                issues,
-                trajectory,
-                trajectory.steps[-1].turn,
-                "abstention_with_substantive_visible_state",
-                [fact.get("fact_id") for fact in substantive],
-            )
-
     visible_text = (
         trajectory.opening
         + "\n"
@@ -273,7 +257,6 @@ def trajectory_health_issues(
     opening_by_id = {str(fact.get("fact_id") or ""): fact for fact in opening_facts}
     disclosed_hidden_ids: set[str] = set()
     grounding_history: list[tuple[str, str]] = []
-    seen_questions: set[str] = set()
 
     for step in trajectory.steps:
         turn = step.turn
@@ -359,18 +342,13 @@ def trajectory_health_issues(
 
         question = step.rendered_question
         if question:
-            question_key = _normalized(question)
-            if question_key in seen_questions:
-                _record(issues, trajectory, turn, "exact_repeated_question", question)
-            seen_questions.add(question_key)
             if re.search(r"[a-z]+_[a-z_]+", question):
                 _record(issues, trajectory, turn, "snake_case_question", question)
-            if question.startswith("请补充一个尚未说明"):
-                _record(issues, trajectory, turn, "generic_fallback_question", question)
             for violation in action_question_quality_violations(
                 StructuredAction(action_type="ask", content=question)
             ):
-                _record(issues, trajectory, turn, violation, question)
+                if not policy_behavior_issue_is_soft(violation):
+                    _record(issues, trajectory, turn, violation, question)
 
         client_response = step.client_response
         if client_response is not None:
@@ -855,7 +833,7 @@ def trajectory_health_issues(
             grounding_history.append((question or "", client_response))
 
         for result in step.verifier_results:
-            if not result.passed:
+            if not result.passed and result.severity in {"error", "severe"}:
                 _record(
                     issues,
                     trajectory,
@@ -916,6 +894,106 @@ def trajectory_health_report(
             )
         )
     ]
+    behavior_warnings: list[dict[str, object]] = []
+    def add_behavior_warning(
+        trajectory: ResearchTrajectory,
+        seen_warning_keys: set[tuple[int, str]],
+        turn: int,
+        code: str,
+        detail: object,
+    ) -> None:
+        raw_code = str(code).removeprefix("warning:model_behavior:")
+        key = (turn, raw_code)
+        if key in seen_warning_keys:
+            return
+        seen_warning_keys.add(key)
+        behavior_warnings.append(
+            {
+                "code": raw_code,
+                "trajectory_id": trajectory.trajectory_id,
+                "turn": turn,
+                "detail": str(detail)[:1000],
+            }
+        )
+
+    for trajectory in trajectories:
+        seen_warning_keys: set[tuple[int, str]] = set()
+
+        if trajectory.status == "abstained" and trajectory.steps:
+            final_state = trajectory.steps[-1].state_after
+            substantive = [
+                fact
+                for fact in final_state.get("facts", [])
+                if fact.get("fact_id") not in NON_SUBSTANTIVE_FACT_IDS
+                and fact.get("status") in {"client_claimed", "corroborated", "disputed"}
+            ]
+            if substantive:
+                add_behavior_warning(
+                    trajectory,
+                    seen_warning_keys,
+                    trajectory.steps[-1].turn,
+                    "abstention_with_substantive_visible_state",
+                    [fact.get("fact_id") for fact in substantive],
+                )
+
+        seen_questions: set[str] = set()
+        for step in trajectory.steps:
+            for finding in [
+                *step.policy_health_violations,
+                *step.post_skill_health_violations,
+            ]:
+                if policy_behavior_issue_is_soft(finding):
+                    add_behavior_warning(
+                        trajectory,
+                        seen_warning_keys,
+                        step.turn,
+                        finding,
+                        step.rendered_question or finding,
+                    )
+            question = step.rendered_question
+            if question:
+                question_key = _normalized(question)
+                if question_key in seen_questions:
+                    add_behavior_warning(
+                        trajectory,
+                        seen_warning_keys,
+                        step.turn,
+                        "exact_repeated_question",
+                        question,
+                    )
+                seen_questions.add(question_key)
+                if question.startswith("请补充一个尚未说明"):
+                    add_behavior_warning(
+                        trajectory,
+                        seen_warning_keys,
+                        step.turn,
+                        "generic_fallback_question",
+                        question,
+                    )
+                for finding in action_question_quality_violations(
+                    StructuredAction(action_type="ask", content=question)
+                ):
+                    if policy_behavior_issue_is_soft(finding):
+                        add_behavior_warning(
+                            trajectory,
+                            seen_warning_keys,
+                            step.turn,
+                            finding,
+                            question,
+                        )
+            for result in step.verifier_results:
+                if not result.passed and result.severity == "warning":
+                    add_behavior_warning(
+                        trajectory,
+                        seen_warning_keys,
+                        step.turn,
+                        f"verifier_warning:{result.validator_id}",
+                        result.detail,
+                    )
+    behavior_warning_counts: dict[str, int] = {}
+    for warning in behavior_warnings:
+        code = str(warning["code"])
+        behavior_warning_counts[code] = behavior_warning_counts.get(code, 0) + 1
     safe_partial_plans = [
         {
             "trajectory_id": trajectory.trajectory_id,
@@ -968,6 +1046,10 @@ def trajectory_health_report(
         # penalized by the reward.  It is not a grounding/process corruption: keeping
         # it scoreable is necessary for the teacher to observe and improve the policy.
         "quality_diagnostics": {
+            "model_behavior_warning_count": len(behavior_warnings),
+            "model_behavior_warning_counts": dict(sorted(behavior_warning_counts.items())),
+            "model_behavior_warnings": behavior_warnings[:100],
+            "model_behavior_warnings_truncated": max(0, len(behavior_warnings) - 100),
             "client_semantic_repetition_no_new_information": len(semantic_repetitions),
             "planner_safe_partial_recovery": len(safe_partial_plans),
             "skill_repaired_pre_skill_proposal": len(repaired_pre_skill_proposals),

@@ -41,9 +41,9 @@ PREQUENTIAL_CURVE_METRICS: Final[tuple[str, ...]] = (
 )
 
 EMPTY_LIBRARY_METHOD: Final[str] = "control_no_library"
-CURRENT_LIBRARY_METHOD: Final[str] = "legal_skill_guard"
+CURRENT_LIBRARY_METHOD: Final[str] = "legal_skill_evolve"
 TRAINING_SENTINEL_METHODS: Final[frozenset[str]] = frozenset(
-    {"training_policy_sample", "candidate_without"}
+    {"training_policy_sample"}
 )
 IDENTITY_BASELINE_METHODS: Final[frozenset[str]] = frozenset(
     {*TRAINING_SENTINEL_METHODS, EMPTY_LIBRARY_METHOD, CURRENT_LIBRARY_METHOD}
@@ -51,7 +51,6 @@ IDENTITY_BASELINE_METHODS: Final[frozenset[str]] = frozenset(
 METHOD_COMPATIBLE_PAIRS: Final[frozenset[tuple[str, str]]] = frozenset(
     {
         ("training_policy_sample", "training_policy_sample"),
-        ("candidate_without", "candidate_without"),
         (CURRENT_LIBRARY_METHOD, EMPTY_LIBRARY_METHOD),
     }
 )
@@ -73,12 +72,6 @@ _INITIAL_INFRASTRUCTURE_IDENTITY_FIELDS: Final[tuple[str, ...]] = (
     "model_revision",
     "opening",
     "max_turns",
-    "initial_investigation_plan",
-    "planning_attempts",
-    "planning_safe_partial",
-    "initial_visible_state_coverage_attempts",
-    "initial_visible_state_covered_target_ids",
-    "initial_visible_state_coverage_token_usage",
 )
 
 _JUDGE_IDENTITY_FIELDS: Final[tuple[str, ...]] = (
@@ -278,7 +271,8 @@ def build_prequential_sentinel_report(
     reuses each current observation as its own empty-library baseline, yielding an
     explicit zero point without an unnecessary second rollout.  A non-empty curve
     point requires two distinct, method-compatible arms and fails closed on any
-    identity or pre-policy infrastructure drift.
+    identity or skill-independent infrastructure drift.  The frozen planner's
+    skill-mediated plan is part of the intervention and may differ.
     """
 
     if not sentinel_id.strip():

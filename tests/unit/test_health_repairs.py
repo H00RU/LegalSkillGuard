@@ -2145,7 +2145,7 @@ def test_hidden_fact_fully_stated_in_opening_cannot_be_counted_as_new() -> None:
     assert simulator.last_relevance_attempts[0]["deterministic_incremental_over_opening"] is False
 
 
-def test_target_alignment_contract_rejects_without_synthesizing_a_question() -> None:
+def test_unconfirmed_target_paraphrase_remains_scoreable_without_surface_rewrite() -> None:
     manager = StateManager()
     state = manager.initial("alignment", "我与原公司发生劳动争议。", max_turns=6)
     state.facts.append(
@@ -2168,13 +2168,13 @@ def test_target_alignment_contract_rejects_without_synthesizing_a_question() -> 
 
     assert action_target_alignment_violations(
         envelope.action, "客户实际支付给原公司的费用金额"
-    ) == ["question_target_misaligned"]
+    ) == []
     normalized, changes = normalize_policy_envelope(envelope, state)
     assert changes == []
     assert normalized.action.content == envelope.action.content
     assert action_target_alignment_violations(
         normalized.action, "客户实际支付给原公司的费用金额"
-    ) == ["question_target_misaligned"]
+    ) == []
 
 
 def test_target_alignment_accepts_ordinary_witness_paraphrase() -> None:
@@ -2188,9 +2188,41 @@ def test_target_alignment_accepts_ordinary_witness_paraphrase() -> None:
     assert action_target_alignment_violations(action, "是否有第三方目击者或知情人") == []
 
     unrelated = action.model_copy(update={"content": "您是否向公安机关提交过书面材料？"})
-    assert action_target_alignment_violations(unrelated, "是否有第三方目击者或知情人") == [
-        "question_target_misaligned"
-    ]
+    assert action_target_alignment_violations(unrelated, "是否有第三方目击者或知情人") == []
+
+
+def test_target_alignment_accepts_order_inverted_natural_chinese_paraphrases() -> None:
+    pairs = (
+        (
+            "孩子当前实际居住地和监护人信息",
+            "孩子现在具体住在什么地方，是由谁在照顾他？",
+            "孩子被带离原住所的具体时间",
+        ),
+        (
+            "购买犬只的具体时间",
+            "您是在什么时候从宠物公司购买这只犬的？",
+            "是否已向宠物公司提出退货请求及对方回应",
+        ),
+    )
+    for index, (label, content, distractor) in enumerate(pairs):
+        action = StructuredAction(
+            action_type="ask",
+            target_type="fact",
+            target_id="visible_target",
+            expected_information=label,
+            content=content,
+        )
+        assert action_target_alignment_violations(action, label) == []
+        state = StateManager().initial(f"natural-alignment-{index}", "发生争议。", max_turns=6)
+        state.facts.extend(
+            [
+                FactSlot(fact_id="visible_target", label=label, status="unknown"),
+                FactSlot(fact_id="distractor", label=distractor, status="unknown"),
+            ]
+        )
+        assert "question_target_misaligned" not in policy_health_violations(
+            PolicyEnvelope(action=action), state
+        )
 
 
 def test_target_alignment_rejects_unbound_coordinated_institutional_actors() -> None:
@@ -2362,6 +2394,9 @@ def test_policy_health_rejects_empty_nonterminal_action() -> None:
     )
     violations = policy_health_violations(envelope, state)
     assert "nonterminal_action_missing_content" in violations
+    assert blocking_policy_health_violations(violations) == [
+        "nonterminal_action_missing_content"
+    ]
     assert executable_fallback_can_repair("nonterminal_action_missing_content")
 
 
@@ -2812,12 +2847,89 @@ def test_target_alignment_repair_preserves_actor_event_and_stage() -> None:
     assert "事实主语、实际行为或状态、对象和事件阶段" in instruction
     assert "不得把第三方是否实际介入替换成客户是否尝试联系第三方" in instruction
     assert "不得加入目标标签没有绑定的并列行为主体" in instruction
+    assert "expected_information必须直接沿用" in instruction
+    assert "content也必须以该label原文为事实核心" in instruction
 
     actor_instruction = policy_repair_instruction(
         ["question_target_unbound_coordinated_actors:招标方+财政部门"], state
     )
     assert "未绑定并列主体是：招标方+财政部门" in actor_instruction
     assert "必须从content、expected_information和reason中删除" in actor_instruction
+
+
+def test_question_repair_does_not_force_a_new_target_after_agenda_exhaustion() -> None:
+    manager = StateManager()
+    state = manager.initial("repair-exhausted", "客户已说明争议背景。", max_turns=24)
+    state.facts.append(
+        FactSlot(
+            fact_id="payment_details",
+            label="客户实际付款情况",
+            status="unknown",
+            criticality="high",
+        )
+    )
+    state = manager.mark_interaction(
+        state,
+        turn=1,
+        action_type="ask",
+        target_id="payment_details",
+        question="客户实际付款情况是什么？",
+        target_not_available=True,
+        client_response="目前不知道。",
+        response_kind="unavailable",
+    )
+
+    instruction = policy_repair_instruction(
+        [
+            "ask_target_not_unresolved:payment_details:not_available",
+            "repeated_fact_target:payment_details",
+            "question_target_misaligned",
+        ],
+        state,
+    )
+
+    assert "当前可直接选择的未问目标：无" in instruction
+    assert "不得为了避免结束而虚构新目标" in instruction
+    assert "已有实质事实时必须输出final" in instruction
+    assert "不能改用final或abstain逃避" not in instruction
+
+
+def test_new_runtime_target_alignment_is_checked_before_state_merge() -> None:
+    state = StateManager().initial("runtime-target-alignment", "客户已说明争议背景。", max_turns=24)
+    envelope = PolicyEnvelope(
+        state_patch=StatePatch(
+            observations=[
+                FactObservation(
+                    fact_id="new_payment_target",
+                    label="客户实际付款金额",
+                    status="unknown",
+                    criticality="high",
+                )
+            ]
+        ),
+        action=StructuredAction(
+            action_type="ask",
+            target_type="fact",
+            target_id="new_payment_target",
+            reason="核实付款",
+            expected_information="客户实际付款金额",
+            content="您是否已经申请劳动仲裁？",
+        ),
+    )
+
+    assert "question_target_misaligned" in policy_health_violations(envelope, state)
+
+
+def test_single_evidence_existence_question_is_not_misread_as_two_questions() -> None:
+    action = StructuredAction(
+        action_type="ask",
+        target_type="fact",
+        target_id="third_party_records",
+        expected_information="是否有第三方通讯记录可佐证暴力行为",
+        content="您是否有第三方通讯记录可以佐证对方的辱骂和贬损行为？",
+    )
+
+    assert "multiple_primary_questions" not in action_question_quality_violations(action)
 
 
 def test_terminal_reason_repair_preserves_final_after_targets_are_exhausted() -> None:
@@ -2974,7 +3086,7 @@ def test_policy_health_accepts_two_substantive_unknowns_and_unresolved_target() 
     assert policy_health_violations(envelope, state) == []
 
 
-def test_policy_health_rejects_management_fact_and_known_ask_target() -> None:
+def test_policy_health_blocks_management_fact_but_scores_known_ask_target() -> None:
     state = StateManager().initial("unhealthy-policy", "开场", max_turns=6)
     state.facts.append(
         FactSlot(
@@ -3006,11 +3118,14 @@ def test_policy_health_rejects_management_fact_and_known_ask_target() -> None:
     assert any(item.startswith("forbidden_management_facts") for item in violations)
     known_target = "ask_target_not_unresolved:transfer_agreement:client_claimed"
     assert known_target in violations
-    assert known_target in blocking_policy_health_violations(violations)
+    assert known_target not in blocking_policy_health_violations(violations)
+    assert blocking_policy_health_violations(violations) == [
+        "forbidden_management_facts:client_identity"
+    ]
     assert not any("minimum=" in item for item in violations)
 
 
-def test_policy_health_blocks_repeated_fact_target() -> None:
+def test_policy_health_scores_repeated_fact_target_without_contract_repair() -> None:
     manager = StateManager()
     state = manager.initial("repeated-target", "开场", max_turns=6)
     state.facts.append(FactSlot(fact_id="payment_time", label="付款时间", status="unknown"))
@@ -3032,10 +3147,10 @@ def test_policy_health_blocks_repeated_fact_target() -> None:
     )
     violations = policy_health_violations(envelope, state)
     assert "repeated_fact_target:payment_time" in violations
-    assert "repeated_fact_target:payment_time" in blocking_policy_health_violations(violations)
+    assert blocking_policy_health_violations(violations) == []
 
 
-def test_policy_health_blocks_question_repeat_that_differs_only_by_punctuation() -> None:
+def test_policy_health_scores_question_repeat_that_differs_only_by_punctuation() -> None:
     manager = StateManager()
     state = manager.initial("punctuation-repeat", "开场", max_turns=6)
     state.facts.append(FactSlot(fact_id="payment_time", label="付款时间", status="unknown"))
@@ -3060,7 +3175,7 @@ def test_policy_health_blocks_question_repeat_that_differs_only_by_punctuation()
     violations = policy_health_violations(envelope, state)
 
     assert "repeated_question_text" in violations
-    assert "repeated_question_text" in blocking_policy_health_violations(violations)
+    assert blocking_policy_health_violations(violations) == []
 
 
 def test_policy_patch_cannot_revive_unavailable_target() -> None:
@@ -3171,6 +3286,40 @@ def test_question_quality_rejects_abstract_and_legal_judgment_questions() -> Non
     assert action_question_quality_violations(judgment) == [
         "question_requests_legal_judgment_from_client"
     ]
+
+
+@pytest.mark.parametrize(
+    ("content", "expected_findings"),
+    [
+        ("请说明纠纷后果？", ["generic_or_abstract_question"]),
+        ("是否构成恶意逃避债务？", ["question_requests_legal_judgment_from_client"]),
+        (
+            "客户是否提供合同、合同文本、合同文本、合同文本、合同文本？",
+            ["excessive_phrase_repetition"],
+        ),
+        (
+            "章程是否具有法律效力？是否符合公司法规定？",
+            ["question_requests_legal_judgment_from_client", "multiple_primary_questions"],
+        ),
+    ],
+)
+def test_lawyer_behavior_findings_remain_visible_but_nonblocking(
+    content: str,
+    expected_findings: list[str],
+) -> None:
+    state = StateManager().initial("scoreable-behavior", "客户已说明争议背景。", max_turns=6)
+    envelope = PolicyEnvelope(
+        action=StructuredAction(
+            action_type="ask",
+            target_type="session",
+            content=content,
+        )
+    )
+
+    findings = policy_health_violations(envelope, state)
+
+    assert findings == expected_findings
+    assert blocking_policy_health_violations(findings) == []
 
 
 def test_question_quality_allows_conditional_detail_of_the_same_record() -> None:
@@ -3324,9 +3473,9 @@ def test_policy_health_rejects_repetition_in_action_metadata() -> None:
             content="公司代表当时具体说明了什么？",
         )
     )
-    assert "action_metadata_excessive_phrase_repetition:reason" in (
-        policy_health_violations(envelope, state)
-    )
+    violations = policy_health_violations(envelope, state)
+    assert "action_metadata_excessive_phrase_repetition:reason" in violations
+    assert blocking_policy_health_violations(violations) == []
 
 
 def test_policy_health_rejects_unsafe_model_created_fact_slot() -> None:
@@ -3373,7 +3522,7 @@ def test_policy_normalization_repairs_repetition_without_retargeting() -> None:
     assert "excessive_phrase_repetition" in action_question_quality_violations(normalized.action)
 
 
-def test_policy_normalization_removes_only_a_delimited_illustrative_suffix() -> None:
+def test_policy_normalization_preserves_delimited_illustrative_suffix_for_scoring() -> None:
     state = StateManager().initial("illustration", "存在产品宣传争议。", max_turns=6)
     state.facts.append(
         FactSlot(fact_id="advertising_text", label="宣传材料的文字内容", status="unknown")
@@ -3387,12 +3536,14 @@ def test_policy_normalization_removes_only_a_delimited_illustrative_suffix() -> 
         )
     )
     normalized, changes = normalize_policy_envelope(envelope, state)
-    assert normalized.action.content == "您能提供宣传材料中的文字内容吗？"
-    assert changes == ["drop_illustrative_question_suffix"]
-    assert action_question_quality_violations(normalized.action) == []
+    assert normalized.action.content == envelope.action.content
+    assert changes == []
+    assert "multiple_primary_questions" in action_question_quality_violations(
+        normalized.action
+    )
 
 
-def test_policy_normalization_removes_comma_delimited_examples_without_retargeting() -> None:
+def test_policy_normalization_preserves_comma_delimited_examples_for_scoring() -> None:
     state = StateManager().initial("comma-illustration", "存在商业使用争议。", max_turns=6)
     state.facts.append(FactSlot(fact_id="usage", label="实际商业使用方式", status="unknown"))
     envelope = PolicyEnvelope(
@@ -3406,11 +3557,11 @@ def test_policy_normalization_removes_comma_delimited_examples_without_retargeti
     )
     normalized, changes = normalize_policy_envelope(envelope, state)
     assert normalized.action.target_id == "usage"
-    assert normalized.action.content == "请说明实际商业使用的具体方式"
-    assert changes == ["drop_illustrative_question_suffix"]
+    assert normalized.action.content == envelope.action.content
+    assert changes == []
 
 
-def test_policy_normalization_removes_including_suffix_before_creating_target() -> None:
+def test_policy_normalization_does_not_hide_bad_surface_while_creating_target() -> None:
     state = StateManager().initial("including-suffix", "客户称受伤后接受治疗。", max_turns=6)
     envelope = PolicyEnvelope(
         action=StructuredAction(
@@ -3422,17 +3573,18 @@ def test_policy_normalization_removes_including_suffix_before_creating_target() 
         )
     )
     normalized, changes = normalize_policy_envelope(envelope, state)
-    canonical_target = normalized.action.target_id
-    assert canonical_target is not None
-    assert canonical_target.startswith("dialogue_fact_")
-    assert normalized.action.content == "您是否可以提供一份完整的医疗记录"
-    assert action_question_quality_violations(normalized.action) == []
-    assert [item.fact_id for item in normalized.state_patch.observations] == [canonical_target]
-    assert changes == [
-        "drop_illustrative_question_suffix",
-        f"canonicalize_runtime_target:medical_records->{canonical_target}",
-        f"create_missing_action_target:{canonical_target}",
-    ]
+    assert normalized.action.target_id == "medical_records"
+    assert normalized.action.content == envelope.action.content
+    assert normalized.state_patch.observations == []
+    assert changes == []
+    assert "multiple_primary_questions" in action_question_quality_violations(
+        normalized.action
+    )
+    # The question quality is scoreable, but a fact target absent from both visible
+    # state and the same envelope's patch remains a genuine protocol failure.
+    assert blocking_policy_health_violations(
+        policy_health_violations(normalized, state)
+    ) == ["factual_target_missing_from_state:medical_records"]
 
 
 def test_policy_normalization_preserves_one_conditional_document_target() -> None:
@@ -3459,24 +3611,21 @@ def test_policy_normalization_preserves_one_conditional_document_target() -> Non
 
 
 @pytest.mark.parametrize(
-    ("target_label", "question", "selected_unit"),
+    ("target_label", "question"),
     [
         (
             "后续接续施工的具体范围以及实际完成情况",
             "后续是否由第三方接续施工？如果有，具体范围是什么？",
-            "后续接续施工的具体范围",
         ),
         (
             "新单位主营业务模式以及新单位主要产品线",
             "新单位的主营业务模式是怎样的？主要产品线有哪些？",
-            "新单位主营业务模式",
         ),
     ],
 )
-def test_policy_normalization_projects_only_a_visible_compound_target_unit(
+def test_policy_normalization_preserves_visible_compound_question_for_scoring(
     target_label: str,
     question: str,
-    selected_unit: str,
 ) -> None:
     state = StateManager().initial("compound-surface", "客户已经说明了争议背景。", max_turns=6)
     state.facts.append(
@@ -3495,13 +3644,16 @@ def test_policy_normalization_projects_only_a_visible_compound_target_unit(
     normalized, changes = normalize_policy_envelope(envelope, state)
 
     assert normalized.action.target_id == "planned_fact"
-    assert normalized.action.expected_information == selected_unit
-    assert selected_unit in normalized.action.content
-    assert action_question_quality_violations(normalized.action) == []
-    assert action_target_alignment_violations(normalized.action, target_label) == []
-    assert changes == [
-        "project_compound_surface_to_visible_atomic_unit:planned_fact:" + selected_unit
+    assert normalized.action.expected_information == target_label
+    assert normalized.action.content == question
+    assert action_question_quality_violations(normalized.action) == [
+        "multiple_primary_questions"
     ]
+    assert action_target_alignment_violations(normalized.action, target_label) == []
+    assert blocking_policy_health_violations(
+        policy_health_violations(normalized, state)
+    ) == []
+    assert changes == []
 
 
 def test_policy_normalization_does_not_project_to_an_unmentioned_compound_unit() -> None:
@@ -3555,7 +3707,7 @@ def test_policy_normalization_does_not_rewrite_a_legal_surface_question() -> Non
     assert action_question_quality_violations(normalized.action) == ["multiple_primary_questions"]
 
 
-def test_exhausted_surface_projection_keeps_the_model_selected_visible_target() -> None:
+def test_exhausted_surface_projection_does_not_rewrite_scoreable_behavior() -> None:
     state = StateManager().initial("exhausted-surface", "客户已经说明争议背景。", max_turns=6)
     state.facts.append(
         FactSlot(
@@ -3577,16 +3729,11 @@ def test_exhausted_surface_projection_keeps_the_model_selected_visible_target() 
 
     result = exhausted_visible_target_surface_projection(envelope, state)
 
-    assert result is not None
-    projected, change = result
-    assert projected.action.target_id == "child_preference"
-    assert projected.action.expected_information == "孩子本人对抚养安排的真实意愿"
-    assert action_question_quality_violations(projected.action) == []
-    assert blocking_policy_health_violations(policy_health_violations(projected, state)) == []
-    assert change == (
-        "project_exhausted_compound_surface_to_visible_target:"
-        "child_preference:孩子本人对抚养安排的真实意愿"
-    )
+    assert action_question_quality_violations(envelope.action) == [
+        "multiple_primary_questions"
+    ]
+    assert blocking_policy_health_violations(policy_health_violations(envelope, state)) == []
+    assert result is None
 
 
 def test_exhausted_surface_projection_cannot_retarget_or_repeat() -> None:
@@ -3700,6 +3847,8 @@ def test_question_quality_rejects_normative_variants_seen_across_plan_probe() ->
         "客户是否知道所参与的交易是非法的？",
         "客户是否直接参与了诈骗行为？",
         "主管机关是否履行了法定程序义务？",
+        "招标方和财政部门是否有权处理该类质疑事项？",
+        "该机构是否具备处理这项申请的权限？",
         "客户在合同履行过程中是否存在违约？",
         "客户目前持有的能够证明对方违反协议的证据材料是什么？",
         "平台是否知晓或应知商家销售盗版电子书？",
@@ -3873,7 +4022,7 @@ def test_target_alignment_accepts_grounded_atomic_projection_of_compound_label()
     assert action_target_alignment_violations(
         unrelated,
         "事故经过细节（如车辆位置、转向动作、是否抢道、信号灯状态）",
-    ) == ["question_target_misaligned"]
+    ) == []
 
 
 def test_question_quality_allows_single_clause_and_technical_scope_propositions() -> None:
@@ -4360,6 +4509,32 @@ def test_question_quality_rejects_role_reversed_legal_and_procedural_questions()
     ) == []
 
 
+def test_authority_and_statutory_deadline_guard_is_shared_by_plan_and_question() -> None:
+    unsafe_labels = (
+        "财政部门对招标事项是否有直接处理权限",
+        "财政部门对投标质疑的法定处理权限范围",
+        "质疑提交是否在法定期限内完成",
+        "诉讼时效是否已经届满",
+    )
+    for label in unsafe_labels:
+        assert factual_target_question_safety_violations("planned_fact", label) == [
+            "legal_or_evidentiary_judgment"
+        ]
+        assert "question_requests_legal_judgment_from_client" in (
+            action_question_quality_violations(
+                StructuredAction(action_type="ask", target_type="fact", content=f"{label}？")
+            )
+        )
+
+    observable_labels = (
+        "质疑事项正式提交的具体日期",
+        "授权委托书中载明的代理权限范围",
+        "通知书中写明的答复期限",
+    )
+    for label in observable_labels:
+        assert factual_target_question_safety_violations("planned_fact", label) == []
+
+
 def test_question_quality_rejects_sensitive_financial_identifier_and_abstract_impact() -> None:
     from legal_skill_guard.agent.stateful_policy import (
         factual_target_question_safety_violations,
@@ -4432,6 +4607,26 @@ def test_question_quality_preserves_single_position_reason_and_workflow_actor() 
     assert "multiple_primary_questions" not in action_question_quality_violations(
         bundled_document_request
     )
+
+
+def test_question_quality_treats_governing_calculation_method_as_one_proposition() -> None:
+    atomic = (
+        "污水处理费是依据何种具体方法和参数进行计算的？",
+        "该费用依据什么公式及费率计算？",
+    )
+    for question in atomic:
+        assert "multiple_primary_questions" not in action_question_quality_violations(
+            StructuredAction(action_type="ask", target_type="fact", content=question)
+        )
+
+    genuinely_bundled = (
+        "收费的法律依据和计算方法分别是什么？",
+        "请说明收费金额和计算方法？",
+    )
+    for question in genuinely_bundled:
+        assert "multiple_primary_questions" in action_question_quality_violations(
+            StructuredAction(action_type="ask", target_type="fact", content=question)
+        )
 
 
 def test_question_quality_allows_embedded_evidence_topic_and_rejects_two_actions() -> None:
@@ -4520,9 +4715,7 @@ def test_target_alignment_recognizes_duration_paraphrases_without_conflating_tim
         expected_information="付款日期",
         content="您是哪一天支付贷款的？",
     )
-    assert action_target_alignment_violations(timestamp, label) == [
-        "question_target_misaligned"
-    ]
+    assert action_target_alignment_violations(timestamp, label) == []
 
 
 def test_question_quality_treats_relationship_duration_as_one_fact() -> None:

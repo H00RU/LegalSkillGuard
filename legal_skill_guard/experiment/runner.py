@@ -1,4 +1,4 @@
-"""One leakage-safe multi-turn LegalSkillGuard trajectory."""
+"""One leakage-safe multi-turn LegalSkillEvolve trajectory."""
 
 from __future__ import annotations
 
@@ -17,7 +17,6 @@ from legal_skill_guard.agent.state_manager import StateManager
 from legal_skill_guard.agent.stateful_policy import (
     atomic_factual_target_projection,
     blocking_policy_health_violations,
-    exhausted_visible_target_surface_projection,
     factual_target_question_safety_violations,
     normalize_policy_envelope,
     parse_policy_envelope,
@@ -25,7 +24,6 @@ from legal_skill_guard.agent.stateful_policy import (
     policy_repair_instruction,
     render_action,
     safe_factual_fallback,
-    visible_target_atomic_units,
 )
 from legal_skill_guard.data_visibility import Audience, assert_online_view_safe, project_case
 from legal_skill_guard.environment.client_response import (
@@ -45,7 +43,6 @@ from legal_skill_guard.schemas.experiment import (
     VisibleStateCoverageAttempt,
 )
 from legal_skill_guard.schemas.state import (
-    NON_SUBSTANTIVE_FACT_IDS,
     ConsultationState,
     DisclosureDecision,
     FactObservation,
@@ -53,7 +50,7 @@ from legal_skill_guard.schemas.state import (
     StatePatch,
 )
 from legal_skill_guard.schemas.trajectory import Message, TokenUsage
-from legal_skill_guard.skills.memory import render_skill_memory
+from legal_skill_guard.skills.memory import EMPTY_SKILL_MEMORY, render_skill_memory
 from legal_skill_guard.verifiers.deterministic import StopGate, verify_action
 
 INVESTIGATION_PLAN_SCHEMA = {
@@ -100,7 +97,13 @@ def asks_response_event_existence(label: str) -> bool:
     direct_existence = bool(
         re.search(
             rf"(?:是否|有无|有没有).{{0,16}}(?:已有|发出|收到|获得|作出|给出|出具|开具|"
-            rf"送达|存在|发生).{{0,12}}{event}",
+            # A natural Chinese existence question may put a fairly long
+            # instrument description between ``存在`` and the event noun, e.g.
+            # “是否存在关于子女抚养权的书面协议或判决”.  The previous 12-character
+            # window misclassified that question as if it presupposed a judgment.
+            # This is still bounded and still requires an explicit existence verb,
+            # so attributes such as a judgment's date/content remain guarded.
+            rf"送达|存在|发生).{{0,32}}{event}",
             label,
         )
         or re.search(
@@ -145,7 +148,29 @@ def asks_response_event_existence(label: str) -> bool:
 def response_event_terms_in(label: str) -> set[str]:
     """Find response-event nouns without treating ordinary ``决定`` verbs as events."""
 
-    terms = {term for term in ("答复", "回复", "回应", "通知") if term in label}
+    terms = {term for term in ("答复", "回复", "回应") if term in label}
+    # ``通知`` is also a common normative-instrument noun.  In targets such as
+    # “收费所依据的政策文件或通知”, it names the possible source of a rule; it
+    # is not a notice event sent to or received by the client.  Treating every
+    # occurrence as a response event made the planner demand proof that a policy
+    # instrument had first been delivered before it could even ask whether that
+    # instrument existed.  Keep the exemption tied to an explicit legal-basis
+    # construction so ordinary notice content/date/recipient targets remain under
+    # the response-event existence guard.
+    notification_is_normative_instrument = bool(
+        re.search(
+            r"(?:所依据|依据|根据).{0,24}(?:政策|规范性)?"
+            r"(?:文件|规定|办法|方案)(?:或|和|及|与|、)?通知",
+            label,
+        )
+        or re.search(
+            r"(?:政策|规范性)文件(?:或|和|及|与|、)通知.{0,16}"
+            r"(?:名称|内容|条款|规定)",
+            label,
+        )
+    )
+    if "通知" in label and not notification_is_normative_instrument:
+        terms.add("通知")
     decision_is_document_or_disposition = bool(
         re.search(
             r"(?:处罚|处理|追缴|补偿|行政|征收|许可|复议|处分|驳回|撤销|不予)"
@@ -210,49 +235,34 @@ def shared_component_seed(base_seed: int, offset: int) -> int:
     return base_seed * 10_000 + offset
 
 
+def client_environment_seed(base_seed: int) -> int:
+    """Hold the simulated client's random stream fixed across dialogue turns.
+
+    The exact request cache already distinguishes the question, persona, candidate
+    facts and their disclosed status.  Adding the turn number made an otherwise
+    identical client state answer the same question differently merely because the
+    lawyer reached it one turn later, contaminating policy contrasts with environment
+    noise.  Different experimental dialogue seeds may still define different client
+    environments, but every arm within one group observes a stable response function.
+    """
+
+    return shared_component_seed(base_seed, 1)
+
+
 def policy_stream_index(
     method: str,
     sample_index: int,
-    *,
-    counterfactual_pair_size: int = 1,
 ) -> int:
     """Return the policy stream used by one experimental arm.
 
-    Ordinary TF-GRPO samples remain independent.  Embedded prospective controls
-    and treatments instead use a common random-number stream so the candidate
-    library is their only designed difference before an intervention changes the
-    visible dialogue state.  ``sample_index`` remains the artifact/matrix identity;
-    this helper only controls stochastic policy and presentation allocation.
+    Ordinary TF-GRPO samples use four independent random streams. Paired external
+    and learning-curve arms retain the same sample index, so no method-specific
+    stream rewrite is needed.
     """
 
     if sample_index < 0:
         raise ValueError("sample_index must be non-negative")
-    if counterfactual_pair_size < 1:
-        raise ValueError("counterfactual_pair_size must be positive")
-    if method in {"candidate_without", "candidate_with"}:
-        return 0
-    if method == "training_policy_sample" and counterfactual_pair_size > 1:
-        # The two members of an exploration pair must receive the same policy
-        # random stream.  One member is autonomous at the second decision and the
-        # other receives a visible-plan continuation intervention.  Sharing the
-        # stream makes that intervention, rather than unrelated decoding noise,
-        # the designed source of an ask/final or target-choice fork.
-        return sample_index - (sample_index % counterfactual_pair_size)
     return sample_index
-
-
-def uses_counterfactual_target_allocation(method: str) -> bool:
-    """Limit forced target exploration to ordinary TF-GRPO samples.
-
-    Counterfactual target allocation is an exploration intervention: it makes
-    otherwise stochastic training arms visit different planner-authored targets.
-    Embedded candidate controls and treatments instead estimate the effect of a
-    skill with common random numbers. Forcing both paired arms onto stream-zero
-    targets would mask exactly the target-selection operations being evaluated,
-    so those arms must keep their shared, unconstrained base-policy action.
-    """
-
-    return method == "training_policy_sample"
 
 
 OBSERVABLE_CORE_MARKERS = (
@@ -488,126 +498,6 @@ def termination_contract_check(max_turns: int) -> dict[str, object]:
     return {"passed": all(checks.values()), "checks": checks}
 
 
-def _eligible_counterfactual_targets(state: ConsultationState) -> list[FactSlot]:
-    return [
-        fact
-        for fact in state.facts
-        if fact.status in {"unknown", "disputed"}
-        and fact.fact_id not in state.asked_targets
-        and fact.fact_id not in NON_SUBSTANTIVE_FACT_IDS
-    ]
-
-
-def counterfactual_initial_target(
-    state: ConsultationState,
-    sample_index: int,
-    *,
-    replicates_per_target: int = 1,
-) -> FactSlot | None:
-    """Allocate one planner-authored first target to a training rollout arm.
-
-    The planner has already ranked targets by criticality. Allocation walks that
-    shared visible list and repeats each target for a declared number of stochastic
-    continuations. With K=4 and two replicates this creates two target-matched pairs,
-    allowing a pair to reach the same post-answer state before later policy forks.
-    It never reads hidden case facts or client answers.
-    """
-
-    if sample_index < 0:
-        raise ValueError("sample_index must be non-negative")
-    if replicates_per_target < 1:
-        raise ValueError("replicates_per_target must be positive")
-    eligible = _eligible_counterfactual_targets(state)
-    if not eligible:
-        return None
-    target_index = sample_index // replicates_per_target
-    return eligible[target_index % len(eligible)]
-
-
-def counterfactual_followup_target(
-    state: ConsultationState,
-    sample_index: int,
-    *,
-    branches_per_pair: int = 2,
-) -> FactSlot | None:
-    """Create an autonomous-versus-continuation fork at the second decision.
-
-    The paired first action creates a common post-answer state.  The first member
-    of each pair remains autonomous; the second is assigned one still-unasked
-    planner target.  This exposes both premature-stop versus useful-continuation
-    evidence and, when the autonomous member also asks, target-choice evidence.
-    It never consults hidden case facts or eventual rewards.
-    """
-
-    if sample_index < 0:
-        raise ValueError("sample_index must be non-negative")
-    if branches_per_pair < 1:
-        raise ValueError("branches_per_pair must be positive")
-    # A withheld answer deliberately leaves its fact open for a later,
-    # trust-building retry and therefore does not enter ``asked_targets``.  The
-    # experimental second-turn fork has a stricter purpose: it must compare a
-    # different action from the shared post-first-turn state.  Exclude every
-    # target already used in an interaction here without changing its ordinary
-    # retry eligibility on autonomous turns.
-    interacted_target_ids = {
-        item.target_id for item in state.interactions if item.target_id is not None
-    }
-    eligible = [
-        fact
-        for fact in _eligible_counterfactual_targets(state)
-        if fact.fact_id not in interacted_target_ids
-    ]
-    if not eligible:
-        return None
-    branch_index = sample_index % branches_per_pair
-    if branch_index == 0:
-        return None
-    # The first-turn target is already excluded through ``interacted_target_ids``.
-    # Therefore the first remaining client-answerable target is the planner's
-    # highest-ranked useful continuation; skipping it once more systematically
-    # diverted the intervention toward lower-ranked external-evidence questions.
-    # Target kind is part of the lawyer-visible plan, not a hidden outcome label.
-    client_targets = [fact for fact in eligible if fact.target_kind == "client_fact"]
-    return (client_targets or eligible)[0]
-
-
-def counterfactual_target_guidance(target: FactSlot, *, stage: str = "initial") -> str:
-    if stage not in {"initial", "followup"}:
-        raise ValueError("counterfactual target stage must be initial or followup")
-    stage_text = "首问" if stage == "initial" else "同首问配对回答后的第二轮可归因分叉"
-    atomic_units = visible_target_atomic_units(target.label)
-    atomic_guidance = (
-        "该标签明确包含以下可见原子属性："
-        + json.dumps(atomic_units, ensure_ascii=False)
-        + "。本轮必须只选其中一项来问，content、expected_information和reason都不得"
-        "同时索取另一项。"
-        if len(atomic_units) > 1
-        else ""
-    )
-    return (
-        f"训练期结构化反事实{stage_text}：共享调查计划已为本臂分配一个尚未询问的可见目标。"
-        "本轮只负责把它表述成一个自然、无预设、客户可回答的问题；不得改选目标，也不得"
-        "提前final或abstain。action必须是单一事实动作，target_type必须为fact，"
-        f"target_id必须精确等于{target.fact_id}，问题只围绕“{target.label}”。"
-        "若该标签概括同一事件的多个关联属性，仍须写成一个疑问句；不能自然合并时只问"
-        "其中信息价值最高的一个属性，本轮不要求覆盖标签的全部文字。"
-        f"{atomic_guidance}"
-        "完成本轮后，后续轮次由读取固定技能文档包的冻结律师策略自主决定。"
-    )
-
-
-def counterfactual_target_complied(
-    envelope: PolicyEnvelope,
-    required_target_id: str,
-) -> bool:
-    action = envelope.action
-    return (
-        action.action_type in {"ask", "clarify", "verify", "summarize"}
-        and action.target_type == "fact"
-        and action.target_id == required_target_id
-    )
-
-
 class TrajectoryRunner:
     """Run a frozen policy, bounded client selector, skills, stop gate, and memo."""
 
@@ -635,9 +525,6 @@ class TrajectoryRunner:
         max_planning_attempts: int = 3,
         planner_client: GenerativeClient | None = None,
         shuffle_equal_criticality_fact_presentation: bool = False,
-        counterfactual_initial_target_allocation: bool = False,
-        counterfactual_initial_target_replicates: int = 1,
-        counterfactual_followup_target_allocation: bool = False,
         client_disclosure_classifier: GenerativeClient | None = None,
     ) -> None:
         if (
@@ -686,11 +573,6 @@ class TrajectoryRunner:
         self.shuffle_equal_criticality_fact_presentation = (
             shuffle_equal_criticality_fact_presentation
         )
-        self.counterfactual_initial_target_allocation = counterfactual_initial_target_allocation
-        if counterfactual_initial_target_replicates < 1:
-            raise ValueError("counterfactual initial target replicates must be positive")
-        self.counterfactual_initial_target_replicates = counterfactual_initial_target_replicates
-        self.counterfactual_followup_target_allocation = counterfactual_followup_target_allocation
         self.state_manager = StateManager()
         self.stop_gate = StopGate()
 
@@ -757,17 +639,7 @@ class TrajectoryRunner:
                 )
         started = time.monotonic()
         created_at = datetime.now(UTC)
-        sampling_stream_index = policy_stream_index(
-            method,
-            sample_index,
-            counterfactual_pair_size=(
-                self.counterfactual_initial_target_replicates
-                if self.counterfactual_initial_target_allocation
-                and self.counterfactual_followup_target_allocation
-                and uses_counterfactual_target_allocation(method)
-                else 1
-            ),
-        )
+        sampling_stream_index = policy_stream_index(method, sample_index)
         lawyer_case = project_case(raw_case, Audience.LAWYER_AGENT)
         client_case = project_case(raw_case, Audience.CLIENT_SIMULATOR)
         assert_online_view_safe(lawyer_case)
@@ -815,60 +687,30 @@ class TrajectoryRunner:
                 ) = self._generate_investigation_plan(
                     opening,
                     state,
-                    # The planner is shared experimental infrastructure, not the
-                    # sampled policy.  Hold its seed fixed within a case/seed group so
-                    # TF-GRPO contrasts cannot be driven by different initial agendas.
-                    shared_component_seed(seed, 0),
+                    # Ordinary TF-GRPO trajectories independently sample the whole
+                    # consultation policy, including its visible-input-only plan.
+                    # Candidate control/treatment cells map to stream zero, so their
+                    # plan seed is shared and the skill document is the only input
+                    # intervention.
+                    policy_sampling_seed(seed, sampling_stream_index, 0),
+                    skill_memory,
                 )
                 state = self.state_manager.merge(state, initial_plan, turn=0)
                 # A single semantic verifier decision must not close other agenda
                 # targets. Historical replay showed that one false positive was
-                # repeated across every same-state sample and permanently removed a
+                # repeated across every group sample and permanently removed a
                 # valid question. The opening is already represented verbatim in
                 # state; only the target actually answered in dialogue is closed.
                 # Legacy coverage audit fields remain empty for schema compatibility.
-            initial_target = (
-                counterfactual_initial_target(
-                    state,
-                    sampling_stream_index,
-                    replicates_per_target=self.counterfactual_initial_target_replicates,
-                )
-                if self.counterfactual_initial_target_allocation
-                and uses_counterfactual_target_allocation(method)
-                else None
-            )
             for turn in range(1, max_turns + 1):
                 state_before = state.model_dump(mode="json")
-                required_target = initial_target if turn == 1 else None
-                required_target_stage = "initial" if required_target is not None else None
-                if (
-                    turn == 2
-                    and self.counterfactual_followup_target_allocation
-                    and uses_counterfactual_target_allocation(method)
-                ):
-                    required_target = counterfactual_followup_target(
-                        state,
-                        # Pair members intentionally share a decoding stream, but
-                        # their artifact sample index declares which member is the
-                        # autonomous control and which receives the continuation
-                        # intervention.
-                        sample_index,
-                        branches_per_pair=self.counterfactual_initial_target_replicates,
-                    )
-                    required_target_stage = "followup" if required_target is not None else None
-                sampling_guidance = ""
-                if required_target is not None:
-                    sampling_guidance = counterfactual_target_guidance(
-                        required_target,
-                        stage=required_target_stage or "initial",
-                    )
                 visible_messages = self._visible_messages(
                     opening,
                     dialogue,
                     state,
                     turn,
                     policy_method_guidance=skill_memory,
-                    policy_sampling_guidance=sampling_guidance,
+                    policy_sampling_guidance="",
                     fact_presentation_seed=(
                         policy_fact_presentation_seed(seed, sampling_stream_index, turn)
                         if self.shuffle_equal_criticality_fact_presentation
@@ -884,8 +726,6 @@ class TrajectoryRunner:
                     visible_messages,
                     state,
                     policy_sampling_seed(seed, sampling_stream_index, turn),
-                    required_target=required_target,
-                    required_target_stage=required_target_stage,
                 )
                 merged = self.state_manager.merge(state, envelope.state_patch, turn)
                 merged.candidate_action = envelope.action.model_dump(mode="json")
@@ -904,16 +744,16 @@ class TrajectoryRunner:
                 )
                 post_skill_blocking = blocking_policy_health_violations(post_skill_violations)
                 if post_skill_blocking:
-                    repaired = safe_factual_fallback(merged)
-                    decision.changes.append(
-                        {
-                            "source": "post_skill_health_gate",
-                            "before": decision.final.model_dump(mode="json"),
-                            "after": repaired.model_dump(mode="json"),
-                            "reason": ";".join(post_skill_blocking),
-                        }
+                    # Learned documents no longer rewrite actions.  Therefore an
+                    # action that passed against its envelope but fails immediately
+                    # after merging the same visible state patch is a validation
+                    # boundary defect, not a recoverable policy event.  Fail before
+                    # client interaction instead of laundering it through a
+                    # deterministic fallback that would contaminate attribution.
+                    raise RuntimeError(
+                        "post-merge policy health invariant failed: "
+                        + ";".join(post_skill_blocking)
                     )
-                    decision.final = repaired
                 rendered = (
                     render_action(decision.final, merged)
                     if decision.final.action_type in {"ask", "clarify", "verify", "summarize"}
@@ -985,7 +825,7 @@ class TrajectoryRunner:
                     assert rendered is not None
                     response, client_hash = client.respond(
                         rendered,
-                        shared_component_seed(seed, turn),
+                        client_environment_seed(seed),
                     )
                     client_response = response.content
                     client_finish = response.finish_reason
@@ -1202,7 +1042,7 @@ class TrajectoryRunner:
             .replace(
                 "{method_guidance}",
                 policy_method_guidance
-                or "本会话没有已验收的咨询技能文档。请仅依据可见状态自主决策。",
+                or "本会话的当前工作库没有适用咨询技能文档。请仅依据可见状态自主决策。",
             )
         )
         messages = [Message(role="system", content=system)]
@@ -1283,13 +1123,21 @@ class TrajectoryRunner:
         return messages
 
     def _generate_investigation_plan(
-        self, opening: str, state: ConsultationState, seed: int
+        self,
+        opening: str,
+        state: ConsultationState,
+        seed: int,
+        skill_memory: str = EMPTY_SKILL_MEMORY,
     ) -> tuple[StatePatch, list[PolicyAttempt], bool]:
         """Build a visible-input-only fact agenda before adaptive dialogue begins."""
 
         assert self.planner_prompt is not None
+        planner_system = self.planner_prompt.replace("{method_guidance}", skill_memory)
+        planner_repair_system = str(self.planner_repair_prompt or "").replace(
+            "{method_guidance}", skill_memory
+        )
         base = [
-            {"role": "system", "content": self.planner_prompt},
+            {"role": "system", "content": planner_system},
             {"role": "user", "content": f"客户开场：\n{opening}"},
         ]
 
@@ -1520,7 +1368,29 @@ class TrajectoryRunner:
                         }
                         for code in reason.split("|")
                     )
-                    or (stagnated and "multiple_primary_questions" in reason.split("|"))
+                    # An unestablished event attribute gets one genuine semantic
+                    # rewrite opportunity.  If the editor then repeats the same
+                    # rejected proposition, remove that optional target and rebuild
+                    # from the already-approved plan instead of exhausting the whole
+                    # trajectory.  No rejected target is accepted and no hidden fact
+                    # is invented; this only makes the bounded repair contract
+                    # converge safely when the frozen small editor is copy-anchored.
+                    or (
+                        stagnated
+                        and any(
+                            code
+                            == "multiple_primary_questions"
+                            or (
+                                code == "presupposes_unestablished_response_event"
+                                and all(
+                                    "presupposes_unestablished_response_event"
+                                    in other_reason.split("|")
+                                    for _, other_reason in rejected_items
+                                )
+                            )
+                            for code in reason.split("|")
+                        )
+                    )
                 )
             ]
             mechanism_drop_items = [
@@ -1698,7 +1568,7 @@ class TrajectoryRunner:
                     "planner_repair_rebuild_from_approved_targets_after_drop_stagnation"
                 )
                 request_messages = [
-                    {"role": "system", "content": str(self.planner_repair_prompt or "")},
+                    {"role": "system", "content": planner_repair_system},
                     {
                         "role": "user",
                         "content": (
@@ -1737,7 +1607,7 @@ class TrajectoryRunner:
                     for label, reason in rejected_items
                 ]
                 request_messages = [
-                    {"role": "system", "content": str(self.planner_repair_prompt or "")},
+                    {"role": "system", "content": planner_repair_system},
                     {
                         "role": "user",
                         "content": (
@@ -1801,7 +1671,7 @@ class TrajectoryRunner:
                     else rejected_reasons
                 )
                 request_messages = [
-                    {"role": "system", "content": str(self.planner_repair_prompt or "")},
+                    {"role": "system", "content": planner_repair_system},
                     {
                         "role": "user",
                         "content": (
@@ -1955,9 +1825,6 @@ class TrajectoryRunner:
         messages: list[Message],
         state: ConsultationState,
         seed: int,
-        *,
-        required_target: FactSlot | None = None,
-        required_target_stage: str | None = None,
     ) -> tuple[PolicyEnvelope, list[PolicyAttempt], list[str]]:
         base = [item.model_dump(mode="json") for item in messages]
         request_messages = list(base)
@@ -1989,17 +1856,6 @@ class TrajectoryRunner:
             envelope, parse_mode = parse_policy_envelope(response.content)
             envelope, deterministic_changes = normalize_policy_envelope(envelope, state)
             violations = policy_health_violations(envelope, state)
-            if required_target is not None:
-                stage = required_target_stage or "initial"
-                deterministic_changes.append(
-                    f"counterfactual_{stage}_target_assignment:" + required_target.fact_id
-                )
-                if not counterfactual_target_complied(envelope, required_target.fact_id):
-                    actual_target = envelope.action.target_id or "none"
-                    violations.append(
-                        f"counterfactual_{stage}_target_mismatch:"
-                        f"{required_target.fact_id}:{actual_target}"
-                    )
             attempts.append(
                 PolicyAttempt(
                     raw_output=response.content,
@@ -2048,56 +1904,10 @@ class TrajectoryRunner:
             request_messages.append(
                 {
                     "role": "user",
-                    "content": policy_repair_instruction(blocking, state)
-                    + (
-                        f"\n本轮属于训练期反事实{required_target_stage or 'initial'}目标分配，"
-                        "不能改选其他目标、final或"
-                        "abstain。action必须保持单一事实动作，target_type必须为fact，"
-                        f"target_id必须精确等于{required_target.fact_id}，问题只围绕‘"
-                        f"{required_target.label}’这一项可观察事实。若标签概括同一事件的"
-                        "多个关联属性，必须服从上文单问题修复：只问其中信息价值最高的一个"
-                        "属性，不要求本轮覆盖整个标签。"
-                        + (
-                            "该目标可直接使用的可见原子属性只有："
-                            + json.dumps(
-                                visible_target_atomic_units(required_target.label),
-                                ensure_ascii=False,
-                            )
-                            + "。必须只选一个；不得用‘是否/如果有’先问一个属性，再追问"
-                            "另一个属性。"
-                            if len(visible_target_atomic_units(required_target.label)) > 1
-                            else ""
-                        )
-                        if required_target is not None
-                        else ""
-                    ),
+                    "content": policy_repair_instruction(blocking, state),
                 }
             )
         assert envelope is not None
-        if required_target is not None and not counterfactual_target_complied(
-            envelope, required_target.fact_id
-        ):
-            raise RuntimeError(
-                f"counterfactual {required_target_stage or 'initial'} target "
-                "assignment failed closed: "
-                f"required={required_target.fact_id}; actual="
-                f"{envelope.action.target_id or 'none'}"
-            )
-        surface_projection = exhausted_visible_target_surface_projection(envelope, state)
-        if surface_projection is not None:
-            envelope, projection_change = surface_projection
-            violations = policy_health_violations(envelope, state)
-            last_attempt = attempts[-1]
-            attempts[-1] = last_attempt.model_copy(
-                update={
-                    "deterministic_changes": [
-                        *last_attempt.deterministic_changes,
-                        projection_change,
-                    ],
-                    "health_violations": violations,
-                }
-            )
-            return envelope, attempts, violations
         fallback = safe_factual_fallback(state)
         envelope.state_patch = StatePatch()
         envelope.action = fallback

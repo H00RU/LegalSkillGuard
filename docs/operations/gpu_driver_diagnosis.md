@@ -30,7 +30,7 @@ APT dry-run：新增 9 个包、删除 0、升级 0。
 ## 唯一需要管理员权限的操作
 
 ```bash
-bash /home/yndx/hhy/legal-skill-guard/scripts/admin_install_nvidia_driver.sh
+bash /home/yndx/hhy/legal-skill-evolve/scripts/admin_install_nvidia_driver.sh
 ```
 
 脚本会请求一次 sudo，安装后立即加载模块，不自动重启。完整日志写入
@@ -39,8 +39,8 @@ bash /home/yndx/hhy/legal-skill-guard/scripts/admin_install_nvidia_driver.sh
 安装后以普通用户运行：
 
 ```bash
-/home/yndx/hhy/legal-skill-guard/.venv/bin/python \
-  /home/yndx/hhy/legal-skill-guard/scripts/verify_gpu_runtime.py
+/home/yndx/hhy/legal-skill-evolve/.venv/bin/python \
+  /home/yndx/hhy/legal-skill-evolve/scripts/verify_gpu_runtime.py
 ```
 
 只有 `nvidia-smi`、CUDA Driver API 初始化和设备计数同时通过，才视为修复完成。

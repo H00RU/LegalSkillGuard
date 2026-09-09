@@ -48,11 +48,11 @@ class ContrastSelection(BaseModel):
     ] = "fact_elicitation"
 
 
-class CausalEvidencePatch(BaseModel):
-    """Immutable, non-executable evidence retained across evolution rounds."""
+class TrajectoryContrastPatch(BaseModel):
+    """Immutable source-trajectory contrast retained across evolution rounds."""
 
     model_config = ConfigDict(extra="forbid")
-    schema_version: Literal[2] = 2
+    schema_version: Literal[3] = 3
     round_index: int
     partition: str
     group: AdvantageGroup
@@ -62,12 +62,12 @@ class CausalEvidencePatch(BaseModel):
     evaluation_sha256: dict[str, str]
 
     @model_validator(mode="after")
-    def require_explicit_signal_family(self) -> CausalEvidencePatch:
-        """Never reinterpret a pre-family contrast as current causal evidence."""
+    def require_explicit_signal_family(self) -> TrajectoryContrastPatch:
+        """Never reinterpret an older contrast as current source evidence."""
 
         if "signal_family" not in self.selection.model_fields_set:
             raise ValueError(
-                "causal evidence protocol 2 requires an explicit signal_family"
+                "trajectory contrast protocol 3 requires an explicit signal_family"
             )
         return self
 

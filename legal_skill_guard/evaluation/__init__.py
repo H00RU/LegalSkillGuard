@@ -1,4 +1,4 @@
-"""Official and LegalSkillGuard evaluation metrics."""
+"""Official and LegalSkillEvolve evaluation metrics."""
 
 from legal_skill_guard.evaluation.semantic import (
     MechanismSignals,

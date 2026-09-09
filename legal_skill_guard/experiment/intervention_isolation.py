@@ -1,10 +1,10 @@
 """Sole-intervention checks for prompt-delivered skill memories.
 
-Control and treatment share case, planner, model revision and random stream.  The
-declared intervention is the session-level skill-document bundle present in the
-lawyer prompt from its first policy decision.  Their dialogue traces are therefore
-allowed to diverge immediately; a post-policy activation-prefix test would be both
-incorrect and guaranteed to erase the intervention we want to measure.
+Control and treatment share case, frozen planner/policy snapshot and random stream.
+The declared intervention is the session-level skill-document bundle present in
+both the session planner and every later policy prompt.  The model-authored plan and
+dialogue are downstream mediators and may therefore diverge; a plan-identity or
+post-policy activation-prefix test would erase the intervention we want to measure.
 """
 
 from __future__ import annotations
@@ -24,21 +24,6 @@ from legal_skill_guard.skills.memory import (
 )
 from legal_skill_guard.utils.hashing import canonical_json_sha256
 
-_IDENTITY_FIELDS = (
-    "run_id",
-    "partition",
-    "group_id",
-    "case_id",
-    "domain",
-    "jurisdiction",
-    "persona",
-    "seed",
-    "model_id",
-    "model_revision",
-    "opening",
-    "max_turns",
-)
-
 _SKILL_LIBRARY_IDENTITY_FIELDS = (
     "run_id",
     "group_id",
@@ -56,21 +41,8 @@ _SKILL_LIBRARY_IDENTITY_FIELDS = (
 
 _SKILL_LIBRARY_METHOD_PAIRS = {
     ("training_policy_sample", "training_policy_sample"),
-    ("candidate_without", "candidate_without"),
-    ("legal_skill_guard", "control_no_library"),
+    ("legal_skill_evolve", "control_no_library"),
 }
-
-_PRE_POLICY_INFRASTRUCTURE_FIELDS = (
-    "opening",
-    "max_turns",
-    "initial_investigation_plan",
-    "planning_attempts",
-    "planning_safe_partial",
-    "initial_visible_state_coverage_attempts",
-    "initial_visible_state_covered_target_ids",
-    "initial_visible_state_coverage_token_usage",
-)
-
 
 def _plain(value: Any) -> Any:
     if hasattr(value, "model_dump"):
@@ -131,11 +103,6 @@ def _difference_record(difference: tuple[str, Any, Any]) -> dict[str, Any]:
         "control_sha256": canonical_json_sha256(control),
         "treatment_sha256": canonical_json_sha256(treatment),
     }
-
-
-def _pre_policy_payload(trajectory: Any) -> dict[str, Any]:
-    value = _without_session_identity(trajectory)
-    return {field: value.get(field) for field in _PRE_POLICY_INFRASTRUCTURE_FIELDS}
 
 
 def _observable_trace_payload(trajectory: Any) -> dict[str, Any]:
@@ -280,130 +247,6 @@ def skill_memory_contract_report(
     }
 
 
-def _base_candidate_record(control: Any, treatment: Any) -> dict[str, Any]:
-    return {
-        "group_id": str(getattr(control, "group_id", "") or ""),
-        "case_id": str(getattr(control, "case_id", "") or ""),
-        "baseline_trajectory_id": str(getattr(control, "trajectory_id", "") or ""),
-        "candidate_trajectory_id": str(getattr(treatment, "trajectory_id", "") or ""),
-        "baseline_skill_library_sha256": str(
-            getattr(control, "skill_library_version", "") or ""
-        ),
-        "candidate_skill_library_sha256": str(
-            getattr(treatment, "skill_library_version", "") or ""
-        ),
-    }
-
-
-def _audit_candidate_pair(control: Any, treatment: Any) -> dict[str, Any]:
-    base = _base_candidate_record(control, treatment)
-    for field in _IDENTITY_FIELDS:
-        left = _plain(getattr(control, field, None))
-        right = _plain(getattr(treatment, field, None))
-        if left != right:
-            return {
-                **base,
-                "passed": False,
-                "exposed": False,
-                "candidate_skill_ids": [],
-                "reason": "candidate_pair_identity_mismatch",
-                "first_difference": _difference_record((f"trajectory.{field}", left, right)),
-            }
-    if getattr(control, "method", None) != "candidate_without" or getattr(
-        treatment, "method", None
-    ) != "candidate_with":
-        return {**base, "passed": False, "exposed": False, "candidate_skill_ids": [],
-                "reason": "candidate_pair_method_mismatch", "first_difference": None}
-    if base["baseline_skill_library_sha256"] == base["candidate_skill_library_sha256"]:
-        return {**base, "passed": False, "exposed": False, "candidate_skill_ids": [],
-                "reason": "candidate_pair_library_intervention_missing", "first_difference": None}
-    infrastructure_difference = _first_difference(
-        _pre_policy_payload(control), _pre_policy_payload(treatment), path="trajectory"
-    )
-    if infrastructure_difference is not None:
-        return {**base, "passed": False, "exposed": False, "candidate_skill_ids": [],
-                "reason": "candidate_pair_pre_policy_infrastructure_divergence",
-                "first_difference": _difference_record(infrastructure_difference)}
-    control_ids = _exposed_ids(control)
-    treatment_ids = _exposed_ids(treatment)
-    candidate_ids = sorted(treatment_ids - control_ids)
-    if len(candidate_ids) != 1 or control_ids - treatment_ids:
-        return {**base, "passed": False, "exposed": bool(candidate_ids),
-                "candidate_skill_ids": candidate_ids,
-                "reason": "candidate_pair_ambiguous_prompt_intervention_identity",
-                "first_difference": None}
-    issues = [
-        *skill_memory_delivery_issues(control, expected_ids=control_ids),
-        *skill_memory_delivery_issues(treatment, expected_ids=treatment_ids),
-    ]
-    if issues:
-        return {**base, "passed": False, "exposed": True,
-                "candidate_skill_ids": candidate_ids,
-                "reason": issues[0], "delivery_issues": sorted(set(issues)),
-                "first_difference": None}
-    if getattr(control, "skill_memory_sha256", None) == getattr(
-        treatment, "skill_memory_sha256", None
-    ):
-        return {**base, "passed": False, "exposed": True,
-                "candidate_skill_ids": candidate_ids,
-                "reason": "candidate_prompt_memory_intervention_missing",
-                "first_difference": None}
-    return {
-        **base,
-        "passed": True,
-        "exposed": True,
-        "candidate_skill_ids": candidate_ids,
-        "reason": "candidate_is_sole_prompt_memory_intervention",
-        "first_difference": None,
-    }
-
-
-def candidate_intervention_isolation_report(
-    trajectories: list[ResearchTrajectory],
-) -> dict[str, Any]:
-    """Audit every embedded candidate pair before semantic scoring."""
-
-    rows = [
-        item
-        for item in trajectories
-        if getattr(item, "method", None) in {"candidate_without", "candidate_with"}
-    ]
-    by_group: dict[tuple[str, str], list[ResearchTrajectory]] = defaultdict(list)
-    for trajectory in rows:
-        group_id = trajectory.group_id or f"<missing>:{trajectory.trajectory_id}"
-        by_group[(trajectory.partition, group_id)].append(trajectory)
-    pairs: list[dict[str, Any]] = []
-    matrix_failures: list[dict[str, Any]] = []
-    for (partition, group_id), members in sorted(by_group.items()):
-        controls = [item for item in members if item.method == "candidate_without"]
-        treatments = sorted(
-            (item for item in members if item.method == "candidate_with"),
-            key=lambda item: (item.sample_index, item.trajectory_id),
-        )
-        if len(controls) != 1 or not treatments:
-            matrix_failures.append(
-                {"partition": partition, "group_id": group_id,
-                 "reason": "candidate_pair_matrix_incomplete",
-                 "baseline_count": len(controls), "candidate_count": len(treatments)}
-            )
-            continue
-        pairs.extend(_audit_candidate_pair(controls[0], treatment) for treatment in treatments)
-    failed = [item for item in pairs if not item["passed"]]
-    return {
-        "schema_version": 2,
-        "scope": "embedded_candidate_sole_prompt_memory_intervention_before_scoring",
-        "passed": not failed and not matrix_failures,
-        "pair_count": len(pairs),
-        "exposed_pair_count": sum(bool(item["exposed"]) for item in pairs),
-        "failed_pair_count": len(failed),
-        "matrix_failure_count": len(matrix_failures),
-        "failure_count": len(failed) + len(matrix_failures),
-        "uses_reward_or_semantic_outcome": False,
-        "pairs": pairs,
-        "matrix_failures": matrix_failures,
-    }
-
-
 def _library_key(trajectory: Any) -> tuple[str, str, int, int]:
     return (
         str(getattr(trajectory, "case_id", "") or ""),
@@ -448,13 +291,6 @@ def _audit_library_pair(
             return {**base, "passed": False, "exposed": False,
                     "reason": "skill_library_pair_identity_mismatch",
                     "first_difference": _difference_record((f"trajectory.{field}", left, right))}
-    difference = _first_difference(
-        _pre_policy_payload(empty), _pre_policy_payload(current), path="trajectory"
-    )
-    if difference is not None:
-        return {**base, "passed": False, "exposed": False,
-                "reason": "skill_library_pair_pre_policy_infrastructure_divergence",
-                "first_difference": _difference_record(difference)}
     empty_ids = _exposed_ids(empty)
     current_ids = _exposed_ids(current)
     if empty_ids or not current_ids <= intervention_skill_ids:
@@ -523,7 +359,8 @@ def skill_library_intervention_isolation_report(
     Development shadow arms use distinct partitions.  The frozen external test
     deliberately stores its paired methods in one partition, so it opts out of
     only that storage-layout assertion while retaining every identity, prompt and
-    pre-policy infrastructure check.
+    skill-independent infrastructure check.  The skill-visible model-authored plan
+    is intentionally allowed to differ and is part of the measured intervention.
     """
 
     declared = {str(item) for item in intervention_skill_ids}

@@ -475,11 +475,8 @@ class ResearchTrajectory(ExperimentModel):
     run_id: str
     method: Literal[
         "control_no_library",
-        "ungated_source_grounded_skills",
-        "legal_skill_guard",
+        "legal_skill_evolve",
         "training_policy_sample",
-        "candidate_without",
-        "candidate_with",
     ]
     partition: str
     case_id: str

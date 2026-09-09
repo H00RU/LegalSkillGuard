@@ -124,10 +124,11 @@ def _document_strings(skill: SkillContract) -> list[str]:
 def validate_skill_static(skill: SkillContract) -> list[str]:
     """Validate only properties that are knowable without outcome data.
 
-    The source contrast and next-block efficacy are checked elsewhere.  In
-    particular, this gate must not resurrect the retired runtime rule engine by
-    demanding an exact action rewrite from a document that the lawyer reads
-    before choosing its action.
+    Source grounding is checked by the admission report, while downstream
+    efficacy is measured only for the accumulated working library.  In particular,
+    this gate must not resurrect either a per-candidate outcome test or the retired
+    runtime rule engine by demanding an exact action rewrite from a document that
+    the lawyer reads before choosing its action.
     """
 
     issues: list[str] = []

@@ -8,7 +8,6 @@ import pytest
 
 from legal_skill_guard.experiment.executor import ExecutionError, MainExperimentExecutor
 from legal_skill_guard.experiment.intervention_isolation import (
-    candidate_intervention_isolation_report,
     skill_library_intervention_isolation_report,
     skill_memory_contract_report,
 )
@@ -49,7 +48,7 @@ def _skill(
     *, description: str = "先确认争议所涉合同关系，再依次询问未明确的关键事实。"
 ) -> SkillContract:
     return SkillContract(
-        skill_id="candidate.fact_priority",
+        skill_id="skill.fact_priority",
         name="合同事实优先询问",
         version="1.0.0",
         domain="contract",
@@ -130,11 +129,7 @@ def _trajectory(
     return SimpleNamespace(
         trajectory_id=trajectory_id,
         group_id="training_batch_02.case_a.P_WD.seed_42",
-        sample_index=(
-            sample_index
-            if sample_index is not None
-            else 0 if method == "candidate_without" else 1
-        ),
+        sample_index=sample_index if sample_index is not None else 0,
         run_id="run_test",
         method=method,
         partition=partition,
@@ -177,33 +172,6 @@ def _trajectory(
     )
 
 
-def _candidate_pair(
-    *,
-    control_library: str = "baseline_hash",
-    treatment_library: str = "candidate_hash",
-    control_skills: list[str] | None = None,
-    treatment_skills: list[str] | None = None,
-    control_output: str = "control generation",
-    treatment_output: str = "treatment generation",
-) -> list[SimpleNamespace]:
-    return [
-        _trajectory(
-            trajectory_id="traj_control",
-            method="candidate_without",
-            library_hash=control_library,
-            exposed_skill_ids=control_skills or [],
-            raw_output=control_output,
-        ),
-        _trajectory(
-            trajectory_id="traj_treatment",
-            method="candidate_with",
-            library_hash=treatment_library,
-            exposed_skill_ids=treatment_skills or ["candidate.fact_priority"],
-            raw_output=treatment_output,
-        ),
-    ]
-
-
 def _library_pair() -> tuple[list[SimpleNamespace], list[SimpleNamespace]]:
     current = _trajectory(
         trajectory_id="traj_current",
@@ -222,60 +190,6 @@ def _library_pair() -> tuple[list[SimpleNamespace], list[SimpleNamespace]]:
         sample_index=2,
     )
     return [current], [empty]
-
-
-def test_candidate_pair_accepts_prompt_memory_as_sole_intervention() -> None:
-    report = candidate_intervention_isolation_report(_candidate_pair())
-
-    assert report["passed"] is True
-    assert report["exposed_pair_count"] == 1
-    assert report["pairs"][0]["candidate_skill_ids"] == ["candidate.fact_priority"]
-    assert report["pairs"][0]["reason"] == "candidate_is_sole_prompt_memory_intervention"
-
-
-def test_candidate_pair_allows_policy_divergence_from_first_decision() -> None:
-    report = candidate_intervention_isolation_report(
-        _candidate_pair(control_output="control action", treatment_output="skill-informed action")
-    )
-    assert report["passed"] is True
-
-
-def test_candidate_pair_requires_exactly_one_added_document() -> None:
-    report = candidate_intervention_isolation_report(
-        _candidate_pair(treatment_skills=["candidate.a", "candidate.b"])
-    )
-    assert report["passed"] is False
-    assert report["pairs"][0]["reason"] == (
-        "candidate_pair_ambiguous_prompt_intervention_identity"
-    )
-
-
-def test_candidate_pair_rejects_retired_runtime_executor() -> None:
-    rows = _candidate_pair()
-    rows[1].steps[0].action_decision.activated_skill_ids = ["candidate.fact_priority"]
-    report = candidate_intervention_isolation_report(rows)
-    assert report["passed"] is False
-    assert report["pairs"][0]["reason"] == "retired_runtime_skill_activation_observed"
-
-
-def test_candidate_pair_requires_distinct_memory_hash() -> None:
-    rows = _candidate_pair()
-    rows[1].skill_memory_sha256 = rows[0].skill_memory_sha256
-    report = candidate_intervention_isolation_report(rows)
-    assert report["passed"] is False
-    assert report["pairs"][0]["reason"] == (
-        "turn_actual_prompt_skill_memory_sha256_mismatch"
-    )
-
-
-def test_candidate_pair_rejects_forged_prompt_exposure_metadata() -> None:
-    rows = _candidate_pair()
-    rows[1].steps[0].visible_input[0].content = (
-        "冻结律师基础协议\n" + EMPTY_SKILL_MEMORY
-    )
-    report = candidate_intervention_isolation_report(rows)
-    assert report["passed"] is False
-    assert report["pairs"][0]["reason"] == "turn_actual_prompt_skill_ids_mismatch"
 
 
 def test_executor_owned_memory_contract_rejects_tampered_document_with_updated_self_hash() -> None:
@@ -369,7 +283,6 @@ def test_score_gate_rejects_prompt_bytes_not_owned_by_executor(
             executor,
             [trajectory],
             adapter,
-            enforce_candidate_intervention_isolation=False,
             expected_skill_libraries={"executor_owned_library": [skill]},
         )
 
@@ -403,7 +316,7 @@ def test_skill_library_pair_accepts_fixed_document_bundle() -> None:
 def test_external_pair_allows_one_partition_but_keeps_prompt_isolation() -> None:
     current, empty = _library_pair()
     current[0].partition = "external_test"
-    current[0].method = "legal_skill_guard"
+    current[0].method = "legal_skill_evolve"
     empty[0].partition = "external_test"
     empty[0].method = "control_no_library"
     report = skill_library_intervention_isolation_report(
@@ -433,7 +346,7 @@ def test_skill_library_pair_rejects_undeclared_document() -> None:
     assert report["pairs"][0]["reason"] == "skill_library_prompt_exposure_mismatch"
 
 
-def test_skill_library_pair_requires_identical_initial_plan() -> None:
+def test_skill_library_pair_allows_skill_mediated_initial_plan_difference() -> None:
     current, empty = _library_pair()
     current[0].initial_investigation_plan = {"observations": [{"fact_id": "different"}]}
     report = skill_library_intervention_isolation_report(
@@ -443,43 +356,5 @@ def test_skill_library_pair_requires_identical_initial_plan() -> None:
         "training_batch_03_curve_current",
         "training_batch_03_curve_empty",
     )
-    assert report["passed"] is False
-    assert report["pairs"][0]["reason"] == (
-        "skill_library_pair_pre_policy_infrastructure_divergence"
-    )
+    assert report["passed"] is True
 
-
-def test_score_gate_persists_isolation_failure_before_semantic_judge(
-    tmp_path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    trajectories = _candidate_pair(treatment_library="baseline_hash")
-    monkeypatch.setattr(
-        "legal_skill_guard.experiment.executor.trajectory_health_report",
-        lambda *_args, **_kwargs: {
-            "schema_version": 2,
-            "healthy": True,
-            "trajectory_count": 2,
-            "blocking_issue_count": 0,
-            "counts": {},
-            "issues": [],
-            "issues_truncated": 0,
-            "quality_diagnostics": {},
-        },
-    )
-    executor = MainExperimentExecutor.__new__(MainExperimentExecutor)
-    executor.store = RunStore(tmp_path / "runs", "run_test")
-    executor.experiment = {"execution": {"judge_workers": 1}}
-    executor.evaluator = SimpleNamespace(
-        evaluate=lambda *_args: pytest.fail("semantic judge must not see an invalid pair")
-    )
-    adapter = SimpleNamespace(evaluator_case=lambda _case_id: {})
-
-    with pytest.raises(ExecutionError, match="infrastructure-invalid"):
-        MainExperimentExecutor.score_trajectories(executor, trajectories, adapter)
-
-    path = executor.store.root / "health/pre_scoring_health_training_batch_02.json"
-    persisted = json.loads(path.read_text(encoding="utf-8"))
-    isolation = persisted["quality_diagnostics"]["candidate_intervention_isolation"]
-    assert persisted["healthy"] is False
-    assert persisted["counts"]["candidate_intervention_isolation_failure"] == 1
-    assert isolation["failed_pair_count"] == 1

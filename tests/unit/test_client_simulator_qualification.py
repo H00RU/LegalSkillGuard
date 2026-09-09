@@ -55,9 +55,9 @@ def test_current_fixture_uses_only_two_axis_expectations_and_linked_resistance()
     assert document["schema_version"] == CLIENT_QUALIFICATION_FIXTURE_SCHEMA_VERSION
     assert '"expected_fact_id"' not in serialized
     assert '"expected_fact_ids"' not in serialized
-    assert len(document["cases"]) == 139
+    assert len(document["cases"]) == 140
     assert len(document["chains"]) == 2
-    assert sum(len(chain["turns"]) for chain in chains) == 143
+    assert sum(len(chain["turns"]) for chain in chains) == 144
 
     renewal_date = next(
         chain["turns"][0]
