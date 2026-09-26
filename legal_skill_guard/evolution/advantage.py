@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import statistics
+from typing import Literal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, model_validator
 
 
 class ScoredMember(BaseModel):
@@ -13,6 +14,11 @@ class ScoredMember(BaseModel):
     reward: float
     premature_final: bool = False
     unsupported_claim: bool = False
+    belief_as_fact: bool = False
+    repeated_question: bool = False
+    hidden_field_leak: bool = False
+    policy_fallback: bool = False
+    client_fallback: bool = False
     turns: int = 0
     advantage: float | None = None
 
@@ -33,6 +39,42 @@ class ContrastSelection(BaseModel):
     lowest_id: str
     safety_failure_id: str | None = None
     efficient_failure_id: str | None = None
+    aligned_divergence_turn: int | None = None
+    positive_fact_count: int | None = None
+    negative_fact_count: int | None = None
+    immediate_fact_gain: int | None = None
+    fact_gain: int | None = None
+    immediate_gap_gain: int | None = None
+    gap_gain: int | None = None
+    reward_gap: float | None = None
+    selection_basis: str = "reward_extrema"
+    signal_family: Literal[
+        "fact_elicitation", "evidence_gap_identification", "safe_stop"
+    ] = "fact_elicitation"
+
+
+class TrajectoryContrastPatch(BaseModel):
+    """Immutable source-trajectory contrast retained across evolution rounds."""
+
+    model_config = ConfigDict(extra="forbid")
+    schema_version: Literal[3] = 3
+    round_index: int
+    partition: str
+    group: AdvantageGroup
+    selection: ContrastSelection
+    trajectory_ids: list[str]
+    trajectory_sha256: dict[str, str]
+    evaluation_sha256: dict[str, str]
+
+    @model_validator(mode="after")
+    def require_explicit_signal_family(self) -> TrajectoryContrastPatch:
+        """Never reinterpret an older contrast as current source evidence."""
+
+        if "signal_family" not in self.selection.model_fields_set:
+            raise ValueError(
+                "trajectory contrast protocol 3 requires an explicit signal_family"
+            )
+        return self
 
 
 def compute_advantages(
@@ -66,7 +108,17 @@ def select_contrasts(group: AdvantageGroup) -> ContrastSelection:
         (
             member.trajectory_id
             for member in reversed(ordered)
-            if member.premature_final or member.unsupported_claim
+            if any(
+                (
+                    member.premature_final,
+                    member.unsupported_claim,
+                    member.belief_as_fact,
+                    member.repeated_question,
+                    member.hidden_field_leak,
+                    member.policy_fallback,
+                    member.client_fallback,
+                )
+            )
         ),
         None,
     )
@@ -77,4 +129,3 @@ def select_contrasts(group: AdvantageGroup) -> ContrastSelection:
         safety_failure_id=safety,
         efficient_failure_id=efficient,
     )
-

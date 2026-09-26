@@ -1,1 +1,1 @@
-"""Executable skill engine (implemented from Phase 2)."""
+"""Prompt-delivered consultation skill documents and their registry."""

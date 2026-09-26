@@ -1,34 +1,311 @@
-schema_version: 1
-status: phase1_pilot_frozen
+schema_version: 2
+status: static_role_assignment_frozen_gpu_requalification_required
+decision_date: 2026-08-24
+
+principles:
+  target_backbone_frozen: true
+  same_backbone_across_comparison_arms: true
+  hidden_labels_never_enter_online_roles: true
+  training_only_teacher_context: true
+  blind_evaluation: true
+  teacher_judge_snapshot_note: >-
+    技能教师使用gpt-5.6-luna别名而非日期快照；调用时记录日期、Codex CLI版本、提示哈希、
+    输出哈希和持久化调用预算，不能声称权重级完全复现。语义评审使用固定revision的本地
+    gpt-oss-20b权重。语料构建模型另按用户界面所选模型记录。
+
+gpu_service_budget:
+  runtime_reserve_bytes: 6442450944
+  post_start_free_floor_bytes: 2147483648
 
 roles:
   lawyer_policy:
-    model_id: Qwen/Qwen3-4B
-    revision: 1cfa9a7208912126459214e8b04321603b3df60c
-    quantization: null
-    purpose: weak open-weight Chinese instruction model
+    model_id: Qwen/Qwen3-8B
+    revision: b968826d9c46dd6066d109eabc6255188de91218
+    local_snapshot: data/cache/huggingface/Qwen/Qwen3-8B
+    manifest: data/manifests/lawyer_model.json
+    require_upstream_hashes_verified: true
+    runtime: local_vllm
+    base_url: http://127.0.0.1:8000/v1
+    training_temperature: 0.7
+    paired_evaluation_temperature: 0.2
+    top_p: 0.9
+    max_tokens: 1200
+    runtime_limits:
+      kv_cache_memory_bytes: 4294967296
+      # vLLM 0.10.2仍在显式KV分配前执行该启动准入检查；实际KV大小由上项决定。
+      startup_gpu_memory_utilization: 0.5
+      max_model_len: 16384
+      max_num_seqs: 16
+      guided_decoding_backend: xgrammar
+      guided_decoding_disable_any_whitespace: true
+    sees: [opening, visible_dialogue, online_state, open_runtime_fact_interface, fixed_session_skill_documents]
+    forbidden: [client_belief_labels, court_record, evaluation_criteria, split_metadata]
+    rationale: >-
+      被研究的冻结小型律师模型；每轮同时读取客户开场、可见对话、在线状态和同一份全局playbook。
+      playbook直接进入一次完整动作决策；模型在同一个结构化调用中
+      先以一句简短理由比较预期信息收益，再自主决定结束，或选择一个已跟踪目标；若需要调查现有状态未列出的
+      开场、对话或技能支持事实，则通过new_visible_gap自行写出该维度和问题。模型据此生成一个问题，或依据共享基础规则结束。
+      空库臂唯一缺少技能文档。K=4四条独立轨迹承担策略探索；
+      不在单条轨迹内列候选再二次抽签，不另设技能触发器，也不故意制造无技能的Ours分支。
+      训练期K=4的完整动作使用独立采样流，配对评测低温冻结；结构化schema禁止任意ID；
+      系统不访问隐藏事实、不评价目标，也不改写动作语义。new_visible_gap只按声明维度规范化为稳定运行ID；
+      若严格证明与唯一既有可见命题相同，只统一其连接ID，存在歧义时不替律师选择。
+
+  opening_inquiry_agenda:
+    model_id: Qwen/Qwen3-8B
+    revision: b968826d9c46dd6066d109eabc6255188de91218
+    local_snapshot: data/cache/huggingface/Qwen/Qwen3-8B
+    runtime: local_vllm
+    base_url: http://127.0.0.1:8000/v1
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 900
+    max_attempts: 2
+    shared_across_comparison_arms: true
+    sees: [public_opening]
+    forbidden: [client_belief_labels, court_record, evaluation_criteria, persona, active_skills, arm_label, trajectory_score]
+    rationale: >-
+      与律师共享同一冻结Qwen3-8B快照，每案只根据公开开场生成一次无顺序、无固定长度的
+      客户可回答事实议程；模型只返回opening中的逐字主题短语和一个闭集事实属性，代码验证后
+      确定性生成目标，不能自由引入开场外主题。同案K=4及所有比较臂复用相同请求结果。议程只提供稳定的可见事实
+      维度，不选择下一动作、不决定停止、不接收技能，也不封闭问题空间；逐轮律师仍可自主选择
+      议程目标、使用new_visible_gap提出开场或对话支持的新维度，或在信息足够时结束。
+
+  client_fact_selector:
+    model_id: openai/gpt-oss-20b
+    revision: 6cee5e81ee83917806bbde320786a8fb61efebee
+    local_snapshot: data/cache/huggingface/openai/gpt-oss-20b
+    manifest: data/manifests/gpt_oss_20b_model.json
+    runtime: local_vllm
+    base_url: http://127.0.0.1:8002/v1
+    temperature: 0.0
+    reasoning_effort: medium
+    max_tokens: 2048
+    qualification_workers: 8
+    cache_responses: true
+    qualification_protocol: 50
+    qualification_min_cases: 50
+    qualification_min_contrasts: 144
+    qualification_min_match_accuracy: 0.90
+    qualification_min_matched_accuracy: 0.95
+    qualification_min_unmatched_accuracy: 0.85
+    qualification_min_disclosure_accuracy: 1.0
+    qualification_min_response_kind_accuracy: 0.90
+    qualification_min_transition_accuracy: 1.0
+    qualification_max_contract_fallback_rate: 0.0
+    sees: [lawyer_question, public_opening_claims, client_belief]
+    forbidden: [court_record, evaluation_criteria, active_skills, arm_label]
+    rationale: >-
+      使用与被研究Qwen律师独立的冻结开放权重模型，在公开开场的第一人称指代、全部有限认知和当前自然问题之间
+      执行一次闭集语义路由；首次语义选择使用medium推理强度，以稳定区分主体、事件阶段、
+      事实与法律观点；只有结构修复、文字充分性门排除后重选或合法空结果的一次复核
+      降为low。修复调用仍使用同一冻结模型和候选集，不引入第二路由器、投票或额外证据；
+      不评价问题质量，不访问人格，
+      不生成答案，也不运行第二语义裁判。相同案件、客户身份和当前问题始终对完整且排序固定的客户认知
+      集合形成同一初次请求；披露状态和无关历史都不能改变匹配结果。凡进入有界重试，
+      已经属于结构修复或经文字充分性门缩小候选后的有限选择，仍使用同一冻结模型和同一低推理强度。
+      程序验证JSON结构和候选编号，并以有限的高精度文字属性充分性约束
+      拒绝文本中根本未陈述所问属性的候选；同一冻结路由器可在既有有限尝试预算内根据通用属性不足反馈
+      自行修正。首次得到结构有效的空匹配时，无论总预算尚余多少，都最多只作一次独立语义复核；该有效空匹配在复核期间保持事务有效，
+      只有另一份结构和文字门均合格的模型路由才能替代它，畸形输出或被文字门拒绝的候选不能把它反向变成协议失败。程序不恢复事实、不重排、也不替模型
+      选择事实。路由器自报partial_answer不能绕过该门：原子问题必须完整陈述所问属性，只有上游已识别为
+      多主属性的异常问题才可保留其中一个真实可答属性；第二次结构化选择排除所有被同一高精度文字门证明不能回答该属性的编号。程序本身不重排候选、
+      不恢复空匹配、不推断新事实或法律结论，修正后仍不合格才标记合同失败。
+      为避免把环境路由变成主要推理成本，模型保留问题的主体、事件和属性分解，并只返回最佳候选ID
+      及其relation；144项冻结真假对照直接验证选择。逐候选自然语言理由或关系数组不进入任何决策，
+      故不输出。该角色与后续语义评审虽复用同一冻结权重和服务，但使用隔离的无状态提示与缓存，
+      只见本轮问题和客户有限认知；它不见轨迹评分、rubric、技能、比较臂或法院记录，也不判断律师优劣。
+      复用本地模型避免新增供应商，同时保持客户环境独立于被研究律师。该压缩不改变有限候选、选择规则或答案渲染。
+      F编号首次披露才产生信息增益；已披露F和O编号分别标记事实重复与开场重复。合作/顺从人格直接披露；
+      回避/对抗人格仅在匹配后由独立原子条件分类器判断敏感性、问法和目的说明，再按固定规则决定暂缓。
+      所有自然回复仍由确定性渲染器逐字绑定到获准client_belief。
+
+  client_disclosure_classifier:
+    model_id: Qwen/Qwen3-8B
+    revision: b968826d9c46dd6066d109eabc6255188de91218
+    local_snapshot: data/cache/huggingface/Qwen/Qwen3-8B
+    manifest: data/manifests/lawyer_model.json
+    runtime: local_vllm
+    base_url: http://127.0.0.1:8000/v1
+    temperature: 0.0
+    max_tokens: 96
+    sees: [lawyer_question, matched_client_belief, persona_id]
+    forbidden: [other_client_beliefs, court_record, evaluation_criteria, active_skills, arm_label]
+    rationale: >-
+      只在闭集路由已经选中一条尚未披露隐藏事实且人格为回避或对抗时，把当前问法分解为敏感行为、
+      指责预设、强制压力和目的说明四个布尔信号；不重新选择事实、不评价律师优劣、不生成答复。
+      该窄任务已在冻结资格对照中达到完全披露/暂缓一致性；使用无推理Qwen避免gpt-oss把96 token
+      消耗在内部推理而触发结构失败。最终披露决定和逐字回答仍由确定性规则完成。
+
+  memo_renderer:
+    model_id: Qwen/Qwen3-8B
+    revision: b968826d9c46dd6066d109eabc6255188de91218
+    local_snapshot: data/cache/huggingface/Qwen/Qwen3-8B
+    runtime: local_vllm
+    base_url: http://127.0.0.1:8000/v1
+    temperature: 0.0
+    max_tokens: 1600
+    shared_across_comparison_arms: true
+    sees: [opening, visible_dialogue, online_state]
+    forbidden: [court_record, evaluation_criteria, active_skills, arm_label]
+    rationale: >-
+      两臂共用同一备忘录生成器，TF-GRPO组内对相同可见对话使用公共随机数和精确回放；
+      因此写作模型采样差异不会被误算为律师策略或技能收益。
+
   state_extractor:
     model_id: null
-    revision: null
-    quantization: null
-  client_simulator:
-    model_id: Qwen/Qwen3-4B
-    revision: 1cfa9a7208912126459214e8b04321603b3df60c
-    quantization: null
-    cache_responses: true
-  memo_renderer:
-    model_id: Qwen/Qwen3-4B
-    revision: 1cfa9a7208912126459214e8b04321603b3df60c
-    quantization: null
-    shared_across_methods: true
-  skill_teacher:
-    model_id: null
-    revision: null
-  semantic_judge:
-    model_id: Qwen/Qwen3-4B
-    revision: 1cfa9a7208912126459214e8b04321603b3df60c
-    temperature: 0.0
+    runtime: deterministic_python
+    rationale: >-
+      状态写入、冲突处理和状态转换完全由确定性Python执行。一个客户回答只更新本轮实际目标及
+      明确披露的事实ID；不再用跨槽位语义模型自动关闭其他调查目标，避免同一错误判断污染整组轨迹。
 
-# Phase 1 uses the same frozen 4B model for the lawyer, simulator, memo, and pilot judge
-# to stay within one A40. This is an engineering baseline, not an independent-judge claim.
-# State extraction and skill teaching remain null because they begin in later phases.
+  trajectory_reward:
+    model_id: null
+    runtime: deterministic_python
+    rationale: >-
+      奖励公式、F/G事实计数、提问数、重复与运行安全惩罚及TF-GRPO组内优势由Python确定性计算；
+      其中Inquiry、Resolution与Fidelity等语义分量来自冻结gpt-oss评审，不能写成全部标签均由规则产生。
+
+  corpus_builder_and_reviewer:
+    model_id: gpt-5.6-sol
+    model_identity_basis: user_selected_ui_model
+    runtime: current_interactive_codex_session
+    reasoning_effort: high
+    structured_authoring: true
+    sees: [supreme_court_source_facts, supreme_court_source_adjudication]
+    forbidden: [external_benchmark_cases, withdrawn_gpt54_annotations]
+    rationale: >-
+      从36个最高法官方页面冻结的179个来源单元中筛选128例，逐案确定咨询时点、角色、开场、
+      事实差异和rubric；每条证据由确定性构建器逐字核源。旧GPT-5.4-mini草稿未作为标注输入。
+
+  skill_teacher:
+    model_id: gpt-5.6-luna
+    runtime: authenticated_codex_cli
+    executable: /usr/bin/codex
+    reasoning_effort: low
+    structured_output: true
+    temperature: 0.0
+    sees: [complete_k_group_case_cards, training_offline_scores, current_global_playbook, exact_parent_process_pairs, exact_parent_document_field_diffs]
+    forbidden: [future_block_hidden_labels, external_benchmark_cases, arm_test_results]
+    rationale: >-
+      两个map调用完整且不重叠覆盖每批全部健康K组卡，分别提取来源绑定的成功/失败机制；
+      第三个reduce调用跨案件合并去重，并只输出对稳定全局playbook的精确局部编辑。
+      tie组只能提供共同失败，success mode只能引用真实过程差异组。系统固定技能身份和不可编辑字段，
+      验证每项操作的来源、目标旧文本、累计provenance、法律安全和提示容量后才发布新版本。
+      Luna不评分、不回答客户、不决定硬门或库指针，也不看未来块和官方测试结果。
+      通过硬门的版本直接进入工作库；下一未见块相对精确父库的配对结果只指导后续局部编辑，不作回滚门。
+      前七个来源块每块最多三次教师调用，B8为0；项目级硬账本累积保留全部历史调用，
+      preflight以现役playbook map结构接口作在线探针，并证明余量覆盖未完成的最坏调用数。
+      断点只对输入哈希、run内响应缓存及项目硬账本三者一致的两次map与一次reduce工件记账；
+      旧proposal文件或旧缓存命名空间不能抵扣额度，可信缓存命中不重复计费。
+  luna_direct_library_author:
+    model_id: gpt-5.6-luna
+    runtime: authenticated_codex_cli
+    executable: /usr/bin/codex
+    reasoning_effort: low
+    structured_output: true
+    temperature: 0.0
+    sees: [frozen_task_contract, frozen_policy_contract, skill_schema, fixed_15_domain_taxonomy, safety_constraints]
+    forbidden: [official_benchmark_cases_or_results, ours_training_trajectories, ours_skill_documents, future_L8_library]
+    rationale: >-
+      独立Luna-Direct论文基线的静态库作者。它在任何官方结果产生前按三个预声明法域分片各调用一次，
+      每个general或专用法域恰好生成一份结构化提示文档；格式、去重、安全和容量检查是确定性的，
+      不根据训练或测试效果挑选文本。该角色与LegalSkillEvolve轨迹教师使用相同账号模型别名和项目级
+      调用硬账本，但提示、输入、缓存与研究归因完全隔离。
+
+  expel_insight_teacher:
+    model_id: gpt-5.6-luna
+    runtime: authenticated_codex_cli
+    executable: /usr/bin/codex
+    reasoning_effort: low
+    structured_output: true
+    temperature: 0.0
+    sees: [independent_training_success_failure_pairs, current_expel_insight_bank, training_only_rewards]
+    forbidden: [official_benchmark_cases_or_results, ours_contrasts, ours_skill_documents, future_L8_library]
+    rationale: >-
+      ExpeL-adapted论文基线的经验归纳器。它只比较独立128案K4经验池内的同案最高/最低健康轨迹，
+      以ADD、EDIT、UPVOTE、DOWNVOTE维护自己的insight bank；官方推理另按公开opening检索训练正轨迹。
+      它不使用LegalSkillEvolve的证据簇或技能，不能被写成Ours教师的复用产物。
+
+  official_fixed_domain_router:
+    model_id: Qwen/Qwen3-8B
+    revision: b968826d9c46dd6066d109eabc6255188de91218
+    local_snapshot: data/cache/huggingface/Qwen/Qwen3-8B
+    runtime: local_vllm
+    base_url: http://127.0.0.1:8000/v1
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 64
+    max_workers: 8
+    sees: [public_opening, fixed_15_domain_taxonomy]
+    forbidden: [method_library, client_belief_labels, court_record, evaluation_criteria, persona, arm_label, trajectory_score]
+    rationale: >-
+      四臂官方主表共用的方法无关领域路由。它只把公开opening映射到预先冻结的general加14专用法域目录；
+      不读取任一方法的技能、insight、成功轨迹或结果。同一案件路由在四方法、四人格和seed间固定复用，
+      从而专用记忆可投递且路由本身不构成某一方法的优势。
+
+  semantic_judge:
+    model_id: openai/gpt-oss-20b
+    revision: 6cee5e81ee83917806bbde320786a8fb61efebee
+    local_snapshot: data/cache/huggingface/openai/gpt-oss-20b
+    manifest: data/manifests/gpt_oss_20b_model.json
+    runtime: local_vllm_structured
+    base_url: http://127.0.0.1:8002/v1
+    reasoning_effort: medium
+    qualification_protocol: 35
+    max_completion_tokens: 4096
+    repair_max_completion_tokens: 8192
+    # Keep each structured grounding decision small enough that medium-reasoning
+    # gpt-oss cannot exhaust the complete repair budget before emitting JSON.
+    # Chunks preserve frozen claim IDs, order, text, and the global denominator.
+    grounding_claims_per_call: 3
+    runtime_limits:
+      kv_cache_memory_bytes: 4294967296
+      # 两服务顺序共驻时避免vLLM默认0.9把已由另一服务占用的显存误判为不足。
+      startup_gpu_memory_utilization: 0.5
+      max_model_len: 16384
+      max_num_seqs: 16
+    structured_output: true
+    temperature: 0.0
+    blind_arm_labels: true
+    sees: [completed_trajectory, evaluator_case, scoring_rubric]
+    forbidden: [skill_teacher_trace, skill_identity, arm_name]
+    rationale: >-
+      与Qwen律师模型家族独立的冻结开放权重评审；medium推理强度通过了包含客户归因陈述与
+      虚构裁判结果的协议10受控中文法律资格门禁，low因投毒主张漏检被拒绝；逐事实键控输出、
+      主体方向锚点和奖励契约升级后，协议12实测暴露仅凭关键词忽略行为主体的问题；当前正式门禁协议35
+      同时要求逐项核对主体、相对方、行为、对象和法律方向，以话题占位压力样本验证
+      “待核实/泛化条件句”不能冒充实质命题覆盖，并把事实分区与具体主张溯源拆成独立schema，
+      主评分直接按DLawBench并集口径把冻结memo片段分为grounded、unsupported和non-claim，并以
+      “事项已披露但详情待核实”“客户明确不知道却被memo反向归因为否定陈述”，以及“分析/评估/审查
+      任务不等于已经断言待分析结果”的压力样本校验方向；
+      案件事实或对话任一支持即为grounded，两处均无依据才触发幻觉惩罚。开场、后续对话与离线记录
+      的细来源位置只作非阻断诊断，不进入正式评分、奖励、组选择或技能文档硬门；程序仅可对
+      “明确客户归因前缀后逐字等于完整客户回答”
+      的片段作可审计来源归一化，且资格门禁把其使用率限制为不超过5%。事实分区通常一次处理
+      全案事实；只有整组连续观测到finish_reason=length时才保持原fact ID、顺序、完整对话与
+      评分语义自适应二分，并记录每个子请求哈希。主张溯源把冻结memo片段按每次最多3项做固定
+      顺序分块，同样只对长度耗尽块二分。两类任务的单项仍失败均关闭，不换模型、不改分类或
+      补假标签；分块不改变分母或法律语义。旧报告不能复用。主要论文
+      结论同时报告确定性指标、配对
+      差值和不确定性，不冒充官方三提供商评审团。
+
+non_llm_components:
+  - data_visibility_gate
+  - client_disclosure_controller
+  - state_manager
+  - skill_prompt_memory_renderer
+  - skill_source_evidence_binding
+  - tf_grpo_advantage
+  - group_evidence_global_playbook_admission
+  - complete_k_group_map_reduce_packaging
+  - prequential_exact_parent_increment_diagnostic
+  - final_B8_cumulative_freeze_safeguard
+  - prequential_library_shadow
+  - working_library_maintenance
+  - hashing_and_manifests
+  - paired_bootstrap_statistics
+
+known_evaluation_limit:
+  description: 当前只有一个可用的外部语义评审模型，不能冒充DLawBench官方三提供商评审团。
+  mitigation: 报告单评审模型身份、确定性指标、冻结seed 42主矩阵的案件聚类配对区间，并在论文定稿前对结论敏感子集做人类双盲抽检；seed 43/44只作主外测后的预声明二级敏感性。

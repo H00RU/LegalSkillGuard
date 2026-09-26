@@ -5,7 +5,9 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 
-# Local tooling and upstream checkouts are reproduced from manifests.
+# Local tooling and nested upstream checkouts are reproduced from pinned
+# manifests. DLawBench's runtime persona contract and license come from that
+# exact upstream revision; the complete nested repository stays local.
 third_party/DLawBench/
 third_party/LeCoDe/
 
@@ -17,21 +19,32 @@ data/cache/*
 data/processed/*
 !data/processed/.gitkeep
 
-# Runtime products.
-runs/trajectories/*
-!runs/trajectories/.gitkeep
-runs/evaluations/*
-!runs/evaluations/.gitkeep
-runs/manifests/*
-!runs/manifests/.gitkeep
-runs/phase1/*
-!runs/phase1/.gitkeep
-runs/phase2/*
-!runs/phase2/.gitkeep
-runs/phase3/*
-!runs/phase3/.gitkeep
-runs/phase4/*
-!runs/phase4/.gitkeep
+# Fetched court webpages are local source snapshots. Keep the authoritative
+# catalog, hashes, extracted pools, and rebuild script in version control.
+data/source_pool/raw_pages/
+
+# Runtime products are local evidence, caches, locks, and archived diagnostics.
+# Paper-facing summaries belong under reports/; never stage a run tree as source.
+runs/*
+
+# Superseded/rejected diagnostics remain local and must not define the public
+# research snapshot. Current machine-readable qualification reports stay tracked.
+reports/artifacts/rejected/
+reports/artifacts/rejected_diagnostics/
+reports/historical/
 
 .env
+.env.*
+!.env.example
 *.log
+
+# Editor, notebook, coverage, and local checkpoint products are not research source.
+.idea/
+.vscode/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+*.ckpt
+*.pt
+*.pth
+*.safetensors

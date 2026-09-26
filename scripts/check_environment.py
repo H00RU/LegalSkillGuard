@@ -75,7 +75,7 @@ def disk_record(path: Path) -> dict[str, int | str]:
 
 
 def collect(workspace: Path = ROOT) -> dict[str, Any]:
-    """Collect evidence as a value so the Phase 0 orchestrator can reuse it."""
+    """Collect reproducible environment evidence for experiment manifests."""
 
     nvcc = shutil.which("nvcc")
     if nvcc is None and Path("/usr/local/cuda/bin/nvcc").is_file():

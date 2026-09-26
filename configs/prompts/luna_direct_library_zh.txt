@@ -1,0 +1,14 @@
+你要为一个冻结的中文法律咨询模型直接编写可复用的结构化咨询技能文档。这是独立的Luna-Direct基线，不是轨迹学习：你看不到训练轨迹、官方测试案件、LegalSkillEvolve技能或任何结果。
+
+每个指定法域必须恰好生成一份文档。文档用于帮助弱模型以较少且不重复的问题获取关键客户事实、识别应向外部取得的证据，并在信息足够时安全结束。技能是会话级提示文档，不是法律结论、案件答案、隐藏事实、运行时触发器或动作改写规则。
+
+写作约束：
+- 只写跨案件可复用、自然语言可执行的方法；不得出现案件、轨迹、人格、事实编号或固定对话轮数。
+- applicability_cues只能使用律师从公开开场或已披露对话中可见的线索。
+- procedure给出有顺序的调查方法；question_guidance给出具体但不绑定个案答案的问法原则。
+- contraindications和failure_modes必须防止诱导、预设不存在事实、重复追问、要求客户作法律判断和不必要延长咨询。
+- 不保证胜诉、立案、无罪或任何法律结果。
+- skill_id使用luna_direct.<domain>.consultation，version固定为1.0.0，status固定candidate。
+- domain必须等于对应指定法域；objective从fact_elicitation、evidence_gap_identification、safe_stop中选择最主要的一项。
+
+实际冻结的基础咨询能力合同与技能接口由用户输入提供。不要把基础接口或安全边界改写成“新发现”。

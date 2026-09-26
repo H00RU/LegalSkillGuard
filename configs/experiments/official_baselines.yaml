@@ -1,0 +1,148 @@
+schema_version: 1
+experiment_id: legal_skill_evolve_official_baselines
+status: benchmark_aware_four_arm_main_table_protocol_to_be_frozen
+
+# This file is the sole evaluation contract for all four paper main-table arms.
+# Historical method-level CN30 aggregates have already been observed, so a fresh
+# four-arm run is benchmark-aware.  Every arm is rerun only after the Ours source
+# training run has passed its schema-6/B8 freeze contract; the evaluation run
+# deliberately repeats and freezes all shared settings rather than inheriting
+# mutable values from either a historical baseline or training run.
+official_data:
+  path: third_party/DLawBench/data/case_backgrounds/cases_cn.jsonl
+  expected_sha256: 11e16b7d0bf68f8ddab706cda2c5ecdcd4cb4e8937bb8ba1f9f5148626571528
+  expected_cases: 30
+  personas_path: third_party/DLawBench/config/personas.json
+  personas: [P_WD, P_WS, P_CS, P_CD]
+  dialogue_seed: 42
+  independent_unit: case_id
+  sessions_per_arm: 120
+
+arms:
+  - arm_id: control_no_library
+    label: Base
+    memory: none
+  - arm_id: luna_direct
+    label: Luna-Direct
+    memory: frozen_direct_skill_documents
+  - arm_id: expel_adapted
+    label: ExpeL-adapted
+    memory: frozen_insight_bank_plus_training_positive_retrieval
+  - arm_id: legal_skill_evolve
+    label: LegalSkillEvolve (Ours)
+    memory: frozen_evolved_global_playbook
+    execution_status: requires_explicit_external_ready_training_run_binding
+
+shared_runtime:
+  main_experiment_config: configs/experiments/main_experiment.yaml
+  model_roles: configs/models/roles.yaml
+  policy_prompt: configs/prompts/consultation_policy_zh.txt
+  opening_agenda_prompt: configs/prompts/opening_inquiry_agenda_zh.txt
+  client_selector_prompt: configs/prompts/client_fact_selector_zh.txt
+  client_disclosure_prompt: configs/prompts/client_fact_disclosure_zh.txt
+  memo_prompt: configs/prompts/memo_writer_zh.txt
+  semantic_judge_prompt: configs/prompts/semantic_judge_zh.txt
+  domain_router_prompt: configs/prompts/official_fixed_domain_router_zh.txt
+  paired_policy_temperature: 0.2
+  emergency_turn_ceiling: 24
+  rollout_workers: 8
+  judge_workers: 8
+
+domain_router:
+  model_role: official_fixed_domain_router
+  input: public_opening_only
+  output: one_fixed_domain_per_case
+  shared_across_all_arms_personas_and_seeds: true
+  never_uses_method_library: true
+  domains:
+    general: 跨法域或无法从公开开场可靠归入单一专门法域
+    administrative: 行政许可、行政处罚、行政复议、行政诉讼与国家赔偿
+    company_commercial: 公司治理、股东权利、商事组织与企业交易
+    consumer_contract: 消费者权益、买卖服务合同与一般合同争议
+    criminal: 犯罪事实、刑事程序、辩护与被害人权益
+    environment_resources: 生态环境、自然资源、土地矿产与污染责任
+    finance_bankruptcy: 金融借贷、担保、证券与破产清算
+    insurance_contract: 人身或财产保险合同、理赔与保险责任
+    intellectual_property: 著作权、商标、专利、商业秘密与不正当竞争
+    labor_employment: 劳动关系、工资工时、解除、工伤与社会保险
+    marriage_family: 婚姻、继承、抚养、监护与家庭财产
+    personality_privacy: 名誉、隐私、个人信息、肖像与人格权益
+    procedure_evidence: 管辖、时效、诉讼程序、执行与证据规则
+    real_estate_construction: 房屋土地交易、租赁、物业与建设工程
+    tort_liability: 人身财产损害、侵权责任与损害赔偿
+
+luna_direct:
+  generator_role: luna_direct_library_author
+  prompt: configs/prompts/luna_direct_library_zh.txt
+  generation_partitions:
+    - [general, administrative, company_commercial, consumer_contract, criminal]
+    - [environment_resources, finance_bankruptcy, insurance_contract, intellectual_property, labor_employment]
+    - [marriage_family, personality_privacy, procedure_evidence, real_estate_construction, tort_liability]
+  documents_per_domain: 1
+  maximum_documents: 24
+  maximum_document_characters: 2000
+  maximum_session_memory_characters: 8000
+  selection: accept_every_unique_contract_valid_document_in_declared_partition_order
+  outcome_tuning: forbidden
+  forbidden_inputs:
+    - official_case_content_or_results
+    - ours_training_trajectories_contrasts_or_skills
+    - future_L8_library
+
+expel_adapted:
+  training_cases: data/training/legal_skill_guard_dlawbench_style_cn.jsonl
+  training_provenance: data/training/legal_skill_guard_dlawbench_style_cn.provenance.jsonl
+  training_cases_expected_sha256: 889ea7f6ff642147b190823e81d2cba9e49f3547e0aead48404a05a1b1cc4f46
+  training_case_count: 128
+  trajectories_per_case: 4
+  training_persona: P_WD
+  training_dialogue_seed: 142
+  policy_temperature: 0.7
+  insight_teacher_role: expel_insight_teacher
+  insight_prompt: configs/prompts/expel_insight_update_zh.txt
+  insight_updates: ADD_EDIT_UPVOTE_DOWNVOTE
+  reward_gap_minimum: 0.02
+  maximum_insights: 24
+  maximum_insight_characters: 360
+  maximum_session_memory_characters: 8000
+  retrieved_positive_trajectories: 2
+  retriever: deterministic_public_opening_character_bigram_cosine
+  retrieval_tie_break: training_case_id_ascending
+  success_member: highest_reward_healthy_member_per_case
+  failure_member: lowest_reward_healthy_member_per_case_when_gap_at_least_threshold
+  cases_per_teacher_call: 4
+  teacher_calls_per_block: 4
+  update_schedule: four_ordered_calls_then_one_bank_checkpoint_per_16_case_block
+  forbidden_inputs:
+    - official_case_content_or_results_during_training
+    - ours_training_trajectories_contrasts_or_skills
+    - future_L8_library
+
+reporting:
+  official_metrics: [fact_coverage, inquiry, elicitation, fact_resolution, issue_resolution, resolution, fidelity]
+  behavior_metrics: [question_turns, distinct_targets, answered_question_turns, information_bearing_turns, unique_disclosed_facts, unique_disclosed_facts_per_question, identified_evidence_gaps, f_or_g_signal_turns]
+  safety_metrics: [premature_final_rate, unsupported_claim_rate, belief_as_fact_rate, repeated_question_rate, critical_fact_recall]
+  operational_metrics: [policy_repair_rate, policy_fallback_rate, client_repair_rate, client_fallback_rate, memo_retry, memo_guardrail_intervention, memo_fallback]
+  bootstrap_samples: 10000
+  randomization_samples: 20000
+  confidence_level: 0.95
+  statistical_seed: 42
+  evidence_role: benchmark_aware_locked_public_benchmark_reevaluation_not_pristine_confirmatory
+  reveal_during_four_arm_execution: method_level_aggregate_only
+  prohibited_development_views:
+    - official_case_text
+    - per_case_metrics_or_deltas
+    - official_trajectories
+    - judge_rationales_or_error_types
+  pending_result_marker: "[PENDING RESULT]"
+
+invalidation:
+  shared_contract_fields:
+    - model_revisions
+    - shared_prompts
+    - domain_router
+    - memory_capacity
+    - metric_definitions
+    - retry_and_repair_contracts
+    - semantic_judge_contract
+  action: invalidate_all_previously_completed_official_columns_and_start_new_run

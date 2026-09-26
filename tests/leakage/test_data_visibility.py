@@ -12,12 +12,15 @@ from legal_skill_guard.data_visibility import (
 )
 
 ROOT = Path(__file__).resolve().parents[2]
-UPSTREAM_CN = ROOT / "third_party" / "DLawBench" / "data" / "case_backgrounds" / "cases_cn.jsonl"
+TRAINING_CN = ROOT / "data" / "training" / "legal_skill_guard_dlawbench_style_cn.jsonl"
 
 
 @pytest.fixture
 def case() -> dict:
-    with UPSTREAM_CN.open(encoding="utf-8") as handle:
+    # This unit contract needs a real nested case, not the held-out official
+    # benchmark payload. Keep routine development tests inside the training-data
+    # boundary; the separately marked integration test covers prepared CN30.
+    with TRAINING_CN.open(encoding="utf-8") as handle:
         return json.loads(next(line for line in handle if line.strip()))
 
 
@@ -34,6 +37,7 @@ def test_client_view_contains_beliefs_but_not_court_records_or_rubrics(case: dic
     assert view["facts"]
     assert "client_belief" in view["facts"][0]
     assert "court_record" not in serialized
+    assert "gap_type" not in serialized
     assert "evaluation_criteria" not in serialized
     assert "expected_inquiries" not in serialized
     assert "memo_expectations" not in serialized

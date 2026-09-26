@@ -1,0 +1,197 @@
+annotations:
+  - id: lsg_cn_0084
+    source_line: 43
+    source_case_sha256: 6cfb054e955c5a83be7ffdb34ad17219241f6f71508781eaf5f93c15a86c5da0
+    split: train
+    legal_domain: criminal
+    client_role: 因高速便道施工致林地被土石掩埋的工程公司负责人黄某
+    consultation_stage: 检察机关抗诉指控非法占用农用地罪、再审答辩前
+    opening: 公司修高速便道时，部分土石从陡坡滑落并掩埋坡下林地，受损林地没有办理使用审批。我主动投案并组织复垦，验收合格，但检方仍认为我们构成非法占用农用地罪。
+    admission_reason: 工程目的、陡坡客观条件、土石滑落、审批缺失、主观故意和修复验收完整，可评价结果犯要件与无罪证据。
+    facts:
+      - {client_belief: "我是承建高速公路便道工程公司的法定代表人。", court_record: "黄某系承建便道工程公司的法定代表人。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "黄某系原审被告单位某工程公司法定代表人"}]}
+      - {client_belief: "施工中部分废弃土石滑落到坡下林地并损坏植被。", court_record: "便道施工开挖山坡时部分土石滑落坡下，造成林地植被受损。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "有部分废弃的土石滑落至坡下林地内，造成林地植被受损"}]}
+      - {client_belief: "相关部门要求停工和修复后，我主动投案并组织恢复种植。", court_record: "工作人员要求停止施工和修复，黄某主动投案并组织恢复种植。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "黄某主动投案，并组织人员对受损林地恢复种植"}]}
+      - {client_belief: "复垦已经验收合格，新植苗木生长良好。", court_record: "相关部门复垦验收合格，村委会证明新植苗木生长良好。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "验收结果合格"}, {section: basic_facts, quote: "新植苗木生长良好"}]}
+      - {client_belief: "只要受损林地未办理使用审批且面积达到标准，就无需证明主观故意。", court_record: "非法占用农用地罪仍需充分证明行为人具有倾倒土石、损坏林地并改变用途的主观故意。", gap_type: disputed, evidence: [{section: adjudication, quote: "没有充分证据证实某工程公司及黄某存在倾倒土石废方损坏林地的主观故意"}]}
+      - {client_belief: "事后修复验收只影响量刑，与林地用途是否被改变无关。", court_record: "修复情况可与施工原因等共同印证林地用途是否实际改变，但不能单独免罪。", gap_type: disputed, evidence: [{section: adjudication, quote: "已经通过验收，林地用途并未被改变"}]}
+      - {client_belief: "勘查鉴定记载受损林地坡度约六十度、面积一百一十七亩。", court_record: "现场勘查认定受损林地坡度约六十度、面积一百一十七亩。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "受损林地坡度约60度，受损面积117亩"}]}
+    expected_inquiries: ["施工方案、弃土安排和陡坡风险控制措施如何？", "土石滑落是意外、过失还是有组织倾倒，有何现场证据？", "受损林地类型、面积、用途和审批要求如何鉴定？", "监管人员口头停工后是否继续施工或扩大损害？", "投案、复垦方案、验收和后续成活情况如何？", "鉴定如何测算坡度和面积，是否区分施工便道本体与意外掩埋区？"]
+    memo_expectations: ["区分工程意外滑落与故意非法占用。", "逐项审查农用地用途改变和数量后果。", "评价现场勘查、鉴定和施工记录。", "用修复验收验证实际后果但不以修复自动免责。", "处理单位犯罪、负责人责任和疑罪从无。", "核验面积鉴定对象与指控行为范围的一致性。"]
+    editorial_review: &full_review {source_read_in_full: true, single_client_role: true, pre_outcome_timeline: true, opening_has_no_outcome: true, opening_information_boundary_checked: true, beliefs_are_natural: true, gap_labels_semantically_checked: true, inquiries_are_answerable: true, memo_points_are_substantive: true}
+    editorial_note: 本案保留无罪样本价值：结果严重不等于构成要件齐备，调查必须覆盖主观故意和用途改变。
+
+  - id: lsg_cn_0085
+    source_line: 75
+    source_case_sha256: f37c1569003cfe02c095ce419809cdb617a8935eedfa038e0e4256e6fe43c5af
+    split: train
+    legal_domain: criminal
+    client_role: 被指控长期组装销售假冒商标电池的邓某某
+    consultation_stage: 检察机关提起公诉后、量刑审理前
+    opening: 我因组装销售电池产品被指侵犯注册商标，案件已进入刑事程序。我想核对商品来源、主观明知、数额以及民事纠纷线索能否作为刑事证据。
+    admission_reason: 零部件来源、组装使用商标、销售期间、民刑线索移送、自首和赔偿谅解完整，可评价定罪与量刑。
+    facts:
+      - {client_belief: "案件线索源自法院审理商标侵权民事纠纷时发现的进货材料。", court_record: "法院从侵权人提交的进货清单发现邓某某涉嫌犯罪并移送公安。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "发现被诉侵权人李某提供的进货清单等材料显示侵权商品来自邓某某"}]}
+      - {client_belief: "我未经商标权人许可购买光身电池和假冒商标包装物。", court_record: "邓某某未经许可购买光身电池及印有假冒商标的纸卡、外皮。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "未经福建南平南某电池有限公司许可，从他人处购买光身电池、印有假冒商标的纸卡、电池外皮等包装物"}]}
+      - {client_belief: "我把这些材料组装成假冒电池后销售。", court_record: "邓某某组装假冒电池并对外销售。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "组装假冒电池后对外销售"}]}
+      - {client_belief: "我认罪认罚并赔偿权利人经济损失、取得谅解。", court_record: "邓某某自愿认罪认罚，赔偿权利人并取得谅解。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "邓某某自愿认罪认罚，并赔偿福建南平南某电池有限公司经济损失40万元，取得了谅解"}]}
+      - {client_belief: "我只是把现成零件装在一起，没有亲自印制商标，所以不属于使用他人商标。", court_record: "在同一种商品上将假冒标识用于组装成品，可构成未经许可使用相同商标。", gap_type: disputed, evidence: [{section: adjudication, quote: "未经注册商标所有人许可，在同一种商品上使用与他人注册商标相同的商标"}]}
+      - {client_belief: "赔偿并取得谅解后，假冒注册商标罪就不再成立。", court_record: "赔偿谅解属于酌情从轻情节，不消灭已成立的犯罪。", gap_type: disputed, evidence: [{section: adjudication, quote: "取得了被害单位谅解，具有悔罪表现，可以酌情从轻处罚"}]}
+      - {client_belief: "涉案组装销售行为从二〇一六年持续到二〇二四年。", court_record: "邓某某组装销售假冒电池的时间跨度为二〇一六年至二〇二四年。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "邓某某自2016年至2024年间"}]}
+    expected_inquiries: ["涉案商标注册、许可状态及商品类别如何？", "光身电池、包装物采购和组装销售链条如何证明？", "销售数量金额、违法所得及情节标准如何计算？", "到案方式和供述是否符合自首条件？", "认罪认罚、赔偿谅解和侵权产品处置如何落实？"]
+    memo_expectations: ["确认商标权、相同标识与同一种商品。", "证明组装行为属于商标使用。", "核算非法经营数额及严重情节。", "审查民事线索移送和刑事证据转化。", "准确适用自首、认罪认罚、赔偿谅解等量刑因素。"]
+    editorial_review: *full_review
+    editorial_note: 保留民刑协同线索，但不把民事侵权认定直接替代刑事构成与数额证明。
+
+  - id: lsg_cn_0086
+    source_line: 133
+    source_case_sha256: 8be5540e684499e38b78bd391a51b8db2d49c71003c4e4fed6e3f313b14817b9
+    split: train
+    legal_domain: procedure_evidence
+    client_role: 代表破产公司全体债权人追偿的债权人毛某
+    consultation_stage: 虚假诉讼刑事判决和公司破产后、提起民事赔偿诉讼前
+    opening: 公司原实际控制人与他人被指通过虚构债权、设备交易和执行程序转移财产，已经影响债权实现。我作为债权人一方想追偿财产并判断相关人员的责任。
+    admission_reason: 虚构债务、伪造凭证、虚假抵押、执行异议、资产流失和破产债权人代表诉讼完整，可评价后续侵权赔偿与归集规则。
+    facts:
+      - {client_belief: "实际控制人与邵某共谋虚构公司借款并伪造转账凭证。", court_record: "傅某与邵某虚构公司借款并伪造银行转账凭证。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "虚构该公司向邵某借款200万元的事实并伪造了相应的银行转账凭证"}]}
+      - {client_belief: "公司主要机器设备被虚假抵押给邵某。", court_record: "傅某将公司机器设备等主要资产虚假抵押给邵某。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "又将公司机器设备等主要资产虚假抵押给邵某"}]}
+      - {client_belief: "傅某借邵某名义提出执行异议阻却执行。", court_record: "傅某以邵某享有抵押权为由用其名义提出执行异议。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "以邵某名义提出执行异议，企图阻却强制执行"}]}
+      - {client_belief: "二人已因虚假诉讼罪被追究刑责，公司随后破产。", court_record: "傅某、邵某被追究虚假诉讼刑责后，公司被宣告破产。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "傅某、邵某因犯虚假诉讼罪被追究刑事责任"}, {section: basic_facts, quote: "该公司被宣告破产"}]}
+      - {client_belief: "已有刑事判决后，破产债权人不能再就资产流失提起民事赔偿。", court_record: "虚假诉讼共同侵权造成破产财产流失的，刑事追责不排除民事赔偿。", gap_type: disputed, evidence: [{section: adjudication, quote: "邵某因与傅某构成共同侵权，应承担连带赔偿责任"}]}
+      - {client_belief: "即使代表全体债权人起诉，赔偿款也应只归我个人债权受偿。", court_record: "代表诉讼所得赔偿应归入破产公司财产并按破产程序分配。", gap_type: disputed, evidence: [{section: adjudication, quote: "赔偿款项归入甲公司财产"}]}
+      - {client_belief: "傅某还把部分虚假抵押物低价转让，进一步造成公司资产流失。", court_record: "虚假抵押期间傅某操作公司低价转让部分抵押物。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "期间傅某还操作该公司将部分抵押物低价转让"}]}
+    expected_inquiries: ["刑事判决已查明哪些虚构、伪造和共谋事实？", "抵押物明细、处分去向和价值证据如何？", "执行异议对个别执行和公司财产造成何种损害？", "破产管理人是否怠于行权，债权人代表资格如何取得？", "赔偿范围与未受偿破产债权如何避免重复计算？"]
+    memo_expectations: ["衔接刑事裁判事实与民事侵权举证。", "确认共同侵权、因果关系和资产流失范围。", "审查破产债权人代表诉讼资格。", "将赔偿归入债务人财产统一分配。", "防止个别清偿与刑民重复赔偿。"]
+    editorial_review: *full_review
+    editorial_note: 重点是刑事追责后的破产财产恢复机制，不将代表诉讼误写成个别债权人优先受偿工具。
+
+  - id: lsg_cn_0087
+    source_line: 134
+    source_case_sha256: df93c9d53693bd2acf1b4607c7a926ccd90717aa384b6ca2e1c41bb301a5702b
+    split: train
+    legal_domain: procedure_evidence
+    client_role: 受托代理虚构债权诉讼的诉讼代理人赵某
+    consultation_stage: 被公安机关抓获后、刑事审理前
+    opening: 我曾接受他人委托代理一宗以物抵债诉讼，现被指明知基础材料虚假仍参与诉讼。我想判断代理行为是否构成虚假诉讼以及责任边界。
+    admission_reason: 虚构基础关系、代理人明知通谋、起诉与开庭结果完整，可评价诉讼代理人参与虚假诉讼的刑事边界。
+    facts:
+      - {client_belief: "彭某某与他人恶意串通捏造债权债务关系。", court_record: "彭某某与他人恶意串通并捏造债权债务关系。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "彭某某与他人恶意串通，故意捏造债权债务关系"}]}
+      - {client_belief: "他们还捏造了以物抵债协议。", court_record: "涉案以物抵债协议同样系故意捏造。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "故意捏造债权债务关系和以物抵债协议"}]}
+      - {client_belief: "我与彭某某通谋后接受委托担任代理人。", court_record: "彭某某与赵某通谋并委托赵某担任诉讼代理人。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "彭某某又与被告人赵某通谋，委托赵某担任诉讼代理人"}]}
+      - {client_belief: "我们向法院提起民事诉讼，法院已经开庭。", court_record: "二人提起民事诉讼并导致法院开庭审理、干扰司法活动。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "向某区人民法院提起民事诉讼，致使人民法院开庭审理，干扰正常司法活动"}]}
+      - {client_belief: "只要法院尚未作出错误裁判，虚假诉讼就绝不成立。", court_record: "捏造事实提起民事诉讼并致法院开庭、干扰司法活动，已经可以构成虚假诉讼罪。", gap_type: disputed, evidence: [{section: adjudication, quote: "以虚假诉讼罪判处彭某某有期徒刑七个月"}]}
+      - {client_belief: "诉讼代理人只是转交当事人材料，即使明知并通谋也不承担共同犯罪责任。", court_record: "代理人与当事人通谋并实施虚假诉讼的，可作为共同参与者承担刑责。", gap_type: disputed, evidence: [{section: adjudication, quote: "判处赵某有期徒刑六个月，并处罚金人民币六千元"}]}
+    expected_inquiries: ["我何时知道债权与抵债协议虚假，有何通谋记录？", "代理委托、起诉状、证据提交和庭审陈述由谁制作决定？", "虚假材料是否被法院采信并造成何种程序行为？", "是否存在撤诉、坦白、认罪认罚或阻止损害行为？", "当事人、代理人和其他参与者分工如何？"]
+    memo_expectations: ["证明基础民事关系系捏造。", "以明知、通谋和代理行为认定主观故意。", "评价法院开庭所造成的司法秩序妨害。", "不以尚无错误裁判否定犯罪。", "区分正常代理过失与共同实施虚假诉讼。"]
+    editorial_review: *full_review
+    editorial_note: 样本不将代理身份本身犯罪化，必须追问明知、通谋和实质参与三个环节。
+
+  - id: lsg_cn_0088
+    source_line: 135
+    source_case_sha256: a3a1a56a743862441d67a346766b7cbe36bfd1e6df68a01ae7454022faec8163
+    split: train
+    legal_domain: procedure_evidence
+    client_role: 在套路贷组织中参与虚构诉讼处置房产的林某某
+    consultation_stage: 因多项犯罪被起诉后、审理前
+    opening: 我控制的组织以房屋抵押贷款为名，让借款人办理强制执行公证、售房和解押委托，再制造违约、过户房产。部分房产还通过虚构抵押借款和违约事实起诉处置，检方指控多项犯罪。
+    admission_reason: 套路贷组织、虚假公证、暴力清房、房产变现、律师合谋和虚假诉讼完整，可评价复合犯罪及程序工具滥用。
+    facts:
+      - {client_belief: "我通过实际控制公司发展人员并形成层级明确的组织。", court_record: "林某某通过两家公司发展成员，形成以其为核心的黑社会性质组织。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "逐步形成了以林某某为核心的层级明确、人数众多的黑社会性质组织"}]}
+      - {client_belief: "组织以房屋抵押贷款名义诱使被害人办理多类公证委托。", court_record: "组织诱骗被害人办理强制执行借款、售房和抵押解押委托公证。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "诱使、欺骗多名被害人办理赋予借款合同强制执行效力、售房委托、抵押解押的委托公证"}]}
+      - {client_belief: "我们制造违约后过户房产，并用暴力或软暴力清房。", court_record: "组织恶意制造违约、过户房产并采用暴力和软暴力占用房产。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "恶意制造违约事实，利用公证书将被害人名下房产过户"}, {section: basic_facts, quote: "采用暴力、威胁及其他“软暴力”手段任意占用被害人房产"}]}
+      - {client_belief: "部分房产通过与律师合谋虚假诉讼变现。", court_record: "组织与长期雇佣律师串通合谋虚假诉讼以处置房产。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "与长期雇佣的律师串通、合谋虚假诉讼等方式，将被害人房产处置变现"}]}
+      - {client_belief: "有形式真实的公证书和民事裁判，就足以证明借款与房产处分均真实合法。", court_record: "以欺骗、虚构基础事实取得的公证和裁判不能为套路贷处分提供合法性。", gap_type: disputed, evidence: [{section: basic_facts, quote: "故意捏造抵押借款合同和债务人违约事实，以虚假的债权债务关系向人民法院提起民事诉讼"}]}
+      - {client_belief: "虚假起诉只是诈骗手段的一部分，绝不可能另行评价对司法秩序的侵害。", court_record: "欺骗法院开庭并作出裁判的虚假诉讼行为可独立评价，同时应处理与其他犯罪的关系。", gap_type: disputed, evidence: [{section: basic_facts, quote: "欺骗人民法院开庭审理并作出民事裁判文书"}, {section: adjudication, quote: "以虚假诉讼罪判处有期徒刑六年"}]}
+      - {client_belief: "该组织长期针对老年群体实施套路贷，涉及七十余名被害人及家庭。", court_record: "涉案组织活动持续多年，涉及七十余名被害人及家庭且犯罪对象为老年群体。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "涉及多个市辖区、70余名被害人及家庭"}, {section: basic_facts, quote: "且犯罪对象为老年群体"}]}
+    expected_inquiries: ["组织层级、决策、收益分配和各成员分工如何？", "真实放款、虚增债务、违约制造与公证委托如何串联？", "房产过户、清房、抵押出售和资金流向如何？", "律师对虚假基础事实的明知与诉讼参与如何证明？", "各被害人案件和各罪名事实如何避免重复评价？", "七十余名被害人的年龄、损失和行为模式能否逐案对应证据？"]
+    memo_expectations: ["还原套路贷从获客到房产变现全链条。", "识别公证和裁判背后的虚假基础事实。", "证明组织性、暴力控制和非法经济利益。", "区分诈骗、敲诈、寻衅滋事与虚假诉讼保护法益。", "逐案核算损失并处理罪数和追赃。", "以被害人级证据表避免规模描述替代逐案证明。"]
+    editorial_review: *full_review
+    editorial_note: 复杂案件按行为链和保护法益拆分，避免把所有事实笼统塞入“套路贷”标签而丧失可调查性。
+
+  - id: lsg_cn_0089
+    source_line: 136
+    source_case_sha256: f06483c80d06642e4c6c433c88379cc087e24e844b5afeab383c6b7eb149c682
+    split: train
+    legal_domain: procedure_evidence
+    client_role: 协助伪造民间借贷诉讼规避经适房限售的基层法律服务者杨某某
+    consultation_stage: 共同虚假诉讼行为被调查后、刑事处理前
+    opening: 我曾协助办理若干经济适用房交易，后来被指通过诉讼程序规避上市限制并与司法人员通谋。案件正在调查，我想判断自己在材料准备和程序推进中的刑事责任。
+    admission_reason: 规避限售目的、虚构管辖连接点、法院人员参与、多份调解书与财产损失完整，可评价诉讼欺诈及司法人员职务犯罪。
+    facts:
+      - {client_belief: "我在协助经适房买卖过户时想规避五年限售政策。", court_record: "杨某某为规避经济适用房五年内不准上市交易政策寻找法院人员。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "为规避经济适用房5年内不准上市交易的政策规定"}]}
+      - {client_belief: "我与法院副院长预谋虚构民间借贷诉讼。", court_record: "杨某某与魏某预谋以虚构民间借贷纠纷诉讼规避政策。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "二人预谋以虚构民间借贷纠纷诉讼的方式规避政策规定"}]}
+      - {client_belief: "双方商定签假借款合同并虚构住址和法院管辖。", court_record: "买卖双方签订虚假借贷合同并在起诉状编造住址和管辖连接点。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "由买卖双方签订虚假民间借贷合同"}, {section: basic_facts, quote: "在起诉状中编造当事人住址在该县的虚假内容"}]}
+      - {client_belief: "法院随后出具多份以房抵债调解书，导致经适房违规过户。", court_record: "魏某利用职务出具多份虚假调解书，致多套经适房违规低价过户。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "先后出具多份虚假的以房抵债民事调解书，导致多套经济适用房被违规低价过户"}]}
+      - {client_belief: "买卖双方真实想交易房屋，所以借贷事实和管辖事实是否虚构不重要。", court_record: "真实交易目的不能使为规避政策而捏造的借贷、住所和诉讼程序合法化。", gap_type: disputed, evidence: [{section: basic_facts, quote: "以虚构民间借贷纠纷诉讼的方式规避政策规定"}]}
+      - {client_belief: "法院人员只是按双方调解意愿出文书，不涉及职权滥用。", court_record: "司法人员利用职务共同出具虚假调解书并造成重大损失，可构成滥用职权。", gap_type: disputed, evidence: [{section: adjudication, quote: "对魏某以滥用职权罪判处有期徒刑六年"}]}
+      - {client_belief: "魏某还利用职务收受他人财物，案发后退缴了赃款赃物。", court_record: "魏某除共同出具虚假文书外还收受财物，案发后退缴全部赃款赃物。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "魏某还利用职务上的便利非法收受他人财物，案发后已退缴全部赃款赃物"}]}
+    expected_inquiries: ["经适房性质、购置和限售期限如何？", "虚假借贷合同、起诉状、住址与管辖由谁设计制作？", "法院人员如何受托、立案、调解和出具文书？", "违规过户数量、价格差额和公共财产损失如何计算？", "各参与人的获利、请托财物及退缴情况如何？"]
+    memo_expectations: ["识别真实房屋交易背后的虚假诉讼结构。", "证明虚构债务、连接点和调解文书的故意。", "评价限售政策规避与司法秩序损害。", "区分外部参与者与司法人员职务责任。", "核算损失、受贿线索和追缴修复措施。"]
+    editorial_review: *full_review
+    editorial_note: 不把真实购房合意当成虚假借贷诉讼的抗辩，也不把普通政策规避与司法人员职务犯罪混为一谈。
+
+  - id: lsg_cn_0090
+    source_line: 54
+    source_case_sha256: f98125dd4561355f3d130fbd7cd38f983753ba33d3575a9c8b76b91b7eeab3a3
+    split: train
+    legal_domain: finance_bankruptcy
+    client_role: 被银行另收融资承诺费的房地产开发公司
+    consultation_stage: 银行起诉追偿贷款本息后、答辩前
+    opening: 银行在贷款安排之外向我公司收取了一项费用，融资后来实际实施。公司逾期后银行起诉追偿，我想审查这项收费的监管依据及能否从应还款中扣除。
+    admission_reason: 承诺协议、收费条件、额度全额使用、贷款发放和逾期诉讼完整，可评价金融服务收费与变相融资成本。
+    facts:
+      - {client_belief: "银行与我公司签订融资承诺协议并承诺提供融资额度。", court_record: "银行与开发公司签订协议并承诺提供融资支持。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某银行与某房地产开发公司签订《融资承诺协议》"}]}
+      - {client_belief: "协议要求我公司另行支付融资承诺费。", court_record: "融资承诺协议约定开发公司支付融资承诺费。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某房地产开发公司应支付融资承诺费1000万元"}]}
+      - {client_belief: "银行出具融资承诺函后，我公司支付了该费用。", court_record: "银行出具承诺函，同日开发公司转账支付融资承诺费。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某银行出具《融资承诺函》"}, {section: basic_facts, quote: "某房地产开发公司向某银行转账支付融资承诺费1000万元"}]}
+      - {client_belief: "公司随后分次取得了全部约定贷款。", court_record: "开发公司分三次共计借款三点五亿元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某房地产开发公司分三次共计借款3.5亿元"}]}
+      - {client_belief: "合同写明承诺费不退，银行就无需说明收费项目的监管依据和独立服务内容。", court_record: "商业银行收费项目与标准受监管规范约束，合同约定不能替代收费依据。", gap_type: disputed, evidence: [{section: adjudication, quote: "商业银行办理业务、提供服务应按照规定收取手续费，收费项目和标准由银行业监管机构、人民银行分别会同国务院价格主管部门制定"}]}
+      - {client_belief: "银行提前调配贷款资金必然属于可另收费的独立服务。", court_record: "为履行贷款承诺而调配资金属于金融机构经营成本，不能当然转化为另行收费服务。", gap_type: disputed, evidence: [{section: adjudication, quote: "为依约提供贷款而调配筹集相应资金，是金融机构应承担的经营成本"}]}
+      - {client_belief: "协议还写明额度未使用、部分使用或提前终止时承诺费都不退。", court_record: "融资承诺协议约定额度未使用、部分使用或协议提前终止时银行不退承诺费。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "若额度使用期内未使用或部分使用或本协议提前终止，某银行不归还已支付的承诺费"}]}
+    expected_inquiries: ["融资承诺协议、贷款合同和收费凭证如何约定关联？", "收费时适用的监管项目、标准和公示材料是什么？", "银行除贷款准备外实际提供了何种独立服务？", "额度是否全部使用、费用是否计入综合融资成本？", "逾期本金利息与争议费用应如何重新核算？"]
+    memo_expectations: ["确认融资承诺费法律与监管依据。", "审查收费对应的独立服务和实际履行。", "区分银行经营成本与客户有偿服务。", "将违规收费与贷款本金利息准确抵扣。", "避免以收费无效否定真实贷款清偿责任。"]
+    editorial_review: *full_review
+    editorial_note: 仅审查附加收费，不把收费项目无依据扩张成借款合同和本金债务全部无效。
+
+  - id: lsg_cn_0091
+    source_line: 56
+    source_case_sha256: a75e1e7638ab3389dbf89406ae340b87cdd5f084057bdc533596e00c515e4e08
+    split: train
+    legal_domain: finance_bankruptcy
+    client_role: 主张从破产开发公司取回已抵债交付房屋的集团公司
+    consultation_stage: 开发公司进入破产清算后、提起取回权诉讼前
+    opening: 多年前开发公司曾以房屋抵销对我们的欠款，后来权属登记一直未完成。现在开发公司破产，我们想查清执行、交付和登记障碍并主张该房屋不属于破产财产。
+    admission_reason: 抵债对价、预售备案、执行裁定、实际交付、未登记原因和法律变迁完整，可评价破产取回权及旧法物权效力。
+    facts:
+      - {client_belief: "开发公司与我公司签订商品房买卖合同并开具全款发票、办理预售备案。", court_record: "双方签订买卖合同，开发公司开具全部房款发票并办理预售登记备案。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "开具了全部购房款发票，作了房屋预售登记备案"}]}
+      - {client_belief: "法院调解确认房屋用于抵销开发公司对我公司的欠款。", court_record: "生效调解确认开发公司以出售房屋抵销欠款。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "并将房屋卖给某集团公司，作为抵销对某集团公司的欠款"}]}
+      - {client_belief: "执行法院裁定房屋产权过户给我公司。", court_record: "执行裁定将案涉房屋产权过户给集团公司。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "将案涉房屋产权过户给某集团公司所有"}]}
+      - {client_belief: "双方已实际交付房屋，但开发公司未取得权证导致登记未完成。", court_record: "集团公司取得钥匙门卡，未登记源于开发公司未取得权属证书。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某集团公司取得钥匙和门卡"}, {section: basic_facts, quote: "某开发公司因自身原因未取得不动产权属证书，房屋未完成所有权转移登记"}]}
+      - {client_belief: "破产受理时没有产权登记，就当然只能作为普通债权申报。", court_record: "权利形成于现行实体法实施前时，应结合当时法律、制度和现实判断房屋是否属于破产财产。", gap_type: disputed, evidence: [{section: adjudication, quote: "取回权人主张作为取回权基础的民事权利形成于物权法等实体法实施之前的，应当结合法律的溯及力、我国物权制度的发展过程、行为发生时的社会现实情况等因素，进行综合判断"}]}
+      - {client_belief: "未登记的不动产在任何历史法律条件下都不可能取得物权效力。", court_record: "在应适用的旧法采取登记对抗主义时，支付对价并实际占有可据以认定物权。", gap_type: disputed, evidence: [{section: adjudication, quote: "根据1995年城市房地产管理法关于不动产物权变更登记采对抗主义的规定，其已取得房屋物权"}]}
+      - {client_belief: "房屋被案外人占用后，我公司两次提起排除妨害诉讼并获支持。", court_record: "集团公司曾两次起诉案外人排除妨害且均获得法院支持。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某集团公司曾两次起诉案外人排除妨害，均获得法院支持"}]}
+    expected_inquiries: ["合同、发票、抵债调解和执行裁定形成时间及效力如何？", "房屋交付、占有使用和排除妨害证据有哪些？", "未登记原因是否可归责于买受人？", "权利形成时应适用何种不动产登记规则？", "房屋是否存在第三人权利及破产管理人异议？"]
+    memo_expectations: ["固定抵债对价和生效文书。", "证明实际交付持续占有与未登记原因。", "正确处理新旧实体法时间效力。", "判断房屋是否属于债务人破产财产。", "区分取回权、物权期待权和普通债权路径。"]
+    editorial_review: *full_review
+    editorial_note: 该结论高度依赖权利形成时间和旧法规则，避免泛化成现行法下一切交付未登记房屋均可取回。
+
+  - id: lsg_cn_0092
+    source_line: 58
+    source_case_sha256: 7d5a5f17d234a20eb342d0fe49b1289462b17760a57ea5100e1dbbfec957a157
+    split: train
+    legal_domain: finance_bankruptcy
+    client_role: 被要求在改制接收资产范围内连带还债的商贸公司
+    consultation_stage: 金融资产债权人起诉要求承担改制债务后、答辩前
+    opening: 我公司由原集团部分单位改制成立，改制方案记载了资产债务承接安排。债权人据此要求我们扩大承担责任，我想核查方案是否实际履行以及责任范围。
+    admission_reason: 改制方案、资产负债清单、方案未完全履行、实际接收资产与已偿外债完整，可评价企业改制债务承继边界。
+    facts:
+      - {client_belief: "我公司由原集团五个子分公司改制设立。", court_record: "地方政府以中原集团五个子分公司改制成立商贸公司。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "以中原集团公司五个子（分）公司改制成立某商贸公司"}]}
+      - {client_belief: "资产负债清单设计以外债与内部债务冲减后由我公司偿还外债。", court_record: "移交清单记载外部债务与内部债务冲减并由商贸公司负责偿还外债。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "4660余万元对外债务与原五个子（分）公司欠中原集团公司的3715万余元内部债务冲减"}]}
+      - {client_belief: "原改制方案没有完全履行。", court_record: "原改制方案并未完全履行。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "但原改制方案并未完全履行"}]}
+      - {client_belief: "计划移交的两栋营业楼和一块宗地没有交付给我公司。", court_record: "拟改制移交的营业楼和宗地未向商贸公司交付。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "原计划改制移交两栋营业楼资产和一块宗地，未交付给某商贸公司"}]}
+      - {client_belief: "只要改制方案纸面列明资产数额，就应推定我公司已实际接收全部资产。", court_record: "新设公司责任以实际接收财产范围为基础，不能用未履行方案替代实际移交证明。", gap_type: disputed, evidence: [{section: adjudication, quote: "新设公司应在所接收的财产范围内与原企业承担连带民事责任"}]}
+      - {client_belief: "我公司偿还过部分外债，就代表全部案涉债务已依法转移。", court_record: "部分履行不当然完成债务转移，仍应审查债权人同意及改制安排实际履行。", gap_type: disputed, evidence: [{section: adjudication, quote: "案涉债务未依法转移至某商贸公司"}, {section: adjudication, quote: "并未实际履行"}]}
+      - {client_belief: "我公司已经实际偿还一千九百六十一万余元外部债务。", court_record: "改制后某商贸公司实际偿还外部债务一千九百六十一万余元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某商贸公司已偿还1961万余元外部债务"}]}
+    expected_inquiries: ["改制批复、方案和资产负债清单的法律关系如何？", "具体哪些资产完成评估、交割、登记和占有移转？", "案涉金融债权人是否同意债务转移？", "我公司已偿外债的对象、依据和资金来源如何？", "实际接收财产价值与连带责任上限如何鉴定？"]
+    memo_expectations: ["区分改制计划与实际履行。", "逐项证明实际接收财产和价值。", "审查债务转移是否取得债权人同意。", "按接收财产范围限定新设公司责任。", "处理已偿债务、内部冲减与本案债权的对应关系。"]
+    editorial_review: *full_review
+    editorial_note: 不把政府改制文件的计划数字直接当成资产交付事实，责任上限必须回到可证实际接收财产。

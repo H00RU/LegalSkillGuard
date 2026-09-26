@@ -1,99 +1,93 @@
-"""Auditable Skill Contract schema with a finite operation language."""
+"""Schema for auditable, policy-facing legal consultation skill documents.
+
+The learned object is a document shown to the frozen lawyer before it chooses an
+action.  It is deliberately not an executable rule: no field refers to a
+``candidate_action`` and no operation can rewrite a model output.  Causal source
+evidence is stored separately by the evolution pipeline.
+"""
 
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-SkillLevel = Literal["strategic", "functional", "atomic"]
 SkillStatus = Literal["candidate", "active", "rejected", "deprecated"]
-ConditionOp = Literal["eq", "ne", "gt", "gte", "lt", "lte", "in", "contains", "truthy"]
-OperationType = Literal[
-    "allow",
-    "block",
-    "replace_type",
-    "replace_target",
-    "replace_type_and_target",
-    "add_constraint",
-    "request_state",
-    "force_abstain",
+SkillObjective = Literal[
+    "fact_elicitation",
+    "evidence_gap_identification",
+    "safe_stop",
 ]
+SkillDocumentItem = Annotated[str, Field(min_length=1, max_length=240)]
 
 
 class SkillModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-class Condition(SkillModel):
-    field: str | None = None
-    op: ConditionOp | None = None
-    value: Any = None
-    all: list[Condition] = Field(default_factory=list)
-    any: list[Condition] = Field(default_factory=list)
-
-    @model_validator(mode="after")
-    def exactly_one_form(self) -> Condition:
-        forms = int(self.field is not None) + int(bool(self.all)) + int(bool(self.any))
-        if forms != 1:
-            raise ValueError("Condition requires exactly one of field, all, or any")
-        if self.field is not None and self.op is None:
-            raise ValueError("Leaf condition requires op")
-        return self
-
-
-class SkillOperation(SkillModel):
-    type: OperationType
-    new_action_type: str | None = None
-    target_type: str | None = None
-    target_id: str | None = None
-    target_selector: str | None = None
-    constraint: str | None = None
-    reason: str | None = None
-
-
-class Guardrails(SkillModel):
-    max_activations_per_session: int = Field(default=1, ge=1)
-    disable_if: list[Condition] = Field(default_factory=list)
-
-
 class Provenance(SkillModel):
-    source: Literal["manual_seed", "tf_grpo", "repair", "merge"]
+    source: Literal["manual_seed", "tf_grpo", "repair", "merge", "luna_direct"]
+    source_evidence_cluster_id: str | None = None
+    source_signal_family: SkillObjective | None = None
     source_case_ids: list[str] = Field(default_factory=list)
     source_trajectory_ids: list[str] = Field(default_factory=list)
     generator_model: str | None = None
     diagnosis_hash: str | None = None
 
 
-class SkillEvaluation(SkillModel):
-    paired_cases: int = 0
-    triggered_pairs: int = 0
-    mean_delta_reward: float | None = None
-    median_delta_reward: float | None = None
-    harmful_pair_rate: float | None = None
-    severe_risk_count: int = 0
-    accepted_at: str | None = None
+class SkillDocumentFields(SkillModel):
+    """The policy-facing portion shared by teacher drafts and stored skills."""
 
-
-class SkillContract(SkillModel):
-    schema_version: int = 1
+    schema_version: Literal[2] = 2
     skill_id: str = Field(pattern=r"^[a-z][a-z0-9_.-]+$")
-    name: str
+    name: str = Field(min_length=2, max_length=80)
     version: str = Field(pattern=r"^\d+\.\d+\.\d+$")
-    level: SkillLevel
     domain: str = "general"
+    objective: SkillObjective
+    description: str = Field(min_length=12, max_length=500)
+    applicability_cues: list[SkillDocumentItem] = Field(min_length=1, max_length=5)
+    procedure: list[SkillDocumentItem] = Field(min_length=1, max_length=5)
+    question_guidance: list[SkillDocumentItem] = Field(min_length=1, max_length=4)
+    expected_effects: list[SkillDocumentItem] = Field(min_length=1, max_length=5)
+    contraindications: list[SkillDocumentItem] = Field(min_length=1, max_length=5)
+    failure_modes: list[SkillDocumentItem] = Field(min_length=1, max_length=5)
+
+    @model_validator(mode="after")
+    def require_clean_document_lists(self) -> SkillDocumentFields:
+        """Keep the prompt document compact, non-empty, and deterministic."""
+
+        for field_name in (
+            "applicability_cues",
+            "procedure",
+            "question_guidance",
+            "expected_effects",
+            "contraindications",
+            "failure_modes",
+        ):
+            values = getattr(self, field_name)
+            normalized = [item.strip() for item in values]
+            if any(not item for item in normalized):
+                raise ValueError(f"{field_name} cannot contain blank items")
+            if len(normalized) != len(set(normalized)):
+                raise ValueError(f"{field_name} cannot contain duplicate items")
+            setattr(self, field_name, normalized)
+        self.name = self.name.strip()
+        self.description = self.description.strip()
+        return self
+
+
+class SkillDocumentDraft(SkillDocumentFields):
+    """Teacher-owned fields; source identity and outcome statistics are excluded."""
+
+    status: Literal["candidate"] = "candidate"
+
+
+class SkillContract(SkillDocumentFields):
+    """One system-owned prompt-memory skill record.
+
+    Candidate status may change during the block transaction; once active, the
+    registry publishes the document only inside an immutable library version.
+    """
+
     status: SkillStatus = "candidate"
-    description: str
-    preconditions: list[Condition]
-    reads: list[str]
-    operation: SkillOperation
-    expected_effects: list[str]
-    validators: list[str]
-    failure_modes: list[str]
-    guardrails: Guardrails
     provenance: Provenance
-    evaluation: SkillEvaluation = Field(default_factory=SkillEvaluation)
-
-
-Condition.model_rebuild()
-

@@ -1,0 +1,196 @@
+annotations:
+  - id: lsg_cn_0075
+    source_line: 96
+    source_case_sha256: 2ae0f0a793ea4a5bd621622ceca121db7d2260825694615f0237f5bd3c69c3ad
+    split: train
+    legal_domain: administrative
+    client_role: 对相邻加油站迁址批复提出异议的加油站经营者
+    consultation_stage: 商务部门作出准予建设批复后、提起行政诉讼前
+    opening: 另一家加油站获批迁至我站附近，我认为选址和许可条件存在问题，曾向主管部门反映但未获支持，想审查批复程序和实体依据。
+    admission_reason: 竞争主体、规划公示、间距异议、企业性质与许可申请材料完整，可评价竞争者原告资格和行政许可审查边界。
+    facts:
+      - {client_belief: "对方加油站原场地因道路拓宽整体搬迁并停止运营。", court_record: "农机加油站原经营场地因城镇道路拓宽整体搬迁停止运营。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "原经营场地因城镇道路拓宽整体搬迁停止运营"}]}
+      - {client_belief: "商务部门经规划和勘察确认新地块符合设置规划并公示。", court_record: "商务局根据规划及现场勘察确认新选址符合设置规划并公示。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "根据相关规划及现场勘察，南通市商务局(以下简称商务局)审核确认，该加油站新的选址地块符合设置规划，并进行公示"}]}
+      - {client_belief: "我对两站距离过近提出过异议。", court_record: "某加油站就争议地块与其距离过近提出异议。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "某加油站)就争议地块与其距离过近提出异议"}]}
+      - {client_belief: "对方提交竞拍取得地块等申请材料后获准建设。", court_record: "农机加油站提交竞拍取得争议地块文件等材料后，商务局批复同意建设。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "提交了竞拍取得争议地块文件等申请材料后，商务局于2021年5月批复同意农机加油站在争议地块建设"}]}
+      - {client_belief: "对方是集体企业，所以审批机关必须据此拒绝其迁址申请。", court_record: "没有法律规定审批机关需审查申请人的企业性质或排除非全民所有制企业申请零售许可。", gap_type: disputed, evidence: [{section: adjudication, quote: "没有法律规定审批机关需审查申请人的企业性质，以及除全民所有制企业外的其他企业不具有申请成品油零售许可的资格条件"}]}
+      - {client_belief: "只要新站会与我竞争，建设批复就当然违法。", court_record: "竞争影响不当然否定许可，仍需审查申请主体、规划间距和法定材料。", gap_type: disputed, evidence: [{section: adjudication, quote: "在主体、间距等方面符合法律规定"}]}
+    expected_inquiries: ["两站准确位置、道路条件和法定测距方法如何？", "规划、公示、异议及回复材料是否完整送达？", "对方原许可状态、迁址原因和申请材料有哪些？", "现行许可规范对主体性质和迁址分别如何规定？", "批复对我方经营权益产生何种直接实际影响？"]
+    memo_expectations: ["确认竞争者与许可行为的利害关系。", "按规划、间距、主体和材料审查批复。", "区分企业性质主张与法定许可条件。", "核查异议处理和程序参与保障。", "评估撤销请求、举证责任和经营影响。"]
+    editorial_review: &full_review {source_read_in_full: true, single_client_role: true, pre_outcome_timeline: true, opening_has_no_outcome: true, opening_information_boundary_checked: true, beliefs_are_natural: true, gap_labels_semantically_checked: true, inquiries_are_answerable: true, memo_points_are_substantive: true}
+    editorial_note: 不以竞争关系直接推导许可违法，保留规划、间距、主体资格与程序四条独立审查线。
+
+  - id: lsg_cn_0076
+    source_line: 98
+    source_case_sha256: 725730a0aead7cb0a8b12f1d967b80293fa65e2b3f719adcd094e54697859339
+    split: train
+    legal_domain: administrative
+    client_role: 被财政部门取消政府采购中标结果的环境服务公司
+    consultation_stage: 收到投诉处理决定后、提起行政诉讼前
+    opening: 我公司参与一项环卫园林项目投标后，竞争方提出质疑，招标方和财政部门先后处理，最终结果对我司不利。我想审查质疑内容、调查程序、证据和处理权限。
+    admission_reason: 投标合同、竞争者质疑、采购人审查、财政调查和公共利益完整，可评价政府采购投诉处理的事实与程序。
+    facts:
+      - {client_belief: "我公司经招投标中标环卫园林一体化特许经营项目。", court_record: "环境科技公司经招投标中标智慧环卫园林一体化特许经营项目。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "经招投标，中标“智慧环卫园林一体化”特许经营项目"}]}
+      - {client_belief: "竞争公司提交质疑，称园林建设养护业绩不属实。", court_record: "保洁公司提交质疑函及证据，指称投标业绩不实。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "提交质疑函及相关证据，称环境科技公司投标中所提交园林绿化建设、养护业绩不属实"}]}
+      - {client_belief: "招标公司审查后维持了原中标结果。", court_record: "招标公司经审查维持原中标结果。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "后招标公司经审查维持了原中标结果"}]}
+      - {client_belief: "财政部门通过政府信息网查询和实地走访调查业绩。", court_record: "财政局对中标业绩材料进行网上查询和实地走访调查。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "通过政府信息网查询及实地走访调查分析"}]}
+      - {client_belief: "采购人已经认可业绩，财政部门就无权重新核实。", court_record: "政府采购投诉机关可以依法调查投标业绩并据实处理。", gap_type: disputed, evidence: [{section: adjudication, quote: "六份证明其业绩的合同未在相应的政府采购信息网查询到中标材料，且经实地调查所提交的业绩不属实"}]}
+      - {client_belief: "只要提交了合同文本，就足以证明全部投标业绩真实。", court_record: "合同文本仍需与采购信息和实际履行相互印证，不能排除对虚假业绩的认定。", gap_type: disputed, evidence: [{section: adjudication, quote: "所提交的业绩不属实"}]}
+      - {client_belief: "该特许经营项目的中标金额为六千四百八十余万元。", court_record: "环境科技公司中标项目金额为六千四百八十余万元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "金额为64802897元"}]}
+    expected_inquiries: ["六份业绩合同的相对方、项目内容和履行证据是什么？", "政府采购信息平台为何无法查询，是否存在非政府采购项目？", "质疑、投诉、答复和调查程序分别如何进行？", "实地走访对象、记录及我方陈述申辩机会如何？", "采购文件对虚假材料和中标无效如何规定？", "项目金额、公共服务连续性和重新确定供应商会受何影响？"]
+    memo_expectations: ["逐项核验投标业绩真实性。", "区分采购人质疑答复与财政投诉审查权限。", "审查网络查询和实地调查证据链。", "核查告知、申辩和处理期限程序。", "评估取消中标与公共利益的法律依据。", "评估中标无效后的采购衔接和比例影响。"]
+    editorial_review: *full_review
+    editorial_note: 不把网站未检索到单独等同造假，要求结合合同相对方、履行材料和实地调查形成证据链。
+
+  - id: lsg_cn_0077
+    source_line: 104
+    source_case_sha256: 83f9c2d868384a29d637d3b048f0a8c59aa4073597218d8652efe749bedaf90f
+    split: train
+    legal_domain: administrative
+    client_role: 采矿许可被行政复议决定撤销的矿业公司
+    consultation_stage: 收到国务院部门行政复议决定后、起诉前
+    opening: 我公司的采矿许可因与相邻矿区权利冲突被主管部门撤销。我们认为决定对冲突范围、处理必要性和程序说明不足，想申请救济。
+    admission_reason: 重叠矿权、许可沿革、复议中止恢复、许可临近届满和替代处置方式完整，可评价信赖保护、比例原则与说明理由。
+    facts:
+      - {client_belief: "我公司的采矿权由地方部门延续并变更登记取得。", court_record: "地方自然资源部门办理采矿权延续和变更登记后向丙公司颁证。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "办理采矿权延续登记和变更登记手续，采矿权人从“XXX北段有色金属矿”变更登记为丙公司"}]}
+      - {client_belief: "两处矿区经地质资料核实存在垂直投影重叠。", court_record: "地质资料和储量核实显示两矿区垂直投影重叠。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "据地质资料和矿山储量核实，上述两处矿区垂直投影重叠"}]}
+      - {client_belief: "复议机关曾为进一步查明事实中止审理，后恢复并撤销许可。", court_record: "国土资源部中止后恢复复议审理并作出撤销采矿许可证的决定。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "因认为需要进一步查明有关事实和依据，国土资源部于2013年1月中止该案的审理，2014年7月恢复该案审理"}]}
+      - {client_belief: "作出复议决定时许可证已经临近届满，双方也因资源整合停产。", court_record: "被诉决定作出时许可临近届满且双方均因资源整合停产。", gap_type: undisputed, evidence: [{section: adjudication, quote: "该《采矿许可证》的有效期已经临近届满"}, {section: adjudication, quote: "双方均已经因矿区资源整合需要停产"}]}
+      - {client_belief: "发现矿权重叠后，复议机关只能把后来一方的许可证全部撤销。", court_record: "存在多种处理方式和复议结论时，选择全部撤销应进行利益衡量并充分说明。", gap_type: disputed, evidence: [{section: adjudication, quote: "在对案涉采矿权重叠问题有多种处理方式以及可能存在多种复议结论的情况下"}]}
+      - {client_belief: "只要原许可存在瑕疵，已经形成的许可利益无需纳入审查。", court_record: "撤销授益性许可必须考虑被许可人信赖利益并遵守比例原则。", gap_type: disputed, evidence: [{section: adjudication, quote: "撤销采矿许可必须考虑被许可人的信赖利益保护"}, {section: adjudication, quote: "确需撤销的，还应当坚持比例原则"}]}
+    expected_inquiries: ["两项许可的首次颁发、转让、延续与变更沿革如何？", "矿区重叠范围、成因和各方过错证据是什么？", "复议中止、恢复、参加和材料调取程序是否完备？", "许可届满、停产和资源整合的现实状态如何？", "除全部撤销外是否存在部分调整、补正或整合方案？"]
+    memo_expectations: ["还原两项采矿许可时间线。", "确认复议机关权限和程序。", "审查重叠事实与撤销依据。", "运用信赖保护和比例原则比较替代措施。", "核查决定对必要性、紧迫性和利益衡量的说明。"]
+    editorial_review: *full_review
+    editorial_note: 不否认矿权重叠瑕疵，核心训练点是授益许可撤销不能跳过比例衡量和说明理由。
+
+  - id: lsg_cn_0078
+    source_line: 108
+    source_case_sha256: 12fd99cbaa47b0538595e2a03d9873b8dc0d171e4d5e079c022d0c610a45d773
+    split: train
+    legal_domain: administrative
+    client_role: 被征收污水处理费的城区居民袁某某
+    consultation_stage: 持续缴费后、准备起诉并申请规范性文件附带审查
+    opening: 我被按当地方案收取污水处理费，但实际排污状况与城市管网关系存在争议。我想审查收费范围、授权依据并考虑退费。
+    admission_reason: 征费期间、委托征收、实际排放去向、上位规范与本地方案冲突完整，可评价行政收费及规范性文件附带审查。
+    facts:
+      - {client_belief: "我的住房在县城中心城区规划范围内。", court_record: "袁某某住房位于于都县中心城区规划范围内。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "袁某某的住房位于江西省于都县中心城区规划范围内"}]}
+      - {client_belief: "县政府委托自来水公司依据实施方案向我收费。", court_record: "县政府委托自来水公司依据实施方案征收污水处理费。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "于都县人民政府（以下简称于都县政府）委托县自来水公司，依据其制定的《于都县城市污水处理费征收工作实施方案》"}]}
+      - {client_belief: "本地方案把范围扩大到规划区所有城市供水用户。", court_record: "实施方案覆盖中心城区规划区所有使用城市供水的单位和个人。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "中心城区规划区范围内所有使用城市供水的单位和个人"}]}
+      - {client_belief: "我的污水没有排入城市排污管网和集中处理设施。", court_record: "袁某某未向城市排污管网和污水集中处理设施排放污水。", gap_type: undisputed, evidence: [{section: adjudication, quote: "袁某某未向城市排污管网和污水集中处理设施排放污水"}]}
+      - {client_belief: "只要住房在规划区并使用城市供水，政府就一定可以收取污水处理费。", court_record: "上位规范以向城镇排水和污水处理设施实际排放为收费条件。", gap_type: disputed, evidence: [{section: adjudication, quote: "向城镇排水与污水处理设施排放污水、废水的单位和个人应当缴纳污水处理费"}]}
+      - {client_belief: "起诉具体收费行为时，法院不能审查作为收费依据的县级实施方案。", court_record: "违法扩大征收范围的规范性文件不能作为具体收费行为的合法依据。", gap_type: disputed, evidence: [{section: adjudication, quote: "违反法律法规规章及上级行政机关规范性文件规定，不能作为于都县政府征收袁某某污水处理费的合法性依据"}]}
+      - {client_belief: "县政府在二〇一〇年至二〇一五年间共向我收取一千二百七十三点二元。", court_record: "县政府委托征收期间向袁某某收取污水处理费共计一千二百七十三点二元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "2010年至2015年期间"}, {section: basic_facts, quote: "向袁某某征收污水处理费共计1273.2元"}]}
+    expected_inquiries: ["住房排水设施实际接入何处，有无勘验、图纸和缴费记录？", "收费主体、委托关系、票据和历年金额如何？", "实施方案的制定公布与具体征收条款是什么？", "上位法律法规及省市文件如何限定缴费主体？", "退费范围、诉讼期限和附带审查请求如何提出？", "各年度收费依据是否相同，是否存在已停收、退费或时效中断事实？"]
+    memo_expectations: ["查明是否向集中设施实际排污。", "审查收费主体与委托征收权限。", "比较实施方案和上位规范的征收范围。", "设计具体行为诉讼与规范性文件附带审查。", "核算可请求返还费用并处理期限问题。", "按年度区分收费行为、依据与救济期限。"]
+    editorial_review: *full_review
+    editorial_note: 将规划区位置与实际排入污水设施分开调查，避免仅凭地址或供水关系判断收费合法性。
+
+  - id: lsg_cn_0079
+    source_line: 113
+    source_case_sha256: 32c5aecc49459930be8da6da54b698bcf97dc573ff6dd416f66c67be1ed7da22
+    split: train
+    legal_domain: environment_resources
+    client_role: 将废酸交给无资质人员处置的树脂公司生产负责人薛某
+    consultation_stage: 检察机关提起刑事附带民事公益诉讼后、审理前
+    opening: 公司处置生产废液的过程被指造成跨区域水体污染，检察机关同时追究刑事和生态修复责任。我是公司相关管理人员，想厘清个人责任和民事责任范围。
+    admission_reason: 危废属性、委托链条、跨省运输、暗管排放、负责人职责与修复方案完整，可评价刑民责任和替代性修复。
+    facts:
+      - {client_belief: "公司把危险废酸交给无处置资质人员处理。", court_record: "树脂科技公司将危险废物废酸液交由无处置资质人员非法处置。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "将危险废物废酸液交由无处置资质的李某好、王某众、陶某兰等人非法处置"}]}
+      - {client_belief: "我是公司的生产技术负责人。", court_record: "薛某为树脂科技公司生产技术负责人。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "薛某为某树脂科技公司生产技术负责人"}]}
+      - {client_belief: "废酸从多个省份分批运往租用厂房。", court_record: "相关人员从安徽、江西、江苏等地分批运输危险废物。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "从安徽省、江西省、江苏省等地将危险废物分批次运至黄某租用的厂房"}]}
+      - {client_belief: "部分废液提铜后、其余废酸直接通过暗管排入长江。", court_record: "废蚀刻液提铜后和其他废酸液均通过暗管排向长江干流。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "将废蚀刻液（废酸液中的一种）提铜后通过暗管向长江干流排放，其他废酸液直接通过暗管向长江干流排放"}]}
+      - {client_belief: "委托他人处置后，产生单位和负责人就与最终非法排放无关。", court_record: "产生单位及负责人参与非法处置链条的，仍可对污染犯罪和环境损害承担责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "某树脂科技公司、薛某等10人非法排放、倾倒、处置危险废物，严重污染环境，构成污染环境罪"}]}
+      - {client_belief: "技术改造属于公司经营投入，绝不可能与生态修复责任衔接。", court_record: "符合条件的循环利用技术改造费用可在约定限额内折抵修复费用。", gap_type: disputed, evidence: [{section: adjudication, quote: "对符合折抵条件的技术改造费用等可在3000余万元内抵扣"}]}
+      - {client_belief: "涉案人员通过暗管向长江干流排放的危险废物共计二万余吨。", court_record: "非法处置链条累计向长江干流排放危险废物二万余吨。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "共排放危险废物2万余吨"}]}
+    expected_inquiries: ["废酸危险废物代码、数量和检测依据是什么？", "受托人资质核查、合同、联单和付款链条如何？", "我对生产、出库和处置具有何种决定或监督职责？", "跨省运输、接收、提铜和排放参与者如何分工？", "损害评估、修复方案和技改折抵如何证明可执行？", "各批次重量、来源企业和流向能否由联单、车辆及资金相互印证？"]
+    memo_expectations: ["还原危险废物产生至排放全链条。", "区分单位、主管人员和各参与人的主观明知与行为。", "审查污染环境罪定罪量刑证据。", "核算生态损害、鉴定和修复责任。", "评价技术改造折抵的环境效果与履行保障。", "以分批运输和处置证据限定各参与者责任范围。"]
+    editorial_review: *full_review
+    editorial_note: 技改折抵仅作为经评估的修复履行方式，不写成以企业投资当然冲抵生态损害。
+
+  - id: lsg_cn_0080
+    source_line: 117
+    source_case_sha256: be8b6ca72dc81aca8e9551a209a88dc4bb21566e556504f5a379a372d54a7704
+    split: train
+    legal_domain: environment_resources
+    client_role: 在渔排协助父亲收购禁渔期渔获的谢某城
+    consultation_stage: 主动到案并认罪认罚后、量刑审理前
+    opening: 家人在禁渔期后从事水产品收购，我在现场做过辅助工作，目前被调查。我想说明自己的参与程度，并了解到案经过、生态修复等情节如何评价。
+    admission_reason: 供给与收购模式、禁渔时空、父子分工、主动到案和生态修复承诺完整，可评价共同犯罪地位与恢复性措施。
+    facts:
+      - {client_belief: "我协助父亲称重、分拣、记账和结算水产品。", court_record: "谢某城在渔排协助谢某川称重、分拣、记账和结算。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "其子被告人谢某城协助称重、分拣、记账、结算等"}]}
+      - {client_belief: "父亲为船主提供鱼饵、碎冰和生活用品并收购全部渔获。", court_record: "谢某川向捕捞人员提供物资并约定收购渔获后转卖。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "由谢某川提供出海捕捞的鱼饵、碎冰及生活用品等"}, {section: basic_facts, quote: "所得渔获物由谢某川收购再转卖他人"}]}
+      - {client_belief: "相关人员在禁渔期、禁渔区利用笼壶捕捞。", court_record: "涉案捕捞发生在禁渔期、禁渔区并使用笼壶。", gap_type: undisputed, evidence: [{section: adjudication, quote: "在禁渔期、禁渔区非法捕捞水产品"}]}
+      - {client_belief: "我接到海警电话通知后主动到案。", court_record: "谢某川、谢某城经海警机关电话通知主动到案。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "谢某川、谢某城经漳州海警机关电话通知主动到案"}]}
+      - {client_belief: "我没亲自驾驶渔船下网，就当然不构成共同犯罪。", court_record: "明知并协助非法捕捞产品收购结算的，可构成共同犯罪但应按地位作用区分。", gap_type: disputed, evidence: [{section: adjudication, quote: "在共同犯罪中，谢某川系主犯"}, {section: adjudication, quote: "谢某城系从犯"}]}
+      - {client_belief: "购买鱼苗和参加护海公益活动可以直接消灭刑事责任。", court_record: "恢复性措施属于悔罪和量刑、缓刑考察因素，不当然否定犯罪成立。", gap_type: disputed, evidence: [{section: adjudication, quote: "均自愿购置鱼苗用于增殖放流"}, {section: adjudication, quote: "将谢某城参与公益活动的相关表现情况作为缓刑考验内容之一纳入考核"}]}
+      - {client_belief: "父亲在两个月内收购渔获价值五十二万余元并获利一万元。", court_record: "谢某川在涉案期间收购水产品价值五十二万余元、非法获利一万元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "2021年5月至6月，谢某川收购水产品价值共计527407元，非法获利10000元"}]}
+    expected_inquiries: ["禁渔期、禁渔区及捕捞工具认定依据是什么？", "我何时知道渔获来源并具体参与哪些环节？", "父亲与各船主的物资、收购和利润约定如何？", "到案、供述、认罪认罚及违法所得退缴情况如何？", "增殖放流与净滩协议的数量、期限和监督方式是什么？"]
+    memo_expectations: ["确认非法捕捞时空和行为要件。", "依知情程度与分工判断共同犯罪。", "区分主从犯、自首和认罪认罚。", "核对违法所得及涉案渔获。", "将生态修复纳入量刑和社区矫正但不替代定罪。"]
+    editorial_review: *full_review
+    editorial_note: 恢复性司法措施被限定在悔罪、量刑和矫正层面，未包装为缴费免罪。
+
+  - id: lsg_cn_0081
+    source_line: 119
+    source_case_sha256: 31373d987dbba559b6ad33e19e7ee39f3495c715596fd4e37427ac05736f489c
+    split: train
+    legal_domain: environment_resources
+    client_role: 进入大熊猫国家公园核心区盗采铅锌矿的赵某强
+    consultation_stage: 被追诉破坏自然保护地罪和非法采矿罪后、审理前
+    opening: 我们在保护区内从事取矿活动，进入矿洞和运输过程中对现场作过改动。检方认为相关行为既涉及非法采矿，也破坏了大熊猫国家公园生态环境。
+    admission_reason: 多重保护地、开路硬化、盗采、伤亡和生态影响范围完整，可评价罪名竞合与保护地生态损害。
+    facts:
+      - {client_belief: "矿区位于大熊猫国家公园核心保护区并叠加多重保护地。", court_record: "老槽沟矿区位于国家公园核心区，也是国家森林公园和世界自然遗产地。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "“老槽沟”矿区位于大熊猫国家公园眉山片区核心保护区，该区域亦是国家森林公园、大熊猫世界自然遗产地"}]}
+      - {client_belief: "矿区此前已被政府关停并查封井硐。", court_record: "县政府关停矿区、拆除设施、查封井硐并实施生态恢复。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "将“老槽沟”矿区关停，拆除生产设施、查封井硐，实施生态恢复"}]}
+      - {client_belief: "我们破碎入口石头、砍伐植物并硬化道路以进入和运输。", court_record: "行为人破碎挡路石、砍伐道路植物并用碎石混凝土硬化道路。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "将大熊猫国家公园核心保护区入口的大石头破碎"}, {section: basic_facts, quote: "砍伐周边植物形成约一米宽的路"}]}
+      - {client_belief: "盗采曾引发矿洞垮塌并造成人员死伤。", court_record: "盗采期间矿洞垮塌，造成一人死亡一人受伤。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "盗采时引发矿洞垮塌，致冯某死亡、辛某宝受伤"}]}
+      - {client_belief: "只要遗留矿石价值不高，就不能评价对保护地生态系统的整体影响。", court_record: "开路、硬化、化石燃料和采矿等组合行为可直接影响核心区栖息地和植被。", gap_type: disputed, evidence: [{section: adjudication, quote: "对大熊猫国家公园核心保护区野生动物栖息地及植被造成直接影响"}]}
+      - {client_belief: "同一盗采活动同时触及两个罪名时必须机械数罪并罚。", court_record: "同一行为同时构成非法采矿罪与破坏自然保护地罪时，应结合具体情节择一重处。", gap_type: disputed, evidence: [{section: adjudication, quote: "同时构成非法采矿罪，但根据本案具体情节，依照破坏自然保护地罪处罚较重"}]}
+      - {client_belief: "鉴定匡算核心区生态系统受影响范围超过九千平方米。", court_record: "专业意见匡算涉案行为直接生态影响范围为九千一百九十点六四平方米。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "匡算影响范围为9190.64平方米，生态系统局部受损"}]}
+    expected_inquiries: ["保护地四至、核心区边界和现场警示如何证明？", "各参与人对关停和保护级别是否明知？", "开路、砍伐、硬化、采矿和运输分别由谁实施？", "矿石数量价值、生态影响范围和鉴定方法如何？", "人员伤亡、复绿修复和罪名竞合如何处理？"]
+    memo_expectations: ["确认自然保护地法定等级和空间边界。", "拆分进入、道路施工、盗采及运输行为。", "评价对栖息地、植被和地质安全的影响。", "处理破坏保护地罪与非法采矿罪竞合。", "审查主观明知、参与程度和修复责任。"]
+    editorial_review: *full_review
+    editorial_note: 不用矿石价值单一指标替代国家公园核心区生态整体性评价，同时保留罪名竞合而非重复处罚。
+
+  - id: lsg_cn_0082
+    source_line: 120
+    source_case_sha256: 4b21e20a1bf6d554331ed3ac7cd6f2b6b8f51c01909455a4357d5565cc0a6b2c
+    split: train
+    legal_domain: environment_resources
+    client_role: 帮助非法采砂和躲避检查的王某涵
+    consultation_stage: 检察机关提起刑事附带民事公益诉讼后、审理前
+    opening: 我曾参与一项砂石开采运输业务，后来采坑又被回填废物。现在检察机关同时追究刑事与生态治理责任，我想区分各阶段行为和责任范围。
+    admission_reason: 事前通谋、运输销售、规避执法、采坑回填和两类生态费用完整，可评价共犯范围与连带修复责任边界。
+    facts:
+      - {client_belief: "朱某华未取得采矿许可证即开采并销售砂卵石。", court_record: "朱某华无证开采砂卵石并非法销售。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "在未取得采矿许可证的情况下，擅自开采砂卵石并非法销售"}]}
+      - {client_belief: "我与其事前通谋并帮助运输、销售和逃避检查。", court_record: "王某涵事前通谋，帮助运输销售砂卵石并逃避执法检查。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "王某涵与朱某华事前通谋，帮助朱某华运输、销售砂卵石和逃避执法检查"}]}
+      - {client_belief: "朱某华后来让人向采坑回填建筑垃圾和生活垃圾。", court_record: "朱某华为掩盖采矿指使他人回填建筑和生活垃圾。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "为掩盖其非法采矿行为，指使他人向其开采坑内回填建筑垃圾和生活垃圾"}]}
+      - {client_belief: "检察机关要求我对采坑治理费用承担连带责任。", court_record: "公益诉讼请求王某涵对采坑治理费用承担连带责任。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "王某涵对其中采坑治理费用承担连带责任"}]}
+      - {client_belief: "我没有亲手采挖，就不可能成为非法采矿共同犯罪人。", court_record: "事前通谋并帮助运输、销售和逃避检查，可构成非法采矿共同犯罪。", gap_type: disputed, evidence: [{section: adjudication, quote: "帮助朱某华运输、销售非法开采的砂卵石和逃避执法检查，亦构成非法采矿罪"}]}
+      - {client_belief: "采坑后来被他人填入垃圾，所以我对非法采矿造成的采坑治理也一概无责。", court_record: "共同非法采矿行为造成的采坑治理损害可要求共犯连带承担，但污染清除责任仍应按行为范围区分。", gap_type: disputed, evidence: [{section: adjudication, quote: "二人承担连带赔偿责任"}, {section: adjudication, quote: "对其中采坑治理费用3335860.99元承担连带赔偿责任"}]}
+      - {client_belief: "鉴定查明涉案砂卵石开采量、重量和价值均有明确数据。", court_record: "探查鉴定认定开采砂卵石九万余立方米、十八万余吨，价值二百五十四万余元。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "涉案砂卵石开采量为95675.45立方米，重181783.36吨，价值2549714元"}]}
+    expected_inquiries: ["事前通谋内容、运输销售次数及躲避检查行为如何？", "砂卵石数量价值和各自获利证据是什么？", "采坑形成与后续垃圾回填的行为人及时间如何区分？", "污染清除与采坑治理两类损害如何鉴定分项？", "自首、从犯、退赃及修复履行情况如何？"]
+    memo_expectations: ["依事前通谋和帮助行为认定非法采矿共犯。", "区分主从犯及违法所得。", "拆分采矿生态破坏与垃圾污染行为。", "限定连带责任至共同侵权造成的损害。", "核验鉴定、治理方案和刑民责任衔接。"]
+    editorial_review: *full_review
+    editorial_note: 通过损害分项避免将朱某华单独实施的垃圾污染责任无边界转嫁给运输帮助者。
+
+  - id: lsg_cn_0083
+    source_line: 121
+    source_case_sha256: bbabec272230bedce5e684f68b7c6b295b0ce14c086fe40da9a43bb413326d34
+    split: train
+    legal_domain: environment_resources
+    client_role: 长期通过暗管排放造纸废水的纸业公司法定代表人黄某海
+    consultation_stage: 行政处罚后被提起刑事附带民事公益诉讼、审理前
+    opening: 公司排放生产废水的设施和许可被查出问题，此前已经接受过行政处理。现在又被追究刑事和生态赔偿责任，我作为负责人想厘清各阶段行为和个人责任。
+    admission_reason: 暗管设施、无证排放、污染鉴定、既往行政处罚和股东财产混同完整，可评价行刑衔接及法人格否认。
+    facts:
+      - {client_belief: "公司建厂时就在河道一侧埋设连接车间的暗管并安装遥控装置。", court_record: "纸业公司在建厂初期埋设接至生产车间的排污暗管并安装遥控装置。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "在2005年建厂初期，即在金沙江螳螂川河道一侧埋设暗管接至生产车间的排污管道，并安有遥控装置"}]}
+      - {client_belief: "我指使后勤厂长在无排污许可时通过暗管排放生产废水。", court_record: "黄某海指使李某城在无排污许可情况下经暗管排放含有害物质废水。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "在无排污许可的情况下，黄某海指使李某城经暗管排放含有有害物质的生产废水"}]}
+      - {client_belief: "行政机关发现后责令封堵暗管、罚款并拘留后勤厂长。", court_record: "行政执法机关责令停止违法、拆除封堵暗管、罚款并给予行政拘留。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "作出责令立即停止环境违法行为（拆除、封堵暗管）、罚款100万元的行政处罚"}]}
+      - {client_belief: "鉴定认为长期偷排造成水体和底泥污染。", court_record: "鉴定显示水质指标显著超基线且底泥多种物质含量增加并持续受影响。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "偷排废水期间螳螂川河道内水质指标超基线水平13.0倍至239.1倍"}, {section: basic_facts, quote: "对螳螂川底泥物质成份含量变化造成的影响持续存在"}]}
+      - {client_belief: "同一排污行为已经受过行政罚款和拘留，就不能再追究刑事责任。", court_record: "行政处罚不阻却刑事追诉，但同一行为的罚款、拘留应依法与罚金、刑期衔接折抵。", gap_type: disputed, evidence: [{section: adjudication, quote: "就该部分违法事实所处罚款100万元与本案所判罚金相抵"}, {section: adjudication, quote: "行政拘留五日已履行完毕，依法折抵相应刑期"}]}
+      - {client_belief: "公司是有限责任主体，股东无论是否混同财产都绝不承担生态债务。", court_record: "股东滥用法人独立地位导致责任财产流失、严重损害环境债权人利益时可承担连带责任。", gap_type: disputed, evidence: [{section: adjudication, quote: "滥用公司法人独立地位和股东有限责任，以致纸业公司责任财产流失"}, {section: adjudication, quote: "符合股东承担连带责任的法律规定"}]}
+      - {client_belief: "鉴定发现公司账簿与股东账簿、公司财产与股东财产难以区分。", court_record: "鉴定确认纸业公司存在账簿和财产与股东相互混同等情形。", gap_type: undisputed, evidence: [{section: basic_facts, quote: "公司账簿与股东账簿不分，公司财产与股东财产、股东自身收益与公司盈利难以区分"}]}
+    expected_inquiries: ["暗管建设、控制、排放频率及各责任人员分工如何？", "排污许可、行政检查和整改履行资料有哪些？", "水质底泥采样、损害模型和治理成本如何验证？", "行政处罚与刑事指控是否属于同一行为和期间？", "公司与股东账簿、资金、收益及财产是否真实混同？"]
+    memo_expectations: ["证明单位犯罪及主管人员责任。", "审查暗管偷排、污染后果和鉴定链条。", "处理行政处罚与刑罚折抵而非重复免责。", "核算生态损害和鉴定费用。", "严格按人格混同和损害债权人要件判断股东连带责任。"]
+    editorial_review: *full_review
+    editorial_note: 同时处理行刑衔接和法人格否认，但不因股东身份本身推定个人承担全部环境债务。

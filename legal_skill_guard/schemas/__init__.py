@@ -1,1 +1,1 @@
-"""State, action, skill, and trajectory schemas (implemented from Phase 2)."""
+"""State, action, skill, and trajectory schemas."""

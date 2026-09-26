@@ -35,3 +35,23 @@ def test_adapter_keeps_online_and_evaluator_views_separate(tmp_path: Path) -> No
     assert set(adapter.lawyer_case("c1")) == {"id", "jurisdiction", "language", "opening"}
     assert "court_record" not in json.dumps(adapter.client_case("c1"), ensure_ascii=False)
     assert adapter.evaluator_case("c1")["facts"][0]["court_record"] == "法院记录"
+
+    provenance = tmp_path / "provenance.jsonl"
+    provenance.write_text(
+        json.dumps(
+            {
+                "id": "c1",
+                "split": "train",
+                "annotation": {"client_role": "被欠薪的劳动者"},
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    split_adapter = DLawBenchAdapter(cases, personas, provenance)
+    assert split_adapter.case_ids() == ("c1",)
+    assert split_adapter.case_ids("train") == ("c1",)
+    assert split_adapter.case_ids("validation") == ()
+    assert "client_role" not in split_adapter.lawyer_case("c1")
+    assert "client_role" not in split_adapter.client_case("c1")
+    assert "client_role" not in split_adapter.evaluator_case("c1")

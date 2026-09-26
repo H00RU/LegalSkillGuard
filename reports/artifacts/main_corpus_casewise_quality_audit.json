@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "scope": "all_128_cases_cpu_source_and_casewise_editorial_audit",
+  "claim_boundary": {
+    "source_grounded_ai_authored": true,
+    "current_session_casewise_semantic_review": true,
+    "opening_information_boundary": "owned_by_separate_current_report_models_screen_researcher_adjudicates",
+    "lawyer_expert_gold": false
+  },
+  "counts": {
+    "cases": 128,
+    "source_pool_cases": 179,
+    "selected_source_cases": 128,
+    "excluded_source_cases": 51,
+    "selected_official_pages": 35,
+    "evidence_quotes_verified": 1128
+  },
+  "splits": {
+    "train": 128,
+    "train_pages": 35,
+    "train_domains": {
+      "administrative": 10,
+      "company_commercial": 10,
+      "consumer_contract": 10,
+      "criminal": 8,
+      "environment_resources": 10,
+      "finance_bankruptcy": 8,
+      "insurance_contract": 6,
+      "intellectual_property": 10,
+      "labor_employment": 10,
+      "marriage_family": 10,
+      "personality_privacy": 10,
+      "procedure_evidence": 10,
+      "real_estate_construction": 8,
+      "tort_liability": 8
+    },
+    "maximum_within_corpus_fivegram_jaccard": 0.040681,
+    "highest_within_corpus_similarity_pairs": [
+      {
+        "left_id": "lsg_cn_0102",
+        "right_id": "lsg_cn_0104",
+        "fivegram_jaccard": 0.040681
+      },
+      {
+        "left_id": "lsg_cn_0001",
+        "right_id": "lsg_cn_0002",
+        "fivegram_jaccard": 0.021797
+      },
+      {
+        "left_id": "lsg_cn_0101",
+        "right_id": "lsg_cn_0103",
+        "fivegram_jaccard": 0.016441
+      },
+      {
+        "left_id": "lsg_cn_0102",
+        "right_id": "lsg_cn_0105",
+        "fivegram_jaccard": 0.014045
+      },
+      {
+        "left_id": "lsg_cn_0101",
+        "right_id": "lsg_cn_0104",
+        "fivegram_jaccard": 0.013863
+      },
+      {
+        "left_id": "lsg_cn_0095",
+        "right_id": "lsg_cn_0097",
+        "fivegram_jaccard": 0.013477
+      },
+      {
+        "left_id": "lsg_cn_0101",
+        "right_id": "lsg_cn_0105",
+        "fivegram_jaccard": 0.013133
+      },
+      {
+        "left_id": "lsg_cn_0121",
+        "right_id": "lsg_cn_0122",
+        "fivegram_jaccard": 0.012951
+      },
+      {
+        "left_id": "lsg_cn_0101",
+        "right_id": "lsg_cn_0102",
+        "fivegram_jaccard": 0.012903
+      },
+      {
+        "left_id": "lsg_cn_0102",
+        "right_id": "lsg_cn_0109",
+        "fivegram_jaccard": 0.012671
+      }
+    ]
+  },
+  "text_integrity": {
+    "normalized_exact_duplicate_groups": {
+      "opening": [],
+      "client_belief": [],
+      "court_record": [],
+      "expected_inquiry": [],
+      "memo_expectation": []
+    },
+    "exact_opening_hidden_belief_containment": [],
+    "official_schema_passed": true,
+    "official_schema_errors": []
+  },
+  "edge_integrity": {
+    "canonical_contiguous_case_ids": true,
+    "unique_selected_source_case_per_formal_case": true,
+    "fact_id_failures": [],
+    "empty_or_whitespace_fields": [],
+    "within_case_duplicate_fields": [],
+    "case_digest_failures": [],
+    "unsupported_fact_ids": [],
+    "source_authority_failures": [],
+    "authoring_identity_failures": []
+  },
+  "shape_comparison": {
+    "main_corpus": {
+      "cases": 128,
+      "facts": {
+        "total": 852,
+        "mean": 6.656,
+        "minimum": 6,
+        "maximum": 9
+      },
+      "gap_types": {
+        "disputed": 266,
+        "undisputed": 586,
+        "disputed_share": 0.3122
+      },
+      "expected_inquiries": {
+        "total": 699,
+        "mean": 5.461,
+        "minimum": 5,
+        "maximum": 7
+      },
+      "memo_expectations": {
+        "total": 683,
+        "mean": 5.336,
+        "minimum": 5,
+        "maximum": 7
+      }
+    },
+    "official_public_cn30": {
+      "cases": 30,
+      "facts": {
+        "total": 319,
+        "mean": 10.633,
+        "minimum": 5,
+        "maximum": 16
+      },
+      "gap_types": {
+        "disputed": 226,
+        "undisputed": 93,
+        "disputed_share": 0.7085
+      },
+      "expected_inquiries": {
+        "total": 202,
+        "mean": 6.733,
+        "minimum": 2,
+        "maximum": 12
+      },
+      "memo_expectations": {
+        "total": 182,
+        "mean": 6.067,
+        "minimum": 2,
+        "maximum": 12
+      }
+    },
+    "interpretation": "task_schema_aligned_but_distribution_not_forced_to_match"
+  },
+  "bounded_source_ambiguities": [
+    {
+      "case_id": "lsg_cn_0045",
+      "issue": "official_page_uses_both_ready_mixed_concrete_and_substandard_cement_wording",
+      "handling": "preserved_as_source_uncertainty_and_requires_original_contract_test_report_and_penalty_decision"
+    }
+  ],
+  "core_sha256": "889ea7f6ff642147b190823e81d2cba9e49f3547e0aead48404a05a1b1cc4f46",
+  "provenance_sha256": "a90df2bd5aff0619010004e8b2b18fdc43618897ef40adb50cd725d3f35936af",
+  "selection_sha256": "159036f26f50e9edd861ec65e3f38b8dea81397d27998c236592ee63586f680b",
+  "errors": []
+}

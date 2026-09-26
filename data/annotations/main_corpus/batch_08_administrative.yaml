@@ -1,0 +1,391 @@
+annotations:
+  - id: lsg_cn_0043
+    source_line: 94
+    source_case_sha256: c7e975b33bac4ec1bf1135c24565d77451bae4e4c73f4415eac28f13329ac065
+    split: train
+    legal_domain: administrative
+    client_role: 获批建设燃气项目后被拒发经营许可证的燃气公司
+    consultation_stage: 收到再次不予办理答复后、提起行政诉讼前
+    opening: 我们依据行政机关核准建设了燃气项目，但申请后续经营许可时又被以规划问题拒绝。我们想撤销相关答复并要求重新处理。
+    admission_reason: 职能转划、建设核准、信赖投资、竣工、许可拒绝和规划依据冲突完整。
+    facts:
+      - client_belief: 审批局2020年11月同意建设项目并要求在当年开工、四个月内建成。
+        court_record: 审批局于2020年11月同意建设液化石油气充装项目，并要求燃气公司在当年12月开工、四个月内建成。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "作出《关于同意众某燃气公司建设液化石油气充装项目的核准意见》，要求该公司在当年12月开工、4个月内建成"}
+      - client_belief: 行政机关批准建设后，就必须无条件核发经营许可证，不需要再审查法定条件。
+        court_record: 经营许可仍需符合法定条件，但行政机关前后判断矛盾及依据是否充分必须审查。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "从事燃气经营活动应当获得经营许可证，符合当地燃气发展规划要求"}
+          - {section: basic_facts, quote: "既已批准涉案项目建设，应视为该项目符合国民经济发展规划"}
+      - client_belief: 审批局和住建局职能划分不清，造成的许可障碍只能由企业自己协调承担。
+        court_record: 两机关职能定位模糊属于政府内部事宜，不应由申请企业承担不利后果。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "审批局与住建局职能定位模糊属于政府内部事宜，不应由燃气公司承担不利后果"}
+      - client_belief: 我们依据核准意见建设，项目于2021年9月竣工。
+        court_record: 燃气公司依核准意见建设的液化石油气充装项目于2021年9月竣工。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "涉案项目于2021年9月竣工"}
+      - client_belief: 审批局先称规划核准不属于其业务，后又以不符合燃气规划为由拒绝许可。
+        court_record: 审批局于2022年1月4日书面称燃气规划核准不属其业务、不能内部联审，1月28日又以项目不符合燃气发展规划为由拒绝办理经营许可。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "燃气规划核准不属于该局业务，亦不能通过内部联审形式办理"}
+          - {section: basic_facts, quote: "认为涉案项目不符合燃气发展规划要求"}
+      - client_belief: 拒绝主要依据是已经到期规划的报批稿，其中规定不再新建液化气站。
+        court_record: 审批局主要援引《章丘市燃气专项规划（2012—2020）》报批稿中不再新建液化石油气站的规定；该文本属于报批稿且适用期限已经届满，作为拒绝依据不足。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "主要依据是《章丘市燃气专项规划》(2012-2020)报批稿中有关近远期不再新建液化石油气站的规定，该项依据不足"}
+      - client_belief: 我们最初申报后，经营许可职能先从原公用事业局转到住建局，后来又集中转到审批局，住建局只保留政策协助职责。
+        court_record: 原公用事业局撤销后职能转至住建局，随后燃气经营许可核发职能转至审批局，住建局负责政策性问题协助配合。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "同年该局被撤销，相关职能转划济南市章丘区住房和城乡建设局"}
+          - {section: basic_facts, quote: "燃气经营许可证核发审批职能由审批局集中承担，住建局对审批内容涉及到的政策性问题予以协助配合"}
+      - client_belief: 早在2019年4月，我们就向原公用事业局提交了经营许可证材料；职能转到住建局后，住建局于同年6月20日以不符合规划为由作出过《不予批准书》。
+        court_record: 燃气公司于2019年4月向章丘区公用事业局申报经营许可证；该局撤销并将职能转至住建局后，住建局于同年6月20日以不符合规划要求作出《不予批准书》。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2019年4月，该公司向济南市章丘区公用事业局提交《燃气经营许可证》申报材料。"}
+          - {section: basic_facts, quote: "同年该局被撤销，相关职能转划济南市章丘区住房和城乡建设局(以下简称住建局)。"}
+          - {section: basic_facts, quote: "同年6月20日，住建局以不符合规划要求为由作出《不予批准书》。"}
+    expected_inquiries:
+      - 请提供2019年首次申请全套材料、《不予批准书》及送达和救济记录，以及2020年建设核准、竣工和投资支出证明。
+      - 许可职能转划交接书如何分配审批、规划协助和内部联审职责？
+      - 两次回复、住建局不盖章答复及每次申请送达材料是否完整？
+      - 拒绝所引规划是正式生效文本还是报批稿，适用期间和内容如何？
+      - 诉求应以撤销重作为主，损失赔偿的因果和金额有何独立证据？
+      - 各次申请时究竟由哪个机关依法承担许可决定职责，职能交接文件与对外告知是否一致？
+    memo_expectations:
+      - 按首次许可拒绝、建设核准和再次拒绝重建时间线，分别审查各行为权限与效力；区分建设核准与经营许可，同时评价前后行政立场及企业信赖。
+      - 审查拒绝许可所援引规划文本的效力、期间和事实依据。
+      - 说明机关内部职能冲突不应转嫁给申请人，并明确有权处理机关。
+      - 分析撤销答复、责令重作与直接发证之间的救济边界。
+      - 单独评估投资损失、行政过错和因果，避免把重作胜诉等同赔偿成立。
+      - 按职能转划时间核定各机关权限和协助义务，评价企业在连续申报中是否被要求承担机关内部交接成本。
+    editorial_review: &full_review
+      source_read_in_full: true
+      single_client_role: true
+      pre_outcome_timeline: true
+      opening_has_no_outcome: true
+      opening_information_boundary_checked: true
+      beliefs_are_natural: true
+      gap_labels_semantically_checked: true
+      inquiries_are_answerable: true
+      memo_points_are_substantive: true
+    editorial_note: 企业承认许可仍有法定条件；差异是建设核准是否绝对等同发证及内部职能冲突归责，未把信赖保护写成自动获证。
+
+  - id: lsg_cn_0044
+    source_line: 95
+    source_case_sha256: 26a6f29c6dc8a8fe0a5a5c15c8d226f7028508d3286fb60781395f74e589bc6e
+    split: train
+    legal_domain: administrative
+    client_role: 再次申请变更法定代表人被拒的棉花专业合作社
+    consultation_stage: 收到不予登记通知书后、提起行政诉讼前
+    opening: 合作社申请变更法定代表人，市监局以成员大会程序材料不足为由不予登记。我们已经补过材料，想判断登记审查边界和如何补救。
+    admission_reason: 会议召集、成员提议、通知送达、补正和登记审查边界明确，适合正当程序咨询。
+    facts:
+      - client_belief: 2022年10月临时成员大会形成了再次变更法定代表人的决议。
+        court_record: 2022年10月，彭某再次主持召开合作社临时成员大会，会议形成再次变更法定代表人的决议。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "再次主持召开临时成员大会，又一次形成变更法定代表人会议决议"}
+      - client_belief: 只要提交一份成员大会决议，登记机关就只能形式收件，不能审查会议召集和表决程序。
+        court_record: 登记机关对成员大会召开、议事和表决是否符合法律章程负有审查义务。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "市监部门对成员大会的召开、议事和表决程序是否符合法律和合作社章程负有审查义务"}
+      - client_belief: 没通知少数成员参会只是内部瑕疵，不涉及这些成员的参会、知情和表决权，登记机关不应据此拒绝登记。
+        court_record: 合作社未完整证明已通知全体成员参会，这会直接影响未到会成员的参会权、知情权和表决权，可以成为不予登记的审查理由。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "未完整提供通知全体成员参会的证据"}
+          - {section: basic_facts, quote: "是保障合作社全体成员参会权、知情权与表决权的行为"}
+      - client_belief: 市监局曾发补正告知，我们提交补充材料后仍被认为证据不足。
+        court_record: 市监局认为初次申请材料不符合要求并发出《申请材料补正告知书》，合作社补交材料后仍未补足会议召集和通知证据。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "认为不符合要求并发出《申请材料补正告知书》，在合作社提交补充材料后"}
+      - client_belief: 当前缺少30%以上成员向理事长送达提议函的证据。
+        court_record: 2022年11月10日作出的《不予登记通知书》列明，合作社缺少百分之三十以上成员向理事长送达提议函的证据。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "缺少“百分之三十以上成员向理事长送达提议函的证据”"}
+      - client_belief: 会议提议时间、是否在二十日内召开以及通知全体成员的材料也存在不一致或缺失。
+        court_record: 补正后仍存在提议人表述不一致、无法判断会议是否在提议后二十日内召开、无法证明开会通知已送达全体成员三项问题。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "会议提议时间与召开时间间隔是否超过二十天无法确定、未提供证据证明已向全体成员送达开会通知"}
+      - client_belief: 2021年合作社曾办理过一次同类变更登记，但原法定代表人申请撤销后，市监局以申请材料不全撤销了登记。
+        court_record: 市监局于2021年6月办理变更登记，并于同年9月因原法定代表人申请、以材料不全为由撤销该登记。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "华容县市场监督管理局(以下简称市监局)于同年6月16日办理了变更登记，后因原法定代表人沈某申请撤销，该局于同年9月9日以申请材料不全为由撤销了上述登记"}
+    expected_inquiries:
+      - 合作社章程、成员名册及临时成员大会召集规则如何规定？
+      - 30%以上成员提议函由谁签署、何时送达理事长，有无原件和送达凭证？
+      - 会议通知向全体成员分别何时、以何种方式发出，哪些成员的通知缺少证据？
+      - 提议人表述、提议日期、会议日期和签到表能否相互对应？
+      - 当前变更法定代表人涉及哪些业务时限或紧迫事项，现有成员是否能够重新提议、逐人通知并召开一次程序完整的会议？
+      - 前次变更登记及撤销卷宗认定了哪些材料缺口，与本次申请是否相同，能否用于补正而非替代本次证明？
+    memo_expectations:
+      - 说明登记审查包括法定和章程规定的会议召集、议事与表决程序。
+      - 分析30%成员提议、二十日召开和全员通知的证据缺口。
+      - 评价程序要求对成员参会、知情和表决权的保护目的，而非仅看决议结果。
+      - 核对补正告知是否具体充分及申请人是否已实际补正。
+      - 比较行政诉讼与重新召开合规会议再申请的效率、风险和目标匹配。
+      - 将前次登记撤销与本次不予登记分别审查，既利用既往卷宗定位问题，也避免把前次获准视为本次程序当然合格。
+    editorial_review: *full_review
+    editorial_note: 合作社客户不否认材料缺失，避免机械把行政机关写成错误方；差异用于检验登记实质审查范围与成员程序权利。
+
+  - id: lsg_cn_0045
+    source_line: 99
+    source_case_sha256: ff018347b95d858a654c5555e34c3776d7ee0ae62d100d3c34c9205b2a03ab28
+    split: train
+    legal_domain: administrative
+    client_role: 因相关建筑材料质量问题被取消材料登记并市场禁入的宏某公司
+    consultation_stage: 收到取消登记和半年禁入通报后、提起行政诉讼前
+    opening: 我司供应的建筑材料出现质量问题并接受了处罚整改，之后又被住建部门采取市场准入限制。我们想审查这些限制的法律依据和程序。
+    admission_reason: 企业承认相关建筑材料质量问题，同时另有登记取消与市场禁入，适合处罚依据和规范性文件附带审查。
+    facts:
+      - client_belief: 专业检测和论证认为，混凝土强度不足是涉案住宅项目工程质量问题的主要原因。
+        court_record: 专业检测和论证确认混凝土强度不足是工程质量问题的主要原因；行政处罚文字另将宏某公司的行为记为销售未达标水泥，在取得原始合同、检测报告和处罚决定前不能把两种材料表述擅自合并为同一事实。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "经专业机构检测和专业论证，明确混凝土强度不足系主要原因"}
+          - {section: basic_facts, quote: "对宏某公司销售未达标水泥行为予以罚款"}
+      - client_belief: 我司已有质量违法，就意味着行政机关可以在罚款之外自行增加任何市场禁入措施。
+        court_record: 行政处罚仍需有法定依据，规范性文件不得超越上位规定新增限制经营的处罚。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "实质性设立限制开展生产经营活动的行政处罚"}
+          - {section: basic_facts, quote: "明显超出《省工程质监办法》规定的登记内容和范围，增加了企业义务"}
+      - client_belief: 暂行办法是行政机关发布的文件，法院在个案中不能一并审查其合法性。
+        court_record: 当行政行为以规范性文件为依据时，当事人可以请求在行政诉讼中一并审查。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "并对《暂行办法》一并进行规范性文件审查"}
+          - {section: basic_facts, quote: "该《暂行办法》未履行相关制定、备案手续"}
+      - client_belief: 通报取消已登记材料，半年内不得申报，并暂停公司在本市承接业务。
+        court_record: 352号通报取消宏某公司已登记的预拌混凝土材料登记，规定半年内不得再次申报，并将公司列入暂停在本市承接业务的施工企业名单。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "对宏某公司已登记的预拌混凝土取消材料登记，且半年内不得再次申报登记，并将该公司列入暂停在该市承接业务施工企业名单"}
+      - client_belief: 已浇筑项目经拆除重铸、实体加固后验收合格。
+        court_record: 涉案已浇筑项目经拆除重铸、实体加固完成整改后通过验收。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "后经拆除重铸、实体加固后验收合格"}
+      - client_belief: 如果半年期限在诉讼中已经届满，可能没有任何可诉或可确认的违法内容。
+        court_record: 期限届满使取消登记已无可撤销内容，但当事人仍可请求确认涉案行政行为违法。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "鉴于该取消登记期限届满已无可撤销内容，故判决确认352号通报违法"}
+      - client_belief: 对相关建筑材料质量问题，住建局已经另行罚款并责令项目拆除重铸、加固整改，后续限制是在这些措施之外追加的。
+        court_record: 处罚文书记载住建局先以销售未达标水泥为由对宏某公司罚款并责令建设方整改，之后又以352号通报取消材料登记并实施半年申报和本市承接业务限制。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "昆山市住房和城乡建设局(以下简称住建局)对宏某公司销售未达标水泥行为予以罚款，并责令建设方对已浇筑项目限期整改"}
+          - {section: basic_facts, quote: "2020年11月24日，住建局作出(2020)352号"}
+      - client_belief: 2018年12月，我司与江苏金某公司签订混凝土购销合同，约定为涉案住宅项目供应预拌混凝土。
+        court_record: 2018年12月，江苏金某公司与宏某公司签订混凝土购销合同，约定由宏某公司提供预拌混凝土建设某住宅项目。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2018年12月，江苏金某公司与昆山宏某混凝土有限公司(以下简称宏某公司)签订混凝土购销合同，约定由宏某公司提供预拌混凝土建设某住宅项目。"}
+    expected_inquiries:
+      - 请提供处罚决定、涉案通报、暂行办法及其制定备案资料。
+      - 请提供混凝土购销合同、供货批次、送货单、发票、见证取样和检测报告；原处罚决定和通报所称材料是否对应同一主体、批次和检测对象？
+      - 请提供暂行办法所援引的上位规范及制定、备案材料，各文件分别列有哪些登记管理和经营限制措施？
+      - 半年期限是否届满，通报名单是否仍公开并持续影响投标和经营？
+      - 质量整改、验收和后续合规措施能否证明风险已经消除？
+    memo_expectations:
+      - 分别建立合同供应、专业检测和行政处罚认定三条证据链，承认并区分原质量违法与另行市场禁入措施；在原始材料未核实前不擅自合并“预拌混凝土”与“未达标水泥”。
+      - 审查暂行办法是否超越上位法新增行政处罚和企业义务。
+      - 分析规范性文件制定、备案程序及在诉讼中的附带审查路径。
+      - 根据措施是否届满选择撤销、确认违法和消除持续影响的请求。
+      - 评估整改验收对必要性、比例性和企业后续市场准入的作用。
+      - 将既有罚款整改与后续取消登记、半年禁入逐项比较，审查后者是否有独立授权及是否重复或过度限制经营。
+    editorial_review: *full_review
+    editorial_note: 企业如实承认相关建筑材料质量问题，核心差异是行政机关能否在法定处罚外增设市场禁入。最高人民法院公开页面同时出现“预拌混凝土”“混凝土强度不足”和“销售未达标水泥”表述，无法仅凭该页面判定具体供应物，故本案不擅自消除这一原始材料内部不一致，并要求核验合同、检测报告和处罚决定。
+
+  - id: lsg_cn_0046
+    source_line: 101
+    source_case_sha256: 5d366b753ced49e29e9f2c1aa2b1d1b04304214f2ef3d60ed762474048f58764
+    split: train
+    legal_domain: administrative
+    client_role: 变更负责人申请被受理后直接退件的网吧
+    consultation_stage: 收到不予行政许可通知书后、提起行政诉讼前
+    opening: 我们申请变更网吧负责人，文体部门受理后又以材料无法核实为由退件。我们认为过程中缺少必要程序，想要求撤销并重新处理。
+    admission_reason: 受理、拒绝理由、未核实、未补正和陈述申辩权完整，适合行政许可正当程序任务。
+    facts:
+      - client_belief: 2023年10月19日，我们申请把网吧负责人由许某根变更为许某，文体局当日认为材料齐全并予以受理。
+        court_record: 某网吧于2023年10月19日向文体局提交材料，申请将法定代表人（负责人）由许某根变更为许某；文体局当日认为材料齐全并受理。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2023年10月19日，广东省阳江市阳东区同某网吧(以下简称某网吧)向阳东区文化广电旅游体育局(以下简称文体局)提交材料，申请将法定代表人(负责人)由许某根变更为许某。"}
+          - {section: basic_facts, quote: "文体局当日认为材料齐全予以受理"}
+      - client_belief: 行政机关一旦受理，就必须直接批准，不得再核实材料真实性或条件。
+        court_record: 受理不等于当然许可，但后续核实、补正和拒绝仍需依法定程序进行。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "应当依法就涉案行政许可申请所需提交的材料进行指导和释明，并结合后续补正材料和实际情况及时作出处理"}
+      - client_belief: 行政机关认为材料不详时可以直接退件，无需先一次性指导补正。
+        court_record: 未要求补正、未指导释明即拒绝，可能违反行政许可正当程序。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "未能依照行政许可法、《互联网上网服务营业场所管理条例》的相关规定，提供证据证明其在作出《不予行政许可通知书》过程中，曾向某网吧核实情况以及曾要求补正申请材料"}
+      - client_belief: 不予通知认为新负责人无法核实且不符合审批手续。
+        court_record: 文体局于2023年11月3日以申请资料不详、新负责人无法核实且不符合审批手续为由作出《不予行政许可通知书》并退件。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "认为某网吧申请资料不详，变更后的法定代表人无法核实，不符合审批手续，予以退件处理"}
+      - client_belief: 作出不予决定前，我们没有获得陈述和申辩机会。
+        court_record: 文体局在作出不予许可决定前未给予网吧就材料真实性、补正内容和拟拒绝理由陈述、申辩的机会。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "未保障申请人的陈述、申辩权利，有违正当程序原则"}
+      - client_belief: 即使程序违法，法院也可能直接判令行政机关必须备案批准。
+        court_record: 许可条件仍需行政机关结合补正材料重新判断，通常救济是撤销并责令限期重作而非代替审批。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "判令文体局限期对某网吧的申请重新作出处理，驳回其他诉讼请求"}
+    expected_inquiries:
+      - 请提供申请表、变更决议、新负责人身份资质及文体局收件受理凭证。
+      - 文体局是否口头或书面核实、要求补正，双方沟通和送达记录如何？
+      - 所谓无法核实具体指什么事实，现有材料能否补齐并满足许可条件？
+      - 不予通知作出前是否告知拟处理理由并给予陈述申辩机会？
+      - 你的首要目标是撤销不予决定并获得重新审查，还是坚持要求直接备案；已经支付哪些律师费用、由何种票据和委托合同证明？
+    memo_expectations:
+      - 区分申请受理与实体许可，承认行政机关仍可依法核查条件。
+      - 审查材料不足时指导释明、补正告知和核实程序是否履行。
+      - 分析未给予陈述申辩机会对不予许可合法性的影响。
+      - 说明法院通常不代替行政机关作首次专业判断，合理请求撤销并限期重作。
+      - 评估补正后实体获批可能性及律师费等附带赔偿请求的独立基础。
+    editorial_review: *full_review
+    editorial_note: 网吧不被写成当然满足全部许可条件；差异清楚区分受理、补正程序和直接发证，保持行政诉讼救济边界。
+
+  - id: lsg_cn_0047
+    source_line: 109
+    source_case_sha256: d54a700ca7e4999af551b991290e430011564a43d7e3327b19ba9541cdd015b5
+    split: train
+    legal_domain: administrative
+    client_role: 因误入设置不合理禁行路段被罚款记分的驾驶人秦某某
+    consultation_stage: 行政复议维持处罚后、提起行政诉讼前
+    opening: 我在一个路口按正常方向转弯后才发现禁行标志，随后被按逆向行驶处罚。这个路段类似处罚很多，我想审查标志设置和处罚是否合法。
+    admission_reason: 驾驶路线、标志位置、处罚、复议和异常高频抓拍数据完整，适合处罚明显不当审查。
+    facts:
+      - client_belief: 我确实驶入了禁行路段，所以只要标志形式符合规范，处罚就绝不可能撤销。
+        court_record: 除形式规范外，还要审查通行设计和提示位置的合理性及对一般驾驶人的影响。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "交通标志标线设置除了应当符合相关规范外，还应当考虑相关通行设计的合理性等因素"}
+      - client_belief: 禁止驶入标志设在道路左侧，不在右侧，就当然违反设置规范。
+        court_record: 交通标志在特定情况下可设左侧，本案左侧设置本身符合规范。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "也可根据情况设置在左侧，或左右两侧同时设置"}
+          - {section: basic_facts, quote: "将案涉禁行标志设置在道路的左侧，符合规范"}
+      - client_belief: 路口前方和右转前没有禁止右转或其他预告标志。
+        court_record: 禁止标志在右转约30米后才出现，前方没有相应提示。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "行进路段前方及右侧均未设置“禁止右转”等标志"}
+          - {section: basic_facts, quote: "在进入该右转道约30米处"}
+      - client_belief: 我看到标志时已进退两难，随后驶入禁行路段。
+        court_record: 秦某某右转约30米后才看到禁止驶入标志，当时已难以安全退出，随后驶入禁行路段。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "秦某某进退两难，遂驶入了禁行路段"}
+      - client_belief: 处罚决定认定逆向行驶，罚款200元并记3分，复议决定予以维持。
+        court_record: 交巡警支队以机动车逆向行驶为由对秦某某罚款200元、记3分，綦江区公安局于2018年8月21日作出复议决定维持该处罚。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "决定予以200元罚款、记3分的处理"}
+          - {section: basic_facts, quote: "作出《行政复议决定书》，维持綦江交巡警支队作出的前述处罚决定"}
+      - client_belief: 同一路段不到两年因同一行为抓拍5814车次，说明问题可能不只是个别驾驶人疏忽。
+        court_record: 2017年6月21日至2019年5月10日，涉案路段抓拍设备因同一行为共抓拍5814车次；这一异常高频数据支持核查标志提示和通行设计是否具有系统性误导风险。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "不到两年时间内发生高达5814车次因同一行为被监控抓拍的事实"}
+    expected_inquiries:
+      - 请提供处罚、现场照片视频、行车记录和复议决定完整材料。
+      - 从驾驶方向看，路口前、转弯中和转弯后分别能看到哪些标志标线，标志距离路口多远？
+      - 当时是否有安全退出或掉头空间，进退两难如何由现场结构证明？
+      - 统计抓拍数据来源是否为公开政府信息，统计期间、路段和违法行为是否同一？
+      - 除标志位置和预告缺失外，你亲历的执法、送达和复议过程中还有哪些事实与决定书不符，手中有哪些对应材料？
+    memo_expectations:
+      - 承认左侧设置本身可能符合规范，避免把诉点错误集中于位置形式。
+      - 从预告缺失、右转后才见禁令和安全退出可能性审查通行设计合理性。
+      - 以一般驾驶人预期和高频同类抓拍佐证设置具有系统性误导风险。
+      - 分析处罚事实虽发生但行政决定仍可能因明显不当和设施原因被撤销。
+      - 明确同时请求撤销处罚和复议决定，并组织现场与政府公开数据证据。
+    editorial_review: *full_review
+    editorial_note: 驾驶人承认进入禁行路段，不以否认自身行为制造差异；一项差异还主动纠正“左侧设置必违法”的过度主张。
+
+  - id: lsg_cn_0048
+    source_line: 110
+    source_case_sha256: ea9391084abe8657dd84295ddebdfca0c9c3ec815ce333c6fab68c2dcb4f872f
+    split: train
+    legal_domain: administrative
+    client_role: 依政府会议纪要垫付征地补偿但未获兑现的甲公司
+    consultation_stage: 政策优惠补偿未能实现后、提起行政诉讼前
+    opening: 我们根据市政府形成的协调安排先行增加征地补偿并取得土地，但后续承诺没有兑现。公司已经垫付损失，准备追究政府方面责任。
+    admission_reason: 会议纪要、企业垫付、政府盖章、土地取得和允诺无法履行完整，适合行政允诺责任咨询。
+    facts:
+      - client_belief: 会议纪要同意由我司增加补偿，并承诺通过政策优惠补偿额外费用和损失。
+        court_record: 南阳市政府2010年49号会议纪要同意由甲公司提高对被征地群众的补偿，并约定以土地出让、容积率、配套费等政策优惠补偿公司增加的费用和经济损失。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "由甲公司在原补偿标准基础上增加补偿"}
+          - {section: basic_facts, quote: "在土地出让、容积率、配套费等政策上给予优惠、补偿"}
+      - client_belief: 政府会议纪要只是内部工作安排，任何情况下都不可能构成对企业的行政允诺。
+        court_record: 内容具体并引导企业履行时，会议纪要有关承诺可构成行政允诺。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "南阳市政府案涉会议纪要的有关内容已构成行政允诺"}
+      - client_belief: 政府曾努力通过土地、容积率等方式兑现，即使最终无法实现也绝不承担替代补偿责任。
+        court_record: 允诺事实上无法履行后拒绝承担相应损失，仍可能因过错被纠正并按责任承担补偿。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "其虽就出让土地、调整容积率等行政允诺作出努力，但在相关允诺内容事实上无法履行后，拒绝承担支付案涉损失款项的行为，存在一定过错"}
+      - client_belief: 2012年我们与被征地群众达成调解协议，市政府在协议首页盖章。
+        court_record: 甲公司于2012年4月与被征地群众达成调解协议，南阳市政府在协议首页右上角加盖印章。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "甲公司和被征地群众达成案涉调解协议，南阳市政府在案涉调解协议首页右上角加盖印章"}
+      - client_belief: 政府盖章至少表明其知情并同意协议安排。
+        court_record: 南阳市政府在调解协议首页加盖印章，表明其知晓并同意该协议中的征地补偿安排。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "表明其对该调解协议是知情并同意的"}
+      - client_belief: 征地补偿法定支付主体通常是县级以上政府，企业一般只负担土地出让金。
+        court_record: 涉案征地补偿款的法定支付主体是县级以上地方人民政府，甲公司的通常义务仅限于支付土地出让金。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "案涉征地补偿款的法定支付主体为县级以上地方人民政府，甲公司的义务一般仅限支付土地出让金"}
+      - client_belief: 我司后来在2016年通过公开出让取得的，正是会议纪要和补偿安排所涉及的土地。
+        court_record: 甲公司于2016年通过公开出让方式取得49号会议纪要所涉土地。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2016年，甲公司通过公开出让方式获得了49号会议纪要涉及土地"}
+    expected_inquiries:
+      - 请提供涉案会议纪要原件、形成机关、具体承诺和送达知悉过程。
+      - 调解协议、政府盖章和你方向群众实际付款的明细凭证是否完整？
+      - 政府后来采取过哪些土地、容积率或配套费优惠，哪些已实现、哪些客观不能实现？
+      - 后来取得土地与原允诺之间如何衔接，是否已包含部分对价或补偿？
+      - 垫付补偿、青苗费和资金成本分别如何计算，政府过错与损失因果怎样证明？
+      - 公开出让合同、成交价款和供地条件是否反映已兑现的优惠，如何与会议纪要承诺逐项核对？
+    memo_expectations:
+      - 结合会议纪要具体内容、企业信赖履行和政府盖章分析行政允诺成立。
+      - 区分征地补偿法定主体、企业土地出让义务和双方另行安排。
+      - 核对政府已作的兑现努力，避免重复计算已获得的政策利益。
+      - 分析允诺不能履行后的过错、信赖损失、责任比例和替代金钱补偿。
+      - 构造垫付款、青苗费、资金成本的逐项证据和可审计计算。
+      - 结合公开出让合同、成交条件和实际获得的优惠核算已兑现利益，防止土地取得事实被忽略或与损失重复计算。
+    editorial_review: *full_review
+    editorial_note: 企业承认政府曾作部分努力，差异是内部纪要能否形成允诺及不能履行后的替代责任；未把来源最终841万元直接泄露给客户。

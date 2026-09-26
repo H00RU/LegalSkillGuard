@@ -1,0 +1,352 @@
+annotations:
+  - id: lsg_cn_0001
+    source_line: 1
+    source_case_sha256: 0641dfd37bc1e757176687691f282c654629055704328d05349bc855c913373b
+    split: train
+    legal_domain: marriage_family
+    client_role: 婚后被加名、准备起诉离婚的妻子崔某某
+    consultation_stage: 提起离婚诉讼后、法院裁判前
+    opening: 我和丈夫的离婚案件已经进入诉讼，争议集中在一套原由他购置、婚后把我名字加上的房屋。他只愿给少量补偿，我想了解分割规则和需要核实的事实。
+    admission_reason: 双方身份、房屋来源、登记、婚姻年限、诉中估值、财产贡献和分割主张均明确，适合形成裁判前财产咨询。
+    facts:
+      - client_belief: 我们2009年1月登记结婚，房屋在次月就改成了夫妻两人的名字。
+        court_record: 崔某某与陈某某于2009年1月登记结婚，2009年2月陈某某将婚前购买的房屋转移登记至崔某某、陈某某名下。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "崔某某与陈某某（男）于2009年1月登记结婚"}
+          - {section: basic_facts, quote: "2009年2月，陈某某将其婚前购买的房屋转移登记至崔某某、陈某某双方名下"}
+      - client_belief: 既然产权登记为双方共同共有，离婚时原则上就应当一人一半。
+        court_record: 登记在崔某某、陈某某名下的案涉房屋属于夫妻共同财产，但分割比例还需考虑婚前来源、产权取得贡献、共同生活年限、家庭贡献和资金往来，并非当然均分。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "该房屋现登记为共同共有，应作为夫妻共同财产予以分割"}
+          - {section: adjudication, quote: "结合双方对家庭的贡献以及双方之间的资金往来情况"}
+      - client_belief: 这套房虽是他婚前购买，但他婚后主动为我加名，应当承认这次财产处分的法律效果。
+        court_record: 法院认定陈某某婚后为崔某某加名，是对其个人财产的处分。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "陈某某于婚后为崔某某“加名”系对个人财产的处分"}
+      - client_belief: 我们共同生活十多年，我在家庭中的投入也应当计入分房时的衡量，而不能只看谁最初付购房款。
+        court_record: 法院在确认崔某某对房屋产权取得无贡献的同时，仍考虑婚姻存续十余年及双方对家庭的贡献。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "崔某某对房屋产权的取得无贡献"}
+          - {section: adjudication, quote: "考虑到双方婚姻已存续十余年，结合双方对家庭的贡献"}
+      - client_belief: 房屋最初由他婚前购买，我没有参与取得产权，所以我也担心自己可能完全无权分割或获得补偿。
+        court_record: 即使房屋原为陈某某婚前财产且崔某某对产权取得无贡献，婚后共同登记仍使其成为夫妻共同财产，分割时还要考虑婚姻年限和家庭贡献。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "该房屋现登记为共同共有，应作为夫妻共同财产予以分割"}
+          - {section: adjudication, quote: "崔某某对房屋产权的取得无贡献，但考虑到双方婚姻已存续十余年，结合双方对家庭的贡献"}
+      - client_belief: 双方对房屋现在的市场价值没有分歧，都是按600万元估算。
+        court_record: 崔某某与陈某某在诉讼中均认可案涉房屋市场价值为600万元。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "双方均认可案涉房屋市场价值600万元"}
+      - client_belief: 丈夫还主张婚后银行卡一直由我保管、家庭开销由他负担，我需要逐项核对这些说法涉及的账户和支出。
+        court_record: 陈某某提出婚后银行卡由崔某某保管、家庭开销均由其负担，并以此作为只愿支付较低补偿的理由。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "婚后陈某某的银行卡一直由崔某某保管，家庭开销均由陈某某负担"}
+          - {section: basic_facts, quote: "故只同意支付100万元补偿款"}
+      - client_belief: 丈夫是再婚，与前妻有一个女儿；我们结婚时她15岁，平时住校、周末和假期回家，我们之间没有共同生育子女。
+        court_record: 陈某某系再婚，与前妻育有一女；崔某某与陈某某结婚时该女15岁，平时住校、周末及假期回家，崔某某与陈某某未共同生育子女。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "陈某某为再婚，与前妻育有一女陈某。崔某某与陈某某结婚时，陈某15岁，平时住校，周末及假期回家居住。崔某某与陈某某未生育子女。"}
+    expected_inquiries:
+      - 请提供结婚证、房屋婚前购买凭证以及婚后变更登记的完整不动产档案。
+      - 加名时双方是否签过赠与、财产约定或其他书面文件，登记申请中如何表述？
+      - 十余年共同生活中，你在照料家庭、支付开销、偿还贷款或维护房屋方面有哪些可证明的投入？
+      - 丈夫所称银行卡由你保管、家庭开销由他承担，具体对应哪些账户和流水，你是否认可？
+      - 目前600万元估值的依据是什么，双方是否愿意由一方取得房屋并支付折价款？
+      - 除房屋外还有哪些共同财产、债务和资金往来需要一并处理？
+      - 婚姻存续期间你对继女的日常生活、教育和家庭事务承担过哪些照料，双方实际相处情况如何；有哪些沟通记录或中立证据？
+    memo_expectations:
+      - 区分房屋的婚前购买来源与婚后加名处分，说明共同共有登记使房屋进入离婚财产分割范围。
+      - 说明共同共有不等于机械均分，分割需综合来源、婚姻年限、产权取得贡献、家庭贡献和资金往来。
+      - 分析客户主张二分之一及对方仅愿给较低补偿之间的证据基础和不确定性，不预先承诺具体比例。
+      - 列明不动产登记档案、购房出资、家庭开销、账户控制及家务贡献等重点证据。
+      - 评估房屋归属与折价补偿的可执行方案，并提示同步清理其他共同财产和债务。
+      - 将对方关于银行卡控制和家庭开销的说法作为待核证主张，不能未经流水及具体支出证明直接作为分割比例依据。
+      - 把实际家庭成员结构、可证明的照料投入和双方实际相处情况纳入家庭贡献审查，不根据未经核实的关系评价当然增减客户财产权益。
+    editorial_review: &full_review
+      source_read_in_full: true
+      single_client_role: true
+      pre_outcome_timeline: true
+      opening_has_no_outcome: true
+      opening_information_boundary_checked: true
+      beliefs_are_natural: true
+      gap_labels_semantically_checked: true
+      inquiries_are_answerable: true
+      memo_points_are_substantive: true
+    editorial_note: 以离婚诉讼中的被加名一方为唯一视角；诉中咨询允许纳入双方已经共同确认的估值，争议放在“登记是否当然均分”和对家庭贡献的评价，不让客户否认其亲历的登记和共同生活事实。
+
+  - id: lsg_cn_0002
+    source_line: 2
+    source_case_sha256: 4b506df2d4f33a602bc4da77dcb37945d736cc73b743dfaaddf770309598b48c
+    split: train
+    legal_domain: marriage_family
+    client_role: 要求离婚并分割双方名下房屋的妻子范某某
+    consultation_stage: 提起离婚诉讼后、法院裁判前
+    opening: 我的离婚案件已经进入诉讼，夫妻名下有一套由丈夫父母购置的房屋。丈夫认为我没有份额，我想了解能否分割以及需要准备哪些证据。
+    admission_reason: 出资来源、赠与登记、婚姻年限、诉中估值和双方分割立场清晰，存在自然的登记效果与赠与目的争议。
+    facts:
+      - client_belief: 房屋是公婆在我们结婚前全款购买的，这一点我并不否认。
+        court_record: 许某某父母于2019年12月全款购买案涉房屋。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2019年12月，许某某（男）父母全款购买案涉房屋"}
+      - client_belief: 我们2020年5月结婚，房屋在2021年8月正式登记到了夫妻双方名下。
+        court_record: 范某某与许某某于2020年5月登记结婚，2021年8月许某某父母将案涉房屋转移登记至范某某、许某某名下。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2020年5月，范某某与许某某登记结婚"}
+          - {section: basic_facts, quote: "2021年8月，许某某父母将案涉房屋转移登记至范某某、许某某双方名下"}
+      - client_belief: 登记在夫妻双方名下就表示对双方的赠与，离婚时应当直接平均分割。
+        court_record: 登记在范某某、许某某名下的案涉房屋属于夫妻共同财产，但分割时还须结合赠与目的、出资来源、婚姻存续时间和共同生活情况，不能当然平均分割。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "属于夫妻共同财产"}
+          - {section: adjudication, quote: "结合赠与目的、出资来源等事实"}
+      - client_belief: 公婆完成过户后，是否希望我们长期共同生活不应再影响我的份额。
+        court_record: 法院将许某某父母基于夫妻长期共同生活目的进行赠与，作为分割时的重要衡量因素。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "该房屋系许某某父母基于范某某与许某某长期共同生活的目的进行赠与"}
+      - client_belief: 我们婚后时间不长，也没有生育子女。
+        court_record: 范某某与许某某婚姻关系存续时间较短，且双方没有婚生子女。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "婚姻关系存续时间较短，且无婚生子女"}
+      - client_belief: 双方对房屋的现值都认可为30万元，主要争议是我有没有份额。
+        court_record: 范某某与许某某均认可案涉房屋市场价值为30万元。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "双方均认可案涉房屋市场价值为30万元"}
+    expected_inquiries:
+      - 请提供购房合同、付款凭证及公婆取得房屋的时间和资金来源材料。
+      - 请调取2021年过户申请、赠与合同、税费资料，核对受赠人和赠与意思如何记载。
+      - 公婆过户前后是否就居住期限、婚姻持续或返还房屋提出过口头或书面条件？
+      - 结婚以来双方实际共同居住多久，房屋装修、维护和家庭生活分别有哪些投入？
+      - 你是否接受房屋归丈夫、由其支付折价补偿，还是有取得房屋的现实需求？
+      - 除房屋外，双方是否还有共同财产、共同债务或需要处理的赠与款项？
+    memo_expectations:
+      - 先认定婚内登记至夫妻双方名下对共同财产属性的影响，再区分共同财产认定与具体分割比例。
+      - 分析父母出资、赠与目的、婚姻持续时间、共同生活和子女情况对分割方案的影响。
+      - 纠正“共同登记必然均分”和“父母出资必然完全无份”两个绝对化立场。
+      - 评估房屋归出资方子女并支付合理补偿的可能性，同时说明具体数额取决于证据和个案衡量。
+      - 列出登记档案、赠与文件、出资凭证、共同生活和房屋投入的举证重点。
+    editorial_review: *full_review
+    editorial_note: 客户在离婚诉讼中对出资、登记和双方已经确认的估值等事实均如实陈述；仅将其“登记即均分、赠与目的无关”的法律认知设置为差异，符合裁判前财产咨询的自然状态。
+
+  - id: lsg_cn_0003
+    source_line: 3
+    source_case_sha256: 4ef45016f9372935b283dccc38c288f5356b08380980b1b0648aad1916e4a5f1
+    split: train
+    legal_domain: marriage_family
+    client_role: 儿子被配偶及其亲属带走的母亲颜某某
+    consultation_stage: 多次要求送回未果后、申请人格权侵害禁令前
+    opening: 丈夫未经我同意把一个儿子带到外省并拒绝送回，孩子原先与我们共同生活。我想尽快恢复孩子原来的生活，了解除抚养诉讼外还能采取什么措施。
+    admission_reason: 抢夺、异地藏匿、原生活状态、沟通拒绝和紧急救济目标明确，可构成自然的禁令咨询。
+    facts:
+      - client_belief: 两个孩子出生后一直和我们夫妻共同住在A省，那里是他们原来的生活环境。
+        court_record: 双胞胎罗大某、罗小某出生后与父亲罗某某、母亲颜某某共同生活居住在A省。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "罗大某、罗小某出生后，与颜某某、罗某某共同生活居住在A省"}
+      - client_belief: 丈夫及其父母、妹妹在没有与我协商的情况下强行带走了儿子。
+        court_record: 2024年3月罗某某及其父母、妹妹等将罗大某强行带离原住所并带至B省。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "罗某某及其父母、妹妹等人将罗大某强行带离上述住所并带至B省"}
+      - client_belief: 对方已经把孩子留在B省一段时间，我担心法院会把这种现状当成稳定抚养状态，不再要求送回。
+        court_record: 因抢夺形成的抚养状态属于非法事实状态，不因持续时间而合法化。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "因抢夺子女形成的抚养状态，是一种非法的事实状态，不因时间的持续而合法化"}
+      - client_belief: 只要我们还没打离婚和抚养权官司，法院可能不会单独处理把孩子送回的问题。
+        court_record: 颜某某可以其对罗大某的监护权受到侵害为由单独申请禁令，人民法院应予受理并可参照人格权侵害禁令规则审查。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "颜某某以其对儿子罗大某的监护权受到侵害为由向人民法院申请禁令，人民法院依法应予受理"}
+      - client_belief: 我已经多次沟通要求送回孩子，但丈夫一直拒绝。
+        court_record: 经多次沟通，罗某某均拒绝将罗大某送回。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "经多次沟通，罗某某均拒绝将罗大某送回"}
+      - client_belief: 强行把双胞胎分开并改变儿子的生活环境，会伤害孩子和我之间的亲子关系。
+        court_record: 罗某某等人强行带离罗大某，改变其惯常生活环境和亲人陪伴，不利于未成年人身心健康并严重伤害亲子关系。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "强行改变未成年子女惯常的生活环境和亲人陪伴，不利于未成年人身心健康，严重伤害父母子女之间的亲子关系"}
+      - client_belief: 儿子被带到外省后主要与丈夫的父母共同生活，并不是仍由我们夫妻在原住所共同照料。
+        court_record: 罗大某被带至B省后，与罗某某的父母在当地共同生活居住。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "此后，罗大某与罗某某的父母在B省共同生活居住"}
+      - client_belief: 被带走的是双胞胎中的儿子，两个孩子出生后原本一直共同生活。
+        court_record: 颜某某于2022年7月生育双胞胎罗大某、罗小某，二人出生后共同居住在A省。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2022年7月，颜某某生育双胞胎子女罗大某（男）、罗小某（女）"}
+          - {section: basic_facts, quote: "罗大某、罗小某出生后，与颜某某、罗某某共同生活居住在A省"}
+    expected_inquiries:
+      - 请提供孩子出生证明、结婚关系以及双方共同监护身份的材料。
+      - 儿子被带走的具体日期、地点、参与人员和方式是什么，是否有监控、报警或证人？
+      - 请整理孩子此前在A省居住、就医、托育以及与双胞胎妹妹共同生活的证明。
+      - 你通过哪些方式要求送回孩子，对方如何回复，聊天记录和通话录音是否完整？
+      - 目前能否确认孩子在B省的具体住址、照料人、健康和就学情况？
+      - 对方近期是否表示或实施继续转移、藏匿孩子、改变住址或阻断联系，相关聊天、行程和接触记录有哪些？
+    memo_expectations:
+      - 将强行带离、异地藏匿与普通抚养安排争议区分，分析其对监护权和未成年人权益的侵害。
+      - 说明抢夺形成的现状不会仅因持续而当然合法，重点评价原生活环境和儿童最佳利益。
+      - 论证在离婚抚养诉讼之外申请人格权侵害禁令的救济路径、请求内容和紧迫性。
+      - 列明证明强行带离、原惯常居所、多次拒绝送回和继续藏匿风险的证据。
+      - 提出送回原住所、禁止再次抢夺藏匿及限制擅自带离等具有可执行性的请求。
+      - 单独核实孩子当前实际照料人、兄妹分离和联系受阻情况，用于评估现状形成方式、紧迫性及儿童利益。
+    editorial_review: *full_review
+    editorial_note: 全案保持被抢夺儿童母亲视角；两项差异均为救济范围和既成状态效力的合理疑问，没有让客户虚构或否认带离过程。
+
+  - id: lsg_cn_0004
+    source_line: 4
+    source_case_sha256: fa303e8f42e5934add66a46767914d8e8542e63cfdd9a19539b0df09d4d352a8
+    split: train
+    legal_domain: marriage_family
+    client_role: 发现丈夫向婚外第三人长期转账的妻子崔某某
+    consultation_stage: 发现转账及不正当关系后、提起返还诉讼前
+    opening: 我发现丈夫婚内向一名与其关系异常的女子持续转账。我想追回可能属于夫妻共同财产的款项，并核清范围和证据。
+    admission_reason: 转账流向、回转款、双方关系和返还范围均有明确来源，客户的信息缺口与请求计算自然。
+    facts:
+      - client_belief: 我和丈夫从2010年起一直处于婚姻关系中，这些转账发生时我们没有离婚。
+        court_record: 崔某某与高某某于2010年2月登记结婚，涉案转账发生在婚姻关系存续期间。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "崔某某与高某某（男）于2010年2月登记结婚"}
+          - {section: basic_facts, quote: "婚姻关系存续期间"}
+      - client_belief: 丈夫和叶某之间不是普通往来，而是存在不正当关系。
+        court_record: 高某某在与崔某某婚姻关系存续期间同叶某某存在不正当关系。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "婚姻关系存续期间，高某某与叶某某存在不正当关系"}
+      - client_belief: 我目前查到丈夫从2019年3月至2023年9月累计向她转出73万元。
+        court_record: 2019年3月至2023年9月，高某某向叶某某累计转账73万元。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "于2019年3月至2023年9月向叶某某共转账73万元"}
+      - client_belief: 我只看到73万元转出，所以准备要求对方按73万元全额返还。
+        court_record: 2019年3月至2023年9月，叶某某向高某某回转17万元，叶某某实际收取56万元，返还范围应按其实际取得的56万元核算。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "于2019年3月至2023年9月向叶某某共转账73万元。同期，叶某某向高某某回转17万元，实际收取56万元"}
+          - {section: basic_facts, quote: "同期，叶某某向高某某回转17万元，实际收取56万元"}
+          - {section: adjudication, quote: "叶某某应当返还实际收取的款项"}
+      - client_belief: 对方声称部分钱已经消费掉，我担心花掉的部分就无法要求返还。
+        court_record: 叶某某关于部分受领款项已经消费、因而不应返还的抗辩未获法院支持。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "叶某某辩称，高某某转给其的部分款项已消费，不应返还"}
+          - {section: adjudication, quote: "对叶某某关于部分款项已消费的主张，不予支持"}
+      - client_belief: 丈夫没有征得我同意就多次处分这些夫妻共同财产。
+        court_record: 高某某未经配偶同意，将夫妻共同财产多次转给与其保持不正当关系的叶某某。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "高某某未经另一方同意，将夫妻共同财产多次转给与其保持不正当关系的叶某某"}
+      - client_belief: 我和丈夫没有另行约定婚后分别所有财产，这些转账应先按夫妻共同财产的处分来核查。
+        court_record: 在夫妻双方未选择其他财产制的情况下，夫妻对共同财产不分份额地共同享有所有权。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "夫妻双方未选择其他财产制的情况下，对夫妻共同财产不分份额地共同享有所有权"}
+    expected_inquiries:
+      - 请提供结婚关系证明，并说明双方是否约定过分别财产制或对大额处分作过授权。
+      - 73万元转账来自哪些账户，账户资金性质如何，能否取得完整银行流水和交易备注？
+      - 叶某是否存在回转或代付，具体时间、账户、金额和资金去向是什么？
+      - 证明丈夫与叶某不正当关系以及赠与目的的聊天、照片、承认材料有哪些？
+      - 每笔款项中是否混有借款、共同消费、劳务对价或其他可能被对方主张为有偿支付的部分？
+      - 近期相关账户是否仍在转出资金，叶某名下哪些账户或财产可由流水、开户信息等材料具体识别？
+    memo_expectations:
+      - 认定婚姻存续期间未约定其他财产制时，大额转账所涉夫妻共同财产属性和共同处分规则。
+      - 分析向不正当关系第三人的无偿处分是否违背公序良俗及其效力。
+      - 区分客户已知的累计转出额、尚待流水核实的第三人回转额和实际取得净额；无效处分下请求对象是第三人经证据确认的实际取得全部净额，并非当然只按夫妻共同财产的一半计算。
+      - 评价“款项已经消费”的抗辩以及是否仍负返还义务，同时审查是否存在有偿往来例外。
+      - 设计银行流水、关系证据、资金性质证明和财产保全方案，说明举证不足风险。
+    editorial_review: *full_review
+    editorial_note: 客户只陈述其已查到的出账，对回转金额保留真实信息缺口；争议集中于第三人实际取得净额、全部返还范围和消费抗辩，不机械改写客户自己的转账行为。
+
+  - id: lsg_cn_0005
+    source_line: 5
+    source_case_sha256: 657d312470f2d02f021074adf3deb9b8e94e4f5f2703a234f8f6dc169eaef889
+    split: train
+    legal_domain: marriage_family
+    client_role: 已起诉请求降低抚养费的父亲张某甲
+    consultation_stage: 起诉后且已入职现公司、法院裁判前
+    opening: 我已经起诉请求调低离婚判决确定的抚养费，案件还在审理。我离开原公司后已到新公司工作，想了解法院还会审查哪些收入和财产情况。
+    admission_reason: 咨询固定在起诉后、现工作和收入已经形成、法院裁判前；客户自身收入、财产处分、原抚养义务和降低请求均有完整时间线，适合评估履行能力与处分必要性。
+    facts:
+      - client_belief: 离婚判决确定孩子由母亲直接抚养，我每月应支付6000元。
+        court_record: 2022年离婚裁判确定张小某由王某直接抚养，张某甲每月支付6000元抚养费。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "张小某由王某直接抚养，张某甲每月支付6000元抚养费"}
+      - client_belief: 我在离职前后确实出现收入下降，现在每月收入约1万元。
+        court_record: 张某甲于2023年9月底离开原公司，2023年10月入职现公司，现每月收入1万元。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "至2023年9月底，张某甲从原公司离职"}
+          - {section: basic_facts, quote: "2023年10月入职现公司，现每月收入1万元"}
+      - client_belief: 只要现工资显著降低，法院就应按当前月收入把抚养费降到2000元。
+        court_record: 张某甲当前工资下降并不当然支持将抚养费降至每月2000元；其既有财产、收入下降的可预见性及是否主动妨碍履行抚养义务均须审查。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "其以名下无财产且收入大幅降低为由要求降低抚养费依据不足"}
+      - client_belief: 我把钱转给恋人属于个人财产安排，与以后能否支付孩子抚养费没有关系。
+        court_record: 张某甲在预见收入可能降低时未为履行抚养义务预留财产，反而陆续转出全部银行账户存款；这些财产处分妨碍其法定抚养义务的履行。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "未为履行法定抚养义务预留相应财产"}
+          - {section: adjudication, quote: "其财产处分行为妨碍了法定抚养义务的履行"}
+      - client_belief: 离婚后我收到过130万元房屋折价款，在原公司工作期间也有近80万元工资收入。
+        court_record: 2022年4月至2023年9月，张某甲收到130万元房屋折价款，工资收入近80万元。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "张某甲收到王某给付的房屋折价款130万元，工资收入近80万元"}
+      - client_belief: 我在这段期间向恋人转账300多万元，并在离职时把名下银行卡存款转出。
+        court_record: 2022年4月至2023年9月，张某甲向后来与其登记结婚的刘某转账300多万元，并于离开原公司时将名下银行卡存款全部转出。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2022年4月至2023年9月，张某甲收到王某给付的房屋折价款130万元，工资收入近80万元。在此期间，张某甲向案外人刘某（恋人关系，后登记结婚）转账300多万元"}
+          - {section: basic_facts, quote: "张某甲向案外人刘某（恋人关系，后登记结婚）转账300多万元"}
+          - {section: basic_facts, quote: "并将其名下银行卡存款均转出"}
+      - client_belief: 这些大额转账是我自己的决定，只要说明钱已经不在名下，就足以证明现在没有支付能力。
+        court_record: 张某甲未能证明大额转账及清空账户的必要性，名下已无财产不能当然成为降低抚养费的依据。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "张某甲未提供证据证明财产处分的必要性"}
+      - client_belief: 孩子是2015年出生的。
+        court_record: 张小某于2015年出生。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "张小某于2015年出生"}
+      - client_belief: 我在2023年4月已经知道可能被原公司裁员；同年8月就提起了降低抚养费诉讼，请求从10月起把每月6000元降至2000元；到9月底才离开原公司。
+        court_record: 张某甲称其于2023年4月已经知晓可能被原公司裁员；其于同年8月提起抚养费诉讼，请求自10月起将每月6000元抚养费降至2000元，至9月底才从原公司离职。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "张某甲称其于2023年4月已经知晓可能会被原公司裁员"}
+          - {section: basic_facts, quote: "2023年8月，张某甲起诉张小某抚养费纠纷，以其月收入骤降，无力按照每月6000元支付抚养费为由，要求自2023年10月起降低抚养费至每月2000元。"}
+          - {section: basic_facts, quote: "至2023年9月底，张某甲从原公司离职"}
+    expected_inquiries:
+      - 请提供原离婚判决、孩子目前实际需要和你现有抚养费履行记录。
+      - 原公司收入、离职或裁员原因、现公司劳动合同和工资流水能否完整证明收入变化？
+      - 请把起诉、离开原公司、请求降低金额的起算点及入职新公司的文件串成时间线；你何时知道可能被裁员，为何在此前后转出资金？
+      - 向刘某转账300多万元的每笔用途、对价、协议和资金去向是什么，是否可能返还？
+      - 130万元房屋折价款、近80万元工资及其他资产目前如何处置，是否仍有可支配财产？
+      - 孩子目前的年龄、教育和医疗实际支出分别是多少，另一方收入自原判决后发生了哪些有金额和时间依据的变化？
+    memo_expectations:
+      - 说明生效抚养安排持续有效，变更金额需要证明履行能力或子女需要发生实质变化。
+      - 综合审查当前工资、既往收入、房屋折价款和可支配资产，而非仅以名义月薪判断支付能力。
+      - 分析预见收入下降后未预留抚养财产、大额转账和清空账户对诚信及履行能力评价的影响。
+      - 要求解释每笔财产处分的必要性、对价和可回收性，并提示无法证明时的败诉风险。
+      - 比较原6000元标准、拟降至2000元请求与孩子实际需要，提出更可证成的调整或协商方案。
+      - 单列比较起诉时陈述的“收入骤降”与当时尚未离职、随后入职新公司的客观时间，谨慎评价请求基础和当事人诚信。
+    editorial_review: *full_review
+    editorial_note: 选择负有抚养义务的一方在诉讼进行中咨询，使其如实披露起诉后已经形成的新工作收入及此前转账；错误认知仅涉及收入下降和财产处分的法律效果，不倒置2023年8月起诉、9月底离职、10月入职的时间顺序。

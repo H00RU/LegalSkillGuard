@@ -1,0 +1,389 @@
+annotations:
+  - id: lsg_cn_0017
+    source_line: 31
+    source_case_sha256: 8a3c43453cf2512609249e4049c2c78c82ccddbe441475a95d7d4944fc3c32c1
+    split: train
+    legal_domain: consumer_contract
+    client_role: 被视频平台自动续费且退费遭拒的消费者谢某
+    consultation_stage: 自动扣费并协商退费遭拒后、提起诉讼前
+    opening: 我购买的视频会员最近再次自动扣费，平台拒绝退款。我不记得是否收到过有效的续费提醒，想判断平台是否尽到了显著提醒义务。
+    admission_reason: 订购、协议、两种提醒方式、发送失败和扣费均有精确时间线，适合评估消费者知情与选择权。
+    facts:
+      - client_belief: 我在2021年8月23日购买会员时确实选择了连续包年，协议中写有自动续费。
+        court_record: 谢某于2021年8月23日通过APP购买某视讯公司会员服务，选中连续包年选项，服务协议约定自动续费。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2021年8月23日，谢某通过APP购买该视频平台会员服务，选中“连续包年”选项"}
+          - {section: basic_facts, quote: "服务协议约定了自动续费内容"}
+      - client_belief: 既然我最初勾选过连续包年，平台可能无需在每次续费前再显著提醒。
+        court_record: 网络交易经营者仍应在自动续费日期前五日以显著方式提醒消费者，并在服务期间提供显著、简便的随时取消或变更选项。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "应当在消费者接受服务前和自动展期、自动续费等日期前五日，以显著方式提请消费者注意"}
+          - {section: adjudication, quote: "应当为消费者提供显著、简便的随时取消或者变更的选项"}
+      - client_belief: 平台在2022年8月10日发过站内消息，但没有弹窗，查看路径也不清楚，我实际很难注意到。
+        court_record: 某视讯公司于2022年8月10日在平台内发送续费提示，但该信息未设置自动弹窗、查看路径不明确且与大量广告通知混杂，不能构成显著提醒。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2022年8月10日，某视讯公司在平台内向谢某发送自动续费的提示信息，但未设置信息自动弹窗提醒，且查看信息的路径不明确"}
+          - {section: adjudication, quote: "平台内信息未设置自动弹窗提醒，且查看信息的路径不明确"}
+          - {section: adjudication, quote: "此种提醒方式难谓显著"}
+      - client_belief: 平台只要尝试发送一次短信，即使发送失败，也可能已经完成提醒义务。
+        court_record: 某视讯公司于2022年8月10日向谢某手机发送续费提示短信但发送失败，此后未再采取有效提醒措施，不能证明其充分履行提醒义务。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "同日，某视讯公司又向谢某手机发送自动续费的短信提示，但发送失败"}
+          - {section: basic_facts, quote: "某视讯公司又向谢某手机发送自动续费的短信提示，但发送失败"}
+          - {section: adjudication, quote: "在短信发送失败后，某视讯公司也未继续履行提醒义务"}
+      - client_belief: 账户在2022年8月20日被自动扣费，我随后要求平台退费但遭拒。
+        court_record: 谢某账户于2022年8月20日被某视讯公司自动扣费，谢某随后要求某视讯公司退费但遭到拒绝。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "2022年8月20日，谢某账户被自动扣费"}
+          - {section: basic_facts, quote: "谢某要求某视讯公司退费遭拒"}
+      - client_belief: 除退回被扣费用外，我还因平台占用资金产生了利息损失。
+        court_record: 谢某与某视讯公司的服务协议约定扣费差错由过错方承担责任，谢某另行主张自动扣费资金占用期间的利息损失。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "在扣费过程中出现差错，应根据过错原因由过错方承担责任"}
+          - {section: basic_facts, quote: "并赔偿资金占用期间利息损失"}
+    expected_inquiries:
+      - 请提供购买页面、连续包年勾选状态和当时适用的完整服务协议。
+      - 2022年8月10日站内消息的发送时间、所在栏目、弹窗状态、查看步骤和广告混杂情况如何，能否录屏固定？
+      - 2022年8月10日短信发送至哪个绑定号码，失败状态、失败原因以及平台此后的补发或替代提醒记录是什么？
+      - 自动续费日期、金额、支付渠道和扣款凭证是什么，你在何时发现并申请退款？
+      - APP是否提供显著、简便的取消入口，你在续费前是否尝试寻找或关闭？
+      - 平台拒绝退费的客服记录、后续是否自愿退款及利息损失如何计算？
+    memo_expectations:
+      - 区分首次同意连续包年与自动续费日前五日的显著提醒义务，并审查服务期间是否提供显著、简便的随时取消或变更选项。
+      - 对照2022年8月10日提醒和8月20日扣费，说明提醒时间达到五日前并不等于提醒方式显著；具体评价站内消息的位置、弹窗、广告混杂和查看路径。
+      - 评价短信发送失败后经营者是否采取有效补救，以及提醒义务的举证由谁掌握。
+      - 分析退款、资金占用利息和协议中过错分担条款的请求基础及计算期间。
+      - 梳理购买页面、后台消息、短信状态、扣款和客服记录的电子证据保全方案。
+    editorial_review: &full_review
+      source_read_in_full: true
+      single_client_role: true
+      pre_outcome_timeline: true
+      opening_has_no_outcome: true
+      opening_information_boundary_checked: true
+      beliefs_are_natural: true
+      gap_labels_semantically_checked: true
+      inquiries_are_answerable: true
+      memo_points_are_substantive: true
+    editorial_note: 客户承认最初勾选自动续费，并完整保留2022年8月10日提醒、8月20日扣费和短信发送失败的时间线；争议准确落在提醒虽早于五日但是否显著、失败后是否补救，不把案件写成未经同意扣款或单纯迟延提醒。
+
+  - id: lsg_cn_0018
+    source_line: 140
+    source_case_sha256: 505e9226765218b1bd2a7e5b0f721a725b0daa1cd665686c7c4a813b7a31940f
+    split: train
+    legal_domain: consumer_contract
+    client_role: 同时购买两张演唱会门票后申请退票的消费者方某
+    consultation_stage: 平台全退一张门票并仅退第二张票款的80%后、提起诉讼前
+    opening: 我在票务平台购买演唱会门票后，因行程变化及时申请退票。平台援引“同一账户只有一次退票权益”的规则，只退回了部分票款，我想确认这条规则应当怎样理解。
+    admission_reason: 同时购票、退票规则完整文字、一次成功一次被拒、并非退后重购以及80%退款均有来源，可检验格式条款通常理解和歧义解释规则。
+    facts:
+      - client_belief: 我是在同一次操作中，通过票务平台同时购买了两张演唱会门票。
+        court_record: 方某在某票务平台同时在线购买两张演唱会门票，两张门票不是在一次退票后再次购买形成的。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "方某在某票务平台同时在线购买两张演唱会门票"}
+          - {section: adjudication, quote: "案涉门票并非方某退票后再次购买"}
+      - client_belief: 购票页面的票务须知写明，购票后48小时内可以办理无条件退票。
+        court_record: 某票务平台的票务须知载明，购票后48小时内可办理无条件退票。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "购票后48小时内可办理无条件退票"}
+      - client_belief: 票务须知还写着，销售阶段同一购票人、同一账户仅有一次退票权益；产生一次退票后，再买同场次门票就不能退。
+        court_record: 票务须知同时约定同一购票人、同一购票账户在销售阶段仅享有一次退票权益，并特别说明产生一次退票后再次购买同场次演出票将不能退票。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "在销售阶段同一购票人、同一购票账户仅享有一次退票权益，在产生一次退票后，如再次购买同场次演出票，将不能退票"}
+      - client_belief: 这套退票文字是平台事先写好供所有用户重复使用的，我购票时没有机会就具体含义与平台协商。
+        court_record: 某票务平台预先拟定退票条件供重复使用，订立合同时未与方某协商，该退票条件属于格式条款。
+        gap_type: undisputed
+        evidence:
+          - {section: adjudication, quote: "是为了重复使用而预先拟定并在订立合同时未与对方协商的条款，属于格式条款"}
+      - client_belief: “同一账户仅享有一次退票权益”只能解释成一次最多退一张票，所以平台有权拒绝同时购买的第二张。
+        court_record: 结合后句“产生一次退票后再次购买同场次演出票将不能退票”，退票规则的通常理解是退票后再次购买才不再享有退票权益，而不是同次购买两张门票只能退一张；存在多种解释时也应采用不利于平台的解释。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "对退票规则的通常理解应为“退票后再次购买则不享有退票权益”"}
+          - {section: adjudication, quote: "对格式条款有两种以上解释的，应当作出不利于提供格式条款一方的解释"}
+      - client_belief: 平台对两张票中的一张办理了退票，却拒绝另一张；我多次请求后，第二张最终只退了80%。
+        court_record: 方某申请退还同时购买的两张门票时，一张退票成功、另一张被平台拒绝；经方某多次请求，平台仅退还第二张票款的80%。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "其中一张演出票退票成功，另一张演出票被该平台拒绝退票"}
+          - {section: basic_facts, quote: "经方某多次请求，该平台仅向方某退还第二张票款的80%"}
+      - client_belief: 演唱会门票有时间性和数量限制，平台已经退回第二张的80%，所以即使条款含糊，我也不能再要求剩余20%。
+        court_record: 演唱会门票的时间性和有限性可以支持平台设置清晰、公平的退票规则，但不能消除格式条款歧义解释规则；同时购买的门票不属于退票后重购，平台不能据该条款扣留第二张票款的剩余20%。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "演唱会门票具有时间性要求和有限性等特点"}
+          - {section: adjudication, quote: "平台不能依据上述条款拒绝向方某全额退还票款"}
+    expected_inquiries:
+      - 两张门票是否由你在票务平台同时在线购买，订单记录能否证明它们不是退票后再次购买形成的？
+      - 请提供购票时完整票务须知，核对48小时退票、同一账户一次退票权益和再次购票限制的连续原文。
+      - 你是否曾先退票再购买同场次门票，还是只对最初同时购买的两张票一次提出退票？
+      - 平台是否对第一张办理成功却拒绝第二张，其处理是否实际采用了“同一账户一次退票权益”的解释？
+      - 你与平台是否就退票条款单独协商过，页面是否允许选择或修改该项规则？
+      - 你多次请求后，平台是否仅退回第二张票款的80%，相关退款比例和沟通记录能否相互印证？
+    memo_expectations:
+      - 识别退票规则系平台预先拟定且未经个别协商的格式条款，并完整保留前后句而非割裂解释“一次”。
+      - 依通常理解区分“同时购买两张后一起退票”与“完成一次退票后再次购买同场次门票”。
+      - 在存在两种以上解释时适用不利于格式条款提供方的解释，不能采用只便利平台的一票一次解释。
+      - 承认演唱会门票具有时间性、有限性及平台制定合理规则的需求，同时审查规则是否清晰、无歧义且公平。
+      - 分析第二张票已退80%后的剩余请求，并围绕订单关联、规则版本、退票处理和客服回复形成电子证据链。
+    editorial_review: *full_review
+    editorial_note: 咨询发生在平台部分退款后、起诉前；opening不提前透露同次购买两张、两张分别处理及80%比例。认知差异来自同一格式条款前后句如何作用于“同时购买”而非“退后重购”，不泄露后续裁判结果。
+
+  - id: lsg_cn_0019
+    source_line: 141
+    source_case_sha256: 919b25ec0319528745f5e6651a621b07ecce6c8a465506a67765fada6958f59f
+    split: train
+    legal_domain: consumer_contract
+    client_role: 因平台提前开放定金支付而未进入半价名单的床垫消费者张某
+    consultation_stage: 商家拒绝给予半价优惠后、提起诉讼前
+    opening: 商家宣传前50名付定金可以半价购买床垫，平台却在规则写明的开始时间前就开放付款。我提前付定金后马上问过客服，后来没有进入优惠名单，商家也拒绝给予半价，我想核清能否要求其承担责任。
+    admission_reason: 促销规则、平台提前开放、定金与截图、客服回应、尾款、公示名单首尾时间和拒绝理由形成完整电子证据链，可评价误导、合理信赖与机会损失因果。
+    facts:
+      - client_belief: 商家的床垫促销规则写明，10月24日20时开始付定金，前50名付定金者享受半价优惠。
+        court_record: 某家具公司针对一款床垫设置促销，规则为10月24日20时开始支付定金，前50名付定金者享受半价优惠。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "促销规则为：10月24日20时开始付定金，前50名付定金者享受半价优惠"}
+      - client_belief: 我在19时40分付款，早于规则写的20时，所以不管平台为何提前开放、客服怎样回应，商家都可以当然取消我的优惠资格。
+        court_record: 某家具公司在19时33分即提前接受定金；张某19时40分付款后立即告知客服，而客服没有指出时间不合规则，因此商家不能仅以张某早于20时付款就免除其误导责任。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "实际上，当日19时33分该公司即接受定金支付"}
+          - {section: basic_facts, quote: "张某于19时40分支付定金100元"}
+          - {section: adjudication, quote: "客服人员并未指出其付定金时间不符合促销规则"}
+      - client_belief: 我支付100元定金后立即告诉客服已经下单，还发送了当时预定人数为15人的截图。
+        court_record: 张某于19时40分支付100元定金后告知客服已下单，并向客服发送当时预定人数为15人的截图。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "同时告知客服人员已下单，并向客服人员发送了当时预定人数为15人的截图"}
+      - client_belief: 客服只说结果随后公示，并说我有机会享受半价，没有明确保证我一定入选；我担心这种回复对责任判断完全没有意义。
+        court_record: 客服在明知张某已经提前支付定金后，没有提示其不符合时间规则，反而告知结果随后公示并表示张某有机会享受半价，足以使张某合理信赖自己仍具有优惠资格。
+        gap_type: disputed
+        evidence:
+          - {section: basic_facts, quote: "客服人员回复结果随后公示，同时告知张某有机会享受半价优惠"}
+          - {section: adjudication, quote: "据此，张某有理由相信其有资格享受半价优惠"}
+      - client_belief: 在客服这样回复后，我支付了2399元尾款，定金和尾款合计2499元。
+        court_record: 张某在客服表示其有机会享受半价后支付2399元订单尾款，合计支付2499元。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "张某随后支付订单尾款2399元，合计支付金额为2499元"}
+      - client_belief: 商家后来公示的名单没有我；名单第一名是10月24日20时0分0秒，第50名到10月25日9时32分1秒。
+        court_record: 某家具公司的优惠名单不含张某，名单显示第一名下单时间为10月24日20时0分0秒，第50名为10月25日9时32分1秒。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "该公司公示的优惠名单中并无张某"}
+          - {section: basic_facts, quote: "第1名下单时间为10月24日20时0分0秒，第50名下单时间为10月25日9时32分1秒"}
+      - client_belief: 因为最终名单没有我，我觉得无法证明如果客服当时指出时间问题，我取消后在20时重新付款仍有机会进入前50名。
+        court_record: 公示名单的第50名直到次日9时32分1秒才下单；若客服在张某告知时及时指出提前付款不合规则，张某完全可以取消订单并在20时后重新支付定金，从而具备取得优惠的现实机会。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "张某完全可以先取消该订单并在20时后支付定金，进而促成符合优惠条件"}
+      - client_belief: 我申请半价优惠时，商家明确以我没有在活动时间内下单、不符合优惠条件为由拒绝。
+        court_record: 张某申请半价优惠后，某家具公司以张某未在活动时间内下单、不符合优惠条件为由拒绝。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "该公司认为，张某未在活动时间内下单，不符合优惠条件"}
+    expected_inquiries:
+      - 请提供完整促销页面和规则截图，确认20时开始、前50名半价的文字及页面发布主体。
+      - 平台何时实际开放定金支付，你的定金流水为何显示19时40分，能否保留系统时间戳？
+      - 你发给客服的15人截图、下单告知和前后完整聊天记录是否仍保存原始载体？
+      - 客服对提前付款是否合规具体说了什么，是否提示取消重下，还是只说稍后公示并有机会优惠？
+      - 100元定金、2399元尾款和2499元总价分别对应哪些订单与付款凭证？
+      - 请保存最终优惠名单的完整页面、第一名和第50名时间，以及商家拒绝你享受半价的原始理由。
+    memo_expectations:
+      - 完整解释书面促销规则，并审查商家提前开放定金支付与规则开始时间之间的执行矛盾。
+      - 结合付款后即时告知、15人截图和客服未纠正反而表示有机会优惠，评价经营者是否造成合理信赖和误导。
+      - 用公示名单首尾时间检验反事实因果，即及时提示后取消并在20时重下是否具有现实可行性。
+      - 区分“提前付款当然取得半价”与“商家因自身误导承担相应责任”，不能把救济基础错误简化为忽略规则。
+      - 核对定金、尾款、半价差额及客户具体请求的计算，避免把优惠损失与其他惩罚性赔偿混同。
+      - 建立规则页面、系统开放时间、付款、客服对话、名单和拒绝理由的连续电子证据链。
+    editorial_review: *full_review
+    editorial_note: 咨询在商家拒绝优惠后、起诉前；opening只说明未入名单和被拒，不提前泄露商家所称“未在活动时间内下单”的具体拒绝理由。客户知道交易与沟通事实，不知道后续判决；差异不否定20时规则，而是检验商家提前开放、客服回应和名单时间共同形成的误导及机会损失因果。
+
+  - id: lsg_cn_0020
+    source_line: 34
+    source_case_sha256: 4db0fd69f30f3d920fea5c1682d16968cfba6084d4192af0784b8fce9c6d878e
+    split: train
+    legal_domain: consumer_contract
+    client_role: 在无资质化妆品店接受医美并受损的消费者张某
+    consultation_stage: 多次修复无效并另行就医后、提起退款赔偿诉讼前
+    opening: 我在一家店接受医美项目后出现面部异常，店方多次处理仍未改善。我怀疑其资质和宣传有问题，准备主张退款和赔偿。
+    admission_reason: 无许可经营、虚假资质承诺、侵入性服务、损害和修复过程均充分，适合医美消费者保护咨询。
+    facts:
+      - client_belief: 我接受的是瘦脸针注射、隆鼻和面部填充等医美服务，共支付五万余元。
+        court_record: 张某在某化妆品店多次接受瘦脸针注射、隆鼻和面部填充等医疗美容服务，共计支付五万余元。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "多次接受瘦脸针注射、隆鼻、面部填充等医疗美容服务，共计花费5万余元"}
+      - client_belief: 店员向我保证店铺具有医疗美容资质，使用的产品也合规。
+        court_record: 某化妆品店经营人员向张某谎称该店具有医疗美容资质且所用产品合规。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "该店经营人员谎称该店具有医疗美容资质且产品合规"}
+      - client_belief: 我是为改善个人形象接受医美，担心这类服务不属于生活消费，不能适用消费者保护规则。
+        court_record: 为提升个人形象接受服务、购买产品属于生活消费，接受者属于消费者。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "张某为满足提升个人形象的生活消费需求而接受服务、购买产品，属于《中华人民共和国消费者权益保护法》第二条规定的消费者"}
+      - client_belief: 店铺后来承诺修复并把症状归因于我的体质，可能意味着只是医疗效果争议而不是欺诈。
+        court_record: 某化妆品店明知自身没有医疗美容资质，仍向张某提供存在质量问题的医美服务，并在张某质疑时隐瞒无资质事实、作出虚假修复承诺，具有欺诈故意。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "该店在明知无医疗美容资质的情况下仍为张某多次提供存在质量问题的医美服务"}
+          - {section: adjudication, quote: "在张某提出质疑时隐瞒事实、虚假承诺，主观上具有欺诈故意"}
+      - client_belief: 这家店未经卫生行政部门登记，也没有医疗机构执业许可证。
+        court_record: 某化妆品店未经登记注册且未取得医疗机构执业许可证即开展医美服务。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "未经卫生行政部门登记注册且未取得《医疗机构执业许可证》即开展医疗美容服务活动"}
+      - client_belief: 多次修复后症状没有好转，我最终到医院通过手术等方式治疗。
+        court_record: 张某接受某化妆品店多次修复处理后症状仍未好转，随后前往医院接受手术等治疗。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "经多次修复状况未见好转，张某遂前往医院采取手术等方式治疗"}
+      - client_belief: 接受这些项目期间，我的鼻部和面部出现结节、色素沉着和红斑，需要把发生时间与每次操作对应起来。
+        court_record: 张某在某化妆品店接受医疗美容服务期间出现鼻部和面部结节、表皮色素沉着、红斑等症状。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "张某出现鼻部、面部长结节，表皮色素沉着和红斑等症状"}
+    expected_inquiries:
+      - 请提供每次医美项目、时间、付款、操作人员和使用产品的完整记录。
+      - 店铺关于机构资质、人员资质和产品合规的宣传或承诺如何作出，有无聊天、合同或录音？
+      - 能否从主管部门查询店铺登记和医疗机构执业许可状态，并固定查询结果？
+      - 结节、色沉和红斑何时出现，医院诊断、治疗和因果意见是否完整？
+      - 店铺每次如何解释和修复，是否收费，是否承认产品或操作问题？
+      - 五万余元服务费由哪些项目和付款组成，后续医疗费及其他实际损失分别有何票据，店方是否退还或抵扣过任何款项？
+    memo_expectations:
+      - 认定为提升形象而接受医美属于生活消费，说明消费者保护制度的适用基础。
+      - 核对机构和操作人员资质要求，评价无证开展侵入性医美服务的违法性。
+      - 结合虚假资质承诺、产品合规承诺、隐瞒和无效修复分析欺诈故意及信赖因果。
+      - 区分退款、三倍惩罚性赔偿与后续医疗损害赔偿，防止请求项目和基数混淆。
+      - 建立资质查询、宣传承诺、项目记录、损害诊疗和费用之间的证据链。
+      - 将每项医美操作、症状出现、店内修复和医院治疗按时间对应，独立评价损害因果及后续医疗费用证明。
+    editorial_review: *full_review
+    editorial_note: 客户不预知法院结论，完整陈述店铺承诺和自身症状；差异是消费属性及事后修复能否消除先前欺诈，而非机械改写医疗事实。
+
+  - id: lsg_cn_0021
+    source_line: 35
+    source_case_sha256: b5c75a2af9d243aa71d3364998ce2aeefefeb87701abf7453e824f441906dd83
+    split: train
+    legal_domain: consumer_contract
+    client_role: 购买含禁用成分减肥食品的网络消费者于某
+    consultation_stage: 鉴定检出禁用成分且经营者被刑事立案后、提起民事诉讼前
+    opening: 我从网店购买减肥食品后发现产品来源和成分可能违法，卖家已经被调查。我没有出现严重身体损害，想了解能否主张食品安全赔偿。
+    admission_reason: 交易、虚假生产主体、鉴定、禁用成分和经营者注意义务完整，适合区分实际损害与食品安全惩罚性赔偿。
+    facts:
+      - client_belief: 我在张某网店购买减肥食品并支付了2000余元。
+        court_record: 于某在张某经营的网络店铺购买减肥食品，支付价款2000余元。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "于某在张某经营的网络店铺中购买了某款减肥食品，支付价款2000余元"}
+      - client_belief: 食品标示由某保健品公司生产，但该公司十多年前已经被吊销营业执照。
+        court_record: 减肥食品宣传图标示某保健品公司为生产企业，该公司十余年前已被吊销营业执照。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "该食品宣传图中标示生产企业为某保健品公司"}
+          - {section: basic_facts, quote: "某保健品公司十余年前已被吊销营业执照"}
+      - client_belief: 只有我实际食用并出现身体损害，才能要求价款十倍的食品安全赔偿。
+        court_record: 经营者明知食品不符合食品安全标准仍予经营时，消费者可以请求价款十倍赔偿，不以已经发生人身损害为必要前提。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "经营者经营明知是不符合食品安全标准的食品，消费者有权向经营者要求支付价款十倍的赔偿金"}
+      - client_belief: 卖家如果说自己不知道配方有问题，就可能当然不属于“明知”。
+        court_record: 经营者未依法履行查验义务，仍销售含有毒有害成分的食品并放任人身、财产损害风险发生，可以认定其明知食品不符合安全标准。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "经营者未依法履行查验义务，销售有毒、有害食品，放任给消费者造成人身或者财产损害风险的发生，应当认定为经营者经营明知不符合食品安全标准的食品"}
+      - client_belief: 鉴定已检出大量西布曲明，该成分被禁止添加在食品中。
+        court_record: 经鉴定，案涉减肥食品含有大量西布曲明；西布曲明属于食品中禁止添加的成分。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "经鉴定，案涉食品成分中含有大量西布曲明"}
+          - {section: basic_facts, quote: "西布曲明属于在食品中禁止添加的成分"}
+      - client_belief: 我报案后，张某已因涉嫌生产、销售有毒有害食品被刑事立案，但刑事案件另行处理。
+        court_record: 张某因涉嫌生产、销售有毒、有害食品被刑事立案，刑事案件另案处理。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "张某因涉嫌生产、销售有毒、有害食品被刑事立案（已另案处理）"}
+    expected_inquiries:
+      - 请提供网店页面、订单、支付、物流、商品宣传图和现存实物包装。
+      - 生产企业吊销状态通过何种权威渠道核实，网页查询记录能否固定？
+      - 鉴定由何机关委托、样品如何取得和封存，鉴定报告与所购批次能否对应？
+      - 是否食用、剩余数量、身体反应和就医情况如何，是否另有实际损害请求？
+      - 公安立案材料中能否取得与卖家身份、货源和明知程度有关的可用证据？
+      - 本次订单实际支付了多少，是否已经退款或获得其他赔付，是否存在共同下单、拆单或多笔付款？
+    memo_expectations:
+      - 以鉴定检出的禁用西布曲明分析案涉食品不符合食品安全标准的事实基础。
+      - 说明十倍价款惩罚性赔偿与实际人身损害相区分，不要求先发生严重伤害。
+      - 从经营者查验义务、标示生产企业早已吊销及仍销售含禁用成分食品等事实分析“明知”，不得把生产主体异常本身替代食品安全要件。
+      - 处理刑事立案与民事赔偿的证据衔接，避免把立案本身直接等同民事全部要件成立。
+      - 核对订单价款、样品同一性和鉴定程序，准确计算惩罚性赔偿请求。
+    editorial_review: *full_review
+    editorial_note: 客户主动说明尚无严重身体损害，形成食品安全惩罚性赔偿的真实法律疑问；禁用西布曲明用于判断食品安全，吊销生产主体与未查验事实用于分析经营者明知，刑事立案仅作为证据线索。
+
+  - id: lsg_cn_0022
+    source_line: 36
+    source_case_sha256: e61cf05fa363f293612ea808fefe93ba77068e6f5c1aec931350d59cc6efed6b
+    split: train
+    legal_domain: consumer_contract
+    client_role: 购买到健康和品种均不符承诺犬只的消费者高某
+    consultation_stage: 收犬四日内检查并发现证书伪造后、提起诉讼前
+    opening: 我向宠物公司购买一只其承诺为纯种健康的犬，收货不久发现健康和证明材料都有问题。我想退货并评估欺诈赔偿。
+    admission_reason: 购买前承诺、证书、短期检查、健康缺陷和品种证明均明确，可区分违约与欺诈。
+    facts:
+      - client_belief: 购买前我明确要求纯种健康博美犬，并要求提供品种证书。
+        court_record: 高某与宠物公司在购买前确认，交易对象应为纯种、健康的博美犬并附品种证书。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "确认购买一只纯种健康博美犬，并需提供犬只的品种证书"}
+      - client_belief: 我为这只犬支付了8000余元。
+        court_record: 高某为购买犬只支付价款8000余元。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "高某支付了8000余元价款"}
+      - client_belief: 我收犬四日后就送医，发现髌骨脱位、咬合不全和鼻泪管阻塞等问题。
+        court_record: 高某收到犬只四日后送宠物医院检查，发现髌骨脱位、上下颌咬合不全和鼻泪管阻塞等问题。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "收到犬只四日后"}
+          - {section: basic_facts, quote: "发现该犬存在髌骨脱位、上下颌咬合不全、鼻泪管阻塞等问题"}
+      - client_belief: 健康问题可能只构成质量违约，未必足以说明公司在销售时实施了欺诈。
+        court_record: 犬只短期内发现多种健康问题，宠物公司提供的品种证书虚假且不能提供其他纯种证明，宠物公司的品种宣传构成欺诈。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "短期内即发现存在多种健康问题，与某宠物公司作出的承诺严重不符"}
+          - {section: adjudication, quote: "某宠物公司对宠物品种信息作虚假宣传，构成欺诈"}
+      - client_belief: 品种证书只是附带文件，即使证书伪造，只要犬只外观看起来像博美，也可能不影响交易性质。
+        court_record: 宠物品种对市场价值具有重大影响，品种证书是证明品种真实性并影响高某购买决定的重要凭证。
+        gap_type: disputed
+        evidence:
+          - {section: adjudication, quote: "宠物品种对于其市场价值具有重大影响"}
+          - {section: adjudication, quote: "宠物品种证书是证明宠物品种真实性的重要凭证，是高某作出购买意思表示的重要考量因素"}
+      - client_belief: 公司提供的证书是伪造的，也没有其他证据证明犬只是纯种博美。
+        court_record: 宠物公司提供的品种证书系伪造，且未能提供其他证据证明犬只是纯种博美犬。
+        gap_type: undisputed
+        evidence:
+          - {section: basic_facts, quote: "某宠物公司提供的品种证书系伪造，且无其他证据证明该犬系纯种博美犬"}
+    expected_inquiries:
+      - 请保存购买前聊天，确认纯种、健康和品种证书是明确交易条件。
+      - 付款、交付、犬只身份和四日内就诊记录能否证明检查对象就是所购犬只？
+      - 宠物医院如何诊断三项问题，能否判断问题在交付时已存在？
+      - 品种证书由谁出具，如何确认伪造，公司对证书来源作何解释？
+      - 公司是否提供血统、芯片、繁育记录等其他纯种证明，是否愿意退换或承担治疗费？
+      - 你是否愿意退还犬只，当前照料和交接条件如何，已支付价款、诊疗费及其他实际支出分别是多少？
+    memo_expectations:
+      - 将纯种、健康和证书作为明确约定的核心质量信息，而非一般宣传用语。
+      - 分析交付四日即检出多项问题对交付时不符合承诺的证明意义和同一性要求。
+      - 说明品种对市场价值和购买决定的重要性，评价伪造证书所反映的欺诈故意。
+      - 区分一般质量违约与虚假品种信息诱导交易的欺诈，并分别处理退款、赔偿和治疗费用。
+      - 设计聊天承诺、证书鉴伪、就诊记录、犬只识别和退还交接的证据方案。
+    editorial_review: *full_review
+    editorial_note: 客户在开场中自然知道检查和证书结果；争议设置为健康瑕疵与虚假核心品种信息如何共同达到欺诈，而非简单宣称有病就三倍赔偿。

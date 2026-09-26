@@ -44,15 +44,11 @@ def cuda_driver_probe() -> dict[str, Any]:
     init_code = int(library.cuInit(0))
     device_count = ctypes.c_int(-1)
     count_code = (
-        int(library.cuDeviceGetCount(ctypes.byref(device_count)))
-        if init_code == 0
-        else None
+        int(library.cuDeviceGetCount(ctypes.byref(device_count))) if init_code == 0 else None
     )
     driver_version = ctypes.c_int(-1)
     version_code = (
-        int(library.cuDriverGetVersion(ctypes.byref(driver_version)))
-        if init_code == 0
-        else None
+        int(library.cuDriverGetVersion(ctypes.byref(driver_version))) if init_code == 0 else None
     )
     return {
         "library": library_name,
@@ -108,9 +104,7 @@ def main() -> None:
         "verified_at": datetime.now(UTC).isoformat(),
         "nvidia_smi": nvidia_smi,
         "kernel_modules": run(["bash", "-lc", "lsmod | grep '^nvidia'"]),
-        "nvidia_persistenced": run(
-            ["systemctl", "is-active", "nvidia-persistenced.service"]
-        ),
+        "nvidia_persistenced": run(["systemctl", "is-active", "nvidia-persistenced.service"]),
         "pci_binding": run(["lspci", "-nnk", "-s", "00:1a.0"]),
         "device_nodes": sorted(str(path) for path in Path("/dev").glob("nvidia*")),
         "proc_driver_version": (

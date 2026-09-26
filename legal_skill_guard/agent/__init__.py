@@ -1,1 +1,1 @@
-"""Lawyer policy and consultation loop (implemented from Phase 1)."""
+"""Lawyer policy and consultation loop."""

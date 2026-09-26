@@ -1,0 +1,56 @@
+schema_version: 1
+jurisdiction: CN
+scope: research_prototype
+as_of: "2026-08-13"
+
+claims:
+  allowed:
+    - "面向中文法律咨询研究的多轮事实获取与安全终止原型"
+    - "基于公开数据标注和程序化验证的离线实验"
+  forbidden:
+    - "可替代执业律师"
+    - "已经具备真实法律服务部署条件"
+    - "模型输出是权威法律意见或专家真值"
+
+main_experiment_compliance_contract:
+  - id: research_boundary
+    requirement: "输出与报告明确限定为研究原型，不冒充律师或权威法律意见。"
+  - id: test_information_isolation
+    requirement: "court_record、expected_inquiries、memo_expectations 等评测隐藏信息不得进入律师 Agent、在线状态、技能教师或技能库。"
+  - id: data_minimization
+    requirement: "实验只使用去标识化、任务必要字段；技能不得诱导收集与争点无关的敏感个人信息。"
+  - id: fact_law_separation
+    requirement: "客户模拟器只陈述可观察事实，不替客户作法律定性；律师不得把客户主张当成已证实事实。"
+  - id: inquiry_safety
+    requirement: "不得诱导披露与争点无关的敏感信息。一次多问、抽象提问或要求客户先作法律判断属于保留并计分的律师行为缺陷，供轨迹比较和技能学习，不冒充数据完整性硬失败。"
+  - id: memo_calibration
+    requirement: "无固定法律检索结果时，不虚构法条、案由或狭义法理；事实不足时用条件性分析并说明研究限制。"
+  - id: procedural_calibration
+    requirement: "诉讼、仲裁、报案、保全等程序建议必须附带条件与核验提示，不把期限、管辖或结果表述为确定事实。"
+  - id: causal_audit_integrity
+    requirement: "块级prequential影子和最终外测在同案、同 persona、同随机条件下仅改变固定会话技能文档包；训练阶段保存来源证据、直接入库、文档暴露、库级效果与维护记录。"
+
+research_variables:
+  - "Qwen3-8B 的修复重试与安全回退负担"
+  - "每块证据簇、教师 NOOP、硬门拒绝、直接入库数量及工作技能文档的实际暴露范围"
+  - "累计工作技能库相对空库的事实获取、证据缺口识别、提问效率与安全变化"
+  - "第2、4、6、8块的库级去重、冲突、冗余、容量与维护决定"
+  - "本地单语义评审的资格结果、结构修复负担及与确定性指标的一致性"
+
+deployment_only_requirements:
+  - "由具备相应资质的主体提供法律服务并进行人工复核"
+  - "委托关系、收费、利益冲突检查及档案管理"
+  - "个人信息处理的合法基础、告知、最小必要、保存期限和安全措施"
+  - "敏感个人信息处理的特定目的、充分必要性、严格保护和单独同意等适用要求"
+  - "现行有效法源检索、地域与时效核验、程序期限和管辖核验"
+  - "投诉、监督、纠错及事故响应机制"
+
+authoritative_sources:
+  - title: "中华人民共和国律师法"
+    url: "https://xzfy.moj.gov.cn/c/2021-01-06/487877.shtml"
+  - title: "中华人民共和国个人信息保护法"
+    url: "https://www.npc.gov.cn/npc/c2/c30834/202108/t20210820_313088.html"
+  - title: "全国人大常委会法工委：个人信息保护法解读"
+    url: "https://www.npc.gov.cn/npc/c2/c30834/202108/t20210831_313317.html"
+  - title: "律师事务所管理办法"
+    url: "https://new.moj.gov.cn/policyManager/attach/downloadFile?realfilename=4de06d6a51b84e679eae20e14b92fd62-2021-12-31.pdf"

@@ -1,0 +1,314 @@
+schema_version: 3
+design: balanced_sequential_skill_accumulation_blocks
+status: frozen_for_128_case_direct_skill_accumulation
+random_seed: 20260827
+training_cases: 128
+training_batches: 8
+cases_per_batch: 16
+skill_accumulation:
+  mode: group_evidence_global_playbook_evolution
+  first_source_batch: training_batch_01
+  final_source_batch: training_batch_07
+  effect_assessment: descriptive_prequential_exact_parent_increment_or_library_identity
+  maintenance_interval_blocks: 2
+  final_batch_generates_skills: false
+design_notes:
+  - 八批均为等预算顺序经验块，不是按难度从低到高安排的课程学习。
+  - 128案全部属于训练流程且每案只归属一个经验块；不保留固定开发验收集，也不为单个候选占用K=4轨迹臂。
+  - 每批K=4均使用同一个批首技能库且不预生成封闭调查计划；四条从首轮起使用独立采样流，不混入空技能臂。每个归因健康案件都压缩成一张完整K组证据卡；有差异时保留组内相对优劣，无差异时如实标记tie而不因收益打平丢弃案件或伪造正对照。
+  - 教师每批以两个互不重叠的map调用覆盖至多16张归因健康证据卡，再以一个reduce调用合并成功/失败机制并对同一份跨法域playbook执行有界局部编辑；含系统fallback或其他不可归因干预的K组在奖励和教师结果产生前整组隔离并显式记账。候选只通过结构、来源、泄漏、法律安全和提示容量硬门，在本批结束时直接进入下一批工作库。
+  - 下一未见批用精确父库配对描述上一批playbook版本增量，但单块结果不拒收、不回滚。来源资格不冒充效果证明，下一块结果也不冒充单条规则永久效应。
+  - 第一至第七批均可创建或更新playbook；第八批观察第七批新增版本（若存在），候选预算固定为0，随后冻结完整累计工作库。第八批的终端开发结果不作结果驱动剪枝。
+  - 每批16案覆盖13至14个法域、至少15个最高法来源页，同一来源页每批最多2案；各批事实量和新旧来源比例近似均衡。
+  - 128案训练、后一块自然使用与块级prequential观察统一使用合作型P_WD；客户如实回答已匹配事实，使训练差异归因于律师策略和技能文档。四人格只用于技能库冻结后的官方外测及预声明种子稳健性分析。
+  - 新playbook版本从下一批开始直接进入逐轮律师完整动作决策；来源批只提供学习证据，不把同批轨迹冒充技能效果证明。在线事实槽不是封闭问题图谱，律师可用new_visible_gap自行提出技能支持的新事实维度；K=4从首轮起使用独立策略随机流。
+  - 单一playbook跨法域记录目标排序、有效问法、低收益回避和停止条件；它是方法文档而非待完成清单，不增加固定问题配额，也不能替代律师根据当前案件状态自主决策。
+batches:
+  - batch_id: training_batch_01
+    case_ids:
+      - lsg_cn_0076
+      - lsg_cn_0066
+      - lsg_cn_0020
+      - lsg_cn_0021
+      - lsg_cn_0055
+      - lsg_cn_0080
+      - lsg_cn_0122
+      - lsg_cn_0033
+      - lsg_cn_0016
+      - lsg_cn_0117
+      - lsg_cn_0003
+      - lsg_cn_0061
+      - lsg_cn_0042
+      - lsg_cn_0058
+      - lsg_cn_0094
+      - lsg_cn_0105
+    persona_assignment:
+      lsg_cn_0076: P_WD
+      lsg_cn_0066: P_WD
+      lsg_cn_0020: P_WD
+      lsg_cn_0021: P_WD
+      lsg_cn_0055: P_WD
+      lsg_cn_0080: P_WD
+      lsg_cn_0122: P_WD
+      lsg_cn_0033: P_WD
+      lsg_cn_0016: P_WD
+      lsg_cn_0117: P_WD
+      lsg_cn_0003: P_WD
+      lsg_cn_0061: P_WD
+      lsg_cn_0042: P_WD
+      lsg_cn_0058: P_WD
+      lsg_cn_0094: P_WD
+      lsg_cn_0105: P_WD
+  - batch_id: training_batch_02
+    case_ids:
+      - lsg_cn_0078
+      - lsg_cn_0027
+      - lsg_cn_0120
+      - lsg_cn_0018
+      - lsg_cn_0056
+      - lsg_cn_0079
+      - lsg_cn_0092
+      - lsg_cn_0032
+      - lsg_cn_0034
+      - lsg_cn_0012
+      - lsg_cn_0010
+      - lsg_cn_0037
+      - lsg_cn_0073
+      - lsg_cn_0088
+      - lsg_cn_0098
+      - lsg_cn_0101
+    persona_assignment:
+      lsg_cn_0078: P_WD
+      lsg_cn_0027: P_WD
+      lsg_cn_0120: P_WD
+      lsg_cn_0018: P_WD
+      lsg_cn_0056: P_WD
+      lsg_cn_0079: P_WD
+      lsg_cn_0092: P_WD
+      lsg_cn_0032: P_WD
+      lsg_cn_0034: P_WD
+      lsg_cn_0012: P_WD
+      lsg_cn_0010: P_WD
+      lsg_cn_0037: P_WD
+      lsg_cn_0073: P_WD
+      lsg_cn_0088: P_WD
+      lsg_cn_0098: P_WD
+      lsg_cn_0101: P_WD
+  - batch_id: training_batch_03
+    case_ids:
+      - lsg_cn_0075
+      - lsg_cn_0077
+      - lsg_cn_0067
+      - lsg_cn_0017
+      - lsg_cn_0128
+      - lsg_cn_0049
+      - lsg_cn_0051
+      - lsg_cn_0126
+      - lsg_cn_0023
+      - lsg_cn_0030
+      - lsg_cn_0011
+      - lsg_cn_0005
+      - lsg_cn_0072
+      - lsg_cn_0086
+      - lsg_cn_0093
+      - lsg_cn_0104
+    persona_assignment:
+      lsg_cn_0075: P_WD
+      lsg_cn_0077: P_WD
+      lsg_cn_0067: P_WD
+      lsg_cn_0017: P_WD
+      lsg_cn_0128: P_WD
+      lsg_cn_0049: P_WD
+      lsg_cn_0051: P_WD
+      lsg_cn_0126: P_WD
+      lsg_cn_0023: P_WD
+      lsg_cn_0030: P_WD
+      lsg_cn_0011: P_WD
+      lsg_cn_0005: P_WD
+      lsg_cn_0072: P_WD
+      lsg_cn_0086: P_WD
+      lsg_cn_0093: P_WD
+      lsg_cn_0104: P_WD
+  - batch_id: training_batch_04
+    case_ids:
+      - lsg_cn_0046
+      - lsg_cn_0026
+      - lsg_cn_0064
+      - lsg_cn_0057
+      - lsg_cn_0081
+      - lsg_cn_0123
+      - lsg_cn_0007
+      - lsg_cn_0070
+      - lsg_cn_0116
+      - lsg_cn_0004
+      - lsg_cn_0006
+      - lsg_cn_0041
+      - lsg_cn_0089
+      - lsg_cn_0113
+      - lsg_cn_0097
+      - lsg_cn_0103
+    persona_assignment:
+      lsg_cn_0046: P_WD
+      lsg_cn_0026: P_WD
+      lsg_cn_0064: P_WD
+      lsg_cn_0057: P_WD
+      lsg_cn_0081: P_WD
+      lsg_cn_0123: P_WD
+      lsg_cn_0007: P_WD
+      lsg_cn_0070: P_WD
+      lsg_cn_0116: P_WD
+      lsg_cn_0004: P_WD
+      lsg_cn_0006: P_WD
+      lsg_cn_0041: P_WD
+      lsg_cn_0089: P_WD
+      lsg_cn_0113: P_WD
+      lsg_cn_0097: P_WD
+      lsg_cn_0103: P_WD
+  - batch_id: training_batch_05
+    case_ids:
+      - lsg_cn_0045
+      - lsg_cn_0028
+      - lsg_cn_0029
+      - lsg_cn_0019
+      - lsg_cn_0127
+      - lsg_cn_0053
+      - lsg_cn_0124
+      - lsg_cn_0110
+      - lsg_cn_0068
+      - lsg_cn_0014
+      - lsg_cn_0063
+      - lsg_cn_0001
+      - lsg_cn_0039
+      - lsg_cn_0114
+      - lsg_cn_0099
+      - lsg_cn_0102
+    persona_assignment:
+      lsg_cn_0045: P_WD
+      lsg_cn_0028: P_WD
+      lsg_cn_0029: P_WD
+      lsg_cn_0019: P_WD
+      lsg_cn_0127: P_WD
+      lsg_cn_0053: P_WD
+      lsg_cn_0124: P_WD
+      lsg_cn_0110: P_WD
+      lsg_cn_0068: P_WD
+      lsg_cn_0014: P_WD
+      lsg_cn_0063: P_WD
+      lsg_cn_0001: P_WD
+      lsg_cn_0039: P_WD
+      lsg_cn_0114: P_WD
+      lsg_cn_0099: P_WD
+      lsg_cn_0102: P_WD
+  - batch_id: training_batch_06
+    case_ids:
+      - lsg_cn_0047
+      - lsg_cn_0121
+      - lsg_cn_0022
+      - lsg_cn_0119
+      - lsg_cn_0084
+      - lsg_cn_0083
+      - lsg_cn_0091
+      - lsg_cn_0109
+      - lsg_cn_0031
+      - lsg_cn_0035
+      - lsg_cn_0062
+      - lsg_cn_0008
+      - lsg_cn_0040
+      - lsg_cn_0060
+      - lsg_cn_0095
+      - lsg_cn_0108
+    persona_assignment:
+      lsg_cn_0047: P_WD
+      lsg_cn_0121: P_WD
+      lsg_cn_0022: P_WD
+      lsg_cn_0119: P_WD
+      lsg_cn_0084: P_WD
+      lsg_cn_0083: P_WD
+      lsg_cn_0091: P_WD
+      lsg_cn_0109: P_WD
+      lsg_cn_0031: P_WD
+      lsg_cn_0035: P_WD
+      lsg_cn_0062: P_WD
+      lsg_cn_0008: P_WD
+      lsg_cn_0040: P_WD
+      lsg_cn_0060: P_WD
+      lsg_cn_0095: P_WD
+      lsg_cn_0108: P_WD
+  - batch_id: training_batch_07
+    case_ids:
+      - lsg_cn_0044
+      - lsg_cn_0048
+      - lsg_cn_0025
+      - lsg_cn_0065
+      - lsg_cn_0085
+      - lsg_cn_0052
+      - lsg_cn_0090
+      - lsg_cn_0112
+      - lsg_cn_0069
+      - lsg_cn_0015
+      - lsg_cn_0009
+      - lsg_cn_0038
+      - lsg_cn_0074
+      - lsg_cn_0059
+      - lsg_cn_0096
+      - lsg_cn_0106
+    persona_assignment:
+      lsg_cn_0044: P_WD
+      lsg_cn_0048: P_WD
+      lsg_cn_0025: P_WD
+      lsg_cn_0065: P_WD
+      lsg_cn_0085: P_WD
+      lsg_cn_0052: P_WD
+      lsg_cn_0090: P_WD
+      lsg_cn_0112: P_WD
+      lsg_cn_0069: P_WD
+      lsg_cn_0015: P_WD
+      lsg_cn_0009: P_WD
+      lsg_cn_0038: P_WD
+      lsg_cn_0074: P_WD
+      lsg_cn_0059: P_WD
+      lsg_cn_0096: P_WD
+      lsg_cn_0106: P_WD
+  - batch_id: training_batch_08
+    case_ids:
+      - lsg_cn_0043
+      - lsg_cn_0024
+      - lsg_cn_0118
+      - lsg_cn_0054
+      - lsg_cn_0050
+      - lsg_cn_0082
+      - lsg_cn_0125
+      - lsg_cn_0111
+      - lsg_cn_0036
+      - lsg_cn_0013
+      - lsg_cn_0002
+      - lsg_cn_0071
+      - lsg_cn_0087
+      - lsg_cn_0115
+      - lsg_cn_0100
+      - lsg_cn_0107
+    persona_assignment:
+      lsg_cn_0043: P_WD
+      lsg_cn_0024: P_WD
+      lsg_cn_0118: P_WD
+      lsg_cn_0054: P_WD
+      lsg_cn_0050: P_WD
+      lsg_cn_0082: P_WD
+      lsg_cn_0125: P_WD
+      lsg_cn_0111: P_WD
+      lsg_cn_0036: P_WD
+      lsg_cn_0013: P_WD
+      lsg_cn_0002: P_WD
+      lsg_cn_0071: P_WD
+      lsg_cn_0087: P_WD
+      lsg_cn_0115: P_WD
+      lsg_cn_0100: P_WD
+      lsg_cn_0107: P_WD
+
+coverage_requirements:
+  cumulative_training_domains: 14
+  minimum_domains_per_batch: 13
+  minimum_source_pages_per_batch: 15
+  maximum_cases_from_one_source_page_per_batch: 2
+  cases_must_appear_once: true
+  training_persona: P_WD

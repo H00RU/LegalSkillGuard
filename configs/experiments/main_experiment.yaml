@@ -1,0 +1,530 @@
+schema_version: 1
+experiment_id: legal_skill_evolve_main
+status: shared_opening_agenda_group_evidence_gpu_requalification_required
+preparation_note: >-
+  128案冻结为8批×16案；官方DLawBench中文30案只在最终库冻结后作锁定复评。
+  Qwen3-8B在每批批首同一playbook下完成K=4多轮咨询；gpt-oss-20b只承担客户闭集事实选择与离线语义评分。
+  每个归因健康案件的K=4被压缩为完整证据卡；两个Luna map调用完整且不重叠覆盖本批证据，
+  第三个reduce调用跨案件合并成功/失败机制；首次创建唯一全局playbook时最多8个精确编辑，此后每批最多2个局部编辑。
+  未命中的旧条款逐字保留；候选通过结构、来源、隐藏信息、法律安全和提示容量硬门后直接发布为下一版本。
+  下一未见批以同案、同seed、同sample的精确父版本影子报告F/Q、事实数、提问数、安全及实际问答增量，
+  结果用于曲线和后一轮局部修订，不拒收或回滚。第8批只观察并冻结，不生成无后续观察的新版本。
+  每案由同一冻结Qwen仅凭公开opening生成一次共享、非绑定的事实调查议程，同案K=4和所有比较臂复用；
+  模型只选择opening逐字主题短语和一个闭集事实属性，由代码验证并确定性生成目标，不能自由引入开场外主题。
+  它不看技能、人格或隐藏事实，不规定顺序、最低轮数或下一动作。playbook、完整可见问答历史和在线状态
+  直接进入逐轮律师完整动作决策；没有技能条件计划器、触发器、领域检索器或独立动作改写模型。
+  客户调用前只将结构、目标身份或隐私边界等不可执行动作交给同一冻结律师有界重采样。
+  复读、低效、复合或请客户作法律判断的可执行问题真实送达客户，计入提问数、重复率、奖励和教师证据；
+  会话只由冻结律师自主final/abstain或隐藏熔断上限结束。
+  正式四臂主表在冻结后统一运行Base、Luna-Direct、ExpeL-adapted与Ours。
+# Randomness for bootstrap/sign-flip algorithms only; this is not a dialogue matrix.
+statistical_seed: 42
+# This is a circuit breaker for a malformed/non-terminating policy, not a target
+# dialogue length.  The lawyer policy, informed by prompt-delivered skills, chooses when to finish;
+# the ceiling is hidden from its online input. A hit is a complete, scoreable policy failure:
+# it is not a healthy success, but it does not invalidate attribution or remove the dialogue
+# from reward and teacher evidence.
+emergency_turn_ceiling: 24
+# Frozen external-evaluation stress matrix. Training persona assignments are
+# controlled separately and fail-closed by main_training_batches.yaml.
+personas: [P_WD, P_WS, P_CS, P_CD]
+
+data:
+  training_cases: data/training/legal_skill_guard_dlawbench_style_cn.jsonl
+  provenance: data/training/legal_skill_guard_dlawbench_style_cn.provenance.jsonl
+  training_batches: configs/data/main_training_batches.yaml
+  training_split: train
+  external_evaluation: third_party/DLawBench/data/case_backgrounds/cases_cn.jsonl
+  external_evaluation_status: frozen_public_benchmark_previously_evaluated_aggregate_aware
+
+# This pair belongs only to the training-run-local mechanism diagnostic.  The
+# publication main table is the four-arm contract in official_baselines.yaml.
+comparison_arms:
+  - arm_id: control_no_library
+    active_skills: false
+    inference_role: primary_control
+    intervention: no_learned_experience
+    description: 冻结Qwen3-8B、状态管理开启、技能库不介入。
+    selection_contract: empty_prompt_memory_no_runtime_selection
+  - arm_id: legal_skill_evolve
+    active_skills: true
+    inference_role: primary_treatment
+    intervention: source_grounded_evolved_prompt_skill_memory
+    description: 相同冻结Qwen3-8B和状态管理，仅增加训练轨迹演化所得的单一全局playbook。
+    selection_contract: one_global_playbook_no_runtime_selection
+
+trajectory_sampling:
+  # K=4 shares the same opening and batch-start library within each case group;
+  # one opening-only, skill-blind, non-binding agenda is shared by K=4 and all
+  # comparison arms. It exposes public-opening-grounded unknown dimensions but
+  # neither selects the next action nor closes the target space. There is no
+  # separate skill-conditioned planner or pre-generated closed target graph. All four rollouts use
+  # independent policy decoding streams from turn one, as in group-relative
+  # exploration. The frozen Qwen reads the complete fixed global playbook
+  # before one complete next-action sample. A compact visible rationale is sampled
+  # before categorical commitment; in that same structured call the model stops,
+  # or selects one actual target from state-machine-open, unasked visible
+  # targets plus the always-available new_visible_gap escape hatch
+  # and realizes the target as one question. K=4 itself is the TF-GRPO action group; there
+  # is no nested candidate list, skill/no-skill lottery, semantic target rewrite, or prompt
+  # perturbation or hidden categorical sub-head. Complete actions use the ordinary
+  # training temperature (0.7). A group is
+  # allowed to contain identical actions; temperature is never raised merely to
+  # manufacture a contrast.
+  group_size: 4
+  training_group_seeds: [42]
+  training_exact_prefix_branching:
+    status: frozen_before_next_formal_run
+    exact_prefix_members: [0, 1, 2, 3]
+    prefix_stream: 0
+    branch_turns: [1]
+    assignment: fixed_first_turn_independent_streams
+  # DLawBench defines four case-style cells per case and runs each once. The main
+  # paired matrices therefore use one frozen dialogue seed. Training uses the
+  # cooperative persona; personas remain external stress conditions and
+  # uncertainty is clustered by legal case.
+  external_evaluation_seeds: [42]
+  # Presentation shuffling remains off: diversity comes from the frozen decoding
+  # streams, not programmatic list permutations.
+  shuffle_equal_criticality_fact_presentation: false
+
+# Development curves are measured prequentially on every cooperative-persona
+# sample-0 cell. If B(i-1) admitted a cohort, B(i) replaces the ordinary empty
+# shadow with that cohort's exact immutable parent. This uses no extra shadow arm:
+# the current K=4 sample-0 cell is treatment and one parent rollout is baseline.
+# All 16 implemented curve endpoints are reported. The point estimate and
+# case-cluster interval describe how the immediately preceding skill increment
+# behaved on one unseen block. They guide the next teacher round but never own
+# skill admission, rollback or teacher eligibility. This prevents incomplete
+# cohort exposure or one noisy 16-case block from deleting a source-grounded
+# document and wasting the block's learning evidence. When no increment is
+# pending, the current library is its own exact parent and is recorded by
+# identity. B8 is the terminal development observation before external testing.
+learning_curve:
+  mode: prequential_fixed_shadow
+  status: frozen_before_next_formal_run
+  cases_per_block: 16
+  bootstrap_samples: 10000
+  confidence_level: 0.95
+  bootstrap_seed: 20260907
+  no_pending_cohort_identity_shortcut: true
+  evidence_role: development_increment_diagnostic_and_next_teacher_direction_never_external_test
+  incremental_effect_diagnostic:
+    status: frozen_before_next_formal_run
+    timing: next_unseen_training_block_before_teacher
+    comparator: exact_parent_library
+    decision_role: descriptive_increment_measurement_before_teacher_never_skill_veto
+    single_block_effect_can_prune_or_rollback: false
+    interval_uncertainty_alone_blocks_accumulation: false
+    final_block_new_skill_budget: 0
+    minimum_exposed_cases_for_interpretation: 1
+    global_playbook_requires_full_cohort_exposure: true
+    primary_signal:
+      decision_rule: primary_positive_point_estimate
+      endpoints:
+        - unique_disclosed_facts_per_question
+      threshold: 0.0
+    practical_effect_classifier:
+      decision_rule: primary_benefit_practical_safety_noninferiority
+      effect_direction: current_library_minus_parent_library
+      primary_endpoint: unique_disclosed_facts_per_question
+      primary_threshold: 0.0
+      protected_endpoint_margins:
+        unique_disclosed_facts: 0.0
+        critical_fact_recall: 0.05
+        premature_final_rate: 0.05
+        unsupported_claim_rate: 0.05
+        belief_as_fact_rate: 0.02
+        hidden_field_leak: 0.0
+        repeated_question_rate: 0.05
+        policy_fallback_rate: 0.0
+        client_fallback_rate: 0.0
+      diagnostic_endpoints:
+        - identified_evidence_gaps
+        - resolution
+        - elicitation
+        - fidelity
+        - reward
+        - question_turns
+    interval_diagnostic:
+      schema_version: 1
+      decision_rule: case_cluster_pareto_noninferiority
+      effect_direction: current_library_minus_parent_library
+      primary_endpoint: unique_disclosed_facts_per_question
+      protected_endpoints:
+        - unique_disclosed_facts
+        - identified_evidence_gaps
+        - resolution
+        - elicitation
+        - fidelity
+        - critical_fact_recall
+        - reward
+        - question_turns
+        - premature_final_rate
+        - unsupported_claim_rate
+        - belief_as_fact_rate
+        - hidden_field_leak
+        - repeated_question_rate
+        - policy_fallback_rate
+        - client_fallback_rate
+      endpoint_rules:
+        unique_disclosed_facts_per_question: {direction: higher, margin: 0.0}
+        unique_disclosed_facts: {direction: higher, margin: 0.0}
+        identified_evidence_gaps: {direction: higher, margin: 0.0}
+        resolution: {direction: higher, margin: 0.0}
+        elicitation: {direction: higher, margin: 0.0}
+        fidelity: {direction: higher, margin: 0.0}
+        critical_fact_recall: {direction: higher, margin: 0.0}
+        reward: {direction: higher, margin: 0.0}
+        question_turns: {direction: lower, margin: 0.0}
+        premature_final_rate: {direction: lower, margin: 0.0}
+        unsupported_claim_rate: {direction: lower, margin: 0.0}
+        belief_as_fact_rate: {direction: lower, margin: 0.0}
+        hidden_field_leak: {direction: lower, margin: 0.0}
+        repeated_question_rate: {direction: lower, margin: 0.0}
+        policy_fallback_rate: {direction: lower, margin: 0.0}
+        client_fallback_rate: {direction: lower, margin: 0.0}
+  final_cumulative_freeze_safeguard:
+    enabled: true
+    status: frozen_before_next_formal_run
+    timing: after_B8_increment_diagnostic_before_training_complete
+    arm_freeze_timing: before_B8_increment_diagnostic
+    scope: same_B8_accumulated_library_diagnostic
+    claim_role: cumulative_library_diagnostic_not_independent_confirmatory_claim
+    comparator: fixed_empty_library
+    effect_direction: selected_final_library_minus_empty_library
+    endpoint_set: primary_and_practical_safety_with_full_16_diagnostics
+    retention_gate:
+      decision_rule: primary_benefit_practical_safety_noninferiority
+      effect_direction: current_library_minus_empty_library
+      primary_endpoint: unique_disclosed_facts_per_question
+      primary_threshold: 0.0
+      protected_endpoint_margins:
+        unique_disclosed_facts: 0.0
+        critical_fact_recall: 0.05
+        premature_final_rate: 0.05
+        unsupported_claim_rate: 0.05
+        belief_as_fact_rate: 0.02
+        hidden_field_leak: 0.0
+        repeated_question_rate: 0.05
+        policy_fallback_rate: 0.0
+        client_fallback_rate: 0.0
+      diagnostic_endpoints:
+        - identified_evidence_gaps
+        - resolution
+        - elicitation
+        - fidelity
+        - reward
+        - question_turns
+    advancement:
+      decision_rule: primary_positive_point_estimate
+      endpoints:
+        - unique_disclosed_facts_per_question
+      threshold: 0.0
+    isolation_required: true
+    performance_nonpass_blocks_external: false
+    isolation_failure_action: fail_closed_on_intervention_contamination
+  sentinel_case_ids_by_block:
+    training_batch_01:
+      - lsg_cn_0076
+      - lsg_cn_0066
+      - lsg_cn_0020
+      - lsg_cn_0021
+      - lsg_cn_0055
+      - lsg_cn_0080
+      - lsg_cn_0122
+      - lsg_cn_0033
+      - lsg_cn_0016
+      - lsg_cn_0117
+      - lsg_cn_0003
+      - lsg_cn_0061
+      - lsg_cn_0042
+      - lsg_cn_0058
+      - lsg_cn_0094
+      - lsg_cn_0105
+    training_batch_02:
+      - lsg_cn_0078
+      - lsg_cn_0027
+      - lsg_cn_0120
+      - lsg_cn_0018
+      - lsg_cn_0056
+      - lsg_cn_0079
+      - lsg_cn_0092
+      - lsg_cn_0032
+      - lsg_cn_0034
+      - lsg_cn_0012
+      - lsg_cn_0010
+      - lsg_cn_0037
+      - lsg_cn_0073
+      - lsg_cn_0088
+      - lsg_cn_0098
+      - lsg_cn_0101
+    training_batch_03:
+      - lsg_cn_0075
+      - lsg_cn_0077
+      - lsg_cn_0067
+      - lsg_cn_0017
+      - lsg_cn_0128
+      - lsg_cn_0049
+      - lsg_cn_0051
+      - lsg_cn_0126
+      - lsg_cn_0023
+      - lsg_cn_0030
+      - lsg_cn_0011
+      - lsg_cn_0005
+      - lsg_cn_0072
+      - lsg_cn_0086
+      - lsg_cn_0093
+      - lsg_cn_0104
+    training_batch_04:
+      - lsg_cn_0046
+      - lsg_cn_0026
+      - lsg_cn_0064
+      - lsg_cn_0057
+      - lsg_cn_0081
+      - lsg_cn_0123
+      - lsg_cn_0007
+      - lsg_cn_0070
+      - lsg_cn_0116
+      - lsg_cn_0004
+      - lsg_cn_0006
+      - lsg_cn_0041
+      - lsg_cn_0089
+      - lsg_cn_0113
+      - lsg_cn_0097
+      - lsg_cn_0103
+    training_batch_05:
+      - lsg_cn_0045
+      - lsg_cn_0028
+      - lsg_cn_0029
+      - lsg_cn_0019
+      - lsg_cn_0127
+      - lsg_cn_0053
+      - lsg_cn_0124
+      - lsg_cn_0110
+      - lsg_cn_0068
+      - lsg_cn_0014
+      - lsg_cn_0063
+      - lsg_cn_0001
+      - lsg_cn_0039
+      - lsg_cn_0114
+      - lsg_cn_0099
+      - lsg_cn_0102
+    training_batch_06:
+      - lsg_cn_0047
+      - lsg_cn_0121
+      - lsg_cn_0022
+      - lsg_cn_0119
+      - lsg_cn_0084
+      - lsg_cn_0083
+      - lsg_cn_0091
+      - lsg_cn_0109
+      - lsg_cn_0031
+      - lsg_cn_0035
+      - lsg_cn_0062
+      - lsg_cn_0008
+      - lsg_cn_0040
+      - lsg_cn_0060
+      - lsg_cn_0095
+      - lsg_cn_0108
+    training_batch_07:
+      - lsg_cn_0044
+      - lsg_cn_0048
+      - lsg_cn_0025
+      - lsg_cn_0065
+      - lsg_cn_0085
+      - lsg_cn_0052
+      - lsg_cn_0090
+      - lsg_cn_0112
+      - lsg_cn_0069
+      - lsg_cn_0015
+      - lsg_cn_0009
+      - lsg_cn_0038
+      - lsg_cn_0074
+      - lsg_cn_0059
+      - lsg_cn_0096
+      - lsg_cn_0106
+    training_batch_08:
+      - lsg_cn_0043
+      - lsg_cn_0024
+      - lsg_cn_0118
+      - lsg_cn_0054
+      - lsg_cn_0050
+      - lsg_cn_0082
+      - lsg_cn_0125
+      - lsg_cn_0111
+      - lsg_cn_0036
+      - lsg_cn_0013
+      - lsg_cn_0002
+      - lsg_cn_0071
+      - lsg_cn_0087
+      - lsg_cn_0115
+      - lsg_cn_0100
+      - lsg_cn_0107
+
+seed_sensitivity:
+  status: secondary_after_primary_external_test
+  affects_candidate_selection: false
+  affects_primary_inference: false
+  primary_seed_reused: 42
+  additional_dialogue_seeds: [43, 44]
+  # Stable systematic sample: every fifth public CN record from the frozen order.
+  # It spans 5--15 facts and 3--10 disputed facts without consulting outcomes.
+  external_case_ids:
+    - case_cn_0001
+    - case_cn_0006
+    - case_cn_0011
+    - case_cn_0016
+    - case_cn_0021
+    - case_cn_0026
+  personas: [P_WD, P_WS, P_CS, P_CD]
+  report_role: secondary_sampling_robustness_only
+
+reward:
+  # The deterministic primary endpoint receives the largest learning weight.
+  # DLawBench-style elicitation/resolution and fidelity remain companion terms so
+  # a lucky one-question disclosure or an early stop cannot dominate selection.
+  fact_efficiency_weight: 0.50
+  elicitation_weight: 0.30
+  resolution_weight: 0.10
+  fidelity_weight: 0.10
+  # F/Q already prices every additional question. A second per-turn penalty
+  # rewarded early stopping twice in B2 diagnostics, so only direct repetition
+  # retains a small independent cost.
+  extra_turn_penalty: 0.00
+  repeated_question_penalty: 0.02
+  premature_final_cap: 0.35
+  unsupported_claim_cap: 0.25
+  # Only an observed zero-question trajectory triggers this safeguard.  A zero
+  # DLawBench expected-inquiry rubric score is a quality outcome, not evidence
+  # that the multi-turn lawyer asked no substantive question.
+  zero_inquiry_cap: 0.25
+  hidden_field_leak_reward: 0.0
+
+skill_evolution:
+  skill_schema_version: 2
+  skill_delivery_mode: single_global_playbook_prompt_memory
+  # 整个法律咨询任务只维护一份紧凑的跨法域经验手册：它用跨轨迹证据归纳
+  # 目标排序、问题组织、低收益转移和保守停止建议，并直接给冻结Qwen阅读。
+  learnable_objectives:
+    - fact_elicitation
+  termination_policy_owner: frozen_lawyer_with_prompt_skill_memory
+  source_split: train
+  teacher_role: skill_teacher
+  initial_library: skills/bootstrap
+  candidate_workspace: runs/<run-id>/skills/candidates
+  active_library: runs/<run-id>/skills/versions/current
+  allow_noop: true
+
+skill_admission:
+  mode: group_evidence_global_playbook_evolution
+  allowed_objectives:
+    - fact_elicitation
+  source_split: train
+  require_no_leakage: true
+  require_no_hard_safety_violation: true
+  require_source_grounding: true
+  reject_exact_semantic_duplicates: true
+  enforce_prompt_capacity: true
+  per_candidate_outcome_gate: false
+  effect_assessment: descriptive_next_block_increment_then_final_library_test
+  maintenance_interval_blocks: 2
+
+execution:
+  evolution_rounds: 8
+  # 16张完整K组卡固定分成两个互不重叠的map包，再由一次reduce调用合并成功/失败机制，
+  # 首次创建同一份跨法域playbook时最多8个精确编辑；已有版本每批最多2个局部编辑，
+  # 防止一次更新名义上逐条REPLACE、实质上整份重写。一次批次最多产生一个新版本。
+  teacher_call_budget_per_round: 3
+  # Historical field name retained for artifact compatibility. In the current
+  # protocol this means at most one newly published global-playbook version per block.
+  maximum_new_skills_per_block: 1
+  # This is an engineering ceiling for bounded same-model structure repair, not an
+  # effect-size parameter derived from one historical trajectory. Generation stops
+  # immediately on the first contract-valid action, so a healthy step uses one call.
+  policy_repair_attempts: 5
+  client_selection_attempts: 3
+  memo_generation_attempts: 3
+  semantic_judgment_attempts: 2
+  # Resource-bounded schema decomposition only: it never changes which frozen
+  # memo spans are judged or how their classifications are merged.
+  codex_timeout_seconds: 600
+  codex_retries: 0
+  # The hard ledger is independent of per-round scheduling and cumulative across
+  # diagnostic/formal runs; it is never silently reset.  Preflight must show that
+  # its live remainder covers the remaining resumable map/reduce stages in each unfinished block.
+  # Resume credit is granted only to the current playbook_map_01/playbook_map_02/playbook_reduce
+  # artifacts whose exact logical input binding, run-scoped response cache and project-ledger
+  # reservation all agree. An existing but untrusted stage fails closed because immutable stage
+  # files cannot be replaced by merely reserving another call; retired proposal_*.json artifacts
+  # are reported but never reduce the required budget.
+  # This project-wide ledger preserves every historical reservation. The operator
+  # explicitly doubled the former 234-call ceiling on 2026-09-09 so diagnostics
+  # and a fresh 8-block run do not exhaust the teacher mid-chain. This changes only
+  # the resource ceiling: each source block uses two map calls and one reduce call,
+  # materializes at most one playbook version, and introduces no fallback teacher.
+  teacher_total_invocation_budget: 633
+  judge_timeout_seconds: 900
+  judge_retries: 0
+  # A40实测的16K上下文并发容量约9.4；16路会造成Qwen策略采样退化。
+  # 8路只约束服务调度，不改变实验矩阵、随机种子或轨迹内容定义。
+  rollout_workers: 8
+  judge_workers: 8
+  resume_completed_units: true
+  fail_closed_on_incomplete_matrix: true
+
+# This is a descriptive productivity/futility diagnostic, not a health gate or a
+# target effect size. Requiring at least two independent failed checks prevents one
+# weak statistic from creating a noisy alert. A weak but protocol-valid initial
+# policy must still reach semantic scoring and the contrastive teacher; otherwise
+# the method would be unable to learn from the failure mode it is meant to improve.
+training_batch_productivity_review:
+  status: frozen_predeclared_productivity_diagnostic
+  expected_cases: 16
+  expected_trajectories: 64
+  minimum_cases_with_new_hidden_fact: 8
+  minimum_trajectory_question_rate: 0.50
+  minimum_trajectory_new_hidden_fact_rate: 0.20
+  minimum_new_hidden_fact_per_question: 0.05
+  review_if_failed_checks_at_least: 2
+  action: record_diagnostic_and_continue_to_teacher_evidence
+
+# GRPO-style relative evidence is valid only inside a complete model-attributable
+# K group. A deterministic safety fallback is neither a reward-worthy bad policy
+# action nor a system-wide corruption: before any semantic reward is observed, its
+# complete group is quarantined from candidate attribution. The full 64-trajectory
+# matrix is still scored and checkpointed for audit. Any non-local contract defect
+# remains globally blocking, and more than 25% group attrition stops the batch.
+training_group_attribution:
+  status: frozen_pre_reward_complete_group_quarantine
+  expected_groups: 16
+  group_size: 4
+  minimum_scoreable_groups: 12
+  minimum_scoreable_group_fraction: 0.75
+  action: exclude_complete_attribution_group_or_stop_before_semantic_scoring
+
+evaluation:
+  official_metrics: [fact_coverage, inquiry, elicitation, fact_resolution, issue_resolution, resolution, fidelity]
+  # The main claim concerns deterministic consultation efficiency, not judge
+  # prose preference.  Session ratios are paired within case/persona and
+  # uncertainty is clustered by legal case. Fact coverage and Resolution remain
+  # companion endpoints so a one-question early stop cannot masquerade as success.
+  behavior_metrics: [question_turns, distinct_targets, answered_question_turns, information_bearing_turns, unique_disclosed_facts, unique_disclosed_facts_per_question, identified_evidence_gaps, f_or_g_signal_turns]
+  safety_metrics: [premature_final_rate, unsupported_claim_rate, belief_as_fact_rate, repeated_question_rate, critical_fact_recall]
+  operational_metrics: [policy_repair_rate, policy_fallback_rate, client_repair_rate, client_fallback_rate, memo_retry, memo_guardrail_intervention, memo_fallback]
+  judge_diagnostics: [rubric_repair_rate, fact_repair_rate, grounding_repair_rate, rubric_normalization_rate, fact_normalization_rate, grounding_normalization_rate]
+  primary_endpoint: unique_disclosed_facts_per_question
+  secondary_endpoints: [unique_disclosed_facts, fact_coverage, resolution, elicitation, fidelity, critical_fact_recall]
+  aggregate: paired_case_persona_mean
+  multiplicity: benjamini_hochberg_secondary
+  report_effect_size: true
+  report_paired_95ci: true
+  bootstrap_samples: 10000
+  confidence_level: 0.95
+  randomization_samples: 20000
+
+freeze_order:
+  - training_corpus_hash
+  - prompts_and_model_revisions
+  - active_skill_library_hash
+  - external_evaluation

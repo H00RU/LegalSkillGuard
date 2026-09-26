@@ -1,1 +1,1 @@
-"""Phase-oriented command-line utilities."""
+"""LegalSkillEvolve command-line utilities."""

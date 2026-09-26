@@ -1,0 +1,2541 @@
+{
+  "schema_version": 22,
+  "qualification_protocol": 35,
+  "passed": true,
+  "model": "openai/gpt-oss-20b",
+  "base_url": "http://127.0.0.1:8002/v1",
+  "model_revision": "6cee5e81ee83917806bbde320786a8fb61efebee",
+  "judge_qualification_contract_sha256": "6495a6e79f87aab32fbd123825805e79073aba538d60c7e50157034c84f5cecc",
+  "qualification_case_contract_sha256": "429a071abac9d8f21ea3d377d2101bbbbf2c5ea5eb43dadedd57b191aafcff43",
+  "training_cases_file_sha256": "889ea7f6ff642147b190823e81d2cba9e49f3547e0aead48404a05a1b1cc4f46",
+  "training_provenance_file_sha256": "a90df2bd5aff0619010004e8b2b18fdc43618897ef40adb50cd725d3f35936af",
+  "semantic_judge_role_sha256": "54455c6dd35e829d890352780c851a6b5d776710058f0eb41e8be323692547bc",
+  "reasoning_effort": "medium",
+  "max_completion_tokens": 4096,
+  "repair_max_completion_tokens": 8192,
+  "workers": 8,
+  "preflight": {
+    "ready": true,
+    "reason": "model_contract_matches",
+    "model": "openai/gpt-oss-20b",
+    "model_revision": "6cee5e81ee83917806bbde320786a8fb61efebee",
+    "base_url": "http://127.0.0.1:8002/v1",
+    "available_models": [
+      "openai/gpt-oss-20b"
+    ],
+    "observed_model_root": "/home/yndx/hhy/legal-skill-evolve/data/cache/huggingface/openai/gpt-oss-20b",
+    "expected_model_root": "/home/yndx/hhy/legal-skill-evolve/data/cache/huggingface/openai/gpt-oss-20b",
+    "observed_max_model_len": 16384,
+    "expected_max_model_len": 16384,
+    "checks": {
+      "model_id_matches": true,
+      "model_root_matches": true,
+      "max_model_len_matches": true
+    },
+    "failed_checks": []
+  },
+  "training_cases_only": true,
+  "qualification_case_ids": [
+    "lsg_cn_0005",
+    "lsg_cn_0007",
+    "lsg_cn_0011",
+    "lsg_cn_0017",
+    "lsg_cn_0024",
+    "lsg_cn_0030",
+    "lsg_cn_0037",
+    "lsg_cn_0043"
+  ],
+  "qualification_legal_domains": [
+    "marriage_family",
+    "insurance_contract",
+    "labor_employment",
+    "consumer_contract",
+    "company_commercial",
+    "intellectual_property",
+    "personality_privacy",
+    "administrative"
+  ],
+  "case_count": 8,
+  "thresholds": {
+    "schema_complete_rate": 1.0,
+    "full_quality_mean_min": 0.9,
+    "sparse_quality_mean_max": 0.2,
+    "dialogue_only_coverage_mean_max": 0.2,
+    "full_unsupported_claim_mean_max": 0.0,
+    "attributed_unsupported_claim_mean_max": 0.0,
+    "attributed_grounded_claim_case_min": 1,
+    "poisoned_detection_rate_min": 0.75,
+    "monotonic_case_rate_min": 1.0,
+    "repair_rate_max": 0.05,
+    "fact_normalization_rate_max": 0.05,
+    "rubric_normalization_rate_max": 0.05,
+    "grounding_normalization_rate_max": 0.05,
+    "full_inquiry_case_min": 1.0,
+    "full_issue_case_min": 1.0,
+    "full_fact_resolution_case_min": 1.0,
+    "full_substantive_fact_resolution_case_min": 1.0,
+    "dialogue_only_substantive_coverage_mean_max": 0.0,
+    "legal_direction_anchor_rate_min": 1.0,
+    "official_grounding_anchor_rate_min": 1.0
+  },
+  "aggregates": {
+    "schema_complete_rate": 1.0,
+    "full_quality_mean": 1.0,
+    "sparse_quality_mean": 0.0,
+    "dialogue_only_coverage_mean": 0.0,
+    "full_unsupported_claim_mean": 0.0,
+    "attributed_unsupported_claim_mean": 0.0,
+    "attributed_grounded_claim_case_min": 1,
+    "poisoned_detection_rate": 1.0,
+    "monotonic_case_rate": 1.0,
+    "repair_rate": 0.0,
+    "fact_normalization_rate": 0.0,
+    "rubric_normalization_rate": 0.0,
+    "grounding_normalization_rate": 0.0,
+    "grounding_any_normalization_rate": 0.175,
+    "full_inquiry_case_min": 1.0,
+    "full_issue_case_min": 1.0,
+    "full_fact_resolution_case_min": 1.0,
+    "full_substantive_fact_resolution_case_min": 1.0,
+    "dialogue_only_substantive_coverage_mean": 0.0,
+    "legal_direction_anchor_rate": 1.0,
+    "visible_source_anchor_rate": 1.0,
+    "official_grounding_anchor_rate": 1.0
+  },
+  "failures": [],
+  "diagnostic_failures": [],
+  "threshold_failures": [],
+  "cases": [
+    {
+      "case_id": "lsg_cn_0005",
+      "legal_domain": "marriage_family",
+      "scenarios": {
+        "full": {
+          "inquiry": 1.0,
+          "issue_resolution": 1.0,
+          "fact_coverage": 1.0,
+          "fact_resolution": 1.0,
+          "substantive_fact_coverage": 1.0,
+          "substantive_fact_resolution": 1.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 11,
+          "visible_grounded_claim_count": 11,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [
+            "C005:explicit_nonclaim_from_grounded"
+          ],
+          "rubric_request_sha256": "5ff2bdbc76dac93bb2942892f1d64738c7f71eb9f9915dfff0b996c9232aea98",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "51eb8acc66e4dc28bde95a89a163671e79fd5787b7ea3575a247b044ce026b1a",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "f58f51a29c0ce2dfc4e6622cd546d605aadddcfbeec10684fa3221ae71aa1e16",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "0815cafda192fed3cc7945d4d3b66813b443e7e94bfa8d99f60a5f13cd64de28",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "36f9f43cc5d22d826effc282b3ef461f5dfeaf5db72f7f495302bb9217adbacd",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010",
+                "C011",
+                "C012"
+              ],
+              "request_sha256": "59b9f38064213e0321cbe7279fe435352354d2eea2e047c7e9807d2b6e975dc1",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 5,
+              "claim_ids": [
+                "C013",
+                "C014",
+                "C015"
+              ],
+              "request_sha256": "c29a6134b64e24fdcff3572694e08dc1a6b4411e9a803ac2a3f2dfc04f599383",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 6,
+              "claim_ids": [
+                "C016",
+                "C017",
+                "C018"
+              ],
+              "request_sha256": "3738511950eb15bd48a2130e1a6548f3e4011c82c379009df9f6efd83989e478",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 7,
+              "claim_ids": [
+                "C019",
+                "C020",
+                "C021"
+              ],
+              "request_sha256": "d9f0ecddad620fbb46742eff04f811dcddd570f4d41ea8ffb594a19ea0841a0c",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 8,
+              "claim_ids": [
+                "C022"
+              ],
+              "request_sha256": "7a94ef22e6fffa2bb8a0143ac75474ea338d4830e8333d2ec953adc22e4e43e3",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "sparse": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 0,
+          "visible_grounded_claim_count": 0,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "7c4b56c04beb8934bf4af07a22754e9060686f2c71149d2e5ae8dc2d10923574",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "a3777f1f8b8921a8aae91e1d8206b5e13d6de2a05487627c3f8cb867ee97a34b",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002"
+              ],
+              "request_sha256": "0a5e19b0a4eb6b7005cebfa2598d0d063e57437e27041e78768154703e635e31",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "dialogue_only": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 0,
+          "visible_grounded_claim_count": 0,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "d8fb7a9ff9a237f3c3205d14f958b570d648dd4b5ea011524611ac8ad988620e",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "48a3a9f5f01825bad193f81658bd5b3656eed897aba35848a229a37fc95b3d96",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "1c376eefd64f1e635edc329dd54f4ddb61255d271f81b63715bca2a1b76ac758",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "fd9c087e5715a76e628a73a11d09a9d0763049b32b6fa7c8ace3d11d9aa8f55e",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "ded8fbb920702176045eaa9bc53eedef772ac64e147a1dc5d693ae8e14efb766",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010"
+              ],
+              "request_sha256": "2e5584fb5388cac6ea13a3b3cd8dd41ca2dc13274db07449d55f15fcc1d29092",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "attributed_client": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.1111111111111111,
+          "fact_resolution": 0.1111111111111111,
+          "substantive_fact_coverage": 0.1111111111111111,
+          "substantive_fact_resolution": 0.1111111111111111,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "2498ac0315d178f06835b2e97684d5965963ae62f01ae0835dfab74b1bf3b06d",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "c186d896a01d32667d48a3152d0042ad75a4deaf9b67618808fc35d5fbc1379a",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "71e792b7262e8726765f418edfab8b9a7bcdad1e9428474d3c9ab234b8dbecf7",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "poisoned": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.3333333333333333,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.3333333333333333,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 3,
+          "unsupported_claim_count": 1,
+          "grounded_claim_count": 2,
+          "visible_grounded_claim_count": 2,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [
+            "C003:explicit_nonclaim_from_grounded"
+          ],
+          "rubric_request_sha256": "eacbaa1bfeada38d92e110cb5a02d14181cd7fd0054bd56e9e6dbc39d89e8b04",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "c4ace16d39c1b8966e7184ac37fac16df41d375b12d71fab6855523144d48e82",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "53c72e76b42237c239dbab0e73514e2010b77466219eb0c36355b777e29cde84",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "ce5e7c7a3108b292a11d243119cae42e6d984909840123d38494f08301742017",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "lsg_cn_0007",
+      "legal_domain": "insurance_contract",
+      "scenarios": {
+        "full": {
+          "inquiry": 1.0,
+          "issue_resolution": 1.0,
+          "fact_coverage": 1.0,
+          "fact_resolution": 1.0,
+          "substantive_fact_coverage": 1.0,
+          "substantive_fact_resolution": 1.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 9,
+          "visible_grounded_claim_count": 9,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [
+            "C012:explicit_nonclaim_from_grounded"
+          ],
+          "rubric_request_sha256": "05364388f35f040d7da9c5cf27b744691d740c9d66a01348f8095137a6f3aaf4",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "3385061afffab8b00015cc61128224e86001cfbea184a76c4fa6807f376d9278",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "c19e8a53a9d3f22e2eb410303e0e94e50bebe11dc12d1ce9df68b500f690ccc5",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "4db0d2e6504873bbb97539abf61a37927c47fdb14d24b52c704ddf1779a086a4",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "1db7f4323d63514dec40cddc82e783ccfaeb29b65c582698c5369b0ca99d0972",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010",
+                "C011",
+                "C012"
+              ],
+              "request_sha256": "fe2ea3864ac53c57bdfa6e9824ab8255cc1e83e4f6a28988755709d753380b0e",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 5,
+              "claim_ids": [
+                "C013",
+                "C014",
+                "C015"
+              ],
+              "request_sha256": "4ba6a117369b2338f708f85d625dc9c24cefaa9aecfdc6204d0dc2e9d3b566ec",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 6,
+              "claim_ids": [
+                "C016",
+                "C017",
+                "C018"
+              ],
+              "request_sha256": "98c4c52dd945f9225e800a76591f9c38562ab66732c342bda100b548a1a424e7",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "sparse": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 0,
+          "visible_grounded_claim_count": 0,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "931dd6946667df65173bdd6fc8e12c76205467a6aebfe19d87210bbb96b3cd46",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "1126115ca5a6fb56f697dbb142e2685a3a00c5edca10001d28dd9a2b7a9cfd01",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002"
+              ],
+              "request_sha256": "31ce818a248be3e67800d089becfc9adcadedd933659b29f3c2206699d36b2d9",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "dialogue_only": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "e2f3be940a747868616edae459ccc6f229dd94d75a61a7a1c476dc95f1866b1b",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "3be7b350274b18620b432e9e2bed9a32d2ea75d5f7fce2b3261dc85589d9d1c6",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "c92ab15cd44d611523d6e7295ecb7512b603e026aab25976e313579a3052ba44",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "3d618bd512852ed6a1f82d1a2985172db98aa3d12379ad437cb87df0db4435c7",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "432ea289bfe371b04f4ee7be77297cb5483aa16fb6af1727e1b8c70b8bfbfb09",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010"
+              ],
+              "request_sha256": "1a400b6ec82abaf17e040e0c806186fad2cc225e26e7fdefb8e7c626ccb152bb",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "attributed_client": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.14285714285714285,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.14285714285714285,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 2,
+          "visible_grounded_claim_count": 2,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "27b3b1108b837f51a510c9f2c30a47eef5b1cc1f8c3f04292a3809d13b2b4a24",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "1e58ec756014b8cdc399fc7b935876d091c724b45d1abfcf6ef8e363e7c9912f",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "588196207a868bd57dbc47b8438b5441d4943707ec1abd6e804d8bf69b9364b4",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004"
+              ],
+              "request_sha256": "68b7bc9771c183e73259bf761e15b0a53f12d981c011fc70848a440c86c308c9",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "poisoned": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.2857142857142857,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.2857142857142857,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 2,
+          "unsupported_claim_count": 1,
+          "grounded_claim_count": 3,
+          "visible_grounded_claim_count": 3,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "bd99e4761773d328e77147780b2f2a4e67b49803cdf228cc177418160a35d4ff",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "e8a397c34faefd71dff0faf0fb9dad6b48f66b35b9a6f2bd93745f622559accf",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "ce5fa12f9010b07a03a52ce7895c049f07357004dcc2643bb5a7e7eaaed48908",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "3ca17ae7897070b52dbbef6540d0adce636aa50ac773df12b1383e36feabe841",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "lsg_cn_0011",
+      "legal_domain": "labor_employment",
+      "scenarios": {
+        "full": {
+          "inquiry": 1.0,
+          "issue_resolution": 1.0,
+          "fact_coverage": 1.0,
+          "fact_resolution": 1.0,
+          "substantive_fact_coverage": 1.0,
+          "substantive_fact_resolution": 1.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 7,
+          "visible_grounded_claim_count": 7,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "95d1fc30b549d1de794b687da65b7cd45fd032ff18ad077086f3f088a4bdbdf9",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "c6631902e3af26cc1b058034390676f9b3951232910518954073d529c33a678b",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "9cdbfe9d891fe92635daf57026e32aca09711c097b068a410fa16074f9b76651",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "8c1a6a92ef38ab2f8095b516821f1bdb9ea96c494928e0db8b3ae9df97a5bb01",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "0ea6af75d2ed8aa12a8445bb621e6db4d1f4e4771b9b98f7ac8feaaa728b64ef",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010",
+                "C011",
+                "C012"
+              ],
+              "request_sha256": "74b3e47a48b0deb0b50e59955799006f673bb96c66ae3a6ded65fb08e64d493d",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 5,
+              "claim_ids": [
+                "C013",
+                "C014",
+                "C015"
+              ],
+              "request_sha256": "bbebb907e64cc695dc2cabf039fc0082ef092026448f1320fc57dfdf74aef937",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 6,
+              "claim_ids": [
+                "C016",
+                "C017"
+              ],
+              "request_sha256": "6c9bcba609c2f67d0efa2a8c1587e60fd6c3cacf7c8bb8c15ed23143ef8aba17",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "sparse": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 0,
+          "visible_grounded_claim_count": 0,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "019ae06f30ee28cb82e81246051b5da107f4826b6d128302e6b671ea99e6d7db",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "9eb9757d9982b6e8854b9c62e8225fc116daca379e76c987de670380431acf09",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002"
+              ],
+              "request_sha256": "6155083b3d868159ac61a8a1a1dfd825d3db6d6c51b33dd922234ad858eee678",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "dialogue_only": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "8cc7e45489d986bd6e18589444a9f21a77fd6c4e475e869305cdc6759ac034b5",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "0d989da39359b7644959c8007853c08cc1ad8d8c0f188757e6ee5fdca4a8b1b5",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "957083ad24301088d171bab619b8992775a7031dea308e241511ab228e89c089",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "2b7b946fc17aad48a61b969acf21e40edc27e5a651d70864f7ea2c6566d98a02",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "7d7fdc3a6bc3fe699f48ac093c9c88cef29e6e0e7c64961d7bc13f8b65986442",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010"
+              ],
+              "request_sha256": "ed5104395ed2b0b52de0a18bb016b6c345785fec8647881e58bf1b399c8d1162",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "attributed_client": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.14285714285714285,
+          "fact_resolution": 0.14285714285714285,
+          "substantive_fact_coverage": 0.14285714285714285,
+          "substantive_fact_resolution": 0.14285714285714285,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "e54cb9a87c3cf9b9efba09fe24828501e77db547ad42241fdc0083d373a5b55f",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "251661e4bb3aacb922fcfe069f1e764ad1a7ec7da797e3bdffe6ef778364e496",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "6e60ea385ec4aae529675a00e32fade39da65c62da1ea01354e76a70fae68b42",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "poisoned": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.42857142857142855,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.42857142857142855,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 3,
+          "unsupported_claim_count": 1,
+          "grounded_claim_count": 3,
+          "visible_grounded_claim_count": 3,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "b29fed65822711497c92ffffc475a51a9e85687043b17287154c1e31fabc6bbf",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "9fb933774dc7c8bb3b3f0e82f46e85189de948d9ddc63dc35f1cc2579ad74800",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "4a491c76d25ae90fae85636a9446f6b6925f79bf2d636d688b8206e2425f8e7d",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "1039cb6727f3678b9f2bbc34e62604ada05ddae8c44b04b17eefbf125370db00",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "lsg_cn_0017",
+      "legal_domain": "consumer_contract",
+      "scenarios": {
+        "full": {
+          "inquiry": 1.0,
+          "issue_resolution": 1.0,
+          "fact_coverage": 1.0,
+          "fact_resolution": 1.0,
+          "substantive_fact_coverage": 1.0,
+          "substantive_fact_resolution": 1.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 8,
+          "visible_grounded_claim_count": 8,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [
+            "C012:explicit_nonclaim_from_grounded"
+          ],
+          "rubric_request_sha256": "3cf93b06650ec6450ff307f62a3c4972ff055be59b488bcffba614fe81de1415",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "d218d6d145336e294d5f704ce69df95df9517d0853c94d6b53906f5d45f06e20",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "525a326a13feac1c9becec075230162d676c2c50477e253ef891ce1066b9b25e",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "74856f4eee21bbcf8af3f73a3d96c2c41a12305fb007ef4d28965a3b0ed8e773",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "4773ddc1475043e98b5556eec9918451c691f6539df46c53214b7b95949a1d4a",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010",
+                "C011",
+                "C012"
+              ],
+              "request_sha256": "10e9b2f9d9a3a9561527aeaf9a7ff9e925b391a9d19e35fbe9b3bc61f198c635",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 5,
+              "claim_ids": [
+                "C013",
+                "C014",
+                "C015"
+              ],
+              "request_sha256": "020de0a6b80b684ba6928b46ec3131590f18512518310c0cf00ca4704ad87c59",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 6,
+              "claim_ids": [
+                "C016"
+              ],
+              "request_sha256": "7e58be10a5f348389158b38e0fd981e76407c1af0fcf62cb97d4d737b102d9c6",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "sparse": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 0,
+          "visible_grounded_claim_count": 0,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "58398fc6b32ee288d43e23870f0f37d56a4f5b629bab06623c75e3ada047cfe4",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "16cba4347c922fbfa6ab6107adc031a1b5305344c66643498f29f470f6501785",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002"
+              ],
+              "request_sha256": "5757ed92fdb990f6103baed71cd5a8078fa2e191f43f8d56cf11819d4f9779cd",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "dialogue_only": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 2,
+          "visible_grounded_claim_count": 2,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "87ab9f15cd61adc1b848228007953445ff05ccdd29aed3540c4cab5cd771b908",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "1863aef55bb2abbeb88bf43052ab387fdbc653370a51719ed675d19c2ee67db5",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "314d0a61d0796c94c799099e538c46b8aab56bab82435b62a26365f8d047b1a6",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "cee1182b0264344ce66f5aeeb415f3ae3f32f6a20e861519b73950f173c6fbee",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "d0dcdac080b743f993ffde11df292dd34018b2dbe83029e48483703cb9b5726c",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010"
+              ],
+              "request_sha256": "c27f2b38d96e2273ac34282c7eb58aa36ef01304d1a20f788f75c6173b4788da",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "attributed_client": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.16666666666666666,
+          "fact_resolution": 0.16666666666666666,
+          "substantive_fact_coverage": 0.16666666666666666,
+          "substantive_fact_resolution": 0.16666666666666666,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "c37eccfce9e21be953c8b8ba656425f26255ecd51c1d29e28ee2c74f091c7a93",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "a8412973ef94f8c5c1b0464f4fd2e54f12d359b1f56862d2cf2ec9470aee1bb1",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "bab7a9b9fb4457862467ddd1b3806588791e57a3290aa0928c0b23581e4b79f0",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "poisoned": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.3333333333333333,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.3333333333333333,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 2,
+          "unsupported_claim_count": 1,
+          "grounded_claim_count": 2,
+          "visible_grounded_claim_count": 2,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "c4e257592543d2a771f179eb59f90b724a6a9518d9f6eae8e8d711f7e8fd6c7a",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "85b5c6715d36c6625aa7b09bc5c075cf74cad5483b284ed635400c33372f7fb3",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "312e90627fbf5c334ef41186d48c9a81e4b5e31d0a11d4d1ef21747aa3a083ff",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005"
+              ],
+              "request_sha256": "8ab5b071e5693236f3daefc7c26a797a37763ba105e47740012b8c30533176c1",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "lsg_cn_0024",
+      "legal_domain": "company_commercial",
+      "scenarios": {
+        "full": {
+          "inquiry": 1.0,
+          "issue_resolution": 1.0,
+          "fact_coverage": 1.0,
+          "fact_resolution": 1.0,
+          "substantive_fact_coverage": 1.0,
+          "substantive_fact_resolution": 1.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 16,
+          "visible_grounded_claim_count": 16,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [
+            "C015:explicit_nonclaim_from_grounded"
+          ],
+          "rubric_request_sha256": "c7d66b9a9a4a1b4f404b83aa55b461d67d2c93cfea486bb4345ee3a1e994b537",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "63baf57446da561fb90415c093a77022a5f35489d553067f9b084ef281a527f6",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "efc5056046dbfebdc722736bc1bcaf8f164e72f90a19b5b10a8ece31c2bb19e7",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "0327b006ce430a16a58bfd5715fc31a83800d0d5f00f29cf38aebc1ea60e1866",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "6ec4b1ea064dc758548df1ccfdb8baf5186769e160b1f33289f7bb48585d185f",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010",
+                "C011",
+                "C012"
+              ],
+              "request_sha256": "27220b55df8cfd347e47a42357a20be10f212df39b95b0893e5db4cd4a4e4249",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 5,
+              "claim_ids": [
+                "C013",
+                "C014",
+                "C015"
+              ],
+              "request_sha256": "5d720b2e3a379af8e4860b5122bfa6c97bb66d4b5355608a645f379c065fb3c6",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 6,
+              "claim_ids": [
+                "C016",
+                "C017",
+                "C018"
+              ],
+              "request_sha256": "5d663aa6c7c06d78514bb9e501c5e059e751474790ec9ea65b9844990a5eca4c",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 7,
+              "claim_ids": [
+                "C019",
+                "C020"
+              ],
+              "request_sha256": "15a3f12da7659d64c89e5da8f03c301a4429102abafc11b2db40307f702bd616",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "sparse": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 0,
+          "visible_grounded_claim_count": 0,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "6c0541515f327ba71256954266159c741922678b1dc52efa72a00ba734393de0",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "c5a13ed61a95ae3ddf239ae1ea683c3053fe812f06810ca8420e2f3a4ff7afc9",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002"
+              ],
+              "request_sha256": "6aabecf49103bd9b1fe1188eb9276973cc4490f99a55cde885869a21b227ba3d",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "dialogue_only": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "8cab2f27f2db2199c55f179bf720c5bd5c26079c1ab5055a290c5d1b72fc18a6",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "d0940eba27fc903b47f72f01212921239df5deb2e74a6b223b487cac58b2de33",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "01593fe63f47e621f238163f3b821c4ef8ce5304e95a7735b5aaea15018545ce",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "ea10e74d442f3045c877a172f25afab97be4c371e106df5ac6f8dafc18998637",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "d1975a28dfc13a228f030a1e63c3f1a2a8c88ea3617686c510ca0a2962c0db98",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010"
+              ],
+              "request_sha256": "73147b093a773ae4c6a376e0836a875b1943c5d98d223ee46c06fdeba06c9868",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "attributed_client": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.14285714285714285,
+          "fact_resolution": 0.14285714285714285,
+          "substantive_fact_coverage": 0.14285714285714285,
+          "substantive_fact_resolution": 0.14285714285714285,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "ae895022c37164c5955afa4df6f39ae7e7f4f6516cae4c6c63b7d3d5b73f5c72",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "954da217829984c38a8167d85f6da348a9b7af4a059287853d25211858d3bdb9",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "7f5e20f3c02d8f2bd71fda41367b72a14fa2b1f25714efec46615e7e12c28613",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "poisoned": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.2857142857142857,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.2857142857142857,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 2,
+          "unsupported_claim_count": 3,
+          "grounded_claim_count": 0,
+          "visible_grounded_claim_count": 0,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "658ec0c6b0e47e4deef0681a0b0f26baf20e1a09964799149a3340b9d6342dd9",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "a34c11312dbf4be017cf959de052b1f02ee8f0c09894e9165b169b9d619266da",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "ae1b103b655aab73e035d9f70fb8a4e2250a1461a0a00318246981d129e51d2c",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005"
+              ],
+              "request_sha256": "fb5954bf6bb3d1f4d3bb23deb29439a08a93e4abbc725658ba6b09f85ce07f8c",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "lsg_cn_0030",
+      "legal_domain": "intellectual_property",
+      "scenarios": {
+        "full": {
+          "inquiry": 1.0,
+          "issue_resolution": 1.0,
+          "fact_coverage": 1.0,
+          "fact_resolution": 1.0,
+          "substantive_fact_coverage": 1.0,
+          "substantive_fact_resolution": 1.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 8,
+          "visible_grounded_claim_count": 8,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [
+            "C005:explicit_nonclaim_from_grounded",
+            "C015:explicit_nonclaim_from_grounded"
+          ],
+          "rubric_request_sha256": "3d64e2b67025383e618ff51f057796e09c69235dc0c2eb1dc4aaa26fd1b3894b",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "df8a3e76a427585fa766327b7216b9691b182dfb0dd8a1a2601b334ca2a5723f",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "875f89fe339b4701c0a7cfdd102cea5fc186fc39fc210878e1a8062cb1180169",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "d11f98a0aab6c33f28c591ee382fccc283b993a2335682811e4815bf244ad03b",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "d5373f6172822680bec3abc96afcad930748471ef5020434e7dd8a728ccb8080",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010",
+                "C011",
+                "C012"
+              ],
+              "request_sha256": "bea640064251d29a60bc34a6a4f3c06eb1d98ed0cfe4b7df3f0fd6a5a52532bd",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 5,
+              "claim_ids": [
+                "C013",
+                "C014",
+                "C015"
+              ],
+              "request_sha256": "4ef949def4bd9abca9acb8784d0d26c2df6266b9a93789fa226b3ca70e699028",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 6,
+              "claim_ids": [
+                "C016",
+                "C017"
+              ],
+              "request_sha256": "65619460141309631e643831a24ab3ba9378bd00507ea7c3ac22bf1192eee8e2",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "sparse": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 0,
+          "visible_grounded_claim_count": 0,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "c81744b1cd975ed79368a5f3fd3e8d698515b04d5c4b1868739b8089906ec13b",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "b212b693005c809a62d9f08131d35b805a4e503d9dca7a81805d4b4a6c8b76ff",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002"
+              ],
+              "request_sha256": "c5fc989a170c75c4b53fe9074e44a90c74428e08bbd152ec68962f2a49e963fa",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "dialogue_only": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "b8266724899ce4c6f993789fdf260d058085bb5790dca96296b672da173ef45d",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "c82abde6673c99c533f7b2c56980c320583f01f324fc43f91edd8b450d4b6275",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "68a650afcec8a55e5d20cc247ca6210e9a9ea0f366037f28b36c68e38448acc4",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "13e75b2962e5441ba0106f533c3270fa8d73ec6a1075cffc0fa33cf0e4c7a3d7",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "97de5447580c94303463b519b00a38486a53ee493eedee6a7bac6a7118421877",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010"
+              ],
+              "request_sha256": "bcc828d6df9d7273c9cc2b0f4f4b75e405c8a7102fc42ab72fd6b8943366fd4f",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "attributed_client": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.14285714285714285,
+          "fact_resolution": 0.14285714285714285,
+          "substantive_fact_coverage": 0.14285714285714285,
+          "substantive_fact_resolution": 0.14285714285714285,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "36eebee2c7da03514e3c051f647dae74d57355770bbb1dcd5f77065ff6d4ba8a",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "ebfae99fcbb135f7199c3c36c4e5f89bb230bb8dfeca6a73f3a0e962eb081e4b",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "2e2563601c049cefc1bbad70e5a7e7a0b56c330ed948168c2908693ff36846e2",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "poisoned": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.2857142857142857,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.2857142857142857,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 2,
+          "unsupported_claim_count": 1,
+          "grounded_claim_count": 2,
+          "visible_grounded_claim_count": 2,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "56205dd43fc55c31af36752b84c6459188f96ce0ab7cff5adaafee4fe1d13e10",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "898189565d2a9a54235d064a8a75683c069ed3e54a69704d48a017cd34ce0f91",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "de9e4a4eb10207743142789ed1a2ffdf06a165eddef9d3939baf0235f7fde726",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005"
+              ],
+              "request_sha256": "98f24d984d0b40bad2268d18b2144e26b7056a2730cd6edf6b871e9b6fc2ebb0",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "lsg_cn_0037",
+      "legal_domain": "personality_privacy",
+      "scenarios": {
+        "full": {
+          "inquiry": 1.0,
+          "issue_resolution": 1.0,
+          "fact_coverage": 1.0,
+          "fact_resolution": 1.0,
+          "substantive_fact_coverage": 1.0,
+          "substantive_fact_resolution": 1.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 10,
+          "visible_grounded_claim_count": 10,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "e143f38c0640e7db10125dd287f292a103f7e4306978348242bc71d2f550ab46",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "c8d9a494869e1595cb6f0d0412f2a73f9aa2fbe76122a5d6ff7a3fddc132d616",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "fdef6c06d2a2f3670c892ec163e1a6c7b757a40eab10e5fa8c6975fd50f0c8ed",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "7c9982ec0ab5bfdbb40fb806834c90d3d629dd81cea5691d8d5760a21d808e08",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "607bd4422abc0af463e87e1be82d74800d531cfb883782526c074acb6edd9049",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010",
+                "C011",
+                "C012"
+              ],
+              "request_sha256": "031d06b74129032c8f283a8a44904b2c8b7ca2add25a193318ec26d54259aa4f",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 5,
+              "claim_ids": [
+                "C013",
+                "C014",
+                "C015"
+              ],
+              "request_sha256": "8f615441d2caa338b49b4ca3a45ad78815d44fffbe5ed3b681242155cff0b4c5",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 6,
+              "claim_ids": [
+                "C016",
+                "C017"
+              ],
+              "request_sha256": "ddb9dd74537279688783606221a55c7ea27f1885ca4c853ba9f8ec44a00e6934",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "sparse": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 0,
+          "visible_grounded_claim_count": 0,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "224700a821fda1b44883a6dfa7ee85a4d3380dd9ed1f09ed2cb08b31c140a888",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "6bc74d67a581cfe2c0c02cd18c81d44040c5eedde2c515f0fc7cc9e44c06b442",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002"
+              ],
+              "request_sha256": "efdae3c6420052f5eadd8dee60490af10f8ad30288a5c9a6ffb02ab9fdfbc712",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "dialogue_only": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 2,
+          "visible_grounded_claim_count": 2,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "61cf8a705b30dc1f3043ec4631fe1b3ebc0751cd458cb232be6507bfc18e0d6b",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "1bbb3be94ec8503f837924576ea8affc4b89241a0a8c4aed4f33e5481f25d254",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "7ab847151fd98a73d7468610a69843d862b0cae7fb3f92184e0d5b10ec1e9a97",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "41caa9747414726bf3d1fcba8e98774b199f434bf57e4ea59ebb8274d67705eb",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "8ea58843d509b56cf9c89674772f6e4c380913f7601398db4089a96eaa04a583",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010"
+              ],
+              "request_sha256": "8e7ba9e5e3003678a3fa00a933664f2c20b4af73c858da371cbc3c0537650a92",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "attributed_client": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.14285714285714285,
+          "fact_resolution": 0.14285714285714285,
+          "substantive_fact_coverage": 0.14285714285714285,
+          "substantive_fact_resolution": 0.14285714285714285,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "46df2dda79430e40704280e864a3a6c6747fc1b900c25d42ac54c4f2a5db9927",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "1f22c8874bce4099fc4680a4e78ae0aeb34450dccd94f78d1aada09ade5eb65f",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "fc98a5e094821adee29aa23cabb70dad2dd594da5ee3850f35bfee2366a6c4ff",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "poisoned": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.2857142857142857,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.2857142857142857,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 2,
+          "unsupported_claim_count": 1,
+          "grounded_claim_count": 2,
+          "visible_grounded_claim_count": 2,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "38ab8e8f651b20274b01b0c6e204409d678a04d02e674f6a37188f9055f6dafa",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "0107e63980038943eb7c102e877dad381a80accde48a69cdce7b2701e530d222",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "6236012d995fb24725ad795904d32ec5d51596f69ac2c991ccafb19b3d76da2b",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005"
+              ],
+              "request_sha256": "2ebcd29f0580fe213db896477ebc48e33c72f89d3f59c65fbc34f0b6ccef58e3",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "lsg_cn_0043",
+      "legal_domain": "administrative",
+      "scenarios": {
+        "full": {
+          "inquiry": 1.0,
+          "issue_resolution": 1.0,
+          "fact_coverage": 1.0,
+          "fact_resolution": 1.0,
+          "substantive_fact_coverage": 1.0,
+          "substantive_fact_resolution": 1.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 13,
+          "visible_grounded_claim_count": 13,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [
+            "C003:explicit_nonclaim_from_grounded",
+            "C019:explicit_nonclaim_from_grounded"
+          ],
+          "rubric_request_sha256": "046afb2adda3f5bfe3b0ffe6370de51fc0a80fdc497a8c850cd151fe64b9ee7b",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "5e407ad3cd97a19dbdabe36c3bcadf419a094f200438173e8a5b9773807e087f",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "cfdf1ae173e641fcd85922b976e21e437aee97284697d60fdc7040a4e1fe89d9",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "515177ef95f0eacb54bdfd9a0af00e598ea959858cc01801957d39cc7081bdca",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "64240df16e308ededa046d3e4a14abd01e17f8f04386b445840490c54cc3f656",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010",
+                "C011",
+                "C012"
+              ],
+              "request_sha256": "c1d8222f989ee36a6b333f645efb2d1aa210d20c0825d1e86e50711d1109fb26",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 5,
+              "claim_ids": [
+                "C013",
+                "C014",
+                "C015"
+              ],
+              "request_sha256": "b78e682b530b1430fe84a7cb7e7ea2065d286ccbfc265e7fa4fde3af42021668",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 6,
+              "claim_ids": [
+                "C016",
+                "C017",
+                "C018"
+              ],
+              "request_sha256": "46232292820d6af1b4867ff23fcef7dcbcd1e3917d3bcf4b72c4e037f55f2b99",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 7,
+              "claim_ids": [
+                "C019",
+                "C020",
+                "C021"
+              ],
+              "request_sha256": "9b8a38eafcbbc3629a15c40cc6d6b3c61eb882f997071ead9e5f953be7da9a7c",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "sparse": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 0,
+          "visible_grounded_claim_count": 0,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "e4f3cea9830c26633214104bfaad3f509815b2585c031970971e75bc2922ad6a",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "b398689cac3b9018e6b1c6a1193d5c13df7b3574afca0d002cf453da28ad6cae",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002"
+              ],
+              "request_sha256": "848f888bd8d0fc43e7208ab5965c6682f2a75885fd5f5ed2d073f6b8be169690",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "dialogue_only": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.0,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.0,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "1d5ac6acc07be6766960fae860f3650658091a0e3c3986f08e14cdf0837a6907",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "0388b56330e56d2c0eac09bc35a9f6f03d6d956d47aaf279afa5d8825468627a",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "31ecb58e9d0ee507382ed059bf4e5396679f1ff17bca86cb22b690ee01e36395",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005",
+                "C006"
+              ],
+              "request_sha256": "9fa40db18106e127657c1cc583a1fe43ea2d25166ec81fefb59a55764400dae6",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 3,
+              "claim_ids": [
+                "C007",
+                "C008",
+                "C009"
+              ],
+              "request_sha256": "bdfdbd50636a74b34ec9c82866cc6b3d4ab1155484df65587766353291f6872a",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 4,
+              "claim_ids": [
+                "C010"
+              ],
+              "request_sha256": "4145b102a81438d8d3d052c5ca5fefe8d880fc421d6587b11adc24257f63f26f",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "attributed_client": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.0,
+          "fact_coverage": 0.125,
+          "fact_resolution": 0.125,
+          "substantive_fact_coverage": 0.125,
+          "substantive_fact_resolution": 0.125,
+          "incorrect_fact_count": 0,
+          "unsupported_claim_count": 0,
+          "grounded_claim_count": 1,
+          "visible_grounded_claim_count": 1,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "f2e443e0aeb0df09580bb5430f76165c5523ea38830f7131860ab0bdca27a56c",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "a20635791c5a221e6dec917c05875da4a05a8ddc0764f4574839e77e9052518d",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "be1ce951bef360296d048a97bc3ed957c4aad1ecc53929ea8d6965d2f633f7e1",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        },
+        "poisoned": {
+          "inquiry": 0.0,
+          "issue_resolution": 0.16666666666666666,
+          "fact_coverage": 0.25,
+          "fact_resolution": 0.0,
+          "substantive_fact_coverage": 0.25,
+          "substantive_fact_resolution": 0.0,
+          "incorrect_fact_count": 2,
+          "unsupported_claim_count": 1,
+          "grounded_claim_count": 2,
+          "visible_grounded_claim_count": 2,
+          "benchmark_only_grounded_claim_count": 0,
+          "rubric_repair_used": false,
+          "fact_repair_used": false,
+          "grounding_repair_used": false,
+          "rubric_normalizations": [],
+          "fact_normalizations": [],
+          "grounding_normalizations": [],
+          "rubric_request_sha256": "097f6573174ae6b53948d54b6583e358f52968c84f28231c17d99bee3649f63f",
+          "rubric_cache_hit": true,
+          "fact_request_sha256": "8eee41798c81d50e0eba7a97f9894575200822f02cce54adfeeca14ae0ce3d5d",
+          "fact_cache_hit": true,
+          "grounding_chunks": [
+            {
+              "chunk_index": 1,
+              "claim_ids": [
+                "C001",
+                "C002",
+                "C003"
+              ],
+              "request_sha256": "8e4e2428e260901fcd47d04dd4943a2a1f348bfec0f78f76ff72bcd68bdb83b5",
+              "cache_hit": true,
+              "repair_used": false
+            },
+            {
+              "chunk_index": 2,
+              "claim_ids": [
+                "C004",
+                "C005"
+              ],
+              "request_sha256": "bbb0f8f29371564f2a02e8238db7f22fd44381111965b46fb7fb426ddae4aead",
+              "cache_hit": true,
+              "repair_used": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "legal_direction_anchors": [
+    {
+      "anchor_id": "anchor_joint_registration",
+      "passed": true,
+      "expected_incorrect": [
+        "F1"
+      ],
+      "actual_incorrect": [
+        "F1"
+      ],
+      "expected_substantive_covered": [
+        "F1"
+      ],
+      "actual_substantive_covered": [
+        "F1"
+      ],
+      "expected_substantive_correct": [],
+      "actual_substantive_correct": [],
+      "request_sha256": "23e04eb4831fbb1b36f6fac36028923b9a02f521f57a9f2d2c50bcc5b8c160c3",
+      "repair_used": false
+    },
+    {
+      "anchor_id": "anchor_internal_fiscal_approval",
+      "passed": true,
+      "expected_incorrect": [
+        "F1"
+      ],
+      "actual_incorrect": [
+        "F1"
+      ],
+      "expected_substantive_covered": [
+        "F1"
+      ],
+      "actual_substantive_covered": [
+        "F1"
+      ],
+      "expected_substantive_correct": [],
+      "actual_substantive_correct": [],
+      "request_sha256": "75ae831269636073410b54b56c87b95953413666a1a3aee77b04eff7fff3e578",
+      "repair_used": false
+    },
+    {
+      "anchor_id": "anchor_scraper_subject_direction",
+      "passed": true,
+      "expected_incorrect": [
+        "F1"
+      ],
+      "actual_incorrect": [
+        "F1"
+      ],
+      "expected_substantive_covered": [
+        "F1"
+      ],
+      "actual_substantive_covered": [
+        "F1"
+      ],
+      "expected_substantive_correct": [],
+      "actual_substantive_correct": [],
+      "request_sha256": "99f5a138c4f11e0dca49b73e7bcd0221cf29df01bd3b83f18e9871f421d8c851",
+      "repair_used": false
+    },
+    {
+      "anchor_id": "anchor_topic_placeholder_precision",
+      "passed": true,
+      "expected_incorrect": [],
+      "actual_incorrect": [],
+      "expected_substantive_covered": [
+        "F3"
+      ],
+      "actual_substantive_covered": [
+        "F3"
+      ],
+      "expected_substantive_correct": [
+        "F3"
+      ],
+      "actual_substantive_correct": [
+        "F3"
+      ],
+      "request_sha256": "f1e4b442328254db9396f00e6630b57aac2657f07f314f20a983e9c6773695a2",
+      "repair_used": false
+    }
+  ],
+  "visible_source_anchor": {
+    "anchor_id": "anchor_question_is_not_visible_disclosure",
+    "passed": true,
+    "visible_claims": [
+      "- 客户称离婚前法院已签发保护令。",
+      "- 客户昨天收到法院短信，要求本周补交材料。"
+    ],
+    "benchmark_only_claims": [
+      "- 客户称保护令离婚后仍在有效期内，但尚待核实。"
+    ],
+    "unsupported_claims": [
+      "- 法院已经决定对前夫拘留十日。"
+    ],
+    "later_dialogue_claims": [
+      {
+        "claim": "- 客户昨天收到法院短信，要求本周补交材料。",
+        "basis": "dialogue round 2 (client reply)"
+      }
+    ],
+    "later_dialogue_basis_accurate": true,
+    "hypothetical_condition_excluded": true,
+    "request_sha256": "ee625686f0b42580a1f2643b0b92348bf6f21171bc4b30c08b3e1c0c0612dbcc",
+    "repair_used": false
+  },
+  "official_grounding_anchor": {
+    "anchor_id": "anchor_official_grounding_union_and_unknown_answer",
+    "passed": true,
+    "grounded_claims": [
+      "- 银行曾以保证人涉诉为由拒绝贷款展期。",
+      "- 客户本轮陈述（尚未独立核验）：按我的理解，银行无权以保证人涉诉为由拒绝展期。"
+    ],
+    "unsupported_claims": [
+      "- 客户称展期协议未约定利息迟延后果。"
+    ],
+    "request_sha256": "eadd53bf0eacbf24819139fa07c80822833d4e250651d850e6ea6e3cacc62ea7",
+    "repair_used": false
+  }
+}

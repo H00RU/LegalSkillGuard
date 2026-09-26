@@ -1,0 +1,413 @@
+annotations:
+  - id: lsg_cn_0093
+    source_line: 144
+    source_case_sha256: 1a3c0537c77a27e3f39bd5f5e776cf7ef33806a0b54764849628108dffd53d35
+    split: train
+    legal_domain: real_estate_construction
+    client_role: 借用建设公司资质实际组织施工的葛某
+    consultation_stage: 工程价款被拖欠后、提起诉讼前
+    opening: 我借用一家建设公司的名义承接项目，发包方从洽商开始就一直直接和我对接。现在工程款被拖欠，我担心合同无效后自己不能直接主张价款。
+    admission_reason: 发包人明知借资质、履约保证金、实际施工和价款转付链条完整，合同效力与折价补偿存在自然认知差异。
+    facts:
+      - client_belief: 我以某建设公司名义与房地产公司签了施工合同。
+        court_record: 葛某以某建设公司名义与某房地产公司签订建设工程施工合同。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "葛某以某建设公司名义与某房地产公司签订建设工程施工合同"}]
+      - client_belief: 履约保证金是我自己向房地产公司交的，共二百万元。
+        court_record: 施工合同签订过程中，葛某向某房地产公司支付200万元履约保证金。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "施工合同签订过程中，葛某向某房地产公司支付200万元履约保证金"}]
+      - client_belief: 发包方始终直接和我洽商，清楚我是借用资质的实际施工人。
+        court_record: 某房地产公司直接与葛某洽商并明确知道葛某借用某建设公司资质订立合同。
+        gap_type: undisputed
+        evidence: [{section: adjudication, quote: "某房地产公司收取葛某履约保证金，直接与葛某洽商，明确知道葛某借用某建设公司资质订立合同"}]
+      - client_belief: 施工班组、材料款和人工工资都是我组织或支付的。
+        court_record: 合同签订后葛某组织施工班组、支付材料款及人工工资。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "合同签订后葛某组织施工班组、支付材料款及人工工资"}]
+      - client_belief: 发包方明知并实际履行过，施工合同和借资质约定应当都有效。
+        court_record: 建设施工合同及资质借用合同因违反法律强制性规定均属无效。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "当事人签订的建设工程施工合同及资质借用合同违反法律强制性规定应属无效"}]
+      - client_belief: 如果合同无效，我可能只能让名义上的建设公司收款，自己无权向发包方请求任何补偿。
+        court_record: 发包人明知资质借用并结合实际施工、既往付款情况时，实际施工人可以请求发包人支付折价补偿款。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "根据某房地产公司向某建设公司、葛某支付价款情况，某建设公司、葛某实际施工情况，最终判决：某房地产公司向葛某支付折价补偿款"}]
+      - client_belief: 发包方曾把工程款付给名义建设公司，由其扣除管理费后再转给我。
+        court_record: 名义建设公司收到发包方工程价款后扣除管理费并支付给葛某。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "某建设公司在收到某房地产公司支付的工程价款后扣除管理费支付给葛某"}]
+    expected_inquiries:
+      - 合同洽商、签署和履约过程中，发包方分别与谁联系，哪些记录能证明其知道借资质事实？
+      - 履约保证金、材料款和人工工资分别由谁支付，请提供流水、票据和班组资料。
+      - 已完成工程的范围、质量验收和结算资料如何，发包方已支付多少价款？
+      - 建设公司收款后如何扣除管理费并转付，双方内部协议具体约定了什么？
+      - 尚欠款项如何计算，是否还存在质量、工期或其他抵扣争议？
+    memo_expectations:
+      - 分别判断施工合同与资质借用合同效力，不能以发包方明知替代强制性规范审查。
+      - 以直接洽商、保证金和实际组织施工证明发包方明知及葛某实际施工人地位。
+      - 区分有效合同工程价款请求与无效合同下参照履行价值计算的折价补偿。
+      - 核对已付款、管理费、欠款和工程质量，防止重复或超额计算。
+      - 说明名义承包人参加争议处理的必要性及三方内部追偿风险。
+    editorial_review: &full_review
+      source_read_in_full: true
+      single_client_role: true
+      pre_outcome_timeline: true
+      opening_has_no_outcome: true
+      opening_information_boundary_checked: true
+      beliefs_are_natural: true
+      gap_labels_semantically_checked: true
+      inquiries_are_answerable: true
+      memo_points_are_substantive: true
+    editorial_note: 客户如实知道借资质和自己的履约行为；差异集中于发包人明知是否使合同有效、合同无效是否当然阻断实际施工人的折价补偿请求。
+
+  - id: lsg_cn_0094
+    source_line: 145
+    source_case_sha256: 26b2098c0e45d238ca374557cb39c608e7e2651d0f3fa85f9f0227c2bcb15468
+    split: train
+    legal_domain: real_estate_construction
+    client_role: 被园林分包单位拖欠工资的农民工何某
+    consultation_stage: 持有工资欠条且催款未果后、起诉前
+    opening: 我们在一个园林项目施工后被欠工资，项目已经投入使用。分包方与总包方相互推诿，我想查清实际招用、结算和工资责任还能向谁主张。
+    admission_reason: 总分包关系、直接招用、欠条、未结算和总包先行清偿责任均有明确来源，责任主体误解自然。
+    facts:
+      - client_belief: 某建设公司是项目总承包单位，招用我们的工程公司是园林工程分包单位。
+        court_record: 某建设公司系项目施工总承包单位，某工程公司系园林工程分包单位。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "某建设公司系某工程项目的施工总承包单位，某工程公司系该工程项目中园林工程的分包单位"}]
+      - client_belief: 项目已经竣工验收并投入使用，但总包和分包一直没有结算。
+        court_record: 工程项目已经竣工验收并投入使用，总包与分包一直未进行结算。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "该工程项目已竣工验收并投入使用，某建设公司与某工程公司一直未进行结算"}]
+      - client_belief: 我们是由分包工程公司直接招进工地干活的。
+        court_record: 某工程公司招用何某等人在工地施工。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "某工程公司招用何某等人在工地施工"}]
+      - client_belief: 工资欠条载明还欠我们十三万余元。
+        court_record: 工资欠条显示某工程公司尚欠何某等人工资13万余元。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "工资欠条显示某工程公司尚欠何某等人工资13万余元"}]
+      - client_belief: 总包没有直接招用我们，而且还没和分包结算，所以对欠薪完全没有责任。
+        court_record: 分包单位拖欠农民工工资时，施工总承包单位负有先行清偿责任，清偿后可以追偿。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "分包单位拖欠农民工工资的，由施工总承包单位先行清偿，再依法追偿"}]
+      - client_belief: 有分包公司出具的欠条就只能告分包公司，不能把总包列入同一请求。
+        court_record: 工资欠条所涉请求没有其他争议时，分包单位负直接责任，总承包单位仍应先行清偿。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "某工程公司对农民工工资支付负直接责任，某建设公司应对何某等人的工资先行清偿，清偿后可依法追偿"}]
+    expected_inquiries:
+      - 谁招用、安排工作和考勤，工种、施工期间及每人的工资标准分别是什么？
+      - 请提供工资欠条原件、工资表、考勤、转账和催款记录。
+      - 总包与分包的身份及园林工程分包关系可由哪些合同、现场标识或管理资料证明？
+      - 欠条所列工资是否存在已支付、抵扣或与工程款混同的其他争议？
+      - 项目竣工投入使用时间及向总包、分包催告的经过如何？
+    memo_expectations:
+      - 区分分包单位直接工资支付责任与总承包单位法定先行清偿责任。
+      - 证明劳动给付、招用关系及欠薪数额，核查欠条真实性和对应人员范围。
+      - 说明总分包尚未结算不当然对抗农民工工资请求。
+      - 设计共同列明责任主体的请求并避免把工资争议误写为工程款结算争议。
+      - 提示总承包单位清偿后的追偿关系不应转嫁给劳动者。
+    editorial_review: *full_review
+    editorial_note: 客户能够回答招用、施工和欠条事实；差异只落在总包是否因未直接招用、未结算而免责，未要求工人推测企业内部结算。
+
+  - id: lsg_cn_0095
+    source_line: 146
+    source_case_sha256: a9c20d3a926d3e82f073970289b515b6a08d946f87f621c13befc6c3467175eb
+    split: train
+    legal_domain: real_estate_construction
+    client_role: 固定总价合同中途解除后的承包建设集团
+    consultation_stage: 第三人续建完成且双方结算争议形成后、申请鉴定前
+    opening: 一份固定总价施工合同履行中途解除，双方对已完成工程和后续接续施工的价款分配争执不下。我想确定合理的结算方法。
+    admission_reason: 固定总价、部分履行、第三人续建、质量合格和比例法鉴定完整，存在“固定总价不可拆分”的自然误解。
+    facts:
+      - client_belief: 合同约定由我们承建项目，固定总价为八千九百万元。
+        court_record: 建设集团与置业公司约定项目施工合同价格为固定总价8900万元。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "合同价格为固定总价8900万元"}]
+      - client_belief: 我们完成大部分施工任务后，双方解除了合同。
+        court_record: 某建设集团公司完成大部分施工任务后，双方解除合同。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "某建设集团公司完成大部分施工任务后，双方解除合同"}]
+      - client_belief: 剩余工程后来由第三人施工完成。
+        court_record: 合同解除后其余工程由第三人施工完成。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "后来，其余工程由第三人施工完成"}]
+      - client_belief: 我们已经施工的部分质量合格。
+        court_record: 某建设集团公司已施工部分质量合格。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "某建设集团公司已施工部分质量合格"}]
+      - client_belief: 固定总价合同只能在全部完工时按总价结算，中途解除后没有可采用的客观拆分方法。
+        court_record: 部分施工且无约定、协商不成时，可以鉴定已完工部分与全部工程造价并以比例折算固定总价。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "分别计算出已完工部分的工程价款为8100余万元，全部工程价款为9700余万元，两者相除得出比例系数83.5%，再用合同约定的固定总价8900万元乘以该比例，确定承包人已完工部分工程价款"}]
+      - client_belief: 只要申请鉴定，就应直接按鉴定机构算出的已完工市场造价结算，不必再受合同固定总价约束。
+        court_record: 鉴定结果用于计算已完工造价占全部造价的比例，结算基数仍为当事人约定的固定总价。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "再用合同约定的固定总价8900万元乘以该比例，确定承包人已完工部分工程价款"}]
+    expected_inquiries:
+      - 合同固定总价的范围、图纸、清单以及中途解除时的施工界面如何约定和固定？
+      - 已完工部分的质量验收、签证、工程量和现场记录是否完整？
+      - 第三人续建的范围与原承包范围能否一一对应，是否发生设计变更？
+      - 双方是否另行约定中途解除结算方法，历次结算意见分别是什么？
+      - 已付款、代付款、扣款及利息起算依据如何？
+    memo_expectations:
+      - 识别固定总价风险分配与合同中途解除后部分结算的冲突。
+      - 先查约定和协商，缺乏约定时再论证比例法及鉴定必要性。
+      - 以同一计价口径确定已完工与全部工程造价比例，避免口径不一致。
+      - 将比例作用于合同固定总价而非机械采用已完工市场造价。
+      - 核对施工界面、质量、已付款和第三人续建范围，防止重复计算。
+    editorial_review: *full_review
+    editorial_note: 两个差异分别检验“固定总价不能拆分”和“鉴定价直接替代合同价”，其余施工范围、解除和质量均保持客户亲历事实。
+
+  - id: lsg_cn_0096
+    source_line: 147
+    source_case_sha256: 341b6287a763fe5aeae2868af8ced4917229a0eb649150c76cc4286f7b025cd1
+    split: train
+    legal_domain: real_estate_construction
+    client_role: 完工后长期等不到政府投资项目审计的建筑公司
+    consultation_stage: 已提交审计资料且催款无果后、起诉前
+    opening: 我们承建的桥梁已经验收，合同却约定结算以国家审计结果为准。资料交了很久仍没有审计结论，乡政府据此拒付剩余工程款，我想知道能否不再等下去。
+    admission_reason: 审计条款、增量审批停滞、竣工验收、送审和司法鉴定路径明确，审计是否构成无限期付款前提有自然差异。
+    facts:
+      - client_belief: 合同约定工程量变更须报交通运输委审批，竣工价款以国家审计结果为准。
+        court_record: 合同约定变更工程量须报交通运输委审查批准，竣工结算价款以国家审计结果为准。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "变更增减工程量需按管理程序报经交通运输委审查批准，结算时可以作为调整依据"}, {section: basic_facts, quote: "工程竣工结算价款以国家审计机关的审计结果为准"}]
+      - client_belief: 施工中发生多项增量工程，但交通运输委长期没有审查批准。
+        court_record: 施工过程中发生多项增量工程，某交通运输委对变更工程量长期未审查批准。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "施工过程中发生多项增量工程，某交通运输委对变更工程量长期未审查批准"}]
+      - client_belief: 桥梁工程已经在二〇二二年三月通过竣工验收。
+        court_record: 2022年3月桥梁工程通过竣工验收。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "2022年3月，该工程通过竣工验收"}]
+      - client_belief: 我们随后提交资料请求审计并催付余款，但审计结果无正当理由长期未出。
+        court_record: 建筑公司提交资料请求审计和付款后，审计结果无正当理由长期未作出。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "某建筑公司向某乡政府提交资料请求审计并请求支付剩余工程款，但审计结果无正当理由长期未作出"}]
+      - client_belief: 既然约定以审计结果为准，只要审计机关不出结果，乡政府就可以一直不支付。
+        court_record: 审计和变更审批无正当理由未在合理期限完成时，不能机械等待并无限期阻却已验收工程的付款。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "如果继续机械地等待审计结果出具，明显不利于维护中小企业合法权益"}]
+      - client_belief: 没有国家审计结论，法院也不可能采用其他方式确定工程价款。
+        court_record: 审计结果长期未出时，承包人可以申请司法鉴定确定工程价款。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "某建筑公司申请对工程价款进行司法鉴定，人民法院依法予以准许"}]
+      - client_belief: 工程在二〇二〇年五月开工，之后才发生多项增量工程。
+        court_record: 桥梁工程于二〇二〇年五月开工，施工中发生多项增量工程。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "工程2020年5月开工，施工过程中发生多项增量工程"}]
+    expected_inquiries:
+      - 请提供施工合同中审计、变更审批、付款和期限条款的完整文本。
+      - 增量工程由谁指令、是否实际完成，签证、影像和工程量资料有哪些？
+      - 竣工验收文件、移交使用情况和质量争议如何？
+      - 送审资料何时、向谁提交，材料是否齐全，催审催款及回复记录是什么？
+      - 已付款和剩余价款如何计算，拟申请鉴定的范围是否包含争议增量？
+    memo_expectations:
+      - 解释审计结算条款不等于赋予发包人无限期拖延付款权。
+      - 结合竣工验收、完整送审和无正当理由延误判断合理期限是否届满。
+      - 区分合同内工程、已审批变更与争议增量的证明路径。
+      - 论证司法鉴定的必要性、范围和计价资料基础。
+      - 梳理工程款、利息、责任主体及政府投资项目程序风险。
+    editorial_review: *full_review
+    editorial_note: opening只披露验收与久审不决；隐藏事实保留变更审批、送审和替代计价路径，未把法院判决金额写入咨询时点。
+
+  - id: lsg_cn_0097
+    source_line: 148
+    source_case_sha256: bdd8dae9cc02710b15df2567ec4d0a96020a68a340069f89224041566be023a4
+    split: train
+    legal_domain: real_estate_construction
+    client_role: 工程中途停建后已退场的科技公司
+    consultation_stage: 退场多年且追索工程款未果后、起诉前
+    opening: 我们承建的工程未能整体完工，发包方以未竣工验收为由拒绝返还质量保证金。双方对已施工部分的结算、质量和返还期限有争议。
+    admission_reason: 保证金比例、约定返还节点、非承包人原因停工、退场和已完工程质量完整，竣工节点无法发生时的期限认知自然。
+    facts:
+      - client_belief: 合同约定质量保证金为结算金额的百分之五。
+        court_record: 专业工程施工合同约定质量保证金为结算金额的5%。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "合同约定质量保证金为结算金额的5%"}]
+      - client_belief: 原约定是竣工验收合格满一年后十五个工作日内返还。
+        court_record: 合同约定质量保证金自竣工验收合格之日起满1年后15个工作日内返还。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "自竣工验收合格之日起满1年后15个工作日内返还"}]
+      - client_belief: 工程在二〇一六年中途停建，我们随后退场。
+        court_record: 工程于2016年中途停建，某科技公司退场。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "该工程于2016年中途停建，某科技公司退场"}]
+      - client_belief: 我们已经施工的部分质量是合格的。
+        court_record: 某科技公司已施工部分质量合格。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "已施工部分质量合格"}]
+      - client_belief: 只要整个工程没有竣工验收，合同约定的保证金返还期限就永远不会开始。
+        court_record: 非因承包人原因停工且复工不可预见时，保证金返还期限应从承包人退场之日起算，不得无限期扣留。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "质量保证金应自承包人退场之日起算1年后返还，不应无限期扣留"}]
+      - client_belief: 中途停工意味着已完工部分不再有质量保证责任，因此保证金应在退场时立即全额返还。
+        court_record: 已完工部分质量合格并不消灭法定保修责任，返还仍应经过以退场为起点的约定期间。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "在已完工工程质量合格的情况下，质量保证金应自承包人退场之日起算1年后返还"}]
+    expected_inquiries:
+      - 合同关于保证金比例、缺陷责任、竣工验收和返还期限如何完整约定？
+      - 停工是谁决定、原因是什么，是否能证明并非承包人原因？
+      - 实际退场和施工界面固定在何时，有无交接、验收或质量确认文件？
+      - 退场后是否出现质量缺陷、维修通知或发包方代修支出？
+      - 结算金额、已付款、保证金余额和历次催款如何对应？
+    memo_expectations:
+      - 说明整体竣工节点客观无法发生时返还条款的合理替代起算点。
+      - 证明停工非因承包人原因、退场时间和已完部分质量合格。
+      - 区分保证金返还与承包人对已完部分继续承担的法定保修责任。
+      - 按已完工程结算金额核对保证金基数及已扣款。
+      - 评估返还请求、逾期利息和可能质量抗辩的证据风险。
+    editorial_review: *full_review
+    editorial_note: 客户的两个相反极端认识均有现实性：发包方主张永不届期，承包方可能主张立即返还；记录保留退场起算且保修责任不消失的中间规则。
+
+  - id: lsg_cn_0098
+    source_line: 149
+    source_case_sha256: 8f0b96598dca7dbb50f6e984032f0d865c5b93b070d87696d17361f8de8bcc6a
+    split: train
+    legal_domain: real_estate_construction
+    client_role: 因施工停滞要求承包人退场的房地产公司
+    consultation_stage: 双方均无意继续履行且多项鉴定尚未开展前
+    opening: 项目施工已经停滞，承发包双方围绕合同解除、现场交接、质量、价款和损失发生多项争议。继续等全部鉴定会拖很久，我想先解决解除和交场问题。
+    admission_reason: 双方解除合意、现场占有、多项鉴定和证据固定均明确，可评价是否必须一次性裁判全部争议。
+    facts:
+      - client_belief: 我们与建设公司签有施工合同，施工中发生争议后项目停滞。
+        court_record: 房地产公司与建设公司签订施工合同，施工过程中产生争议并停滞。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "发包人某房地产公司与承包人某建设公司签订建设工程施工合同。施工过程中双方产生争议，施工停滞"}]
+      - client_belief: 双方尚未结算工程价款，承包方也没有退出施工现场。
+        court_record: 双方未结算工程价款，某建设公司未退出施工现场。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "双方未结算工程价款，某建设公司未退出施工现场"}]
+      - client_belief: 我们要求解除、退场并赔偿工期和质量损失，对方则要求解除并支付已完工程款。
+        court_record: 发包人请求解除、退场及损失，承包人反诉解除并请求支付已完工工程价款及利息。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "某房地产公司起诉请求确认建设工程施工合同已解除，某建设公司退场并支付工期拖延造成的损失及质量缺陷损失等；某建设公司反诉请求判令解除合同，某房地产公司支付已完工部分的工程价款1900余万元及利息"}]
+      - client_belief: 质量、修复方案、修复费用和已完工程价款都可能需要鉴定。
+        court_record: 双方分别申请工程质量、修复方案及费用、已完工工程价款等多项鉴定。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "诉讼中双方分别向法院申请进行工程质量鉴定、修复方案及修复费用鉴定、已完工工程价款鉴定等多项鉴定"}]
+      - client_belief: 质量和价款没有全部鉴定清楚前，法院不能先处理解除和退场。
+        court_record: 固定施工界面和相关证据后，可以先处理双方一致同意的解除及承包人退场事项。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "人民法院组织双方对施工界面进行确定并固定相关证据后，依法就解除合同及承包人退场等先行处理"}]
+      - client_belief: 先让承包人退场就等于我们已经放弃质量缺陷和工期损失请求。
+        court_record: 解除和退场可以先行处理，质量、价款和损失等其他争议仍可继续审理。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "最终判决：建设工程施工合同解除，某建设公司退场并移交施工现场。双方其他争议法院继续审理"}]
+    expected_inquiries:
+      - 双方停工原因、最后施工时间以及是否均明确同意解除合同？
+      - 承包方目前占用哪些场地、设备和资料，继续占用造成哪些具体影响？
+      - 施工界面、工程现状和证据如何在退场前通过勘验、影像或清点固定？
+      - 各项鉴定的对象、必要性和预计周期分别是什么？
+      - 先行处理解除退场后，双方拟保留哪些价款、质量和损失请求？
+    memo_expectations:
+      - 识别双方解除合意及继续履行不能形成的合同僵局。
+      - 论证先行处理对避免工程、设备和人员损失扩大的必要性。
+      - 将施工界面勘验和证据固定作为退场前提，防止损害后续鉴定。
+      - 区分先行处理事项与继续审理的价款、质量、修复和工期损失。
+      - 提示现场移交清单、保全措施和后续鉴定衔接安排。
+    editorial_review: *full_review
+    editorial_note: 未把“退场”简化为实体责任终局解决；客户可提供现场和诉求信息，差异检验的是程序分层处理及权利保留。
+
+  - id: lsg_cn_0099
+    source_line: 150
+    source_case_sha256: 41a365d4a9c84eca296e1f738ff1de8960be9fe2122aa455ff40b933c53aab45
+    split: train
+    legal_domain: real_estate_construction
+    client_role: 车间主体结构出现裂缝的汽车公司
+    consultation_stage: 自行采取保护性修复并取得鉴定意见后、索赔前
+    opening: 我们的车间交付使用一段时间后，主体构件出现影响安全的异常。施工方以早已验收、保修期已过为由拖延处理，我们已先采取加固措施，想确认保修和费用责任。
+    admission_reason: 设计年限、交付时间、主体结构缺陷、保护性修复和鉴定意见完整，可区分一般保修期与合理使用年限。
+    facts:
+      - client_belief: 施工合同约定车间工程质量应符合国家或行业检验评定标准。
+        court_record: 建设施工合同约定工程质量应符合国家或行业的质量检验评定标准。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "工程质量应符合国家或行业的质量检验评定标准"}]
+      - client_belief: 工程设计使用年限是五十年，质量保修期从验收合格起算。
+        court_record: 工程设计使用年限为50年，质量保修期自工程验收合格之日起算。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "工程设计使用年限为50年，质量保修期自工程验收合格之日起算"}]
+      - client_belief: 交付使用十年后，主体结构吊车梁开裂并影响作业安全。
+        court_record: 工程竣工交付使用10年后，主体结构吊车梁出现裂缝并影响作业安全。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "工程竣工交付使用10年后，主体结构吊车梁出现裂缝，影响作业安全"}]
+      - client_belief: 施工方拖延保修后，我们自行调平轨道并加固缺陷吊车梁。
+        court_record: 鉴定确认汽车公司对轨道调平及断裂、缺陷吊车梁加固具有必要性和合理性。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "某汽车公司对不平整轨道进行调平整改、对断裂或存在质量缺陷的吊车梁进行加固是必要及合理的"}]
+      - client_belief: 工程当年验收合格，施工方此后对主体结构缺陷就不再负保修义务。
+        court_record: 主体结构在五十年设计使用年限内出现质量缺陷，施工单位仍应履行更换维修义务。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "案涉工程主体结构吊车梁在设计使用年限（50年）内出现质量缺陷，某建设公司应承担更换新的预制钢筋混凝土吊车梁的保修义务"}]
+      - client_belief: 因施工方拒不维修，我们自行支出的全部费用都当然可以全额转嫁给施工方。
+        court_record: 施工方对拖延保修造成的必要、合理保护性修复费用负责，费用范围仍须审查确定。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "某建设公司拖延履行保修义务，某汽车公司采取保护性修复措施，产生的修复费用中合理费用为127万余元，该笔费用应由某建设公司承担"}]
+      - client_belief: 施工方拖延后我们自行维修加固，并在诉讼中主张一百七十五万元修复费用。
+        court_record: 汽车公司自行维修加固后请求施工方赔偿修复费用一百七十五万元。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "某汽车公司遂自行维修加固，后起诉请求某建设公司履行保修义务，并赔偿其自行修复所产生的费用共计175万元"}]
+    expected_inquiries:
+      - 请提供合同、设计文件、竣工验收和质量保修约定，主体结构设计年限如何记载？
+      - 裂缝何时发现、影响何种作业安全，是否及时通知施工方并给予维修机会？
+      - 裂缝成因、原施工质量和后续使用维护是否已有鉴定或检测？
+      - 自行修复采取了哪些措施、为何紧急必要，费用票据和施工记录是否完整？
+      - 目前仍需更换或维修哪些结构，停产损失及其他请求有何证据？
+    memo_expectations:
+      - 区分竣工验收、一般缺陷责任期与地基基础和主体结构合理使用年限内保修责任。
+      - 结合鉴定证明裂缝属于主体结构质量缺陷及更换方案必要性。
+      - 审查施工方收到通知后拖延履责的经过。
+      - 仅支持必要合理的保护性修复费用，核减无因果关系或过度修复部分。
+      - 设计继续维修、费用赔偿及安全风险控制的请求和证据方案。
+    editorial_review: *full_review
+    editorial_note: 客户知道交付、裂缝和自修事实；隐藏差异不预设全部费用，而要求区分长周期主体保修与合理费用因果边界。
+
+  - id: lsg_cn_0100
+    source_line: 151
+    source_case_sha256: 85998915e6292d24f17039ae935820d5f370d35a2968e92ca49e792eb5381544
+    split: train
+    legal_domain: real_estate_construction
+    client_role: 边坡工程再次出现质量问题的镇政府
+    consultation_stage: 取得二次缺陷鉴定且与施工方争议形成后、起诉前
+    opening: 我们发包的边坡工程在施工和修复过程中多次出现险情，现需按新方案处理。双方对原设计、施工质量、风险原因及修复费用承担争议很大。
+    admission_reason: 原设计缺陷、施工方知情、二次照图修复、再次缺陷和鉴定完整，发包设计过错与承包施工过错可以分配。
+    facts:
+      - client_belief: 工程内容约定以我们提供的设计图纸和清单为准。
+        court_record: 发包人与建筑公司约定工程内容以设计图纸和清单列明项目为准。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "双方签订协议约定，工程内容以设计图纸和清单列明项目为准"}]
+      - client_belief: 工程完工后遭遇大雨，挡土墙发生垮塌。
+        court_record: 工程完工后因当地突降大雨，案涉挡土墙发生垮塌。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "工程完工后，因当地突降大雨，案涉工程挡土墙发生垮塌"}]
+      - client_belief: 第一次鉴定已经指出我们提供的设计图纸不符合技术规范。
+        court_record: 鉴定显示工程水毁原因是镇政府提供的设计图纸不符合技术规范要求。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "工程水毁原因是某镇人民政府提供的设计图纸不符合技术规范要求"}]
+      - client_belief: 施工方随后仍按原设计修复，修复后工程又倾斜沉降。
+        court_record: 建筑公司按原设计图纸修复后，工程再次出现倾斜、沉降。
+        gap_type: undisputed
+        evidence: [{section: basic_facts, quote: "某建筑公司按照原设计图纸对工程进行修复。修复后，工程又出现倾斜、沉降"}]
+      - client_belief: 图纸由发包方提供，只要设计存在缺陷，施工方按图施工就不可能承担任何责任。
+        court_record: 施工方明知原设计存在缺陷仍照图修复，对再次质量缺陷也具有相应过错。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "某建筑公司明知原设计图纸存在设计缺陷，仍按照原设计图纸进行修复，亦应承担相应责任"}]
+      - client_belief: 修复后再次出问题，施工方就应承担全部新方案费用，发包方原设计错误已因第一次修复而消失。
+        court_record: 再次缺陷由发包方不合规范的原设计和施工方明知仍施工共同造成，应按双方过错分担修复费用。
+        gap_type: disputed
+        evidence: [{section: adjudication, quote: "案涉工程修复后仍存在质量缺陷由两方面原因造成：一是某镇人民政府提供的设计图纸不符合技术规范要求，应承担主要责任；二是某建筑公司明知原设计图纸存在设计缺陷，仍按照原设计图纸进行修复，亦应承担相应责任"}]
+    expected_inquiries:
+      - 原设计由谁编制、审查和提供，施工方何时知道其不符合规范？
+      - 第一次垮塌与暴雨、设计、施工质量之间的鉴定结论具体是什么？
+      - 双方为何约定仍按原图修复，施工方是否提出过异议或替代方案？
+      - 二次倾斜沉降的范围、成因和新修复方案由哪些检测鉴定支持？
+      - 新修复费用如何测算，双方各自行为对损失扩大有什么影响？
+    memo_expectations:
+      - 依据设计提供义务分析发包方对不合规范图纸的主要过错。
+      - 依据施工专业注意义务分析承包人明知缺陷仍施工的相应过错。
+      - 区分暴雨外因、设计缺陷与施工行为的因果作用。
+      - 以鉴定支持新方案必要性、费用范围和过错比例，而非全有或全无归责。
+      - 设计修复履行、费用分担及防止损失扩大的实施安排。
+    editorial_review: *full_review
+    editorial_note: 双方均掌握其亲历行为，差异刻画彼此可能主张的单方免责或全责；隐藏记录保持共同过错结构，不把来源中的具体比例当客户已知答案。

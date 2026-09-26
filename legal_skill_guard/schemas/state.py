@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, computed_field
@@ -10,6 +11,17 @@ FactStatus = Literal[
     "unknown", "client_claimed", "corroborated", "disputed", "irrelevant", "not_available"
 ]
 Criticality = Literal["high", "medium", "low"]
+TargetKind = Literal["client_fact", "evidence_or_third_party"]
+TARGET_KINDS = frozenset({"client_fact", "evidence_or_third_party"})
+DisclosureDecision = Literal["disclose", "withhold"]
+ClientResponseKind = Literal[
+    "new_hidden_fact",
+    "repeated_hidden_fact",
+    "opening_repeat",
+    "withheld",
+    "unavailable",
+    "contract_fallback",
+]
 
 
 class StateModel(BaseModel):
@@ -25,6 +37,17 @@ class FactSlot(StateModel):
     evidence_ids: list[str] = Field(default_factory=list)
     confidence: float = Field(default=0.5, ge=0.0, le=1.0)
     criticality: Criticality = "medium"
+    # ``client_fact`` is an ordinary dialogue target that the client may answer
+    # from experience, communication or an already-seen document.  An
+    # ``evidence_or_third_party`` target is still a legally useful inquiry, but its
+    # answer may require a later record request, expert examination or third-party
+    # verification.  Keeping the distinction in state prevents a correct legal
+    # evidence question from being mistaken for a failed fact-elicitation action.
+    # ``None`` exists only so historical artifacts written before protocol 15 can
+    # still be parsed for an explicit compatibility audit.  Current trajectories
+    # must carry an authored kind and are rejected by the trajectory-health gate
+    # when this field is absent; never infer ``client_fact`` from omission.
+    target_kind: TargetKind | None = None
 
 
 class FactObservation(StateModel):
@@ -35,6 +58,7 @@ class FactObservation(StateModel):
     evidence_labels: list[str] = Field(default_factory=list)
     confidence: float = Field(default=0.5, ge=0.0, le=1.0)
     criticality: Criticality = "medium"
+    target_kind: TargetKind | None = None
 
 
 class StatePatch(StateModel):
@@ -65,16 +89,164 @@ class Conflict(StateModel):
     source_turns: list[int]
 
 
+class Interaction(StateModel):
+    turn: int
+    action_type: Literal["ask", "clarify", "verify", "summarize"]
+    target_id: str | None = None
+    question: str
+    response_kind: ClientResponseKind | None = None
+    new_information: bool = False
+    disclosed_fact_ids: list[str] = Field(default_factory=list)
+    covered_target_ids: list[str] = Field(default_factory=list)
+
+
+_KNOWN_TARGET_STOP_PHRASES = (
+    "客户",
+    "您",
+    "我方",
+    "我司",
+    "是否",
+    "有无",
+    "目前",
+    "当前",
+    "已经",
+    "实际",
+    "具体",
+    "曾经",
+    "曾",
+    "进行过",
+    "进行",
+    "就",
+    "明确",
+    "相关",
+    "情况",
+)
+
+
+def _semantic_fact_text(value: str) -> str:
+    normalized = re.sub(r"[^\u4e00-\u9fffA-Za-z0-9]", "", value).lower()
+    for phrase in _KNOWN_TARGET_STOP_PHRASES:
+        normalized = normalized.replace(phrase, "")
+    # Narrow intake-language equivalences. They only detect that a visible fact
+    # already answers a proposed target; they never infer a hidden fact.
+    for source, replacement in (
+        ("付款", "支付"),
+        ("缴款", "支付"),
+        ("签订", "签署"),
+        ("订立", "签署"),
+    ):
+        normalized = normalized.replace(source, replacement)
+    return normalized
+
+
+def _character_bigrams(value: str) -> set[str]:
+    return {value[index : index + 2] for index in range(max(0, len(value) - 1))}
+
+
+def _observable_dimensions(value: str) -> set[str]:
+    """High-precision attributes explicitly present in visible Chinese text."""
+
+    compact = re.sub(r"\s+", "", value)
+    patterns = {
+        "time": (
+            r"(?:时间|日期|何时|什么时候|哪天|哪一日|去年|今年|当日|当天|"
+            r"(?:19|20)\d{2}年|\d{1,2}月\d{1,2}日)"
+        ),
+        "amount": r"(?:金额|数额|价款|费用|多少钱|\d+(?:\.\d+)?(?:万|千|百)?元)",
+        "place": r"(?:地点|地址|位置|哪里|何处)",
+        "method": r"(?:方式|方法|渠道|途径|如何|怎么)",
+        "reason": r"(?:原因|理由|为什么|为何)",
+        "content": r"(?:内容|原文|条款|说了什么|写明|载明)",
+        "result": r"(?:结果|后果|伤情|损失|进展)",
+        "status": r"(?:状态|现状|目前是否|当前是否|是否完成)",
+    }
+    return {name for name, pattern in patterns.items() if re.search(pattern, compact)}
+
+
+def _dimensionless_anchor(value: str) -> str:
+    compact = _semantic_fact_text(value)
+    compact = re.sub(
+        r"(?:时间|日期|何时|什么时候|哪天|哪一日|金额|数额|价款|费用|"
+        r"多少钱|地点|地址|位置|哪里|何处|方式|方法|渠道|途径|如何|怎么|"
+        r"原因|理由|为什么|为何|内容|原文|条款|结果|后果|伤情|损失|"
+        r"进展|状态|现状|完成)",
+        "",
+        compact,
+    )
+    return re.sub(
+        r"(?:19|20)\d{2}年(?:\d{1,2}月(?:\d{1,2}日)?)?|"
+        r"\d+(?:\.\d+)?(?:万|千|百)?元",
+        "",
+        compact,
+    )
+
+
+def candidate_action_targets_known_fact(facts: list[FactSlot], action: dict[str, object]) -> bool:
+    """Conservatively expose a semantically repeated visible fact to learned skills.
+
+    Exact IDs remain authoritative.  The lexical branch only detects high-overlap
+    paraphrases against values already stated in the visible dialogue; it neither
+    imports hidden facts nor blocks an action by itself.  It remains only an
+    observable state feature: a prompt-delivered working-library document may teach
+    the lawyer to use it, but deterministic code never converts it into an action.
+    """
+
+    if action.get("action_type") != "ask":
+        return False
+    target = action.get("target_id")
+    if any(
+        fact.fact_id == target
+        and fact.status in {"client_claimed", "corroborated", "disputed"}
+        and bool(fact.value)
+        for fact in facts
+    ):
+        return True
+    target_fact = next((fact for fact in facts if fact.fact_id == target), None)
+    raw_target = str(
+        (target_fact.label if target_fact is not None else "")
+        or action.get("expected_information")
+        or action.get("content")
+        or ""
+    )
+    normalized_target = _semantic_fact_text(raw_target)
+    if len(normalized_target) < 4:
+        return False
+    target_bigrams = _character_bigrams(normalized_target)
+    if len(target_bigrams) < 3:
+        return False
+    for fact in facts:
+        if fact.status not in {"client_claimed", "corroborated", "disputed"} or not fact.value:
+            continue
+        normalized_known = _semantic_fact_text(fact.value)
+        if normalized_target in normalized_known:
+            return True
+        target_dimensions = _observable_dimensions(raw_target)
+        known_dimensions = _observable_dimensions(str(fact.value))
+        target_anchor = _dimensionless_anchor(raw_target)
+        if (
+            target_dimensions
+            and target_dimensions <= known_dimensions
+            and len(target_anchor) >= 2
+            and target_anchor in normalized_known
+        ):
+            return True
+        overlap = len(target_bigrams & _character_bigrams(normalized_known)) / len(target_bigrams)
+        if overlap >= 0.60 and len(target_bigrams & _character_bigrams(normalized_known)) >= 3:
+            return True
+    return False
+
+
 class ConsultationState(StateModel):
     session_id: str
+    max_turns: int = Field(ge=1)
     turn: int = Field(default=0, ge=0)
     domain: str = "general"
     persona: str = "unknown"
-    max_turns: int = Field(default=6, ge=1)
     issues: list[Issue] = Field(default_factory=list)
     facts: list[FactSlot] = Field(default_factory=list)
     evidence: list[Evidence] = Field(default_factory=list)
     asked_targets: list[str] = Field(default_factory=list)
+    interactions: list[Interaction] = Field(default_factory=list)
     unresolved_conflicts: list[Conflict] = Field(default_factory=list)
     risk_flags: list[str] = Field(default_factory=list)
     candidate_action: dict[str, object] | None = None
@@ -83,7 +255,45 @@ class ConsultationState(StateModel):
     @computed_field
     @property
     def high_critical_unknown_count(self) -> int:
-        return sum(f.criticality == "high" and f.status == "unknown" for f in self.facts)
+        return sum(
+            f.criticality == "high"
+            and f.status == "unknown"
+            and f.fact_id not in self.asked_targets
+            and f.fact_id not in NON_SUBSTANTIVE_FACT_IDS
+            for f in self.facts
+        )
+
+    @computed_field
+    @property
+    def actionable_unresolved_fact_count(self) -> int:
+        return sum(
+            f.status in {"unknown", "disputed"}
+            and f.fact_id not in self.asked_targets
+            and f.fact_id not in NON_SUBSTANTIVE_FACT_IDS
+            for f in self.facts
+        )
+
+    @computed_field
+    @property
+    def client_fact_unresolved_count(self) -> int:
+        return sum(
+            f.target_kind == "client_fact"
+            and f.status in {"unknown", "disputed"}
+            and f.fact_id not in self.asked_targets
+            and f.fact_id not in NON_SUBSTANTIVE_FACT_IDS
+            for f in self.facts
+        )
+
+    @computed_field
+    @property
+    def evidence_or_third_party_unresolved_count(self) -> int:
+        return sum(
+            f.target_kind == "evidence_or_third_party"
+            and f.status in {"unknown", "disputed"}
+            and f.fact_id not in self.asked_targets
+            and f.fact_id not in NON_SUBSTANTIVE_FACT_IDS
+            for f in self.facts
+        )
 
     @computed_field
     @property
@@ -93,7 +303,18 @@ class ConsultationState(StateModel):
     @computed_field
     @property
     def client_claimed_high_count(self) -> int:
-        return sum(f.criticality == "high" and f.status == "client_claimed" for f in self.facts)
+        handled = {
+            item.target_id
+            for item in self.interactions
+            if item.action_type in {"clarify", "verify"}
+        }
+        return sum(
+            f.criticality == "high"
+            and f.status == "client_claimed"
+            and f.fact_id not in handled
+            and f.fact_id not in NON_SUBSTANTIVE_FACT_IDS
+            for f in self.facts
+        )
 
     @computed_field
     @property
@@ -108,12 +329,113 @@ class ConsultationState(StateModel):
 
     @computed_field
     @property
+    def dialogue_horizon_reached(self) -> bool:
+        """Whether the configured client-interaction budget has been consumed."""
+
+        return len(self.interactions) >= self.max_turns
+
+    @computed_field
+    @property
     def candidate_target_repeated(self) -> bool:
-        target = (self.candidate_action or {}).get("target_id")
-        return bool(target and target in self.asked_targets)
+        action = self.candidate_action or {}
+        target = action.get("target_id")
+        action_type = action.get("action_type")
+        content = re.sub(r"[\W_]+", "", str(action.get("content") or "")).lower()
+        if content:
+            return any(
+                re.sub(r"[\W_]+", "", item.question).lower() == content
+                for item in self.interactions
+            )
+        return bool(
+            target
+            and any(
+                item.target_id == target and item.action_type == action_type
+                for item in self.interactions
+            )
+        )
 
     @computed_field
     @property
     def candidate_target_unavailable(self) -> bool:
         target = (self.candidate_action or {}).get("target_id")
         return any(f.fact_id == target and f.status == "not_available" for f in self.facts)
+
+    @computed_field
+    @property
+    def candidate_target_is_client_fact(self) -> bool:
+        target = (self.candidate_action or {}).get("target_id")
+        return any(
+            f.fact_id == target and f.target_kind == "client_fact" for f in self.facts
+        )
+
+    @computed_field
+    @property
+    def candidate_target_is_evidence_gap(self) -> bool:
+        target = (self.candidate_action or {}).get("target_id")
+        return any(
+            f.fact_id == target and f.target_kind == "evidence_or_third_party"
+            for f in self.facts
+        )
+
+    @computed_field
+    @property
+    def candidate_target_low_value(self) -> bool:
+        target = (self.candidate_action or {}).get("target_id")
+        return bool(target and target in NON_SUBSTANTIVE_FACT_IDS)
+
+    @computed_field
+    @property
+    def candidate_target_already_known(self) -> bool:
+        return candidate_action_targets_known_fact(self.facts, self.candidate_action or {})
+
+    @computed_field
+    @property
+    def candidate_target_criticality(self) -> Criticality | None:
+        """Visible priority of the action's target, if it names a planned fact."""
+
+        target = (self.candidate_action or {}).get("target_id")
+        return next(
+            (fact.criticality for fact in self.facts if fact.fact_id == target),
+            None,
+        )
+
+    @computed_field
+    @property
+    def substantive_fact_count(self) -> int:
+        return sum(
+            f.fact_id not in NON_SUBSTANTIVE_FACT_IDS
+            and f.status in {"client_claimed", "corroborated", "disputed"}
+            for f in self.facts
+        )
+
+    @computed_field
+    @property
+    def new_hidden_fact_turn_count(self) -> int:
+        return sum(item.response_kind == "new_hidden_fact" for item in self.interactions)
+
+    @computed_field
+    @property
+    def opening_repeat_turn_count(self) -> int:
+        return sum(item.response_kind == "opening_repeat" for item in self.interactions)
+
+    @computed_field
+    @property
+    def repeated_hidden_fact_turn_count(self) -> int:
+        return sum(
+            item.response_kind == "repeated_hidden_fact" for item in self.interactions
+        )
+
+    @computed_field
+    @property
+    def unavailable_turn_count(self) -> int:
+        return sum(item.response_kind == "unavailable" for item in self.interactions)
+
+
+NON_SUBSTANTIVE_FACT_IDS = frozenset(
+    {
+        "opening_statement",
+        "client_name",
+        "client_identity",
+        "client_introduction",
+    }
+)

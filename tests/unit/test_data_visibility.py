@@ -42,6 +42,7 @@ def test_client_prompt_gets_belief_but_not_record_or_rubrics() -> None:
     view = project_case(CASE, Audience.CLIENT_SIMULATOR_PROMPT)
     assert view["facts"][0]["client_belief"] == "客户主张"
     assert "court_record" not in view["facts"][0]
+    assert "gap_type" not in view["facts"][0]
     assert "evaluation_criteria" not in view
 
 

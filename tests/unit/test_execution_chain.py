@@ -1,0 +1,9171 @@
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import re
+import subprocess
+import sys
+from collections import Counter
+from pathlib import Path
+from types import SimpleNamespace
+
+import pytest
+import yaml
+
+from legal_skill_guard.agent.state_manager import StateManager
+from legal_skill_guard.agent.stateful_policy import (
+    atomic_factual_target_projection,
+    normalize_policy_envelope,
+    policy_health_violations,
+)
+from legal_skill_guard.environment.dlawbench_adapter import DLawBenchAdapter
+from legal_skill_guard.evaluation.qualification import semantic_judge_qualification_sha256
+from legal_skill_guard.evaluation.semantic import (
+    SafetyMetrics,
+    SemanticEvaluator,
+    _belief_as_fact_rate,
+    _blocking_step_health,
+    build_fact_judgment_prompt,
+    build_official_grounding_judgment_prompt,
+    chunk_claim_spans,
+    fact_judgment_schema,
+    fact_wire_contract_issues,
+    grounding_judgment_schema,
+    grounding_wire_contract_issues,
+    memo_claim_spans,
+    normalize_exact_visible_grounding,
+    normalize_official_grounding_contract,
+    official_grounding_judgment_schema,
+    parse_fact_judgment,
+    parse_grounding_judgment,
+    parse_official_grounding_judgment,
+    policy_fallback_used,
+    rubric_judgment_schema,
+)
+from legal_skill_guard.evaluation.statistics import (
+    benjamini_hochberg,
+    clustered_mean_deltas,
+    paired_bootstrap_interval,
+    paired_sign_flip_p_value,
+)
+from legal_skill_guard.evolution.diagnosis import SkillDiagnosis
+from legal_skill_guard.evolution.reward import RewardParameters
+from legal_skill_guard.evolution.teacher import (
+    GroupEvidenceWitness,
+    SourceForkWitness,
+    SourceWitness,
+    TeacherProposal,
+)
+from legal_skill_guard.experiment.executor import (
+    ExecutionError,
+    MainExperimentExecutor,
+    TrainingSummary,
+    _step_has_blocking_health,
+    _teacher_proposal_matches_candidate,
+    _validate_persona_seed_protocol,
+    formal_learnable_skill_objectives,
+    formal_skill_document_issues,
+    paired_behavior_estimates,
+    parallel_map_ordered,
+    require_distinct_learning_traces,
+    select_diverse_teacher_groups,
+    select_trajectory_level_contrasts,
+    skill_library_sha256,
+    teacher_response_cache_root,
+    trajectory_behavior_summary,
+    trajectory_learning_signature,
+    verify_model_manifest,
+)
+from legal_skill_guard.experiment.runner import (
+    INVESTIGATION_PLAN_SCHEMA,
+    NEW_VISIBLE_GAP_TARGET_ID,
+    OPENING_INQUIRY_AGENDA_SCHEMA,
+    InvestigationPlanningError,
+    TrajectoryRunner,
+    asks_response_event_existence,
+    client_environment_seed,
+    client_routing_question,
+    investigation_planning_seed,
+    parse_investigation_plan,
+    parse_opening_inquiry_agenda,
+    planner_target_has_recoverable_observable_core,
+    policy_sampling_seed,
+    policy_sampling_stream_index,
+    policy_stream_index,
+    response_event_terms_in,
+    shared_component_seed,
+    termination_contract_check,
+    training_policy_branch_turn,
+)
+from legal_skill_guard.experiment.storage import RunStore, trajectory_identity
+from legal_skill_guard.experiment.trajectory_health import (
+    blocking_policy_fallback_reasons,
+    official_evaluation_health_report,
+    trajectory_health_report,
+)
+from legal_skill_guard.inference.codex_cli_client import (
+    CodexCLIClient,
+    CodexInvocationError,
+    run_process_tree,
+    strict_output_schema,
+    strict_output_schema_issues,
+)
+from legal_skill_guard.inference.openai_client import (
+    ChatResponse,
+    GenerationConfig,
+    ReplayCachedChatClient,
+)
+from legal_skill_guard.inference.structured_openai_client import (
+    StructuredModelInvocationError,
+)
+from legal_skill_guard.opening_agenda_contract import opening_agenda_fact_id
+from legal_skill_guard.schemas.action import StructuredAction
+from legal_skill_guard.schemas.experiment import (
+    VISIBLE_STATE_PAYLOAD_MARKER,
+    PolicyAttempt,
+    PolicyEnvelope,
+    ResearchTrajectory,
+    assert_current_trajectory_contract,
+    current_trajectory_contract_issues,
+    policy_visible_state_projection,
+)
+from legal_skill_guard.schemas.skill import SkillContract
+from legal_skill_guard.schemas.state import (
+    ConsultationState,
+    FactObservation,
+    FactSlot,
+    Interaction,
+    StatePatch,
+)
+from legal_skill_guard.schemas.trajectory import Message
+from legal_skill_guard.skills.memory import (
+    extract_rendered_skill_memory,
+    parse_rendered_skill_memory,
+    render_skill_memory,
+)
+from legal_skill_guard.utils.hashing import canonical_json_sha256
+from legal_skill_guard.verifiers.deterministic import VerificationResult
+from tests.skill_fixtures import synthetic_skills
+
+TEST_REWARD_PARAMETERS = RewardParameters(
+    elicitation_weight=0.45,
+    resolution_weight=0.45,
+    fidelity_weight=0.10,
+    extra_turn_penalty=0.02,
+    repeated_question_penalty=0.05,
+    premature_final_cap=0.35,
+    unsupported_claim_cap=0.25,
+    hidden_field_leak_reward=0.0,
+)
+
+
+def test_soft_policy_behavior_is_not_misclassified_as_blocking_health() -> None:
+    soft = SimpleNamespace(
+        policy_health_violations=[],
+        post_skill_health_violations=[
+            "repeated_question_text",
+            "ask_target_not_unresolved:known_fact:client_claimed",
+        ],
+        verifier_results=[],
+        action_decision=SimpleNamespace(changes=[]),
+    )
+    hard = SimpleNamespace(
+        policy_health_violations=["hidden_field_leak"],
+        post_skill_health_violations=[],
+        verifier_results=[],
+        action_decision=SimpleNamespace(changes=[]),
+    )
+
+    assert _step_has_blocking_health(soft) is False
+    assert _blocking_step_health(soft) is False
+    assert _step_has_blocking_health(hard) is True
+    assert _blocking_step_health(hard) is True
+
+
+class ScriptedChatClient:
+    def __init__(self, responses: list[str], model: str = "test-model") -> None:
+        self.model = model
+        self.responses = list(responses)
+        self.seen: list[list[dict[str, str]]] = []
+        self.generations: list[GenerationConfig] = []
+
+    def is_ready(self) -> bool:
+        return True
+
+    def generate(self, messages, generation):
+        self.seen.append(messages)
+        self.generations.append(generation)
+        system = str(messages[0].get("content") or "") if messages else ""
+        if "O编号是开场已公开陈述" in system and "：- O" in system and "\n- F" not in system:
+            return ChatResponse(
+                content=json.dumps(
+                    {
+                        "question_actor": "客户",
+                        "question_event": "公开开场",
+                        "question_attribute": "本轮属性",
+                        "selected_relation": "not_answer",
+                        "fact_ids": [],
+                    },
+                    ensure_ascii=False,
+                ),
+                finish_reason="stop",
+                prompt_tokens=10,
+                completion_tokens=5,
+                raw_id="test-opening-pass",
+            )
+        content = self.responses.pop(0)
+        if generation.response_schema_name == "legal_skill_guard_client_fact_route":
+            try:
+                parsed = json.loads(content)
+            except json.JSONDecodeError:
+                parsed = None
+            if isinstance(parsed, dict) and set(parsed) in (
+                {"fact_ids"},
+                {"fact_ids", "disclosure"},
+            ):
+                selected = [str(item) for item in parsed.get("fact_ids") or []]
+                content = json.dumps(
+                    {
+                        "question_actor": "客户",
+                        "question_event": "测试事件",
+                        "question_attribute": "测试属性",
+                        "selected_relation": (
+                            "direct_answer" if selected else "not_answer"
+                        ),
+                        "fact_ids": selected,
+                    },
+                    ensure_ascii=False,
+                )
+        return ChatResponse(
+            content=content,
+            finish_reason="stop",
+            prompt_tokens=10,
+            completion_tokens=5,
+            raw_id="test",
+        )
+
+
+def _policy(action: dict, observations: list[dict]) -> str:
+    return json.dumps(
+        {
+            "state_patch": {
+                "observations": observations,
+                "issue_labels": [],
+                "risk_flags_add": [],
+            },
+            "action": {
+                "target_type": "fact" if action["action_type"] != "final" else "session",
+                "target_id": action.get("target_id"),
+                "reason": "test",
+                "expected_information": action.get("expected_information", "可观察事实"),
+                "content": action.get("content", ""),
+                "constraints": [],
+                "confidence": 0.8,
+                **{"action_type": action["action_type"]},
+            },
+        },
+        ensure_ascii=False,
+    )
+
+
+def _joint_selection(
+    *,
+    target_id: str,
+    selected_skill_ids: list[str],
+    skills: list[SkillContract],
+    eligible_skill_ids: set[str] | None = None,
+) -> str:
+    """Build the current factored target-only decision for scripted tests.
+
+    The legacy parameters keep older call sites readable while the current wire
+    contract deliberately contains no model-reported skill activation.
+    """
+
+    del selected_skill_ids, skills, eligible_skill_ids
+    return json.dumps(
+        {
+            "selection": {
+                "target_id": target_id,
+            },
+        }
+    )
+
+
+def _case() -> dict:
+    return {
+        "id": "case_test",
+        "jurisdiction": "CN",
+        "language": "zh",
+        "opening": "我与对方签了合同，现在对履行情况有争议。",
+        "facts": [
+            {
+                "fact_id": "F1",
+                "client_belief": "合同签署日期是2025年1月2日。",
+                "court_record": "合同落款日期为2025年1月2日。",
+                "gap_type": "aligned",
+            },
+            {
+                "fact_id": "F2",
+                "client_belief": "对方在2025年2月书面拒绝继续履行。",
+                "court_record": "2025年2月的邮件载有拒绝履行内容。",
+                "gap_type": "aligned",
+            },
+        ],
+        "evaluation_criteria": {
+            "expected_inquiries": ["询问合同日期和拒绝履行文件"],
+            "memo_expectations": ["区分客户陈述与待核文件"],
+        },
+    }
+
+
+def _runner() -> tuple[TrajectoryRunner, ScriptedChatClient, ScriptedChatClient]:
+    unknowns = [
+        {
+            "fact_id": "F1",
+            "label": "合同签署日期",
+            "status": "unknown",
+            "value": None,
+            "evidence_labels": [],
+            "confidence": 0.5,
+            "criticality": "medium",
+            "target_kind": "client_fact",
+        },
+        {
+            "fact_id": "F2",
+            "label": "拒绝履行书面内容",
+            "status": "unknown",
+            "value": None,
+            "evidence_labels": [],
+            "confidence": 0.5,
+            "criticality": "medium",
+            "target_kind": "client_fact",
+        },
+    ]
+    policy = ScriptedChatClient(
+        [
+            _policy(
+                {"action_type": "ask", "target_id": "F1", "content": "合同是哪天签署的？"},
+                unknowns,
+            ),
+            _policy(
+                {
+                    "action_type": "ask",
+                    "target_id": "F2",
+                    "content": "对方是否通过书面文件明确拒绝继续履行？",
+                },
+                [
+                    {
+                        **unknowns[0],
+                        "status": "client_claimed",
+                        "value": "合同签署日期是2025年1月2日。",
+                        "confidence": 0.7,
+                    }
+                ],
+            ),
+            _policy(
+                {"action_type": "final", "content": "形成初步备忘录"},
+                [
+                    {
+                        **unknowns[1],
+                        "status": "client_claimed",
+                        "value": "对方在2025年2月书面拒绝继续履行。",
+                        "confidence": 0.7,
+                    }
+                ],
+            ),
+        ]
+    )
+    selector = ScriptedChatClient(
+        [
+            '{"fact_ids":["F1"]}',
+            '{"fact_ids":["F2"]}',
+        ]
+    )
+    memo = ScriptedChatClient(
+        [
+            "## 案情概要\n据客户陈述存在合同履行争议。\n"
+            "## 关键事实\n客户称合同于2025年1月2日签署，对方于2025年2月书面拒绝履行。\n"
+            "## 法律问题\n具体权利义务需结合合同和书面文件核实。\n"
+            "## 风险评估\n现有信息尚未经独立核验，结论可能变化。\n"
+            "## 下一步建议\n可先核实合同原件和拒绝履行文件。\n"
+            "本分析不替代持证律师的正式意见。"
+        ]
+    )
+    opening_agenda = ScriptedChatClient(['{"targets":[]}'])
+    root = Path(__file__).resolve().parents[2]
+    generation = GenerationConfig(temperature=0, top_p=1, max_tokens=500, seed=42)
+    return (
+        TrajectoryRunner(
+            policy_client=policy,
+            client_selector=selector,
+            memo_client=memo,
+            policy_prompt_path=root / "configs/prompts/consultation_policy_zh.txt",
+            opening_agenda_prompt_path=(
+                root / "configs/prompts/opening_inquiry_agenda_zh.txt"
+            ),
+            opening_agenda_client=opening_agenda,
+            client_prompt_path=root / "configs/prompts/client_fact_selector_zh.txt",
+            client_disclosure_prompt_path=(root / "configs/prompts/client_fact_disclosure_zh.txt"),
+            memo_prompt_path=root / "configs/prompts/memo_writer_zh.txt",
+            policy_generation=generation,
+            opening_agenda_generation=generation,
+            client_generation=generation,
+            memo_generation=generation,
+            model_revision="test-revision",
+            max_policy_attempts=3,
+            max_client_selection_attempts=2,
+            max_memo_attempts=3,
+        ),
+        policy,
+        selector,
+    )
+
+
+def test_opening_agenda_keeps_only_grounded_unknown_observable_targets_and_is_visible() -> None:
+    runner, _, _ = _runner()
+    assert OPENING_INQUIRY_AGENDA_SCHEMA["properties"]["targets"]["maxItems"] == 8
+    assert OPENING_INQUIRY_AGENDA_SCHEMA["properties"]["targets"]["minItems"] == 0
+    opening = "我与对方签了房屋买卖合同，昨天收到解除通知，现在想咨询。"
+    state = StateManager().initial("opening-agenda", opening, max_turns=6)
+    raw = json.dumps(
+        {
+            "targets": [
+                {"topic_excerpt": "房屋买卖合同", "attribute": "place"},
+                {"topic_excerpt": "解除通知", "attribute": "time"},
+                {"topic_excerpt": "解除通知", "attribute": "content"},
+                {"topic_excerpt": "付款", "attribute": "amount"},
+            ]
+        },
+        ensure_ascii=False,
+    )
+
+    patch, parse_mode, violations, changes = parse_opening_inquiry_agenda(
+        raw, opening=opening, state=state
+    )
+
+    assert parse_mode == "json"
+    assert {item.label for item in patch.observations} == {
+        "房屋买卖合同的发生地点",
+        "解除通知的具体内容",
+    }
+    assert all(item.fact_id.startswith("opening_agenda_") for item in patch.observations)
+    assert all(item.target_kind == "client_fact" for item in patch.observations)
+    assert any("opening_already_answers_target" in item for item in violations)
+    assert any("opening_topic_not_exactly_grounded" in item for item in violations)
+    assert len(changes) == 2
+
+    visible_state = StateManager().merge(state, patch, turn=0)
+    assert visible_state.actionable_unresolved_fact_count == 2
+    messages = runner._visible_messages(opening, [], visible_state, 1)
+    assert all(item.fact_id in messages[-1].content for item in patch.observations)
+    assert "解除通知的具体内容" in messages[-1].content
+
+
+@pytest.mark.parametrize(
+    ("opening", "topic_excerpt", "attribute", "expected_label"),
+    [
+        (
+            "我与卖方签订了房屋买卖合同。",
+            "房屋买卖合同",
+            "place",
+            "房屋买卖合同的发生地点",
+        ),
+        (
+            "我昨天收到解除通知。",
+            "解除通知",
+            "content",
+            "解除通知的具体内容",
+        ),
+        (
+            "公司至今没有支付工资。",
+            "没有支付工资",
+            "reason",
+            "没有支付工资的具体原因",
+        ),
+        ("我工作中受了工伤。", "工伤", "place", "工伤的发生地点"),
+    ],
+)
+def test_opening_agenda_accepts_exact_topic_with_unanswered_attribute(
+    opening: str,
+    topic_excerpt: str,
+    attribute: str,
+    expected_label: str,
+) -> None:
+    state = StateManager().initial("opening-agenda-accept", opening, max_turns=6)
+    patch, _, violations, _ = parse_opening_inquiry_agenda(
+        json.dumps(
+            {"targets": [{"topic_excerpt": topic_excerpt, "attribute": attribute}]},
+            ensure_ascii=False,
+        ),
+        opening=opening,
+        state=state,
+    )
+
+    assert [item.label for item in patch.observations] == [expected_label]
+    assert violations == []
+
+
+@pytest.mark.parametrize(
+    ("opening", "topic_excerpt", "attribute"),
+    [
+        ("我去年年底收到解除通知。", "解除通知", "time"),
+        ("我已经支付十万元货款。", "货款", "amount"),
+        ("公司因资金困难暂未付款。", "暂未付款", "reason"),
+        ("卖方至今仍未交货。", "交货", "status"),
+        ("我从未收到解除通知。", "解除通知", "content"),
+        ("我从未收到解除通知。", "解除通知", "time"),
+    ],
+)
+def test_opening_agenda_rejects_attribute_explicitly_answered_in_opening(
+    opening: str,
+    topic_excerpt: str,
+    attribute: str,
+) -> None:
+    state = StateManager().initial("opening-agenda-answered", opening, max_turns=6)
+    patch, _, violations, _ = parse_opening_inquiry_agenda(
+        json.dumps(
+            {"targets": [{"topic_excerpt": topic_excerpt, "attribute": attribute}]},
+            ensure_ascii=False,
+        ),
+        opening=opening,
+        state=state,
+    )
+
+    assert patch.observations == []
+    assert any("opening_already_answers_target" in item for item in violations)
+
+
+def test_opening_agenda_closed_contract_rejects_ungrounded_generic_and_duplicate_items() -> None:
+    opening = "公司向我发出了解除通知，双方对合同适用规则、质量标准是否约定及如何确定存在争议。"
+    state = StateManager().initial("opening-agenda-contract", opening, max_turns=6)
+    patch, _, violations, _ = parse_opening_inquiry_agenda(
+        json.dumps(
+            {
+                "targets": [
+                    {"topic_excerpt": "配偶", "attribute": "time"},
+                    {"topic_excerpt": "公司", "attribute": "content"},
+                    {"topic_excerpt": "解除通知", "attribute": "legal_effect"},
+                    {"topic_excerpt": "质量标准是否约定", "attribute": "content"},
+                    {"topic_excerpt": "如何确定", "attribute": "method"},
+                    {"topic_excerpt": "合同适用规则", "attribute": "content"},
+                    {"topic_excerpt": "解除通知", "attribute": "content"},
+                    {"topic_excerpt": "解除通知", "attribute": "content"},
+                ]
+            },
+            ensure_ascii=False,
+        ),
+        opening=opening,
+        state=state,
+    )
+
+    assert [item.label for item in patch.observations] == ["解除通知的具体内容"]
+    assert any("opening_topic_not_exactly_grounded" in item for item in violations)
+    assert any("invalid_attribute" in item for item in violations)
+    assert any("query_shaped_opening_topic" in item for item in violations)
+    assert any("legal_opening_topic" in item for item in violations)
+    assert any("duplicate_topic_attribute" in item for item in violations)
+
+
+def test_opening_agenda_explicit_empty_card_is_valid_and_nonbinding() -> None:
+    opening = "客户开场已经完整说明其当前咨询事项。"
+    state = StateManager().initial("opening-agenda-empty", opening, max_turns=6)
+    patch, parse_mode, violations, changes = parse_opening_inquiry_agenda(
+        '{"targets": []}', opening=opening, state=state
+    )
+
+    assert patch == StatePatch()
+    assert parse_mode == "json"
+    assert violations == []
+    assert changes == []
+
+
+def test_visible_policy_history_keeps_qa_but_omits_private_disclosed_fact_ids() -> None:
+    runner, _, _ = _runner()
+    state = StateManager().initial("visible-history", "合同履行发生争议。", max_turns=6)
+    state.interactions.append(
+        Interaction(
+            turn=1,
+            action_type="ask",
+            target_id="payment_time",
+            question="您是什么时候付款的？",
+            response_kind="new_hidden_fact",
+            new_information=True,
+            disclosed_fact_ids=["F_SECRET_7"],
+        )
+    )
+    messages = runner._visible_messages(
+        "合同履行发生争议。",
+        [("您是什么时候付款的？", "我是上周付款的。")],
+        state,
+        2,
+    )
+
+    assert [item.role for item in messages[1:3]] == ["assistant", "user"]
+    assert messages[1].content == "您是什么时候付款的？"
+    assert messages[2].content == "我是上周付款的。"
+    assert "disclosed_fact_ids" not in messages[-1].content
+    assert "F_SECRET_7" not in messages[-1].content
+
+
+def test_paraphrased_new_gap_reuses_exhausted_semantic_target_id() -> None:
+    state = StateManager().initial("exhausted-paraphrase", "合同履行发生争议。", max_turns=6)
+    state.facts.append(
+        FactSlot(
+            fact_id="exhausted_payment_time",
+            label="实际付款时间",
+            status="not_available",
+            criticality="high",
+        )
+    )
+    state.asked_targets.append("exhausted_payment_time")
+    envelope = PolicyEnvelope(
+        action=StructuredAction(
+            action_type="ask",
+            target_type="fact",
+            target_id=NEW_VISIBLE_GAP_TARGET_ID,
+            expected_information="实际付款时间",
+            content="这笔款项具体是什么时候付出的？",
+        )
+    )
+
+    normalized, changes = normalize_policy_envelope(envelope, state)
+
+    assert normalized.action.target_id == "exhausted_payment_time"
+    assert normalized.state_patch.observations == []
+    assert changes == [
+        "reuse_exhausted_aligned_target:new_visible_gap->exhausted_payment_time"
+    ]
+    violations = policy_health_violations(normalized, state)
+    assert "target_not_available:exhausted_payment_time" in violations
+    assert "repeated_fact_target:exhausted_payment_time" in violations
+
+
+def test_real_multiturn_chain_stores_grounded_dialogue_without_hidden_labels() -> None:
+    runner, policy, selector = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={
+            "persona_id": "P_WD",
+            "who": {"zh": "当事人"},
+            "voice": {"zh": "简短"},
+        },
+        skills=[],
+        trajectory_id="traj_test",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    assert trajectory.schema_version == 27
+    assert trajectory.initial_visible_state_coverage_attempts == []
+    assert trajectory.initial_visible_state_covered_target_ids == []
+    assert trajectory.initial_visible_state_coverage_token_usage.total == 0
+    assert all(step.visible_state_coverage_attempts == [] for step in trajectory.steps)
+    assert all(step.visible_state_covered_target_ids == [] for step in trajectory.steps)
+    assert "state_coverage_verifier" not in runner.preflight()
+    assert trajectory.status == "memo_submitted"
+    assert trajectory.steps[-1].turn == 3
+    assert trajectory.steps[-1].stop_gate_verdict == "PASS"
+    assert trajectory.steps[-1].stop_gate_reason == "sufficient_visible_state"
+    assert [step.client_selected_fact_ids for step in trajectory.steps[:2]] == [["F1"], ["F2"]]
+    assert all(step.client_route_decision_valid is True for step in trajectory.steps[:2])
+    serialized_trajectory = json.dumps(trajectory.model_dump(mode="json"), ensure_ascii=False)
+    assert "client_route_decision_valid" in serialized_trajectory
+    assert "client_relevance_attempts" not in serialized_trajectory
+    assert "client_relevance_passed" not in serialized_trajectory
+    assert all(name in trajectory.memo for name in ("案情概要", "关键事实", "下一步建议"))
+    online_payload = json.dumps([item.seen for item in (policy, selector)], ensure_ascii=False)
+    assert "court_record" not in online_payload
+    assert "evaluation_criteria" not in online_payload
+    assert "memo_expectations" not in online_payload
+    assert all(item.response_schema is not None for item in policy.generations)
+    assert all(
+        item.response_schema_name == "legal_skill_guard_policy_action"
+        for item in policy.generations
+    )
+
+
+def test_route_contract_fallback_is_audited_but_not_replayed_as_client_dialogue() -> None:
+    runner, _, selector = _runner()
+    runtime_target_id = "dialogue_fact_" + hashlib.sha256(
+        "合同签署日期".encode()
+    ).hexdigest()[:16]
+    unknowns = [
+        {
+            "fact_id": runtime_target_id,
+            "label": "合同签署日期",
+            "status": "unknown",
+            "value": None,
+            "evidence_labels": [],
+            "confidence": 0.5,
+            "criticality": "medium",
+            "target_kind": "client_fact",
+        },
+    ]
+    repeated_question = "合同是哪天签署的？"
+    policy = ScriptedChatClient(
+        [
+            _policy(
+                {
+                    "action_type": "ask",
+                    "target_id": runtime_target_id,
+                    "content": repeated_question,
+                },
+                unknowns,
+            ),
+            _policy(
+                {
+                    "action_type": "ask",
+                    "target_id": runtime_target_id,
+                    "content": repeated_question,
+                },
+                [],
+            ),
+            _policy({"action_type": "final", "content": "形成初步备忘录"}, []),
+        ]
+    )
+    runner.policy_client = policy
+    selector.responses = ["not-json", "still-not-json", '{"fact_ids":["F1"]}']
+
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={
+            "persona_id": "P_WD",
+            "who": {"zh": "当事人"},
+            "voice": {"zh": "简短"},
+        },
+        skills=[],
+        trajectory_id="traj_contract_fallback_retry",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_contract_fallback_retry",
+        skill_library_version="empty",
+    )
+
+    assert trajectory.status == "memo_submitted"
+    assert [step.client_response_kind for step in trajectory.steps[:2]] == [
+        "contract_fallback",
+        "new_hidden_fact",
+    ]
+    fallback_step, retry_step = trajectory.steps[:2]
+    assert fallback_step.client_safe_fallback is True
+    assert fallback_step.client_response is not None
+    assert fallback_step.state_after["asked_targets"] == []
+    assert fallback_step.state_after["interactions"][-1]["response_kind"] == (
+        "contract_fallback"
+    )
+    assert retry_step.rendered_question == repeated_question
+    assert "repeated_question_text" not in retry_step.policy_health_violations
+    assert "repeated_question_text" not in retry_step.post_skill_health_violations
+
+    retry_visible = json.dumps(
+        [item.model_dump(mode="json") for item in retry_step.visible_input],
+        ensure_ascii=False,
+    )
+    assert fallback_step.client_response not in retry_visible
+    assert "contract_fallback" in retry_visible
+    assert retry_visible.count(repeated_question) == 0
+
+    memo_client = runner.memo_client
+    assert isinstance(memo_client, ScriptedChatClient)
+    memo_visible = json.dumps(memo_client.seen, ensure_ascii=False)
+    assert fallback_step.client_response not in memo_visible
+    assert retry_step.client_response in memo_visible
+    assert current_trajectory_contract_issues(
+        trajectory, expected_run_id="run_test"
+    ) == []
+
+
+def test_one_interaction_qualification_status_is_part_of_current_schema() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="diagnostic_one_turn",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="diagnostic_training_sampling_current",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="diagnostic_group",
+        skill_library_version="empty",
+        diagnostic_interaction_limit=1,
+    )
+    assert trajectory.schema_version == 27
+    assert trajectory.status == "diagnostic_interaction_limit"
+    assert len(trajectory.steps) == 1
+    assert trajectory.memo == ""
+
+
+def test_runner_keeps_withheld_target_open_then_records_later_disclosure() -> None:
+    runner, _, _ = _runner()
+    runtime_fact_id = "dialogue_fact_" + hashlib.sha256("是否伪造合同".encode()).hexdigest()[:16]
+    target = {
+        "fact_id": runtime_fact_id,
+        "label": "是否伪造合同",
+        "status": "unknown",
+        "value": None,
+        "evidence_labels": [],
+        "confidence": 0.5,
+        "criticality": "high",
+        "target_kind": "client_fact",
+    }
+    policy = ScriptedChatClient(
+        [
+            _policy(
+                {
+                    "action_type": "ask",
+                    "target_id": runtime_fact_id,
+                    "content": "你是不是故意伪造了合同日期？",
+                },
+                [target],
+            ),
+            _policy(
+                {
+                    "action_type": "ask",
+                    "target_id": runtime_fact_id,
+                    "content": (
+                        "我不是在预设您违法，这只用于评估证据风险；请只核对您是否伪造过合同日期。"
+                    ),
+                },
+                [],
+            ),
+            _policy({"action_type": "final", "content": "形成初步备忘录"}, []),
+        ]
+    )
+    selector = ScriptedChatClient(
+        [
+            '{"fact_ids":["F1"]}',
+            '{"sensitive_personal_misconduct":true,"accusatory_presumption":true,'
+            '"coercive_pressure":false,"purpose_explained":false}',
+            '{"fact_ids":["F1"]}',
+            '{"sensitive_personal_misconduct":true,"accusatory_presumption":false,'
+            '"coercive_pressure":false,"purpose_explained":true}',
+        ]
+    )
+    runner.policy_client = policy
+    runner.client_selector = selector
+    runner.client_disclosure_classifier = selector
+
+    trajectory = runner.run(
+        raw_case={
+            **_case(),
+            "facts": [
+                {
+                    **_case()["facts"][0],
+                    "client_belief": "我曾经故意改动过合同签署日期。",
+                },
+                _case()["facts"][1],
+            ],
+        },
+        persona={
+            "persona_id": "P_CS",
+            "who": {"zh": "起初不信任外人的客户"},
+            "voice": {"zh": "简短回避"},
+        },
+        skills=[],
+        trajectory_id="traj_withheld_then_disclosed",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_withheld",
+        skill_library_version="empty",
+    )
+
+    first, second = trajectory.steps[:2]
+    assert first.client_response_kind == "withheld"
+    assert first.client_matched_fact_ids == ["F1"]
+    assert first.client_disclosure_decisions == {"F1": "withhold"}
+    assert first.client_selected_fact_ids == []
+    assert "2025年1月2日" not in (first.client_response or "")
+    first_state = first.state_after
+    runtime_target_id = first_state["interactions"][-1]["target_id"]
+    first_target = next(
+        item for item in first_state["facts"] if item["fact_id"] == runtime_target_id
+    )
+    assert first_target["status"] == "unknown"
+    assert first_state["asked_targets"] == []
+    assert first_state["interactions"][-1]["response_kind"] == "withheld"
+
+    assert second.client_response_kind == "new_hidden_fact"
+    assert second.client_matched_fact_ids == ["F1"]
+    assert second.client_disclosure_decisions == {"F1": "disclose"}
+    assert second.client_selected_fact_ids == ["F1"]
+    second_target = next(
+        item for item in second.state_after["facts"] if item["fact_id"] == runtime_target_id
+    )
+    assert second_target["status"] == "client_claimed"
+    assert second.state_after["asked_targets"] == [runtime_target_id]
+    # A lawyer-authored runtime target must route on the actual question.  Its
+    # state label is bookkeeping, not a planner-owned semantic replacement.
+    second_selection_messages = selector.seen[2]
+    assert second_selection_messages[-1]["content"] == (
+        "律师本轮问题：我不是在预设您违法，这只用于评估证据风险；"
+        "请只核对您是否伪造过合同日期。"
+    )
+    second_disclosure_messages = selector.seen[3]
+    assert any(
+        "请只核对您是否伪造过合同日期" in item["content"] for item in second_disclosure_messages
+    )
+    healthy_report = trajectory_health_report([trajectory], {trajectory.case_id: _case()})
+    assert not any("withheld" in code for code in healthy_report["counts"])
+
+    corrupted = trajectory.model_copy(deep=True)
+    corrupted_first = corrupted.steps[0]
+    corrupted_first.client_matched_fact_ids = []
+    corrupted_first.client_disclosure_decisions = {"F1": "disclose"}
+    corrupted_first.client_selected_fact_ids = ["F1"]
+    corrupted_first.client_route_decision_valid = False
+    corrupted_target = next(
+        item
+        for item in corrupted_first.state_after["facts"]
+        if item["fact_id"] == runtime_target_id
+    )
+    corrupted_target["status"] = "not_available"
+    corrupted_first.state_after["asked_targets"] = [runtime_target_id]
+    corrupted_interaction = corrupted_first.state_after["interactions"][-1]
+    corrupted_interaction["new_information"] = True
+    corrupted_interaction["disclosed_fact_ids"] = ["F1"]
+    corrupted_report = trajectory_health_report([corrupted], {corrupted.case_id: _case()})
+    assert {
+        "client_response_provenance_mismatch",
+        "client_withheld_match_provenance_mismatch",
+        "client_disclosure_decision_provenance_mismatch",
+        "client_selected_fact_without_valid_route",
+        "client_withheld_target_state_changed",
+        "client_withheld_target_marked_asked",
+        "client_withheld_interaction_provenance_mismatch",
+    }.issubset(corrupted_report["counts"])
+
+
+def test_training_fact_presentation_shuffle_is_seeded_and_priority_preserving() -> None:
+    from legal_skill_guard.experiment.runner import (  # noqa: PLC0415
+        policy_fact_presentation_seed,
+    )
+
+    runner, _, _ = _runner()
+    state = StateManager().initial("presentation", "客户开场。", max_turns=6)
+    state = StateManager().merge(
+        state,
+        StatePatch(
+            observations=[
+                FactObservation(
+                    fact_id=fact_id,
+                    label=label,
+                    status="unknown",
+                    criticality=criticality,
+                )
+                for fact_id, label, criticality in (
+                    ("high_a", "高优先事实甲", "high"),
+                    ("high_b", "高优先事实乙", "high"),
+                    ("high_c", "高优先事实丙", "high"),
+                    ("medium_a", "中优先事实甲", "medium"),
+                    ("medium_b", "中优先事实乙", "medium"),
+                    ("low_a", "低优先事实甲", "low"),
+                )
+            ]
+        ),
+        0,
+    )
+    original_ids = [item.fact_id for item in state.facts]
+    displayed_orders: list[list[str]] = []
+    for sample_index in range(4):
+        messages = runner._visible_messages(
+            "客户开场。",
+            [],
+            state,
+            1,
+            fact_presentation_seed=policy_fact_presentation_seed(42, sample_index, 1),
+        )
+        payload_text = messages[-1].content.split("：\n", 1)[1].split("\n终止一致性检查", 1)[0]
+        payload = json.loads(payload_text)
+        displayed_orders.append([item["fact_id"] for item in payload["facts"]])
+        assert [item["criticality"] for item in payload["facts"]] == [
+            "high",
+            "high",
+            "high",
+            "medium",
+            "medium",
+            "low",
+        ]
+        assert set(displayed_orders[-1]) == {
+            "high_a",
+            "high_b",
+            "high_c",
+            "medium_a",
+            "medium_b",
+            "low_a",
+        }
+    assert len({tuple(item) for item in displayed_orders}) >= 2
+    assert [item.fact_id for item in state.facts] == original_ids
+    assert policy_fact_presentation_seed(42, 0, 1) == 420_000
+    assert policy_fact_presentation_seed(42, 3, 4) == 420_303
+
+
+def test_policy_schema_keeps_planned_targets_and_open_fact_sentinel() -> None:
+    runner, _, _ = _runner()
+    state = StateManager().initial("target-schema", "客户开场。", max_turns=6)
+    state.facts.append(
+        FactSlot(
+            fact_id="visible_fact",
+            label="可见事实",
+            status="unknown",
+            criticality="high",
+            target_kind="client_fact",
+        )
+    )
+
+    schema = runner._policy_output_schema_for_state(state)
+    target_schema = schema["$defs"]["StructuredAction"]["properties"]["target_id"]
+    allowed = target_schema["anyOf"][0]["enum"]
+
+    assert "visible_fact" in allowed
+    assert NEW_VISIBLE_GAP_TARGET_ID in allowed
+    assert "target_id" not in allowed
+    assert target_schema["anyOf"][1] == {"type": "null"}
+
+
+def test_policy_schema_keeps_open_fact_sentinel_without_planned_targets() -> None:
+    runner, _, _ = _runner()
+    state = StateManager().initial("target-schema-exhausted", "客户开场。", max_turns=6)
+
+    schema = runner._policy_output_schema_for_state(state)
+    action_properties = schema["$defs"]["StructuredAction"]["properties"]
+
+    assert NEW_VISIBLE_GAP_TARGET_ID in action_properties["target_id"]["anyOf"][0]["enum"]
+
+
+def test_unresolved_targets_prompt_preserves_adaptive_stop_choice() -> None:
+    runner, _, _ = _runner()
+    state = StateManager().initial("adaptive-stop", "客户开场。", max_turns=24)
+    state = StateManager().merge(
+        state,
+        StatePatch(
+            observations=[
+                FactObservation(
+                    fact_id="remaining_material_gap",
+                    label="尚待材料核验的事项",
+                    status="unknown",
+                    criticality="high",
+                    target_kind="evidence_or_third_party",
+                )
+            ]
+        ),
+        0,
+    )
+    message = runner._visible_messages("客户开场。", [], state, 3)[-1].content
+    assert "不构成必须继续或必须结束的系统规则" in message
+    assert "若选择终止，不得声称未知事项已经查明" in message
+    assert "若没有针对剩余目标的具体可见依据，请选择" not in message
+
+
+def test_nonterminal_last_turn_is_recorded_as_horizon_exhaustion() -> None:
+    runner, policy, selector = _runner()
+    third_unknown = {
+        "fact_id": "F3",
+        "label": "履行经过的书面材料",
+        "status": "unknown",
+        "value": None,
+        "evidence_labels": [],
+        "confidence": 0.5,
+        "criticality": "medium",
+    }
+    policy.responses[-1] = _policy(
+        {
+            "action_type": "ask",
+            "target_id": "F3",
+            "content": "您是否还有其他能够直接核实履行经过的材料？",
+        },
+        [third_unknown],
+    )
+    selector.responses.extend(
+        [
+            '{"fact_ids":[]}',
+            '{"answers_question":false}',
+            '{"answers_question":false}',
+            '{"fact_ids":[]}',
+        ]
+    )
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_horizon",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    assert trajectory.status == "max_turns_forced_memo"
+    assert trajectory.steps[-1].stop_gate_verdict == "EXHAUSTED"
+    assert trajectory.steps[-1].stop_gate_reason == ("dialogue_horizon_exhausted_after_interaction")
+    assert len([step for step in trajectory.steps if step.client_response is not None]) == 3
+
+
+def test_nonrepairable_management_patch_is_discarded_before_state_merge() -> None:
+    runner, policy, _ = _runner()
+    invalid = _policy(
+        {"action_type": "final", "content": ""},
+        [
+            {
+                "fact_id": "opening_statement",
+                "label": "客户开场陈述",
+                "status": "client_claimed",
+                "value": _case()["opening"],
+                "evidence_labels": [],
+                "confidence": 1.0,
+                "criticality": "low",
+            }
+        ],
+    )
+    policy.responses = [invalid, invalid, invalid]
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_discard_management_patch",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    step = trajectory.steps[0]
+    assert step.state_patch.observations == []
+    opening_facts = [
+        item for item in step.state_after["facts"] if item["fact_id"] == "opening_statement"
+    ]
+    assert len(opening_facts) == 1
+    assert opening_facts[0]["source_turns"] == [0]
+
+
+def test_known_target_repeat_is_executed_and_retained_as_model_behavior() -> None:
+    runner, policy, _ = _runner()
+    invalid = _policy(
+        {
+            "action_type": "ask",
+            "target_id": "opening_statement",
+            "content": "请重复开场？",
+        },
+        [],
+    )
+    repaired = _policy(
+        {
+            "action_type": "ask",
+            "target_id": NEW_VISIBLE_GAP_TARGET_ID,
+            "expected_information": "付款凭证的具体种类",
+            "content": "您目前有哪一份付款凭证？",
+        },
+        [],
+    )
+    policy.responses = [invalid, repaired]
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_policy_repair_context",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=1,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    assert len(policy.seen) == 1
+    assert trajectory.steps[0].rendered_question == "请重复开场？"
+    assert len(trajectory.steps[0].policy_attempts) == 1
+    assert "ask_target_not_unresolved:opening_statement:client_claimed" in (
+        trajectory.steps[0].policy_health_violations
+    )
+
+
+def test_empty_policy_completion_uses_bounded_role_repair_without_refeeding() -> None:
+    runner, policy, _ = _runner()
+    repaired = _policy(
+        {
+            "action_type": "ask",
+            "target_id": "payment_document",
+            "content": "您目前有哪一份付款凭证？",
+        },
+        [],
+    )
+    policy.responses = ["", repaired]
+    state = StateManager().initial("empty-policy-role-repair", _case()["opening"], max_turns=6)
+    state.facts.append(
+        FactSlot(
+            fact_id="payment_document",
+            label="付款凭证",
+            status="unknown",
+            criticality="high",
+        )
+    )
+
+    envelope, attempts, violations = runner._generate_policy(
+        [Message(role="system", content="只输出动作JSON")], state, 42
+    )
+
+    assert envelope.action.target_id == "payment_document"
+    assert violations == []
+    assert len(attempts) == 2
+    assert attempts[0].raw_output == ""
+    assert attempts[0].parse_mode == "fallback"
+    assert "invalid_structured_output" in attempts[0].health_violations
+    assert all(message["role"] != "assistant" for message in policy.seen[1])
+    assert "invalid_structured_output" in policy.seen[1][-1]["content"]
+
+
+def test_unified_action_repair_retains_full_document_context() -> None:
+    runner, policy, _ = _runner()
+    skill = synthetic_skills()[0]
+    policy.responses = [
+        _policy(
+            {
+                "action_type": "ask",
+                "target_id": "different_target",
+                "content": "请说明另一事项？",
+            },
+            [],
+        ),
+        _policy(
+            {
+                "action_type": "ask",
+                "target_id": "communication_records",
+                "expected_information": "双方书面沟通记录",
+                "content": "双方现有书面沟通记录具体记载了什么？",
+            },
+            [],
+        ),
+    ]
+    state = StateManager().initial("joint-repair-card", "合同发生争议。", max_turns=6)
+    state.facts.append(
+        FactSlot(
+            fact_id="communication_records",
+            label="双方书面沟通记录",
+            status="unknown",
+            criticality="high",
+            target_kind="client_fact",
+        )
+    )
+
+    envelope, attempts, violations = runner._generate_policy(
+        [
+            Message(
+                role="system",
+                content=(
+                    "以下状态与技能均为当前可见信息。"
+                    + render_skill_memory([skill], domain=skill.domain)[0]
+                ),
+            )
+        ],
+        state,
+        42,
+    )
+
+    assert envelope.action.target_id == "communication_records"
+    assert violations == []
+    assert len(attempts) == 2
+    # Every bounded full-action attempt retains the complete session document.
+    for request in policy.seen:
+        delivered = "\n".join(str(message["content"]) for message in request)
+        assert skill.skill_id in delivered
+        assert "decision_rule" in delivered
+        assert skill.procedure[0] in delivered
+
+
+def test_target_selection_catalog_excludes_exhausted_slots_but_keeps_withheld_open() -> None:
+    runner, _, _ = _runner()
+    manager = StateManager()
+    state = manager.initial("actionable-target-catalog", "合同履行发生争议。", max_turns=6)
+    state.facts.extend(
+        [
+            FactSlot(
+                fact_id="answered_fact",
+                label="已经回答的事实",
+                status="unknown",
+                target_kind="client_fact",
+            ),
+            FactSlot(
+                fact_id="unavailable_fact",
+                label="客户不知道的事实",
+                status="unknown",
+                target_kind="client_fact",
+            ),
+            FactSlot(
+                fact_id="withheld_fact",
+                label="客户暂未披露的事实",
+                status="unknown",
+                target_kind="client_fact",
+            ),
+            FactSlot(
+                fact_id="unasked_fact",
+                label="尚未询问的事实",
+                status="unknown",
+                target_kind="client_fact",
+            ),
+            FactSlot(
+                fact_id="disputed_fact",
+                label="仍待澄清的争议事实",
+                status="disputed",
+                target_kind="client_fact",
+            ),
+        ]
+    )
+    state = manager.mark_interaction(
+        state,
+        turn=1,
+        action_type="ask",
+        target_id="answered_fact",
+        question="已经回答的事实是什么？",
+        target_answered=True,
+        client_response="客户已说明。",
+        response_kind="new_hidden_fact",
+        disclosed_fact_ids=["F1"],
+    )
+    state = manager.mark_interaction(
+        state,
+        turn=2,
+        action_type="ask",
+        target_id="unavailable_fact",
+        question="客户不知道的事实是什么？",
+        target_not_available=True,
+        response_kind="unavailable",
+    )
+    state = manager.mark_interaction(
+        state,
+        turn=3,
+        action_type="ask",
+        target_id="withheld_fact",
+        question="客户暂未披露的事实是什么？",
+        response_kind="withheld",
+    )
+
+    assert runner._visible_policy_target_ids(state) == [
+        "disputed_fact",
+        NEW_VISIBLE_GAP_TARGET_ID,
+        "unasked_fact",
+        "withheld_fact",
+    ]
+
+
+def test_new_visible_gap_remains_available_as_lawyer_authored_fact_dimension() -> None:
+    runner, _, _ = _runner()
+    manager = StateManager()
+    state = manager.initial("conditional-new-gap", "合同履行发生争议。", max_turns=6)
+    state = manager.mark_interaction(
+        state,
+        turn=1,
+        action_type="ask",
+        target_id="planned_fact",
+        question="对方何时停止履行？",
+        target_answered=True,
+        client_response="上周一停止履行。",
+        response_kind="new_hidden_fact",
+        disclosed_fact_ids=["F1"],
+    )
+    assert runner._visible_policy_target_ids(state) == [NEW_VISIBLE_GAP_TARGET_ID]
+
+    state = manager.mark_interaction(
+        state,
+        turn=2,
+        action_type="ask",
+        target_id="missing_record",
+        question="您是否有当时的通话记录？",
+        target_not_available=True,
+        response_kind="unavailable",
+    )
+    assert runner._visible_policy_target_ids(state) == [NEW_VISIBLE_GAP_TARGET_ID]
+
+
+def test_compound_policy_behavior_remains_scoreable_without_hidden_rewrite() -> None:
+    runner, policy, _ = _runner()
+    state = StateManager().initial(
+        "stagnated-policy-role-repair",
+        "我在保安公司工作期间与公司发生社会保险安排争议，公司称我已签字同意改领补助。",
+        max_turns=6,
+    )
+    state.facts.append(
+        FactSlot(
+            fact_id="signed_agreement_details",
+            label="是否签署过替代社保的补助协议？",
+            status="unknown",
+            criticality="high",
+        )
+    )
+    compound = _policy(
+        {
+            "action_type": "ask",
+            "target_id": "signed_agreement_details",
+            "content": (
+                "您是否签署了替代社会保险的补助协议？如果签署了，请说明协议的具体内容和签署过程。"
+            ),
+        },
+        [],
+    )
+    policy.responses = [compound]
+
+    envelope, attempts, violations = runner._generate_policy(
+        [Message(role="system", content="只输出动作JSON")], state, 42
+    )
+
+    assert envelope.action.content == (
+        "您是否签署了替代社会保险的补助协议？如果签署了，请说明协议的具体内容和签署过程。"
+    )
+    assert violations == ["multiple_primary_questions"]
+    assert len(attempts) == 1
+    assert attempts[0].health_violations == ["multiple_primary_questions"]
+    assert len(policy.seen) == 1
+
+
+def test_compound_open_gap_is_executed_as_scoreable_model_behavior() -> None:
+    runner, policy, _ = _runner()
+    state = StateManager().initial(
+        "compound-open-gap-execution",
+        "跨境货物买卖合同履行发生争议。",
+        max_turns=6,
+    )
+    compound_open_gap = _policy(
+        {
+            "action_type": "ask",
+            "target_id": NEW_VISIBLE_GAP_TARGET_ID,
+            "expected_information": "合同约定的适用法律规则及质量标准",
+            "content": "合同是否约定了适用法律规则以及质量标准？",
+        },
+        [],
+    )
+    atomic_open_gap = _policy(
+        {
+            "action_type": "ask",
+            "target_id": NEW_VISIBLE_GAP_TARGET_ID,
+            "expected_information": "合同约定的质量标准",
+            "content": "合同约定的质量标准是什么？",
+        },
+        [],
+    )
+    policy.responses = [
+        compound_open_gap,
+        atomic_open_gap,
+    ]
+
+    envelope, attempts, violations = runner._generate_policy(
+        [Message(role="system", content="只输出动作JSON")], state, 42
+    )
+
+    assert envelope.action.action_type == "ask"
+    assert envelope.action.target_id.startswith("dialogue_fact_")
+    assert envelope.action.content == "合同是否约定了适用法律规则以及质量标准？"
+    assert len(envelope.state_patch.observations) == 1
+    assert set(violations) == {
+        "multiple_primary_questions",
+        "question_requests_legal_judgment_from_client",
+    }
+    assert len(attempts) == 1
+    assert len(policy.seen) == 1
+
+
+@pytest.mark.parametrize(
+    ("expected_information", "question", "expected_warning"),
+    [
+        (
+            "竞争方在质疑中提供的具体证据",
+            "竞争方在质疑中提供了哪些具体证据？",
+            None,
+        ),
+    ],
+)
+def test_safe_open_gap_policy_reaches_scoring_without_contract_repair(
+    expected_information: str,
+    question: str,
+    expected_warning: str | None,
+) -> None:
+    runner, policy, _ = _runner()
+    state = StateManager().initial(
+        "open-gap-scoreable-behaviour",
+        "某公司参加采购项目后受到竞争方质疑。",
+        max_turns=6,
+    )
+    policy.responses = [
+        _policy(
+            {
+                "action_type": "ask",
+                "target_id": NEW_VISIBLE_GAP_TARGET_ID,
+                "expected_information": expected_information,
+                "content": question,
+            },
+            [],
+        ),
+        _policy({"action_type": "final", "content": ""}, []),
+    ]
+
+    envelope, attempts, violations = runner._generate_policy(
+        [Message(role="system", content="只输出动作JSON")], state, 42
+    )
+
+    assert envelope.action.action_type == "ask"
+    assert envelope.action.content == question
+    assert envelope.action.target_id.startswith("dialogue_fact_open_")
+    assert len(attempts) == 1
+    assert len(policy.seen) == 1
+    assert not any(item.startswith("unsafe_new_fact_target:") for item in violations)
+    assert not any(item.startswith("question_target_") for item in violations)
+    assert expected_warning is None
+    assert violations == []
+
+
+def test_legal_judgment_question_is_executed_as_scoreable_model_behavior() -> None:
+    runner, policy, _ = _runner()
+    state = StateManager().initial(
+        "legal-judgment-repair",
+        "某公司参加采购项目后受到竞争方质疑。",
+        max_turns=6,
+    )
+    unsafe = _policy(
+        {
+            "action_type": "ask",
+            "target_id": NEW_VISIBLE_GAP_TARGET_ID,
+            "expected_information": "招标方是否遵循法定程序",
+            "content": "招标方处理质疑时是否遵循了法定程序？",
+        },
+        [],
+    )
+    repaired = _policy(
+        {
+            "action_type": "ask",
+            "target_id": NEW_VISIBLE_GAP_TARGET_ID,
+            "expected_information": "招标方收到质疑后的具体处理步骤",
+            "content": "招标方收到质疑后具体做了哪些处理？",
+        },
+        [],
+    )
+    policy.responses = [unsafe, repaired]
+
+    envelope, attempts, violations = runner._generate_policy(
+        [Message(role="system", content="只输出动作JSON")], state, 42
+    )
+
+    assert envelope.action.content == "招标方处理质疑时是否遵循了法定程序？"
+    assert violations == ["question_requests_legal_judgment_from_client"]
+    assert len(attempts) == 1
+    assert "question_requests_legal_judgment_from_client" in (
+        attempts[0].health_violations
+    )
+
+
+def test_first_structural_repair_may_leave_a_scoreable_behavior_warning() -> None:
+    runner, policy, _ = _runner()
+    runner.max_policy_attempts = 3
+    state = StateManager().initial(
+        "late-question-repair",
+        "某公司参加采购项目后受到竞争方质疑。",
+        max_turns=6,
+    )
+    invalid_transport = "not-json"
+    legal_judgment = _policy(
+        {
+            "action_type": "ask",
+            "target_id": NEW_VISIBLE_GAP_TARGET_ID,
+            "expected_information": "招标方是否遵循法定程序",
+            "content": "招标方处理质疑时是否遵循了法定程序？",
+        },
+        [],
+    )
+    terminal = _policy({"action_type": "final", "content": ""}, [])
+    policy.responses = [invalid_transport, legal_judgment, terminal]
+
+    envelope, attempts, violations = runner._generate_policy(
+        [Message(role="system", content="只输出动作JSON")], state, 42
+    )
+
+    assert envelope.action.action_type == "ask"
+    assert violations == ["question_requests_legal_judgment_from_client"]
+    assert len(attempts) == 2
+    assert "question_requests_legal_judgment_from_client" in (
+        attempts[1].health_violations
+    )
+    assert len(policy.seen) == 2
+
+
+def test_compound_warning_is_recorded_without_consuming_repair_budget() -> None:
+    runner, policy, _ = _runner()
+    runner.max_policy_attempts = 5
+    state = StateManager().initial(
+        "sequential-policy-role-repair",
+        "我在保安公司工作期间与公司发生社会保险安排争议，公司称我已签字同意改领补助。",
+        max_turns=6,
+    )
+    state.facts.append(
+        FactSlot(
+            fact_id="signed_agreement_details",
+            label="是否签署过替代社保的补助协议？",
+            status="unknown",
+            criticality="high",
+        )
+    )
+    compound = _policy(
+        {
+            "action_type": "ask",
+            "target_id": "signed_agreement_details",
+            "content": "您是否签署了替代社会保险的补助协议？如果签了，协议中具体写了哪些内容？",
+        },
+        [],
+    )
+    policy.responses = [compound]
+
+    envelope, attempts, violations = runner._generate_policy(
+        [Message(role="system", content="只输出动作JSON")], state, 42
+    )
+
+    assert envelope.action.action_type == "ask"
+    assert envelope.action.content == (
+        "您是否签署了替代社会保险的补助协议？如果签了，协议中具体写了哪些内容？"
+    )
+    assert violations == ["multiple_primary_questions"]
+    assert len(attempts) == 1
+    assert attempts[0].health_violations == ["multiple_primary_questions"]
+
+
+def test_exact_repeat_is_executed_without_hidden_resampling() -> None:
+    runner, policy, _ = _runner()
+    state = StateManager().initial("repeat-repair-clean-context", "合同履行发生争议。", max_turns=6)
+    state.facts.append(
+        FactSlot(
+            fact_id="payment_status",
+            label="客户是否实际付款",
+            status="unknown",
+            criticality="high",
+        )
+    )
+    state = StateManager().mark_interaction(
+        state,
+        turn=1,
+        action_type="ask",
+        target_id="payment_status",
+        question="您是否实际付款",
+        response_kind="withheld",
+    )
+    repeated = _policy(
+        {
+            "action_type": "ask",
+            "target_id": "payment_status",
+            "content": "您是否实际付款？",
+        },
+        [],
+    )
+    runner.max_policy_attempts = 2
+    policy.responses = [repeated, repeated]
+
+    envelope, attempts, violations = runner._generate_policy(
+        [Message(role="system", content="只输出动作JSON")], state, 42
+    )
+
+    assert envelope.action.action_type == "ask"
+    assert envelope.action.content == "您是否实际付款？"
+    assert len(attempts) == 1
+    assert violations == ["repeated_question_text"]
+    assert len(policy.seen) == 1
+
+
+def test_pre_scoring_health_gate_blocks_persisted_management_patch(tmp_path: Path) -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_contaminated_state_patch",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    contaminated = trajectory.model_copy(deep=True)
+    contaminated.steps[0].state_patch = StatePatch(
+        observations=[
+            FactObservation(
+                fact_id="opening_statement",
+                label="客户开场陈述",
+                status="client_claimed",
+                value=trajectory.opening,
+            )
+        ]
+    )
+    report = trajectory_health_report([contaminated], {contaminated.case_id: _case()})
+    assert report["healthy"] is False
+    assert report["counts"]["management_fact_patch"] == 1
+    assert report["counts"]["persisted_policy_contract_failure"] >= 1
+
+    executor = object.__new__(MainExperimentExecutor)
+    executor.store = RunStore(tmp_path / "runs", "health_gate_test")
+    executor.experiment = {"execution": {"judge_workers": 1}}
+    executor.evaluator = SimpleNamespace(
+        evaluate=lambda *_: pytest.fail("semantic judge must not run after contract failure")
+    )
+    adapter = SimpleNamespace(evaluator_case=lambda _: _case())
+    with pytest.raises(ExecutionError, match="pre-scoring trajectory health contract failed"):
+        MainExperimentExecutor.score_trajectories(executor, [contaminated], adapter)
+    persisted = json.loads(
+        (executor.store.root / "health/pre_scoring_health_training_round_01.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert persisted["counts"]["management_fact_patch"] == 1
+    assert persisted["counts"]["persisted_policy_contract_failure"] >= 1
+
+
+def test_pre_scoring_health_rejects_retired_runtime_skill_rewrite() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_skill_repaired_proposal",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    repaired = trajectory.model_copy(deep=True)
+    step = repaired.steps[0]
+    invalid = step.proposed_action.model_copy(
+        update={
+            "expected_information": "付款日期和金额",
+            "content": "您付款的日期和金额分别是什么？",
+        }
+    )
+    executed = step.action_decision.final
+    step.proposed_action = invalid
+    step.action_decision.original = invalid
+    step.action_decision.activated_skill_ids = ["fixture.atomic_repair"]
+    step.action_decision.changes = [
+        {
+            "skill_id": "fixture.atomic_repair",
+            "before": invalid.model_dump(mode="json"),
+            "after": executed.model_dump(mode="json"),
+        }
+    ]
+    step.policy_health_violations = ["multiple_primary_questions"]
+    step.post_skill_health_violations = []
+
+    report = trajectory_health_report([repaired], {repaired.case_id: _case()})
+
+    assert report["healthy"] is False
+    assert report["counts"]["retired_runtime_skill_action_rewrite_observed"] == 1
+
+
+def test_protocol15_health_blocks_missing_and_changed_target_kind_provenance() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_target_kind_provenance",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+
+    missing = trajectory.model_copy(deep=True)
+    missing.steps[0].state_before["facts"][0].pop("target_kind")
+    missing_report = trajectory_health_report([missing], {missing.case_id: _case()})
+    assert missing_report["counts"]["target_kind_missing"] == 1
+
+    mismatched = trajectory.model_copy(deep=True)
+    mismatched.steps[0].state_patch.observations[0].target_kind = "evidence_or_third_party"
+    mismatch_report = trajectory_health_report([mismatched], {mismatched.case_id: _case()})
+    assert mismatch_report["counts"]["target_kind_provenance_mismatch"] >= 1
+
+
+def test_current_trajectory_contract_is_explicit_and_legacy_audit_is_opt_in() -> None:
+    runner, _, _ = _runner()
+    current = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_current_contract",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    assert current_trajectory_contract_issues(current, expected_run_id="run_test") == []
+    assert_current_trajectory_contract(current, expected_run_id="run_test")
+    run_issues = current_trajectory_contract_issues(current, expected_run_id="different_run")
+    assert [item.code for item in run_issues] == ["trajectory_run_id_mismatch"]
+
+    archived_guard = current.model_copy(update={"status": "behavior_guard_terminated"})
+    assert [
+        item.code for item in current_trajectory_contract_issues(archived_guard)
+    ] == ["retired_behavior_guard_terminal_status"]
+
+    legacy_payload = current.model_dump(mode="json")
+    legacy_payload["schema_version"] = 14
+    legacy_payload["steps"][0]["state_patch"]["observations"][0].pop("target_kind")
+    with pytest.raises(ValueError, match="active ResearchTrajectory requires"):
+        ResearchTrajectory.model_validate(legacy_payload)
+    legacy = ResearchTrajectory.model_validate_historical(legacy_payload)
+    assert legacy.schema_version == 14
+    assert legacy.steps[0].state_patch.observations[0].target_kind is None
+    assert [item.code for item in current_trajectory_contract_issues(legacy)] == [
+        "trajectory_schema_version_mismatch"
+    ]
+    historical_report = trajectory_health_report(
+        [legacy],
+        {legacy.case_id: _case()},
+        require_current_contract=False,
+    )
+    assert "trajectory_schema_version_mismatch" not in historical_report["counts"]
+
+
+def test_current_safety_payload_omits_retired_guard_metric() -> None:
+    safety = SafetyMetrics(
+        premature_final_rate=0.0,
+        behavior_guard_termination_rate=1.0,
+        unsupported_claim_rate=0.0,
+        belief_as_fact_rate=0.0,
+        repeated_question_rate=0.0,
+        critical_fact_recall=0.0,
+        hidden_field_leak=False,
+    )
+
+    assert safety.behavior_guard_termination_rate == 1.0
+    assert "behavior_guard_termination_rate" not in safety.model_dump(mode="json")
+
+
+def test_current_contract_rejects_opening_agenda_state_propagation_drift() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_agenda_propagation",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    agenda_fact = FactObservation(
+        fact_id=opening_agenda_fact_id("签了合同的发生时间"),
+        label="签了合同的发生时间",
+        status="unknown",
+        value=None,
+        evidence_labels=["public_opening_anchor:签了合同"],
+        confidence=0.5,
+        criticality="medium",
+        target_kind="client_fact",
+    )
+    trajectory.opening_inquiry_agenda = StatePatch(observations=[agenda_fact])
+    trajectory.opening_agenda_visible_input = [
+        Message(role="system", content="仅根据公开开场整理议程。"),
+        Message(role="user", content=f"客户公开开场：\n{trajectory.opening}"),
+    ]
+    trajectory.opening_agenda_attempts = [
+        PolicyAttempt(
+            raw_output="{}",
+            parse_mode="json",
+            health_violations=[],
+            deterministic_changes=[],
+        )
+    ]
+    trajectory.steps[0].state_before["facts"].append(
+        {
+            "fact_id": agenda_fact.fact_id,
+            "label": agenda_fact.label,
+            "status": "unknown",
+            "value": None,
+            "source_turns": [],
+            "evidence_ids": [],
+            "confidence": 0.5,
+            "criticality": "medium",
+            "target_kind": "client_fact",
+        }
+    )
+    expected_payload = policy_visible_state_projection(trajectory.steps[0].state_before)
+
+    def synchronize_visible_payload(payload: dict[str, object]) -> None:
+        payload.clear()
+        payload.update(expected_payload)
+
+    _mutate_policy_visible_state_payload(
+        trajectory,
+        step_index=0,
+        mutate=synchronize_visible_payload,
+    )
+    assert current_trajectory_contract_issues(trajectory, expected_run_id="run_test") == []
+
+    stale = trajectory.model_copy(deep=True)
+    agenda_state = next(
+        item
+        for item in stale.steps[0].state_before["facts"]
+        if item["fact_id"] == agenda_fact.fact_id
+    )
+    agenda_state["status"] = "corroborated"
+    agenda_state["evidence_ids"] = ["evidence_wrong"]
+    stale.steps[0].state_before["evidence"].append(
+        {
+            "evidence_id": "evidence_wrong",
+            "label": "public_opening_anchor:签了合同",
+            "availability": "claimed_available",
+            "supports": [agenda_fact.fact_id],
+        }
+    )
+
+    assert "opening_agenda_state_propagation_invalid" in {
+        item.code for item in current_trajectory_contract_issues(stale)
+    }
+
+
+def test_scoring_refuses_stale_judge_contract_cache(tmp_path: Path) -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_stale_judge_contract",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    executor = object.__new__(MainExperimentExecutor)
+    executor.store = RunStore(tmp_path / "runs", trajectory.run_id)
+    executor.experiment = {"execution": {"judge_workers": 1}}
+    executor.judge_qualification_contract_sha256 = "a" * 64
+    executor.evaluator = SimpleNamespace(
+        evaluate=lambda *_: pytest.fail("stale score must not be reused or overwritten")
+    )
+    executor.store.atomic_json(
+        executor.store.evaluation_path(trajectory.trajectory_id),
+        {
+            "schema_version": 14,
+            "judge_qualification_contract_sha256": "b" * 64,
+        },
+    )
+    adapter = SimpleNamespace(evaluator_case=lambda _: _case())
+    with pytest.raises(ExecutionError, match="stale semantic evaluation contract"):
+        MainExperimentExecutor.score_trajectories(executor, [trajectory], adapter)
+
+
+def test_scoring_refuses_stale_evolution_metric_schema(tmp_path: Path) -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_stale_evaluation_schema",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    executor = object.__new__(MainExperimentExecutor)
+    executor.store = RunStore(tmp_path / "runs", trajectory.run_id)
+    executor.experiment = {"execution": {"judge_workers": 1}}
+    executor.judge_qualification_contract_sha256 = "a" * 64
+    executor.evaluator = SimpleNamespace(
+        evaluate=lambda *_: pytest.fail("stale score must not be reused or overwritten")
+    )
+    executor.store.atomic_json(
+        executor.store.evaluation_path(trajectory.trajectory_id),
+        {
+            "schema_version": 8,
+            "judge_qualification_contract_sha256": "a" * 64,
+        },
+    )
+    adapter = SimpleNamespace(evaluator_case=lambda _: _case())
+    with pytest.raises(ExecutionError, match="stale semantic evaluation schema"):
+        MainExperimentExecutor.score_trajectories(executor, [trajectory], adapter)
+
+
+def test_pre_scoring_health_reports_abstention_with_visible_substance_as_quality() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_bad_abstention",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=1,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    # Mutate only the persisted status to isolate policy quality from data integrity.
+    trajectory.status = "abstained"
+    report = trajectory_health_report([trajectory], {trajectory.case_id: _case()})
+    assert report["healthy"] is True
+    assert report["counts"] == {}
+    assert report["quality_diagnostics"]["model_behavior_warning_counts"] == {
+        "abstention_with_substantive_visible_state": 1
+    }
+
+
+def test_pre_scoring_health_preserves_semantic_repeat_as_quality_signal() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_semantic_repeat",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    repeated = trajectory.model_copy(deep=True)
+    repeated.steps[1].client_selected_fact_ids = ["F1"]
+    repeated.steps[1].client_matched_fact_ids = ["F1"]
+    repeated.steps[1].client_disclosure_decisions = {"F1": "disclose"}
+    repeated.steps[1].client_response_kind = "repeated_hidden_fact"
+    repeated.steps[1].client_route_decision_valid = True
+    repeated.steps[1].client_response = "这项情况我刚才已经说明，目前没有更多可确认的信息。"
+    for later in repeated.steps[2:]:
+        later.visible_input[4].content = repeated.steps[1].client_response
+    report = trajectory_health_report([repeated], {repeated.case_id: _case()})
+    assert report["healthy"] is True
+    assert report["counts"] == {}
+    assert report["quality_diagnostics"]["client_semantic_repetition_no_new_information"] == 1
+
+
+def test_zero_yield_repeat_reaches_client_and_remains_in_question_denominator() -> None:
+    runner, _, _ = _runner()
+    unknown = {
+        "fact_id": "F1",
+        "label": "合同签署日期",
+        "status": "unknown",
+        "value": None,
+        "evidence_labels": [],
+        "confidence": 0.5,
+        "criticality": "high",
+        "target_kind": "client_fact",
+    }
+    repeated_action = _policy(
+        {
+            "action_type": "ask",
+            "target_id": "F1",
+            "expected_information": "合同签署日期",
+            "content": "合同是哪天签署的？",
+        },
+        [unknown],
+    )
+    runner.policy_client = ScriptedChatClient([repeated_action, repeated_action])
+    selector = ScriptedChatClient(
+        ['{"fact_ids":[]}', '{"fact_ids":[]}', '{"fact_ids":[]}', '{"fact_ids":[]}']
+    )
+    runner.client_selector = selector
+    runner.client_disclosure_classifier = selector
+
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_zero_yield_repeat",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=2,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+
+    assert trajectory.status == "max_turns_forced_memo"
+    assert len(trajectory.steps) == 2
+    assert trajectory.steps[-1].stop_gate_verdict == "EXHAUSTED"
+    assert trajectory.steps[-1].stop_gate_reason == "dialogue_horizon_exhausted_after_interaction"
+    assert trajectory.steps[-1].rendered_question == "合同是哪天签署的？"
+    assert trajectory.steps[-1].client_response is not None
+    # The second delivered turn reuses the exact-question semantic route, but it
+    # still produces a real client response and remains in the denominator.
+    assert len(selector.seen) == 2
+    assert sum(step.rendered_question is not None for step in trajectory.steps) == 2
+    report = trajectory_health_report([trajectory], {trajectory.case_id: _case()})
+    # The emergency horizon is a real, scoreable policy outcome rather than
+    # process corruption.  Keep it diagnostic so the teacher can attribute the
+    # low-efficiency failure without blocking the batch.
+    assert report["healthy"] is True
+    assert report["counts"] == {}
+    assert report["quality_diagnostics"][
+        "emergency_turn_ceiling_reached_count"
+    ] == 1
+    assert report["quality_diagnostics"]["model_behavior_warning_counts"][
+        "exact_repeated_question"
+    ] == 1
+
+
+def test_pre_scoring_health_separates_verifier_warning_from_integrity_failure() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_verifier_tiers",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    warning_only = trajectory.model_copy(deep=True)
+    warning_only.steps[0].verifier_results = [
+        VerificationResult(
+            validator_id="question_not_repeated",
+            passed=False,
+            severity="warning",
+            detail="policy repeated a visible question",
+        )
+    ]
+    warning_report = trajectory_health_report([warning_only], {warning_only.case_id: _case()})
+    assert warning_report["healthy"] is True
+    assert warning_report["counts"] == {}
+    assert warning_report["quality_diagnostics"]["model_behavior_warning_counts"] == {
+        "verifier_warning:question_not_repeated": 1
+    }
+
+    integrity_failure = trajectory.model_copy(deep=True)
+    integrity_failure.steps[0].verifier_results = [
+        VerificationResult(
+            validator_id="no_hidden_fields",
+            passed=False,
+            severity="severe",
+            detail="hidden evaluator field reached the online action",
+        )
+    ]
+    severe_report = trajectory_health_report(
+        [integrity_failure], {integrity_failure.case_id: _case()}
+    )
+    assert severe_report["healthy"] is False
+    assert severe_report["counts"] == {"verifier_failure": 1}
+
+
+def test_pre_scoring_health_rejects_unavailable_without_valid_empty_route() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_invalid_unavailable_route",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    corrupted = trajectory.model_copy(deep=True)
+    step = corrupted.steps[0]
+    step.client_response_kind = "unavailable"
+    step.client_route_decision_valid = False
+    step.client_safe_fallback = False
+    step.client_selected_fact_ids = []
+    step.client_opening_reference_ids = []
+    step.client_matched_fact_ids = []
+    step.client_disclosure_decisions = {}
+
+    report = trajectory_health_report([corrupted], {corrupted.case_id: _case()})
+
+    assert report["healthy"] is False
+    assert report["counts"]["client_unavailable_without_valid_empty_route"] == 1
+
+
+def test_pre_scoring_health_separates_grounded_public_opening_reference() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_opening_grounding",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    grounded = trajectory.model_copy(deep=True)
+    grounded.steps[0].client_selected_fact_ids = []
+    grounded.steps[0].client_opening_reference_ids = ["O1"]
+    grounded.steps[0].client_matched_fact_ids = ["O1"]
+    grounded.steps[0].client_disclosure_decisions = {"O1": "disclose"}
+    grounded.steps[0].client_response_kind = "opening_repeat"
+    grounded.steps[0].client_route_decision_valid = True
+    grounded.steps[
+            0
+        ].client_response = (
+            "开场时我已经说明过：我与对方签了合同，现在对履行情况有争议；目前没有更多可确认的信息。"
+        )
+    for later in grounded.steps[1:]:
+        later.visible_input[2].content = grounded.steps[0].client_response
+    report = trajectory_health_report([grounded], {grounded.case_id: _case()})
+    assert report["healthy"] is True
+    assert report["counts"] == {}
+
+
+def test_adaptive_termination_contract_is_independent_of_configured_horizon() -> None:
+    assert all(termination_contract_check(turns)["passed"] for turns in (4, 6, 8))
+
+
+def test_investigation_planner_accepts_visible_fact_agenda_and_rejects_legal_task() -> None:
+    state = StateManager().initial("planner", "房屋分割咨询。", max_turns=6)
+    valid = json.dumps(
+        {
+            "issue_labels": ["房屋分割方案及证据基础"],
+            "unknowns": [
+                {
+                    "fact_id": "current_market_value",
+                    "label": "房屋当前市场价值",
+                    "criticality": "high",
+                    "target_kind": "evidence_or_third_party",
+                },
+                {
+                    "fact_id": "family_care_contribution",
+                    "label": "客户实际承担的家庭照料投入",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, mode, violations, changes = parse_investigation_plan(valid, state)
+    assert mode == "json"
+    assert violations == []
+    assert changes == []
+    assert [item.fact_id for item in patch.observations] == [
+        "current_market_value",
+        "family_care_contribution",
+    ]
+    assert [item.target_kind for item in patch.observations] == [
+        "evidence_or_third_party",
+        "client_fact",
+    ]
+
+    invalid = json.dumps(
+        {
+            "issue_labels": ["房屋分割"],
+            "unknowns": [
+                {
+                    "fact_id": "required_documents",
+                    "label": "离婚所需材料清单",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    _, _, violations, _ = parse_investigation_plan(invalid, state)
+    assert violations == ["unsafe_planner_target:required_documents"]
+
+
+def test_investigation_planner_rejects_unknown_without_explicit_target_kind() -> None:
+    state = StateManager().initial("planner-missing-target-kind", "合同履行发生争议。", max_turns=6)
+    missing_target_kind = json.dumps(
+        {
+            "issue_labels": ["合同履行"],
+            "unknowns": [
+                {
+                    "fact_id": "delivery_date",
+                    "label": "货物实际交付日期",
+                    "criticality": "high",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+
+    patch, mode, violations, changes = parse_investigation_plan(missing_target_kind, state)
+
+    assert mode == "json"
+    assert patch.observations == []
+    assert violations == ["invalid_planner_unknown_schema:0"]
+    assert changes == []
+
+
+def test_investigation_planner_disambiguates_copied_ids_after_a_safe_split() -> None:
+    state = StateManager().initial("planner-split-id", "房屋抵债争议。", max_turns=6)
+    value = json.dumps(
+        {
+            "issue_labels": ["抵债履行"],
+            "unknowns": [
+                {
+                    "fact_id": "execution_details",
+                    "label": "房屋抵债的具体履行方式",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "execution_details",
+                    "label": "房屋是否已经完成交付",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, changes = parse_investigation_plan(value, state)
+    assert violations == []
+    assert len({item.fact_id for item in patch.observations}) == 2
+    assert any(item.startswith("disambiguate_duplicate_planner_fact_id:") for item in changes)
+
+
+def test_investigation_planner_rejects_unestablished_client_payment_attributes() -> None:
+    state = StateManager().initial(
+        "planner-payment-presupposition",
+        "房屋原由丈夫购置，婚后加上了我的名字。",
+        max_turns=6,
+    )
+    value = json.dumps(
+        {
+            "issue_labels": ["房屋分割"],
+            "unknowns": [
+                {
+                    "fact_id": "client_payment_amount",
+                    "label": "婚后我实际支付的房屋出资金额",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, changes = parse_investigation_plan(value, state)
+    assert patch.observations == []
+    assert violations == ["presupposes_unestablished_client_payment:client_payment_amount"]
+    assert any(item.endswith(":presupposes_unestablished_client_payment") for item in changes)
+
+    existence = json.dumps(
+        {
+            "issue_labels": ["房屋分割"],
+            "unknowns": [
+                {
+                    "fact_id": "client_contribution",
+                    "label": "客户是否对房屋有实际出资或投入",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, _ = parse_investigation_plan(existence, state)
+    assert violations == []
+    assert [item.fact_id for item in patch.observations] == ["client_contribution"]
+
+
+def test_investigation_planner_preserves_official_procedure_mechanism() -> None:
+    state = StateManager().initial(
+        "planner-procedure-mechanism",
+        "我在民事执行中接受房屋抵债，尚未过户时房屋又被纳入追缴。",
+        max_turns=24,
+    )
+    value = json.dumps(
+        {
+            "issue_labels": ["执行抵债与追缴"],
+            "unknowns": [
+                {
+                    "fact_id": "private_deed_date",
+                    "label": "抵债协议签署的具体日期",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "private_deed_payment",
+                    "label": "抵债协议中已支付的款项金额",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "criminal_judgment_date",
+                    "label": "关联刑事判决生效的具体日期",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "criminal_judgment_number",
+                    "label": "关联刑事判决的案号",
+                    "criticality": "low",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "execution_order_exists",
+                    "label": "法院是否作出以物抵债执行裁定",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+
+    patch, _, violations, changes = parse_investigation_plan(value, state)
+
+    assert violations == [
+        "introduces_unestablished_private_transaction_mechanism:private_deed_date",
+        "introduces_unestablished_private_transaction_mechanism:private_deed_payment",
+        "presupposes_unestablished_response_event:criminal_judgment_date",
+        "presupposes_unestablished_response_event:criminal_judgment_number",
+    ]
+    assert [item.fact_id for item in patch.observations] == ["execution_order_exists"]
+    assert any(
+        item.endswith(":introduces_unestablished_private_transaction_mechanism") for item in changes
+    )
+
+    existence_value = json.dumps(
+        {
+            "issue_labels": ["执行抵债"],
+            "unknowns": [
+                {
+                    "fact_id": "execution_order_exists",
+                    "label": "法院抵债裁定书是否已出具",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    existence_patch, _, existence_violations, _ = parse_investigation_plan(existence_value, state)
+    assert existence_violations == []
+    assert [item.fact_id for item in existence_patch.observations] == ["execution_order_exists"]
+
+    custody_instrument_value = json.dumps(
+        {
+            "issue_labels": ["子女抚养安排"],
+            "unknowns": [
+                {
+                    "fact_id": "custody_instrument_exists",
+                    "label": "是否存在关于子女抚养权的书面协议或判决",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    custody_patch, _, custody_violations, _ = parse_investigation_plan(
+        custody_instrument_value,
+        StateManager().initial(
+            "planner-custody-instrument-existence",
+            "丈夫未经同意把孩子带到外省。",
+            max_turns=24,
+        ),
+    )
+    assert custody_violations == []
+    assert [item.fact_id for item in custody_patch.observations] == ["custody_instrument_exists"]
+
+    private_state = StateManager().initial(
+        "planner-private-deed",
+        "我与债务人签订了房屋抵债协议，但还没有办理过户。",
+        max_turns=24,
+    )
+    private_value = json.dumps(
+        {
+            "issue_labels": ["私人抵债协议"],
+            "unknowns": [
+                {
+                    "fact_id": "private_deed_date",
+                    "label": "抵债协议签署的具体日期",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    private_patch, _, private_violations, _ = parse_investigation_plan(private_value, private_state)
+    assert private_violations == []
+    assert [item.fact_id for item in private_patch.observations] == ["private_deed_date"]
+
+
+def test_investigation_planner_rejects_high_priority_date_refinement_of_opening_event() -> None:
+    state = StateManager().initial(
+        "planner-date",
+        "房屋婚后登记到了夫妻双方名下。",
+        max_turns=6,
+    )
+    value = json.dumps(
+        {
+            "issue_labels": ["房屋分割"],
+            "unknowns": [
+                {
+                    "fact_id": "registration_exact_date",
+                    "label": "房屋登记到双方名下的具体日期",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, changes = parse_investigation_plan(value, state)
+    assert violations == []
+    assert patch.observations[0].criticality == "medium"
+    assert "cap_opening_event_date_criticality:registration_exact_date:high->medium" in changes
+
+
+def test_investigation_planner_caps_generic_time_refinement_when_stage_is_known() -> None:
+    state = StateManager().initial(
+        "planner-stage-time",
+        "房屋婚前购买，婚后登记到了夫妻双方名下。",
+        max_turns=6,
+    )
+    value = json.dumps(
+        {
+            "issue_labels": ["房屋分割"],
+            "unknowns": [
+                {
+                    "fact_id": "purchase_time",
+                    "label": "房屋最初购买的时间",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, changes = parse_investigation_plan(value, state)
+    assert violations == []
+    assert patch.observations[0].criticality == "medium"
+    assert "cap_opening_event_date_criticality:purchase_time:high->medium" in changes
+
+
+def test_investigation_planner_downgrades_identifiers_and_stably_orders_criticality() -> None:
+    state = StateManager().initial(
+        "planner-identifier-priority",
+        "行政机关作出处理后发生争议。",
+        max_turns=24,
+    )
+    rejected = json.dumps(
+        {
+            "issue_labels": ["行政处理"],
+            "unknowns": [
+                {
+                    "fact_id": "decision_number",
+                    "label": "行政决定的具体文号",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, changes = parse_investigation_plan(rejected, state)
+    assert violations == []
+    assert patch.observations[0].criticality == "low"
+    assert "cap_precise_identifier_criticality:decision_number:high->low" in changes
+
+    accepted = json.dumps(
+        {
+            "issue_labels": ["行政处理"],
+            "unknowns": [
+                {
+                    "fact_id": "decision_number",
+                    "label": "行政决定的具体文号",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "decision_content",
+                    "label": "行政决定载明的具体内容",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, changes = parse_investigation_plan(accepted, state)
+    assert violations == []
+    assert [item.fact_id for item in patch.observations] == [
+        "decision_content",
+        "decision_number",
+    ]
+    assert any(
+        item.startswith("stable_sort_planner_targets_by_model_criticality:") for item in changes
+    )
+
+    document_name = json.dumps(
+        {
+            "issue_labels": ["行政处理"],
+            "unknowns": [
+                {
+                    "fact_id": "credential_name",
+                    "label": "资质证明文件的名称",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "credential_content",
+                    "label": "资质证明文件的具体内容",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, _ = parse_investigation_plan(document_name, state)
+    assert violations == []
+    assert [item.criticality for item in patch.observations] == ["high", "medium"]
+
+
+def test_investigation_planner_preserves_safe_items_and_audits_long_id_shortening() -> None:
+    state = StateManager().initial("planner-partial", "合同履行发生争议。", max_turns=6)
+    long_id = "original_financial_responsibility_removal_agreement_effectiveness"
+    value = json.dumps(
+        {
+            "issue_labels": ["合同履行"],
+            "unknowns": [
+                {
+                    "fact_id": long_id,
+                    "label": "双方解除原付款安排时实际签署的协议内容",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "legal_result",
+                    "label": "该协议是否具有法律效力",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, changes = parse_investigation_plan(value, state)
+    assert violations == ["unsafe_planner_target:legal_result"]
+    assert len(patch.observations) == 1
+    assert patch.observations[0].fact_id != long_id
+    assert len(patch.observations[0].fact_id) <= 64
+    assert changes and changes[0].startswith(f"shorten_planner_fact_id:{long_id}->")
+
+
+def test_planner_drops_attributes_of_response_event_denied_by_opening() -> None:
+    state = StateManager().initial(
+        "planner-no-response",
+        "我们连续三次申请行政补偿都没有答复。",
+        max_turns=24,
+    )
+    value = json.dumps(
+        {
+            "issue_labels": ["行政补偿申请未答复"],
+            "unknowns": [
+                {
+                    "fact_id": "decision_content",
+                    "label": "区政府作出的行政补偿决定的具体内容",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "nonresponse_reason",
+                    "label": "区政府未作出答复的具体理由",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+
+    patch, mode, violations, changes = parse_investigation_plan(value, state)
+
+    assert mode == "json"
+    assert violations == ["presupposes_opening_negated_response_event:decision_content"]
+    assert [item.fact_id for item in patch.observations] == ["nonresponse_reason"]
+    assert "reject_planner_target:decision_content:区政府作出的行政补偿决定的具体内容" in changes
+    assert (
+        "reject_planner_reason:decision_content:presupposes_opening_negated_response_event"
+        in changes
+    )
+
+
+def test_planner_drops_content_of_response_event_not_established_by_opening() -> None:
+    assert asks_response_event_existence("银行是否实际发出提前清偿通知")
+    assert asks_response_event_existence("是否已有对相关人员的处罚决定")
+    assert asks_response_event_existence("处罚决定是否已经作出")
+    assert asks_response_event_existence("刑事追缴决定是否已实际作出")
+    assert asks_response_event_existence("刑事追缴决定是否已实际收到")
+    assert asks_response_event_existence("执法机关是否开具了处罚决定书")
+    assert asks_response_event_existence("是否已通知相关诉讼当事人")
+    assert asks_response_event_existence("银行是否有任何书面或口头回应")
+    assert asks_response_event_existence("政府部门有无正式回复")
+    assert asks_response_event_existence("对方是否已正式回应质疑")
+    assert asks_response_event_existence("主管部门有无回复申请")
+    assert asks_response_event_existence("事故认定书、医疗记录及保险理赔通知书是否实际存在")
+    assert not asks_response_event_existence("对方回应质疑的具体内容")
+    assert not asks_response_event_existence("保险理赔通知书的具体内容")
+    assert not asks_response_event_existence("对方是否已说明回应的具体理由")
+    assert not asks_response_event_existence("刑事追缴决定作出机关是否已经存在")
+    assert not asks_response_event_existence("刑事追缴决定所依据的文件是否已经存在")
+    assert not asks_response_event_existence("执法机关开具的处罚决定书具体引用哪些条款")
+    assert response_event_terms_in("是否有其他部门参与决定补偿金额") == set()
+    assert response_event_terms_in("是否已有对相关人员的处罚决定") == {"决定"}
+    assert response_event_terms_in("银行是否有任何书面或口头回应") == {"回应"}
+    assert response_event_terms_in("我在工地受伤并已被认定工伤") == set()
+    assert response_event_terms_in("我在工地受伤但尚未被认定工伤") == set()
+    assert asks_response_event_existence("文体部门退件决定书是否实际作出")
+    state = StateManager().initial(
+        "planner-unestablished-notice",
+        "银行要求公司提前清偿贷款，理由涉及迟延和保证人风险。",
+        max_turns=24,
+    )
+    value = json.dumps(
+        {
+            "issue_labels": ["提前清偿是否适当"],
+            "unknowns": [
+                {
+                    "fact_id": "notice_content",
+                    "label": "银行要求提前清偿贷款的具体通知内容",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "notice_existence",
+                    "label": "银行是否实际发出提前清偿通知",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "notice_sender",
+                    "label": "银行发出提前清偿通知的发送方",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "personnel_decision_existence",
+                    "label": "是否已有对相关人员的处罚决定",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "party_notification_action",
+                    "label": "是否已通知相关诉讼当事人",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+
+    patch, mode, violations, changes = parse_investigation_plan(value, state)
+
+    assert mode == "json"
+    assert violations == [
+        "presupposes_unestablished_response_event:notice_content",
+        "presupposes_unestablished_response_event:notice_sender",
+    ]
+    assert [item.fact_id for item in patch.observations] == [
+        "notice_existence",
+        "personnel_decision_existence",
+        "party_notification_action",
+    ]
+    assert (
+        "reject_planner_reason:notice_content:presupposes_unestablished_response_event" in changes
+    )
+
+    established_determination = StateManager().initial(
+        "planner-established-determination",
+        "我在工地受伤并已被认定工伤。",
+        max_turns=24,
+    )
+    determination_value = json.dumps(
+        {
+            "issue_labels": ["工伤待遇"],
+            "unknowns": [
+                {
+                    "fact_id": "work_injury_certification_basis",
+                    "label": "工伤认定决定书认定依据",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    determination_patch, _, determination_violations, _ = parse_investigation_plan(
+        determination_value, established_determination
+    )
+    assert determination_violations == []
+    assert [item.fact_id for item in determination_patch.observations] == [
+        "work_injury_certification_basis"
+    ]
+
+    unestablished_determination = StateManager().initial(
+        "planner-unestablished-determination",
+        "我在工地受伤但尚未被认定工伤。",
+        max_turns=24,
+    )
+    _, _, unestablished_violations, _ = parse_investigation_plan(
+        determination_value, unestablished_determination
+    )
+    assert unestablished_violations == [
+        "presupposes_unestablished_response_event:work_injury_certification_basis"
+    ]
+
+    compound_value = json.dumps(
+        {
+            "issue_labels": ["提前清偿是否适当"],
+            "unknowns": [
+                {
+                    "fact_id": "notice_content_compound",
+                    "label": "对方通知或告知相关招用行为的具体内容是什么",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    _, _, compound_violations, compound_changes = parse_investigation_plan(compound_value, state)
+    assert compound_violations == [
+        "presupposes_unestablished_response_event:notice_content_compound",
+        "unsafe_planner_target:notice_content_compound",
+    ]
+    compound_reason = next(
+        change
+        for change in compound_changes
+        if change.startswith("reject_planner_reason:notice_content_compound:")
+    )
+    assert "multiple_primary_questions" in compound_reason
+    assert "presupposes_unestablished_response_event" in compound_reason
+
+
+def test_planner_does_not_treat_missing_delivery_evidence_as_no_notice_event() -> None:
+    state = StateManager().initial(
+        "planner-missing-delivery-evidence",
+        "市监局认为没有向9名成员送达会议通知的证据，补正后仍不予登记。",
+        max_turns=24,
+    )
+    value = json.dumps(
+        {
+            "issue_labels": ["会议通知程序事实"],
+            "unknowns": [
+                {
+                    "fact_id": "notice_recipients",
+                    "label": "会议通知的具体收件人",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+
+    patch, _, violations, _ = parse_investigation_plan(value, state)
+
+    assert violations == []
+    assert [item.fact_id for item in patch.observations] == ["notice_recipients"]
+
+
+def test_planner_distinguishes_normative_notice_and_recorded_document_attributes() -> None:
+    state = StateManager().initial(
+        "planner-normative-basis-document",
+        "我被按当地方案收取污水处理费，但实际排污状况与城市管网关系存在争议。",
+        max_turns=24,
+    )
+    value = json.dumps(
+        {
+            "issue_labels": ["污水处理费收费合法性争议", "排污管网关系认定争议"],
+            "unknowns": [
+                {
+                    "fact_id": "charging_amount",
+                    "label": "实际收取的污水处理费金额",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "communication_existence",
+                    "label": "是否存在与收费部门沟通的具体内容和书面答复",
+                    "criticality": "medium",
+                    "target_kind": "evidence_or_third_party",
+                },
+                {
+                    "fact_id": "actual_discharge_status",
+                    "label": "实际排污行为与城市管网关系的具体描述",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "charging_basis_existence",
+                    "label": "是否存在收取费用所依据的具体政策文件或通知",
+                    "criticality": "high",
+                    "target_kind": "evidence_or_third_party",
+                },
+                {
+                    "fact_id": "receipt_content",
+                    "label": "缴费凭证上明确记载的收费项目和计算依据",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+
+    patch, _, violations, _ = parse_investigation_plan(value, state)
+
+    assert violations == []
+    assert [item.fact_id for item in patch.observations] == [
+        "charging_amount",
+        "actual_discharge_status",
+        "charging_basis_existence",
+        "receipt_content",
+        "communication_existence",
+    ]
+
+
+def test_planner_projects_only_literal_safe_atomic_prefixes() -> None:
+    state = StateManager().initial(
+        "planner-atomic-projection",
+        "公司出具的监测报告发生争议。",
+        max_turns=6,
+    )
+    value = json.dumps(
+        {
+            "issue_labels": ["报告事实与人员行为"],
+            "unknowns": [
+                {
+                    "fact_id": "monitoring_reports",
+                    "label": ("客户具体出具了哪些监测报告，包括报告编号、时间、涉及地区和行业"),
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "sampling_method",
+                    "label": ("业务人员实际采用的采样方法是否符合规范，是否存在不规范采样行为"),
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "payment_details",
+                    "label": "客户已垫付的补偿金额及具体支付方式",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "legal_outcome",
+                    "label": "客户期望的法律后果是什么，包括刑事责任和行政处罚",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, changes = parse_investigation_plan(value, state)
+    assert [item.label for item in patch.observations] == [
+        "客户具体出具了哪些监测报告",
+        "业务人员实际采用的采样方法",
+    ]
+    assert violations == [
+        "presupposes_unestablished_client_payment:payment_details",
+        "unsafe_planner_target:payment_details",
+        "unsafe_planner_target:legal_outcome",
+    ]
+    assert (
+        len([item for item in changes if item.startswith("project_planner_label_to_atomic_core:")])
+        == 2
+    )
+    assert (
+        atomic_factual_target_projection(
+            "legal_outcome", "客户期望的法律后果是什么，包括刑事责任和行政处罚"
+        )
+        is None
+    )
+    assert (
+        atomic_factual_target_projection(
+            "criminal_legal_basis", "执法机关认定公司和个人构成犯罪的具体法律依据"
+        )
+        is None
+    )
+    assert (
+        atomic_factual_target_projection("data_use_purpose", "对方插件获取数据的具体使用目的")
+        == "对方插件获取数据的具体使用目的"
+    )
+    assert atomic_factual_target_projection("infringing_product", "实际销售的侵权产品") is None
+    assert atomic_factual_target_projection("illegal_profit", "客户实际保留的非法获利金额") is None
+    assert atomic_factual_target_projection("symptoms", "治疗后出现的症状及持续时间") is None
+    assert (
+        atomic_factual_target_projection("competitor_qa_content", "竞争方提出的具体质疑内容及依据")
+        == "竞争方提出的具体质疑内容"
+    )
+    assert atomic_factual_target_projection("product", "产品名称以及供应商信息") == "产品名称"
+    assert atomic_factual_target_projection("outcome", "客户预期效果及当前实际状态") is None
+    assert (
+        atomic_factual_target_projection("pledge_effect", "股权质押是否已依法生效并具备法律约束力")
+        is None
+    )
+    assert (
+        atomic_factual_target_projection("employment_relation", "对方与员工实际存在的劳动关系")
+        is None
+    )
+    assert atomic_factual_target_projection("evidence", "是否存在直接证据证明数据被干预") is None
+    assert atomic_factual_target_projection("compliance", "公司是否已知并遵守环保法规") is None
+    assert atomic_factual_target_projection("agreements", "是否签署过保密和竞业协议") is None
+    assert atomic_factual_target_projection("measurement", "监测数据的具体数值和趋势") is None
+    assert atomic_factual_target_projection("knowledge", "客户对共同犯罪计划的了解程度") is None
+    assert atomic_factual_target_projection("knowledge", "客户是否知晓资金将被转交他人") is None
+    assert atomic_factual_target_projection("knowledge", "银行是否已知悉客户采取的措施") is None
+    assert atomic_factual_target_projection("agreement", "调解协议是否已经生效") is None
+    assert atomic_factual_target_projection("loss_basis", "客户主张的损失计算依据") is None
+    assert atomic_factual_target_projection("evidence", "付款的具体凭证和金额明细") is None
+    assert atomic_factual_target_projection("awareness", "客户是否察觉到行为异常") is None
+    assert (
+        atomic_factual_target_projection("compensation", "实际垫付的金额以及具体项目")
+        == "实际垫付的金额"
+    )
+    assert atomic_factual_target_projection("land", "取得土地的具体情况及证明文件") is None
+    assert atomic_factual_target_projection("future", "政府承诺的补偿何时能够兑现") is None
+    assert atomic_factual_target_projection("authority", "监护人的身份和权限如何") is None
+    assert atomic_factual_target_projection("criminal_money", "客户收到的诈骗资金金额") is None
+    linked_contact_event = "双方是否保持联系，频率如何"
+    assert atomic_factual_target_projection("contact", linked_contact_event) == linked_contact_event
+    linked_agreement_event = "保密和竞业协议签署时间"
+    assert (
+        atomic_factual_target_projection("agreements", linked_agreement_event)
+        == linked_agreement_event
+    )
+    assert atomic_factual_target_projection("sentence", "刑事罚金的判决依据") is None
+    assert atomic_factual_target_projection("application", "申请材料是否完整、有效") is None
+    assert atomic_factual_target_projection("comparison", "实际培训内容与宣传图是否一致") is None
+    assert atomic_factual_target_projection("impact", "是否产生其他法律或现实后果") is None
+    one_contract = "客户与对方签署的合同时间"
+    assert atomic_factual_target_projection("one_contract", one_contract) == one_contract
+    assert atomic_factual_target_projection("notice", "机关是否已向公司履行告知义务") is None
+    assert atomic_factual_target_projection("source", "短视频中AI语音的具体来源确认") is None
+    assert atomic_factual_target_projection("rule", "暂行办法是否已被废止、修订或失效") is None
+    assert atomic_factual_target_projection("citation", "暂行办法的全称及发布机关") is None
+    caregiver_name = "参与照顾孩子的亲属或第三方的姓名"
+    assert atomic_factual_target_projection("caregiver_name", caregiver_name) == caregiver_name
+    contact = "丈夫及其家人在B省的联系方式"
+    assert atomic_factual_target_projection("contact_method", contact) == contact
+    assert atomic_factual_target_projection("materials", "离婚分割所需准备的具体材料") is None
+    statement_date = "执法机关或第三方提及的产品使用日期"
+    assert atomic_factual_target_projection("statement_date", statement_date) == statement_date
+    unmentioned = "其他未提及的承诺内容"
+    assert atomic_factual_target_projection("unmentioned", unmentioned) == unmentioned
+    agency_statement = "执法机关或第三方对产品使用情况的具体陈述内容"
+    assert (
+        atomic_factual_target_projection("agency_statement", agency_statement) == agency_statement
+    )
+    participant_content = "参与者在培训过程中实际接触到的具体内容"
+    assert (
+        atomic_factual_target_projection("participant_content", participant_content)
+        == participant_content
+    )
+    participant_name = "参与污染行为的第三方姓名"
+    assert (
+        atomic_factual_target_projection("participant_name", participant_name) == participant_name
+    )
+    assert (
+        atomic_factual_target_projection("participant_identifier", "参与污染行为的第三方身份证号码")
+        is None
+    )
+    cited_law = "住建局作出决定所依据的具体法律、法规或规章名称"
+    assert atomic_factual_target_projection("cited_law", cited_law) == cited_law
+    cited_policy_file = "行政补偿决定所依据的法律或政策文件名称"
+    assert (
+        atomic_factual_target_projection("cited_policy_file", cited_policy_file)
+        == cited_policy_file
+    )
+    product_clause = "购买产品的合同或协议中关于产品功能的描述"
+    assert atomic_factual_target_projection("product_clause", product_clause) == product_clause
+
+
+def test_atomic_projection_rejects_distinct_events_across_temporal_boundary() -> None:
+    # “签约前”与“签约后”各自包含一组独立交易，并非同一事件的关联属性。
+    assert atomic_factual_target_projection("trades", "签约前后分别进行了哪些交易") is None
+
+
+@pytest.mark.parametrize(
+    ("fact_id", "label", "expected"),
+    [
+        (
+            "charge_details",
+            "自动扣费发生的具体时间、金额及对应账单编号",
+            "自动扣费发生的具体时间",
+        ),
+        (
+            "capital_details",
+            "各股东实际出资金额以及到账时间",
+            "各股东实际出资金额",
+        ),
+        (
+            "notice_received",
+            "是否收到过续费提醒以及具体接收方式",
+            "是否收到过续费提醒",
+        ),
+        (
+            "notice_content",
+            "收到的续费提醒内容是否包含明确的费用金额、生效时间及取消途径",
+            "收到的续费提醒内容",
+        ),
+        (
+            "transfer_window",
+            "提供电话转接服务的具体时间范围以及操作方式",
+            "提供电话转接服务的具体时间范围",
+        ),
+    ],
+)
+def test_atomic_projection_preserves_safe_core_of_one_observable_event(
+    fact_id: str, label: str, expected: str
+) -> None:
+    assert atomic_factual_target_projection(fact_id, label) == expected
+
+
+def test_atomic_projection_does_not_launder_distinct_or_unsafe_compounds() -> None:
+    assert atomic_factual_target_projection("agreements", "是否签署过保密和竞业协议") is None
+    assert (
+        atomic_factual_target_projection("misconduct", "是否存在伪造证据或虚假陈述的初步证据")
+        is None
+    )
+
+
+def test_investigation_planner_normalizes_non_ascii_internal_id_without_losing_target() -> None:
+    state = StateManager().initial("planner-id", "公司产品遭到网络测评。", max_turns=6)
+    value = json.dumps(
+        {
+            "issue_labels": ["网络测评事实"],
+            "unknowns": [
+                {
+                    "fact_id": "博主是否实际测试产品",
+                    "label": "博主是否实际测试过涉案产品",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, changes = parse_investigation_plan(value, state)
+    assert violations == []
+    assert len(patch.observations) == 1
+    assert re.fullmatch(r"planned_fact_[a-f0-9]{20}", patch.observations[0].fact_id)
+    assert patch.observations[0].label == "博主是否实际测试过涉案产品"
+    assert changes == [
+        f"normalize_planner_fact_id:博主是否实际测试产品->{patch.observations[0].fact_id}"
+    ]
+
+
+def test_investigation_planner_receives_explicit_empty_skill_memory() -> None:
+    runner, _, _ = _runner()
+    response = json.dumps(
+        {
+            "issue_labels": ["合同履行"],
+            "unknowns": [
+                {
+                    "fact_id": "performance_status",
+                    "label": "对方目前实际履行到哪一步",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([response])
+    runner.planner_client = planner
+    runner.planner_prompt = "会话前事实规划。"
+    state = StateManager().initial("planner-memory", "合同履行发生争议。", max_turns=6)
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        "合同履行发生争议。", state, 42
+    )
+
+    assert len(patch.observations) == 1
+    assert len(attempts) == 1
+    assert safe_partial is False
+    assert planner.seen[0][0]["content"].startswith("会话前事实规划。\n\n")
+    assert "没有咨询技能文档" in planner.seen[0][0]["content"]
+    assert planning_input[0].content == planner.seen[0][0]["content"]
+
+
+def test_investigation_planner_rejects_agenda_containing_only_client_outcome() -> None:
+    state = StateManager().initial("planner-outcome", "行政申请被退件。", max_turns=6)
+    value = json.dumps(
+        {
+            "issue_labels": ["行政处理"],
+            "unknowns": [
+                {
+                    "fact_id": "client_desired_outcome",
+                    "label": "客户希望撤销通知并重新处理的具体诉求和预期结果",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    patch, _, violations, _ = parse_investigation_plan(value, state)
+    assert patch.observations == []
+    assert violations == ["unsafe_planner_target:client_desired_outcome"]
+
+
+def test_planner_exhaustion_fails_closed_instead_of_using_partial_plan() -> None:
+    runner, _, _ = _runner()
+    response = json.dumps(
+        {
+            "issue_labels": ["价值争议"],
+            "unknowns": [
+                {
+                    "fact_id": "market_value",
+                    "label": "争议财产目前的市场价值",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "legal_result",
+                    "label": "离婚所需材料清单",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([response, response, response])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    runner.planner_repair_generation = GenerationConfig(
+        temperature=0.2, top_p=0.9, max_tokens=500, seed=42
+    )
+    state = StateManager().initial("partial-planner", "财产价值发生争议。", max_turns=6)
+    with pytest.raises(InvestigationPlanningError) as captured:
+        runner._generate_investigation_plan("财产价值发生争议。", state, 42)
+    attempts = captured.value.attempts
+    assert len(attempts) == 3
+    assert all(
+        item.health_violations == ["unsafe_planner_target:legal_result"] for item in attempts
+    )
+    assert "离婚所需材料清单" in planner.seen[1][-1]["content"]
+    assert "必须逐项从unknowns中删除" in planner.seen[2][-1]["content"]
+    assert all(
+        any(
+            change.startswith("planner_repair_mandatory_drop:")
+            for change in attempt.deterministic_changes
+        )
+        for attempt in attempts
+    )
+
+
+def test_planner_rebuilds_clean_json_after_deletion_only_stagnation() -> None:
+    runner, _, _ = _runner()
+    rejected = json.dumps(
+        {
+            "issue_labels": ["价值争议"],
+            "unknowns": [
+                {
+                    "fact_id": "market_value",
+                    "label": "争议财产目前的市场价值",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "legal_result",
+                    "label": "离婚所需材料清单",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    clean = json.dumps(
+        {
+            "issue_labels": ["价值争议"],
+            "unknowns": [
+                {
+                    "fact_id": "market_value",
+                    "label": "争议财产目前的市场价值",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([rejected, rejected, clean])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    state = StateManager().initial("planner-clean-rebuild", "财产价值发生争议。", max_turns=6)
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        "财产价值发生争议。", state, 42
+    )
+
+    assert safe_partial is False
+    assert [item.fact_id for item in patch.observations] == ["market_value"]
+    assert len(attempts) == 3
+    assert (
+        "planner_repair_rebuild_from_approved_targets_after_drop_stagnation"
+        in attempts[1].deterministic_changes
+    )
+    clean_request = planner.seen[2][-1]["content"]
+    assert "不要再参考或复述上一稿全文" in clean_request
+    assert "争议财产目前的市场价值" in clean_request
+    assert clean_request.count("离婚所需材料清单") == 1
+
+
+def test_planner_has_budget_to_execute_late_compound_target_rebuild() -> None:
+    """A rebuild selected on attempt five must have one model turn to execute."""
+
+    runner, _, _ = _runner()
+
+    def plan(fact_id: str, label: str) -> str:
+        return json.dumps(
+            {
+                "issue_labels": ["交通事故赔偿范围"],
+                "unknowns": [
+                    {
+                        "fact_id": "accident_occurrence_details",
+                        "label": "事故具体发生时间、地点和经过",
+                        "criticality": "high",
+                        "target_kind": "client_fact",
+                    },
+                    {
+                        "fact_id": fact_id,
+                        "label": label,
+                        "criticality": "high",
+                        "target_kind": "client_fact",
+                    },
+                ],
+            },
+            ensure_ascii=False,
+        )
+
+    clean = json.dumps(
+        {
+            "issue_labels": ["交通事故赔偿范围"],
+            "unknowns": [
+                {
+                    "fact_id": "accident_occurrence_details",
+                    "label": "事故具体发生时间、地点和经过",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient(
+        [
+            plan("injury_impact_assessment", "受伤部位、治疗情况及医疗费用明细"),
+            plan("compensation_item_list", "主张的医疗费、误工费及财产损失"),
+            plan("claimed_expenses_details", "医疗费用、误工时间和财产损失的具体金额"),
+            plan("claimed_expenses_breakdown", "医疗费用、误工时间和财产损失的具体项目"),
+            plan("claimed_expenses_breakdown", "医疗费用、误工时间和财产损失的具体金额"),
+            clean,
+        ]
+    )
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_repair_prompt = "只编辑被拒目标"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 6
+    state = StateManager().initial(
+        "planner-late-compound-rebuild",
+        "客户在交通事故中受伤，要核对赔偿范围。",
+        max_turns=6,
+    )
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        "客户在交通事故中受伤，要核对赔偿范围。",
+        state,
+        42,
+    )
+
+    assert safe_partial is False
+    assert len(attempts) == 6
+    assert [item.fact_id for item in patch.observations] == ["accident_occurrence_details"]
+    assert (
+        "planner_repair_rebuild_from_approved_targets_after_drop_stagnation"
+        in attempts[4].deterministic_changes
+    )
+    assert "已经通过门禁的目标" in planner.seen[5][-1]["content"]
+
+
+def test_planner_replans_from_public_opening_after_zero_safe_stagnation() -> None:
+    runner, _, _ = _runner()
+    rejected = json.dumps(
+        {
+            "issue_labels": ["行政处理争议"],
+            "unknowns": [
+                {
+                    "fact_id": "procedure_compliance",
+                    "label": "机关处理程序是否符合法定步骤",
+                    "criticality": "high",
+                    "target_kind": "evidence_or_third_party",
+                },
+                {
+                    "fact_id": "authority_scope",
+                    "label": "机关是否具有最终裁决权限",
+                    "criticality": "high",
+                    "target_kind": "evidence_or_third_party",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    clean = json.dumps(
+        {
+            "issue_labels": ["行政处理事实"],
+            "unknowns": [
+                {
+                    "fact_id": "received_notice_content",
+                    "label": "客户收到的处理通知具体内容",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([rejected, rejected, clean])
+    runner.planner_prompt = "只读取公开开场并输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    opening = "行政机关已经处理并向我发了通知，结果对我不利。"
+    state = StateManager().initial("planner-zero-safe-replan", opening, max_turns=6)
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        opening, state, 42
+    )
+
+    assert safe_partial is False
+    assert [item.fact_id for item in patch.observations] == ["received_notice_content"]
+    assert len(attempts) == 3
+    assert (
+        "planner_repair_replan_from_opening_after_zero_safe_stagnation"
+        in attempts[1].deterministic_changes
+    )
+    replan_request = planner.seen[2][-1]["content"]
+    assert "仅根据上述公开开场重新生成" in replan_request
+    assert "不得输出空unknowns" in replan_request
+    assert "机关处理程序是否符合法定步骤" in replan_request
+    assert rejected not in replan_request
+
+
+def test_planner_drops_repeated_unestablished_event_attribute_after_one_rewrite() -> None:
+    runner, _, _ = _runner()
+    rejected = json.dumps(
+        {
+            "issue_labels": ["行政处理"],
+            "unknowns": [
+                {
+                    "fact_id": "application_date",
+                    "label": "客户提交申请的日期",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "decision_reason",
+                    "label": "行政处理决定书载明的具体理由",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    clean = json.dumps(
+        {
+            "issue_labels": ["行政处理"],
+            "unknowns": [
+                {
+                    "fact_id": "application_date",
+                    "label": "客户提交申请的日期",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([rejected, rejected, clean])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    opening = "我向行政机关提交了申请，目前想了解处理进展。"
+    state = StateManager().initial("planner-event-attribute-stagnation", opening, max_turns=6)
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        opening, state, 42
+    )
+
+    assert safe_partial is False
+    assert [item.fact_id for item in patch.observations] == ["application_date"]
+    assert len(attempts) == 3
+    assert any(
+        change.startswith("planner_repair_mandatory_drop:")
+        and "行政处理决定书载明的具体理由" in change
+        for change in attempts[1].deterministic_changes
+    )
+    assert (
+        "planner_repair_rebuild_from_approved_targets_after_drop_stagnation"
+        in attempts[1].deterministic_changes
+    )
+
+
+def test_planner_rebuilds_from_approved_targets_after_mixed_stagnation() -> None:
+    runner, _, _ = _runner()
+    rejected = json.dumps(
+        {
+            "issue_labels": ["商标刑事程序事实核查"],
+            "unknowns": [
+                {
+                    "fact_id": "battery_source_chain",
+                    "label": "电池产品的采购渠道及供应商信息",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "subjective_knowledge_details",
+                    "label": "客户是否知悉商标侵权风险",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "civil_case_evidence_submission",
+                    "label": "民事裁判文书是否已作为刑事证据提交",
+                    "criticality": "high",
+                    "target_kind": "evidence_or_third_party",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    repaired = json.dumps(
+        {
+            "issue_labels": ["商标刑事程序事实核查"],
+            "unknowns": [
+                {
+                    "fact_id": "battery_source_chain",
+                    "label": "电池产品的采购渠道及供应商信息",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "subjective_knowledge_details",
+                    "label": "采购电池时卖方对商品标识来源的实际说明",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "civil_case_evidence_submission",
+                    "label": "客户是否实际收到相关民事裁判文书",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([rejected, rejected, repaired])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    opening = "客户因销售电池被追究刑事责任，并提到相关民事纠纷。"
+    state = StateManager().initial("planner-mixed-rebuild", opening, max_turns=6)
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        opening, state, 42
+    )
+
+    assert safe_partial is False
+    assert [item.fact_id for item in patch.observations] == [
+        "battery_source_chain",
+        "subjective_knowledge_details",
+        "civil_case_evidence_submission",
+    ]
+    assert len(attempts) == 3
+    assert (
+        "planner_repair_rebuild_from_approved_targets_after_mixed_stagnation"
+        in attempts[1].deterministic_changes
+    )
+    rebuild_request = planner.seen[2][-1]["content"]
+    assert "不要再参考或复述上一稿全文" in rebuild_request
+    assert "电池产品的采购渠道及供应商信息" in rebuild_request
+    assert rebuild_request.count("客户是否知悉商标侵权风险") == 1
+    assert "上一稿JSON" not in rebuild_request
+
+
+def test_planner_editor_batches_all_mandatory_legal_deletions() -> None:
+    runner, _, _ = _runner()
+    rejected = json.dumps(
+        {
+            "issue_labels": ["损害争议"],
+            "unknowns": [
+                {
+                    "fact_id": "actual_loss_amount",
+                    "label": "客户实际发生的损失金额",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "legal_basis",
+                    "label": "客户主张赔偿的具体法律依据",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "evidence_quality",
+                    "label": "现有记录的证据充分性",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    accepted = json.dumps(
+        {
+            "issue_labels": ["损害争议"],
+            "unknowns": [
+                {
+                    "fact_id": "actual_loss_amount",
+                    "label": "客户实际发生的损失金额",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([rejected, accepted])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    runner.planner_repair_generation = GenerationConfig(
+        temperature=0.2, top_p=0.9, max_tokens=500, seed=42
+    )
+    state = StateManager().initial("planner-batch-drop", "发生了实际损失。", max_turns=6)
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        "发生了实际损失。", state, 42
+    )
+
+    assert safe_partial is False
+    assert [item.fact_id for item in patch.observations] == ["actual_loss_amount"]
+    assert any(
+        change.startswith("planner_repair_mandatory_drop:")
+        and "客户主张赔偿的具体法律依据" in change
+        and "现有记录的证据充分性" in change
+        for change in attempts[0].deterministic_changes
+    )
+    repair_request = planner.seen[1][-1]["content"]
+    assert "必须逐项从unknowns中删除" in repair_request
+    assert "客户主张赔偿的具体法律依据" in repair_request
+    assert "现有记录的证据充分性" in repair_request
+
+
+def test_planner_editor_preserves_observable_core_while_removing_legal_label() -> None:
+    assert planner_target_has_recoverable_observable_core(
+        "客户是否已采取具体措施补正违约行为",
+        "abstract_marker:违约行为",
+    )
+    assert not planner_target_has_recoverable_observable_core(
+        "客户主张赔偿的具体法律依据",
+        "abstract_marker:法律依据",
+    )
+    assert planner_target_has_recoverable_observable_core(
+        "孩子当前生活状况是否符合最佳利益原则",
+        "legal_or_evidentiary_judgment",
+    )
+    assert not planner_target_has_recoverable_observable_core(
+        "现有记录的证据充分性",
+        "legal_or_evidentiary_judgment",
+    )
+    assert planner_target_has_recoverable_observable_core(
+        "涉案商品的销售数量、单价及非法获利金额",
+        "abstract_marker:非法获利",
+    )
+    runner, _, _ = _runner()
+    rejected = json.dumps(
+        {
+            "issue_labels": ["贷款履行争议"],
+            "unknowns": [
+                {
+                    "fact_id": "breach_compliance_actions",
+                    "label": "客户是否已采取具体措施补正违约行为",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "loan_terms",
+                    "label": "贷款合同中的加速到期条款内容",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    accepted = json.dumps(
+        {
+            "issue_labels": ["贷款履行争议"],
+            "unknowns": [
+                {
+                    "fact_id": "remedial_measures",
+                    "label": "客户实际采取的补正措施",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "loan_terms",
+                    "label": "贷款合同中的加速到期条款内容",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([rejected, accepted])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    state = StateManager().initial("planner-observable-core", "银行要求提前还款。", max_turns=6)
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        "银行要求提前还款。", state, 42
+    )
+
+    assert safe_partial is False
+    # The already-valid contract target keeps its original position; the rejected
+    # legalised target is the only item the repair may replace.
+    assert [item.label for item in patch.observations] == [
+        "贷款合同中的加速到期条款内容",
+        "客户实际采取的补正措施",
+    ]
+    assert any(
+        change.startswith("planner_repair_mandatory_factual_reframe:")
+        for change in attempts[0].deterministic_changes
+    )
+    assert not any(
+        change.startswith("planner_repair_mandatory_drop:")
+        for change in attempts[0].deterministic_changes
+    )
+    assert "不得删除该调查维度" in planner.seen[1][-1]["content"]
+    assert planner.generations[0].response_schema is None
+    assert all(
+        generation.response_schema == INVESTIGATION_PLAN_SCHEMA
+        for generation in planner.generations[1:]
+    )
+
+
+def test_planner_editor_drops_only_persistently_unreframed_legalized_target() -> None:
+    rejected = json.dumps(
+        {
+            "issue_labels": ["贷款履行争议"],
+            "unknowns": [
+                {
+                    "fact_id": "breach_date",
+                    "label": "贷款违约行为开始的具体日期",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "loan_terms",
+                    "label": "贷款合同中的加速到期条款内容",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    accepted = json.dumps(
+        {
+            "issue_labels": ["贷款履行争议"],
+            "unknowns": [
+                {
+                    "fact_id": "loan_terms",
+                    "label": "贷款合同中的加速到期条款内容",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    runner, _, _ = _runner()
+    planner = ScriptedChatClient([rejected, rejected, accepted])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    state = StateManager().initial(
+        "planner-stagnant-legal-label", "银行要求提前还款。", max_turns=6
+    )
+
+    patch, attempts, _, planning_input = runner._generate_investigation_plan(
+        "银行要求提前还款。", state, 42
+    )
+
+    assert [item.fact_id for item in patch.observations] == ["loan_terms"]
+    assert any(
+        change.startswith("planner_repair_mandatory_factual_reframe:")
+        for change in attempts[0].deterministic_changes
+    )
+    assert any(
+        change.startswith("planner_repair_mandatory_drop:")
+        for change in attempts[1].deterministic_changes
+    )
+
+
+def test_planner_editor_batches_deletions_and_single_core_atomicization() -> None:
+    runner, _, _ = _runner()
+    rejected = json.dumps(
+        {
+            "issue_labels": ["音频使用争议"],
+            "unknowns": [
+                {
+                    "fact_id": "legal_basis",
+                    "label": "客户主张赔偿的法律依据",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "audio_details",
+                    "label": "客户提供的音频内容及实际使用情况",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    accepted = json.dumps(
+        {
+            "issue_labels": ["音频使用争议"],
+            "unknowns": [
+                {
+                    "fact_id": "audio_use",
+                    "label": "客户提供的音频实际使用情况",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([rejected, accepted])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    runner.planner_repair_generation = GenerationConfig(
+        temperature=0.2, top_p=0.9, max_tokens=500, seed=42
+    )
+    state = StateManager().initial("planner-mixed-batch", "音频使用发生争议。", max_turns=6)
+
+    patch, attempts, _, planning_input = runner._generate_investigation_plan(
+        "音频使用发生争议。", state, 42
+    )
+
+    assert [item.fact_id for item in patch.observations] == ["audio_use"]
+    changes = attempts[0].deterministic_changes
+    assert any(change.startswith("planner_repair_mandatory_drop:") for change in changes)
+    assert any(change.startswith("planner_repair_mandatory_atomicize:") for change in changes)
+    repair_request = planner.seen[1][-1]["content"]
+    assert "客户主张赔偿的法律依据" in repair_request
+    assert "客户提供的音频内容及实际使用情况" in repair_request
+    assert "只从每个原项中保留一个" in repair_request
+
+
+def test_planner_editor_preserves_safe_core_and_drops_unsafe_compounds() -> None:
+    runner, _, _ = _runner()
+    rejected = json.dumps(
+        {
+            "issue_labels": ["商标使用争议"],
+            "unknowns": [
+                {
+                    "fact_id": "consumer_perception",
+                    "label": "消费者对该标识的实际理解",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "usage_details",
+                    "label": "该标识的实际使用方式以及持续时间",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "usage_scope",
+                    "label": "该标识的使用频率以及覆盖范围",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "evidence_quality",
+                    "label": "现有材料的证据充分性",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    destructively_shrunk = json.dumps(
+        {
+            "issue_labels": ["商标使用争议"],
+            "unknowns": [
+                {
+                    "fact_id": "consumer_perception",
+                    "label": "消费者对该标识的实际理解",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([rejected, destructively_shrunk])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 4
+    state = StateManager().initial("planner-split-conservation", "标识已经实际使用。", max_turns=6)
+
+    patch, attempts, _, planning_input = runner._generate_investigation_plan(
+        "标识已经实际使用。", state, 42
+    )
+
+    assert [item.fact_id for item in patch.observations] == [
+        "consumer_perception",
+        "usage_scope",
+    ]
+    assert patch.observations[1].label == "该标识的使用频率"
+    assert attempts[1].health_violations == []
+    assert len(planner.seen) == 2
+
+
+def test_planner_accepts_response_existence_after_splitting_compound_topic() -> None:
+    runner, _, _ = _runner()
+    first = json.dumps(
+        {
+            "issue_labels": ["食品安全赔偿主张可行性"],
+            "unknowns": [
+                {
+                    "fact_id": "product_manufacturer_identity",
+                    "label": "该减肥食品的实际生产厂商是谁",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "product_label_compliance",
+                    "label": "该减肥食品的标签是否符合国家食品安全标准",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "seller_notification_content",
+                    "label": "卖家是否已向您告知产品来源或成分相关问题",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    repaired = json.dumps(
+        {
+            "issue_labels": ["食品安全赔偿主张可行性"],
+            "unknowns": [
+                {
+                    "fact_id": "product_manufacturer_identity",
+                    "label": "该减肥食品的实际生产厂商是谁",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "product_label_compliance",
+                    "label": "该减肥食品的标签内容",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "seller_response_existence",
+                    "label": "卖家是否曾就产品来源或成分问题作出回应",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([first, repaired])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    state = StateManager().initial(
+        "planner-response-topic", "卖家因减肥食品来源和成分问题被调查。", max_turns=24
+    )
+
+    patch, attempts, _, planning_input = runner._generate_investigation_plan(
+        "卖家因减肥食品来源和成分问题被调查。", state, 42
+    )
+
+    assert [item.fact_id for item in patch.observations] == [
+        "product_manufacturer_identity",
+        "product_label_compliance",
+        "seller_response_existence",
+    ]
+    assert len(attempts) == 2
+    assert attempts[-1].health_violations == []
+
+
+def test_planner_projection_avoids_unnecessary_fragmenting_repair() -> None:
+    runner, _, _ = _runner()
+    first = json.dumps(
+        {
+            "issue_labels": ["履行争议"],
+            "unknowns": [
+                {
+                    "fact_id": "collection_method",
+                    "label": "客户是否曾尝试催收货款以及具体方式",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "delivery_schedule",
+                    "label": "试剂供应的具体时间以及频率",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    replacement = json.dumps(
+        {
+            "issue_labels": ["履行争议"],
+            "unknowns": [
+                {
+                    "fact_id": "delivery_time",
+                    "label": "试剂供应的具体时间",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "delivery_frequency",
+                    "label": "试剂供应的具体频率",
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([first, replacement])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    state = StateManager().initial("planner-volume-floor", "医院拖欠货款。", max_turns=6)
+
+    patch, attempts, _, planning_input = runner._generate_investigation_plan(
+        "医院拖欠货款。", state, 42
+    )
+
+    assert [item.fact_id for item in patch.observations] == [
+        "collection_method",
+        "delivery_schedule",
+    ]
+    assert patch.observations[1].label == "试剂供应的具体时间"
+    assert attempts[0].health_violations == []
+    assert len(planner.seen) == 1
+
+
+def test_planner_repair_cannot_rewrite_an_already_safe_target() -> None:
+    runner, _, _ = _runner()
+    first = json.dumps(
+        {
+            "issue_labels": ["交付争议"],
+            "unknowns": [
+                {
+                    "fact_id": "delivery_place",
+                    "label": "货物实际交付地点",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "legal_result",
+                    "label": "合同是否具有法律效力",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+    rewritten = json.dumps(
+        {
+            "issue_labels": ["交付争议"],
+            "unknowns": [
+                {
+                    "fact_id": "delivery_place",
+                    "label": "货物实际交付时间",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([first, rewritten])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 2
+    state = StateManager().initial("planner-safe-target-rewrite", "合同履行发生争议。", max_turns=6)
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        "合同履行发生争议。", state, 42
+    )
+
+    assert safe_partial is False
+    assert len(patch.observations) == 1
+    restored = patch.observations[0]
+    assert restored.fact_id == "delivery_place"
+    assert restored.label == "货物实际交付地点"
+    assert restored.criticality == "high"
+    assert restored.target_kind == "client_fact"
+    assert attempts[1].health_violations == []
+    assert "restore_preserved_planner_target:delivery_place" in attempts[1].deterministic_changes
+
+
+def test_planner_repair_transport_preserves_large_first_draft_without_expansion() -> None:
+    runner, _, _ = _runner()
+
+    safe_targets = [
+        {
+            "fact_id": fact_id,
+            "label": label,
+            "criticality": "high",
+            "target_kind": "client_fact",
+        }
+        for fact_id, label in [
+            ("delivery_place", "货物实际交付地点"),
+            ("delivery_quantity", "货物实际交付数量"),
+            ("delivery_method", "货物实际交付方式"),
+            ("delivery_condition", "货物交付时的外观状态"),
+            ("payment_amount", "客户实际支付的金额"),
+            ("payment_method", "客户实际付款的方式"),
+            ("delivered_model", "对方实际交付的货物型号"),
+            ("defect_manifestation", "客户发现的货物问题具体表现"),
+            ("retained_quantity", "客户目前持有的货物数量"),
+        ]
+    ]
+    rejected_target = {
+        "fact_id": "legal_result",
+        "label": "合同是否具有法律效力",
+        "criticality": "high",
+        "target_kind": "client_fact",
+    }
+    first = json.dumps(
+        {"issue_labels": ["交付争议"], "unknowns": [*safe_targets, rejected_target]},
+        ensure_ascii=False,
+    )
+    # The editor deletes the unsafe target and accidentally omits one approved
+    # target.  The deterministic immutable-state merge must restore it without
+    # mistaking the default structured transport bound (8) for a semantic limit.
+    repaired = json.dumps(
+        {"issue_labels": ["交付争议"], "unknowns": safe_targets[:8]},
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([first, repaired])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 2
+    state = StateManager().initial(
+        "planner-large-first-draft",
+        "客户已经付款，合同货物交付后发现质量问题。",
+        max_turns=6,
+    )
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        "客户已经付款，合同货物交付后发现质量问题。", state, 42
+    )
+
+    assert safe_partial is False
+    assert [item.fact_id for item in patch.observations] == [
+        item["fact_id"] for item in safe_targets
+    ]
+    assert attempts[1].health_violations == []
+    assert (
+        "align_planner_repair_transport_bound_to_first_draft:8->10"
+        in attempts[0].deterministic_changes
+    )
+    assert planner.generations[1].response_schema is not None
+    assert planner.generations[1].response_schema["properties"]["unknowns"]["maxItems"] == 10
+
+
+def test_planner_repair_overflow_is_transactional_and_model_reduced() -> None:
+    runner, _, _ = _runner()
+
+    def target(
+        fact_id: str,
+        label: str,
+        criticality: str = "high",
+        target_kind: str = "client_fact",
+    ) -> dict[str, str]:
+        return {
+            "fact_id": fact_id,
+            "label": label,
+            "criticality": criticality,
+            "target_kind": target_kind,
+        }
+
+    initially_safe = [
+        target(
+            "health_effects_description",
+            "食用该食品后是否出现健康异常症状",
+            "medium",
+        ),
+        target(
+            "platform_complaint_status",
+            "是否已向电商平台提交过投诉",
+            "medium",
+        ),
+    ]
+    first = json.dumps(
+        {
+            "issue_labels": ["食品安全赔偿主张"],
+            "unknowns": [
+                target("purchase_date_and_amount", "购买该食品的具体时间和金额"),
+                target("product_manufacturer_and_ingredients", "生产厂商名称及具体成分列表"),
+                target(
+                    "seller_investigation_organ_and_progress",
+                    "卖家被调查的执法机关名称及调查进展",
+                    target_kind="evidence_or_third_party",
+                ),
+                target("receipt_and_packaging", "是否仍持有购买凭证及产品包装"),
+                *initially_safe,
+            ],
+        },
+        ensure_ascii=False,
+    )
+    split_candidates = [
+        target("purchase_date", "购买该食品的具体时间"),
+        target("purchase_amount", "购买该食品的金额"),
+        target("product_manufacturer", "该食品的生产厂商名称"),
+        target("product_ingredients", "该食品的具体成分列表"),
+        target(
+            "seller_investigation_organ",
+            "卖家被调查的具体执法机关名称",
+            target_kind="evidence_or_third_party",
+        ),
+        target(
+            "seller_investigation_progress",
+            "卖家被调查的当前进展",
+            target_kind="evidence_or_third_party",
+        ),
+        target("purchase_receipt_status", "是否仍持有该食品的购买凭证"),
+        target("product_packaging_status", "是否仍持有该食品的产品包装"),
+    ]
+    overflowing_repair = json.dumps(
+        {"issue_labels": ["食品安全赔偿主张"], "unknowns": split_candidates},
+        ensure_ascii=False,
+    )
+    bounded_repair = json.dumps(
+        {
+            "issue_labels": ["食品安全赔偿主张"],
+            "unknowns": [*initially_safe, *split_candidates[:6]],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([first, overflowing_repair, bounded_repair])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_repair_prompt = "只编辑被拒目标"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    state = StateManager().initial(
+        "planner-transactional-overflow",
+        "我购买减肥食品后发现产品来源和成分可能有问题，卖家已被调查。",
+        max_turns=12,
+    )
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        "我购买减肥食品后发现产品来源和成分可能有问题，卖家已被调查。",
+        state,
+        42,
+    )
+
+    assert safe_partial is False
+    assert len(patch.observations) == 8
+    assert {item["fact_id"] for item in initially_safe} <= {
+        item.fact_id for item in patch.observations
+    }
+    assert attempts[1].health_violations == ["planner_repair_exceeds_target_transport_bound"]
+    assert "planner_repair_safe_target_overflow:10>8" in attempts[1].deterministic_changes
+    assert "planner_repair_rebuild_within_transport_bound" in attempts[1].deterministic_changes
+    reduction_prompt = planner.seen[2][-1]["content"]
+    assert "先前已通过目标必须" in reduction_prompt
+    assert "选择至多6项" in reduction_prompt
+    assert attempts[2].health_violations == []
+
+
+def test_planner_focus_exits_when_exact_stagnant_target_disappears() -> None:
+    runner, _, _ = _runner()
+
+    def plan(fact_id: str, label: str) -> str:
+        return json.dumps(
+            {
+                "issue_labels": ["履行争议"],
+                "unknowns": [
+                    {
+                        "fact_id": fact_id,
+                        "label": label,
+                        "criticality": "high",
+                        "target_kind": "client_fact",
+                    }
+                ],
+            },
+            ensure_ascii=False,
+        )
+
+    first = plan("dangling_company", "执法机关认定公司")
+    second = plan("dangling_company", "执法机关认定公司")
+    changed_target = plan("dangling_person", "监管机关要求个人")
+    accepted = plan("delivery_place", "货物实际交付的地点")
+    planner = ScriptedChatClient([first, second, changed_target, accepted])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 4
+    runner.planner_repair_generation = GenerationConfig(
+        temperature=0.2, top_p=0.9, max_tokens=500, seed=42
+    )
+    state = StateManager().initial("planner-focus-exit", "合同履行发生争议。", max_turns=6)
+
+    patch, attempts, _, planning_input = runner._generate_investigation_plan(
+        "合同履行发生争议。", state, 42
+    )
+
+    assert [item.fact_id for item in patch.observations] == ["delivery_place"]
+    assert "本轮只修改上述唯一一个label" in planner.seen[2][-1]["content"]
+    assert "本轮只修改上述唯一一个label" not in planner.seen[3][-1]["content"]
+    assert any(
+        change == "planner_repair_focus_after_stagnation:执法机关认定公司"
+        for change in attempts[2].deterministic_changes
+    )
+
+
+def test_truncated_planner_retry_replans_without_refeeding_malformed_output() -> None:
+    runner, _, _ = _runner()
+    truncated = (
+        '{"issue_labels":["履行争议"],"unknowns":['
+        '{"fact_id":"sentinel_unclosed","label":"SENTINEL_TRUNCATED_OUTPUT"'
+    )
+    repaired = json.dumps(
+        {
+            "issue_labels": ["履行争议"],
+            "unknowns": [
+                {
+                    "fact_id": "actual_payment_amount",
+                    "label": "客户实际支付的金额",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([truncated, repaired])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    runner.planner_repair_generation = GenerationConfig(
+        temperature=0.2, top_p=0.9, max_tokens=500, seed=42
+    )
+    opening = "客户称已经支付合同款项，但实际支付金额存在争议。"
+    state = StateManager().initial("truncated-planner", opening, max_turns=6)
+
+    patch, attempts, safe_partial, planning_input = runner._generate_investigation_plan(
+        opening, state, 42
+    )
+
+    assert safe_partial is False
+    assert len(attempts) == 2
+    assert attempts[0].health_violations == ["invalid_planner_json"]
+    assert [item.fact_id for item in patch.observations] == ["actual_payment_amount"]
+    assert len(planner.seen[1]) == 3
+    assert all("SENTINEL_TRUNCATED_OUTPUT" not in message["content"] for message in planner.seen[1])
+    assert "最小充分图谱" in planner.seen[1][-1]["content"]
+    assert planner.generations[0].temperature == 0
+    assert planner.generations[1].temperature == 0.2
+
+
+def test_planner_normalizes_opening_date_priority_without_retry() -> None:
+    runner, _, _ = _runner()
+    rejected = json.dumps(
+        {
+            "issue_labels": ["登记争议"],
+            "unknowns": [
+                {
+                    "fact_id": "house_registration_date",
+                    "label": "房屋登记到双方名下的具体日期",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    planner = ScriptedChatClient([rejected])
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = planner
+    runner.max_planning_attempts = 3
+    runner.planner_repair_generation = GenerationConfig(
+        temperature=0.2, top_p=0.9, max_tokens=500, seed=42
+    )
+    opening = "房屋婚前购买，婚后登记到了双方名下。"
+    state = StateManager().initial("planner-priority", opening, max_turns=6)
+
+    patch, attempts, _, planning_input = runner._generate_investigation_plan(opening, state, 42)
+
+    assert patch.observations[0].criticality == "medium"
+    assert len(attempts) == 1
+    assert attempts[0].health_violations == []
+    assert (
+        "cap_opening_event_date_criticality:house_registration_date:high->medium"
+        in attempts[0].deterministic_changes
+    )
+
+    time_variant = rejected.replace("具体日期", "具体时间")
+    time_patch, _, time_violations, time_changes = parse_investigation_plan(time_variant, state)
+    assert time_violations == []
+    assert time_patch.observations[0].criticality == "medium"
+    assert "cap_opening_event_date_criticality:house_registration_date:high->medium" in time_changes
+
+
+def test_retired_planner_cannot_be_reenabled_by_mutating_legacy_test_helpers() -> None:
+    runner, _, _ = _runner()
+    invalid = json.dumps(
+        {
+            "issue_labels": ["法律结果"],
+            "unknowns": [
+                {
+                    "fact_id": "legal_result",
+                    "label": "该协议是否具有法律效力",
+                    "criticality": "high",
+                    "target_kind": "client_fact",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    runner.planner_prompt = "只输出规划JSON"
+    runner.planner_client = ScriptedChatClient([invalid, invalid, invalid])
+    runner.max_planning_attempts = 3
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_failed_planner_audit",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    assert trajectory.status != "error"
+    assert trajectory.error is None
+    assert trajectory.initial_investigation_plan == StatePatch()
+    assert trajectory.planning_attempts == []
+    assert trajectory.planning_visible_input == []
+    assert trajectory.planner_exposed_skill_ids == []
+
+
+def test_judge_qualification_fingerprint_excludes_unrelated_role_changes(
+    tmp_path: Path,
+) -> None:
+    contract_paths = (
+        "configs/prompts/semantic_judge_zh.txt",
+        "data/training/legal_skill_guard_dlawbench_style_cn.jsonl",
+        "data/training/legal_skill_guard_dlawbench_style_cn.provenance.jsonl",
+        "legal_skill_guard/evaluation/semantic.py",
+        "legal_skill_guard/inference/structured_openai_client.py",
+        "scripts/qualify_local_judge.py",
+    )
+    for relative in contract_paths:
+        path = tmp_path / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(f"contract:{relative}\n", encoding="utf-8")
+    unrelated = tmp_path / "configs/prompts/consultation_planner_zh.txt"
+    unrelated.write_text("planner:first\n", encoding="utf-8")
+    judge_role = {"model_id": "judge", "revision": "frozen", "temperature": 0.0}
+
+    original = semantic_judge_qualification_sha256(tmp_path, judge_role)
+    unrelated.write_text("planner:changed\n", encoding="utf-8")
+    assert semantic_judge_qualification_sha256(tmp_path, judge_role) == original
+
+    training_data = tmp_path / "data/training/legal_skill_guard_dlawbench_style_cn.jsonl"
+    training_data.write_text("qualification corpus changed\n", encoding="utf-8")
+    assert semantic_judge_qualification_sha256(tmp_path, judge_role) != original
+
+    prompt = tmp_path / "configs/prompts/semantic_judge_zh.txt"
+    prompt.write_text("judge prompt changed\n", encoding="utf-8")
+    assert semantic_judge_qualification_sha256(tmp_path, judge_role) != original
+
+
+def test_operational_metric_counts_post_skill_policy_fallback() -> None:
+    step = SimpleNamespace(
+        proposed_action=SimpleNamespace(reason="model_action"),
+        action_decision=SimpleNamespace(
+            final=SimpleNamespace(reason="safe_fallback_no_grounded_unresolved_target"),
+            changes=[
+                {
+                    "source": "post_skill_health_gate",
+                    "after": {"reason": "safe_fallback_no_grounded_unresolved_target"},
+                }
+            ],
+        ),
+    )
+    assert policy_fallback_used(step)
+
+
+def test_operational_metric_counts_conditional_memo_policy_fallback() -> None:
+    step = SimpleNamespace(
+        proposed_action=SimpleNamespace(reason="safe_fallback_conditional_memo_available"),
+        action_decision=SimpleNamespace(
+            final=SimpleNamespace(reason="safe_fallback_conditional_memo_available"),
+            changes=[],
+        ),
+    )
+
+    assert policy_fallback_used(step)
+
+
+def test_health_gate_keeps_auditable_stop_gate_redirect_as_quality_signal() -> None:
+    step = SimpleNamespace(
+        proposed_action=SimpleNamespace(reason="模型选择了abstain"),
+        action_decision=SimpleNamespace(
+            final=SimpleNamespace(reason="safe_fallback_conditional_memo_available"),
+            changes=[
+                {
+                    "source": "stop_gate",
+                    "before": {"action_type": "abstain"},
+                    "after": {
+                        "action_type": "final",
+                        "reason": "safe_fallback_conditional_memo_available",
+                    },
+                    "reason": "conditional_memo_available",
+                }
+            ],
+        ),
+    )
+
+    assert blocking_policy_fallback_reasons(step) == set()
+    assert policy_fallback_used(step) is True
+
+
+def test_health_gate_still_blocks_unprovenanced_conditional_memo_fallback() -> None:
+    step = SimpleNamespace(
+        proposed_action=SimpleNamespace(reason="safe_fallback_conditional_memo_available"),
+        action_decision=SimpleNamespace(
+            final=SimpleNamespace(reason="safe_fallback_conditional_memo_available"),
+            changes=[],
+        ),
+    )
+
+    assert blocking_policy_fallback_reasons(step) == {"safe_fallback_conditional_memo_available"}
+
+
+def test_repeated_policy_is_delivered_and_scored_without_action_rewrite() -> None:
+    runner, policy, selector = _runner()
+    skill = synthetic_skills()[0]
+    first, second, final = policy.responses
+    repeated = _policy(
+        {
+            "action_type": "ask",
+            "target_id": "F1",
+            "expected_information": "合同签署日期",
+            "content": "合同是哪天签署的？",
+        },
+        [],
+    )
+    policy.responses = [first, repeated, repeated, repeated, final]
+    trajectory = runner.run(
+        raw_case=_case(),
+        domain="insurance_contract",
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[skill],
+        trajectory_id="traj_skill_repair",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="fixture",
+    )
+    assert trajectory.domain == "insurance_contract"
+    assert trajectory.status == "max_turns_forced_memo"
+    assert trajectory.error is None
+    assert len(trajectory.steps) == 3
+    assert trajectory.steps[-1].stop_gate_reason == "dialogue_horizon_exhausted_after_interaction"
+    assert trajectory.steps[-1].rendered_question == "合同是哪天签署的？"
+    assert trajectory.exposed_skill_ids == [skill.skill_id]
+    assert all(
+        step.action_decision.retrieved_skill_ids == [skill.skill_id]
+        for step in trajectory.steps
+    )
+    assert all(not step.action_decision.changes for step in trajectory.steps)
+    # Exact repeats remain genuine client-facing turns; no hidden repair or guard
+    # may improve the apparent question denominator.
+    assert len(selector.responses) == 1
+
+
+def test_prompt_skill_document_is_identical_in_every_policy_turn() -> None:
+    runner, policy, _ = _runner()
+    skill = synthetic_skills()[0]
+    memory, expected_ids = render_skill_memory([skill], domain="insurance_contract")
+
+    trajectory = runner.run(
+        raw_case=_case(),
+        domain="insurance_contract",
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[skill],
+        trajectory_id="traj_prompt_memory_delivery",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_batch_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_prompt_memory_delivery",
+        skill_library_version="fixture",
+    )
+
+    system_messages = [messages[0]["content"] for messages in policy.seen]
+    assert len(system_messages) == len(trajectory.steps) == 3
+    assert len(set(system_messages)) == 1
+    assert all(memory in message for message in system_messages)
+    assert all(skill.skill_id in message for message in system_messages)
+    assert trajectory.exposed_skill_ids == expected_ids
+    assert all(
+        step.action_decision.retrieved_skill_ids == expected_ids for step in trajectory.steps
+    )
+    assert all('"active_skills"' not in messages[-1]["content"] for messages in policy.seen)
+
+
+def test_training_policy_has_skill_memory_without_program_selected_target() -> None:
+    runner, _, _ = _runner()
+    skill = synthetic_skills()[0]
+    memory, expected_ids = render_skill_memory([skill], domain="insurance_contract")
+    state = StateManager().initial(
+        "training-guidance",
+        "客户开场。",
+        max_turns=24,
+        domain="insurance_contract",
+    )
+    messages = runner._visible_messages(
+        "客户开场。",
+        [],
+        state,
+        1,
+        policy_method_guidance=memory,
+        policy_sampling_guidance="",
+    )
+    system_prompt = messages[0].content
+
+    assert "训练期结构化反事实" not in system_prompt
+    assert memory in system_prompt
+    assert system_prompt.index(memory) < system_prompt.index("每个律师回合只进行一次完整动作决策")
+    assert parse_rendered_skill_memory(extract_rendered_skill_memory(system_prompt)) == expected_ids
+
+
+def test_empty_library_policy_turns_contain_no_skill_document_or_legacy_state_field() -> None:
+    runner, policy, _ = _runner()
+    skill_id = synthetic_skills()[-1].skill_id
+    empty_memory, expected_ids = render_skill_memory([], domain="insurance_contract")
+
+    trajectory = runner.run(
+        raw_case=_case(),
+        domain="insurance_contract",
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_empty_prompt_memory",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_batch_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_empty_prompt_memory",
+        skill_library_version="empty",
+    )
+
+    system_messages = [messages[0]["content"] for messages in policy.seen]
+    assert len(system_messages) == len(trajectory.steps) == 3
+    assert len(set(system_messages)) == 1
+    assert all(empty_memory in message for message in system_messages)
+    assert all(skill_id not in message for message in system_messages)
+    assert trajectory.exposed_skill_ids == expected_ids == []
+    assert all(step.action_decision.retrieved_skill_ids == [] for step in trajectory.steps)
+    assert all('"active_skills"' not in messages[-1]["content"] for messages in policy.seen)
+
+
+class ScriptedJudge:
+    model = "judge-test"
+
+    def __init__(self, values: list[dict]) -> None:
+        self.values = list(values)
+        self.calls: list[str] = []
+        self.user_prompts: list[str] = []
+
+    def generate_json(self, *, purpose, system_prompt, user_prompt, output_schema):
+        self.calls.append(purpose)
+        self.user_prompts.append(user_prompt)
+        return SimpleNamespace(
+            value=self.values.pop(0),
+            model=self.model,
+            request_sha256=f"request-{purpose}",
+            response_sha256=f"response-{purpose}",
+        )
+
+
+class LexicographicFactKeyJudge(ScriptedJudge):
+    """Emulate a JSON backend that serializes F1,F10,... before F2."""
+
+    def generate_json(self, *, purpose, system_prompt, user_prompt, output_schema):
+        if purpose.startswith("semantic_facts"):
+            self.calls.append(purpose)
+            self.user_prompts.append(user_prompt)
+            fact_ids = sorted(output_schema["properties"]["facts"]["required"])
+            return SimpleNamespace(
+                value={
+                    "facts": {
+                        fact_id: {
+                            "discovery": "covered",
+                            "accuracy": "correct",
+                            "substantive_discovery": "covered",
+                            "substantive_accuracy": "correct",
+                            "memo_excerpt": fact_id,
+                            "reason": "测试",
+                        }
+                        for fact_id in fact_ids
+                    }
+                },
+                model=self.model,
+                request_sha256="request-facts-lexicographic",
+                response_sha256="response-facts-lexicographic",
+            )
+        if purpose.startswith("semantic_grounding"):
+            self.calls.append(purpose)
+            self.user_prompts.append(user_prompt)
+            claim_ids = output_schema["properties"]["claims"]["required"]
+            return SimpleNamespace(
+                value={
+                    "claims": {
+                        claim_id: {
+                            "classification": "grounded",
+                            "basis": "案件事实或对话",
+                        }
+                        for claim_id in claim_ids
+                    }
+                },
+                model=self.model,
+                request_sha256="request-grounding-lexicographic",
+                response_sha256="response-grounding-lexicographic",
+            )
+        return super().generate_json(
+            purpose=purpose,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            output_schema=output_schema,
+        )
+
+
+class FirstRubricSchemaFailureJudge(ScriptedJudge):
+    def generate_json(self, *, purpose, system_prompt, user_prompt, output_schema):
+        if purpose == "semantic_rubric":
+            self.calls.append(purpose)
+            self.user_prompts.append(user_prompt)
+            raise StructuredModelInvocationError("memo_expectation_scores is too long")
+        return super().generate_json(
+            purpose=purpose,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            output_schema=output_schema,
+        )
+
+
+class FirstTwoFactInvocationFailuresJudge(ScriptedJudge):
+    """Emulate one complete fact unit exhausting both bounded attempts."""
+
+    def __init__(self, values: list[dict]) -> None:
+        super().__init__(values)
+        self.fact_calls = 0
+
+    def generate_json(self, *, purpose, system_prompt, user_prompt, output_schema):
+        if purpose.startswith("semantic_facts"):
+            self.calls.append(purpose)
+            self.user_prompts.append(user_prompt)
+            self.fact_calls += 1
+            if self.fact_calls <= 2:
+                raise StructuredModelInvocationError("finish_reason='length'")
+            fact_ids = output_schema["properties"]["facts"]["required"]
+            return SimpleNamespace(
+                value={
+                    "facts": {
+                        fact_id: {
+                            "discovery": "covered",
+                            "accuracy": "correct",
+                            "substantive_discovery": "covered",
+                            "substantive_accuracy": "correct",
+                            "memo_excerpt": fact_id,
+                            "reason": "测试",
+                        }
+                        for fact_id in fact_ids
+                    }
+                },
+                model=self.model,
+                request_sha256=f"request-facts-{self.fact_calls}",
+                response_sha256=f"response-facts-{self.fact_calls}",
+            )
+        if purpose.startswith("semantic_grounding"):
+            self.calls.append(purpose)
+            self.user_prompts.append(user_prompt)
+            claim_ids = output_schema["properties"]["claims"]["required"]
+            return SimpleNamespace(
+                value={
+                    "claims": {
+                        claim_id: {
+                            "classification": "grounded",
+                            "basis": "案件事实或对话",
+                        }
+                        for claim_id in claim_ids
+                    }
+                },
+                model=self.model,
+                request_sha256="request-grounding",
+                response_sha256="response-grounding",
+            )
+        return super().generate_json(
+            purpose=purpose,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            output_schema=output_schema,
+        )
+
+
+class SchemaDrivenGroundingJudge(ScriptedJudge):
+    """Return exhaustive chunk decisions from the exact schema under test."""
+
+    def generate_json(self, *, purpose, system_prompt, user_prompt, output_schema):
+        if purpose == "semantic_grounding":
+            self.calls.append(purpose)
+            self.user_prompts.append(user_prompt)
+            claim_ids = output_schema["properties"]["claims"]["required"]
+            chunk_number = sum(item == "semantic_grounding" for item in self.calls)
+            return SimpleNamespace(
+                value={
+                    "claims": {
+                        claim_id: {
+                            "classification": "grounded",
+                            "basis": "案件事实或对话",
+                        }
+                        for claim_id in claim_ids
+                    }
+                },
+                model=self.model,
+                request_sha256=f"request-grounding-{chunk_number}",
+                response_sha256=f"response-grounding-{chunk_number}",
+            )
+        return super().generate_json(
+            purpose=purpose,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            output_schema=output_schema,
+        )
+
+
+class FirstTwoGroundingInvocationFailuresJudge(ScriptedJudge):
+    """Emulate a primary and first repair that exhaust their output budgets."""
+
+    def __init__(self, values: list[dict]) -> None:
+        super().__init__(values)
+        self.grounding_calls = 0
+
+    def generate_json(self, *, purpose, system_prompt, user_prompt, output_schema):
+        if purpose.startswith("semantic_grounding"):
+            self.calls.append(purpose)
+            self.user_prompts.append(user_prompt)
+            self.grounding_calls += 1
+            if self.grounding_calls <= 2:
+                raise StructuredModelInvocationError("finish_reason='length'")
+            claim_ids = output_schema["properties"]["claims"]["required"]
+            return SimpleNamespace(
+                value={
+                    "claims": {
+                        claim_id: {
+                            "classification": "grounded",
+                            "basis": "案件事实或对话",
+                        }
+                        for claim_id in claim_ids
+                    }
+                },
+                model=self.model,
+                request_sha256="request-grounding-second-repair",
+                response_sha256="response-grounding-second-repair",
+            )
+        return super().generate_json(
+            purpose=purpose,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            output_schema=output_schema,
+        )
+
+
+def test_rubric_schema_freezes_case_specific_array_lengths() -> None:
+    properties = rubric_judgment_schema(6, 5)["properties"]
+    assert properties["expected_action_scores"]["minItems"] == 6
+    assert properties["expected_action_scores"]["maxItems"] == 6
+    assert properties["memo_expectation_scores"]["minItems"] == 5
+    assert properties["memo_expectation_scores"]["maxItems"] == 5
+
+
+def test_claim_chunking_preserves_exact_ids_order_and_text() -> None:
+    spans = {f"C{index:03d}": f"主张{index}。" for index in range(1, 16)}
+    chunks = chunk_claim_spans(spans, 6)
+    assert [list(chunk) for chunk in chunks] == [
+        [f"C{index:03d}" for index in range(1, 7)],
+        [f"C{index:03d}" for index in range(7, 13)],
+        [f"C{index:03d}" for index in range(13, 16)],
+    ]
+    assert {key: value for chunk in chunks for key, value in chunk.items()} == spans
+
+
+def test_semantic_grounding_uses_bounded_chunks_and_records_complete_trace() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_chunked_grounding",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    trajectory.memo = "\n".join(f"客户陈述事项{index}。" for index in range(1, 16))
+    rubric = {
+        "memo_expectation_scores": [1],
+        "expected_action_scores": [1],
+        "analysis": "完整",
+    }
+    facts = {
+        "facts": {
+            fact_id: {
+                "discovery": "covered",
+                "accuracy": "correct",
+                "substantive_discovery": "covered",
+                "substantive_accuracy": "correct",
+                "memo_excerpt": fact_id,
+                "reason": "测试",
+            }
+            for fact_id in ("F1", "F2")
+        }
+    }
+    judge = SchemaDrivenGroundingJudge([rubric, facts])
+    evaluation = SemanticEvaluator(
+        judge,
+        "blind judge",
+        judge_qualification_contract_sha256="a" * 64,
+        reward_parameters=TEST_REWARD_PARAMETERS,
+        max_attempts=2,
+        grounding_claims_per_call=6,
+    ).evaluate(trajectory, _case())
+    assert judge.calls == [
+        "semantic_rubric",
+        "semantic_facts",
+        "semantic_grounding",
+        "semantic_grounding",
+        "semantic_grounding",
+    ]
+    assert [len(trace.claim_ids) for trace in evaluation.grounding_chunks] == [6, 6, 3]
+    assert [
+        claim_id for trace in evaluation.grounding_chunks for claim_id in trace.claim_ids
+    ] == list(memo_claim_spans(trajectory.memo))
+    assert all(trace.attempts == 1 for trace in evaluation.grounding_chunks)
+    assert evaluation.grounding_repair_used is False
+    assert evaluation.official_metrics.fidelity == 1.0
+
+
+def test_semantic_grounding_second_bounded_repair_is_distinct_and_audited() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_grounding_second_repair",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    trajectory.memo = "客户已经付款。"
+    rubric = {
+        "memo_expectation_scores": [1],
+        "expected_action_scores": [1],
+        "analysis": "完整",
+    }
+    facts = {
+        "facts": {
+            fact_id: {
+                "discovery": "covered",
+                "accuracy": "correct",
+                "substantive_discovery": "covered",
+                "substantive_accuracy": "correct",
+                "memo_excerpt": fact_id,
+                "reason": "测试",
+            }
+            for fact_id in ("F1", "F2")
+        }
+    }
+    judge = FirstTwoGroundingInvocationFailuresJudge([rubric, facts])
+    evaluation = SemanticEvaluator(
+        judge,
+        "blind judge",
+        judge_qualification_contract_sha256="a" * 64,
+        reward_parameters=TEST_REWARD_PARAMETERS,
+        max_attempts=3,
+        grounding_claims_per_call=6,
+    ).evaluate(trajectory, _case())
+    assert judge.calls[-3:] == [
+        "semantic_grounding",
+        "semantic_grounding_repair",
+        "semantic_grounding_repair",
+    ]
+    assert "第1次有界结构修复" in judge.user_prompts[-2]
+    assert "第2次有界结构修复" in judge.user_prompts[-1]
+    assert judge.user_prompts[-2] != judge.user_prompts[-1]
+    assert evaluation.grounding_chunks[0].attempts == 3
+    assert evaluation.grounding_repair_used is True
+
+
+def test_semantic_grounding_subdivides_only_length_exhausted_multi_claim_unit() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_grounding_adaptive_split",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    trajectory.memo = "\n".join(f"客户陈述事项{index}。" for index in range(1, 4))
+    rubric = {
+        "memo_expectation_scores": [1],
+        "expected_action_scores": [1],
+        "analysis": "完整",
+    }
+    facts = {
+        "facts": {
+            fact_id: {
+                "discovery": "covered",
+                "accuracy": "correct",
+                "substantive_discovery": "covered",
+                "substantive_accuracy": "correct",
+                "memo_excerpt": fact_id,
+                "reason": "测试",
+            }
+            for fact_id in ("F1", "F2")
+        }
+    }
+    judge = FirstTwoGroundingInvocationFailuresJudge([rubric, facts])
+    evaluation = SemanticEvaluator(
+        judge,
+        "blind judge",
+        judge_qualification_contract_sha256="a" * 64,
+        reward_parameters=TEST_REWARD_PARAMETERS,
+        max_attempts=2,
+        grounding_claims_per_call=3,
+    ).evaluate(trajectory, _case())
+    assert judge.calls[-4:] == [
+        "semantic_grounding",
+        "semantic_grounding_repair",
+        "semantic_grounding",
+        "semantic_grounding",
+    ]
+    assert [trace.claim_ids for trace in evaluation.grounding_chunks] == [
+        ["C001"],
+        ["C002", "C003"],
+    ]
+    assert all(trace.attempts == 1 for trace in evaluation.grounding_chunks)
+    assert evaluation.grounding_repair_used is True
+    assert evaluation.grounding_normalizations == [
+        "adaptive_length_split:1:C001,C002,C003->C001|C002,C003"
+    ]
+    assert evaluation.official_metrics.fidelity == 1.0
+
+
+def test_semantic_facts_subdivide_only_length_exhausted_multi_fact_unit() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_fact_adaptive_split",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    rubric = {
+        "memo_expectation_scores": [1],
+        "expected_action_scores": [1],
+        "analysis": "完整",
+    }
+    judge = FirstTwoFactInvocationFailuresJudge([rubric])
+    evaluation = SemanticEvaluator(
+        judge,
+        "blind judge",
+        judge_qualification_contract_sha256="a" * 64,
+        reward_parameters=TEST_REWARD_PARAMETERS,
+        max_attempts=2,
+        grounding_claims_per_call=6,
+    ).evaluate(trajectory, _case())
+    assert judge.calls[:5] == [
+        "semantic_rubric",
+        "semantic_facts",
+        "semantic_facts_repair",
+        "semantic_facts",
+        "semantic_facts",
+    ]
+    assert [trace.fact_ids for trace in evaluation.fact_chunks] == [["F1"], ["F2"]]
+    assert all(trace.attempts == 1 for trace in evaluation.fact_chunks)
+    assert evaluation.fact_repair_used is True
+    assert evaluation.fact_normalizations == ["adaptive_length_split:1:F1,F2->F1|F2"]
+    assert evaluation.official_metrics.fact_coverage == 1.0
+
+
+def test_semantic_facts_preserve_frozen_numeric_id_order() -> None:
+    runner, _, _ = _runner()
+    case = _case()
+    template = dict(case["facts"][0])
+    case["facts"] = [{**template, "fact_id": f"F{index}"} for index in range(1, 13)]
+    trajectory = runner.run(
+        raw_case=case,
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_numeric_fact_order",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    judge = LexicographicFactKeyJudge(
+        [
+            {
+                "memo_expectation_scores": [1],
+                "expected_action_scores": [1],
+                "analysis": "完整",
+            }
+        ]
+    )
+    evaluation = SemanticEvaluator(
+        judge,
+        "blind judge",
+        judge_qualification_contract_sha256="a" * 64,
+        reward_parameters=TEST_REWARD_PARAMETERS,
+        max_attempts=2,
+        grounding_claims_per_call=6,
+    ).evaluate(trajectory, case)
+    assert evaluation.fact_chunks[0].fact_ids == [f"F{index}" for index in range(1, 13)]
+    assert evaluation.official_metrics.fact_coverage == 1.0
+
+
+def test_grounding_prompt_distinguishes_attribution_from_verification() -> None:
+    fact_prompt = build_fact_judgment_prompt(
+        _case(),
+        "客户（开场）：我称已经支付了10万元。",
+        "据客户陈述，其已经支付10万元，但付款凭证尚待核验。",
+    )
+    prompt = build_official_grounding_judgment_prompt(
+        _case(),
+        "客户（开场）：我称已经支付了10万元。",
+        "据客户陈述，其已经支付10万元，但付款凭证尚待核验。",
+    )
+    assert "案件事实或完整对话任一处" in prompt
+    assert "客户提出问题、律师追问或客户表示不知道" in prompt
+    assert "grounded、unsupported、non_claim" not in prompt
+    assert "classification只有三类" in prompt
+    assert "non_claim" in prompt
+    assert "没有标注引文" in prompt
+    assert "分析某项边界" in prompt
+    assert "不能因为案件材料没有直接" in prompt
+    assert "分析表明某事实已发生" in prompt
+    assert "分别核对行为主体、相对方、行为、对象和法律方向" in fact_prompt
+    assert "把甲实施的行为写成乙实施" in fact_prompt
+    assert "Accuracy的正确性基准是案件记录，不是客户认知" in fact_prompt
+    assert "逐字陈述案件记录" in fact_prompt
+    assert "不要求每个事实都附带独立法律分析" in fact_prompt
+    assert "Discovery与Accuracy必须正交" in fact_prompt
+    assert "实质missed只用于没有具体命题的话题占位" in fact_prompt
+    assert "不输出grounded_claims" in fact_prompt
+    assert "客户（开场）：我称已经支付了10万元。" in prompt
+
+
+def test_keyed_fact_schema_requires_every_fact_and_has_no_parallel_partitions() -> None:
+    schema = fact_judgment_schema({"F2", "F1"})
+    facts = schema["properties"]["facts"]
+    assert facts["required"] == ["F1", "F2"]
+    assert facts["additionalProperties"] is False
+    assert "covered_fact_ids" not in schema["properties"]
+    parsed, changes = parse_fact_judgment(
+        {
+            "facts": {
+                "F1": {
+                    "discovery": "covered",
+                    "accuracy": "correct",
+                    "substantive_discovery": "missed",
+                    "substantive_accuracy": "not_applicable",
+                    "memo_excerpt": "",
+                    "reason": "",
+                },
+                "F2": {
+                    "discovery": "missed",
+                    "accuracy": "not_applicable",
+                    "substantive_discovery": "covered",
+                    "substantive_accuracy": "incorrect",
+                    "memo_excerpt": "",
+                    "reason": "",
+                },
+            },
+            "grounded_claims": [],
+            "unsupported_claims": [],
+        },
+        {"F1", "F2"},
+    )
+    assert parsed.covered_fact_ids == ["F1"]
+    assert parsed.missed_fact_ids == ["F2"]
+    assert parsed.substantive_covered_fact_ids == ["F2"]
+    assert parsed.substantive_incorrect_fact_ids == ["F2"]
+    assert changes == []
+
+
+def test_fact_wire_contract_rejects_verbatim_record_miss() -> None:
+    case = _case()
+    value = {
+        "facts": {
+            fact["fact_id"]: {
+                "discovery": "missed",
+                "accuracy": "not_applicable",
+                "substantive_discovery": "missed",
+                "substantive_accuracy": "not_applicable",
+                "memo_excerpt": "",
+                "reason": "",
+            }
+            for fact in case["facts"]
+        }
+    }
+    memo = case["facts"][0]["court_record"]
+    issues = fact_wire_contract_issues(value, case, memo)
+    assert any(item.startswith("F1:verbatim_court_record_misclassified:") for item in issues)
+
+
+def test_fact_wire_contract_rejects_missed_reason_that_describes_inversion() -> None:
+    case = _case()
+    value = {
+        "facts": {
+            fact["fact_id"]: {
+                "discovery": "missed",
+                "accuracy": "not_applicable",
+                "substantive_discovery": "missed",
+                "substantive_accuracy": "not_applicable",
+                "memo_excerpt": "",
+                "reason": (
+                    "Memo incorrectly states that the client performed the act."
+                    if fact["fact_id"] == "F1"
+                    else "memo没有涉及该事实"
+                ),
+            }
+            for fact in case["facts"]
+        }
+    }
+    issues = fact_wire_contract_issues(value, case, "客户实施了相关行为。")
+    assert "F1:missed_reason_describes_incorrect_proposition" in issues
+
+
+def test_fact_wire_contract_does_not_confuse_incorrect_ruling_with_incorrect_memo() -> None:
+    case = _case()
+    case["facts"][0]["court_record"] = "虚假材料导致部分错误执行异议裁定"
+    value = {
+        "facts": {
+            fact["fact_id"]: {
+                "discovery": "missed",
+                "accuracy": "not_applicable",
+                "substantive_discovery": "missed",
+                "substantive_accuracy": "not_applicable",
+                "memo_excerpt": "",
+                "reason": (
+                    "memo未提及虚假材料导致的错误裁定"
+                    if fact["fact_id"] == "F1"
+                    else "memo没有涉及该事实"
+                ),
+            }
+            for fact in case["facts"]
+        }
+    }
+
+    assert fact_wire_contract_issues(value, case, "未形成关于相关裁定的判断。") == []
+
+
+def test_fact_wire_contract_rejects_explicit_chinese_memo_inversion() -> None:
+    case = _case()
+    value = {
+        "facts": {
+            fact["fact_id"]: {
+                "discovery": "missed",
+                "accuracy": "not_applicable",
+                "substantive_discovery": "missed",
+                "substantive_accuracy": "not_applicable",
+                "memo_excerpt": "",
+                "reason": (
+                    "备忘录的结论与案情事实相反"
+                    if fact["fact_id"] == "F1"
+                    else "memo没有涉及该事实"
+                ),
+            }
+            for fact in case["facts"]
+        }
+    }
+
+    assert "F1:missed_reason_describes_incorrect_proposition" in (
+        fact_wire_contract_issues(value, case, "客户实施了相关行为。")
+    )
+
+
+def test_grounding_wire_contract_rejects_claim_absent_from_memo() -> None:
+    value = {
+        "visible_grounded_claims": [{"claim": "memo真实原文", "basis": "客户开场"}],
+        "benchmark_only_grounded_claims": [{"claim": "由隐藏事实反向生成的句子", "basis": "F2"}],
+        "unsupported_claims": [],
+    }
+    assert grounding_wire_contract_issues(value, "memo真实原文。") == [
+        "benchmark_only_grounded_claims[0]:claim_not_verbatim_memo_excerpt"
+    ]
+
+
+def test_keyed_grounding_schema_freezes_and_exhaustively_classifies_memo_spans() -> None:
+    spans = memo_claim_spans("客户已经付款。\n若合同无效，需另行评估。")
+    assert spans == {
+        "C001": "客户已经付款。",
+        "C002": "若合同无效，需另行评估。",
+    }
+    schema = grounding_judgment_schema(spans)
+    assert schema["properties"]["claims"]["required"] == ["C001", "C002"]
+    visible, benchmark_only, unsupported = parse_grounding_judgment(
+        {
+            "claims": {
+                "C001": {
+                    "classification": "visible_grounded",
+                    "basis": "客户开场",
+                },
+                "C002": {"classification": "non_claim", "basis": "未断言的条件分析"},
+            }
+        },
+        spans,
+    )
+    assert [item.claim for item in visible] == ["客户已经付款。"]
+    assert benchmark_only == []
+    assert unsupported == []
+
+
+def test_memo_claim_spans_excludes_only_fixed_document_structure() -> None:
+    spans = memo_claim_spans(
+        "<!-- typed_fact_ledger -->\n"
+        "**案情概要**\n"
+        "客户称已经付款。\n"
+        "**风险评估**\n"
+        "若合同无效，仍需另行评估。\n"
+        "<!-- /typed_fact_ledger -->"
+    )
+    assert spans == {
+        "C001": "客户称已经付款。",
+        "C002": "若合同无效，仍需另行评估。",
+    }
+
+
+def test_topic_only_discovery_is_audited_as_unresolved_not_incorrect() -> None:
+    result, changes = parse_fact_judgment(
+        {
+            "facts": {
+                "F1": {
+                    "discovery": "covered",
+                    "accuracy": "not_applicable",
+                    "substantive_discovery": "missed",
+                    "substantive_accuracy": "not_applicable",
+                    "memo_excerpt": "房屋是否属于夫妻共同财产",
+                    "reason": "只提出问题，没有形成可判断真假的事实命题",
+                }
+            }
+        },
+        {"F1"},
+    )
+    assert changes == []
+    assert result.covered_fact_ids == ["F1"]
+    assert result.correct_fact_ids == []
+    assert result.incorrect_facts == []
+    assert result.unresolved_fact_ids == ["F1"]
+    assert result.substantive_missed_fact_ids == ["F1"]
+
+
+def test_official_grounding_schema_uses_case_or_dialogue_union() -> None:
+    spans = memo_claim_spans("客户已经付款。\n尚需核验担保人涉诉详情。")
+    schema = official_grounding_judgment_schema(spans)
+    assert schema["properties"]["claims"]["required"] == ["C001", "C002"]
+    grounded, unsupported = parse_official_grounding_judgment(
+        {
+            "claims": {
+                "C001": {"classification": "grounded", "basis": "F1或客户开场"},
+                "C002": {"classification": "non_claim", "basis": "信息缺口提示"},
+            }
+        },
+        spans,
+    )
+    assert [item.claim for item in grounded] == ["客户已经付款。"]
+    assert unsupported == []
+
+
+def test_exact_attributed_client_answer_normalization_is_narrow_and_audited() -> None:
+    spans = memo_claim_spans(
+        "据客户在咨询中的单方陈述：公司向我借款300万元。\n"
+        "据客户陈述：公司向我借款300万元，因此法院已经判我胜诉。"
+    )
+    value = {
+        "claims": {
+            "C001": {"classification": "unsupported", "basis": ""},
+            "C002": {"classification": "unsupported", "basis": ""},
+        }
+    }
+    normalized, changes = normalize_exact_visible_grounding(
+        value,
+        spans,
+        "律师（第1轮）：借款情况？\n客户：公司向我借款300万元。",
+    )
+    assert normalized["claims"]["C001"]["classification"] == "visible_grounded"
+    assert normalized["claims"]["C002"]["classification"] == "unsupported"
+    assert changes == ["C001:exact_attributed_client_answer"]
+    assert value["claims"]["C001"]["classification"] == "unsupported"
+
+
+def test_official_grounding_normalizes_exact_disputed_answer_and_open_issue() -> None:
+    spans = memo_claim_spans(
+        "- 客户本轮陈述（尚未独立核验）：按我的理解，法院不能一并审理。\n"
+        "2. 该请求是否可以一并审理；\n"
+        "3. 投保时健康告知是否涉及客户所称疾病；\n"
+        "现在工程款被拖欠。\n"
+        "客户已经获得赔偿。"
+    )
+    value = {
+        "claims": {
+            "C001": {"classification": "unsupported", "basis": "与案件真值相反"},
+            "C002": {"classification": "unsupported", "basis": "未找到一并审理事实"},
+            "C003": {"classification": "unsupported", "basis": "误将客户所称当成客户陈述"},
+            "C004": {"classification": "unsupported", "basis": "忽略开场"},
+            "C005": {"classification": "unsupported", "basis": "无来源"},
+        }
+    }
+    normalized, changes = normalize_official_grounding_contract(
+        value,
+        spans,
+        "律师（第1轮）：您怎么理解？\n"
+        "客户：按我的理解，法院不能一并审理。\n"
+        "客户（开场）：现在工程款被拖欠。",
+    )
+    assert normalized["claims"]["C001"]["classification"] == "grounded"
+    assert normalized["claims"]["C002"]["classification"] == "non_claim"
+    assert normalized["claims"]["C003"]["classification"] == "non_claim"
+    assert normalized["claims"]["C004"]["classification"] == "grounded"
+    assert normalized["claims"]["C005"]["classification"] == "unsupported"
+    assert changes == [
+        "C001:exact_attributed_client_answer_from_unsupported",
+        "C002:explicit_nonclaim_from_unsupported",
+        "C003:explicit_nonclaim_from_unsupported",
+        "C004:exact_client_clause_from_unsupported",
+    ]
+    assert value["claims"]["C001"]["classification"] == "unsupported"
+
+
+def test_belief_as_fact_ignores_typed_attribution_but_catches_model_assertion() -> None:
+    case = {
+        "facts": [
+            {
+                "fact_id": "F1",
+                "gap_type": "disputed",
+                "client_belief": "法院不能在交通事故赔偿案中一并审理。",
+                "court_record": "法院可以一并审理。",
+            }
+        ]
+    }
+    ledger = (
+        "<!-- typed_fact_ledger -->\n"
+        "- 客户本轮陈述（尚未独立核验）：法院不能在交通事故赔偿案中一并审理。\n"
+        "<!-- /typed_fact_ledger -->"
+    )
+    assert _belief_as_fact_rate(SimpleNamespace(memo=ledger), case) == 0.0
+    categorical = ledger + "\n风险评估\n法院不能在交通事故赔偿案中一并审理。"
+    assert _belief_as_fact_rate(SimpleNamespace(memo=categorical), case) == 1.0
+
+
+def test_semantic_judge_repairs_bad_partition_and_computes_official_metrics() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_eval",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    rubric = {
+        "memo_expectation_scores": [1],
+        "expected_action_scores": [1],
+        "analysis": "完整",
+    }
+    invalid_facts = {
+        "covered_fact_ids": ["F1"],
+        "missed_fact_ids": [],
+        "correct_fact_ids": ["F1"],
+        "incorrect_facts": [],
+        "grounded_claims": [
+            {"claim": "主张一", "basis": "F1"},
+            {"claim": "主张二", "basis": "F2"},
+        ],
+        "unsupported_claims": [],
+    }
+    valid_facts = {
+        "facts": {
+            "F1": {
+                "discovery": "covered",
+                "accuracy": "correct",
+                "substantive_discovery": "covered",
+                "substantive_accuracy": "correct",
+                "memo_excerpt": "F1",
+                "reason": "明确陈述",
+            },
+            "F2": {
+                "discovery": "covered",
+                "accuracy": "correct",
+                "substantive_discovery": "missed",
+                "substantive_accuracy": "not_applicable",
+                "memo_excerpt": "相关话题",
+                "reason": "只有话题占位",
+            },
+        },
+    }
+    claim_spans = memo_claim_spans(trajectory.memo)
+    grounding = {
+        "claims": {
+            claim_id: {"classification": "grounded", "basis": "F1或对话"}
+            for claim_id in claim_spans
+        }
+    }
+    judge = ScriptedJudge([rubric, invalid_facts, valid_facts, grounding])
+    result = SemanticEvaluator(
+        judge,
+        "blind judge",
+        judge_qualification_contract_sha256="a" * 64,
+        reward_parameters=TEST_REWARD_PARAMETERS,
+        max_attempts=2,
+    ).evaluate(trajectory, _case())
+    assert judge.calls == [
+        "semantic_rubric",
+        "semantic_facts",
+        "semantic_facts_repair",
+        "semantic_grounding",
+    ]
+    fact_prompt = judge.user_prompts[1]
+    assert "预期追问共有1项" in judge.user_prompts[0]
+    assert "memo评分点共有1项" in judge.user_prompts[0]
+    assert "仅在对话出现而memo未涉及仍算missed" in fact_prompt
+    assert "不输出grounded_claims" in fact_prompt
+    assert "案件事实或完整对话" in judge.user_prompts[3]
+    assert "明确引入且没有断言条件已经发生的条件分析" in judge.user_prompts[3]
+    assert "missing_discovery_ids=['F2']" in judge.user_prompts[2]
+    assert result.fact_repair_used is True
+    assert result.fact_normalizations == []
+    assert result.official_metrics.model_dump() == {
+        "fact_coverage": 1.0,
+        "inquiry": 1.0,
+        "elicitation": 1.0,
+        "fact_resolution": 1.0,
+        "issue_resolution": 1.0,
+        "resolution": 1.0,
+        "fidelity": 1.0,
+    }
+    assert result.training_metrics.model_dump() == {
+        "substantive_fact_coverage": 1.0,
+        "inquiry": 1.0,
+        "elicitation": 1.0,
+        "substantive_fact_resolution": 0.5,
+        "issue_resolution": 1.0,
+        "resolution": 0.75,
+    }
+    assert result.training_fact_provenance.model_dump() == {
+        "elicited_hidden_fact_ids": ["F1", "F2"],
+        "resolved_elicited_fact_ids": ["F1"],
+        "memo_only_substantive_fact_ids": [],
+    }
+    assert result.safety_metrics.hidden_field_leak is False
+    # DLawBench Fidelity treats either case facts or dialogue as a valid source.
+    # Benchmark-only support remains auditable but is not a hallucination penalty.
+    assert result.safety_metrics.unsupported_claim_rate == 0.0
+    assert result.fact_judgment.benchmark_only_grounded_claims == []
+    assert result.operational_metrics.model_dump() == {
+        "policy_repair_rate": 0.0,
+        "policy_fallback_rate": 0.0,
+        "client_repair_rate": 0.0,
+        "client_fallback_rate": 0.0,
+        "memo_retry": False,
+        "memo_guardrail_intervention": False,
+        "memo_fallback": False,
+    }
+
+
+def test_training_fact_credit_is_locked_to_online_disclosure_provenance() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_provenance_locked",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    # The memo still mentions both benchmark facts, but the persisted online trace
+    # contains only the first disclosure.  Official DLawBench memo discovery may
+    # credit both; evolution must not reward the unelicited F2.
+    trajectory.steps = [trajectory.steps[0], trajectory.steps[-1]]
+    rubric = {
+        "memo_expectation_scores": [1],
+        "expected_action_scores": [1],
+        "analysis": "完整",
+    }
+    facts = {
+        "facts": {
+            fact_id: {
+                "discovery": "covered",
+                "accuracy": "correct",
+                "substantive_discovery": "covered",
+                "substantive_accuracy": "correct",
+                "memo_excerpt": fact_id,
+                "reason": "memo明确写到",
+            }
+            for fact_id in ("F1", "F2")
+        }
+    }
+    grounding = {
+        "claims": {
+            claim_id: {"classification": "grounded", "basis": "案件事实或对话"}
+            for claim_id in memo_claim_spans(trajectory.memo)
+        }
+    }
+    result = SemanticEvaluator(
+        ScriptedJudge([rubric, facts, grounding]),
+        "blind judge",
+        judge_qualification_contract_sha256="a" * 64,
+        reward_parameters=TEST_REWARD_PARAMETERS,
+        max_attempts=2,
+    ).evaluate(trajectory, _case())
+    assert result.official_metrics.fact_coverage == 1.0
+    assert result.training_metrics.substantive_fact_coverage == 0.5
+    assert result.training_metrics.substantive_fact_resolution == 0.5
+    assert result.training_fact_provenance.model_dump() == {
+        "elicited_hidden_fact_ids": ["F1"],
+        "resolved_elicited_fact_ids": ["F1"],
+        "memo_only_substantive_fact_ids": ["F2"],
+    }
+
+
+def test_semantic_judge_deduplicates_fact_ids_without_rejudging() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_duplicate_fact",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    judge = ScriptedJudge(
+        [
+            {
+                "memo_expectation_scores": [1],
+                "expected_action_scores": [1],
+                "analysis": "完整",
+            },
+            {
+                "covered_fact_ids": ["F1"],
+                "missed_fact_ids": ["F2"],
+                "correct_fact_ids": [],
+                "incorrect_facts": [
+                    {"fact_id": "F1", "memo_excerpt": "原文", "reason": "理由一"},
+                    {"fact_id": "F1", "memo_excerpt": "原文", "reason": "理由二"},
+                ],
+                "grounded_claims": [{"claim": "主张", "basis": "F1"}],
+                "unsupported_claims": [],
+            },
+            {
+                "claims": {
+                    claim_id: {"classification": "grounded", "basis": "F1"}
+                    for claim_id in memo_claim_spans(trajectory.memo)
+                }
+            },
+        ]
+    )
+    result = SemanticEvaluator(
+        judge,
+        "blind judge",
+        judge_qualification_contract_sha256="a" * 64,
+        reward_parameters=TEST_REWARD_PARAMETERS,
+        max_attempts=2,
+    ).evaluate(trajectory, _case())
+    assert judge.calls == ["semantic_rubric", "semantic_facts", "semantic_grounding"]
+    assert result.fact_repair_used is False
+    assert result.fact_normalizations == ["incorrect_facts:removed_duplicate:F1"]
+    assert len(result.fact_judgment.incorrect_facts) == 1
+    assert result.fact_judgment.incorrect_facts[0].reason == "理由一"
+    assert result.official_metrics.fact_coverage == 0.5
+    assert result.official_metrics.fact_resolution == 0.0
+
+
+def test_semantic_judge_repairs_schema_invocation_failure() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_schema_repair",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    rubric = {
+        "memo_expectation_scores": [1],
+        "expected_action_scores": [1],
+        "analysis": "完整",
+    }
+    facts = {
+        "covered_fact_ids": ["F1", "F2"],
+        "missed_fact_ids": [],
+        "correct_fact_ids": ["F1", "F2"],
+        "incorrect_facts": [],
+        "grounded_claims": [{"claim": "主张", "basis": "F1、F2"}],
+        "unsupported_claims": [],
+    }
+    grounding = {
+        "claims": {
+            claim_id: {"classification": "grounded", "basis": "F1、F2"}
+            for claim_id in memo_claim_spans(trajectory.memo)
+        }
+    }
+    judge = FirstRubricSchemaFailureJudge([rubric, facts, grounding])
+    result = SemanticEvaluator(
+        judge,
+        "blind judge",
+        judge_qualification_contract_sha256="a" * 64,
+        reward_parameters=TEST_REWARD_PARAMETERS,
+        max_attempts=2,
+    ).evaluate(trajectory, _case())
+    assert judge.calls == [
+        "semantic_rubric",
+        "semantic_rubric_repair",
+        "semantic_facts",
+        "semantic_grounding",
+    ]
+    assert "expected_action_scores只输出1项" in judge.user_prompts[1]
+    assert result.official_metrics.resolution == 1.0
+
+
+def _resume_trajectory(**updates: object) -> ResearchTrajectory:
+    value: dict[str, object] = {
+        "trajectory_id": "traj_resume",
+        "group_id": "training_batch_01.case_test.P_WD.seed_42",
+        "sample_index": 0,
+        "run_id": "run_resume",
+        "method": "training_policy_sample",
+        "partition": "training_batch_01",
+        "case_id": "case_test",
+        "domain": "civil",
+        "persona": "P_WD",
+        "seed": 42,
+        "model_id": "model/test",
+        "model_revision": "revision-1",
+        "skill_library_version": "empty",
+        "skill_delivery_mode": "none",
+        "exposed_skill_ids": [],
+        "skill_memory_sha256": "a" * 64,
+        "planner_skill_memory_sha256": "b" * 64,
+        "status": "memo_submitted",
+        "opening": "测试开场。",
+        "max_turns": 6,
+        "steps": [],
+        "opening_inquiry_agenda": {
+            "observations": [
+                {
+                    "fact_id": opening_agenda_fact_id("测试开场的发生时间"),
+                    "label": "测试开场的发生时间",
+                    "status": "unknown",
+                    "value": None,
+                    "evidence_labels": ["public_opening_anchor:测试开场"],
+                    "confidence": 0.5,
+                    "criticality": "medium",
+                    "target_kind": "client_fact",
+                }
+            ]
+        },
+        "opening_agenda_visible_input": [
+            {"role": "system", "content": "仅根据公开开场列出事实维度。"},
+            {"role": "user", "content": "客户公开开场：\n测试开场。"},
+        ],
+        "opening_agenda_attempts": [
+            {
+                "raw_output": (
+                    '{"targets":[{"topic_excerpt":"测试开场",'
+                    '"attribute":"time"}]}'
+                ),
+                "parse_mode": "json",
+                "deterministic_changes": [],
+                "health_violations": [],
+                "prompt_tokens": 10,
+                "completion_tokens": 10,
+                "finish_reason": "stop",
+            }
+        ],
+        "memo": "测试备忘录。",
+        "elapsed_seconds": 1.0,
+        "created_at": "2026-08-23T00:00:00+00:00",
+    }
+    value.update(updates)
+    return ResearchTrajectory.model_validate(value)
+
+
+def _resume_executor(tmp_path: Path) -> MainExperimentExecutor:
+    executor = object.__new__(MainExperimentExecutor)
+    executor.run_id = "run_resume"
+    executor.store = RunStore(tmp_path, executor.run_id)
+    executor.experiment = {"emergency_turn_ceiling": 6}
+    return executor
+
+
+def test_current_contract_accepts_audited_empty_opening_agenda_recovery() -> None:
+    attempts = [
+        PolicyAttempt(
+            raw_output=(
+                '{"targets":[{"topic_excerpt":"如何确定",'
+                '"attribute":"method"}]}'
+            ),
+            parse_mode="json",
+            deterministic_changes=["drop_invalid_opening_agenda_topic:0"],
+            health_violations=[
+                "agenda_target_0:query_shaped_opening_topic",
+                "opening_agenda_has_no_safe_target",
+            ],
+        )
+    ]
+    recovered = _resume_trajectory(
+        opening_inquiry_agenda=StatePatch(),
+        opening_agenda_attempts=attempts,
+        opening_agenda_safe_partial=True,
+    )
+    assert current_trajectory_contract_issues(
+        recovered, expected_run_id="run_resume"
+    ) == []
+
+    unaudited = recovered.model_copy(update={"opening_agenda_safe_partial": False})
+    assert "opening_agenda_artifact_incomplete" in {
+        item.code
+        for item in current_trajectory_contract_issues(
+            unaudited, expected_run_id="run_resume"
+        )
+    }
+
+    absent = recovered.model_copy(
+        update={
+            "opening_agenda_visible_input": [],
+            "opening_agenda_attempts": [],
+            "opening_agenda_safe_partial": False,
+        }
+    )
+    assert "opening_agenda_artifact_incomplete" in {
+        item.code
+        for item in current_trajectory_contract_issues(
+            absent, expected_run_id="run_resume"
+        )
+    }
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("fact_id", "opening_agenda_forged"),
+        ("confidence", 0.99),
+        ("criticality", "high"),
+    ],
+)
+def test_current_contract_binds_deterministic_opening_agenda_fields(
+    field: str, value: object
+) -> None:
+    trajectory = _resume_trajectory()
+    setattr(trajectory.opening_inquiry_agenda.observations[0], field, value)
+
+    assert "opening_agenda_target_contract_invalid" in {
+        item.code for item in current_trajectory_contract_issues(trajectory)
+    }
+
+
+def test_current_contract_rejects_duplicate_opening_agenda_targets() -> None:
+    trajectory = _resume_trajectory()
+    trajectory.opening_inquiry_agenda.observations.append(
+        trajectory.opening_inquiry_agenda.observations[0].model_copy()
+    )
+
+    assert "opening_agenda_target_contract_invalid" in {
+        item.code for item in current_trajectory_contract_issues(trajectory)
+    }
+
+
+def test_current_contract_binds_full_visible_dialogue_history() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_visible_history_contract",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    assert current_trajectory_contract_issues(trajectory, expected_run_id="run_test") == []
+
+    missing = trajectory.model_copy(deep=True)
+    missing.steps[0].visible_input = []
+    assert "visible_policy_history_invalid" in {
+        item.code for item in current_trajectory_contract_issues(missing)
+    }
+
+    changed = trajectory.model_copy(deep=True)
+    changed.steps[1].visible_input[2].content = "被篡改的客户回答"
+    assert "visible_policy_history_invalid" in {
+        item.code for item in current_trajectory_contract_issues(changed)
+    }
+
+
+def _mutate_policy_visible_state_payload(
+    trajectory: ResearchTrajectory,
+    *,
+    step_index: int,
+    mutate: object,
+) -> None:
+    message = trajectory.steps[step_index].visible_input[-1]
+    marker_offset = message.content.index(VISIBLE_STATE_PAYLOAD_MARKER)
+    payload_offset = marker_offset + len(VISIBLE_STATE_PAYLOAD_MARKER)
+    payload, payload_end = json.JSONDecoder().raw_decode(message.content[payload_offset:])
+    assert isinstance(payload, dict)
+    assert callable(mutate)
+    mutate(payload)
+    message.content = (
+        message.content[:payload_offset]
+        + json.dumps(payload, ensure_ascii=False, sort_keys=True)
+        + message.content[payload_offset + payload_end :]
+    )
+
+
+@pytest.mark.parametrize(
+    ("field", "expected_failure"),
+    [
+        ("interaction_count", "interaction_count_drift"),
+        ("domain", "domain_drift"),
+        ("persona", "persona_drift"),
+        ("issues", "issues_drift"),
+        ("facts", "facts_drift"),
+        ("evidence", "evidence_drift"),
+        ("asked_targets", "asked_targets_drift"),
+        ("interactions", "interaction_ledger_drift"),
+        ("unresolved_conflicts", "unresolved_conflicts_drift"),
+        ("risk_flags", "risk_flags_drift"),
+        ("information_yield", "information_yield_drift"),
+    ],
+)
+def test_current_contract_binds_each_policy_visible_state_field(
+    field: str,
+    expected_failure: str,
+) -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id=f"traj_visible_state_{field}",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+
+    def mutate(payload: dict[str, object]) -> None:
+        if field == "interaction_count":
+            payload[field] = int(payload[field]) + 1
+        elif field in {"domain", "persona"}:
+            payload[field] = "tampered"
+        elif field == "facts":
+            facts = payload[field]
+            assert isinstance(facts, list) and facts
+            assert isinstance(facts[0], dict)
+            facts[0]["label"] = "被篡改的事实标签"
+        elif field == "interactions":
+            interactions = payload[field]
+            assert isinstance(interactions, list) and interactions
+            assert isinstance(interactions[0], dict)
+            interactions[0]["new_information"] = not interactions[0]["new_information"]
+        elif field == "information_yield":
+            information_yield = payload[field]
+            assert isinstance(information_yield, dict)
+            information_yield["new_hidden_fact_turns"] = 999
+        else:
+            items = payload[field]
+            assert isinstance(items, list)
+            items.append("tampered")
+
+    _mutate_policy_visible_state_payload(
+        trajectory,
+        step_index=1,
+        mutate=mutate,
+    )
+    contract_issues = current_trajectory_contract_issues(
+        trajectory, expected_run_id="run_test"
+    )
+    visible_issue = next(
+        item
+        for item in contract_issues
+        if item.code == "visible_policy_history_invalid" and item.turn == 2
+    )
+    assert expected_failure in visible_issue.detail["failures"]
+
+
+def test_current_contract_accepts_same_criticality_fact_presentation_order() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_visible_state_fact_order",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+
+    def reverse_same_tier(payload: dict[str, object]) -> None:
+        facts = payload["facts"]
+        assert isinstance(facts, list) and len(facts) >= 2
+        assert {item["criticality"] for item in facts} == {"medium"}
+        facts.reverse()
+
+    _mutate_policy_visible_state_payload(
+        trajectory,
+        step_index=1,
+        mutate=reverse_same_tier,
+    )
+
+    assert current_trajectory_contract_issues(
+        trajectory, expected_run_id="run_test"
+    ) == []
+
+
+def test_current_contract_rejects_dropped_or_cross_tier_policy_visible_fact() -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_visible_state_fact_loss",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+
+    dropped = trajectory.model_copy(deep=True)
+
+    def drop_fact(payload: dict[str, object]) -> None:
+        facts = payload["facts"]
+        assert isinstance(facts, list) and facts
+        facts.pop()
+
+    _mutate_policy_visible_state_payload(dropped, step_index=1, mutate=drop_fact)
+    dropped_issue = next(
+        item
+        for item in current_trajectory_contract_issues(dropped, expected_run_id="run_test")
+        if item.code == "visible_policy_history_invalid" and item.turn == 2
+    )
+    assert "facts_drift" in dropped_issue.detail["failures"]
+
+    cross_tier = trajectory.model_copy(deep=True)
+    visible_state_facts = [
+        item
+        for item in cross_tier.steps[1].state_before["facts"]
+        if item["fact_id"] != "opening_statement"
+        and not item["fact_id"].startswith("opening_claim_")
+    ]
+    assert len(visible_state_facts) >= 2
+    visible_state_facts[0]["criticality"] = "high"
+    expected_payload = policy_visible_state_projection(cross_tier.steps[1].state_before)
+
+    def put_medium_before_high(payload: dict[str, object]) -> None:
+        payload.clear()
+        payload.update(expected_payload)
+        facts = payload["facts"]
+        assert isinstance(facts, list)
+        facts.reverse()
+
+    _mutate_policy_visible_state_payload(
+        cross_tier,
+        step_index=1,
+        mutate=put_medium_before_high,
+    )
+    cross_tier_issue = next(
+        item
+        for item in current_trajectory_contract_issues(
+            cross_tier, expected_run_id="run_test"
+        )
+        if item.code == "visible_policy_history_invalid" and item.turn == 2
+    )
+    assert "facts_drift" in cross_tier_issue.detail["failures"]
+
+
+@pytest.mark.parametrize("field", ["domain", "persona"])
+def test_current_contract_binds_policy_state_identity_to_trajectory(field: str) -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id=f"traj_visible_state_identity_{field}",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    trajectory.steps[0].state_before[field] = "tampered"
+    expected_payload = policy_visible_state_projection(trajectory.steps[0].state_before)
+
+    def synchronize_tampered_payload(payload: dict[str, object]) -> None:
+        payload.clear()
+        payload.update(expected_payload)
+
+    _mutate_policy_visible_state_payload(
+        trajectory,
+        step_index=0,
+        mutate=synchronize_tampered_payload,
+    )
+    visible_issue = next(
+        item
+        for item in current_trajectory_contract_issues(trajectory, expected_run_id="run_test")
+        if item.code == "visible_policy_history_invalid" and item.turn == 1
+    )
+    assert f"{field}_drift" in visible_issue.detail["failures"]
+
+
+def _resume_call(executor: MainExperimentExecutor, runner: SimpleNamespace) -> ResearchTrajectory:
+    adapter = SimpleNamespace(
+        evaluator_case=lambda case_id: {"id": case_id},
+        case_domain=lambda _case_id: "civil",
+    )
+    return MainExperimentExecutor._load_or_run(
+        executor,
+        runner=runner,
+        adapter=adapter,
+        case_id="case_test",
+        persona={"persona_id": "P_WD"},
+        skills=[],
+        trajectory_id="traj_resume",
+        method="training_policy_sample",
+        partition="training_batch_01",
+        seed=42,
+        sample_index=0,
+        group_id="training_batch_01.case_test.P_WD.seed_42",
+        skill_hash="empty",
+    )
+
+
+@pytest.mark.parametrize(
+    ("field", "drifted_value"),
+    [
+        ("trajectory_id", "traj_other"),
+        ("run_id", "run_other"),
+        ("partition", "training_batch_02"),
+        ("method", "control_no_library"),
+        ("case_id", "case_other"),
+        ("persona", "P_WS"),
+        ("seed", 43),
+        ("sample_index", 1),
+        ("group_id", "group_other"),
+        ("skill_library_version", "library_other"),
+        ("model_id", "model/other"),
+        ("model_revision", "revision-other"),
+    ],
+)
+def test_resume_rejects_every_non_error_trajectory_identity_drift(
+    tmp_path: Path, field: str, drifted_value: object
+) -> None:
+    executor = _resume_executor(tmp_path)
+    path = executor.store.trajectory_path("training_batch_01", "traj_resume")
+    executor.store.save_model(path, _resume_trajectory(**{field: drifted_value}))
+
+    def unexpected_run(**_kwargs: object) -> ResearchTrajectory:
+        raise AssertionError("identity drift must be refused, not silently rerun")
+
+    runner = SimpleNamespace(
+        policy_client=SimpleNamespace(model="model/test"),
+        model_revision="revision-1",
+        run=unexpected_run,
+    )
+    with pytest.raises(ExecutionError, match="resume identity drift") as caught:
+        _resume_call(executor, runner)
+    assert field in str(caught.value)
+
+
+def test_resume_reuses_only_an_exact_non_error_trajectory_identity(tmp_path: Path) -> None:
+    executor = _resume_executor(tmp_path)
+    expected = _resume_trajectory()
+    path = executor.store.trajectory_path("training_batch_01", "traj_resume")
+    executor.store.save_model(path, expected)
+
+    def unexpected_run(**_kwargs: object) -> ResearchTrajectory:
+        raise AssertionError("an exact completed trajectory must be reused")
+
+    runner = SimpleNamespace(
+        policy_client=SimpleNamespace(model="model/test"),
+        model_revision="revision-1",
+        run=unexpected_run,
+    )
+    assert _resume_call(executor, runner) == expected
+
+
+def test_resume_reuses_an_audited_empty_opening_agenda(tmp_path: Path) -> None:
+    executor = _resume_executor(tmp_path)
+    expected = _resume_trajectory(
+        opening_inquiry_agenda=StatePatch(),
+        opening_agenda_safe_partial=False,
+        opening_agenda_attempts=[
+            PolicyAttempt(
+                raw_output='{"targets":[]}',
+                parse_mode="json",
+                deterministic_changes=[],
+                health_violations=[],
+            )
+        ],
+    )
+    path = executor.store.trajectory_path("training_batch_01", "traj_resume")
+    executor.store.save_model(path, expected)
+
+    def unexpected_run(**_kwargs: object) -> ResearchTrajectory:
+        raise AssertionError("an audited explicit-empty agenda must be reusable")
+
+    runner = SimpleNamespace(
+        policy_client=SimpleNamespace(model="model/test"),
+        model_revision="revision-1",
+        run=unexpected_run,
+    )
+    assert _resume_call(executor, runner) == expected
+
+
+def test_load_or_run_persists_a_fresh_audited_empty_opening_agenda(
+    tmp_path: Path,
+) -> None:
+    executor = _resume_executor(tmp_path)
+    expected = _resume_trajectory(
+        opening_inquiry_agenda=StatePatch(),
+        opening_agenda_safe_partial=True,
+        opening_agenda_attempts=[
+            PolicyAttempt(
+                raw_output=(
+                    '{"targets":[{"topic_excerpt":"如何确定",'
+                    '"attribute":"method"}]}'
+                ),
+                parse_mode="json",
+                deterministic_changes=["drop_invalid_opening_agenda_topic:0"],
+                health_violations=[
+                    "agenda_target_0:query_shaped_opening_topic",
+                    "opening_agenda_has_no_safe_target",
+                ],
+            )
+        ],
+    )
+    runner = SimpleNamespace(
+        policy_client=SimpleNamespace(model="model/test"),
+        model_revision="revision-1",
+        run=lambda **_kwargs: expected,
+    )
+
+    assert _resume_call(executor, runner) == expected
+    path = executor.store.trajectory_path("training_batch_01", "traj_resume")
+    assert executor.store.load_model(path, ResearchTrajectory) == expected
+
+
+def test_error_trajectory_is_persisted_and_rerun_on_resume(tmp_path: Path) -> None:
+    executor = _resume_executor(tmp_path)
+    results = [
+        _resume_trajectory(status="error", error="model service unavailable", memo=""),
+        _resume_trajectory(),
+    ]
+    calls = 0
+
+    def run(**_kwargs: object) -> ResearchTrajectory:
+        nonlocal calls
+        calls += 1
+        return results.pop(0)
+
+    runner = SimpleNamespace(
+        policy_client=SimpleNamespace(model="model/test"),
+        model_revision="revision-1",
+        run=run,
+    )
+    path = executor.store.trajectory_path("training_batch_01", "traj_resume")
+    assert _resume_call(executor, runner).status == "error"
+    assert executor.store.load_model(path, ResearchTrajectory).status == "error"
+    assert _resume_call(executor, runner).status == "memo_submitted"
+    assert calls == 2
+    assert executor.store.load_model(path, ResearchTrajectory).status == "memo_submitted"
+
+
+def test_official_health_scores_safe_terminal_failures_without_resampling() -> None:
+    trajectory = _resume_trajectory(
+        status="max_turns_forced_memo",
+        memo_safe_fallback=True,
+        memo_health_violations=[],
+    )
+    report = official_evaluation_health_report(
+        [trajectory],
+        {trajectory.case_id: {"id": trajectory.case_id, "facts": []}},
+        expected_run_id="run_resume",
+    )
+    observed = report["quality_diagnostics"]["observed_terminal_outcomes"]
+    assert observed["counts"] == {"memo_fallback_used": 1}
+    assert report["quality_diagnostics"][
+        "emergency_turn_ceiling_reached_count"
+    ] == 1
+    assert "emergency_turn_ceiling_reached" not in report["counts"]
+    assert "memo_fallback_used" not in report["counts"]
+
+
+def test_run_store_detects_manifest_tampering_and_identity_is_stable(tmp_path: Path) -> None:
+    store = RunStore(tmp_path, "run_01")
+    first = trajectory_identity(
+        run_id="run_01",
+        partition="train",
+        method="training_policy_sample",
+        case_id="c1",
+        persona="P_WD",
+        seed=42,
+        sample_index=0,
+        skill_library_version="empty",
+    )
+    second = trajectory_identity(
+        run_id="run_01",
+        partition="train",
+        method="training_policy_sample",
+        case_id="c1",
+        persona="P_WD",
+        seed=42,
+        sample_index=0,
+        skill_library_version="empty",
+    )
+    assert first == second
+    path = store.write_manifest("run", {"schema_version": 1, "model": "qwen"})
+    assert store.read_manifest("run")["model"] == "qwen"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["model"] = "changed"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(ValueError, match="hash mismatch"):
+        store.read_manifest("run")
+
+
+def test_run_store_round_trips_evaluation_without_computed_field_leak(
+    tmp_path: Path,
+) -> None:
+    runner, _, _ = _runner()
+    trajectory = runner.run(
+        raw_case=_case(),
+        persona={"persona_id": "P_WD", "who": {"zh": "当事人"}, "voice": {"zh": "简短"}},
+        skills=[],
+        trajectory_id="traj_round_trip",
+        run_id="run_test",
+        method="training_policy_sample",
+        partition="training_round_01",
+        seed=42,
+        sample_index=0,
+        max_turns=3,
+        group_id="group_test",
+        skill_library_version="empty",
+    )
+    judge = ScriptedJudge(
+        [
+            {
+                "memo_expectation_scores": [1],
+                "expected_action_scores": [1],
+                "analysis": "完整",
+            },
+            {
+                "covered_fact_ids": ["F1", "F2"],
+                "missed_fact_ids": [],
+                "correct_fact_ids": ["F1", "F2"],
+                "incorrect_facts": [],
+                "grounded_claims": [{"claim": "主张", "basis": "对话"}],
+                "unsupported_claims": [],
+            },
+            {
+                "claims": {
+                    claim_id: {"classification": "grounded", "basis": "对话"}
+                    for claim_id in memo_claim_spans(trajectory.memo)
+                }
+            },
+        ]
+    )
+    evaluation = SemanticEvaluator(
+        judge,
+        "blind judge",
+        judge_qualification_contract_sha256="a" * 64,
+        reward_parameters=TEST_REWARD_PARAMETERS,
+        max_attempts=2,
+    ).evaluate(trajectory, _case())
+    store = RunStore(tmp_path, "round_trip")
+    path = store.evaluation_path(evaluation.trajectory_id)
+    store.save_model(path, evaluation)
+    persisted = json.loads(path.read_text(encoding="utf-8"))
+    assert "total_claims" not in persisted["fact_judgment"]
+    assert persisted["judge_qualification_contract_sha256"] == "a" * 64
+    assert store.load_model(path, type(evaluation)) == evaluation
+    persisted["fact_judgment"]["total_claims"] = evaluation.fact_judgment.total_claims
+    path.write_text(json.dumps(persisted), encoding="utf-8")
+    assert store.load_model(path, type(evaluation)) == evaluation
+
+
+def test_model_manifest_verifier_detects_weight_tampering(tmp_path: Path) -> None:
+    snapshot = tmp_path / "model"
+    snapshot.mkdir()
+    weight = snapshot / "weights.bin"
+    weight.write_bytes(b"frozen-weight")
+    import hashlib  # noqa: PLC0415
+
+    manifest = {
+        "model_id": "model/test",
+        "revision": "revision-1",
+        "snapshot": "model",
+        "files": {
+            "weights.bin": {
+                "bytes": weight.stat().st_size,
+                "sha256": hashlib.sha256(weight.read_bytes()).hexdigest(),
+            }
+        },
+    }
+    manifest_path = tmp_path / "manifest.json"
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    role = {
+        "model_id": "model/test",
+        "revision": "revision-1",
+        "local_snapshot": "model",
+        "manifest": "manifest.json",
+    }
+    assert verify_model_manifest(tmp_path, role)["passed"] is True
+    weight.write_bytes(b"changed-weight")
+    result = verify_model_manifest(tmp_path, role)
+    assert result["passed"] is False
+    assert result["hash_mismatches"][0]["file"] == "weights.bin"
+
+
+def test_model_manifest_can_require_verified_upstream_weight_hashes(tmp_path: Path) -> None:
+    import hashlib  # noqa: PLC0415
+
+    snapshot = tmp_path / "model"
+    snapshot.mkdir()
+    weight = snapshot / "model.safetensors"
+    weight.write_bytes(b"official-weight")
+    digest = hashlib.sha256(weight.read_bytes()).hexdigest()
+    manifest = {
+        "model_id": "model/test",
+        "revision": "revision-1",
+        "snapshot": "model",
+        "upstream_hashes_verified": True,
+        "files": {
+            weight.name: {
+                "bytes": weight.stat().st_size,
+                "sha256": digest,
+                "upstream_sha256": digest,
+            }
+        },
+    }
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    role = {
+        "model_id": "model/test",
+        "revision": "revision-1",
+        "local_snapshot": "model",
+        "manifest": "manifest.json",
+        "require_upstream_hashes_verified": True,
+    }
+    assert verify_model_manifest(tmp_path, role)["passed"] is True
+    manifest["files"][weight.name]["upstream_sha256"] = "unverified"
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    result = verify_model_manifest(tmp_path, role)
+    assert result["passed"] is False
+    assert result["metadata_mismatches"][0]["field"].endswith("upstream_sha256")
+
+
+def test_parallel_executor_preserves_declared_matrix_order() -> None:
+    assert parallel_map_ordered(
+        [3, 1, 2], lambda value: value * 10, max_workers=3, label="test_parallel"
+    ) == [30, 10, 20]
+
+
+def test_parallel_executor_fail_fast_cancels_units_that_have_not_started() -> None:
+    seen: list[int] = []
+
+    def fail_first(value: int) -> int:
+        seen.append(value)
+        if value == 1:
+            raise RuntimeError("invalid atomic result")
+        return value
+
+    with pytest.raises(ExecutionError, match="failed fast"):
+        parallel_map_ordered(
+            [1, 2, 3],
+            fail_first,
+            max_workers=1,
+            label="test_parallel_fail_fast",
+            fail_fast=True,
+        )
+    assert seen == [1]
+
+
+def test_parallel_executor_fail_fast_on_error_trajectory_status() -> None:
+    seen: list[int] = []
+    failed = ResearchTrajectory.model_construct(
+        trajectory_id="trajectory-error",
+        status="error",
+        error="model service unavailable",
+    )
+    succeeded = ResearchTrajectory.model_construct(
+        trajectory_id="trajectory-success",
+        status="memo_submitted",
+        error=None,
+    )
+
+    def return_trajectory(value: int) -> ResearchTrajectory:
+        seen.append(value)
+        return failed if value == 1 else succeeded
+
+    with pytest.raises(ExecutionError, match="error trajectory trajectory-error"):
+        parallel_map_ordered(
+            [1, 2, 3],
+            return_trajectory,
+            max_workers=1,
+            label="test_error_trajectory_fail_fast",
+            fail_fast=True,
+        )
+    assert seen == [1]
+
+
+def test_codex_adapter_retries_forbidden_tool_event_and_never_caches_it(tmp_path: Path) -> None:
+    executable = tmp_path / "codex"
+    executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    executable.chmod(0o755)
+    calls = 0
+
+    def command_runner(command, **kwargs):
+        nonlocal calls
+        calls += 1
+        if calls == 1:
+            return subprocess.CompletedProcess(command, 0, '{"type":"command_execution"}')
+        output = Path(command[command.index("--output-last-message") + 1])
+        output.write_text('{"ready":true}', encoding="utf-8")
+        return subprocess.CompletedProcess(
+            command,
+            0,
+            '{"type":"item.completed"}\n'
+            '{"type":"turn.completed","usage":{"input_tokens":20000,'
+            '"cached_input_tokens":10000,"output_tokens":1000,'
+            '"reasoning_output_tokens":100}}',
+        )
+
+    client = CodexCLIClient(
+        model="gpt-5.6-luna",
+        cache_root=tmp_path / "cache",
+        retries=1,
+        executable=str(executable),
+        command_runner=command_runner,
+    )
+    response = client.generate_json(
+        purpose="test",
+        system_prompt="system",
+        user_prompt="user",
+        output_schema={"type": "object"},
+    )
+    assert calls == 2
+    assert response.value == {"ready": True}
+    assert client.generate_json(
+        purpose="test",
+        system_prompt="system",
+        user_prompt="user",
+        output_schema={"type": "object"},
+    ).cache_hit
+    assert calls == 2
+
+
+def test_codex_adapter_rejects_cross_run_cache_identity_drift(tmp_path: Path) -> None:
+    executable = tmp_path / "codex"
+    executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    executable.chmod(0o755)
+
+    def command_runner(command, **kwargs):
+        output = Path(command[command.index("--output-last-message") + 1])
+        output.write_text('{"ready":true}', encoding="utf-8")
+        return subprocess.CompletedProcess(command, 0, '{"type":"item.completed"}')
+
+    client = CodexCLIClient(
+        model="gpt-5.6-luna",
+        cache_root=tmp_path / "cache",
+        retries=0,
+        executable=str(executable),
+        command_runner=command_runner,
+    )
+    response = client.generate_json(
+        purpose="preflight",
+        system_prompt="system",
+        user_prompt="user",
+        output_schema={"type": "object"},
+    )
+    cache_path = tmp_path / "cache" / "preflight" / f"{response.request_sha256}.json"
+    cached = json.loads(cache_path.read_text(encoding="utf-8"))
+    cached["model"] = "different-model"
+    cache_path.write_text(json.dumps(cached), encoding="utf-8")
+
+    with pytest.raises(CodexInvocationError, match="cache contract mismatch"):
+        client.generate_json(
+            purpose="preflight",
+            system_prompt="system",
+            user_prompt="user",
+            output_schema={"type": "object"},
+        )
+
+
+def test_codex_preflight_reports_canonical_executable_identity(tmp_path: Path) -> None:
+    executable = tmp_path / "codex-real"
+    executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    executable.chmod(0o755)
+    symlink = tmp_path / "codex"
+    symlink.symlink_to(executable)
+
+    def command_runner(command, **kwargs):
+        assert command[0] == str(symlink)
+        return subprocess.CompletedProcess(command, 0, "Logged in using ChatGPT")
+
+    client = CodexCLIClient(
+        model="teacher-test",
+        cache_root=tmp_path / "cache",
+        retries=0,
+        executable=str(symlink),
+        command_runner=command_runner,
+    )
+    report = client.preflight()
+    assert report["ready"] is True
+    assert report["executable"] == str(executable.resolve())
+
+
+def test_codex_timeout_terminates_and_reaps_entire_process_group(tmp_path: Path) -> None:
+    child_pid_path = tmp_path / "child.pid"
+    executable = tmp_path / "process-tree.sh"
+    executable.write_text(
+        f"#!/bin/sh\nsleep 60 &\necho $! > {child_pid_path}\nwait\n",
+        encoding="utf-8",
+    )
+    executable.chmod(0o755)
+    with pytest.raises(subprocess.TimeoutExpired):
+        run_process_tree(
+            [str(executable)],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            timeout=0.2,
+            check=False,
+        )
+    child_pid = int(child_pid_path.read_text(encoding="utf-8"))
+    with pytest.raises(ProcessLookupError):
+        os.kill(child_pid, 0)
+
+
+def test_process_tree_delivers_explicit_input_through_stdin_pipe() -> None:
+    completed = run_process_tree(
+        [sys.executable, "-c", "import sys; print(sys.stdin.read())"],
+        input="teacher prompt",
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        timeout=5,
+        check=False,
+    )
+    assert completed.returncode == 0
+    assert completed.stdout.strip() == "teacher prompt"
+
+
+def test_teacher_schema_is_normalized_to_strict_structured_outputs_subset() -> None:
+    raw = SkillDiagnosis.model_json_schema()
+    assert strict_output_schema_issues(raw)
+    normalized = strict_output_schema(raw)
+    assert strict_output_schema_issues(normalized) == []
+    skill = normalized["$defs"]["SkillContract"]
+    assert skill["required"] == list(skill["properties"])
+    assert {
+        "objective",
+        "applicability_cues",
+        "procedure",
+        "question_guidance",
+        "expected_effects",
+        "contraindications",
+        "failure_modes",
+    } <= set(skill["properties"])
+    assert {
+        "preconditions",
+        "operation",
+        "reads",
+        "validators",
+        "guardrails",
+    }.isdisjoint(skill["properties"])
+
+
+def test_codex_rejects_invalid_schema_before_budget_reservation(tmp_path: Path) -> None:
+    budget_path = tmp_path / "budget.json"
+    client = CodexCLIClient(
+        model="gpt-5.6-luna",
+        cache_root=tmp_path / "cache",
+        executable="must-not-be-resolved",
+        invocation_budget_path=budget_path,
+        max_invocations=48,
+    )
+    with pytest.raises(CodexInvocationError, match="output schema violates strict"):
+        client.generate_json(
+            purpose="invalid_schema",
+            system_prompt="system",
+            user_prompt="user",
+            output_schema={
+                "type": "object",
+                "properties": {"ready": {"type": "boolean", "default": True}},
+                "additionalProperties": False,
+            },
+        )
+    assert not budget_path.exists()
+
+
+def test_codex_adapter_fails_closed_when_every_attempt_uses_tools(tmp_path: Path) -> None:
+    executable = tmp_path / "codex"
+    executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    executable.chmod(0o755)
+
+    def command_runner(command, **kwargs):
+        return subprocess.CompletedProcess(command, 0, '{"type":"web_search"}')
+
+    client = CodexCLIClient(
+        model="teacher-test",
+        cache_root=tmp_path / "cache",
+        retries=0,
+        executable=str(executable),
+        command_runner=command_runner,
+    )
+    with pytest.raises(CodexInvocationError, match="forbidden tool call"):
+        client.generate_json(
+            purpose="test",
+            system_prompt="system",
+            user_prompt="user",
+            output_schema={"type": "object"},
+        )
+    artifacts = list((tmp_path / "cache" / "_failures" / "test").glob("*.json"))
+    assert len(artifacts) == 1
+    artifact = json.loads(artifacts[0].read_text(encoding="utf-8"))
+    assert artifact["error_message"] == "Codex attempted a forbidden tool call"
+    assert artifact["event_log_tail"] == '{"type":"web_search"}'
+    assert "system" not in artifacts[0].read_text(encoding="utf-8")
+
+
+def test_codex_adapter_persists_nonzero_transport_failure(tmp_path: Path) -> None:
+    executable = tmp_path / "codex"
+    executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    executable.chmod(0o755)
+
+    def command_runner(command, **kwargs):
+        return subprocess.CompletedProcess(
+            command,
+            1,
+            '{"type":"error","message":"transport unavailable"}\n',
+        )
+
+    client = CodexCLIClient(
+        model="teacher-test",
+        cache_root=tmp_path / "cache",
+        retries=0,
+        executable=str(executable),
+        command_runner=command_runner,
+    )
+    with pytest.raises(CodexInvocationError, match="Codex exited 1"):
+        client.generate_json(
+            purpose="skill_teacher",
+            system_prompt="private system prompt",
+            user_prompt="private user prompt",
+            output_schema={"type": "object"},
+        )
+    artifacts = list((tmp_path / "cache" / "_failures" / "skill_teacher").glob("*.json"))
+    assert len(artifacts) == 1
+    artifact_text = artifacts[0].read_text(encoding="utf-8")
+    artifact = json.loads(artifact_text)
+    assert artifact["returncode"] == 1
+    assert artifact["failure_events"] == [{"type": "error", "message": "transport unavailable"}]
+    assert "private system prompt" not in artifact_text
+    assert "private user prompt" not in artifact_text
+
+
+def test_codex_adapter_persists_timeout_failure(tmp_path: Path) -> None:
+    executable = tmp_path / "codex"
+    executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    executable.chmod(0o755)
+
+    def command_runner(command, **kwargs):
+        raise subprocess.TimeoutExpired(command, timeout=kwargs["timeout"])
+
+    client = CodexCLIClient(
+        model="teacher-test",
+        cache_root=tmp_path / "cache",
+        retries=0,
+        executable=str(executable),
+        command_runner=command_runner,
+    )
+    with pytest.raises(CodexInvocationError, match="TimeoutExpired"):
+        client.generate_json(
+            purpose="skill_teacher",
+            system_prompt="system",
+            user_prompt="user",
+            output_schema={"type": "object"},
+        )
+    artifacts = list((tmp_path / "cache" / "_failures" / "skill_teacher").glob("*.json"))
+    assert len(artifacts) == 1
+    artifact = json.loads(artifacts[0].read_text(encoding="utf-8"))
+    assert artifact["error_type"] == "TimeoutExpired"
+    assert artifact["returncode"] is None
+
+
+def test_codex_adapter_enforces_persistent_hard_invocation_budget(tmp_path: Path) -> None:
+    executable = tmp_path / "codex"
+    executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    executable.chmod(0o755)
+    calls = 0
+
+    def command_runner(command, **kwargs):
+        nonlocal calls
+        calls += 1
+        output = Path(command[command.index("--output-last-message") + 1])
+        output.write_text('{"ready":true}', encoding="utf-8")
+        return subprocess.CompletedProcess(
+            command,
+            0,
+            '{"type":"item.completed"}\n'
+            '{"type":"turn.completed","usage":{"input_tokens":20000,'
+            '"cached_input_tokens":10000,"output_tokens":1000,'
+            '"reasoning_output_tokens":100}}',
+        )
+
+    budget_path = tmp_path / "budget.json"
+    client = CodexCLIClient(
+        model="gpt-5.6-luna",
+        cache_root=tmp_path / "cache",
+        retries=0,
+        executable=str(executable),
+        command_runner=command_runner,
+        invocation_budget_path=budget_path,
+        max_invocations=1,
+    )
+    first = client.generate_json(
+        purpose="test",
+        system_prompt="system",
+        user_prompt="first",
+        output_schema={"type": "object"},
+    )
+    assert first.invocation["budget_reservation"]["sequence"] == 1
+    assert first.invocation["usage"]["input_tokens"] == 20000
+    assert first.invocation["estimated_luna_credits"] == 0.085
+    assert client.generate_json(
+        purpose="test",
+        system_prompt="system",
+        user_prompt="first",
+        output_schema={"type": "object"},
+    ).cache_hit
+    with pytest.raises(CodexInvocationError, match="hard invocation budget exhausted"):
+        client.generate_json(
+            purpose="test",
+            system_prompt="system",
+            user_prompt="second",
+            output_schema={"type": "object"},
+        )
+    assert calls == 1
+    assert len(json.loads(budget_path.read_text(encoding="utf-8"))["reservations"]) == 1
+
+
+def test_teacher_response_cache_isolated_between_runs_and_reused_within_run(
+    tmp_path: Path,
+) -> None:
+    executable = tmp_path / "codex"
+    executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    executable.chmod(0o755)
+    calls = 0
+
+    def command_runner(command, **kwargs):
+        nonlocal calls
+        calls += 1
+        output = Path(command[command.index("--output-last-message") + 1])
+        output.write_text('{"ready":true}', encoding="utf-8")
+        return subprocess.CompletedProcess(
+            command,
+            0,
+            '{"type":"turn.completed","usage":{"input_tokens":1000,'
+            '"cached_input_tokens":0,"output_tokens":100,"reasoning_output_tokens":0}}',
+        )
+
+    budget_path = tmp_path / "runs/main_experiment_shared/luna_invocation_budget.json"
+
+    def client(run_id: str) -> CodexCLIClient:
+        store = RunStore(tmp_path / "runs", run_id)
+        return CodexCLIClient(
+            model="gpt-5.6-luna",
+            cache_root=teacher_response_cache_root(store),
+            retries=0,
+            executable=str(executable),
+            command_runner=command_runner,
+            invocation_budget_path=budget_path,
+            max_invocations=4,
+        )
+
+    first_run = client("formal_run_one")
+    same_run = client("formal_run_one")
+    second_run = client("formal_run_two")
+    request = {
+        "purpose": "skill_teacher_batch",
+        "system_prompt": "system",
+        "user_prompt": "same evidence",
+        "output_schema": {"type": "object"},
+    }
+
+    assert first_run.cache_root == same_run.cache_root
+    assert first_run.cache_root != second_run.cache_root
+    assert first_run.generate_json(**request).cache_hit is False
+    assert same_run.generate_json(**request).cache_hit is True
+    assert second_run.generate_json(**request).cache_hit is False
+    assert calls == 2
+    assert len(json.loads(budget_path.read_text(encoding="utf-8"))["reservations"]) == 2
+
+
+def test_codex_budget_status_reports_capacity_without_reserving(tmp_path: Path) -> None:
+    budget_path = tmp_path / "budget.json"
+    client = CodexCLIClient(
+        model="gpt-5.6-luna",
+        cache_root=tmp_path / "cache",
+        executable="unused",
+        invocation_budget_path=budget_path,
+        max_invocations=3,
+    )
+    assert client.invocation_budget_status() == {
+        "hard_limit": 3,
+        "reserved": 0,
+        "available": 3,
+    }
+    assert not budget_path.exists()
+    budget_path.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "model": "gpt-5.6-luna",
+                "max_invocations": 3,
+                "reservations": [{"sequence": 1}],
+            }
+        ),
+        encoding="utf-8",
+    )
+    assert client.invocation_budget_status() == {
+        "hard_limit": 3,
+        "reserved": 1,
+        "available": 2,
+    }
+
+
+def test_paired_statistics_are_deterministic_and_bh_monotone() -> None:
+    deltas = [0.1, 0.2, -0.05, 0.3]
+    first = paired_bootstrap_interval(deltas, samples=500, seed=7)
+    second = paired_bootstrap_interval(deltas, samples=500, seed=7)
+    assert first == second
+    assert paired_sign_flip_p_value(deltas, samples=500, seed=7) == paired_sign_flip_p_value(
+        deltas, samples=500, seed=7
+    )
+    adjusted = benjamini_hochberg({"a": 0.01, "b": 0.03, "c": 0.2})
+    assert 0 <= adjusted["a"] <= adjusted["b"] <= adjusted["c"] <= 1
+
+
+def test_paired_statistics_cluster_persona_seed_repetitions_by_case() -> None:
+    deltas = clustered_mean_deltas(
+        ["case_b", "case_a", "case_a", "case_b"],
+        [0.0, 0.2, 0.4, 0.0],
+        [0.4, 0.4, 0.2, 0.2],
+    )
+    assert deltas == pytest.approx([0.0, 0.3])
+
+
+def test_teacher_group_budget_covers_cases_before_repeating_one_case() -> None:
+    groups = []
+    for case_index, case_id in enumerate(("case_a", "case_b", "case_c")):
+        for persona_index in range(3):
+            group = SimpleNamespace(
+                informative=True,
+                std_reward=1.0 - case_index * 0.1 - persona_index * 0.01,
+                group_id=f"{case_id}.{persona_index}",
+            )
+            trajectory = SimpleNamespace(
+                case_id=case_id,
+                domain=f"domain_{case_index}",
+                persona=f"persona_{persona_index}",
+            )
+            groups.append((group, {f"t_{case_id}_{persona_index}": trajectory}))
+    selected = select_diverse_teacher_groups(groups, budget=4, maximum_per_case=2)
+    selected_cases = [next(iter(mapped.values())).case_id for _, mapped in selected]
+    assert set(selected_cases[:3]) == {"case_a", "case_b", "case_c"}
+    assert Counter(selected_cases).most_common(1)[0][1] == 2
+
+
+def test_general_teacher_group_truncation_preserves_two_source_domains() -> None:
+    groups = []
+    for index in range(16):
+        group = SimpleNamespace(std_reward=2.0 - index * 0.01, group_id=f"civil_{index}")
+        trajectory = SimpleNamespace(
+            case_id=f"civil_case_{index}",
+            domain="consumer_contract",
+        )
+        groups.append((group, {f"civil_t_{index}": trajectory}))
+    minority_group = SimpleNamespace(std_reward=0.01, group_id="labor_rare")
+    minority_trajectory = SimpleNamespace(case_id="labor_case", domain="labor_employment")
+    groups.append((minority_group, {"labor_t": minority_trajectory}))
+
+    selected = select_diverse_teacher_groups(
+        groups,
+        budget=15,
+        maximum_per_case=2,
+        minimum_source_domains=2,
+    )
+
+    assert len(selected) == 15
+    assert {next(iter(mapped.values())).domain for _, mapped in selected} == {
+        "consumer_contract",
+        "labor_employment",
+    }
+
+
+def test_training_random_streams_vary_only_for_sampled_policy() -> None:
+    assert policy_sampling_seed(42, 0, 1) != policy_sampling_seed(42, 1, 1)
+    assert shared_component_seed(42, 1) == shared_component_seed(42, 1)
+    assert shared_component_seed(42, 1) != shared_component_seed(42, 2)
+    assert client_environment_seed(42) == shared_component_seed(42, 1)
+
+
+def test_client_routing_requires_attribute_and_event_alignment() -> None:
+    state = ConsultationState(
+        session_id="routing-proof",
+        max_turns=8,
+        facts=[
+            FactSlot(
+                fact_id="F1",
+                label="与上线的通讯记录是否保存完整",
+                target_kind="client_fact",
+            )
+        ],
+    )
+    stale_target = StructuredAction(
+        action_type="ask",
+        target_type="fact",
+        target_id="F1",
+        content="您是否曾与上线讨论过操作方式？",
+    )
+    aligned_target = stale_target.model_copy(update={"content": "您与上线的通讯记录保存得完整吗？"})
+
+    assert (
+        client_routing_question(stale_target, state, stale_target.content) == stale_target.content
+    )
+    assert (
+        client_routing_question(aligned_target, state, aligned_target.content)
+        == "与上线的通讯记录是否保存完整"
+    )
+
+
+def test_client_routing_never_replaces_invalid_question_with_target_label() -> None:
+    state = ConsultationState(
+        session_id="routing-invalid-surface",
+        max_turns=8,
+        facts=[
+            FactSlot(
+                fact_id="challenge_handling",
+                label="招标方处理质疑的具体方式",
+                target_kind="client_fact",
+            )
+        ],
+    )
+    legal_judgment = StructuredAction(
+        action_type="ask",
+        target_type="fact",
+        target_id="challenge_handling",
+        expected_information="招标方处理质疑的具体方式",
+        content="招标方是否依法处理质疑？",
+    )
+
+    assert (
+        client_routing_question(legal_judgment, state, legal_judgment.content)
+        == legal_judgment.content
+    )
+
+
+def test_policy_stream_index_never_rewrites_method_specific_arms() -> None:
+    for method in ("training_policy_sample", "no_skill", "frozen_skill_library"):
+        assert [policy_stream_index(method, index) for index in range(4)] == [0, 1, 2, 3]
+    with pytest.raises(ValueError, match="sample_index must be non-negative"):
+        policy_stream_index("training_policy_sample", -1)
+
+
+def test_training_k_group_uses_four_independent_streams_from_first_turn() -> None:
+    assert investigation_planning_seed(42) == shared_component_seed(42, 0)
+    assert len({investigation_planning_seed(42) for _ in range(4)}) == 1
+    case_id = "branch-contract-case"
+    branch_turn = training_policy_branch_turn(case_id)
+    assert branch_turn == 1
+    assert {training_policy_branch_turn(f"frozen-case-{index}") for index in range(64)} == {1}
+    assert [
+        policy_sampling_stream_index(
+            "training_policy_sample", index, case_id=case_id, turn=branch_turn
+        )
+        for index in range(4)
+    ] == [0, 1, 2, 3]
+    assert [
+        policy_sampling_stream_index("legal_skill_evolve", index, case_id=case_id, turn=1)
+        for index in range(4)
+    ] == [0, 1, 2, 3]
+
+
+def test_training_exact_prefix_schedule_is_bound_by_the_main_protocol() -> None:
+    root = Path(__file__).resolve().parents[2]
+    config = yaml.safe_load(
+        (root / "configs/experiments/main_experiment.yaml").read_text(encoding="utf-8")
+    )
+    personas = ("P_WD", "P_WS", "P_CS", "P_CD")
+    _validate_persona_seed_protocol(
+        config,
+        available_personas=personas,
+        external_case_ids=None,
+    )
+    drifted = json.loads(json.dumps(config))
+    drifted["trajectory_sampling"]["training_exact_prefix_branching"]["branch_turns"] = [2, 3, 4, 5]
+    with pytest.raises(ValueError, match="exact-prefix branch schedule"):
+        _validate_persona_seed_protocol(
+            drifted,
+            available_personas=personas,
+            external_case_ids=None,
+        )
+
+
+def test_formal_ours_uses_one_unified_domain_investigation_objective() -> None:
+    root = Path(__file__).resolve().parents[2]
+    config = yaml.safe_load(
+        (root / "configs/experiments/main_experiment.yaml").read_text(encoding="utf-8")
+    )
+    assert formal_learnable_skill_objectives(config) == ("fact_elicitation",)
+    fact_skill, _, _, safe_stop_skill, _ = synthetic_skills()
+    assert (
+        formal_skill_document_issues(
+            fact_skill,
+            learnable_objectives=formal_learnable_skill_objectives(config),
+        )
+        == []
+    )
+    assert formal_skill_document_issues(
+        safe_stop_skill,
+        learnable_objectives=formal_learnable_skill_objectives(config),
+    ) == ["objective_outside_formal_learned_boundary:safe_stop"]
+
+    terminating_fact_skill = fact_skill.model_copy(deep=True)
+    terminating_fact_skill.procedure = ["没有其他目标时结束事实调查"]
+    assert (
+        formal_skill_document_issues(
+            terminating_fact_skill,
+            learnable_objectives=formal_learnable_skill_objectives(config),
+        )
+        == []
+    )
+
+    target_switch_skill = fact_skill.model_copy(deep=True)
+    target_switch_skill.procedure = ["目标明确不可得后，停止改写重复追问并转向另一事实"]
+    assert (
+        formal_skill_document_issues(
+            target_switch_skill,
+            learnable_objectives=formal_learnable_skill_objectives(config),
+        )
+        == []
+    )
+
+    drifted = json.loads(json.dumps(config))
+    drifted["skill_evolution"]["learnable_objectives"].append("safe_stop")
+    with pytest.raises(ValueError, match="formal learned objective"):
+        formal_learnable_skill_objectives(drifted)
+
+
+def test_trajectory_level_teacher_contrast_uses_fact_dominance_without_shared_state() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+    from legal_skill_guard.schemas.action import StructuredAction  # noqa: PLC0415
+
+    def trajectory(trajectory_id: str, target_id: str, selected: list[str], reward: float):
+        action = StructuredAction(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=f"请说明{target_id}？",
+        )
+        state = {
+            "session_id": trajectory_id,
+            "facts": [
+                {
+                    "fact_id": "F1",
+                    "label": "事实一",
+                    "status": "unknown",
+                    "target_kind": "client_fact",
+                },
+                {
+                    "fact_id": "F2",
+                    "label": "事实二",
+                    "status": "unknown",
+                    "target_kind": "client_fact",
+                },
+            ],
+        }
+        item = SimpleNamespace(
+            turn=1,
+            state_before=state,
+            state_patch=StatePatch(),
+            proposed_action=action,
+            rendered_question=action.content,
+            client_response_kind="new_hidden_fact" if selected else "unavailable",
+            client_selected_fact_ids=selected,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+        return SimpleNamespace(trajectory_id=trajectory_id, steps=[item]), ScoredMember(
+            trajectory_id=trajectory_id, reward=reward, turns=1
+        )
+
+    positive, positive_score = trajectory("positive", "F1", ["F1"], 0.7)
+    negative, negative_score = trajectory("negative", "F2", [], 0.2)
+    group = AdvantageGroup(
+        group_id="independent-grpo",
+        members=[positive_score, negative_score],
+        mean_reward=0.45,
+        std_reward=0.25,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(
+        group, {"positive": positive, "negative": negative}
+    )
+
+    assert len(selections) == 1
+    assert selections[0].signal_family == "fact_elicitation"
+    assert selections[0].fact_gain == 1
+    assert selections[0].immediate_fact_gain == 1
+    assert selections[0].selection_basis == "trajectory_level_fact_dominance"
+
+
+def test_immediate_healthy_fact_fork_survives_unrelated_later_repeat() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(turn: int, target_id: str, selected: list[str]):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information=target_id,
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ],
+                "asked_targets": [],
+                "interactions": [],
+            },
+            rendered_question=target_id,
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            client_response_kind="new_hidden_fact" if selected else "unavailable",
+            client_selected_fact_ids=selected,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    positive = SimpleNamespace(
+        trajectory_id="positive",
+        steps=[step(1, "F1", ["F1"]), step(2, "F2", [])],
+    )
+    negative = SimpleNamespace(
+        trajectory_id="negative",
+        steps=[step(1, "F3", []), step(2, "F4", [])],
+    )
+    group = AdvantageGroup(
+        group_id="immediate-fact-with-later-repeat",
+        members=[
+            ScoredMember(
+                trajectory_id="positive",
+                reward=0.7,
+                repeated_question=True,
+                turns=2,
+            ),
+            ScoredMember(trajectory_id="negative", reward=0.2, turns=2),
+        ],
+        mean_reward=0.45,
+        std_reward=0.25,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(
+        group, {"positive": positive, "negative": negative}
+    )
+
+    assert len(selections) == 1
+    assert selections[0].signal_family == "fact_elicitation"
+    assert selections[0].immediate_fact_gain == 1
+
+
+def test_delayed_fact_gain_cannot_bypass_global_safety_gate() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(turn: int, target_id: str, selected: list[str]):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information=target_id,
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ],
+                "asked_targets": [],
+                "interactions": [],
+            },
+            rendered_question=target_id,
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            client_response_kind="new_hidden_fact" if selected else "unavailable",
+            client_selected_fact_ids=selected,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    positive = SimpleNamespace(
+        trajectory_id="positive",
+        steps=[step(1, "F1", []), step(2, "F2", ["F2"])],
+    )
+    negative = SimpleNamespace(
+        trajectory_id="negative",
+        steps=[step(1, "F3", []), step(2, "F4", [])],
+    )
+    group = AdvantageGroup(
+        group_id="delayed-fact-with-later-repeat",
+        members=[
+            ScoredMember(
+                trajectory_id="positive",
+                reward=0.7,
+                repeated_question=True,
+                turns=2,
+            ),
+            ScoredMember(trajectory_id="negative", reward=0.2, turns=2),
+        ],
+        mean_reward=0.45,
+        std_reward=0.25,
+        informative=True,
+    )
+
+    assert (
+        select_trajectory_level_contrasts(group, {"positive": positive, "negative": negative}) == []
+    )
+
+
+def test_trajectory_level_teacher_contrast_rejects_fact_tradeoff() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    action = SimpleNamespace(
+        action_type="ask",
+        target_type="fact",
+        constraints=[],
+        expected_information="",
+    )
+
+    def trajectory(trajectory_id: str, target_id: str, selected: str):
+        proposed = SimpleNamespace(**vars(action), target_id=target_id, content=target_id)
+        return SimpleNamespace(
+            trajectory_id=trajectory_id,
+            steps=[
+                SimpleNamespace(
+                    turn=1,
+                    rendered_question=target_id,
+                    proposed_action=proposed,
+                    action_decision=SimpleNamespace(final=proposed),
+                    client_selected_fact_ids=[selected],
+                    client_response_kind="new_hidden_fact",
+                    client_safe_fallback=False,
+                    policy_health_violations=[],
+                    post_skill_health_violations=[],
+                    verifier_results=[],
+                )
+            ],
+        )
+
+    higher = trajectory("higher", "F1", "F1")
+    lower = trajectory("lower", "F2", "F2")
+    group = AdvantageGroup(
+        group_id="fact-tradeoff",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.7),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.55,
+        std_reward=0.15,
+        informative=True,
+    )
+
+    assert select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower}) == []
+
+
+def test_trajectory_level_teacher_contrast_uses_net_fact_count_not_id_superset() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(turn: int, target_id: str, selected: str):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=f"请说明{target_id}？",
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ]
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=action.content,
+            client_response_kind="new_hidden_fact",
+            client_selected_fact_ids=[selected],
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    higher = SimpleNamespace(
+        trajectory_id="higher",
+        steps=[step(1, "F1", "F1"), step(2, "F2", "F2")],
+    )
+    lower = SimpleNamespace(
+        trajectory_id="lower",
+        steps=[step(1, "F3", "F3")],
+    )
+    group = AdvantageGroup(
+        group_id="fact-net-count",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower})
+
+    assert len(selections) == 1
+    assert selections[0].signal_family == "fact_elicitation"
+    assert selections[0].positive_fact_count == 2
+    assert selections[0].negative_fact_count == 1
+    assert selections[0].fact_gain == 1
+
+
+def test_trajectory_level_teacher_contrast_uses_fact_count_preserving_efficiency() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(turn: int, target_id: str, selected: list[str]):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ]
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=target_id,
+            client_response_kind=("new_hidden_fact" if selected else "unavailable"),
+            client_selected_fact_ids=selected,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    efficient = SimpleNamespace(
+        trajectory_id="efficient",
+        steps=[step(1, "F1", ["F1"])],
+    )
+    wasteful = SimpleNamespace(
+        trajectory_id="wasteful",
+        steps=[step(1, "F2", ["F2"]), step(2, "F3", [])],
+    )
+    group = AdvantageGroup(
+        group_id="fact-count-preserving-efficiency",
+        members=[
+            ScoredMember(trajectory_id="efficient", reward=0.8),
+            ScoredMember(trajectory_id="wasteful", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(
+        group, {"efficient": efficient, "wasteful": wasteful}
+    )
+
+    assert len(selections) == 1
+    assert selections[0].signal_family == "fact_elicitation"
+    assert selections[0].fact_gain == 0
+    assert selections[0].selection_basis == "trajectory_level_fact_efficiency"
+
+
+def test_same_final_facts_with_immediate_target_gain_is_fact_efficiency_not_safe_stop() -> None:
+    """An ask->ask target fork is learnable even when both paths later get F1."""
+
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(turn: int, target_id: str, selected: list[str]):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": "F1",
+                        "label": "可回答事实",
+                        "target_kind": "client_fact",
+                    },
+                    {
+                        "fact_id": "F2",
+                        "label": "不可回答目标",
+                        "target_kind": "client_fact",
+                    },
+                ],
+                "asked_targets": [],
+                "interactions": [],
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=target_id,
+            client_response_kind=("new_hidden_fact" if selected else "unavailable"),
+            client_selected_fact_ids=selected,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    efficient = SimpleNamespace(
+        trajectory_id="efficient",
+        steps=[step(1, "F1", ["F1"])],
+    )
+    wasteful = SimpleNamespace(
+        trajectory_id="wasteful",
+        steps=[step(1, "F2", []), step(2, "F1", ["F1"])],
+    )
+    group = AdvantageGroup(
+        group_id="same-facts-target-selection-efficiency",
+        members=[
+            ScoredMember(trajectory_id="efficient", reward=0.8),
+            ScoredMember(trajectory_id="wasteful", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(
+        group, {"efficient": efficient, "wasteful": wasteful}
+    )
+
+    assert len(selections) == 1
+    assert selections[0].signal_family == "fact_elicitation"
+    assert selections[0].fact_gain == 0
+    assert selections[0].immediate_fact_gain == 1
+    assert selections[0].selection_basis == "trajectory_level_fact_efficiency"
+
+
+def test_same_final_facts_after_ask_fork_is_target_efficiency_not_safe_stop() -> None:
+    """A clean ask->ask ordering fork may learn F/Q without owning termination."""
+
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(turn: int, target_id: str, selected: list[str]):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ],
+                "asked_targets": [],
+                "interactions": [],
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=target_id,
+            client_response_kind=("new_hidden_fact" if selected else "unavailable"),
+            client_selected_fact_ids=selected,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    efficient = SimpleNamespace(
+        trajectory_id="efficient",
+        steps=[step(1, "first_useful_order", []), step(2, "F1", ["F1"])],
+    )
+    wasteful = SimpleNamespace(
+        trajectory_id="wasteful",
+        steps=[
+            step(1, "first_wasteful_order", []),
+            step(2, "extra_unavailable", []),
+            step(3, "F1", ["F1"]),
+        ],
+    )
+    group = AdvantageGroup(
+        group_id="delayed-information-preserving-target-efficiency",
+        members=[
+            ScoredMember(trajectory_id="efficient", reward=0.7),
+            ScoredMember(trajectory_id="wasteful", reward=0.4),
+        ],
+        mean_reward=0.55,
+        std_reward=0.15,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(
+        group, {"efficient": efficient, "wasteful": wasteful}
+    )
+
+    assert len(selections) == 1
+    assert selections[0].signal_family == "fact_elicitation"
+    assert selections[0].selection_basis == "trajectory_level_fact_efficiency"
+    assert selections[0].fact_gain == 0
+    assert selections[0].immediate_fact_gain == 0
+
+
+def test_trajectory_level_teacher_contrast_rejects_gap_gain_when_fact_efficiency_drops() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def gap_step(turn: int, target_id: str):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=f"能否提供{target_id}？",
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "evidence_or_third_party",
+                    }
+                ],
+                "asked_targets": [],
+                "interactions": [],
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=action.content,
+            client_response_kind="unavailable",
+            client_selected_fact_ids=[],
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    def fact_step(turn: int, target_id: str):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=f"请说明{target_id}？",
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ]
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=action.content,
+            client_response_kind="new_hidden_fact",
+            client_selected_fact_ids=[target_id],
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    higher = SimpleNamespace(
+        trajectory_id="higher",
+        steps=[gap_step(1, "G1"), gap_step(2, "G2"), fact_step(3, "F1")],
+    )
+    lower = SimpleNamespace(
+        trajectory_id="lower",
+        steps=[gap_step(1, "G1"), fact_step(2, "F2")],
+    )
+    group = AdvantageGroup(
+        group_id="gap-net-count",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    # The higher-reward trace identifies one extra gap, but its F/Q is 1/3
+    # rather than 1/2. Reward alone cannot authorize that tradeoff as a skill.
+    assert select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower}) == []
+
+
+def test_trajectory_level_teacher_contrast_rejects_gap_gain_with_fact_regression() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(
+        turn: int,
+        target_id: str,
+        *,
+        target_kind: str,
+        response_kind: str,
+        selected: list[str],
+    ):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": target_kind,
+                    }
+                ],
+                "asked_targets": [],
+                "interactions": [],
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=target_id,
+            client_response_kind=response_kind,
+            client_selected_fact_ids=selected,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    higher = SimpleNamespace(
+        trajectory_id="higher",
+        steps=[
+            step(
+                1,
+                "G1",
+                target_kind="evidence_or_third_party",
+                response_kind="unavailable",
+                selected=[],
+            ),
+            step(
+                2,
+                "G2",
+                target_kind="evidence_or_third_party",
+                response_kind="unavailable",
+                selected=[],
+            ),
+        ],
+    )
+    lower = SimpleNamespace(
+        trajectory_id="lower",
+        steps=[
+            step(
+                1,
+                "G3",
+                target_kind="evidence_or_third_party",
+                response_kind="unavailable",
+                selected=[],
+            ),
+            step(
+                2,
+                "F1",
+                target_kind="client_fact",
+                response_kind="new_hidden_fact",
+                selected=["F1"],
+            ),
+        ],
+    )
+    group = AdvantageGroup(
+        group_id="gap-fact-regression",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    assert select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower}) == []
+
+
+def test_trajectory_level_teacher_contrast_rejects_fact_gain_with_gap_regression() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(turn: int, target_id: str, *, target_kind: str, selected: bool):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": target_kind,
+                    }
+                ],
+                "asked_targets": [],
+                "interactions": [],
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=target_id,
+            client_response_kind="new_hidden_fact" if selected else "unavailable",
+            client_selected_fact_ids=[target_id] if selected else [],
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    higher = SimpleNamespace(
+        trajectory_id="higher",
+        steps=[
+            step(1, "F1", target_kind="client_fact", selected=True),
+            step(2, "F2", target_kind="client_fact", selected=True),
+        ],
+    )
+    lower = SimpleNamespace(
+        trajectory_id="lower",
+        steps=[
+            step(1, "F3", target_kind="client_fact", selected=True),
+            step(2, "G1", target_kind="evidence_or_third_party", selected=False),
+        ],
+    )
+    group = AdvantageGroup(
+        group_id="fact-gain-gap-regression",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    assert select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower}) == []
+
+
+def test_trajectory_level_teacher_contrast_rejects_fact_gain_when_fq_drops() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(turn: int, target_id: str, *, selected: bool):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ]
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=target_id,
+            client_response_kind="new_hidden_fact" if selected else "unavailable",
+            client_selected_fact_ids=[target_id] if selected else [],
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    higher = SimpleNamespace(
+        trajectory_id="higher",
+        steps=[
+            step(1, "F1", selected=True),
+            step(2, "F2", selected=True),
+            step(3, "F3", selected=False),
+            step(4, "F4", selected=False),
+            step(5, "F5", selected=False),
+        ],
+    )
+    lower = SimpleNamespace(
+        trajectory_id="lower",
+        steps=[step(1, "F6", selected=True), step(2, "F7", selected=False)],
+    )
+    group = AdvantageGroup(
+        group_id="fact-gain-fq-regression",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    assert select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower}) == []
+
+
+def test_semantic_target_alias_is_not_a_learnable_trajectory_fork() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def trajectory(trajectory_id: str, target_id: str, selected: list[str]):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content="迁址加油站名称是什么？",
+            expected_information="迁址加油站名称",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            trajectory_id=trajectory_id,
+            steps=[
+                SimpleNamespace(
+                    turn=1,
+                    state_before={
+                        "facts": [
+                            {
+                                "fact_id": target_id,
+                                "label": "迁址加油站名称",
+                                "target_kind": "client_fact",
+                            }
+                        ]
+                    },
+                    proposed_action=action,
+                    action_decision=SimpleNamespace(final=action),
+                    rendered_question=action.content,
+                    client_response_kind=("new_hidden_fact" if selected else "unavailable"),
+                    client_selected_fact_ids=selected,
+                    client_safe_fallback=False,
+                    policy_health_violations=[],
+                    post_skill_health_violations=[],
+                    verifier_results=[],
+                )
+            ],
+        )
+
+    higher = trajectory("higher", "F_station_name", ["F_station_name"])
+    lower = trajectory("lower", "F_relocation_name", [])
+    group = AdvantageGroup(
+        group_id="semantic-target-alias",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    assert select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower}) == []
+
+
+def test_model_target_type_alias_on_same_system_target_is_not_a_fork() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def trajectory(trajectory_id: str, target_type: str, selected: list[str]):
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type=target_type,
+            target_id="F1",
+            content="合同签署日期是什么时候？",
+            expected_information="合同签署日期",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            trajectory_id=trajectory_id,
+            steps=[
+                SimpleNamespace(
+                    turn=1,
+                    state_before={
+                        "facts": [
+                            {
+                                "fact_id": "F1",
+                                "label": "合同签署日期",
+                                "target_kind": "client_fact",
+                            }
+                        ]
+                    },
+                    proposed_action=action,
+                    action_decision=SimpleNamespace(final=action),
+                    rendered_question=action.content,
+                    client_response_kind=("new_hidden_fact" if selected else "unavailable"),
+                    client_selected_fact_ids=selected,
+                    client_safe_fallback=False,
+                    policy_health_violations=[],
+                    post_skill_health_violations=[],
+                    verifier_results=[],
+                )
+            ],
+        )
+
+    higher = trajectory("higher", "fact", ["F1"])
+    lower = trajectory("lower", "evidence", [])
+    group = AdvantageGroup(
+        group_id="raw-target-type-alias",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    assert select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower}) == []
+
+
+def test_terminal_expected_information_variants_are_not_a_fork() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def trajectory(trajectory_id: str, expected_information: str):
+        action = SimpleNamespace(
+            action_type="final",
+            target_type="session",
+            target_id=None,
+            content="形成初步备忘录",
+            expected_information=expected_information,
+            constraints=[],
+        )
+        return SimpleNamespace(
+            trajectory_id=trajectory_id,
+            steps=[
+                SimpleNamespace(
+                    turn=1,
+                    state_before={"facts": []},
+                    proposed_action=action,
+                    action_decision=SimpleNamespace(final=action),
+                    rendered_question=None,
+                    client_response_kind=None,
+                    client_selected_fact_ids=[],
+                    client_safe_fallback=False,
+                    policy_health_violations=[],
+                    post_skill_health_violations=[],
+                    verifier_results=[],
+                )
+            ],
+        )
+
+    concise = trajectory("concise", "")
+    verbose = trajectory("verbose", "需要综合全部已知事实后作答")
+    group = AdvantageGroup(
+        group_id="terminal-expected-information-alias",
+        members=[
+            ScoredMember(trajectory_id="concise", reward=0.8),
+            ScoredMember(trajectory_id="verbose", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    assert trajectory_learning_signature(concise) == trajectory_learning_signature(verbose)
+    assert select_trajectory_level_contrasts(group, {"concise": concise, "verbose": verbose}) == []
+
+
+def test_same_target_paraphrases_cannot_borrow_later_fact_gain_for_a_contrast() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def step(
+        turn: int,
+        target_id: str,
+        label: str,
+        content: str,
+        expected_information: str,
+        constraints: list[str],
+        selected: list[str],
+    ) -> SimpleNamespace:
+        action = SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=content,
+            expected_information=expected_information,
+            constraints=constraints,
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "label": label,
+                        "target_kind": "client_fact",
+                    }
+                ]
+            },
+            proposed_action=action,
+            action_decision=SimpleNamespace(final=action),
+            rendered_question=content,
+            client_response_kind=("new_hidden_fact" if selected else "unavailable"),
+            client_selected_fact_ids=selected,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    higher = SimpleNamespace(
+        trajectory_id="higher",
+        steps=[
+            step(1, "F1", "合同签署日期", "合同是哪天签的？", "签约日", [], []),
+            step(
+                2,
+                "F2",
+                "付款经过",
+                "请从头说说付款经过？",
+                "付款过程",
+                ["开放式"],
+                ["F2"],
+            ),
+        ],
+    )
+    lower = SimpleNamespace(
+        trajectory_id="lower",
+        steps=[
+            step(
+                1,
+                "F1",
+                "合同签署日期",
+                "请说明合同签订的具体日期。",
+                "合同签署日期",
+                ["简短"],
+                [],
+            ),
+            step(
+                2,
+                "F2",
+                "付款经过",
+                "付款当时具体发生了什么？",
+                "付款经过详情",
+                [],
+                [],
+            ),
+        ],
+    )
+    group = AdvantageGroup(
+        group_id="surface-only-fork",
+        members=[
+            ScoredMember(trajectory_id="higher", reward=0.8),
+            ScoredMember(trajectory_id="lower", reward=0.4),
+        ],
+        mean_reward=0.6,
+        std_reward=0.2,
+        informative=True,
+    )
+
+    assert select_trajectory_level_contrasts(group, {"higher": higher, "lower": lower}) == []
+
+
+def test_trajectory_level_teacher_contrast_keeps_information_preserving_efficiency() -> None:
+    from legal_skill_guard.evolution.advantage import (  # noqa: PLC0415
+        AdvantageGroup,
+        ScoredMember,
+    )
+
+    def action(target_id: str):
+        return SimpleNamespace(
+            action_type="ask",
+            target_type="fact",
+            target_id=target_id,
+            content=target_id,
+            expected_information="",
+            constraints=[],
+        )
+
+    def step(turn: int, target_id: str, selected: list[str]):
+        proposed = action(target_id)
+        return SimpleNamespace(
+            turn=turn,
+            state_before={
+                "facts": [
+                    {
+                        "fact_id": target_id,
+                        "target_kind": "client_fact",
+                    }
+                ]
+            },
+            rendered_question=target_id,
+            proposed_action=proposed,
+            action_decision=SimpleNamespace(final=proposed),
+            client_selected_fact_ids=selected,
+            client_response_kind="new_hidden_fact" if selected else "unavailable",
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    def final_step(turn: int):
+        proposed = SimpleNamespace(
+            action_type="final",
+            target_type="session",
+            target_id=None,
+            content="形成初步备忘录",
+            expected_information="",
+            constraints=[],
+        )
+        return SimpleNamespace(
+            turn=turn,
+            state_before={"facts": []},
+            rendered_question=None,
+            proposed_action=proposed,
+            action_decision=SimpleNamespace(final=proposed),
+            client_selected_fact_ids=[],
+            client_response_kind=None,
+            client_safe_fallback=False,
+            policy_health_violations=[],
+            post_skill_health_violations=[],
+            verifier_results=[],
+        )
+
+    efficient = SimpleNamespace(
+        trajectory_id="efficient",
+        steps=[step(1, "F1", ["F1"]), final_step(2)],
+    )
+    wasteful = SimpleNamespace(
+        trajectory_id="wasteful",
+        steps=[step(1, "F1", ["F1"]), step(2, "F2", []), final_step(3)],
+    )
+    group = AdvantageGroup(
+        group_id="efficiency",
+        members=[
+            ScoredMember(trajectory_id="efficient", reward=0.7),
+            ScoredMember(trajectory_id="wasteful", reward=0.5),
+        ],
+        mean_reward=0.6,
+        std_reward=0.1,
+        informative=True,
+    )
+
+    selections = select_trajectory_level_contrasts(
+        group, {"efficient": efficient, "wasteful": wasteful}
+    )
+    assert len(selections) == 1
+    assert selections[0].signal_family == "safe_stop"
+    assert selections[0].selection_basis == "trajectory_level_information_preserving_efficiency"
+
+
+def test_surface_paraphrase_cannot_become_teacher_contrast() -> None:
+    action = SimpleNamespace(action_type="ask", target_type="fact", target_id="F1")
+    first_step = SimpleNamespace(
+        action_decision=SimpleNamespace(final=action),
+        rendered_question="合同何时签署？",
+        client_selected_fact_ids=[],
+    )
+    second_step = SimpleNamespace(
+        action_decision=SimpleNamespace(final=action),
+        rendered_question="请说明合同签署时间。",
+        client_selected_fact_ids=[],
+    )
+    first = SimpleNamespace(steps=[first_step])
+    second = SimpleNamespace(steps=[second_step])
+    assert trajectory_learning_signature(first) == trajectory_learning_signature(second)
+    group = SimpleNamespace(
+        model_copy=lambda update: SimpleNamespace(**update),
+        informative=True,
+        skip_reason=None,
+    )
+    guarded = require_distinct_learning_traces(group, {"a": first, "b": second})
+    assert guarded.informative is False
+    assert guarded.skip_reason == "identical_policy_trace"
+
+
+def test_different_elicitation_outcome_is_teacher_visible() -> None:
+    action = SimpleNamespace(action_type="ask", target_type="fact", target_id="F1")
+    empty = SimpleNamespace(
+        steps=[
+            SimpleNamespace(
+                action_decision=SimpleNamespace(final=action),
+                rendered_question="合同何时签署？",
+                client_selected_fact_ids=[],
+            )
+        ]
+    )
+    elicited = SimpleNamespace(
+        steps=[
+            SimpleNamespace(
+                action_decision=SimpleNamespace(final=action),
+                rendered_question="合同何时签署？",
+                client_selected_fact_ids=["F1"],
+            )
+        ]
+    )
+    assert trajectory_learning_signature(empty) != trajectory_learning_signature(elicited)
+
+
+def test_behavior_summary_does_not_count_repeated_fact_as_new_information() -> None:
+    def step(target_id: str, selected: list[str]):
+        return SimpleNamespace(
+            rendered_question=f"询问{target_id}",
+            client_selected_fact_ids=selected,
+            action_decision=SimpleNamespace(
+                final=SimpleNamespace(target_id=target_id),
+                activated_skill_ids=[],
+            ),
+        )
+
+    trajectory = SimpleNamespace(
+        case_id="case_a",
+        domain="contract",
+        persona="P_WD",
+        steps=[step("target_a", ["O2"]), step("target_b", ["O2"]), step("target_c", ["F1"])],
+    )
+
+    summary = trajectory_behavior_summary([trajectory], set())
+
+    assert summary["mean_question_turns"] == 3.0
+    assert summary["mean_answered_question_turns"] == 3.0
+    assert summary["answered_question_rate"] == 1.0
+    assert summary["mean_information_bearing_turns"] == 1.0
+    assert summary["information_bearing_question_rate"] == pytest.approx(1 / 3, abs=1e-6)
+    assert summary["mean_unique_disclosed_facts"] == 1.0
+    assert summary["mean_unique_disclosed_facts_per_question"] == pytest.approx(1 / 3, abs=1e-6)
+    assert summary["pooled_unique_disclosed_facts_per_question"] == pytest.approx(1 / 3, abs=1e-6)
+
+
+def test_behavior_summary_reports_executor_owned_prompt_memory_exposure_only() -> None:
+    playbook_id = "general.legal_fact_elicitation_playbook"
+    trajectory = SimpleNamespace(
+        case_id="case_a",
+        domain="contract",
+        persona="P_WD",
+        exposed_skill_ids=[playbook_id],
+        steps=[
+            SimpleNamespace(
+                rendered_question="合同何时签署？",
+                client_selected_fact_ids=["F1"],
+                action_decision=SimpleNamespace(
+                    final=SimpleNamespace(target_id="target_a"),
+                    # This retired self-report remains empty in the current
+                    # global-playbook runtime and must not create a false zero
+                    # activation metric in the paper report.
+                    activated_skill_ids=[],
+                ),
+            )
+        ],
+    )
+
+    summary = trajectory_behavior_summary([trajectory], {playbook_id})
+
+    assert summary["prompt_memory_exposure_semantics"] == (
+        "executor_recorded_full_document_delivery_not_model_self_report"
+    )
+    assert summary["sessions_with_prompt_memory_exposure"] == 1
+    assert summary["prompt_memory_exposure_session_rate"] == 1.0
+    assert summary["prompt_memory_exposure_counts"] == {playbook_id: 1}
+    assert not any("activation" in key for key in summary)
+
+
+def test_paired_behavior_estimates_measure_new_information_not_just_more_turns() -> None:
+    def step(target_id: str, selected: list[str]):
+        return SimpleNamespace(
+            rendered_question=f"询问{target_id}",
+            client_selected_fact_ids=selected,
+            action_decision=SimpleNamespace(
+                final=SimpleNamespace(target_id=target_id),
+                activated_skill_ids=[],
+            ),
+        )
+
+    control = SimpleNamespace(
+        case_id="case_a",
+        domain="contract",
+        steps=[step("target_a", ["O1"])],
+    )
+    treatment = SimpleNamespace(
+        case_id="case_a",
+        domain="contract",
+        steps=[step("target_a", ["O1"]), step("target_b", ["F1"])],
+    )
+    report = paired_behavior_estimates(
+        [control],
+        [treatment],
+        set(),
+        bootstrap_samples=100,
+        confidence_level=0.95,
+        seed=7,
+    )
+    assert report["metrics"]["question_turns"]["mean_delta"] == 1.0
+    assert report["metrics"]["information_bearing_turns"]["mean_delta"] == 1.0
+    assert report["metrics"]["unique_disclosed_facts"]["mean_delta"] == 1.0
+    assert report["metrics"]["unique_disclosed_facts_per_question"]["mean_delta"] == 0.5
+
+
+def test_paired_runner_reuses_only_exact_requests_within_one_run(tmp_path: Path) -> None:
+    root = Path(__file__).resolve().parents[2]
+    executor = object.__new__(MainExperimentExecutor)
+    executor.root = root
+    executor.run_id = "paired_cache_contract"
+    executor.store = RunStore(tmp_path / "runs", executor.run_id)
+    executor.roles = yaml.safe_load((root / "configs/models/roles.yaml").read_text())
+    executor.experiment = yaml.safe_load(
+        (root / "configs/experiments/main_experiment.yaml").read_text()
+    )
+    executor.local_revision = "frozen_revision_a"
+    executor.local_client = SimpleNamespace(model="frozen-local-model")
+    executor.client_selector_revision = "frozen_client_revision"
+    executor.client_selector_client = SimpleNamespace(model="frozen-client-model")
+    executor.client_disclosure_client = executor.local_client
+    executor.planner_client = executor.local_client
+    executor.shared_experiment_root = tmp_path / "shared"
+
+    first = executor._runner(paired=True, cache_namespace="library_shadow_a")
+    second = executor._runner(paired=True, cache_namespace="library_shadow_b")
+
+    assert isinstance(first.policy_client, ReplayCachedChatClient)
+    assert first.policy_client.cache_root == second.policy_client.cache_root
+    assert first.client_selector.cache_root == second.client_selector.cache_root
+    assert first.memo_client.cache_root == second.memo_client.cache_root
+    assert str(first.policy_client.cache_root).startswith(str(executor.store.root))
+
+    executor.local_revision = "frozen_revision_b"
+    changed_model = executor._runner(paired=True, cache_namespace="library_shadow_a")
+    assert changed_model.policy_client.cache_root != first.policy_client.cache_root
+
+    nonpaired_a = executor._runner(paired=False, cache_namespace="training_batch_01")
+    nonpaired_b = executor._runner(paired=False, cache_namespace="training_batch_02")
+    assert isinstance(nonpaired_a.policy_client, ReplayCachedChatClient)
+    assert nonpaired_a.policy_client.cache_root == nonpaired_b.policy_client.cache_root
+    assert nonpaired_a.memo_client.cache_root == nonpaired_b.memo_client.cache_root
+    # The client router is deterministic infrastructure.  Its exact request key
+    # already binds model, current question, disclosure state and finite beliefs,
+    # so byte-identical requests may be reused across partitions in the same run.
+    assert nonpaired_a.client_selector.cache_root == nonpaired_b.client_selector.cache_root
+
+
+def test_prompt_memory_uses_operational_skill_knowledge_without_audit_narrative() -> None:
+    skill = synthetic_skills()[-1]
+    skill.provenance.source_case_ids = ["hidden-development-case"]
+
+    memory, exposed = render_skill_memory([skill], domain=skill.domain)
+
+    assert skill.name in memory
+    assert skill.objective in memory
+    assert skill.description in memory
+    assert skill.applicability_cues[0] in memory
+    assert "decision_rule" in memory
+    assert "question_form_rule" in memory
+    assert '"additional_question_budget": 0' in memory
+    assert "expected_effects" not in memory
+    assert '"failure_modes":' not in memory
+    assert "candidate_action" not in memory
+    assert "evaluation" not in SkillContract.model_fields
+    assert "hidden-development-case" not in memory
+    assert "系统不会把手册编译成动作或在输出后改写" in memory
+    assert exposed == [skill.skill_id]
+
+
+def test_candidate_identity_ignores_invalid_same_name_teacher_sibling() -> None:
+    candidate = synthetic_skills()[0].model_copy(deep=True)
+    candidate.status = "candidate"
+    candidate.provenance.source = "tf_grpo"
+    candidate.provenance.source_evidence_cluster_id = "cluster-a"
+    candidate.provenance.source_signal_family = "fact_elicitation"
+    candidate.provenance.source_case_ids = ["case-a"]
+    candidate.provenance.source_trajectory_ids = ["positive", "negative"]
+    candidate.provenance.generator_model = "gpt-5.6-luna"
+    candidate.provenance.diagnosis_hash = "b" * 64
+    diagnosis = SkillDiagnosis.model_validate(
+        {
+            "group_id": "batch-a",
+            "failure_state": {"turn": 1},
+            "behavior_difference": {
+                "positive_action": "继续询问一个尚未说明的关键事实",
+                "negative_action": "在相同状态下直接结束事实询问",
+            },
+            "causal_hypothesis": "具体追问可能取得新的客户事实，仍待未见案件验证。",
+            "proposed_change": "CREATE",
+            "skill_scope": candidate.domain,
+            "candidate_skill": candidate,
+        }
+    )
+    witness = SourceWitness(
+        evidence_cluster_id="cluster-a",
+        signal_family="fact_elicitation",
+        forks=[
+            SourceForkWitness(
+                group_id="group-a",
+                case_id="case-a",
+                domain=candidate.domain,
+                divergence_turn=1,
+                visible_state_sha256="a" * 64,
+                positive_trajectory_id="positive",
+                negative_trajectory_id="negative",
+                positive_action={"action_type": "ask"},
+                negative_action={"action_type": "final"},
+                reward_gap=0.2,
+            )
+        ],
+    )
+    valid = TeacherProposal(
+        group_id="batch-a",
+        request_sha256="a" * 64,
+        response_sha256="b" * 64,
+        teacher_model="gpt-5.6-luna",
+        parse_status="valid_candidate",
+        source_group_ids=["group-a"],
+        source_witness=witness,
+        diagnosis=diagnosis,
+    )
+    invalid_sibling = valid.model_copy(
+        deep=True,
+        update={
+            "response_sha256": "c" * 64,
+            "parse_status": "invalid_candidate",
+            "static_issues": ["lexical_near_duplicate"],
+        },
+    )
+    stored = candidate.model_copy(deep=True)
+    stored.status = "candidate"
+
+    assert _teacher_proposal_matches_candidate(valid, stored) is True
+    assert _teacher_proposal_matches_candidate(invalid_sibling, stored) is False
+
+
+def test_playbook_candidate_identity_binds_group_witness_package() -> None:
+    candidate = synthetic_skills()[0].model_copy(deep=True)
+    candidate.status = "candidate"
+    candidate.skill_id = "general.legal_fact_elicitation_playbook"
+    candidate.domain = "general"
+    candidate.objective = "fact_elicitation"
+    candidate.provenance.source = "tf_grpo"
+    candidate.provenance.source_evidence_cluster_id = "batch-a.playbook_reduce"
+    candidate.provenance.source_signal_family = "fact_elicitation"
+    candidate.provenance.source_case_ids = ["case-a"]
+    candidate.provenance.source_trajectory_ids = ["traj-a", "traj-b", "traj-c"]
+    candidate.provenance.generator_model = "gpt-5.6-luna"
+    candidate.provenance.diagnosis_hash = "b" * 64
+    diagnosis = SkillDiagnosis.model_validate(
+        {
+            "group_id": "batch-a.playbook_reduce::playbook",
+            "failure_state": {"turn": None, "relevant_fields": []},
+            "behavior_difference": {
+                "positive_action": "按可见事实依赖关系逐项询问",
+                "negative_action": "重复询问客户已经表示不知道的目标",
+            },
+            "causal_hypothesis": "跨案件组证据支持从可回答目标逐项推进。",
+            "proposed_change": "CREATE",
+            "skill_scope": "general",
+            "candidate_skill": candidate,
+        }
+    )
+    witness = GroupEvidenceWitness(
+        package_id="batch-a.playbook_reduce",
+        domain="general",
+        evidence_group_ids=["group-a"],
+        source_case_ids=["case-a"],
+        source_trajectory_ids=["traj-a", "traj-b", "traj-c"],
+        evidence_card_sha256={"group-a": "a" * 64},
+    )
+    proposal = TeacherProposal(
+        group_id="batch-a.playbook_reduce::playbook",
+        request_sha256="a" * 64,
+        response_sha256="b" * 64,
+        teacher_model="gpt-5.6-luna",
+        parse_status="valid_candidate",
+        source_group_ids=["group-a"],
+        group_evidence_witness=witness,
+        diagnosis=diagnosis,
+    )
+
+    assert _teacher_proposal_matches_candidate(proposal, candidate) is True
+    wrong_group = proposal.model_copy(update={"group_id": "wrong::playbook"})
+    assert _teacher_proposal_matches_candidate(wrong_group, candidate) is False
+    wrong_witness = proposal.model_copy(
+        update={
+            "group_evidence_witness": witness.model_copy(
+                update={"package_id": "wrong.playbook_reduce"}
+            )
+        }
+    )
+    assert _teacher_proposal_matches_candidate(wrong_witness, candidate) is False
+
+
+def _external_guard_executor(
+    tmp_path: Path,
+    *,
+    run_id: str,
+    case_limit: int | None,
+) -> tuple[MainExperimentExecutor, TrainingSummary, list[SkillContract], str, Path]:
+    executor = object.__new__(MainExperimentExecutor)
+    executor.root = tmp_path
+    executor.run_id = run_id
+    executor.store = RunStore(tmp_path / "runs", executor.run_id)
+    active = synthetic_skills()[:1]
+    active_hash = skill_library_sha256(active)
+    active_version = "library_current"
+    run_hash = "b" * 64
+    summary = TrainingSummary(
+        run_id=executor.run_id,
+        run_manifest_sha256=run_hash,
+        trajectory_schema_version=27,
+        evaluation_schema_version=14,
+        case_limit=case_limit,
+        rounds_completed=8,
+        round_completion_manifests={},
+        round_completion_set_sha256=canonical_json_sha256({}),
+        admitted_skill_ids=[],
+        skill_admission_reports={},
+        library_maintenance_reports={},
+        active_skill_ids=sorted(skill.skill_id for skill in active),
+        active_skill_library_version=active_version,
+        active_skill_library_sha256=active_hash,
+        development_learning_curve_sha256="c" * 64,
+        final_training_holdout_arms_frozen_artifact={
+            "path": "arms",
+            "sha256": "a" * 64,
+        },
+        final_training_holdout_artifact={
+            "path": "report",
+            "sha256": "b" * 64,
+        },
+        final_training_holdout_disposition_artifact={
+            "path": "disposition",
+            "sha256": "c" * 64,
+        },
+        final_training_holdout_intervention_isolation_artifact={
+            "path": "isolation",
+            "sha256": "d" * 64,
+        },
+        completed_at="2026-08-22T00:00:00+00:00",
+    )
+    frozen_path = executor.store.root / "manifests/training_complete.json"
+    executor.store.atomic_json(frozen_path, {"schema_version": 6})
+    executor.active_skills = lambda: active
+    executor.registry = SimpleNamespace(current=lambda: active_version)
+    executor._verified_run_manifest_sha256 = lambda: run_hash
+    executor._load_validated_training_summary = lambda **kwargs: summary
+    return executor, summary, active, run_hash, frozen_path
+
+
+@pytest.mark.parametrize(
+    ("method_name", "expected_message"),
+    [
+        ("external_test", "complete frozen 128-case training matrix"),
+        ("external_seed_sensitivity", "complete frozen 128-case training matrix"),
+    ],
+)
+def test_external_stages_reject_case_limited_training_before_evaluation(
+    tmp_path: Path,
+    method_name: str,
+    expected_message: str,
+) -> None:
+    executor, _, _, _, _ = _external_guard_executor(
+        tmp_path,
+        run_id=f"case_limited_{method_name}",
+        case_limit=2,
+    )
+    if method_name == "external_seed_sensitivity":
+        executor.store.atomic_json(
+            executor.store.root / "reports/external_test.json",
+            {},
+        )
+    with pytest.raises(ExecutionError, match=expected_message):
+        getattr(MainExperimentExecutor, method_name)(executor)
+
+
+@pytest.mark.parametrize(
+    ("invalid_binding", "expected_message"),
+    [
+        ("wrong_run", "belongs to a different run"),
+        ("wrong_training_hash", "training binding changed"),
+        ("wrong_active_library", "different frozen skill library"),
+    ],
+)
+def test_seed_sensitivity_rejects_invalid_primary_report_before_evaluation(
+    tmp_path: Path,
+    invalid_binding: str,
+    expected_message: str,
+) -> None:
+    executor, summary, active, run_hash, frozen_path = _external_guard_executor(
+        tmp_path,
+        run_id=f"invalid_primary_{invalid_binding}",
+        case_limit=None,
+    )
+    primary_report = {
+        "schema_version": 8,
+        "run_id": executor.run_id,
+        "evidence_role": (
+            "benchmark_aware_locked_public_benchmark_reevaluation_not_pristine_confirmatory"
+        ),
+        "publication_role": (
+            "same_training_run_two_arm_mechanism_diagnostic_not_four_arm_main_table"
+        ),
+        "run_manifest_sha256": run_hash,
+        "trajectory_schema_version": 27,
+        "training_complete_sha256": hashlib.sha256(frozen_path.read_bytes()).hexdigest(),
+        "round_completion_manifests": summary.round_completion_manifests,
+        "round_completion_set_sha256": summary.round_completion_set_sha256,
+        "active_skill_library_sha256": skill_library_sha256(active),
+    }
+    if invalid_binding == "wrong_run":
+        primary_report["run_id"] = "copied_run"
+    elif invalid_binding == "wrong_training_hash":
+        primary_report["training_complete_sha256"] = "0" * 64
+    else:
+        primary_report["active_skill_library_sha256"] = "0" * 64
+    executor.store.atomic_json(
+        executor.store.root / "reports/external_test.json",
+        primary_report,
+    )
+    with pytest.raises(ExecutionError, match=expected_message):
+        MainExperimentExecutor.external_seed_sensitivity(executor)
+
+
+def test_external_test_refuses_to_consume_benchmark_with_empty_library(tmp_path: Path) -> None:
+    executor = object.__new__(MainExperimentExecutor)
+    executor.root = tmp_path
+    executor.run_id = "empty_library"
+    executor.store = RunStore(tmp_path / "runs", executor.run_id)
+    executor.active_skills = lambda: []
+    executor.registry = SimpleNamespace(current=lambda: None)
+    run_hash = "b" * 64
+    summary = TrainingSummary(
+        run_id=executor.run_id,
+        run_manifest_sha256=run_hash,
+        trajectory_schema_version=27,
+        evaluation_schema_version=14,
+        rounds_completed=8,
+        round_completion_manifests={},
+        round_completion_set_sha256=canonical_json_sha256({}),
+        admitted_skill_ids=[],
+        skill_admission_reports={},
+        library_maintenance_reports={},
+        active_skill_ids=[],
+        active_skill_library_version="bootstrap_empty",
+        active_skill_library_sha256=skill_library_sha256([]),
+        development_learning_curve_sha256="c" * 64,
+        final_training_holdout_arms_frozen_artifact={"path": "arms", "sha256": "a" * 64},
+        final_training_holdout_artifact={"path": "report", "sha256": "b" * 64},
+        final_training_holdout_disposition_artifact={
+            "path": "disposition",
+            "sha256": "c" * 64,
+        },
+        final_training_holdout_intervention_isolation_artifact={
+            "path": "isolation",
+            "sha256": "d" * 64,
+        },
+        completed_at="2026-08-22T00:00:00+00:00",
+    )
+    frozen_path = executor.store.root / "manifests/training_complete.json"
+    executor.store.atomic_json(frozen_path, {"schema_version": 2})
+    executor._verified_run_manifest_sha256 = lambda: run_hash
+    executor._load_validated_training_summary = lambda **kwargs: summary
+
+    with pytest.raises(ExecutionError, match="empty learned skill library"):
+        MainExperimentExecutor.external_test(executor)
+
+
+def test_main_persona_and_dialogue_seed_matrices_are_frozen_and_separated() -> None:
+    root = Path(__file__).resolve().parents[2]
+    config = yaml.safe_load(
+        (root / "configs/experiments/main_experiment.yaml").read_text(encoding="utf-8")
+    )
+    personas = ["P_WD", "P_WS", "P_CS", "P_CD"]
+    sampling = config["trajectory_sampling"]
+    sensitivity = config["seed_sensitivity"]
+
+    assert config["personas"] == personas
+    assert config["statistical_seed"] == 42
+    assert sampling["training_group_seeds"] == [42]
+    assert sampling["external_evaluation_seeds"] == [42]
+    assert config["evaluation"]["aggregate"] == "paired_case_persona_mean"
+
+    assert sensitivity["affects_candidate_selection"] is False
+    assert sensitivity["affects_primary_inference"] is False
+    assert sensitivity["primary_seed_reused"] == 42
+    assert sensitivity["additional_dialogue_seeds"] == [43, 44]
+    assert sensitivity["personas"] == personas
+    assert set(sensitivity["additional_dialogue_seeds"]).isdisjoint(
+        sampling["external_evaluation_seeds"]
+    )
+
+
+    external_path = root / config["data"]["external_evaluation"]
+    if not external_path.is_file():
+        pytest.skip("Run scripts/prepare_dlawbench.py first")
+    external = DLawBenchAdapter(
+        external_path,
+        root / "third_party/DLawBench/config/personas.json",
+    )
+    sensitivity_cases = sensitivity["external_case_ids"]
+    assert len(sensitivity_cases) == len(set(sensitivity_cases)) == 6
+    assert set(sensitivity_cases).issubset(external.case_ids())
+    _validate_persona_seed_protocol(
+        config,
+        available_personas=tuple(personas),
+        external_case_ids=external.case_ids(),
+    )
+
+    drifted = json.loads(json.dumps(config))
+    drifted["trajectory_sampling"]["external_evaluation_seeds"] = [42, 43]
+    with pytest.raises(ValueError, match="primary external evaluation"):
+        _validate_persona_seed_protocol(
+            drifted,
+            available_personas=tuple(personas),
+            external_case_ids=external.case_ids(),
+        )
+
+    drifted_metrics = json.loads(json.dumps(config))
+    drifted_metrics["evaluation"]["behavior_metrics"].remove("unique_disclosed_facts_per_question")
+    with pytest.raises(ValueError, match="implemented reporting contract"):
+        _validate_persona_seed_protocol(
+            drifted_metrics,
+            available_personas=tuple(personas),
+            external_case_ids=external.case_ids(),
+        )
+
+    training_sessions_per_block = 16 * len(sampling["training_group_seeds"])
+    external_pairs = (
+        len(external.case_ids()) * len(personas) * len(sampling["external_evaluation_seeds"])
+    )
+    sensitivity_new_trajectories = (
+        len(sensitivity_cases) * len(personas) * len(sensitivity["additional_dialogue_seeds"]) * 2
+    )
+    assert training_sessions_per_block == 16
+    assert external_pairs == 120
+    assert sensitivity_new_trajectories == 96
+
+
+def test_global_playbook_removes_ours_router_but_preserves_official_baseline_router() -> None:
+    root = Path(__file__).resolve().parents[2]
+    experiment = yaml.safe_load(
+        (root / "configs/experiments/main_experiment.yaml").read_text(encoding="utf-8")
+    )
+    roles = yaml.safe_load((root / "configs/models/roles.yaml").read_text(encoding="utf-8"))
+    role_names = set(roles["roles"])
+    arms = {item["arm_id"]: item for item in experiment["comparison_arms"]}
+
+    assert "public_opening_skill_domain_router" not in role_names
+    assert "official_fixed_domain_router" in role_names
+    assert arms["control_no_library"]["selection_contract"] == (
+        "empty_prompt_memory_no_runtime_selection"
+    )
+    assert arms["legal_skill_evolve"]["selection_contract"] == (
+        "one_global_playbook_no_runtime_selection"
+    )
