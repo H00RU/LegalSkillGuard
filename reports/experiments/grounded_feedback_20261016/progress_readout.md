@@ -406,3 +406,14 @@ direct只一次原差分编辑，case-reflected先对六完整训练案例逐案
 只做Ruff/编译/0生成身份预算检查；一次临时预算查询传str而非Path报错，修正查询后通过，未消耗生成/教师。
 新协议case_credit_protocol；driver只在新Run档案，不修改生产代码，不预先部署额外学习层。
 若无完整8源多指标净收益，不把该额外teacher阶段保留为默认。Goal继续active。
+
+06:38:22实查同PID3292117存活，5/8教师完成、6尝试，正在reflect_source_383，0/16律师。
+direct实际UPDATE10/CREATE1、20→21条/3549token，未发生MERGE/DELETE；不按条数判断效用。
+已有四份逐案反思指出动作/范围混用、遗漏列表总则及原Gold/源语义需分开判断；
+这些只是待执行的公开诊断，不能提前声称提高指标，也不据其文字手改库或协议。
+
+完整旧138物理答/6教师、此次direct第1实际响应与发布、新driver/协议/启动已保全645项目文件，
+archive legal-grouped138-case-credit-launch-and-direct1-20261016.tar.gz，SHA256
+3af72d03f844f34424cdaeca5cc4edb50fcf2222faea6e9d77a5e27d1ba2742f，HEADd8c9846，全Git历史/逐字节/gzip核验。
+快照明确0此次新律师、1此次新教师，不包含后来完成的反思；仍同vdb，非异机或缺失模型权重备份。
+收据在新Run/monitoring/grouped138_launch_and_direct1_backup_receipt，531绑定不改。
