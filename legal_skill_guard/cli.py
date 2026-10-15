@@ -17,12 +17,30 @@ from legal_skill_guard.learning.experiment import ROOT, Comparison, read, sha
 from legal_skill_guard.report import write_report
 
 
+def study_for(config, run_id):
+    method = read(config).get("method", "callable")
+    if method == "answer_review":
+        from legal_skill_guard.learning.review import ReviewStudy
+
+        return ReviewStudy(config, run_id=run_id)
+    if method != "callable":
+        raise ValueError("Unknown declared learning method")
+    return Comparison(config, run_id=run_id)
+
+
 def prepare(config):
     cfg = read(config)
     frozen = config.with_suffix(".frozen.json")
     if frozen.exists():
         raise FileExistsError("Already frozen; use a new config for any change")
-    selection = prepare_packets(ROOT, cfg)
+    if cfg.get("method", "callable") == "answer_review":
+        from legal_skill_guard.learning.review import prepare_review_packets
+
+        selection = prepare_review_packets(ROOT, cfg)
+    elif cfg.get("method", "callable") == "callable":
+        selection = prepare_packets(ROOT, cfg)
+    else:
+        raise ValueError("Unknown declared learning method")
     pid = cfg["model_process_pid"]  # Explicit identity; never discover/substitute another.
     proc = Path("/proc") / str(pid)
     argv = [v.decode() for v in (proc / "cmdline").read_bytes().split(b"\0") if v]
@@ -73,6 +91,8 @@ def prepare(config):
         ROOT / "uv.lock",
         ROOT / "docs/METHOD_AND_PROTOCOL.md",
     ]
+    if "method_protocol" in cfg:
+        paths.append(ROOT / cfg["method_protocol"])
     RunStore.immutable_json(
         frozen,
         {
@@ -151,9 +171,11 @@ def worker(config, run_id, engineering):
     lock.parent.mkdir(parents=True, exist_ok=True)
     with lock.open("a+") as stream:
         fcntl.flock(stream.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-        study = Comparison(config, run_id=run_id)
+        study = study_for(config, run_id)
         try:
             if engineering:
+                if read(config).get("method") == "answer_review":
+                    raise ValueError("No extra pre-training model qualification for answer-review")
                 return verify_learning(study)
             study.execute()
             return write_report(study.out)
@@ -185,7 +207,9 @@ def launch(config, run_id, engineering):
         record = root / (run_id + ".json")
         if record.exists() or (ROOT / "runs" / run_id).exists():
             raise FileExistsError("Existing Run ID; never overwrite or restart it")
-        probe = Comparison(config, run_id=run_id)
+        if engineering and read(config).get("method") == "answer_review":
+            raise ValueError("Answer-review starts the declared development study directly")
+        probe = study_for(config, run_id)
         probe.check()
         argv = [
             str(ROOT / ".venv/bin/python"),
@@ -225,7 +249,7 @@ def launch(config, run_id, engineering):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["prepare", "launch", "worker", "status", "report"])
-    parser.add_argument("--config", type=Path, default=ROOT / "configs/contractnli_main.json")
+    parser.add_argument("--config", type=Path, default=ROOT / "configs/contractnli_review.json")
     parser.add_argument("--run-id")
     parser.add_argument(
         "--engineering",

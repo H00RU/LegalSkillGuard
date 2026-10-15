@@ -1,12 +1,13 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
 Status: current core reconstructed after the 2026-10-15 file-loss incident.
-The checkpoint-fork study and its delivery probe are complete; neither establishes
-stable benefit over strong empty memory. The bounded ACE/ExpeL comparison was
-restarted as `legal_contractnli_adaptive_memory_comparison_20261015_run02` after
-a transport-schema rejection. Its first two teacher responses are now complete.
-This is ordinary user-directed work, not active Goal mode, and not a new long
-paper-training run. The old failure and its costs remain preserved.
+The checkpoint-fork study, delivery probe and bounded ACE/ExpeL comparison are
+complete. None establishes stable overall benefit over strong empty memory.
+The current implementation is draft-based skill inspection: the same frozen
+lawyer drafts an answer, then applies its evolving skills to inspect that actual
+answer. An equal-call empty-review control separates learning from extra inference.
+This is ordinary user-directed development, not active Goal mode or a proven fix.
+Old failures, raw answers and their costs remain preserved.
 
 The target is the latest ContractNLI legal-evidence learning pipeline, not the
 2026-09-27 multi-turn consultation task. The executor remains a frozen Qwen3-8B;
@@ -29,7 +30,7 @@ are objectives to test, not promises of monotonic gains or publication.
 
 ## 已核验与未完成
 
-13项无模型调用的边界测试通过（本轮0.31秒）；一份训练合同完成真实的律师回答→强教师
+15项无模型调用的边界测试通过（本轮0.32秒）；一份训练合同完成真实的律师回答→强教师
 差分编辑→技能查询执行→律师重答，独立评分与实际传递核验一致。
 另有幸存旧请求逐字消息／Schema及6212-token计数核对；不是只凭聊天记录猜实现。
 这些是重建核验，不是方法已优于空库或ACE的证据。
@@ -45,14 +46,13 @@ are objectives to test, not promises of monotonic gains or publication.
 cd /home/yndx/hhy/legal-skill-current
 ```
 
-当前有限试验使用独立 Run ID 和冻结 worker，详见目录说明中的当前后台工作；
-直接查看各自的 `runs/<Run ID>/progress.json` 及实际完成工件，不要重复启动。
-当前运行协议：[Schema修正后的有限对照](reports/experiments/adaptive_memory_comparison_20261015_run02/protocol.md)。
-当前进度文件：`runs/legal_contractnli_adaptive_memory_comparison_20261015_run02/progress.json`。
+当前修订协议：[面向实际答案的技能复核](docs/ANSWER_REVIEW_METHOD.md)。
+默认CLI使用`configs/contractnli_review.json`，4批×2训练来源、8后续开发来源，56次律师和4次教师。
+进度：`runs/legal_contractnli_answer_review_learning_20261015_run01/progress.json`。
+先`prepare`冻结，再`launch`后台执行；已有Run ID不可重复启动，实际状态以工件为准。
 
-CLI 的 `status`／`launch` 对应 `configs/contractnli_main.json` 中另外保留的完整
-32训练来源／8批与24来源六条件比较（388次律师、57次教师），不是当前后台分叉试验。
-这轮完整比较尚未启动，不能将配置存在误认为正式实验已经完成。
+`configs/contractnli_main.json`仍保留旧32训练／8批、24来源六条件配置（388次律师、57次教师），
+尚未启动，不是当前默认入口。旧冻结配置绑定旧源码，不能直接冒充本修订的正式实验。
 
 单案工程核验的记录位于
 `runs/legal_reconstruction_chain_check_20261015_run01/engineering_completion.json`；
@@ -61,5 +61,5 @@ CLI 的 `status`／`launch` 对应 `configs/contractnli_main.json` 中另外保�
 详见[方法与边界](docs/METHOD_AND_PROTOCOL.md)、[历史决策](docs/HISTORY_DECISIONS.md)
 及[重建交付记录](docs/REBUILD_STATUS.md)。师兄的方法／实验技能用于机制—代码一致性和公平对照检查，
 没有照搬模板中的固定贡献数、重复次数或示例成绩。
-日常论文技能以hhy下`paper-skills/`为当前版本；`归档/`是旧版本保全，不同时混用。
+日常论文技能以hhy下`paper-skills/`为当前版本；旧`归档/`已不存在，助手未删除，不依赖该目录。
 见[两版本逐项比较](reports/audits/paper_skill_versions_20261015.md)。

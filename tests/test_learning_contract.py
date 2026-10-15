@@ -24,6 +24,7 @@ from legal_skill_guard.learning.interface import (
     publish,
 )
 from legal_skill_guard.learning.packing import pack_cases
+from legal_skill_guard.learning.review import review_messages
 from legal_skill_guard.report import write_report
 from legal_skill_guard.task import original_feedback, original_metrics
 
@@ -163,6 +164,49 @@ def test_teacher_catalog_roundtrip_keeps_bad_answers_and_duplicate_actions():
     decoded = decode_teacher_body(encode_teacher_body(original))
     assert decoded["all_seen_train_cases"] == cases
     assert decoded["actual_historical_policy_versions"] == {"old": bank}
+
+
+def test_review_receives_exact_untrusted_draft_scoped_checks_and_never_gold():
+    row, labels, gold = fixture()
+    draft = response(gold)
+    bank = [{"id": "inspect1", "hypothesis_ids": ["h1"], "guidance": "Check the trigger."}]
+    messages, schema = review_messages(row, labels, bank, "Original task.", draft)
+    body = json.loads(messages[1]["content"])
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(messages)
+    assert body["untrusted_actual_initial_answer"]["content"] == draft["content"]
+    assert body["learned_inspection_skills_by_hypothesis"]["h1"] == [
+        {"id": "inspect1", "guidance": "Check the trigger."}
+    ]
+    assert body["learned_inspection_skills_by_hypothesis"]["h2"] == []
+    assert "Recipient may retain an archive." in body["full_contract_with_original_span_markers"]
+    fields = schema["properties"]
+    assert fields["h1"]["properties"]["used_skill_ids"]["items"]["enum"] == ["inspect1"]
+    assert fields["h2"]["properties"]["used_skill_ids"]["maxItems"] == 0
+    poisoned = {**row, "annotation_sets": "FORBIDDEN"}
+    assert review_messages(poisoned, labels, bank, "Original task.", draft) == (messages, schema)
+    # Review is mandatory on malformed drafts too; no valid-answer fallback or
+    # gold-assisted repair replaces the actual earlier model output.
+    malformed = response({}, finish="length")
+    broken_messages, _ = review_messages(row, labels, [], "Original task.", malformed)
+    assert json.loads(broken_messages[1]["content"])["untrusted_actual_initial_answer"] == {
+        "content": "{}",
+        "finish_reason": "length",
+    }
+
+
+def test_empty_review_is_exact_cold_skill_review_contract():
+    row, labels, gold = fixture()
+    draft = response(gold)
+    a, schema = review_messages(row, labels, [], "Original task.", draft)
+    b, other = review_messages(row, labels, [], "Original task.", draft)
+    assert a == b and schema == other
+    # Only source, public task, exact draft and learned bank enter the function;
+    # final metrics still score the native response, including harmful changes.
+    altered = copy.deepcopy(gold)
+    altered["h1"] = {"choice": "NotMentioned", "spans": []}
+    r = response(altered)
+    metrics = original_metrics([{"response": r, **original_feedback(r, row, gold, list(labels))}])
+    assert metrics["label_correct"] == 2 and metrics["evidence_fn"] == 2
 
 
 def op(kind, targets, candidate):

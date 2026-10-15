@@ -16,14 +16,17 @@
 
 ## 当前后台工作
 
-以下为 2026-10-15 12:28 后的有限开发试验，**不是已经完成的正式论文比较**。
+当前主方法开发入口为`configs/contractnli_review.json`，协议见[答案复核技能](ANSWER_REVIEW_METHOD.md)。
+新Run `legal_contractnli_answer_review_learning_20261015_run01`：4批×2案、8后续来源，
+56次新律师、4次新教师；启动与完成状态以其`progress.json`和实际工件为准。
+旧三条件/多条件有限试验**不是已经完成的正式论文比较**。
 按用户要求在普通对话中实施，没有开启或恢复Goal。
 
 | Run ID | 用途 | 查看进度 |
 | --- | --- | --- |
 | `legal_contractnli_feedback_completion_20261015_run01` | 已完成124个全链物理律师调用、14教师响应及四来源探针，未建立稳定优势 | `completion.json`及独立八来源`main_completion.json`，进程已退出 |
 | `legal_contractnli_adaptive_memory_comparison_20261015_run01` | Schema拒绝后失败，2新律师/0教师响应/1请求尝试；工件保留 | `failure.json`，不是仍在等待或方法效果失败 |
-| `legal_contractnli_adaptive_memory_comparison_20261015_run02` | 修正Schema后接续原四批ACE/ExpeL设计，58新律师/16教师/2共享冷答 | `progress.json`；实际PID/argv见`launch.json`，修订与失败费用见`restart_provenance.json` |
+| `legal_contractnli_adaptive_memory_comparison_20261015_run02` | 13:47完成58新律师/16教师/2共享冷答；没有整体胜过强空库 | `completion.json`与`results.md`；失败费用见`restart_provenance.json` |
 
 旧 `legal_contractnli_grounded_feedback_learning_20261015_run01` 于10:11在B4强制教师审计引用检查处失败，
 44个律师回答和7个教师输出保留。旧 `grounded_references` 随父失败停止，已完成5个教师发布但0律师回答；
@@ -35,7 +38,7 @@
 不能把本说明中的阶段描述当成完成证据。不要重复运行这些 worker。
 
 `configs/contractnli_main.json` 是另外保留的 388 次律师调用完整比较配置，
-整理时尚未启动；默认 CLI 的 `launch` 对应它，不是当前后台试验。
+尚未启动；它已经不是默认CLI入口，不应与当前方法混用。
 
 ## 历史恢复材料与备份
 
