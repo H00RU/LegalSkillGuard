@@ -3,9 +3,21 @@
 2026-10-15 15:09 CST，用户明确要求“新建一个goal并执行”，已通过Goal工具创建，状态active。
 此前答案复核run启动时未开Goal，两者时间顺序不能混淆。
 
-## 当前执行游标（10月16日06:38，覆盖后续旧状态）
+## 当前执行游标（10月16日06:46，覆盖后续旧状态）
 
-最新实查PID3292117存活，06:38:22已5/8教师完成、6尝试、0/16律师，正在reflect_source_383。
+最新实查3292117存活，06:45:23已4/16律师、8/8教师，第三合同342/direct；未读本轮部分答案或评分Gold。
+两编辑实际wire的system/Schema/settings/共同body全部相同，唯一body差异为六份逐案反思；
+24原文/Gold、6实际M4轨迹、18更早明确null，反思逐份原wire/自身8Btrace/原结果和引用ID重放，0额外生成。
+两组差分发布及实时tokens亦重放：direct UPDATE10/CREATE1→21条3549；case-reflected UPDATE7→20条3387，
+无MERGE/DELETE。反思组保留13条原样，但不是已证明少改更好；原20父完全相同、全部有效编辑都已发布。
+531绑定不变；新两收据在本Run/monitoring/matched_teacher_inputs_and_all6_case_audits、
+both_atomic_publications_and_live_delivery_tokens。不能为这些文字就预告收益或扩大训练。
+下一轮直接接续同PID剩余12回答，完整16＋32参考重放后评分，不重做输入/源身份或另开微格式探针。
+本轮Goal分类progress：实际两编辑输入的单差异核验、完整8教师与真实维护/交付证据；仍未达Goal。
+
+### 06:38的教师阶段（历史记录，当前已进入律师评估）
+
+当时实查PID3292117存活，06:38:22已5/8教师完成、6尝试、0/16律师，正在reflect_source_383。
 direct实际UPDATE10/CREATE1，20→21条/3549token、无MERGE/DELETE；这是合法编辑，不是已有效。
 前四份逐案来源审计已有真实响应；不手改审计/技能，不将公开分析正确当作方法净收益。
 完整原138答/6教师＋新direct第1教师/发布/新启动已保全：

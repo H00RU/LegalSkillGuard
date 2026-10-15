@@ -417,3 +417,26 @@ archive legal-grouped138-case-credit-launch-and-direct1-20261016.tar.gz，SHA256
 3af72d03f844f34424cdaeca5cc4edb50fcf2222faea6e9d77a5e27d1ba2742f，HEADd8c9846，全Git历史/逐字节/gzip核验。
 快照明确0此次新律师、1此次新教师，不包含后来完成的反思；仍同vdb，非异机或缺失模型权重备份。
 收据在新Run/monitoring/grouped138_launch_and_direct1_backup_receipt，531绑定不改。
+
+## 两份实际教师输入与发布核验（06:40—06:46）
+
+原8次教师均已完成，06:40:36自动进入律师；06:45:23实查3292117仍活、4/16答，第三合同342。
+没有读取本轮部分原生答案或评分Gold，没有重跑native readiness或新加旁路。
+
+两份真实curator请求的system、Schema、模型/effort/预算设置及除source_grounded_case_reflections外的全部body逐字相同。
+共同24原TRAIN全文/Gold逐案核对，恰六份M4 B4after、其余18当前观察null；六份反思均与各自实际教师response、
+原案/Gold/实际8B native trace/公开回答/实际报出ID模板重放相等，没有操作员重写、挑样本或未来反馈。
+共同信息哈希d765e00c8ed4fd6bea5ef6d8b311fa78bf4ec4046750a829b4b6bc8ef6a1b9b6。
+
+| 实际维护结果 | 父条数 | UPDATE | CREATE | 保留原样 | 新条数 | 实际完整交付token |
+|---|---:|---:|---:|---:|---:|---:|
+| direct | 20 | 10 | 1 | 10 | 21 | 3549 |
+| case-reflected | 20 | 7 | 0 | 13 | 20 | 3387 |
+
+两组均无MERGE/DELETE，不强制删/合并或凑数量。实际response重新原子应用等于发布，管理统计、完整实时计量均相等。
+反思组没有新增，说明合法维护不只会增长；但条目少、文字简洁、更新少不构成效益证据或因果识别。
+它保留了direct另行改动的存续、残留用途、完整依据三条和不新增blanket-disclosure规则，
+两组其余七个主题仍各有不同文字修订，不能事后把任何差异单独归为成绩原因。
+所有合法编辑都无条件进入预定16答，不按分析文本或已知旧分数手调、拒绝或回滚。
+证据为monitoring/matched_teacher_inputs_and_all6_case_audits、both_atomic_publications_and_live_delivery_tokens。
+531绑定不变，输入/发布核验仅证明处理真实，不证明额外6教师值得部署；下一步全16齐答原评分。
