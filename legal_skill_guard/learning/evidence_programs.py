@@ -310,9 +310,21 @@ def evidence_proposals(model, row, labels):
     }
 
 
-def program_solver_messages(row, labels, system, proposals):
-    """One original final answer; operator docstrings are not lawyer policy text."""
-    messages, schema = final_messages(row, labels, [], system)
+def program_solver_messages(
+    row, labels, system, proposals, *, guidance=None, show_span_value_enum_in_prompt=True
+):
+    """One native answer; optional semantic guidance is distinct from query features.
+
+    Historical query runs pass no guidance and retain their exact input. A new
+    procedural study must explicitly provide the genuine lawyer-facing bank.
+    """
+    messages, schema = final_messages(
+        row,
+        labels,
+        [] if guidance is None else guidance,
+        system,
+        show_span_value_enum_in_prompt=show_span_value_enum_in_prompt,
+    )
     body = json.loads(messages[1]["content"])
     body["output_contract"]["original_choice_evidence_consistency"] = {
         "NotMentioned": "spans must be []",

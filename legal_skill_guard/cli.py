@@ -19,6 +19,10 @@ from legal_skill_guard.report import write_report
 
 def study_for(config, run_id):
     method = read(config).get("method", "callable")
+    if method == "trace_procedural_memory":
+        from legal_skill_guard.learning.procedures import ProcedureStudy
+
+        return ProcedureStudy(config, run_id=run_id)
     if method == "evidence_programs":
         from legal_skill_guard.learning.operators import OperatorStudy
 
@@ -37,7 +41,7 @@ def prepare(config):
     frozen = config.with_suffix(".frozen.json")
     if frozen.exists():
         raise FileExistsError("Already frozen; use a new config for any change")
-    if cfg.get("method") == "evidence_programs":
+    if cfg.get("method") in ("evidence_programs", "trace_procedural_memory"):
         from legal_skill_guard.learning.operators import prepare_operator_packets
 
         selection = prepare_operator_packets(ROOT, cfg)
@@ -191,6 +195,7 @@ def worker(config, run_id, engineering):
                     "answer_review",
                     "source_check_execution",
                     "evidence_programs",
+                    "trace_procedural_memory",
                 ):
                     raise ValueError("No extra pre-training qualification for declared skill study")
                 return verify_learning(study)
@@ -228,6 +233,7 @@ def launch(config, run_id, engineering):
             "answer_review",
             "source_check_execution",
             "evidence_programs",
+            "trace_procedural_memory",
         ):
             raise ValueError("Start the declared skill study directly, not extra qualification")
         probe = study_for(config, run_id)
@@ -270,7 +276,9 @@ def launch(config, run_id, engineering):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["prepare", "launch", "worker", "status", "report"])
-    parser.add_argument("--config", type=Path, default=ROOT / "configs/contractnli_query_memory.json")
+    parser.add_argument(
+        "--config", type=Path, default=ROOT / "configs/contractnli_trace_procedures.json"
+    )
     parser.add_argument("--run-id")
     parser.add_argument(
         "--engineering",

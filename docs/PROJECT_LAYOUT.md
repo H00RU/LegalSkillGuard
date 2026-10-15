@@ -16,10 +16,12 @@
 
 ## 当前后台工作
 
-当前默认学习研究为`legal_contractnli_query_memory_learning_20261015_run01`，
-配置`contractnli_query_memory.json`，协议[QUERY_MEMORY_METHOD](QUERY_MEMORY_METHOD.md)。
-原计划四批每批6份原TRAIN、122新律师/5教师；20:09:59停止于64新律师/4教师，B1—B3完整、B4部分。
-法律判断步骤旁路20:19:50完成8新律师/1教师，未建立稳定收益；当前没有完整主训练在跑。
+CLI新默认研究为`legal_contractnli_trace_procedure_learning_20261015_run01`，
+配置`contractnli_trace_procedures.json`，协议[TRACE_PROCEDURE_METHOD](TRACE_PROCEDURE_METHOD.md)。
+计划四批每批6份原TRAIN、130新律师/6教师，含同标签普通工具、静态和最后更新输入控制。
+目前候选源码与协议已冻结，是否启动必须核实真实启动记录/进程/progress，不能由配置推断。
+此前查询学习20:09:59停止于64新律师/4教师，B1—B3完整、B4部分；
+法律步骤旁路20:19:50完成8新律师/1教师，未建立稳定收益。
 真实启动时间/PID以`artifacts/launches/`记录及实际进程共同核实，不能由配置推断已在运行。
 紧凑交付诊断已17:28:14完整结束，36新律师/0教师，未胜强空库整体指标。
 已结束worker使用冻结生产入口，运行时不改绑定源码，不重跑旧Run或伪造默认status。
@@ -43,6 +45,7 @@
 | `legal_contractnli_query_memory_learning_20261015_run01` | 20:09:59安全停止，64新律师/4教师，未整体赢同标签普通工具 | `progress.json`、三批摘要及`monitoring/stopped_run_and_library_lifecycle_audit.json`；无M4/后续8答 |
 | `legal_contractnli_decision_procedure_delivery_20261015_run01` | 20:19:50完成法律判断步骤诊断，4来源/8新律师/1教师 | `completion.json`；相对教师新2案依据F1下降，不是方法已成功 |
 | `legal_contractnli_final_query_objective_20261015_run01` | 20:18:57完成最终概率查询损失CPU对照，无净F1收益 | `completion.json`，0新律师/教师，仅旧已暴露8开发来源 |
+| `legal_contractnli_trace_procedure_learning_20261015_run01` | 已实施并冻结的四批实际轨迹辅助程序学习，含库维护与控制 | 默认CLI status与真实worker，130新律师/6教师为计划，不等于已启动/成功 |
 
 旧 `legal_contractnli_grounded_feedback_learning_20261015_run01` 于10:11在B4强制教师审计引用检查处失败，
 44个律师回答和7个教师输出保留。旧 `grounded_references` 随父失败停止，已完成5个教师发布但0律师回答；

@@ -157,7 +157,7 @@ def prepare_operator_packets(root, cfg):
         root / cfg["grading_only"],
         {
             "annotations": {str(i): docs[i]["annotation_sets"][0]["annotations"] for i in future},
-            "read_only_after_all32_later_native_answers_saved": True,
+            f"read_only_after_all{8 * cfg.get('later_condition_count', 4)}_later_native_answers_saved": True,
             "developer_exposed_previously_not_a_new_blind_test": True,
         },
     )

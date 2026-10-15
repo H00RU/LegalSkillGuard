@@ -191,3 +191,28 @@ def paired(before: list[dict], after: list[dict]) -> dict:
             list(k) for k in a if a[k]["joint_exact"] and not b[k]["joint_exact"]
         ],
     }
+
+
+def publication_statistics(parent, value, bank, tokens):
+    """Describe an applied edit, never select it or infer skill efficacy."""
+    old, new = ({s["id"]: s for s in records} for records in (parent, bank))
+    return {
+        "operation_counts": {
+            kind: sum(o["operation"] == kind for o in value["operations"])
+            for kind in ("CREATE", "UPDATE", "DELETE", "MERGE")
+        },
+        "explicit_noop": not value["operations"],
+        "parent_skill_count": len(parent),
+        "published_skill_count": len(bank),
+        "new_ids": sorted(new.keys() - old.keys()),
+        "removed_ids": sorted(old.keys() - new.keys()),
+        "verbatim_retained_ids": sorted(
+            sid for sid in old.keys() & new.keys() if old[sid] == new[sid]
+        ),
+        "revised_retained_ids": sorted(
+            sid for sid in old.keys() & new.keys() if old[sid] != new[sid]
+        ),
+        "serialized_library_tokens": tokens,
+        "guidance_characters": sum(len(s["guidance"]) for s in bank),
+        "not_a_utility_score_or_publication_gate": True,
+    }

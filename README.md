@@ -19,7 +19,12 @@ lawyer and4 teacher responses. B2/B3 did not beat the same-label ordinary tool
 overall. No final M4 or later-eight evaluation was produced.
 The legal-procedure delivery probe completed at20:19:50; its two new-to-teacher
 contracts lost evidence F1 despite a small joint gain. It is not a successful
-method or full learning run. No full primary training is currently running.
+method or full learning run. The next candidate is
+[trace-informed procedural memory](docs/TRACE_PROCEDURE_METHOD.md): actual local
+executor traces inform the same teacher, with explicit library maintenance and
+an identical ordinary evidence tool in the data-only control. No query residual
+weights, extra runtime reviewer or host verdict is introduced. The new CLI
+default is prepared, not proof it has started or improved results; check status.
 Its external evidence scorer is supervised and learns weights; the lawyer remains
 frozen. It is NOT pure verbal skill learning or an established improvement.
 No host repair, best-bank rollback, extra LLM or new legal task is introduced.
@@ -65,10 +70,10 @@ are objectives to test, not promises of monotonic gains or publication.
 cd /home/yndx/hhy/legal-skill-current
 ```
 
-当前CLI默认配置：`configs/contractnli_query_memory.json`。
-运行ID：`legal_contractnli_query_memory_learning_20261015_run01`。
-四批每批6份TRAIN，122新律师/5教师，另12显式相同冷输入观察共享。
-这是原计划；当前已停止于64新律师/4教师，无后续8合同终局评价。
+当前CLI默认配置：`configs/contractnli_trace_procedures.json`。
+运行ID：`legal_contractnli_trace_procedure_learning_20261015_run01`。
+四批每批6份TRAIN，计划130新律师/6教师，另12显式相同冷输入观察共享。
+前一查询Run已停止于64新律师/4教师，无后续8合同终局评价。
 技能数8→11→11，已有真实修订，但库内短语持续增长；
 [生命周期审计](reports/experiments/query_memory_20261015/stopped_lifecycle_and_delivery_audit.md)
 区分管理、复杂度与收益，不硬设数量或删除配额。

@@ -163,6 +163,104 @@ def test_executable_query_features_are_source_only_scoped_and_not_answer_rules()
         program_queries([{**skill(), "queries": []}], list(labels))
 
 
+def test_procedural_delivery_is_real_system_guidance_without_current_gold():
+    from legal_skill_guard.learning.procedures import procedure_messages
+
+    row, labels, _ = fixture()
+    bank = [{k: v for k, v in skill().items() if k != "queries"}]
+    messages, schema = procedure_messages(row, labels, "Original task.", bank, None)
+    assert bank[0]["guidance"] in messages[0]["content"]
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(messages)
+    assert procedure_messages(
+        {**row, "annotation_sets": "FORBIDDEN"}, labels, "Original task.", bank, None
+    ) == (messages, schema)
+    body = json.loads(messages[1]["content"])
+    assert body["output_contract"]["common_schema_for_each_hypothesis"]["properties"]["spans"][
+        "items"
+    ] == {"type": "integer"}
+    assert schema["properties"]["h1"]["anyOf"][0]["properties"]["spans"]["items"]["enum"] == [
+        0,
+        1,
+        2,
+    ]
+
+
+def test_local_executor_trace_requires_exact_native_identity_and_content(tmp_path):
+    from legal_skill_guard.learning.procedures import local_executor_trace
+
+    public = response({})
+    path = tmp_path / "local.native.json"
+    native = {
+        "response": public,
+        "calls": [
+            {
+                "response": {
+                    "id": public["raw_id"],
+                    "choices": [
+                        {
+                            "message": {
+                                "content": public["content"],
+                                "reasoning_content": "Untrusted local model text.",
+                            }
+                        }
+                    ],
+                }
+            }
+        ],
+    }
+    RunStore.immutable_json(path, native)
+    unit = {"response": public, "raw_artifact": str(path)}
+    assert local_executor_trace(unit) == {
+        "raw_id": public["raw_id"],
+        "reasoning_content_verbatim": "Untrusted local model text.",
+    }
+    with pytest.raises(ValueError, match="identity mismatch"):
+        local_executor_trace({**unit, "response": {**public, "raw_id": "another-native"}})
+    missing = copy.deepcopy(native)
+    del missing["calls"][0]["response"]["choices"][0]["message"]["reasoning_content"]
+    missing_path = tmp_path / "no-trace.native.json"
+    RunStore.immutable_json(missing_path, missing)
+    with pytest.raises(ValueError, match="unavailable"):
+        local_executor_trace({**unit, "raw_artifact": str(missing_path)})
+
+
+def test_library_management_describes_merge_delete_and_noop_without_growth():
+    from legal_skill_guard.learning.publication import (
+        apply_differential_publication,
+        publication_statistics,
+    )
+
+    _, labels, _ = fixture()
+    parent = [{k: v for k, v in skill(sid).items() if k != "queries"} for sid in ("s1", "s2", "s3")]
+    value = {
+        "operations": [
+            {
+                "operation": "MERGE",
+                "target_ids": ["s1", "s2"],
+                "skill": parent[0],
+                "source_case_ids": [1],
+                "rationale": "Same actual boundary.",
+            },
+            {
+                "operation": "DELETE",
+                "target_ids": ["s3"],
+                "skill": None,
+                "source_case_ids": [1],
+                "rationale": "Contradicted by seen evidence.",
+            },
+        ],
+        "noop_reason": None,
+    }
+    bank = apply_differential_publication(parent, value, labels, [1])
+    assert bank == parent[:1]
+    stats = publication_statistics(parent, value, bank, 100)
+    assert stats["removed_ids"] == ["s2", "s3"]
+    assert stats["operation_counts"] == {"CREATE": 0, "UPDATE": 0, "DELETE": 1, "MERGE": 1}
+    noop = {"operations": [], "noop_reason": "No warranted boundary change."}
+    assert apply_differential_publication(bank, noop, labels, [1]) == bank
+    assert publication_statistics(bank, noop, bank, 100)["explicit_noop"]
+
+
 def test_external_scoring_includes_original_nm_negatives_and_real_query_columns():
     import numpy as np
 

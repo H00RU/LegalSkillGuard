@@ -198,9 +198,17 @@ def compact_receipts(trace):
     }
 
 
-def final_messages(row, labels, library, system, trace=None):
+def final_messages(
+    row, labels, library, system, trace=None, *, show_span_value_enum_in_prompt=True
+):
     guidance = [{k: v for k, v in s.items() if k != "queries"} for s in library]
-    messages, schema = solver_messages(row, labels, guidance, system)
+    messages, schema = solver_messages(
+        row,
+        labels,
+        guidance,
+        system,
+        show_span_value_enum_in_prompt=show_span_value_enum_in_prompt,
+    )
     body = json.loads(messages[1]["content"])
     body["original_public_short_descriptions"] = {
         k: v["short_description"] for k, v in labels.items()
