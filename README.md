@@ -1,9 +1,11 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Current background execution: `legal_contractnli_case_credit_20261016_run01`
-(matched direct versus case-local-reflected teacher refinement, launched06:33 CST;
-PID3292117;16 new lawyer/8 new teacher planned, 531 source/parent/driver/protocol bindings frozen).
-Use `.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_case_credit_20261016_run01`.
+No experiment worker is currently running; original8B PID2261314 remains untouched.
+`legal_contractnli_case_credit_20261016_run01` completed16 new lawyer/8 teacher at07:00:22.
+Direct82.35/68.29/56.62%, reflected86.03/69.83/59.56%; oldM4
+83.09/69.91/59.56%, same-tool80.88/71.37/55.15% (accuracy/F1/joint).
+Case reflection is not promoted: no same-tool evidence gain or oldM4 joint gain.
+A same24-data ACE legal adaptation is being prepared, not yet launched.
 The grouping diagnostic completed16/0 at06:21:10: coherent86.03/70.43/58.82%,
 flat81.62/72.10/54.41%, same-tool80.88/71.37/55.15%. All coherent classification
 net+7 came from source374; other seven net0 label/−2 joint. It is not promoted
@@ -62,8 +64,8 @@ assessment evaluated its real final M4. The122 physical-call ancestry, four batc
 of six original TRAIN, retention and four-arm32-answer endpoint do not establish
 stable same-tool benefit. The completed [organization diagnostic](reports/experiments/grounded_feedback_20261016/contrastive_delivery_protocol.md)
 compiled one source-grounded branch bank and mechanically flattened exactly that
-knowledge. The [current teacher-credit diagnostic](reports/experiments/grounded_feedback_20261016/case_credit_protocol.md)
-compares one direct edit against six case reflections plus the same editor,
+knowledge. The [completed teacher-credit diagnostic](reports/experiments/grounded_feedback_20261016/case_credit_protocol.md)
+compared one direct edit against six case reflections plus the same editor,
 with the same atomic library and information. No new task, model or runtime stage.
 No host repair, best-bank rollback, extra LLM or new legal task is introduced.
 At15:09 the user
@@ -114,9 +116,9 @@ cd /home/yndx/hhy/legal-skill-current
 32终点齐答核验后评分，采用真实末库不选最佳库；仍是暴露开发研究。
 教师编译前序因平面4409token超容量已失败，0律师/1教师；失败与成本保留。
 其delivery后续已完成16/0，法律字句完整、分支3183/平面4073、4096容量不变；增益来源集中，未升为主方法。
-当前后台case-credit固定16新律师/8新教师，同M4父库与原表示；仅教师逐案分析处理有差异。
-不新增生产规划器/路由/效益准入或律师推理层；祖系138律师/6教师，完成后154/14。
-诊断期间531绑定不可改，实际阶段以显式Run ID的status及进程为准。
+case-credit已完成16新律师/8教师，同M4父库与原表示；逐案分析未解决依据/联合目标，不升为主方法。
+本条祖系154律师/14教师，无新增生产规划器/路由/效益准入或律师推理层。
+当前无worker，准备同24案ACE适配比较；新启动以CURRENT_GOAL及实际进程为准。
 原子失败78答、显式接续52答、配对8答和关系诊断8答均已保留；它们都已终止，不是当前新训练。
 旧计量错误及修复见[检查点完成协议](reports/experiments/atomic_completion_20261016/protocol.md)，不覆盖失败历史。
 前一查询Run已停止于64新律师/4教师，无后续8合同终局评价。
