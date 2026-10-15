@@ -1,6 +1,6 @@
 # 项目目录与工作入口
 
-整理日期：2026-10-15。只整理入口和说明，不改变方法、数据划分、评分或运行中的冻结文件。
+整理日期：2026-10-16。这里只整理入口和说明，不改运行中的冻结文件。
 
 ## 当前项目
 
@@ -16,18 +16,18 @@
 
 ## 当前后台工作
 
-最新：10月16日01:52:27，新主`legal_contractnli_atomic_completion_20261016_run01`（PID2867332）
-显式继承真实78答，继续M4；配对run02（PID2867347）独立等待其主阶段完成/确切进程退出。
-两者使用同一已冻结completion driver；旧原子2697441和旧队列2806817已失败/取消，不能再称在运行。
-当前状态用CLI显式`--run-id legal_contractnli_atomic_completion_20261016_run01`查看，
-旧默认冻结配置保留历史，不直接重启。原生消息未改，计量修复共用实际紧凑序列化文本。
+最新：10月16日03:23:04，新`legal_contractnli_grounded_feedback_20261016_run01`（PID3003556）
+从空库四批24原案，122新律师/5教师；CLI默认`contractnli_grounded_feedback.json`。
+用`.venv/bin/python -m legal_skill_guard.cli status`查看。48绑定冻结；律师协议不变，教师改为累计原文/Gold和逐命题反馈。
+原子接续2867332已02:50:22完成52新答，配对2867347已03:00:08完成8新答/1教师，
+关系诊断2957831已03:07:22完成8新答/0教师；都不再运行，负面结果不隐藏。
 
-以下为已终止父实验的历史启动记录；CLI保留的旧默认研究为`legal_contractnli_atomic_boundaries_20261015_run01`，
+以下为已终止父实验的历史启动记录；旧默认研究为`legal_contractnli_atomic_boundaries_20261015_run01`，
 配置`contractnli_atomic_boundaries.json`，协议[ATOMIC_BOUNDARY_METHOD](ATOMIC_BOUNDARY_METHOD.md)。
 计划四批每批6份原TRAIN、130新律师/6教师，含同标签普通工具、静态和最后更新输入控制。
 新Run已于10月15日23:58:24真实后台启动（PID2697441）；实时阶段核实启动记录/进程/progress，不能由配置推断。
 当时10月16日01:12:21另排队最后更新配对反馈诊断（旧PID2806817，8律师/1教师计划），
-该旧队列随后因父未完成而取消0调用；当前活跃的是上文两个新PID，不应混用。
+该旧队列随后因父未完成而取消0调用，不应与后来完成的run02或当前新训练混用。
 上一程序学习20:56:22启动、23:26:23完成130律师/6教师，去候选23:33:00完成6新律师；两个进程均已退出。
 此前查询学习20:09:59停止于64新律师/4教师，B1—B3完整、B4部分；
 法律步骤旁路20:19:50完成8新律师/1教师，未建立稳定收益。
@@ -58,8 +58,10 @@
 | `legal_contractnli_M2_tool_influence_20261015_run01` | 23:33:00完整结束，6新律师/12明确参考，去候选使三指标下降 | `completion.json`与独立18答重算，进程已退出 |
 | `legal_contractnli_atomic_boundaries_20261015_run01` | 01:30:29因容量计量不一致失败，78物理律师/12共享/5教师保留；主M4未调用 | failure与停止重放审计，PID2697441已退出，无终点答案 |
 | `legal_contractnli_paired_final_update_20261016_run01` | 01:30:34随父未完成取消，0律师/0教师 | cancellation与终态progress，PID2806817已退出 |
-| `legal_contractnli_atomic_completion_20261016_run01` | 01:52:27真实启动，修复计量后显式继承78答，接续主M4与终点 | PID2867332；52新律师/1教师计划，主44/32独立main_completion，不冒充独立训练 |
-| `legal_contractnli_paired_final_update_20261016_run02` | 01:52:28真实排队，等确切新主退出及主44/32完成，不依赖辅助8成功 | PID2867347；8新律师/1教师，固定32参考，非完整配对反馈训练 |
+| `legal_contractnli_atomic_completion_20261016_run01` | 02:50:22完成52新律师/1教师，加祖系共130物理答 | completion与完整审计；不是从空库独立重训 |
+| `legal_contractnli_paired_final_update_20261016_run02` | 03:00:08完成8新律师/1教师，三指标较主更差 | completion与真实教师/8答独立审计；非完整配对学习 |
+| `legal_contractnli_M4_relation_channel_20261016_run01` | 03:07:22完成8新律师/0教师，统一去关系三指标更差 | completion与差异/原评分审计；不默认部署 |
+| `legal_contractnli_grounded_feedback_20261016_run01` | 03:23:04从空库后台启动，修正教师累计来源及反馈组织 | PID3003556、48冻结绑定，122律师/5教师计划，仍是开发研究 |
 | `legal_contractnli_nli_signal_20261016_run01` | 00:46:07完成固定规则条件的CPU分类信号诊断，无稳定额外收益 | completion与独立816预测复算；0律师/教师，不部署为法律裁判 |
 | `legal_contractnli_query_sample_size_20261015_run01` | CPU旧查询库24/64/128样本量诊断；首24拟合后严格模型一致断言失败 | 22:25:05已退出，0律师/教师，未读评价Gold，失败工件保留 |
 | `legal_contractnli_query_sample_size_20261015_run02` | 同诊断仅统一原生线程环境后全部重做；固定旧库无净F1收益 | 22:36:52完成6次CPU拟合，0律师/教师；只读旧暴露8来源，不是当前主任务成绩 |

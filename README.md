@@ -1,11 +1,11 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Current background execution: `legal_contractnli_atomic_completion_20261016_run01`
-(explicit78-answer checkpoint completion), with the separate paired-feedback run02 queued.
-The original atomic run failed on a library-capacity metering mismatch; its failure is preserved.
-The repaired counter now meters the exact already-compact lawyer payload, without changing messages.
-Use `.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_atomic_completion_20261016_run01`.
-The old CLI-default frozen config is historical and must not be relaunched with changed source.
+Current background execution: `legal_contractnli_grounded_feedback_20261016_run01`
+(fresh empty-library learning, launched03:23:04 CST; PID3003556).
+All seen original sources/Gold remain available to one editor, with frontloaded
+hypothesis-grouped evidence and genuine exact-parent observations. Lawyer delivery is unchanged.
+Use `.venv/bin/python -m legal_skill_guard.cli status`.
+The default is `configs/contractnli_grounded_feedback.json`; all older frozen runs are historical.
 See [current Goal](docs/CURRENT_GOAL.md) for the active cursor, ancestry and actual counts.
 
 Status: current core reconstructed after the 2026-10-15 file-loss incident.
@@ -19,7 +19,7 @@ It did not beat strong empty memory overall: evidence F1/joint fell from61.48/46
 to54.39/35.29 with ranked candidates plus text skills. All adverse outputs remain.
 The tree-query study stopped at18:36:45 after14 lawyer responses: all47 learned
 queries were mathematically inert, despite good seen-case supervised fit.
-The next study preserves the same-data word/calibration model and learns only
+The following historical study preserved the same-data word/calibration model and learned only
 additional query coefficients; see [query-memory protocol](docs/QUERY_MEMORY_METHOD.md).
 The zero-query diagnostic exactly restores the ordinary tool. This functional
 repair did not establish a stable gain: its run stopped safely at20:09:59 after64
@@ -34,18 +34,20 @@ Its final eight-contract label/F1/joint scores were79.41/73.11/56.62%, versus
 79.41/70.89/54.41% for the same-label ordinary tool: classification did not improve.
 The six-call fixed-memory tool ablation ended at23:33; removing the ordinary tool
 harmed all three endpoints. See the [complete readout](reports/experiments/trace_procedures_20261015/complete_readout.md).
-The new default candidate is [same-parent atomic boundaries](docs/ATOMIC_BOUNDARY_METHOD.md):
-conditional legal rule units are explicitly bound to public hypotheses, and the
-teacher observes complete current-before/previous-after cases under the exact same
-parent memory and ordinary tool. There is no outcome-based sampling or new planner,
-router, reviewer or host verdict. Configuration existence is not a launch or gain;
-check the actual status.
+The atomic-boundary checkpoint completion ended02:50:22: its final label/F1/joint
+scores were83.09/70.59/61.76%, versus80.88/71.37/55.15% for the same-data ordinary tool.
+Gains were source-concentrated and all three paired source intervals crossed zero.
+Final-update paired feedback and uniform relation suppression both worsened the three endpoints;
+neither is promoted as the default. See the [complete readout](reports/experiments/atomic_completion_20261016/main_readout.md).
+The current [grounded-feedback candidate](docs/GROUNDED_FEEDBACK_METHOD.md) retains
+conditional skills and the same lawyer interface, but separates all cumulative
+source/Gold from exact-parent execution and aligns evidence and answers by hypothesis.
+There is no outcome-based sampling, new planner, router, reviewer or host verdict.
 Its external evidence scorer is supervised and learns weights; the lawyer remains
 frozen. It is NOT pure verbal skill learning or an established improvement.
-The atomic run is in B4; B3's paired tool-control gains do not erase B2's losses.
-The queued [final-update feedback intervention](reports/experiments/paired_final_update_20261016/protocol.md)
-adds one teacher update and eight answers only after the exact parent completes.
-Both workers' shared source remains frozen until both terminate; see the current Goal for actual progress.
+The fresh study plans122 new lawyer/5 teacher calls, four batches of six original TRAIN
+contracts, retention and four-arm32-answer endpoint evaluation. Its48 source/input
+bindings remain frozen while the worker runs; this is development, not a confirmed gain.
 No host repair, best-bank rollback, extra LLM or new legal task is introduced.
 At15:09 the user
 explicitly requested a new Goal, which is active; see [current Goal](docs/CURRENT_GOAL.md).
@@ -73,7 +75,7 @@ are objectives to test, not promises of monotonic gains or publication.
 
 ## 已核验与未完成
 
-当前26项无模型调用边界测试通过（1.11秒），新增一项检查计量文本恰等于交付文本。重建阶段一份训练合同完成真实的律师回答→强教师
+当前26项无模型调用边界测试通过（1.16秒），含实际交付计量、累计来源与严格当前反馈边界。重建阶段一份训练合同完成真实的律师回答→强教师
 差分编辑→技能查询执行→律师重答，独立评分与实际传递核验一致；不是新方法的额外资格训练。
 另有幸存旧请求逐字消息／Schema及6212-token计数核对；不是只凭聊天记录猜实现。
 这些是重建核验，不是方法已优于空库或ACE的证据。
@@ -89,13 +91,10 @@ are objectives to test, not promises of monotonic gains or publication.
 cd /home/yndx/hhy/legal-skill-current
 ```
 
-当前CLI默认配置：`configs/contractnli_atomic_boundaries.json`。
-该旧运行ID `legal_contractnli_atomic_boundaries_20261015_run01`已在78律师/5教师后失败，未完成原130/6计划。
-其库预算检查曾错误计带空格JSON而非真实紧凑输入；不是无效回答或GPU故障。
-当前显式检查点Run接续M4，不重复B1—B3，52新律师/1教师计划，明确继承78物理答/12共享/5教师响应。
-主44新答和32主终点先保存main_completion，再独立完成辅助8答；主成功不依赖辅助成功。
-配对run02另8新律师/1教师，固定参考四组32主答，不混算为从空库独立训练。
-见[修复与检查点完成协议](reports/experiments/atomic_completion_20261016/protocol.md)。
+当前CLI默认配置：`configs/contractnli_grounded_feedback.json`。
+新Run从空库完整四批24原案，122新律师/5教师/12明确冷共享，32终点齐答后评分。
+原子失败78答、显式接续52答、配对8答和关系诊断8答均已保留；它们都已终止，不是当前新训练。
+旧计量错误及修复见[检查点完成协议](reports/experiments/atomic_completion_20261016/protocol.md)，不覆盖失败历史。
 前一查询Run已停止于64新律师/4教师，无后续8合同终局评价。
 旧查询Run技能数8→11→11，已有真实修订，但库内短语持续增长；
 [生命周期审计](reports/experiments/query_memory_20261015/stopped_lifecycle_and_delivery_audit.md)
@@ -120,7 +119,7 @@ B3出现依据FP激增与联合损害，已停止；[停止审计](reports/exper
 `runs/legal_reconstruction_chain_check_20261015_run01/engineering_completion.json`；
 其代码和旧配置快照独立保存，不是当前默认实验。
 
-详见[当前方法与边界](docs/ATOMIC_BOUNDARY_METHOD.md)、[重建时历史计划](docs/METHOD_AND_PROTOCOL.md)、[历史决策](docs/HISTORY_DECISIONS.md)
+详见[当前方法与边界](docs/GROUNDED_FEEDBACK_METHOD.md)、[重建时历史计划](docs/METHOD_AND_PROTOCOL.md)、[历史决策](docs/HISTORY_DECISIONS.md)
 及[重建交付记录](docs/REBUILD_STATUS.md)。师兄的方法／实验技能用于机制—代码一致性和公平对照检查，
 没有照搬模板中的固定贡献数、重复次数或示例成绩。
 日常论文技能以hhy下`paper-skills/`为当前版本；旧`归档/`已不存在，助手未删除，不依赖该目录。
