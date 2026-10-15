@@ -16,9 +16,12 @@
 
 ## 当前后台工作
 
-最新：10月16日03:23:04，新`legal_contractnli_grounded_feedback_20261016_run01`（PID3003556）
-从空库四批24原案，122新律师/5教师；CLI默认`contractnli_grounded_feedback.json`。
-用`.venv/bin/python -m legal_skill_guard.cli status`查看。48绑定冻结；律师协议不变，教师改为累计原文/Gold和逐命题反馈。
+最新：10月16日05:03启动`legal_contractnli_grounded_final_assessment_20261016_run01`（PID3154049），
+仅补真实已发布M4的固定44律师评估、0新教师/训练更新；283绑定冻结，不能热改源或完整父JSON/模型。
+用`.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_grounded_final_assessment_20261016_run01`查看。
+父`legal_contractnli_grounded_feedback_20261016_run01`因完整B4严重损害于04:52:09停止，78律师/5教师；
+M4在停止收尾时已发布但无律师执行。原失败/停止保留，当前评估不等于新正式训练、原worker成功或独立重复。
+CLI默认仍指向停止父Run；32终点全答核验后才评分。
 原子接续2867332已02:50:22完成52新答，配对2867347已03:00:08完成8新答/1教师，
 关系诊断2957831已03:07:22完成8新答/0教师；都不再运行，负面结果不隐藏。
 
@@ -61,7 +64,8 @@
 | `legal_contractnli_atomic_completion_20261016_run01` | 02:50:22完成52新律师/1教师，加祖系共130物理答 | completion与完整审计；不是从空库独立重训 |
 | `legal_contractnli_paired_final_update_20261016_run02` | 03:00:08完成8新律师/1教师，三指标较主更差 | completion与真实教师/8答独立审计；非完整配对学习 |
 | `legal_contractnli_M4_relation_channel_20261016_run01` | 03:07:22完成8新律师/0教师，统一去关系三指标更差 | completion与差异/原评分审计；不默认部署 |
-| `legal_contractnli_grounded_feedback_20261016_run01` | 03:23:04从空库后台启动，修正教师累计来源及反馈组织 | PID3003556、48冻结绑定，122律师/5教师计划，仍是开发研究 |
+| `legal_contractnli_grounded_feedback_20261016_run01` | 04:52:09因完整B4三项严重损害安全停止，78律师/5教师 | 实际M4已发布/工具拟合但未执行；原停止保留，不称完整成功 |
+| `legal_contractnli_grounded_final_assessment_20261016_run01` | 05:03独立后台固定M4评估，计划44新律师/0教师 | PID3154049、283冻结绑定；明确继承78/5，不选库，不是独立训练 |
 | `legal_contractnli_nli_signal_20261016_run01` | 00:46:07完成固定规则条件的CPU分类信号诊断，无稳定额外收益 | completion与独立816预测复算；0律师/教师，不部署为法律裁判 |
 | `legal_contractnli_query_sample_size_20261015_run01` | CPU旧查询库24/64/128样本量诊断；首24拟合后严格模型一致断言失败 | 22:25:05已退出，0律师/教师，未读评价Gold，失败工件保留 |
 | `legal_contractnli_query_sample_size_20261015_run02` | 同诊断仅统一原生线程环境后全部重做；固定旧库无净F1收益 | 22:36:52完成6次CPU拟合，0律师/教师；只读旧暴露8来源，不是当前主任务成绩 |

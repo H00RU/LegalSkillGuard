@@ -1,11 +1,11 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Current background execution: `legal_contractnli_grounded_feedback_20261016_run01`
-(fresh empty-library learning, launched03:23:04 CST; PID3003556).
-All seen original sources/Gold remain available to one editor, with frontloaded
-hypothesis-grouped evidence and genuine exact-parent observations. Lawyer delivery is unchanged.
-Use `.venv/bin/python -m legal_skill_guard.cli status`.
-The default is `configs/contractnli_grounded_feedback.json`; all older frozen runs are historical.
+Current background execution: `legal_contractnli_grounded_final_assessment_20261016_run01`
+(fixed final-M4 assessment, launched05:03 CST; PID3154049;44 new lawyer/0 teacher).
+The parent learning worker stopped at04:52:09 after severe complete-B4 harm, with78 lawyer/5 teacher.
+Its pending final update published M4 before stopping; this assessment changes no skill, tool or lawyer.
+Use `.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_grounded_final_assessment_20261016_run01`.
+The default still shows the stopped parent; this is not a fresh training or an independent repeat.
 See [current Goal](docs/CURRENT_GOAL.md) for the active cursor, ancestry and actual counts.
 
 Status: current core reconstructed after the 2026-10-15 file-loss incident.
@@ -92,14 +92,16 @@ cd /home/yndx/hhy/legal-skill-current
 ```
 
 当前CLI默认配置：`configs/contractnli_grounded_feedback.json`。
-新Run从空库完整四批24原案，122新律师/5教师/12明确冷共享，32终点齐答后评分。
+该默认训练已因完整B4严重损害停止，78律师/5教师；停止期间最后M4已发布但未执行。
+当前独立后台评估只补原定44律师/0教师，显式引用78旧答/12冷共享/5教师；不是新训练或恢复旧worker。
+32终点齐答核验后评分，采用真实末库不选最佳库；仍是暴露开发研究。
 原子失败78答、显式接续52答、配对8答和关系诊断8答均已保留；它们都已终止，不是当前新训练。
 旧计量错误及修复见[检查点完成协议](reports/experiments/atomic_completion_20261016/protocol.md)，不覆盖失败历史。
 前一查询Run已停止于64新律师/4教师，无后续8合同终局评价。
 旧查询Run技能数8→11→11，已有真实修订，但库内短语持续增长；
 [生命周期审计](reports/experiments/query_memory_20261015/stopped_lifecycle_and_delivery_audit.md)
 区分管理、复杂度与收益，不硬设数量或删除配额。
-用`.venv/bin/python -m legal_skill_guard.cli status`查真实状态；配置存在不等于已启动。
+查看当前评估须显式指定上述新Run ID；默认status保留停止父训练，配置存在不等于已启动。
 当前源码不得在worker运行中热改。该开发学习研究不是正式论文比较或已证明优于空库。
 前一[紧凑交付诊断](reports/experiments/compact_evidence_delivery_20261015/protocol.md)
 已完成；36新律师/0教师，最终结果和完整独立审计保留。
