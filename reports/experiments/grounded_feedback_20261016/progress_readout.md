@@ -440,3 +440,13 @@ archive legal-grouped138-case-credit-launch-and-direct1-20261016.tar.gz，SHA256
 所有合法编辑都无条件进入预定16答，不按分析文本或已知旧分数手调、拒绝或回滚。
 证据为monitoring/matched_teacher_inputs_and_all6_case_audits、both_atomic_publications_and_live_delivery_tokens。
 531绑定不变，输入/发布核验仅证明处理真实，不证明额外6教师值得部署；下一步全16齐答原评分。
+
+## 训练标签先验参照，先固定后评分（06:49）
+
+在本轮16新答完成之前，仅用原24训练的17命题标签固定多数类分类参照；不读任何合同做推理，
+不读取本轮部分回答或后续Gold拟合。逐命题分别取训练计数最大类，预定tie顺序E/C/NM，实际无平局。
+17固定预测为9E/2C/6NM。原24来源ID、原注释SHA、全计数和预测均不可变存于
+monitoring/training_only_majority_reference，0新律师/教师。
+它只检查“分类成绩是否超出训练标签先验”，不是完整的依据方法；不伪造其F1/联合成绩或运行时依据。
+此表不进入教师/律师、不作当前案件裁决/答案修补，不改变原任务、分母或任何技能。
+等本轮16齐答及重放后再评分；不能用观察成绩选择多数类/tie或把它当成已完成成熟经验基线。
