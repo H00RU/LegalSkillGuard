@@ -80,6 +80,32 @@ M4的员工共享、代表共享和非员工禁止规则确有交叉检查，但
 实际token/上下文成本；新案对同工具的分类/证据/联合修正与损害；预定旧案保持。
 规则数量、全库平均引用率和无逐字副本均不是效用指标。
 
+## 02:31补充：并非补历史就能修好
+
+对完整M1/B1after、M2/B2after、M3/B3after、M4/B4after及M4/B1保持共510题做引用范围统计：
+前三组各102题均无越声明范围自报引用；M4后两组分别有1题和2题，三题均为原Gold NM却答C。
+分别是383、331、88的nda-7，自报使用只声明nda-5的新增`nda-closed-employee-access-ban`。
+这不是Schema错误，且自报并不证明内部因果；只收紧引用ID enum会掩盖症状，不能证明法律判断修好了。
+
+238的nda-2末库公开理由声称合同包含“business plans”，完整原文没有该短语或相应具体业务类别；
+该例子却出现在全局`nda-nontechnical-scope`指导中。真实本地轨迹也未定位具体非技术类别。
+这支持继续审查当前事实与指导例子的混淆，而不是认定新增或删除若干规则便能解决执行问题。
+
+更重要的是，实际M4教师已看到了383的nda-7原Gold NM，以及同M3观察的正确NM回答。
+新修订`nda-closed-employee-disclosure-ban`仍把一般任何人/任何实体禁止、仅有同意或非员工未明示例外
+泛化为第三方命题的充分C条件。383的原文存在这类宽泛禁止，而原标注为NM；更新后也实答C。
+这表明维护没有可靠对照**已经提供**的反例，不只是早期原文缺席。
+
+430明确第三方禁止的原Gold是C；331/88的员工例外、383的一般任何人/实体禁止则为NM。
+需要学习原命题的细粒度边界，不能把这些不同记录压成一个普适“禁止披露→第三方C”的规则，
+也不能据此宣布所有原Gold错误或数据集不可用。原作者描述了逐命题示例式标注规范及复核过程，
+但这不提供我们擅自改Gold的依据：[原论文附录A.1.1](https://aclanthology.org/2021.findings-emnlp.164.pdf)。
+
+因此下一行动不是仅补归档、扩大训练或强制删除：先看已排队的同案同工具反馈干预是否真的让末次编辑
+避免过度概括；后续教师输入需要同时具备完整可核查来源和不同标签的反例可见性。
+保持单个编辑教师，不增加规则效果裁判、当前答案修补或终点评分择库。
+若仍尝试下一完整学习，应明确冻结信息条件并核对实际编辑内容，不能将更多字段本身当作成功。
+
 证据：两个Run的`update_transactions/trace_b*.json`、真实教师`wire_request.json`、
 当前`retention_b4.json`及6份原native/public工件，
-`monitoring/complete_B1_retention_original_score_audit.json`。
+`monitoring/complete_B1_retention_original_score_audit.json`及`M4_content_execution_gap_audit.json`。
