@@ -14,7 +14,12 @@ queries were mathematically inert, despite good seen-case supervised fit.
 The next study preserves the same-data word/calibration model and learns only
 additional query coefficients; see [query-memory protocol](docs/QUERY_MEMORY_METHOD.md).
 The zero-query diagnostic exactly restores the ordinary tool. This functional
-repair has not yet shown a development-set F1 gain and is not a claimed success.
+repair did not establish a stable gain: its run stopped safely at20:09:59 after64
+lawyer and4 teacher responses. B2/B3 did not beat the same-label ordinary tool
+overall. No final M4 or later-eight evaluation was produced.
+The legal-procedure delivery probe completed at20:19:50; its two new-to-teacher
+contracts lost evidence F1 despite a small joint gain. It is not a successful
+method or full learning run. No full primary training is currently running.
 Its external evidence scorer is supervised and learns weights; the lawyer remains
 frozen. It is NOT pure verbal skill learning or an established improvement.
 No host repair, best-bank rollback, extra LLM or new legal task is introduced.
@@ -63,6 +68,10 @@ cd /home/yndx/hhy/legal-skill-current
 当前CLI默认配置：`configs/contractnli_query_memory.json`。
 运行ID：`legal_contractnli_query_memory_learning_20261015_run01`。
 四批每批6份TRAIN，122新律师/5教师，另12显式相同冷输入观察共享。
+这是原计划；当前已停止于64新律师/4教师，无后续8合同终局评价。
+技能数8→11→11，已有真实修订，但库内短语持续增长；
+[生命周期审计](reports/experiments/query_memory_20261015/stopped_lifecycle_and_delivery_audit.md)
+区分管理、复杂度与收益，不硬设数量或删除配额。
 用`.venv/bin/python -m legal_skill_guard.cli status`查真实状态；配置存在不等于已启动。
 当前源码不得在worker运行中热改。该开发学习研究不是正式论文比较或已证明优于空库。
 前一[紧凑交付诊断](reports/experiments/compact_evidence_delivery_20261015/protocol.md)

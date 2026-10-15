@@ -18,12 +18,13 @@
 
 当前默认学习研究为`legal_contractnli_query_memory_learning_20261015_run01`，
 配置`contractnli_query_memory.json`，协议[QUERY_MEMORY_METHOD](QUERY_MEMORY_METHOD.md)。
-四批每批6份原TRAIN，122新律师/5教师，冻结律师、监督外部评分器、差分进化查询特征。
+原计划四批每批6份原TRAIN、122新律师/5教师；20:09:59停止于64新律师/4教师，B1—B3完整、B4部分。
+法律判断步骤旁路20:19:50完成8新律师/1教师，未建立稳定收益；当前没有完整主训练在跑。
 真实启动时间/PID以`artifacts/launches/`记录及实际进程共同核实，不能由配置推断已在运行。
 紧凑交付诊断已17:28:14完整结束，36新律师/0教师，未胜强空库整体指标。
-当前worker使用冻结生产入口，运行时不改绑定源码，不重跑旧Run或伪造默认status。
+已结束worker使用冻结生产入口，运行时不改绑定源码，不重跑旧Run或伪造默认status。
 旧三条件/多条件有限试验**不是已经完成的正式论文比较**。
-上述run启动时按用户要求在普通对话中实施，未开Goal。
+早期自适应对照Run启动时在普通对话实施，未开Goal；不能将此描述套用于18:56的查询Run。
 15:09用户明确要求新建Goal，现为active；最新目标与执行顺序见[CURRENT_GOAL](CURRENT_GOAL.md)。
 
 | Run ID | 用途 | 查看进度 |
@@ -39,8 +40,9 @@
 | `legal_contractnli_compact_evidence_delivery_20261015_run01` | 17:28:14完成36新律师，未胜空库整体指标 | `completion.json`、`independent_complete_audit.json`，进程已退出 |
 | `legal_contractnli_cpu_signal_scale_20261015_run01` | 17:18:51完成6/12/18/24监督量检查，非律师终答收益 | `completion.json`，0律师/0教师，进程已退出 |
 | `legal_contractnli_evidence_operator_learning_20261015_run01` | 18:36:45因47查询实际作用为0停止，14新律师/2教师，B1完整 | `progress.json`/独立停止审计，无后续8答案 |
-| `legal_contractnli_query_memory_learning_20261015_run01` | 保留普通模型，只学习查询附加权重，四批及同标签/静态控制 | 默认CLI status及实际worker，共122计划新律师/5教师，收益待验证 |
-| `legal_contractnli_decision_procedure_delivery_20261015_run01` | 排队的法律判定步骤交付诊断，4来源/8新律师/1教师 | PID2301313，先等同一GPU锁，主训练期间0调用；不热改或回送主训练 |
+| `legal_contractnli_query_memory_learning_20261015_run01` | 20:09:59安全停止，64新律师/4教师，未整体赢同标签普通工具 | `progress.json`、三批摘要及`monitoring/stopped_run_and_library_lifecycle_audit.json`；无M4/后续8答 |
+| `legal_contractnli_decision_procedure_delivery_20261015_run01` | 20:19:50完成法律判断步骤诊断，4来源/8新律师/1教师 | `completion.json`；相对教师新2案依据F1下降，不是方法已成功 |
+| `legal_contractnli_final_query_objective_20261015_run01` | 20:18:57完成最终概率查询损失CPU对照，无净F1收益 | `completion.json`，0新律师/教师，仅旧已暴露8开发来源 |
 
 旧 `legal_contractnli_grounded_feedback_learning_20261015_run01` 于10:11在B4强制教师审计引用检查处失败，
 44个律师回答和7个教师输出保留。旧 `grounded_references` 随父失败停止，已完成5个教师发布但0律师回答；
