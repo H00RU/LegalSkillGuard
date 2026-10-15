@@ -26,7 +26,12 @@ from legal_skill_guard.learning.interface import (
 from legal_skill_guard.learning.packing import pack_cases
 from legal_skill_guard.learning.review import checked_messages, review_messages
 from legal_skill_guard.report import write_report
-from legal_skill_guard.task import original_feedback, original_metrics
+from legal_skill_guard.task import (
+    coherent_native_schema,
+    original_feedback,
+    original_metrics,
+    output_schema,
+)
 
 
 def fixture():
@@ -97,6 +102,92 @@ def test_original_binary_metrics_and_independent_audit():
     assert (m["evidence_tp"], m["evidence_fp"], m["evidence_fn"]) == (2, 1, 1)
     assert m["evidence_micro_f1_gold_non_neutral"] == pytest.approx(2 / 3)
     assert m["joint_exact_correct"] == 2
+
+
+def test_native_choice_evidence_consistency_is_not_a_post_answer_repair():
+    from jsonschema import validate
+
+    row, labels, gold = fixture()
+    raw = output_schema(row, list(labels), [])
+    saved = copy.deepcopy(raw)
+    schema = coherent_native_schema(raw)
+    answer = {
+        k: {**v, "reason": "Source decision.", "used_skill_ids": []}
+        for k, v in copy.deepcopy(gold).items()
+    }
+    validate(answer, schema)
+    assert raw == saved
+    bad = copy.deepcopy(answer)
+    bad["h3"]["spans"] = [0]
+    with pytest.raises(ValidationError):
+        validate(bad, schema)
+    # The historical score is neither cleared nor changed by the new generator
+    # schema: the exact bad native answer still loses this joint endpoint.
+    observed = response(bad)
+    feedback = original_feedback(observed, row, gold, list(labels))
+    assert feedback["public_valid"]
+    assert not feedback["queries"][2]["joint_exact"]
+    assert feedback["parsed"]["h3"]["spans"] == [0]
+    assert json.loads(observed["content"])["h3"]["spans"] == [0]
+    bad = copy.deepcopy(answer)
+    bad["h1"]["spans"] = []
+    with pytest.raises(ValidationError):
+        validate(bad, schema)
+
+
+def test_executable_query_features_are_source_only_scoped_and_not_answer_rules():
+    import numpy as np
+
+    from legal_skill_guard.learning.evidence_programs import (
+        program_queries,
+        program_solver_messages,
+        query_features,
+    )
+
+    row, labels, _ = fixture()
+    bank = [skill()]
+    queries = program_queries(bank, list(labels))
+    texts = [row["text"][a:b] for a, b in row["spans"]]
+    values, trace = query_features(texts, "h1", queries)
+    np.testing.assert_array_equal(values, [[1, 1], [0, 1], [0, 0]])
+    assert trace[0]["direct_matches"] == [0] and trace[0]["context"] == [0, 1]
+    unrelated, other_trace = query_features(texts, "h2", queries)
+    assert not unrelated.any() and other_trace == []
+    messages, schema = program_solver_messages(row, labels, "Original task.", None)
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(messages)
+    assert bank[0]["guidance"] not in json.dumps(messages)
+    assert program_solver_messages(
+        {**row, "annotation_sets": "FORBIDDEN"}, labels, "Original task.", None
+    ) == (messages, schema)
+    with pytest.raises(ValueError, match="factual query"):
+        program_queries([{**skill(), "queries": []}], list(labels))
+
+
+def test_external_scoring_includes_original_nm_negatives_and_real_query_columns():
+    import numpy as np
+
+    from legal_skill_guard.learning.evidence_programs import evidence_proposals, fit_program_model
+
+    row, labels, _ = fixture()
+    rows = [{**copy.deepcopy(row), "id": i} for i in range(1, 5)]
+    base = fit_program_model(rows, labels, [])
+    model = fit_program_model(rows, labels, [skill()])
+    assert len(model.scoring_pairs_) == 12
+    assert sum(a["label"] == "NotMentioned" for a in model.scoring_pairs_) == 4
+    assert model.n_full_ == base.n_full_ + 2
+    assert "program_s1__q0_match" in model.feature_names_
+    assert model.n_free_ == base.n_free_ + 2
+    # Annotations of the currently scored source are not even accepted by the
+    # public-document adapter. Only the saved TRAIN state supplies supervision.
+    p = evidence_proposals(model, row, labels)
+    q = evidence_proposals(model, {**row, "annotation_sets": "FORBIDDEN"}, labels)
+    assert p == q
+    for record in p["by_hypothesis"].values():
+        assert np.isfinite(record["raw_scores"]).all()
+        assert [c["original_span_index"] for c in record["candidates"]] == [
+            i for i, s in enumerate(record["raw_scores"]) if s > 0.5
+        ]
+    assert evidence_proposals(None, row, labels) is None
 
 
 @pytest.mark.parametrize("finish", ["length", "stop"])

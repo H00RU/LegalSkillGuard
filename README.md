@@ -6,11 +6,15 @@ complete. None establishes stable overall benefit over strong empty memory.
 The complete draft-review study found small joint gains, but no evidence-F1 gain
 over equal-call empty review. Mandatory source-check outputs then produced harmful
 evidence-set copying and were stopped at16:37 after three complete batches.
-The current background intervention tests compact native answers with the actual
-last published M3 and a same-supervision learned evidence locator. No host repair,
-best-bank rollback, extra LLM or new legal task is introduced. It started at16:49,
-and remains an unproven intervention, not a completed learning run or established
-improvement. At15:09 the user
+The compact delivery diagnostic completed at17:28, with36 new lawyer calls.
+It did not beat strong empty memory overall: evidence F1/joint fell from61.48/46.32
+to54.39/35.29 with ranked candidates plus text skills. All adverse outputs remain.
+The next declared study tests executable query-feature memory with ordinary
+same-label and static-query controls; see [operator protocol](docs/EVIDENCE_OPERATOR_METHOD.md).
+Its external evidence scorer is supervised and learns weights; the lawyer remains
+frozen. It is NOT pure verbal skill learning or an established improvement.
+No host repair, best-bank rollback, extra LLM or new legal task is introduced.
+At15:09 the user
 explicitly requested a new Goal, which is active; see [current Goal](docs/CURRENT_GOAL.md).
 Neither starting a Goal nor implementing a method proves benefit. Old failures,
 raw answers and their costs remain preserved.
@@ -18,7 +22,7 @@ raw answers and their costs remain preserved.
 The target is the latest ContractNLI legal-evidence learning pipeline, not the
 2026-09-27 multi-turn consultation task. The executor remains a frozen Qwen3-8B;
 the existing authorized teacher evolves explicit skills from seen training
-source/labels and actual public trajectories. No parameter fine-tuning, hidden
+source/labels and actual public trajectories. No lawyer parameter fine-tuning, hidden
 answer repair, fallback bank, effect-based admission, or fabricated old results.
 
 Canonical project location: `/media/sangfor/vdb/legal-skill-evolve`.
@@ -36,7 +40,7 @@ are objectives to test, not promises of monotonic gains or publication.
 
 ## 已核验与未完成
 
-17项无模型调用的边界测试通过（本轮0.34秒）；一份训练合同完成真实的律师回答→强教师
+20项无模型调用的边界测试通过（本轮2.07秒）；一份训练合同完成真实的律师回答→强教师
 差分编辑→技能查询执行→律师重答，独立评分与实际传递核验一致。
 另有幸存旧请求逐字消息／Schema及6212-token计数核对；不是只凭聊天记录猜实现。
 这些是重建核验，不是方法已优于空库或ACE的证据。
@@ -52,12 +56,13 @@ are objectives to test, not promises of monotonic gains or publication.
 cd /home/yndx/hhy/legal-skill-current
 ```
 
-当前后台诊断：`runs/legal_contractnli_compact_evidence_delivery_20261015_run01/progress.json`，
-PID2062845；[冻结协议](reports/experiments/compact_evidence_delivery_20261015/protocol.md)。
-36新律师/0教师，区分两已见故障来源与8不同合同，尚无完整新案结论。
-当前生产源码绑定不热改，CLI默认配置暂仍是已停止的`contractnli_source_check.json`；
-**不要重复默认launch**，status会如实显示旧Run stopped而不是新诊断进程。
-诊断结束、主方法证据充分后再集成新的正式学习配置，不把交付试验冒充完整主训练。
+当前CLI默认配置：`configs/contractnli_operators.json`。
+运行ID：`legal_contractnli_evidence_operator_learning_20261015_run01`。
+四批每批6份TRAIN，122新律师/5教师，另12显式相同冷输入观察共享。
+用`.venv/bin/python -m legal_skill_guard.cli status`查真实状态；配置存在不等于已启动。
+当前源码不得在worker运行中热改。该开发学习研究不是正式论文比较或已证明优于空库。
+前一[紧凑交付诊断](reports/experiments/compact_evidence_delivery_20261015/protocol.md)
+已完成；36新律师/0教师，最终结果和完整独立审计保留。
 
 旧[原文核查式技能执行](docs/SOURCE_CHECK_METHOD.md)Run保留26新律师/3教师，
 B3出现依据FP激增与联合损害，已停止；[停止审计](reports/experiments/source_check_20261015/stopped_readout.md)。

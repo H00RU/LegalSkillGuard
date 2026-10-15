@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import json
 from collections.abc import Mapping, Sequence
 from typing import Any
@@ -9,6 +10,24 @@ from typing import Any
 from jsonschema import validate
 
 CHOICES = ("Entailment", "Contradiction", "NotMentioned")
+
+
+def coherent_native_schema(schema: Mapping[str, Any]) -> dict[str, Any]:
+    """Encode the PUBLIC answer contract before generation, never repair a reply.
+
+    The original scorer deliberately does not call this function: old invalid
+    label/evidence combinations retain their actual historical penalties.
+    All new treatment and control arms must use the same native constraint.
+    """
+    result = copy.deepcopy(schema)
+    for key, original in result["properties"].items():
+        nonneutral, neutral = copy.deepcopy(original), copy.deepcopy(original)
+        nonneutral["properties"]["choice"]["enum"] = ["Entailment", "Contradiction"]
+        nonneutral["properties"]["spans"]["minItems"] = 1
+        neutral["properties"]["choice"]["enum"] = ["NotMentioned"]
+        neutral["properties"]["spans"]["maxItems"] = 0
+        result["properties"][key] = {"anyOf": [nonneutral, neutral]}
+    return result
 
 
 def marked_text(row: Mapping[str, Any]) -> str:

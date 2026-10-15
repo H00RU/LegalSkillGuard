@@ -19,6 +19,10 @@ from legal_skill_guard.report import write_report
 
 def study_for(config, run_id):
     method = read(config).get("method", "callable")
+    if method == "evidence_programs":
+        from legal_skill_guard.learning.operators import OperatorStudy
+
+        return OperatorStudy(config, run_id=run_id)
     if method in ("answer_review", "source_check_execution"):
         from legal_skill_guard.learning.review import ReviewStudy
 
@@ -33,7 +37,11 @@ def prepare(config):
     frozen = config.with_suffix(".frozen.json")
     if frozen.exists():
         raise FileExistsError("Already frozen; use a new config for any change")
-    if cfg.get("method", "callable") in ("answer_review", "source_check_execution"):
+    if cfg.get("method") == "evidence_programs":
+        from legal_skill_guard.learning.operators import prepare_operator_packets
+
+        selection = prepare_operator_packets(ROOT, cfg)
+    elif cfg.get("method", "callable") in ("answer_review", "source_check_execution"):
         from legal_skill_guard.learning.review import prepare_review_packets
 
         selection = prepare_review_packets(ROOT, cfg)
@@ -75,6 +83,11 @@ def prepare(config):
             },
         )
     paths = sorted((ROOT / "legal_skill_guard").rglob("*.py"))
+    paths += sorted(
+        p
+        for p in (ROOT / "legal_skill_guard/_vendor").iterdir()
+        if p.is_file() and p.suffix in (".md", ".txt")
+    )
     paths += sorted((ROOT / "third_party").rglob("*.py"))
     paths += sorted(
         p
@@ -174,7 +187,11 @@ def worker(config, run_id, engineering):
         study = study_for(config, run_id)
         try:
             if engineering:
-                if read(config).get("method") in ("answer_review", "source_check_execution"):
+                if read(config).get("method") in (
+                    "answer_review",
+                    "source_check_execution",
+                    "evidence_programs",
+                ):
                     raise ValueError("No extra pre-training qualification for declared skill study")
                 return verify_learning(study)
             study.execute()
@@ -210,6 +227,7 @@ def launch(config, run_id, engineering):
         if engineering and read(config).get("method") in (
             "answer_review",
             "source_check_execution",
+            "evidence_programs",
         ):
             raise ValueError("Start the declared skill study directly, not extra qualification")
         probe = study_for(config, run_id)
@@ -252,9 +270,7 @@ def launch(config, run_id, engineering):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["prepare", "launch", "worker", "status", "report"])
-    parser.add_argument(
-        "--config", type=Path, default=ROOT / "configs/contractnli_source_check.json"
-    )
+    parser.add_argument("--config", type=Path, default=ROOT / "configs/contractnli_operators.json")
     parser.add_argument("--run-id")
     parser.add_argument(
         "--engineering",

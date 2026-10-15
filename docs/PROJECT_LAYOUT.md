@@ -16,11 +16,12 @@
 
 ## 当前后台工作
 
-当前后台工作为停止后的交付根因验证，而不是已恢复完整主训练：
-`legal_contractnli_compact_evidence_delivery_20261015_run01`，16:49:36 CST启动、PID2062845，
-36新律师/0教师，协议在`reports/experiments/compact_evidence_delivery_20261015/protocol.md`。
-原核查Run已16:37安全停止，CLI默认配置暂保留该已停止Run，不重复launch；
-新worker在自身`source/driver.py`运行，不改正在绑定的生产代码或伪造默认status。
+当前默认学习研究为`legal_contractnli_evidence_operator_learning_20261015_run01`，
+配置`contractnli_operators.json`，协议[EVIDENCE_OPERATOR_METHOD](EVIDENCE_OPERATOR_METHOD.md)。
+四批每批6份原TRAIN，122新律师/5教师，冻结律师、监督外部评分器、差分进化查询特征。
+真实启动时间/PID以`artifacts/launches/`记录及实际进程共同核实，不能由配置推断已在运行。
+紧凑交付诊断已17:28:14完整结束，36新律师/0教师，未胜强空库整体指标。
+当前worker使用冻结生产入口，运行时不改绑定源码，不重跑旧Run或伪造默认status。
 旧三条件/多条件有限试验**不是已经完成的正式论文比较**。
 上述run启动时按用户要求在普通对话中实施，未开Goal。
 15:09用户明确要求新建Goal，现为active；最新目标与执行顺序见[CURRENT_GOAL](CURRENT_GOAL.md)。
@@ -35,7 +36,9 @@
 | `legal_contractnli_source_check_learning_20261015_run01` | 16:37:39因B3过选/联合损害安全停止，26新律师/3教师，B4仅部分 | `progress.json`、`failure.json`及独立审计；进程已退出，无新8来源结果 |
 | `legal_contractnli_cpu_evidence_signal_20261015_run01` | 16:18:51完成四累计监督证据排序，仅旧已暴露开发来源 | `completion.json`及独立审计，0律师/0教师，不是主任务成绩 |
 | `legal_contractnli_evidence_ranked_delivery_20261015_run01` | 16:33排队，16:37随父停止取消，0调用 | `failure.json`，进程已退出，不覆盖重启 |
-| `legal_contractnli_compact_evidence_delivery_20261015_run01` | 16:49:36启动紧凑终答及同监督定位消融，尚未建立最终收益 | `progress.json`，PID2062845；36新律师/0教师，已见诊断与8不同合同分别评价 |
+| `legal_contractnli_compact_evidence_delivery_20261015_run01` | 17:28:14完成36新律师，未胜空库整体指标 | `completion.json`、`independent_complete_audit.json`，进程已退出 |
+| `legal_contractnli_cpu_signal_scale_20261015_run01` | 17:18:51完成6/12/18/24监督量检查，非律师终答收益 | `completion.json`，0律师/0教师，进程已退出 |
+| `legal_contractnli_evidence_operator_learning_20261015_run01` | 可执行查询在线学习及同标签/静态控制，收益待验证 | 默认CLI status及实际worker，共122计划新律师/5教师 |
 
 旧 `legal_contractnli_grounded_feedback_learning_20261015_run01` 于10:11在B4强制教师审计引用检查处失败，
 44个律师回答和7个教师输出保留。旧 `grounded_references` 随父失败停止，已完成5个教师发布但0律师回答；
