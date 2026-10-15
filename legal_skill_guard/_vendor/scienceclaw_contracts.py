@@ -358,6 +358,12 @@ class ContractModel:
             return None
         return LogisticRegression(C=self.C, class_weight="balanced", solver="liblinear").fit(X, y)
 
+    def _hypothesis_design(self, X, corpus, key):
+        # Project hook: scoped sparse query features enter the regularized
+        # linear learner, not rare binary columns with a hard tree leaf floor.
+        # With no external programs this is exactly the author's design matrix.
+        return X
+
     @staticmethod
     def _lr_score(m, X):
         return m.decision_function(X) if m is not None else np.full(X.shape[0], np.nan)
@@ -637,7 +643,7 @@ class ContractModel:
             rows = corpus.rows(did)
             m1 = self.lr_.get(key)
             if m1 is not None and self.m2_ is not None:
-                s1 = self._lr_score(m1, X1[rows])
+                s1 = self._lr_score(m1, self._hypothesis_design(X1, corpus, key)[rows])
                 knn = self._knn(F["uni"][rows], key)
                 pl = tabs.block(rows, text) if tabs is not None else None
                 e1 = None

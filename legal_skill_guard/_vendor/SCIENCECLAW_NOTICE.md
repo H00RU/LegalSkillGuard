@@ -16,6 +16,15 @@ still use original E/C evidence pairs. This fixes an all-negative training
 population omission for three-way inference; it is not an upstream reproduction.
 The frozen source snapshot identifies the exact adapted file hash.
 
+Additional local hook: `_hypothesis_design` defaults to the exact original
+stage-one design. The project subclass fits the original word and contract-OOF
+calibration model first and preserves its parameters. It then fits only query
+coefficients with the original word logit as a fixed offset. Final prediction
+uses the hook to append the factual query features to that same linear dot
+product. No query columns are appended to the tree scorer. Its
+feature dimensions/leaf minimum stay unchanged across the data-only and query
+conditions. This is an attributed adaptation, not an upstream feature.
+
 Our query-feature extension lives outside this file. We use evidence scores
 with `plm=False` and do not use the author's binary E/C label predictions.
 The external scorer is supervised from original seen TRAIN span membership;

@@ -55,8 +55,19 @@ PROGRAM_TEACHER_SYSTEM = (
     "not a policy delivered to the lawyer. Only executable queries can change features. "
     "Each scoped query produces two binary span features: a literal phrase match and "
     "membership in its explicit before/after context window. A supervised TF-IDF/LR/"
-    "LightGBM scorer fits these features against ALL seen original membership labels, "
-    "including all-negative NotMentioned cases. It learns feature relevance rather "
+    "LightGBM scorer fits against ALL seen original membership labels. Sparse "
+    "queries get regularized additional LINEAR coefficients fitted with the original "
+    "word logit as a fixed offset. Word coefficients and the ordinary contract-OOF "
+    "tree calibrator are NOT retrained around queries; they stay exactly as in the "
+    "same-data ordinary tool. No query columns enter the tree. Its dimensions and "
+    "leaf-size setting stay unchanged. The final linear dot product contains the "
+    "fixed word block plus learned query terms, not another model call. Training "
+    "includes all-negative NotMentioned cases. The internal query-zero candidate "
+    "sets are diagnostics only, never a selected answer or efficacy gate. Distinguish "
+    "ordinary supervised-tool gains from the query terms' actual candidate changes. "
+    "A query changing no candidates is not proven useful. Prefer compositional short "
+    "lexical conditions over long quotations unique to a training sentence, without "
+    "discarding actor, polarity or scope. It learns feature relevance rather "
     "than automatically unioning matches into evidence. Matching is contiguous "
     "lower-case lightly suffix-stemmed word/number tokens; all_phrases are all needed, "
     "any_phrases needs one if nonempty, none_phrases excludes. At least one all/any "
@@ -187,6 +198,9 @@ def teacher_observation(unit):
         else {
             k: {
                 "candidate_members": [c["original_span_index"] for c in v["candidates"]],
+                "same_fixed_model_without_query_terms_candidate_members": v[
+                    "same_fixed_model_without_query_terms"
+                ]["candidate_members"],
                 "queries": [
                     {f: t[f] for f in ("query_id", "direct_matches", "context")}
                     for t in v["executed_program_queries"]
@@ -217,6 +231,11 @@ class OperatorStudy(Comparison):
     def __init__(self, config_path, *, run_id=None):
         self.config_path = Path(config_path).resolve()
         self.cfg = read(self.config_path)
+        if (
+            self.cfg.get("scorer_feature_delivery")
+            != "preserved_word_and_calibrator_query_coefficients_v1"
+        ):
+            raise ValueError("Historical tree-feature config requires its own saved source")
         self.run_id = safe_component(run_id or self.cfg["run_id"])
         self.out = ROOT / "runs" / self.run_id
         self.report = ROOT / self.cfg["report_directory"] / self.run_id
@@ -306,6 +325,15 @@ class OperatorStudy(Comparison):
             "original_public_hypotheses": self.labels,
             "complete_actual_parent_library": self.bank,
             "actual_historical_program_libraries": self.versions,
+            "actual_own_model_feature_learning": {
+                identity: {
+                    "seen_original_source_ids": state["seen_original_source_ids"],
+                    "program_library_sha256": state["program_library_sha256"],
+                    "first_stage_program_coefficients": state["first_stage_program_coefficients"],
+                }
+                for identity, state in self.state_versions.items()
+                if state["arm"] == "evolving_memory"
+            },
             "query_id_encoding": "skill_id + __q + zero-based query index in the matching historical library",
             "factual_query_api": query_schema(),
             "all_seen_original_train_cases": [
@@ -382,6 +410,8 @@ class OperatorStudy(Comparison):
                     zip(model.feature_names_, map(int, model.m2_.feature_importances_), strict=True)
                 ),
                 "feature_names_are_training_full_head_before_any_inference": True,
+                "first_stage_program_coefficients": model.program_feature_coefficients_,
+                "query_features_not_added_to_tree_dimensions": True,
                 "no_lawyer_weights_updated": True,
             }
             identity = canonical_json_sha256(manifest)

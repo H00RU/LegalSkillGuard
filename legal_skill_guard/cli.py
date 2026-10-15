@@ -270,7 +270,7 @@ def launch(config, run_id, engineering):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["prepare", "launch", "worker", "status", "report"])
-    parser.add_argument("--config", type=Path, default=ROOT / "configs/contractnli_operators.json")
+    parser.add_argument("--config", type=Path, default=ROOT / "configs/contractnli_query_memory.json")
     parser.add_argument("--run-id")
     parser.add_argument(
         "--engineering",

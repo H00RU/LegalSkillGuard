@@ -9,8 +9,12 @@ evidence-set copying and were stopped at16:37 after three complete batches.
 The compact delivery diagnostic completed at17:28, with36 new lawyer calls.
 It did not beat strong empty memory overall: evidence F1/joint fell from61.48/46.32
 to54.39/35.29 with ranked candidates plus text skills. All adverse outputs remain.
-The next declared study tests executable query-feature memory with ordinary
-same-label and static-query controls; see [operator protocol](docs/EVIDENCE_OPERATOR_METHOD.md).
+The tree-query study stopped at18:36:45 after14 lawyer responses: all47 learned
+queries were mathematically inert, despite good seen-case supervised fit.
+The next study preserves the same-data word/calibration model and learns only
+additional query coefficients; see [query-memory protocol](docs/QUERY_MEMORY_METHOD.md).
+The zero-query diagnostic exactly restores the ordinary tool. This functional
+repair has not yet shown a development-set F1 gain and is not a claimed success.
 Its external evidence scorer is supervised and learns weights; the lawyer remains
 frozen. It is NOT pure verbal skill learning or an established improvement.
 No host repair, best-bank rollback, extra LLM or new legal task is introduced.
@@ -56,8 +60,8 @@ are objectives to test, not promises of monotonic gains or publication.
 cd /home/yndx/hhy/legal-skill-current
 ```
 
-当前CLI默认配置：`configs/contractnli_operators.json`。
-运行ID：`legal_contractnli_evidence_operator_learning_20261015_run01`。
+当前CLI默认配置：`configs/contractnli_query_memory.json`。
+运行ID：`legal_contractnli_query_memory_learning_20261015_run01`。
 四批每批6份TRAIN，122新律师/5教师，另12显式相同冷输入观察共享。
 用`.venv/bin/python -m legal_skill_guard.cli status`查真实状态；配置存在不等于已启动。
 当前源码不得在worker运行中热改。该开发学习研究不是正式论文比较或已证明优于空库。

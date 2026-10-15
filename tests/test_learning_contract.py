@@ -174,9 +174,18 @@ def test_external_scoring_includes_original_nm_negatives_and_real_query_columns(
     model = fit_program_model(rows, labels, [skill()])
     assert len(model.scoring_pairs_) == 12
     assert sum(a["label"] == "NotMentioned" for a in model.scoring_pairs_) == 4
-    assert model.n_full_ == base.n_full_ + 2
-    assert "program_s1__q0_match" in model.feature_names_
-    assert model.n_free_ == base.n_free_ + 2
+    assert model.n_full_ == base.n_full_
+    assert model.n_free_ == base.n_free_
+    assert not any(n.startswith("program_") for n in model.feature_names_)
+    learned = model.program_feature_coefficients_["h1"]["coefficients"]
+    assert abs(learned["program_s1__q0_match"]) > 1e-8
+    assert abs(learned["program_s1__q0_context"]) > 1e-8
+    assert not any(model.program_feature_coefficients_["h2"]["coefficients"].values())
+    np.testing.assert_array_equal(
+        base.lr_["h1"].coef_[0], model.lr_["h1"].coef_[0][: base.X1_.shape[1]]
+    )
+    assert base.m2_.booster_.model_to_string() == model.m2_.booster_.model_to_string()
+    assert base.m2_free_.booster_.model_to_string() == model.m2_free_.booster_.model_to_string()
     # Annotations of the currently scored source are not even accepted by the
     # public-document adapter. Only the saved TRAIN state supplies supervision.
     p = evidence_proposals(model, row, labels)
