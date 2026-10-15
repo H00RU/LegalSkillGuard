@@ -40,6 +40,7 @@
 | `legal_contractnli_cpu_signal_scale_20261015_run01` | 17:18:51完成6/12/18/24监督量检查，非律师终答收益 | `completion.json`，0律师/0教师，进程已退出 |
 | `legal_contractnli_evidence_operator_learning_20261015_run01` | 18:36:45因47查询实际作用为0停止，14新律师/2教师，B1完整 | `progress.json`/独立停止审计，无后续8答案 |
 | `legal_contractnli_query_memory_learning_20261015_run01` | 保留普通模型，只学习查询附加权重，四批及同标签/静态控制 | 默认CLI status及实际worker，共122计划新律师/5教师，收益待验证 |
+| `legal_contractnli_decision_procedure_delivery_20261015_run01` | 排队的法律判定步骤交付诊断，4来源/8新律师/1教师 | PID2301313，先等同一GPU锁，主训练期间0调用；不热改或回送主训练 |
 
 旧 `legal_contractnli_grounded_feedback_learning_20261015_run01` 于10:11在B4强制教师审计引用检查处失败，
 44个律师回答和7个教师输出保留。旧 `grounded_references` 随父失败停止，已完成5个教师发布但0律师回答；
