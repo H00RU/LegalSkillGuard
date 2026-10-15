@@ -24,7 +24,7 @@ from legal_skill_guard.learning.interface import (
     publish,
 )
 from legal_skill_guard.learning.packing import pack_cases
-from legal_skill_guard.learning.review import review_messages
+from legal_skill_guard.learning.review import checked_messages, review_messages
 from legal_skill_guard.report import write_report
 from legal_skill_guard.task import original_feedback, original_metrics
 
@@ -207,6 +207,67 @@ def test_empty_review_is_exact_cold_skill_review_contract():
     r = response(altered)
     metrics = original_metrics([{"response": r, **original_feedback(r, row, gold, list(labels))}])
     assert metrics["label_correct"] == 2 and metrics["evidence_fn"] == 2
+
+
+def test_source_checks_are_required_before_final_and_never_receive_gold_or_draft():
+    row, labels, gold = fixture()
+    bank = [{"id": "inspect1", "hypothesis_ids": ["h1"], "guidance": "Which text binds the actor?"}]
+    messages, schema = checked_messages(row, labels, bank)
+    body = json.loads(messages[1]["content"])
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(messages)
+    assert "draft" not in body
+    assert body["source_check_questions_by_hypothesis"]["h1"] == {
+        "inspect1": "Which text binds the actor?"
+    }
+    assert set(body["source_check_questions_by_hypothesis"]["h2"]) == {"public_task"}
+    assert checked_messages({**row, "annotation_sets": "FORBIDDEN"}, labels, bank) == (
+        messages,
+        schema,
+    )
+    fields = schema["properties"]
+    assert list(fields["h1"]["properties"]) == [
+        "checks",
+        "choice",
+        "spans",
+        "reason",
+        "used_skill_ids",
+    ]
+    assert fields["h1"]["properties"]["checks"]["required"] == ["inspect1"]
+    assert fields["h2"]["properties"]["checks"]["required"] == ["public_task"]
+    answer = copy.deepcopy(gold)
+    for key, value in answer.items():
+        sid = "inspect1" if key == "h1" else "public_task"
+        value.update(
+            checks={sid: {"observations": [], "finding": "No matching condition found."}},
+            reason="Native decision.",
+            used_skill_ids=["inspect1"] if key == "h1" else [],
+        )
+    from jsonschema import validate
+
+    validate(answer, schema)
+    # Even an inconsistent inspection finding does not rewrite the native final
+    # answer. The original scorer reads its unchanged choice/spans fields.
+    feedback = original_feedback(response(answer), row, gold, list(labels))
+    assert feedback["public_valid"]
+    assert all(q["joint_exact"] for q in feedback["queries"])
+    del answer["h1"]["checks"]["inspect1"]
+    with pytest.raises(ValidationError):
+        validate(answer, schema)
+
+
+def test_source_check_scope_never_borrows_another_hypothesis_key():
+    row, labels, _ = fixture()
+    bank = [
+        {"id": "a", "hypothesis_ids": ["h1"], "guidance": "Check permission wording."},
+        {"id": "b", "hypothesis_ids": ["h2"], "guidance": "Check the termination trigger."},
+    ]
+    _, schema = checked_messages(row, labels, bank)
+    fields = schema["properties"]
+    assert set(fields["h1"]["properties"]["checks"]["properties"]) == {"a"}
+    assert set(fields["h2"]["properties"]["checks"]["properties"]) == {"b"}
+    assert fields["h1"]["properties"]["used_skill_ids"]["items"]["enum"] == ["a"]
+    assert fields["h2"]["properties"]["used_skill_ids"]["items"]["enum"] == ["b"]
+    assert fields["h3"]["properties"]["used_skill_ids"]["maxItems"] == 0
 
 
 def op(kind, targets, candidate):
