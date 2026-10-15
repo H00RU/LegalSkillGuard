@@ -1,0 +1,102 @@
+{
+  "at": "2026-10-15T21:40:48.446994+00:00",
+  "training_source_id": 430,
+  "only_training_case_analysis_no_endpoint_labels": true,
+  "no_licensing_original_hypothesis": {
+    "short_description": "No licensing",
+    "hypothesis": "Agreement shall not grant Receiving Party any right to Confidential Information."
+  },
+  "no_licensing_original_gold": {
+    "choice": "Entailment",
+    "spans": [
+      144
+    ]
+  },
+  "no_licensing_gold_source_support": [
+    {
+      "original_span_index": 144,
+      "verbatim_source_text": "Nothing in this Agreement shall be construed as giving any person, firm, corporation, or other entity, other than the parties who are signatory hereto and their respective successors and permitted assigns, any right, remedy, or claim under or in respect of this Agreement or any provision hereof."
+    }
+  ],
+  "potential_scope_mismatch_not_adjudicated_label_error": "Gold witness excludes non-signatory third-party contractual rights; hypothesis concerns Receiving Party rights to Confidential Information. These actor/object scopes do not directly coincide. Do not assume every disagreement is teacher or learner error.",
+  "actual_M4_no_rights_guidance": {
+    "when": "The agreement expressly grants or conveys no right, licence, title, ownership, or proprietary interest in Confidential Information or associated intellectual property, or expressly reserves those rights to the disclosing party.",
+    "inspection": "Require language about rights, licences, title, ownership, or proprietary interests and match it to the receiving party and protected information. A confidentiality, nondisclosure, copying, or limited-use restriction is not itself a no-rights clause. A residual-use permission is not an affirmative grant of ownership or intellectual-property rights and does not by itself contradict the hypothesis.",
+    "relation_if_established": "Entailment",
+    "evidence_requirement": "Include every independently operative ownership, reservation, no-rights, and no-licence provision; exclude mere use restrictions, disclosure restrictions, residual permissions, and unrelated third-party-beneficiary provisions."
+  },
+  "actual_M4_no_rights_prediction": {
+    "choice": "Contradiction",
+    "spans": [
+      144
+    ],
+    "reason": "Permits use of confidential information for tax purposes.",
+    "used_skill_ids": [
+      "nda-complete-operative-evidence",
+      "nda-no-rights-polarity"
+    ]
+  },
+  "limited_use_original_hypothesis": {
+    "short_description": "Limited use",
+    "hypothesis": "Receiving Party shall not use any Confidential Information for any purpose other than the purposes stated in Agreement."
+  },
+  "limited_use_original_gold": {
+    "choice": "Entailment",
+    "spans": [
+      50
+    ]
+  },
+  "limited_use_actual_M4_prediction": {
+    "choice": "Contradiction",
+    "spans": [
+      50
+    ],
+    "reason": "Permits use for tax purposes beyond stated purpose.",
+    "used_skill_ids": [
+      "nda-complete-operative-evidence",
+      "nda-residual-use-overrides-limited-use",
+      "nda-operative-purpose-only-use"
+    ]
+  },
+  "limited_use_complete_relevant_source_context": [
+    {
+      "original_span_index": 47,
+      "verbatim_source_text": "All property, materials, memoranda, notes, lists, records and other documents or papers (and all copies thereof), including such items stored in computer memories, on microfiche or by any other means, made or compiled by or on behalf of SAI or its affiliates relating to or useful in the operation of the Business, are and shall be SAI's property (\"Property\") and all such Property that is confidential or that SAI does not have copies of shall be delivered to SAI at or prior to the Effective Time; provided, however, Selling Shareholder shall be allowed to retain copies of such Property necessary for Selling Shareholder to prepare, compute or support Selling Shareholder's tax returns or tax liabilities."
+    },
+    {
+      "original_span_index": 49,
+      "verbatim_source_text": "Selling Shareholder shall not, without the prior written approval of Dollar Tree, at any time copy, reproduce, disclose or divulge to any third party, use or permit others to use any confidential information of SAI or Dollar Tree (including financial information, sources of supplies and materials, prospective and existing expansion programs, joint ventures and affiliate agreements, business systems and marketing methods, and all business affairs). "
+    },
+    {
+      "original_span_index": 50,
+      "verbatim_source_text": "During the Restricted Period, Selling Shareholder shall keep secret and retain in strictest confidence, and shall not use for the benefit of Selling Shareholder, Selling Shareholder's affiliate, or others, all confidential matters of the Business or of Dollar Tree, including trade secrets, details of supplier contracts, lease provisions and terms, operational methods and marketing plans or strategies. "
+    },
+    {
+      "original_span_index": 51,
+      "verbatim_source_text": "Notwithstanding the foregoing, nothing herein contained shall preclude Selling Shareholder from using the confidential information described in this Section 4 in the operation of or in the leasing of any real property or the operation of any business in connection with a business not coming within the definition of Restricted Activities or for other personal use, so long as such use does not conflict with any provision of this Agreement. "
+    },
+    {
+      "original_span_index": 52,
+      "verbatim_source_text": "This Section 4 shall not apply if "
+    },
+    {
+      "original_span_index": 53,
+      "verbatim_source_text": "(a) such information is already known to such party or to others not bound by a duty of confidentiality or such information is or becomes publicly available through no fault of Selling Shareholder or Selling Shareholder's Affiliates, "
+    },
+    {
+      "original_span_index": 54,
+      "verbatim_source_text": "(b) the use of such information is necessary or appropriate in making any filing or obtaining any consent or approval required for the consummation of the closing under the Merger Agreement, or "
+    },
+    {
+      "original_span_index": 55,
+      "verbatim_source_text": "(c) the furnishing or use of such information is required by legal proceedings."
+    }
+  ],
+  "correction_to_prior_interpretation": "Span51 genuinely permits certain broader uses. Tax-copy retention and the cited restriction do not exhaust the source. The public reason/citation mismatch remains observable, but this case alone is not clean evidence of invented permission or a single causal memory defect.",
+  "Gold_and_all_original_metric_denominators_unchanged": true,
+  "no_relabeling_sample_removal_or_new_legal_judge": true,
+  "single_disputed_case_not_explanation_of_multi_contract_B4_harm": true,
+  "new_native_calls": 0,
+  "new_teacher_calls": 0,
+  "endpoint_gold_read": false
+}
