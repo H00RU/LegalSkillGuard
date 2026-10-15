@@ -47,7 +47,7 @@
 | `/home/yndx/hhy/legal-skill-backups` → `/media/sangfor/vdb/legal-skill-backups` | 已校验的源码 bundle、配置与实际实验工件备份 |
 | `/media/sangfor/vdb/legal-skill-runtime` | 新项目的 Python 运行时，不是另一套业务源码 |
 | `/home/yndx/hhy/legal-skill-evolve` | 旧项目幸存残留；旧模型服务参数仍引用它，不搬动、不当作当前工作树 |
-| `/home/yndx/hhy/归档/` | 师兄提供的旧版六主题技能，包含无关macOS元数据，保留原件而非日常重复加载 |
+| `/home/yndx/hhy/归档/` | 本轮已逐份比较的旧版六主题技能；12:36核查路径已不存在，本助手未删除，当前运行不依赖它 |
 | `/home/yndx/hhy/paper-skills/` | 当前七主题论文技能，覆盖上述六主题并增加找idea；两版不是逐字相同 |
 
 恢复目录中的 `README.md` 记录的是当时的取证状态，早期 `reconstructed_source_v2/v3`
