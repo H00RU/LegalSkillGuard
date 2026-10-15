@@ -1,7 +1,8 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Status: current core reconstructed and one real learning cycle verified after
-the 2026-10-15 file-loss incident. Full research comparison has not been rerun.
+Status: current core reconstructed after the 2026-10-15 file-loss incident.
+Bounded learning and reference-control studies are running; the full research
+comparison has not been completed. Current results do not establish efficacy.
 
 The target is the latest ContractNLI legal-evidence learning pipeline, not the
 2026-09-27 multi-turn consultation task. The executor remains a frozen Qwen3-8B;
@@ -10,6 +11,8 @@ source/labels and actual public trajectories. No parameter fine-tuning, hidden
 answer repair, fallback bank, effect-based admission, or fabricated old results.
 
 Canonical project location: `/media/sangfor/vdb/legal-skill-evolve`.
+Daily workspace entry: `/home/yndx/hhy/legal-skill-current` (a symlink, not a copy).
+See [project locations and active runs](docs/PROJECT_LAYOUT.md) before starting work.
 Historical source evidence and failed experiments remain separately preserved.
 Recovered code and rebuilt dependencies are not a recovery of lost raw model
 responses. A new experiment must use a new Run ID and record its actual outputs.
@@ -32,17 +35,18 @@ are objectives to test, not promises of monotonic gains or publication.
 
 ## 使用
 
-在本目录执行：
+日常入口：
 
 ```bash
-.venv/bin/legal-skill status
-.venv/bin/legal-skill launch
-.venv/bin/legal-skill status
+cd /home/yndx/hhy/legal-skill-current
 ```
 
-`launch`才会后台启动新Run的完整32训练来源／8批与24来源六条件终点比较，
-计划388次律师、57次教师；源码先冻结，不自动重试、择库或回滚。
-当前没有启动这轮完整比较。逐批结果会自动写入对应run的`results.md`和`training_curve.csv`。
+当前有限试验使用独立 Run ID 和冻结 worker，详见目录说明中的两项后台工作；
+直接查看各自的 `runs/<Run ID>/progress.json` 及实际完成工件，不要重复启动。
+
+CLI 的 `status`／`launch` 对应 `configs/contractnli_main.json` 中另外保留的完整
+32训练来源／8批与24来源六条件比较（388次律师、57次教师），不是这两个后台试验。
+这轮完整比较尚未启动，不能将配置存在误认为正式实验已经完成。
 
 单案工程核验的记录位于
 `runs/legal_reconstruction_chain_check_20261015_run01/engineering_completion.json`；
