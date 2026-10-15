@@ -16,6 +16,12 @@
 
 ## 当前后台工作
 
+最新：10月16日01:52:27，新主`legal_contractnli_atomic_completion_20261016_run01`（PID2867332）
+显式继承真实78答，继续M4；配对run02（PID2867347）独立等待其主阶段完成/确切进程退出。
+两者使用同一已冻结completion driver；旧原子2697441和旧队列2806817已失败/取消，不能再称在运行。
+当前状态用CLI显式`--run-id legal_contractnli_atomic_completion_20261016_run01`查看，
+旧默认冻结配置保留历史，不直接重启。原生消息未改，计量修复共用实际紧凑序列化文本。
+
 CLI新默认研究为`legal_contractnli_atomic_boundaries_20261015_run01`，
 配置`contractnli_atomic_boundaries.json`，协议[ATOMIC_BOUNDARY_METHOD](ATOMIC_BOUNDARY_METHOD.md)。
 计划四批每批6份原TRAIN、130新律师/6教师，含同标签普通工具、静态和最后更新输入控制。
@@ -50,8 +56,10 @@ CLI新默认研究为`legal_contractnli_atomic_boundaries_20261015_run01`，
 | `legal_contractnli_final_query_objective_20261015_run01` | 20:18:57完成最终概率查询损失CPU对照，无净F1收益 | `completion.json`，0新律师/教师，仅旧已暴露8开发来源 |
 | `legal_contractnli_trace_procedure_learning_20261015_run01` | 23:26:23完整结束，130新律师/6教师，技能增益仍小 | `completion.json`与独立完整审计，进程已退出 |
 | `legal_contractnli_M2_tool_influence_20261015_run01` | 23:33:00完整结束，6新律师/12明确参考，去候选使三指标下降 | `completion.json`与独立18答重算，进程已退出 |
-| `legal_contractnli_atomic_boundaries_20261015_run01` | 23:58:24真实启动，同父状态反馈与命题绑定原子判断记忆 | 默认status与PID2697441；130/6为总计划，先静态教师后自动进入B1，不等于已有效 |
-| `legal_contractnli_paired_final_update_20261016_run01` | 01:12:21实际排队，只给最后一次教师增加本批6份同工具空库反馈 | PID2806817与自身progress；8新律师/1教师/40父参考计划，非完整新学习方法 |
+| `legal_contractnli_atomic_boundaries_20261015_run01` | 01:30:29因容量计量不一致失败，78物理律师/12共享/5教师保留；主M4未调用 | failure与停止重放审计，PID2697441已退出，无终点答案 |
+| `legal_contractnli_paired_final_update_20261016_run01` | 01:30:34随父未完成取消，0律师/0教师 | cancellation与终态progress，PID2806817已退出 |
+| `legal_contractnli_atomic_completion_20261016_run01` | 01:52:27真实启动，修复计量后显式继承78答，接续主M4与终点 | PID2867332；52新律师/1教师计划，主44/32独立main_completion，不冒充独立训练 |
+| `legal_contractnli_paired_final_update_20261016_run02` | 01:52:28真实排队，等确切新主退出及主44/32完成，不依赖辅助8成功 | PID2867347；8新律师/1教师，固定32参考，非完整配对反馈训练 |
 | `legal_contractnli_nli_signal_20261016_run01` | 00:46:07完成固定规则条件的CPU分类信号诊断，无稳定额外收益 | completion与独立816预测复算；0律师/教师，不部署为法律裁判 |
 | `legal_contractnli_query_sample_size_20261015_run01` | CPU旧查询库24/64/128样本量诊断；首24拟合后严格模型一致断言失败 | 22:25:05已退出，0律师/教师，未读评价Gold，失败工件保留 |
 | `legal_contractnli_query_sample_size_20261015_run02` | 同诊断仅统一原生线程环境后全部重做；固定旧库无净F1收益 | 22:36:52完成6次CPU拟合，0律师/教师；只读旧暴露8来源，不是当前主任务成绩 |

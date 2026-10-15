@@ -1,5 +1,13 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Current background execution: `legal_contractnli_atomic_completion_20261016_run01`
+(explicit78-answer checkpoint completion), with the separate paired-feedback run02 queued.
+The original atomic run failed on a library-capacity metering mismatch; its failure is preserved.
+The repaired counter now meters the exact already-compact lawyer payload, without changing messages.
+Use `.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_atomic_completion_20261016_run01`.
+The old CLI-default frozen config is historical and must not be relaunched with changed source.
+See [current Goal](docs/CURRENT_GOAL.md) for the active cursor, ancestry and actual counts.
+
 Status: current core reconstructed after the 2026-10-15 file-loss incident.
 The checkpoint-fork study, delivery probe and bounded ACE/ExpeL comparison are
 complete. None establishes stable overall benefit over strong empty memory.
@@ -65,7 +73,7 @@ are objectives to test, not promises of monotonic gains or publication.
 
 ## 已核验与未完成
 
-当前25项无模型调用边界测试通过（1.15秒）。重建阶段一份训练合同完成真实的律师回答→强教师
+当前26项无模型调用边界测试通过（1.11秒），新增一项检查计量文本恰等于交付文本。重建阶段一份训练合同完成真实的律师回答→强教师
 差分编辑→技能查询执行→律师重答，独立评分与实际传递核验一致；不是新方法的额外资格训练。
 另有幸存旧请求逐字消息／Schema及6212-token计数核对；不是只凭聊天记录猜实现。
 这些是重建核验，不是方法已优于空库或ACE的证据。
@@ -82,8 +90,12 @@ cd /home/yndx/hhy/legal-skill-current
 ```
 
 当前CLI默认配置：`configs/contractnli_atomic_boundaries.json`。
-运行ID：`legal_contractnli_atomic_boundaries_20261015_run01`。
-四批每批6份TRAIN，计划130新律师/6教师，另12显式相同冷输入观察共享。
+该旧运行ID `legal_contractnli_atomic_boundaries_20261015_run01`已在78律师/5教师后失败，未完成原130/6计划。
+其库预算检查曾错误计带空格JSON而非真实紧凑输入；不是无效回答或GPU故障。
+当前显式检查点Run接续M4，不重复B1—B3，52新律师/1教师计划，明确继承78物理答/12共享/5教师响应。
+主44新答和32主终点先保存main_completion，再独立完成辅助8答；主成功不依赖辅助成功。
+配对run02另8新律师/1教师，固定参考四组32主答，不混算为从空库独立训练。
+见[修复与检查点完成协议](reports/experiments/atomic_completion_20261016/protocol.md)。
 前一查询Run已停止于64新律师/4教师，无后续8合同终局评价。
 旧查询Run技能数8→11→11，已有真实修订，但库内短语持续增长；
 [生命周期审计](reports/experiments/query_memory_20261015/stopped_lifecycle_and_delivery_audit.md)
