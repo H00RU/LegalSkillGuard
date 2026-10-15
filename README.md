@@ -1,11 +1,17 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-No experiment worker is currently running; original8B PID2261314 remains untouched.
+Current background worker: `legal_contractnli_ace_same_data_20261016_run01`,
+launched07:18:33 CST, PID3360667,52 new lawyer/28 new teacher planned.
+Same24 sources/four batches6, same frozen8B and past-prefix ordinary evidence models;
+native ACE legal adaptation plus own empty-playbook endpoint control, not a new
+main method or canonical ACE reproduction. All663 bindings frozen until exit.
+Use `.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_ace_same_data_20261016_run01`.
+Original8B PID2261314 remains untouched. New protocol: [ACE same-data comparison](docs/ACE_SAME_DATA_20261016.md).
 `legal_contractnli_case_credit_20261016_run01` completed16 new lawyer/8 teacher at07:00:22.
 Direct82.35/68.29/56.62%, reflected86.03/69.83/59.56%; oldM4
 83.09/69.91/59.56%, same-tool80.88/71.37/55.15% (accuracy/F1/joint).
 Case reflection is not promoted: no same-tool evidence gain or oldM4 joint gain.
-A same24-data ACE legal adaptation is being prepared, not yet launched.
+A same24-data ACE legal adaptation is now running; its final metrics are not known.
 The grouping diagnostic completed16/0 at06:21:10: coherent86.03/70.43/58.82%,
 flat81.62/72.10/54.41%, same-tool80.88/71.37/55.15%. All coherent classification
 net+7 came from source374; other seven net0 label/−2 joint. It is not promoted
@@ -118,7 +124,8 @@ cd /home/yndx/hhy/legal-skill-current
 其delivery后续已完成16/0，法律字句完整、分支3183/平面4073、4096容量不变；增益来源集中，未升为主方法。
 case-credit已完成16新律师/8教师，同M4父库与原表示；逐案分析未解决依据/联合目标，不升为主方法。
 本条祖系154律师/14教师，无新增生产规划器/路由/效益准入或律师推理层。
-当前无worker，准备同24案ACE适配比较；新启动以CURRENT_GOAL及实际进程为准。
+当前ACE同24案比较已07:18后台启动，计划52新律师/28教师；663绑定不可热改，状态须显式新Run ID。
+原生生成提示/空playbook控制、实际自身8B轨迹、原生计数/ADD管理保留，不是当前主方法改向或修复已成功。
 原子失败78答、显式接续52答、配对8答和关系诊断8答均已保留；它们都已终止，不是当前新训练。
 旧计量错误及修复见[检查点完成协议](reports/experiments/atomic_completion_20261016/protocol.md)，不覆盖失败历史。
 前一查询Run已停止于64新律师/4教师，无后续8合同终局评价。
