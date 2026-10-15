@@ -59,7 +59,7 @@ DELTA_TEACHER_SYSTEM = TEACHER_SYSTEM.replace(
 )
 
 
-def skill_record_schema(public_ids):
+def skill_record_schema(public_ids, *, guidance_schema=None):
     return {
         "type": "object",
         "additionalProperties": False,
@@ -71,12 +71,14 @@ def skill_record_schema(public_ids):
                 "minItems": 1,
                 "items": {"type": "string", "enum": list(public_ids)},
             },
-            "guidance": {"type": "string", "minLength": 1},
+            "guidance": {"type": "string", "minLength": 1}
+            if guidance_schema is None
+            else guidance_schema,
         },
     }
 
 
-def differential_schema(public_ids, parent, seen_ids):
+def differential_schema(public_ids, parent, seen_ids, *, guidance_schema=None):
     targets = {"type": "array", "items": {"type": "string"}}
     if parent:
         targets["items"]["enum"] = [s["id"] for s in parent]
@@ -105,7 +107,12 @@ def differential_schema(public_ids, parent, seen_ids):
                             "enum": ["CREATE", "UPDATE", "DELETE", "MERGE"],
                         },
                         "target_ids": targets,
-                        "skill": {"anyOf": [skill_record_schema(public_ids), {"type": "null"}]},
+                        "skill": {
+                            "anyOf": [
+                                skill_record_schema(public_ids, guidance_schema=guidance_schema),
+                                {"type": "null"},
+                            ]
+                        },
                         "source_case_ids": {
                             "type": "array",
                             "minItems": 1,
@@ -120,9 +127,12 @@ def differential_schema(public_ids, parent, seen_ids):
     }
 
 
-def apply_differential_publication(parent, value, public_ids, seen_ids):
+def apply_differential_publication(parent, value, public_ids, seen_ids, *, guidance_schema=None):
     """Structural all-or-stop editing, never a legal judge or efficacy gate."""
-    validate(value, differential_schema(public_ids, parent, seen_ids))
+    validate(
+        value,
+        differential_schema(public_ids, parent, seen_ids, guidance_schema=guidance_schema),
+    )
     operations, noop = value["operations"], value["noop_reason"]
     if (not operations and not (noop or "").strip()) or (operations and noop is not None):
         raise ValueError("Explicit NOOP is required exactly when there are no operations")
@@ -213,6 +223,11 @@ def publication_statistics(parent, value, bank, tokens):
             sid for sid in old.keys() & new.keys() if old[sid] != new[sid]
         ),
         "serialized_library_tokens": tokens,
-        "guidance_characters": sum(len(s["guidance"]) for s in bank),
+        "guidance_characters": sum(
+            len(s["guidance"])
+            if isinstance(s["guidance"], str)
+            else len(json.dumps(s["guidance"], ensure_ascii=False))
+            for s in bank
+        ),
         "not_a_utility_score_or_publication_gate": True,
     }

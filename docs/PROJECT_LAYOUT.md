@@ -16,10 +16,11 @@
 
 ## 当前后台工作
 
-CLI新默认研究为`legal_contractnli_trace_procedure_learning_20261015_run01`，
-配置`contractnli_trace_procedures.json`，协议[TRACE_PROCEDURE_METHOD](TRACE_PROCEDURE_METHOD.md)。
+CLI新默认研究为`legal_contractnli_atomic_boundaries_20261015_run01`，
+配置`contractnli_atomic_boundaries.json`，协议[ATOMIC_BOUNDARY_METHOD](ATOMIC_BOUNDARY_METHOD.md)。
 计划四批每批6份原TRAIN、130新律师/6教师，含同标签普通工具、静态和最后更新输入控制。
-20:56:22已真实后台启动（PID2428065）；实时阶段核实启动记录/进程/progress，不能由配置推断。
+新Run尚待真实启动；实时核实启动记录/进程/progress，不能由配置推断。
+上一程序学习20:56:22启动、23:26:23完成130律师/6教师，去候选23:33:00完成6新律师；两个进程均已退出。
 此前查询学习20:09:59停止于64新律师/4教师，B1—B3完整、B4部分；
 法律步骤旁路20:19:50完成8新律师/1教师，未建立稳定收益。
 真实启动时间/PID以`artifacts/launches/`记录及实际进程共同核实，不能由配置推断已在运行。
@@ -45,8 +46,9 @@ CLI新默认研究为`legal_contractnli_trace_procedure_learning_20261015_run01`
 | `legal_contractnli_query_memory_learning_20261015_run01` | 20:09:59安全停止，64新律师/4教师，未整体赢同标签普通工具 | `progress.json`、三批摘要及`monitoring/stopped_run_and_library_lifecycle_audit.json`；无M4/后续8答 |
 | `legal_contractnli_decision_procedure_delivery_20261015_run01` | 20:19:50完成法律判断步骤诊断，4来源/8新律师/1教师 | `completion.json`；相对教师新2案依据F1下降，不是方法已成功 |
 | `legal_contractnli_final_query_objective_20261015_run01` | 20:18:57完成最终概率查询损失CPU对照，无净F1收益 | `completion.json`，0新律师/教师，仅旧已暴露8开发来源 |
-| `legal_contractnli_trace_procedure_learning_20261015_run01` | 20:56:22后台启动，四批实际轨迹程序学习，含维护/普通工具/最后更新对照 | 默认CLI status与PID2428065；130新律师/6教师为总计划，不等于成功 |
-| `legal_contractnli_M2_tool_influence_20261015_run01` | 21:40:52后台排队，固定M2与B3六合同，去候选机制诊断 | PID2494401；等待准确主worker退出和同GPU锁，0/6新律师、0教师；不回送/热改主训练 |
+| `legal_contractnli_trace_procedure_learning_20261015_run01` | 23:26:23完整结束，130新律师/6教师，技能增益仍小 | `completion.json`与独立完整审计，进程已退出 |
+| `legal_contractnli_M2_tool_influence_20261015_run01` | 23:33:00完整结束，6新律师/12明确参考，去候选使三指标下降 | `completion.json`与独立18答重算，进程已退出 |
+| `legal_contractnli_atomic_boundaries_20261015_run01` | 新默认候选，同父状态反馈与命题绑定原子判断记忆 | 尚待真实launch，不由配置宣称开跑或有效 |
 | `legal_contractnli_query_sample_size_20261015_run01` | CPU旧查询库24/64/128样本量诊断；首24拟合后严格模型一致断言失败 | 22:25:05已退出，0律师/教师，未读评价Gold，失败工件保留 |
 | `legal_contractnli_query_sample_size_20261015_run02` | 同诊断仅统一原生线程环境后全部重做；固定旧库无净F1收益 | 22:36:52完成6次CPU拟合，0律师/教师；只读旧暴露8来源，不是当前主任务成绩 |
 

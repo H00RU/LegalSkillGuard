@@ -224,6 +224,114 @@ def test_local_executor_trace_requires_exact_native_identity_and_content(tmp_pat
         local_executor_trace({**unit, "raw_artifact": str(missing_path)})
 
 
+def test_atomic_boundaries_are_native_conditional_guidance_not_host_verdicts():
+    from jsonschema import validate
+
+    from legal_skill_guard.learning.procedures import (
+        BOUNDARY_GUIDANCE_SCHEMA,
+        boundary_skill_schema,
+        procedure_messages,
+    )
+    from legal_skill_guard.learning.publication import apply_differential_publication
+
+    row, labels, _ = fixture()
+    rule = {
+        "id": "prohibition-support",
+        "hypothesis_ids": ["h1"],
+        "guidance": {
+            "when": "The source establishes the same prohibition as the hypothesis.",
+            "inspection": "Check actor, action, scope and exceptions against the statement.",
+            "relation_if_established": "Entailment",
+            "evidence_requirement": "Retain the operative clause and its governing scope.",
+        },
+    }
+    validate(rule, boundary_skill_schema(labels))
+    edit = {
+        "operations": [
+            {
+                "operation": "CREATE",
+                "target_ids": [],
+                "skill": rule,
+                "source_case_ids": [1],
+                "rationale": "Seen relative-polarity boundary.",
+            }
+        ],
+        "noop_reason": None,
+    }
+    bank = apply_differential_publication(
+        [], edit, labels, [1], guidance_schema=BOUNDARY_GUIDANCE_SCHEMA
+    )
+    proposal = {
+        "selection": "fixed p>.5",
+        "by_hypothesis": {
+            k: {"candidates": [{"original_span_index": 0, "membership_score": 0.8}]} for k in labels
+        },
+    }
+    messages, schema = procedure_messages(row, labels, "Original task.", bank, proposal)
+    body = json.loads(messages[1]["content"])
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(messages)
+    assert body["hypotheses"]["h1"]["original_hypothesis"] == labels["h1"]["hypothesis"]
+    assert body["hypotheses"]["h1"]["applicable_published_skill_ids"] == [rule["id"]]
+    assert body["hypotheses"]["h2"]["applicable_published_skill_ids"] == []
+    assert (
+        body["hypotheses"]["h1"]["fallible_evidence_candidates"]
+        == proposal["by_hypothesis"]["h1"]["candidates"]
+    )
+    assert "candidate_members_by_hypothesis" not in body["learned_source_evidence_tool"]
+    assert messages[0]["content"].count(rule["guidance"]["when"]) == 1
+    # Native choices still include E/C/NM. The learned rule does not force E.
+    choices = schema["properties"]["h1"]["anyOf"]
+    assert choices[0]["properties"]["choice"]["enum"] == ["Entailment", "Contradiction"]
+    assert choices[1]["properties"]["choice"]["enum"] == ["NotMentioned"]
+    assert procedure_messages(
+        {**row, "annotation_sets": "FORBIDDEN"}, labels, "Original task.", bank, proposal
+    ) == (messages, schema)
+    helper = copy.deepcopy(rule)
+    helper["guidance"]["relation_if_established"] = None
+    validate(helper, boundary_skill_schema(labels))
+
+
+def test_teacher_window_contains_all_and_only_exact_parent_current_previous_cases():
+    from legal_skill_guard.learning.procedures import ProcedureStudy
+    from legal_skill_guard.utils.hashing import canonical_json_sha256
+
+    row, _, _ = fixture()
+    study = object.__new__(ProcedureStudy)
+    study.training = [
+        {**copy.deepcopy(row), "id": i, "batch": (i - 1) // 6 + 1} for i in range(1, 19)
+    ]
+    study.bank, study.state = [], "ordinary-parent"
+
+    def unit(i, valid):
+        return {
+            "id": i,
+            "public_valid": valid,
+            "published_library": [],
+            "published_library_sha256": canonical_json_sha256([]),
+            "actual_factual_trace": {"ordinary_model_state": study.state},
+        }
+
+    study.before = {i: unit(i, i % 2 == 0) for i in range(13, 19)}
+    study.after = {i: unit(i, i % 2 == 0) for i in range(7, 13)}
+    study.observation = lambda u, include_trace: {
+        "id": u["id"],
+        "public_valid": u["public_valid"],
+        "trace": include_trace,
+    }
+    cases = study.teacher_cases(3, include_trace=True)
+    assert [r["document_id"] for r in cases] == list(range(7, 19))
+    assert {r["observation_kind"] for r in cases} == {
+        "current_batch_first_encounter",
+        "previous_batch_post_update",
+    }
+    assert sum(r["actual_own_same_parent_observation"]["public_valid"] for r in cases) == 6
+    assert all("original_annotations" in r for r in cases)
+    # A stale tool or library is rejected, not silently replaced or ignored.
+    study.after[7]["actual_factual_trace"]["ordinary_model_state"] = "stale-tool"
+    with pytest.raises(ValueError, match="exact current parent"):
+        study.teacher_cases(3, include_trace=True)
+
+
 def test_library_management_describes_merge_delete_and_noop_without_growth():
     from legal_skill_guard.learning.publication import (
         apply_differential_publication,

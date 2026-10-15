@@ -110,6 +110,8 @@ def prepare(config):
     ]
     if "method_protocol" in cfg:
         paths.append(ROOT / cfg["method_protocol"])
+    if "input_budget_evidence" in cfg:
+        paths.append(ROOT / cfg["input_budget_evidence"])
     RunStore.immutable_json(
         frozen,
         {
@@ -277,7 +279,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["prepare", "launch", "worker", "status", "report"])
     parser.add_argument(
-        "--config", type=Path, default=ROOT / "configs/contractnli_trace_procedures.json"
+        "--config", type=Path, default=ROOT / "configs/contractnli_atomic_boundaries.json"
     )
     parser.add_argument("--run-id")
     parser.add_argument(

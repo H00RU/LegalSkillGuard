@@ -1,4 +1,4 @@
-"""Online procedural memory grounded in the local executor's actual trace.
+"""Atomic legal boundaries learned from same-parent executor observations.
 
 The ordinary evidence tool is shared with the same-data control. No learned
 query terms, new model, extra inference stage, answer repair or effect gate.
@@ -53,6 +53,28 @@ ARMS = (
     "public_only_final_update",
 )
 
+BOUNDARY_GUIDANCE_SCHEMA = {
+    "type": "object",
+    "additionalProperties": False,
+    "required": ["when", "inspection", "relation_if_established", "evidence_requirement"],
+    "properties": {
+        "when": {"type": "string", "minLength": 1},
+        "inspection": {"type": "string", "minLength": 1},
+        "relation_if_established": {
+            "anyOf": [
+                {"type": "string", "enum": ["Entailment", "Contradiction", "NotMentioned"]},
+                {"type": "null"},
+            ]
+        },
+        "evidence_requirement": {"type": "string", "minLength": 1},
+    },
+}
+
+
+def boundary_skill_schema(public_ids):
+    return skill_record_schema(public_ids, guidance_schema=BOUNDARY_GUIDANCE_SCHEMA)
+
+
 PROCEDURE_TEACHER = DELTA_TEACHER_SYSTEM.replace(
     "hidden reasoning or invented actions", "teacher hidden reasoning or invented actions"
 ) + (
@@ -89,7 +111,32 @@ PROCEDURE_TEACHER = DELTA_TEACHER_SYSTEM.replace(
     "quotes as lookup keys, case answer tables, parties and dates. A procedural "
     "skill is a fallible instruction to inspect source, not an automatic verdict "
     "or an order to union candidate citations. Publish all valid changes without "
-    "efficacy testing, rollback or a second curator."
+    "efficacy testing, rollback or a second curator. "
+    "Each guidance is a structured ATOMIC boundary, not a paragraph cataloguing "
+    "several public topics. Its when is a contract/source condition, inspection "
+    "states what to verify, relation_if_established names the ORIGINAL label "
+    "only if that condition really establishes that relation to the EXACT "
+    "hypothesis, and evidence_requirement preserves the complete source support. "
+    "Use null relation for a reusable inspection or evidence-completeness skill "
+    "that does not itself settle the relation. A prohibition can ENTAIL a negative "
+    "hypothesis; a permission does not automatically entail any other hypothesis. "
+    "A related action, different actor, missing trigger or absent universal "
+    "coverage must not be silently treated as the requested proposition. "
+    "Multiple hypothesis IDs are appropriate only when this SAME conditional "
+    "inspection or inference actually transfers, not merely because topics are "
+    "related. Use separate atomic records for genuinely different conditions "
+    "rather than rewriting an entire mixed-topic paragraph. The solver receives "
+    "your declared skill IDs next to each exact public hypothesis and its "
+    "fallible evidence candidates, while all rule contents remain visible once. "
+    "There is no separate planner, semantic router or host legal decision. Do not duplicate "
+    "the base task instruction or force one record per hypothesis. "
+    "Every supplied response was generated under the EXACT current parent and "
+    "ordinary-tool state: all current-batch first encounters and all previous-"
+    "batch post-update answers. No success/error-based sampling is performed. "
+    "Older raw trajectories under other parents are deliberately not presented "
+    "as failures of this parent. Their retained knowledge is the full parent "
+    "library; do not invent unprovided cases or delete rare older boundaries "
+    "merely because they are absent from this feedback window."
 )
 
 STATIC_TEACHER = (
@@ -103,7 +150,12 @@ STATIC_TEACHER = (
     "contract facts, verdicts, or mandatory citations. All records are visible "
     "together in one17-hypothesis call. No required topics, types or count. "
     "Avoid redundant paraphrases, document identifiers, dates, original span "
-    "indices or answer tables. Return the requested full library within budget."
+    "indices or answer tables. Return the requested full library within budget. "
+    "Each guidance is one structured condition/inspection/relation/evidence "
+    "boundary, not a catalogue of unrelated topics. relation_if_established "
+    "uses the exact original label only when the source condition establishes "
+    "that relation to the exact hypothesis, including its polarity; use null "
+    "for an inspection-only skill. No fixed count or mandatory decision rule."
 )
 
 
@@ -127,7 +179,7 @@ def local_executor_trace(unit):
 def procedure_messages(row, labels, system, bank, proposals):
     # The native grammar still enforces source indices. No long numerical enum
     # is printed as an answer-like array. This is common to ALL new conditions.
-    return program_solver_messages(
+    messages, schema = program_solver_messages(
         row,
         labels,
         system,
@@ -135,6 +187,39 @@ def procedure_messages(row, labels, system, bank, proposals):
         guidance=bank,
         show_span_value_enum_in_prompt=False,
     )
+    body = json.loads(messages[1]["content"])
+    candidate_map = (
+        None
+        if proposals is None
+        else body["learned_source_evidence_tool"].pop("candidate_members_by_hypothesis")
+    )
+    body["hypotheses"] = {
+        key: {
+            "original_hypothesis": labels[key]["hypothesis"],
+            "original_public_short_description": labels[key]["short_description"],
+            "applicable_published_skill_ids": [s["id"] for s in bank if key in s["hypothesis_ids"]],
+            "fallible_evidence_candidates": None if candidate_map is None else candidate_map[key],
+        }
+        for key in labels
+    }
+    del body["original_public_short_descriptions"]
+    body["skill_binding_is_public_metadata_not_a_current_answer_or_semantic_router"] = True
+    instruction = (
+        " Each hypothesis explicitly names its applicable published skills and "
+        "fallible evidence candidates. The complete library remains visible once. "
+        "For an atomic skill, independently verify its when condition and scope "
+        "against this full original contract before considering its conditional "
+        "relation. A non-null relation is NOT a verdict about this contract; null "
+        "means inspection guidance, not NotMentioned. Preserve the original "
+        "hypothesis polarity. An unrelated rule, empty skill list, empty candidate "
+        "list or high membership score never supplies a legal label. Do not union "
+        "citations by rule or alter any final answer after generation."
+    )
+    messages[0]["content"] = messages[0]["content"].replace(
+        "\nReusable skills: ", instruction + "\nReusable skills: ", 1
+    )
+    messages[1]["content"] = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
+    return messages, schema
 
 
 class ProcedureStudy(Comparison):
@@ -143,6 +228,11 @@ class ProcedureStudy(Comparison):
         self.cfg = read(self.config_path)
         if self.cfg["method"] != "trace_procedural_memory":
             raise ValueError("Explicit trace-procedure method required")
+        if (
+            self.cfg.get("memory_representation") != "guarded_atomic_boundary_v1"
+            or self.cfg.get("teacher_feedback") != "same_parent_current_before_previous_after_v1"
+        ):
+            raise ValueError("Atomic boundary study requires its own newly frozen config")
         self.run_id = safe_component(run_id or self.cfg["run_id"])
         self.out = ROOT / "runs" / self.run_id
         self.report = ROOT / self.cfg["report_directory"] / self.run_id
@@ -199,7 +289,7 @@ class ProcedureStudy(Comparison):
         if len({s["id"] for s in bank}) != len(bank):
             raise ValueError("Duplicate skill IDs; no repair")
         for skill in bank:
-            validate(skill, skill_record_schema(self.labels))
+            validate(skill, boundary_skill_schema(self.labels))
             if len(set(skill["hypothesis_ids"])) != len(skill["hypothesis_ids"]):
                 raise ValueError("Duplicate public scope")
         tokens = self.meter.token_count(text=json.dumps(bank, ensure_ascii=False))
@@ -220,7 +310,7 @@ class ProcedureStudy(Comparison):
                 "additionalProperties": False,
                 "required": ["library"],
                 "properties": {
-                    "library": {"type": "array", "items": skill_record_schema(self.labels)}
+                    "library": {"type": "array", "items": boundary_skill_schema(self.labels)}
                 },
             },
         )
@@ -261,28 +351,57 @@ class ProcedureStudy(Comparison):
             "local_executor_trace": local_executor_trace(unit) if include_trace else None,
         }
 
+    def teacher_cases(self, batch, *, include_trace):
+        """Every current/previous case whose answer has this exact parent.
+
+        Current first encounters and preceding-batch post-update answers share
+        both the parent library and ordinary tool. Never outcome-filter them.
+        """
+        cases = []
+        parent_sha = canonical_json_sha256(self.bank)
+        for row in self.training:
+            if row["batch"] == batch:
+                unit = self.before[row["id"]]
+                kind = "current_batch_first_encounter"
+            elif row["batch"] == batch - 1:
+                unit = self.after[row["id"]]
+                kind = "previous_batch_post_update"
+            else:
+                continue
+            if (
+                unit["published_library"] != self.bank
+                or unit["published_library_sha256"] != parent_sha
+                or unit["actual_factual_trace"]["ordinary_model_state"] != self.state
+            ):
+                raise ValueError("Teacher experience must use exact current parent and tool")
+            cases.append(
+                {
+                    "document_id": row["id"],
+                    "full_original_contract_with_spans": marked_text(row),
+                    "original_annotations": row["annotation_sets"][0]["annotations"],
+                    "observation_kind": kind,
+                    "actual_own_same_parent_observation": self.observation(unit, include_trace),
+                }
+            )
+        expected = 6 if batch == 1 else 12
+        if len(cases) != expected:
+            raise ValueError("All current and previous batch cases required; no selection")
+        return cases
+
     def update(self, batch, *, include_trace):
-        seen = [r for r in self.training if r["batch"] <= batch]
+        cases = self.teacher_cases(batch, include_trace=include_trace)
+        source_ids = [r["document_id"] for r in cases]
         body = {
             "original_public_hypotheses": self.labels,
             "complete_actual_parent_library": self.bank,
-            "actual_historical_libraries": self.versions,
-            "all_seen_original_train_cases": [
-                {
-                    "document_id": r["id"],
-                    "full_original_contract_with_spans": marked_text(r),
-                    "original_annotations": r["annotation_sets"][0]["annotations"],
-                    "actual_own_first_encounter": self.observation(
-                        self.before[r["id"]], include_trace
-                    ),
-                    "actual_own_prior_after_learning": self.observation(
-                        self.after[r["id"]], include_trace
-                    )
-                    if r["id"] in self.after
-                    else None,
-                }
-                for r in seen
-            ],
+            "same_parent_library_and_tool_original_train_cases": cases,
+            "actual_parent_library_sha256": canonical_json_sha256(self.bank),
+            "actual_parent_ordinary_tool_state": self.state,
+            "all_successes_and_failures_from_complete_two_batches_not_outcome_selected": True,
+            "older_different_parent_trajectories_archived_not_claimed_as_current_feedback": True,
+            "cumulative_unique_original_train_cases_seen": sum(
+                r["batch"] <= batch for r in self.training
+            ),
             "full_library_token_cap": self.cfg["library_token_hard_cap"],
             "no_future_gold_other_learners_or_teacher_hidden_reasoning": True,
             "local_executor_trace_included_as_untrusted_data": include_trace,
@@ -292,10 +411,16 @@ class ProcedureStudy(Comparison):
             name,
             PROCEDURE_TEACHER,
             body,
-            differential_schema(self.labels, self.bank, [r["id"] for r in seen]),
+            differential_schema(
+                self.labels, self.bank, source_ids, guidance_schema=BOUNDARY_GUIDANCE_SCHEMA
+            ),
         )
         bank = apply_differential_publication(
-            self.bank, value, self.labels, [r["id"] for r in seen]
+            self.bank,
+            value,
+            self.labels,
+            source_ids,
+            guidance_schema=BOUNDARY_GUIDANCE_SCHEMA,
         )
         tokens = self.validate_library(bank)
         stats = publication_statistics(self.bank, value, bank, tokens)
@@ -308,7 +433,9 @@ class ProcedureStudy(Comparison):
                 "actual_teacher_value": value,
                 "publication": bank,
                 "management": stats,
-                "source_case_ids": [r["id"] for r in seen],
+                "source_case_ids": source_ids,
+                "all_observations_use_actual_parent_library_and_tool": True,
+                "feedback_window": "current_before_and_previous_after_without_outcome_filter",
                 "all_valid_edits_unconditionally_published_without_efficacy_gate": True,
                 "is_final_single_update_ablation_not_independent_no_trace_learning": not include_trace,
             },
@@ -381,6 +508,9 @@ class ProcedureStudy(Comparison):
                 "development_candidate_not_confirmed_improvement": True,
                 "local_8b_trace_as_untrusted_training_data_not_teacher_hidden_reasoning": True,
                 "ordinary_tool_same_gold_and_weights_all_nonempty_conditions": True,
+                "memory_representation": self.cfg["memory_representation"],
+                "teacher_feedback": self.cfg["teacher_feedback"],
+                "original_hypothesis_binding_without_semantic_router_or_host_verdict": True,
             },
         )
         RunStore.immutable_json(

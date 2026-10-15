@@ -19,12 +19,19 @@ lawyer and4 teacher responses. B2/B3 did not beat the same-label ordinary tool
 overall. No final M4 or later-eight evaluation was produced.
 The legal-procedure delivery probe completed at20:19:50; its two new-to-teacher
 contracts lost evidence F1 despite a small joint gain. It is not a successful
-method or full learning run. The next candidate is
-[trace-informed procedural memory](docs/TRACE_PROCEDURE_METHOD.md): actual local
-executor traces inform the same teacher, with explicit library maintenance and
-an identical ordinary evidence tool in the data-only control. No query residual
-weights, extra runtime reviewer or host verdict is introduced. The new CLI
-default is prepared, not proof it has started or improved results; check status.
+method or full learning run. The complete
+[trace-informed procedural study](docs/TRACE_PROCEDURE_METHOD.md) ended at23:26:23:
+130 new lawyer/6 teacher calls, with independent source/wire/score audits.
+Its final eight-contract label/F1/joint scores were79.41/73.11/56.62%, versus
+79.41/70.89/54.41% for the same-label ordinary tool: classification did not improve.
+The six-call fixed-memory tool ablation ended at23:33; removing the ordinary tool
+harmed all three endpoints. See the [complete readout](reports/experiments/trace_procedures_20261015/complete_readout.md).
+The new default candidate is [same-parent atomic boundaries](docs/ATOMIC_BOUNDARY_METHOD.md):
+conditional legal rule units are explicitly bound to public hypotheses, and the
+teacher observes complete current-before/previous-after cases under the exact same
+parent memory and ordinary tool. There is no outcome-based sampling or new planner,
+router, reviewer or host verdict. Configuration existence is not a launch or gain;
+check the actual status.
 Its external evidence scorer is supervised and learns weights; the lawyer remains
 frozen. It is NOT pure verbal skill learning or an established improvement.
 No host repair, best-bank rollback, extra LLM or new legal task is introduced.
@@ -54,7 +61,7 @@ are objectives to test, not promises of monotonic gains or publication.
 
 ## 已核验与未完成
 
-当前23项无模型调用边界测试通过（1.12秒）。重建阶段一份训练合同完成真实的律师回答→强教师
+当前25项无模型调用边界测试通过（1.15秒）。重建阶段一份训练合同完成真实的律师回答→强教师
 差分编辑→技能查询执行→律师重答，独立评分与实际传递核验一致；不是新方法的额外资格训练。
 另有幸存旧请求逐字消息／Schema及6212-token计数核对；不是只凭聊天记录猜实现。
 这些是重建核验，不是方法已优于空库或ACE的证据。
@@ -70,11 +77,11 @@ are objectives to test, not promises of monotonic gains or publication.
 cd /home/yndx/hhy/legal-skill-current
 ```
 
-当前CLI默认配置：`configs/contractnli_trace_procedures.json`。
-运行ID：`legal_contractnli_trace_procedure_learning_20261015_run01`。
+当前CLI默认配置：`configs/contractnli_atomic_boundaries.json`。
+运行ID：`legal_contractnli_atomic_boundaries_20261015_run01`。
 四批每批6份TRAIN，计划130新律师/6教师，另12显式相同冷输入观察共享。
 前一查询Run已停止于64新律师/4教师，无后续8合同终局评价。
-技能数8→11→11，已有真实修订，但库内短语持续增长；
+旧查询Run技能数8→11→11，已有真实修订，但库内短语持续增长；
 [生命周期审计](reports/experiments/query_memory_20261015/stopped_lifecycle_and_delivery_audit.md)
 区分管理、复杂度与收益，不硬设数量或删除配额。
 用`.venv/bin/python -m legal_skill_guard.cli status`查真实状态；配置存在不等于已启动。
@@ -97,7 +104,7 @@ B3出现依据FP激增与联合损害，已停止；[停止审计](reports/exper
 `runs/legal_reconstruction_chain_check_20261015_run01/engineering_completion.json`；
 其代码和旧配置快照独立保存，不是当前默认实验。
 
-详见[当前方法与边界](docs/TRACE_PROCEDURE_METHOD.md)、[重建时历史计划](docs/METHOD_AND_PROTOCOL.md)、[历史决策](docs/HISTORY_DECISIONS.md)
+详见[当前方法与边界](docs/ATOMIC_BOUNDARY_METHOD.md)、[重建时历史计划](docs/METHOD_AND_PROTOCOL.md)、[历史决策](docs/HISTORY_DECISIONS.md)
 及[重建交付记录](docs/REBUILD_STATUS.md)。师兄的方法／实验技能用于机制—代码一致性和公平对照检查，
 没有照搬模板中的固定贡献数、重复次数或示例成绩。
 日常论文技能以hhy下`paper-skills/`为当前版本；旧`归档/`已不存在，助手未删除，不依赖该目录。
