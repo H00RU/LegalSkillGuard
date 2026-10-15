@@ -6,8 +6,10 @@ complete. None establishes stable overall benefit over strong empty memory.
 The current implementation is draft-based skill inspection: the same frozen
 lawyer drafts an answer, then applies its evolving skills to inspect that actual
 answer. An equal-call empty-review control separates learning from extra inference.
-This is ordinary user-directed development, not active Goal mode or a proven fix.
-Old failures, raw answers and their costs remain preserved.
+The run started as ordinary user-directed development at14:28. At15:09 the user
+explicitly requested a new Goal, which is now active; see [current Goal](docs/CURRENT_GOAL.md).
+Neither starting a Goal nor implementing a method proves benefit. Old failures,
+raw answers and their costs remain preserved.
 
 The target is the latest ContractNLI legal-evidence learning pipeline, not the
 2026-09-27 multi-turn consultation task. The executor remains a frozen Qwen3-8B;

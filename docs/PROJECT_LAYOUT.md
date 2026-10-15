@@ -20,13 +20,16 @@
 新Run `legal_contractnli_answer_review_learning_20261015_run01`：4批×2案、8后续来源，
 56次新律师、4次新教师；启动与完成状态以其`progress.json`和实际工件为准。
 旧三条件/多条件有限试验**不是已经完成的正式论文比较**。
-按用户要求在普通对话中实施，没有开启或恢复Goal。
+上述run启动时按用户要求在普通对话中实施，未开Goal。
+15:09用户明确要求新建Goal，现为active；最新目标与执行顺序见[CURRENT_GOAL](CURRENT_GOAL.md)。
 
 | Run ID | 用途 | 查看进度 |
 | --- | --- | --- |
 | `legal_contractnli_feedback_completion_20261015_run01` | 已完成124个全链物理律师调用、14教师响应及四来源探针，未建立稳定优势 | `completion.json`及独立八来源`main_completion.json`，进程已退出 |
 | `legal_contractnli_adaptive_memory_comparison_20261015_run01` | Schema拒绝后失败，2新律师/0教师响应/1请求尝试；工件保留 | `failure.json`，不是仍在等待或方法效果失败 |
 | `legal_contractnli_adaptive_memory_comparison_20261015_run02` | 13:47完成58新律师/16教师/2共享冷答；没有整体胜过强空库 | `completion.json`与`results.md`；失败费用见`restart_provenance.json` |
+| `legal_contractnli_answer_review_learning_20261015_run01` | 当前主方法四批已完成，正在完成后续8来源三条件评价 | `progress.json`，尚无完整新案结果时不下结论 |
+| `legal_contractnli_answer_review_anchor_diagnostic_20261015_run01` | 主run完成后接续固定4个已见TRAIN来源的初答依据干预，10新律师/0教师 | `progress.json`，是合成输入诊断，不是训练或论文主成绩 |
 
 旧 `legal_contractnli_grounded_feedback_learning_20261015_run01` 于10:11在B4强制教师审计引用检查处失败，
 44个律师回答和7个教师输出保留。旧 `grounded_references` 随父失败停止，已完成5个教师发布但0律师回答；
