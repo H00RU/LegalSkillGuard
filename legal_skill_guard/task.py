@@ -88,6 +88,11 @@ def output_schema(
     }
 
 
+def render_library(library: Sequence[Mapping[str, Any]]) -> str:
+    """The exact lossless library payload used for delivery and capacity metering."""
+    return json.dumps(list(library), ensure_ascii=False, separators=(",", ":"))
+
+
 def solver_messages(
     row: Mapping[str, Any],
     labels: Mapping[str, Any],
@@ -113,7 +118,7 @@ def solver_messages(
             "schema_is_permitted_values_not_current_answers": True,
         },
     }
-    rendered = json.dumps(list(library), ensure_ascii=False, separators=(",", ":"))
+    rendered = render_library(library)
     messages = [
         {"role": "system", "content": system + "\nReusable skills: " + rendered},
         {"role": "user", "content": json.dumps(body, ensure_ascii=False)},

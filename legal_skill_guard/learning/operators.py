@@ -27,7 +27,7 @@ from legal_skill_guard.experiment.storage import RunStore, safe_component
 from legal_skill_guard.inference.codex_cli_client import CodexCLIClient
 from legal_skill_guard.inference.native import WireClient
 from legal_skill_guard.report import write_report
-from legal_skill_guard.task import marked_text, original_feedback
+from legal_skill_guard.task import marked_text, original_feedback, render_library
 from legal_skill_guard.utils.hashing import canonical_json_sha256
 
 from .audit import close, original_score
@@ -285,7 +285,7 @@ class OperatorStudy(Comparison):
 
     def validate_programs(self, bank):
         program_queries(bank, self.labels)
-        tokens = self.meter.token_count(text=json.dumps(bank, ensure_ascii=False))
+        tokens = self.meter.token_count(text=render_library(bank))
         if tokens > self.cfg["library_token_hard_cap"]:
             raise ValueError("Full program library exceeds cap; no pruning or fallback")
         return tokens

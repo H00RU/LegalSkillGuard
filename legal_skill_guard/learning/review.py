@@ -23,7 +23,7 @@ from legal_skill_guard.experiment.storage import RunStore, safe_component
 from legal_skill_guard.inference.codex_cli_client import CodexCLIClient
 from legal_skill_guard.inference.native import WireClient
 from legal_skill_guard.report import write_report
-from legal_skill_guard.task import marked_text, original_feedback, output_schema
+from legal_skill_guard.task import marked_text, original_feedback, output_schema, render_library
 from legal_skill_guard.utils.hashing import canonical_json_sha256
 
 from .audit import close, original_score
@@ -407,7 +407,7 @@ class ReviewStudy(Comparison):
             validate(s, skill_record_schema(self.labels))
             if len(s["hypothesis_ids"]) != len(set(s["hypothesis_ids"])):
                 raise ValueError("Duplicate public hypothesis scope")
-        count = self.meter.token_count(text=json.dumps(bank, ensure_ascii=False))
+        count = self.meter.token_count(text=render_library(bank))
         if count > self.cfg["library_token_hard_cap"]:
             raise ValueError("Complete bank exceeds cap; no truncation or old-bank fallback")
         return count

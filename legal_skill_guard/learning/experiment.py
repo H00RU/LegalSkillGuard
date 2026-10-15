@@ -32,7 +32,13 @@ from legal_skill_guard.inference.codex_cli_client import (
 from legal_skill_guard.inference.native import WireClient
 from legal_skill_guard.inference.openai_client import GenerationConfig
 from legal_skill_guard.report import write_report
-from legal_skill_guard.task import marked_text, original_feedback, original_metrics, solver_messages
+from legal_skill_guard.task import (
+    marked_text,
+    original_feedback,
+    original_metrics,
+    render_library,
+    solver_messages,
+)
 from legal_skill_guard.utils.hashing import canonical_json_sha256
 
 from .ace_native import (
@@ -422,7 +428,7 @@ class Comparison:
                 if len(skill["hypothesis_ids"]) != len(set(skill["hypothesis_ids"])):
                     raise ValueError("Duplicate public scope")
                 validate_queries(skill["queries"])
-            rendered = json.dumps(bank, ensure_ascii=False, separators=(",", ":"))
+            rendered = render_library(bank)
         count = self.meter.token_count(text=rendered)
         if count > self.cfg["library_token_hard_cap"]:
             raise ValueError("Complete library exceeds capacity; never truncate or choose old bank")

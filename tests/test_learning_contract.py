@@ -291,6 +291,44 @@ def test_atomic_boundaries_are_native_conditional_guidance_not_host_verdicts():
     validate(helper, boundary_skill_schema(labels))
 
 
+def test_capacity_counts_exact_delivered_library_not_whitespace_expanded_json():
+    from legal_skill_guard.learning.procedures import ProcedureStudy, procedure_messages
+    from legal_skill_guard.task import render_library
+
+    row, labels, _ = fixture()
+    bank = [
+        {
+            "id": "boundary",
+            "hypothesis_ids": ["h1"],
+            "guidance": {
+                "when": "The original source establishes the condition.",
+                "inspection": "Check actor, scope and exceptions.",
+                "relation_if_established": None,
+                "evidence_requirement": "Keep all supporting original spans.",
+            },
+        }
+    ]
+    messages, _ = procedure_messages(row, labels, "Original task.", bank, None)
+    delivered = messages[0]["content"].split("\nReusable skills: ", 1)[1]
+    assert delivered == render_library(bank)
+    assert json.loads(delivered) == bank
+    assert len(delivered) < len(json.dumps(bank, ensure_ascii=False))
+    study = object.__new__(ProcedureStudy)
+    study.labels = labels
+    study.cfg = {"library_token_hard_cap": len(delivered)}
+
+    class ExactPayloadMeter:
+        def token_count(self, *, text):
+            assert text == delivered
+            return len(text)  # Pure payload spy; not a replacement production tokenizer.
+
+    study.meter = ExactPayloadMeter()
+    assert study.validate_library(bank) == len(delivered)
+    study.cfg["library_token_hard_cap"] -= 1
+    with pytest.raises(ValueError, match="exceeds capacity"):
+        study.validate_library(bank)
+
+
 def test_teacher_window_contains_all_and_only_exact_parent_current_previous_cases():
     from legal_skill_guard.learning.procedures import ProcedureStudy
     from legal_skill_guard.utils.hashing import canonical_json_sha256
