@@ -1,9 +1,12 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Current background execution: `legal_contractnli_contrastive_procedure_20261016_run01`
-(one matched-knowledge organization diagnostic, launched05:59 CST; PID3239414;
-16 new lawyer/1 teacher planned, 426 source/parent/driver/protocol bindings frozen).
-Use `.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_contrastive_procedure_20261016_run01`.
+Current background execution: `legal_contractnli_contrastive_delivery_20261016_run01`
+(exact archived-knowledge organization/serialization diagnostic, launched06:05 CST;
+PID3248203;16 new lawyer/0 new teacher, 437 source/parent/driver/protocol bindings frozen).
+Use `.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_contrastive_delivery_20261016_run01`.
+Its compiler predecessor failed at06:01:33:0 lawyer/1 teacher, coherent3183 tokens
+but flat4409. The failure remains. Compact delivery only removes flat headings
+and shortens IDs: all legal text/relations unchanged, flat4073, same4096 cap.
 The preceding final-M4 assessment completed all44 new lawyer/0 teacher at05:48:10.
 M4 scores83.09/69.91/59.56% versus80.88/71.37/55.15% for the same-tool control:
 classification/joint rose, evidence F1 fell. All same-tool paired intervals crossed zero.
@@ -52,8 +55,8 @@ frozen. It is NOT pure verbal skill learning or an established improvement.
 That study stopped after78 new lawyer/5 teacher calls; a separate fixed44-call
 assessment evaluated its real final M4. The122 physical-call ancestry, four batches
 of six original TRAIN, retention and four-arm32-answer endpoint do not establish
-stable same-tool benefit. The current [organization diagnostic](reports/experiments/grounded_feedback_20261016/contrastive_procedure_protocol.md)
-compiles one source-grounded branch bank and mechanically flattens exactly that
+stable same-tool benefit. The current [organization diagnostic](reports/experiments/grounded_feedback_20261016/contrastive_delivery_protocol.md)
+compiled one source-grounded branch bank and mechanically flattens exactly that
 knowledge for comparison; no new task, model or production inference stage.
 No host repair, best-bank rollback, extra LLM or new legal task is introduced.
 At15:09 the user
@@ -102,8 +105,10 @@ cd /home/yndx/hhy/legal-skill-current
 该默认训练已因完整B4严重损害停止，78律师/5教师；停止期间最后M4已发布但未执行。
 独立固定评估已完成44律师/0教师，显式引用78旧答/12冷共享/5教师；不是新训练或恢复旧worker。
 32终点齐答核验后评分，采用真实末库不选最佳库；仍是暴露开发研究。
-当前后台是同一份新知识的分支/机械平面诊断，固定16律师/1教师，不新增生产规划器/路由或效益准入。
-诊断期间426绑定不可改，实际阶段以显式Run ID的status及进程为准。
+教师编译前序因平面4409token超容量已失败，0律师/1教师；失败与成本保留。
+当前后台复用这份知识，仅简化排版/ID令平面4073，原法律字句完整、分支3183、4096容量不变。
+固定16新律师/0新教师，不新增生产规划器/路由或效益准入；祖系含原教师共122律师/6教师。
+诊断期间437绑定不可改，实际阶段以显式Run ID的status及进程为准。
 原子失败78答、显式接续52答、配对8答和关系诊断8答均已保留；它们都已终止，不是当前新训练。
 旧计量错误及修复见[检查点完成协议](reports/experiments/atomic_completion_20261016/protocol.md)，不覆盖失败历史。
 前一查询Run已停止于64新律师/4教师，无后续8合同终局评价。

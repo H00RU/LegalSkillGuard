@@ -1,0 +1,587 @@
+{
+  "at": "2026-10-15T22:05:05.344633+00:00",
+  "libraries": {
+    "coherent_branches": [
+      {
+        "id": "ending-return-and-retention",
+        "hypothesis_ids": [
+          "nda-16",
+          "nda-20"
+        ],
+        "guidance": {
+          "when": "The source regulates return, destruction, delivery, deletion, or retention of protected information at an ending event or on request.",
+          "inspection": "Match actor, protected object, trigger, and every exception in the operative text. Establish each branch from the source; survival, duration, or a nearby ending date alone is insufficient, and no match remains unresolved.",
+          "relation_if_established": null,
+          "evidence_requirement": "Include the duty chapeau, exact trigger, all operative return/destruction alternatives, and any retention proviso.",
+          "branches": [
+            {
+              "when": "A receiving party must return or destroy covered information when the agreement, project, evaluation, discussions, relationship, or equivalent covered activity ends.",
+              "inspection": "Confirm the ending event activates the disposition duty. A request-only duty or general survival clause does not qualify; a closing delivery qualifies only when it ends the covered relationship.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show the receiving actor, ending trigger, protected material, and complete return or destruction duty.",
+              "hypothesis_id": "nda-16"
+            },
+            {
+              "when": "A disposition regime expressly permits keeping backups, inaccessible system copies, or legal, regulatory, evidentiary, tax, or compliance copies.",
+              "inspection": "Confirm present permission to retain specified protected material despite the disposition duty, preserving access, purpose, duration, and continuing-confidentiality limits.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show the disposition rule and each operative retention exception with its conditions.",
+              "hypothesis_id": "nda-20"
+            },
+            {
+              "when": "The applicable rule requires return or destruction of all protected information and copies without a retention exception.",
+              "inspection": "Require exhaustive coverage; duties limited to documents, tangible items, or selected media do not oppose retention of other protected information.",
+              "relation_if_established": "Contradiction",
+              "evidence_requirement": "Show the trigger and language covering all protected information and copies, plus any incorporated proviso.",
+              "hypothesis_id": "nda-20"
+            }
+          ]
+        }
+      },
+      {
+        "id": "copy-reverse-engineering-and-rights",
+        "hypothesis_ids": [
+          "nda-11",
+          "nda-15",
+          "nda-17"
+        ],
+        "guidance": {
+          "when": "The source regulates reverse engineering, copying, or proprietary rights in protected information.",
+          "inspection": "Keep each action and polarity separate, and check immediate exceptions before selecting a relation. Absence of an exact operative rule is unresolved.",
+          "relation_if_established": null,
+          "evidence_requirement": "Include the actor, protected object, operative verb, polarity, and applicable consent or purpose qualification.",
+          "branches": [
+            {
+              "when": "The receiving party is expressly barred from reverse engineering protected information, including a prohibition subject to written consent.",
+              "inspection": "Verify the prohibition concerns reverse engineering rather than copying, disclosure, or ordinary use.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show the complete reverse-engineering prohibition and consent qualification.",
+              "hypothesis_id": "nda-11"
+            },
+            {
+              "when": "The agreement expressly conveys no licence, ownership, title, or proprietary right, or reserves those rights to the discloser.",
+              "inspection": "A use, disclosure, or copying restriction alone is not a no-rights clause; a limited contractual use or retention permission does not itself oppose the hypothesis.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show each operative no-rights, no-licence, ownership, or reservation provision.",
+              "hypothesis_id": "nda-15"
+            },
+            {
+              "when": "Copying is expressly allowed or necessarily authorized for a stated purpose, permitted disclosure, performance need, or automatic backup.",
+              "inspection": "Treat a present necessary-purpose exception as permission. Future consent alone and retention of existing copies are not permission to create copies.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show the copy rule, present exception or automatic-copy route, and its purpose conditions.",
+              "hypothesis_id": "nda-17"
+            },
+            {
+              "when": "Copying is prohibited, including unless prior approval is later obtained, and no present copy exception applies.",
+              "inspection": "Do not convert possible future consent, permitted use, employee disclosure, or retention into current copying permission.",
+              "relation_if_established": "Contradiction",
+              "evidence_requirement": "Show the complete no-copy rule and every proviso bearing on copying.",
+              "hypothesis_id": "nda-17"
+            }
+          ]
+        }
+      },
+      {
+        "id": "confidential-information-scope",
+        "hypothesis_ids": [
+          "nda-1",
+          "nda-2",
+          "nda-3"
+        ],
+        "guidance": {
+          "when": "The source defines what information qualifies as confidential and how its status is established.",
+          "inspection": "Read the entire definition, incorporated continuations, modalities, and alternative eligibility routes. Establish the exact branch; silence is not opposition.",
+          "relation_if_established": null,
+          "evidence_requirement": "Include the definitional chapeau and all text needed to connect the category, modality, or identification condition to confidential status.",
+          "branches": [
+            {
+              "when": "Every covered disclosure form must be marked or identified by the disclosing party, with any oral form requiring timely identification or written confirmation.",
+              "inspection": "Test written, oral, electronic, and other routes; entailment requires identification to be universal.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show all clauses collectively covering every disclosure form and identification step.",
+              "hypothesis_id": "nda-1"
+            },
+            {
+              "when": "Nature, circumstances, reasonable understanding, or an express unmarked-information rule can independently confer confidential status.",
+              "inspection": "Require an affirmative alternative to discloser identification; broad wording or mere absence of marking language is insufficient.",
+              "relation_if_established": "Contradiction",
+              "evidence_requirement": "Show the complete definition and the independent non-identification route.",
+              "hypothesis_id": "nda-1"
+            },
+            {
+              "when": "The operative definition expressly includes business, financial, marketing, customer, personnel, operational, contact, or other non-technical subject matter.",
+              "inspection": "Require a named non-technical category within the operative definition, not merely a recital, communication form, or generic reference to information.",
+              "relation_if_established": "Contradiction",
+              "evidence_requirement": "Show the definitional chapeau and the expressly named non-technical category.",
+              "hypothesis_id": "nda-2"
+            },
+            {
+              "when": "The definition or identification procedure expressly covers oral or verbal disclosure, including oral material later confirmed in writing or information not reduced to writing.",
+              "inspection": "Confirm oral communication can qualify; broad subject coverage without an oral route is insufficient.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show the governing definition and oral branch, including any identification or confirmation condition.",
+              "hypothesis_id": "nda-3"
+            }
+          ]
+        }
+      },
+      {
+        "id": "post-ending-survival",
+        "hypothesis_ids": [
+          "nda-19"
+        ],
+        "guidance": {
+          "when": "The source addresses obligations after termination, expiration, completion, abandonment, return, destruction, or another ending event.",
+          "inspection": "Require an explicit connection between identified obligations and the post-ending period; ordinary duration, remedies, or continuing enforceability is insufficient. No connection remains unresolved.",
+          "relation_if_established": null,
+          "evidence_requirement": "Include the surviving obligation, ending event, incorporated scope, and duration or release condition.",
+          "branches": [
+            {
+              "when": "One or more contractual obligations expressly survive, continue, or remain binding after an identified ending event.",
+              "inspection": "Verify both the obligation and the ending event rather than inferring survival from an unrelated restriction period.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show the survival language and every clause needed to identify what survives and for how long.",
+              "hypothesis_id": "nda-19"
+            }
+          ]
+        }
+      },
+      {
+        "id": "independent-and-external-sources",
+        "hypothesis_ids": [
+          "nda-12",
+          "nda-13"
+        ],
+        "guidance": {
+          "when": "The source excludes or permits information obtained independently of the discloser's protected disclosure.",
+          "inspection": "Identify who produced or supplied the information and preserve proof, no-use, no-breach, and no-confidentiality-duty conditions. Do not interchange internal development and external acquisition.",
+          "relation_if_established": null,
+          "evidence_requirement": "Include the governing exception or permission chapeau and the complete source-specific branch.",
+          "branches": [
+            {
+              "when": "Information is independently developed by or for the receiver, or was self-created before disclosure, without use of or reference to protected information.",
+              "inspection": "Require actual development or creation; merely becoming known independently, prior possession, public availability, or external receipt is insufficient.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show the development branch and all independence or documentary-proof conditions, plus any separate similar-information clause.",
+              "hypothesis_id": "nda-12"
+            },
+            {
+              "when": "Information becomes available from a legitimate external source lacking a confidentiality duty, or through a later non-confidential release not caused by breach.",
+              "inspection": "Require an external acquisition or availability route; exclude internal development, prior possession, and permission merely to negotiate with others.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show the external-source branch and all lawful, no-duty, knowledge, inquiry, and no-breach qualifications.",
+              "hypothesis_id": "nda-13"
+            }
+          ]
+        }
+      },
+      {
+        "id": "permitted-recipient-classes",
+        "hypothesis_ids": [
+          "nda-7",
+          "nda-5"
+        ],
+        "guidance": {
+          "when": "The source permits or prohibits disclosure to employees, personnel, representatives, advisers, agents, consultants, contractors, or other persons.",
+          "inspection": "Resolve each recipient class separately and apply definitions, need-to-know, purpose, consent, and confidentiality conditions. Missing permission is unresolved unless an operative blanket prohibition covers that class.",
+          "relation_if_established": null,
+          "evidence_requirement": "Include the disclosure rule, class definition, and all operative access conditions or exceptions.",
+          "branches": [
+            {
+              "when": "Consultants, professional advisers, contractors, external agents, contractors' employees, or a comparably external representative class may receive protected information.",
+              "inspection": "Confirm the class is external or includes external persons; employee-only access does not establish third-party sharing.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show the permission, relevant class definition, and all need-to-know, purpose, and confidentiality conditions.",
+              "hypothesis_id": "nda-7"
+            },
+            {
+              "when": "Disclosure to third parties is prohibited and no present external-recipient exception applies.",
+              "inspection": "A consent-only possibility or employee-only exception does not presently permit external sharing.",
+              "relation_if_established": "Contradiction",
+              "evidence_requirement": "Show the blanket third-party prohibition and all applicable exceptions.",
+              "hypothesis_id": "nda-7"
+            },
+            {
+              "when": "Employees or internal personnel may receive protected information for a need-to-know or stated-purpose reason.",
+              "inspection": "Confirm that the permitted class actually includes the receiving party's employees or internal staff.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show the employee permission and all purpose, need-to-know, notice, or confidentiality conditions.",
+              "hypothesis_id": "nda-5"
+            },
+            {
+              "when": "Disclosure to every person or entity is prohibited without an applicable employee exception.",
+              "inspection": "Do not treat authorization to use information while performing duties as employee sharing unless disclosure to employees is allowed.",
+              "relation_if_established": "Contradiction",
+              "evidence_requirement": "Show the actor-bearing blanket prohibition and every applicable exception.",
+              "hypothesis_id": "nda-5"
+            }
+          ]
+        }
+      },
+      {
+        "id": "protected-transaction-and-compelled-disclosure",
+        "hypothesis_ids": [
+          "nda-10",
+          "nda-8"
+        ],
+        "guidance": {
+          "when": "The source regulates disclosure of the agreement, negotiations, transaction facts, or legally compelled protected information.",
+          "inspection": "Match the protected fact, disclosure actor, trigger, notice recipient, and exceptions. Establish each branch directly; a general confidentiality clause or compelled-disclosure permission alone is insufficient.",
+          "relation_if_established": null,
+          "evidence_requirement": "Include the operative prohibition or notice duty, required definitions or cross-references, and consent, legality, and timing qualifications.",
+          "branches": [
+            {
+              "when": "Disclosure or public announcement of the agreement's existence, negotiations, discussions, a prospective transaction, or transactions contemplated by the agreement is prohibited.",
+              "inspection": "A direct no-announcement rule qualifies; a definition route also requires an applicable nondisclosure duty.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show each direct prohibition or both the protected-fact definition and governing nondisclosure duty, with exceptions.",
+              "hypothesis_id": "nda-10"
+            },
+            {
+              "when": "Legal, regulatory, judicial, subpoena, or governmental compulsion triggers a mandatory notice or prior-consultation duty owed to the other party.",
+              "inspection": "Confirm the notice duty is linked to compelled disclosure and preserve any legally-permitted, prompt, prior, or practicability limitation.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show the compelled-disclosure trigger, notice or consultation duty, governing chapeau, and any cross-reference supplying it.",
+              "hypothesis_id": "nda-8"
+            }
+          ]
+        }
+      },
+      {
+        "id": "representative-nonsolicitation",
+        "hypothesis_ids": [
+          "nda-18"
+        ],
+        "guidance": {
+          "when": "The source restricts solicitation, hiring, employment contact, or another expressly defined solicitation involving the discloser's representatives.",
+          "inspection": "Match actor, prohibited action, protected persons, duration, consent, and recruiting exceptions. Mere contact limits or an unrelated use of “solicitation” is insufficient; no exact rule remains unresolved.",
+          "relation_if_established": null,
+          "evidence_requirement": "Include the actor-and-duration chapeau, protected class, operative prohibition, and applicable exceptions.",
+          "branches": [
+            {
+              "when": "The receiving party may not solicit for employment, hire, offer to hire, induce departure, or initiate employment contact with specified employees, officers, directors, agents, or representatives.",
+              "inspection": "Confirm the persons belong to the protected counterparty and preserve exceptions for general advertising, unsolicited applicants, former personnel, or consent.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show every independently operative solicitation or hiring branch, protected class, duration, and exceptions.",
+              "hypothesis_id": "nda-18"
+            }
+          ]
+        }
+      },
+      {
+        "id": "purpose-limited-use",
+        "hypothesis_ids": [
+          "nda-4"
+        ],
+        "guidance": {
+          "when": "The source limits or broadens the receiving party's use of protected information.",
+          "inspection": "Compare operative use permissions and prohibitions for the same protected object. Retention, tax-copy, disclosure, or copying provisions do not change use scope; no exact use rule remains unresolved.",
+          "relation_if_established": null,
+          "evidence_requirement": "Include the actor-bearing use rule, defined purpose where needed, and every exception that changes permitted use.",
+          "branches": [
+            {
+              "when": "Protected information may be used solely, only, exclusively, or for no purpose other than the agreement's stated purpose or expressly authorized activities.",
+              "inspection": "Match actor, protected object, restrictive polarity, and permitted purpose; consent and defined contractual activities remain within the restriction.",
+              "relation_if_established": "Entailment",
+              "evidence_requirement": "Show every operative purpose-only or no-other-use provision, the stated purpose, and scope-changing exceptions.",
+              "hypothesis_id": "nda-4"
+            },
+            {
+              "when": "The same protected information is affirmatively available for any purpose or a broader internal-business purpose that overrides the stated-purpose limit.",
+              "inspection": "Require a present broader-use route for the same information; a residual-memory clause alone, retention exception, or permission to perform the stated purpose is insufficient.",
+              "relation_if_established": "Contradiction",
+              "evidence_requirement": "Show the broader-use permission, any residual definition, and the purpose-only rule needed to compare scope.",
+              "hypothesis_id": "nda-4"
+            }
+          ]
+        }
+      }
+    ],
+    "flattened_branches": [
+      {
+        "id": "f1",
+        "hypothesis_ids": [
+          "nda-16"
+        ],
+        "guidance": {
+          "when": "The source regulates return, destruction, delivery, deletion, or retention of protected information at an ending event or on request.\nA receiving party must return or destroy covered information when the agreement, project, evaluation, discussions, relationship, or equivalent covered activity ends.",
+          "inspection": "Match actor, protected object, trigger, and every exception in the operative text. Establish each branch from the source; survival, duration, or a nearby ending date alone is insufficient, and no match remains unresolved.\nConfirm the ending event activates the disposition duty. A request-only duty or general survival clause does not qualify; a closing delivery qualifies only when it ends the covered relationship.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the duty chapeau, exact trigger, all operative return/destruction alternatives, and any retention proviso.\nShow the receiving actor, ending trigger, protected material, and complete return or destruction duty."
+        }
+      },
+      {
+        "id": "f2",
+        "hypothesis_ids": [
+          "nda-20"
+        ],
+        "guidance": {
+          "when": "The source regulates return, destruction, delivery, deletion, or retention of protected information at an ending event or on request.\nA disposition regime expressly permits keeping backups, inaccessible system copies, or legal, regulatory, evidentiary, tax, or compliance copies.",
+          "inspection": "Match actor, protected object, trigger, and every exception in the operative text. Establish each branch from the source; survival, duration, or a nearby ending date alone is insufficient, and no match remains unresolved.\nConfirm present permission to retain specified protected material despite the disposition duty, preserving access, purpose, duration, and continuing-confidentiality limits.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the duty chapeau, exact trigger, all operative return/destruction alternatives, and any retention proviso.\nShow the disposition rule and each operative retention exception with its conditions."
+        }
+      },
+      {
+        "id": "f3",
+        "hypothesis_ids": [
+          "nda-20"
+        ],
+        "guidance": {
+          "when": "The source regulates return, destruction, delivery, deletion, or retention of protected information at an ending event or on request.\nThe applicable rule requires return or destruction of all protected information and copies without a retention exception.",
+          "inspection": "Match actor, protected object, trigger, and every exception in the operative text. Establish each branch from the source; survival, duration, or a nearby ending date alone is insufficient, and no match remains unresolved.\nRequire exhaustive coverage; duties limited to documents, tangible items, or selected media do not oppose retention of other protected information.",
+          "relation_if_established": "Contradiction",
+          "evidence_requirement": "Include the duty chapeau, exact trigger, all operative return/destruction alternatives, and any retention proviso.\nShow the trigger and language covering all protected information and copies, plus any incorporated proviso."
+        }
+      },
+      {
+        "id": "f4",
+        "hypothesis_ids": [
+          "nda-11"
+        ],
+        "guidance": {
+          "when": "The source regulates reverse engineering, copying, or proprietary rights in protected information.\nThe receiving party is expressly barred from reverse engineering protected information, including a prohibition subject to written consent.",
+          "inspection": "Keep each action and polarity separate, and check immediate exceptions before selecting a relation. Absence of an exact operative rule is unresolved.\nVerify the prohibition concerns reverse engineering rather than copying, disclosure, or ordinary use.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the actor, protected object, operative verb, polarity, and applicable consent or purpose qualification.\nShow the complete reverse-engineering prohibition and consent qualification."
+        }
+      },
+      {
+        "id": "f5",
+        "hypothesis_ids": [
+          "nda-15"
+        ],
+        "guidance": {
+          "when": "The source regulates reverse engineering, copying, or proprietary rights in protected information.\nThe agreement expressly conveys no licence, ownership, title, or proprietary right, or reserves those rights to the discloser.",
+          "inspection": "Keep each action and polarity separate, and check immediate exceptions before selecting a relation. Absence of an exact operative rule is unresolved.\nA use, disclosure, or copying restriction alone is not a no-rights clause; a limited contractual use or retention permission does not itself oppose the hypothesis.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the actor, protected object, operative verb, polarity, and applicable consent or purpose qualification.\nShow each operative no-rights, no-licence, ownership, or reservation provision."
+        }
+      },
+      {
+        "id": "f6",
+        "hypothesis_ids": [
+          "nda-17"
+        ],
+        "guidance": {
+          "when": "The source regulates reverse engineering, copying, or proprietary rights in protected information.\nCopying is expressly allowed or necessarily authorized for a stated purpose, permitted disclosure, performance need, or automatic backup.",
+          "inspection": "Keep each action and polarity separate, and check immediate exceptions before selecting a relation. Absence of an exact operative rule is unresolved.\nTreat a present necessary-purpose exception as permission. Future consent alone and retention of existing copies are not permission to create copies.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the actor, protected object, operative verb, polarity, and applicable consent or purpose qualification.\nShow the copy rule, present exception or automatic-copy route, and its purpose conditions."
+        }
+      },
+      {
+        "id": "f7",
+        "hypothesis_ids": [
+          "nda-17"
+        ],
+        "guidance": {
+          "when": "The source regulates reverse engineering, copying, or proprietary rights in protected information.\nCopying is prohibited, including unless prior approval is later obtained, and no present copy exception applies.",
+          "inspection": "Keep each action and polarity separate, and check immediate exceptions before selecting a relation. Absence of an exact operative rule is unresolved.\nDo not convert possible future consent, permitted use, employee disclosure, or retention into current copying permission.",
+          "relation_if_established": "Contradiction",
+          "evidence_requirement": "Include the actor, protected object, operative verb, polarity, and applicable consent or purpose qualification.\nShow the complete no-copy rule and every proviso bearing on copying."
+        }
+      },
+      {
+        "id": "f8",
+        "hypothesis_ids": [
+          "nda-1"
+        ],
+        "guidance": {
+          "when": "The source defines what information qualifies as confidential and how its status is established.\nEvery covered disclosure form must be marked or identified by the disclosing party, with any oral form requiring timely identification or written confirmation.",
+          "inspection": "Read the entire definition, incorporated continuations, modalities, and alternative eligibility routes. Establish the exact branch; silence is not opposition.\nTest written, oral, electronic, and other routes; entailment requires identification to be universal.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the definitional chapeau and all text needed to connect the category, modality, or identification condition to confidential status.\nShow all clauses collectively covering every disclosure form and identification step."
+        }
+      },
+      {
+        "id": "f9",
+        "hypothesis_ids": [
+          "nda-1"
+        ],
+        "guidance": {
+          "when": "The source defines what information qualifies as confidential and how its status is established.\nNature, circumstances, reasonable understanding, or an express unmarked-information rule can independently confer confidential status.",
+          "inspection": "Read the entire definition, incorporated continuations, modalities, and alternative eligibility routes. Establish the exact branch; silence is not opposition.\nRequire an affirmative alternative to discloser identification; broad wording or mere absence of marking language is insufficient.",
+          "relation_if_established": "Contradiction",
+          "evidence_requirement": "Include the definitional chapeau and all text needed to connect the category, modality, or identification condition to confidential status.\nShow the complete definition and the independent non-identification route."
+        }
+      },
+      {
+        "id": "f10",
+        "hypothesis_ids": [
+          "nda-2"
+        ],
+        "guidance": {
+          "when": "The source defines what information qualifies as confidential and how its status is established.\nThe operative definition expressly includes business, financial, marketing, customer, personnel, operational, contact, or other non-technical subject matter.",
+          "inspection": "Read the entire definition, incorporated continuations, modalities, and alternative eligibility routes. Establish the exact branch; silence is not opposition.\nRequire a named non-technical category within the operative definition, not merely a recital, communication form, or generic reference to information.",
+          "relation_if_established": "Contradiction",
+          "evidence_requirement": "Include the definitional chapeau and all text needed to connect the category, modality, or identification condition to confidential status.\nShow the definitional chapeau and the expressly named non-technical category."
+        }
+      },
+      {
+        "id": "f11",
+        "hypothesis_ids": [
+          "nda-3"
+        ],
+        "guidance": {
+          "when": "The source defines what information qualifies as confidential and how its status is established.\nThe definition or identification procedure expressly covers oral or verbal disclosure, including oral material later confirmed in writing or information not reduced to writing.",
+          "inspection": "Read the entire definition, incorporated continuations, modalities, and alternative eligibility routes. Establish the exact branch; silence is not opposition.\nConfirm oral communication can qualify; broad subject coverage without an oral route is insufficient.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the definitional chapeau and all text needed to connect the category, modality, or identification condition to confidential status.\nShow the governing definition and oral branch, including any identification or confirmation condition."
+        }
+      },
+      {
+        "id": "f12",
+        "hypothesis_ids": [
+          "nda-19"
+        ],
+        "guidance": {
+          "when": "The source addresses obligations after termination, expiration, completion, abandonment, return, destruction, or another ending event.\nOne or more contractual obligations expressly survive, continue, or remain binding after an identified ending event.",
+          "inspection": "Require an explicit connection between identified obligations and the post-ending period; ordinary duration, remedies, or continuing enforceability is insufficient. No connection remains unresolved.\nVerify both the obligation and the ending event rather than inferring survival from an unrelated restriction period.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the surviving obligation, ending event, incorporated scope, and duration or release condition.\nShow the survival language and every clause needed to identify what survives and for how long."
+        }
+      },
+      {
+        "id": "f13",
+        "hypothesis_ids": [
+          "nda-12"
+        ],
+        "guidance": {
+          "when": "The source excludes or permits information obtained independently of the discloser's protected disclosure.\nInformation is independently developed by or for the receiver, or was self-created before disclosure, without use of or reference to protected information.",
+          "inspection": "Identify who produced or supplied the information and preserve proof, no-use, no-breach, and no-confidentiality-duty conditions. Do not interchange internal development and external acquisition.\nRequire actual development or creation; merely becoming known independently, prior possession, public availability, or external receipt is insufficient.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the governing exception or permission chapeau and the complete source-specific branch.\nShow the development branch and all independence or documentary-proof conditions, plus any separate similar-information clause."
+        }
+      },
+      {
+        "id": "f14",
+        "hypothesis_ids": [
+          "nda-13"
+        ],
+        "guidance": {
+          "when": "The source excludes or permits information obtained independently of the discloser's protected disclosure.\nInformation becomes available from a legitimate external source lacking a confidentiality duty, or through a later non-confidential release not caused by breach.",
+          "inspection": "Identify who produced or supplied the information and preserve proof, no-use, no-breach, and no-confidentiality-duty conditions. Do not interchange internal development and external acquisition.\nRequire an external acquisition or availability route; exclude internal development, prior possession, and permission merely to negotiate with others.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the governing exception or permission chapeau and the complete source-specific branch.\nShow the external-source branch and all lawful, no-duty, knowledge, inquiry, and no-breach qualifications."
+        }
+      },
+      {
+        "id": "f15",
+        "hypothesis_ids": [
+          "nda-7"
+        ],
+        "guidance": {
+          "when": "The source permits or prohibits disclosure to employees, personnel, representatives, advisers, agents, consultants, contractors, or other persons.\nConsultants, professional advisers, contractors, external agents, contractors' employees, or a comparably external representative class may receive protected information.",
+          "inspection": "Resolve each recipient class separately and apply definitions, need-to-know, purpose, consent, and confidentiality conditions. Missing permission is unresolved unless an operative blanket prohibition covers that class.\nConfirm the class is external or includes external persons; employee-only access does not establish third-party sharing.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the disclosure rule, class definition, and all operative access conditions or exceptions.\nShow the permission, relevant class definition, and all need-to-know, purpose, and confidentiality conditions."
+        }
+      },
+      {
+        "id": "f16",
+        "hypothesis_ids": [
+          "nda-7"
+        ],
+        "guidance": {
+          "when": "The source permits or prohibits disclosure to employees, personnel, representatives, advisers, agents, consultants, contractors, or other persons.\nDisclosure to third parties is prohibited and no present external-recipient exception applies.",
+          "inspection": "Resolve each recipient class separately and apply definitions, need-to-know, purpose, consent, and confidentiality conditions. Missing permission is unresolved unless an operative blanket prohibition covers that class.\nA consent-only possibility or employee-only exception does not presently permit external sharing.",
+          "relation_if_established": "Contradiction",
+          "evidence_requirement": "Include the disclosure rule, class definition, and all operative access conditions or exceptions.\nShow the blanket third-party prohibition and all applicable exceptions."
+        }
+      },
+      {
+        "id": "f17",
+        "hypothesis_ids": [
+          "nda-5"
+        ],
+        "guidance": {
+          "when": "The source permits or prohibits disclosure to employees, personnel, representatives, advisers, agents, consultants, contractors, or other persons.\nEmployees or internal personnel may receive protected information for a need-to-know or stated-purpose reason.",
+          "inspection": "Resolve each recipient class separately and apply definitions, need-to-know, purpose, consent, and confidentiality conditions. Missing permission is unresolved unless an operative blanket prohibition covers that class.\nConfirm that the permitted class actually includes the receiving party's employees or internal staff.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the disclosure rule, class definition, and all operative access conditions or exceptions.\nShow the employee permission and all purpose, need-to-know, notice, or confidentiality conditions."
+        }
+      },
+      {
+        "id": "f18",
+        "hypothesis_ids": [
+          "nda-5"
+        ],
+        "guidance": {
+          "when": "The source permits or prohibits disclosure to employees, personnel, representatives, advisers, agents, consultants, contractors, or other persons.\nDisclosure to every person or entity is prohibited without an applicable employee exception.",
+          "inspection": "Resolve each recipient class separately and apply definitions, need-to-know, purpose, consent, and confidentiality conditions. Missing permission is unresolved unless an operative blanket prohibition covers that class.\nDo not treat authorization to use information while performing duties as employee sharing unless disclosure to employees is allowed.",
+          "relation_if_established": "Contradiction",
+          "evidence_requirement": "Include the disclosure rule, class definition, and all operative access conditions or exceptions.\nShow the actor-bearing blanket prohibition and every applicable exception."
+        }
+      },
+      {
+        "id": "f19",
+        "hypothesis_ids": [
+          "nda-10"
+        ],
+        "guidance": {
+          "when": "The source regulates disclosure of the agreement, negotiations, transaction facts, or legally compelled protected information.\nDisclosure or public announcement of the agreement's existence, negotiations, discussions, a prospective transaction, or transactions contemplated by the agreement is prohibited.",
+          "inspection": "Match the protected fact, disclosure actor, trigger, notice recipient, and exceptions. Establish each branch directly; a general confidentiality clause or compelled-disclosure permission alone is insufficient.\nA direct no-announcement rule qualifies; a definition route also requires an applicable nondisclosure duty.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the operative prohibition or notice duty, required definitions or cross-references, and consent, legality, and timing qualifications.\nShow each direct prohibition or both the protected-fact definition and governing nondisclosure duty, with exceptions."
+        }
+      },
+      {
+        "id": "f20",
+        "hypothesis_ids": [
+          "nda-8"
+        ],
+        "guidance": {
+          "when": "The source regulates disclosure of the agreement, negotiations, transaction facts, or legally compelled protected information.\nLegal, regulatory, judicial, subpoena, or governmental compulsion triggers a mandatory notice or prior-consultation duty owed to the other party.",
+          "inspection": "Match the protected fact, disclosure actor, trigger, notice recipient, and exceptions. Establish each branch directly; a general confidentiality clause or compelled-disclosure permission alone is insufficient.\nConfirm the notice duty is linked to compelled disclosure and preserve any legally-permitted, prompt, prior, or practicability limitation.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the operative prohibition or notice duty, required definitions or cross-references, and consent, legality, and timing qualifications.\nShow the compelled-disclosure trigger, notice or consultation duty, governing chapeau, and any cross-reference supplying it."
+        }
+      },
+      {
+        "id": "f21",
+        "hypothesis_ids": [
+          "nda-18"
+        ],
+        "guidance": {
+          "when": "The source restricts solicitation, hiring, employment contact, or another expressly defined solicitation involving the discloser's representatives.\nThe receiving party may not solicit for employment, hire, offer to hire, induce departure, or initiate employment contact with specified employees, officers, directors, agents, or representatives.",
+          "inspection": "Match actor, prohibited action, protected persons, duration, consent, and recruiting exceptions. Mere contact limits or an unrelated use of “solicitation” is insufficient; no exact rule remains unresolved.\nConfirm the persons belong to the protected counterparty and preserve exceptions for general advertising, unsolicited applicants, former personnel, or consent.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the actor-and-duration chapeau, protected class, operative prohibition, and applicable exceptions.\nShow every independently operative solicitation or hiring branch, protected class, duration, and exceptions."
+        }
+      },
+      {
+        "id": "f22",
+        "hypothesis_ids": [
+          "nda-4"
+        ],
+        "guidance": {
+          "when": "The source limits or broadens the receiving party's use of protected information.\nProtected information may be used solely, only, exclusively, or for no purpose other than the agreement's stated purpose or expressly authorized activities.",
+          "inspection": "Compare operative use permissions and prohibitions for the same protected object. Retention, tax-copy, disclosure, or copying provisions do not change use scope; no exact use rule remains unresolved.\nMatch actor, protected object, restrictive polarity, and permitted purpose; consent and defined contractual activities remain within the restriction.",
+          "relation_if_established": "Entailment",
+          "evidence_requirement": "Include the actor-bearing use rule, defined purpose where needed, and every exception that changes permitted use.\nShow every operative purpose-only or no-other-use provision, the stated purpose, and scope-changing exceptions."
+        }
+      },
+      {
+        "id": "f23",
+        "hypothesis_ids": [
+          "nda-4"
+        ],
+        "guidance": {
+          "when": "The source limits or broadens the receiving party's use of protected information.\nThe same protected information is affirmatively available for any purpose or a broader internal-business purpose that overrides the stated-purpose limit.",
+          "inspection": "Compare operative use permissions and prohibitions for the same protected object. Retention, tax-copy, disclosure, or copying provisions do not change use scope; no exact use rule remains unresolved.\nRequire a present broader-use route for the same information; a residual-memory clause alone, retention exception, or permission to perform the stated purpose is insufficient.",
+          "relation_if_established": "Contradiction",
+          "evidence_requirement": "Include the actor-bearing use rule, defined purpose where needed, and every exception that changes permitted use.\nShow the broader-use permission, any residual definition, and the purpose-only rule needed to compare scope."
+        }
+      }
+    ]
+  },
+  "live_runtime_tokens": {
+    "coherent_branches": 3183,
+    "flattened_branches": 4073
+  },
+  "verbatim_common_and_branch_legal_texts_and_relations": true,
+  "only_flat_headings_removed_and_ids_shortened_not_knowledge_pruned": true,
+  "flat_ids_sequential_and_different_prompt_lengths_not_token_matched": true
+}
