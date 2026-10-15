@@ -16,11 +16,12 @@
 
 ## 当前后台工作
 
-以下为 2026-10-15 10:28 更新后的有限开发试验，**不是已经完成的正式论文比较**。
+以下为 2026-10-15 11:01 更新后的有限开发试验，**不是已经完成的正式论文比较**。
 
 | Run ID | 用途 | 查看进度 |
 | --- | --- | --- |
 | `legal_contractnli_feedback_completion_20261015_run01` | 从已核验的44个真实回答检查点分叉，完成B4、六条件后续来源比较及原文回执/真实成功示例消融 | 对应 `runs/<Run ID>/progress.json`；主阶段完成另见 `main_completion.json` |
+| `legal_contractnli_adaptive_memory_comparison_20261015_run01` | 四批ACE/ExpeL-derived法律适配，58新律师/16教师/2明确共享；等待前一确切进程退出后自动运行 | 对应 `runs/<Run ID>/progress.json`，等待不等于已经开始学习 |
 
 旧 `legal_contractnli_grounded_feedback_learning_20261015_run01` 于10:11在B4强制教师审计引用检查处失败，
 44个律师回答和7个教师输出保留。旧 `grounded_references` 随父失败停止，已完成5个教师发布但0律师回答；
