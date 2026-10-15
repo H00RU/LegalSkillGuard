@@ -116,3 +116,30 @@ M3把第三方取得扩为合法其他途径、后续非保密释放，真实回
 当前开始B3after；M3新案效力应由完整B4同工具首遇及固定末库判断，不因本批小正差提前扩为128。
 证据：monitoring/B3_complete_first_encounter_audit、actual_M3_grounded_teacher_input_audit、
 M3_library_lifecycle_audit、update_transactions/trace_b3及实际原native/public。
+
+## B3完整批后：真实更新损害与条件执行（04:35补充）
+
+04:30:58六答齐全，按原作者Gold独立重算：分类84.31%（86/102）、依据micro-F1 92.78%
+（TP135/FP1/FN20）、联合69.61%（71/102）；相对本批首遇分类12修正/7损害，联合34修正/6损害。
+这是已见拟合，普通工具也由M2更新为M3，不能把高依据分归于纯技能。
+普通工具同批候选F1 98.36%（TP150/FP0/FN5），律师20个FN有15个已在实际候选中。
+10道有证据误分类的候选集合完全等于Gold；另5道Gold NM误分类的候选为空，后者本身不是法律NM判据。
+
+M3唯一新技能为nda-4的残留知识自由使用例外，成立条件本身要求存在明确任意用途许可。
+377的确有该许可，新增技能后分类由E改C，但只引SPAN30，仍漏原Gold独立支持SPAN21，联合未全对。
+与此同时，273/261/159此前nda-4分类正确，批后均变C并自报使用该新增例外：
+
+- 273仍引原SPAN51（only use ... considering and implementing the Possible Transaction），
+  公开理由仍为“Use limited to Possible Transaction”，标签却为C。
+- 261仍引原SPAN25的sole purpose限制，公开理由“No residual use exception”，标签却为C。
+- 159引原SPAN19/22的用途限制，却声称“Residual use permitted”；不是所引源句支持的事实。
+
+三个全文均无字面residual；这个词面检查本身不证明无任何语义例外，以上直接证据是实际引用与判断不相容。
+同一nda-4在416仍答E、487仍NM，所以也不是宿主固定把整题输出成C。
+这些是已见同题更新损害，与条件规则被当成默认关系/错误激活相容，不是逐技能随机移除的因果证明。
+候选工具也更新，因此不能把新增规则出现与退化相关直接写成单因素因果效果。
+不能通过手删这条、针对三案改词或用后续评分回滚选库来冒充修复；M4教师会收到全部真实B3after反馈。
+
+当前已自动B4首遇（04:33:10为62/122、4/5教师），维持48冻结绑定，等全部18答后再比较新案。
+新相关工作代码与可比边界已追加cross_task_audit第12节；没有新增控制器、模型、旁路或生产中间层。
+证据：monitoring/B3_complete_component_audit、batch3_summary以及六份B3before/after原生响应与原TRAIN全文。

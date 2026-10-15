@@ -271,3 +271,38 @@ NotMentioned正确43→47，但Entailment62→58、Contradiction10→7，分类�
 截至12:07核查，主比较及24答探针已完成；ACE/ExpeL新对照失败退出，两训练worker均不存在。
 8B模型服务保留，没有下载或启动其他模型。当前Goal工具返回paused，本次没有恢复或改写Goal。
 不把后台退出说成仍在训练，也不把接口修正计划说成已实施。
+
+## 12. 10月16日补充：核对新相关工作的实际代码与可比边界
+
+以下是新增只读核查，不替代当前完整训练，不启动新模型、控制器或旁路实验。
+第11节是10月15日12:07的历史状态；当前Goal active，最新游标以CURRENT_GOAL顶部为准。
+
+PAKTON的作者论文提供了代码链接，但本次核查公开main的固定提交
+`767a7eb28225eaa7b5a09783345a8043dbe092df`，完整递归树只有LICENSE与两行README，
+无Python、notebook或子模块。因此不能说已取得其层级解析/多轮检索的可复用实现。
+README SHA256 `79280f209dc29288e2d3098966b00e7bcb2bc8e9ad8a6e010272a36917efda81`。
+其分类与检索评测也不能直接当作我们的原SPAN联合exact成绩。
+[作者公开提交](https://github.com/petrosrapto/PAKTON/tree/767a7eb28225eaa7b5a09783345a8043dbe092df)、
+[作者论文](https://arxiv.org/html/2506.00608v2)。
+
+MemSkill固定提交`f65b797338033f4f9c34822f1810f9c2747e6022`有真实实现，本次读取
+designer、operation_bank与designer_prompts。它学习的是如何构造记忆的操作，不等同于我们的法律判断程序。
+实际提示区分存储、检索、记忆质量，允许不改；新操作限定insert/update。
+`OperationBank.add_operation`达到max_ops时实际替换使用过且平均reward最低的项，
+而不是仅在README声称支持删除。这个reward关联并不等于因果逐技能效用，不能照搬为罕见法律例外的删除标准。
+[设计提示](https://github.com/ViktorAxelsen/MemSkill/blob/f65b797338033f4f9c34822f1810f9c2747e6022/prompts/designer_prompts.py)、
+[真实容量替换](https://github.com/ViktorAxelsen/MemSkill/blob/f65b797338033f4f9c34822f1810f9c2747e6022/src/operation_bank.py#L205)。
+designer还维护失败池、聚类与演化快照反馈；其额外控制器/RL及按reward保存最佳快照并不满足我们
+冻结律师、无新增模型与不择优回滚的当前边界，不整体移植或新增多阶段反思层。
+[实际designer](https://github.com/ViktorAxelsen/MemSkill/blob/f65b797338033f4f9c34822f1810f9c2747e6022/src/designer.py)。
+文件SHA256依次为designer `7636bb9c4b937dd065324eb07a757b0eb042d50fc9b4993b8657e8bfd75984d0`、
+operation_bank `62c32073d9b56d779a5a649a5d22aabdfb1bad13ad597b539845261d990bb4fd`、
+designer_prompts `0e2e1a86a767d6c31ee3fc170e4c4ff2d720456db2143eb733fed560fd3e6252`。
+
+2026小模型法律研究只做分类，使用采样测试对/8192上限和不同模型，未报告我们的原SPAN联合exact；
+文中也写代码将在发表后提供。不能把其跨策略平均分当成当前Qwen3-8B的同口径SOTA或成功复现。
+[作者方法与代码声明](https://arxiv.org/html/2603.25944v1)。
+
+本次能借鉴的是有证据的失败分型与实际维护行为检查；当前M3已有真实差分修订，
+但分类正向不等于完整依据改善。没有从这些代码找到可直接保证当前指标提升的模块，
+不为表面融合增加控制器、检索模型、奖励准入或反思流水线。
