@@ -14,12 +14,42 @@ def _number(value):
     return "N/A" if value is None else f"{100 * value:.2f}"
 
 
+def _completed_comparisons(value):
+    """The three actual saved completion formats, not inferred/missing results."""
+    if "development" in value:
+        sections = [("固定末次库的开发迁移评估", value["development"])]
+    elif "results" in value:
+        sections = [("固定末次库的开发比较", value["results"])]
+    elif "main_results" in value and "probe_results" in value:
+        sections = [
+            ("主开发比较", value["main_results"]),
+            ("独立来源交付/示例探针", value["probe_results"]),
+        ]
+    else:
+        raise ValueError("Unrecognized completion format; do not invent a comparison")
+    for title, metrics in sections:
+        if not metrics:
+            raise ValueError(f"Empty completed comparison: {title}")
+        sizes = {(m["documents"], m["hypotheses"]) for m in metrics.values()}
+        if len(sizes) != 1:
+            raise ValueError(f"Inconsistent comparison denominators: {title}")
+    return sections
+
+
 def write_report(run: Path):
+    done = run / "completion.json"
+    sections = _completed_comparisons(json.loads(done.read_text())) if done.exists() else []
     summaries = [json.loads(p.read_text()) for p in sorted(run.glob("batch*_summary.json"))]
     rows = []
     for summary in summaries:
-        for phase in ("before", "after"):
-            for arm, m in summary[phase].items():
+        phase_keys = (
+            (("before", "before"), ("after", "after"))
+            if "before" in summary
+            else (("before", "before_first_encounter"), ("after", "after_seen_training_fit"))
+        )
+        strong = summary.get("strong_empty")
+        for phase, key in phase_keys:
+            for arm, m in summary[key].items():
                 rows.append(
                     {
                         "batch": summary["batch"],
@@ -37,10 +67,14 @@ def write_report(run: Path):
                         else None,
                         "evidence_micro_f1": m["evidence_micro_f1_gold_non_neutral"],
                         "joint_exact_accuracy": m["joint_exact_accuracy"],
-                        "same_batch_strong_accuracy": summary["strong_empty"]["label_accuracy"],
-                        "same_batch_strong_evidence_micro_f1": summary["strong_empty"][
+                        "same_batch_strong_accuracy": strong["label_accuracy"]
+                        if strong is not None
+                        else None,
+                        "same_batch_strong_evidence_micro_f1": strong[
                             "evidence_micro_f1_gold_non_neutral"
-                        ],
+                        ]
+                        if strong is not None
+                        else None,
                     }
                 )
     stream = io.StringIO()
@@ -70,33 +104,35 @@ def write_report(run: Path):
             )
             + "|"
         )
-    done = run / "completion.json"
     if done.exists():
-        value = json.loads(done.read_text())
-        lines += [
-            "",
-            "## 固定末次库：24个不同TRAIN来源的开发迁移评估",
-            "",
-            "不是官方测试；单个学习副本不支持跨学习稳定性结论。",
-            "",
-            "|条件|分类 %|依据 F1 %|联合全对 %|",
-            "|---|---:|---:|---:|",
-        ]
-        for arm, m in value["development"].items():
-            lines.append(
-                "|"
-                + arm
-                + "|"
-                + "|".join(
-                    _number(m[k])
-                    for k in (
-                        "label_accuracy",
-                        "evidence_micro_f1_gold_non_neutral",
-                        "joint_exact_accuracy",
-                    )
-                )
-                + "|"
+        for title, metrics in sections:
+            documents, hypotheses = next(
+                iter({(m["documents"], m["hypotheses"]) for m in metrics.values()})
             )
+            lines += [
+                "",
+                f"## {title}：每条件{documents}份合同、{hypotheses}个命题",
+                "",
+                "不是官方测试；命题数不是独立来源数，单个学习副本不支持跨学习稳定性结论。",
+                "",
+                "|条件|分类 %|依据 F1 %|联合全对 %|",
+                "|---|---:|---:|---:|",
+            ]
+            for arm, m in metrics.items():
+                lines.append(
+                    "|"
+                    + arm
+                    + "|"
+                    + "|".join(
+                        _number(m[k])
+                        for k in (
+                            "label_accuracy",
+                            "evidence_micro_f1_gold_non_neutral",
+                            "joint_exact_accuracy",
+                        )
+                    )
+                    + "|"
+                )
     else:
         lines += ["", "[PENDING RESULT — 全部终点回答尚未完成，未读取终点评分标签。]"]
     (run / "results.md").write_text("\n".join(lines) + "\n")

@@ -41,8 +41,10 @@ QUERY_API_SYSTEM = (
     "word enumeration. Actual receipts in experience feedback are mechanical source "
     "matches, NOT verified legal relevance. Distinguish query miss, lawyer non-use, "
     "wrong relation and missing/excess final evidence. Never infer an error or "
-    "trajectory in source-only data. All published recipes execute exactly as "
-    "written when the lawyer selects that skill; the host does not reinterpret them."
+    "trajectory in source-only data. Published recipes execute exactly as written "
+    "when invoked under the supplied solver-delivery contract; a scope-only run "
+    "executes every applicable recipe without a lawyer action-selection stage. "
+    "The host does not reinterpret recipes or decide legal relevance."
 )
 TEACHER_SYSTEM = DELTA_TEACHER_SYSTEM + QUERY_API_SYSTEM
 

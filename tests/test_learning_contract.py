@@ -11,7 +11,7 @@ from jsonschema import ValidationError
 
 from legal_skill_guard.data import source_components
 from legal_skill_guard.experiment.storage import ImmutableArtifactConflictError, RunStore
-from legal_skill_guard.inference.codex_cli_client import CodexCLIClient
+from legal_skill_guard.inference.codex_cli_client import CodexCLIClient, CodexInvocationError
 from legal_skill_guard.learning.ace_native import update_bullet_counts
 from legal_skill_guard.learning.audit import close, original_score
 from legal_skill_guard.learning.catalog import decode_teacher_body, encode_teacher_body
@@ -24,6 +24,7 @@ from legal_skill_guard.learning.interface import (
     publish,
 )
 from legal_skill_guard.learning.packing import pack_cases
+from legal_skill_guard.report import write_report
 from legal_skill_guard.task import original_feedback, original_metrics
 
 
@@ -274,3 +275,52 @@ def test_finite_schedule_is_the_latest_not_the_consultation_task():
     assert sum(cfg["native_schedule"].values()) == cfg["planned_new_native_calls"] == 388
     assert sum(cfg["teacher_schedule"].values()) == cfg["planned_new_teacher_calls"] == 57
     assert cfg["learning_batches"] == 8 and cfg["generation"]["seed"] == 44
+
+
+def test_unsupported_schema_is_rejected_before_teacher_request(tmp_path):
+    def forbidden_request(*args, **kwargs):
+        raise AssertionError("A local schema rejection must not invoke a process")
+
+    client = CodexCLIClient(
+        model="gpt-5.6-sol", cache_root=tmp_path, command_runner=forbidden_request, retries=0
+    )
+    schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": ["tags"],
+        "properties": {"tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": True}},
+    }
+    with pytest.raises(CodexInvocationError, match="uniqueItems_not_supported"):
+        client.generate_json(
+            purpose="local-schema-check",
+            system_prompt="No call.",
+            user_prompt="",
+            output_schema=schema,
+        )
+
+
+def test_report_uses_saved_denominators_and_separates_probe(tmp_path):
+    def metrics(documents):
+        return {
+            "arm": {
+                "documents": documents,
+                "hypotheses": documents * 17,
+                "label_accuracy": 0.5,
+                "evidence_micro_f1_gold_non_neutral": 0.25,
+                "joint_exact_accuracy": 0.125,
+            }
+        }
+
+    cases = {
+        "legacy": {"development": metrics(8)},
+        "adaptive": {"results": metrics(8)},
+        "fork": {"main_results": metrics(8), "probe_results": metrics(4)},
+    }
+    for name, completion in cases.items():
+        run = tmp_path / name
+        RunStore.immutable_json(run / "completion.json", completion)
+        write_report(run)
+        text = (run / "results.md").read_text()
+        assert "每条件8份合同、136个命题" in text and "24个不同TRAIN" not in text
+        assert ("每条件4份合同、68个命题" in text) == (name == "fork")
+        assert json.loads((run / "completion.json").read_text()) == completion

@@ -16,12 +16,14 @@
 
 ## 当前后台工作
 
-以下为 2026-10-15 11:01 更新后的有限开发试验，**不是已经完成的正式论文比较**。
+以下为 2026-10-15 12:28 后的有限开发试验，**不是已经完成的正式论文比较**。
+按用户要求在普通对话中实施，没有开启或恢复Goal。
 
 | Run ID | 用途 | 查看进度 |
 | --- | --- | --- |
-| `legal_contractnli_feedback_completion_20261015_run01` | 从已核验的44个真实回答检查点分叉，完成B4、六条件后续来源比较及原文回执/真实成功示例消融 | 对应 `runs/<Run ID>/progress.json`；主阶段完成另见 `main_completion.json` |
-| `legal_contractnli_adaptive_memory_comparison_20261015_run01` | 四批ACE/ExpeL-derived法律适配，58新律师/16教师/2明确共享；等待前一确切进程退出后自动运行 | 对应 `runs/<Run ID>/progress.json`，等待不等于已经开始学习 |
+| `legal_contractnli_feedback_completion_20261015_run01` | 已完成124个全链物理律师调用、14教师响应及四来源探针，未建立稳定优势 | `completion.json`及独立八来源`main_completion.json`，进程已退出 |
+| `legal_contractnli_adaptive_memory_comparison_20261015_run01` | Schema拒绝后失败，2新律师/0教师响应/1请求尝试；工件保留 | `failure.json`，不是仍在等待或方法效果失败 |
+| `legal_contractnli_adaptive_memory_comparison_20261015_run02` | 修正Schema后接续原四批ACE/ExpeL设计，58新律师/16教师/2共享冷答 | `progress.json`；实际PID/argv见`launch.json`，修订与失败费用见`restart_provenance.json` |
 
 旧 `legal_contractnli_grounded_feedback_learning_20261015_run01` 于10:11在B4强制教师审计引用检查处失败，
 44个律师回答和7个教师输出保留。旧 `grounded_references` 随父失败停止，已完成5个教师发布但0律师回答；
@@ -45,7 +47,8 @@
 | `/home/yndx/hhy/legal-skill-backups` → `/media/sangfor/vdb/legal-skill-backups` | 已校验的源码 bundle、配置与实际实验工件备份 |
 | `/media/sangfor/vdb/legal-skill-runtime` | 新项目的 Python 运行时，不是另一套业务源码 |
 | `/home/yndx/hhy/legal-skill-evolve` | 旧项目幸存残留；旧模型服务参数仍引用它，不搬动、不当作当前工作树 |
-| `/home/yndx/hhy/归档.zip` | 用户重新提供的论文相关 skills 原件 |
+| `/home/yndx/hhy/归档/` | 师兄提供的旧版六主题技能，包含无关macOS元数据，保留原件而非日常重复加载 |
+| `/home/yndx/hhy/paper-skills/` | 当前七主题论文技能，覆盖上述六主题并增加找idea；两版不是逐字相同 |
 
 恢复目录中的 `README.md` 记录的是当时的取证状态，早期 `reconstructed_source_v2/v3`
 也只是恢复过程产物，不代表当前代码版本。归档中的旧聊天记录和聚合指标不能替代已丢失的原始模型回执。

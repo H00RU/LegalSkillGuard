@@ -123,6 +123,22 @@ def strict_output_schema_issues(schema: dict[str, Any]) -> list[str]:
     def visit(node: dict[str, Any], path: str) -> None:
         if "default" in node:
             issues.append(f"{path}:default_not_supported")
+        # A valid general JSON Schema need not be a valid transport schema.
+        # Reject before reserving a teacher request; do not silently drop a
+        # constraint or repair the returned value. Callers enforce cross-item
+        # identity/uniqueness separately after generation.
+        for keyword in (
+            "uniqueItems",
+            "allOf",
+            "not",
+            "dependentRequired",
+            "dependentSchemas",
+            "if",
+            "then",
+            "else",
+        ):
+            if keyword in node:
+                issues.append(f"{path}:{keyword}_not_supported")
         properties = node.get("properties")
         if isinstance(properties, dict):
             if node.get("additionalProperties") is not False:

@@ -555,6 +555,9 @@ class Comparison:
                     },
                 },
             }
+            # Structured Outputs cannot express uniqueItems. The exact cited
+            # ID set and uniqueness remain mandatory in the host check below.
+            tag_schema.update(minItems=len(cited), maxItems=len(cited))
             if cited:
                 tag_schema["items"]["properties"]["id"]["enum"] = cited
             else:
@@ -634,7 +637,7 @@ class Comparison:
         )
         prompt = CURATOR_PROMPT.format(
             token_budget=self.cfg["library_token_hard_cap"],
-            current_step=4 * batch,
+            current_step=sum(r["batch"] <= batch for r in self.training),
             total_samples=len(self.training),
             playbook_stats=json.dumps(get_playbook_stats(counted)),
             recent_reflection=json.dumps(reflections, ensure_ascii=False),
