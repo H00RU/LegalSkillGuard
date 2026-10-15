@@ -301,3 +301,14 @@ driver/protocol及四审计已提交3dce28c。所有16新答和32继承对照重
 新协议contrastive_delivery_protocol，新run-local driver复用既有消息、推理和审计，无生产代码改动。
 两个编码长度和ID不同，只能检验整种知识组织/序列化，不冒称纯结构因素因果。
 按固定16新＋32继承齐答重放后评分，所有旧评分/案件/正式测试边界不变。
+
+06:08:40实查同PID3248203存活，4/16新答、0教师，第三源342；未读本诊断部分答或评分Gold。
+逐一核验23条flat的三个法律文字字段为原common＋换行＋原branch、关系/scope原样，
+coherent完整等于真实教师产物、17公共命题覆盖、437绑定不变；身份不等于语义/效益证明。
+只新增monitoring/archived_knowledge_and_flat_delivery_identity收据，无额外模型调用。
+
+原122真实答/12冷共享/6教师（含失败compiler）与新delivery启动/两库完整保全547文件，
+SHA256 8708971efd64aca3ddaee51b886d3d54a1541e8ddd2fccc8bb72daf11235b372，
+archive legal-grounded-final122-compact-delivery-launch-20261016.tar.gz，HEAD8b2d302，全Git bundle核验。
+此快照有完整32旧终点，但明确0新delivery答；不将现在已4答偷算进先前快照。
+仍同vdb、非异机或缺失模型权重备份。收据在新Run/monitoring，原冻结JSON不改。
