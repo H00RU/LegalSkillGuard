@@ -97,7 +97,7 @@ B3出现依据FP激增与联合损害，已停止；[停止审计](reports/exper
 `runs/legal_reconstruction_chain_check_20261015_run01/engineering_completion.json`；
 其代码和旧配置快照独立保存，不是当前默认实验。
 
-详见[方法与边界](docs/METHOD_AND_PROTOCOL.md)、[历史决策](docs/HISTORY_DECISIONS.md)
+详见[当前方法与边界](docs/TRACE_PROCEDURE_METHOD.md)、[重建时历史计划](docs/METHOD_AND_PROTOCOL.md)、[历史决策](docs/HISTORY_DECISIONS.md)
 及[重建交付记录](docs/REBUILD_STATUS.md)。师兄的方法／实验技能用于机制—代码一致性和公平对照检查，
 没有照搬模板中的固定贡献数、重复次数或示例成绩。
 日常论文技能以hhy下`paper-skills/`为当前版本；旧`归档/`已不存在，助手未删除，不依赖该目录。
