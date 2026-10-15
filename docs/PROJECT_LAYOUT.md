@@ -16,10 +16,11 @@
 
 ## 当前后台工作
 
-当前主方法开发入口为`configs/contractnli_source_check.json`，协议见[原文核查技能执行](SOURCE_CHECK_METHOD.md)。
-新Run `legal_contractnli_source_check_learning_20261015_run01`：4批×2案、8不同后续来源，
-56次新律师、4次新教师；15:54:27 CST后台启动、已进入B1实际调用，PID1981150。
-实际状态以其`progress.json`和工件为准，不用启动本身证明学习收益。
+当前后台工作为停止后的交付根因验证，而不是已恢复完整主训练：
+`legal_contractnli_compact_evidence_delivery_20261015_run01`，16:49:36 CST启动、PID2062845，
+36新律师/0教师，协议在`reports/experiments/compact_evidence_delivery_20261015/protocol.md`。
+原核查Run已16:37安全停止，CLI默认配置暂保留该已停止Run，不重复launch；
+新worker在自身`source/driver.py`运行，不改正在绑定的生产代码或伪造默认status。
 旧三条件/多条件有限试验**不是已经完成的正式论文比较**。
 上述run启动时按用户要求在普通对话中实施，未开Goal。
 15:09用户明确要求新建Goal，现为active；最新目标与执行顺序见[CURRENT_GOAL](CURRENT_GOAL.md)。
@@ -31,7 +32,10 @@
 | `legal_contractnli_adaptive_memory_comparison_20261015_run02` | 13:47完成58新律师/16教师/2共享冷答；没有整体胜过强空库 | `completion.json`与`results.md`；失败费用见`restart_provenance.json` |
 | `legal_contractnli_answer_review_learning_20261015_run01` | 15:31:45完成四批及后续24答；有小幅联合收益，无等调用依据F1收益 | `completion.json`，56新律师/4教师/2共享，进程已退出 |
 | `legal_contractnli_answer_review_anchor_diagnostic_20261015_run01` | 15:41:06完成固定4个已见TRAIN来源的初答依据干预，10新律师/0教师 | `completion.json`与独立审计；不是训练或论文主成绩 |
-| `legal_contractnli_source_check_learning_20261015_run01` | 15:54:27后台启动，原文核查执行干预，效果未验证，不再把初答交给方法 | `progress.json`，PID1981150；四批及新来源终点尚待完成 |
+| `legal_contractnli_source_check_learning_20261015_run01` | 16:37:39因B3过选/联合损害安全停止，26新律师/3教师，B4仅部分 | `progress.json`、`failure.json`及独立审计；进程已退出，无新8来源结果 |
+| `legal_contractnli_cpu_evidence_signal_20261015_run01` | 16:18:51完成四累计监督证据排序，仅旧已暴露开发来源 | `completion.json`及独立审计，0律师/0教师，不是主任务成绩 |
+| `legal_contractnli_evidence_ranked_delivery_20261015_run01` | 16:33排队，16:37随父停止取消，0调用 | `failure.json`，进程已退出，不覆盖重启 |
+| `legal_contractnli_compact_evidence_delivery_20261015_run01` | 16:49:36启动紧凑终答及同监督定位消融，尚未建立最终收益 | `progress.json`，PID2062845；36新律师/0教师，已见诊断与8不同合同分别评价 |
 
 旧 `legal_contractnli_grounded_feedback_learning_20261015_run01` 于10:11在B4强制教师审计引用检查处失败，
 44个律师回答和7个教师输出保留。旧 `grounded_references` 随父失败停止，已完成5个教师发布但0律师回答；

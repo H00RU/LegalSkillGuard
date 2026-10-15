@@ -4,12 +4,13 @@ Status: current core reconstructed after the 2026-10-15 file-loss incident.
 The checkpoint-fork study, delivery probe and bounded ACE/ExpeL comparison are
 complete. None establishes stable overall benefit over strong empty memory.
 The complete draft-review study found small joint gains, but no evidence-F1 gain
-over equal-call empty review. A controlled input assay reduced excess evidence
-without recovering more correct evidence. The next development intervention makes
-learned source-check questions mandatory native output fields before the lawyer's
-complete answer, without an initial answer, extra agent or host answer repair.
-The new run started in the background at15:54. This remains an unproven improvement,
-not an established result. At15:09 the user
+over equal-call empty review. Mandatory source-check outputs then produced harmful
+evidence-set copying and were stopped at16:37 after three complete batches.
+The current background intervention tests compact native answers with the actual
+last published M3 and a same-supervision learned evidence locator. No host repair,
+best-bank rollback, extra LLM or new legal task is introduced. It started at16:49,
+and remains an unproven intervention, not a completed learning run or established
+improvement. At15:09 the user
 explicitly requested a new Goal, which is active; see [current Goal](docs/CURRENT_GOAL.md).
 Neither starting a Goal nor implementing a method proves benefit. Old failures,
 raw answers and their costs remain preserved.
@@ -51,10 +52,16 @@ are objectives to test, not promises of monotonic gains or publication.
 cd /home/yndx/hhy/legal-skill-current
 ```
 
-当前修订协议：[原文核查式技能执行](docs/SOURCE_CHECK_METHOD.md)。
-默认CLI使用`configs/contractnli_source_check.json`，4批×2训练来源、8后续开发来源，56次律师和4次教师。
-进度：`runs/legal_contractnli_source_check_learning_20261015_run01/progress.json`。
-先`prepare`冻结，再`launch`后台执行；已有Run ID不可重复启动，实际状态以工件为准。
+当前后台诊断：`runs/legal_contractnli_compact_evidence_delivery_20261015_run01/progress.json`，
+PID2062845；[冻结协议](reports/experiments/compact_evidence_delivery_20261015/protocol.md)。
+36新律师/0教师，区分两已见故障来源与8不同合同，尚无完整新案结论。
+当前生产源码绑定不热改，CLI默认配置暂仍是已停止的`contractnli_source_check.json`；
+**不要重复默认launch**，status会如实显示旧Run stopped而不是新诊断进程。
+诊断结束、主方法证据充分后再集成新的正式学习配置，不把交付试验冒充完整主训练。
+
+旧[原文核查式技能执行](docs/SOURCE_CHECK_METHOD.md)Run保留26新律师/3教师，
+B3出现依据FP激增与联合损害，已停止；[停止审计](reports/experiments/source_check_20261015/stopped_readout.md)。
+旁路CPU定位有正排序信号，但不是最终F1或纯文字技能收益，不能自动补进律师答案。
 
 旧[面向实际答案的技能复核](docs/ANSWER_REVIEW_METHOD.md)及`contractnli_review.json`保留为历史。
 15:31:45完成56次新律师、4教师和后续24答，依据问题未解决；15:41:06完成10调用锚定诊断。
