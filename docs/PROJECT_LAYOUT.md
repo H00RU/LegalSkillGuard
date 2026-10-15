@@ -47,6 +47,8 @@ CLI新默认研究为`legal_contractnli_trace_procedure_learning_20261015_run01`
 | `legal_contractnli_final_query_objective_20261015_run01` | 20:18:57完成最终概率查询损失CPU对照，无净F1收益 | `completion.json`，0新律师/教师，仅旧已暴露8开发来源 |
 | `legal_contractnli_trace_procedure_learning_20261015_run01` | 20:56:22后台启动，四批实际轨迹程序学习，含维护/普通工具/最后更新对照 | 默认CLI status与PID2428065；130新律师/6教师为总计划，不等于成功 |
 | `legal_contractnli_M2_tool_influence_20261015_run01` | 21:40:52后台排队，固定M2与B3六合同，去候选机制诊断 | PID2494401；等待准确主worker退出和同GPU锁，0/6新律师、0教师；不回送/热改主训练 |
+| `legal_contractnli_query_sample_size_20261015_run01` | CPU旧查询库24/64/128样本量诊断；首24拟合后严格模型一致断言失败 | 22:25:05已退出，0律师/教师，未读评价Gold，失败工件保留 |
+| `legal_contractnli_query_sample_size_20261015_run02` | 同诊断仅统一原生线程环境后全部重做；固定旧库无净F1收益 | 22:36:52完成6次CPU拟合，0律师/教师；只读旧暴露8来源，不是当前主任务成绩 |
 
 旧 `legal_contractnli_grounded_feedback_learning_20261015_run01` 于10:11在B4强制教师审计引用检查处失败，
 44个律师回答和7个教师输出保留。旧 `grounded_references` 随父失败停止，已完成5个教师发布但0律师回答；
