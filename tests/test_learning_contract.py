@@ -329,7 +329,7 @@ def test_capacity_counts_exact_delivered_library_not_whitespace_expanded_json():
         study.validate_library(bank)
 
 
-def test_teacher_window_contains_all_and_only_exact_parent_current_previous_cases():
+def test_teacher_preserves_all_seen_sources_but_only_exact_parent_current_observations():
     from legal_skill_guard.learning.procedures import ProcedureStudy
     from legal_skill_guard.utils.hashing import canonical_json_sha256
 
@@ -357,12 +357,15 @@ def test_teacher_window_contains_all_and_only_exact_parent_current_previous_case
         "trace": include_trace,
     }
     cases = study.teacher_cases(3, include_trace=True)
-    assert [r["document_id"] for r in cases] == list(range(7, 19))
+    assert [r["document_id"] for r in cases] == list(range(1, 19))
     assert {r["observation_kind"] for r in cases} == {
         "current_batch_first_encounter",
         "previous_batch_post_update",
+        "earlier_original_source_without_current_parent_observation",
     }
-    assert sum(r["actual_own_same_parent_observation"]["public_valid"] for r in cases) == 6
+    assert all(r["actual_own_same_parent_observation"] is None for r in cases[:6])
+    observed = [r["actual_own_same_parent_observation"] for r in cases[6:]]
+    assert len(observed) == 12 and sum(r["public_valid"] for r in observed) == 6
     assert all("original_annotations" in r for r in cases)
     # A stale tool or library is rejected, not silently replaced or ignored.
     study.after[7]["actual_factual_trace"]["ordinary_model_state"] = "stale-tool"

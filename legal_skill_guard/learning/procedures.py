@@ -1,9 +1,9 @@
-"""Atomic legal boundaries learned from same-parent executor observations.
+"""Atomic legal boundaries grounded in cumulative sources and aligned feedback.
 
 The ordinary evidence tool is shared with the same-data control. No learned
 query terms, new model, extra inference stage, answer repair or effect gate.
-The final-update ablation changes teacher information, not the published main
-library. Local executor text is untrusted data, never teacher hidden reasoning.
+Earlier original facts remain available without fabricating current-parent
+executions. Local executor text is untrusted data, never teacher hidden reasoning.
 """
 
 from __future__ import annotations
@@ -50,7 +50,6 @@ ARMS = (
     "ordinary_memory",
     "static_procedures",
     "trace_procedures",
-    "public_only_final_update",
 )
 
 BOUNDARY_GUIDANCE_SCHEMA = {
@@ -130,13 +129,24 @@ PROCEDURE_TEACHER = DELTA_TEACHER_SYSTEM.replace(
     "fallible evidence candidates, while all rule contents remain visible once. "
     "There is no separate planner, semantic router or host legal decision. Do not duplicate "
     "the base task instruction or force one record per hypothesis. "
-    "Every supplied response was generated under the EXACT current parent and "
-    "ordinary-tool state: all current-batch first encounters and all previous-"
-    "batch post-update answers. No success/error-based sampling is performed. "
-    "Older raw trajectories under other parents are deliberately not presented "
-    "as failures of this parent. Their retained knowledge is the full parent "
-    "library; do not invent unprovided cases or delete rare older boundaries "
-    "merely because they are absent from this feedback window."
+    "All cumulative already-seen original sources and annotations remain supplied. "
+    "Only NON-NULL executor observations were generated under the EXACT current "
+    "parent and ordinary-tool state: every current-batch first encounter and "
+    "previous-batch post-update answer. Earlier sources have NO current-parent "
+    "execution observation; never invent one or treat their earlier mistakes as "
+    "current failures. The frontloaded hypothesis-grouped feedback places original "
+    "labels, complete annotated source spans and actual current answers together. "
+    "For each proposed or retained boundary compare differently labelled sources "
+    "for that SAME exact hypothesis, not just sources supporting a preferred rule. "
+    "Distinguish source search instructions, sufficient conditions, necessary "
+    "conditions and unresolved cases. Do not infer an opposite label from a missing "
+    "permission, or universal coverage from one matching route. A rationale must "
+    "explain the changed distinction against contrasting seen sources when such "
+    "sources exist. Original evidence coverage is not an extra necessary condition "
+    "for the legal label. Prefer an operational inspection over restating a public "
+    "hypothesis. All correct and incorrect observations remain; no outcome-based "
+    "sampling or efficacy admission. Earlier original sources can justify revising, "
+    "merging or deleting unsupported breadth without fabricated current trajectories."
 )
 
 STATIC_TEACHER = (
@@ -230,7 +240,8 @@ class ProcedureStudy(Comparison):
             raise ValueError("Explicit trace-procedure method required")
         if (
             self.cfg.get("memory_representation") != "guarded_atomic_boundary_v1"
-            or self.cfg.get("teacher_feedback") != "same_parent_current_before_previous_after_v1"
+            or self.cfg.get("teacher_feedback")
+            != "cumulative_sources_hypothesis_grounded_feedback_v1"
         ):
             raise ValueError("Atomic boundary study requires its own newly frozen config")
         self.run_id = safe_component(run_id or self.cfg["run_id"])
@@ -253,7 +264,7 @@ class ProcedureStudy(Comparison):
             raise ValueError("Development gold in inference packet")
         self.native, self.teachers, self.units, self.shared_units = [], [], [], []
         self.teacher_attempts, self.current_batch, self.stop = 0, 0, False
-        self.bank, self.static, self.public_only = [], [], []
+        self.bank, self.static = [], []
         self.versions = {canonical_json_sha256([]): []}
         self.model, self.state = None, None
         self.state_versions, self.before, self.after, self.summaries = {}, {}, {}, []
@@ -269,8 +280,6 @@ class ProcedureStudy(Comparison):
             if arm == "trace_procedures"
             else self.static
             if arm == "static_procedures"
-            else self.public_only
-            if arm == "public_only_final_update"
             else []
         )
 
@@ -352,14 +361,12 @@ class ProcedureStudy(Comparison):
         }
 
     def teacher_cases(self, batch, *, include_trace):
-        """Every current/previous case whose answer has this exact parent.
-
-        Current first encounters and preceding-batch post-update answers share
-        both the parent library and ordinary tool. Never outcome-filter them.
-        """
+        """All seen source/Gold; only exact-parent answers are current feedback."""
         cases = []
         parent_sha = canonical_json_sha256(self.bank)
         for row in self.training:
+            if row["batch"] > batch:
+                continue
             if row["batch"] == batch:
                 unit = self.before[row["id"]]
                 kind = "current_batch_first_encounter"
@@ -367,8 +374,9 @@ class ProcedureStudy(Comparison):
                 unit = self.after[row["id"]]
                 kind = "previous_batch_post_update"
             else:
-                continue
-            if (
+                unit = None
+                kind = "earlier_original_source_without_current_parent_observation"
+            if unit is not None and (
                 unit["published_library"] != self.bank
                 or unit["published_library_sha256"] != parent_sha
                 or unit["actual_factual_trace"]["ordinary_model_state"] != self.state
@@ -380,33 +388,82 @@ class ProcedureStudy(Comparison):
                     "full_original_contract_with_spans": marked_text(row),
                     "original_annotations": row["annotation_sets"][0]["annotations"],
                     "observation_kind": kind,
-                    "actual_own_same_parent_observation": self.observation(unit, include_trace),
+                    "actual_own_same_parent_observation": (
+                        self.observation(unit, include_trace) if unit is not None else None
+                    ),
                 }
             )
-        expected = 6 if batch == 1 else 12
-        if len(cases) != expected:
-            raise ValueError("All current and previous batch cases required; no selection")
+        observed = sum(c["actual_own_same_parent_observation"] is not None for c in cases)
+        if len(cases) != 6 * batch or observed != (6 if batch == 1 else 12):
+            raise ValueError("All seen sources and exact current/previous observations required")
         return cases
 
-    def update(self, batch, *, include_trace):
+    def teacher_input(self, batch, *, include_trace):
         cases = self.teacher_cases(batch, include_trace=include_trace)
-        source_ids = [r["document_id"] for r in cases]
-        body = {
+        sources = {r["id"]: r for r in self.training}
+        grouped = {}
+        for key in self.labels:
+            grouped[key] = []
+            for case in cases:
+                row = sources[case["document_id"]]
+                gold = case["original_annotations"][key]
+                observation = case["actual_own_same_parent_observation"]
+                current = None
+                if observation is not None:
+                    prediction = (
+                        json.loads(observation["actual_public_response"]["content"])[key]
+                        if observation["public_valid"]
+                        else None
+                    )
+                    current = {
+                        "native_raw_id": observation["raw_id"],
+                        "actual_prediction_not_verified_source_facts": prediction,
+                        "original_component_feedback": next(
+                            q
+                            for q in observation["original_component_feedback"]
+                            if q["hypothesis_id"] == key
+                        ),
+                    }
+                grouped[key].append(
+                    {
+                        "document_id": row["id"],
+                        "original_annotation": gold,
+                        "all_original_annotated_source_spans": [
+                            {
+                                "original_span_index": i,
+                                "verbatim_source_text": row["text"][
+                                    row["spans"][i][0] : row["spans"][i][1]
+                                ],
+                            }
+                            for i in gold["spans"]
+                        ],
+                        "actual_current_parent_observation": current,
+                    }
+                )
+        parent_tokens = self.validate_library(self.bank)
+        return {
             "original_public_hypotheses": self.labels,
+            "hypothesis_grouped_grounded_feedback": grouped,
             "complete_actual_parent_library": self.bank,
-            "same_parent_library_and_tool_original_train_cases": cases,
+            "cumulative_seen_original_train_cases": cases,
             "actual_parent_library_sha256": canonical_json_sha256(self.bank),
             "actual_parent_ordinary_tool_state": self.state,
             "all_successes_and_failures_from_complete_two_batches_not_outcome_selected": True,
-            "older_different_parent_trajectories_archived_not_claimed_as_current_feedback": True,
-            "cumulative_unique_original_train_cases_seen": sum(
-                r["batch"] <= batch for r in self.training
-            ),
+            "older_original_sources_preserved_without_fabricating_current_execution": True,
+            "cumulative_unique_original_train_cases_seen": len(cases),
             "full_library_token_cap": self.cfg["library_token_hard_cap"],
+            "exact_runtime_parent_library_tokens": parent_tokens,
+            "remaining_tokens_after_parent": self.cfg["library_token_hard_cap"] - parent_tokens,
+            "runtime_library_encoding": "Exact compact JSON delivered to the lawyer",
+            "capacity_note": "Maintain the complete library within the same budget by justified edits, consolidation or removal; no forced growth, count or deletion quota.",
             "no_future_gold_other_learners_or_teacher_hidden_reasoning": True,
             "local_executor_trace_included_as_untrusted_data": include_trace,
         }
-        name = f"trace_b{batch}" if include_trace else f"public_only_final_update_b{batch}"
+
+    def update(self, batch, *, include_trace):
+        body = self.teacher_input(batch, include_trace=include_trace)
+        source_ids = [r["document_id"] for r in body["cumulative_seen_original_train_cases"]]
+        name = f"trace_b{batch}" if include_trace else f"source_response_only_b{batch}"
         value = self.teacher_call(
             name,
             PROCEDURE_TEACHER,
@@ -435,9 +492,9 @@ class ProcedureStudy(Comparison):
                 "management": stats,
                 "source_case_ids": source_ids,
                 "all_observations_use_actual_parent_library_and_tool": True,
-                "feedback_window": "current_before_and_previous_after_without_outcome_filter",
+                "feedback_window": "all_seen_original_sources_with_hypothesis_grouped_exact_parent_observations",
                 "all_valid_edits_unconditionally_published_without_efficacy_gate": True,
-                "is_final_single_update_ablation_not_independent_no_trace_learning": not include_trace,
+                "local_executor_trace_included": include_trace,
             },
         )
         return bank, stats
@@ -548,7 +605,11 @@ class ProcedureStudy(Comparison):
                 },
             },
         )
-        if not ready["ready"] or not tr["ready"] or budget["available"] < 6:
+        if (
+            not ready["ready"]
+            or not tr["ready"]
+            or budget["available"] < self.cfg["planned_new_teacher_calls"]
+        ):
             raise RuntimeError("Declared native/teacher unavailable; no substitutes")
         self.initial_static()
         for batch in range(1, 5):
@@ -569,10 +630,6 @@ class ProcedureStudy(Comparison):
                             self.collect(f"batch{batch}_before", arm, [row], self.bank_for(arm))
                         )
                 self.before[row["id"]] = before["trace_procedures"][-1]
-            if batch == 4:
-                # Both teachers see the EXACT same M3 parent and pre-M4 public
-                # observations. This branch is never a candidate main library.
-                self.public_only, _ = self.update(batch, include_trace=False)
             self.bank, management = self.update(batch, include_trace=True)
             self.versions[canonical_json_sha256(self.bank)] = copy.deepcopy(self.bank)
             self.fit_ordinary(batch)
@@ -620,7 +677,6 @@ class ProcedureStudy(Comparison):
                 "at": now(),
                 "main_library": self.bank,
                 "static_library": self.static,
-                "public_only_final_update_library": self.public_only,
                 "ordinary_model_state": self.state,
                 "last_published_not_best_library": True,
             },
@@ -689,10 +745,10 @@ class ProcedureStudy(Comparison):
 
     def finish(self, later):
         self.check()
-        if (len(self.native), len(self.teachers), len(self.shared_units)) != (130, 6, 12) or any(
+        if (len(self.native), len(self.teachers), len(self.shared_units)) != (122, 5, 12) or any(
             len(v) != 8 for v in later.values()
         ):
-            raise ValueError("Complete declared130/6/12 and40 later responses required")
+            raise ValueError("Complete declared122/5/12 and32 later responses required")
         self.audit_native(self.units + self.shared_units, "complete")
         gold = read(ROOT / self.cfg["grading_only"])["annotations"]
         rows = {r["id"]: r for r in self.future}
@@ -714,7 +770,7 @@ class ProcedureStudy(Comparison):
                 )
                 by[arm].append(scored)
         identities = [n["response"]["raw_id"] for n in self.native]
-        if len(set(identities)) != 130:
+        if len(set(identities)) != 122:
             raise ValueError("Physical response IDs must be unique")
         results = {a: points(u) for a, u in by.items()}
         rng, intervals = np.random.default_rng(self.cfg["bootstrap_seed"]), {}
@@ -722,7 +778,6 @@ class ProcedureStudy(Comparison):
             "strong_empty",
             "ordinary_memory",
             "static_procedures",
-            "public_only_final_update",
         ):
             draws = {e: [] for e in ENDPOINTS}
             for _ in range(self.cfg["bootstrap_draws"]):
@@ -744,8 +799,8 @@ class ProcedureStudy(Comparison):
         done = {
             "at": now(),
             "run_id": self.run_id,
-            "new_native_calls": 130,
-            "new_teacher_calls": 6,
+            "new_native_calls": 122,
+            "new_teacher_calls": 5,
             "explicit_shared_cold_answers": 12,
             "batches": self.summaries,
             "development": results,
@@ -762,7 +817,7 @@ class ProcedureStudy(Comparison):
                 for k in ("input_tokens", "output_tokens", "reasoning_output_tokens")
             },
             "cpu_fit_seconds": sum(s["fit_seconds"] for s in self.state_versions.values()),
-            "public_only_final_update_is_one_update_information_ablation_not_full_no_trace_training": True,
+            "hypothesis_grouped_cumulative_original_source_feedback": True,
             "exposed_development_not_official_test_or_independent_learning_repeat": True,
             "no_current_gold_to_lawyer_no_host_answer_repair_or_library_selection": True,
         }
@@ -775,8 +830,8 @@ class ProcedureStudy(Comparison):
                 "at": now(),
                 "state": "completed",
                 "run_id": self.run_id,
-                "completed_native_calls": 130,
-                "completed_teacher_calls": 6,
+                "completed_native_calls": 122,
+                "completed_teacher_calls": 5,
                 "completed_batches": 4,
             },
         )

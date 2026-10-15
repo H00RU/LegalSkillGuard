@@ -4,7 +4,7 @@ Upstream: https://github.com/ace-agent/ace
 
 Commit: `82709de050e1db6e6ef2f07bcb0393560b94992a`.
 
-`legal_skill_guard/case_matching/ace_native.py` reproduces selected deterministic
+`legal_skill_guard/learning/ace_native.py` reproduces selected deterministic
 helpers from the ACE authors' `playbook_utils.py` and `utils.py`, licensed under
 the accompanying Apache-2.0 license. Formatting and import isolation are local
 modifications; counter updates, global IDs and ADD-only delta application are
