@@ -16,18 +16,23 @@
 
 ## 当前后台工作
 
-以下是整理时正在执行的有限开发试验，**不是已经完成的正式论文比较**。
+以下为 2026-10-15 10:28 更新后的有限开发试验，**不是已经完成的正式论文比较**。
 
 | Run ID | 用途 | 查看进度 |
 | --- | --- | --- |
-| `legal_contractnli_grounded_feedback_learning_20261015_run01` | 标准反馈与逐条证据反馈的技能学习、训练/保留/后续来源比较 | 对应 `runs/<Run ID>/progress.json` |
-| `legal_contractnli_grounded_references_20261015_run01` | 固定技能与仅来源标签学习对照；等待前一试验完成后执行后续来源回答 | 对应 `runs/<Run ID>/progress.json` |
+| `legal_contractnli_feedback_completion_20261015_run01` | 从已核验的44个真实回答检查点分叉，完成B4、六条件后续来源比较及原文回执/真实成功示例消融 | 对应 `runs/<Run ID>/progress.json`；主阶段完成另见 `main_completion.json` |
+
+旧 `legal_contractnli_grounded_feedback_learning_20261015_run01` 于10:11在B4强制教师审计引用检查处失败，
+44个律师回答和7个教师输出保留。旧 `grounded_references` 随父失败停止，已完成5个教师发布但0律师回答；
+旧 `literal_receipt_delivery` 因依赖失败停止、0新调用。这三者都不冒充仍在训练。
+新分叉不改写这些失败记录，继承真实检查点与独立有效参考库，去掉B4强制coverage自报并重新调用教师。
+它使用明确修订过的开发协议，不是从头同一预注册干预，也不是独立学习重复。
 
 后台进程不依赖对话持续采样。实时状态以进度、真实模型工件和完成/失败记录共同核对，
 不能把本说明中的阶段描述当成完成证据。不要重复运行这些 worker。
 
 `configs/contractnli_main.json` 是另外保留的 388 次律师调用完整比较配置，
-整理时尚未启动；默认 CLI 的 `launch` 对应它，不是以上两个后台试验。
+整理时尚未启动；默认 CLI 的 `launch` 对应它，不是当前后台试验。
 
 ## 历史恢复材料与备份
 

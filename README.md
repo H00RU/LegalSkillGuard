@@ -1,8 +1,9 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
 Status: current core reconstructed after the 2026-10-15 file-loss incident.
-Bounded learning and reference-control studies are running; the full research
-comparison has not been completed. Current results do not establish efficacy.
+A bounded checkpoint-fork completion study is running after a mandatory
+teacher-audit output failed at B4. The old failed run is preserved; the full
+research comparison has not been completed. Current results do not establish efficacy.
 
 The target is the latest ContractNLI legal-evidence learning pipeline, not the
 2026-09-27 multi-turn consultation task. The executor remains a frozen Qwen3-8B;
@@ -41,11 +42,11 @@ are objectives to test, not promises of monotonic gains or publication.
 cd /home/yndx/hhy/legal-skill-current
 ```
 
-当前有限试验使用独立 Run ID 和冻结 worker，详见目录说明中的两项后台工作；
+当前有限试验使用独立 Run ID 和冻结 worker，详见目录说明中的当前后台工作；
 直接查看各自的 `runs/<Run ID>/progress.json` 及实际完成工件，不要重复启动。
 
 CLI 的 `status`／`launch` 对应 `configs/contractnli_main.json` 中另外保留的完整
-32训练来源／8批与24来源六条件比较（388次律师、57次教师），不是这两个后台试验。
+32训练来源／8批与24来源六条件比较（388次律师、57次教师），不是当前后台分叉试验。
 这轮完整比较尚未启动，不能将配置存在误认为正式实验已经完成。
 
 单案工程核验的记录位于
