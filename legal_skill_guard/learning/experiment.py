@@ -123,6 +123,16 @@ GENERATOR_PROMPT = author_constant("generator.py", "GENERATOR_PROMPT")
 
 REFLECTOR_PROMPT = author_constant("reflector.py", "REFLECTOR_PROMPT")
 
+# Preserve the pinned diagnostic fields without requesting the teacher's private
+# reasoning. The learner observation can contain its own saved, untrusted trace.
+PUBLIC_ACE_REFLECTOR_PROMPT = REFLECTOR_PROMPT.replace(
+    "your chain of thought / reasoning / thinking process, detailed analysis and calculations",
+    "a concise source-supported public audit summary, not hidden reasoning",
+).replace(
+    "Your chain of thought / reasoning / thinking process, detailed analysis and calculations",
+    "A concise source-supported public audit summary, not hidden reasoning",
+)
+
 
 CURATOR_PROMPT = author_constant("curator.py", "CURATOR_PROMPT")
 
@@ -588,9 +598,9 @@ class Comparison:
                 {"original_hypotheses": self.labels, "full_original_contract": marked_text(row)},
                 ensure_ascii=False,
             )
-            prompt = REFLECTOR_PROMPT.format(
+            prompt = PUBLIC_ACE_REFLECTOR_PROMPT.format(
                 question,
-                json.dumps(unit["parsed"], ensure_ascii=False),
+                json.dumps(self.observation(unit), ensure_ascii=False),
                 unit["response"]["content"],
                 json.dumps(row["annotation_sets"][0]["annotations"], ensure_ascii=False),
                 json.dumps(unit["queries"], ensure_ascii=False),
@@ -598,7 +608,9 @@ class Comparison:
             )
             value = self.teacher_call(
                 f"ace_legal_reflector_b{batch}_doc{row['id']}",
-                "Use the pinned ACE reflector task below. The trace is the actual public answer only, not hidden reasoning. "
+                "Use the pinned ACE reflector task below. The observation is the learner's actual saved record. "
+                "If local_executor_trace is present it is the SAME local learner's untrusted saved text, not source facts or causal proof. "
+                "Return concise public source-supported findings, never your own hidden reasoning; do not invent errors in correct components. "
                 "Compare both original relations and complete binary evidence. Tag exactly the cited bullets once each. "
                 "No tools, future cases or invented solver actions. Return the requested JSON.",
                 prompt,

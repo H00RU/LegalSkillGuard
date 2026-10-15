@@ -1,0 +1,25 @@
+{
+  "method": "native_ace_same_data_legal_adaptation",
+  "run_id": "legal_contractnli_ace_same_data_20261016_run01",
+  "base_config": "configs/contractnli_grounded_feedback.json",
+  "library_token_hard_cap": 8192,
+  "teacher_invocation_budget": 1400,
+  "planned_new_native_calls": 52,
+  "planned_new_teacher_calls": 28,
+  "memory_representation": "native_ACE_sectioned_bullets_with_counts",
+  "teacher_feedback": "native_case_reflections_and_incremental_ADD_curator",
+  "later_condition_count": 2,
+  "shared_cold_answers": 0,
+  "selection_description": "Same fixed24 original TRAIN/four batches6 and same exposed development8; new native ACE actor calls, own actual traces and source/Gold, native incremental curation. Original ordinary evidence models explicitly shared by past-prefix stage.",
+  "native_schedule": {
+    "four_batches_first_encounter": 24,
+    "B1_learned_checkpoint_for_retention_only": 6,
+    "B4_fixed_B1_retention": 6,
+    "eight_later_ACE_and_ACE_empty": 16
+  },
+  "evidence_parent_run": "legal_contractnli_grounded_feedback_20261016_run01",
+  "reference_run": "legal_contractnli_grounded_final_assessment_20261016_run01",
+  "prior_development_path_run": "legal_contractnli_case_credit_20261016_run01",
+  "method_protocol": "docs/ACE_SAME_DATA_20261016.md",
+  "report_directory": "reports/experiments/ace_same_data_20261016"
+}
