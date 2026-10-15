@@ -20,6 +20,8 @@ CLI新默认研究为`legal_contractnli_atomic_boundaries_20261015_run01`，
 配置`contractnli_atomic_boundaries.json`，协议[ATOMIC_BOUNDARY_METHOD](ATOMIC_BOUNDARY_METHOD.md)。
 计划四批每批6份原TRAIN、130新律师/6教师，含同标签普通工具、静态和最后更新输入控制。
 新Run已于10月15日23:58:24真实后台启动（PID2697441）；实时阶段核实启动记录/进程/progress，不能由配置推断。
+10月16日01:12:21另排队最后更新配对反馈诊断（PID2806817，8律师/1教师计划），
+等确切主Run正常完成/退出后取得同GPU锁；当前0调用。两者终止前共同源码均不能热改。
 上一程序学习20:56:22启动、23:26:23完成130律师/6教师，去候选23:33:00完成6新律师；两个进程均已退出。
 此前查询学习20:09:59停止于64新律师/4教师，B1—B3完整、B4部分；
 法律步骤旁路20:19:50完成8新律师/1教师，未建立稳定收益。
@@ -49,6 +51,8 @@ CLI新默认研究为`legal_contractnli_atomic_boundaries_20261015_run01`，
 | `legal_contractnli_trace_procedure_learning_20261015_run01` | 23:26:23完整结束，130新律师/6教师，技能增益仍小 | `completion.json`与独立完整审计，进程已退出 |
 | `legal_contractnli_M2_tool_influence_20261015_run01` | 23:33:00完整结束，6新律师/12明确参考，去候选使三指标下降 | `completion.json`与独立18答重算，进程已退出 |
 | `legal_contractnli_atomic_boundaries_20261015_run01` | 23:58:24真实启动，同父状态反馈与命题绑定原子判断记忆 | 默认status与PID2697441；130/6为总计划，先静态教师后自动进入B1，不等于已有效 |
+| `legal_contractnli_paired_final_update_20261016_run01` | 01:12:21实际排队，只给最后一次教师增加本批6份同工具空库反馈 | PID2806817与自身progress；8新律师/1教师/40父参考计划，非完整新学习方法 |
+| `legal_contractnli_nli_signal_20261016_run01` | 00:46:07完成固定规则条件的CPU分类信号诊断，无稳定额外收益 | completion与独立816预测复算；0律师/教师，不部署为法律裁判 |
 | `legal_contractnli_query_sample_size_20261015_run01` | CPU旧查询库24/64/128样本量诊断；首24拟合后严格模型一致断言失败 | 22:25:05已退出，0律师/教师，未读评价Gold，失败工件保留 |
 | `legal_contractnli_query_sample_size_20261015_run02` | 同诊断仅统一原生线程环境后全部重做；固定旧库无净F1收益 | 22:36:52完成6次CPU拟合，0律师/教师；只读旧暴露8来源，不是当前主任务成绩 |
 

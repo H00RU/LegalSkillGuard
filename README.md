@@ -34,6 +34,10 @@ router, reviewer or host verdict. Configuration existence is not a launch or gai
 check the actual status.
 Its external evidence scorer is supervised and learns weights; the lawyer remains
 frozen. It is NOT pure verbal skill learning or an established improvement.
+The atomic run is in B4; B3's paired tool-control gains do not erase B2's losses.
+The queued [final-update feedback intervention](reports/experiments/paired_final_update_20261016/protocol.md)
+adds one teacher update and eight answers only after the exact parent completes.
+Both workers' shared source remains frozen until both terminate; see the current Goal for actual progress.
 No host repair, best-bank rollback, extra LLM or new legal task is introduced.
 At15:09 the user
 explicitly requested a new Goal, which is active; see [current Goal](docs/CURRENT_GOAL.md).
