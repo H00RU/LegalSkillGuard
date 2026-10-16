@@ -1,5 +1,28 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Current20:35 CST checkpoint: PID229747 remains live; all four batches and B1
+retention are complete, all five endpoint arms are being generated before any
+new endpoint scoring. Complete B2--B4 first encounters (18 sources/306 queries):
+main accuracy/span-F1/joint81.05/59.10/49.35%, same-tool79.08/59.51/46.41%.
+Main true span members177 versus183; classification/joint benefit is not an
+evidence-recall breakthrough. B4 main80.39/65.73/60.78%, same-tool78.43/69.51/56.86%;
+main evidence-bearing exact joint25 versus27, correct NM37 versus31. M4 retention
+on B1 is94.12/90.13/82.35%, with14 joint fixes AND9 damages versus M1; the ordinary
+supervised tool also changes. All actual M3/M4 feedback, original-author batch
+scores, publications and retention have independent monitoring receipts.
+
+The isolated `learning/literal_evidence.py` candidate is implemented and38
+zero-generation checks pass; it is NOT yet CLI-registered, frozen or launched.
+It grounds unchanged candidates and teacher evidence comparisons in exact
+original text. It does not solve all outside-candidate omissions by construction.
+See [prospective complete-learning protocol](docs/LITERAL_EVIDENCE_ONLINE_PROTOCOL_20261016.md).
+New config is `configs/contractnli_literal_evidence.json`; old183 bindings are
+unchanged. Finish/audit/back up the current endpoint before registering and
+launching a genuinely fresh complete learner. No efficacy claim, formal test,
+independent repeat or model substitution is implied.
+
+Historical19:17 checkpoint:
+
 RUNNING, launched19:05:55 CST as detached PID229747:
 `legal_contractnli_task_local_packing_completion_20261016_run01`.
 Its parent task-local Run terminated18:48:37 after36 native/2 teacher calls,

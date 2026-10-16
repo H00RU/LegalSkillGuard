@@ -953,12 +953,14 @@ def test_bounded_teacher_uses_actual_current_and_previous_parent_only():
         bounded_teacher_packet(training, 3, labels, bank, "M2", {3: units[3]}, {2: units[2]}, master_tokens=100, cap=4096)
 
 
-def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch):
+@pytest.mark.parametrize("literal_view", [False, True])
+def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch, literal_view):
     from types import SimpleNamespace
     import legal_skill_guard.learning.task_local as module
 
     row, labels, gold = fixture()
-    study = object.__new__(module.TaskLocalStudy)
+    from legal_skill_guard.learning.literal_evidence import LiteralEvidenceStudy
+    study = object.__new__(LiteralEvidenceStudy if literal_view else module.TaskLocalStudy)
     study.cfg = {
         "generation": {"model": "frozen-test", "temperature": 0.6, "top_p": 0.95, "top_k": 20, "max_tokens": 8192, "seed": 45},
         "teacher": {"model": "teacher-test", "ledger": "unused", "total_invocation_budget": 5},
@@ -1039,3 +1041,61 @@ def test_task_local_teacher_prefix_is_exact_historical_input_not_new_call(tmp_pa
         assert len(study.inherited_teachers) == 1
         assert json.loads((study.out / "teacher/task_local_b1/response.json").read_text()) == result
         assert (study.out / "teacher/task_local_b1/explicit_historical_reference.json").exists()
+
+
+def test_literal_candidates_bind_original_text_without_annotations_or_selection_changes():
+    from legal_skill_guard.learning.literal_evidence import literal_candidate_view
+
+    row, labels, _ = fixture()
+
+    class NoGold(dict):
+        def __getitem__(self, key):
+            if key == "annotation_sets":
+                raise AssertionError("Inference must not read current Gold")
+            return super().__getitem__(key)
+
+    proposals = {"selection": "same", "by_hypothesis": {h: {
+        "candidates": [{"original_span_index": 0, "membership_score": 0.625}],
+        "raw_scores": [0.625, 0.2, 0.1],
+    } for h in labels}}
+    original = copy.deepcopy(proposals)
+    value = literal_candidate_view(NoGold(row), proposals)
+    assert proposals == original
+    for h in labels:
+        quoted = value["by_hypothesis"][h]["candidates"][0]
+        assert quoted == {**original["by_hypothesis"][h]["candidates"][0], "literal_original_text": "Recipient shall not disclose secrets."}
+        assert value["by_hypothesis"][h]["raw_scores"] == original["by_hypothesis"][h]["raw_scores"]
+    assert literal_candidate_view(NoGold(row), None) is None
+    proposals["by_hypothesis"]["h1"]["candidates"][0]["original_span_index"] = 99
+    with pytest.raises(ValueError, match="original source span"):
+        literal_candidate_view(NoGold(row), proposals)
+
+
+def test_literal_teacher_feedback_preserves_all_cases_and_handles_polarity_only_error():
+    from legal_skill_guard.learning.literal_evidence import literal_feedback_view
+
+    row, labels, gold = fixture()
+    pred = {h: {**g, "reason": "Actual.", "used_skill_ids": []} for h, g in gold.items()}
+    pred["h1"]["spans"] = [1, 2]  # One missing and one extra, not a new answer.
+    pred["h2"]["choice"] = "Entailment"  # Same evidence, wrong relation.
+    cases = [{"document_id": 1, "original_annotations": gold, "actual_public_valid": True,
+              "actual_public_response": response(pred), "complete_source": row["text"]}]
+    index = {h: [{"document_id": 1, "original_Gold_choice": g["choice"], "original_Gold_span_indices": g["spans"],
+                  "label_matches_original": pred[h]["choice"] == g["choice"]}] for h, g in gold.items()}
+    packet = {"original_cases_and_actual_same_parent_observations": cases, "hypothesis_indexed_original_feedback": index}
+    original = copy.deepcopy(packet)
+    view = literal_feedback_view(packet, [row])
+    assert packet == original
+    assert view["original_cases_and_actual_same_parent_observations"] == cases
+    h1 = view["hypothesis_indexed_original_feedback"]["h1"][0]["literal_original_evidence_comparison"]
+    assert [(q["original_span_index"], q["original_Gold_member"], q["actual_public_answer_member"]) for q in h1] == [(0, True, False), (1, False, True), (2, True, True)]
+    assert h1[0]["literal_original_text"] == "Recipient shall not disclose secrets."
+    h2 = view["hypothesis_indexed_original_feedback"]["h2"][0]["literal_original_evidence_comparison"]
+    assert [q["original_span_index"] for q in h2] == [1]
+    assert view["hypothesis_indexed_original_feedback"]["h3"][0]["literal_original_evidence_comparison"] == []
+    correct = copy.deepcopy(packet)
+    correct["original_cases_and_actual_same_parent_observations"][0]["actual_public_response"] = response(gold)
+    for records in correct["hypothesis_indexed_original_feedback"].values():
+        records[0]["label_matches_original"] = True
+    grounded_success = literal_feedback_view(correct, [row])
+    assert [q["original_span_index"] for q in grounded_success["hypothesis_indexed_original_feedback"]["h1"][0]["literal_original_evidence_comparison"]] == [0, 2]

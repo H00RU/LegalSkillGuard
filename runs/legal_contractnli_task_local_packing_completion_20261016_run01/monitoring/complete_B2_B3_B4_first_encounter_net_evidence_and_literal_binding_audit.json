@@ -1,0 +1,2201 @@
+{
+  "at": "2026-10-16T12:32:53.839560+00:00",
+  "completed_first_encounter_batches": [
+    2,
+    3,
+    4
+  ],
+  "sources": 18,
+  "queries_per_arm": 306,
+  "not_comparable_difficulty_free_monotonic_curve": true,
+  "complete_original_author_audit_receipt_sha256": {
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_task_local_packing_completion_20261016_run01/monitoring/complete_B2_original_author_all30_wires_manual_sets_and_residuals.json": "88101f7474df20fac8aa93b6dd32267cdd4f3a11fa05cb1cc702d7defcffcbc3",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_task_local_packing_completion_20261016_run01/monitoring/complete_B3_independent_original_author_and_matched_error_audit.json": "b687a2d5a284d880811dc914c0936bb8910e778eb1c276753582a2739b1a3167",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_task_local_packing_completion_20261016_run01/monitoring/complete_B4_independent_original_author_and_matched_error_audit.json": "ecfd3cb632a7f8bbb2a8a829eb7bd87f3e461a81d367fa90d926026b934c888e"
+  },
+  "metrics": {
+    "before/strong_empty": {
+      "documents": 18,
+      "hypotheses": 306,
+      "label_correct": 233,
+      "label_accuracy": 0.761437908496732,
+      "evidence_tp": 180,
+      "evidence_fp": 99,
+      "evidence_fn": 194,
+      "evidence_micro_f1_gold_non_neutral": 0.5513016845329249,
+      "joint_exact_correct": 129,
+      "joint_exact_accuracy": 0.4215686274509804,
+      "nonneutral_label_and_all_evidence_correct": 56,
+      "correct_nm_with_empty_evidence": 73,
+      "false_NotMentioned": 20
+    },
+    "before/ordinary_memory": {
+      "documents": 18,
+      "hypotheses": 306,
+      "label_correct": 242,
+      "label_accuracy": 0.7908496732026143,
+      "evidence_tp": 183,
+      "evidence_fp": 58,
+      "evidence_fn": 191,
+      "evidence_micro_f1_gold_non_neutral": 0.5951219512195122,
+      "joint_exact_correct": 142,
+      "joint_exact_accuracy": 0.46405228758169936,
+      "nonneutral_label_and_all_evidence_correct": 59,
+      "correct_nm_with_empty_evidence": 83,
+      "false_NotMentioned": 21
+    },
+    "before/unconditional_layout": {
+      "documents": 18,
+      "hypotheses": 306,
+      "label_correct": 241,
+      "label_accuracy": 0.7875816993464052,
+      "evidence_tp": 174,
+      "evidence_fp": 42,
+      "evidence_fn": 200,
+      "evidence_micro_f1_gold_non_neutral": 0.5898305084745763,
+      "joint_exact_correct": 146,
+      "joint_exact_accuracy": 0.477124183006536,
+      "nonneutral_label_and_all_evidence_correct": 64,
+      "correct_nm_with_empty_evidence": 82,
+      "false_NotMentioned": 24
+    },
+    "before/skill_memory": {
+      "documents": 18,
+      "hypotheses": 306,
+      "label_correct": 248,
+      "label_accuracy": 0.8104575163398693,
+      "evidence_tp": 177,
+      "evidence_fp": 48,
+      "evidence_fn": 197,
+      "evidence_micro_f1_gold_non_neutral": 0.5909849749582637,
+      "joint_exact_correct": 151,
+      "joint_exact_accuracy": 0.4934640522875817,
+      "nonneutral_label_and_all_evidence_correct": 63,
+      "correct_nm_with_empty_evidence": 88,
+      "false_NotMentioned": 23
+    },
+    "after/skill_memory": {
+      "documents": 18,
+      "hypotheses": 306,
+      "label_correct": 272,
+      "label_accuracy": 0.8888888888888888,
+      "evidence_tp": 315,
+      "evidence_fp": 1,
+      "evidence_fn": 59,
+      "evidence_micro_f1_gold_non_neutral": 0.9130434782608695,
+      "joint_exact_correct": 239,
+      "joint_exact_accuracy": 0.7810457516339869,
+      "nonneutral_label_and_all_evidence_correct": 142,
+      "correct_nm_with_empty_evidence": 97,
+      "false_NotMentioned": 9
+    }
+  },
+  "matched_main_minus_controls": {
+    "strong_empty": {
+      "before": {
+        "documents": 18,
+        "hypotheses": 306,
+        "label_correct": 233,
+        "label_accuracy": 0.761437908496732,
+        "evidence_tp": 180,
+        "evidence_fp": 99,
+        "evidence_fn": 194,
+        "evidence_micro_f1_gold_non_neutral": 0.5513016845329249,
+        "joint_exact_correct": 129,
+        "joint_exact_accuracy": 0.4215686274509804,
+        "nonneutral_label_and_all_evidence_correct": 56,
+        "correct_nm_with_empty_evidence": 73,
+        "false_NotMentioned": 20
+      },
+      "after": {
+        "documents": 18,
+        "hypotheses": 306,
+        "label_correct": 248,
+        "label_accuracy": 0.8104575163398693,
+        "evidence_tp": 177,
+        "evidence_fp": 48,
+        "evidence_fn": 197,
+        "evidence_micro_f1_gold_non_neutral": 0.5909849749582637,
+        "joint_exact_correct": 151,
+        "joint_exact_accuracy": 0.4934640522875817,
+        "nonneutral_label_and_all_evidence_correct": 63,
+        "correct_nm_with_empty_evidence": 88,
+        "false_NotMentioned": 23
+      },
+      "label_fixes": [
+        [
+          262,
+          "nda-1"
+        ],
+        [
+          262,
+          "nda-7"
+        ],
+        [
+          262,
+          "nda-17"
+        ],
+        [
+          262,
+          "nda-5"
+        ],
+        [
+          588,
+          "nda-10"
+        ],
+        [
+          588,
+          "nda-17"
+        ],
+        [
+          588,
+          "nda-4"
+        ],
+        [
+          538,
+          "nda-17"
+        ],
+        [
+          177,
+          "nda-20"
+        ],
+        [
+          136,
+          "nda-16"
+        ],
+        [
+          187,
+          "nda-20"
+        ],
+        [
+          187,
+          "nda-7"
+        ],
+        [
+          187,
+          "nda-17"
+        ],
+        [
+          187,
+          "nda-13"
+        ],
+        [
+          273,
+          "nda-16"
+        ],
+        [
+          273,
+          "nda-10"
+        ],
+        [
+          273,
+          "nda-12"
+        ],
+        [
+          273,
+          "nda-17"
+        ],
+        [
+          416,
+          "nda-16"
+        ],
+        [
+          487,
+          "nda-16"
+        ],
+        [
+          487,
+          "nda-20"
+        ],
+        [
+          487,
+          "nda-5"
+        ],
+        [
+          487,
+          "nda-4"
+        ],
+        [
+          377,
+          "nda-15"
+        ],
+        [
+          377,
+          "nda-1"
+        ],
+        [
+          159,
+          "nda-1"
+        ],
+        [
+          159,
+          "nda-20"
+        ],
+        [
+          430,
+          "nda-12"
+        ],
+        [
+          430,
+          "nda-8"
+        ],
+        [
+          290,
+          "nda-15"
+        ],
+        [
+          290,
+          "nda-2"
+        ],
+        [
+          290,
+          "nda-1"
+        ],
+        [
+          290,
+          "nda-17"
+        ],
+        [
+          622,
+          "nda-18"
+        ],
+        [
+          383,
+          "nda-15"
+        ],
+        [
+          383,
+          "nda-1"
+        ],
+        [
+          383,
+          "nda-19"
+        ],
+        [
+          383,
+          "nda-12"
+        ],
+        [
+          383,
+          "nda-7"
+        ],
+        [
+          383,
+          "nda-17"
+        ],
+        [
+          383,
+          "nda-13"
+        ],
+        [
+          92,
+          "nda-20"
+        ]
+      ],
+      "label_damage": [
+        [
+          588,
+          "nda-15"
+        ],
+        [
+          588,
+          "nda-1"
+        ],
+        [
+          588,
+          "nda-13"
+        ],
+        [
+          538,
+          "nda-18"
+        ],
+        [
+          538,
+          "nda-8"
+        ],
+        [
+          177,
+          "nda-1"
+        ],
+        [
+          136,
+          "nda-10"
+        ],
+        [
+          136,
+          "nda-1"
+        ],
+        [
+          136,
+          "nda-7"
+        ],
+        [
+          416,
+          "nda-10"
+        ],
+        [
+          416,
+          "nda-5"
+        ],
+        [
+          261,
+          "nda-1"
+        ],
+        [
+          261,
+          "nda-12"
+        ],
+        [
+          261,
+          "nda-20"
+        ],
+        [
+          487,
+          "nda-1"
+        ],
+        [
+          377,
+          "nda-7"
+        ],
+        [
+          377,
+          "nda-4"
+        ],
+        [
+          430,
+          "nda-20"
+        ],
+        [
+          430,
+          "nda-7"
+        ],
+        [
+          290,
+          "nda-20"
+        ],
+        [
+          622,
+          "nda-1"
+        ],
+        [
+          622,
+          "nda-12"
+        ],
+        [
+          622,
+          "nda-13"
+        ],
+        [
+          613,
+          "nda-3"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          383,
+          "nda-5"
+        ],
+        [
+          92,
+          "nda-3"
+        ]
+      ],
+      "joint_fixes": [
+        [
+          262,
+          "nda-1"
+        ],
+        [
+          262,
+          "nda-7"
+        ],
+        [
+          262,
+          "nda-17"
+        ],
+        [
+          262,
+          "nda-5"
+        ],
+        [
+          588,
+          "nda-10"
+        ],
+        [
+          588,
+          "nda-17"
+        ],
+        [
+          538,
+          "nda-10"
+        ],
+        [
+          538,
+          "nda-17"
+        ],
+        [
+          177,
+          "nda-20"
+        ],
+        [
+          136,
+          "nda-16"
+        ],
+        [
+          187,
+          "nda-12"
+        ],
+        [
+          187,
+          "nda-20"
+        ],
+        [
+          187,
+          "nda-17"
+        ],
+        [
+          273,
+          "nda-16"
+        ],
+        [
+          273,
+          "nda-17"
+        ],
+        [
+          416,
+          "nda-16"
+        ],
+        [
+          416,
+          "nda-15"
+        ],
+        [
+          416,
+          "nda-7"
+        ],
+        [
+          261,
+          "nda-2"
+        ],
+        [
+          261,
+          "nda-3"
+        ],
+        [
+          261,
+          "nda-13"
+        ],
+        [
+          487,
+          "nda-16"
+        ],
+        [
+          487,
+          "nda-20"
+        ],
+        [
+          487,
+          "nda-5"
+        ],
+        [
+          487,
+          "nda-4"
+        ],
+        [
+          377,
+          "nda-19"
+        ],
+        [
+          159,
+          "nda-16"
+        ],
+        [
+          159,
+          "nda-1"
+        ],
+        [
+          159,
+          "nda-20"
+        ],
+        [
+          430,
+          "nda-12"
+        ],
+        [
+          430,
+          "nda-8"
+        ],
+        [
+          290,
+          "nda-15"
+        ],
+        [
+          290,
+          "nda-2"
+        ],
+        [
+          290,
+          "nda-1"
+        ],
+        [
+          290,
+          "nda-17"
+        ],
+        [
+          290,
+          "nda-13"
+        ],
+        [
+          622,
+          "nda-2"
+        ],
+        [
+          622,
+          "nda-19"
+        ],
+        [
+          622,
+          "nda-3"
+        ],
+        [
+          622,
+          "nda-18"
+        ],
+        [
+          613,
+          "nda-15"
+        ],
+        [
+          613,
+          "nda-5"
+        ],
+        [
+          383,
+          "nda-15"
+        ],
+        [
+          383,
+          "nda-2"
+        ],
+        [
+          383,
+          "nda-1"
+        ],
+        [
+          383,
+          "nda-19"
+        ],
+        [
+          383,
+          "nda-12"
+        ],
+        [
+          383,
+          "nda-7"
+        ],
+        [
+          383,
+          "nda-17"
+        ],
+        [
+          383,
+          "nda-13"
+        ],
+        [
+          383,
+          "nda-4"
+        ]
+      ],
+      "joint_damage": [
+        [
+          262,
+          "nda-16"
+        ],
+        [
+          262,
+          "nda-4"
+        ],
+        [
+          588,
+          "nda-15"
+        ],
+        [
+          588,
+          "nda-1"
+        ],
+        [
+          538,
+          "nda-2"
+        ],
+        [
+          538,
+          "nda-4"
+        ],
+        [
+          177,
+          "nda-1"
+        ],
+        [
+          136,
+          "nda-15"
+        ],
+        [
+          136,
+          "nda-1"
+        ],
+        [
+          136,
+          "nda-3"
+        ],
+        [
+          187,
+          "nda-5"
+        ],
+        [
+          416,
+          "nda-10"
+        ],
+        [
+          261,
+          "nda-16"
+        ],
+        [
+          261,
+          "nda-15"
+        ],
+        [
+          261,
+          "nda-1"
+        ],
+        [
+          261,
+          "nda-12"
+        ],
+        [
+          487,
+          "nda-1"
+        ],
+        [
+          487,
+          "nda-3"
+        ],
+        [
+          377,
+          "nda-7"
+        ],
+        [
+          430,
+          "nda-2"
+        ],
+        [
+          430,
+          "nda-20"
+        ],
+        [
+          430,
+          "nda-7"
+        ],
+        [
+          430,
+          "nda-4"
+        ],
+        [
+          290,
+          "nda-20"
+        ],
+        [
+          622,
+          "nda-7"
+        ],
+        [
+          622,
+          "nda-5"
+        ],
+        [
+          613,
+          "nda-3"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          92,
+          "nda-3"
+        ]
+      ],
+      "true_original_members_gained": 58,
+      "true_original_members_lost": 61,
+      "new_false_NM_from_correct_non_NM": [
+        [
+          588,
+          "nda-13"
+        ],
+        [
+          538,
+          "nda-18"
+        ],
+        [
+          538,
+          "nda-8"
+        ],
+        [
+          136,
+          "nda-10"
+        ],
+        [
+          136,
+          "nda-1"
+        ],
+        [
+          416,
+          "nda-10"
+        ],
+        [
+          416,
+          "nda-5"
+        ],
+        [
+          430,
+          "nda-20"
+        ],
+        [
+          430,
+          "nda-7"
+        ],
+        [
+          622,
+          "nda-12"
+        ],
+        [
+          622,
+          "nda-13"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          383,
+          "nda-5"
+        ],
+        [
+          92,
+          "nda-3"
+        ]
+      ],
+      "ordinary_tool_may_also_change_in_seen_fit_not_pure_skill_effect": true
+    },
+    "ordinary_memory": {
+      "before": {
+        "documents": 18,
+        "hypotheses": 306,
+        "label_correct": 242,
+        "label_accuracy": 0.7908496732026143,
+        "evidence_tp": 183,
+        "evidence_fp": 58,
+        "evidence_fn": 191,
+        "evidence_micro_f1_gold_non_neutral": 0.5951219512195122,
+        "joint_exact_correct": 142,
+        "joint_exact_accuracy": 0.46405228758169936,
+        "nonneutral_label_and_all_evidence_correct": 59,
+        "correct_nm_with_empty_evidence": 83,
+        "false_NotMentioned": 21
+      },
+      "after": {
+        "documents": 18,
+        "hypotheses": 306,
+        "label_correct": 248,
+        "label_accuracy": 0.8104575163398693,
+        "evidence_tp": 177,
+        "evidence_fp": 48,
+        "evidence_fn": 197,
+        "evidence_micro_f1_gold_non_neutral": 0.5909849749582637,
+        "joint_exact_correct": 151,
+        "joint_exact_accuracy": 0.4934640522875817,
+        "nonneutral_label_and_all_evidence_correct": 63,
+        "correct_nm_with_empty_evidence": 88,
+        "false_NotMentioned": 23
+      },
+      "label_fixes": [
+        [
+          262,
+          "nda-1"
+        ],
+        [
+          588,
+          "nda-17"
+        ],
+        [
+          177,
+          "nda-20"
+        ],
+        [
+          177,
+          "nda-4"
+        ],
+        [
+          187,
+          "nda-16"
+        ],
+        [
+          187,
+          "nda-20"
+        ],
+        [
+          187,
+          "nda-7"
+        ],
+        [
+          187,
+          "nda-17"
+        ],
+        [
+          273,
+          "nda-16"
+        ],
+        [
+          273,
+          "nda-15"
+        ],
+        [
+          273,
+          "nda-10"
+        ],
+        [
+          416,
+          "nda-16"
+        ],
+        [
+          261,
+          "nda-13"
+        ],
+        [
+          487,
+          "nda-16"
+        ],
+        [
+          487,
+          "nda-20"
+        ],
+        [
+          487,
+          "nda-5"
+        ],
+        [
+          377,
+          "nda-15"
+        ],
+        [
+          377,
+          "nda-17"
+        ],
+        [
+          159,
+          "nda-20"
+        ],
+        [
+          430,
+          "nda-12"
+        ],
+        [
+          430,
+          "nda-3"
+        ],
+        [
+          430,
+          "nda-13"
+        ],
+        [
+          290,
+          "nda-15"
+        ],
+        [
+          290,
+          "nda-2"
+        ],
+        [
+          290,
+          "nda-17"
+        ],
+        [
+          383,
+          "nda-15"
+        ],
+        [
+          383,
+          "nda-19"
+        ],
+        [
+          383,
+          "nda-12"
+        ],
+        [
+          92,
+          "nda-20"
+        ]
+      ],
+      "label_damage": [
+        [
+          262,
+          "nda-15"
+        ],
+        [
+          588,
+          "nda-1"
+        ],
+        [
+          588,
+          "nda-13"
+        ],
+        [
+          538,
+          "nda-18"
+        ],
+        [
+          538,
+          "nda-8"
+        ],
+        [
+          177,
+          "nda-15"
+        ],
+        [
+          177,
+          "nda-1"
+        ],
+        [
+          136,
+          "nda-7"
+        ],
+        [
+          187,
+          "nda-1"
+        ],
+        [
+          416,
+          "nda-10"
+        ],
+        [
+          416,
+          "nda-5"
+        ],
+        [
+          261,
+          "nda-1"
+        ],
+        [
+          261,
+          "nda-20"
+        ],
+        [
+          487,
+          "nda-1"
+        ],
+        [
+          159,
+          "nda-7"
+        ],
+        [
+          430,
+          "nda-20"
+        ],
+        [
+          290,
+          "nda-20"
+        ],
+        [
+          622,
+          "nda-12"
+        ],
+        [
+          622,
+          "nda-13"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          383,
+          "nda-5"
+        ],
+        [
+          92,
+          "nda-2"
+        ],
+        [
+          92,
+          "nda-3"
+        ]
+      ],
+      "joint_fixes": [
+        [
+          262,
+          "nda-1"
+        ],
+        [
+          588,
+          "nda-17"
+        ],
+        [
+          538,
+          "nda-3"
+        ],
+        [
+          177,
+          "nda-20"
+        ],
+        [
+          177,
+          "nda-4"
+        ],
+        [
+          187,
+          "nda-20"
+        ],
+        [
+          187,
+          "nda-17"
+        ],
+        [
+          273,
+          "nda-16"
+        ],
+        [
+          273,
+          "nda-15"
+        ],
+        [
+          416,
+          "nda-16"
+        ],
+        [
+          261,
+          "nda-13"
+        ],
+        [
+          487,
+          "nda-16"
+        ],
+        [
+          487,
+          "nda-20"
+        ],
+        [
+          487,
+          "nda-5"
+        ],
+        [
+          377,
+          "nda-17"
+        ],
+        [
+          159,
+          "nda-20"
+        ],
+        [
+          430,
+          "nda-12"
+        ],
+        [
+          430,
+          "nda-3"
+        ],
+        [
+          430,
+          "nda-18"
+        ],
+        [
+          430,
+          "nda-13"
+        ],
+        [
+          290,
+          "nda-15"
+        ],
+        [
+          290,
+          "nda-2"
+        ],
+        [
+          290,
+          "nda-17"
+        ],
+        [
+          383,
+          "nda-15"
+        ],
+        [
+          383,
+          "nda-19"
+        ],
+        [
+          383,
+          "nda-12"
+        ]
+      ],
+      "joint_damage": [
+        [
+          262,
+          "nda-16"
+        ],
+        [
+          262,
+          "nda-15"
+        ],
+        [
+          588,
+          "nda-1"
+        ],
+        [
+          177,
+          "nda-15"
+        ],
+        [
+          177,
+          "nda-1"
+        ],
+        [
+          187,
+          "nda-1"
+        ],
+        [
+          416,
+          "nda-10"
+        ],
+        [
+          416,
+          "nda-5"
+        ],
+        [
+          261,
+          "nda-1"
+        ],
+        [
+          487,
+          "nda-1"
+        ],
+        [
+          159,
+          "nda-7"
+        ],
+        [
+          430,
+          "nda-20"
+        ],
+        [
+          290,
+          "nda-20"
+        ],
+        [
+          622,
+          "nda-12"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          92,
+          "nda-2"
+        ],
+        [
+          92,
+          "nda-3"
+        ]
+      ],
+      "true_original_members_gained": 21,
+      "true_original_members_lost": 27,
+      "new_false_NM_from_correct_non_NM": [
+        [
+          588,
+          "nda-13"
+        ],
+        [
+          538,
+          "nda-18"
+        ],
+        [
+          538,
+          "nda-8"
+        ],
+        [
+          416,
+          "nda-10"
+        ],
+        [
+          416,
+          "nda-5"
+        ],
+        [
+          430,
+          "nda-20"
+        ],
+        [
+          622,
+          "nda-12"
+        ],
+        [
+          622,
+          "nda-13"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          383,
+          "nda-5"
+        ],
+        [
+          92,
+          "nda-3"
+        ]
+      ],
+      "ordinary_tool_may_also_change_in_seen_fit_not_pure_skill_effect": true
+    },
+    "unconditional_layout": {
+      "before": {
+        "documents": 18,
+        "hypotheses": 306,
+        "label_correct": 241,
+        "label_accuracy": 0.7875816993464052,
+        "evidence_tp": 174,
+        "evidence_fp": 42,
+        "evidence_fn": 200,
+        "evidence_micro_f1_gold_non_neutral": 0.5898305084745763,
+        "joint_exact_correct": 146,
+        "joint_exact_accuracy": 0.477124183006536,
+        "nonneutral_label_and_all_evidence_correct": 64,
+        "correct_nm_with_empty_evidence": 82,
+        "false_NotMentioned": 24
+      },
+      "after": {
+        "documents": 18,
+        "hypotheses": 306,
+        "label_correct": 248,
+        "label_accuracy": 0.8104575163398693,
+        "evidence_tp": 177,
+        "evidence_fp": 48,
+        "evidence_fn": 197,
+        "evidence_micro_f1_gold_non_neutral": 0.5909849749582637,
+        "joint_exact_correct": 151,
+        "joint_exact_accuracy": 0.4934640522875817,
+        "nonneutral_label_and_all_evidence_correct": 63,
+        "correct_nm_with_empty_evidence": 88,
+        "false_NotMentioned": 23
+      },
+      "label_fixes": [
+        [
+          262,
+          "nda-1"
+        ],
+        [
+          177,
+          "nda-16"
+        ],
+        [
+          177,
+          "nda-20"
+        ],
+        [
+          136,
+          "nda-20"
+        ],
+        [
+          136,
+          "nda-3"
+        ],
+        [
+          136,
+          "nda-17"
+        ],
+        [
+          187,
+          "nda-16"
+        ],
+        [
+          187,
+          "nda-20"
+        ],
+        [
+          187,
+          "nda-7"
+        ],
+        [
+          187,
+          "nda-17"
+        ],
+        [
+          273,
+          "nda-16"
+        ],
+        [
+          273,
+          "nda-10"
+        ],
+        [
+          416,
+          "nda-16"
+        ],
+        [
+          487,
+          "nda-16"
+        ],
+        [
+          487,
+          "nda-20"
+        ],
+        [
+          377,
+          "nda-15"
+        ],
+        [
+          377,
+          "nda-20"
+        ],
+        [
+          430,
+          "nda-12"
+        ],
+        [
+          430,
+          "nda-3"
+        ],
+        [
+          290,
+          "nda-15"
+        ],
+        [
+          290,
+          "nda-2"
+        ],
+        [
+          290,
+          "nda-17"
+        ],
+        [
+          622,
+          "nda-20"
+        ],
+        [
+          383,
+          "nda-15"
+        ],
+        [
+          383,
+          "nda-19"
+        ],
+        [
+          383,
+          "nda-12"
+        ],
+        [
+          92,
+          "nda-20"
+        ]
+      ],
+      "label_damage": [
+        [
+          262,
+          "nda-15"
+        ],
+        [
+          588,
+          "nda-1"
+        ],
+        [
+          588,
+          "nda-18"
+        ],
+        [
+          538,
+          "nda-18"
+        ],
+        [
+          538,
+          "nda-8"
+        ],
+        [
+          177,
+          "nda-1"
+        ],
+        [
+          187,
+          "nda-1"
+        ],
+        [
+          416,
+          "nda-5"
+        ],
+        [
+          261,
+          "nda-1"
+        ],
+        [
+          261,
+          "nda-20"
+        ],
+        [
+          159,
+          "nda-7"
+        ],
+        [
+          430,
+          "nda-20"
+        ],
+        [
+          290,
+          "nda-20"
+        ],
+        [
+          622,
+          "nda-1"
+        ],
+        [
+          622,
+          "nda-12"
+        ],
+        [
+          622,
+          "nda-13"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          383,
+          "nda-5"
+        ],
+        [
+          92,
+          "nda-2"
+        ],
+        [
+          92,
+          "nda-3"
+        ]
+      ],
+      "joint_fixes": [
+        [
+          262,
+          "nda-1"
+        ],
+        [
+          538,
+          "nda-3"
+        ],
+        [
+          177,
+          "nda-16"
+        ],
+        [
+          177,
+          "nda-20"
+        ],
+        [
+          187,
+          "nda-20"
+        ],
+        [
+          187,
+          "nda-17"
+        ],
+        [
+          273,
+          "nda-16"
+        ],
+        [
+          416,
+          "nda-16"
+        ],
+        [
+          261,
+          "nda-3"
+        ],
+        [
+          261,
+          "nda-13"
+        ],
+        [
+          487,
+          "nda-16"
+        ],
+        [
+          487,
+          "nda-20"
+        ],
+        [
+          377,
+          "nda-20"
+        ],
+        [
+          430,
+          "nda-12"
+        ],
+        [
+          430,
+          "nda-3"
+        ],
+        [
+          430,
+          "nda-18"
+        ],
+        [
+          290,
+          "nda-15"
+        ],
+        [
+          290,
+          "nda-2"
+        ],
+        [
+          290,
+          "nda-17"
+        ],
+        [
+          622,
+          "nda-20"
+        ],
+        [
+          383,
+          "nda-15"
+        ],
+        [
+          383,
+          "nda-19"
+        ],
+        [
+          383,
+          "nda-12"
+        ]
+      ],
+      "joint_damage": [
+        [
+          262,
+          "nda-16"
+        ],
+        [
+          262,
+          "nda-15"
+        ],
+        [
+          588,
+          "nda-1"
+        ],
+        [
+          538,
+          "nda-4"
+        ],
+        [
+          177,
+          "nda-1"
+        ],
+        [
+          187,
+          "nda-1"
+        ],
+        [
+          416,
+          "nda-5"
+        ],
+        [
+          261,
+          "nda-1"
+        ],
+        [
+          261,
+          "nda-17"
+        ],
+        [
+          159,
+          "nda-7"
+        ],
+        [
+          430,
+          "nda-2"
+        ],
+        [
+          430,
+          "nda-20"
+        ],
+        [
+          290,
+          "nda-20"
+        ],
+        [
+          622,
+          "nda-1"
+        ],
+        [
+          622,
+          "nda-12"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          92,
+          "nda-2"
+        ],
+        [
+          92,
+          "nda-3"
+        ]
+      ],
+      "true_original_members_gained": 27,
+      "true_original_members_lost": 24,
+      "new_false_NM_from_correct_non_NM": [
+        [
+          588,
+          "nda-18"
+        ],
+        [
+          538,
+          "nda-18"
+        ],
+        [
+          538,
+          "nda-8"
+        ],
+        [
+          416,
+          "nda-5"
+        ],
+        [
+          430,
+          "nda-20"
+        ],
+        [
+          622,
+          "nda-12"
+        ],
+        [
+          622,
+          "nda-13"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          383,
+          "nda-5"
+        ],
+        [
+          92,
+          "nda-3"
+        ]
+      ],
+      "ordinary_tool_may_also_change_in_seen_fit_not_pure_skill_effect": true
+    }
+  },
+  "before_main_error_strata": {
+    "Gold_non_NM_queries": 189,
+    "false_NM": 23,
+    "false_NM_all_Gold_already_in_candidates": 5,
+    "false_NM_has_delivered_scoped_skills": 19,
+    "correct_label_inexact_evidence_queries": 97,
+    "missed_true_members": 197,
+    "missed_true_members_already_candidates": 18,
+    "missed_true_members_on_correct_label_queries": 147
+  },
+  "seen_fit_main_error_strata_not_pure_skill_effect": {
+    "Gold_non_NM_queries": 189,
+    "false_NM": 9,
+    "false_NM_all_Gold_already_in_candidates": 9,
+    "false_NM_has_delivered_scoped_skills": 9,
+    "correct_label_inexact_evidence_queries": 33,
+    "missed_true_members": 59,
+    "missed_true_members_already_candidates": 46,
+    "missed_true_members_on_correct_label_queries": 48
+  },
+  "literal_original_case_examples_for_mechanism_audit_not_case_specific_prompt_rules": [
+    {
+      "stage": "before",
+      "actual_query": {
+        "d": 622,
+        "h": "nda-12",
+        "Gold_choice": "Entailment",
+        "Gold_spans": [
+          28,
+          31
+        ],
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "No explicit independent development allowance.",
+        "label_correct": false,
+        "joint_correct": false,
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "candidate_members": [
+          28,
+          31
+        ],
+        "all_Gold_members_in_candidates": true,
+        "delivered_skill_ids": [
+          "nda-list-governance-completeness"
+        ],
+        "used_skill_ids": [],
+        "skill_use_is_public_report_not_faithful_attention_or_causal_credit": true
+      },
+      "original_hypothesis": "Receiving Party may independently develop information similar to Confidential Information.",
+      "original_Gold_and_actual_or_candidate_span_text": [
+        {
+          "original_span_index": 28,
+          "literal_original_text": "Confidential Information will not include information to the extent that: ",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": true
+        },
+        {
+          "original_span_index": 31,
+          "literal_original_text": "(c) such information was in the possession of the Receiving Party at the time of the disclosure or was independently developed by the Receiving Party, as reflected by the Receiving Party’s internal, written and dated documentation; or ",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": true
+        }
+      ]
+    },
+    {
+      "stage": "before",
+      "actual_query": {
+        "d": 613,
+        "h": "nda-17",
+        "Gold_choice": "Entailment",
+        "Gold_spans": [
+          12
+        ],
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "No copy permission explicitly stated.",
+        "label_correct": false,
+        "joint_correct": false,
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "candidate_members": [],
+        "all_Gold_members_in_candidates": false,
+        "delivered_skill_ids": [
+          "nda-copy-express-permission",
+          "nda-copy-access-only",
+          "nda-copy-express-prohibition"
+        ],
+        "used_skill_ids": [
+          "nda-copy-express-permission"
+        ],
+        "skill_use_is_public_report_not_faithful_attention_or_causal_credit": true
+      },
+      "original_hypothesis": "Receiving Party may create a copy of some Confidential Information in some circumstances.",
+      "original_Gold_and_actual_or_candidate_span_text": [
+        {
+          "original_span_index": 12,
+          "literal_original_text": "Proprietary Information shall not be reproduced in any other form except as required to accomplish the Purpose",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": false
+        }
+      ]
+    },
+    {
+      "stage": "before",
+      "actual_query": {
+        "d": 92,
+        "h": "nda-17",
+        "Gold_choice": "Contradiction",
+        "Gold_spans": [
+          19
+        ],
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "No copy permission.",
+        "label_correct": false,
+        "joint_correct": false,
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "candidate_members": [
+          19
+        ],
+        "all_Gold_members_in_candidates": true,
+        "delivered_skill_ids": [
+          "nda-copy-express-permission",
+          "nda-copy-access-only",
+          "nda-copy-express-prohibition"
+        ],
+        "used_skill_ids": [
+          "nda-copy-access-only"
+        ],
+        "skill_use_is_public_report_not_faithful_attention_or_causal_credit": true
+      },
+      "original_hypothesis": "Receiving Party may create a copy of some Confidential Information in some circumstances.",
+      "original_Gold_and_actual_or_candidate_span_text": [
+        {
+          "original_span_index": 19,
+          "literal_original_text": "In addition, each party undertakes not to use the other party's Confidential Information except for the Purpose, not to disclose, copy, reproduce or distribute the other party's Confidential Information to a third person and to use all reasonable efforts to prevent any such disclosure except as permitted under Clause 4 but in no event less than reasonable security measures and reasonable care.",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": true
+        }
+      ]
+    },
+    {
+      "stage": "before",
+      "actual_query": {
+        "d": 430,
+        "h": "nda-4",
+        "Gold_choice": "Entailment",
+        "Gold_spans": [
+          50
+        ],
+        "choice": "Entailment",
+        "spans": [
+          49
+        ],
+        "reason": "Use restricted to non-beneficial purposes.",
+        "label_correct": true,
+        "joint_correct": false,
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "candidate_members": [],
+        "all_Gold_members_in_candidates": false,
+        "delivered_skill_ids": [
+          "nda-purpose-limitation-polarity",
+          "nda-purpose-unrestricted-use"
+        ],
+        "used_skill_ids": [
+          "nda-purpose-limitation-polarity"
+        ],
+        "skill_use_is_public_report_not_faithful_attention_or_causal_credit": true
+      },
+      "original_hypothesis": "Receiving Party shall not use any Confidential Information for any purpose other than the purposes stated in Agreement.",
+      "original_Gold_and_actual_or_candidate_span_text": [
+        {
+          "original_span_index": 49,
+          "literal_original_text": "Selling Shareholder shall not, without the prior written approval of Dollar Tree, at any time copy, reproduce, disclose or divulge to any third party, use or permit others to use any confidential information of SAI or Dollar Tree (including financial information, sources of supplies and materials, prospective and existing expansion programs, joint ventures and affiliate agreements, business systems and marketing methods, and all business affairs). ",
+          "Gold_member": false,
+          "actual_answer_member": true,
+          "candidate_member": false
+        },
+        {
+          "original_span_index": 50,
+          "literal_original_text": "During the Restricted Period, Selling Shareholder shall keep secret and retain in strictest confidence, and shall not use for the benefit of Selling Shareholder, Selling Shareholder's affiliate, or others, all confidential matters of the Business or of Dollar Tree, including trade secrets, details of supplier contracts, lease provisions and terms, operational methods and marketing plans or strategies. ",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": false
+        }
+      ]
+    },
+    {
+      "stage": "before",
+      "actual_query": {
+        "d": 430,
+        "h": "nda-2",
+        "Gold_choice": "Contradiction",
+        "Gold_spans": [
+          49,
+          50
+        ],
+        "choice": "Contradiction",
+        "spans": [
+          38
+        ],
+        "reason": "Confidential Info includes non-technical data.",
+        "label_correct": true,
+        "joint_correct": false,
+        "tp": 0,
+        "fp": 1,
+        "fn": 2,
+        "candidate_members": [],
+        "all_Gold_members_in_candidates": false,
+        "delivered_skill_ids": [
+          "nda-only-technical-contradicted-by-content",
+          "nda-only-technical-no-content-proof"
+        ],
+        "used_skill_ids": [
+          "nda-only-technical-contradicted-by-content"
+        ],
+        "skill_use_is_public_report_not_faithful_attention_or_causal_credit": true
+      },
+      "original_hypothesis": "Confidential Information shall only include technical information.",
+      "original_Gold_and_actual_or_candidate_span_text": [
+        {
+          "original_span_index": 38,
+          "literal_original_text": "(ii) any store engaged in the retail sale of goods (e.g., toys, health and beauty aids, food, books, party goods, stationery, hardware, housewares, jewelry, hair products, crafts, pet supplies, etc.) where at least eighty percent (80%) of such goods are sold at or below $2.00.",
+          "Gold_member": false,
+          "actual_answer_member": true,
+          "candidate_member": false
+        },
+        {
+          "original_span_index": 49,
+          "literal_original_text": "Selling Shareholder shall not, without the prior written approval of Dollar Tree, at any time copy, reproduce, disclose or divulge to any third party, use or permit others to use any confidential information of SAI or Dollar Tree (including financial information, sources of supplies and materials, prospective and existing expansion programs, joint ventures and affiliate agreements, business systems and marketing methods, and all business affairs). ",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": false
+        },
+        {
+          "original_span_index": 50,
+          "literal_original_text": "During the Restricted Period, Selling Shareholder shall keep secret and retain in strictest confidence, and shall not use for the benefit of Selling Shareholder, Selling Shareholder's affiliate, or others, all confidential matters of the Business or of Dollar Tree, including trade secrets, details of supplier contracts, lease provisions and terms, operational methods and marketing plans or strategies. ",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": false
+        }
+      ]
+    },
+    {
+      "stage": "after",
+      "actual_query": {
+        "d": 622,
+        "h": "nda-8",
+        "Gold_choice": "Entailment",
+        "Gold_spans": [
+          28,
+          32,
+          168
+        ],
+        "choice": "Entailment",
+        "spans": [
+          168
+        ],
+        "reason": "Requires notice for compelled disclosure.",
+        "label_correct": true,
+        "joint_correct": false,
+        "tp": 1,
+        "fp": 0,
+        "fn": 2,
+        "candidate_members": [
+          28,
+          32,
+          168
+        ],
+        "all_Gold_members_in_candidates": true,
+        "delivered_skill_ids": [
+          "nda-compelled-disclosure-notice"
+        ],
+        "used_skill_ids": [
+          "nda-compelled-disclosure-notice"
+        ],
+        "skill_use_is_public_report_not_faithful_attention_or_causal_credit": true
+      },
+      "original_hypothesis": "Receiving Party shall notify Disclosing Party in case Receiving Party is required by law, regulation or judicial process to disclose any Confidential Information.",
+      "original_Gold_and_actual_or_candidate_span_text": [
+        {
+          "original_span_index": 28,
+          "literal_original_text": "Confidential Information will not include information to the extent that: ",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": true
+        },
+        {
+          "original_span_index": 32,
+          "literal_original_text": "(d) an applicable regulation, court order or other legal process requires the disclosure of such information, provided that prior to such disclosure the Disclosing Party will give notice to the other Party so that the other Party may take reasonable steps to oppose or limit such disclosure, so that the Disclosing Party does not disclose any more information than necessary to comply with such legal process. ",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": true
+        },
+        {
+          "original_span_index": 168,
+          "literal_original_text": "The Receiving Party is allowed to disclose Confidential Information of the Disclosing Party to the extent required by Law or by the order or a court of similar judicial or administrative body with jurisdiction, provided that the Receiving Party notifies the Disclosing Party of such required disclosure promptly and in writing and cooperates with the Disclosing Party, at the Disclosing Party’s reasonable request and expense, in any lawful action to contest or limit the scope of such required disclosure. ",
+          "Gold_member": true,
+          "actual_answer_member": true,
+          "candidate_member": true
+        }
+      ]
+    },
+    {
+      "stage": "after",
+      "actual_query": {
+        "d": 613,
+        "h": "nda-8",
+        "Gold_choice": "Entailment",
+        "Gold_spans": [
+          14,
+          17,
+          18
+        ],
+        "choice": "Entailment",
+        "spans": [
+          17,
+          18
+        ],
+        "reason": "Notice required for compelled disclosure",
+        "label_correct": true,
+        "joint_correct": false,
+        "tp": 2,
+        "fp": 0,
+        "fn": 1,
+        "candidate_members": [
+          14,
+          17,
+          18
+        ],
+        "all_Gold_members_in_candidates": true,
+        "delivered_skill_ids": [
+          "nda-compelled-disclosure-notice"
+        ],
+        "used_skill_ids": [
+          "nda-compelled-disclosure-notice"
+        ],
+        "skill_use_is_public_report_not_faithful_attention_or_causal_credit": true
+      },
+      "original_hypothesis": "Receiving Party shall notify Disclosing Party in case Receiving Party is required by law, regulation or judicial process to disclose any Confidential Information.",
+      "original_Gold_and_actual_or_candidate_span_text": [
+        {
+          "original_span_index": 14,
+          "literal_original_text": "5. The obligations of confidentiality and restrictions on use set forth in Paragraph 2 above do not apply to information that Recipient can demonstrate by competent physical evidence:",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": true
+        },
+        {
+          "original_span_index": 17,
+          "literal_original_text": "(c) is disclosed pursuant to law, regulation or lawful order or process, provided that Recipient promptly notifies ",
+          "Gold_member": true,
+          "actual_answer_member": true,
+          "candidate_member": true
+        },
+        {
+          "original_span_index": 18,
+          "literal_original_text": "Discloser so as to permit Discloser to oppose or limit such disclosure; or",
+          "Gold_member": true,
+          "actual_answer_member": true,
+          "candidate_member": true
+        }
+      ]
+    },
+    {
+      "stage": "after",
+      "actual_query": {
+        "d": 290,
+        "h": "nda-12",
+        "Gold_choice": "Entailment",
+        "Gold_spans": [
+          6,
+          8
+        ],
+        "choice": "Entailment",
+        "spans": [
+          6
+        ],
+        "reason": "Info created by Receiving Party excluded",
+        "label_correct": true,
+        "joint_correct": false,
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "candidate_members": [
+          6
+        ],
+        "all_Gold_members_in_candidates": false,
+        "delivered_skill_ids": [
+          "nda-list-governance-completeness"
+        ],
+        "used_skill_ids": [
+          "nda-list-governance-completeness"
+        ],
+        "skill_use_is_public_report_not_faithful_attention_or_causal_credit": true
+      },
+      "original_hypothesis": "Receiving Party may independently develop information similar to Confidential Information.",
+      "original_Gold_and_actual_or_candidate_span_text": [
+        {
+          "original_span_index": 6,
+          "literal_original_text": "Receiving Party's obligations under this Agreement do not extend to information that is: ",
+          "Gold_member": true,
+          "actual_answer_member": true,
+          "candidate_member": true
+        },
+        {
+          "original_span_index": 8,
+          "literal_original_text": "(b) discovered or created by the Receiving Party before disclosure by Disclosing Party; ",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": false
+        }
+      ]
+    },
+    {
+      "stage": "after",
+      "actual_query": {
+        "d": 92,
+        "h": "nda-4",
+        "Gold_choice": "Entailment",
+        "Gold_spans": [
+          19,
+          24,
+          25,
+          62
+        ],
+        "choice": "Entailment",
+        "spans": [
+          19,
+          25
+        ],
+        "reason": "Purpose limitation.",
+        "label_correct": true,
+        "joint_correct": false,
+        "tp": 2,
+        "fp": 0,
+        "fn": 2,
+        "candidate_members": [
+          19,
+          24,
+          25
+        ],
+        "all_Gold_members_in_candidates": false,
+        "delivered_skill_ids": [
+          "nda-purpose-limitation-polarity",
+          "nda-purpose-unrestricted-use"
+        ],
+        "used_skill_ids": [
+          "nda-purpose-limitation-polarity"
+        ],
+        "skill_use_is_public_report_not_faithful_attention_or_causal_credit": true
+      },
+      "original_hypothesis": "Receiving Party shall not use any Confidential Information for any purpose other than the purposes stated in Agreement.",
+      "original_Gold_and_actual_or_candidate_span_text": [
+        {
+          "original_span_index": 19,
+          "literal_original_text": "In addition, each party undertakes not to use the other party's Confidential Information except for the Purpose, not to disclose, copy, reproduce or distribute the other party's Confidential Information to a third person and to use all reasonable efforts to prevent any such disclosure except as permitted under Clause 4 but in no event less than reasonable security measures and reasonable care.",
+          "Gold_member": true,
+          "actual_answer_member": true,
+          "candidate_member": true
+        },
+        {
+          "original_span_index": 24,
+          "literal_original_text": "Each party may disclose the Confidential Information of the other party in the following circumstances:",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": true
+        },
+        {
+          "original_span_index": 25,
+          "literal_original_text": "(a) with the prior written consent of the other party;",
+          "Gold_member": true,
+          "actual_answer_member": true,
+          "candidate_member": true
+        },
+        {
+          "original_span_index": 62,
+          "literal_original_text": "A variation of this Agreement is valid only if it is in writing and signed by or on behalf of each of the parties.",
+          "Gold_member": true,
+          "actual_answer_member": false,
+          "candidate_member": false
+        }
+      ]
+    }
+  ],
+  "all_new_literal_code_and_views_precede_this_complete_B4_mechanism_audit": true,
+  "new_generation_teacher_calls": [
+    0,
+    0
+  ],
+  "no_current_frozen_bindings_or_Gold_modified": true,
+  "not_an_independent_legal_judgment_or_single_skill_causal_audit": true
+}
