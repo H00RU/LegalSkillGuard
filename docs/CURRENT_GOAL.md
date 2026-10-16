@@ -5,6 +5,17 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+06:58 corrective Run01已prepare，尚未launch/调用教师，当前无实验worker；原8B2261314
+保持不动。新源码/协议/原作者TRAIN与真实own观察快速审计通过：453冻结绑定，完整
+teacher901106chars，24已见源/24实际公共答案，295引用（257非NM纠错+38局部误选
+反例），原24 Gold标签可逐SPAN移除并恢复完整原文，旧18观察逐字保留、新6与实际
+B4joint wire/执行库一致。后续预选8案source-only独立存储、无Gold且不进入教师。
+当前父库仍是最新4条（非挑高分旧库），纠错展开3700master/3986scoped；新库须在
+实际教师后再完整验证4096/context预算。未发生新资格生成/fit；下一commit并独立
+保全全453绑定后launch一个教师+最多16 native的B4更新→后续不同合同配对。
+这是已暴露开发源上的明确方法修复延续，不是正式完整训练或untuned TEST，收益未知。
+预审计在新run monitoring/prelaunch_original_author_corrective_members_actual_own24_and_future_separation_audit.json。
+
 06:46真实终态：anchored Run01已于06:38:22 completed24/1，PID1221429消失，原8B2261314
 未动。24个独立native均stop/schema有效，按原作者TRAIN原集合独立重数，全部实际wire/
 源文/前瞻请求/新库/trace/usage与418绑定相符；最终442绑定。审计monitoring/
