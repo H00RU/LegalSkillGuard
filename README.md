@@ -1,5 +1,17 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Latest Oct17 00:36 CST: complete B2 original-author/native/teacher audit passed;
+worker654539 is running B3,42/148 new native,2/4 new main teachers,1 fixed static.
+B2 NEW-source main75.49/47.67/41.18% vs same-tool80.39/49.25/44.12%: all three
+worse, true members46<49, NN exact13<15. After-fit89.22/89.17/74.51% is not
+transfer/pure skill benefit. M2 actually accounted261 members but added only2
+copy-polarity rules;8 records1128 master/961 table tokens, scope still6 tasks.
+Next inspect complete M2→B3 evidence gains/damage and the mismatch between
+member analysis and actual evidence-gathering procedures, not just class rules.
+No hot edits/forced count, no mature-method superiority or formal TEST claim.
+
+Historical Oct17 00:13 checkpoint:
+
 Latest Oct17 00:13 CST: NEW `legal_contractnli_witness_table_online_learning_20261016_run01`
 is truly running as detached PID654539, launched Oct16 23:51:53;20/148 new native,
 1/4 new main teachers plus1 historical PUBLIC-only static artifact, B2 first encounters.
