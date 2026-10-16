@@ -248,6 +248,59 @@ def conditioned_messages(row, labels, system, bank, proposals, *, unconditional=
     return messages, schema, delivery
 
 
+def encode_parent_projections(original):
+    """Factor exact repeated projections, without summarizing any observation."""
+    body = copy.deepcopy(original)
+    parent = {s["id"]: s for s in body["complete_actual_parent_library"]}
+    for case in body["cumulative_seen_original_train_cases"]:
+        obs = case["actual_own_same_parent_observation"]
+        if obs is None:
+            continue
+        delivery = obs["actual_source_conditioning_and_delivery"]
+        expected = parent_projection(parent, delivery["actually_delivered_skill_ids"])
+        if (
+            expected != delivery.pop("actually_delivered_projection")
+            or canonical_json_sha256(expected) != delivery["actually_delivered_projection_sha256"]
+        ):
+            raise ValueError("Projection must equal the exact parent subset before factoring")
+    body["lossless_projection_encoding"] = {
+        "version": "exact-current-parent-projection-reference-v1",
+        "meaning": "For every non-null observation reconstruct actually_delivered_projection from the ordered actually_delivered_skill_ids and complete_actual_parent_library. Each projected record contains id, hypothesis_ids, and guidance fields when, inspection, relation_if_established, evidence_requirement only. This is exactly the delivered subset, NOT the whole parent. Every original source, Gold, actual answer, local trace, cue match, operation, order, projection hash and token count is unchanged.",
+    }
+    if decode_parent_projections(body) != original:
+        raise ValueError("Factored teacher observations failed exact roundtrip")
+    return body
+
+
+def parent_projection(parent, ids):
+    return [
+        {
+            "id": sid,
+            "hypothesis_ids": parent[sid]["hypothesis_ids"],
+            "guidance": {
+                k: parent[sid]["guidance"][k] for k in BOUNDARY_GUIDANCE_SCHEMA["required"]
+            },
+        }
+        for sid in ids
+    ]
+
+
+def decode_parent_projections(encoded):
+    body = copy.deepcopy(encoded)
+    legend = body.pop("lossless_projection_encoding")
+    if legend["version"] != "exact-current-parent-projection-reference-v1":
+        raise ValueError("Unknown teacher projection encoding")
+    parent = {s["id"]: s for s in body["complete_actual_parent_library"]}
+    for case in body["cumulative_seen_original_train_cases"]:
+        obs = case["actual_own_same_parent_observation"]
+        if obs is not None:
+            delivery = obs["actual_source_conditioning_and_delivery"]
+            delivery["actually_delivered_projection"] = parent_projection(
+                parent, delivery["actually_delivered_skill_ids"]
+            )
+    return body
+
+
 def prepare_conditioned_inputs(cfg):
     """Reuse the immutable original packet; bind every referenced dependency."""
     packet = read(ROOT / cfg["input_packet"])
@@ -292,6 +345,28 @@ def prepare_conditioned_inputs(cfg):
     for key in ("reference_ACE_run", "reference_final_run"):
         path = ROOT / cfg[key] / "completion.json"
         bindings.append(path)
+    if "continuation_parent" in cfg:
+        parent = ROOT / cfg["continuation_parent"]
+        bindings += [
+            ROOT / cfg["continuation_parent_config"],
+            (ROOT / cfg["continuation_parent_config"]).with_suffix(".frozen.json"),
+        ]
+        parent_cfg = read(ROOT / cfg["continuation_parent_config"])
+        bindings += [ROOT / parent_cfg[key] for key in ("method_protocol", "parent_protocol")]
+        bindings += [
+            parent / name
+            for name in (
+                "failure.json",
+                "declaration.json",
+                "source_snapshot.json",
+                "static_procedures.json",
+            )
+        ]
+        for folder in ("teacher", "update_transactions", "inherited_evidence_models"):
+            bindings += sorted((parent / folder).rglob("*.json"))
+        for folder in sorted(parent.glob("batch*_before")) + sorted(parent.glob("batch*_after")):
+            bindings += sorted(folder.rglob("*.json"))
+        bindings += sorted(parent.glob("batch*_summary.json"))
     return selection, sorted(set(bindings))
 
 
@@ -323,6 +398,7 @@ class ConditionedStudy(ProcedureStudy):
         if any(sum(r["batch"] == b for r in self.training) != 6 for b in range(1, 5)):
             raise ValueError("Four batches of six required")
         self.native, self.teachers, self.units, self.references = [], [], [], []
+        self.inherited_native, self.inherited_units, self.inherited_teachers = [], [], []
         self.teacher_attempts, self.current_batch, self.stop = 0, 0, False
         self.bank, self.static = [], []
         self.versions = {canonical_json_sha256([]): []}
@@ -444,6 +520,11 @@ class ConditionedStudy(ProcedureStudy):
             "four-field semantic projections are delivered, with per-observation receipts."
         )
         value["source_conditioning_API"] = API
+        if (
+            self.cfg.get("teacher_packet_encoding")
+            == "exact-current-parent-projection-reference-v1"
+        ):
+            return encode_parent_projections(value)
         return value
 
     def update(self, batch, *, include_trace):
@@ -799,7 +880,10 @@ class ConditionedStudy(ProcedureStudy):
 
     def finish(self, later):
         self.check()
-        if (len(self.native), len(self.teachers), len(self.references), len(self.units)) != (
+        all_native = self.inherited_native + self.native
+        all_teachers = self.inherited_teachers + self.teachers
+        all_units = self.inherited_units + self.units
+        if (len(all_native), len(all_teachers), len(self.references), len(all_units)) != (
             90,
             5,
             76,
@@ -808,10 +892,21 @@ class ConditionedStudy(ProcedureStudy):
             raise ValueError(
                 "Complete90 new native/5 teacher/76 historical logical references required"
             )
-        self.audit_native(self.units + self.references, "complete_before_new_later_grading")
+        if (len(self.native), len(self.teachers)) != (
+            self.cfg["planned_new_native_calls"],
+            self.cfg["planned_new_teacher_calls"],
+        ):
+            raise ValueError("Fresh calls differ from the explicit continuation budget")
+        self.audit_native(all_units + self.references, "complete_before_new_later_grading")
         new_ids = {n["response"]["raw_id"] for n in self.native}
+        inherited_ids = {n["response"]["raw_id"] for n in self.inherited_native}
         old_ids = {u["response"]["raw_id"] for u in self.references}
-        if len(new_ids) != 90 or len(old_ids) != 58 or new_ids & old_ids:
+        if (
+            len(new_ids | inherited_ids) != 90
+            or len(old_ids) != 58
+            or new_ids & inherited_ids
+            or (new_ids | inherited_ids) & old_ids
+        ):
             raise ValueError("Physical new/historical response identity counts mismatch")
         # No later scoring read before all40 logical answers and all166 wire replays.
         gold = read(ROOT / self.cfg["grading_only"])["annotations"]
@@ -867,8 +962,13 @@ class ConditionedStudy(ProcedureStudy):
         done = {
             "at": now(),
             "run_id": self.run_id,
-            "new_native_calls": 90,
-            "new_teacher_calls": 5,
+            "new_native_calls": len(self.native),
+            "new_teacher_calls": len(self.teachers),
+            "explicitly_inherited_study_native_calls": len(self.inherited_native),
+            "explicitly_inherited_study_teacher_calls": len(self.inherited_teachers),
+            "total_this_learning_study_native_calls": len(all_native),
+            "total_this_learning_study_teacher_calls": len(all_teachers),
+            "continuation_parent": self.cfg.get("continuation_parent"),
             "logical_historical_references": 76,
             "unique_historical_native_responses": 58,
             "all_logical_observations": 166,
@@ -897,6 +997,14 @@ class ConditionedStudy(ProcedureStudy):
                 k: sum(t["invocation"]["usage"][k] for t in self.teachers)
                 for k in ("input_tokens", "output_tokens", "reasoning_output_tokens")
             },
+            "inherited_study_native_usage_not_new_spend": {
+                k: sum(n["response"][k] for n in self.inherited_native)
+                for k in ("prompt_tokens", "completion_tokens")
+            },
+            "inherited_study_teacher_usage_not_new_spend": {
+                k: sum(t["invocation"]["usage"][k] for t in self.inherited_teachers)
+                for k in ("input_tokens", "output_tokens", "reasoning_output_tokens")
+            },
             "new_cpu_fits": 0,
             "inherited_original_same_prefix_cpu_fits": 4,
             "exposed_development_not_formal_test_or_independent_learning_repeat": True,
@@ -911,9 +1019,207 @@ class ConditionedStudy(ProcedureStudy):
                 "at": now(),
                 "state": "completed",
                 "run_id": self.run_id,
-                "completed_native_calls": 90,
-                "completed_teacher_calls": 5,
+                "completed_native_calls": len(self.native),
+                "completed_teacher_calls": len(self.teachers),
+                "total_learning_study_native_calls": len(all_native),
+                "total_learning_study_teacher_calls": len(all_teachers),
                 "logical_historical_references": 76,
                 "completed_batches": 4,
             },
         )
+
+
+class ConditionedCompletion(ConditionedStudy):
+    """Explicit terminal54 suffix, never an automatic retry or fresh study."""
+
+    def __init__(self, config_path, *, run_id=None):
+        super().__init__(config_path, run_id=run_id)
+        parent = ROOT / self.cfg["continuation_parent"]
+        old_cfg = read(ROOT / self.cfg["continuation_parent_config"])
+        failure = read(parent / "failure.json")
+        if failure[
+            "error"
+        ] != "ValueError('Complete teacher input exceeds character capacity; never truncate')" or (
+            failure["completed_native_calls"],
+            failure["completed_teacher_calls"],
+            failure["teacher_attempts"],
+        ) != (54, 4, 4):
+            raise ValueError("Only the exact documented terminal54 capacity failure is accepted")
+        pid = read(parent / "launch.json")["pid"]
+        if (Path("/proc") / str(pid)).exists():
+            raise ValueError("Parent must have exited before a new completion")
+        for key in (
+            "generation",
+            "teacher",
+            "bundled_solver_system",
+            "library_token_hard_cap",
+            "input_packet",
+            "grading_only",
+            "training_ids",
+            "expected_later_ids",
+            "memory_representation",
+        ):
+            if self.cfg[key] != old_cfg[key]:
+                raise ValueError("Continuation changed an inference/data/teacher condition: " + key)
+        if (
+            self.cfg.get("teacher_packet_encoding")
+            != "exact-current-parent-projection-reference-v1"
+        ):
+            raise ValueError("Explicit lossless encoding declaration required")
+        self.parent = parent
+        self.static = read(parent / "static_procedures.json")["library"]
+        for batch in range(1, 4):
+            transaction = read(parent / "update_transactions" / f"b{batch}.json")
+            bank = transaction["publication"]
+            self.versions[canonical_json_sha256(bank)] = bank
+            self.summaries.append(read(parent / f"batch{batch}_summary.json"))
+            manifest = read(
+                ROOT
+                / self.cfg["reference_training_run"]
+                / "evidence_models"
+                / f"ordinary_M{batch}.manifest.json"
+            )
+            self.state_versions[manifest["state_sha256"]] = {
+                k: v for k, v in manifest.items() if k != "state_sha256"
+            }
+        self.bank = copy.deepcopy(bank)
+        self.state = manifest["state_sha256"]
+        with Path(manifest["path"]).open("rb") as stream:
+            self.model = pickle.load(stream)
+        for path in sorted(parent.glob("batch*_before/*/*.reference.json")):
+            self.references.append(read(path))
+        for path in sorted(parent.glob("batch*_*/*/*.public.json")):
+            unit = read(path)
+            self.inherited_units.append(unit)
+            self.inherited_native.append(read(unit["raw_artifact"]))
+            if unit["stage"] == "batch4_before" and unit["arm"] == "trace_procedures":
+                self.before[unit["document_id"]] = unit
+            if unit["stage"].endswith("_after"):
+                self.after[unit["document_id"]] = unit
+        for name in (
+            "static_public_task_only",
+            "source_conditioned_b1",
+            "source_conditioned_b2",
+            "source_conditioned_b3",
+        ):
+            self.inherited_teachers.append(
+                {"name": name, **read(parent / "teacher" / name / "response.json")}
+            )
+        if (
+            len(self.inherited_native),
+            len(self.inherited_teachers),
+            len(self.references),
+            len(self.before),
+            len(self.after),
+        ) != (54, 4, 60, 6, 18):
+            raise ValueError("Exact complete prefix54/4/60 and observations required")
+
+    def execute(self):
+        self.check()
+        self.current_batch = 4
+        RunStore.immutable_json(
+            self.out / "launch.json", {"at": now(), "pid": os.getpid(), "argv": sys.argv}
+        )
+        RunStore.immutable_json(
+            self.out / "declaration.json",
+            {
+                "at": now(),
+                "run_id": self.run_id,
+                "config": self.cfg,
+                "frozen_bindings": self.bindings,
+                "explicit_terminal_prefix_not_fresh_training_or_independent_repeat": True,
+                "inherited_native": 54,
+                "inherited_teacher": 4,
+                "new_native_planned": 36,
+                "new_teacher_planned": 1,
+            },
+        )
+        RunStore.immutable_json(
+            self.out / "source_snapshot.json",
+            {
+                "files": {
+                    p: {"sha256": h, "utf8_text": Path(p).read_text()}
+                    for p, h in self.bindings.items()
+                    if Path(p).suffix in (".py", ".md", ".txt") or Path(p).name == "LICENSE"
+                }
+            },
+        )
+        self.audit_native(
+            self.inherited_units + self.references, "inherited114_before_new_generation"
+        )
+        self.validate_library(self.bank)
+        self.validate_library(self.static)
+        for batch, summary in enumerate(self.summaries, 1):
+            RunStore.immutable_json(
+                self.out / f"batch{batch}_summary.json",
+                {
+                    **summary,
+                    "explicit_inherited_summary_from": str(
+                        self.parent / f"batch{batch}_summary.json"
+                    ),
+                },
+            )
+        self.bank, management = self.update(4, include_trace=True)
+        self.versions[canonical_json_sha256(self.bank)] = copy.deepcopy(self.bank)
+        self.fit_ordinary(4)
+        rows = [r for r in self.training if r["batch"] == 4]
+        before = {}
+        for arm in PREFIX_ARMS:
+            suffix = "reference" if arm in ("strong_empty", "ordinary_memory") else "public"
+            before[arm] = [
+                read(self.parent / "batch4_before" / arm / f"{r['id']}.{suffix}.json") for r in rows
+            ]
+        after = self.collect("batch4_after", "trace_procedures", rows, self.bank)
+        self.after.update({u["document_id"]: u for u in after})
+        summary = {
+            "at": now(),
+            "batch": 4,
+            "source_ids": [r["id"] for r in rows],
+            "before": {a: points(u) for a, u in before.items()},
+            "after": {"trace_procedures": points(after)},
+            "strong_empty": points(before["strong_empty"]),
+            "update_effects": paired(before["trace_procedures"], after),
+            "first_encounter_trace_minus_ordinary": paired(
+                before["ordinary_memory"], before["trace_procedures"]
+            ),
+            "first_encounter_trace_minus_same_layout_control": paired(
+                before["unconditional_layout"], before["trace_procedures"]
+            ),
+            "library_management": management,
+            "explicit_inherited_before_actual_new_after": True,
+            "after_is_seen_fit_with_new_gold_and_tool_not_pure_skill_effect": True,
+        }
+        self.summaries.append(summary)
+        RunStore.immutable_json(self.out / "batch4_summary.json", summary)
+        self.audit_native(after, "new_batch4_after")
+        write_report(self.out)
+        first = [r for r in self.training if r["batch"] == 1]
+        retained = self.collect("retention_b4", "trace_procedures", first, self.bank)
+        RunStore.immutable_json(
+            self.out / "retention_b4.json",
+            {
+                "metrics": points(retained),
+                "B1_M1_to_M4": paired([self.after[r["id"]] for r in first], retained),
+                "never_to_teacher_admission_or_best_bank_selection": True,
+            },
+        )
+        RunStore.immutable_json(
+            self.out / "memory_frozen_before_later.json",
+            {
+                "at": now(),
+                "main_library": self.bank,
+                "static_library": self.static,
+                "ordinary_model_state": self.state,
+                "last_published_not_best_library": True,
+            },
+        )
+        later = {a: [] for a in ARMS}
+        for index, row in enumerate(self.future):
+            offset = index % len(ARMS)
+            for arm in ARMS[offset:] + ARMS[:offset]:
+                later[arm].append(
+                    self.reference_answer("later", arm, row)
+                    if arm in ("strong_empty", "ordinary_memory")
+                    else self.answer("later", arm, row, self.bank_for(arm))
+                )
+        self.finish(later)

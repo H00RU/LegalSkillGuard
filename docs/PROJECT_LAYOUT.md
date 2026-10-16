@@ -16,6 +16,15 @@
 
 ## 当前后台工作
 
+11:14当前唯一worker为`legal_contractnli_source_conditioned_completion_20261016_run01`，PID3692601，
+10:58:23启动；明确继承54律师/4教师，只新增36/1，当前已完成M4并进入旧案保持。
+父run02已10:49:55因输入字符冗余停止，非效果准入或换库；同父投影无损去重1092761→952413字符。
+完整字段还原、114继承观察、实际M4输入/发布均核验。377新绑定冻结至worker退出。
+默认CLI已指接续，协议[SOURCE_CONDITIONED_COMPLETION](SOURCE_CONDITIONED_COMPLETION_20261016.md)。
+终止前54/4及源码1465文件已同vdb归档，SHA见CURRENT_GOAL，非异机/缺失权重备份。
+
+### 10:40之前的主Run（历史）
+
 当前唯一实验worker：`legal_contractnli_source_conditioned_learning_20261016_run02`，PID3582024，
 10月16日09:45:00后台启动；同24原TRAIN/四批6，90新律师/5教师，另76明确历史逻辑引用。
 `learning/conditioned.py`是来源资格触发＋事实列表定位的完整在线链；CRUD无配额/效果准入。

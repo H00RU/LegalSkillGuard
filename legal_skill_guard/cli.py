@@ -20,8 +20,10 @@ from legal_skill_guard.report import write_report
 def study_for(config, run_id):
     method = read(config).get("method", "callable")
     if method == "source_conditioned_memory":
-        from legal_skill_guard.learning.conditioned import ConditionedStudy
+        from legal_skill_guard.learning.conditioned import ConditionedCompletion, ConditionedStudy
 
+        if read(config).get("continuation_parent"):
+            return ConditionedCompletion(config, run_id=run_id)
         return ConditionedStudy(config, run_id=run_id)
     if method == "trace_procedural_memory":
         from legal_skill_guard.learning.procedures import ProcedureStudy
@@ -291,7 +293,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["prepare", "launch", "worker", "status", "report"])
     parser.add_argument(
-        "--config", type=Path, default=ROOT / "configs/contractnli_source_conditioned_run02.json"
+        "--config",
+        type=Path,
+        default=ROOT / "configs/contractnli_source_conditioned_completion.json",
     )
     parser.add_argument("--run-id")
     parser.add_argument(

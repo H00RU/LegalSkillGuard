@@ -1,7 +1,16 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Current default: `legal_contractnli_source_conditioned_learning_20261016_run02`,
-launched09:45:00 CST as background PID3582024. The original8B service is unchanged.
+Current default: `legal_contractnli_source_conditioned_completion_20261016_run01`,
+launched10:58:23 CST as background PID3692601. The original8B service is unchanged.
+This explicitly inherits54 native/4 teacher from the stopped run02; only36 native/
+1 teacher are fresh. Run02 stopped10:49:55 before its fifth teacher invocation:
+M4 text1092761 exceeded1048576 characters. Exact parent projections were repeated
+in12 observations. The new952413-character request references the same ordered
+parent subsets and roundtrips to EVERY original field, without truncation,
+fallback, answer repair or a cold restart. M4 has now published16 skills/3387 tokens.
+The first114 inherited logical observations were replayed before new generation.
+See the [completion protocol](docs/SOURCE_CONDITIONED_COMPLETION_20261016.md).
+All377 current dependencies stay frozen until PID3692601 exits.
 This is a complete24-TRAIN/four-batch online development study, not a formal test.
 Published skills now learn positive source eligibility and optional factual
 list-preamble lookup. Only eligible semantic projections reach the lawyer;
@@ -12,13 +21,15 @@ An unconditional identical-layout/no-skill control separates operation gains
 from learning gains. Planned90 NEW native/5 teacher;76 explicitly validated
 historical logical references/58 unique old native responses are NOT fresh draws
 or an independent repeat. All76 full requests were checked before the first launch,
-with zero qualification generations. Read the [fixed protocol](docs/SOURCE_CONDITIONED_MEMORY_RUN02.md).
-Frozen177 dependency files must remain unchanged until PID3582024 exits.
+with zero qualification generations. Read the [parent protocol](docs/SOURCE_CONDITIONED_MEMORY_RUN02.md).
+The complete learning ancestry still has90 native/5 teacher planned, not a new
+independent learning repeat or a successful restart of the old Run ID.
 Status: `.venv/bin/python -m legal_skill_guard.cli status`.
 Run01 stopped09:41:28 with0 native/1 teacher: a needless implementation check
 rejected logically valid inflection alternatives after normalization. Run02
 retains those original cues unchanged, without deduplication, repair or fallback.
 The failed output/cost and original5c7a8ea/source snapshot remain preserved.
+Run02's complete54/4 and pre-change source were also archived and byte/history verified.
 
 ## Completed predecessor evidence (not current worker status)
 
