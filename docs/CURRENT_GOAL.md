@@ -38,6 +38,14 @@ nature-paper及计算实验清单用于约束拟合/迁移、比较臂、成本�
 为实质progress；上一实现/完整B3审计Goal turn也为progress，期间用户状态答复不算新修复。
 Goal仍active未达成：F1未胜同工具、无强成熟方法优势、独立重复/机制消融/正式测试未完成。
 
+20:37完整四批/保持及下一候选源已同vdb独立保全：
+legal-task-local-complete-four-retention-and-literal-source-before-cli-change-20261016.tar.gz，
+SHA256 7912d6753bd99dc6fe21c39dcdbfe5594a32822762ba02c3959ca2de3b80484d。
+725项目文件、全部183当前绑定和完整Git bundle HEAD8c954e760e7df6ada866c550c7cd3561c8b3059b
+逐字节验证。完整前缀lineage108原生/5教师（新72/3，继承36/2）；快照84新增raw还含终点
+部分12答，不代表后续全部终点已保全。不是异机/遗失模型权重备份。
+收据artifacts/task_local_complete_four_retention_and_literal_source_backup_20261016.json。
+
 ### 19:25历史游标
 
 19:25：PID229747继续B3首遇，15/112新律师、1/3新教师，继承36/2；B3未齐，不报局部效果。
