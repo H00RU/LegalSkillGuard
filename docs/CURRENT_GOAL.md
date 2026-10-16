@@ -5,6 +5,35 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+03:17最新正在运行的是独立证据交付诊断，不是正式main重启：
+legal_contractnli_program_member_grounding_diagnostic_20261017_run01，03:16:32后台launch
+PID960140，planned6新律师/0新教师，完整独立worker不依赖聊天。正式Run03仍已stopped，
+旧worker884108/monitor884804/内容诊断915267全部消失；8B2261314未动。不要重新启动旧Run ID。
+
+在新源码前，已将main终态66原生/4教师和完整内容诊断6/1及所有当前绑定独立保全398文件+
+完整Git HEADf9396d5a257900586b69822ad4e711c053829f11。archive
+legal-source-program-terminal66-M3-and-complete-content6-before-next-source-20261017.tar.gz，
+SHA256e4806069126870b52f6b33c6e14a7c87d36a1426556dc0ce39a98e3c2ef93d09；全部254合并绑定/
+成员/bundle核验通过，receipt artifacts/source_program_terminal66_M3_and_complete_content6_backup_20261017.json。
+
+新交付诊断固定上一次内容干预的M2语义bank/48queries/IDs/scopes/模型/解码/全部既有输入，
+仅给每题追加unverified_source_program_members（其scoped程序实际返回的全部原SPAN字面文本，
+每题各SPAN一次、原序、无Gold筛选、无候选自动并答案）。保留原全文/标签/全部query回执/
+普通候选/Schema/系统，删除追加字段逐字还原旧请求。SourceOnly行阻止构造时读除text/spans
+之外任何字段。6份新完整请求均已0生成计算，prompt20978/12283/15453/11646/11127/14804，
+全留8192在32768内；只是这6固定源容量，不保证全24/未来bank/正式TEST，不能clip后推广。
+注册271绑定（包括自身script/PROTOCOL/过去所有实际源/手工集合审计），运行中不可改这些文件。
+prepare+Ruff无模型，new0teacher，旧bank额外teacher1363成本明示继承，不是免费/独立学习。
+全部6新答落盘后worker自动评分对普通M2和语义M2，全部修复/损害/真证增丢/成本保留。
+先poll/proc/960140及本Run progress/outputs，不因观察超时/聊天capacity就判失败或重启。
+
+新预启动源码+全部271绑定另保全275文件+完整Git HEAD0f2537b6f81decedfb779b3aaa0d6fd24cf0e851，
+archive legal-source-program-literal-member-diagnostic-all271-before-launch-20261017.tar.gz，SHA256
+c39a897fd06dcdcfcdec4e8016921b3241cb27c4a08ed2b00585dc77cedcbf07，收据
+artifacts/source_program_literal_member_prelaunch_all271_backup_20261017.json，所有成员/bundle通过。
+两份均同vdb非异机/权重/auth备份。下一完整六案对照后决定主链路根因改动；若仍无SPAN净增，
+不能把NM驱动的分类/联合小幅收益冒称证据技能突破或直接再开B1。Goal仍active未达到全文目标。
+
 03:10最新真实终态：主Run03于02:57:13 stopped，worker884108/monitor884804均不存在；
 lineage66原生/4教师=本Run新30/2+36/2历史，84逻辑，全部66 finish=stop无截断。
 M3在途结果已保存并独立逐字还原：sequence1364，101.885秒/input194421/output6145
