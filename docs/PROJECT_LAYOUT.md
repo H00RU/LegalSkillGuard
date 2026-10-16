@@ -16,6 +16,11 @@
 
 ## 当前后台工作
 
+当前唯一实验worker为消融PID3439428，已在ACE08:31:34完整结束后自动08:31:37取GPU、08:31:38首答。
+08:39:49实际6/26、0教师，B3首案273。667绑定仍全部冻结，不能因ACE结束就热改生产代码。
+ACE最终82.35/66.97/58.82%，自身空库85.29/72.51/57.35%，原主M4 83.09/69.91/59.56%。
+独立84原生/原作者数据/全部集合分数与成本通过，不能声称稳定胜更强空库或成熟方法。
+
 08:08:58另已后台排队`legal_contractnli_evidence_scope_ablation_20261016_run01`，PID3439428，
 固定26新律师/0教师，等待精确ACE PID3360667及GPU锁后自动接续，不依赖对话。
 只从当时真实M1—M4库移除nda-complete-operative-evidence及必要ID元数据，全部其余文字/模型不变。
@@ -23,8 +28,8 @@
 driver仅本Run归档，协议在grounded_feedback报告目录；667绑定与当前ACE的663都冻结至各自退出。
 显式status --run-id legal_contractnli_evidence_scope_ablation_20261016_run01查看队列。
 
-最新：10月16日07:18启动`legal_contractnli_ace_same_data_20261016_run01`（PID3360667），
-同24原TRAIN/四批6/同原证据模型的原生ACE法律适配比较，计划52新律师/28教师；663绑定冻结至退出。
+已完成：10月16日07:18启动`legal_contractnli_ace_same_data_20261016_run01`（原PID3360667），
+同24原TRAIN/四批6/同原证据模型的原生ACE法律适配比较，08:31:34完成52新律师/28教师。
 用`.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_ace_same_data_20261016_run01`查看。
 原生生成提示/计数/ADD管理及自身空playbook控制保留，真实8B trace可用于反思；非新主方法或正式测试。
 case-credit PID3292117已07:00:22完整16/8自然结束，逐案组86.03/69.83/59.56%，未解决依据/联合目标，不部署额外层。
@@ -84,7 +89,8 @@ CLI默认仍指向停止父Run；旧评估32终点已全答核验后评分，新
 | `legal_contractnli_contrastive_procedure_20261016_run01` | 06:01:33容量失败，0律师/1教师保留 | coherent3183/flat4409，未生成律师回答，PID3239414退出 |
 | `legal_contractnli_contrastive_delivery_20261016_run01` | 06:21:10完整16新律师/0新教师 | completion及原作者独立重算，分类提升集中374，非稳定迁移 |
 | `legal_contractnli_case_credit_20261016_run01` | 07:00:22完整结束16新律师/8教师 | completion及原作者独立复算；额外反思不部署为主方法 |
-| `legal_contractnli_ace_same_data_20261016_run01` | 07:18启动同24案ACE法律适配比较，计划52新律师/28教师 | PID3360667、663冻结绑定；同8B/工具、原生actor与empty控制 |
+| `legal_contractnli_ace_same_data_20261016_run01` | 08:31完成52新律师/28教师 | 自身空库分类/F1更高，不升为已修复主方法 |
+| `legal_contractnli_evidence_scope_ablation_20261016_run01` | 08:31自动接续，固定26新律师/0教师 | PID3439428、667绑定冻结；全部18首遇＋8开发，非新在线训练 |
 | `legal_contractnli_nli_signal_20261016_run01` | 00:46:07完成固定规则条件的CPU分类信号诊断，无稳定额外收益 | completion与独立816预测复算；0律师/教师，不部署为法律裁判 |
 | `legal_contractnli_query_sample_size_20261015_run01` | CPU旧查询库24/64/128样本量诊断；首24拟合后严格模型一致断言失败 | 22:25:05已退出，0律师/教师，未读评价Gold，失败工件保留 |
 | `legal_contractnli_query_sample_size_20261015_run02` | 同诊断仅统一原生线程环境后全部重做；固定旧库无净F1收益 | 22:36:52完成6次CPU拟合，0律师/教师；只读旧暴露8来源，不是当前主任务成绩 |

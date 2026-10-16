@@ -1,26 +1,26 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Current active background worker: `legal_contractnli_ace_same_data_20261016_run01`,
-launched07:18:33 CST, PID3360667,52 new lawyer/28 new teacher planned.
-Same24 sources/four batches6, same frozen8B and past-prefix ordinary evidence models;
-native ACE legal adaptation plus own empty-playbook endpoint control, not a new
-main method or canonical ACE reproduction. All663 bindings frozen until exit.
-Use `.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_ace_same_data_20261016_run01`.
-Original8B PID2261314 remains untouched. New protocol: [ACE same-data comparison](docs/ACE_SAME_DATA_20261016.md).
-Queued08:08:58 CST: `legal_contractnli_evidence_scope_ablation_20261016_run01`,
-PID3439428,26 new lawyer/0 teacher. It waits for that exact ACE process and GPU
-lease, then automatically evaluates all18 historical first-encounter sources and
-all8 exposed development sources with one generic evidence skill removed.
+Current active worker: `legal_contractnli_evidence_scope_ablation_20261016_run01`,
+PID3439428,26 new lawyer/0 teacher planned. Queued08:08:58 CST, it automatically
+acquired the GPU lease08:31:37 after the exact ACE process completed and began
+all18 historical first-encounter sources plus all8 exposed development sources,
+with one generic evidence skill removed. At08:39:49 it had completed6/26.
 All26 input deltas and52 historical reference wires were verified without
 qualification generations. This is a fixed content diagnostic, not new online
 training or a score-selected library. Its667 bindings also stay frozen until exit.
 Use explicit `--run-id legal_contractnli_evidence_scope_ablation_20261016_run01`.
 Protocol: [evidence-scope ablation](reports/experiments/grounded_feedback_20261016/evidence_scope_ablation_protocol.md).
+Original8B PID2261314 remains untouched. The same24 ACE adaptation completed
+52 lawyer/28 teacher08:31:34, with all84 own/reference answers independently
+checked against the original author TRAIN data. ACE memory82.35/66.97/58.82%,
+its own empty85.29/72.51/57.35%, our original M4 83.09/69.91/59.56%.
+Do not claim stable gains over the stronger empty control or promote ACE.
+See [ACE protocol](docs/ACE_SAME_DATA_20261016.md) and the single progress readout.
 `legal_contractnli_case_credit_20261016_run01` completed16 new lawyer/8 teacher at07:00:22.
 Direct82.35/68.29/56.62%, reflected86.03/69.83/59.56%; oldM4
 83.09/69.91/59.56%, same-tool80.88/71.37/55.15% (accuracy/F1/joint).
 Case reflection is not promoted: no same-tool evidence gain or oldM4 joint gain.
-A same24-data ACE legal adaptation is now running; its final metrics are not known.
+A same24-data ACE comparison is complete; the source-scope diagnostic is now running.
 The grouping diagnostic completed16/0 at06:21:10: coherent86.03/70.43/58.82%,
 flat81.62/72.10/54.41%, same-tool80.88/71.37/55.15%. All coherent classification
 net+7 came from source374; other seven net0 label/−2 joint. It is not promoted
@@ -133,7 +133,7 @@ cd /home/yndx/hhy/legal-skill-current
 其delivery后续已完成16/0，法律字句完整、分支3183/平面4073、4096容量不变；增益来源集中，未升为主方法。
 case-credit已完成16新律师/8教师，同M4父库与原表示；逐案分析未解决依据/联合目标，不升为主方法。
 本条祖系154律师/14教师，无新增生产规划器/路由/效益准入或律师推理层。
-当前ACE同24案比较已07:18后台启动，计划52新律师/28教师；663绑定不可热改，状态须显式新Run ID。
+同24案ACE比较已08:31完成52新律师/28教师；当前为内容消融PID3439428，667绑定仍不可热改，状态须显式新Run ID。
 原生生成提示/空playbook控制、实际自身8B轨迹、原生计数/ADD管理保留，不是当前主方法改向或修复已成功。
 原子失败78答、显式接续52答、配对8答和关系诊断8答均已保留；它们都已终止，不是当前新训练。
 旧计量错误及修复见[检查点完成协议](reports/experiments/atomic_completion_20261016/protocol.md)，不覆盖失败历史。

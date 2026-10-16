@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-16T00:26:26.705504+00:00",
+  "repository": "https://github.com/LexPredict/lexpredict-lexnlp",
+  "actual_commit": "330b4e113c9bced0cc06f2c864c5015bb5ed2199",
+  "source_files_read_not_installed_or_vendored": {
+    "lexnlp/extract/en/definitions.py": {
+      "url": "https://raw.githubusercontent.com/LexPredict/lexpredict-lexnlp/330b4e113c9bced0cc06f2c864c5015bb5ed2199/lexnlp/extract/en/definitions.py",
+      "sha256": "2ea3b7f06d550f1bb0a7015b928eb50ce3b136815d18206c23073ac45621240d",
+      "bytes": 4521
+    },
+    "lexnlp/extract/en/definition_parsing_methods.py": {
+      "url": "https://raw.githubusercontent.com/LexPredict/lexpredict-lexnlp/330b4e113c9bced0cc06f2c864c5015bb5ed2199/lexnlp/extract/en/definition_parsing_methods.py",
+      "sha256": "14c934fbc9d1d967917e895fef63a2343c0ae68be34a2b64a667f06563eb3966",
+      "bytes": 19448
+    },
+    "lexnlp/nlp/en/segments/sentences.py": {
+      "url": "https://raw.githubusercontent.com/LexPredict/lexpredict-lexnlp/330b4e113c9bced0cc06f2c864c5015bb5ed2199/lexnlp/nlp/en/segments/sentences.py",
+      "sha256": "e9d4e134ed19435bd9ffc51a19431e82bd7a869d5e41d78a7e4c4ab6e4bdc1db",
+      "bytes": 6645
+    }
+  },
+  "facts_from_code": [
+    "get_definitions exposes located term names, surrounding sentence text and coordinates.",
+    "DefinitionCaught coordinates are built from term matches; they are not a complete ContractNLI evidence set.",
+    "The default document route calls sentence segmentation; sentences.py loads sentence_segmenter.pickle with joblib.",
+    "Definition parsing may normalize quotes/braces and unidecode text; original coordinate fidelity would need explicit verification.",
+    "The repository declares AGPLv3 default licensing; no code was copied and no project license or dependency was changed."
+  ],
+  "useful_seam": "Explicit referenced-term to defining-source provenance may reduce lexical overlap mistakes such as disclosing-party versus receiving-party Representatives. This remains a hypothesis, not a deployed skill or measured gain.",
+  "rejected_direct_integration": "Do not treat a located term or entire containing sentence as all legal evidence, do not introduce a new segmentation model, and do not silently union definition spans into answers.",
+  "no_current_endpoint_answers_gold_or_partial_ablation_read": true,
+  "no_model_teacher_calls_or_runtime_changes": true
+}
