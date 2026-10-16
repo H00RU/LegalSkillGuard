@@ -23,6 +23,8 @@ def task_local_kind(cfg):
     literal = ("literal_original_span_v1", "literal_evidence_comparisons_v1")
     if writer == ("explicit_witness_accounts_v2", "scoped_lossless_table_v1") and views == literal:
         return "witness_table"
+    if writer == ("source_acquisition_programs_v1", "named_source_programs_v1") and views == literal:
+        return "source_programs"
     if writer != (None, None):
         raise ValueError("Unknown or incomplete declared task-local writer/delivery format")
     if views == literal:
@@ -37,6 +39,10 @@ def study_for(config, run_id):
     method = cfg.get("method", "callable")
     if method == "task_local_memory":
         kind = task_local_kind(cfg)
+        if kind == "source_programs":
+            from legal_skill_guard.learning.source_programs import SourceProgramStudy
+
+            return SourceProgramStudy(config, run_id=run_id)
         if kind == "witness_table":
             from legal_skill_guard.learning.witness_grounding import WitnessGroundedStudy
 
@@ -331,7 +337,7 @@ def main():
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs/contractnli_witness_table.json",
+        default=ROOT / "configs/contractnli_source_programs.json",
     )
     parser.add_argument("--run-id")
     parser.add_argument(

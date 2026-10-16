@@ -953,15 +953,16 @@ def test_bounded_teacher_uses_actual_current_and_previous_parent_only():
         bounded_teacher_packet(training, 3, labels, bank, "M2", {3: units[3]}, {2: units[2]}, master_tokens=100, cap=4096)
 
 
-@pytest.mark.parametrize("literal_view,fixed_static,witness_view", [(False, False, False), (True, False, False), (True, True, False), (True, True, True)])
-def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch, literal_view, fixed_static, witness_view):
+@pytest.mark.parametrize("literal_view,fixed_static,witness_view,source_program_view", [(False, False, False, False), (True, False, False, False), (True, True, False, False), (True, True, True, False), (True, False, False, True)])
+def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch, literal_view, fixed_static, witness_view, source_program_view):
     from types import SimpleNamespace
     import legal_skill_guard.learning.task_local as module
 
     row, labels, gold = fixture()
     from legal_skill_guard.learning.literal_evidence import LiteralEvidenceStudy
     from legal_skill_guard.learning.witness_grounding import WitnessGroundedStudy
-    study = object.__new__(WitnessGroundedStudy if witness_view else LiteralEvidenceStudy if literal_view else module.TaskLocalStudy)
+    from legal_skill_guard.learning.source_programs import SourceProgramStudy
+    study = object.__new__(SourceProgramStudy if source_program_view else WitnessGroundedStudy if witness_view else LiteralEvidenceStudy if literal_view else module.TaskLocalStudy)
     study.cfg = {
         "generation": {"model": "frozen-test", "temperature": 0.6, "top_p": 0.95, "top_k": 20, "max_tokens": 8192, "seed": 45},
         "teacher": {"model": "teacher-test", "ledger": "unused", "total_invocation_budget": 5},
@@ -1159,6 +1160,8 @@ def test_literal_actual_payload_changes_only_source_view_for_every_matched_tool_
     ({"teacher_feedback_view": "literal_evidence_comparisons_v1"}, None),
     ({"candidate_source_view": "unknown", "teacher_feedback_view": "literal_evidence_comparisons_v1"}, None),
     ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "explicit_witness_accounts_v2", "skill_delivery_encoding": "scoped_lossless_table_v1"}, "witness_table"),
+    ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "source_acquisition_programs_v1", "skill_delivery_encoding": "named_source_programs_v1"}, "source_programs"),
+    ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "source_acquisition_programs_v1", "skill_delivery_encoding": "scoped_lossless_table_v1"}, None),
     ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "explicit_witness_accounts_v2"}, None),
     ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "explicit_witness_coverage_v1", "skill_delivery_encoding": "scoped_lossless_table_v1"}, None),
 ])
@@ -1167,12 +1170,14 @@ def test_cli_requires_exact_explicit_literal_views_without_silent_old_method(tmp
     import legal_skill_guard.learning.literal_evidence as literal
     import legal_skill_guard.learning.task_local as local
     import legal_skill_guard.learning.witness_grounding as witness
+    import legal_skill_guard.learning.source_programs as programs
 
     config = tmp_path / "candidate.json"
     RunStore.immutable_json(config, {"method": "task_local_memory", **flags})
     monkeypatch.setattr(local, "TaskLocalStudy", lambda config, run_id: ("task_local", config, run_id))
     monkeypatch.setattr(literal, "LiteralEvidenceStudy", lambda config, run_id: ("literal", config, run_id))
     monkeypatch.setattr(witness, "WitnessGroundedStudy", lambda config, run_id: ("witness_table", config, run_id))
+    monkeypatch.setattr(programs, "SourceProgramStudy", lambda config, run_id: ("source_programs", config, run_id))
     if expected is None:
         with pytest.raises(ValueError, match="Unknown or incomplete"):
             cli.study_for(config, "declared")
@@ -1289,3 +1294,96 @@ def test_witness_packed_wire_preserves_native_schema_source_and_empty_controls()
         else:
             assert messages == old_messages  # Actual no-skill input is not weakened.
         assert delivery["actual_scoped_delivery_tokens"] == len(json.dumps(scoped_budget_view(delivery["actual_task_local_projection"]), ensure_ascii=False, separators=(",", ":")))
+
+
+def source_program_skill():
+    value = local_skill()
+    value["guidance"]["source_queries"] = copy.deepcopy(skill()["queries"])
+    return value
+
+
+def test_direct_source_programs_are_named_source_only_and_do_not_change_native_answer_contract():
+    from types import SimpleNamespace
+    from legal_skill_guard.learning.literal_evidence import LiteralEvidenceStudy
+    from legal_skill_guard.learning.source_programs import SourceProgramStudy, program_projection
+
+    row, labels, _ = fixture()
+
+    class NoGold(dict):
+        def __getitem__(self, key):
+            if key == "annotation_sets":
+                raise AssertionError("Direct source program read inference Gold")
+            return super().__getitem__(key)
+
+    old, new = object.__new__(LiteralEvidenceStudy), object.__new__(SourceProgramStudy)
+    for obj in (old, new):
+        obj.cfg, obj.labels = {"bundled_solver_system": "Original."}, labels
+        obj.meter = SimpleNamespace(token_count=lambda **kwargs: len(kwargs["text"]))
+    for bank in ([], [source_program_skill()]):
+        original = copy.deepcopy(bank)
+        before, original_schema, _, old_trace = old.make_payload("skill_memory", NoGold(row), bank, None, None)
+        messages, schema, _, trace = new.make_payload("skill_memory", NoGold(row), bank, None, None)
+        assert schema == original_schema and bank == original
+        assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(messages)
+        delivery = trace["task_local_delivery"]
+        assert delivery["actual_task_local_projection"] == old_trace["task_local_delivery"]["actual_task_local_projection"]
+        assert delivery["actual_named_instruction_and_program_projection"] == program_projection(bank, labels)
+        if not bank:
+            assert messages == before
+            continue
+        body, old_body = json.loads(messages[1]["content"]), json.loads(before[1]["content"])
+        assert body["full_contract_with_original_span_markers"] == old_body["full_contract_with_original_span_markers"]
+        h2 = body["hypotheses"]["h2"]
+        assert h2["applicable_published_skills"][0]["source_queries"] == bank[0]["guidance"]["source_queries"]
+        assert h2["factual_source_query_receipts"][0]["matched_original_span_indices"] == [0]
+        assert [c["original_span_index"] for c in h2["factual_source_query_clauses"]] == [0, 1]
+        assert h2["factual_source_query_clauses"][0]["literal_original_text"] == "Recipient shall not disclose secrets."
+        assert body["hypotheses"]["h1"]["factual_source_query_receipts"] == []
+        assert body["hypotheses"]["h3"]["applicable_published_skills"] == []
+        assert delivery["actual_scoped_delivery_tokens"] == len(json.dumps(program_projection(bank, labels), ensure_ascii=False, separators=(",", ":")))
+
+
+def test_direct_source_programs_return_empty_hits_unchanged_and_publish_noisy_queries():
+    from jsonschema import validate
+    from legal_skill_guard.learning.publication import apply_differential_publication, differential_schema
+    from legal_skill_guard.learning.source_programs import PROGRAM_GUIDANCE_SCHEMA, source_program_messages
+    from legal_skill_guard.learning.task_local import task_local_messages
+
+    row, labels, _ = fixture()
+    candidate = source_program_skill()
+    candidate["guidance"]["source_queries"][0]["all_phrases"] = ["nonexistent phrase"]
+    value = {"operations": [{"operation": "CREATE", "target_ids": [], "skill": candidate, "source_case_ids": [1], "rationale": "Synthetic negative only."}], "noop_reason": None}
+    schema = differential_schema(labels, [], [1], guidance_schema=PROGRAM_GUIDANCE_SCHEMA)
+    validate(value, schema)
+    bank = apply_differential_publication([], value, labels, [1], guidance_schema=PROGRAM_GUIDANCE_SCHEMA)
+    assert bank == [candidate]  # No evidence utility admission.
+    messages, _, delivery = task_local_messages(row, labels, "Original.", bank, None)
+    answer, trace = source_program_messages(messages, delivery, row, bank, labels)
+    question = json.loads(answer[1]["content"])["hypotheses"]["h2"]
+    assert question["factual_source_query_receipts"][0]["matched_original_span_indices"] == []
+    assert question["factual_source_query_clauses"] == []
+    assert len(trace["source_program_execution_by_skill"][candidate["id"]]) == 1
+    bad = copy.deepcopy(value)
+    bad["operations"][0]["skill"]["guidance"]["relation_if_established"] = "Entailment"
+    with pytest.raises(ValidationError):
+        validate(bad, schema)
+
+
+def test_direct_source_program_feedback_covers_all_tasks_and_preserves_extra_members():
+    from legal_skill_guard.learning.source_programs import program_member_feedback, source_program_messages
+    from legal_skill_guard.learning.task_local import task_local_messages
+
+    row, labels, _ = fixture()
+    bank = [source_program_skill()]
+    messages, _, delivery = task_local_messages(row, labels, "Original.", bank, None)
+    _, delivery = source_program_messages(messages, delivery, row, bank, labels)
+    unit = {"published_library": bank, "response": {"raw_id": "synthetic"}, "actual_factual_trace": {"task_local_delivery": delivery}}
+    value = program_member_feedback(unit, row, labels)
+    assert list(value["all_original_hypotheses"]) == list(labels)
+    h2 = value["all_original_hypotheses"]["h2"]
+    assert h2["original_Gold_members_reached"] == [1]
+    assert h2["returned_non_Gold_members"] == [0]
+    assert value["all_original_hypotheses"]["h1"]["original_Gold_members_not_reached"] == [0, 2]
+    del delivery["source_program_executions"]["h1"]
+    with pytest.raises(ValueError, match="every public-task receipt"):
+        program_member_feedback(unit, row, labels)
