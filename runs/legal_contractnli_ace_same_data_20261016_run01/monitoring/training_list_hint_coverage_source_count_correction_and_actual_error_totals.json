@@ -1,0 +1,55 @@
+{
+  "at": "2026-10-15T23:53:52.491216+00:00",
+  "corrects": "runs/legal_contractnli_ace_same_data_20261016_run01/monitoring/training_list_hint_actual_missing_coverage.json",
+  "corrected_file_sha256": "5a897d4c0ee4d27018191201d5ad5842c13e9726955d215c3852f83b783749e5",
+  "field": "sources_with_new_gold",
+  "old_incorrect_value": 18,
+  "correct_value": 12,
+  "correct_source_ids": [
+    92,
+    136,
+    159,
+    261,
+    273,
+    377,
+    416,
+    487,
+    538,
+    588,
+    613,
+    622
+  ],
+  "cause": "bool of nonempty Counter dict with zero count incorrectly counted zero-gain sources; per-source and member counts were correct",
+  "all18_TRAIN_first_encounter_actual_generated_totals": {
+    "ordinary_memory": {
+      "hypotheses": 306,
+      "label_correct": 244,
+      "joint_exact": 146,
+      "tp": 176,
+      "fp": 40,
+      "fn": 198,
+      "actual_generated_evidence_f1": 0.5966101694915255
+    },
+    "trace_procedures": {
+      "hypotheses": 306,
+      "label_correct": 234,
+      "joint_exact": 136,
+      "tp": 184,
+      "fp": 72,
+      "fn": 190,
+      "actual_generated_evidence_f1": 0.5841269841269842
+    }
+  },
+  "new_gold_hints_linked_to_already_selected_child_not_answer_repair": {
+    "ordinary_memory": {
+      "new_gold_with_linked_child_already_selected": 29,
+      "new_gold_without_linked_child_selected": 5
+    },
+    "trace_procedures": {
+      "new_gold_with_linked_child_already_selected": 31,
+      "new_gold_without_linked_child_selected": 3
+    }
+  },
+  "interpretation": "Hints overlap an actual omission shared by both arms; they do not by themselves explain or repair the negative skill-specific effect. Actual main adds TP but also more FP. No downstream changed answers were constructed.",
+  "no_model_or_teacher_calls_or_production_changes": true
+}
