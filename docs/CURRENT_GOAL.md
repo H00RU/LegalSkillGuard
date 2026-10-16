@@ -5,6 +5,52 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+05:37记录真实终态：fixed-tool native-grounded Run02已于05:24:05 completed，
+PID1094269已不存在，30新native/2教师，全部stop且原生Schema有效，无截断。
+原8B2261314未动；当前无实验worker。全部36原始答案（旧parent6+新30）已按原作者
+逐集合独立重数，不调用原original_score；全部30实际消息/Schema前瞻hash、原文、
+query执行/回执、统一M2/生成参数已核对，380绑定。补做了真正非空检查的scope/回执/
+交付flag核验（首个人工审计一条可选flag表达式不是有效检查，未用其证明数据）；真实
+reasoning_content在全部30答非空，不能再假设thinking没开启或重启vLLM。
+完整审计monitoring/complete30_native36_original_author_sets_wire_and_failure_decomposition_audit.json，
+补充monitoring/complete30_nonvacuous_delivery_scope_reasoning_and_contradiction_loss_audit.json。
+
+B3同新表示：parent79.41/60.33/46.08%，draft83.33/57.35/42.16，final81.37/60.33/45.10。
+最终TP73/FP14/FN82与新表示parent完全同计数，不是SPAN进步。draft多5真却多25FP，
+第二教师降FP又损失新真。最终对parent标签5修3伤、联合3修4伤、真7增7丢；NN联合
+23→21，NM24→25。绝不能以同案class+2或修改10条声称学习稳定有效。
+B4不同合同：ordinary73.53/69.23/51.96%，skill74.51/63.29/50.98。
+技能对普通标签11修10伤、联合8修9伤、真3增7丢；TP54→50、FP16→22、FN32→36，
+NN联合24→22、NM29→30。E类38→42正确，C类8→4，NM29→30；小幅accuracy不能掩盖负面。
+所有7个丢失真成员均为Gold C、最终预测NM；其中5个原普通正确C变NM，另2个原普通
+已错判E但曾找到证据。不能称7个全是新分类错误，也不是因此已经证明内部因果机制。
+B4相同普通候选TP47/FP18，最终程序TP34/FP31，候选外新真7只选3，尚有29Gold在
+两池之外且未获取；两臂在类别正确题都漏22。取得/保留与判断问题仍并存，不能只修标签。
+
+新总native313707prompt/64922out，teacher445283in/19211out（reason11755包含）；
+旧parent6为69419/11461非新花费，更多上游成本仍见原teacher审计限定，不是独立学习。
+18/2前缀及全368绑定已先备份384文件+完整Git73321696266f3b7bf35c0bd52af1f85e4b670a6b：
+legal-native-loop-complete18-teacher2-all368-while-B4-running-20261017.tar.gz，SHA256
+b50f8c5b43b897f2936088f1a5bff221b05b8e24be4d3b967600f740f7a46679，收据
+artifacts/native_loop_complete18_teacher2_all368_prefix_backup_20261017.json；这份明确不含B4，
+不是全30终态备份。下一先保全全30终态/380绑定再创建新诊断，不改旧source或挑旧好库。
+
+额外官方口径核验未动运行：commit058c56fd62d56897bb4fcfbf1be71b17aee3a79c的
+evaluation.py原始335行SHAf5acd4497e002652b2f29a6827fecd355b96ec041c4c174b1938eea2f8c42cf4，
+与原论文4.2核对：原论文证据主表为mAP/P@R80，当前集合microF1不能和.93mAP相减。
+Gold非NM掩码一致，当前集合microF1对应官方代码micro_label_micro_doc.span.f1而非mAP；
+原NLI accuracy按hypothesis宏、doc微，完整17×N时等于当前global accuracy。原始离散
+输出没有全SPAN排序置信度，不能伪造概率/把共同检索器排名冒充技能mAP，也不临时换主指标。
+原始官方TEST数据/标签未打开/推理。说明在monitoring/official_metric_definition_audit_not_runtime_change.json。
+
+下一检验通用NLI原生一致性执行约束，而非再加query关键词/换银行：同一次律师输出先
+判断hypothesis_supported/refuted，再以原生Schema保证canonical choice与自己两判断
+一致。三个组合对应原E/C/NM，全部类别始终可选；判断仍全由律师做，不由host读源断案，
+不在生成后用理由/Gold翻标签。对空库/固定最终库同时施用，同原M2/源/采样，原canonical
+choice直接评分。拟全6 B4两臂12新native、0教师的development诊断（尚未创建/launch）。
+这是待检验的执行假设，不宣称根因已解决；旧case源/全部不利结果保留，非正式main/TEST/
+独立重复。不能只修语法或一次小样本好看便认为全Goal完成；全目标仍active且未达。
+
 05:12已核验的最新阶段：PID1094269仍live，native-grounded fixed-tool Run02已完成
 B3新表示parent6/draft6/final6共18 native，2/2教师，全部18 stop；05:11:40已进入
 B4_first_encounter，B4所有12完整请求均fit，622 skill23739+8192=31931<32768，
