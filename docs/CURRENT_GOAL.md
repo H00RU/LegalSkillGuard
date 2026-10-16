@@ -3,7 +3,20 @@
 2026-10-15 15:09 CST，用户明确要求“新建一个goal并执行”，已通过Goal工具创建，状态active。
 此前答案复核run启动时未开Goal，两者时间顺序不能混淆。
 
-## 当前执行游标（10月16日13:54，覆盖后续旧状态）
+## 当前执行游标（10月16日13:56，覆盖后续旧状态）
+
+当前唯一有限worker已13:55:45后台启动：`legal_contractnli_typed_execution_completion_20261016_run01`，
+PID3958253/start_ticks413666298，24新律师/0新教师＋1明确继承教师，不依赖对话。
+311绑定冻结到本worker退出；全32继承wire、全8结构/同消息/同事实工具及分支约束见证核验通过，
+0资格生成。首个实际律师568/compiled_advisory进行中，尚无新成绩，不提前读部分新评分。
+完整全库4075token，解码逐字段/字符串一致；失败原5633token全库与1教师成本未删改。
+启动前2184常规文件/全Git bundle逐字节保全，包含完整主56/4、负检查8/0、失败0/1及新局部源码：
+`legal-typed-compiler-failure-and-lossless-completion-source-20261016.tar.gz`，HEADf63ad33，SHA256
+f9273d832e13b78a2d671d49c1ca37b006a254bf67cb2293a415a9c4013049fa。
+收据失败Run/monitoring/complete_failed_compiler_before_lossless_completion_backup_receipt.json；
+同vdb非异机/遗失权重备份，不含随后新律师输出。原8B2261314不动，主目标未达到，Goal继续active。
+
+### 13:54失败后的无损表示核查（历史，接续已启动）
 
 3945828已13:49:37以真实容量失败退出：0律师/1教师，完整编译16条/28分支5633tokens>4096。
 失败/实际教师请求与返回/全bank原样保留，不重发教师、不截断、不换库；当前无实验worker。

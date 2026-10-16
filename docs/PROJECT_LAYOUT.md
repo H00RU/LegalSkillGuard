@@ -27,14 +27,18 @@
 原SPAN集合评分独立核对通过，48个不同原生答，296绑定终止时全一致。原8B2261314不动。
 
 条件执行编译`legal_contractnli_typed_execution_20261016_run01`已13:49:37因5633tokens>4096停止并退出，
-0律师/1完成教师，原失败/全译文/成本保留，不能称已执行法律机制。当前无实验worker。
-无损接续`legal_contractnli_typed_execution_completion_20261016_run01`已写协议/driver，尚未启动；
+0律师/1完成教师，原失败/全译文/成本保留，不能称已执行法律机制。
+当前无损接续`legal_contractnli_typed_execution_completion_20261016_run01`已13:55:45后台启动，PID3958253；
+311绑定冻结，32继承wire及全8结构核验通过，0资格生成；首个实际律师调用进行中，尚无新指标。
 全16条/28分支只因子化重复键、可推导ID/精确前缀和恒定null，4075tokens且逐字段还原一致，4096不变。
 计划24新律师/0新教师、1继承教师、32明确旧引用；同一当前末库知识编译后，对比仅建议分支与原生分支标签一致性，
 另设同工具同事实定位无语义指导控制。条件真伪、证据和分支由律师判断，不新增主机法律判定、
 规划器、复核、fallback或自动择优发布。源码仅随Run归档，生产核心未改。
 启动前完整56/4主＋8/0负检查、2166常规文件/全Git bundle已同vdb归档且逐字节核验，
 SHA256 abfed3252a98fa5b7d02b3342f7d0b854c88105735aaa2280fc0ec7e4398dff0；非异机或遗失权重备份。
+接续启动前再保全完整失败编译1教师/0律师和新有限源码：2184常规文件/全Git bundle逐字节通过，
+`legal-typed-compiler-failure-and-lossless-completion-source-20261016.tar.gz`，SHA256
+f9273d832e13b78a2d671d49c1ca37b006a254bf67cb2293a415a9c4013049fa，HEADf63ad33；仍为同vdb备份。
 主协议[OBSERVABLE_HISTORY_FEEDBACK](OBSERVABLE_HISTORY_FEEDBACK_20261016.md)，最新状态以CURRENT_GOAL和实际进程为准。
 
 ### 11:43机制消融（历史，12:02:50完整结束）

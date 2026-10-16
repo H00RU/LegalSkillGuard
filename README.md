@@ -21,7 +21,7 @@ all296 frozen bindings were unchanged at termination. Both workers have exited.
 The conditional-execution compiler study `legal_contractnli_typed_execution_20261016_run01`
 stopped13:49:37 with0 lawyer/1 teacher: its full5633-token translation exceeded4096.
 The failure, full translation and cost remain unchanged; no lawyer answer exists.
-A lossless continuation is prepared, NOT yet launched:
+A lossless continuation started13:55:45 CST in background PID3958253:
 `legal_contractnli_typed_execution_completion_20261016_run01`. It compares identical compiled
 conditional knowledge with advisory versus native branch/label consistency, and
 an equal-call factual-operation-only control. The lawyer selects the branch from
@@ -33,6 +33,9 @@ Only repeated JSON keys, derived branch IDs/exact prefixes and constant nulls
 are factored: the full4075-token table decodes to every original field/string,
 with all16 skills/28 branches and unchanged4096 limit. No knowledge truncation,
 new teacher retry, task score or automatic bank selection.
+All8 structural checks and32 inherited wire replays passed without qualification
+generations. The first actual lawyer call is running;311 bindings remain frozen
+until this worker exits. This is not a new full online learner or formal test.
 
 ## Completed source-conditioned predecessor (historical)
 
