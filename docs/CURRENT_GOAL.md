@@ -5,6 +5,22 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+04:07:24新诊断延续已真实后台launch，PID1036015：
+legal_contractnli_execution_grounded_editor_completion_20261017_run01，计划新12原生/2教师，
+继承失败前缀0/2，总lineage若完成12/4（每臂两次教师，不等token/独立学习）。
+全部309直接/传递源绑定和原8B进程检查通过，完整原12源/实际M1观察/各自未改提案
+及实际master/scoped容量反馈已冻结；反馈臂读自己提案的全12源实际执行，盲臂不读。
+prepare0生成，两个完整teacher prompt365476/810131chars均未截断。脚本Ruff除I001
+导入换行样式外通过；I001保留不在冻结后重排，不冒称默认Ruff全绿。没有新CPU fit。
+原失败结果301绑定/313文件+完整Git已先独立备份：cd7b7fa587c828973508a9553acefae89107e23a0a14c725ccd8ac04d5b8875e。
+新预启动309绑定/312文件+Git ca2ff4d77982e80987fcf3753c3e3bbdb9ab987b独立保全：
+legal-source-program-paired-completion-all309-before-launch-20261017.tar.gz，SHA256
+fd3d8a4a3a0bc6ba68d1129e01aa780ea500c83b1b72b9422edeaa6690017bee。
+收据artifacts/source_program_paired_completion_prelaunch_all309_backup_20261017.json。
+均同vdb非异机/权重/auth备份。先poll该PID/实际progress；严禁运行中改309绑定或脚本。
+所有12native完成后才评分，若任何最终库/完整请求超限，失败保全不第三次编辑/旧库fallback。
+这仍是development机制诊断，不是新正式main训练或论文优势；Goal全文未达，active。
+
 04:04核验记录：主Run03、literal/semantic诊断及paired-editor worker全部已终态，
 原8B2261314保持live，未重启。paired-editor Run01于03:51:02 failed，0新律师/2新教师，
 不能称后台仍在生成12答案。两次实际wire/事件/返回值与完整原12源输入逐一重建核验通过。
@@ -15,7 +31,7 @@ paired Run monitoring/terminal0_native_2_teacher_capacity_audit.json；其中fee
 明确未发布重建，不伪造publication。
 
 下一是在完整失败保全后，以新Run ID作显式0/2前缀延续：同一writer各再修订一次，
-两臂都收到自己实际master/scoped/逐记录容量反馈，feedback臂还收到自己当前提案在
+两臂都收到自己实际master/scoped容量反馈，feedback臂还收到自己当前提案在
 全部12源的真实执行/原Gold成员差异，blind臂不提供执行结果。仍相同原12源/实际M1
 观察，不传B2after/B3/另一臂结果；总计每臂两次教师，继承2+新2全部计费。
 新schema相对各自未删改提案，原4096/原runtime/原8B/原M2工具均不改；一次修订后
