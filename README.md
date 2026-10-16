@@ -1,5 +1,18 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+RUNNING, launched21:11:04 CST as detached PID414919:
+`legal_contractnli_literal_evidence_online_learning_20261016_run01`.
+Fresh empty-bank learning under its own literal candidate/feedback views;148 new
+native/5 teacher planned, no historical answer/bank inheritance. All four batches,
+B1 retention and40 endpoint answers run automatically independent of this chat.
+At launch the static PUBLIC17-only teacher request is pending; no new efficacy
+result. Existing8B/task/decoding stay fixed;63 bindings cannot be edited live.
+Prelaunch all63/source backup verified354 project files plus full Git bundle,
+archive SHA256574d24628725d513406ba7b21e51da5b615acd6b51bf26caec85ef820ff73ebc.
+This is same-vdb source/input protection, not an offsite or model-weights backup.
+
+Historical21:09 checkpoint:
+
 Prepared21:09 CST: `legal_contractnli_literal_evidence_online_learning_20261016_run01`.
 CLI explicitly selects LiteralEvidenceStudy only when both declared view flags
 match; partial/unknown views fail without silent legacy execution. New config
