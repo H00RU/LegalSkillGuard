@@ -1158,16 +1158,21 @@ def test_literal_actual_payload_changes_only_source_view_for_every_matched_tool_
     ({"candidate_source_view": "literal_original_span_v1"}, None),
     ({"teacher_feedback_view": "literal_evidence_comparisons_v1"}, None),
     ({"candidate_source_view": "unknown", "teacher_feedback_view": "literal_evidence_comparisons_v1"}, None),
+    ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "explicit_witness_accounts_v2", "skill_delivery_encoding": "scoped_lossless_table_v1"}, "witness_table"),
+    ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "explicit_witness_accounts_v2"}, None),
+    ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "explicit_witness_coverage_v1", "skill_delivery_encoding": "scoped_lossless_table_v1"}, None),
 ])
 def test_cli_requires_exact_explicit_literal_views_without_silent_old_method(tmp_path, monkeypatch, flags, expected):
     import legal_skill_guard.cli as cli
     import legal_skill_guard.learning.literal_evidence as literal
     import legal_skill_guard.learning.task_local as local
+    import legal_skill_guard.learning.witness_grounding as witness
 
     config = tmp_path / "candidate.json"
     RunStore.immutable_json(config, {"method": "task_local_memory", **flags})
     monkeypatch.setattr(local, "TaskLocalStudy", lambda config, run_id: ("task_local", config, run_id))
     monkeypatch.setattr(literal, "LiteralEvidenceStudy", lambda config, run_id: ("literal", config, run_id))
+    monkeypatch.setattr(witness, "WitnessGroundedStudy", lambda config, run_id: ("witness_table", config, run_id))
     if expected is None:
         with pytest.raises(ValueError, match="Unknown or incomplete"):
             cli.study_for(config, "declared")

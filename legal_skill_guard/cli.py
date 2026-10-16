@@ -17,17 +17,34 @@ from legal_skill_guard.learning.experiment import ROOT, Comparison, read, sha
 from legal_skill_guard.report import write_report
 
 
+def task_local_kind(cfg):
+    views = (cfg.get("candidate_source_view"), cfg.get("teacher_feedback_view"))
+    writer = (cfg.get("teacher_publication_format"), cfg.get("skill_delivery_encoding"))
+    literal = ("literal_original_span_v1", "literal_evidence_comparisons_v1")
+    if writer == ("explicit_witness_accounts_v2", "scoped_lossless_table_v1") and views == literal:
+        return "witness_table"
+    if writer != (None, None):
+        raise ValueError("Unknown or incomplete declared task-local writer/delivery format")
+    if views == literal:
+        return "literal"
+    if views == (None, None):
+        return "task_local"
+    raise ValueError("Unknown or incomplete declared task-local source/feedback views")
+
+
 def study_for(config, run_id):
     cfg = read(config)
     method = cfg.get("method", "callable")
     if method == "task_local_memory":
-        views = (cfg.get("candidate_source_view"), cfg.get("teacher_feedback_view"))
-        if views == ("literal_original_span_v1", "literal_evidence_comparisons_v1"):
+        kind = task_local_kind(cfg)
+        if kind == "witness_table":
+            from legal_skill_guard.learning.witness_grounding import WitnessGroundedStudy
+
+            return WitnessGroundedStudy(config, run_id=run_id)
+        if kind == "literal":
             from legal_skill_guard.learning.literal_evidence import LiteralEvidenceStudy
 
             return LiteralEvidenceStudy(config, run_id=run_id)
-        if views != (None, None):
-            raise ValueError("Unknown or incomplete declared task-local source/feedback views")
         from legal_skill_guard.learning.task_local import TaskLocalStudy
 
         return TaskLocalStudy(config, run_id=run_id)
@@ -63,6 +80,7 @@ def prepare(config):
     if cfg.get("method") == "task_local_memory":
         from legal_skill_guard.learning.task_local import prepare_task_local_inputs
 
+        task_local_kind(cfg)  # Reject unsupported/half-declared formats before writes.
         selection, reference_paths = prepare_task_local_inputs(cfg)
     elif cfg.get("method") == "source_conditioned_memory":
         from legal_skill_guard.learning.conditioned import prepare_conditioned_inputs
@@ -313,7 +331,7 @@ def main():
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs/contractnli_literal_fixed_static.json",
+        default=ROOT / "configs/contractnli_witness_table.json",
     )
     parser.add_argument("--run-id")
     parser.add_argument(
