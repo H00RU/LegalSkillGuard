@@ -1,9 +1,22 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-RUNNING: `legal_contractnli_task_local_online_learning_20261016_run01`,
-started18:11:06 CST as detached PID147784, independent of the conversation.
-At18:34 CST20/148 lawyer calls and2/5 teacher calls are complete; B2 first
-encounters are running. B1 completed18:26:11: cold accuracy/F1/joint
+PREPARED, not yet launched at19:03 CST:
+`legal_contractnli_task_local_packing_completion_20261016_run01`.
+Its parent task-local Run terminated18:48:37 after36 native/2 teacher calls,
+before the B2 editor: hidden internal duplicate score vectors made its input
+1127041 characters, exceeding1048576. Corrected input uses the exact public
+candidate observations, not internal vectors, and is325016 characters with all
+12 sources/204 labels/full answers/candidates/layout intact. Raw vectors remain
+archived. B1 teacher system/user stays byte-identical; all inherited requests
+must replay before new calls. Planned112 NEW native/3 teachers plus explicit
+36/2 inheritance; not an independent learner/repeat or hidden restart.
+183 inputs frozen,35 zero-generation tests passed in2.28 seconds. Back up and
+launch next; the original8B stays loaded and must never be restarted.
+
+Completed parent observations: B2 first encounters, main78.43/53.33/43.14%,
+same-tool79.41/51.23/42.16%, direct-empty73.53/58.09/41.18%. The small same-tool
+evidence/joint benefit does not beat direct-empty evidence F1 or prove efficacy.
+B1 completed18:26:11: cold accuracy/F1/joint
 85.29/59.56/45.10%, after-fit92.16/85.84/77.45%. The after-fit updates BOTH
 the shared supervised evidence tool and memory: not a pure skill or transfer gain.
 Main M1 has18 records/2093 master/2053 scoped tokens; static17 records remain
@@ -13,10 +26,12 @@ accounting verifies all30 B1 logical observations/12 distinct actual responses.
 Of31 missed true spans after-fit,27 are on correctly labelled questions and16
 were already in candidates. This is not just a delivery failure: all relevant
 guidance is present in the first actual B2 task-local wire. See the run-local
-`analyse_completed_batches.py` and its monitoring receipts. All61 frozen inputs
-remain unchanged. No partial-B2, independent-repeat or efficacy-breakthrough claim.
-The new bounded learner, all matched controls, retention and full endpoint
-are automatic background stages. Do not edit its bound code/config/protocol.
+`analyse_completed_batches.py` and its monitoring receipts. All61 parent inputs
+stayed unchanged while that worker ran and were archived before the packing fix;
+the corrected continuation has its own183-input freeze. No independent-repeat
+or efficacy-breakthrough claim.
+The declared continuation retains all matched controls, retention and full
+endpoint as automatic background stages. Do not edit its frozen bindings.
 
 Historical preparation snapshot:
 

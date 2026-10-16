@@ -928,6 +928,26 @@ def test_bounded_teacher_uses_actual_current_and_previous_parent_only():
     assert all(r["original_annotations"] == gold for r in cases)
     assert [r["observation_kind"] for r in cases] == ["previous_batch_after", "current_batch_before"]
     assert all(len(rows) == 2 for rows in packet["hypothesis_indexed_original_feedback"].values())
+    proposals = {
+        "selection": "actual selection",
+        "by_hypothesis": {h: {
+            "candidates": [{"original_span_index": 0, "membership_score": 0.625}],
+            "raw_scores": [0.625, 0.2, 0.1],
+            "same_fixed_model_without_query_terms": {"raw_scores": [0.625, 0.2, 0.1]},
+            "private_debug_canary": "NOT_A_LAWYER_OBSERVATION" * 50000,
+        } for h in labels},
+    }
+    original_proposals = copy.deepcopy(proposals)
+    for u in units.values():
+        u["actual_factual_trace"]["proposals"] = proposals
+    compact = bounded_teacher_packet(training, 3, labels, bank, "M2", {3: units[3]}, {2: units[2]}, master_tokens=100, cap=4096)
+    for case in compact["original_cases_and_actual_same_parent_observations"]:
+        view = case["actual_ordinary_proposals"]
+        assert set(view) == {"selection", "by_hypothesis"}
+        assert view["selection"] == proposals["selection"]
+        assert all(v == {"candidates": proposals["by_hypothesis"][h]["candidates"]} for h, v in view["by_hypothesis"].items())
+    assert "NOT_A_LAWYER_OBSERVATION" not in json.dumps(compact)
+    assert proposals == original_proposals  # Raw archived diagnostics are untouched.
     units[3]["actual_factual_trace"]["ordinary_model_state"] = "stale"
     with pytest.raises(ValueError, match="exact current parent"):
         bounded_teacher_packet(training, 3, labels, bank, "M2", {3: units[3]}, {2: units[2]}, master_tokens=100, cap=4096)
@@ -950,6 +970,8 @@ def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch)
     study.training = [{**copy.deepcopy(row), "id": i, "batch": (i - 1) // 6 + 1} for i in range(1, 25)]
     study.future = [{k: v for k, v in {**row, "id": i}.items() if k != "annotation_sets"} for i in range(25, 33)]
     study.native, study.teachers, study.units, study.aliases, study.summaries = [], [], [], [], []
+    study.inherited_native, study.inherited_teachers = [], []
+    study.prefix_answers, study.prefix_teachers, study.prefix_slots = {}, {}, set()
     study.bank, study.static, study.before, study.after, study.state_versions = [], [], {}, {}, {}
     study.model, study.state, study.current_batch, study.teacher_attempts, study.stop = None, None, 0, 0, False
     study.meter = SimpleNamespace(token_count=lambda **kwargs: 1, readiness=lambda: {"ready": True})
@@ -985,3 +1007,35 @@ def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch)
     assert all(len(units) == 8 for units in observed["later"].values())
     assert teacher_windows == [6, 12, 12, 12]
     assert len({u["response"]["raw_id"] for u in study.units + study.aliases if u["arm"] == "skill_memory"}) == 62
+
+
+@pytest.mark.parametrize("tamper", [False, True])
+def test_task_local_teacher_prefix_is_exact_historical_input_not_new_call(tmp_path, tamper):
+    from legal_skill_guard.learning.task_local import TaskLocalStudy
+    from legal_skill_guard.utils.hashing import canonical_json_sha256
+
+    source = tmp_path / "parent"
+    body, value, schema = {"observations": "unchanged"}, {"operations": []}, {"type": "object"}
+    wire = {"model": "teacher-test", "reasoning_effort": "high", "system_prompt": "Original system.",
+            "user_prompt": json.dumps(body, separators=(",", ":")), "output_schema": schema}
+    events = {"event_log": "original successful event"}
+    result = {"model": "teacher-test", "value": value, "request_sha256": canonical_json_sha256(wire),
+              "response_sha256": canonical_json_sha256(value), "cache_hit": False,
+              "invocation": {"returncode": 0, "attempt": 1, "tool_events_detected": False,
+                             "event_log_sha256": canonical_json_sha256(events)}}
+    for name, data in (("wire_request.json", wire), ("response.json", result), ("event_log.json", events)):
+        RunStore.immutable_json(source / name, data)
+    study = object.__new__(TaskLocalStudy)
+    study.out = tmp_path / "child"
+    study.cfg = {"teacher": {"model": "teacher-test", "reasoning_effort": "high"}, "continuation_parent": "explicit"}
+    study.prefix_teachers = {"task_local_b1": source}
+    study.inherited_teachers = []
+    if tamper:
+        with pytest.raises(ValueError, match="exact original"):
+            study.teacher_call("task_local_b1", "Changed system.", body, schema)
+        assert study.inherited_teachers == []
+    else:
+        assert study.teacher_call("task_local_b1", "Original system.", body, schema) == value
+        assert len(study.inherited_teachers) == 1
+        assert json.loads((study.out / "teacher/task_local_b1/response.json").read_text()) == result
+        assert (study.out / "teacher/task_local_b1/explicit_historical_reference.json").exists()

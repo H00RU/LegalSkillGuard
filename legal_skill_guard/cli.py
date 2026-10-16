@@ -305,7 +305,7 @@ def main():
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs/contractnli_task_local.json",
+        default=ROOT / "configs/contractnli_task_local_completion.json",
     )
     parser.add_argument("--run-id")
     parser.add_argument(

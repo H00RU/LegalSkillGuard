@@ -184,7 +184,16 @@ def bounded_teacher_packet(training, batch, labels, bank, state, before, after, 
             "actual_public_valid": unit["public_valid"],
             "actual_parent_master_sha256": parent_sha,
             "actual_ordinary_tool_state": state,
-            "actual_ordinary_proposals": trace["proposals"],
+            # These are exactly the candidate tables visible to the lawyer.
+            # Full internal/diagnostic vectors remain in the immutable trace,
+            # not in an editor input which never used them as observations.
+            "actual_ordinary_proposals": None if trace["proposals"] is None else {
+                "selection": trace["proposals"]["selection"],
+                "by_hypothesis": {
+                    h: {"candidates": trace["proposals"]["by_hypothesis"][h]["candidates"]}
+                    for h in labels
+                },
+            },
             "actual_delivered_skill_ids_by_public_hypothesis": {
                 h: [s["id"] for s in values]
                 for h, values in trace["task_local_delivery"]["actual_task_local_projection"].items()
@@ -291,7 +300,12 @@ def prepare_task_local_inputs(cfg):
         or [r["id"] for r in packet["later_inputs_no_annotation_sets"]] != cfg["expected_later_ids"]
         or selection["training_ids"] != cfg["training_ids"]
         or selection["future_ids"] != cfg["expected_later_ids"]
-        or (cfg["planned_new_native_calls"], cfg["planned_new_teacher_calls"], cfg["planned_logical_observations"], cfg["planned_same_run_cold_aliases"]) != (148, 5, 166, 18)
+        or (
+            cfg["planned_new_native_calls"] + cfg.get("planned_inherited_native_calls", 0),
+            cfg["planned_new_teacher_calls"] + cfg.get("planned_inherited_teacher_calls", 0),
+            cfg["planned_logical_observations"], cfg["planned_same_run_cold_aliases"],
+        ) != (148, 5, 166, 18)
+        or cfg.get("teacher_packet_encoding") != "lawyer_visible_candidate_tables_v1"
     ):
         raise ValueError("Exact original24/8 and full148/5 schedule required")
     with zipfile.ZipFile(ROOT / cfg["source_archive"]) as archive:
@@ -317,6 +331,11 @@ def prepare_task_local_inputs(cfg):
     for batch in range(1, 5):
         path = ROOT / cfg["reference_training_run"] / f"evidence_models/ordinary_M{batch}.manifest.json"
         paths += [path, Path(read(path)["path"])]
+    if cfg.get("continuation_parent"):
+        parent = ROOT / cfg["continuation_parent"]
+        parent_config = ROOT / cfg["continuation_parent_config"]
+        paths += [parent_config, parent_config.with_suffix(".frozen.json")]
+        paths += sorted(p for p in parent.rglob("*.json") if p.is_file())
     return selection, paths
 
 
@@ -343,12 +362,93 @@ class TaskLocalStudy(Comparison):
         if any("annotation_sets" in r for r in self.future):
             raise ValueError("Later annotations in inference packet")
         self.native, self.teachers, self.units, self.aliases, self.summaries = [], [], [], [], []
+        self.inherited_native, self.inherited_teachers = [], []
+        self.prefix_answers, self.prefix_teachers, self.prefix_slots = {}, {}, set()
         self.bank, self.static, self.before, self.after, self.state_versions = [], [], {}, {}, {}
         self.model, self.state = None, None
         self.teacher_attempts, self.current_batch, self.stop = 0, 0, False
         self.meter = WireClient(self.cfg["generation"])
         for sig in (signal.SIGTERM, signal.SIGINT):
             signal.signal(sig, lambda *_: setattr(self, "stop", True))
+        if self.cfg.get("continuation_parent"):
+            parent = ROOT / self.cfg["continuation_parent"]
+            old = read(ROOT / self.cfg["continuation_parent_config"])
+            failure = read(parent / "failure.json")
+            if (
+                self.cfg.get("continuation_kind") != "explicit_B2_before_editor_hidden_vector_packing_repair_v1"
+                or (self.cfg.get("planned_inherited_native_calls"), self.cfg.get("planned_inherited_teacher_calls")) != (36, 2)
+                or failure["error"] != "ValueError('Complete teacher input exceeds character capacity; never truncate')"
+                or (failure["completed_native_calls"], failure["completed_teacher_calls"], failure["teacher_attempts"], failure["current_batch"]) != (36, 2, 2, 2)
+                or (Path("/proc") / str(read(parent / "launch.json")["pid"])).exists()
+                or (parent / "teacher/task_local_b2").exists()
+                or (parent / "update_transactions/b2.json").exists()
+            ):
+                raise ValueError("Only the explicit terminal36/2 pre-B2-editor prefix is accepted")
+            for key in ("generation", "teacher", "bundled_solver_system", "library_token_hard_cap", "input_packet", "grading_only", "preselection", "training_ids", "expected_later_ids", "source_archive", "source_archive_sha256", "reference_training_run", "memory_representation", "teacher_feedback"):
+                if self.cfg[key] != old[key]:
+                    raise ValueError("Prefix reuse changed an inference/data condition: " + key)
+            for path in sorted(parent.glob("batch*_*/*/*.public.json")):
+                unit = read(path)
+                key = (unit["stage"], unit["arm"], unit["document_id"])
+                if key in self.prefix_answers:
+                    raise ValueError("Duplicate inherited slot")
+                self.prefix_answers[key] = (path, unit)
+            self.prefix_slots = {
+                ("batch1_before", "strong_empty", r["id"]) for r in self.training if r["batch"] == 1
+            } | {
+                ("batch1_after", "skill_memory", r["id"]) for r in self.training if r["batch"] == 1
+            } | {
+                ("batch2_before", a, r["id"]) for r in self.training if r["batch"] == 2 for a in PREFIX_ARMS
+            }
+            if set(self.prefix_answers) != self.prefix_slots or len(self.prefix_slots) != 36:
+                raise ValueError("Exact complete36-response prefix required")
+            self.prefix_teachers = {name: parent / "teacher" / name for name in ("static_public_task_only", "task_local_b1")}
+
+    def progress(self, stage, **extra):
+        super().progress(stage, inherited_native_calls=len(self.inherited_native), inherited_teacher_calls=len(self.inherited_teachers), **extra)
+
+    def answer(self, stage, arm, row, bank, gold=None):
+        key = (stage, arm, row["id"])
+        if key not in self.prefix_slots:
+            return super().answer(stage, arm, row, bank, gold)
+        if key not in self.prefix_answers:
+            raise ValueError("Inherited response cannot be consumed twice")
+        path, original = self.prefix_answers.pop(key)
+        unit = {**copy.deepcopy(original), "explicit_inherited_from": str(path), "inherited_response_not_new_generation": True}
+        if unit["published_library"] != bank:
+            raise ValueError("Inherited response uses another bank")
+        RunStore.immutable_json(self.out / stage / arm / f"{row['id']}.reference.json", unit)
+        self.inherited_native.append(read(unit["raw_artifact"]))
+        self.units.append(unit)
+        return unit
+
+    def teacher_call(self, name, system, body, schema):
+        if name not in self.prefix_teachers:
+            if self.cfg.get("continuation_parent") and (self.prefix_answers or self.prefix_teachers):
+                raise ValueError("Complete exact prefix must replay before any new teacher")
+            return super().teacher_call(name, system, body, schema)
+        source = self.prefix_teachers.pop(name)
+        wire, response = read(source / "wire_request.json"), read(source / "response.json")
+        events = read(source / "event_log.json")
+        user = body if isinstance(body, str) else json.dumps(body, ensure_ascii=False, separators=(",", ":"))
+        if (
+            wire["system_prompt"] != system or wire["user_prompt"] != user or wire["output_schema"] != schema
+            or wire["model"] != self.cfg["teacher"]["model"] or wire["reasoning_effort"] != self.cfg["teacher"]["reasoning_effort"]
+            or canonical_json_sha256(wire) != response["request_sha256"]
+            or canonical_json_sha256(response["value"]) != response["response_sha256"]
+            or response["model"] != self.cfg["teacher"]["model"]
+            or response["cache_hit"] or response["invocation"]["returncode"] != 0 or response["invocation"]["tool_events_detected"]
+            or response["invocation"]["attempt"] != 1
+            or canonical_json_sha256({"event_log": events["event_log"]}) != response["invocation"]["event_log_sha256"]
+        ):
+            raise ValueError("Inherited teacher request/value differs from the exact original")
+        validate(response["value"], schema)
+        dest = self.out / "teacher" / name
+        for filename in ("wire_request.json", "response.json", "event_log.json"):
+            RunStore.immutable_json(dest / filename, read(source / filename))
+        RunStore.immutable_json(dest / "explicit_historical_reference.json", {"source": str(source), "not_a_new_invocation_cache_hit_or_independent_learning_repeat": True})
+        self.inherited_teachers.append({"name": name, **response, "explicit_inherited_from": str(source)})
+        return response["value"]
 
     def bank_for(self, arm):
         if arm not in ARMS:
@@ -458,7 +558,11 @@ class TaskLocalStudy(Comparison):
         }, {"type": "object", "additionalProperties": False, "required": ["library"], "properties": {"library": {"type": "array", "items": skill_record_schema(self.labels, guidance_schema=LOCAL_GUIDANCE_SCHEMA)}}})
         self.static = value["library"]
         tokens = self.validate_library(self.static)
-        RunStore.immutable_json(self.out / "static_procedures.json", {"library": self.static, **tokens, "fresh_public_task_only_control_no_cases_gold_or_observations": True})
+        RunStore.immutable_json(self.out / "static_procedures.json", {
+            "library": self.static, **tokens,
+            "fresh_public_task_only_control_no_cases_gold_or_observations": not bool(self.cfg.get("continuation_parent")),
+            "explicit_historical_public_only_static_reference": bool(self.cfg.get("continuation_parent")),
+        })
 
     def update(self, batch):
         tokens = self.validate_library(self.bank)
@@ -475,6 +579,7 @@ class TaskLocalStudy(Comparison):
             "source_case_ids": sources, "all_valid_changes_published_without_efficacy_gate": True,
             "actual_current_and_previous_same_parent_window_not_full_cumulative_raw_history": True,
             "no_fixed_skill_count_growth_deletion_or_best_bank_selection": True,
+            "new_teacher_invocation_for_this_edit": not (self.cfg.get("continuation_parent") and batch == 1),
         })
         return published, stats
 
@@ -483,8 +588,10 @@ class TaskLocalStudy(Comparison):
         RunStore.immutable_json(self.out / "launch.json", {"at": now(), "pid": os.getpid(), "argv": sys.argv})
         RunStore.immutable_json(self.out / "declaration.json", {
             "at": now(), "run_id": self.run_id, "config": self.cfg, "frozen_bindings": self.bindings,
-            "fresh_empty_memory_learning_under_own_task_local_observations": True,
-            "all_matched_controls_fresh_except_exact_same_run_cold_aliases": True,
+            "fresh_empty_memory_learning_under_own_task_local_observations": not bool(self.cfg.get("continuation_parent")),
+            "all_matched_controls_fresh_except_exact_same_run_cold_aliases": not bool(self.cfg.get("continuation_parent")),
+            "explicit_continuation_parent": self.cfg.get("continuation_parent"),
+            "continuation_not_an_independent_learning_repeat": bool(self.cfg.get("continuation_parent")),
             "single17_task_context_not_semantic_isolation_or_host_legal_decision": True,
             "exposed_development_not_formal_test_or_proven_improvement": True,
         })
@@ -502,6 +609,13 @@ class TaskLocalStudy(Comparison):
         })
         if not native["ready"] or not teacher["ready"] or budget["available"] < self.cfg["planned_new_teacher_calls"]:
             raise RuntimeError("Original existing model/teacher unavailable; no substitute")
+        if self.cfg.get("continuation_parent"):
+            RunStore.immutable_json(self.out / "explicit_continuation_provenance.json", {
+                "parent_failure": read(ROOT / self.cfg["continuation_parent"] / "failure.json"),
+                "inherited_actual_native_teacher_calls": [36, 2], "planned_new_native_teacher_calls": [112, 3],
+                "packing_evidence": read(ROOT / self.cfg["input_budget_evidence"]),
+                "not_a_fresh_independent_learning_repeat_or_automatic_retry": True,
+            })
         self.initial_static()
         for batch in range(1, 5):
             self.current_batch = batch
@@ -532,6 +646,8 @@ class TaskLocalStudy(Comparison):
                 "first_encounter_skill_minus_all_layout": paired(before["unconditional_layout"], before["skill_memory"]),
                 "seen_update_effects": paired(before["skill_memory"], after), "library_management": stats,
                 "after_changes_supervised_tool_and_memory_not_pure_skill_effect": True,
+                "before_actual_responses_inherited": bool(self.cfg.get("continuation_parent") and batch <= 2),
+                "after_actual_responses_and_editor_inherited": bool(self.cfg.get("continuation_parent") and batch == 1),
             }
             self.summaries.append(summary)
             RunStore.immutable_json(self.out / f"batch{batch}_summary.json", summary)
@@ -556,7 +672,15 @@ class TaskLocalStudy(Comparison):
     def finish(self, later):
         self.check()
         all_units = self.units + self.aliases
-        if (len(self.native), len(self.teachers), self.teacher_attempts, len(self.aliases), len(all_units)) != (148, 5, 5, 18, 166) or any(len(us) != 8 for us in later.values()):
+        all_native = self.inherited_native + self.native
+        all_teachers = self.inherited_teachers + self.teachers
+        if (
+            (len(all_native), len(all_teachers), self.teacher_attempts + len(self.inherited_teachers), len(self.aliases), len(all_units)) != (148, 5, 5, 18, 166)
+            or len(self.native) != self.cfg["planned_new_native_calls"] or len(self.teachers) != self.cfg["planned_new_teacher_calls"]
+            or len(self.inherited_native) != self.cfg.get("planned_inherited_native_calls", 0)
+            or len(self.inherited_teachers) != self.cfg.get("planned_inherited_teacher_calls", 0)
+            or self.prefix_answers or self.prefix_teachers or any(len(us) != 8 for us in later.values())
+        ):
             raise ValueError("Full148/5/18/166 schedule required before development grading")
         expected_slots = {
             (f"batch{r['batch']}_before", arm, r["id"]) for r in self.training for arm in PREFIX_ARMS
@@ -567,9 +691,9 @@ class TaskLocalStudy(Comparison):
         } | {("later", arm, r["id"]) for r in self.future for arm in ARMS}
         if len(expected_slots) != 166 or {(u["stage"], u["arm"], u["document_id"]) for u in all_units} != expected_slots:
             raise ValueError("Complete166 predeclared source/arm/stage slots required")
-        if {t["name"] for t in self.teachers} != {"static_public_task_only", *(f"task_local_b{b}" for b in range(1, 5))}:
+        if {t["name"] for t in all_teachers} != {"static_public_task_only", *(f"task_local_b{b}" for b in range(1, 5))}:
             raise ValueError("Teacher roles differ from declared static plus four edits")
-        ids = {n["response"]["raw_id"] for n in self.native}
+        ids = {n["response"]["raw_id"] for n in all_native}
         if len(ids) != 148 or {u["response"]["raw_id"] for u in all_units} != ids:
             raise ValueError("Distinct physical response/alias identities differ")
         self.audit_units(all_units, "complete166_before_later_grading")
@@ -607,21 +731,30 @@ class TaskLocalStudy(Comparison):
         if len(main_ids) != 62:
             raise ValueError("Main-path/shared-cold cost accounting mismatch")
         done = {
-            "at": now(), "run_id": self.run_id, "new_native_calls": 148, "new_teacher_calls": 5,
+            "at": now(), "run_id": self.run_id, "new_native_calls": len(self.native), "new_teacher_calls": len(self.teachers),
             "new_teacher_attempts": self.teacher_attempts, "same_run_exact_cold_aliases": 18,
             "logical_observations": 166, "distinct_native_responses": 148,
-            "new_external_historical_native_references": 0,
+            "explicitly_inherited_native_calls": len(self.inherited_native), "explicitly_inherited_teacher_calls": len(self.inherited_teachers),
+            "whole_learning_lineage_native_teacher_calls": [148, 5],
+            "continuation_parent": self.cfg.get("continuation_parent"),
+            "new_external_historical_native_references": len(self.inherited_native),
             "main_path_unique_native_calls_including_shared_cold_fit_retention_and_endpoint": 62,
             "other_control_only_unique_native_calls": 86,
+            "inherited_logical_observations_not_new_calls": len(self.inherited_native) + (18 if self.inherited_native else 0),
+            "new_main_path_unique_native_calls": sum(n["response"]["raw_id"] in main_ids for n in self.native),
+            "new_other_control_only_unique_native_calls": sum(n["response"]["raw_id"] not in main_ids for n in self.native),
             "main_teacher_edits": 4, "static_control_teacher_calls": 1,
             "batches": self.summaries, "development": metrics,
             "paired_skill_minus_control": {a: paired(scored[a], scored["skill_memory"]) for a in ARMS if a != "skill_memory"},
             "descriptive_source_intervals_not_independent_learning_repeats": intervals,
             "new_native_usage": {k: sum(n["response"][k] for n in self.native) for k in ("prompt_tokens", "completion_tokens")},
+            "inherited_native_usage_not_new_spend": {k: sum(n["response"][k] for n in self.inherited_native) for k in ("prompt_tokens", "completion_tokens")},
             "main_path_native_usage_not_to_add_again_to_total": {k: sum(n["response"][k] for n in self.native if n["response"]["raw_id"] in main_ids) for k in ("prompt_tokens", "completion_tokens")},
             "new_teacher_usage": {k: sum(t["invocation"]["usage"][k] for t in self.teachers) for k in ("input_tokens", "output_tokens", "reasoning_output_tokens")},
+            "inherited_teacher_usage_not_new_spend": {k: sum(t["invocation"]["usage"][k] for t in self.inherited_teachers) for k in ("input_tokens", "output_tokens", "reasoning_output_tokens")},
             "new_CPU_fits": 0, "inherited_exact_prefix_CPU_fits": 4,
-            "fresh_own_online_skill_learning_not_fixed_bank_delivery_probe": True,
+            "fresh_own_online_skill_learning_not_fixed_bank_delivery_probe": not bool(self.cfg.get("continuation_parent")),
+            "own_online_learning_continuation_not_fixed_bank_or_independent_repeat": bool(self.cfg.get("continuation_parent")),
             "bounded_window_changes_teacher_information_not_lossless_full_history": True,
             "exposed_development_not_formal_test_or_independent_repeat": True,
             "no_host_legal_decision_answer_repair_effect_admission_or_best_bank": True,
@@ -629,4 +762,4 @@ class TaskLocalStudy(Comparison):
         RunStore.immutable_json(self.out / "completion.json", done)
         RunStore.immutable_json(self.report / "complete_metrics.json", done)
         write_report(self.out)
-        RunStore.atomic_json(self.out / "progress.json", {"at": now(), "run_id": self.run_id, "state": "completed", "completed_native_calls": 148, "completed_teacher_calls": 5, "completed_batches": 4, "logical_observations": 166})
+        RunStore.atomic_json(self.out / "progress.json", {"at": now(), "run_id": self.run_id, "state": "completed", "completed_native_calls": len(self.native), "completed_teacher_calls": len(self.teachers), "inherited_native_calls": len(self.inherited_native), "inherited_teacher_calls": len(self.inherited_teachers), "completed_batches": 4, "logical_observations": 166})

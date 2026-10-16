@@ -1,5 +1,11 @@
 # Next complete online repair — implementation plan, not a result
 
+Superseded19:03: the original candidate stopped at B2 pre-editor on hidden
+internal-vector packing capacity, after36/2 calls. The explicit continuation
+uses `configs/contractnli_task_local_completion.json` and its own frozen protocol;
+112 new/3 teacher calls are planned, not a repeat of the inherited36/2 prefix.
+All original public learning observations remain; no model/task change or fallback.
+
 Status18:34: launched18:11:06 CST as detached PID147784;20/148 lawyer and2/5
 teacher calls complete, B2 first encounters running. Full B1 completed18:26:11
 and independently matches original author/manual source memberships: cold

@@ -5,6 +5,34 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+19:03：原task_local_online Run已18:48:37终止，36新律师/2成功教师/2尝试，B2教师调用前
+超过1048576字符硬上限。不是当前仍在正常训练，也不是账号/8B服务故障；原8B仍在，不能重启。
+根因是bounded_teacher_packet把未给律师看的完整浮点评分向量及重复counterfactual也塞入教师。
+根因修复只给教师真实律师可见候选表，内部向量原样留档；全12案/204标签/完整原文/真实答/
+候选分数/布局/索引保留。实际重建教师输入1127041→325016字符，未提高上限/截案/加fallback。
+原B1教师system/user逐字不变，全部36原生请求将按新运行源码重放，避免重复花钱/重跑B1。
+
+新显式接续Run `legal_contractnli_task_local_packing_completion_20261016_run01` 已完整实现/准备，
+config configs/contractnli_task_local_completion.json，183冻结输入，35永久边界检查2.28秒通过，
+0资格生成/教师。新Run目录此时尚不存在、尚未launch；下一保全新源立即后台启动。
+计划112新律师/3教师（M2--M4），显式继承36/2，整条lineage仍148独立raw/5教师/166逻辑。
+不是独立学习重复、另一次新训练或不间断运行；M1--M2间改变教师观察视图须披露。
+冻结协议TASK_LOCAL_PACKING_COMPLETION_PROTOCOL_20261016.md；nature-paper及其计算实验清单
+用于区分继承/新费、源/观察边界与未完成效果，不改变模型/法律任务或给结果背书。
+
+完整B2首遇6源102题已独立按原作者/实际24 raw核验：主78.43/53.33/43.14%，
+同工具79.41/51.23/42.16%，直接空库73.53/58.09/41.18%，全布局75.49/47.42/43.14%。
+主相对同工具分类少1题、依据F1+2.10pp、联合多1题，仍不胜直接空库F1，目标未达到。
+收据原Run/monitoring/complete_B2_first_encounter_original_author_and_actual_pairs.json；
+不是B2学后结果，没有M2。B1同案高分不能作为跨合同突破。
+
+旧终态36/2与全部61原冻结输入、完整源码/轨迹/教师及两批审计已改源码前保全：
+legal-task-local-terminal36-native2-teacher-before-packing-repair-20261016.tar.gz，SHA256
+0324b2ff3a3792350fc8cdb4e4ec00c52ba11019195a6409df8b9024d3f725b2，190项目文件逐字节验证；
+同vdb、非异机/遗失权重备份。收据artifacts/task_local_terminal36_before_teacher_packing_repair_20261016.json。
+
+### 18:34完整首批与迁移误差审计（历史）
+
 18:34：新Run `legal_contractnli_task_local_online_learning_20261016_run01`
 已18:26:11完整结束B1，当前PID147784真实存活、20/148律师、2/5教师，B2首遇进行。
 B1原作者6源102题、30逻辑/12独立raw、实际全文/命题/作用域内容/解码/原生答案与
