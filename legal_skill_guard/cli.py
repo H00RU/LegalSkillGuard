@@ -19,6 +19,10 @@ from legal_skill_guard.report import write_report
 
 def study_for(config, run_id):
     method = read(config).get("method", "callable")
+    if method == "task_local_memory":
+        from legal_skill_guard.learning.task_local import TaskLocalStudy
+
+        return TaskLocalStudy(config, run_id=run_id)
     if method == "source_conditioned_memory":
         from legal_skill_guard.learning.conditioned import ConditionedCompletion, ConditionedStudy
 
@@ -48,7 +52,11 @@ def prepare(config):
     if frozen.exists():
         raise FileExistsError("Already frozen; use a new config for any change")
     reference_paths = []
-    if cfg.get("method") == "source_conditioned_memory":
+    if cfg.get("method") == "task_local_memory":
+        from legal_skill_guard.learning.task_local import prepare_task_local_inputs
+
+        selection, reference_paths = prepare_task_local_inputs(cfg)
+    elif cfg.get("method") == "source_conditioned_memory":
         from legal_skill_guard.learning.conditioned import prepare_conditioned_inputs
 
         selection, reference_paths = prepare_conditioned_inputs(cfg)
@@ -211,6 +219,7 @@ def worker(config, run_id, engineering):
                     "evidence_programs",
                     "trace_procedural_memory",
                     "source_conditioned_memory",
+                    "task_local_memory",
                 ):
                     raise ValueError("No extra pre-training qualification for declared skill study")
                 return verify_learning(study)
@@ -250,6 +259,7 @@ def launch(config, run_id, engineering):
             "evidence_programs",
             "trace_procedural_memory",
             "source_conditioned_memory",
+            "task_local_memory",
         ):
             raise ValueError("Start the declared skill study directly, not extra qualification")
         probe = study_for(config, run_id)
@@ -295,7 +305,7 @@ def main():
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs/contractnli_source_condition_audit_completion.json",
+        default=ROOT / "configs/contractnli_task_local.json",
     )
     parser.add_argument("--run-id")
     parser.add_argument(

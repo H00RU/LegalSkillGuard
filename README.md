@@ -1,5 +1,16 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Current prepared Run: `legal_contractnli_task_local_online_learning_20261016_run01`.
+At18:08 CST the complete new online learner/configuration/CLI and frozen inputs
+are implemented,33 zero-generation boundary tests pass, but it is NOT launched
+yet. Planned148 fresh lawyer/5 teacher calls,166 logical observations, no external
+historical response reuse. Exact within-run cold requests alone may share draws.
+See the [executable protocol](docs/TASK_LOCAL_ONLINE_PROTOCOL_20261016.md).
+Its own new trajectories feed the bounded original-Gold teacher; this is not
+another fixed-M4 replay. No performance improvement is claimed before execution.
+
+Historical completed studies and implementation checkpoints:
+
 Latest complete study: `legal_contractnli_full_master_delivery_20261016_run01`,
 COMPLETED17:34:20 CST,26 new native/0 teacher calls,104 explicit historical
 references. All130 actual wires and all2210 query membership rows independently

@@ -5,6 +5,20 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+18:08：完整TaskLocalStudy已实现，CLI默认/prepare/worker已接入新method=task_local_memory，
+新配置configs/contractnli_task_local.json及其freeze已生成，原24/8及24/8独立组件无交叉核验通过。
+33项永久0生成检查2.28秒通过，包括完整执行排程模拟148实际/5教师/18冷别名/166逻辑，
+teacher实际窗口6/12/12/12、main独立raw62的计费断言；不是8B或教师资格调用，不是指标证明。
+全部匹配控制将用新接口新生成，仍强空库/普通工具/全布局/主学习及静态终点；无旧答充新答。
+原4个同前缀普通监督工具继承并验hash/参数/数据/无skills-query，0新CPU拟合，不改8B权重。
+新增全166 source/arm/stage槽、准确bank版本/前缀state、作用域ID、完整wire/原评分审计，
+全部终点保存前不开Gold，不作效果准入/回滚或强制增长，library主序列及实际题旁投影各4096cap。
+可执行协议docs/TASK_LOCAL_ONLINE_PROTOCOL_20261016.md已随源冻结，不再编辑其绑定。
+此时尚未启动；下一仅备份完整已冻结源码/输入，直接launch后台，不额外模型资格测试。
+本轮为实质实现进展；Goal仍active，真正不同来源净收益/强基线/独立重复/正式测试尚未证明。
+
+### 17:54核心helper实现记录（历史）
+
 17:54：已开始实际核心修复，不是仅计划。新增learning/task_local.py：完整技能内容直接置于
 对应公开命题旁，17题同一上下文一次输出；无字面case gate、无source_triggers残留字段，
 used_skill_ids原生限公开scope但允许空，choice/spans仍律师自己决定；机械list_preamble非法律判定。

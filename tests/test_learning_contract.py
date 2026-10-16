@@ -915,7 +915,7 @@ def test_bounded_teacher_uses_actual_current_and_previous_parent_only():
         _, _, delivery = task_local_messages(r, labels, "Review.", bank, None)
         parsed = {h: {**g, "reason": "Observed.", "used_skill_ids": []} for h, g in gold.items()}
         units[r["id"]] = {
-            "document_id": r["id"], "published_library": bank,
+            "document_id": r["id"], "stage": f"batch{r['batch']}_{'before' if r['batch'] == 3 else 'after'}", "published_library": bank,
             "published_library_sha256": canonical_json_sha256(bank),
             "public_valid": True, "parsed": parsed,
             "response": {"raw_id": f"r{r['id']}", "finish_reason": "stop", "content": json.dumps(parsed)},
@@ -931,3 +931,57 @@ def test_bounded_teacher_uses_actual_current_and_previous_parent_only():
     units[3]["actual_factual_trace"]["ordinary_model_state"] = "stale"
     with pytest.raises(ValueError, match="exact current parent"):
         bounded_teacher_packet(training, 3, labels, bank, "M2", {3: units[3]}, {2: units[2]}, master_tokens=100, cap=4096)
+
+
+def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    import legal_skill_guard.learning.task_local as module
+
+    row, labels, gold = fixture()
+    study = object.__new__(module.TaskLocalStudy)
+    study.cfg = {
+        "generation": {"model": "frozen-test", "temperature": 0.6, "top_p": 0.95, "top_k": 20, "max_tokens": 8192, "seed": 45},
+        "teacher": {"model": "teacher-test", "ledger": "unused", "total_invocation_budget": 5},
+        "library_token_hard_cap": 4096, "planned_new_native_calls": 148, "planned_new_teacher_calls": 5,
+        "bundled_solver_system": "Review.",
+    }
+    study.out, study.run_id = tmp_path, "scheduler-only-no-generations"
+    study.labels, study.bindings = labels, {}
+    study.training = [{**copy.deepcopy(row), "id": i, "batch": (i - 1) // 6 + 1} for i in range(1, 25)]
+    study.future = [{k: v for k, v in {**row, "id": i}.items() if k != "annotation_sets"} for i in range(25, 33)]
+    study.native, study.teachers, study.units, study.aliases, study.summaries = [], [], [], [], []
+    study.bank, study.static, study.before, study.after, study.state_versions = [], [], {}, {}, {}
+    study.model, study.state, study.current_batch, study.teacher_attempts, study.stop = None, None, 0, 0, False
+    study.meter = SimpleNamespace(token_count=lambda **kwargs: 1, readiness=lambda: {"ready": True})
+    monkeypatch.setattr(module, "CodexCLIClient", lambda **kwargs: SimpleNamespace(preflight=lambda: {"ready": True}, invocation_budget_status=lambda: {"available": 5}))
+    study.check = lambda: None
+    study.fit_ordinary = lambda batch: None
+    study.audit_units = lambda units, name: None
+    teacher_windows = []
+
+    def teacher(name, system, body, schema):
+        study.teacher_attempts += 1
+        study.teachers.append({"name": name})
+        if name == "static_public_task_only":
+            return {"library": []}
+        teacher_windows.append(len(body["original_cases_and_actual_same_parent_observations"]))
+        return {"operations": [], "noop_reason": "Schedule simulation only."}
+
+    def native(dest, messages, schema, max_tokens, metadata):
+        answer = {h: {**g, "reason": "Simulation.", "used_skill_ids": []} for h, g in gold.items()}
+        response = {"content": json.dumps(answer), "finish_reason": "stop", "prompt_tokens": 1, "completion_tokens": 1, "raw_id": f"sim-{len(study.native)}"}
+        wire = {k: study.cfg["generation"][k] for k in ("model", "temperature", "top_p", "top_k", "max_tokens", "seed")}
+        wire.update(messages=messages, response_format={"type": "json_schema", "json_schema": {"name": "contractnli_callable_final", "strict": True, "schema": schema}})
+        record = {"calls": [{"request": wire}], "response": response, **metadata}
+        RunStore.immutable_json(dest, record)
+        study.native.append(record)
+        return response
+
+    study.teacher_call, study.call = teacher, native
+    observed = {}
+    study.finish = lambda later: observed.update({"later": later, "native": len(study.native), "teachers": len(study.teachers), "aliases": len(study.aliases), "logical": len(study.units) + len(study.aliases)})
+    study.execute()
+    assert (observed["native"], observed["teachers"], observed["aliases"], observed["logical"]) == (148, 5, 18, 166)
+    assert all(len(units) == 8 for units in observed["later"].values())
+    assert teacher_windows == [6, 12, 12, 12]
+    assert len({u["response"]["raw_id"] for u in study.units + study.aliases if u["arm"] == "skill_memory"}) == 62
