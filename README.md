@@ -1,5 +1,24 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Current21:06 CST: `legal_contractnli_task_local_packing_completion_20261016_run01`
+COMPLETED21:03:30; PID229747 exited. Whole lineage148 actual native/5 teacher,
+166 logical observations;112/3 new and36/2 explicit inheritance. Independent
+original-author full-wire/manual-set/cost audit of all166/2822 query records
+passed before changing the old183 bindings. Final exposed8 accuracy/F1/joint:
+main88.97/68.72/61.76%, ordinary84.56/68.38/55.88%, all-layout88.97/73.50/61.03%.
+Main evidence-bearing exact joint32 equals ordinary32 and is below all-layout35;
+the8 net joint gains versus ordinary are all correct NM, not extra complete
+evidence. True members78 versus80;6 gained and8 lost. All same-tool descriptive
+source intervals include zero. This remains an unsuccessful evidence-transfer
+candidate, not a formal test, independent repeat or mature-method superiority.
+
+Next: preserve this complete terminal/source, register the already implemented
+literal source/feedback views, freeze/back up and launch a fresh148/5 complete
+learner. That candidate has39 zero-generation boundary checks passing, but is
+NOT registered/frozen/launched yet and has no efficacy result. No extra B1 probe.
+
+Historical20:35 checkpoint:
+
 Current20:35 CST checkpoint: PID229747 remains live; all four batches and B1
 retention are complete, all five endpoint arms are being generated before any
 new endpoint scoring. Complete B2--B4 first encounters (18 sources/306 queries):
