@@ -5,6 +5,34 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+04:30实际终态：paired completion于04:23:27 completed，PID1036015已消失，
+12新native/2新教师（两次前缀编辑另计）；全部stop/0截断。两次教师的完整输入、
+原Gold/实际程序执行、实际wire/event/value/publication已独立重建核验，315绑定。
+全部18实际答案（对照6+新12）已按原作者逐集合手工重数并核对实际wire/Schema/12份
+前瞻消息hash/源程序执行/原文还原，321绑定。结果ordinary85.29/61.54/45.10%，
+blind82.35/60.00/43.14，feedback79.41/59.83/43.14；真证76/72/70，FP16/13/9，
+漏79/83/85，NN联合22/21/21、NM24/23/23。feedback对ordinary标签1修7伤、联合4修6伤、
+真证5增11丢；两臂102/102自报技能使用不证明因果有效。新native135103prompt/23802out。
+新教师seq1367/1368，input289372/output15194（reason7037包含）；前缀1365/1366
+input259978/output16824（reason6861包含），另共享M2草案上游1361/1362+18次旧native
+是前置资产，不免费或独立学习。完整成本限定见monitoring/actual_two_second_pass_teacher_complete_input_value_event_audit.json。
+完整独立人工/实际输入审计：monitoring/complete12_original_author_manual_sets_wire_and_acquisition_audit.json。
+
+训练源程序改进未转化native：最终blind159真/79非Gold，feedback183/86（原261Gold）；
+feedback比自己首稿174/105多9真少19非Gold；新案NN query额外真17仅5最终选中，
+普通候选真76/17非Gold，反馈程序真58/24非Gold。可见取证与决策/保留均有问题。
+固定当前单scope库再零模型换标准Snowball：feedback183→187真，但86→136非Gold，
+未部署/安装、0新教师/native/fit。不能把这些覆盖统计当律师因果效果。
+
+下一在完整12终态保全后，实施“固定M2辅助检索器+同writer读取自己新草案真实native
+反馈”的M3→B4短续接：不再重复B1，不按分数选库，继续最新feedback提案而非更好旧库。
+原教师已经收到原答案/实际父库轨迹；问题不是没答案，而是旧同批after同时换辅助工具，
+且当前两次查询反馈修订没见自己新草案造成的律师错误。拟固定工具，6个已见B3源上
+先执行草案、原教师再修订、最终库无条件执行；另6个B4合同与同工具空技能配对检查
+迁移。所有已见18 TRAIN源/Gold保留，不给教师B4/测试结果，不更改任务/8B/词干器，
+不加critic/效果准入/答案修补；24新native/2新教师的机制短续接，非正式main/独立重复。
+尚未创建或launch；当前无实验worker，原8B2261314live。Goal active、论文全文目标未达。
+
 04:07:24新诊断延续已真实后台launch，PID1036015：
 legal_contractnli_execution_grounded_editor_completion_20261017_run01，计划新12原生/2教师，
 继承失败前缀0/2，总lineage若完成12/4（每臂两次教师，不等token/独立学习）。
