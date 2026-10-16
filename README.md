@@ -1,12 +1,21 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Current background worker: `legal_contractnli_ace_same_data_20261016_run01`,
+Current active background worker: `legal_contractnli_ace_same_data_20261016_run01`,
 launched07:18:33 CST, PID3360667,52 new lawyer/28 new teacher planned.
 Same24 sources/four batches6, same frozen8B and past-prefix ordinary evidence models;
 native ACE legal adaptation plus own empty-playbook endpoint control, not a new
 main method or canonical ACE reproduction. All663 bindings frozen until exit.
 Use `.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_ace_same_data_20261016_run01`.
 Original8B PID2261314 remains untouched. New protocol: [ACE same-data comparison](docs/ACE_SAME_DATA_20261016.md).
+Queued08:08:58 CST: `legal_contractnli_evidence_scope_ablation_20261016_run01`,
+PID3439428,26 new lawyer/0 teacher. It waits for that exact ACE process and GPU
+lease, then automatically evaluates all18 historical first-encounter sources and
+all8 exposed development sources with one generic evidence skill removed.
+All26 input deltas and52 historical reference wires were verified without
+qualification generations. This is a fixed content diagnostic, not new online
+training or a score-selected library. Its667 bindings also stay frozen until exit.
+Use explicit `--run-id legal_contractnli_evidence_scope_ablation_20261016_run01`.
+Protocol: [evidence-scope ablation](reports/experiments/grounded_feedback_20261016/evidence_scope_ablation_protocol.md).
 `legal_contractnli_case_credit_20261016_run01` completed16 new lawyer/8 teacher at07:00:22.
 Direct82.35/68.29/56.62%, reflected86.03/69.83/59.56%; oldM4
 83.09/69.91/59.56%, same-tool80.88/71.37/55.15% (accuracy/F1/joint).

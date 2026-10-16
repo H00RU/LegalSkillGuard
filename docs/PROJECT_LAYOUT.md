@@ -16,6 +16,13 @@
 
 ## 当前后台工作
 
+08:08:58另已后台排队`legal_contractnli_evidence_scope_ablation_20261016_run01`，PID3439428，
+固定26新律师/0教师，等待精确ACE PID3360667及GPU锁后自动接续，不依赖对话。
+只从当时真实M1—M4库移除nda-complete-operative-evidence及必要ID元数据，全部其余文字/模型不变。
+覆盖全部18首遇＋8暴露开发，52旧回答明确引用，非新主训练、正式确认或效果准入。
+driver仅本Run归档，协议在grounded_feedback报告目录；667绑定与当前ACE的663都冻结至各自退出。
+显式status --run-id legal_contractnli_evidence_scope_ablation_20261016_run01查看队列。
+
 最新：10月16日07:18启动`legal_contractnli_ace_same_data_20261016_run01`（PID3360667），
 同24原TRAIN/四批6/同原证据模型的原生ACE法律适配比较，计划52新律师/28教师；663绑定冻结至退出。
 用`.venv/bin/python -m legal_skill_guard.cli status --run-id legal_contractnli_ace_same_data_20261016_run01`查看。
