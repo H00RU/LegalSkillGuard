@@ -1,0 +1,1703 @@
+{
+  "at": "2026-10-16T18:27:49.252275+00:00",
+  "run_id": "legal_contractnli_source_program_online_learning_20261017_run03",
+  "batch": 2,
+  "stage": "complete_before_explicit_inherited_same_parent_actual_observations",
+  "counts": {
+    "Gold_members": 133,
+    "ordinary_candidate_true": 44,
+    "ordinary_candidate_false": 22,
+    "ordinary_candidate_missing": 89,
+    "program_true": 56,
+    "program_false": 103,
+    "program_missing": 77,
+    "program_true_outside_ordinary": 29,
+    "program_false_outside_ordinary": 95,
+    "native_missed": 83,
+    "native_missed_already_ordinary": 4,
+    "native_missed_in_program": 27,
+    "native_missed_outside_both": 54,
+    "native_true_outside_ordinary": 10,
+    "native_selected_program_added_true": 4,
+    "native_rejected_program_added_true": 25,
+    "native_true_gained_vs_ordinary": 6,
+    "native_true_lost_vs_ordinary": 5,
+    "native_nonGold_gained_vs_ordinary": 8,
+    "native_nonGold_removed_vs_ordinary": 3
+  },
+  "class_diagnostic": {
+    "NotMentioned": {
+      "n": 42,
+      "label_correct": 32,
+      "ordinary_label_correct": 30
+    },
+    "Entailment": {
+      "n": 51,
+      "label_correct": 46,
+      "ordinary_label_correct": 47,
+      "wrong_label_all_Gold_in_ordinary": 0,
+      "wrong_label_all_Gold_in_program": 1,
+      "wrong_label_all_Gold_in_either": 1
+    },
+    "Contradiction": {
+      "n": 9,
+      "label_correct": 4,
+      "ordinary_label_correct": 5,
+      "wrong_label_all_Gold_in_ordinary": 0,
+      "wrong_label_all_Gold_in_program": 3,
+      "wrong_label_all_Gold_in_either": 3
+    }
+  },
+  "error_records": [
+    {
+      "document_id": 262,
+      "hypothesis_id": "nda-16",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        14,
+        15
+      ],
+      "native_spans": [
+        14
+      ],
+      "ordinary_spans": [
+        14
+      ],
+      "ordinary_candidate_spans": [
+        14
+      ],
+      "program_returned_spans": [
+        14
+      ],
+      "native_public_reason": "Contract requires return of materials upon termination.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-return-copy-retention-evidence"
+      ]
+    },
+    {
+      "document_id": 262,
+      "hypothesis_id": "nda-15",
+      "Gold_choice": "NotMentioned",
+      "native_choice": "Contradiction",
+      "ordinary_choice": "Contradiction",
+      "Gold_spans": [],
+      "native_spans": [
+        5
+      ],
+      "ordinary_spans": [
+        5
+      ],
+      "ordinary_candidate_spans": [
+        5
+      ],
+      "program_returned_spans": [],
+      "native_public_reason": "Receiving Party has access to Confidential Information.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-rights-license-purpose-evidence"
+      ]
+    },
+    {
+      "document_id": 262,
+      "hypothesis_id": "nda-2",
+      "Gold_choice": "Contradiction",
+      "native_choice": "NotMentioned",
+      "ordinary_choice": "Contradiction",
+      "Gold_spans": [
+        7
+      ],
+      "native_spans": [],
+      "ordinary_spans": [
+        7
+      ],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        10,
+        14
+      ],
+      "native_public_reason": "Definition includes non-technical information.",
+      "reported_skill_ids_not_causal_proof": []
+    },
+    {
+      "document_id": 262,
+      "hypothesis_id": "nda-4",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        9,
+        13
+      ],
+      "native_spans": [
+        10,
+        12,
+        13
+      ],
+      "ordinary_spans": [
+        10,
+        12,
+        13
+      ],
+      "ordinary_candidate_spans": [
+        10,
+        12,
+        13
+      ],
+      "program_returned_spans": [],
+      "native_public_reason": "Confidential Info use limited to Society's purposes.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-rights-license-purpose-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-16",
+      "Gold_choice": "NotMentioned",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [],
+      "native_spans": [
+        29,
+        30
+      ],
+      "ordinary_spans": [
+        29,
+        30
+      ],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        27,
+        29,
+        30,
+        82
+      ],
+      "native_public_reason": "Mentions return or destruction of Evaluation Material upon termination.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-return-copy-retention-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-15",
+      "Gold_choice": "NotMentioned",
+      "native_choice": "Contradiction",
+      "ordinary_choice": "NotMentioned",
+      "Gold_spans": [],
+      "native_spans": [
+        16,
+        19
+      ],
+      "ordinary_spans": [],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [],
+      "native_public_reason": "Allows use for evaluating transactions.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-rights-license-purpose-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-2",
+      "Gold_choice": "NotMentioned",
+      "native_choice": "Contradiction",
+      "ordinary_choice": "Contradiction",
+      "Gold_spans": [],
+      "native_spans": [
+        9
+      ],
+      "ordinary_spans": [
+        9
+      ],
+      "ordinary_candidate_spans": [
+        9
+      ],
+      "program_returned_spans": [
+        6,
+        7,
+        22,
+        23,
+        24,
+        25,
+        31,
+        32
+      ],
+      "native_public_reason": "Includes non-technical documents like analyses.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-definition-form-identification-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-19",
+      "Gold_choice": "NotMentioned",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [],
+      "native_spans": [
+        30
+      ],
+      "ordinary_spans": [
+        30
+      ],
+      "ordinary_candidate_spans": [
+        30
+      ],
+      "program_returned_spans": [
+        30
+      ],
+      "native_public_reason": "Confidentiality obligations survive termination.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-survival-continuity-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-12",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        10,
+        14
+      ],
+      "native_spans": [
+        14
+      ],
+      "ordinary_spans": [
+        14
+      ],
+      "ordinary_candidate_spans": [
+        14
+      ],
+      "program_returned_spans": [
+        10,
+        14
+      ],
+      "native_public_reason": "Allows independent development without Evaluation Material.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-exception-source-development-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-20",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        27,
+        28,
+        29,
+        31,
+        32,
+        33
+      ],
+      "native_spans": [
+        29
+      ],
+      "ordinary_spans": [
+        29
+      ],
+      "ordinary_candidate_spans": [
+        29
+      ],
+      "program_returned_spans": [
+        27,
+        29,
+        30,
+        82
+      ],
+      "native_public_reason": "Portion in analyses may remain.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-return-copy-retention-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-3",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        7
+      ],
+      "native_spans": [
+        9
+      ],
+      "ordinary_spans": [
+        9
+      ],
+      "ordinary_candidate_spans": [
+        9
+      ],
+      "program_returned_spans": [
+        6,
+        7,
+        22,
+        23,
+        24,
+        25,
+        31,
+        32
+      ],
+      "native_public_reason": "Includes information irrespective of form.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-definition-form-identification-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-18",
+      "Gold_choice": "Entailment",
+      "native_choice": "Contradiction",
+      "ordinary_choice": "Contradiction",
+      "Gold_spans": [
+        39,
+        40,
+        41
+      ],
+      "native_spans": [
+        44
+      ],
+      "ordinary_spans": [
+        44
+      ],
+      "ordinary_candidate_spans": [
+        44
+      ],
+      "program_returned_spans": [
+        39,
+        44,
+        47,
+        54,
+        60
+      ],
+      "native_public_reason": "Allows discussions without solicitation.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-solicitation-restriction-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-7",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        7,
+        15,
+        16,
+        17,
+        19
+      ],
+      "native_spans": [
+        7
+      ],
+      "ordinary_spans": [
+        7
+      ],
+      "ordinary_candidate_spans": [
+        7
+      ],
+      "program_returned_spans": [
+        7,
+        17,
+        21,
+        22,
+        23,
+        24,
+        25,
+        29,
+        31,
+        33,
+        75
+      ],
+      "native_public_reason": "Permits disclosure to Representatives.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-authorized-recipient-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-17",
+      "Gold_choice": "NotMentioned",
+      "native_choice": "Entailment",
+      "ordinary_choice": "NotMentioned",
+      "Gold_spans": [],
+      "native_spans": [
+        29
+      ],
+      "ordinary_spans": [],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        27,
+        29,
+        30,
+        82
+      ],
+      "native_public_reason": "Copies may be retained in analyses.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-return-copy-retention-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-8",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        22,
+        23,
+        24
+      ],
+      "native_spans": [
+        23,
+        24
+      ],
+      "ordinary_spans": [
+        23,
+        24
+      ],
+      "ordinary_candidate_spans": [
+        23,
+        24
+      ],
+      "program_returned_spans": [
+        23,
+        24
+      ],
+      "native_public_reason": "Requires notice of legal disclosure requests.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-compelled-disclosure-notice-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-13",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        10,
+        13
+      ],
+      "native_spans": [
+        12,
+        13
+      ],
+      "ordinary_spans": [
+        12
+      ],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        10,
+        14
+      ],
+      "native_public_reason": "Permits third-party non-confidential sources.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-exception-source-development-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-5",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        7,
+        15,
+        16,
+        17,
+        19
+      ],
+      "native_spans": [
+        7
+      ],
+      "ordinary_spans": [
+        7
+      ],
+      "ordinary_candidate_spans": [
+        7
+      ],
+      "program_returned_spans": [
+        7,
+        17,
+        21,
+        22,
+        23,
+        24,
+        25,
+        29,
+        31,
+        33,
+        75
+      ],
+      "native_public_reason": "Permits disclosure to Representatives (employees).",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-authorized-recipient-evidence"
+      ]
+    },
+    {
+      "document_id": 588,
+      "hypothesis_id": "nda-4",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        7,
+        15,
+        16,
+        17,
+        19
+      ],
+      "native_spans": [
+        16,
+        19,
+        20
+      ],
+      "ordinary_spans": [
+        16,
+        19,
+        20
+      ],
+      "ordinary_candidate_spans": [
+        16,
+        19,
+        20
+      ],
+      "program_returned_spans": [],
+      "native_public_reason": "Limits use to evaluating transactions.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-rights-license-purpose-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-16",
+      "Gold_choice": "NotMentioned",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [],
+      "native_spans": [
+        70
+      ],
+      "ordinary_spans": [
+        70
+      ],
+      "ordinary_candidate_spans": [
+        70
+      ],
+      "program_returned_spans": [
+        69,
+        70,
+        71,
+        72,
+        74
+      ],
+      "native_public_reason": "Mandates return or destruction upon request.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-return-copy-retention-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-15",
+      "Gold_choice": "NotMentioned",
+      "native_choice": "Contradiction",
+      "ordinary_choice": "NotMentioned",
+      "Gold_spans": [],
+      "native_spans": [
+        11,
+        22,
+        34,
+        35
+      ],
+      "ordinary_spans": [],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [],
+      "native_public_reason": "Grants limited right for evaluation purposes.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-rights-license-purpose-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-2",
+      "Gold_choice": "Contradiction",
+      "native_choice": "Contradiction",
+      "ordinary_choice": "Contradiction",
+      "Gold_spans": [
+        13,
+        14
+      ],
+      "native_spans": [
+        13
+      ],
+      "ordinary_spans": [
+        13
+      ],
+      "ordinary_candidate_spans": [
+        13
+      ],
+      "program_returned_spans": [
+        12,
+        13,
+        148
+      ],
+      "native_public_reason": "Includes non-technical information.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-definition-form-identification-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-19",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        72,
+        73,
+        74,
+        75,
+        76
+      ],
+      "native_spans": [
+        71,
+        150
+      ],
+      "ordinary_spans": [
+        71,
+        150
+      ],
+      "ordinary_candidate_spans": [
+        71,
+        150
+      ],
+      "program_returned_spans": [
+        71
+      ],
+      "native_public_reason": "Obligations survive termination.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-survival-continuity-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-12",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        16,
+        19
+      ],
+      "native_spans": [
+        19,
+        20
+      ],
+      "ordinary_spans": [
+        19
+      ],
+      "ordinary_candidate_spans": [
+        16,
+        19
+      ],
+      "program_returned_spans": [
+        16,
+        19,
+        20
+      ],
+      "native_public_reason": "Permits independent development/third-party info.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-exception-source-development-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-20",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        72,
+        73,
+        74,
+        75,
+        76
+      ],
+      "native_spans": [
+        74
+      ],
+      "ordinary_spans": [
+        70
+      ],
+      "ordinary_candidate_spans": [
+        70
+      ],
+      "program_returned_spans": [
+        69,
+        70,
+        71,
+        72,
+        74
+      ],
+      "native_public_reason": "Allows retention under conditions.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-return-copy-retention-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-3",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        13,
+        14
+      ],
+      "native_spans": [
+        13
+      ],
+      "ordinary_spans": [
+        13
+      ],
+      "ordinary_candidate_spans": [
+        13
+      ],
+      "program_returned_spans": [
+        12,
+        13,
+        148
+      ],
+      "native_public_reason": "Includes verbal information.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-definition-form-identification-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-18",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "NotMentioned",
+      "Gold_spans": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        42,
+        44
+      ],
+      "native_spans": [
+        28,
+        32
+      ],
+      "ordinary_spans": [],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        30,
+        41,
+        42,
+        44,
+        52,
+        59
+      ],
+      "native_public_reason": "Restricts solicitation of employees.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-solicitation-restriction-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-7",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        12,
+        23,
+        26
+      ],
+      "native_spans": [
+        12,
+        38
+      ],
+      "ordinary_spans": [
+        12,
+        38
+      ],
+      "ordinary_candidate_spans": [
+        12,
+        38
+      ],
+      "program_returned_spans": [
+        12,
+        13,
+        14,
+        23,
+        35,
+        38,
+        73,
+        82,
+        85
+      ],
+      "native_public_reason": "Permits sharing with authorized representatives.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-authorized-recipient-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-8",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        23,
+        24,
+        82,
+        83
+      ],
+      "native_spans": [
+        24
+      ],
+      "ordinary_spans": [
+        24
+      ],
+      "ordinary_candidate_spans": [
+        24
+      ],
+      "program_returned_spans": [],
+      "native_public_reason": "Requires notice of compelled disclosure.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-compelled-disclosure-notice-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-13",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        16,
+        20
+      ],
+      "native_spans": [
+        19,
+        20
+      ],
+      "ordinary_spans": [
+        20
+      ],
+      "ordinary_candidate_spans": [
+        16,
+        19,
+        20
+      ],
+      "program_returned_spans": [
+        16,
+        19,
+        20
+      ],
+      "native_public_reason": "Permits acquiring similar info from third parties.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-exception-source-development-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-5",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        12,
+        23,
+        26
+      ],
+      "native_spans": [
+        12,
+        26,
+        32,
+        38
+      ],
+      "ordinary_spans": [
+        12,
+        26,
+        38
+      ],
+      "ordinary_candidate_spans": [
+        12,
+        26,
+        32,
+        38
+      ],
+      "program_returned_spans": [
+        12,
+        13,
+        14,
+        23,
+        35,
+        38,
+        73,
+        82,
+        85
+      ],
+      "native_public_reason": "Allows sharing with employees as representatives.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-authorized-recipient-evidence"
+      ]
+    },
+    {
+      "document_id": 538,
+      "hypothesis_id": "nda-4",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        22
+      ],
+      "native_spans": [
+        22,
+        42
+      ],
+      "ordinary_spans": [
+        22
+      ],
+      "ordinary_candidate_spans": [
+        22,
+        42
+      ],
+      "program_returned_spans": [],
+      "native_public_reason": "Limits use to transaction evaluation.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-rights-license-purpose-evidence"
+      ]
+    },
+    {
+      "document_id": 177,
+      "hypothesis_id": "nda-2",
+      "Gold_choice": "Contradiction",
+      "native_choice": "Contradiction",
+      "ordinary_choice": "Contradiction",
+      "Gold_spans": [
+        7
+      ],
+      "native_spans": [
+        6
+      ],
+      "ordinary_spans": [
+        6
+      ],
+      "ordinary_candidate_spans": [
+        6
+      ],
+      "program_returned_spans": [
+        8
+      ],
+      "native_public_reason": "Includes non-technical info.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-definition-form-identification-evidence"
+      ]
+    },
+    {
+      "document_id": 177,
+      "hypothesis_id": "nda-12",
+      "Gold_choice": "NotMentioned",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [],
+      "native_spans": [
+        12
+      ],
+      "ordinary_spans": [
+        12
+      ],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [],
+      "native_public_reason": "Allows independently developed info.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-exception-source-development-evidence"
+      ]
+    },
+    {
+      "document_id": 177,
+      "hypothesis_id": "nda-20",
+      "Gold_choice": "Contradiction",
+      "native_choice": "NotMentioned",
+      "ordinary_choice": "NotMentioned",
+      "Gold_spans": [
+        21
+      ],
+      "native_spans": [],
+      "ordinary_spans": [],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        21,
+        26,
+        27
+      ],
+      "native_public_reason": "No post-agreement retention.",
+      "reported_skill_ids_not_causal_proof": []
+    },
+    {
+      "document_id": 177,
+      "hypothesis_id": "nda-3",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        8
+      ],
+      "native_spans": [
+        6,
+        8
+      ],
+      "ordinary_spans": [
+        8
+      ],
+      "ordinary_candidate_spans": [
+        6,
+        8
+      ],
+      "program_returned_spans": [
+        8
+      ],
+      "native_public_reason": "Includes oral/verbal info.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-definition-form-identification-evidence"
+      ]
+    },
+    {
+      "document_id": 177,
+      "hypothesis_id": "nda-13",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        10,
+        13
+      ],
+      "native_spans": [
+        12
+      ],
+      "ordinary_spans": [
+        12
+      ],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [],
+      "native_public_reason": "Allows third-party acquired info.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-exception-source-development-evidence"
+      ]
+    },
+    {
+      "document_id": 177,
+      "hypothesis_id": "nda-4",
+      "Gold_choice": "Entailment",
+      "native_choice": "NotMentioned",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        20
+      ],
+      "native_spans": [],
+      "ordinary_spans": [
+        20
+      ],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [],
+      "native_public_reason": "No explicit use limitations.",
+      "reported_skill_ids_not_causal_proof": []
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-15",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        76,
+        77,
+        78
+      ],
+      "native_spans": [
+        77,
+        78,
+        79
+      ],
+      "ordinary_spans": [
+        77,
+        78
+      ],
+      "ordinary_candidate_spans": [
+        77,
+        78,
+        79
+      ],
+      "program_returned_spans": [
+        76,
+        78,
+        79,
+        87
+      ],
+      "native_public_reason": "No rights granted to Recipient.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-rights-license-purpose-evidence"
+      ]
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-10",
+      "Gold_choice": "Entailment",
+      "native_choice": "NotMentioned",
+      "ordinary_choice": "NotMentioned",
+      "Gold_spans": [
+        18,
+        64
+      ],
+      "native_spans": [],
+      "ordinary_spans": [],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [],
+      "native_public_reason": "Confidentiality of agreement not addressed.",
+      "reported_skill_ids_not_causal_proof": []
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-2",
+      "Gold_choice": "Contradiction",
+      "native_choice": "Contradiction",
+      "ordinary_choice": "Contradiction",
+      "Gold_spans": [
+        18,
+        19,
+        20,
+        32
+      ],
+      "native_spans": [
+        22
+      ],
+      "ordinary_spans": [
+        22
+      ],
+      "ordinary_candidate_spans": [
+        22
+      ],
+      "program_returned_spans": [
+        18,
+        29,
+        32,
+        33,
+        59,
+        63,
+        65,
+        78
+      ],
+      "native_public_reason": "Definition includes non-technical information.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-definition-form-identification-evidence"
+      ]
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-1",
+      "Gold_choice": "Contradiction",
+      "native_choice": "NotMentioned",
+      "ordinary_choice": "NotMentioned",
+      "Gold_spans": [
+        18
+      ],
+      "native_spans": [],
+      "ordinary_spans": [],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        18,
+        29,
+        32,
+        33,
+        59,
+        63,
+        65,
+        78
+      ],
+      "native_public_reason": "No express identification requirement.",
+      "reported_skill_ids_not_causal_proof": []
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-19",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        72,
+        94,
+        97
+      ],
+      "native_spans": [
+        94
+      ],
+      "ordinary_spans": [
+        94
+      ],
+      "ordinary_candidate_spans": [
+        94
+      ],
+      "program_returned_spans": [],
+      "native_public_reason": "Obligations survive termination.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-survival-continuity-evidence"
+      ]
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-12",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        18,
+        22,
+        28
+      ],
+      "native_spans": [
+        21,
+        28
+      ],
+      "ordinary_spans": [
+        28
+      ],
+      "ordinary_candidate_spans": [
+        21,
+        28
+      ],
+      "program_returned_spans": [],
+      "native_public_reason": "Independent development permitted.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-exception-source-development-evidence"
+      ]
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-20",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        68,
+        71
+      ],
+      "native_spans": [
+        71
+      ],
+      "ordinary_spans": [
+        71
+      ],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        68,
+        69
+      ],
+      "native_public_reason": "Retention allowed for legal reasons.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-return-copy-retention-evidence"
+      ]
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-3",
+      "Gold_choice": "Entailment",
+      "native_choice": "NotMentioned",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        18
+      ],
+      "native_spans": [],
+      "ordinary_spans": [
+        22
+      ],
+      "ordinary_candidate_spans": [
+        22
+      ],
+      "program_returned_spans": [
+        18,
+        29,
+        32,
+        33,
+        59,
+        63,
+        65,
+        78
+      ],
+      "native_public_reason": "Verbal information inclusion not explicitly stated.",
+      "reported_skill_ids_not_causal_proof": []
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-7",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        34,
+        54
+      ],
+      "native_spans": [
+        54
+      ],
+      "ordinary_spans": [
+        54
+      ],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        34,
+        54
+      ],
+      "native_public_reason": "Disclosure to Representatives permitted.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-authorized-recipient-evidence"
+      ]
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-17",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        46,
+        49
+      ],
+      "native_spans": [
+        49
+      ],
+      "ordinary_spans": [
+        49
+      ],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        68,
+        69
+      ],
+      "native_public_reason": "Copying for Purpose allowed.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-return-copy-retention-evidence"
+      ]
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-13",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        18,
+        22,
+        25
+      ],
+      "native_spans": [
+        25
+      ],
+      "ordinary_spans": [
+        25
+      ],
+      "ordinary_candidate_spans": [
+        21
+      ],
+      "program_returned_spans": [],
+      "native_public_reason": "Third-party acquired info permitted.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-exception-source-development-evidence"
+      ]
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-5",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        34,
+        54
+      ],
+      "native_spans": [
+        54
+      ],
+      "ordinary_spans": [
+        54
+      ],
+      "ordinary_candidate_spans": [
+        54
+      ],
+      "program_returned_spans": [
+        34,
+        54
+      ],
+      "native_public_reason": "Disclosure to Representatives allowed.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-authorized-recipient-evidence"
+      ]
+    },
+    {
+      "document_id": 136,
+      "hypothesis_id": "nda-4",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        46,
+        47
+      ],
+      "native_spans": [
+        47,
+        79
+      ],
+      "ordinary_spans": [
+        47
+      ],
+      "ordinary_candidate_spans": [
+        47,
+        79
+      ],
+      "program_returned_spans": [
+        76,
+        78,
+        79,
+        87
+      ],
+      "native_public_reason": "Use restricted to Purpose.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-rights-license-purpose-evidence"
+      ]
+    },
+    {
+      "document_id": 187,
+      "hypothesis_id": "nda-15",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        29,
+        47
+      ],
+      "native_spans": [
+        47
+      ],
+      "ordinary_spans": [
+        47
+      ],
+      "ordinary_candidate_spans": [
+        47
+      ],
+      "program_returned_spans": [
+        29,
+        47
+      ],
+      "native_public_reason": "Explicitly prohibits granting rights to Confidential Information.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-rights-license-purpose-evidence"
+      ]
+    },
+    {
+      "document_id": 187,
+      "hypothesis_id": "nda-2",
+      "Gold_choice": "NotMentioned",
+      "native_choice": "Contradiction",
+      "ordinary_choice": "Contradiction",
+      "Gold_spans": [],
+      "native_spans": [
+        8
+      ],
+      "ordinary_spans": [
+        8
+      ],
+      "ordinary_candidate_spans": [
+        8
+      ],
+      "program_returned_spans": [
+        8,
+        47
+      ],
+      "native_public_reason": "Includes non-technical information in Confidential Information.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-definition-form-identification-evidence"
+      ]
+    },
+    {
+      "document_id": 187,
+      "hypothesis_id": "nda-12",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        11,
+        23
+      ],
+      "native_spans": [
+        23
+      ],
+      "ordinary_spans": [
+        11,
+        23
+      ],
+      "ordinary_candidate_spans": [
+        11,
+        23
+      ],
+      "program_returned_spans": [
+        23
+      ],
+      "native_public_reason": "Allows independent development of similar information.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-exception-source-development-evidence"
+      ]
+    },
+    {
+      "document_id": 187,
+      "hypothesis_id": "nda-20",
+      "Gold_choice": "Contradiction",
+      "native_choice": "NotMentioned",
+      "ordinary_choice": "NotMentioned",
+      "Gold_spans": [
+        35
+      ],
+      "native_spans": [],
+      "ordinary_spans": [],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        35
+      ],
+      "native_public_reason": "No post-agreement retention provisions.",
+      "reported_skill_ids_not_causal_proof": []
+    },
+    {
+      "document_id": 187,
+      "hypothesis_id": "nda-7",
+      "Gold_choice": "Contradiction",
+      "native_choice": "NotMentioned",
+      "ordinary_choice": "Contradiction",
+      "Gold_spans": [
+        29,
+        33
+      ],
+      "native_spans": [],
+      "ordinary_spans": [
+        29
+      ],
+      "ordinary_candidate_spans": [],
+      "program_returned_spans": [
+        29
+      ],
+      "native_public_reason": "No third-party sharing provisions.",
+      "reported_skill_ids_not_causal_proof": []
+    },
+    {
+      "document_id": 187,
+      "hypothesis_id": "nda-13",
+      "Gold_choice": "Entailment",
+      "native_choice": "NotMentioned",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        11,
+        20
+      ],
+      "native_spans": [],
+      "ordinary_spans": [
+        11,
+        23
+      ],
+      "ordinary_candidate_spans": [
+        11
+      ],
+      "program_returned_spans": [
+        23
+      ],
+      "native_public_reason": "No third-party acquisition provisions.",
+      "reported_skill_ids_not_causal_proof": []
+    },
+    {
+      "document_id": 187,
+      "hypothesis_id": "nda-5",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        29
+      ],
+      "native_spans": [
+        29,
+        30
+      ],
+      "ordinary_spans": [
+        29,
+        30
+      ],
+      "ordinary_candidate_spans": [
+        29,
+        30
+      ],
+      "program_returned_spans": [
+        29
+      ],
+      "native_public_reason": "Permits employee sharing with secrecy agreements.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-authorized-recipient-evidence"
+      ]
+    },
+    {
+      "document_id": 187,
+      "hypothesis_id": "nda-4",
+      "Gold_choice": "Entailment",
+      "native_choice": "Entailment",
+      "ordinary_choice": "Entailment",
+      "Gold_spans": [
+        25,
+        39
+      ],
+      "native_spans": [
+        39
+      ],
+      "ordinary_spans": [
+        39
+      ],
+      "ordinary_candidate_spans": [
+        39
+      ],
+      "program_returned_spans": [
+        29,
+        47
+      ],
+      "native_public_reason": "Limits use to stated purposes.",
+      "reported_skill_ids_not_causal_proof": [
+        "nda-rights-license-purpose-evidence"
+      ]
+    }
+  ],
+  "coverage_is_descriptive_not_native_upper_bound_semantic_truth_or_causal_skill_utility": true,
+  "new_generation_teacher_fit_counts": [
+    0,
+    0,
+    0
+  ],
+  "audited_actual_native_artifacts": {
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run03/batch2_before/skill_memory/262.reference.json": "3feda7c302e16d7452130482f5725f721e9564c947f4c67dd82d3f26495e1519",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run02/batch2_before/skill_memory/262.final.native.json": "527d6df3941795529354f5256d7fcae197fb77701e73fe0833cc328730295c27",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run03/batch2_before/skill_memory/588.reference.json": "cefa26260f26de86781eb8cec77231444ad709ea66a994a90ec13bf6526c7e26",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run02/batch2_before/skill_memory/588.final.native.json": "5a17b316489aa1159fa226df36cae2c639c0572e109c4a51ac8d220e59bdbc5a",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run03/batch2_before/skill_memory/538.reference.json": "602e0a626a4e9ed168cb9892169a5a555bc33c39a0eaf4c9bfa85001d481838c",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run02/batch2_before/skill_memory/538.final.native.json": "b6ac7ac6b15c6a6a9e35474687eff2b1e50cb798ed9365057dec5a4fa8e7bc71",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run03/batch2_before/skill_memory/177.reference.json": "9c3db4bb2eb2f2968946ed73bffc9ad85fa0620a3ebcbdfa07242b3564a55f39",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run02/batch2_before/skill_memory/177.final.native.json": "23e762dd8aa88f69bfe3c30b81f63cdc7bbaef711a52a7dcbd02c552ad31b285",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run03/batch2_before/skill_memory/136.reference.json": "c678b15730cc0bac8d6a33ccd343684bf0a132a3b0c368d165afd1844aea1779",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run02/batch2_before/skill_memory/136.final.native.json": "a2641f67a55940ea2e6a4b2823dff61c232430cbc930b0faf89a3a5f93ed8977",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run03/batch2_before/skill_memory/187.reference.json": "d61f2a817212a6aac8fc6c845bdd64024efd0e52343fa4582d4e31dd21fe38d4",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_source_program_online_learning_20261017_run02/batch2_before/skill_memory/187.final.native.json": "bcfc372bdc37e784f7ac4eb396dffd8b983be88aedd417d44692c57844fc829a"
+  }
+}
