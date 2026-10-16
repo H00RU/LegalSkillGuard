@@ -5,6 +5,16 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+06:59:01 corrective Run01已真实后台launch，PID1292538；06:59:16核验实际worker
+live、progress running/teacher、attempt1、0/16 native/0完成教师，原8B2261314
+未重启。launch前453全绑定/456项目文件及完整Git7eb8faa67f0725dab959577d4fb127735c654070
+已独立保全并逐成员验证，archive legal-corrective-episode-continuation-all453-before-launch-20261017.tar.gz，
+SHA71fb9044519dd4c418b43a7675d2fa65d5fb066065899801958fa35713e5f5c8；收据
+artifacts/corrective_episode_continuation_prelaunch_all_bindings_backup_20261017.json。
+同vdb非异机/权重/auth备份。下一poll同PID，不因观察超时重启；教师后先审实际
+event/value/最新父库CRUD与全部纠错示例/16完整请求/全源备份，再观察所有16答。
+不报partial新指标，不把准备/launch当效果证据，仍不是正式长训练/独立重复/TEST。
+
 06:58 corrective Run01已prepare，尚未launch/调用教师，当前无实验worker；原8B2261314
 保持不动。新源码/协议/原作者TRAIN与真实own观察快速审计通过：453冻结绑定，完整
 teacher901106chars，24已见源/24实际公共答案，295引用（257非NM纠错+38局部误选
