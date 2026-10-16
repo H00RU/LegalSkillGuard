@@ -5,6 +5,25 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+06:10在不读取support/refute新正确率、不修改其426绑定的情况下，已prepare新的有限
+mechanism study：legal_contractnli_evidence_anchored_skill_mechanism_20261017_run01。
+尚未launch/调用教师。其源码/协议/输入已落盘；558899完整teacher chars，原18已见
+TRAIN源/Gold与18真实own观察（历史前12+最新B3final6），实际旧库/工具/格式注明。
+这是有意重组/缩减旧实验观察的学习输入，不宣称lossless完整旧历史或独立新学习。
+199个原非NM例子已测实际扩展文本token成本，教师只选择过去source/hyp refs，host
+仅把过去原Gold标签及全部原Gold依据全文展开到历史示例；不读当前Gold修答案。
+runtime不带旧caseID/旧SPAN编号，原引文名称不擅改且明确非当前事实。局部例子不证明
+整案NM，所以无NM例refs。新表示inspection+historical_example_refs，无旧查询DSL/
+额外检索器/裁判/绑定器；固定普通M2/fullsource/原17题3分类和完整原SPAN指标不变。
+四格empty/procedures_only/examples_only/joint，同原四字段ABI（不是当前两bool诊断），
+6个B4已暴露开发合同，上限24新native/1教师。只允许完全同wire显式alias，非独立重复。
+总扩展库与scoped渲染仍4096，目标2500，不能用便宜refs计预算；超限保存失败不剪例子/
+回退。教师结果及24个完整前瞻请求由worker先全部编译、冻结和独立全源/Git备份后，
+才等同一GPU lock生成；全24逻辑答齐后评分。当前GPU诊断PID1204974仍独占。
+Ruff和无模型投影/来源/Schema快速检查已过，0资格生成、0新教师；下一先commit与独立
+保全新源码全部绑定后launch。不是正式训练／承诺收益；joint必须胜examples-only与
+empty才归因程序，且仍需完整在线跨批、成熟对照、重复和untunedTEST。Goal全文未达。
+
 06:00:18 corrected support/refute Run02已真实后台launch，PID1204974；06:00:19核验
 worker Ssl/progress running，ordinary_memory合同430，0/12新native、0教师。原8B2261314
 live、未重启；当前唯一实验worker是1204974，不是已停止1186039。
