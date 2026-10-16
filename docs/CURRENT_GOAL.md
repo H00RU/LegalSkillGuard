@@ -5,6 +5,25 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+18:14：完整新Run `legal_contractnli_task_local_online_learning_20261016_run01`
+已18:11:06后台PID147784真实启动，2/148新律师、1/5成功教师，B1首遇88作答。
+成功教师是仅公开任务静态control，不是主库技能；主库仍空直到B1结束首次训练编辑。
+static实际gpt-5.6-sol/high一次成功，17记录/1316主库/1145投影tokens，无案例/Gold/工具/缓存/换模型。
+首真实490律师请求与原作者源/17命题及原nativeSchema一致，冷输入无技能/静态库/普通模型/当前Gold；
+三逻辑冷别名同一真实rawID，非额外生成；全部61冻结输入不变。
+收据newRun/monitoring/first_actual_task_local_wire_and_cold_aliases_static_control_boundary.json。
+后续四批真实在线更新、匹配控制、旧案保持、完整40终点自动后台进行，不依赖对话/审批。
+源/配置/协议和所有绑定不得运行中改；原8B PID2261314绝不重启，无新模型下载或新付费API。
+下一核验完整B1教师实际102原标签/同父观察和M1发布，继续B2/B3/B4匹配净效应，不以首例/技能数/fit证明成功。
+
+启动前所有61冻结输入及当前完整源码已增量保全：
+legal-task-local-online-full-frozen-inputs-before-launch-20261016.tar.gz，SHA256
+3432c363933856812ae6c730fe11140946fcd88332b3014303ff8b192a68af5b，HEAD1dc8b1bcbd359bc9a1638df028b1958047ccfb23。
+需配合standalone旧全量8ea38df0...恢复，10新增/变动文件及完整Git bundle已逐字验证，0资格调用。
+目前是主链实际实现/启动及真实请求核验的实质progress，尚无整批新指标，Goal保持active。
+
+### 18:08完整实现与冻结记录（历史）
+
 18:08：完整TaskLocalStudy已实现，CLI默认/prepare/worker已接入新method=task_local_memory，
 新配置configs/contractnli_task_local.json及其freeze已生成，原24/8及24/8独立组件无交叉核验通过。
 33项永久0生成检查2.28秒通过，包括完整执行排程模拟148实际/5教师/18冷别名/166逻辑，

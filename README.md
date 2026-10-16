@@ -1,5 +1,19 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+RUNNING: `legal_contractnli_task_local_online_learning_20261016_run01`,
+started18:11:06 CST as detached PID147784, independent of the conversation.
+At18:14 CST2/148 lawyer calls and1/5 teacher calls are complete; B1 cold-before
+source88 is running. The completed teacher is the public-task-only STATIC
+control (17 records/1316 master/1145 scoped tokens), not the main learned bank.
+The main memory remains empty until its first actual training edit after B1.
+First actual lawyer source/hypotheses/schema, three exact cold aliases and
+static-teacher information boundary were independently verified;61 frozen
+inputs remain unchanged. No first-case or partial-batch efficacy claim.
+The new bounded learner, all matched controls, retention and full endpoint
+are automatic background stages. Do not edit its bound code/config/protocol.
+
+Historical preparation snapshot:
+
 Current prepared Run: `legal_contractnli_task_local_online_learning_20261016_run01`.
 At18:08 CST the complete new online learner/configuration/CLI and frozen inputs
 are implemented,33 zero-generation boundary tests pass, but it is NOT launched

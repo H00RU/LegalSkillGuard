@@ -1,9 +1,10 @@
 # Next complete online repair — implementation plan, not a result
 
-Status18:08: complete learner, configuration, CLI and source/input freeze are
-implemented.33 permanent zero-generation tests pass, including full148/5/18/166
-scheduler simulation. The new Run has NOT been launched at this checkpoint.
-This is an implemented development candidate, not evidence of efficacy.
+Status18:14: complete learner/configuration/CLI/source freeze implemented and
+launched18:11:06 CST as detached PID147784.33 zero-generation boundary tests
+passed, including full148/5/18/166 scheduler simulation. Actual static teacher
+and first lawyer calls succeeded; B1 cold-before is running. This is a live
+development candidate, not evidence of efficacy. Its protocol stays frozen.
 The ContractNLI task, original labels/SPAN scoring, frozen existing Qwen3-8B,
 gpt-5.6-sol/high teacher and online external-skill learning remain unchanged.
 No new model, paid API, client, runtime planner/judge/fallback or answer repair.
