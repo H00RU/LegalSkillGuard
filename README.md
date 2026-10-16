@@ -1,5 +1,23 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Latest complete study: `legal_contractnli_full_master_delivery_20261016_run01`,
+COMPLETED17:34:20 CST,26 new native/0 teacher calls,104 explicit historical
+references. All130 actual wires and all2210 query membership rows independently
+match original author TRAIN source/Gold;494 bindings stayed unchanged.
+Full delivery gives online18 accuracy/F1/joint84.97/60.43/53.27% and exposed8
+83.09/67.26/63.24%. The latter F1 remains below same-tool71.37% and strong
+ACE-empty72.51%; this is not a solved method, fresh learner or formal test.
+All full-minus-filtered descriptive source intervals include zero.
+
+At17:48 CST there is NO generation worker running: both studies below have
+finished. The original8B service remains loaded and must not be restarted.
+The Goal remains active. Next is implementation of the
+[task-local complete online repair](docs/TASK_LOCAL_ONLINE_REPAIR_PLAN_20261016.md),
+not automatic deployment of this fixed-bank intervention or a claimed128-case run.
+The new online learner has NOT been implemented, frozen or launched yet.
+
+Historical completed study and earlier live snapshots:
+
 Current default: `legal_contractnli_source_condition_audit_completion_20261016_run01`.
 This study COMPLETED17:03:14 CST:56 native/7 successful teacher calls across
 the explicit parent+completion,8 teacher attempts including the preserved auth
