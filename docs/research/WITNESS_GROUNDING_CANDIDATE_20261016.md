@@ -1,7 +1,9 @@
 # Witness grounding — current v2 and historical prototype evidence
 
-Current Oct17 00:13 CST: v2 is registered/frozen and actually running as
-`legal_contractnli_witness_table_online_learning_20261016_run01`,PID654539.
+Current Oct17 01:05 CST: v2 is stopped at66 new native/3 new main teacher
+responses and attempts, plus1 historical public-only static artifact.
+`legal_contractnli_witness_table_online_learning_20261016_run01`,PID654539,
+actually exited after the artifact-safe stop. It did NOT complete148 calls.
 Authoritative protocol: `docs/WITNESS_TABLE_ONLINE_PROTOCOL_20261016.md`.
 Global Gold-member accounts now cover ALL17 hypotheses and supplied cases ONCE
 per batch, including NOOP; per-edit source-condition checks are not repeated per
@@ -15,8 +17,25 @@ native/publication/full teacher input replay passed. Actual B1 after-fit is
 88.24/78.87/65.69%, WORSE than the prior literal B1. This is NOT efficacy proof.
 The potential remaining gap is distilling member-role analysis into usable
 source-wide evidence procedures, not merely correct class rules. Do not force
-fixed skill counts or hot-edit the active68 bindings. B2--B4 new-source evidence
-net gains/damage are the next required evidence, not B1 alone.
+fixed skill counts or hot-edit frozen bindings. Complete B2 first encounters
+are75.49/47.67/41.18 versus same-tool80.39/49.25/44.12; complete B3 is
+85.29/61.54/44.12 versus85.29/61.54/45.10. B3 true members76 and non-NM
+joint22 equal the control. No substantive transfer improvement was obtained.
+
+Actual M2 adds two copying-class rules and M3 is NOOP despite explaining all288
+Gold members. Its stated reason is absence of a new generic label-separating
+condition, while explicitly acknowledging remaining complete-evidence failures.
+Full actual12-source M3 request, teacher event/value/publication and all costs
+are independently replayed in terminal66_M3_full_feedback_and_cost_audit.json.
+This is evidence of an output-objective/distillation disconnect, not proof of a
+unique causal explanation or a license to relabel Gold. All66 raw answers and
+the uncompleted B3-after/B4/retention/endpoint status are retained.
+
+An independently registered fixed-M1/all-six-B2 named-field diagnosis is running
+as legal_contractnli_named_skill_delivery_diagnostic_20261017_run01, six new
+native calls and zero teacher calls. Only the exact skill serialization changes;
+every transformed request mechanically roundtrips to the old table request.
+It is not new learning, blind confirmation, skill admission or an efficacy claim.
 
 The following records describe earlier unregistered prototypes and superseded
 plans, retained for provenance. The62/86 draft is archived and unsupported; its
