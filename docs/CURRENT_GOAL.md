@@ -5,6 +5,32 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+04:43新的native-grounded Run02已prepare，尚未launch：
+legal_contractnli_native_grounded_fixed_tool_continuation_20261017_run02。
+先前Run01是0/0 cancelled_before_launch，非教师/律师失败：原parent在B4合同622需
+25581+8192=33773，超32768 by1005。保留全部prototype/注册/原测量/first_input未发送，
+没有丢弃622/裁原文/减输出cap/提高context。去inline tags仍25091，另去可推导返回并集
+24717仍超，不是随便拿一个可跑的小样本继续。
+
+Run02统一单次候选原文catalogue（逐题保留全部实际indices/scores），完整NAMED技能
+不变；所有query含空结果用NAMED direct/list两列，数组位置=真实query_index，returned
+并集/inline tags不再重复送入。每份完整请求均逐数据还原旧候选literal/全部query回执/
+旧正文tags并断言全部原body相等，不宣称模型行为等价。新共用notice如实描述实际输入。
+不加failed literal-program-member视图、不改query/词干器、不做Gold筛选/答案并集。
+18份0生成完整请求（6 B3parent+6 B4parent+6 B4ordinary）全部fit并还原；622当前parent
+23163+8192=31355，空技能19405+8192。未来未知draft/final仍需完整组编译，未保证任意库fit。
+历史-only teacher shape744687chars，未发送；实际教师在新parent6完成后才构造，并继续
+保留全部18原TRAIN/Gold与所有历史实际观察，不传B4给教师，第二次加真实draft6输出。
+Ruff通过，0新教师/native/CPU fit。来源snapshot/helper原型明确typed格式，不是猜测fallback。
+
+计划30新native/2教师：先6B3parent新表示实跑，1教师draft，6B3draft实跑，1教师见
+自己的真实draft native反馈再修订，6B3final重答，6B4同固定M2空技能/最终库配对12答。
+固定普通M2不再同批after更新辅助检索器，8B/任务/4096/32768/8192/解码保持。最终所有
+有效编辑无条件使用，不以效果挑parent/draft/final；30答后worker评分（教师合法见TRAIN
+原Gold/草案原答，但不见B4）。这不是正式main/独立学习/纯native-feedback消融；表示和
+学习闭环都前瞻更改，额外6parent控制不当免费。Goal active，全文论文目标未达。
+下一先commit并独立保全所有新绑定，再launch；严禁把“已prepare”说成“后台训练已跑”。
+
 04:30实际终态：paired completion于04:23:27 completed，PID1036015已消失，
 12新native/2新教师（两次前缀编辑另计）；全部stop/0截断。两次教师的完整输入、
 原Gold/实际程序执行、实际wire/event/value/publication已独立重建核验，315绑定。
