@@ -5,6 +5,16 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+07:44:56 contextual Run02已真实后台launch，PID1361117。07:45:46核验实际worker
+live、running/teacher、attempt1、0/40 native、0完成教师；原8B2261314未重启。
+launch前518源/522项目文件和完整Git0111f05b1a0a612abe0ed2df507d3bc2da0c9a72
+独立归档并逐成员/full bundle验证：legal-contextual-two-batch-run02-all518-before-launch-20261017.tar.gz，
+SHAcdcb370bbd682f4ecc7d1b8a06ccd3feedaa0673efa721b2415d3dda0074e8af；收据
+artifacts/contextual_experience_prelaunch_all_bindings_backup_20261017.json。
+同vdb非异机/权重/auth。下一poll同PID；实际新教师返回后审event/value、完整过去
+示范/原标注/同案排除、4k预算及首批16完整输入和独立备份。后台自动进入后续8及
+旧案保持，不需对话逐案启动；收益未知，不以launch/结构通过替代主目标。
+
 07:43 contextual Run02已prepare，尚未launch／调用教师。原8B2261314未动、无实验
 worker。新表示用完整过去原文＋所选原标注命题示范（不伪称native成功轨迹），放在
 当前原案前；同文本当前示范始终排除，inspection照常使用。最新父库仍是corrective4，
