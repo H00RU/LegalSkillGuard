@@ -33,6 +33,7 @@ from .audit import close, original_score
 from .clauses import _contains, _tokens
 from .evidence_programs import SCORER_PARAMETERS, evidence_proposals
 from .experiment import ENDPOINTS, ROOT, now, points, read, sha
+from .feedback_history import grounded_teacher_input, intervention_history
 from .procedures import (
     BOUNDARY_GUIDANCE_SCHEMA,
     ProcedureStudy,
@@ -154,6 +155,27 @@ STATIC_SYSTEM = (
     "No fixed count or forced coverage; avoid redundant restatements and case IDs. "
     + API
     + "Return the full requested library within the serialized master token budget."
+)
+HISTORY_FEEDBACK = "observable_intervention_history_v1"
+HISTORY_TEACHER_SYSTEM = TEACHER_SYSTEM + (
+    " This run supplies ONLY observable execution inputs/public answers and original "
+    "annotations, not local private self-narratives. Do not invent private reasoning "
+    "or treat a short public reason as a faithful causal explanation. Historical "
+    "intervention evidence keeps ALL earlier own public answers and exact old "
+    "bank/tool identities plus previous actual edits and their original rationales. "
+    "Those rationales are claims to check, not verified explanations. Read the explicit "
+    "historical_feedback_columns in order. Compare recurrent errors with prior "
+    "edits and contrasting original labels for the same hypothesis. Do not repeat "
+    "an unsupported repair just because its rationale sounded plausible. Distinguish "
+    "missed eligibility, delivered-but-not-followed guidance, unsupported legal "
+    "conditions, missing source members and excess citations. Older-version answers "
+    "are NOT current-parent executions; tool changes confound before/after outcomes, "
+    "and no outcome proves an individual skill caused it. Grounded grouped feedback "
+    "aligns current delivery, candidates and source operations. Annotated-span text "
+    "references resolve exactly in the complete source, not an omitted summary. "
+    "Only this same teacher publishes edits; no extra judge, selector or efficacy "
+    "gate. Retain, revise, consolidate or remove according to seen source evidence, "
+    "not a deletion quota, usage frequency, current Gold copying or a best-bank score."
 )
 
 
@@ -367,6 +389,20 @@ def prepare_conditioned_inputs(cfg):
         for folder in sorted(parent.glob("batch*_before")) + sorted(parent.glob("batch*_after")):
             bindings += sorted(folder.rglob("*.json"))
         bindings += sorted(parent.glob("batch*_summary.json"))
+    if cfg.get("teacher_feedback") == HISTORY_FEEDBACK:
+        references = cfg["explicit_historical_reference_files"]
+        if len(references) != 110 or (
+            cfg["planned_new_native_calls"], cfg["planned_new_teacher_calls"],
+            cfg["planned_logical_historical_references"], cfg["planned_unique_historical_native_responses"],
+        ) != (56, 4, 110, 92):
+            raise ValueError("Explicit full56/4 history study with110/92 controls required")
+        for name in references.values():
+            path = ROOT / name
+            bindings += [path, Path(read(path)["raw_artifact"])]
+        static = ROOT / cfg["fixed_static_control_run"]
+        bindings += [static / "static_procedures.json"]
+        bindings += [static / "teacher/static_public_task_only" / n for n in ("wire_request.json", "response.json")]
+        bindings.append(ROOT / cfg["reference_previous_source_conditioned_run"] / "completion.json")
     return selection, sorted(set(bindings))
 
 
@@ -379,6 +415,9 @@ class ConditionedStudy(ProcedureStudy):
         if (
             self.cfg["method"] != "source_conditioned_memory"
             or self.cfg["memory_representation"] != "source_conditioned_boundary_v1"
+            or self.cfg["teacher_feedback"] not in (
+                "cumulative_sources_hypothesis_grounded_feedback_v1", HISTORY_FEEDBACK
+            )
         ):
             raise ValueError("Explicit newly frozen source-conditioned configuration required")
         self.run_id = safe_component(run_id or self.cfg["run_id"])
@@ -471,6 +510,20 @@ class ConditionedStudy(ProcedureStudy):
         return count
 
     def initial_static(self):
+        if self.cfg["teacher_feedback"] == HISTORY_FEEDBACK:
+            source = ROOT / self.cfg["fixed_static_control_run"]
+            value = read(source / "static_procedures.json")
+            self.static = value["library"]
+            tokens = self.validate_library(self.static)
+            RunStore.immutable_json(self.out / "static_procedures.json", {
+                "library": self.static,
+                "serialized_master_tokens": tokens,
+                "explicit_existing_public_task_only_control_not_a_new_teacher": True,
+                "source_artifact": str(source / "static_procedures.json"),
+                "source_sha256": sha(source / "static_procedures.json"),
+                "historical_teacher_cost_not_new_spend": read(source / "teacher/static_public_task_only/response.json")["invocation"]["usage"],
+            })
+            return
         value = self.teacher_call(
             "static_public_task_only",
             STATIC_SYSTEM,
@@ -513,6 +566,9 @@ class ConditionedStudy(ProcedureStudy):
         return value
 
     def teacher_input(self, batch, *, include_trace):
+        history_mode = self.cfg["teacher_feedback"] == HISTORY_FEEDBACK
+        if history_mode:
+            include_trace = False
         value = super().teacher_input(batch, include_trace=include_trace)
         value["serialized_parent_master_tokens"] = value.pop("exact_runtime_parent_library_tokens")
         value["runtime_library_encoding"] = (
@@ -520,6 +576,17 @@ class ConditionedStudy(ProcedureStudy):
             "four-field semantic projections are delivered, with per-observation receipts."
         )
         value["source_conditioning_API"] = API
+        if history_mode:
+            units = [
+                u for u in self.units + self.references
+                if u["arm"] == "trace_procedures" and u["stage"].startswith("batch")
+                and u["stage"].endswith(("_before", "_after"))
+            ]
+            history = intervention_history(
+                self.training, batch, self.bank, self.state, units,
+                [read(self.out / f"update_transactions/b{i}.json") for i in range(1, batch)],
+            )
+            value = grounded_teacher_input(value, self.training, history)
         if (
             self.cfg.get("teacher_packet_encoding")
             == "exact-current-parent-projection-reference-v1"
@@ -532,7 +599,7 @@ class ConditionedStudy(ProcedureStudy):
         source_ids = [r["document_id"] for r in body["cumulative_seen_original_train_cases"]]
         value = self.teacher_call(
             f"source_conditioned_b{batch}",
-            TEACHER_SYSTEM,
+            HISTORY_TEACHER_SYSTEM if self.cfg["teacher_feedback"] == HISTORY_FEEDBACK else TEACHER_SYSTEM,
             body,
             differential_schema(
                 self.labels, self.bank, source_ids, guidance_schema=GUIDANCE_SCHEMA
@@ -597,7 +664,11 @@ class ConditionedStudy(ProcedureStudy):
     def reference_answer(self, stage, arm, row):
         """Exact full-wire validation, not a silent cache or failure substitution."""
         self.check()
-        if stage == "later":
+        history_mode = self.cfg["teacher_feedback"] == HISTORY_FEEDBACK
+        if history_mode:
+            key = f"{stage}/{arm}/{row['id']}"
+            path = ROOT / self.cfg["explicit_historical_reference_files"][key]
+        elif stage == "later":
             if arm not in ("strong_empty", "ordinary_memory"):
                 raise ValueError("Undeclared later reference")
             path = (
@@ -617,7 +688,8 @@ class ConditionedStudy(ProcedureStudy):
                 / f"{row['id']}.public.json"
             )
         old = read(path)
-        messages, schema, plan, trace = self.messages(arm, row, [])
+        reference_bank = self.bank_for(arm) if arm == "static_procedures" else []
+        messages, schema, plan, trace = self.messages(arm, row, reference_bank)
         generation = self.cfg["generation"]
         expected = {
             k: generation[k]
@@ -644,7 +716,7 @@ class ConditionedStudy(ProcedureStudy):
                 "Declared reference is not the identical native request; no substitute"
             )
         if (
-            old["published_library"]
+            old["published_library"] != reference_bank
             or old["actual_factual_trace"]["ordinary_model_state"] != trace["ordinary_model_state"]
         ):
             raise ValueError("Reference bank or tool mismatch")
@@ -793,7 +865,9 @@ class ConditionedStudy(ProcedureStudy):
                 order = list(PREFIX_ARMS)
                 offset = (batch + index) % len(order)
                 for arm in order[offset:] + order[:offset]:
-                    if batch == 1 or arm in ("strong_empty", "ordinary_memory"):
+                    if batch == 1 or arm in ("strong_empty", "ordinary_memory") or (
+                        self.cfg["teacher_feedback"] == HISTORY_FEEDBACK and arm == "unconditional_layout"
+                    ):
                         unit = self.reference_answer(f"batch{batch}_before", arm, row)
                     else:
                         unit = self.collect(f"batch{batch}_before", arm, [row], self.bank_for(arm))[
@@ -873,7 +947,10 @@ class ConditionedStudy(ProcedureStudy):
             for arm in ARMS[offset:] + ARMS[:offset]:
                 later[arm].append(
                     self.reference_answer("later", arm, row)
-                    if arm in ("strong_empty", "ordinary_memory")
+                    if arm in ("strong_empty", "ordinary_memory") or (
+                        self.cfg["teacher_feedback"] == HISTORY_FEEDBACK
+                        and arm in ("unconditional_layout", "static_procedures")
+                    )
                     else self.answer("later", arm, row, self.bank_for(arm))
                 )
         self.finish(later)
@@ -883,14 +960,14 @@ class ConditionedStudy(ProcedureStudy):
         all_native = self.inherited_native + self.native
         all_teachers = self.inherited_teachers + self.teachers
         all_units = self.inherited_units + self.units
+        history_mode = self.cfg["teacher_feedback"] == HISTORY_FEEDBACK
+        required = (56, 4, 110, 56) if history_mode else (90, 5, 76, 90)
+        required_old = 92 if history_mode else 58
         if (len(all_native), len(all_teachers), len(self.references), len(all_units)) != (
-            90,
-            5,
-            76,
-            90,
+            *required,
         ) or any(len(u) != 8 for u in later.values()):
             raise ValueError(
-                "Complete90 new native/5 teacher/76 historical logical references required"
+                "Complete predeclared native/teacher/reference schedule required: " + str(required)
             )
         if (len(self.native), len(self.teachers)) != (
             self.cfg["planned_new_native_calls"],
@@ -902,8 +979,8 @@ class ConditionedStudy(ProcedureStudy):
         inherited_ids = {n["response"]["raw_id"] for n in self.inherited_native}
         old_ids = {u["response"]["raw_id"] for u in self.references}
         if (
-            len(new_ids | inherited_ids) != 90
-            or len(old_ids) != 58
+            len(new_ids | inherited_ids) != required[0]
+            or len(old_ids) != required_old
             or new_ids & inherited_ids
             or (new_ids | inherited_ids) & old_ids
         ):
@@ -959,6 +1036,10 @@ class ConditionedStudy(ProcedureStudy):
         ace = read(ROOT / self.cfg["reference_ACE_run"] / "completion.json")
         # Preserve the native comparator's saved names; these are historical results.
         historical["ACE_complete_comparison"] = ace["development"]
+        if history_mode:
+            historical["previous_source_conditioned_M4"] = read(
+                ROOT / self.cfg["reference_previous_source_conditioned_run"] / "completion.json"
+            )["development"]
         done = {
             "at": now(),
             "run_id": self.run_id,
@@ -969,8 +1050,8 @@ class ConditionedStudy(ProcedureStudy):
             "total_this_learning_study_native_calls": len(all_native),
             "total_this_learning_study_teacher_calls": len(all_teachers),
             "continuation_parent": self.cfg.get("continuation_parent"),
-            "logical_historical_references": 76,
-            "unique_historical_native_responses": 58,
+            "logical_historical_references": required[2],
+            "unique_historical_native_responses": required_old,
             "all_logical_observations": 166,
             "all_distinct_native_responses": 148,
             "batches": self.summaries,
@@ -1023,7 +1104,7 @@ class ConditionedStudy(ProcedureStudy):
                 "completed_teacher_calls": len(self.teachers),
                 "total_learning_study_native_calls": len(all_native),
                 "total_learning_study_teacher_calls": len(all_teachers),
-                "logical_historical_references": 76,
+                "logical_historical_references": required[2],
                 "completed_batches": 4,
             },
         )

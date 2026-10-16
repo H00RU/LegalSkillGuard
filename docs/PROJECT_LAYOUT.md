@@ -16,6 +16,14 @@
 
 ## 当前后台工作
 
+12:15唯一worker为`legal_contractnli_observable_history_learning_20261016_run01`，PID3804336，
+12:13:56后台启动，完整四批/保持/末库五条件8开发源；56新律师/4教师，110明确历史控制/92不同旧答。
+`learning/feedback_history.py`仅原单教师输入处理，不是新运行时Wiki/路由层；新库从空学习，原律师不改。
+当前249绑定冻结至worker退出；默认CLI config为`contractnli_observable_history.json`。
+真实M1请求已字段重建核验，仍在首教师、尚无新指标；协议[OBSERVABLE_HISTORY_FEEDBACK](OBSERVABLE_HISTORY_FEEDBACK_20261016.md)。
+
+### 11:43机制消融（历史，12:02:50完整结束）
+
 11:43唯一worker为`legal_contractnli_execution_contract_ablation_20261016_run01`，PID3752104。
 当前来源条件化主Run已11:39:24完整完成并退出，末库84.56/68.67/61.03%，未解决依据退化。
 新Run为固定M4/完整8开发源的24律师、0教师机制消融，不是新主训练；16父答明确引用。

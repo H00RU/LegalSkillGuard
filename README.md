@@ -1,6 +1,20 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Current default: `legal_contractnli_source_conditioned_completion_20261016_run01`,
+Current default: `legal_contractnli_observable_history_learning_20261016_run01`,
+launched12:13:56 CST as detached PID3804336. This starts a new empty-bank four-batch
+online study:56 new lawyer/4 teacher calls and110 explicit historical controls
+(92 distinct old responses), not fresh independent control sampling. The frozen
+lawyer and output contract are unchanged. The same single teacher now receives
+observable input/output aligned with complete original TRAIN/Gold and exact
+old-version intervention history, without local private self-narratives.
+No runtime wiki, extra agent, answer repair, efficacy gate or best-bank rollback.
+All249 source/input bindings stay frozen until this worker exits. No new metrics
+are available at launch. See the [observable-history protocol](docs/OBSERVABLE_HISTORY_FEEDBACK_20261016.md)
+and [current Goal](docs/CURRENT_GOAL.md). Status: `.venv/bin/python -m legal_skill_guard.cli status`.
+
+## Completed source-conditioned predecessor (historical)
+
+Prior default: `legal_contractnli_source_conditioned_completion_20261016_run01`,
 launched10:58:23 CST as background PID3692601. The original8B service is unchanged.
 This explicitly inherits54 native/4 teacher from the stopped run02; only36 native/
 1 teacher are fresh. Run02 stopped10:49:55 before its fifth teacher invocation:
