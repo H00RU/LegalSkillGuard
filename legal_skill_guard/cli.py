@@ -313,7 +313,7 @@ def main():
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs/contractnli_literal_evidence.json",
+        default=ROOT / "configs/contractnli_literal_fixed_static.json",
     )
     parser.add_argument("--run-id")
     parser.add_argument(

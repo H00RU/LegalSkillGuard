@@ -1,5 +1,22 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Current21:26 CST: literal run01 FAILED21:13:35 before any lawyer answer. The
+single successful public-only static teacher produced1362 master/5030 delivered
+tokens (two generic records each repeated17 times), over the4096 cap. No pruning,
+same-Run retry or main-memory publication. All0-native/1-teacher source/raw/cost
+was archived before code changes; SHA256019e9c6a84a51a6dab4eaabab15a6b187c0cd3805bbfd4dae9755fc6728bec11.
+
+Prepared next: `legal_contractnli_literal_evidence_online_learning_20261016_run02`,
+`configs/contractnli_literal_fixed_static.json`,66 frozen inputs,45 zero-generation
+checks in4.37 seconds. Main learning/native interfaces are unchanged. Static
+control is an explicitly fixed first public-only artifact, exact-wire/event/hash
+validated,17 records/1316 master/1145 scoped tokens; not a performance-selected
+main bank or conditional fallback. New148 native/4 main teachers plus1 historical
+static-teacher artifact; no old lawyer answers/main skills. NOT launched yet;
+next source backup and direct full four-batch launch. Efficacy remains PENDING.
+
+Historical21:11 checkpoint:
+
 RUNNING, launched21:11:04 CST as detached PID414919:
 `legal_contractnli_literal_evidence_online_learning_20261016_run01`.
 Fresh empty-bank learning under its own literal candidate/feedback views;148 new

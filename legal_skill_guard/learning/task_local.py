@@ -336,6 +336,17 @@ def prepare_task_local_inputs(cfg):
         parent_config = ROOT / cfg["continuation_parent_config"]
         paths += [parent_config, parent_config.with_suffix(".frozen.json")]
         paths += sorted(p for p in parent.rglob("*.json") if p.is_file())
+    if cfg.get("static_public_reference"):
+        if (
+            cfg.get("static_control_policy") != "fixed_public_only_reference_v1"
+            or cfg.get("continuation_parent")
+            or cfg.get("planned_inherited_native_calls", 0) != 0
+            or cfg.get("planned_inherited_teacher_calls") != 1
+            or cfg["planned_new_teacher_calls"] != 4
+        ):
+            raise ValueError("Fixed public-only control is distinct from main learning inheritance")
+        reference = ROOT / cfg["static_public_reference"]
+        paths += [reference / name for name in ("wire_request.json", "response.json", "event_log.json")]
     return selection, paths
 
 
@@ -558,10 +569,12 @@ class TaskLocalStudy(Comparison):
         }, {"type": "object", "additionalProperties": False, "required": ["library"], "properties": {"library": {"type": "array", "items": skill_record_schema(self.labels, guidance_schema=LOCAL_GUIDANCE_SCHEMA)}}})
         self.static = value["library"]
         tokens = self.validate_library(self.static)
+        inherited = any(t["name"] == "static_public_task_only" for t in self.inherited_teachers)
         RunStore.immutable_json(self.out / "static_procedures.json", {
             "library": self.static, **tokens,
-            "fresh_public_task_only_control_no_cases_gold_or_observations": not bool(self.cfg.get("continuation_parent")),
-            "explicit_historical_public_only_static_reference": bool(self.cfg.get("continuation_parent")),
+            "fresh_public_task_only_control_no_cases_gold_or_observations": not inherited,
+            "explicit_historical_public_only_static_reference": inherited,
+            "fixed_public_control_not_inherited_main_skill_memory": bool(self.cfg.get("static_public_reference")),
         })
 
     def update(self, batch):
@@ -591,6 +604,7 @@ class TaskLocalStudy(Comparison):
             "fresh_empty_memory_learning_under_own_task_local_observations": not bool(self.cfg.get("continuation_parent")),
             "all_matched_controls_fresh_except_exact_same_run_cold_aliases": not bool(self.cfg.get("continuation_parent")),
             "explicit_continuation_parent": self.cfg.get("continuation_parent"),
+            "explicit_fixed_public_only_static_reference": self.cfg.get("static_public_reference"),
             "continuation_not_an_independent_learning_repeat": bool(self.cfg.get("continuation_parent")),
             "single17_task_context_not_semantic_isolation_or_host_legal_decision": True,
             "exposed_development_not_formal_test_or_proven_improvement": True,

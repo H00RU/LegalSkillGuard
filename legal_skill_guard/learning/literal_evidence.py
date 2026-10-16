@@ -13,7 +13,7 @@ import json
 from legal_skill_guard.experiment.storage import RunStore
 
 from .evidence_programs import evidence_proposals
-from .experiment import now
+from .experiment import ROOT, now
 from .publication import apply_differential_publication, differential_schema, publication_statistics
 from .task_local import (
     LOCAL_GUIDANCE_SCHEMA,
@@ -116,6 +116,12 @@ class LiteralEvidenceStudy(TaskLocalStudy):
         super().__init__(config_path, run_id=run_id)
         if self.cfg.get("candidate_source_view") != "literal_original_span_v1" or self.cfg.get("teacher_feedback_view") != "literal_evidence_comparisons_v1" or self.cfg.get("continuation_parent"):
             raise ValueError("Fresh own learning and explicit literal evidence views required")
+        if self.cfg.get("static_public_reference"):
+            if self.cfg.get("static_control_policy") != "fixed_public_only_reference_v1" or self.cfg.get("planned_inherited_native_calls", 0) != 0 or self.cfg.get("planned_inherited_teacher_calls") != 1 or self.cfg["planned_new_teacher_calls"] != 4:
+                raise ValueError("Only a declared public-only static control may be inherited")
+            # Existing exact-wire/value/event replay validates the named control.
+            # No attempt to regenerate it or substitute any main-memory version.
+            self.prefix_teachers["static_public_task_only"] = ROOT / self.cfg["static_public_reference"]
 
     def make_payload(self, arm, row, bank, model, state):
         proposals = literal_candidate_view(row, evidence_proposals(None if arm == "strong_empty" else model, row, self.labels))

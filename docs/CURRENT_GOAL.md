@@ -5,6 +5,28 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+21:26：literal run01并非仍在训练：已21:13:35终止，0律师/1实际教师/1尝试。静态教师
+成功返回10条，master1362但两条通用记录各重复17次后投影5030>4096，主学习尚未开始。
+响应未裁剪/发布主库、未同Run重试，全部失败成本input13683/output5514/reason4221/
+150.891秒保留。旧63输入/源/完整0原生1教师已源码修改前独立保全，367项目文件+Git bundle
+HEAD703762eded9ae4005651e17454805cc9bb67bb38逐字节校验：legal-literal-run01-static-capacity-failure-before-fixed-control-20261016.tar.gz，
+SHA256 019e9c6a84a51a6dab4eaabab15a6b187c0cd3805bbfd4dae9755fc6728bec11；同vdb非模型权重备份。
+
+新Run02同一主学习视图，只将静态对照声明为固定公开输入，不反复随机生成：
+configs/contractnli_literal_fixed_static.json已prepare冻结66输入，45永久检查4.37秒通过，0资格生成。
+计划148新律师/4新主教师+1显式历史PUBLIC-only静态教师，0旧原生/0旧主技能编辑继承。
+固定源为最早task-local_online的static_public_task_only，17条1316master/1145投影，原system/
+user/schema/model/options一致，仅purpose历史来源不同；不是按案例成绩挑选的主库或备用库。
+缺失/不匹配直接失败，新Run不先调用static生成；沿用现有prefix教师逐字/event/hash核验。
+主库仍空/tool=None，prefix_answers空，唯一prefix_teacher是固定static；运行目录尚不存在。
+实际9个native/teacher输入函数AST与改固定对照前一致，原32源/36前缀容量证据仍对应实际接口，
+新收据artifacts/literal_fixed_static_interface_capacity_20261016.json。新增1个prepare脚本Path类型
+错误无模型/教师调用；该次未成freeze，已保留草稿环境快照，最终env明确用run02新路径。
+nature-paper计算实验清单用于区分失败/继承对照/新主学习成本与PENDING效果，不改变论文主张门槛。
+下一立即保存新源/66绑定并后台启动完整4批/保持/40终点，不再花时间重复静态生成或B1资格测试。
+
+### 21:11历史游标
+
 21:11：新Run legal_contractnli_literal_evidence_online_learning_20261016_run01已后台PID414919
 真实启动，独立于对话。当前static_public_task_only真实请求已提交gpt-5.6-sol/high，
 只含17公开命题/API与cap，无源/Gold；0/148律师、0/5成功教师/1尝试，尚无新成绩。

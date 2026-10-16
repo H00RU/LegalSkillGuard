@@ -953,8 +953,8 @@ def test_bounded_teacher_uses_actual_current_and_previous_parent_only():
         bounded_teacher_packet(training, 3, labels, bank, "M2", {3: units[3]}, {2: units[2]}, master_tokens=100, cap=4096)
 
 
-@pytest.mark.parametrize("literal_view", [False, True])
-def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch, literal_view):
+@pytest.mark.parametrize("literal_view,fixed_static", [(False, False), (True, False), (True, True)])
+def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch, literal_view, fixed_static):
     from types import SimpleNamespace
     import legal_skill_guard.learning.task_local as module
 
@@ -964,7 +964,7 @@ def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch,
     study.cfg = {
         "generation": {"model": "frozen-test", "temperature": 0.6, "top_p": 0.95, "top_k": 20, "max_tokens": 8192, "seed": 45},
         "teacher": {"model": "teacher-test", "ledger": "unused", "total_invocation_budget": 5},
-        "library_token_hard_cap": 4096, "planned_new_native_calls": 148, "planned_new_teacher_calls": 5,
+        "library_token_hard_cap": 4096, "planned_new_native_calls": 148, "planned_new_teacher_calls": 4 if fixed_static else 5,
         "bundled_solver_system": "Review.",
     }
     study.out, study.run_id = tmp_path, "scheduler-only-no-generations"
@@ -984,6 +984,9 @@ def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch,
     teacher_windows = []
 
     def teacher(name, system, body, schema):
+        if fixed_static and name == "static_public_task_only":
+            study.inherited_teachers.append({"name": name})
+            return {"library": []}
         study.teacher_attempts += 1
         study.teachers.append({"name": name})
         if name == "static_public_task_only":
@@ -1005,7 +1008,10 @@ def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch,
     observed = {}
     study.finish = lambda later: observed.update({"later": later, "native": len(study.native), "teachers": len(study.teachers), "aliases": len(study.aliases), "logical": len(study.units) + len(study.aliases)})
     study.execute()
-    assert (observed["native"], observed["teachers"], observed["aliases"], observed["logical"]) == (148, 5, 18, 166)
+    assert (observed["native"], observed["teachers"], observed["aliases"], observed["logical"]) == (148, 4 if fixed_static else 5, 18, 166)
+    assert len(study.inherited_teachers) == int(fixed_static)
+    static_metadata = json.loads((tmp_path / "static_procedures.json").read_text())
+    assert static_metadata["explicit_historical_public_only_static_reference"] == fixed_static
     assert all(len(units) == 8 for units in observed["later"].values())
     assert teacher_windows == [6, 12, 12, 12]
     assert len({u["response"]["raw_id"] for u in study.units + study.aliases if u["arm"] == "skill_memory"}) == 62
