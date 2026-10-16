@@ -5,6 +5,16 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+07:24:33完整corrective16/1终态及全部490冻结/raw绑定已独立保全507项目文件和完整
+Git f09986f19ea1a7bdad363fb2b0cf07b9d8d1c4d1，逐成员/full bundle验证：
+legal-corrective-complete16-all490-before-contextual-source-20261017.tar.gz，SHA256
+863d27007891c133b3726e2e9c79556cb72befbe11c11363aa4f91a07aa77a02；收据
+artifacts/corrective_complete16_all490_before_contextual_source_backup_20261017.json。
+包含本次真实teacher/新库/16 raw/完整审计与已确认上下文风险；动态教师ledger只作终态
+恢复快照，不加入下一run不许变化的源码绑定。仍同vdb，非异机/权重/auth备份。
+当前无实验worker，原8B2261314未动，context-complete下一表示尚未创建/launch。
+继续下一明确修复，不以联合单项+4.41pp替代完整论文目标；Goal保持active未达。
+
 07:23真实终态：corrective Run01于07:17:53 completed16/1，PID1292538消失；原8B
 2261314未动。全部16实际raw独立wire/源/新库/trace/schema/usage验证，原作者TRAIN
 集合手算与completion一致，最终490绑定。empty82.35/67.26/55.88%，joint83.09/
