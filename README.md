@@ -1,5 +1,27 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Current23:03 CST: literal run02 PID440562 is truly running B4 first encounters,
+93/148 new native and3/4 new main teachers plus1 fixed historical static artifact.
+Complete B3 is independently audited: first encounters main84.31/61.73/44.12%
+vs same-tool85.29/61.54/45.10%; after-fit86.27/84.76/61.76%. The latter updates
+the supervised tool too, not pure skill transfer. No substantive new-case gain.
+Of80 first-encounter missed members,71 are outside candidates; of41 after-fit
+misses,36 are already candidates. Teacher M3 full12-source feedback is exact,
+yet correct copy/request-only guidance coexists with wrong native decisions.
+
+Prepared, NOT yet launched: run-local `span_centric_execution_diagnostic` run01,
+87 frozen files, complete6 B3/M2 sources × strong-empty/ordinary-empty/skill arms,
+18 new native/0 teacher. Transposes explicitly model-chosen memberships only;
+no candidate union, label repair or Gold at inference. All18 old answer sets
+round-trip losslessly; this is not efficacy. Background execution will wait for
+the actual current worker to exit with complete148/166, then take the GPU lock.
+Do not change the original66 or probe script/protocol until BOTH are terminal.
+See its run-local PROTOCOL.md. Teacher-witness config/code is an UNREGISTERED
+DRAFT, not the next running learner. Its old-control references are inapplicable
+if the native interface changes. Goal and formal-comparison obligations remain.
+
+Historical21:41 checkpoint:
+
 RUNNING21:41 CST: `legal_contractnli_literal_evidence_online_learning_20261016_run02`,
 detached PID440562 launched21:28:01. Complete B1 ended21:40:52 and B2 has begun;
 12/148 new native,1/4 new main teachers plus1 explicit fixed public-only static.

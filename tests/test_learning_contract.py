@@ -953,14 +953,15 @@ def test_bounded_teacher_uses_actual_current_and_previous_parent_only():
         bounded_teacher_packet(training, 3, labels, bank, "M2", {3: units[3]}, {2: units[2]}, master_tokens=100, cap=4096)
 
 
-@pytest.mark.parametrize("literal_view,fixed_static", [(False, False), (True, False), (True, True)])
-def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch, literal_view, fixed_static):
+@pytest.mark.parametrize("literal_view,fixed_static,witness_view", [(False, False, False), (True, False, False), (True, True, False), (True, True, True)])
+def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch, literal_view, fixed_static, witness_view):
     from types import SimpleNamespace
     import legal_skill_guard.learning.task_local as module
 
     row, labels, gold = fixture()
     from legal_skill_guard.learning.literal_evidence import LiteralEvidenceStudy
-    study = object.__new__(LiteralEvidenceStudy if literal_view else module.TaskLocalStudy)
+    from legal_skill_guard.learning.witness_grounding import WitnessGroundedStudy
+    study = object.__new__(WitnessGroundedStudy if witness_view else LiteralEvidenceStudy if literal_view else module.TaskLocalStudy)
     study.cfg = {
         "generation": {"model": "frozen-test", "temperature": 0.6, "top_p": 0.95, "top_k": 20, "max_tokens": 8192, "seed": 45},
         "teacher": {"model": "teacher-test", "ledger": "unused", "total_invocation_budget": 5},
@@ -1165,3 +1166,87 @@ def test_cli_requires_exact_explicit_literal_views_without_silent_old_method(tmp
             cli.study_for(config, "declared")
     else:
         assert cli.study_for(config, "declared") == (expected, config, "declared")
+
+
+def witness_operation_fixture():
+    from legal_skill_guard.learning.witness_grounding import witness_publication_schema
+    from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues
+
+    row, labels, gold = fixture()
+    candidate = local_skill()
+    candidate["hypothesis_ids"] = ["h1"]
+    candidate["guidance"]["relation_if_established"] = "Contradiction"  # Deliberately conflicts with this Gold E.
+    op = {"operation": "CREATE", "target_ids": [], "skill": candidate, "source_case_ids": [row["id"]], "rationale": "Fixture only.",
+          "witness_checks": [{"hypothesis_id": "h1", "cases": {str(row["id"]): {
+              "source_condition_status": "established", "source_condition_evidence": [0],
+              "brief_boundary_fact": "An inspectable source condition, not private reasoning.",
+              "gold_member_account": {str(i): "Original governing or operative support." for i in gold["h1"]["spans"]},
+          }}}]}
+    assert not strict_output_schema_issues(witness_publication_schema(labels, [], [row]))
+    return row, labels, {"operations": [op], "noop_reason": None}
+
+
+def test_training_witness_disagreement_is_archived_but_never_a_semantic_admission_gate():
+    from legal_skill_guard.learning.witness_grounding import publish_with_training_witnesses
+
+    row, labels, value = witness_operation_fixture()
+    original = copy.deepcopy(value)
+    bank, projection, audit = publish_with_training_witnesses([], value, labels, [row])
+    assert value == original
+    assert bank == [value["operations"][0]["skill"]]
+    assert bank[0]["guidance"]["relation_if_established"] == "Contradiction"
+    assert "witness_checks" not in projection["operations"][0]
+    assert "witness_checks" not in json.dumps(bank)
+    assert len(audit["claimed_established_with_different_original_label"]) == 1
+    assert audit["nonnull_records_without_claimed_same_label_positive_witness"] == [bank[0]["id"]]
+    assert audit["original_Gold_members_explicitly_accounted_not_proven_retrieved"] == 2
+
+
+def test_training_witness_contract_binds_all_members_cases_scope_and_original_coordinates():
+    from jsonschema import ValidationError
+    from legal_skill_guard.learning.witness_grounding import publish_with_training_witnesses
+
+    row, labels, value = witness_operation_fixture()
+    missing = copy.deepcopy(value)
+    del missing["operations"][0]["witness_checks"][0]["cases"][str(row["id"])]["gold_member_account"]["2"]
+    with pytest.raises(ValidationError):
+        publish_with_training_witnesses([], missing, labels, [row])
+    invalid = copy.deepcopy(value)
+    invalid["operations"][0]["witness_checks"][0]["cases"][str(row["id"])]["source_condition_evidence"] = [99]
+    with pytest.raises(ValidationError):
+        publish_with_training_witnesses([], invalid, labels, [row])
+    incomplete = copy.deepcopy(value)
+    incomplete["operations"][0]["witness_checks"] = []
+    with pytest.raises(ValueError, match="exact published public scope"):
+        publish_with_training_witnesses([], incomplete, labels, [row])
+    noop = {"operations": [], "noop_reason": "No justified generic edit."}
+    assert publish_with_training_witnesses([], noop, labels, [row])[:2] == ([], noop)
+
+
+def test_fixed_controls_exclude_every_learning_and_cold_answer():
+    from legal_skill_guard.learning.witness_grounding import fixed_control_slots
+
+    cfg = {"training_ids": list(range(1, 25)), "expected_later_ids": list(range(25, 33))}
+    slots = fixed_control_slots(cfg)
+    assert len(slots) == 86
+    assert all(arm != "skill_memory" and not stage.startswith("batch1") for stage, arm, _ in slots)
+    assert sum(stage == "later" for stage, _, _ in slots) == 32
+    assert sum(stage.endswith("before") for stage, _, _ in slots) == 54
+    with pytest.raises(ValueError, match="distinct24/8"):
+        fixed_control_slots({**cfg, "expected_later_ids": list(range(24, 32))})
+
+
+def test_fixed_control_source_cannot_be_consumed_while_live_or_partial(tmp_path, monkeypatch):
+    import legal_skill_guard.learning.witness_grounding as module
+
+    monkeypatch.setattr(module, "ROOT", tmp_path)
+    RunStore.immutable_json(tmp_path / "configs/source.json", {"run_id": "source"})
+    RunStore.immutable_json(tmp_path / "runs/source/progress.json", {"state": "running"})
+    cfg = {"control_reference_policy": "fixed_complete_literal_controls_v1",
+           "teacher_publication_format": "explicit_witness_coverage_v1",
+           "planned_new_native_calls": 62, "planned_inherited_native_calls": 86,
+           "planned_new_teacher_calls": 4, "planned_inherited_teacher_calls": 1,
+           "control_reference_run": "runs/source", "control_reference_config": "configs/source.json"}
+    with pytest.raises(ValueError, match="terminal complete"):
+        module.fixed_control_references(cfg)
+    assert not (tmp_path / "runs/source/completion.json").exists()
