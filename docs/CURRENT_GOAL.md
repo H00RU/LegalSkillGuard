@@ -5,6 +5,19 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+07:50真实修正：contextual Run02已于07:45:50 failed0新native/1教师，PID1361117
+消失；原8B未动。不是仍在训练。实际教师1373成功、52.708秒、255200input/3085out
+（reason2200包含、cached0/noTools），四UPDATE、4技能，10命题示范共享完整416源。
+实际teacher wire/event/agent JSON/value/usage已独立核验；不是教师没返回，也未8B资格
+生成。失败为实际master3862/scoped4142超过4096的46，不允许放宽上限/删源/挑库。
+所有旧源码、工件及失败成本保留，现有实际有效教师值可在明确新Run里继承，不再问
+同输入一次教师。独立证明：仅将10个{past_case,hypothesis_id}重复键对象编码为
+Hn:nda-k字符串，全部原文/原Gold/指导/作用域/引用对可逐项还原，master3778/scoped4058。
+是未使用的无损数据编码候选，不是行为等价或收益证明。528失败终态绑定审计为
+Run02 monitoring/failed_unpublished_candidate_actual_teacher_and_lossless_reference_capacity_audit.json。
+下一先保全完整0/1实际教师及528源，然后明确Run03承接1373首次更新、只新增后一次
+教师，仍同两批16新合同及前批保持，不重采样、不改变任务/预算/8B或造新指标。
+
 07:44:56 contextual Run02已真实后台launch，PID1361117。07:45:46核验实际worker
 live、running/teacher、attempt1、0/40 native、0完成教师；原8B2261314未重启。
 launch前518源/522项目文件和完整Git0111f05b1a0a612abe0ed2df507d3bc2da0c9a72
