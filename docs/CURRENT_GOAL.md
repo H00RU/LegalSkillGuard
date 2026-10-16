@@ -5,6 +5,17 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+19:25：PID229747继续B3首遇，15/112新律师、1/3新教师，继承36/2；B3未齐，不报局部效果。
+完整B2/M2已同vdb保全：legal-task-local-complete-B2-M2-source-and-raw-20261016.tar.gz，SHA256
+937a62b596f3a0b7ee48c09b1caabdfea542fb1379dd72762266e2f5445e362a；304项目文件、183全部冻结输入、
+全Git bundle HEADbd3ba002da4eadaa53b3c7da1f169d798d3ccf42逐字节验证。B2完整lineage42/3，
+其中新增6/1；快照13新raw另含B3部分，不能称当前15新raw全已归档。不是异机或遗失权重备份。
+收据artifacts/task_local_complete_B2_M2_source_and_raw_backup_20261016.json。
+本轮已完成的独立审计/根因实现/真实教师恢复是实质progress，目标仍未达到，保持active。
+下一直接检查完整B3同案匹配效应、M3实际学习信号和内容；不要再复测B1或修改183运行绑定。
+
+### 19:17完整B2与M2核验（历史）
+
 19:17：接续PID229747持续活，B2已19:14:46完整结束，B3首遇自动开始；最新7/112新律师、
 1/3成功新教师/1尝试，另显式继承36/2。M2真实19:08:23成功，138.926秒，gpt-5.6-sol/high
 无工具/缓存/重试/换模型；input89944/output5493/reasoning3106，reservation1348，未重置ledger。
