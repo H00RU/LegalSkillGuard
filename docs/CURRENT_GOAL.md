@@ -5,6 +5,36 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+03:10最新真实终态：主Run03于02:57:13 stopped，worker884108/monitor884804均不存在；
+lineage66原生/4教师=本Run新30/2+36/2历史，84逻辑，全部66 finish=stop无截断。
+M3在途结果已保存并独立逐字还原：sequence1364，101.885秒/input194421/output6145
+（reason2355包含），9 UPDATE、9技能/55查询、2838master/3210scoped；无M3after/B4/保持/终点。
+完整B3：主83.33/61.16/42.16%，普通85.29/61.54/45.10%；B2/B3六项对照效应均非正，
+按已冻结整trial停机规则停止，不是bank准入/回滚或Goal暂停。完整终态审计
+monitoring/terminal66_full_M3_cost_and_B2_B3_negative_audit.json，新native247382prompt/55356out，
+历史259050/70986不重复记新成本；新teacher372221input/11923out，历史76280/8857，
+diagnostic seq1363不混进mainlineage。GPU小时未实测，不能把worker墙钟当GPU时数。
+
+内容六案诊断于03:03:48真正completed，PID915267消失，6新律师/1新教师，全部无截断。
+三组原作者逐集合/18实际wire/新请求只换inspection/原文还原/查询执行一致/teacher全输入
+已再独立核验：普通85.29/61.54/45.10，原M2主83.33/61.16/42.16，具体推理inspection
+88.24/61.41/49.02%。新bank提高分类与联合，但真证仍74（普通76），FP12/漏81；
+对原M2真证7增7丢，标签8修3伤、联合8修1伤；对普通真证3增5丢、联合净4全为NM+4/NN0。
+原NM22→28、C7→6，故不是依据学习突破/公平方法优势/稳步跨批或独立重复。
+实际新native72481prompt/12819out，额外teacher180226input/3458out（reason1707包含）。
+结果与独立审计在诊断completion.json和monitoring/complete6_independent_original_author_sets_and_wire_audit.json。
+
+下一优先查实际程序命中怎样交给律师，暂不盲开B1或把内容诊断升格正式方法：当前普通候选
+有literal文本，而程序命中仅全局索引/标签（trace内literal未传入native）。已看历史
+interface.final_messages/compact_receipts，旧操作器同样只给索引；不能谎称过去已经做了此
+新固定M2语义bank的逐题literal命中对照，也不能把旧查询并集的0模型质量分析当native结果。
+所有6源无Gold筛选的逐题完整命中文字视图0生成容量检查均适配当前32768/8192，最高
+273全输入20978+8192=29170；这里只证明这6源可执行，未证明全24/官方TEST/未来库容量。
+若做下一诊断：固定本次语义bank/48查询/源/候选/Schema/解码，仅额外按公共scope交出全部
+真实程序返回SPAN的literal文本，0新教师/6新律师，不能只补当前漏证、按Gold筛结果或自动并答案。
+正式整链路是否采用要看完整效果和普适容量，仍不引入冗余模型/curator或fallback。
+Goal active，论文核心原SPAN净增、成熟公平比较/独立重复/消融/正式TEST仍未达到。
+
 02:54当前Run03仍live worker884108/monitor884804/8B2261314；最近28新原生/1新教师，
 加36/2历史。B3before已22/24实际请求，尚未打开/报告完整B3分数。生产195输入未改。
 
