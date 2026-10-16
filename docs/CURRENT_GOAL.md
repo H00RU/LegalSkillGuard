@@ -5,6 +5,18 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+06:21:17核验anchored PID1221429仍live Ssl，已7/24新native、1/1教师，290/empty当前。
+没有读取/汇报该研究任何partial正确率；自动后台继续，下一先poll同handle。
+完整负面support/refute12/0终态、实际新teacher/4库投影/24输入/独立审计及明确完成的
+anchored prefix5/1，已保全495文件/479个合并冻结及prefix绑定/完整Git
+badba50acba2173552b9e3408d47799a85f183d2：
+legal-contract-complete12-anchored-prefix5-all479-20261017.tar.gz，SHA256
+a09b15d4f8b7e418482c2d7bbc810cf6f835eddf63b190fe9bc4bfacd6a84349，收据
+artifacts/complete_contract12_and_anchored_prefix5_backup_20261017.json。
+成员及full bundle已核验；进行中的anchored progress/log及后续native明确不在此prefix
+归档，不冒充完整24终态；同vdb非异机/权重/auth。原8B2261314未动，389源/418phase
+绑定运行中不改。Goal原全文active未达；新表示尚不能称有效，更未恢复正式长训练。
+
 06:19真实现状：support/refute Run02已于06:14:17 completed12/0，PID1204974消失；
 anchored Run01于06:14:17自动取得同GPU锁开始native，PID1221429live，当前完成5/24、
 1/1教师，290/examples_only运行中；原8B2261314未重启。前5均实际stop、Schema有效，
