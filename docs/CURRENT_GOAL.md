@@ -5,6 +5,25 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+15:12同一后台4043889已完整B1/B2首遇，12/56新律师、1完成教师/2尝试，
+真实首次`source_condition_audit_b2`运行中；无失败或重启，原8B2261314不动。
+B1学后87.25/85.47/76.47%，独立6原作者TRAIN源/Gold、整wire/候选/交付及原SPAN手算一致；
+相较旧M1学后88.24/88.51/75.49%，不是三项改善，更不是迁移或纯技能效应。
+B2主82.35/50.98/47.06%，同工具83.33/50.00/47.06%，全定位84.31/53.14/48.04%。
+对同工具分类修正7/损害8，联合修正7/损害7；有结论全对15对17、NM33对31。
+全部24逻辑答（6新/18明确历史）已对原作者源/Gold、实际整请求与逐题集合独立重算。
+这个B2只使用M1，尚未经过新父条件审查，不把它归因为审查有效或无效；首检验窗口是B3。
+实际审查输入180465字符，完整12已见原文、12条精确父技能及全部公共命题，期望168个源/作用域检查；
+逐字段重建实际wire/system/Schema/模型一致。该请求不含当前Gold/律师答/结果/未来8，
+父技能本身已受早期Gold影响，故不称独立真相。250绑定B1终态核验一致，无律师输出接口改动。
+收据本Run/monitoring/complete_B1_original_author_entire_wire_and_manual_original_score_audit.json、
+complete_B2_first_encounter_original_author_entire_wire_and_manual_sets.json、
+actual_first_source_audit_b2_full_input_parent_identity_and_withheld_annotations.json。
+下一动作核对实际审查返回/可错标签比较和M2完整编辑，再继续同一完整四批的新案验证；
+不另起探针、热改被冻结源码或拿少量拟合分数宣布完成。Goal仍active、目标未达到。
+
+### 14:59启动交付核验（历史）
+
 14:59同后台4043889真实3/56新律师、1完成教师，B1学后331。M1原子CREATE12/1893tokens，
 全返回与独立原子发布重算一致，无cache/tools。首490实际交付8/12条、1050tokens；实际完整请求、
 原源/候选/真实交付、原Schema和原SPAN评分重算通过，250绑定全一致。原四输出字段，无applied_branch或审查数据。
