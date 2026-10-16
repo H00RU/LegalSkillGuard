@@ -1099,3 +1099,40 @@ def test_literal_teacher_feedback_preserves_all_cases_and_handles_polarity_only_
         records[0]["label_matches_original"] = True
     grounded_success = literal_feedback_view(correct, [row])
     assert [q["original_span_index"] for q in grounded_success["hypothesis_indexed_original_feedback"]["h1"][0]["literal_original_evidence_comparison"]] == [0, 2]
+
+
+def test_literal_actual_payload_changes_only_source_view_for_every_matched_tool_arm(monkeypatch):
+    from types import SimpleNamespace
+    import legal_skill_guard.learning.literal_evidence as literal
+    import legal_skill_guard.learning.task_local as local
+
+    row, labels, _ = fixture()
+
+    class NoGold(dict):
+        def __getitem__(self, key):
+            if key == "annotation_sets":
+                raise AssertionError("Inference payload must not read Gold")
+            return super().__getitem__(key)
+
+    proposals = {"selection": "unchanged", "by_hypothesis": {h: {
+        "candidates": [{"original_span_index": 0, "membership_score": 0.625}],
+        "raw_scores": [0.625, 0.2, 0.1],
+    } for h in labels}}
+    proposal = lambda model, row, labels: copy.deepcopy(proposals) if model is not None else None
+    monkeypatch.setattr(literal, "evidence_proposals", proposal)
+    monkeypatch.setattr(local, "evidence_proposals", proposal)
+    study = object.__new__(literal.LiteralEvidenceStudy)
+    study.cfg, study.labels = {"bundled_solver_system": "Review."}, labels
+    study.meter = SimpleNamespace(token_count=lambda **kwargs: 1)
+    for arm in ("strong_empty", "ordinary_memory", "unconditional_layout", "static_procedures", "skill_memory"):
+        bank = [local_skill()] if arm in ("static_procedures", "skill_memory") else []
+        old_messages, old_schema, _, _ = local.TaskLocalStudy.make_payload(study, arm, NoGold(row), bank, object(), "M1")
+        messages, schema, _, trace = study.make_payload(arm, NoGold(row), bank, object(), "M1")
+        assert schema == old_schema and messages[0] == old_messages[0]
+        assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(messages)
+        body, old_body = json.loads(messages[1]["content"]), json.loads(old_messages[1]["content"])
+        for question in body["hypotheses"].values():
+            for candidate in question["fallible_evidence_candidates"] or []:
+                assert candidate.pop("literal_original_text") == "Recipient shall not disclose secrets."
+        assert body == old_body  # No changed candidates, skills, layout, verdicts or source.
+        assert trace["task_local_delivery"]["candidate_source_view"] == "literal_original_span_v1"
