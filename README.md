@@ -3,8 +3,9 @@
 Current default: `legal_contractnli_source_condition_audit_learning_20261016_run01`,
 started14:53:46 CST as detached PID4043889. Full four-batch learning from empty,
 56 new lawyer/up to7 teacher calls;110 logical historical controls are explicit,
-not fresh independent draws. At15:12 CST12/56 new lawyer calls are complete;
-the first nonempty-parent source audit is actually running before editorM2.
+not fresh independent draws. At15:19 CST14/56 new lawyer calls and3 teachers
+are complete; editorM2 has published16 skills/2795 master tokens (4 updates,
+4 creates) after the first168-pair parent-condition audit. B2 after-fit is running.
 M1 has12 skills/1893 master tokens. B1 after-fit87.25/85.47/76.47% is supervised
 seen-case fit, not transfer. B2 first-encounter82.35/50.98/47.06% versus the
 same-tool control83.33/50.00/47.06% is not a substantive three-metric gain.
