@@ -5,6 +5,17 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+05:47:50已真实launch support/refute Run01，PID1186039；05:47:52核验worker Ssl、
+progress running /ordinary_memory合同430 /0of12，教师0。原8B2261314live且未重启。
+400文件/全398冻结绑定与完整Gitbe5119588d643c89cf03d698b0433853da1af8de已先独立保全：
+legal-support-refute-contract-all398-before-launch-20261017.tar.gz，SHA256
+6665763d26194e721af79522bec94f93c66f32d755914b88d750667efccfb4a4，收据
+artifacts/support_refute_contract_prelaunch_all_bindings_backup_20261017.json；全部成员及
+完整bundle已核验，同vdb非异机/权重/auth备份。源码/prospective/398绑定运行中不改。
+下一poll同实际PID/进度与格式/finish_reason，不提前读取新Gold正确率；全12后统一评分，
+再独立按原作者集合重数四格而非只报新skill。后台自动逐案推进，不依赖对话触发。
+当前新效果未知，Goal仍active且原全文未达。
+
 05:47 support/refute通用原生执行诊断Run01已prepare，尚未launch：
 legal_contractnli_support_refute_native_contract_diagnostic_20261017_run01。
 12新native/0教师，全6已暴露B4合同、空技能与固定最新17条最终库，非重新B1/正式训练/
