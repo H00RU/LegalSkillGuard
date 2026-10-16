@@ -5,6 +5,20 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+07:03:34 corrective PID1292538实际live，2/16 native与1/1教师已完成，当前327/joint。
+前2个568 empty/joint均stop、schema/wire/源/新库/trace/实际usage一致，thinking实际
+非空，未评分任何partial新正确率。实际教师1372于07:00:31完成、89.11秒，228214in/
+5829out（reason4377包含、cached0），四UPDATE保持4技能，不是固定增长；16纠错例中
+非NM错类10、含漏证12例/19成员、局部反例1/4多选成员。334proxy排除已被明确撤销，
+416直接定义完整证据已区分；内容纠正不是新案收益的证明。
+实际全部16请求已冻结474绑定，master3708/scoped3994，最长13012+8192=21204。
+同案两臂只改变记忆/引用及对应usedID白名单，源文/普通M2候选/ABI/共同system一致。
+独立审计monitoring/actual_teacher_corrective_selection_all16_inputs_and_standalone_backup_audit.json。
+首次native前实际teacher/pub/16请求/全源/prelaunchGit完整归档479成员，已逐成员
+重核：legal_contractnli_corrective_evidence_online_continuation_20261017_run01-actual-teacher-before-native.tar.gz，
+SHA84dc865a1cf0333f1b0599c5a29ef7378d78df3d55dbc46609782370d7bbdfc4。
+下一继续poll同worker，全16齐后原作者集合重数配对净效用；不混旧B1-B3或提前称正式重启。
+
 06:59:01 corrective Run01已真实后台launch，PID1292538；06:59:16核验实际worker
 live、progress running/teacher、attempt1、0/16 native/0完成教师，原8B2261314
 未重启。launch前453全绑定/456项目文件及完整Git7eb8faa67f0725dab959577d4fb127735c654070
