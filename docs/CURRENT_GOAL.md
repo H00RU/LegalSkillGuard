@@ -5,6 +5,25 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+05:47 support/refute通用原生执行诊断Run01已prepare，尚未launch：
+legal_contractnli_support_refute_native_contract_diagnostic_20261017_run01。
+12新native/0教师，全6已暴露B4合同、空技能与固定最新17条最终库，非重新B1/正式训练/
+独立学习/TEST。直接复用已核验旧12实际request的user字符串，逐字节不变；同M2/采样/
+8192/源/查询/候选/库，仅共用system顺序和两bool+原choice的三分支schema改变。
+所有类别始终可选，律师自己作两判断并原生输出原标签；不由host读Gold/语义选分支/
+生成后映射/修答案。所有12完整请求已tokenize，最长23864+8192=32056<32768；
+两臂通用system一致，每臂10个合成schema正反模式检查，Ruff通过，0资格生成。
+当前源码/prospective/registration已落盘，未有launch/progress/新结果；下一先保全全部
+绑定及完整Git再launch，实际PID核对后才能称后台运行。仍无实验worker，8B2261314未动。
+
+上一完整30终态及全部380绑定已独立保全404项目文件和完整Git0ead69e95efa8ccff871a4616301a6f2813778f7：
+legal-native-loop-complete30-all380-before-nli-contract-source-20261017.tar.gz，SHA256
+32035d35eba7ef21d87b548ff2c6262e34e14b2ef2f46d5b51f0ca0b402dc3b6，收据
+artifacts/native_loop_complete30_all380_before_nli_contract_backup_20261017.json。
+全部成员/完整bundle已核验，同vdb非异机/权重/auth备份；没有删除旧不利结果。
+这轮只检验执行机制，若新规范两臂一起改善却仍技能负收益，不能声称技能学习改好；
+取得、保留、跨批更新和公平比较仍未达，Goal保留原全文active。
+
 05:37记录真实终态：fixed-tool native-grounded Run02已于05:24:05 completed，
 PID1094269已不存在，30新native/2教师，全部stop且原生Schema有效，无截断。
 原8B2261314未动；当前无实验worker。全部36原始答案（旧parent6+新30）已按原作者
