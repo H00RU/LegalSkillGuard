@@ -5,6 +5,25 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+05:56:59 support/refute Run01已在真实安全边界stopped，PID1186039消失，8新native/0教师；
+原8B2261314live未动。原因是本次诊断新增的system与native schema为6字段，但直接复用
+旧user字符串中的output_contract.fields_in_order仍列4字段。这个实现遗漏归本次新增
+诊断，不能混说原训练数据／教师故障。全部8实际答案stop且6字段Schema有效，仍不作
+计划效果证据；新Gold正确率从未评分。stop请求/failure/progress/8raw/终态审计均保留。
+审计monitoring/terminal8_all_actual_wire_schema_valid_but_conflicting_user_contract_not_quality_evidence.json。
+下一先保全终态8和406绑定，再新Run02统一user输出元数据与实际Schema的字段顺序；
+由实际schema派生，不再两处手写。除了这个输出元数据，合同/命题/检索/技能/采样不动。
+全12重新独立生成、不用这8答案续接或选择；旧8成本明确另计，不是免费资格测试。
+目前无实验worker；下一诊断尚未创建／launch，不要称后台正在跑或汇报新分数。
+
+并行完成的根因材料：docs/research/EXECUTION_AND_EXPERIENCE_GAP_20261017.md。
+已逐条读完旧B4两池之外漏掉的29处原依据（21问题），原18 TRAIN类别E168/C31/NM107，
+11个命题没见C、nda11仅NM；仅这18源的覆盖，不证明原数据集不适合或改Gold。
+固定ExpeL作者码和Faithfulness研究作者码已读并存SHA；后者v3是6月12日，不冒称
+最近三个月新文献。当前程序没把教师逐依据解释作为历史示例交给律师；witness发布时
+明确移除训练解释metadata。保留原源例+程序共同交付是待检验候选，尚未实施，不能
+以文献代替效果或把few-shot贡献改称技能收益。Goal全文active未达。
+
 05:47:50已真实launch support/refute Run01，PID1186039；05:47:52核验worker Ssl、
 progress running /ordinary_memory合同430 /0of12，教师0。原8B2261314live且未重启。
 400文件/全398冻结绑定与完整Gitbe5119588d643c89cf03d698b0433853da1af8de已先独立保全：
