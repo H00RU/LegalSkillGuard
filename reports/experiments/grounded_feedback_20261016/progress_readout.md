@@ -673,3 +673,9 @@ archive legal-ACE-training30-teacher28-ablation-queued0-20261016.tar.gz，SHA256
 15943e246616b76be44ca44b27a58e795e97145930651d4b6bcfe882cffac96f，HEADe489c00，
 全部字节/gzip/全Git bundle通过。快照明确无保持/终点和可变progress，同vdb而非异机/缺失权重备份。
 收据归档在消融Run/monitoring/complete_ACE_training30_teacher28_and_ablation_queue_backup_receipt。
+
+08:14:05 ACE已36/52、28/28进入later首源568。B1六案保持结果为88.24/91.20/76.47%，
+相对M1已见94.12/82.26/75.49：分类4修正/10损害、联合13修正/12损害；NM31→23、C8→10、E57不变。
+不能只报依据提升而隐去NM损害；工具同时M1→M4，不作纯技能遗忘或全库保持结论。
+这六答的独立原wire/源/评分重放随完整52收尾，不将生成汇总冒称已经独立全验。
+16终点尚未齐，不读取部分输出或评分Gold；排队消融仍0/26、零教师，无重复进程。
