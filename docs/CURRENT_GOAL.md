@@ -5,6 +5,34 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+05:12已核验的最新阶段：PID1094269仍live，native-grounded fixed-tool Run02已完成
+B3新表示parent6/draft6/final6共18 native，2/2教师，全部18 stop；05:11:40已进入
+B4_first_encounter，B4所有12完整请求均fit，622 skill23739+8192=31931<32768，
+ordinary19405。仍未读/报告新native正确率，按原计划30答齐后worker统一评分；教师
+合法只见18已见TRAIN/Gold，B4完全不传教师。下一优先poll该PID和progress，不改340绑定。
+
+教师1 sequence1369：真实177.532秒，input205849/output12071（reason7613包含），
+15 UPDATE、17技能54query、3622master/4002scope。教师2 sequence1370：125.353秒，
+239434input/7140output（reason4142包含），10 UPDATE、17/44、3572/3952。
+两次实际wire/value/event/publication与完整输入分别独立重建核验。第一输入828067chars，
+18源/24真native观察；第二967907chars，18源/30真观察（含自己的6草案），均无截断/
+无B4/无工具/非cache reuse/cached_input0。总新teacher445283in/19211out，reason11755
+是subset，不再加。完整审计monitoring/two_actual_teacher_wire_value_event_and_publication_audit.json，350绑定。
+最终库全文已读，不是按分数选好库；新增调用2固定完成，不第三次教师或回退。
+
+只作source程序诊断、不当新native性能：parent→draft，旧12源TP183→169、FP86→179，
+当前6源TP58→94、全17任务FP40→113。NN下当前6程序候选外真17→41、非Gold22→79，
+Gold在两池之外62→38。存在新覆盖也有旧查询/精准度损害，不能说随批次稳定提升。
+最终教师根据实际draft native错误收紧泛agreement/非员工/复制等规则并减少query，但
+其native效果与B4迁移尚待全部输出后验证，不把文字更好当结果。完整306逐项差异在
+monitoring/first_draft_all18_train_query_coverage_and_edit_retention.json；第二实际输入审计
+monitoring/second_teacher_all18_sources_actual30_observations_input_and_query_acquisition_audit.json。
+
+已生成明确18/2前缀检查点（不是整run完成）：monitoring/completed18_native_two_teacher_prefix_before_B4.json，
+prefix新native189721prompt/40425out。接下来仅将这18个不可变raw、2完整教师与所有当前
+绑定独立保全；进行中的B4部分不冒充完整结果。全过程原8B2261314未重启，普通M2固定，
+0新CPU fit/模型更新；Goal active且全文未达。不能仅看B3/同案收益，B4若不正不照旧硬拖。
+
 04:46:01已真实后台launch：legal_contractnli_native_grounded_fixed_tool_continuation_20261017_run02，
 PID1094269，原8B2261314保持live。04:46:09核对进程Ssl/实际progress running，
 B3_compact_parent/273，0/30 native、0/2 teacher，未claim已有新效果或正式main重启。

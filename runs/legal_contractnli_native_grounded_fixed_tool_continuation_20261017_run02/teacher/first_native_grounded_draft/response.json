@@ -1,0 +1,1046 @@
+{
+  "value": {
+    "operations": [
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-return-copy-retention-evidence"
+        ],
+        "skill": {
+          "id": "nda-return-copy-retention-evidence",
+          "hypothesis_ids": [
+            "nda-16"
+          ],
+          "guidance": {
+            "inspection": "Entail only when return or destruction is mandatory upon termination, expiration, rejection, conclusion, or ceasing interest. A request-only duty remains NotMentioned even if termination is addressed elsewhere; never join separate triggers. Retain actor, object, action, trigger, and governing preamble.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "return"
+                ],
+                "any_phrases": [
+                  "upon termination",
+                  "on termination",
+                  "expiration",
+                  "rejected or concluded",
+                  "conclusion of",
+                  "ceasing to be interested",
+                  "cannot be further developed"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "destroy"
+                ],
+                "any_phrases": [
+                  "upon termination",
+                  "on termination",
+                  "expiration",
+                  "rejected or concluded",
+                  "conclusion of",
+                  "ceasing to be interested"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "deleted"
+                ],
+                "any_phrases": [
+                  "termination",
+                  "expiration",
+                  "membership termination"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          490,
+          416,
+          261,
+          159
+        ],
+        "rationale": "The observed contrast establishes that a request-only return duty does not settle the termination-triggered hypothesis, while conclusion, ceasing-interest, and termination-linked duties do."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-definition-form-identification-evidence"
+        ],
+        "skill": {
+          "id": "nda-definition-form-identification-evidence",
+          "hypothesis_ids": [
+            "nda-1"
+          ],
+          "guidance": {
+            "inspection": "Entail only if every protected item must be expressly marked or identified by the disclosing party, including any oral-confirmation rule. Contradict when the definition expressly offers a non-identification alternative such as reasonable understanding, circumstances, or automatic inclusion. Do not infer either relation from a missing marking clause; retain the full alternatives.",
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "marked or identified",
+                  "identified as proprietary information",
+                  "designates as being confidential",
+                  "marked confidential",
+                  "information marked in writing as confidential"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "should know is treated as confidential",
+                  "should be reasonably understood",
+                  "reasonable business person",
+                  "nature of such information",
+                  "circumstances of such information"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "oral"
+                ],
+                "any_phrases": [
+                  "identified",
+                  "summarized in writing",
+                  "reduced to written form"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "any data disclosed",
+                  "all information disclosed",
+                  "shall be deemed confidential",
+                  "deemed to be confidential information"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          490,
+          88,
+          136,
+          377,
+          416
+        ],
+        "rationale": "This makes the universal quantifier decision-bearing and prevents both treating one designation route as universal and treating silence as its negation."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-exception-source-development-evidence"
+        ],
+        "skill": {
+          "id": "nda-exception-source-development-evidence",
+          "hypothesis_ids": [
+            "nda-12"
+          ],
+          "guidance": {
+            "inspection": "Entail when the recipient may independently develop or independently derive information without using, accessing, or referring to protected information. Retain the exclusion or permission preamble and proof conditions. Information derived from protected information, prior possession, third-party receipt, or mere competitive activity does not establish independent development.",
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "independently developed",
+                  "developed independently",
+                  "independently develop",
+                  "independently derived"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "without access",
+                  "without the use",
+                  "without reference to",
+                  "right to independently develop",
+                  "developing information internally"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          273,
+          261,
+          245,
+          377
+        ],
+        "rationale": "Adds the missed independently-derived formulation while directly excluding the unsupported derived-information inference observed on another contract."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-authorized-recipient-evidence"
+        ],
+        "skill": {
+          "id": "nda-authorized-recipient-evidence",
+          "hypothesis_ids": [
+            "nda-5"
+          ],
+          "guidance": {
+            "inspection": "Require an operative permission or exception for employees, internal staff, or receiving-party representatives—not a bare actor definition. Retain need-to-know, purpose, undertaking, notice, and responsibility conditions. Under the observed labels, an operative permission to a defined receiving-party representative class is sufficient; unrelated employee mentions are not.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "employees"
+                ],
+                "any_phrases": [
+                  "disclose",
+                  "except",
+                  "furnish",
+                  "access",
+                  "need to know"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "representatives"
+                ],
+                "any_phrases": [
+                  "employees",
+                  "need to know",
+                  "require access"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "receiving party representative",
+                  "employees and representatives",
+                  "internal information technology and management staff"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          487,
+          377,
+          416,
+          159
+        ],
+        "rationale": "Addresses visible-but-rejected employee evidence and search misses for internal staff and receiving-party representative formulations."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-rights-license-purpose-evidence"
+        ],
+        "skill": {
+          "id": "nda-rights-license-purpose-evidence",
+          "hypothesis_ids": [
+            "nda-15"
+          ],
+          "guidance": {
+            "inspection": "Entail from an express no-right, no-license, ownership, or reservation provision concerning protected information. A limited right expressly carved out must be considered, but access, evaluation, review, or purpose-limited use alone is not a rights grant and cannot contradict the hypothesis. Retain independently redundant ownership and no-grant clauses.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "grant"
+                ],
+                "any_phrases": [
+                  "right",
+                  "rights",
+                  "license",
+                  "licence"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "no license",
+                  "no licence",
+                  "no right or license",
+                  "no rights are granted",
+                  "shall have no right"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "remain"
+                ],
+                "any_phrases": [
+                  "property",
+                  "exclusive property",
+                  "intellectual property rights",
+                  "vested"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          262,
+          588,
+          538,
+          377
+        ],
+        "rationale": "Prevents the repeated wrong relation that treated access or evaluation use as a license contradicting an express no-grant hypothesis."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-agreement-negotiation-secrecy-evidence"
+        ],
+        "skill": {
+          "id": "nda-agreement-negotiation-secrecy-evidence",
+          "hypothesis_ids": [
+            "nda-10"
+          ],
+          "guidance": {
+            "inspection": "Entail if an operative nondisclosure rule directly covers the agreement, its existence or terms, or discussions or negotiations. Coverage may arise by defining those subjects as Confidential Information plus a general confidentiality duty; retain both provisions. Compelled-disclosure procedure is not substitute evidence for the underlying secrecy duty.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "confidential information"
+                ],
+                "any_phrases": [
+                  "possible transaction",
+                  "discussions",
+                  "negotiations",
+                  "agreement"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "negotiations"
+                ],
+                "any_phrases": [
+                  "taking place",
+                  "in progress",
+                  "status",
+                  "content",
+                  "terms",
+                  "disclose",
+                  "released"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "public announcement"
+                ],
+                "any_phrases": [
+                  "agreement",
+                  "purpose",
+                  "prospective interest"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "existence of this agreement",
+                  "agreement and the terms contained herein",
+                  "fact that a meeting or discussion"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          273,
+          159,
+          334,
+          416
+        ],
+        "rationale": "Finds definition-mediated secrecy that the parent missed and prevents citation of compelled-disclosure clauses as the decision-bearing prohibition."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-survival-continuity-evidence"
+        ],
+        "skill": {
+          "id": "nda-survival-continuity-evidence",
+          "hypothesis_ids": [
+            "nda-19"
+          ],
+          "guidance": {
+            "inspection": "Entail only from language continuing an identified obligation after termination, expiration, completion, abandonment, return, or destruction. Cite the continuation sentence, affected duty, duration, endpoint, and necessary preamble—not a retention exception alone. Reject a bare termination right or accrued-remedies clause.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "survive"
+                ],
+                "any_phrases": [
+                  "termination",
+                  "expiration",
+                  "completion",
+                  "abandonment",
+                  "return",
+                  "destruction"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "termination"
+                ],
+                "any_phrases": [
+                  "will not affect",
+                  "shall not affect",
+                  "confidentiality obligations",
+                  "following the date",
+                  "shall terminate"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "continue"
+                ],
+                "any_phrases": [
+                  "bound",
+                  "binding",
+                  "apply",
+                  "obligations",
+                  "held subject",
+                  "period of"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "remaining provisions"
+                ],
+                "any_phrases": [
+                  "continue to be binding",
+                  "full force and effect"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          273,
+          334,
+          538,
+          159
+        ],
+        "rationale": "Improves acquisition of continuation wording and separates the governing continuation clause from retention items and unrelated termination text."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-compelled-disclosure-notice-evidence"
+        ],
+        "skill": {
+          "id": "nda-compelled-disclosure-notice-evidence",
+          "hypothesis_ids": [
+            "nda-8"
+          ],
+          "guidance": {
+            "inspection": "Entail when legal, regulatory, governmental, subpoena, court, or administrative compulsion requires the recipient to notify, inform, or consult the disclosing party. Retain the trigger, timing, recipient, and protective-order mechanism. Reject unauthorized-use notices and bare compelled-disclosure permission.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "notice"
+                ],
+                "any_phrases": [
+                  "required by law",
+                  "required by applicable law",
+                  "subpoena",
+                  "legal process",
+                  "regulatory authority",
+                  "governmental agency",
+                  "request or requirement"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "notify"
+                ],
+                "any_phrases": [
+                  "required",
+                  "legal",
+                  "administrative process",
+                  "court",
+                  "governmental"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "promptly give a written notice",
+                  "provide the disclosing party with prompt notice",
+                  "after consultation with the other party"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          416,
+          487,
+          273,
+          159
+        ],
+        "rationale": "Covers split and variant notice formulations missed by exact queries while preserving the compelled trigger test."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-copy-permission-evidence"
+        ],
+        "skill": {
+          "id": "nda-copy-permission-evidence",
+          "hypothesis_ids": [
+            "nda-17"
+          ],
+          "guidance": {
+            "inspection": "Entail only from an affirmative necessary-purpose copy exception or acknowledged automatic-copy circumstance. A prohibition on copying without consent, standing alone, is Contradiction under the observed labels; consent being imaginable is not affirmative permission. Retain actor, object, purpose, consent, quantity, and exceptions; archival retention is not creation.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "copy"
+                ],
+                "any_phrases": [
+                  "except as necessary",
+                  "except as strictly necessary",
+                  "required for use",
+                  "without the written permission",
+                  "without the prior written",
+                  "prior written approval",
+                  "prior written consent"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "make copies"
+                ],
+                "any_phrases": [
+                  "confidential information",
+                  "authorized persons",
+                  "project",
+                  "purpose"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "reproduce"
+                ],
+                "any_phrases": [
+                  "without the prior written",
+                  "without prior written",
+                  "except as necessary"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "automatically back-up",
+                  "back-up procedures create copies",
+                  "backup procedures create copies"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          490,
+          334,
+          159,
+          487
+        ],
+        "rationale": "Corrects the recurring polarity error on consent-conditioned prohibitions while preserving affirmative operational exceptions and automatic-copy evidence."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-post-return-retention-evidence"
+        ],
+        "skill": {
+          "id": "nda-post-return-retention-evidence",
+          "hypothesis_ids": [
+            "nda-20"
+          ],
+          "guidance": {
+            "inspection": "Entail if an express exception permits specified material to remain after a return or destruction duty. Contradict if the operative rule requires return or destruction of all protected material or copies and supplies no retention exception. Otherwise use NotMentioned. Retain the governing return rule, exception, holder, purpose, access limits, duration, and continuing duties.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "retain"
+                ],
+                "any_phrases": [
+                  "copies",
+                  "confidential information",
+                  "evaluation material",
+                  "documents and materials"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "not be required to delete",
+                  "may keep one copy",
+                  "no copies thereof shall be retained except",
+                  "may retain such copies"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "return"
+                ],
+                "any_phrases": [
+                  "all copies",
+                  "including all copies",
+                  "without retaining copies",
+                  "all originals copies reproductions",
+                  "no copies thereof"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "destroy"
+                ],
+                "any_phrases": [
+                  "all confidential information",
+                  "including all copies",
+                  "all copies"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          416,
+          159,
+          273,
+          261,
+          490
+        ],
+        "rationale": "The training contrasts establish a reliable three-way test between express retention exceptions, blanket all-copy commands, and silence."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-definition-subject-scope-evidence"
+        ],
+        "skill": {
+          "id": "nda-definition-subject-scope-evidence",
+          "hypothesis_ids": [
+            "nda-2"
+          ],
+          "guidance": {
+            "inspection": "Contradict only when the protected-information definition expressly includes a nontechnical subject such as business, financial, marketing, customer, personnel, contact, or operational information. Generic breadth, form language, transaction references, or an auxiliary definition of all information does not alone prove nontechnical subject matter. Retain the definition and governing list introduction.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "confidential information"
+                ],
+                "any_phrases": [
+                  "means",
+                  "shall include",
+                  "includes",
+                  "deemed"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "information"
+                ],
+                "any_phrases": [
+                  "business plans",
+                  "business affairs",
+                  "financial",
+                  "marketing",
+                  "customers",
+                  "personnel",
+                  "operations",
+                  "names addresses",
+                  "contracts documents"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "confidential data"
+                ],
+                "any_phrases": [
+                  "business",
+                  "financial",
+                  "marketing",
+                  "operations",
+                  "non-public information"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          273,
+          238,
+          416,
+          159,
+          334
+        ],
+        "rationale": "Prevents unsupported contradiction from generic all-information language while retaining explicit nontechnical categories that consistently oppose the hypothesis."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-oral-information-evidence"
+        ],
+        "skill": {
+          "id": "nda-oral-information-evidence",
+          "hypothesis_ids": [
+            "nda-3"
+          ],
+          "guidance": {
+            "inspection": "Entail when the protected class expressly includes oral or verbal information, even if later writing or identification is required. A written-marking category without any oral statement is not a contradiction; it leaves the hypothesis unsettled. Reject oral negotiations and compelled oral questions unrelated to the definition.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "information"
+                ],
+                "any_phrases": [
+                  "oral",
+                  "orally",
+                  "verbal",
+                  "verbally"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "irrespective of the form of communication",
+                  "whatever form maintained or conveyed",
+                  "other than written form",
+                  "whether or not such information is also disclosed orally"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          377,
+          187,
+          416,
+          490
+        ],
+        "rationale": "Clarifies that silence or a written category does not negate oral inclusion and preserves conditional oral coverage."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-third-party-source-evidence"
+        ],
+        "skill": {
+          "id": "nda-third-party-source-evidence",
+          "hypothesis_ids": [
+            "nda-13"
+          ],
+          "guidance": {
+            "inspection": "Entail from an exclusion or permission allowing information received or becoming available from someone other than the disclosing party, subject to lawful provenance and no confidentiality duty. Retain its preamble and knowledge, timing, and proof conditions. Information originally supplied by the disclosing party's vendors, or independent development, is not third-party acquisition.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "third party"
+                ],
+                "any_phrases": [
+                  "non-confidential basis",
+                  "without obligation",
+                  "not bound",
+                  "rightfully receives",
+                  "legitimate means",
+                  "free to disclose"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "source other than"
+                ],
+                "any_phrases": [
+                  "disclosing party",
+                  "from the disclosing party"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "available"
+                ],
+                "any_phrases": [
+                  "from others",
+                  "becomes available to the receiving party",
+                  "becomes available to you"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          273,
+          487,
+          377,
+          88
+        ],
+        "rationale": "Adds the missed available-from-others formulations and excludes the observed vendor-data provenance error."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-nonemployee-recipient-evidence"
+        ],
+        "skill": {
+          "id": "nda-nonemployee-recipient-evidence",
+          "hypothesis_ids": [
+            "nda-7"
+          ],
+          "guidance": {
+            "inspection": "Entail only from an operative disclosure or access permission for a nonemployee class; a class definition, marking rule, or unrelated mention is insufficient. Retain need-to-know, purpose, consent, undertaking, and responsibility conditions. An exclusive employee-only permission with no nonemployee exception contradicts; absence of permission is NotMentioned.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "disclose"
+                ],
+                "any_phrases": [
+                  "agents",
+                  "consultants",
+                  "counsel",
+                  "advisers",
+                  "advisors",
+                  "contractors",
+                  "representatives"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "disclosed"
+                ],
+                "any_phrases": [
+                  "agents",
+                  "consultants",
+                  "counsel",
+                  "advisers",
+                  "advisors",
+                  "contractors",
+                  "representatives"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "representatives"
+                ],
+                "any_phrases": [
+                  "need to know",
+                  "reasonably require access",
+                  "directly concerned"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "other than its employees",
+                  "anyone else except employees"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          377,
+          490,
+          187,
+          273,
+          416
+        ],
+        "rationale": "Strengthens the operative-permission requirement, supplies inflection coverage, and states the employee-only contradiction supported by observed contrasts."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-limited-use-evidence"
+        ],
+        "skill": {
+          "id": "nda-limited-use-evidence",
+          "hypothesis_ids": [
+            "nda-4"
+          ],
+          "guidance": {
+            "inspection": "Entail from an operative rule limiting use of protected information to the agreement's stated purpose or forbidding other uses. Contradict when the contract affirmatively permits protected information or residuals for broader internal or any purposes. A copying exception, disclosure permission, ownership clause, or license clause alone does not decide use scope.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "use"
+                ],
+                "any_phrases": [
+                  "only for",
+                  "solely for",
+                  "exclusively for",
+                  "except for",
+                  "except to",
+                  "other purpose",
+                  "own benefit"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "may use"
+                ],
+                "any_phrases": [
+                  "internal business purposes",
+                  "own internal",
+                  "any purposes"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "free to use"
+                ],
+                "any_phrases": [
+                  "any purposes",
+                  "residuals"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "not use"
+                ],
+                "any_phrases": [
+                  "confidential information",
+                  "evaluation material",
+                  "proprietary information",
+                  "any purpose"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          377,
+          487,
+          245,
+          490
+        ],
+        "rationale": "Corrects both the broader-use contradiction and the unsupported inference from purpose-limited copying rather than use."
+      }
+    ],
+    "noop_reason": null
+  },
+  "model": "gpt-5.6-sol",
+  "request_sha256": "7f43034f44e8c3a788d92441f0d32e81b2e377bb61c43b09b405dc2b0eda2295",
+  "response_sha256": "caf6675bc2a906d93d9c57683f76386997c45e0e7255e6cf07dfb9ee0526fc9b",
+  "cache_hit": false,
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-10-16T20:52:38.402095+00:00",
+    "finished_at": "2026-10-16T20:55:35.934054+00:00",
+    "elapsed_seconds": 177.532,
+    "returncode": 0,
+    "event_log_sha256": "5c92165a8cabb60722718ea08cdb81d6c0b638866e68d64d5ee46c87436d405e",
+    "tool_events_detected": false,
+    "budget_reservation": {
+      "sequence": 1369,
+      "new_epoch_sequence": 144,
+      "reserved_at": "2026-10-16T20:52:38.403062+00:00",
+      "model": "gpt-5.6-sol",
+      "purpose": "legal_contractnli_native_grounded_fixed_tool_continuation_20261017_run02_first_native_grounded_draft",
+      "request_sha256": "7f43034f44e8c3a788d92441f0d32e81b2e377bb61c43b09b405dc2b0eda2295",
+      "attempt": 1
+    },
+    "usage": {
+      "input_tokens": 205849,
+      "cached_input_tokens": 0,
+      "output_tokens": 12071,
+      "reasoning_output_tokens": 7613
+    },
+    "estimated_credits": null
+  }
+}
