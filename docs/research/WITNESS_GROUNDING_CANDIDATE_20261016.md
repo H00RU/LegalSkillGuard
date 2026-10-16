@@ -1,4 +1,30 @@
-# Teacher witness grounding: evidence, isolated implementation and pending tests
+# Witness grounding — current v2 and historical prototype evidence
+
+Current Oct17 00:13 CST: v2 is registered/frozen and actually running as
+`legal_contractnli_witness_table_online_learning_20261016_run01`,PID654539.
+Authoritative protocol: `docs/WITNESS_TABLE_ONLINE_PROTOCOL_20261016.md`.
+Global Gold-member accounts now cover ALL17 hypotheses and supplied cases ONCE
+per batch, including NOOP; per-edit source-condition checks are not repeated per
+hypothesis. Every claimed shared condition is compared against all declared scopes.
+Full teacher output stays; only training metadata is projected away. No semantic
+admission. Runtime uses lossless scoped tables with original native answers.
+
+Actual M1 has128 member accounts and6 records (5 conditional E,1 null copy
+inspection),839 master/744 table tokens. All content was read and original-source/
+native/publication/full teacher input replay passed. Actual B1 after-fit is
+88.24/78.87/65.69%, WORSE than the prior literal B1. This is NOT efficacy proof.
+The potential remaining gap is distilling member-role analysis into usable
+source-wide evidence procedures, not merely correct class rules. Do not force
+fixed skill counts or hot-edit the active68 bindings. B2--B4 new-source evidence
+net gains/damage are the next required evidence, not B1 alone.
+
+The following records describe earlier unregistered prototypes and superseded
+plans, retained for provenance. The62/86 draft is archived and unsupported; its
+named complete control source does not exist. The span-centric diagnostic stopped
+after5/18 physical replies with2 output cutoffs and no partial correctness scoring;
+that output policy was not selected for the current learner.
+
+## Historical prototype record (not current execution instructions)
 
 2026-10-16. This is a development record, not a paper result or a frozen next
 experiment. The live literal run02 retains its original66 bindings. The new

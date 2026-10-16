@@ -3,7 +3,52 @@
 2026-10-15 15:09 CST，用户明确要求“新建一个goal并执行”，已通过Goal工具创建，状态active。
 此前答案复核run启动时未开Goal，两者时间顺序不能混淆。
 
-## 当前执行游标（10月16日，覆盖后续旧状态）
+## 当前执行游标（10月17日，覆盖下方历史状态）
+
+00:13新主链路：`legal_contractnli_witness_table_online_learning_20261016_run01` 已于16日23:51:53
+独立后台启动PID654539。最新已核验20/148新原生、1/4新主教师/1尝试、1固定PUBLIC-only静态
+历史artifact，正在B2首遇；无旧原生/旧主库继承，原8B PID2261314始终未动。默认CLI status/launch
+现在指configs/contractnli_witness_table.json。新68冻结输入，运行中绝不可改；当前Goal active未达标。
+
+新实现只改教师学习契约和无损技能字段表：`explicit_witness_accounts_v2` 每批全17命题/所有
+6或12原源的Gold成员各解释一次（即便NOOP也有），每个编辑再逐原案检查同一个when条件；
+源条件应充分而非任务触发，逐公共scope比原Gold。host只检查结构/身份，错误语义照样发布并标记，
+不做效果准入/法律裁决/答案修补。`scoped_lossless_table_v1` 共享字段名、保留所有文字/范围/
+顺序/null；空库请求完全不变。律师原生仍17个choice/spans/reason/usedIDs，无密集SPAN转码。
+全部148新律师/4新主教师，固定静态1仅对照，4普通前缀工具原样共用/0新CPU fit/0权重更新。
+
+新首2次490/334请求与旧冷wire逐字相等但rawID不同，静态原3文件逐字相等且没进主学习。
+M1真实160.551秒/sequence1356/input60453(cached0)/output6878(reason1415)，6 CREATE、839主库/
+744实际表格投影tokens。全部6规则和128原证据分析已读；5个非空关系when是具体source条件，
+复制为null极性检查，不再把consent一律推E。Gold分歧标记0不等于语义已独立证实。真实前后
+包/102标签/完整原文/12新原生/30逻辑及逐字教师输入已独立核验，训练accounts/checks不进律师。
+
+完整B1学后88.24/78.87/65.69%，非NM联合36、NM31、错NM8、漏44；冷85.29/59.56/45.10。
+学后同时更新监督工具，不是纯技能/新案迁移。比旧literal B1的93.14/82.19/71.57更差，不能说
+已突破。不只看B1，继续B2--B4匹配净增与损害。尤其审查：128逐证据分析是否真正蒸馏为全文
+补证/治理前言/并行证据程序，而非仍只产类别规则。M1仅6个任务有技能（5 E/1 null），未强制
+覆盖/数量，不热改；M2若持续偏分类、证据净增为零，应修学习目标与可执行内容，不再盲调显示格式。
+
+新run-local analyse_completed_batches.py已适配全局成员accounts、原子投影、实际输入表解码与
+完整教师请求重建，--batch1已经通过并保存immutable receipt；不可改此脚本破坏旧收据SHA。
+后续直接--batch2/3/4（只有summary齐才跑）。全终点独立auditor还未适配，需要后续补齐：
+旧packing-final脚本要支持表式输入和witness原始/投影差分；必须终态148/166/40后才能评分。
+
+少数原标注需解释边界，已只读保留334/nda18(standstill/proxy)、334/nda19(severability)、
+331/nda4(assignment)原文；h18原命题是representatives，不限employment，不能径称错误。
+所选4成员实际漏3/总漏44，远不足解释大部分失败。未改Gold、评分或据此换数据集/任务。
+
+预启动全部68/源已独立保全686项目文件+完整Git bundle HEAD08910565b355ab486937b487cd2f519d83b24a90，
+archive legal-witness-table-online-all68-inputs-before-launch-20261016.tar.gz，SHA256
+5152a48932c166bc912c8d8497a856d5f3a12340357fe659c771e3c85d2fda68。
+旧96/M4及停止5答诊断也在改CLI前保全682文件+Git HEAD6e6b74376bba45ed6bfd4ee75ab0bca2d65d9596，
+archive legal-terminal96-and-span-diagnostic5-before-witness-cli-registration-20261016.tar.gz，SHA256
+3d14159e41ca3655ea9fe11eb96400d879dfe81f470dc4e795d95151bf9c8eac。
+同vdb非异机/模型权重备份。师兄实验skill用于同预算对照、修复/损害与新旧成本分离，不假定胜出。
+本轮属于真实跨批审计、失败根因、新主链路实现/冻结/后台启动及完整M1内容核验的progress；
+Goal仍active。稳定显著跨合同SPAN收益、成熟对照优势、独立重复、机制消融、未调优正式TEST均未达标。
+
+### 10月16日23:13历史游标
 
 23:13最新：literal run02已23:08:17真实FAILED，PID440562退出，96原生/4新主教师/4尝试+
 1固定static，不是完整148。M4真实118.207秒，sequence1355，input140482/output5173/

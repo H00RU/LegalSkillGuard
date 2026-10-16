@@ -1,5 +1,30 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Latest Oct17 00:13 CST: NEW `legal_contractnli_witness_table_online_learning_20261016_run01`
+is truly running as detached PID654539, launched Oct16 23:51:53;20/148 new native,
+1/4 new main teachers plus1 historical PUBLIC-only static artifact, B2 first encounters.
+No main-bank/native inheritance. Default CLI uses configs/contractnli_witness_table.json.
+All68 frozen inputs remain fixed. Same loaded8B/no weights, downloads or task change.
+
+Teacher v2 accounts for all original Gold members ONCE per batch, then checks each
+edit's sufficient source condition in every supplied case. Lossless scoped skill
+tables share field names, not words/scope; empty controls remain exact. Native
+answers remain original choice/spans/reason/usedIDs: no decoder, repair or gate.
+Actual M1 completed160.551s/60453 input/6878 output,6 records839 master/744 table
+tokens. All128 member accounts and6 rules read; full teacher/native audit passed.
+Complete B1 after-fit88.24/78.87/65.69% is WORSE than prior literal B1; misses44,
+false NM8. Not a breakthrough or pure skill transfer. Continue B2--B4 net evidence
+and harm, especially whether evidence accounts become actual retrieval procedures.
+
+All68/source were backed up before launch:686 project files/full Git bundle,
+SHA2565152a48932c166bc912c8d8497a856d5f3a12340357fe659c771e3c85d2fda68.
+Earlier terminal96/M4 and stopped5-call dense diagnostic were preserved BEFORE
+CLI change, SHA2563d14159e41ca3655ea9fe11eb96400d879dfe81f470dc4e795d95151bf9c8eac.
+Same-vdb, not an offsite/model-weights backup. Unsupported62/86 control drafts
+moved to docs/research/prototypes; no stale reference dispatcher remains.
+
+Historical Oct16 23:13 checkpoint:
+
 Latest23:13 CST: literal run02 FAILED23:08:17; worker440562 exited after96
 native/4 new main teachers. Rejected M4 is23 records,3441 master/4109 delivered
 tokens against4096. No pruning, cap change, b4 publication, B4-after, retention
