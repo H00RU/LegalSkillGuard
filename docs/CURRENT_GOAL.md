@@ -5,6 +5,24 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+06:11:21 anchored mechanism Run01已真实后台launch，PID1221429；06:11:22已核验
+worker Ssl/progress running teacher，实际attempt1、558899chars、native0/24、teacher0/1。
+现有gpt-5.6-sol/high调用开始；并非已经教师完成/技能发布或正式训练重启。
+support/refute PID1204974仍live，06:10:43已9/12，当前383 skill；它保有GPU锁，新worker
+教师可并行，但只有完成publication/全24请求冻结与独立备份后才等同一锁，不能抢占。
+原8B2261314live未动。下一首先poll两个实际PID，不因progress刚启动瞬时未创建或对话
+capacity重启；teacher结束须独立核验原18源/全部199引用/实际18观察/真实event/value/
+publication/4k扩展预算及24完整请求，之后读全24结果才判收益。support/refute全12后
+先四格原作者集合重数，不将新研究/partial结果和旧主训练曲线混写。
+
+新研究launch前已独立保全391文件/全部389绑定与完整Git825bf3f4c4097eec8ac2f53302fdc8805c12f99b：
+legal-anchored-mechanism-all389-before-launch-20261017.tar.gz，SHA256
+f2095661e5b498fedf29a14564fb1b6bdf2bf294c0978fcfad35d810b0c55f8b，收据
+artifacts/anchored_mechanism_prelaunch_all_bindings_backup_20261017.json；成员/完整bundle
+已核验，同vdb非异机/权重/auth，旧不利结果未删。源码389绑定运行中不可改；未来
+actual_teacher/24prospective由source预定算法加入独立phase绑定，不改变source/协议。
+当前仍无新正向结论，Goal原全文active未达，不mark complete或缩小成功条件。
+
 06:10在不读取support/refute新正确率、不修改其426绑定的情况下，已prepare新的有限
 mechanism study：legal_contractnli_evidence_anchored_skill_mechanism_20261017_run01。
 尚未launch/调用教师。其源码/协议/输入已落盘；558899完整teacher chars，原18已见
