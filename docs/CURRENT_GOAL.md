@@ -5,6 +5,31 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+07:23真实终态：corrective Run01于07:17:53 completed16/1，PID1292538消失；原8B
+2261314未动。全部16实际raw独立wire/源/新库/trace/schema/usage验证，原作者TRAIN
+集合手算与completion一致，最终490绑定。empty82.35/67.26/55.88%，joint83.09/
+66.67/60.29%（accuracy/原SPAN F1/joint）；分类+1题、联合+6题，但TP76→74，
+FP12→10，FN62→64。标签11修10伤、联合12修6伤、真6增8丢；NN联合31→33，
+NM45→49。source-bootstrap accuracy/F1跨0，joint区间[0,.08107]，不是显著稳定
+全指标收益/强空库/成熟方法胜利/独立学习/正式TEST。新native118966prompt/35336out，
+教师1372为228214in/5829out（reason4377包含），共享祖先/失败搜索成本不是免费。
+审计monitoring/complete16_original_author_manual_sets_paired_changes_actual_wires_and_source_uncertainty_audit.json。
+
+实际根因分解：8个丢真query-SPAN均是非NM答案变NM，其中4个本来就在普通候选；
+6个增真中5个仅来自NM恢复非NM，只有1个在原来就非NM的答案里补真成员。不能只修
+候选检索。327/request-only、374/全部返还无保留、341/无论是否标记、270/救济非survival
+均存在出版规则与实际回答不一致；是可定位执行失配，不是私有推理的因果证明。
+624/口头信息则受“必须显式oral/verbal”的过窄边界影响，原Gold包含whether-or-not-written。
+原NM局部反例还缺关键trigger上下文，先前纯Gold/本轮纠错片段均不等于完整过去任务示范。
+新run monitoring/complete16_actual_NM_collapse_candidate_visibility_rule_execution_and_content_scope_root_audit.json。
+
+下一先完整保全终态490及新审计，再做根因级经验交付修复：最新父库继续用、不挑旧好库，
+限制把正例特征概括为排他必要条件；允许完整过去原文/原标注任务示范，真正表示全案NM，
+示例置于当前任务之前，仍由同一教师选过去案/命题并管理、4k实际总预算，无新推理角色/
+答案修补/效果准入/模型或任务更换。此方向尚未实现或launch，不先声称有效，也不再
+原配置硬开长训练/重复B1。后续应走不同合同而非只改上述案例。当前无实验worker，
+Goal原全文active未达；仍需完整多批、保持、独立重复、成熟对照及untuned TEST。
+
 07:03:34 corrective PID1292538实际live，2/16 native与1/1教师已完成，当前327/joint。
 前2个568 empty/joint均stop、schema/wire/源/新库/trace/实际usage一致，thinking实际
 非空，未评分任何partial新正确率。实际教师1372于07:00:31完成、89.11秒，228214in/

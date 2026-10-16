@@ -83,3 +83,23 @@ master3700／scoped3986，仍在4096内，0新生成／教师／fit。候选保�
 
 不热改474冻结绑定、不加逐案例外、不选回旧高分库。先收齐原定16答，按原集合
 分解真实得失，再决定是否需要在经验表示中保留辨别所需的完整条款上下文。
+
+## 07:23完整后续8案：有联合收益，取证瓶颈仍未解决
+
+corrective16／1已完整结束并独立按原作者TRAIN集合重算：技能准确率83.09／F166.67／
+joint60.29%，同工具无技能82.35／67.26／55.88%。标签11修10伤，联合12修6伤；
+非NM联合净+2、NM净+4，但真query-SPAN6增8丢，仍未达全部目标。8个丢真全部随
+答案变NM，其中4个在普通候选里已可见。6个增真里5个是NM恢复非NM，仅1个是既有
+非NM答案的额外成员。不能把联合+4.41pp包装为证据获取突破。
+
+实际失配包括：327明确request-only仍被答E，374全部返还无保留却答NM，341无论
+是否标记的定义已是候选却答NM，270把禁令救济误当survival；相应规则都已经写出。
+这些公共答案与实际出版内容的不一致证明执行未可靠对齐，但不证明单一心理因果。
+624的whether-or-not-written原Gold又暴露“要求显式oral/verbal”把充分线索收窄成
+必要条件的问题。严格保护Gold成员仍不保证可迁移程序没有错误排除，或者弱模型
+能够从局部对照恢复正确的NLI关系。
+
+全26变化题、原Gold/实际选择全文、8合同逐案指标、来源bootstrap及实际wire审计
+保存在新run monitoring/complete16_original_author_manual_sets_paired_changes_actual_wires_and_source_uncertainty_audit.json；
+内容／执行／候选分解见同目录complete16_actual_NM_collapse_candidate_visibility_rule_execution_and_content_scope_root_audit.json。
+当前仍不是独立重复、公平成熟方法比较、强空库或正式TEST，不修改不利结果。
