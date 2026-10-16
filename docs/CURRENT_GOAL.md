@@ -5,6 +5,42 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+06:46真实终态：anchored Run01已于06:38:22 completed24/1，PID1221429消失，原8B2261314
+未动。24个独立native均stop/schema有效，按原作者TRAIN原集合独立重数，全部实际wire/
+源文/前瞻请求/新库/trace/usage与418绑定相符；最终442绑定。审计monitoring/
+complete24_original_author_manual_sets_native_wires_all5_contrasts_and_source_uncertainty_audit.json。
+accuracy/spanF1/joint：empty75.49/68.83/54.90，procedures73.53/64.94/51.96，
+examples70.59/65.81/51.96，joint69.61/68.35/50.00%。joint对empty标签2修8伤、
+联合2修7伤、真2增1丢；TP53→54/FP15→18/FN33→32，NN联合25→26，NM31→25，
+E/C正确40/6持平，分类净-6均来自NM。三个source-bootstrap差异区间都含0，不是显著
+收益/独立重复/成熟方法比较；empty是同普通M2无技能，不冒称另跑direct strong-empty。
+新24用236712prompt/48077out；唯一教师1371为146596in/2978out（reason1513包含）。
+当前正例示例配置未达目标，不原配置启动长训练；Goal原全文active未达。
+
+运行期间只读完成：官方发布zip Gitblob757fd1dafd29a997fba00c60c6d40b2930a36159与
+本地65362913bytes完全摘要一致（本地SHAe03fc...），423 TRAIN；383/430/622非纯NDA
+长文本就在官方原包，不是重建混入，未开TEST/未删难案/未改Gold。原论文§2.1/附录
+标注规则重新核对，不能把“简洁可理解+冗余全覆盖”改成完整法律证明闭包。
+已举证的训练内容冲突：334/nda18 Gold58,65,68，新程序排除proxy；旧witness已明确
+要求65作为benchmark辅助证据保留，所以并非没看到Gold。416/nda10 Gold仅12定义句，
+新程序无条件补一般保密义务有过度扩展风险（不是已证实际行为或唯一根因）。
+详见docs/research/ANNOTATION_SUPERVISION_DELIVERY_AUDIT_20261017.md和其四个机器收据。
+
+18个混合历史own观察的199非NM问题：31分类错误/118联合错误/188漏真/37多选；
+入库20正例覆盖其中6/10/10/2。runtime保留正确Gold片段而没保留实际错误选择对照。
+unused同4程序/20引用的纠错对照视图可还原Gold片段和原选择集合，3700master/3986scoped，
+0生成/教师、尚未发布；它本身不能修复未选择334或错误程序，不能当已有效改动。
+
+下一先保全完整24终态/442绑定，再实施一次明确的B4→后续8案在线修复延续：教师
+收到原24已见TRAIN及自己的真实主臂观察（历史前12+最新B3final6+本次B4joint6），不看
+空库/其他消融答案或后续8案原文/Gold；同唯一原教师更新最新4条库，不挑旧好库。
+学习表示保留实际成员级纠错，允许过去误选的非Gold片段作局部反例，但不把局部片段
+当整案NM证明；训练原Gold按原SPAN直接标出，纠正“类标正确但漏证”被压缩抹去。
+固定普通M2/8B/原任务/4k/四字段ABI；预选568,327,342,374,624,270,341,135各做
+joint/empty配对，上限16新native/1教师，所有合法更新无条件用；这些8已暴露开发源，
+不是untuned TEST或独立主训练。新延续尚未创建/launch，当前无实验worker，不再重复
+只验证B4。仍需真正改善后完整多批/独立重复/公平成熟方法/正式未调优测试。
+
 06:21:17核验anchored PID1221429仍live Ssl，已7/24新native、1/1教师，290/empty当前。
 没有读取/汇报该研究任何partial正确率；自动后台继续，下一先poll同handle。
 完整负面support/refute12/0终态、实际新teacher/4库投影/24输入/独立审计及明确完成的
