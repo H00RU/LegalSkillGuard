@@ -1,10 +1,19 @@
 # Next complete online repair — implementation plan, not a result
 
-Status18:14: complete learner/configuration/CLI/source freeze implemented and
-launched18:11:06 CST as detached PID147784.33 zero-generation boundary tests
-passed, including full148/5/18/166 scheduler simulation. Actual static teacher
-and first lawyer calls succeeded; B1 cold-before is running. This is a live
-development candidate, not evidence of efficacy. Its protocol stays frozen.
+Status18:34: launched18:11:06 CST as detached PID147784;20/148 lawyer and2/5
+teacher calls complete, B2 first encounters running. Full B1 completed18:26:11
+and independently matches original author/manual source memberships: cold
+85.29/59.56/45.10%, after-fit92.16/85.84/77.45% accuracy/F1/joint. The fit also
+changes the supervised source tool and is not pure memory/transfer evidence.
+M1 published18 CREATE,2093 master/2053 scoped tokens; all content read, actual
+teacher return/publication and first different-source B2 delivery verified.
+Complete B1 residuals show31 missed true spans,27 on correct-label queries and16
+already in candidates. Abstract evidence instructions remain imperfectly executed;
+some generic label boundaries can overgeneralize supplied NM negative witnesses.
+Next verify the actual bounded B2 feedback/update and complete matched B2--B4
+effects, not another B1 replay or manual live rule patch.33 zero-generation
+boundary tests passed before launch. This remains a development candidate;
+no cross-contract benefit or efficacy breakthrough established. Protocol is frozen.
 The ContractNLI task, original labels/SPAN scoring, frozen existing Qwen3-8B,
 gpt-5.6-sol/high teacher and online external-skill learning remain unchanged.
 No new model, paid API, client, runtime planner/judge/fallback or answer repair.

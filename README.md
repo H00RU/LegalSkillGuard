@@ -2,13 +2,19 @@
 
 RUNNING: `legal_contractnli_task_local_online_learning_20261016_run01`,
 started18:11:06 CST as detached PID147784, independent of the conversation.
-At18:14 CST2/148 lawyer calls and1/5 teacher calls are complete; B1 cold-before
-source88 is running. The completed teacher is the public-task-only STATIC
-control (17 records/1316 master/1145 scoped tokens), not the main learned bank.
-The main memory remains empty until its first actual training edit after B1.
-First actual lawyer source/hypotheses/schema, three exact cold aliases and
-static-teacher information boundary were independently verified;61 frozen
-inputs remain unchanged. No first-case or partial-batch efficacy claim.
+At18:34 CST20/148 lawyer calls and2/5 teacher calls are complete; B2 first
+encounters are running. B1 completed18:26:11: cold accuracy/F1/joint
+85.29/59.56/45.10%, after-fit92.16/85.84/77.45%. The after-fit updates BOTH
+the shared supervised evidence tool and memory: not a pure skill or transfer gain.
+Main M1 has18 records/2093 master/2053 scoped tokens; static17 records remain
+separate. All18 editor records, exact publication, teacher event and token
+capacity were checked. Independent original-author source/manual membership
+accounting verifies all30 B1 logical observations/12 distinct actual responses.
+Of31 missed true spans after-fit,27 are on correctly labelled questions and16
+were already in candidates. This is not just a delivery failure: all relevant
+guidance is present in the first actual B2 task-local wire. See the run-local
+`analyse_completed_batches.py` and its monitoring receipts. All61 frozen inputs
+remain unchanged. No partial-B2, independent-repeat or efficacy-breakthrough claim.
 The new bounded learner, all matched controls, retention and full endpoint
 are automatic background stages. Do not edit its bound code/config/protocol.
 
