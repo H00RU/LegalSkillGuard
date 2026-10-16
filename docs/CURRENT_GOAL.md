@@ -5,6 +5,17 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+00:25：PID654539仍真实B2首遇，33/148原生、1/4新主教师/1尝试、1固定静态历史artifact；
+不报告局部B2分数。完整B1/M1与全部68源已另行保全787项目文件+全Git bundle
+HEADbb395e8047af089e075e686b599e41984b3dd83d，archive
+legal-witness-table-complete-B1-M1-source-and-raw-prefix-20261017.tar.gz，SHA256
+c57872a5a4906026dde01c8fe25bc22e4dd3785d1802181478291df31a718427。
+完整前缀12新原生/1新主教师+1历史静态；快照29原生另含部分B2，不能叫完整B2备份。
+收据artifacts/witness_table_complete_B1_M1_source_raw_backup_20261017.json；同vdb非权重/异机备份。
+下一在B2 summary齐后运行本Run analyse_completed_batches.py --batch2，读全M2实际内容及
+原128/新133成员是否转为可执行取证程序，核对新案相对普通工具与强空净增、错NM及损害。
+不因B1较低回滚、不把训练128条角色说明当128案、不把表格式字段齐全当论文有效性。
+
 00:13新主链路：`legal_contractnli_witness_table_online_learning_20261016_run01` 已于16日23:51:53
 独立后台启动PID654539。最新已核验20/148新原生、1/4新主教师/1尝试、1固定PUBLIC-only静态
 历史artifact，正在B2首遇；无旧原生/旧主库继承，原8B PID2261314始终未动。默认CLI status/launch
