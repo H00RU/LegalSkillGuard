@@ -5,6 +5,20 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+05:59 support/refute Run02已prepare但尚未launch：新driver只复用Run01的纯schema
+函数/固定通用文字，不初始化或调用它的OUT绑定方法，不monkeypatch旧run。
+所有17题所有3分支properties/required给出同一六字段顺序；user元数据直接从actual
+schema派生，system顺序逐字断言一致。除该order metadata外，恢复旧order后的完整
+user字符串逐字节等于旧actual request。全12已完整tokenize，最长23875+8192=32067，
+Ruff/20合成schema模式检查通过，0新生成/教师。下一先Git/独立备份所有绑定再launch。
+旧Run01八次终态成本90897prompt/17876out，已保全418文件/全部406绑定/完整Git
+a7bb98cfcb171df737bd4b21e19c1fec76f0bdcf，archive
+legal-support-refute-stopped8-all406-before-corrected-source-20261017.tar.gz，SHA256
+0279de8e7978faaa8af8f79e8a733779009e5cceb890ac1a7f4a22ace16cffb3，收据
+artifacts/support_refute_stopped8_all406_before_corrected_source_backup_20261017.json。
+全部成员/bundle已核验，同vdb非异机/权重/auth。新Run02计划12完全新答/0教师，
+旧8只计成本不作reference/正确率证据，无效果选案/改Gold，Goal全文active未达。
+
 05:56:59 support/refute Run01已在真实安全边界stopped，PID1186039消失，8新native/0教师；
 原8B2261314live未动。原因是本次诊断新增的system与native schema为6字段，但直接复用
 旧user字符串中的output_contract.fields_in_order仍列4字段。这个实现遗漏归本次新增
