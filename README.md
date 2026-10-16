@@ -1,6 +1,6 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-PREPARED, not yet launched at19:03 CST:
+RUNNING, launched19:05:55 CST as detached PID229747:
 `legal_contractnli_task_local_packing_completion_20261016_run01`.
 Its parent task-local Run terminated18:48:37 after36 native/2 teacher calls,
 before the B2 editor: hidden internal duplicate score vectors made its input
@@ -10,8 +10,15 @@ candidate observations, not internal vectors, and is325016 characters with all
 archived. B1 teacher system/user stays byte-identical; all inherited requests
 must replay before new calls. Planned112 NEW native/3 teachers plus explicit
 36/2 inheritance; not an independent learner/repeat or hidden restart.
-183 inputs frozen,35 zero-generation tests passed in2.28 seconds. Back up and
-launch next; the original8B stays loaded and must never be restarted.
+183 inputs frozen,35 zero-generation tests passed in2.28 seconds; complete
+frozen inputs/source/prefix backed up before launch. All36/2 inherited calls
+replayed without generation. M2 succeeded19:08:23,9 UPDATE/2 CREATE,20 records,
+2620 master/2568 scoped tokens, actual publication/first new wire independently
+verified. Full B2 ended19:14:46, after-fit87.25/89.17/76.47%; all30 B2 actual
+wires/manual original-author memberships match. This fit also changes the shared
+supervised tool and is NOT transfer or pure skill benefit. At19:17 B3 is running,
+7/112 new lawyer and1/3 new teacher complete, plus explicit36/2 inheritance.
+The original8B stays loaded and must never be restarted.
 
 Completed parent observations: B2 first encounters, main78.43/53.33/43.14%,
 same-tool79.41/51.23/42.16%, direct-empty73.53/58.09/41.18%. The small same-tool

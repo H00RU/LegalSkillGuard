@@ -5,6 +5,46 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+19:17：接续PID229747持续活，B2已19:14:46完整结束，B3首遇自动开始；最新7/112新律师、
+1/3成功新教师/1尝试，另显式继承36/2。M2真实19:08:23成功，138.926秒，gpt-5.6-sol/high
+无工具/缓存/重试/换模型；input89944/output5493/reasoning3106，reservation1348，未重置ledger。
+实际9 UPDATE+2 CREATE，18→20记录，2620主库/2568投影tokens，11项内容均逐条读完、
+完整差分发布与event/响应SHA独立重放，首新262实际收到全部20对应技能；183绑定无变化。
+复制负例例外/访问-only NM等边界确实修改，索要通知/禁止招揽新增，不是只强制加技能。
+尚不能称这些内容变化使律师跨合同更好；员工-only宽规则与原NM负例的潜在冲突仍在。
+
+完整B2前后30 distinct raw/6原作者合同/510逐题集合已独立按实际原生输入/Schema/作用域/
+原Gold与手算集合核验，前24真实继承、后6真实新增：首次主78.43/53.33/43.14%，
+学后87.25/89.17/76.47%。后者也把监督工具M1→M2，不能称纯技能或迁移收益。
+学后剩13标签错、11类别对但依据不全；26个漏真成员中20已作候选却未选，仍有执行/完整性问题。
+首次相对同工具分类-0.98pp/F1+2.10pp/联合+0.98pp，F1仍弱于直接空库58.09，目标未达到。
+新收据newRun/monitoring/actual_M2_teacher_publication_capacity_and_first_new_native_wire.json、
+complete_B2_original_author_all30_wires_manual_sets_and_residuals.json。
+下一优先完整B3/M2在不同合同的匹配净收益和错误，而非再跑B1/改词；继续B4/保持/完整终点。
+主任务/冻结8B/数据/评分不变，Goal仍active，独立学习重复/公平强成熟对照/未调优测试仍缺。
+
+### 19:08真实接续与B2教师输入（历史）
+
+19:08：新显式接续Run `legal_contractnli_task_local_packing_completion_20261016_run01`
+已19:05:55后台PID229747真实启动。全36父原生答/18冷逻辑别名/2教师已零生成重放，
+完整54逻辑wire分段24/6/24通过；183冻结输入无变化。当前M2实际教师请求进行，
+新增律师0/112、新成功教师0/3、尝试1；继承36/2不可重复收费，不是新的独立学习seed。
+实际已提交325016字符，body SHA f316680565ff1562d630bb3db5441b8b0ac52d74a0d53ddc5e75fc4703b82fc1。
+对实际请求再次逐字段核验12原案/204标签、B1-after和B2-before真实同父答、候选及索引，
+与修复前全部公开信号一致，只有未给律师看的内部向量/诊断元数据不进入教师。
+新收据newRun/monitoring/actual_B2_teacher_complete12_sources204_labels_visible_candidates_and_prefix_replay.json。
+未有真实M2返回/发布前不声称教师成功或学习问题已修复。下一审查真实CRUD及完整B2-after，
+继续B3/B4新案同工具/强空库净收益、保持/完整终点，不能再以B1拟合分宣称突破。
+
+新源/183全部冻结输入及明确36/2前缀已启动前保全，191项目文件与全Git bundle逐字核验：
+legal-task-local-packing-completion-all183-inputs-before-launch-20261016.tar.gz，SHA256
+7564d822a795c8a43d48ba30330505b8e666ad42634e70faab9bb161c5224cee；HEADc8415b978193ea55faaf399497ec84f2b1821fd2。
+同vdb非异机/遗失模型权重备份；收据artifacts/task_local_packing_completion_prelaunch_backup_20261016.json。
+本Goal turn为实质progress：完整B1/B2新案独立证据与误差构成、真实容量根因修复、原前缀
+保全/严格接续/实际下一教师输入验证，非只监控。稳定实质净收益与论文条件仍未达成，Goal active。
+
+### 19:03修复完成、准备接续（历史）
+
 19:03：原task_local_online Run已18:48:37终止，36新律师/2成功教师/2尝试，B2教师调用前
 超过1048576字符硬上限。不是当前仍在正常训练，也不是账号/8B服务故障；原8B仍在，不能重启。
 根因是bounded_teacher_packet把未给律师看的完整浮点评分向量及重复counterfactual也塞入教师。
