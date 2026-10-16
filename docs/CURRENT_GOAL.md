@@ -5,6 +5,24 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+06:00:18 corrected support/refute Run02已真实后台launch，PID1204974；06:00:19核验
+worker Ssl/progress running，ordinary_memory合同430，0/12新native、0教师。原8B2261314
+live、未重启；当前唯一实验worker是1204974，不是已停止1186039。
+运行前426全部冻结绑定/428文件及完整Git8b3c4dd891352d90eba510c58170b672089e5b4a
+已独立保全：legal-corrected-support-refute-all426-before-launch-20261017.tar.gz，SHA256
+468b5d57366f91d1ec89cc510123f79903def76ef26d16e4e9f4d6ddca49ea0c，收据
+artifacts/support_refute_corrected_prelaunch_all_bindings_backup_20261017.json。
+全部成员/full bundle核验，同vdb非异机/权重/auth。driver/协议/全部请求/426绑定不改。
+下一先poll同实际PID和progress；初答检查actual user/system/schema六字段一致、原文/
+候选/库/回执还原、finish_reason及usage，不提前新Gold评分。全部12后worker统一四格
+评分，再独立按原作者原集合重数24答（旧12+新12），看C/NM混淆、NN联合、TP/FP/FN、
+两种规范下的skill-minus-ordinary和其差异，不只报一个新skill分数。旧Run01八答只计
+90897prompt/17876out成本，不作新reference/正确率证据。
+自动worker连续推进脱离对话；这是development机制诊断，正式长训练未恢复、效果未知。
+若只两臂共同改善或skill仍负，不把格式效果当学习突破，不原配置硬续；后续优先参照
+EXECUTION_AND_EXPERIENCE_GAP中的已核实经验交付差异，而非再一轮关键词／抽象提醒。
+新表示候选尚未实现／发布，需要按历史例子、程序和强对照区分，原Goal全文仍active未达。
+
 05:59 support/refute Run02已prepare但尚未launch：新driver只复用Run01的纯schema
 函数/固定通用文字，不初始化或调用它的OUT绑定方法，不monkeypatch旧run。
 所有17题所有3分支properties/required给出同一六字段顺序；user元数据直接从actual
