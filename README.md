@@ -1,9 +1,25 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Current default: `legal_contractnli_source_conditioned_learning_20261016_run01`,
+launched09:40:04 CST as background PID3574225. The original8B service is unchanged.
+This is a complete24-TRAIN/four-batch online development study, not a formal test.
+Published skills now learn positive source eligibility and optional factual
+list-preamble lookup. Only eligible semantic projections reach the lawyer;
+the complete master, actual delivery and atomic CREATE/UPDATE/MERGE/DELETE remain
+separately auditable. No count target, frequency eviction, host verdict,
+answer repair, efficacy gate or best-bank rollback.
+An unconditional identical-layout/no-skill control separates operation gains
+from learning gains. Planned90 NEW native/5 teacher;76 explicitly validated
+historical logical references/58 unique old native responses are NOT fresh draws
+or an independent repeat. All76 full requests were checked before launch,
+with zero qualification generations. Read the [fixed protocol](docs/SOURCE_CONDITIONED_MEMORY.md).
+Frozen176 dependency files must remain unchanged until PID3574225 exits.
+Status: `.venv/bin/python -m legal_skill_guard.cli status`.
+
+## Completed predecessor evidence (not current worker status)
+
 The evidence-scope diagnostic completed26 lawyer/0 teacher at09:04:01 CST;
-PID3439428 exited. There is currently no experiment worker, only the unchanged
-original8B service. Source-conditioned online learning is the next implementation,
-not yet launched. The single-record removal recovered forward classification but
+PID3439428 exited. The single-record removal recovered forward classification but
 lost true evidence and did not improve later sources; no ablated bank was promoted.
 All26 input deltas and52 historical reference wires were verified without
 qualification generations. This is a fixed content diagnostic, not new online
@@ -20,7 +36,7 @@ See [ACE protocol](docs/ACE_SAME_DATA_20261016.md) and the single progress reado
 Direct82.35/68.29/56.62%, reflected86.03/69.83/59.56%; oldM4
 83.09/69.91/59.56%, same-tool80.88/71.37/55.15% (accuracy/F1/joint).
 Case reflection is not promoted: no same-tool evidence gain or oldM4 joint gain.
-A same24-data ACE comparison is complete; the source-scope diagnostic is now running.
+A same24-data ACE comparison and the source-scope diagnostic are complete.
 The grouping diagnostic completed16/0 at06:21:10: coherent86.03/70.43/58.82%,
 flat81.62/72.10/54.41%, same-tool80.88/71.37/55.15%. All coherent classification
 net+7 came from source374; other seven net0 label/−2 joint. It is not promoted
@@ -33,8 +49,8 @@ The preceding final-M4 assessment completed all44 new lawyer/0 teacher at05:48:1
 M4 scores83.09/69.91/59.56% versus80.88/71.37/55.15% for the same-tool control:
 classification/joint rose, evidence F1 fell. All same-tool paired intervals crossed zero.
 The parent learning worker stopped at04:52:09 after severe complete-B4 harm, with78 lawyer/5 teacher.
-The default still shows that stopped parent; neither the fixed assessment nor this
-bounded diagnostic is a fresh complete training or independent learning repeat.
+That stopped parent remains historical; the current default is declared above.
+Neither its fixed assessment nor bounded diagnostics are independent learning repeats.
 See [current Goal](docs/CURRENT_GOAL.md) for the active cursor, ancestry and actual counts.
 
 Status: current core reconstructed after the 2026-10-15 file-loss incident.

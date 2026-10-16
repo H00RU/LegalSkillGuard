@@ -19,6 +19,10 @@ from legal_skill_guard.report import write_report
 
 def study_for(config, run_id):
     method = read(config).get("method", "callable")
+    if method == "source_conditioned_memory":
+        from legal_skill_guard.learning.conditioned import ConditionedStudy
+
+        return ConditionedStudy(config, run_id=run_id)
     if method == "trace_procedural_memory":
         from legal_skill_guard.learning.procedures import ProcedureStudy
 
@@ -41,7 +45,12 @@ def prepare(config):
     frozen = config.with_suffix(".frozen.json")
     if frozen.exists():
         raise FileExistsError("Already frozen; use a new config for any change")
-    if cfg.get("method") in ("evidence_programs", "trace_procedural_memory"):
+    reference_paths = []
+    if cfg.get("method") == "source_conditioned_memory":
+        from legal_skill_guard.learning.conditioned import prepare_conditioned_inputs
+
+        selection, reference_paths = prepare_conditioned_inputs(cfg)
+    elif cfg.get("method") in ("evidence_programs", "trace_procedural_memory"):
         from legal_skill_guard.learning.operators import prepare_operator_packets
 
         selection = prepare_operator_packets(ROOT, cfg)
@@ -112,6 +121,7 @@ def prepare(config):
         paths.append(ROOT / cfg["method_protocol"])
     if "input_budget_evidence" in cfg:
         paths.append(ROOT / cfg["input_budget_evidence"])
+    paths += reference_paths
     RunStore.immutable_json(
         frozen,
         {
@@ -198,6 +208,7 @@ def worker(config, run_id, engineering):
                     "source_check_execution",
                     "evidence_programs",
                     "trace_procedural_memory",
+                    "source_conditioned_memory",
                 ):
                     raise ValueError("No extra pre-training qualification for declared skill study")
                 return verify_learning(study)
@@ -236,6 +247,7 @@ def launch(config, run_id, engineering):
             "source_check_execution",
             "evidence_programs",
             "trace_procedural_memory",
+            "source_conditioned_memory",
         ):
             raise ValueError("Start the declared skill study directly, not extra qualification")
         probe = study_for(config, run_id)
@@ -279,7 +291,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["prepare", "launch", "worker", "status", "report"])
     parser.add_argument(
-        "--config", type=Path, default=ROOT / "configs/contractnli_grounded_feedback.json"
+        "--config", type=Path, default=ROOT / "configs/contractnli_source_conditioned.json"
     )
     parser.add_argument("--run-id")
     parser.add_argument(
