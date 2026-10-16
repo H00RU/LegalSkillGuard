@@ -3,7 +3,30 @@
 2026-10-15 15:09 CST，用户明确要求“新建一个goal并执行”，已通过Goal工具创建，状态active。
 此前答案复核run启动时未开Goal，两者时间顺序不能混淆。
 
-## 当前执行游标（10月16日13:56，覆盖后续旧状态）
+## 当前执行游标（10月16日14:15，覆盖后续旧状态）
+
+同一后台3958253已实查存活，16/24新律师、0新教师（继承唯一1教师），正在270/compiled_advisory。
+无失败工件，不因等待或尚无后续评分重启；新24未齐，不读取部分新Gold评分。原8B2261314不动。
+上一Goal turn分类为progress：完整主/负检查终态审计和备份，编译容量失败原样保留，无损4075token
+全译文接续实际启动、首2实际输入及字段/消息/约束核验；不是完成目标或单纯状态复述。
+
+本turn完成另两篇近期工作核实：SkillVine与R² Flow；后者固定作者commit da16fd7，7文件原字节
+Git blob校验、5文件全文及2文件教师输入相关函数已读。代码中单动作状态的有符号效用未定义，
+引用字符串存在也不是法律语义正确。新研究第11节明确其验证准入/策略训练差异，不整套移植或新增模型。
+另对原已见24 TRAIN逐命题/批次统计：反向工程仅1个非NM且B4才出现，10命题未见C；
+后者可能是任务自然分布，不证明数据坏或应合成反例。收据artifacts/research/legal_train24_signal_coverage_20261016.json。
+没有读当前新输出的部分效果、改311绑定、为新文献加另一轮诊断或启动另一主训练。
+下一动作仍是同一24全部完成后，独立原作者/实际输入/原SPAN手算及分支选择得失分解，再决定是否接入在线进化。
+主目标尚未达到，Goal保持active。
+
+### 13:56--13:58执行接续核验（历史）
+
+13:58实查同worker2/24新律师、0新教师（继承1），568两种语义条件均完整返回17项，各选5分支。
+首个actual wire列式表已不用driver解码器独立重建为全部实际交付字段；两组实际完整请求仅
+response_format不同，source/消息/候选/操作/知识完全一致，311绑定全一致。
+这只是实际控制变量和语法执行事实，不是条件为真、准确率或技能效果证明；新Gold评分尚未读取。
+收据本Run/monitoring/first_actual_native_wire_table_and_public_schema_no_grading_audit.json与
+first_actual_advisory_consistent_pair_entire_wire_difference_no_grading.json。继续同一24完整安排。
 
 当前唯一有限worker已13:55:45后台启动：`legal_contractnli_typed_execution_completion_20261016_run01`，
 PID3958253/start_ticks413666298，24新律师/0新教师＋1明确继承教师，不依赖对话。
