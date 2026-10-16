@@ -5,6 +5,31 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+03:37当前无实验worker在跑（原8B2261314仍live）；literal交付诊断于03:22:53真实
+completed，PID960140消失，6新原生/0教师，全部stop、0截断。原作者逐集合/所有225条
+逐题原文视图/全部实际输入与前瞻hash已独立核验，真实只添加source-only literal视图。
+结果ordinary85.29/61.54/45.10%、semantic88.24/61.41/49.02、literal83.33/59.59/45.10。
+真证73（semantic74/ordinary76），对semantic8真增9丢、3标签修8伤、2联合修6伤；
+新86291prompt/12001out。新增文字未解决取证，不能采用此literal视图进正式方法。
+完整结果/审计在本Run completion.json与monitoring/complete6_original_author_manual_sets_and_wire_audit.json。
+
+新的零模型范围审计：同语义M2/48query在前12训练源共303个非本题Gold成员命中，其中121
+是同技能scope内其它题Gold（NN对应66/201）；B3为48/153（NN27/88）。这些是原标注成员
+关系，不是判定所有背景内容法律无用，更不是runtime Gold过滤或效果准入。约三分之一
+非NN/NN错题范围混用成立，但不是全部原因。见monitoring/cross_task_scope_contamination_all12_seen_and_all6_development.json。
+已读Voyager官方action.py/render_human_message与voyager.py/step：代码执行后真实events
+进入下一次writer输入；其critic/成功准入/retries不引入。ERSkill官方代码仍未验证，不冒称复现。
+
+下一准备一个等教师额度配对闭环编辑诊断（尚未建立/launch）：固定原M2草案，两个独立
+同模型教师分别盲修订、读过本草案在全部12个已见训练源的逐查询逐任务实际命中/漏证后
+修订，都是精确决策inspection+实际检索program，原2字段/API不加router、critic或新原语。
+给同样全12源/原Gold/原M1实际public观察，只增草案自身执行反馈；不传B2after/B3/终点
+观察或其它臂结果。两臂结构有效的编辑均使用，不能按效果选库；计划2新教师+12新律师
+（六B3源每臂1次，交替顺序），全部12答保存后才评分。用于区分更具体提示/额外编辑和
+实际执行反馈，并非完整在线学习/正式TEST/公平方法胜利。不盲开B1；若无SPAN实质收益，
+继续查原语能力与教师要求错位，不把NM收益冒充取证。先完整保全本6/0终态再动任何源。
+Goal active，全目标未达；下方03:17“在跑”只是历史状态。
+
 03:17最新正在运行的是独立证据交付诊断，不是正式main重启：
 legal_contractnli_program_member_grounding_diagnostic_20261017_run01，03:16:32后台launch
 PID960140，planned6新律师/0新教师，完整独立worker不依赖聊天。正式Run03仍已stopped，
