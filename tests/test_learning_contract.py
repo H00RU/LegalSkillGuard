@@ -865,3 +865,69 @@ def test_auth_completion_replays_exact_failed_editor_without_repeating_audit(tmp
         assert calls == [("source_conditioned_b4", request["system_prompt"], request["user_prompt"], request["output_schema"])]
         transaction = json.loads((study.out / "update_transactions/b4.json").read_text())
         assert transaction["source_condition_audit_teacher_call"] == "source_condition_audit_b4"
+
+
+def local_skill():
+    return {
+        "id": "archive", "hypothesis_ids": ["h2"],
+        "guidance": {
+            "when": "A source condition, not a retrieval keyword.",
+            "inspection": "Inspect the original source and its exceptions.",
+            "relation_if_established": None,
+            "evidence_requirement": "Keep all original governing evidence.",
+            "source_operations": [],
+        },
+    }
+
+
+def test_task_local_full_scope_without_source_gate_or_solver_gold():
+    from legal_skill_guard.learning.task_local import task_local_messages
+
+    row, labels, _ = fixture()
+    messages, schema, delivery = task_local_messages(row, labels, "Review.", [local_skill()], None)
+    body = json.loads(messages[1]["content"])
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(messages)
+    assert "annotation_sets" not in json.dumps(messages)
+    assert body["hypotheses"]["h1"]["applicable_published_skills"] == []
+    assert body["hypotheses"]["h2"]["applicable_published_skills"][0]["id"] == "archive"
+    assert body["hypotheses"]["h3"]["applicable_published_skills"] == []
+    for h in labels:
+        for branch in schema["properties"][h]["anyOf"]:
+            used = branch["properties"]["used_skill_ids"]
+            assert used["items"]["enum"] == ["archive"] if h == "h2" else used["maxItems"] == 0
+    assert list(body["hypotheses"]) == list(labels)
+    assert delivery["all17_tasks_remain_in_one_context_not_semantic_isolation"]
+    obsolete = local_skill()
+    obsolete["guidance"]["source_triggers"] = [["absent"]]
+    with pytest.raises(ValueError, match="obsolete routing"):
+        task_local_messages(row, labels, "Review.", [obsolete], None)
+
+
+def test_bounded_teacher_uses_actual_current_and_previous_parent_only():
+    from legal_skill_guard.learning.task_local import bounded_teacher_packet, task_local_messages
+    from legal_skill_guard.utils.hashing import canonical_json_sha256
+
+    row, labels, gold = fixture()
+    bank = [local_skill()]
+    training = [{**copy.deepcopy(row), "id": i, "batch": i} for i in range(1, 5)]
+    units = {}
+    for r in training:
+        _, _, delivery = task_local_messages(r, labels, "Review.", bank, None)
+        parsed = {h: {**g, "reason": "Observed.", "used_skill_ids": []} for h, g in gold.items()}
+        units[r["id"]] = {
+            "document_id": r["id"], "published_library": bank,
+            "published_library_sha256": canonical_json_sha256(bank),
+            "public_valid": True, "parsed": parsed,
+            "response": {"raw_id": f"r{r['id']}", "finish_reason": "stop", "content": json.dumps(parsed)},
+            "actual_factual_trace": {"ordinary_model_state": "M2", "proposals": None, "task_local_delivery": delivery},
+        }
+    packet = bounded_teacher_packet(training, 3, labels, bank, "M2", {3: units[3]}, {2: units[2]}, master_tokens=100, cap=4096)
+    assert packet["supplied_original_witness_ids"] == [2, 3]
+    cases = packet["original_cases_and_actual_same_parent_observations"]
+    assert [r["document_id"] for r in cases] == [2, 3]
+    assert all(r["original_annotations"] == gold for r in cases)
+    assert [r["observation_kind"] for r in cases] == ["previous_batch_after", "current_batch_before"]
+    assert all(len(rows) == 2 for rows in packet["hypothesis_indexed_original_feedback"].values())
+    units[3]["actual_factual_trace"]["ordinary_model_state"] = "stale"
+    with pytest.raises(ValueError, match="exact current parent"):
+        bounded_teacher_packet(training, 3, labels, bank, "M2", {3: units[3]}, {2: units[2]}, master_tokens=100, cap=4096)

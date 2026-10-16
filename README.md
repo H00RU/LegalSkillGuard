@@ -14,7 +14,10 @@ finished. The original8B service remains loaded and must not be restarted.
 The Goal remains active. Next is implementation of the
 [task-local complete online repair](docs/TASK_LOCAL_ONLINE_REPAIR_PLAN_20261016.md),
 not automatic deployment of this fixed-bank intervention or a claimed128-case run.
-The new online learner has NOT been implemented, frozen or launched yet.
+At17:54 its task-local presentation and bounded teacher-packet helpers are
+implemented, with32 permanent tests passing and no qualifying generation.
+The full learning orchestrator/configuration/CLI integration are not complete;
+the new online learner is NOT frozen or launched yet.
 
 Historical completed study and earlier live snapshots:
 

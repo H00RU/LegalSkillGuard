@@ -5,6 +5,24 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+17:54：已开始实际核心修复，不是仅计划。新增learning/task_local.py：完整技能内容直接置于
+对应公开命题旁，17题同一上下文一次输出；无字面case gate、无source_triggers残留字段，
+used_skill_ids原生限公开scope但允许空，choice/spans仍律师自己决定；机械list_preamble非法律判定。
+bounded_teacher_packet只拿当前before+上一批after完整原案/Gold/真实同父观察，拒绝错bank/tool/交付元数据，
+原源/公开答/候选各存一次、命题索引只引用；旧全历史仍归档，不伪称全部进入请求。
+32项永久边界测试1.20秒通过，0新律师/教师调用。当前仅2核心helper，完整TaskLocalStudy、数据prepare、
+新配置/CLI、完整148/5排程、审计/计费/报告/冻结/启动仍待实现；不要误报训练已重启。
+
+原完整56/7学习＋26/0交付、130wire与2210逐题分析、新计划在改核心之前已独立全量保全：
+legal-complete-source-audit56-plus-delivery26-before-task-local-repair-20261016.tar.gz，SHA256
+8ea38df0818a1b67ad45794f9b9afa5ffb4cb15c40ed4474e42c602407188a30，2909常规文件、
+HEAD012be8dacb09a58f0f5f9df336a8f5c9b186142d，全部494输入及Git bundle逐字核验。
+此为standalone非增量，同vdb非异机/遗失权重备份；原8B PID2261314仍活，绝不可重启/换模型。
+下一直接实现完整新在线主链并快检后冻结备份后台启动，不再拿固定M4或B1探针拖延。
+Goal仍active，已确认收益小/有损害，尚不能声称稳定显著、胜强空库或成熟方法。
+
+### 17:42完整交付结论与新方法计划（历史）
+
 17:42：26源干预已17:34:20完整结束，PID31299已退出；目前无训练生成worker，原8B服务仍在。
 独立analyse.py对130原生/原作者全文/Gold/2210逐题集合重算一致，494原冻结输入不改，全部原答有效。
 online18：full84.97/60.43/53.27%，filtered82.68/58.26/52.61%，ordinary79.74/59.66/47.71%。

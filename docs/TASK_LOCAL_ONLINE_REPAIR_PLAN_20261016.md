@@ -1,6 +1,9 @@
 # Next complete online repair — implementation plan, not a result
 
-Status: NOT IMPLEMENTED OR LAUNCHED. This records the next authorized Goal step.
+Status17:54: task-local presentation and bounded teacher-packet helpers are
+implemented and pass permanent zero-generation boundary tests. The complete
+learner, configuration, CLI integration, freeze and launch are NOT complete.
+This records the next authorized Goal step, not an already running experiment.
 The ContractNLI task, original labels/SPAN scoring, frozen existing Qwen3-8B,
 gpt-5.6-sol/high teacher and online external-skill learning remain unchanged.
 No new model, paid API, client, runtime planner/judge/fallback or answer repair.
