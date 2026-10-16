@@ -5,6 +5,37 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+06:19真实现状：support/refute Run02已于06:14:17 completed12/0，PID1204974消失；
+anchored Run01于06:14:17自动取得同GPU锁开始native，PID1221429live，当前完成5/24、
+1/1教师，290/examples_only运行中；原8B2261314未重启。前5均实际stop、Schema有效，
+与前瞻请求/原始wire/token数/实际新库及factual trace一致，418绑定未动，未评分新正确率。
+新study并非正式主训练／独立学习／TFGRPO组内探索；4条件是内容机制消融，不是4次
+探索后给教师选好轨迹。接下来poll同PID，保持all24齐后评分，不看首案成绩挑结果。
+
+support/refute四格已按原作者原集合独立重数24实际native（旧12+新12），无original_score
+复用，438绑定：monitoring/complete12_actual24_wire_and_original_author_manual_sets_negative_execution_audit.json。
+原ABI ordinary73.53/69.23/51.96，skill74.51/63.29/50.98%；新ABI ordinary78.43/
+66.67/53.92，skill75.49/58.90/56.86（accuracy/spanF1/joint）。新ABI skill对ordinary
+联合+3题，但NM+7、NN-4；真2增12丢。C正确6→3（old8→4）。通用两bool没有解决
+C→NM/证据问题，不进入主方法；不能以联合+2.94pp声称取证进步。新12用125618prompt/
+27645out，失败旧8另90897/17876，总20次216515/45521，更多上游成本仍单列，不免费。
+
+anchored唯一新教师已于06:12:14完成，actual sequence1371/attempt1/fresh/noTools，
+52.239秒，146596input/2978out（reason1513包含、cached0）。实际wire/event/finalJSON/
+value/pub/hash/usage已独立核验。自动4CREATE、4记录20例（不是硬设4类）；全库全文已读，
+master2907/scoped3193（cap4096），procedures1145/1431、examples1957/2243、empty1/111。
+全24完整数据/候选/源/各分支原四字段ABI/引用/三内容投影/上下文重新核验；最长joint
+22525+8192=30717，实际phase绑定418。
+审计monitoring/actual_teacher_event_value_all20_examples_four_projections24_inputs_and_full_backup_audit.json。
+教师原18源/199候选例/18 own公共答案另有input audit，非语义正确性证明。
+
+worker已在首次native前独立保全全部实际教师、出版库、24输入和原source/Git：
+legal_contractnli_evidence_anchored_skill_mechanism_20261017_run01-actual-teacher-before-native.tar.gz，
+SHA2567c6f8104464b64b33c4c1daa356cc6ab90b250cbd1cc3789e92a7599a4b9dc9f，423成员，
+prelaunchGit825bf3f4c4097eec8ac2f53302fdc8805c12f99b，已经逐成员重新核验。
+收据actual_teacher_and24_inputs_preserved_before_native.json。下一保全完整负面12终态及
+新bank/24输入/已完成prefix5，再继续看后续全部合同。新方法效果仍未知；Goal全文未达。
+
 06:11:21 anchored mechanism Run01已真实后台launch，PID1221429；06:11:22已核验
 worker Ssl/progress running teacher，实际attempt1、558899chars、native0/24、teacher0/1。
 现有gpt-5.6-sol/high调用开始；并非已经教师完成/技能发布或正式训练重启。
