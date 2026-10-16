@@ -1405,3 +1405,65 @@ def test_direct_source_program_feedback_covers_all_tasks_and_preserves_extra_mem
     del delivery["source_program_executions"]["h1"]
     with pytest.raises(ValueError, match="every public-task receipt"):
         program_member_feedback(unit, row, labels)
+
+
+def program_feedback_fixture():
+    from legal_skill_guard.learning.source_programs import program_member_feedback, source_program_messages
+    from legal_skill_guard.learning.task_local import task_local_messages
+
+    row, labels, gold = fixture()
+    bank = [source_program_skill()]
+    messages, _, trace = task_local_messages(row, labels, "Original.", [], None)
+    _, delivery = source_program_messages(messages, trace, row, bank, labels, system="Original.")
+    unit = {"published_library": bank, "response": {"raw_id": "synthetic"}, "actual_factual_trace": {"task_local_delivery": delivery}}
+    return {"complete_actual_parent_library": bank,
+        "original_cases_and_actual_same_parent_observations": [{"document_id": row["id"],
+            "full_source": row["text"], "original_annotations": gold,
+            "actual_factual_source_operations": delivery["actual_source_operations"]}],
+        "actual_parent_source_program_member_feedback": [program_member_feedback(unit, row, labels)]}
+
+
+def test_program_teacher_receipts_one_copy_and_full_original_byte_roundtrip():
+    from legal_skill_guard.learning.source_programs import pack_program_feedback, unpack_program_feedback
+
+    body = program_feedback_fixture()
+    original = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
+    packed = pack_program_feedback(body)
+    assert json.dumps(body, ensure_ascii=False, separators=(",", ":")) == original
+    assert json.dumps(unpack_program_feedback(packed), ensure_ascii=False, separators=(",", ":")) == original
+    catalog = packed["actual_parent_source_program_receipt_catalog"]
+    assert len(catalog) == 2
+    assert all("actual_query_arguments" not in r["actual_receipt"] for r in catalog.values())
+    case = packed["original_cases_and_actual_same_parent_observations"][0]
+    feedback = packed["actual_parent_source_program_member_feedback"][0]["all_original_hypotheses"]["h2"]
+    assert case["actual_factual_source_operations"]["h2"]["source_query_receipts"] == feedback["actual_source_receipts"]
+    with pytest.raises(ValueError, match="only once"):
+        pack_program_feedback(packed)
+
+
+@pytest.mark.parametrize("damage", ["arguments", "duplicate", "cross_source", "dangling"])
+def test_program_teacher_receipts_reject_inexact_execution_identity(damage):
+    from legal_skill_guard.learning.source_programs import pack_program_feedback, unpack_program_feedback
+
+    body = program_feedback_fixture()
+    if damage in ("arguments", "duplicate"):
+        receipt = body["actual_parent_source_program_member_feedback"][0]["all_original_hypotheses"]["h2"]["actual_source_receipts"][0]
+        if damage == "arguments":
+            receipt["actual_query_arguments"] = {"invented": True}
+        else:
+            # Break only this view, without mutating the other shared Python object.
+            feedback = body["actual_parent_source_program_member_feedback"][0]["all_original_hypotheses"]["h2"]
+            feedback["actual_source_receipts"] = copy.deepcopy(feedback["actual_source_receipts"])
+            altered = copy.deepcopy(receipt)
+            altered["matched_original_span_indices"] = [99]
+            feedback["actual_source_receipts"][0] = altered
+        with pytest.raises(ValueError):
+            pack_program_feedback(body)
+    else:
+        packed = pack_program_feedback(body)
+        if damage == "cross_source":
+            packed["actual_parent_source_program_receipt_catalog"]["r0"]["document_id"] = 999
+        else:
+            del packed["actual_parent_source_program_receipt_catalog"]["r0"]
+        with pytest.raises(ValueError):
+            unpack_program_feedback(packed)

@@ -30,9 +30,25 @@ from .publication import (
     publication_statistics,
     skill_record_schema,
 )
-from .task_local import bounded_teacher_packet, task_skill_projection
+from .task_local import SOURCE_PROGRAM_CONTINUATION, bounded_teacher_packet, task_skill_projection
 
 PROGRAM_FIELDS = ("inspection", "source_queries")
+RECEIPT_ENCODING = "one_copy_actual_query_receipts_v1"
+RECEIPT_FIELDS = (
+    "skill_id", "query_index", "actual_query_arguments", "matched_original_span_indices",
+    "possible_list_preamble_links", "returned_original_span_indices",
+)
+RECEIPT_LEGEND = (
+    "Teacher-only lossless actual-query-receipt references. Each receipt_ref resolves "
+    "to actual_parent_source_program_receipt_catalog, whose named record identifies "
+    "the original document_id and complete actual_receipt. Restore its "
+    "actual_query_arguments from complete_actual_parent_library[skill_id].guidance."
+    "source_queries[query_index] (skill_id is an ID lookup, not an array index). "
+    "Repeated references preserve repeated views of the SAME actual execution, "
+    "not additional executions. All original sources, Gold, native answers, "
+    "successes/failures, receipt order, empty hits, list links and member comparisons "
+    "are unchanged and retained; no receipt is filtered for relevance or utility."
+)
 TERMS = {"type": "array", "maxItems": 32, "items": {"type": "string", "minLength": 1, "maxLength": 256}}
 DIRECT_QUERY_SCHEMA = {
     "type": "object", "additionalProperties": False,
@@ -225,6 +241,89 @@ def program_member_feedback(unit, row, labels):
         "all_original_hypotheses": feedback, "descriptive_query_coverage_not_native_answer_utility_or_semantic_gate": True}
 
 
+def _map_feedback_receipts(body, transform):
+    """Visit only the two existing named views of actual program executions."""
+    for case in body["original_cases_and_actual_same_parent_observations"]:
+        for operation in case["actual_factual_source_operations"].values():
+            if "source_query_receipts" in operation:
+                operation["source_query_receipts"] = transform(case["document_id"], operation["source_query_receipts"])
+    for case in body["actual_parent_source_program_member_feedback"]:
+        for feedback in case["all_original_hypotheses"].values():
+            feedback["actual_source_receipts"] = transform(case["document_id"], feedback["actual_source_receipts"])
+
+
+def pack_program_feedback(body):
+    """One named actual receipt per source/skill/query, without dropping a view."""
+    if "source_program_feedback_encoding" in body or "actual_parent_source_program_receipt_catalog" in body:
+        raise ValueError("Program feedback may be encoded only once")
+    catalog, lookup = {}, {}
+    packed = {"source_program_feedback_encoding": {"name": RECEIPT_ENCODING, "resolution": RECEIPT_LEGEND},
+        "actual_parent_source_program_receipt_catalog": catalog, **copy.deepcopy(body)}
+    parent = {s["id"]: s for s in body["complete_actual_parent_library"]}
+
+    def refs(document_id, receipts):
+        result = []
+        for receipt in receipts:
+            if tuple(receipt) != RECEIPT_FIELDS:
+                raise ValueError("Unexpected actual program receipt fields/order")
+            sid, index = receipt["skill_id"], receipt["query_index"]
+            if sid not in parent or type(index) is not int or not 0 <= index < len(parent[sid]["guidance"]["source_queries"]):
+                raise ValueError("Actual receipt must resolve to the exact parent query")
+            if receipt["actual_query_arguments"] != parent[sid]["guidance"]["source_queries"][index]:
+                raise ValueError("Actual arguments differ from the published parent query")
+            key = (document_id, sid, index)
+            value = {"document_id": document_id, "actual_receipt": {k: v for k, v in receipt.items() if k != "actual_query_arguments"}}
+            if key not in lookup:
+                lookup[key] = f"r{len(catalog)}"
+                catalog[lookup[key]] = copy.deepcopy(value)
+            elif catalog[lookup[key]] != value:
+                raise ValueError("Conflicting duplicate actual execution receipt")
+            result.append({"receipt_ref": lookup[key]})
+        return result
+
+    _map_feedback_receipts(packed, refs)
+    decoded = unpack_program_feedback(packed)
+    if json.dumps(decoded, ensure_ascii=False, separators=(",", ":")) != json.dumps(body, ensure_ascii=False, separators=(",", ":")):
+        raise ValueError("Complete teacher feedback did not round-trip byte-identically")
+    return packed
+
+
+def unpack_program_feedback(packed):
+    body = copy.deepcopy(packed)
+    if body.pop("source_program_feedback_encoding") != {"name": RECEIPT_ENCODING, "resolution": RECEIPT_LEGEND}:
+        raise ValueError("Unknown actual-receipt reference encoding")
+    catalog = body.pop("actual_parent_source_program_receipt_catalog")
+    parent = {s["id"]: s for s in body["complete_actual_parent_library"]}
+    used, identities = set(), set()
+    for record in catalog.values():
+        receipt = record["actual_receipt"]
+        key = (record["document_id"], receipt["skill_id"], receipt["query_index"])
+        if key in identities:
+            raise ValueError("Duplicate source/skill/query identity in receipt catalog")
+        identities.add(key)
+
+    def expand(document_id, refs):
+        receipts = []
+        for ref in refs:
+            if set(ref) != {"receipt_ref"} or ref["receipt_ref"] not in catalog:
+                raise ValueError("Unresolvable actual-receipt reference")
+            rid = ref["receipt_ref"]
+            record = catalog[rid]
+            if record["document_id"] != document_id:
+                raise ValueError("Receipt reference crosses original source identity")
+            value = record["actual_receipt"]
+            sid, index = value["skill_id"], value["query_index"]
+            receipt = {k: copy.deepcopy(parent[sid]["guidance"]["source_queries"][index] if k == "actual_query_arguments" else value[k]) for k in RECEIPT_FIELDS}
+            receipts.append(receipt)
+            used.add(rid)
+        return receipts
+
+    _map_feedback_receipts(body, expand)
+    if used != set(catalog):
+        raise ValueError("Unreferenced actual-receipt catalog entries")
+    return body
+
+
 class SourceProgramStudy(LiteralEvidenceStudy):
     def __init__(self, config_path, *, run_id=None):
         super().__init__(config_path, run_id=run_id)
@@ -232,8 +331,12 @@ class SourceProgramStudy(LiteralEvidenceStudy):
             "source_acquisition_programs_v2", "one_copy_named_source_programs_v2", "source_acquisition_program_v2"
         ):
             raise ValueError("Explicit minimal one-copy v2 required; historical v1 needs its frozen source")
-        if self.cfg.get("static_public_reference") or self.cfg.get("continuation_parent"):
+        if self.cfg.get("static_public_reference") or (
+            self.cfg.get("continuation_parent") and self.cfg.get("continuation_kind") != SOURCE_PROGRAM_CONTINUATION
+        ):
             raise ValueError("Own empty learning and own public-only program control required")
+        if self.cfg.get("teacher_program_receipt_encoding") not in (None, RECEIPT_ENCODING):
+            raise ValueError("Unknown declared actual-receipt transport")
 
     def make_payload(self, arm, row, bank, model, state):
         messages, schema, plan, trace = super().make_payload(arm, row, [], model, state)
@@ -269,9 +372,10 @@ class SourceProgramStudy(LiteralEvidenceStudy):
         }})
         self.static = value["library"]
         tokens = self.validate_library(self.static)
+        inherited = any(t["name"] == "static_public_task_only" for t in self.inherited_teachers)
         RunStore.immutable_json(self.out / "static_procedures.json", {"library": self.static, **tokens,
-            "fresh_public_task_only_control_no_cases_gold_or_observations": True,
-            "explicit_historical_public_only_static_reference": False, "same_direct_query_API_and_one_copy_named_guidance_as_main": True})
+            "fresh_public_task_only_control_no_cases_gold_or_observations": not inherited,
+            "explicit_historical_public_only_static_reference": inherited, "same_direct_query_API_and_one_copy_named_guidance_as_main": True})
 
     def update(self, batch):
         tokens = self.validate_library(self.bank)
@@ -288,7 +392,12 @@ class SourceProgramStudy(LiteralEvidenceStudy):
         body["actual_parent_source_program_member_feedback"] = [program_member_feedback(
             self.before[row["id"]] if row["batch"] == batch else self.after[row["id"]], row, self.labels) for row in rows]
         schema = differential_schema(self.labels, self.bank, body["supplied_original_witness_ids"], guidance_schema=PROGRAM_GUIDANCE_SCHEMA)
-        value = self.teacher_call(f"task_local_b{batch}", PROGRAM_TEACHER, body, schema)
+        name = f"task_local_b{batch}"
+        inherited = name in self.prefix_teachers
+        # Historical M1 is replayed against its exact original, unencoded wire.
+        # New editors use the explicitly declared transport, never a cap fallback.
+        packet = pack_program_feedback(body) if self.cfg.get("teacher_program_receipt_encoding") == RECEIPT_ENCODING and not inherited else body
+        value = self.teacher_call(name, PROGRAM_TEACHER, packet, schema)
         published = apply_differential_publication(self.bank, value, self.labels, body["supplied_original_witness_ids"], guidance_schema=PROGRAM_GUIDANCE_SCHEMA)
         capacity = self.validate_library(published)
         stats = {**publication_statistics(self.bank, value, published, capacity["master_tokens"]), "serialized_scoped_delivery_tokens": capacity["scoped_delivery_tokens"]}
@@ -296,7 +405,8 @@ class SourceProgramStudy(LiteralEvidenceStudy):
             "actual_parent": self.bank, "actual_teacher_value": value, "publication": published, "management": stats,
             "source_case_ids": body["supplied_original_witness_ids"], "all_valid_changes_published_without_efficacy_gate": True,
             "actual_current_and_previous_same_parent_window_not_full_cumulative_raw_history": True,
-            "no_fixed_skill_count_growth_deletion_or_best_bank_selection": True, "new_teacher_invocation_for_this_edit": True,
+            "no_fixed_skill_count_growth_deletion_or_best_bank_selection": True, "new_teacher_invocation_for_this_edit": not inherited,
+            "teacher_program_receipt_encoding": RECEIPT_ENCODING if packet is not body else "original_unshared_receipts_v2",
             "teacher_publication_format": "source_acquisition_programs_v2", "skill_delivery_encoding": "one_copy_named_source_programs_v2",
             "no_query_coefficient_fit_or_native_answer_rewrite": True})
         return published, stats

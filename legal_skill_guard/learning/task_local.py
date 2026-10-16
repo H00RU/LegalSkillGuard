@@ -55,6 +55,7 @@ LOCAL_GUIDANCE_SCHEMA["properties"]["source_operations"] = {
 SEMANTIC_FIELDS = tuple(BOUNDARY_GUIDANCE_SCHEMA["required"])
 ARMS = ("strong_empty", "ordinary_memory", "unconditional_layout", "static_procedures", "skill_memory")
 PREFIX_ARMS = tuple(a for a in ARMS if a != "static_procedures")
+SOURCE_PROGRAM_CONTINUATION = "explicit_B2_before_editor_source_program_reference_packing_v2"
 LOCAL_INSTRUCTION = (
     " Work through the supplied public hypotheses. Each question contains its "
     "own complete applicable skill records and fallible source candidates. All "
@@ -348,6 +349,8 @@ def prepare_task_local_inputs(cfg):
         parent = ROOT / cfg["continuation_parent"]
         parent_config = ROOT / cfg["continuation_parent_config"]
         paths += [parent_config, parent_config.with_suffix(".frozen.json")]
+        if "method_protocol" in read(parent_config):
+            paths.append(ROOT / read(parent_config)["method_protocol"])
         paths += sorted(p for p in parent.rglob("*.json") if p.is_file())
     if cfg.get("static_public_reference"):
         if (
@@ -399,8 +402,16 @@ class TaskLocalStudy(Comparison):
             parent = ROOT / self.cfg["continuation_parent"]
             old = read(ROOT / self.cfg["continuation_parent_config"])
             failure = read(parent / "failure.json")
+            kind = self.cfg.get("continuation_kind")
+            if kind == SOURCE_PROGRAM_CONTINUATION and (
+                self.cfg.get("teacher_publication_format") != "source_acquisition_programs_v2"
+                or self.cfg.get("skill_delivery_encoding") != "one_copy_named_source_programs_v2"
+                or self.cfg.get("teacher_program_receipt_encoding") != "one_copy_actual_query_receipts_v1"
+                or old.get("teacher_program_receipt_encoding") is not None
+            ):
+                raise ValueError("Explicit source-program receipt transport change required")
             if (
-                self.cfg.get("continuation_kind") != "explicit_B2_before_editor_hidden_vector_packing_repair_v1"
+                kind not in ("explicit_B2_before_editor_hidden_vector_packing_repair_v1", SOURCE_PROGRAM_CONTINUATION)
                 or (self.cfg.get("planned_inherited_native_calls"), self.cfg.get("planned_inherited_teacher_calls")) != (36, 2)
                 or failure["error"] != "ValueError('Complete teacher input exceeds character capacity; never truncate')"
                 or (failure["completed_native_calls"], failure["completed_teacher_calls"], failure["teacher_attempts"], failure["current_batch"]) != (36, 2, 2, 2)
@@ -412,6 +423,10 @@ class TaskLocalStudy(Comparison):
             for key in ("generation", "teacher", "bundled_solver_system", "library_token_hard_cap", "input_packet", "grading_only", "preselection", "training_ids", "expected_later_ids", "source_archive", "source_archive_sha256", "reference_training_run", "memory_representation", "teacher_feedback"):
                 if self.cfg[key] != old[key]:
                     raise ValueError("Prefix reuse changed an inference/data condition: " + key)
+            if kind == SOURCE_PROGRAM_CONTINUATION:
+                for key in ("teacher_publication_format", "skill_delivery_encoding", "candidate_source_view", "teacher_feedback_view", "teacher_packet_encoding", "static_control_policy"):
+                    if self.cfg[key] != old[key]:
+                        raise ValueError("Source-program prefix changed a runtime/learning condition: " + key)
             for path in sorted(parent.glob("batch*_*/*/*.public.json")):
                 unit = read(path)
                 key = (unit["stage"], unit["arm"], unit["document_id"])

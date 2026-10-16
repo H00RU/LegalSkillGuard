@@ -5,6 +5,27 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+02:26最新：source-program Run02已02:08:41真实FAILED，36原生/2教师/2尝试，
+M2请求尚未提交，B2after/B3未运行。完整B2主80.39/48.78/43.14%，普通
+80.39/49.25/44.12%，没有净提升；完整B1after89.22/89.74/77.45%不是跨案或纯技能效果。
+父worker801943/monitor812418均已退出，原8B2261314仍live，不重启/切换/下载。
+失败现场全部65原绑定及终态36/2已在改源前独立备份200文件+完整Git HEAD
+0901d1ed9614a69d8cf9b8dc602e0074311e589c，archive
+legal-source-program-v2-terminal36-M2-capacity-all65-before-packing-20261017.tar.gz，SHA256
+89a911a847e003c76bb3607457f42a6de116ccbb25aa07fd4bf1fc6eb8a48a52；同vdb非异机/权重/auth备份。
+
+修复只把同一原源/skill/query回执在教师包中命名存一次，两个逐题视图保持全部有序引用，
+精确参数从完整父库还原；全12源/204标签/261 Gold成员/1704视图引用逐字往返相等。
+实际完整rendered prompt1,192,155→726,344 chars，cap仍1,048,576，未裁剪/筛错/改Gold。
+这仅恢复执行，不证明语义效果或教师行为不变；律师侧执行/提示、教师系统文本AST与原前缀相同。
+65项0生成检查7.34秒和生产Ruff通过。新显式continuation Run03配置已冻结，尚未launch；
+计划112新原生/3新教师+36历史原生/2历史教师，全lineage148/5/166/18，不是独立学习重复。
+默认CLI配置为configs/contractnli_source_programs_completion.json。M1/static按原wire精确重放，
+仅新M2--M4用已声明receipt编码；不重跑B1，不重置额度、不加cap/fallback/准入/答案补写。
+后续先实际后台launch并审M2/B3；稳定跨合同收益/成熟公平对照/独立重复/消融/正式TEST仍未达标。
+Goal保持active。本轮截至此是终态证据保全、明确冗余根因、实际编码修复/逐字核验和冻结的progress，
+不是仅复述状态；下方01:54“live”等为历史状态，不能冒充当前。
+
 01:54当前真实B2首遇20/148原生、2/5教师/2尝试（static1+M1），主801943/监控812418/
 原8B2261314均live。未读/报告部分B2分数，B2完整后看monitoring/independent_B2_before.json，
 M2返回后运行本Run audit_teacher.py 2，不改65冻结生产输入或活监控的注册脚本。

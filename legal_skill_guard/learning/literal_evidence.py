@@ -18,6 +18,7 @@ from .publication import apply_differential_publication, differential_schema, pu
 from .task_local import (
     LOCAL_GUIDANCE_SCHEMA,
     LOCAL_TEACHER_SYSTEM,
+    SOURCE_PROGRAM_CONTINUATION,
     TaskLocalStudy,
     bounded_teacher_packet,
     task_local_messages,
@@ -114,7 +115,9 @@ class LiteralEvidenceStudy(TaskLocalStudy):
 
     def __init__(self, config_path, *, run_id=None):
         super().__init__(config_path, run_id=run_id)
-        if self.cfg.get("candidate_source_view") != "literal_original_span_v1" or self.cfg.get("teacher_feedback_view") != "literal_evidence_comparisons_v1" or self.cfg.get("continuation_parent"):
+        if self.cfg.get("candidate_source_view") != "literal_original_span_v1" or self.cfg.get("teacher_feedback_view") != "literal_evidence_comparisons_v1" or (
+            self.cfg.get("continuation_parent") and self.cfg.get("continuation_kind") != SOURCE_PROGRAM_CONTINUATION
+        ):
             raise ValueError("Fresh own learning and explicit literal evidence views required")
         if self.cfg.get("static_public_reference"):
             if self.cfg.get("static_control_policy") != "fixed_public_only_reference_v1" or self.cfg.get("planned_inherited_native_calls", 0) != 0 or self.cfg.get("planned_inherited_teacher_calls") != 1 or self.cfg["planned_new_teacher_calls"] != 4:
