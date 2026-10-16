@@ -5,6 +5,19 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+07:55 contextual Run03已prepare，尚未launch。明确承接Run02实际1373首次教师，不
+重问同输入，不冒称新调用或缓存命中；只计划后一次新教师，40新native/1新教师＋
+1已付继承教师。实际原始teacher输入/schema/value未重写；原4技能、完整416源60SPAN、
+10原标注答案/三类及所有引用对均不变，仅冗余引用键无损转Hn:nda-k；master3778/
+scoped4058。下一教师单案source成本已改为计入实际PAST H1标记开销，不以原便宜
+SPAN标记低估。全部16无技能和首8有技能完整上下文已测，最长14767+8192=22959。
+542源冻结绑定、继承wire/value/原源/同案隔离/相同16预选独立核验；0新模型调用。
+Run02完整0native/1教师及528源已独立保全531项目文件/full Git dbe1c8f6b639da4816952580139a112bae142895，
+legal-contextual-failed0native1teacher-all528-before-compact-source-20261017.tar.gz，SHA
+34e69080dfab97a3c5f182088d0b6feaeeea81bd3843eb2cccdcf2f3294a8baf；收据
+artifacts/contextual_failed0native1teacher_all528_before_compact_continuation_backup_20261017.json。
+当前无实验worker、原8B未动；下一commit和全542独立归档后launch，仍无新的指标结论。
+
 07:50真实修正：contextual Run02已于07:45:50 failed0新native/1教师，PID1361117
 消失；原8B未动。不是仍在训练。实际教师1373成功、52.708秒、255200input/3085out
 （reason2200包含、cached0/noTools），四UPDATE、4技能，10命题示范共享完整416源。
