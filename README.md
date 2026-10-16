@@ -18,14 +18,21 @@ intervention is NOT deployed. All40 diagnostic wires and40 parent endpoint wires
 were independently matched to original author source/Gold and manual set scores;
 all296 frozen bindings were unchanged at termination. Both workers have exited.
 
-The next bounded study is prepared, NOT yet launched:
-`legal_contractnli_typed_execution_20261016_run01`. It compares identical compiled
+The conditional-execution compiler study `legal_contractnli_typed_execution_20261016_run01`
+stopped13:49:37 with0 lawyer/1 teacher: its full5633-token translation exceeded4096.
+The failure, full translation and cost remain unchanged; no lawyer answer exists.
+A lossless continuation is prepared, NOT yet launched:
+`legal_contractnli_typed_execution_completion_20261016_run01`. It compares identical compiled
 conditional knowledge with advisory versus native branch/label consistency, and
 an equal-call factual-operation-only control. The lawyer selects the branch from
 the source; the host cannot establish its truth or repair an answer. Planned24
-new lawyer/1 teacher calls on the same8 exposed development sources, plus32
+new lawyer/0 new teacher,1 explicitly inherited teacher on the same8 exposed sources, plus32
 explicit parent references. No new runtime agent or production change. Its
 run-local protocol/driver are archived, and no winner is automatically deployed.
+Only repeated JSON keys, derived branch IDs/exact prefixes and constant nulls
+are factored: the full4075-token table decodes to every original field/string,
+with all16 skills/28 branches and unchanged4096 limit. No knowledge truncation,
+new teacher retry, task score or automatic bank selection.
 
 ## Completed source-conditioned predecessor (historical)
 
