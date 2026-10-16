@@ -275,6 +275,8 @@ def prepare_conditioned_inputs(cfg):
             raise ValueError("Original later source identity mismatch")
     main, final = (ROOT / cfg[k] for k in ("reference_training_run", "reference_final_run"))
     bindings = [ROOT / cfg["source_archive"]]
+    if "parent_protocol" in cfg:
+        bindings.append(ROOT / cfg["parent_protocol"])
     for batch in range(1, 5):
         manifest_path = main / "evidence_models" / f"ordinary_M{batch}.manifest.json"
         manifest = read(manifest_path)
@@ -379,10 +381,9 @@ class ConditionedStudy(ProcedureStudy):
             normalized = [tuple(_tokens(p) for p in group) for group in groups]
             if any(not tokens for group in normalized for tokens in group):
                 raise ValueError("Empty normalized source trigger")
-            if len(set(normalized)) != len(normalized) or any(
-                len(set(g)) != len(g) for g in normalized
-            ):
-                raise ValueError("Duplicate trigger groups or phrases; no repair")
+            # OR/AND are idempotent: inflection alternatives may normalize to
+            # the same cue. Retain them verbatim, charge their full tokens and
+            # record every result; they are neither invalid nor repaired.
             ops = skill["guidance"]["source_operations"]
             if len(set(ops)) != len(ops):
                 raise ValueError("Duplicate source operations")

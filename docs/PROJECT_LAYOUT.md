@@ -16,12 +16,13 @@
 
 ## 当前后台工作
 
-当前唯一实验worker：`legal_contractnli_source_conditioned_learning_20261016_run01`，PID3574225，
-10月16日09:40:04后台启动；同24原TRAIN/四批6，90新律师/5教师，另76明确历史逻辑引用。
+当前唯一实验worker：`legal_contractnli_source_conditioned_learning_20261016_run02`，PID3582024，
+10月16日09:45:00后台启动；同24原TRAIN/四批6，90新律师/5教师，另76明确历史逻辑引用。
 `learning/conditioned.py`是来源资格触发＋事实列表定位的完整在线链；CRUD无配额/效果准入。
-无技能同定位控制分离工具与学习，完整协议[SOURCE_CONDITIONED_MEMORY](SOURCE_CONDITIONED_MEMORY.md)。
-默认CLI status已指本Run；176绑定在worker退出前不可修改，原8B2261314不动。
+无技能同定位控制分离工具与学习，完整协议[SOURCE_CONDITIONED_MEMORY_RUN02](SOURCE_CONDITIONED_MEMORY_RUN02.md)。
+默认CLI status已指本Run；177绑定在worker退出前不可修改，原8B2261314不动。
 先前232完整原生答/42教师及修改前源码已同vdb保全，SHA见CURRENT_GOAL。
+run01于09:41:28工程失败，0律师/1教师，因多余归一化重复检查；合法备选现在原样执行，不修补结果。
 
 ### 已完成前序（下述时间不代表当前状态）
 

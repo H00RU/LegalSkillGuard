@@ -291,7 +291,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["prepare", "launch", "worker", "status", "report"])
     parser.add_argument(
-        "--config", type=Path, default=ROOT / "configs/contractnli_source_conditioned.json"
+        "--config", type=Path, default=ROOT / "configs/contractnli_source_conditioned_run02.json"
     )
     parser.add_argument("--run-id")
     parser.add_argument(
