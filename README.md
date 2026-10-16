@@ -1,5 +1,22 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Latest23:13 CST: literal run02 FAILED23:08:17; worker440562 exited after96
+native/4 new main teachers. Rejected M4 is23 records,3441 master/4109 delivered
+tokens against4096. No pruning, cap change, b4 publication, B4-after, retention
+or endpoint. Full12-source M4 feedback and actual proposal/cost independently
+replayed; all66 bound files remain unchanged. B4 first encounters are complete:
+main77.45/72.97/60.78%, ordinary78.43/75.17/59.80%, NN exact31 each.
+
+Controller diagnostic run01 also exited with0 native/0 teacher because its
+unrelated complete148 prerequisite was unmet. NEW span-centric diagnostic run02
+is prepared, NOT yet launched, with91 bindings and the same six B3 sources/three
+arms/18 native calls. Requires actual terminal96/4 and independently complete
+B3, not B4 completion. Source M4 proposal never enters its fixed-M2 inference.
+Next back up terminal96/M4 and this new source, then launch. The unsupported
+witness62/86 draft has no complete reference source and must not be run.
+
+Historical23:03 checkpoint:
+
 Current23:03 CST: literal run02 PID440562 is truly running B4 first encounters,
 93/148 new native and3/4 new main teachers plus1 fixed historical static artifact.
 Complete B3 is independently audited: first encounters main84.31/61.73/44.12%
