@@ -728,3 +728,10 @@ ACE-empty对旧同工具分类净+6，374贡献+3、其余七源共+3；TP净+10
 也已逐字审查：term坐标和所在句并非完整原Gold SPAN，分句依赖pickle、源码声明AGPL。
 未复制代码、安装依赖、下载模型或改变license，只保留来源引用到术语定义的机制候选。
 审查hash在消融Run/monitoring/primary_definition_locator_code_review。不是已新增解析层或论文收益。
+
+08:47:29实查消融同PID3439428存活，12/26、0教师，B4首案430；未读部分答案/Gold，没有重复worker。
+完整ACE52/28加此前154/14，以及新消融源码与启动声明，已保全1082常规项目文件，HEAD3e4cff0。
+archive legal-ACE-complete52-teacher28-ablation-source-20261016.tar.gz，SHA256
+6cbbcf9e22eb9bd30a8d119f7cd93f59ff82c43ade49189bd51784c51538b313，全部字节/gzip/全Git bundle核验。
+明确包括当前206物理答/42教师，排除正运行消融部分答（快照0、实际12），同vdb非异机/模型权重备份。
+收据在消融Run/monitoring/complete_ACE52_teacher28_and_ablation_source_backup_receipt。
