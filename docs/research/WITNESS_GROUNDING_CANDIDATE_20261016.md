@@ -87,24 +87,32 @@ positive metrics or an actual launched learner. Capacity evidence is in
 ## Updated decision and requirements before any deployment
 
 Full B2/B3 are now complete, not pending. The candidate is still NOT registered,
-frozen or launched. Fifty local checks passed in6.12 seconds; the new two cover
-exact86 no-learning reference slots and rejection of a live/partial source.
-These are code boundaries, NOT an efficacy result or remote teacher qualification.
-
-`configs/contractnli_witness_grounding.json` is an UNREGISTERED DRAFT. It proposes
-62 fresh main-path native answers,86 fixed complete literal-interface controls,
-4 new main editors and1 fixed public-only static artifact. No main answer,
-including B1 cold, is inherited. The source is current literal run02, fixed by
-identity rather than score. Source must finish148/166 and exit before use; every
-control must reconstruct the exact same request. Current CLI/prepare still do
-not support that draft: do not prepare/launch it through the old dispatch.
+frozen or launched. Fifty checks passed at an intermediate point, including two
+for a proposed86-control reference mechanism. That optional mechanism and its two
+tests have now been removed from production prototype code: its required source
+failed at96 calls and has no complete86 controls. The config/protocol moved out
+of formal configuration paths into `docs/research/prototypes/unsupported_witness_62_86_config_20261016.json`
+and `UNSUPPORTED_WITNESS_62_86_PROTOCOL_20261016.md`. They are historical unsupported
+designs, NOT a usable next learner. The176-line teacher-only candidate is restored
+verbatim to the source underlying the original48 checks/capacity receipt; no
+unused reference dispatcher remains. Original intermediate source is recoverable
+from Git f8c454d and independent archives. No active bound input was modified.
 
 Priority is now the separately registered18-call complete-B3 span-centric actor
 diagnostic, not another whole teacher-only learning run without execution evidence.
-Its run-local protocol/source wait for the current148 to finish and preserve
-the live66 bindings. If its runtime/output contract is selected, the above86
-literal-interface controls CANNOT be reused as same-wire controls. Revise the
-prospective design explicitly; never silently combine incompatible references.
+Controller run01 stopped with0 native/0 teacher after the unrelated B4 capacity
+failure. New diagnostic run02 instead verifies the actual terminal96/4 source
+and independently complete B3, retaining the same fixed M2/six sources/18 requests.
+If its runtime/output contract is selected, literal-interface controls CANNOT be
+called same-wire controls. Never silently combine incompatible references.
+
+M4's rejected proposal is23 records,3441 master/4109 scoped tokens versus4096.
+No bank was published or pruned. A no-generation serialization check retained
+every record/scope/word/conditional relation and round-tripped the projection,
+reducing actual-tokenizer input to3530 by sharing field-name column headers.
+This is NOT implemented in either native diagnostic or main runtime and is not
+a semantic/effectiveness claim. It addresses avoidable repeated metadata rather
+than raising the old budget or silently clipping13 tokens.
 
 We also re-executed the frozen legacy M2's45 source queries on all6 B3 sources,
 without models or fitting. Direct-hit union adds6 true members but41 extra false

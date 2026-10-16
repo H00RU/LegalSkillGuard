@@ -1,4 +1,11 @@
-# Witness-grounded online learner — unregistered draft, not a live protocol
+# Archived unsupported62/86 witness draft — do not execute
+
+Superseded23:20: the named literal source failed at96 native calls. Its complete
+86-control source does not exist. The optional reference helper and two associated
+tests were removed from the unused prototype; no active input changed. Original
+draft code/config is recoverable from Git f8c454d and independent source archives.
+The176-line teacher-only witness prototype remains unregistered and unproven.
+The text below records the abandoned design, NOT an executable protocol.
 
 2026-10-16. This teacher-only candidate is NOT CLI-registered, frozen or launched.
 Do not use the current CLI to prepare/launch its draft config. It is deferred

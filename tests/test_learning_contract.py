@@ -993,7 +993,14 @@ def test_task_local_complete_schedule_without_model_calls(tmp_path, monkeypatch,
         if name == "static_public_task_only":
             return {"library": []}
         teacher_windows.append(len(body["original_cases_and_actual_same_parent_observations"]))
-        return {"operations": [], "noop_reason": "Schedule simulation only."}
+        value = {"operations": [], "noop_reason": "Schedule simulation only."}
+        if witness_view:
+            cases = body["original_cases_and_actual_same_parent_observations"]
+            value["training_evidence_accounts"] = {
+                h: {str(c["document_id"]): {str(i): "Simulation only: original evidence function." for i in c["original_annotations"][h]["spans"]} for c in cases}
+                for h in labels
+            }
+        return value
 
     def native(dest, messages, schema, max_tokens, metadata):
         answer = {h: {**g, "reason": "Simulation.", "used_skill_ids": []} for h, g in gold.items()}
@@ -1177,13 +1184,13 @@ def witness_operation_fixture():
     candidate["hypothesis_ids"] = ["h1"]
     candidate["guidance"]["relation_if_established"] = "Contradiction"  # Deliberately conflicts with this Gold E.
     op = {"operation": "CREATE", "target_ids": [], "skill": candidate, "source_case_ids": [row["id"]], "rationale": "Fixture only.",
-          "witness_checks": [{"hypothesis_id": "h1", "cases": {str(row["id"]): {
+          "witness_checks": {str(row["id"]): {
               "source_condition_status": "established", "source_condition_evidence": [0],
               "brief_boundary_fact": "An inspectable source condition, not private reasoning.",
-              "gold_member_account": {str(i): "Original governing or operative support." for i in gold["h1"]["spans"]},
-          }}}]}
+          }}}
     assert not strict_output_schema_issues(witness_publication_schema(labels, [], [row]))
-    return row, labels, {"operations": [op], "noop_reason": None}
+    accounts = {h: {str(row["id"]): {str(i): "Original governing or operative support." for i in gold[h]["spans"]}} for h in labels}
+    return row, labels, {"training_evidence_accounts": accounts, "operations": [op], "noop_reason": None}
 
 
 def test_training_witness_disagreement_is_archived_but_never_a_semantic_admission_gate():
@@ -1199,7 +1206,7 @@ def test_training_witness_disagreement_is_archived_but_never_a_semantic_admissio
     assert "witness_checks" not in json.dumps(bank)
     assert len(audit["claimed_established_with_different_original_label"]) == 1
     assert audit["nonnull_records_without_claimed_same_label_positive_witness"] == [bank[0]["id"]]
-    assert audit["original_Gold_members_explicitly_accounted_not_proven_retrieved"] == 2
+    assert audit["original_Gold_members_explicitly_accounted_once_not_proven_retrieved"] == 3
 
 
 def test_training_witness_contract_binds_all_members_cases_scope_and_original_coordinates():
@@ -1208,45 +1215,72 @@ def test_training_witness_contract_binds_all_members_cases_scope_and_original_co
 
     row, labels, value = witness_operation_fixture()
     missing = copy.deepcopy(value)
-    del missing["operations"][0]["witness_checks"][0]["cases"][str(row["id"])]["gold_member_account"]["2"]
+    del missing["training_evidence_accounts"]["h1"][str(row["id"])]["2"]
     with pytest.raises(ValidationError):
         publish_with_training_witnesses([], missing, labels, [row])
     invalid = copy.deepcopy(value)
-    invalid["operations"][0]["witness_checks"][0]["cases"][str(row["id"])]["source_condition_evidence"] = [99]
+    invalid["operations"][0]["witness_checks"][str(row["id"])]["source_condition_evidence"] = [99]
     with pytest.raises(ValidationError):
         publish_with_training_witnesses([], invalid, labels, [row])
     incomplete = copy.deepcopy(value)
-    incomplete["operations"][0]["witness_checks"] = []
-    with pytest.raises(ValueError, match="exact published public scope"):
+    incomplete["operations"][0]["witness_checks"] = {}
+    with pytest.raises(ValueError, match="every supplied original source"):
         publish_with_training_witnesses([], incomplete, labels, [row])
-    noop = {"operations": [], "noop_reason": "No justified generic edit."}
-    assert publish_with_training_witnesses([], noop, labels, [row])[:2] == ([], noop)
+    noop = {"training_evidence_accounts": value["training_evidence_accounts"], "operations": [], "noop_reason": "No justified generic edit."}
+    assert publish_with_training_witnesses([], noop, labels, [row])[:2] == ([], {k: v for k, v in noop.items() if k != "training_evidence_accounts"})
 
 
-def test_fixed_controls_exclude_every_learning_and_cold_answer():
-    from legal_skill_guard.learning.witness_grounding import fixed_control_slots
+def test_lossless_skill_table_retains_shared_scope_nulls_order_and_exact_fields():
+    from legal_skill_guard.learning.skill_tables import encode_skill_projection, decode_skill_projection
+    from legal_skill_guard.learning.task_local import task_skill_projection
 
-    cfg = {"training_ids": list(range(1, 25)), "expected_later_ids": list(range(25, 33))}
-    slots = fixed_control_slots(cfg)
-    assert len(slots) == 86
-    assert all(arm != "skill_memory" and not stage.startswith("batch1") for stage, arm, _ in slots)
-    assert sum(stage == "later" for stage, _, _ in slots) == 32
-    assert sum(stage.endswith("before") for stage, _, _ in slots) == 54
-    with pytest.raises(ValueError, match="distinct24/8"):
-        fixed_control_slots({**cfg, "expected_later_ids": list(range(24, 32))})
+    _, labels, _ = fixture()
+    bank = [local_skill()]
+    bank[0]["hypothesis_ids"] = ["h1", "h2"]
+    bank[0]["guidance"]["relation_if_established"] = None
+    projection = task_skill_projection(bank, labels)
+    original = copy.deepcopy(projection)
+    table = encode_skill_projection(projection)
+    assert decode_skill_projection(table) == projection == original
+    assert table["by_hypothesis"]["h1"] == table["by_hypothesis"]["h2"]
+    assert table["by_hypothesis"]["h1"][0][3] is None
+    damaged = copy.deepcopy(table)
+    damaged["by_hypothesis"]["h1"][0].pop()
+    with pytest.raises(ValueError, match="no padding"):
+        decode_skill_projection(damaged)
+    extra = copy.deepcopy(projection)
+    extra["h1"][0]["unexpected"] = "must not silently disappear"
+    with pytest.raises(ValueError, match="never drop extras"):
+        encode_skill_projection(extra)
 
 
-def test_fixed_control_source_cannot_be_consumed_while_live_or_partial(tmp_path, monkeypatch):
-    import legal_skill_guard.learning.witness_grounding as module
+def test_witness_packed_wire_preserves_native_schema_source_and_empty_controls():
+    from types import SimpleNamespace
+    from legal_skill_guard.learning.literal_evidence import LiteralEvidenceStudy
+    from legal_skill_guard.learning.witness_grounding import WitnessGroundedStudy
+    from legal_skill_guard.learning.skill_tables import decode_skill_projection, scoped_budget_view
 
-    monkeypatch.setattr(module, "ROOT", tmp_path)
-    RunStore.immutable_json(tmp_path / "configs/source.json", {"run_id": "source"})
-    RunStore.immutable_json(tmp_path / "runs/source/progress.json", {"state": "running"})
-    cfg = {"control_reference_policy": "fixed_complete_literal_controls_v1",
-           "teacher_publication_format": "explicit_witness_coverage_v1",
-           "planned_new_native_calls": 62, "planned_inherited_native_calls": 86,
-           "planned_new_teacher_calls": 4, "planned_inherited_teacher_calls": 1,
-           "control_reference_run": "runs/source", "control_reference_config": "configs/source.json"}
-    with pytest.raises(ValueError, match="terminal complete"):
-        module.fixed_control_references(cfg)
-    assert not (tmp_path / "runs/source/completion.json").exists()
+    row, labels, _ = fixture()
+    old, new = object.__new__(LiteralEvidenceStudy), object.__new__(WitnessGroundedStudy)
+    for study in (old, new):
+        study.labels = labels
+        study.cfg = {"bundled_solver_system": "Original system."}
+        study.meter = SimpleNamespace(token_count=lambda **kwargs: len(kwargs["text"]))
+    for arm in ("strong_empty", "ordinary_memory", "unconditional_layout", "skill_memory"):
+        bank = [local_skill()] if arm == "skill_memory" else []
+        old_messages, old_schema, _, old_trace = old.make_payload(arm, row, bank, None, None)
+        messages, schema, _, trace = new.make_payload(arm, row, bank, None, None)
+        assert schema == old_schema
+        assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(messages)
+        delivery = trace["task_local_delivery"]
+        assert delivery["actual_task_local_projection"] == old_trace["task_local_delivery"]["actual_task_local_projection"]
+        if bank:
+            assert decode_skill_projection(delivery["actual_wire_skill_table"]) == delivery["actual_task_local_projection"]
+            body, old_body = json.loads(messages[1]["content"]), json.loads(old_messages[1]["content"])
+            assert body["full_contract_with_original_span_markers"] == old_body["full_contract_with_original_span_markers"]
+            for h in labels:
+                question, original = body["hypotheses"][h], old_body["hypotheses"][h]
+                assert {k: v for k, v in question.items() if k != "applicable_published_skills"} == {k: v for k, v in original.items() if k != "applicable_published_skills"}
+        else:
+            assert messages == old_messages  # Actual no-skill input is not weakened.
+        assert delivery["actual_scoped_delivery_tokens"] == len(json.dumps(scoped_budget_view(delivery["actual_task_local_projection"]), ensure_ascii=False, separators=(",", ":")))

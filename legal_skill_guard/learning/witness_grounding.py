@@ -8,134 +8,52 @@ semantic verifier, runtime memory, efficacy admission or answer repair.
 from __future__ import annotations
 
 import copy
-from pathlib import Path
+import json
 
 from jsonschema import validate
 
 from legal_skill_guard.experiment.storage import RunStore
+from legal_skill_guard.task import render_library
 
-from .experiment import ROOT, now, read
+from .experiment import now
 from .literal_evidence import LITERAL_TEACHER_NOTICE, LiteralEvidenceStudy, literal_feedback_view
-from .publication import apply_differential_publication, differential_schema, publication_statistics
-from .task_local import LOCAL_GUIDANCE_SCHEMA, LOCAL_TEACHER_SYSTEM, TaskLocalStudy, bounded_teacher_packet, prepare_task_local_inputs
-
-
-def fixed_control_slots(cfg):
-    """Only86 non-learning controls; every62 main-path native stays new.
-
-    In particular, B1 cold answers and all main before/after/retention/endpoint
-    answers cannot be inherited. The source is fixed before observing outcomes.
-    """
-    training, later = cfg["training_ids"], cfg["expected_later_ids"]
-    if (len(training) != 24 or len(set(training)) != 24 or len(later) != 8
-            or len(set(later)) != 8 or set(training) & set(later)):
-        raise ValueError("Exact distinct24/8 source identities required")
-    slots = {(f"batch{b}_before", arm, d) for b in (2, 3, 4)
-             for d in training[(b - 1) * 6:b * 6]
-             for arm in ("strong_empty", "ordinary_memory", "unconditional_layout")}
-    slots |= {("later", arm, d) for d in later
-              for arm in ("strong_empty", "ordinary_memory", "unconditional_layout", "static_procedures")}
-    if len(slots) != 86 or any(arm == "skill_memory" or stage.startswith("batch1") for stage, arm, _ in slots):
-        raise ValueError("References cannot include a learned main answer or initial cold draw")
-    return slots
-
-
-def fixed_control_references(cfg):
-    """Read the complete named source, never select a control by its score.
-
-    This is a mandatory declared input policy, not an on-error cache or fallback.
-    The existing complete native-wire audit still reconstructs every reference
-    with the new learner's current input function before any endpoint grading.
-    """
-    if (cfg.get("control_reference_policy") != "fixed_complete_literal_controls_v1"
-            or cfg.get("teacher_publication_format") != "explicit_witness_coverage_v1"
-            or cfg.get("continuation_parent")
-            or (cfg.get("planned_new_native_calls"), cfg.get("planned_inherited_native_calls"),
-                cfg.get("planned_new_teacher_calls"), cfg.get("planned_inherited_teacher_calls")) != (62, 86, 4, 1)):
-        raise ValueError("Explicit62 fresh main/86 fixed controls/4 new editors/1 static reference required")
-    source = ROOT / cfg["control_reference_run"]
-    source_config = ROOT / cfg["control_reference_config"]
-    original = read(source_config)
-    progress = read(source / "progress.json")
-    if progress["state"] != "completed" or not (source / "completion.json").exists():
-        raise ValueError("Fixed control source must be terminal complete literal148/4+1, not live or partial")
-    done, launch = read(source / "completion.json"), read(source / "launch.json")
-    if ((Path("/proc") / str(launch["pid"])).exists()
-            or source.name != original["run_id"] or source.name == cfg["run_id"]
-            or (done["new_native_calls"], done["explicitly_inherited_native_calls"],
-                done["new_teacher_calls"], done["explicitly_inherited_teacher_calls"],
-                done["distinct_native_responses"], done["logical_observations"]) != (148, 0, 4, 1, 148, 166)):
-        raise ValueError("Fixed control source must be terminal complete literal148/4+1, not live or partial")
-    for key in ("generation", "teacher", "bundled_solver_system", "library_token_hard_cap", "input_packet",
-                "grading_only", "preselection", "training_ids", "expected_later_ids", "source_archive",
-                "source_archive_sha256", "reference_training_run", "method", "memory_representation",
-                "teacher_feedback", "teacher_packet_encoding", "candidate_source_view", "teacher_feedback_view",
-                "static_control_policy", "static_public_reference"):
-        if cfg[key] != original[key]:
-            raise ValueError("Fixed control input condition changed: " + key)
-    slots = fixed_control_slots(cfg)
-    references = {}
-    paths = [source_config, source_config.with_suffix(".frozen.json"), source / "completion.json",
-             source / "launch.json", source / "static_procedures.json"]
-    native_ids = set()
-    for stage, arm, d in sorted(slots):
-        path = source / stage / arm / f"{d}.public.json"
-        unit = read(path)
-        raw_path = Path(unit["raw_artifact"]).resolve()
-        if (unit["stage"], unit["arm"], unit["document_id"]) != (stage, arm, d) or not raw_path.is_relative_to(source.resolve()):
-            raise ValueError("Control reference source/slot identity changed")
-        raw = read(raw_path)
-        if len(raw["calls"]) != 1 or raw["response"] != unit["response"] or raw["response"]["raw_id"] in native_ids:
-            raise ValueError("Fixed controls require86 distinct actual native responses")
-        expected_bank = read(source / "static_procedures.json")["library"] if arm == "static_procedures" else []
-        if unit["published_library"] != expected_bank:
-            raise ValueError("A main skill bank entered a no-learning control")
-        native_ids.add(raw["response"]["raw_id"])
-        references[(stage, arm, d)] = (path, unit)
-        paths.extend((path, raw_path))
-    return references, sorted(set(paths))
-
-
-def prepare_witness_inputs(cfg):
-    """Called only by the prospective explicit CLI registration, not the live Run."""
-    if cfg.get("teacher_publication_format") != "explicit_witness_coverage_v1":
-        raise ValueError("Unknown teacher publication format")
-    selection, paths = prepare_task_local_inputs(cfg)
-    if cfg.get("control_reference_run"):
-        _, reference_paths = fixed_control_references(cfg)
-        paths += reference_paths
-    return selection, paths
+from .publication import apply_differential_publication, differential_schema, publication_statistics, skill_record_schema
+from .skill_tables import COLUMNS, scoped_budget_view, table_skill_messages
+from .task_local import LOCAL_GUIDANCE_SCHEMA, LOCAL_TEACHER_SYSTEM, bounded_teacher_packet, task_skill_projection
 
 
 WITNESS_NOTICE = (
-    " For each non-delete edit, make the training-only witness_checks explicit "
-    "before distilling its runtime skill. There must be one group for every "
-    "published public-hypothesis scope and an assessment of EVERY supplied case, "
-    "not just the operation's chosen source_case_ids. Assess the source condition "
-    "the proposed rule actually needs, not whether the question has that topic. "
-    "For a label-implying rule, when must be a concrete sufficient condition in "
-    "the document, not merely a task trigger; an unmet sufficient condition never "
-    "implies NM. State established, not_established or unresolved and cite original "
-    "source coordinates for the brief public boundary fact. Compare cases whose "
-    "original labels differ; do not silently admit a negative into a positive rule. "
-    "A sufficient rule need not cover every same-label case. Account for EVERY "
-    "original Gold evidence member in gold_member_account, including governing "
-    "language, exceptions and independent redundant support, not only a minimal "
-    "classification justification. Explain its source function and what a generic "
-    "inspection would need to retain. Empty Gold is not independent proof of "
-    "absence. These short factual assessments are public evidence statements, "
-    "not a request for private reasoning. If no reusable separating condition is "
-    "justified, an inspection-only null relation remains available. Do not invent "
-    "a condition to please the schema. DELETE has empty witness_checks. All witness "
-    "IDs, coordinates and case-specific facts stay in this training-only field; "
-    "runtime guidance must not contain case tables, parties, IDs or fingerprints. "
-    "Only the unchanged skill records reach the lawyer. No extra model or trial, "
-    "legal host adjudicator, score admission, answer completion or fallback exists."
+    " First account for EVERY original Gold evidence member in "
+    "training_evidence_accounts, across ALL public hypotheses and ALL supplied "
+    "cases, exactly once per batch, including successful cases, governing "
+    "language, exceptions and independent redundant support. Give each member's "
+    "brief source function and the inspection needed to retain it, not only a "
+    "minimal classification justification. Empty Gold is not proof of absence. "
+    "Then for each non-delete edit assess its actual when condition in EVERY "
+    "supplied case in witness_checks, not only the selected source_case_ids. "
+    "Each record has one when condition shared by its declared scope. For a "
+    "label-implying record it must be a concrete sufficient source condition, "
+    "not a task/topic trigger; compare its implied relation with EVERY scoped "
+    "hypothesis's different-label witnesses. If distinct conditions are needed, "
+    "write clear separate records rather than mix their meaning. A sufficient "
+    "condition need not cover all same-label cases, and its absence never implies "
+    "NM. State established/not_established/unresolved, cite original coordinates "
+    "and give a brief public boundary fact before distilling the runtime rule. "
+    "These are public factual explanations, not private reasoning. If no generic "
+    "separating condition is justified, a null-relation inspection remains valid. "
+    "Do not invent conditions or force growth. DELETE uses empty witness_checks. "
+    "Case IDs, coordinates and case-specific accounts stay in training metadata, "
+    "never in runtime guidance. Runtime receives all original words in lossless "
+    "scoped tables under a shared field-name header; this removes repeated keys, "
+    "not knowledge, scope or source access. Both master and actual table projection "
+    "must fit the token cap. Keep runtime concise; the evidence detail belongs in "
+    "training accounts, not copied case tables. No extra critic, legal host "
+    "adjudicator, semantic admission, answer completion, bank choice or fallback."
 )
 
 
 def witness_publication_schema(labels, parent, rows):
-    """Bind coordinates/Gold-member identities, not the truth of any condition."""
+    """One global member account plus one condition assessment per edit/case."""
     ids = [r["id"] for r in rows]
     if not rows or len(ids) != len(set(ids)) or any(not r["spans"] for r in rows):
         raise ValueError("Actual distinct nonempty original source window required")
@@ -146,32 +64,38 @@ def witness_publication_schema(labels, parent, rows):
         } for r in rows
     }
     schema["$defs"]["condition_status"] = {"type": "string", "enum": ["established", "not_established", "unresolved"]}
-    groups = []
+    accounts = {}
     for h in labels:
         cases = {}
         for row in rows:
-            gold = row["annotation_sets"][0]["annotations"][h]
-            fields = {
-                "source_condition_status": {"$ref": "#/$defs/condition_status"},
-                "source_condition_evidence": {"$ref": f"#/$defs/source_{row['id']}_coordinates"},
-                "brief_boundary_fact": {"type": "string", "minLength": 1, "maxLength": 240},
-                "gold_member_account": {
-                    "type": "object", "additionalProperties": False,
-                    "required": [str(i) for i in gold["spans"]],
-                    "properties": {str(i): {"type": "string", "minLength": 1, "maxLength": 160} for i in gold["spans"]},
-                },
+            members = row["annotation_sets"][0]["annotations"][h]["spans"]
+            cases[str(row["id"])] = {
+                "type": "object", "additionalProperties": False,
+                "required": [str(i) for i in members],
+                "properties": {str(i): {"type": "string", "minLength": 1, "maxLength": 160} for i in members},
             }
-            cases[str(row["id"])] = {"type": "object", "additionalProperties": False, "required": list(fields), "properties": fields}
-        properties = {
-            "hypothesis_id": {"type": "string", "enum": [h]},
-            "cases": {"type": "object", "additionalProperties": False, "required": list(cases), "properties": cases},
+        accounts[h] = {"type": "object", "additionalProperties": False, "required": list(cases), "properties": cases}
+    schema["properties"] = {
+        "training_evidence_accounts": {"type": "object", "additionalProperties": False, "required": list(accounts), "properties": accounts},
+        **schema["properties"],
+    }
+    schema["required"] = ["training_evidence_accounts", *schema["required"]]
+    cases = {}
+    for row in rows:
+        fields = {
+            "source_condition_status": {"$ref": "#/$defs/condition_status"},
+            "source_condition_evidence": {"$ref": f"#/$defs/source_{row['id']}_coordinates"},
+            "brief_boundary_fact": {"type": "string", "minLength": 1, "maxLength": 240},
         }
-        groups.append({"type": "object", "additionalProperties": False, "required": list(properties), "properties": properties})
+        cases[str(row["id"])] = {"type": "object", "additionalProperties": False, "required": list(fields), "properties": fields}
     op = schema["properties"]["operations"]["items"]
     existing = op["properties"]
     op["properties"] = {
         "operation": existing["operation"], "target_ids": existing["target_ids"],
-        "witness_checks": {"type": "array", "items": {"anyOf": groups}},
+        "witness_checks": {"anyOf": [
+            {"type": "object", "additionalProperties": False, "required": list(cases), "properties": cases},
+            {"type": "object", "additionalProperties": False, "required": [], "properties": {}},
+        ]},
         **{k: v for k, v in existing.items() if k not in ("operation", "target_ids")},
     }
     op["required"] = list(op["properties"])
@@ -179,12 +103,13 @@ def witness_publication_schema(labels, parent, rows):
 
 
 def publish_with_training_witnesses(parent, value, labels, rows):
-    """Publish every well-formed edit; archive disagreement, never reject on it."""
+    """Identity checks only; publish semantic disagreements verbatim, not gate."""
     validate(value, witness_publication_schema(labels, parent, rows))
     projected = copy.deepcopy(value)
+    accounts = projected.pop("training_evidence_accounts")
     sources = {str(r["id"]): r for r in rows}
     observations, conflicts, unsupported = [], [], []
-    accounted = 0
+    accounted = sum(len(members) for cases in accounts.values() for members in cases.values())
     for original, op in zip(value["operations"], projected["operations"], strict=True):
         checks = op.pop("witness_checks")
         skill = op["skill"]
@@ -192,54 +117,66 @@ def publish_with_training_witnesses(parent, value, labels, rows):
             if checks:
                 raise ValueError("DELETE has no resulting runtime condition to assess")
             continue
-        scope = skill["hypothesis_ids"]
-        observed = [group["hypothesis_id"] for group in checks]
-        if len(observed) != len(set(observed)) or set(observed) != set(scope):
-            raise ValueError("Witness groups must match exact published public scope")
+        if set(checks) != set(sources):
+            raise ValueError("Witness checks must cover every supplied original source")
         target = skill["guidance"]["relation_if_established"]
-        positive_witnesses = 0
-        for group in checks:
-            h = group["hypothesis_id"]
-            for d, entry in group["cases"].items():
-                indices = entry["source_condition_evidence"]
-                if len(indices) != len(set(indices)):
-                    raise ValueError("Duplicate original witness coordinates; no deduplication")
+        positive_by_h = {h: 0 for h in skill["hypothesis_ids"]}
+        for d, entry in checks.items():
+            indices = entry["source_condition_evidence"]
+            if len(indices) != len(set(indices)):
+                raise ValueError("Duplicate original witness coordinates; no deduplication")
+            for h in skill["hypothesis_ids"]:
                 gold = sources[d]["annotation_sets"][0]["annotations"][h]
-                established = entry["source_condition_status"] == "established"
                 claim = {"skill_id": skill["id"], "hypothesis_id": h, "source_id": int(d),
                          "claimed_condition_status": entry["source_condition_status"], "published_relation": target,
                          "original_Gold_choice": gold["choice"], "brief_boundary_fact": entry["brief_boundary_fact"]}
                 observations.append(claim)
-                accounted += len(entry["gold_member_account"])
-                if target is not None and established:
+                if target is not None and entry["source_condition_status"] == "established":
                     if target != gold["choice"]:
                         conflicts.append(claim)
                     else:
-                        positive_witnesses += 1
-        if target is not None and positive_witnesses == 0:
+                        positive_by_h[h] += 1
+        if target is not None and any(n == 0 for n in positive_by_h.values()):
             unsupported.append(skill["id"])
-        # The exact proposed runtime record is never changed by these flags.
         assert original["skill"] == skill
     published = apply_differential_publication(parent, projected, labels, [r["id"] for r in rows], guidance_schema=LOCAL_GUIDANCE_SCHEMA)
     return published, projected, {
         "teacher_claims_not_independent_semantic_verification": observations,
         "claimed_established_with_different_original_label": conflicts,
         "nonnull_records_without_claimed_same_label_positive_witness": unsupported,
-        "original_Gold_members_explicitly_accounted_not_proven_retrieved": accounted,
+        "original_Gold_members_explicitly_accounted_once_not_proven_retrieved": accounted,
         "no_semantic_conflict_or_coverage_based_admission_repair_or_bank_choice": True,
     }
 
 
 class WitnessGroundedStudy(LiteralEvidenceStudy):
-    """Not CLI-registered: same runtime/calls, explicit training witness output."""
+    """Not CLI-registered: original native task, table skills, grounded writer."""
 
     def __init__(self, config_path, *, run_id=None):
         super().__init__(config_path, run_id=run_id)
-        if self.cfg.get("teacher_publication_format") != "explicit_witness_coverage_v1":
+        if self.cfg.get("teacher_publication_format") != "explicit_witness_accounts_v2":
             raise ValueError("Prospective witness-output policy must be declared explicitly")
-        if self.cfg.get("control_reference_run"):
-            self.prefix_answers, _ = fixed_control_references(self.cfg)
-            self.prefix_slots = set(self.prefix_answers)
+        if self.cfg.get("skill_delivery_encoding") != "scoped_lossless_table_v1":
+            raise ValueError("Prospective lossless skill delivery must be explicit")
+
+    def make_payload(self, arm, row, bank, model, state):
+        messages, schema, plan, trace = super().make_payload(arm, row, bank, model, state)
+        messages, delivery = table_skill_messages(messages, trace["task_local_delivery"])
+        view = scoped_budget_view(delivery["actual_task_local_projection"])
+        delivery["actual_scoped_delivery_tokens"] = self.meter.token_count(text=json.dumps(view, ensure_ascii=False, separators=(",", ":")))
+        return messages, schema, plan, {**trace, "task_local_delivery": delivery}
+
+    def validate_library(self, bank):
+        for skill in bank:
+            validate(skill, skill_record_schema(self.labels, guidance_schema=LOCAL_GUIDANCE_SCHEMA))
+            if len(set(skill["hypothesis_ids"])) != len(skill["hypothesis_ids"]) or len(set(skill["guidance"]["source_operations"])) != len(skill["guidance"]["source_operations"]):
+                raise ValueError("Duplicate original scope or factual operation")
+        projection = task_skill_projection(bank, self.labels)
+        master = self.meter.token_count(text=render_library(bank))
+        scoped = self.meter.token_count(text=json.dumps(scoped_budget_view(projection), ensure_ascii=False, separators=(",", ":")))
+        if max(master, scoped) > self.cfg["library_token_hard_cap"]:
+            raise ValueError("Master or actual table projection over declared capacity; no pruning/fallback")
+        return {"master_tokens": master, "scoped_delivery_tokens": scoped}
 
     def update(self, batch):
         tokens = self.validate_library(self.bank)
@@ -247,6 +184,12 @@ class WitnessGroundedStudy(LiteralEvidenceStudy):
         rows = [r for r in self.training if r["id"] in packet["supplied_original_witness_ids"]]
         body = literal_feedback_view(packet, rows)
         body["serialized_parent_scoped_delivery_tokens"] = tokens["scoped_delivery_tokens"]
+        body["lawyer_skill_delivery_encoding"] = {
+            "format": "scoped_lossless_table_v1", "columns": list(COLUMNS),
+            "same_public_scope_and_words_no_semantic_filter_or_verdict": True,
+            "semantic_projection_in_observations_is_losslessly_decoded_not_wire_object_spelling": True,
+            "training_witness_metadata_never_enters_runtime_table_or_its_token_budget": True,
+        }
         value = self.teacher_call(f"task_local_b{batch}", LOCAL_TEACHER_SYSTEM + LITERAL_TEACHER_NOTICE + WITNESS_NOTICE, body, witness_publication_schema(self.labels, self.bank, rows))
         bank, projection, witness_audit = publish_with_training_witnesses(self.bank, value, self.labels, rows)
         capacity = self.validate_library(bank)
@@ -261,7 +204,8 @@ class WitnessGroundedStudy(LiteralEvidenceStudy):
             "no_fixed_skill_count_growth_deletion_or_best_bank_selection": True,
             "new_teacher_invocation_for_this_edit": True,
             "teacher_feedback_view": "literal_evidence_comparisons_v1",
-            "teacher_publication_format": "explicit_witness_coverage_v1",
+            "teacher_publication_format": "explicit_witness_accounts_v2",
+            "skill_delivery_encoding": "scoped_lossless_table_v1",
             "original_annotations_and_actual_answers_not_rewritten": True,
         })
         return bank, stats
