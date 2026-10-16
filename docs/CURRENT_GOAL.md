@@ -5,6 +5,20 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+01:54当前真实B2首遇20/148原生、2/5教师/2尝试（static1+M1），主801943/监控812418/
+原8B2261314均live。未读/报告部分B2分数，B2完整后看monitoring/independent_B2_before.json，
+M2返回后运行本Run audit_teacher.py 2，不改65冻结生产输入或活监控的注册脚本。
+完整B1/M1/全部65当前源及监控在同vdb独立保全154项目文件+全Git bundle
+HEADc8e4adc0620d9b6d42aaa89fc2e95306fad88010，archive
+legal-source-program-v2-complete-B1-M1-all65-and-headless-monitor-20261017.tar.gz，SHA256
+ce53931b4b71e9b45205fadd0a898005b962e60feed6fd88e22df599fafd0d0b。
+所有成员/完整bundle/65绑定逐字节验证；完整B1为12新原生+1新主教师+1新静态教师。
+快照19原生包含部分B2，不称完整B2；不是异机/模型权重/auth备份。收据
+artifacts/source_program_v2_complete_B1_all65_monitor_backup_20261017.json。
+本Goal轮有实际完整B3负结果/全M3反馈、6-call干预、失败容量根因与架构简化、真新在线M1及
+完整B1证据，不是仅监控。后续跨合同实质收益/成熟公平对照/独立重复/消融/正式TEST仍未达成，
+Goal保持active。不能把当前F1 89.74训练拟合当90%论文目标已经满足。
+
 01:50最新真实状态：主PID801943与监控812418均LIVE，已完整B1并自动B2；不读部分B2分数。
 B1完整after按原作者集合/6实际wire/一份命名库/实际查询/原文还原已独立核验：
 89.22/89.74/77.45%，TP105/FP1/FN23、非NM联合48/NM31、错NM5。冷85.29/59.56/45.10%。
