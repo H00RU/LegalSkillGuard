@@ -3,12 +3,12 @@
 2026-10-15 15:09 CST，用户明确要求“新建一个goal并执行”，已通过Goal工具创建，状态active。
 此前答案复核run启动时未开Goal，两者时间顺序不能混淆。
 
-## 当前执行游标（10月16日08:11，覆盖后续旧状态）
+## 当前执行游标（10月16日08:14，覆盖后续旧状态）
 
 上轮Goal为progress：完整ACE B3与原18首遇误选来源分解、实际漏证覆盖及来源计数显式纠正；提交9d4c33d。
 本轮已落实针对性内容消融，不再只监控或另调格式。主生产代码没有改变。
 
-后台两个进程：ACE PID3360667仍活动，08:08:33为31/52律师、28/28教师，旧案保持第二源334；
+后台两个进程：ACE PID3360667仍活动，08:12:59为35/52律师、28/28教师，旧案保持最后源245；
 新legal_contractnli_evidence_scope_ablation_20261016_run01于08:08:58脱离对话排队，PID3439428，
 667绑定，0/26律师、0教师，在waiting_for_exact_ACE_dependency_and_gpu_lease。
 明确精确argv/start_ticks等待3360667退出再取同GPU锁，自动接续，不需要对话触发下一步。
@@ -35,6 +35,13 @@ TP176/184/186，FP82/136/117，FN198/190/188，对应55.70/53.03/54.95%。
 
 下一步同PID接续ACE保持及16终点，齐答原评分/自有空库及旧同工具完整比较；新消融自己等锁后启动。
 若无净收益不把删规则当根因修复；据完整效果再实施必要在线主链改动。Goal仍active，完整目标未达。
+
+完整ACE四批30新律师/28教师及新消融0律师启动/源码、此前154/14已保全981项目文件：
+legal-ACE-training30-teacher28-ablation-queued0-20261016.tar.gz，SHA256
+15943e246616b76be44ca44b27a58e795e97145930651d4b6bcfe882cffac96f，HEADe489c00，
+Git bundle/全部字节/gzip核验；不含保持/终点或可变progress，明确同vdb非异机/权重备份。
+收据新消融Run/monitoring/complete_ACE_training30_teacher28_and_ablation_queue_backup_receipt。
+本轮Goal为progress：完成完整B4内容/误引审计、实现并后台排队26案内容消融、完整训练30/28和新源保全；尚未达Goal。
 
 ### 07:59误选与B3游标（历史记录）
 

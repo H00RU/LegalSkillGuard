@@ -666,3 +666,10 @@ ACE与我们的actor不同，固定终点的ACE-empty仍必须跑，不能把训
 不据检测分数自动发布删减库，不修改当前ACE/旧主方法任何产物，不做答案修补、fallback或效果准入。
 源/协议/准备审计已提交a0d1b28；driver只在本Run归档，没有加入新生产框架。
 667新绑定与ACE663同时保持；当前生产Python和绑定配置/旧JSON/新driver及协议都不可热改。
+
+08:13:40实查ACE/消融双PID均存活，ACE35/52、28/28，在最后一份245旧案保持；消融仍0/26等锁。
+完整ACE学习30律师/28教师、新消融源码与排队声明以及此前154/14已备份981常规项目文件。
+archive legal-ACE-training30-teacher28-ablation-queued0-20261016.tar.gz，SHA256
+15943e246616b76be44ca44b27a58e795e97145930651d4b6bcfe882cffac96f，HEADe489c00，
+全部字节/gzip/全Git bundle通过。快照明确无保持/终点和可变progress，同vdb而非异机/缺失权重备份。
+收据归档在消融Run/monitoring/complete_ACE_training30_teacher28_and_ablation_queue_backup_receipt。
