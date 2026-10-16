@@ -34,6 +34,13 @@ from .clauses import _contains, _tokens
 from .evidence_programs import SCORER_PARAMETERS, evidence_proposals
 from .experiment import ENDPOINTS, ROOT, now, points, read, sha
 from .feedback_history import grounded_teacher_input, intervention_history
+from .source_condition_audit import (
+    EDITOR_AUDIT_INSTRUCTION,
+    SOURCE_AUDIT_SYSTEM,
+    checked_source_audit,
+    source_audit_input,
+    source_audit_schema,
+)
 from .procedures import (
     BOUNDARY_GUIDANCE_SCHEMA,
     ProcedureStudy,
@@ -391,11 +398,12 @@ def prepare_conditioned_inputs(cfg):
         bindings += sorted(parent.glob("batch*_summary.json"))
     if cfg.get("teacher_feedback") == HISTORY_FEEDBACK:
         references = cfg["explicit_historical_reference_files"]
+        teachers = 7 if cfg.get("teacher_source_condition_audit") else 4
         if len(references) != 110 or (
             cfg["planned_new_native_calls"], cfg["planned_new_teacher_calls"],
             cfg["planned_logical_historical_references"], cfg["planned_unique_historical_native_responses"],
-        ) != (56, 4, 110, 92):
-            raise ValueError("Explicit full56/4 history study with110/92 controls required")
+        ) != (56, teachers, 110, 92):
+            raise ValueError("Explicit full56-call history schedule and declared teacher roles required")
         for name in references.values():
             path = ROOT / name
             bindings += [path, Path(read(path)["raw_artifact"])]
@@ -412,6 +420,10 @@ class ConditionedStudy(ProcedureStudy):
     def __init__(self, config_path, *, run_id=None):
         self.config_path = Path(config_path).resolve()
         self.cfg = read(self.config_path)
+        if self.cfg.get("teacher_source_condition_audit") not in (None, "annotation_withheld_parent_condition_v1"):
+            raise ValueError("Unknown source-condition audit protocol")
+        if self.cfg.get("teacher_source_condition_audit") and self.cfg["teacher_feedback"] != HISTORY_FEEDBACK:
+            raise ValueError("Source-condition audit requires the complete observable-history learner")
         if (
             self.cfg["method"] != "source_conditioned_memory"
             or self.cfg["memory_representation"] != "source_conditioned_boundary_v1"
@@ -595,11 +607,42 @@ class ConditionedStudy(ProcedureStudy):
         return value
 
     def update(self, batch, *, include_trace):
+        source_audit = None
+        audit_name = None
+        audit_mode = bool(self.cfg.get("teacher_source_condition_audit"))
+        if audit_mode:
+            if self.bank:
+                seen = [r for r in self.training if r["batch"] <= batch]
+                audit_name = f"source_condition_audit_b{batch}"
+                audit_input = source_audit_input(self.bank, seen, self.labels)
+                report = self.teacher_call(
+                    audit_name, SOURCE_AUDIT_SYSTEM, audit_input,
+                    source_audit_schema(self.bank, seen, self.labels),
+                )
+                source_audit = {
+                    "exact_parent_sha256": canonical_json_sha256(self.bank),
+                    "annotation_withheld_current_request_not_an_independent_oracle": True,
+                    "fallible_source_condition_report": report,
+                    "original_train_label_comparison_not_an_admission_gate": checked_source_audit(
+                        report, self.bank, seen, self.labels
+                    ),
+                }
+            else:
+                source_audit = {"not_invoked_because_actual_parent_is_empty": True,
+                                "normal_initial_learning_not_a_failure_fallback": True}
+            RunStore.immutable_json(
+                self.out / "source_condition_audits" / f"b{batch}.json", source_audit
+            )
         body = self.teacher_input(batch, include_trace=include_trace)
+        if audit_mode:
+            body["training_only_parent_source_condition_audit"] = source_audit
         source_ids = [r["document_id"] for r in body["cumulative_seen_original_train_cases"]]
+        system = HISTORY_TEACHER_SYSTEM if self.cfg["teacher_feedback"] == HISTORY_FEEDBACK else TEACHER_SYSTEM
+        if audit_mode:
+            system += EDITOR_AUDIT_INSTRUCTION
         value = self.teacher_call(
             f"source_conditioned_b{batch}",
-            HISTORY_TEACHER_SYSTEM if self.cfg["teacher_feedback"] == HISTORY_FEEDBACK else TEACHER_SYSTEM,
+            system,
             body,
             differential_schema(
                 self.labels, self.bank, source_ids, guidance_schema=GUIDANCE_SCHEMA
@@ -622,6 +665,8 @@ class ConditionedStudy(ProcedureStudy):
                 "source_case_ids": source_ids,
                 "all_valid_changes_published_without_efficacy_gate": True,
                 "no_mandatory_growth_merge_delete_or_frequency_based_eviction": True,
+                **({"source_condition_audit_teacher_call": audit_name,
+                    "source_condition_audit_is_training_data_not_an_effect_gate": True} if audit_mode else {}),
             },
         )
         return bank, stats
@@ -961,7 +1006,23 @@ class ConditionedStudy(ProcedureStudy):
         all_teachers = self.inherited_teachers + self.teachers
         all_units = self.inherited_units + self.units
         history_mode = self.cfg["teacher_feedback"] == HISTORY_FEEDBACK
-        required = (56, 4, 110, 56) if history_mode else (90, 5, 76, 90)
+        source_audit_mode = bool(self.cfg.get("teacher_source_condition_audit"))
+        history_teacher_count = 4
+        if source_audit_mode:
+            expected_names = {f"source_conditioned_b{b}" for b in range(1, 5)}
+            for b in range(1, 5):
+                transaction = read(self.out / f"update_transactions/b{b}.json")
+                expected_name = f"source_condition_audit_b{b}" if transaction["actual_parent"] else None
+                if transaction["source_condition_audit_teacher_call"] != expected_name:
+                    raise ValueError("Each nonempty parent requires exactly one source audit")
+                if expected_name:
+                    expected_names.add(expected_name)
+            if len(all_teachers) != len(expected_names) or {t["name"] for t in all_teachers} != expected_names:
+                raise ValueError("Actual source-audit/editor calls differ from declared roles")
+            history_teacher_count = len(expected_names)
+            if history_teacher_count > self.cfg["planned_new_teacher_calls"]:
+                raise ValueError("Actual teacher calls exceed the declared ceiling")
+        required = (56, history_teacher_count, 110, 56) if history_mode else (90, 5, 76, 90)
         required_old = 92 if history_mode else 58
         if (len(all_native), len(all_teachers), len(self.references), len(all_units)) != (
             *required,
@@ -971,7 +1032,7 @@ class ConditionedStudy(ProcedureStudy):
             )
         if (len(self.native), len(self.teachers)) != (
             self.cfg["planned_new_native_calls"],
-            self.cfg["planned_new_teacher_calls"],
+            history_teacher_count if source_audit_mode else self.cfg["planned_new_teacher_calls"],
         ):
             raise ValueError("Fresh calls differ from the explicit continuation budget")
         self.audit_native(all_units + self.references, "complete_before_new_later_grading")

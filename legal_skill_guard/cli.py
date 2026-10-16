@@ -295,7 +295,7 @@ def main():
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs/contractnli_observable_history.json",
+        default=ROOT / "configs/contractnli_source_condition_audit.json",
     )
     parser.add_argument("--run-id")
     parser.add_argument(

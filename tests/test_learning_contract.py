@@ -25,6 +25,10 @@ from legal_skill_guard.learning.interface import (
 )
 from legal_skill_guard.learning.packing import pack_cases
 from legal_skill_guard.learning.review import checked_messages, review_messages
+from legal_skill_guard.learning.source_condition_audit import (
+    checked_source_audit,
+    source_audit_input,
+)
 from legal_skill_guard.report import write_report
 from legal_skill_guard.task import (
     coherent_native_schema,
@@ -87,6 +91,41 @@ def response(answer, finish="stop"):
         "completion_tokens": 20,
         "raw_id": "native-test",
     }
+
+
+def test_source_condition_audit_input_withholds_annotations_and_outcomes():
+    row, labels, _ = fixture()
+
+    class UnreadableAnnotations(dict):
+        def __getitem__(self, key):
+            if key == "annotation_sets":
+                raise AssertionError("Audit-input construction must not read annotations")
+            return super().__getitem__(key)
+
+    value = source_audit_input([skill()], [UnreadableAnnotations(row)], labels)
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(value)
+    source = value["complete_original_sources_without_annotation_sets"][0]
+    assert set(source) == {"document_id", "full_original_contract_with_spans"}
+    assert "Recipient shall not disclose secrets." in source["full_original_contract_with_spans"]
+
+
+def test_source_condition_audit_retains_semantic_conflicts_but_checks_all_references():
+    row, labels, _ = fixture()
+    bank = [skill()]
+    original = copy.deepcopy(bank)
+    report = {"skill_reports": [{"skill_id": "s1", "finding": "Synthetic test finding, not a model output",
+                                "checks": [{"d": 1, "h": "h1", "r": "Contradiction", "s": [0]}]}]}
+    summary = checked_source_audit(report, bank, [row], labels)
+    assert len(summary["nonnull_claim_original_training_label_differences"]) == 1
+    assert bank == original  # A label conflict is data, not rejection/edit/rollback.
+    report["skill_reports"][0]["checks"][0]["r"] = None
+    assert checked_source_audit(report, bank, [row], labels)["nonnull_condition_claims"] == 0
+    report["skill_reports"][0]["checks"][0]["s"] = [99]
+    with pytest.raises(ValueError, match="original spans"):
+        checked_source_audit(report, bank, [row], labels)
+    report["skill_reports"][0]["checks"] = []
+    with pytest.raises(ValueError, match="source/scope pairs"):
+        checked_source_audit(report, bank, [row], labels)
 
 
 def test_original_binary_metrics_and_independent_audit():
