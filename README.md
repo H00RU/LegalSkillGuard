@@ -1,16 +1,31 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
 Current default: `legal_contractnli_observable_history_learning_20261016_run01`,
-launched12:13:56 CST as detached PID3804336. This starts a new empty-bank four-batch
-online study:56 new lawyer/4 teacher calls and110 explicit historical controls
-(92 distinct old responses), not fresh independent control sampling. The frozen
-lawyer and output contract are unchanged. The same single teacher now receives
-observable input/output aligned with complete original TRAIN/Gold and exact
-old-version intervention history, without local private self-narratives.
-No runtime wiki, extra agent, answer repair, efficacy gate or best-bank rollback.
-All249 source/input bindings stay frozen until this worker exits. No new metrics
-are available at launch. See the [observable-history protocol](docs/OBSERVABLE_HISTORY_FEEDBACK_20261016.md)
-and [current Goal](docs/CURRENT_GOAL.md). Status: `.venv/bin/python -m legal_skill_guard.cli status`.
+**completed13:22:39 CST**,56 new lawyer/4 teacher calls and110 explicit historical
+logical controls (92 distinct old responses),166 observations/148 distinct native
+answers. All40 endpoint answers independently match original author TRAIN labels,
+source spans, actual wires and manual membership scores. Final development
+accuracy/span-F1/joint: main80.15/68.18/58.82%, same-tool80.88/71.37/55.15%.
+This is NOT a repaired method or formal test: E/C joint31 versus33, NM49 versus42.
+Earlier B3 gains did not persist through B4; training/retention fit is not transfer.
+The Goal remains active. See [current Goal](docs/CURRENT_GOAL.md) and
+[research/code audit](docs/research/RECENT_SKILL_LEARNING_20261016.md).
+
+The finite relation-metadata diagnostic completed13:31:34 CST:8 new lawyer/0
+teacher calls plus32 explicit historical references. Omitting only the standalone
+runtime relation field gave80.88/64.55/57.35%; F1 and joint worsened. This negative
+intervention is NOT deployed. All40 diagnostic wires and40 parent endpoint wires
+were independently matched to original author source/Gold and manual set scores;
+all296 frozen bindings were unchanged at termination. Both workers have exited.
+
+The next bounded study is prepared, NOT yet launched:
+`legal_contractnli_typed_execution_20261016_run01`. It compares identical compiled
+conditional knowledge with advisory versus native branch/label consistency, and
+an equal-call factual-operation-only control. The lawyer selects the branch from
+the source; the host cannot establish its truth or repair an answer. Planned24
+new lawyer/1 teacher calls on the same8 exposed development sources, plus32
+explicit parent references. No new runtime agent or production change. Its
+run-local protocol/driver are archived, and no winner is automatically deployed.
 
 ## Completed source-conditioned predecessor (historical)
 

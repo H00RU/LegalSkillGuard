@@ -16,11 +16,21 @@
 
 ## 当前后台工作
 
-12:15唯一worker为`legal_contractnli_observable_history_learning_20261016_run01`，PID3804336，
-12:13:56后台启动，完整四批/保持/末库五条件8开发源；56新律师/4教师，110明确历史控制/92不同旧答。
-`learning/feedback_history.py`仅原单教师输入处理，不是新运行时Wiki/路由层；新库从空学习，原律师不改。
-当前249绑定冻结至worker退出；默认CLI config为`contractnli_observable_history.json`。
-真实M1请求已字段重建核验，仍在首教师、尚无新指标；协议[OBSERVABLE_HISTORY_FEEDBACK](OBSERVABLE_HISTORY_FEEDBACK_20261016.md)。
+13:22:39主`legal_contractnli_observable_history_learning_20261016_run01`已完整56律师/4教师并退出，
+166逻辑/148不同原生答，全部40终点原作者与实际wire/逐题手算独立通过。
+末库80.15/68.18/58.82%，同工具80.88/71.37/55.15%，尚无稳定三指标优势；不是正式测试。
+`learning/feedback_history.py`仅同一教师的数据处理，不是运行时Wiki/路由层。
+默认CLI config仍为`contractnli_observable_history.json`，故默认status显示已完成是正确的。
+
+关系字段有限检查`legal_contractnli_relation_metadata_ablation_20261016_run01`已13:31:34完整8/0结束并退出。
+80.88/64.55/57.35%，相对母库依据和联合下降，不部署省略字段。父40＋诊断40逻辑原作者源/实际整wire/
+原SPAN集合评分独立核对通过，48个不同原生答，296绑定终止时全一致。原8B2261314不动。
+
+下一项`legal_contractnli_typed_execution_20261016_run01`已写有限driver/protocol，尚未启动/调用。
+计划24新律师/1教师、32明确旧引用；同一当前末库知识编译后，对比仅建议分支与原生分支标签一致性，
+另设同工具同事实定位无语义指导控制。条件真伪、证据和分支由律师判断，不新增主机法律判定、
+规划器、复核、fallback或自动择优发布。源码仅随Run归档，生产核心未改。
+主协议[OBSERVABLE_HISTORY_FEEDBACK](OBSERVABLE_HISTORY_FEEDBACK_20261016.md)，最新状态以CURRENT_GOAL和实际进程为准。
 
 ### 11:43机制消融（历史，12:02:50完整结束）
 
