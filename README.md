@@ -1,6 +1,19 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
 Current default: `legal_contractnli_source_condition_audit_completion_20261016_run01`.
+At16:57 CST,12 new after/retention calls are complete and the endpoint8 are
+running (15/20 new native calls complete). B4 after-fit84.31/87.18/79.41%;
+B1 M4 retention90.20/90.68/81.37%, versus original M1 fit87.25/85.47/76.47%.
+These change the supervised evidence tool too and are not pure skill effects.
+The finite26-call/0-teacher semantic-delivery intervention is queued as detached
+PID31299: `legal_contractnli_full_master_delivery_20261016_run01`. It waits for
+the exact current worker to complete successfully, then obtains the GPU lease.
+All18 online first encounters plus8 exposed development sources are included;
+only semantic visibility changes, not the existing factual layout operations.
+No fixed-bank diagnostic is presented as new online learning or a formal test.
+See its [frozen protocol](runs/legal_contractnli_full_master_delivery_20261016_run01/protocol.md).
+
+Historical launch details:
 Started16:37:02 CST as detached PID7746, independent of this conversation.
 At16:37:21 all114 inherited observations had replayed successfully and the
 single required M4 editor call was submitted. Authentication success is not
