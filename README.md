@@ -1,13 +1,13 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Current active worker: `legal_contractnli_evidence_scope_ablation_20261016_run01`,
-PID3439428,26 new lawyer/0 teacher planned. Queued08:08:58 CST, it automatically
-acquired the GPU lease08:31:37 after the exact ACE process completed and began
-all18 historical first-encounter sources plus all8 exposed development sources,
-with one generic evidence skill removed. At08:39:49 it had completed6/26.
+The evidence-scope diagnostic completed26 lawyer/0 teacher at09:04:01 CST;
+PID3439428 exited. There is currently no experiment worker, only the unchanged
+original8B service. Source-conditioned online learning is the next implementation,
+not yet launched. The single-record removal recovered forward classification but
+lost true evidence and did not improve later sources; no ablated bank was promoted.
 All26 input deltas and52 historical reference wires were verified without
 qualification generations. This is a fixed content diagnostic, not new online
-training or a score-selected library. Its667 bindings also stay frozen until exit.
+training or a score-selected library. All667 bindings were unchanged at termination.
 Use explicit `--run-id legal_contractnli_evidence_scope_ablation_20261016_run01`.
 Protocol: [evidence-scope ablation](reports/experiments/grounded_feedback_20261016/evidence_scope_ablation_protocol.md).
 Original8B PID2261314 remains untouched. The same24 ACE adaptation completed
