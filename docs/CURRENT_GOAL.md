@@ -29,6 +29,17 @@ M1_full_content_review_capacity_and_actual_B2_delivery.json。均在newRun/monit
 下一核验B2真实教师是否收到B1全部重答错误、具体CRUD，再看完整B2/B3/B4同工具与全布局
 净收益，不能手工热改技能/代码或拿B1学后分替代目标。所有61冻结输入不变，Goal仍active。
 
+18:37首批完整证据已保全：legal-task-local-complete-B1-M1-source-and-raw-prefix-20261016.tar.gz，
+SHA256 8a285fe4e4fdefd9a0afa1c17b932447b1dc6138f3f3b1291fca4a39f65124de；
+2893个相对standalone 8ea38df0...新增/变动项目文件，完整Git bundle HEAD36f15d7已验证。
+新Run完整B1为12真实律师/2教师，快照另含当时B2部分前缀，总23真实raw，非完整B2。
+全部61绑定可由base+本增量恢复，不依赖之前prelaunch增量；同vdb，非异机或遗失权重备份。
+收据artifacts/task_local_complete_B1_M1_prefix_backup_20261016.json。
+
+18:42补充核对原作者Span NLI BERT真实代码commit058c56fd...，分类/逐SPAN成员分别监督、
+覆盖/聚合原SPAN后输出，不是只选一句分类理由。只读代码机制，未复制/训练/下载模型；
+详见research/RECENT_SKILL_LEARNING_20261016.md §18。不能以此声称冻结8B方案已验证有效。
+
 ### 18:14启动早期核验（历史）
 
 18:14：完整新Run `legal_contractnli_task_local_online_learning_20261016_run01`
