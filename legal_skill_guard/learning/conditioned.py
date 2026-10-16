@@ -381,7 +381,10 @@ def prepare_conditioned_inputs(cfg):
             (ROOT / cfg["continuation_parent_config"]).with_suffix(".frozen.json"),
         ]
         parent_cfg = read(ROOT / cfg["continuation_parent_config"])
-        bindings += [ROOT / parent_cfg[key] for key in ("method_protocol", "parent_protocol")]
+        bindings += [
+            ROOT / parent_cfg[key] for key in ("method_protocol", "parent_protocol")
+            if key in parent_cfg
+        ]
         bindings += [
             parent / name
             for name in (
@@ -391,7 +394,7 @@ def prepare_conditioned_inputs(cfg):
                 "static_procedures.json",
             )
         ]
-        for folder in ("teacher", "update_transactions", "inherited_evidence_models"):
+        for folder in ("teacher", "update_transactions", "inherited_evidence_models", "source_condition_audits"):
             bindings += sorted((parent / folder).rglob("*.json"))
         for folder in sorted(parent.glob("batch*_before")) + sorted(parent.glob("batch*_after")):
             bindings += sorted(folder.rglob("*.json"))
@@ -399,11 +402,21 @@ def prepare_conditioned_inputs(cfg):
     if cfg.get("teacher_feedback") == HISTORY_FEEDBACK:
         references = cfg["explicit_historical_reference_files"]
         teachers = 7 if cfg.get("teacher_source_condition_audit") else 4
+        planned = (56, teachers)
+        if cfg.get("continuation_kind") == "explicit_revoked_auth_after_b4_audit_v1":
+            if (
+                cfg.get("planned_inherited_native_calls"),
+                cfg.get("planned_inherited_teacher_calls"),
+                cfg.get("planned_total_study_native_calls"),
+                cfg.get("planned_total_study_teacher_calls"),
+            ) != (36, 6, 56, 7) or not cfg.get("teacher_source_condition_audit"):
+                raise ValueError("Explicit36/6 inherited and56/7 total schedule required")
+            planned = (20, 1)
         if len(references) != 110 or (
             cfg["planned_new_native_calls"], cfg["planned_new_teacher_calls"],
             cfg["planned_logical_historical_references"], cfg["planned_unique_historical_native_responses"],
-        ) != (56, teachers, 110, 92):
-            raise ValueError("Explicit full56-call history schedule and declared teacher roles required")
+        ) != (*planned, 110, 92):
+            raise ValueError("Explicit complete history schedule and declared teacher roles required")
         for name in references.values():
             path = ROOT / name
             bindings += [path, Path(read(path)["raw_artifact"])]
@@ -1020,7 +1033,9 @@ class ConditionedStudy(ProcedureStudy):
             if len(all_teachers) != len(expected_names) or {t["name"] for t in all_teachers} != expected_names:
                 raise ValueError("Actual source-audit/editor calls differ from declared roles")
             history_teacher_count = len(expected_names)
-            if history_teacher_count > self.cfg["planned_new_teacher_calls"]:
+            if history_teacher_count > self.cfg.get(
+                "planned_total_study_teacher_calls", self.cfg["planned_new_teacher_calls"]
+            ):
                 raise ValueError("Actual teacher calls exceed the declared ceiling")
         required = (56, history_teacher_count, 110, 56) if history_mode else (90, 5, 76, 90)
         required_old = 92 if history_mode else 58
@@ -1030,9 +1045,12 @@ class ConditionedStudy(ProcedureStudy):
             raise ValueError(
                 "Complete predeclared native/teacher/reference schedule required: " + str(required)
             )
-        if (len(self.native), len(self.teachers)) != (
+        fresh_teacher_count = history_teacher_count - len(self.inherited_teachers) if source_audit_mode else self.cfg["planned_new_teacher_calls"]
+        if fresh_teacher_count > self.cfg["planned_new_teacher_calls"] or (
+            len(self.native), len(self.teachers)
+        ) != (
             self.cfg["planned_new_native_calls"],
-            history_teacher_count if source_audit_mode else self.cfg["planned_new_teacher_calls"],
+            fresh_teacher_count,
         ):
             raise ValueError("Fresh calls differ from the explicit continuation budget")
         self.audit_native(all_units + self.references, "complete_before_new_later_grading")
@@ -1106,6 +1124,11 @@ class ConditionedStudy(ProcedureStudy):
             "run_id": self.run_id,
             "new_native_calls": len(self.native),
             "new_teacher_calls": len(self.teachers),
+            "new_teacher_attempts": self.teacher_attempts,
+            "explicitly_inherited_teacher_attempts": (
+                read(ROOT / self.cfg["continuation_parent"] / "failure.json")["teacher_attempts"]
+                if self.cfg.get("continuation_parent") else 0
+            ),
             "explicitly_inherited_study_native_calls": len(self.inherited_native),
             "explicitly_inherited_study_teacher_calls": len(self.inherited_teachers),
             "total_this_learning_study_native_calls": len(all_native),
@@ -1172,14 +1195,25 @@ class ConditionedStudy(ProcedureStudy):
 
 
 class ConditionedCompletion(ConditionedStudy):
-    """Explicit terminal54 suffix, never an automatic retry or fresh study."""
+    """Explicit terminal-prefix completion, never an automatic retry or fresh study."""
 
     def __init__(self, config_path, *, run_id=None):
         super().__init__(config_path, run_id=run_id)
         parent = ROOT / self.cfg["continuation_parent"]
         old_cfg = read(ROOT / self.cfg["continuation_parent_config"])
         failure = read(parent / "failure.json")
-        if failure[
+        self.auth_completion = self.cfg.get("continuation_kind") == "explicit_revoked_auth_after_b4_audit_v1"
+        if self.auth_completion:
+            if (
+                "Your access token could not be refreshed because your refresh token was revoked."
+                not in failure["error"]
+                or (failure["completed_native_calls"], failure["completed_teacher_calls"], failure["teacher_attempts"], failure["current_batch"]) != (36, 6, 7, 4)
+                or (parent / "update_transactions/b4.json").exists()
+                or (parent / "teacher/source_conditioned_b4/response.json").exists()
+                or not old_cfg.get("teacher_source_condition_audit")
+            ):
+                raise ValueError("Only the documented36/6 revoked-auth terminal prefix is accepted")
+        elif failure[
             "error"
         ] != "ValueError('Complete teacher input exceeds character capacity; never truncate')" or (
             failure["completed_native_calls"],
@@ -1200,6 +1234,7 @@ class ConditionedCompletion(ConditionedStudy):
             "training_ids",
             "expected_later_ids",
             "memory_representation",
+            "teacher_feedback",
         ):
             if self.cfg[key] != old_cfg[key]:
                 raise ValueError("Continuation changed an inference/data/teacher condition: " + key)
@@ -1208,6 +1243,8 @@ class ConditionedCompletion(ConditionedStudy):
             != "exact-current-parent-projection-reference-v1"
         ):
             raise ValueError("Explicit lossless encoding declaration required")
+        if self.auth_completion and self.cfg.get("teacher_source_condition_audit") != old_cfg.get("teacher_source_condition_audit"):
+            raise ValueError("Continuation changed the source-audit method")
         self.parent = parent
         self.static = read(parent / "static_procedures.json")["library"]
         for batch in range(1, 4):
@@ -1238,12 +1275,16 @@ class ConditionedCompletion(ConditionedStudy):
                 self.before[unit["document_id"]] = unit
             if unit["stage"].endswith("_after"):
                 self.after[unit["document_id"]] = unit
-        for name in (
+        teacher_names = (
+            "source_conditioned_b1", "source_condition_audit_b2", "source_conditioned_b2",
+            "source_condition_audit_b3", "source_conditioned_b3", "source_condition_audit_b4",
+        ) if self.auth_completion else (
             "static_public_task_only",
             "source_conditioned_b1",
             "source_conditioned_b2",
             "source_conditioned_b3",
-        ):
+        )
+        for name in teacher_names:
             self.inherited_teachers.append(
                 {"name": name, **read(parent / "teacher" / name / "response.json")}
             )
@@ -1253,8 +1294,49 @@ class ConditionedCompletion(ConditionedStudy):
             len(self.references),
             len(self.before),
             len(self.after),
-        ) != (54, 4, 60, 6, 18):
-            raise ValueError("Exact complete prefix54/4/60 and observations required")
+        ) != ((36, 6, 78, 6, 18) if self.auth_completion else (54, 4, 60, 6, 18)):
+            raise ValueError("Exact declared terminal prefix and observations required")
+
+    def complete_failed_editor(self):
+        """Replay the exact failed request after explicit reauthentication, not its audit."""
+        request = read(self.parent / "teacher/source_conditioned_b4/wire_request.json")
+        body = json.loads(request["user_prompt"])
+        source_ids = [r["id"] for r in self.training]
+        schema = differential_schema(self.labels, self.bank, source_ids, guidance_schema=GUIDANCE_SCHEMA)
+        audit = read(self.parent / "source_condition_audits/b4.json")
+        if (
+            request["model"] != self.cfg["teacher"]["model"]
+            or request["reasoning_effort"] != self.cfg["teacher"]["reasoning_effort"]
+            or request["system_prompt"] != HISTORY_TEACHER_SYSTEM + EDITOR_AUDIT_INSTRUCTION
+            or request["output_schema"] != schema
+            or body["complete_actual_parent_library"] != self.bank
+            or body["actual_parent_library_sha256"] != canonical_json_sha256(self.bank)
+            or [r["document_id"] for r in body["cumulative_seen_original_train_cases"]] != source_ids
+            or body["training_only_parent_source_condition_audit"] != audit
+        ):
+            raise ValueError("Failed editor request differs from the actual immutable parent")
+        RunStore.immutable_json(self.out / "explicit_continuation_provenance.json", {
+            "parent_failure": read(self.parent / "failure.json"),
+            "failed_editor_request": str(self.parent / "teacher/source_conditioned_b4/wire_request.json"),
+            "failed_editor_request_sha256": sha(self.parent / "teacher/source_conditioned_b4/wire_request.json"),
+            "exact_system_user_and_schema_reused_without_summarization": True,
+            "inherited_completed_B4_audit_not_invoked_again": True,
+            "failed_parent_attempt_remains_separate_from_successful_teacher_count": True,
+        })
+        value = self.teacher_call("source_conditioned_b4", request["system_prompt"], request["user_prompt"], schema)
+        bank = apply_differential_publication(self.bank, value, self.labels, source_ids, guidance_schema=GUIDANCE_SCHEMA)
+        tokens = self.validate_library(bank)
+        stats = publication_statistics(self.bank, value, bank, tokens)
+        RunStore.immutable_json(self.out / "update_transactions/b4.json", {
+            "at": now(), "batch": 4, "actual_parent": self.bank,
+            "actual_teacher_value": value, "publication": bank, "management": stats,
+            "source_case_ids": source_ids, "all_valid_changes_published_without_efficacy_gate": True,
+            "no_mandatory_growth_merge_delete_or_frequency_based_eviction": True,
+            "source_condition_audit_teacher_call": "source_condition_audit_b4",
+            "source_condition_audit_is_training_data_not_an_effect_gate": True,
+            "source_condition_audit_explicitly_inherited_from": str(self.parent / "source_condition_audits/b4.json"),
+        })
+        return bank, stats
 
     def execute(self):
         self.check()
@@ -1270,10 +1352,10 @@ class ConditionedCompletion(ConditionedStudy):
                 "config": self.cfg,
                 "frozen_bindings": self.bindings,
                 "explicit_terminal_prefix_not_fresh_training_or_independent_repeat": True,
-                "inherited_native": 54,
-                "inherited_teacher": 4,
-                "new_native_planned": 36,
-                "new_teacher_planned": 1,
+                "inherited_native": len(self.inherited_native),
+                "inherited_teacher": len(self.inherited_teachers),
+                "new_native_planned": self.cfg["planned_new_native_calls"],
+                "new_teacher_planned": self.cfg["planned_new_teacher_calls"],
             },
         )
         RunStore.immutable_json(
@@ -1291,7 +1373,12 @@ class ConditionedCompletion(ConditionedStudy):
         )
         self.validate_library(self.bank)
         self.validate_library(self.static)
+        RunStore.immutable_json(self.out / "static_procedures.json", {
+            **read(self.parent / "static_procedures.json"),
+            "explicit_inherited_from": str(self.parent / "static_procedures.json"),
+        })
         for batch, summary in enumerate(self.summaries, 1):
+            RunStore.immutable_json(self.out / f"update_transactions/b{batch}.json", read(self.parent / f"update_transactions/b{batch}.json"))
             RunStore.immutable_json(
                 self.out / f"batch{batch}_summary.json",
                 {
@@ -1301,13 +1388,18 @@ class ConditionedCompletion(ConditionedStudy):
                     ),
                 },
             )
-        self.bank, management = self.update(4, include_trace=True)
+        if self.auth_completion:
+            for batch in range(1, 5):
+                RunStore.immutable_json(self.out / f"source_condition_audits/b{batch}.json", read(self.parent / f"source_condition_audits/b{batch}.json"))
+        self.bank, management = self.complete_failed_editor() if self.auth_completion else self.update(4, include_trace=True)
         self.versions[canonical_json_sha256(self.bank)] = copy.deepcopy(self.bank)
         self.fit_ordinary(4)
         rows = [r for r in self.training if r["batch"] == 4]
         before = {}
         for arm in PREFIX_ARMS:
-            suffix = "reference" if arm in ("strong_empty", "ordinary_memory") else "public"
+            suffix = "reference" if arm in ("strong_empty", "ordinary_memory") or (
+                self.cfg["teacher_feedback"] == HISTORY_FEEDBACK and arm == "unconditional_layout"
+            ) else "public"
             before[arm] = [
                 read(self.parent / "batch4_before" / arm / f"{r['id']}.{suffix}.json") for r in rows
             ]
@@ -1361,7 +1453,10 @@ class ConditionedCompletion(ConditionedStudy):
             for arm in ARMS[offset:] + ARMS[:offset]:
                 later[arm].append(
                     self.reference_answer("later", arm, row)
-                    if arm in ("strong_empty", "ordinary_memory")
+                    if arm in ("strong_empty", "ordinary_memory") or (
+                        self.cfg["teacher_feedback"] == HISTORY_FEEDBACK
+                        and arm in ("unconditional_layout", "static_procedures")
+                    )
                     else self.answer("later", arm, row, self.bank_for(arm))
                 )
         self.finish(later)

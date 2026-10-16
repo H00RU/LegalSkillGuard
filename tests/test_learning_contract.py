@@ -815,3 +815,53 @@ def test_report_uses_saved_denominators_and_separates_probe(tmp_path):
         assert "每条件8份合同、136个命题" in text and "24个不同TRAIN" not in text
         assert ("每条件4份合同、68个命题" in text) == (name == "fork")
         assert json.loads((run / "completion.json").read_text()) == completion
+
+
+@pytest.mark.parametrize("tamper", [False, True])
+def test_auth_completion_replays_exact_failed_editor_without_repeating_audit(tmp_path, tamper):
+    from legal_skill_guard.learning.conditioned import (
+        EDITOR_AUDIT_INSTRUCTION, GUIDANCE_SCHEMA, HISTORY_TEACHER_SYSTEM, ConditionedCompletion,
+    )
+    from legal_skill_guard.learning.publication import differential_schema
+    from legal_skill_guard.utils.hashing import canonical_json_sha256
+
+    row, labels, _ = fixture()
+    study = object.__new__(ConditionedCompletion)
+    study.parent, study.out = tmp_path / "parent", tmp_path / "completion"
+    study.bank, study.labels, study.training = [], labels, [row]
+    study.cfg = {"teacher": {"model": "gpt-5.6-sol", "reasoning_effort": "high"}}
+    audit = {"complete_original_audit": True}
+    body = {
+        "complete_actual_parent_library": [],
+        "actual_parent_library_sha256": "changed" if tamper else canonical_json_sha256([]),
+        "cumulative_seen_original_train_cases": [{"document_id": row["id"]}],
+        "training_only_parent_source_condition_audit": audit,
+    }
+    request = {
+        **study.cfg["teacher"],
+        "system_prompt": HISTORY_TEACHER_SYSTEM + EDITOR_AUDIT_INSTRUCTION,
+        "user_prompt": json.dumps(body, indent=3) + "\n",
+        "output_schema": differential_schema(labels, [], [row["id"]], guidance_schema=GUIDANCE_SCHEMA),
+    }
+    RunStore.immutable_json(study.parent / "teacher/source_conditioned_b4/wire_request.json", request)
+    RunStore.immutable_json(study.parent / "source_condition_audits/b4.json", audit)
+    RunStore.immutable_json(study.parent / "failure.json", {"teacher_attempts": 7})
+    calls = []
+    value = {"operations": [], "noop_reason": "No change supported."}
+
+    def teacher(name, system, user, schema):
+        calls.append((name, system, user, schema))
+        return value
+
+    study.teacher_call = teacher
+    study.validate_library = lambda bank: 0
+    if tamper:
+        with pytest.raises(ValueError, match="immutable parent"):
+            study.complete_failed_editor()
+        assert calls == []
+    else:
+        bank, stats = study.complete_failed_editor()
+        assert bank == [] and stats["explicit_noop"]
+        assert calls == [("source_conditioned_b4", request["system_prompt"], request["user_prompt"], request["output_schema"])]
+        transaction = json.loads((study.out / "update_transactions/b4.json").read_text())
+        assert transaction["source_condition_audit_teacher_call"] == "source_condition_audit_b4"

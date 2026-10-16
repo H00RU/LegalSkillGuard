@@ -1,6 +1,20 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Current default: `legal_contractnli_source_condition_audit_learning_20261016_run01`,
+Current default: `legal_contractnli_source_condition_audit_completion_20261016_run01`.
+At16:32 CST this explicit continuation is prepared but NOT launched yet.
+Its parent below failed15:55:01 CST at the M4 editor because its refresh token
+was revoked, after36 successful native/6 successful teacher calls (7 attempts).
+The user reconfigured the account and explicitly requested continuation.
+Only20 fresh native/1 fresh teacher calls are planned; no B1--B3 rerun or
+repeat B4 audit. The original complete editor request is reused unchanged.
+See [completion protocol](docs/SOURCE_CONDITION_AUDIT_COMPLETION_20261016.md).
+The terminal prefix/all250 frozen inputs are backed up and byte-verified;
+authentication failure and attempted-call costs remain visible in the parent.
+B4 first-encounter78.43/65.69/62.75% versus same-tool79.41/73.33/57.84%
+confirms negative evidence transfer, independently of the later auth failure.
+Account recovery is not an efficacy repair. The Goal remains active.
+
+Historical parent: `legal_contractnli_source_condition_audit_learning_20261016_run01`,
 started14:53:46 CST as detached PID4043889. Full four-batch learning from empty,
 56 new lawyer/up to7 teacher calls;110 logical historical controls are explicit,
 not fresh independent draws. At15:46 CST32/56 new lawyer calls and5 teachers
