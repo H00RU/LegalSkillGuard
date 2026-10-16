@@ -5,6 +5,29 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+16:38:25：实际M4教师调用已一次成功（64.651秒、258491输入/2194输出tokens），
+无缓存、工具或换模型，账号调用真正恢复。M4为3修改/1新增，18条/3408tokens；
+完整原请求仅purpose改变，全部CRUD独立重放与发布相同，447冻结绑定仍完整。
+后台PID7746进入B4学后430。不要将登录恢复或编辑完成视为指标根因修复。
+收据新Run/monitoring/actual_auth_continuation_and_M4_full_publication_independent_replay.json。
+
+### 16:37启动记录（历史）
+
+16:37:02：上述显式新Run已在后台PID7746启动；16:37:20继承114逻辑观察完整重放通过，
+16:37:21实际提交M4教师请求，977958字符含包装，仅purpose/Run ID变动。
+原8B进程未重启，447新冻结输入；新调用0/20律师、0/1教师完成、1次尝试进行中，
+此刻尚不能凭login status宣称账号请求已成功。30项永久边界测试通过，无资格生成。
+启动前源码与全部447输入及36/6父前缀已逐文件保全，HEAD92c3370f6db35600ebf640bbe3dd3486d7e1c303，
+`legal-source-condition-auth-completion-source-and-prefix-before-launch-20261016.tar.gz`，SHA256
+abdd5f4044f3d97849bfa13dbf0cc4a5a68dd4e49e2a2fe6fdf23d9dbd0fc317，2548常规文件。
+
+新B4损失核算：同工具→主丢11个真成员、得1个，10道丢证题全部错NM；5道相关技能全被
+字面门槛挡住，5道相关指导实际已给。14个分类损害中12个错NM，另2个从正确NM变成E/C。
+这不等于单一技能因果，不应只补同义词或称门槛解释全部；旧案原始答及Gold不变。
+收据新Run/monitoring/B4_first_encounter_loss_accounting_and_delivery_splits.json。
+
+### 16:32准备状态（历史）
+
 16:32：父Run已于15:55:01因refresh token revoked终止，完整36新律师/6成功教师，
 7次教师尝试，故障只在M4编辑；B4审查432项已完成，不重做。用户已重新配置账号并要求继续。
 正在准备显式新Run `legal_contractnli_source_condition_audit_completion_20261016_run01`，

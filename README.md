@@ -1,7 +1,13 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
 Current default: `legal_contractnli_source_condition_audit_completion_20261016_run01`.
-At16:32 CST this explicit continuation is prepared but NOT launched yet.
+Started16:37:02 CST as detached PID7746, independent of this conversation.
+At16:37:21 all114 inherited observations had replayed successfully and the
+single required M4 editor call was submitted. Authentication success is not
+claimed until an actual successful teacher response exists.
+Update16:38:25 CST: that actual call succeeded once, with no cache, tools or
+model substitution. M4 published3 updates/1 create,18 skills/3408 master tokens.
+The worker is now answering B4 after-fit; no efficacy claim is made yet.
 Its parent below failed15:55:01 CST at the M4 editor because its refresh token
 was revoked, after36 successful native/6 successful teacher calls (7 attempts).
 The user reconfigured the account and explicitly requested continuation.
