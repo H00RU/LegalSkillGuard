@@ -1,5 +1,28 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+RUNNING21:41 CST: `legal_contractnli_literal_evidence_online_learning_20261016_run02`,
+detached PID440562 launched21:28:01. Complete B1 ended21:40:52 and B2 has begun;
+12/148 new native,1/4 new main teachers plus1 explicit fixed public-only static.
+All answers/main skill edits are new, no historical main bank or native reuse.
+All66 frozen inputs/source were backed up before launch (373 files/full bundle,
+SHA256bf875470677eaa8de70ab8df2a92ed34ae93299c1d38e4dc9e14e08003493b59).
+
+Actual M1 full6/102 original feedback/literal view matches its own responses;
+12 CREATE,1579 master/2420 scoped tokens, all contents and publication reviewed.
+B1 original-author audit covers30 logical/12 native/510 query sets: cold
+85.29/59.56/45.10%, after-fit93.14/82.19/71.57%. The latter also updates the
+shared tool and is not transfer/pure skill benefit; it does not beat the old
+M1 F1/joint. Of38 missed members,24 were candidates and33 were on correct labels.
+
+A concrete supplied-negative content fault remains: the new copy-permission
+rule includes prior written consent although source490's such clause has original
+Gold C; native reanswer flips C→E, citing the same span and reporting the rule.
+No live bank/Gold repair is applied. Next inspect whether the actual M2 update
+corrects this and other boundaries, and measure complete B2--B4 matched evidence
+gains/damage. Efficacy, mature-method superiority and formal testing remain PENDING.
+
+Historical21:26 checkpoint:
+
 Current21:26 CST: literal run01 FAILED21:13:35 before any lawyer answer. The
 single successful public-only static teacher produced1362 master/5030 delivered
 tokens (two generic records each repeated17 times), over the4096 cap. No pruning,

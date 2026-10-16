@@ -5,6 +5,46 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+21:41：Run02已21:28:01后台PID440562真实启动，B1已21:40:52完整结束并自动进入B2首遇。
+12/148新律师、1/4新主教师/1尝试、0继承原生、1固定静态教师；无旧主库/旧回答继承。
+启动前66输入/固定static原始3文件/源已保全，373项目成员+全Git bundle
+HEAD2a65b55143e4f8b436f5d446d3ad7c7a35c94198逐字节校验：
+legal-literal-fixed-static-all66-inputs-before-run02-launch-20261016.tar.gz，SHA256
+bf875470677eaa8de70ab8df2a92ed34ae93299c1d38e4dc9e14e08003493b59；同vdb非模型/异机备份。
+收据artifacts/literal_fixed_static_run02_prelaunch_all66_backup_20261016.json。
+
+固定static只复制已声明公开对照的wire/value/event，17条1316/1145tokens，所有hash与原源逐字相等；
+新主库起始空/ordinary=None，前两真实490/334原native source/17题/解码/schema/空库及三冷别名
+已核验且rawID与旧Run不同，实际新生成不是旧答充新。新首批教师请求205923字符，完整6源/
+102Gold/自己实际原生答及全部Gold∪实际引用原文逐字重建相等，静态库未进主学习。
+M1真实86.011秒/sequence1352/input57558(供应商cached11392)/output3989/reason1729；
+CLI响应cache_hit=false、无工具、1尝试，12 CREATE/1579master/2420投影，全部内容已读、发布重放。
+供应商输入token缓存不是复用旧回答，按实际usage保留，不假称cached输入为0。
+
+B1全部30逻辑/12原生/510逐题原作者集合与完整wire独立核验通过：冷85.29/59.56/45.10%，
+学后93.14/82.19/71.57%，非NM联合40、NM33。学后同时更新监督工具，不是纯技能/新案迁移。
+与旧M1相比F1和联合更低，不声称literal已改善；是整体新政策/新库，不能归因某个呈现字段。
+剩29联合错：7分类、22类别对但依据不全；38漏真成员中24已在候选，33在正确标签题。
+首批仍存在执行/完整性问题，增加原文不是充分修复，继续看B2--B4匹配净效果而非硬求裸分单调。
+
+另有实际教师内容错误：490/nda17原C，span15明确“without written permission”，原C及全文
+已给教师；M1却将prior written consent概括为E条件，并在C规则中排除consent exception。
+同案cold C→学后E，仍引用15、公开报告使用该E规则。不是缺原文/原标签或只有路由问题。
+这不是独立法律裁决/单技能因果证明（before-after也换普通工具；reported use非忠实注意力证据）。
+禁止为490特调/改Gold/热改库；M2将收到该真实错误及全6前批Gold、全6新案同父反馈，检查其
+是否真正分清“未来酌情同意”与“协议已赋予的复制情形”，同时审计其他命题/依据，不只盯此例。
+若持续出现已供负例被规则覆盖，应修复通用的条件/反例与全SPAN证据学习契约，不再仅改表述/编号展示。
+
+新Run内monitoring已有首2native/固定static、M1全6输入、实际M1/首个literal非零wire及上述
+负例冲突、完整B1四份审计；run-local analyse_completed_batches.py仅改cfgpath，可直接审B2--B4。
+完整终点脚本在旧packing-completion Run，可显式传新cfg/out复用；需新Run真正完结后才运行。
+数据访问声明须精确：准备/原作者核验会解析TRAIN容器作来源检查；不能声称开发标注字节从未
+解析。当前8案是早已暴露的TRAIN开发集，未进当前推理/教师；新Run评分待40终点全存。正式DEV/TEST不解析。
+本轮完整旧148负结果审计、源/轨迹保全、真实新主学习接入、静态失败根因设计修正及完整B1/
+内容边界证据属实质progress；Goal active未达到，强成熟对照优势/独立学习重复/正式测试仍缺。
+
+### 21:26历史游标
+
 21:26：literal run01并非仍在训练：已21:13:35终止，0律师/1实际教师/1尝试。静态教师
 成功返回10条，master1362但两条通用记录各重复17次后投影5030>4096，主学习尚未开始。
 响应未裁剪/发布主库、未同Run重试，全部失败成本input13683/output5514/reason4221/

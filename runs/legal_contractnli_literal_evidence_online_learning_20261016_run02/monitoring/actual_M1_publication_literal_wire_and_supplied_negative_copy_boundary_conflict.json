@@ -1,0 +1,130 @@
+{
+  "at": "2026-10-16T13:40:05.911534+00:00",
+  "all12_actual_create_contents_read_and_complete_publication_replayed": true,
+  "actual_teacher_invocation": {
+    "attempt": 1,
+    "started_at": "2026-10-16T13:33:18.821436+00:00",
+    "finished_at": "2026-10-16T13:34:44.831978+00:00",
+    "elapsed_seconds": 86.011,
+    "returncode": 0,
+    "event_log_sha256": "288efc7cb32b4403599d10092207b65cae8269ee174018f7efd4b31489e68133",
+    "tool_events_detected": false,
+    "budget_reservation": {
+      "sequence": 1352,
+      "new_epoch_sequence": 127,
+      "reserved_at": "2026-10-16T13:33:18.822248+00:00",
+      "model": "gpt-5.6-sol",
+      "purpose": "legal_contractnli_literal_evidence_online_learning_20261016_run02_task_local_b1",
+      "request_sha256": "828421b292770e010f04cbdde2cef46ea5c2ff7c3bf188bfeb96b8a415534c81",
+      "attempt": 1
+    },
+    "usage": {
+      "input_tokens": 57558,
+      "cached_input_tokens": 11392,
+      "output_tokens": 3989,
+      "reasoning_output_tokens": 1729
+    },
+    "estimated_credits": null
+  },
+  "management": {
+    "operation_counts": {
+      "CREATE": 12,
+      "UPDATE": 0,
+      "DELETE": 0,
+      "MERGE": 0
+    },
+    "explicit_noop": false,
+    "parent_skill_count": 0,
+    "published_skill_count": 12,
+    "new_ids": [
+      "nda-contextual-confidentiality-alternative",
+      "nda-copy-permission-explicit",
+      "nda-exhaustive-return-bars-retention",
+      "nda-list-and-fragment-completeness",
+      "nda-negotiation-existence-secrecy",
+      "nda-no-rights-grant",
+      "nda-post-return-retention-permission",
+      "nda-purpose-limited-use",
+      "nda-return-trigger-link",
+      "nda-third-party-representative-sharing",
+      "nda-universal-identification-condition",
+      "nda-unqualified-copy-ban"
+    ],
+    "removed_ids": [],
+    "verbatim_retained_ids": [],
+    "revised_retained_ids": [],
+    "serialized_library_tokens": 1579,
+    "guidance_characters": 7331,
+    "not_a_utility_score_or_publication_gate": true,
+    "serialized_scoped_delivery_tokens": 2420
+  },
+  "first_actual_nonzero_literal_wire_full_source_scope_bank_candidates_and_schema_checked": true,
+  "same_supplied_training_negative_boundary_conflict": {
+    "source_id": 490,
+    "original_hypothesis": "Receiving Party may create a copy of some Confidential Information in some circumstances.",
+    "original_Gold": {
+      "choice": "Contradiction",
+      "spans": [
+        15
+      ]
+    },
+    "literal_original_span15": "3. The receiving party agrees not to copy any Proprietary Information without the written permission of the disclosing party, and shall return such Proprietary Information and any copies when requested to do so by the disclosing party during the term of this Agreement",
+    "positive_rule_admits_prior_written_consent": {
+      "id": "nda-copy-permission-explicit",
+      "hypothesis_ids": [
+        "nda-17"
+      ],
+      "guidance": {
+        "when": "Assessing whether the receiving party may make any copy in some circumstance.",
+        "inspection": "Find an express copying route, such as prior written consent, copies needed for authorized persons, or automatic backup creation acknowledged by the agreement. Permission may be conditional and need not be general.",
+        "relation_if_established": "Entailment",
+        "evidence_requirement": "Cite language expressly addressing copying, reproduction, or backup creation and the condition that authorizes it; access or disclosure permission alone is insufficient.",
+        "source_operations": [
+          "list_preamble"
+        ]
+      }
+    },
+    "negative_rule_excludes_consent_exception": {
+      "id": "nda-unqualified-copy-ban",
+      "hypothesis_ids": [
+        "nda-17"
+      ],
+      "guidance": {
+        "when": "The agreement expressly prohibits copying confidential information.",
+        "inspection": "If copying is barred and the complete agreement provides no condition under which the receiving party may copy, the conditional-copy permission hypothesis is negated. A consent exception would instead be a permission circumstance.",
+        "relation_if_established": "Contradiction",
+        "evidence_requirement": "Cite the copy prohibition and verify that no consent, operational-copy, backup, or other copying exception appears elsewhere.",
+        "source_operations": []
+      }
+    },
+    "teacher_received_this_original_negative_before_generating_both_rules": true,
+    "actual_before_public_answer": {
+      "choice": "Contradiction",
+      "spans": [
+        15
+      ],
+      "reason": "Copying requires written permission.",
+      "used_skill_ids": []
+    },
+    "actual_after_public_answer": {
+      "choice": "Entailment",
+      "spans": [
+        15
+      ],
+      "reason": "Copying requires written permission.",
+      "used_skill_ids": [
+        "nda-copy-permission-explicit"
+      ]
+    },
+    "rule_and_public_answer_conflict_with_supplied_benchmark_label_not_independent_legal_oracle": true,
+    "before_after_also_changes_ordinary_tool_and_reported_use_not_individual_skill_causal_proof": true
+  },
+  "not_case_specific_prompt_edit_or_admission_bank_repair": true,
+  "current_bank_and_Gold_untouched": true,
+  "next_actual_M2_receives_previous_B1_after_and_current_B2_before_under_own_parent": true,
+  "all66_bindings_unchanged": true,
+  "new_generation_teacher_calls_by_this_audit": [
+    0,
+    0
+  ]
+}
