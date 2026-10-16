@@ -3,13 +3,17 @@
 Current default: `legal_contractnli_source_condition_audit_learning_20261016_run01`,
 started14:53:46 CST as detached PID4043889. Full four-batch learning from empty,
 56 new lawyer/up to7 teacher calls;110 logical historical controls are explicit,
-not fresh independent draws. At15:19 CST14/56 new lawyer calls and3 teachers
-are complete; editorM2 has published16 skills/2795 master tokens (4 updates,
-4 creates) after the first168-pair parent-condition audit. B2 after-fit is running.
+not fresh independent draws. At15:41 CST28/56 new lawyer calls and5 teachers
+are complete; editorM3 has published17 skills/3179 master tokens (7 updates,
+1 create) after the second306-pair parent-condition audit. B3 after-fit is running.
 M1 has12 skills/1893 master tokens. B1 after-fit87.25/85.47/76.47% is supervised
 seen-case fit, not transfer. B2 first-encounter82.35/50.98/47.06% versus the
 same-tool control83.33/50.00/47.06% is not a substantive three-metric gain.
 B2 usesM1 BEFORE the first source audit, whose update is first tested onB3.
+B3 first-encounter87.25/60.16/48.04% versus same-tool76.47/59.17/38.24%
+improves classification/joint, but F1 gains only0.99pp and does not beat the
+60.24% all-layout control. Per-source F1 improves3, worsens2, ties1. Not a
+stable substantive evidence gain, mature-method win or formal test result.
 FromB2, the same teacher audits parent conditions against seen sources
 without annotations in that request, before the existing Gold-assisted edit.
 This is fallible training data, NOT an independent oracle or admission gate.
