@@ -1,5 +1,22 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Prepared21:09 CST: `legal_contractnli_literal_evidence_online_learning_20261016_run01`.
+CLI explicitly selects LiteralEvidenceStudy only when both declared view flags
+match; partial/unknown views fail without silent legacy execution. New config
+`configs/contractnli_literal_evidence.json` is frozen with63 bindings;44 quick
+zero-generation checks pass in3.51 seconds. Models/task/curriculum/scoring and
+ordinary-tool prefixes stay fixed. Planned148 fresh native/5 teacher, complete
+four batches/retention/40 endpoint, own empty-bank learning with no inherited
+answers or skills. NOT launched yet; next back up and launch directly.
+
+The previous complete148/5 source, skills, raw outputs and40 endpoint scores
+were archived and verified BEFORE modifying the CLI;833 project members plus
+full Git bundle, archive SHA256
+b0d32289569e04e2cf8439099cc7c772fedff3413d5cca7854d41f25d1a2e3d6.
+Same-vdb backup, not offsite or missing model weights. No efficacy breakthrough.
+
+Historical21:06 checkpoint:
+
 Current21:06 CST: `legal_contractnli_task_local_packing_completion_20261016_run01`
 COMPLETED21:03:30; PID229747 exited. Whole lineage148 actual native/5 teacher,
 166 logical observations;112/3 new and36/2 explicit inheritance. Independent

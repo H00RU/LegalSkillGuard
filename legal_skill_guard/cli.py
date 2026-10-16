@@ -18,8 +18,16 @@ from legal_skill_guard.report import write_report
 
 
 def study_for(config, run_id):
-    method = read(config).get("method", "callable")
+    cfg = read(config)
+    method = cfg.get("method", "callable")
     if method == "task_local_memory":
+        views = (cfg.get("candidate_source_view"), cfg.get("teacher_feedback_view"))
+        if views == ("literal_original_span_v1", "literal_evidence_comparisons_v1"):
+            from legal_skill_guard.learning.literal_evidence import LiteralEvidenceStudy
+
+            return LiteralEvidenceStudy(config, run_id=run_id)
+        if views != (None, None):
+            raise ValueError("Unknown or incomplete declared task-local source/feedback views")
         from legal_skill_guard.learning.task_local import TaskLocalStudy
 
         return TaskLocalStudy(config, run_id=run_id)
@@ -305,7 +313,7 @@ def main():
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs/contractnli_task_local_completion.json",
+        default=ROOT / "configs/contractnli_literal_evidence.json",
     )
     parser.add_argument("--run-id")
     parser.add_argument(

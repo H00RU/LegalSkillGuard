@@ -5,6 +5,22 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+21:09：旧完整148/5终态及源已修改CLI前独立保全，833项目文件和全Git bundle逐字节验证：
+legal-task-local-complete148-native5-teacher-before-literal-cli-registration-20261016.tar.gz，
+SHA256 b0d32289569e04e2cf8439099cc7c772fedff3413d5cca7854d41f25d1a2e3d6，
+HEADc5b837cb085015bb2afd0b0ebb0e40819b7f3930，全部183旧输入/全部112新raw+36继承raw/
+40终点原生及40原评分/5教师均包含；同vdb，非异机/模型权重备份。
+收据artifacts/task_local_complete148_before_literal_cli_registration_backup_20261016.json。
+
+新literal候选CLI已明确注册两个视图flag；未知/半套声明直接拒绝，不静默落回旧方法。
+config configs/contractnli_literal_evidence.json已prepare冻结63输入，实际class LiteralEvidenceStudy，
+当前主库空/tool=None，148新律师/5新教师/18冷别名/166逻辑，全新自身在线轨迹，无旧答/旧技能继承。
+44永久检查3.51秒通过，0资格生成/教师；models/解码/原24四批及8开发/评分/监督工具前缀均不变。
+此时新Run目录尚不存在、尚未launch；下一立即新源/63输入备份并后台launch完整4批/保持/终点。
+63绑定进入运行后不可改，原8B服务PID2261314仍须保持，无重启/新模型/任务方向变化。
+
+### 21:06历史游标
+
 21:06：接续Run已21:03:30真实完成，PID229747确认退出，112新增律师/3新增教师/3尝试，
 显式继承36/2，全lineage148真实raw/5教师、166逻辑观察。独立analyse_complete_endpoint.py
 完整核验166源/wire/2822逻辑逐题集合/148身份/5教师实际窗口/新旧成本通过，183旧绑定仍原样。
