@@ -33,9 +33,18 @@ Only repeated JSON keys, derived branch IDs/exact prefixes and constant nulls
 are factored: the full4075-token table decodes to every original field/string,
 with all16 skills/28 branches and unchanged4096 limit. No knowledge truncation,
 new teacher retry, task score or automatic bank selection.
-All8 structural checks and32 inherited wire replays passed without qualification
-generations. The first actual lawyer call is running;311 bindings remain frozen
-until this worker exits. This is not a new full online learner or formal test.
+This diagnostic completed14:23:49 CST with24/0 new calls,1 inherited teacher.
+Advisory83.09/69.83/59.56%, consistent81.62/69.46/58.09%; removing5 disagreements
+repairs1 label but damages3. All56 author/source/native/manual-score audits and311
+terminal bindings passed. No worker remains and neither bank is promoted.
+See the [complete negative readout](reports/experiments/typed_execution_20261016/readout.md).
+
+Next complete online study is designed, NOT yet launched:
+`legal_contractnli_source_condition_audit_learning_20261016_run01`. A training-only
+annotation-withheld parent-condition check by the same teacher then informs the
+existing Gold-assisted editor. Lawyer/source/output/CRUD/no-admission boundaries
+stay unchanged.56 new lawyer/up to7 teacher, not another typed-output test.
+See the [new protocol](docs/SOURCE_CONDITION_AUDIT_LEARNING_20261016.md).
 
 ## Completed source-conditioned predecessor (historical)
 
