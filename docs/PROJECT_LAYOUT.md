@@ -16,6 +16,18 @@
 
 ## 当前后台工作
 
+当前唯一worker：`legal_contractnli_source_condition_audit_learning_20261016_run01`，PID4043889，
+14:53:46后台启动。原8B2261314不动，250源/输入绑定冻结到本worker退出，默认CLI已指新配置。
+14:59实查3/56新律师、1完成教师，M1原子CREATE12/1893tokens，正在B1学后331；尚无新迁移指标。
+从空库完整四批，56新律师/最多7教师；第一教师实际205535字符已核验完整6原源/Gold和新编辑系统。
+训练端先作原文条件审查再结合Gold编辑，空初库正常不审；不增加律师阶段、Schema或效果准入。
+协议[SOURCE_CONDITION_AUDIT_LEARNING](SOURCE_CONDITION_AUDIT_LEARNING_20261016.md)，尚无新指标。
+完整负检查24/1和修复前后源码、全250冻结输入含原下载档已同vdb逐字节保全，非异机或遗失权重备份；
+新归档`legal-source-condition-audit-complete-frozen-inputs-before-launch-20261016.tar.gz`，SHA256
+38a3294f5778f59fde0c3e5de7238190f5fc6af626688c5652fb59fa0f62b5ce，HEAD37308fd。
+
+### 下列为已结束父实验与启动前设计，不代表当前进程
+
 13:22:39主`legal_contractnli_observable_history_learning_20261016_run01`已完整56律师/4教师并退出，
 166逻辑/148不同原生答，全部40终点原作者与实际wire/逐题手算独立通过。
 末库80.15/68.18/58.82%，同工具80.88/71.37/55.15%，尚无稳定三指标优势；不是正式测试。

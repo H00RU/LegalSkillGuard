@@ -5,6 +5,33 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+14:59同后台4043889真实3/56新律师、1完成教师，B1学后331。M1原子CREATE12/1893tokens，
+全返回与独立原子发布重算一致，无cache/tools。首490实际交付8/12条、1050tokens；实际完整请求、
+原源/候选/真实交付、原Schema和原SPAN评分重算通过，250绑定全一致。原四输出字段，无applied_branch或审查数据。
+M1存续指导不再把泛化可执行性列作替代条件，但这是内容观察，不是B2--B4或独立效果证明。
+第一教师实际205535字符、完整6 TRAIN/Gold、空父库与原系统加新指令已独立核验；首条件审查尚未发生，正常从B2开始。
+收据本Run/monitoring/actual_first_editor_input_source_gold_empty_parent_and_frozen_identity_audit.json、
+actual_M1_teacher_and_unconditional_publication_identity.json、first_actual_native_original_interface_source_delivery_and_score_audit.json。
+继续同一完整四批，下一重点B1完成后的B2首遇和真实source_condition_audit_b2，不因单案拟合或输出等待重启。
+
+**当前新完整在线worker已14:53:46后台启动**：`legal_contractnli_source_condition_audit_learning_20261016_run01`，
+PID4043889，不依赖对话。56新律师/最多7教师（4编辑＋最多3非空父库审查），110明确历史逻辑控制。
+14:54实查仍活，首编辑205535字符/6 TRAIN，0/56新律师、0完成/1尝试教师；空库正常跳过条件审查。
+250绑定冻结到本worker退出，原8B2261314不动。CLI默认已切新配置，不能把旧默认完成误当新worker停止。
+source_condition_audit.py只作训练教师的数据/引用校验；不加律师阶段、类型化分支、主机法律判定或效果准入。
+审查会先在不含本请求原标签/律师答的完整已见原文上返回条件主张；父库已受旧Gold影响，故不是独立真相。
+已有编辑器再读完整原Gold/公开执行历史和此可错审查；冲突被保留为训练信息，不触发删除/回滚/重试。
+
+37308fd源码已提交；现有永久边界测试28/28在1.15秒通过，0资格生成，不新增测试框架或临时测试文件。
+启动前修复前/后源码、完整负24/1、此前记录434原生/53教师祖系及全250冻结输入都已逐字节保全：
+2321常规文件/完整已验证Git bundle，归档`legal-source-condition-audit-complete-frozen-inputs-before-launch-20261016.tar.gz`，
+SHA256 38a3294f5778f59fde0c3e5de7238190f5fc6af626688c5652fb59fa0f62b5ce。
+前一集成归档遗漏忽略路径中的新推理身份与原下载zip，范围核查已明确发现；此新归档补齐并逐250项校验，
+旧归档未改删。原zip只是按字节复制，未打开官方DEV/TEST标签。仍同vdb非异机/遗失权重或完整旧用量备份。
+收据artifacts/source_condition_audit_complete_input_backup_20261016.json。主目标未达成，Goal保持active。
+
+### 14:23--14:47否证与修复实现（历史，后续计划已启动）
+
 执行检查3958253已14:23:49完整24新律师/0新教师结束并退出；继承失败编译1教师。
 提示83.09/69.83/59.56%，一致约束81.62/69.46/58.09%，5矛盾消失但分类修正1/损害3/双错1。
 全56实际答/原作者源/Gold/整wire/手算、列式表独立解码、全部8同消息配对及311终态绑定已通过。

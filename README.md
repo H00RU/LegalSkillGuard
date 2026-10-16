@@ -1,6 +1,19 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
-Current default: `legal_contractnli_observable_history_learning_20261016_run01`,
+Current default: `legal_contractnli_source_condition_audit_learning_20261016_run01`,
+started14:53:46 CST as detached PID4043889. Full four-batch learning from empty,
+56 new lawyer/up to7 teacher calls;110 logical historical controls are explicit,
+not fresh independent draws. First editor completed:12 skills/1893 master tokens;
+3/56 new lawyer calls saved, B1 after-fit ongoing. No new transfer scores yet.
+FromB2, the same teacher audits parent conditions against seen sources
+without annotations in that request, before the existing Gold-assisted edit.
+This is fallible training data, NOT an independent oracle or admission gate.
+Runtime lawyer/source/output/4096/CRUD remain unchanged;250 bindings stay frozen
+until this worker exits. See the [protocol](docs/SOURCE_CONDITION_AUDIT_LEARNING_20261016.md).
+
+## Latest completed full learning predecessor
+
+`legal_contractnli_observable_history_learning_20261016_run01`,
 **completed13:22:39 CST**,56 new lawyer/4 teacher calls and110 explicit historical
 logical controls (92 distinct old responses),166 observations/148 distinct native
 answers. All40 endpoint answers independently match original author TRAIN labels,
@@ -39,7 +52,7 @@ repairs1 label but damages3. All56 author/source/native/manual-score audits and3
 terminal bindings passed. No worker remains and neither bank is promoted.
 See the [complete negative readout](reports/experiments/typed_execution_20261016/readout.md).
 
-Next complete online study is designed, NOT yet launched:
+Current complete online study, launched as declared above:
 `legal_contractnli_source_condition_audit_learning_20261016_run01`. A training-only
 annotation-withheld parent-condition check by the same teacher then informs the
 existing Gold-assisted editor. Lawyer/source/output/CRUD/no-admission boundaries
