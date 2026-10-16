@@ -5,6 +5,59 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+01:50最新真实状态：主PID801943与监控812418均LIVE，已完整B1并自动B2；不读部分B2分数。
+B1完整after按原作者集合/6实际wire/一份命名库/实际查询/原文还原已独立核验：
+89.22/89.74/77.45%，TP105/FP1/FN23、非NM联合48/NM31、错NM5。冷85.29/59.56/45.10%。
+这比上一轮witness/table同案after88.24/78.87/65.69更高，但after也更新了监督工具；
+不是跨合同、纯技能、正式TEST或论文目标达标。B1物理12/逻辑30，2新教师中1 static+1 main。
+
+M1真实113.410秒，sequence1361，input62507/output6144(reason3288包含在output内)，
+9 CREATE/38查询、2141master/2513 one-copy named tokens。全部9程序与38参数已读；覆盖
+16公共任务，未因nda11前批全NM就硬造程序/答案。实际6源完整教师包逐字重建，真实event/
+value/原子发布核验通过。首2after真正执行各38查询，490/334分别标7/30原SPAN；命名
+程序在wire仅一次，去SOURCE_LEADS逐字还原原文，原生仍原4字段，无训练Gold/元数据进律师。
+这说明动作确已接通，不是语义正确、注意力依赖或因果效用证明。所有65主绑定与监控注册不热改。
+
+另只读发现既有轻量词干器对常见形态不一致：copy/copies、employee/employees、
+representative/representatives、party/parties、notice/notices、use/uses不能归一；return/returned可以。
+这可能造成程序字面召回缺口，但尚未量化为本轮真实漏证的贡献，不据此停当前正常worker。
+未装新依赖、未改运行中matcher或手写词替换补丁。下一在足够完整实际批次后，将具体查询漏引
+与这类不一致对应，必要时评估成熟通用English stemmer，不把几个形态单测当效果根因已解决。
+记录monitoring/read_only_morphology_inconsistency_not_deployed.json。当前仍优先完整B2/B3
+同工具/强空净增和后续维护，而非反复B1或只做接口检查；Goal active，整体主目标未达标。
+
+01:38当前主链是`legal_contractnli_source_program_online_learning_20261017_run02`，
+01:31:09独立后台启动PID801943；65新冻结输入，CLI默认configs/contractnli_source_programs_v2.json。
+最新实查6/148真实律师、1/5完成教师/2尝试，正在M1教师；首批完整冷102题85.29/59.56/45.10%，
+与旧强空一致，不是技能提升。首2请求逐字等于旧冷wire而rawID不同，65源未变，0旧答/库继承。
+新公开静态教师sequence1360真实成功54.399秒/input13773/output2713(reason1004)，6程序，
+1552master/1932实际one-copy named+scope参考tokens，未进入主M1。全部6程序/30查询全文已读。
+两最长源622/273在真实static+M4共同工具下prompt
+22923/15465，均留8192在32768内，分别只标14/15原SPAN；0生成/拟合/Gold评分。不是未来库保证。
+
+V2清理掉when/condition-verdict/evidence重复槽及宽邻居窗口，技能仅inspection+source_queries。
+全部命名库只出现一次，公共题ID参考和实际receipt各一份；source-only直接命中/可选list前言
+用SOURCE_LEADS在原SPAN前标记，去标签逐字还原原文；最后答案原生不改。不是位置表、
+语义路由/裁判、查询系数拟合、候选自动并成答案或fallback。原任务/24四批/17/3类/4普通prefix/
+8B与参数/4096库cap/148原生/5教师/166逻辑/18同Run精确别名均明示保留，未来正式TEST不调优。
+60项完整0生成边界检查7.34秒；最后one-copy receipt去重后19相关检查5.79秒及Ruff通过，非效果。
+运行中65生产绑定不得热改；新audit_monitor.py和monitor_registration也已独立固定，不热改活监控。
+
+01:38:01真正后台监控PID812418启动，0律师/教师/拟合，已独立按原作者集合核验完整B1-before。
+它只在全部6源/4臂before或6after齐后审计真实wire、原文恢复、实际查询、共同候选和逐题集合，
+不评分/上报部分来源，不读终点Gold。B2与B3若完整同工具三项差值均非正，按已冻结协议请求
+SIGTERM整个trial，在安全边界保存in-flight，不筛技能/回滚/选库/自动重启/暂停Goal。
+监控不替代后续真实教师内容/完整请求审查、机制消融和终点独立审计，也不能自主声称已解决。
+
+01:19:55前一个source-program run01实际FAILED，0律师/1教师/1尝试，sequence1359，
+static1787master却按17题重复到6004>4096，且查询含32--48邻居窗口。完整输出与成本保留，
+不是法律任务结果。65实际源及全Git在V2改动前备份
+legal-source-program-v1-terminal-zero-native-all65-before-v2-20261017.tar.gz，SHA256
+107e170d97b6c50d772f4ad33d9b384710f9e9805034431f11e24c9474acc1aa，79文件+全Git
+HEAD36b97caa3a1c6faf551100c2cde7ed55d1406124；同vdb非异机/缺失权重备份。
+原run01配置/协议/工件未事后修改，V2新Run02从空库且静态也新生成，无原失败库裁剪/继承。
+下文01:18“run01在运行”仅为当时历史，不能当当前状态；Goal仍active，稳定跨合同收益未证明。
+
 01:18:55新主链实际后台启动`legal_contractnli_source_program_online_learning_20261017_run01`，
 PID783297，65冻结输入；CLI默认configs/contractnli_source_programs.json。当前真实stage为
 public-only static教师，0原生/0完成教师/1尝试。不是旧试验续跑或6案固定库诊断。
