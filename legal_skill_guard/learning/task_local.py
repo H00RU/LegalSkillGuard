@@ -19,20 +19,33 @@ from pathlib import Path
 import numpy as np
 from jsonschema import validate
 
-from legal_skill_guard.experiment.storage import RunStore, safe_component
 from legal_skill_guard.data import source_components
+from legal_skill_guard.experiment.storage import RunStore, safe_component
 from legal_skill_guard.inference.codex_cli_client import CodexCLIClient
 from legal_skill_guard.inference.native import WireClient
 from legal_skill_guard.report import write_report
-from legal_skill_guard.task import CHOICES, coherent_native_schema, marked_text, original_feedback, output_schema, render_library
+from legal_skill_guard.task import (
+    CHOICES,
+    coherent_native_schema,
+    marked_text,
+    original_feedback,
+    output_schema,
+    render_library,
+)
 from legal_skill_guard.utils.hashing import canonical_json_sha256
 
-from .conditioned import list_preamble_links
 from .audit import close, original_score
+from .conditioned import list_preamble_links
 from .evidence_programs import SCORER_PARAMETERS, evidence_proposals
 from .experiment import ENDPOINTS, ROOT, Comparison, now, points, read, sha
 from .procedures import BOUNDARY_GUIDANCE_SCHEMA
-from .publication import apply_differential_publication, differential_schema, paired, publication_statistics, skill_record_schema
+from .publication import (
+    apply_differential_publication,
+    differential_schema,
+    paired,
+    publication_statistics,
+    skill_record_schema,
+)
 
 LOCAL_GUIDANCE_SCHEMA = copy.deepcopy(BOUNDARY_GUIDANCE_SCHEMA)
 LOCAL_GUIDANCE_SCHEMA["required"] += ["source_operations"]
@@ -59,7 +72,7 @@ LOCAL_INSTRUCTION = (
 )
 
 
-def task_skill_projection(bank, labels):
+def task_skill_projection(bank, labels, *, semantic_fields=SEMANTIC_FIELDS):
     """No case text, predictions, annotations, or lexical eligibility are read."""
     if len({s["id"] for s in bank}) != len(bank):
         raise ValueError("Duplicate published skill identity")
@@ -70,7 +83,7 @@ def task_skill_projection(bank, labels):
             raise ValueError("New task-local records cannot retain obsolete routing fields")
     return {
         h: [
-            {"id": s["id"], "guidance": {k: s["guidance"][k] for k in SEMANTIC_FIELDS}}
+            {"id": s["id"], "guidance": {k: s["guidance"][k] for k in semantic_fields}}
             for s in bank if h in s["hypothesis_ids"]
         ]
         for h in labels
@@ -145,7 +158,7 @@ def task_local_messages(row, labels, system, bank, proposals, *, unconditional_l
     return messages, schema, delivery
 
 
-def bounded_teacher_packet(training, batch, labels, bank, state, before, after, *, master_tokens, cap):
+def bounded_teacher_packet(training, batch, labels, bank, state, before, after, *, master_tokens, cap, semantic_fields=SEMANTIC_FIELDS):
     """Current-before + previous-after, both actual same-parent observations.
 
     Earlier raw evidence remains archived, not silently represented as present.
@@ -155,7 +168,7 @@ def bounded_teacher_packet(training, batch, labels, bank, state, before, after, 
     if not witnesses or not any(r["batch"] == batch for r in witnesses):
         raise ValueError("Current original training batch required")
     parent_sha = canonical_json_sha256(bank)
-    expected_projection = task_skill_projection(bank, labels)
+    expected_projection = task_skill_projection(bank, labels, semantic_fields=semantic_fields)
     cases, index = [], {h: [] for h in labels}
     for row in witnesses:
         unit = before[row["id"]] if row["batch"] == batch else after[row["id"]]
@@ -356,7 +369,8 @@ class TaskLocalStudy(Comparison):
     def __init__(self, config_path, *, run_id=None):
         self.config_path = Path(config_path).resolve()
         self.cfg = read(self.config_path)
-        if self.cfg["method"] != "task_local_memory" or self.cfg["teacher_feedback"] != "current_and_previous_same_parent_v1" or self.cfg["memory_representation"] != "task_local_boundary_v1":
+        expected_representation = "source_acquisition_program_v2" if self.cfg.get("teacher_publication_format") == "source_acquisition_programs_v2" else "task_local_boundary_v1"
+        if self.cfg["method"] != "task_local_memory" or self.cfg["teacher_feedback"] != "current_and_previous_same_parent_v1" or self.cfg["memory_representation"] != expected_representation:
             raise ValueError("Explicit task-local bounded online protocol required")
         self.run_id = safe_component(run_id or self.cfg["run_id"])
         self.out, self.report = ROOT / "runs" / self.run_id, ROOT / self.cfg["report_directory"] / self.run_id

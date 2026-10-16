@@ -25,6 +25,8 @@ def task_local_kind(cfg):
         return "witness_table"
     if writer == ("source_acquisition_programs_v1", "named_source_programs_v1") and views == literal:
         return "source_programs"
+    if writer == ("source_acquisition_programs_v2", "one_copy_named_source_programs_v2") and views == literal:
+        return "source_programs"
     if writer != (None, None):
         raise ValueError("Unknown or incomplete declared task-local writer/delivery format")
     if views == literal:
@@ -337,7 +339,7 @@ def main():
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs/contractnli_source_programs.json",
+        default=ROOT / "configs/contractnli_source_programs_v2.json",
     )
     parser.add_argument("--run-id")
     parser.add_argument(

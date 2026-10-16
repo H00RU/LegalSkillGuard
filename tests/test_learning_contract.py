@@ -1161,6 +1161,7 @@ def test_literal_actual_payload_changes_only_source_view_for_every_matched_tool_
     ({"candidate_source_view": "unknown", "teacher_feedback_view": "literal_evidence_comparisons_v1"}, None),
     ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "explicit_witness_accounts_v2", "skill_delivery_encoding": "scoped_lossless_table_v1"}, "witness_table"),
     ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "source_acquisition_programs_v1", "skill_delivery_encoding": "named_source_programs_v1"}, "source_programs"),
+    ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "source_acquisition_programs_v2", "skill_delivery_encoding": "one_copy_named_source_programs_v2"}, "source_programs"),
     ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "source_acquisition_programs_v1", "skill_delivery_encoding": "scoped_lossless_table_v1"}, None),
     ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "explicit_witness_accounts_v2"}, None),
     ({"candidate_source_view": "literal_original_span_v1", "teacher_feedback_view": "literal_evidence_comparisons_v1", "teacher_publication_format": "explicit_witness_coverage_v1", "skill_delivery_encoding": "scoped_lossless_table_v1"}, None),
@@ -1297,15 +1298,17 @@ def test_witness_packed_wire_preserves_native_schema_source_and_empty_controls()
 
 
 def source_program_skill():
-    value = local_skill()
-    value["guidance"]["source_queries"] = copy.deepcopy(skill()["queries"])
-    return value
+    return {"id": "archive", "hypothesis_ids": ["h2"], "guidance": {
+        "inspection": "Inspect the original source and retain complete evidence.",
+        "source_queries": [{"all_phrases": [term], "any_phrases": [], "none_phrases": [],
+                            "include_list_preamble": False} for term in ("shall not", "retain")],
+    }}
 
 
 def test_direct_source_programs_are_named_source_only_and_do_not_change_native_answer_contract():
     from types import SimpleNamespace
     from legal_skill_guard.learning.literal_evidence import LiteralEvidenceStudy
-    from legal_skill_guard.learning.source_programs import SourceProgramStudy, program_projection
+    from legal_skill_guard.learning.source_programs import SourceProgramStudy, one_copy_memory, program_projection
 
     row, labels, _ = fixture()
 
@@ -1321,26 +1324,34 @@ def test_direct_source_programs_are_named_source_only_and_do_not_change_native_a
         obj.meter = SimpleNamespace(token_count=lambda **kwargs: len(kwargs["text"]))
     for bank in ([], [source_program_skill()]):
         original = copy.deepcopy(bank)
-        before, original_schema, _, old_trace = old.make_payload("skill_memory", NoGold(row), bank, None, None)
+        before, original_schema, _, _ = old.make_payload("skill_memory", NoGold(row), [], None, None)
         messages, schema, _, trace = new.make_payload("skill_memory", NoGold(row), bank, None, None)
-        assert schema == original_schema and bank == original
+        assert bank == original
         assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(messages)
         delivery = trace["task_local_delivery"]
-        assert delivery["actual_task_local_projection"] == old_trace["task_local_delivery"]["actual_task_local_projection"]
-        assert delivery["actual_named_instruction_and_program_projection"] == program_projection(bank, labels)
+        assert delivery["actual_task_local_projection"] == program_projection(bank, labels)
         if not bank:
-            assert messages == before
+            assert messages == before and schema == original_schema
             continue
         body, old_body = json.loads(messages[1]["content"]), json.loads(before[1]["content"])
-        assert body["full_contract_with_original_span_markers"] == old_body["full_contract_with_original_span_markers"]
+        restored = body["full_contract_with_original_span_markers"]
+        for tag in delivery["source_lead_tags_by_original_span"].values():
+            restored = restored.replace(tag, "", 1)
+        assert restored == old_body["full_contract_with_original_span_markers"]
+        assert body["published_source_programs"] == bank
+        assert messages[1]["content"].count('"inspection"') == 1
         h2 = body["hypotheses"]["h2"]
-        assert h2["applicable_published_skills"][0]["source_queries"] == bank[0]["guidance"]["source_queries"]
-        assert h2["factual_source_query_receipts"][0]["matched_original_span_indices"] == [0]
-        assert [c["original_span_index"] for c in h2["factual_source_query_clauses"]] == [0, 1]
-        assert h2["factual_source_query_clauses"][0]["literal_original_text"] == "Recipient shall not disclose secrets."
-        assert body["hypotheses"]["h1"]["factual_source_query_receipts"] == []
+        assert h2["applicable_published_skills"] == [{"id": "archive"}]
+        assert body["source_program_query_receipts"]["archive"][0]["matched_original_span_indices"] == [0]
+        assert body["source_program_query_receipts"]["archive"][1]["matched_original_span_indices"] == [1]
+        assert delivery["source_program_executions"]["h2"]["literal_original_clauses"][0]["literal_original_text"] == "Recipient shall not disclose secrets."
+        assert body["hypotheses"]["h1"]["applicable_published_skills"] == []
         assert body["hypotheses"]["h3"]["applicable_published_skills"] == []
-        assert delivery["actual_scoped_delivery_tokens"] == len(json.dumps(program_projection(bank, labels), ensure_ascii=False, separators=(",", ":")))
+        assert delivery["actual_scoped_delivery_tokens"] == len(json.dumps(one_copy_memory(bank, labels), ensure_ascii=False, separators=(",", ":")))
+        for h, wrapped in schema["properties"].items():
+            for branch in wrapped["anyOf"]:
+                allowed = branch["properties"]["used_skill_ids"]
+                assert allowed["items"]["enum"] == ["archive"] if h == "h2" else allowed["maxItems"] == 0
 
 
 def test_direct_source_programs_return_empty_hits_unchanged_and_publish_noisy_queries():
@@ -1351,22 +1362,29 @@ def test_direct_source_programs_return_empty_hits_unchanged_and_publish_noisy_qu
 
     row, labels, _ = fixture()
     candidate = source_program_skill()
-    candidate["guidance"]["source_queries"][0]["all_phrases"] = ["nonexistent phrase"]
+    for query in candidate["guidance"]["source_queries"]:
+        query["all_phrases"] = ["nonexistent phrase"]
     value = {"operations": [{"operation": "CREATE", "target_ids": [], "skill": candidate, "source_case_ids": [1], "rationale": "Synthetic negative only."}], "noop_reason": None}
     schema = differential_schema(labels, [], [1], guidance_schema=PROGRAM_GUIDANCE_SCHEMA)
     validate(value, schema)
     bank = apply_differential_publication([], value, labels, [1], guidance_schema=PROGRAM_GUIDANCE_SCHEMA)
     assert bank == [candidate]  # No evidence utility admission.
-    messages, _, delivery = task_local_messages(row, labels, "Original.", bank, None)
-    answer, trace = source_program_messages(messages, delivery, row, bank, labels)
-    question = json.loads(answer[1]["content"])["hypotheses"]["h2"]
-    assert question["factual_source_query_receipts"][0]["matched_original_span_indices"] == []
-    assert question["factual_source_query_clauses"] == []
-    assert len(trace["source_program_execution_by_skill"][candidate["id"]]) == 1
+    messages, _, delivery = task_local_messages(row, labels, "Original.", [], None)
+    answer, trace = source_program_messages(messages, delivery, row, bank, labels, system="Original.")
+    body = json.loads(answer[1]["content"])
+    receipts = body["source_program_query_receipts"]["archive"]
+    assert receipts[0]["matched_original_span_indices"] == []
+    assert all(not e["returned_original_span_indices"] for e in receipts)
+    assert trace["source_lead_tags_by_original_span"] == {}
+    assert len(trace["source_program_execution_by_skill"][candidate["id"]]) == 2
     bad = copy.deepcopy(value)
     bad["operations"][0]["skill"]["guidance"]["relation_if_established"] = "Entailment"
     with pytest.raises(ValidationError):
         validate(bad, schema)
+    wide = copy.deepcopy(value)
+    wide["operations"][0]["skill"]["guidance"]["source_queries"][0]["before"] = 40
+    with pytest.raises(ValidationError):
+        validate(wide, schema)
 
 
 def test_direct_source_program_feedback_covers_all_tasks_and_preserves_extra_members():
@@ -1375,8 +1393,8 @@ def test_direct_source_program_feedback_covers_all_tasks_and_preserves_extra_mem
 
     row, labels, _ = fixture()
     bank = [source_program_skill()]
-    messages, _, delivery = task_local_messages(row, labels, "Original.", bank, None)
-    _, delivery = source_program_messages(messages, delivery, row, bank, labels)
+    messages, _, delivery = task_local_messages(row, labels, "Original.", [], None)
+    _, delivery = source_program_messages(messages, delivery, row, bank, labels, system="Original.")
     unit = {"published_library": bank, "response": {"raw_id": "synthetic"}, "actual_factual_trace": {"task_local_delivery": delivery}}
     value = program_member_feedback(unit, row, labels)
     assert list(value["all_original_hypotheses"]) == list(labels)
