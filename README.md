@@ -1,6 +1,24 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
 Current default: `legal_contractnli_source_condition_audit_completion_20261016_run01`.
+This study COMPLETED17:03:14 CST:56 native/7 successful teacher calls across
+the explicit parent+completion,8 teacher attempts including the preserved auth
+failure. All166 logical wires replayed before endpoint grading. Final exposed8
+development accuracy/span-F1/joint: main82.35/65.78/59.56%, same-tool80.88/71.37/55.15%.
+This is NOT a repaired method: E/C exact joint30 versus33, NM51 versus42;
+F1 worsens on5 sources, improves2 and ties1. Main false NM16 versus9, with all
+Gold candidates already supplied in5 main false-NM queries.
+
+Current active research worker: detached PID31299,
+`legal_contractnli_full_master_delivery_20261016_run01`, actual generation began
+17:03:33 CST after successful exact-parent exit,104-reference wire replay and
+GPU lease acquisition. At17:08 it has4/26 new native calls,0 teachers,494 unchanged
+frozen inputs. Its first actual request independently preserves source, candidates,
+mechanical layout operations and decoding while delivering the full semantic bank.
+Run `python -m legal_skill_guard.cli status --run-id legal_contractnli_full_master_delivery_20261016_run01`
+for that worker. No partial effect is reported before the complete26-source study.
+
+Historical16:57 checkpoint:
 At16:57 CST,12 new after/retention calls are complete and the endpoint8 are
 running (15/20 new native calls complete). B4 after-fit84.31/87.18/79.41%;
 B1 M4 retention90.20/90.68/81.37%, versus original M1 fit87.25/85.47/76.47%.
