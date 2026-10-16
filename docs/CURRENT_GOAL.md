@@ -5,6 +5,20 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+04:46:01已真实后台launch：legal_contractnli_native_grounded_fixed_tool_continuation_20261017_run02，
+PID1094269，原8B2261314保持live。04:46:09核对进程Ssl/实际progress running，
+B3_compact_parent/273，0/30 native、0/2 teacher，未claim已有新效果或正式main重启。
+独立worker自动6parent→teacher1→6draft→teacher2→6final→B4配对12，30新native/2教师；
+不依赖聊天触发每阶段，后续先poll同PID/实际progress，不因对话capacity重启。
+340冻结绑定已检查；新增脚本/原型/来源/全部绑定和完整Git 0fcc26170c99252dc38d60666d77e1708a83d655
+已独立保全344文件：legal-source-program-native-loop-all340-before-launch-20261017.tar.gz，
+SHA25605ae8b72ada2809d19c3176d0a2c3c25c88ef3622ea08928eb7681c2f67f3da1，收据
+artifacts/source_program_native_loop_prelaunch_all340_backup_20261017.json，全部成员/bundle通过。
+仍同vdb非异机/权重/auth备份。新source/profile/340绑定不可运行中修改；必要全trial安全停机，
+不按效果回退到旧库。当前尚无新的律师指标/教师发布；Goal active，全文目标未达。
+完成后必须独立按作者原集合/实际wire核对36份答案（旧parent6+新30），新表示parent收益
+单列，B3训练重答与B4迁移分开，不把同案提升/新增名额当论文突破。若B4不正，不能同配置硬续。
+
 04:43新的native-grounded Run02已prepare，尚未launch：
 legal_contractnli_native_grounded_fixed_tool_continuation_20261017_run02。
 先前Run01是0/0 cancelled_before_launch，非教师/律师失败：原parent在B4合同622需
