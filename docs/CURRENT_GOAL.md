@@ -5,6 +5,18 @@
 
 ## 当前执行游标（10月16日，覆盖后续旧状态）
 
+21:46：PID440562继续真实B2首遇，18/148新律师、1/4新主教师/1尝试、1固定静态历史artifact，
+尚无完整B2结果，不看局部分数选结论。完整B1/M1/实际内容错误及66全源已独立保全：
+legal-literal-run02-complete-B1-M1-source-and-raw-prefix-20261016.tar.gz，SHA256
+a714401124d3afb0be0c9ced4d21cb9c8c54c112adfee281f3595711b7f480ed；452项目文件+全Git bundle
+HEADcb1ca85d64b15c75466c6b182a58ef89a919a6ba逐字节核验。完整前缀12新原生/1新主教师+
+1历史static；快照18raw另含B2部分6答，不代表未来B2已归档。同vdb，不是异机/遗失权重备份。
+收据artifacts/literal_run02_complete_B1_M1_source_raw_backup_20261016.json。
+下一直接运行本Run analyse_completed_batches.py --batch2（summary齐后），检查真实M2得到
+全部自己前批错误/正确Gold原文，以及其复制/返回等条件边界和完整原SPAN学习，而非再改个别案件。
+
+### 21:41历史游标
+
 21:41：Run02已21:28:01后台PID440562真实启动，B1已21:40:52完整结束并自动进入B2首遇。
 12/148新律师、1/4新主教师/1尝试、0继承原生、1固定静态教师；无旧主库/旧回答继承。
 启动前66输入/固定static原始3文件/源已保全，373项目成员+全Git bundle
