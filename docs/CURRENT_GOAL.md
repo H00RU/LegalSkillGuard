@@ -5,6 +5,24 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+04:07重新核验：主Run03、literal/semantic诊断及paired-editor worker全部已终态，
+原8B2261314保持live，未重启。paired-editor Run01于03:51:02 failed，0新律师/2新教师，
+不能称后台仍在生成12答案。两次实际wire/事件/返回值与完整原12源输入逐一重建核验通过。
+blind提案17技能/62查询，3587 master/3972 scoped，feedback提案17/71，3939/4319。
+后一正文未超4096，实际引用开销380导致超223；无反馈臂publication/任何native，
+不裁剪、不提高旧轮cap、不只用blind结果。完整失败/成本/两份未删改提案及301源绑定在
+paired Run monitoring/terminal0_native_2_teacher_capacity_audit.json；其中feedback库是
+明确未发布重建，不伪造publication。
+
+下一是在完整失败保全后，以新Run ID作显式0/2前缀延续：同一writer各再修订一次，
+两臂都收到自己实际master/scoped/逐记录容量反馈，feedback臂还收到自己当前提案在
+全部12源的真实执行/原Gold成员差异，blind臂不提供执行结果。仍相同原12源/实际M1
+观察，不传B2after/B3/另一臂结果；总计每臂两次教师，继承2+新2全部计费。
+新schema相对各自未删改提案，原4096/原runtime/原8B/原M2工具均不改；一次修订后
+两份均有效才前瞻完整编译12输入，全部12答案后再评分。任何失败保全，无旧库fallback、
+效果准入或另臂挽救。此为原诊断容量闭环延续，不是独立在线学习/公平方法胜利。
+尚未创建或launch；先完整失败保全再写新源。Goal active，全文目标尚未实现。
+
 03:37当前无实验worker在跑（原8B2261314仍live）；literal交付诊断于03:22:53真实
 completed，PID960140消失，6新原生/0教师，全部stop、0截断。原作者逐集合/所有225条
 逐题原文视图/全部实际输入与前瞻hash已独立核验，真实只添加source-only literal视图。
