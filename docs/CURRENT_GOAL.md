@@ -3,7 +3,33 @@
 2026-10-15 15:09 CST，用户明确要求“新建一个goal并执行”，已通过Goal工具创建，状态active。
 此前答案复核run启动时未开Goal，两者时间顺序不能混淆。
 
-## 当前执行游标（10月16日09:47，覆盖后续旧状态）
+## 当前执行游标（10月16日09:52，覆盖后续旧状态）
+
+同run02 PID3582024继续，无重启；09:52:28查progress为3/90新native、2/5完成教师、2尝试，B1after源331。
+M1原子CREATE14（空父故无合并/删除）、2401完整主库token，不是静态17技能硬套为在线14。
+原return/retention/recipient/source边界已逐字段检查，非再次整库操作/通用补证要求。
+334实际14/14交付1974token，490实际11/14交付1548token，列表定位分别涉及5/2公开命题。
+独立重放这两份实际source/母库/资格/投影/操作/wire/schema/原评分/本地trace均一致；
+首轮教师完整6原TRAIN/17命题反馈/真实冷引用与生产构造完全相同，零激活与引用身份未被隐藏。
+审计在run02/monitoring/actual_B1_training_signal_and_delivery_audit、first2_actual_native_delivery_independent_audit。
+不是完整B1分数或泛化成功；继续余下当前案、全部B2—B4/旧案保持/40逻辑终点，不因少样本选库。
+
+当前177绑定核验一致，不改生产/绑定JSON/两协议。主库管理无配额/低频淘汰/效果准入；
+单一教师实际CRUD及每案真实交付独立存档。source_triggers只事实资格，法律标签/最终依据仍冻结8B独立决定。
+
+源码与新Run启动/失败已再次保全：legal-source-conditioned-run02-launch-and-run01-failure-20261016.tar.gz，
+SHA256 08c04f32bef4bdc9d22ad014aabc47883d5f845833c37b5970224282d2fd1eb4，HEAD2c8bf07。
+1280常规文件逐字节/gzip/全Git bundle通过；含原完整232/42，失败run01的0/1，run02快照0/2，
+即当时232物理律师/45完成教师；不含正在生成的新律师，不当作全部历史用量或异机/权重备份。
+收据run02/monitoring/source_run02_launch_and_failed_run01_backup_receipt。
+本轮Goal为progress：完整新主链与无技能同定位控制实现、首次启动错误根因修正、新Run后台运行、
+真实M1/原生交付审计和源码/失败保全。稳定三项净收益/独立重复/正式确认仍未达，Goal active。
+
+注意实际教师字符容量：旧完整M4 user915392字符接近1048576 transport上限，
+新逐观察交付投影也占字符；当前B1实际253433。监控后续真实wire尺寸，不能提额度绕过字符上限，
+不因为尚未发生的容量风险热改当前冻结源或另跑一个启动测试。
+
+### 09:47工程纠正与新运行记录
 
 **当前是run02而非run01**：`legal_contractnli_source_conditioned_learning_20261016_run02`，
 09:45:00后台启动PID3582024。09:46:25真实1完成教师/2尝试、0新律师，已处理B1来源学习。
