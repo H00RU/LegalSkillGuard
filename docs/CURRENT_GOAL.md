@@ -121,6 +121,22 @@ mandatory source_queries>=1可能偏置选证型技能的表达，但这是未�
 也已实现并负面（`legal_contractnli_contextual_experience_online_continuation_20261017_run03`），
 旧研究记录“尚未实现fewshot”已过时，不能重新据它安排同样实验。
 
+19:19完成当前重建acquisition/member家族的实际输入清点：research同目录
+`canonical_family_all402_actual_wire_M2_independence_inventory.json`。9个run共402个不同真实
+native raw，逐项request/schema与显式prospective payload相等；其中242个非空库输入全部
+使用同一固定M2，未发现这个具体链路下非空库独立于M2的已执行对照。不是全部已删历史、
+其他技能表示或其他法律任务“从未试过”的证明，也不证明去M2必然有用。
+初版清点没解析114条的metadata.path、漏纳88条旧inline接口；保留初版及明确更正的完整402版，
+不能把初版unknown算无M2。当前新run仅纳入已闭合B1，无B2部分质量评分。
+此前scored/unscored实验仍保留普通候选；不能用它代替这个缺口。
+
+这个清点改变的是下一次根因干预的优先级，不立即插入新GPU实验：先取得B2完整新案/更新/
+旧案结果。若仍重复系统性损害，才对完整预定案件及同一实际父库分离普通候选依赖和已学
+准则/定位的作用，不重采案件、不再先换教师或追加标签、不另建路由或输出修补层。
+现有source_messages可在records编码下接收无proposals；scored_records则需要原M2分数。
+若未来主方法去M2，必须同步从真实own payload重建教师的候选/漏证反馈，不能继续把
+self.proposals中的控制臂候选谎称为own可见。当前运行所有own仍有M2，这不是当前反馈失真。
+
 ## 旧32完整漏证/损害审计（不是新32成绩）
 
 `artifacts/research/member_learning_online_20261017/parent32_membership_and_all_damage_audit.json`
@@ -196,6 +212,12 @@ Git `449383e06691740d9f70190a8cc88e4b24c807e3`，
 SHA `5cd674ec64467dcfa23babd441608952e9f35771b7866ced0189c126fabc32de`。
 实际receipt：`artifacts/prelaunch_backups/legal_contractnli_member_learning_online_20261017_run01.json`。
 两文件系统逐成员/整包SHA及完整Git bundle核验通过；不含尚未生成的新176答案。
+
+首批完整32真实native/1教师及根因审计、Git449383e之后至e88c1ec的增量已实际双盘保全：
+`legal-member-online-complete-B1-and-root-audit-Git-e88c1ec-20261017.tar.gz`，
+SHA `d8a67d7a4241da3b1a7fb233a7e20033f3503500a6f01be82dbee43e5b0ecd0e`，107项目/109成员。
+research同目录`complete_B1_and_root_audit_verified_backup.json`。它要求上述449383e完整底包，
+不是独立全量；19:19的402输入清点在其后生成，尚不在此增量里。
 
 2026-10-17完整源码/完整Git（无增量Git前置）＋完整8案raw＋新317绑定：
 `legal-complete-eight-fourarm-and-full32-prelaunch-full-source-and-Git-20261017.tar.gz`，
