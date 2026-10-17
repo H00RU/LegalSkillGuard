@@ -355,7 +355,7 @@ def main():
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs/contractnli_acquisition_fact_boundary.json",
+        default=ROOT / "configs/contractnli_acquisition_grounded_continuation.json",
     )
     parser.add_argument("--run-id")
     parser.add_argument(

@@ -5,6 +5,33 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+12:54已实现教师原成员诊断和显式16-prefix续学，尚未launch新Run。canonical律师
+接口一字未再改；全16父消息/schema逐项重放完全相同。新Run
+legal_contractnli_acquisition_grounded_continuation_20261017_run01，96初始冻结
+绑定，计划120新native/3现有教师：先从K2及16真实own学习并重答16，再两个新
+8案批次各3臂首遇24、教师更新、全seen24/32。16继承回答不是新调用或冷B1，
+完整目标仍需更强对照/独立学习重复/正式未调优TEST，不把续学称正式冷启动主训练。
+
+精确反馈来自原TRAIN与最新真实当前父库native：43标签错、139漏Gold，其中80
+已在程序访问中；54实际非Gold引用（28仅context、12 direct，可有其他普通C来源）。
+此54是绝对错误数，非相对普通C的新错误38。所有非Gold读取不作错误，NM也不把
+每段上下文当负例。共16源/16own，新提示完整488738字符；无裁剪/资格生成，
+UNSENT候选与输入审计保存在research/acquisition_grounded_continuation_20261017。
+4必要测试0.28秒通过、生产Ruff通过，无新本地模型/参数fit、无新评委/修补层。
+
+新源顺序＝原16继承＋原先已选但未答421/295/619/522/230/364/529/304，
+再seed2026101717从311未暴露exact-text组无标签/长度/难度筛选随机抽
+132/427/315/578/337/439/291/420。原native元数据与既往cohort暴露全部排除，
+所有新臂同源不按分数重抽。DEV/TEST未开，原标注未重构。
+
+完整32及改前source/Git在新教师反馈代码改动前已保全：2343项目文件/2345成员，
+Git4b53b644b7199b20fa1c26fb290799ef8e40a885，archive
+legal-fact-boundary-complete32-before-grounded-teacher-feedback-20261017.tar.gz，
+SHA4ad1122d77f70dde2133ba09e87ee0fa7bb05b7ca32f73c1f09d6dc4a0097d91。
+旧完整审计要重放用该旧源，不能在新teacher_body源码上要求旧源哈希通过。
+原8B2261314仍存活，所有旧worker已terminal。下一Git/全部96先验源保全后直接
+launch，首次教师actual wire需对比上述UNSENT输入，检查是否真用上新增错误信号。
+
 12:47新fact_boundary于12:43前完整结束32真实native/0教师，1759420已退出，原8B
 2261314仍在。完整32原作者成员集合/实际wire/所有源/schema/原普通C与分数/实际
 K2执行均已独立复算，非worker摘要。新同接口ordinary83.46/65.04/55.88，skills

@@ -6,25 +6,28 @@ Completed source-program B1--B3 did not establish skill transfer; contextual
 B6/B7 are also negative. Do not read old seen-case after-fit scores as new-case
 skill gains, formal TEST results, or a mature-method victory.
 
-Oct17 12:14 CST: the executable-acquisition trial stopped safely at88 actual
-native/3 teacher calls after complete B3 transfer harmed all three metrics
-versus fixed ordinary M2. All negative outputs and the unevaluated third
-publication are preserved with original source/Git in a verified2257-member
-backup. The loaded8B was not restarted.
+Oct17 12:54 CST: the canonical fact-boundary comparison completed32 actual
+native/0 teacher calls. Same-interface ordinary83.46/65.04/55.88% versus skilled
+84.19/63.65/52.57%: reduced classification interference, but F1/joint still fail
+to improve. All original-author/wire/member comparisons and false-citation
+fragments are preserved. The earlier online trial stopped at88 native/3 teacher
+calls; neither its negative results nor unused K3 are discarded.
 
-The default now selects `configs/contractnli_acquisition_fact_boundary.json`:
-a 32-native/0-teacher held-K2 interface diagnostic launched at12:14:38 CST as
-detached PID1759420, Run ID `legal_contractnli_acquisition_fact_boundary_20261017_run01`,
-on ALL16 original B1/B2 contracts. Its sole boundary change passes per-question
-exact source read indices and a shared literal catalogue, without global skill
-tags, skill names/counts or a varying used-ID answer schema. Equivalent returned
-facts have identical actor input. Ordinary M2, K2 programs, source, labels and
-capacity are unchanged. This is not another online run or new-case evidence;
-independent evolution, fair strong controls/repeats and formal TEST remain unmet.
-Three quick boundary tests pass; exact16-source input capacity/invariance checks
-used no generations or new teacher. Actual first ordinary and skilled requests
-are saved and wire-audited; no partial quality claim is made. See the current
-execution file above.
+Default config is now `configs/contractnli_acquisition_grounded_continuation.json`,
+prepared and NOT YET launched. Its canonical lawyer input is byte-identical to
+the completed diagnostic for every inherited source. The root change adds exact
+actual-parent citation/omission/relation diagnostics to original TRAIN teacher
+feedback and explains cross-hypothesis query unions; it does not add a judge,
+host answer filter, model or effect gate. Four quick boundary tests pass.
+
+The explicit continuation inherits16 actual skilled answers and fixed K2,
+then learns from them, re-answers all16 and proceeds through two new8-source
+batches with both strong-empty and same-M2 controls and full24/32 retention.
+Planned NEW costs120 native/3 existing teachers; inherited calls/learning costs
+remain separately disclosed. It is not a cold start, independent learning repeat,
+formal TEST result or mature-method victory. See
+[continuation protocol](docs/CANONICAL_ACQUISITION_CONTINUATION_20261017.md)
+and the current execution file above.
 
 Historical Oct17 10:35 checkpoint:
 

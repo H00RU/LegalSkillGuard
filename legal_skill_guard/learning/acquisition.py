@@ -102,6 +102,16 @@ TEACHER = (
     "current acquisition, plus actual failure to use visible candidates and wrong "
     "relations. Reading nonGold conditions/context is not inherently an error; "
     "NM has no evidence annotation, not proof every context read is irrelevant. "
+    "current_parent_native_member_feedback resolves ACTUAL same-parent native "
+    "misclassification, omitted visible Gold, nonGold final citations and their "
+    "direct-versus-context acquisition roles. These are original TRAIN member "
+    "sets, not a second semantic judge. Do not optimize access coverage alone "
+    "when the lawyer copies a whole read window as evidence. Retain genuinely "
+    "needed context, but distinguish its purpose from a likely cited witness. "
+    "ALL queries in a record are union-delivered to EVERY hypothesis in its "
+    "scope. Related topics do not justify broadcasting different query families "
+    "to each other; split records when their acquisition purposes differ. Do "
+    "not impose one record per hypothesis or any compulsory count. "
     "Prefer compact compositional searches warranted by several seen contexts; "
     "do not memorize long phrases, add broad catch-all noise, or merely recount "
     "missed Gold without publishing a reusable acquisition action. "
@@ -120,6 +130,26 @@ TEACHER = (
 
 def compact(value):
     return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+
+
+def native_member_feedback(annotation, value, ordinary, roles):
+    """TRAIN-only exact member diagnostics; never modify a native answer."""
+    gold, cited, candidates = set(annotation["spans"]), set(value["spans"]), set(ordinary)
+    direct = set(roles["matched"])
+    context = set(roles["neighbour"]) | set(roles["preamble"])
+    returned = direct | context
+    wrong = cited - gold if annotation["choice"] != "NotMentioned" else set()
+    return {"actual_choice": value["choice"],
+        "actual_label_matches_original": value["choice"] == annotation["choice"],
+        "Gold_omitted_from_final": sorted(gold - cited),
+        "Gold_omitted_despite_program_access": sorted(gold & returned - cited),
+        "Gold_omitted_despite_ordinary_candidate": sorted(gold & candidates - cited),
+        "Gold_without_explicit_ordinary_or_program_access": sorted(gold - candidates - returned),
+        "nonGold_final_citations_for_original_NN_only": sorted(wrong),
+        "nonGold_citations_in_direct_hits": sorted(wrong & direct),
+        "nonGold_citations_in_context_only": sorted(wrong & context - direct),
+        "original_NM_but_native_chose_relation": annotation["choice"] == "NotMentioned" and value["choice"] != "NotMentioned",
+        "reading_context_itself_is_not_an_error": True}
 
 
 def execute_library(row, bank):
@@ -216,6 +246,18 @@ def prepare_acquisition_inputs(cfg):
         assert cfg["diagnostic_source_ids"] == cfg["training_ids"][:16]
         assert cfg["planned_new_native_calls"] == 32 and cfg["planned_new_teacher_calls"] == 0
         references.append(publication)
+    if cfg.get("prefix_feedback_run"):
+        parent = ROOT / cfg["prefix_feedback_run"]
+        completion, units = read(parent / "completion.json"), read(parent / "complete32_native_and_original_scores.json")["units"]
+        own = [u for u in units if u["condition"] == "skills"]
+        assert completion["completed_native_calls"] == 32 and completion["completed_teacher_calls"] == 0
+        assert [u["document_id"] for u in own] == cfg["training_ids"][:16]
+        publication = ROOT / cfg["initial_bank_publication"]
+        assert sha(publication) == cfg["initial_bank_publication_sha256"]
+        assert {u["bank_sha256"] for u in own} == {csha(read(publication)["publication"])}
+        assert cfg["planned_new_native_calls"] == 120 and cfg["planned_new_teacher_calls"] == 3
+        references.extend([parent / "completion.json", parent / "complete32_native_and_original_scores.json", publication])
+        references.extend(Path(u[k]) for u in own for k in ("payload", "raw_artifact"))
     return selection, references
 
 
@@ -365,7 +407,7 @@ class AcquisitionStudy(Comparison):
                 "actual_bank_sha256": u["bank_sha256"], "actual_native_raw_id": u["response"]["raw_id"],
                 "actual_public_answer": json.loads(u["response"]["content"]),
                 "actual_source_execution_ref": key, "actual_native_artifact_sha256": sha(u["raw_artifact"])})
-        parent_refs, acquisition_feedback = {}, {}
+        parent_refs, acquisition_feedback, native_feedback, parent_native_ids = {}, {}, {}, {}
         for row in seen:
             key = f"{csha(self.bank)}:{row['id']}"
             current = execute_library(row, self.bank)
@@ -373,7 +415,11 @@ class AcquisitionStudy(Comparison):
                 assert receipts[key] == current
             receipts[key] = current
             parent_refs[str(row["id"])] = key
-            feedback = {}
+            actual = [o for o in observations if o["document_id"] == row["id"] and o["actual_bank_sha256"] == csha(self.bank)]
+            assert actual, "Every seen source needs actual current-parent native feedback"
+            latest = actual[-1]
+            parent_native_ids[str(row["id"])] = latest["actual_native_raw_id"]
+            feedback, diagnostics = {}, {}
             for h in self.labels:
                 returned = {i for s in self.bank if h in s["hypothesis_ids"]
                     for event in current[s["id"]] for role in ("matched", "neighbour", "preamble") for i in event[role]}
@@ -383,13 +429,19 @@ class AcquisitionStudy(Comparison):
                 feedback[h] = {"original_choice": annotation["choice"], "original_Gold_indices": annotation["spans"],
                     "current_query_returned_indices": sorted(returned), "Gold_not_returned": sorted(members - returned),
                     "Gold_already_in_fixed_ordinary_candidates": sorted(members & ordinary)}
+                roles = {role: {i for s in self.bank if h in s["hypothesis_ids"]
+                    for event in current[s["id"]] for i in event[role]} for role in ("matched", "neighbour", "preamble")}
+                diagnostics[h] = native_member_feedback(annotation, latest["actual_public_answer"][h], ordinary, roles)
             acquisition_feedback[str(row["id"])] = feedback
+            native_feedback[str(row["id"])] = diagnostics
         return {"public_hypotheses": self.labels, "current_parent_library": self.bank,
             "complete_cumulative_original_TRAIN_sources_and_Gold": [{**r, "original_annotations": gold[str(r["id"])]} for r in seen],
             "observed_libraries": self.banks, "actual_own_public_observations": observations,
             "actual_source_execution_catalogue": receipts,
             "current_parent_source_replay_refs_not_new_native_responses": parent_refs,
             "current_parent_acquisition_member_feedback_not_legal_predictions": acquisition_feedback,
+            "current_parent_actual_native_raw_ids": parent_native_ids,
+            "current_parent_native_member_feedback": native_feedback,
             "fixed_ordinary_model_manifest": self.manifest,
             "actual_visible_ordinary_candidates_by_source": {str(r["id"]): {
                 h: self.proposals[r["id"]]["by_hypothesis"][h]["candidates"] for h in self.labels} for r in seen},
@@ -433,7 +485,10 @@ class AcquisitionStudy(Comparison):
         RunStore.immutable_json(self.out / "declaration.json", {"at": now(), "run_id": self.run_id,
             "config": self.cfg, "frozen_bindings": self.bindings,
             "ordinary_model_held_fixed": self.manifest, "not_official_TEST_or_independent_replication": True})
-        for batch in range(1, 5):
+        continued = bool(self.cfg.get("prefix_feedback_run"))
+        if continued:
+            self.learn_from_inherited_prefix()
+        for batch in range(3 if continued else 1, 5):
             self.current_batch = batch
             rows, seen = self.training[(batch - 1) * 8:batch * 8], self.training[:batch * 8]
             entries = self.freeze_phase(f"b{batch}_before", rows, ["strong_empty", "ordinary", "skills"])
@@ -477,21 +532,47 @@ class AcquisitionStudy(Comparison):
             RunStore.immutable_json(self.out / f"batch{batch}_summary.json", summary)
             self.summaries.append(summary)
             write_report(self.out)
-        assert len(self.native) == self.cfg["planned_new_native_calls"] == 168
-        assert len(self.teachers) == self.cfg["planned_new_teacher_calls"] == 4
-        assert len({r["response"]["raw_id"] for r in self.native}) == 168
+        expected_native, expected_teachers, expected_aliases = (120, 3, 0) if continued else (168, 4, 8)
+        assert len(self.native) == self.cfg["planned_new_native_calls"] == expected_native
+        assert len(self.teachers) == self.cfg["planned_new_teacher_calls"] == expected_teachers
+        assert len({r["response"]["raw_id"] for r in self.native}) == expected_native
         self.check()
-        complete = {"at": now(), "run_id": self.run_id, "actual_new_native_teacher_calls": [168, 4],
-            "logical_observations": len(self.units), "explicit_same_run_cold_aliases": 8,
+        complete = {"at": now(), "run_id": self.run_id, "actual_new_native_teacher_calls": [expected_native, expected_teachers],
+            "logical_observations": len(self.units), "explicit_same_run_cold_aliases": expected_aliases,
+            "inherited_prefix_native_answers_not_new_calls": 16 if continued else 0,
+            "prefix_feedback_run_not_cold_start_or_independent_repeat": self.cfg.get("prefix_feedback_run"),
             "prequential_results": {a: points([u for u in self.first if u["condition"] == a]) for a in ("strong_empty", "ordinary", "skills")},
             "final_seen_retention": self.summaries[-1]["retention_all_seen"],
             "actual_native_usage": {k: sum(r["response"][k] for r in self.native) for k in ("prompt_tokens", "completion_tokens")},
             "actual_teacher_invocations": [t["invocation"] for t in self.teachers],
             "final_library": self.bank, "ordinary_model_manifest_unchanged": self.manifest,
             "independent_repeats_stronger_review_mature_comparison_and_official_TEST_still_pending": True}
-        assert complete["logical_observations"] == 176
+        assert complete["logical_observations"] == expected_native + expected_aliases
         RunStore.immutable_json(self.out / "completion.json", complete)
         RunStore.atomic_json(self.out / "progress.json", {"state": "completed", **complete})
+
+    def learn_from_inherited_prefix(self):
+        """Explicit actual16-prefix continuation; no bank selection or replayed B1."""
+        parent = ROOT / self.cfg["prefix_feedback_run"]
+        own = [u for u in read(parent / "complete32_native_and_original_scores.json")["units"] if u["condition"] == "skills"]
+        assert [u["document_id"] for u in own] == [r["id"] for r in self.training[:16]]
+        self.bank = read(ROOT / self.cfg["initial_bank_publication"])["publication"]
+        self.banks[csha(self.bank)] = copy.deepcopy(self.bank)
+        for row, u in zip(self.training[:16], own, strict=True):
+            observed = read(u["payload"])
+            replay = self.payload(row, "skills", self.bank)
+            assert replay["messages"] == observed["messages"] and replay["schema"] == observed["schema"]
+            assert u["bank_sha256"] == csha(self.bank)
+        self.own.extend(own)
+        self.current_batch = 2
+        stats = self.update(self.training[:16])
+        entries = self.freeze_phase("prefix_after_repair", self.training[:16], ["skills"])
+        after = self.audit_and_grade([self.answer(e) for e in entries])
+        self.own.extend(after)
+        RunStore.immutable_json(self.out / "prefix_repair_all_seen_retention.json", {
+            "at": now(), "inherited_actual_own_reference": own, "new_units": after,
+            "before": points(own), "after": points(after), "library_management": stats,
+            "not_new_case_transfer_or_independent_cold_start": True})
 
 
 class AcquisitionInterfaceStudy(AcquisitionStudy):

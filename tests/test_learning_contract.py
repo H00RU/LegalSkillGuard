@@ -1552,3 +1552,22 @@ def test_executable_acquisition_publication_rejects_advice_and_empty_search():
     empty["guidance"]["source_queries"][0]["all_phrases"] = []
     with pytest.raises(ValueError, match="empty catch-all"):
         execute_library({"id": 1, "text": "", "spans": []}, [empty])
+
+
+def test_native_member_feedback_distinguishes_reading_from_actual_false_citation():
+    from legal_skill_guard.learning.acquisition import native_member_feedback
+
+    roles = {"matched": {1}, "neighbour": {2, 3}, "preamble": set()}
+    value = {"choice": "Entailment", "spans": [1, 2], "reason": "Public native reason."}
+    original = copy.deepcopy(value)
+    feedback = native_member_feedback({"choice": "Entailment", "spans": [1, 3]}, value, {1, 3}, roles)
+    assert feedback["Gold_omitted_despite_program_access"] == [3]
+    assert feedback["Gold_omitted_despite_ordinary_candidate"] == [3]
+    assert feedback["nonGold_final_citations_for_original_NN_only"] == [2]
+    assert feedback["nonGold_citations_in_context_only"] == [2]
+    assert value == original
+    neutral = native_member_feedback({"choice": "NotMentioned", "spans": []},
+        {"choice": "NotMentioned", "spans": [], "reason": ""}, set(), roles)
+    assert neutral["nonGold_final_citations_for_original_NN_only"] == []
+    assert neutral["reading_context_itself_is_not_an_error"]
+    assert not neutral["original_NM_but_native_chose_relation"]
