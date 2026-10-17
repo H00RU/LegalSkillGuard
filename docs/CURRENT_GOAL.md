@@ -15,7 +15,7 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 最新恢复快照：2026-10-17 23:04 CST
+## 最新恢复快照：2026-10-17 23:05 CST
 
 - `legal_contractnli_member_learning_one_copy_20261017_run03`已于22:40:52.851
   在完整B4 before24答后安全停止，不再运行。真实120新native+24明确继承空库、3教师；
@@ -38,9 +38,14 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
   全16生成后统一评分，不中途看分改提示、不按效果选库。结果用于主链路全局修正，
   随后必须重新完整在线演化验证；诊断本身不满足Goal。
   协议`docs/R3_ACCESS_CHANNEL_DIAGNOSIS_PROTOCOL_20261017.md`。
-- 当前为实现完成、待prepare冻结/双盘备份/实际launch；**此条不声称已启动**。
-  恢复时检查research `r3_access_channel_diagnosis_20261017/actual_launch.json`及实际/proc，
-  不凭计划重复launch。8B2261314/2261698仍须保留，不重启无磁盘权重的服务。
+- **诊断已于23:04:56左右实际启动**：worker2725825/ticks425601380，
+  terminal preserver2725826/ticks425601382。23:05真实progress为0/16，首源362的compact条件。
+  172冻结绑定、全部16输入原文/准则/访问角色还原校验通过，最大prompt16027tokens，0教师。
+  启动前完整Git+源码6620归档成员逐成员校验，双盘同SHA
+  `7c7dc2e20ec0ce269fce7364574c55fa4b7ab3ed7bf0c5f92feab20119863119`。
+  receipt `artifacts/prelaunch_backups/legal_contractnli_r3_access_channel_diagnosis_20261017_run01.json`。
+  恢复时检查research `r3_access_channel_diagnosis_20261017/actual_launch.json`、run progress及/proc，
+  不重复launch、不热改冻结实现。8B2261314/2261698仍须保留，不重启无磁盘权重的服务。
 
 ## 已归档的22:19快照（不是当前运行状态）
 
