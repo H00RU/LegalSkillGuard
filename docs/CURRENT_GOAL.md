@@ -5,6 +5,32 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+12:47新fact_boundary于12:43前完整结束32真实native/0教师，1759420已退出，原8B
+2261314仍在。完整32原作者成员集合/实际wire/所有源/schema/原普通C与分数/实际
+K2执行均已独立复算，非worker摘要。新同接口ordinary83.46/65.04/55.88，skills
+84.19/63.65/52.57；分类+0.74pp但F1-1.39、联合-3.31，仍未解决Goal。
+旧布局同16案ordinary81.25/65.22/53.31、K2 skills77.57/67.18/50.00；新接口改善
+分类破坏，但联合的技能净损害未变，不能把通用接口改善算作技能增益。
+
+分原B1：ordinary84.56/66.67/61.03、skills83.82/61.54/57.35；原B2：ordinary
+82.35/63.60/50.74、skills84.56/65.49/47.79。标签13修11伤、联合12修21伤，
+真成员19增10丢；错成员38新引8删（净多30）。实际新cost182701prompt/58302out。
+按16源配对bootstrap分类与F1区间均跨0，不是独立学习重复/正式TEST或显著领先。
+审计monitoring/complete32_original_author_same_facts_wire_and_paired_effects_audit.json。
+
+精确误引清单complete16_evidence_overselection_and_loss_original_fragments.json保留
+所有新增错误/丢真/标签损害及原片段。38个新误引28来自P\C，26为邻域/引言而非
+直接命中（类别可重叠）。249/nda-19复制整组15读位置，Gold仅79/122，故13FP。
+这是实际把read context当cite evidence的证据，不把非Gold读取一律当错；也有10个
+新误引本已在普通C，不能仅归给程序扩展。仍有10真成员丢失。
+
+下一根因行动不是再改一个显示词或重跑冷B1：保全完整32及当前源码/Git后，保留
+canonical actor边界，在技能教师侧明确区分实际误引、可见却漏证、确未检索到、
+关系错误及query角色；提示一个record的全部查询会并给每个公开h，避免同record
+混入不同事项。只用原TRAIN Gold和真实当前父库own，不加语义评委、宿主答案
+修补或效果准入。以显式继承当前16源/K2真实反馈的新Run继续真实内容更新、
+不同合同对照和全seen保持，不把已见诊断当新案或冷启动重复。Goal仍active未达。
+
 12:16新Run已于12:14:38真实后台launch，PID1759420，原8B2261314保持原启动。
 legal_contractnli_acquisition_fact_boundary_20261017_run01已完成2/32真实native，
 0教师，正skills/339；不是全新在线学习或重新训练检索器。首501普通与技能两个
