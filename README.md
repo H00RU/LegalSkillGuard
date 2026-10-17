@@ -13,7 +13,8 @@ publication are preserved with original source/Git in a verified2257-member
 backup. The loaded8B was not restarted.
 
 The default now selects `configs/contractnli_acquisition_fact_boundary.json`:
-a prepared, not yet launched,32-native/0-teacher held-K2 interface diagnostic
+a 32-native/0-teacher held-K2 interface diagnostic launched at12:14:38 CST as
+detached PID1759420, Run ID `legal_contractnli_acquisition_fact_boundary_20261017_run01`,
 on ALL16 original B1/B2 contracts. Its sole boundary change passes per-question
 exact source read indices and a shared literal catalogue, without global skill
 tags, skill names/counts or a varying used-ID answer schema. Equivalent returned
@@ -21,7 +22,9 @@ facts have identical actor input. Ordinary M2, K2 programs, source, labels and
 capacity are unchanged. This is not another online run or new-case evidence;
 independent evolution, fair strong controls/repeats and formal TEST remain unmet.
 Three quick boundary tests pass; exact16-source input capacity/invariance checks
-used no generations or new teacher. See the current execution file above.
+used no generations or new teacher. Actual first ordinary and skilled requests
+are saved and wire-audited; no partial quality claim is made. See the current
+execution file above.
 
 Historical Oct17 10:35 checkpoint:
 

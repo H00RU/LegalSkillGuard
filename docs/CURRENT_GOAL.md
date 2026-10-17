@@ -5,6 +5,26 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+12:16新Run已于12:14:38真实后台launch，PID1759420，原8B2261314保持原启动。
+legal_contractnli_acquisition_fact_boundary_20261017_run01已完成2/32真实native，
+0教师，正skills/339；不是全新在线学习或重新训练检索器。首501普通与技能两个
+真实请求均独立核验模型/参数、完整原源/17命题/原schema范围、非空thinking/stop/
+usage，且actual技能请求确实交付K2作用后的P\C索引/原文，无全局query tags、
+程序ID/数量或used-ID约束；两臂same system/schema及普通C/分数，真实查询不变。
+首普通3742prompt/1705out，首技能的实际usage见monitoring原收据；不评分零散
+输出、不声称已得收益。下一明确任务：同1759420跑完32后按原作者成员集合独立
+复算all16及原B1/B2分组，比较新同接口有/无技能；旧两臂只作历史布局对照，
+不冒充新/独立调用。之后再决定完整线上多批次验证，不把本诊断代替完整Goal。
+
+新源码/Git/all62先验绑定在launch前保全，2263项目文件/2265成员，Git
+ae75ca7b15db94d361066e3d1f55137866827e0b，archive
+legal-acquisition-fact-boundary-all62-before-launch-20261017.tar.gz，SHA
+8e42c997b8a7296fbf03f5ba8886357291be4abad90d144306864c319f108e16。
+实际首phase的62+32=94绑定也在首native前逐成员保全，receipt
+phase_backups/held_K2_interface.json。冻结源不再热改；异机/权重/auth仍不在此
+同vdb备份范围。该Goal turn为progress（完整B3负面原集合核验、安全停止、
+实际根因接口替换及新后台因果对照启动/实际两臂wire核验），Goal仍active未达。
+
 12:14根因交付替换已实现于原acquisition.py，而非新增规划器/评委/修补层：全文不再
 插入全局程序标签；本题实际P\C直接列索引，C与其原始分数不变、同一原文表覆盖
 C∪P；程序ID/数量/scope控制图及可变used-ID输出不交给律师，原生输出仅原
