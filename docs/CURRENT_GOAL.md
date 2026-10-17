@@ -5,6 +5,30 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+13:38 continuation在13:34:46已安全terminal：40新native/2新教师。完整新8案三臂
+原作者/wire审计全部通过：ordinary82.35/56.14/54.41、R1 skill77.94/54.62/46.32、
+strong_empty79.41/54.15/44.12。相对同工具分类-4.41pp、F1-1.52、联合-8.09，
+标签6修12伤、联合3修14伤，真成员8增7丢。不是跨批难度差造成的裸分回退；
+同一8源有完整匹配控制，故停止整轮而非硬拖120。原8B2261314未动。记录
+monitoring/before_b3_complete_original_author_wire_and_parent_audit.json及operator_stop_decision.json。
+
+信号期间已开始的实际教师1379完成并保留，完整24源/40own/每源当前R1真实反馈
+与原成员诊断已复核；212069input/6993out（reason4066为out子集）、105.974秒，
+无tool/cache/retry。UPDATE9/CREATE3、13→16，2083master/2311scope，新库R2
+77b86c95b448c9a6c5993dfdb834d5dfa35cf25bc78f9599ff61600c6d35b24d。
+它未实际答题，不能称其无效或挑选别库部署。B3-after只有编译24输入，没有native；
+B4仍未开始。教师1379/1400余21，不重置计数。所有负面和未使用更新成本保留。
+
+下一已写明INCREMENTAL_READ_RECORDS_MECHANISM_20261017.md（尚未实现/launch）：
+保持实际已评R1库/同固定M2/原source/同system与schema，只改additional读取字段。
+全部24已完成源（不是只挑失败），两种新条件：index记录无score，及同记录附现有
+M2原score；48新native/0教师。原R1裸整数实际24答与ordinary实际24控制是共享
+历史参考，不冒充新生成/独立重复。它们在新编译下需字节一致。R1用于匹配反事实
+而非最佳库回滚；不以未经实际评估的R2混淆接口效果。所有返回SPAN保留，不加
+score阈值/重排/裁剪/宿主过滤，不改native原输出。需先保全terminal40/2及旧源
+再动生产代码。该机制诊断不代替后续新案、多批在线学习、强ranked-retrieval/
+等调用复核/成熟方法、独立重复和官方TEST；完整Goal仍active未达。
+
 13:19同1820045仍真实live，25/120新native、1/3新教师，b3_before/522；8个新源
 三臂9/24已答，不评分partial。原8B2261314未动，96冻结源码/配置不改。
 上轮Goal实质progress（完整32诊断、根因教师反馈改动/新run启动）；本turn已完成
