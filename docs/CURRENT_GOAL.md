@@ -15,7 +15,33 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前阶段：run02已在完整B1后停止；一次交付主链路修订尚未启动
+## 当前阶段：一次交付主链路run03已于20:43后台启动
+
+唯一当前主run：`legal_contractnli_member_learning_one_copy_20261017_run03`。
+20:43:30实际启动，main **2518027**、ticks **424752842**；preserver **2518028**、ticks
+**424752843**。20:43:54两真实句柄live；0/152新native、24逐字继承空库回答、0/4已闭合教师，
+首次教师已在进行。用研究目录`member_learning_one_copy_20261017/actual_launch.json`与run
+`progress.json`恢复，不凭旧文重新启动。**114冻结绑定已live，禁止编辑/再次prepare。**
+config SHA `e8c6876c71ab4403db9fd24ff849c0acfb3846501bba146e8eab07a1c2a966f3`，frozen SHA
+`6babebdbee0074226c02cee0322d3c7c322114ac753bcd3b9a1317502c6d800f`。
+已有77无模型边界检查通过（7.45秒）和24完整原始请求/schema/解码/实际token逐字等价证明。
+无模型检查不是效果证据。所有学后和B2-B4都是新回答；初始库空，不继承旧教师编辑。
+完整源码/Git269404b与原始引用已在20:43:05校验双盘，3486项目/3488成员，同SHA
+`859bbc2f9ef653231c667b6eec5c41e7a787d655009cc2e7be71f6ee70d81bac`。
+receipt `artifacts/prelaunch_backups/legal_contractnli_member_learning_one_copy_20261017_run03.json`。
+终态保全定义及actual_launch已实际存在；终态archive尚未产生，不称训练完成。
+本轮重点后续不同合同prequential收益和同旧案损害，不因B1正收益夸大或因一批裸分降重启。
+
+20:45首次真实教师1386已完成，41.524秒、55824输入/1631输出（reasoning1217）、0缓存/工具/重试。
+实际CREATE1，`nda-copy-permission-polarity`仅适用nda-17、1查询/完整选择准则；master274、
+scope379、实际单次准则208tokens。该题学前8案仅2分类正确、3C误判E/3NM误判E；
+教师确实选择了高错误事项，不是代码规定每批只能一次编辑。实际完整末句、8个prospective
+只交付一次；已闭合首1个真实native请求也相等。无部分效果评分，0新案迁移结果。
+新research `actual_cold_reuse_and_first_teacher_input_audit.json`、
+`actual_first_publication_and_one_copy_delivery_no_partial_effect_grading.json`保存实际守卫。
+20:45:44 main/preserver尚live，B1 after第2案进行，已1/152新native+24继承、1/4教师。
+
+## 已停止run02及run03修订前证据（历史，不是live状态）
 
 **20:35已核实没有主训练live。** 上轮
 `legal_contractnli_member_learning_tool_independent_20261017_run02`
@@ -37,7 +63,7 @@ B1学前强空库79.4118/60.3774/50.7353，学后80.1471/66.8750/52.9412%（分�
 只交付一次，教师按真正共享检查组织，不定类别/数量，不修补历史文本。新config
 `configs/contractnli_member_learning_one_copy_20261017.json`，协议
 `docs/ONE_COPY_MEMBER_LEARNING_PROTOCOL_20261017.md`。新Run ID
-`legal_contractnli_member_learning_one_copy_20261017_run03`，**20:41已prepare114绑定，尚未备份/launch**。
+`legal_contractnli_member_learning_one_copy_20261017_run03`，**20:41已prepare114绑定，20:43已备份/launch**。
 24个学前完整实际请求/schema/解码/响应身份/实际token数逐字等价证明已经完成，0模型生成：
 新research `cold_reference_exact_wire_equivalence.json`，不得重做prepare或编辑114绑定。
 固定同32/4批，初始空库；逐字请求/schema/解码核对通过后显式继承旧24个学前回答，
