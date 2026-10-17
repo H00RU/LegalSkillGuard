@@ -202,6 +202,40 @@ def test_executable_query_features_are_source_only_scoped_and_not_answer_rules()
         program_queries([{**skill(), "queries": []}], list(labels))
 
 
+@pytest.mark.parametrize("disable_thinking", [False, True])
+def test_native_generation_and_server_token_count_use_one_thinking_profile(disable_thinking):
+    import io
+    from types import SimpleNamespace
+
+    from legal_skill_guard.inference.native import WireClient
+    from legal_skill_guard.inference.openai_client import GenerationConfig
+
+    cfg = {"base_url": "http://127.0.0.1:1/v1", "model": "synthetic",
+        "timeout_seconds": 1, "model_root": "synthetic", "context_tokens": 32768,
+        "disable_thinking": disable_thinking}
+    client, requests = WireClient(cfg), []
+    def tokenize(req, **_kwargs):
+        requests.append(json.loads(req.data))
+        return io.BytesIO(json.dumps({"count": 7, "tokens": [1] * 7,
+            "max_model_len": 32768}).encode())
+    client.opener = SimpleNamespace(open=tokenize)
+    assert client.token_count(messages=[{"role": "user", "content": "Task"}]) == 7
+    def generate(_method, _path, payload):
+        requests.append(payload)
+        return {"id": "synthetic-native", "choices": [{"message": {"content": "{}"},
+            "finish_reason": "stop"}], "usage": {"prompt_tokens": 7, "completion_tokens": 1}}
+    client._request = generate
+    config = GenerationConfig(temperature=.6, top_p=.95, max_tokens=32, seed=45,
+        disable_thinking=disable_thinking)
+    assert client.generate([{"role": "user", "content": "Task"}], config).content == "{}"
+    assert requests[0]["chat_template_kwargs"] == {"enable_thinking": not disable_thinking}
+    assert requests[1].get("chat_template_kwargs") == ({"enable_thinking": False} if disable_thinking else None)
+    with pytest.raises(ValueError, match="profiles differ"):
+        client.generate([], GenerationConfig(temperature=.6, top_p=.95, max_tokens=32,
+            seed=45, disable_thinking=not disable_thinking))
+    assert len(requests) == 2, "A mismatch fails before spending a generation"
+
+
 def test_member_guidance_contains_only_complete_inspection_not_query_windows():
     from jsonschema import validate
 

@@ -348,6 +348,8 @@ class MemberLearning(AcquisitionStudy):
             assert request["messages"] == p["messages"]
             assert request["response_format"]["json_schema"]["schema"] == p["schema"]
             assert all(request[k] == self.cfg["generation"][k] for k in ("model", "seed", "temperature", "top_p", "top_k", "max_tokens"))
+            expected_template = {"enable_thinking": False} if self.cfg["generation"].get("disable_thinking", False) else None
+            assert request.get("chat_template_kwargs") == expected_template
             assert csha(p["bank"]) == u["bank_sha256"] == p["bank_sha256"]
             assert json.loads(p["messages"][1]["content"])["full_contract_with_original_span_markers"] == marked_text(sources[u["document_id"]])
         gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]

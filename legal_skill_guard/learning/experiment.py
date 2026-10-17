@@ -199,7 +199,7 @@ class Comparison:
                         top_k=generation["top_k"],
                         max_tokens=max_tokens,
                         seed=generation["seed"],
-                        disable_thinking=False,
+                        disable_thinking=client.disable_thinking,
                         response_schema=schema,
                         response_schema_name="contractnli_callable_" + metadata["call_role"],
                     ),

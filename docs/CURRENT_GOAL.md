@@ -15,7 +15,44 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 最新恢复快照：2026-10-18 00:14 CST
+## 最新恢复快照：2026-10-18 01:00 CST
+
+- `legal_contractnli_grounded_criterion_learning_20261017_run01`已于00:43:12.458
+  自然失败，**不是仍在训练**。main2769948/preserver2769949/observer2769950均已消失。
+  共72全新native/2教师，无R3。B2-before24和R2-after16均完整，后者存在scored phase但无
+  batch2_summary，因为384原始输出JSON不闭合：finish stop、stop_reason151643、输出2815/8192，
+  尾部泄出closing-think标记，不是length cutoff；不补JSON、不删无效分母。
+  全16含该失败case仍为74.6324/48.2301/52.2059%，不能作为正常完成4批。
+  实际终态双盘全330成员核验SHA`20687cf274227219d83b5b9ed2f765f41f7a0af910c483ebcf47dcde20713303`。
+- B2新案同源：强空69.8529/64.9123/47.7941%，普通78.6765/54.6341/59.5588%，
+  R1技能80.8824/52.2613/61.0294%。NN联合28→25，NM53→58；不能把总联合微升当取证收益。
+  前16实际强空/普通对照：GoldNN314成员，M2只列121；律师选117列内+16列外。
+  加入提示导致58个原空库真成员丢失，其中57不在候选，另28新得；不是原文删掉或top-k截断，
+  实际是全部p>0.5交付。普通F1相对同16强空60.4824→54.3967%。高度符合低召回清单锚定，
+  不宣称证明隐藏attention因果。receipt `B2_complete16_ordinary_aid_coverage_and_actor_anchoring_audit.json`，
+  SHA`f6fc1baf343bcccff256f2a29948a17881c948e63a88089b5114aaac37879951`。
+- R2真实教师1390/high80.864秒、86271输入/4155输出(reasoning1981)，0缓存/工具/重试。
+  UPDATE6、保留2、总数仍8、master1822/scope2018/实际准则1703，**不是只增不改**。
+  全16当前R1父库own（旧8after+新8before）、原源/Gold/实际M2和原始hash均核对，
+  学后16输入仅替换完整准则，不能再说缺原文、标签、未交付或不看旧错。
+  R2audit SHA`4e4bebb6168f99faf3007cbd7ac7213d468f252b7e414f30790fd1ece3441012`。
+- 旧run全部终态保全、旧60绑定仍一致核验后，才修改三处模式接口：
+  WireClient显式disable_thinking并同步server tokenizer，生成前拒绝模板模式不同；
+  Comparison.call采用该已验证profile；实际wire审计核对chat_template_kwargs。
+  旧thinking-on计数/生成原本一致，不冒称它原来数错；这是支持新固定profile的必要修改。
+  既有78测试7.03秒通过，0模型/教师调用。服务实测vLLM0.10.2，不能拿新版Responses问题
+  当当前Chat Completions唯一bug证据；工程协议原因与语义收益问题必须分开。
+- 新有限核心对照已实现，**尚未prepare/launch**：
+  `legal_contractnli_no_think_memory_source_20261018_run01`，固定同R2/全部前16合同，48新native/0教师；
+  no-thinking同模空库、M2+R2、完整原源+R2。384只因旧协议失败被排为首个重放、全部16保留。
+  首次若仍无效，原始成本保留后停止，不修补/重试；否则全48后统一效果分数。
+  直接复用旧32原始结果作明确历史参考，不冒充新生成或新未见测试。
+  协议`docs/NO_THINK_MEMORY_SOURCE_COMPARISON_PROTOCOL_20261018.md`，runner
+  `experiments/no_think_memory_source_comparison.py`。冻结/双盘源码保全后立即后台启动，
+  不继续空讲假说、不重开旧坏主训练。8B2261314/2261698仍不允许重启/下载/切换。
+  Goal active，可信不同合同净收益、强成熟对照、独立重复及正式TEST全部仍未达成。
+
+## 已归档的00:14状态（不是当前运行状态）
 
 - 原主进程2769948/ticks425778700继续运行，不重复launch；首批已完整、已自动B2。
   00:10实际39/176native、1/4教师，B2 before第三源319；60冻结代码/输入绑定未热改。

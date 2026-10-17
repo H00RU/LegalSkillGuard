@@ -19,7 +19,15 @@ class WireClient(ChatClient):
             expected_model_root=ROOT / config["model_root"],
             expected_max_model_len=config["context_tokens"],
         )
+        self.disable_thinking = config.get("disable_thinking", False)
+        if type(self.disable_thinking) is not bool:
+            raise ValueError("disable_thinking must be an explicit boolean")
         self.native = []
+
+    def generate(self, messages, generation):
+        if generation.disable_thinking != self.disable_thinking:
+            raise ValueError("Generation and serving-tokenizer thinking profiles differ")
+        return super().generate(messages, generation)
 
     def token_count(self, *, messages=None, text=None):
         """Count with the actual serving tokenizer, not a replacement model.
@@ -34,7 +42,7 @@ class WireClient(ChatClient):
             payload.update(
                 messages=messages,
                 add_generation_prompt=True,
-                chat_template_kwargs={"enable_thinking": True},
+                chat_template_kwargs={"enable_thinking": not self.disable_thinking},
             )
         else:
             payload["prompt"] = text
