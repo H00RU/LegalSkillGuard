@@ -5,20 +5,33 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
-08:35:37同1380323实际live、34/40新native，B7_retention/518；8B未动。B7完整16答
-已独立原作者集合/wire重算：empty87.50/67.10/52.94%，joint78.68/59.36/45.59%。
-标签4修16伤、联合6修16伤、真4增23丢；不是后批自然修复B6，亦不能因跨批裸分
-上升便声称技能进化有效。结果在monitoring/B7_complete16_original_TRAIN_paired_wires_class_and_example_alignment_audit.json。
+08:46:13实际live为新机制消融PID1447111，3/32新native、0教师，B6/576/opaque_refs；
+原8B2261314未动。新Run为legal_contractnli_historical_identity_ablation_20261017_run01，
+08:42:32真实后台launch，非尚未启动的计划。首592两臂真实wire/原源/程序/新记忆/
+schema/实际生成参数与原对照一致及非空thinking/stop/usage独立通过，未评分partial。
+运行时684绑定均未变；归档685项目绑定数另含绑定清单文件本身，不误写成运行时685。
+之前prefix1的数目措辞及审计曾假设显式enable_thinking键，已在prefix2不可变审计
+明确纠正；实际传输沿用默认thinking且真实推理非空，没有模型失败或重试调用。
 
-新的有界机制消融legal_contractnli_historical_identity_ablation_20261017_run01已prepare，
-尚未launch、0新native/0教师。固定实际B6与B7各自的已发布库及原16预选合同，
-两新臂共32答：opaque_refs对历史引用作可逆的字母标识编码，保留原完整过去源及全部
-被选原答案；procedures_only保留所有程序原文/ID/scope，仅去掉历史例及其引用。
-当前源/17题/候选/同M2/4字段schema均逐项不变，645冻结绑定及32请求独立核验，
-容量B6 opaque3428/3707、procedure613/892；B7 opaque2276/2555、procedure844/1123。
-原numeric和empty均明确复用父轮真实答案为历史对照，不算新调用/独立重复。
-下一待父40终态独立核验、提交并全源/实际教师/原始输出/Git备份后再launch，无教师
-重问、当前Gold提示、效果准入或旧好库回退。这是原因区分，不是正式主方法已修好。
+父contextual Run03于08:42:18完整40新native/1新教师＋1继承教师结束，1380323已退出。
+全部40 actualwire及原作者集合独立重算：新案B6 empty83.82/63.19/44.12%，joint
+76.47/57.14/33.82%；B7 empty87.50/67.10/52.94%，joint78.68/59.36/45.59%。
+两新批合计empty85.66/65.15/48.53%，joint77.57/58.25/39.71%，明确负收益。B6后续
+保持81.62/56.54/47.79%，原阶段76.47/57.14/33.82%；NN exact26→31、NM20→34，
+TP82→80。相对B6空库NN exact同为31，联合净增只来自NM，不能当作取证修复。
+原40新native实际341481prompt/88451out；共享祖先及两教师成本不算免费。
+完整审计：父monitoring/complete40_original_TRAIN_wires_forward_retention_and_actual_cost_audit.json。
+
+新消融固定父B6/B7各自真实发布库及原16合同，不重B1、不另问教师、不换旧好库。
+opaque_refs无损改过去引用身份；procedures_only只去掉完整过去示范及引用，保留
+所有程序原文/ID/scope。全部当前源/17题/候选/同M2/4字段schema不变；两新臂32答，
+原numeric和empty明确为历史对照，不算新调用或独立重复。每阶段16新答齐后再评分。
+源与父完整40/教师/新32请求/full Git82a8af8f534a116a1e58332401fc6bb74dcbda95均在
+首新native前独立保全，691成员逐项复验；归档
+legal-contextual-complete40-and-identity-ablation-all-inputs-before-launch-20261017.tar.gz，
+SHA bc605bed8b3bf80e63fe9e1b5c6c29465d53f3048e63f2fed033f53fe8e4e2d5。
+同vdb非异机/权重/auth。下一poll同1447111，先完整B6/B7分开程序与示范干扰，
+不把输入合法或局部改善当主方法已修好。Goal保持active，整个可信论文目标未达。
 
 08:28核验：同1380323实际live，26/40新native、1/1新教师及1继承教师，B7执行中；
 原8B2261314未动。B6完整16答已按原作者TRAIN集合独立重算：empty83.82/63.19/
