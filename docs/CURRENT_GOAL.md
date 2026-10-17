@@ -53,6 +53,19 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
   没有证据表明新链路已解决8B执行失败；不能写方法有效。
   恢复看research `grounded_criterion_learning_20261017/actual_launch.json`和/proc，避免重复launch。
   **现在所有旧run均终态，新run冻结代码不可再随意修改；原RAM8B不能重启。**
+- 23:47实际重新核实三个原进程均live/ticks匹配、60绑定不变，15/176native、0教师，
+  B1-before尚未完整，不评分部分。前5源ordinary/空库skills的完整native请求和最终公开答案
+  均逐字相同且raw ID各异；新receipt
+  `actual_first_phase_live_identity_and_cold_wire_equivalence_20261017_2347.json`，
+  SHA`32b7ef9a9c050af4df0205286cee386966c2ca2f4514d78a7dd58b70d3752ade`。
+- 本Goal轮progress：真实核验历史matched-teacher intervention的18原观察/6配对/16终点，
+  原作者集合重算一致；不能把同工具无技能反馈或本地CoT当作从未试过的修复。
+  旧单次配对更新83.0882/70.5882/61.7647→82.3529/68.6695/57.3529%，不能默认部署。
+  限定为一次旧接口更新，不能据此宣布所有组内学习无效；教师body两字段额外之外还附加
+  system比较说明，不是整个请求只有两字段差。新audit双盘SHA
+  `ebccbe1fa66b6a567f239d68a23e2b89665b676c42e118e9b7a103289e59b066`，详见
+  `docs/MATCHED_FEEDBACK_HISTORY_AND_CURRENT_CHAIN_BOUNDARY_20261017.md`。
+  当前run继续，不热改教师；下一重点实际首教师/后续新案，而非再造8案配对旁路。
 
 ## 已归档的23:05快照（不是当前运行状态）
 
