@@ -15,7 +15,7 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 最新恢复快照：2026-10-18 02:30 CST
+## 最新恢复快照：2026-10-18 02:33 CST
 
 - **source-only主run已停止，不再运行**。原worker2959984、preserver2959985、observer2959986
   均已消失。02:21:44在完整B3后按预设条件安全停止，96新native/3教师，0 B4回答/0第四教师，
@@ -30,7 +30,7 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 - R3已知89的长回答有效stop/5238tokens/0私人思考，共977个引用、0重复；多个问题
   各自引用150–158个不同SPAN。不是重复数字、输出截断、检索清单复制或没拿到Gold。
   不用maxItems/去重/截短当修复；不据一条长答判断服务死掉，实际GPU98%且tokens前进。
-- 下一项已prepare、**此快照尚未launch**：
+- 下一项已于02:31实际后台launch：
   `legal_contractnli_source_criterion_thinking_transfer_20261018_run01`，34新native/0教师，
   原同RAM8B启用已有thinking能力，解码其余参数、完整原文/原17命题/schema/评分不变。
   固定实际末次R3（7技能、bank SHA`113dd8441543832ea2543e6da8b7e10e10a6f76c3bc865e277127a14b0fd73a2`），
@@ -42,7 +42,18 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
   初版未运行选择含388/424/489旧常量，已在任何推理前剔除并留存原选择；不隐藏此准备更正。
   174真实teacher wire中47非JSON仅扫描case-ID字段，不宣称全部匿名文本完全还原。
   官方DEV/TEST未开，本项不是独立held-out确认；目标全部仍未达成。
-  下一步源码/Git双盘保全后后台launch并核实实际思考模板/输入；不要重开已停止的96/3坏run。
+  完整源码/Git/全部tracked源双盘10067成员核验，SHA
+  `7ea1c6ebba198b5ee2b10b47f8fafa7dc3b29148f8e0bf5e71838775b8b614d8`。
+  worker3033735/ticks426839277、preserver3033736/ticks426839278实际live；63绑定未改。
+  02:32:25实际1/34，首个已知89空库完成，技能臂正在生成，0教师，无failure。
+  首真实wire与旧89空库除移除disable-thinking模板参数外整个请求相同；原无私人思考，
+  新响应私人思考2277chars（仅计数、不展示），finish stop/1079completion tokens/prompt8624。
+  不是仅在config写了thinking，实际服务模式已核实。全34前不看效果、不改输入或选库。
+  旧run全96原作者评分与实际wire/58绑定重算一致，R3相对同24父库TP+30/FP+479，
+  其中89贡献FP+462、545贡献+28。没有删异常案或换微平均指标；新完整audit已直接双盘，
+  SHA`e10a534819d24bd2d90bd1bd421c23e25b71629ec3e93e3c82defb86c7c88304`。
+  下一步继续新34固定对照；区分新16净收益、已知89是否仍过选及全部17，不把它称主训练。
+  完整在线学习、强成熟对照、独立重复及未调优TEST仍待完成；不要重开已停止的96/3坏run。
 
 ## 已归档的02:01状态（不是当前运行状态）
 
