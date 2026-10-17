@@ -18,8 +18,8 @@ complete new8-source comparison again harmed all three metrics versus ordinary
 M2 (82.35/56.14/54.41% ordinary,77.94/54.62/46.32% skills). Its second publication
 R2 is preserved but unevaluated, not declared ineffective or selected away.
 
-Current default: `configs/contractnli_read_record_score_mechanism.json`, launched
-Oct17 13:45:50 CST as detached PID1894976. This is a48-native/0-teacher mechanism comparison on ALL24
+Current default: `configs/contractnli_read_record_score_mechanism.json`, completed
+Oct17 14:28 CST with48 NEW native/0 teacher calls. This is a mechanism comparison on ALL24
 completed sources, holding the actual R1 bank fixed. It separates incremental
 index-record formatting from existing fixed-M2 score information. The native
 actor, system/schema, original source, query access sets and ordinary candidates
@@ -27,11 +27,14 @@ stay unchanged; no score cutoff, reranking, extra judge or host answer repair.
 Five fast boundary checks pass. All24 controls/reference inputs are byte-
 identical and capacity-checked with zero qualification generations.
 
-The first actual records/scored-records pair is wire-audited: the only input
-difference is the existing per-position M2 score, with identical source/read
-sets, fixed bank, system/schema and generation settings. No partial quality
-claim is made. The complete original-author/96-wire audit is prepared but must
-wait for all48 NEW answers; its other48 calls are explicit historical references.
+All96 actual wires and original-author sets are independently audited:48 NEW
+answers plus48 explicit historical references. Ordinary83.09/62.22/55.39%,
+old index-list skills82.11/61.73/51.23%, unscored records83.58/61.66/51.23%,
+scored records82.35/64.25/54.41% (accuracy / Gold-NN SPAN F1 / exact joint).
+Existing-score information reduces false citations but does not beat ordinary
+on all metrics. Conditional source-resampling intervals versus ordinary include
+zero on all three endpoints. This is a partial mechanism improvement, not a
+successful complete method or a new-contract confirmation.
 
 The old24 R1 index-list answers and24 ordinary answers are shared historical
 references, not new calls or independent repeats. R1 is fixed to isolate the
