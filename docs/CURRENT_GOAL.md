@@ -44,6 +44,12 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
   `31e741ba9f2d82cae46eccd6ff49462826155a2e37808b672e0dd508d5387d72`。
   configSHA`77fe9ef2ea9c29b1a19734e18ec96fb5168e984806134c2e10047a74f28c8843`，
   frozenSHA`3c035f73bf2417f4652f6255fc9c1b754f3038d139ca5a48801fddc480d4f0f8`。
+  实际launch及冻结输入已提交Git`3a36fbc86679ce17d2b502b06393d24814fe6f38`。
+  完整Git bundle双盘SHA`e504dbaf80e784f61b3b3020a346a473a3d08ffd19981de2fc9b75d4ba030621`，
+  receipt research `actual_launch_complete_Git_preservation.json`，SHA
+  `e757974451eb2c53df0fa2e676be9c9bffee02387c00212a414060859775cba0`。
+  初次bundle已成功生成，仅中文成功信息不匹配英文断言；原有效bundle经LC_ALL=C完整历史
+  复核后复制，未覆盖/重新生成bundle、未中断训练，失败事实也在receipt中保留。
   没有证据表明新链路已解决8B执行失败；不能写方法有效。
   恢复看research `grounded_criterion_learning_20261017/actual_launch.json`和/proc，避免重复launch。
   **现在所有旧run均终态，新run冻结代码不可再随意修改；原RAM8B不能重启。**
