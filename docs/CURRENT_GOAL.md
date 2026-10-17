@@ -5,6 +5,39 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+14:02按用户明确澄清重校准曲线解读：不是强求批次裸分机械单调，而是同案技能
+净益、累积首次迁移、旧案保持和最终未调优TEST。已直接读ERSkill/COBRA原PDF
+第9页图5/图3--4并保全原文件/图及SHA；ERSkill约77→71再恢复只是读图估计，
+其router/准入不同，不能据此授权本项目跌6pp。WikiSkill严格验证回滚也不能
+被当作本项目天然单调。没有文献通用“回退X点合理”阈值；不因单个小跌自动停，
+但持续同案负收益/无累积改善仍不够。见LEARNING_CURVE_AND_EFFECT_TARGETS_20261017.md。
+下一开发优化目标暂定相对强同接口accuracy+3--5pp、原SPAN F1+5--10、joint+5--8，
+是我们预先说明的工作目标，不是文献或SCI录用标准/技能效果准入，也不替换完整Goal。
+正式TEST不调优、既有48冻结输入不动；该run仍1894976真实live，14:01快照16/48。
+
+13:59当前records/score机制对照实际已于13:45:50后台launch，PID1894976仍真实live，
+最新已核11/48新native、0教师，原8B2261314未动。默认config和65初始绑定、全部48
+先验输入均保持原样；run phase在首native前已逐成员保全113绑定。不是尚未启动。
+
+本turn已完成首501两臂的actual wire/完整原source/M2原score逐项核验：同R1、同原
+读集合、公共system/schema与生成配置一致，只有既有membership_score字段变化；
+所有低分条目仍在，无阈值/重排/答案修补，reasoning非空且stop。实际两答4356/5460
+prompt、2058/1960output，属于既有实际调用，不是额外资格生成。未计算任何partial
+质量。收据monitoring/first_actual_pair_wire_and_existing_score_audit.json，72绑定。
+
+run-local monitoring/audit_complete.py已实现并实际执行wire-only，通过Ruff与独立
+计数算术检查；其文件哈希已被首审计绑定，不再改写。完整入口只在completion48/0
+及全部48原始答齐后核算：直接原zip TRAIN、全部96实际wire（48新＋48明确历史）
+与独立集合计数、完整24/前16/后8/原三组、修复损害/真成员增丢/误引/整包复制及
+真实新增和共享成本。完整入口尚未执行，不能称全量已通过或已获得指标收益。
+
+用户纠正工作时间范围：其状态问题指近24小时，不能把今天中午一轮的时间或
+11:53的实验快照冒充用户最后消息时间。此前“约两小时”的回复错误，已明确更正。
+近一天有完整四批、后续多轮负结果和根因检查，但仍无稳定三项净收益；研究融合
+真实存在（历史反馈/原子修订/实际取证动作），不等于有效或整套近期方法复现。
+本turn此前状态回复是经确认PID的verified wait，不算新增方法修复；首实际pair
+核验和完整计数器是本turn新证据。完整Goal仍active未达成。
+
 13:44记录/分数机制对照已实现并prepare，尚未launch：
 legal_contractnli_read_record_score_mechanism_20261017_run01，65初始冻结绑定。
 固定R1=97a9c5cfd19e5f79887c2229781afe9c260eb502f19b319893bb943a2a49f328，
