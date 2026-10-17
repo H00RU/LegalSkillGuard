@@ -5,6 +5,45 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+13:19同1820045仍真实live，25/120新native、1/3新教师，b3_before/522；8个新源
+三臂9/24已答，不评分partial。原8B2261314未动，96冻结源码/配置不改。
+上轮Goal实质progress（完整32诊断、根因教师反馈改动/新run启动）；本turn已完成
+R1完整16保持原作者/wire/同父库审计及新score-information根因证据，不是仅重述状态。
+
+prefix完整16真实重答已于13:11结束并独立复算：R1为84.19/64.84/53.68；真实K2
+父答84.19/63.65/52.57；同ABI已保存普通C83.46/65.04/55.88。相对父库分类不变、
+F1+1.18pp、联合+1.10；相对普通C分类+0.74、F1-0.21、联合-2.21，仍未全面胜出。
+标签10修10伤、联合16修13伤、真成员17增9丢，TP169→177、FP54→61、FN139→131。
+误引未减少，不能把13技能或训练内覆盖改善当目标实现。新16实际98685prompt/
+29705out。原B1 F1 61.54→61.18、联合57.35→56.62；原B2 F1 65.49→68.04、
+联合47.79→50.74。已见不同组效果不一致，继续真正新源而非只选正面的原B2。
+收据monitoring/prefix_b2_complete_original_author_wire_and_parent_audit.json。
+
+R1的source-only训练覆盖也完整核验（不读partial native）：Gold共308，C恒155，
+P230→250、C∪P249→263、P-only beyondC94→108，scope分配读位置1289→1133。
+所有16 actor消息都因真实读位置变化而改变，公共system/schema/原源/原C分数相同。
+读context不是错误，实际误引仍增加。249/nda-19这次把17个R1读位置全抄作依据，
+Gold仍79/122，15FP；不能声称事项拆分已治整包引用。原文与当前原生理由已保留。
+
+新增已完成16案的诊断（0新生成/教师/拟合）：固定ordinaryM2本来已经计算所有
+原SPAN raw_scores，但actor只收到C的分数，P\C仅是形似答案的裸数字列表。
+108个Gold增量位置分数中位0.09275，711非Gold中位0.00223；同源同h的正负配对
+排序一致率0.8523，pooled AUC0.8162。实际被引33真增量中位0.13135、32假增量
+中位0.00165；这些分数都≤原C阈值0.5，没有调阈值或过滤输出。这提示现有信息
+丢失/答案形列表复制是后续候选根因，不证明8B能利用分数或唯一因果；不能直接
+把AUC说成native收益。记录complete16_existing_M2_score_information_for_unscored_skill_reads_diagnostic.json。
+先等完整b3新案结果；若仍系统性失效，优先验证同一原SPAN候选的统一结构/既有
+固定分数交付，别又只扩词或无效重训。当前源不热改，未启动新variant/新教师。
+
+新8源全部24输入/实际首421强空库wire已审计，未包含新Gold答案，teacher只见
+旧16，三臂同system/schema、同原源；first7065prompt/1879out。b3_before全部157
+当前绑定（含16已完成prefix raw）在首新源native前逐成员保全，见phase_backups。
+run-local audit_learning.py已通过静态与真实teacher2完整复核；它保留canonical
+规则/实际bank版本及继承计数，用`prefix 2`、`before 3`、`teacher 3`、`retention 3`
+等入口，仅在各阶段全答/教师发布后执行。该审计文件已有结果绑定，不再改写。
+下一明确事件仍是b3_before_complete.json的24真实答，再核新源迁移与实际教师2
+的40 own/24源；不把当前16训练保持当新合同胜利。完整Goal仍active未达。
+
 13:00新continuation已于12:55:27后台真实launch，PID1820045仍live，原8B2261314
 未动。3/120新native、1/3新教师，正prefix_after_repair/422。首501原生已核对
 实际新库查询、完整源/原schema/actual wire、thinking非空/stop/usage，4167prompt/
