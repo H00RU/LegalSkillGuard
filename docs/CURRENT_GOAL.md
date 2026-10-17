@@ -5,6 +5,31 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+15:44本turn上一轮判为progress：真实B4新8与教师1380完整证据、R3内容根因审查、
+可逆显式成员执行候选及后台12/0队列均已落实。本轮起始重新确认1979890/
+1991838/2024548/2044885及原8B句柄live，不因观察超时重启。15:43主run
+62/80、1教师，仍R3全32保持；没有partial质量结论，也没有新12原生结果。
+
+新增的是独立完整12核算器（research/sparse_evidence_execution_20261017/audit_complete.py），
+不是生产律师/教师改动：直接读原作者TRAIN、实际wire中的布尔选择＋outside原索引，
+独立转置/集合计数，核对各臂实际全文/原17任务/相同M2/R3/全部代价/合法性及
+NM-引用不一致；不调用产出codec来决定引用、不按choice加删任何成员。还逐成员
+重验首答前phase archive，并对实际历史ordinary4/R3保持4核验，明确8引用不算新调用。
+全部12实际答齐后才计分，未完整则不拿局部质量冒充效果。Ruff/AST通过，完整入口
+尚未执行，不能称新诊断已审计通过。
+
+实际后台独立auditor已启动2067842/session56037，绑定该脚本SHA与已证实live的
+queue2044885 start_ticks；先等actual_child_launch，再核真实child句柄和complete12，
+失败/提前终态只保留记录，不重启/不调模型。该audit脚本自launch后不得改。
+研究候选4文件及生产197均未热改；全Goal仍active，可信稳定三项净收益/成熟公平
+对照/独立学习/消融/未调优TEST均未达。当前除这项核算工作外，是等真实GPU任务
+进展的verified wait，不为制造progress重复B1或新增旁支实验。
+
+重读历史review.py/SOURCE_CHECK_METHOD也确认：以前已经强制过检查题/引文/finding，
+并没有证明字段齐全就有好效果；因此新方案不能被包装成“首次让律师执行技能”。
+真正待测区别是对现有C∪P每个位置显式成员决策、保留任意outside选择，且与旧
+密集全SPAN方案不同。执行完12若仍漏引/误引，不继续只叠字段解释为突破。
+
 15:34：执行候选已真实后台排队，不是只写方案。2044885/session35997绑定同
 worker1979890 start_ticks、两个完整auditor handle及4个候选文件SHA；等parent
 80/1真实完成且退出、teacher/retention/ordinary-gap工件齐，才取同GPU lock启动
