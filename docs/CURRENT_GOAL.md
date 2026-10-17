@@ -5,6 +5,39 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+10:11 source_read全部32新native/0教师已完整完成、1515175退出；独立入口
+monitoring/audit_complete.py已对32真实wire、16最终答、作者原文/原SPAN/Gold集合、
+原生schema/参数/真实source lookup及usage手工复算，无运行协议错误。
+B7 empty83.82/63.39/42.65%，skill79.41/70.37/45.59%；不同于B6，F1/联合略增但
+分类下降。两组合计empty87.50/62.43/45.59%，skill80.15/64.26/42.65%，分类5修15伤、
+联合11修15伤，真成员6增12丢，不能以F1+1.83pp掩盖分类−7.35pp、联合−2.94pp。
+相较更强的历史单调用空库90.44/65.50/52.21%，三项仍低。当前不存在完整新主训练
+成功或公平方法胜利。完整收据complete32_original_sets_actual_read_and_citation_class_diagnosis.json。
+
+read_action_final_boundary Run01已prepare全部8输入，822冻结绑定，独立无生成
+复核证实只清空S2的4个inspection字符串；原S1行动及实际读回、ID/scope/系统/
+17题/schema/完整原文/普通候选完全保持，最大13272prompt+8192<32768。尚未launch，
+先Git与全输入/原负面32保全，再8新final验证；不把小消融等同主学习已修复。
+
+10:09同source_read PID1515175实际live，31/32新native、0教师，B7最后一份
+155/empty_read/final进行中；没有重启原8B2261314或修改744初始冻结绑定。
+B6完整16调用/8最终答独立复算：empty_read 91.18/61.45/48.53%，skill_read
+80.88/58.48/39.71%（分类/原SPAN F1/联合）。有技能1修8伤分类、2修8伤联合，
+真成员1增6丢；3个Gold非NM问题在真实读回部分Gold后仍答NM。两臂均没有在最终
+引用未显式重读的Gold，但完整原文始终可见，不把“未重读”误称“不可见”。数据源
+为monitoring/B6_complete16_actual_calls_manual_original_sets_reread_vs_citation_and_strong_controls_audit.json。
+这再次排除“只要逐字读回就足够修好”的判断；尚未读取不完整B7的质量。
+
+已检查旧execution_contract_ablation的实际driver/protocol：一调用、去正文同时去
+ID及引用输出要求的operations_only没有稳定收益；旧六调用去候选也明显下降，
+不将两者当作未经尝试的新修复。新read_action_final_boundary Run01仅写好代码与
+协议，0调用、尚未prepare/launch。它将在parent完整32结束后固定全部8个真实skill
+读动作及原文回执，只清空最终输入的4个inspection正文，保留ID/scope/原schema/
+完整原源/候选/自己真实focus，8新最终调用、0教师。比较同读动作的原skill最终答、
+等2调用empty及更强历史1调用；不是重做旧一调用去全文、不是直接宣布主方法修好。
+全部新8答齐并核验wire后才读其TRAIN评分；不选库/筛案/做效果准入，先完整备份。
+同时已写独立全32手工集合与真实读回审计入口，拒绝对不完整parent评分。Goal仍active。
+
 09:43 source_read同1515175实际继续，11/32新native、0教师，B6/518/skill_read/final；
 原8B2261314未动，744初始绑定仍未变。首592两臂4实际调用（各read→final）均
 独立wire/source/schema/trace/usage核验；有技能的实际4条原文/ID/scope确实同时
