@@ -34,8 +34,12 @@ WRITER = (
     "historical observations. This is label-assisted external skill induction, not "
     "fine-tuning the frozen lawyer or canonical TF-GRPO. The final lawyer still "
     "decides every original NLI label and citation. Your functions supply features "
-    "to a shared supervised word/feature LR and contract-OOF calibrated membership "
-    "scorer; they do not directly become evidence sets or legal verdicts. The "
+    "to a source-scoped log-odds correction of an ordinary supervised membership "
+    "scorer. The word scorer and its calibration are not refitted around your "
+    "features; correction weights use contract-held-out ordinary predictions and "
+    "proper Bernoulli loss, without a global intercept. Zero features imply the "
+    "exact ordinary score, not a failure fallback or an efficacy decision. Features "
+    "do not directly become evidence sets or legal verdicts. The "
     "ordinary control fits the SAME sources and algorithm without these features. "
     "A feature name or nonzero value is not evidence of utility. "
     "Publish CREATE/UPDATE/DELETE/MERGE or an explicit NOOP against the exact parent. "
@@ -189,6 +193,9 @@ class FeatureInduction(Comparison):
             models[arm] = model
             usage[arm] = {"fit_seconds": time.monotonic() - start, "path": str(path), "sha256": sha(path),
                 "feature_protocol": FEATURE_PROTOCOL, "stage1_design_widths": model.stage1_design_widths_,
+                "base_scorer_fit_count": model.base_fit_count,
+                "outer_source_partitions": model.outer_source_partitions,
+                "residual_fit_diagnostics": model.residual_fit_diagnostics,
                 "contract_fold_source_partitions": model.stage1_oof_source_partitions_,
                 "actual_training_execution_receipts": model.source_execution_receipts.copy()}
         ids = self.cfg["development_ids"]
@@ -224,7 +231,9 @@ class FeatureInduction(Comparison):
         metrics = {arm: {"TP": int(c[0]), "FP": int(c[1]), "FN": int(c[2]),
             "Gold_NN_hard_micro_F1": float(2*c[0]/(2*c[0]+c[1]+c[2]))} for arm, c in counts.items()}
         self.check()
-        result = {"at": now(), "run_id": self.run_id, "actual_native_teacher_CPU_fits": [0, 1, self.cpu_fits],
+        result = {"at": now(), "run_id": self.run_id,
+            "actual_native_teacher_CPU_fits": [0, 1, sum(v["base_scorer_fit_count"] for v in usage.values())],
+            "actual_model_factory_calls": self.cpu_fits,
             "actual_bank": bank, "metrics": metrics, "per_source_hypothesis": per, "model_artifacts": usage,
             "already_developer_exposed16_not_held_out_or_official_TEST": True,
             "no_end_to_end_lawyer_effect_or_online_learning_or_significance_claim": True,
@@ -232,7 +241,7 @@ class FeatureInduction(Comparison):
         self.record("completion.json", result)
         RunStore.atomic_json(self.out / "progress.json", {"state": "completed", **result})
         print(json.dumps({"completed": self.run_id, "metrics": metrics,
-                          "actual_native_teacher_CPU_fits": [0, 1, self.cpu_fits]}), flush=True)
+                          "actual_native_teacher_CPU_fits": result["actual_native_teacher_CPU_fits"]}), flush=True)
 
 
 def main():
@@ -249,7 +258,8 @@ def main():
     except BaseException as exc:
         failure = {"at": now(), "error": repr(exc), "traceback": traceback.format_exc(),
             "stdout": str(getattr(exc, "stdout", "")), "stderr": str(getattr(exc, "stderr", "")),
-            "actual_native_teacher_CPU_fits": [0, len(study.teachers), study.cpu_fits],
+            "actual_native_teacher_completed_factory_calls": [0, len(study.teachers), study.cpu_fits],
+            "failed_factory_internal_fit_count_not_inferred": True,
             "teacher_attempts": study.teacher_attempts, "no_retry_or_feature_or_answer_repair": True}
         study.record("failure.json", failure)
         RunStore.atomic_json(study.out / "progress.json", {"state": "failed", **failure})

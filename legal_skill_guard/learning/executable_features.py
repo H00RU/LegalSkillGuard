@@ -24,7 +24,7 @@ from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 from .evidence_programs import SCORER_PARAMETERS, public_document
 from .publication import apply_differential_publication, skill_record_schema
 
-FEATURE_PROTOCOL = "pure_source_code_features_contract_oof_v1"
+FEATURE_PROTOCOL = "source_scoped_anchored_log_odds_v1"
 GUIDANCE_SCHEMA = {
     "type": "object", "additionalProperties": False,
     "required": ["feature_names", "python_source"],
@@ -152,7 +152,7 @@ class ExecutableFeatureModel(ContractModel):
         validate_library(library, public_ids)
         self.library = copy.deepcopy(library)
         self.program_sha256 = csha(library)
-        self.feature_protocol = FEATURE_PROTOCOL
+        self.feature_protocol = "pure_source_code_features_contract_oof_v1"
         self._source_feature_cache = {}
         self.source_execution_receipts = []
         super().__init__(**parameters)
@@ -162,6 +162,10 @@ class ExecutableFeatureModel(ContractModel):
             return original
         from scipy.sparse import csr_matrix, hstack
 
+        return hstack((original, csr_matrix(self.source_features(corpus, key))), format="csr")
+
+    def source_features(self, corpus, key):
+        """All declared source features; scope masks are public, not semantic routing."""
         width = sum(len(s["guidance"]["feature_names"]) for s in self.library)
         added = np.zeros((corpus.n, width), dtype=float)
         for did in corpus.doc_ids:
@@ -180,7 +184,124 @@ class ExecutableFeatureModel(ContractModel):
                 if key in skill["hypothesis_ids"]:
                     added[corpus.rows(did), offset:end] = values
                 offset = end
-        return hstack((original, csr_matrix(added)), format="csr")
+        return added
+
+
+def anchored_probability(base, features, coefficients):
+    """A fused log-odds correction, with an exact numerical zero identity.
+
+    The identity is algebraic, not an error/score/uncertainty-dependent fallback.
+    Every published feature is evaluated. It does not guarantee non-harm where
+    a nonzero learned correction applies.
+    """
+    from scipy.special import expit, logit
+
+    base = np.asarray(base, dtype=float)
+    if not np.isfinite(base).all() or np.any(base <= 0) or np.any(base >= 1):
+        raise ValueError("Strict finite base probabilities required; never clip")
+    correction = np.asarray(features @ coefficients).reshape(-1)
+    if correction.shape != base.shape or not np.isfinite(correction).all():
+        raise ValueError("Invalid source correction")
+    corrected = expit(logit(base) + correction)
+    return np.where(correction == 0, base, corrected)
+
+
+class AnchoredFeatureModel(ExecutableFeatureModel):
+    """Unchanged ordinary scorer plus one fused, source-scoped log-odds term.
+
+    The proper Bernoulli objective uses actual source-held-out BASE predictions,
+    not the base's approximately perfect in-sample probabilities. Teacher
+    features were induced on all seen TRAIN; this cross-fitting is for fitting
+    the correction, not an independent validation of feature induction.
+    """
+
+    def __init__(self, library, public_ids, **parameters):
+        super().__init__(library, public_ids, **parameters)
+        self.parameters = copy.deepcopy(parameters)
+        self.feature_protocol = FEATURE_PROTOCOL
+
+    def _hypothesis_design(self, original, corpus, key):
+        return original
+
+    def base_scores(self, items, documents):
+        return ContractModel.predict_scores(self, items, documents)
+
+    def fit(self, train_documents, train_annotations, hypotheses):
+        from scipy.optimize import minimize
+        from scipy.special import expit, logit
+
+        documents, annotations = list(train_documents), list(train_annotations)
+        ContractModel.fit(self, documents, annotations, hypotheses)
+        self.base_fit_count = 1
+        self.outer_source_partitions = []
+        self.residual_coefficients = {}
+        self.residual_fit_diagnostics = {}
+        width = sum(len(s["guidance"]["feature_names"]) for s in self.library)
+        if not self.library:
+            self.residual_coefficients = {h: np.zeros(0) for h in hypotheses}
+            return self
+        held_scores = {}
+        for fold in sorted(set(self.fold_of_.values())):
+            training = [d for d in documents if self.fold_of_[str(d["doc_id"])] != fold]
+            held = [d for d in documents if self.fold_of_[str(d["doc_id"])] == fold]
+            train_ids, held_ids = ({str(d["doc_id"]) for d in rows} for rows in (training, held))
+            assert training and held and not train_ids & held_ids
+            self.outer_source_partitions.append({"fold": fold,
+                "training_doc_ids": sorted(train_ids), "scored_doc_ids": sorted(held_ids)})
+            subset = [a for a in annotations if str(a["doc_id"]) in train_ids]
+            np.random.seed(self.parameters["seed"])
+            ordinary = ContractModel(**self.parameters).fit(training, subset, hypotheses)
+            self.base_fit_count += 1
+            items = [{"doc_id": str(d["doc_id"]), "hypothesis_key": h,
+                      "n_spans": len(d["spans"])} for d in held for h in hypotheses]
+            for item, vector in zip(items, ordinary.predict_scores(items, held), strict=True):
+                held_scores[(item["doc_id"], item["hypothesis_key"])] = np.asarray(vector)
+        for h in hypotheses:
+            features = self.source_features(self.corpus_, h)
+            indices, targets, offsets = [], [], []
+            for annotation in self.by_h_[h]:
+                rows = self.corpus_.rows(annotation["doc_id"])
+                target = np.zeros(len(rows))
+                target[annotation["evidence"]] = 1
+                probabilities = held_scores[(annotation["doc_id"], h)]
+                if (not np.isfinite(probabilities).all() or np.any(probabilities <= 0)
+                        or np.any(probabilities >= 1)):
+                    raise ValueError("Invalid held-source probabilities; no clipping or substitute")
+                indices.extend(rows.tolist()); targets.extend(target.tolist())
+                offsets.extend(logit(probabilities).tolist())
+            x, y, offset = features[np.asarray(indices)], np.asarray(targets), np.asarray(offsets)
+
+            def objective(beta):
+                z = offset + x @ beta
+                loss = np.sum(np.logaddexp(0, z) - y*z) + np.dot(beta, beta)/(2*self.C)
+                gradient = x.T @ (expit(z)-y) + beta/self.C
+                return float(loss), gradient
+
+            result = minimize(objective, np.zeros(width), jac=True, method="L-BFGS-B",
+                options={"maxiter": 300, "ftol": 1e-12, "gtol": 1e-8})
+            if not result.success or not np.isfinite(result.x).all():
+                raise ValueError("Source-correction optimization failed; no alternative fit")
+            self.residual_coefficients[h] = result.x
+            self.residual_fit_diagnostics[h] = {"training_span_rows": len(y),
+                "nonzero_feature_rows": int(np.any(x != 0, axis=1).sum()),
+                "objective": float(result.fun), "iterations": int(result.nit)}
+        self.actual_held_source_base_probabilities = {
+            d+"::"+h: v.tolist() for (d, h), v in held_scores.items()}
+        return self
+
+    def predict_scores(self, items, documents):
+        from legal_skill_guard._vendor.scienceclaw_contracts import _Corpus
+
+        if not hasattr(self, "residual_coefficients"):
+            raise ValueError("Fit the source correction before prediction")
+        items, documents = list(items), list(documents)
+        base = self.base_scores(items, documents)
+        corpus = _Corpus(documents)
+        features = {h: self.source_features(corpus, h)
+                    for h in {str(item["hypothesis_key"]) for item in items}}
+        return [anchored_probability(p, features[str(it["hypothesis_key"])][corpus.rows(str(it["doc_id"]))],
+                    self.residual_coefficients[str(it["hypothesis_key"])])
+                for it, p in zip(items, base, strict=True)]
 
 
 def fit_feature_model(rows, labels, library):
@@ -193,7 +314,7 @@ def fit_feature_model(rows, labels, library):
                    for r in rows for h, a in r["annotation_sets"][0]["annotations"].items()]
     np.random.seed(SCORER_PARAMETERS["seed"])
     with threadpool_limits(limits=2):
-        model = ExecutableFeatureModel(library, list(labels), **SCORER_PARAMETERS).fit(
+        model = AnchoredFeatureModel(library, list(labels), **SCORER_PARAMETERS).fit(
             [public_document(r) for r in rows], annotations, labels)
     if model.m2_ is None or model.m2_free_ is None:
         raise ValueError("Required trained membership heads missing; no substitute")

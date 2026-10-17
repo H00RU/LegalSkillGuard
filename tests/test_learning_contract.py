@@ -702,11 +702,29 @@ def test_pure_executable_features_preserve_source_and_original_fold_contract():
     ordinary = fit_feature_model(rows, labels, [])
     learned = fit_feature_model(rows, labels, [program])
     assert learned.n_full_ == ordinary.n_full_
-    assert learned.stage1_design_widths_["h1"] == ordinary.X1_.shape[1] + 2
+    assert learned.stage1_design_widths_["h1"] == ordinary.X1_.shape[1]
+    assert len(learned.residual_coefficients["h1"]) == 2
+    assert learned.base_fit_count == 5
+    for partition in learned.outer_source_partitions:
+        assert not set(partition["training_doc_ids"]) & set(partition["scored_doc_ids"])
     for partition in learned.stage1_oof_source_partitions_:
         assert not set(partition["training_doc_ids"]) & set(partition["scored_doc_ids"])
     assert learned.source_execution_receipts
     assert not learned._source_feature_cache
+
+
+def test_anchored_source_probability_has_exact_zero_identity_not_error_fallback():
+    import numpy as np
+
+    from legal_skill_guard.learning.executable_features import anchored_probability
+
+    base = np.array([.1, .5, .9])
+    features = np.array([[0., 0.], [1., 0.], [0., 0.]])
+    result = anchored_probability(base, features, np.array([1., -1.]))
+    np.testing.assert_array_equal(result[[0, 2]], base[[0, 2]])
+    assert result[1] > base[1]
+    with pytest.raises(ValueError):
+        anchored_probability(np.array([0.]), np.zeros((1, 2)), np.zeros(2))
 
 
 @pytest.mark.parametrize("body", [
