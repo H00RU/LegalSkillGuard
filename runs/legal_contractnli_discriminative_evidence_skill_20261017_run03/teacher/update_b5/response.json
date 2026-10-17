@@ -1,0 +1,573 @@
+{
+  "value": {
+    "operations": [
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-identification-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-identification-v1",
+          "hypothesis_ids": [
+            "nda-1"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "confidential information marked",
+                  "marked confidential or proprietary",
+                  "identified and labeled confidential",
+                  "identified at the time of disclosure",
+                  "identified as non-public or confidential",
+                  "designated in writing as confidential",
+                  "presumed to be confidential information",
+                  "does not need to be identified",
+                  "not marked by notifying",
+                  "reduced to writing by disclosing party",
+                  "information that is marked",
+                  "otherwise designated as being confidential",
+                  "marked as proprietary confidential",
+                  "states to be sensitive confidential",
+                  "clearly marked or otherwise identified",
+                  "designated as confidential at the time of disclosure",
+                  "marked confidential or should be deemed",
+                  "document marked confidential",
+                  "considered confidential information",
+                  "all information received shall be considered confidential information",
+                  "whether it be marked confidential or not",
+                  "treated as confidential",
+                  "regardless of whether such information is specifically identified as confidential"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ],
+            "evidence_criterion": "Select clauses making marking, designation, notice, or a default rule govern confidentiality; include the governing definition and alternatives. Exclude mere document labels and unrelated notice provisions."
+          }
+        },
+        "source_case_ids": [
+          346,
+          164,
+          371,
+          360,
+          125,
+          608,
+          522,
+          364,
+          529,
+          304,
+          427,
+          337,
+          291,
+          420
+        ],
+        "rationale": "Observed omissions and role errors persist despite visible marking clauses, especially where confidentiality follows notification, objective treatment, or a default rule. The generalized additions replace party-specific wording and publish the corresponding selection criterion."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-rights-term-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-rights-term-v1",
+          "hypothesis_ids": [
+            "nda-15"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "no license",
+                  "no rights",
+                  "grant any right",
+                  "grant of a license",
+                  "grants any license",
+                  "granting or conferring any rights",
+                  "does not convey any right",
+                  "grants no rights",
+                  "no license under or title",
+                  "no license or other right",
+                  "no transfer or license",
+                  "no right or license is granted",
+                  "does not grant any implied intellectual property licenses",
+                  "grant data recipient any intellectual property rights or licenses",
+                  "remain the property",
+                  "property of the disclosing party",
+                  "grant or transfer any right",
+                  "all other rights are reserved",
+                  "retain title and all ownership rights",
+                  "deemed a transfer or assignment",
+                  "deemed a grant or waiver"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ],
+            "evidence_criterion": "Select operative clauses addressing rights in confidential information or related intellectual property: no-license, ownership, reserved-rights, or express limited grants. Include exceptions only when they define the grant's scope."
+          }
+        },
+        "source_case_ids": [
+          501,
+          312,
+          249,
+          164,
+          253,
+          421,
+          619,
+          522,
+          230,
+          364,
+          529,
+          304,
+          132,
+          315,
+          578,
+          337,
+          439,
+          291
+        ],
+        "rationale": "Visible ownership and reserved-rights members were repeatedly omitted or displaced by nearby limited-use language. The criterion distinguishes direct rights provisions from context while preserving express grants that delimit scope."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-agreement-solicitation-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-agreement-solicitation-v1",
+          "hypothesis_ids": [
+            "nda-10"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "existence and terms of this agreement",
+                  "contents of this agreement",
+                  "existence or contents of this agreement",
+                  "fact that discussions",
+                  "discussions or negotiations",
+                  "negotiations are taking place",
+                  "public announcement of or otherwise disclose the existence",
+                  "existence and content of discussions",
+                  "existence of the discussions",
+                  "fact that the parties hereto are considering",
+                  "public statement concerning the existence of this agreement"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "subject matter",
+                  "confidential information"
+                ],
+                "any_phrases": [],
+                "none_phrases": [],
+                "before": 0,
+                "after": 0,
+                "include_list_preamble": false
+              }
+            ],
+            "evidence_criterion": "Select definitions or operative nondisclosure clauses covering the agreement's existence or contents, negotiations, or transaction discussions; include linked definition and prohibition. Exclude entire-agreement boilerplate and unrelated publicity."
+          }
+        },
+        "source_case_ids": [
+          346,
+          422,
+          249,
+          603,
+          524,
+          608,
+          619,
+          522,
+          427,
+          578,
+          337
+        ],
+        "rationale": "Multiple direct hits defining discussions or agreement existence as confidential were visible but unused. The criterion identifies responsive definition and prohibition clauses while separating boilerplate references to the agreement."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-sharing-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-sharing-v1",
+          "hypothesis_ids": [
+            "nda-7",
+            "nda-5"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "representative means",
+                  "representatives shall mean",
+                  "authorized parties means",
+                  "term representatives"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 2,
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "may disclose",
+                  "only disclose",
+                  "except to its employees",
+                  "except to its affiliates",
+                  "employees representatives or agents",
+                  "disclosure to representatives",
+                  "disclosed to any employee consultant",
+                  "representatives who need to know",
+                  "persons employed by",
+                  "share confidential data with persons having authorized access",
+                  "restrict dissemination of confidential information",
+                  "employees of data recipient",
+                  "contractors of data recipient",
+                  "partners employees consultants professional advisors",
+                  "employees independent contractors advisors or affiliates",
+                  "disseminate confidential information only",
+                  "will not disclose any confidential information",
+                  "make no disclosures of any confidential information",
+                  "limit access to confidential information",
+                  "not to use or disclose to another person",
+                  "may be disclosed only to employees or contractors",
+                  "not disclose to any third party except",
+                  "not share"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 3,
+                "include_list_preamble": false
+              }
+            ],
+            "evidence_criterion": "Select the operative disclosure or access clause and recipient definitions it invokes. Distinguish employees from nonemployee representatives, advisers, agents, or contractors; exclude responsibility and security clauses standing alone."
+          }
+        },
+        "source_case_ids": [
+          501,
+          282,
+          123,
+          422,
+          230,
+          364,
+          529,
+          304,
+          315,
+          291,
+          420
+        ],
+        "rationale": "Employee-only, authorized-access, and contrary nondisclosure clauses were frequently accessible yet omitted, while some nearby restrictions were mistaken for sharing evidence. Added compact recipient wording and a category-sensitive selection criterion."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-compelled-notice-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-compelled-notice-v1",
+          "hypothesis_ids": [
+            "nda-8"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "prompt prior written notice",
+                  "prompt written notice",
+                  "written notice of such legal requirement",
+                  "shall notify",
+                  "be notified",
+                  "notify promptly",
+                  "promptly notify",
+                  "immediately notify",
+                  "give the discloser as much notice",
+                  "provide the other party with prompt notice",
+                  "after notifying the other party",
+                  "provides notification to disclosing party",
+                  "give to the other written notice",
+                  "written notice of the order or request",
+                  "as soon as reasonably possible of the required disclosure",
+                  "notice prior to such disclosure"
+                ],
+                "none_phrases": [],
+                "before": 4,
+                "after": 2,
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "required by law",
+                  "legally required",
+                  "legally compelled",
+                  "subpoena or similar legal process",
+                  "subpoena or other legal process",
+                  "valid and effective subpoena",
+                  "court order law"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ],
+            "evidence_criterion": "Select a clause coupling legally compelled disclosure with notice to the source, owner, or contractual counterpart entitled to notice; include separated trigger and notice language. Exclude unrelated breach notices."
+          }
+        },
+        "source_case_ids": [
+          339,
+          346,
+          249,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          608,
+          619,
+          522,
+          364,
+          529,
+          304,
+          132,
+          427,
+          315,
+          578,
+          337,
+          439
+        ],
+        "rationale": "The lawyer confused notification roles and omitted visible compelled-disclosure duties. Party-specific vocabulary was removed in favor of portable timing language, and the criterion requires the legal trigger and proper notice recipient."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-retention-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-retention-v1",
+          "hypothesis_ids": [
+            "nda-20"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "may retain",
+                  "may each retain",
+                  "retain one archival copy",
+                  "not be required to destroy",
+                  "not required to purge",
+                  "standard electronic backup and archival procedures",
+                  "established document retention policies",
+                  "historical back-up media",
+                  "automated processes such as archiving",
+                  "except as may be otherwise required by law",
+                  "retain no copies",
+                  "no copy thereof shall be retained",
+                  "no copies will be made or retained",
+                  "all confidential information and copies",
+                  "return all proprietary information",
+                  "all material embodying confidential information",
+                  "without retaining in whole or in part any copies",
+                  "shall not retain any copies",
+                  "may retain such of its documents",
+                  "shall not be deemed to have retained",
+                  "computer backup tapes",
+                  "records department may retain one copy",
+                  "except for copies of any computer records or electronic files",
+                  "return or destroy all the other party's confidential information"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ],
+            "evidence_criterion": "Select express post-return or destruction retention permission or prohibition, including backup, archive, legal-retention, and no-copy terms. Include the return duty only when needed to establish timing or scope."
+          }
+        },
+        "source_case_ids": [
+          501,
+          422,
+          312,
+          249,
+          164,
+          371,
+          360,
+          125,
+          524,
+          608,
+          619,
+          522,
+          364,
+          529,
+          132,
+          427,
+          315,
+          578,
+          337,
+          439,
+          291
+        ],
+        "rationale": "Retention outcomes were often inferred from generic return language, while explicit backup, archive, legal-retention, and no-copy members were missed. Added recurrent formulations and a criterion separating the retention witness from its trigger."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-third-party-source-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-third-party-source-v1",
+          "hypothesis_ids": [
+            "nda-13"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "from a third party",
+                  "by a third party",
+                  "from another source",
+                  "source other than",
+                  "lawfully disclosed",
+                  "lawfully obtained",
+                  "lawfully in the possession",
+                  "rightfully received by the receiving party",
+                  "acquired by data recipient from a source other than",
+                  "subsequently communicated",
+                  "later acquired by the receiving party",
+                  "receiving information from other parties",
+                  "available on a non-confidential basis from a source",
+                  "received from another source who can disclose it lawfully",
+                  "independently received from a third party"
+                ],
+                "none_phrases": [],
+                "before": 3,
+                "after": 1,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Select an exception or permission for information received or acquired from an independent third-party source, together with lawful, rightful, or no-confidentiality conditions. Exclude representative disclosure and independent-development clauses."
+          }
+        },
+        "source_case_ids": [
+          346,
+          422,
+          312,
+          249,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          608,
+          421,
+          619,
+          522,
+          230,
+          364,
+          529,
+          304,
+          132,
+          427,
+          315,
+          578,
+          337,
+          439,
+          420
+        ],
+        "rationale": "Several recurring non-confidential-source formulations were visible but not selected, and independent development or representative sharing was sometimes substituted. The additions and criterion isolate third-party acquisition conditions."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-reverse-engineering-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-reverse-engineering-v1",
+          "hypothesis_ids": [
+            "nda-11"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "reverse engineer",
+                  "reverse engineering",
+                  "disassemble",
+                  "decompile",
+                  "systematic attempt to recreate",
+                  "recreate the material",
+                  "recreate the material by memory"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": false
+              }
+            ],
+            "evidence_criterion": "Select operative prohibitions on reverse engineering, decompiling, disassembling, or systematic recreation of protected material. Include scope-limiting exceptions; exclude ordinary copying, reproduction, disclosure, or confidentiality language alone."
+          }
+        },
+        "source_case_ids": [
+          421,
+          295,
+          439
+        ],
+        "rationale": "A directly matched systematic-recreation witness was omitted, while unrelated oral, copying, and confidentiality text generated false relations elsewhere. The published criterion separates reverse-engineering conduct from adjacent restrictions."
+      }
+    ],
+    "noop_reason": null
+  },
+  "model": "gpt-5.6-sol",
+  "request_sha256": "3dfbfaf8ab2898423405489030f182dd1cbd961905bb506ddc3d23d0a6f6e516",
+  "response_sha256": "aaab485f9744a8fe0ca01943c8e4384ea7844d3f8a39dfeb9b84ccccceb9615e",
+  "cache_hit": false,
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-10-17T09:02:38.573144+00:00",
+    "finished_at": "2026-10-17T09:04:27.111897+00:00",
+    "elapsed_seconds": 108.539,
+    "returncode": 0,
+    "event_log_sha256": "501abb275c87426212ce82e87bf0c33439d34f211f112240b31366f147f30fcd",
+    "tool_events_detected": false,
+    "budget_reservation": {
+      "sequence": 1382,
+      "new_epoch_sequence": 157,
+      "reserved_at": "2026-10-17T09:02:38.574069+00:00",
+      "model": "gpt-5.6-sol",
+      "purpose": "legal_contractnli_discriminative_evidence_skill_20261017_run03_update_b5",
+      "request_sha256": "3dfbfaf8ab2898423405489030f182dd1cbd961905bb506ddc3d23d0a6f6e516",
+      "attempt": 1
+    },
+    "usage": {
+      "input_tokens": 275629,
+      "cached_input_tokens": 0,
+      "output_tokens": 6433,
+      "reasoning_output_tokens": 3766
+    },
+    "estimated_credits": null
+  }
+}

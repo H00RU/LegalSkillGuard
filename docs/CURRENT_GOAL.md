@@ -5,6 +5,30 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+17:07实际运行游标：run03已17:02:29后台launch，worker2188895/ticks423426695
+仍live；17:02:38--17:04:27教师1382真实成功，108.539秒、275629input/6433out、
+0cache/tools/retry。新旧两次真实teacher user evidence逐字相同，仅writer/schema
+改变，不是换案/换Gold/选最好bank。已有275初始绑定全部重核一致，原8B不动。
+
+实际新库36d640efa852f94a4a374d37866a493435b186c7903e44498f5a72be875a4fb4；
+pub文件db9b693d01098edc530dde27e13b995c81f3eb2c7e0da4b965cc3aae90cba480。
+8UPDATE，0增删合并；库16→16，8旧记录原样，8新准则真实发布并交给9个命题。
+master2997/scope3225/实际投影427，均<=4096。全8对actual prospective inputs
+只差准则文字，非run02的零差异；原party-specific WECC两字面已由教师消除，非
+host手删。内容仍有共享scope/linked-clause误引/过窄express-retention等风险，
+不是语义全合格或效果保证。纠正过一次口头例子：副本/存续不是本次实际8准则；
+真实例子为第三方来源vs向代表披露、逆向工程vs普通复制。
+
+17:07:04进度2/32 native、1教师，当前501 ordinary；首份真实native已核wire/
+17字段schema/完整stop，不读partial质量，不把输入检查当效果。所有实际教师/
+新库/全32先验输入/313绑定在首native前已逐成员校验并复制不同root盘，phase
+SHA7ddf6adf277b3b18cffa3f1727d9fe229a2bfb485626b2a96a00f9d0fc5ea32a。
+源码/Git prelaunch两盘SHAd93f5416fd872b300d8dbf9a5418970370e3cf7978f954c2130d61a66b546b89。
+本Goal回合为progress（真实实现/失败契约根因定位修正/真正8准则发布/实际四臂
+后台验证），不是只汇报或qualification。下一只沿此live handle完成8案四臂32
+原生及自动原作者独立集合核算；勿重复launch/prepare/热改bound源/用新对话重启。
+8已见TRAIN小试不证明跨合同或独立重复；全Goal active，各正式证据要求仍未达。
+
 17:02：config_run03与275frozen已实际prepare。新编辑schema拒绝缺字段但接受显式
 null；旧记录可原样存储，null不进入律师prompt，字符串与隐藏准则两臂只差准则
 内容。6.51秒0native/0教师检查通过，实际完整教师材料1,020,247字符在上限内。
