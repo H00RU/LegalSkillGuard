@@ -1,0 +1,453 @@
+{
+  "at": "2026-10-17T09:39:38.767982+00:00",
+  "complete8_all32_new_native_original_audit_passed": true,
+  "source_win_tie_loss_vs_ordinary": {
+    "label_accuracy": {
+      "win": 3,
+      "tie": 2,
+      "loss": 3
+    },
+    "evidence_micro_f1_gold_non_neutral": {
+      "win": 5,
+      "tie": 1,
+      "loss": 2
+    },
+    "joint_exact_accuracy": {
+      "win": 5,
+      "tie": 2,
+      "loss": 1
+    }
+  },
+  "all8_leave_one_source_out_sensitivities_not_case_selection": {
+    "501": {
+      "retained_contracts": 7,
+      "descriptive_skill_minus_ordinary_pp": {
+        "accuracy": 3.361344537815125,
+        "F1": 4.663355408388514,
+        "joint": 7.5630252100840405
+      }
+    },
+    "339": {
+      "retained_contracts": 7,
+      "descriptive_skill_minus_ordinary_pp": {
+        "accuracy": 4.201680672268903,
+        "F1": 5.677830940988827,
+        "joint": 10.924369747899155
+      }
+    },
+    "164": {
+      "retained_contracts": 7,
+      "descriptive_skill_minus_ordinary_pp": {
+        "accuracy": 5.882352941176472,
+        "F1": 3.25942081667272,
+        "joint": 10.084033613445376
+      }
+    },
+    "253": {
+      "retained_contracts": 7,
+      "descriptive_skill_minus_ordinary_pp": {
+        "accuracy": 5.882352941176472,
+        "F1": 7.470319634703193,
+        "joint": 13.4453781512605
+      }
+    },
+    "421": {
+      "retained_contracts": 7,
+      "descriptive_skill_minus_ordinary_pp": {
+        "accuracy": 5.042016806722693,
+        "F1": 3.397260273972602,
+        "joint": 10.084033613445376
+      }
+    },
+    "295": {
+      "retained_contracts": 7,
+      "descriptive_skill_minus_ordinary_pp": {
+        "accuracy": 0.0,
+        "F1": 4.919786096256685,
+        "joint": 6.722689075630262
+      }
+    },
+    "132": {
+      "retained_contracts": 7,
+      "descriptive_skill_minus_ordinary_pp": {
+        "accuracy": 5.042016806722693,
+        "F1": 6.128211062254108,
+        "joint": 11.764705882352944
+      }
+    },
+    "427": {
+      "retained_contracts": 7,
+      "descriptive_skill_minus_ordinary_pp": {
+        "accuracy": 5.882352941176472,
+        "F1": 9.363418356224107,
+        "joint": 11.764705882352933
+      }
+    }
+  },
+  "all_original_cases_remain_in_main_result": true,
+  "positive_aggregate_not_stable_generalization_or_algorithmic_significance": true,
+  "NN_joint_full_vs_ordinary": [
+    31,
+    25
+  ],
+  "NM_joint_full_vs_ordinary": [
+    64,
+    56
+  ],
+  "mechanism_caveats": [
+    "Accuracy net improvement over ordinary is concentrated in source295: excluding it leaves zero net accuracy gain.",
+    "Adding criteria vs identical query/role ablation removes12 net false citations but loses1 net true member.",
+    "Most classification benefit vs the ablation occurs outside explicitly criterion-scoped questions; no semantic isolation is claimed.",
+    "Context-only Gold adoption remains2/15 on this eight-case phase; acquisition is not complete selection."
+  ],
+  "all_label_or_joint_damage_original_text_review": [
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-5",
+      "original_hypothesis": "Receiving Party may share some Confidential Information with some of Receiving Party's employees.",
+      "Gold": {
+        "choice": "NotMentioned",
+        "spans": []
+      },
+      "ordinary": {
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "No employee sharing provisions."
+      },
+      "skills": {
+        "choice": "Entailment",
+        "spans": [
+          11
+        ],
+        "reason": "Employees included in confidentiality obligations per section 11."
+      },
+      "actual_criterion": [
+        "Select the operative disclosure or access clause and recipient definitions it invokes. Distinguish employees from nonemployee representatives, advisers, agents, or contractors; exclude responsibility and security clauses standing alone."
+      ],
+      "original_Gold_or_cited_text": [
+        {
+          "index": 11,
+          "text": "4. Personnel, including any committee members, contractors, personnel of external bodies, or individuals acting on the laboratory's behalf, shall keep confidential all information obtained or created during the performance of laboratory activities, except as required by law."
+        }
+      ]
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-7",
+      "original_hypothesis": "Receiving Party may share some Confidential Information with some third-parties (including consultants, agents and professional advisors).",
+      "Gold": {
+        "choice": "Entailment",
+        "spans": [
+          40,
+          47
+        ]
+      },
+      "ordinary": {
+        "choice": "Entailment",
+        "spans": [
+          40
+        ],
+        "reason": "Sharing with agents allowed."
+      },
+      "skills": {
+        "choice": "Contradiction",
+        "spans": [
+          47
+        ],
+        "reason": "No third-party sharing allowed."
+      },
+      "actual_criterion": [
+        "Select the operative disclosure or access clause and recipient definitions it invokes. Distinguish employees from nonemployee representatives, advisers, agents, or contractors; exclude responsibility and security clauses standing alone."
+      ],
+      "original_Gold_or_cited_text": [
+        {
+          "index": 40,
+          "text": "The Receiving Party will not disclose and will keep confidential the information re-ceived, except to its employees, representatives or agents who need to have access to the Confidential Information for the purpose of carrying out their duties in connection with the permitted purposes specified in clause "
+        },
+        {
+          "index": 47,
+          "text": "The Receiving Party will not disclose any Confidential Information received to any third parties, except as otherwise provided for herein."
+        }
+      ]
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-15",
+      "original_hypothesis": "Agreement shall not grant Receiving Party any right to Confidential Information.",
+      "Gold": {
+        "choice": "Entailment",
+        "spans": [
+          20
+        ]
+      },
+      "ordinary": {
+        "choice": "Entailment",
+        "spans": [
+          20
+        ],
+        "reason": "Confidential Information remains EICA's property with no rights granted."
+      },
+      "skills": {
+        "choice": "Entailment",
+        "spans": [
+          20,
+          21
+        ],
+        "reason": "Confidential Info remains EICA's property."
+      },
+      "actual_criterion": [
+        "Select operative clauses addressing rights in confidential information or related intellectual property: no-license, ownership, reserved-rights, or express limited grants. Include exceptions only when they define the grant's scope."
+      ],
+      "original_Gold_or_cited_text": [
+        {
+          "index": 20,
+          "text": "F. The parties acknowledge that the Conﬁdential Information is the property of EICA, and the disclosure of the Conﬁdential Information to Signee does not convey any right, title or license in the Conﬁdential Information to Signee. "
+        },
+        {
+          "index": 21,
+          "text": "Signee shall not appropriate the Conﬁdential Information to Signee’s own use or to the use of any third party and shall only use the Conﬁdential Information for the exclusive beneﬁt of EICA except to the extent otherwise authorized in writing by EICA."
+        }
+      ]
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-2",
+      "original_hypothesis": "Confidential Information shall only include technical information.",
+      "Gold": {
+        "choice": "Contradiction",
+        "spans": [
+          3
+        ]
+      },
+      "ordinary": {
+        "choice": "Contradiction",
+        "spans": [
+          3
+        ],
+        "reason": "Definition includes non-technical business affairs."
+      },
+      "skills": {
+        "choice": "Contradiction",
+        "spans": [
+          3,
+          4
+        ],
+        "reason": "Includes non-technical oral/written info."
+      },
+      "actual_criterion": [],
+      "original_Gold_or_cited_text": [
+        {
+          "index": 3,
+          "text": "A. As used throughout this Agreement, the term “Conﬁdential Information” means information not generally known to third parties and which is proprietary to EICA including information about EICA’s proprietary test items and item bank questions used for EICA’s certification programs, test scoring criteria for written and practical exams and other business affairs of EICA relating to the management, development, and administration of certification programs and exams. "
+        },
+        {
+          "index": 4,
+          "text": "All information, oral or written, of EICA that is disclosed to Signee or to which Signee obtains access, whether originated by Signee or by the discloser or others, shall be presumed to be Conﬁdential Information."
+        }
+      ]
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-1",
+      "original_hypothesis": "All Confidential Information shall be expressly identified by the Disclosing Party.",
+      "Gold": {
+        "choice": "Contradiction",
+        "spans": [
+          4
+        ]
+      },
+      "ordinary": {
+        "choice": "Contradiction",
+        "spans": [
+          4
+        ],
+        "reason": "All disclosed info is presumed confidential without express identification."
+      },
+      "skills": {
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "No explicit identification requirement."
+      },
+      "actual_criterion": [
+        "Select clauses making marking, designation, notice, or a default rule govern confidentiality; include the governing definition and alternatives. Exclude mere document labels and unrelated notice provisions."
+      ],
+      "original_Gold_or_cited_text": [
+        {
+          "index": 4,
+          "text": "All information, oral or written, of EICA that is disclosed to Signee or to which Signee obtains access, whether originated by Signee or by the discloser or others, shall be presumed to be Conﬁdential Information."
+        }
+      ]
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-20",
+      "original_hypothesis": "Receiving Party may retain some Confidential Information even after the return or destruction of Confidential Information.",
+      "Gold": {
+        "choice": "NotMentioned",
+        "spans": []
+      },
+      "ordinary": {
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "No provision allows retention post-return/destroy."
+      },
+      "skills": {
+        "choice": "Contradiction",
+        "spans": [
+          10
+        ],
+        "reason": "Mandates return/destroy, not retention."
+      },
+      "actual_criterion": [
+        "Select express post-return or destruction retention permission or prohibition, including backup, archive, legal-retention, and no-copy terms. Include the return duty only when needed to establish timing or scope."
+      ],
+      "original_Gold_or_cited_text": [
+        {
+          "index": 10,
+          "text": "3. That, upon EICA’s request, all records, any compositions, articles, documents and other items which contain, disclose and/or embody any Conﬁdential Information (including, without limitation, all copies, reproductions, summaries and notes of the contents thereof), regardless of the person causing the same to be in such form, shall be returned to EICA or destroyed by Signee, and Signee will certify that the provisions of this paragraph have been complied with."
+        }
+      ]
+    },
+    {
+      "document_id": 421,
+      "hypothesis_id": "nda-15",
+      "original_hypothesis": "Agreement shall not grant Receiving Party any right to Confidential Information.",
+      "Gold": {
+        "choice": "Entailment",
+        "spans": [
+          60
+        ]
+      },
+      "ordinary": {
+        "choice": "Entailment",
+        "spans": [
+          60
+        ],
+        "reason": "Section 3 states Proprietary Information remains Company's exclusive property."
+      },
+      "skills": {
+        "choice": "Entailment",
+        "spans": [
+          59,
+          60
+        ],
+        "reason": "Exclusive ownership of Property."
+      },
+      "actual_criterion": [
+        "Select operative clauses addressing rights in confidential information or related intellectual property: no-license, ownership, reserved-rights, or express limited grants. Include exceptions only when they define the grant's scope."
+      ],
+      "original_Gold_or_cited_text": [
+        {
+          "index": 59,
+          "text": "3. Exclusive-Ownership by Company. "
+        },
+        {
+          "index": 60,
+          "text": "Master Distributor agrees and acknowledges that all Proprietary Information, Intellectual Property, Trade Secrets and Confidential Information, and any and all embodiments thereof (herein, the \"Property\"), is and shall remain at all times the exclusive property of and owned by the Company, and that Master Distributor's performance of its duties and obligations and its use or awareness of the Property during the term of this Agreement or the Master Distributorship Agreement shall create no rights, at law or in equity, under the laws and decisions of any nation or state within the Territory, in Master Distributor in or to the Property, or any aspect or embodiment thereof. "
+        }
+      ]
+    },
+    {
+      "document_id": 295,
+      "hypothesis_id": "nda-4",
+      "original_hypothesis": "Receiving Party shall not use any Confidential Information for any purpose other than the purposes stated in Agreement.",
+      "Gold": {
+        "choice": "NotMentioned",
+        "spans": []
+      },
+      "ordinary": {
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "No explicit limited use provisions"
+      },
+      "skills": {
+        "choice": "Entailment",
+        "spans": [
+          5
+        ],
+        "reason": "Prohibition on disclosure implies limited use to stated purposes."
+      },
+      "actual_criterion": [],
+      "original_Gold_or_cited_text": [
+        {
+          "index": 5,
+          "text": "2) I will not disclose, publish, reproduce or transmit any examination material or content by any means for any reason."
+        }
+      ]
+    },
+    {
+      "document_id": 132,
+      "hypothesis_id": "nda-7",
+      "original_hypothesis": "Receiving Party may share some Confidential Information with some third-parties (including consultants, agents and professional advisors).",
+      "Gold": {
+        "choice": "Entailment",
+        "spans": [
+          9
+        ]
+      },
+      "ordinary": {
+        "choice": "Entailment",
+        "spans": [
+          9
+        ],
+        "reason": "Allows sharing with bound employees."
+      },
+      "skills": {
+        "choice": "Entailment",
+        "spans": [
+          7,
+          9
+        ],
+        "reason": "Permits sharing with authorized employees."
+      },
+      "actual_criterion": [
+        "Select the operative disclosure or access clause and recipient definitions it invokes. Distinguish employees from nonemployee representatives, advisers, agents, or contractors; exclude responsibility and security clauses standing alone."
+      ],
+      "original_Gold_or_cited_text": [
+        {
+          "index": 7,
+          "text": "1. A party to this Agreement receiving Confidential Information “Recipient” agrees to retain such Confidential Information in stricte confidence and not to disclose it to any third party or use such Confidential Information for any purpose other than the purposes set forth in this Agreement. "
+        },
+        {
+          "index": 9,
+          "text": "The Recipient will communicate such information only to such employees and contractors or agents who have a need to know such information, and only to such employees and contractors or agents having written agreements with the Recipient obligating them to keep such information confidential."
+        }
+      ]
+    },
+    {
+      "document_id": 427,
+      "hypothesis_id": "nda-2",
+      "original_hypothesis": "Confidential Information shall only include technical information.",
+      "Gold": {
+        "choice": "Contradiction",
+        "spans": [
+          10
+        ]
+      },
+      "ordinary": {
+        "choice": "Contradiction",
+        "spans": [
+          12
+        ],
+        "reason": "Includes oral/written info beyond technical data."
+      },
+      "skills": {
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "No restriction to technical information specified."
+      },
+      "actual_criterion": [],
+      "original_Gold_or_cited_text": [
+        {
+          "index": 10,
+          "text": "You will treat confidentially any information (whether written or oral) that either we or our financial advisor, CREDIT SUISSE FIRST BOSTON CORPORATION (\"CSFB\"), or our other representatives furnish to you in connection with a Possible Transaction involving the Company, together with analyses, compilations, studies or other documents prepared by you, or by your representatives (as defined below) which contain or otherwise reflect such information or your review of, or interest in the Company (collectively, the \"Evaluation Materials\"). "
+        },
+        {
+          "index": 12,
+          "text": "The term \"Evaluation Materials\" includes information furnished to you orally or in writing (whatever the form or storage medium) or gathered by inspection,and regardless of whether such information is specifically identified as \"confidential.\" "
+        }
+      ]
+    }
+  ],
+  "no_manual_rule_answer_edit_or_source_exclusion_performed": true
+}

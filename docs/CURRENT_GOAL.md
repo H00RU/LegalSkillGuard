@@ -5,6 +5,31 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+完整run03已17:34:33完成32新native/教师1382，worker2188895与CPU watcher2208555
+均真实terminal/missing；原作者/wire/准则消融独立核算及185行配对分析全部通过。
+8已见TRAIN：skills86.765/77.457/69.853%，ordinary82.353/71.856/59.559，
+同库同query/role只隐藏准则80.882/73.118/60.294，strong_empty80.882/59.296/
+54.412。0invalid/length，native184684prompt/62850out，教师275629in/6433out。
+同ordinary+4.412/+5.600/+10.294pp；同ablation+5.882/+4.338/+9.559pp。
+
+不得夸成稳定方法：分类3胜2平3负，净增6题均是source295的净贡献，去它后其余
+7源分类净0（主表不删任何源）。依据5胜1平2负，联合5胜2平1负；F1/联合收益
+不全由295驱动。NN严格联合31vs25、NM严格联合64vs56，非全部NM凑分；相对
+ablation真成员3增4丢、假引用16移4增，准则主要减误引而非提高真成员总量。
+source区间ordinary分类/F1跨0，仅训练已见8源固定库的条件描述，不称算法稳定/
+正式显著/TEST。准则外问题仍有较多收益，不称语义隔离；context Gold仅2/15被引。
+全部6分类损害/8联合损害对应10实际问题及原文/原理由已逐条审查保留，无手写案规则。
+
+下一已实现/prepare（317冻结、0模型/教师）：
+legal_contractnli_discriminative_evidence_full32_retention_20261017_run01。
+continue_full32.py复用真正现有payload/answer/保全原语和已完成185行纯统计函数，
+保持实际同一16记录/8准则bank，不新教师/改查询/改lawyer/改schema/改评分。
+先精确回放已完成8源的16个skills/ordinary真实输入并显式继承（非新调用/别名），
+再对其余全部24源各两臂48新native/0教师，最终64真实不同raw、32源配对原集合
+与逐源/四原组核算。全部为已学后保持，不伪造成新案/独立在线训练或学习曲线。
+不能复跑prepare；下一完整源/Git/已完成8所有raw两盘保全后直接launch48，不加
+资格生成/效果准入或筛选bank。全Goal active，尚未跨合同/成熟公平/独立重复/TEST。
+
 本轮继续同一run03，未重启/热改。已真实产出source-only新旧查询对照：原32源
 Gold604、ordinary覆盖285不变；旧R3的C∪P526，新出版物532，新增6/丢失0。
 这不是native取证收益或硬召回上限，全文仍可读；原report的nonGold访问计数含NM
