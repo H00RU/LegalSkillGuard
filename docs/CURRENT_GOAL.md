@@ -15,7 +15,34 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 最新恢复快照：2026-10-17 22:19 CST
+## 最新恢复快照：2026-10-17 23:04 CST
+
+- `legal_contractnli_member_learning_one_copy_20261017_run03`已于22:40:52.851
+  在完整B4 before24答后安全停止，不再运行。真实120新native+24明确继承空库、3教师；
+  没有第四次教师wire，没有R4发布，也没有completion。失败记录为现有安全handler的
+  `InterruptedError('Operator stop at artifact-safe boundary')`，不是模型/网络崩溃。
+- 完整B4空库73.5294/51.4851/47.0588%，普通M2为70.5882/60.2871/50.0000%，
+  R3技能80.1471/28.0788/52.9412%（分类/Gold-NN硬micro-F1/联合）。技能TP57/FP218/FN74；
+  其中624一源196误引，出现大片连续区间，零局部检索提示的问题也出现过选。
+  不能归结为完全复制检索集合，不能用补充bullet列表解析解释这次误引崩溃。
+- 原114冻结绑定未改。原main2518027、preserver2518028、边界观察器2629900
+  均已终态。真实终态archive双盘全成员校验SHA
+  `73087b422a4b10abbaa53569b7eb354cb9d8077ed43f6483a1d6c7a63f3811ba`。
+  见research `member_learning_one_copy_20261017/terminal_preservation_completion.json`。
+  B4完整原作者/wire复核SHA`9bed81660b588cd981bb929dfb2ad47f5b03793ddf457e76c75d65fe54a3399e`。
+- 下一步为**固定原R3的交付诊断**，不是重启坏主训练或回滚R2：
+  `legal_contractnli_r3_access_channel_diagnosis_20261017_run01`，两条件各原B4全部8源，
+  共16新律师调用、0教师；原24回答作为明确历史参照，不假装新生成。
+  一是保留全部访问事实/15条准则，改用可严格还原的三角色索引列表及编码说明；
+  二是原普通M2输入只追加同一套逐字R3准则，不执行或交付库中查询。
+  全16生成后统一评分，不中途看分改提示、不按效果选库。结果用于主链路全局修正，
+  随后必须重新完整在线演化验证；诊断本身不满足Goal。
+  协议`docs/R3_ACCESS_CHANNEL_DIAGNOSIS_PROTOCOL_20261017.md`。
+- 当前为实现完成、待prepare冻结/双盘备份/实际launch；**此条不声称已启动**。
+  恢复时检查research `r3_access_channel_diagnosis_20261017/actual_launch.json`及实际/proc，
+  不凭计划重复launch。8B2261314/2261698仍须保留，不重启无磁盘权重的服务。
+
+## 已归档的22:19快照（不是当前运行状态）
 
 - 唯一主run仍是`legal_contractnli_member_learning_one_copy_20261017_run03`。
   main2518027/ticks424752842、preserver2518028/ticks424752843实际live。
