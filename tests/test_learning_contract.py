@@ -1467,3 +1467,59 @@ def test_program_teacher_receipts_reject_inexact_execution_identity(damage):
             del packed["actual_parent_source_program_receipt_catalog"]["r0"]
         with pytest.raises(ValueError):
             unpack_program_feedback(packed)
+
+
+def test_executable_acquisition_only_returns_source_and_never_serves_program_advice():
+    from jsonschema import validate
+
+    from legal_skill_guard.learning.acquisition import execute_library, source_messages
+
+    pieces = ["Heading.", "No copies except for the Purpose.", "Return every copy on request."]
+    position, spans = 0, []
+    for piece in pieces:
+        spans.append([position, position + len(piece)])
+        position += len(piece) + 1
+    row = {"id": 1, "text": "\n".join(pieces), "spans": spans}
+    labels = {h: {"hypothesis": h, "short_description": h} for h in ("h1", "h2")}
+    query = {"all_phrases": ["copies"], "any_phrases": [], "none_phrases": [],
+        "before": 1, "after": 0, "include_list_preamble": False}
+    bank = [{"id": "copy-acquisition", "hypothesis_ids": ["h1"], "guidance": {"source_queries": [query]}}]
+    receipts = execute_library(row, bank)
+    assert receipts["copy-acquisition"][0]["matched"] == [1]
+    assert receipts["copy-acquisition"][0]["neighbour"] == [0]
+    messages, schema, trace = source_messages(row, labels, "Common system.", bank, None)
+    body = json.loads(messages[1]["content"])
+    assert "source_queries" not in messages[1]["content"]
+    assert "all_phrases" not in messages[1]["content"]
+    assert body["executed_source_skill_index"] == [
+        {"id": "copy-acquisition", "hypothesis_ids": ["h1"], "executed_query_count": 1}]
+    assert trace["original_source_recovered_without_tags"]
+    # No skill applicability or hit is allowed to choose the legal relation.
+    for choice in ("Entailment", "Contradiction", "NotMentioned"):
+        value = {h: {"choice": choice, "spans": [] if choice == "NotMentioned" else [2],
+            "reason": "", "used_skill_ids": []} for h in labels}
+        validate(value, schema)
+    with pytest.raises(AssertionError):
+        execute_library({**row, "annotation_sets": "must not be read"}, bank)
+
+
+def test_executable_acquisition_publication_rejects_advice_and_empty_search():
+    from jsonschema import ValidationError
+
+    from legal_skill_guard.learning.acquisition import GUIDANCE_SCHEMA, execute_library
+    from legal_skill_guard.learning.publication import apply_differential_publication
+
+    query = {"all_phrases": ["copies"], "any_phrases": [], "none_phrases": [],
+        "before": 0, "after": 0, "include_list_preamble": False}
+    skill = {"id": "copy-acquisition", "hypothesis_ids": ["h1"], "guidance": {"source_queries": [query]}}
+    delta = {"operations": [{"operation": "CREATE", "target_ids": [], "skill": skill,
+        "source_case_ids": [1], "rationale": "Acquisition only."}], "noop_reason": None}
+    assert apply_differential_publication([], delta, ["h1"], [1], guidance_schema=GUIDANCE_SCHEMA) == [skill]
+    invalid = copy.deepcopy(delta)
+    invalid["operations"][0]["skill"]["guidance"]["inspection"] = "Always emit a legal label."
+    with pytest.raises(ValidationError):
+        apply_differential_publication([], invalid, ["h1"], [1], guidance_schema=GUIDANCE_SCHEMA)
+    empty = copy.deepcopy(skill)
+    empty["guidance"]["source_queries"][0]["all_phrases"] = []
+    with pytest.raises(ValueError, match="empty catch-all"):
+        execute_library({"id": 1, "text": "", "spans": []}, [empty])

@@ -5,6 +5,28 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+10:33 root实现已落地：新增唯一主模块learning/acquisition.py，复用原native/教师/
+原子CRUD/原源词匹配/邻域/列表引言；CLI默认切新executable_acquisition配置，报告
+显式区分在线首次遇到汇总与固定末库测试。存储schema仅允许source_queries，不允许
+inspection/关系/示范正文；律师只见原源检索标记、技能ID及公用范围，所有原标签和
+任何原SPAN仍由同8B原生决定。既有普通M2固定原12源，未调用fit/修改系数或8B。
+教师包完整累计本轮源/Gold和实际own（含历史bank身份）、父程序源执行及成员漏证，
+还明示现有词匹配器copy/copies等真实token行为，不悄悄换stemmer或加语义fallback。
+
+已prepare新Run legal_contractnli_executable_acquisition_online_20261017_run01，
+62初始冻结绑定，32源/4批，尚未launch。两个新增必要边界检查0.24秒通过，生产
+Ruff通过；已有测试文件旧样式告警未批量改写，新增测试F/E9通过。32 source-only
+冷输入/别名/同模型/固定M2零生成审计通过，最大ordinary12406、strong_empty10305
+prompt+8192均<32768；未知未来学习程序仍需逐phase实测，不宣称已经能装下。
+没有额外模型/教师资格调用或辅助fit。下一Git/全新源输入备份后直接后台开始四批。
+
+旧全部负面8和修改前源码/Git在root修改前已完整保全，1981成员/1979项目文件，
+Git1ef135491e9b239ff853182a5f1a89a40013d4f1，文件
+legal-final-guidance-complete8-before-executable-acquisition-source-change-20261017.tar.gz，
+SHA aaaf2a8c6c52b298e54b6ed928e1c8e0dbb088329bd80335aec79248d2a52ade。
+同vdb非异机/权重/auth；旧822绑定在该snapshot保存，不要求新源代码伪装成旧版本。
+Goal仍active，当前没有得到稳定实质迁移、公平成熟对照/独立重复/正式TEST的证据。
+
 10:24 final_boundary于10:20:29完整8/0结束，1579256退出；全部8新native/原作者
 集合/实际wire干预已独立复算。固定真实S1与读回，去最终inspection后，B6
 89.71/57.61/36.76%，B7 89.71/71.17/54.41%；合计89.71/63.98/45.59%。

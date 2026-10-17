@@ -6,6 +6,19 @@ Completed source-program B1--B3 did not establish skill transfer; contextual
 B6/B7 are also negative. Do not read old seen-case after-fit scores as new-case
 skill gains, formal TEST results, or a mature-method victory.
 
+Oct17 10:33 CST: the replacement executable-acquisition implementation is prepared,
+NOT yet launched. Default CLI now points to
+`configs/contractnli_executable_acquisition.json`; protocol:
+[32-source cumulative online study](docs/EXECUTABLE_ACQUISITION_PROTOCOL_20261017.md).
+Skills are source-query programs, not final legal advice; the original lawyer
+and common ordinaryM2 stay fixed. Four batches, actual cumulative teaching and
+all-seen retention,168 planned native/4 teacher calls. This is a prospective
+development study, not an established gain or formal TEST. The completed8-call
+causal diagnostic improved labels after removing final prose but did not beat
+the stronger empty reference on all metrics; its negatives remain preserved.
+
+Historical Oct17 00:36 checkpoint:
+
 Latest Oct17 00:36 CST: complete B2 original-author/native/teacher audit passed;
 worker654539 is running B3,42/148 new native,2/4 new main teachers,1 fixed static.
 B2 NEW-source main75.49/47.67/41.18% vs same-tool80.39/49.25/44.12%: all three
