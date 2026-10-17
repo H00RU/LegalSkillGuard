@@ -15,7 +15,47 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前阶段：一次交付主链路run03已于20:43后台启动
+## 最新恢复快照：2026-10-17 22:19 CST
+
+- 唯一主run仍是`legal_contractnli_member_learning_one_copy_20261017_run03`。
+  main2518027/ticks424752842、preserver2518028/ticks424752843实际live。
+  最新98/152新native、另24明确继承空库、3/4教师；**B3已完整，当前B4 before**。
+- B3完整新案首遇的R2技能相对同案空库三项均正：74.2647→80.8824、
+  Gold-NN F157.5439→60.0760、联合40.4412→51.4706%。普通固定检索为81.6176/61.7284/50.7353%。
+  不是稳定胜过普通工具或成熟方法；三个指标源级95%描述区间中，分类/F1仍跨0，非独立重复显著性。
+- 新案分类19修复10损害，联合25修复10损害；联合净增15中10为NM、5为有依据题。
+  TP82→79/FP47→28/FN74→77，F1收益主要为少误引，不能说事实召回已提升。
+- B3 before原作者/wire完整24答审计已双盘，research
+  `B3_complete_before_original_author_execution_audit.json`，SHA
+  `b13a67e1b4eb73c63c886fe951cae5c5723562d6883d6ef26f824297fc164a2f`。
+- R3教师1388已真实完成，105.906秒、171787输入/5685输出（reasoning3035），0缓存/工具/重试。
+  3 CREATE+5 UPDATE，12→15条覆盖16命题，master3132/范围3336/单次准则2014tokens。
+  其24源/Gold/24当前own实际wire复核通过；48可用own历史中24旧答未送。原技术定义技能仍逐字未改。
+- 后续独立安全观察器**2629900/ticks425207406**已实际live。
+  定义`tail_boundary_observer_definition.json`、启动`tail_boundary_observer_actual_launch.json`。
+  只等完整B3 after（全部24及旧16）和完整B4 before24，再检查任一主指标配对下降≥5pp。
+  这是开发止损，不是统计标准/技能准入；只SIGTERM原main现有安全handler，不动模型、不回滚库。
+  B3 before三项正，原观察器已正常退出且未发信号。第一版观察器因解析venv软链误用系统Python失败，
+  已保留日志/失败收据；第二次以未resolve的venv路径实际运行并完成，主训练从未因此重启。
+- 模型仍是原RAM中的8B，2261314/2261698；磁盘权重已失，**禁止重启/下载/换模型**。
+  114冻结绑定未热改，不重新prepare。当前R3最大actor prompt23888+8192=32080，未超32768；
+  不能据此保证未来R4所有输入都适配，不做截断或fallback。
+- **22:17完整R3 after24**：相对当前R2父库同案分类+2.451/F1+2.171/联合−0.245pp，
+  旧16三项+2.206/+3.634/+1.103pp；本批8拟合分类+2.941、F1−0.766、联合−2.941pp。
+  不称每项单调。实际R3全24为82.5980/59.3137/52.6961%；其中F1仍低于同24强空库61.6487%。
+  full48原作者/真实wire/教师/保持审计已双盘，research
+  `B3_complete48_original_author_teacher_and_retention_audit.json`，SHA
+  `29819fb8f452f0cf59a401fbe1d08432828b1d3bf3410219c57c6ccdd8ffa302`。
+  B3全部phase archive双盘SHA`f64c16ed6063f4af14858447fbeb014b08b5ba573221def87519fc87d7a84a09`。
+  `tail_B3_complete_after_actual_result.json`实际未触发止损；观察器仍等完整B4 before，未重启训练。
+- 前24首遇总分（不是R3全24拟合）：强空库76.7157/61.6487/50.0000%，
+  技能76.4706/62.1455/52.6961%。不得只报B3好点或把整体微小增益当目标达成。
+  319/nda-2在h2技能逐字未改下，R2 TP0→R3 TP9，仍漏12且误引31；不能冒称来自h2新技能修正。
+- 本Goal turn属progress：得到不同合同真实三项净收益、教师R3及50个已提供却漏选成员的证据，
+  据此继续原训练，而不是自动重写B1或部署未验证新结构。Goal完整目标仍PENDING。
+  详细新证据见`docs/B3_NEW_CONTRACT_TRANSFER_AND_R3_PUBLICATION_20261017.md`。
+
+## run03启动及已完成节点时间线（不是重复启动指令）
 
 唯一当前主run：`legal_contractnli_member_learning_one_copy_20261017_run03`。
 20:43:30实际启动，main **2518027**、ticks **424752842**；preserver **2518028**、ticks

@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-17 13:59:16 UTC",
+  "run_directory": "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_member_learning_one_copy_20261017_run03",
+  "main_pid": 2518027,
+  "main_start_ticks": "424752842",
+  "predeclared_absolute_decline_fraction": 0.05,
+  "endpoints": [
+    "label_accuracy",
+    "evidence_micro_f1_gold_non_neutral",
+    "joint_exact_accuracy"
+  ],
+  "checks": [
+    {
+      "name": "B3_complete_after",
+      "file": "batch3_summary.json",
+      "kind": "after"
+    },
+    {
+      "name": "B4_complete_before",
+      "file": "b4_before_complete.json",
+      "kind": "before"
+    }
+  ],
+  "no_partial_scoring_no_skill_admission_no_best_bank_or_model_signal": true,
+  "executable_python": "import json,os,signal,sys,time,traceback\nfrom pathlib import Path\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import now\np=Path(sys.argv[1]);d=json.loads(p.read_text());run=Path(d[\"run_directory\"]);proc=Path(\"/proc\")/str(d[\"main_pid\"]);done=[]\ndef live():\n try:s=proc.joinpath(\"stat\").read_text().rsplit(\")\",1)[1].split()\n except FileNotFoundError:return False\n return s[19]==d[\"main_start_ticks\"] and s[0]!=\"Z\"\ntry:\n for check in d[\"checks\"]:\n  f=run/check[\"file\"]\n  while not f.is_file():\n   if not live():break\n   time.sleep(.25)\n  if not f.is_file() or not live():\n   result={\"at\":now(),\"state\":\"original_main_terminal_or_changed_before_next_boundary\",\"completed_checks\":done,\"no_signal_sent_at_this_boundary\":True};break\n  a=json.loads(f.read_text())\n  if check[\"kind\"]==\"after\":\n   assert a[\"batch\"]==3 and a[\"retention_all_seen\"][\"documents\"]==24\n   groups={k:a[k][\"difference_after_minus_before\"] for k in (\"all_seen_parent_to_published\",\"old_sources_parent_to_published\")}\n  else:\n   assert len(a[\"units\"])==24 and len({u[\"response\"][\"raw_id\"] for u in a[\"units\"]})==24\n   assert all(u[\"native_schema_valid\"] for u in a[\"units\"])\n   groups={\"prequential_skill_vs_strong_empty\":{k:a[\"metrics\"][\"skills\"][k]-a[\"metrics\"][\"strong_empty\"][k] for k in d[\"endpoints\"]}}\n  damaged={name:{k:v for k,v in delta.items() if v<=-d[\"predeclared_absolute_decline_fraction\"]} for name,delta in groups.items()}\n  damaged={k:v for k,v in damaged.items() if v}\n  event={\"at\":now(),\"boundary\":check[\"name\"],\"complete_phase_deltas\":groups,\"large_damage\":damaged,\"operational_stop_not_statistical_significance_or_skill_admission\":True,\"native_teacher_calls\":0}\n  if damaged:\n   assert live();os.kill(d[\"main_pid\"],signal.SIGTERM)\n   event.update(state=\"artifact_safe_operator_stop_requested\",main_pid=d[\"main_pid\"],main_start_ticks=d[\"main_start_ticks\"],signal=\"SIGTERM_existing_handler\",not_yet_claiming_terminal=True,possible_inflight_output_and_costs_preserved=True)\n  else:event[\"state\"]=\"complete_boundary_no_large_damage_no_stop\"\n  RunStore.immutable_json(p.parent/(\"tail_\"+check[\"name\"]+\"_actual_result.json\"),event);done.append(event)\n  if damaged:\n   result={\"at\":now(),\"state\":\"operator_stop_requested\",\"completed_checks\":done,\"no_model_signal_or_bank_rollback\":True};break\n else:\n  result={\"at\":now(),\"state\":\"all_planned_boundaries_passed_without_operator_stop\",\"completed_checks\":done,\"no_model_signal_or_bank_rollback\":True}\nexcept BaseException as error:\n result={\"at\":now(),\"state\":\"observer_failed_no_training_restart_or_fallback\",\"error\":repr(error),\"traceback\":traceback.format_exc(),\"completed_checks\":done}\nRunStore.immutable_json(p.parent/\"tail_boundary_observer_completion.json\",result)\n"
+}

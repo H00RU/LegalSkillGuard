@@ -211,7 +211,13 @@ def main():
                 ("joint_accuracy", "joint_exact_accuracy")):
             assert math.isclose(independent[key], stored[stored_key], abs_tol=1e-12)
     assert len({w["raw_id"] for w in wires}) == 24
-    parent = read(OUT / f"publications/b{args.batch}.json")["parent"]
+    publication_path = OUT / f"publications/b{args.batch}.json"
+    publication = read(publication_path) if publication_path.exists() else None
+    if args.with_after:
+        assert publication is not None, "An after audit requires an actual publication"
+    parent = (publication["parent"] if publication is not None else
+        read(next(u["payload"] for u in phase["units"] if u["condition"] == "skills"))["bank"])
+    assert len({w["bank_sha256"] for w in wires if w["arm"] == "skills"}) == 1
     scope = {h for s in parent for h in s["hypothesis_ids"]}
     prequential = compare(groups["strong_empty"], groups["skills"])
     report = {"at": datetime.now(timezone.utc).isoformat(), "run_id": RUN_ID, "batch": args.batch,
@@ -229,13 +235,20 @@ def main():
                 for arm in ("strong_empty", "skills"))
             if a:
                 report[name] = compare(a, b)
-    publication = read(OUT / f"publications/b{args.batch}.json")
-    edits = Counter(o["operation"] for o in publication["delta"]["operations"])
-    report["actual_publication"] = {"operations": dict(edits),
-        "parent_records": len(parent), "published_records": len(publication["publication"]),
-        "scope": sorted({h for s in publication["publication"] for h in s["hypothesis_ids"]}),
-        "capacity": publication["capacity"], "all_valid_edits_published_no_efficacy_admission": True}
-    report["actual_teacher_packet_audit"] = audit_teacher_packet(args.batch, author, publication)
+    if publication is not None:
+        edits = Counter(o["operation"] for o in publication["delta"]["operations"])
+        report["actual_publication"] = {"operations": dict(edits),
+            "parent_records": len(parent), "published_records": len(publication["publication"]),
+            "scope": sorted({h for s in publication["publication"] for h in s["hypothesis_ids"]}),
+            "capacity": publication["capacity"], "all_valid_edits_published_no_efficacy_admission": True}
+        report["actual_teacher_packet_audit"] = audit_teacher_packet(args.batch, author, publication)
+    else:
+        report["actual_publication"] = {"state": "not_published_at_audit",
+            "parent_records": len(parent), "parent_sha256": canonical(parent),
+            "not_a_substituted_NOOP_or_zero_cost_claim": True}
+        report["actual_teacher_packet_audit"] = {"state": "no_complete_publication_to_audit",
+            "wire_request_exists": (OUT / f"teacher/update_b{args.batch}/wire_request.json").exists(),
+            "response_exists": (OUT / f"teacher/update_b{args.batch}/response.json").exists()}
     if args.with_after:
         after_units = read(OUT / f"scored_phases/b{args.batch}_after_all_seen.json")["units"]
         seen = cfg["training_ids"][:8 * args.batch]

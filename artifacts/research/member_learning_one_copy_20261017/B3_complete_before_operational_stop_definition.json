@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-17 13:47:00 UTC",
+  "run_directory": "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_member_learning_one_copy_20261017_run03",
+  "main_pid": 2518027,
+  "main_start_ticks": "424752842",
+  "closed_before_batch": 3,
+  "predeclared_absolute_decline_fraction": 0.05,
+  "endpoints": [
+    "label_accuracy",
+    "evidence_micro_f1_gold_non_neutral",
+    "joint_exact_accuracy"
+  ],
+  "operational_developmental_stop_not_scientific_significance_or_skill_admission": true,
+  "only_complete24_actual_answers_no_partial_effect_scoring": true,
+  "no_model_signal_restart_bank_rollback_or_answer_repair": true,
+  "executable_python": "import json,os,signal,sys,time,traceback\nfrom pathlib import Path\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import now\nf=Path(sys.argv[1]);d=json.loads(f.read_text());run=Path(d[\"run_directory\"]);proc=Path(\"/proc\")/str(d[\"main_pid\"]);receipt=f.parent/\"B3_complete_before_operational_stop_actual_result.json\"\ntry:\n while True:\n  try:s=proc.joinpath(\"stat\").read_text().rsplit(\")\",1)[1].split()\n  except FileNotFoundError:\n   result={\"at\":now(),\"state\":\"original_main_terminal_before_boundary\",\"no_signal_sent\":True};break\n  if s[19]!=d[\"main_start_ticks\"] or s[0]==\"Z\":\n   result={\"at\":now(),\"state\":\"original_main_identity_changed_or_terminal\",\"no_signal_sent\":True};break\n  path=run/\"b3_before_complete.json\"\n  if path.is_file():\n   phase=json.loads(path.read_text());units=phase[\"units\"];metrics=phase[\"metrics\"]\n   assert len(units)==24 and len({u[\"response\"][\"raw_id\"] for u in units})==24\n   assert all(u[\"native_schema_valid\"] and u[\"response\"][\"finish_reason\"]==\"stop\" for u in units)\n   assert all(len([u for u in units if u[\"condition\"]==arm])==8 for arm in (\"strong_empty\",\"ordinary\",\"skills\"))\n   delta={k:metrics[\"skills\"][k]-metrics[\"strong_empty\"][k] for k in d[\"endpoints\"]}\n   damaged={k:v for k,v in delta.items() if v<=-d[\"predeclared_absolute_decline_fraction\"]}\n   result={\"at\":now(),\"state\":\"complete_B3_before_no_predeclared_large_damage_no_stop\",\"delta_skill_minus_same_source_empty\":delta,\"predeclared_large_damage\":damaged,\"all24_complete_before_current_teacher\":True,\"no_new_native_teacher_calls\":True,\"no_bank_admission_rollback_or_model_signal\":True}\n   if damaged:\n    s=proc.joinpath(\"stat\").read_text().rsplit(\")\",1)[1].split()\n    assert s[19]==d[\"main_start_ticks\"] and s[0]!=\"Z\"\n    result.update(state=\"artifact_safe_operator_stop_requested_after_complete_B3_before\",main_pid=d[\"main_pid\"],main_start_ticks=d[\"main_start_ticks\"],signal=\"SIGTERM_existing_handler_not_SIGKILL\",progress_at_request=json.loads((run/\"progress.json\").read_text()),not_yet_claiming_main_terminal=True,possible_inflight_teacher_or_answer_preserved=True)\n    os.kill(d[\"main_pid\"],signal.SIGTERM)\n   break\n  time.sleep(.1)\nexcept BaseException as error:\n result={\"at\":now(),\"state\":\"boundary_observer_failed_no_restart_or_fallback\",\"error\":repr(error),\"traceback\":traceback.format_exc()}\nRunStore.immutable_json(receipt,result)\n"
+}
