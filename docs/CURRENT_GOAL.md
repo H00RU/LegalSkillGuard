@@ -5,6 +5,38 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+09:43 source_read同1515175实际继续，11/32新native、0教师，B6/518/skill_read/final；
+原8B2261314未动，744初始绑定仍未变。首592两臂4实际调用（各read→final）均
+独立wire/source/schema/trace/usage核验；有技能的实际4条原文/ID/scope确实同时
+送入首读请求与最终请求，空库0条，两者无过去案例。真实读回只含各自请求的当前
+原片段，最终答案仍未经改写。记录actual_first4_both_arms_procedure_delivery_true_source_lookup_and_final_wires_no_quality_scoring.json。
+没有查看当前零散答案的正确率，不凭首例下效果结论；下一先完整B6的16调用/8最终答。
+
+同8案前缀的原较强单调用空库已在新阶段评分前单独固化：B6 89.71/62.64/48.53%，
+B7 91.18/68.75/55.88%，合计90.44/65.50/52.21%。这是历史真实1调用参考，非新生成、
+非当前2调用结果；既要看同2调用empty_read，也不得只赢较弱对照就称达到Goal。
+记录fixed_prefix_historical_direct_strong_controls_before_new_stage_scoring.json。
+真实读取链路本身不是论文效益证明，当前没有正式新online训练或成熟方法胜利。
+
+09:34实际live为source_read_execution_diagnostic Run01 PID1515175，09:29:13后台launch；
+3/32新native、0教师，B6/592/skill_read/final进行中，原8B2261314未动。不是尚未
+启动的计划。首empty_read/592实际source_read→真实源查表→final链已完整结束：
+首5791prompt/1694out、末8215prompt/1529out，各自真实wire/原schema/参数/stop/
+usage匹配，非空thinking；原17请求列表/重复项/focus原样保存，14个唯一当前SPAN
+逐字读回且未加其他索引。S2原源、最终4字段schema不变，实际上下文只追加自己的
+公共读请求和真原文，无私有推理、Gold或法律host裁决。未评分partial。审计
+monitoring/actual_first2_read_true_source_then_native_final_wire_no_quality_scoring.json。
+
+原744源码/先验输入均未变；首generation前完整758成员独立保全又流式复验，Git
+cd7d3c12bc70b019c30b13f9d3e4b6aa01262932，归档
+legal-identity-complete32-and-source-read-all744-before-launch-20261017.tar.gz，SHA
+df01c07e680c017e415e2be17a540f4e587dedcc79ba1d4b829c35b9c6211711。包含旧完整32
+不利raw/教师祖先/新源码/全部16首请求与最终模板/累计数据候选/后续32源及full Git，
+同vdb非异机/权重/auth。动态S2的原生首请求/读结果/精确payload在其调用前另immutable
+保存/hash，再在首链审计固化。下一poll同1515175，先B6全部16调用/8最终答、再
+B7同规模；与等2调用空库读回比较，也不能忘记更强的历史1调用空库前缀对照。
+此为执行机制验证，尚无新online teacher/full学习/重复/成熟比较/官方TEST，Goal未达。
+
 09:26新的legal_contractnli_source_read_execution_diagnostic_20261017_run01已prepare，
 0新native/0教师，尚未launch。不是又改标签名：同一个冻结律师先请求当前原SPAN的
 重读，确定性工具只返回所选索引的逐字全文，然后同律师给原17题4字段最终答案。
