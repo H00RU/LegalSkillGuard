@@ -6,6 +6,7 @@ This is descriptive diagnosis of the fixed taught bank, never an admission set.
 
 from __future__ import annotations
 
+import json
 from collections import defaultdict
 from pathlib import Path
 
@@ -36,7 +37,8 @@ def main():
     assert complete["all64_wires_and_original_author_sets_independently_recounted"]
     units = read(RUN / "complete64_actual_paired_native_and_original_scores.json")["units"]
     packet = Path(read(PARENT / "declaration.json")["config"]["input_packet"])
-    sources = {r["id"]: r for r in read(ROOT / packet)["documents"]}
+    source_packet = read(ROOT / packet)
+    sources = {r["id"]: r for r in source_packet["documents"]}
     publication = PARENT / "publications/b5.json"
     bank = read(publication)["publication"]
     scoped = {h for s in bank if s["guidance"].get("evidence_criterion") is not None for h in s["hypothesis_ids"]}
@@ -45,7 +47,7 @@ def main():
     for u in units:
         d, arm = u["document_id"], u["condition"]
         p = read(u["payload"])
-        body = __import__("json").loads(p["messages"][1]["content"])
+        body = json.loads(p["messages"][1]["content"])
         for q in u["queries"]:
             h, g, pred = q["hypothesis_id"], q["gold"], q["prediction"]
             assert pred is not None and u["native_schema_valid"]
@@ -53,7 +55,7 @@ def main():
             candidates = {v["original_span_index"]: v for v in hint["fallible_evidence_candidates"]}
             additional = {v["original_span_index"]: v for v in hint["additional_source_read_indices"]}
             gold, cited = set(g["spans"]), set(pred["spans"])
-            bins[arm][str(len(gold)) if len(gold) < 3 else "3+"] .append(q)
+            bins[arm][str(len(gold)) if len(gold) < 3 else "3+"].append(q)
             hypotheses[arm][h].append(q)
             choices[arm][g["choice"]].append(q)
             scopes[arm]["criterion_scoped" if h in scoped else "not_criterion_scoped"].append(q)
@@ -71,7 +73,7 @@ def main():
                     members.append({"index": i, "original_text": sources[d]["text"][slice(*sources[d]["spans"][i])],
                         "original_member": i in gold if g["choice"] != "NotMentioned" else None,
                         "cited": i in cited, "role": role, "delivered_membership_score": item["membership_score"] if item else None})
-            records[(arm, d, h)] = {"original_hypothesis": read(ROOT / packet)["public_hypotheses"][h],
+            records[(arm, d, h)] = {"original_hypothesis": source_packet["public_hypotheses"][h],
                 "gold": g, "prediction": pred, "label_correct": q["label_correct"], "joint_exact": q["joint_exact"],
                 "has_published_criterion": h in scoped, "members": members,
                 "payload": u["payload"], "raw_artifact": u["raw_artifact"]}
@@ -92,7 +94,9 @@ def main():
                 changes["Gold_gained:" + lookup[i]] += 1
             for i in ga & (ca - cb):
                 changes["Gold_lost:" + lookup[i]] += 1
-    grouped = lambda value: {arm: {key: summarize(v) for key, v in value[arm].items()} for arm in arms}
+    def grouped(value):
+        return {arm: {key: summarize(v) for key, v in value[arm].items()} for arm in arms}
+
     result = {"at": now(), "actual_new_native_teacher_calls_for_this_analysis": [0, 0],
         "old32_fixed_taught_bank_not_current_new32_online_results": True,
         "by_original_Gold_cardinality": grouped(bins), "by_original_hypothesis": grouped(hypotheses),
