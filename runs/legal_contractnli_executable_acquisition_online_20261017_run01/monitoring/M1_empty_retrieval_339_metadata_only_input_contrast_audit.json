@@ -1,0 +1,194 @@
+{
+  "at": "2026-10-17T03:18:23.811376+00:00",
+  "source_id": 339,
+  "all8_queries_had_empty_original_source_results": true,
+  "same_original_source_and_ordinary_candidates_and_common_system": true,
+  "only_lawyer_input_differences_are_skill_metadata_ID_refs_and_ID_reporting_schema": true,
+  "no_new_source_fact_to_explain_this_case_response_change": true,
+  "all_changed_public_outputs": [
+    {
+      "before": {
+        "stage": "b1_before",
+        "condition": "skills",
+        "document_id": 339,
+        "hypothesis_id": "nda-15",
+        "Gold_choice": "NotMentioned",
+        "Gold_spans": [],
+        "choice": "Entailment",
+        "spans": [
+          9
+        ],
+        "reason": "All info is confidential unless agreed.",
+        "used_skill_ids": [],
+        "ordinary": [],
+        "program": [],
+        "label_correct": false,
+        "joint_exact": false,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "after": {
+        "stage": "b1_after_all_seen",
+        "condition": "skills",
+        "document_id": 339,
+        "hypothesis_id": "nda-15",
+        "Gold_choice": "NotMentioned",
+        "Gold_spans": [],
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "No explicit exclusion of rights.",
+        "used_skill_ids": [],
+        "ordinary": [],
+        "program": [],
+        "label_correct": true,
+        "joint_exact": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      }
+    },
+    {
+      "before": {
+        "stage": "b1_before",
+        "condition": "skills",
+        "document_id": 339,
+        "hypothesis_id": "nda-2",
+        "Gold_choice": "NotMentioned",
+        "Gold_spans": [],
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "Confidentiality scope not limited to technical info.",
+        "used_skill_ids": [],
+        "ordinary": [],
+        "program": [],
+        "label_correct": true,
+        "joint_exact": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "after": {
+        "stage": "b1_after_all_seen",
+        "condition": "skills",
+        "document_id": 339,
+        "hypothesis_id": "nda-2",
+        "Gold_choice": "NotMentioned",
+        "Gold_spans": [],
+        "choice": "Contradiction",
+        "spans": [
+          9
+        ],
+        "reason": "Confidentiality includes non-technical info.",
+        "used_skill_ids": [
+          "source-acquisition-core-v1"
+        ],
+        "ordinary": [],
+        "program": [],
+        "label_correct": false,
+        "joint_exact": false,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      }
+    },
+    {
+      "before": {
+        "stage": "b1_before",
+        "condition": "skills",
+        "document_id": 339,
+        "hypothesis_id": "nda-17",
+        "Gold_choice": "NotMentioned",
+        "Gold_spans": [],
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "No copying permissions explicitly stated.",
+        "used_skill_ids": [],
+        "ordinary": [
+          9
+        ],
+        "program": [],
+        "label_correct": true,
+        "joint_exact": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "after": {
+        "stage": "b1_after_all_seen",
+        "condition": "skills",
+        "document_id": 339,
+        "hypothesis_id": "nda-17",
+        "Gold_choice": "NotMentioned",
+        "Gold_spans": [],
+        "choice": "Entailment",
+        "spans": [
+          9
+        ],
+        "reason": "Confidentiality includes copies under management.",
+        "used_skill_ids": [
+          "source-acquisition-core-v1"
+        ],
+        "ordinary": [
+          9
+        ],
+        "program": [],
+        "label_correct": false,
+        "joint_exact": false,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      }
+    },
+    {
+      "before": {
+        "stage": "b1_before",
+        "condition": "skills",
+        "document_id": 339,
+        "hypothesis_id": "nda-4",
+        "Gold_choice": "NotMentioned",
+        "Gold_spans": [],
+        "choice": "NotMentioned",
+        "spans": [],
+        "reason": "No limited use restrictions.",
+        "used_skill_ids": [],
+        "ordinary": [],
+        "program": [],
+        "label_correct": true,
+        "joint_exact": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "after": {
+        "stage": "b1_after_all_seen",
+        "condition": "skills",
+        "document_id": 339,
+        "hypothesis_id": "nda-4",
+        "Gold_choice": "NotMentioned",
+        "Gold_spans": [],
+        "choice": "Entailment",
+        "spans": [
+          9
+        ],
+        "reason": "Confidentiality restricts use to agreement purposes.",
+        "used_skill_ids": [
+          "source-acquisition-core-v1"
+        ],
+        "ordinary": [],
+        "program": [],
+        "label_correct": false,
+        "joint_exact": false,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      }
+    }
+  ],
+  "metadata_vs_schema_vs_sampling_path_not_individually_isolated": true,
+  "not_unique_causal_attribution_or_partial_B2_scoring": true,
+  "bindings": {
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_executable_acquisition_online_20261017_run01/prospective/b1_before/skills/339.json": "68217bdb9b6988acb7938a3f754639384ce29e2d93ebbb969ab9de0a5288d42e",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_executable_acquisition_online_20261017_run01/prospective/b1_after_all_seen/skills/339.json": "d39c66daac611bca8a7caed2a81386cd5b22509b9b17b49b8fe8b83671e35f67"
+  }
+}
