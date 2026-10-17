@@ -15,7 +15,7 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 最新恢复快照：2026-10-17 23:31 CST
+## 最新恢复快照：2026-10-17 23:35 CST
 
 - 固定R3诊断`legal_contractnli_r3_access_channel_diagnosis_20261017_run01`已完整成功，
   不是主训练完成。worker2725825/preserver2725826均已退出，全部16新回答、0教师。
@@ -29,12 +29,22 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
   教师直接从保存的own native输入读取实际候选，而非事后缓存或控制臂可见性。
   原子增改删合并/NOOP、单次准则交付、完整原文、原SPAN及原评分全部保留；无额外模型/层。
   现有76链路检查6.98秒通过；32源空库own与普通输入/schema相等，最大普通prompt9947，0生成。
-- 新完整在线run已prepare冻结、**尚未实际launch**：
+- 新完整在线run**已于23:34:29左右实际后台launch**：
   `legal_contractnli_grounded_criterion_learning_20261017_run01`，config
   `configs/contractnli_grounded_criterion_learning_20261017.json`、60冻结绑定，
   全176新native/4新教师、空库起步，无继承R3/旧回答。32源4批8案，不冒称独立重复或TEST。
-  教师ledger1388/1400，4调用在原限额内，未重置。保全Git/source后必须实际后台启动、
-  配置终态保全和完整批边界观察。没有证据表明新链路已解决8B执行失败；不能写方法有效。
+  教师ledger1388/1400，4调用在原限额内，未重置。main2769948/ticks425778700，
+  terminal preserver2769949/ticks425778701，完整边界observer2769950/ticks425778702实际live。
+  23:35已1/176新native，B1 before617普通臂，0教师，无失败；不是效果结果。
+  终态保全沿用已验证代码，仅扩展收录研究目录中的控制metadata；源码hash写入definition。
+  观察器只在完整B2-B4 all-seen后看同一指标是否既比实际父库下降>=5pp、
+  又低于同源累计普通对照>=5pp；满足双重退化才只SIGTERM原worker。
+  不按B1坏分或跨案件批裸分终止，不回滚/否决技能、不动模型，不读部分相位分数。
+  初始6537归档成员逐一验证并双盘，SHA
+  `31e741ba9f2d82cae46eccd6ff49462826155a2e37808b672e0dd508d5387d72`。
+  configSHA`77fe9ef2ea9c29b1a19734e18ec96fb5168e984806134c2e10047a74f28c8843`，
+  frozenSHA`3c035f73bf2417f4652f6255fc9c1b754f3038d139ca5a48801fddc480d4f0f8`。
+  没有证据表明新链路已解决8B执行失败；不能写方法有效。
   恢复看research `grounded_criterion_learning_20261017/actual_launch.json`和/proc，避免重复launch。
   **现在所有旧run均终态，新run冻结代码不可再随意修改；原RAM8B不能重启。**
 
