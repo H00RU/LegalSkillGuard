@@ -42,6 +42,8 @@ def _writer_system():
         "Runtime skill=id,hypothesis_ids,guidance.source_queries with an optional evidence_criterion. Original query-only records remain valid.",
         "No inspection text, examples, labels, case IDs, parties, dates, source indices, fingerprints or answer lookup tables.":
         "No case examples, label verdicts, case IDs, parties, dates, source indices, fingerprints or answer lookup tables.",
+        "aim<=2200 master to leave correction room.":
+        "aim<=3100 master to leave criterion and scope-projection room.",
     }
     for before, after in replacements.items():
         assert result.count(before) == 1, "Update the explicit writer contract, never silently skip a clause"
