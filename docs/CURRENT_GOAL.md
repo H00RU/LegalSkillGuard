@@ -5,6 +5,35 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+15:25本Goal turn继续，上一turn是progress（完整72-wire普通工具对照/真实漏引与
+内容根因分解＋自动final对照＋107文件/109成员增量备份），不是仅复述状态。
+2533b5aa6a7e77832563013d525b2e740d01548d已保全完整prefix24及分析；vdb/rootdisk
+同SHA d4ba554f47035eb13178f7fc9cf21981170e0bf69d871246251d0398272af8fd，需full197
+base3a111c4d...及Git9c61a41前置。5个无关untracked报告目录未动。
+
+已落实下一root-directed执行候选（仍未部署/生成）：research/sparse_evidence_execution
+下native_membership.py＋run_diagnostic.py＋PROTOCOL.md。将实际C∪P每个已有线索
+显式作原生true/false判断，另可自由引任意集合外原索引，再答原3类；解码只是
+无损坐标转置，不按choice/score/Gold加删引用。完整原source/17命题/候选/所有分数
+不改、不新增judge/模型调用/查询/阈值/教师。与旧密集方案不同，不枚举全SPAN×17。
+原作者bert分别class_outputs/span_outputs及postprocess已重新直接看代码，借鉴成员
+决定粒度，不冒充模型复现或新概念。作者Gold-NM排除规则也与现有声明一致，没改评分。
+
+R2仅公开source的32×3接口编译/容量检查20.36秒，0生成/教师，312集合往返
+（含24真实旧R2公开答）全部保持原标签/原坐标集合/公开理由，包括故意不一致
+组合也不修补。最多104显式成员判断，而dense全坐标最多3213；prompt+8192
+最大25412<32768。这不是新R3容量或效果，仍待实际末库冻结。两个research代码
+Ruff通过，未声称整个repo新全测；当前生产197绑定仍一致，原worker不热改。
+
+前瞻小诊断rule为原四组各首源[501,164,421,132]，非按分数选案。计划最新实际R3
+固定库、同接口strong_empty/ordinary/skills共12新native/0教师，旋转臂次序；源
+均已见TRAIN，不算迁移。原ordinary4/R3保持4仅历史参照，不造旧canonical空库。
+只在当前80/1真实完成且parent退出、完整teacher/retention/ordinary-gap审计后启动；
+最终R3/12先验payload先冻结并逐文件保全。此时尚未launch这个diagnostic，不能
+说新接口已修复效果；下一保全候选源码并后台排队，避免依赖对话继续输入。
+Nature-paper及computational-reporting清单用于区分verified/pending与不同接口控制，
+不把312坐标快检包装为合法律学习成功。主Goal仍active且未达到任何稳定胜出主张。
+
 15:13：当前run的prefix24已完整，不是partial。独立250绑定/48实际wire审计通过：
 同scored ABI的R1为82.353/64.249/54.412%，R2为81.618/63.636/52.696%；
 分类18修21伤、联合21修28伤、真成员24增27丢。单次小跌不机械停，也不当作
