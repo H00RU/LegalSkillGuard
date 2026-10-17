@@ -1,0 +1,547 @@
+{
+  "value": {
+    "operations": [
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-core-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-core-v1",
+          "hypothesis_ids": [
+            "nda-2",
+            "nda-1",
+            "nda-3"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "confidential information means",
+                  "confidential information shall mean",
+                  "information shall include",
+                  "confidential or sensitive data includes",
+                  "evaluation material means",
+                  "proprietary information means"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 4,
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "disclosed orally",
+                  "visually orally or in writing",
+                  "oral visual written electronic",
+                  "verbal electronic or hardcopy",
+                  "verbal or visual information",
+                  "oral confidential information",
+                  "oral or written"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "confidential"
+                ],
+                "any_phrases": [
+                  "marked",
+                  "identified",
+                  "labeled",
+                  "designated",
+                  "presumed"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          282,
+          249,
+          603,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          608
+        ],
+        "rationale": "The parent broadcast eight unrelated query families to sixteen hypotheses, producing large cross-topic candidate unions and observed wrong relations. Narrowing it to definition, conveyance-form, and identification hypotheses preserves its reusable acquisition function while reducing contamination."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "source-acquisition-rights-term-v1",
+          "hypothesis_ids": [
+            "nda-15",
+            "nda-19"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "no license",
+                  "no rights",
+                  "grant any right",
+                  "grants any license",
+                  "granting or conferring any rights",
+                  "does not convey any right",
+                  "grants no rights",
+                  "remain the property",
+                  "property of the disclosing party"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "shall survive",
+                  "survive termination",
+                  "shall continue",
+                  "continue to be bound",
+                  "remain valid and enforceable",
+                  "remain in effect indefinitely",
+                  "shall not relieve",
+                  "no further force or effect except",
+                  "binding in perpetuity",
+                  "following completion"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          312,
+          249,
+          603,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          608
+        ],
+        "rationale": "Rights reservations and continuing-obligation clauses recur in varied formulations. Dedicated scope retains existing hits and adds compact variants that cover missed governing spans without exposing them to unrelated hypotheses."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "source-acquisition-return-copy-retention-v1",
+          "hypothesis_ids": [
+            "nda-16",
+            "nda-20",
+            "nda-17"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "return or destroy",
+                  "return all",
+                  "destroy all",
+                  "destruction or erasure",
+                  "destroy or erase",
+                  "shall be returned",
+                  "deliver all copies",
+                  "promptly returned"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "may retain",
+                  "retain one archival copy",
+                  "not be required to destroy",
+                  "automated processes such as archiving",
+                  "retain no copies",
+                  "no copy thereof shall be retained",
+                  "no copies will be made or retained"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "not make any copies",
+                  "not to copy or record",
+                  "no copies will be made",
+                  "use disclose or copy",
+                  "copies are made",
+                  "except as reasonably necessary",
+                  "copies reductions to writing"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          312,
+          249,
+          603,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          608,
+          123
+        ],
+        "rationale": "Return-only wording, retention exceptions, backup copies, archival copies, and conditional copying were repeatedly missed or conflated. Separate queries acquire the governing rule and nearby exceptions while remaining neutral about the resulting relation."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "source-acquisition-independent-source-v1",
+          "hypothesis_ids": [
+            "nda-12",
+            "nda-13"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "independently developed",
+                  "independent development",
+                  "develop independently",
+                  "developing information internally"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "from a third party",
+                  "from another source",
+                  "source other than",
+                  "lawfully disclosed",
+                  "subsequently communicated",
+                  "later acquired by the receiving party"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          346,
+          422,
+          249,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          608
+        ],
+        "rationale": "Independent-development and third-party-source exceptions are distinct recurring list members. The existing single query omitted many third-party formulations and sometimes encouraged unsupported answers from unrelated definition text."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "source-acquisition-agreement-solicitation-v1",
+          "hypothesis_ids": [
+            "nda-10",
+            "nda-18"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "existence and terms of this agreement",
+                  "contents of this agreement",
+                  "existence or contents of this agreement",
+                  "fact that discussions",
+                  "discussions or negotiations",
+                  "negotiations are taking place",
+                  "public announcement of or otherwise disclose the existence"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "no solicitation or hiring",
+                  "solicit for employment",
+                  "solicit to employ",
+                  "soliciting or hiring",
+                  "solicit any employees",
+                  "solicit employment"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          346,
+          422,
+          249,
+          603,
+          524,
+          608
+        ],
+        "rationale": "Agreement-negotiation secrecy and personnel solicitation have distinctive anchors and should not inherit definition, return, or license leads. The solicitation query is limited to employment-oriented language to avoid generic business-solicitation noise."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "source-acquisition-sharing-v1",
+          "hypothesis_ids": [
+            "nda-7",
+            "nda-5"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "representative means",
+                  "representatives shall mean",
+                  "authorized parties means",
+                  "term representatives"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 2,
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "may disclose",
+                  "only disclose",
+                  "except to its employees",
+                  "employees representatives or agents",
+                  "disclosure to representatives",
+                  "disclosed to any employee consultant",
+                  "representatives who need to know",
+                  "persons employed by"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          282,
+          249,
+          603,
+          164,
+          371,
+          360,
+          125,
+          524,
+          608,
+          123
+        ],
+        "rationale": "Observed answers often saw a representative definition but missed the operative permission or condition, or treated a restriction as an absolute ban. Paired definition and operative-clause searches retrieve both without prescribing a verdict."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "source-acquisition-compelled-notice-v1",
+          "hypothesis_ids": [
+            "nda-8"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "prompt prior written notice",
+                  "prompt written notice",
+                  "written notice of such legal requirement",
+                  "shall notify",
+                  "be notified",
+                  "notify promptly",
+                  "immediately notify",
+                  "give the discloser as much notice",
+                  "provide the other party with prompt notice"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "required by law",
+                  "legally required",
+                  "legally compelled",
+                  "subpoena or similar legal process",
+                  "valid and effective subpoena",
+                  "court order law"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          339,
+          346,
+          249,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          608
+        ],
+        "rationale": "Compelled-disclosure notices were repeatedly outside current retrieval even when ordinary candidates exposed them. Notice and compulsion anchors are separated so neighboring spans can supply conditions, exceptions, or prohibitions without requiring one memorized sentence."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "source-acquisition-limited-use-v1",
+          "hypothesis_ids": [
+            "nda-4"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "solely for the purpose",
+                  "only for the purpose",
+                  "used only for",
+                  "not use",
+                  "for no other purpose",
+                  "except for the purpose",
+                  "exclusively for the permitted purpose",
+                  "legitimate business purposes"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          282,
+          312,
+          249,
+          603,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          123
+        ],
+        "rationale": "Purpose-limitation clauses are common but were often missed when the former parent returned only definitions or lifecycle provisions. A dedicated compact query retrieves operative use language while avoiding cross-hypothesis candidate flooding."
+      }
+    ],
+    "noop_reason": null
+  },
+  "model": "gpt-5.6-sol",
+  "request_sha256": "0bd05b4c22c2d7366689a4d187e7f2f7efb40ef32a5f83b5d3203db3b714d53c",
+  "response_sha256": "47508af47cbf9e828bb49c2086ae32091ba052f38670fb95e144797960acf6cd",
+  "cache_hit": false,
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-10-17T03:23:43.835730+00:00",
+    "finished_at": "2026-10-17T03:24:59.396064+00:00",
+    "elapsed_seconds": 75.56,
+    "returncode": 0,
+    "event_log_sha256": "c8ff4656f52f35882ca1d63d5fcb14d24f4e3d3d4e0325dbaba0a1767a420203",
+    "tool_events_detected": false,
+    "budget_reservation": {
+      "sequence": 1376,
+      "new_epoch_sequence": 151,
+      "reserved_at": "2026-10-17T03:23:43.836396+00:00",
+      "model": "gpt-5.6-sol",
+      "purpose": "legal_contractnli_executable_acquisition_online_20261017_run01_update_b2",
+      "request_sha256": "0bd05b4c22c2d7366689a4d187e7f2f7efb40ef32a5f83b5d3203db3b714d53c",
+      "attempt": 1
+    },
+    "usage": {
+      "input_tokens": 109658,
+      "cached_input_tokens": 0,
+      "output_tokens": 4659,
+      "reasoning_output_tokens": 2588
+    },
+    "estimated_credits": null
+  }
+}
