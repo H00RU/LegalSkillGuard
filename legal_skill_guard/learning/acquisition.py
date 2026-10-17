@@ -517,6 +517,7 @@ class AcquisitionStudy(Comparison):
         receipts, observations = {}, []
         contrasting = self.cfg.get("teacher_evidence_view") == "contrastive_record_tables"
         payloads = {}
+        actual_ordinary = {}
         seen_ids = {r["id"] for r in seen}
         for u in self.own:
             assert u["document_id"] in seen_ids
@@ -533,7 +534,7 @@ class AcquisitionStudy(Comparison):
             if contrasting:
                 observations[-1].update(actual_incremental_read_encoding=incremental_encoding(p),
                     actual_input_payload_sha256=sha(u["payload"]))
-                payloads[u["response"]["raw_id"]] = p
+            payloads[u["response"]["raw_id"]] = p
         parent_refs, acquisition_feedback, native_feedback, parent_native_ids = {}, {}, {}, {}
         actual_incremental = {}
         for row in seen:
@@ -547,8 +548,10 @@ class AcquisitionStudy(Comparison):
             assert actual, "Every seen source needs actual current-parent native feedback"
             latest = actual[-1]
             parent_native_ids[str(row["id"])] = latest["actual_native_raw_id"]
+            actual_body = json.loads(payloads[latest["actual_native_raw_id"]]["messages"][1]["content"])
+            actual_ordinary[str(row["id"])] = {h: actual_body["hypotheses"][h][
+                "fallible_evidence_candidates"] for h in self.labels}
             if contrasting:
-                actual_body = json.loads(payloads[latest["actual_native_raw_id"]]["messages"][1]["content"])
                 actual_incremental[str(row["id"])] = {h: actual_body["hypotheses"][h]["additional_source_read_indices"] for h in self.labels}
             feedback, diagnostics = {}, {}
             for h in self.labels:
@@ -556,7 +559,7 @@ class AcquisitionStudy(Comparison):
                     for event in current[s["id"]] for role in ("matched", "neighbour", "preamble") for i in event[role]}
                 annotation = gold[str(row["id"])][h]
                 members = set(annotation["spans"])
-                ordinary = {v["original_span_index"] for v in self.proposals[row["id"]]["by_hypothesis"][h]["candidates"]}
+                ordinary = {v["original_span_index"] for v in actual_ordinary[str(row["id"])][h]}
                 feedback[h] = {"original_choice": annotation["choice"], "original_Gold_indices": annotation["spans"],
                     "current_query_returned_indices": sorted(returned), "Gold_not_returned": sorted(members - returned),
                     "Gold_already_in_fixed_ordinary_candidates": sorted(members & ordinary)}
@@ -574,8 +577,7 @@ class AcquisitionStudy(Comparison):
             "current_parent_actual_native_raw_ids": parent_native_ids,
             "current_parent_native_member_feedback": native_feedback,
             "fixed_ordinary_model_manifest": self.manifest,
-            "actual_visible_ordinary_candidates_by_source": {str(r["id"]): {
-                h: self.proposals[r["id"]]["by_hypothesis"][h]["candidates"] for h in self.labels} for r in seen},
+            "actual_visible_ordinary_candidates_by_source": actual_ordinary,
             "serving_notice": NOTICE, "runtime_stored_library_token_cap": self.cfg["library_token_hard_cap"],
             "exact_literal_matcher": {"lower_case_word_regex": _WORD.pattern,
                 "ordered_suffixes": list(_SUFFIXES), "stem_only_if_input_length_at_least": 6,

@@ -10,27 +10,48 @@ from __future__ import annotations
 import copy
 import json
 import re
+from collections import Counter
 
 from jsonschema import validate
 
 from legal_skill_guard.task import marked_text
 
-from .acquisition import GUIDANCE_SCHEMA, TEACHER
+from .acquisition import NOTICE, QUERY_SCHEMA
 from .packing import expand, keyed, table
-from .publication import skill_record_schema
+from .publication import DELTA_TEACHER_SYSTEM, skill_record_schema
 
-EDIT_GUIDANCE = copy.deepcopy(GUIDANCE_SCHEMA)
-EDIT_GUIDANCE["required"].append("evidence_criterion")
-EDIT_GUIDANCE["properties"]["evidence_criterion"] = {
-    "anyOf": [{"type": "string", "minLength": 1, "maxLength": 600}, {"type": "null"}],
+_INSPECTION_GUIDANCE = {
+    "type": "object", "additionalProperties": False,
+    "required": ["source_queries", "evidence_criterion"],
+    "properties": {
+        "source_queries": {"type": "array", "minItems": 0, "maxItems": 8,
+            "items": copy.deepcopy(QUERY_SCHEMA)},
+        "evidence_criterion": {"type": "string", "minLength": 1, "maxLength": 1200},
+    },
 }
-STORED_GUIDANCE = {"anyOf": [copy.deepcopy(GUIDANCE_SCHEMA), EDIT_GUIDANCE]}
-OLD_NOTICE = "No skill code, identity, scope-control map, query counts or teacher advice is supplied."
+_QUERY_GUIDANCE = copy.deepcopy(_INSPECTION_GUIDANCE)
+_QUERY_GUIDANCE["properties"]["source_queries"]["minItems"] = 1
+_QUERY_GUIDANCE["properties"]["evidence_criterion"] = {"anyOf": [
+    {"type": "string", "minLength": 1, "maxLength": 1200}, {"type": "null"}]}
+EDIT_GUIDANCE = {"anyOf": [_INSPECTION_GUIDANCE, _QUERY_GUIDANCE]}
+STORED_GUIDANCE = EDIT_GUIDANCE
 NEW_NOTICE = (
     "No skill identities, query counts or scope-control map are supplied. Optional "
-    "evidence_selection_criteria are fallible learned inspection procedures for that "
-    "hypothesis, never contract facts, label verdicts or mandatory citations. Literal "
+    "evidence_selection_criteria are fallible learned source-conditional legal "
+    "inspection and evidence-selection procedures for that exact hypothesis, "
+    "not current contract facts, automatic verdicts or mandatory citations. Literal "
     "access roles describe how a location was reached, not whether it is evidence."
+)
+MEMBER_NOTICE = (
+    " The complete original NDA remains present and unchanged. Each hypothesis "
+    "may have fallible_evidence_candidates or additional_source_read_indices; "
+    "they resolve to exact original text in candidate_original_text. These are "
+    "optional reading aids, never a verdict or mandatory evidence. Any membership "
+    "score is a fallible candidate estimate, not legal confidence. " + NEW_NOTICE +
+    " Empty aids never establish NotMentioned. Read the entire source, check "
+    "actors, scope, quantifiers and exceptions, and cite ANY original index as "
+    "needed, including outside every lead. Decide each exact original hypothesis "
+    "yourself. Return choice, spans and reason only."
 )
 MEMBER_COLUMNS = ["original_span_index", "original_member", "actually_cited", "ordinary_candidate",
     "literal_match", "explicit_neighbour", "possible_list_preamble"]
@@ -38,21 +59,43 @@ SPAN = re.compile(r"<SPAN (?P<index>\d+)>(?P<text>.*?)</SPAN (?P=index)>", re.DO
 
 
 def writer_system():
-    replacements = {
-        "The lawyer receives source locations only, NEVER your legal guidance, examples or rationale.":
-        "The lawyer receives source locations, factual access roles and published evidence_criterion, not examples or audit rationale.",
-        "Runtime skill=id,hypothesis_ids,guidance.source_queries ONLY.":
-        "Runtime skill=id,hypothesis_ids,guidance.source_queries with evidence_criterion. Every newly emitted CREATE/UPDATE/MERGE skill requires a concise string or deliberate null; untouched old records stay verbatim.",
-        "No inspection text, examples, labels, case IDs, parties, dates, source indices, fingerprints or answer lookup tables.":
-        "No case examples, label verdicts, case IDs, parties, dates, source indices, fingerprints or answer lookup tables.",
-        "aim<=2200 master to leave correction room.":
-        "aim<=3100 master to leave criterion and scope-projection room.",
-    }
-    result = TEACHER
-    for before, after in replacements.items():
-        assert result.count(before) == 1
-        result = result.replace(before, after)
-    return result + (
+    return DELTA_TEACHER_SYSTEM + (
+        " Optimize this frozen lawyer's reusable legal inspection and COMPLETE "
+        "original-member selection, not only lexical acquisition coverage. "
+        "Its actual own inputs have NO ordinary retriever candidates or scores. "
+        "Do not depend on the separate control's model or observations. The "
+        "runtime guidance has source_queries and evidence_criterion. Queries "
+        "may be EMPTY: a source-conditional legal inspection or selection "
+        "procedure can be useful without a lexical search recipe. The criterion "
+        "may be null when at least one genuine source query is supplied. An "
+        "entirely empty action belongs in NOOP, not an empty skill. No fixed "
+        "types, number, one-record-per-hypothesis or compulsory expansion. "
+        "Use the hypothesis_error_profiles together with the complete sources "
+        "and member contrasts to find reusable, still-unaddressed failures "
+        "across the original hypotheses; do not merely keep retuning one "
+        "existing query family or fill a topic quota. Distinguish an acquisition "
+        "miss, a visible-but-omitted member, an irrelevant citation, a wrong "
+        "relation and a genuinely unresolved statement. A correct label with "
+        "incomplete evidence needs selection work, not automatic label reversal. "
+        "Write short executable reading steps with source conditions, the "
+        "operative actor/action/object, quantifier/polarity and exceptions "
+        "needed for that boundary. A sufficient example is not a necessary "
+        "template; a generic ban may have an operative exception elsewhere. "
+        "Ground conditional distinctions in opposed as well as supported seen "
+        "cases. Preserve original members without turning an annotated context "
+        "fragment into a universal legal rule or independent relation verdict. "
+        "The lawyer alone decides every relation and original citation. "
+        "Optional queries use all_phrases,any_phrases,none_phrases,before,after,"
+        "include_list_preamble. The supplied exact light suffix-token matcher "
+        "requires every all phrase, one any phrase when nonempty, and no none "
+        "phrase contiguously WITHIN an original SPAN. At least one all/any "
+        "phrase per query is required. before/after(0..64) are original-span "
+        "neighbours; preamble links are fallible literal list-introduction "
+        "access, not semantic dependencies. All query locations in a record "
+        "are delivered to every hypothesis in its declared scope; do not "
+        "broadcast unrelated query families. No catch-all/fallback query, "
+        "semantic classifier, host label rule, automatic citation union or "
+        "new runtime model. Full original text is unchanged. "
         " The observation window contains exactly the latest actual current-parent "
         "canonical own answer for EACH supplied seen TRAIN source, selected by version "
         "and chronology, never correctness. Older observations remain archived and "
@@ -64,18 +107,19 @@ def writer_system():
         "original text, annotation or citation is dropped. original_member=false "
         "means unannotated, not an independent semantic negative; null means "
         "membership is undefined for original NM. Do not invent corrected Gold. "
-        "Distil concise transferable member-selection criteria: directly responsive "
-        "clauses, necessary governing language and unrelated nearby obligations. "
-        "Apply them to ordinary and extra leads. Do not encode E/C/NM sufficient-"
-        "condition verdicts, repeat generic task instructions, require whole read "
-        "windows or force criteria/growth. Aim about30 words per criterion and "
-        "<=3100 master tokens within4096 master/scope/criterion-projection limits. "
+        "Distil source-dependent procedures rather than repeating the base task, "
+        "requiring entire read windows as evidence, case answer tables or "
+        "unconditional E/C/NM orders. Keep procedures concise but retain the "
+        "necessary distinction; aim<=3100 master tokens within4096 master, "
+        "scope and criterion-projection hard limits. Never clip or retry to fit. "
         "The actor receives literal-match/neighbour/preamble facts, not evidence "
         "labels; observations preserve what that actor actually saw. Your rationale "
         "is NOT served: any claimed learned criterion must appear in the actual "
         "evidence_criterion field. Explicit null intentionally publishes no criterion. "
-        "No extra tools, critic, semantic admission, best-bank choice, citation "
-        "union or answer repair. A valid NOOP or null criterion is normal online "
+        "No case IDs, source indices, parties, dates, historical case answers "
+        "or audit rationales in runtime procedures. No extra tools, critic, "
+        "semantic admission, best-bank choice, citation union or answer repair. "
+        "A valid NOOP or null criterion with a query is normal online "
         "learning, not a reason to retry until content appears."
     )
 
@@ -98,8 +142,8 @@ def actor_messages(canonical_messages, bank, labels, trace, *, include_criterion
     for s in bank:
         validate(s, skill_record_schema(labels, guidance_schema=STORED_GUIDANCE))
     messages = copy.deepcopy(canonical_messages)
-    assert messages[0]["content"].count(OLD_NOTICE) == 1
-    messages[0]["content"] = messages[0]["content"].replace(OLD_NOTICE, NEW_NOTICE)
+    assert messages[0]["content"].count(NOTICE) == 1
+    messages[0]["content"] = messages[0]["content"].replace(NOTICE, MEMBER_NOTICE)
     body = json.loads(messages[1]["content"])
     projection = criterion_projection(bank, labels)
     for h in labels:
@@ -139,14 +183,14 @@ def teacher_sources(sources, annotations):
     return table(rows)
 
 
-def member_contrasts(sources, labels, annotations, answers, bank, executions, proposals):
+def member_contrasts(sources, labels, annotations, answers, bank, executions, visible_candidates):
     result = {h: [] for h in labels}
     for source in sources:
         d = source["id"]
         for h in labels:
             original, actual = annotations[str(d)][h], answers[d][h]
             gold, cited = set(original["spans"]), set(actual["spans"])
-            ordinary = {r["original_span_index"] for r in proposals[d]["by_hypothesis"][h]["candidates"]}
+            ordinary = {r["original_span_index"] for r in visible_candidates[d][h]}
             roles = access_roles(bank, executions[d], h)
             members = [[i, i in gold if original["choice"] != "NotMentioned" else None,
                 i in cited, i in ordinary, i in roles["matched"], i in roles["neighbour"], i in roles["preamble"]]
@@ -177,3 +221,33 @@ def expand_member_contrasts(value, encoded_sources):
                 members.append(member)
             result[h].append({**case, "members": members})
     return result
+
+
+def hypothesis_error_profiles(contrasts):
+    """Deterministic summaries of the SAME own/Gold member rows, not a judge."""
+    profiles = {}
+    for h, cases in contrasts.items():
+        counts, confusions = Counter(), Counter()
+        for case in cases:
+            original, actual = case["original_choice"], case["actual_choice"]
+            correct = original == actual
+            members = case["members"]
+            counts.update(questions=1, label_correct=int(correct))
+            confusions[(original, actual)] += 1
+            if original == "NotMentioned":
+                counts["joint_exact"] += int(correct and not any(m["actually_cited"] for m in members))
+                continue
+            tp = sum(m["original_member"] and m["actually_cited"] for m in members)
+            fp = sum(not m["original_member"] and m["actually_cited"] for m in members)
+            missed = [m for m in members if m["original_member"] and not m["actually_cited"]]
+            visible = sum(any(m[k] for k in ("ordinary_candidate", "literal_match",
+                "explicit_neighbour", "possible_list_preamble")) for m in missed)
+            counts.update(gold_non_neutral_questions=1,
+                original_Gold_members=sum(m["original_member"] for m in members),
+                true_cited_members=tp, unannotated_citations=fp, omitted_members=len(missed),
+                visible_omitted_members=visible, unlisted_omitted_members=len(missed) - visible,
+                correct_relation_but_inexact_evidence=int(correct and bool(fp or missed)),
+                joint_exact=int(correct and not fp and not missed))
+        profiles[h] = {**counts, "original_to_actual_relation_counts": [
+            {"original": g, "actual": p, "count": n} for (g, p), n in sorted(confusions.items())]}
+    return profiles

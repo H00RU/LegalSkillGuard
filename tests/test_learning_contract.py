@@ -202,6 +202,105 @@ def test_executable_query_features_are_source_only_scoped_and_not_answer_rules()
         program_queries([{**skill(), "queries": []}], list(labels))
 
 
+def test_member_guidance_allows_query_free_inspection_but_not_an_empty_action():
+    from jsonschema import validate
+
+    from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues
+    from legal_skill_guard.learning.member_contract import EDIT_GUIDANCE
+    from legal_skill_guard.learning.publication import differential_schema
+
+    inspection = {"source_queries": [], "evidence_criterion": "Check the operative exception."}
+    validate(inspection, EDIT_GUIDANCE)
+    query = {"all_phrases": ["Recipient"], "any_phrases": [], "none_phrases": [],
+             "before": 0, "after": 0, "include_list_preamble": False}
+    validate({"source_queries": [query], "evidence_criterion": None}, EDIT_GUIDANCE)
+    with pytest.raises(ValidationError):
+        validate({"source_queries": [], "evidence_criterion": None}, EDIT_GUIDANCE)
+    assert not strict_output_schema_issues(
+        differential_schema(["h1"], [], [1], guidance_schema=EDIT_GUIDANCE))
+
+
+def test_member_own_payload_does_not_compute_or_receive_control_retrieval(monkeypatch):
+    from types import SimpleNamespace
+
+    from legal_skill_guard.learning import member_learning
+
+    row, labels, _ = fixture()
+    source = {k: row[k] for k in ("id", "text", "spans")}
+    study = member_learning.MemberLearning.__new__(member_learning.MemberLearning)
+    study.labels, study.system = labels, "Original task."
+    study.cfg = {"generation": {"max_tokens": 8192, "context_tokens": 32768},
+                 "incremental_source_encoding": "records", "own_ordinary_retrieval": False}
+    study.proposals, study.model = {}, object()
+    study.manifest = {"state_sha256": "CONTROL_ONLY"}
+    study.meter = SimpleNamespace(token_count=lambda **_: 50)
+
+    def forbidden(*_args, **_kwargs):
+        raise AssertionError("Own input must not run the ordinary control retriever")
+
+    monkeypatch.setattr(member_learning, "evidence_proposals", forbidden)
+    bank = [{"id": "s1", "hypothesis_ids": ["h1"], "guidance": {
+        "source_queries": [], "evidence_criterion": "Inspect actor and exception scope."}}]
+    payload = study.payload(source, "skills", bank)
+    body = json.loads(payload["messages"][1]["content"])
+    assert payload["fixed_ordinary_model_state"] is None and not study.proposals
+    assert all(not v["fallible_evidence_candidates"] for v in body["hypotheses"].values())
+    assert body["hypotheses"]["h1"]["evidence_selection_criteria"] == [
+        bank[0]["guidance"]["evidence_criterion"]]
+    assert "membership_score" not in json.dumps(body)
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(payload["messages"])
+
+
+def test_member_teacher_visibility_comes_from_actual_own_not_control_cache(tmp_path):
+    from types import SimpleNamespace
+
+    from legal_skill_guard.learning.member_contract import expand_member_contrasts
+    from legal_skill_guard.learning.member_learning import MemberLearning
+    from legal_skill_guard.learning.packing import expand
+    from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
+
+    row, labels, gold = fixture()
+    source = {k: row[k] for k in ("id", "text", "spans")}
+    study = MemberLearning.__new__(MemberLearning)
+    study.labels, study.system, study.out = labels, "Original task.", tmp_path
+    study.meter = SimpleNamespace(token_count=lambda **_: 50)
+    study.cfg = {"generation": {"max_tokens": 8192, "context_tokens": 32768},
+                 "incremental_source_encoding": "records", "own_ordinary_retrieval": False,
+                 "teacher_evidence_view": "contrastive_record_tables",
+                 "library_token_hard_cap": 4096, "historical_publications": [],
+                 "grading_only": str(tmp_path / "gold.json")}
+    study.manifest, study.model = {"state_sha256": "CONTROL_ONLY"}, object()
+    study.bank = [{"id": "s1", "hypothesis_ids": ["h1"], "guidance": {
+        "source_queries": [], "evidence_criterion": "Inspect actor and exception scope."}}]
+    study.banks = {csha(study.bank): copy.deepcopy(study.bank)}
+    # The control cache intentionally claims a candidate the own actor NEVER saw.
+    study.proposals = {1: {"by_hypothesis": {h: {"candidates": [
+        {"original_span_index": 0, "membership_score": .9}]} for h in labels}}}
+    payload = study.payload(source, "skills", study.bank)
+    answer = {h: {**g, "reason": "Synthetic source decision."} for h, g in gold.items()}
+    answer["h1"]["spans"] = [0]
+    own = response(answer)
+    pp, rp = tmp_path / "own_payload.json", tmp_path / "own_native.json"
+    RunStore.immutable_json(pp, payload)
+    RunStore.immutable_json(rp, {"response": own})
+    RunStore.immutable_json(tmp_path / "gold.json", {"original_TRAIN_annotations": {"1": gold}})
+    study.own_history = [{"document_id": 1, "condition": "skills", "stage": "b1_before",
+        "bank_sha256": csha(study.bank), "native_schema_valid": True,
+        "payload": str(pp), "raw_artifact": str(rp), "response": own}]
+    value = study.teacher_body([source])
+    body = expand(value["body"])
+    assert all(not v for v in body["actual_visible_ordinary_candidates_by_source"]["1"].values())
+    assert "fixed_ordinary_model_manifest" not in body
+    contrast = expand_member_contrasts(body["member_contrasts_by_hypothesis"],
+                                      body["complete_cumulative_original_TRAIN_sources_and_Gold"])
+    assert all(not m["ordinary_candidate"] for c in contrast["h1"] for m in c["members"])
+    assert {m["original_span_index"] for m in contrast["h1"][0]["members"]} == {0, 2}
+    profile = body["hypothesis_error_profiles"]["h1"]
+    assert profile["label_correct"] == 1 and profile["true_cited_members"] == 1
+    assert profile["omitted_members"] == profile["unlisted_omitted_members"] == 1
+    assert profile["visible_omitted_members"] == profile["joint_exact"] == 0
+
+
 def test_procedural_delivery_is_real_system_guidance_without_current_gold():
     from legal_skill_guard.learning.procedures import procedure_messages
 

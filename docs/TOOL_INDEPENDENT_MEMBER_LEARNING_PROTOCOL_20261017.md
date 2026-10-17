@@ -23,14 +23,33 @@ On the complete B2 first encounters, strong empty74.265/69.027/56.618,
 ordinary77.206/55.172/58.088 and R1 skills74.265/52.683/55.147.
 Both phases' actual wires and original-author sets were independently recounted.
 These are paired developmental observations, not proof of a unique cause or
-algorithmic significance. R2's complete16 post-update outcomes were still pending
-when this revision was first written; the original closed artifact is authoritative.
+algorithmic significance. R2's full16 post-update answers are now closed: the
+new8 are76.471/52.736/56.618%, the old8 are80.147/54.286/49.265%. Relative to R1,
+the old8 have7 classification fixes/9 damage and5 joint fixes/9 damage despite
+better F1; the new8 lose one net true evidence member. All72 actual trial wires
+and original-author sets were independently recounted. The operator stopped
+after complete B2 at19:44:22,0 B3 native/teacher calls; both terminal archive
+copies were actually verified. This is a complete two-batch development prefix,
+NOT completion of the originally planned four batches.
 
 VERIFIED: all402 examined saved native wires in the reconstructed acquisition/
 member family have matching prospective requests/schemas. All242 nonempty-bank
 answers in that scope retain the same fixedM2. This does not cover all deleted
 history or other representations. Previous scored/unscored comparisons retained
 ordinary candidates and do not establish an M2-free learned-bank effect.
+
+VERIFIED adverse historical evidence outside that402-wire interface inventory:
+`legal_contractnli_M2_tool_influence_20261015_run01` actually removed the tool
+from the SAME older already-learned procedural bank on all6 B3 sources.
+With tool80.392/63.281/40.196%, without tool76.471/49.630/31.373%, strong
+empty76.471/55.814/32.353. This was6 new native/0 teacher with12 declared actual
+references, not a new M2-free learning episode. Removing M2 alone has ALREADY
+failed in that older representation. Do not claim a globally untried idea or
+repeat another fixed-bank tool-removal grid. The proposed revision instead
+learns from EMPTY under its actual M2-free execution/feedback contract, while
+retaining optional literal acquisition and removing the compulsory-query
+restriction. Earlier skill-review/no-tool methods also exist and are not
+erased; this combination still needs genuine complete online evidence.
 
 VERIFIED: the current teacher has received the full16 seen original sources,
 272 original judgments,16 actual own current-parent answers and every Gold/cited
@@ -40,8 +59,12 @@ forces one record. Its queries reach21/314 seen Gold memberships. Unannotated
 returned locations may be necessary context, not automatically wrong evidence.
 More records or more reached members are not native answer improvements.
 
-PENDING: new implementation, quick data-flow checks, former trial's actual
-terminal preservation, new launch and all learning/retention/transfer outcomes.
+VERIFIED: core source changed only after the original worker, preserver, stop
+watcher and CPU control worker were terminal, all57 old bindings were unchanged,
+and terminal archive copies were checked. The existing75 synthetic/no-model
+boundary checks passed; these are not performance evidence.
+PENDING: new frozen configuration/launch and all new learning/retention/transfer
+outcomes. Actual preparation/preservation/launch receipts decide execution.
 UNSUPPORTED: M2 is the sole failure, removing it will necessarily help, query-free
 guidance is sufficient, a90% score is required for publication, or SOTA has been
 achieved. Old seen-case gains do not establish these claims.
@@ -81,6 +104,13 @@ selection and relation errors; it is not a new judge or additional supervision.
 Full seen source, Gold, actual latest same-parent answers and all member contrasts
 remain recoverable. Actual old edits/observations stay archived with their real
 versions; never describe earlier behavior as current-parent execution.
+Two redundant per-case derived error tables are replaced by the complete member
+contrasts and compact profiles; original text, annotations, native public answers,
+all visible candidate/read lists, access receipts and edit history remain.
+This removes duplicate serialization, not difficult cases or original supervision.
+The common reading notice is updated equally in all three arms; original task
+instructions and native output schema remain. No old answers are reused as
+controls under that changed notice.
 
 The writer keeps atomic CREATE/UPDATE/DELETE/MERGE/NOOP and publishes every valid
 edit without gain admission, checkpoint selection, rollback, retry or forced

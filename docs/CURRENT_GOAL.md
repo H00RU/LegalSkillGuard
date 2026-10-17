@@ -15,7 +15,7 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前阶段：完整旧32终态，新32在线学习已后台启动
+## 当前阶段：旧72/2已完整安全保全，新主链路65文件已冻结、尚待备份后启动
 
 旧run `legal_contractnli_discriminative_evidence_full32_retention_20261017_run01`
 18:25:37 CST完整完成，原worker2249247和保全worker2265836均已missing终态。
@@ -46,8 +46,9 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
   **2326429**、start_ticks **423983002**；恢复时核真实`/proc`句柄，不只看状态文件。
 - 实际launch/progress：`artifacts/research/member_learning_online_20261017/actual_launch.json`、
   `runs/<新run>/progress.json`；日志research同目录`stdout.log`。已冻结57文件。
-- 19:08实际worker live，已完成38/176 native、1教师，处于B2 before（当前319 skills）。
-  B1完整32 native/1教师已结束且双盘保全，负面结果见下；不要重复B1或改运行中的57文件。
+- 19:44:22按已声明的整轮停止安排安全终止，实际72native/2教师；B2 after16完整，B3
+  0native/教师。原main2326429、保全2328367、stop2415582、CPU控制2344522均已核终态。
+  progress中的failed是安全handler的InterruptedError，不是协议出错或完整176调用完成。
 - 新32源固定、空库起步、4批各8案，每批24真实before（空库/普通/技能），之后对全部seen
   8/16/24/32真实after，共176新native/4教师；不继承旧bank、raw或B1 aliases。
 - 教师看所有seen原文/Gold及逐版本最新current-parent own，旧raw归档已教过；不按正确性选。
@@ -60,6 +61,11 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 在新research同目录`terminal_preservation_definition.json`、`terminal_preservation_actual_launch.json`。
 复用旧32已验证的保全程序，仅改3个run路径；成功/失败都等原worker真正终态后复制
 全部闭合结果，实际完成须看`terminal_preservation_completion.json`，不凭计划说已备份。
+现该receipt已实际完成19:44:28：341项目/342成员，完整校验双盘同SHA
+`4a3efd38e898a109bf21b2ce0d129de6a36057cc6446dff2c093b59b80360aae`。
+`complete72_original_author_terminal_and_R2_all_damage_audit_before_source_repair.json`又独立重数
+全部72真实wire/原Gold/唯一raw；确认旧57文件在编辑前均未改，两盘整包SHA/设备及四原worker终态。
+新research`old_trial_terminal_and_frozen_source_before_repair.json`记录正式编辑前守卫。
 
 ## 当前可用方法和已完成证据
 
@@ -137,6 +143,64 @@ native raw，逐项request/schema与显式prospective payload相等；其中242�
 若未来主方法去M2，必须同步从真实own payload重建教师的候选/漏证反馈，不能继续把
 self.proposals中的控制臂候选谎称为own可见。当前运行所有own仍有M2，这不是当前反馈失真。
 
+## B2当前闭合证据、已执行停止安排和下一版
+
+B2 before24在19:25:26完成，8新合同：空库74.265/69.027/56.618，普通M2
+77.206/55.172/58.088，R1技能74.265/52.683/55.147（准确率/F1/联合%）。
+相对ordinary分类8修复12损害，联合7修复11损害，真成员3增5失。M2只列出50/131 Gold，
+R1扩至51但额外Gold采用0。已独立检查24 actual wires、原作者集合、完整16源/272 Gold/
+16 own及所有成员对照的真实teacher2 wire，无未来/其他臂。完整审计research同目录
+`B2_complete_before24_original_author_wire_and_actual_teacher16_audit.json`。
+
+真实教师1384耗78.694秒，107206输入/4257输出（reasoning3624）、0工具/缓存/重试。
+R2仅UPDATE原nda-7技能，8查询/1准则，master466/scope570/投影152；并非schema最多一次操作。
+全16已见Gold314，仅nda-7有准则；该命题Gold25，查询覆盖18→21、总返回91→120。
+未标注读取不等于错误证据，不能以覆盖增长冒充真实after收益。
+内容和执行审计：`B2_actual_teacher_publication_content_and_seen16_acquisition_not_native_gain.json`。
+
+19:35已后台设置**整轮在B2闭合并双盘保全后安全停止**：worker **2415582**、ticks
+**424343200**。定义/actual_launch：research同目录`planned_B2_boundary_stop_definition.json`、
+`planned_B2_boundary_stop_actual_launch.json`。核精确原PID/ticks后，仅向main2326429发SIGTERM
+触发现有安全handler，不向模型服务发信号。结果须看`planned_B2_boundary_stop_actual_result.json`；
+发出请求不等于已经终态。可能竞态产生的B3在途答案也完整保留，不隐藏。
+这是两批持续M2依据损失后的整轮开发决策，不按R2分数挑库/回滚。原终态保全worker继续。
+
+下一版已在原维护入口完成核心修订、零模型检查和prepare（**尚未launch**）：
+`configs/contractnli_member_learning_tool_independent_20261017.json`、
+`docs/TOOL_INDEPENDENT_MEMBER_LEARNING_PROTOCOL_20261017.md`。新Run ID
+`legal_contractnli_member_learning_tool_independent_20261017_run02`。
+保持同32来源顺序、空库、4批/176native/4教师、同8B/解码/原任务/Gold，不继承旧库或答案。
+skills自身不计算/接收M2候选或分数，ordinary仅作显式控制；records交付现有真实定位/角色。
+技能可独立含有条件的法律取证程序、可选查询，不要求每条附查询，也不强制数量或类型。
+教师候选/成员反馈同步依据真实own payload；同一教师内给原命题聚合原始成员错误，不加模型。
+以强空库为主要对照；新开发episode不是正式TEST或成功方法的独立重复。
+
+跨表示历史负证据**不能漏掉**：`legal_contractnli_M2_tool_influence_20261015_run01`
+6实际新native/0教师、12实际引用，旧库直接拔M2后76.471/49.630/31.373，保留M2时
+80.392/63.281/40.196，空库76.471/55.814/32.353。故不声称“拔工具”从未试过或一定有用，
+也不再跑固定旧库拔工具网格。下一版是从空库按实际无工具执行/反馈重新学习，带可选
+定位且取消强制查询限制；旧无工具复核/程序方法同样保留，不把本次改动包装为全新原语。
+
+R2完整后新8为76.471/52.736/56.618%，旧8为80.147/54.286/49.265%。原8在R1→R2中
+分类7修复9损害、联合5修复9损害；新8真成员2增3失。全16分类16修复15损害，联合12修复
+14损害，F1仅53.638%。所有17个分类或联合损害已带原文保留，不把F1上升说成整体修复。
+
+旧trial及原保全全部终态后，才修改3核心：`member_contract.py`、`member_learning.py`、
+`acquisition.py`。取消强制查询，writer从“定位ONLY”的旧替换串改为一致的法律检查契约；
+own输入不计算M2，teacher真实候选取own payload；两张重复派生错误表改为完整成员对照+
+命题聚合，原文/Gold/公开回答/全部实际访问/编辑历史保留。没有新增运行时模型或输出层。
+新增3个零模型边界例并入原test文件，原75 tests在7.18秒全部通过；严格teacher Schema检查
+及6个member相关例0.36秒通过。初始anyOf缺少strict对象约束已在预约教师之前修正；未产生
+失败教师调用。3个源码ruff通过，旧测试文件16个既有样式问题不做无关改写。
+
+19:52:15真实prepare完成，**65冻结文件**，0native/教师；不得再次prepare同一配置。
+新research`implemented_source_and_input_contract_check_no_generation.json`核32 source-only空库
+输入、空库skills/strong_empty逐字相等、旧R2只用于8案编译检查未预置新库；最大空库8964
+tokens，query读集合完整/无M2分数。不是未来所有库的容量或效果保证。当前预约仍1384。
+**下一步**：提交当前源/config/frozen/新审计，完整源码+完整Git+65绑定+旧72raw双盘保全，
+生成真实prelaunch receipt；再启动新后台176/4及独立终态保全，记录真实PID/ticks。
+不要再次模型资格测试、不要重启8B、不要误把prepare当已启动或已有效。
+
 ## 旧32完整漏证/损害审计（不是新32成绩）
 
 `artifacts/research/member_learning_online_20261017/parent32_membership_and_all_damage_audit.json`
@@ -198,8 +262,8 @@ CPU首fit曾64线程/32核超配；已核PID/ticks后短暂停同一worker，全
   **绝不重启/下载/切换模型**。同Qwen3-8B/BF16，seed45/T.6/p.95/k20/max8192，thinking开。
 - 当前M2仅原12案，状态 `c0d59bbe7fa962b43f7ee3fe5adff98c6134c37419483263355be23fc881edb8`，
   pickle SHA `8453c3ed11bc02e4cc46b5b425399a2e2a3dbcc294a47d19b870cd91867a96c9`。
-- 现有gpt-5.6-sol/high教师账本上限1400，当前预约序号1383；历史计数含已声明下界。
-  不静默重置/加额，不增加付费API。新online已实际1教师，余3按原计划。
+- 现有gpt-5.6-sol/high教师账本上限1400，当前预约序号1384；历史计数含已声明下界。
+  不静默重置/加额，不增加付费API。旧online已实际2教师，安排B2后整轮停止，不再预约余2。
 - 不恢复客户路由，不改法律任务，不加fallback/答案修补/效用准入/最好库回滚。
 - 正式TEST不调优；全部不利结果和成本保留；不得把prepare、source编译或schema通过当效益。
 - 5个既有untracked报告目录属于用户，不删不合并。

@@ -24,23 +24,23 @@ from legal_skill_guard.task import marked_text
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
 from .acquisition import (
-    CONTRAST_TEACHER_NOTE,
-    NOTICE,
     AcquisitionStudy,
     compact,
     execute_library,
+    source_messages,
 )
 from .audit import original_score
+from .evidence_programs import evidence_proposals
 from .experiment import ROOT, now, points, read, sha
 from .member_contract import (
     EDIT_GUIDANCE,
-    NEW_NOTICE,
-    OLD_NOTICE,
+    MEMBER_NOTICE,
     STORED_GUIDANCE,
     WRITER,
     actor_messages,
     criterion_projection,
     expand_member_contrasts,
+    hypothesis_error_profiles,
     member_contrasts,
     teacher_sources,
 )
@@ -101,6 +101,8 @@ def prepare(config):
     path = Path(config).resolve()
     cfg = read(path)
     assert cfg["method"] == "online_source_member_learning"
+    assert cfg["own_ordinary_retrieval"] is False and cfg["query_free_inspection_skills_allowed"] is True
+    assert cfg["incremental_source_encoding"] == "records"
     assert not path.with_suffix(".frozen.json").exists() and not (ROOT / "runs" / cfg["run_id"]).exists()
     packet, selection = read(ROOT / cfg["input_packet"]), read(ROOT / cfg["source_selection_record"])
     rows, ids = packet["documents"], cfg["training_ids"]
@@ -151,7 +153,9 @@ class MemberLearning(AcquisitionStudy):
     def __init__(self, config):
         super().__init__(config)
         assert self.cfg["method"] == "online_source_member_learning"
-        assert self.cfg["incremental_source_encoding"] == "scored_records"
+        assert self.cfg["incremental_source_encoding"] == "records"
+        assert self.cfg["own_ordinary_retrieval"] is False
+        assert self.cfg["query_free_inspection_skills_allowed"] is True
         assert self.cfg["teacher_evidence_view"] == "contrastive_record_tables"
         assert self.cfg["historical_publications"] == []
         assert [self.cfg["planned_new_native_calls"], self.cfg["planned_new_teacher_calls"]] == [176, 4]
@@ -181,16 +185,27 @@ class MemberLearning(AcquisitionStudy):
 
     def payload(self, row, arm, bank):
         assert arm in ARMS
-        p = super().payload(row, arm, bank)
-        p["messages"] = actor_messages(p["messages"], p["bank"], self.labels, p["actual_factual_trace"])
-        trace = p["actual_factual_trace"]
+        proposals = None
+        if arm == "ordinary":
+            if row["id"] not in self.proposals:
+                self.proposals[row["id"]] = evidence_proposals(self.model, row, self.labels)
+            proposals = self.proposals[row["id"]]
+        actual = bank if arm == "skills" else []
+        messages, schema, trace = source_messages(row, self.labels, self.system, actual,
+            proposals, incremental_encoding="records")
+        messages = actor_messages(messages, actual, self.labels, trace)
         del trace["no_program_code_or_semantic_inspection_delivered"]
         trace.update(no_program_code_delivered=True,
-            learned_criteria_delivered=arm == "skills" and any(criterion_projection(p["bank"], self.labels).values()),
-            access_roles_are_literal_facts_not_semantic_labels=True)
-        p["prompt_tokens"] = self.meter.token_count(messages=p["messages"])
-        assert p["prompt_tokens"] + self.cfg["generation"]["max_tokens"] <= self.cfg["generation"]["context_tokens"]
-        return p
+            learned_criteria_delivered=arm == "skills" and any(criterion_projection(actual, self.labels).values()),
+            access_roles_are_literal_facts_not_semantic_labels=True,
+            ordinary_retriever_used=arm == "ordinary")
+        tokens = self.meter.token_count(messages=messages)
+        assert tokens + self.cfg["generation"]["max_tokens"] <= self.cfg["generation"]["context_tokens"]
+        return {"document_id": row["id"], "arm": arm, "messages": messages, "schema": schema,
+            "prompt_tokens": tokens, "bank": copy.deepcopy(actual), "bank_sha256": csha(actual),
+            "incremental_read_encoding": "records",
+            "fixed_ordinary_model_state": self.manifest["state_sha256"] if arm == "ordinary" else None,
+            "actual_factual_trace": trace}
 
     def select_current_own(self, seen):
         """Latest actual same-parent answer per source, never the best answer."""
@@ -206,12 +221,21 @@ class MemberLearning(AcquisitionStudy):
         body = result["body"]
         del body["all_cumulative_own_successes_failures_retention_included_no_other_arm_answers"]
         body["all_current_parent_own_successes_failures_included_no_other_arm_answers"] = True
+        # These duplicate diagnostics are exactly reconstructible from original
+        # Gold, actual own answers and the complete contrasts/access receipts.
+        # Keep the facts, not several serialized copies of their derived errors.
+        del body["current_parent_acquisition_member_feedback_not_legal_predictions"]
+        del body["current_parent_native_member_feedback"]
+        del body["fixed_ordinary_model_manifest"]
+        assert all(not candidates for source in body["actual_visible_ordinary_candidates_by_source"].values()
+            for candidates in source.values()), "Never teach control visibility as own observations"
         gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
         encoded = teacher_sources(seen, gold)
         body["complete_cumulative_original_TRAIN_sources_and_Gold"] = encoded
         answers = {u["document_id"]: json.loads(u["response"]["content"]) for u in self.own}
         executions = {u["document_id"]: read(u["payload"])["actual_factual_trace"]["actual_source_executions"] for u in self.own}
-        contrasts = member_contrasts(seen, self.labels, gold, answers, self.bank, executions, self.proposals)
+        visible = {int(d): rows for d, rows in body["actual_visible_ordinary_candidates_by_source"].items()}
+        contrasts = member_contrasts(seen, self.labels, gold, answers, self.bank, executions, visible)
         decoded = expand_member_contrasts(contrasts, encoded)
         for h, cases in decoded.items():
             for source, case in zip(seen, cases, strict=True):
@@ -219,7 +243,9 @@ class MemberLearning(AcquisitionStudy):
                 assert case["source_case_id"] == d
                 assert {m["original_span_index"] for m in case["members"]} == set(gold[str(d)][h]["spans"]) | set(answers[d][h]["spans"])
         body["member_contrasts_by_hypothesis"] = contrasts
-        body["serving_notice"] = NOTICE.replace(OLD_NOTICE, NEW_NOTICE)
+        body["hypothesis_error_profiles"] = hypothesis_error_profiles(decoded)
+        body["serving_notice"] = MEMBER_NOTICE
+        body["own_runtime_ordinary_retrieval"] = False
         body["learning_response_window"] = {
             "selection": "Latest actual current-parent own answer per supplied seen source, by chronology not outcome.",
             "supplied_seen_source_ids": [r["id"] for r in seen],
@@ -227,8 +253,9 @@ class MemberLearning(AcquisitionStudy):
             "older_raw_answers_archived_and_previously_taught_not_resupplied_as_current_parent": True}
         body["future_actor_input_contract"] = {
             "unchanged_native_solver_system": self.system, "common_notice_all_arms": body["serving_notice"],
-            "additional_source_read_indices": "Original index/score plus literal_match, explicit_neighbour, possible_list_preamble facts, not evidence labels.",
-            "evidence_selection_criteria": "Only actual published non-null text, under its original hypothesis; all17 hypotheses visible together.",
+            "additional_source_read_indices": "Original indices and literal_match, explicit_neighbour, possible_list_preamble facts. No M2 scores or ordinary candidates in own input.",
+            "evidence_selection_criteria": "Actual published conditional inspection/selection text under its original hypothesis. It may exist without any queries; all17 hypotheses remain visible together.",
+            "own_runtime_ordinary_retrieval": False,
             "unchanged_final_fields": ["choice", "spans", "reason"],
             "full_original_text_any_original_citation_no_host_answer_decision": True}
         result["encoding"] = "source-indexed-original-members-teacher-v2"
@@ -262,7 +289,7 @@ class MemberLearning(AcquisitionStudy):
         self.record(f"learning_inputs/{name}.json", body)
         self.preserve_phase(f"b{self.current_batch}_before_teacher")
         schema = differential_schema(self.labels, self.bank, [r["id"] for r in seen], guidance_schema=EDIT_GUIDANCE)
-        value = self.teacher_call(name, WRITER + CONTRAST_TEACHER_NOTE, body, schema)
+        value = self.teacher_call(name, WRITER, body, schema)
         for p in (self.out / "teacher" / name).glob("*.json"):
             self.bindings[str(p)] = sha(p)
         published = apply_differential_publication(self.bank, value, self.labels,
@@ -274,7 +301,8 @@ class MemberLearning(AcquisitionStudy):
             "delta": value, "publication": published, "capacity": capacity, "statistics": stats,
             "complete_teaching_source_ids": [r["id"] for r in seen],
             "actual_current_parent_own_native_responses": len(self.own),
-            "fixed_ordinary_model_state": self.manifest["state_sha256"],
+            "ordinary_control_model_state": self.manifest["state_sha256"],
+            "own_runtime_ordinary_model_state": None,
             "all_valid_edits_null_criteria_and_NOOP_publish_without_efficacy_admission": True})
         self.bank = published
         self.banks[csha(published)] = copy.deepcopy(published)
@@ -352,11 +380,13 @@ class MemberLearning(AcquisitionStudy):
             summary = {"at": now(), "batch": batch, "source_ids": [r["id"] for r in rows],
                 "before": {a: points([u for u in before if u["condition"] == a]) for a in ARMS},
                 "after": {"skills": points(current_after)}, "retention_all_seen": points(after),
+                "prequential_skill_vs_strong_empty": self.effect([u for u in before if u["condition"] == "strong_empty"], [u for u in before if u["condition"] == "skills"]),
                 "prequential_skill_vs_ordinary": self.effect([u for u in before if u["condition"] == "ordinary"], [u for u in before if u["condition"] == "skills"]),
                 "current_batch_parent_to_published": self.effect([u for u in parent if u["document_id"] in ids], current_after),
                 "all_seen_parent_to_published": self.effect(parent, after),
                 "old_sources_parent_to_published": self.effect(old_parent, [u for u in after if u["document_id"] not in ids]) if old_parent else None,
-                "library_management": stats, "fixed_ordinary_model_state": self.manifest["state_sha256"],
+                "library_management": stats, "ordinary_control_model_state": self.manifest["state_sha256"],
+                "own_runtime_ordinary_model_state": None,
                 "after_is_seen_fit_and_retention_not_new_case_transfer": True}
             self.record(f"b{batch}_all_seen_retention.json", {"at": now(), "units": after,
                 "by_original_batch": {str(b): points([u for u in after if u["document_id"] in {
