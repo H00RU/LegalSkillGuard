@@ -6,8 +6,11 @@ Completed source-program B1--B3 did not establish skill transfer; contextual
 B6/B7 are also negative. Do not read old seen-case after-fit scores as new-case
 skill gains, formal TEST results, or a mature-method victory.
 
-Oct17 10:33 CST: the replacement executable-acquisition implementation is prepared,
-NOT yet launched. Default CLI now points to
+Oct17 10:35:46 CST: the replacement executable-acquisition run is launched as
+detached worker1613760, Run ID
+`legal_contractnli_executable_acquisition_online_20261017_run01`. Its first real
+empty-bank response is saved and wire-audited; no skill gain is claimed yet.
+Default CLI now points to
 `configs/contractnli_executable_acquisition.json`; protocol:
 [32-source cumulative online study](docs/EXECUTABLE_ACQUISITION_PROTOCOL_20261017.md).
 Skills are source-query programs, not final legal advice; the original lawyer

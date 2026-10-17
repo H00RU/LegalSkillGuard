@@ -5,6 +5,25 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+新主链路已于10:35:46真实后台launch：legal_contractnli_executable_acquisition_online_20261017_run01，
+PID1613760；原8B2261314未动，不依赖对话继续。首501/strong_empty真实native已保存，
+3050prompt/2309out、stop/非空thinking/17题原schema/模型/参数/全源/wire独立核验；
+随后ordinary/501正常执行。仍是冷B1，尚无新教师/技能或任何质量提升结论，未评分partial。
+收据monitoring/actual_first_native_and_live_full_phase_identity_no_quality_audit.json。
+62初始源/数据绑定未变，首24逻辑输入另冻结并保全，共86当前先验绑定；后续raw动态
+加入，不能把86冒称整轮终态数量。下一poll同1613760，先完整B1的16真实/24逻辑，
+再审实际M1教师全8源/Gold/own与发布/调用，自动进入B1全seen重答及B2新案。
+不得改正在运行的62源码/配置/新协议，亦不得按零散分数或首批大小重启、选库或补答案。
+
+新源/Git/全部先验输入在launch前保全，1984成员/1982项目文件逐项复验，Git
+1bff76a6e077846b16d845382247e9bebbb7395d；归档
+legal-executable-acquisition-online32-all62-before-launch-20261017.tar.gz，SHA
+d0b9d2e0bf49f3c4c3e760979e8ce33b71374fc4339c0ec3f0fde869974036a0。
+首b1_before phase的全部62＋24也在首native前逐项保全，回执phase_backups/b1_before.json。
+同vdb非异机/丢失权重/auth备份。旧负面8及修改前源码另有完整旧档，未删除或改写。
+本Goal turn为progress（完成因果8审计、根因级主模块/数据流实现、实际新主训练后台
+启动/首真实wire核验），不是仅监控；Goal稳定实质净益/公平强对照/重复/TEST仍未达。
+
 10:33 root实现已落地：新增唯一主模块learning/acquisition.py，复用原native/教师/
 原子CRUD/原源词匹配/邻域/列表引言；CLI默认切新executable_acquisition配置，报告
 显式区分在线首次遇到汇总与固定末库测试。存储schema仅允许source_queries，不允许
