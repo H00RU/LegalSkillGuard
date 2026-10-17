@@ -22,7 +22,8 @@ from legal_skill_guard.data import source_components
 from legal_skill_guard.experiment.storage import RunStore
 from legal_skill_guard.inference.native import WireClient
 from legal_skill_guard.learning.executable_features import (
-    ATTRIBUTES, BUILTINS, FEATURE_PROTOCOL, GUIDANCE_SCHEMA, fit_feature_model, publish,
+    ATTRIBUTES, BUILTINS, FEATURE_PROTOCOL, GUIDANCE_SCHEMA, anchored_probability,
+    fit_feature_model, publish,
 )
 from legal_skill_guard.learning.experiment import Comparison, ROOT, now, read, sha
 from legal_skill_guard.learning.publication import differential_schema
@@ -111,7 +112,8 @@ def prepare(config):
             "actual_public_response": {k: response[k] for k in ("raw_id", "finish_reason", "content")},
             "historical_not_new_code_learner_rollout": True})
         observation_files.append(path)
-    body = {"public_hypotheses": author["labels"], "current_parent_library": [],
+    parent = [] if not cfg.get("parent_publication") else read(ROOT / cfg["parent_publication"])["publication"]
+    body = {"public_hypotheses": author["labels"], "current_parent_library": parent,
         "complete_original_already_seen_TRAIN": [{"source_case_id": d,
             "text": original[d]["text"], "spans": original[d]["spans"],
             "original_annotations": original[d]["annotation_sets"][0]["annotations"]} for d in train],
@@ -121,6 +123,57 @@ def prepare(config):
         "allowed_builtins": list(BUILTINS), "allowed_attributes": sorted(ATTRIBUTES),
         "no_new_case_or_development_outcome_or_private_reasoning_supplied": True,
         "new_learner_has_no_actual_rollouts_yet": True}
+    parent_files = []
+    if parent:
+        parent_result = read(ROOT / cfg["parent_training_result"])
+        model_info = parent_result["model"]
+        assert sha(model_info["path"]) == model_info["sha256"]
+        with Path(model_info["path"]).open("rb") as stream:
+            model = pickle.load(stream)
+        assert model.library == parent and model.feature_protocol == FEATURE_PROTOCOL
+        assert set(model.corpus_.doc_ids) == {str(d) for d in train}
+        assert set(model.actual_held_source_base_probabilities) == {str(d)+"::"+h for d in train for h in author["labels"]}
+        from legal_skill_guard._vendor.scienceclaw_contracts import _Corpus
+        documents = [{"doc_id": str(d), "text": original[d]["text"], "spans": original[d]["spans"]} for d in train]
+        items = [{"doc_id": str(d), "hypothesis_key": h, "n_spans": len(original[d]["spans"])} for d in train for h in author["labels"]]
+        with threadpool_limits(limits=2):
+            actual_scores = model.predict_scores(items, documents)
+        corpus = _Corpus(documents)
+        matrices = {h: model.source_features(corpus, h) for h in author["labels"]}
+        raw_features = np.maximum.reduce(list(matrices.values()))
+        diagnostics = []
+        for d in train:
+            rows = corpus.rows(str(d))
+            nonzero = np.argwhere(raw_features[rows] != 0)
+            entry = {"source_case_id": d, "n_original_spans": len(rows),
+                "lossless_feature_nonzero_triplets": [[int(i), int(j), float(raw_features[rows][i,j])] for i,j in nonzero],
+                "all_omitted_feature_entries_are_exact_zero": True, "hypotheses": {}}
+            for h in author["labels"]:
+                base = np.asarray(model.actual_held_source_base_probabilities[str(d)+"::"+h])
+                scores = anchored_probability(base, matrices[h][rows], model.residual_coefficients[h])
+                index = next(i for i,it in enumerate(items) if it["doc_id"] == str(d) and it["hypothesis_key"] == h)
+                entry["hypotheses"][h] = {"actual_source_held_out_ordinary_scores": base.tolist(),
+                    "anchored_training_diagnostic_candidate_indices": np.flatnonzero(scores > .5).tolist(),
+                    "actual_full_parent_model_candidate_indices": np.flatnonzero(actual_scores[index] > .5).tolist()}
+            diagnostics.append(entry)
+        body.pop("actual_historical_own_public_observations")
+        body.pop("historical_query_libraries_not_seeded_as_current_parent")
+        body.pop("new_learner_has_no_actual_rollouts_yet")
+        body["native_lawyer_rollouts_for_this_code_learner"] = 0
+        body["actual_current_parent_has_CPU_component_observations_only"] = True
+        body["actual_current_parent_auxiliary_diagnostics"] = diagnostics
+        body["actual_feature_columns"] = [{"skill_id": s["id"], "feature_name": name} for s in parent for name in s["guidance"]["feature_names"]]
+        body["actual_current_parent_coefficients_by_hypothesis"] = {h: v.tolist() for h,v in model.residual_coefficients.items()}
+        body["actual_training_feedback_interpretation"] = (
+            "All original18 sources, all17 queries and every source feature/ordinary held-source score are present. "
+            "Feature triplets plus dimensions/default zero are lossless. Apply public skill scopes before the dot product. "
+            "The coefficients were fit using all18 TRAIN: the corrected held-base diagnostics are NOT independently held-out "
+            "predictions of the whole feature learner. Actual full-parent candidate sets are in-sample runtime predictions. "
+            "These are actual CPU evidence-operator outputs, NOT native-lawyer rollouts or group-relative rewards. "
+            "Use both missing and excess original members and preserved successes to revise coherent source computations; "
+            "do not merely reverse a coefficient or add synonyms without checking complete conditions. "
+            "No new16 source, label, result, selected failure subset or private reasoning is supplied.")
+        parent_files = [ROOT/cfg["parent_publication"], ROOT/cfg["parent_training_result"], Path(model_info["path"])]
     body_path = ROOT / cfg["teacher_body"]
     RunStore.immutable_json(body_path, body)
     files = [p for p in (ROOT / "legal_skill_guard").rglob("*.py") if p.is_file()]
@@ -129,13 +182,16 @@ def prepare(config):
               ROOT / cfg["teacher_profile_reference"], ROOT / cfg["inference_profile_reference"],
               ROOT / cfg["inference_environment"], reference / "evidence_models/base_memory_M3.manifest.json"]
     files += observation_files
+    files += parent_files
     files += [reference / f"update_transactions/b{b}.json" for b in (1, 2, 3)]
     RunStore.immutable_json(Path(config).with_suffix(".frozen.json"), {
         "config_sha256": sha(config), "files": {str(p.resolve()): sha(p) for p in files},
         "teacher_only_original18_sources_and_actual_public_observations": True,
         "new16_are_developer_exposed_TRAIN_not_held_out_or_official_TEST": True})
-    print(json.dumps({"prepared": cfg["run_id"], "historical_public_observations": len(observations),
-                      "planned_new_native_teacher_CPU_fits": [0, 1, 2]}), flush=True)
+    print(json.dumps({"prepared": cfg["run_id"], "parent_skills": len(parent),
+                      "historical_public_observations": 0 if parent else len(observations),
+                      "planned_model_factory_calls": 2,
+                      "planned_new_native_teacher_CPU_fits": [0, 1, cfg["planned_new_CPU_fits"]]}), flush=True)
 
 
 class FeatureInduction(Comparison):
@@ -165,19 +221,21 @@ class FeatureInduction(Comparison):
 
     def execute(self):
         self.check()
+        parent = [] if not self.cfg.get("parent_publication") else read(ROOT/self.cfg["parent_publication"])["publication"]
         self.record("declaration.json", {"at": now(), "config": self.cfg,
-            "actual_initial_bank": [], "frozen_bindings": self.bindings.copy(),
+            "actual_initial_bank": parent, "frozen_bindings": self.bindings.copy(),
             "final_lawyer_authority_unchanged_no_direct_evidence_reuse": True})
         author = author_train(self.cfg)
         original = {r["id"]: r for r in author["documents"]}
         labels, train = author["labels"], self.cfg["training_ids"]
-        value = self.teacher_call("empty_parent_code_features", WRITER,
+        name = "current_parent_code_feature_update" if parent else "empty_parent_code_features"
+        value = self.teacher_call(name, WRITER,
             read(ROOT / self.cfg["teacher_body"]),
-            differential_schema(labels, [], train, guidance_schema=GUIDANCE_SCHEMA))
-        bank = publish([], value, labels, train)
+            differential_schema(labels, parent, train, guidance_schema=GUIDANCE_SCHEMA))
+        bank = publish(parent, value, labels, train)
         tokens = self.meter.token_count(text=json.dumps(bank, ensure_ascii=False, separators=(",", ":")))
         assert tokens <= self.cfg["library_token_hard_cap"], "No clipping or substitute library"
-        self.record("publication.json", {"at": now(), "parent": [], "teacher_value": value,
+        self.record("publication.json", {"at": now(), "parent": parent, "teacher_value": value,
             "publication": bank, "bank_sha256": csha(bank), "tokens": tokens,
             "all_structurally_valid_edits_published_no_efficacy_gate": True})
         models, usage = {}, {}
@@ -258,7 +316,7 @@ def main():
     except BaseException as exc:
         failure = {"at": now(), "error": repr(exc), "traceback": traceback.format_exc(),
             "stdout": str(getattr(exc, "stdout", "")), "stderr": str(getattr(exc, "stderr", "")),
-            "actual_native_teacher_completed_factory_calls": [0, len(study.teachers), study.cpu_fits],
+            "actual_native_teacher_attempted_factory_calls": [0, len(study.teachers), study.cpu_fits],
             "failed_factory_internal_fit_count_not_inferred": True,
             "teacher_attempts": study.teacher_attempts, "no_retry_or_feature_or_answer_repair": True}
         study.record("failure.json", failure)

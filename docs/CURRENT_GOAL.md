@@ -17,6 +17,19 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 
 ## 最新恢复快照：2026-10-18，代码归纳完成后的锚定修正
 
+- 锚定固定库CPU检验已完成：`legal_contractnli_anchored_source_features_20261018_run01`，
+  0新native/教师、6普通scorer fits，19.91秒。普通171/32/116/F1=69.7959%，
+  锚定178/49/109/F1=69.2607%，条件源区间跨0。19952零特征位置精确保持，
+  普通分数与保存控制差0；局部性已修，净收益仍未解决，不能据此启动长训练。
+- 下一项不是再换编译器：同一锚定机制下，向教师补交真实当前代码库/系数和完整18
+  训练组件行为，让它做一次实际CRUD更新。仍不传16来源/Gold/成绩，不手改代码规则。
+  已准备`legal_contractnli_executable_feature_feedback_20261018_run01`，尚未launch。
+  teacher prompt934891 chars<1048576，当前父库3、37列、18完整诊断，native-lawyer rollout0。
+  当前诊断有真实源外折普通分数与当前训练系数修正，但非整个归纳算法独立外折预测。
+  老历史30条律师记录不再冒充当前learner轨迹。计划0新native/1教师/2 factory（最多7 base fits）。
+  cfg`configs/contractnli_executable_feature_feedback_20261018.json`及专门protocol为准。
+  最终输出责任仍不改，上条未获同意的证据集合复用未实施，Goal active未完成。
+
 - 03:53:23纯源代码检验已完整结束，worker3154758/preserver3154759均终态。
   不是仍在teacher：实际0native/1teacher/2 CPU fit。教师1394/high67.618秒，
   192776输入/5086输出（其中reasoning2792），无工具/缓存/重试。全3程序/37特征、
