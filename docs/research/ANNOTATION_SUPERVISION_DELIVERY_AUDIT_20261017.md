@@ -190,3 +190,53 @@ schemas和示例技能，并非完整可直接跑的OSWorld复现。可参考的
 条件、区分技能问题与执行问题、跨轨迹检查持续误触发；没有把其额外角色、硬数量
 门槛、重试/熔断或新环境带进来，也未据此声称在法律任务有效。原文件及哈希见
 artifacts/research/experience_faithfulness_20261017/skill_evo4gui_recent_primary_prompts_provenance.json。
+
+## 09:13完整B6消融：坐标身份修正不是充分解法
+
+historical_identity_ablation Run01的B6已完成16新答及16明确历史对照；原作者集合、
+全部实际wire/原源/程序/schema/trace/usage独立复算，684运行绑定不变：
+
+| 表示 | 分类% | 原SPAN F1% | 联合% | NN exact | NM exact |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 同工具空库，历史真实对照 | 83.82 | 63.19 | 44.12 | 31 | 29 |
+| 原完整旧例＋程序，历史真实对照 | 76.47 | 57.14 | 33.82 | 26 | 20 |
+| 可逆字母旧引用＋同完整旧例/程序 | 76.47 | 60.67 | 36.76 | 30 | 20 |
+| 仅同程序原文，无旧例 | 81.62 | 59.31 | 45.59 | 29 | 33 |
+
+四份原本错E[12]的nda-10，在字母引用下仍全错E，当前依据改成19、49、26、3。
+因此把过去整数引用换为字符串可以改变选证，但没有修复这四个错误的成立判断。
+不能把源事实混用简化成只要改索引编码就能解决，也不从一固定种子推断唯一心理因果。
+移除旧例修回其中3份，但相对空库分类6修9伤、真成员3增14丢；联合略高来自NM+4，
+NN却少2，并非完整取证收益。原始逐题和当前原文在该Run monitoring的B6四臂审计及
+B6_typed_identity_not_sufficient_source_fact_and_native_relation_root_audit.json。
+
+具体执行失配仍有：592/nda-1的公共理由是“Express identification not required.”，
+原文为identified OR reasonably known，程序明确要求测试universal alternative，
+结果却给NM而非原Gold C。复制的目的例外、人员子类、独立第三方来源亦有明文被判
+无条款。576/nda-19的Gold只给持续期限28，旧程序要求end-event又有过严内容风险；
+须分开内容边界和执行失败，不能把9个损害都归于同一心理原因。B7仍按既定不同源
+及其实际后一次库自动验证，未读其零散质量，也未另开GPU变体。
+
+## 09:13累计教师回放的可行性修复候选，未调用
+
+以已完整结束的真实主线构造48原案、56own观察（含同案保持的不同真实状态），排除
+空库和当前消融两臂。将完整原文标记改为可逆⟪原SPAN索引|全文⟫，保留所有间隙和
+尾部；Gold及实际公开答案用命名行表，重复的98个字符串只共享定义，不删数据。
+全源字符及原区间、每个原标注和全部实际答案choice/spans/reason/usedIDs、旧工具
+回执及7种实际库状态，均通过另一独立解码器逐值还原。
+
+实际候选含占位system共1012362字符，上限1048576，余36214给最终system/容量字段。
+它尚不是最终teacher wire，也没有提交。公开答案是解析字段，不声称把原生JSON的
+全部空白/转义字节也逐个传给教师；准确原始字符串与SHA另在原工件和候选语义历史
+档案中保留。这种语义表示不保证行为等价或学习有效，但至少不必在当前48案规模上
+仅因重复序列化就把原文回放缩到9案。当前冻结的实际1374输入没有被改写。
+候选及独立审计位于artifacts/research/experience_faithfulness_20261017下的
+unused_full48_source56_actual_observation_semantic_wire_candidate.json及
+full48_source56_semantic_wire_independent_decode_audit.json。
+
+另在B7质量揭晓前以seed2026101708预选32份后续源，排除既有80个来源及完全同文，
+在343个剩余文本组中等概率取样；只用ID/原文本哈希，不读标签/奖励来选择。检查
+当前项目runs目录1763份带原TRAIN ID的实际native元数据并合并先前packet排除集；
+不声称涵盖不可恢复旧历史或模型预训练。32份仅id/text/spans，379334原字符，总
+最长33405、最多189原SPAN；没有按长度/效果筛选。prospective_next32_source_only_no_overlap_cohort.json
+保留固定序列和曝光快照，未启动、未给当前教师，也不是最终论文训练量已敲定。
