@@ -5,6 +5,25 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+最新17:43:13：完整32案固定库保持检查已实际后台launch，worker2249247/
+ticks423671093，入口continue_full32.py（SHA663aece63803b639c5a8ceb07046c209eb3c954512f0364eb47f8c5e019cb5d7）。
+实际配置full32_retention_config.json，SHAc58ec6b301027c6d5476e3008656ae5f83d022fb76849ab27f1697b0b6192b81。
+317冻结全核一致；旧2188895/2208555都已terminal，不热改旧源/重启vLLM。
+实际先回放16继承输入逐字一致已通过、全24剩余源×2先验输入完整冻结且首native前
+phase archive已生成；17:43:29真实0/48、0教师，当前346 skills原生调用在运行。
+不是空“launch承诺”；不要再次prepare/launch，也不要把继承16算新调用。
+
+新run_id=legal_contractnli_discriminative_evidence_full32_retention_20261017_run01。
+只用同一实际bank36d640...，无教师/查询/准则/律师/评分变化，不因8案正向就称
+稳定，继续全32实际核算。全SOURCE＋完整Git（无增量Git前置）以及完整8案所有
+原始/审计/成本＋新317绑定已逐成员验证备份到vdb和独立root文件系统：
+legal-complete-eight-fourarm-and-full32-prelaunch-full-source-and-Git-20261017.tar.gz，
+SHA2e47f06c5c0eee567ec023f1f534c9fc4c34bcee7298378b6424fe0e0d2fb10d，3096项目/
+3098成员，Gitd90372c14a3320b321ec87ef8ca4600604b171f9。不是异地/权重/auth/整机快照。
+receipt: research/discriminative_evidence_skill_20261017/complete8_and_full32_prelaunch_full_source_Git_verified_backup.json。
+这轮为progress：完整新32/1和独立分析结束、正向但集中收益已定位、全48/0真正
+接续后台。Goal active；跨新合同学习/公平成熟方法/独立学习重复/未调优TEST仍未达。
+
 完整run03已17:34:33完成32新native/教师1382，worker2188895与CPU watcher2208555
 均真实terminal/missing；原作者/wire/准则消融独立核算及185行配对分析全部通过。
 8已见TRAIN：skills86.765/77.457/69.853%，ordinary82.353/71.856/59.559，
