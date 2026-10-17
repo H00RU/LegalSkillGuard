@@ -5,6 +5,33 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+13:44记录/分数机制对照已实现并prepare，尚未launch：
+legal_contractnli_read_record_score_mechanism_20261017_run01，65初始冻结绑定。
+固定R1=97a9c5cfd19e5f79887c2229781afe9c260eb502f19b319893bb943a2a49f328，
+全部已完成24源，records/scored_records两臂各24新native，0新教师。已有R1裸索引24
+答与同ABI ordinary24答是历史引用而非新调用/独立重复。R2最新有效库仍保存，未
+评估且未按效果丢弃；固定R1只为与原实际输入严格匹配，不是部署回滚。
+
+生产改动仅source_messages可选增量条目编码与已有held-bank研究类的显式臂/源数：
+同一个additional_source_read_indices字段，整数→index object→index+原M2 score，
+公共system/NOTICE/schema/全文/quote catalogue/原C分数/原P集合不变，query本身不变。
+所有低分位置仍保留，既无p阈值/排序/裁剪，也无宿主答案选择。score取原已算raw
+vector，没新fit/模型/教师/API。5必要检查0.29秒通过，生产Ruff通过。
+
+全24零生成审计完成：原R1裸索引输入、ordinary控制均与历史actual payload逐字
+相同；两新臂只差额外条目分数，schema/system/原事实trace完全相同，P\C集合与
+每一float精确校验。最大prompt+8192=25077<32768，未增加预算。没有部分质量
+评分或新native/teacher资格生成；记录research/read_record_score_mechanism_20261017。
+下一Git/全部65源码与先验输入保全后直接48后台；本阶段仍只是开发机制试验，
+不能代替新案、持续进化、同预算ranked-retrieval/强空库/成熟方法/独立重复/TEST。
+
+修改前terminal40/2及全部source/Git已逐成员保全，2492项目文件/2494成员，Git
+16e63a6718190f192f6fea4929cd8cd4a177a0d0；archive
+legal-grounded-continuation-stopped40-before-read-records-source-change-20261017.tar.gz，
+SHA6f6d36fb0404d782c62067738390972097d055a6a4dfa1f1c027627038fe74c9。
+原96绑定全在该旧源档，旧审计重放用旧source；新编码不得冒充旧源码哈希。原8B
+2261314仍活，所有训练worker已terminal，无热改运行中的实验。Goal仍active未达。
+
 13:38 continuation在13:34:46已安全terminal：40新native/2新教师。完整新8案三臂
 原作者/wire审计全部通过：ordinary82.35/56.14/54.41、R1 skill77.94/54.62/46.32、
 strong_empty79.41/54.15/44.12。相对同工具分类-4.41pp、F1-1.52、联合-8.09，

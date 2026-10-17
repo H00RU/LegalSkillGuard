@@ -171,9 +171,10 @@ def execute_library(row, bank):
     return executions
 
 
-def source_messages(row, labels, system, bank, proposals):
+def source_messages(row, labels, system, bank, proposals, *, incremental_encoding="indices"):
     """Canonical source facts; equivalent read sets have identical actor input."""
     assert set(row) == {"id", "text", "spans"}
+    assert incremental_encoding in ("indices", "records", "scored_records")
     public_schema = output_schema(row, list(labels), [], reporting=False)
     one = public_schema["properties"][next(iter(labels))]
     one["additionalProperties"] = False
@@ -191,12 +192,20 @@ def source_messages(row, labels, system, bank, proposals):
             for event in executions[s["id"]] for role in ("matched", "neighbour", "preamble")
             for i in event[role]}
         reads[h], incremental[h] = sorted(returned), sorted(returned - ordinary)
+        delivered = incremental[h]
+        if incremental_encoding != "indices":
+            delivered = [{"original_span_index": i} for i in incremental[h]]
+            if incremental_encoding == "scored_records":
+                for record in delivered:
+                    # Already computed by the SAME fixed ordinary model. No fit,
+                    # clipping, threshold, reordering or new legal decision.
+                    record["membership_score"] = float(proposals["by_hypothesis"][h]["raw_scores"][record["original_span_index"]])
         for i in sorted(ordinary | returned):
             catalogue[str(i)] = row["text"][slice(*row["spans"][i])]
         hypotheses[h] = {"original_hypothesis": label["hypothesis"],
             "original_public_short_description": label["short_description"],
             "fallible_evidence_candidates": candidates,
-            "additional_source_read_indices": incremental[h]}
+            "additional_source_read_indices": delivered}
     body = {"full_contract_with_original_span_markers": marked_text(row),
         "hypotheses": hypotheses,
         "candidate_original_text": {str(i): catalogue[str(i)] for i in sorted(map(int, catalogue))},
@@ -243,9 +252,20 @@ def prepare_acquisition_inputs(cfg):
     if cfg["method"] == "acquisition_interface":
         publication = ROOT / cfg["fixed_bank_publication"]
         assert sha(publication) == cfg["fixed_bank_publication_sha256"]
-        assert cfg["diagnostic_source_ids"] == cfg["training_ids"][:16]
-        assert cfg["planned_new_native_calls"] == 32 and cfg["planned_new_teacher_calls"] == 0
+        n = len(cfg["diagnostic_source_ids"])
+        assert n in (16, 24) and cfg["diagnostic_source_ids"] == cfg["training_ids"][:n]
+        assert cfg["diagnostic_arms"] in (["ordinary", "skills"], ["records", "scored_records"])
+        assert cfg["planned_new_native_calls"] == 2 * n and cfg["planned_new_teacher_calls"] == 0
         references.append(publication)
+        if cfg.get("mechanism_reference_run"):
+            parent = ROOT / cfg["mechanism_reference_run"]
+            prefix_path = parent / "prefix_repair_all_seen_retention.json"
+            before_path = parent / "b3_before_complete.json"
+            own = read(prefix_path)["new_units"] + [u for u in read(before_path)["units"] if u["condition"] == "skills"]
+            assert [u["document_id"] for u in own] == cfg["diagnostic_source_ids"]
+            assert {u["bank_sha256"] for u in own} == {csha(read(publication)["publication"])}
+            ordinary_path = ROOT / cfg["ordinary_prefix_reference_run"] / "complete32_native_and_original_scores.json"
+            references.extend([prefix_path, before_path, ordinary_path])
     if cfg.get("prefix_feedback_run"):
         parent = ROOT / cfg["prefix_feedback_run"]
         completion, units = read(parent / "completion.json"), read(parent / "complete32_native_and_original_scores.json")["units"]
@@ -302,16 +322,20 @@ class AcquisitionStudy(Comparison):
         return {"master": master, "with_public_scope_map": scoped}
 
     def payload(self, row, arm, bank):
+        assert arm in ("strong_empty", "ordinary", "skills", "records", "scored_records")
+        actual_arm = "skills" if arm in ("records", "scored_records") else arm
         if row["id"] not in self.proposals:
             self.proposals[row["id"]] = evidence_proposals(self.model, row, self.labels)
-        proposals = None if arm == "strong_empty" else self.proposals[row["id"]]
-        actual = bank if arm == "skills" else []
-        messages, schema, trace = source_messages(row, self.labels, self.system, actual, proposals)
+        proposals = None if actual_arm == "strong_empty" else self.proposals[row["id"]]
+        actual = bank if actual_arm == "skills" else []
+        encoding = arm if arm in ("records", "scored_records") else self.cfg.get("incremental_source_encoding", "indices")
+        messages, schema, trace = source_messages(row, self.labels, self.system, actual, proposals,
+            incremental_encoding=encoding)
         tokens = self.meter.token_count(messages=messages)
         assert tokens + self.cfg["generation"]["max_tokens"] <= self.cfg["generation"]["context_tokens"], "No clipping/shorter output/fallback"
         return {"document_id": row["id"], "arm": arm, "messages": messages, "schema": schema,
             "prompt_tokens": tokens, "bank": copy.deepcopy(actual), "bank_sha256": csha(actual),
-            "fixed_ordinary_model_state": None if arm == "strong_empty" else self.manifest["state_sha256"],
+            "fixed_ordinary_model_state": None if actual_arm == "strong_empty" else self.manifest["state_sha256"],
             "actual_factual_trace": trace}
 
     def freeze_phase(self, stage, rows, arms):
@@ -585,8 +609,12 @@ class AcquisitionInterfaceStudy(AcquisitionStudy):
         assert sha(path) == self.cfg["fixed_bank_publication_sha256"]
         self.bank = read(path)["publication"]
         self.banks[csha(self.bank)] = copy.deepcopy(self.bank)
-        assert self.cfg["diagnostic_source_ids"] == [r["id"] for r in self.training[:16]]
-        assert self.cfg["planned_new_native_calls"] == 32
+        self.n_sources = len(self.cfg["diagnostic_source_ids"])
+        self.arms = self.cfg["diagnostic_arms"]
+        assert self.n_sources in (16, 24)
+        assert self.arms in (["ordinary", "skills"], ["records", "scored_records"])
+        assert self.cfg["diagnostic_source_ids"] == [r["id"] for r in self.training[:self.n_sources]]
+        assert self.cfg["planned_new_native_calls"] == 2 * self.n_sources
         assert self.cfg["planned_new_teacher_calls"] == 0
 
     def execute(self):
@@ -595,20 +623,21 @@ class AcquisitionInterfaceStudy(AcquisitionStudy):
         RunStore.immutable_json(self.out / "declaration.json", {"at": now(),
             "run_id": self.run_id, "config": self.cfg, "frozen_bindings": self.bindings,
             "fixed_published_bank_sha256": csha(self.bank),
-            "all16_seen_sources_not_selected_failures_no_online_updates_or_TEST": True})
-        entries = self.freeze_phase("held_K2_interface", self.training[:16], ["ordinary", "skills"])
+            "all_declared_seen_sources_not_selected_failures_no_online_updates_or_TEST": True})
+        entries = self.freeze_phase(self.cfg["diagnostic_stage"], self.training[:self.n_sources], self.arms)
         raw = [self.answer(entry) for entry in entries]
         scored = self.audit_and_grade(raw)
-        RunStore.immutable_json(self.out / "complete32_native_and_original_scores.json", {"units": scored})
-        results = {a: points([u for u in scored if u["condition"] == a]) for a in ("ordinary", "skills")}
-        assert len(self.native) == 32 and not self.teachers and self.teacher_attempts == 0
+        RunStore.immutable_json(self.out / "complete_native_and_original_scores.json", {"units": scored})
+        results = {a: points([u for u in scored if u["condition"] == a]) for a in self.arms}
+        assert len(self.native) == 2 * self.n_sources and not self.teachers and self.teacher_attempts == 0
         complete = {"at": now(), "run_id": self.run_id,
-            "completed_native_calls": 32, "completed_teacher_calls": 0,
+            "completed_native_calls": len(self.native), "completed_teacher_calls": 0,
+            "unique_source_contracts": self.n_sources,
             "fixed_seen_interface_results": results,
             "by_original_training_batch": {str(b): {
                 a: points([u for u in scored if u["condition"] == a and u["document_id"] in {
                     r["id"] for r in self.training[(b - 1) * 8:b * 8]}])
-                for a in ("ordinary", "skills")} for b in (1, 2)},
+                for a in self.arms} for b in range(1, self.n_sources // 8 + 1)},
             "actual_native_usage": {k: sum(r["response"][k] for r in self.native)
                 for k in ("prompt_tokens", "completion_tokens")},
             "fixed_bank_publication": self.cfg["fixed_bank_publication"],

@@ -13,25 +13,26 @@ to improve. All original-author/wire/member comparisons and false-citation
 fragments are preserved. The earlier online trial stopped at88 native/3 teacher
 calls; neither its negative results nor unused K3 are discarded.
 
-Default config is now `configs/contractnli_acquisition_grounded_continuation.json`,
-launched at12:55:27 CST as detached PID1820045, Run ID
-`legal_contractnli_acquisition_grounded_continuation_20261017_run01`.
-Its canonical lawyer input is byte-identical to
-the completed diagnostic for every inherited source. The root change adds exact
-actual-parent citation/omission/relation diagnostics to original TRAIN teacher
-feedback and explains cross-hypothesis query unions; it does not add a judge,
-host answer filter, model or effect gate. Four quick boundary tests pass.
-The actual first teacher used all16 true own answers and the exact audited
-member feedback, publishing13 records/18 queries through7 updates/5 creates.
-Its first new native request is saved and wire-audited; efficacy is still pending.
+The continuation stopped safely at40 native/2 actual teachers after its first
+complete new8-source comparison again harmed all three metrics versus ordinary
+M2 (82.35/56.14/54.41% ordinary,77.94/54.62/46.32% skills). Its second publication
+R2 is preserved but unevaluated, not declared ineffective or selected away.
 
-The explicit continuation inherits16 actual skilled answers and fixed K2,
-then learns from them, re-answers all16 and proceeds through two new8-source
-batches with both strong-empty and same-M2 controls and full24/32 retention.
-Planned NEW costs120 native/3 existing teachers; inherited calls/learning costs
-remain separately disclosed. It is not a cold start, independent learning repeat,
-formal TEST result or mature-method victory. See
-[continuation protocol](docs/CANONICAL_ACQUISITION_CONTINUATION_20261017.md)
+Current default: `configs/contractnli_read_record_score_mechanism.json`, PREPARED
+and NOT YET LAUNCHED. This is a48-native/0-teacher mechanism comparison on ALL24
+completed sources, holding the actual R1 bank fixed. It separates incremental
+index-record formatting from existing fixed-M2 score information. The native
+actor, system/schema, original source, query access sets and ordinary candidates
+stay unchanged; no score cutoff, reranking, extra judge or host answer repair.
+Five fast boundary checks pass. All24 controls/reference inputs are byte-
+identical and capacity-checked with zero qualification generations.
+
+The old24 R1 index-list answers and24 ordinary answers are shared historical
+references, not new calls or independent repeats. R1 is fixed to isolate the
+interface mechanism, not a best-bank deployment rollback. This development
+comparison does not establish unseen transfer, stable evolution, a mature-
+method victory or official TEST success. See
+[mechanism protocol](docs/INCREMENTAL_READ_RECORDS_MECHANISM_20261017.md)
 and the current execution file above.
 
 Historical Oct17 10:35 checkpoint:

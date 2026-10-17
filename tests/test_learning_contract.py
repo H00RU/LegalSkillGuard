@@ -1571,3 +1571,37 @@ def test_native_member_feedback_distinguishes_reading_from_actual_false_citation
     assert neutral["nonGold_final_citations_for_original_NN_only"] == []
     assert neutral["reading_context_itself_is_not_an_error"]
     assert not neutral["original_NM_but_native_chose_relation"]
+
+
+def test_incremental_records_preserve_all_facts_and_only_add_existing_fixed_scores():
+    from legal_skill_guard.learning.acquisition import source_messages
+
+    text = "Header.\nCopies exist.\nReturn items."
+    row = {"id": 1, "text": text, "spans": [[0, 7], [8, 21], [22, len(text)]]}
+    labels = {"h1": {"hypothesis": "h1", "short_description": "h1"}}
+    query = {"all_phrases": ["copies"], "any_phrases": [], "none_phrases": [],
+        "before": 1, "after": 0, "include_list_preamble": False}
+    bank = [{"id": "hidden", "hypothesis_ids": ["h1"], "guidance": {"source_queries": [query]}}]
+    proposals = {"by_hypothesis": {"h1": {
+        "candidates": [{"original_span_index": 2, "membership_score": .9}],
+        "raw_scores": [.00001, .2, .9]}}}
+    results = {encoding: source_messages(row, labels, "Common.", bank, proposals,
+        incremental_encoding=encoding) for encoding in ("indices", "records", "scored_records")}
+    bodies = {k: json.loads(v[0][1]["content"]) for k, v in results.items()}
+    assert bodies["indices"]["hypotheses"]["h1"]["additional_source_read_indices"] == [0, 1]
+    assert bodies["records"]["hypotheses"]["h1"]["additional_source_read_indices"] == [
+        {"original_span_index": 0}, {"original_span_index": 1}]
+    assert bodies["scored_records"]["hypotheses"]["h1"]["additional_source_read_indices"] == [
+        {"original_span_index": 0, "membership_score": .00001},
+        {"original_span_index": 1, "membership_score": .2}]
+    for k, (messages, schema, trace) in results.items():
+        assert messages[0] == results["indices"][0][0]
+        assert schema == results["indices"][1] and trace == results["indices"][2]
+        bodies[k]["hypotheses"]["h1"].pop("additional_source_read_indices")
+        assert bodies[k] == bodies["indices"]
+        empty = source_messages(row, labels, "Common.", [], proposals, incremental_encoding=k)
+        assert empty == source_messages(row, labels, "Common.", [], proposals)
+    missing = copy.deepcopy(proposals)
+    missing["by_hypothesis"]["h1"].pop("raw_scores")
+    with pytest.raises(KeyError):
+        source_messages(row, labels, "Common.", bank, missing, incremental_encoding="scored_records")
