@@ -1,0 +1,519 @@
+{
+  "at": "2026-10-17T04:58:23.559669+00:00",
+  "run_id": "legal_contractnli_acquisition_grounded_continuation_20261017_run01",
+  "all16_actual_parent_feedback_and_original_sources_Gold_verified_in_prior_wire_audit": true,
+  "request_sha256": "a4eb937a7a87a71712f4777defac502ae5c8f78fd28c261fcb04e210e5abcc9e",
+  "actual_teacher_invocation": {
+    "attempt": 1,
+    "started_at": "2026-10-17T04:55:32.934879+00:00",
+    "finished_at": "2026-10-17T04:57:07.197556+00:00",
+    "elapsed_seconds": 94.263,
+    "returncode": 0,
+    "event_log_sha256": "0ad1f93c0801fa57676fc09eec464926f2f5b39b52271fd247ecb4601272bb0d",
+    "tool_events_detected": false,
+    "budget_reservation": {
+      "sequence": 1378,
+      "new_epoch_sequence": 153,
+      "reserved_at": "2026-10-17T04:55:32.935658+00:00",
+      "model": "gpt-5.6-sol",
+      "purpose": "legal_contractnli_acquisition_grounded_continuation_20261017_run01_update_b2",
+      "request_sha256": "a4eb937a7a87a71712f4777defac502ae5c8f78fd28c261fcb04e210e5abcc9e",
+      "attempt": 1
+    },
+    "usage": {
+      "input_tokens": 133456,
+      "cached_input_tokens": 0,
+      "output_tokens": 6186,
+      "reasoning_output_tokens": 3958
+    },
+    "estimated_credits": null
+  },
+  "parent_bank_sha256": "af2a732008a0e665e7a2f7ee3c787aad2e440d334d16bed7968d4a5c309ed07d",
+  "published_bank_sha256": "97a9c5cfd19e5f79887c2229781afe9c260eb502f19b319893bb943a2a49f328",
+  "actual_CRUD_replayed_exactly": true,
+  "publication_statistics": {
+    "operation_counts": {
+      "CREATE": 5,
+      "UPDATE": 7,
+      "DELETE": 0,
+      "MERGE": 0
+    },
+    "explicit_noop": false,
+    "parent_skill_count": 8,
+    "published_skill_count": 13,
+    "new_ids": [
+      "source-acquisition-copy-v1",
+      "source-acquisition-retention-v1",
+      "source-acquisition-solicitation-v1",
+      "source-acquisition-survival-v1",
+      "source-acquisition-third-party-source-v1"
+    ],
+    "removed_ids": [],
+    "verbatim_retained_ids": [
+      "source-acquisition-sharing-v1"
+    ],
+    "revised_retained_ids": [
+      "source-acquisition-agreement-solicitation-v1",
+      "source-acquisition-compelled-notice-v1",
+      "source-acquisition-core-v1",
+      "source-acquisition-independent-source-v1",
+      "source-acquisition-limited-use-v1",
+      "source-acquisition-return-copy-retention-v1",
+      "source-acquisition-rights-term-v1"
+    ],
+    "serialized_library_tokens": 1570,
+    "guidance_characters": 5964,
+    "not_a_utility_score_or_publication_gate": true
+  },
+  "capacity": {
+    "master": 1570,
+    "with_public_scope_map": 1786
+  },
+  "query_counts_before_after": [
+    17,
+    18
+  ],
+  "all_current_published_programs": [
+    {
+      "id": "source-acquisition-core-v1",
+      "hypothesis_ids": [
+        "nda-2",
+        "nda-1",
+        "nda-3"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "confidential information means",
+              "confidential information shall mean",
+              "information shall include",
+              "confidential or sensitive data includes",
+              "evaluation material means",
+              "proprietary information means",
+              "hereinafter evaluation material",
+              "might include"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 5,
+            "include_list_preamble": true
+          },
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "disclosed orally",
+              "visually orally or in writing",
+              "oral visual written electronic",
+              "verbal electronic or hardcopy",
+              "verbal or visual information",
+              "oral confidential information",
+              "oral or written"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 1,
+            "include_list_preamble": false
+          },
+          {
+            "all_phrases": [
+              "confidential"
+            ],
+            "any_phrases": [
+              "marked",
+              "identified",
+              "labeled",
+              "designated",
+              "presumed"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 1,
+            "include_list_preamble": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-rights-term-v1",
+      "hypothesis_ids": [
+        "nda-15"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "no license",
+              "no rights",
+              "grant any right",
+              "grant of a license",
+              "grants any license",
+              "granting or conferring any rights",
+              "does not convey any right",
+              "grants no rights",
+              "no license under or title",
+              "no license or other right",
+              "remain the property",
+              "property of the disclosing party"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 1,
+            "include_list_preamble": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-return-copy-retention-v1",
+      "hypothesis_ids": [
+        "nda-16"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "return or destroy",
+              "return all",
+              "destroy all",
+              "destruction or erasure",
+              "destroy or erase",
+              "shall be returned",
+              "deliver all copies",
+              "promptly returned"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-independent-source-v1",
+      "hypothesis_ids": [
+        "nda-12"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "independently developed",
+              "independent development",
+              "develop independently",
+              "developed independently",
+              "developing information internally"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 1,
+            "include_list_preamble": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-agreement-solicitation-v1",
+      "hypothesis_ids": [
+        "nda-10"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "existence and terms of this agreement",
+              "contents of this agreement",
+              "existence or contents of this agreement",
+              "fact that discussions",
+              "discussions or negotiations",
+              "negotiations are taking place",
+              "public announcement of or otherwise disclose the existence"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 1,
+            "include_list_preamble": false
+          },
+          {
+            "all_phrases": [
+              "subject matter",
+              "confidential information"
+            ],
+            "any_phrases": [],
+            "none_phrases": [],
+            "before": 0,
+            "after": 0,
+            "include_list_preamble": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-sharing-v1",
+      "hypothesis_ids": [
+        "nda-7",
+        "nda-5"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "representative means",
+              "representatives shall mean",
+              "authorized parties means",
+              "term representatives"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 2,
+            "include_list_preamble": true
+          },
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "may disclose",
+              "only disclose",
+              "except to its employees",
+              "employees representatives or agents",
+              "disclosure to representatives",
+              "disclosed to any employee consultant",
+              "representatives who need to know",
+              "persons employed by"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-compelled-notice-v1",
+      "hypothesis_ids": [
+        "nda-8"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "prompt prior written notice",
+              "prompt written notice",
+              "written notice of such legal requirement",
+              "shall notify",
+              "be notified",
+              "notify promptly",
+              "promptly notify",
+              "immediately notify",
+              "give the discloser as much notice",
+              "provide the other party with prompt notice"
+            ],
+            "none_phrases": [],
+            "before": 4,
+            "after": 2,
+            "include_list_preamble": false
+          },
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "required by law",
+              "legally required",
+              "legally compelled",
+              "subpoena or similar legal process",
+              "subpoena or other legal process",
+              "valid and effective subpoena",
+              "court order law"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 2,
+            "include_list_preamble": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-limited-use-v1",
+      "hypothesis_ids": [
+        "nda-4"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "solely for the purpose",
+              "solely in connection with",
+              "only for the purpose",
+              "used only for",
+              "not use",
+              "not to use",
+              "for no other purpose",
+              "except for the purpose",
+              "exclusively for the permitted purpose",
+              "legitimate business purposes"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 1,
+            "include_list_preamble": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-survival-v1",
+      "hypothesis_ids": [
+        "nda-19"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "shall survive",
+              "survive termination",
+              "shall continue",
+              "continue to be bound",
+              "remain valid and enforceable",
+              "remain in effect indefinitely",
+              "shall not relieve",
+              "no further force or effect except",
+              "binding in perpetuity",
+              "following completion",
+              "obligation of confidentiality",
+              "remain subject to the confidentiality obligations"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-retention-v1",
+      "hypothesis_ids": [
+        "nda-20"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "may retain",
+              "retain one archival copy",
+              "not be required to destroy",
+              "automated processes such as archiving",
+              "retain no copies",
+              "no copy thereof shall be retained",
+              "no copies will be made or retained"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-copy-v1",
+      "hypothesis_ids": [
+        "nda-17"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "not make any copies",
+              "not to copy or record",
+              "no copies will be made",
+              "use disclose or copy",
+              "copies are made",
+              "except as reasonably necessary",
+              "copies reductions to writing"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-third-party-source-v1",
+      "hypothesis_ids": [
+        "nda-13"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "from a third party",
+              "by a third party",
+              "from another source",
+              "source other than",
+              "lawfully disclosed",
+              "lawfully obtained",
+              "subsequently communicated",
+              "later acquired by the receiving party",
+              "receiving information from other parties"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 1,
+            "include_list_preamble": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "source-acquisition-solicitation-v1",
+      "hypothesis_ids": [
+        "nda-18"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "no solicitation or hiring",
+              "solicit for employment",
+              "solicit to employ",
+              "soliciting or hiring",
+              "solicit any employees",
+              "solicit employment",
+              "directly or indirectly solicit"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": false
+          }
+        ]
+      }
+    }
+  ],
+  "some_windows_expanded_not_uniformly_reduced": true,
+  "content_change_not_proof_of_native_gain_or_gold_truth_outside_benchmark": true,
+  "no_cache_tools_retry_admission_or_other_bank_selected": true,
+  "bindings": {
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/teacher/update_b2/wire_request.json": "a10823e12a8b5aacd37fb7bce3c1629a6a00fc5a6c309abf1b9f509bf70b131e",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/teacher/update_b2/response.json": "c470386e4b0d4fecb430f1bbaa303a8db076702054ff722b2a016ee53f24ceef",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/publications/b2.json": "e96f01a1795c982b62a142a15e7cc1d119bd63e5a1e6b8efed3af928097e9624",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/learning_inputs/update_b2.json": "a1d1a6d3d2af1cbefbb77a015fcbcbe9cdb6b44010f121ff3103bbcecabeb43f"
+  }
+}

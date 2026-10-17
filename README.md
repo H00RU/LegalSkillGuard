@@ -14,11 +14,16 @@ fragments are preserved. The earlier online trial stopped at88 native/3 teacher
 calls; neither its negative results nor unused K3 are discarded.
 
 Default config is now `configs/contractnli_acquisition_grounded_continuation.json`,
-prepared and NOT YET launched. Its canonical lawyer input is byte-identical to
+launched at12:55:27 CST as detached PID1820045, Run ID
+`legal_contractnli_acquisition_grounded_continuation_20261017_run01`.
+Its canonical lawyer input is byte-identical to
 the completed diagnostic for every inherited source. The root change adds exact
 actual-parent citation/omission/relation diagnostics to original TRAIN teacher
 feedback and explains cross-hypothesis query unions; it does not add a judge,
 host answer filter, model or effect gate. Four quick boundary tests pass.
+The actual first teacher used all16 true own answers and the exact audited
+member feedback, publishing13 records/18 queries through7 updates/5 creates.
+Its first new native request is saved and wire-audited; efficacy is still pending.
 
 The explicit continuation inherits16 actual skilled answers and fixed K2,
 then learns from them, re-answers all16 and proceeds through two new8-source
