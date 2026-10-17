@@ -5,7 +5,24 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
-10:17新的read_action_final_boundary Run01已于10:12:42后台launch，PID1579256，
+10:24 final_boundary于10:20:29完整8/0结束，1579256退出；全部8新native/原作者
+集合/实际wire干预已独立复算。固定真实S1与读回，去最终inspection后，B6
+89.71/57.61/36.76%，B7 89.71/71.17/54.41%；合计89.71/63.98/45.59%。
+相对原skill80.15/64.26/42.65%，分类14修1伤、联合11修7伤、真成员5增1丢；
+分类存在可复核的最终正文损害，但F1没升、对empty_read联合仍相同，且三项仍低于
+强历史单调用90.44/65.50/52.21%。未解决Goal，不能部署为已经成功的主方法。
+新8实际76820prompt/15521output，原共享S1/教师祖先不是免费或独立重复。
+完整收据complete8_manual_original_sets_same_actions_final_guidance_and_strong_controls_audit.json。
+
+下一根因级替换协议已写于EXECUTABLE_ACQUISITION_PROTOCOL_20261017.md，尚未
+实现/prepare/launch：复用原预选32新源，4批8，空库起步；技能只存可执行源检索
+程序，解释/法律正文不入最终律师输入；同原M2工具固定不重新拟合；每次教师看
+本轮全部累计源/Gold/实际own/当前父程序源查询反馈，避免只回放最近9案。每批
+同案强空库、同M2无技能、执行技能单调用比较，批后全部已见前缀重答以测更新损害。
+预计168新native/4现有教师、176逻辑答含8明确冷别名，不是168独立合同；不是又
+把B1当资格测试，也不提前宣称优于成熟方法。先保全负面8与旧源码/Git，再改主模块。
+
+10:16新的read_action_final_boundary Run01已于10:12:43后台launch，PID1579256，
 实际live、3/8新native、0教师，B6/369/final；原8B2261314未动，822冻结绑定
 原样。首592/576两个真实最终请求独立核验：4个inspection确实为空，ID/scope/
 系统/原17题与schema/原S1行动/真实源回执完全不变，原生stop/非空thinking/usage
