@@ -5,6 +5,25 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+本轮继续同一run03，未重启/热改。已真实产出source-only新旧查询对照：原32源
+Gold604、ordinary覆盖285不变；旧R3的C∪P526，新出版物532，新增6/丢失0。
+这不是native取证收益或硬召回上限，全文仍可读；原report的nonGold访问计数含NM
+无证据标注问题，不能称其全部为语义错误/干扰，后续误引分解只用原Gold-NN。
+实际准则scope已在本run质量评分前固定为9原命题，8案共72问题/49Gold成员；
+其余64问题/46Gold成员，分别分析而不按结果挑子组。旧R3漏引最大4命题均在新
+准则scope，不能凭“只更新8条”就认定教师遗漏全部主要错误；仍待本run实答检验。
+
+已实现run-local monitoring/analyse_complete.py（185行，Ruff/AST通过），直接用
+实际wire与原作者TRAIN重数全部32后做逐源、准则scope、原17命题、NN/NM、
+漏证/误引来源、同案修正损害及5000次seed20261017配对source重采样。8已见
+source条件区间仅描述当前bank，不冒充独立学习稳定性/新案/正式TEST/显著胜出。
+未执行partial评分，不新建推理层/测试生成。新无模型CPU watcher已实际后台launch
+2208555/ticks423505534，绑定analysis SHAfa9debca580e76177fac7eb9959a62f6121f02298644519aeb5cf769b9347e72
+与原worker2188895/ticks423426695；等原worker真实terminal且complete32+原作者
+audit齐后才执行。两句柄当前均live，勿编辑其已绑定分析脚本或重复启动。
+17:15:50已12/32、1教师，当前253 strong_empty，未见失败；后续沿同一活句柄。
+Goal仍active，完整收益/全32保持/新合同学习/公平成熟对照/独立重复/TEST均未达。
+
 17:07实际运行游标：run03已17:02:29后台launch，worker2188895/ticks423426695
 仍live；17:02:38--17:04:27教师1382真实成功，108.539秒、275629input/6433out、
 0cache/tools/retry。新旧两次真实teacher user evidence逐字相同，仅writer/schema
