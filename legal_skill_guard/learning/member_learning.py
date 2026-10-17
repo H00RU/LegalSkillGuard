@@ -1,8 +1,8 @@
-"""Fresh, four-batch online grounded-criterion skill learning.
+"""Fresh, four-batch online source-only criterion skill learning.
 
 Reuses the audited native client, acquisition executor and atomic editor. The
-ordinary evidence model is shared with its declared control. Every answer is a
-new native call. No learned query windows, inherited bank, retries or answer repair.
+complete original source is shared with its empty-memory control. Every answer is
+a new native call. No retrieval model, inherited bank, retries or answer repair.
 """
 
 from __future__ import annotations
@@ -12,6 +12,7 @@ import copy
 import fcntl
 import json
 import shutil
+import signal
 import traceback
 import zipfile
 from pathlib import Path
@@ -19,7 +20,8 @@ from pathlib import Path
 import numpy as np
 from jsonschema import ValidationError, validate
 
-from legal_skill_guard.experiment.storage import RunStore
+from legal_skill_guard.experiment.storage import RunStore, safe_component
+from legal_skill_guard.inference.native import WireClient
 from legal_skill_guard.task import marked_text
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
@@ -29,7 +31,6 @@ from .acquisition import (
     source_messages,
 )
 from .audit import original_score
-from .evidence_programs import evidence_proposals
 from .experiment import ROOT, now, points, read, sha
 from .member_contract import (
     EDIT_GUIDANCE,
@@ -52,7 +53,7 @@ from .publication import (
     skill_record_schema,
 )
 
-ARMS = ["strong_empty", "ordinary", "skills"]
+ARMS = ["strong_empty", "skills"]
 ENDPOINTS = ["label_accuracy", "evidence_micro_f1_gold_non_neutral", "joint_exact_accuracy"]
 
 
@@ -100,10 +101,10 @@ def prepare(config):
     """Bind original TRAIN, current code and the live model without generation."""
     path = Path(config).resolve()
     cfg = read(path)
-    assert cfg["method"] == "online_grounded_criterion_learning"
-    assert cfg["own_ordinary_retrieval"] is True
+    assert cfg["method"] == "online_source_criterion_learning"
+    assert cfg["generation"]["disable_thinking"] is True
     assert cfg["criterion_delivery"] == "one_copy_public_hypothesis_records"
-    assert cfg["planned_new_native_calls"] == 176
+    assert cfg["planned_new_native_calls"] == 144
     assert cfg["planned_new_teacher_calls"] == 4
     assert not path.with_suffix(".frozen.json").exists() and not (ROOT / "runs" / cfg["run_id"]).exists()
     packet, selection = read(ROOT / cfg["input_packet"]), read(ROOT / cfg["source_selection_record"])
@@ -124,9 +125,8 @@ def prepare(config):
     RunStore.immutable_json(gold_path, {"original_TRAIN_annotations": gold,
         "lawyer_payloads_never_read_this_store": True, "teacher_only_supplied_seen_prefix": True})
     teacher_sources(rows, gold)  # Exact inverse text/offset checks; no LLM call.
-    manifest = read(ROOT / cfg["ordinary_manifest"])
-    assert sha(manifest["path"]) == manifest["pickle_sha256"]
-    assert not set(ids) & set(manifest["seen_original_source_ids"])
+    assert not any(k in cfg for k in ("ordinary_manifest", "own_ordinary_retrieval", "solver_system_reference"))
+    assert isinstance(cfg["bundled_solver_system"], str) and cfg["bundled_solver_system"].strip()
     environment = read(ROOT / cfg["inference_environment"])
     proc = Path("/proc") / str(environment["pid"])
     assert [s.decode() for s in (proc / "cmdline").read_bytes().split(b"\0") if s] == environment["actual_argv"]
@@ -141,9 +141,9 @@ def prepare(config):
         "current_teacher_reserved_sequence": reserved, "planned_teacher_calls": 4,
         "not_an_effect_result_or_full_model_qualification": True})
     files = [p for p in (ROOT / "legal_skill_guard").rglob("*.py") if p.is_file()]
-    files += [path, gold_path, receipt, ROOT / "pyproject.toml", Path(manifest["path"])]
+    files += [path, gold_path, receipt, ROOT / "pyproject.toml"]
     files += [ROOT / cfg[k] for k in ("input_packet", "source_selection_record", "source_archive",
-        "ordinary_manifest", "inference_environment", "solver_system_reference", "method_protocol")]
+        "inference_environment", "method_protocol")]
     files += [ROOT / p for p in cfg["completed_supporting_evidence"]]
     RunStore.immutable_json(path.with_suffix(".frozen.json"), {
         "config_sha256": sha(path), "files": {str(p.resolve()): sha(p) for p in files}})
@@ -155,16 +155,35 @@ def prepare(config):
 
 class MemberLearning(AcquisitionStudy):
     def __init__(self, config):
-        super().__init__(config)
-        assert self.cfg["method"] == "online_grounded_criterion_learning"
+        # Reuse native/phase-preservation primitives, not the legacy constructor
+        # which loads an ordinary evidence classifier and its proposal cache.
+        self.cfg, self.config_path = read(config), Path(config).resolve()
+        frozen = read(self.config_path.with_suffix(".frozen.json"))
+        assert frozen["config_sha256"] == sha(self.config_path)
+        self.bindings = frozen["files"].copy()
+        self.run_id = safe_component(self.cfg["run_id"])
+        self.out = ROOT / "runs" / self.run_id
+        assert not self.out.exists(), "Never restart or overwrite a Run ID"
+        packet = read(ROOT / self.cfg["input_packet"])
+        self.labels, self.training = packet["public_hypotheses"], packet["documents"]
+        assert [r["id"] for r in self.training] == self.cfg["training_ids"]
+        assert all(set(r) == {"id", "text", "spans"} for r in self.training)
+        self.system = self.cfg["bundled_solver_system"]
+        self.native, self.teachers, self.own, self.first, self.units = [], [], [], [], []
+        self.teacher_attempts, self.current_batch, self.stop = 0, 0, False
+        self.inherited_count = 0
+        self.bank, self.banks = [], {csha([]): []}
+        self.meter, self.summaries = WireClient(self.cfg["generation"]), []
+        for sig in (signal.SIGTERM, signal.SIGINT):
+            signal.signal(sig, lambda *_: setattr(self, "stop", True))
+        assert self.cfg["method"] == "online_source_criterion_learning"
         assert self.cfg["criterion_delivery"] == "one_copy_public_hypothesis_records"
-        assert self.cfg["own_ordinary_retrieval"] is True
-        assert self.cfg["teacher_evidence_view"] == "grounded_original_member_tables"
+        assert self.cfg["generation"]["disable_thinking"] is True
+        assert self.cfg["teacher_evidence_view"] == "source_only_original_member_tables"
         assert self.cfg["historical_publications"] == []
-        assert self.cfg["planned_new_native_calls"] == 176
+        assert self.cfg["planned_new_native_calls"] == 144
         assert self.cfg["planned_new_teacher_calls"] == 4
         assert len(self.training) == len(set(self.cfg["training_ids"])) == 32
-        assert not set(self.cfg["training_ids"]) & set(self.manifest["seen_original_source_ids"])
         assert not self.bank and self.inherited_count == 0
         self.own_history = []
 
@@ -192,27 +211,18 @@ class MemberLearning(AcquisitionStudy):
 
     def payload(self, row, arm, bank):
         assert arm in ARMS
-        proposals = None
-        if arm in ("ordinary", "skills"):
-            if row["id"] not in self.proposals:
-                self.proposals[row["id"]] = evidence_proposals(self.model, row, self.labels)
-            proposals = self.proposals[row["id"]]
         actual = bank if arm == "skills" else []
         messages, schema, trace = source_messages(row, self.labels, self.system, [],
-            proposals, incremental_encoding="records")
+            None, incremental_encoding="records")
         messages = actor_messages(messages, actual, self.labels)
-        del trace["no_program_code_or_semantic_inspection_delivered"]
-        trace.update(no_program_code_delivered=True,
-            learned_criteria_delivered=bool(one_copy_criteria(actual)),
-            no_learned_query_execution_or_incremental_windows=True,
-            ordinary_retriever_used=arm in ("ordinary", "skills"))
+        assert not trace["actual_source_executions"]
         tokens = self.meter.token_count(messages=messages)
         assert tokens + self.cfg["generation"]["max_tokens"] <= self.cfg["generation"]["context_tokens"]
         return {"document_id": row["id"], "arm": arm, "messages": messages, "schema": schema,
             "prompt_tokens": tokens, "bank": copy.deepcopy(actual), "bank_sha256": csha(actual),
             "served_criteria": one_copy_criteria(actual),
-            "fixed_ordinary_model_state": self.manifest["state_sha256"] if arm != "strong_empty" else None,
-            "actual_factual_trace": trace}
+            "full_original_source_only": True,
+            "no_candidate_model_queries_windows_or_host_answer_decision": True}
 
     def select_current_own(self, seen):
         """Latest actual same-parent answer per source, never the best answer."""
@@ -227,20 +237,20 @@ class MemberLearning(AcquisitionStudy):
         gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
         encoded = teacher_sources(seen, gold)
         answers = {u["document_id"]: json.loads(u["response"]["content"]) for u in self.own}
-        visible, observations = {}, []
+        observations = []
         for unit in self.own:
             p = read(unit["payload"])
-            assert p["fixed_ordinary_model_state"] == self.manifest["state_sha256"]
-            assert p["bank"] == self.bank and not p["actual_factual_trace"]["actual_source_executions"]
+            assert p["bank"] == self.bank and p["full_original_source_only"] is True
             actual = json.loads(p["messages"][1]["content"])
-            assert all(not q["additional_source_read_indices"] for q in actual["hypotheses"].values())
+            assert "candidate_original_text" not in actual
+            assert all(set(q) == {"original_hypothesis", "original_public_short_description"}
+                for q in actual["hypotheses"].values())
             assert actual.get("evidence_selection_criteria", []) == one_copy_criteria(self.bank)
-            visible[unit["document_id"]] = {h: actual["hypotheses"][h]["fallible_evidence_candidates"] for h in self.labels}
             observations.append({"document_id": unit["document_id"], "actual_stage": unit["stage"],
                 "actual_bank_sha256": unit["bank_sha256"], "actual_native_raw_id": unit["response"]["raw_id"],
                 "actual_public_answer": keyed(answers[unit["document_id"]]),
                 "actual_input_payload_sha256": sha(unit["payload"]), "actual_native_artifact_sha256": sha(unit["raw_artifact"])})
-        contrasts = member_contrasts(seen, self.labels, gold, answers, visible)
+        contrasts = member_contrasts(seen, self.labels, gold, answers)
         decoded = expand_member_contrasts(contrasts, encoded)
         for h, cases in decoded.items():
             for source, case in zip(seen, cases, strict=True):
@@ -251,14 +261,12 @@ class MemberLearning(AcquisitionStudy):
             "complete_cumulative_original_TRAIN_sources_and_Gold": encoded,
             "current_parent_library": table(self.bank),
             "actual_own_public_observations": table(observations),
-            "actual_visible_ordinary_candidates_by_source": {str(d): {h: table(v) for h, v in rows.items()} for d, rows in visible.items()},
-            "shared_fixed_ordinary_model_state": self.manifest["state_sha256"],
             "cross_source_relation_index": {h: {choice: [r["id"] for r in seen if gold[str(r["id"])][h]["choice"] == choice]
                 for choice in ("Entailment", "Contradiction", "NotMentioned")} for h in self.labels},
             "member_contrasts_by_hypothesis": contrasts,
             "hypothesis_error_profiles": hypothesis_error_profiles(decoded),
             "all_current_parent_own_successes_failures_included_no_other_arm_answers": True,
-            "serving_notice": MEMBER_NOTICE, "own_runtime_ordinary_retrieval": True}
+            "serving_notice": MEMBER_NOTICE, "source_only_actor_without_retrieval": True}
         body["learning_response_window"] = {
             "selection": "Latest actual current-parent own answer per supplied seen source, by chronology not outcome.",
             "supplied_seen_source_ids": [r["id"] for r in seen],
@@ -266,18 +274,17 @@ class MemberLearning(AcquisitionStudy):
             "older_raw_answers_archived_and_previously_taught_not_resupplied_as_current_parent": True}
         body["future_actor_input_contract"] = {
             "unchanged_native_solver_system": self.system, "common_notice_all_arms": body["serving_notice"],
-            "fallible_evidence_candidates": "Exact same fixed ordinaryM2 candidates and membership scores as the ordinary control. Full source remains visible; candidates are not complete or mandatory citations.",
             "evidence_selection_criteria": "Top-level one-copy records with public hypothesis_ids and verbatim criterion. No opaque skill IDs, repeated per-hypothesis prose or queries required. All17 hypotheses remain visible together.",
-            "own_runtime_ordinary_retrieval": True,
+            "full_source_without_candidates_or_membership_scores": True,
             "no_learned_queries_windows_filtering_or_host_citation_union": True,
             "unchanged_final_fields": ["choice", "spans", "reason"],
             "full_original_text_any_original_citation_no_host_answer_decision": True}
-        return {"encoding": "grounded-source-indexed-original-members-teacher-v3", "body": body, "legend": (
+        return {"encoding": "source-only-indexed-original-members-teacher-v3", "body": body, "legend": (
             "Record/keyed tables expand by their ordered columns/keys. Complete original sources "
             "are printed once with original <SPAN i> markers; removing markers reconstructs "
             "every source character and original offset. Member rows zip with member_columns "
             "and resolve text by source_case_id/index there. Every seen source, Gold, current-parent "
-            "answer, citation and actual ordinary candidate remains. cross_source_relation_index indexes only "
+            "answer and citation remains. cross_source_relation_index indexes only "
             "these original TRAIN annotations. Original NM has undefined evidence membership."
         )}
 
@@ -313,8 +320,7 @@ class MemberLearning(AcquisitionStudy):
             "delta": value, "publication": published, "capacity": capacity, "statistics": stats,
             "complete_teaching_source_ids": [r["id"] for r in seen],
             "actual_current_parent_own_native_responses": len(self.own),
-            "ordinary_control_model_state": self.manifest["state_sha256"],
-            "own_runtime_ordinary_model_state": self.manifest["state_sha256"],
+            "source_only_actor_without_retrieval": True,
             "all_valid_edits_and_NOOP_publish_without_efficacy_admission": True})
         self.bank = published
         self.banks[csha(published)] = copy.deepcopy(published)
@@ -386,7 +392,7 @@ class MemberLearning(AcquisitionStudy):
             parent = self.own.copy()
             self.record(f"b{batch}_before_complete.json", {"at": now(), "units": before,
                 "metrics": {a: points([u for u in before if u["condition"] == a]) for a in ARMS},
-                "all24_actual_answers_before_current_batch_teacher_feedback": True})
+                "all16_actual_answers_before_current_batch_teacher_feedback": True})
             stats = self.update(seen)
             entries = self.freeze_phase(f"b{batch}_after_all_seen", seen, ["skills"])
             after = self.audit_and_grade([self.answer(e) for e in entries])
@@ -398,12 +404,10 @@ class MemberLearning(AcquisitionStudy):
                 "before": {a: points([u for u in before if u["condition"] == a]) for a in ARMS},
                 "after": {"skills": points(current_after)}, "retention_all_seen": points(after),
                 "prequential_skill_vs_strong_empty": self.effect([u for u in before if u["condition"] == "strong_empty"], [u for u in before if u["condition"] == "skills"]),
-                "prequential_skill_vs_ordinary": self.effect([u for u in before if u["condition"] == "ordinary"], [u for u in before if u["condition"] == "skills"]),
                 "current_batch_parent_to_published": self.effect([u for u in parent if u["document_id"] in ids], current_after),
                 "all_seen_parent_to_published": self.effect(parent, after),
                 "old_sources_parent_to_published": self.effect(old_parent, [u for u in after if u["document_id"] not in ids]) if old_parent else None,
-                "library_management": stats, "ordinary_control_model_state": self.manifest["state_sha256"],
-                "own_runtime_ordinary_model_state": self.manifest["state_sha256"],
+                "library_management": stats, "source_only_actor_without_retrieval": True,
                 "after_is_seen_fit_and_retention_not_new_case_transfer": True}
             self.record(f"b{batch}_all_seen_retention.json", {"at": now(), "units": after,
                 "by_original_batch": {str(b): points([u for u in after if u["document_id"] in {
@@ -413,7 +417,7 @@ class MemberLearning(AcquisitionStudy):
             self.preserve_phase(f"b{batch}_complete")
             self.progress("batch_complete", finished_batch=batch)
         assert len(self.native) == self.cfg["planned_new_native_calls"]
-        assert len(self.units) == len({u["response"]["raw_id"] for u in self.units}) == 176
+        assert len(self.units) == len({u["response"]["raw_id"] for u in self.units}) == 144
         assert self.inherited_count == 0
         assert len(self.teachers) == 4 and len(self.own_history) == 112
         complete = {"at": now(), "run_id": self.run_id,
@@ -423,10 +427,10 @@ class MemberLearning(AcquisitionStudy):
             "prequential_results": {a: points([u for u in self.first if u["condition"] == a]) for a in ARMS},
             "prequential_skill_vs_controls": {a: self.effect([u for u in self.first if u["condition"] == a], [u for u in self.first if u["condition"] == "skills"]) for a in ARMS if a != "skills"},
             "final_seen_retention": self.summaries[-1]["retention_all_seen"],
-            "final_seen_vs_first_ordinary": self.effect([u for u in self.first if u["condition"] == "ordinary"], after),
+            "final_seen_vs_first_empty": self.effect([u for u in self.first if u["condition"] == "strong_empty"], after),
             "final_library": self.bank, "actual_teacher_invocations": [t["invocation"] for t in self.teachers],
             "actual_native_usage": {k: sum(r["response"][k] for r in self.native) for k in ("prompt_tokens", "completion_tokens")},
-            "ordinary_model_manifest_unchanged": self.manifest,
+            "source_only_actor_without_retrieval": True,
             "new_online_episode_not_mature_baseline_win_independent_repeats_or_official_TEST": True}
         self.check()
         self.record("completion.json", complete)

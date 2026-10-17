@@ -253,45 +253,40 @@ def test_member_guidance_contains_only_complete_inspection_not_query_windows():
         differential_schema(["h1"], [], [1], guidance_schema=EDIT_GUIDANCE))
 
 
-def test_member_own_and_control_share_identical_retrieval_but_not_criteria(monkeypatch):
+def test_member_own_and_control_share_full_source_without_retriever(monkeypatch):
     from types import SimpleNamespace
 
-    from legal_skill_guard.learning import member_learning
+    from legal_skill_guard.learning import acquisition, member_learning
 
     row, labels, _ = fixture()
     source = {k: row[k] for k in ("id", "text", "spans")}
     study = member_learning.MemberLearning.__new__(member_learning.MemberLearning)
     study.labels, study.system = labels, "Original task."
-    study.cfg = {"generation": {"max_tokens": 8192, "context_tokens": 32768},
-                 "own_ordinary_retrieval": True}
-    study.proposals, study.model = {}, object()
-    study.manifest = {"state_sha256": "SHARED_ORDINARY"}
+    study.cfg = {"generation": {"max_tokens": 8192, "context_tokens": 32768}}
     study.meter = SimpleNamespace(token_count=lambda **_: 50)
 
-    calls = []
     def candidates(*args):
-        calls.append(args)
-        return {"by_hypothesis": {h: {"candidates": [
-            {"original_span_index": 0, "membership_score": .9}]} for h in labels}}
-    monkeypatch.setattr(member_learning, "evidence_proposals", candidates)
+        raise AssertionError("Source-only learning must never call a candidate model")
+    monkeypatch.setattr(acquisition, "evidence_proposals", candidates)
     bank = [{"id": "s1", "hypothesis_ids": ["h1"], "guidance": {
         "evidence_criterion": "Inspect actor and exception scope."}}]
     payload = study.payload(source, "skills", bank)
     body = json.loads(payload["messages"][1]["content"])
-    assert payload["fixed_ordinary_model_state"] == "SHARED_ORDINARY" and len(calls) == 1
-    assert all(v["fallible_evidence_candidates"] for v in body["hypotheses"].values())
+    assert payload["full_original_source_only"] and not hasattr(study, "model")
+    assert "fixed_ordinary_model_state" not in payload and "candidate_original_text" not in body
+    assert all(set(v) == {"original_hypothesis", "original_public_short_description"}
+        for v in body["hypotheses"].values())
     assert body["evidence_selection_criteria"] == [{"hypothesis_ids": ["h1"],
         "criterion": bank[0]["guidance"]["evidence_criterion"]}]
     assert all("evidence_selection_criteria" not in h for h in body["hypotheses"].values())
-    ordinary = study.payload(source, "ordinary", bank)
-    baseline = json.loads(ordinary["messages"][1]["content"])
-    assert ordinary["fixed_ordinary_model_state"] == payload["fixed_ordinary_model_state"]
+    empty = study.payload(source, "strong_empty", bank)
+    baseline = json.loads(empty["messages"][1]["content"])
     assert "evidence_selection_criteria" not in baseline
     assert {k: v for k, v in body.items() if k != "evidence_selection_criteria"} == baseline
-    assert ordinary["messages"][0] == payload["messages"][0] and len(calls) == 1
-    empty = study.payload(source, "strong_empty", bank)
-    assert empty["fixed_ordinary_model_state"] is None and len(calls) == 1
-    assert not payload["actual_factual_trace"]["actual_source_executions"]
+    assert empty["messages"][0] == payload["messages"][0]
+    assert empty["schema"] == payload["schema"]
+    with pytest.raises(AssertionError):
+        study.payload(source, "ordinary", bank)
     assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(payload["messages"])
 
 
@@ -324,9 +319,10 @@ def test_member_one_copy_preserves_complete_long_procedure_and_global_budget():
     assert all("evidence_selection_criteria" not in h for h in body["hypotheses"].values())
     assert schema == source_messages(row, labels, "Original task.", [], None)[1]
     empty, _, empty_trace = source_messages(row, labels, "Original task.", [], None)
-    old_body = json.loads(empty[1]["content"])
     rendered = actor_messages(empty, [], labels)
-    assert json.loads(rendered[1]["content"]) == old_body
+    assert json.loads(rendered[1]["content"]) == {
+        k: v for k, v in body.items() if k != "evidence_selection_criteria"}
+    assert "candidate_original_text" not in json.loads(rendered[1]["content"])
     study = MemberLearning.__new__(MemberLearning)
     study.labels, study.cfg = labels, {"library_token_hard_cap": 4096}
     study.meter = SimpleNamespace(token_count=lambda **_: 100)
@@ -338,7 +334,7 @@ def test_member_one_copy_preserves_complete_long_procedure_and_global_budget():
 
 
 
-def test_member_teacher_visibility_comes_from_actual_own_not_control_cache(tmp_path):
+def test_member_teacher_visibility_is_complete_source_actual_own_and_members(tmp_path):
     from types import SimpleNamespace
 
     from legal_skill_guard.learning.member_contract import expand_member_contrasts
@@ -352,21 +348,13 @@ def test_member_teacher_visibility_comes_from_actual_own_not_control_cache(tmp_p
     study.labels, study.system, study.out = labels, "Original task.", tmp_path
     study.meter = SimpleNamespace(token_count=lambda **_: 50)
     study.cfg = {"generation": {"max_tokens": 8192, "context_tokens": 32768},
-                 "own_ordinary_retrieval": True,
-                 "teacher_evidence_view": "grounded_original_member_tables",
+                 "teacher_evidence_view": "source_only_original_member_tables",
                  "library_token_hard_cap": 4096, "historical_publications": [],
                  "grading_only": str(tmp_path / "gold.json")}
-    study.manifest, study.model = {"state_sha256": "SHARED_ORDINARY"}, object()
     study.bank = [{"id": "s1", "hypothesis_ids": ["h1"], "guidance": {
         "evidence_criterion": "Inspect actor and exception scope."}}]
     study.banks = {csha(study.bank): copy.deepcopy(study.bank)}
-    # First serve original candidate0, then change the cache. Teacher must read
-    # the actual saved payload, not the newer cache or another arm's visibility.
-    study.proposals = {1: {"by_hypothesis": {h: {"candidates": [
-        {"original_span_index": 0, "membership_score": .9}]} for h in labels}}}
     payload = study.payload(source, "skills", study.bank)
-    study.proposals[1] = {"by_hypothesis": {h: {"candidates": [
-        {"original_span_index": 2, "membership_score": .99}]} for h in labels}}
     answer = {h: {**g, "reason": "Synthetic source decision."} for h, g in gold.items()}
     answer["h1"]["spans"] = [0]
     own = response(answer)
@@ -379,17 +367,19 @@ def test_member_teacher_visibility_comes_from_actual_own_not_control_cache(tmp_p
         "payload": str(pp), "raw_artifact": str(rp), "response": own}]
     value = study.teacher_body([source])
     body = expand(value["body"])
-    assert all(v == [{"original_span_index": 0, "membership_score": .9}]
-        for v in body["actual_visible_ordinary_candidates_by_source"]["1"].values())
-    assert "fixed_ordinary_model_manifest" not in body
+    assert "actual_visible_ordinary_candidates_by_source" not in body
+    assert "shared_fixed_ordinary_model_state" not in body
+    assert not hasattr(study, "model") and body["source_only_actor_without_retrieval"]
+    assert body["actual_own_public_observations"][0]["actual_public_answer"] == answer
     contrast = expand_member_contrasts(body["member_contrasts_by_hypothesis"],
                                       body["complete_cumulative_original_TRAIN_sources_and_Gold"])
-    assert {m["original_span_index"] for c in contrast["h1"] for m in c["members"] if m["ordinary_candidate"]} == {0}
     assert {m["original_span_index"] for m in contrast["h1"][0]["members"]} == {0, 2}
+    assert all(set(m) == {"original_span_index", "original_member", "actually_cited", "original_text"}
+        for m in contrast["h1"][0]["members"])
     profile = body["hypothesis_error_profiles"]["h1"]
     assert profile["label_correct"] == 1 and profile["true_cited_members"] == 1
-    assert profile["omitted_members"] == profile["unlisted_omitted_members"] == 1
-    assert profile["visible_omitted_members"] == profile["joint_exact"] == 0
+    assert profile["omitted_members"] == profile["omitted_members_with_correct_relation"] == 1
+    assert profile["omitted_members_with_wrong_relation"] == profile["joint_exact"] == 0
 
 
 def test_procedural_delivery_is_real_system_guidance_without_current_gold():

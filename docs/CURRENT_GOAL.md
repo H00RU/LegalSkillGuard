@@ -15,7 +15,32 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 最新恢复快照：2026-10-18 01:00 CST
+## 最新恢复快照：2026-10-18 01:41 CST
+
+- 固定R2的no-thinking对照已于01:17:59完整结束，48新native/0教师，原worker2900999/
+  preserver2901000均终态；不是仍在启动。全48有效，实际终态双盘SHA
+  `5e435b3af73c70f5eab89653a3c2b6602359cc3b042ec218ea360a849ef48d15`。
+- 同16源原文+R2对匹配空库：分类72.7941 vs69.1176、硬F1 61.6197 vs62.4299、
+  联合50.3676 vs45.9559%；TP+8同时FP+25，仍未解决真正的证据净收益。
+  去M2让同R2 F1从50.3067→61.6197，但分类/联合下降，不能片面宣布全指标成功。
+  80真实新/历史答已从原作者TRAIN及实际wire独立重算一致，audit SHA
+  `c330ba7b2bbf7f0ac5184fc5017ededfc2de64850746f74acd0823f275b789ba`。
+  报告`docs/NO_THINK_MEMORY_SOURCE_RESULTS_20261018.md`。
+- 旧job终态后才修改唯一生产主链路，删除M2加载、候选缓存/字段/教师候选诊断，
+  原文+一次准则，不留生产模式开关。保持在线外部技能、冻结8B、同法律任务及原指标，
+  不是恢复客户路由/更换模型。教师同时看到真实漏选和误选，要求可观察源条件动作。
+  当前不是严格TF-GRPO组内探索，不要在论文中冒用其名称；无标签学习有实证，不可
+  据我们的失败宣布教师不能生成技能。参考核对在SCIENCECLAW_TFGRPO_MECHANISM_AUDIT。
+- 新完整run `legal_contractnli_source_criterion_learning_20261018_run01`已prepare，
+  **此快照时尚未launch**。同32 TRAIN/4批8案、144全新native/4教师、空库起步，
+  无R2或旧答继承；`configs/contractnli_source_criterion_learning_20261018.json`。
+  58绑定、teacher ledger1390/1400，预留4次在原额内。78既有检查7.13秒通过，
+  32原文干净接口、空库等价检查0生成，最大prompt8628；no-thinking计数/生成一致。
+  下一步源码/Git双盘保全后实际launch，完整B2–B4观察，不再开零碎探针。
+  `strong_empty`仅是同no-thinking匹配空库键，不冒称最强基线；强thinking同接口
+  对照/等调用review/成熟经验方法/独立重复/官方TEST仍PENDING。Goal active未达成。
+
+## 已归档的01:00状态（不是当前运行状态）
 
 - `legal_contractnli_grounded_criterion_learning_20261017_run01`已于00:43:12.458
   自然失败，**不是仍在训练**。main2769948/preserver2769949/observer2769950均已消失。
