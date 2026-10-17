@@ -15,7 +15,7 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 最新恢复快照：2026-10-18 01:41 CST
+## 最新恢复快照：2026-10-18 01:43 CST
 
 - 固定R2的no-thinking对照已于01:17:59完整结束，48新native/0教师，原worker2900999/
   preserver2901000均终态；不是仍在启动。全48有效，实际终态双盘SHA
@@ -31,12 +31,17 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
   不是恢复客户路由/更换模型。教师同时看到真实漏选和误选，要求可观察源条件动作。
   当前不是严格TF-GRPO组内探索，不要在论文中冒用其名称；无标签学习有实证，不可
   据我们的失败宣布教师不能生成技能。参考核对在SCIENCECLAW_TFGRPO_MECHANISM_AUDIT。
-- 新完整run `legal_contractnli_source_criterion_learning_20261018_run01`已prepare，
-  **此快照时尚未launch**。同32 TRAIN/4批8案、144全新native/4教师、空库起步，
+- 新完整run `legal_contractnli_source_criterion_learning_20261018_run01`已于01:42实际后台launch。
+  同32 TRAIN/4批8案、144全新native/4教师、空库起步，
   无R2或旧答继承；`configs/contractnli_source_criterion_learning_20261018.json`。
   58绑定、teacher ledger1390/1400，预留4次在原额内。78既有检查7.13秒通过，
   32原文干净接口、空库等价检查0生成，最大prompt8628；no-thinking计数/生成一致。
-  下一步源码/Git双盘保全后实际launch，完整B2–B4观察，不再开零碎探针。
+  源码/Git及全部tracked源9972归档成员逐一核验并双盘，SHA
+  `f47abfb746b49938b4858346b3f6c678988407bac2527a8269b5d48e8885f366`。
+  worker2959984/ticks426546946、preserver2959985/ticks426546947、完整边界
+  observer2959986/ticks426546947均实际live，58绑定未改，首源617/空库正在生成，
+  01:42:52为0/144 native、0/4教师，尚无效果结果，不是训练完成。
+  下一步观察实际教师、后续完整B2–B4及新案/旧案，不热改、不再开零碎探针。
   `strong_empty`仅是同no-thinking匹配空库键，不冒称最强基线；强thinking同接口
   对照/等调用review/成熟经验方法/独立重复/官方TEST仍PENDING。Goal active未达成。
 
