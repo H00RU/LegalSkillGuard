@@ -90,3 +90,15 @@ favoured-bank rollback or best-so-far curve is introduced.
 
 The nature-paper evidence checklist is used to distinguish verified observations
 from the pending intervention and to disclose interface/control differences.
+
+## Launcher correction before any diagnostic call
+
+The parent actually completed80/1 at2026-10-17 16:00 CST. Its native completion
+format records `actual_new_native_teacher_calls: [80,1]`, not the separate count
+keys assumed by the first queue. That controller stopped with a preserved
+KeyError before creating a child, config, run directory or any diagnostic call.
+The old queue and observer exited; their immutable launch/failure records stay.
+The direct canonical-key check is corrected, with no legacy alias/fallback.
+The attempted queue is retained as run01,0 native/0 teacher, not an experiment
+result. Actual execution uses a fresh run02 ID. Source rule, all three arms,
+latest R3, new representation,12/0 budget and all scoring rules are unchanged.

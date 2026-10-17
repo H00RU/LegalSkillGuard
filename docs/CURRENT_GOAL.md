@@ -5,6 +5,34 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+16:03当前parent已真实完成80新native/1教师，旧worker1979890及4个旧观察句柄
+均已退出。完整retention/ordinary-gap独立审计均通过。32已见R3为
+82.169/64.427/54.596%，同案ordinary83.088/62.591/54.963；R2
+81.801/63.813/53.309。R3比R2小恢复（20修18伤、联合26修19伤），但比ordinary
+分类-0.919pp、F1+1.836、联合-0.368，条件source CI均跨0，仍无整体胜出。
+真成员328→326、FP96→82，F1恢复主要减少误引，不是已解决完整取证；source
+覆盖526但Gold显式可见遗漏仍大，不能用覆盖代替native改进。
+
+四原组R3/ordinary依次为83.824/68.826/61.029 vs84.559/66.667/61.029；
+84.559/67.143/50.735 vs82.353/63.602/50.735；77.206/54.310/52.206 vs
+82.353/56.140/54.412；83.088/66.403/54.412 vs83.088/63.673/53.676。
+第3组依然负，不是只看第一组。全部均学后保持/拟合，非新迁移或官方TEST。
+
+自动接续queue在16:00:25以KeyError('completed_native_calls')退出，0诊断native/
+0教师、无child/config/run目录；observer于16:00:38确认真实句柄终态并退出。
+实际parent完成schema用actual_new_native_teacher_calls=[80,1]，不是两个单独键；
+根因是新入口没用实际完成对象核对字段，不是模型拒绝、容量或指标问题。保留
+原queue/failure/终态，不把它伪造为完成实验；旧run01是0调用未启动的尝试。
+已在旧句柄全部terminal后直接改用唯一实际字段，未加别名fallback，也没动生产197。
+新执行ID改run02；既定4源/三臂/12次/0教师/R3/解码/原生mask方案均未变。
+
+实际prepare_after_complete_parent已用完整80/1对象和真实teacher/retention/gap报告
+执行，生成run02 config/ref8/frozen224，0生成/教师；run目录未创建。不能再次调用
+会写同名immutable config的prepare；后续显式用已准备config构造研究类执行，取同
+GPU lock。预备成功不是native资格或效果证据。当前仍需保全完整parent32raw和新
+config/源码后直接launch原生12；完整独立auditor脚本未改，新实际watcher须用run02
+句柄/动态config.run_id，不能仍等旧run01。完整Goal active，未达到稳定方法目标。
+
 15:44本turn上一轮判为progress：真实B4新8与教师1380完整证据、R3内容根因审查、
 可逆显式成员执行候选及后台12/0队列均已落实。本轮起始重新确认1979890/
 1991838/2024548/2044885及原8B句柄live，不因观察超时重启。15:43主run

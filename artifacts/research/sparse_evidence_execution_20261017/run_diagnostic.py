@@ -34,12 +34,12 @@ from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 FOLDER = Path(__file__).resolve().parent
 PARENT = ROOT / "runs/legal_contractnli_published_acquisition_continuation_20261017_run01"
 IDS = [501, 164, 421, 132]
-RUN_ID = "legal_contractnli_explicit_member_execution_20261017_run01"
+RUN_ID = "legal_contractnli_explicit_member_execution_20261017_run02"
 
 
 def prepare_after_complete_parent():
     complete = read(PARENT / "completion.json")
-    assert complete["completed_native_calls"] == 80 and complete["completed_teacher_calls"] == 1
+    assert complete["actual_new_native_teacher_calls"] == [80, 1]
     for phase in ("teacher", "retention"):
         report = read(PARENT / f"monitoring/{phase}_complete_original_author_wire_and_teacher_audit.json")
         assert report["all_phase_original_author_and_actual_wires_checked"]
