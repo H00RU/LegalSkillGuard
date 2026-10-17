@@ -29,6 +29,11 @@ needed for pickle decoding remains, but is no longer a new training path.
 The correction is a local adaptation, not an upstream feature, a new validation
 set or evidence that executable skills necessarily improve task metrics.
 
+The public-source `_Corpus.documents` mapping additionally preserves original
+inter-span text/layout for the project's pure executable feature operators.
+These operators and their restricted executor are local work, not copied
+ScienceClaw evolution code or a claim to reproduce its validation-gated method.
+
 Our query-feature extension lives outside this file. We use evidence scores
 with `plm=False` and do not use the author's binary E/C label predictions.
 The external scorer is supervised from original seen TRAIN span membership;

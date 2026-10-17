@@ -173,6 +173,9 @@ class _Corpus:
         self.doc_ids: list[str] = []
         self.offset: dict[str, int] = {}
         self.n_spans: dict[str, int] = {}
+        # Public source inputs only. Executable feature operators need the
+        # original inter-span text/layout, not a lossy join of span strings.
+        self.documents: dict[str, dict] = {}
         texts: list[str] = []
         for d in documents:
             did = str(d["doc_id"])
@@ -180,6 +183,7 @@ class _Corpus:
                 continue
             t = _doc_texts(d)
             self.doc_ids.append(did)
+            self.documents[did] = d
             self.offset[did] = len(texts)
             self.n_spans[did] = len(t)
             texts.extend(t)

@@ -15,7 +15,30 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 最新恢复快照：2026-10-18 03:30 CST
+## 最新恢复快照：2026-10-18 03:50 CST
+
+- 新只读内容归因已完成，0新fit/native/teacher。旧查询库训练18覆盖Gold284/416，
+  新16仅80/287；全query未命中题92/306→190/272。v2相对普通丢48真成员、增13，
+  丢失中40不在任何query特征命中处。训练拟合ordinary99.0291/v299.3969%，
+  不是新案收益。audit SHA`05adb3b02e6fad9f0a3136bcba9ec8f18d364c8f56959065cdb0ddaec15ac92f`。
+- 上条最终证据复用边界仍未获用户同意，**不实施**。它不等于整个Goal必须停止：
+  既定输出责任下仍可研究外部技能内容的表达能力。没有全局blocked条件。
+- 依师兄paper-ideation第3节接缝检查，只检验一个已有短板，不重开选题雷达或包装创新：
+  固定短语+邻居窗口不能一般表达跨句源计算。已新增纯源特征函数API和资源受限CPU
+  执行器，重用同一个ScienceClaw归属scorer及OOF hook。不是新规划/路由/判官或新模型。
+  原n_spans×固定特征列，有限[0,1]，无Gold/ID/文件/网络或直接法律/最终证据输出。
+  源码限定能力并不等同于通用敌对代码安全沙箱；仅既有可信教师可生成。
+- 新有限开发检验已准备、**截至本快照尚未launch**：
+  `legal_contractnli_executable_feature_induction_20261018_run01`，同历史18、原固定已暴露16，
+  空父库1现有教师/2 CPU fit/0新native。原子有效修改全发布，不按效果准入或重选。
+  教师只见完整18+30条真实历史公开观察及旧查询库，不伪称新learner轨迹，不见新16/成绩。
+  实际完整prompt797241 chars<1048576；无截断/思考标记，84冻结绑定核验。
+  82既有与扩展检查7.12秒通过，无全量资格生成。保全后用新worker后台执行。
+  `configs/contractnli_executable_feature_induction_20261018.json`及
+  `docs/EXECUTABLE_SOURCE_FEATURE_INDUCTION_PROTOCOL_20261018.md`是具体声明。
+  此项不是已完成在线学习/端到端律师收益/独立held-out或正式TEST。
+
+## 已归档恢复快照：2026-10-18 03:30 CST
 
 - thinking-transfer已于03:10:11完整生成并统一评分34/0；505技能臂length8192，
   按协议保留全分母并记录failed，无completion。原worker3033735/preserver3033736均已消失，
@@ -52,7 +75,8 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
   不空命中判NM、不后台修答案、不以普通监督收益冒充技能收益。
   这改变此前“最终依据索引全部自由生成”的运行契约，不能默认扩大权限。
   此为该新边界的首次请求，不满足blocked阈值；没有pause或complete请求，Goal仍active。
-  在得到决定前，保全/核验现有状态可以继续，不能据此改正式输出或启动新架构训练。
+  在得到决定前，保全/核验及既定输出边界内的内容修复可以继续；
+  不能据此改正式输出责任或启动证据结果复用架构的训练。
 
 ## 已归档恢复快照：2026-10-18 02:50 CST
 

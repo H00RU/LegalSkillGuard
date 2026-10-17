@@ -673,6 +673,54 @@ def test_external_scoring_includes_original_nm_negatives_and_real_query_columns(
     assert evidence_proposals(None, row, labels) is None
 
 
+def test_pure_executable_features_preserve_source_and_original_fold_contract():
+    import numpy as np
+
+    from legal_skill_guard.learning.executable_features import (
+        execute_source_features, fit_feature_model, validate_library,
+    )
+
+    row, labels, _ = fixture()
+    program = {
+        "id": "source_surface",
+        "hypothesis_ids": ["h1"],
+        "guidance": {
+            "feature_names": ["contains_shall", "terminal_period"],
+            "python_source": "def span_features(text, spans):\n"
+            "    return [[float('shall' in text[a:b].lower()), "
+            "float(text[a:b].strip().endswith('.'))] for a, b in spans]\n",
+        },
+    }
+    validate_library([program], labels)
+    matrix, receipt = execute_source_features(program, row)
+    other, other_receipt = execute_source_features(
+        program, {**row, "annotation_sets": "FORBIDDEN", "id": "NOT_PASSED"})
+    np.testing.assert_array_equal(matrix, other)
+    assert receipt == other_receipt
+    assert matrix.shape == (len(row["spans"]), 2)
+    rows = [{**copy.deepcopy(row), "id": i} for i in range(1, 5)]
+    ordinary = fit_feature_model(rows, labels, [])
+    learned = fit_feature_model(rows, labels, [program])
+    assert learned.n_full_ == ordinary.n_full_
+    assert learned.stage1_design_widths_["h1"] == ordinary.X1_.shape[1] + 2
+    for partition in learned.stage1_oof_source_partitions_:
+        assert not set(partition["training_doc_ids"]) & set(partition["scored_doc_ids"])
+    assert learned.source_execution_receipts
+    assert not learned._source_feature_cache
+
+
+@pytest.mark.parametrize("body", [
+    "import os\ndef span_features(text, spans):\n    return []\n",
+    "def span_features(text, spans):\n    return open('/etc/passwd').read()\n",
+    "def span_features(text, spans):\n    return ().__class__.__base__\n",
+])
+def test_executable_feature_code_rejects_external_capabilities(body):
+    from legal_skill_guard.learning.executable_features import validate_source
+
+    with pytest.raises(ValueError):
+        validate_source(body)
+
+
 @pytest.mark.parametrize("finish", ["length", "stop"])
 def test_invalid_keeps_all_denominators(finish):
     row, labels, gold = fixture()
