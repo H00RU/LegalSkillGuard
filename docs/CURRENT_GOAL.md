@@ -15,7 +15,7 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前阶段：完整旧32终态，准备新32在线学习
+## 当前阶段：完整旧32终态，新32在线学习已后台启动
 
 旧run `legal_contractnli_discriminative_evidence_full32_retention_20261017_run01`
 18:25:37 CST完整完成，原worker2249247和保全worker2265836均已missing终态。
@@ -42,14 +42,24 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 新run **`legal_contractnli_member_learning_online_20261017_run01`**：
 
 - 维护入口`python -m legal_skill_guard.learning.member_learning run configs/contractnli_member_learning_20261017.json`。
-- 实际prepare已完成，57冻结文件，0生成/教师；新run尚未启动，不能重复prepare或宣称训练完成。
+- 实际prepare及launch均已完成，**不得重复执行**。18:35:12 CST后台启动，worker
+  **2326429**、start_ticks **423983002**；恢复时核真实`/proc`句柄，不只看状态文件。
+- 实际launch/progress：`artifacts/research/member_learning_online_20261017/actual_launch.json`、
+  `runs/<新run>/progress.json`；日志research同目录`stdout.log`。已冻结57文件。
+- 18:37:41实际worker live，B1 before已闭合3真实native，0教师；三份wire/schema/原文/
+  参数及57冻结文件核查通过，未打开Gold作部分评分。尚无完整批次成绩，不能凭进度说提升。
 - 新32源固定、空库起步、4批各8案，每批24真实before（空库/普通/技能），之后对全部seen
   8/16/24/32真实after，共176新native/4教师；不继承旧bank、raw或B1 aliases。
 - 教师看所有seen原文/Gold及逐版本最新current-parent own，旧raw归档已教过；不按正确性选。
 - 当前batch before是前向新案使用，after是拟合/保持，单独对同一旧案计算更新损害。
 - 所有有效CRUD/NOOP/null直接发布；没有8案probe的“无准则终止”诊断guard。
-- 协议`docs/MEMBER_LEARNING_ONLINE_PROTOCOL_20261017.md`；生成前须完整源码/Git双盘保全。
+- 协议`docs/MEMBER_LEARNING_ONLINE_PROTOCOL_20261017.md`；生成前已完整源码/Git双盘保全。
 - 实际launch/progress为准，恢复时检查真实PID和ticks；观察超时不等于终止，绝不重复启动。
+
+终态保全也已后台运行：worker **2328367**、start_ticks **423990359**，定义和实际launch
+在新research同目录`terminal_preservation_definition.json`、`terminal_preservation_actual_launch.json`。
+复用旧32已验证的保全程序，仅改3个run路径；成功/失败都等原worker真正终态后复制
+全部闭合结果，实际完成须看`terminal_preservation_completion.json`，不凭计划说已备份。
 
 ## 当前可用方法和已完成证据
 
@@ -82,7 +92,7 @@ Gold仅引2/15，且多数分类收益发生在准则scope外，不称语义隔�
 之前run02实际2native/教师1381因没有真正发布任何准则、消融两臂逐字相同而停止；
 所有失败、出版物及成本保留。不要把它计作成功或抹去费用。
 
-## 下一阶段已准备的材料（还没启动新合同训练）
+## 本次新32在线学习的数据与对照材料
 
 `artifacts/research/discriminative_evidence_new_contracts_20261017/`：
 
@@ -93,8 +103,8 @@ Gold仅引2/15，且多数分类收益发生在准则scope外，不称语义隔�
 - 与44案交叉及内部496对都无原文/分词序列完全相同项；词5gram相似度仅源诊断，
   不是语义等价证明，未据此重选。正式DEV/TEST仍未打开。
 
-此reserve不是新验证集或技能准入集，也不是已完成迁移结果。后续应检验新合同上的
-实际在线学习及独立重复；不能永久停在旧案复测或把当前继承库称为从空库独立训练。
+此reserve不是新验证集或技能准入集，也不是已完成迁移结果。现已接入上述真实空库
+四批学习；当前仍未完成，不把旧继承库或新run的启动称为独立重复成功。
 
 公平监督量控制：`artifacts/research/same_label_ordinary_control_20261017/`。
 仅CPU用原作者44案拟合同架构普通检索器，7.12秒，748原始配对，同超参数/0查询，
@@ -120,6 +130,13 @@ Gold仅引2/15，且多数分类收益发生在准则scope外，不称语义隔�
 - 5个既有untracked报告目录属于用户，不删不合并。
 
 ## 可恢复源码与结果
+
+当前新主链路的完整源码/完整Git（无增量前置）、完整旧32实际结果、57冻结文件：
+`legal-member-online-fresh32-prelaunch-full-source-and-Git-20261017.tar.gz`，3273项目/3275成员，
+Git `449383e06691740d9f70190a8cc88e4b24c807e3`，
+SHA `5cd674ec64467dcfa23babd441608952e9f35771b7866ced0189c126fabc32de`。
+实际receipt：`artifacts/prelaunch_backups/legal_contractnli_member_learning_online_20261017_run01.json`。
+两文件系统逐成员/整包SHA及完整Git bundle核验通过；不含尚未生成的新176答案。
 
 2026-10-17完整源码/完整Git（无增量Git前置）＋完整8案raw＋新317绑定：
 `legal-complete-eight-fourarm-and-full32-prelaunch-full-source-and-Git-20261017.tar.gz`，
