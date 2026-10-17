@@ -202,25 +202,24 @@ def test_executable_query_features_are_source_only_scoped_and_not_answer_rules()
         program_queries([{**skill(), "queries": []}], list(labels))
 
 
-def test_member_guidance_allows_query_free_inspection_but_not_an_empty_action():
+def test_member_guidance_contains_only_complete_inspection_not_query_windows():
     from jsonschema import validate
 
     from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues
     from legal_skill_guard.learning.member_contract import EDIT_GUIDANCE
     from legal_skill_guard.learning.publication import differential_schema
 
-    inspection = {"source_queries": [], "evidence_criterion": "Check the operative exception."}
+    inspection = {"evidence_criterion": "Check the operative exception."}
     validate(inspection, EDIT_GUIDANCE)
-    query = {"all_phrases": ["Recipient"], "any_phrases": [], "none_phrases": [],
-             "before": 0, "after": 0, "include_list_preamble": False}
-    validate({"source_queries": [query], "evidence_criterion": None}, EDIT_GUIDANCE)
     with pytest.raises(ValidationError):
-        validate({"source_queries": [], "evidence_criterion": None}, EDIT_GUIDANCE)
+        validate({"evidence_criterion": None}, EDIT_GUIDANCE)
+    with pytest.raises(ValidationError):
+        validate({**inspection, "source_queries": []}, EDIT_GUIDANCE)
     assert not strict_output_schema_issues(
         differential_schema(["h1"], [], [1], guidance_schema=EDIT_GUIDANCE))
 
 
-def test_member_own_payload_does_not_compute_or_receive_control_retrieval(monkeypatch):
+def test_member_own_and_control_share_identical_retrieval_but_not_criteria(monkeypatch):
     from types import SimpleNamespace
 
     from legal_skill_guard.learning import member_learning
@@ -230,25 +229,35 @@ def test_member_own_payload_does_not_compute_or_receive_control_retrieval(monkey
     study = member_learning.MemberLearning.__new__(member_learning.MemberLearning)
     study.labels, study.system = labels, "Original task."
     study.cfg = {"generation": {"max_tokens": 8192, "context_tokens": 32768},
-                 "incremental_source_encoding": "records", "own_ordinary_retrieval": False}
+                 "own_ordinary_retrieval": True}
     study.proposals, study.model = {}, object()
-    study.manifest = {"state_sha256": "CONTROL_ONLY"}
+    study.manifest = {"state_sha256": "SHARED_ORDINARY"}
     study.meter = SimpleNamespace(token_count=lambda **_: 50)
 
-    def forbidden(*_args, **_kwargs):
-        raise AssertionError("Own input must not run the ordinary control retriever")
-
-    monkeypatch.setattr(member_learning, "evidence_proposals", forbidden)
+    calls = []
+    def candidates(*args):
+        calls.append(args)
+        return {"by_hypothesis": {h: {"candidates": [
+            {"original_span_index": 0, "membership_score": .9}]} for h in labels}}
+    monkeypatch.setattr(member_learning, "evidence_proposals", candidates)
     bank = [{"id": "s1", "hypothesis_ids": ["h1"], "guidance": {
-        "source_queries": [], "evidence_criterion": "Inspect actor and exception scope."}}]
+        "evidence_criterion": "Inspect actor and exception scope."}}]
     payload = study.payload(source, "skills", bank)
     body = json.loads(payload["messages"][1]["content"])
-    assert payload["fixed_ordinary_model_state"] is None and not study.proposals
-    assert all(not v["fallible_evidence_candidates"] for v in body["hypotheses"].values())
+    assert payload["fixed_ordinary_model_state"] == "SHARED_ORDINARY" and len(calls) == 1
+    assert all(v["fallible_evidence_candidates"] for v in body["hypotheses"].values())
     assert body["evidence_selection_criteria"] == [{"hypothesis_ids": ["h1"],
         "criterion": bank[0]["guidance"]["evidence_criterion"]}]
     assert all("evidence_selection_criteria" not in h for h in body["hypotheses"].values())
-    assert "membership_score" not in json.dumps(body)
+    ordinary = study.payload(source, "ordinary", bank)
+    baseline = json.loads(ordinary["messages"][1]["content"])
+    assert ordinary["fixed_ordinary_model_state"] == payload["fixed_ordinary_model_state"]
+    assert "evidence_selection_criteria" not in baseline
+    assert {k: v for k, v in body.items() if k != "evidence_selection_criteria"} == baseline
+    assert ordinary["messages"][0] == payload["messages"][0] and len(calls) == 1
+    empty = study.payload(source, "strong_empty", bank)
+    assert empty["fixed_ordinary_model_state"] is None and len(calls) == 1
+    assert not payload["actual_factual_trace"]["actual_source_executions"]
     assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(payload["messages"])
 
 
@@ -270,10 +279,10 @@ def test_member_one_copy_preserves_complete_long_procedure_and_global_budget():
     row = {k: row[k] for k in ("id", "text", "spans")}
     assert len(criterion) > 1200
     bank = [{"id": "shared-inspection", "hypothesis_ids": list(labels), "guidance": {
-        "source_queries": [], "evidence_criterion": criterion}}]
+        "evidence_criterion": criterion}}]
     validate(bank[0]["guidance"], EDIT_GUIDANCE)
-    canonical, schema, trace = source_messages(row, labels, "Original task.", bank, None)
-    messages = actor_messages(canonical, bank, labels, trace)
+    canonical, schema, _ = source_messages(row, labels, "Original task.", [], None)
+    messages = actor_messages(canonical, bank, labels)
     body = json.loads(messages[1]["content"])
     assert body["evidence_selection_criteria"] == one_copy_criteria(bank)
     assert messages[1]["content"].count(criterion) == 1
@@ -282,7 +291,7 @@ def test_member_one_copy_preserves_complete_long_procedure_and_global_budget():
     assert schema == source_messages(row, labels, "Original task.", [], None)[1]
     empty, _, empty_trace = source_messages(row, labels, "Original task.", [], None)
     old_body = json.loads(empty[1]["content"])
-    rendered = actor_messages(empty, [], labels, empty_trace)
+    rendered = actor_messages(empty, [], labels)
     assert json.loads(rendered[1]["content"]) == old_body
     study = MemberLearning.__new__(MemberLearning)
     study.labels, study.cfg = labels, {"library_token_hard_cap": 4096}
@@ -293,49 +302,6 @@ def test_member_one_copy_preserves_complete_long_procedure_and_global_budget():
         study.capacity(bank)
 
 
-def test_member_cold_reuse_requires_exact_wire_and_never_creates_native_call(tmp_path):
-    from legal_skill_guard.learning.member_learning import MemberLearning
-    from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
-
-    source, target = tmp_path / "old", tmp_path / "new"
-    generation = {"model": "synthetic", "seed": 45, "temperature": .6,
-        "top_p": .95, "top_k": 20, "max_tokens": 8192}
-    schema = {"type": "object", "properties": {"choice": {"const": "NotMentioned"}},
-        "required": ["choice"], "additionalProperties": False}
-    entries, previous = [], []
-    for d in range(8):
-        for arm in ("strong_empty", "ordinary", "skills"):
-            payload = {"messages": [{"role": "user", "content": f"Source {d}"}],
-                "schema": schema, "bank": [], "bank_sha256": csha([])}
-            old_payload, new_payload = source / f"{d}-{arm}.json", target / f"{d}-{arm}.json"
-            raw_path = source / f"{d}-{arm}.native.json"
-            actual = {**response({"choice": "NotMentioned"}), "raw_id": f"synthetic-{d}-{arm}"}
-            RunStore.immutable_json(old_payload, payload)
-            RunStore.immutable_json(new_payload, payload)
-            RunStore.immutable_json(raw_path, {"calls": [{"request": {**generation,
-                "messages": payload["messages"], "response_format": {"type": "json_schema",
-                    "json_schema": {"name": "contractnli_callable_final", "strict": True, "schema": schema}}}}],
-                "transport_error": None, "response": actual})
-            previous.append({"document_id": d, "condition": arm, "native_schema_valid": True,
-                "bank_sha256": csha([]), "raw_artifact": str(raw_path),
-                "payload": str(old_payload), "response": actual})
-            entries.append({"stage": "b1_before", "arm": arm, "document_id": d,
-                "path": str(new_payload)})
-    RunStore.immutable_json(source / "b1_before_complete.json", {"units": previous})
-    study = MemberLearning.__new__(MemberLearning)
-    study.cfg = {"cold_before_reference_run": str(source), "generation": generation}
-    study.current_batch, study.inherited_count = 1, 0
-    study.bank, study.native, study.bindings, study.out = [], [], {}, target
-    inherited = study.inherited_cold_before(entries)
-    assert study.inherited_count == len(inherited) == 24 and study.native == []
-    assert len({u["response"]["raw_id"] for u in inherited}) == 24
-    assert all(u["new_native_call_in_this_run"] is False for u in inherited)
-    changed = target / "different-message.json"
-    RunStore.immutable_json(changed, {**payload, "messages": [{"role": "user", "content": "Different"}]})
-    study.inherited_count = 0
-    with pytest.raises(AssertionError):
-        study.inherited_cold_before([{**entries[0], "path": str(changed)}, *entries[1:]])
-    assert study.native == [] and study.inherited_count == 0
 
 
 def test_member_teacher_visibility_comes_from_actual_own_not_control_cache(tmp_path):
@@ -352,18 +318,21 @@ def test_member_teacher_visibility_comes_from_actual_own_not_control_cache(tmp_p
     study.labels, study.system, study.out = labels, "Original task.", tmp_path
     study.meter = SimpleNamespace(token_count=lambda **_: 50)
     study.cfg = {"generation": {"max_tokens": 8192, "context_tokens": 32768},
-                 "incremental_source_encoding": "records", "own_ordinary_retrieval": False,
-                 "teacher_evidence_view": "contrastive_record_tables",
+                 "own_ordinary_retrieval": True,
+                 "teacher_evidence_view": "grounded_original_member_tables",
                  "library_token_hard_cap": 4096, "historical_publications": [],
                  "grading_only": str(tmp_path / "gold.json")}
-    study.manifest, study.model = {"state_sha256": "CONTROL_ONLY"}, object()
+    study.manifest, study.model = {"state_sha256": "SHARED_ORDINARY"}, object()
     study.bank = [{"id": "s1", "hypothesis_ids": ["h1"], "guidance": {
-        "source_queries": [], "evidence_criterion": "Inspect actor and exception scope."}}]
+        "evidence_criterion": "Inspect actor and exception scope."}}]
     study.banks = {csha(study.bank): copy.deepcopy(study.bank)}
-    # The control cache intentionally claims a candidate the own actor NEVER saw.
+    # First serve original candidate0, then change the cache. Teacher must read
+    # the actual saved payload, not the newer cache or another arm's visibility.
     study.proposals = {1: {"by_hypothesis": {h: {"candidates": [
         {"original_span_index": 0, "membership_score": .9}]} for h in labels}}}
     payload = study.payload(source, "skills", study.bank)
+    study.proposals[1] = {"by_hypothesis": {h: {"candidates": [
+        {"original_span_index": 2, "membership_score": .99}]} for h in labels}}
     answer = {h: {**g, "reason": "Synthetic source decision."} for h, g in gold.items()}
     answer["h1"]["spans"] = [0]
     own = response(answer)
@@ -376,11 +345,12 @@ def test_member_teacher_visibility_comes_from_actual_own_not_control_cache(tmp_p
         "payload": str(pp), "raw_artifact": str(rp), "response": own}]
     value = study.teacher_body([source])
     body = expand(value["body"])
-    assert all(not v for v in body["actual_visible_ordinary_candidates_by_source"]["1"].values())
+    assert all(v == [{"original_span_index": 0, "membership_score": .9}]
+        for v in body["actual_visible_ordinary_candidates_by_source"]["1"].values())
     assert "fixed_ordinary_model_manifest" not in body
     contrast = expand_member_contrasts(body["member_contrasts_by_hypothesis"],
                                       body["complete_cumulative_original_TRAIN_sources_and_Gold"])
-    assert all(not m["ordinary_candidate"] for c in contrast["h1"] for m in c["members"])
+    assert {m["original_span_index"] for c in contrast["h1"] for m in c["members"] if m["ordinary_candidate"]} == {0}
     assert {m["original_span_index"] for m in contrast["h1"][0]["members"]} == {0, 2}
     profile = body["hypothesis_error_profiles"]["h1"]
     assert profile["label_correct"] == 1 and profile["true_cited_members"] == 1

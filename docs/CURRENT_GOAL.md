@@ -15,7 +15,30 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 最新恢复快照：2026-10-17 23:05 CST
+## 最新恢复快照：2026-10-17 23:31 CST
+
+- 固定R3诊断`legal_contractnli_r3_access_channel_diagnosis_20261017_run01`已完整成功，
+  不是主训练完成。worker2725825/preserver2725826均已退出，全部16新回答、0教师。
+  两盘232终态归档成员已核验SHA`aedafeec47ba1b205dbcc3466a11ed09aeecf0646f3f47192e96d3051ca0d3a2`。
+  独立40答原作者/wire审计SHA`bf19f11c8431d4347b598e87595160a660ab53cf105f8a599fb912010f64a48a`。
+  压缩R3为79.4118/35.4651/54.4118%，普通M2+同R3准则79.4118/54.0000/58.8235%。
+  后者仍低于同M2的60.2871%依据F1，且E/C正确45/9→43/7、NM42→58，NN联合26→22。
+  **尚未证明真正的法律正反关系/依据学习收益**。报告`R3_ACCESS_CHANNEL_DIAGNOSIS_RESULTS_20261017.md`。
+- 据实际结果已修改唯一主链路：共享固定普通M2取证底座、进化判断与完整选证准则；
+  删除主技能schema/actor/teacher中的source_queries与额外窗口，删除主run旧冷答复用方法。
+  教师直接从保存的own native输入读取实际候选，而非事后缓存或控制臂可见性。
+  原子增改删合并/NOOP、单次准则交付、完整原文、原SPAN及原评分全部保留；无额外模型/层。
+  现有76链路检查6.98秒通过；32源空库own与普通输入/schema相等，最大普通prompt9947，0生成。
+- 新完整在线run已prepare冻结、**尚未实际launch**：
+  `legal_contractnli_grounded_criterion_learning_20261017_run01`，config
+  `configs/contractnli_grounded_criterion_learning_20261017.json`、60冻结绑定，
+  全176新native/4新教师、空库起步，无继承R3/旧回答。32源4批8案，不冒称独立重复或TEST。
+  教师ledger1388/1400，4调用在原限额内，未重置。保全Git/source后必须实际后台启动、
+  配置终态保全和完整批边界观察。没有证据表明新链路已解决8B执行失败；不能写方法有效。
+  恢复看research `grounded_criterion_learning_20261017/actual_launch.json`和/proc，避免重复launch。
+  **现在所有旧run均终态，新run冻结代码不可再随意修改；原RAM8B不能重启。**
+
+## 已归档的23:05快照（不是当前运行状态）
 
 - `legal_contractnli_member_learning_one_copy_20261017_run03`已于22:40:52.851
   在完整B4 before24答后安全停止，不再运行。真实120新native+24明确继承空库、3教师；
