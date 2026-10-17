@@ -15,7 +15,37 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前阶段：旧72/2已完整安全保全，新主链路65文件已冻结、尚待备份后启动
+## 当前阶段：无M2依赖的完整在线主训练已在19:56后台启动
+
+当前唯一主run：**`legal_contractnli_member_learning_tool_independent_20261017_run02`**。
+实际launch **19:56:14 CST**，worker **2447187**、ticks **424469213**；19:59核真实live，
+首617三臂真实回答均已完成，已进入147。不是旧run复活或prepare状态。
+配置`configs/contractnli_member_learning_tool_independent_20261017.json`，SHA
+`9358427e3c2438a90565444cac31dc20b80a352b1a4c9608b4620f5e56c88348`；frozen65文件，SHA
+`87ef5426807e3b64456594ecb4eb9d415d0fdffbb0365244cabca6852cccf963`。
+**这65绑定已经live，严禁再编辑。** 不再次prepare或launch。
+实际入口保持`python -m legal_skill_guard.learning.member_learning run <上述新config>`。
+新research目录`artifacts/research/member_learning_tool_independent_20261017/`中的
+`actual_launch.json`、`stdout.log`和新run的`progress.json`是恢复入口。
+
+完整32原来源顺序/空库/4批/176新native/4教师，own不计算/接收M2候选或分数；ordinary仅
+是显式控制。所有新教师只拿实际无M2 own反馈，查询可为空、条件检查准则可单独存在；
+没有强制技能数量/增长。主要看B2起同案配对强空库收益与跨版本旧案损害，不只重复B1。
+首次B1 skills与strong_empty是相同空库输入，但真实分开调用，不能把它当学习收益。
+
+终态保全已独立后台启动：**2447188**、ticks **424469214**；定义/actual_launch在新research
+同名`terminal_preservation_definition.json`、`terminal_preservation_actual_launch.json`。
+逐字复用旧已成功watcher代码，仅新配置/身份/底包元数据不同；不做分数准入或模型重启。
+等真正终态后产生`terminal_preservation_completion.json`；目前不称新176结果已完成备份。
+
+19:59新research `actual_first3_wire_and_own_tool_independence_no_effect_grading.json`已独立核
+首3真实raw/精确request/schema/原文、3不同raw IDs；实际own无M2候选/分数，实际空库own/
+strong_empty输入及公开回答相同但不共享raw。65文件仍相等，未对部分B1评分。真实学习收益待。
+
+这轮先核新真实wire的source/Gold隔离/own无M2与native合法性，不提前评分部分B1，不再加
+固定库拔工具/案例演示/位图等旧负实验。首个教师后核实际程序/准则发布、17原命题完整
+反馈与真实交付；B2/B3及同旧案更新效果才决定方法是否有用。主方法未取得稳定净收益前
+不扩张baseline网格，不把启动/75边界例/更多技能当作Goal达成。论文强对照、重复与TEST仍缺。
 
 旧run `legal_contractnli_discriminative_evidence_full32_retention_20261017_run01`
 18:25:37 CST完整完成，原worker2249247和保全worker2265836均已missing终态。
@@ -165,7 +195,7 @@ R2仅UPDATE原nda-7技能，8查询/1准则，master466/scope570/投影152；并
 发出请求不等于已经终态。可能竞态产生的B3在途答案也完整保留，不隐藏。
 这是两批持续M2依据损失后的整轮开发决策，不按R2分数挑库/回滚。原终态保全worker继续。
 
-下一版已在原维护入口完成核心修订、零模型检查和prepare（**尚未launch**）：
+下一版已在原维护入口完成核心修订、零模型检查、prepare与真实launch（当前状态见最上）：
 `configs/contractnli_member_learning_tool_independent_20261017.json`、
 `docs/TOOL_INDEPENDENT_MEMBER_LEARNING_PROTOCOL_20261017.md`。新Run ID
 `legal_contractnli_member_learning_tool_independent_20261017_run02`。
@@ -197,9 +227,10 @@ own输入不计算M2，teacher真实候选取own payload；两张重复派生错
 新research`implemented_source_and_input_contract_check_no_generation.json`核32 source-only空库
 输入、空库skills/strong_empty逐字相等、旧R2只用于8案编译检查未预置新库；最大空库8964
 tokens，query读集合完整/无M2分数。不是未来所有库的容量或效果保证。当前预约仍1384。
-**下一步**：提交当前源/config/frozen/新审计，完整源码+完整Git+65绑定+旧72raw双盘保全，
-生成真实prelaunch receipt；再启动新后台176/4及独立终态保全，记录真实PID/ticks。
-不要再次模型资格测试、不要重启8B、不要误把prepare当已启动或已有效。
+prelaunch已真实完成19:54:46：3598项目/3600成员、完整Git b5789b1无前置，完整65绑定+
+旧72raw/2教师，两盘同SHA `f6ccaff4b29220747ddefd9719506c46c562fe294fe3c9eeaeb3eb7e60aa1a7a`。
+receipt在`artifacts/prelaunch_backups/legal_contractnli_member_learning_tool_independent_20261017_run02.json`。
+随后19:56真实launch及独立终态保全均已完成，身份见最上。不再重复启动或模型资格测试。
 
 ## 旧32完整漏证/损害审计（不是新32成绩）
 
