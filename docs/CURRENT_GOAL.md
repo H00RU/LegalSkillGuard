@@ -15,39 +15,46 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前真正运行的任务
+## 当前阶段：完整旧32终态，准备新32在线学习
 
-- Run ID：`legal_contractnli_discriminative_evidence_full32_retention_20261017_run01`。
-- worker **2249247**，start_ticks **423671093**；恢复时须核 `/proc` 实际句柄与ticks。
-- 配置：`artifacts/research/discriminative_evidence_skill_20261017/full32_retention_config.json`。
-- 入口：同目录 `continue_full32.py`。**prepare和launch均已执行，不要重复。**
-- 启动：2026-10-17 17:43:13 CST；18:10:18快照为31/48新native、0教师，当前364 skills。
-- 实际进度：`runs/<Run ID>/progress.json`；日志：research同目录 `full32_retention.stdout.log`。
-- 317初始冻结绑定及全部48先验输入在首答前保全；不要修改绑定文件。
+旧run `legal_contractnli_discriminative_evidence_full32_retention_20261017_run01`
+18:25:37 CST完整完成，原worker2249247和保全worker2265836均已missing终态。
+规范新调用计数`actual_new_native_teacher_calls:[48,0]`，另继承16个逐字相同实际回答，
+共64不同raw，32原始已学合同配对。全部wire及原作者成员集合独立重数通过，0invalid/length。
+**是固定库已学后保持，不是新案迁移、独立训练或四批学习曲线。**
 
-本任务固定同一实际16记录/8准则bank，不训练教师，不改查询、提示、模型或评分。
-完整8案已完成的16个skills/ordinary回答先逐字核对输入后显式继承；其余全部24案
-各两臂48新调用。最终64个不同真实raw，32份原始合同配对比较。继承16不算新调用。
-**全部是已学后保持，不是新案迁移、独立在线训练或四批学习曲线。**
+| 条件（完整旧32） | 准确率% | 原SPAN Gold-NN F1% | 联合严格正确率% |
+|---|---:|---:|---:|
+| 技能 |85.294|66.734|56.618|
+| 固定普通检索 |82.353|62.359|53.676|
 
-完成记录：`runs/<Run ID>/completion.json`，规范计数键是
-`actual_new_native_teacher_calls: [48, 0]`，不是`completed_native_calls`。
-入口自动核对64实际wire/原作者TRAIN并重数SPAN集合，报告逐组、错误和source区间。
-未完整时不看部分正确率，不重启B1，不按暂跌选择库或补答案。
+净+2.941/+4.375/+2.941pp。分类39修正23损害，联合45修正29损害，真成员58增33失，
+假引用25增39去。逐源F1 22胜4平6负；分类14/10/8、联合15/10/7。分类/联合区间跨0，
+不能宣布稳定。第2原分组分类/联合为负；4组依据差值均正。分组不是学习曲线。
+275漏证中224发生在分类正确时，context-only Gold仅采用13/118，取证尚未解决。
+完整结果与全部变化在`runs/<旧run>/completion.json`，不可删坏结果或按分数选库。
 
-## 终态保全也已后台运行
+终态保全已实际完成18:25:54：research目录
+`full32_terminal_preservation_completion.json`，470项目文件/471成员，全部成员SHA核验，
+两个不同文件系统同SHA`69a9db2ead1a1346029c97172209e88702fe5bc430884c07a529eaa48779d3a3`。
+文件名`<旧run>-actual-terminal-recovery.tar.gz`。原317绑定未在运行/保全中修改。
 
-保全worker **2265836**，start_ticks **423737941**，等待上面的原worker真正退出。
-定义/启动记录位于research同目录：
-`full32_terminal_preservation_definition.json`、`full32_terminal_preservation_actual_launch.json`。
-完成后看 `full32_terminal_preservation_completion.json`，实际成功/失败均原样保留。
-它将冻结源码/输入/全部实际输出逐成员校验并复制不同文件系统，不调用任何模型。
-**主worker终态后，也须等保全结束再改317个绑定文件。**
-观察超时不是进程终止；仍live则检查同一句柄，不因没新输出重复启动。
+新run **`legal_contractnli_member_learning_online_20261017_run01`**：
+
+- 维护入口`python -m legal_skill_guard.learning.member_learning run configs/contractnli_member_learning_20261017.json`。
+- 实际prepare已完成，57冻结文件，0生成/教师；新run尚未启动，不能重复prepare或宣称训练完成。
+- 新32源固定、空库起步、4批各8案，每批24真实before（空库/普通/技能），之后对全部seen
+  8/16/24/32真实after，共176新native/4教师；不继承旧bank、raw或B1 aliases。
+- 教师看所有seen原文/Gold及逐版本最新current-parent own，旧raw归档已教过；不按正确性选。
+- 当前batch before是前向新案使用，after是拟合/保持，单独对同一旧案计算更新损害。
+- 所有有效CRUD/NOOP/null直接发布；没有8案probe的“无准则终止”诊断guard。
+- 协议`docs/MEMBER_LEARNING_ONLINE_PROTOCOL_20261017.md`；生成前须完整源码/Git双盘保全。
+- 实际launch/progress为准，恢复时检查真实PID和ticks；观察超时不等于终止，绝不重复启动。
 
 ## 当前可用方法和已完成证据
 
-方法实现：research目录的 `evidence_contract.py` 与 `run_study.py`。
+新维护实现：`legal_skill_guard/learning/member_contract.py`、`member_learning.py`。
+旧8案/32案历史实现仍在research的`evidence_contract.py`、`run_study.py`，不作新主入口。
 确定性源查询提供位置/访问角色，教师学习可选成员选择准则，冻结8B一次完成17命题的
 原始choice/spans/reason。新编辑显式填准则文本或null；旧未动记录原样，null不交付。
 无额外律师输出层、法律host判断、检索结果强制并入答案或效用准入。
