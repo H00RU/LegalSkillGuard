@@ -2,7 +2,8 @@
 
 Reuses the audited native client, acquisition executor and atomic editor. The
 actor interface is the completed criterion study, not a new answer pipeline.
-Every before/after answer is a new call; no inherited bank, aliases or retries.
+An explicit development configuration may reuse byte-identical cold observations;
+all learned-bank answers are new calls. No inherited bank, retries or answer repair.
 """
 
 from __future__ import annotations
@@ -42,6 +43,7 @@ from .member_contract import (
     expand_member_contrasts,
     hypothesis_error_profiles,
     member_contrasts,
+    one_copy_criteria,
     teacher_sources,
 )
 from .publication import (
@@ -103,6 +105,11 @@ def prepare(config):
     assert cfg["method"] == "online_source_member_learning"
     assert cfg["own_ordinary_retrieval"] is False and cfg["query_free_inspection_skills_allowed"] is True
     assert cfg["incremental_source_encoding"] == "records"
+    assert cfg["criterion_delivery"] == "one_copy_public_hypothesis_records"
+    inherited = cfg["planned_inherited_cold_native_calls"]
+    assert inherited in (0, 24) and cfg["planned_new_native_calls"] == 176 - inherited
+    assert cfg["planned_new_teacher_calls"] == 4
+    assert bool(cfg["cold_before_reference_run"]) == bool(inherited)
     assert not path.with_suffix(".frozen.json").exists() and not (ROOT / "runs" / cfg["run_id"]).exists()
     packet, selection = read(ROOT / cfg["input_packet"]), read(ROOT / cfg["source_selection_record"])
     rows, ids = packet["documents"], cfg["training_ids"]
@@ -143,9 +150,17 @@ def prepare(config):
     files += [ROOT / cfg[k] for k in ("input_packet", "source_selection_record", "source_archive",
         "ordinary_manifest", "inference_environment", "solver_system_reference", "method_protocol")]
     files += [ROOT / p for p in cfg["completed_supporting_evidence"]]
+    if inherited:
+        proof_path = ROOT / cfg["cold_reference_proof_receipt"]
+        proof = read(proof_path)
+        assert proof["config_sha256"] == sha(path) and proof["all24_exact_future_empty_bank_requests_and_schemas_equal"]
+        assert all(sha(p) == h for p, h in proof["renderer_and_reference_bindings"].items())
+        files += [proof_path, *(Path(p) for p in proof["renderer_and_reference_bindings"])]
     RunStore.immutable_json(path.with_suffix(".frozen.json"), {
         "config_sha256": sha(path), "files": {str(p.resolve()): sha(p) for p in files}})
-    print(compact({"prepared": str(path), "source_contracts": 32, "planned_new_native_teacher_calls": [176, 4],
+    print(compact({"prepared": str(path), "source_contracts": 32,
+        "planned_new_native_teacher_calls": [cfg["planned_new_native_calls"], 4],
+        "planned_inherited_exact_cold_native_answers": inherited,
         "frozen_files": len(set(files)), "actual_new_native_teacher_calls": [0, 0]}))
 
 
@@ -154,11 +169,15 @@ class MemberLearning(AcquisitionStudy):
         super().__init__(config)
         assert self.cfg["method"] == "online_source_member_learning"
         assert self.cfg["incremental_source_encoding"] == "records"
+        assert self.cfg["criterion_delivery"] == "one_copy_public_hypothesis_records"
         assert self.cfg["own_ordinary_retrieval"] is False
         assert self.cfg["query_free_inspection_skills_allowed"] is True
         assert self.cfg["teacher_evidence_view"] == "contrastive_record_tables"
         assert self.cfg["historical_publications"] == []
-        assert [self.cfg["planned_new_native_calls"], self.cfg["planned_new_teacher_calls"]] == [176, 4]
+        inherited = self.cfg["planned_inherited_cold_native_calls"]
+        assert inherited in (0, 24) and self.cfg["planned_new_native_calls"] == 176 - inherited
+        assert self.cfg["planned_new_teacher_calls"] == 4
+        assert bool(self.cfg["cold_before_reference_run"]) == bool(inherited)
         assert len(self.training) == len(set(self.cfg["training_ids"])) == 32
         assert not set(self.cfg["training_ids"]) & set(self.manifest["seen_original_source_ids"])
         assert not self.bank and self.inherited_count == 0
@@ -170,6 +189,10 @@ class MemberLearning(AcquisitionStudy):
         self.bindings[str(path)] = sha(path)
         return path
 
+    def progress(self, stage, **extra):
+        super().progress(stage, inherited_cold_native_answers=self.inherited_count,
+            completed_logical_native_answers=len(self.native) + self.inherited_count, **extra)
+
     def capacity(self, bank):
         assert len({s["id"] for s in bank}) == len(bank)
         for s in bank:
@@ -179,7 +202,7 @@ class MemberLearning(AcquisitionStudy):
         capacity = {"master": self.meter.token_count(text=compact(bank)),
             "with_public_scope_map": self.meter.token_count(text=compact({"library": bank, "scope": {
                 h: [s["id"] for s in bank if h in s["hypothesis_ids"]] for h in self.labels}})),
-            "actual_criterion_projection": self.meter.token_count(text=compact(criterion_projection(bank, self.labels)))}
+            "actual_one_copy_criteria": self.meter.token_count(text=compact(one_copy_criteria(bank)))}
         assert max(capacity.values()) <= self.cfg["library_token_hard_cap"], "No pruning, truncation or retry"
         return capacity
 
@@ -254,7 +277,7 @@ class MemberLearning(AcquisitionStudy):
         body["future_actor_input_contract"] = {
             "unchanged_native_solver_system": self.system, "common_notice_all_arms": body["serving_notice"],
             "additional_source_read_indices": "Original indices and literal_match, explicit_neighbour, possible_list_preamble facts. No M2 scores or ordinary candidates in own input.",
-            "evidence_selection_criteria": "Actual published conditional inspection/selection text under its original hypothesis. It may exist without any queries; all17 hypotheses remain visible together.",
+            "evidence_selection_criteria": "Top-level one-copy records with public hypothesis_ids and verbatim criterion. No opaque skill IDs, repeated per-hypothesis prose or queries required. All17 hypotheses remain visible together.",
             "own_runtime_ordinary_retrieval": False,
             "unchanged_final_fields": ["choice", "spans", "reason"],
             "full_original_text_any_original_citation_no_host_answer_decision": True}
@@ -353,23 +376,62 @@ class MemberLearning(AcquisitionStudy):
     def effect(self, before, after):
         return paired_effect(before, after, seed=self.cfg["analysis"]["seed"], replicates=self.cfg["analysis"]["bootstrap_replicates"])
 
+    def inherited_cold_before(self, entries):
+        """Reuse only declared exact empty-input observations, never a selected bank."""
+        assert self.current_batch == 1 and not self.bank and self.inherited_count == 0
+        source = ROOT / self.cfg["cold_before_reference_run"]
+        previous = read(source / "b1_before_complete.json")["units"]
+        lookup = {(u["document_id"], u["condition"]): u for u in previous}
+        assert len(previous) == len(lookup) == len(entries) == 24
+        result = []
+        for e in entries:
+            p = read(e["path"])
+            old = lookup[(e["document_id"], e["arm"])]
+            raw = read(old["raw_artifact"])
+            assert old["native_schema_valid"] and not p["bank"] and old["bank_sha256"] == csha([])
+            assert len(raw["calls"]) == 1 and raw["transport_error"] is None
+            request = raw["calls"][0]["request"]
+            expected = {k: self.cfg["generation"][k]
+                for k in ("model", "seed", "temperature", "top_p", "top_k", "max_tokens")}
+            expected.update(messages=p["messages"], response_format={"type": "json_schema",
+                "json_schema": {"name": "contractnli_callable_final", "strict": True, "schema": p["schema"]}})
+            assert request == expected, "Cold reference must match the whole future native request"
+            assert raw["response"] == old["response"] and old["response"]["finish_reason"] == "stop"
+            validate(json.loads(old["response"]["content"]), p["schema"])
+            u = {"stage": e["stage"], "condition": e["arm"], "document_id": e["document_id"],
+                "raw_artifact": old["raw_artifact"], "payload": e["path"],
+                "response": old["response"], "bank_sha256": csha([]),
+                "native_schema_valid": True, "native_schema_failure": None,
+                "native_content_never_repaired": True, "exact_same_run_cold_alias": False,
+                "inherited_exact_input_reference_run": source.name,
+                "origin_payload": old["payload"], "new_native_call_in_this_run": False}
+            self.record(f"inherited_answers/b1_before/{e['arm']}/{e['document_id']}.json", u)
+            result.append(u)
+        self.inherited_count = len(result)
+        return result
+
     def execute(self):
         self.check()
         self.record("declaration.json", {"at": now(), "config": self.cfg, "frozen_bindings": self.bindings.copy(),
-            "initial_bank": [], "inherited_native_answers": 0, "no_cold_aliases_or_initial_bank_selection": True,
+            "initial_bank": [], "planned_inherited_exact_cold_answers": self.cfg["planned_inherited_cold_native_calls"],
+            "cold_reference_run": self.cfg["cold_before_reference_run"],
+            "no_inherited_bank_or_teacher_edits_or_initial_bank_selection": True,
             "untouched_official_DEV_TEST": True, "not_independent_repetition_of_an_already_completed_learning_run": True})
         for batch in range(1, 5):
             self.current_batch = batch
             rows, seen = self.training[8 * (batch - 1):8 * batch], self.training[:8 * batch]
             entries = self.freeze_phase(f"b{batch}_before", rows, ARMS)
-            before = self.audit_and_grade([self.answer(e) for e in entries])
+            answers = (self.inherited_cold_before(entries)
+                if batch == 1 and self.cfg["planned_inherited_cold_native_calls"] else [self.answer(e) for e in entries])
+            before = self.audit_and_grade(answers)
             self.first.extend(before)
             self.own_history.extend(u for u in before if u["condition"] == "skills")
             self.select_current_own(seen)
             parent = self.own.copy()
             self.record(f"b{batch}_before_complete.json", {"at": now(), "units": before,
                 "metrics": {a: points([u for u in before if u["condition"] == a]) for a in ARMS},
-                "all24_new_answers_before_current_batch_teacher_feedback": True})
+                "all24_actual_answers_before_current_batch_teacher_feedback": True,
+                "inherited_exact_cold_answers": self.inherited_count if batch == 1 else 0})
             stats = self.update(seen)
             entries = self.freeze_phase(f"b{batch}_after_all_seen", seen, ["skills"])
             after = self.audit_and_grade([self.answer(e) for e in entries])
@@ -395,10 +457,14 @@ class MemberLearning(AcquisitionStudy):
             self.summaries.append(summary)
             self.preserve_phase(f"b{batch}_complete")
             self.progress("batch_complete", finished_batch=batch)
-        assert len(self.native) == len(self.units) == len({r["response"]["raw_id"] for r in self.native}) == 176
+        assert len(self.native) == self.cfg["planned_new_native_calls"]
+        assert len(self.units) == len({u["response"]["raw_id"] for u in self.units}) == 176
+        assert self.inherited_count == self.cfg["planned_inherited_cold_native_calls"]
         assert len(self.teachers) == 4 and len(self.own_history) == 112
-        complete = {"at": now(), "run_id": self.run_id, "actual_new_native_teacher_calls": [176, 4],
-            "inherited_or_aliased_answers": 0, "initial_bank_empty": True,
+        complete = {"at": now(), "run_id": self.run_id,
+            "actual_new_native_teacher_calls": [len(self.native), 4],
+            "inherited_exact_cold_native_answers": self.inherited_count,
+            "logical_native_answers": len(self.units), "initial_bank_empty": True,
             "prequential_results": {a: points([u for u in self.first if u["condition"] == a]) for a in ARMS},
             "prequential_skill_vs_controls": {a: self.effect([u for u in self.first if u["condition"] == a], [u for u in self.first if u["condition"] == "skills"]) for a in ARMS if a != "skills"},
             "final_seen_retention": self.summaries[-1]["retention_all_seen"],
@@ -411,7 +477,7 @@ class MemberLearning(AcquisitionStudy):
         self.record("completion.json", complete)
         self.preserve_phase("complete_terminal")
         RunStore.atomic_json(self.out / "progress.json", {"state": "completed", **complete})
-        print(compact({"completed": self.run_id, "actual_new_native_teacher_calls": [176, 4],
+        print(compact({"completed": self.run_id, "actual_new_native_teacher_calls": [len(self.native), 4],
             "prequential_results": complete["prequential_results"], "final_seen_retention": complete["final_seen_retention"]}))
 
 

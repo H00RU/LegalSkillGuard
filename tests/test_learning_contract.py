@@ -245,10 +245,97 @@ def test_member_own_payload_does_not_compute_or_receive_control_retrieval(monkey
     body = json.loads(payload["messages"][1]["content"])
     assert payload["fixed_ordinary_model_state"] is None and not study.proposals
     assert all(not v["fallible_evidence_candidates"] for v in body["hypotheses"].values())
-    assert body["hypotheses"]["h1"]["evidence_selection_criteria"] == [
-        bank[0]["guidance"]["evidence_criterion"]]
+    assert body["evidence_selection_criteria"] == [{"hypothesis_ids": ["h1"],
+        "criterion": bank[0]["guidance"]["evidence_criterion"]}]
+    assert all("evidence_selection_criteria" not in h for h in body["hypotheses"].values())
     assert "membership_score" not in json.dumps(body)
     assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(payload["messages"])
+
+
+def test_member_one_copy_preserves_complete_long_procedure_and_global_budget():
+    from types import SimpleNamespace
+
+    from jsonschema import validate
+
+    from legal_skill_guard.learning.acquisition import source_messages
+    from legal_skill_guard.learning.member_contract import (
+        EDIT_GUIDANCE,
+        actor_messages,
+        one_copy_criteria,
+    )
+    from legal_skill_guard.learning.member_learning import MemberLearning
+
+    row, labels, _ = fixture()
+    criterion = "Inspect the named actor and resolve the stated exception before deciding. " * 20
+    row = {k: row[k] for k in ("id", "text", "spans")}
+    assert len(criterion) > 1200
+    bank = [{"id": "shared-inspection", "hypothesis_ids": list(labels), "guidance": {
+        "source_queries": [], "evidence_criterion": criterion}}]
+    validate(bank[0]["guidance"], EDIT_GUIDANCE)
+    canonical, schema, trace = source_messages(row, labels, "Original task.", bank, None)
+    messages = actor_messages(canonical, bank, labels, trace)
+    body = json.loads(messages[1]["content"])
+    assert body["evidence_selection_criteria"] == one_copy_criteria(bank)
+    assert messages[1]["content"].count(criterion) == 1
+    assert "shared-inspection" not in json.dumps(messages)
+    assert all("evidence_selection_criteria" not in h for h in body["hypotheses"].values())
+    assert schema == source_messages(row, labels, "Original task.", [], None)[1]
+    empty, _, empty_trace = source_messages(row, labels, "Original task.", [], None)
+    old_body = json.loads(empty[1]["content"])
+    rendered = actor_messages(empty, [], labels, empty_trace)
+    assert json.loads(rendered[1]["content"]) == old_body
+    study = MemberLearning.__new__(MemberLearning)
+    study.labels, study.cfg = labels, {"library_token_hard_cap": 4096}
+    study.meter = SimpleNamespace(token_count=lambda **_: 100)
+    assert study.capacity(bank)["actual_one_copy_criteria"] == 100
+    study.meter = SimpleNamespace(token_count=lambda **_: 4097)
+    with pytest.raises(AssertionError, match="No pruning"):
+        study.capacity(bank)
+
+
+def test_member_cold_reuse_requires_exact_wire_and_never_creates_native_call(tmp_path):
+    from legal_skill_guard.learning.member_learning import MemberLearning
+    from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
+
+    source, target = tmp_path / "old", tmp_path / "new"
+    generation = {"model": "synthetic", "seed": 45, "temperature": .6,
+        "top_p": .95, "top_k": 20, "max_tokens": 8192}
+    schema = {"type": "object", "properties": {"choice": {"const": "NotMentioned"}},
+        "required": ["choice"], "additionalProperties": False}
+    entries, previous = [], []
+    for d in range(8):
+        for arm in ("strong_empty", "ordinary", "skills"):
+            payload = {"messages": [{"role": "user", "content": f"Source {d}"}],
+                "schema": schema, "bank": [], "bank_sha256": csha([])}
+            old_payload, new_payload = source / f"{d}-{arm}.json", target / f"{d}-{arm}.json"
+            raw_path = source / f"{d}-{arm}.native.json"
+            actual = {**response({"choice": "NotMentioned"}), "raw_id": f"synthetic-{d}-{arm}"}
+            RunStore.immutable_json(old_payload, payload)
+            RunStore.immutable_json(new_payload, payload)
+            RunStore.immutable_json(raw_path, {"calls": [{"request": {**generation,
+                "messages": payload["messages"], "response_format": {"type": "json_schema",
+                    "json_schema": {"name": "contractnli_callable_final", "strict": True, "schema": schema}}}}],
+                "transport_error": None, "response": actual})
+            previous.append({"document_id": d, "condition": arm, "native_schema_valid": True,
+                "bank_sha256": csha([]), "raw_artifact": str(raw_path),
+                "payload": str(old_payload), "response": actual})
+            entries.append({"stage": "b1_before", "arm": arm, "document_id": d,
+                "path": str(new_payload)})
+    RunStore.immutable_json(source / "b1_before_complete.json", {"units": previous})
+    study = MemberLearning.__new__(MemberLearning)
+    study.cfg = {"cold_before_reference_run": str(source), "generation": generation}
+    study.current_batch, study.inherited_count = 1, 0
+    study.bank, study.native, study.bindings, study.out = [], [], {}, target
+    inherited = study.inherited_cold_before(entries)
+    assert study.inherited_count == len(inherited) == 24 and study.native == []
+    assert len({u["response"]["raw_id"] for u in inherited}) == 24
+    assert all(u["new_native_call_in_this_run"] is False for u in inherited)
+    changed = target / "different-message.json"
+    RunStore.immutable_json(changed, {**payload, "messages": [{"role": "user", "content": "Different"}]})
+    study.inherited_count = 0
+    with pytest.raises(AssertionError):
+        study.inherited_cold_before([{**entries[0], "path": str(changed)}, *entries[1:]])
+    assert study.native == [] and study.inherited_count == 0
 
 
 def test_member_teacher_visibility_comes_from_actual_own_not_control_cache(tmp_path):

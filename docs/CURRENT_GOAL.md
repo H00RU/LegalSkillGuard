@@ -15,15 +15,40 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前阶段：无M2依赖的完整在线主训练已在19:56后台启动
+## 当前阶段：run02已在完整B1后停止；一次交付主链路修订尚未启动
 
-当前唯一主run：**`legal_contractnli_member_learning_tool_independent_20261017_run02`**。
-实际launch **19:56:14 CST**，worker **2447187**、ticks **424469213**；20:12核真实live，
-完成19/176 native、0教师，B1 before在328 ordinary。不是旧run复活或prepare状态。
+**20:35已核实没有主训练live。** 上轮
+`legal_contractnli_member_learning_tool_independent_20261017_run02`
+在19:56:14 CST启动，20:25:23完成B1后安全停止；实际32native/1教师1385、0B2。
+原main2447187、preserver2447188、stop watcher2488070均已missing，8B服务2261314/2261698不变。
+终态双盘保全实际20:25:31完成，210项目/211成员，同SHA
+`c1bf4315c507606b69d4650feb7ecdabf99d8c850f96016bde08e59fa84304bd`。
+整32/原作者/wire/教师完整反馈/旧65绑定在改动前的独立守卫见research同目录
+`complete32_original_author_teacher_profiles_and_terminal_guard_before_one_copy_repair.json`。
+
+B1学前强空库79.4118/60.3774/50.7353，学后80.1471/66.8750/52.9412%（分类/F1/联合）。
+这是8案拟合，不是新案迁移。分类11修正10损害；逐题均值F1反降66.2827→63.6297%，
+完整正确非NM仍28，3联合净增来自NM；不可仅凭micro-F1报稳定正收益。
+教师实际一条跨15命题准则，恰好1200字符/末句不完整，0查询；实际文本直接发布无后改。
+同段重复15次占3171投影tokens。内容停止决定先于读取学后分数；不能说已证明宿主截断。
+内容审计`actual_teacher1385_incomplete_capped_criterion_and_repeated_delivery_audit.json`。
+
+现在完成同一维护入口的一次交付修订：去单条字符上限，保留全库4096；程序随公开适用命题
+只交付一次，教师按真正共享检查组织，不定类别/数量，不修补历史文本。新config
+`configs/contractnli_member_learning_one_copy_20261017.json`，协议
+`docs/ONE_COPY_MEMBER_LEARNING_PROTOCOL_20261017.md`。新Run ID
+`legal_contractnli_member_learning_one_copy_20261017_run03`，**20:41已prepare114绑定，尚未备份/launch**。
+24个学前完整实际请求/schema/解码/响应身份/实际token数逐字等价证明已经完成，0模型生成：
+新research `cold_reference_exact_wire_equivalence.json`，不得重做prepare或编辑114绑定。
+固定同32/4批，初始空库；逐字请求/schema/解码核对通过后显式继承旧24个学前回答，
+计划152新native/4新教师+24继承，176逻辑回答；不继承旧技能或学后答案，非独立重复。
+后续首要B2-B4新案配对收益与旧案损害，而非再次反复B1或展开baseline网格。
+
+以下保留的是run02启动时的历史元数据，不表示该run仍live。
 配置`configs/contractnli_member_learning_tool_independent_20261017.json`，SHA
 `9358427e3c2438a90565444cac31dc20b80a352b1a4c9608b4620f5e56c88348`；frozen65文件，SHA
 `87ef5426807e3b64456594ecb4eb9d415d0fdffbb0365244cabca6852cccf963`。
-**这65绑定已经live，严禁再编辑。** 不再次prepare或launch。
+**这65绑定已随终态保全，不重新prepare或launch旧run。**
 实际入口保持`python -m legal_skill_guard.learning.member_learning run <上述新config>`。
 新research目录`artifacts/research/member_learning_tool_independent_20261017/`中的
 `actual_launch.json`、`stdout.log`和新run的`progress.json`是恢复入口。

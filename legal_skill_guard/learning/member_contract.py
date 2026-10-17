@@ -26,13 +26,13 @@ _INSPECTION_GUIDANCE = {
     "properties": {
         "source_queries": {"type": "array", "minItems": 0, "maxItems": 8,
             "items": copy.deepcopy(QUERY_SCHEMA)},
-        "evidence_criterion": {"type": "string", "minLength": 1, "maxLength": 1200},
+        "evidence_criterion": {"type": "string", "minLength": 1},
     },
 }
 _QUERY_GUIDANCE = copy.deepcopy(_INSPECTION_GUIDANCE)
 _QUERY_GUIDANCE["properties"]["source_queries"]["minItems"] = 1
 _QUERY_GUIDANCE["properties"]["evidence_criterion"] = {"anyOf": [
-    {"type": "string", "minLength": 1, "maxLength": 1200}, {"type": "null"}]}
+    {"type": "string", "minLength": 1}, {"type": "null"}]}
 EDIT_GUIDANCE = {"anyOf": [_INSPECTION_GUIDANCE, _QUERY_GUIDANCE]}
 STORED_GUIDANCE = EDIT_GUIDANCE
 NEW_NOTICE = (
@@ -77,6 +77,13 @@ def writer_system():
         "miss, a visible-but-omitted member, an irrelevant citation, a wrong "
         "relation and a genuinely unresolved statement. A correct label with "
         "incomplete evidence needs selection work, not automatic label reversal. "
+        "A record must express ONE reusable inspection/action or conditional "
+        "boundary. That same check must apply to every hypothesis in its scope. "
+        "Split genuinely different return, copying, definition or exclusion "
+        "checks rather than attaching a catalogue of topic-specific rules to "
+        "one broadly scoped record. A truly shared actor/quantifier check can "
+        "remain shared, without appending unrelated family-specific conditions. "
+        "These are not fixed skill categories, counts or one-per-topic quotas. "
         "Write short executable reading steps with source conditions, the "
         "operative actor/action/object, quantifier/polarity and exceptions "
         "needed for that boundary. A sufficient example is not a necessary "
@@ -111,7 +118,12 @@ def writer_system():
         "requiring entire read windows as evidence, case answer tables or "
         "unconditional E/C/NM orders. Keep procedures concise but retain the "
         "necessary distinction; aim<=3100 master tokens within4096 master, "
-        "scope and criterion-projection hard limits. Never clip or retry to fit. "
+        "scope and actual one-copy-criteria hard limits. There is NO per-record "
+        "character limit: finish each procedure in clear complete English, "
+        "rather than cutting a thought to fit a field. The native lawyer sees "
+        "each non-null criterion ONCE alongside its public hypothesis_ids, "
+        "not repeated separately under each hypothesis. No skill IDs or query "
+        "code accompany that criterion. Never clip or retry to fit. "
         "The actor receives literal-match/neighbour/preamble facts, not evidence "
         "labels; observations preserve what that actor actually saw. Your rationale "
         "is NOT served: any claimed learned criterion must appear in the actual "
@@ -132,6 +144,13 @@ def criterion_projection(bank, labels):
         if h in s["hypothesis_ids"] and s["guidance"].get("evidence_criterion") is not None] for h in labels}
 
 
+def one_copy_criteria(bank):
+    """One actual procedure per record, with public applicability but no opaque IDs."""
+    return [{"hypothesis_ids": list(s["hypothesis_ids"]),
+        "criterion": s["guidance"]["evidence_criterion"]} for s in bank
+        if s["guidance"].get("evidence_criterion") is not None]
+
+
 def access_roles(bank, executions, hypothesis):
     return {role: {i for s in bank if hypothesis in s["hypothesis_ids"]
         for event in executions[s["id"]] for i in event[role]}
@@ -145,15 +164,15 @@ def actor_messages(canonical_messages, bank, labels, trace, *, include_criterion
     assert messages[0]["content"].count(NOTICE) == 1
     messages[0]["content"] = messages[0]["content"].replace(NOTICE, MEMBER_NOTICE)
     body = json.loads(messages[1]["content"])
-    projection = criterion_projection(bank, labels)
     for h in labels:
         roles = access_roles(bank, trace["actual_source_executions"], h)
         for record in body["hypotheses"][h]["additional_source_read_indices"]:
             i = record["original_span_index"]
             record.update(literal_match=i in roles["matched"], explicit_neighbour=i in roles["neighbour"],
                 possible_list_preamble=i in roles["preamble"])
-        if include_criterion and projection[h]:
-            body["hypotheses"][h]["evidence_selection_criteria"] = projection[h]
+    criteria = one_copy_criteria(bank)
+    if include_criterion and criteria:
+        body["evidence_selection_criteria"] = criteria
     messages[1]["content"] = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
     return messages
 
