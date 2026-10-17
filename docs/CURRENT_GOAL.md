@@ -5,6 +5,45 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+15:34：执行候选已真实后台排队，不是只写方案。2044885/session35997绑定同
+worker1979890 start_ticks、两个完整auditor handle及4个候选文件SHA；等parent
+80/1真实完成且退出、teacher/retention/ordinary-gap工件齐，才取同GPU lock启动
+legal_contractnli_explicit_member_execution_20261017_run01的12/0诊断。候选代码、
+protocol、source-only报告自queue launch后不得改；未有child launch/原生效果。
+704a041c40d1282b15aac9293779b71040aff976保全候选，备份7成员、vdb/rootdisk
+SHA41d073bc01d4dc34649347eaa0a41fa692a60f77bfedc84c6728c731e3c34700，需base197。
+
+完整B4首遇8三臂已原作者/实际wire核验：strong_empty81.618/59.310/44.118%，
+ordinary83.088/63.673/53.676，R2 skills82.353/64.341/55.147。相对ordinary
+-0.735/+0.668/+1.471pp，联合8修6伤，NN联合38对33，NM37对40，true成员
+11增6丢。条件source区间均跨0，仍不是稳定胜出；没有按单个小跌停训练。
+完整32混合（24已见保持＋8本episode首遇）ordinary83.088/62.591/54.963，
+R2 81.801/63.813/53.309；F1来自累加TP/FP/FN，不平均批F1，不称32新盲测。
+
+新对比教师1380已真实成功，15:27:15--15:29:28、132.942秒、295013input/
+8715output、无cache/tools/retry，prompt1022933chars在既有上限内。独立271绑定
+核验32完整原源/Gold、96真实own、每源当前R2实答及score/E-C-NM索引/两次编辑
+历史和原子发布全部通过。这证明数据流，不证明内容正确或学习有效。当前账本
+1380/1400，未重置/扩容，剩20。
+
+R3=993064cd597cfc54423581f1529608a5314dde0d9c8152a77d6de60156ffa930，pub文件
+7f2f29e15382af292dbaa0ae2605ebd46671d8838a7d222b5fceed052550fb56；11UPDATE、
+0增删合并，16记录/19查询，2504master/2732scope。全部11编辑/理由已看，不把
+技能数维持当收益。32源source-only C∪P Gold484→526/604，程序Gold428→486，
+65新增定位/7移除；总读1758→1995。所有四组覆盖增加，但这不是native效益。
+
+内容仍有缺陷：OR字面短语198→253、>=8词长句7→16，all组合查询仍仅1、none
+为0；保留"notifies wecc"，又新加"identified by wecc as non-public or confidential"。
+WECC确为已见364机构名，违反已声明的可复用/无party约束；schema/数据流审计
+通过不能冒充语义合规。后续保持与执行诊断均保留未经手删的实际R3，只是开发
+诊断，不因该缺陷抹去结果，也不能宣称当前库可直接用于论文正式方法冻结。
+
+主worker1979890真实继续R3全32保持，15:32已50/80、1教师，未读partial质量。
+该阶段首答前全部330源/48实答/真实教师/R3/32先验payload已逐成员存档；此turn
+再校验复制到不同root盘，SHA8ac270cd850ac570ef47e0713bff244fd3bff642e12ec39deff0560b56f5b241。
+同服务器非异地/权重/auth。内容审计不等于效果准入，queue不选旧bank。下一读完整
+32净效应/损害与自动12诊断，沿实际根因推进，不重启B1或用同样词表反复解释。
+
 15:25本Goal turn继续，上一turn是progress（完整72-wire普通工具对照/真实漏引与
 内容根因分解＋自动final对照＋107文件/109成员增量备份），不是仅复述状态。
 2533b5aa6a7e77832563013d525b2e740d01548d已保全完整prefix24及分析；vdb/rootdisk
