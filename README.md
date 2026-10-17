@@ -6,6 +6,25 @@ Completed source-program B1--B3 did not establish skill transfer; contextual
 B6/B7 are also negative. Do not read old seen-case after-fit scores as new-case
 skill gains, formal TEST results, or a mature-method victory.
 
+Oct17 12:14 CST: the executable-acquisition trial stopped safely at88 actual
+native/3 teacher calls after complete B3 transfer harmed all three metrics
+versus fixed ordinary M2. All negative outputs and the unevaluated third
+publication are preserved with original source/Git in a verified2257-member
+backup. The loaded8B was not restarted.
+
+The default now selects `configs/contractnli_acquisition_fact_boundary.json`:
+a prepared, not yet launched,32-native/0-teacher held-K2 interface diagnostic
+on ALL16 original B1/B2 contracts. Its sole boundary change passes per-question
+exact source read indices and a shared literal catalogue, without global skill
+tags, skill names/counts or a varying used-ID answer schema. Equivalent returned
+facts have identical actor input. Ordinary M2, K2 programs, source, labels and
+capacity are unchanged. This is not another online run or new-case evidence;
+independent evolution, fair strong controls/repeats and formal TEST remain unmet.
+Three quick boundary tests pass; exact16-source input capacity/invariance checks
+used no generations or new teacher. See the current execution file above.
+
+Historical Oct17 10:35 checkpoint:
+
 Oct17 10:35:46 CST: the replacement executable-acquisition run is launched as
 detached worker1613760, Run ID
 `legal_contractnli_executable_acquisition_online_20261017_run01`. Its first real

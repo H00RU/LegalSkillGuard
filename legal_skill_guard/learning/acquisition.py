@@ -54,19 +54,18 @@ GUIDANCE_SCHEMA = {"type": "object", "additionalProperties": False,
     "required": ["source_queries"], "properties": {"source_queries": {
         "type": "array", "minItems": 1, "maxItems": 8, "items": QUERY_SCHEMA}}}
 NOTICE = (
-    " External skills here are executable SOURCE ACCESS ONLY, not legal advice. "
-    "The complete original NDA remains present. SOURCE_LEADS immediately before "
-    "an original SPAN records factual skill/query locations: match means a literal "
-    "token-phrase hit, neighbour an explicitly requested window, preamble a "
-    "possible list introduction. None proves relevance, support, opposition or "
-    "evidence membership. Skill code/teacher advice is not supplied to you. "
-    "All skill identities and public scopes are visible together. Missing IDs, "
-    "empty queries/hits and missing ordinary candidates never mean NotMentioned. "
-    "Read the full source, reject noisy leads and cite ANY original indices as "
-    "needed, including outside every retrieval. Make every legal decision yourself. "
-    "Ordinary candidate indices resolve to their exact original text in the one-"
-    "copy catalogue; their membership scores are fallible, not legal confidence. "
-    "Report only supplied matching skill IDs you actually used; [] is always legal."
+    " The complete original NDA remains present and unchanged. Each hypothesis "
+    "has fallible_evidence_candidates from a fixed ordinary retriever, plus "
+    "additional_source_read_indices obtained by literal source access. Both "
+    "resolve to exact original text in candidate_original_text. Additional "
+    "indices omit duplicate ordinary candidates, not low-scoring facts. These "
+    "are reading aids, never a verdict or mandatory evidence. Scores describe "
+    "fallible evidence membership, not legal confidence. No skill code, identity, "
+    "scope-control map, query counts or teacher advice is supplied. Empty leads "
+    "never mean NotMentioned. Read the full source, reject irrelevant material "
+    "and cite ANY original index as needed, including outside every lead. "
+    "Decide the exact original hypothesis yourself; do not substitute another "
+    "hypothesis. Return choice, spans and reason only."
 )
 TEACHER = (
     "Learn reusable executable SOURCE-ACQUISITION skills for original ContractNLI "
@@ -143,52 +142,42 @@ def execute_library(row, bank):
 
 
 def source_messages(row, labels, system, bank, proposals):
-    """No annotation access, skill prose/code, or host decision in lawyer input."""
+    """Canonical source facts; equivalent read sets have identical actor input."""
     assert set(row) == {"id", "text", "spans"}
-    metadata = [{"id": s["id"], "hypothesis_ids": s["hypothesis_ids"],
-        "executed_query_count": len(s["guidance"]["source_queries"])} for s in bank]
-    public_schema = output_schema(row, list(labels), metadata)
-    common = copy.deepcopy(public_schema["properties"][next(iter(labels))])
+    public_schema = output_schema(row, list(labels), [], reporting=False)
+    one = public_schema["properties"][next(iter(labels))]
+    one["additionalProperties"] = False
+    one["properties"]["reason"] = {"type": "string"}
+    one["required"] = ["choice", "spans", "reason"]
+    common = copy.deepcopy(one)
     common["properties"]["spans"]["items"] = {"type": "integer"}
     schema = coherent_native_schema(public_schema)
     executions = execute_library(row, bank)
-    marks = {}
-    for sid, events in executions.items():
-        for event in events:
-            for role in ("matched", "neighbour", "preamble"):
-                for index in event[role]:
-                    marks.setdefault(index, {}).setdefault(sid, []).append([event["query_index"], role])
-    original, catalogue = marked_text(row), {}
-    text = original
-    for index, value in sorted(marks.items()):
-        tag = "<SOURCE_LEADS>" + compact(value) + "</SOURCE_LEADS>"
-        text = text.replace(f"<SPAN {index}>", tag + f"<SPAN {index}>", 1)
-    restored = text
-    for value in marks.values():
-        restored = restored.replace("<SOURCE_LEADS>" + compact(value) + "</SOURCE_LEADS>", "", 1)
-    assert restored == original
-    hypotheses = {}
+    catalogue, hypotheses, reads, incremental = {}, {}, {}, {}
     for h, label in labels.items():
-        ids = [s["id"] for s in bank if h in s["hypothesis_ids"]]
-        used = {"type": "array", "items": {"type": "string", "enum": ids}} if ids else {
-            "type": "array", "items": {"type": "string"}, "maxItems": 0}
-        for branch in schema["properties"][h]["anyOf"]:
-            branch["properties"]["used_skill_ids"] = copy.deepcopy(used)
         candidates = copy.deepcopy(proposals["by_hypothesis"][h]["candidates"]) if proposals else []
-        for item in candidates:
-            i = item["original_span_index"]
+        ordinary = {v["original_span_index"] for v in candidates}
+        returned = {i for s in bank if h in s["hypothesis_ids"]
+            for event in executions[s["id"]] for role in ("matched", "neighbour", "preamble")
+            for i in event[role]}
+        reads[h], incremental[h] = sorted(returned), sorted(returned - ordinary)
+        for i in sorted(ordinary | returned):
             catalogue[str(i)] = row["text"][slice(*row["spans"][i])]
         hypotheses[h] = {"original_hypothesis": label["hypothesis"],
             "original_public_short_description": label["short_description"],
-            "applicable_executed_skill_ids": ids, "fallible_evidence_candidates": candidates}
-    body = {"executed_source_skill_index": metadata, "full_contract_with_original_span_markers": text,
-        "hypotheses": hypotheses, "ordinary_candidate_original_text": catalogue,
+            "fallible_evidence_candidates": candidates,
+            "additional_source_read_indices": incremental[h]}
+    body = {"full_contract_with_original_span_markers": marked_text(row),
+        "hypotheses": hypotheses,
+        "candidate_original_text": {str(i): catalogue[str(i)] for i in sorted(map(int, catalogue))},
         "output_contract": {"required_hypothesis_keys": list(labels),
             "common_schema_for_each_hypothesis": common, "schema_is_permitted_values_not_answers": True}}
     messages = [{"role": "system", "content": system + NOTICE}, {"role": "user", "content": compact(body)}]
     return messages, schema, {"actual_source_executions": executions,
-        "source_lead_tags": {str(i): v for i, v in marks.items()},
-        "original_source_recovered_without_tags": restored == original,
+        "per_hypothesis_returned_original_indices": reads,
+        "per_hypothesis_incremental_delivered_indices": incremental,
+        "original_source_unchanged_without_global_query_tags": True,
+        "no_control_metadata_or_variable_used_ID_schema_delivered": True,
         "no_program_code_or_semantic_inspection_delivered": True,
         "all_legal_decisions_and_final_citations_are_native": True}
 
@@ -219,8 +208,15 @@ def prepare_acquisition_inputs(cfg):
     manifest_path = ROOT / cfg["ordinary_manifest"]
     manifest = read(manifest_path)
     assert sha(manifest["path"]) == manifest["pickle_sha256"]
-    return selection, [cohort_path, archive_path, manifest_path, Path(manifest["path"]),
+    references = [cohort_path, archive_path, manifest_path, Path(manifest["path"]),
         ROOT / cfg["solver_system_reference"]]
+    if cfg["method"] == "acquisition_interface":
+        publication = ROOT / cfg["fixed_bank_publication"]
+        assert sha(publication) == cfg["fixed_bank_publication_sha256"]
+        assert cfg["diagnostic_source_ids"] == cfg["training_ids"][:16]
+        assert cfg["planned_new_native_calls"] == 32 and cfg["planned_new_teacher_calls"] == 0
+        references.append(publication)
+    return selection, references
 
 
 class AcquisitionStudy(Comparison):
@@ -494,5 +490,50 @@ class AcquisitionStudy(Comparison):
             "final_library": self.bank, "ordinary_model_manifest_unchanged": self.manifest,
             "independent_repeats_stronger_review_mature_comparison_and_official_TEST_still_pending": True}
         assert complete["logical_observations"] == 176
+        RunStore.immutable_json(self.out / "completion.json", complete)
+        RunStore.atomic_json(self.out / "progress.json", {"state": "completed", **complete})
+
+
+class AcquisitionInterfaceStudy(AcquisitionStudy):
+    """A held-bank causal check, explicitly not another online learning run."""
+
+    def __init__(self, config, *, run_id=None):
+        super().__init__(config, run_id=run_id)
+        assert self.cfg["method"] == "acquisition_interface"
+        path = ROOT / self.cfg["fixed_bank_publication"]
+        assert sha(path) == self.cfg["fixed_bank_publication_sha256"]
+        self.bank = read(path)["publication"]
+        self.banks[csha(self.bank)] = copy.deepcopy(self.bank)
+        assert self.cfg["diagnostic_source_ids"] == [r["id"] for r in self.training[:16]]
+        assert self.cfg["planned_new_native_calls"] == 32
+        assert self.cfg["planned_new_teacher_calls"] == 0
+
+    def execute(self):
+        self.check()
+        self.capacity(self.bank)
+        RunStore.immutable_json(self.out / "declaration.json", {"at": now(),
+            "run_id": self.run_id, "config": self.cfg, "frozen_bindings": self.bindings,
+            "fixed_published_bank_sha256": csha(self.bank),
+            "all16_seen_sources_not_selected_failures_no_online_updates_or_TEST": True})
+        entries = self.freeze_phase("held_K2_interface", self.training[:16], ["ordinary", "skills"])
+        raw = [self.answer(entry) for entry in entries]
+        scored = self.audit_and_grade(raw)
+        RunStore.immutable_json(self.out / "complete32_native_and_original_scores.json", {"units": scored})
+        results = {a: points([u for u in scored if u["condition"] == a]) for a in ("ordinary", "skills")}
+        assert len(self.native) == 32 and not self.teachers and self.teacher_attempts == 0
+        complete = {"at": now(), "run_id": self.run_id,
+            "completed_native_calls": 32, "completed_teacher_calls": 0,
+            "fixed_seen_interface_results": results,
+            "by_original_training_batch": {str(b): {
+                a: points([u for u in scored if u["condition"] == a and u["document_id"] in {
+                    r["id"] for r in self.training[(b - 1) * 8:b * 8]}])
+                for a in ("ordinary", "skills")} for b in (1, 2)},
+            "actual_native_usage": {k: sum(r["response"][k] for r in self.native)
+                for k in ("prompt_tokens", "completion_tokens")},
+            "fixed_bank_publication": self.cfg["fixed_bank_publication"],
+            "fixed_bank_sha256": csha(self.bank),
+            "ordinary_model_manifest_unchanged": self.manifest,
+            "not_new_case_transfer_online_evolution_independent_repeat_or_official_TEST": True}
+        self.check()
         RunStore.immutable_json(self.out / "completion.json", complete)
         RunStore.atomic_json(self.out / "progress.json", {"state": "completed", **complete})

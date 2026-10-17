@@ -5,6 +5,28 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+12:14根因交付替换已实现于原acquisition.py，而非新增规划器/评委/修补层：全文不再
+插入全局程序标签；本题实际P\C直接列索引，C与其原始分数不变、同一原文表覆盖
+C∪P；程序ID/数量/scope控制图及可变used-ID输出不交给律师，原生输出仅原
+choice/spans/reason。真实程序执行/角色/身份仍完整留在trace。普通模型和程序查询
+未改，无新的教师或拟合。3个必要边界测试0.26秒通过，生产Ruff通过。
+
+准备新Run legal_contractnli_acquisition_fact_boundary_20261017_run01，尚未launch；
+62冻结输入/源。固定K2 af2a732008a0e665e7a2f7ee3c787aad2e440d334d16bed7968d4a5c309ed07d，
+全部16个B1+B2源、32新native/0教师。每一源已核对新两臂同schema、重命名全银行
+不改actor input、原文未改、P\C/逐题范围/原文表一致；max prompt+8192=22720，
+未裁剪/增预算，无质量打分。原62新代码冻结不再热改，下一Git及完整prelaunch备份
+后直接launch。artifact research/acquisition_fact_boundary_20261017下的容量与
+身份不变性记录；只是真实tokenize/固定M2推理，不是资格生成。
+
+原Run停止前后源/Git与全部88/3已逐成员保全：
+legal-executable-acquisition-stopped88-before-fact-boundary-20261017.tar.gz，
+SHA76e9155137255d44f1b3c2ff46077100f4356d0f799a066031e14d21e0815b05，
+2255项目文件/2257成员，Git688757997573195eb34323ca1033df93fca8af92。
+同vdb而非异机/权重/auth备份。旧审计若要重放，须用该旧源或旧phase存档，不能
+要求已授权的新source_messages/CLI/report冒称旧哈希。教师实际预留1377/1400，
+还剩23，本诊断0教师，不重置计数或把历史成本当免费。Goal仍未达。
+
 12:09原1613760已于12:08:40在工件安全边界终止，88新native/3实际教师；原8B
 2261314仍存活，未重启。B3首遇完整24实际/原作者集合/actual wire已独立核验：
 普通M2为75.74/52.54/43.38，K2技能72.06/51.83/39.71，裸空库

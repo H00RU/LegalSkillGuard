@@ -16,7 +16,9 @@ def _number(value):
 
 def _completed_comparisons(value):
     """The three actual saved completion formats, not inferred/missing results."""
-    if "prequential_results" in value:
+    if "fixed_seen_interface_results" in value:
+        sections = [("固定已见合同的接口因果诊断（非在线学习或新案迁移）", value["fixed_seen_interface_results"])]
+    elif "prequential_results" in value:
         sections = [("在线首次遇到比较（不同库状态，非固定末库测试）", value["prequential_results"])]
     elif "development" in value:
         sections = [("固定末次库的开发迁移评估", value["development"])]

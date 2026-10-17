@@ -39,10 +39,14 @@ def task_local_kind(cfg):
 def study_for(config, run_id):
     cfg = read(config)
     method = cfg.get("method", "callable")
-    if method == "executable_acquisition":
-        from legal_skill_guard.learning.acquisition import AcquisitionStudy
+    if method in ("executable_acquisition", "acquisition_interface"):
+        from legal_skill_guard.learning.acquisition import (
+            AcquisitionInterfaceStudy,
+            AcquisitionStudy,
+        )
 
-        return AcquisitionStudy(config, run_id=run_id)
+        kind = AcquisitionInterfaceStudy if method == "acquisition_interface" else AcquisitionStudy
+        return kind(config, run_id=run_id)
     if method == "task_local_memory":
         kind = task_local_kind(cfg)
         if kind == "source_programs":
@@ -89,7 +93,7 @@ def prepare(config):
     if frozen.exists():
         raise FileExistsError("Already frozen; use a new config for any change")
     reference_paths = []
-    if cfg.get("method") == "executable_acquisition":
+    if cfg.get("method") in ("executable_acquisition", "acquisition_interface"):
         from legal_skill_guard.learning.acquisition import prepare_acquisition_inputs
 
         selection, reference_paths = prepare_acquisition_inputs(cfg)
@@ -263,6 +267,7 @@ def worker(config, run_id, engineering):
                     "source_conditioned_memory",
                     "task_local_memory",
                     "executable_acquisition",
+                    "acquisition_interface",
                 ):
                     raise ValueError("No extra pre-training qualification for declared skill study")
                 return verify_learning(study)
@@ -304,6 +309,7 @@ def launch(config, run_id, engineering):
             "source_conditioned_memory",
             "task_local_memory",
             "executable_acquisition",
+            "acquisition_interface",
         ):
             raise ValueError("Start the declared skill study directly, not extra qualification")
         probe = study_for(config, run_id)
@@ -349,7 +355,7 @@ def main():
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs/contractnli_executable_acquisition.json",
+        default=ROOT / "configs/contractnli_acquisition_fact_boundary.json",
     )
     parser.add_argument("--run-id")
     parser.add_argument(

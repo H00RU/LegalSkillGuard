@@ -1491,16 +1491,45 @@ def test_executable_acquisition_only_returns_source_and_never_serves_program_adv
     body = json.loads(messages[1]["content"])
     assert "source_queries" not in messages[1]["content"]
     assert "all_phrases" not in messages[1]["content"]
-    assert body["executed_source_skill_index"] == [
-        {"id": "copy-acquisition", "hypothesis_ids": ["h1"], "executed_query_count": 1}]
-    assert trace["original_source_recovered_without_tags"]
+    assert "copy-acquisition" not in json.dumps([messages, schema])
+    assert "SOURCE_LEADS" not in messages[1]["content"]
+    assert body["hypotheses"]["h1"]["additional_source_read_indices"] == [0, 1]
+    assert body["hypotheses"]["h2"]["additional_source_read_indices"] == []
+    assert body["candidate_original_text"] == {"0": pieces[0], "1": pieces[1]}
+    assert trace["actual_source_executions"] == receipts
+    assert trace["original_source_unchanged_without_global_query_tags"]
     # No skill applicability or hit is allowed to choose the legal relation.
     for choice in ("Entailment", "Contradiction", "NotMentioned"):
         value = {h: {"choice": choice, "spans": [] if choice == "NotMentioned" else [2],
-            "reason": "", "used_skill_ids": []} for h in labels}
+            "reason": ""} for h in labels}
         validate(value, schema)
     with pytest.raises(AssertionError):
         execute_library({**row, "annotation_sets": "must not be read"}, bank)
+
+
+def test_acquisition_actor_input_depends_only_on_returned_facts_not_bank_metadata():
+    from legal_skill_guard.learning.acquisition import source_messages
+
+    text = "No copies.\nReturn items."
+    row = {"id": 1, "text": text, "spans": [[0, 10], [11, len(text)]]}
+    labels = {h: {"hypothesis": h, "short_description": h} for h in ("h1", "h2")}
+    query = {"all_phrases": ["copies"], "any_phrases": [], "none_phrases": [],
+        "before": 0, "after": 0, "include_list_preamble": False}
+    empty = {**query, "all_phrases": ["nonexistent"]}
+    first = [{"id": "alpha", "hypothesis_ids": ["h1"], "guidance": {"source_queries": [query]}}]
+    equivalent = [
+        {"id": "changed-name", "hypothesis_ids": ["h1"], "guidance": {"source_queries": [query, query]}},
+        {"id": "more-metadata", "hypothesis_ids": ["h1", "h2"], "guidance": {"source_queries": [empty]}},
+    ]
+    def render(bank, proposals=None):
+        return source_messages(row, labels, "Common.", bank, proposals)[:2]
+
+    assert render(first) == render(equivalent)
+    assert render([]) == render([equivalent[1]])
+    proposals = {"by_hypothesis": {
+        "h1": {"candidates": [{"original_span_index": 0, "membership_score": .8}]},
+        "h2": {"candidates": []}}}
+    assert render([], proposals) == render(first, proposals)
 
 
 def test_executable_acquisition_publication_rejects_advice_and_empty_search():
