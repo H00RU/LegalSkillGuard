@@ -5,6 +5,37 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+14:19本turn进一步完成实际技能内容审计，仍未读取当前48的partial质量：
+最新有效R2=77b86c95...确为实际1379发布的16记录，不是被选掉的库，但尚未native。
+全部已见24源原TRAIN＋真实R1答的source-only replay：总分配读1512→1408，
+P中Gold321→350，C∪P Gold355→373/458；新增定位50、撤掉21，真超出旧C∪P
+的新定位31。前16 C∪P仍263，后8从92→110。覆盖改善不等于native收益。
+旧R1实际误引中13不再在P、51仍在新P、33本来就在C，不能归咎所有错误于程序。
+收据grounded_continuation/monitoring/complete24_unexecuted_R2_source_access_changes_not_native_gain.json。
+
+全部21撤回Gold已看原文和真实编辑理由：nda-1有13个、nda-3有5个、nda-19有3个。
+单独“标记/口头”搜索会丢宽定义/无论形式披露/标记非穷尽例子等反向边界；删掉
+泛化保密义务词还丢过明确到期条款。这是内容过窄与反例保持问题，不只是actor
+执行；不能手补某案词表、凭source-only分数选旧库，或称R2实测已失败。
+
+还确认ASCII matcher把Conﬁdential分成con/dential。仅24中的253/282有ﬁ类字符，
+隔离进程NFKC shadow只为R2补回1个Gold，R1只增非Gold读；不足以解释总体失效。
+源码与当前全部65绑定没改，不把这个小错误包装成主突破。后续如修正规范化须
+在terminal保全后新run、原文本和SPAN坐标不动，并披露执行API改变。
+
+现有同教师请求24源795563compact chars，其中native诊断191603chars。已用现有
+packing.table/keyed/expand制作可读无损表＋按原命题E/C/NM的跨案索引UNSENT：
+577669chars，全部源/Gold/真实答/版本/回执/分数/顺序精确roundtrip，未裁剪。
+它为后续同一个教师提供对立边界索引、减少重复字段，不新增agent/语义judge或
+运行时层；尚未发教师、部署或证明有效。不能把已存在原1379wire冒充此新输入。
+artefact acquisition_grounded_continuation_20261017/actual24_teacher_readable_tables_and_relation_index_UNSENT.json。
+
+后台自动完整审计已实际启动PID1930890/session60427，严格等待原worker1894976的
+start_ticks和completion48/0，然后执行已绑定的audit_complete.py，成功后写
+monitoring/post_completion_audit_completion.json。它无新增native/教师，不依赖对话
+在线。14:18同1894976与1930890均真实live，37/48；原8B2261314不动。当前目标
+尚未达到；下一先读完整48原作者/96wire/分组净效应，再决定主链路，不重复B1。
+
 14:02按用户明确澄清重校准曲线解读：不是强求批次裸分机械单调，而是同案技能
 净益、累积首次迁移、旧案保持和最终未调优TEST。已直接读ERSkill/COBRA原PDF
 第9页图5/图3--4并保全原文件/图及SHA；ERSkill约77→71再恢复只是读图估计，
