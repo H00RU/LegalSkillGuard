@@ -1,7 +1,8 @@
 # Discriminative evidence skills with factual acquisition provenance
 
-DRAFT, 2026-10-17. Implementation, freeze and execution are pending. This is not
-a new completed method, promised improvement or declaration of publication readiness.
+Executable development protocol, 2026-10-17. Actual launch/completion receipts,
+not this header, determine execution status. This is not a completed effective
+method, promised improvement or declaration of publication readiness.
 The original task, source coordinates, labels, metrics and frozen lawyer remain.
 
 ## Evidence boundary
@@ -75,6 +76,16 @@ an independent semantic negative. Learn transferable member-level contrasts:
 what source function warrants citing it, what superficially related text does
 not establish that function, and when governing text is needed for a selected
 clause to be self-contained. Do not simply list every possible legal premise.
+
+The first source-only teacher compilation exceeded the actual1,048,576-character
+entry limit at1,160,768 characters, before any teacher/native call or Run directory.
+Its original config/source and capacity finding remain archived. The run02
+preparation shares identical original member text once in a source/index catalogue
+and member-column names once. Every original member, case, choice, access role and
+actual citation remains reversible to the full uncompressed contrast table;
+complete source texts remain verbatim. This is teacher-only lossless serialization,
+not evidence pruning, a new actor layer, an output fallback or a shorter learning
+window. Do not count the zero-call preparation as an executed learning experiment.
 
 The existing differential editor publishes every structurally valid CREATE/
 UPDATE/DELETE/MERGE/NOOP. Untouched original records stay verbatim. A new field

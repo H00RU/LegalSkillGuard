@@ -12,7 +12,7 @@ import json
 from jsonschema import validate
 
 from legal_skill_guard.learning.acquisition import GUIDANCE_SCHEMA, TEACHER
-from legal_skill_guard.learning.packing import table
+from legal_skill_guard.learning.packing import expand, table
 from legal_skill_guard.learning.publication import skill_record_schema
 
 _with_criterion = copy.deepcopy(GUIDANCE_SCHEMA)
@@ -53,8 +53,11 @@ def _writer_system():
         "selected by version, not correctness. Earlier observations already taught "
         "the parent and remain archived; do not pretend they are included as raw "
         "current-version responses. member_contrasts_by_hypothesis provides exact "
-        "original text and original membership versus actual citation, with the full "
-        "source still supplied. A false original_member means not annotated, not an "
+        "original membership versus actual citation. Its shared original_text_by_source "
+        "catalogue resolves EVERY member by enclosing source_case_id and original_span_index; "
+        "member_columns names every member row field. Recursively expand the ordinary "
+        "record tables. These are lossless references, not omitted text or selected cases; "
+        "the complete sources are supplied too. A false original_member means not annotated, not an "
         "independent semantic negative; null means evidence is undefined for the "
         "original NM relation. Do not invent corrected Gold or erase plausible "
         "support solely because it is unannotated. Distil concise transferable "
@@ -130,4 +133,53 @@ def member_contrasts(sources, labels, annotations, public_answers, bank, executi
                 "possible_list_preamble": i in roles["preamble"]} for i in sorted(gold | cited)]
             result[h].append({"source_case_id": d, "original_choice": original["choice"],
                 "actual_choice": actual["choice"], "members": table(members)})
-    return {h: table(v) for h, v in result.items()}
+    packed = compact_member_contrasts(result)
+    assert expand_member_contrasts(packed) == expand(result), "Never omit or rewrite teaching members"
+    return packed
+
+
+def compact_member_contrasts(logical):
+    """Share identical source text and table headers, never select evidence."""
+    logical = expand(logical)
+    columns = ["original_span_index", "original_member", "actually_cited", "ordinary_candidate",
+        "literal_match", "explicit_neighbour", "possible_list_preamble"]
+    texts, by_hypothesis = {}, {}
+    for h, cases in logical.items():
+        rows = []
+        for case in cases:
+            d, members = str(case["source_case_id"]), []
+            for member in case["members"]:
+                i = member["original_span_index"]
+                text = member["original_text"]
+                assert i not in texts.setdefault(d, {}) or texts[d][i] == text
+                texts[d][i] = text
+                members.append([member[k] for k in columns])
+            rows.append({**case, "members": members})
+        by_hypothesis[h] = table(rows)
+    return {"encoding": "shared-original-member-texts-v1",
+        "legend": "Every case and member is retained. Member rows zip with member_columns. "
+            "Resolve original_text in original_text_by_source using the enclosing source_case_id "
+            "and member original_span_index. A shared text is printed once, not removed from any observation.",
+        "member_columns": columns,
+        "original_text_by_source": {d: table([{"original_span_index": i, "original_text": t}
+            for i, t in sorted(members.items())]) for d, members in texts.items()},
+        "by_hypothesis": by_hypothesis}
+
+
+def expand_member_contrasts(value):
+    """Source-only inverse for audits; never used in lawyer inference."""
+    value = expand(value)
+    assert value["encoding"] == "shared-original-member-texts-v1"
+    catalogue = {d: {m["original_span_index"]: m["original_text"] for m in members}
+        for d, members in value["original_text_by_source"].items()}
+    logical = {}
+    for h, cases in value["by_hypothesis"].items():
+        logical[h] = []
+        for case in cases:
+            members = []
+            for row in case["members"]:
+                member = dict(zip(value["member_columns"], row, strict=True))
+                member["original_text"] = catalogue[str(case["source_case_id"])][member["original_span_index"]]
+                members.append(member)
+            logical[h].append({**case, "members": members})
+    return logical

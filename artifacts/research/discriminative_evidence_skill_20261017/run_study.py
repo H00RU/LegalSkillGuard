@@ -28,6 +28,7 @@ from evidence_contract import (
     OLD_NOTICE_SENTENCE,
     WRITER_SYSTEM,
     criterion_projection,
+    expand_member_contrasts,
     member_contrasts,
     render_discriminative,
 )
@@ -56,8 +57,8 @@ from legal_skill_guard.task import marked_text
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
 PARENT = ROOT / "runs/legal_contractnli_published_acquisition_continuation_20261017_run01"
-CONFIG = FOLDER / "config.json"
-RUN_ID = "legal_contractnli_discriminative_evidence_skill_20261017_run01"
+CONFIG = FOLDER / "config_run02.json"
+RUN_ID = "legal_contractnli_discriminative_evidence_skill_20261017_run02"
 IDS = [501, 339, 164, 253, 421, 295, 132, 427]
 ARMS = ["skills", "acquisition", "ordinary", "strong_empty"]
 
@@ -298,6 +299,7 @@ def audit_completed():
     labels = author["labels"]
     teaching = read(out / "learning_inputs/update_b5.json")
     body = expand(teaching)["body"]
+    member_contrast_rows = expand_member_contrasts(body["member_contrasts_by_hypothesis"])
     teacher_request = read(out / "teacher/update_b5/wire_request.json")
     teacher_response = read(out / "teacher/update_b5/response.json")
     assert teacher_request["system_prompt"] == WRITER_SYSTEM + CONTRAST_TEACHER_NOTE
@@ -324,7 +326,7 @@ def audit_completed():
         assert old_raw["calls"][0]["request"]["messages"] == parent_payloads[d]["messages"]
         actual = observed["actual_public_answer"]
         for h in labels:
-            contrast = next(c for c in body["member_contrasts_by_hypothesis"][h] if c["source_case_id"] == d)
+            contrast = next(c for c in member_contrast_rows[h] if c["source_case_id"] == d)
             assert contrast["original_choice"] == gold[h]["choice"] and contrast["actual_choice"] == actual[h]["choice"]
             gm, pm = set(gold[h]["spans"]), set(actual[h]["spans"])
             assert [m["original_span_index"] for m in contrast["members"]] == sorted(gm | pm)
