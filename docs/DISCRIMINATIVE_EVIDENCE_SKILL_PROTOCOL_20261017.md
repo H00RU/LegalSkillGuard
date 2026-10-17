@@ -91,9 +91,24 @@ The existing differential editor publishes every structurally valid CREATE/
 UPDATE/DELETE/MERGE/NOOP. Untouched original records stay verbatim. A new field
 must not force cosmetic rewrites of every old record. Old query-only and new
 query-plus-criterion records may coexist as explicit valid data shapes, not an
-inference-error fallback. No IDs, parties, dates, coordinates or case-answer
+inference-error fallback. Newly emitted CREATE/UPDATE/MERGE records use one
+required evidence_criterion field: a concise string or deliberate null. They
+cannot silently choose the old query-only output shape. Untouched old records
+remain verbatim, and null is not served as text. A criterion mentioned only in
+an audit rationale is not a published skill. No IDs, parties, dates, coordinates or case-answer
 tables in served criteria. R3's confirmed party-literal violations must be
 shown to the writer as a portability problem, not secretly removed by the host.
+
+Actual run02 used teacher1381 and published17 valid query-only records;11 edit
+rationales referred to a criterion but none was in the served artifact. All8
+full/withheld input pairs were identical. It was stopped after2 actual native
+calls and1 teacher, preserving every output and cost, with no partial effect
+grading. The explicit editor contract in run03 addresses that omission, not a
+native score. It starts again from the same originally fixed R3/32 actual own
+answers, not a performance-selected bank. The prior publication is retained.
+If every new criterion is deliberately null, retain that valid publication and
+terminate this unidentifiable ablation before native calls; do not force content,
+retry the teacher, choose another bank or call this a positive result.
 
 ## Preserve source roles and keep the final task ordinary
 

@@ -5,6 +5,29 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+17:02：config_run03与275frozen已实际prepare。新编辑schema拒绝缺字段但接受显式
+null；旧记录可原样存储，null不进入律师prompt，字符串与隐藏准则两臂只差准则
+内容。6.51秒0native/0教师检查通过，实际完整教师材料1,020,247字符在上限内。
+不再重复prepare；下一先两盘保全新源及全部275，再实际launch run03。旧run02
+2native/教师1381及全17记录已保全，不把它算成功或拿partial分数继续调词。
+
+最新：16:54:02已实际launch run02 worker2175657，16:54:11--16:56:20教师1381
+真实成功，128.16秒、275639input/8621out、0cache/tools/retry。实际wire的32全文/
+原Gold/604正成员/759所有Gold或实引成员/32当前R3真实回答已逐项原作者核对。
+但真实发布17条记录均没有evidence_criterion，11编辑理由反而提到criterion；
+8组full/withheld输入完全相同，无法识别预定机制，不是模型效果差或字段被适配器删。
+在16:57:29核精确PID/ticks后发handled SIGTERM；16:58:10完整保存第二答后终态，
+2实际native/1教师，无partial效果评分。原8B未动；全部源码、教师、原生、失败与
+成本已Git62145fd及两盘SHA9348f6919e682e769eb223d9fdcdecebae2ab3adfaae5c5262d5b9699aeaab78保全。
+
+已在旧worker确认missing后直接修正教师编辑契约（不是律师多字段mask）：新建/
+更新/合并的guidance必须显式输出准则文本或null；旧未动记录仍原样，null不交付。
+不强制有准则/技能数量，也不按效果准入。若全null，保留实际出版物并以“对照无
+输入差异”终止该trial，禁止循环重教师或选最好库。新研究run03从同一固定原R3+
+全32实际回答重试编辑契约，前run出版物/2native/教师费用明确保留，不称在线续训
+或最佳库回滚。当前新源码/协议已改，config_run03尚待prepare/保全/launch。
+Goal active，仍没有稳定净收益结论；下一直接新实际教师及四臂32验证，不重复B1。
+
 16:53：已实际实现成员准则研究入口，复用现有AcquisitionStudy/native/teacher/
 原子CRUD与评分原语，未改生产197源。run01只是0生成的准备版本：完整教师材料
 1,160,768字符超1,048,576实际入口限制，没有Run目录/教师/native。旧源码/config/

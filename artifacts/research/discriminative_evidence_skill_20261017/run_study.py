@@ -26,6 +26,7 @@ from evidence_contract import (
     EVIDENCE_GUIDANCE_SCHEMA,
     NEW_NOTICE_SENTENCE,
     OLD_NOTICE_SENTENCE,
+    UPDATED_GUIDANCE_SCHEMA,
     WRITER_SYSTEM,
     criterion_projection,
     expand_member_contrasts,
@@ -57,8 +58,8 @@ from legal_skill_guard.task import marked_text
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
 PARENT = ROOT / "runs/legal_contractnli_published_acquisition_continuation_20261017_run01"
-CONFIG = FOLDER / "config_run02.json"
-RUN_ID = "legal_contractnli_discriminative_evidence_skill_20261017_run02"
+CONFIG = FOLDER / "config_run03.json"
+RUN_ID = "legal_contractnli_discriminative_evidence_skill_20261017_run03"
 IDS = [501, 339, 164, 253, 421, 295, 132, 427]
 ARMS = ["skills", "acquisition", "ordinary", "strong_empty"]
 
@@ -79,6 +80,9 @@ def prepare():
     assert read(complete12 / "completion.json")["completed_native_calls"] == 12
     assert read(complete12 / "monitoring/complete12_original_author_native_bit_and_control_audit.json")[
         "all12_actual_wires_and_original_author_members_checked"]
+    stopped = read(FOLDER / "run02_verified_artifact_safe_terminal_no_effect_grading.json")
+    assert stopped["actual_pid_missing_and_terminal_failure_confirmed"]
+    assert stopped["actual_native_teacher_calls"] == [2, 1] and stopped["records_with_criterion"] == 0
     keep = ("generation", "teacher", "inference_environment", "ordinary_manifest", "input_packet", "grading_only",
         "training_ids", "solver_system_reference", "library_token_hard_cap", "prelaunch_backup_receipt",
         "source_archive", "source_archive_sha256", "teacher_evidence_view")
@@ -93,13 +97,18 @@ def prepare():
         method_protocol="docs/DISCRIMINATIVE_EVIDENCE_SKILL_PROTOCOL_20261017.md",
         all_seen_TRAIN_fit_development_not_transfer_independent_learning_or_official_TEST=True,
         response_window="ALL32_current_parent_canonical_own_answers_not_earlier96_or_mask",
-        publication_step=5)
+        publication_step=5,
+        original_fixed_R3_parent_repeated_for_explicit_editor_contract_not_best_bank_selection=True,
+        prior_trial_actual_native_teacher_calls=[2, 1],
+        prior_trial_stop="Absent criterion and eight identical actor-input ablation pairs; not an effect score.")
     paths = [parent_path, parent_path.with_suffix(".frozen.json"), Path(__file__), FOLDER / "evidence_contract.py",
         ROOT / cfg["method_protocol"], PARENT / "completion.json", Path(cfg["fixed_parent_publication"]),
         Path(cfg["current_parent_own_answers"]),
         PARENT / "monitoring/R3_complete32_source_access_and_all11_edit_content_audit_not_native_gain.json",
         complete12 / "completion.json", complete12 / "monitoring/complete12_original_author_native_bit_and_control_audit.json",
-        FOLDER / "complete12_preservation_before_new_learner.json"]
+        FOLDER / "complete12_preservation_before_new_learner.json",
+        FOLDER / "run02_verified_artifact_safe_terminal_no_effect_grading.json",
+        FOLDER / "run02_actual_teacher2_native_verified_terminal_backup.json"]
     own = read(cfg["current_parent_own_answers"])["units"]
     assert [u["document_id"] for u in own] == cfg["training_ids"]
     assert len(own) == len({u["response"]["raw_id"] for u in own}) == 32
@@ -200,12 +209,12 @@ class DiscriminativeEvidenceStudy(AcquisitionStudy):
         RunStore.immutable_json(path, body)
         self.bindings[str(path)] = sha(path)
         self.preserve_phase("before_teacher")
-        schema = differential_schema(self.labels, self.bank, [r["id"] for r in seen], guidance_schema=EVIDENCE_GUIDANCE_SCHEMA)
+        schema = differential_schema(self.labels, self.bank, [r["id"] for r in seen], guidance_schema=UPDATED_GUIDANCE_SCHEMA)
         value = self.teacher_call(name, WRITER_SYSTEM + CONTRAST_TEACHER_NOTE, body, schema)
         for p in (self.out / "teacher" / name).glob("*.json"):
             self.bindings[str(p)] = sha(p)
         published = apply_differential_publication(self.bank, value, self.labels, [r["id"] for r in seen],
-            guidance_schema=EVIDENCE_GUIDANCE_SCHEMA)
+            guidance_schema=UPDATED_GUIDANCE_SCHEMA)
         capacity = self.capacity(published)
         stats = publication_statistics(self.bank, value, published, capacity["master"])
         path = self.out / f"publications/b{self.current_batch}.json"
@@ -248,6 +257,18 @@ class DiscriminativeEvidenceStudy(AcquisitionStudy):
             "inherited_own_observations_not_new_calls": 32,
             "not_online_cold_start_transfer_independent_learning_or_official_TEST": True})
         stats = self.update(self.training)
+        if not any(criterion_projection(self.bank, self.labels).values()):
+            # The valid publication is retained. No quality gate or teacher
+            # retry: this particular ablation cannot identify an absent input.
+            self.preserve_phase("publication_without_served_criterion")
+            terminal = {"at": now(), "state": "stopped_unidentifiable_intervention", "run_id": self.run_id,
+                "completed_native_calls": 0, "completed_teacher_calls": len(self.teachers),
+                "published_bank_retained": csha(self.bank), "actual_teacher_invocations": self.teachers,
+                "reason": "All published criteria are absent or explicit null; full and withheld actor inputs would be identical.",
+                "no_effect_grading_admission_bank_selection_or_teacher_retry": True}
+            RunStore.immutable_json(self.out / "terminal.json", terminal)
+            RunStore.atomic_json(self.out / "progress.json", terminal)
+            return False
         rows = [r for r in self.training if r["id"] in IDS]
         assert [r["id"] for r in rows] == IDS
         entries = self.freeze_phase("criterion_probe", rows, ARMS)
@@ -278,6 +299,7 @@ class DiscriminativeEvidenceStudy(AcquisitionStudy):
         RunStore.immutable_json(self.out / "completion.json", complete)
         RunStore.atomic_json(self.out / "progress.json", {"state": "completed", **complete})
         print(compact({"completed": self.run_id, "new_native_teacher_calls": [32, 1], "results": results}))
+        return True
 
 
 def audit_completed():
@@ -340,7 +362,7 @@ def audit_completed():
     publication = read(out / "publications/b5.json")
     assert publication["parent"] == parent_bank and publication["delta"] == teacher_response["value"]
     assert apply_differential_publication(parent_bank, teacher_response["value"], labels, cfg["training_ids"],
-        guidance_schema=EVIDENCE_GUIDANCE_SCHEMA) == publication["publication"]
+        guidance_schema=UPDATED_GUIDANCE_SCHEMA) == publication["publication"]
     bank = publication["publication"]
     manual = {a: {"hypotheses": 0, "label_correct": 0, "evidence_tp": 0, "evidence_fp": 0,
         "evidence_fn": 0, "joint_exact_correct": 0} for a in ARMS}
@@ -454,8 +476,8 @@ def main():
         fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         study = DiscriminativeEvidenceStudy(CONFIG)
         try:
-            study.execute()
-            audit_completed()
+            if study.execute():
+                audit_completed()
         except BaseException as exc:
             failure = {"at": now(), "error": repr(exc), "traceback": traceback.format_exc(),
                 "completed_native_calls": len(study.native), "completed_teacher_calls": len(study.teachers),

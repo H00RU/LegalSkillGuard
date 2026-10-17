@@ -15,12 +15,14 @@ from legal_skill_guard.learning.acquisition import GUIDANCE_SCHEMA, TEACHER
 from legal_skill_guard.learning.packing import expand, table
 from legal_skill_guard.learning.publication import skill_record_schema
 
-_with_criterion = copy.deepcopy(GUIDANCE_SCHEMA)
-_with_criterion["required"].append("evidence_criterion")
-_with_criterion["properties"]["evidence_criterion"] = {
-    "type": "string", "minLength": 1, "maxLength": 600,
+UPDATED_GUIDANCE_SCHEMA = copy.deepcopy(GUIDANCE_SCHEMA)
+UPDATED_GUIDANCE_SCHEMA["required"].append("evidence_criterion")
+UPDATED_GUIDANCE_SCHEMA["properties"]["evidence_criterion"] = {
+    "anyOf": [{"type": "string", "minLength": 1, "maxLength": 600}, {"type": "null"}],
 }
-EVIDENCE_GUIDANCE_SCHEMA = {"anyOf": [copy.deepcopy(GUIDANCE_SCHEMA), _with_criterion]}
+# Old stored records remain verbatim. Newly emitted edits have a single explicit
+# contract, rather than letting the decoder silently choose the old object shape.
+EVIDENCE_GUIDANCE_SCHEMA = {"anyOf": [copy.deepcopy(GUIDANCE_SCHEMA), UPDATED_GUIDANCE_SCHEMA]}
 
 OLD_NOTICE_SENTENCE = (
     "No skill code, identity, scope-control map, query counts or teacher advice is supplied."
@@ -39,7 +41,7 @@ def _writer_system():
         "The lawyer receives source locations only, NEVER your legal guidance, examples or rationale.":
         "The lawyer receives source locations, their factual access roles and any published evidence_criterion; no examples or audit rationale.",
         "Runtime skill=id,hypothesis_ids,guidance.source_queries ONLY.":
-        "Runtime skill=id,hypothesis_ids,guidance.source_queries with an optional evidence_criterion. Original query-only records remain valid.",
+        "Runtime skill=id,hypothesis_ids,guidance.source_queries with a fallible evidence_criterion. Every newly emitted CREATE/UPDATE/MERGE skill must include evidence_criterion: a concise string, or explicit null when unwarranted. Original untouched query-only records remain valid verbatim.",
         "No inspection text, examples, labels, case IDs, parties, dates, source indices, fingerprints or answer lookup tables.":
         "No case examples, label verdicts, case IDs, parties, dates, source indices, fingerprints or answer lookup tables.",
         "aim<=2200 master to leave correction room.":
@@ -73,7 +75,11 @@ def _writer_system():
         "Portability observations are actual earlier party-specific literals, not "
         "a reason to add another named-party exception. Correct them generally if "
         "the seen sources warrant it. No extra tools, critic, semantic admission, "
-        "best-bank choice, citation union, answer repair or required growth."
+        "best-bank choice, citation union, answer repair or required growth. "
+        "Your audit rationale is NOT served to the lawyer. If an edit rationale "
+        "claims a learned selection criterion, publish that criterion in the actual "
+        "evidence_criterion field; do not leave it only in your rationale. Explicit "
+        "null means this edit intentionally offers no member-selection criterion."
     )
 
 
@@ -82,7 +88,7 @@ WRITER_SYSTEM = _writer_system()
 
 def criterion_projection(bank, labels):
     return {h: [s["guidance"]["evidence_criterion"] for s in bank
-        if h in s["hypothesis_ids"] and "evidence_criterion" in s["guidance"]] for h in labels}
+        if h in s["hypothesis_ids"] and s["guidance"].get("evidence_criterion") is not None] for h in labels}
 
 
 def access_roles(bank, executions, hypothesis):
