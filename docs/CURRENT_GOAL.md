@@ -18,8 +18,8 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
 ## 当前阶段：无M2依赖的完整在线主训练已在19:56后台启动
 
 当前唯一主run：**`legal_contractnli_member_learning_tool_independent_20261017_run02`**。
-实际launch **19:56:14 CST**，worker **2447187**、ticks **424469213**；19:59核真实live，
-首617三臂真实回答均已完成，已进入147。不是旧run复活或prepare状态。
+实际launch **19:56:14 CST**，worker **2447187**、ticks **424469213**；20:12核真实live，
+完成19/176 native、0教师，B1 before在328 ordinary。不是旧run复活或prepare状态。
 配置`configs/contractnli_member_learning_tool_independent_20261017.json`，SHA
 `9358427e3c2438a90565444cac31dc20b80a352b1a4c9608b4620f5e56c88348`；frozen65文件，SHA
 `87ef5426807e3b64456594ecb4eb9d415d0fdffbb0365244cabca6852cccf963`。
@@ -46,6 +46,23 @@ strong_empty输入及公开回答相同但不共享raw。65文件仍相等，未
 固定库拔工具/案例演示/位图等旧负实验。首个教师后核实际程序/准则发布、17原命题完整
 反馈与真实交付；B2/B3及同旧案更新效果才决定方法是否有用。主方法未取得稳定净收益前
 不扩张baseline网格，不把启动/75边界例/更多技能当作Goal达成。论文强对照、重复与TEST仍缺。
+当前格式没有used_skill_ids输出；历史metrics里的reported_skill_use_queries=0不表示技能未交付。
+新记录可仅有准则、0查询，查询hits=0也不等于无技能。以真实wire的准则投影、查询回执和
+原生输出变化分别检查交付、定位与效果，不把自报或交付本身当因果使用证明。
+
+20:06完成评分口径核对，未改变65绑定或运行指标：research
+`official_metric_alignment_20261017/closed72_original_hard_evidence_metric_alignment.json`。
+原作者官方代码固定commit `058c56fd62d56897bb4fcfbf1be71b17aee3a79c`，源码SHA
+`f5acd4497e002652b2f29a6827fecd355b96ec041c4c174b1938eea2f8c42cf4`；只执行审阅过的
+纯evaluate_predicted_spans函数，不导入其模型/loader、不读取官方DEV/TEST。
+旧已闭合72回答/16来源/8组P/R/F1与官方Gold-NM排除的硬成员口径逐组1e-12内相等。
+完整17命题等来源分母时，总准确率也等于按命题宏平均准确率；C/E类别F1不是依据F1。
+官方任务明确要求全面识别冗余依据，所以不能将只选最小证明改称完成了原任务。
+但原论文§4.2主报证据ranking mAP/P@R80，不是硬集合F1；不能拿本项目F1与其mAP比大小，
+也不能借控制M2分数伪造主方法未产生的逐SPAN置信度。联合全对是本项目额外严格终点。
+此核对只排除评分口径错误这一解释，不是新训练效果或SOTA证据；继续关注内容/执行。
+该官方实现的原版权头和完整Apache2 LICENSE也保存于该research目录，仅作独立评分核对，
+不成为运行依赖。当前训练不因此新增置信度字段、模型调用、评估门槛或主指标。
 
 旧run `legal_contractnli_discriminative_evidence_full32_retention_20261017_run01`
 18:25:37 CST完整完成，原worker2249247和保全worker2265836均已missing终态。
@@ -97,15 +114,13 @@ strong_empty输入及公开回答相同但不共享raw。65文件仍相等，未
 全部72真实wire/原Gold/唯一raw；确认旧57文件在编辑前均未改，两盘整包SHA/设备及四原worker终态。
 新research`old_trial_terminal_and_frozen_source_before_repair.json`记录正式编辑前守卫。
 
-## 当前可用方法和已完成证据
+## 历史查询/准则库的已完成证据（不作为当前初始库）
 
-新维护实现：`legal_skill_guard/learning/member_contract.py`、`member_learning.py`。
-旧8案/32案历史实现仍在research的`evidence_contract.py`、`run_study.py`，不作新主入口。
-确定性源查询提供位置/访问角色，教师学习可选成员选择准则，冻结8B一次完成17命题的
-原始choice/spans/reason。新编辑显式填准则文本或null；旧未动记录原样，null不交付。
-无额外律师输出层、法律host判断、检索结果强制并入答案或效用准入。
+下列是前版历史输入/固定库的证据，当前无M2主方法和真实空库起步见最上方。
+历史8案/32案实现仍在research的`evidence_contract.py`、`run_study.py`，不作新主入口。
+没有把以下旧技能库、回答或教师发布注入新run。
 
-真实bank SHA：`36d640efa852f94a4a374d37866a493435b186c7903e44498f5a72be875a4fb4`。
+下列历史固定bank SHA：`36d640efa852f94a4a374d37866a493435b186c7903e44498f5a72be875a4fb4`。
 出版物：`runs/legal_contractnli_discriminative_evidence_skill_20261017_run03/publications/b5.json`。
 8 UPDATE，16→16记录，8条准则覆盖9原命题；master2997/scope3225/准则投影427 tokens。
 
@@ -128,7 +143,7 @@ Gold仅引2/15，且多数分类收益发生在准则scope外，不称语义隔�
 之前run02实际2native/教师1381因没有真正发布任何准则、消融两臂逐字相同而停止；
 所有失败、出版物及成本保留。不要把它计作成功或抹去费用。
 
-## 新32当前B1完整结果与下一决策（19:03完成，B2继续）
+## 已停止V1新32：B1历史结果（不能据此继续旧run）
 
 | B1同8原始合同 | 准确率% | Gold-NN依据F1% | 联合严格正确率% |
 |---|---:|---:|---:|
