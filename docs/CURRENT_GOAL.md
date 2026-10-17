@@ -5,6 +5,27 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+14:57本turn完成新run分阶段独立审计实现，生产197冻结文件未改。run-local
+monitoring/audit_learning.py复用旧纯集合计数/source bootstrap，正确处理scored
+输入、strong-empty/ordinary和历史K2/R1/R2实际版本；teacher入口解开无损表后
+复核32原作者源/Gold、96真实own、每源当前父R2实答/实际score、E/C/NM索引及
+两次真实pub delta。首65实际wire（历史64＋首新答）已grade=False核验通过，
+没计算当前partial质量；Ruff通过。完整phase入口尚未执行，不能称全量已通过。
+
+自动phase核算已真实后台启动PID1991838/session29253，绑定精确worker1979890
+start_ticks与审计脚本SHA。严格等待prefix24、before24、teacher4pub及retention32
+完整文件，逐项独立核算并保存；不会生成新答案/教师调用、改bank或因小跌自动停。
+脚本被watcher绑定后不得改写。14:56同worker/auditor均真实live，14/80、0教师。
+已保存完整第一组8个实际R2 raw和全部24先验输入的无质量保全manifest；这不是
+训练首批重跑或新指标。上一Goal turn完整48核算/根因teacher数据流修复/新run
+后台launch为progress；本turn是phase核验与独立自动审计新证据，目标仍未达。
+
+元数据注意：新config带有一个旧diagnostic遗留描述键
+not_new_case_transfer_online_learning_repeat_or_official_TEST=true，未见生产代码
+读取它，不据此否认本run最后8的首次迁移。实际schedule/protocol/源暴露/原始wire
+为准；当前prefix24是保持，b4_before8是当前episode首次回答，final32是学后保持。
+这个无执行作用的过宽描述键待下一未冻结config移除，不热改正在运行的197绑定。
+
 14:45 published continuation已于14:42:44真实后台launch，PID1979890仍live，原8B
 2261314不动。首501真实R2答已保存/独立wire核验，5300prompt/1799out、17键合法、
 非空thinking/stop，同原source/schema/实际scored-record输入，bank确为77b86c95...
