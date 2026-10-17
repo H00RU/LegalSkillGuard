@@ -5,6 +5,41 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+08:35:37同1380323实际live、34/40新native，B7_retention/518；8B未动。B7完整16答
+已独立原作者集合/wire重算：empty87.50/67.10/52.94%，joint78.68/59.36/45.59%。
+标签4修16伤、联合6修16伤、真4增23丢；不是后批自然修复B6，亦不能因跨批裸分
+上升便声称技能进化有效。结果在monitoring/B7_complete16_original_TRAIN_paired_wires_class_and_example_alignment_audit.json。
+
+新的有界机制消融legal_contractnli_historical_identity_ablation_20261017_run01已prepare，
+尚未launch、0新native/0教师。固定实际B6与B7各自的已发布库及原16预选合同，
+两新臂共32答：opaque_refs对历史引用作可逆的字母标识编码，保留原完整过去源及全部
+被选原答案；procedures_only保留所有程序原文/ID/scope，仅去掉历史例及其引用。
+当前源/17题/候选/同M2/4字段schema均逐项不变，645冻结绑定及32请求独立核验，
+容量B6 opaque3428/3707、procedure613/892；B7 opaque2276/2555、procedure844/1123。
+原numeric和empty均明确复用父轮真实答案为历史对照，不算新调用/独立重复。
+下一待父40终态独立核验、提交并全源/实际教师/原始输出/Git备份后再launch，无教师
+重问、当前Gold提示、效果准入或旧好库回退。这是原因区分，不是正式主方法已修好。
+
+08:28核验：同1380323实际live，26/40新native、1/1新教师及1继承教师，B7执行中；
+原8B2261314未动。B6完整16答已按原作者TRAIN集合独立重算：empty83.82/63.19/
+44.12%，joint76.47/57.14/33.82%（分类/原SPAN F1/联合）。标签8修18伤、联合9修
+23伤，真成员5增20丢；不能报为进化收益。20丢真中15个E→E、4个C→NM、1个C→E，
+13个已在普通候选。四份原本正确NM的nda-10被改为E并引用12，但当前12分别为标题、
+WHEREAS、客户关系前言、免责声明；过去416该题恰为E[12]。这是具体错引模式，
+不是未经干预就宣称坐标复制的唯一心理因果。全部原文/公共回答保存在B6根因审计。
+
+实际新教师1374于08:16:01完成、47.971秒，85413input/3258output（reason2066包含）；
+原40历史完整归档，实际包是全当前8＋父示范416，共9完整源/Gold及9own，未冒称
+40均传入。4UPDATE无效果准入，全换为完整378源及17原题答案（NM11/E4/C2），
+master2413/scoped2693。610冻结绑定未变、全部24后续输入/同源378保持的17例排除
+均核验；615成员实际教师/源/Git归档独立流式复验，SHA
+dfcd41809612592db94e15ee2d7b143e689a7d2d64ec279d7c0a3bdc67af1199。
+审计monitoring/B7_actual1374_bounded_replay_full17_demo_native_inputs_and_backup_audit.json。
+新程序又把proxy solicitation无条件排除，旧334未入这次9源包；记录为边界遗忘风险，
+不热改冻结库，也不把proxy单独等同人员招揽。继续同worker完成B7及B6保持，然后
+用受控消融分开程序内容、完整旧例及历史/当前引用身份，不再次泛泛改词后硬跑。
+Goal依然active，尚未满足稳定迁移、强对照、独立重复、消融或官方TEST等目标。
+
 08:02:29再核验1380323实际live、3/40 native、0/1新教师＋1已完成继承教师，当前
 B6/576/empty；原8B2261314live，559绑定全部未变。592 empty/joint与576 joint
 三份真实wire/source/memory/trace/schema/stop/usage独立通过；有技能原始请求确实

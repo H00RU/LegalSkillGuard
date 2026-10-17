@@ -1,5 +1,11 @@
 # LegalSkillEvolve — current legal evidence skill learning
 
+Current execution and evidence: [docs/CURRENT_GOAL.md](docs/CURRENT_GOAL.md).
+The timestamped entries below are historical checkpoints, not the current run.
+Completed source-program B1--B3 did not establish skill transfer; contextual
+B6/B7 are also negative. Do not read old seen-case after-fit scores as new-case
+skill gains, formal TEST results, or a mature-method victory.
+
 Latest Oct17 00:36 CST: complete B2 original-author/native/teacher audit passed;
 worker654539 is running B3,42/148 new native,2/4 new main teachers,1 fixed static.
 B2 NEW-source main75.49/47.67/41.18% vs same-tool80.39/49.25/44.12%: all three

@@ -1,0 +1,299 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "operations",
+    "noop_reason"
+  ],
+  "properties": {
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operation",
+          "target_ids",
+          "skill",
+          "source_case_ids",
+          "rationale"
+        ],
+        "properties": {
+          "operation": {
+            "type": "string",
+            "enum": [
+              "CREATE",
+              "UPDATE",
+              "DELETE",
+              "MERGE"
+            ]
+          },
+          "target_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "nda-definition-and-communication-scope",
+                "nda-permissions-exceptions-and-rights",
+                "nda-information-lifecycle-and-continuity",
+                "nda-special-disclosure-and-conduct-controls"
+              ]
+            }
+          },
+          "skill": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "hypothesis_ids",
+                  "guidance"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "hypothesis_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "nda-11",
+                        "nda-16",
+                        "nda-15",
+                        "nda-10",
+                        "nda-2",
+                        "nda-1",
+                        "nda-19",
+                        "nda-12",
+                        "nda-20",
+                        "nda-3",
+                        "nda-18",
+                        "nda-7",
+                        "nda-17",
+                        "nda-8",
+                        "nda-13",
+                        "nda-5",
+                        "nda-4"
+                      ]
+                    }
+                  },
+                  "guidance": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "inspection",
+                      "historical_example_refs"
+                    ],
+                    "properties": {
+                      "inspection": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "historical_example_refs": {
+                        "type": "array",
+                        "maxItems": 8,
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "416:nda-11",
+                            "416:nda-16",
+                            "416:nda-15",
+                            "416:nda-10",
+                            "416:nda-2",
+                            "416:nda-1",
+                            "416:nda-19",
+                            "416:nda-12",
+                            "416:nda-20",
+                            "416:nda-3",
+                            "416:nda-18",
+                            "416:nda-7",
+                            "416:nda-17",
+                            "416:nda-8",
+                            "416:nda-13",
+                            "416:nda-5",
+                            "416:nda-4",
+                            "592:nda-11",
+                            "592:nda-16",
+                            "592:nda-15",
+                            "592:nda-10",
+                            "592:nda-2",
+                            "592:nda-1",
+                            "592:nda-19",
+                            "592:nda-12",
+                            "592:nda-20",
+                            "592:nda-3",
+                            "592:nda-18",
+                            "592:nda-7",
+                            "592:nda-17",
+                            "592:nda-8",
+                            "592:nda-13",
+                            "592:nda-5",
+                            "592:nda-4",
+                            "576:nda-11",
+                            "576:nda-16",
+                            "576:nda-15",
+                            "576:nda-10",
+                            "576:nda-2",
+                            "576:nda-1",
+                            "576:nda-19",
+                            "576:nda-12",
+                            "576:nda-20",
+                            "576:nda-3",
+                            "576:nda-18",
+                            "576:nda-7",
+                            "576:nda-17",
+                            "576:nda-8",
+                            "576:nda-13",
+                            "576:nda-5",
+                            "576:nda-4",
+                            "518:nda-11",
+                            "518:nda-16",
+                            "518:nda-15",
+                            "518:nda-10",
+                            "518:nda-2",
+                            "518:nda-1",
+                            "518:nda-19",
+                            "518:nda-12",
+                            "518:nda-20",
+                            "518:nda-3",
+                            "518:nda-18",
+                            "518:nda-7",
+                            "518:nda-17",
+                            "518:nda-8",
+                            "518:nda-13",
+                            "518:nda-5",
+                            "518:nda-4",
+                            "369:nda-11",
+                            "369:nda-16",
+                            "369:nda-15",
+                            "369:nda-10",
+                            "369:nda-2",
+                            "369:nda-1",
+                            "369:nda-19",
+                            "369:nda-12",
+                            "369:nda-20",
+                            "369:nda-3",
+                            "369:nda-18",
+                            "369:nda-7",
+                            "369:nda-17",
+                            "369:nda-8",
+                            "369:nda-13",
+                            "369:nda-5",
+                            "369:nda-4",
+                            "193:nda-11",
+                            "193:nda-16",
+                            "193:nda-15",
+                            "193:nda-10",
+                            "193:nda-2",
+                            "193:nda-1",
+                            "193:nda-19",
+                            "193:nda-12",
+                            "193:nda-20",
+                            "193:nda-3",
+                            "193:nda-18",
+                            "193:nda-7",
+                            "193:nda-17",
+                            "193:nda-8",
+                            "193:nda-13",
+                            "193:nda-5",
+                            "193:nda-4",
+                            "548:nda-11",
+                            "548:nda-16",
+                            "548:nda-15",
+                            "548:nda-10",
+                            "548:nda-2",
+                            "548:nda-1",
+                            "548:nda-19",
+                            "548:nda-12",
+                            "548:nda-20",
+                            "548:nda-3",
+                            "548:nda-18",
+                            "548:nda-7",
+                            "548:nda-17",
+                            "548:nda-8",
+                            "548:nda-13",
+                            "548:nda-5",
+                            "548:nda-4",
+                            "378:nda-11",
+                            "378:nda-16",
+                            "378:nda-15",
+                            "378:nda-10",
+                            "378:nda-2",
+                            "378:nda-1",
+                            "378:nda-19",
+                            "378:nda-12",
+                            "378:nda-20",
+                            "378:nda-3",
+                            "378:nda-18",
+                            "378:nda-7",
+                            "378:nda-17",
+                            "378:nda-8",
+                            "378:nda-13",
+                            "378:nda-5",
+                            "378:nda-4",
+                            "329:nda-11",
+                            "329:nda-16",
+                            "329:nda-15",
+                            "329:nda-10",
+                            "329:nda-2",
+                            "329:nda-1",
+                            "329:nda-19",
+                            "329:nda-12",
+                            "329:nda-20",
+                            "329:nda-3",
+                            "329:nda-18",
+                            "329:nda-7",
+                            "329:nda-17",
+                            "329:nda-8",
+                            "329:nda-13",
+                            "329:nda-5",
+                            "329:nda-4"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_case_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "integer",
+              "enum": [
+                416,
+                592,
+                576,
+                518,
+                369,
+                193,
+                548,
+                378,
+                329
+              ]
+            }
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "noop_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

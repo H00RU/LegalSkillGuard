@@ -103,3 +103,63 @@ joint60.29%，同工具无技能82.35／67.26／55.88%。标签11修10伤，联�
 保存在新run monitoring/complete16_original_author_manual_sets_paired_changes_actual_wires_and_source_uncertainty_audit.json；
 内容／执行／候选分解见同目录complete16_actual_NM_collapse_candidate_visibility_rule_execution_and_content_scope_root_audit.json。
 当前仍不是独立重复、公平成熟方法比较、强空库或正式TEST，不修改不利结果。
+
+## 08:13只读补充：存储容量与调用上下文、旧试验范围
+
+contextual Run03的实际新库已把完整416源及10个原命题答案送入律师输入，不再只是
+编译候选。此处未查看本轮零散质量、未改变559冻结绑定，也未生成新资格答案。
+原32已见案仍在档案与catalogue；实际runtime只选择1案、覆盖10/17命题，每个所选
+命题只有1种过去原关系。nda-1原32案为E6/C8/NM18，runtime仅示范E。它不证明
+所有命题都应覆盖3类、需要硬性配额，或未来答案一定受损。
+
+保持实际4条inspection及scope不动，仅做无生成的容量计算：无示范scoped892；
+nda-1源文成本最低的E案290单独示范2142，C案270单独3121，而把这两份完整源
+一起示范为4373，超过4096。此数字只证明这个具体组合在当前程序文本下超预算，
+不是所有组合的全局最优证明，也不是选出一个更高分库。当前“全库全部展开都须4k”
+把保留经验量与单次上下文绑定；若跨批证据仍不足，可研究把经验池与实际检索上下文
+分开，但不能仅凭容量认定检索有效或给它增加模型/裁判。数据与未发布容量视图在
+`monitoring/past_only_global_capacity_vs_served_context_and_relation_coverage_audit.json`。
+
+实际作者ExpeL代码的setup_vectorstore保留成功轨迹池，另有rule_items规则；
+update_dynamic_prompt_components检索完整任务/轨迹，限制示例长度并排除同任务。
+这是独立于全池存储量的提示选择机制，不等于我们当前静态展开；未声称复现整个方法。
+[固定作者源码](https://raw.githubusercontent.com/LeapLabTHU/ExpeL/e41ec9a24823e7b560c561ab191441b56d9bcefc/agent/expel.py)。
+
+另用不受gitignore影响的文件遍历读1699份旧ContractNLI原生请求（不含本次运行）：
+本轮16预选案与这些旧调用的交集为空。1608份是choice/spans/reason/usedIDs，24份
+去掉usedIDs，18份checks在choice前，20份support/refute在choice前，24份applied_branch
+在choice前；这些稀疏每题接口中都没有发现spans先于choice。5份非这种接口另计。
+实际读旧sourcewise代码，要求给所有SPAN显式归属，是稠密输出而非同四字段稀疏换序。
+旧备注声称“输出排序已有负面”，不能直接当作已经排除稀疏依据先生成的实证；同样
+不能据这次扫描声称删除前历史或其他命名工件从未试过。审计
+`monitoring/past_actual_native_field_orders_and_unignored_source_exposure_audit.json`保存范围与摘要。
+这些是可验证的设计/历史边界，不是新方案效果证据。先完成冻结的两批与保持，避免
+又仅靠改一个词、排序或更多卡片就称解决取证问题。
+
+## 08:28完整B6与真实B7更新：确有错引，不再只怪漏检索
+
+完整B6八新源/16真实回答已独立按作者原集合重算，same-M2空库83.82/63.19/44.12%，
+完整示范＋程序76.47/57.14/33.82%（accuracy/原SPAN F1/joint）。标签8修18伤、联合
+9修23伤；真成员5增20丢。丢失20中，15个E→E、4个C→NM、1个C→E，13个原本已
+在普通候选。不是只有选择NM后证据被清空，亦不能靠候选召回一项解释。
+
+369、193、548、378的nda-10原Gold均NM，空库均正确；加完整416示范后均变成E[12]。
+当前12分别是定义标题、WHEREAS、客户关系前言、“as is”免责声明，公共理由却说
+协议条款保密。过去416的相同命题原标注恰为E[12]，原句是协议存在和条款视为保密。
+这比单纯集合重号更具体：选中的当前文本和给出的公共理由不符，且旧答案模式相同。
+但尚未受控改变过去引用身份，不能据此把“坐标复制”写成唯一因果。未发现过去公司
+名称串入的标记；18个分类损害中16个有同题过去示范，13个新错关系等于该示范。
+完整逐题/原文/候选可见性：
+`monitoring/B6_complete8_past_answer_identity_alignment_and_true_member_loss_root_audit.json`。
+
+B7新教师1374已真实返回并用于后续作答。40历史均完整归档，实际包为B6全8＋完整416，
+9源/Gold/真实own；无B7源、其他臂答案或私有推理。4UPDATE把全部示范换为完整378
+及17原答案，NM11/E4/C2，master2413/scoped2693。24后续输入、保持时同源例排除、
+610绑定及615归档成员独立核验；仍不能把工程通过说成有效。程序重写又出现
+“securities proxy solicitation ... do not qualify”，而原334没入这9源回放包；这是
+具体旧边界遗忘风险，不等于proxy单独支持人员招揽，也不在运行时手工改该条例。
+
+下一受控区分须保持当前源、原17命题、当前原SPAN、同M2、同4字段生成契约和实际
+发布程序不变，明确消融完整历史示范与其可混用数值引用。若改变表示，只能在新Run
+记录，先冻结和备份，不覆盖本轮负面原始工件；即使解除错引也须继续不同合同学习、
+保持及成熟对照，不能把修正坐标或高原案重答当作论文方法目标已经达到。
