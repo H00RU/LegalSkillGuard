@@ -46,6 +46,11 @@ Goal active，目标尚未达成。保持ContractNLI法律任务、冻结律师�
   receipt `artifacts/prelaunch_backups/legal_contractnli_r3_access_channel_diagnosis_20261017_run01.json`。
   恢复时检查research `r3_access_channel_diagnosis_20261017/actual_launch.json`、run progress及/proc，
   不重复launch、不热改冻结实现。8B2261314/2261698仍须保留，不重启无磁盘权重的服务。
+- 23:11新核验旧run全部144答、完整32源首遇：空库75.9191/59.6728/49.2647%，
+  普通77.0221/56.2633/51.4706%，技能77.3897/50.7806/52.7574%。技能仍未达标。
+  技能原标签E/C/NM正确204/37/180，空库202/46/165，分类净收益掩盖了C类损害。
+  全32审计双盘SHA`63bc94f15eeba21b7799876d814a10cacbd1c8cd130ea0870c0ad764f1eba60c`，
+  报告`docs/B4_STOP_AND_COMPLETE32_PREQUENTIAL_AUDIT_20261017.md`。不改主指标/删除624。
 
 ## 已归档的22:19快照（不是当前运行状态）
 
