@@ -17,13 +17,17 @@ population omission for three-way inference; it is not an upstream reproduction.
 The frozen source snapshot identifies the exact adapted file hash.
 
 Additional local hook: `_hypothesis_design` defaults to the exact original
-stage-one design. The project subclass fits the original word and contract-OOF
-calibration model first and preserves its parameters. It then fits only query
-coefficients with the original word logit as a fixed offset. Final prediction
-uses the hook to append the factual query features to that same linear dot
-product. No query columns are appended to the tree scorer. Its
-feature dimensions/leaf minimum stay unchanged across the data-only and query
-conditions. This is an attributed adaptation, not an upstream feature.
+stage-one design. New v2 fits apply the same hook in final first-stage fitting,
+every contract-held-out first-stage fit and prediction. The tree is trained on
+the resulting query-aware out-of-fold logits; query columns are not added to
+the tree. Tree feature dimensions and leaf minimum remain unchanged. The
+ordinary control is a separately fitted empty-program model on the same data.
+
+Historical v1 artifacts fit query offsets only after ordinary calibration.
+They remain immutable and are not relabelled as v2; their historical class
+needed for pickle decoding remains, but is no longer a new training path.
+The correction is a local adaptation, not an upstream feature, a new validation
+set or evidence that executable skills necessarily improve task metrics.
 
 Our query-feature extension lives outside this file. We use evidence scores
 with `plm=False` and do not use the author's binary E/C label predictions.

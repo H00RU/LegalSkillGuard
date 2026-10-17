@@ -32,6 +32,7 @@ from legal_skill_guard.utils.hashing import canonical_json_sha256
 
 from .audit import close, original_score
 from .evidence_programs import (
+    PROGRAM_FEATURE_PROTOCOL,
     SCORER_PARAMETERS,
     evidence_proposals,
     fit_program_model,
@@ -56,12 +57,13 @@ PROGRAM_TEACHER_SYSTEM = (
     "Each scoped query produces two binary span features: a literal phrase match and "
     "membership in its explicit before/after context window. A supervised TF-IDF/LR/"
     "LightGBM scorer fits against ALL seen original membership labels. Sparse "
-    "queries get regularized additional LINEAR coefficients fitted with the original "
-    "word logit as a fixed offset. Word coefficients and the ordinary contract-OOF "
-    "tree calibrator are NOT retrained around queries; they stay exactly as in the "
-    "same-data ordinary tool. No query columns enter the tree. Its dimensions and "
-    "leaf-size setting stay unchanged. The final linear dot product contains the "
-    "fixed word block plus learned query terms, not another model call. Training "
+    "query features enter the regularized LINEAR design together with word features "
+    "in final fitting, every contract-held-out training fold, and inference. The "
+    "tree is calibrated on the corresponding query-aware out-of-fold logits, not "
+    "ordinary logits later changed at inference. No query columns enter the tree; "
+    "its dimensions and leaf-size setting stay unchanged. The same-data ordinary "
+    "control is independently fit with no programs and the same algorithm and "
+    "parameters, not a masked-query score of this model. Training "
     "includes all-negative NotMentioned cases. The internal query-zero candidate "
     "sets are diagnostics only, never a selected answer or efficacy gate. Distinguish "
     "ordinary supervised-tool gains from the query terms' actual candidate changes. "
@@ -233,7 +235,7 @@ class OperatorStudy(Comparison):
         self.cfg = read(self.config_path)
         if (
             self.cfg.get("scorer_feature_delivery")
-            != "preserved_word_and_calibrator_query_coefficients_v1"
+            != PROGRAM_FEATURE_PROTOCOL
         ):
             raise ValueError("Historical tree-feature config requires its own saved source")
         self.run_id = safe_component(run_id or self.cfg["run_id"])
@@ -401,6 +403,9 @@ class OperatorStudy(Comparison):
                 "programs": self.bank_for(arm),
                 "program_library_sha256": model.program_sha256,
                 "parameters": SCORER_PARAMETERS,
+                "feature_protocol": model.feature_protocol,
+                "stage1_design_widths": model.stage1_design_widths_,
+                "stage1_oof_source_partitions": model.stage1_oof_source_partitions_,
                 "fit_and_serialize_seconds": time.monotonic() - started,
                 "original_scoring_pair_count": len(model.scoring_pairs_),
                 "original_not_mentioned_pair_count": sum(

@@ -37,6 +37,7 @@ SCORER_PARAMETERS = {
     "plm": False,
     "emb_C": 10.0,
 }
+PROGRAM_FEATURE_PROTOCOL = "joint_word_query_contract_oof_calibration_v2"
 
 
 def program_queries(programs, public_ids):
@@ -86,7 +87,11 @@ def query_features(span_texts, hypothesis_id, queries):
 
 @dataclass
 class SourceQueryLinear:
-    """One affine prediction, with the ordinary word coefficient block preserved."""
+    """Historical v1 pickle type; new fits use ordinary LogisticRegression.
+
+    Kept solely so immutable old model artifacts remain readable, not as a
+    runtime alternative or a second training path.
+    """
 
     coef_: np.ndarray
     intercept_: np.ndarray
@@ -95,41 +100,13 @@ class SourceQueryLinear:
         return np.asarray(values @ self.coef_.reshape(-1)).reshape(-1) + self.intercept_[0]
 
 
-def fit_query_coefficients(values, target, word_offset, C):
-    """Convex weighted logistic fit; no intercept or updates to word parameters."""
-    from scipy.optimize import minimize
-    from scipy.special import expit
-
-    n = len(target)
-    positive = float(np.sum(target))
-    if not 0 < positive < n:
-        raise ValueError("Query coefficients require the already-fitted binary word head")
-    weights = np.where(target > 0, n / (2 * positive), n / (2 * (n - positive)))
-
-    def objective(coefficients):
-        logits = word_offset + np.asarray(values @ coefficients).reshape(-1)
-        loss = np.sum(weights * (np.logaddexp(0, logits) - target * logits))
-        loss += np.dot(coefficients, coefficients) / (2 * C)
-        gradient = np.asarray(values.T @ (weights * (expit(logits) - target))).reshape(-1)
-        return float(loss), gradient + coefficients / C
-
-    result = minimize(
-        objective,
-        np.zeros(values.shape[1]),
-        jac=True,
-        method="L-BFGS-B",
-        options={"maxiter": 200, "ftol": 1e-12, "gtol": 1e-8},
-    )
-    if not result.success or not np.isfinite(result.x).all():
-        raise ValueError("Query coefficient optimization failed; no substitute")
-    return result.x
-
-
 class ProgramEvidenceModel(ContractModel):
-    """Learn sparse query coefficients without changing the ordinary base model.
+    """Fit source-query features consistently through contract-OOF calibration.
 
-    This avoids both a tree's hard minimum-support block and the confound where
-    merely adding unused columns changes feature-subsampling randomness.
+    Programs enter the sparse first-stage design in every training fold and at
+    inference. They never add columns to the second-stage tree. The ordinary
+    control is a separately fitted empty-program model on the exact same data,
+    not a query-zero counterfactual of a differently calibrated program model.
     """
 
     def __init__(self, programs, public_ids, **parameters):
@@ -137,13 +114,12 @@ class ProgramEvidenceModel(ContractModel):
         self.program_sha256 = canonical_json_sha256(self.programs)
         self.queries = program_queries(self.programs, public_ids)
         self._query_cache = {}
-        self.feature_protocol = "preserved_word_and_calibrator_query_coefficients_v1"
-        self._base_fit = True
+        self.feature_protocol = PROGRAM_FEATURE_PROTOCOL
         self._zero_query_features = False
         super().__init__(**parameters)
 
     def _hypothesis_design(self, original, corpus, key):
-        if not self.queries or self._base_fit:
+        if not self.queries:
             return original
         from scipy.sparse import csr_matrix, hstack
 
@@ -161,7 +137,12 @@ class ProgramEvidenceModel(ContractModel):
         return hstack((original, added), format="csr")
 
     def scores_without_query_terms(self, items, documents):
-        """Teacher/audit-only counterfactual, never a selected solver answer."""
+        """Mask-only audit under the SAME fitted head, not an ordinary baseline.
+
+        Word coefficients and the tree can co-adapt to query signals in v2.
+        This diagnostic must never be called a same-data no-program model,
+        selected answer, deployment alternative or efficacy gate.
+        """
         if self._zero_query_features:
             raise ValueError("Nested diagnostic execution")
         self._zero_query_features = True
@@ -169,40 +150,6 @@ class ProgramEvidenceModel(ContractModel):
             return self.predict_scores(items, documents)
         finally:
             self._zero_query_features = False
-
-    def fit(self, train_documents, train_annotations, hypotheses):
-        # The entire ordinary model, including contract-OOF calibration, is fit
-        # identically across arms. Programs cannot steal its word coefficients
-        # or alter tree-feature subsampling merely by adding sparse columns.
-        self._base_fit = True
-        super().fit(train_documents, train_annotations, hypotheses)
-        self._base_fit = False
-        if not self.queries:
-            return self
-        corpus = self.corpus_
-        base_width = self.X1_.shape[1]
-        for key, word_model in list(self.lr_.items()):
-            if word_model is None:
-                continue  # The declared shared learned head remains unchanged.
-            design = self._hypothesis_design(self.X1_, corpus, key)
-            indices, targets = [], []
-            for annotation in self.by_h_[key]:
-                rows = corpus.rows(annotation["doc_id"])
-                values = np.zeros(len(rows))
-                values[annotation["evidence"]] = 1
-                indices.extend(map(int, rows))
-                targets.extend(values)
-            indices, targets = np.asarray(indices), np.asarray(targets)
-            values = design[indices, base_width:]
-            coefficients = fit_query_coefficients(
-                values, targets, word_model.decision_function(self.X1_[indices]), self.C
-            )
-            self.lr_[key] = SourceQueryLinear(
-                np.concatenate((word_model.coef_[0], coefficients)).reshape(1, -1),
-                word_model.intercept_.copy(),
-            )
-        return self
-
 
 def public_document(row):
     return {"doc_id": str(row["id"]), "text": row["text"], "spans": row["spans"]}
@@ -263,7 +210,7 @@ def evidence_proposals(model, row, labels):
         return None  # Declared zero-data initial state, not a failed-model fallback.
     if (
         getattr(model, "feature_protocol", None)
-        != "preserved_word_and_calibrator_query_coefficients_v1"
+        != PROGRAM_FEATURE_PROTOCOL
     ):
         raise ValueError("Historical state needs its frozen source, not compatibility fallback")
     document = public_document(row)

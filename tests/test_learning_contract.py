@@ -647,10 +647,18 @@ def test_external_scoring_includes_original_nm_negatives_and_real_query_columns(
     assert abs(learned["program_s1__q0_match"]) > 1e-8
     assert abs(learned["program_s1__q0_context"]) > 1e-8
     assert not any(model.program_feature_coefficients_["h2"]["coefficients"].values())
-    np.testing.assert_array_equal(
-        base.lr_["h1"].coef_[0], model.lr_["h1"].coef_[0][: base.X1_.shape[1]]
-    )
-    assert base.m2_.booster_.model_to_string() == model.m2_.booster_.model_to_string()
+    assert model.feature_protocol == "joint_word_query_contract_oof_calibration_v2"
+    # Queries must enter both the final word/query fit and contract-held-out
+    # fits used to train the calibration head, not only final inference.
+    assert model.stage1_design_widths_["h1"] == base.X1_.shape[1] + 2
+    assert model.lr_["h1"].coef_.shape[1] == model.stage1_design_widths_["h1"]
+    assert any(not np.allclose(base.oof_s1_[k], model.oof_s1_[k], equal_nan=True)
+               for k in base.oof_s1_ if k[1] == "h1")
+    assert len(model.stage1_oof_source_partitions_) == 12
+    for partition in model.stage1_oof_source_partitions_:
+        assert not set(partition["training_doc_ids"]) & set(partition["scored_doc_ids"])
+        assert partition["design_width"] == model.stage1_design_widths_[partition["hypothesis_key"]]
+        assert partition["training_doc_ids"] and partition["scored_doc_ids"]
     assert base.m2_free_.booster_.model_to_string() == model.m2_free_.booster_.model_to_string()
     # Annotations of the currently scored source are not even accepted by the
     # public-document adapter. Only the saved TRAIN state supplies supervision.

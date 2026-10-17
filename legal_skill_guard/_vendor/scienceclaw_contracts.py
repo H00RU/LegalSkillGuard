@@ -541,12 +541,19 @@ class ContractModel:
         # stage 1: per-hypothesis linear models (final + out-of-fold scores of the training pairs)
         self.lr_ = {}
         self.elr_ = {}
+        self.stage1_design_widths_ = {}
+        self.stage1_oof_source_partitions_ = []
         oof = {}                                   # (doc, key) -> scores
         oof_e = {}
         for key in by_h:
+            # The same hypothesis-specific design must reach final fitting,
+            # contract-held-out fitting and inference. Program features added
+            # only after this loop leave stage-two calibration on old logits.
+            design = self._hypothesis_design(X1, corpus, key)
+            self.stage1_design_widths_[key] = design.shape[1]
             r, y = train_rows(key)
             if r is not None:
-                self.lr_[key] = self._fit_lr(X1[r], y)
+                self.lr_[key] = self._fit_lr(design[r], y)
                 if "emb_lr" in self.plm:
                     self.elr_[key] = self._fit_emb_lr(self.plm_emb_[r], y)
             for f in range(k_f):
@@ -554,11 +561,19 @@ class ContractModel:
                 if not tgt:
                     continue
                 r, y = train_rows(key, f)
-                m = self._fit_lr(X1[r], y) if r is not None else None
+                m = self._fit_lr(design[r], y) if r is not None else None
+                self.stage1_oof_source_partitions_.append({
+                    "hypothesis_key": key,
+                    "excluded_fold": f,
+                    "training_doc_ids": sorted(a["doc_id"] for a in by_h[key]
+                                               if fold_of[a["doc_id"]] != f),
+                    "scored_doc_ids": sorted(a["doc_id"] for a in tgt),
+                    "design_width": design.shape[1],
+                })
                 me = self._fit_emb_lr(self.plm_emb_[r], y) if (r is not None and "emb_lr" in self.plm) else None
                 for a in tgt:
                     rr_ = corpus.rows(a["doc_id"])
-                    oof[(a["doc_id"], key)] = self._lr_score(m, X1[rr_])
+                    oof[(a["doc_id"], key)] = self._lr_score(m, design[rr_])
                     if "emb_lr" in self.plm:
                         oof_e[(a["doc_id"], key)] = me.decision_function(self.plm_emb_[rr_]) if me is not None else None
         self.oof_s1_ = oof
