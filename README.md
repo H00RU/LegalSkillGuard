@@ -7,13 +7,17 @@ B6/B7 are also negative. Do not read old seen-case after-fit scores as new-case
 skill gains, formal TEST results, or a mature-method victory.
 
 Current default is `configs/contractnli_published_acquisition_continuation.json`,
-PREPARED for80 NEW native/1 teacher calls,197 initial bindings. It evaluates the
+launched Oct17 14:42:44 CST as detached PID1979890,80 NEW native/1 planned teacher
+calls,197 initial bindings. It evaluates the
 latest real published R2 on24 seen sources, continues the fixed last8 first
 encounters, then learns and re-answers all32. No repeated B1 or selected old bank.
-The teacher receives lossless cross-case relation indexes, actual visible scores
-and real edit history. All64 inherited wires replay exactly; last8 capacity fits
+The new teacher-input path includes lossless cross-case relation indexes, actual
+visible scores and real edit history; its actual teacher call is pending B4.
+All64 inherited wires replay exactly; last8 capacity fits
 with full output budget. Seven focused tests pass in0.30s; production Ruff passes.
 This is development continuation, NOT a cold-start repeat or official TEST.
+The first real R2 answer is wire-audited (5300 prompt/1799 output, valid17-key
+answer, same8B and nonempty reasoning); no partial quality score is reported.
 
 Oct17 12:54 CST: the canonical fact-boundary comparison completed32 actual
 native/0 teacher calls. Same-interface ordinary83.46/65.04/55.88% versus skilled

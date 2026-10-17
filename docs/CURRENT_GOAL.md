@@ -5,6 +5,21 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+14:45 published continuation已于14:42:44真实后台launch，PID1979890仍live，原8B
+2261314不动。首501真实R2答已保存/独立wire核验，5300prompt/1799out、17键合法、
+非空thinking/stop，同原source/schema/实际scored-record输入，bank确为77b86c95...
+不是旧R1/空库。首prefix197＋24=221当前绑定在首native前已逐成员保全，197源
+未热改；14:43:51已1/80、0教师，继续339。新教师数据流已接入但实际调用待B4，
+不能称新teacher已生效或新指标已改善。下一完成24真实R2保持，再最后8首遇、
+teacher1及累计32保持自动相连，当前不读partial质量。Full Goal仍active未达。
+
+实际prelaunch全197与源码/Git已保全204项目/206成员，Git
+9c61a41590b3b45ef0717c4f0d5d1397900c3117，SHA3a111c4d190d7558e2e063d523a87d1e57008df4e296c262b4188ea43f2f8f2c。
+另校验复制到rootdisk-backups不同/dev/vda5，同服务器非异地；receipt
+artifacts/prelaunch_backups/legal_contractnli_published_acquisition_continuation_20261017_run01.json及
+artifacts/published_continuation_prelaunch_rootdisk_copy_20261017.json。没有新下载/付费
+API/新model/fallback/效果准入/最终答案修补，字形normalization仍按协议未混改。
+
 14:40 published continuation已实际实现并prepare，尚未launch：
 legal_contractnli_published_acquisition_continuation_20261017_run01，197初始绑定。
 现有AcquisitionStudy接续入口加载真实R2，无新B1/初始教师；继承64 own=旧canonical
