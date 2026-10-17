@@ -5,6 +5,33 @@
 
 ## 当前执行游标（10月17日，覆盖下方历史状态）
 
+14:40 published continuation已实际实现并prepare，尚未launch：
+legal_contractnli_published_acquisition_continuation_20261017_run01，197初始绑定。
+现有AcquisitionStudy接续入口加载真实R2，无新B1/初始教师；继承64 own=旧canonical
+K2的16＋旧R1的16＋旧R1新8＋本次selected scored-R1的24，明确排除records控制。
+原64actual wire/各自encoding/source/M2/schema已通过真实生产接续方法重放，在
+freeze_phase前主动终止检查，0新native/教师、run目录未创建。固定最后8只做公开
+source容量，最大prompt+8192=21409<32768，无Gold/分数窥视或案件重选。
+
+实际生产改动是同教师的学习数据流：现有packing.table/keyed/expand无损表、
+按原命题原E/C/NM的跨案索引、真实可见增量score、实际输入encoding/hash、历史
+pub deltas/rationales；输出仍同source-query CRUD，actor source_messages/NOTICE/
+schema/原检索器/字形匹配API未变，未混入NFKC。不是第二agent/语义judge或runtime
+中间层。全64旧actor内容逐字重放通过，可与selected R1 scored对照测R2库更新。
+7必要检查0.30秒通过，生产Ruff通过；旧单个测试文件有16条既有import/style告警，
+未冒称整个repo lint全绿，也未为它拖延训练或改写无关测试。
+
+下一80/1 schedule=24真实R2旧案保持＋24最后8的三臂首遇＋1教师＋32全保持。
+未来teacher拥有96真实own=64继承＋24R2保持＋8R2首遇，所有32源均有当前R2实答，
+没有用source replay冒充native。新protocol写明开发接续而非干净四批冷启动曲线；
+Goal仍active且指标目标未达。先Git/全部197源码与先验输入保全，再后台launch。
+
+完整terminal48与全部262实际绑定已先于生产改动保全，285项目/287成员，Git
+9f131f8323e5e41617b868708555a8468ab37c85，SHA27cd2b6553dc9f2f401bfdec587865c64db6511936e0a6fdf9c4e6b467863155。
+该archive还校验复制到/home/yndx/hhy/legal-skill-rootdisk-backups（/dev/vda5），
+不同于source/dev/vdb；原hhy/legal-skill-backups只是同vdb symlink，不能当独立盘。
+这是同服务器第二文件系统，不是异地/模型weights/auth备份。
+
 14:29当前48/0机制试验及后台独立96-wire/原作者复算全部完成，1894976/1930890
 均已退出；非超时猜测停机。complete48审计262绑定，结果与worker完整统计一致。
 完整24 ordinary83.088/62.222/55.392、旧R1 indices82.108/61.735/51.225、records

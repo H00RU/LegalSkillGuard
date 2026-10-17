@@ -1605,3 +1605,35 @@ def test_incremental_records_preserve_all_facts_and_only_add_existing_fixed_scor
     missing["by_hypothesis"]["h1"].pop("raw_scores")
     with pytest.raises(KeyError):
         source_messages(row, labels, "Common.", bank, missing, incremental_encoding="scored_records")
+
+
+def test_readable_acquisition_teacher_keeps_all_information_and_opposite_case_index():
+    from legal_skill_guard.learning.acquisition import readable_teacher_view
+    from legal_skill_guard.learning.packing import expand
+
+    body = {"public_hypotheses": {"h": {"hypothesis": "Same original question"}},
+        "complete_cumulative_original_TRAIN_sources_and_Gold": [
+            {"id": 1, "text": "Full first source.", "spans": [[0, 18]], "original_annotations": {"h": {"choice": "Entailment", "spans": [0]}}},
+            {"id": 2, "text": "Full opposed source.", "spans": [[0, 20]], "original_annotations": {"h": {"choice": "Contradiction", "spans": [0]}}}],
+        "current_parent_native_member_feedback": {"1": {"h": {"missing": [0], "false": []}}},
+        "current_parent_acquisition_member_feedback_not_legal_predictions": {"1": {"h": {"Gold": [0]}}},
+        "actual_own_public_observations": [{"actual_public_answer": {"h": {"choice": "NotMentioned", "spans": [], "reason": "actual failure"}}, "actual_incremental_read_encoding": "scored_records"}],
+        "actual_source_execution_catalogue": {"bank:1": {"skill": [{"matched": [0], "neighbour": []}]}},
+        "actual_visible_ordinary_candidates_by_source": {"1": {"h": []}},
+        "actual_visible_incremental_reads_by_source": {"1": {"h": [{"original_span_index": 0, "membership_score": .00001}]}},
+        "current_parent_library": [], "observed_libraries": {"bank": []},
+        "published_edit_history_not_individual_edit_effects": [{"actual_delta": {"operations": []}}]}
+    preserved = copy.deepcopy(body)
+    view = readable_teacher_view(body)
+    assert body == preserved and expand(view["body"]) == preserved
+    assert view["cross_source_relation_index"] == {"h": {"Entailment": [1], "Contradiction": [2], "NotMentioned": []}}
+
+
+def test_acquisition_history_encoding_is_explicit_for_new_and_declared_for_legacy():
+    from legal_skill_guard.learning.acquisition import incremental_encoding
+
+    assert incremental_encoding({"arm": "skills"}) == "indices"
+    assert incremental_encoding({"arm": "scored_records"}) == "scored_records"
+    assert incremental_encoding({"arm": "skills", "incremental_read_encoding": "scored_records"}) == "scored_records"
+    with pytest.raises(AssertionError):
+        incremental_encoding({"arm": "ordinary"})

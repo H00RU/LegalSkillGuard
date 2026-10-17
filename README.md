@@ -6,6 +6,15 @@ Completed source-program B1--B3 did not establish skill transfer; contextual
 B6/B7 are also negative. Do not read old seen-case after-fit scores as new-case
 skill gains, formal TEST results, or a mature-method victory.
 
+Current default is `configs/contractnli_published_acquisition_continuation.json`,
+PREPARED for80 NEW native/1 teacher calls,197 initial bindings. It evaluates the
+latest real published R2 on24 seen sources, continues the fixed last8 first
+encounters, then learns and re-answers all32. No repeated B1 or selected old bank.
+The teacher receives lossless cross-case relation indexes, actual visible scores
+and real edit history. All64 inherited wires replay exactly; last8 capacity fits
+with full output budget. Seven focused tests pass in0.30s; production Ruff passes.
+This is development continuation, NOT a cold-start repeat or official TEST.
+
 Oct17 12:54 CST: the canonical fact-boundary comparison completed32 actual
 native/0 teacher calls. Same-interface ordinary83.46/65.04/55.88% versus skilled
 84.19/63.65/52.57%: reduced classification interference, but F1/joint still fail
@@ -18,7 +27,7 @@ complete new8-source comparison again harmed all three metrics versus ordinary
 M2 (82.35/56.14/54.41% ordinary,77.94/54.62/46.32% skills). Its second publication
 R2 is preserved but unevaluated, not declared ineffective or selected away.
 
-Current default: `configs/contractnli_read_record_score_mechanism.json`, completed
+Previous mechanism: `configs/contractnli_read_record_score_mechanism.json`, completed
 Oct17 14:28 CST with48 NEW native/0 teacher calls. This is a mechanism comparison on ALL24
 completed sources, holding the actual R1 bank fixed. It separates incremental
 index-record formatting from existing fixed-M2 score information. The native

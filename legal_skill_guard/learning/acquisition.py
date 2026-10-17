@@ -36,6 +36,7 @@ from .clauses import (
 from .conditioned import list_preamble_links
 from .evidence_programs import evidence_proposals
 from .experiment import ROOT, Comparison, now, points, read, sha
+from .packing import expand, keyed, table
 from .publication import (
     apply_differential_publication,
     differential_schema,
@@ -126,6 +127,88 @@ TEACHER = (
     "actual8B tokens; aim<=2200 master to leave correction room. Never truncate "
     "knowledge or force expansion. Return exactly the differential schema."
 )
+
+CONTRAST_TEACHER_NOTE = (
+    " The readable record tables recursively expand to the complete supplied "
+    "TRAIN body; source text is verbatim. cross_source_relation_index groups "
+    "the SAME original annotations by hypothesis and original E/C/NM choice. "
+    "Compare opposed as well as supported cases before narrowing an acquisition "
+    "purpose. Governing definitions, alternatives and exceptions may provide "
+    "responsive evidence without explicitly naming the hypothesis's target "
+    "word. Separating topics must not erase contrary or independently responsive "
+    "evidence. Inspect the actual delivered incremental membership scores, not "
+    "just read counts. Old observations identify their actual input encoding; "
+    "do not attribute interface changes to bank edits. published_edit_history "
+    "contains real prior edits and rationales, not proof any individual edit "
+    "caused an outcome. Preserve justified cross-case boundaries and simplify "
+    "only where the supplied sources warrant it; do not force growth or count."
+)
+
+
+def incremental_encoding(payload):
+    """Explicit new metadata or the declared legacy acquisition ABI."""
+    value = payload.get("incremental_read_encoding", payload["arm"])
+    if value == "skills":
+        value = "indices"  # Historical canonical payloads predate this metadata.
+    assert value in ("indices", "records", "scored_records")
+    return value
+
+
+def readable_teacher_view(original):
+    """Reuse existing lossless tables; no sources, outcomes or fields selected."""
+    body = copy.deepcopy(original)
+    for case in body["complete_cumulative_original_TRAIN_sources_and_Gold"]:
+        case["original_annotations"] = keyed(case["original_annotations"])
+    body["complete_cumulative_original_TRAIN_sources_and_Gold"] = table(body["complete_cumulative_original_TRAIN_sources_and_Gold"])
+    for field in ("current_parent_native_member_feedback", "current_parent_acquisition_member_feedback_not_legal_predictions"):
+        body[field] = {d: keyed(rows) for d, rows in body[field].items()}
+    for obs in body["actual_own_public_observations"]:
+        obs["actual_public_answer"] = keyed(obs["actual_public_answer"])
+    body["actual_own_public_observations"] = table(body["actual_own_public_observations"])
+    body["actual_source_execution_catalogue"] = {ref: {sid: table(events) for sid, events in programs.items()}
+        for ref, programs in body["actual_source_execution_catalogue"].items()}
+    for field in ("actual_visible_ordinary_candidates_by_source", "actual_visible_incremental_reads_by_source"):
+        if field in body:
+            body[field] = {d: {h: table(v) for h, v in rows.items()} for d, rows in body[field].items()}
+    body["current_parent_library"] = table(body["current_parent_library"])
+    body["observed_libraries"] = {k: table(v) for k, v in body["observed_libraries"].items()}
+    assert expand(body) == original, "Never truncate or summarize training evidence"
+    index = {h: {choice: [r["id"] for r in original["complete_cumulative_original_TRAIN_sources_and_Gold"]
+        if r["original_annotations"][h]["choice"] == choice]
+        for choice in ("Entailment", "Contradiction", "NotMentioned")} for h in original["public_hypotheses"]}
+    return {"encoding": "readable-lossless-acquisition-tables-v1",
+        "legend": "A record-table-v1 has ordered columns and rows; zip each row with columns. "
+            "A keyed-record-table-v1 additionally maps its ordered keys to those objects. "
+            "Recursively expand body to recover the complete original input exactly. "
+            "No original source, annotation, observation, score, receipt, bank or order is removed. "
+            "cross_source_relation_index only indexes the same original TRAIN annotations. "
+            "NotMentioned has no Gold citations, not proof every context read is irrelevant.",
+        "body": body, "cross_source_relation_index": index}
+
+
+def published_prefix_observations(cfg):
+    """Explicit64-own lineage; never include the other diagnostic arm."""
+    parent = ROOT / cfg["published_prefix_run"]
+    declaration = parent / "declaration.json"
+    original_prefix = ROOT / read(declaration)["config"]["prefix_feedback_run"] / "complete32_native_and_original_scores.json"
+    prefix = parent / "prefix_repair_all_seen_retention.json"
+    before = parent / "b3_before_complete.json"
+    actor = ROOT / cfg["prefix_actor_reference_run"]
+    actor_complete = actor / "completion.json"
+    actor_units = actor / "complete_native_and_original_scores.json"
+    assert read(actor_complete)["completed_native_calls"] == 48
+    assert read(actor_complete)["completed_teacher_calls"] == 0
+    original = [u for u in read(original_prefix)["units"] if u["condition"] == "skills"]
+    own = original + read(prefix)["new_units"] + [u for u in read(before)["units"] if u["condition"] == "skills"]
+    selected = [u for u in read(actor_units)["units"] if u["condition"] == cfg["prefix_actor_reference_arm"]]
+    assert len(own) == 40 and len(selected) == 24
+    assert [u["document_id"] for u in selected] == cfg["training_ids"][:24]
+    own += selected
+    assert len({u["response"]["raw_id"] for u in own}) == 64
+    assert {u["document_id"] for u in own} == set(cfg["training_ids"][:24])
+    paths = [declaration, original_prefix, prefix, before, actor_complete, actor_units]
+    paths.extend(Path(u[k]) for u in own for k in ("payload", "raw_artifact"))
+    return own, selected, paths
 
 
 def compact(value):
@@ -278,6 +361,18 @@ def prepare_acquisition_inputs(cfg):
         assert cfg["planned_new_native_calls"] == 120 and cfg["planned_new_teacher_calls"] == 3
         references.extend([parent / "completion.json", parent / "complete32_native_and_original_scores.json", publication])
         references.extend(Path(u[k]) for u in own for k in ("payload", "raw_artifact"))
+    if cfg.get("published_prefix_run"):
+        assert not cfg.get("prefix_feedback_run")
+        own, selected, paths = published_prefix_observations(cfg)
+        publication = ROOT / cfg["initial_bank_publication"]
+        assert sha(publication) == cfg["initial_bank_publication_sha256"]
+        published = read(publication)
+        assert {u["bank_sha256"] for u in selected} == {csha(published["parent"])}
+        assert cfg["prefix_actor_reference_arm"] == cfg["incremental_source_encoding"] == "scored_records"
+        assert cfg["teacher_evidence_view"] == "contrastive_record_tables"
+        assert cfg["planned_new_native_calls"] == 80 and cfg["planned_new_teacher_calls"] == 1
+        assert len(own) == cfg["planned_inherited_own_native_calls"] == 64
+        references.extend([publication, *paths, *(ROOT / p for p in cfg["historical_publications"])])
     return selection, references
 
 
@@ -304,6 +399,7 @@ class AcquisitionStudy(Comparison):
         assert not self.model.programs and not self.model.queries
         self.native, self.teachers, self.own, self.first, self.units = [], [], [], [], []
         self.teacher_attempts, self.current_batch, self.stop = 0, 0, False
+        self.inherited_count = 0
         self.bank, self.banks, self.proposals = [], {csha([]): []}, {}
         self.meter, self.summaries = WireClient(self.cfg["generation"]), []
         for sig in (signal.SIGTERM, signal.SIGINT):
@@ -335,6 +431,7 @@ class AcquisitionStudy(Comparison):
         assert tokens + self.cfg["generation"]["max_tokens"] <= self.cfg["generation"]["context_tokens"], "No clipping/shorter output/fallback"
         return {"document_id": row["id"], "arm": arm, "messages": messages, "schema": schema,
             "prompt_tokens": tokens, "bank": copy.deepcopy(actual), "bank_sha256": csha(actual),
+            "incremental_read_encoding": encoding,
             "fixed_ordinary_model_state": None if actual_arm == "strong_empty" else self.manifest["state_sha256"],
             "actual_factual_trace": trace}
 
@@ -418,6 +515,8 @@ class AcquisitionStudy(Comparison):
     def teacher_body(self, seen):
         gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
         receipts, observations = {}, []
+        contrasting = self.cfg.get("teacher_evidence_view") == "contrastive_record_tables"
+        payloads = {}
         seen_ids = {r["id"] for r in seen}
         for u in self.own:
             assert u["document_id"] in seen_ids
@@ -431,7 +530,12 @@ class AcquisitionStudy(Comparison):
                 "actual_bank_sha256": u["bank_sha256"], "actual_native_raw_id": u["response"]["raw_id"],
                 "actual_public_answer": json.loads(u["response"]["content"]),
                 "actual_source_execution_ref": key, "actual_native_artifact_sha256": sha(u["raw_artifact"])})
+            if contrasting:
+                observations[-1].update(actual_incremental_read_encoding=incremental_encoding(p),
+                    actual_input_payload_sha256=sha(u["payload"]))
+                payloads[u["response"]["raw_id"]] = p
         parent_refs, acquisition_feedback, native_feedback, parent_native_ids = {}, {}, {}, {}
+        actual_incremental = {}
         for row in seen:
             key = f"{csha(self.bank)}:{row['id']}"
             current = execute_library(row, self.bank)
@@ -443,6 +547,9 @@ class AcquisitionStudy(Comparison):
             assert actual, "Every seen source needs actual current-parent native feedback"
             latest = actual[-1]
             parent_native_ids[str(row["id"])] = latest["actual_native_raw_id"]
+            if contrasting:
+                actual_body = json.loads(payloads[latest["actual_native_raw_id"]]["messages"][1]["content"])
+                actual_incremental[str(row["id"])] = {h: actual_body["hypotheses"][h]["additional_source_read_indices"] for h in self.labels}
             feedback, diagnostics = {}, {}
             for h in self.labels:
                 returned = {i for s in self.bank if h in s["hypothesis_ids"]
@@ -458,7 +565,7 @@ class AcquisitionStudy(Comparison):
                 diagnostics[h] = native_member_feedback(annotation, latest["actual_public_answer"][h], ordinary, roles)
             acquisition_feedback[str(row["id"])] = feedback
             native_feedback[str(row["id"])] = diagnostics
-        return {"public_hypotheses": self.labels, "current_parent_library": self.bank,
+        body = {"public_hypotheses": self.labels, "current_parent_library": self.bank,
             "complete_cumulative_original_TRAIN_sources_and_Gold": [{**r, "original_annotations": gold[str(r["id"])]} for r in seen],
             "observed_libraries": self.banks, "actual_own_public_observations": observations,
             "actual_source_execution_catalogue": receipts,
@@ -477,6 +584,24 @@ class AcquisitionStudy(Comparison):
                     "copy", "copies", "copied", "agreement", "agreements", "survive", "survives", "survival", "oral", "verbal")}},
             "parent_capacity": self.capacity(self.bank),
             "all_cumulative_own_successes_failures_retention_included_no_other_arm_answers": True}
+        if not contrasting:
+            return body
+        body["actual_visible_incremental_reads_by_source"] = actual_incremental
+        body["published_edit_history_not_individual_edit_effects"] = []
+        for path in self.cfg["historical_publications"]:
+            event = read(ROOT / path)
+            body["published_edit_history_not_individual_edit_effects"].append({
+                "actual_publication_sha256": sha(ROOT / path),
+                "parent_bank_sha256": csha(event["parent"]),
+                "published_bank_sha256": csha(event["publication"]), "actual_delta": event["delta"],
+                "multiple_edits_and_input_changes_are_not_single_edit_causal_effects": True})
+        for path in sorted((self.out / "publications").glob("*.json")):
+            event = read(path)
+            body["published_edit_history_not_individual_edit_effects"].append({
+                "actual_publication_sha256": sha(path), "parent_bank_sha256": csha(event["parent"]),
+                "published_bank_sha256": csha(event["publication"]), "actual_delta": event["delta"],
+                "multiple_edits_and_input_changes_are_not_single_edit_causal_effects": True})
+        return readable_teacher_view(body)
 
     def update(self, seen):
         body = self.teacher_body(seen)
@@ -485,7 +610,8 @@ class AcquisitionStudy(Comparison):
         RunStore.immutable_json(path, body)
         self.bindings[str(path)] = sha(path)
         schema = differential_schema(self.labels, self.bank, [r["id"] for r in seen], guidance_schema=GUIDANCE_SCHEMA)
-        value = self.teacher_call(name, TEACHER, body, schema)
+        teacher_system = TEACHER + (CONTRAST_TEACHER_NOTE if self.cfg.get("teacher_evidence_view") == "contrastive_record_tables" else "")
+        value = self.teacher_call(name, teacher_system, body, schema)
         for p in (self.out / "teacher" / name).glob("*.json"):
             self.bindings[str(p)] = sha(p)
         published = apply_differential_publication(self.bank, value, self.labels, [r["id"] for r in seen], guidance_schema=GUIDANCE_SCHEMA)
@@ -509,10 +635,13 @@ class AcquisitionStudy(Comparison):
         RunStore.immutable_json(self.out / "declaration.json", {"at": now(), "run_id": self.run_id,
             "config": self.cfg, "frozen_bindings": self.bindings,
             "ordinary_model_held_fixed": self.manifest, "not_official_TEST_or_independent_replication": True})
-        continued = bool(self.cfg.get("prefix_feedback_run"))
-        if continued:
+        published_prefix = bool(self.cfg.get("published_prefix_run"))
+        continued = published_prefix or bool(self.cfg.get("prefix_feedback_run"))
+        if published_prefix:
+            self.continue_from_published_prefix()
+        elif continued:
             self.learn_from_inherited_prefix()
-        for batch in range(3 if continued else 1, 5):
+        for batch in range(4 if published_prefix else 3 if continued else 1, 5):
             self.current_batch = batch
             rows, seen = self.training[(batch - 1) * 8:batch * 8], self.training[:batch * 8]
             entries = self.freeze_phase(f"b{batch}_before", rows, ["strong_empty", "ordinary", "skills"])
@@ -556,15 +685,16 @@ class AcquisitionStudy(Comparison):
             RunStore.immutable_json(self.out / f"batch{batch}_summary.json", summary)
             self.summaries.append(summary)
             write_report(self.out)
-        expected_native, expected_teachers, expected_aliases = (120, 3, 0) if continued else (168, 4, 8)
+        expected_native, expected_teachers, expected_aliases = (80, 1, 0) if published_prefix else (120, 3, 0) if continued else (168, 4, 8)
         assert len(self.native) == self.cfg["planned_new_native_calls"] == expected_native
         assert len(self.teachers) == self.cfg["planned_new_teacher_calls"] == expected_teachers
         assert len({r["response"]["raw_id"] for r in self.native}) == expected_native
         self.check()
         complete = {"at": now(), "run_id": self.run_id, "actual_new_native_teacher_calls": [expected_native, expected_teachers],
             "logical_observations": len(self.units), "explicit_same_run_cold_aliases": expected_aliases,
-            "inherited_prefix_native_answers_not_new_calls": 16 if continued else 0,
+            "inherited_prefix_native_answers_not_new_calls": self.inherited_count,
             "prefix_feedback_run_not_cold_start_or_independent_repeat": self.cfg.get("prefix_feedback_run"),
+            "published_prefix_run_not_cold_start_or_independent_repeat": self.cfg.get("published_prefix_run"),
             "prequential_results": {a: points([u for u in self.first if u["condition"] == a]) for a in ("strong_empty", "ordinary", "skills")},
             "final_seen_retention": self.summaries[-1]["retention_all_seen"],
             "actual_native_usage": {k: sum(r["response"][k] for r in self.native) for k in ("prompt_tokens", "completion_tokens")},
@@ -588,6 +718,7 @@ class AcquisitionStudy(Comparison):
             assert replay["messages"] == observed["messages"] and replay["schema"] == observed["schema"]
             assert u["bank_sha256"] == csha(self.bank)
         self.own.extend(own)
+        self.inherited_count = len(own)
         self.current_batch = 2
         stats = self.update(self.training[:16])
         entries = self.freeze_phase("prefix_after_repair", self.training[:16], ["skills"])
@@ -597,6 +728,44 @@ class AcquisitionStudy(Comparison):
             "at": now(), "inherited_actual_own_reference": own, "new_units": after,
             "before": points(own), "after": points(after), "library_management": stats,
             "not_new_case_transfer_or_independent_cold_start": True})
+
+    def continue_from_published_prefix(self):
+        """Evaluate the latest real R2, then continue B4; no repeated teacher/B1."""
+        own, reference, _ = published_prefix_observations(self.cfg)
+        assert sha(ROOT / self.cfg["initial_bank_publication"]) == self.cfg["initial_bank_publication_sha256"]
+        self.bank = read(ROOT / self.cfg["initial_bank_publication"])["publication"]
+        sources = {r["id"]: r for r in self.training[:24]}
+        for u in own:
+            p, raw = read(u["payload"]), read(u["raw_artifact"])
+            assert not u["exact_same_run_cold_alias"]
+            assert raw["transport_error"] is None and len(raw["calls"]) == 1
+            wire = raw["calls"][0]["request"]
+            assert raw["response"] == u["response"]
+            assert wire["messages"] == p["messages"] and wire["response_format"]["json_schema"]["schema"] == p["schema"]
+            assert all(wire[k] == self.cfg["generation"][k] for k in ("model", "seed", "temperature", "top_p", "top_k", "max_tokens"))
+            validate(json.loads(u["response"]["content"]), p["schema"])
+            d = u["document_id"]
+            if d not in self.proposals:
+                self.proposals[d] = evidence_proposals(self.model, sources[d], self.labels)
+            messages, schema, trace = source_messages(sources[d], self.labels, self.system,
+                p["bank"], self.proposals[d], incremental_encoding=incremental_encoding(p))
+            assert (messages, schema, trace) == (p["messages"], p["schema"], p["actual_factual_trace"])
+            assert csha(p["bank"]) == p["bank_sha256"] == u["bank_sha256"]
+            assert p["fixed_ordinary_model_state"] == self.manifest["state_sha256"]
+            self.banks[p["bank_sha256"]] = copy.deepcopy(p["bank"])
+        self.banks[csha(self.bank)] = copy.deepcopy(self.bank)
+        self.own.extend(own)
+        self.inherited_count = len(own)
+        self.current_batch = 3
+        entries = self.freeze_phase("published_R2_prefix", self.training[:24], ["skills"])
+        after = self.audit_and_grade([self.answer(e) for e in entries])
+        self.own.extend(after)
+        RunStore.immutable_json(self.out / "published_prefix_actual_retention.json", {
+            "at": now(), "inherited_own_count_not_new_calls": len(own),
+            "matched_R1_same_encoding_reference_units": reference, "new_units": after,
+            "before": points(reference), "after": points(after),
+            "latest_published_R2_evaluated_without_initial_teacher_or_bank_selection": True,
+            "not_new_case_transfer_or_cold_start_or_independent_repeat": True})
 
 
 class AcquisitionInterfaceStudy(AcquisitionStudy):
