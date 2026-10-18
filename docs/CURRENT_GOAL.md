@@ -15,7 +15,32 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 最新恢复快照：2026-10-18 11:55 CST，已授权恢复同一模型
+## 最新恢复快照：2026-10-18 12:26 CST，单服务恢复并续接代码工作
+
+- 用户取消双实例和相关并发链路改造。只恢复同一Qwen3-8B；保留任务、教师、律师最终
+  输出责任，不重启旧负收益run。不是重新开始全量资格测试或新建研究Goal。
+- 五片权重全部按官方hash验证，12:18:56准备任务成功，12:20:09服务完成启动。
+  当前`legal-qwen3-8b.service`MainPID3889231、engine3889870，localhost8000健康200。
+  新进程、模型root/revision和实际argv/ticks收据为
+  `artifacts/live_8b_environment_restored_20261018.json`。旧运行冻结收据不改写。
+- 实际3次合成生成：普通生成、结构化生成、旧故障同一1-token/logprobs请求均200，
+  最后服务仍健康。普通文本READY.多句号的字面遵循失败已保留，不重采样；不能据
+  新logprobs成功反推旧EngineCore异常的确切根因。没有教师/训练案件启动检查。
+- 模型文件在两文件系统有完整副本，五片SHA分别核验；源码完整Git1eb59a2两盘bundle
+  SHA`fd201b0433a5bfbae18a6908fed02f2b602e3445932a78f713404f92565736e9`。
+  同主机双盘不是异地备份或整机回滚。完整推理环境位于独立runtime而非CPU项目venv。
+- 已续接昨晚未完成断点：在原`executable_features.py`新增显式语义谓词表示，通过
+  同一8B每源一次执行全谓词；原锚定scorer/CRUD/原SPAN指标及最终律师权责不变。
+  无新代理、另模型、失败返回零/正则替代、输出修补或效果准入。纯代码仍按原约束执行。
+- 原实验入口已接教师和真实native记录；85项检查8.31秒通过，不等于有效。
+  新有限run`legal_contractnli_semantic_feature_feedback_20261018_run01`已prepare，
+  **截至本条尚未launch**。真实末次负收益父库，不选旧较好库；同18/原已暴露16，
+  教师完整输入943757chars，0新教师/语义执行。计划1现有教师、最多34native及7base fits。
+  配置`configs/contractnli_semantic_feature_feedback_20261018.json`，完整协议
+  `SEMANTIC_SOURCE_FEATURE_PROTOCOL_20261018.md`。先完整固定库组件转移，不冒充主训练、
+  独立held-out、端到端收益或论文Goal已达成。下一步保全冻结源码后实际后台执行。
+
+## 已归档恢复快照：2026-10-18 11:55 CST，已授权恢复同一模型
 
 - 用户已明确要求把训练模型服务恢复，允许重新获取同一Qwen3-8B并重建完整环境。
   不等于换模型/教师、修改任务、恢复负收益训练或自动新开研究Goal。

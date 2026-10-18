@@ -1,12 +1,15 @@
-"""Bounded teacher induction of source-code features; zero lawyer generation.
+"""Bounded teacher induction of executable source features.
 
 Keeps the legal task and final-lawyer authority unchanged. This is a fixed-history
 development check, not online learning completion or a formal TEST experiment.
+The declared semantic protocol counts its SAME-8B predicate execution as native
+generation; historical pure-code protocols still require zero native calls.
 """
 
 from __future__ import annotations
 
 import argparse
+import fcntl
 import json
 import pickle
 import signal
@@ -22,8 +25,9 @@ from legal_skill_guard.data import source_components
 from legal_skill_guard.experiment.storage import RunStore
 from legal_skill_guard.inference.native import WireClient
 from legal_skill_guard.learning.executable_features import (
-    ATTRIBUTES, BUILTINS, FEATURE_PROTOCOL, GUIDANCE_SCHEMA, anchored_probability,
-    fit_feature_model, publish,
+    ATTRIBUTES, BUILTINS, EXECUTABLE_GUIDANCE_SCHEMA, FEATURE_PROTOCOL,
+    GUIDANCE_SCHEMA, SEMANTIC_EXECUTION_PROTOCOL, SEMANTIC_SYSTEM,
+    anchored_probability, fit_feature_model, publish,
 )
 from legal_skill_guard.learning.experiment import Comparison, ROOT, now, read, sha
 from legal_skill_guard.learning.publication import differential_schema
@@ -78,6 +82,44 @@ WRITER = (
     "support operation rationales. Aim <=3200 total serialized library tokens under "
     "the hard4096 budget, including IDs/scopes/names/source, with no truncation."
 )
+SEMANTIC_METHOD = "same_8b_semantic_feature_feedback"
+SEMANTIC_WRITER = (
+    "Revise the EXACT supplied executable feature parent using ONLY the complete "
+    "already-seen18 TRAIN contracts, original annotations and actual component "
+    "diagnostics supplied here. No tools, outside law, future sources/results, "
+    "private reasoning or invented lawyer rollouts. This is label-assisted external "
+    "skill learning, not parameter training or TF-GRPO. The task, original labels "
+    "and original SPAN metrics remain unchanged. The frozen8B lawyer still decides "
+    "every final label and citation; feature activations are not final answers. "
+    "The unchanged ordinary scorer and its source-held-out log-odds correction "
+    "are as described in the supplied current-parent diagnostics. No score gating, "
+    "selected bank, clipping, retries or rollback. Every valid CRUD/NOOP publishes. "
+    "The runtime NOW supports two explicit feature representations. Existing "
+    "guidance.feature_names/python_source functions retain their exact documented "
+    "pure CPU behavior; they cannot call a model. Alternatively guidance contains "
+    "feature_names/source_predicates, equal-length arrays in corresponding order. "
+    "Each predicate is a concise reusable source-observable semantic condition. "
+    "All semantic predicates are executed together in ONE whole-contract call to "
+    "the SAME frozen8B, not another teacher/judge or per-span calls. It returns "
+    "original indices where each condition is established. The learned scorer "
+    "calibrates these fallible binary features using already-seen TRAIN membership; "
+    "a nonzero activation does not force a citation and zero does not imply NM. "
+    "Use this capability where regex cannot preserve actor/action/object, modality, "
+    "conditional or cross-clause scope. Predicates should be operationally narrow "
+    "enough for the8B to execute, not just renamed target NLI questions, expected "
+    "answers, vague 'relevant evidence' instructions or whole-section catch-alls. "
+    "Respect each condition's own source membership versus merely useful context. "
+    "No parties, dates, document IDs/fingerprints, span integers, answer tables or "
+    "memorized quotations in runtime guidance. Unannotated spans are benchmark "
+    "nonmembers, not universal semantic negatives. Inspect complete TRAIN successes "
+    "and failures rather than adding synonyms. You may UPDATE/DELETE/MERGE current "
+    "skills, CREATE justified skills, or NOOP; no forced count, type, growth or "
+    "conversion. Unmentioned parent records remain verbatim. UPDATE preserves its "
+    "target ID, targets are unconsumed original parent IDs; only DELETE has null "
+    "skill. Cite only supplied source_case_ids in audit rationale, never runtime. "
+    "Return the requested differential JSON. Aim<=3200 serialized library tokens "
+    "under the4096 hard budget with complete predicates, no truncation."
+)
 
 
 def author_train(cfg):
@@ -88,6 +130,7 @@ def author_train(cfg):
 
 def prepare(config):
     cfg = read(config)
+    semantic = cfg["method"] == SEMANTIC_METHOD
     assert not Path(config).with_suffix(".frozen.json").exists()
     assert not (ROOT / "runs" / cfg["run_id"]).exists()
     author = author_train(cfg)
@@ -126,7 +169,8 @@ def prepare(config):
     parent_files = []
     if parent:
         parent_result = read(ROOT / cfg["parent_training_result"])
-        model_info = parent_result["model"]
+        model_info = (parent_result["model_artifacts"][cfg["parent_model_arm"]]
+                      if semantic else parent_result["model"])
         assert sha(model_info["path"]) == model_info["sha256"]
         with Path(model_info["path"]).open("rb") as stream:
             model = pickle.load(stream)
@@ -174,6 +218,17 @@ def prepare(config):
             "do not merely reverse a coefficient or add synonyms without checking complete conditions. "
             "No new16 source, label, result, selected failure subset or private reasoning is supplied.")
         parent_files = [ROOT/cfg["parent_publication"], ROOT/cfg["parent_training_result"], Path(model_info["path"])]
+    if semantic:
+        assert cfg["generation"]["model"] == "Qwen/Qwen3-8B"
+        assert cfg["generation"]["disable_thinking"] is True
+        assert cfg["planned_new_native_calls"] == len(train) + len(future)
+        body["explicit_same_8B_semantic_execution"] = {
+            "protocol": SEMANTIC_EXECUTION_PROTOCOL,
+            "actual_executor_system": SEMANTIC_SYSTEM,
+            "runtime_inputs": "complete public original text/spans and predicates ONLY",
+            "output": "one original-index list per predicate, fallible binary features",
+            "final_lawyer_authority_unchanged": True,
+            "no_semantic_execution_outcomes_exist_yet": True}
     body_path = ROOT / cfg["teacher_body"]
     RunStore.immutable_json(body_path, body)
     files = [p for p in (ROOT / "legal_skill_guard").rglob("*.py") if p.is_file()]
@@ -191,14 +246,17 @@ def prepare(config):
     print(json.dumps({"prepared": cfg["run_id"], "parent_skills": len(parent),
                       "historical_public_observations": 0 if parent else len(observations),
                       "planned_model_factory_calls": 2,
-                      "planned_new_native_teacher_CPU_fits": [0, 1, cfg["planned_new_CPU_fits"]]}), flush=True)
+                      "planned_new_native_teacher_CPU_fits": [cfg["planned_new_native_calls"], 1,
+                                                               cfg["planned_new_CPU_fits"]]}), flush=True)
 
 
 class FeatureInduction(Comparison):
     def __init__(self, config):
         self.cfg = read(config)
+        self.semantic = self.cfg["method"] == SEMANTIC_METHOD
         self.cfg["teacher"] = read(ROOT / self.cfg["teacher_profile_reference"])["teacher"]
-        self.cfg["generation"] = read(ROOT / self.cfg["inference_profile_reference"])["generation"]
+        if not self.semantic:
+            self.cfg["generation"] = read(ROOT / self.cfg["inference_profile_reference"])["generation"]
         frozen = Path(config).with_suffix(".frozen.json")
         binding = read(frozen)
         assert binding["config_sha256"] == sha(config)
@@ -212,7 +270,20 @@ class FeatureInduction(Comparison):
             signal.signal(sig, lambda *_: setattr(self, "stop", True))
 
     def call(self, *args, **kwargs):
-        raise AssertionError("Zero native generation in this finite feature induction")
+        if not self.semantic:
+            raise AssertionError("Zero native generation in the pure-code feature induction")
+        return Comparison.call(self, *args, **kwargs)
+
+    def semantic_call(self, messages, schema, document):
+        if len(self.native) >= self.cfg["planned_new_native_calls"]:
+            raise ValueError("Declared semantic native-call bound exceeded")
+        source = csha({"text": document["text"], "spans": document["spans"]})
+        return self.call(self.out / "native_semantics" / self.feature_phase / (source+".json"),
+            messages, schema, self.cfg["generation"]["max_tokens"], {
+                "stage": self.feature_phase, "arm": "code_features",
+                "document_id": document["doc_id"], "call_role": "source_predicates",
+                "semantic_protocol": SEMANTIC_EXECUTION_PROTOCOL,
+                "no_final_NLI_or_evidence_decision": True})
 
     def record(self, name, value):
         path = self.out / name
@@ -224,15 +295,17 @@ class FeatureInduction(Comparison):
         parent = [] if not self.cfg.get("parent_publication") else read(ROOT/self.cfg["parent_publication"])["publication"]
         self.record("declaration.json", {"at": now(), "config": self.cfg,
             "actual_initial_bank": parent, "frozen_bindings": self.bindings.copy(),
+            "semantic_execution_uses_same_frozen_lawyer_counted_as_native": self.semantic,
             "final_lawyer_authority_unchanged_no_direct_evidence_reuse": True})
         author = author_train(self.cfg)
         original = {r["id"]: r for r in author["documents"]}
         labels, train = author["labels"], self.cfg["training_ids"]
         name = "current_parent_code_feature_update" if parent else "empty_parent_code_features"
-        value = self.teacher_call(name, WRITER,
+        guidance = EXECUTABLE_GUIDANCE_SCHEMA if self.semantic else GUIDANCE_SCHEMA
+        value = self.teacher_call(name, SEMANTIC_WRITER if self.semantic else WRITER,
             read(ROOT / self.cfg["teacher_body"]),
-            differential_schema(labels, parent, train, guidance_schema=GUIDANCE_SCHEMA))
-        bank = publish(parent, value, labels, train)
+            differential_schema(labels, parent, train, guidance_schema=guidance))
+        bank = publish(parent, value, labels, train, guidance_schema=guidance)
         tokens = self.meter.token_count(text=json.dumps(bank, ensure_ascii=False, separators=(",", ":")))
         assert tokens <= self.cfg["library_token_hard_cap"], "No clipping or substitute library"
         self.record("publication.json", {"at": now(), "parent": parent, "teacher_value": value,
@@ -244,7 +317,9 @@ class FeatureInduction(Comparison):
             self.progress("CPU_fit", current_arm=arm)
             start = time.monotonic()
             self.cpu_fits += 1
-            model = fit_feature_model([original[d] for d in train], labels, library)
+            self.feature_phase = "training_source_features"
+            model = fit_feature_model([original[d] for d in train], labels, library,
+                semantic_caller=self.semantic_call if self.semantic else None)
             path = self.out / f"{arm}.pickle"
             with path.open("xb") as stream:
                 pickle.dump(model, stream, protocol=5)
@@ -263,6 +338,7 @@ class FeatureInduction(Comparison):
         for arm, model in models.items():
             self.check()
             self.progress("CPU_predict_complete16", current_arm=arm)
+            self.feature_phase = "development_source_features"
             with threadpool_limits(limits=2):
                 values = model.predict_scores(items, documents)
             assert len(values) == len(items)
@@ -290,7 +366,8 @@ class FeatureInduction(Comparison):
             "Gold_NN_hard_micro_F1": float(2*c[0]/(2*c[0]+c[1]+c[2]))} for arm, c in counts.items()}
         self.check()
         result = {"at": now(), "run_id": self.run_id,
-            "actual_native_teacher_CPU_fits": [0, 1, sum(v["base_scorer_fit_count"] for v in usage.values())],
+            "actual_native_teacher_CPU_fits": [len(self.native), len(self.teachers),
+                                               sum(v["base_scorer_fit_count"] for v in usage.values())],
             "actual_model_factory_calls": self.cpu_fits,
             "actual_bank": bank, "metrics": metrics, "per_source_hypothesis": per, "model_artifacts": usage,
             "already_developer_exposed16_not_held_out_or_official_TEST": True,
@@ -310,18 +387,20 @@ def main():
     if args.command == "prepare":
         prepare(args.config)
         return
-    study = FeatureInduction(args.config)
-    try:
-        study.execute()
-    except BaseException as exc:
-        failure = {"at": now(), "error": repr(exc), "traceback": traceback.format_exc(),
-            "stdout": str(getattr(exc, "stdout", "")), "stderr": str(getattr(exc, "stderr", "")),
-            "actual_native_teacher_attempted_factory_calls": [0, len(study.teachers), study.cpu_fits],
-            "failed_factory_internal_fit_count_not_inferred": True,
-            "teacher_attempts": study.teacher_attempts, "no_retry_or_feature_or_answer_repair": True}
-        study.record("failure.json", failure)
-        RunStore.atomic_json(study.out / "progress.json", {"state": "failed", **failure})
-        raise
+    with (ROOT / "artifacts/gpu_generation.lock").open("a+") as lock:
+        fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        study = FeatureInduction(args.config)
+        try:
+            study.execute()
+        except BaseException as exc:
+            failure = {"at": now(), "error": repr(exc), "traceback": traceback.format_exc(),
+                "stdout": str(getattr(exc, "stdout", "")), "stderr": str(getattr(exc, "stderr", "")),
+                "actual_native_teacher_attempted_factory_calls": [len(study.native), len(study.teachers), study.cpu_fits],
+                "failed_factory_internal_fit_count_not_inferred": True,
+                "teacher_attempts": study.teacher_attempts, "no_retry_or_feature_or_answer_repair": True}
+            study.record("failure.json", failure)
+            RunStore.atomic_json(study.out / "progress.json", {"state": "failed", **failure})
+            raise
 
 
 if __name__ == "__main__":

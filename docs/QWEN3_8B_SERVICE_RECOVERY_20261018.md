@@ -4,6 +4,24 @@ The user explicitly authorized restoration on 2026-10-18 after the original
 RAM-only service died. This permits retrieving the **same Qwen3-8B**, not a new
 model, paid API, task change, resumption of negative training, or a new teacher.
 
+## Completed operational restoration (12:21 CST)
+
+All five shards passed official content hashes. Preparation succeeded12:18:56;
+the single API service completed startup12:20:09, MainPID3889231/engine3889870.
+Three actual synthetic generations returned200: plain, structured JSON and the
+exact one-token/logprobs request preceding the original incident. The service
+remained healthy. Plain output was `READY.` rather than requested `READY`;
+this literal-following failure was retained without resampling. Operational
+readiness is not perfect instruction following or a paper metric.
+
+New identity/readiness is recorded in
+`artifacts/live_8b_environment_restored_20261018.json` and runtime
+`qwen3-8b-restoration-20261018/completed-readiness.json`. Historical frozen
+process/model-root records were not rewritten. This does not establish the
+lost service's original exception. The five backup shards on the root disk
+were individually rehashed against their verified runtime counterparts.
+The user cancelled two-instance/concurrency work; no such change was made.
+
 ## Identity and storage
 
 - Model: `Qwen/Qwen3-8B`, BF16, official HF revision

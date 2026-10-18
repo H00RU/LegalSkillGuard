@@ -727,6 +727,77 @@ def test_anchored_source_probability_has_exact_zero_identity_not_error_fallback(
         anchored_probability(np.array([0.]), np.zeros((1, 2)), np.zeros(2))
 
 
+def test_semantic_source_features_use_one_complete_public_request_without_answers():
+    import numpy as np
+
+    from legal_skill_guard.learning.executable_features import (
+        execute_semantic_features, semantic_feature_request, validate_library,
+    )
+
+    row, labels, _ = fixture()
+    library = [{"id": "semantic", "hypothesis_ids": ["h1"], "guidance": {
+        "feature_names": ["retention_permission", "duty_of_confidence"],
+        "source_predicates": ["Recipient is expressly permitted to retain a copy.",
+                              "Recipient has a duty not to disclose confidential information."]}}]
+    validate_library(library, labels)
+    messages, schema, _ = semantic_feature_request(library, row)
+    encoded = json.dumps(messages)
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in encoded
+    assert "annotation_sets" not in encoded and "source_case_id" not in encoded
+    assert "Recipient may retain an archive." in encoded
+    assert "Purpose is evaluation." in encoded
+    calls = []
+
+    def native(msg, contract, document):
+        calls.append((msg, contract))
+        assert document["text"] == row["text"]
+        return response({"f0": [1], "f1": [0]})
+
+    values, receipt = execute_semantic_features(library, row, native)
+    assert calls == [(messages, schema)]
+    np.testing.assert_array_equal(values["semantic"], [[0, 1], [1, 0], [0, 0]])
+    assert receipt["one_actual_native_call_no_Gold_ID_scores_or_final_verdict"]
+    assert receipt["raw_id"] == "native-test"
+    bad = copy.deepcopy(library)
+    bad[0]["guidance"]["source_predicates"].pop()
+    with pytest.raises(ValueError, match="exactly one"):
+        validate_library(bad, labels)
+    with pytest.raises(ValueError, match="Duplicate semantic"):
+        execute_semantic_features(library, row, lambda *_: response({"f0": [1, 1], "f1": []}))
+    with pytest.raises(ValueError, match="Incomplete semantic"):
+        execute_semantic_features(library, row, lambda *_: response({"f0": [], "f1": []}, finish="length"))
+    with pytest.raises(ValidationError):
+        execute_semantic_features(library, row, lambda *_: response({"f0": [99], "f1": []}))
+
+
+def test_semantic_feature_model_scopes_batches_and_requires_explicit_transport():
+    import pickle
+    import numpy as np
+
+    from legal_skill_guard._vendor.scienceclaw_contracts import _Corpus
+    from legal_skill_guard.learning.evidence_programs import public_document
+    from legal_skill_guard.learning.executable_features import AnchoredFeatureModel
+
+    row, labels, _ = fixture()
+    library = [{"id": "semantic", "hypothesis_ids": ["h1"], "guidance": {
+        "feature_names": ["retention_permission"],
+        "source_predicates": ["Recipient is expressly permitted to retain a copy."]}}]
+    calls = []
+    def native(*args):
+        calls.append(args)
+        return response({"f0": [1]})
+    model = AnchoredFeatureModel(library, labels, semantic_caller=native)
+    corpus = _Corpus([public_document(row)])
+    np.testing.assert_array_equal(model.source_features(corpus, "h1"), [[0], [1], [0]])
+    assert not model.source_features(corpus, "h2").any()
+    assert len(calls) == 1, "Scope application must not repeat the semantic call per hypothesis"
+    restored = pickle.loads(pickle.dumps(model))
+    assert restored._semantic_caller is None
+    restored._source_feature_cache.clear()
+    with pytest.raises(ValueError, match="explicit same-model"):
+        restored.source_features(corpus, "h1")
+
+
 @pytest.mark.parametrize("body", [
     "import os\ndef span_features(text, spans):\n    return []\n",
     "def span_features(text, spans):\n    return open('/etc/passwd').read()\n",

@@ -1,0 +1,92 @@
+{
+  "at": "2026-10-18T04:21:37.849268+00:00",
+  "pid": 3889231,
+  "actual_argv": [
+    "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python",
+    "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm",
+    "serve",
+    "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "--served-model-name",
+    "Qwen/Qwen3-8B",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "8000",
+    "--dtype",
+    "bfloat16",
+    "--max-model-len",
+    "32768",
+    "--max-num-seqs",
+    "1",
+    "--seed",
+    "42",
+    "--generation-config",
+    "vllm",
+    "--reasoning-parser",
+    "qwen3",
+    "--gpu-memory-utilization",
+    "0.48",
+    "--no-enable-prefix-caching",
+    "--disable-uvicorn-access-log",
+    "--guided-decoding-backend",
+    "xgrammar",
+    "--guided-decoding-disable-any-whitespace",
+    "--kv-cache-memory-bytes",
+    "5368709120",
+    "--max-num-batched-tokens",
+    "16384"
+  ],
+  "process_start_ticks": "430365352",
+  "service_unit": "legal-qwen3-8b.service",
+  "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+  "model_official_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "weight_files_present_and_official_hashes_verified": true,
+  "not_bitwise_identity_claim_to_lost_original_model": true,
+  "environment_reconstruction_not_bitwise_historical_environment": true,
+  "actual_synthetic_native_generation_calls": 3,
+  "zero_teacher_or_training_calls": true,
+  "plain_exact_literal_check_failed_retained_not_resampled": true,
+  "plain_raw_output_retained": "READY.",
+  "readiness_criteria": "health, model identity, complete generation, structured schema, actual logprobs; not perfect literal instruction following",
+  "readiness": {
+    "health": {
+      "HTTP_status": 200,
+      "response": null,
+      "elapsed_seconds": 0.0006840648129582405
+    },
+    "model_cards": {
+      "HTTP_status": 200,
+      "response": {
+        "object": "list",
+        "data": [
+          {
+            "id": "Qwen/Qwen3-8B",
+            "object": "model",
+            "created": 1792297297,
+            "owned_by": "vllm",
+            "root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+            "parent": null,
+            "max_model_len": 32768,
+            "permission": [
+              {
+                "id": "modelperm-ce4c735920274372bc6fa7db61adeb27",
+                "object": "model_permission",
+                "created": 1792297297,
+                "allow_create_engine": false,
+                "allow_sampling": true,
+                "allow_logprobs": true,
+                "allow_search_indices": false,
+                "allow_view": true,
+                "allow_fine_tuning": false,
+                "organization": "*",
+                "group": null,
+                "is_blocking": false
+              }
+            ]
+          }
+        ]
+      },
+      "elapsed_seconds": 0.000734466128051281
+    }
+  }
+}
