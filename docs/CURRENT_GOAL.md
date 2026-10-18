@@ -15,7 +15,13 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 04:53 CST，样例Run01容量停止；Run02修正真实知识预算、保留完整失败成本，准备launch
+## 当前快照：2026-10-19 04:54 CST，样例Run01容量停止；Run02真实后台启动，首教师608313字符已送达
+
+04:54:20实际worker1231646/ticks436337826，独立preserver1231649/ticks436337827。
+core892af1b576802afbf86a86d8a2920d33bc051740；68成员全源码/Git启动双盘逐成员验证
+SHA1aa5de43c3011a55aed1d18dd9dfbdf3b865857edb23e44df021d8e71bce0aea。
+181条候选实际CPU tokenizer成本已交教师，04:54:22为0/72 native、教师attempt1/完成0，非效果证明。
+同16/同242pickle/无答案复用，自动完整两批，禁止重复launch/热改；接真实发布和后续指标。以下是准备记录。
 
 Run01于04:48:41 failed0native/1教师/1实际CPUfit，新案尚未作答/评分。9技能13见证：存储4311tokens，
 剔除不交给模型的审计来源hash/ref/ID后知识3221。原“连审计也算4k”过度收紧，未宿主裁剪/替换/发布。
@@ -27,7 +33,7 @@ Run01于04:48:41 failed0native/1教师/1实际CPUfit，新案尚未作答/评分
 空新representation、失败候选只作容量参考，新教师新delta，不自动接受它。普通242精确pickle复用，绝不重fit。
 新费用72/2/1，继承失败0/1/1，case-backed episode若完成72/3/2；家族prior145/7/6，完成后217/9/7。
 protocol docs/WITNESSED_EXPERIENCE_FORWARD16_PROTOCOL_20261019_RUN02.md；ledger1443/last1433，后2教师足够。
-准备冻结/备份后真实launch，不能把Run01说成仍在运行。Goal active未达成，没有新的正收益证据。
+冻结/备份/真实Run02 launch现已完成，不能把Run01说成仍在运行。Goal active未达成，没有新的正收益证据。
 
 ## 已归档快照：2026-10-19 04:47 CST，样例Run01当时启动，后于首次容量检查停止
 
