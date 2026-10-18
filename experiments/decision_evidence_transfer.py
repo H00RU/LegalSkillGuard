@@ -325,10 +325,31 @@ ONLINE_WRITER = (
 )
 
 
+def online_writer(complete_order):
+    if complete_order:
+        return ONLINE_WRITER
+    return ONLINE_WRITER.replace(
+        "past sources; its binary candidates AND complete all-original-index "
+        "membership rank ordering are now visible. Ranking is a fallible search "
+        "order, not a citation set; its tail can contain real members. Learn ",
+        "past sources; only its fallible binary candidates and exact source "
+        "anchors are visible, alongside the complete original contract. No "
+        "complete rank-order list or source-size output quota is supplied. "
+        "Candidates are not compulsory citations. The earlier ranked interface "
+        "caused large-scale copied indices and is no longer used. Every own "
+        "episode answer NOW supplied was really generated with this same "
+        "canonical interface and exact parent bank, not copied from that failed "
+        "interface. Learn ")
+
+
 def prepare_online(config):
     config = Path(config).resolve()
     cfg = read(config)
-    assert cfg["method"] == "ranked_joint_online24_forward8"
+    assert cfg["method"] in ("ranked_joint_online24_forward8", "canonical_joint_online_continuation")
+    start = cfg.get("start_batch", 1)
+    assert start in (1, 2)
+    if start == 2:
+        assert cfg["method"] == "canonical_joint_online_continuation" and not cfg["show_complete_member_order"]
     assert not config.with_suffix(".frozen.json").exists() and not (ROOT / "runs" / cfg["run_id"]).exists()
     assert sha(ROOT / cfg["source_archive"]) == cfg["source_archive_sha256"]
     with zipfile.ZipFile(ROOT / cfg["source_archive"]) as archive:
@@ -358,24 +379,34 @@ def prepare_online(config):
         "source_only_selection": {"seed": cfg["source_only_seed"], "eligible_ids": eligible,
             "excluded_original_and_source_component_ids": sorted(excluded),
             "no_selection_using_labels_or_outcomes": True},
-        "three_learning_batches_then_unseen_forward_batch_of8": True})
+        "episode_has_three_learning_batches_then_forward8": True,
+        "this_run_inherits_first_episode_batch": start == 2})
     RunStore.immutable_json(ROOT / cfg["grading_only"], {
         "original_TRAIN_annotations": {str(d): original[d]["annotation_sets"][0]["annotations"] for d in past+ids},
         "teacher_gets_only_revealed_past42_and_episode_prefix": True,
         "all_current_batch_answers_precede_current_batch_grading": True})
     ledger = read(ROOT / cfg["teacher"]["ledger"])
-    assert max(r["sequence"] for r in ledger["reservations"]) + 3 <= ledger["max_invocations"]
-    assert cfg["planned_new_native_calls"] == 136 and cfg["planned_new_teacher_calls"] == 3
+    teachers = 4-start
+    expected_calls = 136 if start == 1 else 120
+    assert max(r["sequence"] for r in ledger["reservations"]) + teachers <= ledger["max_invocations"]
+    assert cfg["planned_new_native_calls"] == expected_calls and cfg["planned_new_teacher_calls"] == teachers
     files = list((ROOT / "legal_skill_guard").rglob("*.py"))
     files += [Path(__file__).resolve(), config, ROOT / "tests/test_learning_contract.py", Path(manifest["path"])]
     files += [ROOT / cfg[k] for k in ("source_archive", "input_packet", "grading_only", "ordinary_manifest",
         "parent_publication", "parent_terminal_preservation", "development_reference_config",
         "excluded_parent_config", "inference_environment", "method_protocol")]
+    if start == 2:
+        prefix_path = ROOT / cfg["initial_ordinary_prefix_manifest"]
+        prefix = read(prefix_path)
+        assert prefix["source_ids"] == past+ids[:8] and sha(prefix["path"]) == prefix["sha256"]
+        publication = read(ROOT / cfg["parent_publication"])
+        assert publication["original_seen_source_ids"] == prefix["source_ids"]
+        files += [prefix_path, Path(prefix["path"])]
     RunStore.immutable_json(config.with_suffix(".frozen.json"), {
         "config_sha256": sha(config), "files": {str(p.resolve()): sha(p) for p in files}})
     print(json.dumps({"prepared": cfg["run_id"], "new_episode_ids": ids,
-        "original_train_label_updates": 24, "forward_readout": 8,
-        "planned_native_teacher_CPUfits": [136, 3, 3]}), flush=True)
+        "inherited_episode_labels": (start-1)*8, "new_original_train_label_updates": teachers*8,
+        "forward_readout": 8, "planned_native_teacher_CPUfits": [expected_calls, teachers, teachers]}), flush=True)
 
 
 class RankedOnline(DecisionEvidenceTransfer):
@@ -386,6 +417,14 @@ class RankedOnline(DecisionEvidenceTransfer):
         self.past, self.prefix_model = packet["past_documents"], self.model
         self.own_current, self.batch_summaries, self.fit_records = {}, [], []
         self.prefix_ids = list(packet["past_seen_ids"])
+        if self.cfg.get("start_batch", 1) == 2:
+            prefix = read(ROOT / self.cfg["initial_ordinary_prefix_manifest"])
+            assert sha(prefix["path"]) == prefix["sha256"]
+            with Path(prefix["path"]).open("rb") as stream:
+                self.prefix_model = pickle.load(stream)
+            self.prefix_ids = prefix["source_ids"]
+            assert not self.prefix_model.programs
+            assert self.prefix_ids == [r["id"] for r in self.past+self.documents[:8]]
 
     def logical(self, row, arm, response):
         if self.phase.endswith("_fixed_tool_control"):
@@ -415,13 +454,16 @@ class RankedOnline(DecisionEvidenceTransfer):
         own = [self.own_current[r["id"]] for r in seen]
         before = self.score(own)
         ranked_observations = []
+        complete_order = self.cfg.get("show_complete_member_order", True)
         for row in seen:
             source = evidence_proposals(self.model, row, self.labels)
-            ranked_observations.append({"document_id": row["id"], "by_hypothesis": {
-                h: {"binary_candidate_members": [v["original_span_index"] for v in p["candidates"]],
-                    "complete_original_member_rank_order": sorted(range(len(p["raw_scores"])),
-                        key=lambda i: (-p["raw_scores"][i], i))}
-                for h,p in source["by_hypothesis"].items()}})
+            members = {h: {"binary_candidate_members": [v["original_span_index"] for v in p["candidates"]]}
+                       for h,p in source["by_hypothesis"].items()}
+            if complete_order:
+                for h,p in source["by_hypothesis"].items():
+                    members[h]["complete_original_member_rank_order"] = sorted(
+                        range(len(p["raw_scores"])), key=lambda i: (-p["raw_scores"][i], i))
+            ranked_observations.append({"document_id": row["id"], "by_hypothesis": members})
         body = {"public_hypotheses": self.labels, "current_parent_library": parent,
             "complete_original_past42_and_revealed_episode_sources_and_Gold": teacher_sources(self.past+seen, gold),
             "actual_current_parent_episode_public_answers": table(own),
@@ -429,19 +471,19 @@ class RankedOnline(DecisionEvidenceTransfer):
                 "by_hypothesis": {q["hypothesis_id"]: {k: q[k] for k in (
                     "label_correct", "evidence_tp", "evidence_fp", "evidence_fn", "joint_exact")}
                     for q in u["queries"]}, "public_valid": u["public_valid"]} for u in before],
-            "actual_fixed42_candidate_members_and_complete_orders": table(ranked_observations),
+            "actual_fixed42_visible_candidate_information": table(ranked_observations),
             "numeric_candidate_scores_archived_in_actual_inputs_not_resupplied_as_threshold_targets": True,
             "main_ordinary_tool_remains_fixed_on_original42": self.manifest,
             "future_joint_system": joint_payload(seen[0], self.labels,
                 evidence_proposals(self.model, seen[0], self.labels),
-                self.cfg["bundled_solver_system"], parent)[0][0]["content"],
-            "complete_membership_rank_order_visible_in_single_joint_action": True,
+                self.cfg["bundled_solver_system"], parent, complete_order=complete_order)[0][0]["content"],
+            "complete_membership_rank_order_visible_in_single_joint_action": complete_order,
             "no_future_episode_sources_answers_annotations_or_official_DEV_TEST": True}
         name = f"online_b{self.current_batch}"
         self.record(f"learning_inputs/{name}.json", body)
         seen_ids = [r["id"] for r in self.past+seen]
         schema = differential_schema(self.labels, parent, seen_ids, guidance_schema=GUIDANCE_SCHEMA)
-        value = self.teacher_call(name, ONLINE_WRITER, body, schema)
+        value = self.teacher_call(name, online_writer(complete_order), body, schema)
         self.bank = apply_differential_publication(parent, value, self.labels, seen_ids, guidance_schema=GUIDANCE_SCHEMA)
         for channel in ("relation_criterion", "evidence_criterion"):
             channel_criteria(self.bank, self.labels, channel)
@@ -488,17 +530,30 @@ class RankedOnline(DecisionEvidenceTransfer):
     def joint(self, row, arm, proposals):
         bank = self.bank if arm == "skills" else []
         self.logical(row, arm, self.generate(row, arm, *joint_payload(
-            row, self.labels, proposals, self.cfg["bundled_solver_system"], bank)))
+            row, self.labels, proposals, self.cfg["bundled_solver_system"], bank,
+            complete_order=self.cfg.get("show_complete_member_order", True))))
 
     def execute(self):
         self.check()
+        start_batch = self.cfg.get("start_batch", 1)
         self.record("declaration.json", {"at": now(), "config": self.cfg,
             "exact_actual_terminal_parent": self.bank, "frozen_bindings": self.bindings.copy(),
             "no_best_bank_rollback_or_future_case_tuning": True,
-            "three_batches_online24_then_forward8_not_all32_label_training": True})
+            "start_batch": start_batch, "inherited_episode_labels": (start_batch-1)*8,
+            "new_label_teaching": (4-start_batch)*8, "forward_readout_not_taught": 8})
         self.record("publications/initial.json", {"at": now(), "publication": self.bank,
             "actual_inherited_teacher_sources": self.prefix_ids, "not_empty_start_independent_repeat": True})
-        for batch in range(1, 5):
+        if start_batch > 1:
+            self.phase = "initial_parent_canonical_retention"
+            first = len(self.answers)
+            for row in self.documents[:(start_batch-1)*8]:
+                self.joint(row, "skills", evidence_proposals(self.model, row, self.labels))
+            initial = self.score(self.answers[first:])
+            self.units.extend(initial)
+            self.record("initial_retention.json", {"at": now(), "metrics": points(initial),
+                "not_unseen_evaluation_or_teacher_update_gain": True,
+                "refresh_all_inherited_episode_own_answers_in_actual_new_interface": True})
+        for batch in range(start_batch, 5):
             self.current_batch = batch
             rows, seen = self.documents[(batch-1)*8:batch*8], self.documents[:batch*8]
             start = len(self.answers)
@@ -547,15 +602,17 @@ class RankedOnline(DecisionEvidenceTransfer):
                 self.record(f"batch_summaries/b{batch}_complete.json", {
                     **summary, "publication_statistics": stats, "paired_seen_update_effect": effect})
                 self.fit_prefix(seen)
-        assert len(self.native) <= 136 and len(self.teachers) == 3 and len(self.fit_records) == 3
+        assert len(self.native) == self.cfg.get("planned_new_native_calls", 136 if start_batch == 1 else 120)
+        assert len(self.teachers) == len(self.fit_records) == 4-start_batch
         prequential = [u for u in self.units if u["stage"].endswith("_prequential") or u["stage"].endswith("_fixed_tool_control")]
         groups = {a: [u for u in prequential if u["condition"] == a] for a in (
             "joint_empty", "fixed_tool_empty", "skills")}
-        assert all(len(v) == 32 for v in groups.values())
+        assert all(len(v) == (5-start_batch)*8 for v in groups.values())
         result = {"at": now(), "run_id": self.run_id, "batch_summaries": self.batch_summaries,
             "aggregate_prequential_metrics": {a: points(u) for a,u in groups.items()},
             "actual_new_native_teacher_CPUfits": [len(self.native), len(self.teachers), len(self.fit_records)],
             "final_bank": self.bank, "units": self.units, "ordinary_prefix_fits": self.fit_records,
+            "inherited_episode_labels": (start_batch-1)*8, "new_taught_labels": (4-start_batch)*8,
             "inherited42_plus_episode24_taught_forward8_not_taught": True,
             "all_adverse_results_and_original_denominators_retained": True,
             "not_independent_algorithmic_repeat_or_official_TEST": True}
@@ -569,7 +626,7 @@ def main():
     parser.add_argument("command", choices=("prepare", "run"))
     parser.add_argument("config", type=Path)
     args = parser.parse_args()
-    online = read(args.config)["method"] == "ranked_joint_online24_forward8"
+    online = read(args.config)["method"] in ("ranked_joint_online24_forward8", "canonical_joint_online_continuation")
     if args.command == "prepare":
         (prepare_online if online else prepare)(args.config)
         return

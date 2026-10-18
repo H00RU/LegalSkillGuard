@@ -2131,7 +2131,8 @@ def test_complete_member_order_delivers_tail_without_changing_binary_candidates(
     assert proposals == saved
 
 
-def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch):
+@pytest.mark.parametrize("start_batch", [1, 2])
+def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch):
     from types import SimpleNamespace
 
     from experiments import decision_evidence_transfer as module
@@ -2146,13 +2147,17 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     RunStore.immutable_json(gold_path, {"original_TRAIN_annotations": {
         str(r["id"]): gold for r in study.past+study.documents}})
     study.cfg = {"grading_only": str(gold_path), "bundled_solver_system": "Same task.",
-                 "library_token_hard_cap": 4096}
+                 "library_token_hard_cap": 4096, "start_batch": start_batch,
+                 "show_complete_member_order": start_batch == 1}
     study.labels, study.bank = labels, [{"id": "s", "hypothesis_ids": list(labels),
         "guidance": {"relation_criterion": "Inspect the source.", "evidence_criterion": "Select actual members."}}]
     study.bindings, study.run_id, study.out = {}, "synthetic_only", tmp_path / "run"
     study.manifest = {"synthetic": True}
     study.model = study.prefix_model = object()
     study.prefix_ids = list(range(100, 142))
+    if start_batch == 2:
+        study.prefix_model = object()
+        study.prefix_ids += list(range(1, 9))
     study.meter = SimpleNamespace(token_count=lambda **_: 100)
     study.native, study.teachers, study.units, study.answers = [], [], [], []
     study.own_current, study.batch_summaries, study.fit_records = {}, [], []
@@ -2185,6 +2190,10 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
         assert {s["id"] for s in sources} == set(range(100,142)) | set(range(1,count+1))
         own = expand(body["actual_current_parent_episode_public_answers"])
         assert {u["document_id"] for u in own} == set(range(1,count+1))
+        assert body["complete_membership_rank_order_visible_in_single_joint_action"] == (start_batch == 1)
+        if start_batch == 2:
+            assert "no longer used" in system
+            assert "complete_original_member_rank_order" not in json.dumps(body)
         assert len([u for u in study.answers if u["stage"] == f"b{study.current_batch}_prequential"]) == 16
         study.teachers.append(name)
         return {"operations": [], "noop_reason": "Synthetic chronology fixture, no live teacher."}
@@ -2199,11 +2208,15 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     study.fit_prefix = fit
     study.execute()
     result = records["completion.json"]
-    assert result["actual_new_native_teacher_CPUfits"] == [136, 3, 3]
-    assert len(study.answers) == 144 and len([k for k in records if k.startswith("exact_aliases/")]) == 8
+    assert result["actual_new_native_teacher_CPUfits"] == ([136, 3, 3] if start_batch == 1 else [120, 2, 2])
+    assert len(study.answers) == (144 if start_batch == 1 else 120)
+    assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if start_batch == 1 else 0)
     assert len(records["publications/b3.json"]["original_seen_source_ids"]) == 66
     assert not any(k == "publications/b4.json" for k in records)
-    assert all(v["documents"] == 32 for v in result["aggregate_prequential_metrics"].values())
+    assert all(v["documents"] == (32 if start_batch == 1 else 24) for v in result["aggregate_prequential_metrics"].values())
+    if start_batch == 2:
+        assert records["initial_retention.json"]["not_unseen_evaluation_or_teacher_update_gain"]
+        assert result["inherited_episode_labels"] == 8 and result["new_taught_labels"] == 16
 
 
 def test_joint_skills_share_original_task_preserve_anchors_and_bound_set_cardinality():
@@ -2228,3 +2241,30 @@ def test_joint_skills_share_original_task_preserve_anchors_and_bound_set_cardina
         for branch in a["properties"][h]["anyOf"]:
             p = branch["properties"]
             assert p["spans"]["maxItems"] == (0 if p["choice"]["enum"] == ["NotMentioned"] else len(row["spans"]))
+
+
+def test_canonical_joint_removes_citation_like_rank_lists_not_source_or_candidate_anchors():
+    from legal_skill_guard.learning.acquisition import source_messages
+    from legal_skill_guard.learning.decision_evidence import joint_payload
+
+    original, labels, _ = fixture()
+    row = {k: original[k] for k in ("id", "text", "spans")}
+    proposals = {"by_hypothesis": {h: {"candidates": [
+        {"original_span_index": 2, "membership_score": .9}], "raw_scores": [.1, .1, .9]}
+        for h in labels}}
+    bank = [{"id": "NOT_RUNTIME", "hypothesis_ids": ["h1"], "guidance": {
+        "relation_criterion": "RELATION_CANARY", "evidence_criterion": "EVIDENCE_CANARY"}}]
+    reference, expected_schema, _ = source_messages(row, labels, "Task.", [], proposals)
+    empty, a = joint_payload(row, labels, proposals, "Task.", complete_order=False)
+    skills, b = joint_payload(row, labels, proposals, "Task.", bank, complete_order=False)
+    assert a == b == expected_schema and empty[0] == skills[0]
+    x,y = [json.loads(m[1]["content"]) for m in (empty, skills)]
+    assert x == json.loads(reference[1]["content"])
+    assert "ordinary_membership_rank_order" not in json.dumps(empty)
+    assert "descending ordinary membership" not in json.dumps(empty)
+    assert "maxItems" not in json.dumps(x["output_contract"])
+    assert skills[1]["content"].count("RELATION_CANARY") == 1
+    assert skills[1]["content"].count("EVIDENCE_CANARY") == 1
+    assert "NOT_RUNTIME" not in skills[1]["content"]
+    y.pop("learned_inspection_criteria")
+    assert x == y and x["candidate_original_text"]["2"] == row["text"][slice(*row["spans"][2])]

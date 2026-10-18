@@ -95,13 +95,13 @@ def channel_criteria(bank, labels, channel):
     return result
 
 
-def base_body(row, labels, proposals):
+def base_body(row, labels, proposals, *, complete_order=True):
     """Reuse the existing exact-source/candidate serializer, without its policy."""
     messages, schema, trace = source_messages(row, labels, "", [], proposals,
                                              incremental_encoding="records")
     assert not trace["actual_source_executions"]
     body = json.loads(messages[1]["content"])
-    if proposals is not None:
+    if complete_order and proposals is not None:
         for h in labels:
             scores = proposals["by_hypothesis"][h]["raw_scores"]
             if len(scores) != len(row["spans"]):
@@ -111,19 +111,21 @@ def base_body(row, labels, proposals):
     return body, schema
 
 
-def joint_payload(row, labels, proposals, system, bank=()):
-    body, schema = base_body(row, labels, proposals)
+def joint_payload(row, labels, proposals, system, bank=(), *, complete_order=True):
+    body, schema = base_body(row, labels, proposals, complete_order=complete_order)
     # Preserve the ordinary source-anchor catalogue. It repeats exact source
     # excerpts intentionally: equivalent information is not equivalent access
     # for the weak lawyer. The removed-anchor ablation is retained in history.
-    n = len(row["spans"])
-    body["output_contract"]["common_schema_for_each_hypothesis"]["properties"]["spans"]["maxItems"] = n
-    for entry in schema["properties"].values():
-        for branch in entry["anyOf"]:
-            spans = branch["properties"]["spans"]
-            spans["maxItems"] = min(spans.get("maxItems", n), n)
-    # Cardinality <= original members excludes no valid evidence SET. It is a
-    # pre-generation task invariant, not de-duplication or a repaired answer.
+    if complete_order:
+        # Disclosed failed ranked-interface ablation, never a runtime fallback.
+        n = len(row["spans"])
+        body["output_contract"]["common_schema_for_each_hypothesis"]["properties"]["spans"]["maxItems"] = n
+        for entry in schema["properties"].values():
+            for branch in entry["anyOf"]:
+                spans = branch["properties"]["spans"]
+                spans["maxItems"] = min(spans.get("maxItems", n), n)
+        # This ablation bound excluded no valid SET but visibly encouraged
+        # copying. The canonical mode keeps the original native schema instead.
     for channel in ("relation_criterion", "evidence_criterion"):
         channel_criteria(bank, labels, channel)
     if bank:
@@ -143,7 +145,7 @@ def joint_payload(row, labels, proposals, system, bank=()):
         "the original choice, spans and short public reason yourself in one "
         "native answer, without other tools or answer correction."
     )
-    return [{"role": "system", "content": system + notice + RANKING_NOTICE},
+    return [{"role": "system", "content": system + notice + (RANKING_NOTICE if complete_order else "")},
             {"role": "user", "content": json.dumps(body, ensure_ascii=False, separators=(",", ":"))}], schema
 
 
