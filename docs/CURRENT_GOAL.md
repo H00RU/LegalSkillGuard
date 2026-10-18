@@ -15,7 +15,31 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 06:57 CST，Run02已进入B3；首次更新很差，真实MERGE恢复但仍不胜空库
+## 当前快照：2026-10-19 07:12 CST，Run02已停妥，固定实际末库/218工具的交付因果诊断就绪待启动
+
+B3 R2真实全8新源空85.29/81.01/63.24%、技能82.35/80.25/59.56%，三项负。
+不同实际版本R1/R2在新源仍负，07:03:25向原worker1388030核身份后发SIGTERM；07:04:17安全退出。
+实际56native/3教师/2fit，付费第三教师响应已保存但stop check阻止发布，无B3publication/重答/fit。
+末实际bank仍R2=1record/12witnesses/1880tokens，不是选好checkpoint；普通tool218未变。
+372成员终态双盘已亲核SHA 9877d95bd85738543c4c43db8b72fce10110c2c78ec9a1b461b593614951ccce。
+单8B模型服务未停未替换；ledgerlast1441/cap1454。本有界家族实际337/15/17，非项目全历史。
+
+不是再次盲开完整128：新增一次有限experiments/source_binding_diagnosis.py，直接复用原生成/评分/记录。
+固定上述实际末R2与actual after_b2 218pickle，0教师/0fit，代码禁止调用二者；不挑旧库或未发布候选。
+固定原预选B3+B4完整16案：93,315,169,124,579,323,396,104,239,105,324,282,224,133,141,292。
+四视图empty/original/prefix/prefix_explicit：prefix只把完全相同经验放当前源前，值/原schema/system全同；
+prefix_explicit再把已有完整公开命题放在历史例文旁，不加新事实/答案/坐标/标签。ExpeL源码启发已存上次来源收据。
+前8复用原16个真实empty/original物理调用，所有输入/schema/ordinary IDs/bank hash/response须匹配，显式别名不伪造native。
+前8新执行两个prefix共16；后8四臂各一次32；合计NEW48/0/0、64逻辑含已计费16，不是64新生成。
+所有新48预测齐才读诊断Gold；保留全原任务/所有负面invalid与原分母，不做效果准入或输出修补。
+比较prefix->original隔离顺序；explicit->prefix仅在prefix条件下隔离公开任务绑定，非完整2x2/非token匹配。
+全库知识1880/1880/2154均含真实文本，4k cap不裁剪。16源only布局与16继承输入CPU核对通过，0额外native资格答。
+cfg contractnli_source_binding_fixedbank16_20261019_run01.json，protocol docs/SOURCE_BINDING_SAME_BANK16_PROTOCOL_20261019.md。
+当前尚未launch，待冻结/提交/双盘源码Git备份/真实后台启动；若完整家族385/15/17，不是正式学习128或TEST。
+完成后保存源码/结果再从活动代码清理有限driver；有效实现点须融合原payload并恢复完整多批技能学习，不能停在诊断。
+Goal active仍未突破，强空库/公平经验基线/独立学习重复/官方TEST完整目标没有缩小。
+
+## 已归档快照：2026-10-19 06:57 CST，Run02已进入B3；首次更新很差，真实MERGE恢复但仍不胜空库
 
 同worker1388030/ticks436965332，06:57:36身份已核真实live；42native/2教师/2CPUfit/50逻辑，
 共同头218，ledgerlast1440/cap1454。B3 R2新案两臂尚未齐，禁止提前评分/重启/热改。
