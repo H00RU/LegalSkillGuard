@@ -1,0 +1,15 @@
+[Unit]
+# Finite recovery job, independent of a conversation or terminal session.
+Description=Restore the legal project's pinned Qwen3-8B files and inference environment
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/media/sangfor/vdb/legal-skill-evolve
+ExecStart=/media/sangfor/vdb/legal-skill-runtime/python/cpython-3.11.15-linux-x86_64-gnu/bin/python3.11 -u /media/sangfor/vdb/legal-skill-evolve/ops/restore_qwen3_8b.py
+TimeoutStartSec=6h
+Restart=no
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=legal-qwen3-8b-restore

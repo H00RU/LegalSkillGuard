@@ -1,0 +1,28 @@
+[Unit]
+# Canonical project unit; registered with systemctl --user link.
+Description=Legal skill learning Qwen3-8B vLLM 0.10.2 local inference
+After=network-online.target
+
+[Service]
+Type=exec
+WorkingDirectory=/media/sangfor/vdb/legal-skill-runtime
+ExecStart=/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm serve /media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218 --served-model-name Qwen/Qwen3-8B --host 127.0.0.1 --port 8000 --dtype bfloat16 --max-model-len 32768 --max-num-seqs 1 --seed 42 --generation-config vllm --reasoning-parser qwen3 --gpu-memory-utilization 0.48 --no-enable-prefix-caching --disable-uvicorn-access-log --guided-decoding-backend xgrammar --guided-decoding-disable-any-whitespace --kv-cache-memory-bytes 5368709120 --max-num-batched-tokens 16384
+Environment=CUDA_VISIBLE_DEVICES=0
+Environment=HF_HUB_OFFLINE=1
+Environment=TRANSFORMERS_OFFLINE=1
+Environment=VLLM_CACHE_ROOT=/media/sangfor/vdb/legal-skill-runtime/cache/vllm
+Environment=TRITON_CACHE_DIR=/media/sangfor/vdb/legal-skill-runtime/cache/triton
+Environment=TORCHINDUCTOR_CACHE_DIR=/media/sangfor/vdb/legal-skill-runtime/cache/torchinductor
+UnsetEnvironment=PYTHONPATH LD_PRELOAD
+Restart=no
+TimeoutStartSec=900
+TimeoutStopSec=90
+KillMode=mixed
+LimitNOFILE=65536
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=legal-qwen3-8b
+
+[Install]
+WantedBy=default.target
