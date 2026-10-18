@@ -230,7 +230,7 @@ class DecisionEvidenceTransfer(Comparison):
     def logical(self, row, arm, response):
         item = {"document_id": row["id"], "condition": arm, "response": response,
                 "stage": self.phase, "bank_sha256": csha(self.bank) if arm in ("relation_only", "dual_skills", "skills") else csha([]),
-                "not_scored_until_all16_all4_arms_exist": True}
+                "scored_only_after_the_complete_prespecified_generation_block": True}
         if self.cfg.get("method") in COMMON_TOOL_METHODS:
             source_ids = ([r["id"] for r in self.past] if arm == "fixed_tool_empty" else self.prefix_ids)
             item["ordinary_tool_source_ids"] = list(source_ids)

@@ -2716,55 +2716,50 @@ def test_generic_teacher_catalog_preserves_program_feedback_and_all_literal_valu
         encode_teacher_body(bad)
 
 
-def test_evidence_bundle_execution_and_native_actions_preserve_each_original_selection():
-    from legal_skill_guard.learning.evidence_actions import execute_evidence_groups,evidence_action_payload,action_metric_view
-    from jsonschema import validate
-
-    source,labels,_=fixture();row={k:source[k] for k in ('id','text','spans')}
-    proposals={'by_hypothesis':{h:{'candidates':[{'original_span_index':1,'membership_score':.7}],
-                                  'raw_scores':[.1,.7,.1]} for h in labels}}
-    program='def propose_evidence_groups(text, spans, public_hypothesis_key, ordinary_candidate_indices):\n    return [[i-1,i] for i in ordinary_candidate_indices if i>0]\n'
-    bank=[{'id':'synthetic_group_contract_only','hypothesis_ids':list(labels),'guidance':{'python_source':program}}]
-    menus,receipts=execute_evidence_groups(bank,row,labels,proposals)
-    assert all(v==[{'action_id':'B0','spans':[0,1]}] for v in menus.values())
-    assert len(receipts)==len(labels) and all(r['no_Gold_document_ID_or_model_in_program_arguments'] for r in receipts)
-    assert execute_evidence_groups(bank,{**row,'id':99999},labels,proposals)[0]==menus
-    prose=[{'id':'synthetic_prose','hypothesis_ids':list(labels),'guidance':{'procedure':'Read the actual source.'}}]
-    plain,_=evidence_action_payload(row,labels,proposals,'Same task.',prose,menus,atomic=False)
-    atomic,schema=evidence_action_payload(row,labels,proposals,'Same task.',prose,menus,atomic=True)
-    a,b=[json.loads(x[1]['content']) for x in (plain,atomic)]
-    a.pop('output_contract');b.pop('output_contract');assert a==b
-    assert all(list(branch['properties'])==['reason','choice','actions'] for s in schema['properties'].values() for branch in s['anyOf'])
-    value={'h1':{'reason':'Synthetic contract, not efficacy.','choice':'Entailment','actions':[{'action_id':'B0','spans':[0,1]}]},
-           'h2':{'reason':'Unresolved.','choice':'NotMentioned','actions':[]},
-           'h3':{'reason':'Source.','choice':'Contradiction','actions':[{'action_id':'S2','spans':[2]}]}}
-    validate(value,schema)
-    native={'raw_id':'actual_synthetic_action','finish_reason':'stop','content':json.dumps(value),'prompt_tokens':12,'completion_tokens':34}
-    projected=action_metric_view(native,labels,schema)
-    assert not projected['action_projection_errors'] and projected['raw_id'] is None
-    assert projected['actual_native_raw_ids']==['actual_synthetic_action']
-    assert json.loads(projected['content'])['h1']['spans']==[0,1]
-    assert native['content']==json.dumps(value)  # No native mutation.
-    alternative=copy.deepcopy(value);alternative['h1']['actions']=[{'action_id':'S2','spans':[2]},{'action_id':'S0','spans':[0]}]
-    validate(alternative,schema)  # Every original set remains possible without any bundle.
-    assert json.loads(action_metric_view({**native,'content':json.dumps(alternative)},labels,schema)['content'])['h1']['spans']==[2,0]
-    repeated=copy.deepcopy(value);repeated['h1']['actions'].append({'action_id':'S0','spans':[0]})
-    assert json.loads(action_metric_view({**native,'content':json.dumps(repeated)},labels,schema)['content'])['h1']['spans']==[0,1,0]
-    bad=copy.deepcopy(value);bad['h1']['actions'][0]['spans']=[0]
-    rejected=action_metric_view({**native,'content':json.dumps(bad)},labels,schema)
-    assert rejected['action_projection_errors'] and json.loads(rejected['content'])=={}  # Never insert missing1.
-    assert action_metric_view({**native,'finish_reason':'length'},labels,schema)['finish_reason']=='length'
+def test_historical_witness_skills_preserve_original_members_and_exclude_same_source():
+    from legal_skill_guard.learning.decision_evidence import (
+        training_witness_catalog,materialize_witness_skills,witnessed_skill_payload)
+    source,labels,gold=fixture();row={k:source[k] for k in ('id','text','spans')}
+    catalog=training_witness_catalog([row],labels,{'1':gold})
+    assert set(catalog)=={'1:h1','1:h2'}  # Partial excerpts do not demonstrate NM.
+    bank=[{'id':'past_grounded_skill','hypothesis_ids':['h1'],'guidance':{
+        'procedure':'Inspect the actual operative condition.','witness_refs':['1:h1']}}]
+    compiled=materialize_witness_skills(bank,labels,catalog)
+    assert compiled[0]['witnesses'][0]['complete_original_evidence_texts']==[
+        row['text'][a:b] for i,(a,b) in enumerate(row['spans']) if i in (0,2)]
+    unseen={**row,'id':2,'text':row['text']+' Different source.'}
+    p={'by_hypothesis':{h:{'candidates':[],'raw_scores':[.1,.2,.3]} for h in labels}}
+    outputs={}
+    for mode in ('empty','procedure_only','witnesses_only','combined'):
+        messages,schema,receipt=witnessed_skill_payload(unseen,labels,p,'Same task.',compiled,mode=mode)
+        outputs[mode]=(json.loads(messages[1]['content']),schema,receipt)
+        assert receipt['historical_source_IDs_hashes_refs_and_span_coordinates_not_served']
+        assert '1:h1' not in messages[1]['content'] and 'source_case_id' not in messages[1]['content']
+        assert 'original_span_index' not in json.dumps(outputs[mode][0].get('historical_evidence_demonstrations',[]))
+    assert outputs['empty'][1]==outputs['combined'][1]  # Original native output, no adapter.
+    assert 'historical_evidence_demonstrations' not in outputs['procedure_only'][0]
+    assert outputs['witnesses_only'][0]['learned_legal_procedures']==[]
+    assert outputs['combined'][0]['historical_evidence_demonstrations'][0]['original_training_label']=='Entailment'
+    for same in (row,{**row,'id':999},{**row,'text':row['text']+' Changed source.'}):
+        messages,_,receipt=witnessed_skill_payload(same,labels,p,'Same task.',compiled,mode='combined')
+        assert not receipt['served_historical_witness_refs']
+        assert receipt['excluded_same_source_witness_refs']==['1:h1']
+        assert 'historical_evidence_demonstrations' not in json.loads(messages[1]['content'])
+    assert source['annotation_sets'][0]['annotations']==gold
 
 
-@pytest.mark.parametrize('result', ['[[0,0]]','[[1,0]]','[[0,len(spans)]]'])
-def test_evidence_bundle_program_errors_are_not_normalized_or_replaced(result):
-    from legal_skill_guard.learning.evidence_actions import execute_evidence_groups
-    source,labels,_=fixture();row={k:source[k] for k in ('id','text','spans')}
-    p={'by_hypothesis':{h:{'candidates':[]} for h in labels}}
-    bank=[{'id':'invalid_synthetic','hypothesis_ids':['h1'],'guidance':{'python_source':
-        'def propose_evidence_groups(text, spans, public_hypothesis_key, ordinary_candidate_indices):\n    return '+result+'\n'}}]
-    with pytest.raises(ValueError,match='never normalize'):
-        execute_evidence_groups(bank,row,labels,p)
+@pytest.mark.parametrize('kind',['future','duplicate','scope'])
+def test_invalid_historical_witness_references_fail_without_substitution(kind):
+    from legal_skill_guard.learning.decision_evidence import training_witness_catalog,materialize_witness_skills
+    source,labels,gold=fixture();row={k:source[k] for k in ('id','text','spans')}
+    catalog=training_witness_catalog([row],labels,{'1':gold})
+    skill={'id':'s','hypothesis_ids':['h1'],'guidance':{
+        'procedure':'Source check.','witness_refs':['1:h1']}}
+    if kind=='future':skill['guidance']['witness_refs']=['2:h1']
+    elif kind=='duplicate':skill['guidance']['witness_refs']*=2
+    else:skill['hypothesis_ids']=['h2']
+    with pytest.raises((ValueError,ValidationError)):
+        materialize_witness_skills([skill],labels,catalog)
 
 
 @pytest.mark.parametrize("invalid", [False,True])

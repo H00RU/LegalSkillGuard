@@ -13,6 +13,7 @@ import json
 from jsonschema import ValidationError, validate
 
 from legal_skill_guard.task import CHOICES
+from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
 from .acquisition import source_messages
 from .publication import skill_record_schema
@@ -268,6 +269,107 @@ def procedure_payload(row, labels, proposals, system, bank, *, public_reason_wor
     return messages, schema
 
 
+
+
+def training_witness_catalog(rows, labels, annotations):
+    """Original past TRAIN evidence only; not a source of current answers."""
+    result = {}
+    for row in rows:
+        source_hash = csha({"text": row["text"], "spans": row["spans"]})
+        for h in labels:
+            g = annotations[str(row["id"])][h]
+            if g["choice"] == "NotMentioned":
+                continue  # A partial excerpt cannot establish whole-contract absence.
+            texts = [row["text"][row["spans"][i][0]:row["spans"][i][1]] for i in g["spans"]]
+            if not texts:
+                raise ValueError("Non-neutral historical witness needs its complete original evidence")
+            result[f"{row['id']}:{h}"] = {"source_case_id": row["id"],
+                "source_sha256": source_hash, "hypothesis_id": h,
+                "original_training_label": g["choice"], "complete_original_evidence_texts": texts}
+    return result
+
+
+def witnessed_guidance_schema(catalog):
+    refs = {"type": "array", "items": {"type": "string"}}
+    if catalog:
+        refs["items"]["enum"] = list(catalog)
+    else:
+        refs["maxItems"] = 0
+    return {"type": "object", "additionalProperties": False,
+        "required": ["procedure", "witness_refs"], "properties": {
+            "procedure": {"type": "string", "minLength": 1}, "witness_refs": refs}}
+
+
+def materialize_witness_skills(bank, labels, catalog):
+    """Resolve teacher-selected past references ONCE, before native inference.
+
+    This does not extract, complete or score a current answer. Full original
+    historical Gold members survive, with no teacher-invented quote or label.
+    Provenance stays in storage; numeric historical coordinates never enter
+    the solver. All valid selections publish, not an efficacy admission.
+    """
+    if len({s["id"] for s in bank}) != len(bank):
+        raise ValueError("Duplicate witnessed skill identity")
+    result = []
+    for skill in bank:
+        validate(skill, skill_record_schema(labels, guidance_schema=witnessed_guidance_schema(catalog)))
+        refs = skill["guidance"]["witness_refs"]
+        if len(set(refs)) != len(refs) or len(set(skill["hypothesis_ids"])) != len(skill["hypothesis_ids"]):
+            raise ValueError("Duplicate witness reference or public scope; no deduplication")
+        witnesses = []
+        for ref in refs:
+            w = catalog[ref]
+            if w["hypothesis_id"] not in skill["hypothesis_ids"]:
+                raise ValueError("Historical witness lies outside the declared public hypothesis scope")
+            if w["original_training_label"] not in ("Entailment", "Contradiction"):
+                raise ValueError("Partial historical excerpts cannot certify NotMentioned")
+            witnesses.append({"witness_ref": ref, **copy.deepcopy(w)})
+        result.append({"id": skill["id"], "hypothesis_ids": list(skill["hypothesis_ids"]),
+            "procedure": skill["guidance"]["procedure"], "witnesses": witnesses})
+    return result
+
+
+def witnessed_skill_payload(row, labels, proposals, system, materialized, *, mode):
+    """Original single native answer; independently ablate rule and exemplars.
+
+    Deterministically exclude same source by identity AND content provenance,
+    including training reanswers. This prevents exact-case Gold replay, not
+    outcome-based selection. No runtime Gold read, retrieval service, new
+    model, native format change, output projection or fallback.
+    """
+    if mode not in ("empty", "procedure_only", "witnesses_only", "combined"):
+        raise ValueError("Undeclared witnessed-skill intervention")
+    prose = [{"id": s["id"], "hypothesis_ids": s["hypothesis_ids"],
+              "guidance": {"procedure": s["procedure"]}} for s in materialized]
+    messages, schema = procedure_payload(row, labels, proposals, system,
+        prose if mode in ("procedure_only", "combined") else [], public_reason_words=64)
+    source_hash = csha({"text": row["text"], "spans": row["spans"]})
+    served, excluded, examples = [], [], []
+    for skill in materialized:
+        for w in skill["witnesses"]:
+            if w["source_case_id"] == row["id"] or w["source_sha256"] == source_hash:
+                excluded.append(w["witness_ref"])
+            elif mode in ("witnesses_only", "combined"):
+                served.append(w["witness_ref"])
+                examples.append({k: copy.deepcopy(w[k]) for k in (
+                    "hypothesis_id", "original_training_label", "complete_original_evidence_texts")})
+    if examples:
+        body = json.loads(messages[1]["content"])
+        body["historical_evidence_demonstrations"] = examples
+        messages[0]["content"] += (
+            " historical_evidence_demonstrations are labelled examples from DIFFERENT past "
+            "TRAIN contracts, not facts, citations or answers for this contract. Each preserves "
+            "all original evidence texts of its historical non-neutral annotation, not a full "
+            "old contract. Compare the operative legal condition, not mere vocabulary. They "
+            "are fallible experience, not universal law. Example absence never establishes "
+            "NotMentioned. Decide the CURRENT original hypothesis from the CURRENT full source "
+            "and emit only CURRENT original integer SPAN indices. No old numeric coordinates "
+            "are supplied, and no host fills or revises your answer.")
+        messages[1]["content"] = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
+    return messages, schema, {"mode": mode, "served_historical_witness_refs": served,
+        "excluded_same_source_witness_refs": excluded,
+        "historical_source_IDs_hashes_refs_and_span_coordinates_not_served": True,
+        "original_native_reason_choice_spans_no_projection_or_repair": True}
 
 
 def evidence_payload(row, labels, proposals, decision, decision_schema, bank):

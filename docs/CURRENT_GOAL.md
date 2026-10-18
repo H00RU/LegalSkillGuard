@@ -15,7 +15,34 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 04:12 CST，observed128已停止；证据组合四臂forward8已真正后台launch
+## 当前快照：2026-10-19 04:45 CST，组合对照完整负面已结束；带可追溯样例的两批16案链路已实施待launch
+
+- evidence_action_compiler_forward8已completed32native/1教师/1fit，全部有效无截断，不能继续称运行中。
+  全8空库88.97/76.92/56.62%；文字86.03/77.56/55.88%；组合菜单84.56/68.51/52.94%；
+  原子组合84.56/63.29/47.79%。原子F1相较空库1胜7负，95%源级描述区间[-20.54,-6.52]pp，非确认性显著性。
+  91建议组39零重合/39混入非成员/8精确/5真子集；49真选组36坏组，空库66FN仅9在任何组内。
+  原子vs空库13TP增28丢，FP55增9减；不是未执行，是误导性经验与绑定执行共同伤害。
+- 193成员终态双盘亲核SHA0d291553ce4db67438becef3e7655b4686ef6e5a5110614bfc87af7765279252。
+  完整group-quality后审另双盘逐字校验保留。失败模块evidence_actions.py及其4个专用测试已从活动代码移除，
+  Git/原生答/失败数据与档案可恢复；不扩大负配置，不硬绑定/补成员/回滚选库。家族实际145/6/5。
+- 新方法内容干预不是重新加固定few-shot或17-call：同一可编辑技能记录包含procedure+教师选择的历史witness_refs，
+  发布时原数据解析其E/C标签和ALL原Gold证据文字；不让教师造quote，不把局部材料当整案NM证明。
+  运行前去历史source ID/hash/ref/旧SPAN坐标，原单8B reason/choice/整数索引原生输出不改、不投影答案。
+  **来源ID或原文/offset哈希相同的历史样例始终排除，包括本批学后重答**，避免本案Gold复读。
+  完整已物化规则+全部样例+内部来源共同4096实际8B-token硬cap，目标2800；不以短ref藏预算。
+  一教师CRUD/NOOP无效果准入/固定增长，空库/仅规则/仅样例/组合四臂同一所学库、每批ALL8×4生成后评分。
+- 新Run legal_contractnli_witnessed_experience_forward16_20261019_run01，入口experiments.witnessed_experience：
+  固定原预选接续B6/B7共16新源；首教师从已揭示B4+B5的全16源/Gold/32参考实际空/文字答学习，
+  B6全4臂->真实教师修订->本8组合重答（排本源样例）->共同250fit->B7全4臂，预定72/2/2。
+  共有242=202+已揭示40的普通模型04:40前已fit47.78秒，计入新成本，不算技能贡献；第二次共同250。
+  不只看B1，除真实协议/传输/容量失败完成全16；不是完整128/独立重复/等成本成熟基线/官方TEST。
+- 新核心在原decision_evidence.py，有限实验入口单独文件复用原RankedOnline，没有新服务/语义裁判/模型。
+  4项记忆边界测试0.37秒通过，替换刚删除的4项；实际教师596460字符<1048576且catalog无损/strict Schema正常。
+  没有GPU资格生成，原输出已实际执行过。修正旧logical描述字段硬写all16的元数据，不改旧答/指标。
+  protocol docs/WITNESSED_EXPERIENCE_FORWARD16_PROTOCOL_20261019.md；准备冻结/备份/真实launch，尚未宣称已启动。
+  ledger1443/last1432，后2教师够用不扩账；若完成本开发家族217/8/7。Goal active未达成，尚无实质净胜突破。
+
+## 已归档快照：2026-10-19 04:12 CST，组合forward8当时实际launch，后已完整结束负面
 
 04:12:06实际worker1166196/ticks436084385，独立preserver1166199/ticks436084386。
 启动checkpoint dc0a62b5060debab0d85ab09caf67bedff4d88db；68成员全源码/Git双盘亲核
