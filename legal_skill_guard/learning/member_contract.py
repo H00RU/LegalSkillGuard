@@ -17,7 +17,7 @@ from jsonschema import ValidationError, validate
 from legal_skill_guard.task import marked_text
 
 from .acquisition import NOTICE
-from .packing import expand, keyed, table
+from .packing import expand, indices, keyed, table
 from .publication import DELTA_TEACHER_SYSTEM, skill_record_schema
 
 EDIT_GUIDANCE = {
@@ -42,6 +42,66 @@ MEMBER_NOTICE = (
 )
 MEMBER_COLUMNS = ["original_span_index", "original_member", "actually_cited"]
 SPAN = re.compile(r"<SPAN (?P<index>\d+)>(?P<text>.*?)</SPAN (?P=index)>", re.DOTALL)
+
+
+def member_replay_cases(proposals, annotations, labels):
+    """Original seen-member feedback, never a native answer or legal judge."""
+    result = {}
+    for h in labels:
+        annotation = annotations[h]
+        gold, proposed = set(annotation["spans"]), set(proposals[h])
+        result[h] = {
+            "proposed_original_indices": proposals[h],
+            "original_choice": annotation["choice"],
+            "original_non_neutral_member_target": annotation["choice"] != "NotMentioned",
+            "original_member_hits": sorted(proposed & gold),
+            "original_member_misses": sorted(gold - proposed),
+            "unannotated_read_proposals_not_false_legal_claims": sorted(proposed - gold),
+        }
+    return result
+
+
+def draft_member_feedback(parent_replays, draft_replays, labels):
+    """Reversible executed-draft differences, not candidate acceptance criteria.
+
+    Every source and public hypothesis survives, including unchanged rows.
+    The original parent replay and Gold are already in the same teacher body.
+    Inclusive ordered runs avoid duplicating them or clipping dense proposals.
+    """
+    if [r["document_id"] for r in parent_replays] != [r["document_id"] for r in draft_replays]:
+        raise ValueError("Draft feedback must cover the identical complete seen-source sequence")
+    sources, totals = [], {"parent": {"tp": 0, "unannotated": 0, "misses": 0},
+                           "draft": {"tp": 0, "unannotated": 0, "misses": 0}}
+    for parent, draft in zip(parent_replays, draft_replays, strict=True):
+        changes = {}
+        for h in labels:
+            a, b = parent["by_hypothesis"][h], draft["by_hypothesis"][h]
+            ga = set(a["original_member_hits"]) | set(a["original_member_misses"])
+            gb = set(b["original_member_hits"]) | set(b["original_member_misses"])
+            if a["original_choice"] != b["original_choice"] or ga != gb:
+                raise ValueError("Draft and parent must use the same unchanged original annotations")
+            p, d = set(a["proposed_original_indices"]), set(b["proposed_original_indices"])
+            added, removed = indices(sorted(d-p)), indices(sorted(p-d))
+            restore = lambda runs: {i for start, end in runs for i in range(start, end+1)}
+            if sorted((p-restore(removed)) | restore(added)) != b["proposed_original_indices"]:
+                raise ValueError("Never omit or repair a draft's actual proposed members")
+            changes[h] = {"added_original_index_runs": added, "removed_original_index_runs": removed}
+            if a["original_non_neutral_member_target"]:
+                for role, case in (("parent", a), ("draft", b)):
+                    totals[role]["tp"] += len(case["original_member_hits"])
+                    totals[role]["unannotated"] += len(case["unannotated_read_proposals_not_false_legal_claims"])
+                    totals[role]["misses"] += len(case["original_member_misses"])
+        sources.append({"document_id": parent["document_id"], "by_hypothesis": keyed(changes)})
+    return {
+        "encoding": "parent-relative-original-proposal-runs-v1",
+        "instructions": "Every [a,b] is an inclusive original-index run. Reconstruct the complete draft "
+                        "proposals as sorted((parent proposals minus removed runs) union added runs). "
+                        "Parent proposals and unchanged original Gold are in the same teacher input. "
+                        "All sources/hypotheses, including unchanged rows, are retained.",
+        "all_seen_sources_and_hypotheses": table(sources),
+        "Gold_non_neutral_read_proposal_counts_NOT_native_performance": totals,
+        "not_a_score_threshold_or_publication_gate": True,
+    }
 
 
 def writer_system():

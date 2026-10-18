@@ -40,7 +40,10 @@ from legal_skill_guard.learning.executable_features import (
     execute_member_programs, validate_member_programs,
 )
 from legal_skill_guard.learning.experiment import Comparison, ROOT, now, points, read, sha
-from legal_skill_guard.learning.member_contract import annotated_sources, original_witness_replay, teacher_sources
+from legal_skill_guard.learning.member_contract import (
+    annotated_sources, draft_member_feedback, member_replay_cases,
+    original_witness_replay, teacher_sources,
+)
 from legal_skill_guard.learning.member_learning import paired_effect
 from legal_skill_guard.learning.packing import keyed, table
 from legal_skill_guard.learning.publication import (
@@ -51,6 +54,8 @@ from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
 ARMS = ("joint_empty", "factored_empty", "relation_only", "dual_skills")
 PROGRAM_METHOD = "direct_source_member_program_online"
+DRAFT_METHOD = "source_member_draft_execution_online"
+PROGRAM_METHODS = (PROGRAM_METHOD, DRAFT_METHOD)
 WRITER = (
     "Learn reusable legal skills from ONLY the complete already-seen original "
     "TRAIN contracts, original annotations and actual historical own public "
@@ -426,8 +431,8 @@ def program_api():
 def prepare_online(config):
     config = Path(config).resolve()
     cfg = read(config)
-    assert cfg["method"] in ("ranked_joint_online24_forward8", "canonical_joint_online_continuation", PROGRAM_METHOD)
-    program = cfg["method"] == PROGRAM_METHOD
+    assert cfg["method"] in ("ranked_joint_online24_forward8", "canonical_joint_online_continuation", *PROGRAM_METHODS)
+    program, draft = cfg["method"] in PROGRAM_METHODS, cfg["method"] == DRAFT_METHOD
     start = cfg.get("start_batch", 1)
     assert start in (1, 2)
     if start == 2:
@@ -447,11 +452,18 @@ def prepare_online(config):
     exclude = set(past + reference["development_ids"] + read(ROOT / cfg["excluded_parent_config"])["training_ids"])
     if program:
         exclude.update(read(ROOT / cfg["additional_excluded_episode_config"])["episode_ids"])
+    if draft:
+        exclude.update(read(ROOT / cfg["inherited_program_config"])["episode_ids"])
     components = source_components(author["documents"])
     excluded = set().union(*(set(g) for g in components if set(g) & exclude))
     eligible = sorted(d for d in original if d not in excluded)
     ids = np.random.default_rng(cfg["source_only_seed"]).choice(eligible, size=32, replace=False).tolist()
     assert ids == cfg["episode_ids"] and not any(len(set(g) & set(ids)) > 1 for g in components)
+    if draft:
+        selection = read(ROOT / cfg["source_only_preselection"])
+        assert sha(ROOT / cfg["source_only_preselection"]) == cfg["source_only_preselection_sha256"]
+        assert selection["episode_ids"] == ids and selection["eligible_ids"] == eligible
+        assert selection["excluded_original_and_source_component_ids"] == sorted(excluded)
     terminal = read(ROOT / cfg["parent_terminal_preservation"])
     assert terminal["state"] == "terminal_results_preserved" and terminal["all_members_verified"]
     assert sha(terminal["archive"]) == sha(terminal["rootdisk_copy"]) == terminal["archive_sha256"]
@@ -459,16 +471,21 @@ def prepare_online(config):
         preserved_files = json.load(preserved.extractfile("terminal_recovery_manifest.json"))["files"]
     assert preserved_files[str(Path(cfg["parent_publication"]))] == sha(ROOT / cfg["parent_publication"])
     bank = read(ROOT / cfg["parent_publication"])["publication"]
-    for channel in ("relation_criterion", "evidence_criterion"):
-        channel_criteria(bank, author["labels"], channel)
+    if draft:
+        validate_member_programs(bank, author["labels"])
+        assert read(ROOT / cfg["parent_publication"])["original_seen_source_ids"] == past
+    else:
+        for channel in ("relation_criterion", "evidence_criterion"):
+            channel_criteria(bank, author["labels"], channel)
     public = lambda d: {k: original[d][k] for k in ("id", "text", "spans")}
     RunStore.immutable_json(ROOT / cfg["input_packet"], {
         "public_hypotheses": author["labels"], "documents": [public(d) for d in ids],
         "past_documents": [public(d) for d in past], "past_seen_ids": past,
-        "converted_actual_parent": [] if program else bank,
-        "previous_text_method_library_for_initial_induction_only": bank if program else None,
+        "converted_actual_parent": bank if draft or not program else [],
+        "previous_text_method_library_for_initial_induction_only": bank if program and not draft else None,
         "parent_already_two_channel_no_conversion_or_selection": not program,
-        "new_source_program_representation_not_selected_old_bank": program,
+        "new_source_program_representation_not_selected_old_bank": program and not draft,
+        "inherits_actual_latest_program_without_score_selection": draft,
         "source_only_selection": {"seed": cfg["source_only_seed"], "eligible_ids": eligible,
             "excluded_original_and_source_component_ids": sorted(excluded),
             "no_selection_using_labels_or_outcomes": True},
@@ -479,7 +496,7 @@ def prepare_online(config):
         "teacher_gets_only_revealed_past_and_episode_prefix": True,
         "all_current_batch_answers_precede_current_batch_grading": True})
     ledger = read(ROOT / cfg["teacher"]["ledger"])
-    teachers = 4-start+int(program)
+    teachers = (4-start)*(2 if draft else 1)+int(program and not draft)
     expected_calls = 136 if start == 1 else 120
     assert max(r["sequence"] for r in ledger["reservations"]) + teachers <= ledger["max_invocations"]
     assert cfg["planned_new_native_calls"] == expected_calls and cfg["planned_new_teacher_calls"] == teachers
@@ -495,7 +512,9 @@ def prepare_online(config):
         publication = read(ROOT / cfg["parent_publication"])
         assert publication["original_seen_source_ids"] == prefix["source_ids"]
         files += [prefix_path, Path(prefix["path"])]
-    if program:
+    if draft:
+        files += [ROOT / cfg["inherited_program_config"], ROOT / cfg["source_only_preselection"]]
+    elif program:
         source_gold = {str(d): original[d]["annotation_sets"][0]["annotations"] for d in past}
         paths = sorted((ROOT / cfg["initial_teacher_own_reference_run"] /
                         f"logical_answers/{cfg['initial_teacher_own_reference_stage']}").glob("*/skills.json"))
@@ -542,7 +561,10 @@ class RankedOnline(DecisionEvidenceTransfer):
             assert self.prefix_ids == [r["id"] for r in self.past+self.documents[:8]]
 
     def program_mode(self):
-        return self.cfg.get("method") == PROGRAM_METHOD
+        return self.cfg.get("method") in PROGRAM_METHODS
+
+    def draft_mode(self):
+        return self.cfg.get("method") == DRAFT_METHOD
 
     def runtime_guidance_schema(self):
         return MEMBER_PROGRAM_GUIDANCE_SCHEMA if self.program_mode() else GUIDANCE_SCHEMA
@@ -553,6 +575,64 @@ class RankedOnline(DecisionEvidenceTransfer):
         else:
             for channel in ("relation_criterion", "evidence_criterion"):
                 channel_criteria(self.bank, self.labels, channel)
+
+    def draft_execution_update(self, name, body, schema, parent, rows, gold, parent_replays):
+        """One unpublished draft, one real seen-source replay, one final revision.
+
+        No candidate ranking, performance threshold, extra attempts or publication
+        of a draft. The original parent stays published until the final delta is
+        returned and structurally applied, regardless of its measured utility.
+        """
+        draft = self.teacher_call(name+"_draft", PROGRAM_WRITER + (
+            " This is the FIRST, UNPUBLISHED DRAFT stage of a fixed two-invocation "
+            "training step. Return a delta against current_parent_library. The "
+            "host will execute this draft once on ALL already-seen sources and "
+            "give the actual CPU member feedback to the same teacher for ONE "
+            "final revision. No native lawyer answer for this draft exists. "
+            "Do not invent one, self-report execution or use tools."), body, schema)
+        seen_ids = [r["id"] for r in rows]
+        candidate = apply_differential_publication(parent, draft, self.labels, seen_ids,
+            guidance_schema=MEMBER_PROGRAM_GUIDANCE_SCHEMA)
+        validate_member_programs(candidate, self.labels)
+        tokens = self.meter.token_count(text=json.dumps(candidate, ensure_ascii=False, separators=(",", ":")))
+        assert tokens <= self.cfg["library_token_hard_cap"], "Invalid draft stops; no repair or substitute"
+        self.record(f"drafts/b{self.current_batch}.json", {"at": now(), "parent": parent,
+            "draft_delta": draft, "unpublished_draft": candidate, "serialized_tokens": tokens,
+            "all_actual_seen_source_ids": seen_ids, "not_published_or_score_selected": True})
+        self.progress("fixed_draft_CPU_training_replay", current_batch=self.current_batch)
+        replay = []
+        for row in rows:
+            self.check()
+            proposed, receipts = execute_member_programs(candidate, row, self.labels)
+            self.record_program_cost(receipts, "one_unpublished_draft_training_replay_not_native")
+            replay.append({"document_id": row["id"],
+                "by_hypothesis": member_replay_cases(proposed, gold[str(row["id"])], self.labels),
+                "actual_CPU_execution_receipts": receipts,
+                "unpublished_draft_CPU_training_not_native_answers": True})
+        self.record(f"program_replays/b{self.current_batch}_draft.json", {
+            "at": now(), "draft_library_sha256": csha(candidate),
+            "complete_actual_CPU_replays": replay, "one_fixed_training_probe_no_efficacy_admission": True})
+        revision = copy.deepcopy(body)
+        revision["actual_unpublished_draft_delta_against_original_parent"] = draft
+        revision["actual_unpublished_draft_library_sha256"] = csha(candidate)
+        revision["actual_unpublished_draft_CPU_feedback"] = draft_member_feedback(parent_replays, replay, self.labels)
+        revision["fixed_final_stage_not_an_admission_test"] = (
+            "Exactly one final revision follows this actual draft feedback. No native "
+            "answer for the draft was generated. Return a final delta against the "
+            "ORIGINAL current_parent_library, not the unpublished draft. All valid "
+            "final edits publish even if worse; no retry, score gate or bank selection.")
+        self.record(f"learning_inputs/{name}_revision.json", revision)
+        final = self.teacher_call(name+"_revision", PROGRAM_WRITER + (
+            " This is the SECOND and FINAL invocation of the fixed training step. "
+            "Inspect the actual unpublished draft CPU feedback and original Gold, "
+            "together with actual CURRENT-PARENT native errors. Revise once, retain "
+            "or explicitly NOOP as warranted. Output the final delta against the "
+            "ORIGINAL current_parent_library: draft-created IDs are not parent "
+            "targets. Never claim draft proposal counts are native legal accuracy. "
+            "Every valid final edit publishes without a performance threshold; "
+            "no additional candidate, rerun, best-bank rollback or tools."), revision, schema)
+        assert self.bank == parent, "No intermediate draft publication"
+        return final
 
     def record_program_cost(self, receipts, role):
         cost = self.program_cost.setdefault(role, {"CPU_subprocesses": 0, "CPU_wall_seconds": 0.0})
@@ -645,15 +725,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             for row in self.past+seen:
                 proposed, receipts = execute_member_programs(parent, row, self.labels)
                 self.record_program_cost(receipts, "teaching_component_replay_not_native")
-                cases = {}
-                for h in self.labels:
-                    annotation = gold[str(row["id"])][h]
-                    g,p = set(annotation["spans"]),set(proposed[h])
-                    cases[h] = {"proposed_original_indices": proposed[h],
-                        "original_choice": annotation["choice"],
-                        "original_non_neutral_member_target": annotation["choice"] != "NotMentioned",
-                        "original_member_hits": sorted(p & g), "original_member_misses": sorted(g-p),
-                        "unannotated_read_proposals_not_false_legal_claims": sorted(p-g)}
+                cases = member_replay_cases(proposed, gold[str(row["id"])], self.labels)
                 raw_replays.append({"document_id": row["id"], "by_hypothesis": cases,
                     "actual_CPU_execution_receipts": receipts,
                     "factual_current_parent_replay_not_new_native_answers": True})
@@ -676,7 +748,8 @@ class RankedOnline(DecisionEvidenceTransfer):
         seen_ids = [r["id"] for r in self.past+seen]
         schema = differential_schema(self.labels, parent, seen_ids, guidance_schema=self.runtime_guidance_schema())
         writer = PROGRAM_WRITER if self.program_mode() else online_writer(complete_order).replace("42", str(len(self.past)))
-        value = self.teacher_call(name, writer, body, schema)
+        value = (self.draft_execution_update(name, body, schema, parent, self.past+seen, gold, raw_replays)
+                 if self.draft_mode() else self.teacher_call(name, writer, body, schema))
         self.bank = apply_differential_publication(parent, value, self.labels, seen_ids,
                                                   guidance_schema=self.runtime_guidance_schema())
         self.validate_runtime_bank()
@@ -687,6 +760,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             "delta": value, "publication": self.bank, "statistics": stats,
             "original_seen_source_ids": seen_ids,
             "actual_current_parent_own_episode_answers": len(own),
+            "fixed_unpublished_draft_execution_then_one_revision": self.draft_mode(),
             "all_valid_edits_publish_without_efficacy_admission": True})
         self.phase = f"b{self.current_batch}_after_seen"
         start = len(self.answers)
@@ -742,8 +816,9 @@ class RankedOnline(DecisionEvidenceTransfer):
             "new_label_teaching": (4-start_batch)*8, "forward_readout_not_taught": 8})
         self.record("publications/initial.json", {"at": now(), "publication": self.bank,
             "actual_inherited_teacher_sources": self.prefix_ids, "not_independent_learning_repeat": True,
-            "starts_with_empty_new_program_representation": self.program_mode()})
-        if self.program_mode():
+            "starts_with_empty_new_program_representation": self.program_mode() and not self.draft_mode(),
+            "inherits_actual_latest_program_without_score_selection": self.draft_mode()})
+        if self.program_mode() and not self.draft_mode():
             self.induct_initial_programs()
         if start_batch > 1:
             self.phase = "initial_parent_canonical_retention"
@@ -806,7 +881,8 @@ class RankedOnline(DecisionEvidenceTransfer):
                 self.fit_prefix(seen)
         assert len(self.native) == self.cfg.get("planned_new_native_calls", 136 if start_batch == 1 else 120)
         assert len(self.fit_records) == 4-start_batch
-        assert len(self.teachers) == 4-start_batch+int(self.program_mode())
+        assert len(self.teachers) == ((4-start_batch)*(2 if self.draft_mode() else 1)
+                                     + int(self.program_mode() and not self.draft_mode()))
         prequential = [u for u in self.units if u["stage"].endswith("_prequential") or u["stage"].endswith("_fixed_tool_control")]
         groups = {a: [u for u in prequential if u["condition"] == a] for a in (
             "joint_empty", "fixed_tool_empty", "skills")}
@@ -816,6 +892,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             "actual_new_native_teacher_CPUfits": [len(self.native), len(self.teachers), len(self.fit_records)],
             "final_bank": self.bank, "units": self.units, "ordinary_prefix_fits": self.fit_records,
             "actual_source_program_CPU_costs": self.program_cost if self.program_mode() else None,
+            "fixed_unpublished_draft_probe_then_one_revision_each_teaching_batch": self.draft_mode(),
             "inherited_episode_labels": (start_batch-1)*8, "new_taught_labels": (4-start_batch)*8,
             "original_past_source_count": len(self.past),
             "total_original_sources_taught_at_terminal": len(self.past)+24,
@@ -832,7 +909,7 @@ def main():
     parser.add_argument("command", choices=("prepare", "run"))
     parser.add_argument("config", type=Path)
     args = parser.parse_args()
-    online = read(args.config)["method"] in ("ranked_joint_online24_forward8", "canonical_joint_online_continuation", PROGRAM_METHOD)
+    online = read(args.config)["method"] in ("ranked_joint_online24_forward8", "canonical_joint_online_continuation", *PROGRAM_METHODS)
     if args.command == "prepare":
         (prepare_online if online else prepare)(args.config)
         return

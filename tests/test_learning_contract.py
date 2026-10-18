@@ -2131,8 +2131,9 @@ def test_complete_member_order_delivers_tail_without_changing_binary_candidates(
     assert proposals == saved
 
 
-@pytest.mark.parametrize("start_batch,program", [(1, False), (2, False), (1, True)])
-def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch, program):
+@pytest.mark.parametrize("start_batch,program,draft", [
+    (1, False, False), (2, False, False), (1, True, False), (1, True, True)])
+def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch, program, draft):
     from types import SimpleNamespace
 
     from experiments import decision_evidence_transfer as module
@@ -2166,6 +2167,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     records = {}
     study.record = lambda name, value: records.setdefault(name, value)
     study.check = lambda: None
+    study.progress = lambda *args, **kwargs: None
 
     def proposals(model, row, public_labels):
         return {"by_hypothesis": {h: {"candidates": [], "raw_scores": [.1, .2, .3]} for h in public_labels}}
@@ -2174,8 +2176,9 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     if program:
         from legal_skill_guard.learning.member_contract import teacher_sources
 
-        study.cfg["method"] = module.PROGRAM_METHOD
-        study.bank = []
+        study.cfg["method"] = module.DRAFT_METHOD if draft else module.PROGRAM_METHOD
+        study.bank = ([{"id":"p","hypothesis_ids":list(labels),"guidance":{"python_source":
+            "def propose_members(text, spans, public_hypothesis_key):\n    return []\n"}}] if draft else [])
         initial_path = tmp_path / "initial_program_teacher.json"
         RunStore.immutable_json(initial_path, {"current_parent_library": [],
             "complete_original_past_sources_and_Gold": teacher_sources(study.past,
@@ -2237,6 +2240,15 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
         if program:
             replays=expand(body["actual_current_parent_source_program_component_replays"])
             assert {r["document_id"] for r in replays} == set(range(100,142)) | set(range(1,count+1))
+        if draft:
+            assert "publications/induction.json" not in records
+            assert study.bank[0]["id"] == "p"  # Drafts never replace the published parent.
+            if name.endswith("_revision"):
+                feedback=expand(body["actual_unpublished_draft_CPU_feedback"]["all_seen_sources_and_hypotheses"])
+                assert {r["document_id"] for r in feedback} == set(range(100,142)) | set(range(1,count+1))
+                assert f"program_replays/b{study.current_batch}_draft.json" in records
+            else:
+                assert name.endswith("_draft") and "actual_unpublished_draft_CPU_feedback" not in body
         assert len([u for u in study.answers if u["stage"] == f"b{study.current_batch}_prequential"]) == 16
         study.teachers.append(name)
         return {"operations": [], "noop_reason": "Synthetic chronology fixture, no live teacher."}
@@ -2251,15 +2263,19 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     study.fit_prefix = fit
     study.execute()
     result = records["completion.json"]
-    expected=[136,4 if program else 3,3] if start_batch == 1 else [120,2,2]
+    expected=[136,6 if draft else (4 if program else 3),3] if start_batch == 1 else [120,2,2]
     assert result["actual_new_native_teacher_CPUfits"] == expected
     assert len(study.answers) == (144 if start_batch == 1 else 120)
     assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if start_batch == 1 else 0)
     assert len(records["publications/b3.json"]["original_seen_source_ids"]) == 66
     assert not any(k == "publications/b4.json" for k in records)
     if program:
-        assert records["publications/induction.json"]["new_episode_labels_taught"] == 0
-        assert records["publications/induction.json"]["new_representation_learning_not_best_bank_rollback"]
+        if draft:
+            assert study.teachers == [f"online_b{b}_{stage}" for b in (1,2,3) for stage in ("draft","revision")]
+            assert all(f"drafts/b{b}.json" in records for b in (1,2,3))
+        else:
+            assert records["publications/induction.json"]["new_episode_labels_taught"] == 0
+            assert records["publications/induction.json"]["new_representation_learning_not_best_bank_rollback"]
         assert records["source_executions/b4_prequential/32/skills.json"]["synthetic_chronology_not_effectiveness"]
     assert all(v["documents"] == (32 if start_batch == 1 else 24) for v in result["aggregate_prequential_metrics"].values())
     if start_batch == 2:
@@ -2403,3 +2419,73 @@ def test_equivalent_member_program_access_preserves_native_input_despite_code_an
     assert a[:2]==b[:2]
     assert a[2]["per_hypothesis_proposed_original_indices"]==b[2]["per_hypothesis_proposed_original_indices"]
     assert a[2]["actual_member_program_executions"][0]["program_sha256"]!=b[2]["actual_member_program_executions"][0]["program_sha256"]
+
+
+def test_draft_feedback_reconstructs_every_actual_proposal_without_selected_cases():
+    from legal_skill_guard.learning.member_contract import draft_member_feedback, member_replay_cases
+    from legal_skill_guard.learning.packing import expand
+
+    _,labels,gold=fixture()
+    a={"h1":[0],"h2":[],"h3":[1]};b={"h1":[0,1,2],"h2":[1],"h3":[]}
+    parents=[{"document_id":i,"by_hypothesis":member_replay_cases(a,gold,labels)} for i in (1,2)]
+    drafts=[{"document_id":i,"by_hypothesis":member_replay_cases(b,gold,labels)} for i in (1,2)]
+    feedback=draft_member_feedback(parents,drafts,labels)
+    decoded=expand(feedback["all_seen_sources_and_hypotheses"])
+    assert [r["document_id"] for r in decoded]==[1,2]
+    for row in decoded:
+        assert list(row["by_hypothesis"])==list(labels)
+        for h,delta in row["by_hypothesis"].items():
+            restore=lambda runs:{v for x,y in runs for v in range(x,y+1)}
+            assert sorted((set(a[h])-restore(delta["removed_original_index_runs"])) |
+                          restore(delta["added_original_index_runs"]))==b[h]
+    assert feedback["Gold_non_neutral_read_proposal_counts_NOT_native_performance"]["draft"]["tp"]==6
+    assert "accept" not in feedback and "improves" not in feedback
+    with pytest.raises(ValueError,match="identical complete"):
+        draft_member_feedback(parents,drafts[:1],labels)
+
+
+@pytest.mark.parametrize("invalid", [False,True])
+def test_fixed_draft_executes_once_and_final_is_not_selected_by_training_score(invalid):
+    from types import SimpleNamespace
+    from experiments import decision_evidence_transfer as module
+    from legal_skill_guard.learning.executable_features import MEMBER_PROGRAM_GUIDANCE_SCHEMA
+    from legal_skill_guard.learning.member_contract import member_replay_cases
+    from legal_skill_guard.learning.publication import apply_differential_publication,differential_schema
+
+    original,labels,gold=fixture();row={k:original[k] for k in ("id","text","spans")}
+    def bank(result):
+        return [{"id":"p","hypothesis_ids":["h1"],"guidance":{"python_source":
+            "def propose_members(text, spans, public_hypothesis_key):\n    return "+result+"\n"}}]
+    parent=bank("[0]")
+    def delta(result):
+        return {"operations":[{"operation":"UPDATE","target_ids":["p"],"skill":bank(result)[0],
+            "source_case_ids":[1],"rationale":"Synthetic CPU protocol fixture, not efficacy evidence."}],"noop_reason":None}
+    draft,final=delta("[1,1]" if invalid else "[0,2]"),delta("[1]")
+    study=module.RankedOnline.__new__(module.RankedOnline)
+    study.labels,study.bank,study.current_batch=labels,copy.deepcopy(parent),1
+    study.cfg={"library_token_hard_cap":4096};study.program_cost={};records={};calls=[]
+    study.meter=SimpleNamespace(token_count=lambda **_:100)
+    study.record=lambda name,value:records.setdefault(name,value)
+    study.progress=lambda *args,**kwargs:None;study.check=lambda:None
+    parents=[{"document_id":1,"by_hypothesis":member_replay_cases({"h1":[0],"h2":[],"h3":[]},gold,labels)}]
+    body={"current_parent_library":parent,"actual_current_parent_source_program_component_replays":parents}
+    def teacher(name,system,value,schema):
+        calls.append(name)
+        assert study.bank==parent
+        return copy.deepcopy(draft if name.endswith("_draft") else final)
+    study.teacher_call=teacher
+    schema=differential_schema(labels,parent,[1],guidance_schema=MEMBER_PROGRAM_GUIDANCE_SCHEMA)
+    invoke=lambda:study.draft_execution_update("online_b1",body,schema,parent,[row],{"1":gold},parents)
+    if invalid:
+        with pytest.raises(ValueError,match="Duplicate"):
+            invoke()
+        assert calls==["online_b1_draft"] and "program_replays/b1_draft.json" not in records
+    else:
+        value=invoke()
+        assert calls==["online_b1_draft","online_b1_revision"]
+        assert study.program_cost["one_unpublished_draft_training_replay_not_native"]["CPU_subprocesses"]==1
+        assert records["program_replays/b1_draft.json"]["complete_actual_CPU_replays"][0]["by_hypothesis"]["h1"]["original_member_hits"]==[0,2]
+        # Final[1] is worse than both parent[0] and draft[0,2] for Gold[0,2].
+        # Nevertheless it is the final delta, not the scored-best candidate.
+        published=apply_differential_publication(parent,value,labels,[1],guidance_schema=MEMBER_PROGRAM_GUIDANCE_SCHEMA)
+        assert published==bank("[1]") and study.bank==parent
