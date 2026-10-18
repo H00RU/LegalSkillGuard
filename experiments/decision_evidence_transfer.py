@@ -580,34 +580,28 @@ EDIT_FEEDBACK_WRITER = PROCEDURE_WRITER.replace("most15 words", "most64 words").
 
 ATTRIBUTED_WRITER = EDIT_FEEDBACK_WRITER.replace(
     "The actual latest text procedures, NOT a chosen older better bank, are inherited unchanged.",
-    "This independent episode starts with an empty library, not an older selected checkpoint.",
-).replace(
-    "The SAME frozen8B makes one original native answer per contract: for every "
-    "exact hypothesis it FIRST writes a public source-grounded reason of at "
-    "most64 words, THEN choice and spans.",
-    "The SAME frozen8B makes ONE native answer per contract: for each exact "
-    "hypothesis it FIRST selects sparse complete evidence members as exact "
-    "current-source text/index pairs (source_text_json is standard canonical "
-    "ASCII JSON-string encoding of the full literal source, decoded once "
-    "without normalization), THEN gives a public source comparison "
-    "of at most64 words and its original legal choice. The grammar forces "
-    "the selected text/index binding, not relevance or a correct label. Host "
-    "projection preserves every explicit native index and choice, never "
-    "adds, filters, realigns or repairs a citation. NotMentioned needs no "
-    "evidence. Actual parsed native quote choices are supplied alongside "
-    "the unchanged original-task feedback, so inspect them for object, "
-    "modal, trigger, quantifier and source-scope mismatches.",
+    "The supplied current_parent_library and declared initialization are authoritative; "
+    "never choose an older scored checkpoint.",
 ) + (
-    " This is a prospectively declared independent128-source learning episode "
-    "starting from an EMPTY skill library, not a better old checkpoint. All16 "
-    "batches of8 are taught after their complete prequential answers; no "
-    "reserved validation set and no future batch labels are given. The common "
-    "ordinary evidence tool initially has202 prior TRAIN sources, shared "
-    "identically with the empty control; that ordinary supervised resource "
-    "is not your skill contribution. Do not infer facts from your generic "
-    "teaching examples or force a fixed skill count. Prefer operational "
-    "source conditions with correctly distinguished supported, opposed and "
-    "unresolved outcomes over longer lists of generic advice.")
+    " Final citations now follow the public reason AND original choice. Each "
+    "member has source_text_json, the canonical ASCII JSON-string encoding "
+    "of the complete literal source, and its explicit original integer. "
+    "Standard JSON decoding restores the source without normalization. The "
+    "grammar binds literal text/index only, not relevance or legal truth; "
+    "the host preserves every native index/choice without repair. Earlier "
+    "source-first interface observations, if explicitly supplied, are "
+    "historical, not evidence that the same decision order is still used. "
+    "actual_visible_ordinary_evidence_observation in each own response is "
+    "the exact candidate/excerpt observation delivered to that native "
+    "lawyer, not a recomputation with the newest tool. Inspect correct "
+    "candidates that were dropped as well as irrelevant ones that were "
+    "copied; do not blindly trust candidates or turn them into mandatory "
+    "answers. Ground complete inclusion/exclusion conditions in ALL supplied "
+    "sources, original membership and actual choices. Teach observable "
+    "source conditions, never 'include when annotated' because the lawyer "
+    "does not see current Gold. Shared ordinary supervision is not a skill "
+    "gain. Do not force a fixed skill count or infer current facts from "
+    "generic examples.")
 
 
 def program_api():
@@ -1357,7 +1351,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             body.update(
                 previous_actual_matched_published_update_all_gains_and_harms=transition,
                 original_native_joint_answer_and_sparse_original_SPAN_lists=True,
-                native_source_text_index_pairs_precede_public_reason_and_choice=self.attributed_mode(),
+                native_final_source_pairs_follow_public_reason_and_choice=self.attributed_mode(),
                 native_action_output_tokens={"joint":8192},
                 no_reanswers_or_retention_claim_for_sources_outside_current_window=True)
             if self.current_batch == 1 and self.cfg.get("initial_parent_update_history"):
@@ -1512,6 +1506,12 @@ class RankedOnline(DecisionEvidenceTransfer):
             messages, schema = source_attributed_payload(row,self.labels,proposals,self.cfg["bundled_solver_system"],bank)
             native = self.generate(row,arm,messages,schema)
             response = project_source_attributed_response(row,self.labels,native,schema)
+            actual_body = json.loads(messages[1]["content"])
+            response["actual_visible_ordinary_evidence_observation"] = {
+                "by_hypothesis": {h: copy.deepcopy(actual_body["hypotheses"][h]["fallible_evidence_candidates"])
+                                  for h in self.labels},
+                "candidate_original_text": copy.deepcopy(actual_body["candidate_original_text"]),
+                "from_actual_native_input_not_recomputed_or_current_Gold": True}
             self.record(f"guidance_delivery/{self.phase}/{row['id']}/{arm}.json", {
                 "visible_procedures":[{"hypothesis_ids":s["hypothesis_ids"],"procedure":s["guidance"]["procedure"]} for s in bank],
                 "actual_native_raw_ids":response["actual_native_raw_ids"],

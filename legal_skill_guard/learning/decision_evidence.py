@@ -270,7 +270,7 @@ def procedure_payload(row, labels, proposals, system, bank, *, public_reason_wor
 
 
 def source_attributed_payload(row, labels, proposals, system, bank):
-    """One native sparse extraction before verdict, with literal source binding.
+    """One native reason/verdict before final citations, with source binding.
 
     All original indices remain selectable. The grammar pairs a native chosen
     index with its exact original SPAN text, not with a Gold-selected quote.
@@ -282,7 +282,10 @@ def source_attributed_payload(row, labels, proposals, system, bank):
     validate_procedures(bank, labels)
     if not row["spans"]:
         raise ValueError("Original source needs its original indexed spans")
-    body, _ = base_body(row, labels, proposals, complete_order=False)
+    # Retain the existing candidate-reading policy, not just the same data.
+    # The failed source-first adapter dropped these original instructions.
+    original_messages, _ = joint_payload(row, labels, proposals, system, complete_order=False)
+    body = json.loads(original_messages[1]["content"])
     member = {"anyOf": [{"type":"object", "additionalProperties":False,
         "required":["source_text_json","span"], "properties":{
             "source_text_json":{"type":"string", "enum":[json.dumps(row["text"][a:b],ensure_ascii=True)]},
@@ -291,8 +294,8 @@ def source_attributed_payload(row, labels, proposals, system, bank):
     branches = []
     for choices, bounds in ((["Entailment","Contradiction"],{"minItems":1}),
                             (["NotMentioned"],{"maxItems":0})):
-        fields = {"spans":{"type":"array", "items":{"$ref":"#/$defs/source_member"}, **bounds},
-            "reason":{"type":"string"}, "choice":{"type":"string", "enum":choices}}
+        fields = {"reason":{"type":"string"}, "choice":{"type":"string", "enum":choices},
+            "spans":{"type":"array", "items":{"$ref":"#/$defs/source_member"}, **bounds}}
         branches.append({"type":"object", "additionalProperties":False,
                          "properties":fields, "required":list(fields)})
     schema = {"type":"object", "additionalProperties":False,
@@ -302,7 +305,7 @@ def source_attributed_payload(row, labels, proposals, system, bank):
         "procedure":s["guidance"]["procedure"]} for s in bank]
     body["output_contract"] = {
         "required_hypothesis_keys":list(labels),
-        "field_order_for_each_hypothesis":["spans","reason","choice"],
+        "field_order_for_each_hypothesis":["reason","choice","spans"],
         "spans":"Sparse list of {source_text_json: canonical ASCII JSON-string encoding of EXACT COMPLETE original SPAN text without markers, span: that original integer index}; decode source_text_json with JSON once to recover the literal source. All original indices allowed, no mandatory candidates.",
         "reason":"At most64 words of public source comparison for the exact hypothesis.",
         "choice":list(CHOICES), "NotMentioned_requires_empty_spans":True,
@@ -310,8 +313,13 @@ def source_attributed_payload(row, labels, proposals, system, bank):
         "quote_index_pairs_are_grammar_bound_source_readback_not_semantic_verification":True}
     notice = (
         " Use ONE native answer for all exact hypotheses. For EACH hypothesis "
-        "FIRST select its sparse COMPLETE responsive original evidence members, "
-        "not every source span or merely related background. Emit each member's "
+        "FIRST give a bounded public comparison of at most64 words between the "
+        "complete source and the exact hypothesis. THEN decide the original "
+        "relation, including NotMentioned for an unresolved proposition. Only "
+        "AFTER that decision select sparse COMPLETE responsive original evidence "
+        "members, not every source span or merely related background. Never "
+        "commit to a nonempty final citation list before deciding whether the "
+        "proposition is settled. Emit each member's "
         "exact full original text in source_text_json (canonical ASCII JSON "
         "string encoding, not paraphrase) followed by its original index. "
         "This standard reversible text encoding protects original Unicode "
@@ -321,17 +329,16 @@ def source_attributed_payload(row, labels, proposals, system, bank):
         "its operative actor, object, modality, quantifier, trigger or exception; "
         "do not select it merely because it contains a topic word. Include "
         "independently responsive repetitions and necessary governing members, "
-        "without expanding the entire agreement into evidence. THEN give a "
-        "bounded public comparison of at most64 words and choose the original "
-        "relation. Compare the exact hypothesis with those operative source "
+        "without expanding the entire agreement into evidence. Compare the "
+        "exact hypothesis with those operative source "
         "conditions rather than merely paraphrasing the topic. Distinguish "
         "actual source conditions from optional learned procedures or their "
         "generic examples, which are NOT facts about this contract. If the "
         "exact proposition is unresolved, select [] and NotMentioned; related "
         "language alone does not settle it. Every label and member selection "
         "remains yours. No other calls, new tools or answer repair. Return "
-        "spans, reason, choice in that order for every original key.")
-    return [{"role":"system", "content":system+notice},
+        "reason, choice, spans in that order for every original key.")
+    return [{"role":"system", "content":original_messages[0]["content"]+notice},
         {"role":"user", "content":json.dumps(body,ensure_ascii=False,separators=(",",":"))}], schema
 
 

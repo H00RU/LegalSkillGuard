@@ -2202,7 +2202,8 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     study.progress = lambda *args, **kwargs: None
 
     def proposals(model, row, public_labels):
-        return {"by_hypothesis": {h: {"candidates": [], "raw_scores": [.1, .2, .3]} for h in public_labels}}
+        return {"by_hypothesis": {h: {"candidates": [{"original_span_index":0,"membership_score":.73}] if attributed else [],
+                                     "raw_scores": [.1, .2, .3]} for h in public_labels}}
 
     monkeypatch.setattr(module, "evidence_proposals", proposals)
     if procedure:
@@ -2307,7 +2308,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
                     assert "TWO native actions" not in system
                     assert "most64 words" in system and "worked legal distinction" in system
                     if attributed:
-                        assert "independent128-source" in system and "are inherited unchanged" not in system
+                        assert "current_parent_library" in system and "are inherited unchanged" not in system
                         assert "only one original source" not in system
                         assert body['ordinary202_prior_supervision_not_skill_teacher_experience']
                         assert bool(body['current_parent_library']) == (study.current_batch>1)
@@ -2322,6 +2323,12 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
             sources = expand(body["complete_original_past_and_revealed_episode_sources_and_Gold"])
             assert {s["id"] for s in sources} == set(range(100,142)) | set(range(1,count+1))
         own = expand(body["actual_current_parent_episode_public_answers"])
+        if attributed:
+            for observation in own:
+                visible=observation['response']['actual_visible_ordinary_evidence_observation']
+                assert visible['from_actual_native_input_not_recomputed_or_current_Gold']
+                assert list(visible['by_hypothesis'])==list(labels)
+                assert visible['candidate_original_text']=={'0':study.documents[0]['text'][slice(*study.documents[0]['spans'][0])]}
         assert {u["document_id"] for u in own} == set(range(max(1,count-15) if draft == "linked" or procedure else 1,count+1))
         assert body["complete_membership_rank_order_visible_in_single_joint_action"] == (start_batch == 1 and not program and not procedure)
         if start_batch == 2:
@@ -2573,9 +2580,10 @@ def test_source_attribution_is_literal_native_selection_not_realignment_or_answe
     a,b=[json.loads(m[1]['content']) for m in (empty,skill)]
     assert a.pop('learned_legal_procedures')==[] and b.pop('learned_legal_procedures')[0]['procedure']==bank[0]['guidance']['procedure']
     assert a==b and marked_text(row) in a.values()
+    assert 'candidate_original_text' in empty[0]['content']  # Preserve the original anchor-reading affordance.
     assert 'GOLD_MUST_NOT_ENTER_SOLVER' not in skill[1]['content'] and 'audit_not_runtime' not in skill[1]['content']
     for spec in schema['properties'].values():
-        for branch in spec['anyOf']:assert list(branch['properties'])==['spans','reason','choice']
+        for branch in spec['anyOf']:assert list(branch['properties'])==['reason','choice','spans']
     quoted={h:{'spans':[{'source_text_json':json.dumps(row['text'][slice(*row['spans'][i])],ensure_ascii=True),'span':i} for i in v['spans']],
                'reason':'Source comparison.','choice':v['choice']} for h,v in gold.items()}
     native={'raw_id':'actual-native-one','finish_reason':'stop','content':json.dumps(quoted),'prompt_tokens':123,'completion_tokens':456}

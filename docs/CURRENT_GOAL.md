@@ -15,7 +15,30 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 02:13 CST，Run02已独立后台运行，首份正式引用核验通过；新效果未知
+## 当前快照：2026-10-19 02:41 CST，source-first Run02系统性回退已停；修复实验已prepare待launch
+
+- 原128 Run02停止于18native/1教师/1fit（含B2首案两臂，无B2整批评分/教师），worker984426及preserver984429已终止。
+  184成员终态双盘亲核SHA6dc03480a22263bb8f043f871c485d0abe44870659a7d44cffe3fb2eef433b4c。
+  原编码失败Run01的3/0/0及原全部负面保留。不能说128正式训练还在运行或已完成。
+- ALL8 B1同202工具：初始空80.15/56.35/37.50%，实际16条1847tokens发布后66.91/55.77/30.88%；
+  4分类修复/22损坏，净18损害；全部有效无截断。这是系统性回退，未挑旧较好库回滚。
+- 直接发现新适配器两处缺陷：先输出非空最终依据会在reason/choice之前排除NM，真实公开理由说未涉及却被迫在E/C中选择；
+  只复用base_body而未继承joint_payload的candidate_original_text/候选读取提示。是适配器执行风险，
+  不能说教师缺Gold或唯一解释历史全部失败。B1初始107FN中97关系已对、36真成员已在普通候选内，依据问题仍未解决。
+- 原模块已改reason→choice→最终完整source_text_json+native index，恢复原joint_payload读取提示；
+  仍标准ASCII JSON可逆绑定，不改原文/Gold/原三指标，不补删/重定位/修原生答案。
+  joint把真正给律师的候选/分数及片段附到派生响应元数据，教师看到实际观测而不是用新工具重算。
+  原先教师只有完整source/Gold/own最终输出，未收到这些精确候选观测。当前相关2项11.34秒通过，无额外模型资格调用。
+- 新Run legal_contractnli_verdict_first_repair_20261019_run01 已prepare，40native/1教师/0新fit；
+  使用原128纯源预选前16，不按成绩挑案。保留实际最新16条R1：ALL8同202模型空/技能修复对照16答，
+  一次真实教师修订后本8重答8答，再复用实际已fit210模型，对随后ALL8新案双臂16答，后8不教。
+  前8已见训练，仅机制/学习诊断；后8才是forward，不混算泛化，不冒充完整128或独立重复/TEST。
+  同时改变顺序和恢复原读取提示，不能宣称某一词的唯一因果效果。修回基线能力也不能算技能收益。
+- driver完整绑定cfg/实际argv，复用原RankedOnline/评分/更新，不新建生产框架；当前尚未launch。
+  protocol docs/VERDICT_FIRST_REPAIR_PROTOCOL_20261019.md。账本cap1442/last1427，预定1次，不清历史。
+  原单8B服务不改，不加模型/API/裁判/fallback/准入或较好库回滚。Goal active全部实质目标仍未达成。
+
+## 已归档快照：2026-10-19 02:13 CST，Run02当时后台运行，首份正式引用核验通过；效果未知
 
 - Run legal_contractnli_source_attributed128_online_20261019_run02：独立空技能起点，128案16×8全批学习；
   不是继承挑中的旧库，也不是上一接口的独立重复。202案共同监督工具保留并对两臂共同增长，
