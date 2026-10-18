@@ -2218,8 +2218,16 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
                     "def propose_members(text, spans, public_hypothesis_key):\n    return []\n"}}}],
                 "noop_reason":None}
         count = study.current_batch*8
-        sources = expand(body["complete_original_past_and_revealed_episode_sources_and_Gold"])
-        assert {s["id"] for s in sources} == set(range(100,142)) | set(range(1,count+1))
+        if program:
+            sources=expand(body["complete_newly_revealed_original_sources_and_Gold"])
+            assert {s["id"] for s in sources}==set(range(count-7,count+1))
+            replay=expand(body["all_earlier_original_source_witness_replay_NOT_full_contracts"])
+            assert {s["id"] for s in replay}==set(range(100,142)) | set(range(1,count-7))
+            assert all(s["original_annotations"]==gold and
+                       s["complete_original_contract_not_repeated_in_teacher_context"] for s in replay)
+        else:
+            sources = expand(body["complete_original_past_and_revealed_episode_sources_and_Gold"])
+            assert {s["id"] for s in sources} == set(range(100,142)) | set(range(1,count+1))
         own = expand(body["actual_current_parent_episode_public_answers"])
         assert {u["document_id"] for u in own} == set(range(1,count+1))
         assert body["complete_membership_rank_order_visible_in_single_joint_action"] == (start_batch == 1 and not program)
@@ -2359,22 +2367,26 @@ def test_direct_member_empty_match_is_not_failure_substitution():
 
 
 def test_teacher_member_view_expands_every_original_member_without_case_selection():
-    from legal_skill_guard.learning.member_contract import annotated_member_view
+    from legal_skill_guard.learning.member_contract import annotated_sources
     from legal_skill_guard.learning.packing import expand
 
     original,labels,gold=fixture()
     row={k:original[k] for k in ("id","text","spans")}
+    prefix,tail="序\n","\n尾。"
+    row["text"]=prefix+row["text"]+tail
+    row["spans"]=[[a+len(prefix),b+len(prefix)] for a,b in row["spans"]]
     other={**row,"id":2}
-    view=annotated_member_view([row,other],labels,{"1":gold,"2":gold})
-    by=expand(view["by_public_hypothesis"])
-    assert set(by)==set(labels)
-    for h,rows in by.items():
-        assert [r["source_case_id"] for r in rows]==[1,2]
-        for case in rows:
-            assert case["original_choice"]==gold[h]["choice"]
-            assert [m["original_span_index"] for m in case["all_original_members"]]==gold[h]["spans"]
-            for m in case["all_original_members"]:
-                assert m["literal_original_text"]==row["text"][slice(*row["spans"][m["original_span_index"]])]
+    cases=expand(annotated_sources([row,other],labels,{"1":gold,"2":gold}))
+    assert [c["id"] for c in cases]==[1,2]
+    for case in cases:
+        assert case["original_annotations"]==gold
+        segments=case["source_segments_with_original_membership"]
+        restored="".join(s["gap_before"]+s["literal_original_text"] for s in segments)+case["trailing_original_text"]
+        assert restored==row["text"]
+        for i,s in enumerate(segments):
+            assert s["original_span_index"]==i
+            assert s["literal_original_text"]==row["text"][slice(*row["spans"][i])]
+            assert s["original_member_for"]==[h for h in labels if i in gold[h]["spans"]]
 
 
 def test_equivalent_member_program_access_preserves_native_input_despite_code_and_id_changes():

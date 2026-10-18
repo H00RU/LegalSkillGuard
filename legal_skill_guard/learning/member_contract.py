@@ -230,26 +230,57 @@ def teacher_sources(sources, annotations):
     return table(rows)
 
 
-def annotated_member_view(sources, labels, annotations):
-    """Uniform view of the SAME original past labels, not added supervision.
+def annotated_sources(sources, labels, annotations):
+    """One-copy full original text with colocated original membership tags.
 
-    Expand every original Gold member to its literal source for teacher reading;
-    never select interesting cases, create negatives, infer missing members or
-    treat an NM empty annotation as a semantic all-nonmember claim. Full sources
-    remain separately available. This view is never served to the native lawyer.
+    Exact gaps, original coordinates, annotation order/values and all source
+    characters survive. Gold tags repeat original membership next to its text,
+    not the text itself. No interesting-case selection, constructed negatives or
+    NM semantic claims. This teacher-only encoding never reaches the lawyer.
     """
-    result = {h: [] for h in labels}
+    result = []
     for source in sources:
-        for h in labels:
-            annotation = annotations[str(source["id"])][h]
-            members = [{"original_span_index": i,
-                        "literal_original_text": source["text"][slice(*source["spans"][i])]}
-                       for i in annotation["spans"]]
-            result[h].append({"source_case_id": source["id"],
-                "original_choice": annotation["choice"], "all_original_members": members})
-    return {"all_past_sources_and_hypotheses_unfiltered": True,
-        "same_original_annotations_not_new_labels_or_native_examples": True,
-        "by_public_hypothesis": {h:table(rows) for h,rows in result.items()}}
+        ann = annotations[str(source["id"])]
+        assert set(ann) == set(labels)
+        segments, recovered, coordinates, cursor, size = [], [], [], 0, 0
+        for i,(a,b) in enumerate(source["spans"]):
+            gap, text = source["text"][cursor:a], source["text"][a:b]
+            assert cursor <= a < b <= len(source["text"])
+            recovered.extend((gap,text)); size += len(gap)
+            coordinates.append([size,size+len(text)]); size += len(text); cursor=b
+            segments.append({"original_span_index":i,"gap_before":gap,
+                "literal_original_text":text,
+                "original_member_for": [h for h in labels if i in ann[h]["spans"]]})
+        tail = source["text"][cursor:]; recovered.append(tail)
+        assert "".join(recovered)==source["text"] and coordinates==source["spans"]
+        original = keyed(ann); assert expand(original)==ann
+        result.append({"id":source["id"], "source_segments_with_original_membership":table(segments),
+            "trailing_original_text":tail, "original_annotations":original})
+    return table(result)
+
+
+def original_witness_replay(source, labels, annotation, proposed, cited):
+    """All original labels and factual accessed/cited excerpts, NOT a full source.
+
+    Used only for past-source teacher replay, never as a replacement lawyer
+    contract or an NM absence proof. Complete past sources remain the actual
+    inputs to program execution and retention. No case or Gold member is chosen
+    by its score; all original members and all validated proposals/citations
+    resolve to verbatim original excerpts once per source.
+    """
+    assert set(annotation) == set(labels)
+    indices = set(proposed) | set(cited) | {i for h in labels for i in annotation[h]["spans"]}
+    if any(type(i) is not int or i<0 or i>=len(source["spans"]) for i in indices):
+        raise ValueError("Past witness references must be actual original indices")
+    excerpts = [{"original_span_index":i,
+        "literal_original_text":source["text"][slice(*source["spans"][i])],
+        "original_member_for":[h for h in labels if i in annotation[h]["spans"]]}
+        for i in sorted(indices)]
+    original=keyed(annotation);assert expand(original)==annotation
+    return {"id":source["id"],"original_annotations":original,
+        "all_original_members_and_actual_accessed_cited_excerpts":table(excerpts),
+        "complete_original_contract_not_repeated_in_teacher_context":True,
+        "excerpts_do_not_prove_contract_wide_absence_or_NM":True}
 
 
 def member_contrasts(sources, labels, annotations, answers):

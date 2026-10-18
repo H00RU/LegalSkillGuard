@@ -1,5 +1,18 @@
 # Contingent source-member program path, prepared in an isolated worktree
 
+Latest16:38: this mechanism is now in the MAIN original modules. Run01's actual
+launch failed the existing teacher character guard before any generation; its
+full zero-call terminal is archived. Run02 is prepared but not launched, with
+initial rendered897537 characters under the unchanged1048576 guard. No larger
+Codex limit, new client/API/model or second service. Initial66 sources are complete
+and single-copy with colocated membership. Later teacher updates get complete
+new8 plus ALL past original labels and actual member/proposal/citation witnesses,
+explicitly PARTIAL historical context, not all historical full contracts. Full
+past sources still drive real execution and retention. Same source-only32,
+136native/4teachers/3fits. The active precise contract is
+`docs/DIRECT_SOURCE_MEMBER_ONLINE_PROTOCOL_20261018_RUN02.md`; older paragraphs
+below retain design history, not instructions to resend all90 full sources.
+
 2026-10-18 15:50. The execution/delivery kernel AND existing online-worker
 integration are now implemented in the isolated
 `research/direct-source-members-20261018` development worktree, not the running

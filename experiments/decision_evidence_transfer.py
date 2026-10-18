@@ -26,6 +26,9 @@ from jsonschema import ValidationError, validate
 from legal_skill_guard.data import source_components
 from legal_skill_guard.experiment.storage import RunStore
 from legal_skill_guard.inference.native import WireClient
+from legal_skill_guard.inference.codex_cli_client import (
+    CODEX_TURN_INPUT_CHARACTER_LIMIT, render_structured_codex_prompt,
+)
 from legal_skill_guard.learning.audit import close, original_score
 from legal_skill_guard.learning.decision_evidence import (
     DECISION_SYSTEM, EVIDENCE_SYSTEM, GUIDANCE_SCHEMA, assemble_native,
@@ -37,9 +40,9 @@ from legal_skill_guard.learning.executable_features import (
     execute_member_programs, validate_member_programs,
 )
 from legal_skill_guard.learning.experiment import Comparison, ROOT, now, points, read, sha
-from legal_skill_guard.learning.member_contract import annotated_member_view, teacher_sources
+from legal_skill_guard.learning.member_contract import annotated_sources, original_witness_replay, teacher_sources
 from legal_skill_guard.learning.member_learning import paired_effect
-from legal_skill_guard.learning.packing import table
+from legal_skill_guard.learning.packing import keyed, table
 from legal_skill_guard.learning.publication import (
     apply_differential_publication, differential_schema, publication_statistics,
 )
@@ -350,7 +353,7 @@ def online_writer(complete_order):
 
 
 PROGRAM_WRITER = (
-    "Learn reusable executable source-inspection skills from ONLY the complete "
+    "Learn reusable executable source-inspection skills from ONLY the supplied "
     "already-seen original TRAIN sources, author annotations, actual historical "
     "public answers and current-parent feedback supplied here. This is label-"
     "assisted external program learning, not parameter training or canonical "
@@ -382,11 +385,22 @@ PROGRAM_WRITER = (
     "do not mistake ordinary supervised-tool quality for your contribution. "
     "Previous prose-method history is explicitly labeled as such, not fabricated "
     "program executions. Previous prose is FALLIBLE: audit its exclusions against "
-    "the uniformly expanded original member view, not intuitive minimal-proof "
+    "the original membership tags colocated with each literal span, not intuitive minimal-proof "
     "preferences. Do not mechanically translate an unsupported prose exclusion "
     "into code. Learn cross-source boundaries from ALL supplied members, without "
     "memorizing an exceptional source or pretending annotation variance is new "
-    "law. The member view repeats existing Gold literally; it is not a new judge. "
+    "law. Each teacher source gives every original segment, exact inter-span "
+    "gaps and trailing text, with original_member_for tags and unchanged original "
+    "annotations. Concatenate gaps/text/tail to recover the full source. Tags "
+    "repeat existing Gold, not a new judge; NM has no evidence supervision. "
+    "Initial induction receives all complete past sources. Subsequent updates "
+    "receive the complete newly revealed8 contracts plus ALL earlier original "
+    "labels and verbatim original member/proposed/cited witness excerpts. Those "
+    "past excerpts are explicitly PARTIAL contexts, not full contracts or proofs "
+    "of absence. All full past sources remain available to the actual source "
+    "program execution and retention evaluation, NOT silently to this teacher. "
+    "Preserve prior boundaries when partial past context cannot justify changing "
+    "them. All past source cases and Gold members remain in replay, no selection. "
     "No case IDs, dates, parties, unique quotations, document "
     "fingerprints or hardcoded source-index/answer tables in runtime programs. "
     "Publish explicit CREATE/UPDATE/DELETE/MERGE or NOOP against the exact parent. "
@@ -489,15 +503,18 @@ def prepare_online(config):
         assert own and len({u["document_id"] for u in own}) == len(own)
         assert all(u["document_id"] in past and u["bank_sha256"] == csha(bank) for u in own)
         assert all(preserved_files[str(p.relative_to(ROOT))] == sha(p) for p in paths)
-        RunStore.immutable_json(ROOT / cfg["initial_teacher_body"], {
+        initial_teacher = {
             "public_hypotheses": author["labels"], "current_parent_library": [],
-            "complete_original_past_sources_and_Gold": teacher_sources([public(d) for d in past], source_gold),
-            "same_original_members_uniform_literal_view": annotated_member_view(
-                [public(d) for d in past], author["labels"], source_gold),
+            "complete_original_past_sources_and_Gold": annotated_sources([public(d) for d in past],
+                author["labels"], source_gold),
             "actual_previous_text_method_public_answers_not_program_rollouts": table(own),
             "previous_text_method_library_for_reference_not_runtime": bank,
             "same_data_ordinary_model": manifest, "pure_program_API": program_api(),
-            "no_new_episode_source_or_Gold_or_official_DEV_TEST": True})
+            "no_new_episode_source_or_Gold_or_official_DEV_TEST": True}
+        chars = len(render_structured_codex_prompt(PROGRAM_WRITER,
+            json.dumps(initial_teacher, ensure_ascii=False, separators=(",", ":"))))
+        assert chars <= CODEX_TURN_INPUT_CHARACTER_LIMIT, "Complete teacher transport capacity; never truncate"
+        RunStore.immutable_json(ROOT / cfg["initial_teacher_body"], initial_teacher)
         files += paths + [ROOT / cfg["initial_teacher_body"], ROOT / cfg["additional_excluded_episode_config"]]
     RunStore.immutable_json(config.with_suffix(".frozen.json"), {
         "config_sha256": sha(config), "files": {str(p.resolve()): sha(p) for p in files}})
@@ -598,7 +615,9 @@ class RankedOnline(DecisionEvidenceTransfer):
                         range(len(p["raw_scores"])), key=lambda i: (-p["raw_scores"][i], i))
             ranked_observations.append({"document_id": row["id"], "by_hypothesis": members})
         body = {"public_hypotheses": self.labels, "current_parent_library": parent,
-            "complete_original_past_and_revealed_episode_sources_and_Gold": teacher_sources(self.past+seen, gold),
+            "complete_original_past_and_revealed_episode_sources_and_Gold": (
+                annotated_sources(seen[-8:], self.labels, gold) if self.program_mode()
+                else teacher_sources(self.past+seen, gold)),
             "actual_current_parent_episode_public_answers": table(own),
             "actual_original_component_feedback": [{"document_id": u["document_id"],
                 "by_hypothesis": {q["hypothesis_id"]: {k: q[k] for k in (
@@ -614,12 +633,15 @@ class RankedOnline(DecisionEvidenceTransfer):
             "complete_membership_rank_order_visible_in_single_joint_action": complete_order,
             "no_future_episode_sources_answers_annotations_or_official_DEV_TEST": True}
         if self.program_mode():
+            body["complete_newly_revealed_original_sources_and_Gold"] = body.pop(
+                "complete_original_past_and_revealed_episode_sources_and_Gold")
             body["pure_program_API"] = program_api()
-            body["same_original_members_uniform_literal_view"] = annotated_member_view(self.past+seen, self.labels, gold)
             body["future_joint_system"] = member_program_payload(seen[0], self.labels,
                 evidence_proposals(self.model, seen[0], self.labels),
                 self.cfg["bundled_solver_system"], [])[0][0]["content"]
-            replays = []
+            replays, raw_replays, witnesses = [], [], []
+            before_by_id = {u["document_id"]:u for u in before}
+            new_ids = {r["id"] for r in seen[-8:]}
             for row in self.past+seen:
                 proposed, receipts = execute_member_programs(parent, row, self.labels)
                 self.record_program_cost(receipts, "teaching_component_replay_not_native")
@@ -632,10 +654,23 @@ class RankedOnline(DecisionEvidenceTransfer):
                         "original_non_neutral_member_target": annotation["choice"] != "NotMentioned",
                         "original_member_hits": sorted(p & g), "original_member_misses": sorted(g-p),
                         "unannotated_read_proposals_not_false_legal_claims": sorted(p-g)}
-                replays.append({"document_id": row["id"], "by_hypothesis": cases,
+                raw_replays.append({"document_id": row["id"], "by_hypothesis": cases,
                     "actual_CPU_execution_receipts": receipts,
                     "factual_current_parent_replay_not_new_native_answers": True})
+                replays.append({"document_id":row["id"],"by_hypothesis":keyed(cases)})
+                if row["id"] not in new_ids:
+                    observed = before_by_id.get(row["id"])
+                    cited = []
+                    if observed is not None and observed["public_valid"]:
+                        cited = [i for a in observed["parsed"].values() for i in a["spans"]]
+                    witnesses.append(original_witness_replay(row,self.labels,gold[str(row["id"])],
+                        [i for values in proposed.values() for i in values],cited))
+            self.record(f"program_replays/b{self.current_batch}.json", {
+                "at":now(),"complete_actual_CPU_replays":raw_replays,
+                "all_original_member_feedback_is_in_teacher_readable_view":True,
+                "CPU_times_code_source_hashes_audit_metadata_not_repeated_in_teacher_input":True})
             body["actual_current_parent_source_program_component_replays"] = table(replays)
+            body["all_earlier_original_source_witness_replay_NOT_full_contracts"] = table(witnesses)
         name = f"online_b{self.current_batch}"
         self.record(f"learning_inputs/{name}.json", body)
         seen_ids = [r["id"] for r in self.past+seen]
