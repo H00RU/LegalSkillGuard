@@ -166,6 +166,36 @@ def decision_payload(row, labels, proposals, bank):
             {"role": "user", "content": json.dumps(body, ensure_ascii=False, separators=(",", ":"))}], schema
 
 
+def member_program_payload(row, labels, proposals, system, bank):
+    """Canonical native task with actually executed, source-only reading access.
+
+    Reuse the same full-source, source-anchor and sparse read-record ABI. Never
+    deliver executable code, case identity, private feedback or a host verdict.
+    The frozen lawyer freely writes EVERY original label and final citation.
+    """
+    from .executable_features import execute_member_programs
+
+    reads, receipts = execute_member_programs(bank, row, labels)
+    messages, schema = joint_payload(row, labels, proposals, system, complete_order=False)
+    body = json.loads(messages[1]["content"])
+    for h in labels:
+        ordinary = {v["original_span_index"] for v in body["hypotheses"][h]["fallible_evidence_candidates"]}
+        body["hypotheses"][h]["additional_source_read_indices"] = [
+            {"original_span_index": i} for i in reads[h] if i not in ordinary]
+        for i in reads[h]:
+            body["candidate_original_text"][str(i)] = row["text"][slice(*row["spans"][i])]
+    body["candidate_original_text"] = {k:body["candidate_original_text"][k]
+        for k in sorted(body["candidate_original_text"], key=int)}
+    messages[0]["content"] += (
+        " additional_source_read_indices are fallible source-reading proposals, "
+        "not mandatory citations or legal verdicts. An empty list does not mean "
+        "NotMentioned. All original source indices remain freely citable.")
+    messages[1]["content"] = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
+    return messages, schema, {"actual_member_program_executions": receipts,
+        "per_hypothesis_proposed_original_indices": reads,
+        "no_program_code_identity_Gold_or_host_answers_delivered": True}
+
+
 def evidence_payload(row, labels, proposals, decision, decision_schema, bank):
     if decision["finish_reason"] != "stop":
         raise ValueError("Evidence has no usable native decision prerequisite")

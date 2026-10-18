@@ -2131,8 +2131,8 @@ def test_complete_member_order_delivers_tail_without_changing_binary_candidates(
     assert proposals == saved
 
 
-@pytest.mark.parametrize("start_batch", [1, 2])
-def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch):
+@pytest.mark.parametrize("start_batch,program", [(1, False), (2, False), (1, True)])
+def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch, program):
     from types import SimpleNamespace
 
     from experiments import decision_evidence_transfer as module
@@ -2148,7 +2148,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
         str(r["id"]): gold for r in study.past+study.documents}})
     study.cfg = {"grading_only": str(gold_path), "bundled_solver_system": "Same task.",
                  "library_token_hard_cap": 4096, "start_batch": start_batch,
-                 "show_complete_member_order": start_batch == 1}
+                 "show_complete_member_order": start_batch == 1 and not program}
     study.labels, study.bank = labels, [{"id": "s", "hypothesis_ids": list(labels),
         "guidance": {"relation_criterion": "Inspect the source.", "evidence_criterion": "Select actual members."}}]
     study.bindings, study.run_id, study.out = {}, "synthetic_only", tmp_path / "run"
@@ -2161,6 +2161,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     study.meter = SimpleNamespace(token_count=lambda **_: 100)
     study.native, study.teachers, study.units, study.answers = [], [], [], []
     study.own_current, study.batch_summaries, study.fit_records = {}, [], []
+    study.program_cost = {}
     study.current_batch = 0
     records = {}
     study.record = lambda name, value: records.setdefault(name, value)
@@ -2170,6 +2171,27 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
         return {"by_hypothesis": {h: {"candidates": [], "raw_scores": [.1, .2, .3]} for h in public_labels}}
 
     monkeypatch.setattr(module, "evidence_proposals", proposals)
+    if program:
+        from legal_skill_guard.learning.member_contract import teacher_sources
+
+        study.cfg["method"] = module.PROGRAM_METHOD
+        study.bank = []
+        initial_path = tmp_path / "initial_program_teacher.json"
+        RunStore.immutable_json(initial_path, {"current_parent_library": [],
+            "complete_original_past_sources_and_Gold": teacher_sources(study.past,
+                {str(r["id"]):gold for r in study.past})})
+        study.cfg["initial_teacher_body"] = str(initial_path)
+
+        def synthetic_program_replay(bank, source, public_labels):
+            return {h:[] for h in public_labels}, []
+
+        def synthetic_program_payload(source, public_labels, leads, system, bank):
+            messages,schema=module.joint_payload(source, public_labels, leads, system, complete_order=False)
+            return messages,schema,{"synthetic_chronology_not_effectiveness":True,
+                                    "actual_member_program_executions":[]}
+
+        monkeypatch.setattr(module,"execute_member_programs",synthetic_program_replay)
+        monkeypatch.setattr(module,"member_program_payload",synthetic_program_payload)
 
     def generate(row, role, messages, schema):
         study.native.append({"role": role, "phase": study.phase})
@@ -2185,15 +2207,28 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     study.generate = generate
 
     def teacher(name, system, body, schema):
+        if name == "initial_source_program_induction":
+            sources=expand(body["complete_original_past_sources_and_Gold"])
+            assert {s["id"] for s in sources} == set(range(100,142))
+            assert not study.answers and not study.bank
+            study.teachers.append(name)
+            return {"operations":[{"operation":"CREATE","target_ids":[],"source_case_ids":[100],
+                "rationale":"Synthetic publication fixture, not efficacy evidence.",
+                "skill":{"id":"p","hypothesis_ids":list(labels),"guidance":{"python_source":
+                    "def propose_members(text, spans, public_hypothesis_key):\n    return []\n"}}}],
+                "noop_reason":None}
         count = study.current_batch*8
-        sources = expand(body["complete_original_past42_and_revealed_episode_sources_and_Gold"])
+        sources = expand(body["complete_original_past_and_revealed_episode_sources_and_Gold"])
         assert {s["id"] for s in sources} == set(range(100,142)) | set(range(1,count+1))
         own = expand(body["actual_current_parent_episode_public_answers"])
         assert {u["document_id"] for u in own} == set(range(1,count+1))
-        assert body["complete_membership_rank_order_visible_in_single_joint_action"] == (start_batch == 1)
+        assert body["complete_membership_rank_order_visible_in_single_joint_action"] == (start_batch == 1 and not program)
         if start_batch == 2:
             assert "no longer used" in system
             assert "complete_original_member_rank_order" not in json.dumps(body)
+        if program:
+            replays=expand(body["actual_current_parent_source_program_component_replays"])
+            assert {r["document_id"] for r in replays} == set(range(100,142)) | set(range(1,count+1))
         assert len([u for u in study.answers if u["stage"] == f"b{study.current_batch}_prequential"]) == 16
         study.teachers.append(name)
         return {"operations": [], "noop_reason": "Synthetic chronology fixture, no live teacher."}
@@ -2208,11 +2243,16 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     study.fit_prefix = fit
     study.execute()
     result = records["completion.json"]
-    assert result["actual_new_native_teacher_CPUfits"] == ([136, 3, 3] if start_batch == 1 else [120, 2, 2])
+    expected=[136,4 if program else 3,3] if start_batch == 1 else [120,2,2]
+    assert result["actual_new_native_teacher_CPUfits"] == expected
     assert len(study.answers) == (144 if start_batch == 1 else 120)
     assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if start_batch == 1 else 0)
     assert len(records["publications/b3.json"]["original_seen_source_ids"]) == 66
     assert not any(k == "publications/b4.json" for k in records)
+    if program:
+        assert records["publications/induction.json"]["new_episode_labels_taught"] == 0
+        assert records["publications/induction.json"]["new_representation_learning_not_best_bank_rollback"]
+        assert records["source_executions/b4_prequential/32/skills.json"]["synthetic_chronology_not_effectiveness"]
     assert all(v["documents"] == (32 if start_batch == 1 else 24) for v in result["aggregate_prequential_metrics"].values())
     if start_batch == 2:
         assert records["initial_retention.json"]["not_unseen_evaluation_or_teacher_update_gain"]
@@ -2268,3 +2308,86 @@ def test_canonical_joint_removes_citation_like_rank_lists_not_source_or_candidat
     assert "NOT_RUNTIME" not in skills[1]["content"]
     y.pop("learned_inspection_criteria")
     assert x == y and x["candidate_original_text"]["2"] == row["text"][slice(*row["spans"][2])]
+
+
+def test_direct_member_programs_are_actual_source_computation_not_native_answers():
+    from legal_skill_guard.learning.executable_features import execute_member_programs
+    from legal_skill_guard.learning.decision_evidence import member_program_payload
+
+    original, labels, _ = fixture()
+    row = {k: original[k] for k in ("id", "text", "spans")}
+    source = ("def propose_members(text, spans, public_hypothesis_key):\n"
+              "    return [i for i, (a,b) in enumerate(spans) if 'retain' in text[a:b].lower()]\n")
+    bank = [{"id": "NEVER_SERVED", "hypothesis_ids": ["h1"], "guidance": {"python_source": source}}]
+    proposals = {"by_hypothesis": {h: {"candidates": [{"original_span_index": 0, "membership_score": .9}],
+        "raw_scores": [.9, .1, .1]} for h in labels}}
+    reads, receipts = execute_member_programs(bank, {**row, "annotation_sets": "NOT_CHILD_INPUT"}, labels)
+    assert reads == {"h1": [1], "h2": [], "h3": []} and len(receipts) == 1
+    empty,a,_ = member_program_payload(row, labels, proposals, "Task.", [])
+    messages,b,trace = member_program_payload(row, labels, proposals, "Task.", bank)
+    assert a == b and empty[0] == messages[0]
+    body=json.loads(messages[1]["content"])
+    assert body["hypotheses"]["h1"]["additional_source_read_indices"] == [{"original_span_index": 1}]
+    assert body["hypotheses"]["h2"]["additional_source_read_indices"] == []
+    assert body["candidate_original_text"]["1"] == row["text"][slice(*row["spans"][1])]
+    assert trace["per_hypothesis_proposed_original_indices"] == reads
+    assert "NEVER_SERVED" not in json.dumps(messages) and "propose_members" not in json.dumps(messages)
+    assert "NOT_CHILD_INPUT" not in json.dumps(messages) and "choice" not in trace
+
+
+@pytest.mark.parametrize("result", ["[True]", "[1, 1]", "[999]", "{'h1': [1]}"])
+def test_direct_member_program_invalid_outputs_stop_without_repair(result):
+    from legal_skill_guard.learning.executable_features import execute_member_programs
+
+    original, labels, _ = fixture()
+    row = {k: original[k] for k in ("id", "text", "spans")}
+    bank = [{"id": "s", "hypothesis_ids": ["h1"], "guidance": {"python_source":
+        "def propose_members(text, spans, public_hypothesis_key):\n    return " + result + "\n"}}]
+    with pytest.raises(ValueError):
+        execute_member_programs(bank, row, labels)
+
+
+def test_direct_member_empty_match_is_not_failure_substitution():
+    from legal_skill_guard.learning.executable_features import execute_member_programs
+
+    original, labels, _ = fixture()
+    row = {k: original[k] for k in ("id", "text", "spans")}
+    bank = [{"id": "s", "hypothesis_ids": ["h1"], "guidance": {"python_source":
+        "def propose_members(text, spans, public_hypothesis_key):\n    return []\n"}}]
+    reads, receipts=execute_member_programs(bank, row, labels)
+    assert reads == {h:[] for h in labels} and len(receipts) == 1
+
+
+def test_teacher_member_view_expands_every_original_member_without_case_selection():
+    from legal_skill_guard.learning.member_contract import annotated_member_view
+    from legal_skill_guard.learning.packing import expand
+
+    original,labels,gold=fixture()
+    row={k:original[k] for k in ("id","text","spans")}
+    other={**row,"id":2}
+    view=annotated_member_view([row,other],labels,{"1":gold,"2":gold})
+    by=expand(view["by_public_hypothesis"])
+    assert set(by)==set(labels)
+    for h,rows in by.items():
+        assert [r["source_case_id"] for r in rows]==[1,2]
+        for case in rows:
+            assert case["original_choice"]==gold[h]["choice"]
+            assert [m["original_span_index"] for m in case["all_original_members"]]==gold[h]["spans"]
+            for m in case["all_original_members"]:
+                assert m["literal_original_text"]==row["text"][slice(*row["spans"][m["original_span_index"]])]
+
+
+def test_equivalent_member_program_access_preserves_native_input_despite_code_and_id_changes():
+    from legal_skill_guard.learning.decision_evidence import member_program_payload
+
+    original,labels,_=fixture()
+    row={k:original[k] for k in ("id","text","spans")}
+    def bank(sid,method):
+        return [{"id":sid,"hypothesis_ids":["h1"],"guidance":{"python_source":
+            "def propose_members(text, spans, public_hypothesis_key):\n"
+            "    return [i for i,(a,b) in enumerate(spans) if 'retain' in text[a:b]."+method+"()]\n"}}]
+    a=member_program_payload(row,labels,None,"Same task.",bank("old_identity","lower"))
+    b=member_program_payload(row,labels,None,"Same task.",bank("new_identity","casefold"))
+    assert a[:2]==b[:2]
+    assert a[2]["per_hypothesis_proposed_original_indices"]==b[2]["per_hypothesis_proposed_original_indices"]
+    assert a[2]["actual_member_program_executions"][0]["program_sha256"]!=b[2]["actual_member_program_executions"][0]["program_sha256"]

@@ -230,6 +230,28 @@ def teacher_sources(sources, annotations):
     return table(rows)
 
 
+def annotated_member_view(sources, labels, annotations):
+    """Uniform view of the SAME original past labels, not added supervision.
+
+    Expand every original Gold member to its literal source for teacher reading;
+    never select interesting cases, create negatives, infer missing members or
+    treat an NM empty annotation as a semantic all-nonmember claim. Full sources
+    remain separately available. This view is never served to the native lawyer.
+    """
+    result = {h: [] for h in labels}
+    for source in sources:
+        for h in labels:
+            annotation = annotations[str(source["id"])][h]
+            members = [{"original_span_index": i,
+                        "literal_original_text": source["text"][slice(*source["spans"][i])]}
+                       for i in annotation["spans"]]
+            result[h].append({"source_case_id": source["id"],
+                "original_choice": annotation["choice"], "all_original_members": members})
+    return {"all_past_sources_and_hypotheses_unfiltered": True,
+        "same_original_annotations_not_new_labels_or_native_examples": True,
+        "by_public_hypothesis": {h:table(rows) for h,rows in result.items()}}
+
+
 def member_contrasts(sources, labels, annotations, answers):
     result = {h: [] for h in labels}
     for source in sources:

@@ -47,6 +47,11 @@ SEMANTIC_GUIDANCE_SCHEMA = {
     },
 }
 EXECUTABLE_GUIDANCE_SCHEMA = {"anyOf": [GUIDANCE_SCHEMA, SEMANTIC_GUIDANCE_SCHEMA]}
+MEMBER_PROGRAM_GUIDANCE_SCHEMA = {
+    "type": "object", "additionalProperties": False,
+    "required": ["python_source"],
+    "properties": {"python_source": {"type": "string", "minLength": 1}},
+}
 SEMANTIC_EXECUTION_PROTOCOL = "same_frozen_lawyer_source_predicates_v1"
 SEMANTIC_SYSTEM = (
     "Execute the supplied fallible source predicates on this complete contract. "
@@ -84,23 +89,23 @@ resource.setrlimit(resource.RLIMIT_FSIZE,(0,0))
 p=json.load(sys.stdin)
 g={'__builtins__':{k:getattr(builtins,k) for k in p['allowed_builtins']},'re':re}
 exec(compile(p['python_source'],'<published-source-feature>','exec'),g)
-y=g['span_features'](p['text'],p['spans'])
+y=g[p['entrypoint']](*p['arguments'])
 sys.stdout.write(json.dumps(y,allow_nan=False,separators=(',',':')))
 """
 
 
-def validate_source(source):
+def validate_source(source, *, entrypoint="span_features", arguments=("text", "spans")):
     tree = ast.parse(source, mode="exec")
     definitions = [n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)]
     if len({n.name for n in definitions}) != len(definitions):
         raise ValueError("Published helper function names must be distinct")
     functions = {n.name: n for n in tree.body if isinstance(n, ast.FunctionDef)}
-    if "span_features" not in functions:
-        raise ValueError("A published span_features(text, spans) function is required")
-    main = functions["span_features"].args
-    if ([a.arg for a in main.args] != ["text", "spans"] or main.posonlyargs
+    if entrypoint not in functions:
+        raise ValueError(f"A published {entrypoint}{tuple(arguments)} function is required")
+    main = functions[entrypoint].args
+    if ([a.arg for a in main.args] != list(arguments) or main.posonlyargs
             or main.vararg or main.kwarg or main.kwonlyargs or main.defaults):
-        raise ValueError("Exact span_features(text, spans) signature required")
+        raise ValueError(f"Exact {entrypoint}{tuple(arguments)} signature required")
     for node in tree.body:
         if not isinstance(node, ast.FunctionDef) and not (
                 isinstance(node, ast.Expr) and isinstance(node.value, ast.Constant)
@@ -148,19 +153,30 @@ def publish(parent, value, public_ids, seen_ids, *, guidance_schema=GUIDANCE_SCH
     return library
 
 
-def execute_source_features(skill, document):
-    """Exactly one pure invocation. Errors propagate; no replacement feature."""
-    guidance = skill["guidance"]
-    validate_source(guidance["python_source"])
-    text, spans = document["text"], document["spans"]
-    payload = {"python_source": guidance["python_source"], "text": text,
-               "spans": spans, "allowed_builtins": BUILTINS}
+def _execute_pure_source(source, document, entrypoint, arguments, extra=()):
+    """One shared resource-limited executor; pass only public text/coordinates.
+
+    A trusted-teacher research boundary, not a hostile-code security sandbox.
+    Both declared representations use this kernel; neither is a failure path.
+    """
+    validate_source(source, entrypoint=entrypoint, arguments=arguments)
+    payload = {"python_source": source, "entrypoint": entrypoint,
+               "arguments": [document["text"], document["spans"], *extra],
+               "allowed_builtins": BUILTINS}
     result = subprocess.run(
         [sys.executable, "-I", "-S", "-c", CHILD],
         input=json.dumps(payload, ensure_ascii=False), text=True,
         capture_output=True, timeout=5, check=True,
         env={"LC_ALL": "C.UTF-8", "PYTHONHASHSEED": "0"})
-    values = json.loads(result.stdout)
+    return json.loads(result.stdout)
+
+
+def execute_source_features(skill, document):
+    """Exactly one pure invocation. Errors propagate; no replacement feature."""
+    guidance = skill["guidance"]
+    values = _execute_pure_source(guidance["python_source"], document,
+                                  "span_features", ("text", "spans"))
+    text, spans = document["text"], document["spans"]
     n, width = len(spans), len(guidance["feature_names"])
     if not isinstance(values, list) or len(values) != n or any(
             not isinstance(row, list) or len(row) != width
@@ -173,6 +189,48 @@ def execute_source_features(skill, document):
                     "public_source_sha256": csha({"text": text, "spans": spans}),
                     "feature_shape": [n, width], "feature_values_sha256": csha(values),
                     "one_resource_limited_CPU_subprocess_no_Gold_ID_or_model": True}
+
+
+def validate_member_programs(library, public_ids):
+    if len({s["id"] for s in library}) != len(library):
+        raise ValueError("Duplicate member-program identity")
+    for skill in library:
+        validate(skill, skill_record_schema(public_ids, guidance_schema=MEMBER_PROGRAM_GUIDANCE_SCHEMA))
+        if len(set(skill["hypothesis_ids"])) != len(skill["hypothesis_ids"]):
+            raise ValueError("Duplicate public member-program scope")
+        validate_source(skill["guidance"]["python_source"], entrypoint="propose_members",
+                        arguments=("text", "spans", "public_hypothesis_key"))
+
+
+def execute_member_programs(library, document, public_ids):
+    """Execute learned membership procedures, NOT features for another score head.
+
+    All selected indices remain fallible reading proposals, never final answers.
+    A legitimate empty match is allowed. Any execution/type/index/duplicate
+    failure propagates; no zero replacement, normalizer, retry or ordinary-tool
+    substitute exists. Distinct valid proposals are unioned as reading access,
+    not as native citations or a repaired answer.
+    """
+    import time
+
+    validate_member_programs(library, public_ids)
+    selected, receipts = {h: set() for h in public_ids}, []
+    for skill in library:
+        for h in skill["hypothesis_ids"]:
+            started = time.monotonic()
+            indices = _execute_pure_source(skill["guidance"]["python_source"], document,
+                "propose_members", ("text", "spans", "public_hypothesis_key"), (h,))
+            if not isinstance(indices, list) or any(type(i) is not int for i in indices):
+                raise ValueError("A member procedure must return a list of original integer indices")
+            if len(indices) != len(set(indices)) or any(i < 0 or i >= len(document["spans"]) for i in indices):
+                raise ValueError("Duplicate or out-of-range original members; never repair")
+            selected[h].update(indices)
+            receipts.append({"skill_id": skill["id"], "hypothesis_id": h,
+                "program_sha256": csha(skill["guidance"]),
+                "public_source_sha256": csha({"text": document["text"], "spans": document["spans"]}),
+                "proposed_original_indices": indices, "actual_CPU_wall_seconds": time.monotonic()-started,
+                "one_restricted_CPU_execution_no_current_Gold_ID_or_model": True})
+    return {h: sorted(v) for h,v in selected.items()}, receipts
 
 
 def semantic_feature_request(library, document):
