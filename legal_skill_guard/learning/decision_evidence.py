@@ -15,9 +15,16 @@ from jsonschema import ValidationError, validate
 
 from legal_skill_guard.task import CHOICES
 
-from .acquisition import source_messages
+from .acquisition import NOTICE, source_messages
 from .publication import skill_record_schema
 
+RANKING_NOTICE = (
+    " Each ordinary_membership_rank_order lists ALL original span indices by "
+    "descending ordinary membership score, with original-index tie order. It is "
+    "a fallible search ordering, not a citation set or legal verdict. Its tail "
+    "is available even when the binary candidate list omitted a true member. "
+    "Choose every final label and citation yourself from the original source."
+)
 GUIDANCE_SCHEMA = {"type": "object", "additionalProperties": False,
     "required": ["relation_criterion", "evidence_criterion"], "properties": {
         k: {"type": ["string", "null"], "minLength": 1}
@@ -35,7 +42,7 @@ DECISION_SYSTEM = (
     "candidate list does not imply NotMentioned. Read the whole source. Return "
     "choice and a short public reason of at most15 words for each original key. "
     "This action decides relations only. Do not output citations, source-access "
-    "plans or additional fields. Make every relation decision yourself."
+    "plans or additional fields. Make every relation decision yourself." + RANKING_NOTICE
 )
 EVIDENCE_SYSTEM = (
     "Collect original SPAN evidence for the legal choices just produced by this "
@@ -54,7 +61,7 @@ EVIDENCE_SYSTEM = (
     "You may reject candidates and select ANY original index from the full "
     "source. Do not turn all read context into cited evidence. Use zero-based "
     "original indices unchanged. Return only spans for every supplied key. "
-    "No other model, tools, additional legal judgment or answer repair."
+    "No other model, tools, additional legal judgment or answer repair." + RANKING_NOTICE
 )
 
 
@@ -94,7 +101,21 @@ def base_body(row, labels, proposals):
     messages, schema, trace = source_messages(row, labels, "", [], proposals,
                                              incremental_encoding="records")
     assert not trace["actual_source_executions"]
-    return json.loads(messages[1]["content"]), schema
+    body = json.loads(messages[1]["content"])
+    if proposals is not None:
+        for h in labels:
+            scores = proposals["by_hypothesis"][h]["raw_scores"]
+            if len(scores) != len(row["spans"]):
+                raise ValueError("Complete original membership ordering required")
+            body["hypotheses"][h]["ordinary_membership_rank_order"] = sorted(
+                range(len(scores)), key=lambda i: (-scores[i], i))
+    return body, schema
+
+
+def joint_payload(row, labels, proposals, system):
+    body, schema = base_body(row, labels, proposals)
+    return [{"role": "system", "content": system + NOTICE + RANKING_NOTICE},
+            {"role": "user", "content": json.dumps(body, ensure_ascii=False, separators=(",", ":"))}], schema
 
 
 def decision_payload(row, labels, proposals, bank):

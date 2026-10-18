@@ -2111,3 +2111,96 @@ def test_two_target_shared_prefix_is_one_actual_decision_two_actual_evidence_cal
     assert called == ["shared_skill_decision", "relation_only_evidence", "dual_skills_evidence"]
     assert len(results) == 2 and results[0][1]["actual_native_raw_ids"][0] == results[1][1]["actual_native_raw_ids"][0]
     assert sum(len(r["actual_native_raw_ids"]) for _,r in results) == 4 and len(called) == 3
+
+
+def test_complete_member_order_delivers_tail_without_changing_binary_candidates():
+    from legal_skill_guard.learning.decision_evidence import decision_payload, joint_payload
+
+    original, labels, _ = fixture()
+    row = {k: original[k] for k in ("id", "text", "spans")}
+    proposals = {"by_hypothesis": {h: {"candidates": [
+        {"original_span_index": 2, "membership_score": .9}], "raw_scores": [.1, .1, .9]}
+        for h in labels}}
+    saved = copy.deepcopy(proposals)
+    for messages, _ in (decision_payload(row, labels, proposals, []),
+                         joint_payload(row, labels, proposals, "Same task.")):
+        body = json.loads(messages[1]["content"])
+        for h in labels:
+            assert body["hypotheses"][h]["ordinary_membership_rank_order"] == [2, 0, 1]
+            assert body["hypotheses"][h]["fallible_evidence_candidates"] == saved["by_hypothesis"][h]["candidates"]
+    assert proposals == saved
+
+
+def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    from experiments import decision_evidence_transfer as module
+    from legal_skill_guard.learning.packing import expand
+
+    original, labels, gold = fixture()
+    public = {k: original[k] for k in ("id", "text", "spans")}
+    study = module.RankedOnline.__new__(module.RankedOnline)
+    study.documents = [{**copy.deepcopy(public), "id": d} for d in range(1, 33)]
+    study.past = [{**copy.deepcopy(public), "id": d} for d in range(100, 142)]
+    gold_path = tmp_path / "gold.json"
+    RunStore.immutable_json(gold_path, {"original_TRAIN_annotations": {
+        str(r["id"]): gold for r in study.past+study.documents}})
+    study.cfg = {"grading_only": str(gold_path), "bundled_solver_system": "Same task.",
+                 "library_token_hard_cap": 4096}
+    study.labels, study.bank = labels, [{"id": "s", "hypothesis_ids": list(labels),
+        "guidance": {"relation_criterion": "Inspect the source.", "evidence_criterion": "Select actual members."}}]
+    study.bindings, study.run_id, study.out = {}, "synthetic_only", tmp_path / "run"
+    study.manifest = {"synthetic": True}
+    study.model = study.prefix_model = object()
+    study.prefix_ids = list(range(100, 142))
+    study.meter = SimpleNamespace(token_count=lambda **_: 100)
+    study.native, study.teachers, study.units, study.answers = [], [], [], []
+    study.own_current, study.batch_summaries, study.fit_records = {}, [], []
+    study.current_batch = 0
+    records = {}
+    study.record = lambda name, value: records.setdefault(name, value)
+    study.check = lambda: None
+
+    def proposals(model, row, public_labels):
+        return {"by_hypothesis": {h: {"candidates": [], "raw_scores": [.1, .2, .3]} for h in public_labels}}
+
+    monkeypatch.setattr(module, "evidence_proposals", proposals)
+
+    def generate(row, role, messages, schema):
+        study.native.append({"role": role, "phase": study.phase})
+        if role.endswith("decision"):
+            answer = {h: {"choice": a["choice"], "reason": "Native."} for h,a in gold.items()}
+        elif role.endswith("evidence"):
+            answer = {h: {"spans": a["spans"]} for h,a in gold.items()}
+        else:
+            answer = {h: {**a, "reason": "Native."} for h,a in gold.items()}
+        return {"raw_id": f"actual{len(study.native)}", "finish_reason": "stop",
+                "content": json.dumps(answer), "prompt_tokens": 10, "completion_tokens": 10}
+
+    study.generate = generate
+
+    def teacher(name, system, body, schema):
+        count = study.current_batch*8
+        sources = expand(body["complete_original_past42_and_revealed_episode_sources_and_Gold"])
+        assert {s["id"] for s in sources} == set(range(100,142)) | set(range(1,count+1))
+        own = expand(body["actual_current_parent_episode_public_answers"])
+        assert {u["document_id"] for u in own} == set(range(1,count+1))
+        assert len([u for u in study.answers if u["stage"] == f"b{study.current_batch}_prequential"]) == 24
+        study.teachers.append(name)
+        return {"operations": [], "noop_reason": "Synthetic chronology fixture, no live teacher."}
+
+    study.teacher_call = teacher
+
+    def fit(seen):
+        study.fit_records.append({"synthetic_only": True})
+        study.prefix_model = object()
+        study.prefix_ids = list(range(100,142)) + [r["id"] for r in seen]
+
+    study.fit_prefix = fit
+    study.execute()
+    result = records["completion.json"]
+    assert result["actual_new_native_teacher_CPUfits"] == [304, 3, 3]
+    assert len(study.answers) == 176 and len([k for k in records if k.startswith("exact_aliases/")]) == 8
+    assert len(records["publications/b3.json"]["original_seen_source_ids"]) == 66
+    assert not any(k == "publications/b4.json" for k in records)
+    assert all(v["documents"] == 32 for v in result["aggregate_prequential_metrics"].values())

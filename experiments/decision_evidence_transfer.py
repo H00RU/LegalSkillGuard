@@ -9,6 +9,7 @@ recorded. No efficacy admission, label repair or current evaluation feedback.
 from __future__ import annotations
 
 import argparse
+import copy
 import fcntl
 import json
 import pickle
@@ -17,18 +18,18 @@ import traceback
 import zipfile
 from pathlib import Path
 
+import numpy as np
 from jsonschema import ValidationError, validate
 
 from legal_skill_guard.data import source_components
 from legal_skill_guard.experiment.storage import RunStore
 from legal_skill_guard.inference.native import WireClient
-from legal_skill_guard.learning.acquisition import source_messages
 from legal_skill_guard.learning.audit import close, original_score
 from legal_skill_guard.learning.decision_evidence import (
     DECISION_SYSTEM, EVIDENCE_SYSTEM, GUIDANCE_SCHEMA, assemble_native,
-    channel_criteria, convert_parent, decision_payload, evidence_payload,
+    channel_criteria, convert_parent, decision_payload, evidence_payload, joint_payload,
 )
-from legal_skill_guard.learning.evidence_programs import evidence_proposals
+from legal_skill_guard.learning.evidence_programs import evidence_proposals, fit_program_model
 from legal_skill_guard.learning.experiment import Comparison, ROOT, now, points, read, sha
 from legal_skill_guard.learning.member_contract import teacher_sources
 from legal_skill_guard.learning.member_learning import paired_effect
@@ -37,6 +38,7 @@ from legal_skill_guard.learning.publication import (
     apply_differential_publication, differential_schema, publication_statistics,
 )
 from legal_skill_guard.task import original_feedback
+from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
 ARMS = ("joint_empty", "factored_empty", "relation_only", "dual_skills")
 WRITER = (
@@ -174,6 +176,7 @@ class DecisionEvidenceTransfer(Comparison):
         self.labels, self.documents, self.parent = packet["public_hypotheses"], packet["documents"], packet["converted_actual_parent"]
         self.native, self.teachers, self.units, self.answers = [], [], [], []
         self.teacher_attempts, self.current_batch, self.stop = 0, 0, False
+        self.phase = "complete16_two_target_transfer"
         self.meter = WireClient(self.cfg["generation"])
         self.manifest = read(ROOT / self.cfg["ordinary_manifest"])
         with Path(self.manifest["path"]).open("rb") as stream:
@@ -192,17 +195,19 @@ class DecisionEvidenceTransfer(Comparison):
         Comparison.progress(self, stage, completed_logical_answers=len(self.answers), **extra)
 
     def generate(self, row, role, messages, schema):
-        path = self.record(f"inputs/{row['id']}/{role}.json", {"messages": messages, "schema": schema})
-        response = self.call(self.out / f"native/{row['id']}/{role}.json", messages, schema,
-            self.cfg["generation"]["max_tokens"], {"stage": "complete16_two_target_transfer",
+        path = self.record(f"inputs/{self.phase}/{row['id']}/{role}.json", {"messages": messages, "schema": schema})
+        response = self.call(self.out / f"native/{self.phase}/{row['id']}/{role}.json", messages, schema,
+            self.cfg["generation"]["max_tokens"], {"stage": self.phase,
                 "arm": role, "document_id": row["id"], "call_role": role, "input_payload": str(path)})
         return response
 
     def logical(self, row, arm, response):
         item = {"document_id": row["id"], "condition": arm, "response": response,
+                "stage": self.phase, "bank_sha256": csha(self.bank) if arm in ("relation_only", "dual_skills") else csha([]),
                 "not_scored_until_all16_all4_arms_exist": True}
-        self.record(f"logical_answers/{row['id']}/{arm}.json", item)
+        self.record(f"logical_answers/{self.phase}/{row['id']}/{arm}.json", item)
         self.answers.append(item)
+        return item
 
     def factored(self, row, proposals, arms):
         bank = [] if arms == ("factored_empty",) else self.bank
@@ -242,7 +247,7 @@ class DecisionEvidenceTransfer(Comparison):
             proposals = evidence_proposals(self.model, row, self.labels)
             self.record(f"common_candidates/{row['id']}.json", proposals)
             joint = lambda: self.logical(row, "joint_empty", self.generate(row, "joint_empty",
-                *source_messages(row, self.labels, self.cfg["bundled_solver_system"], [], proposals)[:2]))
+                *joint_payload(row, self.labels, proposals, self.cfg["bundled_solver_system"])))
             if index % 2 == 0:
                 joint()
                 self.factored(row, proposals, ("factored_empty",))
@@ -282,17 +287,291 @@ class DecisionEvidenceTransfer(Comparison):
         print(json.dumps({"completed": self.run_id, "metrics": result["metrics"]}), flush=True)
 
 
+ONLINE_WRITER = (
+    "Update the exact current two-channel legal skill library using ONLY the "
+    "complete already-seen original TRAIN sources, unmodified author labels "
+    "and actual current-parent own public answers supplied here. No tools, "
+    "outside law, private reasoning, future cases or invented rollouts. One "
+    "frozen8B lawyer first generates all17 original relations/reasons, then "
+    "natively selects original evidence for those actual choices. Only learned "
+    "relation_criterion enters action1; only evidence_criterion and the native "
+    "choices enter action2, not relation prose or first-action reasons. Both "
+    "read the COMPLETE source. The main ordinary tool is fixed on the same42 "
+    "past sources; its binary candidates AND complete all-original-index "
+    "membership rank ordering are now visible. Ranking is a fallible search "
+    "order, not a citation set; its tail can contain real members. Learn "
+    "source-observable inclusion and exclusion boundaries and legal relation "
+    "procedures, not a global numeric threshold, case lookup or index pattern. "
+    "A correct relation with wrong members needs a member-boundary correction, "
+    "not blind label reversal or a whole-section citation expansion. Consider "
+    "independently responsive repeated evidence versus merely related context. "
+    "Benchmark nonmembers are not universal legal falsehoods. Every current "
+    "parent own episode answer is actual, including successes and failures; "
+    "the earlier42 complete source/Gold remain supplied but their obsolete "
+    "other-interface rollouts are not presented as current-parent answers. "
+    "Review all supplied sources and parent records. Publish explicit CREATE, "
+    "UPDATE, DELETE, MERGE or NOOP; no efficacy gate, best-bank rollback, forced "
+    "growth/count/topic, second teacher or retry. Unmentioned skills remain "
+    "verbatim. UPDATE keeps its target ID. Targets are distinct unconsumed "
+    "original parent IDs; CREATE[]; UPDATE/DELETE one; MERGE>=2; only DELETE "
+    "skill=null. Each resulting skill has id, distinct public hypothesis_ids, "
+    "and guidance with required nullable relation_criterion/evidence_criterion, "
+    "at least one meaningful. Runtime guidance must not contain parties, dates, "
+    "case IDs, span integers, memorized quotations, answer tables or impossible "
+    "runtime-Gold tests. Cite actual supplied source_case_ids only in audit "
+    "rationale, not runtime. Keep complete serialized library <=3200 target "
+    "tokens under4096 hard cap, without truncation. Return exact delta JSON."
+)
+
+
+def prepare_online(config):
+    config = Path(config).resolve()
+    cfg = read(config)
+    assert cfg["method"] == "ranked_member_online24_forward8"
+    assert not config.with_suffix(".frozen.json").exists() and not (ROOT / "runs" / cfg["run_id"]).exists()
+    assert sha(ROOT / cfg["source_archive"]) == cfg["source_archive_sha256"]
+    with zipfile.ZipFile(ROOT / cfg["source_archive"]) as archive:
+        author = json.loads(archive.read("contract-nli/train.json"))
+    original = {r["id"]: r for r in author["documents"]}
+    manifest = read(ROOT / cfg["ordinary_manifest"])
+    past = manifest["seen_original_source_ids"]
+    assert len(past) == len(set(past)) == 42 and sha(manifest["path"]) == manifest["pickle_sha256"]
+    reference = read(ROOT / cfg["development_reference_config"])
+    exclude = set(past + reference["development_ids"] + read(ROOT / cfg["excluded_parent_config"])["training_ids"])
+    components = source_components(author["documents"])
+    excluded = set().union(*(set(g) for g in components if set(g) & exclude))
+    eligible = sorted(d for d in original if d not in excluded)
+    ids = np.random.default_rng(cfg["source_only_seed"]).choice(eligible, size=32, replace=False).tolist()
+    assert ids == cfg["episode_ids"] and not any(len(set(g) & set(ids)) > 1 for g in components)
+    terminal = read(ROOT / cfg["parent_terminal_preservation"])
+    assert terminal["state"] == "terminal_results_preserved" and terminal["all_members_verified"]
+    assert sha(terminal["archive"]) == sha(terminal["rootdisk_copy"]) == terminal["archive_sha256"]
+    bank = read(ROOT / cfg["parent_publication"])["publication"]
+    for channel in ("relation_criterion", "evidence_criterion"):
+        channel_criteria(bank, author["labels"], channel)
+    public = lambda d: {k: original[d][k] for k in ("id", "text", "spans")}
+    RunStore.immutable_json(ROOT / cfg["input_packet"], {
+        "public_hypotheses": author["labels"], "documents": [public(d) for d in ids],
+        "past_documents": [public(d) for d in past], "past_seen_ids": past,
+        "converted_actual_parent": bank, "parent_already_two_channel_no_conversion_or_selection": True,
+        "source_only_selection": {"seed": cfg["source_only_seed"], "eligible_ids": eligible,
+            "excluded_original_and_source_component_ids": sorted(excluded),
+            "no_selection_using_labels_or_outcomes": True},
+        "three_learning_batches_then_unseen_forward_batch_of8": True})
+    RunStore.immutable_json(ROOT / cfg["grading_only"], {
+        "original_TRAIN_annotations": {str(d): original[d]["annotation_sets"][0]["annotations"] for d in past+ids},
+        "teacher_gets_only_revealed_past42_and_episode_prefix": True,
+        "all_current_batch_answers_precede_current_batch_grading": True})
+    ledger = read(ROOT / cfg["teacher"]["ledger"])
+    assert max(r["sequence"] for r in ledger["reservations"]) + 3 <= ledger["max_invocations"]
+    assert cfg["planned_new_native_calls"] == 304 and cfg["planned_new_teacher_calls"] == 3
+    files = list((ROOT / "legal_skill_guard").rglob("*.py"))
+    files += [Path(__file__).resolve(), config, ROOT / "tests/test_learning_contract.py", Path(manifest["path"])]
+    files += [ROOT / cfg[k] for k in ("source_archive", "input_packet", "grading_only", "ordinary_manifest",
+        "parent_publication", "parent_terminal_preservation", "development_reference_config",
+        "excluded_parent_config", "inference_environment", "method_protocol")]
+    RunStore.immutable_json(config.with_suffix(".frozen.json"), {
+        "config_sha256": sha(config), "files": {str(p.resolve()): sha(p) for p in files}})
+    print(json.dumps({"prepared": cfg["run_id"], "new_episode_ids": ids,
+        "original_train_label_updates": 24, "forward_readout": 8,
+        "planned_native_teacher_CPUfits": [304, 3, 3]}), flush=True)
+
+
+class RankedOnline(DecisionEvidenceTransfer):
+    def __init__(self, config):
+        super().__init__(config)
+        self.bank = copy.deepcopy(self.parent)
+        packet = read(ROOT / self.cfg["input_packet"])
+        self.past, self.prefix_model = packet["past_documents"], self.model
+        self.own_current, self.batch_summaries, self.fit_records = {}, [], []
+        self.prefix_ids = list(packet["past_seen_ids"])
+
+    def logical(self, row, arm, response):
+        if self.phase.endswith("_fixed_tool_control"):
+            assert arm == "factored_empty"
+            arm = "fixed_tool_empty"
+        item = super().logical(row, arm, response)
+        if arm == "dual_skills":
+            self.own_current[row["id"]] = item
+        return item
+
+    def score(self, answers):
+        rows = {r["id"]: r for r in self.documents}
+        gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
+        units = []
+        for item in answers:
+            row, g = rows[item["document_id"]], gold[str(item["document_id"])]
+            f = original_feedback(item["response"], row, g, list(self.labels))
+            audit = original_score(item["response"], row, g, list(self.labels))
+            close(audit, {k: f[k] for k in audit})
+            units.append({**item, **f})
+        return units
+
+    def update_online(self, seen):
+        parent = copy.deepcopy(self.bank)
+        assert all(self.own_current[r["id"]]["bank_sha256"] == csha(parent) for r in seen)
+        gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
+        own = [self.own_current[r["id"]] for r in seen]
+        before = self.score(own)
+        ranked_observations = []
+        for row in seen:
+            source = evidence_proposals(self.model, row, self.labels)
+            ranked_observations.append({"document_id": row["id"], "by_hypothesis": {
+                h: {"binary_candidate_members": [v["original_span_index"] for v in p["candidates"]],
+                    "complete_original_member_rank_order": sorted(range(len(p["raw_scores"])),
+                        key=lambda i: (-p["raw_scores"][i], i))}
+                for h,p in source["by_hypothesis"].items()}})
+        body = {"public_hypotheses": self.labels, "current_parent_library": parent,
+            "complete_original_past42_and_revealed_episode_sources_and_Gold": teacher_sources(self.past+seen, gold),
+            "actual_current_parent_episode_public_answers": table(own),
+            "actual_original_component_feedback": [{"document_id": u["document_id"],
+                "by_hypothesis": {q["hypothesis_id"]: {k: q[k] for k in (
+                    "label_correct", "evidence_tp", "evidence_fp", "evidence_fn", "joint_exact")}
+                    for q in u["queries"]}, "public_valid": u["public_valid"]} for u in before],
+            "actual_fixed42_candidate_members_and_complete_orders": table(ranked_observations),
+            "numeric_candidate_scores_archived_in_actual_inputs_not_resupplied_as_threshold_targets": True,
+            "main_ordinary_tool_remains_fixed_on_original42": self.manifest,
+            "future_action1_system": DECISION_SYSTEM, "future_action2_system": EVIDENCE_SYSTEM,
+            "complete_membership_rank_order_now_visible_in_both_actions": True,
+            "no_future_episode_sources_answers_annotations_or_official_DEV_TEST": True}
+        name = f"online_b{self.current_batch}"
+        self.record(f"learning_inputs/{name}.json", body)
+        seen_ids = [r["id"] for r in self.past+seen]
+        schema = differential_schema(self.labels, parent, seen_ids, guidance_schema=GUIDANCE_SCHEMA)
+        value = self.teacher_call(name, ONLINE_WRITER, body, schema)
+        self.bank = apply_differential_publication(parent, value, self.labels, seen_ids, guidance_schema=GUIDANCE_SCHEMA)
+        for channel in ("relation_criterion", "evidence_criterion"):
+            channel_criteria(self.bank, self.labels, channel)
+        tokens = self.meter.token_count(text=json.dumps(self.bank, ensure_ascii=False, separators=(",", ":")))
+        assert tokens <= self.cfg["library_token_hard_cap"], "No repair, trimming, selected bank or retry"
+        stats = publication_statistics(parent, value, self.bank, tokens)
+        self.record(f"publications/b{self.current_batch}.json", {"at": now(), "parent": parent,
+            "delta": value, "publication": self.bank, "statistics": stats,
+            "original_seen_source_ids": seen_ids,
+            "actual_current_parent_own_episode_answers": len(own),
+            "all_valid_edits_publish_without_efficacy_admission": True})
+        self.phase = f"b{self.current_batch}_after_seen"
+        start = len(self.answers)
+        for row in seen:
+            self.factored(row, evidence_proposals(self.model, row, self.labels), ("dual_skills",))
+        after = self.score(self.answers[start:])
+        self.units.extend(after)
+        effect = paired_effect(before, after, seed=2026101810+self.current_batch, replicates=5000)
+        self.record(f"update_effects/b{self.current_batch}.json", {"at": now(), "statistics": stats,
+            "effect": effect, "parent_own_answers_selected_by_latest_bank_not_outcome": True,
+            "fixed_tool_and_rank_interface_unchanged_across_paired_update": True})
+        return stats, effect
+
+    def fit_prefix(self, seen):
+        import time
+
+        gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
+        rows = [{**r, "annotation_sets": [{"annotations": gold[str(r["id"])]}]} for r in self.past+seen]
+        started = time.monotonic()
+        model = fit_program_model(rows, self.labels, [])
+        path = self.out / f"ordinary_controls/after_b{self.current_batch}.pickle"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("xb") as stream:
+            pickle.dump(model, stream)
+        manifest = {"at": now(), "path": str(path), "sha256": sha(path),
+            "source_ids": [r["id"] for r in rows], "actual_CPU_fit_seconds": time.monotonic()-started,
+            "same_original_labels_and_ordinary_parameters_no_future_sources": True,
+            "not_a_skill_gain_or_main_tool_replacement": True}
+        self.record(f"ordinary_controls/after_b{self.current_batch}.json", manifest)
+        self.bindings[str(path)] = sha(path)
+        self.fit_records.append(manifest)
+        self.prefix_model, self.prefix_ids = model, manifest["source_ids"]
+
+    def execute(self):
+        self.check()
+        self.record("declaration.json", {"at": now(), "config": self.cfg,
+            "exact_actual_terminal_parent": self.bank, "frozen_bindings": self.bindings.copy(),
+            "no_best_bank_rollback_or_future_case_tuning": True,
+            "three_batches_online24_then_forward8_not_all32_label_training": True})
+        self.record("publications/initial.json", {"at": now(), "publication": self.bank,
+            "actual_inherited_teacher_sources": self.prefix_ids, "not_empty_start_independent_repeat": True})
+        for batch in range(1, 5):
+            self.current_batch = batch
+            rows, seen = self.documents[(batch-1)*8:batch*8], self.documents[:batch*8]
+            start = len(self.answers)
+            main_phase = f"b{batch}_prequential"
+            for index, row in enumerate(rows):
+                self.phase = main_phase
+                fixed = evidence_proposals(self.model, row, self.labels)
+                prefix = fixed if batch == 1 else evidence_proposals(self.prefix_model, row, self.labels)
+                self.record(f"common_candidates/b{batch}/{row['id']}.json", {"fixed42": fixed,
+                    "ordinary_revealed_prefix": prefix, "ordinary_prefix_source_ids": self.prefix_ids})
+                order = ("joint_empty", "factored_empty", "dual_skills")
+                if index % 2:
+                    order = tuple(reversed(order))
+                for arm in order:
+                    if arm == "joint_empty":
+                        self.logical(row, arm, self.generate(row, "joint_empty",
+                            *joint_payload(row, self.labels, prefix, self.cfg["bundled_solver_system"])))
+                    else:
+                        self.factored(row, fixed if arm == "dual_skills" else prefix, (arm,))
+                if batch == 1:
+                    native = next(u for u in self.answers[start:] if u["stage"] == main_phase
+                        and u["document_id"] == row["id"] and u["condition"] == "factored_empty")
+                    self.phase = f"b{batch}_fixed_tool_control"
+                    alias = self.logical(row, "factored_empty", native["response"])
+                    assert self.prefix_model is self.model
+                    self.record(f"exact_aliases/b{batch}/{row['id']}.json", {
+                        "original": native, "alias": alias,
+                        "same_model_proposals_full_input_and_decoding": True,
+                        "no_new_native_calls_not_independent_duplicate": True})
+                else:
+                    self.phase = f"b{batch}_fixed_tool_control"
+                    self.factored(row, fixed, ("factored_empty",))
+            units = self.score(self.answers[start:])
+            self.units.extend(units)
+            groups = {a: [u for u in units if u["condition"] == a] for a in (
+                "joint_empty", "factored_empty", "fixed_tool_empty", "dual_skills")}
+            summary = {"at": now(), "batch": batch, "new_source_ids": [r["id"] for r in rows],
+                "current_bank_sha256": csha(self.bank), "current_skill_count": len(self.bank),
+                "ordinary_prefix_source_ids": self.prefix_ids,
+                "prequential_metrics": {a: points(u) for a,u in groups.items()},
+                "same_case_skill_effects": {a: paired_effect(groups[a], groups["dual_skills"],
+                    seed=2026101820+batch*4+i, replicates=5000) for i,a in enumerate(groups) if a != "dual_skills"},
+                "current_batch_fully_generated_before_any_current_Gold_grading_or_teacher": True,
+                "forward_only_no_update" : batch == 4}
+            self.batch_summaries.append(summary)
+            self.record(f"batch_summaries/b{batch}_before.json", summary)
+            print(json.dumps({"batch": batch, "metrics": summary["prequential_metrics"]}), flush=True)
+            if batch <= 3:
+                stats, effect = self.update_online(seen)
+                self.record(f"batch_summaries/b{batch}_complete.json", {
+                    **summary, "publication_statistics": stats, "paired_seen_update_effect": effect})
+                self.fit_prefix(seen)
+        assert len(self.native) <= 304 and len(self.teachers) == 3 and len(self.fit_records) == 3
+        prequential = [u for u in self.units if u["stage"].endswith("_prequential") or u["stage"].endswith("_fixed_tool_control")]
+        groups = {a: [u for u in prequential if u["condition"] == a] for a in (
+            "joint_empty", "factored_empty", "fixed_tool_empty", "dual_skills")}
+        assert all(len(v) == 32 for v in groups.values())
+        result = {"at": now(), "run_id": self.run_id, "batch_summaries": self.batch_summaries,
+            "aggregate_prequential_metrics": {a: points(u) for a,u in groups.items()},
+            "actual_new_native_teacher_CPUfits": [len(self.native), len(self.teachers), len(self.fit_records)],
+            "final_bank": self.bank, "units": self.units, "ordinary_prefix_fits": self.fit_records,
+            "inherited42_plus_episode24_taught_forward8_not_taught": True,
+            "all_adverse_results_and_original_denominators_retained": True,
+            "not_independent_algorithmic_repeat_or_official_TEST": True}
+        self.record("completion.json", result)
+        RunStore.atomic_json(self.out / "progress.json", {"state": "completed", **result})
+        print(json.dumps({"completed": self.run_id, "metrics": result["aggregate_prequential_metrics"]}), flush=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=("prepare", "run"))
     parser.add_argument("config", type=Path)
     args = parser.parse_args()
+    online = read(args.config)["method"] == "ranked_member_online24_forward8"
     if args.command == "prepare":
-        prepare(args.config)
+        (prepare_online if online else prepare)(args.config)
         return
     with (ROOT / "artifacts/gpu_generation.lock").open("a+") as lock:
         fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-        study = DecisionEvidenceTransfer(args.config)
+        study = (RankedOnline if online else DecisionEvidenceTransfer)(args.config)
         try:
             study.execute()
         except BaseException as error:
