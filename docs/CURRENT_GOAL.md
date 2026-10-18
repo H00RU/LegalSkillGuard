@@ -15,7 +15,13 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 04:10 CST，observed128已停止；新的证据组合执行对照准备完毕，尚未launch
+## 当前快照：2026-10-19 04:12 CST，observed128已停止；证据组合四臂forward8已真正后台launch
+
+04:12:06实际worker1166196/ticks436084385，独立preserver1166199/ticks436084386。
+启动checkpoint dc0a62b5060debab0d85ab09caf67bedff4d88db；68成员全源码/Git双盘亲核
+SHAd783ee51665ff472f761c477d7f081eeb8eadf6afac3b2b9d7e8cd51caa4629a。
+04:12:08为0/32 native、教师attempt1/完成0，真实752442字符prompt已送唯一教师做编译。
+不是效果证明；不重复launch、不热改冻结代码，接实际程序/调用/完整8×4结果。下列04:10准备记录保留其当时语义。
 
 - observed_procedure128原Run于03:46:51终止，实际80native/4教师/3fit，不是完整128。
   首遇B1技能/空库同83.82/70.55/50.00%；B2技能80.88/66.67/59.56、空76.47/68.29/55.15；
@@ -36,7 +42,7 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
   文字控制取唯一最新未发布教师4候选，不挑较好历史库，且明确非原Run真实发布；程序从空起。
   前缀32+旧202是共同监督234，绝不当技能增益；不是完整128/独立重复/等教师成本成熟基线/TEST。
 - 新cfg/driver/数据已落地，protocol docs/EVIDENCE_ACTION_COMPILER_FORWARD8_PROTOCOL_20261019.md。
-  接下来冻结/双盘备份后实际launch并核真实编译/原生动作/ALL8结果，不能把准备说成启动。
+  冻结/双盘备份及真实launch现已完成，接核真实编译/原生动作/ALL8结果。
   本开发家族已消耗113/5/4，若新对照完成共145/6/5；既有ledger1443/last1431，不清历史。
   Goal仍active未达成；单8B/既有教师/原任务指标不变，官方DEV/TEST不调优。
 
