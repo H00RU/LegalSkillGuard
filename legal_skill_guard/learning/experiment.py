@@ -421,6 +421,9 @@ class Comparison:
         if response["cache_hit"] or response["invocation"].get("tool_events_detected"):
             raise ValueError("Fresh existing teacher without tools required")
         validate(response["value"], schema)
+        # A stop during communicate() must retain the paid response and cost,
+        # but must not let the caller publish an unexecuted new bank afterward.
+        self.check()
         return response["value"]
 
     def validate_bank(self, arm, bank):

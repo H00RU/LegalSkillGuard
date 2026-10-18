@@ -66,6 +66,31 @@ def fixture():
     return row, labels, gold
 
 
+def test_stop_during_teacher_retains_response_but_prevents_publication(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from legal_skill_guard.learning import experiment as module
+
+    study = module.Comparison.__new__(module.Comparison)
+    study.cfg = {"teacher":{"model":"synthetic-only", "reasoning_effort":"high",
+        "timeout_seconds":1, "ledger":"unused", "total_invocation_budget":1, "max_input_tokens":1000}}
+    study.out, study.run_id = tmp_path, "synthetic-stop-only"
+    study.stop, study.teacher_attempts, study.teachers = False, 0, []
+    def check():
+        if study.stop:
+            raise InterruptedError("Operator stop at artifact-safe boundary")
+    study.check, study.progress = check, lambda *a,**k:None
+    def generate(**kwargs):
+        study.stop = True
+        return {"value":{"ok":True}, "cache_hit":False, "invocation":{}}
+    monkeypatch.setattr(module, "CodexCLIClient", lambda **k:SimpleNamespace(
+        request_payload=lambda **r:{}, generate_json=generate))
+    monkeypatch.setattr(module, "asdict", lambda r:r)
+    with pytest.raises(InterruptedError,match="Operator stop"):
+        study.teacher_call("stopped", "Synthetic instructions.", {}, {"type":"object"})
+    assert study.teacher_attempts == len(study.teachers) == 1
+    assert (tmp_path/"teacher/stopped/response.json").is_file()
+
+
 def skill(sid="s1", scope=None):
     return {
         "id": sid,

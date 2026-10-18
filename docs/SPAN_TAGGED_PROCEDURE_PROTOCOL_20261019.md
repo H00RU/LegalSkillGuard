@@ -1,5 +1,11 @@
 # 原生完整SPAN成员判断与真实发布差分学习
 
+历史停止记录：以下为冻结时计划，不是当前执行路线。Run02仅6次完成答即发现标题等原生泛化
+归属，未教师/未首批评分便安全停止；93成员双盘终态SHA
+`0c2656dda90954773b8b73bd47dcc84251ce26dd8e23032eb287373713fa81fd`。
+该接口的当前执行分支、构造器和专用测试已删，原实现可从Git提交edf7c7c及两盘终态包恢复。
+不要用当前主模块重启旧配置；当前工作见PUBLISHED_EDIT_FEEDBACK_PROTOCOL_20261019.md。
+
 当前Run `legal_contractnli_span_tagged_procedure_online_20261019_run02`。
 Run01在首案第二动作被vLLM0.10.2拒绝uniqueItems：2次传输尝试、1份完成原生答、0教师、0评分。
 76成员失败终态已双盘核实SHA590e08b2f40dab42bb26fc982a213c2b488ad21462421a1f66a9a263f1850661。
