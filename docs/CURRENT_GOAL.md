@@ -15,7 +15,13 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 04:45 CST，组合对照完整负面已结束；带可追溯样例的两批16案链路已实施待launch
+## 当前快照：2026-10-19 04:47 CST，组合对照负面已归档；样例支撑技能两批16案已真正后台launch
+
+04:47:03实际worker1220554/ticks436294135，独立preserver1220557/ticks436294136。
+checkpoint feddf149226d5939dc638c57da0a154d807ca2cb；67成员全源码/Git启动双盘逐成员核验
+SHA16b677a541ad4336d1e50cef0fbc4c679133fe572def5047fa840fc6b84d6810。
+新worker自动初教师->B6四臂->教师更新/本8排同源重答->同享250->B7四臂；不依赖继续聊天。
+接核实际首版规则/见证ref与交付、全8/真实更新/后8，不重复launch或热改。以下04:45准备记录已完成launch。
 
 - evidence_action_compiler_forward8已completed32native/1教师/1fit，全部有效无截断，不能继续称运行中。
   全8空库88.97/76.92/56.62%；文字86.03/77.56/55.88%；组合菜单84.56/68.51/52.94%；
@@ -39,7 +45,7 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 - 新核心在原decision_evidence.py，有限实验入口单独文件复用原RankedOnline，没有新服务/语义裁判/模型。
   4项记忆边界测试0.37秒通过，替换刚删除的4项；实际教师596460字符<1048576且catalog无损/strict Schema正常。
   没有GPU资格生成，原输出已实际执行过。修正旧logical描述字段硬写all16的元数据，不改旧答/指标。
-  protocol docs/WITNESSED_EXPERIENCE_FORWARD16_PROTOCOL_20261019.md；准备冻结/备份/真实launch，尚未宣称已启动。
+  protocol docs/WITNESSED_EXPERIENCE_FORWARD16_PROTOCOL_20261019.md；冻结/备份/真实launch现已完成。
   ledger1443/last1432，后2教师够用不扩账；若完成本开发家族217/8/7。Goal active未达成，尚无实质净胜突破。
 
 ## 已归档快照：2026-10-19 04:12 CST，组合forward8当时实际launch，后已完整结束负面
