@@ -1,6 +1,6 @@
 # 今日机制决策：不重复已否证路线
 
-## 最新状态2026-10-19 02:10，128 Run01字符枚举失败3/0/0，Run02修复待prepare/launch
+## 最新状态2026-10-19 02:13，Run02已后台运行，首答引用精确；新方法净收益待验证
 
 Run legal_contractnli_source_attributed128_online_20261019_run02，空技能起点，128纯源独立案、16×8全批在线。
 共同普通工具202起，双方同增至330；skillteacher仅128本episode，不继承旧R17规则/旧答案/Gold作教师经验。
@@ -13,7 +13,10 @@ Attribute First then Generate实际源码已读，借选证先行数据流，不
 3native/0teacher/0fit，未评分；xgrammar enum损坏正常Unicode，非原数据质量/语义成绩，原答不复用。
 Run02只声明原文完整SPAN标准ASCII JSON-string编码再精确解码，宿主不修原生索引/choice或改Gold。
 原121pass37.50s，编码修复14相关检查pass30.66s，实际backend49字面匹配CPU通过，无资格生成。
-同128预选不换案/挑库，接prepare冻结、提交/双盘后真实后台launch；未启动不能说正在训。
+同128预选不换案/挑库，02:11:35实际launch984426/ticks435361337，preserver984429/ticks435361338。
+core cfa9ae7；65成员启动双盘逐成员验证SHA3498f608a702899058ce84e33bcfaa291b40396cf7f66dcd5d50b3b734931f67。
+368首答21原生引用（4处非ASCII）精确恢复，17字段顺序正确，所有index/choice原样，0截断/2119tokens。
+该核验无Gold/评分，只排除传输问题，不等于语义或技能有效；同冻结Run继续B1学习及后批，不能热改。
 旧完整32净负不掩盖，原Goal未达成，新机制不是已证明突破；后续看同案强空净收益和后续批次。
 
 ## 已归档状态2026-10-19 01:31，完整32闭环仍未整体胜空，当时无训练worker

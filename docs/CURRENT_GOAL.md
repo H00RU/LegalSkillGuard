@@ -15,7 +15,7 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 02:10 CST，Run01字符枚举失败已封存；Run02可逆编码修复待prepare/launch
+## 当前快照：2026-10-19 02:13 CST，Run02已独立后台运行，首份正式引用核验通过；新效果未知
 
 - Run legal_contractnli_source_attributed128_online_20261019_run02：独立空技能起点，128案16×8全批学习；
   不是继承挑中的旧库，也不是上一接口的独立重复。202案共同监督工具保留并对两臂共同增长，
@@ -37,7 +37,12 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
   7f9ff0726aeb5084046caaa21509fe61f0af769d084bf89013b122c2c7c9326c。原失败答卷不复用。
 - 原接口检查121项37.50秒通过，编码修复后受影响时序/引用/catalog14项30.66秒通过。
   CPU已核实际backend兼容及49个原文/Unicode、引号、slash、控制字边界的字面匹配，无GPU资格生成。
-  Run02保持同128预选、同原文/Gold/三指标，当前未launch；接prepare冻结、提交/双盘后真实启动。
+  Run02保持同128预选、同原文/Gold/三指标，02:11:35已实际launch；worker984426/ticks435361337，
+  独立preserver984429/ticks435361338。core checkpoint cfa9ae70e70c53ae571a773432ab1f1bf113f4bb。
+  65成员全源码/Git启动包双盘逐成员亲核SHA3498f608a702899058ce84e33bcfaa291b40396cf7f66dcd5d50b3b734931f67。
+  首份368真实17题原生顺序spans/reason/choice；21引用含4个非ASCII原文均标准JSON精确恢复，
+  所有native choice/index原样投影、0截断，2119输出tokens；B1冷别名明确非第二次生成。
+  核验未读取Gold或评分，不等于法律正确或技能有效。原始答/receipt在Run02 control，核心禁止热改。
 - 旧完整32负面与全部原文审核保留，见下方01:31快照；未发现丢Gold/路由/截断，未宣称唯一根因。
   新机制能否净胜尚未知。后台启动后要核首案字面投影/成本、B1真实更新及B2/B3/后批净收益，不只看B1。
   完整Goal仍active未达成，成熟/等调用方法、独立重复、正式TEST及可信实质提升均待完成。
