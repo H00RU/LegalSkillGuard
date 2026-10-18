@@ -1,6 +1,16 @@
 # 今日机制决策：不重复已否证路线
 
-## 最新状态2026-10-19 04:47，原子组合完整负面已清活动模块；样例支撑技能两批16案已后台launch
+## 最新状态2026-10-19 04:53，样例Run01容量failed0/1/1；Run02真实知识预算已修、待launch
+
+Run01首9skills/13witnesses存储4311、去不served provenance知识3221；新案0答0评分，无发布/裁剪/替换。
+77成员双盘亲核SHA c0ba716ab58ab976c2768c3b4a7432573d1278a6803036ff9bc7e0cfa12ccd32，后审另双盘。
+canonical witness_knowledge_view统一计真正送模型的完整知识（全scope/规则/ALL原证据/标签），仍4k；审计另报。
+非served hash/ID成本不再额外收紧知识预算；发布测真实全库，没短ref藏文字。每条候选实际token成本给教师。
+边界4测试仍pass0.37s；原输出与source不变。新run02同原16双批四臂，空新bank/新teacher delta，旧失败只参考。
+精确复用242pickle不重fit，新72/2/1+继承失败0/1/1，episode72/3/2，家族prior145/7/6->217/9/7。
+新protocol RUN02版、ledger1443/last1433；待冻结实际launch。不是已见收益、全128/正式TEST或Goal完成。
+
+## 已归档状态2026-10-19 04:47，样例Run01当时启动，后首次容量检查失败停止
 
 04:47:03实际worker1220554/ticks436294135，preserver1220557/ticks436294136，corefeddf149。
 67成员全源码/Git启动双盘SHA16b677a541ad4336d1e50cef0fbc4c679133fe572def5047fa840fc6b84d6810。

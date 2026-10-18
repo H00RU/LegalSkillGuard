@@ -2718,7 +2718,7 @@ def test_generic_teacher_catalog_preserves_program_feedback_and_all_literal_valu
 
 def test_historical_witness_skills_preserve_original_members_and_exclude_same_source():
     from legal_skill_guard.learning.decision_evidence import (
-        training_witness_catalog,materialize_witness_skills,witnessed_skill_payload)
+        training_witness_catalog,materialize_witness_skills,witnessed_skill_payload,witness_knowledge_view)
     source,labels,gold=fixture();row={k:source[k] for k in ('id','text','spans')}
     catalog=training_witness_catalog([row],labels,{'1':gold})
     assert set(catalog)=={'1:h1','1:h2'}  # Partial excerpts do not demonstrate NM.
@@ -2740,6 +2740,12 @@ def test_historical_witness_skills_preserve_original_members_and_exclude_same_so
     assert 'historical_evidence_demonstrations' not in outputs['procedure_only'][0]
     assert outputs['witnesses_only'][0]['learned_legal_procedures']==[]
     assert outputs['combined'][0]['historical_evidence_demonstrations'][0]['original_training_label']=='Entailment'
+    knowledge=witness_knowledge_view(compiled)
+    assert knowledge['historical_evidence_demonstrations']==outputs['combined'][0]['historical_evidence_demonstrations']
+    assert knowledge['learned_legal_procedures']==outputs['combined'][0]['learned_legal_procedures']
+    changed=copy.deepcopy(compiled);changed[0]['id']='different_audit_id'
+    changed[0]['witnesses'][0]['source_sha256']='different_audit_hash'
+    assert witness_knowledge_view(changed)==knowledge  # Audit storage is not delivered linguistic knowledge.
     for same in (row,{**row,'id':999},{**row,'text':row['text']+' Changed source.'}):
         messages,_,receipt=witnessed_skill_payload(same,labels,p,'Same task.',compiled,mode='combined')
         assert not receipt['served_historical_witness_refs']

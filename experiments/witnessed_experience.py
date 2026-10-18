@@ -16,7 +16,8 @@ from experiments.decision_evidence_transfer import RankedOnline, EDIT_FEEDBACK_M
 from legal_skill_guard.experiment.storage import RunStore
 from legal_skill_guard.learning.catalog import encode_teacher_body
 from legal_skill_guard.learning.decision_evidence import (
-    training_witness_catalog, witnessed_guidance_schema, materialize_witness_skills, witnessed_skill_payload)
+    training_witness_catalog, witnessed_guidance_schema, materialize_witness_skills,
+    witness_knowledge_view, witnessed_skill_payload)
 from legal_skill_guard.learning.experiment import ROOT, read, sha, now, points
 from legal_skill_guard.learning.member_contract import annotated_sources
 from legal_skill_guard.learning.member_learning import paired_effect
@@ -51,8 +52,11 @@ TEACHER_SYSTEM = (
     "The same bank has rule-only, witness-only, combined and empty ablations. Use their REAL outcomes "
     "to distinguish reusable procedures from simply adding demonstrations. Original three-way "
     "accuracy, Gold-NN hard original-SPAN F1 and strict joint are unchanged. The COMPLETE MATERIALIZED "
-    "master bank, INCLUDING every historical evidence text and stored provenance, must fit4096 "
-    "actual target8B tokens; aim2800. Reference IDs are NOT cheap substitutes for full texts. Do not "
+    "knowledge bank, INCLUDING every procedure/scope and FULL historical evidence text/label, must fit4096 "
+    "actual target8B tokens; aim2800. Internal audit hashes/IDs are stored/reported separately, not served "
+    "knowledge. Each eligible example's exact standalone target8B token cost is supplied. These costs "
+    "guide packing, not a promise of additive BPE costs; leave room for rules/structure. Reference IDs "
+    "are NOT cheap substitutes for full texts. Do not "
     "blindly attach many long examples. No per-record character clipping or fixed template quota. "
     "All structurally valid edits publish without utility admission, best-bank selection, score-based "
     "retry, fallback or a second curator. Explain the actual source-supported change for each "
@@ -88,18 +92,31 @@ class WitnessedExperience(RankedOnline):
         body["current_materialized_parent_including_all_past_evidence_texts"] = self.materialized
         body["library_budget"] = {"current_materialized_target8B_tokens": self.memory_tokens,
                                   "target_tokens": 2800, "hard_tokens": 4096}
+        self.progress("memory_budget", current_arm=name,
+                      exact_CPU_tokenizer_cost_requests=len(catalog))
+        fields = ("hypothesis_id", "original_training_label", "complete_original_evidence_texts")
+        body["exact_standalone_example_target8B_token_costs"] = {
+            ref: self.meter.token_count(text=json.dumps({k: w[k] for k in fields},
+                ensure_ascii=False, separators=(",", ":"))) for ref, w in catalog.items()}
+        body["token_costs_are_existing_CPU_tokenizer_requests_not_native_generations"] = len(catalog)
         self.record(f"learning_inputs/{name}.json", body)
         delta = self.teacher_call(name, TEACHER_SYSTEM, encode_teacher_body(body), schema)
         bank = apply_differential_publication(parent, delta, self.labels, allowed, guidance_schema=guidance)
         materialized = materialize_witness_skills(bank, self.labels, catalog)
-        tokens = self.meter.token_count(text=json.dumps(materialized, ensure_ascii=False, separators=(",", ":")))
-        assert tokens <= 4096, "Complete materialized bank exceeds capacity; no clipping, gate or old-bank substitute"
+        tokens = self.meter.token_count(text=json.dumps(witness_knowledge_view(materialized),
+            ensure_ascii=False, separators=(",", ":")))
+        audit_storage_tokens = self.meter.token_count(text=json.dumps(materialized,
+            ensure_ascii=False, separators=(",", ":")))
+        assert tokens <= 4096, "Complete materialized knowledge exceeds capacity; no clipping, gate or old-bank substitute"
         stats = publication_statistics(parent, delta, bank, tokens)
         self.record(f"publications/{name}.json", {
             "at": now(), "parent": parent, "delta": delta, "publication": bank,
             "materialized_runtime_memory": materialized, "statistics": stats,
             "source_ids_actually_available_to_teacher": allowed,
-            "all_valid_edits_used_without_utility_gate": True, "stored_provenance_included_in_token_budget": True})
+            "all_valid_edits_used_without_utility_gate": True,
+            "complete_model_delivered_knowledge_target8B_tokens": tokens,
+            "internal_audit_storage_target8B_tokens_reported_separately": audit_storage_tokens,
+            "exact_tokenizer_budget_requests_not_native_generations": len(catalog)+2})
         self.bank, self.materialized, self.catalog, self.memory_tokens = bank, materialized, catalog, tokens
         self.publication_history.append(stats)
 
@@ -127,7 +144,9 @@ class WitnessedExperience(RankedOnline):
         self.current_batch = 5
         self.record("declaration.json", {
             "at": now(), "config": self.cfg, "frozen_bindings": self.bindings.copy(),
-            "planned_native_teacher_CPUfits": [72,2,2], "initial_common_CPUfit_already_done_and_counted": True,
+            "planned_new_native_teacher_CPUfits": [72,2,self.cfg["planned_new_CPU_fits"]],
+            "inherited_failed_native_teacher_CPUfits": self.cfg.get("inherited_failed_native_teacher_CPUfits", [0,0,0]),
+            "initial_common_CPUfit_already_done_and_counted": True,
             "all8_all4_before_each_batch_Gold_grading": True,
             "same_source_witness_exclusion_applies_even_to_training_reanswers": True,
             "not_formal128_independent_repeat_equal_cost_mature_baseline_or_official_TEST": True,
@@ -193,8 +212,11 @@ class WitnessedExperience(RankedOnline):
             "same_case_all16_effects_vs_empty": {m: paired_effect(groups["empty"],groups[m],
                 seed=2026101970+i,replicates=5000) for i,m in enumerate(modes) if m != "empty"},
             "batch_summaries": summaries, "actual_first_update_training_effect": update_effect,
-            "actual_new_native_teacher_CPUfits": [72,2,2], "prior_development_family_native_teacher_CPUfits": [145,6,5],
-            "total_this_development_family_native_teacher_CPUfits": [217,8,7],
+            "actual_new_native_teacher_CPUfits": [72,2,self.cfg["planned_new_CPU_fits"]],
+            "inherited_failed_native_teacher_CPUfits": self.cfg.get("inherited_failed_native_teacher_CPUfits", [0,0,0]),
+            "prior_development_family_native_teacher_CPUfits": self.cfg["prior_development_family_native_teacher_CPUfits"],
+            "total_this_development_family_native_teacher_CPUfits": [a+b for a,b in zip(
+                [72,2,self.cfg["planned_new_CPU_fits"]],self.cfg["prior_development_family_native_teacher_CPUfits"],strict=True)],
             "actual_ordinary_fits": self.fit_records, "publication_statistics": self.publication_history,
             "final_reference_bank": self.bank, "final_materialized_memory": self.materialized, "units": self.units,
             "all_adverse_arms_cases_invalids_and_original_denominators_preserved": True,
@@ -202,7 +224,9 @@ class WitnessedExperience(RankedOnline):
         self.record("completion.json", result)
         RunStore.atomic_json(self.out / "progress.json", {
             "at": now(), "state": "completed", "run_id": self.run_id, "completed_native_calls": 72,
-            "completed_teacher_calls": 2, "actual_CPUfits": 2, "all16_forward_metrics": result["complete16_prequential_metrics"]})
+            "completed_teacher_calls": 2, "actual_new_CPUfits": self.cfg["planned_new_CPU_fits"],
+            "inherited_common_CPUfit": self.cfg.get("inherited_initial_common_fit",False),
+            "all16_forward_metrics": result["complete16_prequential_metrics"]})
         print(json.dumps({"completed": self.run_id, "metrics": result["complete16_prequential_metrics"]}), flush=True)
 
 
@@ -214,7 +238,9 @@ def main():
             study.execute()
         except BaseException as error:
             failure = {"at": now(), "state": "failed", "error": repr(error), "traceback": traceback.format_exc(),
-                "actual_native_teacher_CPUfits": [len(study.native),len(study.teachers),max(1,len(study.fit_records))],
+                "actual_native_teacher_CPUfits": [len(study.native),len(study.teachers),
+                    max(0,len(study.fit_records)-int(study.cfg.get("inherited_initial_common_fit",False)))],
+                "inherited_failed_native_teacher_CPUfits": study.cfg.get("inherited_failed_native_teacher_CPUfits", [0,0,0]),
                 "no_retry_answer_repair_fallback_gate_or_selected_bank": True}
             study.record("failure.json", failure)
             RunStore.atomic_json(study.out / "progress.json", failure)

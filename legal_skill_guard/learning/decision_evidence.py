@@ -329,6 +329,21 @@ def materialize_witness_skills(bank, labels, catalog):
     return result
 
 
+def witness_knowledge_view(materialized):
+    """Complete one-copy knowledge served to the model, not audit storage.
+
+    Count every procedure, scope, original label and FULL historical evidence
+    text. Excluding hashes/keys never makes a short reference replace text.
+    Current-source exclusion happens later, so this is the full-bank budget.
+    """
+    return {"learned_legal_procedures": [
+        {"hypothesis_ids": list(s["hypothesis_ids"]), "procedure": s["procedure"]} for s in materialized],
+        "historical_evidence_demonstrations": [
+            {k: copy.deepcopy(w[k]) for k in (
+                "hypothesis_id", "original_training_label", "complete_original_evidence_texts")}
+            for s in materialized for w in s["witnesses"]]}
+
+
 def witnessed_skill_payload(row, labels, proposals, system, materialized, *, mode):
     """Original single native answer; independently ablate rule and exemplars.
 

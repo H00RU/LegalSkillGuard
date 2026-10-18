@@ -15,7 +15,21 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 04:47 CST，组合对照负面已归档；样例支撑技能两批16案已真正后台launch
+## 当前快照：2026-10-19 04:53 CST，样例Run01容量停止；Run02修正真实知识预算、保留完整失败成本，准备launch
+
+Run01于04:48:41 failed0native/1教师/1实际CPUfit，新案尚未作答/评分。9技能13见证：存储4311tokens，
+剔除不交给模型的审计来源hash/ref/ID后知识3221。原“连审计也算4k”过度收紧，未宿主裁剪/替换/发布。
+77成员终态双盘亲核SHA c0ba716ab58ab976c2768c3b4a7432573d1278a6803036ff9bc7e0cfa12ccd32，容量后审另双盘。
+新canonical witness_knowledge_view按真正交付的完整规则/scope/ALL原证据文字/标签计4k，仍包括排同源前全库；
+内部审计存储另报。边界测试证明与实际combined交付相同且不受不served hash/ID影响；原输出无变化。
+每次教师还拿到每条候选完整示例的实际8B tokenizer成本，非native生成/付费API/资格测试，不靠LLM猜成本。
+新Run legal_contractnli_witnessed_experience_forward16_20261019_run02，同16顺序、两批四臂/一次实际更新不变；
+空新representation、失败候选只作容量参考，新教师新delta，不自动接受它。普通242精确pickle复用，绝不重fit。
+新费用72/2/1，继承失败0/1/1，case-backed episode若完成72/3/2；家族prior145/7/6，完成后217/9/7。
+protocol docs/WITNESSED_EXPERIENCE_FORWARD16_PROTOCOL_20261019_RUN02.md；ledger1443/last1433，后2教师足够。
+准备冻结/备份后真实launch，不能把Run01说成仍在运行。Goal active未达成，没有新的正收益证据。
+
+## 已归档快照：2026-10-19 04:47 CST，样例Run01当时启动，后于首次容量检查停止
 
 04:47:03实际worker1220554/ticks436294135，独立preserver1220557/ticks436294136。
 checkpoint feddf149226d5939dc638c57da0a154d807ca2cb；67成员全源码/Git启动双盘逐成员核验
