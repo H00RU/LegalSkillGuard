@@ -17,7 +17,7 @@ from legal_skill_guard.experiment.storage import RunStore
 from legal_skill_guard.learning.catalog import encode_teacher_body
 from legal_skill_guard.learning.decision_evidence import (
     training_witness_catalog, witnessed_guidance_schema, materialize_witness_skills,
-    witness_knowledge_view, witnessed_skill_payload)
+    witness_knowledge_view, witnessed_skill_payload, training_nonmember_catalog, witness_membership_example)
 from legal_skill_guard.learning.experiment import ROOT, read, sha, now, points
 from legal_skill_guard.learning.member_contract import annotated_sources
 from legal_skill_guard.learning.member_learning import paired_effect
@@ -34,20 +34,29 @@ TEACHER_SYSTEM = (
     "including successes and harms. Old reference policies are identified historical versions, NOT "
     "invented executions of this new representation. Their prose and labels are fallible experience, "
     "not universal law. Publish explicit CREATE/UPDATE/DELETE/MERGE/NOOP against current_parent_library; "
-    "unmentioned records stay verbatim. Each guidance has procedure and witness_refs. A witness_ref "
+    "unmentioned records stay verbatim. Each guidance has procedure, witness_refs and nonmember_refs. A witness_ref "
     "selects an eligible already-seen source/hypothesis pair WITHIN the skill's public scope. The host "
-    "materializes ALL original evidence texts and its original E/C label, never invented snippets or "
-    "old numeric coordinates. These are different past examples, not current facts or answers. "
+    "materializes ALL original evidence texts. A nonmember_ref selects a REAL extra citation from "
+    "a supplied past originally non-neutral task, together with that task's COMPLETE correct evidence. "
+    "The exact original quotation and membership come from actual observations, not a new legal judge. "
+    "Original E/C/NM labels remain available to YOU for training and audit, but past-case NLI labels "
+    "are NOT delivered as lawyer examples. Runtime examples teach annotated members and an optional "
+    "unannotated actual citation, not an NLI answer prior. Unannotated does not mean legally false "
+    "or universally forbidden, and a local excerpt cannot establish whole-contract NM. "
+    "These are different past examples, not current facts or answers. "
     "NM deliberately has no snippet demonstration: a local excerpt cannot prove whole-contract absence. "
     "Use concrete legal contrasts and source functions to teach actor/action/object, modality, "
     "quantifiers, prohibitions, triggers, exceptions and complete responsive evidence. Preserve "
     "opposed boundaries rather than treating every restriction as NM. Lack of a matching example "
     "never implies a legal label. Avoid arbitrary literal shortcuts and generalizing one phrasing. "
-    "Choose informative historical evidence with contrasting relations or selection boundaries; "
+    "Distill source-observable relation checks from the supplied full training labels into procedures, "
+    "but never infer opposition just because a permission was not found or vice versa. "
+    "Choose informative historical member/nonmember contrasts and selection boundaries; "
     "do not force a fixed skill/witness count, growth, one-per-hypothesis or positive-label-only list. "
-    "A procedure may have [] witnesses when justified. No case answer tables, IDs, original indices, "
+    "Both reference lists may be empty when justified; do not force signed examples or a quota. "
+    "No case answer tables, IDs, original indices, "
     "parties or dates in procedures. Exact past text is supplied by reference only. Same-source "
-    "witnesses are excluded by source identity AND content hash, even for training reanswers. "
+    "member AND nonmember examples are excluded by source identity AND content hash, even for training reanswers. "
     "All original current indices remain selectable; only the lawyer decides final labels/citations. "
     "Use the REAL supplied policy differences; do not invent comparisons or missing ablation arms. "
     "candidate_contexts stores exact actual source-reading inputs once; observation context references "
@@ -69,7 +78,8 @@ TEACHER_SYSTEM = (
     "mistake shorter answers, fewer citations, or NM gains alone for learned evidence acquisition. "
     "A reusable skill must provide observable source selection conditions, not 'cite the Gold' or "
     "a historical case answer. The COMPLETE MATERIALIZED "
-    "knowledge bank, INCLUDING every procedure/scope and FULL historical evidence text/label, must fit4096 "
+    "knowledge bank, INCLUDING every procedure/scope, ALL positive evidence texts and complete false-citation "
+    "contrasts, must fit4096 "
     "actual target8B tokens; aim2800. Internal audit hashes/IDs are stored/reported separately, not served "
     "knowledge. Each eligible example's exact standalone target8B token cost is supplied. These costs "
     "guide packing, not a promise of additive BPE costs; leave room for rules/structure. Reference IDs "
@@ -139,25 +149,28 @@ class WitnessedExperience(RankedOnline):
     def publish(self, body, name):
         parent = copy.deepcopy(self.bank)
         catalog = body["eligible_original_non_neutral_historical_witnesses"]
+        nonmembers = body['eligible_actual_false_citation_contrasts']
         window = expand(body["complete_already_revealed_original_source_window_and_Gold"])
-        allowed = sorted({r["id"] for r in window} | {x["source_case_id"] for x in catalog.values()})
-        guidance = witnessed_guidance_schema(catalog)
+        allowed = sorted({r["id"] for r in window} | {
+            x['source_case_id'] for x in [*catalog.values(), *nonmembers.values()]})
+        guidance = witnessed_guidance_schema(catalog, nonmembers)
         schema = differential_schema(self.labels, parent, allowed, guidance_schema=guidance)
         body["current_parent_library"] = parent
         body["current_materialized_parent_including_all_past_evidence_texts"] = self.materialized
         body["library_budget"] = {"current_materialized_target8B_tokens": self.memory_tokens,
                                   "target_tokens": 2800, "hard_tokens": 4096}
         self.progress("memory_budget", current_arm=name,
-                      exact_CPU_tokenizer_cost_requests=len(catalog))
-        fields = ("hypothesis_id", "original_training_label", "complete_original_evidence_texts")
+                      exact_CPU_tokenizer_cost_requests=len(catalog)+len(nonmembers))
+        assert not set(catalog) & set(nonmembers)
         body["exact_standalone_example_target8B_token_costs"] = {
-            ref: self.meter.token_count(text=json.dumps({k: w[k] for k in fields},
-                ensure_ascii=False, separators=(",", ":"))) for ref, w in catalog.items()}
-        body["token_costs_are_existing_CPU_tokenizer_requests_not_native_generations"] = len(catalog)
+            ref: self.meter.token_count(text=json.dumps(witness_membership_example(w),
+                ensure_ascii=False, separators=(",", ":")))
+            for ref, w in {**catalog, **nonmembers}.items()}
+        body["token_costs_are_existing_CPU_tokenizer_requests_not_native_generations"] = len(catalog)+len(nonmembers)
         self.record(f"learning_inputs/{name}.json", body)
         delta = self.teacher_call(name, self.teaching_system, encode_teacher_body(body), schema)
         bank = apply_differential_publication(parent, delta, self.labels, allowed, guidance_schema=guidance)
-        materialized = materialize_witness_skills(bank, self.labels, catalog)
+        materialized = materialize_witness_skills(bank, self.labels, catalog, nonmembers)
         tokens = self.meter.token_count(text=json.dumps(witness_knowledge_view(materialized),
             ensure_ascii=False, separators=(",", ":")))
         audit_storage_tokens = self.meter.token_count(text=json.dumps(materialized,
@@ -171,8 +184,9 @@ class WitnessedExperience(RankedOnline):
             "all_valid_edits_used_without_utility_gate": True,
             "complete_model_delivered_knowledge_target8B_tokens": tokens,
             "internal_audit_storage_target8B_tokens_reported_separately": audit_storage_tokens,
-            "exact_tokenizer_budget_requests_not_native_generations": len(catalog)+2})
+            "exact_tokenizer_budget_requests_not_native_generations": len(catalog)+len(nonmembers)+2})
         self.bank, self.materialized, self.catalog, self.memory_tokens = bank, materialized, catalog, tokens
+        self.nonmember_catalog = nonmembers
         self.publication_history.append(stats)
 
     def answer_mode(self, row, mode, proposals):
@@ -243,7 +257,7 @@ class WitnessedOnline(WitnessedExperience):
 
     def execute(self):
         assert self.cfg["method"] == EDIT_FEEDBACK_METHOD and len(self.documents) == 128
-        assert self.cfg['teacher_task_contract_version'] == 'actual_native_task_and_original_member_credit_v1'
+        assert self.cfg['teacher_task_contract_version'] == 'actual_task_and_signed_source_membership_v2'
         assert len(self.past) == len(self.prefix_ids) == 202 and not self.bank
         assert [r["id"] for r in self.documents] == self.cfg["episode_ids"]
         calibration = read(ROOT / self.cfg["reading_calibration_completion"])
@@ -252,6 +266,7 @@ class WitnessedOnline(WitnessedExperience):
         assert calibration["reading_policy"]["beta"] == 2
         self.reading_policy = calibration["reading_policy"]
         self.materialized, self.catalog, self.memory_tokens, self.publication_history = [], {}, 0, []
+        self.nonmember_catalog = {}
         self.fit_records, self.last_update = [], None
         self.record("declaration.json", {
             "at": now(), "config": self.cfg, "frozen_bindings": self.bindings.copy(),
@@ -297,12 +312,16 @@ class WitnessedOnline(WitnessedExperience):
             seen = self.documents[:batch*8]
             window = seen[-16:]
             catalog = training_witness_catalog(window, self.labels, gold)
+            nonmembers = training_nonmember_catalog(window, self.labels, self.units)
             for skill in self.bank:
                 for ref in skill["guidance"]["witness_refs"]:
                     catalog.setdefault(ref, self.catalog[ref])
+                for ref in skill['guidance']['nonmember_refs']:
+                    nonmembers.setdefault(ref, self.nonmember_catalog[ref])
             body = {"public_hypotheses": self.labels,
                 "complete_already_revealed_original_source_window_and_Gold": annotated_sources(window,self.labels,gold),
                 "eligible_original_non_neutral_historical_witnesses": catalog,
+                'eligible_actual_false_citation_contrasts': nonmembers,
                 "all_actual_current8_matched_empty_and_memory_observations": self.observe(fresh),
                 "actual_current_batch_metrics": metrics,
                 "current_shared_ordinary_tool_source_ids": self.prefix_ids,
@@ -363,7 +382,7 @@ def main():
         fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         config = Path(sys.argv[1])
         kind = read(config)["study_kind"]
-        if kind != "full128_case_backed_skill_online":
+        if kind != "full128_signed_member_skill_online":
             raise ValueError("Only the full online protocol is active; finite historical studies remain in Git/archives")
         study = WitnessedOnline(config)
         try:

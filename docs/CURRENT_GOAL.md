@@ -15,7 +15,36 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 07:15 CST，固定末实际库的交付诊断已真实后台运行
+## 当前快照：2026-10-19 07:46 CST，布局诊断已完整否证；原模块已实现signed成员经验，待启动完整128
+
+固定库16诊断07:32:07完成NEW48/0/0，64逻辑含16旧已计费调用，非新训练。
+全16空85.29/77.13/60.29%、原库84.19/76.51/58.82%、prefix76.47/76.72/52.94%、
+prefix_explicit73.53/76.56/49.26。前置变体NM全对85->65/60，后8不救总体；不能只选后8F1+1.48pp。
+395成员终态双盘亲核SHA 1c6f367654da2d686e6e9dd4fe13adf61eb2ba6fc5c07b0e6403383fd36a97d1。
+已用apply_patch清理唯一临时source_binding_diagnosis.py，源码Git/双盘档案可恢复，用户5个无关report未动。
+**没有**融合失败的prefix或显式过去案件答案布局；源顺序假说不成立，不宣称已解决根因。
+
+新修复直接在原decision_evidence.py和witnessed_experience.py：guidance继续procedure/witness_refs，
+另有nonmember_refs可选[]，只引用真实已见原NN任务的FP原索引，并携同题全部原Gold证据文字。
+新training_nonmember_catalog仅读当前已评分units和时间窗口，原GoldNN/actual prediction事实计算，无新judge/造负例。
+原NLI标签仍给教师与审计，但运行时实例不再输出过去案件E/C答案标签；统一为annotated_evidence_texts +
+optional unannotated_cited_text。未标注不是法律上错误、不是普遍禁词、更不是局部材料证明整案NM。
+规则仍能从完整训练标签学习条件化法律判断，当前律师独立一次原生reason/choice/原整数SPAN输出不变。
+正/负实例同样ID或原text+offset hash排本源，也适用训练重答；所有引用、上下文和规则真实4k计费。
+canonical witness_membership_example同时供CPU例文价格、knowledge view和native payload，避免预算/交付不一致。
+合法CRUD/NOOP仍直接发布，无分数准入/词过滤/好库回滚/答案修补。未强制正负比例、类型、数量或增长。
+教师observe的真实system/schema/完整原计分及FP/FN文字修复仍保留。代码没有新推理层或平行正式链路。
+
+9相关永久边界测试0.50秒通过，无新测试文件；只核已结束B1+B2的154正例/93实际FP引用及695366字符教师包，
+0native/0教师/0fit，未读新源标签，不能称性能证明。当前只是下一次机制修复，不保证显著收益。
+新cfg contractnli_signed_member_skill128_online_20261019_run01.json，原128顺序/初共同202/空bank/同读阈值/
+同单8B采样输出/原指标，自动16x8全教，计划376/16/16、384逻辑，最终共同330。
+新kind full128_signed_member_skill_online 是唯一活动主入口；旧新库/未发布候选均不复用。
+ledger旧1454原字节双盘，仅cap->1457、last1441/历史不变，授权后16现有教师，无新增付费API/模型。
+家族当前385/15/17，新run完整后761/31/33，非所有历史；原TEST仍未调优、非独立确认。
+当前新run未launch，接冻结/提交/双盘源码Git备份/实际后台启动。Goal active，完整净收益/基线/重复/TEST目标未缩小。
+
+## 已归档快照：2026-10-19 07:15 CST，固定末实际库的交付诊断已真实后台运行
 
 07:14:06实际worker1441050/ticks437176405，独立preserver1441053/ticks437176406。
 core738a120126dd888f3ca7e1cebc6bab33e65b293a；134成员源码/Git双盘启动备份SHA

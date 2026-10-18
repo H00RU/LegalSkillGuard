@@ -2723,8 +2723,8 @@ def test_historical_witness_skills_preserve_original_members_and_exclude_same_so
     catalog=training_witness_catalog([row],labels,{'1':gold})
     assert set(catalog)=={'1:h1','1:h2'}  # Partial excerpts do not demonstrate NM.
     bank=[{'id':'past_grounded_skill','hypothesis_ids':['h1'],'guidance':{
-        'procedure':'Inspect the actual operative condition.','witness_refs':['1:h1']}}]
-    compiled=materialize_witness_skills(bank,labels,catalog)
+        'procedure':'Inspect the actual operative condition.','witness_refs':['1:h1'],'nonmember_refs':[]}}]
+    compiled=materialize_witness_skills(bank,labels,catalog,{})
     assert compiled[0]['witnesses'][0]['complete_original_evidence_texts']==[
         row['text'][a:b] for i,(a,b) in enumerate(row['spans']) if i in (0,2)]
     unseen={**row,'id':2,'text':row['text']+' Different source.'}
@@ -2735,22 +2735,25 @@ def test_historical_witness_skills_preserve_original_members_and_exclude_same_so
         outputs[mode]=(json.loads(messages[1]['content']),schema,receipt)
         assert receipt['historical_source_IDs_hashes_refs_and_span_coordinates_not_served']
         assert '1:h1' not in messages[1]['content'] and 'source_case_id' not in messages[1]['content']
-        assert 'original_span_index' not in json.dumps(outputs[mode][0].get('historical_evidence_demonstrations',[]))
+        assert 'original_span_index' not in json.dumps(outputs[mode][0].get('historical_evidence_membership_examples',[]))
     assert outputs['empty'][1]==outputs['combined'][1]  # Original native output, no adapter.
-    assert 'historical_evidence_demonstrations' not in outputs['procedure_only'][0]
+    assert 'historical_evidence_membership_examples' not in outputs['procedure_only'][0]
     assert outputs['witnesses_only'][0]['learned_legal_procedures']==[]
-    assert outputs['combined'][0]['historical_evidence_demonstrations'][0]['original_training_label']=='Entailment'
+    examples=outputs['combined'][0]['historical_evidence_membership_examples']
+    assert examples[0]['unannotated_cited_text'] is None
+    assert 'original_training_label' not in json.dumps(examples)
     knowledge=witness_knowledge_view(compiled)
-    assert knowledge['historical_evidence_demonstrations']==outputs['combined'][0]['historical_evidence_demonstrations']
+    assert knowledge['historical_evidence_membership_examples']==examples
     assert knowledge['learned_legal_procedures']==outputs['combined'][0]['learned_legal_procedures']
     changed=copy.deepcopy(compiled);changed[0]['id']='different_audit_id'
     changed[0]['witnesses'][0]['source_sha256']='different_audit_hash'
+    changed[0]['witnesses'][0]['original_training_label']='Contradiction'
     assert witness_knowledge_view(changed)==knowledge  # Audit storage is not delivered linguistic knowledge.
     for same in (row,{**row,'id':999},{**row,'text':row['text']+' Changed source.'}):
         messages,_,receipt=witnessed_skill_payload(same,labels,p,'Same task.',compiled,mode='combined')
         assert not receipt['served_historical_witness_refs']
         assert receipt['excluded_same_source_witness_refs']==['1:h1']
-        assert 'historical_evidence_demonstrations' not in json.loads(messages[1]['content'])
+        assert 'historical_evidence_membership_examples' not in json.loads(messages[1]['content'])
     assert source['annotation_sets'][0]['annotations']==gold
 
 
@@ -2760,12 +2763,53 @@ def test_invalid_historical_witness_references_fail_without_substitution(kind):
     source,labels,gold=fixture();row={k:source[k] for k in ('id','text','spans')}
     catalog=training_witness_catalog([row],labels,{'1':gold})
     skill={'id':'s','hypothesis_ids':['h1'],'guidance':{
-        'procedure':'Source check.','witness_refs':['1:h1']}}
+        'procedure':'Source check.','witness_refs':['1:h1'],'nonmember_refs':[]}}
     if kind=='future':skill['guidance']['witness_refs']=['2:h1']
     elif kind=='duplicate':skill['guidance']['witness_refs']*=2
     else:skill['hypothesis_ids']=['h2']
     with pytest.raises((ValueError,ValidationError)):
-        materialize_witness_skills([skill],labels,catalog)
+        materialize_witness_skills([skill],labels,catalog,{})
+
+
+def test_signed_nonmember_memory_uses_only_actual_NN_errors_and_never_past_NLI_answers():
+    from legal_skill_guard.learning.decision_evidence import (
+        training_witness_catalog,training_nonmember_catalog,materialize_witness_skills,
+        witnessed_skill_payload,witness_knowledge_view)
+    source,labels,gold=fixture();row={k:source[k] for k in ('id','text','spans')}
+    prediction=copy.deepcopy(gold);prediction['h1']['spans']=[0,1]
+    prediction['h3']={'choice':'Entailment','spans':[2]}
+    response={'finish_reason':'stop','content':json.dumps(prediction),'raw_id':'synthetic_observed_error'}
+    feedback=original_feedback(response,row,gold,list(labels));assert feedback['public_valid']
+    unit={'document_id':1,'response':response,'queries':feedback['queries']}
+    negatives=training_nonmember_catalog([row],labels,[unit,unit,{**unit,'document_id':999}])
+    ref='1:h1:not_member:1';assert list(negatives)==[ref]  # No NM-snippet proof or future source.
+    assert negatives[ref]['actual_error_raw_ids']==['synthetic_observed_error']
+    assert negatives[ref]['unannotated_cited_text']=='Recipient may retain an archive.'
+    bank=[{'id':'contrast','hypothesis_ids':['h1'],'guidance':{
+        'procedure':'Compare the material source function, not common vocabulary.',
+        'witness_refs':[],'nonmember_refs':[ref]}}]
+    positives=training_witness_catalog([row],labels,{'1':gold})
+    compiled=materialize_witness_skills(bank,labels,positives,negatives)
+    unseen={**row,'id':2,'text':row['text']+' Different full source.'}
+    proposals={'by_hypothesis':{h:{'candidates':[],'raw_scores':[.1,.2,.3]} for h in labels}}
+    messages,schema,delivery=witnessed_skill_payload(unseen,labels,proposals,'Same task.',compiled,mode='combined')
+    body=json.loads(messages[1]['content']);examples=body['historical_evidence_membership_examples']
+    assert examples==witness_knowledge_view(compiled)['historical_evidence_membership_examples']
+    assert examples==[{'hypothesis_id':'h1','annotated_evidence_texts':[
+        'Recipient shall not disclose secrets.','Purpose is evaluation.'],
+        'unannotated_cited_text':'Recipient may retain an archive.'}]
+    assert delivery['served_nonmember_refs']==[ref]
+    assert 'original_training_label' not in json.dumps(examples) and ref not in messages[1]['content']
+    for same in (row,{**row,'id':999},{**row,'text':row['text']+' Changed source.'}):
+        m,s,d=witnessed_skill_payload(same,labels,proposals,'Same task.',compiled,mode='combined')
+        assert not d['served_nonmember_refs'] and d['excluded_same_source_nonmember_refs']==[ref]
+        assert 'historical_evidence_membership_examples' not in json.loads(m[1]['content'])
+        assert s==schema
+    bad=copy.deepcopy(bank);bad[0]['guidance']['nonmember_refs']=[ref,ref]
+    with pytest.raises(ValueError):materialize_witness_skills(bad,labels,positives,negatives)
+    bad=copy.deepcopy(bank);bad[0]['hypothesis_ids']=['h2']
+    with pytest.raises(ValueError):materialize_witness_skills(bad,labels,positives,negatives)
+    assert source['annotation_sets'][0]['annotations']==gold
 
 
 def test_training_reading_policy_threshold_objective_ties_and_native_pool_contract():

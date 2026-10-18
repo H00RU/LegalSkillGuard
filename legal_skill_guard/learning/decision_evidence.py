@@ -289,18 +289,55 @@ def training_witness_catalog(rows, labels, annotations):
     return result
 
 
-def witnessed_guidance_schema(catalog):
-    refs = {"type": "array", "items": {"type": "string"}}
-    if catalog:
-        refs["items"]["enum"] = list(catalog)
-    else:
-        refs["maxItems"] = 0
+def training_nonmember_catalog(rows, labels, units):
+    """Actual past false citations with complete original NN member context.
+
+    A nonmember is an annotation-membership fact, not a false legal statement
+    or an NM absence proof. No invented negative, future source or new judge.
+    """
+    sources = {r['id']: r for r in rows}
+    result = {}
+    for unit in units:
+        if unit['document_id'] not in sources:
+            continue
+        row = sources[unit['document_id']]
+        source_hash = csha({'text': row['text'], 'spans': row['spans']})
+        for q in unit['queries']:
+            if not q['gold_non_neutral'] or q['prediction'] is None:
+                continue
+            h, gold = q['hypothesis_id'], q['gold']
+            assert h in labels and gold['choice'] in ('Entailment', 'Contradiction') and gold['spans']
+            for i in sorted(set(q['prediction']['spans']) - set(gold['spans'])):
+                ref = f"{row['id']}:{h}:not_member:{i}"
+                if ref not in result:
+                    result[ref] = {'source_case_id': row['id'], 'source_sha256': source_hash,
+                        'hypothesis_id': h, 'original_training_label': gold['choice'],
+                        'complete_original_evidence_texts': [row['text'][slice(*row['spans'][j])]
+                            for j in gold['spans']],
+                        'unannotated_cited_text': row['text'][slice(*row['spans'][i])],
+                        'original_false_citation_index': i, 'not_in_original_annotation': True,
+                        'actual_error_raw_ids': []}
+                raw_id = unit['response']['raw_id']
+                if raw_id not in result[ref]['actual_error_raw_ids']:
+                    result[ref]['actual_error_raw_ids'].append(raw_id)
+    return result
+
+
+def witnessed_guidance_schema(catalog, nonmembers):
+    def refs(values):
+        result = {'type': 'array', 'items': {'type': 'string'}}
+        if values:
+            result['items']['enum'] = list(values)
+        else:
+            result['maxItems'] = 0
+        return result
     return {"type": "object", "additionalProperties": False,
-        "required": ["procedure", "witness_refs"], "properties": {
-            "procedure": {"type": "string", "minLength": 1}, "witness_refs": refs}}
+        "required": ["procedure", "witness_refs", "nonmember_refs"], "properties": {
+            "procedure": {"type": "string", "minLength": 1},
+            "witness_refs": refs(catalog), "nonmember_refs": refs(nonmembers)}}
 
 
-def materialize_witness_skills(bank, labels, catalog):
+def materialize_witness_skills(bank, labels, catalog, nonmembers):
     """Resolve teacher-selected past references ONCE, before native inference.
 
     This does not extract, complete or score a current answer. Full original
@@ -312,9 +349,11 @@ def materialize_witness_skills(bank, labels, catalog):
         raise ValueError("Duplicate witnessed skill identity")
     result = []
     for skill in bank:
-        validate(skill, skill_record_schema(labels, guidance_schema=witnessed_guidance_schema(catalog)))
+        validate(skill, skill_record_schema(labels, guidance_schema=witnessed_guidance_schema(catalog, nonmembers)))
         refs = skill["guidance"]["witness_refs"]
-        if len(set(refs)) != len(refs) or len(set(skill["hypothesis_ids"])) != len(skill["hypothesis_ids"]):
+        rejected = skill['guidance']['nonmember_refs']
+        if (len(set(refs)) != len(refs) or len(set(rejected)) != len(rejected)
+                or len(set(skill["hypothesis_ids"])) != len(skill["hypothesis_ids"])):
             raise ValueError("Duplicate witness reference or public scope; no deduplication")
         witnesses = []
         for ref in refs:
@@ -324,24 +363,40 @@ def materialize_witness_skills(bank, labels, catalog):
             if w["original_training_label"] not in ("Entailment", "Contradiction"):
                 raise ValueError("Partial historical excerpts cannot certify NotMentioned")
             witnesses.append({"witness_ref": ref, **copy.deepcopy(w)})
+        contrasts = []
+        for ref in rejected:
+            w = nonmembers[ref]
+            if w['hypothesis_id'] not in skill['hypothesis_ids']:
+                raise ValueError('Nonmember contrast lies outside the declared public scope')
+            if (w['original_training_label'] not in ('Entailment', 'Contradiction')
+                    or not w['not_in_original_annotation'] or not w['actual_error_raw_ids']):
+                raise ValueError('Contrast must be an actual original NN false citation, not a legal verdict')
+            contrasts.append({'nonmember_ref': ref, **copy.deepcopy(w)})
         result.append({"id": skill["id"], "hypothesis_ids": list(skill["hypothesis_ids"]),
-            "procedure": skill["guidance"]["procedure"], "witnesses": witnesses})
+            "procedure": skill["guidance"]["procedure"], "witnesses": witnesses,
+            "nonmembers": contrasts})
     return result
+
+
+def witness_membership_example(witness):
+    """Exact past citation-membership context, never a past-case NLI answer."""
+    return {'hypothesis_id': witness['hypothesis_id'],
+        'annotated_evidence_texts': copy.deepcopy(witness['complete_original_evidence_texts']),
+        'unannotated_cited_text': witness['unannotated_cited_text']
+            if 'unannotated_cited_text' in witness else None}
 
 
 def witness_knowledge_view(materialized):
     """Complete one-copy knowledge served to the model, not audit storage.
 
-    Count every procedure, scope, original label and FULL historical evidence
-    text. Excluding hashes/keys never makes a short reference replace text.
+    Count every procedure, scope and FULL signed historical evidence context.
+    Excluding hashes/keys never makes a short reference replace text.
     Current-source exclusion happens later, so this is the full-bank budget.
     """
     return {"learned_legal_procedures": [
         {"hypothesis_ids": list(s["hypothesis_ids"]), "procedure": s["procedure"]} for s in materialized],
-        "historical_evidence_demonstrations": [
-            {k: copy.deepcopy(w[k]) for k in (
-                "hypothesis_id", "original_training_label", "complete_original_evidence_texts")}
-            for s in materialized for w in s["witnesses"]]}
+        "historical_evidence_membership_examples": [witness_membership_example(w)
+            for s in materialized for w in s['witnesses'] + s['nonmembers']]}
 
 
 def witnessed_skill_payload(row, labels, proposals, system, materialized, *, mode):
@@ -359,30 +414,36 @@ def witnessed_skill_payload(row, labels, proposals, system, materialized, *, mod
     messages, schema = procedure_payload(row, labels, proposals, system,
         prose if mode in ("procedure_only", "combined") else [], public_reason_words=64)
     source_hash = csha({"text": row["text"], "spans": row["spans"]})
-    served, excluded, examples = [], [], []
+    served, excluded, served_negative, excluded_negative, examples = [], [], [], [], []
     for skill in materialized:
-        for w in skill["witnesses"]:
-            if w["source_case_id"] == row["id"] or w["source_sha256"] == source_hash:
-                excluded.append(w["witness_ref"])
-            elif mode in ("witnesses_only", "combined"):
-                served.append(w["witness_ref"])
-                examples.append({k: copy.deepcopy(w[k]) for k in (
-                    "hypothesis_id", "original_training_label", "complete_original_evidence_texts")})
+        for records, ref_key, included, omitted in (
+                (skill['witnesses'], 'witness_ref', served, excluded),
+                (skill['nonmembers'], 'nonmember_ref', served_negative, excluded_negative)):
+            for w in records:
+                if w["source_case_id"] == row["id"] or w["source_sha256"] == source_hash:
+                    omitted.append(w[ref_key])
+                elif mode in ("witnesses_only", "combined"):
+                    included.append(w[ref_key])
+                    examples.append(witness_membership_example(w))
     if examples:
         body = json.loads(messages[1]["content"])
-        body["historical_evidence_demonstrations"] = examples
+        body["historical_evidence_membership_examples"] = examples
         messages[0]["content"] += (
-            " historical_evidence_demonstrations are labelled examples from DIFFERENT past "
-            "TRAIN contracts, not facts, citations or answers for this contract. Each preserves "
-            "all original evidence texts of its historical non-neutral annotation, not a full "
-            "old contract. Compare the operative legal condition, not mere vocabulary. They "
-            "are fallible experience, not universal law. Example absence never establishes "
-            "NotMentioned. Decide the CURRENT original hypothesis from the CURRENT full source "
+            " historical_evidence_membership_examples concern citation selection in DIFFERENT past "
+            "TRAIN contracts, not current facts or past-case NLI answers. annotated_evidence_texts "
+            "preserves ALL selected original evidence texts. An optional unannotated_cited_text "
+            "was a REAL extra citation absent from that original annotation, not a false legal "
+            "statement, a universally forbidden phrase, or proof of whole-contract NotMentioned. "
+            "Compare material source functions and complete membership boundaries, not mere words. "
+            "Do not infer a CURRENT label from these past local excerpts. Example absence never "
+            "establishes NotMentioned. Decide the CURRENT relation from the CURRENT full source "
             "and emit only CURRENT original integer SPAN indices. No old numeric coordinates "
             "are supplied, and no host fills or revises your answer.")
         messages[1]["content"] = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
     return messages, schema, {"mode": mode, "served_historical_witness_refs": served,
         "excluded_same_source_witness_refs": excluded,
+        "served_nonmember_refs": served_negative, "excluded_same_source_nonmember_refs": excluded_negative,
+        "historical_examples_are_membership_context_not_past_NLI_answers": True,
         "historical_source_IDs_hashes_refs_and_span_coordinates_not_served": True,
         "original_native_reason_choice_spans_no_projection_or_repair": True}
 
