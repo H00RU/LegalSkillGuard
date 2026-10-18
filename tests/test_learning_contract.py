@@ -2134,7 +2134,8 @@ def test_complete_member_order_delivers_tail_without_changing_binary_candidates(
 @pytest.mark.parametrize("start_batch,program,draft,resume,procedure", [
     (1, False, False, False, False), (2, False, False, False, False), (1, True, False, False, False),
     (1, True, True, False, False), (1, True, True, True, False), (1, True, "native", False, False),
-    (1, True, "native", True, False), (1, True, "linked", False, False), (1, False, False, False, True)])
+    (1, True, "native", True, False), (1, True, "linked", False, False), (1, False, False, False, True),
+    (1, False, False, False, "tagged")])
 def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch, program, draft, resume, procedure):
     from types import SimpleNamespace
 
@@ -2177,7 +2178,10 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
 
     monkeypatch.setattr(module, "evidence_proposals", proposals)
     if procedure:
-        study.cfg.update(method=module.PROCEDURE_METHOD, show_complete_member_order=False)
+        study.cfg.update(method=module.SPAN_TAGGED_METHOD if procedure == "tagged" else module.PROCEDURE_METHOD,
+                         show_complete_member_order=False)
+        if procedure == "tagged":
+            study.cfg["native_action_output_tokens"] = {"decision":3072, "member_tags":5120}
         study.bank = [{"id":"p","hypothesis_ids":list(labels),"guidance":{"procedure":"Check the actual operative source conditions."}}]
     if program:
         from legal_skill_guard.learning.member_contract import teacher_sources
@@ -2213,14 +2217,19 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     failed_batch = 1 if draft == "native" else 2
     interrupted = {}
 
-    def generate(row, role, messages, schema):
+    def generate(row, role, messages, schema, *, max_tokens=None):
         study.native.append({"role": role, "phase": study.phase})
         if role.endswith("decision"):
             answer = {h: {"choice": a["choice"], "reason": "Native."} for h,a in gold.items()}
+        elif role.endswith("member_tags"):
+            answer = {str(i): [h for h,a in gold.items() if i in a["spans"]]
+                      for i in range(len(row["spans"]))}
         elif role.endswith("evidence"):
             answer = {h: {"spans": a["spans"]} for h,a in gold.items()}
         else:
             answer = {h: {**a, "reason": "Native."} for h,a in gold.items()}
+        if procedure == "tagged":
+            assert max_tokens == (3072 if role.endswith("decision") else 5120)
         return {"raw_id": f"{epoch}{len(study.native)}", "finish_reason": "stop",
                 "content": json.dumps(answer), "prompt_tokens": 10, "completion_tokens": 10}
 
@@ -2254,6 +2263,17 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
             if procedure:
                 assert "actual_current_parent_source_program_component_replays" not in body
                 assert name == f"online_b{study.current_batch}"
+                if procedure == "tagged":
+                    transition = body["previous_actual_matched_published_update_all_gains_and_harms"]
+                    if study.current_batch == 1:
+                        assert transition is None
+                    else:
+                        assert transition["learning_batch"] == study.current_batch-1
+                        assert transition["all8_source_ids"] == list(range(count-15,count-7))
+                        assert transition["actual_common_ordinary_tool_source_ids_before_and_after"] == list(range(100,142))+list(range(1,count-15))
+                        assert len(expand(transition["before_all8_actual_native_answers_and_original_feedback"])) == 8
+                        assert len(expand(transition["after_all8_actual_native_answers_and_original_feedback"])) == 8
+                    assert "TWO native actions" in system and "most15 words" not in system
         elif program:
             sources=expand(body["complete_newly_revealed_original_sources_and_Gold"])
             assert {s["id"] for s in sources}==set(range(count-7,count+1))
@@ -2334,9 +2354,9 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     study.execute()
     result = records["completion.json"]
     expected=([136,5,3] if draft == "native" else [88,3,2]) if resume else ([160 if draft in ("native", "linked") else 136,6 if draft else (4 if program else 3),3] if start_batch == 1 else [120,2,2])
-    assert result["actual_new_native_teacher_CPUfits"] == expected
-    assert len(study.answers) == ((168 if draft in ("native", "linked") else 144) if start_batch == 1 else 120)
-    assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if start_batch == 1 and not resume else 0)
+    assert result["actual_new_native_teacher_CPUfits"] == ([176,3,3] if procedure == "tagged" else expected)
+    assert len(study.answers) == (88 if procedure == "tagged" else (168 if draft in ("native", "linked") else 144) if start_batch == 1 else 120)
+    assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if start_batch == 1 and not resume and procedure != "tagged" else 0)
     assert len(records["publications/b3.json"]["original_seen_source_ids"]) == 66
     assert not any(k == "publications/b4.json" for k in records)
     if program:
@@ -2360,6 +2380,9 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
             update = records[f"update_effects/b{batch}.json"]
             assert update["paired_scope"] == "current8_same_common_tool_training_only"
             assert update["paired_source_ids"] == list(range(batch*8-7,batch*8+1))
+            if procedure == "tagged":
+                assert update["all_seen_system_retention_not_pure_skill_effect"] is None
+                assert update["reanswered_source_ids"] == update["paired_source_ids"]
         for item in study.answers:
             if item["stage"].endswith("_prequential"):
                 batch = int(item["stage"].split("_")[0][1:])
@@ -2482,6 +2505,55 @@ def test_linked_source_and_procedure_keep_native_judgment_and_explicit_execution
     invalid["guidance"]["python_source"] = "def propose_members(text, spans, public_hypothesis_key):\n    return [1, 1]\n"
     with pytest.raises(ValueError, match="Duplicate"):
         execute_member_programs([invalid], row, labels, allow_procedures=True)
+
+
+def test_span_tagged_native_actions_transpose_every_member_without_Gold_or_repair():
+    from jsonschema import validate
+    from legal_skill_guard.learning.decision_evidence import (
+        span_tagged_decision_payload, span_member_tag_payload, assemble_span_members,
+    )
+    from legal_skill_guard.task import marked_text
+
+    original, labels, gold = fixture()
+    row = {k: original[k] for k in ("id", "text", "spans")}
+    bank = [{"id":"AUDIT_NOT_RUNTIME", "hypothesis_ids":["h1"],
+             "guidance":{"procedure":"Inspect the actual operative source conditions."}}]
+    empty, ds = span_tagged_decision_payload(row, labels, None, "Same task.", [])
+    guided, gs = span_tagged_decision_payload(row, labels, None, "Same task.", bank)
+    assert ds == gs and empty[0] == guided[0]
+    left, right = (json.loads(m[1]["content"]) for m in (empty, guided))
+    assert left.pop("learned_legal_procedures") == []
+    assert right.pop("learned_legal_procedures")[0]["procedure"] == bank[0]["guidance"]["procedure"]
+    assert left == right and marked_text(row) in left.values()
+    assert "AUDIT_NOT_RUNTIME" not in guided[1]["content"]
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in guided[1]["content"]
+    assert list(ds["properties"]["h1"]["properties"]) == ["reason", "choice"]
+    decision = {"raw_id":"native-1", "finish_reason":"stop", "prompt_tokens":100, "completion_tokens":25,
+        "content":json.dumps({h:{"reason":"Native source comparison.", "choice":a["choice"]} for h,a in gold.items()})}
+    messages, es = span_member_tag_payload(row, labels, None, "Same task.", bank, decision, ds)
+    empty_messages, empty_es = span_member_tag_payload(row, labels, None, "Same task.", [], decision, ds)
+    assert es == empty_es and messages[0] == empty_messages[0]
+    assert es["required"] == ["0","1","2"]
+    assert es["properties"]["0"]["items"]["enum"] == ["h1","h2"]
+    tags = {"0":["h1"], "1":["h2"], "2":["h1"]}
+    evidence = {"raw_id":"native-2", "finish_reason":"stop", "prompt_tokens":120, "completion_tokens":30,
+        "content":json.dumps(tags)}
+    assembled = assemble_span_members(decision,evidence,ds,es,labels,3)
+    assert not assembled["component_errors"] and assembled["finish_reason"] == "stop"
+    assert assembled["prompt_tokens"] == 220 and assembled["completion_tokens"] == 55
+    assert assembled["raw_id"] is None and assembled["actual_native_raw_ids"] == ["native-1","native-2"]
+    answer = json.loads(assembled["content"])
+    assert {h:{k:v[k] for k in ("choice","spans")} for h,v in answer.items()} == gold
+    assert original_feedback(assembled,row,gold,list(labels))["public_valid"]
+    for bad in ({"0":["h1"],"1":["h2"]}, {**tags,"2":["h3"]}, {**tags,"0":["h1","h1"]}):
+        invalid = assemble_span_members(decision,{**evidence,"content":json.dumps(bad)},ds,es,labels,3)
+        assert invalid["component_errors"] and json.loads(invalid["content"]) == {}
+        assert not original_feedback(invalid,row,gold,list(labels))["public_valid"]
+    all_nm = {**decision,"content":json.dumps({h:{"reason":"Absent.","choice":"NotMentioned"} for h in labels})}
+    _, ns = span_member_tag_payload(row,labels,None,"Same task.",[],all_nm,ds)
+    validate({str(i):[] for i in range(3)},ns)
+    with pytest.raises(ValidationError):
+        validate({"0":["h1"],"1":[],"2":[]},ns)
 
 
 def test_direct_procedure_changes_only_public_reason_order_and_guidance_not_legal_task():
