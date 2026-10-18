@@ -30,6 +30,7 @@ from legal_skill_guard.inference.codex_cli_client import (
     CODEX_TURN_INPUT_CHARACTER_LIMIT, render_structured_codex_prompt,
 )
 from legal_skill_guard.learning.audit import close, original_score
+from legal_skill_guard.learning.catalog import encode_teacher_body
 from legal_skill_guard.learning.decision_evidence import (
     DECISION_SYSTEM, EVIDENCE_SYSTEM, GUIDANCE_SCHEMA, assemble_native,
     channel_criteria, convert_parent, decision_payload, evidence_payload, joint_payload, member_program_payload,
@@ -428,11 +429,74 @@ def program_api():
         "return": "list of distinct original integer indices; [] is a legitimate match result"}
 
 
+def sealed_interrupted_revision(cfg, bank, preserved_files):
+    """Only the verified B2 character-guard interruption, not arbitrary resume."""
+    source = ROOT / cfg["resume_failed_revision_run"]
+    old_config = ROOT / cfg["resume_failed_revision_config"]
+    old = read(old_config)
+    assert old["method"] == DRAFT_METHOD
+    for key in ("episode_ids", "source_only_seed", "generation", "ordinary_manifest", "teacher",
+                "source_archive_sha256", "inference_environment"):
+        assert old[key] == cfg[key], "Continuation cannot change the actual native task or shared tools"
+    failure = read(source / "failure.json")
+    assert failure["actual_new_native_teacher_calls"] == [48,3]
+    assert "Complete teacher input exceeds character capacity" in failure["error"]
+    assert not (source / "publications/b2.json").exists()
+    assert read(source / "publications/b1.json")["publication"] == bank
+    assert read(source / "progress.json")["state"] == "failed"
+    physical = sorted((source / "native").rglob("*.json"))
+    answers = sorted((source / "logical_answers").rglob("*.json"))
+    assert len(physical) == 48 and len(answers) == 56
+    responses = {read(p)["response"]["raw_id"]: read(p)["response"] for p in physical}
+    assert len(responses) == 48
+    assert all(read(p)["response"] == responses[read(p)["response"]["raw_id"]] for p in answers)
+    teacher_responses = sorted((source / "teacher").glob("*/response.json"))
+    fits = sorted((source / "ordinary_controls").glob("*.json"))
+    assert len(teacher_responses) == 3 and len(fits) == 1
+    old_frozen = read(old_config.with_suffix(".frozen.json"))["files"]
+    for name in ("learning/decision_evidence.py", "learning/executable_features.py",
+                 "learning/evidence_programs.py", "learning/acquisition.py", "task.py",
+                 "inference/native.py", "inference/openai_client.py", "inference/codex_cli_client.py"):
+        p = ROOT / "legal_skill_guard" / name
+        assert old_frozen[str(p)] == sha(p), "Never reuse native answers after an inference change"
+    pending = source / "learning_inputs/online_b2_revision.json"
+    writer = source / "teacher/online_b1_revision/wire_request.json"
+    body, system = read(pending), read(writer)["system_prompt"]
+    assert body["current_parent_library"] == bank
+    encoded = encode_teacher_body(body)
+    chars = len(render_structured_codex_prompt(system,
+        json.dumps(encoded, ensure_ascii=False, separators=(",", ":"))))
+    assert chars <= CODEX_TURN_INPUT_CHARACTER_LIMIT, "Complete pending revision, never clip"
+    refs = {"pending_final_revision_body": pending,
+            "pending_final_system_request": writer,
+            "executed_draft": source / "drafts/b2.json",
+            "executed_draft_replay": source / "program_replays/b2_draft.json"}
+    summaries = [source / f"batch_summaries/b{b}_before.json" for b in (1,2)]
+    required = [old_config,old_config.with_suffix(".frozen.json"),source / "failure.json",
+                source / "progress.json",*refs.values(),*summaries,*answers,*physical,*teacher_responses,*fits]
+    required += [Path(read(p)["input_payload"]) for p in physical]
+    for p in required:
+        assert preserved_files[str(p.relative_to(ROOT))] == sha(p), "Only sealed original artifacts can be inherited"
+    result = {"source_run_directory": str(source.relative_to(ROOT)),
+        "inherited_actual_native_teacher_CPUfits": [48,3,1],
+        "logical_answer_paths": [str(p.relative_to(ROOT)) for p in answers],
+        "batch_summary_paths": [str(p.relative_to(ROOT)) for p in summaries],
+        **{k:str(p.relative_to(ROOT)) for k,p in refs.items()},
+        "complete_pending_revision_rendered_characters": chars,
+        "original_episode_label_exposures_already_seen":16,
+        "pending_unpublished_label_batch_finalization":8,
+        "first_new_original_label_exposures_after_resume":8,
+        "no_repeated_native_teacher_or_draft_execution":True}
+    return result, required
+
+
 def prepare_online(config):
     config = Path(config).resolve()
     cfg = read(config)
     assert cfg["method"] in ("ranked_joint_online24_forward8", "canonical_joint_online_continuation", *PROGRAM_METHODS)
     program, draft = cfg["method"] in PROGRAM_METHODS, cfg["method"] == DRAFT_METHOD
+    resume = bool(cfg.get("resume_failed_revision_run"))
+    assert not resume or (draft and cfg.get("start_batch",1) == 1)
     start = cfg.get("start_batch", 1)
     assert start in (1, 2)
     if start == 2:
@@ -473,11 +537,12 @@ def prepare_online(config):
     bank = read(ROOT / cfg["parent_publication"])["publication"]
     if draft:
         validate_member_programs(bank, author["labels"])
-        assert read(ROOT / cfg["parent_publication"])["original_seen_source_ids"] == past
+        assert read(ROOT / cfg["parent_publication"])["original_seen_source_ids"] == past+(ids[:8] if resume else [])
     else:
         for channel in ("relation_criterion", "evidence_criterion"):
             channel_criteria(bank, author["labels"], channel)
     public = lambda d: {k: original[d][k] for k in ("id", "text", "spans")}
+    resumed, resume_files = sealed_interrupted_revision(cfg,bank,preserved_files) if resume else (None,[])
     RunStore.immutable_json(ROOT / cfg["input_packet"], {
         "public_hypotheses": author["labels"], "documents": [public(d) for d in ids],
         "past_documents": [public(d) for d in past], "past_seen_ids": past,
@@ -490,22 +555,24 @@ def prepare_online(config):
             "excluded_original_and_source_component_ids": sorted(excluded),
             "no_selection_using_labels_or_outcomes": True},
         "episode_has_three_learning_batches_then_forward8": True,
-        "this_run_inherits_first_episode_batch": start == 2})
+        "this_run_inherits_first_episode_batch": start == 2 or resume,
+        "sealed_interrupted_final_revision":resumed})
     RunStore.immutable_json(ROOT / cfg["grading_only"], {
         "original_TRAIN_annotations": {str(d): original[d]["annotation_sets"][0]["annotations"] for d in past+ids},
         "teacher_gets_only_revealed_past_and_episode_prefix": True,
         "all_current_batch_answers_precede_current_batch_grading": True})
     ledger = read(ROOT / cfg["teacher"]["ledger"])
-    teachers = (4-start)*(2 if draft else 1)+int(program and not draft)
-    expected_calls = 136 if start == 1 else 120
+    teachers = (4-start)*(2 if draft else 1)+int(program and not draft)-(3 if resume else 0)
+    expected_calls = 88 if resume else (136 if start == 1 else 120)
     assert max(r["sequence"] for r in ledger["reservations"]) + teachers <= ledger["max_invocations"]
     assert cfg["planned_new_native_calls"] == expected_calls and cfg["planned_new_teacher_calls"] == teachers
     files = list((ROOT / "legal_skill_guard").rglob("*.py"))
+    files += resume_files
     files += [Path(__file__).resolve(), config, ROOT / "tests/test_learning_contract.py", Path(manifest["path"])]
     files += [ROOT / cfg[k] for k in ("source_archive", "input_packet", "grading_only", "ordinary_manifest",
         "parent_publication", "parent_terminal_preservation", "development_reference_config",
         "excluded_parent_config", "inference_environment", "method_protocol")]
-    if start == 2:
+    if start == 2 or resume:
         prefix_path = ROOT / cfg["initial_ordinary_prefix_manifest"]
         prefix = read(prefix_path)
         assert prefix["source_ids"] == past+ids[:8] and sha(prefix["path"]) == prefix["sha256"]
@@ -538,8 +605,10 @@ def prepare_online(config):
     RunStore.immutable_json(config.with_suffix(".frozen.json"), {
         "config_sha256": sha(config), "files": {str(p.resolve()): sha(p) for p in files}})
     print(json.dumps({"prepared": cfg["run_id"], "new_episode_ids": ids,
-        "inherited_episode_labels": (start-1)*8, "new_original_train_label_updates": (4-start)*8,
-        "forward_readout": 8, "planned_native_teacher_CPUfits": [expected_calls, teachers, 4-start]}), flush=True)
+        "inherited_published_episode_labels":8 if resume else (start-1)*8,
+        "first_new_original_label_exposures":8 if resume else (4-start)*8,
+        "pending_unpublished_label_finalization":8 if resume else 0,
+        "forward_readout": 8, "planned_native_teacher_CPUfits": [expected_calls, teachers, 2 if resume else 4-start]}), flush=True)
 
 
 class RankedOnline(DecisionEvidenceTransfer):
@@ -550,8 +619,9 @@ class RankedOnline(DecisionEvidenceTransfer):
         self.past, self.prefix_model = packet["past_documents"], self.model
         self.own_current, self.batch_summaries, self.fit_records = {}, [], []
         self.program_cost = {}
+        self.resumed = packet.get("sealed_interrupted_final_revision")
         self.prefix_ids = list(packet["past_seen_ids"])
-        if self.cfg.get("start_batch", 1) == 2:
+        if self.cfg.get("start_batch", 1) == 2 or self.resumed:
             prefix = read(ROOT / self.cfg["initial_ordinary_prefix_manifest"])
             assert sha(prefix["path"]) == prefix["sha256"]
             with Path(prefix["path"]).open("rb") as stream:
@@ -589,7 +659,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             "host will execute this draft once on ALL already-seen sources and "
             "give the actual CPU member feedback to the same teacher for ONE "
             "final revision. No native lawyer answer for this draft exists. "
-            "Do not invent one, self-report execution or use tools."), body, schema)
+            "Do not invent one, self-report execution or use tools."), encode_teacher_body(body), schema)
         seen_ids = [r["id"] for r in rows]
         candidate = apply_differential_publication(parent, draft, self.labels, seen_ids,
             guidance_schema=MEMBER_PROGRAM_GUIDANCE_SCHEMA)
@@ -622,7 +692,12 @@ class RankedOnline(DecisionEvidenceTransfer):
             "ORIGINAL current_parent_library, not the unpublished draft. All valid "
             "final edits publish even if worse; no retry, score gate or bank selection.")
         self.record(f"learning_inputs/{name}_revision.json", revision)
-        final = self.teacher_call(name+"_revision", PROGRAM_WRITER + (
+        final = self.final_program_revision(name, revision, schema)
+        assert self.bank == parent, "No intermediate draft publication"
+        return final
+
+    def final_program_revision(self, name, revision, schema):
+        return self.teacher_call(name+"_revision", PROGRAM_WRITER + (
             " This is the SECOND and FINAL invocation of the fixed training step. "
             "Inspect the actual unpublished draft CPU feedback and original Gold, "
             "together with actual CURRENT-PARENT native errors. Revise once, retain "
@@ -630,9 +705,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             "ORIGINAL current_parent_library: draft-created IDs are not parent "
             "targets. Never claim draft proposal counts are native legal accuracy. "
             "Every valid final edit publishes without a performance threshold; "
-            "no additional candidate, rerun, best-bank rollback or tools."), revision, schema)
-        assert self.bank == parent, "No intermediate draft publication"
-        return final
+            "no additional candidate, rerun, best-bank rollback or tools."), encode_teacher_body(revision), schema)
 
     def record_program_cost(self, receipts, role):
         cost = self.program_cost.setdefault(role, {"CPU_subprocesses": 0, "CPU_wall_seconds": 0.0})
@@ -750,6 +823,11 @@ class RankedOnline(DecisionEvidenceTransfer):
         writer = PROGRAM_WRITER if self.program_mode() else online_writer(complete_order).replace("42", str(len(self.past)))
         value = (self.draft_execution_update(name, body, schema, parent, self.past+seen, gold, raw_replays)
                  if self.draft_mode() else self.teacher_call(name, writer, body, schema))
+        return self.publish_and_reanswer(parent, value, seen, before)
+
+    def publish_and_reanswer(self, parent, value, seen, before):
+        """The same unconditional publication/real-retention step for continuation."""
+        seen_ids = [r["id"] for r in self.past+seen]
         self.bank = apply_differential_publication(parent, value, self.labels, seen_ids,
                                                   guidance_schema=self.runtime_guidance_schema())
         self.validate_runtime_bank()
@@ -759,7 +837,7 @@ class RankedOnline(DecisionEvidenceTransfer):
         self.record(f"publications/b{self.current_batch}.json", {"at": now(), "parent": parent,
             "delta": value, "publication": self.bank, "statistics": stats,
             "original_seen_source_ids": seen_ids,
-            "actual_current_parent_own_episode_answers": len(own),
+            "actual_current_parent_own_episode_answers": len(seen),
             "fixed_unpublished_draft_execution_then_one_revision": self.draft_mode(),
             "all_valid_edits_publish_without_efficacy_admission": True})
         self.phase = f"b{self.current_batch}_after_seen"
@@ -773,6 +851,56 @@ class RankedOnline(DecisionEvidenceTransfer):
             "effect": effect, "parent_own_answers_selected_by_latest_bank_not_outcome": True,
             "fixed_tool_and_rank_interface_unchanged_across_paired_update": True})
         return stats, effect
+
+    def resume_interrupted_final_revision(self, resume):
+        """Finish the one sealed B2 final request, without replaying paid work.
+
+        This is an exact artifact-bound continuation of the same episode, not
+        a new experiment, selected bank, generic job scheduler or retry loop.
+        """
+        parent = copy.deepcopy(self.bank)
+        imported = [read(ROOT / path) for path in resume["logical_answer_paths"]]
+        order = {d["id"]: i for i,d in enumerate(self.documents)}
+
+        def chronology(item):
+            stage, index = item["stage"], order[item["document_id"]]
+            if stage == "b1_after_seen":
+                return 1, index, 0
+            phase = 0 if stage.startswith("b1_") else 2
+            arms = ("joint_empty", "skills") if index % 2 == 0 else ("skills", "joint_empty")
+            rank = 2 if item["condition"] == "fixed_tool_empty" else arms.index(item["condition"])
+            return phase, index, rank
+
+        imported.sort(key=chronology)
+        assert len(imported) == 56 and not self.answers and not self.native and not self.teachers
+        for item in imported:
+            self.answers.append(item)
+            if item["condition"] == "skills" and item["bank_sha256"] == csha(parent):
+                self.own_current[item["document_id"]] = item
+        seen = self.documents[:16]
+        assert set(self.own_current) == {r["id"] for r in seen}
+        self.units.extend(self.score(imported))
+        self.batch_summaries = [read(ROOT / p) for p in resume["batch_summary_paths"]]
+        for summary in self.batch_summaries:
+            self.record(f"batch_summaries/b{summary['batch']}_before.json", summary)
+        self.record("inherited_episode_artifacts.json", {"at": now(), **resume,
+            "imported_logical_answer_uses": 56, "not_new_native_teacher_calls": True})
+        self.current_batch = 2
+        body = read(ROOT / resume["pending_final_revision_body"])
+        assert body["current_parent_library"] == parent
+        draft = read(ROOT / resume["executed_draft"])
+        assert body["actual_unpublished_draft_library_sha256"] == csha(draft["unpublished_draft"])
+        before = self.score([self.own_current[r["id"]] for r in seen])
+        self.record("learning_inputs/online_b2_revision.json", body)
+        schema = differential_schema(self.labels, parent, [r["id"] for r in self.past+seen],
+                                     guidance_schema=self.runtime_guidance_schema())
+        request = read(ROOT / resume["pending_final_system_request"])
+        value = self.teacher_call("online_b2_revision", request["system_prompt"], encode_teacher_body(body), schema)
+        stats, effect = self.publish_and_reanswer(parent, value, seen, before)
+        self.record("batch_summaries/b2_complete.json", {**self.batch_summaries[-1],
+            "publication_statistics": stats, "paired_seen_update_effect": effect,
+            "prequential_answers_and_draft_are_inherited_real_artifacts_not_new_calls": True})
+        self.fit_prefix(seen)
 
     def fit_prefix(self, seen):
         import time
@@ -809,18 +937,24 @@ class RankedOnline(DecisionEvidenceTransfer):
     def execute(self):
         self.check()
         start_batch = self.cfg.get("start_batch", 1)
+        resumed = getattr(self, "resumed", None)
         self.record("declaration.json", {"at": now(), "config": self.cfg,
             "exact_actual_terminal_parent": self.bank, "frozen_bindings": self.bindings.copy(),
             "no_best_bank_rollback_or_future_case_tuning": True,
-            "start_batch": start_batch, "inherited_episode_labels": (start_batch-1)*8,
-            "new_label_teaching": (4-start_batch)*8, "forward_readout_not_taught": 8})
+            "start_batch": start_batch, "inherited_published_episode_labels": 8 if resumed else (start_batch-1)*8,
+            "new_original_label_exposures": 8 if resumed else (4-start_batch)*8,
+            "pending_unpublished_label_batch_finalization":8 if resumed else 0,
+            "inherited_actual_native_teacher_CPUfits":resumed["inherited_actual_native_teacher_CPUfits"] if resumed else [0,0,0],
+            "forward_readout_not_taught": 8})
         self.record("publications/initial.json", {"at": now(), "publication": self.bank,
             "actual_inherited_teacher_sources": self.prefix_ids, "not_independent_learning_repeat": True,
             "starts_with_empty_new_program_representation": self.program_mode() and not self.draft_mode(),
             "inherits_actual_latest_program_without_score_selection": self.draft_mode()})
         if self.program_mode() and not self.draft_mode():
             self.induct_initial_programs()
-        if start_batch > 1:
+        if resumed:
+            self.resume_interrupted_final_revision(resumed)
+        elif start_batch > 1:
             self.phase = "initial_parent_canonical_retention"
             first = len(self.answers)
             for row in self.documents[:(start_batch-1)*8]:
@@ -830,7 +964,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             self.record("initial_retention.json", {"at": now(), "metrics": points(initial),
                 "not_unseen_evaluation_or_teacher_update_gain": True,
                 "refresh_all_inherited_episode_own_answers_in_actual_new_interface": True})
-        for batch in range(start_batch, 5):
+        for batch in range(3 if resumed else start_batch, 5):
             self.current_batch = batch
             rows, seen = self.documents[(batch-1)*8:batch*8], self.documents[:batch*8]
             start = len(self.answers)
@@ -880,9 +1014,9 @@ class RankedOnline(DecisionEvidenceTransfer):
                     **summary, "publication_statistics": stats, "paired_seen_update_effect": effect})
                 self.fit_prefix(seen)
         assert len(self.native) == self.cfg.get("planned_new_native_calls", 136 if start_batch == 1 else 120)
-        assert len(self.fit_records) == 4-start_batch
-        assert len(self.teachers) == ((4-start_batch)*(2 if self.draft_mode() else 1)
-                                     + int(self.program_mode() and not self.draft_mode()))
+        assert len(self.fit_records) == self.cfg.get("planned_new_CPU_fits",4-start_batch)
+        assert len(self.teachers) == self.cfg.get("planned_new_teacher_calls",
+            (4-start_batch)*(2 if self.draft_mode() else 1)+int(self.program_mode() and not self.draft_mode()))
         prequential = [u for u in self.units if u["stage"].endswith("_prequential") or u["stage"].endswith("_fixed_tool_control")]
         groups = {a: [u for u in prequential if u["condition"] == a] for a in (
             "joint_empty", "fixed_tool_empty", "skills")}
@@ -890,10 +1024,19 @@ class RankedOnline(DecisionEvidenceTransfer):
         result = {"at": now(), "run_id": self.run_id, "batch_summaries": self.batch_summaries,
             "aggregate_prequential_metrics": {a: points(u) for a,u in groups.items()},
             "actual_new_native_teacher_CPUfits": [len(self.native), len(self.teachers), len(self.fit_records)],
+            "inherited_actual_native_teacher_CPUfits":resumed["inherited_actual_native_teacher_CPUfits"] if resumed else [0,0,0],
+            "total_same_episode_actual_native_teacher_CPUfits":[
+                n+old for n,old in zip([len(self.native),len(self.teachers),len(self.fit_records)],
+                    resumed["inherited_actual_native_teacher_CPUfits"] if resumed else [0,0,0],strict=True)],
             "final_bank": self.bank, "units": self.units, "ordinary_prefix_fits": self.fit_records,
             "actual_source_program_CPU_costs": self.program_cost if self.program_mode() else None,
             "fixed_unpublished_draft_probe_then_one_revision_each_teaching_batch": self.draft_mode(),
-            "inherited_episode_labels": (start_batch-1)*8, "new_taught_labels": (4-start_batch)*8,
+            "inherited_published_episode_labels": 8 if resumed else (start_batch-1)*8,
+            "inherited_episode_labels":8 if resumed else (start_batch-1)*8,
+            "new_taught_labels":8 if resumed else (4-start_batch)*8,
+            "inherited_original_episode_label_exposures":16 if resumed else (start_batch-1)*8,
+            "new_original_episode_label_exposures":8 if resumed else (4-start_batch)*8,
+            "pending_unpublished_label_batch_finalization":8 if resumed else 0,
             "original_past_source_count": len(self.past),
             "total_original_sources_taught_at_terminal": len(self.past)+24,
             "episode24_taught_forward8_not_taught": True,

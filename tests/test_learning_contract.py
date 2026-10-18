@@ -2131,9 +2131,10 @@ def test_complete_member_order_delivers_tail_without_changing_binary_candidates(
     assert proposals == saved
 
 
-@pytest.mark.parametrize("start_batch,program,draft", [
-    (1, False, False), (2, False, False), (1, True, False), (1, True, True)])
-def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch, program, draft):
+@pytest.mark.parametrize("start_batch,program,draft,resume", [
+    (1, False, False, False), (2, False, False, False), (1, True, False, False),
+    (1, True, True, False), (1, True, True, True)])
+def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch, program, draft, resume):
     from types import SimpleNamespace
 
     from experiments import decision_evidence_transfer as module
@@ -2163,6 +2164,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     study.native, study.teachers, study.units, study.answers = [], [], [], []
     study.own_current, study.batch_summaries, study.fit_records = {}, [], []
     study.program_cost = {}
+    study.resumed = None
     study.current_batch = 0
     records = {}
     study.record = lambda name, value: records.setdefault(name, value)
@@ -2196,6 +2198,9 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
         monkeypatch.setattr(module,"execute_member_programs",synthetic_program_replay)
         monkeypatch.setattr(module,"member_program_payload",synthetic_program_payload)
 
+    epoch = "original"
+    interrupt_revision = resume
+
     def generate(row, role, messages, schema):
         study.native.append({"role": role, "phase": study.phase})
         if role.endswith("decision"):
@@ -2204,12 +2209,16 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
             answer = {h: {"spans": a["spans"]} for h,a in gold.items()}
         else:
             answer = {h: {**a, "reason": "Native."} for h,a in gold.items()}
-        return {"raw_id": f"actual{len(study.native)}", "finish_reason": "stop",
+        return {"raw_id": f"{epoch}{len(study.native)}", "finish_reason": "stop",
                 "content": json.dumps(answer), "prompt_tokens": 10, "completion_tokens": 10}
 
     study.generate = generate
 
     def teacher(name, system, body, schema):
+        if body.get("encoding") == "lossless-teacher-catalog-v2":
+            body=decode_teacher_body(body)
+        if interrupt_revision and name == "online_b2_revision":
+            raise ValueError("Synthetic character guard before the final teacher invocation")
         if name == "initial_source_program_induction":
             sources=expand(body["complete_original_past_sources_and_Gold"])
             assert {s["id"] for s in sources} == set(range(100,142))
@@ -2246,7 +2255,11 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
             if name.endswith("_revision"):
                 feedback=expand(body["actual_unpublished_draft_CPU_feedback"]["all_seen_sources_and_hypotheses"])
                 assert {r["document_id"] for r in feedback} == set(range(100,142)) | set(range(1,count+1))
-                assert f"program_replays/b{study.current_batch}_draft.json" in records
+                if resume and study.resumed and study.current_batch == 2:
+                    assert (Path(study.resumed["executed_draft"]).parent.parent/"program_replays/b2_draft.json").exists()
+                    assert "program_replays/b2_draft.json" not in records  # Never rerun the completed probe.
+                else:
+                    assert f"program_replays/b{study.current_batch}_draft.json" in records
             else:
                 assert name.endswith("_draft") and "actual_unpublished_draft_CPU_feedback" not in body
         assert len([u for u in study.answers if u["stage"] == f"b{study.current_batch}_prequential"]) == 16
@@ -2261,18 +2274,41 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
         study.prefix_ids = list(range(100,142)) + [r["id"] for r in seen]
 
     study.fit_prefix = fit
+    if resume:
+        with pytest.raises(ValueError,match="Synthetic character guard"):
+            study.execute()
+        assert (len(study.native),len(study.teachers),len(study.fit_records))==(48,3,1)
+        old=tmp_path/"original_failed";old_records=copy.deepcopy(records)
+        for name,value in old_records.items():
+            RunStore.immutable_json(old/name,value)
+        writer=old/"saved_final_writer.json"
+        RunStore.immutable_json(writer,{"system_prompt":"Original synthetic final writer."})
+        study.resumed={"source_run_directory":str(old),"inherited_actual_native_teacher_CPUfits":[48,3,1],
+            "logical_answer_paths":[str(old/name) for name in old_records if name.startswith("logical_answers/")],
+            "batch_summary_paths":[str(old/f"batch_summaries/b{b}_before.json") for b in (1,2)],
+            "pending_final_revision_body":str(old/"learning_inputs/online_b2_revision.json"),
+            "pending_final_system_request":str(writer),"executed_draft":str(old/"drafts/b2.json")}
+        study.cfg.update(planned_new_native_calls=88,planned_new_teacher_calls=3,planned_new_CPU_fits=2)
+        study.native,study.teachers,study.units,study.answers=[],[],[],[]
+        study.own_current,study.batch_summaries,study.fit_records={},[],[]
+        study.out=tmp_path/"resumed";records={};epoch="resumed";interrupt_revision=False
     study.execute()
     result = records["completion.json"]
-    expected=[136,6 if draft else (4 if program else 3),3] if start_batch == 1 else [120,2,2]
+    expected=([88,3,2] if resume else [136,6 if draft else (4 if program else 3),3]) if start_batch == 1 else [120,2,2]
     assert result["actual_new_native_teacher_CPUfits"] == expected
     assert len(study.answers) == (144 if start_batch == 1 else 120)
-    assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if start_batch == 1 else 0)
+    assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if start_batch == 1 and not resume else 0)
     assert len(records["publications/b3.json"]["original_seen_source_ids"]) == 66
     assert not any(k == "publications/b4.json" for k in records)
     if program:
         if draft:
-            assert study.teachers == [f"online_b{b}_{stage}" for b in (1,2,3) for stage in ("draft","revision")]
-            assert all(f"drafts/b{b}.json" in records for b in (1,2,3))
+            assert study.teachers == (["online_b2_revision","online_b3_draft","online_b3_revision"] if resume else
+                                     [f"online_b{b}_{stage}" for b in (1,2,3) for stage in ("draft","revision")])
+            assert all(f"drafts/b{b}.json" in records for b in ((3,) if resume else (1,2,3)))
+            if resume:
+                assert result["total_same_episode_actual_native_teacher_CPUfits"]==[136,6,3]
+                assert result["new_original_episode_label_exposures"]==8
+                assert len({u["response"]["raw_id"] for u in study.answers})==136
         else:
             assert records["publications/induction.json"]["new_episode_labels_taught"] == 0
             assert records["publications/induction.json"]["new_representation_learning_not_best_bank_rollback"]
@@ -2442,6 +2478,28 @@ def test_draft_feedback_reconstructs_every_actual_proposal_without_selected_case
     assert "accept" not in feedback and "improves" not in feedback
     with pytest.raises(ValueError,match="identical complete"):
         draft_member_feedback(parents,drafts[:1],labels)
+
+
+def test_generic_teacher_catalog_preserves_program_feedback_and_all_literal_values():
+    from legal_skill_guard.learning.member_contract import member_replay_cases
+    from legal_skill_guard.learning.packing import keyed,table
+
+    _,labels,gold=fixture()
+    feedback=member_replay_cases({"h1":[0,1],"h2":[1],"h3":[]},gold,labels)
+    text='Original literal source: "shall not"; all characters and newlines.\n'
+    body={"full_current_sources":[text,text],"original_annotations":keyed(gold),
+          "actual_current_parent_source_program_component_replays":table([
+              {"document_id":i,"by_hypothesis":keyed(feedback)} for i in (1,2)]),
+          "explicitly_partial_historical_context":True,"unchanged_empty_array":[]}
+    encoded=encode_teacher_body(body)
+    assert decode_teacher_body(encoded)==body
+    assert "all_seen_train_cases" not in decode_teacher_body(encoded)
+    assert "derived_original_member_feedback" in json.dumps(encoded)
+    bad=copy.deepcopy(body)
+    nested=bad["actual_current_parent_source_program_component_replays"]["rows"][0][1]
+    nested["rows"][0][0]=[2]  # Inconsistent metadata must fail, not be normalized.
+    with pytest.raises(ValueError,match="Inconsistent member feedback"):
+        encode_teacher_body(bad)
 
 
 @pytest.mark.parametrize("invalid", [False,True])

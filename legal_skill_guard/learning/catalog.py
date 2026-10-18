@@ -11,16 +11,26 @@ LEGEND = (
     "An object containing only text_ref is exactly the verbatim_text_catalog "
     "entry at that zero-based index, not a summary. Table columns_ref refers "
     "to the ordered column_catalog entry. Expand those two references first. "
-    "actual_global_query_bodies stores all exact query bodies in an ordered "
+    "If legacy all_seen_train_cases is present, actual_global_query_bodies stores all exact query bodies in an ordered "
     "record table. Each plan generic_queries and receipt actual_query_arguments "
     "is a zero-based row reference to this global query table, not a case-local "
     "table. Each observation still has its own receipt table; identical receipt "
     "rows are stored once, but every hypothesis invocation and generic action "
     "retains its ordered row references, including repeated actions. Then "
-    "apply the original lossless_teacher_encoding instructions in body. "
-    "No source, annotation, public observation, feedback, historical bank, "
+    "apply the original lossless_teacher_encoding instructions in body when present. "
+    "For other teacher bodies, restore references and the derived fields below. All supplied "
+    "Tables with derived_original_member_feedback=true omit two derivable columns: "
+    "proposed_original_indices is sorted(original_member_hits plus "
+    "unannotated_read_proposals_not_false_legal_claims); "
+    "original_non_neutral_member_target is original_choice != NotMentioned. "
+    "source strings are preserved; explicitly partial historical contexts remain partial. "
+    "No supplied source, annotation, public observation, feedback, historical bank, "
     "duplicate action, or ordering is removed. No-match is not a legal label."
 )
+
+MEMBER_COLUMNS = ["proposed_original_indices", "original_choice", "original_non_neutral_member_target",
+                  "original_member_hits", "original_member_misses",
+                  "unannotated_read_proposals_not_false_legal_claims"]
 
 
 def canonical(value):
@@ -31,7 +41,8 @@ def encode_teacher_body(original):
     body = deepcopy(original)
     global_queries, query_lookup = [], {}
     query_columns = None
-    for case in body["all_seen_train_cases"]:
+    legacy_cases = "all_seen_train_cases" in body
+    for case in body.get("all_seen_train_cases", []):
         local_table = case.pop("actual_query_bodies")
         local_refs = []
         if local_table:
@@ -83,7 +94,8 @@ def encode_teacher_body(original):
         if global_queries
         else []
     )
-    body["actual_global_query_bodies"] = query_table
+    if legacy_cases:
+        body["actual_global_query_bodies"] = query_table
     columns, column_lookup = [], {}
 
     def share_columns(value):
@@ -93,10 +105,19 @@ def encode_teacher_body(original):
             return value
         result = {k: share_columns(v) for k, v in value.items()}
         if value.get("encoding") in ("record-table-v1", "keyed-record-table-v1"):
-            identity = canonical(value["columns"])
+            selected_columns = value["columns"]
+            if selected_columns == MEMBER_COLUMNS:
+                for row in value["rows"]:
+                    if (row[0] != sorted(row[3]+row[5]) or type(row[2]) is not bool
+                            or row[2] != (row[1] != "NotMentioned")):
+                        raise ValueError("Inconsistent member feedback; never normalize or repair")
+                selected_columns = [MEMBER_COLUMNS[i] for i in (1,3,4,5)]
+                result["rows"] = [[row[i] for i in (1,3,4,5)] for row in result["rows"]]
+                result["derived_original_member_feedback"] = True
+            identity = canonical(selected_columns)
             if identity not in column_lookup:
                 column_lookup[identity] = len(columns)
-                columns.append(deepcopy(value["columns"]))
+                columns.append(deepcopy(selected_columns))
             result.pop("columns")
             result["columns_ref"] = column_lookup[identity]
         return result
@@ -143,7 +164,8 @@ def encode_teacher_body(original):
         "body": share_text(body),
     }
     expected = deepcopy(original)
-    expected["all_seen_train_cases"] = unpack_cases(expected["all_seen_train_cases"])
+    if legacy_cases:
+        expected["all_seen_train_cases"] = unpack_cases(expected["all_seen_train_cases"])
     if decode_teacher_body(payload) != expected:
         raise ValueError("Complete teacher source/observations/history roundtrip differs")
     return payload
@@ -163,11 +185,19 @@ def decode_teacher_body(payload):
         result = {k: restore(v) for k, v in value.items() if k != "columns_ref"}
         if "columns_ref" in value:
             result["columns"] = deepcopy(payload["column_catalog"][value["columns_ref"]])
+        if result.pop("derived_original_member_feedback", False):
+            if result["columns"] != [MEMBER_COLUMNS[i] for i in (1,3,4,5)]:
+                raise ValueError("Unexpected derived-member columns")
+            result["rows"] = [[sorted(hit+unannotated), choice, choice != "NotMentioned",
+                               hit, miss, unannotated]
+                              for choice,hit,miss,unannotated in result["rows"]]
+            result["columns"] = deepcopy(MEMBER_COLUMNS)
         return result
 
     body = restore(payload["body"])
-    queries = body.pop("actual_global_query_bodies")
-    for case in body["all_seen_train_cases"]:
-        case["actual_query_bodies"] = deepcopy(queries)
-    body["all_seen_train_cases"] = unpack_cases(body["all_seen_train_cases"])
+    if "all_seen_train_cases" in body:
+        queries = body.pop("actual_global_query_bodies")
+        for case in body["all_seen_train_cases"]:
+            case["actual_query_bodies"] = deepcopy(queries)
+        body["all_seen_train_cases"] = unpack_cases(body["all_seen_train_cases"])
     return body
