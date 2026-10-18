@@ -290,6 +290,73 @@ def test_member_own_and_control_share_full_source_without_retriever(monkeypatch)
     assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(payload["messages"])
 
 
+def test_execution_blocks_follow_public_applicability_not_fixed_topics():
+    from legal_skill_guard.learning.member_contract import execution_blocks, project_criteria
+
+    _, labels, _ = fixture()
+    bank = [{"id": "a", "hypothesis_ids": ["h1", "h2"],
+             "guidance": {"evidence_criterion": "Keep complete procedure A."}},
+            {"id": "b", "hypothesis_ids": ["h3"],
+             "guidance": {"evidence_criterion": "Keep complete procedure B."}}]
+    assert execution_blocks(bank, labels) == [["h1", "h2"], ["h3"]]
+    assert execution_blocks([], labels) == [["h1", "h2", "h3"]]
+    projected = project_criteria(bank, ["h2"])
+    assert projected == [{**bank[0], "hypothesis_ids": ["h2"]}]
+    assert bank[0]["hypothesis_ids"] == ["h1", "h2"], "Never mutate the actual published library"
+
+
+def test_grouped_member_payload_preserves_scope_locality_and_empty_pair():
+    from types import SimpleNamespace
+    from legal_skill_guard.learning.member_learning import MemberLearning
+
+    row, labels, _ = fixture()
+    study = MemberLearning.__new__(MemberLearning)
+    study.labels, study.system = labels, "Answer only the supplied original keys."
+    study.cfg = {"generation": {"max_tokens": 8192, "context_tokens": 32768}}
+    study.meter = SimpleNamespace(token_count=lambda **_: 50)
+    bank = [{"id": "a", "hypothesis_ids": ["h1", "h2"],
+             "guidance": {"evidence_criterion": "Keep complete procedure A."}},
+            {"id": "b", "hypothesis_ids": ["h3"],
+             "guidance": {"evidence_criterion": "Unrelated procedure B."}}]
+    keys = ["h1", "h2"]
+    row = {k: row[k] for k in ("id", "text", "spans")}
+    own = study.payload(row, "skills", bank, hypothesis_ids=keys)
+    empty = study.payload(row, "strong_empty", bank, hypothesis_ids=keys)
+    a, b = (json.loads(v["messages"][1]["content"]) for v in (own, empty))
+    assert set(a["hypotheses"]) == set(keys)
+    assert len(a.pop("evidence_selection_criteria")) == 1 and a == b
+    assert own["schema"] == empty["schema"]
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in json.dumps(own["messages"])
+    changed = copy.deepcopy(bank)
+    changed[1]["guidance"]["evidence_criterion"] = "Changed unrelated procedure completely."
+    assert study.payload(row, "skills", changed, hypothesis_ids=keys) == own
+    with pytest.raises(ValueError, match="Distinct original"):
+        study.payload(row, "skills", bank, hypothesis_ids=["h1", "h1"])
+
+
+def test_native_block_join_never_fills_failed_answers_or_drops_denominators():
+    from legal_skill_guard.learning.member_contract import combine_block_responses
+
+    row, labels, gold = fixture()
+    fragments = []
+    for i, keys in enumerate((["h1", "h2"], ["h3"])):
+        r = {**response({h: gold[h] for h in keys}), "raw_id": f"real-fragment-{i}"}
+        fragments.append({"response": r, "hypothesis_ids": keys,
+                          "schema": output_schema(row, keys, [], reporting=False)})
+    combined = combine_block_responses(fragments, labels)
+    assert json.loads(combined["content"]) == gold
+    assert combined["raw_id"] is None and combined["actual_native_raw_ids"] == ["real-fragment-0", "real-fragment-1"]
+    assert original_feedback(combined, row, gold, list(labels))["public_valid"]
+    bad = copy.deepcopy(fragments)
+    bad[1]["response"]["finish_reason"] = "length"
+    failed = combine_block_responses(bad, labels)
+    assert "h3" not in json.loads(failed["content"]), "No replacement NM or missing-answer repair"
+    feedback = original_feedback(failed, row, gold, list(labels))
+    metrics = original_metrics([{"response": failed, **feedback}])
+    assert not feedback["public_valid"] and metrics["hypotheses"] == 3
+    assert metrics["label_correct"] == 0 and metrics["evidence_fn"] == 3
+
+
 def test_member_one_copy_preserves_complete_long_procedure_and_global_budget():
     from types import SimpleNamespace
 

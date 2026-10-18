@@ -42,6 +42,7 @@ from .member_contract import (
     hypothesis_error_profiles,
     member_contrasts,
     one_copy_criteria,
+    project_criteria,
     teacher_sources,
 )
 from .packing import keyed, table
@@ -209,12 +210,19 @@ class MemberLearning(AcquisitionStudy):
         assert max(capacity.values()) <= self.cfg["library_token_hard_cap"], "No pruning, truncation or retry"
         return capacity
 
-    def payload(self, row, arm, bank):
+    def payload(self, row, arm, bank, *, hypothesis_ids=None):
         assert arm in ARMS
+        labels = self.labels
+        if hypothesis_ids is not None:
+            if (not hypothesis_ids or len(set(hypothesis_ids)) != len(hypothesis_ids)
+                    or not set(hypothesis_ids) <= self.labels.keys()):
+                raise ValueError("Distinct original public hypothesis keys required")
+            labels = {h: self.labels[h] for h in hypothesis_ids}
+            bank = project_criteria(bank, hypothesis_ids)
         actual = bank if arm == "skills" else []
-        messages, schema, trace = source_messages(row, self.labels, self.system, [],
+        messages, schema, trace = source_messages(row, labels, self.system, [],
             None, incremental_encoding="records")
-        messages = actor_messages(messages, actual, self.labels)
+        messages = actor_messages(messages, actual, labels)
         assert not trace["actual_source_executions"]
         tokens = self.meter.token_count(messages=messages)
         assert tokens + self.cfg["generation"]["max_tokens"] <= self.cfg["generation"]["context_tokens"]

@@ -12,7 +12,7 @@ import json
 import re
 from collections import Counter
 
-from jsonschema import validate
+from jsonschema import ValidationError, validate
 
 from legal_skill_guard.task import marked_text
 
@@ -108,6 +108,81 @@ def one_copy_criteria(bank):
     return [{"hypothesis_ids": list(s["hypothesis_ids"]),
         "criterion": s["guidance"]["evidence_criterion"]} for s in bank
         if s["guidance"].get("evidence_criterion") is not None]
+
+
+def execution_blocks(bank, labels):
+    """Public applicability partitions, never a current-case semantic router.
+
+    Hypotheses sharing the EXACT applicable skill set form one execution unit.
+    Empty controls use this same partition, not a cheaper/different task. The
+    number of blocks is learned-bank dependent, not fixed to three or seventeen.
+    """
+    for skill in bank:
+        validate(skill, skill_record_schema(labels, guidance_schema=STORED_GUIDANCE))
+    if len({s["id"] for s in bank}) != len(bank):
+        raise ValueError("Duplicate skill identities")
+    groups = {}
+    for h in labels:
+        signature = tuple(s["id"] for s in bank if h in s["hypothesis_ids"])
+        groups.setdefault(signature, []).append(h)
+    blocks = list(groups.values())
+    assert sum(map(len, blocks)) == len(labels)
+    return blocks
+
+
+def project_criteria(bank, hypothesis_ids):
+    """Lossless applicable procedures, with public scope intersected explicitly."""
+    selected = set(hypothesis_ids)
+    projected = []
+    for skill in bank:
+        scope = [h for h in skill["hypothesis_ids"] if h in selected]
+        if scope:
+            item = copy.deepcopy(skill)
+            item["hypothesis_ids"] = scope
+            projected.append(item)
+    return projected
+
+
+def combine_block_responses(fragments, labels):
+    """Join disjoint native answers, without selecting or repairing a decision.
+
+    Any incomplete/invalid fragment makes the whole logical contract answer
+    invalid for the SAME full original denominator. Never fill absent keys or
+    retain only easy questions. This is explicitly not a native server response.
+    """
+    answers, errors, physical_ids = {}, [], []
+    prompt_tokens = completion_tokens = 0
+    expected = []
+    for index, fragment in enumerate(fragments):
+        response = fragment["response"]
+        keys = fragment["hypothesis_ids"]
+        if set(expected) & set(keys):
+            raise ValueError("Overlapping execution blocks; no answer selection")
+        expected.extend(keys)
+        physical_ids.append(response["raw_id"])
+        prompt_tokens += response["prompt_tokens"]
+        completion_tokens += response["completion_tokens"]
+        try:
+            if response["finish_reason"] != "stop":
+                raise ValueError("Incomplete native fragment")
+            value = json.loads(response["content"])
+            validate(value, fragment["schema"])
+            if set(value) != set(keys):
+                raise ValueError("Fragment keys differ from its public block")
+            answers.update(value)
+        except (ValueError, ValidationError) as exc:
+            errors.append({"block": index, "error": str(exc)})
+    if set(expected) != set(labels) or len(expected) != len(labels):
+        raise ValueError("Blocks do not partition the complete original task")
+    if len(set(physical_ids)) != len(physical_ids) or any(not i for i in physical_ids):
+        raise ValueError("Every block requires a distinct real native response")
+    cutoff = any(f["response"]["finish_reason"] == "length" for f in fragments)
+    return {"content": json.dumps(answers, ensure_ascii=False, separators=(",", ":")),
+        "finish_reason": ("length" if cutoff else None) if errors else "stop", "raw_id": None,
+        "prompt_tokens": prompt_tokens, "completion_tokens": completion_tokens,
+        "composite_logical_answer_not_a_native_server_response": True,
+        "actual_native_raw_ids": physical_ids, "component_errors": errors,
+        "no_answer_rewrite_repair_or_missing_key_substitution": True}
 
 
 def actor_messages(canonical_messages, bank, labels):
