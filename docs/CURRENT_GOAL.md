@@ -15,7 +15,23 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-18 22:54 CST，部件读出完整负面保全；原模块已简化，新32已prepare待launch
+## 当前快照：2026-10-18 22:56 CST，新简化32已真实后台launch，首个正式双臂理由顺序核验
+
+- 新Run legal_contractnli_direct_grounded_procedure_online_20261018_run01于22:54:28真实launch，
+  worker690056/ticks434178643，独立preserver690059/ticks434178644；22:55:45核实原worker活，
+  4/136 native、0/3教师，B1进行；尚无完整批次效果，不能称新改动已有指标突破。
+- 首个299的空/技能两份正式raw回答均stop、原17题schema合法，每题实际键序reason/choice/spans；
+  没有额外资格样例、答案重排或新增理由字段。当前传入的是实际末R11文本结构转换后的1条，
+  没有新教师学习，也没有挑早期好库/回滚。后续按新原样发布行为学习。
+- 启动checkpoint d9b974362a531c9d223d600cbd34340d432767e7；67成员源/Git/输入启动包
+  双文件系统逐成员核验，SHA6c183938b78b7fdcd8691b3193c81122a78b0849ce29ba8467286ba0877bba3c，
+  全Git bundle SHA2193d8f8c04358453e880cffb0cf83df349bb8d7665a1f5c4b3ebcfe3b883c8c。
+  单8B原服务/权重/采样与8192不变；136native/3教师/3fit；核心/协议/配置/输入已冻结不可热改。
+- 下一步核实首批真正单教师CRUD和发布后的全部实际8答，再B2/B3/B4新案，重点三项原指标
+  对相同增长普通工具强空的净收益、是否更新后损害、库管理。不要只盯B1或重复启动当前Run。
+  下面22:54为历史prepare态。Goal active；全部实质稳定净收益/成熟与等调用基线/重复/TEST仍未达成。
+
+## 已归档快照：2026-10-18 22:54 CST，部件读出完整负面保全；原模块已简化，新32已prepare待launch
 
 - 主linked Run01已160/6/3 complete、829成员终态双盘SHA3d09d0fdfa016bbe3135d086078e6d0df0808308e0f112223f76f2210c8ce1f8。
   部件Run legal_contractnli_linked_procedure_final_component_readout_20261018_run01已实际22:32:21

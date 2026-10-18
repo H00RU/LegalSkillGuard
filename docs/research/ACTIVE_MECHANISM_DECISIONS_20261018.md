@@ -1,6 +1,18 @@
 # 今日机制决策：不重复已否证路线
 
-## 最新状态22:54，部件读出完成仍无整体胜，新简化32已prepare待launch
+## 最新状态22:56，新简化32已真实后台launch，不是prepare即称启动
+
+新Run legal_contractnli_direct_grounded_procedure_online_20261018_run01实际22:54:28启动；
+worker690056/ticks434178643，preserver690059/ticks434178644，22:55:45核实同worker活、4/136 native、0教师。
+299首个空/技能原raw均17题reason/choice/spans实际键序且schema合法，无额外资格调用或后处理。
+checkpoint d9b974362a531c9d223d600cbd34340d432767e7；67成员双盘启动包SHA
+6c183938b78b7fdcd8691b3193c81122a78b0849ce29ba8467286ba0877bba3c，
+Git SHA2193d8f8c04358453e880cffb0cf83df349bb8d7665a1f5c4b3ebcfe3b883c8c。
+原单8B/采样/8192及原任务评分不变，新136/3/3已冻结；不要再启动/热改。
+效果尚无完整批次，不称突破。接首个单教师真实发布/8保持以及B2/B3/B4净收益，不只看B1。
+Goal active，原强/成熟基线、独立重复和官方TEST全部目标未达成。
+
+## 已归档状态22:54，部件读出完成仍无整体胜，新简化32已prepare待launch
 
 部件Run01实际22:32:21 launch，657147/657150已终止，16/0/0；171成员双盘亲核
 SHAb2e014df05d1de3827417594d37f110a6188273f29e78ea5385da4e83aa99905。原训练负面仍留存。
