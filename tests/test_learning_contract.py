@@ -2133,7 +2133,7 @@ def test_complete_member_order_delivers_tail_without_changing_binary_candidates(
 
 @pytest.mark.parametrize("start_batch,program,draft,resume", [
     (1, False, False, False), (2, False, False, False), (1, True, False, False),
-    (1, True, True, False), (1, True, True, True)])
+    (1, True, True, False), (1, True, True, True), (1, True, "native", False)])
 def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch, program, draft, resume):
     from types import SimpleNamespace
 
@@ -2178,7 +2178,8 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     if program:
         from legal_skill_guard.learning.member_contract import teacher_sources
 
-        study.cfg["method"] = module.DRAFT_METHOD if draft else module.PROGRAM_METHOD
+        study.cfg["method"] = (module.NATIVE_DRAFT_METHOD if draft == "native" else
+                               module.DRAFT_METHOD if draft else module.PROGRAM_METHOD)
         study.bank = ([{"id":"p","hypothesis_ids":list(labels),"guidance":{"python_source":
             "def propose_members(text, spans, public_hypothesis_key):\n    return []\n"}}] if draft else [])
         initial_path = tmp_path / "initial_program_teacher.json"
@@ -2255,6 +2256,16 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
             if name.endswith("_revision"):
                 feedback=expand(body["actual_unpublished_draft_CPU_feedback"]["all_seen_sources_and_hypotheses"])
                 assert {r["document_id"] for r in feedback} == set(range(100,142)) | set(range(1,count+1))
+                if draft == "native":
+                    native = body["actual_unpublished_draft_native_training_feedback"]
+                    observed = expand(native["all8_actual_native_draft_observations"])
+                    assert {r["document_id"] for r in observed} == set(range(count-7,count+1))
+                    expected_answer = {h:{**a,"reason":"Native."} for h,a in gold.items()}
+                    assert all(r["public_valid"] and expand(r["actual_original_public_answer"]) == expected_answer
+                               for r in observed)
+                    assert len([u for u in study.answers
+                        if u["stage"] == f"b{study.current_batch}_unpublished_draft_training"]) == 8
+                    assert all(u["condition"] == "skills" for u in study.own_current.values())
                 if resume and study.resumed and study.current_batch == 2:
                     assert (Path(study.resumed["executed_draft"]).parent.parent/"program_replays/b2_draft.json").exists()
                     assert "program_replays/b2_draft.json" not in records  # Never rerun the completed probe.
@@ -2294,9 +2305,9 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
         study.out=tmp_path/"resumed";records={};epoch="resumed";interrupt_revision=False
     study.execute()
     result = records["completion.json"]
-    expected=([88,3,2] if resume else [136,6 if draft else (4 if program else 3),3]) if start_batch == 1 else [120,2,2]
+    expected=([88,3,2] if resume else [160 if draft == "native" else 136,6 if draft else (4 if program else 3),3]) if start_batch == 1 else [120,2,2]
     assert result["actual_new_native_teacher_CPUfits"] == expected
-    assert len(study.answers) == (144 if start_batch == 1 else 120)
+    assert len(study.answers) == ((168 if draft == "native" else 144) if start_batch == 1 else 120)
     assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if start_batch == 1 and not resume else 0)
     assert len(records["publications/b3.json"]["original_seen_source_ids"]) == 66
     assert not any(k == "publications/b4.json" for k in records)

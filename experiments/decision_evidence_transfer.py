@@ -56,7 +56,9 @@ from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 ARMS = ("joint_empty", "factored_empty", "relation_only", "dual_skills")
 PROGRAM_METHOD = "direct_source_member_program_online"
 DRAFT_METHOD = "source_member_draft_execution_online"
-PROGRAM_METHODS = (PROGRAM_METHOD, DRAFT_METHOD)
+NATIVE_DRAFT_METHOD = "source_member_native_draft_feedback_online"
+DRAFT_METHODS = (DRAFT_METHOD, NATIVE_DRAFT_METHOD)
+PROGRAM_METHODS = (PROGRAM_METHOD, *DRAFT_METHODS)
 WRITER = (
     "Learn reusable legal skills from ONLY the complete already-seen original "
     "TRAIN contracts, original annotations and actual historical own public "
@@ -494,7 +496,8 @@ def prepare_online(config):
     config = Path(config).resolve()
     cfg = read(config)
     assert cfg["method"] in ("ranked_joint_online24_forward8", "canonical_joint_online_continuation", *PROGRAM_METHODS)
-    program, draft = cfg["method"] in PROGRAM_METHODS, cfg["method"] == DRAFT_METHOD
+    program, draft = cfg["method"] in PROGRAM_METHODS, cfg["method"] in DRAFT_METHODS
+    native_draft = cfg["method"] == NATIVE_DRAFT_METHOD
     resume = bool(cfg.get("resume_failed_revision_run"))
     assert not resume or (draft and cfg.get("start_batch",1) == 1)
     start = cfg.get("start_batch", 1)
@@ -518,6 +521,10 @@ def prepare_online(config):
         exclude.update(read(ROOT / cfg["additional_excluded_episode_config"])["episode_ids"])
     if draft:
         exclude.update(read(ROOT / cfg["inherited_program_config"])["episode_ids"])
+    if native_draft:
+        ancestor = read(ROOT / cfg["inherited_program_config"])
+        ancestor_packet = read(ROOT / ancestor["input_packet"])
+        exclude.update(ancestor_packet["source_only_selection"]["excluded_original_and_source_component_ids"])
     components = source_components(author["documents"])
     excluded = set().union(*(set(g) for g in components if set(g) & exclude))
     eligible = sorted(d for d in original if d not in excluded)
@@ -563,7 +570,7 @@ def prepare_online(config):
         "all_current_batch_answers_precede_current_batch_grading": True})
     ledger = read(ROOT / cfg["teacher"]["ledger"])
     teachers = (4-start)*(2 if draft else 1)+int(program and not draft)-(3 if resume else 0)
-    expected_calls = 88 if resume else (136 if start == 1 else 120)
+    expected_calls = 88 if resume else ((160 if native_draft else 136) if start == 1 else 120)
     assert max(r["sequence"] for r in ledger["reservations"]) + teachers <= ledger["max_invocations"]
     assert cfg["planned_new_native_calls"] == expected_calls and cfg["planned_new_teacher_calls"] == teachers
     files = list((ROOT / "legal_skill_guard").rglob("*.py"))
@@ -634,7 +641,10 @@ class RankedOnline(DecisionEvidenceTransfer):
         return self.cfg.get("method") in PROGRAM_METHODS
 
     def draft_mode(self):
-        return self.cfg.get("method") == DRAFT_METHOD
+        return self.cfg.get("method") in DRAFT_METHODS
+
+    def native_draft_mode(self):
+        return self.cfg.get("method") == NATIVE_DRAFT_METHOD
 
     def runtime_guidance_schema(self):
         return MEMBER_PROGRAM_GUIDANCE_SCHEMA if self.program_mode() else GUIDANCE_SCHEMA
@@ -653,13 +663,22 @@ class RankedOnline(DecisionEvidenceTransfer):
         of a draft. The original parent stays published until the final delta is
         returned and structurally applied, regardless of its measured utility.
         """
+        draft_stage = (
+            " The host will also run this candidate with the ACTUAL frozen lawyer "
+            "once on ALL8 newly revealed training contracts, with unchanged ordinary "
+            "tool, complete source, native schema and generation settings. The final "
+            "teacher receives every actual answer and original classification/member "
+            "feedback, including failures. This is a fixed training rollout, not "
+            "validation, success selection, a publication gate or a second solver."
+            if self.native_draft_mode() else
+            " No native lawyer answer for this draft exists. Do not invent one.")
         draft = self.teacher_call(name+"_draft", PROGRAM_WRITER + (
             " This is the FIRST, UNPUBLISHED DRAFT stage of a fixed two-invocation "
             "training step. Return a delta against current_parent_library. The "
             "host will execute this draft once on ALL already-seen sources and "
             "give the actual CPU member feedback to the same teacher for ONE "
-            "final revision. No native lawyer answer for this draft exists. "
-            "Do not invent one, self-report execution or use tools."), encode_teacher_body(body), schema)
+            "final revision." + draft_stage +
+            " Do not self-report execution or use tools."), encode_teacher_body(body), schema)
         seen_ids = [r["id"] for r in rows]
         candidate = apply_differential_publication(parent, draft, self.labels, seen_ids,
             guidance_schema=MEMBER_PROGRAM_GUIDANCE_SCHEMA)
@@ -686,15 +705,75 @@ class RankedOnline(DecisionEvidenceTransfer):
         revision["actual_unpublished_draft_delta_against_original_parent"] = draft
         revision["actual_unpublished_draft_library_sha256"] = csha(candidate)
         revision["actual_unpublished_draft_CPU_feedback"] = draft_member_feedback(parent_replays, replay, self.labels)
+        if self.native_draft_mode():
+            revision["actual_unpublished_draft_native_training_feedback"] = self.native_draft_feedback(candidate)
         revision["fixed_final_stage_not_an_admission_test"] = (
-            "Exactly one final revision follows this actual draft feedback. No native "
-            "answer for the draft was generated. Return a final delta against the "
+            "Exactly one final revision follows this actual draft feedback. " +
+            ("All8 actual draft-native training outcomes are supplied without selection. "
+             if self.native_draft_mode() else "No native answer for the draft was generated. ") +
+            "Return a final delta against the "
             "ORIGINAL current_parent_library, not the unpublished draft. All valid "
             "final edits publish even if worse; no retry, score gate or bank selection.")
         self.record(f"learning_inputs/{name}_revision.json", revision)
         final = self.final_program_revision(name, revision, schema)
         assert self.bank == parent, "No intermediate draft publication"
         return final
+
+    def native_draft_feedback(self, candidate):
+        """One real native training pass on every newly revealed source.
+
+        This neither publishes the candidate nor overwrites current-parent own
+        observations. All successes, wrong answers and invalid outputs survive.
+        Gold is used only after the entire native training batch completes.
+        """
+        rows = self.documents[(self.current_batch-1)*8:self.current_batch*8]
+        assert len(rows) == 8
+        parent = copy.deepcopy(self.bank)
+        own_before = copy.deepcopy(self.own_current)
+        phase = self.phase
+        draft_units = []
+        self.phase = f"b{self.current_batch}_unpublished_draft_training"
+        for row in rows:
+            messages, schema, trace = member_program_payload(row, self.labels,
+                evidence_proposals(self.model, row, self.labels),
+                self.cfg["bundled_solver_system"], candidate)
+            self.record(f"source_executions/{self.phase}/{row['id']}/draft_skills.json", trace)
+            self.record_program_cost(trace["actual_member_program_executions"],
+                                     "unpublished_native_training_source_execution")
+            response = self.generate(row, "draft_skills", messages, schema)
+            unit = {"document_id": row["id"], "condition": "unpublished_draft",
+                "response": response, "stage": self.phase, "bank_sha256": csha(candidate),
+                "unpublished_training_not_current_parent_or_forward_inference": True}
+            self.record(f"logical_answers/{self.phase}/{row['id']}/draft_skills.json", unit)
+            self.answers.append(unit)
+            draft_units.append(unit)
+        self.phase = phase
+        assert self.bank == parent and self.own_current == own_before
+        parent_units = self.score([self.own_current[r["id"]] for r in rows])
+        scored = self.score(draft_units)
+        self.units.extend(scored)
+        observations = []
+        for unit in scored:
+            observations.append({"document_id": unit["document_id"],
+                "raw_id": unit["response"]["raw_id"],
+                "finish_reason": unit["response"]["finish_reason"],
+                "actual_original_public_answer": keyed(unit["parsed"]) if unit["public_valid"] else None,
+                "actual_invalid_raw_content_not_repaired": None if unit["public_valid"] else unit["response"]["content"],
+                "public_valid": unit["public_valid"],
+                "original_feedback_by_hypothesis": keyed({
+                    q["hypothesis_id"]: {k:q[k] for k in
+                        ("label_correct","evidence_tp","evidence_fp","evidence_fn","joint_exact")}
+                    for q in unit["queries"]})})
+        feedback = {"all8_actual_native_draft_observations": table(observations),
+            "same8_original_metric_counts": {"current_parent": points(parent_units), "unpublished_draft": points(scored)},
+            "parent_public_answers_are_already_in_same_teacher_input": True,
+            "fixed_training_pass_no_source_or_outcome_filter_or_efficacy_admission": True,
+            "valid_public_answer_fields_preserved_semantically_not_raw_JSON_whitespace": True}
+        self.record(f"draft_native_training/b{self.current_batch}.json",
+            {"at":now(), "parent_library_sha256":csha(parent), "draft_library_sha256":csha(candidate),
+             "all_actual_unpublished_training_units":scored, "teacher_feedback":feedback,
+             "same_generation_full_sources_ordinary_model_and_native_task":True})
+        return feedback
 
     def final_program_revision(self, name, revision, schema):
         return self.teacher_call(name+"_revision", PROGRAM_WRITER + (
@@ -705,7 +784,13 @@ class RankedOnline(DecisionEvidenceTransfer):
             "ORIGINAL current_parent_library: draft-created IDs are not parent "
             "targets. Never claim draft proposal counts are native legal accuracy. "
             "Every valid final edit publishes without a performance threshold; "
-            "no additional candidate, rerun, best-bank rollback or tools."), encode_teacher_body(revision), schema)
+            "no additional candidate, rerun, best-bank rollback or tools." + (
+            " Also inspect every supplied actual unpublished-draft native training "
+            "answer and the exact paired original label/member feedback. Candidate "
+            "hit counts can improve while final citations or relations worsen. "
+            "Learn from successes AND harms without selecting cases, rewriting "
+            "answers or claiming a successful repair that did not occur."
+            if self.native_draft_mode() else "")), encode_teacher_body(revision), schema)
 
     def record_program_cost(self, receipts, role):
         cost = self.program_cost.setdefault(role, {"CPU_subprocesses": 0, "CPU_wall_seconds": 0.0})
@@ -1013,7 +1098,8 @@ class RankedOnline(DecisionEvidenceTransfer):
                 self.record(f"batch_summaries/b{batch}_complete.json", {
                     **summary, "publication_statistics": stats, "paired_seen_update_effect": effect})
                 self.fit_prefix(seen)
-        assert len(self.native) == self.cfg.get("planned_new_native_calls", 136 if start_batch == 1 else 120)
+        default_calls = (160 if self.native_draft_mode() else 136) if start_batch == 1 else 120
+        assert len(self.native) == self.cfg.get("planned_new_native_calls", default_calls)
         assert len(self.fit_records) == self.cfg.get("planned_new_CPU_fits",4-start_batch)
         assert len(self.teachers) == self.cfg.get("planned_new_teacher_calls",
             (4-start_batch)*(2 if self.draft_mode() else 1)+int(self.program_mode() and not self.draft_mode()))
@@ -1031,6 +1117,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             "final_bank": self.bank, "units": self.units, "ordinary_prefix_fits": self.fit_records,
             "actual_source_program_CPU_costs": self.program_cost if self.program_mode() else None,
             "fixed_unpublished_draft_probe_then_one_revision_each_teaching_batch": self.draft_mode(),
+            "fixed_all8_native_draft_training_feedback_each_teaching_batch": self.native_draft_mode(),
             "inherited_published_episode_labels": 8 if resumed else (start_batch-1)*8,
             "inherited_episode_labels":8 if resumed else (start_batch-1)*8,
             "new_taught_labels":8 if resumed else (4-start_batch)*8,
