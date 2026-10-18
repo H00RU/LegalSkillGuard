@@ -52,6 +52,14 @@ MEMBER_PROGRAM_GUIDANCE_SCHEMA = {
     "required": ["python_source"],
     "properties": {"python_source": {"type": "string", "minLength": 1}},
 }
+LINKED_PROGRAM_GUIDANCE_SCHEMA = {
+    "type": "object", "additionalProperties": False,
+    "required": ["python_source", "procedure"],
+    "properties": {
+        "python_source": {"type": ["string", "null"], "minLength": 1},
+        "procedure": {"type": ["string", "null"], "minLength": 1},
+    },
+}
 SEMANTIC_EXECUTION_PROTOCOL = "same_frozen_lawyer_source_predicates_v1"
 SEMANTIC_SYSTEM = (
     "Execute the supplied fallible source predicates on this complete contract. "
@@ -191,18 +199,26 @@ def execute_source_features(skill, document):
                     "one_resource_limited_CPU_subprocess_no_Gold_ID_or_model": True}
 
 
-def validate_member_programs(library, public_ids):
+def validate_member_programs(library, public_ids, *, allow_procedures=False):
     if len({s["id"] for s in library}) != len(library):
         raise ValueError("Duplicate member-program identity")
     for skill in library:
-        validate(skill, skill_record_schema(public_ids, guidance_schema=MEMBER_PROGRAM_GUIDANCE_SCHEMA))
+        schema = LINKED_PROGRAM_GUIDANCE_SCHEMA if allow_procedures else MEMBER_PROGRAM_GUIDANCE_SCHEMA
+        validate(skill, skill_record_schema(public_ids, guidance_schema=schema))
         if len(set(skill["hypothesis_ids"])) != len(skill["hypothesis_ids"]):
             raise ValueError("Duplicate public member-program scope")
-        validate_source(skill["guidance"]["python_source"], entrypoint="propose_members",
-                        arguments=("text", "spans", "public_hypothesis_key"))
+        source = skill["guidance"]["python_source"]
+        procedure = skill["guidance"].get("procedure")
+        if source is None and procedure is None:
+            raise ValueError("A linked skill needs executable reads or a meaningful procedure")
+        if procedure is not None and not procedure.strip():
+            raise ValueError("An empty procedure must be removed, never silently served")
+        if source is not None:
+            validate_source(source, entrypoint="propose_members",
+                            arguments=("text", "spans", "public_hypothesis_key"))
 
 
-def execute_member_programs(library, document, public_ids):
+def execute_member_programs(library, document, public_ids, *, allow_procedures=False):
     """Execute learned membership procedures, NOT features for another score head.
 
     All selected indices remain fallible reading proposals, never final answers.
@@ -213,12 +229,17 @@ def execute_member_programs(library, document, public_ids):
     """
     import time
 
-    validate_member_programs(library, public_ids)
+    validate_member_programs(library, public_ids, allow_procedures=allow_procedures)
     selected, receipts = {h: set() for h in public_ids}, []
     for skill in library:
+        source = skill["guidance"]["python_source"]
+        if source is None:
+            # An explicitly validated text-only skill has no CPU action. This
+            # is not an exception recovery or a replacement for failed code.
+            continue
         for h in skill["hypothesis_ids"]:
             started = time.monotonic()
-            indices = _execute_pure_source(skill["guidance"]["python_source"], document,
+            indices = _execute_pure_source(source, document,
                 "propose_members", ("text", "spans", "public_hypothesis_key"), (h,))
             if not isinstance(indices, list) or any(type(i) is not int for i in indices):
                 raise ValueError("A member procedure must return a list of original integer indices")
@@ -226,7 +247,7 @@ def execute_member_programs(library, document, public_ids):
                 raise ValueError("Duplicate or out-of-range original members; never repair")
             selected[h].update(indices)
             receipts.append({"skill_id": skill["id"], "hypothesis_id": h,
-                "program_sha256": csha(skill["guidance"]),
+                "program_sha256": csha({"python_source": source}),
                 "public_source_sha256": csha({"text": document["text"], "spans": document["spans"]}),
                 "proposed_original_indices": indices, "actual_CPU_wall_seconds": time.monotonic()-started,
                 "one_restricted_CPU_execution_no_current_Gold_ID_or_model": True})

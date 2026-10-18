@@ -166,7 +166,7 @@ def decision_payload(row, labels, proposals, bank):
             {"role": "user", "content": json.dumps(body, ensure_ascii=False, separators=(",", ":"))}], schema
 
 
-def member_program_payload(row, labels, proposals, system, bank):
+def member_program_payload(row, labels, proposals, system, bank, *, allow_procedures=False):
     """Canonical native task with actually executed, source-only reading access.
 
     Reuse the same full-source, source-anchor and sparse read-record ABI. Never
@@ -175,7 +175,7 @@ def member_program_payload(row, labels, proposals, system, bank):
     """
     from .executable_features import execute_member_programs
 
-    reads, receipts = execute_member_programs(bank, row, labels)
+    reads, receipts = execute_member_programs(bank, row, labels, allow_procedures=allow_procedures)
     messages, schema = joint_payload(row, labels, proposals, system, complete_order=False)
     body = json.loads(messages[1]["content"])
     for h in labels:
@@ -190,9 +190,24 @@ def member_program_payload(row, labels, proposals, system, bank):
         " additional_source_read_indices are fallible source-reading proposals, "
         "not mandatory citations or legal verdicts. An empty list does not mean "
         "NotMentioned. All original source indices remain freely citable.")
+    procedures = []
+    if allow_procedures:
+        procedures = [{"hypothesis_ids": list(s["hypothesis_ids"]),
+                       "procedure": s["guidance"]["procedure"]}
+                      for s in bank if s["guidance"]["procedure"] is not None]
+        body["learned_legal_procedures"] = procedures
+        messages[0]["content"] += (
+            " learned_legal_procedures are optional, fallible reusable legal "
+            "reading, interpretation and member-selection procedures for the "
+            "declared exact hypotheses. They are not current contract facts, "
+            "Gold, mandatory citations or supplied verdicts. Check their source "
+            "conditions and exceptions yourself; reject inapplicable advice. "
+            "You still decide every original label, citation and public reason.")
     messages[1]["content"] = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
     return messages, schema, {"actual_member_program_executions": receipts,
         "per_hypothesis_proposed_original_indices": reads,
+        **({"actually_delivered_procedures": procedures,
+            "visible_guidance_not_internal_use_or_causal_proof": True} if allow_procedures else {}),
         "no_program_code_identity_Gold_or_host_answers_delivered": True}
 
 

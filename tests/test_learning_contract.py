@@ -2134,7 +2134,7 @@ def test_complete_member_order_delivers_tail_without_changing_binary_candidates(
 @pytest.mark.parametrize("start_batch,program,draft,resume", [
     (1, False, False, False), (2, False, False, False), (1, True, False, False),
     (1, True, True, False), (1, True, True, True), (1, True, "native", False),
-    (1, True, "native", True)])
+    (1, True, "native", True), (1, True, "linked", False)])
 def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch, program, draft, resume):
     from types import SimpleNamespace
 
@@ -2179,20 +2179,25 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     if program:
         from legal_skill_guard.learning.member_contract import teacher_sources
 
-        study.cfg["method"] = (module.NATIVE_DRAFT_METHOD if draft == "native" else
+        study.cfg["method"] = (module.LINKED_METHOD if draft == "linked" else
+                               module.NATIVE_DRAFT_METHOD if draft == "native" else
                                module.DRAFT_METHOD if draft else module.PROGRAM_METHOD)
         study.bank = ([{"id":"p","hypothesis_ids":list(labels),"guidance":{"python_source":
             "def propose_members(text, spans, public_hypothesis_key):\n    return []\n"}}] if draft else [])
+        if draft == "linked":
+            study.bank[0]["guidance"]["procedure"] = None
         initial_path = tmp_path / "initial_program_teacher.json"
         RunStore.immutable_json(initial_path, {"current_parent_library": [],
             "complete_original_past_sources_and_Gold": teacher_sources(study.past,
                 {str(r["id"]):gold for r in study.past})})
         study.cfg["initial_teacher_body"] = str(initial_path)
 
-        def synthetic_program_replay(bank, source, public_labels):
+        def synthetic_program_replay(bank, source, public_labels, *, allow_procedures=False):
+            assert allow_procedures == (draft == "linked")
             return {h:[] for h in public_labels}, []
 
-        def synthetic_program_payload(source, public_labels, leads, system, bank):
+        def synthetic_program_payload(source, public_labels, leads, system, bank, *, allow_procedures=False):
+            assert allow_procedures == (draft == "linked")
             messages,schema=module.joint_payload(source, public_labels, leads, system, complete_order=False)
             return messages,schema,{"synthetic_chronology_not_effectiveness":True,
                                     "actual_member_program_executions":[]}
@@ -2235,7 +2240,15 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
                     "def propose_members(text, spans, public_hypothesis_key):\n    return []\n"}}}],
                 "noop_reason":None}
         count = study.current_batch*8
-        if program:
+        if draft == "linked":
+            sources = expand(body["complete_new_and_previous_batch_original_sources_and_Gold"])
+            expected_ids = set(range(max(1,count-15),count+1))
+            assert {s["id"] for s in sources} == expected_ids
+            assert body["literal_replay_window"]["all_new_source_ids"] == list(range(count-7,count+1))
+            assert body["literal_replay_window"]["all_immediately_previous_episode_batch_ids"] == list(range(max(1,count-15),count-7))
+            assert "all_earlier_original_source_witness_replay_NOT_full_contracts" not in body
+            assert body["current_common_ordinary_tool_source_ids"] == study.prefix_ids
+        elif program:
             sources=expand(body["complete_newly_revealed_original_sources_and_Gold"])
             assert {s["id"] for s in sources}==set(range(count-7,count+1))
             replay=expand(body["all_earlier_original_source_witness_replay_NOT_full_contracts"])
@@ -2246,7 +2259,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
             sources = expand(body["complete_original_past_and_revealed_episode_sources_and_Gold"])
             assert {s["id"] for s in sources} == set(range(100,142)) | set(range(1,count+1))
         own = expand(body["actual_current_parent_episode_public_answers"])
-        assert {u["document_id"] for u in own} == set(range(1,count+1))
+        assert {u["document_id"] for u in own} == set(range(max(1,count-15) if draft == "linked" else 1,count+1))
         assert body["complete_membership_rank_order_visible_in_single_joint_action"] == (start_batch == 1 and not program)
         if start_batch == 2:
             assert "no longer used" in system
@@ -2260,7 +2273,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
             if name.endswith("_revision"):
                 feedback=expand(body["actual_unpublished_draft_CPU_feedback"]["all_seen_sources_and_hypotheses"])
                 assert {r["document_id"] for r in feedback} == set(range(100,142)) | set(range(1,count+1))
-                if draft == "native":
+                if draft in ("native", "linked"):
                     native = body["actual_unpublished_draft_native_training_feedback"]
                     observed = expand(native["all8_actual_native_draft_observations"])
                     assert {r["document_id"] for r in observed} == set(range(count-7,count+1))
@@ -2314,9 +2327,9 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
         study.out=tmp_path/"resumed";records={};epoch="resumed";interrupt_revision=False
     study.execute()
     result = records["completion.json"]
-    expected=([136,5,3] if draft == "native" else [88,3,2]) if resume else ([160 if draft == "native" else 136,6 if draft else (4 if program else 3),3] if start_batch == 1 else [120,2,2])
+    expected=([136,5,3] if draft == "native" else [88,3,2]) if resume else ([160 if draft in ("native", "linked") else 136,6 if draft else (4 if program else 3),3] if start_batch == 1 else [120,2,2])
     assert result["actual_new_native_teacher_CPUfits"] == expected
-    assert len(study.answers) == ((168 if draft == "native" else 144) if start_batch == 1 else 120)
+    assert len(study.answers) == ((168 if draft in ("native", "linked") else 144) if start_batch == 1 else 120)
     assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if start_batch == 1 and not resume else 0)
     assert len(records["publications/b3.json"]["original_seen_source_ids"]) == 66
     assert not any(k == "publications/b4.json" for k in records)
@@ -2336,6 +2349,15 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
             assert records["publications/induction.json"]["new_representation_learning_not_best_bank_rollback"]
         assert records["source_executions/b4_prequential/32/skills.json"]["synthetic_chronology_not_effectiveness"]
     assert all(v["documents"] == (32 if start_batch == 1 else 24) for v in result["aggregate_prequential_metrics"].values())
+    if draft == "linked":
+        for batch in (1,2,3):
+            update = records[f"update_effects/b{batch}.json"]
+            assert update["paired_scope"] == "current8_same_common_tool_training_only"
+            assert update["paired_source_ids"] == list(range(batch*8-7,batch*8+1))
+        for item in study.answers:
+            if item["stage"].endswith("_prequential"):
+                batch = int(item["stage"].split("_")[0][1:])
+                assert item["ordinary_tool_source_ids"] == list(range(100,142))+list(range(1,(batch-1)*8+1))
     if start_batch == 2:
         assert records["initial_retention.json"]["not_unseen_evaluation_or_teacher_update_gain"]
         assert result["inherited_episode_labels"] == 8 and result["new_taught_labels"] == 16
@@ -2415,6 +2437,42 @@ def test_direct_member_programs_are_actual_source_computation_not_native_answers
     assert trace["per_hypothesis_proposed_original_indices"] == reads
     assert "NEVER_SERVED" not in json.dumps(messages) and "propose_members" not in json.dumps(messages)
     assert "NOT_CHILD_INPUT" not in json.dumps(messages) and "choice" not in trace
+
+
+def test_linked_source_and_procedure_keep_native_judgment_and_explicit_execution_boundaries():
+    from jsonschema import ValidationError
+    from legal_skill_guard.learning.executable_features import execute_member_programs, validate_member_programs
+    from legal_skill_guard.learning.decision_evidence import member_program_payload
+
+    original, labels, _ = fixture()
+    row = {k: original[k] for k in ("id", "text", "spans")}
+    procedure = "Check whether the retention exception actually applies to the recipient and stated purpose."
+    text_skill = {"id": "PRIVATE_AUDIT_ID", "hypothesis_ids": ["h1"],
+                  "guidance": {"python_source": None, "procedure": procedure}}
+    with pytest.raises(ValidationError):
+        validate_member_programs([text_skill], labels)
+    reads, receipts = execute_member_programs([text_skill], row, labels, allow_procedures=True)
+    assert all(not v for v in reads.values()) and receipts == []
+    empty, a, _ = member_program_payload(row, labels, None, "Original task.", [], allow_procedures=True)
+    learned, b, trace = member_program_payload(row, labels, None, "Original task.", [text_skill], allow_procedures=True)
+    assert a == b and empty[0] == learned[0]
+    left, right = [json.loads(m[1]["content"]) for m in (empty, learned)]
+    assert left.pop("learned_legal_procedures") == []
+    assert right.pop("learned_legal_procedures") == [{"hypothesis_ids": ["h1"], "procedure": procedure}]
+    assert left == right and learned[1]["content"].count(procedure) == 1
+    assert "PRIVATE_AUDIT_ID" not in json.dumps(learned) and "python_source" not in json.dumps(learned)
+    assert trace["actually_delivered_procedures"][0]["procedure"] == procedure
+    mixed = {**text_skill, "guidance": {"procedure": procedure, "python_source":
+        "def propose_members(text, spans, public_hypothesis_key):\n    return [1]\n"}}
+    mixed_reads, mixed_receipts = execute_member_programs([mixed], row, labels, allow_procedures=True)
+    assert mixed_reads["h1"] == [1] and len(mixed_receipts) == 1
+    for bad in (None, "  "):
+        with pytest.raises(ValueError):
+            validate_member_programs([{**text_skill,"guidance":{"python_source":None,"procedure":bad}}], labels, allow_procedures=True)
+    invalid = copy.deepcopy(mixed)
+    invalid["guidance"]["python_source"] = "def propose_members(text, spans, public_hypothesis_key):\n    return [1, 1]\n"
+    with pytest.raises(ValueError, match="Duplicate"):
+        execute_member_programs([invalid], row, labels, allow_procedures=True)
 
 
 @pytest.mark.parametrize("result", ["[True]", "[1, 1]", "[999]", "{'h1': [1]}"])
@@ -2543,7 +2601,7 @@ def test_fixed_draft_executes_once_and_final_is_not_selected_by_training_score(i
     draft,final=delta("[1,1]" if invalid else "[0,2]"),delta("[1]")
     study=module.RankedOnline.__new__(module.RankedOnline)
     study.labels,study.bank,study.current_batch=labels,copy.deepcopy(parent),1
-    study.cfg={"library_token_hard_cap":4096};study.program_cost={};records={};calls=[]
+    study.cfg={"method":module.DRAFT_METHOD,"library_token_hard_cap":4096};study.program_cost={};records={};calls=[]
     study.meter=SimpleNamespace(token_count=lambda **_:100)
     study.record=lambda name,value:records.setdefault(name,value)
     study.progress=lambda *args,**kwargs:None;study.check=lambda:None

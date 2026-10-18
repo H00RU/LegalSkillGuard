@@ -37,7 +37,7 @@ from legal_skill_guard.learning.decision_evidence import (
 )
 from legal_skill_guard.learning.evidence_programs import evidence_proposals, fit_program_model
 from legal_skill_guard.learning.executable_features import (
-    ATTRIBUTES, BUILTINS, MEMBER_PROGRAM_GUIDANCE_SCHEMA,
+    ATTRIBUTES, BUILTINS, MEMBER_PROGRAM_GUIDANCE_SCHEMA, LINKED_PROGRAM_GUIDANCE_SCHEMA,
     execute_member_programs, validate_member_programs,
 )
 from legal_skill_guard.learning.experiment import Comparison, ROOT, now, points, read, sha
@@ -57,7 +57,9 @@ ARMS = ("joint_empty", "factored_empty", "relation_only", "dual_skills")
 PROGRAM_METHOD = "direct_source_member_program_online"
 DRAFT_METHOD = "source_member_draft_execution_online"
 NATIVE_DRAFT_METHOD = "source_member_native_draft_feedback_online"
-DRAFT_METHODS = (DRAFT_METHOD, NATIVE_DRAFT_METHOD)
+LINKED_METHOD = "linked_source_procedure_native_feedback_online"
+NATIVE_FEEDBACK_METHODS = (NATIVE_DRAFT_METHOD, LINKED_METHOD)
+DRAFT_METHODS = (DRAFT_METHOD, *NATIVE_FEEDBACK_METHODS)
 PROGRAM_METHODS = (PROGRAM_METHOD, *DRAFT_METHODS)
 WRITER = (
     "Learn reusable legal skills from ONLY the complete already-seen original "
@@ -223,6 +225,10 @@ class DecisionEvidenceTransfer(Comparison):
         item = {"document_id": row["id"], "condition": arm, "response": response,
                 "stage": self.phase, "bank_sha256": csha(self.bank) if arm in ("relation_only", "dual_skills", "skills") else csha([]),
                 "not_scored_until_all16_all4_arms_exist": True}
+        if self.cfg.get("method") == LINKED_METHOD:
+            source_ids = ([r["id"] for r in self.past] if arm == "fixed_tool_empty" else self.prefix_ids)
+            item["ordinary_tool_source_ids"] = list(source_ids)
+            item["ordinary_tool_source_ids_sha256"] = csha(source_ids)
         self.record(f"logical_answers/{self.phase}/{row['id']}/{arm}.json", item)
         self.answers.append(item)
         return item
@@ -423,6 +429,63 @@ PROGRAM_WRITER = (
 )
 
 
+LINKED_WRITER = (
+    "Learn reusable source-grounded legal skills for the actual frozen8B lawyer, "
+    "using ONLY the supplied already-seen original TRAIN contracts/annotations, "
+    "actual public answers, CPU execution and native training feedback. No tools, "
+    "outside law, new models or invented executions. This is label-assisted "
+    "external skill learning, not parameter training or canonical TF-GRPO. "
+    "Each record has id, distinct public hypothesis_ids, and guidance containing "
+    "required nullable python_source and procedure; at least ONE is meaningful. "
+    "Code is a reusable source-inspection operation returning unique original "
+    "integer reading locations. Define propose_members(text, spans, "
+    "public_hypothesis_key); spans is a list of [start,end] character offsets. "
+    "Use ONLY the documented pure API; no imports, classes, globals, I/O, "
+    "models or reflection. Source code never returns labels or final answers. "
+    "A procedure is concise fallible source-conditional legal interpretation "
+    "or member-selection guidance, directly visible to the lawyer alongside "
+    "executed read locations. It is NOT a current fact, supplied choice, "
+    "mandatory citation or runtime-Gold test. The lawyer reads the COMPLETE "
+    "original source and freely writes every original choice/spans/reason once. "
+    "Programs, procedures or both may form a coherent skill; do not force "
+    "a number, topic partition, one-per-hypothesis rule or library growth. "
+    "Learn distinctions that the actual weak lawyer failed to apply: actor, "
+    "action, object, quantifier, negation, permission versus obligation, "
+    "condition and exception scope. Correct-source/wrong-relation errors need "
+    "interpretation, not automatically more reading locations. Correct-label "
+    "member omissions need complete responsive-member selection, not blind "
+    "label reversal. Distinguish useful background from original annotated "
+    "members; preserve independently responsive repetitions. Original labels "
+    "and annotation conventions are benchmark supervision, not universal law. "
+    "The source window contains ALL8 new contracts and, from B2, the immediately "
+    "preceding8 episode contracts, selected by chronology, never by outcome. "
+    "Earlier full sources remain archived and undergo actual CPU replay, but "
+    "are NOT silently present in this teacher window. Their original member "
+    "feedback remains supplied; do not infer missing old semantics from indices. "
+    "Historical own answers retain their actual tool-source version metadata. "
+    "Native parent/draft feedback on the new8 uses the SAME current common "
+    "ordinary tool. Ordinary supervised improvement is shared with empty and "
+    "is NOT your skill contribution. Prioritize original native classification, "
+    "evidence and joint outcomes; CPU proposal counts are auxiliary, not native "
+    "performance. Learn from successes AND harms without selecting cases. "
+    "Preserve effective old source operations; do not rewrite a large program "
+    "when the missing correction is a short conditional legal procedure. "
+    "Do not merely repeat the generic solver prompt or replace a source "
+    "condition by a memorized answer. Runtime records must contain no case "
+    "IDs, parties, dates, original span numbers, answer tables, source hashes "
+    "or memorized quotations. Audit source_case_ids/rationales are not served. "
+    "Return differential CREATE/UPDATE/DELETE/MERGE or explicit NOOP against "
+    "the exact supplied parent. Unmentioned records remain verbatim; UPDATE "
+    "keeps its ID; targets are distinct unconsumed original IDs, not draft IDs. "
+    "CREATE has0 targets, UPDATE/DELETE1, MERGE>=2; only DELETE has skill=null. "
+    "Every structurally valid final edit publishes, even if worse: no score "
+    "gate, selected older bank, retry, answer repair or extra solver. Aim for "
+    "the entire serialized library<=3200 target8B tokens under4096 hard cap. "
+    "Keep each coherent text procedure compact, roughly<=200 words, without "
+    "clipping. Return exactly the requested delta JSON."
+)
+
+
 def program_api():
     return {"entrypoint": "propose_members(text, spans, public_hypothesis_key)",
         "allowed_builtins": list(BUILTINS), "allowed_attributes": sorted(ATTRIBUTES),
@@ -440,7 +503,7 @@ def sealed_interrupted_revision(cfg, bank, preserved_files):
     source = ROOT / cfg["resume_failed_revision_run"]
     old_config = ROOT / cfg["resume_failed_revision_config"]
     old = read(old_config)
-    assert old["method"] in DRAFT_METHODS and cfg["method"] == old["method"]
+    assert old["method"] in (DRAFT_METHOD, NATIVE_DRAFT_METHOD) and cfg["method"] == old["method"]
     assert not old.get("resume_failed_revision_run"), "Nested recovery needs a separate provenance audit"
     native = old["method"] == NATIVE_DRAFT_METHOD
     for key in ("episode_ids", "source_only_seed", "generation", "ordinary_manifest", "teacher",
@@ -537,7 +600,8 @@ def prepare_online(config):
     cfg = read(config)
     assert cfg["method"] in ("ranked_joint_online24_forward8", "canonical_joint_online_continuation", *PROGRAM_METHODS)
     program, draft = cfg["method"] in PROGRAM_METHODS, cfg["method"] in DRAFT_METHODS
-    native_draft = cfg["method"] == NATIVE_DRAFT_METHOD
+    native_draft = cfg["method"] in NATIVE_FEEDBACK_METHODS
+    linked = cfg["method"] == LINKED_METHOD
     resume = bool(cfg.get("resume_failed_revision_run"))
     assert not resume or (draft and cfg.get("start_batch",1) == 1)
     start = cfg.get("start_batch", 1)
@@ -582,8 +646,13 @@ def prepare_online(config):
         preserved_files = json.load(preserved.extractfile("terminal_recovery_manifest.json"))["files"]
     assert preserved_files[str(Path(cfg["parent_publication"]))] == sha(ROOT / cfg["parent_publication"])
     bank = read(ROOT / cfg["parent_publication"])["publication"]
+    inherited_bank_sha256 = csha(bank)
     if draft:
-        validate_member_programs(bank, author["labels"])
+        if linked and cfg.get("initial_guidance_migration") == "add_null_procedure":
+            validate_member_programs(bank, author["labels"])
+            bank = [{**copy.deepcopy(s), "guidance": {
+                "python_source": s["guidance"]["python_source"], "procedure": None}} for s in bank]
+        validate_member_programs(bank, author["labels"], allow_procedures=linked)
         if not resume:
             assert read(ROOT / cfg["parent_publication"])["original_seen_source_ids"] == past
     else:
@@ -601,6 +670,12 @@ def prepare_online(config):
         "parent_already_two_channel_no_conversion_or_selection": not program,
         "new_source_program_representation_not_selected_old_bank": program and not draft,
         "inherits_actual_latest_program_without_score_selection": draft,
+        "explicit_guidance_migration": cfg.get("initial_guidance_migration"),
+        "initial_guidance_migration_receipt": {
+            "original_actual_parent_sha256": inherited_bank_sha256,
+            "initial_runtime_parent_sha256": csha(bank),
+            "mechanical_null_field_only_not_new_learning": linked,
+            "no_score_selection_or_code_change": linked} if linked else None,
         "source_only_selection": {"seed": cfg["source_only_seed"], "eligible_ids": eligible,
             "excluded_original_and_source_component_ids": sorted(excluded),
             "no_selection_using_labels_or_outcomes": True},
@@ -691,14 +766,25 @@ class RankedOnline(DecisionEvidenceTransfer):
         return self.cfg.get("method") in DRAFT_METHODS
 
     def native_draft_mode(self):
-        return self.cfg.get("method") == NATIVE_DRAFT_METHOD
+        return self.cfg.get("method") in NATIVE_FEEDBACK_METHODS
+
+    def linked_mode(self):
+        return self.cfg.get("method") == LINKED_METHOD
+
+    def active_model(self):
+        return self.prefix_model if self.linked_mode() else self.model
+
+    def program_writer(self):
+        return LINKED_WRITER if self.linked_mode() else PROGRAM_WRITER
 
     def runtime_guidance_schema(self):
+        if self.linked_mode():
+            return LINKED_PROGRAM_GUIDANCE_SCHEMA
         return MEMBER_PROGRAM_GUIDANCE_SCHEMA if self.program_mode() else GUIDANCE_SCHEMA
 
     def validate_runtime_bank(self):
         if self.program_mode():
-            validate_member_programs(self.bank, self.labels)
+            validate_member_programs(self.bank, self.labels, allow_procedures=self.linked_mode())
         else:
             for channel in ("relation_criterion", "evidence_criterion"):
                 channel_criteria(self.bank, self.labels, channel)
@@ -719,7 +805,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             "validation, success selection, a publication gate or a second solver."
             if self.native_draft_mode() else
             " No native lawyer answer for this draft exists. Do not invent one.")
-        draft = self.teacher_call(name+"_draft", PROGRAM_WRITER + (
+        draft = self.teacher_call(name+"_draft", self.program_writer() + (
             " This is the FIRST, UNPUBLISHED DRAFT stage of a fixed two-invocation "
             "training step. Return a delta against current_parent_library. The "
             "host will execute this draft once on ALL already-seen sources and "
@@ -728,8 +814,8 @@ class RankedOnline(DecisionEvidenceTransfer):
             " Do not self-report execution or use tools."), encode_teacher_body(body), schema)
         seen_ids = [r["id"] for r in rows]
         candidate = apply_differential_publication(parent, draft, self.labels, seen_ids,
-            guidance_schema=MEMBER_PROGRAM_GUIDANCE_SCHEMA)
-        validate_member_programs(candidate, self.labels)
+            guidance_schema=self.runtime_guidance_schema())
+        validate_member_programs(candidate, self.labels, allow_procedures=self.linked_mode())
         tokens = self.meter.token_count(text=json.dumps(candidate, ensure_ascii=False, separators=(",", ":")))
         assert tokens <= self.cfg["library_token_hard_cap"], "Invalid draft stops; no repair or substitute"
         self.record(f"drafts/b{self.current_batch}.json", {"at": now(), "parent": parent,
@@ -739,7 +825,8 @@ class RankedOnline(DecisionEvidenceTransfer):
         replay = []
         for row in rows:
             self.check()
-            proposed, receipts = execute_member_programs(candidate, row, self.labels)
+            proposed, receipts = execute_member_programs(candidate, row, self.labels,
+                allow_procedures=self.linked_mode())
             self.record_program_cost(receipts, "one_unpublished_draft_training_replay_not_native")
             replay.append({"document_id": row["id"],
                 "by_hypothesis": member_replay_cases(proposed, gold[str(row["id"])], self.labels),
@@ -782,8 +869,8 @@ class RankedOnline(DecisionEvidenceTransfer):
         self.phase = f"b{self.current_batch}_unpublished_draft_training"
         for row in rows:
             messages, schema, trace = member_program_payload(row, self.labels,
-                evidence_proposals(self.model, row, self.labels),
-                self.cfg["bundled_solver_system"], candidate)
+                evidence_proposals(self.active_model(), row, self.labels),
+                self.cfg["bundled_solver_system"], candidate, allow_procedures=self.linked_mode())
             self.record(f"source_executions/{self.phase}/{row['id']}/draft_skills.json", trace)
             self.record_program_cost(trace["actual_member_program_executions"],
                                      "unpublished_native_training_source_execution")
@@ -791,6 +878,9 @@ class RankedOnline(DecisionEvidenceTransfer):
             unit = {"document_id": row["id"], "condition": "unpublished_draft",
                 "response": response, "stage": self.phase, "bank_sha256": csha(candidate),
                 "unpublished_training_not_current_parent_or_forward_inference": True}
+            if self.linked_mode():
+                unit["ordinary_tool_source_ids"] = list(self.prefix_ids)
+                unit["ordinary_tool_source_ids_sha256"] = csha(self.prefix_ids)
             self.record(f"logical_answers/{self.phase}/{row['id']}/draft_skills.json", unit)
             self.answers.append(unit)
             draft_units.append(unit)
@@ -823,7 +913,7 @@ class RankedOnline(DecisionEvidenceTransfer):
         return feedback
 
     def final_program_revision(self, name, revision, schema):
-        return self.teacher_call(name+"_revision", PROGRAM_WRITER + (
+        return self.teacher_call(name+"_revision", self.program_writer() + (
             " This is the SECOND and FINAL invocation of the fixed training step. "
             "Inspect the actual unpublished draft CPU feedback and original Gold, "
             "together with actual CURRENT-PARENT native errors. Revise once, retain "
@@ -882,7 +972,74 @@ class RankedOnline(DecisionEvidenceTransfer):
             units.append({**item, **f})
         return units
 
+    def update_linked_online(self, seen):
+        """Chronological literal replay plus complete compact executed feedback.
+
+        The bounded window is fixed by batch order, not correctness. All seen
+        programs still run, and no actual native observation is fabricated for
+        older contracts under the current ordinary tool.
+        """
+        parent = copy.deepcopy(self.bank)
+        assert all(self.own_current[r["id"]]["bank_sha256"] == csha(parent) for r in seen)
+        gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
+        before = self.score([self.own_current[r["id"]] for r in seen])
+        window = seen[-16:]
+        window_ids = {r["id"] for r in window}
+        raw_replays, compact_replays = [], []
+        for row in self.past+seen:
+            proposed, receipts = execute_member_programs(parent, row, self.labels, allow_procedures=True)
+            self.record_program_cost(receipts, "teaching_component_replay_not_native")
+            cases = member_replay_cases(proposed, gold[str(row["id"])], self.labels)
+            raw_replays.append({"document_id": row["id"], "by_hypothesis": cases,
+                "actual_CPU_execution_receipts": receipts,
+                "factual_current_parent_replay_not_new_native_answers": True})
+            compact_replays.append({"document_id": row["id"], "by_hypothesis": keyed(cases)})
+        self.record(f"program_replays/b{self.current_batch}.json", {
+            "at": now(), "complete_actual_CPU_replays": raw_replays,
+            "all_original_member_feedback_is_in_teacher_readable_view": True,
+            "CPU_times_code_source_hashes_audit_metadata_not_repeated_in_teacher_input": True})
+        body = {
+            "public_hypotheses": self.labels, "current_parent_library": parent,
+            "complete_new_and_previous_batch_original_sources_and_Gold": annotated_sources(window, self.labels, gold),
+            "literal_replay_window": {
+                "all_new_source_ids": [r["id"] for r in seen[-8:]],
+                "all_immediately_previous_episode_batch_ids": [r["id"] for r in window[:-8]],
+                "selected_only_by_chronology_not_outcomes": True,
+                "older_complete_sources_archived_but_NOT_present_as_literal_teacher_text": True},
+            "actual_current_parent_episode_public_answers": table([
+                self.own_current[r["id"]] for r in window]),
+            "actual_original_component_feedback": [{"document_id": u["document_id"],
+                "by_hypothesis": {q["hypothesis_id"]: {k: q[k] for k in (
+                    "label_correct", "evidence_tp", "evidence_fp", "evidence_fn", "joint_exact")}
+                    for q in u["queries"]}, "public_valid": u["public_valid"]}
+                for u in before if u["document_id"] in window_ids],
+            "actual_current_parent_source_program_component_replays": table(compact_replays),
+            "actual_common_tool_current_window_candidates": table([
+                {"document_id": r["id"], "by_hypothesis": {
+                    h: {"candidate_original_span_indices": [v["original_span_index"] for v in p["candidates"]]}
+                    for h,p in evidence_proposals(self.active_model(), r, self.labels)["by_hypothesis"].items()}}
+                for r in window]),
+            "current_common_ordinary_tool_source_ids": list(self.prefix_ids),
+            "initial_ordinary_tool_manifest": self.manifest,
+            "historical_own_observations_keep_actual_ordinary_tool_source_ids": True,
+            "ordinary_tool_grows_identically_for_skills_and_strong_empty_not_a_skill_gain": True,
+            "pure_program_API": program_api(),
+            "future_joint_system": member_program_payload(window[0], self.labels,
+                evidence_proposals(self.active_model(), window[0], self.labels),
+                self.cfg["bundled_solver_system"], [], allow_procedures=True)[0][0]["content"],
+            "complete_membership_rank_order_visible_in_single_joint_action": False,
+            "procedure_semantics_are_tested_only_by_actual_native_feedback_NOT_CPU_member_counts": True,
+            "no_future_episode_sources_answers_annotations_or_official_DEV_TEST": True}
+        name = f"online_b{self.current_batch}"
+        self.record(f"learning_inputs/{name}.json", body)
+        schema = differential_schema(self.labels, parent, [r["id"] for r in self.past+seen],
+                                     guidance_schema=self.runtime_guidance_schema())
+        value = self.draft_execution_update(name, body, schema, parent, self.past+seen, gold, raw_replays)
+        return self.publish_and_reanswer(parent, value, seen, before)
+
     def update_online(self, seen):
+        if self.linked_mode():
+            return self.update_linked_online(seen)
         parent = copy.deepcopy(self.bank)
         assert all(self.own_current[r["id"]]["bank_sha256"] == csha(parent) for r in seen)
         gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
@@ -975,13 +1132,23 @@ class RankedOnline(DecisionEvidenceTransfer):
         self.phase = f"b{self.current_batch}_after_seen"
         start = len(self.answers)
         for row in seen:
-            self.joint(row, "skills", evidence_proposals(self.model, row, self.labels))
+            self.joint(row, "skills", evidence_proposals(self.active_model(), row, self.labels))
         after = self.score(self.answers[start:])
         self.units.extend(after)
-        effect = paired_effect(before, after, seed=2026101810+self.current_batch, replicates=5000)
+        paired_before, paired_after = before, after
+        if self.linked_mode():
+            current_ids = {r["id"] for r in seen[-8:]}
+            paired_before = [u for u in before if u["document_id"] in current_ids]
+            paired_after = [u for u in after if u["document_id"] in current_ids]
+            assert all(u["ordinary_tool_source_ids"] == self.prefix_ids for u in paired_before+paired_after)
+        effect = paired_effect(paired_before, paired_after, seed=2026101810+self.current_batch, replicates=5000)
         self.record(f"update_effects/b{self.current_batch}.json", {"at": now(), "statistics": stats,
             "effect": effect, "parent_own_answers_selected_by_latest_bank_not_outcome": True,
-            "fixed_tool_and_rank_interface_unchanged_across_paired_update": True})
+            "fixed_tool_and_rank_interface_unchanged_across_paired_update": True,
+            "paired_source_ids": [u["document_id"] for u in paired_before],
+            "paired_scope": "current8_same_common_tool_training_only" if self.linked_mode() else "all_seen_fixed_tool",
+            "all_seen_system_retention_not_pure_skill_effect": {
+                "before": points(before), "after": points(after)} if self.linked_mode() else None})
         return stats, effect
 
     def resume_interrupted_final_revision(self, resume):
@@ -1050,7 +1217,8 @@ class RankedOnline(DecisionEvidenceTransfer):
         manifest = {"at": now(), "path": str(path), "sha256": sha(path),
             "source_ids": [r["id"] for r in rows], "actual_CPU_fit_seconds": time.monotonic()-started,
             "same_original_labels_and_ordinary_parameters_no_future_sources": True,
-            "not_a_skill_gain_or_main_tool_replacement": True}
+            "not_a_skill_gain_or_main_tool_replacement": not self.linked_mode(),
+            "replaces_common_tool_identically_for_skills_and_strong_empty": self.linked_mode()}
         self.record(f"ordinary_controls/after_b{self.current_batch}.json", manifest)
         self.bindings[str(path)] = sha(path)
         self.fit_records.append(manifest)
@@ -1060,7 +1228,7 @@ class RankedOnline(DecisionEvidenceTransfer):
         bank = self.bank if arm == "skills" else []
         if self.program_mode():
             messages, schema, trace = member_program_payload(row, self.labels, proposals,
-                self.cfg["bundled_solver_system"], bank)
+                self.cfg["bundled_solver_system"], bank, allow_procedures=self.linked_mode())
             self.record(f"source_executions/{self.phase}/{row['id']}/{arm}.json", trace)
             self.record_program_cost(trace["actual_member_program_executions"], "native_input_source_execution")
         else:
@@ -1076,7 +1244,11 @@ class RankedOnline(DecisionEvidenceTransfer):
         inherited_labels = (resumed_batch-1)*8 if resumed else (start_batch-1)*8
         new_labels = (3-resumed_batch)*8 if resumed else (4-start_batch)*8
         self.record("declaration.json", {"at": now(), "config": self.cfg,
-            "exact_actual_terminal_parent": self.bank, "frozen_bindings": self.bindings.copy(),
+            "exact_actual_terminal_parent": self.bank if not self.linked_mode() else None,
+            "mechanically_migrated_actual_latest_parent": self.bank if self.linked_mode() else None,
+            "frozen_bindings": self.bindings.copy(),
+            "explicit_guidance_migration": self.cfg.get("initial_guidance_migration"),
+            "ordinary_tool_shared_and_growing_for_main_comparison": self.linked_mode(),
             "no_best_bank_rollback_or_future_case_tuning": True,
             "start_batch": start_batch, "inherited_published_episode_labels": inherited_labels,
             "new_original_label_exposures": new_labels,
@@ -1085,6 +1257,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             "forward_readout_not_taught": 8})
         self.record("publications/initial.json", {"at": now(), "publication": self.bank,
             "actual_inherited_teacher_sources": self.prefix_ids, "not_independent_learning_repeat": True,
+            "explicit_guidance_migration": self.cfg.get("initial_guidance_migration"),
             "starts_with_empty_new_program_representation": self.program_mode() and not self.draft_mode(),
             "inherits_actual_latest_program_without_score_selection": self.draft_mode()})
         if self.program_mode() and not self.draft_mode():
@@ -1116,7 +1289,7 @@ class RankedOnline(DecisionEvidenceTransfer):
                 if index % 2:
                     order = tuple(reversed(order))
                 for arm in order:
-                    self.joint(row, arm, fixed if arm == "skills" else prefix)
+                    self.joint(row, arm, fixed if arm == "skills" and not self.linked_mode() else prefix)
                 if batch == 1:
                     native = next(u for u in self.answers[start:] if u["stage"] == main_phase
                         and u["document_id"] == row["id"] and u["condition"] == "joint_empty")
@@ -1137,6 +1310,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             summary = {"at": now(), "batch": batch, "new_source_ids": [r["id"] for r in rows],
                 "current_bank_sha256": csha(self.bank), "current_skill_count": len(self.bank),
                 "ordinary_prefix_source_ids": self.prefix_ids,
+                "skills_and_strong_empty_share_current_ordinary_tool": self.linked_mode(),
                 "prequential_metrics": {a: points(u) for a,u in groups.items()},
                 "same_case_skill_effects": {a: paired_effect(groups[a], groups["skills"],
                     seed=2026101820+batch*4+i, replicates=5000) for i,a in enumerate(groups) if a != "skills"},
