@@ -15,7 +15,7 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 02:41 CST，source-first Run02系统性回退已停；修复实验已prepare待launch
+## 当前快照：2026-10-19 02:45 CST，40次修复学习+forward8已后台运行；首答顺序/观测核验正常
 
 - 原128 Run02停止于18native/1教师/1fit（含B2首案两臂，无B2整批评分/教师），worker984426及preserver984429已终止。
   184成员终态双盘亲核SHA6dc03480a22263bb8f043f871c485d0abe44870659a7d44cffe3fb2eef433b4c。
@@ -34,7 +34,12 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
   一次真实教师修订后本8重答8答，再复用实际已fit210模型，对随后ALL8新案双臂16答，后8不教。
   前8已见训练，仅机制/学习诊断；后8才是forward，不混算泛化，不冒充完整128或独立重复/TEST。
   同时改变顺序和恢复原读取提示，不能宣称某一词的唯一因果效果。修回基线能力也不能算技能收益。
-- driver完整绑定cfg/实际argv，复用原RankedOnline/评分/更新，不新建生产框架；当前尚未launch。
+- driver完整绑定cfg/实际argv，复用原RankedOnline/评分/更新，不新建生产框架；02:42:03实际launch，
+  worker1029936/ticks435544095，独立preserver1029939/ticks435544097。core checkpoint12dd100fdd4fdcc1902861e8895a8bb3f62a8e4e。
+  81成员全源码/Git启动双盘亲核SHA9cede06e8444d75c7859d62841d800f6b4c475d4cda07154f8ff4439478f6677。
+  02:44:31亲核2/40 native、0教师；368首空实际reason/choice/spans顺序、字面绑定及真实候选观测元数据正常。
+  nda11公开未涉及理由终于选NM/[]；只是一项真实修复例，不能当完整机制/技能净收益或显著性。
+  下一节点16答ALL8机制对照->真正教师/8重答到24答->新案ALL8双臂到40答。不要重复launch或热改核心。
   protocol docs/VERDICT_FIRST_REPAIR_PROTOCOL_20261019.md。账本cap1442/last1427，预定1次，不清历史。
   原单8B服务不改，不加模型/API/裁判/fallback/准入或较好库回滚。Goal active全部实质目标仍未达成。
 
