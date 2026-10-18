@@ -113,9 +113,9 @@ def base_body(row, labels, proposals):
 
 def joint_payload(row, labels, proposals, system, bank=()):
     body, schema = base_body(row, labels, proposals)
-    # This catalogue duplicated source characters already present under their
-    # original markers. Remove redundant text, not source access or candidates.
-    body.pop("candidate_original_text")
+    # Preserve the ordinary source-anchor catalogue. It repeats exact source
+    # excerpts intentionally: equivalent information is not equivalent access
+    # for the weak lawyer. The removed-anchor ablation is retained in history.
     n = len(row["spans"])
     body["output_contract"]["common_schema_for_each_hypothesis"]["properties"]["spans"]["maxItems"] = n
     for entry in schema["properties"].values():
@@ -130,13 +130,16 @@ def joint_payload(row, labels, proposals, system, bank=()):
         body["learned_inspection_criteria"] = [
             {"hypothesis_ids": s["hypothesis_ids"], **copy.deepcopy(s["guidance"])} for s in bank]
     notice = (
-        " Complete original text is present once with original SPAN indices. "
-        "Candidate records point into that text and give fallible ordinary "
-        "evidence-membership scores, not legal confidence or forced answers. "
+        " The complete original NDA remains present and unchanged. Fallible "
+        "evidence candidate records resolve to exact original excerpts in "
+        "candidate_original_text and to the same indices in the full source. "
+        "These source-reading anchors are not a verdict or mandatory evidence. "
+        "Scores describe ordinary evidence membership, not legal confidence. "
         "Optional learned_inspection_criteria are fallible reusable relation "
         "and member procedures scoped by public hypothesis_ids, not facts or "
-        "current answers. Consider both targets together. Empty candidates "
-        "never mean NotMentioned; cite any responsive original member. Return "
+        "current answers. Consider both targets together. Empty leads never "
+        "mean NotMentioned. Read the full source, reject irrelevant material "
+        "and cite ANY original index as needed, including outside all leads. Return "
         "the original choice, spans and short public reason yourself in one "
         "native answer, without other tools or answer correction."
     )

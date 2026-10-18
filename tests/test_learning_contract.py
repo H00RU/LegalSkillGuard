@@ -2206,7 +2206,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     assert all(v["documents"] == 32 for v in result["aggregate_prequential_metrics"].values())
 
 
-def test_joint_skills_share_original_task_and_no_duplicate_source_or_impossible_cardinality():
+def test_joint_skills_share_original_task_preserve_anchors_and_bound_set_cardinality():
     from legal_skill_guard.learning.decision_evidence import joint_payload
     from legal_skill_guard.task import marked_text
 
@@ -2219,7 +2219,7 @@ def test_joint_skills_share_original_task_and_no_duplicate_source_or_impossible_
     assert a == b and empty[0] == skills[0]
     x,y = (json.loads(m[1]["content"]) for m in (empty,skills))
     assert x["full_contract_with_original_span_markers"] == marked_text(row)
-    assert "candidate_original_text" not in x and "candidate_original_text" not in y
+    assert "candidate_original_text" in x and "candidate_original_text" in y
     assert "RELATION_CANARY" in skills[1]["content"] and "MEMBER_CANARY" in skills[1]["content"]
     assert "not_runtime" not in skills[1]["content"]
     y.pop("learned_inspection_criteria")

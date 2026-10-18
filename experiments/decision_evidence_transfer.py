@@ -296,7 +296,7 @@ ONLINE_WRITER = (
     "together in ONE native call. Both relation_criterion and evidence_criterion "
     "are visible together, with their public hypothesis scopes. There is no "
     "separate evidence-only actor or frozen first-action verdict. It reads the "
-    "COMPLETE source once, with no duplicated candidate text catalogue. The main "
+    "COMPLETE source plus exact candidate-original-text reading anchors. The main "
     "ordinary tool is fixed on the same42 "
     "past sources; its binary candidates AND complete all-original-index "
     "membership rank ordering are now visible. Ranking is a fallible search "

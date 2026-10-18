@@ -15,7 +15,23 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-18 14:34 CST
+## 当前快照：2026-10-18 14:42 CST
+
+- ranked_joint run01不是仍在训练。14:40:31安全停，共2native/0新教师，无B1评分；
+  去候选原文锚点后首案joint空5096tokens几乎逐题全source。与旧保留锚点joint611
+  输入还存在notice/schema差异，不能称已隔离证明唯一原因。撤销这个未证实的删除。
+  80成员终态双盘SHA`aed51573424def58f3b3410ee6f0ba04814dc305ee51e921be952125df74884a`。
+  保全成功后才改源，8B3889231未重启。
+- 当前恢复原候选原文catalogue作为有用阅读锚点，完整源/完整排序/原生一次choice+
+  spans+reason仍在；不再改索引展示格式、不补答案、不挑案例。各臂同样恢复。
+  同seed同32案/实际R4继承/3次教学更新+8前瞻/136真实native/3教师/3 CPU对照不变。
+- 新Run `legal_contractnli_ranked_joint_online_20261018_run02`配置已落地、待prepare/备份/
+  实际launch，不能称已运行。当前原教师账本仍1397，前两次接口失败没有消耗新教师。
+  `configs/contractnli_ranked_joint_online_20261018_run02.json`、
+  `docs/RANKED_JOINT_ANCHORED_ONLINE_PROTOCOL_20261018.md`是本轮准确契约。
+  Goal仍active、仍未突破，上一完整开发成绩仍是96调用的负面四臂结果。
+
+## 已归档快照：2026-10-18 14:36 CST
 
 - 旧ranked split run不是仍训练：14:30:49在原生工件安全边界停止，共5native/0新教师，
   未完成B1、无批次指标，未向新教师提供任何episode Gold。空选证8192/length循环索引，
@@ -28,13 +44,20 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
   两种准则字段一起给律师，不是两代理；保留完整已有排序而不自动选引用。
   原文只出现一次，删除重复候选原文catalogue；候选仍按原index指向完整原文。
   所有臂原生schema共同加证据数组长度<=原SPAN数，未排除任何合法证据集合，不后修答案。
-- 新Run `legal_contractnli_ranked_joint_online_20261018_run01`配置/代码已改，尚待检查/
-  prepare/备份/launch，不能称已运行。仍同seed同32案、不重抽、不排除首案500，
+- 新Run `legal_contractnli_ranked_joint_online_20261018_run01`14:36:05实际后台launch，
+  worker4096125/ticks431188265，独立终态保全4096128。14:36:06真实在B1首案joint空，
+  0/136已完成、0新教师，无failure。仍同seed同32案、不重抽、不排除首案500，
   真R4末库继承，3批各8学习+第4批8前瞻，原3教师额度1398–1400不变。
   单调用技能/同工具空/同标签普通前缀空，全部同一次原生任务，计划136真实native，
   48个累计旧案重答包含在136中，144逻辑使用含8个显式同输入别名。
   比原304减少55%调用，不以额外算力或坏空库作胜利。新协议
   `docs/RANKED_JOINT_ONLINE_PROTOCOL_20261018.md`。Goal仍active且未突破。
+- 94检查9.78秒通过、0模型资格生成。新57冻结绑定，源码commit1926dce，64成员
+  完整Git/源码/新输入/前失败收据启动前包逐成员双盘核验SHA
+  `508ab01d7836f312c0950b25ab1a1db68886377d1693b3569125863401436f03`。
+  按公开长度估计最长源258原生输入17569+8192<32768，未用Gold筛样、未生成答案。
+  其余新库/前缀每次真实调用仍检查容量，不截短。进程/保全定义在
+  `artifacts/research/ranked_joint_online_20261018/`；运行时不热改57绑定。
 
 ## 已归档快照：2026-10-18 14:24 CST
 
