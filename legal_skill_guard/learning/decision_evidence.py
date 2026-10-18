@@ -8,7 +8,6 @@ not left as live execution alternatives. No answer repair or current Gold.
 from __future__ import annotations
 
 import copy
-import hashlib
 import json
 
 from jsonschema import ValidationError, validate
@@ -269,106 +268,6 @@ def procedure_payload(row, labels, proposals, system, bank, *, public_reason_wor
     return messages, schema
 
 
-def source_attributed_payload(row, labels, proposals, system, bank):
-    """One native reason/verdict before final citations, with source binding.
-
-    All original indices remain selectable. The grammar pairs a native chosen
-    index with its exact original SPAN text, not with a Gold-selected quote.
-    Source text uses canonical ASCII JSON-string encoding because the frozen
-    xgrammar0.1.23 corrupts non-ASCII string enum literals. This is declared
-    before generation, not a posthoc Unicode repair or source normalization.
-    Forced source readback is not a semantic verifier or evidence admission.
-    """
-    validate_procedures(bank, labels)
-    if not row["spans"]:
-        raise ValueError("Original source needs its original indexed spans")
-    # Retain the existing candidate-reading policy, not just the same data.
-    # The failed source-first adapter dropped these original instructions.
-    original_messages, _ = joint_payload(row, labels, proposals, system, complete_order=False)
-    body = json.loads(original_messages[1]["content"])
-    member = {"anyOf": [{"type":"object", "additionalProperties":False,
-        "required":["source_text_json","span"], "properties":{
-            "source_text_json":{"type":"string", "enum":[json.dumps(row["text"][a:b],ensure_ascii=True)]},
-            "span":{"type":"integer", "enum":[i]}}}
-        for i,(a,b) in enumerate(row["spans"])]}
-    branches = []
-    for choices, bounds in ((["Entailment","Contradiction"],{"minItems":1}),
-                            (["NotMentioned"],{"maxItems":0})):
-        fields = {"reason":{"type":"string"}, "choice":{"type":"string", "enum":choices},
-            "spans":{"type":"array", "items":{"$ref":"#/$defs/source_member"}, **bounds}}
-        branches.append({"type":"object", "additionalProperties":False,
-                         "properties":fields, "required":list(fields)})
-    schema = {"type":"object", "additionalProperties":False,
-        "$defs":{"source_member":member}, "required":list(labels),
-        "properties":{h:{"anyOf":copy.deepcopy(branches)} for h in labels}}
-    body["learned_legal_procedures"] = [{"hypothesis_ids":list(s["hypothesis_ids"]),
-        "procedure":s["guidance"]["procedure"]} for s in bank]
-    body["output_contract"] = {
-        "required_hypothesis_keys":list(labels),
-        "field_order_for_each_hypothesis":["reason","choice","spans"],
-        "spans":"Sparse list of {source_text_json: canonical ASCII JSON-string encoding of EXACT COMPLETE original SPAN text without markers, span: that original integer index}; decode source_text_json with JSON once to recover the literal source. All original indices allowed, no mandatory candidates.",
-        "reason":"At most64 words of public source comparison for the exact hypothesis.",
-        "choice":list(CHOICES), "NotMentioned_requires_empty_spans":True,
-        "Entailment_or_Contradiction_requires_responsive_source_members":True,
-        "quote_index_pairs_are_grammar_bound_source_readback_not_semantic_verification":True}
-    notice = (
-        " Use ONE native answer for all exact hypotheses. For EACH hypothesis "
-        "FIRST give a bounded public comparison of at most64 words between the "
-        "complete source and the exact hypothesis. THEN decide the original "
-        "relation, including NotMentioned for an unresolved proposition. Only "
-        "AFTER that decision select sparse COMPLETE responsive original evidence "
-        "members, not every source span or merely related background. Never "
-        "commit to a nonempty final citation list before deciding whether the "
-        "proposition is settled. Emit each member's "
-        "exact full original text in source_text_json (canonical ASCII JSON "
-        "string encoding, not paraphrase) followed by its original index. "
-        "This standard reversible text encoding protects original Unicode "
-        "punctuation without changing source content. The decoder "
-        "binds those two fields to the current source: this is source readback, "
-        "not proof that the selected clause is relevant. Select a clause for "
-        "its operative actor, object, modality, quantifier, trigger or exception; "
-        "do not select it merely because it contains a topic word. Include "
-        "independently responsive repetitions and necessary governing members, "
-        "without expanding the entire agreement into evidence. Compare the "
-        "exact hypothesis with those operative source "
-        "conditions rather than merely paraphrasing the topic. Distinguish "
-        "actual source conditions from optional learned procedures or their "
-        "generic examples, which are NOT facts about this contract. If the "
-        "exact proposition is unresolved, select [] and NotMentioned; related "
-        "language alone does not settle it. Every label and member selection "
-        "remains yours. No other calls, new tools or answer repair. Return "
-        "reason, choice, spans in that order for every original key.")
-    return [{"role":"system", "content":original_messages[0]["content"]+notice},
-        {"role":"user", "content":json.dumps(body,ensure_ascii=False,separators=(",",":"))}], schema
-
-
-def project_source_attributed_response(row, labels, native, schema):
-    """Project explicit native indices only; never add, fix, filter or dedupe."""
-    value, answer, errors = None, {}, []
-    try:
-        if native["finish_reason"] != "stop":
-            raise ValueError("Incomplete attributed answer; no substitute")
-        value = json.loads(native["content"])
-        validate(value, schema)
-        for h in labels:
-            for member in value[h]["spans"]:
-                a,b = row["spans"][member["span"]]
-                if json.loads(member["source_text_json"]) != row["text"][a:b]:
-                    raise ValueError("Native source text/index pair differs; never realign")
-        answer = {h:{"reason":value[h]["reason"], "choice":value[h]["choice"],
-                     "spans":[m["span"] for m in value[h]["spans"]]} for h in labels}
-    except (ValueError, TypeError, KeyError, IndexError, ValidationError) as exc:
-        errors.append(str(exc))
-    return {**native, "content":json.dumps(answer,ensure_ascii=False,separators=(",",":")),
-        "raw_id":None, "actual_native_raw_ids":[native["raw_id"]],
-        "finish_reason":("length" if native["finish_reason"]=="length" else None) if errors else "stop",
-        "original_metric_projection_not_native_server_response":True,
-        "native_source_content_sha256":hashlib.sha256(native["content"].encode()).hexdigest(),
-        "native_public_attributed_value":value,
-        "invalid_native_raw_content":native["content"] if errors else None,
-        "component_errors":errors,
-        "all_explicit_native_indices_and_choices_preserved_without_repair":not errors,
-        "literal_quote_binding_not_an_independent_semantic_verdict":True}
 
 
 def evidence_payload(row, labels, proposals, decision, decision_schema, bank):

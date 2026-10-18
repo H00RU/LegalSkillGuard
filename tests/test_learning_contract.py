@@ -2160,7 +2160,7 @@ def test_complete_member_order_delivers_tail_without_changing_binary_candidates(
     (1, False, False, False, False), (2, False, False, False, False), (1, True, False, False, False),
     (1, True, True, False, False), (1, True, True, True, False), (1, True, "native", False, False),
     (1, True, "native", True, False), (1, True, "linked", False, False), (1, False, False, False, True),
-    (1, False, False, False, "feedback"), (1, False, False, False, "attributed")])
+    (1, False, False, False, "feedback"), (1, False, False, False, "observed")])
 def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch, program, draft, resume, procedure):
     from types import SimpleNamespace
 
@@ -2168,12 +2168,12 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     from legal_skill_guard.learning.packing import expand
 
     original, labels, gold = fixture()
-    attributed = procedure == "attributed"
-    feedback = procedure in ("feedback","attributed")
-    past_ids = list(range(1000,1202)) if attributed else list(range(100,142))
+    observed = procedure == "observed"
+    feedback = procedure in ("feedback","observed")
+    past_ids = list(range(1000,1202)) if observed else list(range(100,142))
     public = {k: original[k] for k in ("id", "text", "spans")}
     study = module.RankedOnline.__new__(module.RankedOnline)
-    study.documents = [{**copy.deepcopy(public), "id": d} for d in range(1, 129 if attributed else 33)]
+    study.documents = [{**copy.deepcopy(public), "id": d} for d in range(1, 129 if observed else 33)]
     study.past = [{**copy.deepcopy(public), "id": d} for d in past_ids]
     gold_path = tmp_path / "gold.json"
     RunStore.immutable_json(gold_path, {"original_TRAIN_annotations": {
@@ -2202,20 +2202,20 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     study.progress = lambda *args, **kwargs: None
 
     def proposals(model, row, public_labels):
-        return {"by_hypothesis": {h: {"candidates": [{"original_span_index":0,"membership_score":.73}] if attributed else [],
+        return {"by_hypothesis": {h: {"candidates": [{"original_span_index":0,"membership_score":.73}] if observed else [],
                                      "raw_scores": [.1, .2, .3]} for h in public_labels}}
 
     monkeypatch.setattr(module, "evidence_proposals", proposals)
     if procedure:
-        study.cfg.update(method=module.ATTRIBUTED_METHOD if attributed else module.EDIT_FEEDBACK_METHOD if feedback else module.PROCEDURE_METHOD,
+        study.cfg.update(method=module.OBSERVED_METHOD if observed else module.EDIT_FEEDBACK_METHOD if feedback else module.PROCEDURE_METHOD,
                          show_complete_member_order=False)
         if feedback:
             study.cfg["public_reason_words"] = 64
         study.bank = [{"id":"p","hypothesis_ids":list(labels),"guidance":{"procedure":"Check the actual operative source conditions."}}]
-        if attributed:
+        if observed:
             study.bank=[]
             study.cfg.update(learning_batches=16,episode_size=128,
-                initial_guidance_migration="independent_empty_new_source_attributed_learning")
+                initial_guidance_migration="independent_empty_new_source_observed_learning")
     if program:
         from legal_skill_guard.learning.member_contract import teacher_sources
 
@@ -2252,17 +2252,16 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
 
     def generate(row, role, messages, schema):
         study.native.append({"role": role, "phase": study.phase})
-        if attributed:
-            answer={h:{"spans":[{"source_text_json":json.dumps(row['text'][slice(*row['spans'][i])],ensure_ascii=True),"span":i} for i in a['spans']],
-                       "reason":"Native.","choice":a['choice']} for h,a in gold.items()}
-        elif role.endswith("decision"):
+        if role.endswith("decision"):
             answer = {h: {"choice": a["choice"], "reason": "Native."} for h,a in gold.items()}
         elif role.endswith("evidence"):
             answer = {h: {"spans": a["spans"]} for h,a in gold.items()}
         else:
             answer = {h: {**a, "reason": "Native."} for h,a in gold.items()}
-        return {"raw_id": f"{epoch}{len(study.native)}", "finish_reason": "stop",
-                "content": json.dumps(answer), "prompt_tokens": 10, "completion_tokens": 10}
+        response={"raw_id": f"{epoch}{len(study.native)}", "finish_reason": "stop",
+                  "content": json.dumps(answer), "prompt_tokens": 10, "completion_tokens": 10}
+        study.native[-1]['synthetic_response']=copy.deepcopy(response)
+        return response
 
     study.generate = generate
 
@@ -2307,7 +2306,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
                     assert "most15 words" not in system
                     assert "TWO native actions" not in system
                     assert "most64 words" in system and "worked legal distinction" in system
-                    if attributed:
+                    if observed:
                         assert "current_parent_library" in system and "are inherited unchanged" not in system
                         assert "only one original source" not in system
                         assert body['ordinary202_prior_supervision_not_skill_teacher_experience']
@@ -2323,7 +2322,15 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
             sources = expand(body["complete_original_past_and_revealed_episode_sources_and_Gold"])
             assert {s["id"] for s in sources} == set(range(100,142)) | set(range(1,count+1))
         own = expand(body["actual_current_parent_episode_public_answers"])
-        if attributed:
+        if observed:
+            pairs=expand(body['actual_current_batch_matched_empty_and_memory'])
+            assert [p['document_id'] for p in pairs]==list(range(count-7,count+1))
+            assert body['matched_policy_contrast_uses_all_current8_not_an_admission_gate']
+            for pair in pairs:
+                empty,own_memory=pair['actual_empty'],pair['actual_memory']
+                assert empty['document_id']==own_memory['document_id']==pair['document_id']
+                assert empty['ordinary_tool_source_ids']==own_memory['ordinary_tool_source_ids']==study.prefix_ids
+                assert pair['same_physical_cold_alias_not_independent_rollout']==(study.current_batch==1)
             for observation in own:
                 visible=observation['response']['actual_visible_ordinary_evidence_observation']
                 assert visible['from_actual_native_input_not_recomputed_or_current_Gold']
@@ -2345,11 +2352,11 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
                 assert {r["document_id"] for r in draft_feedback} == set(range(100,142)) | set(range(1,count+1))
                 if draft in ("native", "linked"):
                     native = body["actual_unpublished_draft_native_training_feedback"]
-                    observed = expand(native["all8_actual_native_draft_observations"])
-                    assert {r["document_id"] for r in observed} == set(range(count-7,count+1))
+                    draft_observations = expand(native["all8_actual_native_draft_observations"])
+                    assert {r["document_id"] for r in draft_observations} == set(range(count-7,count+1))
                     expected_answer = {h:{**a,"reason":"Native."} for h,a in gold.items()}
                     assert all(r["public_valid"] and expand(r["actual_original_public_answer"]) == expected_answer
-                               for r in observed)
+                               for r in draft_observations)
                     assert len([u for u in study.answers
                         if u["stage"] == f"b{study.current_batch}_unpublished_draft_training"]) == 8
                     assert all(u["condition"] == "skills" for u in study.own_current.values())
@@ -2362,7 +2369,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
                 assert name.endswith("_draft") and "actual_unpublished_draft_CPU_feedback" not in body
         assert len([u for u in study.answers if u["stage"] == f"b{study.current_batch}_prequential"]) == 16
         study.teachers.append(name)
-        if attributed and study.current_batch in (1,2):
+        if observed and study.current_batch in (1,2):
             return {"operations":[{"operation":"CREATE" if study.current_batch==1 else "UPDATE",
                 "target_ids":[] if study.current_batch==1 else ["p"],
                 "source_case_ids":[1 if study.current_batch==1 else 9],
@@ -2405,19 +2412,21 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     study.execute()
     result = records["completion.json"]
     expected=([136,5,3] if draft == "native" else [88,3,2]) if resume else ([160 if draft in ("native", "linked") else 136,6 if draft else (4 if program else 3),3] if start_batch == 1 else [120,2,2])
-    assert result["actual_new_native_teacher_CPUfits"] == ([376,16,16] if attributed else [88,3,3] if feedback else expected)
-    assert len(study.answers) == (384 if attributed else 88 if feedback else (168 if draft in ("native", "linked") else 144) if start_batch == 1 else 120)
-    assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if attributed or (start_batch == 1 and not resume and not feedback) else 0)
+    assert result["actual_new_native_teacher_CPUfits"] == ([376,16,16] if observed else [88,3,3] if feedback else expected)
+    assert len(study.answers) == (384 if observed else 88 if feedback else (168 if draft in ("native", "linked") else 144) if start_batch == 1 else 120)
+    assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if observed or (start_batch == 1 and not resume and not feedback) else 0)
     assert len(records["publications/b3.json"]["original_seen_source_ids"]) == len(past_ids)+24
-    assert ("publications/b4.json" in records) == attributed
-    if attributed:
+    assert ("publications/b4.json" in records) == observed
+    if observed:
         assert len(records["publications/b16.json"]["original_seen_source_ids"]) == 330
         assert records["publications/initial.json"]['actual_inherited_teacher_sources']==[]
         assert result['new_episode_original_sources_taught']==result['new_taught_labels']==128
         assert result['total_original_sources_taught_at_terminal']==128
         assert result['total_common_ordinary_supervised_sources_at_terminal']==330
         assert not result['episode24_taught_forward8_not_taught']
-        assert all(u['response']['original_metric_projection_not_native_server_response'] for u in study.answers)
+        assert all(u['response']['raw_id'] and u['response']['observation_metadata_only_native_content_and_raw_id_unchanged'] for u in study.answers)
+        native_by_id={n['synthetic_response']['raw_id']:n['synthetic_response'] for n in study.native}
+        assert all(u['response']['content']==native_by_id[u['response']['raw_id']]['content'] for u in study.answers)
         assert records['guidance_delivery/b2_prequential/9/skills.json']['visible_procedures']
     if program:
         if draft:
@@ -2434,9 +2443,9 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
             assert records["publications/induction.json"]["new_episode_labels_taught"] == 0
             assert records["publications/induction.json"]["new_representation_learning_not_best_bank_rollback"]
         assert records["source_executions/b4_prequential/32/skills.json"]["synthetic_chronology_not_effectiveness"]
-    assert all(v["documents"] == (128 if attributed else 32 if start_batch == 1 else 24) for v in result["aggregate_prequential_metrics"].values())
+    assert all(v["documents"] == (128 if observed else 32 if start_batch == 1 else 24) for v in result["aggregate_prequential_metrics"].values())
     if draft == "linked" or procedure:
-        for batch in (range(1,17) if attributed else (1,2,3)):
+        for batch in (range(1,17) if observed else (1,2,3)):
             update = records[f"update_effects/b{batch}.json"]
             assert update["paired_scope"] == "current8_same_common_tool_training_only"
             assert update["paired_source_ids"] == list(range(batch*8-7,batch*8+1))
@@ -2448,7 +2457,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
                 batch = int(item["stage"].split("_")[0][1:])
                 assert item["ordinary_tool_source_ids"] == past_ids+list(range(1,(batch-1)*8+1))
         if procedure:
-            assert study.teachers == [f"online_b{b}" for b in (range(1,17) if attributed else (1,2,3))]
+            assert study.teachers == [f"online_b{b}" for b in (range(1,17) if observed else (1,2,3))]
             assert not any(k.startswith(("drafts/","program_replays/","draft_native_training/","source_executions/")) for k in records)
     if start_batch == 2:
         assert records["initial_retention.json"]["not_unseen_evaluation_or_teacher_update_gain"]
@@ -2567,51 +2576,6 @@ def test_linked_source_and_procedure_keep_native_judgment_and_explicit_execution
         execute_member_programs([invalid], row, labels, allow_procedures=True)
 
 
-def test_source_attribution_is_literal_native_selection_not_realignment_or_answer_repair():
-    from jsonschema import validate
-    from legal_skill_guard.learning.decision_evidence import source_attributed_payload,project_source_attributed_response
-    from legal_skill_guard.task import marked_text
-
-    original,labels,gold=fixture();row={k:original[k] for k in ('id','text','spans')}
-    bank=[{'id':'audit_not_runtime','hypothesis_ids':['h1'],'guidance':{'procedure':'Inspect the operative condition.'}}]
-    empty,schema=source_attributed_payload(row,labels,None,'Same task.',[])
-    skill,ss=source_attributed_payload(row,labels,None,'Same task.',bank)
-    assert schema==ss and empty[0]==skill[0]
-    a,b=[json.loads(m[1]['content']) for m in (empty,skill)]
-    assert a.pop('learned_legal_procedures')==[] and b.pop('learned_legal_procedures')[0]['procedure']==bank[0]['guidance']['procedure']
-    assert a==b and marked_text(row) in a.values()
-    assert 'candidate_original_text' in empty[0]['content']  # Preserve the original anchor-reading affordance.
-    assert 'GOLD_MUST_NOT_ENTER_SOLVER' not in skill[1]['content'] and 'audit_not_runtime' not in skill[1]['content']
-    for spec in schema['properties'].values():
-        for branch in spec['anyOf']:assert list(branch['properties'])==['reason','choice','spans']
-    quoted={h:{'spans':[{'source_text_json':json.dumps(row['text'][slice(*row['spans'][i])],ensure_ascii=True),'span':i} for i in v['spans']],
-               'reason':'Source comparison.','choice':v['choice']} for h,v in gold.items()}
-    native={'raw_id':'actual-native-one','finish_reason':'stop','content':json.dumps(quoted),'prompt_tokens':123,'completion_tokens':456}
-    validate(quoted,schema)
-    projected=project_source_attributed_response(row,labels,native,schema)
-    actual=json.loads(projected['content'])
-    assert {h:{k:v[k] for k in ('choice','spans')} for h,v in actual.items()}==gold
-    assert projected['raw_id'] is None and projected['actual_native_raw_ids']==['actual-native-one']
-    assert projected['native_public_attributed_value']==quoted
-    assert projected['prompt_tokens']==123 and projected['completion_tokens']==456
-    assert original_feedback(projected,row,gold,list(labels))['public_valid']
-    wrong=copy.deepcopy(quoted);wrong['h1']['spans'][0]['source_text_json']=json.dumps(row['text'][slice(*row['spans'][1])],ensure_ascii=True)
-    invalid=project_source_attributed_response(row,labels,{**native,'content':json.dumps(wrong)},schema)
-    assert invalid['component_errors'] and json.loads(invalid['content'])=={}  # Never move to the matching index.
-    duplicates=copy.deepcopy(quoted);duplicates['h1']['spans'].insert(0,copy.deepcopy(duplicates['h1']['spans'][0]))
-    kept=project_source_attributed_response(row,labels,{**native,'content':json.dumps(duplicates)},schema)
-    assert json.loads(kept['content'])['h1']['spans']==[0,0,2]
-    cutoff=project_source_attributed_response(row,labels,{**native,'finish_reason':'length'},schema)
-    assert cutoff['finish_reason']=='length' and json.loads(cutoff['content'])=={}
-    text='Original “quoted” term—unchanged and/or retained; slash \\ tab\t newline\n NUL\0 🙂'
-    unicode_source={'id':999,'text':text,'spans':[[0,len(text)]]}
-    _,unicode_schema=source_attributed_payload(unicode_source,labels,None,'Same task.',[])
-    encoded=json.dumps(text,ensure_ascii=True)
-    assert encoded.isascii() and json.loads(encoded)==text
-    value={h:{'spans':[{'source_text_json':encoded,'span':0}] if h=='h1' else [],
-              'reason':'Literal source only.','choice':'Entailment' if h=='h1' else 'NotMentioned'} for h in labels}
-    result=project_source_attributed_response(unicode_source,labels,{**native,'content':json.dumps(value)},unicode_schema)
-    assert not result['component_errors'] and json.loads(result['content'])['h1']['spans']==[0]
 
 
 def test_direct_procedure_changes_only_public_reason_order_and_guidance_not_legal_task():

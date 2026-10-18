@@ -15,7 +15,31 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 02:45 CST，40次修复学习+forward8已后台运行；首答顺序/观测核验正常
+## 当前快照：2026-10-19 03:06 CST，原生紧凑128链路已prepare；删除失败回放格式，待launch
+
+- verdict_first_repair原40计划已于02:59:31安全停止，仅12native/0教师/0fit；没有完整ALL8机制表、教师修订或forward8成绩，
+  不能说该实验完成。137成员终态双盘亲核SHAe9259c6aa418fab8333a856754680dfba0f90be04ea2ee9d5a7f4b65d9b0575e。
+  304技能和空库两臂均8192 length；技能nda12重复同SPAN29共105次，而完整Gold报价最低2047tokens。
+  是新回放格式冗余/退化，不是Gold必须超容量；原始无效答卷不裁剪/去重/补答案。
+- 原生全段quote/string-enum/projection函数及专门测试已从活动源码删除；历史Git/全量失败答卷/双盘档案均保留。
+  三次失败格式开发成本共33native/1教师/1fit。恢复原procedure_payload原生reason/choice/整数SPAN列表，
+  保留原joint_payload候选读取提示和全部source、原指标。不是引入fallback或选较好旧库。
+- 真正保留的学习优化：逐次实际给律师的候选索引/分数/原文片段进入own观测；本批ALL8空/技能同源同工具
+  原生答与原Gold反馈完整送教师（B1冷别名明确非独立rollout），另有上次实际发布ALL8前后bank/delta/工具版本。
+  不是再给一份标签，更不是TF-GRPO权重训练或效果准入；所有有效CRUD/NOOP仍无条件发布后真实本8重答。
+- 新正式Run legal_contractnli_observed_procedure128_online_20261019_run01，method observed_procedure_online：
+  同已源预选128/seed2026101902，不挑新案或改标注，独立空技能起点，16×8全批在线学习、376/16/16预定，
+  384逻辑答含8冷物理别名；两臂共同普通202->330，不算技能贡献。first8已用于开发，不能说独立算法重复。
+  旧R17只验证共同模型202/源排除谱系，旧R17/R1文字及旧教师例不进新库。官方DEV/TEST不调优。
+- 原模块/既有测试修改后120项35.59秒pass；净删代码，无新生成资格调用，不再跑新的小格式变体。
+  cfg/input/source/scorer已prepare冻结，protocol docs/OBSERVED_PROCEDURE_128_PROTOCOL_20261019.md；当前未launch。
+  旧ledger原字节双盘后cap1442->1443、last1427不清账，覆盖接下来16教师。当前无旧训练worker。
+- 接提交/双盘后后台真实launch，核首次原生输出内容/rawID完全未改、候选观测及ALL8配对实际进教师，
+  再看B1发布/本8实答、B2/B3和后续新案净收益，不只看首批、恢复接口能力或库数量。
+  不因单个普通错例重启，也不强行拖过明确系统性故障。完整128效果、强/成熟/等调用基线、
+  独立重复和官方TEST均未完成，Goal active未达成。单8B/既有教师/原任务不变，不恢复32B或客户路由。
+
+## 已归档快照：2026-10-19 02:45 CST，原40修复计划当时后台运行；后续重复回放故障已终止
 
 - 原128 Run02停止于18native/1教师/1fit（含B2首案两臂，无B2整批评分/教师），worker984426及preserver984429已终止。
   184成员终态双盘亲核SHA6dc03480a22263bb8f043f871c485d0abe44870659a7d44cffe3fb2eef433b4c。
