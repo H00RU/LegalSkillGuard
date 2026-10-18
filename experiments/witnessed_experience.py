@@ -1,4 +1,4 @@
-"""Finite case-backed skill evolution with exact historical evidence memory.
+"""Chronological case-backed skill evolution with exact historical evidence memory.
 
 Reuses the original native model, ordinary tool, publication and scorer. This is
 an experimental entrypoint, not a second runtime service or an answer adapter.
@@ -49,8 +49,9 @@ TEACHER_SYSTEM = (
     "parties or dates in procedures. Exact past text is supplied by reference only. Same-source "
     "witnesses are excluded by source identity AND content hash, even for training reanswers. "
     "All original current indices remain selectable; only the lawyer decides final labels/citations. "
-    "The same bank has rule-only, witness-only, combined and empty ablations. Use their REAL outcomes "
-    "to distinguish reusable procedures from simply adding demonstrations. Original three-way "
+    "Use the REAL supplied policy differences; do not invent comparisons or missing ablation arms. "
+    "candidate_contexts stores exact actual source-reading inputs once; observation context references "
+    "resolve to those same complete inputs without omitted candidates or scores. Original three-way "
     "accuracy, Gold-NN hard original-SPAN F1 and strict joint are unchanged. The COMPLETE MATERIALIZED "
     "knowledge bank, INCLUDING every procedure/scope and FULL historical evidence text/label, must fit4096 "
     "actual target8B tokens; aim2800. Internal audit hashes/IDs are stored/reported separately, not served "
@@ -66,20 +67,29 @@ TEACHER_SYSTEM = (
 
 
 class WitnessedExperience(RankedOnline):
+    teaching_system = TEACHER_SYSTEM
+
+    def new_fit_count(self):
+        return len(self.fit_records)
+
     def observe(self, units):
-        values = []
+        values, contexts = [], {}
         for u in units:
             delivery = read(self.out / f"deliveries/{u['stage']}/{u['document_id']}/{u['condition']}.json")
+            context = delivery.pop("actual_visible_candidates")
+            ref = csha(context)
+            contexts.setdefault(ref, context)
             values.append({
                 "document_id": u["document_id"], "stage": u["stage"], "bank_sha256": u["bank_sha256"],
                 "actual_ordinary_tool_source_ids": u["ordinary_tool_source_ids"],
                 "actual_native_answer": u["parsed"], "public_valid": u["public_valid"],
                 "invalid_native_content": None if u["public_valid"] else u["response"]["content"],
-                "actual_delivery": delivery,
+                "actual_delivery": delivery, "actual_candidate_context_ref": ref,
                 "original_component_feedback": {q["hypothesis_id"]: {k: q[k] for k in (
                     "label_correct", "evidence_tp", "evidence_fp", "evidence_fn", "joint_exact")}
                     for q in u["queries"]}})
-        return table(values)
+        return {"encoding": "lossless_source_candidate_context_refs_v1", "candidate_contexts": contexts,
+                "observations": table(values), "all_actual_candidates_scores_and_text_retained": True}
 
     def publish(self, body, name):
         parent = copy.deepcopy(self.bank)
@@ -100,7 +110,7 @@ class WitnessedExperience(RankedOnline):
                 ensure_ascii=False, separators=(",", ":"))) for ref, w in catalog.items()}
         body["token_costs_are_existing_CPU_tokenizer_requests_not_native_generations"] = len(catalog)
         self.record(f"learning_inputs/{name}.json", body)
-        delta = self.teacher_call(name, TEACHER_SYSTEM, encode_teacher_body(body), schema)
+        delta = self.teacher_call(name, self.teaching_system, encode_teacher_body(body), schema)
         bank = apply_differential_publication(parent, delta, self.labels, allowed, guidance_schema=guidance)
         materialized = materialize_witness_skills(bank, self.labels, catalog)
         tokens = self.meter.token_count(text=json.dumps(witness_knowledge_view(materialized),
@@ -128,118 +138,193 @@ class WitnessedExperience(RankedOnline):
         body = json.loads(messages[1]["content"])
         self.record(f"deliveries/{self.phase}/{row['id']}/{role}.json", {
             **delivery, "actual_native_raw_id": native["raw_id"], "materialized_bank_sha256": csha(self.materialized),
+            "actual_source_read_selection": proposals["selection"],
             "actual_visible_candidates": {"hypotheses": body["hypotheses"],
                                           "candidate_original_text": body["candidate_original_text"]}})
-        self.logical(row, role, native)
+        return self.logical(row, role, native)
+
+
+
+class WitnessedOnline(WitnessedExperience):
+    """Full chronological skill learning; shared trained read access is not skill gain."""
+
+    teaching_system = TEACHER_SYSTEM + (
+        " This is the MAIN chronological online run, not a four-arm pilot. Only actual same-case "
+        "empty-versus-current-memory pairs and the previous actual before/after publication are supplied. "
+        "The library starts EMPTY; the ordinary prior202 is shared tool supervision, not your skill "
+        "experience. Every batch is taught exactly once and every valid edit executes on ALL current8. "
+        "Cold identical-policy aliases are one physical answer, never independent exploration. "
+        "The complete-source window is current8 plus previous8; older retained witnesses are exact "
+        "past evidence, not fabricated fresh answers or full old documents. Publication feedback is "
+        "actual same-tool before/after, including all harms; never treat it as guaranteed success. "
+        "Reading access is deliberately recall-favouring and calibrated ONLY on prior TRAIN. These "
+        "broader candidates are optional source leads, not evidence answers or legal confidence. "
+        "Diagnose original NN members missed inside and outside the leads. Correct NM gains alone "
+        "are NOT improved evidence acquisition. For correct relations with incomplete evidence, repair "
+        "source inspection rather than simply demanding more explicit wording or switching to NM. "
+        "Contrast your OWN selected witnesses with your procedure; do not synthesize a universal "
+        "permission or exclusion inconsistent with the supplied counterexamples. If original labels "
+        "have an ambiguous boundary, preserve the observed distinction without inventing universal law "
+        "or deleting inconvenient source data. No manual case exceptions, fixed library size, efficacy "
+        "admission, best-bank rollback or future-case knowledge."
+    )
+
+    def cold_alias(self, row, proposals, empty):
+        assert not self.bank and not self.materialized and self.current_batch == 1
+        messages, schema, delivery = witnessed_skill_payload(row, self.labels, proposals,
+            self.cfg["bundled_solver_system"], [], mode="combined")
+        original_input = self.out / f"inputs/b1_prequential_empty/{row['id']}/joint_empty.json"
+        actual = read(original_input)
+        assert actual == {"messages": messages, "schema": schema}
+        native_path = self.out / f"native/b1_prequential_empty/{row['id']}/joint_empty.json"
+        assert read(native_path)["response"] == empty["response"]
+        self.record(f"inputs/{self.phase}/{row['id']}/skills.json", actual)
+        body = json.loads(messages[1]["content"])
+        self.record(f"deliveries/{self.phase}/{row['id']}/skills.json", {
+            **delivery, "actual_native_raw_id": empty["response"]["raw_id"],
+            "materialized_bank_sha256": csha([]), "actual_source_read_selection": proposals["selection"],
+            "explicit_identical_policy_physical_alias_not_an_independent_rollout": True,
+            "actual_visible_candidates": {"hypotheses": body["hypotheses"],
+                                          "candidate_original_text": body["candidate_original_text"]}})
+        self.record(f"aliases/cold_{row['id']}.json", {
+            "at": now(), "source_native_path": str(native_path), "source_input_path": str(original_input),
+            "input_and_schema_exactly_equal": True, "new_native_calls": 0,
+            "original_raw_id_and_content_preserved": True})
+        return self.logical(row, "skills", empty["response"])
+
+    def leads(self, row):
+        return evidence_proposals(self.prefix_model, row, self.labels,
+                                  reading_threshold=self.reading_policy["threshold"])
 
     def execute(self):
-        assert self.cfg["method"] == EDIT_FEEDBACK_METHOD and len(self.documents) == 16 and len(self.past) == 242
-        assert [r["id"] for r in self.documents] == [249,197,150,166,365,386,119,125,300,180,350,347,403,160,599,554]
-        assert not self.bank and len(self.prefix_ids) == 242
-        terminal = read(ROOT / self.cfg["reference_terminal_preservation"])
-        assert terminal["state"] == "terminal_results_preserved" and terminal["all_members_verified"]
-        assert sha(terminal["archive"]) == sha(terminal["rootdisk_copy"]) == terminal["archive_sha256"]
+        assert self.cfg["method"] == EDIT_FEEDBACK_METHOD and len(self.documents) == 128
+        assert len(self.past) == len(self.prefix_ids) == 202 and not self.bank
+        assert [r["id"] for r in self.documents] == self.cfg["episode_ids"]
+        calibration = read(ROOT / self.cfg["reading_calibration_completion"])
+        assert calibration["actual_completed_CPUfits"] == 5
+        assert set(calibration["source_fold_assignment"]) == {str(i) for i in self.prefix_ids}
+        assert calibration["reading_policy"]["beta"] == 2
+        self.reading_policy = calibration["reading_policy"]
         self.materialized, self.catalog, self.memory_tokens, self.publication_history = [], {}, 0, []
-        self.fit_records = [read(ROOT / self.cfg["ordinary_manifest"])]
-        self.current_batch = 5
+        self.fit_records, self.last_update = [], None
         self.record("declaration.json", {
             "at": now(), "config": self.cfg, "frozen_bindings": self.bindings.copy(),
-            "planned_new_native_teacher_CPUfits": [72,2,self.cfg["planned_new_CPU_fits"]],
-            "inherited_failed_native_teacher_CPUfits": self.cfg.get("inherited_failed_native_teacher_CPUfits", [0,0,0]),
-            "initial_common_CPUfit_already_done_and_counted": True,
-            "all8_all4_before_each_batch_Gold_grading": True,
-            "same_source_witness_exclusion_applies_even_to_training_reanswers": True,
-            "not_formal128_independent_repeat_equal_cost_mature_baseline_or_official_TEST": True,
-            "prior_failed_group_probe_and_all_adverse_history_preserved": True})
-        initial = read(ROOT / self.cfg["initial_teacher_body"])
-        self.publish(initial, "initial_known_prefix40")
-        modes = ["empty", "procedure_only", "witnesses_only", "combined"]
-        summaries, update_effect = [], None
-        for offset in (0, 8):
-            self.current_batch = 6 + offset // 8
-            rows, start = self.documents[offset:offset+8], len(self.answers)
+            "planned_new_native_teacher_CPUfits": [376,16,16], "planned_logical_answers": 384,
+            "only8_exact_cold_aliases_not_independent_exploration": True,
+            "shared_prior202_calibration_and_growing_tool_not_skill_gain": True,
+            "reading_policy": self.reading_policy, "independent_empty_memory_start": True,
+            "prior_training_development_exposures_not_an_independent_algorithmic_repeat": True,
+            "same_source_witnesses_excluded_even_for_training_reanswers": True,
+            "official_DEV_TEST_not_used_for_tuning": True})
+        summaries = []
+        for batch in range(1,17):
+            self.current_batch = batch
+            rows, start = self.documents[(batch-1)*8:batch*8], len(self.answers)
+            assert len(self.prefix_ids) == 202+(batch-1)*8
             for index, row in enumerate(rows):
-                proposals = evidence_proposals(self.prefix_model, row, self.labels)
-                for mode in modes[index%4:] + modes[:index%4]:
-                    self.phase = f"b{self.current_batch}_prequential_" + mode
-                    self.answer_mode(row, mode, proposals)
+                proposals = self.leads(row)
+                if batch == 1:
+                    self.phase = "b1_prequential_empty"
+                    empty = self.answer_mode(row, "empty", proposals)
+                    self.phase = "b1_prequential_combined"
+                    self.cold_alias(row, proposals, empty)
+                else:
+                    for mode in (("empty","combined") if index%2 == 0 else ("combined","empty")):
+                        self.phase = f"b{batch}_prequential_" + mode
+                        self.answer_mode(row, mode, proposals)
             fresh = self.score(self.answers[start:])
             self.units.extend(fresh)
-            groups = {m: [u for u in fresh if u["stage"].endswith("_" + m)] for m in modes}
+            groups = {m: [u for u in fresh if u["stage"].endswith("_"+m)] for m in ("empty","combined")}
             assert all(len(v) == 8 for v in groups.values())
-            summary = {"at": now(), "batch": self.current_batch, "new_source_ids": [r["id"] for r in rows],
-                "current_reference_bank": self.bank, "materialized_bank_tokens": self.memory_tokens,
-                "common_ordinary_source_count": len(self.prefix_ids), "metrics": {m: points(v) for m,v in groups.items()},
-                "same_case_effects_vs_empty": {m: paired_effect(groups["empty"], groups[m],
-                    seed=2026101960+self.current_batch+i, replicates=5000)
-                    for i,m in enumerate(modes) if m != "empty"}}
-            self.record(f"batch_summaries/b{self.current_batch}_before.json", summary)
+            metrics = {m: points(v) for m,v in groups.items()}
+            effect = paired_effect(groups["empty"],groups["combined"],seed=2026101980+batch,replicates=5000)
+            summary = {"at": now(), "batch": batch, "new_source_ids": [r["id"] for r in rows],
+                "metrics": metrics, "same_case_skill_effect": effect,
+                "current_bank_sha256": csha(self.bank), "current_skill_count": len(self.bank),
+                "knowledge_tokens": self.memory_tokens, "shared_ordinary_source_ids": self.prefix_ids,
+                "shared_reading_policy": self.reading_policy,
+                "all_current8_both_views_generated_before_current_Gold": True}
+            self.record(f"batch_summaries/b{batch}_before.json", summary)
             summaries.append(summary)
-            if offset == 0:
-                gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
-                window = self.past[-8:] + rows
-                catalog = training_witness_catalog(window, self.labels, gold)
-                for skill in self.bank:
-                    for ref in skill["guidance"]["witness_refs"]:
-                        catalog.setdefault(ref, self.catalog[ref])
-                body = {"public_hypotheses": self.labels,
-                    "complete_already_revealed_original_source_window_and_Gold": annotated_sources(window,self.labels,gold),
-                    "eligible_original_non_neutral_historical_witnesses": catalog,
-                    "all_actual_current8_four_arm_answers_and_component_feedback": self.observe(fresh),
-                    "actual_current_batch_four_arm_metrics": summary["metrics"],
-                    "current_common_ordinary_tool_source_ids": self.prefix_ids,
-                    "previous8_reference_observations_not_new_method_own_executions": table([
-                        u for u in expand(initial["all_reference_empty_and_prose_observations_in_same_case_tool_pairs"])
-                        if u["document_id"] in {r["id"] for r in self.past[-8:]}]),
-                    "no_future_source_text_answers_annotations_or_official_DEV_TEST": True,
-                    "publication_then_actual_same8_combined_reanswer_under_same_tool_with_same_source_examples_excluded": True}
-                self.publish(body, "after_new_batch6")
-                start_after, self.phase = len(self.answers), "b6_after_seen_combined"
-                for row in rows:
-                    self.answer_mode(row, "combined", evidence_proposals(self.prefix_model,row,self.labels))
-                after = self.score(self.answers[start_after:])
-                self.units.extend(after)
-                update_effect = paired_effect(groups["combined"], after, seed=2026101969, replicates=5000)
-                self.record("update_effects/b6.json", {"at": now(), "effect": update_effect,
-                    "same_common242_tool_and_same_source_witness_exclusion": True,
-                    "all8_training_reanswers_not_forward_generalization_or_bank_admission": True})
-                self.fit_prefix(self.documents[:8])
-        assert len(self.native) == len(self.answers) == 72 and len(self.teachers) == len(self.fit_records) == 2
+            print(json.dumps({"batch": batch, "metrics": metrics}), flush=True)
+            gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
+            seen = self.documents[:batch*8]
+            window = seen[-16:]
+            catalog = training_witness_catalog(window, self.labels, gold)
+            for skill in self.bank:
+                for ref in skill["guidance"]["witness_refs"]:
+                    catalog.setdefault(ref, self.catalog[ref])
+            body = {"public_hypotheses": self.labels,
+                "complete_already_revealed_original_source_window_and_Gold": annotated_sources(window,self.labels,gold),
+                "eligible_original_non_neutral_historical_witnesses": catalog,
+                "all_actual_current8_matched_empty_and_memory_observations": self.observe(fresh),
+                "actual_current_batch_metrics": metrics,
+                "current_shared_ordinary_tool_source_ids": self.prefix_ids,
+                "shared_training_only_reading_policy_not_skill_gain": self.reading_policy,
+                "cold_policy_aliases_are_one_physical_answer_not_independent_sampling": batch == 1,
+                "previous_actual_complete8_publication_experience": self.last_update,
+                "no_future_source_text_answers_annotations_or_official_DEV_TEST": True,
+                "outside_window_old_sources_not_reanswered_no_all_seen_retention_claim": True}
+            parent, before_materialized = copy.deepcopy(self.bank), copy.deepcopy(self.materialized)
+            name = f"online_b{batch}"
+            self.publish(body, name)
+            start_after, self.phase = len(self.answers), f"b{batch}_after_seen_combined"
+            for row in rows:
+                self.answer_mode(row, "combined", self.leads(row))
+            after = self.score(self.answers[start_after:])
+            self.units.extend(after)
+            update = paired_effect(groups["combined"],after,seed=2026102000+batch,replicates=5000)
+            self.record(f"update_effects/b{batch}.json", {
+                "at": now(), "effect": update, "same_current_ordinary_tool_and_reading_policy": True,
+                "same_source_witness_exclusion_on_all8_training_reanswers": True,
+                "training_effect_not_new_source_transfer_or_skill_admission": True})
+            publication = read(self.out/f"publications/{name}.json")
+            self.last_update = {"parent_library": parent, "delta": publication["delta"],
+                "published_library": self.bank, "parent_materialized_memory": before_materialized,
+                "all8_actual_before_and_after": self.observe(groups["combined"]+after),
+                "same_ordinary_source_ids": self.prefix_ids, "reading_policy": self.reading_policy,
+                "original_training_effect": update, "not_a_selected_successful_update": True}
+            self.record(f"batch_summaries/b{batch}_complete.json", {**summary,
+                "publication_statistics": self.publication_history[-1], "actual_training_update_effect": update})
+            self.fit_prefix(seen)
+        assert len(self.native) == 376 and len(self.answers) == 384
+        assert len(self.teachers) == len(self.fit_records) == 16 and len(self.prefix_ids) == 330
         groups = {m: [u for u in self.units if "_prequential_" in u["stage"] and u["stage"].endswith("_"+m)]
-                  for m in modes}
-        assert all(len(v) == 16 for v in groups.values())
-        result = {"at": now(), "run_id": self.run_id, "complete16_prequential_metrics": {m:points(v) for m,v in groups.items()},
-            "same_case_all16_effects_vs_empty": {m: paired_effect(groups["empty"],groups[m],
-                seed=2026101970+i,replicates=5000) for i,m in enumerate(modes) if m != "empty"},
-            "batch_summaries": summaries, "actual_first_update_training_effect": update_effect,
-            "actual_new_native_teacher_CPUfits": [72,2,self.cfg["planned_new_CPU_fits"]],
-            "inherited_failed_native_teacher_CPUfits": self.cfg.get("inherited_failed_native_teacher_CPUfits", [0,0,0]),
+                  for m in ("empty","combined")}
+        assert all(len(v) == 128 for v in groups.values())
+        result = {"at": now(), "run_id": self.run_id, "all128_prequential_metrics": {m:points(v) for m,v in groups.items()},
+            "all128_source_paired_effect": paired_effect(groups["empty"],groups["combined"],seed=2026102020,replicates=5000),
+            "batch_summaries": summaries, "actual_new_native_teacher_CPUfits": [376,16,16],
+            "inherited_shared_read_calibration_CPUfits": 5,
             "prior_development_family_native_teacher_CPUfits": self.cfg["prior_development_family_native_teacher_CPUfits"],
             "total_this_development_family_native_teacher_CPUfits": [a+b for a,b in zip(
-                [72,2,self.cfg["planned_new_CPU_fits"]],self.cfg["prior_development_family_native_teacher_CPUfits"],strict=True)],
-            "actual_ordinary_fits": self.fit_records, "publication_statistics": self.publication_history,
-            "final_reference_bank": self.bank, "final_materialized_memory": self.materialized, "units": self.units,
-            "all_adverse_arms_cases_invalids_and_original_denominators_preserved": True,
-            "not_formal128_independent_repeat_or_official_TEST": True}
+                [376,16,16],self.cfg["prior_development_family_native_teacher_CPUfits"],strict=True)],
+            "final_bank": self.bank, "final_materialized_memory": self.materialized,
+            "final_common_ordinary_source_ids": self.prefix_ids, "actual_ordinary_fits": self.fit_records,
+            "publication_statistics": self.publication_history, "units": self.units,
+            "all_adverse_cases_invalids_and_original_denominators_preserved": True,
+            "not_independent_algorithmic_repeat_mature_baseline_superiority_or_official_TEST": True}
         self.record("completion.json", result)
-        RunStore.atomic_json(self.out / "progress.json", {
-            "at": now(), "state": "completed", "run_id": self.run_id, "completed_native_calls": 72,
-            "completed_teacher_calls": 2, "actual_new_CPUfits": self.cfg["planned_new_CPU_fits"],
-            "inherited_common_CPUfit": self.cfg.get("inherited_initial_common_fit",False),
-            "all16_forward_metrics": result["complete16_prequential_metrics"]})
-        print(json.dumps({"completed": self.run_id, "metrics": result["complete16_prequential_metrics"]}), flush=True)
+        RunStore.atomic_json(self.out/"progress.json", {
+            "at": now(), "state": "completed", "run_id": self.run_id,
+            "completed_native_calls": 376, "completed_teacher_calls": 16, "actual_new_CPUfits": 16,
+            "all128_prequential_metrics": result["all128_prequential_metrics"]})
+        print(json.dumps({"completed": self.run_id, "metrics": result["all128_prequential_metrics"]}),flush=True)
 
 
 def main():
     with (ROOT / "artifacts/gpu_generation.lock").open("a+") as lock:
         fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-        study = WitnessedExperience(Path(sys.argv[1]))
+        config = Path(sys.argv[1])
+        kind = read(config)["study_kind"]
+        if kind != "full128_case_backed_skill_online":
+            raise ValueError("Only the full online protocol is active; finite historical studies remain in Git/archives")
+        study = WitnessedOnline(config)
         try:
             study.execute()
         except BaseException as error:
             failure = {"at": now(), "state": "failed", "error": repr(error), "traceback": traceback.format_exc(),
-                "actual_native_teacher_CPUfits": [len(study.native),len(study.teachers),
-                    max(0,len(study.fit_records)-int(study.cfg.get("inherited_initial_common_fit",False)))],
+                "actual_native_teacher_CPUfits": [len(study.native),len(study.teachers),study.new_fit_count()],
                 "inherited_failed_native_teacher_CPUfits": study.cfg.get("inherited_failed_native_teacher_CPUfits", [0,0,0]),
                 "no_retry_answer_repair_fallback_gate_or_selected_bank": True}
             study.record("failure.json", failure)

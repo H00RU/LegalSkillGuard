@@ -2794,6 +2794,48 @@ def test_training_reading_policy_threshold_objective_ties_and_native_pool_contra
     with pytest.raises(ValueError):evidence_proposals(model,row,labels,reading_threshold=-.1)
 
 
+def test_online_teacher_candidate_context_factoring_preserves_every_observation(tmp_path):
+    from experiments.witnessed_experience import WitnessedExperience
+    from legal_skill_guard.learning.packing import expand
+    study=WitnessedExperience.__new__(WitnessedExperience);study.out=tmp_path
+    context={'hypotheses':{'h1':{'fallible_evidence_candidates':[{'original_span_index':0,'membership_score':.23}]}},
+             'candidate_original_text':{'0':'Exact synthetic source text.'}}
+    units=[];originals=[]
+    for i,mode in enumerate(('empty','combined')):
+        role='joint_empty' if mode=='empty' else 'skills';stage='b1_prequential_'+mode
+        delivery={'mode':mode,'actual_native_raw_id':f'synthetic_{i}','actual_visible_candidates':copy.deepcopy(context)}
+        RunStore.immutable_json(tmp_path/f'deliveries/{stage}/1/{role}.json',delivery);originals.append(delivery)
+        units.append({'document_id':1,'condition':role,'stage':stage,'bank_sha256':'s',
+            'ordinary_tool_source_ids':[10,20],'parsed':{},'public_valid':True,
+            'response':{'content':'{}'},'queries':[]})
+    packet=study.observe(units);assert len(packet['candidate_contexts'])==1
+    observations=expand(packet['observations']);assert len(observations)==2
+    for i,value in enumerate(observations):
+        restored={**value['actual_delivery'],'actual_visible_candidates':packet['candidate_contexts'][value['actual_candidate_context_ref']]}
+        assert restored==originals[i]
+        assert json.loads((tmp_path/f"deliveries/{units[i]['stage']}/1/{units[i]['condition']}.json").read_text())==originals[i]
+
+
+def test_online_cold_alias_requires_exact_input_schema_and_actual_native_content(tmp_path):
+    from experiments.witnessed_experience import WitnessedOnline,EDIT_FEEDBACK_METHOD
+    from legal_skill_guard.learning.decision_evidence import witnessed_skill_payload
+    row,labels,_=fixture();row={k:row[k] for k in ('id','text','spans')}
+    proposals={'selection':'synthetic prior-training reading policy','by_hypothesis':{
+        h:{'candidates':[],'raw_scores':[.1,.2,.3]} for h in labels}}
+    study=WitnessedOnline.__new__(WitnessedOnline);study.out=tmp_path;study.labels=labels
+    study.cfg={'method':EDIT_FEEDBACK_METHOD,'bundled_solver_system':'Same synthetic source task.'}
+    study.bank=[];study.materialized=[];study.current_batch=1;study.bindings={}
+    study.native=[];study.answers=[];study.own_current={};study.prefix_ids=[10,20]
+    messages,schema,_=witnessed_skill_payload(row,labels,proposals,study.cfg['bundled_solver_system'],[],mode='empty')
+    RunStore.immutable_json(tmp_path/'inputs/b1_prequential_empty/1/joint_empty.json',{'messages':messages,'schema':schema})
+    native={'raw_id':'synthetic_physical_call','content':'{}','finish_reason':'stop'}
+    RunStore.immutable_json(tmp_path/'native/b1_prequential_empty/1/joint_empty.json',{'response':native})
+    study.phase='b1_prequential_combined';item=study.cold_alias(row,proposals,{'response':native})
+    assert not study.native and len(study.answers)==1 and item['response']==native
+    assert not (tmp_path/'native/b1_prequential_combined/1/skills.json').exists()
+    with pytest.raises(AssertionError):study.cold_alias(row,proposals,{'response':{**native,'content':'changed'}})
+
+
 def test_training_reading_policy_outer_folds_exclude_whole_source_components(monkeypatch):
     from types import SimpleNamespace
     from legal_skill_guard.learning import evidence_programs as module
