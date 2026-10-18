@@ -15,12 +15,13 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 02:02 CST，新128案证据先行在线学习已prepare，尚未launch
+## 当前快照：2026-10-19 02:10 CST，Run01字符枚举失败已封存；Run02可逆编码修复待prepare/launch
 
-- Run legal_contractnli_source_attributed128_online_20261019_run01：独立空技能起点，128案16×8全批学习；
+- Run legal_contractnli_source_attributed128_online_20261019_run02：独立空技能起点，128案16×8全批学习；
   不是继承挑中的旧库，也不是上一接口的独立重复。202案共同监督工具保留并对两臂共同增长，
   技能教师只见本episode已揭示的当前8+上一8，不把202案普通监督收益算技能收益。
 - 原模块已实现单次律师动作：每命题原文完整SPAN/text+native index先选证→公开比较≤64词→原三分类。
+  source_text_json为原文完整SPAN标准ASCII JSON-string编码，生成前声明，原样JSON解码精确恢复；
   grammar只绑定字面引用，不验证语义/正确性；宿主原样投影显式索引和choice，无补删、重定位或裁判。
   借鉴Attribute First then Generate实际选证代码的数据流，不移植其模糊对齐/源重分配/三角色。
 - 教师仍直接CRUD/NOOP无效果准入，实际发布后本8重答，下批见完整真实前后损害/收益；
@@ -30,8 +31,13 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
   不按Gold/成绩/长度选择，官方DEV/TEST未打开。无额外验证集，后批首遇是prequential评估，随后才揭示标签。
 - 预算376物理native/16教师/16CPU fits，384逻辑答含8冷启动别名，16批均在线学习；终态普通330源，
   技能教师128源，不能说整个系统只用128训练。旧账本双盘原字节保全后cap1426->1442，last1426未重置。
-- 原接口检查121项37.50秒通过；当前实际vLLM0.10.2/xgrammar0.1.23 CPU编译首案schema通过，无GPU资格生成。
-  输入/config/源码/评分已prepare冻结；核心不得热改。当前还没有新worker，不把prepare说成已训练。
+- Run01实际02:02:47启动970777/970780，02:05:24安全停止3native/0教师/0fit，未作批次Gold评分；
+  普通原文的Unicode引号/破折号被xgrammar0.1.23字符串enum转换成UTF8逐字节字符，2/3答字面不符。
+  不是原数据坏，也不是律师语义差的证明；97成员双盘终态亲核SHA
+  7f9ff0726aeb5084046caaa21509fe61f0af769d084bf89013b122c2c7c9326c。原失败答卷不复用。
+- 原接口检查121项37.50秒通过，编码修复后受影响时序/引用/catalog14项30.66秒通过。
+  CPU已核实际backend兼容及49个原文/Unicode、引号、slash、控制字边界的字面匹配，无GPU资格生成。
+  Run02保持同128预选、同原文/Gold/三指标，当前未launch；接prepare冻结、提交/双盘后真实启动。
 - 旧完整32负面与全部原文审核保留，见下方01:31快照；未发现丢Gold/路由/截断，未宣称唯一根因。
   新机制能否净胜尚未知。后台启动后要核首案字面投影/成本、B1真实更新及B2/B3/后批净收益，不只看B1。
   完整Goal仍active未达成，成熟/等调用方法、独立重复、正式TEST及可信实质提升均待完成。

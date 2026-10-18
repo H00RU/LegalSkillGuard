@@ -587,7 +587,9 @@ ATTRIBUTED_WRITER = EDIT_FEEDBACK_WRITER.replace(
     "most64 words, THEN choice and spans.",
     "The SAME frozen8B makes ONE native answer per contract: for each exact "
     "hypothesis it FIRST selects sparse complete evidence members as exact "
-    "current-source text/index pairs, THEN gives a public source comparison "
+    "current-source text/index pairs (source_text_json is standard canonical "
+    "ASCII JSON-string encoding of the full literal source, decoded once "
+    "without normalization), THEN gives a public source comparison "
     "of at most64 words and its original legal choice. The grammar forces "
     "the selected text/index binding, not relevance or a correct label. Host "
     "projection preserves every explicit native index and choice, never "

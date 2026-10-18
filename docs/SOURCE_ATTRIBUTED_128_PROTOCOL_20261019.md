@@ -2,7 +2,7 @@
 
 ## Purpose and unresolved claim
 
-Run `legal_contractnli_source_attributed128_online_20261019_run01` tests a new runtime interface and independent online skill learning. It is NOT an independent repeat of the previous interface, an official TEST result, or a demonstrated improvement. The preceding complete32 episode remains adverse overall: skills80.51/73.03/60.48%, common-tool empty81.62/72.46/61.21% (classification/original Gold-NN SPAN micro-F1/strict joint). No best-bank selection, answer repair, semantic acceptance gate or rollback is introduced.
+Run `legal_contractnli_source_attributed128_online_20261019_run02` tests a new runtime interface and independent online skill learning. Run01 was stopped after3 native calls/0 teacher/0 fits, before batch scoring, because actual xgrammar0.1.23 string enums corrupted normal original Unicode punctuation. Its failed raw answers and cost are retained, not reused. Run02 keeps the same prospectively selected128 sources and empty initialization; only a declared reversible source-text encoding fixes the decoder compatibility. It is NOT an independent repeat of the previous interface, an official TEST result, or a demonstrated improvement. The preceding complete32 episode remains adverse overall: skills80.51/73.03/60.48%, common-tool empty81.62/72.46/61.21% (classification/original Gold-NN SPAN micro-F1/strict joint). No best-bank selection, answer repair, semantic acceptance gate or rollback is introduced.
 
 The historical source audit found both overly restrictive learned boundaries and failures to apply already-present correct distinctions. Full source/Gold reached the teacher and the preceding32 paired answers had zero token truncations. More labels, skill count, scope tags or a reasoning toggle alone are not established repairs. Earlier sourcewise17-label assignment, per-hypothesis/block calls, two-action source readback, free quote review, program feature heads and teacher-only witness accounts were tried, with adverse or inconclusive net results; this run does not present those as untried ideas.
 
@@ -16,11 +16,11 @@ Our original ContractNLI spans already supply exact offsets. We therefore do NOT
 
 Single frozen Qwen3-8B call per source, same generation profile in both arms. For each unchanged original hypothesis key the native object has this order:
 
-1. `spans`: sparse `[{source_text: exact complete original SPAN text, span: explicit original integer}, ...]`;
+1. `spans`: sparse `[{source_text_json: canonical ASCII JSON-string encoding of the exact complete original SPAN text, span: explicit original integer}, ...]`;
 2. `reason`: bounded public source comparison, instructed at most64 words, not private chain of thought;
 3. `choice`: original Entailment/Contradiction/NotMentioned.
 
-The source-specific grammar allows EVERY original span and binds each quoted full text to its original native integer. No Gold is read to construct it. This is literal source readback, NOT independent semantic verification, evidence relevance or proof of a correct legal label. NM has an empty list; E/C has at least one member, as in the coherent original answer contract.
+The source-specific grammar allows EVERY original span and binds each quoted full text to its original native integer. `source_text_json=json.dumps(original_span_text,ensure_ascii=True)` is defined before generation; exactly one ordinary JSON decoding restores the complete original text, with no normalization or fuzzy comparison. The field uses standard reversible ASCII encoding because the frozen xgrammar version corrupts non-ASCII enum literals. Original source input and annotation remain unchanged. No Gold is read to construct it. This is literal source readback, NOT independent semantic verification, evidence relevance or proof of a correct legal label. NM has an empty list; E/C has at least one member, as in the coherent original answer contract.
 
 The host validates literal pairs and projects EVERY native selected integer and the native label unchanged into the existing scorer. It does not add, filter, deduplicate, realign, repair or vote on answers. Original raw responses, quotes, usage, source hashes and the explicit projection receipt remain archived. Invalid or truncated output is scored invalid, not replaced. Existing original classification, Gold-non-neutral SPAN hard micro-F1 and strict-joint denominators are unchanged. No soft semantic replacement score is used.
 

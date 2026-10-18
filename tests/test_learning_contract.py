@@ -2252,7 +2252,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     def generate(row, role, messages, schema):
         study.native.append({"role": role, "phase": study.phase})
         if attributed:
-            answer={h:{"spans":[{"source_text":row['text'][slice(*row['spans'][i])],"span":i} for i in a['spans']],
+            answer={h:{"spans":[{"source_text_json":json.dumps(row['text'][slice(*row['spans'][i])],ensure_ascii=True),"span":i} for i in a['spans']],
                        "reason":"Native.","choice":a['choice']} for h,a in gold.items()}
         elif role.endswith("decision"):
             answer = {h: {"choice": a["choice"], "reason": "Native."} for h,a in gold.items()}
@@ -2576,7 +2576,7 @@ def test_source_attribution_is_literal_native_selection_not_realignment_or_answe
     assert 'GOLD_MUST_NOT_ENTER_SOLVER' not in skill[1]['content'] and 'audit_not_runtime' not in skill[1]['content']
     for spec in schema['properties'].values():
         for branch in spec['anyOf']:assert list(branch['properties'])==['spans','reason','choice']
-    quoted={h:{'spans':[{'source_text':row['text'][slice(*row['spans'][i])],'span':i} for i in v['spans']],
+    quoted={h:{'spans':[{'source_text_json':json.dumps(row['text'][slice(*row['spans'][i])],ensure_ascii=True),'span':i} for i in v['spans']],
                'reason':'Source comparison.','choice':v['choice']} for h,v in gold.items()}
     native={'raw_id':'actual-native-one','finish_reason':'stop','content':json.dumps(quoted),'prompt_tokens':123,'completion_tokens':456}
     validate(quoted,schema)
@@ -2587,7 +2587,7 @@ def test_source_attribution_is_literal_native_selection_not_realignment_or_answe
     assert projected['native_public_attributed_value']==quoted
     assert projected['prompt_tokens']==123 and projected['completion_tokens']==456
     assert original_feedback(projected,row,gold,list(labels))['public_valid']
-    wrong=copy.deepcopy(quoted);wrong['h1']['spans'][0]['source_text']=row['text'][slice(*row['spans'][1])]
+    wrong=copy.deepcopy(quoted);wrong['h1']['spans'][0]['source_text_json']=json.dumps(row['text'][slice(*row['spans'][1])],ensure_ascii=True)
     invalid=project_source_attributed_response(row,labels,{**native,'content':json.dumps(wrong)},schema)
     assert invalid['component_errors'] and json.loads(invalid['content'])=={}  # Never move to the matching index.
     duplicates=copy.deepcopy(quoted);duplicates['h1']['spans'].insert(0,copy.deepcopy(duplicates['h1']['spans'][0]))
@@ -2595,6 +2595,15 @@ def test_source_attribution_is_literal_native_selection_not_realignment_or_answe
     assert json.loads(kept['content'])['h1']['spans']==[0,0,2]
     cutoff=project_source_attributed_response(row,labels,{**native,'finish_reason':'length'},schema)
     assert cutoff['finish_reason']=='length' and json.loads(cutoff['content'])=={}
+    text='Original “quoted” term—unchanged and/or retained; slash \\ tab\t newline\n NUL\0 🙂'
+    unicode_source={'id':999,'text':text,'spans':[[0,len(text)]]}
+    _,unicode_schema=source_attributed_payload(unicode_source,labels,None,'Same task.',[])
+    encoded=json.dumps(text,ensure_ascii=True)
+    assert encoded.isascii() and json.loads(encoded)==text
+    value={h:{'spans':[{'source_text_json':encoded,'span':0}] if h=='h1' else [],
+              'reason':'Literal source only.','choice':'Entailment' if h=='h1' else 'NotMentioned'} for h in labels}
+    result=project_source_attributed_response(unicode_source,labels,{**native,'content':json.dumps(value)},unicode_schema)
+    assert not result['component_errors'] and json.loads(result['content'])['h1']['spans']==[0]
 
 
 def test_direct_procedure_changes_only_public_reason_order_and_guidance_not_legal_task():

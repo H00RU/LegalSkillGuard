@@ -274,6 +274,9 @@ def source_attributed_payload(row, labels, proposals, system, bank):
 
     All original indices remain selectable. The grammar pairs a native chosen
     index with its exact original SPAN text, not with a Gold-selected quote.
+    Source text uses canonical ASCII JSON-string encoding because the frozen
+    xgrammar0.1.23 corrupts non-ASCII string enum literals. This is declared
+    before generation, not a posthoc Unicode repair or source normalization.
     Forced source readback is not a semantic verifier or evidence admission.
     """
     validate_procedures(bank, labels)
@@ -281,8 +284,8 @@ def source_attributed_payload(row, labels, proposals, system, bank):
         raise ValueError("Original source needs its original indexed spans")
     body, _ = base_body(row, labels, proposals, complete_order=False)
     member = {"anyOf": [{"type":"object", "additionalProperties":False,
-        "required":["source_text","span"], "properties":{
-            "source_text":{"type":"string", "enum":[row["text"][a:b]]},
+        "required":["source_text_json","span"], "properties":{
+            "source_text_json":{"type":"string", "enum":[json.dumps(row["text"][a:b],ensure_ascii=True)]},
             "span":{"type":"integer", "enum":[i]}}}
         for i,(a,b) in enumerate(row["spans"])]}
     branches = []
@@ -300,7 +303,7 @@ def source_attributed_payload(row, labels, proposals, system, bank):
     body["output_contract"] = {
         "required_hypothesis_keys":list(labels),
         "field_order_for_each_hypothesis":["spans","reason","choice"],
-        "spans":"Sparse list of {source_text: EXACT COMPLETE original SPAN text without markers, span: that original integer index}; all original indices allowed, no mandatory candidates.",
+        "spans":"Sparse list of {source_text_json: canonical ASCII JSON-string encoding of EXACT COMPLETE original SPAN text without markers, span: that original integer index}; decode source_text_json with JSON once to recover the literal source. All original indices allowed, no mandatory candidates.",
         "reason":"At most64 words of public source comparison for the exact hypothesis.",
         "choice":list(CHOICES), "NotMentioned_requires_empty_spans":True,
         "Entailment_or_Contradiction_requires_responsive_source_members":True,
@@ -309,7 +312,10 @@ def source_attributed_payload(row, labels, proposals, system, bank):
         " Use ONE native answer for all exact hypotheses. For EACH hypothesis "
         "FIRST select its sparse COMPLETE responsive original evidence members, "
         "not every source span or merely related background. Emit each member's "
-        "exact full original text followed by its original index. The decoder "
+        "exact full original text in source_text_json (canonical ASCII JSON "
+        "string encoding, not paraphrase) followed by its original index. "
+        "This standard reversible text encoding protects original Unicode "
+        "punctuation without changing source content. The decoder "
         "binds those two fields to the current source: this is source readback, "
         "not proof that the selected clause is relevant. Select a clause for "
         "its operative actor, object, modality, quantifier, trigger or exception; "
@@ -340,7 +346,7 @@ def project_source_attributed_response(row, labels, native, schema):
         for h in labels:
             for member in value[h]["spans"]:
                 a,b = row["spans"][member["span"]]
-                if member["source_text"] != row["text"][a:b]:
+                if json.loads(member["source_text_json"]) != row["text"][a:b]:
                     raise ValueError("Native source text/index pair differs; never realign")
         answer = {h:{"reason":value[h]["reason"], "choice":value[h]["choice"],
                      "spans":[m["span"] for m in value[h]["spans"]]} for h in labels}
