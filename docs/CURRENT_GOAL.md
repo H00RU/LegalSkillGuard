@@ -15,7 +15,20 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 07:46 CST，布局诊断已完整否证；原模块已实现signed成员经验，待启动完整128
+## 当前快照：2026-10-19 07:49 CST，signed成员经验完整128已真实后台启动，尚无新收益
+
+07:47:55实际worker1491007/ticks437379289，独立preserver1491010/ticks437379290。
+core03a901b73530ebcd201b49f1e90dc0228a235422；81成员完整源码/Git双盘启动备份SHA
+1e5077881d9d7e238d6ffa4e1f40ac5def4e405b40c19b2804d0d5e78e45185b。
+07:48:54原进程argv/ticks亲核live，2native/0教师/4逻辑，正在b1_prequential_empty/280。
+Run legal_contractnli_signed_member_skill128_online_20261019_run01，16x8全教由后台自动推进/独立终态保存。
+接核首8后实际teacher wire有true FP contrast refs及新schema、原labels仍只给teacher/audit，实际actor实例无旧NLI答案标签。
+再查实际CREATE/UPDATE/MERGE/DELETE/NOOP、同源正负例排除、知识4k计费与真实TP/FP/FN/NN/NM/联合变化，
+尤其后B2-B4新源净收益；不能只报B1训练内拟合或“负例字段存在”就当目标完成。
+不重复launch，不热改冻结代码，不重启任何旧负配置。单8B服务未改、无新增模型/API/资格生成。
+当前核心目标仍未达成，Goal active；以下07:46冻结/提交/备份/launch准备事项均已实际完成。
+
+## 已归档快照：2026-10-19 07:46 CST，布局诊断已完整否证；原模块已实现signed成员经验，待启动完整128
 
 固定库16诊断07:32:07完成NEW48/0/0，64逻辑含16旧已计费调用，非新训练。
 全16空85.29/77.13/60.29%、原库84.19/76.51/58.82%、prefix76.47/76.72/52.94%、
