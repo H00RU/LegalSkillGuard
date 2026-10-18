@@ -2185,7 +2185,7 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
         assert {s["id"] for s in sources} == set(range(100,142)) | set(range(1,count+1))
         own = expand(body["actual_current_parent_episode_public_answers"])
         assert {u["document_id"] for u in own} == set(range(1,count+1))
-        assert len([u for u in study.answers if u["stage"] == f"b{study.current_batch}_prequential"]) == 24
+        assert len([u for u in study.answers if u["stage"] == f"b{study.current_batch}_prequential"]) == 16
         study.teachers.append(name)
         return {"operations": [], "noop_reason": "Synthetic chronology fixture, no live teacher."}
 
@@ -2199,8 +2199,32 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     study.fit_prefix = fit
     study.execute()
     result = records["completion.json"]
-    assert result["actual_new_native_teacher_CPUfits"] == [304, 3, 3]
-    assert len(study.answers) == 176 and len([k for k in records if k.startswith("exact_aliases/")]) == 8
+    assert result["actual_new_native_teacher_CPUfits"] == [136, 3, 3]
+    assert len(study.answers) == 144 and len([k for k in records if k.startswith("exact_aliases/")]) == 8
     assert len(records["publications/b3.json"]["original_seen_source_ids"]) == 66
     assert not any(k == "publications/b4.json" for k in records)
     assert all(v["documents"] == 32 for v in result["aggregate_prequential_metrics"].values())
+
+
+def test_joint_skills_share_original_task_and_no_duplicate_source_or_impossible_cardinality():
+    from legal_skill_guard.learning.decision_evidence import joint_payload
+    from legal_skill_guard.task import marked_text
+
+    original, labels, _ = fixture()
+    row = {k: original[k] for k in ("id", "text", "spans")}
+    bank = [{"id": "not_runtime", "hypothesis_ids": ["h1"], "guidance": {
+        "relation_criterion": "RELATION_CANARY", "evidence_criterion": "MEMBER_CANARY"}}]
+    empty, a = joint_payload(row, labels, None, "Original task.", [])
+    skills, b = joint_payload(row, labels, None, "Original task.", bank)
+    assert a == b and empty[0] == skills[0]
+    x,y = (json.loads(m[1]["content"]) for m in (empty,skills))
+    assert x["full_contract_with_original_span_markers"] == marked_text(row)
+    assert "candidate_original_text" not in x and "candidate_original_text" not in y
+    assert "RELATION_CANARY" in skills[1]["content"] and "MEMBER_CANARY" in skills[1]["content"]
+    assert "not_runtime" not in skills[1]["content"]
+    y.pop("learned_inspection_criteria")
+    assert x == y
+    for h in labels:
+        for branch in a["properties"][h]["anyOf"]:
+            p = branch["properties"]
+            assert p["spans"]["maxItems"] == (0 if p["choice"]["enum"] == ["NotMentioned"] else len(row["spans"]))

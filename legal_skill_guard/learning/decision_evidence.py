@@ -1,9 +1,8 @@
-"""One frozen lawyer, two native outputs for the benchmark's two targets.
+"""Original legal relation/member guidance and native answer interfaces.
 
-Legal procedures condition relation judgment ONLY. Membership procedures reach
-evidence collection ONLY, alongside the same ordinary source tool and the
-lawyer's own choices. No new judge, current labels, fallback or post-answer
-correction. Deterministic assembly copies each role's actual output.
+The current online learner uses ONE original joint answer, not evidence-only
+number generation. Earlier split builders remain for disclosed past ablations,
+never as runtime alternatives or fallbacks. No answer repair or current Gold.
 """
 
 from __future__ import annotations
@@ -15,7 +14,7 @@ from jsonschema import ValidationError, validate
 
 from legal_skill_guard.task import CHOICES
 
-from .acquisition import NOTICE, source_messages
+from .acquisition import source_messages
 from .publication import skill_record_schema
 
 RANKING_NOTICE = (
@@ -112,9 +111,36 @@ def base_body(row, labels, proposals):
     return body, schema
 
 
-def joint_payload(row, labels, proposals, system):
+def joint_payload(row, labels, proposals, system, bank=()):
     body, schema = base_body(row, labels, proposals)
-    return [{"role": "system", "content": system + NOTICE + RANKING_NOTICE},
+    # This catalogue duplicated source characters already present under their
+    # original markers. Remove redundant text, not source access or candidates.
+    body.pop("candidate_original_text")
+    n = len(row["spans"])
+    body["output_contract"]["common_schema_for_each_hypothesis"]["properties"]["spans"]["maxItems"] = n
+    for entry in schema["properties"].values():
+        for branch in entry["anyOf"]:
+            spans = branch["properties"]["spans"]
+            spans["maxItems"] = min(spans.get("maxItems", n), n)
+    # Cardinality <= original members excludes no valid evidence SET. It is a
+    # pre-generation task invariant, not de-duplication or a repaired answer.
+    for channel in ("relation_criterion", "evidence_criterion"):
+        channel_criteria(bank, labels, channel)
+    if bank:
+        body["learned_inspection_criteria"] = [
+            {"hypothesis_ids": s["hypothesis_ids"], **copy.deepcopy(s["guidance"])} for s in bank]
+    notice = (
+        " Complete original text is present once with original SPAN indices. "
+        "Candidate records point into that text and give fallible ordinary "
+        "evidence-membership scores, not legal confidence or forced answers. "
+        "Optional learned_inspection_criteria are fallible reusable relation "
+        "and member procedures scoped by public hypothesis_ids, not facts or "
+        "current answers. Consider both targets together. Empty candidates "
+        "never mean NotMentioned; cite any responsive original member. Return "
+        "the original choice, spans and short public reason yourself in one "
+        "native answer, without other tools or answer correction."
+    )
+    return [{"role": "system", "content": system + notice + RANKING_NOTICE},
             {"role": "user", "content": json.dumps(body, ensure_ascii=False, separators=(",", ":"))}], schema
 
 

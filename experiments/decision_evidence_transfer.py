@@ -1,4 +1,4 @@
-"""Past-source skill induction and complete, paired two-target transfer.
+"""Legal skill induction, disclosed ablations and current ranked online learning.
 
 One frozen lawyer natively decides relations, then selects original members.
 The relation-only/dual-policy arms share their identical native decision, not
@@ -203,7 +203,7 @@ class DecisionEvidenceTransfer(Comparison):
 
     def logical(self, row, arm, response):
         item = {"document_id": row["id"], "condition": arm, "response": response,
-                "stage": self.phase, "bank_sha256": csha(self.bank) if arm in ("relation_only", "dual_skills") else csha([]),
+                "stage": self.phase, "bank_sha256": csha(self.bank) if arm in ("relation_only", "dual_skills", "skills") else csha([]),
                 "not_scored_until_all16_all4_arms_exist": True}
         self.record(f"logical_answers/{self.phase}/{row['id']}/{arm}.json", item)
         self.answers.append(item)
@@ -288,15 +288,16 @@ class DecisionEvidenceTransfer(Comparison):
 
 
 ONLINE_WRITER = (
-    "Update the exact current two-channel legal skill library using ONLY the "
+    "Update the exact current legal skill library using ONLY the "
     "complete already-seen original TRAIN sources, unmodified author labels "
     "and actual current-parent own public answers supplied here. No tools, "
     "outside law, private reasoning, future cases or invented rollouts. One "
-    "frozen8B lawyer first generates all17 original relations/reasons, then "
-    "natively selects original evidence for those actual choices. Only learned "
-    "relation_criterion enters action1; only evidence_criterion and the native "
-    "choices enter action2, not relation prose or first-action reasons. Both "
-    "read the COMPLETE source. The main ordinary tool is fixed on the same42 "
+    "frozen8B lawyer NOW generates all17 original choice/spans/reason answers "
+    "together in ONE native call. Both relation_criterion and evidence_criterion "
+    "are visible together, with their public hypothesis scopes. There is no "
+    "separate evidence-only actor or frozen first-action verdict. It reads the "
+    "COMPLETE source once, with no duplicated candidate text catalogue. The main "
+    "ordinary tool is fixed on the same42 "
     "past sources; its binary candidates AND complete all-original-index "
     "membership rank ordering are now visible. Ranking is a fallible search "
     "order, not a citation set; its tail can contain real members. Learn "
@@ -327,7 +328,7 @@ ONLINE_WRITER = (
 def prepare_online(config):
     config = Path(config).resolve()
     cfg = read(config)
-    assert cfg["method"] == "ranked_member_online24_forward8"
+    assert cfg["method"] == "ranked_joint_online24_forward8"
     assert not config.with_suffix(".frozen.json").exists() and not (ROOT / "runs" / cfg["run_id"]).exists()
     assert sha(ROOT / cfg["source_archive"]) == cfg["source_archive_sha256"]
     with zipfile.ZipFile(ROOT / cfg["source_archive"]) as archive:
@@ -364,7 +365,7 @@ def prepare_online(config):
         "all_current_batch_answers_precede_current_batch_grading": True})
     ledger = read(ROOT / cfg["teacher"]["ledger"])
     assert max(r["sequence"] for r in ledger["reservations"]) + 3 <= ledger["max_invocations"]
-    assert cfg["planned_new_native_calls"] == 304 and cfg["planned_new_teacher_calls"] == 3
+    assert cfg["planned_new_native_calls"] == 136 and cfg["planned_new_teacher_calls"] == 3
     files = list((ROOT / "legal_skill_guard").rglob("*.py"))
     files += [Path(__file__).resolve(), config, ROOT / "tests/test_learning_contract.py", Path(manifest["path"])]
     files += [ROOT / cfg[k] for k in ("source_archive", "input_packet", "grading_only", "ordinary_manifest",
@@ -374,7 +375,7 @@ def prepare_online(config):
         "config_sha256": sha(config), "files": {str(p.resolve()): sha(p) for p in files}})
     print(json.dumps({"prepared": cfg["run_id"], "new_episode_ids": ids,
         "original_train_label_updates": 24, "forward_readout": 8,
-        "planned_native_teacher_CPUfits": [304, 3, 3]}), flush=True)
+        "planned_native_teacher_CPUfits": [136, 3, 3]}), flush=True)
 
 
 class RankedOnline(DecisionEvidenceTransfer):
@@ -388,10 +389,10 @@ class RankedOnline(DecisionEvidenceTransfer):
 
     def logical(self, row, arm, response):
         if self.phase.endswith("_fixed_tool_control"):
-            assert arm == "factored_empty"
+            assert arm == "joint_empty"
             arm = "fixed_tool_empty"
         item = super().logical(row, arm, response)
-        if arm == "dual_skills":
+        if arm == "skills":
             self.own_current[row["id"]] = item
         return item
 
@@ -431,8 +432,10 @@ class RankedOnline(DecisionEvidenceTransfer):
             "actual_fixed42_candidate_members_and_complete_orders": table(ranked_observations),
             "numeric_candidate_scores_archived_in_actual_inputs_not_resupplied_as_threshold_targets": True,
             "main_ordinary_tool_remains_fixed_on_original42": self.manifest,
-            "future_action1_system": DECISION_SYSTEM, "future_action2_system": EVIDENCE_SYSTEM,
-            "complete_membership_rank_order_now_visible_in_both_actions": True,
+            "future_joint_system": joint_payload(seen[0], self.labels,
+                evidence_proposals(self.model, seen[0], self.labels),
+                self.cfg["bundled_solver_system"], parent)[0][0]["content"],
+            "complete_membership_rank_order_visible_in_single_joint_action": True,
             "no_future_episode_sources_answers_annotations_or_official_DEV_TEST": True}
         name = f"online_b{self.current_batch}"
         self.record(f"learning_inputs/{name}.json", body)
@@ -453,7 +456,7 @@ class RankedOnline(DecisionEvidenceTransfer):
         self.phase = f"b{self.current_batch}_after_seen"
         start = len(self.answers)
         for row in seen:
-            self.factored(row, evidence_proposals(self.model, row, self.labels), ("dual_skills",))
+            self.joint(row, "skills", evidence_proposals(self.model, row, self.labels))
         after = self.score(self.answers[start:])
         self.units.extend(after)
         effect = paired_effect(before, after, seed=2026101810+self.current_batch, replicates=5000)
@@ -482,6 +485,11 @@ class RankedOnline(DecisionEvidenceTransfer):
         self.fit_records.append(manifest)
         self.prefix_model, self.prefix_ids = model, manifest["source_ids"]
 
+    def joint(self, row, arm, proposals):
+        bank = self.bank if arm == "skills" else []
+        self.logical(row, arm, self.generate(row, arm, *joint_payload(
+            row, self.labels, proposals, self.cfg["bundled_solver_system"], bank)))
+
     def execute(self):
         self.check()
         self.record("declaration.json", {"at": now(), "config": self.cfg,
@@ -501,20 +509,16 @@ class RankedOnline(DecisionEvidenceTransfer):
                 prefix = fixed if batch == 1 else evidence_proposals(self.prefix_model, row, self.labels)
                 self.record(f"common_candidates/b{batch}/{row['id']}.json", {"fixed42": fixed,
                     "ordinary_revealed_prefix": prefix, "ordinary_prefix_source_ids": self.prefix_ids})
-                order = ("joint_empty", "factored_empty", "dual_skills")
+                order = ("joint_empty", "skills")
                 if index % 2:
                     order = tuple(reversed(order))
                 for arm in order:
-                    if arm == "joint_empty":
-                        self.logical(row, arm, self.generate(row, "joint_empty",
-                            *joint_payload(row, self.labels, prefix, self.cfg["bundled_solver_system"])))
-                    else:
-                        self.factored(row, fixed if arm == "dual_skills" else prefix, (arm,))
+                    self.joint(row, arm, fixed if arm == "skills" else prefix)
                 if batch == 1:
                     native = next(u for u in self.answers[start:] if u["stage"] == main_phase
-                        and u["document_id"] == row["id"] and u["condition"] == "factored_empty")
+                        and u["document_id"] == row["id"] and u["condition"] == "joint_empty")
                     self.phase = f"b{batch}_fixed_tool_control"
-                    alias = self.logical(row, "factored_empty", native["response"])
+                    alias = self.logical(row, "joint_empty", native["response"])
                     assert self.prefix_model is self.model
                     self.record(f"exact_aliases/b{batch}/{row['id']}.json", {
                         "original": native, "alias": alias,
@@ -522,17 +526,17 @@ class RankedOnline(DecisionEvidenceTransfer):
                         "no_new_native_calls_not_independent_duplicate": True})
                 else:
                     self.phase = f"b{batch}_fixed_tool_control"
-                    self.factored(row, fixed, ("factored_empty",))
+                    self.joint(row, "joint_empty", fixed)
             units = self.score(self.answers[start:])
             self.units.extend(units)
             groups = {a: [u for u in units if u["condition"] == a] for a in (
-                "joint_empty", "factored_empty", "fixed_tool_empty", "dual_skills")}
+                "joint_empty", "fixed_tool_empty", "skills")}
             summary = {"at": now(), "batch": batch, "new_source_ids": [r["id"] for r in rows],
                 "current_bank_sha256": csha(self.bank), "current_skill_count": len(self.bank),
                 "ordinary_prefix_source_ids": self.prefix_ids,
                 "prequential_metrics": {a: points(u) for a,u in groups.items()},
-                "same_case_skill_effects": {a: paired_effect(groups[a], groups["dual_skills"],
-                    seed=2026101820+batch*4+i, replicates=5000) for i,a in enumerate(groups) if a != "dual_skills"},
+                "same_case_skill_effects": {a: paired_effect(groups[a], groups["skills"],
+                    seed=2026101820+batch*4+i, replicates=5000) for i,a in enumerate(groups) if a != "skills"},
                 "current_batch_fully_generated_before_any_current_Gold_grading_or_teacher": True,
                 "forward_only_no_update" : batch == 4}
             self.batch_summaries.append(summary)
@@ -543,10 +547,10 @@ class RankedOnline(DecisionEvidenceTransfer):
                 self.record(f"batch_summaries/b{batch}_complete.json", {
                     **summary, "publication_statistics": stats, "paired_seen_update_effect": effect})
                 self.fit_prefix(seen)
-        assert len(self.native) <= 304 and len(self.teachers) == 3 and len(self.fit_records) == 3
+        assert len(self.native) <= 136 and len(self.teachers) == 3 and len(self.fit_records) == 3
         prequential = [u for u in self.units if u["stage"].endswith("_prequential") or u["stage"].endswith("_fixed_tool_control")]
         groups = {a: [u for u in prequential if u["condition"] == a] for a in (
-            "joint_empty", "factored_empty", "fixed_tool_empty", "dual_skills")}
+            "joint_empty", "fixed_tool_empty", "skills")}
         assert all(len(v) == 32 for v in groups.values())
         result = {"at": now(), "run_id": self.run_id, "batch_summaries": self.batch_summaries,
             "aggregate_prequential_metrics": {a: points(u) for a,u in groups.items()},
@@ -565,7 +569,7 @@ def main():
     parser.add_argument("command", choices=("prepare", "run"))
     parser.add_argument("config", type=Path)
     args = parser.parse_args()
-    online = read(args.config)["method"] == "ranked_member_online24_forward8"
+    online = read(args.config)["method"] == "ranked_joint_online24_forward8"
     if args.command == "prepare":
         (prepare_online if online else prepare)(args.config)
         return
