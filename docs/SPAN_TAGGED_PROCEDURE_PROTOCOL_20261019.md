@@ -1,6 +1,11 @@
 # 原生完整SPAN成员判断与真实发布差分学习
 
-Run `legal_contractnli_span_tagged_procedure_online_20261019_run01`。
+当前Run `legal_contractnli_span_tagged_procedure_online_20261019_run02`。
+Run01在首案第二动作被vLLM0.10.2拒绝uniqueItems：2次传输尝试、1份完成原生答、0教师、0评分。
+76成员失败终态已双盘核实SHA590e08b2f40dab42bb26fc982a213c2b488ad21462421a1f66a9a263f1850661。
+Run02仅移除后端不支持的JSON Schema uniqueItems关键字；提示仍要求唯一，宿主发现重复则整答
+判无效，绝不自动去重。合法答案集合、原任务和指标不变。沿用同一预选32，未查看首批Gold/分数；
+新176次不复用Run01首答，不将旧尝试抹掉或当独立重复。原Run01源码/协议封存在终态包。
 方法开发的24案在线学习+8案首遇前瞻，不是完整论文主训练、独立学习重复或官方TEST。
 协议在本方法第一次模型生成前固定；原任务、原标注和原评分不变。
 

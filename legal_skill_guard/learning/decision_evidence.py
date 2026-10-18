@@ -323,7 +323,9 @@ def span_member_tag_payload(row, labels, proposals, system, bank, decision, deci
     ordinary = {v["original_span_index"] for value in body["hypotheses"].values()
                 for v in value["fallible_evidence_candidates"]}
     body["candidate_original_text"] = {str(i): body["candidate_original_text"][str(i)] for i in sorted(ordinary)}
-    one = {"type": "array", "uniqueItems": True, **({"maxItems": 0} if not active else {}),
+    # vLLM0.10.2 rejects uniqueItems before generation. Preserve uniqueness as
+    # an explicit validity requirement below, never by deduplicating an answer.
+    one = {"type": "array", **({"maxItems": 0} if not active else {}),
            "items": {"type": "string", **({"enum": active} if active else {})}}
     keys = [str(i) for i in range(len(row["spans"]))]
     schema = {"type": "object", "additionalProperties": False, "required": keys,
@@ -334,14 +336,15 @@ def span_member_tag_payload(row, labels, proposals, system, bank, decision, deci
     body["output_contract"] = {"required_original_span_keys_in_order": keys,
         "allowed_actual_non_neutral_hypothesis_ids": active,
         "common_schema_for_each_span": one,
-        "each_value_lists_all_hypotheses_for_which_this_span_is_an_evidence_member": True}
+        "each_value_lists_all_hypotheses_for_which_this_span_is_an_evidence_member": True,
+        "duplicate_ids_are_invalid_not_removed_by_the_host": True}
     notice = (
         " This is the second native action of the SAME frozen lawyer. The "
         "actual prior native choices are fixed, not Gold; do not revise them. "
         "For EVERY zero-based original SPAN key, output ALL allowed hypothesis "
         "IDs for which that span belongs to the complete responsive evidence. "
         "Use [] when it belongs to none. Preserve every key including empty "
-        "rows. Inspect all original spans, not only ordinary candidates or one "
+        "rows. Never repeat an ID within one array. Inspect all original spans, not only ordinary candidates or one "
         "sufficient witness. Evidence may be noncontiguous, independently "
         "repeated, or include a governing introduction, object, scope or "
         "exception needed for the responsive subclause. Do not omit such "
@@ -371,6 +374,8 @@ def assemble_span_members(decision, evidence, decision_schema, evidence_schema, 
             raise ValueError("All original hypotheses and SPAN decisions must survive")
         members = {h: [] for h in labels}
         for i in range(span_count):
+            if len(tags[str(i)]) != len(set(tags[str(i)])):
+                raise ValueError("Duplicate native membership IDs are invalid; never deduplicate")
             for h in tags[str(i)]:
                 if a[h]["choice"] == "NotMentioned":
                     raise ValueError("Native tags must not contradict the native NotMentioned decision")

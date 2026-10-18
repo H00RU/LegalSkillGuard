@@ -2534,6 +2534,7 @@ def test_span_tagged_native_actions_transpose_every_member_without_Gold_or_repai
     empty_messages, empty_es = span_member_tag_payload(row, labels, None, "Same task.", [], decision, ds)
     assert es == empty_es and messages[0] == empty_messages[0]
     assert es["required"] == ["0","1","2"]
+    assert "uniqueItems" not in json.dumps(es)  # frozen vLLM rejects this keyword
     assert es["properties"]["0"]["items"]["enum"] == ["h1","h2"]
     tags = {"0":["h1"], "1":["h2"], "2":["h1"]}
     evidence = {"raw_id":"native-2", "finish_reason":"stop", "prompt_tokens":120, "completion_tokens":30,
