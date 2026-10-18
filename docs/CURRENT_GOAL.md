@@ -15,7 +15,31 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-18 22:28 CST，完整32结束但B4明显损害；终态已双盘核实，部件读出prepare待启动
+## 当前快照：2026-10-18 22:54 CST，部件读出完整负面保全；原模块已简化，新32已prepare待launch
+
+- 主linked Run01已160/6/3 complete、829成员终态双盘SHA3d09d0fdfa016bbe3135d086078e6d0df0808308e0f112223f76f2210c8ce1f8。
+  部件Run legal_contractnli_linked_procedure_final_component_readout_20261018_run01已实际22:32:21
+  launch(worker657147/ticks434045868,preserver657150/ticks434045869)，16/0/0 complete，现均终止。
+  171成员终态亲核两盘SHAb2e014df05d1de3827417594d37f110a6188273f29e78ea5385da4e83aa99905；
+  先有完整保全再改核心，不重跑/覆盖此Run，反事实不是新训练/官方TEST/独立重复。
+- 同B4/154工具：full72.79/72.20/47.06%，empty78.68/73.94/52.94%，code-only77.94/71.17/50.74%，
+  procedure-only80.15/71.22/52.21%。没有臂全面胜空；组合让分类更差。两部件全部16输入只
+  作指定字段干预的字节等价已在任何生成前核验。不能用单项准确率给文本臂包装成胜利。
+- 当前原模块新增source_grounded_direct_procedure_online：删除学得源阅读层；保留实际末R11
+  非空procedure的原文字/作用域/ID，删除code-only记录及死code字段，结构转换不是挑较好库。
+  一教师直接CRUD发布->真实8/16/24重答->下一批教师见该真实parent行为，无草稿后未执行改写。
+  同一8B/同3字段reason,choice,spans，仅先公开源依据理由再分类，两臂一致，不改原标注/评分。
+  每条procedure应表达一个连贯可迁移区别，不强制主题/数量，新增改删并均可；库上限4096。
+- 新Run legal_contractnli_direct_grounded_procedure_online_20261018_run01已prepare/冻结，尚未launch。
+  source-only预选seed2026101861/eligible194/32，继承实际154普通模型，两臂共同增长；136/3/3，
+  无额外模型资格调用。117项原CPU检查26.21秒通过，旧三个原schema合法值/约束保持。
+  本地XGrammar0.1.23对应pinned实现ordered_keys支持顺序实现，不据此宣称会提升；首个正式
+  raw响应待核验reason是否确实先输出。字段换序不是答案修补、额外思维预算或新裁判。
+- 教师上限1420->1423，旧预约/历史下界完整保留，原账本字节已双盘备份；尚无1421新预约。
+  原单8B服务未重启。下一步提交+双盘源/Git包后独立后台launch，不能只prepare就称启动。
+  Goal active，迄今仍无完整实质净胜；成熟/等调用基线、独立重复、官方TEST全部要求未达成。
+
+## 已归档快照：2026-10-18 22:28 CST，完整32结束但B4明显损害；终态已双盘核实，部件读出prepare待启动
 
 - 训练Run legal_contractnli_linked_procedure_native_feedback_online_20261018_run01已真正completed，
   原worker524370/preserver524373均终止，160native/6教师/3fit，无重新采样/效果准入。
