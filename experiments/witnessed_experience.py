@@ -21,7 +21,7 @@ from legal_skill_guard.learning.decision_evidence import (
 from legal_skill_guard.learning.experiment import ROOT, read, sha, now, points
 from legal_skill_guard.learning.member_contract import annotated_sources
 from legal_skill_guard.learning.member_learning import paired_effect
-from legal_skill_guard.learning.packing import table, expand
+from legal_skill_guard.learning.packing import table, expand, keyed
 from legal_skill_guard.learning.publication import (
     differential_schema, apply_differential_publication, publication_statistics)
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
@@ -52,7 +52,23 @@ TEACHER_SYSTEM = (
     "Use the REAL supplied policy differences; do not invent comparisons or missing ablation arms. "
     "candidate_contexts stores exact actual source-reading inputs once; observation context references "
     "resolve to those same complete inputs without omitted candidates or scores. Original three-way "
-    "accuracy, Gold-NN hard original-SPAN F1 and strict joint are unchanged. The COMPLETE MATERIALIZED "
+    "accuracy, Gold-NN hard original-SPAN F1 and strict joint are unchanged. The actual lawyer system "
+    "instructions, visible output contract and exact common native schema are supplied in "
+    "lawyer_task_contracts; observation references identify what was REALLY executed. Follow that "
+    "task, not a different legal-brief-writing objective. The target is COMPLETE original evidence "
+    "membership, NOT the smallest sufficient proof. Independently responsive repeated provisions, "
+    "definitions, introductions or qualifications can be separate original members; do not exclude "
+    "them categorically as repetition, recitals or context. Conversely, adjacency or usefulness for "
+    "reading alone never establishes membership. Learn both inclusion and exclusion conditions "
+    "from the actual original members, missed_original_members and extra_actual_citations, each "
+    "resolved to exact original text. Their counts and differences are the existing benchmark "
+    "feedback, not a new semantic judge. Gold-NN evidence scoring includes ALL originally non-neutral "
+    "queries even when the lawyer predicts the wrong relation or NotMentioned; label changes cannot "
+    "make missed evidence disappear. Preserve supported/opposed relations while repairing partial "
+    "evidence, and distinguish classification errors, missing members and extra citations. Do not "
+    "mistake shorter answers, fewer citations, or NM gains alone for learned evidence acquisition. "
+    "A reusable skill must provide observable source selection conditions, not 'cite the Gold' or "
+    "a historical case answer. The COMPLETE MATERIALIZED "
     "knowledge bank, INCLUDING every procedure/scope and FULL historical evidence text/label, must fit4096 "
     "actual target8B tokens; aim2800. Internal audit hashes/IDs are stored/reported separately, not served "
     "knowledge. Each eligible example's exact standalone target8B token cost is supplied. These costs "
@@ -73,23 +89,52 @@ class WitnessedExperience(RankedOnline):
         return len(self.fit_records)
 
     def observe(self, units):
-        values, contexts = [], {}
+        values, contexts, contracts = [], {}, {}
+        sources = {r['id']: r for r in self.documents}
         for u in units:
+            row = sources[u['document_id']]
+            actual = read(self.out / f"inputs/{u['stage']}/{u['document_id']}/{u['condition']}.json")
+            native_body = json.loads(actual['messages'][1]['content'])
+            properties = actual['schema']['properties']
+            common = next(iter(properties.values()))
+            assert all(v == common for v in properties.values())
+            assert set(properties) == set(actual['schema']['required'])
+            contract = {
+                'actual_system_messages': [m for m in actual['messages'] if m['role'] == 'system'],
+                'actual_user_visible_output_contract': native_body['output_contract'],
+                'actual_schema_root': {k:v for k,v in actual['schema'].items() if k != 'properties'},
+                'actual_common_hypothesis_schema': common,
+                'common_schema_applies_verbatim_to_every_required_hypothesis': True}
+            contract_ref = csha(contract)
+            contracts.setdefault(contract_ref, contract)
             delivery = read(self.out / f"deliveries/{u['stage']}/{u['document_id']}/{u['condition']}.json")
             context = delivery.pop("actual_visible_candidates")
             ref = csha(context)
             contexts.setdefault(ref, context)
+            feedback = {}
+            for q in u['queries']:
+                gold = set(q['gold']['spans'])
+                cited = set(q['prediction']['spans']) if q['prediction'] is not None else set()
+                def excerpts(indices):
+                    return table([{'original_span_index':i,
+                        'literal_original_text':row['text'][slice(*row['spans'][i])]}
+                        for i in sorted(indices)])
+                feedback[q['hypothesis_id']] = {**copy.deepcopy(q),
+                    'retained_original_member_indices': sorted(gold & cited),
+                    'missed_original_members': excerpts(gold - cited),
+                    'extra_actual_citations': excerpts(cited - gold)}
             values.append({
                 "document_id": u["document_id"], "stage": u["stage"], "bank_sha256": u["bank_sha256"],
                 "actual_ordinary_tool_source_ids": u["ordinary_tool_source_ids"],
                 "actual_native_answer": u["parsed"], "public_valid": u["public_valid"],
                 "invalid_native_content": None if u["public_valid"] else u["response"]["content"],
                 "actual_delivery": delivery, "actual_candidate_context_ref": ref,
-                "original_component_feedback": {q["hypothesis_id"]: {k: q[k] for k in (
-                    "label_correct", "evidence_tp", "evidence_fp", "evidence_fn", "joint_exact")}
-                    for q in u["queries"]}})
-        return {"encoding": "lossless_source_candidate_context_refs_v1", "candidate_contexts": contexts,
-                "observations": table(values), "all_actual_candidates_scores_and_text_retained": True}
+                "actual_lawyer_task_contract_ref": contract_ref,
+                "original_component_feedback": keyed(feedback)})
+        return {"encoding": "lossless_source_candidates_and_actual_task_contracts_v2",
+                "candidate_contexts": contexts, "lawyer_task_contracts": contracts,
+                "observations": table(values), "all_actual_candidates_scores_and_text_retained": True,
+                "original_member_credit_is_exact_set_difference_not_a_new_judge": True}
 
     def publish(self, body, name):
         parent = copy.deepcopy(self.bank)
@@ -198,6 +243,7 @@ class WitnessedOnline(WitnessedExperience):
 
     def execute(self):
         assert self.cfg["method"] == EDIT_FEEDBACK_METHOD and len(self.documents) == 128
+        assert self.cfg['teacher_task_contract_version'] == 'actual_native_task_and_original_member_credit_v1'
         assert len(self.past) == len(self.prefix_ids) == 202 and not self.bank
         assert [r["id"] for r in self.documents] == self.cfg["episode_ids"]
         calibration = read(ROOT / self.cfg["reading_calibration_completion"])

@@ -2798,22 +2798,51 @@ def test_online_teacher_candidate_context_factoring_preserves_every_observation(
     from experiments.witnessed_experience import WitnessedExperience
     from legal_skill_guard.learning.packing import expand
     study=WitnessedExperience.__new__(WitnessedExperience);study.out=tmp_path
-    context={'hypotheses':{'h1':{'fallible_evidence_candidates':[{'original_span_index':0,'membership_score':.23}]}},
-             'candidate_original_text':{'0':'Exact synthetic source text.'}}
+    row,labels,gold=fixture();row={k:row[k] for k in ('id','text','spans')};study.documents=[row]
+    context={'hypotheses':{h:{'fallible_evidence_candidates':[
+        {'original_span_index':0,'membership_score':.23}] if h=='h1' else []} for h in labels},
+        'candidate_original_text':{'0':row['text'][slice(*row['spans'][0])]}}
+    schema=output_schema(row,list(labels),[])
+    actual_input={'messages':[{'role':'system','content':'Actual synthetic complete-original-members task.'},
+        {'role':'user','content':json.dumps({**context,'full_contract':row['text'],
+            'output_contract':{'required_hypothesis_keys':list(labels)}})}],'schema':schema}
+    answer=copy.deepcopy(gold);answer['h1']['spans']=[0,1]
     units=[];originals=[]
-    for i,mode in enumerate(('empty','combined')):
-        role='joint_empty' if mode=='empty' else 'skills';stage='b1_prequential_'+mode
+    for i,mode in enumerate(('empty','combined','invalid')):
+        role='joint_empty' if mode=='empty' else 'skills';stage=f'synthetic_observation_{i}'
+        response={'content':json.dumps(answer) if mode!='invalid' else '{','finish_reason':'stop'}
+        feedback=original_feedback(response,row,gold,list(labels))
         delivery={'mode':mode,'actual_native_raw_id':f'synthetic_{i}','actual_visible_candidates':copy.deepcopy(context)}
         RunStore.immutable_json(tmp_path/f'deliveries/{stage}/1/{role}.json',delivery);originals.append(delivery)
+        RunStore.immutable_json(tmp_path/f'inputs/{stage}/1/{role}.json',actual_input)
         units.append({'document_id':1,'condition':role,'stage':stage,'bank_sha256':'s',
-            'ordinary_tool_source_ids':[10,20],'parsed':{},'public_valid':True,
-            'response':{'content':'{}'},'queries':[]})
+            'ordinary_tool_source_ids':[10,20],'parsed':feedback['parsed'],'public_valid':feedback['public_valid'],
+            'response':response,'queries':feedback['queries']})
     packet=study.observe(units);assert len(packet['candidate_contexts'])==1
-    observations=expand(packet['observations']);assert len(observations)==2
+    observations=expand(packet['observations']);assert len(observations)==3
+    assert len(packet['lawyer_task_contracts'])==1
+    assert decode_teacher_body(encode_teacher_body(packet))==packet
     for i,value in enumerate(observations):
         restored={**value['actual_delivery'],'actual_visible_candidates':packet['candidate_contexts'][value['actual_candidate_context_ref']]}
         assert restored==originals[i]
         assert json.loads((tmp_path/f"deliveries/{units[i]['stage']}/1/{units[i]['condition']}.json").read_text())==originals[i]
+        contract=packet['lawyer_task_contracts'][value['actual_lawyer_task_contract_ref']]
+        assert contract['actual_system_messages']==actual_input['messages'][:1]
+        restored_schema={**contract['actual_schema_root'],'properties':{
+            h:contract['actual_common_hypothesis_schema'] for h in contract['actual_schema_root']['required']}}
+        assert restored_schema==schema
+        credit=expand(value['original_component_feedback'])['h1']
+        if i<2:
+            assert credit['retained_original_member_indices']==[0]
+            assert expand(credit['missed_original_members'])==[{
+                'original_span_index':2,'literal_original_text':'Purpose is evaluation.'}]
+            assert expand(credit['extra_actual_citations'])==[{
+                'original_span_index':1,'literal_original_text':'Recipient may retain an archive.'}]
+            assert credit['evidence_tp']==credit['evidence_fp']==credit['evidence_fn']==1
+        else:
+            assert not value['public_valid'] and value['actual_native_answer'] is None
+            assert value['invalid_native_content']=='{' and credit['prediction'] is None
+            assert [z['original_span_index'] for z in expand(credit['missed_original_members'])]==[0,2]
 
 
 def test_online_cold_alias_requires_exact_input_schema_and_actual_native_content(tmp_path):
