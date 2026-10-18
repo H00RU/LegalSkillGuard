@@ -15,7 +15,36 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 06:39 CST，教师契约修复版Run02已真实后台启动
+## 当前快照：2026-10-19 06:57 CST，Run02已进入B3；首次更新很差，真实MERGE恢复但仍不胜空库
+
+同worker1388030/ticks436965332，06:57:36身份已核真实live；42native/2教师/2CPUfit/50逻辑，
+共同头218，ledgerlast1440/cap1454。B3 R2新案两臂尚未齐，禁止提前评分/重启/热改。
+首8空库87.50/72.04/50.74%与旧Run01输入逐字同、都是新实际rawID，未复用旧答卷。
+新1439 R1 CREATE3/18witnesses/2778tokens，自主数量非固定三类；全局规则已纠正成完整成员，
+但B1真学后79.41/72.97/46.32，TP134->135/FP40->37、NM36->29，不能报成功。
+B2全8新源空75.74/72.13/56.62，R1技能69.12/68.72/49.26，三项皆负。
+1440真实MERGE3->1、12witnesses/1880tokens；教师明确识别历史例文锚定并删去冗余，不是强制扩库。
+R2真本8学后75.00/70.40/55.88，对R1分类+8题、联合+9，TP78->88(+10)、FP29->42(+13)、FN42->32。
+NN全对23->27、NM44->49；这次并非只靠少引文/改NM，召回实增，但仍低于同案空库，且是训练内效果。
+因此继续B3检验R2迁移，不因R1坏就剥夺后续反馈修正机会，也不把训练内恢复报新案净胜。
+
+真实首教师wire已逐项核：system/schema可重建、全body codec同、272逻辑query字段及FN/FP原文完整，
+只有B1源、空初库、8物理/16逻辑冷别名非独立探索。收据在新control/
+actual_B1_teacher_wire_task_contract_and_original_member_credit_delivery.json。接口确实修复但不等于解决指标。
+R2实际请求664715字符，未截原文，当前无protocol/transport/length错误；别再归因缺训练标签或截断。
+
+在训练运行同时核了作者真实源码而非只读论文：ExpeL固定commit e41ec9a24823e7b560c561ab191441b56d9bcefc，
+agent/react.py实际276行SHA a0b8f6c2652bedfaa1442cafd0f22f8f6e050b5daf3355041df532d9a8adb552，
+_build_agent_prompt 169-188先system/fewshots，再规则，最后当前task；agent/expel.py原743行SHA7db4...一致。
+当前真实native JSON顺序是当前合同/命题/候选/输出契约之后才追加规则/历史例文；历史示例只有hypID而非完整公开命题。
+这是可检验的交付差异，**不是已证根因或效果**，未修改现跑格式/导入外部代码或额外embedder。
+完整来源/实际字段顺序收据：新control/expel_prompt_order_primary_code_and_actual_native_layout_recheck.json。
+若后续不同实际库仍有持续实质损害，停妥保全后做同末实际bank/同tool/同源的顺序或明确任务绑定因果干预，
+不能回滚挑R1/R2较好库，不能只挑案例；采用作者经验在前、当前任务在后的实现点时要真落原payload，
+别又只读仓库/写测试而不融合。先收当前R2的B3，避免不停重开B1。
+Goal active、未突破；强空库/成熟方法/独立学习重复/官方TEST的完整目标均仍未达成。
+
+## 已归档快照：2026-10-19 06:39 CST，教师契约修复版Run02已真实后台启动
 
 06:38:55 worker1388030/ticks436965332，独立preserver1388033/ticks436965333，原单8B服务未替换。
 核心492e347e7989e493675a1759695983cbd8614f35；81成员源码/Git双盘启动备份SHA

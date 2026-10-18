@@ -1,6 +1,20 @@
 # 今日机制决策：不重复已否证路线
 
-## 最新状态2026-10-19 06:39，任务契约修复版Run02已真实后台启动
+## 最新状态2026-10-19 06:57，Run02进入B3：R1坏，R2真实压缩后恢复但未胜空库
+
+同1388030/ticks436965332活，42native/2教师/2fit，共同218，ledger1440/1454；不提前评分B3。
+R1 CREATE3/18例文/2778tokens，完整成员方向已改，但本8学后79.41/72.97/46.32，空87.50/72.04/50.74。
+B2空75.74/72.13/56.62，R1技能69.12/68.72/49.26，三项负。R2真MERGE3->1/12例文/1880tokens。
+R2本8学后75.00/70.40/55.88，较R1 TP+10但FP+13，分类+8题/联合+9；NN全对23->27，非仅少引用或NM。
+仍不胜空库且是已见训练收益，继续B3 R2迁移验证，不重复reset首批或报突破。
+首教师实际wire任务/schema/fullbody/逐成员原文已核递达，只B1/空bank，原评分无变；R2 wire664715字符无截断。
+作者真实ExpeL代码又核：react.py fixed e41ec9a...,SHA a0b8f6c2652bedfaa1442cafd0f22f8f6e050b5daf3355041df532d9a8adb552，
+先历史fewshots+rules、后当前task。当前我们的历史例文反而在当前合同之后，且只带hypID；这是待证交付假说非根因结论。
+来源及实际native字段顺序保存在新control/expel_prompt_order_primary_code_and_actual_native_layout_recheck.json。
+若后批不同真实库仍实质受损，停妥后同末实际bank/tool/源比较记忆前置/明确任务绑定，别挑bank/案例或引入新模型。
+若借鉴须落原payload，不只读仓库测试；当前冻结Run不能热改。Goal active核心净收益及论文完整目标仍未达成。
+
+## 已归档状态2026-10-19 06:39，任务契约修复版Run02已真实后台启动
 
 06:38:55 worker1388030/ticks436965332，独立preserver1388033/ticks436965333，core492e347。
 81成员源码/Git双盘启动备份SHA b4fcee38fe1611efb6ba8c89cf9a77206003c4dc074f77059ca5d21f06fd874c。
