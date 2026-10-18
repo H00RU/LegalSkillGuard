@@ -15,7 +15,21 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-18 21:12 CST，旧Run02终态负面已封存；融合方法已实现，尚未launch
+## 当前快照：2026-10-18 21:15 CST，融合方法已真实独立后台launch，效果尚未验证
+
+- 新Run legal_contractnli_linked_procedure_native_feedback_online_20261018_run01于21:14:16
+  实际launch，worker524370/ticks433577398，preserver524373/ticks433577399。
+  21:14:52亲核同worker存活，1/160 native已完成，B1首次空库/技能作答进行，0教师。
+  起点代码2387tokens机械补procedure:null，尚无新程序性指导学习，不称指标突破。
+- checkpoint c1668b3f51a8f41ffcbafbeefbdf3582a179889e；67成员启动前全源码/Git/输入包
+  双文件系统已逐成员验证，SHA077ccc1e903c480cb5107be0b2e19dd8fbff958d3f977dafe27a7e773e3512d7；
+  全Git bundle SHA42f9a10cf991e41048cb607619de0588c297034934972719bf443fe67f5a8881。
+- 已有115项原CPU接口/时序检查24.10秒通过，无模型资格调用。新32/130普通起点/原
+  单8B/原评分与解码/160native/6教师/3fit已冻结，核心不可热改。首批与后批真实反馈待跑。
+  下方21:12为历史准备态，禁止再次launch、覆盖已有run或把起点工程成功算效果提升。
+  Goal active；强基线净收益、等调用/成熟方法比较、独立重复、官方TEST仍未达成。
+
+## 已归档快照：2026-10-18 21:12 CST，旧Run02终态负面已封存；融合方法已实现，尚未launch
 
 - 旧native反馈Run02于20:42:24在B3草稿发送/预约前再次字符超限，非8B生成截断。
   worker416650/preserver416653已消失；537成员双盘终态SHA

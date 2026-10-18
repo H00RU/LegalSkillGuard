@@ -1,6 +1,17 @@
 # 今日机制决策：不重复已否证路线
 
-## 最新状态21:12，纯索引Run02失败终态已封存；融合机制已实现但未launch
+## 最新状态21:15，融合方法已真实后台launch，尚无效果证据
+
+Run legal_contractnli_linked_procedure_native_feedback_online_20261018_run01于21:14:16真实launch。
+worker524370/ticks433577398，独立preserver524373/ticks433577399；首个native已完成、0教师。
+checkpoint c1668b3f51a8f41ffcbafbeefbdf3582a179889e；67成员双盘启动包SHA
+077ccc1e903c480cb5107be0b2e19dd8fbff958d3f977dafe27a7e773e3512d7，
+Git bundle SHA42f9a10cf991e41048cb607619de0588c297034934972719bf443fe67f5a8881。
+115项原CPU检查24.10秒通过，无资格模型调用。原单8B/任务/解码/评分不变，160/6/3。
+起点R8只补procedure:null，尚未学新判断程序，不称新方法成功；32源/父库/协议均已冻结。
+禁止热改或重复launch；先核实真实草稿8答与最终教师、后续新案与库管理。Goal仍未达成。
+
+## 已归档状态21:12，纯索引Run02失败终态已封存；融合机制已实现但未launch
 
 Run02于20:42:24在B3草稿提交/预约前再次超限，80本地native/3教师/2fit，非完整32。
 537成员双盘终态亲核SHAa8dc1bacf03d4038a58c22ed629f4a2421ade63bcf10382b6aff75f17288906e。
