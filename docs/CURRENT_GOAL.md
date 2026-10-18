@@ -15,7 +15,7 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 03:06 CST，原生紧凑128链路已prepare；删除失败回放格式，待launch
+## 当前快照：2026-10-19 03:09 CST，原生紧凑128已实际后台运行；首答原样/观测正常，效果待看
 
 - verdict_first_repair原40计划已于02:59:31安全停止，仅12native/0教师/0fit；没有完整ALL8机制表、教师修订或forward8成绩，
   不能说该实验完成。137成员终态双盘亲核SHAe9259c6aa418fab8333a856754680dfba0f90be04ea2ee9d5a7f4b65d9b0575e。
@@ -32,9 +32,14 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
   384逻辑答含8冷物理别名；两臂共同普通202->330，不算技能贡献。first8已用于开发，不能说独立算法重复。
   旧R17只验证共同模型202/源排除谱系，旧R17/R1文字及旧教师例不进新库。官方DEV/TEST不调优。
 - 原模块/既有测试修改后120项35.59秒pass；净删代码，无新生成资格调用，不再跑新的小格式变体。
-  cfg/input/source/scorer已prepare冻结，protocol docs/OBSERVED_PROCEDURE_128_PROTOCOL_20261019.md；当前未launch。
+  cfg/input/source/scorer已prepare冻结，protocol docs/OBSERVED_PROCEDURE_128_PROTOCOL_20261019.md。
+  03:07:17实际launch，worker1067937/ticks435695485，独立preserver1067940/ticks435695486；
+  core checkpoint694a20d06a736d793f63367084d2e8ef8151a430，66成员全源码/Git启动双盘亲核SHA
+  75b34c75a6ce116427844ebe878811e6ce8c15b85446c8ad0a1ca53aec3bca95。
+  03:08:47为4/376 native、0教师/8逻辑；368实际reason/choice/原整数列表，content/rawID完全等于原生，
+  真实候选观测与原输入一致，627tokens/stop，冷别名明确非第二次生成。不是效果证明，首批尚未完成。
   旧ledger原字节双盘后cap1442->1443、last1427不清账，覆盖接下来16教师。当前无旧训练worker。
-- 接提交/双盘后后台真实launch，核首次原生输出内容/rawID完全未改、候选观测及ALL8配对实际进教师，
+- 保持同一已冻结Run，不再重复launch或热改；接核ALL8配对/原文/Gold/实际候选真正进教师，
   再看B1发布/本8实答、B2/B3和后续新案净收益，不只看首批、恢复接口能力或库数量。
   不因单个普通错例重启，也不强行拖过明确系统性故障。完整128效果、强/成熟/等调用基线、
   独立重复和官方TEST均未完成，Goal active未达成。单8B/既有教师/原任务不变，不恢复32B或客户路由。
