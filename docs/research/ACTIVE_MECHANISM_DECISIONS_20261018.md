@@ -1,6 +1,19 @@
 # 今日机制决策：不重复已否证路线
 
-## 最新状态2026-10-19 01:31，完整32闭环仍未整体胜空，当前无训练worker
+## 最新状态2026-10-19 02:02，新128已prepare，未launch；机制已落原模块但效果未知
+
+Run legal_contractnli_source_attributed128_online_20261019_run01，空技能起点，128纯源独立案、16×8全批在线。
+共同普通工具202起，双方同增至330；skillteacher仅128本episode，不继承旧R17规则/旧答案/Gold作教师经验。
+单个冻结律师原生稀疏完整SPAN文字+显式索引先行→公开比较→原choice；grammar仅字面绑定，非语义验证。
+宿主全数原样投影native索引/choice，原三指标不变；不重定位/去重/补答案，不恢复逐SPAN×17/两阶段读回。
+Attribute First then Generate实际源码已读，借选证先行数据流，不复制LCS/模糊匹配/源修补或多角色。
+教师一直接CRUD/NOOP，实际发布本8重答成为下批真实差分，16批均不设效果准入/较好库回滚/强制增长。
+预算376/16/16；B1完全同策略8物理答别名声明，不算独立生成，后批照用真实当前库。
+原CPU检查121pass37.50s，实际backend/xgrammar首案schema CPU编译pass，无原生资格调用。
+配置/输入/源码已冻结，接下来提交/双盘备份后真实后台launch，未启动前不能说正在训。
+旧完整32净负不掩盖，原Goal未达成，新机制不是已证明突破；后续看同案强空净收益和后续批次。
+
+## 已归档状态2026-10-19 01:31，完整32闭环仍未整体胜空，当时无训练worker
 
 published_final_execution_completion已24/0/1完成，原failed64/3/2不覆盖，合同episode88/3/3。
 508成员终态双盘亲核SHAbcc1610ba751ced71e1bdb292b8081aa14ffc6fa638fd004a271f61ac3f09a94。

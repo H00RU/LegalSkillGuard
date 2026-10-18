@@ -35,6 +35,7 @@ from legal_skill_guard.learning.decision_evidence import (
     DECISION_SYSTEM, EVIDENCE_SYSTEM, GUIDANCE_SCHEMA, assemble_native,
     channel_criteria, convert_parent, decision_payload, evidence_payload, joint_payload, member_program_payload,
     PROCEDURE_GUIDANCE_SCHEMA, procedure_payload, validate_procedures,
+    source_attributed_payload, project_source_attributed_response,
 )
 from legal_skill_guard.learning.evidence_programs import evidence_proposals, fit_program_model
 from legal_skill_guard.learning.executable_features import (
@@ -61,7 +62,8 @@ NATIVE_DRAFT_METHOD = "source_member_native_draft_feedback_online"
 LINKED_METHOD = "linked_source_procedure_native_feedback_online"
 PROCEDURE_METHOD = "source_grounded_direct_procedure_online"
 EDIT_FEEDBACK_METHOD = "source_grounded_published_edit_feedback_online"
-PROCEDURE_METHODS = (PROCEDURE_METHOD, EDIT_FEEDBACK_METHOD)
+ATTRIBUTED_METHOD = "source_attributed_procedure_online"
+PROCEDURE_METHODS = (PROCEDURE_METHOD, EDIT_FEEDBACK_METHOD, ATTRIBUTED_METHOD)
 COMMON_TOOL_METHODS = (LINKED_METHOD, *PROCEDURE_METHODS)
 NATIVE_FEEDBACK_METHODS = (NATIVE_DRAFT_METHOD, LINKED_METHOD)
 DRAFT_METHODS = (DRAFT_METHOD, *NATIVE_FEEDBACK_METHODS)
@@ -576,6 +578,35 @@ EDIT_FEEDBACK_WRITER = PROCEDURE_WRITER.replace("most15 words", "most64 words").
     "current interface and are disclosed; never invent new-interface outcomes "
     "for it. Use its real observed gains and damage, not an imagined failure.")
 
+ATTRIBUTED_WRITER = EDIT_FEEDBACK_WRITER.replace(
+    "The actual latest text procedures, NOT a chosen older better bank, are inherited unchanged.",
+    "This independent episode starts with an empty library, not an older selected checkpoint.",
+).replace(
+    "The SAME frozen8B makes one original native answer per contract: for every "
+    "exact hypothesis it FIRST writes a public source-grounded reason of at "
+    "most64 words, THEN choice and spans.",
+    "The SAME frozen8B makes ONE native answer per contract: for each exact "
+    "hypothesis it FIRST selects sparse complete evidence members as exact "
+    "current-source text/index pairs, THEN gives a public source comparison "
+    "of at most64 words and its original legal choice. The grammar forces "
+    "the selected text/index binding, not relevance or a correct label. Host "
+    "projection preserves every explicit native index and choice, never "
+    "adds, filters, realigns or repairs a citation. NotMentioned needs no "
+    "evidence. Actual parsed native quote choices are supplied alongside "
+    "the unchanged original-task feedback, so inspect them for object, "
+    "modal, trigger, quantifier and source-scope mismatches.",
+) + (
+    " This is a prospectively declared independent128-source learning episode "
+    "starting from an EMPTY skill library, not a better old checkpoint. All16 "
+    "batches of8 are taught after their complete prequential answers; no "
+    "reserved validation set and no future batch labels are given. The common "
+    "ordinary evidence tool initially has202 prior TRAIN sources, shared "
+    "identically with the empty control; that ordinary supervised resource "
+    "is not your skill contribution. Do not infer facts from your generic "
+    "teaching examples or force a fixed skill count. Prefer operational "
+    "source conditions with correctly distinguished supported, opposed and "
+    "unresolved outcomes over longer lists of generic advice.")
+
 
 def program_api():
     return {"entrypoint": "propose_members(text, spans, public_hypothesis_key)",
@@ -694,7 +725,17 @@ def prepare_online(config):
     native_draft = cfg["method"] in NATIVE_FEEDBACK_METHODS
     linked = cfg["method"] == LINKED_METHOD
     procedure = cfg["method"] in PROCEDURE_METHODS
-    edit_feedback = cfg["method"] == EDIT_FEEDBACK_METHOD
+    attributed = cfg["method"] == ATTRIBUTED_METHOD
+    edit_feedback = cfg["method"] in (EDIT_FEEDBACK_METHOD, ATTRIBUTED_METHOD)
+    episode_size = cfg.get("episode_size", 32)
+    learning_batches = cfg.get("learning_batches", 3)
+    if attributed:
+        assert episode_size == 128 and learning_batches == 16
+        assert cfg["past_source_count"] == 202
+        assert cfg["initial_guidance_migration"] == "independent_empty_new_source_attributed_learning"
+        assert not cfg.get("initial_parent_update_history"), "No prior learned examples in an independent reset"
+    else:
+        assert episode_size == 32 and learning_batches == 3
     if edit_feedback:
         assert cfg["public_reason_words"] == 64 and cfg["generation"]["max_tokens"] == 8192
     resume = bool(cfg.get("resume_failed_revision_run"))
@@ -727,7 +768,7 @@ def prepare_online(config):
     components = source_components(author["documents"])
     excluded = set().union(*(set(g) for g in components if set(g) & exclude))
     eligible = sorted(d for d in original if d not in excluded)
-    ids = np.random.default_rng(cfg["source_only_seed"]).choice(eligible, size=32, replace=False).tolist()
+    ids = np.random.default_rng(cfg["source_only_seed"]).choice(eligible, size=episode_size, replace=False).tolist()
     assert ids == cfg["episode_ids"] and not any(len(set(g) & set(ids)) > 1 for g in components)
     if draft or procedure:
         selection = read(ROOT / cfg["source_only_preselection"])
@@ -743,7 +784,11 @@ def prepare_online(config):
     bank = read(ROOT / cfg["parent_publication"])["publication"]
     inherited_bank_sha256 = csha(bank)
     if procedure:
-        if edit_feedback:
+        if attributed:
+            validate_procedures(bank, author["labels"])
+            assert read(ROOT / cfg["parent_publication"])["original_seen_source_ids"] == past
+            bank = []  # Prospective independent initialization, not best-bank rollback.
+        elif edit_feedback:
             assert cfg["initial_guidance_migration"] == "inherit_actual_procedures_exactly"
             assert inherited_bank_sha256 == csha(bank)
         else:
@@ -775,21 +820,25 @@ def prepare_online(config):
         "previous_text_method_library_for_initial_induction_only": bank if program and not draft else None,
         "parent_already_two_channel_no_conversion_or_selection": not program and not procedure,
         "new_source_program_representation_not_selected_old_bank": program and not draft,
-        "inherits_actual_latest_program_without_score_selection": draft or procedure,
+        "inherits_actual_latest_program_without_score_selection": draft or (procedure and not attributed),
+        "independent_empty_initialization_no_prior_runtime_skills_or_teacher_examples": attributed,
         "explicit_guidance_migration": cfg.get("initial_guidance_migration"),
         "initial_guidance_migration_receipt": {
             "original_actual_parent_sha256": inherited_bank_sha256,
             "initial_runtime_parent_sha256": csha(bank),
             "mechanical_null_field_only_not_new_learning": linked,
             "removes_source_read_layer_by_method_not_case_or_skill_score": cfg.get("initial_guidance_migration") == "procedures_only_remove_source_read_layer",
-            "inherits_actual_procedures_byte_semantics_without_selection": edit_feedback,
-            "retained_procedure_text_scope_identity_unchanged": procedure,
+            "inherits_actual_procedures_byte_semantics_without_selection": edit_feedback and not attributed,
+            "retained_procedure_text_scope_identity_unchanged": procedure and not attributed,
+            "prospective_independent_empty_initialization_not_best_bank_rollback": attributed,
             "no_score_selection": True,
             "no_score_selection_or_code_change": linked} if linked or procedure else None,
         "source_only_selection": {"seed": cfg["source_only_seed"], "eligible_ids": eligible,
             "excluded_original_and_source_component_ids": sorted(excluded),
             "no_selection_using_labels_or_outcomes": True},
-        "episode_has_three_learning_batches_then_forward8": True,
+        "episode_has_three_learning_batches_then_forward8": not attributed,
+        "learning_batches": learning_batches,
+        "episode_size": episode_size,
         "this_run_inherits_first_episode_batch": start == 2 or resume,
         "sealed_interrupted_final_revision":resumed})
     RunStore.immutable_json(ROOT / cfg["grading_only"], {
@@ -798,9 +847,9 @@ def prepare_online(config):
         "all_current_batch_answers_precede_current_batch_grading": True})
     ledger = read(ROOT / cfg["teacher"]["ledger"])
     inherited = resumed["inherited_actual_native_teacher_CPUfits"] if resumed else [0,0,0]
-    teachers = (4-start)*(2 if draft else 1)+int(program and not draft)-inherited[1]
-    expected_calls = (88 if edit_feedback else (160 if native_draft else 136) if start == 1 else 120)-inherited[0]
-    expected_fits = 4-start-inherited[2]
+    teachers = (learning_batches+1-start)*(2 if draft else 1)+int(program and not draft)-inherited[1]
+    expected_calls = (376 if attributed else 88 if edit_feedback else (160 if native_draft else 136) if start == 1 else 120)-inherited[0]
+    expected_fits = learning_batches+1-start-inherited[2]
     assert max(r["sequence"] for r in ledger["reservations"]) + teachers <= ledger["max_invocations"]
     assert cfg["planned_new_native_calls"] == expected_calls and cfg["planned_new_teacher_calls"] == teachers
     files = list((ROOT / "legal_skill_guard").rglob("*.py"))
@@ -853,9 +902,9 @@ def prepare_online(config):
         "config_sha256": sha(config), "files": {str(p.resolve()): sha(p) for p in files}})
     print(json.dumps({"prepared": cfg["run_id"], "new_episode_ids": ids,
         "inherited_published_episode_labels":(resumed["resume_batch"]-1)*8 if resumed else (start-1)*8,
-        "first_new_original_label_exposures":(3-resumed["resume_batch"])*8 if resumed else (4-start)*8,
+        "first_new_original_label_exposures":(learning_batches-resumed["resume_batch"])*8 if resumed else (learning_batches+1-start)*8,
         "pending_unpublished_label_finalization":8 if resume else 0,
-        "forward_readout": 8, "planned_native_teacher_CPUfits": [expected_calls, teachers, expected_fits]}), flush=True)
+        "forward_readout": episode_size-learning_batches*8, "planned_native_teacher_CPUfits": [expected_calls, teachers, expected_fits]}), flush=True)
 
 
 class RankedOnline(DecisionEvidenceTransfer):
@@ -894,7 +943,10 @@ class RankedOnline(DecisionEvidenceTransfer):
         return self.cfg.get("method") in PROCEDURE_METHODS
 
     def publication_feedback_mode(self):
-        return self.cfg.get("method") == EDIT_FEEDBACK_METHOD
+        return self.cfg.get("method") in (EDIT_FEEDBACK_METHOD, ATTRIBUTED_METHOD)
+
+    def attributed_mode(self):
+        return self.cfg.get("method") == ATTRIBUTED_METHOD
 
     def common_tool_mode(self):
         return self.cfg.get("method") in COMMON_TOOL_METHODS
@@ -1286,7 +1338,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             "initial_ordinary_tool_manifest": self.manifest,
             "historical_observations_preserve_actual_ordinary_tool_source_ids": True,
             "ordinary_tool_grows_identically_for_skills_and_strong_empty_not_a_skill_gain": True,
-            "future_joint_system": procedure_payload(window[0], self.labels,
+            "future_joint_system": (source_attributed_payload if self.attributed_mode() else procedure_payload)(window[0], self.labels,
                 evidence_proposals(self.active_model(), window[0], self.labels),
                 self.cfg["bundled_solver_system"], [],
                 **({"public_reason_words": self.cfg["public_reason_words"]}
@@ -1303,6 +1355,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             body.update(
                 previous_actual_matched_published_update_all_gains_and_harms=transition,
                 original_native_joint_answer_and_sparse_original_SPAN_lists=True,
+                native_source_text_index_pairs_precede_public_reason_and_choice=self.attributed_mode(),
                 native_action_output_tokens={"joint":8192},
                 no_reanswers_or_retention_claim_for_sources_outside_current_window=True)
             if self.current_batch == 1 and self.cfg.get("initial_parent_update_history"):
@@ -1313,11 +1366,16 @@ class RankedOnline(DecisionEvidenceTransfer):
                 body["literal_replay_window"]["initial_parent_previous_episode_full_source_ids"] = history["all8_source_ids"]
                 body["literal_replay_window"]["older_full_sources_and_observations_archived_not_in_current_teacher_prompt"] = False
                 body["literal_replay_window"]["only_explicit_parent_last8_history_not_all_past_sources_is_added"] = True
+        if self.attributed_mode():
+            body["library_budget"] = {"actual_current_target8B_tokens": self.meter.token_count(
+                text=json.dumps(parent,ensure_ascii=False,separators=(",",":"))),
+                "target_tokens":3200,"hard_tokens":self.cfg["library_token_hard_cap"]}
+            body["ordinary202_prior_supervision_not_skill_teacher_experience"] = True
         name = f"online_b{self.current_batch}"
         self.record(f"learning_inputs/{name}.json", body)
-        schema = differential_schema(self.labels, parent, [r["id"] for r in self.past+seen],
+        schema = differential_schema(self.labels, parent, [r["id"] for r in (window if self.attributed_mode() else self.past+seen)],
                                      guidance_schema=PROCEDURE_GUIDANCE_SCHEMA)
-        writer = EDIT_FEEDBACK_WRITER if self.publication_feedback_mode() else PROCEDURE_WRITER
+        writer = ATTRIBUTED_WRITER if self.attributed_mode() else EDIT_FEEDBACK_WRITER if self.publication_feedback_mode() else PROCEDURE_WRITER
         value = self.teacher_call(name, writer,
                                   encode_teacher_body(body), schema)
         return self.publish_and_reanswer(parent, value, seen, before)
@@ -1334,6 +1392,7 @@ class RankedOnline(DecisionEvidenceTransfer):
         self.record(f"publications/b{self.current_batch}.json", {"at": now(), "parent": parent,
             "delta": value, "publication": self.bank, "statistics": stats,
             "original_seen_source_ids": seen_ids,
+            "actual_memory_teacher_seen_source_ids": [r["id"] for r in seen] if self.attributed_mode() else seen_ids,
             "actual_current_parent_own_episode_answers": len(before),
             "fixed_unpublished_draft_execution_then_one_revision": self.draft_mode(),
             "all_valid_edits_publish_without_efficacy_admission": True})
@@ -1447,6 +1506,18 @@ class RankedOnline(DecisionEvidenceTransfer):
 
     def joint(self, row, arm, proposals):
         bank = self.bank if arm == "skills" else []
+        if self.attributed_mode():
+            messages, schema = source_attributed_payload(row,self.labels,proposals,self.cfg["bundled_solver_system"],bank)
+            native = self.generate(row,arm,messages,schema)
+            response = project_source_attributed_response(row,self.labels,native,schema)
+            self.record(f"guidance_delivery/{self.phase}/{row['id']}/{arm}.json", {
+                "visible_procedures":[{"hypothesis_ids":s["hypothesis_ids"],"procedure":s["guidance"]["procedure"]} for s in bank],
+                "actual_native_raw_ids":response["actual_native_raw_ids"],
+                "literal_source_binding_valid_not_semantic_verification":not response["component_errors"],
+                "visibility_not_internal_use_or_causal_proof":True,
+                "original_metric_projection_not_answer_repair":True})
+            self.logical(row,arm,response)
+            return
         if self.procedure_mode():
             messages, schema = procedure_payload(row, self.labels, proposals, self.cfg["bundled_solver_system"], bank,
                 public_reason_words=self.cfg.get("public_reason_words", 15))
@@ -1467,13 +1538,16 @@ class RankedOnline(DecisionEvidenceTransfer):
     def execute(self):
         self.check()
         start_batch = self.cfg.get("start_batch", 1)
+        total_batches = len(self.documents)//8
+        learning_batches = self.cfg.get("learning_batches",3)
+        assert len(self.documents)%8==0 and (total_batches,learning_batches)==((16,16) if self.attributed_mode() else (4,3))
         resumed = getattr(self, "resumed", None)
         resumed_batch = resumed["resume_batch"] if resumed else None
         inherited_labels = (resumed_batch-1)*8 if resumed else (start_batch-1)*8
-        new_labels = (3-resumed_batch)*8 if resumed else (4-start_batch)*8
+        new_labels = (learning_batches-resumed_batch)*8 if resumed else (learning_batches+1-start_batch)*8
         self.record("declaration.json", {"at": now(), "config": self.cfg,
             "exact_actual_terminal_parent": self.bank if not self.common_tool_mode() else None,
-            "mechanically_migrated_actual_latest_parent": self.bank if self.common_tool_mode() else None,
+            "mechanically_migrated_actual_latest_parent": self.bank if self.common_tool_mode() and not self.attributed_mode() else None,
             "frozen_bindings": self.bindings.copy(),
             "explicit_guidance_migration": self.cfg.get("initial_guidance_migration"),
             "ordinary_tool_shared_and_growing_for_main_comparison": self.common_tool_mode(),
@@ -1484,12 +1558,17 @@ class RankedOnline(DecisionEvidenceTransfer):
             "inherited_actual_native_teacher_CPUfits":resumed["inherited_actual_native_teacher_CPUfits"] if resumed else [0,0,0],
             "native_actions_per_logical_answer": 1,
             "post_publication_reanswers_current8_only_no_all_seen_retention_claim": self.publication_feedback_mode(),
-            "forward_readout_not_taught": 8})
+            "independent_empty_skill_learning_initialization":self.attributed_mode(),
+            "ordinary_tool_prior_source_count_not_skill_teacher_source_count":len(self.past),
+            "forward_readout_not_taught": (total_batches-learning_batches)*8})
         self.record("publications/initial.json", {"at": now(), "publication": self.bank,
-            "actual_inherited_teacher_sources": self.prefix_ids, "not_independent_learning_repeat": True,
+            "actual_inherited_teacher_sources": [] if self.attributed_mode() else self.prefix_ids,
+            "common_ordinary_tool_prior_sources":self.prefix_ids,
+            "not_independent_learning_repeat": True,
             "explicit_guidance_migration": self.cfg.get("initial_guidance_migration"),
             "starts_with_empty_new_program_representation": self.program_mode() and not self.draft_mode(),
-            "inherits_actual_latest_program_without_score_selection": self.draft_mode() or self.procedure_mode()})
+            "inherits_actual_latest_program_without_score_selection": self.draft_mode() or (self.procedure_mode() and not self.attributed_mode()),
+            "independent_empty_initialization_not_best_bank_rollback":self.attributed_mode()})
         if self.program_mode() and not self.draft_mode():
             self.induct_initial_programs()
         if resumed:
@@ -1504,7 +1583,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             self.record("initial_retention.json", {"at": now(), "metrics": points(initial),
                 "not_unseen_evaluation_or_teacher_update_gain": True,
                 "refresh_all_inherited_episode_own_answers_in_actual_new_interface": True})
-        for batch in range(resumed_batch+1 if resumed else start_batch, 5):
+        for batch in range(resumed_batch+1 if resumed else start_batch, total_batches+1):
             self.current_batch = batch
             rows, seen = self.documents[(batch-1)*8:batch*8], self.documents[:batch*8]
             start = len(self.answers)
@@ -1516,6 +1595,16 @@ class RankedOnline(DecisionEvidenceTransfer):
                           else fixed if batch == 1 else evidence_proposals(self.prefix_model, row, self.labels))
                 self.record(f"common_candidates/b{batch}/{row['id']}.json", {"fixed42": fixed,
                     "ordinary_revealed_prefix": prefix, "ordinary_prefix_source_ids": self.prefix_ids})
+                if self.attributed_mode() and batch==1:
+                    assert not self.bank, "Only the prospectively empty first batch has identical policies"
+                    self.joint(row,"joint_empty",prefix)
+                    original=self.answers[-1]
+                    alias=self.logical(row,"skills",original["response"])
+                    self.record(f"exact_aliases/cold_b1/{row['id']}.json",{
+                        "original":original,"alias":alias,
+                        "same_source_schema_messages_decoding_and_empty_library":True,
+                        "no_new_native_call_not_an_independent_generation":True})
+                    continue
                 order = ("joint_empty", "skills")
                 if index % 2:
                     order = tuple(reversed(order))
@@ -1549,26 +1638,26 @@ class RankedOnline(DecisionEvidenceTransfer):
                 "same_case_skill_effects": {a: paired_effect(groups[a], groups["skills"],
                     seed=2026101820+batch*4+i, replicates=5000) for i,a in enumerate(groups) if a != "skills"},
                 "current_batch_fully_generated_before_any_current_Gold_grading_or_teacher": True,
-                "forward_only_no_update" : batch == 4}
+                "forward_only_no_update" : batch > learning_batches}
             self.batch_summaries.append(summary)
             self.record(f"batch_summaries/b{batch}_before.json", summary)
             print(json.dumps({"batch": batch, "metrics": summary["prequential_metrics"]}), flush=True)
-            if batch <= 3:
+            if batch <= learning_batches:
                 stats, effect = self.update_online(seen)
                 self.record(f"batch_summaries/b{batch}_complete.json", {
                     **summary, "publication_statistics": stats, "paired_seen_update_effect": effect})
                 self.fit_prefix(seen)
-        default_calls = (88 if self.publication_feedback_mode()
+        default_calls = (376 if self.attributed_mode() else 88 if self.publication_feedback_mode()
                          else (160 if self.native_draft_mode() else 136) if start_batch == 1 else 120)
         assert len(self.native) == self.cfg.get("planned_new_native_calls", default_calls)
-        assert len(self.fit_records) == self.cfg.get("planned_new_CPU_fits",4-start_batch)
+        assert len(self.fit_records) == self.cfg.get("planned_new_CPU_fits",learning_batches+1-start_batch)
         assert len(self.teachers) == self.cfg.get("planned_new_teacher_calls",
-            (4-start_batch)*(2 if self.draft_mode() else 1)+int(self.program_mode() and not self.draft_mode()))
+            (learning_batches+1-start_batch)*(2 if self.draft_mode() else 1)+int(self.program_mode() and not self.draft_mode()))
         prequential = [u for u in self.units if u["stage"].endswith("_prequential") or u["stage"].endswith("_fixed_tool_control")]
         conditions = ("joint_empty", "skills") if self.publication_feedback_mode() else (
             "joint_empty", "fixed_tool_empty", "skills")
         groups = {a: [u for u in prequential if u["condition"] == a] for a in conditions}
-        assert all(len(v) == (5-start_batch)*8 for v in groups.values())
+        assert all(len(v) == (total_batches+1-start_batch)*8 for v in groups.values())
         result = {"at": now(), "run_id": self.run_id, "batch_summaries": self.batch_summaries,
             "aggregate_prequential_metrics": {a: points(u) for a,u in groups.items()},
             "actual_new_native_teacher_CPUfits": [len(self.native), len(self.teachers), len(self.fit_records)],
@@ -1589,8 +1678,11 @@ class RankedOnline(DecisionEvidenceTransfer):
             "new_original_episode_label_exposures":new_labels,
             "pending_unpublished_label_batch_finalization":8 if resumed else 0,
             "original_past_source_count": len(self.past),
-            "total_original_sources_taught_at_terminal": len(self.past)+24,
-            "episode24_taught_forward8_not_taught": True,
+            "total_original_sources_taught_at_terminal": learning_batches*8 if self.attributed_mode() else len(self.past)+learning_batches*8,
+            "total_common_ordinary_supervised_sources_at_terminal": len(self.past)+learning_batches*8,
+            "new_episode_original_sources_taught": learning_batches*8,
+            "independent_empty_skill_learning":self.attributed_mode(),
+            "episode24_taught_forward8_not_taught": (total_batches,learning_batches)==(4,3),
             "all_adverse_results_and_original_denominators_retained": True,
             "not_independent_algorithmic_repeat_or_official_TEST": True}
         self.record("completion.json", result)

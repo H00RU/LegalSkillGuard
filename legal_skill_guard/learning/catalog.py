@@ -161,7 +161,7 @@ def encode_teacher_body(original):
     texts = [
         s
         for s, n in counts.items()
-        if len(s) >= 20 and n > 1 and (len(canonical(s)) - 18) * (n - 1) > len(canonical(s)) + 4
+        if len(s) >= 20 and n > 1 and (n - 1) * len(canonical(s)) > n * 18 + 4
     ]
     text_lookup = {s: i for i, s in enumerate(texts)}
 
