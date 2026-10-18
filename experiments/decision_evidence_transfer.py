@@ -432,64 +432,104 @@ def program_api():
 
 
 def sealed_interrupted_revision(cfg, bank, preserved_files):
-    """Only the verified B2 character-guard interruption, not arbitrary resume."""
+    """Continue a sealed, unsent final revision in the fixed two-stage graph.
+
+    Only a fresh episode stopped by the character guard is eligible. Nothing
+    selects a better bank, replays a paid call, or resumes an arbitrary job.
+    """
     source = ROOT / cfg["resume_failed_revision_run"]
     old_config = ROOT / cfg["resume_failed_revision_config"]
     old = read(old_config)
-    assert old["method"] == DRAFT_METHOD
+    assert old["method"] in DRAFT_METHODS and cfg["method"] == old["method"]
+    assert not old.get("resume_failed_revision_run"), "Nested recovery needs a separate provenance audit"
+    native = old["method"] == NATIVE_DRAFT_METHOD
     for key in ("episode_ids", "source_only_seed", "generation", "ordinary_manifest", "teacher",
                 "source_archive_sha256", "inference_environment"):
-        assert old[key] == cfg[key], "Continuation cannot change the actual native task or shared tools"
+        assert old[key] == cfg[key], "Continuation cannot change the native task or shared tools"
     failure = read(source / "failure.json")
-    assert failure["actual_new_native_teacher_calls"] == [48,3]
     assert "Complete teacher input exceeds character capacity" in failure["error"]
-    assert not (source / "publications/b2.json").exists()
-    assert read(source / "publications/b1.json")["publication"] == bank
     assert read(source / "progress.json")["state"] == "failed"
+    pending = [p for p in (source / "learning_inputs").glob("online_b*_revision.json")
+               if not (source / "publications" / (p.stem.split("_")[1]+".json")).exists()
+               and not (source / "teacher" / p.stem / "response.json").exists()]
+    assert len(pending) == 1, "Exactly one unsent final revision, never a performance retry"
+    pending = pending[0]
+    batch = int(pending.stem.split("_")[1][1:])
+    assert 1 <= batch <= 3
+    expected_native = 16+24*(batch-1)+4*batch*(batch-1)+(8*batch if native else 0)
+    inherited = [expected_native, 2*batch-1, batch-1]
+    assert failure["actual_new_native_teacher_calls"] == inherited[:2]
+    parent_path = source / "publications" / (f"b{batch-1}.json" if batch > 1 else "initial.json")
+    assert read(parent_path)["publication"] == bank
     physical = sorted((source / "native").rglob("*.json"))
     answers = sorted((source / "logical_answers").rglob("*.json"))
-    assert len(physical) == 48 and len(answers) == 56
+    assert len(physical) == expected_native and len(answers) == expected_native+8
     responses = {read(p)["response"]["raw_id"]: read(p)["response"] for p in physical}
-    assert len(responses) == 48
+    assert len(responses) == expected_native
     assert all(read(p)["response"] == responses[read(p)["response"]["raw_id"]] for p in answers)
     teacher_responses = sorted((source / "teacher").glob("*/response.json"))
     fits = sorted((source / "ordinary_controls").glob("*.json"))
-    assert len(teacher_responses) == 3 and len(fits) == 1
+    assert len(teacher_responses) == inherited[1] and len(fits) == inherited[2]
     old_frozen = read(old_config.with_suffix(".frozen.json"))["files"]
     for name in ("learning/decision_evidence.py", "learning/executable_features.py",
                  "learning/evidence_programs.py", "learning/acquisition.py", "task.py",
                  "inference/native.py", "inference/openai_client.py", "inference/codex_cli_client.py"):
         p = ROOT / "legal_skill_guard" / name
-        assert old_frozen[str(p)] == sha(p), "Never reuse native answers after an inference change"
-    pending = source / "learning_inputs/online_b2_revision.json"
+        assert old_frozen[str(p)] == sha(p), "Never reuse answers after an inference change"
+    refs = {"pending_final_revision_body": pending,
+            "executed_draft": source / f"drafts/b{batch}.json",
+            "executed_draft_replay": source / f"program_replays/b{batch}_draft.json",
+            "pending_final_schema_reference": source / f"teacher/online_b{batch}_draft/wire_request.json"}
     writer = source / "teacher/online_b1_revision/wire_request.json"
+    if native:
+        import ast
+        terminal = read(ROOT / cfg["parent_terminal_preservation"])
+        module = Path(__file__).resolve()
+        with tarfile.open(terminal["archive"], "r:gz") as archive:
+            original_source = archive.extractfile("project/"+str(module.relative_to(ROOT))).read().decode()
+        methods = {"generate", "logical", "score", "joint", "native_draft_feedback",
+                   "final_program_revision", "program_mode", "native_draft_mode"}
+        def native_contract(text):
+            return {(c.name,n.name):ast.dump(n,include_attributes=False)
+                    for c in ast.parse(text).body if isinstance(c,ast.ClassDef)
+                    for n in c.body if isinstance(n,ast.FunctionDef) and n.name in methods}
+        assert native_contract(original_source) == native_contract(module.read_text())
+        writer = ROOT / cfg["resume_failed_final_request_intent"]
+        intent = read(writer)
+        assert intent["actually_sent_or_reserved"] is False
+        assert intent["original_failed_module_sha256"] == old_frozen[str(module)]
+        assert intent["original_pending_semantic_body_sha256"] == sha(pending)
+        assert intent["output_schema"] == read(refs["pending_final_schema_reference"])["output_schema"]
+        refs["executed_native_draft_training"] = source / f"draft_native_training/b{batch}.json"
+        assert read(pending)["actual_unpublished_draft_native_training_feedback"] == read(
+            refs["executed_native_draft_training"])["teacher_feedback"]
     body, system = read(pending), read(writer)["system_prompt"]
     assert body["current_parent_library"] == bank
     encoded = encode_teacher_body(body)
     chars = len(render_structured_codex_prompt(system,
         json.dumps(encoded, ensure_ascii=False, separators=(",", ":"))))
     assert chars <= CODEX_TURN_INPUT_CHARACTER_LIMIT, "Complete pending revision, never clip"
-    refs = {"pending_final_revision_body": pending,
-            "pending_final_system_request": writer,
-            "executed_draft": source / "drafts/b2.json",
-            "executed_draft_replay": source / "program_replays/b2_draft.json"}
-    summaries = [source / f"batch_summaries/b{b}_before.json" for b in (1,2)]
-    required = [old_config,old_config.with_suffix(".frozen.json"),source / "failure.json",
-                source / "progress.json",*refs.values(),*summaries,*answers,*physical,*teacher_responses,*fits]
+    summaries = [source / f"batch_summaries/b{b}_before.json" for b in range(1,batch+1)]
+    required = [old_config,old_config.with_suffix(".frozen.json"),source/"failure.json",
+                source/"progress.json",parent_path,*refs.values(),*summaries,*answers,
+                *physical,*teacher_responses,*fits]
     required += [Path(read(p)["input_payload"]) for p in physical]
     for p in required:
-        assert preserved_files[str(p.relative_to(ROOT))] == sha(p), "Only sealed original artifacts can be inherited"
+        assert preserved_files[str(p.relative_to(ROOT))] == sha(p), "Only sealed original artifacts"
+    if not native:
+        assert preserved_files[str(writer.relative_to(ROOT))] == sha(writer)
+    refs["pending_final_system_request"] = writer
     result = {"source_run_directory": str(source.relative_to(ROOT)),
-        "inherited_actual_native_teacher_CPUfits": [48,3,1],
+        "resume_batch": batch, "inherited_actual_native_teacher_CPUfits": inherited,
         "logical_answer_paths": [str(p.relative_to(ROOT)) for p in answers],
         "batch_summary_paths": [str(p.relative_to(ROOT)) for p in summaries],
         **{k:str(p.relative_to(ROOT)) for k,p in refs.items()},
         "complete_pending_revision_rendered_characters": chars,
-        "original_episode_label_exposures_already_seen":16,
+        "original_episode_label_exposures_already_seen":batch*8,
         "pending_unpublished_label_batch_finalization":8,
-        "first_new_original_label_exposures_after_resume":8,
+        "first_new_original_label_exposures_after_resume":(3-batch)*8,
         "no_repeated_native_teacher_or_draft_execution":True}
-    return result, required
+    return result, required+[writer]
 
 
 def prepare_online(config):
@@ -544,12 +584,15 @@ def prepare_online(config):
     bank = read(ROOT / cfg["parent_publication"])["publication"]
     if draft:
         validate_member_programs(bank, author["labels"])
-        assert read(ROOT / cfg["parent_publication"])["original_seen_source_ids"] == past+(ids[:8] if resume else [])
+        if not resume:
+            assert read(ROOT / cfg["parent_publication"])["original_seen_source_ids"] == past
     else:
         for channel in ("relation_criterion", "evidence_criterion"):
             channel_criteria(bank, author["labels"], channel)
     public = lambda d: {k: original[d][k] for k in ("id", "text", "spans")}
     resumed, resume_files = sealed_interrupted_revision(cfg,bank,preserved_files) if resume else (None,[])
+    if resumed:
+        assert read(ROOT / cfg["parent_publication"])["original_seen_source_ids"] == past+ids[:(resumed["resume_batch"]-1)*8]
     RunStore.immutable_json(ROOT / cfg["input_packet"], {
         "public_hypotheses": author["labels"], "documents": [public(d) for d in ids],
         "past_documents": [public(d) for d in past], "past_seen_ids": past,
@@ -569,8 +612,10 @@ def prepare_online(config):
         "teacher_gets_only_revealed_past_and_episode_prefix": True,
         "all_current_batch_answers_precede_current_batch_grading": True})
     ledger = read(ROOT / cfg["teacher"]["ledger"])
-    teachers = (4-start)*(2 if draft else 1)+int(program and not draft)-(3 if resume else 0)
-    expected_calls = 88 if resume else ((160 if native_draft else 136) if start == 1 else 120)
+    inherited = resumed["inherited_actual_native_teacher_CPUfits"] if resumed else [0,0,0]
+    teachers = (4-start)*(2 if draft else 1)+int(program and not draft)-inherited[1]
+    expected_calls = ((160 if native_draft else 136) if start == 1 else 120)-inherited[0]
+    expected_fits = 4-start-inherited[2]
     assert max(r["sequence"] for r in ledger["reservations"]) + teachers <= ledger["max_invocations"]
     assert cfg["planned_new_native_calls"] == expected_calls and cfg["planned_new_teacher_calls"] == teachers
     files = list((ROOT / "legal_skill_guard").rglob("*.py"))
@@ -579,10 +624,11 @@ def prepare_online(config):
     files += [ROOT / cfg[k] for k in ("source_archive", "input_packet", "grading_only", "ordinary_manifest",
         "parent_publication", "parent_terminal_preservation", "development_reference_config",
         "excluded_parent_config", "inference_environment", "method_protocol")]
-    if start == 2 or resume:
+    if start == 2 or (resumed and resumed["resume_batch"] > 1):
         prefix_path = ROOT / cfg["initial_ordinary_prefix_manifest"]
         prefix = read(prefix_path)
-        assert prefix["source_ids"] == past+ids[:8] and sha(prefix["path"]) == prefix["sha256"]
+        prior = (resumed["resume_batch"]-1)*8 if resumed else 8
+        assert prefix["source_ids"] == past+ids[:prior] and sha(prefix["path"]) == prefix["sha256"]
         publication = read(ROOT / cfg["parent_publication"])
         assert publication["original_seen_source_ids"] == prefix["source_ids"]
         files += [prefix_path, Path(prefix["path"])]
@@ -612,10 +658,10 @@ def prepare_online(config):
     RunStore.immutable_json(config.with_suffix(".frozen.json"), {
         "config_sha256": sha(config), "files": {str(p.resolve()): sha(p) for p in files}})
     print(json.dumps({"prepared": cfg["run_id"], "new_episode_ids": ids,
-        "inherited_published_episode_labels":8 if resume else (start-1)*8,
-        "first_new_original_label_exposures":8 if resume else (4-start)*8,
+        "inherited_published_episode_labels":(resumed["resume_batch"]-1)*8 if resumed else (start-1)*8,
+        "first_new_original_label_exposures":(3-resumed["resume_batch"])*8 if resumed else (4-start)*8,
         "pending_unpublished_label_finalization":8 if resume else 0,
-        "forward_readout": 8, "planned_native_teacher_CPUfits": [expected_calls, teachers, 2 if resume else 4-start]}), flush=True)
+        "forward_readout": 8, "planned_native_teacher_CPUfits": [expected_calls, teachers, expected_fits]}), flush=True)
 
 
 class RankedOnline(DecisionEvidenceTransfer):
@@ -628,14 +674,15 @@ class RankedOnline(DecisionEvidenceTransfer):
         self.program_cost = {}
         self.resumed = packet.get("sealed_interrupted_final_revision")
         self.prefix_ids = list(packet["past_seen_ids"])
-        if self.cfg.get("start_batch", 1) == 2 or self.resumed:
+        if self.cfg.get("start_batch", 1) == 2 or (self.resumed and self.resumed["resume_batch"] > 1):
             prefix = read(ROOT / self.cfg["initial_ordinary_prefix_manifest"])
             assert sha(prefix["path"]) == prefix["sha256"]
             with Path(prefix["path"]).open("rb") as stream:
                 self.prefix_model = pickle.load(stream)
             self.prefix_ids = prefix["source_ids"]
             assert not self.prefix_model.programs
-            assert self.prefix_ids == [r["id"] for r in self.past+self.documents[:8]]
+            prior = (self.resumed["resume_batch"]-1)*8 if self.resumed else 8
+            assert self.prefix_ids == [r["id"] for r in self.past+self.documents[:prior]]
 
     def program_mode(self):
         return self.cfg.get("method") in PROGRAM_METHODS
@@ -938,51 +985,53 @@ class RankedOnline(DecisionEvidenceTransfer):
         return stats, effect
 
     def resume_interrupted_final_revision(self, resume):
-        """Finish the one sealed B2 final request, without replaying paid work.
-
-        This is an exact artifact-bound continuation of the same episode, not
-        a new experiment, selected bank, generic job scheduler or retry loop.
-        """
+        """Finish the sealed unsent final request, preserving all actual work."""
         parent = copy.deepcopy(self.bank)
         imported = [read(ROOT / path) for path in resume["logical_answer_paths"]]
         order = {d["id"]: i for i,d in enumerate(self.documents)}
 
         def chronology(item):
             stage, index = item["stage"], order[item["document_id"]]
-            if stage == "b1_after_seen":
-                return 1, index, 0
-            phase = 0 if stage.startswith("b1_") else 2
+            batch = int(stage.split("_")[0][1:])
+            if stage.endswith("_unpublished_draft_training"):
+                return batch*3+1, index, 0
+            if stage.endswith("_after_seen"):
+                return batch*3+2, index, 0
+            assert stage.endswith("_prequential") or stage.endswith("_fixed_tool_control")
             arms = ("joint_empty", "skills") if index % 2 == 0 else ("skills", "joint_empty")
             rank = 2 if item["condition"] == "fixed_tool_empty" else arms.index(item["condition"])
-            return phase, index, rank
+            return batch*3, index, rank
 
         imported.sort(key=chronology)
-        assert len(imported) == 56 and not self.answers and not self.native and not self.teachers
+        expected = resume["inherited_actual_native_teacher_CPUfits"][0]+8
+        assert len(imported) == expected and not self.answers and not self.native and not self.teachers
         for item in imported:
             self.answers.append(item)
             if item["condition"] == "skills" and item["bank_sha256"] == csha(parent):
                 self.own_current[item["document_id"]] = item
-        seen = self.documents[:16]
+        self.current_batch = resume["resume_batch"]
+        seen = self.documents[:self.current_batch*8]
         assert set(self.own_current) == {r["id"] for r in seen}
         self.units.extend(self.score(imported))
         self.batch_summaries = [read(ROOT / p) for p in resume["batch_summary_paths"]]
         for summary in self.batch_summaries:
             self.record(f"batch_summaries/b{summary['batch']}_before.json", summary)
         self.record("inherited_episode_artifacts.json", {"at": now(), **resume,
-            "imported_logical_answer_uses": 56, "not_new_native_teacher_calls": True})
-        self.current_batch = 2
+            "imported_logical_answer_uses": len(imported), "not_new_native_teacher_calls": True})
         body = read(ROOT / resume["pending_final_revision_body"])
         assert body["current_parent_library"] == parent
         draft = read(ROOT / resume["executed_draft"])
         assert body["actual_unpublished_draft_library_sha256"] == csha(draft["unpublished_draft"])
         before = self.score([self.own_current[r["id"]] for r in seen])
-        self.record("learning_inputs/online_b2_revision.json", body)
+        name = f"online_b{self.current_batch}_revision"
+        self.record(f"learning_inputs/{name}.json", body)
         schema = differential_schema(self.labels, parent, [r["id"] for r in self.past+seen],
                                      guidance_schema=self.runtime_guidance_schema())
         request = read(ROOT / resume["pending_final_system_request"])
-        value = self.teacher_call("online_b2_revision", request["system_prompt"], encode_teacher_body(body), schema)
+        assert schema == read(ROOT / resume["pending_final_schema_reference"])["output_schema"]
+        value = self.teacher_call(name, request["system_prompt"], encode_teacher_body(body), schema)
         stats, effect = self.publish_and_reanswer(parent, value, seen, before)
-        self.record("batch_summaries/b2_complete.json", {**self.batch_summaries[-1],
+        self.record(f"batch_summaries/b{self.current_batch}_complete.json", {**self.batch_summaries[-1],
             "publication_statistics": stats, "paired_seen_update_effect": effect,
             "prequential_answers_and_draft_are_inherited_real_artifacts_not_new_calls": True})
         self.fit_prefix(seen)
@@ -1023,11 +1072,14 @@ class RankedOnline(DecisionEvidenceTransfer):
         self.check()
         start_batch = self.cfg.get("start_batch", 1)
         resumed = getattr(self, "resumed", None)
+        resumed_batch = resumed["resume_batch"] if resumed else None
+        inherited_labels = (resumed_batch-1)*8 if resumed else (start_batch-1)*8
+        new_labels = (3-resumed_batch)*8 if resumed else (4-start_batch)*8
         self.record("declaration.json", {"at": now(), "config": self.cfg,
             "exact_actual_terminal_parent": self.bank, "frozen_bindings": self.bindings.copy(),
             "no_best_bank_rollback_or_future_case_tuning": True,
-            "start_batch": start_batch, "inherited_published_episode_labels": 8 if resumed else (start_batch-1)*8,
-            "new_original_label_exposures": 8 if resumed else (4-start_batch)*8,
+            "start_batch": start_batch, "inherited_published_episode_labels": inherited_labels,
+            "new_original_label_exposures": new_labels,
             "pending_unpublished_label_batch_finalization":8 if resumed else 0,
             "inherited_actual_native_teacher_CPUfits":resumed["inherited_actual_native_teacher_CPUfits"] if resumed else [0,0,0],
             "forward_readout_not_taught": 8})
@@ -1049,7 +1101,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             self.record("initial_retention.json", {"at": now(), "metrics": points(initial),
                 "not_unseen_evaluation_or_teacher_update_gain": True,
                 "refresh_all_inherited_episode_own_answers_in_actual_new_interface": True})
-        for batch in range(3 if resumed else start_batch, 5):
+        for batch in range(resumed_batch+1 if resumed else start_batch, 5):
             self.current_batch = batch
             rows, seen = self.documents[(batch-1)*8:batch*8], self.documents[:batch*8]
             start = len(self.answers)
@@ -1118,11 +1170,11 @@ class RankedOnline(DecisionEvidenceTransfer):
             "actual_source_program_CPU_costs": self.program_cost if self.program_mode() else None,
             "fixed_unpublished_draft_probe_then_one_revision_each_teaching_batch": self.draft_mode(),
             "fixed_all8_native_draft_training_feedback_each_teaching_batch": self.native_draft_mode(),
-            "inherited_published_episode_labels": 8 if resumed else (start_batch-1)*8,
-            "inherited_episode_labels":8 if resumed else (start_batch-1)*8,
-            "new_taught_labels":8 if resumed else (4-start_batch)*8,
-            "inherited_original_episode_label_exposures":16 if resumed else (start_batch-1)*8,
-            "new_original_episode_label_exposures":8 if resumed else (4-start_batch)*8,
+            "inherited_published_episode_labels": inherited_labels,
+            "inherited_episode_labels":inherited_labels,
+            "new_taught_labels":new_labels,
+            "inherited_original_episode_label_exposures":resumed_batch*8 if resumed else (start_batch-1)*8,
+            "new_original_episode_label_exposures":new_labels,
             "pending_unpublished_label_batch_finalization":8 if resumed else 0,
             "original_past_source_count": len(self.past),
             "total_original_sources_taught_at_terminal": len(self.past)+24,

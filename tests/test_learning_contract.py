@@ -2133,7 +2133,8 @@ def test_complete_member_order_delivers_tail_without_changing_binary_candidates(
 
 @pytest.mark.parametrize("start_batch,program,draft,resume", [
     (1, False, False, False), (2, False, False, False), (1, True, False, False),
-    (1, True, True, False), (1, True, True, True), (1, True, "native", False)])
+    (1, True, True, False), (1, True, True, True), (1, True, "native", False),
+    (1, True, "native", True)])
 def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_path, monkeypatch, start_batch, program, draft, resume):
     from types import SimpleNamespace
 
@@ -2201,6 +2202,8 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
 
     epoch = "original"
     interrupt_revision = resume
+    failed_batch = 1 if draft == "native" else 2
+    interrupted = {}
 
     def generate(row, role, messages, schema):
         study.native.append({"role": role, "phase": study.phase})
@@ -2218,7 +2221,8 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     def teacher(name, system, body, schema):
         if body.get("encoding") == "lossless-teacher-catalog-v2":
             body=decode_teacher_body(body)
-        if interrupt_revision and name == "online_b2_revision":
+        if interrupt_revision and name == f"online_b{failed_batch}_revision":
+            interrupted["schema"] = copy.deepcopy(schema)
             raise ValueError("Synthetic character guard before the final teacher invocation")
         if name == "initial_source_program_induction":
             sources=expand(body["complete_original_past_sources_and_Gold"])
@@ -2266,9 +2270,9 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
                     assert len([u for u in study.answers
                         if u["stage"] == f"b{study.current_batch}_unpublished_draft_training"]) == 8
                     assert all(u["condition"] == "skills" for u in study.own_current.values())
-                if resume and study.resumed and study.current_batch == 2:
-                    assert (Path(study.resumed["executed_draft"]).parent.parent/"program_replays/b2_draft.json").exists()
-                    assert "program_replays/b2_draft.json" not in records  # Never rerun the completed probe.
+                if resume and study.resumed and study.current_batch == failed_batch:
+                    assert (Path(study.resumed["executed_draft"]).parent.parent/f"program_replays/b{failed_batch}_draft.json").exists()
+                    assert f"program_replays/b{failed_batch}_draft.json" not in records
                 else:
                     assert f"program_replays/b{study.current_batch}_draft.json" in records
             else:
@@ -2288,24 +2292,29 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     if resume:
         with pytest.raises(ValueError,match="Synthetic character guard"):
             study.execute()
-        assert (len(study.native),len(study.teachers),len(study.fit_records))==(48,3,1)
+        inherited = [24,1,0] if draft == "native" else [48,3,1]
+        assert [len(study.native),len(study.teachers),len(study.fit_records)]==inherited
         old=tmp_path/"original_failed";old_records=copy.deepcopy(records)
         for name,value in old_records.items():
             RunStore.immutable_json(old/name,value)
         writer=old/"saved_final_writer.json"
-        RunStore.immutable_json(writer,{"system_prompt":"Original synthetic final writer."})
-        study.resumed={"source_run_directory":str(old),"inherited_actual_native_teacher_CPUfits":[48,3,1],
+        RunStore.immutable_json(writer,{"system_prompt":"Original synthetic final writer.",
+                                        "output_schema":interrupted["schema"]})
+        study.resumed={"source_run_directory":str(old),"resume_batch":failed_batch,
+            "inherited_actual_native_teacher_CPUfits":inherited,
             "logical_answer_paths":[str(old/name) for name in old_records if name.startswith("logical_answers/")],
-            "batch_summary_paths":[str(old/f"batch_summaries/b{b}_before.json") for b in (1,2)],
-            "pending_final_revision_body":str(old/"learning_inputs/online_b2_revision.json"),
-            "pending_final_system_request":str(writer),"executed_draft":str(old/"drafts/b2.json")}
-        study.cfg.update(planned_new_native_calls=88,planned_new_teacher_calls=3,planned_new_CPU_fits=2)
+            "batch_summary_paths":[str(old/f"batch_summaries/b{b}_before.json") for b in range(1,failed_batch+1)],
+            "pending_final_revision_body":str(old/f"learning_inputs/online_b{failed_batch}_revision.json"),
+            "pending_final_system_request":str(writer),"pending_final_schema_reference":str(writer),
+            "executed_draft":str(old/f"drafts/b{failed_batch}.json")}
+        study.cfg.update(planned_new_native_calls=(160 if draft == "native" else 136)-inherited[0],
+            planned_new_teacher_calls=6-inherited[1],planned_new_CPU_fits=3-inherited[2])
         study.native,study.teachers,study.units,study.answers=[],[],[],[]
         study.own_current,study.batch_summaries,study.fit_records={},[],[]
         study.out=tmp_path/"resumed";records={};epoch="resumed";interrupt_revision=False
     study.execute()
     result = records["completion.json"]
-    expected=([88,3,2] if resume else [160 if draft == "native" else 136,6 if draft else (4 if program else 3),3]) if start_batch == 1 else [120,2,2]
+    expected=([136,5,3] if draft == "native" else [88,3,2]) if resume else ([160 if draft == "native" else 136,6 if draft else (4 if program else 3),3] if start_batch == 1 else [120,2,2])
     assert result["actual_new_native_teacher_CPUfits"] == expected
     assert len(study.answers) == ((168 if draft == "native" else 144) if start_batch == 1 else 120)
     assert len([k for k in records if k.startswith("exact_aliases/")]) == (8 if start_batch == 1 and not resume else 0)
@@ -2313,13 +2322,15 @@ def test_online_chronology_replays_prefix_and_never_teaches_forward_batch(tmp_pa
     assert not any(k == "publications/b4.json" for k in records)
     if program:
         if draft:
-            assert study.teachers == (["online_b2_revision","online_b3_draft","online_b3_revision"] if resume else
-                                     [f"online_b{b}_{stage}" for b in (1,2,3) for stage in ("draft","revision")])
-            assert all(f"drafts/b{b}.json" in records for b in ((3,) if resume else (1,2,3)))
+            expected_teachers = ([f"online_b{failed_batch}_revision"]+
+                [f"online_b{b}_{stage}" for b in range(failed_batch+1,4) for stage in ("draft","revision")]
+                if resume else [f"online_b{b}_{stage}" for b in (1,2,3) for stage in ("draft","revision")])
+            assert study.teachers == expected_teachers
+            assert all(f"drafts/b{b}.json" in records for b in (range(failed_batch+1,4) if resume else (1,2,3)))
             if resume:
-                assert result["total_same_episode_actual_native_teacher_CPUfits"]==[136,6,3]
-                assert result["new_original_episode_label_exposures"]==8
-                assert len({u["response"]["raw_id"] for u in study.answers})==136
+                assert result["total_same_episode_actual_native_teacher_CPUfits"]==[160 if draft == "native" else 136,6,3]
+                assert result["new_original_episode_label_exposures"]==(3-failed_batch)*8
+                assert len({u["response"]["raw_id"] for u in study.answers})==(160 if draft == "native" else 136)
         else:
             assert records["publications/induction.json"]["new_episode_labels_taught"] == 0
             assert records["publications/induction.json"]["new_representation_learning_not_best_bank_rollback"]

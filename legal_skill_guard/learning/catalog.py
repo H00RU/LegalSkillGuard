@@ -11,6 +11,10 @@ LEGEND = (
     "An object containing only text_ref is exactly the verbatim_text_catalog "
     "entry at that zero-based index, not a summary. Table columns_ref refers "
     "to the ordered column_catalog entry. Expand those two references first. "
+    "For keyed-record tables, keys_ref is the ordered key_catalog entry; restore "
+    "it as keys before expanding the table. Every key and row order is preserved. "
+    "In table columns named choice or original_choice, E/C/N are exact references "
+    "to choice_catalog, not new labels; restore them before derived member fields. "
     "If legacy all_seen_train_cases is present, actual_global_query_bodies stores all exact query bodies in an ordered "
     "record table. Each plan generic_queries and receipt actual_query_arguments "
     "is a zero-based row reference to this global query table, not a case-local "
@@ -31,6 +35,7 @@ LEGEND = (
 MEMBER_COLUMNS = ["proposed_original_indices", "original_choice", "original_non_neutral_member_target",
                   "original_member_hits", "original_member_misses",
                   "unannotated_read_proposals_not_false_legal_claims"]
+CHOICE_CODES = {"Entailment": "E", "Contradiction": "C", "NotMentioned": "N"}
 
 
 def canonical(value):
@@ -96,7 +101,7 @@ def encode_teacher_body(original):
     )
     if legacy_cases:
         body["actual_global_query_bodies"] = query_table
-    columns, column_lookup = [], {}
+    columns, column_lookup, keys, key_lookup = [], {}, [], {}
 
     def share_columns(value):
         if isinstance(value, list):
@@ -114,12 +119,25 @@ def encode_teacher_body(original):
                 selected_columns = [MEMBER_COLUMNS[i] for i in (1,3,4,5)]
                 result["rows"] = [[row[i] for i in (1,3,4,5)] for row in result["rows"]]
                 result["derived_original_member_feedback"] = True
+            for i, column in enumerate(selected_columns):
+                if column in ("choice", "original_choice"):
+                    for row in result["rows"]:
+                        if row[i] not in CHOICE_CODES:
+                            raise ValueError("Unknown original legal choice; never rewrite it")
+                        row[i] = CHOICE_CODES[row[i]]
             identity = canonical(selected_columns)
             if identity not in column_lookup:
                 column_lookup[identity] = len(columns)
                 columns.append(deepcopy(selected_columns))
             result.pop("columns")
             result["columns_ref"] = column_lookup[identity]
+            if value.get("encoding") == "keyed-record-table-v1":
+                identity = canonical(value["keys"])
+                if identity not in key_lookup:
+                    key_lookup[identity] = len(keys)
+                    keys.append(deepcopy(value["keys"]))
+                result.pop("keys")
+                result["keys_ref"] = key_lookup[identity]
         return result
 
     body = share_columns(body)
@@ -160,6 +178,8 @@ def encode_teacher_body(original):
         "encoding": "lossless-teacher-catalog-v2",
         "legend": LEGEND,
         "column_catalog": columns,
+        "key_catalog": keys,
+        "choice_catalog": {code: label for label, code in CHOICE_CODES.items()},
         "verbatim_text_catalog": texts,
         "body": share_text(body),
     }
@@ -182,9 +202,16 @@ def decode_teacher_body(payload):
             return value
         if set(value) == {"text_ref"}:
             return deepcopy(payload["verbatim_text_catalog"][value["text_ref"]])
-        result = {k: restore(v) for k, v in value.items() if k != "columns_ref"}
+        result = {k: restore(v) for k, v in value.items() if k not in ("columns_ref", "keys_ref")}
         if "columns_ref" in value:
             result["columns"] = deepcopy(payload["column_catalog"][value["columns_ref"]])
+        if "keys_ref" in value:
+            result["keys"] = deepcopy(payload["key_catalog"][value["keys_ref"]])
+        if "choice_catalog" in payload and "columns" in result:
+            for i, column in enumerate(result["columns"]):
+                if column in ("choice", "original_choice"):
+                    for row in result["rows"]:
+                        row[i] = payload["choice_catalog"][row[i]]
         if result.pop("derived_original_member_feedback", False):
             if result["columns"] != [MEMBER_COLUMNS[i] for i in (1,3,4,5)]:
                 raise ValueError("Unexpected derived-member columns")
