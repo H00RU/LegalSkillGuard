@@ -2029,3 +2029,85 @@ def test_acquisition_history_encoding_is_explicit_for_new_and_declared_for_legac
     assert incremental_encoding({"arm": "skills", "incremental_read_encoding": "scored_records"}) == "scored_records"
     with pytest.raises(AssertionError):
         incremental_encoding({"arm": "ordinary"})
+
+
+def test_two_target_skills_preserve_parent_and_never_cross_runtime_channels():
+    from legal_skill_guard.learning.decision_evidence import (
+        channel_criteria, convert_parent, decision_payload, evidence_payload,
+    )
+
+    original, labels, gold = fixture()
+    row = {k: original[k] for k in ("id", "text", "spans")}
+    parent = [{"id": "s", "hypothesis_ids": ["h1"],
+               "guidance": {"evidence_criterion": "RELATION_ONLY_CANARY"}}]
+    saved = copy.deepcopy(parent)
+    bank = convert_parent(parent, labels)
+    assert parent == saved and bank[0]["guidance"] == {
+        "relation_criterion": "RELATION_ONLY_CANARY", "evidence_criterion": None}
+    bank[0]["guidance"]["evidence_criterion"] = "EVIDENCE_ONLY_CANARY"
+    messages, schema = decision_payload(row, labels, None, bank)
+    wire = json.dumps(messages)
+    assert "RELATION_ONLY_CANARY" in wire and "EVIDENCE_ONLY_CANARY" not in wire
+    assert "GOLD_MUST_NOT_ENTER_SOLVER" not in wire
+    answer = {h: {"choice": v["choice"], "reason": "FIRST_REASON_ONLY_CANARY"} for h,v in gold.items()}
+    response = {"content": json.dumps(answer), "finish_reason": "stop", "raw_id": "actual1"}
+    evidence, es = evidence_payload(row, labels, None, response, schema, bank)
+    wire = json.dumps(evidence)
+    assert "EVIDENCE_ONLY_CANARY" in wire and "RELATION_ONLY_CANARY" not in wire
+    assert "FIRST_REASON_ONLY_CANARY" not in wire and "GOLD_MUST_NOT_ENTER_SOLVER" not in wire
+    assert json.loads(evidence[1]["content"])["native_relation_choices"] == {h:v["choice"] for h,v in gold.items()}
+    assert es["properties"]["h3"]["properties"]["spans"]["maxItems"] == 0
+    bank[0]["guidance"] = {"relation_criterion": None, "evidence_criterion": None}
+    with pytest.raises(ValueError, match="empty skill"):
+        channel_criteria(bank, labels, "evidence_criterion")
+
+
+def test_two_native_targets_copy_wrong_decisions_and_members_without_repair():
+    from legal_skill_guard.learning.decision_evidence import (
+        assemble_native, decision_payload, evidence_payload,
+    )
+
+    original, labels, gold = fixture()
+    row = {k: original[k] for k in ("id", "text", "spans")}
+    _, ds = decision_payload(row, labels, None, [])
+    a = {h: {"choice": v["choice"], "reason": "Original native reason."} for h,v in gold.items()}
+    a["h1"]["choice"] = "Contradiction"  # wrong answer must survive assembly
+    d = {"content": json.dumps(a), "finish_reason": "stop", "raw_id": "actual_d",
+         "prompt_tokens": 5, "completion_tokens": 6}
+    _, es = evidence_payload(row, labels, None, d, ds, [])
+    b = {h: {"spans": v["spans"]} for h,v in gold.items()}
+    b["h1"]["spans"] = [1]  # wrong member must survive assembly
+    e = {"content": json.dumps(b), "finish_reason": "stop", "raw_id": "actual_e",
+         "prompt_tokens": 7, "completion_tokens": 8}
+    value = assemble_native(d, e, ds, es, labels)
+    assert json.loads(value["content"]) == {h: {**a[h], **b[h]} for h in labels}
+    assert value["raw_id"] is None and value["actual_native_raw_ids"] == ["actual_d", "actual_e"]
+    assert value["prompt_tokens"] == 12 and value["completion_tokens"] == 14
+    bad = assemble_native(d, None, ds, {}, labels)
+    score = original_score(bad, row, gold, list(labels))
+    assert len(score["queries"]) == 3 and all(not q["joint_exact"] for q in score["queries"])
+    assert bad["component_errors"] and bad["finish_reason"] is None
+
+
+def test_two_target_shared_prefix_is_one_actual_decision_two_actual_evidence_calls():
+    from experiments.decision_evidence_transfer import DecisionEvidenceTransfer
+
+    original, labels, gold = fixture()
+    row = {k: original[k] for k in ("id", "text", "spans")}
+    study = DecisionEvidenceTransfer.__new__(DecisionEvidenceTransfer)
+    study.labels, study.bank = labels, []
+    called, results = [], []
+
+    def generate(source, role, messages, schema):
+        called.append(role)
+        answer = {h: ({"choice": v["choice"], "reason": "Native."} if role.endswith("decision")
+                       else {"spans": v["spans"]}) for h,v in gold.items()}
+        return {"content": json.dumps(answer), "finish_reason": "stop", "raw_id": role,
+                "prompt_tokens": 10, "completion_tokens": 10}
+
+    study.generate = generate
+    study.logical = lambda source, arm, response: results.append((arm, response))
+    study.factored(row, None, ("relation_only", "dual_skills"))
+    assert called == ["shared_skill_decision", "relation_only_evidence", "dual_skills_evidence"]
+    assert len(results) == 2 and results[0][1]["actual_native_raw_ids"][0] == results[1][1]["actual_native_raw_ids"][0]
+    assert sum(len(r["actual_native_raw_ids"]) for _,r in results) == 4 and len(called) == 3
