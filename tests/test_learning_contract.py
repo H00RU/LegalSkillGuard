@@ -2768,6 +2768,59 @@ def test_invalid_historical_witness_references_fail_without_substitution(kind):
         materialize_witness_skills([skill],labels,catalog)
 
 
+def test_training_reading_policy_threshold_objective_ties_and_native_pool_contract():
+    import numpy as np
+    from types import SimpleNamespace
+    from legal_skill_guard.learning.evidence_programs import (
+        fit_reading_threshold,evidence_proposals,PROGRAM_FEATURE_PROTOCOL)
+    scores=np.array([.95,.9,.7,.4,.3]);target=np.array([1,1,0,0,1])
+    p1=fit_reading_threshold(scores,target,beta=1.)
+    p2=fit_reading_threshold(scores,target,beta=2.)
+    assert (scores>p1['threshold']).sum()==2 and (scores>p2['threshold']).sum()==5
+    tied=fit_reading_threshold([.9,.9,.4],[1,0,1],beta=2.)
+    assert sum(np.asarray([.9,.9,.4])>tied['threshold'])==3
+    with pytest.raises(ValueError):fit_reading_threshold([float('nan'),.2],[1,0])
+    with pytest.raises(ValueError):fit_reading_threshold([.9,.2],[0,0])
+    row,labels,_=fixture();row={k:row[k] for k in ('id','text','spans')}
+    model=SimpleNamespace(feature_protocol=PROGRAM_FEATURE_PROTOCOL,queries=[],lr_={},program_sha256='synthetic',
+        predict_scores=lambda items,documents:[np.asarray([.9,.4,.2]) for _ in items])
+    binary=evidence_proposals(model,row,labels)
+    reading=evidence_proposals(model,row,labels,reading_threshold=.2)
+    for h in labels:
+        assert [c['original_span_index'] for c in binary['by_hypothesis'][h]['candidates']]==[0]
+        assert [c['original_span_index'] for c in reading['by_hypothesis'][h]['candidates']]==[0,1]
+        assert reading['by_hypothesis'][h]['same_fixed_model_without_query_terms']['candidate_members']==[0]
+    assert 'not final evidence' in reading['selection'] and not model.queries
+    with pytest.raises(ValueError):evidence_proposals(model,row,labels,reading_threshold=-.1)
+
+
+def test_training_reading_policy_outer_folds_exclude_whole_source_components(monkeypatch):
+    from types import SimpleNamespace
+    from legal_skill_guard.learning import evidence_programs as module
+    row,labels,gold=fixture();rows=[];fits=[];events=[]
+    for i in range(1,7):
+        rows.append({**copy.deepcopy(row),'id':i,'text':row['text']+f' Additional context {i}.'})
+    def fit(train,public,programs):
+        assert not programs and public==labels
+        fits.append({r['id'] for r in train})
+        return SimpleNamespace(corpus_=SimpleNamespace(doc_ids=[str(r['id']) for r in train]),programs=[])
+    def propose(model,source,public):
+        assert str(source['id']) not in model.corpus_.doc_ids
+        return {'by_hypothesis':{h:{'raw_scores':[.7,.1,.4]} for h in public}}
+    monkeypatch.setattr(module,'fit_program_model',fit)
+    monkeypatch.setattr(module,'evidence_proposals',propose)
+    result=module.fit_source_group_reading_policy(rows,labels,[[1,2],[3],[4],[5],[6]],progress=events.append)
+    assert len(fits)==result['actual_completed_CPUfits']==5
+    assert len(result['all_source_group_OOF_records'])==6*len(labels)
+    assert result['source_fold_assignment']['1']==result['source_fold_assignment']['2']
+    for f in result['folds']:
+        assert not set(f['training_source_ids']) & set(f['heldout_source_ids'])
+        assert not ({1,2}&set(f['training_source_ids']) and {1,2}&set(f['heldout_source_ids']))
+    assert sum(e['stage']=='fold_completed' for e in events)==5
+    assert result['no_new_native_teacher_or_GPU_model_service']
+    assert result['selected_threshold_metrics_are_training_parameter_fit_not_independent_test']
+
+
 @pytest.mark.parametrize("invalid", [False,True])
 def test_fixed_draft_executes_once_and_final_is_not_selected_by_training_score(invalid):
     from types import SimpleNamespace

@@ -1700,11 +1700,81 @@ class RankedOnline(DecisionEvidenceTransfer):
         print(json.dumps({"completed": self.run_id, "metrics": result["aggregate_prequential_metrics"]}), flush=True)
 
 
+def calibrate_reading(config):
+    """Finite ordinary-tool training, not a GPU qualification or skill result."""
+    import warnings
+    from legal_skill_guard.learning.evidence_programs import fit_source_group_reading_policy
+
+    warnings.filterwarnings("ignore", message="X does not have valid feature names", category=UserWarning)
+    cfg = read(config)
+    frozen_path = config.with_suffix(".frozen.json")
+    frozen = read(frozen_path)
+    assert sha(config) == frozen["config_sha256"]
+    bindings = {**frozen["files"], str(frozen_path.resolve()): sha(frozen_path)}
+    out = ROOT / "runs" / cfg["run_id"]
+    assert not out.exists()
+    data = read(ROOT / cfg["training_packet"])
+    assert len(data["rows"]) == cfg["training_source_count"] == 202
+    stopped = [False]
+    for sig in (signal.SIGTERM, signal.SIGINT):
+        signal.signal(sig, lambda *_: stopped.__setitem__(0, True))
+    counts = {"attempted_CPUfits": 0, "completed_CPUfits": 0,
+              "actual_native_calls": 0, "actual_teacher_calls": 0}
+
+    def check():
+        if stopped[0]:
+            raise InterruptedError("Training calibration stopped at an artifact-safe fold boundary")
+        for path, digest in bindings.items():
+            if sha(path) != digest:
+                raise ValueError("Frozen training source changed: " + path)
+
+    def event(value):
+        if value["stage"] == "fit_started":
+            check()
+            counts["attempted_CPUfits"] = value["attempted_CPUfits"]
+        else:
+            counts["completed_CPUfits"] = value["completed_CPUfits"]
+            RunStore.immutable_json(out / f"folds/f{value['fold_receipt']['fold']}.json", {"at": now(), **value})
+        RunStore.atomic_json(out / "progress.json", {
+            "at": now(), "state": "running", "run_id": cfg["run_id"], **counts,
+            "stage": value["stage"], "fold": value.get("fold", value.get("fold_receipt", {}).get("fold"))})
+        check()  # Keep completed fold scores/costs before observing a stop.
+        print(json.dumps({"at": now(), "stage": value["stage"], **counts}), flush=True)
+
+    try:
+        check()
+        RunStore.immutable_json(out / "declaration.json", {
+            "at": now(), "config": cfg, "frozen_bindings": bindings,
+            "all_cases_are_prior202_TRAIN_only_no_new_episode_or_official_DEV_TEST_labels": True,
+            "not_a_native_performance_result_or_skill_gain": True})
+        result = fit_source_group_reading_policy(data["rows"], data["public_hypotheses"],
+            data["source_groups"], seed=cfg["outer_seed"], n_splits=cfg["outer_folds"],
+            beta=cfg["retrieval_beta"], progress=event)
+        assert counts["completed_CPUfits"] == result["actual_completed_CPUfits"] == cfg["outer_folds"]
+        result.pop("all_source_group_OOF_records")  # Every record is already preserved once in fold files.
+        result.update({"at": now(), "run_id": cfg["run_id"], "actual_cost": counts,
+            "all_original_OOF_score_records_in_fold_files": [str(p.relative_to(ROOT)) for p in sorted((out / "folds").glob("*.json"))],
+            "ordinary_tool_parameter_fit_not_skill_contribution_or_paper_metric": True})
+        RunStore.immutable_json(out / "completion.json", result)
+        RunStore.atomic_json(out / "progress.json", {
+            "at": now(), "state": "completed", "run_id": cfg["run_id"], **counts,
+            "fitted_reading_policy": result["reading_policy"], "not_native_performance_or_skill_gain": True})
+    except BaseException as error:
+        failure = {"at": now(), "state": "failed", "error": repr(error),
+                   "traceback": traceback.format_exc(), **counts, "no_retry_or_substitute_policy": True}
+        RunStore.immutable_json(out / "failure.json", failure)
+        RunStore.atomic_json(out / "progress.json", failure)
+        raise
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("prepare", "run"))
+    parser.add_argument("command", choices=("prepare", "run", "calibrate_reading"))
     parser.add_argument("config", type=Path)
     args = parser.parse_args()
+    if args.command == "calibrate_reading":
+        calibrate_reading(args.config)
+        return
     online = read(args.config)["method"] in ("ranked_joint_online24_forward8", "canonical_joint_online_continuation", *PROCEDURE_METHODS, *PROGRAM_METHODS)
     if args.command == "prepare":
         (prepare_online if online else prepare)(args.config)

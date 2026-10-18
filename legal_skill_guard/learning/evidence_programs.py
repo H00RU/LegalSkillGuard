@@ -202,10 +202,13 @@ def fit_program_model(rows, labels, programs):
     return model
 
 
-def evidence_proposals(model, row, labels):
+def evidence_proposals(model, row, labels, *, reading_threshold=0.5):
     """Execute actual programs and record scores; never read current annotations."""
     from threadpoolctl import threadpool_limits
 
+    if (type(reading_threshold) not in (int, float) or not np.isfinite(reading_threshold)
+            or not 0 <= reading_threshold < 1):
+        raise ValueError("Explicit finite source-reading threshold in[0,1) required")
     if model is None:
         return None  # Declared zero-data initial state, not a failed-model fallback.
     if (
@@ -232,7 +235,7 @@ def evidence_proposals(model, row, labels):
         selected = [
             {"original_span_index": int(i), "membership_score": float(p)}
             for i, p in enumerate(vector)
-            if p > 0.5
+            if p > reading_threshold
         ]
         by[key] = {
             "candidates": selected,
@@ -252,9 +255,126 @@ def evidence_proposals(model, row, labels):
             {"text": row["text"], "spans": row["spans"]}
         ),
         "program_library_sha256": model.program_sha256,
-        "selection": "ordinary learned binary membership decision p>0.5, not tuned",
+        "selection": ("ordinary learned binary membership decision p>0.5, not tuned"
+            if reading_threshold == 0.5 else
+            f"source-reading proposals p>{reading_threshold!r}; ordinary binary decision remains p>0.5; not final evidence"),
         "by_hypothesis": by,
     }
+
+
+def fit_reading_threshold(scores, targets, *, beta=2.0):
+    """Training-only retrieval calibration, never a native answer or bank gate."""
+    s, y = np.asarray(scores, dtype=float), np.asarray(targets)
+    if (s.ndim != 1 or y.shape != s.shape or not len(s) or not np.isfinite(s).all()
+            or np.any((s < 0) | (s > 1)) or not np.isin(y, (0, 1)).all()
+            or not np.any(y) or not np.isfinite(beta) or beta <= 0):
+        raise ValueError("Valid probability/target arrays with positives and finite beta required")
+    order = np.argsort(-s, kind="stable")
+    ordered, tp = s[order], np.cumsum(y[order], dtype=np.int64)
+    ends = np.flatnonzero(np.r_[ordered[:-1] != ordered[1:], True])
+    hits, selected = tp[ends], ends + 1
+    fp, fn = selected - hits, int(y.sum()) - hits
+    b2 = beta * beta
+    values = (1 + b2) * hits / ((1 + b2) * hits + b2 * fn + fp)
+    best = int(np.argmax(values))  # Equal objectives prefer fewer read proposals.
+    threshold = float(np.nextafter(ordered[ends[best]], -np.inf))
+    if not 0 <= threshold < 1:
+        raise ValueError("Calibrated reading threshold exceeds the declared probability contract")
+    prediction = s > threshold
+    assert int(prediction.sum()) == int(selected[best])  # Do not split equal-score blocks.
+    return {"threshold": threshold, "comparison": "strictly_greater_than", "beta": beta,
+        "training_component_Fbeta": float(values[best]),
+        "TP": int(hits[best]), "FP": int(fp[best]), "FN": int(fn[best]),
+        "precision": float(hits[best] / selected[best]),
+        "recall": float(hits[best] / int(y.sum())),
+        "training_parameter_fit_not_native_performance_or_independent_confirmation": True}
+
+
+def fit_source_group_reading_policy(rows, labels, source_groups, *, seed=2026101903,
+                                   n_splits=5, beta=2.0, progress=None):
+    """Fit the existing ordinary tool out of source group, then its read policy.
+
+    ALL input cases remain training data; no separate DEV/validation/TEST is
+    reserved. Outer folds exclude connected source identities from feature
+    fitting and both ordinary model stages. The calibrated threshold is a
+    shared supervised-tool parameter, NOT skill gain or a publication gate.
+    """
+    import gc
+    import time
+
+    row_by_id = {r["id"]: r for r in rows}
+    flat = [i for group in source_groups for i in group]
+    if (len(row_by_id) != len(rows) or len(set(flat)) != len(flat)
+            or set(flat) != set(row_by_id) or any(not g for g in source_groups)
+            or n_splits < 2 or len(source_groups) < n_splits):
+        raise ValueError("Complete distinct source groups and sufficient folds required")
+    groups = sorted([sorted(g) for g in source_groups])
+    order = np.random.default_rng(seed).permutation(len(groups))
+    assigned = {int(g): int(i % n_splits) for i, g in enumerate(order)}
+    group_of = {doc: g for g, members in enumerate(groups) for doc in members}
+    fold_of = {doc: assigned[group_of[doc]] for doc in row_by_id}
+    records, folds, observed = [], [], set()
+    all_scores, all_targets, all_nn = [], [], []
+    for fold in range(n_splits):
+        train = [r for r in rows if fold_of[r["id"]] != fold]
+        held = [r for r in rows if fold_of[r["id"]] == fold]
+        if progress:
+            progress({"stage": "fit_started", "fold": fold, "attempted_CPUfits": fold + 1,
+                "completed_CPUfits": fold, "training_source_ids": [r["id"] for r in train],
+                "heldout_source_ids": [r["id"] for r in held]})
+        started = time.monotonic()
+        model = fit_program_model(train, labels, [])
+        fitted_seconds = time.monotonic() - started
+        assert set(model.corpus_.doc_ids) == {str(r["id"]) for r in train} and not model.programs
+        assert not {group_of[r["id"]] for r in train} & {group_of[r["id"]] for r in held}
+        for row in held:
+            assert row["id"] not in observed
+            observed.add(row["id"])
+            proposals = evidence_proposals(model, row, labels)
+            for h in labels:
+                scores = proposals["by_hypothesis"][h]["raw_scores"]
+                gold = row["annotation_sets"][0]["annotations"][h]
+                target = np.zeros(len(scores), dtype=np.int8)
+                target[gold["spans"]] = 1
+                all_scores.extend(scores); all_targets.extend(target.tolist())
+                all_nn.extend([gold["choice"] != "NotMentioned"] * len(scores))
+                records.append({"source_id": row["id"], "fold": fold, "hypothesis": h,
+                    "original_annotation": gold, "actual_out_of_source_group_scores": scores})
+        receipt = {"fold": fold, "training_source_ids": [r["id"] for r in train],
+            "heldout_source_ids": [r["id"] for r in held],
+            "actual_CPU_fit_seconds": fitted_seconds,
+            "actual_fit_and_scoring_seconds": time.monotonic() - started,
+            "both_model_stages_and_features_exclude_heldout_source_components": True}
+        folds.append(receipt)
+        if progress:
+            progress({"stage": "fold_completed", "completed_CPUfits": fold + 1,
+                      "fold_receipt": receipt, "actual_fold_score_records": records[-len(held)*len(labels):]})
+        del model
+        gc.collect()
+    assert observed == set(row_by_id) and len(records) == len(rows) * len(labels)
+    s, y, nn = np.asarray(all_scores), np.asarray(all_targets), np.asarray(all_nn, dtype=bool)
+    policy = fit_reading_threshold(s, y, beta=beta)
+    precision_reference = fit_reading_threshold(s, y, beta=1.0)
+    diagnostics = {}
+    for name, threshold in (("original_binary_0.5", 0.5), ("fitted_F1", precision_reference["threshold"]),
+                            ("fitted_reading_Fbeta", policy["threshold"])):
+        selected = s > threshold
+        diagnostics[name] = {}
+        for subset, mask in (("ALL_hypotheses_including_NM_negatives", np.ones(len(s), dtype=bool)),
+                             ("Gold_non_neutral_only", nn)):
+            tp = int(np.sum(selected & (y == 1) & mask))
+            fp = int(np.sum(selected & (y == 0) & mask))
+            fn = int(np.sum(~selected & (y == 1) & mask))
+            diagnostics[name][subset] = {"TP": tp, "FP": fp, "FN": fn,
+                "precision": tp / (tp + fp) if tp + fp else 0,
+                "recall": tp / (tp + fn), "component_F1": 2 * tp / (2 * tp + fp + fn)}
+    return {"reading_policy": policy, "F1_parameter_reference_not_another_deployed_policy": precision_reference,
+        "training_component_diagnostics_not_native_performance": diagnostics,
+        "all_source_group_OOF_records": records, "folds": folds, "source_groups": groups,
+        "source_fold_assignment": {str(i): f for i, f in fold_of.items()},
+        "actual_completed_CPUfits": len(folds), "seed": seed,
+        "selected_threshold_metrics_are_training_parameter_fit_not_independent_test": True,
+        "no_new_native_teacher_or_GPU_model_service": True}
 
 
 def program_solver_messages(
