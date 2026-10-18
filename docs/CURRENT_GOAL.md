@@ -15,7 +15,17 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 05:59 CST，校准已完成，新128正式链路就绪待冻结启动
+## 当前快照：2026-10-19 06:00 CST，新128实际后台启动，首批尚无完整成绩
+
+06:00:23实际worker1330395/ticks436734112，独立preserver1330398/ticks436734113。
+核心2a620e3fc1189ea860b78702a2621be298ea59b7，76成员完整源码/Git双盘启动备份SHA
+fed0f98bb06eccede774ec7add957185b0f750f5c27f4f490b187cdfb5d137f8。
+06:00:24真实progress running/b1_prequential_empty/首案368，0native/0教师；新进程身份/argv已核。
+连续16批由后台worker执行、独立preserver终态保存，不依赖继续聊天；不能重复launch或热改冻结文件。
+新run legal_contractnli_calibrated_witness128_online_20261019_run01；先核真实首8别名和教师发布，再看后批同案净收益。
+尚无新成绩或技能改善证据，Goal active未达成；下列05:59准备事项已完成冻结/提交/备份/实际启动。
+
+## 已归档快照：2026-10-19 05:59 CST，校准已完成，新128正式链路就绪待冻结启动
 
 上一轮16案已完整终态，组合分类/联合有收益但依据F1仍低于空库，不继续扩大原样配置。
 TRAIN202来源组5折校准05:34:26启动、05:37:02完成，实际0native/0教师/5CPUfit；
