@@ -35,7 +35,6 @@ from legal_skill_guard.learning.decision_evidence import (
     DECISION_SYSTEM, EVIDENCE_SYSTEM, GUIDANCE_SCHEMA, assemble_native,
     channel_criteria, convert_parent, decision_payload, evidence_payload, joint_payload, member_program_payload,
     PROCEDURE_GUIDANCE_SCHEMA, procedure_payload, validate_procedures,
-    span_tagged_decision_payload, span_member_tag_payload, assemble_span_members,
 )
 from legal_skill_guard.learning.evidence_programs import evidence_proposals, fit_program_model
 from legal_skill_guard.learning.executable_features import (
@@ -61,8 +60,8 @@ DRAFT_METHOD = "source_member_draft_execution_online"
 NATIVE_DRAFT_METHOD = "source_member_native_draft_feedback_online"
 LINKED_METHOD = "linked_source_procedure_native_feedback_online"
 PROCEDURE_METHOD = "source_grounded_direct_procedure_online"
-SPAN_TAGGED_METHOD = "source_grounded_span_tagged_procedure_online"
-PROCEDURE_METHODS = (PROCEDURE_METHOD, SPAN_TAGGED_METHOD)
+EDIT_FEEDBACK_METHOD = "source_grounded_published_edit_feedback_online"
+PROCEDURE_METHODS = (PROCEDURE_METHOD, EDIT_FEEDBACK_METHOD)
 COMMON_TOOL_METHODS = (LINKED_METHOD, *PROCEDURE_METHODS)
 NATIVE_FEEDBACK_METHODS = (NATIVE_DRAFT_METHOD, LINKED_METHOD)
 DRAFT_METHODS = (DRAFT_METHOD, *NATIVE_FEEDBACK_METHODS)
@@ -220,10 +219,10 @@ class DecisionEvidenceTransfer(Comparison):
     def progress(self, stage, **extra):
         Comparison.progress(self, stage, completed_logical_answers=len(self.answers), **extra)
 
-    def generate(self, row, role, messages, schema, *, max_tokens=None):
+    def generate(self, row, role, messages, schema):
         path = self.record(f"inputs/{self.phase}/{row['id']}/{role}.json", {"messages": messages, "schema": schema})
         response = self.call(self.out / f"native/{self.phase}/{row['id']}/{role}.json", messages, schema,
-            self.cfg["generation"]["max_tokens"] if max_tokens is None else max_tokens, {"stage": self.phase,
+            self.cfg["generation"]["max_tokens"], {"stage": self.phase,
                 "arm": role, "document_id": row["id"], "call_role": role, "input_payload": str(path)})
         return response
 
@@ -542,30 +541,40 @@ PROCEDURE_WRITER = (
     "without truncation. Return exactly the required differential JSON."
 )
 
-SPAN_TAGGED_WRITER = PROCEDURE_WRITER.replace(
-    "The SAME frozen8B makes one original native answer per contract: for every "
-    "exact hypothesis it FIRST writes a public source-grounded reason of at "
-    "most15 words, THEN choice and spans.",
-    "The SAME frozen8B makes TWO native actions per contract under the same "
-    "8192 total output-token ceiling for skills and empty. Action1 gives every "
-    "exact hypothesis a public source-based comparison of at most64 words "
-    "followed by its original legal choice. Action2 cannot revise those native "
-    "choices: it explicitly tags EVERY original SPAN with all actual nonneutral "
-    "hypothesis IDs for which it is an evidence member, or []. All original "
-    "source-index decisions are required, including empty rows. The host only "
-    "transposes these native assignments to original evidence lists; it never "
-    "adds members, changes legal choices or uses inference Gold.",
-).replace(
-    "published directly, then actually used for complete seen-source training "
-    "reanswers; that exact published behavior feeds the NEXT batch.",
+PUBLISHED_EXPERIENCE_NOTICE = (
     "published directly, then actually used to reanswer ALL8 newly revealed "
     "contracts under the SAME ordinary tool. Those real published outcomes "
     "feed the NEXT batch. The previous batch's complete matched before/after "
     "transition, old bank and actual edit are supplied, including every gain "
     "and harm, not a success-filtered subset. Use them to identify which "
     "general instruction caused negative transfer. Older batches outside the "
-    "chronological window are NOT reanswered or claimed as measured retention.",
-)
+    "chronological window are NOT reanswered or claimed as measured retention.")
+
+EDIT_FEEDBACK_WRITER = PROCEDURE_WRITER.replace("most15 words", "most64 words").replace(
+    "published directly, then actually used for complete seen-source training "
+    "reanswers; that exact published behavior feeds the NEXT batch.",
+    PUBLISHED_EXPERIENCE_NOTICE,
+) + (
+    " When correct prose was delivered but the actual lawyer still ignored "
+    "the distinction, do not merely add another broad exhortation. Where "
+    "the supplied complete sources warrant it, express a compact worked "
+    "legal distinction: an anonymous generic clause pattern, what supported, "
+    "opposed or unresolved consequence it has for the exact public hypothesis, "
+    "and a nearby counterpattern explaining the observable boundary. These "
+    "are reusable teaching examples inside ordinary procedure text, NOT "
+    "current contract answers or copied source sentences. Do not invent "
+    "outside-law rules or unsupported annotation conventions. Distinguish "
+    "a complete responsive evidence member from nearby merely useful context. "
+    "Use such an example only when it makes the failed behavior executable; "
+    "no mandatory example count, separate layer or new schema. Inspect the "
+    "actual before/after damage and remove or narrow contradictory rules "
+    "instead of restating them at greater length. All unchanged skill words "
+    "remain verbatim and all valid edits publish unconditionally. At the first "
+    "step, initial_actual_parent_published_update_from_completed_run may give "
+    "the actual latest prior episode's complete last8 edit transition and "
+    "sources. Its original tool version and reason budget differ from the "
+    "current interface and are disclosed; never invent new-interface outcomes "
+    "for it. Use its real observed gains and damage, not an imagined failure.")
 
 
 def program_api():
@@ -685,10 +694,9 @@ def prepare_online(config):
     native_draft = cfg["method"] in NATIVE_FEEDBACK_METHODS
     linked = cfg["method"] == LINKED_METHOD
     procedure = cfg["method"] in PROCEDURE_METHODS
-    span_tagged = cfg["method"] == SPAN_TAGGED_METHOD
-    if span_tagged:
-        assert cfg["native_action_output_tokens"] == {"decision": 3072, "member_tags": 5120}
-        assert sum(cfg["native_action_output_tokens"].values()) == cfg["generation"]["max_tokens"] == 8192
+    edit_feedback = cfg["method"] == EDIT_FEEDBACK_METHOD
+    if edit_feedback:
+        assert cfg["public_reason_words"] == 64 and cfg["generation"]["max_tokens"] == 8192
     resume = bool(cfg.get("resume_failed_revision_run"))
     assert not resume or (draft and cfg.get("start_batch",1) == 1)
     start = cfg.get("start_batch", 1)
@@ -735,7 +743,7 @@ def prepare_online(config):
     bank = read(ROOT / cfg["parent_publication"])["publication"]
     inherited_bank_sha256 = csha(bank)
     if procedure:
-        if span_tagged:
+        if edit_feedback:
             assert cfg["initial_guidance_migration"] == "inherit_actual_procedures_exactly"
             assert inherited_bank_sha256 == csha(bank)
         else:
@@ -773,8 +781,8 @@ def prepare_online(config):
             "original_actual_parent_sha256": inherited_bank_sha256,
             "initial_runtime_parent_sha256": csha(bank),
             "mechanical_null_field_only_not_new_learning": linked,
-            "removes_source_read_layer_by_method_not_case_or_skill_score": procedure and not span_tagged,
-            "inherits_actual_procedures_byte_semantics_without_selection": span_tagged,
+            "removes_source_read_layer_by_method_not_case_or_skill_score": cfg.get("initial_guidance_migration") == "procedures_only_remove_source_read_layer",
+            "inherits_actual_procedures_byte_semantics_without_selection": edit_feedback,
             "retained_procedure_text_scope_identity_unchanged": procedure,
             "no_score_selection": True,
             "no_score_selection_or_code_change": linked} if linked or procedure else None,
@@ -791,7 +799,7 @@ def prepare_online(config):
     ledger = read(ROOT / cfg["teacher"]["ledger"])
     inherited = resumed["inherited_actual_native_teacher_CPUfits"] if resumed else [0,0,0]
     teachers = (4-start)*(2 if draft else 1)+int(program and not draft)-inherited[1]
-    expected_calls = (176 if span_tagged else (160 if native_draft else 136) if start == 1 else 120)-inherited[0]
+    expected_calls = (88 if edit_feedback else (160 if native_draft else 136) if start == 1 else 120)-inherited[0]
     expected_fits = 4-start-inherited[2]
     assert max(r["sequence"] for r in ledger["reservations"]) + teachers <= ledger["max_invocations"]
     assert cfg["planned_new_native_calls"] == expected_calls and cfg["planned_new_teacher_calls"] == teachers
@@ -832,6 +840,15 @@ def prepare_online(config):
         assert chars <= CODEX_TURN_INPUT_CHARACTER_LIMIT, "Complete teacher transport capacity; never truncate"
         RunStore.immutable_json(ROOT / cfg["initial_teacher_body"], initial_teacher)
         files += paths + [ROOT / cfg["initial_teacher_body"], ROOT / cfg["additional_excluded_episode_config"]]
+    if edit_feedback and cfg.get("initial_parent_update_history"):
+        history_path = ROOT / cfg["initial_parent_update_history"]
+        history = read(history_path)
+        assert history["published_bank_sha256"] == csha(bank)
+        assert history["all8_source_ids"] == past[-8:]
+        for name, digest in history["original_logical_artifact_sha256"].items():
+            assert preserved_files[name] == sha(ROOT / name) == digest
+            files.append(ROOT / name)
+        files.append(history_path)
     RunStore.immutable_json(config.with_suffix(".frozen.json"), {
         "config_sha256": sha(config), "files": {str(p.resolve()): sha(p) for p in files}})
     print(json.dumps({"prepared": cfg["run_id"], "new_episode_ids": ids,
@@ -876,8 +893,8 @@ class RankedOnline(DecisionEvidenceTransfer):
     def procedure_mode(self):
         return self.cfg.get("method") in PROCEDURE_METHODS
 
-    def span_tagged_mode(self):
-        return self.cfg.get("method") == SPAN_TAGGED_METHOD
+    def publication_feedback_mode(self):
+        return self.cfg.get("method") == EDIT_FEEDBACK_METHOD
 
     def common_tool_mode(self):
         return self.cfg.get("method") in COMMON_TOOL_METHODS
@@ -1239,7 +1256,7 @@ class RankedOnline(DecisionEvidenceTransfer):
         """
         parent = copy.deepcopy(self.bank)
         window = seen[-16:]
-        checked_rows = window if self.span_tagged_mode() else seen
+        checked_rows = window if self.publication_feedback_mode() else seen
         assert all(self.own_current[r["id"]]["bank_sha256"] == csha(parent) for r in checked_rows)
         gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
         before = self.score([self.own_current[r["id"]] for r in checked_rows])
@@ -1269,13 +1286,15 @@ class RankedOnline(DecisionEvidenceTransfer):
             "initial_ordinary_tool_manifest": self.manifest,
             "historical_observations_preserve_actual_ordinary_tool_source_ids": True,
             "ordinary_tool_grows_identically_for_skills_and_strong_empty_not_a_skill_gain": True,
-            "future_joint_system": (span_tagged_decision_payload if self.span_tagged_mode() else procedure_payload)(window[0], self.labels,
+            "future_joint_system": procedure_payload(window[0], self.labels,
                 evidence_proposals(self.active_model(), window[0], self.labels),
-                self.cfg["bundled_solver_system"], [])[0][0]["content"],
+                self.cfg["bundled_solver_system"], [],
+                **({"public_reason_words": self.cfg["public_reason_words"]}
+                   if self.cfg.get("method") == EDIT_FEEDBACK_METHOD else {}))[0][0]["content"],
             "complete_membership_rank_order_visible_in_single_joint_action": False,
             "one_direct_publication_then_actual_native_training_not_an_unexecuted_final_rewrite": True,
             "no_future_episode_sources_answers_annotations_or_official_DEV_TEST": True}
-        if self.span_tagged_mode():
+        if self.publication_feedback_mode():
             transition = getattr(self, "last_published_update", None)
             assert (transition is None) == (self.current_batch == 1)
             if transition:
@@ -1283,14 +1302,23 @@ class RankedOnline(DecisionEvidenceTransfer):
                 assert transition["all8_source_ids"] == [r["id"] for r in window[:-8]]
             body.update(
                 previous_actual_matched_published_update_all_gains_and_harms=transition,
-                two_native_actions_with_complete_source_indexed_membership=True,
-                native_action_output_tokens=self.cfg["native_action_output_tokens"],
+                original_native_joint_answer_and_sparse_original_SPAN_lists=True,
+                native_action_output_tokens={"joint":8192},
                 no_reanswers_or_retention_claim_for_sources_outside_current_window=True)
+            if self.current_batch == 1 and self.cfg.get("initial_parent_update_history"):
+                history = read(ROOT / self.cfg["initial_parent_update_history"])
+                assert history["published_bank_sha256"] == csha(parent)
+                assert history["all8_source_ids"] == [r["id"] for r in self.past[-8:]]
+                body["initial_actual_parent_published_update_from_completed_run"] = history
+                body["literal_replay_window"]["initial_parent_previous_episode_full_source_ids"] = history["all8_source_ids"]
+                body["literal_replay_window"]["older_full_sources_and_observations_archived_not_in_current_teacher_prompt"] = False
+                body["literal_replay_window"]["only_explicit_parent_last8_history_not_all_past_sources_is_added"] = True
         name = f"online_b{self.current_batch}"
         self.record(f"learning_inputs/{name}.json", body)
         schema = differential_schema(self.labels, parent, [r["id"] for r in self.past+seen],
                                      guidance_schema=PROCEDURE_GUIDANCE_SCHEMA)
-        value = self.teacher_call(name, SPAN_TAGGED_WRITER if self.span_tagged_mode() else PROCEDURE_WRITER,
+        writer = EDIT_FEEDBACK_WRITER if self.publication_feedback_mode() else PROCEDURE_WRITER
+        value = self.teacher_call(name, writer,
                                   encode_teacher_body(body), schema)
         return self.publish_and_reanswer(parent, value, seen, before)
 
@@ -1311,7 +1339,7 @@ class RankedOnline(DecisionEvidenceTransfer):
             "all_valid_edits_publish_without_efficacy_admission": True})
         self.phase = f"b{self.current_batch}_after_seen"
         start = len(self.answers)
-        reanswer_rows = seen[-8:] if self.span_tagged_mode() else seen
+        reanswer_rows = seen[-8:] if self.publication_feedback_mode() else seen
         for row in reanswer_rows:
             self.joint(row, "skills", evidence_proposals(self.active_model(), row, self.labels))
         after = self.score(self.answers[start:])
@@ -1330,8 +1358,8 @@ class RankedOnline(DecisionEvidenceTransfer):
             "paired_scope": "current8_same_common_tool_training_only" if self.common_tool_mode() else "all_seen_fixed_tool",
             "reanswered_source_ids": [r["id"] for r in reanswer_rows],
             "all_seen_system_retention_not_pure_skill_effect": {
-                "before": points(before), "after": points(after)} if self.common_tool_mode() and not self.span_tagged_mode() else None})
-        if self.span_tagged_mode():
+                "before": points(before), "after": points(after)} if self.common_tool_mode() and not self.publication_feedback_mode() else None})
+        if self.publication_feedback_mode():
             self.last_published_update = {"learning_batch": self.current_batch,
                 "parent_library": parent, "actual_published_delta": value,
                 "published_bank_sha256": csha(self.bank),
@@ -1419,34 +1447,9 @@ class RankedOnline(DecisionEvidenceTransfer):
 
     def joint(self, row, arm, proposals):
         bank = self.bank if arm == "skills" else []
-        if self.span_tagged_mode():
-            messages, ds = span_tagged_decision_payload(row, self.labels, proposals,
-                self.cfg["bundled_solver_system"], bank)
-            budgets = self.cfg["native_action_output_tokens"]
-            decision = self.generate(row, arm+"_decision", messages, ds, max_tokens=budgets["decision"])
-            evidence, es = None, {}
-            valid = decision["finish_reason"] == "stop"
-            try:
-                validate(json.loads(decision["content"]), ds)
-            except (ValueError, TypeError, ValidationError):
-                valid = False
-            if valid:
-                messages, es = span_member_tag_payload(row, self.labels, proposals,
-                    self.cfg["bundled_solver_system"], bank, decision, ds)
-                evidence = self.generate(row, arm+"_member_tags", messages, es,
-                                         max_tokens=budgets["member_tags"])
-            response = assemble_span_members(decision, evidence, ds, es, self.labels, len(row["spans"]))
-            self.record(f"guidance_delivery/{self.phase}/{row['id']}/{arm}.json", {
-                "visible_procedures": [{"hypothesis_ids": s["hypothesis_ids"],
-                    "procedure": s["guidance"]["procedure"]} for s in bank],
-                "visibility_not_internal_use_or_causal_proof": True,
-                "actual_native_raw_ids": response["actual_native_raw_ids"],
-                "all_original_source_indices_explicitly_tagged": not response["component_errors"],
-                "no_source_program_layer_or_host_member_repair": True})
-            self.logical(row, arm, response)
-            return
         if self.procedure_mode():
-            messages, schema = procedure_payload(row, self.labels, proposals, self.cfg["bundled_solver_system"], bank)
+            messages, schema = procedure_payload(row, self.labels, proposals, self.cfg["bundled_solver_system"], bank,
+                public_reason_words=self.cfg.get("public_reason_words", 15))
             self.record(f"guidance_delivery/{self.phase}/{row['id']}/{arm}.json", {
                 "visible_procedures": [{"hypothesis_ids": s["hypothesis_ids"],
                     "procedure": s["guidance"]["procedure"]} for s in bank],
@@ -1479,9 +1482,8 @@ class RankedOnline(DecisionEvidenceTransfer):
             "new_original_label_exposures": new_labels,
             "pending_unpublished_label_batch_finalization":8 if resumed else 0,
             "inherited_actual_native_teacher_CPUfits":resumed["inherited_actual_native_teacher_CPUfits"] if resumed else [0,0,0],
-            "native_actions_per_logical_answer": 2 if self.span_tagged_mode() else 1,
-            "complete_original_span_native_membership_tagging": self.span_tagged_mode(),
-            "post_publication_reanswers_current8_only_no_all_seen_retention_claim": self.span_tagged_mode(),
+            "native_actions_per_logical_answer": 1,
+            "post_publication_reanswers_current8_only_no_all_seen_retention_claim": self.publication_feedback_mode(),
             "forward_readout_not_taught": 8})
         self.record("publications/initial.json", {"at": now(), "publication": self.bank,
             "actual_inherited_teacher_sources": self.prefix_ids, "not_independent_learning_repeat": True,
@@ -1509,8 +1511,8 @@ class RankedOnline(DecisionEvidenceTransfer):
             main_phase = f"b{batch}_prequential"
             for index, row in enumerate(rows):
                 self.phase = main_phase
-                fixed = None if self.span_tagged_mode() else evidence_proposals(self.model, row, self.labels)
-                prefix = (evidence_proposals(self.prefix_model, row, self.labels) if self.span_tagged_mode()
+                fixed = None if self.publication_feedback_mode() else evidence_proposals(self.model, row, self.labels)
+                prefix = (evidence_proposals(self.prefix_model, row, self.labels) if self.publication_feedback_mode()
                           else fixed if batch == 1 else evidence_proposals(self.prefix_model, row, self.labels))
                 self.record(f"common_candidates/b{batch}/{row['id']}.json", {"fixed42": fixed,
                     "ordinary_revealed_prefix": prefix, "ordinary_prefix_source_ids": self.prefix_ids})
@@ -1519,7 +1521,7 @@ class RankedOnline(DecisionEvidenceTransfer):
                     order = tuple(reversed(order))
                 for arm in order:
                     self.joint(row, arm, fixed if arm == "skills" and not self.common_tool_mode() else prefix)
-                if self.span_tagged_mode():
+                if self.publication_feedback_mode():
                     continue
                 if batch == 1:
                     native = next(u for u in self.answers[start:] if u["stage"] == main_phase
@@ -1536,7 +1538,7 @@ class RankedOnline(DecisionEvidenceTransfer):
                     self.joint(row, "joint_empty", fixed)
             units = self.score(self.answers[start:])
             self.units.extend(units)
-            conditions = ("joint_empty", "skills") if self.span_tagged_mode() else (
+            conditions = ("joint_empty", "skills") if self.publication_feedback_mode() else (
                 "joint_empty", "fixed_tool_empty", "skills")
             groups = {a: [u for u in units if u["condition"] == a] for a in conditions}
             summary = {"at": now(), "batch": batch, "new_source_ids": [r["id"] for r in rows],
@@ -1556,13 +1558,14 @@ class RankedOnline(DecisionEvidenceTransfer):
                 self.record(f"batch_summaries/b{batch}_complete.json", {
                     **summary, "publication_statistics": stats, "paired_seen_update_effect": effect})
                 self.fit_prefix(seen)
-        default_calls = 176 if self.span_tagged_mode() else (160 if self.native_draft_mode() else 136) if start_batch == 1 else 120
+        default_calls = (88 if self.publication_feedback_mode()
+                         else (160 if self.native_draft_mode() else 136) if start_batch == 1 else 120)
         assert len(self.native) == self.cfg.get("planned_new_native_calls", default_calls)
         assert len(self.fit_records) == self.cfg.get("planned_new_CPU_fits",4-start_batch)
         assert len(self.teachers) == self.cfg.get("planned_new_teacher_calls",
             (4-start_batch)*(2 if self.draft_mode() else 1)+int(self.program_mode() and not self.draft_mode()))
         prequential = [u for u in self.units if u["stage"].endswith("_prequential") or u["stage"].endswith("_fixed_tool_control")]
-        conditions = ("joint_empty", "skills") if self.span_tagged_mode() else (
+        conditions = ("joint_empty", "skills") if self.publication_feedback_mode() else (
             "joint_empty", "fixed_tool_empty", "skills")
         groups = {a: [u for u in prequential if u["condition"] == a] for a in conditions}
         assert all(len(v) == (5-start_batch)*8 for v in groups.values())
@@ -1575,9 +1578,8 @@ class RankedOnline(DecisionEvidenceTransfer):
                     resumed["inherited_actual_native_teacher_CPUfits"] if resumed else [0,0,0],strict=True)],
             "final_bank": self.bank, "units": self.units, "ordinary_prefix_fits": self.fit_records,
             "actual_source_program_CPU_costs": self.program_cost if self.program_mode() else None,
-            "native_actions_per_logical_answer": 2 if self.span_tagged_mode() else 1,
-            "complete_original_span_native_membership_tagging": self.span_tagged_mode(),
-            "post_publication_reanswers_current8_only_no_all_seen_retention_claim": self.span_tagged_mode(),
+            "native_actions_per_logical_answer": 1,
+            "post_publication_reanswers_current8_only_no_all_seen_retention_claim": self.publication_feedback_mode(),
             "fixed_unpublished_draft_probe_then_one_revision_each_teaching_batch": self.draft_mode(),
             "fixed_all8_native_draft_training_feedback_each_teaching_batch": self.native_draft_mode(),
             "inherited_published_episode_labels": inherited_labels,

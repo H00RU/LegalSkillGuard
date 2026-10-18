@@ -1,9 +1,8 @@
 """Original legal relation/member guidance and native answer interfaces.
 
-The configured learner uses either an original joint answer or native relation
-decisions followed by exhaustive original-SPAN member tags. Earlier builders
-remain for disclosed past experiments, never runtime alternatives or fallbacks.
-No answer repair or current Gold.
+The configured learner uses the original joint answer. Rejected source-index
+tagging implementations are preserved in Git and sealed experiment archives,
+not left as live execution alternatives. No answer repair or current Gold.
 """
 
 from __future__ import annotations
@@ -225,13 +224,15 @@ def validate_procedures(bank, labels):
             raise ValueError("Duplicate public procedure scope")
 
 
-def procedure_payload(row, labels, proposals, system, bank):
+def procedure_payload(row, labels, proposals, system, bank, *, public_reason_words=15):
     """Source-grounded public reason BEFORE classification, without extra calls.
 
     Both arms retain the same original three fields and permitted values. Only
     property emission order changes. No new fact/label judge, source filtering,
     generated paraphrase, host verdict or post-generation correction exists.
     """
+    if public_reason_words not in (15, 64):
+        raise ValueError("Only the disclosed bounded public-reason interfaces exist")
     validate_procedures(bank, labels)
     messages, schema = joint_payload(row, labels, proposals, system, complete_order=False)
     body = json.loads(messages[1]["content"])
@@ -259,144 +260,12 @@ def procedure_payload(row, labels, proposals, system, bank):
         " Optional learned_legal_procedures are fallible source-conditional "
         "guidance for their exact public hypotheses, not current facts, mandatory "
         "citations or supplied answers. Reject inapplicable guidance. For EACH "
-        "hypothesis FIRST write a short public reason of at most15 words stating "
+        f"hypothesis FIRST write a short public reason of at most{public_reason_words} words stating "
         "the operative source condition or its absence, not merely repeating "
         "the hypothesis. THEN decide choice and final spans yourself. Return "
         "reason, choice, spans in that order; no extra fields or model calls.")
     messages[1]["content"] = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
     return messages, schema
-
-
-def span_tagged_decision_payload(row, labels, proposals, system, bank):
-    """Native legal classification with room for a bounded public source proof."""
-    validate_procedures(bank, labels)
-    body, _ = base_body(row, labels, proposals, complete_order=False)
-    for value in body["hypotheses"].values():
-        value.pop("additional_source_read_indices")
-    one = {"type": "object", "additionalProperties": False,
-        "required": ["reason", "choice"], "properties": {
-            "reason": {"type": "string"}, "choice": {"type": "string", "enum": list(CHOICES)}}}
-    schema = {"type": "object", "additionalProperties": False, "required": list(labels),
-        "properties": {h: copy.deepcopy(one) for h in labels}}
-    body["output_contract"] = {"required_hypothesis_keys": list(labels),
-        "common_schema_for_each_hypothesis": one}
-    body["learned_legal_procedures"] = [{"hypothesis_ids": list(s["hypothesis_ids"]),
-        "procedure": s["guidance"]["procedure"]} for s in bank]
-    notice = (
-        " This is the first native action of the SAME frozen lawyer. Decide "
-        "EVERY original legal relation from the COMPLETE original contract. "
-        "For each exact hypothesis first give a bounded public source-based "
-        "reason of at most64 words: compare the operative condition to the "
-        "hypothesis's actor, permission or duty, object, quantifier, trigger "
-        "and exceptions. Explain whether the contract supports, opposes or "
-        "leaves that precise proposition unresolved; do not merely paraphrase "
-        "a nearby clause or confuse normative coverage with an instance of "
-        "actual disclosure. Non-entailment alone is not contradiction, and an "
-        "explicit opposing route is not mere silence. Then output choice. "
-        "Optional scoped procedures are fallible, not supplied answers. "
-        "Ordinary membership candidates are source-reading aids, not legal "
-        "confidence or forced labels. Reject inapplicable guidance and read "
-        "the full source. Do not output final citations in this action; the "
-        "same lawyer will independently tag all original SPANs next. Return "
-        "reason and choice only, in that order, for every original key.")
-    return [{"role": "system", "content": system + notice},
-        {"role": "user", "content": json.dumps(body, ensure_ascii=False, separators=(",", ":"))}], schema
-
-
-def span_member_tag_payload(row, labels, proposals, system, bank, decision, decision_schema):
-    """One native membership assignment for EVERY original source index.
-
-    This transposes the generation layout, not the original evidence target.
-    First-action labels are native, never current Gold. No read program, score
-    threshold, host-added closure, citation union or post-hoc repair exists.
-    """
-    if decision["finish_reason"] != "stop":
-        raise ValueError("A complete native classification action is required")
-    parsed = json.loads(decision["content"])
-    validate(parsed, decision_schema)
-    validate_procedures(bank, labels)
-    active = [h for h in labels if parsed[h]["choice"] != "NotMentioned"]
-    body, _ = base_body(row, labels, proposals, complete_order=False)
-    body["hypotheses"] = {h: body["hypotheses"][h] for h in active}
-    for value in body["hypotheses"].values():
-        value.pop("additional_source_read_indices")
-    ordinary = {v["original_span_index"] for value in body["hypotheses"].values()
-                for v in value["fallible_evidence_candidates"]}
-    body["candidate_original_text"] = {str(i): body["candidate_original_text"][str(i)] for i in sorted(ordinary)}
-    # vLLM0.10.2 rejects uniqueItems before generation. Preserve uniqueness as
-    # an explicit validity requirement below, never by deduplicating an answer.
-    one = {"type": "array", **({"maxItems": 0} if not active else {}),
-           "items": {"type": "string", **({"enum": active} if active else {})}}
-    keys = [str(i) for i in range(len(row["spans"]))]
-    schema = {"type": "object", "additionalProperties": False, "required": keys,
-        "properties": {i: copy.deepcopy(one) for i in keys}}
-    body["actual_native_choices_not_Gold"] = {h: parsed[h]["choice"] for h in labels}
-    body["learned_legal_procedures"] = [{"hypothesis_ids": [h for h in s["hypothesis_ids"] if h in active],
-        "procedure": s["guidance"]["procedure"]} for s in bank if set(s["hypothesis_ids"]) & set(active)]
-    body["output_contract"] = {"required_original_span_keys_in_order": keys,
-        "allowed_actual_non_neutral_hypothesis_ids": active,
-        "common_schema_for_each_span": one,
-        "each_value_lists_all_hypotheses_for_which_this_span_is_an_evidence_member": True,
-        "duplicate_ids_are_invalid_not_removed_by_the_host": True}
-    notice = (
-        " This is the second native action of the SAME frozen lawyer. The "
-        "actual prior native choices are fixed, not Gold; do not revise them. "
-        "For EVERY zero-based original SPAN key, output ALL allowed hypothesis "
-        "IDs for which that span belongs to the complete responsive evidence. "
-        "Use [] when it belongs to none. Preserve every key including empty "
-        "rows. Never repeat an ID within one array. Inspect all original spans, not only ordinary candidates or one "
-        "sufficient witness. Evidence may be noncontiguous, independently "
-        "repeated, or include a governing introduction, object, scope or "
-        "exception needed for the responsive subclause. Do not omit such "
-        "members merely because another span already proves the relation. "
-        "Conversely a heading, nearby topic or whole section is not evidence "
-        "merely by proximity. Distinguish the complete original membership "
-        "target from a minimal logical proof. Membership scores and learned "
-        "procedures are fallible aids; decide each assignment yourself from "
-        "the complete source. You may assign ANY original span and reject "
-        "candidates. NotMentioned IDs are not requested because their evidence "
-        "is empty by the original task contract. Return only the complete "
-        "source-indexed tag object, no legal labels, reasons or extra fields.")
-    return [{"role": "system", "content": system + notice},
-        {"role": "user", "content": json.dumps(body, ensure_ascii=False, separators=(",", ":"))}], schema
-
-
-def assemble_span_members(decision, evidence, decision_schema, evidence_schema, labels, span_count):
-    """Exact transpose of native memberships; no semantic answer correction."""
-    physical = [r for r in (decision, evidence) if r is not None]
-    errors, answer = [], {}
-    try:
-        if len(physical) != 2 or any(r["finish_reason"] != "stop" for r in physical):
-            raise ValueError("Missing or incomplete native action; no substitute")
-        a, tags = (json.loads(r["content"]) for r in physical)
-        validate(a, decision_schema); validate(tags, evidence_schema)
-        if set(a) != set(labels) or set(tags) != {str(i) for i in range(span_count)}:
-            raise ValueError("All original hypotheses and SPAN decisions must survive")
-        members = {h: [] for h in labels}
-        for i in range(span_count):
-            if len(tags[str(i)]) != len(set(tags[str(i)])):
-                raise ValueError("Duplicate native membership IDs are invalid; never deduplicate")
-            for h in tags[str(i)]:
-                if a[h]["choice"] == "NotMentioned":
-                    raise ValueError("Native tags must not contradict the native NotMentioned decision")
-                members[h].append(i)
-        inverse = {str(i): {h for h in labels if i in members[h]} for i in range(span_count)}
-        assert inverse == {i: set(v) for i, v in tags.items()}
-        answer = {h: {"reason": a[h]["reason"], "choice": a[h]["choice"], "spans": members[h]} for h in labels}
-    except (ValueError, TypeError, KeyError, ValidationError) as exc:
-        errors.append(str(exc))
-    ids = [r["raw_id"] for r in physical]
-    if len(set(ids)) != len(ids) or any(not i for i in ids):
-        raise ValueError("Actual distinct native response IDs required")
-    cutoff = any(r["finish_reason"] == "length" for r in physical)
-    return {"content": json.dumps(answer, ensure_ascii=False, separators=(",", ":")),
-        "finish_reason": ("length" if cutoff else None) if errors else "stop", "raw_id": None,
-        **{k: sum(r[k] for r in physical) for k in ("prompt_tokens", "completion_tokens")},
-        "actual_native_raw_ids": ids, "component_errors": errors,
-        "invalid_action_raw_content": [r["content"] for r in physical] if errors else None,
-        "composite_logical_answer_not_a_native_server_response": True,
-        "all_native_members_transposed_without_addition_deletion_or_Gold_access": not errors,
-        "no_host_legal_verdict_or_answer_repair": True}
 
 
 def evidence_payload(row, labels, proposals, decision, decision_schema, bank):
