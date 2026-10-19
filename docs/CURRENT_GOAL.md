@@ -37,6 +37,8 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   2026-10-20 **07:03:32** 启动；07:28亲核 active/running，已经进入B2新案。
   B1于07:25:56真实发布C1；07:28:55为31 native/1教师、13跨阶段wire别名。
   B2全部四臂完成前不读其Gold。两个旧只读观察1185/34771已正常退出0，不再resume。
+  当前只读观察session**96460**（07:32起，最长至08:32）等B2完整四臂、并核同PID；
+  每次poll不超过30秒，不将观察超时或正常退出当训练故障。它不是独立训练队列。
 - config `configs/openexempt_compiled_skills_online_20261020_run01.json`，
   SHA9498bb2f029f9cbe168ac368cafd21d2d6ed2a8ed8c9b6b0c1769e5aa37becfa，
   同名 frozen.json **134绑定文件**；启动前 source tar 已逐成员双盘核验。
