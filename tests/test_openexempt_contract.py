@@ -5,7 +5,7 @@ import json
 
 import pytest
 
-from experiments.openexempt_online import Online, acceptance, actor_payload
+from experiments.openexempt_online import Online, acceptance, actor_payload, teacher_evidence_rows
 from legal_skill_guard.learning.legal_namespace import (
     active_bank,
     allowable_namespaces,
@@ -344,3 +344,52 @@ def test_reused_native_call_executes_new_body_and_never_reuses_answer_or_error(t
     assert restored["parse_error"] is None and restored["execution_error"] is None
     assert restored["parsed"]["answer"]["watch"][0]["claim_value"] == 15
     assert len(study.native) == 1  # An old execution error is not a cached raw failure.
+
+
+def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_dropped(monkeypatch):
+    seen, observations = [], {}
+    for case in range(1, 25):
+        components = copy.deepcopy(COMPONENTS)
+        if case == 19:
+            components["solved_steps"] = "The Debtor may claim property exemptions under Illinois statutes."
+        for family in ("EC", "EV"):
+            seen.append({"case_id": case, "family": family, "components": components})
+            observations[(case, family)] = {"case_id": case, "family": family,
+                "score": record(family, 0.2 if case == 1 else 0.8)["score"],
+                "parse_error": None, "parsed": {"answer": {"watch": []}}}
+    current = [r for r in seen if r["case_id"] >= 21]
+    replay = copy.deepcopy(list(observations.values()))
+    for r in replay:
+        if r["case_id"] == 20 and r["family"] == "EV":
+            r["score"]["full_output_f1"] = 0.1  # Harm in the additional EV audit also counts.
+    rejected = [{"accepted": False, "actual_replay": replay}]
+    selected, manifest = teacher_evidence_rows(current, seen, observations, rejected)
+    ids = {r["case_id"] for r in selected}
+    assert {21, 22, 23, 24}.issubset(ids)
+    assert len(ids - {21, 22, 23, 24}) == 16
+    assert {1, 19, 20}.issubset(ids)  # Parent failure, public context, and actual harm.
+    assert manifest["full_seen_TRAIN_replay_and_acceptance_unchanged"]
+    assert manifest["all_seen_source_ids"] == list(range(1, 25))
+    assert len(seen) == len(replay) == 48  # Selection never mutates training/replay inputs.
+    smaller = [r for r in seen if r["case_id"] <= 8]
+    all_eight, _ = teacher_evidence_rows(smaller[-4:], smaller, observations, [])
+    assert all_eight == smaller  # Small pilots retain all evidence and its order.
+
+    study = Online.__new__(Online)
+    study.cfg = {"execution_contract": "source_grounded_claim_operations",
+                 "grading_directory": "synthetic_labels_only"}
+    study.bank = []
+    study.prequential_empty = list(observations.values())
+    study.prequential_frozen = list(observations.values())
+    read_cases = []
+    def synthetic_grade(path):
+        read_cases.append(int(path.stem))
+        return {"targets": {"EC": {"watch": []}, "EV": {"watch": []}}}
+    monkeypatch.setattr("experiments.openexempt_online.read", synthetic_grade)
+    body = study.teacher_body(current, seen, observations, rejected)
+    assert {r["source_case_id"] for r in body["already_seen_training"]} == ids
+    assert set(read_cases) == ids
+    feedback = body["rejected_candidate_feedback"][0]
+    assert feedback["full_replay_task_count"] == 48
+    assert len(feedback["actual_replay"]) == 40
+    assert {r["case_id"] for r in feedback["actual_replay"]} == ids

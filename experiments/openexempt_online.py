@@ -113,6 +113,10 @@ AUTHOR_SYSTEM = (
     "must be original parent IDs, not earlier outputs. All audit source_case_ids "
     "must refer to already-seen cases. They and rationales are never delivered to "
     "the executor. Return an explicit NOOP when no grounded repair is available. "
+    "The evidence manifest distinguishes all current sources from a bounded set of "
+    "historical public-context, regression and failure witnesses. Omitted older "
+    "sources are still replayed for TRAIN acceptance; they are not a validation set. "
+    "Cite only source IDs actually supplied in this request, not an omitted case. "
     "The full skill library must fit4096 actual target model tokens; aim2500. "
     "Candidate edits are replayed with the SAME frozen executor. TRAIN acceptance "
     "requires current-source original mean F1 OR full-output EV F1 improvement without "
@@ -279,6 +283,53 @@ def paired_effect(before, after):
             "hurt": sum(d < -1e-12 for d in delta),
             "ties": sum(abs(d) <= 1e-12 for d in delta),
             "mean_f1_difference": sum(delta) / len(delta) if delta else 0}
+
+
+def teacher_evidence_rows(current, seen, observations, rejected, *, history_limit=16):
+    """Bound teacher communication, never the full TRAIN replay or its scores.
+
+    Keep every current source, one difficult prior witness per public AE context,
+    then actual prior regressions and remaining parent failures. The count bound
+    leaves transport headroom; it is not a skill taxonomy or a generalization claim.
+    """
+    current_ids = {r["case_id"] for r in current}
+    by_id = {r["case_id"]: r for r in seen}
+    old_ids = set(by_id) - current_ids
+    def quality(record):
+        return min(record["score"]["f1"], record["score"].get("full_output_f1", 1.0))
+    parent_quality = {i: min(quality(observations[(i, f)]) for f in FAMILIES)
+                      for i in old_ids}
+    groups = {}
+    for i in sorted(old_ids):
+        groups.setdefault(tuple(sorted(allowable_namespaces(by_id[i]))), []).append(i)
+    context_witnesses = [min(ids, key=lambda i: (parent_quality[i], i))
+                         for _, ids in sorted(groups.items())]
+    harm = {}
+    for decision in rejected:
+        for record in decision.get("actual_replay", []):
+            i = record["case_id"]
+            if i in old_ids:
+                before = observations[(i, record["family"])]["score"]
+                after = record["score"]
+                delta = min(after["f1"] - before["f1"],
+                    after.get("full_output_f1", after["f1"])
+                    - before.get("full_output_f1", before["f1"]))
+                harm[i] = min(harm.get(i, 0.0), delta)
+    regressions = sorted((i for i in harm if harm[i] < -1e-12), key=lambda i: (harm[i], i))
+    failures = sorted(old_ids, key=lambda i: (parent_quality[i], i))
+    selected_old = list(dict.fromkeys(context_witnesses + regressions + failures))[:history_limit]
+    selected = current_ids | set(selected_old)
+    return [r for r in seen if r["case_id"] in selected], {
+        "current_source_ids_all_included": sorted(current_ids),
+        "selected_historical_source_ids": sorted(selected_old),
+        "selected_source_ids": sorted(selected),
+        "all_seen_source_ids": sorted(by_id),
+        "omitted_historical_source_ids": sorted(old_ids - set(selected_old)),
+        "historical_source_limit": history_limit,
+        "public_context_witnesses": [i for i in context_witnesses if i in selected],
+        "rule": "public-context witnesses, then actual rejected-candidate harm, then parent failures; ties by source ID",
+        "full_seen_TRAIN_replay_and_acceptance_unchanged": True,
+        "not_an_independent_validation_set": True}
 
 
 def freeze(config_path):
@@ -490,6 +541,8 @@ class Online:
         return records
 
     def teacher_body(self, current, seen, observations, rejected):
+        evidence, evidence_manifest = teacher_evidence_rows(current, seen, observations, rejected)
+        supplied_ids = set(evidence_manifest["selected_source_ids"])
         statutes = {csha(r["components"]["statutes"]): r["components"]["statutes"] for r in seen}
         # Task text is retained exactly, but the long public law corpus appears once.
         contracts = {r["family"]: {k: r["components"][k] for k in
@@ -514,7 +567,7 @@ class Online:
         cases = []
         empty_by_key = {(r["case_id"], r["family"]): r for r in self.prequential_empty}
         frozen_by_key = {(r["case_id"], r["family"]): r for r in self.prequential_frozen}
-        for row in seen:
+        for row in evidence:
             target = read(ROOT / self.cfg["grading_directory"] /
                           f"{row['case_id']}.json")["targets"][row["family"]]
             cases.append({"source_case_id": row["case_id"], "family": row["family"],
@@ -532,7 +585,9 @@ class Online:
         for decision in rejected:
             value = {k: v for k, v in decision.items() if k != "actual_replay"}
             if "actual_replay" in decision:
-                value["actual_replay"] = [observation_view(r) for r in decision["actual_replay"]]
+                value["full_replay_task_count"] = len(decision["actual_replay"])
+                value["actual_replay"] = [observation_view(r) for r in decision["actual_replay"]
+                                          if r["case_id"] in supplied_ids]
             rejected_view.append(value)
         actual_contracts = {}
         for row in seen:
@@ -551,7 +606,8 @@ class Online:
                 "actual_actor_system": ACTOR_SYSTEM, "complete_public_statutes": statutes,
                 "actual_system_and_response_schema_by_public_context": actual_contracts,
                 "already_seen_training": cases, "rejected_candidate_feedback": rejected_view,
-                "program_and_result_view_omits_only_duplicate_CPU_trace_provenance": grounded,
+                "training_evidence_manifest": evidence_manifest,
+                "selected_record_view_preserves_program_answer_score_and_error": grounded,
                 "future_cases_and_labels_not_supplied": True}
 
     def update(self, current, seen, parent_current):
@@ -565,12 +621,14 @@ class Online:
         guidance_schema = EXECUTABLE_GUIDANCE if grounded else GUIDANCE
         for attempt in range(1, self.cfg["max_candidate_attempts"] + 1):
             name = f"b{self.current_batch}_candidate{attempt}"
+            body = self.teacher_body(current, seen, observations, rejected)
+            supplied_ids = body["training_evidence_manifest"]["selected_source_ids"]
             delta = self.teacher_call(name, AUTHOR_SYSTEM + (PROGRAM_AUTHOR_ADDITION if grounded else ""),
-                self.teacher_body(current, seen, observations, rejected),
-                differential_schema(FAMILIES, before, sorted({r["case_id"] for r in seen}),
+                body,
+                differential_schema(FAMILIES, before, supplied_ids,
                                     guidance_schema=guidance_schema))
             candidate = apply_differential_publication(before, delta, FAMILIES,
-                sorted({r["case_id"] for r in seen}), guidance_schema=guidance_schema)
+                supplied_ids, guidance_schema=guidance_schema)
             if grounded:
                 try:
                     validate_scopes(candidate, current[0]["components"]["statutes"])
