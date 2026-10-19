@@ -118,6 +118,10 @@ AUTHOR_SYSTEM = (
     "sources are still replayed for TRAIN acceptance; they are not a validation set. "
     "Cite only source IDs actually supplied in this request, not an omitted case. "
     "The full skill library must fit4096 actual target model tokens; aim2500. "
+    "The budget receipt reports the parent's actual target-tokenizer size and net "
+    "growth headroom, not your own tokenizer's estimate. Respect that headroom when "
+    "revising a record; remove redundant wording without changing unrelated correct "
+    "boundaries rather than assuming that a one-record edit automatically fits. "
     "Candidate edits are replayed with the SAME frozen executor. TRAIN acceptance "
     "requires current-source original mean F1 OR full-output EV F1 improvement without "
     "regressing either original family F1 or full-output EV F1 on current/earlier sources. "
@@ -543,6 +547,8 @@ class Online:
     def teacher_body(self, current, seen, observations, rejected):
         evidence, evidence_manifest = teacher_evidence_rows(current, seen, observations, rejected)
         supplied_ids = set(evidence_manifest["selected_source_ids"])
+        parent_tokens = self.meter.token_count(text=json.dumps(self.bank, ensure_ascii=False,
+                                                               separators=(",", ":")))
         statutes = {csha(r["components"]["statutes"]): r["components"]["statutes"] for r in seen}
         # Task text is retained exactly, but the long public law corpus appears once.
         contracts = {r["family"]: {k: r["components"][k] for k in
@@ -602,6 +608,11 @@ class Online:
                     "public_prior": "allowable jurisdictions already supplied; do not recompute them",
                     "outputs": "all eligible asset-law alternatives, not a final jointly allocated portfolio"},
                 "current_parent_library": self.bank, "task_contracts": contracts,
+                "full_serialized_library_token_budget": {
+                    "actual_parent_tokens": parent_tokens,
+                    "hard_cap": self.cfg["library_token_hard_cap"],
+                    "net_growth_headroom": self.cfg["library_token_hard_cap"] - parent_tokens,
+                    "basis": "same live executor tokenizer; full library including program bodies"},
                 "public_citation_label_catalog": statutory_catalog(seen[0]["components"]["statutes"]),
                 "actual_actor_system": ACTOR_SYSTEM, "complete_public_statutes": statutes,
                 "actual_system_and_response_schema_by_public_context": actual_contracts,

@@ -347,6 +347,8 @@ def test_reused_native_call_executes_new_body_and_never_reuses_answer_or_error(t
 
 
 def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_dropped(monkeypatch):
+    from types import SimpleNamespace
+
     seen, observations = [], {}
     for case in range(1, 25):
         components = copy.deepcopy(COMPONENTS)
@@ -377,7 +379,9 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
 
     study = Online.__new__(Online)
     study.cfg = {"execution_contract": "source_grounded_claim_operations",
-                 "grading_directory": "synthetic_labels_only"}
+                 "grading_directory": "synthetic_labels_only", "library_token_hard_cap": 4096}
+    # Opaque target-tokenizer measurement, not the teacher's inferred token count.
+    study.meter = SimpleNamespace(token_count=lambda **kwargs: 4008)
     study.bank = []
     study.prequential_empty = list(observations.values())
     study.prequential_frozen = list(observations.values())
@@ -387,6 +391,8 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
         return {"targets": {"EC": {"watch": []}, "EV": {"watch": []}}}
     monkeypatch.setattr("experiments.openexempt_online.read", synthetic_grade)
     body = study.teacher_body(current, seen, observations, rejected)
+    assert body["full_serialized_library_token_budget"]["actual_parent_tokens"] == 4008
+    assert body["full_serialized_library_token_budget"]["net_growth_headroom"] == 88
     assert {r["source_case_id"] for r in body["already_seen_training"]} == ids
     assert set(read_cases) == ids
     feedback = body["rejected_candidate_feedback"][0]
