@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新时间：2026-10-20 01:14，Goal仍active，未达成、无外部阻塞。
+更新时间：2026-10-20 01:28，Goal仍active，未达成、无外部阻塞。
 本页是续接入口，不以游标替代真实进程/原始输出。旧2690行游标原样保留于
 [历史索引](CURRENT_GOAL_history_through_20261019_2228.md)，原始字节已Git及双盘保存。
 
@@ -35,7 +35,9 @@ user unit `legal-openexempt-readable-namespace-20261020-run01.service`，00:34:4
 源码852bbe4，142冻结绑定、144源/数据/清单成员双盘逐字节核验，冻结后不热改。
 日志`artifacts/research/openexempt_mechanism_20261019/readable_namespace_run01.log`；
 启动收据`artifacts/research/openexempt_mechanism_20261019/readable_namespace_run01_launch_receipt.json`。
-01:13续查：同PID2972092已进入B2未反馈新案，29 native/1教师，B1 C1已真实发布。
+01:28:34亲核同PID2972092 active/running，8B PID3889231不变；142冻结绑定0变化。
+progress01:27:21为B2未反馈新案、42 native/1教师，正在44，B2已有18物理回答，
+整批评分未释放。一次Empty字符串null非法动作已保留，不修补，不提前读本批Gold。
 B1全部新案已完成：empty EC62.2222%、EV50.5556%，C0/online EC49.2361%、
 EV48.3333%，全EV分别53.3333/48.3333%。online=frozen，在线进化效应0。
 冷库对空库两项均值-7.6042pp，1任务好/5坏/2平，不隐去负点或重启逃开。
@@ -50,6 +52,9 @@ EV48.3333%，全EV分别53.3333/48.3333%。online=frozen，在线进化效应0�
 仅已见TRAIN重答EC86.6667%、EV57.2222%、全EV56.4286%，5任务好/2坏/1平。
 39_EV候选8192截断记0未重答；40_EC已恢复100%，40_EV为88.8889%，不掩盖39损失。
 B1总24物理回答168961prompt/64776completion、22stop/2length；真实函数调用仍0。
+EV宏F1改善并不全面：正确claim15→13，汇总claim F1 57.6923→53.0612%；失败从
+4claim的40转到12claim的39。补充诊断不改主指标/准入、不选checkpoint。
+证据`artifacts/research/openexempt_mechanism_20261019/readable_namespace_B1_macro_vs_pooled_claim_diagnostic.json`。
 81个完整B1工件/机制分析双盘逐成员核验。仍不能据TRAIN改善宣称后续新案净益。
 见`artifacts/research/openexempt_mechanism_20261019/readable_namespace_B1_prequential_actual_audit.json`。
 发布机制见`artifacts/research/openexempt_mechanism_20261019/readable_namespace_B1_publication_actual_mechanism_audit.json`。
@@ -74,7 +79,7 @@ packet SHA 3a3f046bb1d5ab3d5a8670600aab5bdc3aa50023f70a861c1e7a3986ca46eb2c。
 编码，EC33.33→80.00%、36.67→60.00%，误配减少，通用条款仍漏。2 native/0教师，
 14443prompt/4460completion tokens，主冻结字节未变、双盘保全，不是新案或新曲线。
 证据：`artifacts/research/openexempt_mechanism_20261019/readable_label_two_call_diagnostic_20261020/result.json`。
-不要继续追加编码资格试验；当前已直接进行新多批学习。下一小时复核01:28。
+不要继续追加编码资格试验；当前已直接进行新多批学习。下一小时复核02:28。
 
 **以下旧Run与指标只作开发证据，均不再运行，不能拼到新曲线。**
 
@@ -126,7 +131,7 @@ packet SHA 7313de9a7ddc3d52292a6055e209e37e2ca03e31957dcc9550172e8aa2bf5220。
 所有公开label enum均ASCII，原事实在最后，schema/input已留存；不要用旧4b片段冒充新成绩。
 源码freeze清单已写后一次backup的相对路径参数错误，仅补齐同一已核清单的双盘保全，
 没有重建数据、覆盖清单、GPU资格生成或新教师调用；不因此重启正在正常运行的进程。
-这些仍非正式论文规模；下次小时复核2026-10-20 01:28。实时确认新unit/PID，不恢复旧队列。
+这些仍非正式论文规模；下次小时复核2026-10-20 02:28。实时确认新unit/PID，不恢复旧队列。
 启动证据：`artifacts/research/openexempt_mechanism_20261019/namespace_run01_launch_receipt.json`。
 
 **下方旧进程/分数只作历史证据，不能认为旧Run仍live。**
@@ -192,8 +197,8 @@ B1只读诊断发现EV已选法条与独立EC不一致，但空库投影也可�
 冻结最终库后的隔离TEST、完整成本和机制消融。送入教师的empty/frozen回答也算训练成本；
 精确重复仅记一次物理调用，不能将这些输入当免费评估；最终部署不需这些对照调用。
 不能以启动、训练内95%或一个正批次完成Goal。
-每次Goal续接/长工具返回先看实际时钟是否到小时复核；最近00:28已实际核查，00:29起
-落盘，原轮00:29:22终态又亲核；下次2026-10-20 01:28 Asia/Shanghai。
+每次Goal续接/长工具返回先看实际时钟是否到小时复核；最近01:28:34已实际核查，
+142绑定和两个实际PID亲核；下次2026-10-20 02:28 Asia/Shanghai。
 没有唤醒模型的独立调度产品；这是持续Goal执行规则，训练本身由systemd独立运行。
 
 证据主目录：`artifacts/research/openexempt_mechanism_20261019/`。
