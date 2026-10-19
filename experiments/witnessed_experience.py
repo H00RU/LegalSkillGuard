@@ -166,9 +166,9 @@ class WitnessedExperience(RankedOnline):
     def new_fit_count(self):
         return len(self.fit_records)
 
-    def observe(self, units):
+    def observe(self, units, *, source_rows=None):
         values, contexts, contracts = [], {}, {}
-        sources = {r['id']: r for r in self.documents}
+        sources = {r['id']: r for r in (self.documents if source_rows is None else source_rows)}
         for u in units:
             row = sources[u['document_id']]
             actual = read(self.out / f"inputs/{u['stage']}/{u['document_id']}/{u['condition']}.json")
@@ -214,7 +214,7 @@ class WitnessedExperience(RankedOnline):
                 "observations": table(values), "all_actual_candidates_scores_and_text_retained": True,
                 "original_member_credit_is_exact_set_difference_not_a_new_judge": True}
 
-    def publish(self, body, name):
+    def publish(self, body, name, *, teaching_system=None):
         parent = copy.deepcopy(self.bank)
         catalog = body["eligible_original_non_neutral_historical_witnesses"]
         nonmembers = body['eligible_actual_false_citation_contrasts']
@@ -236,7 +236,8 @@ class WitnessedExperience(RankedOnline):
             for ref, w in {**catalog, **nonmembers}.items()}
         body["token_costs_are_existing_CPU_tokenizer_requests_not_native_generations"] = len(catalog)+len(nonmembers)
         self.record(f"learning_inputs/{name}.json", body)
-        delta = self.teacher_call(name, self.teaching_system, encode_teacher_body(body), schema)
+        delta = self.teacher_call(name, self.teaching_system if teaching_system is None else teaching_system,
+                                  encode_teacher_body(body), schema)
         bank = apply_differential_publication(parent, delta, self.labels, allowed, guidance_schema=guidance)
         materialized = materialize_witness_skills(bank, self.labels, catalog, nonmembers)
         tokens = self.meter.token_count(text=json.dumps(witness_knowledge_view(materialized),
@@ -359,6 +360,105 @@ class WitnessedOnline(WitnessedExperience):
         return evidence_proposals(self.prefix_model, row, self.labels,
                                   reading_threshold=self.reading_policy["threshold"])
 
+    def learning_body(self, window, fresh, metrics):
+        """One complete chronological teacher packet, also used for causal readouts."""
+        gold = read(ROOT / self.cfg['grading_only'])['original_TRAIN_annotations']
+        catalog = training_witness_catalog(window, self.labels, gold)
+        nonmembers = training_nonmember_catalog(window, self.labels, self.units)
+        for skill in self.bank:
+            for ref in skill['guidance']['witness_refs']:
+                catalog.setdefault(ref, self.catalog[ref])
+            for ref in skill['guidance']['nonmember_refs']:
+                nonmembers.setdefault(ref, self.nonmember_catalog[ref])
+        return {'public_hypotheses': self.labels,
+            'complete_already_revealed_original_source_window_and_Gold': annotated_sources(window, self.labels, gold),
+            'eligible_original_non_neutral_historical_witnesses': catalog,
+            'eligible_actual_false_citation_contrasts': nonmembers,
+            'all_actual_current8_matched_empty_and_memory_observations': self.observe(fresh),
+            'actual_current_batch_metrics': metrics,
+            'current_shared_ordinary_tool_source_ids': self.prefix_ids,
+            'shared_training_only_reading_policy_not_skill_gain': self.reading_policy,
+            'cold_policy_aliases_are_one_physical_answer_not_independent_sampling': self.current_batch == 1,
+            'previous_actual_complete8_publication_experience': self.last_update,
+            'no_future_source_text_answers_annotations_or_official_DEV_TEST': True,
+            'outside_window_old_sources_not_reanswered_no_all_seen_retention_claim': True}
+
+    def learn_with_record_removal_feedback(self, rows, empty_units, full_units, window, name):
+        """Measure actual record-level interventions before ONE unconditional edit.
+
+        A record includes its procedure and all selected examples. This measures
+        its conditional marginal effect, not independent text components, a
+        universal causal effect, or the model's unobserved internal skill use.
+        No arm is admitted, chosen as a bank, or deployed because of its score.
+        """
+        parent, materialized = copy.deepcopy(self.bank), copy.deepcopy(self.materialized)
+        prior_own, prior_phase, prior_tokens = dict(self.own_current), self.phase, self.memory_tokens
+        assert parent and len(rows) == len(empty_units) == len(full_units) == 8
+        assert {r['id'] for r in rows} == {u['document_id'] for u in full_units}
+        assert all(u['bank_sha256'] == csha(parent) for u in full_units)
+        start = len(self.answers)
+        try:
+            for index, removed in enumerate(parent):
+                self.bank = [s for s in parent if s['id'] != removed['id']]
+                self.materialized = [s for s in materialized if s['id'] != removed['id']]
+                assert {s['id'] for s in self.bank} == {s['id'] for s in self.materialized}
+                self.memory_tokens = self.meter.token_count(text=json.dumps(
+                    witness_knowledge_view(self.materialized), ensure_ascii=False, separators=(',', ':')))
+                self.phase = f'b{self.current_batch}_remove_record_{index}'
+                self.record(f'skill_removal_interventions/record_{index}.json', {
+                    'removed_parent_id': removed['id'], 'removed_complete_record': removed,
+                    'retained_library': self.bank, 'retained_materialized_memory': self.materialized,
+                    'structural_training_intervention_not_a_library_publication': True})
+                for row in rows:
+                    self.answer_mode(row, 'combined', self.leads(row))
+        finally:
+            self.bank, self.materialized, self.memory_tokens = parent, materialized, prior_tokens
+            self.own_current, self.phase = prior_own, prior_phase
+        # No intervention outcome can alter the remaining generation schedule.
+        actual = self.score(self.answers[start:])
+        assert len(actual) == len(parent)*8
+        self.units.extend(actual)
+        effects = []
+        for index, removed in enumerate(parent):
+            units = [u for u in actual if u['stage'] == f'b{self.current_batch}_remove_record_{index}']
+            assert len(units) == 8
+            effects.append({'removed_parent_id': removed['id'],
+                'retained_parent_ids': [s['id'] for s in parent if s['id'] != removed['id']],
+                'effect_full_to_removed': paired_effect(full_units, units,
+                    seed=2026101930+index, replicates=5000),
+                'all_actual_removed_condition_observations': self.observe(units)})
+        body = self.learning_body(window, empty_units+full_units,
+            {'empty': points(empty_units), 'combined': points(full_units)})
+        body['actual_record_removal_feedback'] = {
+            'full_parent_library_reference': self.observe(full_units), 'record_removals': effects,
+            'same_current_source_tool_schema_generation_and_scoring': True,
+            'single_sample_per_source_not_population_or_token_matched_effect': True,
+            'removal_does_not_identify_rule_vs_example_or_other_interactions': True,
+            'all_removed_arms_are_diagnostics_not_admission_candidates': True}
+        self.record(f'skill_removal_interventions/{name}_all_effects.json', body['actual_record_removal_feedback'])
+        notice = (
+            ' This is ONE actual chronological correction with measured record-removal feedback. '
+            'No separate reflector call was made for this update. Every parent record was removed '
+            'in turn on ALL current8 sources, retaining every other record and the exact same '
+            'ordinary model, native output contract and generation settings. The actual original '
+            'component scores and exact public answers for every arm are supplied. A positive '
+            'full_to_removed change suggests this COMPLETE record interfered conditional on this '
+            'bank and these samples; a negative change suggests it helped. These are NOT universal '
+            'causal effects, token-matched controls, proof of internal use, or a separation of the '
+            'procedure from its examples. Do not fabricate missing pairwise interactions or '
+            'finer attribution. Diagnose cross-hypothesis harms as well as in-scope effects. '
+            'Use the actual interventions to simplify, rewrite, split, merge, delete or retain '
+            'content; do not merely restate correct-sounding legal advice. Preserve complete '
+            'original member boundaries rather than substituting a smallest proof. All measured '
+            'arms, successes and harms are retained. The host does NOT pick the best ablation or '
+            'require your update to pass a score. You alone choose valid ordinary CRUD/NOOP; '
+            'every structurally valid edit is published and the actual result, including failure '
+            'or an empty bank, will be measured. No case-specific rule table, runtime answer '
+            'correction, future source/Gold or invented label. Keep knowledge within the same4096 '
+            'target8B tokens, without forced size or growth.')
+        self.publish(body, name, teaching_system=TEACHER_SYSTEM+notice)
+        return effects
+
     def execute(self):
         assert self.cfg["method"] == EDIT_FEEDBACK_METHOD and len(self.documents) == 128
         assert self.cfg['teacher_task_contract_version'] == 'reflection_before_signed_publication_v3'
@@ -414,28 +514,9 @@ class WitnessedOnline(WitnessedExperience):
             self.record(f"batch_summaries/b{batch}_before.json", summary)
             summaries.append(summary)
             print(json.dumps({"batch": batch, "metrics": metrics}), flush=True)
-            gold = read(ROOT / self.cfg["grading_only"])["original_TRAIN_annotations"]
             seen = self.documents[:batch*8]
             window = seen[-16:]
-            catalog = training_witness_catalog(window, self.labels, gold)
-            nonmembers = training_nonmember_catalog(window, self.labels, self.units)
-            for skill in self.bank:
-                for ref in skill["guidance"]["witness_refs"]:
-                    catalog.setdefault(ref, self.catalog[ref])
-                for ref in skill['guidance']['nonmember_refs']:
-                    nonmembers.setdefault(ref, self.nonmember_catalog[ref])
-            body = {"public_hypotheses": self.labels,
-                "complete_already_revealed_original_source_window_and_Gold": annotated_sources(window,self.labels,gold),
-                "eligible_original_non_neutral_historical_witnesses": catalog,
-                'eligible_actual_false_citation_contrasts': nonmembers,
-                "all_actual_current8_matched_empty_and_memory_observations": self.observe(fresh),
-                "actual_current_batch_metrics": metrics,
-                "current_shared_ordinary_tool_source_ids": self.prefix_ids,
-                "shared_training_only_reading_policy_not_skill_gain": self.reading_policy,
-                "cold_policy_aliases_are_one_physical_answer_not_independent_sampling": batch == 1,
-                "previous_actual_complete8_publication_experience": self.last_update,
-                "no_future_source_text_answers_annotations_or_official_DEV_TEST": True,
-                "outside_window_old_sources_not_reanswered_no_all_seen_retention_claim": True}
+            body = self.learning_body(window, fresh, metrics)
             parent, before_materialized = copy.deepcopy(self.bank), copy.deepcopy(self.materialized)
             name = f"online_b{batch}"
             body['actual_training_reflection_before_curation'] = self.reflect_current_batch(body, rows)

@@ -2970,48 +2970,48 @@ def test_online_cold_alias_requires_exact_input_schema_and_actual_native_content
     with pytest.raises(AssertionError):study.cold_alias(row,proposals,{'response':{**native,'content':'changed'}})
 
 
-def test_bounded_reason_anchor_preserves_all_labels_and_independent_original_citations():
-    from jsonschema import validate
-    from legal_skill_guard.learning.decision_evidence import (
-        source_bound_reason_payload, witnessed_skill_payload,
-    )
-    row, labels, _ = fixture()
-    row = {k: row[k] for k in ('id', 'text', 'spans')}
-    messages, schema, _ = witnessed_skill_payload(row, labels, None,
-        'Original legal task.', [], mode='empty')
-    original = copy.deepcopy((messages, schema))
-    bounded, native, receipt = source_bound_reason_payload(messages, schema, row)
-    assert (messages, schema) == original
-    anchor = 'S0=' + json.dumps('Recipient shall not disclose secrets.', ensure_ascii=True)
-    reason = anchor + ' | This does not settle the separate proposition.'
-    for choice, spans in [('NotMentioned', []), ('Entailment', [2]),
-                          ('Contradiction', [0, 1, 2])]:
-        answer = {h: {'reason': reason, 'choice': choice, 'spans': spans} for h in labels}
-        validate(answer, native)
-    answer['h1']['reason'] = 'S0="Invented current text" | Wrong source.'
-    with pytest.raises(ValidationError):
-        validate(answer, native)
-    assert json.loads(bounded[1]['content'])['full_contract_with_original_span_markers'] == \
-        json.loads(messages[1]['content'])['full_contract_with_original_span_markers']
-    assert receipt['anchor_independent_of_final_choice_and_citations']
 
 
-def test_bounded_reason_preserves_unicode_and_literal_whitespace_without_full_quote_loops():
-    from jsonschema import validate
-    from legal_skill_guard.learning.decision_evidence import (
-        source_bound_reason_payload, witnessed_skill_payload,
-    )
-    text = '  Recipient’s [“secret”] \\ notice\n shall remain confidential. '
-    row = {'id': 999, 'text': text, 'spans': [[0, len(text)]]}
-    labels = {'h1': {'hypothesis': 'A proposition.', 'short_description': 'Original'}}
-    messages, schema, _ = witnessed_skill_payload(row, labels, None,
-        'Original legal task.', [], mode='empty')
-    _, native, _ = source_bound_reason_payload(messages, schema, row)
-    reason = 'S0=' + json.dumps(text[:text.rfind('.')+1], ensure_ascii=True) + ' | Inspect the current source.'
-    validate({'h1': {'reason': reason, 'choice': 'NotMentioned', 'spans': []}}, native)
-    reason_schema = native['properties']['h1']['anyOf'][0]['properties']['reason']
-    assert reason_schema == native['properties']['h1']['anyOf'][1]['properties']['reason']
-    assert reason_schema['pattern'].isascii()
+def test_record_removal_feedback_measures_all_records_restores_parent_and_never_gates_edit():
+    from types import SimpleNamespace
+    from experiments.witnessed_experience import WitnessedOnline
+    from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
+    row, labels, gold = fixture()
+    rows = [{**{k: row[k] for k in ('id', 'text', 'spans')}, 'id': i} for i in range(1, 9)]
+    study = WitnessedOnline.__new__(WitnessedOnline)
+    parent = [{'id': sid, 'hypothesis_ids': ['h1'], 'guidance': {
+        'procedure': 'Read the actual source.', 'witness_refs': [], 'nonmember_refs': []}}
+        for sid in ['a', 'b']]
+    study.bank = copy.deepcopy(parent)
+    study.materialized = [{'id': s['id'], 'hypothesis_ids': ['h1'], 'procedure': 'Read.',
+        'witnesses': [], 'nonmembers': []} for s in parent]
+    study.memory_tokens, study.phase, study.current_batch = 100, 'before', 3
+    study.own_current, study.answers, study.units = {}, [], []
+    study.meter = SimpleNamespace(token_count=lambda **_: 10)
+    study.leads = lambda row: {'no_model_generation': True}
+    events = []
+    study.record = lambda name, value: events.append((name, value))
+    def unit(row, bank, stage):
+        native = response({h: {'choice': g['choice'], 'spans': g['spans']} for h, g in gold.items()})
+        return {'document_id': row['id'], 'stage': stage, 'response': native,
+            'bank_sha256': csha(bank), **original_feedback(native, row, gold, list(labels))}
+    def answer(row, mode, proposals):
+        assert len(study.bank) == len(study.materialized) == 1 and mode == 'combined'
+        study.answers.append(unit(row, study.bank, study.phase))
+    study.answer_mode, study.score = answer, lambda units: units
+    study.observe = lambda units: {'all_actual_units': units}
+    study.learning_body = lambda window, fresh, metrics: {'actual_current_batch_metrics': metrics}
+    full = [unit(r, parent, 'full') for r in rows]
+    def publish(body, name, *, teaching_system):
+        assert study.bank == parent and study.memory_tokens == 100 and study.phase == 'before'
+        assert len(body['actual_record_removal_feedback']['record_removals']) == 2
+        assert 'No separate reflector call was made' in teaching_system
+        # Simulate the teacher's valid deletion of the whole bank: never reject it.
+        study.bank, study.materialized = [], []
+    study.publish = publish
+    effects = study.learn_with_record_removal_feedback(rows, full, full, rows, 'synthetic_only')
+    assert len(study.answers) == 16 and len(effects) == 2
+    assert study.bank == [] and study.materialized == [] and study.phase == 'before'
 
 
 def test_training_reading_policy_outer_folds_exclude_whole_source_components(monkeypatch):

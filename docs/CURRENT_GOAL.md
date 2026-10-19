@@ -23,7 +23,41 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 12:41 CST，首个理由约束发生token-mask慢算，已保全取消；Run02做最小执行修复后待启动
+## 当前快照：2026-10-19 12:54 CST，放弃失败原文理由约束并清理；实际逐记录信用反馈学习已实现，待后台启动
+
+Goal active未变，没有论文指标突破。bounded理由Run02速度虽恢复35tokens/s，但首答8192tokens截断，
+还越过短前缀限制；已在保存首答后安全SIGTERM退出，没有跑余下47答、评分/补答/fallback。
+Run02实际1native/0teacher/0fit，不完整16，不据此给任务分数；137成员终态双盘亲核
+SHA ff7b12383f168a6c2df746c65f0bb0f99e16cc939eab73197df64ecbd71befec。
+Run01另1未完成native usage未知不能记0。两次完整源码/Git/停止/实际末库均可恢复。
+已apply_patch删除失败source_bound_reason_payload、2仅服务失败功能测试及bounded有限driver，
+原律师reason/choice/自由整数spans回复、原完整源/候选/三指标保持不变，不留下失败接口分支。
+
+下一步不再更换问答格式：原witnessed_experience.py实现learning_body共享教师包和
+learn_with_record_removal_feedback。现在教师缺少“哪一记录实际造成损益”的执行反馈，
+这是可验证的信息缺口，不是已证明唯一根因。一次移除一条完整规则+例文、保留其他全部，
+对当前8案执行全部4记录32实际回答，全部生成后评分；每臂只是训练干预，绝不挑其中最高库部署。
+恢复实际父库再把所有原始轨迹、同源工具/schema、TPFPFN/NNNM及配对差交给一次原教师，
+真实CRUD/NOOP无效用准入，允许删除成空库，无forced增长/数量、无好库回滚。
+ACE实际vendored update_bullet_counts已读：借鉴逐条信用归属的学习信息，不把主观tag伪称因果，
+未复活ADD-only/gate；不是复现ACE或canonical TFGRPO，也不声称已突破。
+
+有限真实学习cfg contractnli_record_credit_learning_forward16_20261019_run01.json，128bindings已冻结，
+driver experiments.record_credit_learning 复用原learner/solver/fit/scorer，不是新生产栈。
+固定actual reflective R2末库4条/17正0负/2439tokens与ordinary218，原预选B3+B4全部16不挑案。
+B3原16空/库答仅明确继承已计费物理并逐项核输入/schema/工具/库，不算新独立答。
+新增32移除干预 -> 1次实际教师发布 -> 当前全8真实重答 -> 1次共同CPUfit218->226 ->
+B4全8空/原R2/新发布3臂24答齐后读B4 Gold。共64NEWnative/1teacher/1fit，80逻辑含16旧物理。
+原末R2只是事先声明比较臂，终态总是教师真实新发布，无按分回滚。只把同源同工具技能净差算贡献，
+共享CPU监督改进不是技能贡献。训练重答不是新源迁移，B3已开发暴露，不是独立确认或officialTEST。
+无“不给移除反馈的教师”对照，不能据这次孤立声明该额外反馈优越，后续须完整多批/公平baseline/重复/TEST。
+8相关永久检查0.55s通过、无资格生成/新教师/fit；准备核原226fit标注keys齐全，不查看B4标注值。
+proto RECORD_CREDIT_LEARNING_FORWARD16_PROTOCOL_20261019.md；当前未launch，接提交/双盘备份/独立worker+preserver。
+当前bounded family819native尝试/818完成/1未完成、36teacher尝试/35完成/1未完成、35fit；
+若64完整则883native尝试/882完成/1未完成、37teacher尝试/36完成/1未完成、36fit，非全项目历史。
+ledger cap1489/last1462已有27余量，本次只需1，不新付费API/模型或重置。5个无关用户report保持原样。
+
+## 已归档快照：2026-10-19 12:41 CST，首个理由约束发生token-mask慢算，已保全取消；Run02做最小执行修复后待启动
 
 Run01首请求source93/bounded_empty实际只有1-2tokens/s，未完成任何新native，没读取诊断Gold。
 先核身份SIGTERM、仍在首请求后只SIGKILL精确worker1913355/ticks439110614；模型3889231未动。
