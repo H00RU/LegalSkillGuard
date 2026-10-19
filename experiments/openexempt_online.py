@@ -379,6 +379,7 @@ def freeze(config_path):
                   ROOT / cfg["inference_environment"], ROOT / cfg["upstream_archive"]})
     if cfg.get("initial_library_publication"):
         files.add(ROOT / cfg["initial_library_publication"])
+    files.update(ROOT / name for name in cfg.get("inference_dependency_artifacts", []))
     bindings = {str(p.relative_to(ROOT)): sha(p) for p in sorted(files)}
     packages = {dist.metadata["Name"]: dist.version for dist in importlib.metadata.distributions()}
     manifest = {"config_sha256": sha(config_path), "files": bindings, "packages": packages,

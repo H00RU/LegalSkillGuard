@@ -1,0 +1,24 @@
+--- a/vllm/v1/structured_output/backend_xgrammar.py
++++ b/vllm/v1/structured_output/backend_xgrammar.py
+@@ -70,9 +70,21 @@
+                 add_prefix_space=True,
+             )
+         else:
++            # The sampler also honors EOS IDs from the model generation config,
++            # even with neutral vLLM sampling defaults. A tokenizer's single EOS
++            # is not necessarily that complete set. Otherwise an additional EOS
++            # can remain legal inside a JSON string and stop incomplete output.
++            model_eos = self.vllm_config.model_config.try_get_generation_config(
++            ).get("eos_token_id")
++            if isinstance(model_eos, int):
++                model_eos = [model_eos]
++            stop_token_ids = set(model_eos or [])
++            if self.tokenizer.eos_token_id is not None:
++                stop_token_ids.add(self.tokenizer.eos_token_id)
+             tokenizer_info = xgr.TokenizerInfo.from_huggingface(
+                 self.tokenizer,
+                 vocab_size=self.vocab_size,
++                stop_token_ids=sorted(stop_token_ids) or None,
+             )
+         self.compiler = xgr.GrammarCompiler(
+             tokenizer_info,

@@ -184,6 +184,9 @@ class Comparison:
             if sha(path) != digest:
                 raise ValueError("Frozen source/input changed: " + path)
         env = read(ROOT / self.cfg["inference_environment"])
+        for dependency, digest in env.get("inference_dependency_source_sha256", {}).items():
+            if sha(dependency) != digest:
+                raise RuntimeError("Frozen inference dependency changed: " + dependency)
         p = Path("/proc") / str(env["pid"]) / "cmdline"
         observed = [v.decode() for v in p.read_bytes().split(b"\0") if v] if p.is_file() else []
         if observed != env["actual_argv"]:

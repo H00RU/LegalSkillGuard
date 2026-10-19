@@ -1,0 +1,143 @@
+{
+  "run_id": "legal_openexempt_eos_aligned_online_20261020_run01",
+  "execution_contract": "source_grounded_claim_operations",
+  "execution_contract_version": 10,
+  "input_contract": "public_AE_and_full_legal_fields_compiled_numerical_calls_plus_direct_numeric_empty",
+  "generation": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "Qwen/Qwen3-8B",
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "context_tokens": 32768,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "timeout_seconds": 900,
+    "disable_thinking": false
+  },
+  "teacher": {
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "high",
+    "timeout_seconds": 600,
+    "ledger": "artifacts/teacher_invocation_budget_reconstruction_20261015.json",
+    "total_invocation_budget": 1537,
+    "max_input_tokens": 680000,
+    "capacity_retry_attempts": 1,
+    "capacity_retry_initial_delay_seconds": 60
+  },
+  "inference_environment": "artifacts/live_8b_environment_EOS_aligned_20261020.json",
+  "upstream_archive": "data/cache/openexempt/OpenExempt-ec6fa2547431096588ce2d3ef107b8adc33cd4fe.tar.gz",
+  "input_packet": "data/packets/openexempt_eos_aligned_20261020/inputs.json",
+  "input_packet_sha256": "df4bf51b0ec6758d11bdc7072bad6da56c5cc57e54137518e5c98e1dc2e493d3",
+  "grading_directory": "data/packets/openexempt_eos_aligned_20261020/grading_only",
+  "source_cases": 12,
+  "batch_source_cases": 4,
+  "dataset_seed": 2026102004,
+  "new_case_id_start": 81,
+  "preselected_source_case_ids": [
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80
+  ],
+  "additional_exclusion_packets": [
+    "data/packets/openexempt_mechanism_20261019/inputs.json",
+    "data/packets/openexempt_citation_20261019/inputs.json",
+    "data/packets/openexempt_active_case_20261019/inputs.json",
+    "data/packets/openexempt_namespace_20261019/inputs.json",
+    "data/packets/openexempt_readable_namespace_20261020/inputs.json",
+    "data/packets/openexempt_official_sampling_20261020/inputs.json",
+    "data/packets/openexempt_compiled_skills_20261020/inputs.json"
+  ],
+  "dataset_generation": {
+    "asset_count_min": 2,
+    "asset_count_max": 4,
+    "asset_selection": "random",
+    "married_ratio": 0.5,
+    "domicile_count_min": 2,
+    "domicile_count_max": 4,
+    "irrelevant_asset_facts": false,
+    "irrelevant_domicile_facts": false,
+    "asset_opinions": false,
+    "domicile_opinions": false,
+    "state_jurisdictions": [
+      "ARIZONA",
+      "ILLINOIS",
+      "OREGON",
+      "PENNSYLVANIA",
+      "WISCONSIN"
+    ]
+  },
+  "initial_library_publication": "data/initial_libraries/openexempt_bank02_public_namespace_20261019/publication.json",
+  "initial_library_kind": "same_blind_bank02_public_law_only_not_old_trained_C1_or_best_candidate",
+  "initial_library_prior_exposure_distinct_sources": 0,
+  "all_episode_labels_unseen_before_this_run": true,
+  "prior_stateless_queries_without_label_feedback": [
+    {
+      "source_case_id": 73,
+      "old_run": "legal_openexempt_compiled_skills_online_20261020_run01",
+      "logical_observations": [
+        "EC/empty",
+        "EC/empty_direct_numeric",
+        "EC/frozen_initial",
+        "EC/skills",
+        "EV/empty",
+        "EV/empty_direct_numeric",
+        "EV/frozen_initial",
+        "EV/skills"
+      ],
+      "no_label_or_teacher_feedback": true
+    },
+    {
+      "source_case_id": 74,
+      "old_run": "legal_openexempt_compiled_skills_online_20261020_run01",
+      "logical_observations": [
+        "EC/empty",
+        "EC/empty_direct_numeric",
+        "EC/frozen_initial",
+        "EC/skills",
+        "EV/empty",
+        "EV/empty_direct_numeric",
+        "EV/frozen_initial",
+        "EV/skills"
+      ],
+      "no_label_or_teacher_feedback": true
+    },
+    {
+      "source_case_id": 75,
+      "old_run": "legal_openexempt_compiled_skills_online_20261020_run01",
+      "logical_observations": [
+        "EC/frozen_initial"
+      ],
+      "no_label_or_teacher_feedback": true
+    }
+  ],
+  "max_candidate_attempts": 2,
+  "library_token_hard_cap": 4096,
+  "protocol": "docs/research/OPENEXEMPT_EOS_ALIGNED_20261020.md",
+  "same_frozen_initial_control_within_each_batch": true,
+  "same_public_label_vocabulary_all_arms": true,
+  "strong_empty_direct_numeric_control": true,
+  "direct_control_not_supplied_to_teacher": true,
+  "teacher_current_sources_all_plus_at_most16_historical": true,
+  "full_seen_TRAIN_admission_not_evidence_subset": true,
+  "not_a_formal_paper_scale_or_independent_TEST": true,
+  "no_old_metric_series_splice": true,
+  "no_additional_GPU_qualification_required": true,
+  "inference_dependency_artifacts": [
+    "patches/vllm-0.10.2-hf-generation-eos-alignment.patch",
+    "third_party/vllm/NOTICE.md"
+  ],
+  "preselected_source_packet": "data/packets/openexempt_compiled_skills_20261020/inputs.json",
+  "preselected_grading_directory": "data/packets/openexempt_compiled_skills_20261020/grading_only",
+  "old_run_predictions_not_imported_into_request_cache_or_metrics": true,
+  "source_remainder_preserved_in_original_order_not_selected_by_outcome": true,
+  "initial_library_not_old_trained_C1": true,
+  "reason_for_new_run": "prospective inference-EOS contract repair;not outcome-based checkpoint selection or original-run continuation",
+  "old_failed_development_run": "legal_openexempt_compiled_skills_online_20261020_run01"
+}
