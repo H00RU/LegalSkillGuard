@@ -1,8 +1,8 @@
 # 当前Goal执行索引
 
-更新：2026-10-20 03:55 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 04:34 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 本页仅作续接入口。真实状态必须亲核systemd/PID、原始工件，不能仅信游标。
-本轮是实质progress：完整核两次B2拒绝、实际B3新案与真实MERGE提案；没把提案当发布。
+上轮是progress；本轮亲核live并完成B3两候选结果和内部损益核查，已实际进入B4。
 
 ## 完整目标和用户有效边界
 
@@ -22,7 +22,7 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
   Gold solver推理工具或无关框架，不选好案/旧好库/改评分造提升。失败/成本全保留。
 - 自主推进，师兄paper-ideation与paper-experiments-appendix用于失效假设、公平
   对照和证据边界；不采用固定三创新、隐瞒借鉴或预设好数字。每个新Goal轮完整读。
-- 每小时以实际时钟复核。**最近03:28:18已实际自检，下次04:28**。主训练独立于
+- 每小时以实际时钟复核。**最近04:28:15已实际自检，下次05:28**。主训练独立于
   对话；没有声称另建了能自动唤醒模型的提醒产品。
 
 用户追加要求、完整小时记录见[生效补充](research/GOAL_ADDENDUM_SKILL_EVOLUTION_20261019.md)。
@@ -31,9 +31,9 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
 
 - Run `legal_openexempt_official_sampling_online_20261020_run01`。
 - unit `legal-openexempt-official-sampling-20261020-run01.service`，原PID3085974，
-  01:52:27启动，03:50:36亲核仍同PID active；B3新案已于03:49:49完整评分。
-  03:54:13 progress为B3候选1重放，91 native/4教师、11次跨阶段同wire复用，
-  46号案。不能把观察超时或观察者正常退出当主训练停止理由。
+  01:52:27启动，04:28:15亲核仍同PID active；04:27:56自动完成B3、进入B4。
+  04:32:37 progress为B4新案，122 native/5教师、31次跨阶段同wire复用，58号案。
+  不能把观察超时或观察者正常退出当主训练停止理由。
 - progress `runs/<run>/progress.json`；日志
   `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01.log`。
 - config `configs/openexempt_official_sampling_online_20261020_run01.json`及frozen.json；
@@ -103,11 +103,23 @@ messages/schema及47_EV不变；9个逻辑重放复用既有真实输出，7个E
 所以03:28:48实际发布仍为C1同hash，B2未更新；B3自动沿用C1继续。23个物理候选
 重放均stop、172584prompt/58975completion，两个失败和97工件已双盘保全。
 
-**B3候选1重放中，未发布**：MERGE1+UPDATE3，联邦EC/EV合并，更新PA/IL/AZ；
+**B3候选1已拒绝**：MERGE1+UPDATE3，联邦EC/EV合并，更新PA/IL/AZ；
 9条/40函数/3851tokens，比父库少1条，并非只增技能。SHA
 aed467bfa464fc2fd97852a5d726954df0e2a4363855e019bcae0d4f37db863f。
 教师83253input/5912output、113.212s，实际4次累计返回。提案修住宅/车辆单项
-不应*N、先通用条款再特定条款，仍需核重新合并是否伤及已学分类，不能看内容放行。
+不应*N、先通用条款再特定条款。24物理重放全部stop，177358prompt/67963completion。
+实际当前EC85.8333→90.8333%、EV77.0833→68.3333%，旧EC72.9167→76.3938%、
+旧EV60.8333→63.1597%；当前EV退步而拒绝。**合并伤害分类的猜测在本次不成立。**
+53住宅金额修对，却将PA正确600写成300/30000并漏wildcard；56丢3个正确联邦配对。
+
+**B3候选2也拒绝，B3无更新**：仅UPDATE AZ，10条/40函数/4056tokens，SHA
+5dec10bc9e662d2c555c254ecc30a78cdd3fb7380a4c241b91d9c516d5732403。
+教师103223input/1245output、23.75s。20条请求与父库完全相同，4条AZ新生成；
+29816prompt/5962completion，全stop。实际所有原分项与父库相同，无严格改善。
+**不能把同分说成没学会额度**：55_EV确将车辆30000修为15000，却把原本正确的
+投影仪household residual误改成trade tools，TP/FP/FN仍3/1/1，单案F1仍75%。
+数值修复与新分类损害抵消。缓存函数仍0，这里是inline知识采用，不是缓存调用证据。
+04:27:56 publication父子同C1 hash；只有B1实际发布过一次。B4继续真实C1，不是候选。
 
 ## 当前断点和有用的否证
 
@@ -128,6 +140,10 @@ aed467bfa464fc2fd97852a5d726954df0e2a4363855e019bcae0d4f37db863f。
 - 53住宅目标27900是原作者married_limit55800除married_item_claim_count2的单项
   约定，不是本项目改标签；这里只读核源码/公开statutes/federal.json，未调用solver
   推理或给教师私有结构字段，也不把此benchmark约定当现行法律咨询结论。
+- 本轮已核教师实际结构：B3为83253input token、236321 user字符；172210字符是
+  累计训练，法条20447字符仅一份。不能称主要因法条重复或已发生输入截断。
+  B2修订带同批拒绝反馈，B3首提案不带跨批拒绝历史，但仍有累计Gold/父库回答；
+  这是信息边界假设，不证明根因。完整只读审计已双盘保全，不重复做提示长度诊断。
 
 **已完成且拒绝的非思考配置诊断**：不是主训练，不再运行，不追加参数网格。
 全部B1四来源×EC/EV×empty/C1，共16次/0新教师，官方T.7/P.8/K20/同seed与上限。
@@ -140,12 +156,16 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 
 ## 下一直接工作与停止边界
 
-先完成B3候选1真实重放/准入，若拒只允许原协议的一次修订；随后B4–B6新案。
+直接核当前B4新案及其教师，再继续B5–B6，按原有界研究或预定连续伤害止损。
 核仍有效C1与后续真实发布的迁移、CRUD/预算和送达/调用，不只看B1或53一个好案。
 不额外追加B2第三次教师，不把训练内候选拒绝当系统故障重启或宣布新库已生效。
 本轮B2两项均值正，未触发连续两批伤害停止规则；不因EV一个负点停止或凑机械单调。
 实质系统问题或预定连续伤害时先保全终态再修，不选旧好库、不硬拖无效训练。
 不要在当前正向分类证据上另起B1，不把临时观察超时/诊断汇总报错当主进程故障。
+已确认的瓶颈是局部修复与无关输出漂移会抵消，不只是没标签/没学规则/函数0。
+当前不加更长教师提示或第三候选。若后续仍停滞，下一有据的结构候选是把法律选择
+指导与数值程序执行分离，使纯程序修订不必触发原生重新推导；详见下一步草案。
+它尚未实现/验证；不能声称自动调用便能补回遗漏法条，更不允许用Gold分类或修答案。
 
 尚缺：足量正式预冻结数据、成熟经验方法公平对比及总成本、独立学习重复、来源级
 不确定性、适当法律迁移、冻结最终库后的隔离TEST、实证支持的新贡献。Goal不完成。
@@ -160,8 +180,13 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 `official_sampling_B2_rejected_broad_edit_and_EV_only_refinement_impact_audit.json`。
 最新发布审计：`official_sampling_B2_final_rejections_actual_skill_management_audit.json`。
 最新前向/提案审计：`official_sampling_B3_fresh_forward_and_actual_skill_management_audit.json`；
+候选拒绝/收窄：`official_sampling_B3_rejected_merge_and_AZ_only_refinement_audit.json`；
+最终补正与小时记录：`official_sampling_B3_final_rejections_and_compensating_skill_effects_audit.json`、
+`official_sampling_hourly0428_actual_direction_review.json`。候选2车辆已修正，不要误续成仍30000；
+其净零来自新投影仪分类错误，原生完整回答/分项及202工件双盘收据均已保留。
 实际教师费用字段在response.invocation，B2总150509input/9779output/161.397s，
 前一B2审计optional顶层usage为null不等于0，见`official_sampling_B2_actual_teacher_cost_receipt.json`。
+教师输入新审计：`official_sampling_teacher_input_structure_and_history_boundary_readonly_20261020.json`。
 只读机制前缀：`official_sampling_public_source_and_asset_overlap_readonly_audit`、
 `official_sampling_B1_published_routine_amount_only_diagnostic`、
 `official_sampling_B1_post_decode_fix_EC_EV_coverage_audit`、
