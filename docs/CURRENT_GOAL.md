@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新：2026-10-20 05:33 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 05:37 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 本页仅作续接入口。真实状态必须亲核systemd/PID、原始工件，不能仅信游标。
 本轮完成B4最终准入、实际技能损益与05:28小时复核，主训练自动进入B5，未重启。
 
@@ -32,10 +32,12 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
 - Run `legal_openexempt_official_sampling_online_20261020_run01`。
 - unit `legal-openexempt-official-sampling-20261020-run01.service`，原PID3085974，
   01:52:27启动，05:28亲核仍同PID active；05:28:44自动完成B4、进入B5。
-  05:30:05 progress为B5新案，168 native/7教师、33次跨阶段同wire复用，61号案。
+  05:35:15已见progress为B5新案，172 native/7教师、33次跨阶段同wire复用，61号案。
   不能把观察超时或观察者正常退出当主训练停止理由。
 - progress `runs/<run>/progress.json`；日志
   `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01.log`。
+- 当前只读观察者session6912等待B5全三臂工件，每8秒核原主PID；每次poll不超过
+  30秒。旧B4观察者56255已正常退出0，不再resume。观察窗口结束不代表主训练失败。
 - config `configs/openexempt_official_sampling_online_20261020_run01.json`及frozen.json；
   源码6eb3302，158绑定文件。活跃Run不热改源/协议/输入/初库；终态保全后再变。
 - 同一Qwen3-8B PID3889231，engine3889870，A40约26GB/49GB、97–98%忙；
@@ -228,6 +230,7 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 最终B4：`official_sampling_B4_final_rejections_scope_effects_and_budget_audit.json`；
 小时复核：`official_sampling_hourly0528_actual_direction_review.json`。第二候选4113tokens
 被预算拒绝、未重放；B5已自动开始，不要误续成仍在等待B4或模型停止。
+109个B4最终/小时工件已双盘核验，见`official_sampling_B4_final_hourly0528_preservation.json`。
 粒度与CPU准备：`official_sampling_B3_AZ_edit_granularity_and_request_dependency_audit.json`、
 `synthetic_same_call_different_program_CPU_only_20261020.json`、`synthetic_compiled_call_schema_CPU_only_20261020.json`。
 只读机制前缀：`official_sampling_public_source_and_asset_overlap_readonly_audit`、
