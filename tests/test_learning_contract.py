@@ -2889,6 +2889,67 @@ def test_online_teacher_candidate_context_factoring_preserves_every_observation(
             assert [z['original_span_index'] for z in expand(credit['missed_original_members'])]==[0,2]
 
 
+def test_training_reflection_is_current_source_complete_and_not_runtime_answer_repair(tmp_path):
+    from experiments.witnessed_experience import WitnessedOnline
+    from legal_skill_guard.learning.member_contract import annotated_sources
+    from legal_skill_guard.learning.packing import expand
+    from jsonschema import validate
+    row, labels, gold = fixture()
+    current = {k: row[k] for k in ('id', 'text', 'spans')}
+    previous = {**current, 'id': 10}
+    study = WitnessedOnline.__new__(WitnessedOnline)
+    study.out, study.bindings = tmp_path, {}
+    study.labels, study.bank, study.materialized, study.current_batch = labels, [], [], 2
+    observed = {'actual_complete_observations': ['all successes', 'all failures']}
+    body = {
+        'complete_already_revealed_original_source_window_and_Gold': annotated_sources(
+            [previous, current], labels, {'10': gold, '1': gold}),
+        'all_actual_current8_matched_empty_and_memory_observations': observed,
+        'actual_current_batch_metrics': {'synthetic_not_model_results': True},
+        'unavailable_future_CANARY': 'DO_NOT_SEND_FUTURE_DATA'}
+    result = {'case_findings': {'1': {'preserve_observed_successes': 'Synthetic success.',
+        'findings': [{'hypothesis_id': 'h1', 'observed_failure': 'Synthetic missing member.',
+            'source_original_indices': [2], 'source_reading_action': 'Read the purpose clause.',
+            'related_parent_skill_ids': []}]}}, 'cross_source_execution_lessons': []}
+    calls = []
+    def teacher(name, system, wire, schema):
+        packet = decode_teacher_body(wire)
+        assert name == 'reflect_b2' and 'hidden chain of thought' in system
+        assert [r['id'] for r in expand(packet['complete_current_original_sources_and_Gold'])] == [1]
+        assert packet['all_actual_current8_matched_empty_and_memory_observations'] == observed
+        assert 'DO_NOT_SEND_FUTURE_DATA' not in wire
+        assert expand(packet['complete_current_original_sources_and_Gold'])[0]['original_annotations'] == gold
+        validate(result, schema);calls.append(name);return copy.deepcopy(result)
+    study.teacher_call = teacher
+    before = copy.deepcopy(body)
+    assert study.reflect_current_batch(body, [current]) == result
+    assert body == before and calls == ['reflect_b2'] and study.bank == []
+    saved = json.loads((tmp_path/'reflections/b2.json').read_text())
+    assert saved['not_served_to_lawyer_or_used_as_current_case_answer']
+
+
+def test_training_reflection_schema_checks_provenance_without_rejecting_noop_or_findings():
+    from experiments.witnessed_experience import reflection_schema
+    from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues
+    from jsonschema import validate
+    row, labels, _ = fixture()
+    schema = reflection_schema([row], labels, [skill()])
+    assert not strict_output_schema_issues(schema)
+    value = {'case_findings': {'1': {'preserve_observed_successes': '', 'findings': []}},
+             'cross_source_execution_lessons': []}
+    validate(value, schema)
+    f = {'hypothesis_id': 'h1', 'observed_failure': '', 'source_original_indices': [0, 2],
+         'source_reading_action': '', 'related_parent_skill_ids': ['s1']}
+    value['case_findings']['1']['findings'] = [f]
+    validate(value, schema)  # A semantic claim is not an efficacy/admission gate.
+    for field, bad in [('hypothesis_id', 'future_h'), ('source_original_indices', [99]),
+                       ('related_parent_skill_ids', ['unknown_parent'])]:
+        broken = copy.deepcopy(value);broken['case_findings']['1']['findings'][0][field] = bad
+        with pytest.raises(ValidationError):validate(broken, schema)
+    value['case_findings'] = {}
+    with pytest.raises(ValidationError):validate(value, schema)
+
+
 def test_online_cold_alias_requires_exact_input_schema_and_actual_native_content(tmp_path):
     from experiments.witnessed_experience import WitnessedOnline,EDIT_FEEDBACK_METHOD
     from legal_skill_guard.learning.decision_evidence import witnessed_skill_payload

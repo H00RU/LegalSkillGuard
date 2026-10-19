@@ -12,18 +12,31 @@ import sys
 import traceback
 from pathlib import Path
 
-from experiments.decision_evidence_transfer import RankedOnline, EDIT_FEEDBACK_METHOD, evidence_proposals
+from experiments.decision_evidence_transfer import (
+    EDIT_FEEDBACK_METHOD,
+    RankedOnline,
+    evidence_proposals,
+)
 from legal_skill_guard.experiment.storage import RunStore
 from legal_skill_guard.learning.catalog import encode_teacher_body
 from legal_skill_guard.learning.decision_evidence import (
-    training_witness_catalog, witnessed_guidance_schema, materialize_witness_skills,
-    witness_knowledge_view, witnessed_skill_payload, training_nonmember_catalog, witness_membership_example)
-from legal_skill_guard.learning.experiment import ROOT, read, sha, now, points
+    materialize_witness_skills,
+    training_nonmember_catalog,
+    training_witness_catalog,
+    witness_knowledge_view,
+    witness_membership_example,
+    witnessed_guidance_schema,
+    witnessed_skill_payload,
+)
+from legal_skill_guard.learning.experiment import ROOT, now, points, read
 from legal_skill_guard.learning.member_contract import annotated_sources
 from legal_skill_guard.learning.member_learning import paired_effect
-from legal_skill_guard.learning.packing import table, expand, keyed
+from legal_skill_guard.learning.packing import expand, keyed, table
 from legal_skill_guard.learning.publication import (
-    differential_schema, apply_differential_publication, publication_statistics)
+    apply_differential_publication,
+    differential_schema,
+    publication_statistics,
+)
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
 TEACHER_SYSTEM = (
@@ -90,6 +103,61 @@ TEACHER_SYSTEM = (
     "operation; do not invent successful execution or expose hidden reasoning. No tools/outside data. "
     "Return the exact differential JSON schema."
 )
+
+
+REFLECTION_SYSTEM = (
+    "Analyze the ACTUAL public answers of a frozen legal model, before skill-library editing. "
+    "This is training-only reflection, not inference, a new judge, or a generated corrected answer. "
+    "Every current source is complete; original labels/member sets and matched empty/current-memory "
+    "answers are supplied. The original task contract and actual source-reading inputs are retained. "
+    "For EACH source, preserve what demonstrably worked and identify consequential label mistakes, "
+    "missing members, extra citations, and concrete guidance misapplications. Report concise, "
+    "public evidence findings and actionable source-reading changes, not hidden chain of thought. "
+    "Resolve every cited index against that source. Never use a local excerpt to establish whole-source "
+    "absence. Distinguish a complete original member set from a smallest sufficient proof. "
+    "Inspect the REAL parent procedure AND historical examples: a correct-sounding instruction can "
+    "still confuse this model. 'The rule already says this' is not an execution diagnosis. Where "
+    "an instruction was ignored, specify a simpler observable action, an applicability distinction, "
+    "a misleading comparison to remove, or explicitly say the cause remains unestablished. "
+    "Related parent IDs are diagnostic associations, not experimentally isolated causal attribution. "
+    "Do not infer that every memory/empty difference is a skill's causal effect or that every "
+    "provided original label is universal legal doctrine. Preserve opposing examples and actual "
+    "failures. No synthetic trajectories, future cases, proposed current answers, mandatory edits, "
+    "case-specific rule tables, performance admission, best-bank rollback, or tools. The later "
+    "curator, not this reflection, makes all library edits. A source with no supported improvement "
+    "can have an empty findings list. Return the exact JSON schema."
+)
+
+
+def reflection_schema(rows, labels, bank):
+    """Bind every supplied source and original coordinate, not teacher conclusions."""
+    parent_ids = [s['id'] for s in bank]
+    related = {'type': 'array', 'items': {'type': 'string'}}
+    if parent_ids:
+        related['items']['enum'] = parent_ids
+    else:
+        related['maxItems'] = 0
+    cases = {}
+    for row in rows:
+        finding = {'type': 'object', 'additionalProperties': False,
+            'required': ['hypothesis_id', 'observed_failure', 'source_original_indices',
+                         'source_reading_action', 'related_parent_skill_ids'],
+            'properties': {
+                'hypothesis_id': {'type': 'string', 'enum': list(labels)},
+                'observed_failure': {'type': 'string'},
+                'source_original_indices': {'type': 'array', 'items': {
+                    'type': 'integer', 'enum': list(range(len(row['spans'])))}},
+                'source_reading_action': {'type': 'string'},
+                'related_parent_skill_ids': copy.deepcopy(related)}}
+        cases[str(row['id'])] = {'type': 'object', 'additionalProperties': False,
+            'required': ['preserve_observed_successes', 'findings'], 'properties': {
+                'preserve_observed_successes': {'type': 'string'},
+                'findings': {'type': 'array', 'items': finding}}}
+    return {'type': 'object', 'additionalProperties': False,
+        'required': ['case_findings', 'cross_source_execution_lessons'], 'properties': {
+            'case_findings': {'type': 'object', 'additionalProperties': False,
+                'required': list(cases), 'properties': cases},
+            'cross_source_execution_lessons': {'type': 'array', 'items': {'type': 'string'}}}}
 
 
 class WitnessedExperience(RankedOnline):
@@ -224,9 +292,45 @@ class WitnessedOnline(WitnessedExperience):
         "Contrast your OWN selected witnesses with your procedure; do not synthesize a universal "
         "permission or exclusion inconsistent with the supplied counterexamples. If original labels "
         "have an ambiguous boundary, preserve the observed distinction without inventing universal law "
-        "or deleting inconvenient source data. No manual case exceptions, fixed library size, efficacy "
+        "or deleting inconvenient source data. A separate training reflector has inspected every "
+        "current source and actual matched answers before this edit. Its findings are evidence-based "
+        "learning proposals, not verified causal claims or mandatory edits. Reconcile them with the "
+        "full original feedback and actual previous publication effects. Repair operational delivery, "
+        "not just legal-rule wording: deleting an overgeneralized example, splitting a confusing "
+        "procedure or replacing an unexecutable instruction can be justified even when no new legal "
+        "boundary was discovered. Do not equate 'already mentioned' with 'successfully executed'. "
+        "Keep useful content; NOOP remains valid when no supported change is available. "
+        "No manual case exceptions, fixed library size, efficacy "
         "admission, best-bank rollback or future-case knowledge."
     )
+
+    def reflect_current_batch(self, body, rows):
+        """ACE-inspired reflection before curation; no new lawyer call or inference layer."""
+        current = {r['id'] for r in rows}
+        window = expand(body['complete_already_revealed_original_source_window_and_Gold'])
+        selected = [r for r in window if r['id'] in current]
+        assert [r['id'] for r in selected] == [r['id'] for r in rows]
+        packet = {
+            'public_hypotheses': self.labels,
+            'complete_current_original_sources_and_Gold': table(selected),
+            'all_actual_current8_matched_empty_and_memory_observations':
+                body['all_actual_current8_matched_empty_and_memory_observations'],
+            'actual_current_batch_metrics': body['actual_current_batch_metrics'],
+            'current_parent_library': copy.deepcopy(self.bank),
+            'actual_materialized_parent': copy.deepcopy(self.materialized),
+            'same_ordinary_tool_and_original_metrics': True,
+            'all_current_sources_reflected_not_selected_by_success': True,
+            'no_future_source_or_Gold_and_not_runtime_answer_correction': True}
+        name = f'reflect_b{self.current_batch}'
+        self.record(f'learning_inputs/{name}.json', packet)
+        result = self.teacher_call(name, REFLECTION_SYSTEM, encode_teacher_body(packet),
+                                   reflection_schema(rows, self.labels, self.bank))
+        self.record(f'reflections/b{self.current_batch}.json', {
+            'at': now(), 'actual_teacher_name': name,
+            'source_ids': [r['id'] for r in rows], 'value': result,
+            'diagnostic_associations_not_isolated_causal_proof': True,
+            'not_served_to_lawyer_or_used_as_current_case_answer': True})
+        return result
 
     def cold_alias(self, row, proposals, empty):
         assert not self.bank and not self.materialized and self.current_batch == 1
@@ -257,7 +361,7 @@ class WitnessedOnline(WitnessedExperience):
 
     def execute(self):
         assert self.cfg["method"] == EDIT_FEEDBACK_METHOD and len(self.documents) == 128
-        assert self.cfg['teacher_task_contract_version'] == 'actual_task_and_signed_source_membership_v2'
+        assert self.cfg['teacher_task_contract_version'] == 'reflection_before_signed_publication_v3'
         assert len(self.past) == len(self.prefix_ids) == 202 and not self.bank
         assert [r["id"] for r in self.documents] == self.cfg["episode_ids"]
         calibration = read(ROOT / self.cfg["reading_calibration_completion"])
@@ -270,7 +374,9 @@ class WitnessedOnline(WitnessedExperience):
         self.fit_records, self.last_update = [], None
         self.record("declaration.json", {
             "at": now(), "config": self.cfg, "frozen_bindings": self.bindings.copy(),
-            "planned_new_native_teacher_CPUfits": [376,16,16], "planned_logical_answers": 384,
+            "planned_new_native_teacher_CPUfits": [376,32,16], "planned_logical_answers": 384,
+            "teacher_roles": {"training_batch_reflections": 16, "library_curations": 16},
+            "reflection_not_an_inference_layer_or_skill_efficacy_gate": True,
             "only8_exact_cold_aliases_not_independent_exploration": True,
             "shared_prior202_calibration_and_growing_tool_not_skill_gain": True,
             "reading_policy": self.reading_policy, "independent_empty_memory_start": True,
@@ -332,6 +438,7 @@ class WitnessedOnline(WitnessedExperience):
                 "outside_window_old_sources_not_reanswered_no_all_seen_retention_claim": True}
             parent, before_materialized = copy.deepcopy(self.bank), copy.deepcopy(self.materialized)
             name = f"online_b{batch}"
+            body['actual_training_reflection_before_curation'] = self.reflect_current_batch(body, rows)
             self.publish(body, name)
             start_after, self.phase = len(self.answers), f"b{batch}_after_seen_combined"
             for row in rows:
@@ -353,17 +460,18 @@ class WitnessedOnline(WitnessedExperience):
                 "publication_statistics": self.publication_history[-1], "actual_training_update_effect": update})
             self.fit_prefix(seen)
         assert len(self.native) == 376 and len(self.answers) == 384
-        assert len(self.teachers) == len(self.fit_records) == 16 and len(self.prefix_ids) == 330
+        assert len(self.teachers) == 32 and len(self.fit_records) == 16 and len(self.prefix_ids) == 330
         groups = {m: [u for u in self.units if "_prequential_" in u["stage"] and u["stage"].endswith("_"+m)]
                   for m in ("empty","combined")}
         assert all(len(v) == 128 for v in groups.values())
         result = {"at": now(), "run_id": self.run_id, "all128_prequential_metrics": {m:points(v) for m,v in groups.items()},
             "all128_source_paired_effect": paired_effect(groups["empty"],groups["combined"],seed=2026102020,replicates=5000),
-            "batch_summaries": summaries, "actual_new_native_teacher_CPUfits": [376,16,16],
+            "batch_summaries": summaries, "actual_new_native_teacher_CPUfits": [376,32,16],
+            "actual_teacher_roles": {"training_batch_reflections": 16, "library_curations": 16},
             "inherited_shared_read_calibration_CPUfits": 5,
             "prior_development_family_native_teacher_CPUfits": self.cfg["prior_development_family_native_teacher_CPUfits"],
             "total_this_development_family_native_teacher_CPUfits": [a+b for a,b in zip(
-                [376,16,16],self.cfg["prior_development_family_native_teacher_CPUfits"],strict=True)],
+                [376,32,16],self.cfg["prior_development_family_native_teacher_CPUfits"],strict=True)],
             "final_bank": self.bank, "final_materialized_memory": self.materialized,
             "final_common_ordinary_source_ids": self.prefix_ids, "actual_ordinary_fits": self.fit_records,
             "publication_statistics": self.publication_history, "units": self.units,
@@ -372,7 +480,7 @@ class WitnessedOnline(WitnessedExperience):
         self.record("completion.json", result)
         RunStore.atomic_json(self.out/"progress.json", {
             "at": now(), "state": "completed", "run_id": self.run_id,
-            "completed_native_calls": 376, "completed_teacher_calls": 16, "actual_new_CPUfits": 16,
+            "completed_native_calls": 376, "completed_teacher_calls": 32, "actual_new_CPUfits": 16,
             "all128_prequential_metrics": result["all128_prequential_metrics"]})
         print(json.dumps({"completed": self.run_id, "metrics": result["all128_prequential_metrics"]}),flush=True)
 
@@ -382,7 +490,7 @@ def main():
         fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         config = Path(sys.argv[1])
         kind = read(config)["study_kind"]
-        if kind != "full128_signed_member_skill_online":
+        if kind != "full128_reflective_signed_member_skill_online":
             raise ValueError("Only the full online protocol is active; finite historical studies remain in Git/archives")
         study = WitnessedOnline(config)
         try:

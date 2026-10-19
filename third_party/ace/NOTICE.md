@@ -15,6 +15,13 @@ not a complete unmodified ACE reproduction. Task-specific citation handling,
 G4 experience and batch curation must be disclosed with actual call costs.
 No upstream JSON-repair, error-skipping or retry fallback is imported.
 
+2026-10-19: experiments/witnessed_experience.py additionally adapts the separation
+of training reflection and subsequent curation. Its legal-source-bound findings
+schema and public-evidence instructions are original local code, not the full
+ACE algorithm or a verbatim upstream prompt. The author reflector prompt at the
+pinned commit was re-read; no hidden-chain-of-thought request, repair/fallback,
+helpfulness gate or second inference role is adopted.
+
 Audited source file SHA-256:
 
 ```json
