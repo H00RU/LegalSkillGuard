@@ -23,7 +23,23 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 12:54 CST，放弃失败原文理由约束并清理；实际逐记录信用反馈学习已实现，待后台启动
+## 当前快照：2026-10-19 12:57 CST，实际逐记录信用反馈学习已后台启动，首3答完整无截断
+
+12:55:28真实启动 legal_contractnli_record_credit_learning_forward16_20261019_run01，
+source commit80ecc06985b6fbc740c1a9b867c97ca0f2623eb6，worker1942740/ticks439224576，
+独立preserver1942743/ticks439224577；不要重复launch/热改128个绑定文件/停模型。
+启动前134成员完整源码+Git双盘亲核 SHA2a03443d135d62988d9e7b150082de4e18b598dcc6d19f981fb56ea69ee73e16。
+control artifacts/research/record_credit_learning_forward16_20261019/，actual_launch和preserverlaunch均保留。
+12:56:53亲核原workerPID/argv/ticks仍live，3/64新native完成、19逻辑含16明确继承、0teacher/fit。
+source93/315/169实际stop、722/654/771outputtokens，逐项原native schema有效；不是任务分数/技能内部使用证据。
+当前b3_remove_record_0/source124，单8B仍3889231，live生成恢复约35tokens/s，无重启/换模型。
+全32移除答齐才评分并作1次真实教师发布，之后8重答、1次共同fit226、B4全8三臂24答齐后读B4Gold。
+所有阶段独立后台自动接续；preserver终态还纳入真实最终teacher ledger，不依赖本对话容量稳定。
+本次不是完整128或独立确认；未得到任何新增任务指标，更无论文突破。Goal active完整目标未缩小。
+终态后先读真实completion/failure/教师wire与实际CRUD/所有forward8指标，亲核双盘结果后清有限driver；
+若有净益，须把机制接回真实完整多批，不能停在这次单更新；若负，不回滚挑库或原样盲开128。
+
+## 已归档快照：2026-10-19 12:54 CST，放弃失败原文理由约束并清理；实际逐记录信用反馈学习已实现，待后台启动
 
 Goal active未变，没有论文指标突破。bounded理由Run02速度虽恢复35tokens/s，但首答8192tokens截断，
 还越过短前缀限制；已在保存首答后安全SIGTERM退出，没有跑余下47答、评分/补答/fallback。
