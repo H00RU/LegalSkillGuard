@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新时间：2026-10-19 23:40，Goal仍active，未达成、无外部阻塞。
+更新时间：2026-10-19 23:47，Goal仍active，未达成、无外部阻塞。
 本页是续接入口，不以游标替代真实进程/原始输出。旧2690行游标原样保留于
 [历史索引](CURRENT_GOAL_history_through_20261019_2228.md)，原始字节已Git及双盘保存。
 
@@ -31,10 +31,17 @@ OpenExempt只是当前候选，不能以一个小试跑替代完整目标或因�
 当前唯一训练为 `legal_openexempt_namespace_online_20261019_run01`，已真实启动。
 user unit `legal-openexempt-namespace-20261019-run01.service`，PID2858645，
 23:16:59启动，23:39亲核active/running；源1fadd3f、142绑定、144源/数据/清单
-成员双盘逐字节保全。23:38:35快照B1 candidate1重放、17 native/1教师、0跨阶段复用。
+成员双盘逐字节保全。23:47:10快照已进入B2新案、25 native/1教师、0跨阶段复用。
 B1完整新案EC/EV：empty49.17/11.88%，初库/online62.01/40.56%；online=frozen，
-实际在线进化效应0，不据首批冷库收益宣布进化。教师真实提出UPDATE4（Federal、PA、
-IL、AZ），当前尚未发布；保留后续准入及B2–B4新案检验。实际缓存函数调用仍0。
+实际在线进化效应0，不据首批冷库收益宣布进化。B1教师UPDATE4（Federal、PA、IL、AZ）
+已通过并真实发布，7条/40函数/3547tokens，bankSHA
+19123376f8824fbae12af76ab97620c455f4f7d47c077aa2a245e6d6cf1a96c8。
+仅已见TRAIN重答EC64.10%、EV63.89%、全EV65.12%，6任务改好/1改坏/1平。
+其中31_EC由88.89降至22.22%，29_EV有2条原生评分未遍历到的额外资产claim，
+都保留，不宣称逐案无害。实际缓存函数调用仍0；需B2–B4新案检验。
+B1共24物理回答、161425prompt/57394completion tokens、1教师（42938input/4627output），
+24次均stop结束、无transport故障。81个B1工件及机制分析逐成员双盘保存，见
+`artifacts/research/openexempt_mechanism_20261019/namespace_B1_publication_actual_mechanism_audit.json`。
 14项CPU边界检查0.25s通过，无额外GPU资格生成。作用域代码已从唯一staging模块
 移入 `legal_skill_guard/learning/legal_namespace.py` 并接主入口；没有保留旧接口fallback。
 统一公开label语法、仅加载给定AE法域技能、精确相同wire旧重放复用均已实现。
