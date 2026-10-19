@@ -15,7 +15,16 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 11:33 CST，signed完整128结束仍负；反思后编辑机制已落原模块，待新Run启动
+## 当前快照：2026-10-19 11:39 CST，反思后编辑完整128已真实后台启动，尚无新技能收益
+
+11:38:05实际worker1826352/ticks438760252，独立止损+preserver1826355/ticks438760253。
+core39b477dd5a58418cf9df943e6a6a55182e66129e；87成员完整源码/Git双盘启动备份SHA
+838062e2e73142c975435cc1f85ca82cb9cd53d5cc324c00f11de9996e2e075b。
+11:38:26原worker/preserver实际argv/ticks亲核live，1native/0教师/2逻辑，b1_prequential_empty/193。
+新Run legal_contractnli_reflective_signed_member_skill128_online_20261019_run01；
+自动16x8，训练与固定止损/终态保存独立于对话。不要重复launch、热改绑定源或恢复旧负配置。
+接看实际reflect_b1输入/逐源发现、online_b1真实CRUD和首个actor实际交付，再看全8及后B2-B4原指标，
+不把结构通过/教师多一次调用/合理文字称为突破。完整Goal active尚未达成。
 
 capacity对话中断期间后台独立完成全部16批，11:00:52实际376native/16teacher/16fit。
 全128空81.664/73.014/54.917%，技能80.653/71.979/53.860%（原准确率/NN硬F1/联合）。
@@ -35,7 +44,7 @@ capacity对话中断期间后台独立完成全部16批，11:00:52实际376nativ
 新Run legal_contractnli_reflective_signed_member_skill128_online_20261019_run01，
 cfg/协议已写，原128顺序+共同202+空库，计划376/32/16，384逻辑，最终共同330。
 新增教师成本必须披露，后续成熟比较需匹配/分析；既有有界家族761/31/33，完整后1137/63/49。
-82文件冻结和ledger扩额1457->1489已就绪，旧账原字节双盘；接提交/双盘启动备份/launch。
+82文件冻结、ledger扩额1457->1489、core提交、双盘完整备份/实际launch均已完成，旧账原字节双盘。
 独立preserver同时按新协议监看：B4起最近完整24案三原指标各低空库至少2pp才停止整配置，
 不因B1/单点波动停止、不做技能效果准入/好库回滚，保留实际末库和所有成本。
 Goal active未达成，正式TEST、独立重复、完整可靠净收益和公平经验方法对照目标均未缩小。
