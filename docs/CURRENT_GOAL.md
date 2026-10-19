@@ -23,7 +23,14 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19，Run02已真实完成；将实际R3/ordinary226接回剩余104案主链路
+## 当前快照：2026-10-19，有限学习Run02完成；R3/226剩余104案续接Run02准备启动
+
+剩余104案Run01于13:43:46在第一次generation前退出：progress读取缺失planned_new_native_calls，
+真实0新增native/0teacher/0fit、16旧B4回答已明确继承，库仍实际R3，原失败全保留。
+独立终态239成员双盘已亲核，SHA cdb044ccc85c561a97e3466dbff972f656f41d52813bea546c2b8a7bee664aa1。
+Run02仅把固定计划调用数显式标null，实际动态公式/估计另列；不把4条初库硬设为后续数量。
+源主链路/教师/数据/实际R3/226/所有旧16物理答未改，不重新生成已完成答，也无新qualification生成。
+cfg contractnli_record_credit_remaining104_online_20261019_run02.json/frozen已准备；待Git/双盘/独立后台。
 
 record_credit Run02已于13:28:50完成，原worker1971525和独立preserver1971528均结束，单8B服务仍3889231。
 实际1次teacher UPDATE3/retain1，末库4条、17原历史正例/0负例、2595知识tokens。
