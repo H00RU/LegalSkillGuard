@@ -1,8 +1,8 @@
 # 当前Goal执行索引
 
-更新：2026-10-20 05:00 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 05:33 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 本页仅作续接入口。真实状态必须亲核systemd/PID、原始工件，不能仅信游标。
-上轮是progress；本轮完成B4新案、实际教师提案和新的一致性证据，主训练持续未重启。
+本轮完成B4最终准入、实际技能损益与05:28小时复核，主训练自动进入B5，未重启。
 
 ## 完整目标和用户有效边界
 
@@ -22,7 +22,7 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
   Gold solver推理工具或无关框架，不选好案/旧好库/改评分造提升。失败/成本全保留。
 - 自主推进，师兄paper-ideation与paper-experiments-appendix用于失效假设、公平
   对照和证据边界；不采用固定三创新、隐瞒借鉴或预设好数字。每个新Goal轮完整读。
-- 每小时以实际时钟复核。**最近04:28:15已实际自检，下次05:28**。主训练独立于
+- 每小时以实际时钟复核。**最近05:28:32已实际自检，下次06:28**。主训练独立于
   对话；没有声称另建了能自动唤醒模型的提醒产品。
 
 用户追加要求、完整小时记录见[生效补充](research/GOAL_ADDENDUM_SKILL_EVOLUTION_20261019.md)。
@@ -31,8 +31,8 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
 
 - Run `legal_openexempt_official_sampling_online_20261020_run01`。
 - unit `legal-openexempt-official-sampling-20261020-run01.service`，原PID3085974，
-  01:52:27启动，04:28:15亲核仍同PID active；04:27:56自动完成B3、进入B4。
-  04:56:38 progress为B4候选1重放，140 native/6教师、31次跨阶段同wire复用，46号案。
+  01:52:27启动，05:28亲核仍同PID active；05:28:44自动完成B4、进入B5。
+  05:30:05 progress为B5新案，168 native/7教师、33次跨阶段同wire复用，61号案。
   不能把观察超时或观察者正常退出当主训练停止理由。
 - progress `runs/<run>/progress.json`；日志
   `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01.log`。
@@ -44,7 +44,8 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
   官方min_p0默认已核。没有切成非思考、没有重启服务或换模型。
 - 24来源、48派生EC/EV任务、6批各4来源。45–52旧未查询来源原文/源键保留；
   seed2026102002补53–68，排除所有旧开发source keys，未按结果重采样。
-  B1=45–48，B2=49–52，B3=53–56，B4=57–60已反馈；B5=61–64、B6=65–68尚未反馈。
+  B1=45–48，B2=49–52，B3=53–56，B4=57–60已反馈；B5=61–64预测中，
+  B5反馈尚未释放，B6=65–68尚未查询。预测结束前不读取其Gold。
   packet SHA c6dc406906afcbc563ac4d038453aa9ab47590217d048cae9b9bfa5b88293aca。
 - 启动用blind C0，7条/40函数/3462tokens，不是旧训练C1；160源/数据/清单成员
   双盘逐字节核验。14必要CPU边界检查0.24s完成，没新造测试模块。
@@ -131,10 +132,21 @@ aed467bfa464fc2fd97852a5d726954df0e2a4363855e019bcae0d4f37db863f。
 数值修复与新分类损害抵消。缓存函数仍0，这里是inline知识采用，不是缓存调用证据。
 04:27:56 publication父子同C1 hash；只有B1实际发布过一次。B4继续真实C1，不是候选。
 
-**B4候选1重放中，未发布**：MERGE Fed EC/EV+UPDATE AZ，9条/40函数/3934tokens，
+**B4两候选均未发布，已进入B5**：第一候选MERGE Fed EC/EV+UPDATE AZ，
+9条/40函数/3934tokens，
 SHA a512d61ea25816d5b3c6d5b24b928eb0d44e4dfa51b0ab7c4a1046456fb40900。
 教师99253input/4618output、78.923s。强调同一法条集合、wildcard与特定项并列、
-贸易用途须事实支持、AZ珠宝不等于服装、ring条件和车辆单项上限；提案不算已发布。
+贸易用途须事实支持、AZ珠宝不等于服装、ring条件和车辆单项上限。
+完整32逻辑/30物理重放后，当前EC83.8889→77.2917%、EV74.1667→82.5%；
+旧EC77.2222→62.4967%、EV66.25→62.2421%，因此拒绝。30回答全stop，
+224272prompt/73188completion，实际缓存调用0。60_EV恢复特定联邦条款至80%，
+但仍漏wildcard；不能把恢复部分选项说成完全修好。
+按实际公开送达范围，AZ的8个已见任务3好0坏5平，55/57_EV均100%，59去掉
+错误耳环claim使全EV80→100%；联邦相关22任务3好16坏3平。分组是实际观察，
+不是另跑的隔离候选，更不后验挑AZ部分发布。不能一概说教师没有学到正确规则。
+第二候选只UPDATE AZ，教师121907input/1936output、36.285s；整库4113超过
+4096token上限，尚未生成重放就拒绝，**效果未知，不是NOOP或已测负效应**。
+没有覆盖上限或第三次教师。05:28:43 publication父子同C1，仍只有B1真实更新。
 
 ## 当前断点和有用的否证
 
@@ -177,14 +189,16 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 
 ## 下一直接工作与停止边界
 
-直接核当前B4新案及其教师，再继续B5–B6，按原有界研究或预定连续伤害止损。
+直接核当前B5–B6新案及真实教师/准入，按原有界研究或预定连续伤害止损。
 核仍有效C1与后续真实发布的迁移、CRUD/预算和送达/调用，不只看B1或53一个好案。
 不额外追加B2第三次教师，不把训练内候选拒绝当系统故障重启或宣布新库已生效。
 本轮B2两项均值正，未触发连续两批伤害停止规则；不因EV一个负点停止或凑机械单调。
 实质系统问题或预定连续伤害时先保全终态再修，不选旧好库、不硬拖无效训练。
 不要在当前正向分类证据上另起B1，不把临时观察超时/诊断汇总报错当主进程故障。
 已确认的瓶颈是局部修复与无关输出漂移会抵消，不只是没标签/没学规则/函数0。
-当前不加更长教师提示或第三候选。若后续仍停滞，下一有据的结构候选是把法律选择
+当前不加更长教师提示或第三候选。B4又证实跨范围整包修订可抵消有益局部修订，
+且预算拒绝和效果拒绝必须区分；不以放宽门槛/容量或后验截取好改动制造进化。
+若后续仍停滞，下一有据的结构候选是把法律选择
 指导与数值程序执行分离，使纯程序修订不必触发原生重新推导；详见下一步草案。
 它尚未实现/验证；不能声称自动调用便能补回遗漏法条，更不允许用Gold分类或修答案。
 60的EC/EV失配进一步支持检验EV共享分类指导，而非硬过滤到一次EC答案；旧B1已
@@ -211,6 +225,9 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 前一B2审计optional顶层usage为null不等于0，见`official_sampling_B2_actual_teacher_cost_receipt.json`。
 教师输入新审计：`official_sampling_teacher_input_structure_and_history_boundary_readonly_20261020.json`。
 最新B4：`official_sampling_B4_fresh_forward_consistency_and_actual_skill_audit.json`。
+最终B4：`official_sampling_B4_final_rejections_scope_effects_and_budget_audit.json`；
+小时复核：`official_sampling_hourly0528_actual_direction_review.json`。第二候选4113tokens
+被预算拒绝、未重放；B5已自动开始，不要误续成仍在等待B4或模型停止。
 粒度与CPU准备：`official_sampling_B3_AZ_edit_granularity_and_request_dependency_audit.json`、
 `synthetic_same_call_different_program_CPU_only_20261020.json`、`synthetic_compiled_call_schema_CPU_only_20261020.json`。
 只读机制前缀：`official_sampling_public_source_and_asset_overlap_readonly_audit`、
