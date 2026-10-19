@@ -1,10 +1,10 @@
 # 当前Goal执行索引
 
-更新：2026-10-20 05:58 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 06:30 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 本页仅作续接入口。真实状态必须亲核systemd/PID、原始工件，不能仅信游标。
-上轮完成B4准入、损益与小时复核。本轮在隔离分支完成下一执行契约的代码准备，
-尚未采用；原主训练完成B5新案、进入其教师重放，未重启。不能把CPU通过或隔离
-提交说成主指标改善。
+此前完成B5新案与隔离执行契约准备。本轮核实正式扩量的字符/token与计算量风险，
+在隔离分支补上有界教师证据包，并完成06:28计划节点的实际小时自检，尚未采用。
+原主训练持续B5候选1重放，未重启。不能把CPU通过或隔离提交说成主指标改善。
 
 ## 完整目标和用户有效边界
 
@@ -24,7 +24,7 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
   Gold solver推理工具或无关框架，不选好案/旧好库/改评分造提升。失败/成本全保留。
 - 自主推进，师兄paper-ideation与paper-experiments-appendix用于失效假设、公平
   对照和证据边界；不采用固定三创新、隐瞒借鉴或预设好数字。每个新Goal轮完整读。
-- 每小时以实际时钟复核。**最近05:28:32已实际自检，下次06:28**。主训练独立于
+- 每小时以实际时钟复核。**06:28计划节点在06:29:16实际自检，下次07:28**。主训练独立于
   对话；没有声称另建了能自动唤醒模型的提醒产品。
 
 用户追加要求、完整小时记录见[生效补充](research/GOAL_ADDENDUM_SKILL_EVOLUTION_20261019.md)。
@@ -33,8 +33,8 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
 
 - Run `legal_openexempt_official_sampling_online_20261020_run01`。
 - unit `legal-openexempt-official-sampling-20261020-run01.service`，原PID3085974，
-  01:52:27启动，05:51亲核仍同PID active；05:28:44自动完成B4、进入B5。
-  05:57:22已见progress为B5候选1重放，191 native/8教师、33次跨阶段同wire复用，46号案。
+  01:52:27启动，06:29亲核仍同PID active；05:28:44自动完成B4、进入B5。
+  06:28:43已见progress为B5候选1重放，219 native/8教师、35次跨阶段同wire复用，61号案。
   不能把观察超时或观察者正常退出当主训练停止理由。
 - progress `runs/<run>/progress.json`；日志
   `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01.log`。
@@ -211,7 +211,8 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 
 ## 已完成的隔离代码准备，尚非主链路
 
-- branch `prospective-compiled-call-20261020`，提交`18cc817`，基底`dc6e49e`。
+- branch `prospective-compiled-call-20261020`，基底`dc6e49e`，执行提交`18cc817`，
+  最新有界教师提交`cef7142`。两项改变分别披露，不能冒充纯执行消融。
   工作树在`.venv/compiled-call-20261020.2VOZzd`，不是第二个运行项目或模型队列。
   **原主工作树158绑定仍0变化，原Run和8B PID均不变。不要现在cherry-pick。**
 - 仅修改现有`experiments/openexempt_online.py`、原测试文件，并加一页设计说明。
@@ -220,7 +221,7 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 - 修订请求复用必须缓存原生response，不缓存已算答案。跨阶段与同批两库统一走
   `answer`再按当前库执行，回执绑定`execution_bank_sha256`；删除同批复制结果捷径。
   不改变4096容量、TRAIN准入、教师次数、原评分或数据边界。其前瞻性效果未知。
-- 16项定向CPU检查0.20s通过，1项原评分测试因工作树未链接上游而未运行，评分
+- 初版16项、最新17项定向CPU检查0.23s通过，1项原评分测试因工作树未链接上游而未运行，评分
   实现未改。三种已反馈TRAIN上下文的实际schema在服务xgrammar0.1.23解析成功，
   不等于完整vLLM/8B调用。**0新增模型/教师调用，不再追加CPU资格测试。**
 - 六个源/检查工件已双盘逐成员核验，归档名
@@ -230,6 +231,17 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 - 待当前有界v9试验结束或按原规则停止、终态保全后，结合B5–B6决定是否合入并
   冻结真正的新数据/多批Run。不把v9旧回答CPU改null后计算的分数称为v10成绩；
   若旧链路真实恢复，也不为使用新代码机械重启。金额执行不能自动解决法条遗漏。
+- 正式规模的已测风险：当前8个教师都未截断，但客户端1,048,576字符门槛与
+  680000本地token门槛独立。旧格式128来源的体量外推约181万至251万字符，
+  修订约72.3万至78.7万估算tokens。不能仅改source_cases后开正式训练。
+- cef7142在教师通信中保留当前批全部来源、最多16个历史公开法域/退化/失败
+  见证，显式列出选中/未选ID，引用枚举只允许实际提供者；**全已见TRAIN准入
+  重放与评分不变**。不引入验证集、客户路由或新教师层，不提高限额或静默截断。
+  小试累计不超过20来源不丢案例且保持原顺序。正式16案一批最多32来源，按已见
+  体量约50.5万至69.8万字符，但不是未来请求一定合规或效果证明，硬检查仍在。
+- 最新5个源/CPU工件亦双盘核验，归档
+  `compiled_call_contract_preparation_20261020-bounded_teacher_source_and_CPU.tar.gz`。
+  原18cc817六工件备份保留。两个提交都只是隔离准备，0额外模型/教师调用。
 
 ## 下一直接工作与停止边界
 
@@ -278,6 +290,11 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 最新B5：`official_sampling_B5_fresh_forward_skill_and_failure_sensitivity_audit.json`。
 隔离实现与双盘：`compiled_call_contract_preparation_20261020_receipt.json`及
 `compiled_call_contract_preparation_20261020_preservation.json`。不要混成B5更新后的方法。
+最新有界包：`compiled_call_bounded_teacher_20261020_receipt.json`与
+`compiled_call_bounded_teacher_20261020_preservation.json`；规模可行性
+`official_sampling_formal_scale_context_and_compute_feasibility_readonly_20261020.json`及
+`official_sampling_formal_scale_complete_local_input_gates_20261020.json`。
+最新小时：`official_sampling_hourly0628_actual_direction_review.json`，实际06:29:16。
 粒度与CPU准备：`official_sampling_B3_AZ_edit_granularity_and_request_dependency_audit.json`、
 `synthetic_same_call_different_program_CPU_only_20261020.json`、`synthetic_compiled_call_schema_CPU_only_20261020.json`。
 只读机制前缀：`official_sampling_public_source_and_asset_overlap_readonly_audit`、
