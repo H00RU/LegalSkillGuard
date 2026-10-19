@@ -2,8 +2,9 @@
 
 Both arms may write the same inline expression; a learned operator merely
 reuses it. No Gold, expert categories, solver, I/O, arbitrary Python execution
-or post-answer repair is available. Formula constants bind to ORIGINAL law
-money lexemes. The model chooses eligibility and an explicit source quotation.
+or post-answer repair is available. Reusable constants bind to ORIGINAL law
+money lexemes. The model supplies asset names/values and chooses eligibility;
+it does not have to learn an exact-quotation or hashed-money-reference task.
 """
 from __future__ import annotations
 
@@ -41,20 +42,13 @@ def source_money(literal):
 
 
 def source_registry(statutes):
-    laws, amounts = {}, {}
-    for citation, body in law_blocks(statutes).items():
+    laws = {}
+    for citation in law_blocks(statutes):
         lid = "L" + csha(citation)[:8].upper()
         if lid in laws:
             raise InvalidClaimProgram("Law-reference collision")
-        money = []
-        for literal in dict.fromkeys(MONEY.findall(body)):
-            name = "M" + csha([citation, literal])[:8].upper()
-            if name in amounts:
-                raise InvalidClaimProgram("Money-reference collision")
-            amounts[name] = {"citation": citation, "literal": literal}
-            money.append({"name": name, "source_literal": literal})
-        laws[lid] = {"citation": citation, "money": money}
-    return {"laws": laws, "amounts": amounts}
+        laws[lid] = {"citation": citation}
+    return {"laws": laws}
 
 
 def debtor_count(facts):
@@ -64,7 +58,7 @@ def debtor_count(facts):
     return Decimal(2 if match.group(1) == "Debtors" else 1)
 
 
-def execute_limit(expression, facts, statutes):
+def execute_limit(expression, facts, statutes, *, asset_value=Decimal(0), reusable=False):
     if not isinstance(expression, str) or len(expression) > 512:
         raise InvalidClaimProgram("A short limit expression is required")
     if expression == "unlimited":
@@ -75,19 +69,43 @@ def execute_limit(expression, facts, statutes):
         raise InvalidClaimProgram("Invalid arithmetic expression") from exc
     if len(list(ast.walk(tree))) > 64:
         raise InvalidClaimProgram("Expression operation budget exceeded")
-    registry, used = source_registry(statutes), []
+    constants, used = {}, []
+    for citation, body in law_blocks(statutes).items():
+        for literal in dict.fromkeys(MONEY.findall(body)):
+            constants.setdefault(source_money(literal), []).append(
+                {"citation": citation, "literal": literal})
+    if not reusable:
+        for literal in dict.fromkeys(MONEY.findall(facts)):
+            constants.setdefault(source_money(literal), []).append(
+                {"source": "current_public_facts", "literal": literal})
+
+    def constant(node):
+        if type(node.value) not in (int, float):
+            raise InvalidClaimProgram("Only finite numeric constants are available")
+        value = Decimal(str(node.value))
+        if not value.is_finite() or (value not in (0, 1, 2) and value not in constants):
+            raise InvalidClaimProgram("Numeric constant absent from permitted public source")
+        if value in constants:
+            used.append({"value": str(value), "public_source_matches": constants[value]})
+        return value
+
+    # Check both branches, not merely the branch selected on the current case.
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Constant):
+            constant(node)
 
     def evaluate(node):
         if isinstance(node, ast.Name):
             if node.id == "N":
                 return debtor_count(facts)
-            if node.id not in registry["amounts"]:
-                raise InvalidClaimProgram("Unknown current public money reference")
-            ref = registry["amounts"][node.id]
-            used.append({"name": node.id, **ref})
-            return source_money(ref["literal"])
-        if isinstance(node, ast.Constant) and type(node.value) is int and node.value in (0, 1, 2):
-            return Decimal(node.value)
+            if node.id == "V":
+                return asset_value
+            raise InvalidClaimProgram("Only V and N are available variables")
+        if isinstance(node, ast.Constant):
+            return Decimal(str(node.value))
+        if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.UAdd, ast.USub)):
+            value = evaluate(node.operand)
+            return value if isinstance(node.op, ast.UAdd) else -value
         if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.Add, ast.Sub, ast.Mult, ast.Div)):
             left, right = evaluate(node.left), evaluate(node.right)
             if isinstance(node.op, ast.Add):
@@ -153,8 +171,8 @@ def answer_schema(statutes, bank):
                  "law_id": {"type": "string", "enum": list(source_registry(statutes)["laws"])},
                  "operator_id": reference, "limit_expression": {"type": ["string", "null"]}}}
     asset = {"type": "object", "additionalProperties": False,
-             "required": ["asset_name", "value_quote", "claims"], "properties": {
-                 "asset_name": {"type": "string"}, "value_quote": {"type": "string"},
+             "required": ["asset_name", "asset_value", "claims"], "properties": {
+                 "asset_name": {"type": "string"}, "asset_value": {"type": "number", "minimum": 0},
                  "claims": {"type": "array", "items": claim}}}
     used = {"type": "array", "items": {"type": "string"}}
     if bank:
@@ -170,17 +188,19 @@ def answer_schema(statutes, bank):
 def execute_claims(assets, facts, statutes, bank):
     operators, registry = operator_catalog(bank), source_registry(statutes)
     answer, receipts, used, seen = {}, [], [], set()
+    fact_values = {source_money(literal) for literal in MONEY.findall(facts)}
+    source_text = " ".join(facts.casefold().split())
     for asset in assets:
-        name, quote = asset["asset_name"], asset["value_quote"]
+        name = asset["asset_name"]
         if not name or name.casefold() in seen:
             raise InvalidClaimProgram("Empty or repeated asset name")
         seen.add(name.casefold())
-        if not quote or quote not in facts or name.casefold() not in quote.casefold():
-            raise InvalidClaimProgram("Exact original fact quotation must contain the asset name")
-        money = MONEY.findall(quote)
-        if len(money) != 1:
-            raise InvalidClaimProgram("Quote must isolate one original asset value")
-        value, claims = source_money(money[0]), []
+        if " ".join(name.casefold().split()) not in source_text:
+            raise InvalidClaimProgram("Asset name absent from current public facts")
+        value = Decimal(str(asset["asset_value"]))
+        if not value.is_finite() or value < 0 or value not in fact_values:
+            raise InvalidClaimProgram("Asset value absent from current public facts")
+        claims = []
         for claim in asset["claims"]:
             lid, ref, expression = claim["law_id"], claim["operator_id"], claim["limit_expression"]
             if lid not in registry["laws"]:
@@ -193,10 +213,11 @@ def execute_claims(assets, facts, statutes, bank):
                     raise InvalidClaimProgram("Learned operation must address the selected law")
                 expression = operators[ref]["limit_expression"]
                 used.append(ref)
-            limit, trace = execute_limit(expression, facts, statutes)
+            limit, trace = execute_limit(expression, facts, statutes,
+                                         asset_value=value, reusable=ref is not None)
             amount = value if limit is None else min(value, limit)
             claims.append({"citation": citation, "claim_value": float(amount)})
-            receipts.append({"asset_name": name, "value_quote": quote, "asset_value": str(value),
+            receipts.append({"asset_name": name, "asset_value": str(value),
                 "citation": citation, "operator_id": ref, "limit_expression": expression,
                 "source_constants": trace, "limit": None if limit is None else str(limit),
                 "claim_value": str(amount)})

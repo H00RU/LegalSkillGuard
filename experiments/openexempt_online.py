@@ -112,22 +112,24 @@ PROGRAM_ACTOR_SYSTEM = (
     "Apply only the original facts, supplied statutes and public solved steps. Decide legal "
     "eligibility yourself; no outside law. Submit an EV claim plan rather than final dollar "
     "answers. This replaces only FINAL ANSWER formatting. public_checks is a source-supported "
-    "audit of at most80 words, not private reasoning. For each asset copy its full asset_name "
-    "and value_quote: an EXACT contiguous substring of Facts containing that name and exactly "
-    "ONE dollar value. Do not quote a format example, a law ceiling, or another asset's value. "
-    "The public source_registry maps ASCII L-codes to original law citations and M-names to "
-    "money literals in those laws. Select EVERY applicable law_id, not just one. For each "
+    "audit of at most80 words, not private reasoning. For each asset supply its original "
+    "asset_name and numeric asset_value from Facts. Do not copy a format example, a law ceiling, "
+    "or another asset's value. No long quotation is required. The public source_registry maps "
+    "ASCII L-codes to original law citations. Select EVERY applicable law_id, not just one. For each "
     "claim choose exactly one: a published operator_id with limit_expression=null, OR "
     "operator_id=null and a short inline Python arithmetic expression for the legal ceiling. "
-    "Expressions may use listed M-names, N (1 or2 debtors from Facts), constants0/1/2, "
-    "+,-,*,/, min/max, and X if N==2 else Y. Do not invent money constants or reference names. "
+    "Expressions may use ordinary dollar numbers in current Facts/statutes, V (this asset's "
+    "submitted value), N (1 or2 debtors from Facts), constants0/1/2, +,-,*,/, min/max, and "
+    "X if N==2 else Y. For example min(V,C), where C is replaced by the supported numeric "
+    "ceiling. There are no hashed money variable names. Do not invent numbers. "
     "The string unlimited means the selected law has no dollar ceiling; never use it for "
-    "a capped exemption. The executor calculates min(quoted asset value, ceiling), or the "
+    "a capped exemption. The executor calculates min(submitted asset value, ceiling), or the "
     "asset value for unlimited, independently per pair. It maps the law_id losslessly to "
     "the original citation; it never chooses eligibility, adds claims or repairs an answer. "
     "Learned operations use identical arithmetic to inline expressions. Their presence does "
     "not prove applicability. If no learned operation covers an eligible law, write its "
-    "expression inline. Invalid quotes, references or expressions fail without fallback. "
+    "expression inline. Values absent from Facts and invalid references/expressions fail "
+    "without fallback. Correct amount-to-asset association and legal applicability remain yours. "
     "Return the exact JSON plan, with applied_skill_ids or []."
 )
 
@@ -137,14 +139,17 @@ PROGRAM_AUTHOR_ADDITION = (
     "has id,citation,limit_expression. All skill/operator IDs must be ASCII. Its globally "
     "callable ID is skill_id/operator_id. Write reusable statutory CEILING expressions, never "
     "asset values, case names, targets or answers. The full actual system, schema and public "
-    "source_registry are supplied. Formula M-names bind to exact original-law money literals; "
-    "other numeric constants are only0/1/2. Use N, arithmetic and a N==1/2 conditional only where "
+    "source_registry are supplied. Use ordinary numeric statutory dollar constants, V for the "
+    "current asset's value, N for the public debtor count, and generic constants0/1/2. "
+    "Reusable operators cannot copy amounts from current Facts: use V instead. For example "
+    "min(V,C) uses the actual numeric statutory C, not a literal variable C. Use N, arithmetic "
+    "and a N==1/2 conditional only where "
     "that law supports the spouse rule. unlimited is an explicit no-ceiling decision, not "
     "an unresolved-law substitute. Scope operators to EV. "
     "Keep useful procedural guidance for classification, but do not spend revisions merely "
     "restating min(V,C): the shared interpreter already executes it. Learn the legal cap, "
     "cross-reference, category and exception operations the actual errors warrant. The "
-    "same weak model still selects the laws and original fact quotes; source validation "
+    "same weak model still selects the laws and original fact amounts; source validation "
     "does not judge their legal truth. Invalid native programs and execution receipts are "
     "actual experience. Never invent that a stored operator was called or worked. "
     "The empty-library model can write the identical inline program: executable privilege "
@@ -217,7 +222,8 @@ def freeze(config_path):
     bindings = {str(p.relative_to(ROOT)): sha(p) for p in sorted(files)}
     packages = {dist.metadata["Name"]: dist.version for dist in importlib.metadata.distributions()}
     manifest = {"config_sha256": sha(config_path), "files": bindings, "packages": packages,
-                "prepared_at": now(), "no_performance_observed_before_selection": True}
+                "prepared_at": now(), "no_this_run_performance_observed_before_freeze": True,
+                "warm_sources_are_previously_observed_TRAIN": bool(cfg.get("warm_source_case_ids"))}
     frozen_path = Path(config_path).with_suffix(".frozen.json")
     RunStore.immutable_json(frozen_path, manifest)
     preserve(cfg["run_id"], "source", [*bindings, str(frozen_path.relative_to(ROOT)),
@@ -256,8 +262,8 @@ class Online:
     def __init__(self, config_path):
         self.cfg = read(config_path)
         if (self.cfg.get("execution_contract") == "source_grounded_claim_operations"
-                and self.cfg.get("execution_contract_version") != 2):
-            raise ValueError("This source implements compact ASCII expression contract v2 only")
+                and self.cfg.get("execution_contract_version") != 3):
+            raise ValueError("This source implements numeric-source expression contract v3 only")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
             raise ValueError("Frozen config mismatch")
@@ -445,7 +451,7 @@ class Online:
                             if operator["citation"] not in law_blocks(source["components"]["statutes"]):
                                 raise InvalidClaimProgram("Operator citation is not a current public header")
                             execute_limit(operator["limit_expression"], source["components"]["facts"],
-                                          source["components"]["statutes"])
+                                          source["components"]["statutes"], reusable=True)
                 except InvalidClaimProgram as exc:
                     decision = {"accepted": False, "candidate": candidate, "delta": delta,
                                 "source_program_compile_error": repr(exc), "new_native_calls": 0}
