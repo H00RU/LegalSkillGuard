@@ -1,0 +1,194 @@
+"""One blind law-only static control, using the SAME active task/inference code.
+
+Build uses one existing teacher, no case facts/answers/trajectories. Evaluation
+queues behind the actual learning worker and never updates the compiled bank.
+This is a cheaper static control, not a training-cost-matched baseline or TEST.
+"""
+from __future__ import annotations
+
+import argparse
+import fcntl
+import json
+import signal
+import traceback
+from pathlib import Path
+
+from experiments.openexempt_online import (
+    ACTOR_SYSTEM,
+    EXECUTABLE_GUIDANCE,
+    PROGRAM_ACTOR_SYSTEM,
+    Online,
+    paired_effect,
+    preserve,
+)
+from legal_skill_guard.experiment.storage import RunStore
+from legal_skill_guard.inference.native import WireClient
+from legal_skill_guard.learning.claim_execution import (
+    answer_schema,
+    execute_limit,
+    law_blocks,
+    operator_catalog,
+)
+from legal_skill_guard.learning.experiment import now, read, sha
+from legal_skill_guard.learning.publication import skill_record_schema
+from legal_skill_guard.openexempt import FAMILIES, ROOT, metrics
+from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
+
+STATIC_SYSTEM = (
+    "Compile a strong, compact STATIC law-only skill library for frozen Qwen3-8B. "
+    "You receive complete public benchmark statutes, generic task instructions and the "
+    "ACTUAL actor interface only. No cases, training answers, actor trajectories, "
+    "future observations or execution scores are supplied. Do not invent them. "
+    "Prepare operational legal classification guidance and reusable EV ceiling operators "
+    "that can be used before any experience. Historical skills are fallible, so state "
+    "applicability and exceptions clearly. Do not force skill count/types. Cover the "
+    "supplied jurisdictions, allowed-law boundaries, residual/specific exemptions, "
+    "item versus aggregate caps and spouse rules as supported by the text. Operators "
+    "are {id,citation,limit_expression}; actual call ID is skill_id/operator_id. "
+    "Use ASCII skill/operator IDs, original citation strings, variables V (asset value) "
+    "and N (public debtor count), finite numeric literals, min/max, +,-,*,/, and "
+    "X if N==2 else Y; unlimited explicitly denotes no ceiling. Amounts spelled in "
+    "English may be converted to normal numbers. The runtime executes arithmetic, "
+    "NOT legal truth; do not rely on it to select eligibility or validate a ceiling. "
+    "Both empty and skill actors can write identical inline arithmetic. Guidance "
+    "has when/procedure/avoid_when/operators; scope keys are EC and/or EV. Operators "
+    "require EV scope. Do not store format-example entities, vehicles, dollar answers, "
+    "case IDs, answer tables or invented success claims. Statutory values are allowed. "
+    "The complete library hard cap is4096 Qwen3-8B tokens, aim2500. This is one blind "
+    "teacher compilation, no outcome-based retries, no tools or external information. "
+    "Return only the requested bank JSON."
+)
+
+
+class Control:
+    check = Online.check
+    progress = Online.progress
+    call = Online.call
+    teacher_call = Online.teacher_call
+    answer = Online.answer
+    grade = Online.grade
+
+    def __init__(self, config_path, action):
+        self.cfg = read(config_path)
+        frozen = read(config_path.with_suffix('.frozen.json'))
+        if frozen['config_sha256'] != sha(config_path):
+            raise ValueError('Frozen control config mismatch')
+        self.bindings = {**frozen['files'], self.cfg['driver_path']: self.cfg['driver_sha256']}
+        self.run_id = self.cfg['run_id'] + '_' + action
+        self.out = ROOT/'runs'/self.run_id
+        self.out.mkdir()  # Never overwrite a previous study.
+        self.rows = read(ROOT/self.cfg['input_packet'])['rows']
+        self.bank, self.native, self.teachers = [], [], []
+        self.current_batch, self.teacher_attempts, self.stop = 0, 0, False
+        self.meter = WireClient(self.cfg['generation'])
+        for sig in (signal.SIGINT, signal.SIGTERM):
+            signal.signal(sig, lambda *_: setattr(self, 'stop', True))
+        self.check()
+
+    def build(self):
+        # Public law and generic contracts only; never serialize an entire row.
+        original = self.rows[0]['components']['statutes']
+        body = {'complete_public_statutes': original,
+                'generic_contracts': {f: {k: next(r for r in self.rows if r['family'] == f)
+                    ['components'][k] for k in ('instruction', 'meta_instruction',
+                                              'response_format', 'format_reminder')}
+                    for f in FAMILIES},
+                'actual_actor_systems': {'EC': ACTOR_SYSTEM, 'EV': PROGRAM_ACTOR_SYSTEM},
+                'EV_empty_response_schema': answer_schema([]),
+                'no_cases_targets_trajectories_or_future_feedback': True}
+        schema = {'type': 'object', 'additionalProperties': False, 'required': ['bank'],
+                  'properties': {'bank': {'type': 'array', 'items': skill_record_schema(
+                      FAMILIES, guidance_schema=EXECUTABLE_GUIDANCE)}}}
+        self.bank = self.teacher_call('blind_static_compilation', STATIC_SYSTEM, body, schema)['bank']
+        if len({s['id'] for s in self.bank}) != len(self.bank):
+            raise ValueError('Duplicate static skill IDs')
+        for skill in self.bank:
+            if len(set(skill['hypothesis_ids'])) != len(skill['hypothesis_ids']):
+                raise ValueError('Duplicate static scope')
+            if skill['guidance']['operators'] and 'EV' not in skill['hypothesis_ids']:
+                raise ValueError('EV operator needs EV scope')
+        for operator in operator_catalog(self.bank).values():
+            if operator['citation'] not in law_blocks(original):
+                raise ValueError('Static operator citation absent from original public text')
+            for marker in ('Debtor', 'Debtors'):
+                execute_limit(operator['limit_expression'], f'X (hereinafter the {marker})')
+        tokens = self.meter.token_count(text=json.dumps(self.bank, ensure_ascii=False,
+                                                       separators=(',', ':')))
+        if tokens > self.cfg['library_token_hard_cap']:
+            raise ValueError(f'Complete static bank exceeds cap: {tokens}; no trimming/reroll')
+        RunStore.immutable_json(self.out/'publication.json', {
+            'at': now(), 'bank': self.bank, 'bank_sha256': csha(self.bank), 'tokens': tokens,
+            'training_cases_seen': 0, 'teacher_responses': len(self.teachers),
+            'teacher_attempts': self.teacher_attempts, 'native_generations': len(self.native),
+            'no_cases_targets_trajectories_or_scores': True,
+            'not_training_cost_matched_to_online_method': True})
+        return {'status': 'blind_static_bank_compiled', 'tokens': tokens}
+
+    def evaluate(self):
+        publication = ROOT/'runs'/(self.cfg['run_id']+'_build')/'publication.json'
+        self.bindings[str(publication.relative_to(ROOT))] = sha(publication)
+        self.bank = read(publication)['bank']
+        RunStore.immutable_json(self.out/'evaluation_bindings.json', {
+            'at': now(), 'files': self.bindings, 'bank_sha256': csha(self.bank),
+            'source_case_ids': self.cfg['evaluation_source_case_ids'],
+            'no_bank_updates_or_teacher_during_evaluation': True})
+        self.progress('waiting_for_actual_learning_process_lock')
+        with (ROOT/'artifacts/openexempt_training.lock').open('a+') as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            rows = [r for r in self.rows if r['case_id'] in self.cfg['evaluation_source_case_ids']]
+            records = [self.answer(row, self.bank, 'static_evaluation', 'static') for row in rows]
+            # All predictions exist before first reference access.
+            self.grade(records)
+        RunStore.immutable_json(self.out/'records.json', records)
+        source = ROOT/'runs'/self.cfg['learning_run_id']/'batches'
+        paired_static, empty, online = [], [], []
+        by_key = {(r['case_id'], r['family']): r for r in records}
+        for path in sorted(source.glob('b*_prequential_records.json')):
+            original = read(path)
+            a = {(r['case_id'], r['family']): r for r in original['empty']}
+            for r in original['skills']:
+                key = r['case_id'], r['family']
+                if key in by_key:
+                    paired_static.append(by_key[key])
+                    empty.append(a[key])
+                    online.append(r)
+        return {'status': 'static_development_evaluation_complete', 'static_all': metrics(records),
+                'paired_tasks': len(online), 'empty_paired': metrics(empty),
+                'static_paired': metrics(paired_static), 'online_paired': metrics(online),
+                'static_minus_empty': paired_effect(empty, paired_static),
+                'online_minus_static': paired_effect(paired_static, online),
+                'no_official_TEST_or_independent_learning_repeat': True}
+
+    def run(self, action):
+        status = 'failed'
+        try:
+            result = self.build() if action == 'build' else self.evaluate()
+            status = result['status']
+            RunStore.immutable_json(self.out/'completion.json', {
+                'at': now(), **result, 'actual_native_calls': len(self.native),
+                'actual_teacher_responses': len(self.teachers),
+                'actual_teacher_attempts': self.teacher_attempts})
+        except Exception as exc:
+            RunStore.immutable_json(self.out/'failure.json', {
+                'at': now(), 'error': repr(exc), 'traceback': traceback.format_exc(),
+                'actual_native_calls': len(self.native), 'actual_teacher_responses': len(self.teachers),
+                'actual_teacher_attempts': self.teacher_attempts})
+            raise
+        finally:
+            self.progress('terminal', state=status)
+            files = [str(p.relative_to(ROOT)) for p in self.out.rglob('*')
+                     if p.is_file() and '/cache/' not in str(p)]
+            receipt = preserve(self.run_id, 'actual-terminal', files)
+            RunStore.immutable_json(self.out/'terminal_preservation.json', receipt)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('action', choices=('build', 'evaluate'))
+    parser.add_argument('config', type=Path)
+    args = parser.parse_args()
+    Control(args.config.resolve(), args.action).run(args.action)
+
+
+if __name__ == '__main__':
+    main()
