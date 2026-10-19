@@ -145,11 +145,11 @@ def prepare(config):
     return receipt
 
 
-def answer_schema(family, bank):
+def answer_schema(family):
     """Both arms use the same task adapter and legal result types.
 
     Original assets/citations are NOT inferred from hidden targets to constrain
-    output. applied_skill_ids is a self-report, not proof of causal skill use.
+    output. No extra rationale or skill self-report precedes the task answer.
     """
     if family == "EC":
         entry = {"type": "string"}
@@ -159,17 +159,7 @@ def answer_schema(family, bank):
                      "citation": {"type": "string"}, "claim_value": {"type": "number"}}}
     else:
         raise ValueError("Only the predeclared EC/EV tasks are supported")
-    ids = [s["id"] for s in bank if family in s["hypothesis_ids"]]
-    used = {"type": "array", "items": {"type": "string"}}
-    if ids:
-        used["items"]["enum"] = ids
-    else:
-        used["maxItems"] = 0
-    return {"type": "object", "additionalProperties": False,
-            "required": ["public_checks", "answer", "applied_skill_ids"], "properties": {
-                "public_checks": {"type": "string"},
-                "answer": {"type": "object", "additionalProperties": {
-                    "type": "array", "items": entry}}, "applied_skill_ids": used}}
+    return {"type": "object", "additionalProperties": {"type": "array", "items": entry}}
 
 
 def evaluate(row, answer, target):

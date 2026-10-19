@@ -29,8 +29,9 @@ def test_actor_gets_only_original_prompt_and_scoped_knowledge():
     assert "SECRET" not in str(messages)
     assert "EV instruction" not in str(messages)
     assert [s["id"] for s in supplied] == ["EC1"]
-    assert schema["properties"]["answer"]["additionalProperties"]["items"] == {"type": "string"}
-    assert answer_schema("EC", [])["properties"]["applied_skill_ids"]["maxItems"] == 0
+    assert schema["additionalProperties"]["items"] == {"type": "string"}
+    assert answer_schema("EC")["type"] == "object"
+    assert "public_checks" not in str(schema)
 
 
 def record(family, value):

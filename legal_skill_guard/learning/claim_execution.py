@@ -169,15 +169,9 @@ def answer_schema(bank):
              "required": ["asset_name", "asset_value", "claims"], "properties": {
                  "asset_name": {"type": "string"}, "asset_value": {"type": "number", "minimum": 0},
                  "claims": {"type": "array", "items": claim}}}
-    used = {"type": "array", "items": {"type": "string"}}
-    if bank:
-        used["items"]["enum"] = [s["id"] for s in bank]
-    else:
-        used["maxItems"] = 0
     return {"type": "object", "additionalProperties": False,
-            "required": ["public_checks", "assets", "applied_skill_ids"], "properties": {
-                "public_checks": {"type": "string"},
-                "assets": {"type": "array", "items": asset}, "applied_skill_ids": used}}
+            "required": ["assets"], "properties": {
+                "assets": {"type": "array", "items": asset}}}
 
 
 def execute_claims(assets, facts, statutes, bank):
