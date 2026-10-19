@@ -35,6 +35,16 @@ from legal_skill_guard.learning.claim_execution import (
     answer_schema as claim_answer_schema,
 )
 from legal_skill_guard.learning.experiment import Comparison, now, read, sha
+from legal_skill_guard.learning.legal_namespace import (
+    SCOPES,
+    active_bank,
+    allowable_namespaces,
+    decode_claim_plan,
+    decode_classification,
+    public_catalog,
+    statutory_catalog,
+    validate_scopes,
+)
 from legal_skill_guard.learning.publication import (
     apply_differential_publication,
     differential_schema,
@@ -59,9 +69,14 @@ EXECUTABLE_GUIDANCE = copy.deepcopy(GUIDANCE)
 EXECUTABLE_GUIDANCE["required"].append("operators")
 EXECUTABLE_GUIDANCE["properties"]["operators"] = {
     "type": "array", "items": operator_schema()}
+EXECUTABLE_GUIDANCE["required"].append("jurisdiction")
+EXECUTABLE_GUIDANCE["properties"]["jurisdiction"] = {
+    "type": "string", "enum": list(SCOPES)}
 ACTOR_SYSTEM = (
     "Apply only the supplied statutes and public solved steps to the original facts. "
-    "Return the original requested final JSON object."
+    "Return a JSON object mapping actual asset descriptions to ALL applicable public "
+    "citation label IDs from the supplied vocabulary, or [] if none. A label is only "
+    "the predeclared encoding of its displayed citation; decide legal eligibility yourself."
 )
 AUTHOR_SYSTEM = (
     "Improve a frozen Qwen3-8B's reusable legal task skills from ACTUAL already-seen "
@@ -79,6 +94,11 @@ AUTHOR_SYSTEM = (
     "request private chain of thought or invent a successful trajectory. "
     "Rules here concern the supplied benchmark statute version, not current legal advice. "
     "Each skill has when/procedure/avoid_when and public family scope EC and/or EV. "
+    "Each also declares jurisdiction: ALL for genuinely shared procedure with no law-bound "
+    "operators, or one public statutory namespace. The host loads only ALL and the "
+    "jurisdictions explicitly provided by the public AE solved step. Do not guess from "
+    "domicile, broaden a state-specific rule to ALL, or use scope to memorize a case. "
+    "Every stored operator must belong to its declared public legal namespace. "
     "No forced skill types, count, growth or one-skill-per-case design. Preserve useful "
     "boundaries, delete misleading guidance and merge genuine duplication. No case "
     "answer tables, particular debtors, exact asset descriptions/values or returned "
@@ -111,10 +131,10 @@ PROGRAM_ACTOR_SYSTEM = (
     "answers. This replaces only FINAL ANSWER formatting. Submit only the assets JSON, "
     "without explanation or skill-use self-report. For each asset supply its original "
     "asset_name and numeric asset_value from Facts. Do not copy a format example, a law ceiling, "
-    "or another asset's value. No long quotation is required. Copy original citation strings "
-    "directly from the supplied statutes: there is no separate law-number lookup task. Select "
-    "EVERY applicable citation, not just one. For each "
-    "claim supply citation and limit_expression only. A string is your inline ceiling "
+    "or another asset's value. No long quotation is required. Select EVERY applicable "
+    "public citation label, not just one. Each displayed label encodes one exact public "
+    "statutory citation in the given allowable legal framework. For each "
+    "claim supply citation_ref and limit_expression only. A string is your inline ceiling "
     "expression. JSON null explicitly invokes the ONE published routine bound to that "
     "same citation. Do not choose or output an internal operator ID. If that law has no "
     "published routine, write its expression yourself; null then is an invalid call. "
@@ -125,12 +145,13 @@ PROGRAM_ACTOR_SYSTEM = (
     "literals. The interpreter checks arithmetic syntax, not the legal truth of your numbers. "
     "The string unlimited means the selected law has no dollar ceiling; never use it for "
     "a capped exemption. The executor calculates min(submitted asset value, ceiling), or the "
-    "asset value for unlimited, independently per pair. It preserves the original citation; "
+    "asset value for unlimited, independently per pair. It decodes only the label you chose; "
     "it never chooses eligibility, adds claims or repairs an answer. "
     "Learned operations use identical arithmetic to inline expressions. Their presence does "
     "not prove applicability. If no learned operation covers an eligible law, write its "
     "expression inline. The runtime checks syntax/numbers, not truth, source spelling "
-    "or legal applicability. Names/values/citations are never rewritten or repaired. "
+    "or legal applicability. Names and values are never rewritten. A public label is "
+    "decoded by its declared table, never normalized, guessed or repaired after a failure. "
     "Return only the exact JSON plan."
 )
 
@@ -159,7 +180,9 @@ PROGRAM_AUTHOR_ADDITION = (
     "does not judge their legal truth. Invalid native programs and execution receipts are "
     "actual experience. Never invent that a stored operator was called or worked. "
     "The empty-library model can write the identical inline program: executable privilege "
-    "is not unique to the skill method. All program bodies count toward the4096-token bank."
+    "is not unique to the skill method. Native citation_ref values use the same public "
+    "ASCII label table for ALL arms; feedback shows their exact decoded citations. "
+    "All program bodies and jurisdiction metadata count toward the4096-token bank."
 )
 
 
@@ -167,23 +190,38 @@ def visible(bank, family):
     return [copy.deepcopy(s) for s in bank if family in s["hypothesis_ids"]]
 
 
-def actor_payload(row, bank, *, grounded=False):
-    supplied = visible(bank, row["family"])
-    if grounded and row["family"] == "EC":
+def actor_payload(row, bank, *, grounded=True):
+    if not grounded:
+        raise ValueError("Only the public-namespace claim contract is implemented")
+    supplied = visible(active_bank(row, bank), row["family"])
+    if row["family"] == "EC":
         # Keep all classification guidance, but EV-only executable bodies are
         # not actions in the original EC output contract.
         for skill in supplied:
             skill["guidance"].pop("operators", None)
-    system = PROGRAM_ACTOR_SYSTEM if grounded and row["family"] == "EV" else ACTOR_SYSTEM
+    system = PROGRAM_ACTOR_SYSTEM if row["family"] == "EV" else ACTOR_SYSTEM
     messages = [{"role": "system", "content": system}]
     if supplied:
         messages.append({"role": "user", "content":
                          "Background reusable skills. The current legal case follows. "
                          "Use these only when applicable; they are not current answers:\n" +
                          json.dumps(supplied, ensure_ascii=False, separators=(",", ":"))})
-    messages.append({"role": "user", "content": active_case_input(row)})
-    schema = claim_answer_schema(supplied) if (
-        grounded and row["family"] == "EV") else answer_schema(row["family"])
+    catalog = public_catalog(row)
+    messages.append({"role": "user", "content":
+        "Public citation label vocabulary. These are public headers in the already-given "
+        "allowable jurisdictions, NOT an asset-eligibility answer:\n" +
+        json.dumps(catalog, ensure_ascii=False, separators=(",", ":")) +
+        "\n\n" + active_case_input(row)})
+    labels = {"type": "string", "enum": list(catalog)}
+    if row["family"] == "EV":
+        schema = claim_answer_schema(supplied)
+        claim = schema["properties"]["assets"]["items"]["properties"]["claims"]["items"]
+        claim["properties"].pop("citation")
+        claim["properties"]["citation_ref"] = labels
+        claim["required"] = ["citation_ref", "limit_expression"]
+    else:
+        schema = answer_schema("EC")
+        schema["additionalProperties"]["items"] = labels
     return messages, schema, supplied
 
 
@@ -275,9 +313,9 @@ class Online:
 
     def __init__(self, config_path):
         self.cfg = read(config_path)
-        if (self.cfg.get("execution_contract") == "source_grounded_claim_operations"
-                and self.cfg.get("execution_contract_version") != 7):
-            raise ValueError("This source implements citation-bound expression contract v7 only")
+        if (self.cfg.get("execution_contract") != "source_grounded_claim_operations"
+                or self.cfg.get("execution_contract_version") != 8):
+            raise ValueError("This source implements explicit public-namespace contract v8 only")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
             raise ValueError("Frozen config mismatch")
@@ -288,12 +326,14 @@ class Online:
             raise FileExistsError("New Run ID required, never overwrite native outputs")
         self.rows = read(ROOT / self.cfg["input_packet"])["rows"]
         self.native, self.teachers, self.teacher_attempts = [], [], 0
+        self.request_cache, self.reuse_events = {}, []
         self.current_batch, self.stop = 0, False
         self.bank, self.latest, self.summaries = [], {}, []
         if self.cfg.get("initial_library_publication"):
             initial = read(ROOT / self.cfg["initial_library_publication"])["bank"]
             self.bank = copy.deepcopy(initial)
             operator_catalog(self.bank)
+            validate_scopes(self.bank, self.rows[0]["components"]["statutes"])
             if self.bank != initial:
                 raise ValueError("Initialization changed historical knowledge")
         self.frozen_bank = copy.deepcopy(self.bank)
@@ -319,20 +359,45 @@ class Online:
             "at": now(), "run_id": self.run_id, "state": "running", "stage": stage,
             "current_batch": self.current_batch, "completed_native_calls": len(self.native),
             "completed_teacher_calls": len(self.teachers), "teacher_attempts": self.teacher_attempts,
+            "cross_stage_identical_wire_reuses": len(self.reuse_events),
             "library_records": len(self.bank), **extra})
 
     def answer(self, row, bank, stage, arm):
         self.check()
         grounded = self.cfg.get("execution_contract") == "source_grounded_claim_operations"
         messages, schema, supplied = actor_payload(row, bank, grounded=grounded)
+        catalog = public_catalog(row)
+        fingerprint = csha({"messages": messages, "schema": schema,
+                            "generation": self.cfg["generation"]})
         path = self.out / "native" / stage / f"{row['case_id']}_{row['family']}_{arm}.json"
         RunStore.immutable_json(path.with_suffix(".input.json"), {
             "messages": messages, "schema": schema, "bank_sha256": csha(bank),
             "delivered_skill_ids": [s["id"] for s in supplied],
             "original_prompt_sha256": csha(row["prompt"]),
             "actual_active_case_input_sha256": csha(active_case_input(row)),
+            "public_citation_catalog": catalog,
+            "public_allowable_jurisdictions": sorted(allowable_namespaces(row)),
+            "public_citation_catalog_sha256": csha(catalog),
             "format_only_demonstrations_not_in_inference_input": True,
             "no_private_case_annotations_or_current_target": True})
+        if fingerprint in self.request_cache:
+            original = self.request_cache[fingerprint]
+            result = {**copy.deepcopy(original), "case_id": row["case_id"],
+                      "source_key": row["source_key"], "family": row["family"],
+                      "stage": stage, "arm": arm, "bank_sha256": csha(bank),
+                      "delivered_skill_ids": [s["id"] for s in supplied],
+                      "physical_alias_of_identical_wire": {"fingerprint": fingerprint,
+                          "raw_call_path": original["raw_call_path"],
+                          "not_an_independent_generation": True,
+                          "execution_receipt_is_from_original_call": True}}
+            result.pop("score", None)  # Never cache or propagate reference feedback.
+            self.reuse_events.append({"stage": stage, "case_id": row["case_id"],
+                "family": row["family"], "arm": arm, "fingerprint": fingerprint,
+                "raw_call_path": original["raw_call_path"]})
+            RunStore.immutable_json(path.with_suffix(".answer.json"), result)
+            self.progress(stage, current_arm=arm, current_document_id=row["case_id"],
+                          current_call="identical_wire_reuse_not_new_generation")
+            return result
         response = self.call(path, messages, schema, self.cfg["generation"]["max_tokens"], {
             "stage": stage, "arm": arm, "document_id": row["case_id"],
             "family": row["family"], "call_role": "openexempt", "bank_sha256": csha(bank)})
@@ -350,11 +415,12 @@ class Online:
             parse_error = repr(exc)
         if response["finish_reason"] != "stop":
             parse_error = "Incomplete native output: " + str(response["finish_reason"])
+        public_label_submission = copy.deepcopy(parsed)
         native_program, execution_receipt, execution_error = None, None, None
         if grounded and row["family"] == "EV" and parse_error is None:
-            native_program = copy.deepcopy(parsed)
+            native_program = decode_claim_plan(parsed, catalog)
             try:
-                answer, execution_receipt = execute_claims(parsed["assets"],
+                answer, execution_receipt = execute_claims(native_program["assets"],
                     row["components"]["facts"], row["components"]["statutes"], supplied)
                 parsed = {"answer": answer}
             except InvalidClaimProgram as exc:
@@ -363,15 +429,17 @@ class Online:
         elif parse_error is None:
             # Original root task answer; this wrapper is internal storage only,
             # not an additional model-generated explanation or second answer.
-            parsed = {"answer": parsed}
+            parsed = {"answer": decode_classification(parsed, catalog)}
         result = {"case_id": row["case_id"], "source_key": row["source_key"],
                   "family": row["family"], "stage": stage, "arm": arm,
                   "bank_sha256": csha(bank), "parsed": parsed,
                   "parse_error": parse_error, "raw_call_path": str(path.relative_to(ROOT)),
                   "native_program": native_program, "execution_receipt": execution_receipt,
+                  "public_label_submission": public_label_submission,
                   "execution_error": execution_error,
                   "delivered_skill_ids": [s["id"] for s in supplied]}
         RunStore.immutable_json(path.with_suffix(".answer.json"), result)
+        self.request_cache[fingerprint] = copy.deepcopy(result)
         return result
 
     def grade(self, records):
@@ -401,6 +469,7 @@ class Online:
             receipt = record.get("execution_receipt")
             return {"case_id": record["case_id"], "family": record["family"],
                     "native_program": record.get("native_program"),
+                    "physical_alias_of_identical_wire": record.get("physical_alias_of_identical_wire"),
                     "executed_answer": (record.get("parsed") or {}).get("answer"),
                     "parse_error": record["parse_error"], "execution_error": record.get("execution_error"),
                     "score": record["score"], "actual_operations": None if receipt is None else [
@@ -431,18 +500,22 @@ class Online:
             if "actual_replay" in decision:
                 value["actual_replay"] = [observation_view(r) for r in decision["actual_replay"]]
             rejected_view.append(value)
-        actual_contracts = {family: actor_payload(next(r for r in seen if r["family"] == family),
-                                               self.bank, grounded=grounded)[:2]
-                            for family in FAMILIES}
+        actual_contracts = {}
+        for row in seen:
+            key = "+".join(sorted(allowable_namespaces(row)))
+            group = actual_contracts.setdefault(key, {})
+            if row["family"] not in group:
+                messages, schema, _ = actor_payload(row, self.bank, grounded=True)
+                group[row["family"]] = {"system": messages[0]["content"],
+                                        "response_schema": schema}
         return {"current_source_case_ids": sorted({r["case_id"] for r in current}),
                 "task_boundary": {"start_task_id": 2,
                     "public_prior": "allowable jurisdictions already supplied; do not recompute them",
                     "outputs": "all eligible asset-law alternatives, not a final jointly allocated portfolio"},
                 "current_parent_library": self.bank, "task_contracts": contracts,
+                "public_citation_label_catalog": statutory_catalog(seen[0]["components"]["statutes"]),
                 "actual_actor_system": ACTOR_SYSTEM, "complete_public_statutes": statutes,
-                "actual_system_and_response_schema_by_family": {
-                    f: {"system": m[0]["content"], "response_schema": s}
-                    for f, (m, s) in actual_contracts.items()},
+                "actual_system_and_response_schema_by_public_context": actual_contracts,
                 "already_seen_training": cases, "rejected_candidate_feedback": rejected_view,
                 "program_and_result_view_omits_only_duplicate_CPU_trace_provenance": grounded,
                 "future_cases_and_labels_not_supplied": True}
@@ -466,6 +539,7 @@ class Online:
                 sorted({r["case_id"] for r in seen}), guidance_schema=guidance_schema)
             if grounded:
                 try:
+                    validate_scopes(candidate, current[0]["components"]["statutes"])
                     for skill in candidate:
                         if skill["guidance"]["operators"] and "EV" not in skill["hypothesis_ids"]:
                             raise InvalidClaimProgram("Claim operators require public EV scope")
@@ -600,6 +674,7 @@ class Online:
                           "actual_native_calls": len(self.native),
                           "actual_teacher_responses": len(self.teachers),
                           "actual_teacher_attempts": self.teacher_attempts,
+                          "cross_stage_identical_wire_reuses": self.reuse_events,
                           "native_prompt_tokens": sum(v["response"]["prompt_tokens"] for v in self.native if v["response"]),
                           "native_completion_tokens": sum(v["response"]["completion_tokens"] for v in self.native if v["response"]),
                           "no_official_test_or_paper_success_claim": True}
@@ -608,7 +683,8 @@ class Online:
             RunStore.immutable_json(self.out / "failure.json", {
                 "at": now(), "error": repr(exc), "traceback": traceback.format_exc(),
                 "actual_native_calls": len(self.native), "actual_teacher_responses": len(self.teachers),
-                "actual_teacher_attempts": self.teacher_attempts, "actual_bank": self.bank})
+                "actual_teacher_attempts": self.teacher_attempts, "actual_bank": self.bank,
+                "cross_stage_identical_wire_reuses": self.reuse_events})
             raise
         finally:
             self.progress("terminal", state=status)

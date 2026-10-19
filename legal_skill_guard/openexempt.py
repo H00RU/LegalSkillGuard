@@ -39,7 +39,8 @@ def active_case_input(row):
                           if row["components"][key])
     contract = (
         "Return only a JSON object: keys are the actual asset descriptions in Facts; "
-        "values are arrays of all applicable exemption citations, or [] if none."
+        "values are arrays of all applicable public citation label IDs from the supplied "
+        "vocabulary, or [] if none. Labels are only output encodings, not eligibility answers."
         if row["family"] == "EC" else
         "Return only the assets claim plan required by the supplied response schema, "
         "using the actual asset descriptions and values in Facts."
