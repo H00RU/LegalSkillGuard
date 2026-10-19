@@ -23,7 +23,40 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 12:57 CST，实际逐记录信用反馈学习已后台启动，首3答完整无截断
+## 当前快照：2026-10-19 13:15 CST，32真实移除已齐；教师输入重复超本地字符门槛，修复并冻结精确续接Run02
+
+record_credit Run01在13:08:12终止，真实32native/0教师尝试/0fit，无发布/B3重答/B4预测。
+不是account/model capacity，而是编码后1056727数据字符+系统>CLI1048576字符上限，在教师预约前拒绝。
+原worker1942740已结束，不能当仍live或重复原配置；338成员实际终态双盘亲核
+SHA e592cd45313f30a5e17d65cdc6d54ab7164a6651cbc3fdf561d9f6b995c381fc。
+末库仍actual reflective R2，不是分数挑选；single8B3889231没停/换，ledger仍last1462/cap1489。
+
+全32结果已改变根因判断：逐条删记录F1全部负，不能认定某一坏记录造成全库失败。
+definition 删除：class+0.735pp/F1-1.227pp/joint-0.735pp，TP118->115、FP21不变、FN42->45。
+lifecycle 删除：+2.206/-0.613/0pp，TP118->121、FP21->28、FN42->39。
+recipient 删除：+1.471/-2.109/+0.735pp，TP118->116、FP21->26、FN42->44。
+notice/no-license 删除：-4.412/-4.462/0pp，TP118->105、FP21->17、FN42->55；NN严格41->39、NM38->40。
+这些只是在当前4条整库条件下的单次干预，不识别句子/例文贡献或普遍交互，不能按分挑删后库部署。
+全库本身仍劣于同案空库，真实全部矛盾得失必须给教师，不是已找到唯一根因或论文突破。
+
+原模块仅消除重复：当前matched16中已经有完整parent8，不再第二次整份重复放。
+full_parent_library_reference用该已有字段、实际bank hash、source/rawID有序对指回原样8观察；
+原源/Gold/全部48当前观察/任务契约/候选/TPFPFN/好坏案/旧库均未删/截断，catalog编码与decoder未改。
+完整数据950699字符，已核全8引用逐一原样存在并roundtrip相等，原系统+额外4000notice余量仍<CLI上限。
+8相关永久检查0.32s通过，无新资格生成/教师/fit；不调大上限、不加中间教师/模型/fallback。
+
+cfg contractnli_record_credit_learning_forward16_20261019_run02.json，230bindings已冻结；
+proto RECORD_CREDIT_LEARNING_INPUT_REPAIR_RUN02_20261019.md。当前未launch，接提交/双盘/独立后台。
+Run02显式继承ALL32已完成真实移除物理答及16原B3空库/全库答，每项核exact输入/schema/采样cfg/
+bankhash/共享218/source-native-logical SHA，不能重抽/挑有利/当新独立答或cache/fallback。
+有限coordinator增加显式已完成干预续接，未改原律师输出或正式技能表示；终态后仍清有限driver。
+自动续接1次真实教师->无门槛CRUD/NOOP->当前全8原生答->共同fit226->B4全8三臂24答齐后才评分。
+新增32native/1teacher/1fit，80逻辑含48旧已计费物理，真实旧32不重复生成/收费。
+有界family当前851native尝试/850完成/1未完成，36teacher尝试/35完成/1未完成，35fit；
+若完整仍883native尝试/882完成/1未完成，37teacher尝试/36完成/1未完成，36fit，不是全项目历史。
+全部失败、未知usage不记0，官方DEV/TEST未调优，Goal active全目标不变，没有新性能突破。
+
+## 已归档快照：2026-10-19 12:57 CST，实际逐记录信用反馈学习已后台启动，首3答完整无截断
 
 12:55:28真实启动 legal_contractnli_record_credit_learning_forward16_20261019_run01，
 source commit80ecc06985b6fbc740c1a9b867c97ca0f2623eb6，worker1942740/ticks439224576，

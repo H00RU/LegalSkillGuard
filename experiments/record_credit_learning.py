@@ -24,6 +24,33 @@ from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
 
 class RecordCreditLearning(WitnessedOnline):
+    def generate(self, row, role, messages, schema):
+        replay = self.cfg.get('completed_intervention_reference_run')
+        if replay and self.phase.startswith('b3_remove_record_'):
+            assert role == 'skills'
+            old = ROOT/'runs'/replay
+            ip = old/f'inputs/{self.phase}/{row["id"]}/{role}.json'
+            np = old/f'native/{self.phase}/{row["id"]}/{role}.json'
+            lp = old/f'logical_answers/{self.phase}/{row["id"]}/{role}.json'
+            assert read(ip) == {'messages': messages, 'schema': schema}
+            native, logical = read(np)['response'], read(lp)
+            assert logical['response'] == native and native['finish_reason'] == 'stop'
+            assert logical['bank_sha256'] == csha(self.bank)
+            assert logical['ordinary_tool_source_ids'] == self.prefix_ids
+            self.record(f'inputs/{self.phase}/{row["id"]}/{role}.json', read(ip))
+            self.record(f'inherited_completed_interventions/{self.phase}/{row["id"]}.json', {
+                'source_input': str(ip), 'source_input_sha256': sha(ip),
+                'source_native': str(np), 'source_native_sha256': sha(np),
+                'source_logical': str(lp), 'source_logical_sha256': sha(lp),
+                'actual_original_response': native, 'new_native_calls': 0,
+                'exact_actual_intervention_input_schema_bank_tool_and_generation_verified': True,
+                'already_paid_completed_call_not_a_retry_or_independent_sample': True})
+            self.inherited_intervention_count += 1
+            self.progress('inherited_completed_interventions', current_arm=role,
+                current_document_id=row['id'], completed_inherited_intervention_calls=self.inherited_intervention_count)
+            return native
+        return super().generate(row, role, messages, schema)
+
     def inherit_current(self, row, mode):
         role = 'joint_empty' if mode == 'empty' else 'skills'
         old = ROOT/'runs'/self.cfg['inherited_source_run']
@@ -54,6 +81,16 @@ class RecordCreditLearning(WitnessedOnline):
         parent = read(path)
         assert parent['publication'] == self.bank
         assert read(ROOT/self.cfg['terminal_parent_receipt'])['state'] == 'terminal_results_preserved'
+        replay = self.cfg.get('completed_intervention_reference_run')
+        self.inherited_intervention_count = 0
+        if replay:
+            old = ROOT/'runs'/replay
+            failed = read(old/'failure.json')
+            assert failed['actual_new_native_teacher_CPUfits'] == [32, 0, 0]
+            assert failed['actual_teacher_attempts'] == 0
+            assert 'teacher input exceeds character capacity' in failed['error']
+            assert self.cfg['generation'] == read(ROOT/self.cfg['completed_intervention_reference_config'])['generation']
+            assert len(list((old/'native').rglob('*.json'))) == 32
         self.materialized = copy.deepcopy(parent['materialized_runtime_memory'])
         self.catalog = {w['witness_ref']: {k: v for k, v in w.items() if k != 'witness_ref'}
             for s in self.materialized for w in s['witnesses']}
@@ -72,8 +109,9 @@ class RecordCreditLearning(WitnessedOnline):
             'frozen_bindings': self.bindings.copy(), 'actual_initial_terminal_bank': self.bank,
             'actual_initial_materialized_memory': self.materialized, 'initial_knowledge_tokens': self.memory_tokens,
             'initial_ordinary_source_ids': self.prefix_ids, 'reading_policy': self.reading_policy,
-            'planned_new_native_teacher_CPUfits': [64, 1, 1], 'planned_logical_answers': 80,
-            'inherited_already_paid_physical_answers': 16,
+            'planned_new_native_teacher_CPUfits': [self.cfg['planned_new_native_calls'], 1, 1],
+            'planned_logical_answers': 80, 'inherited_initial_parent_physical_answers': 16,
+            'explicit_completed_intervention_replay_count': 32 if replay else 0,
             'not_independent_confirmation_complete128_or_official_TEST': True,
             'all_structurally_valid_teacher_edits_publish_without_efficacy_admission': True})
         self.current_batch = 3
@@ -117,7 +155,8 @@ class RecordCreditLearning(WitnessedOnline):
         self.units.extend(forward)
         groups = {s: [u for u in forward if u['stage'] == 'forward_b4_'+s] for s in styles}
         assert all(len(v) == 8 for v in groups.values())
-        assert len(self.native) == 64 and len(self.answers) == 80
+        assert len(self.native) == self.cfg['planned_new_native_calls'] and len(self.answers) == 80
+        assert self.inherited_intervention_count == (32 if replay else 0)
         assert len(self.teachers) == self.teacher_attempts == len(self.fit_records) == 1
         result = {'at': now(), 'run_id': self.run_id, 'record_removal_effects': effects,
             'actual_same_tool_training_publication_effect': update,
@@ -128,9 +167,11 @@ class RecordCreditLearning(WitnessedOnline):
                     ('empty', 'parent'), ('empty', 'learned'), ('parent', 'learned')])},
             'actual_terminal_library': self.bank, 'actual_terminal_materialized_memory': self.materialized,
             'actual_terminal_knowledge_tokens': self.memory_tokens, 'ordinary_source_ids': self.prefix_ids,
-            'actual_new_native_teacher_CPUfits': [64, 1, 1], 'inherited_already_paid_physical_answers': 16,
+            'actual_new_native_teacher_CPUfits': [len(self.native), 1, 1],
+            'inherited_initial_parent_physical_answers': 16,
+            'inherited_completed_intervention_physical_answers': self.inherited_intervention_count,
             'logical_answers': 80, 'all_actual_units_and_adverse_results': self.units,
-            'prior_native_attempts_completed_unfinished': [819, 818, 1],
+            'prior_native_attempts_completed_unfinished': [851, 850, 1] if replay else [819, 818, 1],
             'cumulative_native_attempts_completed_unfinished': [883, 882, 1],
             'cumulative_teacher_attempts_completed_unfinished': [37, 36, 1], 'cumulative_actual_CPUfits': 36,
             'unfinished_usage_unknown_and_not_entire_project_history': True,

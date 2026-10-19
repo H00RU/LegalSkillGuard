@@ -430,7 +430,16 @@ class WitnessedOnline(WitnessedExperience):
         body = self.learning_body(window, empty_units+full_units,
             {'empty': points(empty_units), 'combined': points(full_units)})
         body['actual_record_removal_feedback'] = {
-            'full_parent_library_reference': self.observe(full_units), 'record_removals': effects,
+            # The same complete parent observations already occur in the matched
+            # current packet. Refer to those exact raw IDs rather than duplicating
+            # their contracts/candidates/feedback and exceeding the CLI char cap.
+            'full_parent_library_reference': {
+                'field': 'all_actual_current8_matched_empty_and_memory_observations.observations',
+                'bank_sha256': csha(parent),
+                'ordered_document_id_native_raw_id_pairs': [
+                    [u['document_id'], u['response']['raw_id']] for u in full_units],
+                'exact_full_observations_already_supplied_not_summarized': True},
+            'record_removals': effects,
             'same_current_source_tool_schema_generation_and_scoring': True,
             'single_sample_per_source_not_population_or_token_matched_effect': True,
             'removal_does_not_identify_rule_vs_example_or_other_interactions': True,
