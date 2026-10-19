@@ -1,0 +1,179 @@
+"""Pinned OpenExempt TRAIN generation and unchanged official EC/EV scoring.
+
+Upstream: servantez/OpenExempt, ec6fa2547431096588ce2d3ef107b8adc33cd4fe,
+CC BY 4.0. The original generator and evaluator remain unmodified in data/cache.
+Only original Task.prompt() is an inference input. Symbolic cases and the
+upstream solver are data-construction/grading capabilities, never agent tools.
+"""
+
+from __future__ import annotations
+
+import copy
+import importlib
+import json
+import logging
+import math
+import random
+import sys
+from pathlib import Path
+
+from legal_skill_guard.experiment.storage import RunStore
+from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
+
+ROOT = Path(__file__).resolve().parents[1]
+COMMIT = "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+UPSTREAM = ROOT / "data/cache/openexempt/servantez-OpenExempt-ec6fa25"
+FAMILIES = {"EC": 2, "EV": 3}
+PROMPT_FIELDS = (
+    "instruction", "meta_instruction", "response_format", "facts", "solved_steps",
+    "statutes", "format_reminder",
+)
+
+
+def upstream(name):
+    if not UPSTREAM.is_dir():
+        raise FileNotFoundError("Download the pinned official OpenExempt archive first")
+    location = str(UPSTREAM)
+    if location not in sys.path:
+        sys.path.insert(0, location)
+    module = importlib.import_module(name)
+    if not Path(module.__file__).resolve().is_relative_to(UPSTREAM):
+        raise ValueError("Unexpected upstream module origin")
+    return module
+
+
+def public_case_key(case):
+    """Group EC/EV by public underlying facts, not task ID or expert annotations."""
+    value = copy.deepcopy(case.serialize())
+    value.pop("state_jurisdiction")  # Generated AE answer, not a raw factual attribute.
+    for asset in value["assets"]:
+        del asset["applicable_exemptions"]
+        del asset["category_hints"]
+    return csha(value)
+
+
+def public_task(task, case_id, source_key, family):
+    components = {key: getattr(task, key) for key in PROMPT_FIELDS}
+    prompt = "\n\n".join(filter(None, components.values()))
+    if prompt != task.prompt():
+        raise ValueError("Original Task.prompt() did not reconstruct exactly")
+    return {"case_id": case_id, "source_key": source_key, "family": family,
+            "components": components, "prompt": prompt}
+
+
+def prepare(config):
+    """Generate fixed independent TRAIN cases, never resample by model outcome."""
+    from legal_skill_guard.learning.experiment import sha
+
+    packet_path = ROOT / config["input_packet"]
+    if packet_path.exists():
+        raise FileExistsError("Prepared input exists; use it, never overwrite/resample")
+    Config = upstream("source.config").Config
+    CaseGenerator = upstream("source.case_generator").CaseGenerator
+    TaskGenerator = upstream("source.task_generator").TaskGenerator
+    settings = json.loads((UPSTREAM / "config.json").read_text())
+    settings.update(config["dataset_generation"])
+    for name in ("data_directory", "asset_directory", "statute_directory", "template_directory"):
+        settings[name] = str(UPSTREAM / settings[name])
+    settings["output_directory"] = str(packet_path.parent / "unused_upstream_output")
+    settings["start_task_id"] = 2
+    count = config["source_cases"]
+    settings["dataset_size"] = count
+    random.seed(config["dataset_seed"])
+    configs = {f: Config({**settings, "terminal_task_id": i}, "train_" + f, False)
+               for f, i in FAMILIES.items()}
+    cases = CaseGenerator(configs["EC"])
+    generators = {f: TaskGenerator(c) for f, c in configs.items()}
+    public_rows, groups = [], []
+    for index in range(count):
+        case = cases.generate_case()
+        source_key = public_case_key(case)
+        if source_key in groups:
+            raise ValueError("Duplicate generated case; do not silently reroll")
+        groups.append(source_key)
+        gold = {}
+        for family, generator in generators.items():
+            task = generator.generate_task(case)
+            if family == "EV" and not task.solution:
+                raise ValueError(f"Original EV target is empty for fixed case {index + 1}; "
+                                 "native F1 is undefined, retain selection and review without reroll")
+            public_rows.append(public_task(task, index + 1, source_key, family))
+            gold[family] = task.solution
+        RunStore.immutable_json(ROOT / config["grading_directory"] / f"{index + 1}.json",
+                                {"case_id": index + 1, "source_key": source_key,
+                                 "targets": gold})
+        RunStore.immutable_json(packet_path.parent / "construction_only" / f"{index + 1}.json",
+                                {"never_to_actor_or_teacher": True, "case": case.serialize()})
+    packet = {"rows": public_rows, "generation_seed": config["dataset_seed"],
+              "source_cases": count, "upstream_commit": COMMIT,
+              "official_test_opened": False, "start_task_id": 2}
+    RunStore.immutable_json(packet_path, packet)
+    receipt = {"upstream_commit": COMMIT,
+               "archive_sha256": sha(ROOT / config["upstream_archive"]),
+               "generation_settings": settings, "seed": config["dataset_seed"],
+               "source_keys": groups, "source_cases": count, "tasks": len(public_rows),
+               "input_packet_sha256": sha(packet_path),
+               "original_generator_unmodified": True, "official_test_opened": False,
+               "inference_inputs_are_exact_original_Task_prompt": True}
+    RunStore.immutable_json(packet_path.parent / "preselection.json", receipt)
+    return receipt
+
+
+def answer_schema(family, bank):
+    """Both arms use the same task adapter and legal result types.
+
+    Original assets/citations are NOT inferred from hidden targets to constrain
+    output. applied_skill_ids is a self-report, not proof of causal skill use.
+    """
+    if family == "EC":
+        entry = {"type": "string"}
+    elif family == "EV":
+        entry = {"type": "object", "additionalProperties": False,
+                 "required": ["citation", "claim_value"], "properties": {
+                     "citation": {"type": "string"}, "claim_value": {"type": "number"}}}
+    else:
+        raise ValueError("Only the predeclared EC/EV tasks are supported")
+    ids = [s["id"] for s in bank if family in s["hypothesis_ids"]]
+    used = {"type": "array", "items": {"type": "string"}}
+    if ids:
+        used["items"]["enum"] = ids
+    else:
+        used["maxItems"] = 0
+    return {"type": "object", "additionalProperties": False,
+            "required": ["public_checks", "answer", "applied_skill_ids"], "properties": {
+                "public_checks": {"type": "string"},
+                "answer": {"type": "object", "additionalProperties": {
+                    "type": "array", "items": entry}}, "applied_skill_ids": used}}
+
+
+def evaluate(row, answer, target):
+    """Invoke the pinned native evaluator; no new semantic judge or target edits."""
+    Evaluator = upstream("evaluator").Evaluator
+    TaskID = upstream("source.task_id").TaskID
+    logger = logging.getLogger("openexempt_official_scoring")
+    logger.disabled = True
+    evaluator = Evaluator([])  # EC/EV scoring does not require private case/solver data.
+    uid = f"{row['case_id']}_{row['family']}"
+    result = evaluator.evaluate(
+        TaskID(FAMILIES[row["family"]]),
+        [{"uid": uid, "prediction": json.dumps(answer, ensure_ascii=False)}],
+        [{"uid": uid, "target": target}], [None], logger)
+    if not all(math.isfinite(result[key]) for key in ("precision", "recall", "f1")):
+        raise ValueError("Nonfinite official score; never replace it with a fabricated value")
+    return {**result, "exact_target": answer == target,
+            "official_evaluator_commit": COMMIT}
+
+
+def metrics(records):
+    """Mean native per-case F1, separately per legal task; not ContractNLI F1."""
+    result = {}
+    for family in FAMILIES:
+        rows = [r for r in records if r["family"] == family]
+        if not rows:
+            continue
+        result[family] = {k: sum(r["score"][k] for r in rows) / len(rows)
+                          for k in ("precision", "recall", "f1", "exact_target")}
+        result[family]["tasks"] = len(rows)
+        result[family]["invalid_format"] = sum(r["score"]["invalid_format"] for r in rows)
+    result["mean_family_f1"] = sum(v["f1"] for v in result.values()) / len(result) if result else 0
+    return result

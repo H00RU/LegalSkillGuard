@@ -1,4 +1,12 @@
-# LegalSkillEvolve — current legal evidence skill learning
+# LegalSkillEvolve — legal skill learning with a frozen 8B
+
+2026-10-19 17:05 CST: a new research Goal is active. The old ContractNLI
+background run is stopped and preserved. Legal task and skill mechanism are
+open for reassessment; current decisions are in
+[the research reset](docs/research/RESEARCH_RESET_20261019.md).
+The first bounded mechanism study uses independently generated OpenExempt TRAIN
+cases, not the official test labels or hidden symbolic answers at inference.
+No new positive skill result is claimed. Entries below are historical.
 
 Current execution and evidence: [docs/CURRENT_GOAL.md](docs/CURRENT_GOAL.md).
 The timestamped entries below are historical checkpoints, not the current run.
@@ -6,7 +14,7 @@ Completed source-program B1--B3 did not establish skill transfer; contextual
 B6/B7 are also negative. Do not read old seen-case after-fit scores as new-case
 skill gains, formal TEST results, or a mature-method victory.
 
-## Active execution — 2026-10-19
+## Historical execution — 2026-10-19, stopped at 14:52 CST
 
 The current background run is
 `legal_contractnli_record_credit_remaining104_online_20261019_run04`, started
