@@ -30,6 +30,7 @@ from legal_skill_guard.learning.claim_execution import (
     law_blocks,
     operator_catalog,
     operator_schema,
+    source_registry,
 )
 from legal_skill_guard.learning.claim_execution import (
     answer_schema as claim_answer_schema,
@@ -108,48 +109,38 @@ AUTHOR_SYSTEM = (
 )
 
 PROGRAM_ACTOR_SYSTEM = (
-    "Apply ONLY the supplied OpenExempt statutes, original facts and public solved steps. "
-    "You select legal eligibility and citations yourself. Optional historical skills are "
-    "fallible; operator availability never proves that an asset qualifies. Do not use outside law. "
-    "For EV submit an explicit executable claim plan, NOT final monetary answers. This replaces "
-    "only the original FINAL ANSWER formatting. public_checks is a source-supported audit of "
-    "at most80 words, not private reasoning. assets contains asset_name, value_quote, claims. "
-    "Copy the exact asset noun phrase without paraphrasing. value_quote must be a contiguous "
-    "EXACT substring of the original Facts, containing that asset name and exactly ONE dollar "
-    "value. Isolate the asset-value phrase when a sentence mentions several assets. Never quote "
-    "an example, statutory ceiling, or unrelated asset as its market value. The executor reads "
-    "the quoted value V mechanically; no hidden asset information is available. "
-    "For each legally applicable citation select exactly ONE action: set operator_id to a "
-    "published skill/operator ID and limit_program to null, OR set operator_id to null and "
-    "write the full limit_program inline. Both actions use IDENTICAL arithmetic semantics. "
-    "Do not omit an applicable citation merely because no learned operator covers it. "
-    "limit_program is a reverse-Polish stack array of instructions. Every instruction has "
-    "op,citation,literal,number; unused payload fields must be null. LAW pushes a currency "
-    "literal copied exactly from that ORIGINAL public statute header's body, using citation "
-    "and literal and number=null. CONST pushes number0/1/2 only, with citation/literal=null. "
-    "DEBTORS pushes1 or2 from the public Debtor/Debtors marker, other fields null. "
-    "ADD,SUB,MUL,DIV,MIN,MAX pop the last two values left then right and push the result, "
-    "with all payload fields null. IF_TWO pops a single-debtor ceiling then a two-debtor "
-    "ceiling and selects the latter only for two debtors; payload fields null. A nonempty "
-    "program must leave one nonnegative ceiling C. [] explicitly means this citation has "
-    "NO dollar ceiling; do not use it for a capped exemption. No invented numeric constants. "
-    "The task executor produces claim_value=V for an unlimited claim, otherwise min(V,C), "
-    "independently for every asset-citation pair, as required by this task. It does not choose "
-    "laws, add citations, infer eligibility, consult references, or repair a proposed answer. "
-    "Invalid source quotes or programs are failed attempts, not fallback paths. You must "
-    "still determine lawful caps, spouse conditions, cross-references and every applicable "
-    "citation. Return the exact requested JSON plan and applied_skill_ids (or [])."
+    "Apply only the original facts, supplied statutes and public solved steps. Decide legal "
+    "eligibility yourself; no outside law. Submit an EV claim plan rather than final dollar "
+    "answers. This replaces only FINAL ANSWER formatting. public_checks is a source-supported "
+    "audit of at most80 words, not private reasoning. For each asset copy its full asset_name "
+    "and value_quote: an EXACT contiguous substring of Facts containing that name and exactly "
+    "ONE dollar value. Do not quote a format example, a law ceiling, or another asset's value. "
+    "The public source_registry maps ASCII L-codes to original law citations and M-names to "
+    "money literals in those laws. Select EVERY applicable law_id, not just one. For each "
+    "claim choose exactly one: a published operator_id with limit_expression=null, OR "
+    "operator_id=null and a short inline Python arithmetic expression for the legal ceiling. "
+    "Expressions may use listed M-names, N (1 or2 debtors from Facts), constants0/1/2, "
+    "+,-,*,/, min/max, and X if N==2 else Y. Do not invent money constants or reference names. "
+    "The string unlimited means the selected law has no dollar ceiling; never use it for "
+    "a capped exemption. The executor calculates min(quoted asset value, ceiling), or the "
+    "asset value for unlimited, independently per pair. It maps the law_id losslessly to "
+    "the original citation; it never chooses eligibility, adds claims or repairs an answer. "
+    "Learned operations use identical arithmetic to inline expressions. Their presence does "
+    "not prove applicability. If no learned operation covers an eligible law, write its "
+    "expression inline. Invalid quotes, references or expressions fail without fallback. "
+    "Return the exact JSON plan, with applied_skill_ids or []."
 )
 
 PROGRAM_AUTHOR_ADDITION = (
     " The EV execution contract is now SOURCE-GROUNDED CLAIM OPERATIONS, not free final-number "
     "generation. Each guidance also has operators, an array which may be empty. An operator "
-    "has id,citation,limit_program. Its globally callable ID is skill_id/operator_id. Write "
-    "reusable statutory CEILING programs, never asset values, case names, targets or answers. "
-    "The complete actual actor system and schema are supplied. All LAW constants must be "
-    "exact currency lexemes from their cited public clause; generic CONST accepts only0/1/2. "
-    "Use DEBTORS and arithmetic/IF_TWO only where that law supports the spouse rule. Empty "
-    "program means unlimited, not a substitute for unresolved law. Scope operators to EV. "
+    "has id,citation,limit_expression. All skill/operator IDs must be ASCII. Its globally "
+    "callable ID is skill_id/operator_id. Write reusable statutory CEILING expressions, never "
+    "asset values, case names, targets or answers. The full actual system, schema and public "
+    "source_registry are supplied. Formula M-names bind to exact original-law money literals; "
+    "other numeric constants are only0/1/2. Use N, arithmetic and a N==1/2 conditional only where "
+    "that law supports the spouse rule. unlimited is an explicit no-ceiling decision, not "
+    "an unresolved-law substitute. Scope operators to EV. "
     "Keep useful procedural guidance for classification, but do not spend revisions merely "
     "restating min(V,C): the shared interpreter already executes it. Learn the legal cap, "
     "cross-reference, category and exception operations the actual errors warrant. The "
@@ -170,6 +161,10 @@ def actor_payload(row, bank, *, grounded=False):
     system = PROGRAM_ACTOR_SYSTEM if grounded and row["family"] == "EV" else ACTOR_SYSTEM
     messages = [{"role": "system", "content": system},
                 {"role": "user", "content": row["prompt"]}]
+    if grounded and row["family"] == "EV":
+        messages.append({"role": "user", "content": json.dumps(
+            {"source_registry": source_registry(row["components"]["statutes"])},
+            ensure_ascii=False, separators=(",", ":"))})
     if supplied:
         messages.append({"role": "user", "content":
                          "Optional reusable historical skills (not current answers):\n" +
@@ -212,6 +207,7 @@ def freeze(config_path):
     files |= set(UPSTREAM.rglob("*.jsonl"))
     files |= set((ROOT / cfg["input_packet"]).parent.rglob("*.json"))
     files |= set((ROOT / cfg["grading_directory"]).glob("*.json"))
+    files |= set(ROOT.glob("tests/test_*.py"))
     files.update({Path(__file__).resolve(), Path(config_path).resolve(), ROOT / "pyproject.toml",
                   ROOT / "uv.lock", ROOT / "README.md",
                   ROOT / "tests/test_openexempt_contract.py",
@@ -259,6 +255,9 @@ class Online:
 
     def __init__(self, config_path):
         self.cfg = read(config_path)
+        if (self.cfg.get("execution_contract") == "source_grounded_claim_operations"
+                and self.cfg.get("execution_contract_version") != 2):
+            raise ValueError("This source implements compact ASCII expression contract v2 only")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
             raise ValueError("Frozen config mismatch")
@@ -410,6 +409,7 @@ class Online:
         return {"current_source_case_ids": sorted({r["case_id"] for r in current}),
                 "current_parent_library": self.bank, "task_contracts": contracts,
                 "actual_actor_system": ACTOR_SYSTEM, "complete_public_statutes": statutes,
+                "public_source_registry": source_registry(seen[0]["components"]["statutes"]) if grounded else None,
                 "actual_system_and_response_schema_by_family": {
                     f: {"system": m[0]["content"], "response_schema": s}
                     for f, (m, s) in actual_contracts.items()},
@@ -444,7 +444,7 @@ class Online:
                         for source in current:
                             if operator["citation"] not in law_blocks(source["components"]["statutes"]):
                                 raise InvalidClaimProgram("Operator citation is not a current public header")
-                            execute_limit(operator["limit_program"], source["components"]["facts"],
+                            execute_limit(operator["limit_expression"], source["components"]["facts"],
                                           source["components"]["statutes"])
                 except InvalidClaimProgram as exc:
                     decision = {"accepted": False, "candidate": candidate, "delta": delta,

@@ -1,58 +1,157 @@
-"""Source-grounded claim operations for a frozen legal task executor.
+"""Public-source claim execution with ASCII references and small expressions.
 
-The model emits a program, not an answer later clipped or repaired. Both empty
-and learned-library conditions have the same arithmetic instruction set. A
-learned operator is a reusable source-bound limit program; an empty-library
-model may write the identical program inline. No Gold, expert asset categories,
-benchmark solver, model call, filesystem or Python execution is available here.
+Both arms may write the same inline expression; a learned operator merely
+reuses it. No Gold, expert categories, solver, I/O, arbitrary Python execution
+or post-answer repair is available. Formula constants bind to ORIGINAL law
+money lexemes. The model chooses eligibility and an explicit source quotation.
 """
-
 from __future__ import annotations
 
+import ast
 import re
 from decimal import Decimal
 
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
 MONEY = re.compile(r"\$(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{1,2})?(?![\d,])")
-OPCODES = ("LAW", "CONST", "DEBTORS", "ADD", "SUB", "MUL", "DIV", "MIN", "MAX", "IF_TWO")
 
 
 class InvalidClaimProgram(ValueError):
-    """An invalid model action is a failed attempt, never an alternative answer."""
+    """Invalid actions are failed attempts, not fallback answers."""
 
 
-def instruction_schema():
-    return {"type": "object", "additionalProperties": False,
-            "required": ["op", "citation", "literal", "number"], "properties": {
-                "op": {"type": "string", "enum": list(OPCODES)},
-                "citation": {"type": ["string", "null"]},
-                "literal": {"type": ["string", "null"]},
-                "number": {"anyOf": [{"type": "integer", "enum": [0, 1, 2]},
-                                       {"type": "null"}]}}}
+def law_blocks(statutes):
+    result = {}
+    for paragraph in statutes.split("\n\n"):
+        lines = paragraph.splitlines()
+        headers = [i for i, line in enumerate(lines) if "§" in line and len(line) < 120]
+        if headers:
+            i = headers[0]
+            header = lines[i].strip()
+            if header in result:
+                raise InvalidClaimProgram("Duplicate original law header")
+            result[header] = "\n".join(lines[i + 1:])
+    return result
+
+
+def source_money(literal):
+    if not isinstance(literal, str) or MONEY.fullmatch(literal) is None:
+        raise InvalidClaimProgram("One exact original money lexeme is required")
+    return Decimal(literal[1:].replace(",", ""))
+
+
+def source_registry(statutes):
+    laws, amounts = {}, {}
+    for citation, body in law_blocks(statutes).items():
+        lid = "L" + csha(citation)[:8].upper()
+        if lid in laws:
+            raise InvalidClaimProgram("Law-reference collision")
+        money = []
+        for literal in dict.fromkeys(MONEY.findall(body)):
+            name = "M" + csha([citation, literal])[:8].upper()
+            if name in amounts:
+                raise InvalidClaimProgram("Money-reference collision")
+            amounts[name] = {"citation": citation, "literal": literal}
+            money.append({"name": name, "source_literal": literal})
+        laws[lid] = {"citation": citation, "money": money}
+    return {"laws": laws, "amounts": amounts}
+
+
+def debtor_count(facts):
+    match = re.search(r"\(hereinafter the (Debtors|Debtor)\)", facts)
+    if match is None:
+        raise InvalidClaimProgram("Public debtor-count marker absent")
+    return Decimal(2 if match.group(1) == "Debtors" else 1)
+
+
+def execute_limit(expression, facts, statutes):
+    if not isinstance(expression, str) or len(expression) > 512:
+        raise InvalidClaimProgram("A short limit expression is required")
+    if expression == "unlimited":
+        return None, []
+    try:
+        tree = ast.parse(expression, mode="eval")
+    except SyntaxError as exc:
+        raise InvalidClaimProgram("Invalid arithmetic expression") from exc
+    if len(list(ast.walk(tree))) > 64:
+        raise InvalidClaimProgram("Expression operation budget exceeded")
+    registry, used = source_registry(statutes), []
+
+    def evaluate(node):
+        if isinstance(node, ast.Name):
+            if node.id == "N":
+                return debtor_count(facts)
+            if node.id not in registry["amounts"]:
+                raise InvalidClaimProgram("Unknown current public money reference")
+            ref = registry["amounts"][node.id]
+            used.append({"name": node.id, **ref})
+            return source_money(ref["literal"])
+        if isinstance(node, ast.Constant) and type(node.value) is int and node.value in (0, 1, 2):
+            return Decimal(node.value)
+        if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.Add, ast.Sub, ast.Mult, ast.Div)):
+            left, right = evaluate(node.left), evaluate(node.right)
+            if isinstance(node.op, ast.Add):
+                return left + right
+            if isinstance(node.op, ast.Sub):
+                return left - right
+            if isinstance(node.op, ast.Mult):
+                return left * right
+            if right == 0:
+                raise InvalidClaimProgram("Division by zero")
+            return left / right
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in ("min", "max"):
+            if node.keywords or not 1 <= len(node.args) <= 8:
+                raise InvalidClaimProgram("Only bounded positional min/max calls are available")
+            values = [evaluate(n) for n in node.args]
+            return (min if node.func.id == "min" else max)(values)
+        if isinstance(node, ast.IfExp):
+            test = node.test
+            if (not isinstance(test, ast.Compare) or len(test.ops) != 1
+                    or not isinstance(test.ops[0], ast.Eq) or len(test.comparators) != 1
+                    or not isinstance(test.left, ast.Name) or test.left.id != "N"
+                    or not isinstance(test.comparators[0], ast.Constant)
+                    or type(test.comparators[0].value) is not int
+                    or test.comparators[0].value not in (1, 2)):
+                raise InvalidClaimProgram("Only the public N==1/2 conditional is supported")
+            branch = node.body if debtor_count(facts) == test.comparators[0].value else node.orelse
+            return evaluate(branch)
+        raise InvalidClaimProgram("Unsupported arithmetic syntax or unsourced numeric constant")
+
+    value = evaluate(tree.body)
+    if not value.is_finite() or value < 0:
+        raise InvalidClaimProgram("A finite nonnegative ceiling is required")
+    return value, used
 
 
 def operator_schema():
     return {"type": "object", "additionalProperties": False,
-            "required": ["id", "citation", "limit_program"], "properties": {
+            "required": ["id", "citation", "limit_expression"], "properties": {
                 "id": {"type": "string", "minLength": 1},
                 "citation": {"type": "string", "minLength": 1},
-                "limit_program": {"type": "array", "maxItems": 32,
-                                  "items": instruction_schema()}}}
+                "limit_expression": {"type": "string", "minLength": 1}}}
+
+
+def operator_catalog(bank):
+    result = {}
+    for skill in bank:
+        if not skill["id"].isascii():
+            raise InvalidClaimProgram("Native wire skill identities must be ASCII")
+        for operator in skill["guidance"]["operators"]:
+            key = skill["id"] + "/" + operator["id"]
+            if key in result or not key.isascii():
+                raise InvalidClaimProgram("Operator identities must be distinct ASCII names")
+            result[key] = {**operator, "skill_id": skill["id"]}
+    return result
 
 
 def answer_schema(statutes, bank):
-    """Same inline arithmetic expressivity with or without learned operators."""
     operators = list(operator_catalog(bank))
     reference = {"type": "null"} if not operators else {
         "anyOf": [{"type": "string", "enum": operators}, {"type": "null"}]}
     claim = {"type": "object", "additionalProperties": False,
-             "required": ["citation", "operator_id", "limit_program"], "properties": {
-                 "citation": {"type": "string", "enum": list(law_blocks(statutes))},
-                 "operator_id": reference,
-                 "limit_program": {"anyOf": [
-                     {"type": "array", "maxItems": 32, "items": instruction_schema()},
-                     {"type": "null"}]}}}
+             "required": ["law_id", "operator_id", "limit_expression"], "properties": {
+                 "law_id": {"type": "string", "enum": list(source_registry(statutes)["laws"])},
+                 "operator_id": reference, "limit_expression": {"type": ["string", "null"]}}}
     asset = {"type": "object", "additionalProperties": False,
              "required": ["asset_name", "value_quote", "claims"], "properties": {
                  "asset_name": {"type": "string"}, "value_quote": {"type": "string"},
@@ -68,163 +167,41 @@ def answer_schema(statutes, bank):
                 "assets": {"type": "array", "items": asset}, "applied_skill_ids": used}}
 
 
-def law_blocks(statutes):
-    """Split original displayed statute headers mechanically, not by legal merit."""
-    result = {}
-    for paragraph in statutes.split("\n\n"):
-        lines = paragraph.splitlines()
-        headers = [i for i, line in enumerate(lines) if "§" in line and len(line) < 120]
-        if not headers:
-            continue
-        i = headers[0]
-        header = lines[i].strip()
-        body = "\n".join(lines[i + 1:])
-        if header in result:
-            raise InvalidClaimProgram("Duplicate public statute header")
-        result[header] = body
-    return result
-
-
-def source_money(literal):
-    if not isinstance(literal, str) or MONEY.fullmatch(literal) is None:
-        raise InvalidClaimProgram("Money must be one exact currency lexeme")
-    return Decimal(literal[1:].replace(",", ""))
-
-
-def debtor_count(facts):
-    match = re.search(r"\(hereinafter the (Debtors|Debtor)\)", facts)
-    if match is None:
-        raise InvalidClaimProgram("Declared public debtor-count marker is absent")
-    return Decimal(2 if match.group(1) == "Debtors" else 1)
-
-
-def validate_program(program):
-    if not isinstance(program, list) or len(program) > 32:
-        raise InvalidClaimProgram("A limit program must be an instruction array")
-    depth = 0
-    for step in program:
-        if not isinstance(step, dict) or set(step) != {"op", "citation", "literal", "number"}:
-            raise InvalidClaimProgram("Exact instruction fields required")
-        op = step["op"]
-        if op not in OPCODES:
-            raise InvalidClaimProgram("Unknown arithmetic instruction")
-        if op == "LAW":
-            if (not isinstance(step["citation"], str) or not step["citation"]
-                    or step["number"] is not None):
-                raise InvalidClaimProgram("LAW requires a citation and exact money lexeme only")
-            source_money(step["literal"])
-        elif op == "CONST":
-            if (type(step["number"]) is not int or step["number"] not in (0, 1, 2)
-                    or step["citation"] is not None or step["literal"] is not None):
-                raise InvalidClaimProgram("Only generic constants0/1/2 are available")
-        elif any(step[k] is not None for k in ("citation", "literal", "number")):
-            raise InvalidClaimProgram("This instruction takes no literal payload")
-        if op in ("LAW", "CONST", "DEBTORS"):
-            depth += 1
-        else:
-            if depth < 2:
-                raise InvalidClaimProgram("Arithmetic stack underflow")
-            depth -= 1
-    if program and depth != 1:
-        raise InvalidClaimProgram("Exactly one final limit is required")
-    # An explicitly empty program denotes no dollar ceiling, not a failure path.
-
-
-def execute_limit(program, facts, statutes):
-    validate_program(program)
-    if not program:
-        return None, []
-    catalog = law_blocks(statutes)
-    stack, trace = [], []
-    for step in program:
-        op = step["op"]
-        if op == "LAW":
-            if (step["citation"] not in catalog
-                    or step["literal"] not in MONEY.findall(catalog[step["citation"]])):
-                raise InvalidClaimProgram("A law amount must occur in that ORIGINAL public clause")
-            value = source_money(step["literal"])
-        elif op == "CONST":
-            value = Decimal(step["number"])
-        elif op == "DEBTORS":
-            value = debtor_count(facts)
-        else:
-            left, right = stack[-2:]
-            del stack[-2:]
-            if op == "ADD":
-                value = left + right
-            elif op == "SUB":
-                value = left - right
-            elif op == "MUL":
-                value = left * right
-            elif op == "DIV":
-                if right == 0:
-                    raise InvalidClaimProgram("Division by zero")
-                value = left / right
-            elif op == "MIN":
-                value = min(left, right)
-            elif op == "MAX":
-                value = max(left, right)
-            else:  # IF_TWO: stack order is single-debtor, two-debtor ceiling.
-                value = right if debtor_count(facts) == 2 else left
-        if not value.is_finite():
-            raise InvalidClaimProgram("Nonfinite arithmetic result")
-        stack.append(value)
-        trace.append({"instruction": step, "result": str(value)})
-    if stack[0] < 0:
-        raise InvalidClaimProgram("A monetary ceiling cannot be negative")
-    return stack[0], trace
-
-
-def operator_catalog(bank):
-    result = {}
-    for skill in bank:
-        for operator in skill["guidance"]["operators"]:
-            key = skill["id"] + "/" + operator["id"]
-            if key in result:
-                raise InvalidClaimProgram("Duplicate executable operator identity")
-            validate_program(operator["limit_program"])
-            result[key] = {**operator, "skill_id": skill["id"]}
-    return result
-
-
 def execute_claims(assets, facts, statutes, bank):
-    """Execute the explicit action plan; there is no provisional answer to repair."""
-    operators, catalog = operator_catalog(bank), law_blocks(statutes)
-    answer, receipts, used = {}, [], []
-    seen = set()
+    operators, registry = operator_catalog(bank), source_registry(statutes)
+    answer, receipts, used, seen = {}, [], [], set()
     for asset in assets:
         name, quote = asset["asset_name"], asset["value_quote"]
         if not name or name.casefold() in seen:
             raise InvalidClaimProgram("Empty or repeated asset name")
         seen.add(name.casefold())
         if not quote or quote not in facts or name.casefold() not in quote.casefold():
-            raise InvalidClaimProgram("Asset and value must share an exact original fact quotation")
-        values = MONEY.findall(quote)
-        if len(values) != 1:
-            raise InvalidClaimProgram("Quote must isolate exactly one factual monetary value")
-        value = source_money(values[0])
-        claims = []
+            raise InvalidClaimProgram("Exact original fact quotation must contain the asset name")
+        money = MONEY.findall(quote)
+        if len(money) != 1:
+            raise InvalidClaimProgram("Quote must isolate one original asset value")
+        value, claims = source_money(money[0]), []
         for claim in asset["claims"]:
-            citation, ref, program = claim["citation"], claim["operator_id"], claim["limit_program"]
-            if citation not in catalog:
-                raise InvalidClaimProgram("A claimed citation must be an original public statute header")
-            if (ref is None) == (program is None):
-                raise InvalidClaimProgram("Select exactly one inline or learned operator action")
+            lid, ref, expression = claim["law_id"], claim["operator_id"], claim["limit_expression"]
+            if lid not in registry["laws"]:
+                raise InvalidClaimProgram("Unknown public law reference")
+            citation = registry["laws"][lid]["citation"]
+            if (ref is None) == (expression is None):
+                raise InvalidClaimProgram("Select exactly one inline expression or learned operator")
             if ref is not None:
                 if ref not in operators or operators[ref]["citation"] != citation:
-                    raise InvalidClaimProgram("The learned operator must address this exact citation")
-                program = operators[ref]["limit_program"]
+                    raise InvalidClaimProgram("Learned operation must address the selected law")
+                expression = operators[ref]["limit_expression"]
                 used.append(ref)
-            limit, trace = execute_limit(program, facts, statutes)
+            limit, trace = execute_limit(expression, facts, statutes)
             amount = value if limit is None else min(value, limit)
             claims.append({"citation": citation, "claim_value": float(amount)})
-            receipts.append({"asset_name": name, "value_quote": quote,
-                "asset_value": str(value), "citation": citation, "operator_id": ref,
-                "limit_program": program, "arithmetic_trace": trace,
-                "limit": None if limit is None else str(limit), "claim_value": str(amount)})
+            receipts.append({"asset_name": name, "value_quote": quote, "asset_value": str(value),
+                "citation": citation, "operator_id": ref, "limit_expression": expression,
+                "source_constants": trace, "limit": None if limit is None else str(limit),
+                "claim_value": str(amount)})
         if claims:
             answer[name] = claims
     return answer, {"actual_claim_operations": receipts, "actually_executed_operator_ids": used,
-                    "program_sha256": csha(assets), "source_facts_sha256": csha(facts),
-                    "public_statutes_sha256": csha(statutes),
-                    "no_Gold_solver_model_or_post_answer_repair": True}
+        "program_sha256": csha(assets), "source_facts_sha256": csha(facts),
+        "public_statutes_sha256": csha(statutes), "no_Gold_solver_model_or_post_answer_repair": True}
