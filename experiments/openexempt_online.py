@@ -314,8 +314,8 @@ class Online:
     def __init__(self, config_path):
         self.cfg = read(config_path)
         if (self.cfg.get("execution_contract") != "source_grounded_claim_operations"
-                or self.cfg.get("execution_contract_version") != 8):
-            raise ValueError("This source implements explicit public-namespace contract v8 only")
+                or self.cfg.get("execution_contract_version") != 9):
+            raise ValueError("This source implements readable public-namespace contract v9 only")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
             raise ValueError("Frozen config mismatch")

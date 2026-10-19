@@ -47,16 +47,24 @@ def citation_namespace(citation: str) -> str:
 
 
 def statutory_catalog(statutes: str) -> dict[str, str]:
-    """One shared public reference table; no targets or private statute metadata."""
-    return {f"L{index:03d}": citation
-            for index, citation in enumerate(law_blocks(statutes), 1)}
+    """Readable ASCII citations, not a second opaque law-numbering task.
+
+    Only the section sign changes spelling for the serving grammar. All legal
+    names/numbers remain visible and decoding is a predeclared bijection, not
+    post-answer normalization. No targets or private statute metadata are read.
+    """
+    citations = law_blocks(statutes)
+    catalog = {citation.replace("§", "section"): citation for citation in citations}
+    if len(catalog) != len(citations) or any(not key.isascii() for key in catalog):
+        raise ValueError("Public citation references must be unique readable ASCII")
+    return catalog
 
 
 def public_catalog(row: dict) -> dict[str, str]:
-    """Stable ASCII labels for all public headers in the given legal namespace.
+    """Readable ASCII labels for all public headers in the given legal namespace.
 
-    Index before filtering so a reference keeps its meaning across cases. Do not
-    filter by expert asset annotations, exemption truth or reference answers.
+    Spell references before filtering so they retain their meaning across cases.
+    Do not filter by expert annotations, exemption truth or reference answers.
     """
     allowed = allowable_namespaces(row)
     catalog = {reference: citation

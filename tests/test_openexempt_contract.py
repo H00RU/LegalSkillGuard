@@ -177,18 +177,21 @@ def test_irrelevant_namespace_updates_do_not_change_the_actual_request():
 def test_public_label_decoding_is_not_a_legal_answer_repair():
     row = {"family": "EV", "components": copy.deepcopy(COMPONENTS)}
     catalog = public_catalog(row)
-    assert catalog == {"L001": "Ariz. Rev. Stat. § 33-1123"}
-    assert decode_classification({"unchanged name": ["L001"]}, catalog) == {
+    reference = "Ariz. Rev. Stat. section 33-1123"
+    assert catalog == {reference: "Ariz. Rev. Stat. § 33-1123"}
+    assert reference.isascii() and all(key.isascii() for key in catalog)
+    assert decode_classification({"unchanged name": [reference]}, catalog) == {
         "unchanged name": ["Ariz. Rev. Stat. § 33-1123"]}
     raw = {"assets": [{"asset_name": "even an unsupported asset is not corrected",
             "asset_value": 9999, "claims": [
-                {"citation_ref": "L001", "limit_expression": "min(V,999999)"}]}]}
+                {"citation_ref": reference, "limit_expression": "min(V,999999)"}]}]}
     decoded = decode_claim_plan(raw, catalog)
     assert decoded["assets"][0]["asset_value"] == 9999
     assert decoded["assets"][0]["claims"][0] == {
         "citation": "Ariz. Rev. Stat. § 33-1123", "limit_expression": "min(V,999999)"}
     assert "citation_ref" in raw["assets"][0]["claims"][0]  # Never mutate a native submission.
-    for invalid in ("L002", "L999", "Ariz. Rev. Stat. § 33-1125(1)(p)"):
+    for invalid in ("L001", "L999", "Ariz. Rev. Stat. § 33-1123",
+                    "Ariz. Rev. Stat. section 33-1125(1)(p)"):
         with pytest.raises(ValueError):
             decode_reference(invalid, catalog)
 
@@ -204,7 +207,8 @@ def test_cross_stage_cache_reuses_only_identical_wire_without_reference_feedback
 
     def call(dest, messages, schema, max_tokens, metadata):
         study.native.append(metadata)
-        return {"content": json.dumps({"watch": ["L001"]}), "finish_reason": "stop"}
+        return {"content": json.dumps({"watch": ["Ariz. Rev. Stat. section 33-1123"]}),
+                "finish_reason": "stop"}
 
     study.call = call
     row = {"case_id": 1, "source_key": "first", "family": "EC",

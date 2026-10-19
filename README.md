@@ -1,12 +1,18 @@
 # LegalSkillEvolve — legal skill learning with a frozen 8B
 
-2026-10-19 17:05 CST: a new research Goal is active. The old ContractNLI
-background run is stopped and preserved. Legal task and skill mechanism are
-open for reassessment; current decisions are in
-[the research reset](docs/research/RESEARCH_RESET_20261019.md).
-The first bounded mechanism study uses independently generated OpenExempt TRAIN
-cases, not the official test labels or hidden symbolic answers at inference.
-No new positive skill result is claimed. Entries below are historical.
+2026-10-20: the research Goal is active; the old ContractNLI and opaque-label
+OpenExempt runs are stopped and preserved. The next bounded online episode uses
+readable public legal citations, explicit given-AE skill scopes and the same
+single frozen Qwen3-8B, with strong empty and frozen-initial controls. See the
+[readable-reference protocol](docs/research/OPENEXEMPT_READABLE_NAMESPACE_20261020.md).
+Original generated TRAIN inputs, native scoring, failures, physical costs and
+two-disk backups are retained. No separate validation set, test-label access,
+answer repair or model replacement is introduced.
+The earlier eight-source episode showed some EV transfer but no net EC transfer;
+two fixed known-TRAIN interventions exposed an unnecessary opaque-ID burden.
+Neither result establishes paper-scale significance, mature-method superiority
+or final held-out performance. Legal task and mechanism remain open under the
+[full research goal](docs/research/RESEARCH_RESET_20261019.md).
 
 Current execution and evidence: [docs/CURRENT_GOAL.md](docs/CURRENT_GOAL.md).
 The timestamped entries below are historical checkpoints, not the current run.
