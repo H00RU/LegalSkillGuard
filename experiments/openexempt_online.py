@@ -30,7 +30,6 @@ from legal_skill_guard.learning.claim_execution import (
     law_blocks,
     operator_catalog,
     operator_schema,
-    source_registry,
 )
 from legal_skill_guard.learning.claim_execution import (
     answer_schema as claim_answer_schema,
@@ -114,8 +113,9 @@ PROGRAM_ACTOR_SYSTEM = (
     "answers. This replaces only FINAL ANSWER formatting. public_checks is a source-supported "
     "audit of at most80 words, not private reasoning. For each asset supply its original "
     "asset_name and numeric asset_value from Facts. Do not copy a format example, a law ceiling, "
-    "or another asset's value. No long quotation is required. The public source_registry maps "
-    "ASCII L-codes to original law citations. Select EVERY applicable law_id, not just one. For each "
+    "or another asset's value. No long quotation is required. Copy original citation strings "
+    "directly from the supplied statutes: there is no separate law-number lookup task. Select "
+    "EVERY applicable citation, not just one. For each "
     "claim choose exactly one: a published operator_id with limit_expression=null, OR "
     "operator_id=null and a short inline Python arithmetic expression for the legal ceiling. "
     "Expressions may use ordinary dollar numbers in current Facts/statutes, V (this asset's "
@@ -124,8 +124,8 @@ PROGRAM_ACTOR_SYSTEM = (
     "ceiling. There are no hashed money variable names. Do not invent numbers. "
     "The string unlimited means the selected law has no dollar ceiling; never use it for "
     "a capped exemption. The executor calculates min(submitted asset value, ceiling), or the "
-    "asset value for unlimited, independently per pair. It maps the law_id losslessly to "
-    "the original citation; it never chooses eligibility, adds claims or repairs an answer. "
+    "asset value for unlimited, independently per pair. It preserves the original citation; "
+    "it never chooses eligibility, adds claims or repairs an answer. "
     "Learned operations use identical arithmetic to inline expressions. Their presence does "
     "not prove applicability. If no learned operation covers an eligible law, write its "
     "expression inline. Values absent from Facts and invalid references/expressions fail "
@@ -138,8 +138,8 @@ PROGRAM_AUTHOR_ADDITION = (
     "generation. Each guidance also has operators, an array which may be empty. An operator "
     "has id,citation,limit_expression. All skill/operator IDs must be ASCII. Its globally "
     "callable ID is skill_id/operator_id. Write reusable statutory CEILING expressions, never "
-    "asset values, case names, targets or answers. The full actual system, schema and public "
-    "source_registry are supplied. Use ordinary numeric statutory dollar constants, V for the "
+    "asset values, case names, targets or answers. The full actual system and schema are "
+    "supplied. Use original citation strings, ordinary numeric statutory dollar constants, V for the "
     "current asset's value, N for the public debtor count, and generic constants0/1/2. "
     "Reusable operators cannot copy amounts from current Facts: use V instead. For example "
     "min(V,C) uses the actual numeric statutory C, not a literal variable C. Use N, arithmetic "
@@ -166,15 +166,11 @@ def actor_payload(row, bank, *, grounded=False):
     system = PROGRAM_ACTOR_SYSTEM if grounded and row["family"] == "EV" else ACTOR_SYSTEM
     messages = [{"role": "system", "content": system},
                 {"role": "user", "content": row["prompt"]}]
-    if grounded and row["family"] == "EV":
-        messages.append({"role": "user", "content": json.dumps(
-            {"source_registry": source_registry(row["components"]["statutes"])},
-            ensure_ascii=False, separators=(",", ":"))})
     if supplied:
         messages.append({"role": "user", "content":
                          "Optional reusable historical skills (not current answers):\n" +
                          json.dumps(supplied, ensure_ascii=False, separators=(",", ":"))})
-    schema = claim_answer_schema(row["components"]["statutes"], supplied) if (
+    schema = claim_answer_schema(supplied) if (
         grounded and row["family"] == "EV") else answer_schema(row["family"], bank)
     return messages, schema, supplied
 
@@ -262,8 +258,8 @@ class Online:
     def __init__(self, config_path):
         self.cfg = read(config_path)
         if (self.cfg.get("execution_contract") == "source_grounded_claim_operations"
-                and self.cfg.get("execution_contract_version") != 3):
-            raise ValueError("This source implements numeric-source expression contract v3 only")
+                and self.cfg.get("execution_contract_version") != 4):
+            raise ValueError("This source implements original-citation expression contract v4 only")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
             raise ValueError("Frozen config mismatch")
@@ -415,7 +411,6 @@ class Online:
         return {"current_source_case_ids": sorted({r["case_id"] for r in current}),
                 "current_parent_library": self.bank, "task_contracts": contracts,
                 "actual_actor_system": ACTOR_SYSTEM, "complete_public_statutes": statutes,
-                "public_source_registry": source_registry(seen[0]["components"]["statutes"]) if grounded else None,
                 "actual_system_and_response_schema_by_family": {
                     f: {"system": m[0]["content"], "response_schema": s}
                     for f, (m, s) in actual_contracts.items()},

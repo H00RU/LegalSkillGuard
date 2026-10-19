@@ -1,4 +1,4 @@
-"""Checks the compact source-bound execution language and ASCII wire contract."""
+"""Small source-binding and execution checks, not a model qualification suite."""
 import json
 
 import pytest
@@ -8,21 +8,16 @@ from legal_skill_guard.learning.claim_execution import (
     answer_schema,
     execute_claims,
     execute_limit,
-    source_registry,
+    law_blocks,
 )
 
 FACTS = "A and B (hereinafter the Debtors) own a watch valued at $600.00."
 LAW = "Statutes:\nExample Code\nExample § 1\nA ceiling of $2,000 per debtor."
 
 
-def refs():
-    registry = source_registry(LAW)
-    return next(iter(registry["laws"]))
-
-
 def plan(ref=None):
     return [{"asset_name": "watch", "asset_value": 600,
-             "claims": [{"law_id": refs(), "operator_id": ref,
+             "claims": [{"citation": "Example § 1", "operator_id": ref,
                          "limit_expression": "min(600,2000)" if ref is None else None}]}]
 
 
@@ -68,7 +63,7 @@ def test_no_arbitrary_python_or_failure_fallback():
 
 
 def test_every_wire_enum_is_ascii_not_unicode_citation():
-    schema = answer_schema(LAW, [])
+    schema = answer_schema([])
 
     def visit(value):
         if isinstance(value, dict):
@@ -82,3 +77,16 @@ def test_every_wire_enum_is_ascii_not_unicode_citation():
 
     visit(schema)
     assert "Example" not in json.dumps(schema)
+
+
+def test_compiled_statutes_adjacent_headers_and_repeated_citation_are_retained():
+    source = ("735 Ill. Comp. Stat. 5/12-1001(c)\nA vehicle cap of $2,400.\n"
+              "735 Ill. Comp. Stat. 5/12-1001(d)\nA tools cap of $1,500.\n\n"
+              "735 Ill. Comp. Stat. 5/12-1001(c)\nAdditional public qualification.\n\n"
+              "Example § 1\nA ceiling of $2,000 per debtor.")
+    blocks = law_blocks(source)
+    assert len(blocks) == 3
+    assert "$2,400" in blocks["735 Ill. Comp. Stat. 5/12-1001(c)"]
+    assert "Additional public qualification" in blocks["735 Ill. Comp. Stat. 5/12-1001(c)"]
+    assert "$1,500" in blocks["735 Ill. Comp. Stat. 5/12-1001(d)"]
+    assert execute_limit("2400", FACTS, source, reusable=True)[0] == 2400

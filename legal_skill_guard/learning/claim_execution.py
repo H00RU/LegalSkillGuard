@@ -1,4 +1,4 @@
-"""Public-source claim execution with ASCII references and small expressions.
+"""Public-source claim execution with original citations and small expressions.
 
 Both arms may write the same inline expression; a learned operator merely
 reuses it. No Gold, expert categories, solver, I/O, arbitrary Python execution
@@ -15,6 +15,9 @@ from decimal import Decimal
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
 MONEY = re.compile(r"\$(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{1,2})?(?![\d,])")
+LAW_HEADER = re.compile(
+    r"^(?:[\dA-Za-z. ]+ § [\dA-Za-z.-]+(?:\([A-Za-z0-9]+\))*"
+    r"|[0-9]+ [A-Za-z. ]+ Stat\. [0-9]+/[\d-]+(?:\([A-Za-z0-9]+\))*)$")
 
 
 class InvalidClaimProgram(ValueError):
@@ -22,33 +25,23 @@ class InvalidClaimProgram(ValueError):
 
 
 def law_blocks(statutes):
-    result = {}
-    for paragraph in statutes.split("\n\n"):
-        lines = paragraph.splitlines()
-        headers = [i for i, line in enumerate(lines) if "§" in line and len(line) < 120]
-        if headers:
-            i = headers[0]
-            header = lines[i].strip()
-            if header in result:
-                raise InvalidClaimProgram("Duplicate original law header")
-            result[header] = "\n".join(lines[i + 1:])
-    return result
+    result, current = {}, None
+    for raw in statutes.splitlines():
+        line = raw.strip()
+        if len(line) < 120 and LAW_HEADER.fullmatch(line):
+            current = line
+            # One public citation can repeat with additional text, and adjacent
+            # citations need not have a blank line between them.
+            result.setdefault(current, [])
+        elif current is not None:
+            result[current].append(raw)
+    return {citation: "\n".join(lines) for citation, lines in result.items()}
 
 
 def source_money(literal):
     if not isinstance(literal, str) or MONEY.fullmatch(literal) is None:
         raise InvalidClaimProgram("One exact original money lexeme is required")
     return Decimal(literal[1:].replace(",", ""))
-
-
-def source_registry(statutes):
-    laws = {}
-    for citation in law_blocks(statutes):
-        lid = "L" + csha(citation)[:8].upper()
-        if lid in laws:
-            raise InvalidClaimProgram("Law-reference collision")
-        laws[lid] = {"citation": citation}
-    return {"laws": laws}
 
 
 def debtor_count(facts):
@@ -162,13 +155,15 @@ def operator_catalog(bank):
     return result
 
 
-def answer_schema(statutes, bank):
+def answer_schema(bank):
     operators = list(operator_catalog(bank))
     reference = {"type": "null"} if not operators else {
         "anyOf": [{"type": "string", "enum": operators}, {"type": "null"}]}
     claim = {"type": "object", "additionalProperties": False,
-             "required": ["law_id", "operator_id", "limit_expression"], "properties": {
-                 "law_id": {"type": "string", "enum": list(source_registry(statutes)["laws"])},
+             "required": ["citation", "operator_id", "limit_expression"], "properties": {
+                 # Free strings avoid the serving stack's Unicode-enum bug;
+                 # membership is checked against original public headers below.
+                 "citation": {"type": "string"},
                  "operator_id": reference, "limit_expression": {"type": ["string", "null"]}}}
     asset = {"type": "object", "additionalProperties": False,
              "required": ["asset_name", "asset_value", "claims"], "properties": {
@@ -186,7 +181,7 @@ def answer_schema(statutes, bank):
 
 
 def execute_claims(assets, facts, statutes, bank):
-    operators, registry = operator_catalog(bank), source_registry(statutes)
+    operators, laws = operator_catalog(bank), law_blocks(statutes)
     answer, receipts, used, seen = {}, [], [], set()
     fact_values = {source_money(literal) for literal in MONEY.findall(facts)}
     source_text = " ".join(facts.casefold().split())
@@ -202,10 +197,9 @@ def execute_claims(assets, facts, statutes, bank):
             raise InvalidClaimProgram("Asset value absent from current public facts")
         claims = []
         for claim in asset["claims"]:
-            lid, ref, expression = claim["law_id"], claim["operator_id"], claim["limit_expression"]
-            if lid not in registry["laws"]:
-                raise InvalidClaimProgram("Unknown public law reference")
-            citation = registry["laws"][lid]["citation"]
+            citation, ref, expression = claim["citation"], claim["operator_id"], claim["limit_expression"]
+            if citation not in laws:
+                raise InvalidClaimProgram("Citation absent from original public law headers")
             if (ref is None) == (expression is None):
                 raise InvalidClaimProgram("Select exactly one inline expression or learned operator")
             if ref is not None:
