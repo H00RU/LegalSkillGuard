@@ -1,5 +1,44 @@
 # 当前 Goal：法律任务与方法开放，先验证技能对固定 8B 的真实增益
 
+## 最新操作游标：2026-10-19 20:03，Goal active
+
+唯一训练是 `legal_openexempt_citation_online_20261019_run01`，
+user unit `legal-openexempt-citation-20261019-run01.service`，PID2574334，
+20:01:40 开始，源 e91d2f5，141冻结文件和源/数据/初始库双盘备份。
+精确状态在其 `progress.json`，不能把本索引当进程证明。
+
+直接使用16个新来源17–32，四批每批4，EC/EV各一次。
+原定未见17–28原样保留，seed2026101909额外生成29–32；32旧/新来源排重，
+没有重采样、旧案适配或官方TEST。packet SHA d74315ae3d6305067a787eb01a65e60cf634863164e46f20dec1e123ac1c8ba1。
+同单8B/原生thinking/8192上限/同工具权限，EC采用已验证强原生的简短system。
+
+起点为 `legal_openexempt_static_control_20261019_run02_build/publication.json`，
+7记录/40个不同citation函数/3411tokens，bank SHA ecc5c7160e33a9cfe6b77c5fdce27bb2ff0d1dca3c67c74f911f5ff3136b576c。
+一次公开法条盲编译，0案件/轨迹/标签、0本地生成，不是选已有好库。
+每批在主流程共同做 empty / frozen_initial / online，全部回答后读当前Gold；
+字节相同消息/schema/profile共享一次真实生成，明确alias，不夸大调用数。
+每批立即报online对冻结同一起点的收益，不再排一个整轮结束才比较的控制。
+**没有正在排队的独立static eval**，不要恢复旧队列。
+
+EV输入只有citation和limit_expression：字符串为inline；JSON null明确调用
+同citation的唯一活动函数。删除额外内部ID选择，避免已观察到的错绑。
+数学器不验证资产名子串/金额词元/法律对错，不改答案；原指标及全输出EV判定。
+教师同时见同案强空库/冻结起点/父库真实输出及训练标签，不能只有失败没有正对照。
+11个小CPU边界检查0.24秒，无GPU资格循环、无新模型服务。
+
+Run06已安全终止：23 native/1教师，77工件、140源绑定双盘核验后才改码，
+未进入17–28。旧4案的正点差不是新案效果；首次3函数候选两次EV均错填内部ID。
+旧静态bank01（7/53/3306）保留，因同法条两活动版本不适配新接口，bank02只
+按新契约盲编译一次，未看任何控制成绩，不是结果选库。两次成本均记。
+旧静态eval队列确认0调用后取消，3工件双盘保全。
+
+本轮只算机制研究。重点看B2–B4是否胜冻结初始库，而非B1静态知识收益。
+正式论文仍缺匹配训练预算的无经验控制、成熟经验方法、独立重复、隔离TEST。
+不要改运行中冻结源/协议；先看真实调用与后批证据，不要再造B1资格循环。
+完整当前协议：[法条绑定与三臂新案](research/OPENEXEMPT_CITATION_BOUND_20261019.md)。
+
+**下方19:02及更早内容仅是历史，旧进程已终止，不再代表当前设计。**
+
 ## 生效快照：2026-10-19 19:02；17:05 新 Goal 仍 active
 
 Run06 已于 19:02:26 后台启动：`legal-openexempt-executable-20261019-run06.service`，

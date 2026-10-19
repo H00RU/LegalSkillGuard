@@ -1,13 +1,11 @@
-"""One blind law-only static control, using the SAME active task/inference code.
+"""One blind public-law initializer; comparisons live in the online main loop.
 
-Build uses one existing teacher, no case facts/answers/trajectories. Evaluation
-queues behind the actual learning worker and never updates the compiled bank.
-This is a cheaper static control, not a training-cost-matched baseline or TEST.
+No cases/answers/trajectories, no 8B generation, no independent eval queue.
+Historical drivers and cancelled controls remain in Git and dual archives.
 """
 from __future__ import annotations
 
 import argparse
-import fcntl
 import json
 import signal
 import traceback
@@ -18,7 +16,6 @@ from experiments.openexempt_online import (
     EXECUTABLE_GUIDANCE,
     PROGRAM_ACTOR_SYSTEM,
     Online,
-    paired_effect,
     preserve,
 )
 from legal_skill_guard.experiment.storage import RunStore
@@ -31,7 +28,7 @@ from legal_skill_guard.learning.claim_execution import (
 )
 from legal_skill_guard.learning.experiment import now, read, sha
 from legal_skill_guard.learning.publication import skill_record_schema
-from legal_skill_guard.openexempt import FAMILIES, ROOT, metrics
+from legal_skill_guard.openexempt import FAMILIES, ROOT
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
 STATIC_SYSTEM = (
@@ -67,10 +64,7 @@ STATIC_SYSTEM = (
 class Control:
     check = Online.check
     progress = Online.progress
-    call = Online.call
     teacher_call = Online.teacher_call
-    answer = Online.answer
-    grade = Online.grade
 
     def __init__(self, config_path, action):
         self.cfg = read(config_path)
@@ -132,45 +126,10 @@ class Control:
             'not_training_cost_matched_to_online_method': True})
         return {'status': 'blind_static_bank_compiled', 'tokens': tokens}
 
-    def evaluate(self):
-        publication = ROOT/self.cfg['evaluation_publication']
-        self.bindings[str(publication.relative_to(ROOT))] = sha(publication)
-        self.bank = read(publication)['bank']
-        RunStore.immutable_json(self.out/'evaluation_bindings.json', {
-            'at': now(), 'files': self.bindings, 'bank_sha256': csha(self.bank),
-            'source_case_ids': self.cfg['evaluation_source_case_ids'],
-            'no_bank_updates_or_teacher_during_evaluation': True})
-        self.progress('waiting_for_actual_learning_process_lock')
-        with (ROOT/'artifacts/openexempt_training.lock').open('a+') as lock:
-            fcntl.flock(lock, fcntl.LOCK_EX)
-            rows = [r for r in self.rows if r['case_id'] in self.cfg['evaluation_source_case_ids']]
-            records = [self.answer(row, self.bank, 'static_evaluation', 'static') for row in rows]
-            # All predictions exist before first reference access.
-            self.grade(records)
-        RunStore.immutable_json(self.out/'records.json', records)
-        source = ROOT/'runs'/self.cfg['learning_run_id']/'batches'
-        paired_static, empty, online = [], [], []
-        by_key = {(r['case_id'], r['family']): r for r in records}
-        for path in sorted(source.glob('b*_prequential_records.json')):
-            original = read(path)
-            a = {(r['case_id'], r['family']): r for r in original['empty']}
-            for r in original['skills']:
-                key = r['case_id'], r['family']
-                if key in by_key:
-                    paired_static.append(by_key[key])
-                    empty.append(a[key])
-                    online.append(r)
-        return {'status': 'static_development_evaluation_complete', 'static_all': metrics(records),
-                'paired_tasks': len(online), 'empty_paired': metrics(empty),
-                'static_paired': metrics(paired_static), 'online_paired': metrics(online),
-                'static_minus_empty': paired_effect(empty, paired_static),
-                'online_minus_static': paired_effect(paired_static, online),
-                'no_official_TEST_or_independent_learning_repeat': True}
-
-    def run(self, action):
+    def run(self):
         status = 'failed'
         try:
-            result = self.build() if action == 'build' else self.evaluate()
+            result = self.build()
             status = result['status']
             RunStore.immutable_json(self.out/'completion.json', {
                 'at': now(), **result, 'actual_native_calls': len(self.native),
@@ -192,10 +151,10 @@ class Control:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('action', choices=('build', 'evaluate'))
+    parser.add_argument('action', choices=('build',))
     parser.add_argument('config', type=Path)
     args = parser.parse_args()
-    Control(args.config.resolve(), args.action).run(args.action)
+    Control(args.config.resolve(), args.action).run()
 
 
 if __name__ == '__main__':
