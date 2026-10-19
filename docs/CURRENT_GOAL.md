@@ -15,16 +15,24 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 11:39 CST，反思后编辑完整128已真实后台启动，尚无新技能收益
+## 当前快照：2026-10-19 11:53 CST，反思后编辑B1仍无净收益，B2新源正在运行
 
 11:38:05实际worker1826352/ticks438760252，独立止损+preserver1826355/ticks438760253。
 core39b477dd5a58418cf9df943e6a6a55182e66129e；87成员完整源码/Git双盘启动备份SHA
 838062e2e73142c975435cc1f85ca82cb9cd53d5cc324c00f11de9996e2e075b。
-11:38:26原worker/preserver实际argv/ticks亲核live，1native/0教师/2逻辑，b1_prequential_empty/193。
+11:38:26原worker/preserver实际argv/ticks亲核live；11:51:52已21native/2教师/1fit/29逻辑，
+b2_prequential_combined/460。首个实际律师请求与上Run完全一致、rawID独立新生成，无旧答复用。
 新Run legal_contractnli_reflective_signed_member_skill128_online_20261019_run01；
 自动16x8，训练与固定止损/终态保存独立于对话。不要重复launch、热改绑定源或恢复旧负配置。
-接看实际reflect_b1输入/逐源发现、online_b1真实CRUD和首个actor实际交付，再看全8及后B2-B4原指标，
-不把结构通过/教师多一次调用/合理文字称为突破。完整Goal active尚未达成。
+实际reflect_b1已无损亲核：完整当前8原源/Gold、16真实匹配视图、17题完整误引/漏引反馈及原system/schema。
+反思耗187.913秒，输出逐8源67项具体发现；实际online_b1收到原样反思，首次CREATE4，
+13正成员例/4实际FP对照，2991知识tokens。反思/当前Gold未交actor，仍原一次原生回答。
+B1全8前87.50/72.043/50.735%，后83.088/72.067/50.00%：TP134->129、FP40->31，
+NN严格33->34、NM正确36->34；依据F1仅持平，分类仍掉6题，不能称突破。
+首批旧h11串案错误未出现，但255/222 h17在引用不变时由正确C改为E，135 h17将use句当复制依据，
+显示条件/动作/极性执行仍存在干扰；整库观察不等于已隔离示例或规则的单独因果。
+不只因B1即重启。接B2全8同案新源结果及实际第二轮反思/CRUD/全8重答，再看B3/B4；
+独立止损/preserver按预先固定规则运转。完整Goal active尚未达成。
 
 capacity对话中断期间后台独立完成全部16批，11:00:52实际376native/16teacher/16fit。
 全128空81.664/73.014/54.917%，技能80.653/71.979/53.860%（原准确率/NN硬F1/联合）。
