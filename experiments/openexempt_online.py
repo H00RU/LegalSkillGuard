@@ -96,8 +96,12 @@ AUTHOR_SYSTEM = (
     "the executor. Return an explicit NOOP when no grounded repair is available. "
     "The full skill library must fit4096 actual target model tokens; aim2500. "
     "Candidate edits are replayed with the SAME frozen executor. TRAIN acceptance "
-    "requires current-source mean F1 improvement without aggregate per-family "
-    "regression on earlier sources. This is training optimization, not evidence of "
+    "requires current-source original mean F1 OR full-output EV F1 improvement without "
+    "regressing either original family F1 or full-output EV F1 on current/earlier sources. "
+    "The unchanged official EV macro score ignores some extra predicted assets; "
+    "the separately named full-output EV score counts ALL predicted claims, using the "
+    "same original asset matcher, claim matcher and5% amount tolerance. Remove false "
+    "extra claims even when the original score overlooks them. This is training optimization, not evidence of "
     "new-case generalization. A rejected candidate can be revised once using the "
     "actual failure records; all rejected edits/costs remain. Do not propose a "
     "different output/scorer, fallback, paid service, extra inference judge, or "
@@ -118,7 +122,8 @@ PROGRAM_ACTOR_SYSTEM = (
     "Expressions may use ordinary dollar numbers in current Facts/statutes, V (this asset's "
     "submitted value), N (1 or2 debtors from Facts), constants0/1/2, +,-,*,/, min/max, and "
     "X if N==2 else Y. For example min(V,C), where C is replaced by the supported numeric "
-    "ceiling. There are no hashed money variable names. Do not invent numbers. "
+    "ceiling. Amounts may be written as words in law: translate them to ordinary numeric "
+    "literals. The interpreter checks arithmetic syntax, not the legal truth of your numbers. "
     "The string unlimited means the selected law has no dollar ceiling; never use it for "
     "a capped exemption. The executor calculates min(submitted asset value, ceiling), or the "
     "asset value for unlimited, independently per pair. It preserves the original citation; "
@@ -138,7 +143,9 @@ PROGRAM_AUTHOR_ADDITION = (
     "asset values, case names, targets or answers. The full actual system and schema are "
     "supplied. Use original citation strings, ordinary numeric statutory dollar constants, V for the "
     "current asset's value, N for the public debtor count, and generic constants0/1/2. "
-    "Reusable operators cannot copy amounts from current Facts: use V instead. For example "
+    "Do not copy amounts from current Facts into reusable operators: use V instead. "
+    "This is a learning requirement, not a runtime numeric-source validator; statutory "
+    "amounts written in English words are equally legitimate. For example "
     "min(V,C) uses the actual numeric statutory C, not a literal variable C. Use N, arithmetic "
     "and a N==1/2 conditional only where "
     "that law supports the spouse rule. unlimited is an explicit no-ceiling decision, not "
@@ -177,10 +184,15 @@ def acceptance(parent_current, candidate_current, parent_prior, candidate_prior)
     pa, pb = metrics(parent_prior), metrics(candidate_prior)
     current_ok = all(b[f]["f1"] + 1e-12 >= a[f]["f1"] for f in FAMILIES)
     prior_ok = not parent_prior or all(pb[f]["f1"] + 1e-12 >= pa[f]["f1"] for f in FAMILIES)
-    improvement = b["mean_family_f1"] > a["mean_family_f1"] + 1e-12
-    return {"accepted": current_ok and prior_ok and improvement,
+    current_full_ok = b["EV"]["full_output_f1"] + 1e-12 >= a["EV"]["full_output_f1"]
+    prior_full_ok = not parent_prior or pb["EV"]["full_output_f1"] + 1e-12 >= pa["EV"]["full_output_f1"]
+    improvement = (b["mean_family_f1"] > a["mean_family_f1"] + 1e-12
+                   or b["EV"]["full_output_f1"] > a["EV"]["full_output_f1"] + 1e-12)
+    return {"accepted": current_ok and prior_ok and current_full_ok and prior_full_ok and improvement,
             "current_family_nonregression": current_ok,
             "prior_family_nonregression": prior_ok, "strict_current_improvement": improvement,
+            "current_full_output_nonregression": current_full_ok,
+            "prior_full_output_nonregression": prior_full_ok,
             "parent_current": a, "candidate_current": b,
             "parent_prior": pa, "candidate_prior": pb,
             "TRAIN_optimization_not_independent_validation": True}
@@ -255,8 +267,8 @@ class Online:
     def __init__(self, config_path):
         self.cfg = read(config_path)
         if (self.cfg.get("execution_contract") == "source_grounded_claim_operations"
-                and self.cfg.get("execution_contract_version") != 5):
-            raise ValueError("This source implements answer-only expression contract v5 only")
+                and self.cfg.get("execution_contract_version") != 6):
+            raise ValueError("This source implements arithmetic-only expression contract v6 only")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
             raise ValueError("Frozen config mismatch")
@@ -445,8 +457,7 @@ class Online:
                         for source in current:
                             if operator["citation"] not in law_blocks(source["components"]["statutes"]):
                                 raise InvalidClaimProgram("Operator citation is not a current public header")
-                            execute_limit(operator["limit_expression"], source["components"]["facts"],
-                                          source["components"]["statutes"], reusable=True)
+                            execute_limit(operator["limit_expression"], source["components"]["facts"])
                 except InvalidClaimProgram as exc:
                     decision = {"accepted": False, "candidate": candidate, "delta": delta,
                                 "source_program_compile_error": repr(exc), "new_native_calls": 0}

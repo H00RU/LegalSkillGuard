@@ -31,29 +31,29 @@ def test_inline_and_learned_operators_have_identical_capability():
     assert receipt["actually_executed_operator_ids"] == []
 
 
-def test_plain_numbers_are_source_bound_without_quote_copying():
+def test_fact_values_are_bound_but_runtime_does_not_judge_legal_numbers():
     p = plan()
     p[0]["asset_value"] = 700
     with pytest.raises(InvalidClaimProgram):
         execute_claims(p, FACTS, LAW, [])
+    assert execute_limit("700", FACTS)[0] == 700
     with pytest.raises(InvalidClaimProgram):
-        execute_limit("700", FACTS, LAW)
-    with pytest.raises(InvalidClaimProgram):
-        execute_limit("M_NOT_IN_SOURCE", FACTS, LAW)
-    assert execute_limit("min(600,2000)", FACTS, LAW)[0] == 600
-    with pytest.raises(InvalidClaimProgram):
-        execute_limit("min(600,2000)", FACTS, LAW, reusable=True)
+        execute_limit("M_NOT_IN_SOURCE", FACTS)
+    assert execute_limit("min(600,2000)", FACTS)[0] == 600
+    # A statute's English spelling must not invalidate a correct numeric action.
+    law_words = "Example § 1\nA ceiling of two thousand dollars."
+    assert execute_claims(plan(), FACTS, law_words, [])[0]["watch"][0]["claim_value"] == 600
 
 
 def test_explicit_joint_conditional_and_unlimited_operations():
-    assert execute_limit("2000*N", FACTS, LAW)[0] == 4000
-    assert execute_limit("2000*2 if N==2 else 2000", FACTS, LAW)[0] == 4000
-    assert execute_limit("unlimited", FACTS, LAW) == (None, [])
+    assert execute_limit("2000*N", FACTS)[0] == 4000
+    assert execute_limit("2000*2 if N==2 else 2000", FACTS)[0] == 4000
+    assert execute_limit("unlimited", FACTS) == (None, [])
 
 
 def test_no_arbitrary_python_or_failure_fallback():
     with pytest.raises(InvalidClaimProgram):
-        execute_limit("__import__('os')", FACTS, LAW)
+        execute_limit("__import__('os')", FACTS)
     with pytest.raises(InvalidClaimProgram):
         execute_claims(plan("not/published"), FACTS, LAW, [])
     p = plan()
@@ -89,4 +89,4 @@ def test_compiled_statutes_adjacent_headers_and_repeated_citation_are_retained()
     assert "$2,400" in blocks["735 Ill. Comp. Stat. 5/12-1001(c)"]
     assert "Additional public qualification" in blocks["735 Ill. Comp. Stat. 5/12-1001(c)"]
     assert "$1,500" in blocks["735 Ill. Comp. Stat. 5/12-1001(d)"]
-    assert execute_limit("2400", FACTS, source, reusable=True)[0] == 2400
+    assert execute_limit("2400", FACTS)[0] == 2400

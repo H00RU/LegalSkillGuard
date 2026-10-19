@@ -47,6 +47,12 @@ def test_train_acceptance_requires_real_improvement_and_past_retention():
     assert not acceptance(parent, improved, parent,
                           [record("EC", 0.2), record("EV", 0.3)])["accepted"]
     assert metrics(copy.deepcopy(parent))["mean_family_f1"] == 0.35
+    unsafe = copy.deepcopy(improved)
+    unsafe[1]["score"]["full_output_f1"] = 0.1
+    assert not acceptance(parent, unsafe, [], [])["accepted"]
+    safer = copy.deepcopy(parent)
+    safer[1]["score"]["full_output_f1"] = 0.5
+    assert acceptance(parent, safer, [], [])["accepted"]
 
 
 def test_original_official_scoring_not_a_new_semantic_judge():
@@ -60,3 +66,11 @@ def test_original_official_scoring_not_a_new_semantic_judge():
     wrong = {"watch": [{"citation": "11 U.S.C. § 522(d)(5)", "claim_value": 500}]}
     assert evaluate(ev, target, target)["f1"] == 1
     assert evaluate(ev, wrong, target)["f1"] == 0
+    extra = {**target, "nonexempt extra asset": [
+        {"citation": "11 U.S.C. § 522(d)(5)", "claim_value": 100}]}
+    audit = evaluate(ev, extra, target)
+    assert audit["f1"] == 1  # Preserve the original metric, including its limitation.
+    assert audit["officially_unscored_predicted_claims"] == 1
+    assert audit["full_output_f1"] == 2 / 3
+    assert audit["full_output_claim_tp"] == 1
+    assert audit["full_output_claim_fp"] == 1

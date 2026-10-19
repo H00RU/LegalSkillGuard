@@ -2,8 +2,8 @@
 
 Both arms may write the same inline expression; a learned operator merely
 reuses it. No Gold, expert categories, solver, I/O, arbitrary Python execution
-or post-answer repair is available. Reusable constants bind to ORIGINAL law
-money lexemes. The model supplies asset names/values and chooses eligibility;
+or post-answer repair is available. This is an arithmetic executor, NOT a
+legal-semantic or English-number validator. The model supplies asset names/values and chooses eligibility;
 it does not have to learn an exact-quotation or hashed-money-reference task.
 """
 from __future__ import annotations
@@ -51,7 +51,7 @@ def debtor_count(facts):
     return Decimal(2 if match.group(1) == "Debtors" else 1)
 
 
-def execute_limit(expression, facts, statutes, *, asset_value=Decimal(0), reusable=False):
+def execute_limit(expression, facts, *, asset_value=Decimal(0)):
     if not isinstance(expression, str) or len(expression) > 512:
         raise InvalidClaimProgram("A short limit expression is required")
     if expression == "unlimited":
@@ -62,24 +62,15 @@ def execute_limit(expression, facts, statutes, *, asset_value=Decimal(0), reusab
         raise InvalidClaimProgram("Invalid arithmetic expression") from exc
     if len(list(ast.walk(tree))) > 64:
         raise InvalidClaimProgram("Expression operation budget exceeded")
-    constants, used = {}, []
-    for citation, body in law_blocks(statutes).items():
-        for literal in dict.fromkeys(MONEY.findall(body)):
-            constants.setdefault(source_money(literal), []).append(
-                {"citation": citation, "literal": literal})
-    if not reusable:
-        for literal in dict.fromkeys(MONEY.findall(facts)):
-            constants.setdefault(source_money(literal), []).append(
-                {"source": "current_public_facts", "literal": literal})
+    used = []
 
     def constant(node):
         if type(node.value) not in (int, float):
             raise InvalidClaimProgram("Only finite numeric constants are available")
         value = Decimal(str(node.value))
-        if not value.is_finite() or (value not in (0, 1, 2) and value not in constants):
-            raise InvalidClaimProgram("Numeric constant absent from permitted public source")
-        if value in constants:
-            used.append({"value": str(value), "public_source_matches": constants[value]})
+        if not value.is_finite():
+            raise InvalidClaimProgram("Only finite numeric constants are available")
+        used.append({"value": str(value)})
         return value
 
     # Check both branches, not merely the branch selected on the current case.
@@ -126,7 +117,7 @@ def execute_limit(expression, facts, statutes, *, asset_value=Decimal(0), reusab
                 raise InvalidClaimProgram("Only the public N==1/2 conditional is supported")
             branch = node.body if debtor_count(facts) == test.comparators[0].value else node.orelse
             return evaluate(branch)
-        raise InvalidClaimProgram("Unsupported arithmetic syntax or unsourced numeric constant")
+        raise InvalidClaimProgram("Unsupported arithmetic syntax")
 
     value = evaluate(tree.body)
     if not value.is_finite() or value < 0:
@@ -201,16 +192,16 @@ def execute_claims(assets, facts, statutes, bank):
                     raise InvalidClaimProgram("Learned operation must address the selected law")
                 expression = operators[ref]["limit_expression"]
                 used.append(ref)
-            limit, trace = execute_limit(expression, facts, statutes,
-                                         asset_value=value, reusable=ref is not None)
+            limit, trace = execute_limit(expression, facts, asset_value=value)
             amount = value if limit is None else min(value, limit)
             claims.append({"citation": citation, "claim_value": float(amount)})
             receipts.append({"asset_name": name, "asset_value": str(value),
                 "citation": citation, "operator_id": ref, "limit_expression": expression,
-                "source_constants": trace, "limit": None if limit is None else str(limit),
+                "numeric_literals": trace, "limit": None if limit is None else str(limit),
                 "claim_value": str(amount)})
         if claims:
             answer[name] = claims
     return answer, {"actual_claim_operations": receipts, "actually_executed_operator_ids": used,
         "program_sha256": csha(assets), "source_facts_sha256": csha(facts),
-        "public_statutes_sha256": csha(statutes), "no_Gold_solver_model_or_post_answer_repair": True}
+        "public_statutes_sha256": csha(statutes), "no_Gold_solver_model_or_post_answer_repair": True,
+        "runtime_does_not_judge_numeric_legal_truth": True}
