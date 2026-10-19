@@ -1,8 +1,8 @@
 # 当前Goal执行索引
 
-更新：2026-10-20 03:30 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 03:55 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 本页仅作续接入口。真实状态必须亲核systemd/PID、原始工件，不能仅信游标。
-已获真实C1发布及B2新案；本轮又观察到宽改候选被拒与EV-only修订，未把提案当成功。
+本轮是实质progress：完整核两次B2拒绝、实际B3新案与真实MERGE提案；没把提案当发布。
 
 ## 完整目标和用户有效边界
 
@@ -31,8 +31,9 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
 
 - Run `legal_openexempt_official_sampling_online_20261020_run01`。
 - unit `legal-openexempt-official-sampling-20261020-run01.service`，原PID3085974，
-  01:52:27启动，03:28:18亲核仍active；03:28:48已自动进入B3新案，
-  69 native/3教师、11次跨阶段同wire复用，正在53号案。不能把观察超时当停止理由。
+  01:52:27启动，03:50:36亲核仍同PID active；B3新案已于03:49:49完整评分。
+  03:54:13 progress为B3候选1重放，91 native/4教师、11次跨阶段同wire复用，
+  46号案。不能把观察超时或观察者正常退出当主训练停止理由。
 - progress `runs/<run>/progress.json`；日志
   `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01.log`。
 - config `configs/openexempt_official_sampling_online_20261020_run01.json`及frozen.json；
@@ -43,7 +44,7 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
   官方min_p0默认已核。没有切成非思考、没有重启服务或换模型。
 - 24来源、48派生EC/EV任务、6批各4来源。45–52旧未查询来源原文/源键保留；
   seed2026102002补53–68，排除所有旧开发source keys，未按结果重采样。
-  B1=45–48，B2=49–52；B3=53–56、B4=57–60、B5=61–64、B6=65–68尚未反馈。
+  B1=45–48，B2=49–52，B3=53–56已反馈；B4=57–60、B5=61–64、B6=65–68尚未反馈。
   packet SHA c6dc406906afcbc563ac4d038453aa9ab47590217d048cae9b9bfa5b88293aca。
 - 启动用blind C0，7条/40函数/3462tokens，不是旧训练C1；160源/数据/清单成员
   双盘逐字节核验。14必要CPU边界检查0.24s完成，没新造测试模块。
@@ -60,13 +61,23 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
 |---|---|---|---|
 |B1|80.83 / 65.28|72.01 / 69.44|72.01 / 69.44|
 |B2|42.08 / 54.79|46.04 / 52.08|64.79 / 50.57|
+|B3|67.92 / 45.83|72.08 / 69.58|85.83 / 77.08|
 
 B2对空库EC+22.7083pp、EV-4.2262pp，两项均值+9.2411pp；对C0均值+8.6161pp。
 这是真实分类迁移，但EV仍负，不是全方法已稳定成功。B2全输出EV为empty56.4354/
 frozen52.4242/online51.2121%。24次物理回答全stop、无协议/动作错误、真实存储调用0。
-累计8来源：empty61.4583/60.0347%，online68.4028/60.0050%，frozen59.0278/60.7639%。
-online对空库两项均值+3.4573pp，对C0+4.3080pp；EV总体近乎平，不选友好口径掩盖。
+累计12来源：empty63.6111/55.3009%，online74.2130/65.6978%，frozen63.3796/63.7037%。
+online对C0 EC+10.8333pp、EV仅+1.99405pp，两项均值+6.41369pp；不掩盖EV小幅。
 这不是正式规模、显著性、成熟方法胜利或官方TEST。
+
+**B3增益边界**：对empty EC+17.9167pp/EV+31.25pp；对C0 +13.75/+7.5pp。
+对C0全部增益集中53号（EC25→80、EV40→70），另外54–56都平，非均匀跨案改善。
+53_EV empty写V<=700/V<=27900，非法数值程序按原规则0分，不修补/重答。
+去掉该案的敏感性仅作诊断：其余三案online=C0 EV79.4444%，empty61.1111%。
+53_EV online正确claim4对C0的2，仍把住宅单项27900写成55800；未解决所有问题。
+B3共24逻辑/20物理回答（AZ/IL的4条online与C0同wire），20全stop、1空库动作错，
+137352prompt/43582completion，真实存储调用0。此前说9/24物理进度已向用户澄清：
+24是逻辑/最大生成数，实际20，不当独立重复。66个B3工件已双盘逐成员核验。
 
 **实际发布C1**：B1教师UPDATE3+CREATE3，将Fed/OR/WI部分拆成EC与EV作用域，
 并修700单项、OR400残余、WI车辆转用额度。新增不是三个新函数。
@@ -92,6 +103,12 @@ messages/schema及47_EV不变；9个逻辑重放复用既有真实输出，7个E
 所以03:28:48实际发布仍为C1同hash，B2未更新；B3自动沿用C1继续。23个物理候选
 重放均stop、172584prompt/58975completion，两个失败和97工件已双盘保全。
 
+**B3候选1重放中，未发布**：MERGE1+UPDATE3，联邦EC/EV合并，更新PA/IL/AZ；
+9条/40函数/3851tokens，比父库少1条，并非只增技能。SHA
+aed467bfa464fc2fd97852a5d726954df0e2a4363855e019bcae0d4f37db863f。
+教师83253input/5912output、113.212s，实际4次累计返回。提案修住宅/车辆单项
+不应*N、先通用条款再特定条款，仍需核重新合并是否伤及已学分类，不能看内容放行。
+
 ## 当前断点和有用的否证
 
 - B2在线EV漏21配对（14为Fed(d)(5)），另6金额错：3个车辆公式盲目*N；
@@ -105,6 +122,12 @@ messages/schema及47_EV不变；9个逻辑重放复用既有真实输出，7个E
   不能单凭新设想重启/热改当前轮。核心关注独立法律选项覆盖与真实执行。
 - 原资产池505种；本轮74次出现/70不同描述、4种跨来源重复。B2十五种描述全新
   于B1，后批不能混称新source与新asset/category泛化。结构检查不证明标签质量。
+- 新的已见TRAIN观察：拒绝候选45只保州法而丢联邦；46以已有特定条款为由舍弃
+  wildcard；50生成文字谈到不存在的PA8124(a)(10)，最终又输出别的错误合法引用。
+  同一原文仍含AZ法，但不据共现断言唯一原因，不热改当前上下文/字段顺序。
+- 53住宅目标27900是原作者married_limit55800除married_item_claim_count2的单项
+  约定，不是本项目改标签；这里只读核源码/公开statutes/federal.json，未调用solver
+  推理或给教师私有结构字段，也不把此benchmark约定当现行法律咨询结论。
 
 **已完成且拒绝的非思考配置诊断**：不是主训练，不再运行，不追加参数网格。
 全部B1四来源×EC/EV×empty/C1，共16次/0新教师，官方T.7/P.8/K20/同seed与上限。
@@ -117,7 +140,8 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 
 ## 下一直接工作与停止边界
 
-直接继续B3–B6真实新案，核仍有效C1的迁移、后续真实CRUD/预算和送达/调用。
+先完成B3候选1真实重放/准入，若拒只允许原协议的一次修订；随后B4–B6新案。
+核仍有效C1与后续真实发布的迁移、CRUD/预算和送达/调用，不只看B1或53一个好案。
 不额外追加B2第三次教师，不把训练内候选拒绝当系统故障重启或宣布新库已生效。
 本轮B2两项均值正，未触发连续两批伤害停止规则；不因EV一个负点停止或凑机械单调。
 实质系统问题或预定连续伤害时先保全终态再修，不选旧好库、不硬拖无效训练。
@@ -135,6 +159,9 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 `official_sampling_B2_complete_forward_and_actual_error_audit.json`、`official_sampling_hourly0328_actual_direction_review.json`、
 `official_sampling_B2_rejected_broad_edit_and_EV_only_refinement_impact_audit.json`。
 最新发布审计：`official_sampling_B2_final_rejections_actual_skill_management_audit.json`。
+最新前向/提案审计：`official_sampling_B3_fresh_forward_and_actual_skill_management_audit.json`；
+实际教师费用字段在response.invocation，B2总150509input/9779output/161.397s，
+前一B2审计optional顶层usage为null不等于0，见`official_sampling_B2_actual_teacher_cost_receipt.json`。
 只读机制前缀：`official_sampling_public_source_and_asset_overlap_readonly_audit`、
 `official_sampling_B1_published_routine_amount_only_diagnostic`、
 `official_sampling_B1_post_decode_fix_EC_EV_coverage_audit`、
