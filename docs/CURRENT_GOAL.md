@@ -30,7 +30,12 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 独立终态239成员双盘已亲核，SHA cdb044ccc85c561a97e3466dbff972f656f41d52813bea546c2b8a7bee664aa1。
 Run02仅把固定计划调用数显式标null，实际动态公式/估计另列；不把4条初库硬设为后续数量。
 源主链路/教师/数据/实际R3/226/所有旧16物理答未改，不重新生成已完成答，也无新qualification生成。
-cfg contractnli_record_credit_remaining104_online_20261019_run02.json/frozen已准备；待Git/双盘/独立后台。
+13:45:17已真实启动Run02，worker2017717/ticks439523472，独立preserver2017720/ticks439523473；
+source commit d7a2f513d409159145db38ee73c24356a4f30a2e；预启动171成员Git+源码双盘SHA
+2e8c7b7a440d79111b2ad49b63612592706b2134cd38b9865847b8665c3b4073。
+control artifacts/research/record_credit_remaining104_run02_20261019；不要重复启动/热改绑定文件或换模型。
+13:45:41原worker真实live，1新native/17逻辑含16旧物理，正在B4移除第0条/下一案105；无新teacher/fit。
+这是当前唯一训练，不是旧reflective仍live。接着重点观察B4真实更新及B5/B6原案迁移，未得新净益。
 
 record_credit Run02已于13:28:50完成，原worker1971525和独立preserver1971528均结束，单8B服务仍3889231。
 实际1次teacher UPDATE3/retain1，末库4条、17原历史正例/0负例、2595知识tokens。

@@ -6,7 +6,32 @@ Completed source-program B1--B3 did not establish skill transfer; contextual
 B6/B7 are also negative. Do not read old seen-case after-fit scores as new-case
 skill gains, formal TEST results, or a mature-method victory.
 
-Current default is `configs/contractnli_published_acquisition_continuation.json`,
+## Active execution — 2026-10-19
+
+The current background run is
+`legal_contractnli_record_credit_remaining104_online_20261019_run02`, started
+13:45 CST through `python -m experiments.witnessed_experience` and
+`configs/contractnli_record_credit_remaining104_online_20261019_run02.json`.
+Do not launch it again. The packaged CLI defaults and older checkpoints below
+are historical, not instructions to restart an old run.
+
+This continues the actual published four-record bank and shared ordinary226
+tool through the remaining104 TRAIN sources (global B4--B16), with one measured
+record-credit teacher update per batch. Every valid edit executes, including
+deletion or NOOP; there is no fixed library size, efficacy admission or old-bank
+selection. The frozen single8B lawyer, original legal task and original scoring
+remain unchanged. See the [chronological protocol](docs/RECORD_CREDIT_REMAINING104_ONLINE_PROTOCOL_20261019.md).
+
+The earlier complete128 run was negative versus same-data strong empty on all
+three metrics. The latest completed forward8 development comparison improved
+accuracy and strict joint but not original Gold-NN evidence F1. Stable substantive
+skill transfer, fair mature-method superiority, independent repeats and untuned
+official TEST are still unproven. This adaptive mixed-history continuation must
+not be reported as an independent uniform128 experiment or as a completed paper.
+
+## Historical Oct17 execution checkpoint
+
+The then-current default was `configs/contractnli_published_acquisition_continuation.json`,
 launched Oct17 14:42:44 CST as detached PID1979890,80 NEW native/1 planned teacher
 calls,197 initial bindings. It evaluates the
 latest real published R2 on24 seen sources, continues the fixed last8 first

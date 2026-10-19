@@ -15,6 +15,7 @@ import json
 import os
 import signal
 import sys
+import time
 from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
@@ -26,6 +27,7 @@ from legal_skill_guard.experiment.storage import RunStore, safe_component
 from legal_skill_guard.inference.codex_cli_client import (
     CODEX_TURN_INPUT_CHARACTER_LIMIT,
     CodexCLIClient,
+    CodexInvocationError,
     render_structured_codex_prompt,
     run_process_tree,
 )
@@ -78,6 +80,23 @@ def sha(path):
 
 def now():
     return datetime.now(UTC).isoformat()
+
+
+def capacity_failure_without_result(record):
+    """Only the observed pre-result capacity failure permits delayed resubmission."""
+    events = []
+    for line in record.get('event_log', '').splitlines():
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue  # CLI diagnostic lines are not response events.
+    allowed = {'thread.started', 'turn.started', 'error', 'turn.failed'}
+    message = 'Selected model is at capacity. Please try a different model.'
+    return bool(record.get('returncode') and events
+        and all(isinstance(e, dict) and e.get('type') in allowed and 'usage' not in e for e in events)
+        and any(e.get('type') == 'error' and e.get('message') == message for e in events)
+        and any(e.get('type') == 'turn.failed' and isinstance(e.get('error'), dict)
+                and e['error'].get('message') == message for e in events))
 
 
 LEARNERS = ("experience", "source_only", "ace_legal")
@@ -371,16 +390,17 @@ class Comparison:
         self.check()
         dest = self.out / "teacher" / name
         settings = self.cfg["teacher"]
+        capacity_attempt = 0
+        captured = None
 
         def capture(argv, **kwargs):
+            nonlocal captured
             value = run_process_tree(argv, **kwargs)
+            captured = {
+                'returncode':value.returncode, 'event_log':value.stdout or '', 'stderr':value.stderr or ''}
+            attempt_dest = dest if capacity_attempt == 0 else dest/f'capacity_retry_{capacity_attempt}'
             RunStore.immutable_json(
-                dest / "event_log.json",
-                {
-                    "returncode": value.returncode,
-                    "event_log": value.stdout or "",
-                    "stderr": value.stderr or "",
-                },
+                attempt_dest / "event_log.json", captured,
             )
             return value
 
@@ -413,9 +433,38 @@ class Comparison:
         if chars > CODEX_TURN_INPUT_CHARACTER_LIMIT:
             raise ValueError("Complete teacher input exceeds character capacity; never truncate")
         RunStore.immutable_json(dest / "wire_request.json", client.request_payload(**request))
-        self.teacher_attempts += 1
-        self.progress("teacher", current_arm=name, teacher_prompt_characters=chars)
-        response = asdict(client.generate_json(**request))
+        retries = settings.get('capacity_retry_attempts', 0)
+        assert type(retries) is int and 0 <= retries <= 3
+        for capacity_attempt in range(retries+1):
+            captured = None
+            self.check()
+            self.teacher_attempts += 1
+            self.progress("teacher", current_arm=name, teacher_prompt_characters=chars,
+                          capacity_transport_attempt_index=capacity_attempt)
+            try:
+                response = asdict(client.generate_json(**request))
+                break
+            except CodexInvocationError as error:
+                permitted = captured is not None and capacity_failure_without_result(captured)
+                attempt_dest = dest if capacity_attempt == 0 else dest/f'capacity_retry_{capacity_attempt}'
+                RunStore.immutable_json(attempt_dest/'failure.json', {
+                    'at':now(), 'error':repr(error), 'capacity_without_any_result_verified':permitted,
+                    'same_request_and_model_no_result_selection':True,
+                    'usage_unknown_not_zero':True, 'teacher_attempts_so_far':self.teacher_attempts})
+                if not permitted or capacity_attempt == retries:
+                    raise
+                delay = settings.get('capacity_retry_initial_delay_seconds', 60)*(2**capacity_attempt)
+                assert 1 <= delay <= 900
+                self.progress('teacher_capacity_wait', current_arm=name,
+                    capacity_transport_attempt_index=capacity_attempt, next_attempt_delay_seconds=delay,
+                    same_teacher_system_user_schema_and_model=True)
+                deadline = time.monotonic()+delay
+                while time.monotonic() < deadline:
+                    self.check()
+                    time.sleep(min(15, max(0, deadline-time.monotonic())))
+        response['capacity_transport_attempt_index'] = capacity_attempt
+        response['actual_event_log_path'] = str((dest if capacity_attempt == 0 else
+                                                dest/f'capacity_retry_{capacity_attempt}')/'event_log.json')
         RunStore.immutable_json(dest / "response.json", response)
         self.teachers.append({"name": name, **response})
         if response["cache_hit"] or response["invocation"].get("tool_events_detected"):

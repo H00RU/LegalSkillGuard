@@ -237,8 +237,19 @@ class WitnessedExperience(RankedOnline):
             for ref, w in {**catalog, **nonmembers}.items()}
         body["token_costs_are_existing_CPU_tokenizer_requests_not_native_generations"] = len(catalog)+len(nonmembers)
         self.record(f"learning_inputs/{name}.json", body)
-        delta = self.teacher_call(name, self.teaching_system if teaching_system is None else teaching_system,
-                                  encode_teacher_body(body), schema)
+        teacher_body = encode_teacher_body(body)
+        system = self.teaching_system if teaching_system is None else teaching_system
+        reference = self.cfg.get('completed_record_intervention_reference_run')
+        if reference and name == 'credit_b4':
+            old_wire = ROOT/'runs'/reference/'teacher/credit_b4/wire_request.json'
+            actual = read(old_wire)
+            assert actual['system_prompt'] == system and actual['output_schema'] == schema
+            assert actual['user_prompt'] == json.dumps(teacher_body, ensure_ascii=False, separators=(',', ':'))
+            self.record('exact_unfinished_teacher_request_resume.json', {
+                'at':now(), 'source_wire':str(old_wire), 'source_wire_sha256':sha(old_wire),
+                'same_system_user_schema_model_and_effort':True,
+                'new_run_purpose_only_no_answer_or_library_selection':True})
+        delta = self.teacher_call(name, system, teacher_body, schema)
         bank = apply_differential_publication(parent, delta, self.labels, allowed, guidance_schema=guidance)
         materialized = materialize_witness_skills(bank, self.labels, catalog, nonmembers)
         tokens = self.meter.token_count(text=json.dumps(witness_knowledge_view(materialized),
@@ -305,6 +316,28 @@ class WitnessedOnline(WitnessedExperience):
         "No manual case exceptions, fixed library size, efficacy "
         "admission, best-bank rollback or future-case knowledge."
     )
+
+    def generate(self, row, role, messages, schema):
+        reference = self.cfg.get('completed_record_intervention_reference_run')
+        if reference and self.current_batch == 4 and self.phase.startswith('b4_remove_record_'):
+            old = ROOT/'runs'/reference
+            ip, np, lp = [old/f'{kind}/{self.phase}/{row["id"]}/{role}.json'
+                          for kind in ('inputs','native','logical_answers')]
+            assert role == 'skills' and read(ip) == {'messages':messages, 'schema':schema}
+            response, logical = read(np)['response'], read(lp)
+            assert response == logical['response'] and response['finish_reason'] == 'stop'
+            assert logical['bank_sha256'] == csha(self.bank)
+            assert logical['ordinary_tool_source_ids'] == self.prefix_ids
+            self.record(f'inputs/{self.phase}/{row["id"]}/{role}.json', read(ip))
+            self.record(f'inherited_completed_interventions/{self.phase}/{row["id"]}.json', {
+                'source_input':str(ip), 'source_input_sha256':sha(ip),
+                'source_native':str(np), 'source_native_sha256':sha(np),
+                'source_logical':str(lp), 'source_logical_sha256':sha(lp),
+                'actual_original_response':response, 'new_native_calls':0,
+                'already_costed_completed_generation_not_retry_or_independent_sample':True})
+            self.inherited_intervention_count += 1
+            return response
+        return super().generate(row, role, messages, schema)
 
     def reflect_current_batch(self, body, rows):
         """ACE-inspired reflection before curation; no new lawyer call or inference layer."""
@@ -533,6 +566,14 @@ class WitnessedOnline(WitnessedExperience):
             'reading_policy': self.reading_policy, 'not_a_selected_successful_update': True}
         self.units.extend(previous)  # Real past false citations remain eligible learning examples.
         self.publication_history, self.inherited_prequential_count = [], 0
+        self.inherited_intervention_count = 0
+        reference = self.cfg.get('completed_record_intervention_reference_run')
+        if reference:
+            failed = read(ROOT/'runs'/reference/'failure.json')
+            assert failed['actual_native_teacher_CPUfits'] == [32,0,0]
+            assert failed['actual_teacher_attempts'] == 1
+            assert not (ROOT/'runs'/reference/'publications').exists()
+            assert self.cfg['generation'] == read(ROOT/self.cfg['completed_record_intervention_reference_config'])['generation']
         remaining = len(self.documents)//8
         self.record('declaration.json', {'at': now(), 'config': self.cfg,
             'frozen_bindings': self.bindings.copy(), 'actual_initial_terminal_library': self.bank,
@@ -540,10 +581,11 @@ class WitnessedOnline(WitnessedExperience):
             'initial_shared_ordinary_source_ids': self.prefix_ids,
             'chronological_batches': list(range(offset+1,17)), 'complete_remaining_source_count': len(self.documents),
             'planned_new_teacher_calls_and_CPUfits': [remaining, remaining],
-            'planned_new_native_calls_formula': '24*remaining_batches-16 + 8*sum(actual_parent_record_counts)',
+            'planned_new_native_calls_formula': '24*remaining_batches-16-inherited_interventions + 8*sum(actual_parent_record_counts)',
             'native_call_estimate_only_if_initial_record_count_stays_fixed':
-                24*remaining-16+8*remaining*len(self.bank),
+                24*remaining-16-(32 if reference else 0)+8*remaining*len(self.bank),
             'explicit_inherited_first8_empty_and_actual_terminal_memory_physical_calls': 16,
+            'explicit_inherited_completed_record_intervention_physical_calls':32 if reference else 0,
             'no_forced_record_count_growth_efficacy_admission_or_best_bank_rollback': True,
             'one_actual_record_credit_curator_per_batch_no_separate_reflector': True,
             'same_source_witnesses_excluded_even_for_training_reanswers': True,
@@ -607,7 +649,8 @@ class WitnessedOnline(WitnessedExperience):
             print(json.dumps({'batch_complete':batch, 'actual_training_update_effect':update['difference_after_minus_before'],
                 'published_record_count':len(self.bank), 'knowledge_tokens':self.memory_tokens}), flush=True)
         assert self.inherited_prequential_count == 16
-        assert len(self.teachers) == self.teacher_attempts == len(self.fit_records) == remaining
+        assert len(self.teachers) == len(self.fit_records) == remaining and self.teacher_attempts >= remaining
+        assert self.inherited_intervention_count == (32 if reference else 0)
         assert len(self.prefix_ids) == 330
         groups = {m:[u for u in self.units if '_prequential_' in u['stage'] and u['stage'].endswith('_'+m)]
                   for m in ('empty','combined')}
@@ -618,6 +661,7 @@ class WitnessedOnline(WitnessedExperience):
                 seed=2026102300, replicates=5000),
             'actual_new_native_teacher_CPUfits':[len(self.native),len(self.teachers),len(self.fit_records)],
             'actual_teacher_attempts':self.teacher_attempts, 'inherited_prequential_physical_calls':16,
+            'inherited_completed_intervention_physical_calls':self.inherited_intervention_count,
             'final_bank':self.bank, 'final_materialized_memory':self.materialized,
             'final_common_ordinary_source_ids':self.prefix_ids, 'actual_ordinary_fits':self.fit_records,
             'publication_statistics':self.publication_history, 'batch_summaries':summaries, 'units':self.units,

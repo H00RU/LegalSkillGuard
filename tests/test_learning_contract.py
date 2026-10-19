@@ -2734,6 +2734,53 @@ def test_teacher_catalog_shares_exact_actual_contexts_across_arms_without_omissi
         encode_teacher_body(bad)
 
 
+@pytest.mark.parametrize('with_result,other_error', [(False,False),(True,False),(False,True)])
+def test_teacher_capacity_resubmission_never_retries_a_result_or_another_error(tmp_path, monkeypatch, with_result, other_error):
+    import subprocess
+    from legal_skill_guard.learning import experiment as module
+    from legal_skill_guard.inference.codex_cli_client import CodexInvocationError, StructuredCodexResponse
+    capacity = 'Selected model is at capacity. Please try a different model.'
+    message = 'Invalid input' if other_error else capacity
+    events = [{'type':'thread.started'}, {'type':'turn.started'}]
+    if with_result:
+        events.append({'type':'item.completed','item':{'type':'agent_message','text':'A partial result'}})
+    events += [{'type':'error','message':message},{'type':'turn.failed','error':{'message':message}}]
+    outputs = [subprocess.CompletedProcess([],1,'\n'.join(json.dumps(e) for e in events),''),
+               subprocess.CompletedProcess([],0,'{"type":"turn.completed"}','')]
+    requests, sleeps, clock = [], [], [0.]
+    monkeypatch.setattr(module,'run_process_tree',lambda *a,**kw: outputs.pop(0))
+    monkeypatch.setattr(module.time,'monotonic',lambda:clock[0])
+    def sleep(seconds):
+        sleeps.append(seconds); clock[0] += seconds
+    monkeypatch.setattr(module.time,'sleep',sleep)
+    class Client:
+        def __init__(self, **kw): self.runner=kw['command_runner']
+        def request_payload(self, **kw): return kw
+        def generate_json(self, **kw):
+            requests.append(copy.deepcopy(kw)); result=self.runner(['unused_mock_only'])
+            if result.returncode: raise CodexInvocationError('Recorded failure')
+            return StructuredCodexResponse(value={'ok':True},model='gpt-5.6-sol',request_sha256='x',
+                response_sha256='y',cache_hit=False,invocation={})
+    monkeypatch.setattr(module,'CodexCLIClient',Client)
+    study=module.Comparison.__new__(module.Comparison)
+    study.out,study.run_id,study.teacher_attempts,study.teachers=tmp_path,'mock_only',0,[]
+    study.check=lambda:None; study.progress=lambda *a,**kw:None
+    study.cfg={'teacher':{'model':'gpt-5.6-sol','reasoning_effort':'high','timeout_seconds':1,
+        'ledger':'unused_mock_only.json','total_invocation_budget':10,'max_input_tokens':680000,
+        'capacity_retry_attempts':1,'capacity_retry_initial_delay_seconds':1}}
+    schema={'type':'object','additionalProperties':False,'required':['ok'],
+            'properties':{'ok':{'type':'boolean'}}}
+    if with_result or other_error:
+        with pytest.raises(CodexInvocationError):study.teacher_call('one','Unchanged system',{'all_cases':'kept'},schema)
+        assert len(requests)==study.teacher_attempts==1 and not sleeps and not study.teachers
+    else:
+        assert study.teacher_call('one','Unchanged system',{'all_cases':'kept'},schema)=={'ok':True}
+        assert len(requests)==study.teacher_attempts==2 and requests[0]==requests[1]
+        assert len(study.teachers)==1 and sum(sleeps)==1
+        assert (tmp_path/'teacher/one/event_log.json').exists()
+        assert (tmp_path/'teacher/one/capacity_retry_1/event_log.json').exists()
+
+
 def test_historical_witness_skills_preserve_original_members_and_exclude_same_source():
     from legal_skill_guard.learning.decision_evidence import (
         training_witness_catalog,materialize_witness_skills,witnessed_skill_payload,witness_knowledge_view)

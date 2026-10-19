@@ -57,6 +57,34 @@ Record actual calls, teacher attempts including unfinished ones, per-batch
 TP/FP/FN, NN complete correctness and NM correctness; retain every failed or
 adverse episode. No claim of zero usage for unfinished calls.
 
+### Explicit transport-only continuation Run03
+
+Run01 stopped before any generation on a missing dynamic-plan field (0/0/0).
+Run02 completed all32 record-removal generations, then its first teacher attempt
+returned the exact pre-result CLI capacity failure, without a skill response,
+publication or fit. Both failed runs and all costs are retained and dual-disk
+archived. Run03 inherits ALL32 completed interventions after exact input/schema/
+bank/shared-tool/generation checks, in addition to the prior16 first-batch
+observations. No interventions or favourable subsets are rerolled.
+
+Before its pending B4 teacher invocation, compare system text, complete encoded
+user text and output schema against the failed actual wire exactly. Only the
+new Run ID purpose changes. The original single authorized gpt-5.6-sol/high
+teacher remains unchanged. No old bank or generated answer substitutes for it.
+The new-native formula subtracts the extra32 explicitly inherited physical calls;
+680 is the estimate only if4 parent records remain throughout, not a quota.
+
+The same request may be resubmitted ONLY for the exact recorded terminal CLI
+capacity error with no result, item or tool event and no usage event. Two delayed
+resubmissions at60/120s are permitted per pending teacher. Log each attempt and
+ledger reservation separately, preserve identical request content, and report
+unknown failed usage as unknown. Any partial result, different error, interruption
+or exhausted attempt/budget stops the run. This is transport recovery, not
+quality-based retry, teacher/model fallback, another curator, or efficacy
+admission. The13 planned teacher calls mean completed batch curations; failed
+transport attempts are additional disclosed costs, not successful curations.
+Official recovery guidance consulted: https://developers.openai.com/api/docs/guides/agents-api/errors#retry-transient-failures
+
 Monitor subsequent batches, not only the inherited B4. A clearly harmful whole
 configuration may be stopped and archived; stopping must not replace the actual
 terminal bank or conceal negative denominators. This development must still be
