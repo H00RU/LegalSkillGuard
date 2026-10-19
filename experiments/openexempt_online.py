@@ -4,6 +4,8 @@ Reuses the audited native/teacher transports and differential edits. Unlike the
 old NDA run, training replays can reject ineffective candidate edits. This is
 declared TRAIN optimization, not test-time retry or an independent validation
 claim. All candidate outputs, costs and rejected edits remain on disk.
+Contract v10 separates legal selection from execution of learned numerical
+programs. Native-response reuse never reuses a previously computed answer.
 """
 
 from __future__ import annotations
@@ -134,10 +136,14 @@ PROGRAM_ACTOR_SYSTEM = (
     "or another asset's value. No long quotation is required. Select EVERY applicable "
     "public citation label, not just one. Each displayed label encodes one exact public "
     "statutory citation in the given allowable legal framework. For each "
-    "claim supply citation_ref and limit_expression only. A string is your inline ceiling "
-    "expression. JSON null explicitly invokes the ONE published routine bound to that "
-    "same citation. Do not choose or output an internal operator ID. If that law has no "
-    "published routine, write its expression yourself; null then is an invalid call. "
+    "claim select citation_ref FIRST, based on legal applicability, and supply "
+    "limit_expression. For a citation with a published routine, the schema requires "
+    "JSON null: this is an explicit call to that citation's learned numerical program. "
+    "Its body is executed, not supplied for you to copy or rewrite. For a citation "
+    "without a published routine, write the ceiling expression yourself; null is "
+    "then invalid. The schema distinguishes these two action forms. Availability "
+    "of a numerical program never proves that its citation is legally applicable. "
+    "Do not choose or output an internal operator ID. "
     "Expressions may use ordinary dollar numbers in current Facts/statutes, V (this asset's "
     "submitted value), N (1 or2 debtors from Facts), constants0/1/2, +,-,*,/, min/max, and "
     "X if N==2 else Y. For example min(V,C), where C is replaced by the supported numeric "
@@ -159,10 +165,19 @@ PROGRAM_AUTHOR_ADDITION = (
     " The EV execution contract is now SOURCE-GROUNDED CLAIM OPERATIONS, not free final-number "
     "generation. Each guidance also has operators, an array which may be empty. An operator "
     "has id,citation,limit_expression. Internal IDs are ASCII provenance only. Keep ONE "
-    "active routine per citation in the whole bank, combining N-dependent variants or "
-    "leaving uncommon variants to inline calculation. A native null limit_expression "
+    "active routine per citation in the whole bank, combining supported N-dependent "
+    "variants. If its ceiling cannot be expressed with the available public inputs, "
+    "leave that citation without a routine rather than publish a wrong universal body. "
+    "A native null limit_expression "
     "invokes that same citation's routine; an expression string is inline. There is no "
-    "separate operator-ID selection task. Write reusable statutory CEILING expressions, never "
+    "separate operator-ID selection task. Under contract v10 a published citation "
+    "requires a null call rather than a rewritten inline formula. The program body "
+    "is not rendered to the executor; its legal procedure and public statutes remain "
+    "visible. Changing only a program body leaves the native selection request "
+    "unchanged, but its plan is re-executed using the new program and bank version. "
+    "Neither computed answers nor verifier feedback are reused as predictions. "
+    "A new/removed routine or changed procedure can change the native request. "
+    "Write reusable statutory CEILING expressions, never "
     "asset values, case names, targets or answers. The full actual system and schema are "
     "supplied. Use original citation strings, ordinary numeric statutory dollar constants, V for the "
     "current asset's value, N for the public debtor count, and generic constants0/1/2. "
@@ -194,18 +209,18 @@ def actor_payload(row, bank, *, grounded=True):
     if not grounded:
         raise ValueError("Only the public-namespace claim contract is implemented")
     supplied = visible(active_bank(row, bank), row["family"])
-    if row["family"] == "EC":
-        # Keep all classification guidance, but EV-only executable bodies are
-        # not actions in the original EC output contract.
-        for skill in supplied:
-            skill["guidance"].pop("operators", None)
+    # The interpreter retains the actual programs. Only procedural guidance is
+    # rendered to the actor, so a pure body update cannot perturb its choices.
+    delivered = copy.deepcopy(supplied)
+    for skill in delivered:
+        skill["guidance"].pop("operators", None)
     system = PROGRAM_ACTOR_SYSTEM if row["family"] == "EV" else ACTOR_SYSTEM
     messages = [{"role": "system", "content": system}]
-    if supplied:
+    if delivered:
         messages.append({"role": "user", "content":
                          "Background reusable skills. The current legal case follows. "
                          "Use these only when applicable; they are not current answers:\n" +
-                         json.dumps(supplied, ensure_ascii=False, separators=(",", ":"))})
+                         json.dumps(delivered, ensure_ascii=False, separators=(",", ":"))})
     catalog = public_catalog(row)
     messages.append({"role": "user", "content":
         "Public citation label vocabulary. These are public headers in the already-given "
@@ -215,10 +230,20 @@ def actor_payload(row, bank, *, grounded=True):
     labels = {"type": "string", "enum": list(catalog)}
     if row["family"] == "EV":
         schema = claim_answer_schema(supplied)
-        claim = schema["properties"]["assets"]["items"]["properties"]["claims"]["items"]
-        claim["properties"].pop("citation")
-        claim["properties"]["citation_ref"] = labels
-        claim["required"] = ["citation_ref", "limit_expression"]
+        operators = operator_catalog(supplied)
+        if set(operators) - set(catalog.values()):
+            raise InvalidClaimProgram("Routine outside the public allowable-law vocabulary")
+        branches = []
+        for cached, expression_type in ((True, "null"), (False, "string")):
+            references = [ref for ref, citation in catalog.items()
+                          if (citation in operators) == cached]
+            if references:
+                branches.append({"type": "object", "additionalProperties": False,
+                    "required": ["citation_ref", "limit_expression"], "properties": {
+                        "citation_ref": {"type": "string", "enum": references},
+                        "limit_expression": {"type": expression_type}}})
+        claims = schema["properties"]["assets"]["items"]["properties"]["claims"]
+        claims["items"] = branches[0] if len(branches) == 1 else {"anyOf": branches}
     else:
         schema = answer_schema("EC")
         schema["additionalProperties"]["items"] = labels
@@ -314,8 +339,8 @@ class Online:
     def __init__(self, config_path):
         self.cfg = read(config_path)
         if (self.cfg.get("execution_contract") != "source_grounded_claim_operations"
-                or self.cfg.get("execution_contract_version") != 9):
-            raise ValueError("This source implements readable public-namespace contract v9 only")
+                or self.cfg.get("execution_contract_version") != 10):
+            raise ValueError("This source implements compiled numerical-call contract v10 only")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
             raise ValueError("Frozen config mismatch")
@@ -378,29 +403,32 @@ class Online:
             "public_citation_catalog": catalog,
             "public_allowable_jurisdictions": sorted(allowable_namespaces(row)),
             "public_citation_catalog_sha256": csha(catalog),
+            "numerical_program_bodies_rendered_to_actor": False,
+            "published_citation_calls_required_by_schema": row["family"] == "EV",
             "format_only_demonstrations_not_in_inference_input": True,
             "no_private_case_annotations_or_current_target": True})
+        alias = None
+        raw_call_path = str(path.relative_to(ROOT))
         if fingerprint in self.request_cache:
             original = self.request_cache[fingerprint]
-            result = {**copy.deepcopy(original), "case_id": row["case_id"],
-                      "source_key": row["source_key"], "family": row["family"],
-                      "stage": stage, "arm": arm, "bank_sha256": csha(bank),
-                      "delivered_skill_ids": [s["id"] for s in supplied],
-                      "physical_alias_of_identical_wire": {"fingerprint": fingerprint,
-                          "raw_call_path": original["raw_call_path"],
-                          "not_an_independent_generation": True,
-                          "execution_receipt_is_from_original_call": True}}
-            result.pop("score", None)  # Never cache or propagate reference feedback.
+            response = copy.deepcopy(original["response"])
+            raw_call_path = original["raw_call_path"]
+            alias = {"fingerprint": fingerprint, "raw_call_path": raw_call_path,
+                     "not_an_independent_generation": True,
+                     "execution_receipt_is_from_original_call": False,
+                     "reinterpreted_under_bank_sha256": csha(bank)}
             self.reuse_events.append({"stage": stage, "case_id": row["case_id"],
                 "family": row["family"], "arm": arm, "fingerprint": fingerprint,
-                "raw_call_path": original["raw_call_path"]})
-            RunStore.immutable_json(path.with_suffix(".answer.json"), result)
-            self.progress(stage, current_arm=arm, current_document_id=row["case_id"],
-                          current_call="identical_wire_reuse_not_new_generation")
-            return result
-        response = self.call(path, messages, schema, self.cfg["generation"]["max_tokens"], {
-            "stage": stage, "arm": arm, "document_id": row["case_id"],
-            "family": row["family"], "call_role": "openexempt", "bank_sha256": csha(bank)})
+                "raw_call_path": raw_call_path,
+                "execution_bank_sha256": csha(bank)})
+        else:
+            response = self.call(path, messages, schema, self.cfg["generation"]["max_tokens"], {
+                "stage": stage, "arm": arm, "document_id": row["case_id"],
+                "family": row["family"], "call_role": "openexempt", "bank_sha256": csha(bank)})
+            # Cache only the raw native response. A bank update may change the
+            # invoked body while messages/schema remain byte-identical.
+            self.request_cache[fingerprint] = {
+                "response": copy.deepcopy(response), "raw_call_path": raw_call_path}
         parsed = None
         parse_error = None
         try:
@@ -422,6 +450,8 @@ class Online:
             try:
                 answer, execution_receipt = execute_claims(native_program["assets"],
                     row["components"]["facts"], row["components"]["statutes"], supplied)
+                execution_receipt["execution_bank_sha256"] = csha(bank)
+                execution_receipt["native_request_fingerprint"] = fingerprint
                 parsed = {"answer": answer}
             except InvalidClaimProgram as exc:
                 execution_error = repr(exc)
@@ -433,13 +463,17 @@ class Online:
         result = {"case_id": row["case_id"], "source_key": row["source_key"],
                   "family": row["family"], "stage": stage, "arm": arm,
                   "bank_sha256": csha(bank), "parsed": parsed,
-                  "parse_error": parse_error, "raw_call_path": str(path.relative_to(ROOT)),
+                  "parse_error": parse_error, "raw_call_path": raw_call_path,
                   "native_program": native_program, "execution_receipt": execution_receipt,
                   "public_label_submission": public_label_submission,
                   "execution_error": execution_error,
                   "delivered_skill_ids": [s["id"] for s in supplied]}
+        if alias is not None:
+            result["physical_alias_of_identical_wire"] = alias
         RunStore.immutable_json(path.with_suffix(".answer.json"), result)
-        self.request_cache[fingerprint] = copy.deepcopy(result)
+        if alias is not None:
+            self.progress(stage, current_arm=arm, current_document_id=row["case_id"],
+                          current_call="identical_native_response_reinterpreted_not_new_generation")
         return result
 
     def grade(self, records):
@@ -609,22 +643,12 @@ class Online:
                 arms = ("empty", "frozen_initial", "skills")
                 offset = (row["case_id"] + FAMILIES[row["family"]]) % len(arms)
                 arms = arms[offset:] + arms[:offset]
-                answers, executed = {}, {}
+                answers = {}
                 for arm in arms:
                     bank = self.bank if arm == "skills" else self.frozen_bank if arm == "frozen_initial" else []
-                    messages, schema, _ = actor_payload(row, bank, grounded=True)
-                    fingerprint = csha({"messages": messages, "schema": schema,
-                                        "generation": self.cfg["generation"]})
-                    if fingerprint in executed:
-                        original = executed[fingerprint]
-                        answers[arm] = {**copy.deepcopy(original), "arm": arm,
-                            "bank_sha256": csha(bank),
-                            "physical_alias_of_identical_wire": {"fingerprint": fingerprint,
-                                "raw_call_path": original["raw_call_path"],
-                                "not_an_independent_generation": True}}
-                    else:
-                        answers[arm] = self.answer(row, bank, f"b{batch}_prequential", arm)
-                        executed[fingerprint] = answers[arm]
+                    # One reuse path for every arm/stage. Even an identical
+                    # native response must execute against this arm's bank.
+                    answers[arm] = self.answer(row, bank, f"b{batch}_prequential", arm)
                 empty.append(answers["empty"])
                 skills.append(answers["skills"])
                 frozen.append(answers["frozen_initial"])

@@ -114,38 +114,56 @@ def test_original_official_scoring_not_a_new_semantic_judge():
     assert audit["full_output_claim_fp"] == 1
 
 
-def test_frozen_initial_control_shares_only_identical_wire_requests(monkeypatch, tmp_path):
+@pytest.mark.parametrize("online_cap", [30, 15])
+def test_frozen_initial_control_shares_native_plan_not_computed_answer(monkeypatch, tmp_path,
+                                                                    online_cap):
     from legal_skill_guard.experiment.storage import RunStore
     from legal_skill_guard.utils.hashing import canonical_json_sha256
 
     study = Online.__new__(Online)
-    study.cfg = {"batch_source_cases": 1, "source_cases": 1, "generation": {"seed": 45}}
+    monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
+    study.cfg = {"batch_source_cases": 1, "source_cases": 1,
+                 "execution_contract": "source_grounded_claim_operations",
+                 "generation": {"seed": 45, "max_tokens": 100}}
     study.rows = [{"case_id": 17, "source_key": "source17", "family": f, "batch": 1,
                    "prompt": "original public input",
                    "components": copy.deepcopy(COMPONENTS)}
                   for f in ("EC", "EV")]
     study.bank = [{"id": "s", "hypothesis_ids": ["EC", "EV"],
                    "guidance": guidance("inspect")}]
+    study.bank[0]["guidance"]["operators"] = [{
+        "id": "cap", "citation": "Ariz. Rev. Stat. § 33-1123",
+        "limit_expression": f"min(V,{online_cap})"}]
+    study.bank[0]["guidance"]["jurisdiction"] = "ARIZONA"
     study.frozen_bank = copy.deepcopy(study.bank)
+    study.frozen_bank[0]["guidance"]["operators"][0]["limit_expression"] = "min(V,30)"
     study.native, study.summaries = [], []
+    study.request_cache, study.reuse_events = {}, []
     study.prequential_empty, study.prequential_skills, study.prequential_frozen = [], [], []
     study.out = tmp_path
     written = {}
     monkeypatch.setattr(RunStore, "immutable_json", lambda p, v: written.update({str(p): copy.deepcopy(v)}))
     monkeypatch.setattr(RunStore, "atomic_json", lambda p, v: None)
     study.progress = lambda *a, **k: None
+    study.check = lambda: None
 
-    def answer(row, bank, stage, arm):
-        study.native.append((row["family"], arm))
-        return {"case_id": 17, "source_key": "source17", "family": row["family"], "arm": arm,
-                "bank_sha256": canonical_json_sha256(bank), "raw_call_path": f"{row['family']}/{arm}"}
+    def call(dest, messages, schema, max_tokens, metadata):
+        study.native.append(metadata)
+        ref = "Ariz. Rev. Stat. section 33-1123"
+        if metadata["family"] == "EC":
+            value = {"watch": [ref]}
+        else:
+            value = {"assets": [{"asset_name": "watch", "asset_value": 40, "claims": [{
+                "citation_ref": ref,
+                "limit_expression": "min(V,30)" if metadata["arm"] == "empty" else None}]}]}
+        return {"content": json.dumps(value), "finish_reason": "stop"}
 
     def grade(records):
         for r in records:
             r["score"] = record(r["family"], 0.5)["score"]
         return records
 
-    study.answer, study.grade = answer, grade
+    study.call, study.grade = call, grade
     study.update = lambda *args: {"bank_sha256": canonical_json_sha256(study.bank),
                                  "parent_bank_sha256": canonical_json_sha256(study.bank)}
     assert study.execute() == "completed_bounded_mechanism_study"
@@ -153,6 +171,13 @@ def test_frozen_initial_control_shares_only_identical_wire_requests(monkeypatch,
     assert study.summaries[0]["prequential_actual_new_native_calls"] == 4
     assert study.summaries[0]["online_minus_frozen"]["mean_f1_difference"] == 0
     assert len(study.prequential_frozen) == len(study.prequential_skills) == 2
+    frozen_ev = study.prequential_frozen[1]
+    online_ev = study.prequential_skills[1]
+    assert frozen_ev["parsed"]["answer"]["watch"][0]["claim_value"] == 30
+    assert online_ev["parsed"]["answer"]["watch"][0]["claim_value"] == online_cap
+    assert frozen_ev["raw_call_path"] == online_ev["raw_call_path"]
+    assert online_ev["execution_receipt"]["execution_bank_sha256"] == canonical_json_sha256(study.bank)
+    assert frozen_ev["execution_receipt"]["execution_bank_sha256"] == canonical_json_sha256(study.frozen_bank)
 
 
 def test_irrelevant_namespace_updates_do_not_change_the_actual_request():
@@ -227,3 +252,95 @@ def test_cross_stage_cache_reuses_only_identical_wire_without_reference_feedback
     study.cfg["generation"]["seed"] = 46
     study.answer(row, [], "different_profile", "empty")
     assert len(study.native) == 2  # No cache match after a real generation-profile change.
+
+
+def test_compiled_action_schema_hides_bodies_but_preserves_all_legal_choices():
+    from jsonschema import ValidationError, validate
+
+    components = copy.deepcopy(COMPONENTS)
+    components["statutes"] += "\nAriz. Rev. Stat. § 33-1125(1)\nApparel up to $500."
+    row = {"family": "EV", "components": components}
+    bank = [{"id": "az", "hypothesis_ids": ["EC", "EV"],
+             "guidance": guidance("Classify according to the supplied law.", "ARIZONA")}]
+    bank[0]["guidance"]["operators"] = [{"id": "cap",
+        "citation": "Ariz. Rev. Stat. § 33-1123", "limit_expression": "min(V,12345)"}]
+    messages, schema, supplied = actor_payload(row, bank)
+    assert "12345" not in str(messages)
+    assert "12345" in str(supplied)  # Interpreter, not actor, receives the program.
+    claims = schema["properties"]["assets"]["items"]["properties"]["claims"]["items"]
+    assert len(claims["anyOf"]) == 2
+    refs = {r for branch in claims["anyOf"]
+            for r in branch["properties"]["citation_ref"]["enum"]}
+    assert refs == set(public_catalog(row))  # No eligibility or Gold filtering.
+
+    def plan(reference, expression):
+        return {"assets": [{"asset_name": "unchanged unsupported name", "asset_value": 40,
+                 "claims": [{"citation_ref": reference, "limit_expression": expression}]}]}
+
+    cached = "Ariz. Rev. Stat. section 33-1123"
+    inline = "Ariz. Rev. Stat. section 33-1125(1)"
+    validate(plan(cached, None), schema)
+    validate(plan(inline, "min(V,500)"), schema)
+    with pytest.raises(ValidationError):
+        validate(plan(cached, "min(V,12345)"), schema)
+    with pytest.raises(ValidationError):
+        validate(plan(inline, None), schema)
+    changed = copy.deepcopy(bank)
+    changed[0]["guidance"]["operators"][0]["limit_expression"] = "min(V,54321)"
+    assert actor_payload(row, bank)[:2] == actor_payload(row, changed)[:2]
+    ec_row = {**row, "family": "EC"}
+    assert actor_payload(ec_row, bank)[:2] == actor_payload(ec_row, changed)[:2]
+    changed[0]["guidance"]["operators"] = []
+    assert actor_payload(row, bank)[:2] != actor_payload(row, changed)[:2]
+
+
+def test_reused_native_call_executes_new_body_and_never_reuses_answer_or_error(tmp_path,
+                                                                          monkeypatch):
+    from legal_skill_guard.utils.hashing import canonical_json_sha256
+
+    monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
+    study = Online.__new__(Online)
+    study.cfg = {"execution_contract": "source_grounded_claim_operations",
+                 "generation": {"seed": 45, "max_tokens": 100}}
+    study.out, study.request_cache, study.reuse_events, study.native = tmp_path, {}, [], []
+    study.check = lambda: None
+    study.progress = lambda *a, **k: None
+    native_plan = {"assets": [{"asset_name": "watch", "asset_value": 40, "claims": [{
+        "citation_ref": "Ariz. Rev. Stat. section 33-1123", "limit_expression": None}]}]}
+
+    def call(dest, messages, schema, max_tokens, metadata):
+        study.native.append(metadata)
+        return {"content": json.dumps(native_plan), "finish_reason": "stop"}
+
+    study.call = call
+    row = {"case_id": 1, "source_key": "synthetic", "family": "EV",
+           "prompt": "public original", "components": copy.deepcopy(COMPONENTS)}
+    bank = [{"id": "az", "hypothesis_ids": ["EC", "EV"],
+             "guidance": guidance("Inspect the public legal conditions.", "ARIZONA")}]
+    bank[0]["guidance"]["operators"] = [{"id": "cap",
+        "citation": "Ariz. Rev. Stat. § 33-1123", "limit_expression": "min(V,30)"}]
+    first = study.answer(row, bank, "first", "skills")
+    assert first["parsed"]["answer"]["watch"][0]["claim_value"] == 30
+    # None of these interpreted/graded fields belongs in the native-response cache.
+    first["score"] = {"secret_feedback": "not a prediction"}
+    first["parsed"]["answer"]["watch"][0]["claim_value"] = 999
+    first["execution_receipt"]["actually_executed_operator_ids"] = ["not a real call"]
+    changed = copy.deepcopy(bank)
+    changed[0]["guidance"]["operators"][0]["limit_expression"] = "min(V,15)"
+    second = study.answer(row, changed, "replay", "candidate")
+    assert len(study.native) == 1 and len(study.reuse_events) == 1
+    assert "score" not in second
+    assert second["parsed"]["answer"]["watch"][0]["claim_value"] == 15
+    assert second["execution_receipt"]["actually_executed_operator_ids"] == ["az/cap"]
+    assert second["execution_receipt"]["execution_bank_sha256"] == canonical_json_sha256(changed)
+    assert second["raw_call_path"] == first["raw_call_path"]
+    assert not second["physical_alias_of_identical_wire"]["execution_receipt_is_from_original_call"]
+    broken = copy.deepcopy(changed)
+    broken[0]["guidance"]["operators"][0]["limit_expression"] = "V/0"
+    failed = study.answer(row, broken, "bad_body", "candidate")
+    assert failed["execution_error"] is not None and failed["parse_error"] is not None
+    assert len(study.native) == 1  # No regeneration or old-answer fallback.
+    restored = study.answer(row, changed, "restored_body", "candidate")
+    assert restored["parse_error"] is None and restored["execution_error"] is None
+    assert restored["parsed"]["answer"]["watch"][0]["claim_value"] == 15
+    assert len(study.native) == 1  # An old execution error is not a cached raw failure.
