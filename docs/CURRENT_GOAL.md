@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新时间：2026-10-19 23:22，Goal仍active，未达成、无外部阻塞。
+更新时间：2026-10-19 23:40，Goal仍active，未达成、无外部阻塞。
 本页是续接入口，不以游标替代真实进程/原始输出。旧2690行游标原样保留于
 [历史索引](CURRENT_GOAL_history_through_20261019_2228.md)，原始字节已Git及双盘保存。
 
@@ -30,8 +30,11 @@ OpenExempt只是当前候选，不能以一个小试跑替代完整目标或因�
 
 当前唯一训练为 `legal_openexempt_namespace_online_20261019_run01`，已真实启动。
 user unit `legal-openexempt-namespace-20261019-run01.service`，PID2858645，
-23:16:59启动，23:22亲核active/running；源1fadd3f、142绑定、144源/数据/清单
-成员双盘逐字节保全。23:21:55快照B1、4 native/0教师，正在源30；还无整批分数。
+23:16:59启动，23:39亲核active/running；源1fadd3f、142绑定、144源/数据/清单
+成员双盘逐字节保全。23:38:35快照B1 candidate1重放、17 native/1教师、0跨阶段复用。
+B1完整新案EC/EV：empty49.17/11.88%，初库/online62.01/40.56%；online=frozen，
+实际在线进化效应0，不据首批冷库收益宣布进化。教师真实提出UPDATE4（Federal、PA、
+IL、AZ），当前尚未发布；保留后续准入及B2–B4新案检验。实际缓存函数调用仍0。
 14项CPU边界检查0.25s通过，无额外GPU资格生成。作用域代码已从唯一staging模块
 移入 `legal_skill_guard/learning/legal_namespace.py` 并接主入口；没有保留旧接口fallback。
 统一公开label语法、仅加载给定AE法域技能、精确相同wire旧重放复用均已实现。
@@ -45,7 +48,7 @@ packet SHA 7313de9a7ddc3d52292a6055e209e37e2ca03e31957dcc9550172e8aa2bf5220。
 所有公开label enum均ASCII，原事实在最后，schema/input已留存；不要用旧4b片段冒充新成绩。
 源码freeze清单已写后一次backup的相对路径参数错误，仅补齐同一已核清单的双盘保全，
 没有重建数据、覆盖清单、GPU资格生成或新教师调用；不因此重启正在正常运行的进程。
-当前仍非正式论文规模；下次小时复核23:28。实时确认新unit/PID，不恢复旧队列。
+当前仍非正式论文规模；下次小时复核2026-10-20 00:28。实时确认新unit/PID，不恢复旧队列。
 启动证据：`artifacts/research/openexempt_mechanism_20261019/namespace_run01_launch_receipt.json`。
 
 **下方旧进程/分数只作历史证据，不能认为旧Run仍live。**
@@ -111,7 +114,8 @@ B1只读诊断发现EV已选法条与独立EC不一致，但空库投影也可�
 冻结最终库后的隔离TEST、完整成本和机制消融。送入教师的empty/frozen回答也算训练成本；
 精确重复仅记一次物理调用，不能将这些输入当免费评估；最终部署不需这些对照调用。
 不能以启动、训练内95%或一个正批次完成Goal。
-每次Goal续接/长工具返回先看实际时钟是否到小时复核；最近22:28，下次23:28 Asia/Shanghai。
+每次Goal续接/长工具返回先看实际时钟是否到小时复核；最近23:28计划节点已在23:31及23:39
+实际核查，23:40落盘；下次2026-10-20 00:28 Asia/Shanghai。
 没有唤醒模型的独立调度产品；这是持续Goal执行规则，训练本身由systemd独立运行。
 
 证据主目录：`artifacts/research/openexempt_mechanism_20261019/`。
