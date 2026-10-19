@@ -23,7 +23,28 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 12:36 CST，有界当前源理由执行对照已实现，准备冻结启动
+## 当前快照：2026-10-19 12:41 CST，首个理由约束发生token-mask慢算，已保全取消；Run02做最小执行修复后待启动
+
+Run01首请求source93/bounded_empty实际只有1-2tokens/s，未完成任何新native，没读取诊断Gold。
+先核身份SIGTERM、仍在首请求后只SIGKILL精确worker1913355/ticks439110614；模型3889231未动。
+这是显式执行开销中止，不是任务分数失败。1unfinished native usage未知不能记0；2旧物理继承不计新答。
+132成员实际终态双盘亲核SHA cd6ba061211c38d2630ef59fb43071b406d86d17e1aac9b8517f822d7fedc266。
+control bounded_source_reason_fixedbank16_20261019/保留所有停止/源码/成本/亲核收据。
+
+实际backend0.1.23、同tokenizer/首schema/正确首key nda-11/同prefix离线核到具体开销：
+counted .{1,240}$ 三次mask1.408s，普通 .* 循环显示0.000s；compile19.079s vs17.798s。
+第一次离线误用nda-1前缀失败也承认，未产生生成/教师/fit，不是模型损坏或服务capacity。
+原模块只把comparison后缀恢复普通自由字符串；<=240字符仅指令，不再谎称schema硬长度保证。
+当前源精确短锚点/全部标签与独立final spans约束不变，未换decoder、模型或添加fallback。
+
+Run02同16原案/actual reflective R2/ordinary218，不复用未完成答、不挑库案/扫变体，48新+16继承/0teacher/0fit。
+cfg contractnli_bounded_source_reason_fixedbank16_20261019_run02.json 已114bindings冻结，8相关常驻检查0.23s通过。
+protocol BOUNDED_CURRENT_SOURCE_REASON_RUN02_20261019.md；待提交/双盘完整源码Git/独立后台启动。
+有界family当前818 native尝试=817完成+1中止；36teacher尝试=35完成+1中止；35fit，非全项目总史。
+若完整Run02则866native尝试/865完成，不能报866完成；两未完成调用usage未知。
+效能仍未被证明，不能把解码速度修复称为技能净收益。Goal active，全部论文可信目标不变。
+
+## 已归档快照：2026-10-19 12:36 CST，有界当前源理由执行对照已实现，准备冻结启动
 
 新Goal仍active、完整目标未变；反思后编辑负配置已终止，不重启。
 原decision_evidence.py新增source_bound_reason_payload：原reason先原生选一个当前SPAN的

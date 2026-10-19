@@ -474,7 +474,11 @@ def source_bound_reason_payload(messages, schema, row):
         # Escape only regex metacharacters, not spaces or arbitrary ASCII.
         return re.sub(r'([\\.^$|?*+()\[\]{}])', r'\\\1', value)
 
-    pattern = r'^(?:' + '|'.join(map(regex_literal, ['NO_ANCHOR', *prefixes])) + r') \| .{1,240}$'
+    # The pinned backend expands a bounded wildcard into expensive token-mask
+    # states (~0.47s/fill measured on this exact schema). Keep the native source
+    # binding but the original free public comparison; its concise length is
+    # instructed, not enforced by a counted wildcard. No alternate decoder.
+    pattern = r'^(?:' + '|'.join(map(regex_literal, ['NO_ANCHOR', *prefixes])) + r') \| .*'
     reason = {'type': 'string', 'pattern': pattern}
 
     def bind(value):
@@ -516,7 +520,8 @@ def source_bound_reason_payload(messages, schema, row):
         'anchor_independent_of_final_choice_and_citations': True,
         'no_current_or_future_annotation_access_or_answer_projection': True,
         'permitted_source_anchor_count': len(prefixes),
-        'maximum_public_comparison_characters': 240}
+        'instructed_public_comparison_character_limit': 240,
+        'comparison_length_is_instruction_not_native_schema_bound': True}
 
 
 def evidence_payload(row, labels, proposals, decision, decision_schema, bank):
