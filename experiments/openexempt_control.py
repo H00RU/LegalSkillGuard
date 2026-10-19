@@ -92,8 +92,7 @@ class Control:
                     'outputs': 'enumerate all eligible asset-law alternatives, not a final elected portfolio',
                     'EV': 'single asset-citation pairs independently, not aggregate allocation across assets'},
                 'generic_contracts': {f: {k: next(r for r in self.rows if r['family'] == f)
-                    ['components'][k] for k in ('instruction', 'meta_instruction',
-                                              'response_format', 'format_reminder')}
+                    ['components'][k] for k in ('instruction', 'meta_instruction')}
                     for f in FAMILIES},
                 'actual_actor_systems': {'EC': ACTOR_SYSTEM, 'EV': PROGRAM_ACTOR_SYSTEM},
                 'EV_empty_response_schema': answer_schema([]),

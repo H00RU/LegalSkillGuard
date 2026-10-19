@@ -2,7 +2,9 @@
 
 Upstream: servantez/OpenExempt, ec6fa2547431096588ce2d3ef107b8adc33cd4fe,
 CC BY 4.0. The original generator and evaluator remain unmodified in data/cache.
-Only original Task.prompt() is an inference input. Symbolic cases and the
+Original Task.prompt() is retained verbatim. Inference preserves every legal
+component but omits concrete output-format examples and places facts last.
+Symbolic cases and the
 upstream solver are data-construction/grading capabilities, never agent tools.
 """
 
@@ -28,6 +30,21 @@ PROMPT_FIELDS = (
     "instruction", "meta_instruction", "response_format", "facts", "solved_steps",
     "statutes", "format_reminder",
 )
+ACTIVE_CASE_FIELDS = ("instruction", "meta_instruction", "statutes", "solved_steps", "facts")
+
+
+def active_case_input(row):
+    """Legal content unchanged; API schemas replace fictitious format examples."""
+    content = "\n\n".join(row["components"][key] for key in ACTIVE_CASE_FIELDS
+                          if row["components"][key])
+    contract = (
+        "Return only a JSON object: keys are the actual asset descriptions in Facts; "
+        "values are arrays of all applicable exemption citations, or [] if none."
+        if row["family"] == "EC" else
+        "Return only the assets claim plan required by the supplied response schema, "
+        "using the actual asset descriptions and values in Facts."
+    )
+    return content + "\n\nOutput contract: " + contract
 
 
 def upstream(name):
@@ -142,7 +159,8 @@ def prepare(config):
                "actual_terminal_task_ids_by_family": FAMILIES,
                "input_packet_sha256": sha(packet_path),
                "original_generator_unmodified": True, "official_test_opened": False,
-               "inference_inputs_are_exact_original_Task_prompt": True}
+               "input_packet_retains_exact_original_Task_prompt": True,
+               "inference_omits_only_concrete_output_format_examples": True}
     RunStore.immutable_json(packet_path.parent / "preselection.json", receipt)
     return receipt
 

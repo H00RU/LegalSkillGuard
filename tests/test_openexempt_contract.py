@@ -3,7 +3,14 @@
 import copy
 
 from experiments.openexempt_online import Online, acceptance, actor_payload
-from legal_skill_guard.openexempt import answer_schema, evaluate, metrics, public_case_key
+from legal_skill_guard.openexempt import (
+    ACTIVE_CASE_FIELDS,
+    active_case_input,
+    answer_schema,
+    evaluate,
+    metrics,
+    public_case_key,
+)
 
 
 def test_public_case_group_does_not_depend_on_expert_answers():
@@ -23,9 +30,14 @@ def test_public_case_group_does_not_depend_on_expert_answers():
 def test_actor_gets_only_original_prompt_and_scoped_knowledge():
     bank = [{"id": "EC1", "hypothesis_ids": ["EC"], "guidance": "EC instruction"},
             {"id": "EV1", "hypothesis_ids": ["EV"], "guidance": "EV instruction"}]
-    row = {"family": "EC", "prompt": "original public text", "solution": "SECRET"}
+    row = {"family": "EC", "prompt": "original public text", "solution": "SECRET",
+           "components": {**{key: key + " public content" for key in ACTIVE_CASE_FIELDS},
+                          "response_format": "EXAMPLE_CAR", "format_reminder": "FORMAT_ONLY"}}
     messages, schema, supplied = actor_payload(row, bank)
-    assert messages[1]["content"] == row["prompt"]
+    assert messages[-1]["content"] == active_case_input(row)
+    assert "EXAMPLE_CAR" not in str(messages) and "FORMAT_ONLY" not in str(messages)
+    assert "EC instruction" in messages[1]["content"]
+    assert all(row["components"][key] in messages[-1]["content"] for key in ACTIVE_CASE_FIELDS)
     assert "SECRET" not in str(messages)
     assert "EV instruction" not in str(messages)
     assert [s["id"] for s in supplied] == ["EC1"]
@@ -83,7 +95,8 @@ def test_frozen_initial_control_shares_only_identical_wire_requests(monkeypatch,
     study = Online.__new__(Online)
     study.cfg = {"batch_source_cases": 1, "source_cases": 1, "generation": {"seed": 45}}
     study.rows = [{"case_id": 17, "source_key": "source17", "family": f, "batch": 1,
-                   "prompt": "original public input", "components": {"statutes": "Example § 1"}}
+                   "prompt": "original public input",
+                   "components": {key: key + " public content" for key in ACTIVE_CASE_FIELDS}}
                   for f in ("EC", "EV")]
     study.bank = [{"id": "s", "hypothesis_ids": ["EC", "EV"], "guidance": {
         "when": "public condition", "procedure": "inspect", "avoid_when": "other", "operators": []}}]

@@ -43,6 +43,7 @@ from legal_skill_guard.openexempt import (
     FAMILIES,
     ROOT,
     UPSTREAM,
+    active_case_input,
     answer_schema,
     evaluate,
     metrics,
@@ -174,12 +175,13 @@ def actor_payload(row, bank, *, grounded=False):
         for skill in supplied:
             skill["guidance"].pop("operators", None)
     system = PROGRAM_ACTOR_SYSTEM if grounded and row["family"] == "EV" else ACTOR_SYSTEM
-    messages = [{"role": "system", "content": system},
-                {"role": "user", "content": row["prompt"]}]
+    messages = [{"role": "system", "content": system}]
     if supplied:
         messages.append({"role": "user", "content":
-                         "Optional reusable historical skills (not current answers):\n" +
+                         "Background reusable skills. The current legal case follows. "
+                         "Use these only when applicable; they are not current answers:\n" +
                          json.dumps(supplied, ensure_ascii=False, separators=(",", ":"))})
+    messages.append({"role": "user", "content": active_case_input(row)})
     schema = claim_answer_schema(supplied) if (
         grounded and row["family"] == "EV") else answer_schema(row["family"])
     return messages, schema, supplied
@@ -302,7 +304,9 @@ class Online:
             "bank": self.bank, "parent_publication": self.cfg.get("initial_library_publication"),
             "initial_library_kind": self.cfg.get("initial_library_kind"),
             "initial_case_exposure": self.cfg.get("initial_library_prior_exposure_distinct_sources", 0),
-            "all_episode_sources_are_new_to_student_and_teacher": True})
+            "all_episode_labels_unseen_before_this_run": self.cfg.get("all_episode_labels_unseen_before_this_run", False),
+            "prior_stateless_queries_without_label_feedback": self.cfg.get("prior_stateless_queries_without_label_feedback", []),
+            "input_contract": self.cfg.get("input_contract")})
         for sig in (signal.SIGINT, signal.SIGTERM):
             signal.signal(sig, lambda *_: setattr(self, "stop", True))
         self.check()
@@ -326,6 +330,8 @@ class Online:
             "messages": messages, "schema": schema, "bank_sha256": csha(bank),
             "delivered_skill_ids": [s["id"] for s in supplied],
             "original_prompt_sha256": csha(row["prompt"]),
+            "actual_active_case_input_sha256": csha(active_case_input(row)),
+            "format_only_demonstrations_not_in_inference_input": True,
             "no_private_case_annotations_or_current_target": True})
         response = self.call(path, messages, schema, self.cfg["generation"]["max_tokens"], {
             "stage": stage, "arm": arm, "document_id": row["case_id"],
@@ -385,7 +391,7 @@ class Online:
         statutes = {csha(r["components"]["statutes"]): r["components"]["statutes"] for r in seen}
         # Task text is retained exactly, but the long public law corpus appears once.
         contracts = {r["family"]: {k: r["components"][k] for k in
-                     ("instruction", "meta_instruction", "response_format", "format_reminder")}
+                     ("instruction", "meta_instruction")}
                      for r in seen}
         grounded = self.cfg.get("execution_contract") == "source_grounded_claim_operations"
 
