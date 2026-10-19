@@ -23,7 +23,22 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 14:08，Run03因三次capacity终止并保全；Run04拉长同请求等待准备启动
+## 当前快照：2026-10-19 14:12，Run04教师真实恢复，R4修改3条/保留1条并新增3误引对照，正在B4重答
+
+同一Run04/worker2053855/ticks439667815仍运行，不要重复启动或热改绑定源。
+14:11:19实际gpt-5.6-sol/high首次调用成功返回（Run04自身无重试），ledger1468，108.936s；
+292119input/4300output/3070reasoning，cache=false/tools=false，既有授权调用，未换教师或法律任务。
+实际R4 UPDATE3/retain1、4记录、17正成员示范+3真实误引对照，完整2792tokens。
+三条negative分别来自105识别/定义、133survival触发、133copy-vs-use；同源ID/hash排除仍有效，
+不能把当前同案Gold例文直接回放成提升。全部新库无效果闸门发布，未选旧库。
+现正在b4_after_seen_combined全8当前同工具226重答；全部齐再评分、共同fit234、B5原8空/库配对。
+没有B4新库整批指标或B5指标，不能把教师成功/示范改善称性能突破。
+目前有界家族到Run04教师成功为915旧native尝试/914回应/1无完成，42teacher尝试/37结构化回应/5无回应，36fit，
+本Run随后新增native/fit须另加，5无回应均已终止不是仍调用，unknown usage非0；非整个项目总史。
+本Run0已付32移除答+16初B4原物理全部明确继承，不重复生成；actual pending wire字节相等收据已真实写出。
+继续看B4真实发布效果和B5/B6等后续迁移，而非再次B1或布局小实验；Goal active完整目标仍未达成。
+
+## 已归档快照：2026-10-19 14:08，Run03因三次capacity终止并保全；Run04拉长同请求等待准备启动
 
 Run03已于14:06:59结束，实际0新native/0完成teacher/3无结果capacity尝试/0fit，无新发布。
 末库仍实际R3/ordinary226，不是回滚。570成员终态双盘+当前源逐成员亲核
@@ -31,7 +46,15 @@ SHA c91a76e8e68e8638dc45052e5dd561355526970e940f589152a983b9a73a284c。
 当前无Run03worker，不能把等待状态文件当live。Run04 cfg/frozen已准备，继承原ALL48答，
 教师原917160字符/完整system/schema/model/effort不变；只把capacity两次延迟加长300/600秒，
 每次attempt独立failure-cache防覆盖；原3次完整event和ledger均保留，usage未知非0。
-12相关检查0.39s通过，无新增live资格生成/教师；待提交/双盘/独立后台启动。
+12相关检查0.39s通过，无新增live资格生成；14:09:20已真实启动Run04，worker2053855/ticks439667815，
+独立preserver2053858/ticks439667817，source ffcdb84a1b8085aa4892839d262bf1e8666df67a。
+370成员完整Git/源码双盘亲核启动SHA617d92594b62e62bebabb194908c22da2be8eda7381a5624c54fc54b7df473f0；
+control artifacts/research/record_credit_remaining104_run04_20261019。不要重复启动或热改352+绑定文件。
+当前原worker活、48旧物理原样续接、pending teacher wire精确相等；暂无新增native/完成teacher/发布/fit。
+后台按同一输入/教师恢复后自动接B4重答/共同234 fit/B5--B16，capacity持续则有限尝试后停止保全，不换模型。
+注意main failure旧键no_retry_answer_repair_fallback_gate_or_selected_bank是历史复合标签，
+现在应读为无质量选择/答案修补/fallback/门槛/挑库，不代表没有明确记账的capacity transport重试。
+后续源修订应改准确键名，当前运行不热改；各原始失败字节/完整event/ledger均保留。
 家族当前915native尝试/914完成回应/1无完成回应，41teacher尝试/36结构化回应/5无回应，36fit，
 非全项目历史，5含1主动中止和4明确capacity，均非仍在调用。无新任务指标/论文突破。
 Goal active完整目标不变；同教师capacity是当前外部阻塞，不擅换模型，不因此重复32生成。

@@ -9,15 +9,18 @@ skill gains, formal TEST results, or a mature-method victory.
 ## Active execution — 2026-10-19
 
 The current background run is
-`legal_contractnli_record_credit_remaining104_online_20261019_run03`, started
-14:03 CST through `python -m experiments.witnessed_experience` and
-`configs/contractnli_record_credit_remaining104_online_20261019_run03.json`.
+`legal_contractnli_record_credit_remaining104_online_20261019_run04`, started
+14:09 CST through `python -m experiments.witnessed_experience` and
+`configs/contractnli_record_credit_remaining104_online_20261019_run04.json`.
 Do not launch it again. The packaged CLI defaults and older checkpoints below
 are historical, not instructions to restart an old run.
 The preceding run finished all32 record-removal answers but its teacher returned
 a no-result capacity error. This continuation inherits every completed physical
 answer exactly and permits only bounded, delayed same-request capacity recovery.
 It does not reroll source answers or change the teacher/model.
+The same teacher recovered at14:11 and published three updates plus one retained
+record (four records,17 member examples and three actual false-citation examples).
+The current batch is being reanswered; publication alone is not a performance gain.
 
 This continues the actual published four-record bank and shared ordinary226
 tool through the remaining104 TRAIN sources (global B4--B16), with one measured
