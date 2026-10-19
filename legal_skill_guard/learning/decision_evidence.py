@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 
 from jsonschema import ValidationError, validate
 
@@ -446,6 +447,76 @@ def witnessed_skill_payload(row, labels, proposals, system, materialized, *, mod
         "historical_examples_are_membership_context_not_past_NLI_answers": True,
         "historical_source_IDs_hashes_refs_and_span_coordinates_not_served": True,
         "original_native_reason_choice_spans_no_projection_or_repair": True}
+
+
+def source_bound_reason_payload(messages, schema, row):
+    """Bind one short public reading anchor, NOT the final evidence or verdict.
+
+    All three labels and every original final citation set stay available after
+    either a literal current-source anchor or NO_ANCHOR. The same intervention
+    must be applied to the empty control. No annotation, past-source text,
+    output projection, host-selected evidence, or extra generation is involved.
+    """
+    messages, schema = copy.deepcopy(messages), copy.deepcopy(schema)
+    prefixes = []
+    for i, (start, end) in enumerate(row['spans']):
+        original = row['text'][start:end]
+        words = list(re.finditer(r'\S+', original))[:12]
+        stop = min(words[-1].end() if words else len(original), 96)
+        prefix = original[:stop]
+        while len(json.dumps(prefix, ensure_ascii=True)) > 160:
+            prefix = prefix[:-1]
+        if not prefix:
+            raise ValueError('Original nonempty source span needs a literal prefix')
+        prefixes.append(f'S{i}=' + json.dumps(prefix, ensure_ascii=True))
+
+    def regex_literal(value):
+        # Escape only regex metacharacters, not spaces or arbitrary ASCII.
+        return re.sub(r'([\\.^$|?*+()\[\]{}])', r'\\\1', value)
+
+    pattern = r'^(?:' + '|'.join(map(regex_literal, ['NO_ANCHOR', *prefixes])) + r') \| .{1,240}$'
+    reason = {'type': 'string', 'pattern': pattern}
+
+    def bind(value):
+        if isinstance(value, dict):
+            properties = value.get('properties')
+            if isinstance(properties, dict) and set(properties) == {'reason', 'choice', 'spans'}:
+                assert list(properties) == ['reason', 'choice', 'spans']
+                properties['reason'] = copy.deepcopy(reason)
+            for child in value.values():
+                bind(child)
+        elif isinstance(value, list):
+            for child in value:
+                bind(child)
+
+    bind(schema)
+    body = json.loads(messages[1]['content'])
+    bind(body['output_contract'])
+    messages[0]['content'] += (
+        ' For each public reason, first select ONE CURRENT original SPAN as a '
+        'reading anchor, and copy its index and literal short prefix in the '
+        'schema-permitted form S<index>=<ASCII JSON-string encoded prefix>. '
+        'Then write " | " and a concise public source-to-hypothesis comparison '
+        'of at most240 characters. NO_ANCHOR is also permitted. The prefix is '
+        'the first at most12 words/96 characters (at most160 ASCII encoded '
+        'characters), preserving exact source whitespace and punctuation. '
+        'The schema enumerates every original source span, not its relevance. '
+        'An anchor is an inspected passage, NOT a final citation, evidence '
+        'answer or settled verdict. It may show an incomplete, conditional or '
+        'nonresponsive provision: NotMentioned and [] remain fully permitted '
+        'even with a nonempty anchor. Decide the original choice and ALL final '
+        'integer spans AFTER this comparison, using the full current contract '
+        'rather than past example facts. Any final original index is permitted, '
+        'including indices other than the anchor. No extra fields or calls.')
+    messages[1]['content'] = json.dumps(body, ensure_ascii=False, separators=(',', ':'))
+    return messages, schema, {
+        'kind': 'one_bounded_current_source_anchor_inside_original_reason',
+        'literal_prefixes_from_complete_original_source_only': True,
+        'same_reason_pattern_for_all_original_label_branches': True,
+        'anchor_independent_of_final_choice_and_citations': True,
+        'no_current_or_future_annotation_access_or_answer_projection': True,
+        'permitted_source_anchor_count': len(prefixes),
+        'maximum_public_comparison_characters': 240}
 
 
 def evidence_payload(row, labels, proposals, decision, decision_schema, bank):

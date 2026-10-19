@@ -2970,6 +2970,50 @@ def test_online_cold_alias_requires_exact_input_schema_and_actual_native_content
     with pytest.raises(AssertionError):study.cold_alias(row,proposals,{'response':{**native,'content':'changed'}})
 
 
+def test_bounded_reason_anchor_preserves_all_labels_and_independent_original_citations():
+    from jsonschema import validate
+    from legal_skill_guard.learning.decision_evidence import (
+        source_bound_reason_payload, witnessed_skill_payload,
+    )
+    row, labels, _ = fixture()
+    row = {k: row[k] for k in ('id', 'text', 'spans')}
+    messages, schema, _ = witnessed_skill_payload(row, labels, None,
+        'Original legal task.', [], mode='empty')
+    original = copy.deepcopy((messages, schema))
+    bounded, native, receipt = source_bound_reason_payload(messages, schema, row)
+    assert (messages, schema) == original
+    anchor = 'S0=' + json.dumps('Recipient shall not disclose secrets.', ensure_ascii=True)
+    reason = anchor + ' | This does not settle the separate proposition.'
+    for choice, spans in [('NotMentioned', []), ('Entailment', [2]),
+                          ('Contradiction', [0, 1, 2])]:
+        answer = {h: {'reason': reason, 'choice': choice, 'spans': spans} for h in labels}
+        validate(answer, native)
+    answer['h1']['reason'] = 'S0="Invented current text" | Wrong source.'
+    with pytest.raises(ValidationError):
+        validate(answer, native)
+    assert json.loads(bounded[1]['content'])['full_contract_with_original_span_markers'] == \
+        json.loads(messages[1]['content'])['full_contract_with_original_span_markers']
+    assert receipt['anchor_independent_of_final_choice_and_citations']
+
+
+def test_bounded_reason_preserves_unicode_and_literal_whitespace_without_full_quote_loops():
+    from jsonschema import validate
+    from legal_skill_guard.learning.decision_evidence import (
+        source_bound_reason_payload, witnessed_skill_payload,
+    )
+    text = '  Recipient’s [“secret”] \\ notice\n shall remain confidential. '
+    row = {'id': 999, 'text': text, 'spans': [[0, len(text)]]}
+    labels = {'h1': {'hypothesis': 'A proposition.', 'short_description': 'Original'}}
+    messages, schema, _ = witnessed_skill_payload(row, labels, None,
+        'Original legal task.', [], mode='empty')
+    _, native, _ = source_bound_reason_payload(messages, schema, row)
+    reason = 'S0=' + json.dumps(text[:text.rfind('.')+1], ensure_ascii=True) + ' | Inspect the current source.'
+    validate({'h1': {'reason': reason, 'choice': 'NotMentioned', 'spans': []}}, native)
+    reason_schema = native['properties']['h1']['anyOf'][0]['properties']['reason']
+    assert reason_schema == native['properties']['h1']['anyOf'][1]['properties']['reason']
+    assert reason_schema['pattern'].isascii()
+
+
 def test_training_reading_policy_outer_folds_exclude_whole_source_components(monkeypatch):
     from types import SimpleNamespace
     from legal_skill_guard.learning import evidence_programs as module

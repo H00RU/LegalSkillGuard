@@ -23,7 +23,29 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 12:28 CST，新Goal已active；反思后编辑配置因B3实质负迁移停止，终态已双盘亲核
+## 当前快照：2026-10-19 12:36 CST，有界当前源理由执行对照已实现，准备冻结启动
+
+新Goal仍active、完整目标未变；反思后编辑负配置已终止，不重启。
+原decision_evidence.py新增source_bound_reason_payload：原reason先原生选一个当前SPAN的
+至多12词/96字符、至多160 ASCII编码字符的原样短前缀，再<=240字符公开比较；
+随后原choice与自由整数spans。全部E/C/NM共用同一reason pattern，非空锚点仍可NM/[]，
+最终依据不局限于锚点，不做host投影/补全/修复。历史完整引文/前置记忆/依赖组失败不可冒充新方案。
+这是待证伪执行假说，不是根因已唯一确认或论文突破；若不改善技能相对同接口强空净收益则不能采纳。
+
+一次有限experiments/bounded_source_reason_diagnosis.py，固定actual reflective R2末库4/17正0负/2439tokens，
+actual after_b2普通218与同TRAIN读阈值，原预选B3+B4全部16案、不挑库/挑案/调宽度。
+4臂original_empty/original_skills/bounded_empty/bounded_skills，前8旧两臂16物理已逐一消息/schema核等，
+显式继承不当新答；新增48native/0teacher/0fit，全部新预测后才评分。前8已开发暴露，非独立确认/TEST。
+完整16和固定前8/后8、两接口内技能净增与差中差、原指标/TPFPFN/NNNM全部报告。
+相关2常驻边界测试0.44s；实际冻结xgrammar0.1.23 CPU schema接受0.069s，无资格生成。
+32个纯CPU serving-tokenizer请求核完整16容量，最大input14181+output8192<32768，0native/teacher/fit。
+cfg contractnli_bounded_source_reason_fixedbank16_20261019_run01.json，protocol见BOUNDED_CURRENT_SOURCE_REASON_FIXEDBANK16_PROTOCOL_20261019.md。
+当前还未launch；接冻结/提交/双盘Git源码备份/独立后台worker及终态preserver，不能重复launch。
+完整结束双盘保存后清有限driver；有效机制须落原正式模块再真实多批学习，不以这次诊断替代主目标。
+有界family817/36尝试/35fit，第36教师含1主动中止未完成，不是36完成响应；全部历史成本保留。
+官方DEV/TEST不调优，单8B和既有授权教师不变、不新付费API或额外实例，5个用户无关report保持原样。
+
+## 已归档快照：2026-10-19 12:28 CST，新Goal已active；反思后编辑配置因B3实质负迁移停止，终态已双盘亲核
 
 用户11:59:49明确新建Goal，实际active且未设预算；不因本次配置停止而完成/暂停Goal。
 原Run legal_contractnli_reflective_signed_member_skill128_online_20261019_run01 已结束，不得重启。
