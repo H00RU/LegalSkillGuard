@@ -1,8 +1,8 @@
 # 当前Goal执行索引
 
-更新：2026-10-20 04:34 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 05:00 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 本页仅作续接入口。真实状态必须亲核systemd/PID、原始工件，不能仅信游标。
-上轮是progress；本轮亲核live并完成B3两候选结果和内部损益核查，已实际进入B4。
+上轮是progress；本轮完成B4新案、实际教师提案和新的一致性证据，主训练持续未重启。
 
 ## 完整目标和用户有效边界
 
@@ -32,7 +32,7 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
 - Run `legal_openexempt_official_sampling_online_20261020_run01`。
 - unit `legal-openexempt-official-sampling-20261020-run01.service`，原PID3085974，
   01:52:27启动，04:28:15亲核仍同PID active；04:27:56自动完成B3、进入B4。
-  04:32:37 progress为B4新案，122 native/5教师、31次跨阶段同wire复用，58号案。
+  04:56:38 progress为B4候选1重放，140 native/6教师、31次跨阶段同wire复用，46号案。
   不能把观察超时或观察者正常退出当主训练停止理由。
 - progress `runs/<run>/progress.json`；日志
   `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01.log`。
@@ -44,7 +44,7 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
   官方min_p0默认已核。没有切成非思考、没有重启服务或换模型。
 - 24来源、48派生EC/EV任务、6批各4来源。45–52旧未查询来源原文/源键保留；
   seed2026102002补53–68，排除所有旧开发source keys，未按结果重采样。
-  B1=45–48，B2=49–52，B3=53–56已反馈；B4=57–60、B5=61–64、B6=65–68尚未反馈。
+  B1=45–48，B2=49–52，B3=53–56，B4=57–60已反馈；B5=61–64、B6=65–68尚未反馈。
   packet SHA c6dc406906afcbc563ac4d038453aa9ab47590217d048cae9b9bfa5b88293aca。
 - 启动用blind C0，7条/40函数/3462tokens，不是旧训练C1；160源/数据/清单成员
   双盘逐字节核验。14必要CPU边界检查0.24s完成，没新造测试模块。
@@ -62,12 +62,13 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
 |B1|80.83 / 65.28|72.01 / 69.44|72.01 / 69.44|
 |B2|42.08 / 54.79|46.04 / 52.08|64.79 / 50.57|
 |B3|67.92 / 45.83|72.08 / 69.58|85.83 / 77.08|
+|B4|77.92 / 79.17|70.76 / 71.04|83.89 / 74.17|
 
 B2对空库EC+22.7083pp、EV-4.2262pp，两项均值+9.2411pp；对C0均值+8.6161pp。
 这是真实分类迁移，但EV仍负，不是全方法已稳定成功。B2全输出EV为empty56.4354/
 frozen52.4242/online51.2121%。24次物理回答全stop、无协议/动作错误、真实存储调用0。
-累计12来源：empty63.6111/55.3009%，online74.2130/65.6978%，frozen63.3796/63.7037%。
-online对C0 EC+10.8333pp、EV仅+1.99405pp，两项均值+6.41369pp；不掩盖EV小幅。
+累计16来源：empty67.1875/61.2674%，online76.6319/67.8150%，frozen65.2257/65.5382%。
+online对C0 EC+11.40625pp、EV仅+2.27679pp，两项均值+6.84152pp；不掩盖EV小幅。
 这不是正式规模、显著性、成熟方法胜利或官方TEST。
 
 **B3增益边界**：对empty EC+17.9167pp/EV+31.25pp；对C0 +13.75/+7.5pp。
@@ -78,6 +79,15 @@ online对C0 EC+10.8333pp、EV仅+1.99405pp，两项均值+6.41369pp；不掩盖E
 B3共24逻辑/20物理回答（AZ/IL的4条online与C0同wire），20全stop、1空库动作错，
 137352prompt/43582completion，真实存储调用0。此前说9/24物理进度已向用户澄清：
 24是逻辑/最大生成数，实际20，不当独立重复。66个B3工件已双盘逐成员核验。
+
+**B4新案**：对empty EC+5.9722pp/EV-5pp，两项均值仅+0.48611pp；对C0均值+8.125pp。
+完整EV online72.5/empty74.1667/C0 69.375%，同样未胜empty。58_EV online80对C0
+37.5、empty50，但60_EV online50对C0 80、empty66.67。60_EC online已100%，
+独立EV却丢联邦，只剩州法3个正确claim，不能靠修金额函数补回全部遗漏。
+57_EV带库漏真实硬盘，empty全对；59_EV的耳环是真实事实，三臂均错给服装豁免，
+并非虚构资产/名称问题。原EV忽略该额外claim给100，全输出EV罚为80，两项原样保留。
+B4共20物理/24逻辑，141607prompt/48311completion，全stop、无动作错误、实际缓存调用0；
+66个B4新案和教师工件已双盘保全。有效库仍C1，不把批次难度变化称为新进化。
 
 **实际发布C1**：B1教师UPDATE3+CREATE3，将Fed/OR/WI部分拆成EC与EV作用域，
 并修700单项、OR400残余、WI车辆转用额度。新增不是三个新函数。
@@ -121,6 +131,11 @@ aed467bfa464fc2fd97852a5d726954df0e2a4363855e019bcae0d4f37db863f。
 数值修复与新分类损害抵消。缓存函数仍0，这里是inline知识采用，不是缓存调用证据。
 04:27:56 publication父子同C1 hash；只有B1实际发布过一次。B4继续真实C1，不是候选。
 
+**B4候选1重放中，未发布**：MERGE Fed EC/EV+UPDATE AZ，9条/40函数/3934tokens，
+SHA a512d61ea25816d5b3c6d5b24b928eb0d44e4dfa51b0ab7c4a1046456fb40900。
+教师99253input/4618output、78.923s。强调同一法条集合、wildcard与特定项并列、
+贸易用途须事实支持、AZ珠宝不等于服装、ring条件和车辆单项上限；提案不算已发布。
+
 ## 当前断点和有用的否证
 
 - B2在线EV漏21配对（14为Fed(d)(5)），另6金额错：3个车辆公式盲目*N；
@@ -144,6 +159,12 @@ aed467bfa464fc2fd97852a5d726954df0e2a4363855e019bcae0d4f37db863f。
   累计训练，法条20447字符仅一份。不能称主要因法条重复或已发生输入截断。
   B2修订带同批拒绝反馈，B3首提案不带跨批拒绝历史，但仍有累计Gold/父库回答；
   这是信息边界假设，不证明根因。完整只读审计已双盘保全，不重复做提示长度诊断。
+- 新已核编辑粒度：B3 AZ修订除了1个operator，还改procedure/avoid_when，影响4条
+  已见请求；纯公式改动的未查询反事实只影响2个EV请求。后者没有生成/分数，不作效果。
+- 两项纯CPU机制准备已完成：既有execute_claims可对同一显式调用按新程序重新计算；
+  实际服务环境xgrammar0.1.23可编译最小缓存null/未缓存inline分支。均是合成机制检查，
+  0新增模型/教师调用、不算8B实际使用或指标，不再扩资格测试。客户端venv缺xgrammar
+  不代表服务不可用，不安装依赖。ScienceClaw本次runtime入口读取失败，不反复重试。
 
 **已完成且拒绝的非思考配置诊断**：不是主训练，不再运行，不追加参数网格。
 全部B1四来源×EC/EV×empty/C1，共16次/0新教师，官方T.7/P.8/K20/同seed与上限。
@@ -166,6 +187,8 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 当前不加更长教师提示或第三候选。若后续仍停滞，下一有据的结构候选是把法律选择
 指导与数值程序执行分离，使纯程序修订不必触发原生重新推导；详见下一步草案。
 它尚未实现/验证；不能声称自动调用便能补回遗漏法条，更不允许用Gold分类或修答案。
+60的EC/EV失配进一步支持检验EV共享分类指导，而非硬过滤到一次EC答案；旧B1已
+发现EC/EV各自有对方漏项，不能把预测EC当Gold。现阶段仍先看B4真实准入及B5–B6。
 
 尚缺：足量正式预冻结数据、成熟经验方法公平对比及总成本、独立学习重复、来源级
 不确定性、适当法律迁移、冻结最终库后的隔离TEST、实证支持的新贡献。Goal不完成。
@@ -187,6 +210,9 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 实际教师费用字段在response.invocation，B2总150509input/9779output/161.397s，
 前一B2审计optional顶层usage为null不等于0，见`official_sampling_B2_actual_teacher_cost_receipt.json`。
 教师输入新审计：`official_sampling_teacher_input_structure_and_history_boundary_readonly_20261020.json`。
+最新B4：`official_sampling_B4_fresh_forward_consistency_and_actual_skill_audit.json`。
+粒度与CPU准备：`official_sampling_B3_AZ_edit_granularity_and_request_dependency_audit.json`、
+`synthetic_same_call_different_program_CPU_only_20261020.json`、`synthetic_compiled_call_schema_CPU_only_20261020.json`。
 只读机制前缀：`official_sampling_public_source_and_asset_overlap_readonly_audit`、
 `official_sampling_B1_published_routine_amount_only_diagnostic`、
 `official_sampling_B1_post_decode_fix_EC_EV_coverage_audit`、
