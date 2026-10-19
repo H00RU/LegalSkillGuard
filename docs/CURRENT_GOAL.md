@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新时间：2026-10-20 00:32，Goal仍active，未达成、无外部阻塞。
+更新时间：2026-10-20 00:35，Goal仍active，未达成、无外部阻塞。
 本页是续接入口，不以游标替代真实进程/原始输出。旧2690行游标原样保留于
 [历史索引](CURRENT_GOAL_history_through_20261019_2228.md)，原始字节已Git及双盘保存。
 
@@ -21,13 +21,20 @@ OpenExempt只是当前候选，不能以一个小试跑替代完整目标或因�
 
 ## 当前唯一训练与冻结边界
 
-**00:32当前：旧namespace Run已在00:29:22安全退出，目前准备启动可读引用v9，
-不能把下方旧worker视为live。** 旧轮56 native/2教师、B3零调用，末库仍C1；
+**00:35当前：唯一后台训练为可读引用v9，00:34:42已启动，PID2972092。
+不能把下方旧worker视为live。** 旧namespace轮已在00:29:22安全退出，
+56 native/2教师、B3零调用，末库仍C1；
 184终态工件和142绑定源在改动前逐成员双盘核验。原8B PID3889231始终不变。
 停止收据：`artifacts/research/openexempt_mechanism_20261019/namespace_run01_manual_stop_readable_labels_receipt.json`。
 
-待启动：`legal_openexempt_readable_namespace_online_20261020_run01`，config
+已启动：`legal_openexempt_readable_namespace_online_20261020_run01`，config
 `configs/openexempt_readable_namespace_online_20261020_run01.json`。
+user unit `legal-openexempt-readable-namespace-20261020-run01.service`，00:34:42启动，
+00:35亲核原PID2972092 active/running；progress为B1、0 native/0教师，首个37_EC空库
+请求已真实发出，21个可读公开引用、Fed/WI范围，无标签/私有类别输入。
+源码852bbe4，142冻结绑定、144源/数据/清单成员双盘逐字节核验，冻结后不热改。
+日志`artifacts/research/openexempt_mechanism_20261019/readable_namespace_run01.log`；
+启动收据`artifacts/research/openexempt_mechanism_20261019/readable_namespace_run01_launch_receipt.json`。
 公共引用直接保留完整法条名/号，仅§写成ASCII section，所有臂一致；无旧L编号fallback。
 原scope、评分、数学工具、8B及8192/seed45/thinking、三臂标签释放边界不改。
 未查询37–44源原文/源键保留，seed2026102001补45–52，仍16源4批机制试跑；
@@ -39,7 +46,7 @@ packet SHA 3a3f046bb1d5ab3d5a8670600aab5bdc3aa50023f70a861c1e7a3986ca46eb2c。
 编码，EC33.33→80.00%、36.67→60.00%，误配减少，通用条款仍漏。2 native/0教师，
 14443prompt/4460completion tokens，主冻结字节未变、双盘保全，不是新案或新曲线。
 证据：`artifacts/research/openexempt_mechanism_20261019/readable_label_two_call_diagnostic_20261020/result.json`。
-不要继续追加编码资格试验；源/数据/配置冻结后直接新多批学习。下一小时复核01:28。
+不要继续追加编码资格试验；当前已直接进行新多批学习。下一小时复核01:28。
 
 **以下旧Run与指标只作开发证据，均不再运行，不能拼到新曲线。**
 
