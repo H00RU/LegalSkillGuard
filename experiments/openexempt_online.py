@@ -226,6 +226,7 @@ def freeze(config_path):
     files |= set(ROOT.glob("tests/test_*.py"))
     files.update({Path(__file__).resolve(), Path(config_path).resolve(), ROOT / "pyproject.toml",
                   ROOT / "uv.lock", ROOT / "README.md",
+                  ROOT / cfg["protocol"],
                   ROOT / "tests/test_openexempt_contract.py",
                   ROOT / cfg["inference_environment"], ROOT / cfg["upstream_archive"]})
     if cfg.get("initial_library_publication"):
@@ -293,7 +294,8 @@ class Online:
             operator_catalog(self.bank)
             if self.bank != initial:
                 raise ValueError("Initialization changed historical knowledge")
-        self.prequential_empty, self.prequential_skills = [], []
+        self.frozen_bank = copy.deepcopy(self.bank)
+        self.prequential_empty, self.prequential_skills, self.prequential_frozen = [], [], []
         self.meter = WireClient(self.cfg["generation"])
         self.out.mkdir(parents=True)
         RunStore.immutable_json(self.out / "initialization.json", {
@@ -402,6 +404,7 @@ class Online:
 
         cases = []
         empty_by_key = {(r["case_id"], r["family"]): r for r in self.prequential_empty}
+        frozen_by_key = {(r["case_id"], r["family"]): r for r in self.prequential_frozen}
         for row in seen:
             target = read(ROOT / self.cfg["grading_directory"] /
                           f"{row['case_id']}.json")["targets"][row["family"]]
@@ -412,6 +415,8 @@ class Online:
                           "original_training_target": target,
                           "actual_same_case_empty_answer": observation_view(
                               empty_by_key[(row["case_id"], row["family"])]),
+                          "actual_same_case_frozen_initial_answer": observation_view(
+                              frozen_by_key[(row["case_id"], row["family"])]),
                           "actual_parent_answer": observation_view(
                               observations[(row["case_id"], row["family"])])})
         rejected_view = []
@@ -517,29 +522,44 @@ class Online:
                 return row.get("batch", (row["case_id"] - 1) // batch_size + 1)
             current = [r for r in self.rows if batch_of(r) == batch]
             seen = [r for r in self.rows if batch_of(r) <= batch]
-            empty, skills = [], []
+            empty, skills, frozen = [], [], []
+            native_before = len(self.native)
             for row in current:
-                # Alternation is fixed in advance; no inference outcome selection.
-                arms = ("empty", "skills") if (row["case_id"] + FAMILIES[row["family"]]) % 2 else ("skills", "empty")
-                answers = {}
+                # Fixed rotation, and exact-wire sharing only. No quality selection.
+                arms = ("empty", "frozen_initial", "skills")
+                offset = (row["case_id"] + FAMILIES[row["family"]]) % len(arms)
+                arms = arms[offset:] + arms[:offset]
+                answers, executed = {}, {}
                 for arm in arms:
-                    if not self.bank and answers:
-                        answers[arm] = {**copy.deepcopy(next(iter(answers.values()))), "arm": arm,
-                                        "physical_alias_of_identical_cold_request": True}
+                    bank = self.bank if arm == "skills" else self.frozen_bank if arm == "frozen_initial" else []
+                    messages, schema, _ = actor_payload(row, bank, grounded=True)
+                    fingerprint = csha({"messages": messages, "schema": schema,
+                                        "generation": self.cfg["generation"]})
+                    if fingerprint in executed:
+                        original = executed[fingerprint]
+                        answers[arm] = {**copy.deepcopy(original), "arm": arm,
+                            "bank_sha256": csha(bank),
+                            "physical_alias_of_identical_wire": {"fingerprint": fingerprint,
+                                "raw_call_path": original["raw_call_path"],
+                                "not_an_independent_generation": True}}
                     else:
-                        answers[arm] = self.answer(row, self.bank if arm == "skills" else [],
-                                                   f"b{batch}_prequential", arm)
+                        answers[arm] = self.answer(row, bank, f"b{batch}_prequential", arm)
+                        executed[fingerprint] = answers[arm]
                 empty.append(answers["empty"])
                 skills.append(answers["skills"])
+                frozen.append(answers["frozen_initial"])
             # Current labels are first read only after ALL current arms exist.
-            self.grade(empty + skills)
+            self.grade(empty + skills + frozen)
             RunStore.immutable_json(self.out / "batches" / f"b{batch}_prequential_records.json",
-                                    {"empty": empty, "skills": skills})
+                                    {"empty": empty, "skills": skills, "frozen_initial": frozen})
             self.prequential_empty.extend(empty)
             self.prequential_skills.extend(skills)
+            self.prequential_frozen.extend(frozen)
             pre = {"batch": batch, "source_cases": batch_size, "tasks_per_arm": len(current),
-                   "empty": metrics(empty), "skills": metrics(skills),
+                   "empty": metrics(empty), "skills": metrics(skills), "frozen_initial": metrics(frozen),
                    "effect": paired_effect(empty, skills), "parent_bank_sha256": csha(self.bank),
+                   "online_minus_frozen": paired_effect(frozen, skills),
+                   "prequential_actual_new_native_calls": len(self.native) - native_before,
                    "parent_skill_count": len(self.bank), "official_test_opened": False}
             RunStore.immutable_json(self.out / "batches" / f"b{batch}_prequential.json", pre)
             self.progress("prequential_scored", latest_batch=pre)
@@ -553,7 +573,10 @@ class Online:
             # A fixed falsification stop, not a choice of an earlier winning bank.
             recent = self.summaries[-2:]
             if len(recent) == 2 and all(r["parent_skill_count"] and
-                    r["effect"]["mean_f1_difference"] < -0.02 for r in recent):
+                    (r["effect"]["mean_f1_difference"] < -0.02
+                     or r["online_minus_frozen"]["mean_f1_difference"] < -0.02
+                     or r["skills"]["EV"]["full_output_f1"]
+                        < r["frozen_initial"]["EV"]["full_output_f1"] - 0.02) for r in recent):
                 return "stopped_repeated_forward_harm"
         return "completed_bounded_mechanism_study"
 
@@ -565,7 +588,9 @@ class Online:
                           "batch_summary": self.summaries, "bank": self.bank,
                           "prequential_empty": metrics(self.prequential_empty),
                           "prequential_skills": metrics(self.prequential_skills),
+                          "prequential_frozen_initial": metrics(self.prequential_frozen),
                           "paired": paired_effect(self.prequential_empty, self.prequential_skills),
+                          "online_minus_frozen": paired_effect(self.prequential_frozen, self.prequential_skills),
                           "actual_native_calls": len(self.native),
                           "actual_teacher_responses": len(self.teachers),
                           "actual_teacher_attempts": self.teacher_attempts,

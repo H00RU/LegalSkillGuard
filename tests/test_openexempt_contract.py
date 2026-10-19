@@ -2,7 +2,7 @@
 
 import copy
 
-from experiments.openexempt_online import acceptance, actor_payload
+from experiments.openexempt_online import Online, acceptance, actor_payload
 from legal_skill_guard.openexempt import answer_schema, evaluate, metrics, public_case_key
 
 
@@ -74,3 +74,43 @@ def test_original_official_scoring_not_a_new_semantic_judge():
     assert audit["full_output_f1"] == 2 / 3
     assert audit["full_output_claim_tp"] == 1
     assert audit["full_output_claim_fp"] == 1
+
+
+def test_frozen_initial_control_shares_only_identical_wire_requests(monkeypatch, tmp_path):
+    from legal_skill_guard.experiment.storage import RunStore
+    from legal_skill_guard.utils.hashing import canonical_json_sha256
+
+    study = Online.__new__(Online)
+    study.cfg = {"batch_source_cases": 1, "source_cases": 1, "generation": {"seed": 45}}
+    study.rows = [{"case_id": 17, "source_key": "source17", "family": f, "batch": 1,
+                   "prompt": "original public input", "components": {"statutes": "Example § 1"}}
+                  for f in ("EC", "EV")]
+    study.bank = [{"id": "s", "hypothesis_ids": ["EC", "EV"], "guidance": {
+        "when": "public condition", "procedure": "inspect", "avoid_when": "other", "operators": []}}]
+    study.frozen_bank = copy.deepcopy(study.bank)
+    study.native, study.summaries = [], []
+    study.prequential_empty, study.prequential_skills, study.prequential_frozen = [], [], []
+    study.out = tmp_path
+    written = {}
+    monkeypatch.setattr(RunStore, "immutable_json", lambda p, v: written.update({str(p): copy.deepcopy(v)}))
+    monkeypatch.setattr(RunStore, "atomic_json", lambda p, v: None)
+    study.progress = lambda *a, **k: None
+
+    def answer(row, bank, stage, arm):
+        study.native.append((row["family"], arm))
+        return {"case_id": 17, "source_key": "source17", "family": row["family"], "arm": arm,
+                "bank_sha256": canonical_json_sha256(bank), "raw_call_path": f"{row['family']}/{arm}"}
+
+    def grade(records):
+        for r in records:
+            r["score"] = record(r["family"], 0.5)["score"]
+        return records
+
+    study.answer, study.grade = answer, grade
+    study.update = lambda *args: {"bank_sha256": canonical_json_sha256(study.bank),
+                                 "parent_bank_sha256": canonical_json_sha256(study.bank)}
+    assert study.execute() == "completed_bounded_mechanism_study"
+    assert len(study.native) == 4  # Two families x empty/initial, not six requests.
+    assert study.summaries[0]["prequential_actual_new_native_calls"] == 4
+    assert study.summaries[0]["online_minus_frozen"]["mean_f1_difference"] == 0
+    assert len(study.prequential_frozen) == len(study.prequential_skills) == 2
