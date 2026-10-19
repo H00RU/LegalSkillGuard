@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新时间：2026-10-20 01:43，Goal仍active，未达成、无外部阻塞。
+更新时间：2026-10-20 01:53，Goal仍active，未达成、无外部阻塞。
 本页是续接入口，不以游标替代真实进程/原始输出。旧2690行游标原样保留于
 [历史索引](CURRENT_GOAL_history_through_20261019_2228.md)，原始字节已Git及双盘保存。
 
@@ -21,6 +21,36 @@ OpenExempt只是当前候选，不能以一个小试跑替代完整目标或因�
 
 ## 当前唯一训练与冻结边界
 
+**01:53当前唯一live：官方采样六批Run，01:52:27启动，PID3085974。**
+Run `legal_openexempt_official_sampling_online_20261020_run01`，user unit
+`legal-openexempt-official-sampling-20261020-run01.service`，已亲核active/running。
+源码6eb3302，config `configs/openexempt_official_sampling_online_20261020_run01.json`，
+158冻结绑定、160源/数据/清单成员在两盘逐字节核验。绝不热改绑定源/协议/数据。
+日志 `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01.log`。
+progress位于该Run目录，首次45_EC技能输入已真实发出；尚无完整新批次成绩。
+同blind C0，7条/40函数/3462tokens、bankSHA f6549092...f72353f；不用旧训练C1。
+原8B PID3889231、thinking ON、8192/seed45/原法条评分与v9接口均不变；仅所有臂
+统一官方T.6/P.95/K20（vLLM原生min_p0已核源码），没有新增模型、代码中间层或fallback。
+源45–52未查询原文/源键保留，固定seed2026102002补53–68，共24来源/48派生任务/
+6批；所有旧开发源键排除、无按结果重采样。packet SHA
+c6dc406906afcbc563ac4d038453aa9ab47590217d048cae9b9bfa5b88293aca。
+已给定公开法域覆盖WI7/OR4/AZ5/PA5/IL3来源，另16允许Federal（可重叠）。
+24仍只是机制开发量，不能以此完成论文目标；无独立验证集、无官方TEST访问。
+14必要CPU边界检查0.24s通过，四诊断之后0额外GPU资格生成，直接连续学习。
+协议：[官方采样六批](research/OPENEXEMPT_OFFICIAL_SAMPLING_20261020.md)。
+启动收据 `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01_launch_receipt.json`。
+
+四条预固定已见TRAIN诊断01:50:33全部完成，4 native/0教师，28458prompt/12397completion；
+三条旧length均stop且合法，F1为55.5556/73.0159/75%，正常空库对照80→72.5%，
+32词重复率0–0.8041%。17工件已双盘保全；不能据此声称代表性准确率全面改善，
+不替换旧Run的0分、不拼主曲线。无参数网格或补答，改共同采样不改技能学习方法。
+结果 `artifacts/research/openexempt_mechanism_20261019/official_thinking_sampling_four_fixed_20261020/result.json`。
+下一直接工作：核B1真实CRUD/发布/调用后，继续B2–B6新案相对强空库/冻结库净益；
+按声明连续两批伤害/实质系统故障止损，不为一个小负点反复B1。旧N/金额与漏项仍须
+真实教师学习，不把消除循环当唯一根因或任务已解。下一小时复核02:28，Goal不暂停。
+
+**以下旧轮与数值仅作开发历史，不再运行，不与新曲线拼接。**
+
 **01:43实际：下方readable-namespace轮已于01:42:54工件安全停止，不再live。**
 49 native/2教师，B2全部三臂已评分；第二教师已返回，但只开始旧案重放、未发布。
 终态工件双盘逐成员核验、142冻结绑定编辑前未变；原8B服务不动，B3零调用。
@@ -37,7 +67,7 @@ seed45全不变，只改官方采样三参数，不重试、无新教师、四�
 用户追加的技能实际生成/管理/调用、足量数据与法律覆盖、无独立验证集、每小时
 方向复核继续有效；下一次02:28，不因停止worker而暂停Goal。
 
-**00:35当前：唯一后台训练为可读引用v9，00:34:42已启动，PID2972092。
+**00:35历史启动：当时后台训练为可读引用v9，00:34:42启动，PID2972092。
 不能把下方旧worker视为live。** 旧namespace轮已在00:29:22安全退出，
 56 native/2教师、B3零调用，末库仍C1；
 184终态工件和142绑定源在改动前逐成员双盘核验。原8B PID3889231始终不变。
