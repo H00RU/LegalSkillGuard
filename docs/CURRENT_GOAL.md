@@ -1,8 +1,8 @@
 # 当前Goal执行索引
 
-更新：2026-10-20 03:15 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 03:30 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 本页仅作续接入口。真实状态必须亲核systemd/PID、原始工件，不能仅信游标。
-前轮属progress：已获真实C1发布及B2新案；本轮又完成错误归因和一次被否证的配置对照。
+已获真实C1发布及B2新案；本轮又观察到宽改候选被拒与EV-only修订，未把提案当成功。
 
 ## 完整目标和用户有效边界
 
@@ -22,7 +22,7 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
   Gold solver推理工具或无关框架，不选好案/旧好库/改评分造提升。失败/成本全保留。
 - 自主推进，师兄paper-ideation与paper-experiments-appendix用于失效假设、公平
   对照和证据边界；不采用固定三创新、隐瞒借鉴或预设好数字。每个新Goal轮完整读。
-- 每小时以实际时钟复核。**最近02:28:33已实际自检，下次03:28**。主训练独立于
+- 每小时以实际时钟复核。**最近03:28:18已实际自检，下次04:28**。主训练独立于
   对话；没有声称另建了能自动唤醒模型的提醒产品。
 
 用户追加要求、完整小时记录见[生效补充](research/GOAL_ADDENDUM_SKILL_EVOLUTION_20261019.md)。
@@ -31,8 +31,8 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
 
 - Run `legal_openexempt_official_sampling_online_20261020_run01`。
 - unit `legal-openexempt-official-sampling-20261020-run01.service`，原PID3085974，
-  01:52:27启动，03:02:48亲核仍active；03:11:46 progress为B2候选1重放，
-  56 native/2教师，正在50号案。不能把临时观察窗口结束当训练停止/重新启动理由。
+  01:52:27启动，03:28:18亲核仍active；03:28:48已自动进入B3新案，
+  69 native/3教师、11次跨阶段同wire复用，正在53号案。不能把观察超时当停止理由。
 - progress `runs/<run>/progress.json`；日志
   `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01.log`。
 - config `configs/openexempt_official_sampling_online_20261020_run01.json`及frozen.json；
@@ -76,10 +76,21 @@ bankSHA b1c4fb26a715558ad27e8c48d253b0b08e95be928efef7df379a787d19b09c0a，
 B1共22物理/1教师（156965prompt/51141completion；教师45682/6024、110.313s），
 两条全wire未变重放复用，不当独立成功。78工件双盘保全；B2前向75工件亦保全。
 
-**B2候选1未发布**：教师UPDATE7，10条/40函数/3998tokens，bankSHA
+**B2候选1已拒绝**：教师UPDATE7，10条/40函数/3998tokens，bankSHA
 32fcb3a0a149a1cbddcf19a55ace2906e861efa6b15dd8ed1f9c98b5b71b9233。
 修车辆单项4450/3000、火器1000、通用条款/资产清单和重复；教师66680input/
-6180output、97.746s。重放中，当前实际主库仍C1。别把候选写成C2已生效。
+6180output、97.746s。16次物理重放后，当前TRAIN EC64.7917→52.5%、
+EV50.5655→60.625%；旧B1 EC81.0417→74.5833%、EV71.1012→75.9524%。
+因两组EC退步拒绝，不按EV好分挑库；七条同时改，不能归因于单一ALL技能。
+
+**B2候选2亦已拒绝**：教师只UPDATE2（联邦/俄勒冈EV-only），同C1为父，
+10条/40函数/3987tokens，bankSHA a1481cb75a9992ad46dadb38a45805507270dc320baabba9e17f8237019884e4。
+教师83829input/3599output、63.651s。完整EC可见投影不变，全部8个已见EC
+messages/schema及47_EV不变；9个逻辑重放复用既有真实输出，7个EV需新生成。
+这是作用范围保持证据，不是9次独立新胜利。实际当前EC不变、EV50.5655→54.7917%，
+旧EC不变，但旧EV71.1012→65.2778%、全EV73.1424→66.6667%，旧EV正确claim19→15。
+所以03:28:48实际发布仍为C1同hash，B2未更新；B3自动沿用C1继续。23个物理候选
+重放均stop、172584prompt/58975completion，两个失败和97工件已双盘保全。
 
 ## 当前断点和有用的否证
 
@@ -106,8 +117,8 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 
 ## 下一直接工作与停止边界
 
-完成当前B2候选1重放，查真实准入与旧/新TRAIN分项；若拒绝，仅原协议的一次修订。
-再继续B3–B6真实新案，核C2是否修金额/保分类、库CRUD/预算和实际送达/调用。
+直接继续B3–B6真实新案，核仍有效C1的迁移、后续真实CRUD/预算和送达/调用。
+不额外追加B2第三次教师，不把训练内候选拒绝当系统故障重启或宣布新库已生效。
 本轮B2两项均值正，未触发连续两批伤害停止规则；不因EV一个负点停止或凑机械单调。
 实质系统问题或预定连续伤害时先保全终态再修，不选旧好库、不硬拖无效训练。
 不要在当前正向分类证据上另起B1，不把临时观察超时/诊断汇总报错当主进程故障。
@@ -119,7 +130,9 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 
 研究主目录：`artifacts/research/openexempt_mechanism_20261019/`。关键文件：
 `official_sampling_run01_launch_receipt.json`、`official_sampling_B1_real_publication_and_actual_skill_use_audit.json`、
-`official_sampling_B2_complete_forward_and_actual_error_audit.json`、`official_sampling_hourly0228_actual_direction_review.json`。
+`official_sampling_B2_complete_forward_and_actual_error_audit.json`、`official_sampling_hourly0328_actual_direction_review.json`、
+`official_sampling_B2_rejected_broad_edit_and_EV_only_refinement_impact_audit.json`。
+最新发布审计：`official_sampling_B2_final_rejections_actual_skill_management_audit.json`。
 只读机制前缀：`official_sampling_public_source_and_asset_overlap_readonly_audit`、
 `official_sampling_B1_published_routine_amount_only_diagnostic`、
 `official_sampling_B1_post_decode_fix_EC_EV_coverage_audit`、
