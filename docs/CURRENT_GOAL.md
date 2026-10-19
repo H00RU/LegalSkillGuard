@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新时间：2026-10-20 01:28，Goal仍active，未达成、无外部阻塞。
+更新时间：2026-10-20 01:43，Goal仍active，未达成、无外部阻塞。
 本页是续接入口，不以游标替代真实进程/原始输出。旧2690行游标原样保留于
 [历史索引](CURRENT_GOAL_history_through_20261019_2228.md)，原始字节已Git及双盘保存。
 
@@ -20,6 +20,22 @@ OpenExempt只是当前候选，不能以一个小试跑替代完整目标或因�
 不采用预设好数字、固定创新数量或隐瞒借鉴建议。本轮已完整读过，不反复泛泛调研。
 
 ## 当前唯一训练与冻结边界
+
+**01:43实际：下方readable-namespace轮已于01:42:54工件安全停止，不再live。**
+49 native/2教师，B2全部三臂已评分；第二教师已返回，但只开始旧案重放、未发布。
+终态工件双盘逐成员核验、142冻结绑定编辑前未变；原8B服务不动，B3零调用。
+B2在线EC42.9167/EV32.2917%，空库56.25/40.4167%，冻结61.25/34.1667%；
+在线两项均值对空库-10.7292pp、对冻结-10.1042pp，负结果完整保留。
+已查明三次8192失败均未闭合think且重复32词窗口约79.6–83.5%；当前T0贪心，
+与固定权重版本官方thinking建议相违（T.6/P.95/K20，不用greedy）。这不是模型
+服务退出/解析器漏开，也不能当作唯一低分原因。证据和停止收据均在研究工件目录。
+预先固定仅4次已见TRAIN解码干预：40_EV_C0、39_EV_C1、44_EC_C1三个实际
+length输入，以及37_EC_empty首个正常对照；原输入/库/schema/8B/thinking/8192/
+seed45全不变，只改官方采样三参数，不重试、无新教师、四预测完再评分。故障富集
+诊断不是代表性新案分数。先处理此实证断点，再考虑自身EC→EV的次级数据流假设。
+未改训练任务、未补答案、未使用TEST；不将本轮或诊断成绩拼为新曲线。
+用户追加的技能实际生成/管理/调用、足量数据与法律覆盖、无独立验证集、每小时
+方向复核继续有效；下一次02:28，不因停止worker而暂停Goal。
 
 **00:35当前：唯一后台训练为可读引用v9，00:34:42已启动，PID2972092。
 不能把下方旧worker视为live。** 旧namespace轮已在00:29:22安全退出，
@@ -52,9 +68,11 @@ EV48.3333%，全EV分别53.3333/48.3333%。online=frozen，在线进化效应0�
 仅已见TRAIN重答EC86.6667%、EV57.2222%、全EV56.4286%，5任务好/2坏/1平。
 39_EV候选8192截断记0未重答；40_EC已恢复100%，40_EV为88.8889%，不掩盖39损失。
 B1总24物理回答168961prompt/64776completion、22stop/2length；真实函数调用仍0。
-EV宏F1改善并不全面：正确claim15→13，汇总claim F1 57.6923→53.0612%；失败从
-4claim的40转到12claim的39。补充诊断不改主指标/准入、不选checkpoint。
+EV宏F1改善并不全面：正确claim15→13，汇总claim F1 57.6923→53.0612%。逐案归因：
+37新增两个金额错导致TP净少2；39的-3和40的+3抵消。失败位置迁移影响宏平均，
+不能单独解释TP下降。补充诊断不改主指标/准入、不选checkpoint。
 证据`artifacts/research/openexempt_mechanism_20261019/readable_namespace_B1_macro_vs_pooled_claim_diagnostic.json`。
+归因补正`artifacts/research/openexempt_mechanism_20261019/readable_namespace_B1_macro_claim_attribution_correction.json`。
 81个完整B1工件/机制分析双盘逐成员核验。仍不能据TRAIN改善宣称后续新案净益。
 见`artifacts/research/openexempt_mechanism_20261019/readable_namespace_B1_prequential_actual_audit.json`。
 发布机制见`artifacts/research/openexempt_mechanism_20261019/readable_namespace_B1_publication_actual_mechanism_audit.json`。
