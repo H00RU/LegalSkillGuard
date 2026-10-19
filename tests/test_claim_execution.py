@@ -1,4 +1,4 @@
-"""Small source-binding and execution checks, not a model qualification suite."""
+"""Small arithmetic and citation-bound invocation checks, no model qualification."""
 import json
 
 import pytest
@@ -9,33 +9,36 @@ from legal_skill_guard.learning.claim_execution import (
     execute_claims,
     execute_limit,
     law_blocks,
+    operator_catalog,
 )
 
 FACTS = "A and B (hereinafter the Debtors) own a watch valued at $600.00."
 LAW = "Statutes:\nExample Code\nExample § 1\nA ceiling of $2,000 per debtor."
 
 
-def plan(ref=None):
+def plan(use_skill=False):
     return [{"asset_name": "watch", "asset_value": 600,
-             "claims": [{"citation": "Example § 1", "operator_id": ref,
-                         "limit_expression": "min(600,2000)" if ref is None else None}]}]
+             "claims": [{"citation": "Example § 1",
+                         "limit_expression": None if use_skill else "min(V,2000)"}]}]
 
 
 def test_inline_and_learned_operators_have_identical_capability():
     a, receipt = execute_claims(plan(), FACTS, LAW, [])
     bank = [{"id": "s", "guidance": {"operators": [{"id": "cap", "citation": "Example § 1",
              "limit_expression": "min(V,2000)"}]}}]
-    b, learned = execute_claims(plan("s/cap"), FACTS, LAW, bank)
+    b, learned = execute_claims(plan(True), FACTS, LAW, bank)
     assert a == b == {"watch": [{"citation": "Example § 1", "claim_value": 600.0}]}
     assert learned["actually_executed_operator_ids"] == ["s/cap"]
     assert receipt["actually_executed_operator_ids"] == []
+    with pytest.raises(InvalidClaimProgram):
+        operator_catalog(bank + [{"id": "other", "guidance": {"operators": [
+            {"id": "variant", "citation": "Example § 1", "limit_expression": "1000"}]}}])
 
 
-def test_fact_values_are_bound_but_runtime_does_not_judge_legal_numbers():
+def test_runtime_computes_submitted_values_without_legal_source_repair():
     p = plan()
     p[0]["asset_value"] = 700
-    with pytest.raises(InvalidClaimProgram):
-        execute_claims(p, FACTS, LAW, [])
+    assert execute_claims(p, FACTS, LAW, [])[0]["watch"][0]["claim_value"] == 700
     assert execute_limit("700", FACTS)[0] == 700
     with pytest.raises(InvalidClaimProgram):
         execute_limit("M_NOT_IN_SOURCE", FACTS)
@@ -55,11 +58,10 @@ def test_no_arbitrary_python_or_failure_fallback():
     with pytest.raises(InvalidClaimProgram):
         execute_limit("__import__('os')", FACTS)
     with pytest.raises(InvalidClaimProgram):
-        execute_claims(plan("not/published"), FACTS, LAW, [])
+        execute_claims(plan(True), FACTS, LAW, [])
     p = plan()
     p[0]["asset_name"] = "format example car"
-    with pytest.raises(InvalidClaimProgram):
-        execute_claims(p, FACTS, LAW, [])
+    assert "format example car" in execute_claims(p, FACTS, LAW, [])[0]
 
 
 def test_every_wire_enum_is_ascii_not_unicode_citation():
@@ -77,6 +79,9 @@ def test_every_wire_enum_is_ascii_not_unicode_citation():
 
     visit(schema)
     assert "Example" not in json.dumps(schema)
+    assert "operator_id" not in json.dumps(schema)
+    assert schema["properties"]["assets"]["items"]["properties"]["claims"]["items"][
+        "properties"]["limit_expression"]["type"] == "string"
 
 
 def test_compiled_statutes_adjacent_headers_and_repeated_citation_are_retained():

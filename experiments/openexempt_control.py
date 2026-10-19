@@ -44,7 +44,11 @@ STATIC_SYSTEM = (
     "applicability and exceptions clearly. Do not force skill count/types. Cover the "
     "supplied jurisdictions, allowed-law boundaries, residual/specific exemptions, "
     "item versus aggregate caps and spouse rules as supported by the text. Operators "
-    "are {id,citation,limit_expression}; actual call ID is skill_id/operator_id. "
+    "are {id,citation,limit_expression}; keep only ONE active routine per citation "
+    "in the entire bank. Internal IDs are provenance, not model-facing choices. "
+    "A native null limit_expression calls that same citation's routine; a string "
+    "is inline arithmetic. Combine N-dependent variants in one expression, or leave "
+    "an uncommon variant to explicitly instructed inline calculation. "
     "Use ASCII skill/operator IDs, original citation strings, variables V (asset value) "
     "and N (public debtor count), finite numeric literals, min/max, +,-,*,/, and "
     "X if N==2 else Y; unlimited explicitly denotes no ceiling. Amounts spelled in "
@@ -89,6 +93,10 @@ class Control:
         # Public law and generic contracts only; never serialize an entire row.
         original = self.rows[0]['components']['statutes']
         body = {'complete_public_statutes': original,
+                'task_boundary': {'start_task_id': 2,
+                    'given_public_prior': 'allowable jurisdictions already supplied; do not recompute',
+                    'outputs': 'enumerate all eligible asset-law alternatives, not a final elected portfolio',
+                    'EV': 'single asset-citation pairs independently, not aggregate allocation across assets'},
                 'generic_contracts': {f: {k: next(r for r in self.rows if r['family'] == f)
                     ['components'][k] for k in ('instruction', 'meta_instruction',
                                               'response_format', 'format_reminder')}
@@ -125,7 +133,7 @@ class Control:
         return {'status': 'blind_static_bank_compiled', 'tokens': tokens}
 
     def evaluate(self):
-        publication = ROOT/'runs'/(self.cfg['run_id']+'_build')/'publication.json'
+        publication = ROOT/self.cfg['evaluation_publication']
         self.bindings[str(publication.relative_to(ROOT))] = sha(publication)
         self.bank = read(publication)['bank']
         RunStore.immutable_json(self.out/'evaluation_bindings.json', {

@@ -14,7 +14,6 @@ from decimal import Decimal
 
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
-MONEY = re.compile(r"\$(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{1,2})?(?![\d,])")
 LAW_HEADER = re.compile(
     r"^(?:[\dA-Za-z. ]+ § [\dA-Za-z.-]+(?:\([A-Za-z0-9]+\))*"
     r"|[0-9]+ [A-Za-z. ]+ Stat\. [0-9]+/[\d-]+(?:\([A-Za-z0-9]+\))*)$")
@@ -36,12 +35,6 @@ def law_blocks(statutes):
         elif current is not None:
             result[current].append(raw)
     return {citation: "\n".join(lines) for citation, lines in result.items()}
-
-
-def source_money(literal):
-    if not isinstance(literal, str) or MONEY.fullmatch(literal) is None:
-        raise InvalidClaimProgram("One exact original money lexeme is required")
-    return Decimal(literal[1:].replace(",", ""))
 
 
 def debtor_count(facts):
@@ -134,28 +127,28 @@ def operator_schema():
 
 
 def operator_catalog(bank):
-    result = {}
+    result, identities = {}, set()
     for skill in bank:
         if not skill["id"].isascii():
             raise InvalidClaimProgram("Native wire skill identities must be ASCII")
         for operator in skill["guidance"]["operators"]:
             key = skill["id"] + "/" + operator["id"]
-            if key in result or not key.isascii():
+            if key in identities or not key.isascii():
                 raise InvalidClaimProgram("Operator identities must be distinct ASCII names")
-            result[key] = {**operator, "skill_id": skill["id"]}
+            identities.add(key)
+            citation = operator["citation"]
+            if citation in result:
+                raise InvalidClaimProgram("Only one active routine per citation; merge variants or use inline arithmetic")
+            result[citation] = {**operator, "skill_id": skill["id"], "qualified_id": key}
     return result
 
 
 def answer_schema(bank):
-    operators = list(operator_catalog(bank))
-    reference = {"type": "null"} if not operators else {
-        "anyOf": [{"type": "string", "enum": operators}, {"type": "null"}]}
+    operators = operator_catalog(bank)
     claim = {"type": "object", "additionalProperties": False,
-             "required": ["citation", "operator_id", "limit_expression"], "properties": {
-                 # Free strings avoid the serving stack's Unicode-enum bug;
-                 # membership is checked against original public headers below.
+             "required": ["citation", "limit_expression"], "properties": {
                  "citation": {"type": "string"},
-                 "operator_id": reference, "limit_expression": {"type": ["string", "null"]}}}
+                 "limit_expression": {"type": ["string", "null"] if operators else "string"}}}
     asset = {"type": "object", "additionalProperties": False,
              "required": ["asset_name", "asset_value", "claims"], "properties": {
                  "asset_name": {"type": "string"}, "asset_value": {"type": "number", "minimum": 0},
@@ -166,31 +159,25 @@ def answer_schema(bank):
 
 
 def execute_claims(assets, facts, statutes, bank):
-    operators, laws = operator_catalog(bank), law_blocks(statutes)
+    operators = operator_catalog(bank)
     answer, receipts, used, seen = {}, [], [], set()
-    fact_values = {source_money(literal) for literal in MONEY.findall(facts)}
-    source_text = " ".join(facts.casefold().split())
     for asset in assets:
         name = asset["asset_name"]
         if not name or name.casefold() in seen:
             raise InvalidClaimProgram("Empty or repeated asset name")
         seen.add(name.casefold())
-        if " ".join(name.casefold().split()) not in source_text:
-            raise InvalidClaimProgram("Asset name absent from current public facts")
         value = Decimal(str(asset["asset_value"]))
-        if not value.is_finite() or value < 0 or value not in fact_values:
-            raise InvalidClaimProgram("Asset value absent from current public facts")
+        if not value.is_finite() or value < 0:
+            raise InvalidClaimProgram("Asset value must be finite and nonnegative")
         claims = []
         for claim in asset["claims"]:
-            citation, ref, expression = claim["citation"], claim["operator_id"], claim["limit_expression"]
-            if citation not in laws:
-                raise InvalidClaimProgram("Citation absent from original public law headers")
-            if (ref is None) == (expression is None):
-                raise InvalidClaimProgram("Select exactly one inline expression or learned operator")
-            if ref is not None:
-                if ref not in operators or operators[ref]["citation"] != citation:
-                    raise InvalidClaimProgram("Learned operation must address the selected law")
-                expression = operators[ref]["limit_expression"]
+            citation, expression = claim["citation"], claim["limit_expression"]
+            ref = None
+            if expression is None:
+                if citation not in operators:
+                    raise InvalidClaimProgram("No published routine for the explicitly requested citation")
+                ref = operators[citation]["qualified_id"]
+                expression = operators[citation]["limit_expression"]
                 used.append(ref)
             limit, trace = execute_limit(expression, facts, asset_value=value)
             amount = value if limit is None else min(value, limit)
@@ -204,4 +191,4 @@ def execute_claims(assets, facts, statutes, bank):
     return answer, {"actual_claim_operations": receipts, "actually_executed_operator_ids": used,
         "program_sha256": csha(assets), "source_facts_sha256": csha(facts),
         "public_statutes_sha256": csha(statutes), "no_Gold_solver_model_or_post_answer_repair": True,
-        "runtime_does_not_judge_numeric_legal_truth": True}
+        "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": True}
