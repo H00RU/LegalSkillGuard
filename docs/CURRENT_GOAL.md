@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新时间：2026-10-20 01:53，Goal仍active，未达成、无外部阻塞。
+更新时间：2026-10-20 02:20，Goal仍active，未达成、无外部阻塞。
 本页是续接入口，不以游标替代真实进程/原始输出。旧2690行游标原样保留于
 [历史索引](CURRENT_GOAL_history_through_20261019_2228.md)，原始字节已Git及双盘保存。
 
@@ -21,13 +21,13 @@ OpenExempt只是当前候选，不能以一个小试跑替代完整目标或因�
 
 ## 当前唯一训练与冻结边界
 
-**01:53当前唯一live：官方采样六批Run，01:52:27启动，PID3085974。**
+**02:20当前唯一live：官方采样六批Run，01:52:27启动，原PID3085974。**
 Run `legal_openexempt_official_sampling_online_20261020_run01`，user unit
 `legal-openexempt-official-sampling-20261020-run01.service`，已亲核active/running。
 源码6eb3302，config `configs/openexempt_official_sampling_online_20261020_run01.json`，
 158冻结绑定、160源/数据/清单成员在两盘逐字节核验。绝不热改绑定源/协议/数据。
 日志 `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01.log`。
-progress位于该Run目录，首次45_EC技能输入已真实发出；尚无完整新批次成绩。
+progress位于该Run目录。01:53首个45_EC技能输入真实发出；02:19:05已完成B1并进入B2。
 同blind C0，7条/40函数/3462tokens、bankSHA f6549092...f72353f；不用旧训练C1。
 原8B PID3889231、thinking ON、8192/seed45/原法条评分与v9接口均不变；仅所有臂
 统一官方T.6/P.95/K20（vLLM原生min_p0已核源码），没有新增模型、代码中间层或fallback。
@@ -39,6 +39,24 @@ c6dc406906afcbc563ac4d038453aa9ab47590217d048cae9b9bfa5b88293aca。
 14必要CPU边界检查0.24s通过，四诊断之后0额外GPU资格生成，直接连续学习。
 协议：[官方采样六批](research/OPENEXEMPT_OFFICIAL_SAMPLING_20261020.md)。
 启动收据 `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01_launch_receipt.json`。
+
+02:19实际首个教师已发布C1，不是仅有提案。B1全部新案空库EC/EV80.8333/65.2778%，
+冷C0/online72.0139/69.4444%，online=frozen，经验净益0；两项均值对空库-2.3264pp。
+16新案物理回答全部stop、无解析/动作/transport错误，真实存储函数调用0。
+教师gpt-5.6-sol/high耗45682input/6024output、110.313s；UPDATE3、CREATE3。
+实际将Federal/OR/WI原记录收窄为EV，另建三条EC对应指导，并修单项700、OR残余400、
+WI车辆可转用额度与通用条款枚举。不把这种scope拆分算作三个新函数/知识机制。
+真实C1 bankSHA b1c4fb26a715558ad27e8c48d253b0b08e95be928efef7df379a787d19b09c0a，
+10条/40函数/4008tokens，只剩88tokens预算。不能热改4096上限；后续应核CRUD压缩/冲突。
+仅B1已见TRAIN重放EC81.0417%、EV71.1012%、全输出EV73.1424%，5好1坏2平。
+EV汇总claim TP17→19，FP4→4，FN17→15，汇总F1 61.8182→66.6667%；不换主口径。
+45_EV确实改对700单项表达式，但仍漏通用条款、重复两个asset-citation；原评分器对
+重复项按额外FP惩罚，无去重/修补。即使教师写了优先null，全部重放存储调用仍0。
+B1总22物理/1教师，156965prompt/51141completion，22stop；两条未变wire重放精确复用，
+不当新独立成功。78个完整B1工件和实际机制审计双盘逐成员核验。
+已进入49–52的新B2，未读本批Gold；须完成三臂再评分，不能把上述旧案改善当新案净益。
+机制/成本证据 `artifacts/research/openexempt_mechanism_20261019/official_sampling_B1_real_publication_and_actual_skill_use_audit.json`。
+此前15分钟临时观察会话24421已正常结束，不是训练停止，不恢复/重启worker。
 
 四条预固定已见TRAIN诊断01:50:33全部完成，4 native/0教师，28458prompt/12397completion；
 三条旧length均stop且合法，F1为55.5556/73.0159/75%，正常空库对照80→72.5%，
