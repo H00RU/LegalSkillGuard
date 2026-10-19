@@ -2716,6 +2716,24 @@ def test_generic_teacher_catalog_preserves_program_feedback_and_all_literal_valu
         encode_teacher_body(bad)
 
 
+def test_teacher_catalog_shares_exact_actual_contexts_across_arms_without_omission():
+    packet = {'encoding':'lossless_source_candidates_and_actual_task_contracts_v2',
+        'candidate_contexts':{'c':{'hypotheses':{'h':{'scores':[.9,.2]}}}},
+        'lawyer_task_contracts':{'t':{'system':'All original decisions remain free.'}},
+        'observations':[{'actual_candidate_context_ref':'c','actual_lawyer_task_contract_ref':'t',
+                         'answer':{'choice':'NotMentioned','spans':[]}}]}
+    body = {'current':copy.deepcopy(packet), 'previous':[copy.deepcopy(packet)]}
+    encoded = encode_teacher_body(body)
+    assert decode_teacher_body(encoded) == body
+    assert len(encoded['body']['shared_actual_candidate_contexts']) == 1
+    assert encoded['body']['current']['candidate_context_keys'] == ['c']
+    assert body['current']['candidate_contexts']  # Input was not mutated.
+    bad = copy.deepcopy(body)
+    bad['previous'][0]['candidate_contexts']['c']['hypotheses']['h']['scores'] = [.1]
+    with pytest.raises(ValueError, match='Conflicting exact actual-context'):
+        encode_teacher_body(bad)
+
+
 def test_historical_witness_skills_preserve_original_members_and_exclude_same_source():
     from legal_skill_guard.learning.decision_evidence import (
         training_witness_catalog,materialize_witness_skills,witnessed_skill_payload,witness_knowledge_view)

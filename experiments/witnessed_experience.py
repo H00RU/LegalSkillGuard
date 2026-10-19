@@ -28,7 +28,7 @@ from legal_skill_guard.learning.decision_evidence import (
     witnessed_guidance_schema,
     witnessed_skill_payload,
 )
-from legal_skill_guard.learning.experiment import ROOT, now, points, read
+from legal_skill_guard.learning.experiment import ROOT, now, points, read, sha
 from legal_skill_guard.learning.member_contract import annotated_sources
 from legal_skill_guard.learning.member_learning import paired_effect
 from legal_skill_guard.learning.packing import expand, keyed, table
@@ -166,12 +166,13 @@ class WitnessedExperience(RankedOnline):
     def new_fit_count(self):
         return len(self.fit_records)
 
-    def observe(self, units, *, source_rows=None):
+    def observe(self, units, *, source_rows=None, artifact_root=None):
         values, contexts, contracts = [], {}, {}
         sources = {r['id']: r for r in (self.documents if source_rows is None else source_rows)}
+        artifacts = self.out if artifact_root is None else Path(artifact_root)
         for u in units:
             row = sources[u['document_id']]
-            actual = read(self.out / f"inputs/{u['stage']}/{u['document_id']}/{u['condition']}.json")
+            actual = read(artifacts / f"inputs/{u['stage']}/{u['document_id']}/{u['condition']}.json")
             native_body = json.loads(actual['messages'][1]['content'])
             properties = actual['schema']['properties']
             common = next(iter(properties.values()))
@@ -185,7 +186,7 @@ class WitnessedExperience(RankedOnline):
                 'common_schema_applies_verbatim_to_every_required_hypothesis': True}
             contract_ref = csha(contract)
             contracts.setdefault(contract_ref, contract)
-            delivery = read(self.out / f"deliveries/{u['stage']}/{u['document_id']}/{u['condition']}.json")
+            delivery = read(artifacts / f"deliveries/{u['stage']}/{u['document_id']}/{u['condition']}.json")
             context = delivery.pop("actual_visible_candidates")
             ref = csha(context)
             contexts.setdefault(ref, context)
@@ -393,7 +394,7 @@ class WitnessedOnline(WitnessedExperience):
         """
         parent, materialized = copy.deepcopy(self.bank), copy.deepcopy(self.materialized)
         prior_own, prior_phase, prior_tokens = dict(self.own_current), self.phase, self.memory_tokens
-        assert parent and len(rows) == len(empty_units) == len(full_units) == 8
+        assert len(rows) == len(empty_units) == len(full_units) == 8
         assert {r['id'] for r in rows} == {u['document_id'] for u in full_units}
         assert all(u['bank_sha256'] == csha(parent) for u in full_units)
         start = len(self.answers)
@@ -405,7 +406,7 @@ class WitnessedOnline(WitnessedExperience):
                 self.memory_tokens = self.meter.token_count(text=json.dumps(
                     witness_knowledge_view(self.materialized), ensure_ascii=False, separators=(',', ':')))
                 self.phase = f'b{self.current_batch}_remove_record_{index}'
-                self.record(f'skill_removal_interventions/record_{index}.json', {
+                self.record(f'skill_removal_interventions/b{self.current_batch}/record_{index}.json', {
                     'removed_parent_id': removed['id'], 'removed_complete_record': removed,
                     'retained_library': self.bank, 'retained_materialized_memory': self.materialized,
                     'structural_training_intervention_not_a_library_publication': True})
@@ -468,7 +469,168 @@ class WitnessedOnline(WitnessedExperience):
         self.publish(body, name, teaching_system=TEACHER_SYSTEM+notice)
         return effects
 
+    def inherit_prequential(self, row, mode):
+        """Exact completed next-batch observations, not new independent calls."""
+        role = 'joint_empty' if mode == 'empty' else 'skills'
+        old = ROOT/'runs'/self.cfg['initial_completed_run']
+        stage = 'forward_b4_empty' if mode == 'empty' else 'forward_b4_learned'
+        paths = {kind: old/f'{kind}/{stage}/{row["id"]}/{role}.json'
+                 for kind in ('inputs', 'native', 'logical_answers', 'deliveries')}
+        messages, schema, _ = witnessed_skill_payload(row, self.labels, self.leads(row),
+            self.cfg['bundled_solver_system'], self.materialized, mode=mode)
+        actual, logical = read(paths['inputs']), read(paths['logical_answers'])
+        native = read(paths['native'])['response']
+        assert actual == {'messages': messages, 'schema': schema}
+        assert logical['response'] == native and native['finish_reason'] == 'stop'
+        assert logical['ordinary_tool_source_ids'] == self.prefix_ids
+        assert logical['bank_sha256'] == csha(self.bank if mode != 'empty' else [])
+        self.record(f'inputs/{self.phase}/{row["id"]}/{role}.json', actual)
+        self.record(f'deliveries/{self.phase}/{row["id"]}/{role}.json', read(paths['deliveries']))
+        self.record(f'inherited_completed_prequential/{row["id"]}/{role}.json', {
+            'at': now(), 'actual_original_response': native,
+            'source_artifacts': {k: {'path': str(p), 'sha256': sha(p)} for k,p in paths.items()},
+            'exact_input_schema_generation_bank_and_shared_tool_verified': True,
+            'new_native_calls': 0, 'not_an_independent_sample_or_favourable_case_selection': True})
+        self.inherited_prequential_count += 1
+        return self.logical(row, role, native)
+
+    def execute_record_credit_continuation(self):
+        """Continue the actual published bank through every remaining TRAIN batch.
+
+        This is an explicitly adaptive development lineage, not a uniform
+        independent128 run. No old bank is selected by its measured score.
+        """
+        offset = self.cfg['global_batch_offset']
+        assert offset == 3 and len(self.documents) == (16-offset)*8
+        assert [r['id'] for r in self.documents] == self.cfg['episode_ids']
+        assert len(self.past) == len(self.prefix_ids) == 202+offset*8
+        old = ROOT/'runs'/self.cfg['initial_completed_run']
+        completion = read(old/'completion.json')
+        publication = read(ROOT/self.cfg['initial_actual_publication'])
+        assert read(ROOT/self.cfg['initial_terminal_receipt'])['state'] == 'terminal_results_preserved'
+        assert self.cfg['generation'] == read(ROOT/self.cfg['initial_completed_config'])['generation']
+        assert self.bank == publication['publication'] == completion['actual_terminal_library']
+        assert self.prefix_ids == completion['ordinary_source_ids']
+        self.materialized = copy.deepcopy(publication['materialized_runtime_memory'])
+        assert self.materialized == completion['actual_terminal_materialized_memory']
+        self.catalog = {w['witness_ref']: {k:v for k,v in w.items() if k != 'witness_ref'}
+                        for s in self.materialized for w in s['witnesses']}
+        self.nonmember_catalog = {w['nonmember_ref']: {k:v for k,v in w.items() if k != 'nonmember_ref'}
+                                  for s in self.materialized for w in s['nonmembers']}
+        self.memory_tokens = self.meter.token_count(text=json.dumps(witness_knowledge_view(self.materialized),
+            ensure_ascii=False, separators=(',', ':')))
+        assert self.memory_tokens == completion['actual_terminal_knowledge_tokens'] <= 4096
+        self.reading_policy = read(ROOT/self.cfg['reading_calibration_completion'])['reading_policy']
+        previous = [u for u in completion['all_actual_units_and_adverse_results']
+                    if u['stage'] in ('inherited_b3_combined', 'credit_b3_actual_after')]
+        assert len(previous) == 16 and {u['document_id'] for u in previous} == {r['id'] for r in self.past[-8:]}
+        self.last_update = {'parent_library': publication['parent'], 'delta': publication['delta'],
+            'published_library': self.bank,
+            'all8_actual_before_and_after': self.observe(previous,
+                source_rows=self.past[-8:], artifact_root=old),
+            'original_training_effect': completion['actual_same_tool_training_publication_effect'],
+            'same_ordinary_source_ids': previous[0]['ordinary_tool_source_ids'],
+            'reading_policy': self.reading_policy, 'not_a_selected_successful_update': True}
+        self.units.extend(previous)  # Real past false citations remain eligible learning examples.
+        self.publication_history, self.inherited_prequential_count = [], 0
+        remaining = len(self.documents)//8
+        self.record('declaration.json', {'at': now(), 'config': self.cfg,
+            'frozen_bindings': self.bindings.copy(), 'actual_initial_terminal_library': self.bank,
+            'actual_initial_materialized_memory': self.materialized,
+            'initial_shared_ordinary_source_ids': self.prefix_ids,
+            'chronological_batches': list(range(offset+1,17)), 'complete_remaining_source_count': len(self.documents),
+            'planned_new_teacher_calls_and_CPUfits': [remaining, remaining],
+            'planned_new_native_calls_formula': '24*remaining_batches-16 + 8*sum(actual_parent_record_counts)',
+            'native_call_estimate_only_if_initial_record_count_stays_fixed':
+                24*remaining-16+8*remaining*len(self.bank),
+            'explicit_inherited_first8_empty_and_actual_terminal_memory_physical_calls': 16,
+            'no_forced_record_count_growth_efficacy_admission_or_best_bank_rollback': True,
+            'one_actual_record_credit_curator_per_batch_no_separate_reflector': True,
+            'same_source_witnesses_excluded_even_for_training_reanswers': True,
+            'adaptive_mixed_history_not_independent_uniform128_or_official_TEST': True,
+            'official_DEV_TEST_not_used_for_tuning': True})
+        summaries = []
+        for local in range(remaining):
+            batch = self.current_batch = offset+local+1
+            rows, start = self.documents[local*8:(local+1)*8], len(self.answers)
+            assert len(self.prefix_ids) == 202+(batch-1)*8
+            for index,row in enumerate(rows):
+                for mode in (('empty','combined') if index%2 == 0 else ('combined','empty')):
+                    self.phase = f'b{batch}_prequential_'+mode
+                    if local == 0:
+                        self.inherit_prequential(row, mode)
+                    else:
+                        self.answer_mode(row, mode, self.leads(row))
+            fresh = self.score(self.answers[start:])
+            self.units.extend(fresh)
+            groups = {m:[u for u in fresh if u['stage'].endswith('_'+m)] for m in ('empty','combined')}
+            assert all(len(v) == 8 for v in groups.values())
+            metrics = {m:points(v) for m,v in groups.items()}
+            summary = {'at': now(), 'batch': batch, 'new_source_ids': [r['id'] for r in rows],
+                'metrics': metrics, 'same_case_skill_effect': paired_effect(groups['empty'], groups['combined'],
+                    seed=2026102100+batch, replicates=5000),
+                'current_bank_sha256': csha(self.bank), 'current_skill_count': len(self.bank),
+                'knowledge_tokens': self.memory_tokens, 'shared_ordinary_source_ids': self.prefix_ids,
+                'shared_reading_policy': self.reading_policy,
+                'first_batch_observations_are_explicit_already_completed_actual_calls': local == 0,
+                'later_batches_all16_generated_before_current_annotations_scored': local != 0}
+            self.record(f'batch_summaries/b{batch}_before.json', summary)
+            summaries.append(summary)
+            print(json.dumps({'batch':batch, 'prequential_metrics':metrics}), flush=True)
+            seen = self.documents[:(local+1)*8]
+            parent, prior_materialized = copy.deepcopy(self.bank), copy.deepcopy(self.materialized)
+            name = f'credit_b{batch}'
+            self.learn_with_record_removal_feedback(rows, groups['empty'], groups['combined'],
+                (self.past+seen)[-16:], name)
+            start_after, self.phase = len(self.answers), f'b{batch}_after_seen_combined'
+            for row in rows:
+                self.answer_mode(row, 'combined', self.leads(row))
+            after = self.score(self.answers[start_after:])
+            self.units.extend(after)
+            update = paired_effect(groups['combined'], after, seed=2026102200+batch, replicates=5000)
+            self.record(f'update_effects/b{batch}.json', {'at':now(), 'effect':update,
+                'same_actual_ordinary_model_and_reading_policy': True,
+                'training_effect_not_new_source_transfer_or_skill_admission': True})
+            published = read(self.out/f'publications/{name}.json')
+            self.last_update = {'parent_library':parent, 'delta':published['delta'],
+                'published_library':self.bank, 'parent_materialized_memory':prior_materialized,
+                'all8_actual_before_and_after':self.observe(groups['combined']+after),
+                'same_ordinary_source_ids':self.prefix_ids, 'reading_policy':self.reading_policy,
+                'original_training_effect':update, 'not_a_selected_successful_update':True}
+            self.fit_prefix(seen)
+            completed = {**summary, 'at_complete':now(),
+                'publication_statistics':self.publication_history[-1], 'actual_training_update_effect':update,
+                'actual_after_seen_metrics':points(after), 'actual_published_skill_count':len(self.bank),
+                'actual_published_knowledge_tokens':self.memory_tokens,
+                'actual_new_native_teacher_CPUfits_so_far':[len(self.native),len(self.teachers),len(self.fit_records)]}
+            self.record(f'batch_summaries/b{batch}_complete.json', completed)
+            print(json.dumps({'batch_complete':batch, 'actual_training_update_effect':update['difference_after_minus_before'],
+                'published_record_count':len(self.bank), 'knowledge_tokens':self.memory_tokens}), flush=True)
+        assert self.inherited_prequential_count == 16
+        assert len(self.teachers) == self.teacher_attempts == len(self.fit_records) == remaining
+        assert len(self.prefix_ids) == 330
+        groups = {m:[u for u in self.units if '_prequential_' in u['stage'] and u['stage'].endswith('_'+m)]
+                  for m in ('empty','combined')}
+        assert all(len(v) == len(self.documents) for v in groups.values())
+        result = {'at':now(), 'run_id':self.run_id,
+            'all_remaining104_prequential_metrics':{m:points(v) for m,v in groups.items()},
+            'all_remaining_source_paired_effect':paired_effect(groups['empty'], groups['combined'],
+                seed=2026102300, replicates=5000),
+            'actual_new_native_teacher_CPUfits':[len(self.native),len(self.teachers),len(self.fit_records)],
+            'actual_teacher_attempts':self.teacher_attempts, 'inherited_prequential_physical_calls':16,
+            'final_bank':self.bank, 'final_materialized_memory':self.materialized,
+            'final_common_ordinary_source_ids':self.prefix_ids, 'actual_ordinary_fits':self.fit_records,
+            'publication_statistics':self.publication_history, 'batch_summaries':summaries, 'units':self.units,
+            'adaptive_continuation_not_independent_uniform128_baseline_superiority_or_official_TEST':True}
+        self.record('completion.json', result)
+        RunStore.atomic_json(self.out/'progress.json', {'at':now(), 'state':'completed', 'run_id':self.run_id,
+            'completed_native_calls':len(self.native), 'completed_teacher_calls':len(self.teachers),
+            'actual_new_CPUfits':len(self.fit_records),
+            'all_remaining104_prequential_metrics':result['all_remaining104_prequential_metrics']})
+
     def execute(self):
+        if self.cfg['study_kind'] == 'record_credit_remaining104_online':
+            return self.execute_record_credit_continuation()
         assert self.cfg["method"] == EDIT_FEEDBACK_METHOD and len(self.documents) == 128
         assert self.cfg['teacher_task_contract_version'] == 'reflection_before_signed_publication_v3'
         assert len(self.past) == len(self.prefix_ids) == 202 and not self.bank
@@ -580,7 +742,7 @@ def main():
         fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         config = Path(sys.argv[1])
         kind = read(config)["study_kind"]
-        if kind != "full128_reflective_signed_member_skill_online":
+        if kind not in ("full128_reflective_signed_member_skill_online", 'record_credit_remaining104_online'):
             raise ValueError("Only the full online protocol is active; finite historical studies remain in Git/archives")
         study = WitnessedOnline(config)
         try:
@@ -588,6 +750,7 @@ def main():
         except BaseException as error:
             failure = {"at": now(), "state": "failed", "error": repr(error), "traceback": traceback.format_exc(),
                 "actual_native_teacher_CPUfits": [len(study.native),len(study.teachers),study.new_fit_count()],
+                "actual_teacher_attempts": study.teacher_attempts,
                 "inherited_failed_native_teacher_CPUfits": study.cfg.get("inherited_failed_native_teacher_CPUfits", [0,0,0]),
                 "no_retry_answer_repair_fallback_gate_or_selected_bank": True}
             study.record("failure.json", failure)

@@ -30,6 +30,12 @@ LEGEND = (
     "source strings are preserved; explicitly partial historical contexts remain partial. "
     "No supplied source, annotation, public observation, feedback, historical bank, "
     "duplicate action, or ordering is removed. No-match is not a legal label."
+    " Observation packets tagged shared_source_contexts_v1 retain ordered "
+    "candidate_context_keys and lawyer_task_contract_keys. Resolve each key "
+    "against body.shared_actual_candidate_contexts or "
+    "body.shared_actual_lawyer_task_contracts respectively to reconstruct the "
+    "original packet maps exactly. These are identical actual input objects "
+    "stored once across conditions, not omitted inputs or summaries."
 )
 
 MEMBER_COLUMNS = ["proposed_original_indices", "original_choice", "original_non_neutral_member_target",
@@ -44,6 +50,33 @@ def canonical(value):
 
 def encode_teacher_body(original):
     body = deepcopy(original)
+    contexts, contracts = {}, {}
+    shared_fields = ('shared_actual_candidate_contexts', 'shared_actual_lawyer_task_contracts')
+    if any(field in body for field in shared_fields):
+        raise ValueError('Reserved shared-context fields in original teacher body')
+
+    def share_source_contexts(value):
+        if isinstance(value, list):
+            for item in value:
+                share_source_contexts(item)
+        elif isinstance(value, dict):
+            if value.get('encoding') == 'lossless_source_candidates_and_actual_task_contracts_v2':
+                for field, target, keys in (
+                    ('candidate_contexts', contexts, 'candidate_context_keys'),
+                    ('lawyer_task_contracts', contracts, 'lawyer_task_contract_keys')):
+                    local = value.pop(field)
+                    for key, item in local.items():
+                        if key in target and target[key] != item:
+                            raise ValueError('Conflicting exact actual-context references')
+                        target[key] = deepcopy(item)
+                    value[keys] = list(local)
+                value['shared_source_contexts_v1'] = True
+            for item in value.values():
+                share_source_contexts(item)
+
+    share_source_contexts(body)
+    if contexts or contracts:
+        body[shared_fields[0]], body[shared_fields[1]] = contexts, contracts
     global_queries, query_lookup = [], {}
     query_columns = None
     legacy_cases = "all_seen_train_cases" in body
@@ -222,6 +255,23 @@ def decode_teacher_body(payload):
         return result
 
     body = restore(payload["body"])
+    contexts = body.pop('shared_actual_candidate_contexts', {})
+    contracts = body.pop('shared_actual_lawyer_task_contracts', {})
+
+    def restore_source_contexts(value):
+        if isinstance(value, list):
+            for item in value:
+                restore_source_contexts(item)
+        elif isinstance(value, dict):
+            if value.pop('shared_source_contexts_v1', False):
+                value['candidate_contexts'] = {
+                    key: deepcopy(contexts[key]) for key in value.pop('candidate_context_keys')}
+                value['lawyer_task_contracts'] = {
+                    key: deepcopy(contracts[key]) for key in value.pop('lawyer_task_contract_keys')}
+            for item in value.values():
+                restore_source_contexts(item)
+
+    restore_source_contexts(body)
     if "all_seen_train_cases" in body:
         queries = body.pop("actual_global_query_bodies")
         for case in body["all_seen_train_cases"]:

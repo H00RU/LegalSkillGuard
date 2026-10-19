@@ -23,7 +23,35 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19 13:15 CST，32真实移除已齐；教师输入重复超本地字符门槛，修复并冻结精确续接Run02
+## 当前快照：2026-10-19，Run02已真实完成；将实际R3/ordinary226接回剩余104案主链路
+
+record_credit Run02已于13:28:50完成，原worker1971525和独立preserver1971528均结束，单8B服务仍3889231。
+实际1次teacher UPDATE3/retain1，末库4条、17原历史正例/0负例、2595知识tokens。
+B3当前8训练重答：class80.147/F175.932/joint59.559%，较父库-0.735/-2.998/+1.471pp，
+NN严格41->41、NM38->40；source124出现16/17NM，漏13原TP，所有不利结果保留。
+B4完整8案开发对照：空83.088/71.273/57.353，旧R2 80.147/70.290/56.618，
+实际R3 86.029/70.968/62.500%。R3比空+2.941/-0.305/+5.147pp，NN严格29->31、NM49->54。
+主要是NM分类改善，依据仍未实质超过强空库，不是论文突破/独立确认/officialTEST。
+
+实际Run02新增32native/1teacher/1fit；另48旧已计费物理明确继承，不重复生成。
+finite progress硬编码64是计数错误，原字节已在双盘终态和更正收据中保留，mutable progress改32；
+immutable completion/raw32未改。家族实际883native尝试/882回应/1未完成、37teacher尝试/36完成/1未完成、36fit，
+不是全项目总成本。577projectfiles/578成员双盘终态亲核均SHA
+ab728d421879f2289c7099fbe54a2ad113a5cc349c40ff0299971cfb5e998416；同机不同盘不是异地。
+只在亲核后删除有限record_credit_learning.py，机制保留原witnessed_experience.py。
+
+当前实现了原主类的真实R3/226连续批次入口，准备 legal_contractnli_record_credit_remaining104_online_20261019_run01。
+全原128顺序不变，B4--B16全部104案；B4原16完整空/实际R3答逐项核消息/schema/工具/库/采样后继承。
+每批全部当前空/库答->逐记录真实移除全部8案->一次无效果门槛教师CRUD/NOOP->实际发布重答8->共同fit->下批。
+上一批真实前后16答/全部好坏反馈纳入下次教师；不复活额外reflector、不强制技能数量/增长。
+过去B1--B3版本不同，不能将这条自适应续接线伪称uniform128/独立重复。
+teacher catalog新增跨条件完全相同候选/任务契约共享，decode必须精确还原；原案例/Gold/实际反馈不删截，
+本地字符上限未调高；9相关永久检查0.64s通过，无新生成/教师/fit资格测试。
+准备冻结/完整Git源码双盘/独立后台worker+终态preserver，尚未launch，不能宣称仍训练中。
+预计13新teacher/13fit，native依每批实际记录数动态，不把固定4作为库政策。
+后续重在多批新源证据净收益，不能因B4分类上涨停止优化；完整Goal active未达成。
+
+## 已归档快照：2026-10-19 13:15 CST，32真实移除已齐；教师输入重复超本地字符门槛，修复并冻结精确续接Run02
 
 record_credit Run01在13:08:12终止，真实32native/0教师尝试/0fit，无发布/B3重答/B4预测。
 不是account/model capacity，而是编码后1056727数据字符+系统>CLI1048576字符上限，在教师预约前拒绝。
