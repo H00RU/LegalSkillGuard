@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新时间：2026-10-20 00:35，Goal仍active，未达成、无外部阻塞。
+更新时间：2026-10-20 01:14，Goal仍active，未达成、无外部阻塞。
 本页是续接入口，不以游标替代真实进程/原始输出。旧2690行游标原样保留于
 [历史索引](CURRENT_GOAL_history_through_20261019_2228.md)，原始字节已Git及双盘保存。
 
@@ -35,6 +35,34 @@ user unit `legal-openexempt-readable-namespace-20261020-run01.service`，00:34:4
 源码852bbe4，142冻结绑定、144源/数据/清单成员双盘逐字节核验，冻结后不热改。
 日志`artifacts/research/openexempt_mechanism_20261019/readable_namespace_run01.log`；
 启动收据`artifacts/research/openexempt_mechanism_20261019/readable_namespace_run01_launch_receipt.json`。
+01:13续查：同PID2972092已进入B2未反馈新案，29 native/1教师，B1 C1已真实发布。
+B1全部新案已完成：empty EC62.2222%、EV50.5556%，C0/online EC49.2361%、
+EV48.3333%，全EV分别53.3333/48.3333%。online=frozen，在线进化效应0。
+冷库对空库两项均值-7.6042pp，1任务好/5坏/2平，不隐去负点或重启逃开。
+16物理调用109708prompt/43602completion tokens，15stop/1length，0transport故障。
+40_EV带库耗尽8192，记0且不补答；40_EC把法条而非资产当key，3未匹配claim，
+不是原数据缺事实或隐藏名称修补。EC仍19漏引用，已匹配错误引用0；EV包含截断
+共16漏引用、3金额错，预评分阶段真实函数调用0。51工件/诊断已双盘保全。
+首教师UPDATE4（ALL/Federal/OR/IL），实付43979input/4302output tokens、73.257s；
+修资产先行输出、残余条款、N按实际filers和IL住房15000单claim额度，已通过并发布。
+实际C1为7条/42函数/3672tokens，SHA
+75c59791b90e3a17b427dc28f1edd847dfa27c7f72262a5a7c63ec66d1f4fc1e。
+仅已见TRAIN重答EC86.6667%、EV57.2222%、全EV56.4286%，5任务好/2坏/1平。
+39_EV候选8192截断记0未重答；40_EC已恢复100%，40_EV为88.8889%，不掩盖39损失。
+B1总24物理回答168961prompt/64776completion、22stop/2length；真实函数调用仍0。
+81个完整B1工件/机制分析双盘逐成员核验。仍不能据TRAIN改善宣称后续新案净益。
+见`artifacts/research/openexempt_mechanism_20261019/readable_namespace_B1_prequential_actual_audit.json`。
+发布机制见`artifacts/research/openexempt_mechanism_20261019/readable_namespace_B1_publication_actual_mechanism_audit.json`。
+当前仍只看连续新案证据，不追加编码资格试验、不因一个冷B1负点改方法/重启。
+
+01:13只读数据流核查：同C1的4旧源，EC中24正确引用，9条未保留到EV（6条对应39_EV
+截断、3条为正常输出遗漏），另2条已选真引用金额错。实际EV输入可由公开row+bank
+完全重建，不含同臂先前EC输出；上游start=2本就仅给AE。这是既定独立任务边界，
+不是漏实现。start=3会提供Gold EC，绝不能用来偷偷修EV或做新的成绩投影。
+当前不热改源码、不额外生成。若完整B2仍无实质EV前向净益、而EC较强，再考虑用
+固定C1/强空库、全部已完成TRAIN、相同预算证伪“复用自身未验证EC结果”的数据流
+干预；不挑案、不用Gold EC、不将假设直接当方法或独立测试证据。
+分析`artifacts/research/openexempt_mechanism_20261019/readable_namespace_B1_EC_to_EV_dataflow_readonly_audit.json`。
 公共引用直接保留完整法条名/号，仅§写成ASCII section，所有臂一致；无旧L编号fallback。
 原scope、评分、数学工具、8B及8192/seed45/thinking、三臂标签释放边界不改。
 未查询37–44源原文/源键保留，seed2026102001补45–52，仍16源4批机制试跑；
