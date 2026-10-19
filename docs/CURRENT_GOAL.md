@@ -1,6 +1,6 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 07:04 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 07:32 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 这是续接入口；每次以真实 systemd/PID、冻结清单与原始工件重新核验。
 旧轮已经计划终止，新契约已真实部署并启动，不要误恢复旧 v9 或另建 GPU 队列。
 上一版详细索引保存在 Git ddb98e7；原失败、协议、审计、双盘备份均未清理。
@@ -26,7 +26,7 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   Gold solver 推理或无关框架，不选好案/旧好库/改评分造提升，失败与成本全保留。
 - 师兄 paper-ideation / paper-experiments-appendix 用于实际失效假设、机制日志、
   公平成本与结论边界；不采用隐瞒借鉴、固定创新数或预设好指标。当前 Goal 轮已完整读。
-- 每小时以实际时钟复核五件事，记录在生效补充。最近实际 06:29:16，**下次 07:28**。
+- 每小时以实际时钟复核五件事，记录在生效补充。最近实际 **07:28:03，下次08:28**。
   07:01批次续记不是额外小时检查。无独立唤醒产品；训练独立后台运行不依赖对话。
   卡住先定位原始失败，再查近期权威原文/作者实现并落实，不空转调研或重复资格测试。
 
@@ -34,8 +34,9 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
 
 - Run `legal_openexempt_compiled_skills_online_20261020_run01`。
 - unit `legal-openexempt-compiled-skills-20261020-run01.service`，原 PID **3543668**，
-  2026-10-20 **07:03:32** 启动；07:03:53亲核 active/running，B1首个回答生成中。
-  该时点 0 个完成 native、0 教师，不能提前报分。只读观察应记录真正完成情况。
+  2026-10-20 **07:03:32** 启动；07:28亲核 active/running，已经进入B2新案。
+  B1于07:25:56真实发布C1；07:28:55为31 native/1教师、13跨阶段wire别名。
+  B2全部四臂完成前不读其Gold。两个旧只读观察1185/34771已正常退出0，不再resume。
 - config `configs/openexempt_compiled_skills_online_20261020_run01.json`，
   SHA9498bb2f029f9cbe168ac368cafd21d2d6ed2a8ed8c9b6b0c1769e5aa37becfa，
   同名 frozen.json **134绑定文件**；启动前 source tar 已逐成员双盘核验。
@@ -75,6 +76,38 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
 18项定向CPU检查通过、1项上游评分检查未在隔离树运行，原评分没改；
 没有新GPU资格网格。这不是8B性能证据，接下来查真实运行。
 
+### v10已完成B1，已真实发布；不要与旧v9 B1混同
+
+B1前向为初库，不含在线学习效应：C0/online EC70.4167%、EV78.3333%、全EV72.5%；
+strong直接空库67.9167/77.5%、全EV72.5%，程序空库67.9167/65.8333%、全EV60%。
+程序空库70_EV写字符串"null"，非法动作整答0，失败原样保留，不修补或削弱强控制。
+20物理/32逻辑（EC直接与empty共享，online与C0共享），133762prompt/32731completion。
+skills逻辑EV实际程序调用11，非11次独立模型生成；不是学习收益证明。
+
+教师首提案**UPDATE3**（Fed/AZ/PA），程序体全部未改；初批69–72四个公开事实
+都是单债务人，不能据此说已学共同债务人规则。教师实际42499input/3641output、
+58.911s，输入107840字符，收到实测父库3462/4096tokens、净余634，无未来来源或
+直接数值额外示范。第二提案没调用；不要误续成首提案只有2个UPDATE。
+
+候选完整8物理重放全stop，57572prompt/11478completion，13次真实程序执行无错误。
+TRAIN EC70.4167→74.1667、EV78.3333→85.8333、全EV72.5→80%，2好0坏6平。
+**逐案更正：改善的是70_EV0.5→0.8和71_EC0.65→0.8，不是同一来源两任务。**
+初步审计/小时记录曾人工误写集中70，原件不覆盖，corrected审计与gain_source_correction
+明确更正。总体分数/Help-Hurt原本正确，不能再沿用错误归因。
+07:25:56发布C1，7条/40程序/**3599tokens**，
+bankSHA **f224a7ea133b0ca2e9bbfca4dda4dee4d00bd76c31f03ffce664c084af2b55ef**。
+这是TRAIN优化，不能混成B1前向曲线或新案迁移，B2才检验在线对C0净益。
+
+未解内容/执行风险：教师Fed指导仍要求对某些已缓存引用改用inline，而v10此时只
+允许null；原教师规则已要求无法统一表达则去掉程序，候选没遵守。当前案例尚未
+证明这个例外导致分数损失，不后验改接口/偷读未来标签，但不称形式正确即完整可用。
+72_EV的原生本地8B reasoning对家具/衣物映射正确，最终却多加错误vehicle/apparel
+引用，父子两次皆有。69的首饰泛化、70的"联邦更多所以舍弃PA300"、71漏wildcard
+则在推理本身已发生。不能一概说法律知识不足、全部是输出格式或只贴72号补丁。
+本地原始reasoning保存在raw calls[0].response；normalized response与教师视图未带它，
+不是文件丢失。此信息边界不证明加CoT就会修好。若后续重复吞掉收益，优先检验
+任务目标/决策到提交的断点，不再只扩写法律 prose、金额函数或加教师输入。
+
 ## 已结束 v9：完整六批前向，不是最后一批更新完成
 
 - Run `legal_openexempt_official_sampling_online_20261020_run01`，
@@ -111,15 +144,20 @@ B6对C0三好零坏五平，EV完整claim TP/FP/FN为online13/2/11、C010/3/14�
 
 ## 下一直接工作和证据路径
 
-优先核新v10真实执行/格式/预算与B1教师CRUD，再核B2/B3前向，不只看B1、旧案
+优先核新v10的B2/B3前向、真实执行/预算与后续教师CRUD，不只看B1、旧案
 重答或函数计数。持续核新库是否真实发布、纯程序更新是否重新执行、两个强空库
 及同C0是否都净胜、帮助/伤害和完整成本。明显系统性错误先保全终态再修；
 真实负效应按预定边界，不挑案修补、第三教师或换解码削弱空库。
-小时复核07:28。正式规模及创新判据见[下一证据门槛](research/FORMAL_EVIDENCE_NEXT_GATE_20261020.md)，
+小时复核08:28。正式规模及创新判据见[下一证据门槛](research/FORMAL_EVIDENCE_NEXT_GATE_20261020.md)，
 该草案旧计算量是v9三臂；v10额外直接EV必须计费，不能当同成本。
 
 研究前缀 `artifacts/research/openexempt_mechanism_20261019/`：
 - 新日志 `compiled_skills_run01.log`，新启动 `compiled_skills_run01_launch_receipt.json`。
+- 新B1权威审计 `compiled_skills_B1_publication_actual_skill_use_and_training_effect_audit_corrected.json`；
+  小时 `compiled_skills_hourly0728_actual_direction_review_corrected.json`；归因更正
+  `compiled_skills_B1_gain_source_correction.json`。原错误版本和备份保留，不沿用错误归因。
+  B1/小时123成员及更正3成员已双盘核验。原生推理/最终错位
+  `compiled_skills_B1_local_reasoning_vs_delivered_answer_readonly_audit.json`。
 - 旧六批 `official_sampling_B6_complete_forward_actual_use_and_cumulative_audit.json`；
   B5最终 `official_sampling_B5_final_rejections_actual_management_and_budget_audit.json`。
 - 停止 `official_sampling_B6_boundary_development_stop_plan.json`、stop_signal/guard_outcome；
