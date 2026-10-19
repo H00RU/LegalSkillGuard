@@ -85,6 +85,13 @@ admission. The13 planned teacher calls mean completed batch curations; failed
 transport attempts are additional disclosed costs, not successful curations.
 Official recovery guidance consulted: https://developers.openai.com/api/docs/guides/agents-api/errors#retry-transient-failures
 
+Run03's three same-request capacity attempts also returned no result; all48
+inherited answers and the actualR3 bank were unchanged. Run04 retains that exact
+request and all prior cost, increases only capacity waiting intervals to300/600s,
+and gives each transport attempt its own failure-cache directory so no failed
+invocation metadata is overwritten. This does not change skill content,
+publication, generation, legal scoring, teacher model or effort.
+
 Monitor subsequent batches, not only the inherited B4. A clearly harmful whole
 configuration may be stopped and archived; stopping must not replace the actual
 terminal bank or conceal negative denominators. This development must still be

@@ -23,7 +23,39 @@ Goal状态以实际工具为准，目标尚未达成。保持ContractNLI法律�
 原目标提及的 `legal_contractnli_answer_review_learning_20261015_run01` 不再运行。
 其历史结果已归档；不要重启它或据此恢复9月多轮客户路由。
 
-## 当前快照：2026-10-19，有限学习Run02完成；R3/226剩余104案续接Run02准备启动
+## 当前快照：2026-10-19 14:08，Run03因三次capacity终止并保全；Run04拉长同请求等待准备启动
+
+Run03已于14:06:59结束，实际0新native/0完成teacher/3无结果capacity尝试/0fit，无新发布。
+末库仍实际R3/ordinary226，不是回滚。570成员终态双盘+当前源逐成员亲核
+SHA c91a76e8e68e8638dc45052e5dd561355526970e940f589152a983b9a73a284c。
+当前无Run03worker，不能把等待状态文件当live。Run04 cfg/frozen已准备，继承原ALL48答，
+教师原917160字符/完整system/schema/model/effort不变；只把capacity两次延迟加长300/600秒，
+每次attempt独立failure-cache防覆盖；原3次完整event和ledger均保留，usage未知非0。
+12相关检查0.39s通过，无新增live资格生成/教师；待提交/双盘/独立后台启动。
+家族当前915native尝试/914完成回应/1无完成回应，41teacher尝试/36结构化回应/5无回应，36fit，
+非全项目历史，5含1主动中止和4明确capacity，均非仍在调用。无新任务指标/论文突破。
+Goal active完整目标不变；同教师capacity是当前外部阻塞，不擅换模型，不因此重复32生成。
+
+## 已归档快照：2026-10-19 14:03，剩余104案Run03真实后台；精确继承48答，教师capacity等待
+
+最新唯一worker2044355/ticks439631054，preserver2044358/ticks439631056；14:03:13启动。
+run legal_contractnli_record_credit_remaining104_online_20261019_run03，source525857eb10f0e466f537952142b92826d4ff599d；
+control artifacts/research/record_credit_remaining104_run03_20261019。358成员启动Git/源码双盘亲核
+SHA c195fd223a625cee5243785337407f380b76c0f03f72a533ebbd0ab2145c7eda；同机不同盘不是异地。
+原剩余104案Run02已于13:57:27终止：32新native完整stop、1次capacity无结果教师尝试、0发布/fit。
+377成员终态双盘与现有原文件亲核SHA 2bd9b8aa0128a15440e6ddeb79ce603ab02676714ff97759909d3dffe1acfa12。
+只在核验后修原模块：继承所有32当前移除实际input/schema/bank/shared226/rawID，另16旧完整B4对照。
+同原917160字符教师user、完整system/schema/model/effort逐项相等；只newRun purpose不同，不改任务或抽好样本。
+真实teacher当前完整B3+B4源16/当前16答/前批真实前后16答/全部32移除答均到齐，无B5源或Gold。
+新teacher transport只对精确capacity终止且没有任何item/result/tool/usage事件做60/120秒两次有限延迟重试；
+每次独立日志+ledger预约/成本，任何partial结果/其他错误/限额/中止都停止，绝不换模型/挑结果/假造技能。
+12相关永久检查0.63s通过，无live资格生成或额外教师。32旧native不重新生成。
+14:03:31第一实际教师仍capacity，worker原身份live、teacher_capacity_wait，0新native/0完成teacher/1尝试/0fit。
+目前末库仍实际R3=4条/2595tokens，无新指标/发布/论文突破。等待同一教师真实结果而非重启模型。
+当前有界家族到Run02终态915native尝试/914回应/1未获完成回应，38teacher尝试/36结构化回应/2未获回应，36fit；
+Run03新失败尝试继续另计，未知usage不记0，非全项目历史。Goal active完整目标未缩小。
+
+## 已归档快照：2026-10-19，有限学习Run02完成；R3/226剩余104案续接Run02准备启动
 
 剩余104案Run01于13:43:46在第一次generation前退出：progress读取缺失planned_new_native_calls，
 真实0新增native/0teacher/0fit、16旧B4回答已明确继承，库仍实际R3，原失败全保留。

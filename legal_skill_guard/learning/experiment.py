@@ -437,6 +437,8 @@ class Comparison:
         assert type(retries) is int and 0 <= retries <= 3
         for capacity_attempt in range(retries+1):
             captured = None
+            if capacity_attempt:
+                client.cache_root = dest/'cache'/f'capacity_retry_{capacity_attempt}'
             self.check()
             self.teacher_attempts += 1
             self.progress("teacher", current_arm=name, teacher_prompt_characters=chars,
