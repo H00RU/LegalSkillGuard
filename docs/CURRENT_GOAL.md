@@ -1,10 +1,10 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 07:55 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 07:57 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 **最高优先纠正：下文旧v10已因确证EOS约束缺口在07:47:30停止，43native/1教师，
 B2未完整评分/未读Gold。8B同服务已重启为PID3613253并健康；依赖修复已通过真实
-失败前缀/有效回答的CPU检查，无新GPU资格生成。新Run eos_aligned数据73–84
-已准备，尚待freeze/启动。不要恢复旧v10或旧8B PID3889231。**
+失败前缀/有效回答的CPU检查，无新GPU资格生成。新Run eos_aligned已冻结136源
+绑定并于07:55:50真实后台启动，主PID3621135。不要恢复旧v10或旧8B PID3889231。**
 这是续接入口；每次以真实 systemd/PID、冻结清单与原始工件重新核验。
 旧轮已经计划终止，新契约已真实部署并启动，不要误恢复旧 v9 或另建 GPU 队列。
 上一版详细索引保存在 Git ddb98e7；原失败、协议、审计、双盘备份均未清理。
@@ -34,15 +34,47 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   07:01批次续记不是额外小时检查。无独立唤醒产品；训练独立后台运行不依赖对话。
   卡住先定位原始失败，再查近期权威原文/作者实现并落实，不空转调研或重复资格测试。
 
-## 当前唯一后台主训练：v10 新机制三批小试
+## 当前唯一后台主训练：EOS对齐后的v10接口三批小试
+
+- Run **legal_openexempt_eos_aligned_online_20261020_run01**；unit
+  `legal-openexempt-eos-aligned-20261020-run01.service`，原主PID **3621135**，
+  **07:55:50** 启动。07:56:37亲核active/running、B1首预测中、0完成native/教师。
+  不把启动/CPU检查或旧B1的重放分数称作本Run表现。没有新GPU资格生成。
+- config `configs/openexempt_eos_aligned_online_20261020_run01.json`及同名frozen.json，
+  SHA **b89e23cfd2154671dbf117a20ba4dcc77f536ca11e08cafb603d72dccd11be53**，
+  source commit **762301b**，**136绑定**先双盘核验。绑定活跃期间不热改。
+- 同一模型服务unit `legal-qwen3-8b.service`，现PID **3613253**，原权重目录、
+  版本和全部启动参数原样。profile `artifacts/live_8b_environment_EOS_aligned_20261020.json`。
+  新增六个实际依赖源hash每次调用核验。只修EOS定义，没升级模型或另起实例。
+- 根因：模型generation_config EOS为151645/151643，采样器两者均认；旧HF语法
+  默认只认tokenizer151645。实际74_EV_skills以151643在未闭合JSON结束；CPU真实
+  前缀确认该token仍允许。实际后端修复后两EOS在坏前缀皆禁、完整好回答皆可终止。
+  这是格式保障缺口，**不解释所有法律错误、不保证技能收益**，不回改失败分。
+  复现diff `patches/vllm-0.10.2-hf-generation-eos-alignment.patch`与third_party/vllm/NOTICE。
+  修复模块SHA673dc25710d9f59c42baa2c0e4e665b48aa8c1a3b8f9670a89af649875fe49da。
+- 数据73–84共**12来源/24任务/3批各4源**。旧流未反馈的73–80全部原顺序保留，
+  seed2026102004只补81–84四源，排除七旧packet，无看标签/效果重抽。73/74已有
+  无反馈四臂观察、75仅frozen EC，config明列；76–80未查询。**标签未释放不等于
+  输入从没查询**。不导入旧回答/cache/分数，不带旧C1，仍同blind C0开始。
+  packet SHA **df4bf51b0ec6758d11bdc7072bad6da56c5cc57e54137518e5c98e1dc2e493d3**。
+  当前新批全部四臂预测前不读Gold/私有construction，官方TEST未打开。
+- 法律接口、四臂、采样预算、教师/两候选/4096容量/有界证据和全TRAIN准入均
+  沿用下述v10。B1还是静态先验，进化看B2/B3；两个强控制都使用正确EOS环境。
+- 新日志 `artifacts/research/openexempt_mechanism_20261019/eos_aligned_run01.log`；
+  启动 `eos_aligned_run01_launch_receipt.json`，source与runtime修复/启动10工件已双盘。
+  协议 `docs/research/OPENEXEMPT_EOS_ALIGNED_20261020.md`。**仍非正式规模或Goal完成**。
+- 当前没有新只读观察者。旧96460已经因旧主进程终态正常退出0，不再resume。
+  下一动作是观察这个新主PID真实多批执行/教师/前向，不再做资格网格。
+
+## 已结束的v10 compiled小试及其真实证据
 
 - Run `legal_openexempt_compiled_skills_online_20261020_run01`。
 - unit `legal-openexempt-compiled-skills-20261020-run01.service`，原 PID **3543668**，
-  2026-10-20 **07:03:32** 启动；07:28亲核 active/running，已经进入B2新案。
+  2026-10-20 **07:03:32** 启动，**07:47:30**因真实EOS缺口安全停止，不是分数挑库。
   B1于07:25:56真实发布C1；07:28:55为31 native/1教师、13跨阶段wire别名。
   B2全部四臂完成前不读其Gold。两个旧只读观察1185/34771已正常退出0，不再resume。
-  当前只读观察session**96460**（07:32起，最长至08:32）等B2完整四臂、并核同PID；
-  每次poll不超过30秒，不将观察超时或正常退出当训练故障。它不是独立训练队列。
+  旧观察96460已经正常退出0，168终态成员和原运行时六文件已双盘核验。
+  43物理/1教师，B2没有完整分数或标签释放。不要重启这个Run。
 - config `configs/openexempt_compiled_skills_online_20261020_run01.json`，
   SHA9498bb2f029f9cbe168ac368cafd21d2d6ed2a8ed8c9b6b0c1769e5aa37becfa，
   同名 frozen.json **134绑定文件**；启动前 source tar 已逐成员双盘核验。
@@ -150,7 +182,7 @@ B6对C0三好零坏五平，EV完整claim TP/FP/FN为online13/2/11、C010/3/14�
 
 ## 下一直接工作和证据路径
 
-优先核新v10的B2/B3前向、真实执行/预算与后续教师CRUD，不只看B1、旧案
+优先核EOS新Run的真实执行/预算与教师CRUD，继续B2/B3前向，不只看B1、旧案
 重答或函数计数。持续核新库是否真实发布、纯程序更新是否重新执行、两个强空库
 及同C0是否都净胜、帮助/伤害和完整成本。明显系统性错误先保全终态再修；
 真实负效应按预定边界，不挑案修补、第三教师或换解码削弱空库。
@@ -159,6 +191,12 @@ B6对C0三好零坏五平，EV完整claim TP/FP/FN为online13/2/11、C010/3/14�
 
 研究前缀 `artifacts/research/openexempt_mechanism_20261019/`：
 - 新日志 `compiled_skills_run01.log`，新启动 `compiled_skills_run01_launch_receipt.json`。
+  这两个是已停止旧compiled流；当前新日志和启动见上方EOS小节，不要混用。
+- EOS实际失败与修复：`compiled_skills_B2_74_invalid_JSON_actual_EOS_grammar_CPU_check.json`、
+  `compiled_skills_EOS_repair_actual_backend_CPU_receipt.json`，终态/原runtime双盘收据
+  `compiled_skills_EOS_safe_terminal_and_original_runtime_preservation.json`；新runtime/启动
+  `eos_aligned_run01_runtime_repair_launch_preservation.json`。首个CPU会话31909、修复
+  CPU57874、模型重启10645、数据生成10411均已成功终态，不再resume或重复prepare。
 - 新B1权威审计 `compiled_skills_B1_publication_actual_skill_use_and_training_effect_audit_corrected.json`；
   小时 `compiled_skills_hourly0728_actual_direction_review_corrected.json`；归因更正
   `compiled_skills_B1_gain_source_correction.json`。原错误版本和备份保留，不沿用错误归因。
