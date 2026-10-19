@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新时间：2026-10-20 02:20，Goal仍active，未达成、无外部阻塞。
+更新时间：2026-10-20 02:45，Goal仍active，未达成、无外部阻塞。
 本页是续接入口，不以游标替代真实进程/原始输出。旧2690行游标原样保留于
 [历史索引](CURRENT_GOAL_history_through_20261019_2228.md)，原始字节已Git及双盘保存。
 
@@ -21,7 +21,7 @@ OpenExempt只是当前候选，不能以一个小试跑替代完整目标或因�
 
 ## 当前唯一训练与冻结边界
 
-**02:20当前唯一live：官方采样六批Run，01:52:27启动，原PID3085974。**
+**02:45当前唯一live：官方采样六批Run，01:52:27启动，原PID3085974。**
 Run `legal_openexempt_official_sampling_online_20261020_run01`，user unit
 `legal-openexempt-official-sampling-20261020-run01.service`，已亲核active/running。
 源码6eb3302，config `configs/openexempt_official_sampling_online_20261020_run01.json`，
@@ -58,14 +58,40 @@ B1总22物理/1教师，156965prompt/51141completion，22stop；两条未变wire
 机制/成本证据 `artifacts/research/openexempt_mechanism_20261019/official_sampling_B1_real_publication_and_actual_skill_use_audit.json`。
 此前15分钟临时观察会话24421已正常结束，不是训练停止，不恢复/重启worker。
 
+02:28:33按时完成小时自检：原训练PID3085974与8B PID3889231亲核未变，158绑定
+逐项0改动；当时27 native/1教师、全stop、B2未整批评分。实际小时记录与双盘收据：
+`artifacts/research/openexempt_mechanism_20261019/official_sampling_hourly0228_actual_direction_review.json`。
+02:44:52仍同PIDactive，progress02:44:12为38 native/1教师，51号案；本批16个
+物理回答均stop，0协议/动作错误，存储函数调用0。未读本批Gold、未公布半批F1。
+下一小时自检为03:28，不因观察窗口结束或文件更新时间停滞自行重启训练。
+
+本轮额外只读结果（0额外8B/教师调用，均已双盘保全）：
+- 原资产池505种；24来源/48派生任务含74次资产出现、70种不同描述，4种跨来源
+  重复。B2的15种描述均未出现在B1；以后不能混称新source与新asset/category泛化。
+- C1全部B1 EV的23个实际操作，21个有已存程序；替换成这些已存程序仅能修1个
+  金额错。没算替代方法F1/没回写答案，不为把函数计数变非0而强制调用。
+- C1实际21个正确EC配对中5个没保留到EV，但EV也找到了4个EC漏掉的真引用。
+  EV共漏14配对，其中9为Fed(d)(5)；EC也漏9个(d)(5)。不能用硬复制EC或再堆
+  金额函数声称已解决主要断点。先等完整B2的真实新案对照。
+- 本地8B生成文本可见“具体条款更合适所以省掉通用条款”的解释，最终确有漏项。
+  这是可观察输出，不是内部因果证明。教师输入有Gold/最终程序/评分、没有本地
+  reasoning_content；这是信息边界，不断言缺它必然无效或加上就一定改善。
+- EV实际properties顺序为limit_expression再citation_ref，native跟随此顺序；
+  可能增加先算额度后发法条的绑定负担，但还没有因果干预，且不能解释EC漏项。
+  不据此热改/重启当前轮或追加参数网格。主要关注独立法律选项的覆盖与执行。
+证据前缀 `official_sampling_public_source_and_asset_overlap_readonly_audit`、
+`official_sampling_B1_published_routine_amount_only_diagnostic`、
+`official_sampling_B1_post_decode_fix_EC_EV_coverage_audit`、
+`official_sampling_teacher_information_and_claim_order_readonly_audit`，均在研究工件目录。
+
 四条预固定已见TRAIN诊断01:50:33全部完成，4 native/0教师，28458prompt/12397completion；
 三条旧length均stop且合法，F1为55.5556/73.0159/75%，正常空库对照80→72.5%，
 32词重复率0–0.8041%。17工件已双盘保全；不能据此声称代表性准确率全面改善，
 不替换旧Run的0分、不拼主曲线。无参数网格或补答，改共同采样不改技能学习方法。
 结果 `artifacts/research/openexempt_mechanism_20261019/official_thinking_sampling_four_fixed_20261020/result.json`。
-下一直接工作：核B1真实CRUD/发布/调用后，继续B2–B6新案相对强空库/冻结库净益；
+下一直接工作：完成B2三臂新案，再核后续教师CRUD/保持与B2–B6相对两控制的净益；
 按声明连续两批伤害/实质系统故障止损，不为一个小负点反复B1。旧N/金额与漏项仍须
-真实教师学习，不把消除循环当唯一根因或任务已解。下一小时复核02:28，Goal不暂停。
+真实教师学习，不把消除循环当唯一根因或任务已解。下一小时复核03:28，Goal不暂停。
 
 **以下旧轮与数值仅作开发历史，不再运行，不与新曲线拼接。**
 
