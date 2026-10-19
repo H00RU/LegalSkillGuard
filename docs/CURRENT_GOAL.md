@@ -1,8 +1,10 @@
 # 当前Goal执行索引
 
-更新：2026-10-20 05:37 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 05:58 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 本页仅作续接入口。真实状态必须亲核systemd/PID、原始工件，不能仅信游标。
-本轮完成B4最终准入、实际技能损益与05:28小时复核，主训练自动进入B5，未重启。
+上轮完成B4准入、损益与小时复核。本轮在隔离分支完成下一执行契约的代码准备，
+尚未采用；原主训练完成B5新案、进入其教师重放，未重启。不能把CPU通过或隔离
+提交说成主指标改善。
 
 ## 完整目标和用户有效边界
 
@@ -31,13 +33,14 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
 
 - Run `legal_openexempt_official_sampling_online_20261020_run01`。
 - unit `legal-openexempt-official-sampling-20261020-run01.service`，原PID3085974，
-  01:52:27启动，05:28亲核仍同PID active；05:28:44自动完成B4、进入B5。
-  05:35:15已见progress为B5新案，172 native/7教师、33次跨阶段同wire复用，61号案。
+  01:52:27启动，05:51亲核仍同PID active；05:28:44自动完成B4、进入B5。
+  05:57:22已见progress为B5候选1重放，191 native/8教师、33次跨阶段同wire复用，46号案。
   不能把观察超时或观察者正常退出当主训练停止理由。
 - progress `runs/<run>/progress.json`；日志
   `artifacts/research/openexempt_mechanism_20261019/official_sampling_run01.log`。
-- 当前只读观察者session6912等待B5全三臂工件，每8秒核原主PID；每次poll不超过
-  30秒。旧B4观察者56255已正常退出0，不再resume。观察窗口结束不代表主训练失败。
+- 当前只读观察者session25393等待B5候选1完整决策，每8秒核原主PID；每次poll
+  不超过30秒。旧B5新案观察者6912与B4观察者56255均已正常退出0，不再resume。
+  观察窗口结束不代表主训练失败。
 - config `configs/openexempt_official_sampling_online_20261020_run01.json`及frozen.json；
   源码6eb3302，158绑定文件。活跃Run不热改源/协议/输入/初库；终态保全后再变。
 - 同一Qwen3-8B PID3889231，engine3889870，A40约26GB/49GB、97–98%忙；
@@ -46,8 +49,8 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
   官方min_p0默认已核。没有切成非思考、没有重启服务或换模型。
 - 24来源、48派生EC/EV任务、6批各4来源。45–52旧未查询来源原文/源键保留；
   seed2026102002补53–68，排除所有旧开发source keys，未按结果重采样。
-  B1=45–48，B2=49–52，B3=53–56，B4=57–60已反馈；B5=61–64预测中，
-  B5反馈尚未释放，B6=65–68尚未查询。预测结束前不读取其Gold。
+  B1=45–48，B2=49–52，B3=53–56，B4=57–60、B5=61–64均已反馈；
+  B6=65–68尚未查询。其预测结束前不读取Gold。
   packet SHA c6dc406906afcbc563ac4d038453aa9ab47590217d048cae9b9bfa5b88293aca。
 - 启动用blind C0，7条/40函数/3462tokens，不是旧训练C1；160源/数据/清单成员
   双盘逐字节核验。14必要CPU边界检查0.24s完成，没新造测试模块。
@@ -66,12 +69,13 @@ SkillCommit，最终贡献仍须真实机制和对照支撑。
 |B2|42.08 / 54.79|46.04 / 52.08|64.79 / 50.57|
 |B3|67.92 / 45.83|72.08 / 69.58|85.83 / 77.08|
 |B4|77.92 / 79.17|70.76 / 71.04|83.89 / 74.17|
+|B5|65.56 / 61.39|55.83 / 60.56|68.89 / 76.94|
 
 B2对空库EC+22.7083pp、EV-4.2262pp，两项均值+9.2411pp；对C0均值+8.6161pp。
 这是真实分类迁移，但EV仍负，不是全方法已稳定成功。B2全输出EV为empty56.4354/
 frozen52.4242/online51.2121%。24次物理回答全stop、无协议/动作错误、真实存储调用0。
-累计16来源：empty67.1875/61.2674%，online76.6319/67.8150%，frozen65.2257/65.5382%。
-online对C0 EC+11.40625pp、EV仅+2.27679pp，两项均值+6.84152pp；不掩盖EV小幅。
+累计20来源：empty66.8611/61.2917%，online75.0833/69.6409%，frozen63.3472/64.5417%。
+online对C0 EC+11.73611pp、EV+5.09921pp，两项均值+8.41766pp；不隐藏失败影响。
 这不是正式规模、显著性、成熟方法胜利或官方TEST。
 
 **B3增益边界**：对empty EC+17.9167pp/EV+31.25pp；对C0 +13.75/+7.5pp。
@@ -91,6 +95,22 @@ B3共24逻辑/20物理回答（AZ/IL的4条online与C0同wire），20全stop、1
 并非虚构资产/名称问题。原EV忽略该额外claim给100，全输出EV罚为80，两项原样保留。
 B4共20物理/24逻辑，141607prompt/48311completion，全stop、无动作错误、实际缓存调用0；
 66个B4新案和教师工件已双盘保全。有效库仍C1，不把批次难度变化称为新进化。
+
+**B5新案，仍用C1**：对empty EC+3.3333pp/EV+15.5556pp，均值+9.4444pp；
+对C0 EC+13.0556pp/EV+16.3889pp，均值+14.7222pp。5好1坏2平（vs empty），
+3好0坏5平（vs C0）。但对C0全部EV增益来自61号，C0该案因非法算式整答0分。
+其把真实Glock错选(d)(9)医疗辅助器具，再提交字符串"null"，不是JSON null；AST
+拒绝其未知名字。没有截断、转换、部分答案挽救或重答；转成JSON null也不会修好
+错法条，且该条没有存储程序。排除61仅作敏感性：其余三案EV online=C0 80.7407%，
+empty76.2963%，不替换原曲线。64_EC带库把550元衣物因超过500额度而漏掉，
+empty全对；独立EV却正确，不能以金额执行代替资格修复。
+B5共24逻辑/22物理，154875prompt/50286completion，全stop，真实存储调用仍0。
+
+**B5候选1尚重放、未发布**：教师MERGE2+UPDATE2，合并Fed与OR各自EC/EV，
+更新PA/AZ；候选8条/41函数/3815tokens，新增的是OR动物数值程序，不是新技能条目。
+SHA 1b4ffe9268ff76d99585d561872e39961691f30e6b53a3dae6a5781490eabad5。
+教师113205input/6470output、94.798s，实际第8次返回、账本sequence1497。
+修通用条款、单项额度和超过额度不等于无资格；当前主库仍C1、10条/40函数。
 
 **实际发布C1**：B1教师UPDATE3+CREATE3，将Fed/OR/WI部分拆成EC与EV作用域，
 并修700单项、OR400残余、WI车辆转用额度。新增不是三个新函数。
@@ -189,6 +209,28 @@ empty变61.0417/24.3056%，也更差，含1次非法算式。相对技能差值�
 已按调用前留存的分组说明只纠正分析标签，0重新生成/答案修补，56工件双盘核验。
 session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_20261020/result.json`。
 
+## 已完成的隔离代码准备，尚非主链路
+
+- branch `prospective-compiled-call-20261020`，提交`18cc817`，基底`dc6e49e`。
+  工作树在`.venv/compiled-call-20261020.2VOZzd`，不是第二个运行项目或模型队列。
+  **原主工作树158绑定仍0变化，原Run和8B PID均不变。不要现在cherry-pick。**
+- 仅修改现有`experiments/openexempt_online.py`、原测试文件，并加一页设计说明。
+  version10隐藏operator字段而保留原法条/指导，已发布法条显式null调用、未发布
+  法条仍可inline；宿主不选资格、不补法条/名字/数值。不新增语义层、模型或fallback。
+- 修订请求复用必须缓存原生response，不缓存已算答案。跨阶段与同批两库统一走
+  `answer`再按当前库执行，回执绑定`execution_bank_sha256`；删除同批复制结果捷径。
+  不改变4096容量、TRAIN准入、教师次数、原评分或数据边界。其前瞻性效果未知。
+- 16项定向CPU检查0.20s通过，1项原评分测试因工作树未链接上游而未运行，评分
+  实现未改。三种已反馈TRAIN上下文的实际schema在服务xgrammar0.1.23解析成功，
+  不等于完整vLLM/8B调用。**0新增模型/教师调用，不再追加CPU资格测试。**
+- 六个源/检查工件已双盘逐成员核验，归档名
+  `compiled_call_contract_preparation_20261020-source_and_CPU.tar.gz`。
+  工作树内`artifacts/compiled_call_contract_preparation_20261020/`含实现回执与备份回执；
+  完整说明`docs/research/COMPILED_NUMERICAL_CALL_CONTRACT_20261020.md`。
+- 待当前有界v9试验结束或按原规则停止、终态保全后，结合B5–B6决定是否合入并
+  冻结真正的新数据/多批Run。不把v9旧回答CPU改null后计算的分数称为v10成绩；
+  若旧链路真实恢复，也不为使用新代码机械重启。金额执行不能自动解决法条遗漏。
+
 ## 下一直接工作与停止边界
 
 直接核当前B5–B6新案及真实教师/准入，按原有界研究或预定连续伤害止损。
@@ -202,9 +244,11 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 且预算拒绝和效果拒绝必须区分；不以放宽门槛/容量或后验截取好改动制造进化。
 若后续仍停滞，下一有据的结构候选是把法律选择
 指导与数值程序执行分离，使纯程序修订不必触发原生重新推导；详见下一步草案。
-它尚未实现/验证；不能声称自动调用便能补回遗漏法条，更不允许用Gold分类或修答案。
+它已在上述隔离分支实现，尚未采用或原生验证；不能声称自动调用便能补回遗漏
+法条，更不允许用Gold分类或修答案。不要重复创建分支或重写同一实现。
 60的EC/EV失配进一步支持检验EV共享分类指导，而非硬过滤到一次EC答案；旧B1已
-发现EC/EV各自有对方漏项，不能把预测EC当Gold。现阶段仍先看B4真实准入及B5–B6。
+发现EC/EV各自有对方漏项，不能把预测EC当Gold。当前隔离实现没有改指导作用域；
+先看B5–B6真实结果，不同时叠加未经验证的分类级联、字段体系或额外模型。
 
 尚缺：足量正式预冻结数据、成熟经验方法公平对比及总成本、独立学习重复、来源级
 不确定性、适当法律迁移、冻结最终库后的隔离TEST、实证支持的新贡献。Goal不完成。
@@ -231,6 +275,9 @@ session47498已终态，不重启；结果在`official_nonthinking_C1_all_B1_202
 小时复核：`official_sampling_hourly0528_actual_direction_review.json`。第二候选4113tokens
 被预算拒绝、未重放；B5已自动开始，不要误续成仍在等待B4或模型停止。
 109个B4最终/小时工件已双盘核验，见`official_sampling_B4_final_hourly0528_preservation.json`。
+最新B5：`official_sampling_B5_fresh_forward_skill_and_failure_sensitivity_audit.json`。
+隔离实现与双盘：`compiled_call_contract_preparation_20261020_receipt.json`及
+`compiled_call_contract_preparation_20261020_preservation.json`。不要混成B5更新后的方法。
 粒度与CPU准备：`official_sampling_B3_AZ_edit_granularity_and_request_dependency_audit.json`、
 `synthetic_same_call_different_program_CPU_only_20261020.json`、`synthetic_compiled_call_schema_CPU_only_20261020.json`。
 只读机制前缀：`official_sampling_public_source_and_asset_overlap_readonly_audit`、
