@@ -1,16 +1,21 @@
 # LegalSkillEvolve — legal skill learning with a frozen 8B
 
 2026-10-20: the research Goal is active; the old ContractNLI and opaque-label
-OpenExempt runs are stopped and preserved. The next bounded online episode uses
-readable public legal citations, explicit given-AE skill scopes and the same
-single frozen Qwen3-8B, with strong empty and frozen-initial controls. See the
-[readable-reference protocol](docs/research/OPENEXEMPT_READABLE_NAMESPACE_20261020.md).
+OpenExempt greedy-decoding runs are stopped and preserved. The next bounded
+online episode keeps readable public legal citations, explicit given-AE skill
+scopes and the same single frozen Qwen3-8B, with strong empty and frozen-initial
+controls. All arms use the pinned model's official thinking sampling rather than
+the observed repetition-prone greedy profile. See the
+[prospective six-batch protocol](docs/research/OPENEXEMPT_OFFICIAL_SAMPLING_20261020.md).
 Original generated TRAIN inputs, native scoring, failures, physical costs and
 two-disk backups are retained. No separate validation set, test-label access,
 answer repair or model replacement is introduced.
-The earlier eight-source episode showed some EV transfer but no net EC transfer;
-two fixed known-TRAIN interventions exposed an unnecessary opaque-ID burden.
-Neither result establishes paper-scale significance, mature-method superiority
+Earlier evidence exposed opaque-ID burden and unclosed-thinking repetition, not
+a successful complete learning method. Four pre-fixed known-TRAIN sampling
+interventions removed the three selected length failures, while a valid empty
+control's F1 decreased; these are diagnosis, not new-case method scores. A new
+24-source/six-batch episode is still development, not adequate formal scale.
+No result yet establishes paper-scale significance, mature-method superiority
 or final held-out performance. Legal task and mechanism remain open under the
 [full research goal](docs/research/RESEARCH_RESET_20261019.md).
 
