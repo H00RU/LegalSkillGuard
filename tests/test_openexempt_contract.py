@@ -140,6 +140,7 @@ def test_frozen_initial_control_shares_native_plan_not_computed_answer(monkeypat
     study.native, study.summaries = [], []
     study.request_cache, study.reuse_events = {}, []
     study.prequential_empty, study.prequential_skills, study.prequential_frozen = [], [], []
+    study.prequential_direct = []
     study.out = tmp_path
     written = {}
     monkeypatch.setattr(RunStore, "immutable_json", lambda p, v: written.update({str(p): copy.deepcopy(v)}))
@@ -152,6 +153,8 @@ def test_frozen_initial_control_shares_native_plan_not_computed_answer(monkeypat
         ref = "Ariz. Rev. Stat. section 33-1123"
         if metadata["family"] == "EC":
             value = {"watch": [ref]}
+        elif metadata["arm"] == "empty_direct_numeric":
+            value = {"watch": [{"citation_ref": ref, "claim_value": 30}]}
         else:
             value = {"assets": [{"asset_name": "watch", "asset_value": 40, "claims": [{
                 "citation_ref": ref,
@@ -167,8 +170,8 @@ def test_frozen_initial_control_shares_native_plan_not_computed_answer(monkeypat
     study.update = lambda *args: {"bank_sha256": canonical_json_sha256(study.bank),
                                  "parent_bank_sha256": canonical_json_sha256(study.bank)}
     assert study.execute() == "completed_bounded_mechanism_study"
-    assert len(study.native) == 4  # Two families x empty/initial, not six requests.
-    assert study.summaries[0]["prequential_actual_new_native_calls"] == 4
+    assert len(study.native) == 5  # EC direct shares empty; EV numeric is genuinely new.
+    assert study.summaries[0]["prequential_actual_new_native_calls"] == 5
     assert study.summaries[0]["online_minus_frozen"]["mean_f1_difference"] == 0
     assert len(study.prequential_frozen) == len(study.prequential_skills) == 2
     frozen_ev = study.prequential_frozen[1]
@@ -178,6 +181,8 @@ def test_frozen_initial_control_shares_native_plan_not_computed_answer(monkeypat
     assert frozen_ev["raw_call_path"] == online_ev["raw_call_path"]
     assert online_ev["execution_receipt"]["execution_bank_sha256"] == canonical_json_sha256(study.bank)
     assert frozen_ev["execution_receipt"]["execution_bank_sha256"] == canonical_json_sha256(study.frozen_bank)
+    assert len(study.prequential_direct) == 2
+    assert study.prequential_direct[1]["parsed"]["answer"]["watch"][0]["claim_value"] == 30
 
 
 def test_irrelevant_namespace_updates_do_not_change_the_actual_request():
@@ -399,3 +404,33 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
     assert feedback["full_replay_task_count"] == 48
     assert len(feedback["actual_replay"]) == 40
     assert {r["case_id"] for r in feedback["actual_replay"]} == ids
+
+
+def test_strong_direct_numeric_empty_is_not_a_program_or_host_repaired_answer(tmp_path, monkeypatch):
+    from jsonschema import validate
+
+    row = {"case_id": 1, "source_key": "synthetic", "family": "EV", "prompt": "public",
+           "solution": "SECRET", "components": copy.deepcopy(COMPONENTS)}
+    messages, schema, supplied = actor_payload(row, [], direct_numeric=True)
+    assert not supplied and "SECRET" not in str(messages)
+    assert "limit_expression" not in str(schema) and "asset_value" not in str(schema)
+    assert all(row["components"][key] in messages[-1]["content"] for key in ACTIVE_CASE_FIELDS)
+    numeric = {"unsupported original name": [{"citation_ref":
+        "Ariz. Rev. Stat. section 33-1123", "claim_value": 999}]}
+    validate(numeric, schema)
+    ec = {**row, "family": "EC"}
+    assert actor_payload(ec, [])[:2] == actor_payload(ec, [], direct_numeric=True)[:2]
+    with pytest.raises(ValueError):
+        actor_payload(row, [{"id": "not empty"}], direct_numeric=True)
+    monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
+    study = Online.__new__(Online)
+    study.cfg = {"execution_contract": "source_grounded_claim_operations",
+                 "generation": {"seed": 45, "max_tokens": 100}}
+    study.out, study.request_cache, study.reuse_events, study.native = tmp_path, {}, [], []
+    study.check = lambda: None
+    study.progress = lambda *a, **k: None
+    study.call = lambda *args, **kwargs: {"content": json.dumps(numeric), "finish_reason": "stop"}
+    result = study.answer(row, [], "direct", "empty_direct_numeric")
+    assert result["parsed"]["answer"] == {"unsupported original name": [
+        {"citation": "Ariz. Rev. Stat. § 33-1123", "claim_value": 999}]}
+    assert result["native_program"] is None and result["execution_receipt"] is None

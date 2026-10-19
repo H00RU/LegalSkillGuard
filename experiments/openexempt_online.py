@@ -43,6 +43,7 @@ from legal_skill_guard.learning.legal_namespace import (
     allowable_namespaces,
     decode_claim_plan,
     decode_classification,
+    decode_reference,
     public_catalog,
     statutory_catalog,
     validate_scopes,
@@ -52,6 +53,7 @@ from legal_skill_guard.learning.publication import (
     differential_schema,
 )
 from legal_skill_guard.openexempt import (
+    ACTIVE_CASE_FIELDS,
     FAMILIES,
     ROOT,
     UPSTREAM,
@@ -80,6 +82,23 @@ ACTOR_SYSTEM = (
     "citation label IDs from the supplied vocabulary, or [] if none. A label is only "
     "the predeclared encoding of its displayed citation; decide legal eligibility yourself."
 )
+DIRECT_NUMERIC_SYSTEM = (
+    "Apply only the original facts, supplied statutes and public solved steps. "
+    "Answer the original EV task directly: map actual asset descriptions to ALL "
+    "independently applicable citation_ref/claim_value alternatives, or [] if none. "
+    "Each public reference only encodes its displayed citation, not eligibility. "
+    "Calculate numeric claim_value amounts yourself. Return the exact JSON answer, "
+    "not a program, an explanation, a selected portfolio, or a skill-use report."
+)
+
+
+def numeric_case_input(row):
+    content = "\n\n".join(row["components"][key] for key in ACTIVE_CASE_FIELDS
+                          if row["components"][key])
+    return content + ("\n\nOutput contract: Return only a JSON object mapping actual asset "
+        "descriptions to arrays of citation_ref and numeric claim_value objects, or [] if none.")
+
+
 AUTHOR_SYSTEM = (
     "Improve a frozen Qwen3-8B's reusable legal task skills from ACTUAL already-seen "
     "OpenExempt TRAIN cases. All labels are training-only original benchmark feedback, "
@@ -213,16 +232,19 @@ def visible(bank, family):
     return [copy.deepcopy(s) for s in bank if family in s["hypothesis_ids"]]
 
 
-def actor_payload(row, bank, *, grounded=True):
+def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
     if not grounded:
         raise ValueError("Only the public-namespace claim contract is implemented")
+    if direct_numeric and bank:
+        raise ValueError("The direct numeric EMPTY control cannot receive skills")
     supplied = visible(active_bank(row, bank), row["family"])
     # The interpreter retains the actual programs. Only procedural guidance is
     # rendered to the actor, so a pure body update cannot perturb its choices.
     delivered = copy.deepcopy(supplied)
     for skill in delivered:
         skill["guidance"].pop("operators", None)
-    system = PROGRAM_ACTOR_SYSTEM if row["family"] == "EV" else ACTOR_SYSTEM
+    system = ((DIRECT_NUMERIC_SYSTEM if direct_numeric else PROGRAM_ACTOR_SYSTEM)
+              if row["family"] == "EV" else ACTOR_SYSTEM)
     messages = [{"role": "system", "content": system}]
     if delivered:
         messages.append({"role": "user", "content":
@@ -234,9 +256,15 @@ def actor_payload(row, bank, *, grounded=True):
         "Public citation label vocabulary. These are public headers in the already-given "
         "allowable jurisdictions, NOT an asset-eligibility answer:\n" +
         json.dumps(catalog, ensure_ascii=False, separators=(",", ":")) +
-        "\n\n" + active_case_input(row)})
+        "\n\n" + (numeric_case_input(row) if direct_numeric and row["family"] == "EV"
+                    else active_case_input(row))})
     labels = {"type": "string", "enum": list(catalog)}
-    if row["family"] == "EV":
+    if row["family"] == "EV" and direct_numeric:
+        schema = answer_schema("EV")
+        claim = schema["additionalProperties"]["items"]
+        claim["required"] = ["citation_ref", "claim_value"]
+        claim["properties"] = {"citation_ref": labels, "claim_value": {"type": "number"}}
+    elif row["family"] == "EV":
         schema = claim_answer_schema(supplied)
         operators = operator_catalog(supplied)
         if set(operators) - set(catalog.values()):
@@ -418,6 +446,7 @@ class Online:
                 raise ValueError("Initialization changed historical knowledge")
         self.frozen_bank = copy.deepcopy(self.bank)
         self.prequential_empty, self.prequential_skills, self.prequential_frozen = [], [], []
+        self.prequential_direct = []
         self.meter = WireClient(self.cfg["generation"])
         self.out.mkdir(parents=True)
         RunStore.immutable_json(self.out / "initialization.json", {
@@ -445,7 +474,9 @@ class Online:
     def answer(self, row, bank, stage, arm):
         self.check()
         grounded = self.cfg.get("execution_contract") == "source_grounded_claim_operations"
-        messages, schema, supplied = actor_payload(row, bank, grounded=grounded)
+        direct = arm == "empty_direct_numeric"
+        messages, schema, supplied = actor_payload(row, bank, grounded=grounded,
+                                                   direct_numeric=direct)
         catalog = public_catalog(row)
         fingerprint = csha({"messages": messages, "schema": schema,
                             "generation": self.cfg["generation"]})
@@ -454,12 +485,14 @@ class Online:
             "messages": messages, "schema": schema, "bank_sha256": csha(bank),
             "delivered_skill_ids": [s["id"] for s in supplied],
             "original_prompt_sha256": csha(row["prompt"]),
-            "actual_active_case_input_sha256": csha(active_case_input(row)),
+            "actual_active_case_input_sha256": csha(numeric_case_input(row)
+                if direct and row["family"] == "EV" else active_case_input(row)),
             "public_citation_catalog": catalog,
             "public_allowable_jurisdictions": sorted(allowable_namespaces(row)),
             "public_citation_catalog_sha256": csha(catalog),
             "numerical_program_bodies_rendered_to_actor": False,
-            "published_citation_calls_required_by_schema": row["family"] == "EV",
+            "published_citation_calls_required_by_schema": row["family"] == "EV" and not direct,
+            "direct_numeric_empty_control": direct,
             "format_only_demonstrations_not_in_inference_input": True,
             "no_private_case_annotations_or_current_target": True})
         alias = None
@@ -500,7 +533,7 @@ class Online:
             parse_error = "Incomplete native output: " + str(response["finish_reason"])
         public_label_submission = copy.deepcopy(parsed)
         native_program, execution_receipt, execution_error = None, None, None
-        if grounded and row["family"] == "EV" and parse_error is None:
+        if grounded and row["family"] == "EV" and not direct and parse_error is None:
             native_program = decode_claim_plan(parsed, catalog)
             try:
                 answer, execution_receipt = execute_claims(native_program["assets"],
@@ -511,6 +544,12 @@ class Online:
             except InvalidClaimProgram as exc:
                 execution_error = repr(exc)
                 parse_error = "Invalid explicitly submitted action: " + execution_error
+        elif parse_error is None and row["family"] == "EV":
+            # Only the shared public-label bijection. No computation, clamping,
+            # semantic repair, names/value normalization or second generation.
+            parsed = {"answer": {name: [{"citation": decode_reference(c["citation_ref"], catalog),
+                                        "claim_value": c["claim_value"]} for c in claims]
+                                  for name, claims in parsed.items()}}
         elif parse_error is None:
             # Original root task answer; this wrapper is internal storage only,
             # not an additional model-generated explanation or second answer.
@@ -705,11 +744,11 @@ class Online:
                 return row.get("batch", (row["case_id"] - 1) // batch_size + 1)
             current = [r for r in self.rows if batch_of(r) == batch]
             seen = [r for r in self.rows if batch_of(r) <= batch]
-            empty, skills, frozen = [], [], []
+            empty, skills, frozen, direct = [], [], [], []
             native_before = len(self.native)
             for row in current:
                 # Fixed rotation, and exact-wire sharing only. No quality selection.
-                arms = ("empty", "frozen_initial", "skills")
+                arms = ("empty", "frozen_initial", "skills", "empty_direct_numeric")
                 offset = (row["case_id"] + FAMILIES[row["family"]]) % len(arms)
                 arms = arms[offset:] + arms[:offset]
                 answers = {}
@@ -721,17 +760,22 @@ class Online:
                 empty.append(answers["empty"])
                 skills.append(answers["skills"])
                 frozen.append(answers["frozen_initial"])
+                direct.append(answers["empty_direct_numeric"])
             # Current labels are first read only after ALL current arms exist.
-            self.grade(empty + skills + frozen)
+            self.grade(empty + skills + frozen + direct)
             RunStore.immutable_json(self.out / "batches" / f"b{batch}_prequential_records.json",
-                                    {"empty": empty, "skills": skills, "frozen_initial": frozen})
+                                    {"empty": empty, "skills": skills, "frozen_initial": frozen,
+                                     "empty_direct_numeric": direct})
             self.prequential_empty.extend(empty)
             self.prequential_skills.extend(skills)
             self.prequential_frozen.extend(frozen)
+            self.prequential_direct.extend(direct)
             pre = {"batch": batch, "source_cases": batch_size, "tasks_per_arm": len(current),
                    "empty": metrics(empty), "skills": metrics(skills), "frozen_initial": metrics(frozen),
+                   "empty_direct_numeric": metrics(direct),
                    "effect": paired_effect(empty, skills), "parent_bank_sha256": csha(self.bank),
                    "online_minus_frozen": paired_effect(frozen, skills),
+                   "online_minus_direct_numeric": paired_effect(direct, skills),
                    "prequential_actual_new_native_calls": len(self.native) - native_before,
                    "parent_skill_count": len(self.bank), "official_test_opened": False}
             RunStore.immutable_json(self.out / "batches" / f"b{batch}_prequential.json", pre)
@@ -745,9 +789,12 @@ class Online:
             self.progress("batch_complete", latest_batch=pre)
             # A fixed falsification stop, not a choice of an earlier winning bank.
             recent = self.summaries[-2:]
-            if len(recent) == 2 and all(r["parent_skill_count"] and
+            # B1 is the blind prior, not online experience. Repeated evolution
+            # harm is assessed from B2 onward, never from a cold B1 alone.
+            if batch >= 3 and len(recent) == 2 and all(r["parent_skill_count"] and
                     (r["effect"]["mean_f1_difference"] < -0.02
                      or r["online_minus_frozen"]["mean_f1_difference"] < -0.02
+                     or r["online_minus_direct_numeric"]["mean_f1_difference"] < -0.02
                      or r["skills"]["EV"]["full_output_f1"]
                         < r["frozen_initial"]["EV"]["full_output_f1"] - 0.02) for r in recent):
                 return "stopped_repeated_forward_harm"
@@ -762,8 +809,11 @@ class Online:
                           "prequential_empty": metrics(self.prequential_empty),
                           "prequential_skills": metrics(self.prequential_skills),
                           "prequential_frozen_initial": metrics(self.prequential_frozen),
+                          "prequential_empty_direct_numeric": metrics(self.prequential_direct),
                           "paired": paired_effect(self.prequential_empty, self.prequential_skills),
                           "online_minus_frozen": paired_effect(self.prequential_frozen, self.prequential_skills),
+                          "online_minus_direct_numeric": paired_effect(self.prequential_direct,
+                                                                        self.prequential_skills),
                           "actual_native_calls": len(self.native),
                           "actual_teacher_responses": len(self.teachers),
                           "actual_teacher_attempts": self.teacher_attempts,
