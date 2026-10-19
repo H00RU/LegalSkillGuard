@@ -23,6 +23,17 @@ from jsonschema import validate
 
 from legal_skill_guard.experiment.storage import RunStore
 from legal_skill_guard.inference.native import WireClient
+from legal_skill_guard.learning.claim_execution import (
+    InvalidClaimProgram,
+    execute_claims,
+    execute_limit,
+    law_blocks,
+    operator_catalog,
+    operator_schema,
+)
+from legal_skill_guard.learning.claim_execution import (
+    answer_schema as claim_answer_schema,
+)
 from legal_skill_guard.learning.experiment import Comparison, now, read, sha
 from legal_skill_guard.learning.publication import (
     apply_differential_publication,
@@ -43,6 +54,10 @@ GUIDANCE = {"type": "object", "additionalProperties": False,
             "required": ["when", "procedure", "avoid_when"], "properties": {
                 key: {"type": "string", "minLength": 1}
                 for key in ("when", "procedure", "avoid_when")}}
+EXECUTABLE_GUIDANCE = copy.deepcopy(GUIDANCE)
+EXECUTABLE_GUIDANCE["required"].append("operators")
+EXECUTABLE_GUIDANCE["properties"]["operators"] = {
+    "type": "array", "items": operator_schema()}
 ACTOR_SYSTEM = (
     "Apply ONLY the supplied statutes to the original OpenExempt facts and the "
     "public solved reasoning steps. Do not use outside law. Solve the requested "
@@ -92,20 +107,76 @@ AUTHOR_SYSTEM = (
     "a benchmark solver. No tools or outside information. Return exact delta JSON."
 )
 
+PROGRAM_ACTOR_SYSTEM = (
+    "Apply ONLY the supplied OpenExempt statutes, original facts and public solved steps. "
+    "You select legal eligibility and citations yourself. Optional historical skills are "
+    "fallible; operator availability never proves that an asset qualifies. Do not use outside law. "
+    "For EV submit an explicit executable claim plan, NOT final monetary answers. This replaces "
+    "only the original FINAL ANSWER formatting. public_checks is a source-supported audit of "
+    "at most80 words, not private reasoning. assets contains asset_name, value_quote, claims. "
+    "Copy the exact asset noun phrase without paraphrasing. value_quote must be a contiguous "
+    "EXACT substring of the original Facts, containing that asset name and exactly ONE dollar "
+    "value. Isolate the asset-value phrase when a sentence mentions several assets. Never quote "
+    "an example, statutory ceiling, or unrelated asset as its market value. The executor reads "
+    "the quoted value V mechanically; no hidden asset information is available. "
+    "For each legally applicable citation select exactly ONE action: set operator_id to a "
+    "published skill/operator ID and limit_program to null, OR set operator_id to null and "
+    "write the full limit_program inline. Both actions use IDENTICAL arithmetic semantics. "
+    "Do not omit an applicable citation merely because no learned operator covers it. "
+    "limit_program is a reverse-Polish stack array of instructions. Every instruction has "
+    "op,citation,literal,number; unused payload fields must be null. LAW pushes a currency "
+    "literal copied exactly from that ORIGINAL public statute header's body, using citation "
+    "and literal and number=null. CONST pushes number0/1/2 only, with citation/literal=null. "
+    "DEBTORS pushes1 or2 from the public Debtor/Debtors marker, other fields null. "
+    "ADD,SUB,MUL,DIV,MIN,MAX pop the last two values left then right and push the result, "
+    "with all payload fields null. IF_TWO pops a single-debtor ceiling then a two-debtor "
+    "ceiling and selects the latter only for two debtors; payload fields null. A nonempty "
+    "program must leave one nonnegative ceiling C. [] explicitly means this citation has "
+    "NO dollar ceiling; do not use it for a capped exemption. No invented numeric constants. "
+    "The task executor produces claim_value=V for an unlimited claim, otherwise min(V,C), "
+    "independently for every asset-citation pair, as required by this task. It does not choose "
+    "laws, add citations, infer eligibility, consult references, or repair a proposed answer. "
+    "Invalid source quotes or programs are failed attempts, not fallback paths. You must "
+    "still determine lawful caps, spouse conditions, cross-references and every applicable "
+    "citation. Return the exact requested JSON plan and applied_skill_ids (or [])."
+)
+
+PROGRAM_AUTHOR_ADDITION = (
+    " The EV execution contract is now SOURCE-GROUNDED CLAIM OPERATIONS, not free final-number "
+    "generation. Each guidance also has operators, an array which may be empty. An operator "
+    "has id,citation,limit_program. Its globally callable ID is skill_id/operator_id. Write "
+    "reusable statutory CEILING programs, never asset values, case names, targets or answers. "
+    "The complete actual actor system and schema are supplied. All LAW constants must be "
+    "exact currency lexemes from their cited public clause; generic CONST accepts only0/1/2. "
+    "Use DEBTORS and arithmetic/IF_TWO only where that law supports the spouse rule. Empty "
+    "program means unlimited, not a substitute for unresolved law. Scope operators to EV. "
+    "Keep useful procedural guidance for classification, but do not spend revisions merely "
+    "restating min(V,C): the shared interpreter already executes it. Learn the legal cap, "
+    "cross-reference, category and exception operations the actual errors warrant. The "
+    "same weak model still selects the laws and original fact quotes; source validation "
+    "does not judge their legal truth. Invalid native programs and execution receipts are "
+    "actual experience. Never invent that a stored operator was called or worked. "
+    "The empty-library model can write the identical inline program: executable privilege "
+    "is not unique to the skill method. All program bodies count toward the4096-token bank."
+)
+
 
 def visible(bank, family):
     return [copy.deepcopy(s) for s in bank if family in s["hypothesis_ids"]]
 
 
-def actor_payload(row, bank):
+def actor_payload(row, bank, *, grounded=False):
     supplied = visible(bank, row["family"])
-    messages = [{"role": "system", "content": ACTOR_SYSTEM},
+    system = PROGRAM_ACTOR_SYSTEM if grounded and row["family"] == "EV" else ACTOR_SYSTEM
+    messages = [{"role": "system", "content": system},
                 {"role": "user", "content": row["prompt"]}]
     if supplied:
         messages.append({"role": "user", "content":
                          "Optional reusable historical skills (not current answers):\n" +
                          json.dumps(supplied, ensure_ascii=False, separators=(",", ":"))})
-    return messages, answer_schema(row["family"], bank), supplied
+    schema = claim_answer_schema(row["components"]["statutes"], supplied) if (
+        grounded and row["family"] == "EV") else answer_schema(row["family"], bank)
+    return messages, schema, supplied
 
 
 def acceptance(parent_current, candidate_current, parent_prior, candidate_prior):
@@ -145,6 +216,8 @@ def freeze(config_path):
                   ROOT / "uv.lock", ROOT / "README.md",
                   ROOT / "tests/test_openexempt_contract.py",
                   ROOT / cfg["inference_environment"], ROOT / cfg["upstream_archive"]})
+    if cfg.get("initial_library_publication"):
+        files.add(ROOT / cfg["initial_library_publication"])
     bindings = {str(p.relative_to(ROOT)): sha(p) for p in sorted(files)}
     packages = {dist.metadata["Name"]: dist.version for dist in importlib.metadata.distributions()}
     manifest = {"config_sha256": sha(config_path), "files": bindings, "packages": packages,
@@ -198,9 +271,26 @@ class Online:
         self.native, self.teachers, self.teacher_attempts = [], [], 0
         self.current_batch, self.stop = 0, False
         self.bank, self.latest, self.summaries = [], {}, []
+        if self.cfg.get("initial_library_publication"):
+            initial = read(ROOT / self.cfg["initial_library_publication"])["bank"]
+            self.bank = copy.deepcopy(initial)
+            for skill in self.bank:
+                if "operators" in skill["guidance"]:
+                    raise ValueError("This initialization must preserve the original prose-only bank")
+                skill["guidance"]["operators"] = []
+            # Only an explicit empty executable field is added; no learned text is rewritten.
+            check = copy.deepcopy(self.bank)
+            for skill in check:
+                del skill["guidance"]["operators"]
+            if check != initial:
+                raise ValueError("Initialization changed historical knowledge")
         self.prequential_empty, self.prequential_skills = [], []
         self.meter = WireClient(self.cfg["generation"])
         self.out.mkdir(parents=True)
+        RunStore.immutable_json(self.out / "initialization.json", {
+            "bank": self.bank, "parent_publication": self.cfg.get("initial_library_publication"),
+            "warm_source_case_ids": self.cfg.get("warm_source_case_ids", []),
+            "not_all_episode_sources_are_fresh": bool(self.cfg.get("warm_source_case_ids"))})
         for sig in (signal.SIGINT, signal.SIGTERM):
             signal.signal(sig, lambda *_: setattr(self, "stop", True))
         self.check()
@@ -217,7 +307,8 @@ class Online:
 
     def answer(self, row, bank, stage, arm):
         self.check()
-        messages, schema, supplied = actor_payload(row, bank)
+        grounded = self.cfg.get("execution_contract") == "source_grounded_claim_operations"
+        messages, schema, supplied = actor_payload(row, bank, grounded=grounded)
         path = self.out / "native" / stage / f"{row['case_id']}_{row['family']}_{arm}.json"
         RunStore.immutable_json(path.with_suffix(".input.json"), {
             "messages": messages, "schema": schema, "bank_sha256": csha(bank),
@@ -241,10 +332,23 @@ class Online:
             parse_error = repr(exc)
         if response["finish_reason"] != "stop":
             parse_error = "Incomplete native output: " + str(response["finish_reason"])
+        native_program, execution_receipt, execution_error = None, None, None
+        if grounded and row["family"] == "EV" and parse_error is None:
+            native_program = copy.deepcopy(parsed)
+            try:
+                answer, execution_receipt = execute_claims(parsed["assets"],
+                    row["components"]["facts"], row["components"]["statutes"], supplied)
+                parsed = {"public_checks": parsed["public_checks"], "answer": answer,
+                          "applied_skill_ids": parsed["applied_skill_ids"]}
+            except InvalidClaimProgram as exc:
+                execution_error = repr(exc)
+                parse_error = "Invalid explicitly submitted action: " + execution_error
         result = {"case_id": row["case_id"], "source_key": row["source_key"],
                   "family": row["family"], "stage": stage, "arm": arm,
                   "bank_sha256": csha(bank), "parsed": parsed,
                   "parse_error": parse_error, "raw_call_path": str(path.relative_to(ROOT)),
+                  "native_program": native_program, "execution_receipt": execution_receipt,
+                  "execution_error": execution_error,
                   "delivered_skill_ids": [s["id"] for s in supplied]}
         RunStore.immutable_json(path.with_suffix(".answer.json"), result)
         return result
@@ -268,6 +372,21 @@ class Online:
         contracts = {r["family"]: {k: r["components"][k] for k in
                      ("instruction", "meta_instruction", "response_format", "format_reminder")}
                      for r in seen}
+        grounded = self.cfg.get("execution_contract") == "source_grounded_claim_operations"
+
+        def observation_view(record):
+            if not grounded:
+                return record
+            receipt = record.get("execution_receipt")
+            return {"case_id": record["case_id"], "family": record["family"],
+                    "native_program": record.get("native_program"),
+                    "executed_answer": (record.get("parsed") or {}).get("answer"),
+                    "parse_error": record["parse_error"], "execution_error": record.get("execution_error"),
+                    "score": record["score"], "actual_operations": None if receipt is None else [
+                        {k: op[k] for k in ("asset_name", "asset_value", "citation", "operator_id",
+                                           "limit", "claim_value")}
+                        for op in receipt["actual_claim_operations"]]}
+
         cases = []
         for row in seen:
             target = read(ROOT / self.cfg["grading_directory"] /
@@ -277,11 +396,25 @@ class Online:
                           "public_solved_steps": row["components"]["solved_steps"],
                           "public_statutes_ref": csha(row["components"]["statutes"]),
                           "original_training_target": target,
-                          "actual_parent_answer": observations[(row["case_id"], row["family"])]})
+                          "actual_parent_answer": observation_view(
+                              observations[(row["case_id"], row["family"])])})
+        rejected_view = []
+        for decision in rejected:
+            value = {k: v for k, v in decision.items() if k != "actual_replay"}
+            if "actual_replay" in decision:
+                value["actual_replay"] = [observation_view(r) for r in decision["actual_replay"]]
+            rejected_view.append(value)
+        actual_contracts = {family: actor_payload(next(r for r in seen if r["family"] == family),
+                                               self.bank, grounded=grounded)[:2]
+                            for family in FAMILIES}
         return {"current_source_case_ids": sorted({r["case_id"] for r in current}),
                 "current_parent_library": self.bank, "task_contracts": contracts,
                 "actual_actor_system": ACTOR_SYSTEM, "complete_public_statutes": statutes,
-                "already_seen_training": cases, "rejected_candidate_feedback": rejected,
+                "actual_system_and_response_schema_by_family": {
+                    f: {"system": m[0]["content"], "response_schema": s}
+                    for f, (m, s) in actual_contracts.items()},
+                "already_seen_training": cases, "rejected_candidate_feedback": rejected_view,
+                "program_and_result_view_omits_only_duplicate_CPU_trace_provenance": grounded,
                 "future_cases_and_labels_not_supplied": True}
 
     def update(self, current, seen, parent_current):
@@ -291,14 +424,35 @@ class Online:
         observations = {**self.latest, **{(r["case_id"], r["family"]): r for r in parent_current}}
         rejected = []
         decisions = []
+        grounded = self.cfg.get("execution_contract") == "source_grounded_claim_operations"
+        guidance_schema = EXECUTABLE_GUIDANCE if grounded else GUIDANCE
         for attempt in range(1, self.cfg["max_candidate_attempts"] + 1):
             name = f"b{self.current_batch}_candidate{attempt}"
-            delta = self.teacher_call(name, AUTHOR_SYSTEM,
+            delta = self.teacher_call(name, AUTHOR_SYSTEM + (PROGRAM_AUTHOR_ADDITION if grounded else ""),
                 self.teacher_body(current, seen, observations, rejected),
                 differential_schema(FAMILIES, before, sorted({r["case_id"] for r in seen}),
-                                    guidance_schema=GUIDANCE))
+                                    guidance_schema=guidance_schema))
             candidate = apply_differential_publication(before, delta, FAMILIES,
-                sorted({r["case_id"] for r in seen}), guidance_schema=GUIDANCE)
+                sorted({r["case_id"] for r in seen}), guidance_schema=guidance_schema)
+            if grounded:
+                try:
+                    for skill in candidate:
+                        if skill["guidance"]["operators"] and "EV" not in skill["hypothesis_ids"]:
+                            raise InvalidClaimProgram("Claim operators require public EV scope")
+                    for operator in operator_catalog(candidate).values():
+                        # Compile/run pure source arithmetic, not a model qualification loop.
+                        for source in current:
+                            if operator["citation"] not in law_blocks(source["components"]["statutes"]):
+                                raise InvalidClaimProgram("Operator citation is not a current public header")
+                            execute_limit(operator["limit_program"], source["components"]["facts"],
+                                          source["components"]["statutes"])
+                except InvalidClaimProgram as exc:
+                    decision = {"accepted": False, "candidate": candidate, "delta": delta,
+                                "source_program_compile_error": repr(exc), "new_native_calls": 0}
+                    RunStore.immutable_json(self.out / "candidates" / f"{name}.json", decision)
+                    decisions.append(decision)
+                    rejected.append(decision)
+                    continue
             tokens = self.meter.token_count(text=json.dumps(candidate, ensure_ascii=False,
                                                             separators=(",", ":")))
             if tokens > self.cfg["library_token_hard_cap"]:
@@ -341,8 +495,10 @@ class Online:
         total = self.cfg["source_cases"] // batch_size
         for batch in range(1, total + 1):
             self.current_batch = batch
-            current = [r for r in self.rows if (r["case_id"] - 1) // batch_size + 1 == batch]
-            seen = [r for r in self.rows if r["case_id"] <= batch * batch_size]
+            def batch_of(row):
+                return row.get("batch", (row["case_id"] - 1) // batch_size + 1)
+            current = [r for r in self.rows if batch_of(r) == batch]
+            seen = [r for r in self.rows if batch_of(r) <= batch]
             empty, skills = [], []
             for row in current:
                 # Alternation is fixed in advance; no inference outcome selection.

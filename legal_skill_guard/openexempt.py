@@ -77,41 +77,67 @@ def prepare(config):
         settings[name] = str(UPSTREAM / settings[name])
     settings["output_directory"] = str(packet_path.parent / "unused_upstream_output")
     settings["start_task_id"] = 2
-    count = config["source_cases"]
+    warm_ids = config.get("warm_source_case_ids", [])
+    count = config["source_cases"] - len(warm_ids)
+    if count < 1 or len(warm_ids) != len(set(warm_ids)):
+        raise ValueError("A positive fresh-source count and distinct warm IDs are required")
     settings["dataset_size"] = count
     random.seed(config["dataset_seed"])
     configs = {f: Config({**settings, "terminal_task_id": i}, "train_" + f, False)
                for f, i in FAMILIES.items()}
     cases = CaseGenerator(configs["EC"])
     generators = {f: TaskGenerator(c) for f, c in configs.items()}
-    public_rows, groups = [], []
+    public_rows, groups, excluded_keys = [], [], set()
+    if warm_ids:
+        parent_rows = json.loads((ROOT / config["warm_source_packet"]).read_text())["rows"]
+        excluded_keys = {r["source_key"] for r in parent_rows}
+        for position, case_id in enumerate(warm_ids):
+            pair = [r for r in parent_rows if r["case_id"] == case_id]
+            if len(pair) != 2 or {r["family"] for r in pair} != set(FAMILIES):
+                raise ValueError("Every warm source needs its original EC/EV pair")
+            groups.append(pair[0]["source_key"])
+            public_rows.extend({**copy.deepcopy(r), "batch": position // config["batch_source_cases"] + 1}
+                               for r in pair)
+            old_grade = ROOT / config["warm_grading_directory"] / f"{case_id}.json"
+            old_case = old_grade.parent.parent / "construction_only" / f"{case_id}.json"
+            for destination, original in (
+                    (ROOT / config["grading_directory"] / f"{case_id}.json", old_grade),
+                    (packet_path.parent / "construction_only" / f"{case_id}.json", old_case)):
+                RunStore.immutable_json(destination, json.loads(original.read_text()))
     for index in range(count):
         case = cases.generate_case()
         source_key = public_case_key(case)
-        if source_key in groups:
+        if source_key in groups or source_key in excluded_keys:
             raise ValueError("Duplicate generated case; do not silently reroll")
         groups.append(source_key)
+        case_id = config.get("new_case_id_start", 1) + index
+        if case_id in warm_ids:
+            raise ValueError("Fresh case identity collides with a warm source")
         gold = {}
         for family, generator in generators.items():
             task = generator.generate_task(case)
             if family == "EV" and not task.solution:
-                raise ValueError(f"Original EV target is empty for fixed case {index + 1}; "
+                raise ValueError(f"Original EV target is empty for fixed case {case_id}; "
                                  "native F1 is undefined, retain selection and review without reroll")
-            public_rows.append(public_task(task, index + 1, source_key, family))
+            public_rows.append({**public_task(task, case_id, source_key, family),
+                "batch": (len(warm_ids) + index) // config["batch_source_cases"] + 1})
             gold[family] = task.solution
-        RunStore.immutable_json(ROOT / config["grading_directory"] / f"{index + 1}.json",
-                                {"case_id": index + 1, "source_key": source_key,
+        RunStore.immutable_json(ROOT / config["grading_directory"] / f"{case_id}.json",
+                                {"case_id": case_id, "source_key": source_key,
                                  "targets": gold})
-        RunStore.immutable_json(packet_path.parent / "construction_only" / f"{index + 1}.json",
+        RunStore.immutable_json(packet_path.parent / "construction_only" / f"{case_id}.json",
                                 {"never_to_actor_or_teacher": True, "case": case.serialize()})
     packet = {"rows": public_rows, "generation_seed": config["dataset_seed"],
-              "source_cases": count, "upstream_commit": COMMIT,
+              "source_cases": len(groups), "fresh_source_cases": count,
+              "warm_source_case_ids": warm_ids, "upstream_commit": COMMIT,
               "official_test_opened": False, "start_task_id": 2}
     RunStore.immutable_json(packet_path, packet)
     receipt = {"upstream_commit": COMMIT,
                "archive_sha256": sha(ROOT / config["upstream_archive"]),
                "generation_settings": settings, "seed": config["dataset_seed"],
-               "source_keys": groups, "source_cases": count, "tasks": len(public_rows),
+               "source_keys": groups, "source_cases": len(groups), "tasks": len(public_rows),
+               "fresh_source_cases": count, "warm_source_case_ids": warm_ids,
+               "actual_terminal_task_ids_by_family": FAMILIES,
                "input_packet_sha256": sha(packet_path),
                "original_generator_unmodified": True, "official_test_opened": False,
                "inference_inputs_are_exact_original_Task_prompt": True}
