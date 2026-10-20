@@ -1,6 +1,6 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 09:28 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 09:43 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 **最高优先纠正：下文旧v10已因确证EOS约束缺口在07:47:30停止，43native/1教师，
 B2未完整评分/未读Gold。8B同服务已重启为PID3613253并健康；依赖修复已通过真实
 失败前缀/有效回答的CPU检查，无新GPU资格生成。新Run eos_aligned已冻结136源
@@ -73,6 +73,40 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   B2整批未完成前不读Gold。
   A40持续约23GB/49GB、97–98%忙；不是GPU不可用，也不是指标突破证明。
   下一动作是真实准入/发布及B2/B3前向，不开第二GPU队列或资格网格。
+
+### 09:43最新游标：B2已真实发布程序体修订，B3已开始
+
+**B2已在09:37:35发布C2**，不再是候选待决：7条/40程序/3473tokens，
+SHA **adedf73a724a89b2b1efcf0bc6ec7f97dfce7e259f02c96eb1ed472056936ac5**。
+实际第四教师自主仅UPDATE联邦记录的fed_home与fed_household_item两个程序体，
+文字、scope、ID和程序目录完全不变，分别从27900*N/700*N改为27900/700。
+全16已见TRAIN任务的原生请求不变，逐库真实重执行、16wire别名、**0新增8B生成**。
+本批TRAIN EC仍71.4583%，EV35.8333→42.5%、完整EV35.5556→42.2222%；
+只79_EV53.3333→80%，其余7当前任务不变，旧8任务全不变。两个失败仍失败，
+不能称输出/覆盖已解决。实际函数数40，不是拟议41，也不是新增服装程序已发布。
+
+第一整包提案实际3367tokens/41程序，16物理重答112677prompt/33553completion；
+本批EC71.4583→62.9167、EV35.8333→56.4583，旧EC70.6845→69.0972，虽EV
+改善仍因两组EC回退而拒绝。ALL/OR/PA指导、新pa_apparel和OR400修正均未发布。
+第四教师75186input/1600output、cached11392、37.371s、seq1504。其输入未带我们的
+CPU反事实报告或私有额度字段；是原算法按真实失败重放自主收缩，不是人工挑好子集。
+09:40:01实见79native/4教师/37别名，B3首案81正在生成；不读未齐四臂的B3 Gold。
+
+TRAIN机制诊断另固定C1原生决策、只执行第三教师的全部既有同ID/citation程序体
+变化（含OR，故**不等于实际C2 bank**）：0新生成，原16请求逐条与原wire一致，
+79_EV同样53.33→80、旧案不变；本批EV仅到42.5%，仍远低于两个空库。它是
+诊断，不是新候选/发布/改分/泛化证据；不得用此bank替代实际C2或说41程序已采用。
+
+B2两提案/重放/发布/审计90成员已逐文件双盘。权威工件研究前缀：
+`eos_aligned_B2_actual_program_only_publication_and_all_replay_audit.json`及preservation；
+`eos_aligned_B2_teacher_program_body_fixed_native_decision_counterfactual_TRAIN_only.json`。
+
+09:42:15又在**B3整批评分前**记录全8任务固定策略程序版本对照：已用公开输入核
+C1/C2的messages/schema完全相同，待B3全四臂完成后，对原在线plan按C1旧程序
+重执行，和实际C2比较；失败仍失败，全部81–84都纳入，不是第五个独立原生臂、
+不重答、不挑好bank或替换主分。计划`eos_aligned_B3_fixed_policy_parent_program_transfer_plan.json`
+及preservation已双盘。用于核学到的数值操作是否真的跨案，不能替代主方法对
+强空库/成熟方法胜利。当前继续B3，guard48912按原双批伤害边界，小时复核10:28。
 
 ### 09:27：B2完整负结果、精确断点与真实程序学习候选
 
