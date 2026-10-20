@@ -1,6 +1,6 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 15:37 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 16:15 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 **当前唯一训练是v11 task_scoped，15:06:37真正后台启动，Run
 legal_openexempt_task_scoped_online_20261020_run01，unit
 legal-openexempt-task-scoped-20261020-run01.service，主PID62179/ticks448651457。
@@ -11,9 +11,14 @@ B3+B4完整四臂伤害规则，只信号精确主PID，不杀模型，不因观
 不热改。策略task_local；whole_bank仅同接口消融入口，未开额外队列。
 32新来源117–148、四批各8，seed2026102006，排除9旧packet；新packet hash90a5772a...。
 原blind C0无损转换hashaa3dffda...，7条/40程序/3539tokens、零训练经验；不继承
-旧C1/C2/被拒候选。15:31:32亲核B1源120、18native/0教师/11wire复用，尚无整批分数。
+旧C1/C2/被拒候选。B1完整四臂已15:59:35评分，16:13:53为候选1重放，
+51native/1教师/24wire复用；尚无新发布。初库/在线EC58.0208%、EV65.4167%，
+强直接数值空库39.7917%/54.9107%，程序空库39.7917%/45.4464%。
 实际EC input已核只送EC投影、无EV程序，固定C0/online同wire不是独立采样或进化。
-新B1未完整，未读其grading/私有构造内容/官方TEST，不报收益或Goal完成。
+本批online等于C0，以上是静态先验收益，不是在线进化；B1全预测后才读其标签。
+B2以后Gold/私有构造和官方TEST仍未读。候选5UPDATE、7条/40程序/3749tokens；
+EC/EV都改。若只接受EC或EV，混合库实际4262/4168tokens，超过同4096上限，
+记录真实容量风险，不热改上限或自动压缩；须等全重放和实际发布决定。
 旧explicit_calls已15:03:02按15:00:17事前、与成绩无关的B3前向结束计划终态。
 200native/3教师、无B3新发布/无B4，最终实际C1；768工件双盘逐文件复核后才合入。
 旧unit failed/exit1是已核InterruptedError安全停止，不是模型退出；不要恢复旧PID，
@@ -50,6 +55,33 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   卡住先定位原始失败，再查近期权威原文/作者实现并落实，不空转调研或重复资格测试。
 
 ## 当前唯一后台训练：v11任务独立更新的32来源四批
+
+### 16:15首批真实前向、教师回传与组合容量
+
+上一Goal轮属于原主PID62179和同模型的verified wait，不是完成研究目标。
+本轮核对185绑定和config hash全部无改，原62179/64808/3613253均仍活跃。
+B1全部64逻辑/40原生完成后才读取本批Gold，40/40 finish stop、无非法格式。
+静态online/C0相对强直接数值空库均值+14.3676pp，online-C0全部16项持平，
+不能报为在线进化。EC有2个官方未计分额外claim，已显式保留，不称全面无误。
+
+实际教师seq1510、gpt-5.6-sol/high，15:59:35至16:01:35，119.044秒，
+76652输入/5389输出token。实际16项当前Gold/事实/父回答/原始调用回传逐条
+核实；不是教师缺学习信号，也不能称教师上下文已轻量化。原始候选hash11f51767...，
+5UPDATE、无CREATE/MERGE/DELETE，7条/40程序/3749tokens；3项Fed数值程序
+去掉joint N倍数，是学习本基准目标惯例，不作为普遍法律真相。EC/EV两投影都改。
+
+同tokenizer实际组合：EC-only4262、EV-only4168，完整提案3749；若仅一个任务
+通过，原严格容量门槛可能阻止发布，不放松上限、不手动改候选、不以被拒候选
+充实际库。EV若干块写“EC tests”，但运行只送EV块；公共法条仍完整，不能从
+这个用词直接宣布失败，须核全部真实重放与新案。后续不额外叠路由/分类/AST。
+
+首批完整前向、原生调用与真实教师、两项审计177工件已双盘逐成员hash核验。
+收据`task_scoped_B1_full_forward_teacher_capacity_preservation_1617.json`，
+其真实at为16:14:50，文件/归档后缀1617仅标签，不冒充实际时钟。全批证据
+`task_scoped_B1_actual_full_forward_and_teacher_roundtrip.json`及
+`task_scoped_B1_actual_teacher_delta_capacity_and_delivery_risk.json`。
+当前只等候选完整评分/真实组合发布，然后看B2以后新案净益；非正式扩量、非TEST。
+最近小时复核仍15:31:32，下一实际16:30，本段不计作额外小时复核。
 
 ### 15:31:32实际小时复核与隔离的公平对照准备
 
