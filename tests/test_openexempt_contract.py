@@ -543,6 +543,9 @@ def test_task_composition_handles_real_crud_without_changing_unaccepted_ids_or_o
     assert [s["id"] for s in task_view(actual, "EV")] == ["c", "m"]
     assert task_view(actual, "EC") == task_view(parent, "EC")
     assert task_view(actual, "EV") == task_view(proposed, "EV")
+    coordinates = legal_edit_coordinates(parent, proposed, scope_rows())
+    accepted = [c["id"] for c in coordinates if c["task"] == "EV"]
+    assert compose_legal_edits(parent, proposed, coordinates, accepted) == actual
 
 
 def test_scoped_guidance_has_no_missing_task_default_or_conflicting_jurisdiction():
