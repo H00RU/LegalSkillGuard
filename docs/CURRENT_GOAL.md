@@ -63,8 +63,11 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
 - 新日志 `artifacts/research/openexempt_mechanism_20261019/eos_aligned_run01.log`；
   启动 `eos_aligned_run01_launch_receipt.json`，source与runtime修复/启动10工件已双盘。
   协议 `docs/research/OPENEXEMPT_EOS_ALIGNED_20261020.md`。**仍非正式规模或Goal完成**。
-- 当前没有新只读观察者。旧96460已经因旧主进程终态正常退出0，不再resume。
-  下一动作是观察这个新主PID真实多批执行/教师/前向，不再做资格网格。
+- 当前只读观察session **27566**（07:59起最长至08:59），等新B1全部四臂与原主
+  PID3621135，逐条报告EV实际执行/格式错误，不读未完成批次Gold。每次poll≤30秒。
+  旧96460已因旧主进程终态正常退出0，不再resume。下一动作是新主PID真实多批
+  执行/教师/前向，不再做资格网格。07:58:24亲核2物理/4逻辑回答无格式错误，
+  GPU约22429/49140MiB、97%忙；这不是稳定性或指标突破证明。
 
 ## 已结束的v10 compiled小试及其真实证据
 
