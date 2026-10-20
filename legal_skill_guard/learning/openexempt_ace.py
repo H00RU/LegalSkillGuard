@@ -75,7 +75,21 @@ def generator_payload(row, playbook, *, direct_numeric=False, training_reflectio
         system += (" This is a released-TRAIN regeneration with a recorded reflection. "
                    "It never replaces the independently saved first-encounter prediction.")
         reflection = json.dumps(training_reflection, ensure_ascii=False)
-    prompt = public_explanation_prompt(GENERATOR_PROMPT).format(
+    template = public_explanation_prompt(GENERATOR_PROMPT)
+    marker = "\n**Answer in this exact JSON format:**\n"
+    if (template.count(marker) != 1
+            or '"final_answer": "[Your concise final answer here]"' not in template):
+        raise ValueError("Pinned ACE Generator output example changed; review the task adapter")
+    # The author's string-answer example contradicts the EC/EV object schema,
+    # and its example bullet IDs need not exist in the actual playbook. Adapt
+    # the output types before interpolation, preserving every public task byte.
+    template = template.split(marker)[0] + (
+        "\n**Output types:**\n"
+        "Follow the supplied response schema. reasoning is a string; bullet_ids is "
+        "an array of relevant IDs actually present in the supplied playbook; "
+        "final_answer is the task-answer JSON object, not a quoted or stringified "
+        "JSON document. Its keys and values follow the task's supplied schema.\n\n---\n")
+    prompt = template.format(
         playbook, reflection, original[-1]["content"],
         "All permitted public context is in the question; no outside law or tools.")
     return [{"role": "system", "content": system}, {"role": "user", "content": prompt}], schema

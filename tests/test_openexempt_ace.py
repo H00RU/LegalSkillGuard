@@ -38,6 +38,9 @@ def test_ace_generator_keeps_native_bullet_reporting_without_hidden_prior_or_tar
     assert all(source["components"][k] in text for k in ("facts", "statutes", "solved_steps"))
     assert "misc-00001" in text and "no current-case feedback" in text
     assert "chain of thought / reasoning" not in text
+    assert "final_answer is the task-answer JSON object" in text
+    assert '"final_answer": "[Your concise final answer here]"' not in text
+    assert "calc-00001" not in text and "fin-00002" not in text
     train_messages, _ = generator_payload(source, BOOK, direct_numeric=direct,
         training_reflection={"correct_approach": "TRAIN_ONLY_MARKER"})
     assert "TRAIN_ONLY_MARKER" not in text
@@ -75,6 +78,23 @@ def test_ace_generator_keeps_native_bullet_reporting_without_hidden_prior_or_tar
     _, empty_schema = generator_payload(source, INITIAL_PLAYBOOK, direct_numeric=direct)
     with pytest.raises(ValidationError):
         validate(submitted, empty_schema)
+
+
+def test_generator_task_type_adaptation_never_removes_public_question_text():
+    source = row()
+    source["components"]["facts"] += (
+        "\n**Answer in this exact JSON format:**\nPUBLIC_FACT_LITERAL_NOT_A_TEMPLATE")
+    messages, _ = generator_payload(source, BOOK, direct_numeric=True)
+    assert source["components"]["facts"] in messages[-1]["content"]
+    assert messages[-1]["content"].count("**Output types:**") == 1
+
+
+def test_generator_fails_closed_if_pinned_output_template_changes(monkeypatch):
+    import legal_skill_guard.learning.openexempt_ace as adapter
+
+    monkeypatch.setattr(adapter, "GENERATOR_PROMPT", "Unexpected changed upstream template")
+    with pytest.raises(ValueError, match="Pinned ACE Generator output example changed"):
+        generator_payload(row(), BOOK, direct_numeric=True)
 
 
 def test_native_reflector_tags_only_actual_citations_and_retains_train_targets():
