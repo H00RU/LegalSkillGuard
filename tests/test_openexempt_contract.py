@@ -272,6 +272,10 @@ def test_compiled_action_schema_hides_bodies_but_preserves_all_legal_choices():
     messages, schema, supplied = actor_payload(row, bank)
     assert "12345" not in str(messages)
     assert "12345" in str(supplied)  # Interpreter, not actor, receives the program.
+    delivered = json.loads(messages[1]["content"].split("\n", 1)[1])
+    assert delivered[0]["guidance"]["operators"] == [
+        {"citation_ref": "Ariz. Rev. Stat. section 33-1123"}]
+    assert "limit_expression" not in delivered[0]["guidance"]["operators"][0]
     claims = schema["properties"]["assets"]["items"]["properties"]["claims"]["items"]
     assert len(claims["anyOf"]) == 2
     refs = {r for branch in claims["anyOf"]
@@ -295,6 +299,8 @@ def test_compiled_action_schema_hides_bodies_but_preserves_all_legal_choices():
     assert actor_payload(row, bank)[:2] == actor_payload(row, changed)[:2]
     ec_row = {**row, "family": "EC"}
     assert actor_payload(ec_row, bank)[:2] == actor_payload(ec_row, changed)[:2]
+    ec_payload = json.loads(actor_payload(ec_row, bank)[0][1]["content"].split("\n", 1)[1])
+    assert "operators" not in ec_payload[0]["guidance"]
     changed[0]["guidance"]["operators"] = []
     assert actor_payload(row, bank)[:2] != actor_payload(row, changed)[:2]
 

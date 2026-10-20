@@ -164,11 +164,12 @@ PROGRAM_ACTOR_SYSTEM = (
     "public citation label, not just one. Each displayed label encodes one exact public "
     "statutory citation in the given allowable legal framework. For each "
     "claim select citation_ref FIRST, based on legal applicability, and supply "
-    "limit_expression. For a citation with a published routine, the schema requires "
-    "JSON null: this is an explicit call to that citation's learned numerical program. "
-    "Its body is executed, not supplied for you to copy or rewrite. For a citation "
-    "without a published routine, write the ceiling expression yourself; null is "
-    "then invalid. The schema distinguishes these two action forms. Availability "
+    "limit_expression. Supplied citation-only operators lists name the available "
+    "numerical routines, not legal eligibility. For a listed citation, the schema "
+    "requires JSON null to call its program. Its body is executed, not supplied "
+    "for you to copy or rewrite. For an unlisted citation, write the ceiling "
+    "expression yourself; null is invalid. The schema distinguishes these two "
+    "action forms. Availability "
     "of a numerical program never proves that its citation is legally applicable. "
     "Do not choose or output an internal operator ID. "
     "Expressions may use ordinary dollar numbers in current Facts/statutes, V (this asset's "
@@ -238,11 +239,18 @@ def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
     if direct_numeric and bank:
         raise ValueError("The direct numeric EMPTY control cannot receive skills")
     supplied = visible(active_bank(row, bank), row["family"])
-    # The interpreter retains the actual programs. Only procedural guidance is
-    # rendered to the actor, so a pure body update cannot perturb its choices.
+    # A caller needs the available interfaces, not their private program bodies.
+    # Pure body changes still leave every rendered message and schema unchanged.
+    catalog = public_catalog(row)
+    references = {citation: ref for ref, citation in catalog.items()}
     delivered = copy.deepcopy(supplied)
     for skill in delivered:
-        skill["guidance"].pop("operators", None)
+        if row["family"] == "EV":
+            skill["guidance"]["operators"] = [
+                {"citation_ref": references[op["citation"]]}
+                for op in skill["guidance"].get("operators", [])]
+        else:
+            skill["guidance"].pop("operators", None)
     system = ((DIRECT_NUMERIC_SYSTEM if direct_numeric else PROGRAM_ACTOR_SYSTEM)
               if row["family"] == "EV" else ACTOR_SYSTEM)
     messages = [{"role": "system", "content": system}]
@@ -251,7 +259,6 @@ def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
                          "Background reusable skills. The current legal case follows. "
                          "Use these only when applicable; they are not current answers:\n" +
                          json.dumps(delivered, ensure_ascii=False, separators=(",", ":"))})
-    catalog = public_catalog(row)
     messages.append({"role": "user", "content":
         "Public citation label vocabulary. These are public headers in the already-given "
         "allowable jurisdictions, NOT an asset-eligibility answer:\n" +
