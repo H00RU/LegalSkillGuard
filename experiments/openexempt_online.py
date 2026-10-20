@@ -150,14 +150,17 @@ AUTHOR_SYSTEM = (
     "growth headroom, not your own tokenizer's estimate. Respect that headroom when "
     "revising a record; remove redundant wording without changing unrelated correct "
     "boundaries rather than assuming that a one-record edit automatically fits. "
-    "Candidate edits are replayed with the SAME frozen executor. EC and EV changes "
+    "Candidate edits are replayed with the SAME frozen executor. The supplied "
+    "skill_commit_policy is fixed before the run. Under task_local, EC and EV changes "
     "are admitted independently: a task must strictly improve its current original F1 "
     "(or, for EV, full-output F1), without regressing that task on current or earlier "
     "sources; EV must also preserve full-output F1 on both. Unaccepted task guidance "
     "and programs remain exactly the parent's. The combined committed bank must fit "
     "the same total4096-token cap, counting every distinct block and all programs. "
-    "The actual combined bank must also pass the unchanged full TRAIN acceptance: "
-    "requires current-source original mean F1 OR full-output EV F1 improvement without "
+    "Under whole_bank, the full proposal is accepted or rejected together, without "
+    "selecting task edits. Both policies require the actual committed bank to pass "
+    "the unchanged full TRAIN acceptance: current-source original mean F1 OR "
+    "full-output EV F1 improvement without "
     "regressing either original family F1 or full-output EV F1 on current/earlier sources. "
     "The unchanged official EV macro score ignores some extra predicted assets; "
     "the separately named full-output EV score counts ALL predicted claims, using the "
@@ -484,6 +487,8 @@ class Online:
         if (self.cfg.get("execution_contract") != "source_grounded_claim_operations"
                 or self.cfg.get("execution_contract_version") != 11):
             raise ValueError("This source implements task-scoped numerical-call contract v11 only")
+        if self.cfg.get("skill_commit_policy") not in ("task_local", "whole_bank"):
+            raise ValueError("Declare task_local or whole_bank before freezing the run")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
             raise ValueError("Frozen config mismatch")
@@ -744,6 +749,7 @@ class Online:
                     "public_prior": "allowable jurisdictions already supplied; do not recompute them",
                     "outputs": "all eligible asset-law alternatives, not a final jointly allocated portfolio"},
                 "current_parent_library": self.bank, "task_contracts": contracts,
+                "skill_commit_policy": self.cfg["skill_commit_policy"],
                 "full_serialized_library_token_budget": {
                     "actual_parent_tokens": parent_tokens,
                     "hard_cap": self.cfg["library_token_hard_cap"],
@@ -839,15 +845,20 @@ class Online:
             candidate_prior = [r for r in replay if r["case_id"] not in keys]
             full_proposal = acceptance(parent_current, candidate_current, prior, candidate_prior)
             task_decisions = task_admission(parent_current, candidate_current, prior, candidate_prior)
-            accepted_tasks = [f for f in FAMILIES if task_decisions[f]["accepted"]]
+            policy = self.cfg["skill_commit_policy"]
+            accepted_tasks = ([f for f in FAMILIES if task_decisions[f]["accepted"]]
+                              if policy == "task_local" else
+                              list(FAMILIES) if full_proposal["accepted"] else [])
             decision = {"accepted": False, "candidate": candidate, "delta": delta,
+                        "skill_commit_policy": policy,
                         "proposed_bank": candidate, "proposed_tokens": tokens,
                         "proposed_whole_bank_acceptance": full_proposal,
                         "task_admission": task_decisions, "accepted_tasks": accepted_tasks,
                         "actual_tokens": tokens, "actual_replay": replay,
                         "TRAIN_optimization_not_independent_validation": True}
             if not accepted_tasks:
-                decision["reason"] = "no_independently_improving_task_edit"
+                decision["reason"] = ("no_independently_improving_task_edit" if policy == "task_local"
+                                      else "whole_proposal_failed_original_full_gate")
             else:
                 try:
                     committed, actual_replay, actual_tokens = self.composed_replay(
@@ -878,6 +889,7 @@ class Online:
         if self.bank == before:
             self.latest = observations
         publication = {"at": now(), "bank": self.bank, "parent_bank_sha256": csha(before),
+                       "skill_commit_policy": self.cfg["skill_commit_policy"],
                        "bank_sha256": csha(self.bank), "training_decisions": decisions,
                        "future_performance_not_used": True,
                        "training_acceptance_does_not_guarantee_generalization": True}
@@ -988,7 +1000,7 @@ class Online:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("action", choices=("prepare", "run"))
+    parser.add_argument("action", choices=("prepare", "freeze", "run"))
     parser.add_argument("config", type=Path)
     args = parser.parse_args()
     config_path = args.config.resolve()
@@ -996,6 +1008,10 @@ def main():
         receipt = prepare(read(config_path))
         frozen = freeze(config_path)
         print(json.dumps({"prepared": receipt, "bound_files": len(frozen["files"])}))
+    elif args.action == "freeze":
+        # Explicitly finish staged offline preparation without regenerating cases.
+        frozen = freeze(config_path)
+        print(json.dumps({"bound_files": len(frozen["files"])}))
     else:
         with (ROOT / "artifacts/openexempt_training.lock").open("w") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)

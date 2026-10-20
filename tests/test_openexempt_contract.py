@@ -421,7 +421,8 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
 
     study = Online.__new__(Online)
     study.cfg = {"execution_contract": "source_grounded_claim_operations",
-                 "grading_directory": "synthetic_labels_only", "library_token_hard_cap": 4096}
+                 "grading_directory": "synthetic_labels_only", "library_token_hard_cap": 4096,
+                 "skill_commit_policy": "task_local"}
     # Opaque target-tokenizer measurement, not the teacher's inferred token count.
     study.meter = SimpleNamespace(token_count=lambda **kwargs: 4008)
     study.bank = []
@@ -588,8 +589,9 @@ def test_task_admission_retains_original_family_and_full_output_protection():
     assert not any(d["accepted"] for d in task_admission(parent, parent, [], []).values())
 
 
-def test_full_update_commits_ev_only_and_reexecutes_composition_without_new_native_calls(
-        tmp_path, monkeypatch):
+@pytest.mark.parametrize("policy", ["task_local", "whole_bank"])
+def test_full_update_task_local_vs_whole_bank_differs_only_in_commit_policy(
+        tmp_path, monkeypatch, policy):
     from types import SimpleNamespace
 
     from legal_skill_guard.utils.hashing import canonical_json_sha256
@@ -598,7 +600,8 @@ def test_full_update_commits_ev_only_and_reexecutes_composition_without_new_nati
     study = Online.__new__(Online)
     study.cfg = {"execution_contract": "source_grounded_claim_operations",
                  "generation": {"seed": 45, "max_tokens": 100},
-                 "max_candidate_attempts": 1, "library_token_hard_cap": 4096}
+                 "max_candidate_attempts": 1, "library_token_hard_cap": 4096,
+                 "skill_commit_policy": policy}
     study.current_batch, study.latest = 1, {}
     study.out, study.native, study.request_cache, study.reuse_events = tmp_path, [], {}, []
     study.meter = SimpleNamespace(token_count=lambda **kwargs: 300)
@@ -640,9 +643,16 @@ def test_full_update_commits_ev_only_and_reexecutes_composition_without_new_nati
     original = copy.deepcopy(study.bank)
     publication = study.update(study.rows, study.rows, parent)
     decision = publication["training_decisions"][0]
-    assert decision["accepted"] and decision["accepted_tasks"] == ["EV"]
+    assert decision["skill_commit_policy"] == publication["skill_commit_policy"] == policy
     assert not decision["proposed_whole_bank_acceptance"]["accepted"]
     assert len(study.native) == 4  # Parent2 + proposed2; composed2 are raw aliases only.
+    if policy == "whole_bank":
+        assert not decision["accepted"] and not decision["accepted_tasks"]
+        assert decision["reason"] == "whole_proposal_failed_original_full_gate"
+        assert study.bank == original
+        assert publication["parent_bank_sha256"] == publication["bank_sha256"]
+        return
+    assert decision["accepted"] and decision["accepted_tasks"] == ["EV"]
     assert task_view(study.bank, "EC") == task_view(original, "EC")
     assert task_view(study.bank, "EV") == task_view(proposed, "EV")
     assert study.latest[(1, "EC")]["parsed"] == parent[0]["parsed"]
