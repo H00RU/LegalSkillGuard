@@ -27,6 +27,12 @@
 - 主PID1047861，start ticks452655332，2026-10-21 02:13:55启动。
 - 模型unit：`legal-qwen3-8b.service`；PID3613253，start ticks446037091。
   同一Qwen3-8B/bf16，revision b968826d9c46dd6066d109eabc6255188de91218。
+- 后继等待unit：`legal-openexempt-main128-to-ace128-20261021-run01.service`，
+  PID1532114/start454636337，07:44:05启动；它是等待进程，不是第二个模型或训练。
+  仅在本Run完整八批128案终态及双盘核验后接续ACE；主训练早停/失败则不接续。
+  同PID在exec后会成为ACE工作进程，须核actual argv、starting_ACE128_once及
+  目标progress；旧queued.json不能单独证明当前仍在等待。
+  若需修主链路，先核实际phase并取消尚在等待的接续，保全后再做源码转换。
 - 配置：`configs/openexempt_closed_feedback_public_assets128_20261021_run02.json`，
   SHA00f085e343436d5028e5b81f7e1a0f5de3c4a2cb01c3d392ea0e3b04f51e1e50。
   对应frozen清单388文件不得热改；实际学习/执行源码仍为13e67fa的绑定字节。
@@ -121,7 +127,7 @@ ScienceClaw原代码启发的下一失效假设是显式历史修复前/后对�
 
 | 未来配置 | 真实状态 | 后续累计教师天花板，不是实际消耗 |
 |---|---|---:|
-| ace_public_assets128_20261021_run01 | 同128案/接口14，已准备，未freeze/启动 | 3317 |
+| ace_public_assets128_20261021_run01 | 同128案/接口14，已后台排队等待，未freeze/训练 | 3317 |
 | whole_bank_public_assets128_20261021_run01 | 现有整库策略，单次seed45消融，未freeze/启动 | 3349 |
 | first_commit_public_assets128_20261021_run01 | 不跨批携带/部分采纳后不续改，单次消融，未freeze/启动 | 3381 |
 
@@ -129,7 +135,13 @@ ScienceClaw原代码启发的下一失效假设是显式历史修复前/后对�
 `research/OPENEXEMPT_ACE_PUBLIC_ASSETS128_20261021.md`和
 `research/OPENEXEMPT_PUBLIC_ASSETS128_MECHANISM_ABLATIONS_20261021.md`。
 当前账本上限仍1765。未来只能在先前绑定任务实际终态、双盘保全并保存旧账本
-之后扩额，保留全部历史下界和预约。没有自动队列，不重置账本。
+之后扩额，保留全部历史下界和预约。只有上述一次性ACE等待，不重置账本。
+其接续源码和真实queued/backup记录在`artifacts/launches/openexempt_main128_to_ACE128_20261021*`。
+接续前核满256项首遇、末库、终态两盘文件与重要记录档内字节、392项当前
+source/data/environment pins；不合并代码、不重启模型、不读TEST或额外GPU资格生成。
+源码或模型变化、已有后继freeze/Run、主训练不完整均停止接续并保留失败。
+排队核验时账本上限1765、已知预约下界1573；3317仅在成功终态后生效，不是实际消耗。
+两项消融与三次独立学习尚未自动排队，仍未完成。
 ACE库8192较本方法4096大，不称相同记忆/总训练预算；first_commit也不是关闭
 所有反馈或等实际计算的纯信息消融，须报告不同调用量。
 
