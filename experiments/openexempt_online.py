@@ -71,10 +71,6 @@ from legal_skill_guard.openexempt import (
 )
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
-GUIDANCE = {"type": "object", "additionalProperties": False,
-            "required": ["when", "procedure", "avoid_when"], "properties": {
-                key: {"type": "string", "minLength": 1}
-                for key in ("when", "procedure", "avoid_when")}}
 EXECUTABLE_GUIDANCE = SCOPED_GUIDANCE_SCHEMA
 DIRECT_GUIDANCE = copy.deepcopy(SCOPED_GUIDANCE_SCHEMA)
 DIRECT_GUIDANCE["properties"]["operators"]["maxItems"] = 0
@@ -850,7 +846,9 @@ class Online:
                     "actual_parent_tokens": parent_tokens,
                     "hard_cap": self.cfg["library_token_hard_cap"],
                     "net_growth_headroom": self.cfg["library_token_hard_cap"] - parent_tokens,
-                    "basis": "same live executor tokenizer; full library including program bodies"},
+                    "basis": ("same live executor tokenizer; full text and metadata, no programs"
+                              if self.cfg.get("execution_contract") == "direct_statutory_claims" else
+                              "same live executor tokenizer; full library including program bodies")},
                 "public_citation_label_catalog": statutory_catalog(seen[0]["components"]["statutes"]),
                 "actual_actor_system": ACTOR_SYSTEM, "complete_public_statutes": statutes,
                 "actual_system_and_response_schema_by_public_context": actual_contracts,
