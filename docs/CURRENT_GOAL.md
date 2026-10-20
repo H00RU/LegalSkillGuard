@@ -1,12 +1,12 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 10:39 Asia/Shanghai。Goal active，未完成，无外部阻塞。
-**最高优先：EOS Run于10:36:16已正常完成三批及全部更新尝试，130native/6教师/
-62原生别名，主unit现在inactive/MainPID0/exit0，不要恢复PID3621135。最终仍C2，
-B3两提案都拒绝；551终态文件双盘逐字节核验，136原源绑定未变。唯一8B服务仍
-PID3613253。现在只有两旧TRAIN caller诊断session44933在运行，无教师/重试；
-10:39:18第一条73_EV/C0正常完成（5存储执行），第二条75_EV/empty进行中，
-按计划两条全完才统一读已见TRAIN Gold评分。尚未采用caller、未开启新多批训练。**
+更新：2026-10-20 10:47 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+**最高优先：新四批explicit_calls Run于10:44:31已真正后台启动，unit
+legal-openexempt-explicit-calls-20261020-run01.service，主PID3870292/ticks447078859，
+同8B PID3613253。32个新来源85–116/四批8源，183绑定已冻结。只读观察/原伤害
+guard session56614/PID3873055，10:46:17启动12小时，不是第二队列。旧EOS Run
+已10:36:16正常结束；两旧TRAIN诊断也10:39:54完成，不再resume44933或旧3375。
+caller和有界教师证据已采用；新Run没有分数或教师发布，不能称Goal完成。**
 这是续接入口；每次以真实 systemd/PID、冻结清单与原始工件重新核验。
 旧轮已经计划终止，新契约已真实部署并启动，不要误恢复旧 v9 或另建 GPU 队列。
 上一版详细索引保存在 Git ddb98e7；原失败、协议、审计、双盘备份均未清理。
@@ -37,6 +37,45 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   卡住先定位原始失败，再查近期权威原文/作者实现并落实，不空转调研或重复资格测试。
 
 ## 最近完整主训练：EOS对齐后的v10接口三批小试（10:36已结束）
+
+## 当前唯一后台训练：明确调用合同后的32来源四批
+
+- Run `legal_openexempt_explicit_calls_online_20261020_run01`；主unit/PID如页首。
+  10:46:15实见B1第85来源，1native/0教师/1别名，正在固定C0回答。旧Run和
+  两诊断全终态保全后才改源码；不是旧实验中途换方法或借旧好bank。
+- 实际合入d87e3bf/a8e46b7/dd8bb4b/e66ba30/5b01401五提交：公开调用签名/字段
+  层级/512内算式字母表，以及教师本地已输出推理末1024+失败串首末512和真实
+  token/hash。没有新模型/层/路由/判分修补。后者没有单独收益证明；新Run是
+  **组合方法，不能称纯caller消融**。原runtime依赖绑定行未被旧分支覆盖。
+- 两条事前固定的旧TRAIN见证，全部结束后统一评分：73_EV/C0 12.50→56.67%，
+  提交资产1→4，5次存储/3次inline，完整claim6正确/2多余/7漏；75_EV/empty由
+  非法算式0→有效22.22%，3资产、2正确/4多余/10漏。两真实原生生成、0教师/
+  重试，ledger不变；十终态工件双盘。它们不是新案/验证或纯单项接口因果证明，
+  仍有明显法律覆盖错误，不包装为Goal成功。诊断Run保留全部原始请求/响应。
+- config `configs/openexempt_explicit_calls_online_20261020_run01.json`及frozen；
+  183绑定、源提交28754a3，包含现存导入时vendor prompt及license，不热改。
+  新packet SHA **a106eef19926e7bd5076f7cfd18a736922a81d1bc4c28c4e386e9e0c868dec9f**。
+  seed2026102005一次32源，排除八旧packet源key，未读新Gold/构造私有字段或TEST；
+  同blind C0 7条/40程序，不继承C2/旧答案/cache/分数。所有未发布失败保留。
+- 全32源覆盖AZ6、IL7、Fed+OR6、Fed+PA8、Fed+WI5；N1=16/N2=16。逐批公开
+  组合与N分布见launch receipt，不因覆盖或结果改seed。B1只有IL4/Fed+OR4，
+  B2六N2/两N1，不对不同组成裸分要求机械单调。仍是开发量，不冒称论文足量。
+- 同8B权重/原EOS运行环境、T.6/P.95/K20/seed45、thinking ON/8192/32768；
+  教师gpt-5.6-sol/high，历史额度1537从seq1506继续累计。两提案上限、4096容量、
+  全已见TRAIN两家族/完整EV准入、两个empty+同起点C0均不变，不设验证集。
+  教师当前8源全保留+最多16旧源，真实长度硬门槛不变。直接控制仍不额外教教师。
+- 原连续前向伤害规则已在protocol预测前固定，可在完整B2+B3或B3+B4评分后
+  按原阈值安全止损，guard只向同unit PID/ticks的训练PID发SIGTERM，不杀模型；
+  若有已发教师留响应/成本，必须披露开发提前终止，不挑好checkpoint或改原分。
+  guard计划/10:46:17真实启动工件已双盘；超时/观察退出不代表训练终态。
+- 日志`artifacts/research/openexempt_mechanism_20261019/explicit_calls_run01.log`；
+  `explicit_calls_run01_launch_receipt.json`与launch/public_coverage/guard preservation。
+  protocol `docs/research/OPENEXEMPT_EXPLICIT_CALLS_ONLINE_20261020.md`已冻结。
+  下步查实际生成有效性、B1教师真实CRUD和B2–B4新案收益，不重复资格网格或只盯
+  B1。完整Goal仍缺强空库持续净益、成熟公平方法、正式量、重复、隔离TEST与创新
+  证据，不缩小。最近实钟小时复核10:28:15，**下一次11:28**。
+
+## 旧EOS完整结果与历史游标（不要误恢复）
 
 10:39终态续记：完整报告EOS_ALIGNED_MECHANISM_RESULT_20261020.md已按真实
 最终拒绝和成本更新。B3首提案本批EV85%但EC78.47%、旧两项57.08/45%，拒绝；
