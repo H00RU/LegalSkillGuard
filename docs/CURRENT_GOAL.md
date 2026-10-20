@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新：2026-10-21 Asia/Shanghai，B2候选1全已见重放期间。Goal active，尚未完成。
+更新：2026-10-21 Asia/Shanghai，B2最终发布完成、B3新案首遇进行中。Goal active，尚未完成。
 本索引用于定位，不以旧游标、状态文件或锁单独证明进程存活；每次续接先核
 实际systemd/PID及start ticks，再读当前progress和不可变批次/发布记录。
 
@@ -76,20 +76,33 @@ B2完整EV为63.83%→88.61%；32项任务23好0坏9平，不代表逐声明无�
 不能把计数比例等同F1归因。15条EV漏报中的14条在另一次同库EC回答里已找到。
 当前剩余重点是同时列全法条并执行金额规则，不再笼统归因客户路由或缺少标签。
 
-B2当前库与本次B1冻结库相同，两臂完全持平是预期；继续更新的价值要由B3以后
+B2首遇时的在线库与本次B1冻结库相同，两臂持平是预期；继续更新的价值要由B3以后
 对自己的B1冻结库证明。B2教师确实收到64项已见任务的真实标签和当前父答案，
 历史失败的8条参照已刷新；提出5UPDATE、仍6记录，提案hash
 5bf8efe2fae41f10ef08a8cd3bd6f01c886338d51fa2bb55cac9673739586d06。
-本索引更新时其64任务重放尚未完成，未发布B2，不将提案当新增技能或新收益。
+候选1已完成64任务重放，只有EV:ILLINOIS被采纳，过渡父库a8f96d42，仍6记录。
+全部240目标金额声明正确200→206，原200条全部保持，新增1条错金额；完整
+整库提案却损失27条原正确声明。作用域采纳避免了本次这些损害，不保证未来。
+这是TRAIN重答与同一提案的真实组合证据，不是已完成的整库算法消融或新案收益。
+候选2真实收到64任务标签/当前父答案及16条刷新参照，只提1UPDATE亚利桑那。
+完整重放使B2金额F1从90.92%降到87.80%，被拒绝；失败和7次真实生成成本保留。
+B2最终于06:59:30发布a8f96d42，仍6记录、1989tokens，只改变伊利诺伊记录。
+此库的B1/B2已见重答EC/EV分别92.04/90.93%与96.34/90.92%，均是TRAIN，
+不是B2首遇或TEST。B3已自动用此库继续，并保留本次B1固定库b603作为真实控制。
 
 不可变证据在`artifacts/research/openexempt_legal_scope_20261020/`：
 
 - `MAIN128_complete_B2_160native_newcase_effect_20261021.json`：完整请求/解码/原评分及成本。
 - `MAIN128_B2_all_native_EV_claim_transitions_and_remaining_errors_20261021.json`：全部111声明。
 - `MAIN128_B2_teacher1_actual64labels_parent_refs5UPDATE_notyetadmitted_20261021.json`：真实教师输入。
+- `MAIN128_B2_candidate1_complete64_scoped_rescue_all240EV_20261021.json`：完整候选及声明损益。
+- `MAIN128_B2_teacher2_actual64labels16currentrefs_oneArizonaUPDATE_20261021.json`：真实续改父库/反馈。
+- `MAIN128_B2_candidate2_complete64_rejected_Arizona_all240EV_20261021.json`：完整失败候选。
+- `MAIN128_finalB2_210native4teachers_actualcost_and_B3_delivery_20261021.json`：正式发布、成本及B3送达。
 
-下一步先等完整B2候选/最终发布，核原始评分、旧案保持、实际CRUD及反馈闭环，
-再跟B3新案对强空库和本次B1冻结库。未完成的候选不提前挑好案计分或调单案。
+下一步等B3完整16新来源的全部首遇输出，对强空库和本次B1冻结库核原始评分、
+实际送达及损益；这是继续进化是否有新案价值的首次非平凡比较。只读观察句柄
+77603，旧40295/22862已完成，不复活。未完成批次不挑好案计分或按单案改方法。
 
 ## 必要对照、消融与后续执行
 
