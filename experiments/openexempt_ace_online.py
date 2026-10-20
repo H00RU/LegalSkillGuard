@@ -49,8 +49,12 @@ ROLE_SYSTEM = (
 
 def validate_profile(cfg):
     if (cfg.get("learner") != "ace_native_online_v1"
-            or cfg.get("execution_contract") != "source_grounded_claim_operations"):
+            or cfg.get("execution_contract") not in (
+                "source_grounded_claim_operations", "direct_statutory_claims")):
         raise ValueError("Declare this native-role ACE online adaptation")
+    if (cfg["execution_contract"] == "direct_statutory_claims"
+            and cfg.get("execution_contract_version") != 13):
+        raise ValueError("Direct ACE must declare the common answer contract v13")
     if (cfg.get("initial_library_publication") or cfg.get("warm_source_case_ids")
             or cfg.get("ace_capacity_policy") != "error_without_truncation"
             or cfg.get("stop_policy") != "full_stream_or_operator_or_contract_error"):
@@ -103,6 +107,7 @@ class ACEOnline:
         RunStore.immutable_json(self.out / "initialization.json", {
             "playbook": self.playbook, "playbook_sha256": csha(self.playbook),
             "legal_prior_bullets": 0, "published_numerical_programs": 0,
+            "execution_contract": self.cfg["execution_contract"],
             "profile": "native_per_task_reflection_batch_ADD_curator",
             "not_unmodified_author_defaults_or_a_performance_result": True})
         for sig in (signal.SIGINT, signal.SIGTERM):
@@ -122,11 +127,13 @@ class ACEOnline:
 
     def answer(self, row, stage):
         self.check()
-        messages, schema = generator_payload(row, self.playbook)
+        direct = self.cfg["execution_contract"] == "direct_statutory_claims"
+        messages, schema = generator_payload(row, self.playbook, direct_numeric=direct)
         path = self.out / "native" / stage / f"{row['case_id']}_{row['family']}_ace.json"
         RunStore.immutable_json(path.with_suffix(".input.json"), {
             "messages": messages, "schema": schema, "playbook_sha256": csha(self.playbook),
             "delivered_bullet_ids": list(bullets(self.playbook)),
+            "valuation_output_contract": "direct_numeric" if direct else "inline_claim_program",
             "current_or_future_feedback_available": False})
         response = self.call(path, messages, schema, self.cfg["generation"]["max_tokens"], {
             "stage": stage, "arm": "ace", "document_id": row["case_id"],
@@ -141,7 +148,7 @@ class ACEOnline:
             if len(value["bullet_ids"]) != len(set(value["bullet_ids"])):
                 raise ValueError("Repeated native bullet provenance")
             used, rationale = copy.deepcopy(value["bullet_ids"]), value["reasoning"]
-            decoded = decode_generator(row, self.playbook, value)
+            decoded = decode_generator(row, self.playbook, value, direct_numeric=direct)
         except (ValueError, ValidationError) as exc:
             error = repr(exc)
         record = {"case_id": row["case_id"], "source_key": row["source_key"],
@@ -165,7 +172,8 @@ class ACEOnline:
             feedback = {"original_score": observation["score"],
                         "same_case_public_control_observations": controls[key],
                         "TRAIN_feedback_never_a_prediction_repair": True}
-            prompt, schema, cited = reflector_request(row, view, target, parent, feedback)
+            prompt, schema, cited = reflector_request(row, view, target, parent, feedback,
+                direct_numeric=self.cfg["execution_contract"] == "direct_statutory_claims")
             name = f"b{self.current_batch}_{row['case_id']}_{row['family']}_reflector"
             reflection = self.teacher_call(name, ROLE_SYSTEM, prompt, schema)
             validate_reflection(reflection, schema, cited)
@@ -173,7 +181,8 @@ class ACEOnline:
         prompt, schema, counted = curator_request(parent, reflections, rows,
             current_step=self.current_batch * self.cfg["batch_source_cases"] * 2,
             total_samples=self.cfg["source_cases"] * 2,
-            token_budget=self.cfg["library_token_hard_cap"])
+            token_budget=self.cfg["library_token_hard_cap"],
+            direct_numeric=self.cfg["execution_contract"] == "direct_statutory_claims")
         operations = self.teacher_call(f"b{self.current_batch}_curator", ROLE_SYSTEM, prompt, schema)
         committed = commit_additions(counted, operations, schema,
             token_count=self.meter.token_count, token_budget=self.cfg["library_token_hard_cap"])

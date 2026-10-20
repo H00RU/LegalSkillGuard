@@ -29,9 +29,10 @@ def row(family="EV"):
 BOOK = INITIAL_PLAYBOOK + "\n[misc-00001] helpful=0 harmful=0 :: inspect actual public conditions"
 
 
-def test_ace_generator_keeps_native_bullet_reporting_without_hidden_prior_or_target():
+@pytest.mark.parametrize("direct", [False, True])
+def test_ace_generator_keeps_native_bullet_reporting_without_hidden_prior_or_target(direct):
     source = row()
-    messages, schema = generator_payload(source, BOOK)
+    messages, schema = generator_payload(source, BOOK, direct_numeric=direct)
     text = "\n".join(message["content"] for message in messages)
     assert "SECRET" not in text and "EXAMPLE_CAR_NOT_AN_ACTUAL_ASSET" not in text
     assert all(source["components"][k] in text for k in ("facts", "statutes", "solved_steps"))
@@ -41,22 +42,32 @@ def test_ace_generator_keeps_native_bullet_reporting_without_hidden_prior_or_tar
         "final_answer": {"assets": [{"asset_name": "unchanged unsupported name", "asset_value": 999,
             "claims": [{"citation_ref": "Ariz. Rev. Stat. section 33-1123",
                         "limit_expression": "min(V,30)"}]}]}}
+    if direct:
+        submitted["final_answer"] = {"unchanged unsupported name": [{
+            "citation_ref": "Ariz. Rev. Stat. section 33-1123", "claim_value": 999}]}
+        assert "limit_expression" not in str(schema)
     validate(submitted, schema)
-    result = decode_generator(source, BOOK, submitted)
+    result = decode_generator(source, BOOK, submitted, direct_numeric=direct)
     assert result["used_bullet_ids"] == ["misc-00001"]
     assert result["answer"] == {"unchanged unsupported name": [{
-        "citation": "Ariz. Rev. Stat. § 33-1123", "claim_value": 30}]}
-    assert result["execution_receipt"]["actually_executed_operator_ids"] == []
-    assert result["native_program"]["assets"][0]["asset_value"] == 999
+        "citation": "Ariz. Rev. Stat. § 33-1123", "claim_value": 999 if direct else 30}]}
+    if direct:
+        assert result["execution_receipt"] is None and result["native_program"] is None
+    else:
+        assert result["execution_receipt"]["actually_executed_operator_ids"] == []
+        assert result["native_program"]["assets"][0]["asset_value"] == 999
     invalid = copy.deepcopy(submitted)
-    invalid["final_answer"]["assets"][0]["claims"][0]["limit_expression"] = None
+    if direct:
+        invalid["final_answer"]["unchanged unsupported name"][0]["claim_value"] = "min(V,30)"
+    else:
+        invalid["final_answer"]["assets"][0]["claims"][0]["limit_expression"] = None
     with pytest.raises(ValidationError):
-        decode_generator(source, BOOK, invalid)
+        decode_generator(source, BOOK, invalid, direct_numeric=direct)
     invalid = copy.deepcopy(submitted)
     invalid["bullet_ids"] = ["unknown"]
     with pytest.raises(ValidationError):
-        decode_generator(source, BOOK, invalid)
-    _, empty_schema = generator_payload(source, INITIAL_PLAYBOOK)
+        decode_generator(source, BOOK, invalid, direct_numeric=direct)
+    _, empty_schema = generator_payload(source, INITIAL_PLAYBOOK, direct_numeric=direct)
     with pytest.raises(ValidationError):
         validate(submitted, empty_schema)
 
@@ -109,7 +120,9 @@ def test_native_counter_last_tag_and_add_only_curator_are_not_our_score_gate():
     assert len(bullets(counted)) == 1  # No mutation, truncation or score-selected publication.
 
 
-def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predictions(tmp_path, monkeypatch):
+@pytest.mark.parametrize("direct", [False, True])
+def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predictions(
+        tmp_path, monkeypatch, direct):
     from types import SimpleNamespace
 
     import experiments.openexempt_ace_online as ace
@@ -120,7 +133,9 @@ def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predict
     monkeypatch.setattr(common, "ROOT", tmp_path)
     study = ace.ACEOnline.__new__(ace.ACEOnline)
     study.cfg = {"source_cases": 1, "batch_source_cases": 1, "grading_directory": "grading",
-        "execution_contract": "source_grounded_claim_operations", "generation": {"seed": 45, "max_tokens": 100},
+        "execution_contract": ("direct_statutory_claims" if direct
+                               else "source_grounded_claim_operations"),
+        "generation": {"seed": 45, "max_tokens": 100},
         "library_token_hard_cap": 4096}
     study.rows = [{**row(family), "batch": 1, "source_key": "fixture", "prompt": "public"}
                   for family in ("EC", "EV")]
@@ -136,7 +151,7 @@ def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predict
         study.native.append(metadata)
         final = ({"watch": [reference]} if metadata["family"] == "EC" else
                  {"watch": [{"citation_ref": reference, "claim_value": 40}]}
-                 if metadata["arm"] == "empty_direct_numeric" else
+                 if direct or metadata["arm"] == "empty_direct_numeric" else
                  {"assets": [{"asset_name": "watch", "asset_value": 40,
                     "claims": [{"citation_ref": reference, "limit_expression": "min(V,15000)"}]}]})
         value = ({"reasoning": "public finding", "bullet_ids": [], "final_answer": final}
@@ -168,7 +183,7 @@ def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predict
     monkeypatch.setattr(ace, "read", released_targets)
     study.call, study.grade, study.teacher_call = call, grade, teacher
     assert study.execute() == "completed_declared_ACE_adaptation_stream"
-    assert len(study.native) == 5  # ACE2 + distinct empty EC/EV3, no retries.
+    assert len(study.native) == (4 if direct else 5)  # Native controls share exact wires only.
     assert len(study.teachers) == 3  # Reflect both real tasks, then curate once.
     assert len(bullets(study.playbook)) == 1
     assert len(study.episodes["ace"]) == 2

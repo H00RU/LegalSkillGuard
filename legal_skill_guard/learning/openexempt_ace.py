@@ -1,8 +1,8 @@
 """ACE's native text-playbook roles adapted to the public EC/EV interface.
 
 Uses the pinned author prompts and ADD/counter helpers, not the NDA learner.
-Starts without our blind legal/program bank. Every EV citation remains inline,
-with exactly the same arithmetic interpreter available to the skill method.
+Starts without our blind legal/program bank. The declared profile uses either
+the common direct task answer or the historical common inline arithmetic.
 This module is a role adapter, not a completed or evaluated baseline runner.
 """
 
@@ -31,6 +31,7 @@ from legal_skill_guard.learning.experiment import (
 from legal_skill_guard.learning.legal_namespace import (
     decode_claim_plan,
     decode_classification,
+    decode_reference,
     public_catalog,
 )
 
@@ -46,8 +47,8 @@ def public_explanation_prompt(prompt):
     ).replace("Show your reasoning step-by-step", "Provide a concise public explanation")
 
 
-def generator_payload(row, playbook):
-    original, native_schema, _ = actor_payload(row, [])
+def generator_payload(row, playbook, *, direct_numeric=False):
+    original, native_schema, _ = actor_payload(row, [], direct_numeric=direct_numeric)
     known = bullets(playbook)
     ids = {"type": "array", "items": {"type": "string"}}
     if known:
@@ -70,16 +71,21 @@ def generator_payload(row, playbook):
     return [{"role": "system", "content": system}, {"role": "user", "content": prompt}], schema
 
 
-def decode_generator(row, playbook, submitted):
-    """Only unpack declared fields, decode public labels, and execute inline math."""
-    _, schema = generator_payload(row, playbook)
+def decode_generator(row, playbook, submitted, *, direct_numeric=False):
+    """Unpack fields and decode labels; execute math only in the declared program profile."""
+    _, schema = generator_payload(row, playbook, direct_numeric=direct_numeric)
     validate(submitted, schema)
     cited = submitted["bullet_ids"]
     if len(cited) != len(set(cited)):
         raise ValueError("Repeated native ACE bullet citation, no deduplication")
     native = submitted["final_answer"]
     receipt = program = None
-    if row["family"] == "EV":
+    if row["family"] == "EV" and direct_numeric:
+        catalog = public_catalog(row)
+        answer = {name: [{"citation": decode_reference(claim["citation_ref"], catalog),
+                          "claim_value": claim["claim_value"]} for claim in claims]
+                  for name, claims in native.items()}
+    elif row["family"] == "EV":
         program = decode_claim_plan(native, public_catalog(row))
         answer, receipt = execute_claims(program["assets"], row["components"]["facts"],
                                          row["components"]["statutes"], [])
@@ -90,7 +96,8 @@ def decode_generator(row, playbook, submitted):
             "public_rationale": submitted["reasoning"]}
 
 
-def reflector_request(row, observation, target, playbook, environment_feedback):
+def reflector_request(row, observation, target, playbook, environment_feedback, *,
+                      direct_numeric=False):
     """TRAIN-only feedback for this source, never used to repair its first score."""
     if (observation["case_id"], observation["family"]) != (row["case_id"], row["family"]):
         raise ValueError("Reflect only this actual source/task observation")
@@ -114,7 +121,7 @@ def reflector_request(row, observation, target, playbook, environment_feedback):
     schema = {"type": "object", "additionalProperties": False,
         "required": [*fields, "bullet_tags"], "properties": {
             **{k: {"type": "string"} for k in fields}, "bullet_tags": tags}}
-    original, _, _ = actor_payload(row, [])
+    original, _, _ = actor_payload(row, [], direct_numeric=direct_numeric)
     prompt = PUBLIC_ACE_REFLECTOR_PROMPT.format(original[-1]["content"],
         json.dumps(observation, ensure_ascii=False),
         json.dumps(observation.get("answer"), ensure_ascii=False),
@@ -131,7 +138,8 @@ def validate_reflection(value, schema, cited):
         raise ValueError("Native reflector must tag exactly its cited bullets once")
 
 
-def curator_request(playbook, reflections, rows, *, current_step, total_samples, token_budget):
+def curator_request(playbook, reflections, rows, *, current_step, total_samples, token_budget,
+                    direct_numeric=False):
     """Native batch counter behavior, then the author's incremental ADD curator."""
     tags = [tag for reflection in reflections for tag in reflection["bullet_tags"]]
     known = bullets(playbook)
@@ -140,7 +148,8 @@ def curator_request(playbook, reflections, rows, *, current_step, total_samples,
     # The pinned author's helper uses the final tag for a repeated ID in a batch.
     # Preserve it rather than silently replacing it by per-document summation.
     counted = update_bullet_counts(playbook, tags) if tags else playbook
-    context = [actor_payload(row, [])[0][-1]["content"] for row in rows]
+    context = [actor_payload(row, [], direct_numeric=direct_numeric)[0][-1]["content"]
+               for row in rows]
     prompt = public_explanation_prompt(CURATOR_PROMPT).format(
         token_budget=token_budget, current_step=current_step, total_samples=total_samples,
         playbook_stats=json.dumps(get_playbook_stats(counted)),
