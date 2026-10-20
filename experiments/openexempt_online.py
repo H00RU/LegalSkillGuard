@@ -4,7 +4,7 @@ Reuses the audited native/teacher transports and differential edits. Unlike the
 old NDA run, training replays can reject ineffective candidate edits. This is
 declared TRAIN optimization, not test-time retry or an independent validation
 claim. All candidate outputs, costs and rejected edits remain on disk.
-Contract v12 admits noninterfering public-law/task TRAIN edit components.
+Contracts v12/v13 admit public-law/task TRAIN edits; v13 uses direct task answers.
 Native-response reuse never reuses a previously computed answer.
 """
 
@@ -76,6 +76,8 @@ GUIDANCE = {"type": "object", "additionalProperties": False,
                 key: {"type": "string", "minLength": 1}
                 for key in ("when", "procedure", "avoid_when")}}
 EXECUTABLE_GUIDANCE = SCOPED_GUIDANCE_SCHEMA
+DIRECT_GUIDANCE = copy.deepcopy(SCOPED_GUIDANCE_SCHEMA)
+DIRECT_GUIDANCE["properties"]["operators"]["maxItems"] = 0
 ACTOR_SYSTEM = (
     "Apply only the supplied statutes and public solved steps to the original facts. "
     "Return a JSON object mapping actual asset descriptions to ALL applicable public "
@@ -89,6 +91,57 @@ DIRECT_NUMERIC_SYSTEM = (
     "Each public reference only encodes its displayed citation, not eligibility. "
     "Calculate numeric claim_value amounts yourself. Return the exact JSON answer, "
     "not a program, an explanation, a selected portfolio, or a skill-use report."
+)
+
+DIRECT_AUTHOR_SYSTEM = (
+    "Improve the supplied frozen Qwen3-8B's reusable legal decision procedures from "
+    "ACTUAL already-seen OpenExempt TRAIN observations. The actor answers EC and EV "
+    "directly, with the same public facts, statutes, solved steps and response schema "
+    "as the strong empty-library control. Its weights never change. It has NO program "
+    "interpreter or stored numerical routines. All skill operators arrays MUST be empty. "
+    "Do not tell it to use null, call a routine, write code, or submit a claim plan. "
+    "Plain-language statutory calculations may be taught where an actual error warrants "
+    "them, but prioritize observed legal-selection and factual-grounding mistakes. "
+    "Use only the benchmark statute version and released TRAIN evidence supplied here; "
+    "no tools, outside law, future cases, test answers or invented successful experience. "
+    "Compare the actual parent prediction, released target, and same-case controls. "
+    "Identify the mistaken legal condition or omitted alternative before changing a skill. "
+    "An extra law, a missing law and a wrong amount require different corrections. "
+    "Verify the task and supplied statute before treating a cap as an eligibility test. "
+    "Write short decision instructions: which factual condition to check, which legal "
+    "alternative it enables, and which exception prevents a false positive. Keep correct "
+    "unrelated boundaries verbatim; do not rewrite a whole jurisdiction for style, "
+    "broaden a rule from one case, or add a generic instruction already present. "
+    "Do not store case IDs, debtors, exact asset names or values, answer tables, output "
+    "format tricks, or copied target sets in skills. Public statutory citations and "
+    "statutory dollar limits may be used where supported by the supplied law. "
+    "Each skill has id, hypothesis_ids listing its public EC/EV tasks, and guidance. "
+    "Guidance contains by_task, jurisdiction and an empty operators array. Each declared "
+    "task has exactly one explicit when/procedure/avoid_when block. Identical task "
+    "guidance may share one block; different task guidance costs its full stored tokens. "
+    "Jurisdiction is one supplied legal namespace, or ALL only for genuinely shared "
+    "procedure. Only the public task and already-given allowable jurisdictions select "
+    "guidance; they do not supply asset eligibility answers. "
+    "Publish minimal CREATE, UPDATE, DELETE or MERGE deltas against original parent IDs. "
+    "Unmentioned skills stay verbatim. UPDATE retains its one target ID; DELETE has one "
+    "target and null skill; MERGE consumes at least two IDs; CREATE has no target. "
+    "Do not force library growth. Delete misleading guidance, merge true duplication, "
+    "or explicitly NOOP if no grounded repair is available. Audit source_case_ids and "
+    "rationales must reference supplied seen sources and never reach the actor. "
+    "The body declares the fixed TRAIN commit policy. Under legal_scope, public "
+    "co-visible namespaces, shared guidance changes and moved IDs couple edits. "
+    "A coordinate needs current-source evidence, task F1 nonregression on current and "
+    "prior sources, and strict current improvement; EV also preserves full-output F1. "
+    "Other declared policies assess entire tasks or the whole proposal instead. "
+    "The final single composed library must still pass the full TRAIN gate. Replay "
+    "uses ALL seen sources, not just the communication subset, and is training "
+    "optimization, not validation or proof of generalization. No answer repair, "
+    "extra inference model, per-case answer selection, or changed scorer is allowed. "
+    "Respect the actual target-tokenizer cap and combination headroom in the body. "
+    "Keep edits concise enough that accepted components and unchanged guidance fit "
+    "together. Bounded emitted excerpts are unverified executor output, not verified "
+    "causal explanations; check them against facts, law, target and actual feedback. "
+    "Return only the exact delta JSON schema."
 )
 
 
@@ -273,8 +326,8 @@ def visible(bank, family):
 def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
     if not grounded:
         raise ValueError("Only the public-namespace claim contract is implemented")
-    if direct_numeric and bank:
-        raise ValueError("The direct numeric EMPTY control cannot receive skills")
+    if direct_numeric and any(s["guidance"]["operators"] for s in bank):
+        raise ValueError("Direct-answer skills cannot publish numerical programs")
     supplied = visible(active_bank(row, bank), row["family"])
     # A caller needs the available interfaces, not their private program bodies.
     # Pure body changes still leave every rendered message and schema unchanged.
@@ -282,7 +335,7 @@ def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
     references = {citation: ref for ref, citation in catalog.items()}
     delivered = copy.deepcopy(supplied)
     for skill in delivered:
-        if row["family"] == "EV":
+        if row["family"] == "EV" and not direct_numeric:
             skill["guidance"]["operators"] = [
                 {"citation_ref": references[op["citation"]]}
                 for op in skill["guidance"].get("operators", [])]
@@ -515,9 +568,11 @@ class Online:
 
     def __init__(self, config_path):
         self.cfg = read(config_path)
-        if (self.cfg.get("execution_contract") != "source_grounded_claim_operations"
-                or self.cfg.get("execution_contract_version") != 12):
-            raise ValueError("This source implements legal-scope numerical-call contract v12 only")
+        contracts = {"source_grounded_claim_operations": 12, "direct_statutory_claims": 13}
+        if (self.cfg.get("execution_contract") not in contracts
+                or self.cfg.get("execution_contract_version")
+                != contracts[self.cfg["execution_contract"]]):
+            raise ValueError("Declare numerical contract v12 or direct-answer contract v13 exactly")
         if self.cfg.get("skill_commit_policy") not in ("legal_scope", "task_local", "whole_bank"):
             raise ValueError("Declare legal_scope, task_local or whole_bank before freezing")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
@@ -537,6 +592,9 @@ class Online:
             initial = read(ROOT / self.cfg["initial_library_publication"])["bank"]
             self.bank = copy.deepcopy(initial)
             validate_scoped_bank(self.bank)
+            if (self.cfg["execution_contract"] == "direct_statutory_claims"
+                    and any(s["guidance"]["operators"] for s in self.bank)):
+                raise ValueError("Direct-answer initialization cannot contain numerical programs")
             validate_scopes(self.bank, self.rows[0]["components"]["statutes"])
             if self.bank != initial:
                 raise ValueError("Initialization changed historical knowledge")
@@ -569,8 +627,10 @@ class Online:
 
     def answer(self, row, bank, stage, arm):
         self.check()
-        grounded = self.cfg.get("execution_contract") == "source_grounded_claim_operations"
-        direct = arm == "empty_direct_numeric"
+        grounded = self.cfg.get("execution_contract") in (
+            "source_grounded_claim_operations", "direct_statutory_claims")
+        direct = (self.cfg.get("execution_contract") == "direct_statutory_claims"
+                  or arm == "empty_direct_numeric")
         messages, schema, supplied = actor_payload(row, bank, grounded=grounded,
                                                    direct_numeric=direct)
         catalog = public_catalog(row)
@@ -588,7 +648,8 @@ class Online:
             "public_citation_catalog_sha256": csha(catalog),
             "numerical_program_bodies_rendered_to_actor": False,
             "published_citation_calls_required_by_schema": row["family"] == "EV" and not direct,
-            "direct_numeric_empty_control": direct,
+            "direct_numeric_empty_control": arm == "empty_direct_numeric",
+            "valuation_output_contract": "direct_numeric" if direct else "claim_program",
             "format_only_demonstrations_not_in_inference_input": True,
             "no_private_case_annotations_or_current_target": True})
         alias = None
@@ -689,7 +750,8 @@ class Online:
         contracts = {r["family"]: {k: r["components"][k] for k in
                      ("instruction", "meta_instruction")}
                      for r in seen}
-        grounded = self.cfg.get("execution_contract") == "source_grounded_claim_operations"
+        grounded = self.cfg.get("execution_contract") in (
+            "source_grounded_claim_operations", "direct_statutory_claims")
 
         emitted_cache = {}
 
@@ -772,7 +834,8 @@ class Online:
             key = "+".join(sorted(allowable_namespaces(row)))
             group = actual_contracts.setdefault(key, {})
             if row["family"] not in group:
-                messages, schema, _ = actor_payload(row, self.bank, grounded=True)
+                messages, schema, _ = actor_payload(row, self.bank, grounded=True,
+                    direct_numeric=self.cfg.get("execution_contract") == "direct_statutory_claims")
                 group[row["family"]] = {"system": messages[0]["content"],
                                         "response_schema": schema}
         return {"current_source_case_ids": sorted({r["case_id"] for r in current}),
@@ -818,7 +881,8 @@ class Online:
             raise ValueError(f"Composed library exceeds total token cap: {tokens}")
         # Preflight the entire cohort before writing/re-executing any member.
         for row in seen:
-            messages, schema, _ = actor_payload(row, composed, grounded=True)
+            messages, schema, _ = actor_payload(row, composed, grounded=True,
+                direct_numeric=self.cfg.get("execution_contract") == "direct_statutory_claims")
             fingerprint = csha({"messages": messages, "schema": schema,
                                 "generation": self.cfg["generation"]})
             if fingerprint not in self.request_cache:
@@ -835,18 +899,20 @@ class Online:
         rejected = []
         decisions = []
         grounded = self.cfg.get("execution_contract") == "source_grounded_claim_operations"
-        guidance_schema = EXECUTABLE_GUIDANCE if grounded else GUIDANCE
+        direct = self.cfg.get("execution_contract") == "direct_statutory_claims"
+        guidance_schema = DIRECT_GUIDANCE if direct else EXECUTABLE_GUIDANCE
         for attempt in range(1, self.cfg["max_candidate_attempts"] + 1):
             name = f"b{self.current_batch}_candidate{attempt}"
             body = self.teacher_body(current, seen, observations, rejected)
             supplied_ids = body["training_evidence_manifest"]["selected_source_ids"]
-            delta = self.teacher_call(name, AUTHOR_SYSTEM + (PROGRAM_AUTHOR_ADDITION if grounded else ""),
+            system = DIRECT_AUTHOR_SYSTEM if direct else AUTHOR_SYSTEM + PROGRAM_AUTHOR_ADDITION
+            delta = self.teacher_call(name, system,
                 body,
                 differential_schema(FAMILIES, before, supplied_ids,
                                     guidance_schema=guidance_schema))
             candidate = apply_differential_publication(before, delta, FAMILIES,
                 supplied_ids, guidance_schema=guidance_schema)
-            if grounded:
+            if grounded or direct:
                 try:
                     validate_scoped_bank(candidate)
                     validate_scopes(candidate, current[0]["components"]["statutes"])

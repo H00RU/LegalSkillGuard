@@ -384,7 +384,9 @@ def test_reused_native_call_executes_new_body_and_never_reuses_answer_or_error(t
     assert len(study.native) == 1  # An old execution error is not a cached raw failure.
 
 
-def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_dropped(monkeypatch):
+@pytest.mark.parametrize("direct", [False, True])
+def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_dropped(
+        monkeypatch, direct):
     from types import SimpleNamespace
 
     from legal_skill_guard.utils.hashing import canonical_json_sha256
@@ -423,7 +425,8 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
     assert all_eight == smaller  # Small pilots retain all evidence and its order.
 
     study = Online.__new__(Online)
-    study.cfg = {"execution_contract": "source_grounded_claim_operations",
+    study.cfg = {"execution_contract": ("direct_statutory_claims" if direct
+                                         else "source_grounded_claim_operations"),
                  "grading_directory": "synthetic_labels_only", "library_token_hard_cap": 4096,
                  "skill_commit_policy": "task_local"}
     # Opaque target-tokenizer measurement, not the teacher's inferred token count.
@@ -447,6 +450,11 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
         return {"targets": {"EC": {"watch": []}, "EV": {"watch": []}}}
     monkeypatch.setattr("experiments.openexempt_online.read", synthetic_grade)
     body = study.teacher_body(current, seen, observations, rejected)
+    if direct:
+        for context in body["actual_system_and_response_schema_by_public_context"].values():
+            if "EV" in context:
+                assert "claim_value" in str(context["EV"]["response_schema"])
+                assert "limit_expression" not in str(context["EV"]["response_schema"])
     assert body["full_serialized_library_token_budget"]["actual_parent_tokens"] == 4008
     assert body["full_serialized_library_token_budget"]["net_growth_headroom"] == 88
     assert {r["source_case_id"] for r in body["already_seen_training"]} == ids
@@ -474,7 +482,9 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
 
 
 def test_strong_direct_numeric_empty_is_not_a_program_or_host_repaired_answer(tmp_path, monkeypatch):
-    from jsonschema import validate
+    from jsonschema import ValidationError, validate
+
+    from experiments.openexempt_online import DIRECT_GUIDANCE
 
     row = {"case_id": 1, "source_key": "synthetic", "family": "EV", "prompt": "public",
            "solution": "SECRET", "components": copy.deepcopy(COMPONENTS)}
@@ -487,8 +497,20 @@ def test_strong_direct_numeric_empty_is_not_a_program_or_host_repaired_answer(tm
     validate(numeric, schema)
     ec = {**row, "family": "EC"}
     assert actor_payload(ec, [])[:2] == actor_payload(ec, [], direct_numeric=True)[:2]
-    with pytest.raises(ValueError):
-        actor_payload(row, [{"id": "not empty"}], direct_numeric=True)
+    bank = [{"id": "az", "hypothesis_ids": ["EC", "EV"],
+             "guidance": guidance("Check the statutory eligibility condition", "ARIZONA")}]
+    skilled_messages, skilled_schema, _ = actor_payload(row, bank, direct_numeric=True)
+    assert skilled_schema == schema and skilled_messages[0] == messages[0]
+    assert skilled_messages[-1] == messages[-1]
+    assert "Check the statutory eligibility condition" in str(skilled_messages)
+    assert "operators" not in str(skilled_messages)
+    bad_bank = copy.deepcopy(bank)
+    bad_bank[0]["guidance"]["operators"] = [{"id": "cap",
+        "citation": "Ariz. Rev. Stat. § 33-1123", "limit_expression": "min(V,30)"}]
+    with pytest.raises(ValueError, match="cannot publish numerical programs"):
+        actor_payload(row, bad_bank, direct_numeric=True)
+    with pytest.raises(ValidationError):
+        validate(bad_bank[0]["guidance"], DIRECT_GUIDANCE)
     monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
     study = Online.__new__(Online)
     study.cfg = {"execution_contract": "source_grounded_claim_operations",
@@ -501,6 +523,13 @@ def test_strong_direct_numeric_empty_is_not_a_program_or_host_repaired_answer(tm
     assert result["parsed"]["answer"] == {"unsupported original name": [
         {"citation": "Ariz. Rev. Stat. § 33-1123", "claim_value": 999}]}
     assert result["native_program"] is None and result["execution_receipt"] is None
+    study.cfg["execution_contract"] = "direct_statutory_claims"
+    monkeypatch.setattr("experiments.openexempt_online.execute_claims",
+                        lambda *a, **k: pytest.fail("Direct answers must not execute programs"))
+    learned = study.answer(row, bank, "learned_direct", "skills")
+    assert learned["parsed"] == result["parsed"]
+    assert learned["native_program"] is None and learned["execution_receipt"] is None
+    assert learned["delivered_skill_ids"] == ["az"]
 
 
 @pytest.mark.parametrize("accepted_task", ["EC", "EV"])
@@ -595,16 +624,18 @@ def test_task_admission_retains_original_family_and_full_output_protection():
     assert not any(d["accepted"] for d in task_admission(parent, parent, [], []).values())
 
 
-@pytest.mark.parametrize("policy", ["task_local", "whole_bank"])
+@pytest.mark.parametrize("policy", ["task_local", "whole_bank", "legal_scope"])
+@pytest.mark.parametrize("direct", [False, True])
 def test_full_update_task_local_vs_whole_bank_differs_only_in_commit_policy(
-        tmp_path, monkeypatch, policy):
+        tmp_path, monkeypatch, policy, direct):
     from types import SimpleNamespace
 
     from legal_skill_guard.utils.hashing import canonical_json_sha256
 
     monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
     study = Online.__new__(Online)
-    study.cfg = {"execution_contract": "source_grounded_claim_operations",
+    study.cfg = {"execution_contract": ("direct_statutory_claims" if direct
+                                         else "source_grounded_claim_operations"),
                  "generation": {"seed": 45, "max_tokens": 100},
                  "max_candidate_attempts": 1, "library_token_hard_cap": 4096,
                  "skill_commit_policy": policy}
@@ -617,17 +648,22 @@ def test_full_update_task_local_vs_whole_bank_differs_only_in_commit_policy(
                   for family in ("EC", "EV")]
     study.bank = [{"id": "az", "hypothesis_ids": ["EC", "EV"],
                    "guidance": guidance("original procedure", "ARIZONA")}]
-    study.bank[0]["guidance"]["operators"] = [{"id": "cap",
-        "citation": "Ariz. Rev. Stat. § 33-1123", "limit_expression": "min(V,30)"}]
+    if not direct:
+        study.bank[0]["guidance"]["operators"] = [{"id": "cap",
+            "citation": "Ariz. Rev. Stat. § 33-1123", "limit_expression": "min(V,30)"}]
     proposed = copy.deepcopy(study.bank)
     proposed[0]["guidance"]["by_task"][0]["procedure"] = "new procedure"
-    proposed[0]["guidance"]["operators"][0]["limit_expression"] = "min(V,15)"
+    if not direct:
+        proposed[0]["guidance"]["operators"][0]["limit_expression"] = "min(V,15)"
     ref = "Ariz. Rev. Stat. section 33-1123"
 
     def call(dest, messages, schema, max_tokens, metadata):
         study.native.append(metadata)
         if metadata["family"] == "EC":
             answer = {} if "new procedure" in str(messages) else {"watch": [ref]}
+        elif direct:
+            answer = {"watch": [{"citation_ref": ref,
+                                  "claim_value": 15 if "new procedure" in str(messages) else 30}]}
         else:
             answer = {"assets": [{"asset_name": "watch", "asset_value": 40,
                        "claims": [{"citation_ref": ref, "limit_expression": None}]}]}
@@ -664,7 +700,10 @@ def test_full_update_task_local_vs_whole_bank_differs_only_in_commit_policy(
     assert study.latest[(1, "EC")]["parsed"] == parent[0]["parsed"]
     ev = study.latest[(1, "EV")]
     assert ev["parsed"]["answer"]["watch"][0]["claim_value"] == 15
-    assert ev["execution_receipt"]["execution_bank_sha256"] == canonical_json_sha256(study.bank)
+    if direct:
+        assert ev["execution_receipt"] is None and ev["native_program"] is None
+    else:
+        assert ev["execution_receipt"]["execution_bank_sha256"] == canonical_json_sha256(study.bank)
     assert decision["current_family_nonregression"] and decision["current_full_output_nonregression"]
     study.request_cache.clear()
     with pytest.raises(ValueError, match="changed an evaluated native wire"):
