@@ -1,6 +1,6 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 14:30 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 14:45 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 **最高优先：新四批explicit_calls Run于10:44:31已真正后台启动，unit
 legal-openexempt-explicit-calls-20261020-run01.service，主PID3870292/ticks447078859，
 同8B PID3613253。32个新来源85–116/四批8源，183绑定已冻结。只读观察/原伤害
@@ -10,13 +10,15 @@ B1首候选已11:48:40发布C1。B2全部四臂13:06完成，EC77.8819%但EV52.0
 低于C0 EV65.4861%与直接空库59.9653%。两个教师候选都已正式拒绝；13:58:13
 B2 publication是NOOP、父子hash均C1，绝无已发布C2。候选2已见当前EV74.0278%
 但EC69.3403%、旧16逐条不变，不能用它替换B2新案成绩或擅自采用被拒好库。
-14:30:26亲核原PID3870292运行B3，173native/3教师/66相同wire复用，源104；
+原PID3870292继续B3，14:42:02实见184native/3教师/68相同wire复用，源106；
 B3整批未完，未读B3/B4 Gold或私有构造字段/官方TEST。原183绑定不热改。
 独立worktree `.venv/task-scope-20261020.PlQMte`/分支prospective-task-scope-20261020
-已实现任务独立指导、坐标提交及原完整准入后重执行，20项CPU检查通过，0新增模型/
-教师调用；00513b6+3f77d44已提交/双盘保全，尚未合入或启动，不报新案收益。
-新seed2026102006/来源117–148配置已固定，未生成数据/预测。先让原Run安全终态并
-双盘保全，再合入并从原blind C0显式转换表示，用新来源验证。不恢复客户路由、
+已实现任务独立指导、坐标提交及原完整准入后重执行，同接口whole_bank消融也已
+接入，21项CPU检查通过；00513b6+3f77d44+e9d09a7均提交/双盘保全，尚未合入/
+启动，不报新案收益。盲初库已无损转换；新seed2026102006/来源117–148的32案
+已按原生成器准备并保全，与9旧packet源key交集均0，未读取新grading/私有构造
+内容/TEST，无新预测或教师调用。先让原Run安全终态并双盘保全，再合入新源，
+直接freeze现存新数据而不是prepare重造，用新来源验证。不恢复客户路由、
 不放宽门槛、不加入级联/AST/额外模型。完整Goal仍未达成。**
 这是续接入口；每次以真实 systemd/PID、冻结清单与原始工件重新核验。
 旧轮已经计划终止，新契约已真实部署并启动，不要误恢复旧 v9 或另建 GPU 队列。
@@ -48,6 +50,37 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   卡住先定位原始失败，再查近期权威原文/作者实现并落实，不空转调研或重复资格测试。
 
 ## 当前唯一后台训练：明确调用合同后的32来源四批
+
+### 14:45：下一轮真实初始化/数据已准备，仍未启动或读新标签
+
+原blind C0明确转换为by_task表示，逐条逆向重建原库完全一致，7条/40程序/
+3539tokens、零训练经验，不采用旧C1/C2/拒绝候选。新blind bank hash
+`aa3dffda5db7af287c7ccd844d404058e023cf8299c312573777bab547dbb7f5`，真实文件
+`data/initial_libraries/openexempt_task_scoped_blind_prior_20261020/publication.json`。
+原/新库及无损校验已双盘保全，不改当前v10初始化或实际C1。
+
+14:35:53原生成器已离线生成固定seed2026102006的117–148号32来源/64任务。
+新packet hash`90a5772ad08cf64f81ca6da6f2b7508e18148de78c093143fb7606c887e9e039`，
+位于`data/packets/openexempt_task_scoped_20261020/inputs.json`。与9旧packet源key
+均无交集；B1 IL3/Fed+OR3/Fed+PA1/Fed+WI1，B2 AZ4/Fed+WI2/Fed+PA1/Fed+OR1，
+B3 AZ3/IL2/Fed+PA2/Fed+WI1，B4 Fed+OR3/AZ2/IL1/Fed+WI1/Fed+PA1；N2分别5/2/4/5。
+不因公开覆盖改seed。原任务EC/EV事实分别改写，原始字节不相同，不能强行要求
+逐字相等；来源键/公共法域/债务人数/金额记录已配对，未修改原文或夸称语义零错。
+没有打开新grading/construction内容或官方TEST，没有新预测/教师调用，68个
+数据/校验工件已双盘保全；仍未冻结新源码或启动新训练。
+
+隔离新增e9d09a7：明确`skill_commit_policy=task_local|whole_bank`，新Run固定
+task_local；whole_bank只是同表示/同律师接口的消融入口，没开额外队列。21项
+检查与ruff通过，原完整acceptance AST、三种演员system逐字同当前v10；实际
+演员差异仍是已声明的任务投影。教师body如实告知策略，不称纯离线相同教师
+输出因果消融。原183绑定逐文件无改。原终态保全后依次cherry-pick00513b6、
+3f77d44、e9d09a7，不覆盖主索引/旧运行frozen；之后用显式freeze，不再prepare：
+`python -m experiments.openexempt_online freeze configs/openexempt_task_scoped_online_20261020_run01.json`。
+
+14:44:49只读B3部分运行工件：101–105全部四臂完成，46逻辑/38底层原生均stop。
+在线已6EV、成功存储25/inline8、无执行错误且实际收到C1；固定C0的104_EV一次
+非法。没有读本批Gold/分数，无整批收益主张，不以单次错误提前触发停止。原
+guard仍按B2+B3/B3+B4连续伤害规则。下次小时复核仍15:30，Goal未完成。
 
 ### 14:30:26实际小时复核：新修复已提交/保全，原B3继续
 
