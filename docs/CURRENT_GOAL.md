@@ -1,6 +1,66 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 17:43 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 18:16 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+
+## 当前权威入口：v13直接法律作答的技能进化
+
+唯一训练`legal_openexempt_direct_skills_online_20261020_run01`，unit
+`legal-openexempt-direct-skills-20261020-run01.service`，18:13:27真正后台启动。
+主PID338014/ticks449772508；仍同8B PID3613253/ticks446037091，未重启模型。
+唯一新guard session20123，PID339458/ticks449778425，18:14:26开始12h至次日
+06:14:26，原连续B2+B3或B3+B4完整配对伤害规则不变，只信号精确训练PID；
+观察超时不是训练终止，不因它重启。旧guard47048/64808已权威完成，不再wait。
+
+主源码cherry-pick d76f161/bdc454f/01817f6/492a7ee已在旧PID退出及734工件双盘
+逐成员复核后合入。30项必要CPU合同检查2.56s/ruff通过，没有GPU资格测试。
+新契约`direct_statutory_claims` v13、`skill_commit_policy=legal_scope`。
+新配置hash6d0bf6b278b1dd6460af656fda4361d9dc42ac16ab56d3fc564d38aaf19f49ac，
+176绑定已freeze、双盘保全；禁止热改源码/配置/测试/README/运行时。
+
+与强空库同一直接EC/EV输出system、schema、事实和预算。全64公开任务的空库
+请求已逐一核同旧强直接控制，原完整acceptance AST未改。无算式解释器、存储
+数值程序、答案修补、第二推理模型或fallback；文本技能operators硬约束为空。
+仅初始化空库一次，B1之后每批使用实际已发布库，绝非所有探索批次都清空。
+固定初库和其他空库逻辑控制本来相同，精确wire复用，不计独立重复。
+教师改用直接作答专用提示，聚焦事实条件、适用法条、例外和必要文字金额推理；
+仍标签辅助、当前整批控制/在线预测全落盘才读标签、全已见TRAIN重放/原门槛。
+本次是作用域准入、直接输出与清洁空起点的披露组合修复，不是单因素因果消融。
+
+32新来源149–180、四批各8、seed2026102007，一次固定、不重抽，排除全部10旧
+packet源key交集均0；packet hash58998f45a5b03a2a3118b7a437fcb15923e23851290a0c0685b1f8a558b61e94。
+只检查公开EC/EV配对/范围；新grading/私有构造的语义内容与官方TEST未审阅。
+生成/冻结/双盘保全会处理其字节，不冒称所有字节都没碰。数据仍官方原生成器，
+不是两个弱模型编案或自行奖励；32来源是机制运行，正式规模/重复/测试仍待完成。
+
+18:15:36实际B1源150，3native/0教师/9wire复用/0技能。前三个真实原生回答均
+finish=stop，completion1333/1833/1294，未发现截断；不据三条推断全程正常。
+B1在线=空库是设计规定的冷起点，不能称退化或学习效果；看真实教师发布和B2–B4。
+当前没有新整批分数或收益结论，更不能报胜ACE/SOTA。首稿v0是17时v11快照，
+不是当前主链路或成稿；待本次机制证据后同步方法，不把写稿当作指标突破。
+
+旧v11主62179已18:10:39安全终态，154native/4教师/123复用；B2实际C2只改EC，
+hash3a7a61f89e9b2c421f3edfeed69a17fa5b69734499a06747824895e526f07951，3871tokens。
+B2首次分数仍EC66.18/EV70.07%，不是重答EC73.19%；候选1EV训练79.48%因旧案
+回退及EC-only组合4514超限拒绝，候选2只Fed/EC，EV再无实质发布。按18:05前瞻
+记录的研究切换结束，不是双批伤害阈值触发，不是模型故障或成功完成四批。
+B3源133有部分原生回答已保留，没有整批评分/读Gold；不得给它编造B3指标。
+734终态工件各双盘内容验证完成、旧185绑定直到退出均未动，才合入新源码。
+
+必要证据：
+
+- 协议`docs/research/OPENEXEMPT_DIRECT_SKILL_EVOLUTION_20261020.md`。
+- `artifacts/research/openexempt_legal_scope_20261020/actual_direct_v13_background_launch_and_first_native_delivery.json`。
+- 同目录`v11_terminal734_verified_before_source_transition.json`、
+  `direct_v13_complete_implementation_and_once_fixed_new_packet.json`、
+  `direct_v13_unique_harm_observer_started.json`。
+- 旧B2根因与论文草稿均已双盘保全，源码176冻结包另在两盘，不删除历史。
+
+最近实际小时复核17:50:39（17:30检查延迟），下一18:30。18:16是启动续记，
+不伪装额外小时复核。近期NCCL heartbeat有Broken pipe警告，但主/Engine PID
+未变、HTTP模型端点响应、GPU约97%且新请求持续成功；不据该警告重启模型。
+ACE完整原生runner仍在隔离分支，未真实运行；不让基线搭架子压过主方法优化。
+
+## 本日历史快照（以下不是当前运行状态）
 
 ### 17:43 用户要求开始论文，写作已与实验并行
 
