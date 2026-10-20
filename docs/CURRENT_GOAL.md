@@ -80,6 +80,33 @@ B2以后新案对两强空库及固定C0的EC/EV净益。原连续伤害guard不
 最终隔离TEST仍缺。小时审计`task_scoped_hourly_direction_review_20261020_1530.json`，
 下次实际复核16:30。Goal active，不完成、不缩减目标。
 
+### 15:53旧B3具体法条与分析到最终动作的不一致
+
+只读旧B3全部已释放EV：13误引FP中5次存储程序、8次inline，18漏法条全部有
+程序。漏项为Fed(d5)11、Fed(d3)2、PA8123四、IL(b)1。C1/C0目录完全相同，
+不能把差别归于新增函数，也不能从相关性宣布缓存接口偏置已因果成立。
+
+全部8条统一查看实际推理末2048字符。101/107最后计划写出正确较窄引用，最终
+JSON却追加错误法条；105混有无事实的贸易用途推断及明确不适用却最终追加的
+条款；104/106分析幻觉不存在的PA8124(a)(f)/(a)(8)，最终为允许词表的(a)(1)。
+102/103/108还含分析本身的类别错误，不统一归为序列化。未验证的发出文字不是
+真实内在状态或法律真相，不能从分析重建答案补分，也未证明schema造成替换。
+
+对事前固定101/107的原schema、同xgrammar0.1.23/词表151936/EOS151643+151645/
+any_whitespace=False做CPU可达性检查：原输出和服务标准空格下的每资产一声明
+fixture均逐token及两EOS可达，排除grammar硬性强制多选。紧凑无空格形式不被
+既定whitespace设置接受，不当新模型错误；可达性也不证明无概率扭曲。
+torch CUDA未初始化，0模型/教师调用，无评分或Gold读取/服务修改，fixture不作
+预测/不送教师。三项审计均双盘保全：
+`explicit_calls_B3_exact_false_missing_laws_and_actual_call_modes.json`、
+`explicit_calls_B3_uniform_emitted_plan_vs_native_final_audit.json`、
+`explicit_calls_B3_one_claim_each_actual_grammar_CPU_reachability.json`。
+
+当前新v11原62179继续B1最后124号，15:52:54实见37native/0教师/23wire复用；
+未读新Gold/TEST、未热改185绑定。下一步仍核真实教师/分任务组合发布与B2后
+新案，不加AST/类别中间层/fallback。任务独立仅直接处理跨任务更新耦合，未证
+解决同任务法律选择/最终动作忠实性。下次实际小时检查仍16:30。
+
 ### 15:10实际部署、送达与旧终态核验
 
 新配置`configs/openexempt_task_scoped_online_20261020_run01.json`及frozen，源码
