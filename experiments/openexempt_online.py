@@ -564,6 +564,8 @@ class Online:
 
     def __init__(self, config_path):
         self.cfg = read(config_path)
+        if type(self.cfg.get("frozen_after_first_batch_control", False)) is not bool:
+            raise ValueError("Declare frozen-after-first-batch evaluation as a boolean")
         contracts = {"source_grounded_claim_operations": 12, "direct_statutory_claims": 13}
         if (self.cfg.get("execution_contract") not in contracts
                 or self.cfg.get("execution_contract_version")
@@ -595,6 +597,8 @@ class Online:
             if self.bank != initial:
                 raise ValueError("Initialization changed historical knowledge")
         self.frozen_bank = copy.deepcopy(self.bank)
+        self.first_batch_frozen_bank = copy.deepcopy(self.bank)
+        self.prequential_first_batch_frozen = []
         self.prequential_empty, self.prequential_skills, self.prequential_frozen = [], [], []
         self.prequential_direct = []
         self.meter = WireClient(self.cfg["generation"])
@@ -605,7 +609,9 @@ class Online:
             "initial_case_exposure": self.cfg.get("initial_library_prior_exposure_distinct_sources", 0),
             "all_episode_labels_unseen_before_this_run": self.cfg.get("all_episode_labels_unseen_before_this_run", False),
             "prior_stateless_queries_without_label_feedback": self.cfg.get("prior_stateless_queries_without_label_feedback", []),
-            "input_contract": self.cfg.get("input_contract")})
+            "input_contract": self.cfg.get("input_contract"),
+            "frozen_after_first_batch_evaluation_only": self.cfg.get("frozen_after_first_batch_control", False),
+            "frozen_after_B1_answers_never_teacher_or_admission_feedback": True})
         for sig in (signal.SIGINT, signal.SIGTERM):
             signal.signal(sig, lambda *_: setattr(self, "stop", True))
         self.check()
@@ -1020,16 +1026,21 @@ class Online:
                 return row.get("batch", (row["case_id"] - 1) // batch_size + 1)
             current = [r for r in self.rows if batch_of(r) == batch]
             seen = [r for r in self.rows if batch_of(r) <= batch]
-            empty, skills, frozen, direct = [], [], [], []
+            empty, skills, frozen, direct, first_frozen = [], [], [], [], []
+            evaluate_first_frozen = self.cfg.get("frozen_after_first_batch_control", False)
             native_before = len(self.native)
             for row in current:
                 # Fixed rotation, and exact-wire sharing only. No quality selection.
                 arms = ("empty", "frozen_initial", "skills", "empty_direct_numeric")
+                if evaluate_first_frozen:
+                    arms += ("frozen_after_B1",)
                 offset = (row["case_id"] + FAMILIES[row["family"]]) % len(arms)
                 arms = arms[offset:] + arms[:offset]
                 answers = {}
                 for arm in arms:
                     bank = self.bank if arm == "skills" else self.frozen_bank if arm == "frozen_initial" else []
+                    if arm == "frozen_after_B1":
+                        bank = self.first_batch_frozen_bank
                     # One reuse path for every arm/stage. Even an identical
                     # native response must execute against this arm's bank.
                     answers[arm] = self.answer(row, bank, f"b{batch}_prequential", arm)
@@ -1037,15 +1048,22 @@ class Online:
                 skills.append(answers["skills"])
                 frozen.append(answers["frozen_initial"])
                 direct.append(answers["empty_direct_numeric"])
+                if evaluate_first_frozen:
+                    first_frozen.append(answers["frozen_after_B1"])
             # Current labels are first read only after ALL current arms exist.
-            self.grade(empty + skills + frozen + direct)
+            self.grade(empty + skills + frozen + direct + first_frozen)
+            batch_records = {"empty": empty, "skills": skills, "frozen_initial": frozen,
+                             "empty_direct_numeric": direct}
+            if evaluate_first_frozen:
+                batch_records["frozen_after_B1"] = first_frozen
             RunStore.immutable_json(self.out / "batches" / f"b{batch}_prequential_records.json",
-                                    {"empty": empty, "skills": skills, "frozen_initial": frozen,
-                                     "empty_direct_numeric": direct})
+                                    batch_records)
             self.prequential_empty.extend(empty)
             self.prequential_skills.extend(skills)
             self.prequential_frozen.extend(frozen)
             self.prequential_direct.extend(direct)
+            if evaluate_first_frozen:
+                self.prequential_first_batch_frozen.extend(first_frozen)
             pre = {"batch": batch, "source_cases": batch_size, "tasks_per_arm": len(current),
                    "empty": metrics(empty), "skills": metrics(skills), "frozen_initial": metrics(frozen),
                    "empty_direct_numeric": metrics(direct),
@@ -1054,9 +1072,28 @@ class Online:
                    "online_minus_direct_numeric": paired_effect(direct, skills),
                    "prequential_actual_new_native_calls": len(self.native) - native_before,
                    "parent_skill_count": len(self.bank), "official_test_opened": False}
+            if evaluate_first_frozen:
+                pre.update({"frozen_after_B1": metrics(first_frozen),
+                    "online_minus_frozen_after_B1": paired_effect(first_frozen, skills),
+                    "frozen_after_B1_bank_sha256": csha(self.first_batch_frozen_bank),
+                    "frozen_after_B1_snapshot_already_taken": batch > 1,
+                    "frozen_after_B1_evaluation_only_not_teacher_feedback": True})
             RunStore.immutable_json(self.out / "batches" / f"b{batch}_prequential.json", pre)
             self.progress("prequential_scored", latest_batch=pre)
             publication = self.update(current, seen, skills)
+            if evaluate_first_frozen and batch == 1:
+                # A prespecified time boundary, not the first successful/best bank.
+                # Empty/rejected B1 remains empty; never wait for a better update.
+                self.first_batch_frozen_bank = copy.deepcopy(self.bank)
+                RunStore.immutable_json(self.out / "frozen_after_B1.json", {
+                    "at": now(), "bank": self.first_batch_frozen_bank,
+                    "bank_sha256": csha(self.first_batch_frozen_bank),
+                    "publication_bank_sha256": publication["bank_sha256"],
+                    "source_case_ids_seen": sorted({r["case_id"] for r in current}),
+                    "source_keys_seen": sorted({r["source_key"] for r in current}),
+                    "freeze_after_exactly_batch": 1,
+                    "not_selected_by_later_performance_or_nonempty_success": True,
+                    "evaluation_only_never_teacher_or_admission_feedback": True})
             pre["resulting_bank_sha256"] = publication["bank_sha256"]
             pre["resulting_skill_count"] = len(self.bank)
             pre["accepted_update"] = publication["parent_bank_sha256"] != publication["bank_sha256"]
@@ -1097,6 +1134,12 @@ class Online:
                           "native_prompt_tokens": sum(v["response"]["prompt_tokens"] for v in self.native if v["response"]),
                           "native_completion_tokens": sum(v["response"]["completion_tokens"] for v in self.native if v["response"]),
                           "no_official_test_or_paper_success_claim": True}
+            if self.cfg.get("frozen_after_first_batch_control", False):
+                completion.update({"prequential_frozen_after_B1": metrics(self.prequential_first_batch_frozen),
+                    "online_minus_frozen_after_B1": paired_effect(
+                        self.prequential_first_batch_frozen, self.prequential_skills),
+                    "frozen_after_B1_bank_sha256": csha(self.first_batch_frozen_bank),
+                    "frozen_after_B1_evaluation_only_not_teacher_feedback": True})
             RunStore.immutable_json(self.out / "completion.json", completion)
         except Exception as exc:
             RunStore.immutable_json(self.out / "failure.json", {

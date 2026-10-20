@@ -222,6 +222,95 @@ def test_irrelevant_namespace_updates_do_not_change_the_actual_request():
         allowable_namespaces({"components": {"solved_steps": "Guess from domicile facts."}})
 
 
+@pytest.mark.parametrize("enabled,first_update", [(False, True), (True, True), (True, False)])
+def test_first_batch_frozen_control_is_time_fixed_and_never_update_feedback(
+        monkeypatch, tmp_path, enabled, first_update):
+    from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
+
+    monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
+    study = Online.__new__(Online)
+    study.cfg = {"batch_source_cases": 1, "source_cases": 3,
+        "execution_contract": "direct_statutory_claims",
+        "frozen_after_first_batch_control": enabled,
+        "generation": {"seed": 45, "max_tokens": 100}}
+    study.rows = [{"case_id": i, "source_key": f"source{i}", "family": family,
+                   "batch": i, "prompt": "public input", "components": {
+                       **copy.deepcopy(COMPONENTS),
+                       "facts": f"Person{i} (hereinafter the Debtor) owns a watch worth $40."}}
+                  for i in (1, 2, 3) for family in ("EC", "EV")]
+    study.out = tmp_path
+    study.bank, study.frozen_bank, study.first_batch_frozen_bank = [], [], []
+    study.native, study.summaries, study.reuse_events = [], [], []
+    study.request_cache = {}
+    study.prequential_empty, study.prequential_skills = [], []
+    study.prequential_frozen, study.prequential_direct = [], []
+    study.prequential_first_batch_frozen = []
+    study.check, study.progress = lambda: None, lambda *a, **k: None
+    updates, labels_released = [], []
+
+    def call(dest, messages, schema, max_tokens, metadata):
+        study.native.append(metadata)
+        ref = "Ariz. Rev. Stat. section 33-1123"
+        value = ({"watch": [ref]} if metadata["family"] == "EC" else
+                 {"watch": [{"citation_ref": ref, "claim_value": 40}]})
+        return {"content": json.dumps(value), "finish_reason": "stop"}
+
+    def grade(records):
+        saved = list((tmp_path / "native" / f"b{study.current_batch}_prequential")
+                     .glob("*.answer.json"))
+        assert len(saved) == (10 if enabled else 8)
+        labels_released.append(study.current_batch)
+        for rec in records:
+            target = ({"watch": ["Ariz. Rev. Stat. § 33-1123"]} if rec["family"] == "EC" else
+                      {"watch": [{"citation": "Ariz. Rev. Stat. § 33-1123", "claim_value": 40}]})
+            rec["score"] = evaluate(rec, rec["parsed"]["answer"], target)
+        return records
+
+    def update(current, seen, observations):
+        assert labels_released[-1] == study.current_batch
+        assert len(observations) == 2 and all(rec["arm"] == "skills" for rec in observations)
+        updates.append(study.current_batch)
+        before = csha(study.bank)
+        if study.current_batch != 1 or first_update:
+            if not study.bank:
+                study.bank.append({"id": "learned", "hypothesis_ids": ["EC", "EV"],
+                                   "guidance": guidance("first procedure")})
+            # Deliberately mutate the live record to detect shallow snapshots.
+            study.bank[0]["guidance"]["by_task"][0]["procedure"] = f"procedure{study.current_batch}"
+        return {"parent_bank_sha256": before, "bank_sha256": csha(study.bank)}
+
+    study.call, study.grade, study.update = call, grade, update
+    assert study.execute() == "completed_bounded_mechanism_study"
+    assert updates == labels_released == [1, 2, 3]
+    snapshot = tmp_path / "frozen_after_B1.json"
+    if not enabled:
+        assert not snapshot.exists() and not study.prequential_first_batch_frozen
+        assert all("frozen_after_B1" not in item for item in study.summaries)
+        assert len(study.native) == 10
+        return
+    frozen = json.loads(snapshot.read_text())
+    assert frozen["freeze_after_exactly_batch"] == 1
+    assert frozen["source_case_ids_seen"] == [1]
+    assert frozen["bank_sha256"] == csha(study.first_batch_frozen_bank)
+    assert frozen["bank_sha256"] != csha(study.bank)
+    assert (frozen["bank"][0]["guidance"]["by_task"][0]["procedure"] == "procedure1"
+            if first_update else frozen["bank"] == [])
+    for batch in (2, 3):
+        item = study.summaries[batch - 1]
+        assert item["frozen_after_B1_bank_sha256"] == frozen["bank_sha256"]
+        assert item["frozen_after_B1_snapshot_already_taken"]
+        assert item["frozen_after_B1_evaluation_only_not_teacher_feedback"]
+    first = study.summaries[0]
+    assert not first["frozen_after_B1_snapshot_already_taken"]
+    second = json.loads((tmp_path / "batches/b2_prequential_records.json").read_text())
+    for a, b in zip(second["skills"], second["frozen_after_B1"], strict=True):
+        assert a["raw_call_path"] == b["raw_call_path"]
+    third = json.loads((tmp_path / "batches/b3_prequential_records.json").read_text())
+    assert all(rec["bank_sha256"] == frozen["bank_sha256"] for rec in third["frozen_after_B1"])
+    assert all(rec["bank_sha256"] != frozen["bank_sha256"] for rec in third["skills"])
+    assert len(study.native) == (12 if first_update else 8)
+
+
 def test_public_label_decoding_is_not_a_legal_answer_repair():
     row = {"family": "EV", "components": copy.deepcopy(COMPONENTS)}
     catalog = public_catalog(row)
