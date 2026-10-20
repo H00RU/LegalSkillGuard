@@ -9,6 +9,7 @@ from experiments.openexempt_online import (
     Online,
     acceptance,
     actor_payload,
+    candidate_feedback,
     legal_scope_admission,
     task_admission,
     teacher_evidence_rows,
@@ -501,6 +502,14 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
         if r["case_id"] == 20 and r["family"] == "EV":
             r["score"]["full_output_f1"] = 0.1  # Harm in the additional EV audit also counts.
     rejected = [{"accepted": False, "actual_replay": replay}]
+    partial = candidate_feedback({"accepted": True, "candidate": [],
+        "proposed_bank": [{"id": "uncommitted"}], "proposed_replay": replay,
+        "accepted_legal_coordinates": ["EC:ARIZONA"]}, observations,
+        {"batch": 1, "attempt": 1})
+    assert partial["accepted"] and partial["partially_committed"]
+    assert len(partial["feedback_witness_replay"]) == 8
+    assert partial["full_proposed_replay_task_count"] == 48
+    rejected.append(partial)
     selected, manifest = teacher_evidence_rows(current, seen, observations, rejected)
     ids = {r["case_id"] for r in selected}
     assert {21, 22, 23, 24}.issubset(ids)
@@ -568,6 +577,21 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
     assert len(feedback["actual_replay"]) == 40
     assert {r["case_id"] for r in feedback["actual_replay"]} == ids
     assert all("source_model_emitted_evidence" in r for r in feedback["actual_replay"])
+    carried = body["rejected_candidate_feedback"][1]
+    assert carried["accepted"] and carried["partially_committed"]
+    assert carried["bounded_feedback_witness_task_count"] == 8
+    assert carried["bounded_feedback_reference_task_count"] == 8
+    for field in ("feedback_witness_replay", "feedback_reference_replay"):
+        assert {r["case_id"] for r in carried[field]} <= ids
+    assert all("source_model_emitted_evidence" in r for r in carried["feedback_witness_replay"])
+    for ref in carried["feedback_reference_replay"]:
+        assert ref["reference_is_this_request_parent"]
+        assert ref["record_sha256"] == canonical_json_sha256(observations[(ref["case_id"], ref["family"])])
+        assert "source_model_emitted_evidence" not in ref
+    future = copy.deepcopy(replay[:1])
+    future[0]["case_id"] = 99
+    with pytest.raises(ValueError, match="already-seen TRAIN"):
+        candidate_feedback({"accepted": False, "actual_replay": future}, observations, {})
 
 
 def test_strong_direct_numeric_empty_is_not_a_program_or_host_repaired_answer(tmp_path, monkeypatch):
@@ -930,3 +954,113 @@ def test_full_legal_scope_update_retains_unrelated_law_without_extra_generation(
     assert next(s for s in study.bank if s["id"] == "az") == original[0]
     assert decision["candidate_current"]["EC"]["f1"] == 1
     assert decision["candidate_current"]["EV"]["f1"] == 1
+
+
+@pytest.mark.parametrize("closed_loop,second_good", [(False, True), (True, True), (True, False)])
+def test_partial_commit_refinement_and_next_batch_feedback_are_real_train_only(
+        tmp_path, monkeypatch, closed_loop, second_good):
+    from types import SimpleNamespace
+
+    from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
+
+    monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
+    study = Online.__new__(Online)
+    study.cfg = {"execution_contract": "direct_statutory_claims",
+        "candidate_feedback_policy": ("carry_partial_and_refine" if closed_loop
+                                      else "batch_only_first_commit"),
+        "generation": {"seed": 45, "max_tokens": 100}, "max_candidate_attempts": 2,
+        "library_token_hard_cap": 4096, "skill_commit_policy": "legal_scope"}
+    study.current_batch, study.latest = 1, {}
+    study.out, study.native, study.request_cache, study.reuse_events = tmp_path, [], {}, []
+    study.meter = SimpleNamespace(token_count=lambda **kwargs: 300)
+    study.check, study.progress = lambda: None, lambda *a, **k: None
+
+    def source(number):
+        return [{"case_id": number, "source_key": f"source{number}", "family": family,
+                 "prompt": "public original", "components": {**copy.deepcopy(COMPONENTS),
+                    "facts": f"Person{number} (hereinafter the Debtor) owns a watch worth $40 and a bowl worth $20."}}
+                for family in ("EC", "EV")]
+
+    def book(ec, ev):
+        return [{"id": "az", "hypothesis_ids": ["EC", "EV"], "guidance": {
+            "by_task": [guidance(ec, tasks=("EC",))["by_task"][0],
+                        guidance(ev, tasks=("EV",))["by_task"][0]],
+            "operators": [], "jurisdiction": "ARIZONA"}}]
+
+    study.rows = source(1)
+    study.bank = book("EC_INITIAL", "EV_INITIAL")
+    original = copy.deepcopy(study.bank)
+    prompts = []
+    reference, citation = "Ariz. Rev. Stat. section 33-1123", "Ariz. Rev. Stat. § 33-1123"
+
+    def call(dest, messages, schema, max_tokens, metadata):
+        study.native.append(metadata)
+        if metadata["family"] == "EC":
+            value = {name: [reference] if "EC_FIXED" in str(messages) else []
+                     for name in ("watch", "bowl")}
+        else:
+            amounts = ((40, 20) if "EV_FIXED" in str(messages) else
+                       (1, 1) if "EV_BAD" in str(messages) else (40, 1))
+            value = {name: [{"citation_ref": reference, "claim_value": amount}]
+                     for name, amount in zip(("watch", "bowl"), amounts, strict=True)}
+        return {"content": json.dumps(value), "finish_reason": "stop"}
+
+    def grade(records):
+        for rec in records:
+            target = ({name: [citation] for name in ("watch", "bowl")} if rec["family"] == "EC" else
+                      {name: [{"citation": citation, "claim_value": amount}]
+                       for name, amount in (("watch", 40), ("bowl", 20))})
+            rec["score"] = evaluate(rec, rec["parsed"]["answer"], target)
+        return records
+
+    def body(current, seen, observations, rejected):
+        return {"current_parent_library": copy.deepcopy(study.bank),
+            "rejected_candidate_feedback": copy.deepcopy(rejected),
+            "training_evidence_manifest": {"selected_source_ids": sorted({r["case_id"] for r in seen})}}
+
+    def teacher(name, system, request, schema):
+        prompts.append((name, copy.deepcopy(request)))
+        if name.startswith("b2_"):
+            return {"operations": [], "noop_reason": "No additional synthetic TRAIN repair"}
+        proposed = (book("EC_FIXED", "EV_FIXED") if second_good else book("EC_INITIAL", "EV_BAD")) \
+            if name.endswith("candidate2") else book("EC_FIXED", "EV_BAD")
+        return {"noop_reason": None, "operations": [{"operation": "UPDATE", "target_ids": ["az"],
+            "skill": proposed[0], "source_case_ids": [1], "rationale": "Synthetic partial-repair contract"}]}
+
+    study.call, study.grade, study.teacher_body, study.teacher_call = call, grade, body, teacher
+    first = grade([study.answer(r, study.bank, "first_encounter", "skills") for r in study.rows])
+    first_saved = copy.deepcopy(first)
+    publication = study.update(study.rows, study.rows, first)
+    assert first == first_saved  # TRAIN refinement never replaces first predictions/scores.
+    assert publication["parent_bank_sha256"] == csha(original)
+    assert publication["training_decisions"][0]["accepted_legal_coordinates"] == ["EC:ARIZONA"]
+    assert len(publication["training_decisions"]) == (2 if closed_loop else 1)
+    assert len(study.native) == (5 if closed_loop and second_good else 4)
+    assert metrics(list(study.latest.values()))["EC"]["f1"] == 1
+    assert metrics(list(study.latest.values()))["EV"]["f1"] == (1 if closed_loop and second_good else .5)
+    if closed_loop:
+        second = prompts[1][1]
+        assert second["candidate_feedback_contract"]["attempt"] == 2
+        assert task_view(second["current_parent_library"], "EC") == task_view(book("EC_FIXED", "EV_INITIAL"), "EC")
+        assert task_view(second["current_parent_library"], "EV") == task_view(original, "EV")
+        assert second["rejected_candidate_feedback"][0]["accepted"]
+        assert second["rejected_candidate_feedback"][0]["partially_committed"]
+        assert publication["training_decisions"][1]["attempt_parent_bank_sha256"] == csha(publication["training_decisions"][0]["candidate"])
+        assert publication["training_decisions"][1]["accepted"] == second_good
+    study.current_batch = 2
+    current = source(2)
+    study.rows += current
+    parent = grade([study.answer(r, study.bank, "b2_first_encounter", "skills") for r in current])
+    before_second_batch = copy.deepcopy(study.bank)
+    next_publication = study.update(current, study.rows, parent)
+    assert next_publication["parent_bank_sha256"] == csha(before_second_batch)
+    assert study.bank == before_second_batch
+    carried = prompts[-1][1]["rejected_candidate_feedback"]
+    assert bool(carried) == closed_loop
+    if closed_loop:
+        assert len(carried) == (1 if second_good else 2)
+        assert carried[0]["accepted"] and carried[0]["partially_committed"]
+        assert carried[0]["candidate_feedback_origin"]["batch"] == 1
+        assert all(r["case_id"] == 1 for r in carried[0]["feedback_witness_replay"])
+        if not second_good:
+            assert not carried[1]["accepted"] and not carried[1]["partially_committed"]

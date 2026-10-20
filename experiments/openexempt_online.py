@@ -140,6 +140,20 @@ DIRECT_AUTHOR_SYSTEM = (
     "Return only the exact delta JSON schema."
 )
 
+CANDIDATE_FEEDBACK_ADDITION = (
+    " Candidate feedback may include a partially committed previous proposal. "
+    "Its accepted flag describes the ORIGINAL decision, not acceptance of every edit. "
+    "Distinguish its committed coordinates from uncommitted changes and actual failure "
+    "witnesses. References point to this request's actual parent observations in "
+    "already_seen_training, not invented pre-proposal runs or stale prior parents. "
+    "Use failed replay evidence to revise unresolved "
+    "changes, rather than repeat an unsupported edit. Each attempt targets the parent "
+    "IDs supplied for THAT attempt; do not target IDs created within the same delta. "
+    "A prior accepted subset remains in the current parent. All changes still require "
+    "full seen-TRAIN replay and the unchanged admission gates. This is bounded TRAIN "
+    "refinement, never an inference retry or future-case feedback."
+)
+
 
 def numeric_case_input(row):
     content = "\n\n".join(row["components"][key] for key in ACTIVE_CASE_FIELDS
@@ -459,6 +473,44 @@ def paired_effect(before, after):
             "mean_f1_difference": sum(delta) / len(delta) if delta else 0}
 
 
+def candidate_feedback(decision, observations, origin, *, witness_limit=8):
+    """Bound saved failure evidence; never relabel a partial commit as rejected."""
+    if type(witness_limit) is not int or not 1 <= witness_limit <= 8:
+        raise ValueError("Candidate feedback allows one to eight real TRAIN witnesses")
+    if decision.get("explicit_noop"):
+        return None
+    accepted = bool(decision.get("accepted"))
+    if accepted and decision.get("proposed_bank") == decision.get("candidate"):
+        return None
+    pool = decision.get("proposed_replay", decision.get("actual_replay", []))
+    keys = [(r["case_id"], r["family"]) for r in pool]
+    if len(keys) != len(set(keys)) or not set(keys) <= set(observations):
+        raise ValueError("Candidate feedback must reference distinct already-seen TRAIN observations")
+
+    def severity(record):
+        key = record["case_id"], record["family"]
+        before, after = observations[key]["score"], record["score"]
+        delta = min(after["f1"] - before["f1"],
+            after.get("full_output_f1", after["f1"])
+            - before.get("full_output_f1", before["f1"]))
+        return delta, min(after["f1"], after.get("full_output_f1", 1)), *key
+
+    witnesses = sorted(pool, key=severity)[:witness_limit]
+    fields = ("delta", "reason", "source_program_compile_error", "composition_error",
+              "accepted_tasks", "accepted_legal_coordinates", "legal_scope_admission",
+              "task_admission", "proposed_whole_bank_acceptance", "attempt_parent_bank_sha256")
+    return {**{k: copy.deepcopy(decision[k]) for k in fields if k in decision},
+        "accepted": accepted, "partially_committed": accepted,
+        "candidate_feedback_origin": copy.deepcopy(origin),
+        "proposed_bank_sha256": csha(decision.get("proposed_bank", decision.get("candidate"))),
+        "decision_candidate_bank_sha256": csha(decision.get("candidate")),
+        "full_proposed_replay_task_count": len(pool),
+        "feedback_witness_limit": witness_limit,
+        "feedback_witness_rule": "worst current-parent delta, then remaining failure, source/task tie break",
+        "references_are_current_parent_observations_not_invented_original_runs": True,
+        "feedback_witness_replay": copy.deepcopy(witnesses)}
+
+
 def teacher_evidence_rows(current, seen, observations, rejected, *, history_limit=16):
     """Bound teacher communication, never the full TRAIN replay or its scores.
 
@@ -480,7 +532,7 @@ def teacher_evidence_rows(current, seen, observations, rejected, *, history_limi
                          for _, ids in sorted(groups.items())]
     harm = {}
     for decision in rejected:
-        for record in decision.get("actual_replay", []):
+        for record in decision.get("feedback_witness_replay", decision.get("actual_replay", [])):
             i = record["case_id"]
             if i in old_ids:
                 before = observations[(i, record["family"])]["score"]
@@ -566,6 +618,14 @@ class Online:
         self.cfg = read(config_path)
         if type(self.cfg.get("frozen_after_first_batch_control", False)) is not bool:
             raise ValueError("Declare frozen-after-first-batch evaluation as a boolean")
+        if self.cfg.get("candidate_feedback_policy", "batch_only_first_commit") not in (
+                "batch_only_first_commit", "carry_partial_and_refine"):
+            raise ValueError("Declare the candidate feedback policy before freezing")
+        if self.cfg.get("candidate_feedback_policy") == "carry_partial_and_refine" and (
+                self.cfg.get("execution_contract") != "direct_statutory_claims"
+                or type(self.cfg.get("max_candidate_attempts")) is not int
+                or self.cfg["max_candidate_attempts"] not in (1, 2)):
+            raise ValueError("Closed-loop feedback uses direct answers and one or two bounded proposals")
         contracts = {"source_grounded_claim_operations": 12, "direct_statutory_claims": 13}
         if (self.cfg.get("execution_contract") not in contracts
                 or self.cfg.get("execution_contract_version")
@@ -821,15 +881,31 @@ class Online:
                               observations[(row["case_id"], row["family"])], include_emitted=True)})
         rejected_view = []
         for decision in rejected:
+            replay_fields = {"actual_replay": "full_replay_task_count",
+                "proposed_replay": "full_proposed_replay_task_count",
+                "feedback_witness_replay": "bounded_feedback_witness_task_count"}
             value = {k: v for k, v in decision.items()
-                     if k not in ("actual_replay", "proposed_replay")}
-            for field in ("actual_replay", "proposed_replay"):
+                     if k not in replay_fields}
+            for field, count_field in replay_fields.items():
                 if field not in decision:
                     continue
-                value["full_replay_task_count" if field == "actual_replay"
-                      else "full_proposed_replay_task_count"] = len(decision[field])
+                value[count_field] = len(decision[field])
                 value[field] = [observation_view(r, include_emitted=True)
                                 for r in decision[field] if r["case_id"] in supplied_ids]
+            if "feedback_witness_replay" in decision:
+                # This parent may have changed since an earlier TRAIN attempt.
+                # Point at its current observation already supplied above; do not
+                # duplicate answers/traces or silently retain a stale comparator.
+                references = [observations[(r["case_id"], r["family"])]
+                              for r in decision["feedback_witness_replay"]
+                              if r["case_id"] in supplied_ids]
+                value["bounded_feedback_reference_task_count"] = len(references)
+                value["feedback_reference_replay"] = [{
+                    "case_id": r["case_id"], "family": r["family"],
+                    "reference_location": "already_seen_training.actual_parent_answer",
+                    "reference_is_this_request_parent": True,
+                    "bank_sha256": r.get("bank_sha256"), "score": copy.deepcopy(r["score"]),
+                    "raw_call_path": r["raw_call_path"], "record_sha256": csha(r)} for r in references]
             rejected_view.append(value)
         actual_contracts = {}
         for row in seen:
@@ -896,11 +972,24 @@ class Online:
         return composed, replay, tokens
 
     def update(self, current, seen, parent_current):
-        before = copy.deepcopy(self.bank)
+        batch_parent = copy.deepcopy(self.bank)
+        before = copy.deepcopy(batch_parent)
+        closed_loop = self.cfg.get("candidate_feedback_policy") == "carry_partial_and_refine"
         old_rows = [r for r in seen if r["case_id"] not in {v["case_id"] for v in current}]
         prior = [self.latest[(r["case_id"], r["family"])] for r in old_rows]
         observations = {**self.latest, **{(r["case_id"], r["family"]): r for r in parent_current}}
+        initial_current, initial_prior = copy.deepcopy(parent_current), copy.deepcopy(prior)
         rejected = []
+        if closed_loop and self.current_batch > 1:
+            previous = read(self.out / "publications" / f"b{self.current_batch - 1}.json")
+            if previous["bank_sha256"] != csha(batch_parent):
+                raise ValueError("Previous publication must match the actual current parent")
+            for index, previous_decision in enumerate(previous["training_decisions"], 1):
+                feedback = candidate_feedback(previous_decision, observations, {
+                    "batch": self.current_batch - 1, "attempt": index,
+                    "publication_bank_sha256": previous["bank_sha256"]})
+                if feedback is not None:
+                    rejected.append(feedback)
         decisions = []
         grounded = self.cfg.get("execution_contract") == "source_grounded_claim_operations"
         direct = self.cfg.get("execution_contract") == "direct_statutory_claims"
@@ -910,6 +999,15 @@ class Online:
             body = self.teacher_body(current, seen, observations, rejected)
             supplied_ids = body["training_evidence_manifest"]["selected_source_ids"]
             system = DIRECT_AUTHOR_SYSTEM if direct else AUTHOR_SYSTEM + PROGRAM_AUTHOR_ADDITION
+            if closed_loop:
+                system += CANDIDATE_FEEDBACK_ADDITION
+                body["candidate_feedback_contract"] = {
+                    "policy": "carry_partial_and_refine", "attempt": attempt,
+                    "max_attempts": self.cfg["max_candidate_attempts"],
+                    "current_attempt_parent_bank_sha256": csha(before),
+                    "previous_publication_only_not_unbounded_history": True,
+                    "failure_witness_limit_per_proposal": 8,
+                    "single_final_publication_after_bounded_TRAIN_refinement": True}
             delta = self.teacher_call(name, system,
                 body,
                 differential_schema(FAMILIES, before, supplied_ids,
@@ -1000,20 +1098,49 @@ class Online:
                         decision["reason"] = "composed_bank_failed_original_full_gate"
                         decision["accepted_tasks"] = []
                         decision["accepted_legal_coordinates"] = []
+            if closed_loop:
+                decision["attempt_parent_bank_sha256"] = csha(before)
             RunStore.immutable_json(self.out / "candidates" / f"{name}.json", decision)
             decisions.append(decision)
             if decision["accepted"]:
                 self.bank = decision["candidate"]
                 self.latest = {(r["case_id"], r["family"]): r for r in decision["actual_replay"]}
-                break
-            rejected.append(decision)
-        if self.bank == before:
+                if not closed_loop:
+                    break
+                feedback = candidate_feedback(decision, self.latest, {
+                    "batch": self.current_batch, "attempt": attempt,
+                    "current_committed_bank_sha256": csha(self.bank)})
+                if feedback is None:
+                    break
+                # Keep the accepted subset as the next attempt's real parent.
+                # A failed later proposal cannot undo it or use cached scores.
+                rejected.append(feedback)
+                before = copy.deepcopy(self.bank)
+                parent_current = actual_current
+                prior = actual_prior
+                observations = dict(self.latest)
+            elif closed_loop:
+                feedback = candidate_feedback(decision, observations, {
+                    "batch": self.current_batch, "attempt": attempt,
+                    "current_committed_bank_sha256": csha(self.bank)})
+                if feedback is not None:
+                    rejected.append(feedback)
+            else:
+                rejected.append(decision)
+        if self.bank == batch_parent:
             self.latest = observations
-        publication = {"at": now(), "bank": self.bank, "parent_bank_sha256": csha(before),
+        elif closed_loop:
+            final_current = [self.latest[(r["case_id"], r["family"])] for r in current]
+            final_prior = [self.latest[(r["case_id"], r["family"])] for r in old_rows]
+            if not acceptance(initial_current, final_current, initial_prior, final_prior)["accepted"]:
+                raise ValueError("Final refined bank must also pass the original batch-parent full gate")
+        publication = {"at": now(), "bank": self.bank, "parent_bank_sha256": csha(batch_parent),
                        "skill_commit_policy": self.cfg["skill_commit_policy"],
                        "bank_sha256": csha(self.bank), "training_decisions": decisions,
                        "future_performance_not_used": True,
                        "training_acceptance_does_not_guarantee_generalization": True}
+        if closed_loop:
+            publication["candidate_feedback_policy"] = "carry_partial_and_refine"
         RunStore.immutable_json(self.out / "publications" / f"b{self.current_batch}.json", publication)
         return publication
 
