@@ -1,6 +1,6 @@
 # 论文证据与完成条件
 
-2026-10-20 20:55，初稿v0.1配套内部记录。方法已同步当前v13直接作答；旧v11分数仅保留为开发沿革。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
+2026-10-20 21:10，初稿v0.1配套内部记录。方法已同步当前v13直接作答；旧v11分数仅保留为开发沿革。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
 
 ## 已经写下的论文主线
 
@@ -26,6 +26,7 @@
 | C2已证明普遍优于B1学得的固定C1 | UNSUPPORTED | B3全部8项EC请求可用已保存原始响应回顾性核验：C1 62.09%、C2 71.47%，1好7平；EV只有3/8请求覆盖，不填完整成绩。当前固定初库仍是空库，不是固定C1 |
 | 已完成ACE真实基线 | UNSUPPORTED | 隔离分支8cf0158已补齐作者TRAIN反思后重答，10项小CPU检查通过；0真实调用、profile未冻结，不能以实现或测试冒充对比成绩 |
 | 正式训练量、独立重复、隔离测试与统计结论已完成 | PENDING | 目前32来源机制试跑，不是正式论文实验 |
+| 当前开发成绩可直接横比SkillCommit的Advanced Competency成绩 | UNSUPPORTED | 当前start2、2–4资产、无干扰；固定上游Advanced为start1、6–8资产、有干扰。公开信息和难度不同，不能直接声称达到或超过该论文成绩 |
 | 作用域重放或算术程序本身就是本文原创 | UNSUPPORTED | 必须区分SkillCommit等近邻；尚未确认独立方法贡献 |
 
 ## 当前开发分数：只用于如实交代，不作正式论文成绩
@@ -159,6 +160,30 @@ B1更新后同案重放：实际EC-only C1为EC63.51%、EV65.42%，不是B2首�
 - **有正式证据后再写：** 主结果、显著性、稳健性、对比优势、最终摘要结论及贡献定稿。未冻结的实验不标成已预注册。
 - **实验最大优先项：** 检验已实现的发布粒度修复是否能带来真实后续新案净益，并定位剩余法条选择损害；不再另起泛泛调研、重复B1资格循环或只做基线不优化主方法。
 
+## 正式测试的数据边界仍需冻结，不能混用不同难度的同名任务
+
+21:08仅核对Hub文件清单、套件行数/字段元数据和固定上游公开生成配置；未下载
+官方parquet内容，未解析任何测试题、答案、私有case或逐记录config。Hub版本为
+`842cedec770ff2e45636fb5cb526ba0708ceb908`。服务元数据将Advanced Competency
+列为test1400、validation70，这些数字是整套件，不是EC/EV各自的训练/测试数。
+不能将`all`配置与各套件配置的行数相加当独立案件数。
+
+固定上游Advanced的EC/EV变体为start1、6–8资产、全部联合债务人，并带居住史
+与资产干扰，部分含意见。当前开发为start2，AE法域已由原任务公开给定，
+2–4资产、半数联合债务人、无干扰。不得用隐藏case字段补AE后仍称原样Advanced，
+也不得将当前分数与相关论文的Advanced分数直接横比。
+
+固定上游Reasoning Decomposition的`rd_exemption_classification_2`及
+`rd_exemption_valuation_2`原生start2，才与当前公开信息边界一致。其公开生成
+配置为6资产、联合债务人、Illinois/Oregon/Wisconsin；每变体100测试+5开发。
+它们仅是后续测试候选，尚未读远端记录确认、导入或冻结。官方小开发split
+不自动变成我们的验证集；当前无独立验证集的决定不变。
+
+SkillCommit v2公开报告EC/EV各210 induction、105 test，但本项目尚未核验其
+实际划分清单，不能仅按总数推断或冒充相同划分。本项目最终要冻结同模型、
+同公开信息、同推理预算、相同测试来源的实际方法比较，而不是拿异构文献
+数字当胜负。测试选型不基于测试分数，现有32来源训练与176冻结绑定不变。
+
 ## 主要本地证据
 
 - 当前冻结配置：`configs/openexempt_direct_skills_online_20261020_run01.frozen.json`，176绑定；写稿不热改运行源。旧v11的185绑定已保全至终态。
@@ -170,6 +195,7 @@ B1更新后同案重放：实际EC-only C1为EC63.51%、EV65.42%，不是B2首�
 - 实际C2、全部32项原生请求/重新解码/原评分核验、闭合B2成本及B3投递：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_actual_C2_six_skills_all32_native_identity_and_B3_delivery.json`。
 - 新B3完整首次新案、全部64项原生身份/原评分、全部8来源配对、EV失分与来源级探索区间：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_B3_complete_new_sources_all64_native_and_original_scores.json`。
 - B3单一固定C1全部16请求覆盖审计、完整EC原评分、EV五项缺失及隔离前瞻控制源码：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_B3_fixed_C1_all16_request_coverage_and_complete_EC.json`。
+- 仅官方元数据与公开生成配置、难度/已给前序步骤差异及未接触测试记录声明：`artifacts/research/openexempt_legal_scope_20261020/official_metadata_task_boundary_and_heldout_candidates_20261020.json`。
 - B1实际发布：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B1_actual_EC_only_C1_publication_and_all16_reexecution.json`。
 - B2完整前向：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B2_full_new_case_effect_and_actual_EV_invariance.json`。
 - B2损失分解：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B2_all_arms_full_law_amount_name_losses_and_public_contexts.json`。
