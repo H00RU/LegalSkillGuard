@@ -69,6 +69,34 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   执行/教师/前向，不再做资格网格。07:58:24亲核2物理/4逻辑回答无格式错误，
   GPU约22429/49140MiB、97%忙；这不是稳定性或指标突破证明。
 
+### 08:22补充：本轮实际进度和隔离候选，不要混成已采用方法
+
+08:22亲核同PID，19 native/0教师，B1最后76_EV生成中；27566仍等完整四臂。
+当前没有再次出现JSON未闭合，但程序empty的74/75有真实非法算式，原样判错。
+强直接数值空库保留，不以赢这些错误程序为充分收益证据。当前批Gold尚未读。
+公开事实覆盖已核：B1两N1/两N2，B2四N2，B3两N1/两N2；本12来源没有Arizona
+案件，不能从完整法条语料包含AZ就说案件覆盖了六法域。裸批次难度变化不等于
+库回退；仍看同案C0/两个强控制与实际技能变化，不调整样本顺序。
+
+当前caller消息删除整个operators、只在schema区分cached/inline；缺少调用清单，
+也没有明确展开JSON字段层级。实际empty74写冒号前缀数值、75把引用写成算式。
+这是可证实的信息边界/无效动作，不证明单一根因或新接口能提高F1。
+独立分支`prospective-compiled-call-20261020`已准备**ccb5108+899252e**：EV只暴露
+citation_ref调用签名、隐藏id/程序体，明确原有assets/claims层级与标量字符串类型，
+EC不变、纯程序更新保持原生wire不变，不增加路由/模型/新测试模块。只在现有测试
+补断言，2项定向CPU检查0.14s通过，0模型/教师新增调用，**尚未合入活跃主树**。
+当前136绑定完整未变，不能称此候选已被8B采用或取得指标改善。先看当前多批结果，
+后续若采用须新冻结，不以新假设即刻停止健康运行或反复重启B1。
+隔离工作树仍`.venv/compiled-call-20261020.2VOZzd`；最新5工件双盘归档
+`compiled_call_contract_preparation_20261020-typed_citation_interfaces_not_adopted.tar.gz`。
+receipt在该树`artifacts/compiled_call_contract_preparation_20261020/typed_interfaces_prepared_not_adopted.json`。
+
+补充报表审计：失败EV没有TP/FP/FN字段，缺失不能按0相加。旧已释放B1的程序
+empty本应在整答拒绝口径计8漏项，而不是raw有效记录的2，差6来自拒绝70_EV。
+原F1/完整每案F1/准入未改，不改活跃评分。审计和双盘收据
+`compiled_skills_B1_rejected_answer_counter_completeness_audit.json`；新公开分布
+`eos_aligned_public_debtor_and_legal_context_coverage.json`，均在研究前缀。
+
 ## 已结束的v10 compiled小试及其真实证据
 
 - Run `legal_openexempt_compiled_skills_online_20261020_run01`。
