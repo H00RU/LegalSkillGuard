@@ -1,6 +1,6 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 07:57 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 08:28 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 **最高优先纠正：下文旧v10已因确证EOS约束缺口在07:47:30停止，43native/1教师，
 B2未完整评分/未读Gold。8B同服务已重启为PID3613253并健康；依赖修复已通过真实
 失败前缀/有效回答的CPU检查，无新GPU资格生成。新Run eos_aligned已冻结136源
@@ -30,7 +30,7 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   Gold solver 推理或无关框架，不选好案/旧好库/改评分造提升，失败与成本全保留。
 - 师兄 paper-ideation / paper-experiments-appendix 用于实际失效假设、机制日志、
   公平成本与结论边界；不采用隐瞒借鉴、固定创新数或预设好指标。当前 Goal 轮已完整读。
-- 每小时以实际时钟复核五件事，记录在生效补充。最近实际 **07:28:03，下次08:28**。
+- 每小时以实际时钟复核五件事，记录在生效补充。最近实际 **08:28:10，下次09:28**。
   07:01批次续记不是额外小时检查。无独立唤醒产品；训练独立后台运行不依赖对话。
   卡住先定位原始失败，再查近期权威原文/作者实现并落实，不空转调研或重复资格测试。
 
@@ -63,11 +63,41 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
 - 新日志 `artifacts/research/openexempt_mechanism_20261019/eos_aligned_run01.log`；
   启动 `eos_aligned_run01_launch_receipt.json`，source与runtime修复/启动10工件已双盘。
   协议 `docs/research/OPENEXEMPT_EOS_ALIGNED_20261020.md`。**仍非正式规模或Goal完成**。
-- 当前只读观察session **27566**（07:59起最长至08:59），等新B1全部四臂与原主
-  PID3621135，逐条报告EV实际执行/格式错误，不读未完成批次Gold。每次poll≤30秒。
-  旧96460已因旧主进程终态正常退出0，不再resume。下一动作是新主PID真实多批
-  执行/教师/前向，不再做资格网格。07:58:24亲核2物理/4逻辑回答无格式错误，
-  GPU约22429/49140MiB、97%忙；这不是稳定性或指标突破证明。
+- 只读观察session **27566已结束**，B1全四臂08:22:45落盘；不要再resume该句柄。
+  08:28:10按实钟复核，唯一主PID3621135与模型PID3613253均active/running；
+  最新progress08:27:35为23 native/1教师/12跨阶段wire别名，B1候选1重放中。
+  A40约23129/49140MiB、97%忙；不是GPU不可用，也不是指标突破证明。
+  下一动作是真实准入/发布及B2/B3前向，不开第二GPU队列或资格网格。
+
+### 08:28：新B1完整实绩、真实技能内容与当前未解断点
+
+|B1，原宏F1百分数|EC|EV|完整输出EV|
+|---|---:|---:|---:|
+|程序empty|69.0972|34.1667|34.5238|
+|强直接数值empty|69.0972|63.6806|64.1667|
+|同blind C0 / online|66.8750|57.0139|57.3214|
+
+在线=B1初库，对C0进化效应0；对强直接empty两项均值**-4.4444pp**，不是突破。
+强程序empty的74/75真实非法算式原样0分，不能只凭击败该控制宣传有效。
+20物理/32逻辑前向，131246prompt/56140completion。带库EV逻辑轨迹真实调用
+10次存储程序、3次inline；C0与online同wire别名，不算20次独立程序行为。
+完整输出claim为带库13正确/0多余/25漏项，对照直接empty17/4/21。
+整答拒绝按无可接受预测补足漏项的次级统计：程序empty7/4/31，原评分未改变。
+当前主要损失是覆盖不足而非已证明的数值计算失败，调用数非收益。
+
+教师1在08:23:39真实返回UPDATE3（Federal/PA/OR），改顺序化分类/通用条款指导，
+40程序体均不变；44166input/3244output、53.621s，历史账本seq1501。
+教师已收到父库3462tokens/4096上限/634剩余空间。**还在重放，未发布**；不得把
+提案当新库或训练重答当新案。73_EV本地思考列四资产，最终仅提交住宅，且使用
+了未向演员明确说明的JSON字段层级；另有Fed/PA/OR通用条款在推理本身就遗漏。
+两种断点并存，不能全部归因于语法/知识或直接断言隔离caller候选能提升。
+全部136绑定未改变；90个原始B1/教师/审计工件已逐成员双盘核验。
+审计`eos_aligned_B1_actual_skill_generation_use_and_control_audit.json`及preservation。
+
+正式足量/独立学习重复/成熟同权限方法/合理迁移/隔离TEST均未完成，仍无验证集。
+下一个决策依据是候选真实差分、完整TRAIN准入以及B2/B3后续新案净益；不因冷
+B1负差停掉健康学习、不盲扩128、不按已知Gold补单案，沿用连续伤害/系统故障
+止损。完整目标不缩小，小时复核下次09:28。
 
 ### 08:22补充：本轮实际进度和隔离候选，不要混成已采用方法
 
@@ -217,7 +247,7 @@ B6对C0三好零坏五平，EV完整claim TP/FP/FN为online13/2/11、C010/3/14�
 重答或函数计数。持续核新库是否真实发布、纯程序更新是否重新执行、两个强空库
 及同C0是否都净胜、帮助/伤害和完整成本。明显系统性错误先保全终态再修；
 真实负效应按预定边界，不挑案修补、第三教师或换解码削弱空库。
-小时复核08:28。正式规模及创新判据见[下一证据门槛](research/FORMAL_EVIDENCE_NEXT_GATE_20261020.md)，
+小时复核09:28。正式规模及创新判据见[下一证据门槛](research/FORMAL_EVIDENCE_NEXT_GATE_20261020.md)，
 该草案旧计算量是v9三臂；v10额外直接EV必须计费，不能当同成本。
 
 研究前缀 `artifacts/research/openexempt_mechanism_20261019/`：
@@ -246,5 +276,6 @@ repo `/media/sangfor/vdb/legal-skill-evolve`，hhy软链legal-skill-current。
 双盘 `/media/sangfor/vdb/legal-skill-backups` 和 `/home/yndx/hhy/legal-skill-rootdisk-backups`。
 Git runtime在 `/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/bin/git`，
 须配同根usr/lib/git-core的GIT_EXEC_PATH。五个用户untracked reports不清理。
-隔离worktree `.venv/compiled-call-20261020.2VOZzd` 已提交/备份且其源已采用，
-不是第二个运行项目，暂保留注册状态，不递归删除或恢复旧32B/ContractNLI队列。
+隔离worktree `.venv/compiled-call-20261020.2VOZzd` 早先四提交已采用；新增
+ccb5108/899252e调用清单/类型说明**尚未采用**，详见08:22小节。不是第二个运行
+项目，暂保留注册状态，不递归删除或恢复旧32B/ContractNLI队列。
