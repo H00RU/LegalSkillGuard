@@ -1,0 +1,49 @@
+{
+  "artifact_role": "dataset_construction_only_sealed_IID_TEST_not_a_training_configuration",
+  "protocol": "docs/research/OPENEXEMPT_SEALED_IID_TEST_20261021.md",
+  "input_packet": "data/packets/openexempt_IID128_sealed_TEST_20261021/inputs.json",
+  "grading_directory": "data/packets/openexempt_IID128_sealed_TEST_20261021/grading_only",
+  "upstream_archive": "data/cache/openexempt/OpenExempt-ec6fa2547431096588ce2d3ef107b8adc33cd4fe.tar.gz",
+  "source_cases": 128,
+  "batch_source_cases": 128,
+  "dataset_seed": 2026102191,
+  "new_case_id_start": 1000001,
+  "preselected_source_case_ids": [],
+  "additional_exclusion_packets": [
+    "data/packets/openexempt_active_case_20261019/inputs.json",
+    "data/packets/openexempt_citation_20261019/inputs.json",
+    "data/packets/openexempt_compiled_skills_20261020/inputs.json",
+    "data/packets/openexempt_direct_skills_20261020/inputs.json",
+    "data/packets/openexempt_eos_aligned_20261020/inputs.json",
+    "data/packets/openexempt_executable_20261019/inputs.json",
+    "data/packets/openexempt_explicit_calls_20261020/inputs.json",
+    "data/packets/openexempt_mechanism_20261019/inputs.json",
+    "data/packets/openexempt_namespace_20261019/inputs.json",
+    "data/packets/openexempt_official_sampling_20261020/inputs.json",
+    "data/packets/openexempt_readable_namespace_20261020/inputs.json",
+    "data/packets/openexempt_task_scoped_20261020/inputs.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json"
+  ],
+  "dataset_generation": {
+    "asset_count_min": 2,
+    "asset_count_max": 4,
+    "asset_selection": "random",
+    "married_ratio": 0.5,
+    "domicile_count_min": 2,
+    "domicile_count_max": 4,
+    "irrelevant_asset_facts": false,
+    "irrelevant_domicile_facts": false,
+    "asset_opinions": false,
+    "domicile_opinions": false,
+    "state_jurisdictions": [
+      "ARIZONA", "ILLINOIS", "OREGON", "PENNSYLVANIA", "WISCONSIN"
+    ]
+  },
+  "official_benchmark_test_split": false,
+  "no_validation_set": true,
+  "no_model_calls_during_construction": true,
+  "no_case_or_label_inspection_for_method_selection": true,
+  "no_silent_reroll_on_duplicate_or_undefined_native_score": true,
+  "final_method_and_comparison_matrix_must_be_frozen_before_scoring": true,
+  "sealing_is_procedural_not_encryption_or_OS_access_control": true
+}
