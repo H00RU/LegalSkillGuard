@@ -1,6 +1,6 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 08:44 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 08:58 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 **最高优先纠正：下文旧v10已因确证EOS约束缺口在07:47:30停止，43native/1教师，
 B2未完整评分/未读Gold。8B同服务已重启为PID3613253并健康；依赖修复已通过真实
 失败前缀/有效回答的CPU检查，无新GPU资格生成。新Run eos_aligned已冻结136源
@@ -70,6 +70,33 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   候选/发布；观察超时不等于训练失败，不据观察终止重启。B2整批未完成前不读Gold。
   A40持续约23GB/49GB、97–98%忙；不是GPU不可用，也不是指标突破证明。
   下一动作是真实准入/发布及B2/B3前向，不开第二GPU队列或资格网格。
+
+### 08:58游标：B2仍在前向，教师轨迹证据另已修正但未部署
+
+08:57:58按实钟核同主PID active/running；progress08:57:15为45native/2教师/
+18跨阶段别名，78_EV最后程序empty生成中。已落盘15逻辑回答，B2整批未完成，
+**未读B2 Gold/私有construction、尚无B2分数**。新C1确实送达77_EC并补回夹克
+的联邦引用，但仍无Fed(d)(5)；77_EV在inline算式字符串内重复到8192，原样失败。
+本地已输出推理误认为通用联邦豁免需要住宅、州法只报更高额度，未完整遵循技能。
+这区分了送达/实际采用/有效收益，不据单案宣布唯一根因或提前判整批效果。
+
+另一个真实断点是教师`observation_view`不带本地已输出推理，length失败也缺原始
+失败串；教师第二提案中“PA同时改动/提示变长导致”的因果说法没有足够证据。
+隔离分支新增独立提交**5691cab**：给已选TRAIN父库和被拒提案附本地已输出推理
+末1024字符、失败最终串首末合计512、总长/hash/原始路径/finish/prompt与completion
+用量和上限，明确未验证、可能错误。对照不重复附长推理，不向教师请求私有推理。
+只补教师事实证据，不改演员/标签/评分/准入/容量，不新增模型、角色或测试模块。
+3项原有检查0.21s、Ruff通过；用B1真实工件重建原第二教师包，片段/hash/8192
+结束类型逐字吻合，紧凑body139505→168858字符（+21.04%，含独立caller合同变化，
+不是纯反馈消融）。未发新教师/8B调用，正式量输入尚未实测，原字符/token门槛不动。
+
+5691cab与caller三提交ccb5108/899252e/6d8a083**全部未采用当前主Run**；136
+活跃绑定未变。新增6工件逐成员双盘，隔离树receipt为
+`artifacts/compiled_call_contract_preparation_20261020/bounded_emitted_prepared_not_adopted.json`
+及`bounded_emitted_preservation.json`，真实重建见`bounded_emitted_actual_B1_teacher_reconstruction.json`。
+下步仍看B2/B3原协议的新案净益；终态后若需caller两见证诊断，仍只按08:44
+预定的73_EV/C0、75_EV/empty，无新增资格网格。采用时区分演员合同与教师信息
+变化，不以CPU或旧TRAIN重建称突破。下次小时自检09:28，Goal完整目标不缩小。
 
 ### 08:28：新B1完整实绩、真实技能内容与当前未解断点
 
@@ -315,5 +342,5 @@ repo `/media/sangfor/vdb/legal-skill-evolve`，hhy软链legal-skill-current。
 Git runtime在 `/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/bin/git`，
 须配同根usr/lib/git-core的GIT_EXEC_PATH。五个用户untracked reports不清理。
 隔离worktree `.venv/compiled-call-20261020.2VOZzd` 早先四提交已采用；新增
-ccb5108/899252e/6d8a083调用清单/类型/边界说明**尚未采用**，详见08:22与08:44小节。不是第二个运行
+ccb5108/899252e/6d8a083调用清单/类型/边界及5691cab教师证据**尚未采用**，详见08:22–08:58小节。不是第二个运行
 项目，暂保留注册状态，不递归删除或恢复旧32B/ContractNLI队列。
