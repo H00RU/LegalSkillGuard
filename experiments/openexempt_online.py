@@ -176,7 +176,7 @@ PROGRAM_ACTOR_SYSTEM = (
     "action forms. Availability "
     "of a numerical program never proves that its citation is legally applicable. "
     "Do not choose or output an internal operator ID. "
-    "All inline expressions are quoted JSON strings containing scalar arithmetic, "
+    "All inline expressions are quoted JSON strings of 1 to 512 characters containing scalar arithmetic, "
     "including a constant-only ceiling. Never put a citation or prose in an expression. "
     "Expressions may use ordinary dollar numbers in current Facts/statutes, V (this asset's "
     "submitted value), N (1 or2 debtors from Facts), constants0/1/2, +,-,*,/, min/max, and "
@@ -283,14 +283,18 @@ def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
         if set(operators) - set(catalog.values()):
             raise InvalidClaimProgram("Routine outside the public allowable-law vocabulary")
         branches = []
-        for cached, expression_type in ((True, "null"), (False, "string")):
+        # Match execute_limit's existing short-expression boundary at generation,
+        # not by truncating or repairing a submitted program afterwards.
+        for cached, expression_schema in (
+                (True, {"type": "null"}),
+                (False, {"type": "string", "minLength": 1, "maxLength": 512})):
             references = [ref for ref, citation in catalog.items()
                           if (citation in operators) == cached]
             if references:
                 branches.append({"type": "object", "additionalProperties": False,
                     "required": ["citation_ref", "limit_expression"], "properties": {
                         "citation_ref": {"type": "string", "enum": references},
-                        "limit_expression": {"type": expression_type}}})
+                        "limit_expression": expression_schema}})
         claims = schema["properties"]["assets"]["items"]["properties"]["claims"]
         claims["items"] = branches[0] if len(branches) == 1 else {"anyOf": branches}
     else:
