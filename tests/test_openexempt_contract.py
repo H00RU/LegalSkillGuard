@@ -9,6 +9,7 @@ from experiments.openexempt_online import (
     Online,
     acceptance,
     actor_payload,
+    legal_scope_admission,
     task_admission,
     teacher_evidence_rows,
 )
@@ -21,8 +22,10 @@ from legal_skill_guard.learning.legal_namespace import (
     public_catalog,
 )
 from legal_skill_guard.learning.task_scoped_skills import (
+    compose_legal_edits,
     compose_task_edits,
     import_blind_prior,
+    legal_edit_coordinates,
     task_view,
     validate_scoped_bank,
 )
@@ -667,3 +670,132 @@ def test_full_update_task_local_vs_whole_bank_differs_only_in_commit_policy(
     with pytest.raises(ValueError, match="exceeds total token cap"):
         study.composed_replay(original, proposed, ["EV"], study.rows, "oversized")
     assert len(study.native) == 4
+
+
+def scope_rows():
+    return [{"case_id": index, "family": family, "components": {
+        **copy.deepcopy(COMPONENTS),
+        "solved_steps": f"The Debtor may claim property exemptions under {namespace} statutes."}}
+        for index, namespace in [(1, "Arizona"), (2, "Illinois")] for family in ("EC", "EV")]
+
+
+def test_legal_coordinates_use_public_coviews_moves_and_task_local_ALL_changes():
+    parent = [{"id": name, "hypothesis_ids": ["EC", "EV"], "guidance": guidance("old", ns)}
+              for name, ns in [("shared", "ALL"), ("az", "ARIZONA"), ("il", "ILLINOIS")]]
+    proposed = copy.deepcopy(parent)
+    proposed[0]["guidance"]["by_task"] = [
+        {"tasks": ["EC"], "when": "public condition", "procedure": "new", "avoid_when": "other"},
+        {"tasks": ["EV"], "when": "public condition", "procedure": "old", "avoid_when": "other"}]
+    coordinates = legal_edit_coordinates(parent, proposed, scope_rows())
+    assert {c["id"] for c in coordinates} == {
+        "EC:ALL+ARIZONA+ILLINOIS", "EV:ARIZONA", "EV:ILLINOIS"}
+    moved = copy.deepcopy(parent)
+    moved[1]["guidance"]["jurisdiction"] = "ILLINOIS"
+    assert {c["id"] for c in legal_edit_coordinates(parent, moved, scope_rows())} == {
+        "EC:ARIZONA+ILLINOIS", "EV:ARIZONA+ILLINOIS"}
+    together = copy.deepcopy(scope_rows())
+    together[0]["components"]["solved_steps"] = (
+        "The Debtor may claim property exemptions under Arizona and Illinois statutes.")
+    assert any(c["id"] == "EC:ARIZONA+ILLINOIS"
+               for c in legal_edit_coordinates(parent, parent, together))
+
+
+def test_legal_composition_keeps_one_bank_and_each_disjoint_actual_native_wire():
+    parent = [{"id": name, "hypothesis_ids": ["EC", "EV"], "guidance": guidance("old", ns)}
+              for name, ns in [("shared", "ALL"), ("az", "ARIZONA"), ("il", "ILLINOIS")]]
+    proposed = copy.deepcopy(parent)
+    for skill in proposed[1:]:
+        skill["guidance"]["by_task"][0]["procedure"] = "new"
+    coordinates = legal_edit_coordinates(parent, proposed, scope_rows())
+    actual = compose_legal_edits(parent, proposed, coordinates, ["EC:ILLINOIS", "EV:ILLINOIS"])
+    for row in scope_rows():
+        expected = proposed if row["case_id"] == 2 else parent
+        assert actor_payload(row, actual) == actor_payload(row, expected)
+    assert next(s for s in actual if s["id"] == "az") == parent[1]
+    with pytest.raises(ValueError, match="nonempty set"):
+        compose_legal_edits(parent, proposed, coordinates, ["EC:INVENTED"])
+    with pytest.raises(ValueError, match="overlap"):
+        compose_legal_edits(parent, proposed, coordinates + [coordinates[0]], [coordinates[0]["id"]])
+
+
+def test_legal_scope_admission_keeps_all_sources_prior_and_full_output_protection():
+    coordinates = [{"id": "EV:ILLINOIS", "task": "EV", "jurisdictions": ["ILLINOIS"],
+                    "source_case_ids": [1, 2]},
+                   {"id": "EC:OREGON", "task": "EC", "jurisdictions": ["OREGON"],
+                    "source_case_ids": []}]
+    parent = [{**record("EV", score), "case_id": index} for index, score in [(1, 0.4), (2, 0.7)]]
+    proposed = [{**record("EV", score), "case_id": index} for index, score in [(1, 0.8), (2, 0.6)]]
+    result = legal_scope_admission(coordinates, parent, proposed, [], [])
+    assert result["EV:ILLINOIS"]["accepted"] and result["EV:ILLINOIS"]["current_tasks"] == 2
+    assert result["EC:OREGON"]["reason"] == "no_current_sources"
+    unsafe = copy.deepcopy(proposed)
+    unsafe[0]["score"]["full_output_f1"] = 0
+    assert not legal_scope_admission(coordinates, parent, unsafe, [], [])["EV:ILLINOIS"]["accepted"]
+    assert not legal_scope_admission(coordinates, parent, proposed, proposed, parent)["EV:ILLINOIS"]["accepted"]
+    with pytest.raises(ValueError, match="fully paired"):
+        legal_scope_admission(coordinates, parent, proposed[:1], [], [])
+
+
+def test_full_legal_scope_update_retains_unrelated_law_without_extra_generation(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
+    study = Online.__new__(Online)
+    study.cfg = {"execution_contract": "source_grounded_claim_operations",
+                 "generation": {"seed": 45, "max_tokens": 100},
+                 "max_candidate_attempts": 1, "library_token_hard_cap": 4096,
+                 "skill_commit_policy": "legal_scope"}
+    study.current_batch, study.latest = 1, {}
+    study.out, study.native, study.request_cache, study.reuse_events = tmp_path, [], {}, []
+    study.meter = SimpleNamespace(token_count=lambda **kwargs: 300)
+    study.check, study.progress = lambda: None, lambda *a, **k: None
+    study.rows = [{**r, "source_key": f"fixture{r['case_id']}", "prompt": "public original"}
+                  for r in scope_rows()]
+    citations = {1: "Ariz. Rev. Stat. § 33-1123", 2: "735 Ill. Comp. Stat. 5/12-1001(b)"}
+    study.bank = [{"id": sid, "hypothesis_ids": ["EC", "EV"],
+                   "guidance": guidance("original procedure", ns)}
+                  for sid, ns in [("az", "ARIZONA"), ("il", "ILLINOIS")]]
+    for index, skill in enumerate(study.bank, 1):
+        skill["guidance"]["operators"] = [{"id": "cap", "citation": citations[index],
+                                             "limit_expression": "min(V,30)"}]
+    original = copy.deepcopy(study.bank)
+    proposed = copy.deepcopy(study.bank)
+    for skill in proposed:
+        skill["guidance"]["by_task"][0]["procedure"] = "new procedure"
+        skill["guidance"]["operators"][0]["limit_expression"] = "min(V,15)"
+
+    def call(dest, messages, schema, max_tokens, metadata):
+        study.native.append(metadata)
+        case_id = metadata["document_id"]
+        reference = citations[case_id].replace("§", "section")
+        if metadata["family"] == "EC":
+            right = ("new procedure" in str(messages)) == (case_id == 2)
+            answer = {"watch": [reference]} if right else {}
+        else:
+            answer = {"assets": [{"asset_name": "watch", "asset_value": 40,
+                       "claims": [{"citation_ref": reference, "limit_expression": None}]}]}
+        return {"content": json.dumps(answer), "finish_reason": "stop"}
+
+    def grade(records):
+        for value in records:
+            case_id = value["case_id"]
+            target = ({"watch": [citations[case_id]]} if value["family"] == "EC" else
+                      {"watch": [{"citation": citations[case_id],
+                                  "claim_value": 30 if case_id == 1 else 15}]})
+            value["score"] = evaluate(value, value["parsed"]["answer"], target)
+        return records
+
+    study.call, study.grade = call, grade
+    study.teacher_body = lambda *args: {"training_evidence_manifest": {"selected_source_ids": [1, 2]}}
+    study.teacher_call = lambda *args: {"noop_reason": None, "operations": [{
+        "operation": "UPDATE", "target_ids": [s["id"]], "skill": s,
+        "source_case_ids": [1, 2], "rationale": "synthetic public-scope interference"} for s in proposed]}
+    parent = study.grade([study.answer(r, study.bank, "parent", "skills") for r in study.rows])
+    publication = study.update(study.rows, study.rows, parent)
+    decision = publication["training_decisions"][0]
+    assert decision["accepted"] and not decision["proposed_whole_bank_acceptance"]["accepted"]
+    assert decision["accepted_legal_coordinates"] == ["EC:ILLINOIS", "EV:ILLINOIS"]
+    assert len(study.native) == 8  # Parent4 + proposal4; composed4 only exact-wire reexecution.
+    assert next(s for s in study.bank if s["id"] == "az") == original[0]
+    assert decision["candidate_current"]["EC"]["f1"] == 1
+    assert decision["candidate_current"]["EV"]["f1"] == 1

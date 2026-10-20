@@ -4,7 +4,7 @@ Reuses the audited native/teacher transports and differential edits. Unlike the
 old NDA run, training replays can reject ineffective candidate edits. This is
 declared TRAIN optimization, not test-time retry or an independent validation
 claim. All candidate outputs, costs and rejected edits remain on disk.
-Contract v11 adds task-local guidance and independently admitted TRAIN edits.
+Contract v12 admits noninterfering public-law/task TRAIN edit components.
 Native-response reuse never reuses a previously computed answer.
 """
 
@@ -52,7 +52,9 @@ from legal_skill_guard.learning.publication import (
 )
 from legal_skill_guard.learning.task_scoped_skills import (
     SCOPED_GUIDANCE_SCHEMA,
+    compose_legal_edits,
     compose_task_edits,
+    legal_edit_coordinates,
     task_view,
     validate_scoped_bank,
 )
@@ -157,6 +159,17 @@ AUTHOR_SYSTEM = (
     "sources; EV must also preserve full-output F1 on both. Unaccepted task guidance "
     "and programs remain exactly the parent's. The combined committed bank must fit "
     "the same total4096-token cap, counting every distinct block and all programs. "
+    "Under legal_scope, admission is further separated by public legal co-visibility "
+    "within each task. Jurisdictions occurring together in already-seen public AE "
+    "contexts are connected; moved skill IDs join their old and new scopes. A changed "
+    "ALL block joins every scope for that task. Each resulting component must strictly "
+    "improve its current TRAIN sources and retain its prior sources, with the same "
+    "EV full-output protection. Components with no current sources cannot change. "
+    "Only accepted components are composed into ONE library. This never routes by "
+    "case IDs, asset types or correct answers, and does not change the inference "
+    "interface. Full token cost, exact already-observed native-wire coverage and the "
+    "original whole-bank TRAIN gate remain mandatory. Unaccepted scopes stay native "
+    "wire-identical to their parent, including their numerical programs. "
     "Under whole_bank, the full proposal is accepted or rejected together, without "
     "selecting task edits. Both policies require the actual committed bank to pass "
     "the unchanged full TRAIN acceptance: current-source original mean F1 OR "
@@ -347,23 +360,41 @@ def task_admission(parent_current, candidate_current, parent_prior, candidate_pr
     """Select TRAIN edit coordinates, never inference answers or case subsets."""
     a, b = metrics(parent_current), metrics(candidate_current)
     pa, pb = metrics(parent_prior), metrics(candidate_prior)
-    decisions = {}
-    for family in FAMILIES:
-        current_ok = b[family]["f1"] + 1e-12 >= a[family]["f1"]
-        prior_ok = not parent_prior or pb[family]["f1"] + 1e-12 >= pa[family]["f1"]
-        strict = b[family]["f1"] > a[family]["f1"] + 1e-12
-        full_current_ok = full_prior_ok = True
-        if family == "EV":
-            full_current_ok = b[family]["full_output_f1"] + 1e-12 >= a[family]["full_output_f1"]
-            full_prior_ok = (not parent_prior or
-                pb[family]["full_output_f1"] + 1e-12 >= pa[family]["full_output_f1"])
-            strict |= b[family]["full_output_f1"] > a[family]["full_output_f1"] + 1e-12
-        decisions[family] = {"accepted": bool(current_ok and prior_ok and strict
-                                               and full_current_ok and full_prior_ok),
+    return {family: _head_admission(family, a, b, pa, pb) for family in FAMILIES}
+
+
+def _head_admission(family, a, b, pa, pb):
+    current_ok = b[family]["f1"] + 1e-12 >= a[family]["f1"]
+    prior_ok = family not in pa or pb[family]["f1"] + 1e-12 >= pa[family]["f1"]
+    strict = b[family]["f1"] > a[family]["f1"] + 1e-12
+    full_current_ok = full_prior_ok = True
+    if family == "EV":
+        full_current_ok = b[family]["full_output_f1"] + 1e-12 >= a[family]["full_output_f1"]
+        full_prior_ok = (family not in pa or
+                         pb[family]["full_output_f1"] + 1e-12 >= pa[family]["full_output_f1"])
+        strict |= b[family]["full_output_f1"] > a[family]["full_output_f1"] + 1e-12
+    return {"accepted": bool(current_ok and prior_ok and strict and full_current_ok and full_prior_ok),
             "current_nonregression": current_ok, "prior_nonregression": prior_ok,
             "strict_current_improvement": bool(strict),
             "current_full_output_nonregression": full_current_ok,
             "prior_full_output_nonregression": full_prior_ok}
+
+
+def legal_scope_admission(coordinates, parent_current, candidate_current, parent_prior, candidate_prior):
+    decisions = {}
+    for coordinate in coordinates:
+        family, ids = coordinate["task"], set(coordinate["source_case_ids"])
+        groups = [[r for r in rows if r["family"] == family and r["case_id"] in ids]
+                  for rows in (parent_current, candidate_current, parent_prior, candidate_prior)]
+        if any({(r["case_id"], r["family"]) for r in groups[i]}
+               != {(r["case_id"], r["family"]) for r in groups[i + 1]} for i in (0, 2)):
+            raise ValueError("Legal-scope TRAIN cohorts are not fully paired")
+        if not groups[0]:
+            decisions[coordinate["id"]] = {"accepted": False, "reason": "no_current_sources"}
+            continue
+        decisions[coordinate["id"]] = {
+            **_head_admission(family, *(metrics(rows) for rows in groups)),
+            "current_tasks": len(groups[0]), "prior_tasks": len(groups[2])}
     return decisions
 
 
@@ -485,10 +516,10 @@ class Online:
     def __init__(self, config_path):
         self.cfg = read(config_path)
         if (self.cfg.get("execution_contract") != "source_grounded_claim_operations"
-                or self.cfg.get("execution_contract_version") != 11):
-            raise ValueError("This source implements task-scoped numerical-call contract v11 only")
-        if self.cfg.get("skill_commit_policy") not in ("task_local", "whole_bank"):
-            raise ValueError("Declare task_local or whole_bank before freezing the run")
+                or self.cfg.get("execution_contract_version") != 12):
+            raise ValueError("This source implements legal-scope numerical-call contract v12 only")
+        if self.cfg.get("skill_commit_policy") not in ("legal_scope", "task_local", "whole_bank"):
+            raise ValueError("Declare legal_scope, task_local or whole_bank before freezing")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
             raise ValueError("Frozen config mismatch")
@@ -750,6 +781,8 @@ class Online:
                     "outputs": "all eligible asset-law alternatives, not a final jointly allocated portfolio"},
                 "current_parent_library": self.bank, "task_contracts": contracts,
                 "skill_commit_policy": self.cfg["skill_commit_policy"],
+                "public_TRAIN_edit_coordinates_before_proposed_shared_edits":
+                    legal_edit_coordinates(self.bank, self.bank, seen),
                 "full_serialized_library_token_budget": {
                     "actual_parent_tokens": parent_tokens,
                     "hard_cap": self.cfg["library_token_hard_cap"],
@@ -769,13 +802,16 @@ class Online:
                     "not_a_verified_causal_explanation": True},
                 "future_cases_and_labels_not_supplied": True}
 
-    def composed_replay(self, parent, proposed, accepted_tasks, seen, name):
+    def composed_replay(self, parent, proposed, accepted_tasks, seen, name, *,
+                        legal_coordinates=None, accepted_coordinates=()):
         """Execute the actual mixed bank, using only already-observed raw wires.
 
         This is a TRAIN publication step. No case-level answer selection, new
         native generation, response repair or inference-time fallback occurs.
         """
-        composed = compose_task_edits(parent, proposed, accepted_tasks)
+        composed = (compose_task_edits(parent, proposed, accepted_tasks)
+                    if legal_coordinates is None else
+                    compose_legal_edits(parent, proposed, legal_coordinates, accepted_coordinates))
         tokens = self.meter.token_count(text=json.dumps(composed, ensure_ascii=False,
                                                         separators=(",", ":")))
         if tokens > self.cfg["library_token_hard_cap"]:
@@ -846,27 +882,41 @@ class Online:
             full_proposal = acceptance(parent_current, candidate_current, prior, candidate_prior)
             task_decisions = task_admission(parent_current, candidate_current, prior, candidate_prior)
             policy = self.cfg["skill_commit_policy"]
+            coordinates, scope_decisions, accepted_coordinates = None, {}, []
+            if policy == "legal_scope":
+                coordinates = legal_edit_coordinates(before, candidate, seen)
+                scope_decisions = legal_scope_admission(
+                    coordinates, parent_current, candidate_current, prior, candidate_prior)
+                accepted_coordinates = [c["id"] for c in coordinates if scope_decisions[c["id"]]["accepted"]]
             accepted_tasks = ([f for f in FAMILIES if task_decisions[f]["accepted"]]
                               if policy == "task_local" else
+                              [f for f in FAMILIES if any(c["task"] == f and c["id"] in accepted_coordinates
+                                                         for c in coordinates)]
+                              if policy == "legal_scope" else
                               list(FAMILIES) if full_proposal["accepted"] else [])
             decision = {"accepted": False, "candidate": candidate, "delta": delta,
                         "skill_commit_policy": policy,
                         "proposed_bank": candidate, "proposed_tokens": tokens,
                         "proposed_whole_bank_acceptance": full_proposal,
                         "task_admission": task_decisions, "accepted_tasks": accepted_tasks,
+                        "legal_edit_coordinates": coordinates, "legal_scope_admission": scope_decisions,
+                        "accepted_legal_coordinates": accepted_coordinates,
                         "actual_tokens": tokens, "actual_replay": replay,
                         "TRAIN_optimization_not_independent_validation": True}
             if not accepted_tasks:
-                decision["reason"] = ("no_independently_improving_task_edit" if policy == "task_local"
+                decision["reason"] = ("no_independently_improving_legal_edit" if policy == "legal_scope" else
+                                      "no_independently_improving_task_edit" if policy == "task_local"
                                       else "whole_proposal_failed_original_full_gate")
             else:
                 try:
                     committed, actual_replay, actual_tokens = self.composed_replay(
-                        before, candidate, accepted_tasks, seen, name)
+                        before, candidate, accepted_tasks, seen, name,
+                        legal_coordinates=coordinates, accepted_coordinates=accepted_coordinates)
                 except ValueError as exc:
                     decision["reason"] = "task_composition_rejected"
                     decision["composition_error"] = repr(exc)
                     decision["accepted_tasks"] = []
+                    decision["accepted_legal_coordinates"] = []
                 else:
                     actual_current = [r for r in actual_replay if r["case_id"] in keys]
                     actual_prior = [r for r in actual_replay if r["case_id"] not in keys]
@@ -879,6 +929,7 @@ class Online:
                     if not decision["accepted"]:
                         decision["reason"] = "composed_bank_failed_original_full_gate"
                         decision["accepted_tasks"] = []
+                        decision["accepted_legal_coordinates"] = []
             RunStore.immutable_json(self.out / "candidates" / f"{name}.json", decision)
             decisions.append(decision)
             if decision["accepted"]:

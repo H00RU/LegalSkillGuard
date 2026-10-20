@@ -13,7 +13,7 @@ import copy
 from jsonschema import validate
 
 from legal_skill_guard.learning.claim_execution import operator_catalog, operator_schema
-from legal_skill_guard.learning.legal_namespace import SCOPES
+from legal_skill_guard.learning.legal_namespace import SCOPES, allowable_namespaces
 from legal_skill_guard.learning.publication import skill_record_schema
 
 TASKS = ("EC", "EV")
@@ -107,6 +107,10 @@ def compose_task_edits(parent, proposed, accepted_tasks):
         raise ValueError("A nonempty subset of known tasks must pass TRAIN checks")
     views = {task: task_view(proposed if task in accepted_tasks else parent, task)
              for task in TASKS}
+    return _join_task_views(views)
+
+
+def _join_task_views(views):
     joined = {}
     for task in TASKS:
         for skill in views[task]:
@@ -135,3 +139,86 @@ def compose_task_edits(parent, proposed, accepted_tasks):
         if task_view(result, task) != views[task]:
             raise ValueError("Composition changed an evaluated task projection")
     return result
+
+
+def legal_edit_coordinates(parent, proposed, rows):
+    """TRAIN edit components from public law co-visibility, never answer labels.
+
+    Co-visible jurisdictions, moved identities and changed ALL guidance must be
+    evaluated together. Unchanged ALL records do not couple disjoint laws. The
+    number of components is data/edit-dependent, not a fixed set of skill types.
+    No inference routing changes: the original public AE filter stays in charge.
+    """
+    result = []
+    for task in TASKS:
+        before = {s["id"]: s for s in task_view(parent, task)}
+        after = {s["id"]: s for s in task_view(proposed, task)}
+        current = [r for r in rows if r["family"] == task]
+        graph = {}
+
+        def connect(names):
+            names = set(names)
+            for name in names:
+                graph.setdefault(name, set()).update(names - {name})
+
+        for row in current:
+            connect(allowable_namespaces(row))
+        for skill in [*before.values(), *after.values()]:
+            namespace = skill["guidance"]["jurisdiction"]
+            if namespace != "ALL":
+                connect([namespace])
+        for sid in before.keys() & after.keys():
+            connect({before[sid]["guidance"]["jurisdiction"],
+                     after[sid]["guidance"]["jurisdiction"]} - {"ALL"})
+        shared_before = [s for s in before.values() if s["guidance"]["jurisdiction"] == "ALL"]
+        shared_after = [s for s in after.values() if s["guidance"]["jurisdiction"] == "ALL"]
+        if shared_before != shared_after:
+            connect({"ALL", *graph})
+        remaining = set(graph)
+        while remaining:
+            component, pending = set(), [min(remaining)]
+            while pending:
+                name = pending.pop()
+                if name not in component:
+                    component.add(name)
+                    pending.extend(graph[name] - component)
+            remaining -= component
+            sources = sorted({r["case_id"] for r in current
+                              if allowable_namespaces(r) & component})
+            result.append({"id": task + ":" + "+".join(sorted(component)),
+                           "task": task, "jurisdictions": sorted(component),
+                           "source_case_ids": sources})
+    return sorted(result, key=lambda value: value["id"])
+
+
+def compose_legal_edits(parent, proposed, coordinates, accepted_coordinates):
+    """One mixed library, not a per-case choice of answers or inference fallback."""
+    accepted = set(accepted_coordinates)
+    if not accepted or accepted - {c["id"] for c in coordinates}:
+        raise ValueError("A nonempty set of evaluated legal coordinates is required")
+    ownership = {}
+    for coordinate in coordinates:
+        for namespace in coordinate["jurisdictions"]:
+            key = coordinate["task"], namespace
+            if key in ownership:
+                raise ValueError("Legal edit components overlap")
+            ownership[key] = coordinate["id"]
+    views = {}
+    for task in TASKS:
+        before = {s["id"]: s for s in task_view(parent, task)}
+        after = {s["id"]: s for s in task_view(proposed, task)}
+        selected = []
+        for sid in sorted(before.keys() | after.keys()):
+            variants = [source[sid] for source in (before, after) if sid in source]
+            owners = {ownership.get((task, s["guidance"]["jurisdiction"])) for s in variants}
+            if len(owners) != 1:
+                raise ValueError("A moved skill identity crossed independent edit components")
+            owner = owners.pop()
+            if owner is None and (before.get(sid) != after.get(sid)
+                                  or variants[0]["guidance"]["jurisdiction"] != "ALL"):
+                raise ValueError("A changed public scope lacks an evaluated coordinate")
+            source = after if owner in accepted else before
+            if sid in source:
+                selected.append(source[sid])
+        views[task] = selected
+    return _join_task_views(views)
