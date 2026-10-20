@@ -1,6 +1,6 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 08:28 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 08:44 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 **最高优先纠正：下文旧v10已因确证EOS约束缺口在07:47:30停止，43native/1教师，
 B2未完整评分/未读Gold。8B同服务已重启为PID3613253并健康；依赖修复已通过真实
 失败前缀/有效回答的CPU检查，无新GPU资格生成。新Run eos_aligned已冻结136源
@@ -64,9 +64,11 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   启动 `eos_aligned_run01_launch_receipt.json`，source与runtime修复/启动10工件已双盘。
   协议 `docs/research/OPENEXEMPT_EOS_ALIGNED_20261020.md`。**仍非正式规模或Goal完成**。
 - 只读观察session **27566已结束**，B1全四臂08:22:45落盘；不要再resume该句柄。
-  08:28:10按实钟复核，唯一主PID3621135与模型PID3613253均active/running；
-  最新progress08:27:35为23 native/1教师/12跨阶段wire别名，B1候选1重放中。
-  A40约23129/49140MiB、97%忙；不是GPU不可用，也不是指标突破证明。
+  08:41:21已真实发布B1的C1并自动进入B2，32native/2教师/16跨阶段wire别名。
+  唯一主PID3621135与模型PID3613253均仍active/running。新只读观察session
+  **45152**从08:30:06起，最长至09:15:06，每10秒核同一主PID并报告不可变批次/
+  候选/发布；观察超时不等于训练失败，不据观察终止重启。B2整批未完成前不读Gold。
+  A40持续约23GB/49GB、97–98%忙；不是GPU不可用，也不是指标突破证明。
   下一动作是真实准入/发布及B2/B3前向，不开第二GPU队列或资格网格。
 
 ### 08:28：新B1完整实绩、真实技能内容与当前未解断点
@@ -98,6 +100,42 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
 下一个决策依据是候选真实差分、完整TRAIN准入以及B2/B3后续新案净益；不因冷
 B1负差停掉健康学习、不盲扩128、不按已知Gold补单案，沿用连续伤害/系统故障
 止损。完整目标不缩小，小时复核下次09:28。
+
+### 08:44续记：B1实际发布与已落实、未采用的caller修正
+
+B1第一提案UPDATE3被拒：重答EC69.0972/EV50%、完整EV50%，两好两坏四平。
+74_EV修到100%但73_EV空算式失败、75_EV在表达式内重复到8192，原样0分。
+6物理重放43597prompt/21999completion，5stop/1length；IL76两任务同wire复用。
+不能把这个length归为教师输入截断或只因提示变长，教师对此的归因尚属假设。
+
+第二提案仅UPDATE联邦技能，40程序体不变；08:41:21通过准入并实际发布C1：
+**7条/40程序/3475tokens，SHA d716b7d3c4da5f408b090e025ac52a26b2e365b1f5718335bb91ad7a180167dc**。
+已见TRAIN重答EC70.6845/EV60.5556%、完整EV60.4167%，两好一坏五平。
+改善是75_EC57.7778→73.0159、75_EV40→66.6667；73_EV12.5→0，不能略去。
+可核验成功回执中12次存储调用/3次inline（含3次IL原生别名下重新执行），不代表
+失败动作此前尝试过的完整调用数，更不代表新案收益。Fed wildcard在本候选EV
+成功回执仍0；修订意图不等于每项已被8B执行。6物理重放43093prompt/12966completion，
+全stop。第二教师53346input/2073output、cached11392、seq1502，非新增第三候选。
+新案B2正在运行，不能拿训练重答对比强empty宣布泛化；本Run尚未有后批分数。
+原始两提案/重放/发布/审计54工件逐成员双盘核验，审计
+`eos_aligned_B1_actual_publication_training_effect_and_remaining_failures.json`及preservation。
+
+隔离候选新增提交**6d8a083**，接在ccb5108/899252e之后：inline生成schema与既有
+execute_limit的非空/512字符边界对齐；不是剪输出、重试或扩大有效表达式集合。
+两项原有测试0.21s、Ruff通过，无新测试模块或模型调用。实际安装xgrammar0.1.23
+用三个原始失败/有效输出的CPU完整schema前缀检验：新schema拒73空串/75超长串，
+仍收74有效输出。使用小RAW词表的字符串匹配，**不是Qwen token-mask或8B表现证据**。
+第二提案73的短非法字符串仍可满足长度边界，不能称长度约束解决了所有语法/语义。
+6源/检查工件双盘，receipt在隔离树`bounded_inline_prepared_not_adopted.json`和
+`bounded_inline_preservation.json`；原活跃136绑定全未改变，**三新提交均未采用**。
+
+本轮已实际读到ScienceClaw固定e925f732的agent/prompts.py和agent/solver.py，
+不是之前失败的tree读取：其真实提示明确Deliverable schema、Operator签名与契约，
+技能在公开任务之后。借鉴接口可见性，不复制整图框架/parse重试/隐藏验证择优或
+验证集；排序差异不构成注意力失效的因果证明，本候选未叠加改排序。
+若当前多批终态后需要诊断caller，只用事先记下的两已见TRAIN见证：73_EV/C0、
+75_EV/empty，同8B/预算/事实法律、0教师、只改公开调用合同。不当新案成绩或
+另开资格网格；当前继续B2/B3真实进化，仍非正式规模、成熟方法胜利或Goal完成。
 
 ### 08:22补充：本轮实际进度和隔离候选，不要混成已采用方法
 
@@ -277,5 +315,5 @@ repo `/media/sangfor/vdb/legal-skill-evolve`，hhy软链legal-skill-current。
 Git runtime在 `/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/bin/git`，
 须配同根usr/lib/git-core的GIT_EXEC_PATH。五个用户untracked reports不清理。
 隔离worktree `.venv/compiled-call-20261020.2VOZzd` 早先四提交已采用；新增
-ccb5108/899252e调用清单/类型说明**尚未采用**，详见08:22小节。不是第二个运行
+ccb5108/899252e/6d8a083调用清单/类型/边界说明**尚未采用**，详见08:22与08:44小节。不是第二个运行
 项目，暂保留注册状态，不递归删除或恢复旧32B/ContractNLI队列。
