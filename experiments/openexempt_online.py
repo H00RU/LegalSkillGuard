@@ -558,7 +558,7 @@ def teacher_evidence_rows(current, seen, observations, rejected, *, history_limi
         "not_an_independent_validation_set": True}
 
 
-def freeze(config_path):
+def freeze(config_path, *, additional_sources=()):
     cfg = read(config_path)
     files = set(ROOT.glob("legal_skill_guard/**/*.py"))
     files |= set(UPSTREAM.rglob("*.py")) | set(UPSTREAM.rglob("*.json"))
@@ -574,6 +574,7 @@ def freeze(config_path):
     if cfg.get("initial_library_publication"):
         files.add(ROOT / cfg["initial_library_publication"])
     files.update(ROOT / name for name in cfg.get("inference_dependency_artifacts", []))
+    files.update(Path(path).resolve() for path in additional_sources)
     bindings = {str(p.relative_to(ROOT)): sha(p) for p in sorted(files)}
     packages = {dist.metadata["Name"]: dist.version for dist in importlib.metadata.distributions()}
     manifest = {"config_sha256": sha(config_path), "files": bindings, "packages": packages,

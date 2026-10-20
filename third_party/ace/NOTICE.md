@@ -15,6 +15,15 @@ not a complete unmodified ACE reproduction. Task-specific citation handling,
 G4 experience and batch curation must be disclosed with actual call costs.
 No upstream JSON-repair, error-skipping or retry fallback is imported.
 
+2026-10-20: `learning/openexempt_ace.py` and
+`experiments/openexempt_ace_online.py` adapt the pinned native role prompts,
+bullet provenance, last-tag batch counters and ADD merge to source-disjoint
+EC/EV training. This profile uses one frozen local generator prediction and
+one TRAIN reflection per task, followed by one batch curator. Shared public
+empty controls, audited transports, full-stream stopping and explicit capacity
+failure are local adaptations. No claim is made to reproduce all original
+offline epochs, retries, checkpoint selection, or default hyperparameters.
+
 2026-10-19: experiments/witnessed_experience.py additionally adapts the separation
 of training reflection and subsequent curation. Its legal-source-bound findings
 schema and public-evidence instructions are original local code, not the full

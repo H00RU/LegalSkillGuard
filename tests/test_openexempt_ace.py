@@ -1,6 +1,7 @@
 """Small native-role adapter checks, not ACE accuracy or a second harness."""
 
 import copy
+import json
 
 import pytest
 from jsonschema import ValidationError, validate
@@ -106,3 +107,69 @@ def test_native_counter_last_tag_and_add_only_curator_are_not_our_score_gate():
     with pytest.raises(ValueError, match="exceeds capacity"):
         commit_additions(counted, value, schema, token_count=lambda **kwargs: 4097, token_budget=4096)
     assert len(bullets(counted)) == 1  # No mutation, truncation or score-selected publication.
+
+
+def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predictions(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    import experiments.openexempt_ace_online as ace
+    import experiments.openexempt_online as common
+    from legal_skill_guard.openexempt import evaluate
+
+    monkeypatch.setattr(ace, "ROOT", tmp_path)
+    monkeypatch.setattr(common, "ROOT", tmp_path)
+    study = ace.ACEOnline.__new__(ace.ACEOnline)
+    study.cfg = {"source_cases": 1, "batch_source_cases": 1, "grading_directory": "grading",
+        "execution_contract": "source_grounded_claim_operations", "generation": {"seed": 45, "max_tokens": 100},
+        "library_token_hard_cap": 4096}
+    study.rows = [{**row(family), "batch": 1, "source_key": "fixture", "prompt": "public"}
+                  for family in ("EC", "EV")]
+    study.out, study.playbook = tmp_path / "out", INITIAL_PLAYBOOK
+    study.native, study.teachers, study.teacher_attempts, study.summaries = [], [], 0, []
+    study.request_cache, study.reuse_events, study.current_batch = {}, [], 0
+    study.episodes = {arm: [] for arm in ("ace", "empty", "empty_direct_numeric")}
+    study.check, study.progress = lambda: None, lambda *a, **k: None
+    study.meter = SimpleNamespace(token_count=lambda **kwargs: 100)
+    citation, reference = "Ariz. Rev. Stat. § 33-1123", "Ariz. Rev. Stat. section 33-1123"
+
+    def call(dest, messages, schema, max_tokens, metadata):
+        study.native.append(metadata)
+        final = ({"watch": [reference]} if metadata["family"] == "EC" else
+                 {"watch": [{"citation_ref": reference, "claim_value": 40}]}
+                 if metadata["arm"] == "empty_direct_numeric" else
+                 {"assets": [{"asset_name": "watch", "asset_value": 40,
+                    "claims": [{"citation_ref": reference, "limit_expression": "min(V,15000)"}]}]})
+        value = ({"reasoning": "public finding", "bullet_ids": [], "final_answer": final}
+                 if metadata["arm"] == "ace" else final)
+        return {"content": json.dumps(value), "finish_reason": "stop"}
+
+    def released_targets(path):
+        assert len(list((study.out / "native/b1_prequential").glob("*.answer.json"))) == 6
+        return {"targets": {"EC": {"watch": [citation]},
+                            "EV": {"watch": [{"citation": citation, "claim_value": 40}]}}}
+
+    def grade(records):
+        for rec in records:
+            target = released_targets(None)["targets"][rec["family"]]
+            rec["score"] = evaluate(rec, rec["parsed"]["answer"], target)
+        return records
+
+    def teacher(name, system, prompt, schema):
+        assert (study.out / "batches/b1_prequential.json").exists()
+        study.teachers.append(name)
+        study.teacher_attempts += 1
+        if name.endswith("reflector"):
+            value = {k: "public finding" for k in (
+                "reasoning", "error_identification", "root_cause_analysis", "correct_approach", "key_insight")}
+            return {**value, "bullet_tags": []}
+        return {"reasoning": "public finding", "operations": [{"type": "ADD", "section": "others",
+            "content": "Check the public statutory conditions before valuing an eligible pair."}]}
+
+    monkeypatch.setattr(ace, "read", released_targets)
+    study.call, study.grade, study.teacher_call = call, grade, teacher
+    assert study.execute() == "completed_declared_ACE_adaptation_stream"
+    assert len(study.native) == 5  # ACE2 + distinct empty EC/EV3, no retries.
+    assert len(study.teachers) == 3  # Reflect both real tasks, then curate once.
+    assert len(bullets(study.playbook)) == 1
+    assert len(study.episodes["ace"]) == 2
+    assert (study.out / "publications/b1.json").exists()
