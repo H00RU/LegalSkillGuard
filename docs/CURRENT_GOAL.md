@@ -1,6 +1,6 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 16:53 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 17:07 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 **当前唯一训练是v11 task_scoped，15:06:37真正后台启动，Run
 legal_openexempt_task_scoped_online_20261020_run01，unit
 legal-openexempt-task-scoped-20261020-run01.service，主PID62179/ticks448651457。
@@ -11,8 +11,8 @@ B3+B4完整四臂伤害规则，只信号精确主PID，不杀模型，不因观
 不热改。策略task_local；whole_bank仅同接口消融入口，未开额外队列。
 32新来源117–148、四批各8，seed2026102006，排除9旧packet；新packet hash90a5772a...。
 原blind C0无损转换hashaa3dffda...，7条/40程序/3539tokens、零训练经验；不继承
-旧C1/C2/被拒候选。B1完整四臂已15:59:35评分，16:52:38为B2源128，
-89native/2教师/50wire复用。B1首遇初库/在线EC58.0208%、EV65.4167%，
+旧C1/C2/被拒候选。B1完整四臂已15:59:35评分，17:05:23为B2源129，
+98native/2教师/53wire复用。B1首遇初库/在线EC58.0208%、EV65.4167%，
 强直接数值空库39.7917%/54.9107%，程序空库39.7917%/45.4464%。
 实际EC input已核只送EC投影、无EV程序，固定C0/online同wire不是独立采样或进化。
 本批online等于C0，以上是静态先验收益，不是在线进化；B1全预测后才读其标签。
@@ -30,7 +30,8 @@ EC2好4坏2平、117单案贡献+12.5pp，其他七案原分母合计-7.0089pp�
 200native/3教师、无B3新发布/无B4，最终实际C1；768工件双盘逐文件复核后才合入。
 旧unit failed/exit1是已核InterruptedError安全停止，不是模型退出；不要恢复旧PID，
 不要再wait旧56614/41250，两观察均已完成。16:31:01小时复核已实做，185绑定无改，
-下一实际复核17:30。ACE组件在隔离branch bd2eeaf，未合入/运行且缺完整runner；
+下一实际复核17:30。隔离ACE已接通完整因果运行器1ae0d31/d27c75a，未合入/运行；
+原生预算/容量/公平profile未freeze，4项CPU检查不是准确率或公平比较结果。
 不以共同空起点的未来正式设计悄悄改当前blind开发流。完整Goal未达成。**
 这是续接入口；每次以真实 systemd/PID、冻结清单与原始工件重新核验。
 旧轮已经计划终止，新契约已真实部署并启动，不要误恢复旧 v9 或另建 GPU 队列。
@@ -62,6 +63,32 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   卡住先定位原始失败，再查近期权威原文/作者实现并落实，不空转调研或重复资格测试。
 
 ## 当前唯一后台训练：v11任务独立更新的32来源四批
+
+### 17:07必要成熟对照已接成完整训练流程，仍未运行
+
+主训练继续B2/129，185绑定逐文件无改，B2标签/官方TEST未读，没有新增模型/
+教师/数据构建或第二推理队列。上一Goal轮实作C1/作用域根因修复，本轮不是
+重新测试ACE/ExpeL哪个该做主方法，而是完成论文目标必要但此前缺失的原生对照。
+
+隔离ACE worktree `.venv/ace-openexempt-20261020.bDBDLh`，原角色bd2eeaf之上
+提交1ae0d31及d27c75ab589ef119fa289e312c01f87027408ed6。新入口
+`experiments/openexempt_ace_online.py`，先完整保存本批原生Generator与两强空库
+预测再读Gold；逐任务Reflector、批末ADD Curator/原计数、流末库，不引我方
+分数准入、旧数值先验、重答或按成绩选库。固定完整流/容量失败需事前声明；
+须同canonical训练锁，原传输/实际响应/费用/失败/终态双盘保全。freeze只增加
+显式additional_sources，ACE额外绑定运行器及作者prompt/许可，默认冻结不变。
+
+4项小CPU检查通过/ruff通过，完整批次fixture核6逻辑预测先于任何标签、5次
+模拟原生（空EC精确wire复用）、2反思+1策展。原生32源4批68教师/128源8批264，
+不能和我方两提案叫等总预算。匹配profile/容量强对照/真实预算尚未冻结，当前
+1537账本上限和历史用量不改，未做任何真实基线生成，不能报胜ACE或复现完成。
+源/角色/作者prompt/协议等12工件双盘逐成员保全，证据
+`artifacts/research/openexempt_ace_20261020/complete_native_online_runner_source_and_causal_contract_evidence.json`。
+
+原作用域隔离分支另提交267ba1304db4abf3fc2baa4ef98aa900ffaebb69，仅在已有
+CRUD检查追加三行对真实MERGE/DELETE/CREATE作用域组合的断言，1项0.28秒通过，
+没有新测试框架或GPU资格测试。方法源码4398c3a不变，仍未部署，先看B2以后。
+当前无完成/阻塞条件，Goal完整active；最近小时16:31:01，下次17:30。
 
 ### 16:53实际C1、B2送达与隔离的作用域根因修复
 
