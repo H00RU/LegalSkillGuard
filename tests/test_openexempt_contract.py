@@ -365,6 +365,8 @@ def test_reused_native_call_executes_new_body_and_never_reuses_answer_or_error(t
 def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_dropped(monkeypatch):
     from types import SimpleNamespace
 
+    from legal_skill_guard.utils.hashing import canonical_json_sha256
+
     seen, observations = [], {}
     for case in range(1, 25):
         components = copy.deepcopy(COMPONENTS)
@@ -374,7 +376,12 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
             seen.append({"case_id": case, "family": family, "components": components})
             observations[(case, family)] = {"case_id": case, "family": family,
                 "score": record(family, 0.2 if case == 1 else 0.8)["score"],
-                "parse_error": None, "parsed": {"answer": {"watch": []}}}
+                "parse_error": None, "parsed": {"answer": {"watch": []}},
+                "raw_call_path": f"native/{case}_{family}.json"}
+    failed_parent = observations[(21, "EV")]
+    failed_parent["parse_error"] = "Incomplete native output: length"
+    failed_parent["parsed"] = None
+    failed_parent["score"] = {**record("EV", 0)["score"], "invalid_format": 1}
     current = [r for r in seen if r["case_id"] >= 21]
     replay = copy.deepcopy(list(observations.values()))
     for r in replay:
@@ -401,8 +408,18 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
     study.bank = []
     study.prequential_empty = list(observations.values())
     study.prequential_frozen = list(observations.values())
-    read_cases = []
+    read_cases, native_read_cases = [], []
+    model_trace = "untrusted emitted text " * 100 + "wrong premise from source model"
+    failed_output = '{"assets":' + "repeated malformed fragment" * 100
     def synthetic_grade(path):
+        if path.parent.name == "native":
+            native_read_cases.append(int(path.stem.split("_")[0]))
+            failed = path.stem == "21_EV"
+            return {"calls": [{"request": {"max_tokens": 8192}, "response": {
+                "id": path.stem, "usage": {"prompt_tokens": 20,
+                    "completion_tokens": 8192 if failed else 100},
+                "choices": [{"finish_reason": "length" if failed else "stop", "message": {
+                    "reasoning_content": model_trace, "content": failed_output if failed else "{}"}}]}}]}
         read_cases.append(int(path.stem))
         return {"targets": {"EC": {"watch": []}, "EV": {"watch": []}}}
     monkeypatch.setattr("experiments.openexempt_online.read", synthetic_grade)
@@ -411,10 +428,26 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
     assert body["full_serialized_library_token_budget"]["net_growth_headroom"] == 88
     assert {r["source_case_id"] for r in body["already_seen_training"]} == ids
     assert set(read_cases) == ids
+    assert set(native_read_cases) == ids  # Never load omitted or future native evidence.
+    emitted_case = next(c for c in body["already_seen_training"]
+                        if c["source_case_id"] == 21 and c["family"] == "EV")
+    emitted = emitted_case["actual_parent_answer"]["source_model_emitted_evidence"]
+    assert emitted["emitted_by_executor_unverified"] and emitted["finish_reason"] == "length"
+    assert emitted["completion_tokens"] == emitted["max_completion_tokens"] == 8192
+    assert emitted["reasoning"]["text"] == model_trace[-1024:]
+    assert emitted["reasoning"]["canonical_text_sha256"] == canonical_json_sha256(model_trace)
+    assert emitted["reasoning"]["truncated_to_tail"]
+    preview = emitted["failed_native_final"]
+    assert preview["head"] == failed_output[:256] and preview["tail"] == failed_output[-256:]
+    assert preview["canonical_text_sha256"] == canonical_json_sha256(failed_output)
+    assert preview["middle_omitted"] and preview["characters"] == len(failed_output)
+    assert "source_model_emitted_evidence" not in emitted_case["actual_same_case_empty_answer"]
+    assert "source_model_emitted_evidence" not in emitted_case["actual_same_case_frozen_initial_answer"]
     feedback = body["rejected_candidate_feedback"][0]
     assert feedback["full_replay_task_count"] == 48
     assert len(feedback["actual_replay"]) == 40
     assert {r["case_id"] for r in feedback["actual_replay"]} == ids
+    assert all("source_model_emitted_evidence" in r for r in feedback["actual_replay"])
 
 
 def test_strong_direct_numeric_empty_is_not_a_program_or_host_repaired_answer(tmp_path, monkeypatch):

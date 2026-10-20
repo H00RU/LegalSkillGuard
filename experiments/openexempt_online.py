@@ -110,7 +110,13 @@ AUTHOR_SYSTEM = (
     "empty-library answer as a real counterfactual, especially when it succeeds and "
     "the parent fails. Remove harmful guidance instead of adding formatting rituals. "
     "Do not invent successful trajectories. Give simple ordered "
-    "operations and legal conditions the executor can perform. Explain a generic "
+    "operations and legal conditions the executor can perform. "
+    "The source_model_emitted_evidence fields are bounded excerpts the executor "
+    "already emitted, not verified explanations or a request for your hidden reasoning. "
+    "Use them to locate a false premise or malformed submission, but verify every "
+    "repair against the public sources, training target and actual execution receipts. "
+    "A length-ended repeated output does not prove that the input was truncated. "
+    "Explain a generic "
     "calculation using variables where useful, never a current-case answer. Do not "
     "request private chain of thought or invent a successful trajectory. "
     "Rules here concern the supplied benchmark statute version, not current legal advice. "
@@ -613,11 +619,13 @@ class Online:
                      for r in seen}
         grounded = self.cfg.get("execution_contract") == "source_grounded_claim_operations"
 
-        def observation_view(record):
+        emitted_cache = {}
+
+        def observation_view(record, *, include_emitted=False):
             if not grounded:
                 return record
             receipt = record.get("execution_receipt")
-            return {"case_id": record["case_id"], "family": record["family"],
+            value = {"case_id": record["case_id"], "family": record["family"],
                     "native_program": record.get("native_program"),
                     "physical_alias_of_identical_wire": record.get("physical_alias_of_identical_wire"),
                     "executed_answer": (record.get("parsed") or {}).get("answer"),
@@ -626,6 +634,37 @@ class Online:
                         {k: op[k] for k in ("asset_name", "asset_value", "citation", "operator_id",
                                            "limit", "claim_value")}
                         for op in receipt["actual_claim_operations"]]}
+            if include_emitted:
+                path = record["raw_call_path"]
+                if path not in emitted_cache:
+                    call = read(ROOT / path)["calls"][0]
+                    response = call["response"]
+                    choice = response["choices"][0]
+                    message = choice["message"]
+                    reasoning = message.get("reasoning_content") or ""
+                    native = message.get("content") or ""
+                    emitted_cache[path] = {
+                        "raw_call_path": path, "canonical_call_sha256": csha(call),
+                        "response_id": response["id"],
+                        "finish_reason": choice["finish_reason"],
+                        "prompt_tokens": response["usage"]["prompt_tokens"],
+                        "completion_tokens": response["usage"]["completion_tokens"],
+                        "max_completion_tokens": call["request"]["max_tokens"],
+                        "emitted_by_executor_unverified": True,
+                        "reasoning": {"text": reasoning[-1024:], "characters": len(reasoning),
+                            "canonical_text_sha256": csha(reasoning),
+                            "truncated_to_tail": len(reasoning) > 1024},
+                        "native": native}
+                emitted = copy.deepcopy(emitted_cache[path])
+                native = emitted.pop("native")
+                if record["parse_error"] is not None:
+                    emitted["failed_native_final"] = {
+                        "head": native[:256],
+                        "tail": native[-256:] if len(native) > 512 else native[256:],
+                        "characters": len(native), "canonical_text_sha256": csha(native),
+                        "middle_omitted": len(native) > 512}
+                value["source_model_emitted_evidence"] = emitted
+            return value
 
         cases = []
         empty_by_key = {(r["case_id"], r["family"]): r for r in self.prequential_empty}
@@ -643,13 +682,14 @@ class Online:
                           "actual_same_case_frozen_initial_answer": observation_view(
                               frozen_by_key[(row["case_id"], row["family"])]),
                           "actual_parent_answer": observation_view(
-                              observations[(row["case_id"], row["family"])])})
+                              observations[(row["case_id"], row["family"])], include_emitted=True)})
         rejected_view = []
         for decision in rejected:
             value = {k: v for k, v in decision.items() if k != "actual_replay"}
             if "actual_replay" in decision:
                 value["full_replay_task_count"] = len(decision["actual_replay"])
-                value["actual_replay"] = [observation_view(r) for r in decision["actual_replay"]
+                value["actual_replay"] = [observation_view(r, include_emitted=True)
+                                          for r in decision["actual_replay"]
                                           if r["case_id"] in supplied_ids]
             rejected_view.append(value)
         actual_contracts = {}
@@ -676,6 +716,12 @@ class Online:
                 "already_seen_training": cases, "rejected_candidate_feedback": rejected_view,
                 "training_evidence_manifest": evidence_manifest,
                 "selected_record_view_preserves_program_answer_score_and_error": grounded,
+                "bounded_emitted_evidence_contract": {
+                    "roles": ["actual_parent_answer", "rejected_candidate_replay"],
+                    "reasoning_tail_max_characters": 1024,
+                    "failed_native_final_head_tail_max_characters": 512,
+                    "unabridged_raw_artifacts_retained": True,
+                    "not_a_verified_causal_explanation": True},
                 "future_cases_and_labels_not_supplied": True}
 
     def update(self, current, seen, parent_current):
