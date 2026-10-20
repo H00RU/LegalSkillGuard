@@ -1,6 +1,6 @@
 # 论文证据与完成条件
 
-2026-10-20 20:39，初稿v0.1配套内部记录。方法已同步当前v13直接作答；旧v11分数仅保留为开发沿革。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
+2026-10-20 20:55，初稿v0.1配套内部记录。方法已同步当前v13直接作答；旧v11分数仅保留为开发沿革。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
 
 ## 已经写下的论文主线
 
@@ -23,6 +23,7 @@
 | 实际发布五条、990token且送达B2 | VERIFIED | 18:45:05真实C1、全部16项原生回执/重评分核同，157_EC实际输入核C1 |
 | B2更新确实发布并进入B3 | VERIFIED | 19:49:47实际C2、6条/1273token，全部32项实际库请求/原始回答/原评分核同，165_EC输入核C2 |
 | 作用域组合已经产生后续新案收益 | MIXED | v13 B2首次新案EC有净益、EV有净损；C2进入B3后两任务均有净益，但EC收益集中且仍有两个回退，不证明稳定泛化或作用域提交的独立因果贡献 |
+| C2已证明普遍优于B1学得的固定C1 | UNSUPPORTED | B3全部8项EC请求可用已保存原始响应回顾性核验：C1 62.09%、C2 71.47%，1好7平；EV只有3/8请求覆盖，不填完整成绩。当前固定初库仍是空库，不是固定C1 |
 | 已完成ACE真实基线 | UNSUPPORTED | 隔离分支8cf0158已补齐作者TRAIN反思后重答，10项小CPU检查通过；0真实调用、profile未冻结，不能以实现或测试冒充对比成绩 |
 | 正式训练量、独立重复、隔离测试与统计结论已完成 | PENDING | 目前32来源机制试跑，不是正式论文实验 |
 | 作用域重放或算术程序本身就是本文原创 | UNSUPPORTED | 必须区分SkillCommit等近邻；尚未确认独立方法贡献 |
@@ -106,6 +107,25 @@ B3首次回答成本为29次、182092输入/89202输出token。第三次教师se
 修订联合债务人、上限与资格边界、独立替代项，并提出两条新技能。20:39仍在
 全部已见24来源/48任务的候选重放，尚未发布C3，不提前记作库已增长或B4有效。
 
+### B3固定C1诊断：完整EC可核验，但不是新增前瞻实验
+
+实际B1结束后的C1是事先存在的一份固定库，不从历史好库选择。对全部B3
+16任务重建其请求，EC 8/8与B3已保存原始请求完全一致：6项与实际C2相同，
+Illinois168、170与同案强空库相同。原始响应重新解码并按原评分核验后，完整
+EC的固定C1为62.09%，实际C2为71.47%，配对+9.38pp，1好0坏7平。净增益
+全部来自168从25%到100%；170持平。它支持这次Illinois EC新增技能在一个
+后续新案上起效，但不是多处普遍改善或独立学习重复。
+
+该诊断在标签已释放后进行，明确为回顾性的原始请求身份核验。0额外模型/
+教师调用，不重写首遇记录，也不将这些重构结果传入主方法教师、准入或早停。
+EV仅3/8请求覆盖，其余5项无原始响应，不以部分样本均值或C2回答补出全批EV。
+不能将该诊断改称预先加入的第五评测臂或新的独立采样。
+
+后续前瞻对照已在隔离提交588bff4中实现：配置显式启用后，在B1结束时冻结
+当时真实库（即使为空），后续同案评测；不等待最好/首次成功的库，不更新
+快照，不给教师额外反馈。33项单模块CPU检查3.33秒通过，0真实模型调用；
+未合入、冻结或启动，不修改当前176项冻结绑定，也不证明完整对比已完成。
+
 ### 旧v11开发沿革，不与新v13拼接
 
 旧Run：`legal_openexempt_task_scoped_online_20261020_run01`。每批8个来源，EC/EV各8任务。以下是旧运行更新前的新案首次回答，百分数均由原评分获得。
@@ -149,6 +169,7 @@ B1更新后同案重放：实际EC-only C1为EC63.51%、EV65.42%，不是B2首�
 - 新B2完整首次新案、全部64项原生重评分、EV空占位归零及真实教师更新：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_B2_complete_new_sources_real_skill_delivery_and_EV_output_collapse.json`。
 - 实际C2、全部32项原生请求/重新解码/原评分核验、闭合B2成本及B3投递：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_actual_C2_six_skills_all32_native_identity_and_B3_delivery.json`。
 - 新B3完整首次新案、全部64项原生身份/原评分、全部8来源配对、EV失分与来源级探索区间：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_B3_complete_new_sources_all64_native_and_original_scores.json`。
+- B3单一固定C1全部16请求覆盖审计、完整EC原评分、EV五项缺失及隔离前瞻控制源码：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_B3_fixed_C1_all16_request_coverage_and_complete_EC.json`。
 - B1实际发布：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B1_actual_EC_only_C1_publication_and_all16_reexecution.json`。
 - B2完整前向：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B2_full_new_case_effect_and_actual_EV_invariance.json`。
 - B2损失分解：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B2_all_arms_full_law_amount_name_losses_and_public_contexts.json`。
