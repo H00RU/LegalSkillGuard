@@ -1,13 +1,18 @@
 """Public-namespace contract for the next separately frozen training protocol.
 
-These helpers only read the explicitly supplied AE solved step and public
-statutory headers. They neither classify assets nor decide legal eligibility.
+These helpers read the explicitly supplied AE solved step, public statutory
+headers, and optional literal asset mentions from a declared public lexicon.
+They neither infer ownership nor decide legal eligibility or numerical amounts.
 All arms must receive the same public label vocabulary. No answer repair.
+The optional asset lexicon is a description-only projection of CC BY 4.0
+servantez/OpenExempt ec6fa2547431096588ce2d3ef107b8adc33cd4fe; the source's
+expert exemption, value and category-hint fields do not enter the encoding.
 """
 
 from __future__ import annotations
 
 import copy
+import json
 import re
 
 from legal_skill_guard.learning.claim_execution import law_blocks
@@ -73,6 +78,45 @@ def public_catalog(row: dict) -> dict[str, str]:
     if not catalog:
         raise ValueError("No public statutory labels for the supplied AE result")
     return catalog
+
+
+def asset_description_lexicon() -> tuple[str, ...]:
+    """Description-only projection; expert labels/values are never consulted."""
+    from legal_skill_guard.openexempt import UPSTREAM
+
+    with (UPSTREAM / "data/assets/assets.jsonl").open() as source:
+        names = [json.loads(line)["description"] for line in source if line.strip()]
+    if not names or any(not isinstance(name, str) or not name for name in names):
+        raise ValueError("A nonempty declared public asset-description lexicon is required")
+    return tuple(sorted(set(names)))
+
+
+def public_asset_catalog(row: dict) -> dict[str, str]:
+    """Case-local IDs for maximal literal public mentions, not owned/eligible assets.
+
+    This closed-vocabulary input encoding adds mention boundaries to ALL arms.
+    It does not promise to recognize out-of-vocabulary entities. Repeated literal
+    names share one map key, like the benchmark's description-keyed answer.
+    """
+    facts = row["components"]["facts"]
+    spans = {(match.start(), match.end(), match.group())
+             for name in asset_description_lexicon()
+             for match in re.finditer(r"(?<!\w)" + re.escape(name) + r"(?!\w)", facts, re.I)}
+    maximal = sorted((start, end, text) for start, end, text in spans
+        if not any(a <= start and end <= b and (a, b) != (start, end) for a, b, _ in spans))
+    mentions = {}
+    for _, _, text in maximal:
+        mentions.setdefault(text.casefold(), text)
+    if not mentions:
+        raise ValueError("No literal public asset mention; no guess, target lookup or fallback")
+    return {f"A{index:03d}": text for index, text in enumerate(mentions.values(), 1)}
+
+
+def decode_asset_references(answer: dict, catalog: dict[str, str]) -> dict:
+    """Invert the predeclared public encoding; never fill, normalize or judge values."""
+    if not isinstance(answer, dict) or set(answer) != set(catalog):
+        raise ValueError("Submit exactly the declared public asset-reference keys")
+    return {catalog[key]: copy.deepcopy(values) for key, values in answer.items()}
 
 
 def validate_scopes(bank: list[dict], statutes: str) -> None:

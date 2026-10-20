@@ -15,6 +15,16 @@ not a complete unmodified ACE reproduction. Task-specific citation handling,
 G4 experience and batch curation must be disclosed with actual call costs.
 No upstream JSON-repair, error-skipping or retry fallback is imported.
 
+2026-10-20: Optional direct-answer contract14 shares the main method's public,
+case-local asset-mention encoding across Generator, released-TRAIN regeneration,
+Reflector and Curator. This is a declared local task-interface adaptation, not
+upstream ACE behavior or an eligibility oracle. The public description lexicon
+is a description-only projection of CC BY 4.0 servantez/OpenExempt commit
+ec6fa2547431096588ce2d3ef107b8adc33cd4fe, with maximal literal spans from the
+current public Facts. No expert exemption, amount or category-hint field enters
+the encoding. Original numerical mistakes remain mistakes. Existing contract13
+and the native TRAIN loop, wrappers, attribution and ADD counters are unchanged.
+
 2026-10-20 20:18: The v2 online adapter also follows the fixed upstream
 `ace/ace_batch.py::_generate_and_reflect_single_sample` TRAIN-only
 reflection/regeneration loop, with at most three rounds and early stopping on a

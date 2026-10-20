@@ -30,6 +30,7 @@ from legal_skill_guard.learning.experiment import (
     read,
     sha,
 )
+from legal_skill_guard.learning.legal_namespace import public_asset_catalog
 from legal_skill_guard.learning.openexempt_ace import (
     commit_additions,
     curator_request,
@@ -57,8 +58,8 @@ def validate_profile(cfg):
     if type(rounds) is not int or rounds < 1 or rounds > 3:
         raise ValueError("Declare one to three native TRAIN reflection/regeneration rounds")
     if (cfg["execution_contract"] == "direct_statutory_claims"
-            and cfg.get("execution_contract_version") != 13):
-        raise ValueError("Direct ACE must declare the common answer contract v13")
+            and cfg.get("execution_contract_version") not in (13, 14)):
+        raise ValueError("Direct ACE must declare the common answer contract v13 or v14")
     if (cfg.get("initial_library_publication") or cfg.get("warm_source_case_ids")
             or cfg.get("ace_capacity_policy") != "error_without_truncation"
             or cfg.get("stop_policy") != "full_stream_or_operator_or_contract_error"):
@@ -136,8 +137,9 @@ class ACEOnline:
             raise ValueError("Released feedback is forbidden in first-encounter inference")
         book = self.playbook if playbook is None else playbook
         direct = self.cfg["execution_contract"] == "direct_statutory_claims"
+        asset_references = self.cfg.get("execution_contract_version") == 14
         messages, schema = generator_payload(row, book, direct_numeric=direct,
-            training_reflection=training_reflection)
+            training_reflection=training_reflection, asset_references=asset_references)
         fingerprint = csha({"messages": messages, "schema": schema,
                             "generation": self.cfg["generation"]})
         path = self.out / "native" / stage / f"{row['case_id']}_{row['family']}_ace.json"
@@ -146,6 +148,8 @@ class ACEOnline:
             "delivered_bullet_ids": list(bullets(book)), "TRAIN_only": training,
             "valuation_output_contract": "direct_numeric" if direct else "inline_claim_program",
             "current_TRAIN_reflection_available": training_reflection is not None,
+            **({"public_asset_reference_catalog": public_asset_catalog(row)}
+               if asset_references else {}),
             "future_or_TEST_feedback_available": False})
         alias = None
         raw_call_path = str(path.relative_to(ROOT))
@@ -174,7 +178,8 @@ class ACEOnline:
             if len(value["bullet_ids"]) != len(set(value["bullet_ids"])):
                 raise ValueError("Repeated native bullet provenance")
             used, rationale = copy.deepcopy(value["bullet_ids"]), value["reasoning"]
-            decoded = decode_generator(row, book, value, direct_numeric=direct)
+            decoded = decode_generator(row, book, value, direct_numeric=direct,
+                                        asset_references=asset_references)
         except (ValueError, ValidationError) as exc:
             error = repr(exc)
         record = {"case_id": row["case_id"], "source_key": row["source_key"],
@@ -221,7 +226,8 @@ class ACEOnline:
                     "first_encounter_score_never_replaced": observation["score"],
                     "TRAIN_feedback_never_a_prediction_repair": True}
                 prompt, schema, cited = reflector_request(row, view, target, local_book, feedback,
-                    direct_numeric=self.cfg["execution_contract"] == "direct_statutory_claims")
+                    direct_numeric=self.cfg["execution_contract"] == "direct_statutory_claims",
+                    asset_references=self.cfg.get("execution_contract_version") == 14)
                 name = f"b{self.current_batch}_{row['case_id']}_{row['family']}_r{number}_reflector"
                 reflection = self.teacher_call(name, ROLE_SYSTEM, prompt, schema)
                 validate_reflection(reflection, schema, cited)
@@ -257,6 +263,7 @@ class ACEOnline:
             total_samples=self.cfg["source_cases"] * 2,
             token_budget=self.cfg["library_token_hard_cap"],
             direct_numeric=self.cfg["execution_contract"] == "direct_statutory_claims",
+            asset_references=self.cfg.get("execution_contract_version") == 14,
             all_round_bullet_tags=all_tags)
         operations = self.teacher_call(f"b{self.current_batch}_curator", ROLE_SYSTEM, prompt, schema)
         committed = commit_additions(counted, operations, schema,

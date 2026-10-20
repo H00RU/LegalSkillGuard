@@ -5,6 +5,7 @@ old NDA run, training replays can reject ineffective candidate edits. This is
 declared TRAIN optimization, not test-time retry or an independent validation
 claim. All candidate outputs, costs and rejected edits remain on disk.
 Contracts v12/v13 admit public-law/task TRAIN edits; v13 uses direct task answers.
+Optional v14 binds the same legal answers to public literal-mention references.
 Native-response reuse never reuses a previously computed answer.
 """
 
@@ -39,9 +40,11 @@ from legal_skill_guard.learning.experiment import Comparison, now, read, sha
 from legal_skill_guard.learning.legal_namespace import (
     active_bank,
     allowable_namespaces,
+    decode_asset_references,
     decode_claim_plan,
     decode_classification,
     decode_reference,
+    public_asset_catalog,
     public_catalog,
     statutory_catalog,
     validate_scopes,
@@ -155,9 +158,17 @@ CANDIDATE_FEEDBACK_ADDITION = (
 )
 
 
-def numeric_case_input(row):
+def direct_case_input(row, *, asset_references=False):
+    if row["family"] == "EC" and not asset_references:
+        return active_case_input(row)
     content = "\n\n".join(row["components"][key] for key in ACTIVE_CASE_FIELDS
                           if row["components"][key])
+    if asset_references:
+        values = ("public citation label IDs" if row["family"] == "EC" else
+                  "citation_ref and numeric claim_value objects")
+        return content + ("\n\nOutput contract: Return a JSON object with exactly all supplied "
+            "case-local asset_ref keys; each value is an array of " + values +
+            ", or [] when none apply. The references identify mentions, not ownership or eligibility.")
     return content + ("\n\nOutput contract: Return only a JSON object mapping actual asset "
         "descriptions to arrays of citation_ref and numeric claim_value objects, or [] if none.")
 
@@ -333,11 +344,13 @@ def visible(bank, family):
     return task_view(bank, family)
 
 
-def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
+def actor_payload(row, bank, *, grounded=True, direct_numeric=False, asset_references=False):
     if not grounded:
         raise ValueError("Only the public-namespace claim contract is implemented")
     if direct_numeric and any(s["guidance"]["operators"] for s in bank):
         raise ValueError("Direct-answer skills cannot publish numerical programs")
+    if asset_references and not direct_numeric:
+        raise ValueError("Public asset references require the common direct-answer contract")
     supplied = visible(active_bank(row, bank), row["family"])
     # A caller needs the available interfaces, not their private program bodies.
     # Pure body changes still leave every rendered message and schema unchanged.
@@ -353,6 +366,13 @@ def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
             skill["guidance"].pop("operators", None)
     system = ((DIRECT_NUMERIC_SYSTEM if direct_numeric else PROGRAM_ACTOR_SYSTEM)
               if row["family"] == "EV" else ACTOR_SYSTEM)
+    asset_catalog = public_asset_catalog(row) if asset_references else None
+    if asset_references:
+        system += (" The original description-keyed task specifies the decoded answer. "
+            "This profile encodes submitted root keys as the supplied case-local asset_ref "
+            "IDs, not description strings or citations. Include every listed ID, using [] "
+            "when no exemption is applicable. A reference only identifies a literal mention; "
+            "it does not prove debtor ownership, eligibility, value or an exemption amount.")
     messages = [{"role": "system", "content": system}]
     if delivered:
         messages.append({"role": "user", "content":
@@ -360,11 +380,14 @@ def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
                          "Use these only when applicable; they are not current answers:\n" +
                          json.dumps(delivered, ensure_ascii=False, separators=(",", ":"))})
     messages.append({"role": "user", "content":
+        (("Public case-local literal asset-mention references (IDs reset in every case; "
+          "closed public lexicon; all legal judgments remain yours):\n" + json.dumps(asset_catalog, ensure_ascii=False,
+          separators=(",", ":")) + "\n\n") if asset_references else "") +
         "Public citation label vocabulary. These are public headers in the already-given "
         "allowable jurisdictions, NOT an asset-eligibility answer:\n" +
         json.dumps(catalog, ensure_ascii=False, separators=(",", ":")) +
-        "\n\n" + (numeric_case_input(row) if direct_numeric and row["family"] == "EV"
-                    else active_case_input(row))})
+        "\n\n" + (direct_case_input(row, asset_references=asset_references)
+                    if direct_numeric else active_case_input(row))})
     labels = {"type": "string", "enum": list(catalog)}
     if row["family"] == "EV" and direct_numeric:
         schema = answer_schema("EV")
@@ -397,6 +420,11 @@ def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
     else:
         schema = answer_schema("EC")
         schema["additionalProperties"]["items"] = labels
+    if asset_references:
+        entry = schema["additionalProperties"]
+        schema = {"type": "object", "additionalProperties": False,
+                  "required": list(asset_catalog),
+                  "properties": {ref: copy.deepcopy(entry) for ref in asset_catalog}}
     return messages, schema, supplied
 
 
@@ -627,11 +655,11 @@ class Online:
                 or type(self.cfg.get("max_candidate_attempts")) is not int
                 or self.cfg["max_candidate_attempts"] not in (1, 2)):
             raise ValueError("Closed-loop feedback uses direct answers and one or two bounded proposals")
-        contracts = {"source_grounded_claim_operations": 12, "direct_statutory_claims": 13}
+        contracts = {"source_grounded_claim_operations": (12,), "direct_statutory_claims": (13, 14)}
         if (self.cfg.get("execution_contract") not in contracts
                 or self.cfg.get("execution_contract_version")
-                != contracts[self.cfg["execution_contract"]]):
-            raise ValueError("Declare numerical contract v12 or direct-answer contract v13 exactly")
+                not in contracts[self.cfg["execution_contract"]]):
+            raise ValueError("Declare numerical v12, direct v13 or public-asset-reference direct v14")
         if self.cfg.get("skill_commit_policy") not in ("legal_scope", "task_local", "whole_bank"):
             raise ValueError("Declare legal_scope, task_local or whole_bank before freezing")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
@@ -694,8 +722,10 @@ class Online:
             "source_grounded_claim_operations", "direct_statutory_claims")
         direct = (self.cfg.get("execution_contract") == "direct_statutory_claims"
                   or arm == "empty_direct_numeric")
+        asset_references = self.cfg.get("execution_contract_version") == 14
         messages, schema, supplied = actor_payload(row, bank, grounded=grounded,
-                                                   direct_numeric=direct)
+            direct_numeric=direct, asset_references=asset_references)
+        asset_catalog = public_asset_catalog(row) if asset_references else None
         catalog = public_catalog(row)
         fingerprint = csha({"messages": messages, "schema": schema,
                             "generation": self.cfg["generation"]})
@@ -704,11 +734,15 @@ class Online:
             "messages": messages, "schema": schema, "bank_sha256": csha(bank),
             "delivered_skill_ids": [s["id"] for s in supplied],
             "original_prompt_sha256": csha(row["prompt"]),
-            "actual_active_case_input_sha256": csha(numeric_case_input(row)
-                if direct and row["family"] == "EV" else active_case_input(row)),
+            "actual_active_case_input_sha256": csha(direct_case_input(row, asset_references=asset_references)
+                if direct else active_case_input(row)),
             "public_citation_catalog": catalog,
             "public_allowable_jurisdictions": sorted(allowable_namespaces(row)),
             "public_citation_catalog_sha256": csha(catalog),
+            **({"public_asset_reference_catalog": asset_catalog,
+                "public_asset_reference_catalog_sha256": csha(asset_catalog),
+                "public_asset_reference_policy": "maximal_literal_mentions_closed_description_lexicon"}
+               if asset_references else {}),
             "numerical_program_bodies_rendered_to_actor": False,
             "published_citation_calls_required_by_schema": row["family"] == "EV" and not direct,
             "direct_numeric_empty_control": arm == "empty_direct_numeric",
@@ -752,6 +786,8 @@ class Online:
         if response["finish_reason"] != "stop":
             parse_error = "Incomplete native output: " + str(response["finish_reason"])
         public_label_submission = copy.deepcopy(parsed)
+        if asset_references and parse_error is None:
+            parsed = decode_asset_references(parsed, asset_catalog)
         native_program, execution_receipt, execution_error = None, None, None
         if grounded and row["family"] == "EV" and not direct and parse_error is None:
             native_program = decode_claim_plan(parsed, catalog)
@@ -870,6 +906,8 @@ class Online:
             target = read(ROOT / self.cfg["grading_directory"] /
                           f"{row['case_id']}.json")["targets"][row["family"]]
             cases.append({"source_case_id": row["case_id"], "family": row["family"],
+                          **({"public_asset_reference_catalog": public_asset_catalog(row)}
+                             if self.cfg.get("execution_contract_version") == 14 else {}),
                           "facts": row["components"]["facts"],
                           "public_solved_steps": row["components"]["solved_steps"],
                           "public_statutes_ref": csha(row["components"]["statutes"]),
@@ -911,16 +949,24 @@ class Online:
         actual_contracts = {}
         for row in seen:
             key = "+".join(sorted(allowable_namespaces(row)))
+            if self.cfg.get("execution_contract_version") == 14:
+                key += ";asset_mentions=" + str(len(public_asset_catalog(row)))
             group = actual_contracts.setdefault(key, {})
             if row["family"] not in group:
                 messages, schema, _ = actor_payload(row, self.bank, grounded=True,
-                    direct_numeric=self.cfg.get("execution_contract") == "direct_statutory_claims")
+                    direct_numeric=self.cfg.get("execution_contract") == "direct_statutory_claims",
+                    asset_references=self.cfg.get("execution_contract_version") == 14)
                 group[row["family"]] = {"system": messages[0]["content"],
                                         "response_schema": schema}
         return {"current_source_case_ids": sorted({r["case_id"] for r in current}),
                 "task_boundary": {"start_task_id": 2,
                     "public_prior": "allowable jurisdictions already supplied; do not recompute them",
-                    "outputs": "all eligible asset-law alternatives, not a final jointly allocated portfolio"},
+                    "outputs": "all eligible asset-law alternatives, not a final jointly allocated portfolio",
+                    **({"asset_reference_encoding": {
+                        "case_local_IDs_reset_per_case": True,
+                        "public_description_only_literal_mentions_not_ownership_or_eligibility": True,
+                        "do_not_store_instance_asset_IDs_as_reusable_law_or_amount_answers": True}}
+                       if self.cfg.get("execution_contract_version") == 14 else {})},
                 "current_parent_library": self.bank, "task_contracts": contracts,
                 "skill_commit_policy": self.cfg["skill_commit_policy"],
                 "public_TRAIN_edit_coordinates_before_proposed_shared_edits":
@@ -933,7 +979,9 @@ class Online:
                               if self.cfg.get("execution_contract") == "direct_statutory_claims" else
                               "same live executor tokenizer; full library including program bodies")},
                 "public_citation_label_catalog": statutory_catalog(seen[0]["components"]["statutes"]),
-                "actual_actor_system": ACTOR_SYSTEM, "complete_public_statutes": statutes,
+                "actual_actor_system": (next(group["EC"]["system"] for group in actual_contracts.values()
+                    if "EC" in group) if self.cfg.get("execution_contract_version") == 14 else ACTOR_SYSTEM),
+                "complete_public_statutes": statutes,
                 "actual_system_and_response_schema_by_public_context": actual_contracts,
                 "already_seen_training": cases, "rejected_candidate_feedback": rejected_view,
                 "training_evidence_manifest": evidence_manifest,
@@ -963,7 +1011,8 @@ class Online:
         # Preflight the entire cohort before writing/re-executing any member.
         for row in seen:
             messages, schema, _ = actor_payload(row, composed, grounded=True,
-                direct_numeric=self.cfg.get("execution_contract") == "direct_statutory_claims")
+                direct_numeric=self.cfg.get("execution_contract") == "direct_statutory_claims",
+                asset_references=self.cfg.get("execution_contract_version") == 14)
             fingerprint = csha({"messages": messages, "schema": schema,
                                 "generation": self.cfg["generation"]})
             if fingerprint not in self.request_cache:

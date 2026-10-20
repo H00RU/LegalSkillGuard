@@ -101,6 +101,39 @@ def test_native_reflector_tags_only_actual_citations_and_retains_train_targets()
     validate_reflection(reflection, no_tags_schema, no_tags)
 
 
+@pytest.mark.parametrize("family", ["EC", "EV"])
+def test_asset_reference_ACE_roles_share_the_common_public_encoding(monkeypatch, family):
+    import legal_skill_guard.learning.legal_namespace as namespace
+    from experiments.openexempt_online import actor_payload
+
+    monkeypatch.setattr(namespace, "asset_description_lexicon", lambda: ("watch",))
+    source = row(family)
+    common, native_schema, _ = actor_payload(source, [], direct_numeric=True, asset_references=True)
+    messages, schema = generator_payload(source, BOOK, direct_numeric=True, asset_references=True)
+    assert schema["properties"]["final_answer"] == native_schema
+    assert common[-1]["content"] in messages[-1]["content"]
+    assert "SECRET" not in str(messages)
+    ref = "Ariz. Rev. Stat. section 33-1123"
+    value = [ref] if family == "EC" else [{"citation_ref": ref, "claim_value": 999}]
+    submission = {"reasoning": "public finding", "bullet_ids": ["misc-00001"],
+                  "final_answer": {"A001": value}}
+    validate(submission, schema)
+    decoded = decode_generator(source, BOOK, submission, direct_numeric=True, asset_references=True)
+    expected = (["Ariz. Rev. Stat. § 33-1123"] if family == "EC" else
+                [{"citation": "Ariz. Rev. Stat. § 33-1123", "claim_value": 999}])
+    assert decoded["answer"] == {"watch": expected}
+    assert decoded["native_program"] is decoded["execution_receipt"] is None
+    observation = {"case_id": 1, "family": family, "used_bullet_ids": ["misc-00001"],
+                   "answer": decoded["answer"], "parse_error": None}
+    prompt, _, _ = reflector_request(source, observation, {"watch": []}, BOOK, {},
+                                     direct_numeric=True, asset_references=True)
+    assert '"A001"' in prompt
+    prompt, _, _ = curator_request(BOOK, [{"bullet_tags": []}], [source],
+        current_step=1, total_samples=2, token_budget=8192,
+        direct_numeric=True, asset_references=True)
+    assert "A001" in prompt
+
+
 def test_native_counter_last_tag_and_add_only_curator_are_not_our_score_gate():
     reflections = [{"bullet_tags": [{"id": "misc-00001", "tag": tag}]}
                    for tag in ("helpful", "harmful")]
@@ -125,22 +158,27 @@ def test_native_counter_last_tag_and_add_only_curator_are_not_our_score_gate():
     assert len(bullets(counted)) == 1  # No mutation, truncation or score-selected publication.
 
 
-@pytest.mark.parametrize("direct", [False, True])
+@pytest.mark.parametrize("profile", ["program", "direct", "asset_refs"])
 @pytest.mark.parametrize("repair_after", [0, 2, None])
 def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predictions(
-        tmp_path, monkeypatch, direct, repair_after):
+        tmp_path, monkeypatch, profile, repair_after):
     from types import SimpleNamespace
 
     import experiments.openexempt_ace_online as ace
     import experiments.openexempt_online as common
     from legal_skill_guard.openexempt import evaluate
 
+    direct, asset_references = profile != "program", profile == "asset_refs"
+    if asset_references:
+        monkeypatch.setattr("legal_skill_guard.learning.legal_namespace.asset_description_lexicon",
+                            lambda: ("watch",))
     monkeypatch.setattr(ace, "ROOT", tmp_path)
     monkeypatch.setattr(common, "ROOT", tmp_path)
     study = ace.ACEOnline.__new__(ace.ACEOnline)
     study.cfg = {"source_cases": 1, "batch_source_cases": 1, "grading_directory": "grading",
         "execution_contract": ("direct_statutory_claims" if direct
                                else "source_grounded_claim_operations"),
+        "execution_contract_version": 14 if asset_references else 13 if direct else 12,
         "generation": {"seed": 45, "max_tokens": 100},
         "ace_max_TRAIN_reflection_rounds": 3,
         "library_token_hard_cap": 4096}
@@ -167,6 +205,8 @@ def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predict
             if repair_after is None or number < repair_after:
                 final = ({"assets": [{"asset_name": "watch", "asset_value": 40, "claims": []}]}
                          if metadata["family"] == "EV" and not direct else {"watch": []})
+        if asset_references:
+            final = {"A001": final["watch"]}
         value = ({"reasoning": "public finding", "bullet_ids": [], "final_answer": final}
                  if metadata["arm"] == "ace" else final)
         return {"content": json.dumps(value), "finish_reason": "stop"}

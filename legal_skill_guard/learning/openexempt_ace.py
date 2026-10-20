@@ -29,9 +29,11 @@ from legal_skill_guard.learning.experiment import (
     bullets,
 )
 from legal_skill_guard.learning.legal_namespace import (
+    decode_asset_references,
     decode_claim_plan,
     decode_classification,
     decode_reference,
+    public_asset_catalog,
     public_catalog,
 )
 
@@ -47,8 +49,10 @@ def public_explanation_prompt(prompt):
     ).replace("Show your reasoning step-by-step", "Provide a concise public explanation")
 
 
-def generator_payload(row, playbook, *, direct_numeric=False, training_reflection=None):
-    original, native_schema, _ = actor_payload(row, [], direct_numeric=direct_numeric)
+def generator_payload(row, playbook, *, direct_numeric=False, training_reflection=None,
+                      asset_references=False):
+    original, native_schema, _ = actor_payload(row, [], direct_numeric=direct_numeric,
+                                              asset_references=asset_references)
     known = bullets(playbook)
     ids = {"type": "array", "items": {"type": "string"}}
     if known:
@@ -77,14 +81,17 @@ def generator_payload(row, playbook, *, direct_numeric=False, training_reflectio
     return [{"role": "system", "content": system}, {"role": "user", "content": prompt}], schema
 
 
-def decode_generator(row, playbook, submitted, *, direct_numeric=False):
+def decode_generator(row, playbook, submitted, *, direct_numeric=False, asset_references=False):
     """Unpack fields and decode labels; execute math only in the declared program profile."""
-    _, schema = generator_payload(row, playbook, direct_numeric=direct_numeric)
+    _, schema = generator_payload(row, playbook, direct_numeric=direct_numeric,
+                                  asset_references=asset_references)
     validate(submitted, schema)
     cited = submitted["bullet_ids"]
     if len(cited) != len(set(cited)):
         raise ValueError("Repeated native ACE bullet citation, no deduplication")
     native = submitted["final_answer"]
+    if asset_references:
+        native = decode_asset_references(native, public_asset_catalog(row))
     receipt = program = None
     if row["family"] == "EV" and direct_numeric:
         catalog = public_catalog(row)
@@ -103,7 +110,7 @@ def decode_generator(row, playbook, submitted, *, direct_numeric=False):
 
 
 def reflector_request(row, observation, target, playbook, environment_feedback, *,
-                      direct_numeric=False):
+                      direct_numeric=False, asset_references=False):
     """TRAIN-only feedback for this source, never used to repair its first score."""
     if (observation["case_id"], observation["family"]) != (row["case_id"], row["family"]):
         raise ValueError("Reflect only this actual source/task observation")
@@ -127,7 +134,8 @@ def reflector_request(row, observation, target, playbook, environment_feedback, 
     schema = {"type": "object", "additionalProperties": False,
         "required": [*fields, "bullet_tags"], "properties": {
             **{k: {"type": "string"} for k in fields}, "bullet_tags": tags}}
-    original, _, _ = actor_payload(row, [], direct_numeric=direct_numeric)
+    original, _, _ = actor_payload(row, [], direct_numeric=direct_numeric,
+                                  asset_references=asset_references)
     prompt = PUBLIC_ACE_REFLECTOR_PROMPT.format(original[-1]["content"],
         json.dumps(observation, ensure_ascii=False),
         json.dumps(observation.get("answer"), ensure_ascii=False),
@@ -145,7 +153,7 @@ def validate_reflection(value, schema, cited):
 
 
 def curator_request(playbook, reflections, rows, *, current_step, total_samples, token_budget,
-                    direct_numeric=False, all_round_bullet_tags=None):
+                    direct_numeric=False, all_round_bullet_tags=None, asset_references=False):
     """Native batch counter behavior, then the author's incremental ADD curator."""
     tags = ([tag for reflection in reflections for tag in reflection["bullet_tags"]]
             if all_round_bullet_tags is None else all_round_bullet_tags)
@@ -155,7 +163,8 @@ def curator_request(playbook, reflections, rows, *, current_step, total_samples,
     # The pinned author's helper uses the final tag for a repeated ID in a batch.
     # Preserve it rather than silently replacing it by per-document summation.
     counted = update_bullet_counts(playbook, tags) if tags else playbook
-    context = [actor_payload(row, [], direct_numeric=direct_numeric)[0][-1]["content"]
+    context = [actor_payload(row, [], direct_numeric=direct_numeric,
+                            asset_references=asset_references)[0][-1]["content"]
                for row in rows]
     prompt = public_explanation_prompt(CURATOR_PROMPT).format(
         token_budget=token_budget, current_step=current_step, total_samples=total_samples,

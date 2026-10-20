@@ -17,9 +17,11 @@ from experiments.openexempt_online import (
 from legal_skill_guard.learning.legal_namespace import (
     active_bank,
     allowable_namespaces,
+    decode_asset_references,
     decode_claim_plan,
     decode_classification,
     decode_reference,
+    public_asset_catalog,
     public_catalog,
 )
 from legal_skill_guard.learning.task_scoped_skills import (
@@ -110,6 +112,90 @@ def test_train_acceptance_requires_real_improvement_and_past_retention():
     safer = copy.deepcopy(parent)
     safer[1]["score"]["full_output_f1"] = 0.5
     assert acceptance(parent, safer, [], [])["accepted"]
+
+
+@pytest.mark.parametrize("family", ["EC", "EV"])
+def test_public_asset_refs_only_project_descriptions_and_literal_mentions(tmp_path, monkeypatch, family):
+    from jsonschema import ValidationError, validate
+
+    import legal_skill_guard.openexempt as bridge
+
+    path = tmp_path / "data/assets/assets.jsonl"
+    path.parent.mkdir(parents=True)
+    path.write_text("\n".join(json.dumps({"description": name,
+        "dollar_value": 9999997, "applicable_exemptions": ["SECRET_LAW"],
+        "category_hints": ["PRIVATE_CATEGORY"]}) for name in ("watch", "gold ring", "ring")))
+    monkeypatch.setattr(bridge, "UPSTREAM", tmp_path)
+    row = {"family": family, "solution": "PRIVATE_ANSWER", "case": {"private": "PRIVATE_CASE"},
+           "components": {**copy.deepcopy(COMPONENTS), "facts": (
+               "Facts:\nA (hereinafter the Debtor) owns a WATCH and a gold ring. "
+               "A separate ring is on loan. The dog watched quietly.")}}
+    catalog = public_asset_catalog(row)
+    assert catalog == {"A001": "WATCH", "A002": "gold ring", "A003": "ring"}
+    messages, schema, _ = actor_payload(row, [], direct_numeric=True, asset_references=True)
+    other, other_schema, _ = actor_payload(row, [{"id": "skill", "hypothesis_ids": [family],
+        "guidance": guidance("public procedure", tasks=(family,))}],
+        direct_numeric=True, asset_references=True)
+    assert schema == other_schema and messages[0] == other[0]
+    assert messages[-1] == other[-1] and row["components"]["facts"] in messages[-1]["content"]
+    assert all(secret not in str(messages) for secret in (
+        "9999997", "SECRET_LAW", "PRIVATE_CATEGORY", "PRIVATE_ANSWER", "PRIVATE_CASE"))
+    assert "ownership" in messages[0]["content"]
+    final_contract = messages[-1]["content"].rsplit("\n\nOutput contract:", 1)[1]
+    assert "asset_ref keys" in final_contract and "asset descriptions" not in final_contract
+    assert schema["additionalProperties"] is False and schema["required"] == list(catalog)
+    reference = "Ariz. Rev. Stat. section 33-1123"
+    value = [reference] if family == "EC" else [{"citation_ref": reference, "claim_value": 999}]
+    submitted = {"A001": value, "A002": [], "A003": []}
+    validate(submitted, schema)
+    decoded = decode_asset_references(submitted, catalog)
+    assert decoded == {"WATCH": value, "gold ring": [], "ring": []}
+    assert submitted == {"A001": value, "A002": [], "A003": []}  # No mutation or monetary fix.
+    for bad in ({"A001": value}, {**submitted, "735 Ill. Comp. Stat. 5/12-1001(b)": []}):
+        with pytest.raises(ValidationError):
+            validate(bad, schema)
+        with pytest.raises(ValueError, match="exactly the declared"):
+            decode_asset_references(bad, catalog)
+    _, old_schema, _ = actor_payload(row, [], direct_numeric=True)
+    assert isinstance(old_schema["additionalProperties"], dict)
+    with pytest.raises(ValueError, match="common direct-answer"):
+        actor_payload(row, [], asset_references=True)
+    row["components"]["facts"] = "Facts:\nNo lexicon item appears."
+    with pytest.raises(ValueError, match="No literal public asset mention"):
+        public_asset_catalog(row)
+
+
+@pytest.mark.parametrize("family", ["EC", "EV"])
+def test_v14_native_answer_decodes_public_asset_ids_without_repair(tmp_path, monkeypatch, family):
+    import legal_skill_guard.learning.legal_namespace as namespace
+
+    monkeypatch.setattr(namespace, "asset_description_lexicon", lambda: ("watch", "bowl"))
+    monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
+    study = Online.__new__(Online)
+    study.cfg = {"execution_contract": "direct_statutory_claims", "execution_contract_version": 14,
+                 "generation": {"seed": 45, "max_tokens": 100}}
+    study.out, study.native, study.request_cache, study.reuse_events = tmp_path, [], {}, []
+    study.check, study.progress = lambda: None, lambda *a, **k: None
+    row = {"case_id": 1, "source_key": "fixture", "family": family, "prompt": "public original",
+           "components": {**copy.deepcopy(COMPONENTS), "facts": (
+               "Facts:\nA (hereinafter the Debtor) owns a watch worth $40 and a bowl worth $20.")}}
+    reference = "Ariz. Rev. Stat. section 33-1123"
+    value = [reference] if family == "EC" else [{"citation_ref": reference, "claim_value": 999}]
+
+    def call(dest, messages, schema, max_tokens, metadata):
+        study.native.append(metadata)
+        assert schema["required"] == ["A001", "A002"]
+        return {"content": json.dumps({"A001": value, "A002": []}), "finish_reason": "stop"}
+
+    study.call = call
+    answer = study.answer(row, [], "first", "skills")
+    second = study.answer(row, [], "control", "empty")
+    expected = (["Ariz. Rev. Stat. § 33-1123"] if family == "EC" else
+                [{"citation": "Ariz. Rev. Stat. § 33-1123", "claim_value": 999}])
+    assert answer["parsed"]["answer"] == {"watch": expected, "bowl": []}
+    assert answer["public_label_submission"] == {"A001": value, "A002": []}
+    assert answer["native_program"] is answer["execution_receipt"] is None
+    assert second["parsed"] == answer["parsed"] and len(study.native) == 1
 
 
 def test_original_official_scoring_not_a_new_semantic_judge():
@@ -474,13 +560,18 @@ def test_reused_native_call_executes_new_body_and_never_reuses_answer_or_error(t
     assert len(study.native) == 1  # An old execution error is not a cached raw failure.
 
 
-@pytest.mark.parametrize("direct", [False, True])
+@pytest.mark.parametrize("profile", ["program", "direct", "asset_refs"])
 def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_dropped(
-        monkeypatch, direct):
+        monkeypatch, profile):
     from types import SimpleNamespace
 
     from legal_skill_guard.utils.hashing import canonical_json_sha256
 
+    direct = profile != "program"
+    asset_references = profile == "asset_refs"
+    if asset_references:
+        monkeypatch.setattr("legal_skill_guard.learning.legal_namespace.asset_description_lexicon",
+                            lambda: ("watch",))
     seen, observations = [], {}
     for case in range(1, 25):
         components = copy.deepcopy(COMPONENTS)
@@ -527,6 +618,8 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
                                          else "source_grounded_claim_operations"),
                  "grading_directory": "synthetic_labels_only", "library_token_hard_cap": 4096,
                  "skill_commit_policy": "task_local"}
+    if asset_references:
+        study.cfg["execution_contract_version"] = 14
     # Opaque target-tokenizer measurement, not the teacher's inferred token count.
     study.meter = SimpleNamespace(token_count=lambda **kwargs: 4008)
     study.bank = []
@@ -548,6 +641,20 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
         return {"targets": {"EC": {"watch": []}, "EV": {"watch": []}}}
     monkeypatch.setattr("experiments.openexempt_online.read", synthetic_grade)
     body = study.teacher_body(current, seen, observations, rejected)
+    if asset_references:
+        assert "asset_ref" in body["actual_actor_system"]
+        encoding = body["task_boundary"]["asset_reference_encoding"]
+        assert encoding["case_local_IDs_reset_per_case"]
+        assert encoding["public_description_only_literal_mentions_not_ownership_or_eligibility"]
+        assert encoding["do_not_store_instance_asset_IDs_as_reusable_law_or_amount_answers"]
+        assert all(";asset_mentions=1" in key for key in
+                   body["actual_system_and_response_schema_by_public_context"])
+        assert all(case["public_asset_reference_catalog"] == {"A001": "watch"}
+                   for case in body["already_seen_training"])
+    else:
+        assert "asset_reference_encoding" not in body["task_boundary"]
+        assert all("public_asset_reference_catalog" not in case
+                   for case in body["already_seen_training"])
     if direct:
         for context in body["actual_system_and_response_schema_by_public_context"].values():
             if "EV" in context:
@@ -956,16 +1063,21 @@ def test_full_legal_scope_update_retains_unrelated_law_without_extra_generation(
     assert decision["candidate_current"]["EV"]["f1"] == 1
 
 
+@pytest.mark.parametrize("contract_version", [13, 14])
 @pytest.mark.parametrize("closed_loop,second_good", [(False, True), (True, True), (True, False)])
 def test_partial_commit_refinement_and_next_batch_feedback_are_real_train_only(
-        tmp_path, monkeypatch, closed_loop, second_good):
+        tmp_path, monkeypatch, closed_loop, second_good, contract_version):
     from types import SimpleNamespace
 
     from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
     monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
+    if contract_version == 14:
+        monkeypatch.setattr("legal_skill_guard.learning.legal_namespace.asset_description_lexicon",
+                            lambda: ("watch", "bowl"))
     study = Online.__new__(Online)
     study.cfg = {"execution_contract": "direct_statutory_claims",
+        "execution_contract_version": contract_version,
         "candidate_feedback_policy": ("carry_partial_and_refine" if closed_loop
                                       else "batch_only_first_commit"),
         "generation": {"seed": 45, "max_tokens": 100}, "max_candidate_attempts": 2,
@@ -1003,6 +1115,8 @@ def test_partial_commit_refinement_and_next_batch_feedback_are_real_train_only(
                        (1, 1) if "EV_BAD" in str(messages) else (40, 1))
             value = {name: [{"citation_ref": reference, "claim_value": amount}]
                      for name, amount in zip(("watch", "bowl"), amounts, strict=True)}
+        if contract_version == 14:
+            value = {f"A{index:03d}": entries for index, entries in enumerate(value.values(), 1)}
         return {"content": json.dumps(value), "finish_reason": "stop"}
 
     def grade(records):
