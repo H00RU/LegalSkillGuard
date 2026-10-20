@@ -289,11 +289,14 @@ def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
         if set(operators) - set(catalog.values()):
             raise InvalidClaimProgram("Routine outside the public allowable-law vocabulary")
         branches = []
-        # Match execute_limit's existing short-expression boundary at generation,
-        # not by truncating or repairing a submitted program afterwards.
+        # XGrammar 0.1.23 ignores length keywords when pattern is present, so
+        # include the existing 512-character bound in the lexical pattern.
+        # This is a character alphabet, not a complete identifier/AST grammar;
+        # execute_limit still rejects unsupported names, syntax and numbers.
         for cached, expression_schema in (
                 (True, {"type": "null"}),
-                (False, {"type": "string", "minLength": 1, "maxLength": 512})):
+                (False, {"type": "string", "pattern":
+                    r"^(unlimited|[0-9ENVaefilmnsx \t\r\n()+*/,.=-]{1,512})$"})):
             references = [ref for ref, citation in catalog.items()
                           if (citation in operators) == cached]
             if references:

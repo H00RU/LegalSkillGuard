@@ -294,11 +294,15 @@ def test_compiled_action_schema_hides_bodies_but_preserves_all_legal_choices():
         validate(plan(cached, "min(V,12345)"), schema)
     with pytest.raises(ValidationError):
         validate(plan(inline, None), schema)
-    for invalid in ("", "1" * 513):
+    for invalid in ("", "1" * 513, ": 1875", "Shear(500,V,500)", "}]}]}}%20",
+                    "/11 U.S.C. section 522(d)(6)"):
         with pytest.raises(ValidationError):
             validate(plan(inline, invalid), schema)
     validate(plan(inline, "1" * 512), schema)  # Syntax/type, not legal truth.
     validate(plan(inline, "unlimited"), schema)
+    validate(plan(inline, "min(V,50000 if N==2 else 40000)"), schema)
+    validate(plan(inline, "max(.5*V,1e2)"), schema)
+    validate(plan(inline, "sin(V)"), schema)  # Lexical alphabet is NOT AST validation.
     changed = copy.deepcopy(bank)
     changed[0]["guidance"]["operators"][0]["limit_expression"] = "min(V,54321)"
     assert actor_payload(row, bank)[:2] == actor_payload(row, changed)[:2]
