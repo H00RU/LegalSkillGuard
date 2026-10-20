@@ -1,6 +1,6 @@
 # 论文证据与完成条件
 
-2026-10-20 21:35，初稿v0.1配套内部记录。方法已同步当前v13直接作答；旧v11分数仅保留为开发沿革。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
+2026-10-20 22:10（B4完整核验），初稿v0.1配套内部记录。方法已同步当前v13直接作答；旧v11分数仅保留为开发沿革。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
 
 ## 已经写下的论文主线
 
@@ -16,7 +16,7 @@
 | 当前无验证集，标签参与教师训练 | VERIFIED | 全臂预测先于本批标签释放，已见TRAIN重放是优化 |
 | v11 B1的带库收益证明在线进化 | UNSUPPORTED | 旧B1实际在线库等于固定C0，只能说明静态先验效果 |
 | v11 B1候选2实际发布了EV数值修正 | UNSUPPORTED | 旧运行实际只发布EC，EV全部保留C0 |
-| 在线库已稳定胜过强空库与固定初库 | UNSUPPORTED | v13 B2为EC+4.99pp、EV−2.92pp，B3为EC+10.67pp、EV+9.17pp；两批各8来源，不能因最新一批双正就称稳定或统计显著 |
+| 在线库已稳定胜过强空库与固定初库 | UNSUPPORTED | v13 B3/B4连续双正，但B2 EV为负；单条32来源开发流，尚无独立学习重复或最终TEST，不能称稳定、确认性显著或算法优越性已完成 |
 | 作用域提交与直接作答已部署 | VERIFIED | v13冻结176绑定与18:13:27后台进程；不等于效果证实 |
 | v13 B1教师已生成六条候选技能 | VERIFIED | 真实seq1514、1228执行器token，候选已送入实际重放 |
 | B1六条候选已经全部发布且后续有效 | UNSUPPORTED | B1实际5条发布，IL技能当时未接收；不得与B2后实际6条C2混淆 |
@@ -26,6 +26,8 @@
 | 作用域组合已经产生后续新案收益 | MIXED | v13 B2首次新案EC有净益、EV有净损；C2进入B3后两任务均有净益，但EC收益集中且仍有两个回退，不证明稳定泛化或作用域提交的独立因果贡献 |
 | C2已证明普遍优于B1学得的固定C1 | UNSUPPORTED | B3全部8项EC请求可用已保存原始响应回顾性核验：C1 62.09%、C2 71.47%，1好7平；EV只有3/8请求覆盖，不填完整成绩。当前固定初库仍是空库，不是固定C1 |
 | 已完成ACE真实基线 | UNSUPPORTED | 隔离分支8cf0158已补齐作者TRAIN反思后重答，10项小CPU检查通过；0真实调用、profile未冻结，不能以实现或测试冒充对比成绩 |
+| 部分拒收反馈与继续提案已实现修复 | VERIFIED | 隔离提交fa988f9；36项既有单模块CPU检查、真实B3请求重建与C2→C3父引用更新核验，未合入/运行 |
+| 上述修复已经改善B4指标 | UNSUPPORTED | B4仍来自原v13源码，fa988f9未部署，不能归功于尚未运行的修复 |
 | 正式训练量、独立重复、隔离测试与统计结论已完成 | PENDING | 目前32来源机制试跑，不是正式论文实验 |
 | 当前开发成绩可直接横比SkillCommit的Advanced Competency成绩 | UNSUPPORTED | 当前start2、2–4资产、无干扰；固定上游Advanced为start1、6–8资产、有干扰。公开信息和难度不同，不能直接声称达到或超过该论文成绩 |
 | 作用域重放或算术程序本身就是本文原创 | UNSUPPORTED | 必须区分SkillCommit等近邻；尚未确认独立方法贡献 |
@@ -177,6 +179,51 @@ B3实际成本为首次回答29次（182092输入/89202输出token）、候选44
 （295064输入/115080输出token）、组合0次；73次均正常结束，原始证据双盘
 保全。当前主线仍先完成B4与实际最终库，不将候选诊断当正式论文突破。
 
+### B4完整首次新案与四批前向曲线
+
+22:06:12进入第四次教师前，173–180全部8来源、EC/EV各8任务、四个逻辑条件
+共64项预测已保存。全部64项原始请求身份、公共标签重新解码和原评分核同，
+16项在线输入均核对实际7条C3。29次真实生成全部正常`stop`，185829输入/
+75924输出token。控制名称仍为同一强直接空库的精确请求复用，不是三种
+独立基线。以下全部是首次新案分数，不掺教师更新后的重放。
+
+| 批次与所用库 | EC空库→技能 F1 (%) | EC差值 (pp) | EV空库→技能 F1 (%) | EV差值 (pp) |
+|---|---:|---:|---:|---:|
+| B1，空起点 | 70.73→70.73 | 0.00 | 68.85→68.85 | 0.00 |
+| B2，5条C1 | 73.96→78.94 | +4.99 | 63.75→60.83 | −2.92 |
+| B3，6条C2 | 60.80→71.47 | +10.67 | 47.57→56.74 | +9.17 |
+| B4，7条C3 | 50.32→66.40 | +16.08 | 45.83→48.75 | +2.92 |
+
+B4为16任务8好2坏6平，完整EV F1为46.21%→49.04%。两任务平均配对差为
++9.50pp；来源级探索性bootstrap区间为[+2.78,+15.92]pp（8来源，20000次，
+seed2026102007，同源EC/EV共同重抽）。这是事后、单个已学库条件下的小样本
+区间，未校正多批/多指标比较，不写成确认性显著、独立重复或最终算法结论。
+
+学习后的B2–B4共24来源，实际前向EC均值为61.69%→72.27%，EV为52.38%→55.44%，
+48任务19好7坏22平。它描述同一条实际学习轨迹、使用三个不同时点的库，不是
+一份最终库的测试成绩。EC同批净收益随三批增加，仍不能由不同案件的批次
+曲线单独证明每次更新优于上一版；固定B1库的前瞻对照尚未执行。
+
+EV绝对表现仍低。B4正确主张24→28，漏法条31→25，但错金额3→5，资产匹配
+失败涉及的目标主张均为6；不能因双正就停止根因修复。实际教师4的拒收反馈
+列表仍为空，已确认的反馈闭环缺口尚存在于本次v13。C4正在TRAIN更新，
+未提前宣称最终库、正式主训练、成熟方法对比或隔离测试已经完成。
+
+### 反馈修复代码已完成隔离实现，不与v13曲线混淆
+
+`fa988f9`显式新策略`candidate_feedback_policy=carry_partial_and_refine`复用
+现有候选反馈字段：保留上一发布中的部分拒收证据，最多8条真实失败见证/
+候选；在原最多两次提案预算内继续处理未提交修改。每次以刚通过的实际库
+为父，后续失败不撤回已过部分，批末仍只发布一库，并复核相对批前库的原
+完整门槛。现有默认策略、法律任务及direct输出契约13不变；启用需新Run。
+
+36项单模块CPU检查4.48秒、ruff通过，涵盖旧行为、第二次成功/失败、跨批反馈、
+真实父引用和未来来源拒绝。真实B3消息重建保留原48条训练案例/标签/父观察，
+增加8条失败见证与8个去重父引用，用户消息371859→410010字符；新token数
+未测，不把字符当token。另用实际C2→C3观察验证引用随父变化，不沿用旧分数。
+没有新增框架、服务或推理fallback，没有模型/教师调用；代码及证据双盘保全。
+当前未合入、freeze或部署，故B4收益不归功于此修复；其新案效果仍PENDING。
+
 ### 旧v11开发沿革，不与新v13拼接
 
 旧Run：`legal_openexempt_task_scoped_online_20261020_run01`。每批8个来源，EC/EV各8任务。以下是旧运行更新前的新案首次回答，百分数均由原评分获得。
@@ -248,6 +295,8 @@ SkillCommit v2公开报告EC/EV各210 induction、105 test，但本项目尚未�
 - C3完整旧16来源保留项、全部32项原生请求、法律/金额/实体失分与仅公开描述的48条词法可行性：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_C3_complete_old16_retention_and_public_entity_failure.json`。
 - C3实际7条库、全部48项原生身份/原评分、24项EV原样保留、完整B3成本与B4送达：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_actual_C3_seven_skills_all48_native_and_B4_delivery.json`。
 - 实际教师3反馈列表为空、上批部分拒收重放已保存及本批1/2机会早停的源码/请求证据：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_partial_commit_actual_teacher_feedback_loop_gap.json`。
+- B4全部64项原生/原评分、全部8来源配对、完整四批前向曲线与EV失分：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_B4_all64_native_original_scores_and_full_forward_curve.json`。
+- 反馈修复隔离提交与36项检查：`artifacts/research/openexempt_legal_scope_20261020/closed_loop_feedback_fa988f9_implemented_not_deployed.json`；真实请求去重重建及父引用变化：`closed_loop_feedback_B3_deduplicated_current_parent_reconstruction.json`（同目录）。
 - 仅官方元数据与公开生成配置、难度/已给前序步骤差异及未接触测试记录声明：`artifacts/research/openexempt_legal_scope_20261020/official_metadata_task_boundary_and_heldout_candidates_20261020.json`。
 - B1实际发布：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B1_actual_EC_only_C1_publication_and_all16_reexecution.json`。
 - B2完整前向：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B2_full_new_case_effect_and_actual_EV_invariance.json`。
