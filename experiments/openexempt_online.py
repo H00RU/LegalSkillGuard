@@ -4,8 +4,8 @@ Reuses the audited native/teacher transports and differential edits. Unlike the
 old NDA run, training replays can reject ineffective candidate edits. This is
 declared TRAIN optimization, not test-time retry or an independent validation
 claim. All candidate outputs, costs and rejected edits remain on disk.
-Contract v10 separates legal selection from execution of learned numerical
-programs. Native-response reuse never reuses a previously computed answer.
+Contract v11 adds task-local guidance and independently admitted TRAIN edits.
+Native-response reuse never reuses a previously computed answer.
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ import tarfile
 import traceback
 from pathlib import Path
 
-from jsonschema import validate
+from jsonschema import ValidationError, validate
 
 from legal_skill_guard.experiment.storage import RunStore
 from legal_skill_guard.inference.native import WireClient
@@ -31,14 +31,12 @@ from legal_skill_guard.learning.claim_execution import (
     execute_limit,
     law_blocks,
     operator_catalog,
-    operator_schema,
 )
 from legal_skill_guard.learning.claim_execution import (
     answer_schema as claim_answer_schema,
 )
 from legal_skill_guard.learning.experiment import Comparison, now, read, sha
 from legal_skill_guard.learning.legal_namespace import (
-    SCOPES,
     active_bank,
     allowable_namespaces,
     decode_claim_plan,
@@ -51,6 +49,12 @@ from legal_skill_guard.learning.legal_namespace import (
 from legal_skill_guard.learning.publication import (
     apply_differential_publication,
     differential_schema,
+)
+from legal_skill_guard.learning.task_scoped_skills import (
+    SCOPED_GUIDANCE_SCHEMA,
+    compose_task_edits,
+    task_view,
+    validate_scoped_bank,
 )
 from legal_skill_guard.openexempt import (
     ACTIVE_CASE_FIELDS,
@@ -69,13 +73,7 @@ GUIDANCE = {"type": "object", "additionalProperties": False,
             "required": ["when", "procedure", "avoid_when"], "properties": {
                 key: {"type": "string", "minLength": 1}
                 for key in ("when", "procedure", "avoid_when")}}
-EXECUTABLE_GUIDANCE = copy.deepcopy(GUIDANCE)
-EXECUTABLE_GUIDANCE["required"].append("operators")
-EXECUTABLE_GUIDANCE["properties"]["operators"] = {
-    "type": "array", "items": operator_schema()}
-EXECUTABLE_GUIDANCE["required"].append("jurisdiction")
-EXECUTABLE_GUIDANCE["properties"]["jurisdiction"] = {
-    "type": "string", "enum": list(SCOPES)}
+EXECUTABLE_GUIDANCE = SCOPED_GUIDANCE_SCHEMA
 ACTOR_SYSTEM = (
     "Apply only the supplied statutes and public solved steps to the original facts. "
     "Return a JSON object mapping actual asset descriptions to ALL applicable public "
@@ -120,7 +118,12 @@ AUTHOR_SYSTEM = (
     "calculation using variables where useful, never a current-case answer. Do not "
     "request private chain of thought or invent a successful trajectory. "
     "Rules here concern the supplied benchmark statute version, not current legal advice. "
-    "Each skill has when/procedure/avoid_when and public family scope EC and/or EV. "
+    "Each skill declares public family scope EC and/or EV. Its guidance.by_task "
+    "contains exactly one when/procedure/avoid_when block for each declared task: "
+    "use one block with tasks [EC,EV] for identical text, or separate EC and EV blocks "
+    "when their instructions differ. There is no implicit or default guidance. "
+    "Only the requested public task's block reaches the executor. Numerical operators "
+    "belong to EV; an EC-only record must have an empty operators array. "
     "Each also declares jurisdiction: ALL for genuinely shared procedure with no law-bound "
     "operators, or one public statutory namespace. The host loads only ALL and the "
     "jurisdictions explicitly provided by the public AE solved step. Do not guess from "
@@ -147,7 +150,13 @@ AUTHOR_SYSTEM = (
     "growth headroom, not your own tokenizer's estimate. Respect that headroom when "
     "revising a record; remove redundant wording without changing unrelated correct "
     "boundaries rather than assuming that a one-record edit automatically fits. "
-    "Candidate edits are replayed with the SAME frozen executor. TRAIN acceptance "
+    "Candidate edits are replayed with the SAME frozen executor. EC and EV changes "
+    "are admitted independently: a task must strictly improve its current original F1 "
+    "(or, for EV, full-output F1), without regressing that task on current or earlier "
+    "sources; EV must also preserve full-output F1 on both. Unaccepted task guidance "
+    "and programs remain exactly the parent's. The combined committed bank must fit "
+    "the same total4096-token cap, counting every distinct block and all programs. "
+    "The actual combined bank must also pass the unchanged full TRAIN acceptance: "
     "requires current-source original mean F1 OR full-output EV F1 improvement without "
     "regressing either original family F1 or full-output EV F1 on current/earlier sources. "
     "The unchanged official EV macro score ignores some extra predicted assets; "
@@ -210,7 +219,7 @@ PROGRAM_AUTHOR_ADDITION = (
     "leave that citation without a routine rather than publish a wrong universal body. "
     "A native null limit_expression "
     "invokes that same citation's routine; an expression string is inline. There is no "
-    "separate operator-ID selection task. Under contract v10 a published citation "
+    "separate operator-ID selection task. Under contract v11 a published citation "
     "requires a null call rather than a rewritten inline formula. The program body "
     "is not rendered to the executor; its legal procedure and public statutes remain "
     "visible. Changing only a program body leaves the native selection request "
@@ -242,7 +251,7 @@ PROGRAM_AUTHOR_ADDITION = (
 
 
 def visible(bank, family):
-    return [copy.deepcopy(s) for s in bank if family in s["hypothesis_ids"]]
+    return task_view(bank, family)
 
 
 def actor_payload(row, bank, *, grounded=True, direct_numeric=False):
@@ -329,6 +338,30 @@ def acceptance(parent_current, candidate_current, parent_prior, candidate_prior)
             "parent_current": a, "candidate_current": b,
             "parent_prior": pa, "candidate_prior": pb,
             "TRAIN_optimization_not_independent_validation": True}
+
+
+def task_admission(parent_current, candidate_current, parent_prior, candidate_prior):
+    """Select TRAIN edit coordinates, never inference answers or case subsets."""
+    a, b = metrics(parent_current), metrics(candidate_current)
+    pa, pb = metrics(parent_prior), metrics(candidate_prior)
+    decisions = {}
+    for family in FAMILIES:
+        current_ok = b[family]["f1"] + 1e-12 >= a[family]["f1"]
+        prior_ok = not parent_prior or pb[family]["f1"] + 1e-12 >= pa[family]["f1"]
+        strict = b[family]["f1"] > a[family]["f1"] + 1e-12
+        full_current_ok = full_prior_ok = True
+        if family == "EV":
+            full_current_ok = b[family]["full_output_f1"] + 1e-12 >= a[family]["full_output_f1"]
+            full_prior_ok = (not parent_prior or
+                pb[family]["full_output_f1"] + 1e-12 >= pa[family]["full_output_f1"])
+            strict |= b[family]["full_output_f1"] > a[family]["full_output_f1"] + 1e-12
+        decisions[family] = {"accepted": bool(current_ok and prior_ok and strict
+                                               and full_current_ok and full_prior_ok),
+            "current_nonregression": current_ok, "prior_nonregression": prior_ok,
+            "strict_current_improvement": bool(strict),
+            "current_full_output_nonregression": full_current_ok,
+            "prior_full_output_nonregression": full_prior_ok}
+    return decisions
 
 
 def paired_effect(before, after):
@@ -449,8 +482,8 @@ class Online:
     def __init__(self, config_path):
         self.cfg = read(config_path)
         if (self.cfg.get("execution_contract") != "source_grounded_claim_operations"
-                or self.cfg.get("execution_contract_version") != 10):
-            raise ValueError("This source implements compiled numerical-call contract v10 only")
+                or self.cfg.get("execution_contract_version") != 11):
+            raise ValueError("This source implements task-scoped numerical-call contract v11 only")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
             raise ValueError("Frozen config mismatch")
@@ -467,7 +500,7 @@ class Online:
         if self.cfg.get("initial_library_publication"):
             initial = read(ROOT / self.cfg["initial_library_publication"])["bank"]
             self.bank = copy.deepcopy(initial)
-            operator_catalog(self.bank)
+            validate_scoped_bank(self.bank)
             validate_scopes(self.bank, self.rows[0]["components"]["statutes"])
             if self.bank != initial:
                 raise ValueError("Initialization changed historical knowledge")
@@ -688,12 +721,15 @@ class Online:
                               observations[(row["case_id"], row["family"])], include_emitted=True)})
         rejected_view = []
         for decision in rejected:
-            value = {k: v for k, v in decision.items() if k != "actual_replay"}
-            if "actual_replay" in decision:
-                value["full_replay_task_count"] = len(decision["actual_replay"])
-                value["actual_replay"] = [observation_view(r, include_emitted=True)
-                                          for r in decision["actual_replay"]
-                                          if r["case_id"] in supplied_ids]
+            value = {k: v for k, v in decision.items()
+                     if k not in ("actual_replay", "proposed_replay")}
+            for field in ("actual_replay", "proposed_replay"):
+                if field not in decision:
+                    continue
+                value["full_replay_task_count" if field == "actual_replay"
+                      else "full_proposed_replay_task_count"] = len(decision[field])
+                value[field] = [observation_view(r, include_emitted=True)
+                                for r in decision[field] if r["case_id"] in supplied_ids]
             rejected_view.append(value)
         actual_contracts = {}
         for row in seen:
@@ -727,6 +763,28 @@ class Online:
                     "not_a_verified_causal_explanation": True},
                 "future_cases_and_labels_not_supplied": True}
 
+    def composed_replay(self, parent, proposed, accepted_tasks, seen, name):
+        """Execute the actual mixed bank, using only already-observed raw wires.
+
+        This is a TRAIN publication step. No case-level answer selection, new
+        native generation, response repair or inference-time fallback occurs.
+        """
+        composed = compose_task_edits(parent, proposed, accepted_tasks)
+        tokens = self.meter.token_count(text=json.dumps(composed, ensure_ascii=False,
+                                                        separators=(",", ":")))
+        if tokens > self.cfg["library_token_hard_cap"]:
+            raise ValueError(f"Composed library exceeds total token cap: {tokens}")
+        # Preflight the entire cohort before writing/re-executing any member.
+        for row in seen:
+            messages, schema, _ = actor_payload(row, composed, grounded=True)
+            fingerprint = csha({"messages": messages, "schema": schema,
+                                "generation": self.cfg["generation"]})
+            if fingerprint not in self.request_cache:
+                raise ValueError("Task composition changed an evaluated native wire")
+        replay = self.grade([self.answer(r, composed, name + "_composed_replay", "candidate")
+                             for r in seen])
+        return composed, replay, tokens
+
     def update(self, current, seen, parent_current):
         before = copy.deepcopy(self.bank)
         old_rows = [r for r in seen if r["case_id"] not in {v["case_id"] for v in current}]
@@ -748,17 +806,15 @@ class Online:
                 supplied_ids, guidance_schema=guidance_schema)
             if grounded:
                 try:
+                    validate_scoped_bank(candidate)
                     validate_scopes(candidate, current[0]["components"]["statutes"])
-                    for skill in candidate:
-                        if skill["guidance"]["operators"] and "EV" not in skill["hypothesis_ids"]:
-                            raise InvalidClaimProgram("Claim operators require public EV scope")
                     for operator in operator_catalog(candidate).values():
                         # Compile/run pure source arithmetic, not a model qualification loop.
                         for source in current:
                             if operator["citation"] not in law_blocks(source["components"]["statutes"]):
                                 raise InvalidClaimProgram("Operator citation is not a current public header")
                             execute_limit(operator["limit_expression"], source["components"]["facts"])
-                except InvalidClaimProgram as exc:
+                except (ValueError, ValidationError) as exc:
                     decision = {"accepted": False, "candidate": candidate, "delta": delta,
                                 "source_program_compile_error": repr(exc), "new_native_calls": 0}
                     RunStore.immutable_json(self.out / "candidates" / f"{name}.json", decision)
@@ -781,16 +837,42 @@ class Online:
             keys = {r["case_id"] for r in current}
             candidate_current = [r for r in replay if r["case_id"] in keys]
             candidate_prior = [r for r in replay if r["case_id"] not in keys]
-            decision = {**acceptance(parent_current, candidate_current, prior, candidate_prior),
-                        "candidate": candidate, "delta": delta, "actual_tokens": tokens,
-                        "current_effect": paired_effect(parent_current, candidate_current),
-                        "prior_effect": paired_effect(prior, candidate_prior),
-                        "actual_replay": replay}
+            full_proposal = acceptance(parent_current, candidate_current, prior, candidate_prior)
+            task_decisions = task_admission(parent_current, candidate_current, prior, candidate_prior)
+            accepted_tasks = [f for f in FAMILIES if task_decisions[f]["accepted"]]
+            decision = {"accepted": False, "candidate": candidate, "delta": delta,
+                        "proposed_bank": candidate, "proposed_tokens": tokens,
+                        "proposed_whole_bank_acceptance": full_proposal,
+                        "task_admission": task_decisions, "accepted_tasks": accepted_tasks,
+                        "actual_tokens": tokens, "actual_replay": replay,
+                        "TRAIN_optimization_not_independent_validation": True}
+            if not accepted_tasks:
+                decision["reason"] = "no_independently_improving_task_edit"
+            else:
+                try:
+                    committed, actual_replay, actual_tokens = self.composed_replay(
+                        before, candidate, accepted_tasks, seen, name)
+                except ValueError as exc:
+                    decision["reason"] = "task_composition_rejected"
+                    decision["composition_error"] = repr(exc)
+                    decision["accepted_tasks"] = []
+                else:
+                    actual_current = [r for r in actual_replay if r["case_id"] in keys]
+                    actual_prior = [r for r in actual_replay if r["case_id"] not in keys]
+                    # The original full gate is authoritative, not the mask alone.
+                    decision.update(acceptance(parent_current, actual_current, prior, actual_prior))
+                    decision.update({"candidate": committed, "actual_tokens": actual_tokens,
+                        "actual_replay": actual_replay, "proposed_replay": replay,
+                        "current_effect": paired_effect(parent_current, actual_current),
+                        "prior_effect": paired_effect(prior, actual_prior)})
+                    if not decision["accepted"]:
+                        decision["reason"] = "composed_bank_failed_original_full_gate"
+                        decision["accepted_tasks"] = []
             RunStore.immutable_json(self.out / "candidates" / f"{name}.json", decision)
             decisions.append(decision)
             if decision["accepted"]:
-                self.bank = candidate
-                self.latest = {(r["case_id"], r["family"]): r for r in replay}
+                self.bank = decision["candidate"]
+                self.latest = {(r["case_id"], r["family"]): r for r in decision["actual_replay"]}
                 break
             rejected.append(decision)
         if self.bank == before:

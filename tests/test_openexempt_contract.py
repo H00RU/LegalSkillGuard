@@ -5,7 +5,13 @@ import json
 
 import pytest
 
-from experiments.openexempt_online import Online, acceptance, actor_payload, teacher_evidence_rows
+from experiments.openexempt_online import (
+    Online,
+    acceptance,
+    actor_payload,
+    task_admission,
+    teacher_evidence_rows,
+)
 from legal_skill_guard.learning.legal_namespace import (
     active_bank,
     allowable_namespaces,
@@ -13,6 +19,12 @@ from legal_skill_guard.learning.legal_namespace import (
     decode_classification,
     decode_reference,
     public_catalog,
+)
+from legal_skill_guard.learning.task_scoped_skills import (
+    compose_task_edits,
+    import_blind_prior,
+    task_view,
+    validate_scoped_bank,
 )
 from legal_skill_guard.openexempt import (
     ACTIVE_CASE_FIELDS,
@@ -33,9 +45,10 @@ COMPONENTS = {
 }
 
 
-def guidance(text, jurisdiction="ALL"):
-    return {"when": "public condition", "procedure": text,
-            "avoid_when": "other", "operators": [], "jurisdiction": jurisdiction}
+def guidance(text, jurisdiction="ALL", tasks=("EC", "EV")):
+    return {"by_task": [{"tasks": list(tasks), "when": "public condition",
+                         "procedure": text, "avoid_when": "other"}],
+            "operators": [], "jurisdiction": jurisdiction}
 
 
 def test_public_case_group_does_not_depend_on_expert_answers():
@@ -53,8 +66,10 @@ def test_public_case_group_does_not_depend_on_expert_answers():
 
 
 def test_actor_gets_only_original_prompt_and_scoped_knowledge():
-    bank = [{"id": "EC1", "hypothesis_ids": ["EC"], "guidance": guidance("EC instruction")},
-            {"id": "EV1", "hypothesis_ids": ["EV"], "guidance": guidance("EV instruction")}]
+    bank = [{"id": "EC1", "hypothesis_ids": ["EC"],
+             "guidance": guidance("EC instruction", tasks=("EC",))},
+            {"id": "EV1", "hypothesis_ids": ["EV"],
+             "guidance": guidance("EV instruction", tasks=("EV",))}]
     row = {"family": "EC", "prompt": "original public text", "solution": "SECRET",
            "components": {**copy.deepcopy(COMPONENTS),
                           "response_format": "EXAMPLE_CAR", "format_reminder": "FORMAT_ONLY"}}
@@ -192,10 +207,10 @@ def test_irrelevant_namespace_updates_do_not_change_the_actual_request():
             {"id": "il", "hypothesis_ids": ["EC", "EV"],
              "guidance": guidance("Illinois before", "ILLINOIS")}]
     changed = copy.deepcopy(bank)
-    changed[1]["guidance"]["procedure"] = "A substantial irrelevant Illinois revision"
+    changed[1]["guidance"]["by_task"][0]["procedure"] = "A substantial irrelevant Illinois revision"
     assert actor_payload(row, bank) == actor_payload(row, changed)
     assert [s["id"] for s in active_bank(row, changed)] == ["az"]
-    changed[0]["guidance"]["procedure"] = "A relevant Arizona revision"
+    changed[0]["guidance"]["by_task"][0]["procedure"] = "A relevant Arizona revision"
     assert actor_payload(row, bank) != actor_payload(row, changed)
     assert allowable_namespaces({"components": {"solved_steps":
         "The Debtors may claim property exemptions under Federal and Oregon statutes."}}) == {
@@ -482,3 +497,163 @@ def test_strong_direct_numeric_empty_is_not_a_program_or_host_repaired_answer(tm
     assert result["parsed"]["answer"] == {"unsupported original name": [
         {"citation": "Ariz. Rev. Stat. § 33-1123", "claim_value": 999}]}
     assert result["native_program"] is None and result["execution_receipt"] is None
+
+
+@pytest.mark.parametrize("accepted_task", ["EC", "EV"])
+def test_task_commit_preserves_the_other_tasks_exact_native_wire(accepted_task):
+    parent = [{"id": "az", "hypothesis_ids": ["EC", "EV"],
+               "guidance": guidance("Original shared instructions", "ARIZONA")}]
+    proposed = copy.deepcopy(parent)
+    proposed[0]["guidance"]["by_task"][0]["procedure"] = "Changed shared instructions"
+    proposed[0]["guidance"]["operators"] = [{"id": "cap",
+        "citation": "Ariz. Rev. Stat. § 33-1123", "limit_expression": "min(V,30)"}]
+    actual = compose_task_edits(parent, proposed, [accepted_task])
+    for family in ("EC", "EV"):
+        row = {"family": family, "components": copy.deepcopy(COMPONENTS)}
+        expected = proposed if family == accepted_task else parent
+        assert task_view(actual, family) == task_view(expected, family)
+        assert actor_payload(row, actual) == actor_payload(row, expected)
+    assert len(actual[0]["guidance"]["by_task"]) == 2
+
+
+def test_task_composition_handles_real_crud_without_changing_unaccepted_ids_or_order():
+    from legal_skill_guard.learning.publication import apply_differential_publication
+    from legal_skill_guard.learning.task_scoped_skills import SCOPED_GUIDANCE_SCHEMA
+
+    parent = [{"id": name, "hypothesis_ids": ["EC", "EV"],
+               "guidance": guidance(name)} for name in ("z", "a", "d")]
+    merged = {"id": "m", "hypothesis_ids": ["EC", "EV"], "guidance": guidance("merged")}
+    created = {"id": "c", "hypothesis_ids": ["EV"],
+               "guidance": guidance("created", tasks=("EV",))}
+    delta = {"noop_reason": None, "operations": [
+        {"operation": "MERGE", "target_ids": ["z", "a"], "skill": merged,
+         "source_case_ids": [1], "rationale": "generic consolidation"},
+        {"operation": "DELETE", "target_ids": ["d"], "skill": None,
+         "source_case_ids": [1], "rationale": "generic deletion"},
+        {"operation": "CREATE", "target_ids": [], "skill": created,
+         "source_case_ids": [1], "rationale": "generic creation"}]}
+    proposed = apply_differential_publication(parent, delta, ("EC", "EV"), [1],
+                                             guidance_schema=SCOPED_GUIDANCE_SCHEMA)
+    actual = compose_task_edits(parent, proposed, ["EV"])
+    assert [s["id"] for s in task_view(actual, "EC")] == ["a", "d", "z"]
+    assert [s["id"] for s in task_view(actual, "EV")] == ["c", "m"]
+    assert task_view(actual, "EC") == task_view(parent, "EC")
+    assert task_view(actual, "EV") == task_view(proposed, "EV")
+
+
+def test_scoped_guidance_has_no_missing_task_default_or_conflicting_jurisdiction():
+    parent = [{"id": "s", "hypothesis_ids": ["EC", "EV"], "guidance": guidance("old")}]
+    missing = copy.deepcopy(parent)
+    missing[0]["guidance"]["by_task"][0]["tasks"] = ["EV"]
+    with pytest.raises(ValueError, match="Exactly one"):
+        validate_scoped_bank(missing)
+    repeated = copy.deepcopy(parent)
+    repeated[0]["guidance"]["by_task"].append(copy.deepcopy(repeated[0]["guidance"]["by_task"][0]))
+    with pytest.raises(ValueError, match="Exactly one"):
+        validate_scoped_bank(repeated)
+    conflict = copy.deepcopy(parent)
+    conflict[0]["guidance"]["jurisdiction"] = "ARIZONA"
+    with pytest.raises(ValueError, match="conflicting legal jurisdictions"):
+        compose_task_edits(parent, conflict, ["EV"])
+
+
+def test_blind_prior_conversion_is_explicit_lossless_and_not_a_runtime_fallback():
+    from jsonschema import ValidationError
+
+    legacy = [{"id": "s", "hypothesis_ids": ["EC", "EV"], "guidance": {
+        "when": "public condition", "procedure": "unchanged blind law knowledge",
+        "avoid_when": "other", "operators": [], "jurisdiction": "ALL"}}]
+    converted = import_blind_prior(legacy)
+    assert converted[0]["guidance"]["by_task"][0]["procedure"] == legacy[0]["guidance"]["procedure"]
+    assert "by_task" not in legacy[0]["guidance"]
+    with pytest.raises(ValueError, match="legacy blind prior"):
+        import_blind_prior(converted)
+    with pytest.raises(ValidationError):
+        actor_payload({"family": "EC", "components": copy.deepcopy(COMPONENTS)}, legacy)
+
+
+def test_task_admission_retains_original_family_and_full_output_protection():
+    parent = [record("EC", 0.8), record("EV", 0.5)]
+    proposed = [record("EC", 0.6), record("EV", 0.7)]
+    decisions = task_admission(parent, proposed, parent, parent)
+    assert not acceptance(parent, proposed, parent, parent)["accepted"]
+    assert not decisions["EC"]["accepted"] and decisions["EV"]["accepted"]
+    actual = [parent[0], proposed[1]]
+    assert acceptance(parent, actual, parent, parent)["accepted"]
+    unsafe = copy.deepcopy(proposed)
+    unsafe[1]["score"]["full_output_f1"] = 0.4
+    assert not task_admission(parent, unsafe, [], [])["EV"]["accepted"]
+    old_harm = [record("EC", 0.8), record("EV", 0.4)]
+    assert not task_admission(parent, proposed, parent, old_harm)["EV"]["accepted"]
+    assert not any(d["accepted"] for d in task_admission(parent, parent, [], []).values())
+
+
+def test_full_update_commits_ev_only_and_reexecutes_composition_without_new_native_calls(
+        tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    from legal_skill_guard.utils.hashing import canonical_json_sha256
+
+    monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
+    study = Online.__new__(Online)
+    study.cfg = {"execution_contract": "source_grounded_claim_operations",
+                 "generation": {"seed": 45, "max_tokens": 100},
+                 "max_candidate_attempts": 1, "library_token_hard_cap": 4096}
+    study.current_batch, study.latest = 1, {}
+    study.out, study.native, study.request_cache, study.reuse_events = tmp_path, [], {}, []
+    study.meter = SimpleNamespace(token_count=lambda **kwargs: 300)
+    study.check, study.progress = lambda: None, lambda *a, **k: None
+    study.rows = [{"case_id": 1, "source_key": "synthetic", "family": family,
+                   "prompt": "public original", "components": copy.deepcopy(COMPONENTS)}
+                  for family in ("EC", "EV")]
+    study.bank = [{"id": "az", "hypothesis_ids": ["EC", "EV"],
+                   "guidance": guidance("original procedure", "ARIZONA")}]
+    study.bank[0]["guidance"]["operators"] = [{"id": "cap",
+        "citation": "Ariz. Rev. Stat. § 33-1123", "limit_expression": "min(V,30)"}]
+    proposed = copy.deepcopy(study.bank)
+    proposed[0]["guidance"]["by_task"][0]["procedure"] = "new procedure"
+    proposed[0]["guidance"]["operators"][0]["limit_expression"] = "min(V,15)"
+    ref = "Ariz. Rev. Stat. section 33-1123"
+
+    def call(dest, messages, schema, max_tokens, metadata):
+        study.native.append(metadata)
+        if metadata["family"] == "EC":
+            answer = {} if "new procedure" in str(messages) else {"watch": [ref]}
+        else:
+            answer = {"assets": [{"asset_name": "watch", "asset_value": 40,
+                       "claims": [{"citation_ref": ref, "limit_expression": None}]}]}
+        return {"content": json.dumps(answer), "finish_reason": "stop"}
+
+    def grade(records):
+        for value in records:
+            target = ({"watch": ["Ariz. Rev. Stat. § 33-1123"]} if value["family"] == "EC"
+                      else {"watch": [{"citation": "Ariz. Rev. Stat. § 33-1123", "claim_value": 15}]})
+            value["score"] = evaluate(value, value["parsed"]["answer"], target)
+        return records
+
+    study.call, study.grade = call, grade
+    study.teacher_body = lambda *args: {"training_evidence_manifest": {"selected_source_ids": [1]}}
+    study.teacher_call = lambda *args: {"noop_reason": None, "operations": [{
+        "operation": "UPDATE", "target_ids": ["az"], "skill": proposed[0],
+        "source_case_ids": [1], "rationale": "synthetic task conflict"}]}
+    parent = study.grade([study.answer(r, study.bank, "parent", "skills") for r in study.rows])
+    original = copy.deepcopy(study.bank)
+    publication = study.update(study.rows, study.rows, parent)
+    decision = publication["training_decisions"][0]
+    assert decision["accepted"] and decision["accepted_tasks"] == ["EV"]
+    assert not decision["proposed_whole_bank_acceptance"]["accepted"]
+    assert len(study.native) == 4  # Parent2 + proposed2; composed2 are raw aliases only.
+    assert task_view(study.bank, "EC") == task_view(original, "EC")
+    assert task_view(study.bank, "EV") == task_view(proposed, "EV")
+    assert study.latest[(1, "EC")]["parsed"] == parent[0]["parsed"]
+    ev = study.latest[(1, "EV")]
+    assert ev["parsed"]["answer"]["watch"][0]["claim_value"] == 15
+    assert ev["execution_receipt"]["execution_bank_sha256"] == canonical_json_sha256(study.bank)
+    assert decision["current_family_nonregression"] and decision["current_full_output_nonregression"]
+    study.request_cache.clear()
+    with pytest.raises(ValueError, match="changed an evaluated native wire"):
+        study.composed_replay(original, proposed, ["EV"], study.rows, "missing")
+    study.meter = SimpleNamespace(token_count=lambda **kwargs: 4097)
+    with pytest.raises(ValueError, match="exceeds total token cap"):
+        study.composed_replay(original, proposed, ["EV"], study.rows, "oversized")
+    assert len(study.native) == 4
