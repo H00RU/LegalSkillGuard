@@ -38,6 +38,11 @@ def test_ace_generator_keeps_native_bullet_reporting_without_hidden_prior_or_tar
     assert all(source["components"][k] in text for k in ("facts", "statutes", "solved_steps"))
     assert "misc-00001" in text and "no current-case feedback" in text
     assert "chain of thought / reasoning" not in text
+    train_messages, _ = generator_payload(source, BOOK, direct_numeric=direct,
+        training_reflection={"correct_approach": "TRAIN_ONLY_MARKER"})
+    assert "TRAIN_ONLY_MARKER" not in text
+    assert "TRAIN_ONLY_MARKER" in str(train_messages)
+    assert "released-TRAIN regeneration" in train_messages[0]["content"]
     submitted = {"reasoning": "public explanation", "bullet_ids": ["misc-00001"],
         "final_answer": {"assets": [{"asset_name": "unchanged unsupported name", "asset_value": 999,
             "claims": [{"citation_ref": "Ariz. Rev. Stat. section 33-1123",
@@ -121,8 +126,9 @@ def test_native_counter_last_tag_and_add_only_curator_are_not_our_score_gate():
 
 
 @pytest.mark.parametrize("direct", [False, True])
+@pytest.mark.parametrize("repair_after", [0, 2, None])
 def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predictions(
-        tmp_path, monkeypatch, direct):
+        tmp_path, monkeypatch, direct, repair_after):
     from types import SimpleNamespace
 
     import experiments.openexempt_ace_online as ace
@@ -136,6 +142,7 @@ def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predict
         "execution_contract": ("direct_statutory_claims" if direct
                                else "source_grounded_claim_operations"),
         "generation": {"seed": 45, "max_tokens": 100},
+        "ace_max_TRAIN_reflection_rounds": 3,
         "library_token_hard_cap": 4096}
     study.rows = [{**row(family), "batch": 1, "source_key": "fixture", "prompt": "public"}
                   for family in ("EC", "EV")]
@@ -154,6 +161,12 @@ def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predict
                  if direct or metadata["arm"] == "empty_direct_numeric" else
                  {"assets": [{"asset_name": "watch", "asset_value": 40,
                     "claims": [{"citation_ref": reference, "limit_expression": "min(V,15000)"}]}]})
+        if metadata["arm"] == "ace" and repair_after != 0:
+            number = (int(metadata["stage"].rsplit("round", 1)[1])
+                      if "TRAIN_round" in metadata["stage"] else 0)
+            if repair_after is None or number < repair_after:
+                final = ({"assets": [{"asset_name": "watch", "asset_value": 40, "claims": []}]}
+                         if metadata["family"] == "EV" and not direct else {"watch": []})
         value = ({"reasoning": "public finding", "bullet_ids": [], "final_answer": final}
                  if metadata["arm"] == "ace" else final)
         return {"content": json.dumps(value), "finish_reason": "stop"}
@@ -176,6 +189,7 @@ def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predict
         if name.endswith("reflector"):
             value = {k: "public finding" for k in (
                 "reasoning", "error_identification", "root_cause_analysis", "correct_approach", "key_insight")}
+            value["correct_approach"] = "distinct actual TRAIN feedback " + name
             return {**value, "bullet_tags": []}
         return {"reasoning": "public finding", "operations": [{"type": "ADD", "section": "others",
             "content": "Check the public statutory conditions before valuing an eligible pair."}]}
@@ -183,8 +197,19 @@ def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predict
     monkeypatch.setattr(ace, "read", released_targets)
     study.call, study.grade, study.teacher_call = call, grade, teacher
     assert study.execute() == "completed_declared_ACE_adaptation_stream"
-    assert len(study.native) == (4 if direct else 5)  # Native controls share exact wires only.
-    assert len(study.teachers) == 3  # Reflect both real tasks, then curate once.
+    rounds = 0 if repair_after == 0 else repair_after or 3
+    assert len(study.native) == (4 if direct else 5) + 2 * rounds
+    assert len(study.teachers) == (3 if rounds == 0 else 2 * rounds + 1)
     assert len(bullets(study.playbook)) == 1
     assert len(study.episodes["ace"]) == 2
     assert (study.out / "publications/b1.json").exists()
+    saved = json.loads((study.out / "batches/b1_records.json").read_text())
+    expected_first_f1 = 1 if repair_after == 0 else 0
+    assert all(x["score"]["f1"] == expected_first_f1 for x in saved["ace"])
+    for family in ("EC", "EV"):
+        trajectory = json.loads((study.out / "training" / f"b1_1_{family}.json").read_text())
+        assert trajectory["TRAIN_finally_solved"] is (repair_after is not None)
+        assert trajectory["initial_first_encounter_observation"]["score"]["f1"] == expected_first_f1
+        assert len(trajectory["rounds"]) == (rounds or 1)
+    with pytest.raises(ValueError, match="forbidden in first-encounter"):
+        study.answer(study.rows[0], "forbidden", training_reflection={"correct_approach": "TRAIN_ONLY"})

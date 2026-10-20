@@ -15,6 +15,16 @@ not a complete unmodified ACE reproduction. Task-specific citation handling,
 G4 experience and batch curation must be disclosed with actual call costs.
 No upstream JSON-repair, error-skipping or retry fallback is imported.
 
+2026-10-20 20:18: The v2 online adapter also follows the fixed upstream
+`ace/ace_batch.py::_generate_and_reflect_single_sample` TRAIN-only
+reflection/regeneration loop, with at most three rounds and early stopping on a
+verified source success. Previously the adapter omitted this loop; it was not
+a full native training reproduction. Every original forecast remains immutable.
+Fixed-seed identical TRAIN-initial wires may reuse their raw first response and
+are decoded/scored again. Task-specific success checking, delayed batch feedback,
+one batch curator, full-output audit and actual-cost journals are adaptations.
+This is not inference fallback or a claim of matching every author default.
+
 2026-10-20: `learning/openexempt_ace.py` and
 `experiments/openexempt_ace_online.py` adapt the pinned native role prompts,
 bullet provenance, last-tag batch counters and ADD merge to source-disjoint

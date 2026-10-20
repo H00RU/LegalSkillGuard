@@ -3,7 +3,7 @@
 Uses the pinned author prompts and ADD/counter helpers, not the NDA learner.
 Starts without our blind legal/program bank. The declared profile uses either
 the common direct task answer or the historical common inline arithmetic.
-This module is a role adapter, not a completed or evaluated baseline runner.
+This module is a role adapter; it does not establish baseline performance.
 """
 
 from __future__ import annotations
@@ -47,7 +47,7 @@ def public_explanation_prompt(prompt):
     ).replace("Show your reasoning step-by-step", "Provide a concise public explanation")
 
 
-def generator_payload(row, playbook, *, direct_numeric=False):
+def generator_payload(row, playbook, *, direct_numeric=False, training_reflection=None):
     original, native_schema, _ = actor_payload(row, [], direct_numeric=direct_numeric)
     known = bullets(playbook)
     ids = {"type": "array", "items": {"type": "string"}}
@@ -63,10 +63,16 @@ def generator_payload(row, playbook, *, direct_numeric=False):
         " In this ACE adaptation, all preceding benchmark root/final-output instructions "
         "describe the VALUE of final_answer. The actual outer JSON has exactly reasoning, "
         "bullet_ids and final_answer. reasoning is a concise public explanation, not "
-        "private thinking. Cite only actually relevant playbook IDs. No current reflection "
-        "or answer feedback is available at this first encounter.")
+        "private thinking. Cite only actually relevant playbook IDs.")
+    if training_reflection is None:
+        system += " No current reflection or answer feedback is available at this first encounter."
+        reflection = "(empty: no current-case feedback)"
+    else:
+        system += (" This is a released-TRAIN regeneration with a recorded reflection. "
+                   "It never replaces the independently saved first-encounter prediction.")
+        reflection = json.dumps(training_reflection, ensure_ascii=False)
     prompt = public_explanation_prompt(GENERATOR_PROMPT).format(
-        playbook, "(empty: no current-case feedback)", original[-1]["content"],
+        playbook, reflection, original[-1]["content"],
         "All permitted public context is in the question; no outside law or tools.")
     return [{"role": "system", "content": system}, {"role": "user", "content": prompt}], schema
 
@@ -139,9 +145,10 @@ def validate_reflection(value, schema, cited):
 
 
 def curator_request(playbook, reflections, rows, *, current_step, total_samples, token_budget,
-                    direct_numeric=False):
+                    direct_numeric=False, all_round_bullet_tags=None):
     """Native batch counter behavior, then the author's incremental ADD curator."""
-    tags = [tag for reflection in reflections for tag in reflection["bullet_tags"]]
+    tags = ([tag for reflection in reflections for tag in reflection["bullet_tags"]]
+            if all_round_bullet_tags is None else all_round_bullet_tags)
     known = bullets(playbook)
     if any(tag["id"] not in known for tag in tags):
         raise ValueError("Unknown bullet tag cannot update native counters")

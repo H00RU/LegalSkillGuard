@@ -1,9 +1,9 @@
 """Causal online ACE adaptation on public EC/EV, not an evaluated reproduction.
 
-One frozen 8B generator, one native reflection per completed TRAIN task, and one
-batch ADD curator. No answer retry, our score gate, fixed numerical prior, best
-checkpoint selection or hidden validation split. Common empty controls and all
-rejected/failed transport costs remain visible. See the matched-profile protocol.
+One frozen 8B generator, native TRAIN reflection/regeneration, and one batch ADD
+curator. First-encounter scores never use these labeled TRAIN regenerations.
+No inference fallback, our score gate, fixed numerical prior, best checkpoint
+selection or hidden validation split. All actual costs remain visible.
 """
 
 from __future__ import annotations
@@ -21,6 +21,7 @@ from jsonschema import ValidationError, validate
 from experiments.openexempt_online import Online, freeze, paired_effect, preserve
 from legal_skill_guard.experiment.storage import RunStore, safe_component
 from legal_skill_guard.inference.native import WireClient
+from legal_skill_guard.learning.ace_native import update_bullet_counts
 from legal_skill_guard.learning.experiment import (
     INITIAL_PLAYBOOK,
     Comparison,
@@ -43,15 +44,18 @@ from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 ROLE_SYSTEM = (
     "Follow the supplied ACE role and exact JSON schema. Use source-supported public "
     "explanations, not private chain of thought. Feedback is released TRAIN only, "
-    "never a future/test answer. Do not invent a rollout, repair a recorded prediction, "
+    "never a future/test answer. Do not invent a rollout or rewrite an original forecast, "
     "use tools or propose changes to the verifier, model, interface or experiment.")
 
 
 def validate_profile(cfg):
-    if (cfg.get("learner") != "ace_native_online_v1"
+    if (cfg.get("learner") != "ace_native_online_v2"
             or cfg.get("execution_contract") not in (
                 "source_grounded_claim_operations", "direct_statutory_claims")):
         raise ValueError("Declare this native-role ACE online adaptation")
+    rounds = cfg.get("ace_max_TRAIN_reflection_rounds")
+    if type(rounds) is not int or rounds < 1 or rounds > 3:
+        raise ValueError("Declare one to three native TRAIN reflection/regeneration rounds")
     if (cfg["execution_contract"] == "direct_statutory_claims"
             and cfg.get("execution_contract_version") != 13):
         raise ValueError("Direct ACE must declare the common answer contract v13")
@@ -108,7 +112,8 @@ class ACEOnline:
             "playbook": self.playbook, "playbook_sha256": csha(self.playbook),
             "legal_prior_bullets": 0, "published_numerical_programs": 0,
             "execution_contract": self.cfg["execution_contract"],
-            "profile": "native_per_task_reflection_batch_ADD_curator",
+            "profile": "native_TRAIN_reflect_regenerate_batch_ADD_curator",
+            "max_TRAIN_reflection_rounds": self.cfg["ace_max_TRAIN_reflection_rounds"],
             "not_unmodified_author_defaults_or_a_performance_result": True})
         for sig in (signal.SIGINT, signal.SIGTERM):
             signal.signal(sig, lambda *_: setattr(self, "stop", True))
@@ -125,20 +130,41 @@ class ACEOnline:
             "playbook_bullets": len(bullets(self.playbook)),
             "cross_stage_identical_wire_reuses": len(self.reuse_events), **extra})
 
-    def answer(self, row, stage):
+    def answer(self, row, stage, *, playbook=None, training_reflection=None, training=False):
         self.check()
+        if training_reflection is not None and not training:
+            raise ValueError("Released feedback is forbidden in first-encounter inference")
+        book = self.playbook if playbook is None else playbook
         direct = self.cfg["execution_contract"] == "direct_statutory_claims"
-        messages, schema = generator_payload(row, self.playbook, direct_numeric=direct)
+        messages, schema = generator_payload(row, book, direct_numeric=direct,
+            training_reflection=training_reflection)
+        fingerprint = csha({"messages": messages, "schema": schema,
+                            "generation": self.cfg["generation"]})
         path = self.out / "native" / stage / f"{row['case_id']}_{row['family']}_ace.json"
         RunStore.immutable_json(path.with_suffix(".input.json"), {
-            "messages": messages, "schema": schema, "playbook_sha256": csha(self.playbook),
-            "delivered_bullet_ids": list(bullets(self.playbook)),
+            "messages": messages, "schema": schema, "playbook_sha256": csha(book),
+            "delivered_bullet_ids": list(bullets(book)), "TRAIN_only": training,
             "valuation_output_contract": "direct_numeric" if direct else "inline_claim_program",
-            "current_or_future_feedback_available": False})
-        response = self.call(path, messages, schema, self.cfg["generation"]["max_tokens"], {
-            "stage": stage, "arm": "ace", "document_id": row["case_id"],
-            "family": row["family"], "call_role": "openexempt_ace_generator",
-            "playbook_sha256": csha(self.playbook)})
+            "current_TRAIN_reflection_available": training_reflection is not None,
+            "future_or_TEST_feedback_available": False})
+        alias = None
+        raw_call_path = str(path.relative_to(ROOT))
+        if fingerprint in self.request_cache:
+            original = self.request_cache[fingerprint]
+            response = copy.deepcopy(original["response"])
+            raw_call_path = original["raw_call_path"]
+            alias = {"fingerprint": fingerprint, "raw_call_path": raw_call_path,
+                     "not_an_independent_generation": True}
+            self.reuse_events.append({"stage": stage, "case_id": row["case_id"],
+                "family": row["family"], "arm": "ace", **alias})
+        else:
+            response = self.call(path, messages, schema, self.cfg["generation"]["max_tokens"], {
+                "stage": stage, "arm": "ace", "document_id": row["case_id"],
+                "family": row["family"], "call_role": "openexempt_ace_generator",
+                "TRAIN_only": training, "training_reflection": training_reflection is not None,
+                "playbook_sha256": csha(book)})
+            self.request_cache[fingerprint] = {"response": copy.deepcopy(response),
+                                              "raw_call_path": raw_call_path}
         value, decoded, used, rationale, error = None, None, None, None, None
         try:
             if response["finish_reason"] != "stop":
@@ -148,48 +174,98 @@ class ACEOnline:
             if len(value["bullet_ids"]) != len(set(value["bullet_ids"])):
                 raise ValueError("Repeated native bullet provenance")
             used, rationale = copy.deepcopy(value["bullet_ids"]), value["reasoning"]
-            decoded = decode_generator(row, self.playbook, value, direct_numeric=direct)
+            decoded = decode_generator(row, book, value, direct_numeric=direct)
         except (ValueError, ValidationError) as exc:
             error = repr(exc)
         record = {"case_id": row["case_id"], "source_key": row["source_key"],
             "family": row["family"], "stage": stage, "arm": "ace",
-            "playbook_sha256": csha(self.playbook), "parsed": None if decoded is None else
+            "playbook_sha256": csha(book), "TRAIN_only": training,
+            "parsed": None if decoded is None else
             {"answer": decoded["answer"]}, "parse_error": error,
             "used_bullet_ids": used, "public_rationale": rationale,
             "native_program": None if decoded is None else decoded["native_program"],
             "execution_receipt": None if decoded is None else decoded["execution_receipt"],
-            "actual_wrapper_submission": value, "raw_call_path": str(path.relative_to(ROOT))}
+            "actual_wrapper_submission": value, "raw_call_path": raw_call_path}
+        if alias is not None:
+            record["physical_alias_of_identical_wire"] = alias
         RunStore.immutable_json(path.with_suffix(".answer.json"), record)
         return record
 
+    @staticmethod
+    def train_solved(record):
+        score = record["score"]
+        return (record["parse_error"] is None and not score["invalid_format"]
+                and score["f1"] >= 1 - 1e-12
+                and not score.get("officially_unscored_predicted_claims", 0)
+                and (record["family"] != "EV" or score["full_output_f1"] >= 1 - 1e-12))
+
     def update(self, rows, observations, controls):
-        parent, reflections = self.playbook, []
+        parent, reflections, all_tags, trajectories = self.playbook, [], [], []
         for row, observation in zip(rows, observations, strict=True):
+            # The complete first-encounter batch is already immutable. The native
+            # TRAIN-initial call is identical under this fixed-seed profile and
+            # may reuse that raw wire; it is still freshly decoded and scored.
+            prediction = self.answer(row, f"b{self.current_batch}_TRAIN_initial",
+                                     playbook=parent, training=True)
+            self.grade([prediction])
             target = read(ROOT / self.cfg["grading_directory"] /
                           f"{row['case_id']}.json")["targets"][row["family"]]
-            view = {**observation, "answer": (observation.get("parsed") or {}).get("answer")}
             key = row["case_id"], row["family"]
-            feedback = {"original_score": observation["score"],
-                        "same_case_public_control_observations": controls[key],
-                        "TRAIN_feedback_never_a_prediction_repair": True}
-            prompt, schema, cited = reflector_request(row, view, target, parent, feedback,
-                direct_numeric=self.cfg["execution_contract"] == "direct_statutory_claims")
-            name = f"b{self.current_batch}_{row['case_id']}_{row['family']}_reflector"
-            reflection = self.teacher_call(name, ROLE_SYSTEM, prompt, schema)
-            validate_reflection(reflection, schema, cited)
+            local_book, rounds = parent, []
+            initially_solved = self.train_solved(prediction)
+            limit = 1 if initially_solved else self.cfg["ace_max_TRAIN_reflection_rounds"]
+            for number in range(1, limit + 1):
+                view = {**prediction, "answer": (prediction.get("parsed") or {}).get("answer")}
+                feedback = {"original_score": prediction["score"],
+                    "same_case_public_control_observations": controls[key],
+                    "first_encounter_score_never_replaced": observation["score"],
+                    "TRAIN_feedback_never_a_prediction_repair": True}
+                prompt, schema, cited = reflector_request(row, view, target, local_book, feedback,
+                    direct_numeric=self.cfg["execution_contract"] == "direct_statutory_claims")
+                name = f"b{self.current_batch}_{row['case_id']}_{row['family']}_r{number}_reflector"
+                reflection = self.teacher_call(name, ROLE_SYSTEM, prompt, schema)
+                validate_reflection(reflection, schema, cited)
+                all_tags.extend(reflection["bullet_tags"])
+                current = {"round": number, "teacher_role": name,
+                           "actual_pre_reflection_score": prediction["score"],
+                           "reflection": reflection}
+                if initially_solved:
+                    rounds.append(current)
+                    break
+                if reflection["bullet_tags"]:
+                    local_book = update_bullet_counts(local_book, reflection["bullet_tags"])
+                prediction = self.answer(row, f"b{self.current_batch}_TRAIN_round{number}",
+                    playbook=local_book, training_reflection=reflection, training=True)
+                self.grade([prediction])
+                current.update({"regenerated_prediction": prediction,
+                                "solved_after_TRAIN_regeneration": self.train_solved(prediction)})
+                rounds.append(current)
+                if self.train_solved(prediction):
+                    break
             reflections.append(reflection)
+            trajectory = {"source_case_id": row["case_id"], "family": row["family"],
+                "initial_first_encounter_observation": observation,
+                "TRAIN_initially_solved": initially_solved, "rounds": rounds,
+                "TRAIN_final_prediction": prediction,
+                "TRAIN_finally_solved": self.train_solved(prediction),
+                "TRAIN_only_not_replacement_or_generalization": True}
+            RunStore.immutable_json(self.out / "training" /
+                f"b{self.current_batch}_{row['case_id']}_{row['family']}.json", trajectory)
+            trajectories.append(trajectory)
         prompt, schema, counted = curator_request(parent, reflections, rows,
             current_step=self.current_batch * self.cfg["batch_source_cases"] * 2,
             total_samples=self.cfg["source_cases"] * 2,
             token_budget=self.cfg["library_token_hard_cap"],
-            direct_numeric=self.cfg["execution_contract"] == "direct_statutory_claims")
+            direct_numeric=self.cfg["execution_contract"] == "direct_statutory_claims",
+            all_round_bullet_tags=all_tags)
         operations = self.teacher_call(f"b{self.current_batch}_curator", ROLE_SYSTEM, prompt, schema)
         committed = commit_additions(counted, operations, schema,
             token_count=self.meter.token_count, token_budget=self.cfg["library_token_hard_cap"])
         self.check()
         publication = {"at": now(), **committed, "parent_playbook_sha256": csha(parent),
             "playbook_sha256": csha(committed["playbook"]), "actual_ADD_delta": operations,
-            "reflections": reflections, "native_counter_semantics": "last_tag_per_ID_in_batch",
+            "reflections": reflections, "actual_TRAIN_trajectories": trajectories,
+            "native_counter_semantics": "last_tag_per_ID_in_batch_all_TRAIN_rounds",
             "no_our_score_gate_or_best_bank_selection": True}
         RunStore.immutable_json(self.out / "publications" / f"b{self.current_batch}.json", publication)
         self.playbook = committed["playbook"]
