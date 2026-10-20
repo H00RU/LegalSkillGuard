@@ -1,6 +1,6 @@
 # 论文证据与完成条件
 
-2026-10-20 19:23，初稿v0.1配套内部记录。方法已同步当前v13直接作答；旧v11分数仅保留为开发沿革。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
+2026-10-20 19:54，初稿v0.1配套内部记录。方法已同步当前v13直接作答；旧v11分数仅保留为开发沿革。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
 
 ## 已经写下的论文主线
 
@@ -21,6 +21,7 @@
 | v13教师已生成六条候选技能 | VERIFIED | 真实seq1514、1228执行器token，候选已送入实际重放 |
 | 六条候选已经全部发布且后续有效 | UNSUPPORTED | 实际5条发布，IL技能未接收；后续新案有效性仍待测 |
 | 实际发布五条、990token且送达B2 | VERIFIED | 18:45:05真实C1、全部16项原生回执/重评分核同，157_EC实际输入核C1 |
+| B2更新确实发布并进入B3 | VERIFIED | 19:49:47实际C2、6条/1273token，全部32项实际库请求/原始回答/原评分核同，165_EC输入核C2 |
 | 作用域组合已经产生后续新案收益 | MIXED | v13 B2首次新案EC有净益、EV有净损；仅单批8来源，不证明稳定泛化或作用域提交的独立因果贡献 |
 | 已完成ACE真实基线 | UNSUPPORTED | 完整隔离运行器存在，尚未运行；预算profile未冻结 |
 | 正式训练量、独立重复、隔离测试与统计结论已完成 | PENDING | 目前32来源机制试跑，不是正式论文实验 |
@@ -54,7 +55,22 @@
 
 160_EV的原始最终输出确为`{"asset_description":[]}`，正常结束且仅使用4806/8192输出token。JSON语法有效，却没有真实资产主张；不是截断、服务故障或解析后修补。原生思考文本还出现把多个独立适用项误当互斥选择、计划输出错误列表结构的内容。该文本是未验证的执行器输出，不能据此宣布完整因果机制已查清。其0分、实际空占位回答、完整训练目标及1024字符思考尾部均已真实进入教师请求，不是漏传标签或隐瞒失败。
 
-第二批教师seq1515于19:18:31返回，90984 input/3740 output，耗时92.624秒，实际提出2 UPDATE、1 CREATE，修订联合债务人额度、家庭物品/首饰边界和Illinois一般财产替代项。EC通用豁免文本与父库逐字相同。候选正在对全部已见16来源/32任务重放；此时尚未实际发布C2，不能把提案内容或局部重放预报为成功。下一证据是完整发布判断、残留错误是否被修复以及B3首次新案，运行源、评分和预算未改。
+第二批教师seq1515于19:18:31返回，90984 input/3740 output，耗时92.624秒，实际提出2 UPDATE、1 CREATE，修订联合债务人额度、家庭物品/首饰边界和Illinois一般财产替代项。EC通用豁免文本与父库逐字相同。19:23记录时，候选正在对全部已见16来源/32任务重放、尚未发布C2；随后完整判断见下一节。运行源、评分和预算未改。
+
+### v13实际C2：有第二次训练更新，B3迁移仍待完整首次预测
+
+19:49:47实际发布C2，6条、完整库1273执行器token，hash为`f40d10172339a2374ee009cc446bc5f3e7131ec8b1617ce0f3bfac1b31799206`。接收`EC:ILLINOIS`与`EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN`。EC联邦共见分量因本批回退未接收；EV Illinois因历史回退未接收。因而新增Illinois技能实际仅用于EC，家庭物品技能仍仅用于EV，不把完整提案误记成实际库。
+
+| 已见来源的训练重放，不是首次新案 | C1 EC F1 (%) | C2 EC F1 (%) | C1 EV F1 (%) | C2 EV F1 (%) |
+|---|---:|---:|---:|---:|
+| 旧B1 | 72.75 | 72.75 | 82.50 | 84.21 |
+| 本批B2 | 78.94 | 85.19 | 60.83 | 76.79 |
+
+实际C2完整EV F1为旧B1 84.58%、B2 77.57%。全部32项按实际组合库重新生成预期请求、核对已观测原始请求身份、原生内容重新解码并用原评分器复核，全部一致；组合阶段没有新增原生生成。165_EC实际输入已收到C2及对应联邦/宾州技能，B3在同一后台进程连续运行，没有清空记忆或热改方法。19:54尚无完整B3首次新案分数，不能把本节数字挪到主训练前向曲线。
+
+均值保护不是逐案无损：旧B1为3好1坏12平，本批B2为5好1坏10平；156_EV从100%降至65%，162_EV从80%降至53.33%。160_EV则从空占位0恢复为四项真实资产回答、F1为85.71%，但仍遗漏该案全部四项联邦通用豁免。核对前后请求，模型生成参数、schema、system与公开案件消息相同，差别仅为技能文本；这支持真实行为发生改变，但不证明永久修复、独立单技能因果效果或新案泛化。
+
+闭合B2的实际8B成本为前向28次/245318 token、候选重放22次/209742 token、组合0次；50次均正常`stop`。教师实际成本如上，不是正式全实验成本外推，也不能据此称与ACE同总预算。
 
 ### 旧v11开发沿革，不与新v13拼接
 
@@ -97,6 +113,7 @@ B1更新后同案重放：实际EC-only C1为EC63.51%、EV65.42%，不是B2首�
 - 新B1实际C1与B2送达：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_actual_B1_five_skill_publication_all16_native_identity_and_B2_delivery.json`。
 - 新B1已投递但未纠正的实际判断：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_B1_instruction_received_but_specific_decision_errors_remain.json`，含全部16项而非筛选子集。
 - 新B2完整首次新案、全部64项原生重评分、EV空占位归零及真实教师更新：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_B2_complete_new_sources_real_skill_delivery_and_EV_output_collapse.json`。
+- 实际C2、全部32项原生请求/重新解码/原评分核验、闭合B2成本及B3投递：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_actual_C2_six_skills_all32_native_identity_and_B3_delivery.json`。
 - B1实际发布：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B1_actual_EC_only_C1_publication_and_all16_reexecution.json`。
 - B2完整前向：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B2_full_new_case_effect_and_actual_EV_invariance.json`。
 - B2损失分解：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B2_all_arms_full_law_amount_name_losses_and_public_contexts.json`。
