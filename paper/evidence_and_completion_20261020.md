@@ -1,6 +1,6 @@
 # 论文证据与完成条件
 
-2026-10-20，首稿配套内部记录。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
+2026-10-20 18:48，初稿v0.1配套内部记录。方法已同步当前v13直接作答；旧v11分数仅保留为开发沿革。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
 
 ## 已经写下的论文主线
 
@@ -10,22 +10,39 @@
 
 | 主张 | 状态 | 当前依据或缺口 |
 |---|---|---|
-| 当前执行器不更新参数 | VERIFIED | 当前v11配置、冻结模型版本与实际运行进程 |
+| 当前执行器不更新参数 | VERIFIED | 当前v13配置、冻结模型版本与实际运行进程 |
 | 当前任务是OpenExempt EC/EV，不是多轮咨询或三分类 | VERIFIED | `legal_skill_guard/openexempt.py`与实际输入packet |
 | 数据与评分来自上游，而非自行人工编写奖励答案 | VERIFIED | 固定上游提交、生成回执及原评分器 |
 | 当前无验证集，标签参与教师训练 | VERIFIED | 全臂预测先于本批标签释放，已见TRAIN重放是优化 |
-| B1的带库收益证明在线进化 | UNSUPPORTED | B1实际在线库等于固定C0，只能说明静态先验效果 |
-| B1候选2实际发布了EV数值修正 | UNSUPPORTED | 实际只发布EC，EV全部保留C0 |
-| 在线库已稳定胜过强空库与固定初库 | UNSUPPORTED | B2的EV落后直接空库；EC低于固定初库 |
-| v12作用域组合实现存在且完成代码检查 | VERIFIED | 隔离源码4398c3a/267ba13及实际B1回顾性证据 |
-| v12已经产生后续新案收益 | PENDING | 尚未部署前瞻Run，不能把B1回顾性组合当新案 |
+| v11 B1的带库收益证明在线进化 | UNSUPPORTED | 旧B1实际在线库等于固定C0，只能说明静态先验效果 |
+| v11 B1候选2实际发布了EV数值修正 | UNSUPPORTED | 旧运行实际只发布EC，EV全部保留C0 |
+| 在线库已稳定胜过强空库与固定初库 | UNSUPPORTED | 旧B2的EV落后直接空库；新v13尚未产生后续新案成绩 |
+| 作用域提交与直接作答已部署 | VERIFIED | v13冻结176绑定与18:13:27后台进程；不等于效果证实 |
+| v13教师已生成六条候选技能 | VERIFIED | 真实seq1514、1228执行器token，候选已送入实际重放 |
+| 六条候选已经全部发布且后续有效 | UNSUPPORTED | 实际5条发布，IL技能未接收；后续新案有效性仍待测 |
+| 实际发布五条、990token且送达B2 | VERIFIED | 18:45:05真实C1、全部16项原生回执/重评分核同，157_EC实际输入核C1 |
+| 作用域组合已经产生后续新案收益 | PENDING | 已部署于v13，但新B2未完成，不能把回顾组合或训练重放当新案 |
 | 已完成ACE真实基线 | UNSUPPORTED | 完整隔离运行器存在，尚未运行；预算profile未冻结 |
 | 正式训练量、独立重复、隔离测试与统计结论已完成 | PENDING | 目前32来源机制试跑，不是正式论文实验 |
 | 作用域重放或算术程序本身就是本文原创 | UNSUPPORTED | 必须区分SkillCommit等近邻；尚未确认独立方法贡献 |
 
 ## 当前开发分数：只用于如实交代，不作正式论文成绩
 
-Run：`legal_openexempt_task_scoped_online_20261020_run01`。每批8个来源，EC/EV各8任务。以下是更新前的新案首次回答，百分数均由原评分获得。
+当前Run：`legal_openexempt_direct_skills_online_20261020_run01`。18:30:15完整B1为EC70.7292%、EV68.8542%、完整EV70.0284%。8来源、EC/EV各8任务；四个逻辑名称共享16次原生回答，全部正常结束。在线库此时为空，三种控制名称也都是同一强空库，零在线差异是冷起点规定，不是四次独立评测。
+
+教师seq1514于18:31:36返回，57440 input/3561 output；6CREATE、1228执行器token、全部数值程序数组为空，针对一般财产替代项、wildcard、单件上限及类别边界。18:45:05按原整库门槛实际发布5条、990token；伊利诺伊技能因EC/EV回退未接收，不因候选整体有净益而掩盖它。实际C1 hash为`08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8`，157_EC输入已核送达。
+
+| v13 B1阶段 | EC F1 (%) | EV F1 (%) | 完整EV F1 (%) |
+|---|---:|---:|---:|
+| 空库首次回答，在线尚未学习 | 70.73 | 68.85 | 70.03 |
+| 教师完整提案同案重放，未整库发布 | 68.59 | 78.33 | 78.48 |
+| 实际5条C1同案重放 | 72.75 | 82.50 | 83.25 |
+
+实际C1为16任务5好1坏10平，8个底层来源。组合用一个真实库，全部16项请求/原始回答身份/原评分已核，不是按案件挑答案，没有组合新增原生生成。这支持本次训练内提交机制确实工作，不证明未来泛化或整个方法有效；正式结果仍留空，继续看B2–B4首次新案。
+
+### 旧v11开发沿革，不与新v13拼接
+
+旧Run：`legal_openexempt_task_scoped_online_20261020_run01`。每批8个来源，EC/EV各8任务。以下是旧运行更新前的新案首次回答，百分数均由原评分获得。
 
 | 批次/条件 | EC F1 (%) | EV F1 (%) | 完整输出EV F1 (%) |
 |---|---:|---:|---:|
@@ -43,28 +60,31 @@ B1更新后同案重放：实际EC-only C1为EC63.51%、EV65.42%，不是B2首�
 
 ## 仍然卡在哪里
 
-1. **发布与迁移。** 当前按任务平均准入会耦合不共见的法律范围，接受的均值收益并不均匀。v12修复提交粒度已实现，但收益尚待前瞻证明。
-2. **法律选择而非纯算术。** B2在线EV错误分解包括7个错误法条假阳性、19个漏法条假阴性；匹配主张中没有金额错误。不能再把主要瓶颈都归给数值计算。
-3. **资产事实对齐。** 已释放B1/B2的100个目标资产名称均可在原公开事实中找到，不是数据没有给名称；仍须解决模型正确拷贝和范围理解，不能改目标或事后修答案。
+1. **发布与迁移。** 旧v11按任务平均准入会耦合不共见的法律范围，均值收益不均匀。当前v13已部署作用域提交和直接作答，但尚未证明后续新案净益，不能仅凭代码改好而宣布根因全部解决。
+2. **法律选择而非纯算术。** 旧B2在线EV有7个错误法条FP、19个漏法条FN，匹配主张无金额错误；新v13 B1为20漏法条FN、2错误法条FP及1金额FP/FN。应检查教师适用条件是否改善实际决策，而不是再加算术机制。
+3. **资产事实对齐。** 旧运行已释放B1/B2的100个目标资产名称均可在原公开事实中找到，不是数据没有给名称。此检查不外推所有新案；原任务匹配与评分保持不变，不改目标或事后修答案。
 4. **论文证据未闭合。** 真实成熟基线、正式样本量、独立学习重复和隔离测试均未完成。当前没有依据宣称SOTA、显著稳定提升或达到投稿标准。
 
 ## 写作与实验的直接分工
 
 - **17:52新增诊断，不能作正式结果：** B2全部四个AZ来源中，直接空库EV100%、程序空库79.17%、旧库66.67%，说明接口和技能条件都须检查。最新教师明确修正服饰/宠物/残余财产/职业工具条件后，同案候选EV为93.75%，完整输出87.22%。但该候选在全部旧B1重放EV64.58%低于父库65.42%，含118_EV一项非法`...`算式整答0，因此不能按现行整任务门槛发布EV。候选尚未形成后续新案收益。不能再把不提升简单解释成“教师完全学不会”，也不能把回顾性局部改好解释成整条链路成功。作用域组合与不必要的程序接口负担，是两个不同的待闭合问题。
 - **现在可写并已起稿：** 研究问题、任务、数据来源、当前实现、角色边界、指标、对照目的与局限。
-- **跟实现进展修订：** 最终采用v11还是v12、教师/准入消融、可成立的方法差异。不存在的模块不为论文临时编造。
+- **跟实现进展修订：** 当前已部署v13直接作答与作用域提交，初稿已同步；最终保留何种方法须看新案、教师/准入消融及可成立的方法差异。不存在的模块不为论文临时编造。
 - **有正式证据后再写：** 主结果、显著性、稳健性、对比优势、最终摘要结论及贡献定稿。未冻结的实验不标成已预注册。
 - **实验最大优先项：** 检验已实现的发布粒度修复是否能带来真实后续新案净益，并定位剩余法条选择损害；不再另起泛泛调研、重复B1资格循环或只做基线不优化主方法。
 
 ## 主要本地证据
 
-- 当前冻结配置：`configs/openexempt_task_scoped_online_20261020_run01.frozen.json`，185绑定；写稿不热改运行源。
+- 当前冻结配置：`configs/openexempt_direct_skills_online_20261020_run01.frozen.json`，176绑定；写稿不热改运行源。旧v11的185绑定已保全至终态。
+- 新B1完整与小时复核：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_hourly1830_complete_B1_and_actual_failure_types.json`。
+- 新B1真实教师与候选送达：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_B1_actual_teacher_six_legal_condition_skills_and_native_delivery.json`。
+- 新B1实际C1与B2送达：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_actual_B1_five_skill_publication_all16_native_identity_and_B2_delivery.json`。
 - B1实际发布：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B1_actual_EC_only_C1_publication_and_all16_reexecution.json`。
 - B2完整前向：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B2_full_new_case_effect_and_actual_EV_invariance.json`。
 - B2损失分解：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B2_all_arms_full_law_amount_name_losses_and_public_contexts.json`。
 - 资产公开名称：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B1_B2_full_public_fact_asset_name_span_audit.json`。
 - v12回顾诊断：`artifacts/research/openexempt_legal_scope_20261020/actual_B1_candidate2_production_scope_composition_evidence.json`。
-- ACE代码证据：`artifacts/research/openexempt_ace_20261020/complete_native_online_runner_source_and_causal_contract_evidence.json`。
+- ACE原生代码及后续直接接口适配：`artifacts/research/openexempt_ace_20261020/complete_native_online_runner_source_and_causal_contract_evidence.json`和`complete_direct_native_role_adaptation_before_main_B1_outcomes.json`。
 
 ## Skill如何影响本稿
 
