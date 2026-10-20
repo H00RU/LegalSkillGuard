@@ -1,6 +1,6 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 09:43 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 09:57 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 **最高优先纠正：下文旧v10已因确证EOS约束缺口在07:47:30停止，43native/1教师，
 B2未完整评分/未读Gold。8B同服务已重启为PID3613253并健康；依赖修复已通过真实
 失败前缀/有效回答的CPU检查，无新GPU资格生成。新Run eos_aligned已冻结136源
@@ -35,6 +35,17 @@ OpenExempt、重放、数值程序本身不是原创；最终贡献必须有真�
   卡住先定位原始失败，再查近期权威原文/作者实现并落实，不空转调研或重复资格测试。
 
 ## 当前唯一后台主训练：EOS对齐后的v10接口三批小试
+
+09:57续记：原主PID3621135仍active/running，95native/4教师/44原生别名，
+B3最后84号处理中，整批未评分、未读本批Gold。隔离caller又有独立提交37a6ade，
+在既有512字符上限内约束算式字符空间，仍不是完整AST或法律真值保证；实际安装
+xgrammar0.1.23的完整EV schema CPU十五项通过，3项原有定向测试/Ruff通过，
+0新8B/教师调用，六工件双盘保全，活跃136绑定未改变。不能称它已经改善模型。
+原先08:44选择的73_EV/C0、75_EV/empty两旧TRAIN见证已细化不可变计划并双盘：
+`eos_aligned_postterminal_two_witness_call_contract_plan.json`。只在本Run安全终态且
+原始记录双盘后执行，同模型/事实/解码/预算、无教师或重试，两条都留；不是新案
+成绩或验证集，不据有利单点完成Goal。5691cab教师推理证据改动不在两见证中生效，
+后续是否采用须和caller变化区分；不把整个旧基隔离分支合并而丢失主树runtime冻结。
 
 - Run **legal_openexempt_eos_aligned_online_20261020_run01**；unit
   `legal-openexempt-eos-aligned-20261020-run01.service`，原主PID **3621135**，
