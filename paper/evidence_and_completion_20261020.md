@@ -1,6 +1,6 @@
 # 论文证据与完成条件
 
-2026-10-20 21:10，初稿v0.1配套内部记录。方法已同步当前v13直接作答；旧v11分数仅保留为开发沿革。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
+2026-10-20 21:35，初稿v0.1配套内部记录。方法已同步当前v13直接作答；旧v11分数仅保留为开发沿革。此文件不是投稿结果表。写作与实验并行，不用写作掩盖未解决的收益问题。
 
 ## 已经写下的论文主线
 
@@ -22,6 +22,7 @@
 | B1六条候选已经全部发布且后续有效 | UNSUPPORTED | B1实际5条发布，IL技能当时未接收；不得与B2后实际6条C2混淆 |
 | 实际发布五条、990token且送达B2 | VERIFIED | 18:45:05真实C1、全部16项原生回执/重评分核同，157_EC实际输入核C1 |
 | B2更新确实发布并进入B3 | VERIFIED | 19:49:47实际C2、6条/1273token，全部32项实际库请求/原始回答/原评分核同，165_EC输入核C2 |
+| B3更新确实发布并进入B4 | VERIFIED | 21:29:48实际C3、7条/1606token，全部48项原生身份/重新解码/原评分核同；仅接收EC连通分量，全部24项EV请求/回答/评分与C2相同，173_EC输入核C3 |
 | 作用域组合已经产生后续新案收益 | MIXED | v13 B2首次新案EC有净益、EV有净损；C2进入B3后两任务均有净益，但EC收益集中且仍有两个回退，不证明稳定泛化或作用域提交的独立因果贡献 |
 | C2已证明普遍优于B1学得的固定C1 | UNSUPPORTED | B3全部8项EC请求可用已保存原始响应回顾性核验：C1 62.09%、C2 71.47%，1好7平；EV只有3/8请求覆盖，不填完整成绩。当前固定初库仍是空库，不是固定C1 |
 | 已完成ACE真实基线 | UNSUPPORTED | 隔离分支8cf0158已补齐作者TRAIN反思后重答，10项小CPU检查通过；0真实调用、profile未冻结，不能以实现或测试冒充对比成绩 |
@@ -127,6 +128,55 @@ EV仅3/8请求覆盖，其余5项无原始响应，不以部分样本均值或C2
 快照，不给教师额外反馈。33项单模块CPU检查3.33秒通过，0真实模型调用；
 未合入、冻结或启动，不修改当前176项冻结绑定，也不证明完整对比已完成。
 
+### 实际C3：拒绝整包EV回退，仅发布有训练证据的EC修改
+
+21:29:48发布C3，7条、完整库1606执行器token，hash为
+`b9e6e87afc2b52a829b422e3ee67aad25857e6dbc1d329c3517542ae78bb77d2`。
+仅接收`EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN`，实际改动三条现有记录
+的EC内容并新增`federal_residence_cap_not_eligibility`；Arizona联合财产新技能
+未接收，Illinois的EV扩展和其余EV改动均未接收。
+
+| 已见TRAIN来源重放，不是首次新案或TEST | C2 EC F1 (%) | C3 EC F1 (%) | C2 EV F1 (%) | C3 EV F1 (%) |
+|---|---:|---:|---:|---:|
+| 旧B1+B2共16来源 | 78.97 | 80.44 | 80.50 | 80.50 |
+| 本批B3共8来源 | 71.47 | 83.97 | 56.74 | 56.74 |
+
+整包8条提案虽将B3训练EV提高到76.84%，却把旧16来源EV从80.50%降到68.39%，
+故该整包未发布。实际C3不是这个8条提案，不能将76.84%或68.39%当成现在线库
+成绩。全部48项实际组合请求、原始回答重新解码及原评分均核同；全部24项EV
+请求、回答、评分与C2完全一致，不是重新采样后碰巧同分。组合没有新增原生
+生成，也没有逐案补答案或推理fallback。
+
+实际C3当前16任务4好0坏12平，旧32任务5好3坏24平，均值保护仍不等于逐案
+不退。EC还存在原评分未遍历的额外主张：当前4项、历史1项，不能据原F1直接
+声称完整输出没有问题。B4已在同一后台进程开始，173_EC实际输入核对C3；
+尚无完整B4首次新案分数，不提前宣称这次EC更新已泛化。
+
+完整8条提案的旧案EV失分也已按原匹配器分解：正确主张74→60，漏法条23→28，
+资产对齐失败涉及的目标主张6→11，错金额1→5。其中164_EV把法条编号当成
+资产键，150_EV仅改写资产名称就使原匹配失败；均正常结束，不是token截断。
+这说明学习与准入信号同时受到法律错误和实体输出噪声影响，不能只让教师
+反复扩写法律段落，也不能据这些计数断言已证明全部因果机制。
+
+另有实际闭环缺口：B2部分提交时保留了完整未提交提案重放，但B3真实教师
+请求的`rejected_candidate_feedback`为空。当前代码每批重置该列表，任一组合
+通过就结束提案循环；C3实际只用1/2次机会，未在EC成功后继续修正剩余EV。
+这不是训练标签漏传，而是“上一版自己提出的修改为什么失败”没有直接回传。
+它可能造成重复无效编辑，但尚无前瞻消融证明其效应。后续应复用现有反馈
+字段保留有界的部分拒收证据，准确区分已提交与未提交修改，不增加新服务、
+不放宽准入，也不热改当前v13。
+
+只取公开资产词表的description字段、在原事实里做固定最大字面跨度匹配，
+能在全部已释放24来源/48条TRAIN输入中恢复正确资产集合。未使用词表的金额、
+适用法条或类别提示，未使用私有case；仅为公共实体编码的可行性诊断，尚未
+实现到执行器、没有模型收益证据，也不能保证未见数据。未来若采用，须向
+所有对照提供同一编码，另行声明公共词表输入及新契约/新Run，不热改v13、
+不做事后名称纠正，也不将工程编码本身包装成算法原创。
+
+B3实际成本为首次回答29次（182092输入/89202输出token）、候选44次
+（295064输入/115080输出token）、组合0次；73次均正常结束，原始证据双盘
+保全。当前主线仍先完成B4与实际最终库，不将候选诊断当正式论文突破。
+
 ### 旧v11开发沿革，不与新v13拼接
 
 旧Run：`legal_openexempt_task_scoped_online_20261020_run01`。每批8个来源，EC/EV各8任务。以下是旧运行更新前的新案首次回答，百分数均由原评分获得。
@@ -195,6 +245,9 @@ SkillCommit v2公开报告EC/EV各210 induction、105 test，但本项目尚未�
 - 实际C2、全部32项原生请求/重新解码/原评分核验、闭合B2成本及B3投递：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_actual_C2_six_skills_all32_native_identity_and_B3_delivery.json`。
 - 新B3完整首次新案、全部64项原生身份/原评分、全部8来源配对、EV失分与来源级探索区间：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_B3_complete_new_sources_all64_native_and_original_scores.json`。
 - B3单一固定C1全部16请求覆盖审计、完整EC原评分、EV五项缺失及隔离前瞻控制源码：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_B3_fixed_C1_all16_request_coverage_and_complete_EC.json`。
+- C3完整旧16来源保留项、全部32项原生请求、法律/金额/实体失分与仅公开描述的48条词法可行性：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_C3_complete_old16_retention_and_public_entity_failure.json`。
+- C3实际7条库、全部48项原生身份/原评分、24项EV原样保留、完整B3成本与B4送达：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_actual_C3_seven_skills_all48_native_and_B4_delivery.json`。
+- 实际教师3反馈列表为空、上批部分拒收重放已保存及本批1/2机会早停的源码/请求证据：`artifacts/research/openexempt_legal_scope_20261020/direct_v13_partial_commit_actual_teacher_feedback_loop_gap.json`。
 - 仅官方元数据与公开生成配置、难度/已给前序步骤差异及未接触测试记录声明：`artifacts/research/openexempt_legal_scope_20261020/official_metadata_task_boundary_and_heldout_candidates_20261020.json`。
 - B1实际发布：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B1_actual_EC_only_C1_publication_and_all16_reexecution.json`。
 - B2完整前向：`artifacts/research/openexempt_mechanism_20261019/task_scoped_B2_full_new_case_effect_and_actual_EV_invariance.json`。
