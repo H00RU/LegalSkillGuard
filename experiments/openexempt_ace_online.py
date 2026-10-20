@@ -58,7 +58,7 @@ def validate_profile(cfg):
     if cfg["source_cases"] <= 0 or cfg["source_cases"] % cfg["batch_source_cases"]:
         raise ValueError("Whole source-disjoint batches are required")
     lock = Path(cfg["exclusive_training_lock"])
-    if not lock.is_absolute():
+    if not lock.is_absolute() or lock.resolve() != (ROOT / "artifacts/openexempt_training.lock").resolve():
         raise ValueError("Declare the SAME canonical absolute training lock as the main learner")
 
 
