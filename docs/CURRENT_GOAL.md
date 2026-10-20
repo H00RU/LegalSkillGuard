@@ -1,6 +1,6 @@
 # 当前 Goal 执行索引
 
-更新：2026-10-20 18:48 Asia/Shanghai。Goal active，未完成，无外部阻塞。
+更新：2026-10-20 19:01 Asia/Shanghai。Goal active，未完成，无外部阻塞。
 
 ## 当前权威入口：v13直接法律作答的技能进化
 
@@ -14,6 +14,18 @@ B1首次仍EC70.7292/EV68.8542%，实际C1同案TRAIN重放EC72.7530/EV82.5000%�
 后续探索。18:47:23为B2源157，31native/1教师/69复用/5技能；B2以后Gold/私有
 构造与官方TEST未读，尚无新案收益结论。82项发布/重放/送达证据已双盘保全。
 初稿已同步v13实际方法与中英对应，不再按v11写算式程序；正式结果仍全部占位。
+
+19:01:02为B2源160，43native/1教师/84复用/5技能。新案Gold仍未读。继续原流，
+不能以同案EV+13.65pp宣布泛化或忽视EC只+2.02pp。B1全部四个Fed来源EC的
+10个wildcard目标主张在C1仍0召回；EC154从0.8到0.6（首饰误类）是那1坏项。
+IL候选149还丢正确法条、改资产名/金额为0，已由作用域门槛保留父版本；不手补。
+已按完整16任务核所有Gold法条均在实际公开catalog，且旧同模型/backend、
+相同EC schema有20条真实选择Fed(d)(5)的原生见证；不需要重复GPU语法资格测试。
+下一重点是实际指导的执行，不把送达当使用，也不凭历史不同案件的强指令
+直接断言哪种文案有因果效果。保留B2实际反馈给原教师修订，观察其是否自我改进。
+证据同目录`direct_v13_C1_all16_gain_harm_and_remaining_EC_law_selection.json`与
+`direct_v13_EC_omission_not_missing_labels_or_unreachable_native_schema.json`，均双盘保全。
+部分拒绝坐标经验跨批是否重复只列待核假设，不为一个IL案例添加新缓存/中间层。
 
 唯一训练`legal_openexempt_direct_skills_online_20261020_run01`，unit
 `legal-openexempt-direct-skills-20261020-run01.service`，18:13:27真正后台启动。
