@@ -49,6 +49,13 @@
 全八案用固定作者匹配器复算，与原宏F1一致，无新模型/教师调用、未来Gold或
 私有类别。报告`explicit_calls_B1_accepted_C1_remaining_loss_and_rule_adoption.json`。
 
+12:11另完成全八EV的回顾性固定动作数值对照：C1原生plan逐条保持不变，只将
+两个修订程序体换回C0，原宏EV从63.2986降至60.0694%，即程序体在这些实际
+动作上贡献+3.2292pp，实际改变87/88两源。全部实际C1重执行逐字匹配原答案；
+91非法整答两侧均0，inline/资产/条款不改。总重答提升8.0903pp的其余4.8611pp
+混有指导与重新生成变化，不能直接归因指导，更不是新案/独立对照。0新增调用，
+报告`explicit_calls_B1_actual_C1_fixed_action_numerical_contribution.json`及双盘收据。
+
 针对这个断点重新读了[ScienceClaw固定作者prompts.py](https://github.com/beita6969/ScienceClaw/blob/e925f732c7ca435f557e88075bc47a58f1e984f1/packages/scienceclaw/scienceclaw/agent/prompts.py#L244)
 和[solver.py](https://github.com/beita6969/ScienceClaw/blob/e925f732c7ca435f557e88075bc47a58f1e984f1/packages/scienceclaw/scienceclaw/agent/solver.py#L519)：
 它将完整技能与operator签名/契约放在任务后的system末部，并在固定预算内逐步
