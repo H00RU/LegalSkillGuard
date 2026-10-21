@@ -95,7 +95,8 @@ def test_actor_gets_only_original_prompt_and_scoped_knowledge():
 
 def record(family, value):
     return {"family": family, "score": {"precision": value, "recall": value,
-            "f1": value, "exact_target": value == 1, "invalid_format": 0}}
+            "f1": value, "exact_target": value == 1, "invalid_format": 0,
+            "full_output_f1": value, "negative_target_asset_predicted_claims": 0}}
 
 
 def test_train_acceptance_requires_real_improvement_and_past_retention():
@@ -217,6 +218,44 @@ def test_original_official_scoring_not_a_new_semantic_judge():
     assert audit["full_output_f1"] == 2 / 3
     assert audit["full_output_claim_tp"] == 1
     assert audit["full_output_claim_fp"] == 1
+
+
+def test_ec_empty_target_false_claim_keeps_native_score_but_fails_complete_output_retention():
+    row = {"case_id": 1, "family": "EC"}
+    law = "11 U.S.C. § 522(d)(5)"
+    target = {"eligible property": [law], "ineligible property": []}
+    bad = {"eligible property": [law], "ineligible property": [law]}
+    before, after = evaluate(row, target, target), evaluate(row, bad, target)
+    assert before["f1"] == after["f1"] == 0.5  # Never alter the official score.
+    assert before["full_output_f1"] == 1 and after["full_output_f1"] == 2 / 3
+    assert after["negative_target_asset_predicted_claims"] == 1
+    prior = [{"family": "EC", "score": before}, record("EV", 1)]
+    harm = [{"family": "EC", "score": after}, record("EV", 1)]
+    current = [record("EC", 0.4), record("EV", 0.4)]
+    improved = [record("EC", 0.7), record("EV", 0.4)]
+    assert not acceptance(current, improved, prior, harm)["accepted"]
+    assert not task_admission(current, improved, prior, harm)["EC"]["accepted"]
+
+
+@pytest.mark.parametrize("family", ["EC", "EV"])
+def test_entirely_negative_case_and_invalid_output_are_not_hidden_by_zero_f1(family):
+    row = {"case_id": 1, "family": family}
+    law = "11 U.S.C. § 522(d)(5)"
+    target = {"ineligible property": []}
+    claim = law if family == "EC" else {"citation": law, "claim_value": 100}
+    good, bad = evaluate(row, target, target), evaluate(row, {"ineligible property": [claim]}, target)
+    assert good["f1"] == bad["f1"] == good["full_output_f1"] == bad["full_output_f1"] == 0
+    a, b = {"family": family, "score": good}, {"family": family, "score": bad}
+    other = "EV" if family == "EC" else "EC"
+    def bundle(r):
+        return [r, record(other, 1)]
+
+    assert not task_admission(bundle(a), bundle(b), [], [])[family]["accepted"]
+    assert task_admission(bundle(b), bundle(a), [], [])[family]["accepted"]
+    assert not acceptance([a, record(other, 0.4)], [b, record(other, 0.7)], [], [])["accepted"]
+    invalid = {"family": family, "score": evaluate(row, None, target)}
+    assert not task_admission(bundle(a), bundle(invalid), [], [])[family]["accepted"]
+    assert not acceptance([a, record(other, 0.4)], [invalid, record(other, 0.7)], [], [])["accepted"]
 
 
 @pytest.mark.parametrize("online_cap", [30, 15])

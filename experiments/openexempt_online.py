@@ -129,8 +129,11 @@ DIRECT_AUTHOR_SYSTEM = (
     "rationales must reference supplied seen sources and never reach the actor. "
     "The body declares the fixed TRAIN commit policy. Under legal_scope, public "
     "co-visible namespaces, shared guidance changes and moved IDs couple edits. "
-    "A coordinate needs current-source evidence, task F1 nonregression on current and "
-    "prior sources, and strict current improvement; EV also preserves full-output F1. "
+    "A coordinate needs current-source evidence and native task F1 nonregression on "
+    "current and prior sources. BOTH EC and EV also preserve full-output F1, avoid "
+    "increases in claims on negative/unscored assets and format failures, and require "
+    "strict current improvement in at least one of those real outcomes. Native EC "
+    "can hide false citations on assets with no applicable law; never call those safe. "
     "Other declared policies assess entire tasks or the whole proposal instead. "
     "The final single composed library must still pass the full TRAIN gate. Replay "
     "uses ALL seen sources, not just the communication subset, and is training "
@@ -433,15 +436,22 @@ def acceptance(parent_current, candidate_current, parent_prior, candidate_prior)
     pa, pb = metrics(parent_prior), metrics(candidate_prior)
     current_ok = all(b[f]["f1"] + 1e-12 >= a[f]["f1"] for f in FAMILIES)
     prior_ok = not parent_prior or all(pb[f]["f1"] + 1e-12 >= pa[f]["f1"] for f in FAMILIES)
-    current_full_ok = b["EV"]["full_output_f1"] + 1e-12 >= a["EV"]["full_output_f1"]
-    prior_full_ok = not parent_prior or pb["EV"]["full_output_f1"] + 1e-12 >= pa["EV"]["full_output_f1"]
-    improvement = (b["mean_family_f1"] > a["mean_family_f1"] + 1e-12
-                   or b["EV"]["full_output_f1"] > a["EV"]["full_output_f1"] + 1e-12)
-    return {"accepted": current_ok and prior_ok and current_full_ok and prior_full_ok and improvement,
+    current_full_ok = all(b[f]["full_output_f1"] + 1e-12 >= a[f]["full_output_f1"] for f in FAMILIES)
+    prior_full_ok = not parent_prior or all(
+        pb[f]["full_output_f1"] + 1e-12 >= pa[f]["full_output_f1"] for f in FAMILIES)
+    audit_fields = ("negative_or_unscored_asset_claims", "invalid_format")
+    current_audit_ok = all(b[f][k] <= a[f][k] for f in FAMILIES for k in audit_fields)
+    prior_audit_ok = not parent_prior or all(
+        pb[f][k] <= pa[f][k] for f in FAMILIES for k in audit_fields)
+    improvement = any(_head_admission(f, a, b, pa, pb)["strict_current_improvement"] for f in FAMILIES)
+    return {"accepted": (current_ok and prior_ok and current_full_ok and prior_full_ok
+                         and current_audit_ok and prior_audit_ok and improvement),
             "current_family_nonregression": current_ok,
             "prior_family_nonregression": prior_ok, "strict_current_improvement": improvement,
             "current_full_output_nonregression": current_full_ok,
             "prior_full_output_nonregression": prior_full_ok,
+            "current_negative_asset_and_format_nonregression": current_audit_ok,
+            "prior_negative_asset_and_format_nonregression": prior_audit_ok,
             "parent_current": a, "candidate_current": b,
             "parent_prior": pa, "candidate_prior": pb,
             "TRAIN_optimization_not_independent_validation": True}
@@ -458,17 +468,22 @@ def _head_admission(family, a, b, pa, pb):
     current_ok = b[family]["f1"] + 1e-12 >= a[family]["f1"]
     prior_ok = family not in pa or pb[family]["f1"] + 1e-12 >= pa[family]["f1"]
     strict = b[family]["f1"] > a[family]["f1"] + 1e-12
-    full_current_ok = full_prior_ok = True
-    if family == "EV":
-        full_current_ok = b[family]["full_output_f1"] + 1e-12 >= a[family]["full_output_f1"]
-        full_prior_ok = (family not in pa or
-                         pb[family]["full_output_f1"] + 1e-12 >= pa[family]["full_output_f1"])
-        strict |= b[family]["full_output_f1"] > a[family]["full_output_f1"] + 1e-12
-    return {"accepted": bool(current_ok and prior_ok and strict and full_current_ok and full_prior_ok),
+    full_current_ok = b[family]["full_output_f1"] + 1e-12 >= a[family]["full_output_f1"]
+    full_prior_ok = (family not in pa or
+                     pb[family]["full_output_f1"] + 1e-12 >= pa[family]["full_output_f1"])
+    fields = ("negative_or_unscored_asset_claims", "invalid_format")
+    current_audit_ok = all(b[family][k] <= a[family][k] for k in fields)
+    prior_audit_ok = family not in pa or all(pb[family][k] <= pa[family][k] for k in fields)
+    strict |= (b[family]["full_output_f1"] > a[family]["full_output_f1"] + 1e-12
+               or any(b[family][k] < a[family][k] for k in fields))
+    return {"accepted": bool(current_ok and prior_ok and strict and full_current_ok and full_prior_ok
+                             and current_audit_ok and prior_audit_ok),
             "current_nonregression": current_ok, "prior_nonregression": prior_ok,
             "strict_current_improvement": bool(strict),
             "current_full_output_nonregression": full_current_ok,
-            "prior_full_output_nonregression": full_prior_ok}
+            "prior_full_output_nonregression": full_prior_ok,
+            "current_negative_asset_and_format_nonregression": current_audit_ok,
+            "prior_negative_asset_and_format_nonregression": prior_audit_ok}
 
 
 def legal_scope_admission(coordinates, parent_current, candidate_current, parent_prior, candidate_prior):

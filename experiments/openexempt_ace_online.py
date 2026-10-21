@@ -200,9 +200,8 @@ class ACEOnline:
     def train_solved(record):
         score = record["score"]
         return (record["parse_error"] is None and not score["invalid_format"]
-                and score["f1"] >= 1 - 1e-12
-                and not score.get("officially_unscored_predicted_claims", 0)
-                and (record["family"] != "EV" or score["full_output_f1"] >= 1 - 1e-12))
+                and score["full_output_claim_fp"] == 0
+                and score["full_output_claim_fn"] == 0)
 
     def update(self, rows, observations, controls):
         parent, reflections, all_tags, trajectories = self.playbook, [], [], []

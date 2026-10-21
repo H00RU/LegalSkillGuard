@@ -197,15 +197,16 @@ def evaluate(row, answer, target):
         [{"uid": uid, "target": target}], [None], logger)
     if not all(math.isfinite(result[key]) for key in ("precision", "recall", "f1")):
         raise ValueError("Nonfinite official score; never replace it with a fabricated value")
-    # The unchanged official macro scorer visits target asset keys only. Expose
-    # all predicted claims outside that traversal; never silently call them safe.
-    ignored, full_output = {}, {}
+    # Native EC also assigns zero to an empty target asset regardless of extra
+    # citations. Keep native scores intact and audit complete outputs for BOTH
+    # tasks, including negative assets and entirely negative cases.
+    ignored, full_output, negative_asset_claims = {}, {}, 0
     if isinstance(answer, dict) and not result["invalid_format"]:
         normalized = {k.strip().lower(): v for k, v in answer.items()}
         matched = {evaluator._find_matching_asset_description(k.strip().lower(), list(normalized))
                    for k in target}
         ignored = {k: len(v) for k, v in normalized.items() if k not in matched and v}
-        if row["family"] == "EV":
+        if row["family"] in ("EC", "EV"):
             Claim = upstream("source.pydantic_response").Claim
             used, tp, fp, fn = set(), 0, 0, 0
             for key, claims in target.items():
@@ -213,24 +214,35 @@ def evaluate(row, answer, target):
                 predicted = normalized[match] if match is not None and match not in used else []
                 if match is not None:
                     used.add(match)
-                _, recall, _, _ = evaluator._compute_precision_recall_f1_mare_scores(
-                    [Claim(**v) for v in predicted], [Claim(**v) for v in claims])
-                correct = round(recall * len(claims))
+                if not claims:
+                    negative_asset_claims += len(predicted)
+                if row["family"] == "EC":
+                    actual = {v.strip().lower() for v in predicted}
+                    expected = {v.strip().lower() for v in claims}
+                    correct, predicted_count, target_count = (
+                        len(actual & expected), len(actual), len(expected))
+                else:
+                    _, recall, _, _ = evaluator._compute_precision_recall_f1_mare_scores(
+                        [Claim(**v) for v in predicted], [Claim(**v) for v in claims])
+                    correct = round(recall * len(claims))
+                    predicted_count, target_count = len(predicted), len(claims)
                 tp += correct
-                fp += len(predicted) - correct
-                fn += len(claims) - correct
-            fp += sum(len(v) for k, v in normalized.items() if k not in used)
+                fp += predicted_count - correct
+                fn += target_count - correct
+            fp += sum((len({c.strip().lower() for c in v}) if row["family"] == "EC"
+                       else len(v)) for k, v in normalized.items() if k not in used)
             precision, recall, f1 = evaluator._precision_recall_f1_from_outcomes(tp, fp, fn)
             full_output = {"full_output_f1": f1, "full_output_precision": precision,
                            "full_output_recall": recall, "full_output_claim_tp": tp,
                            "full_output_claim_fp": fp, "full_output_claim_fn": fn,
                            "secondary_all_claim_micro_within_case_not_original_macro_F1": True}
-    if row["family"] == "EV" and not full_output:
+    if not full_output:
         full_output = {"full_output_f1": 0.0}
     return {**result, "exact_target": answer == target,
             **full_output,
             "officially_unscored_predicted_claims": sum(ignored.values()),
             "officially_unscored_predicted_assets": ignored,
+            "negative_target_asset_predicted_claims": negative_asset_claims,
             "official_evaluator_commit": COMMIT}
 
 
@@ -247,8 +259,10 @@ def metrics(records):
         result[family]["invalid_format"] = sum(r["score"]["invalid_format"] for r in rows)
         result[family]["officially_unscored_predicted_claims"] = sum(
             r["score"].get("officially_unscored_predicted_claims", 0) for r in rows)
-        if family == "EV":
-            result[family]["full_output_f1"] = sum(
-                r["score"].get("full_output_f1", r["score"]["f1"]) for r in rows) / len(rows)
+        result[family]["full_output_f1"] = sum(
+            r["score"]["full_output_f1"] for r in rows) / len(rows)
+        result[family]["negative_or_unscored_asset_claims"] = sum(
+            r["score"]["negative_target_asset_predicted_claims"]
+            + r["score"].get("officially_unscored_predicted_claims", 0) for r in rows)
     result["mean_family_f1"] = sum(v["f1"] for v in result.values()) / len(result) if result else 0
     return result

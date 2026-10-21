@@ -29,6 +29,30 @@ def row(family="EV"):
 BOOK = INITIAL_PLAYBOOK + "\n[misc-00001] helpful=0 harmful=0 :: inspect actual public conditions"
 
 
+@pytest.mark.parametrize("family", ["EC", "EV"])
+@pytest.mark.parametrize("positive_asset", [False, True])
+def test_native_TRAIN_success_handles_negative_assets_without_unnecessary_regeneration(
+        family, positive_asset):
+    from experiments.openexempt_ace_online import ACEOnline
+    from legal_skill_guard.openexempt import evaluate
+
+    source = {"case_id": 1, "family": family}
+    law = "11 U.S.C. § 522(d)(5)"
+    claim = law if family == "EC" else {"citation": law, "claim_value": 100}
+    target = {"ineligible property": []}
+    if positive_asset:
+        target["eligible property"] = [claim]
+    good = {"family": family, "parse_error": None, "score": evaluate(source, target, target)}
+    if family == "EC" or not positive_asset:
+        assert good["score"]["f1"] < 1
+    assert ACEOnline.train_solved(good)
+    bad = {**target, "ineligible property": [claim]}
+    assert not ACEOnline.train_solved(
+        {"family": family, "parse_error": None, "score": evaluate(source, bad, target)})
+    assert not ACEOnline.train_solved(
+        {"family": family, "parse_error": "invalid", "score": evaluate(source, None, target)})
+
+
 @pytest.mark.parametrize("direct", [False, True])
 def test_ace_generator_keeps_native_bullet_reporting_without_hidden_prior_or_target(direct):
     source = row()
