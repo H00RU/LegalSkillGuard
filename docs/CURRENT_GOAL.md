@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-状态快照：2026-10-21 Asia/Shanghai 13:12:24。Goal active，完整论文目标未完成。
+状态快照：2026-10-21 Asia/Shanghai 13:30:37。Goal active，完整论文目标未完成。
 先核真实PID/start ticks和实际argv，再读progress；状态文件/锁或本索引不单独证明存活。
 旧Run02及旧等待器不得恢复。其历史完整保留，当前唯一主训练为下述Run03。
 
@@ -22,8 +22,9 @@
 - unit：legal-openexempt-closed-feedback-public-assets128-20261021-run03.service。
 - PID1721740/start455413980，09:53:42启动；11:57:46已完成B1唯一最终发布和
   真实B1冻结快照，11:57:47自动接B2。13:07:11已完成B2全部新案首遇并进入教师；
-  13:12:24同PID/start仍在，157次真实生成、3次教师响应，b2_candidate1_replay，
+  13:30:37同PID/start仍在，167次真实生成、3次教师响应，b2_candidate1_replay，
   当前已发布库仍5条/1591tokens。没有重启或沿用旧好库。
+  第一候选已完成15/64任务重放，source188；完整决策和B2最终发布尚不存在。
   12:30原main/model/waiter PID/start ticks、371/117/381绑定及50packages均保持。
 - B1全部160逻辑首遇为32真实调用和128精确请求复用，原EC/EV63.44990/66.35417%。
   两轮TRAIN修订后实际发布库的本批重放83.24901/80.78621%，不是新案/TEST分数。
@@ -53,6 +54,8 @@ packet data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.
 SHAef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45。
 2–4资产、五州、夫妻比例0.5、给定AE、无额外干扰，不是官方Advanced原配置。
 EC识别法条，EV直接输出法条/金额；一源两任务不算两个独立数据集。
+此前Run02已运行相同TRAIN前三批及部分B4；当前学习器从空库重启，首遇/新案仅指
+本Run学习器尚未见到，不是研究者未见，不构成独立重复或隔离泛化证据。
 律师的actor_payload/direct_case_input AST、数据和生成配置已对旧源核验不变。
 无EC→EV串联、解释器、第二模型、答案修补或fallback，operators仍为空。
 
@@ -237,6 +240,13 @@ B2首遇/真实教师输入与提案检查点共302成员已于13:14:16双盘逐
 设备64528/64517；前后371主源/381接续pins保持。未把活跃progress或账本打进归档。
 收据Run03_B2_complete160_actual_teacher64_checkpoint_preservation_20261021.json。
 
+13:30额外核B2已完成首遇的真实推理预算，不增加生成：32组成对实际请求除messages
+外全部字段一致，输出上限8192不变。按各角色32个唯一原始响应计，空库203883输入/
+74438输出，技能212966输入/79593输出；实际多9083输入/5155输出，输出+6.92523%。
+这些是分角色对照核算，联合真实来源仍只有60，4个完全相同请求共享，不能将两组
+token相加当联合实际支出；同预算上限不等于同实际计算量。按原生分和真实开销
+共同报告，不据此断言收益的唯一来源。成本证据并入13:30实际小时快照。
+
 独立IID128 TEST和官方HF TEST语义/预测/评分仍未打开。最终方法、可信经验/静态
 对照、三次学习、两机制消融、真实末库矩阵和统计实现固定后才统一评测。
 分析计划research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md，主要EC/EV与最低
@@ -255,8 +265,15 @@ B2相对强空库有新案净益，但在线本来就等于固定B1，不据这�
 自身EC预测给EV的假设早在10/20只读分析中出现，当前48源正法条集合一致但题面
 非字节一致；尚无干预。不得把它当新发现、偷偷用Gold start3或直接替换当前任务。
 
-最近小时计划12:30、实际12:30:57.860741，延后58秒，下一13:30 Asia/Shanghai。
+最近小时计划13:30、实际13:30:37.166062，延后37秒，下一14:30 Asia/Shanghai。
 每小时按生效补充的五项核方向/技能/证据缺口/局部循环/下一动作，不把token当时间。
+13:30主/静态/接续371/117/381绑定及50packages不变，真实三个原进程句柄仍在；
+账本354预约/天花板1797，旧350前缀未改，ACE目标仍未freeze或训练。本轮主要是
+同句柄verified wait，另完成已落盘B2真实预算/成本核算，不冒充新的性能实验。
+证据hourly1330_Run03_B2_C1_alive_actual_inference_budget_and_cost_20261021.json。
+该小时快照/成本重算程序、当前索引及上一B2完整检查点收据共3成员已双盘保全，
+两archive均85128affe27718f41616496b7144ebcd31dc3dedb6da28754e8df34d94ab5374。
+收据hourly1330_actual_inference_cost_checkpoint_preservation_20261021.json。
 后台systemd不依赖对话在线，观察器不是独立唤醒调度产品。Goal继续active，未完成。
 上一Goal续接为progress：实际完成B1发布/自己的B1快照、完整成本和706成员保全。
 本次为progress：核实完整B2新案净益和实际64任务教师反馈，跟到自然5项CRUD
