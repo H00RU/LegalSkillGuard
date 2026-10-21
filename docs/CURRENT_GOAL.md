@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-状态快照：2026-10-22 Asia/Shanghai 05:30，六批首遇、五次唯一发布已复核；B6 C1完整192任务/576记录位审计完成，仅EV联邦连通组被实际接收，临时库6条/2202tokens；C2的WI EV新规则候选已完成133/192回放任务，均stop/零解析错，B6尚未唯一发布。用户原生Resume后已读回Goal active，
+状态快照：2026-10-22 Asia/Shanghai 05:55，六批首遇及六次唯一发布已复核；B6最终6条/2202tokens，仅更新FED/PA EV，C2的7条WI提案实际有害被拒，未覆盖C1已接收收益；原进程已自动进入B7首遇，尚无完整B7分数。用户原生Resume后已读回Goal active，
 沿用原目标，未重建或缩减。完整论文目标未完成。
 先核真实PID/start ticks和实际argv，再读progress；状态文件/锁或本索引不单独证明存活。
 旧Run02及旧等待器不得恢复。其历史完整保留，当前唯一主训练为下述Run03。
@@ -126,6 +126,52 @@ root SHA 247884c7eff531004a847ea97e1a4c5f7537809162daa837344abf47e6bf8f82。
 共1332成员已双盘逐成员校验保全；原三句柄/371与381绑定/50packages保持。
 收据hourly0530_C2_WI_actual_delivery_and_complete_C1_checkpoint_preservation_20261022.json。
 05:31:59只读30589仍见C2至253、859真实生成/12教师，未出完整决定或B6发布。
+
+### B6唯一最终已发布，B7原进程首遇中
+
+30589于05:43:14见C2完整决定和B6唯一发布后正常退出0，不得再轮询。
+完整C2审计20209亦正常完成；C1父/7条提案/实际保留共576记录位重新解码、
+评分和核准入一致。C2实际本批EV90.53819→88.80208%、旧91.12632→90.09110%，
+均退化，全部96个EV任务2好7坏87平，故拒收不只是“旧案零容忍过严”。
+17新增原始生成/17HTTP均stop，117823input/58127output，其余精确请求复用，
+无格式错。7条/2395tokens是拒收提案，不能写成发布库数量或实际库token数。
+完整报告Run03_B6_candidate2_complete192_all576_native_wire_gate_and_claim_failure_diagnostics_20261022.json。
+
+05:42:43.733110唯一B6最终bank8de3660c089acb139d048826658b74a698936683a3a37dc16a8f14679feca218，
+精确等于C1已接收的6条/2202tokens。相对入批B5，净CREATE/DELETE均0，
+只UPDATE federal-independent-wildcard-and-caps与pennsylvania-general-monetary-alternative
+的EV指导，EC全量逐字保留。原B5到最终当前/旧案完整门槛亦独立复算通过。
+最终本批TRAIN重放EV仍90.53819%、旧91.12632%；首遇曲线B6 EV仍83.43502%，
+所有前六批首答分数未动，只补上真实第六次发布。固定快照
+Run03_learning_curve_complete_first6_and_unique_B6_final_snapshot_20261022.json。
+
+WI目标边界已逐项核：227汽车4000→6825等于目标，但该案总F1由0.65→0.625；
+271仍4000而非目标16000，整案11/12→0.75。其输出推理确实读到16000指导，
+随后错误解释“各资产-豁免独立”而推翻，5392/8192正常stop；不是没投递或
+原生截断。自述推理不证明唯一内部因果。C2联邦(d)(5)漏13→21、(d)(3)金额错
+11→16，体现一个新规则影响同案其他声明，必须保留所有副作用而非只报227修复。
+完整全部2好7坏及目标金额、B7投递和成本证据见
+Run03_B6_unique_final_bank_C2_WI_target_claim_fixes_side_effects_B7_delivery_and_complete865_cost_20261022.json。
+
+B7来源277的EC/EV全部10输入已核实际6条最终库和空库/B1控制，未泄漏被拒WI
+指导；没有读取B7部分分数或标签。当前B7完整首答尚未落盘，不能填首批片段成绩。
+截至B6的865实际生成/865HTTP均stop，5745901input/2433957output；12新鲜教师
+2560469input/43914output，其中30135reasoning已含在output，合计976.677秒
+教师响应不是GPU小时。不含B7进行中、静态编译、早前研究/失败和部署成本。
+
+05:51:09新只读观察session47884跟原B7两份完整首答制品，原三句柄实际存活，
+当时至278、872原始生成/12教师。观察期限08:51:09不是训练期限；原main/
+model/ACE等待器均未重启。06:30再做一次方向核对，后续先核B7新案迁移，
+再走B7/B8及原ACE45接续，不因候选拒收单独重启或改方法。
+05:56:29完整B6终态检查点已双盘逐成员字节核验：2861成员，含原371文件
+冻结源码/数据、截至B6全部865真实生成及12教师请求/响应/缓存、两轮完整
+576记录位审计、唯一6条最终库、拒收7条候选及其全部正负效果、六批固定
+首答快照和论文证据状态表。收据
+Run03_B6_two_complete_candidates_final_EV_updates_B7_delivery_and865_cost_preservation_20261022.json。
+vdb SHA 535f6581156c7e1dd202b3d7b062e742bf1888f26ce313dbef7d3dce1e29bea3；
+root SHA a8e2a520dbef7f3e9cb86da4d9b4cc516cb3682c7177ad37751074d90b7f459e。
+保全前后原三句柄、371/381绑定与50packages保持。47884于05:57:09仍见
+B7原进程至279、876生成/12教师，尚未完整首答；无额外模型/教师/TEST调用。
 
 最新完整首遇为B6，入批实际库仍为B5 C2的6条/2182tokens；完整六批曲线见
 Run03_learning_curve_complete_prequential_batches_20261021.json及
