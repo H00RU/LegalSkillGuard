@@ -79,6 +79,10 @@ Run03，B1至B3已完成，正在B4首次遇案。B3候选拒收后NOOP，实际
 证据为同目录`Run03_B3_candidate1_complete96_all288_native_wire_gate_and_claim_failure_diagnostics_20261021.json`
 及`Run03_B3_teacher2_actual64_labels_rejected_feedback_NOOP_and_unique_final_parent_retained_20261021.json`。
 第4批实际首源229已核收到保留的B3库，无拒收候选泄漏；完整批次成绩待生成。
+同一C1报告还逐字核了实际投递：205 EV中的宾州指导在父/提案请求间完全相同，
+8B却反称指导排除不动产/乐器，与“资格不依赖类别、不要漏掉”的原文相反。
+这是执行失误的可复核见证，不是“负面指令字段导致退化”的因果证明；其他共同输入
+同时改变，尚未实施对该表示假设的独立干预。
 
 以下为历史v13机制记录，原文字与数字保留供核查。
 
