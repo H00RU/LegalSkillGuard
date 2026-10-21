@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-更新：2026-10-21 Asia/Shanghai 10:07。Goal active，完整论文目标未完成。
+更新：2026-10-21 Asia/Shanghai 10:59。Goal active，完整论文目标未完成。
 先核真实PID/start ticks和实际argv，再读progress；状态文件/锁或本索引不单独证明存活。
 旧Run02及旧等待器不得恢复。其历史完整保留，当前唯一主训练为下述Run03。
 
@@ -20,8 +20,11 @@
 - 项目：/media/sangfor/vdb/legal-skill-evolve；用户入口/home/yndx/hhy/legal-skill-current。
 - 主Run：legal_openexempt_closed_feedback_public_assets128_20261021_run03。
 - unit：legal-openexempt-closed-feedback-public-assets128-20261021-run03.service。
-- PID1721740/start455413980，09:53:42启动；10:07亲核活跃，B1首遇9次真实生成，
-  0教师/0条技能；没有本轮完整批次分数。三个相同空库角色和精确缓存不是独立重复。
+- PID1721740/start455413980，09:53:42启动；10:48亲核身份及真实argv，10:56已完成
+  49次真实生成、1次教师响应。B1全部160逻辑首遇为32真实调用和128精确请求复用，
+  EC/EV原F1为63.44990/66.35417%，五个空库角色实际请求、答案和分数均核对相同。
+  全部首遇在教师请求前保存。当前b1_candidate1_replay，候选未完成/未发布，线上库0
+  不等于教师没生成技能；不把当前部分重放分数报作完整候选或新案收益。
 - 配置configs/openexempt_closed_feedback_public_assets128_20261021_run03.json，
   SHA8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e。
 - frozen清单371文件，SHA2cc50e6cfe05fb42c230aba570eb43e9fcd41c3287011f77de8291fd89418825。
@@ -34,7 +37,8 @@
 
 实时入口：本Run的progress.json、batches/、candidates/、publications/。
 NCCL警告曾与真实持续生成并存，不据警告或观察超时重启模型/训练。
-旧观察会话36819已在B3发布后退出，不复活；当前无长期只读观察会话。
+旧观察会话36819及17852已结束，不复活；当前只读会话45630等待B1候选1完整决策，
+每轮核PID/start ticks，观察超时不等于主训练退出，不能据此重启。
 
 ## 当前方法与修复边界
 
@@ -60,6 +64,14 @@ EC识别法条，EV直接输出法条/金额；一源两任务不算两个独立
 一次可多项CREATE/UPDATE/DELETE/MERGE或NOOP；库总4096tokens，不强迫增长。
 所有已见TRAIN重放/原始请求组合覆盖和每批一次最终发布保留，没有验证集。
 自身B1控制固定第一次最终发布，只评测，不送教师/准入，不取第一非空或最佳库。
+
+B1教师1于10:39:05返回5 CREATE，父库为空，候选hash25eec0b9ecfdf02a4ca7210e422d73614fb252c2bd9f132eacaf86d1f629181e。
+已逐项核32任务的原TRAIN目标、父/空库答案、原分数/完整输出/负资产计数和真实
+推理尾部；全部确实送达教师，不含未来源。输入123777/output4277 tokens、93.05秒，
+reasoning2514为output子集；1次新鲜响应，无工具事件。10:56已核16个完成候选请求
+的实际技能投递、原始messages/schema和不变解码；不把投递等同于遵循或有效。
+五记录分别FEDERAL/OREGON/PENNSYLVANIA/ILLINOIS/ARIZONA，均EC+EV且operators空。
+证据Run03_B1_teacher1_full32_actualfeedback_partial_delivery_20261021_1056.json。
 
 ## 为什么停止旧Run02，旧结果如何使用
 
@@ -90,7 +102,7 @@ InterruptedError('Operator stop at artifact-safe boundary')，不是服务崩溃
 ## 真正后台等待的ACE
 
 - unit legal-openexempt-main128-run03-to-ace128-20261021-run02.service。
-- PID1738522/start455481667，10:04:59启动；10:07已核真实argv、queued与双盘收据。
+- PID1738522/start455481667，10:04:59启动；10:48已重核真实argv，尚未exec为ACE。
 - script artifacts/launches/openexempt_main128_run03_to_ACE128_20261021.py。
 - 制品目录artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/。
 - 381 source/data/environment pins不热改；目标ACE128尚未freeze或训练。
@@ -105,7 +117,8 @@ InterruptedError('Operator stop at artifact-safe boundary')，不是服务崩溃
 ACE仍原生Generator/Reflector/ADD Curator与最多三轮TRAIN反思，不用本方法准入。
 只修TRAIN成功判定为合法解析且完整FP=FN=0，正确负例不再因原F1<1无谓重答。
 ACE8192库较本方法4096大、实际训练调用不同，不称等总计算或完整作者默认复现。
-当前账本1797、历史下界1225及350预约未重置。3349只在完整终态后扩，不是实际消耗。
+当前账本1797、历史下界1225未重置；10:56为352预约，旧350条前缀hash逐字节保持。
+3349只在完整终态后扩，不是实际消耗。
 
 | 后续配置 | 真实状态 | 未来累计教师天花板 |
 |---|---|---:|
@@ -121,11 +134,19 @@ ACE8192库较本方法4096大、实际训练调用不同，不称等总计算或
 
 ## 论文和下一步未完成项
 
-静态盲法条Run02仅旧源零案件编译，6记录2425tokens，没有性能。若新源绑定不兼容，
-须零案件重新编译Run03，保留失败/两版成本，不按成绩选库。
+静态盲法条已于10:28:02完成新源Run03零案件编译，7记录2411 Qwen tokens，
+bank4809c3b2fe336a682ad36544f036206f158c0890adad4e87bde6eb4fa6502321。
+117绑定/50packages和实际公共输入已核，不含案件、标签、轨迹、旧库；与旧静态02
+实际SYSTEM、公共输入、schema、model/effort相同，只因共享源epoch变更而重新编译。
+三次静态响应含首次结构失败均保留，总56256 input/10248 output tokens、211.898秒。
+全部仍无8B预测/性能，不按成绩选库，不进入主方法。新静态终态6成员已双盘保全。
 最终评测/统计实现还在隔离worktree .venv/evolution-control-20261020.qLon9T，
-HEAD6caec6ca6036c111fff91a9804e06941001f78cb，未部署；须适配新完整输出字段与新
-静态绑定后再最终核验，不热合并当前371/381绑定代码/测试。c99排序修复也未部署。
+HEAD3f0356d，未部署。已同步当前6896246执行/评分源，既有端到端检查扩为正确空
+负资产/误引两种情形，原分与完整EC/EV分别保留；43个评测检查及共111项相关CPU
+检查通过，ruff通过，未产生GPU/教师/TEST调用。隔离worktree未跟踪官方cache，
+测试命令显式解析到既有固定版本官方依赖，保留最初缺依赖及symlink-origin失败。
+未来须以真实完整末库固定矩阵；不热合并当前371/381绑定代码/测试。c99排序修复
+也未部署。静态完成不等于完成对比，CPU检查不等于论文实验。
 
 独立IID128 TEST和官方HF TEST语义/预测/评分仍未打开。最终方法、可信经验/静态
 对照、三次学习、两机制消融、真实末库矩阵和统计实现固定后才统一评测。
@@ -139,9 +160,11 @@ SkillCommit已有标签辅助修复/源重放，不能当原创或拿不同配�
 自身EC预测给EV的假设早在10/20只读分析中出现，当前48源正法条集合一致但题面
 非字节一致；尚无干预。不得把它当新发现、偷偷用Gold start3或直接替换当前任务。
 
-最近小时计划09:30、实际09:35:31.997，下一10:30 Asia/Shanghai。
+最近小时计划10:30、实际10:32:25.217811，延后145秒，下一11:30 Asia/Shanghai。
 每小时按生效补充的五项核方向/技能/证据缺口/局部循环/下一动作，不把token当时间。
 后台systemd不依赖对话在线，观察器不是独立唤醒调度产品。Goal继续active，未完成。
+上一状态答复按verified wait计，不当方法进展；本轮新增真实32反馈/16投递核验和
+当前评分源下的隔离评测兼容证据，不重定义完整论文目标。
 
 旧索引完整归档：research/CURRENT_GOAL_HISTORICAL_Run02_through_20261021_1007.md；
 更早1204行与9月27日起可追溯记录按旧归档链保留，不把历史游标当当前状态。
