@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-状态快照：2026-10-22 Asia/Shanghai 02:36，六批首遇、五次唯一发布已复核，B6候选1原进程重放至205；42条完整候选回答健康，六批真实首答进度图已渲染检查。用户原生Resume后已读回Goal active，
+状态快照：2026-10-22 Asia/Shanghai 02:41，六批首遇、五次唯一发布已复核，B6候选1原进程重放至207；六批真实首答进度图已核34点并与本轮诊断558成员双盘保全。用户原生Resume后已读回Goal active，
 沿用原目标，未重建或缩减。完整论文目标未完成。
 先核真实PID/start ticks和实际argv，再读progress；状态文件/锁或本索引不单独证明存活。
 旧Run02及旧等待器不得恢复。其历史完整保留，当前唯一主训练为下述Run03。
@@ -531,6 +531,16 @@ artifacts/research/learning_curves_20261022/Run03_B1_B6_prequential/ 下的SVG�
 DejaVu Serif。专用paper/figures/render_run03_prequential.py只用现有系统Rsvg/Cairo，
 没有安装包、改冻结环境或调用模型；不是另一套训练/测试框架。正式ACE/静态及
 隔离TEST仍未出结果，不把内部进度图当论文完整结果。
+02:39另逐点核全部34点及PNG6000x2700、矢量PDF10x4.5英寸、源与输出hash，
+与已查看图一致。02:41:39将小时0230固定已完成候选前缀、实际261诊断与别名
+冗余证据、三种进度图/源数据/专用绘图脚本及索引共558成员逐字节双盘保存。
+收据hourly0230_C1_packet_grounding_sixbatch_progress_figure_preservation_20261022.json；
+vdb SHA4a6026999e9d6257da25501ec50c2a080a80772b5fd9ce8808436f16827e39b5，
+root SHA6ae6cb68c88b9ddd6887813b2752c9835e5fbd787b03fd3266c4c78781daa9bb。
+主371/等待器381绑定、50packages和原三句柄在保全前后保持。源码提交dd1f6f8
+只增加离线绘图交付及文档，没有修改6896246学习器。02:41原13163确认C1来源207、
+740native/11教师，仍未出完整C1或B6发布。观察约04:47到期仅代表观察期限；若
+届时完整C1仍无、原主进程存活，应续接观察，绝不能据此重启训练。下一小时03:30。
 
 ## 当前方法与修复边界
 
