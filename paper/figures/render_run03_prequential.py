@@ -88,7 +88,8 @@ def svg_document(data):
         if data["through_batch"] < 8:
             start = px(data["through_batch"] + 0.5)
             parts.append(f'<rect x="{start:.3f}" y="{top}" width="{left+width-start:.3f}" height="{bottom-top}" fill="#f4f4f4"/>')
-            text((start + left + width)/2, 242, f'B{data["through_batch"]+1}-B8', 14, "middle", "#626262")
+            pending_label = "B8" if data["through_batch"] == 7 else f'B{data["through_batch"]+1}-B8'
+            text((start + left + width)/2, 242, pending_label, 14, "middle", "#626262")
             text((start + left + width)/2, 265, "pending", 14, "middle", "#626262")
         text(left, 109, title, 18)
         for value in range(0, 101, 20):
