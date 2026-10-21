@@ -1,6 +1,6 @@
 # 论文证据与完成条件
 
-当前索引更新：2026-10-21 21:33 Asia/Shanghai。当前唯一主训练为128来源、八批的
+当前索引更新：2026-10-21 21:45 Asia/Shanghai。当前唯一主训练为128来源、八批的
 Run03，B1至B4首次遇案和四次唯一最终发布已复核，B4仅EV部分修改发布，原进程进入B5。B3候选拒收后NOOP，
 B4首答实际使用保留的B2/B3同一6条库，不能归因于B4尚未发布的技能。
 对应方法草稿为`manuscript_v1_20261021.md`。
@@ -138,6 +138,24 @@ EC本批原F1 83.85417→84.37500%、旧48来源86.83284→87.52728%，完整输
 21:27:05唯一B4发布仍为实际C1部分组合7ced，6条/2179tokens，只净改AZ EV。
 原进程已进入B5，后续新案收益未知。证据
 `Run03_B4_candidate2_complete128_all384_native_wire_gate_and_unique_final_publication_20261021.json`。
+
+同一候选的进一步已完成TRAIN诊断只改变宾州EV技能块，EC及其他技能不变；128个
+实际公开上下文中仅14个宾州EV请求变化，其余复用相同原始回答。宾州金额错10→5，
+联邦金额错14→19；宾州漏引12→9，但额外引用1→5，联邦漏引38→39。因此局部条款
+修正伴随其他法条执行干扰，不能只以旧案门槛过严解释本次结果。该固定seed
+条件对照不证明唯一词句机制、独立学习稳定性或未来泛化。教师2实际64任务父观察/
+标签及两组各8失败见证已逐项核同，不能用未送达正确答案解释这些已提供的案例。
+证据`Run03_B4_C2_single_PA_EV_edit_cross_law_amount_interference_and_B5_actual_delivery_20261021.json`
+及`Run03_B4_teacher2_actual64_labels_C1_partial_parent_two_feedback_sets_and_rejected_C2_20261021.json`。
+
+### 截至B4的实际成本，不是最终整项目成本
+
+实际505次原始8B生成/505HTTP，3352274input和1414064output tokens；其中首次
+作答233次、候选重放272次。八次教师响应为1658190input、32631output tokens、
+732.575秒；21969 reasoning tokens已包含在output，不重复相加。逻辑复用不计作
+新生成；静态编译、此前失败运行、进行中B5及最终TEST须另记，不能据这些数字
+宣称整个研究总量或与ACE实际训练计算相同。证据
+`Run03_complete_B1_B4_actual505_native_and8_teacher_costs_not_historical_budget_20261021.json`。
 
 以下为历史v13机制记录，原文字与数字保留供核查。
 
