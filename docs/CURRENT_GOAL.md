@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-状态快照：2026-10-21 Asia/Shanghai 19:30:15。用户原生Resume后已读回Goal active，
+状态快照：2026-10-21 Asia/Shanghai 20:30小时核对（实际时间见快照）。用户原生Resume后已读回Goal active，
 沿用原目标，未重建或缩减。完整论文目标未完成。
 先核真实PID/start ticks和实际argv，再读progress；状态文件/锁或本索引不单独证明存活。
 旧Run02及旧等待器不得恢复。其历史完整保留，当前唯一主训练为下述Run03。
@@ -37,7 +37,7 @@
   自身B1仍为首次真实发布的5条/1591tokens，没有挑旧好库。
   19:18已核B4首源229全部10逻辑请求，实际收到保留的e984库，未泄漏拒收的7条候选。
   19:30核原main/model/ACE等待器PID/start ticks和实际argv均保持，371/117/381
-  文件绑定、50packages无变化。下一小时方向核对20:30。
+  文件绑定、50packages无变化。20:30复核同样保持，下一小时方向核对21:30。
 - B1全部160逻辑首遇为32真实调用和128精确请求复用，原EC/EV63.44990/66.35417%。
   两轮TRAIN修订后实际发布库的本批重放83.24901/80.78621%，不是新案/TEST分数。
   最终bank574af7a6d3a5f155d45aebeefb7f620884cbe557a2e5f91914bbfdd3f2eb5118。
@@ -136,6 +136,15 @@ B3首次新案的正收益来自B2更新，不来自B3候选。三批首遇/三�
 后续先等两份完整首遇制品，再复核与空库/自身B1的配对迁移；不能因拒收/NOOP单独重启。
 19:30小时证据hourly1930_Run03_B3_NOOP_final_B4_forward_alive_and_bindings_20261021.json，
 下一核对20:30。完整128案、真实ACE/静态对比、独立重复、消融和隔离TEST仍未完成。
+20:30方向核对已完成，仍为原main/model/ACE等待器句柄，下一核对21:30。
+本小时新增的是实际轨迹/教师信号和候选归因诊断，以及隔离副本七配置重绑，
+不是新性能优化或已完成重复实验。B4尚在首答，完整分数待两份制品齐全后复核。
+快照hourly2030_Run03_B4_forward_alive_teacher_signal_credit_and_bindings_20261021.json。
+实际20:32:13快照为150/160首答、来源244、459 native/6教师，所有66个已引用
+原始wire均stop且零格式错；371/117/381绑定、50packages、357/1797账本和旧350
+预约前缀均保持，ACE45未开始。本小时最新C1完整诊断（含推理裁剪和归因分解）、
+方向快照及前瞻重绑收据共10成员双盘保全，原580成员raw另有收据引用。
+收据hourly2030_B4_forward_teacher_signal_edit_credit_preservation_20261021.json。
 19:33将真实NOOP响应/输入、唯一B3发布、修正曲线、C1事后诊断、B4首案投递和
 19:30快照共143成员双盘逐字节保全，371/381绑定前后保持；不含B4部分成绩或
 活动progress/ledger。收据Run03_B3_actual_NOOP_final_B4_first_delivery_hourly1930_preservation_20261021.json。
