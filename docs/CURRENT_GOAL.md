@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-状态快照：2026-10-22 Asia/Shanghai 01:44，六批首遇、五次唯一发布已复核，B6首次新案出现实际修订迁移；原进程正在B6候选1训练重放。用户原生Resume后已读回Goal active，
+状态快照：2026-10-22 Asia/Shanghai 01:47，六批首遇、五次唯一发布已复核，B6首次新案出现实际修订迁移并完成503成员双盘保全；原进程正在B6候选1训练重放。用户原生Resume后已读回Goal active，
 沿用原目标，未重建或缩减。完整论文目标未完成。
 先核真实PID/start ticks和实际argv，再读progress；状态文件/锁或本索引不单独证明存活。
 旧Run02及旧等待器不得恢复。其历史完整保留，当前唯一主训练为下述Run03。
@@ -490,6 +490,15 @@ Run03_B6_teacher1_actual64_labels_B5_final_parent_previous_rejected_feedback_and
 01:33小时0130的固定已完成input/answer/raw及索引392成员已逐字节双盘保全，
 两盘archive SHA均06843e6ab561acc75d4d12068eb7cdea49e3f4df0e7f96f45912e38a624abcc6。
 收据hourly0130_B6_last_source_actual_HTTP_preservation_20261022.json。
+01:47:18完整B6首遇、80原始wire、两个已声明适用范围的全部新案、真实教师64
+标签/来源/反馈、六批曲线及索引/源共503成员已逐字节双盘保全；收据
+Run03_B6_complete160_actual_IL_AZ_transfer_teacher64_checkpoint_preservation_20261022.json。
+vdb SHA1d77e087a2b5a842e05a9cfa85725551e4027575c37bc93e998e4bcdb9783bb9，
+root SHAb6718cc201e17cdf614d6d96937e7c0b55fd0559abd11896839e8addfe8c4d70。
+原三句柄/371/381绑定在保全前后保持；01:47新只读观察13163确认C1来源184、
+703真实生成/11教师，等待唯一完整b6_candidate1.json，每45秒核原句柄。其3小时
+观察期限不是主训练期限。完整192任务/576记录槽CPU审计已复用准备，未提前执行。
+原33053、7191、60610及保全11946均已正常退出0，不再轮询；下一小时02:30。
 
 ## 当前方法与修复边界
 
