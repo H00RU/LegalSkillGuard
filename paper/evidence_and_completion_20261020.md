@@ -39,6 +39,13 @@ B4首答使用B2保留库；B5使用B4实际部分修改库，新增AZ EV在本�
 主结果、显著性、胜过成熟方法和持续进化结论继续留待真实完成证据。统计区间以实际
 学得库和固定解码为条件，不把三个学习库或EC/EV复制成更多独立来源。
 
+内部六批进度图已于10/22 02:36导出并渲染检查，非正式TEST图：
+[矢量PDF](../artifacts/research/learning_curves_20261022/Run03_B1_B6_prequential/learning_curve.pdf)、
+[高清PNG](../artifacts/research/learning_curves_20261022/Run03_B1_B6_prequential/learning_curve_600dpi.png)。
+同目录source_data_and_provenance.json绑定原始值和源hash；只画完整首遇，B1冻结
+控制从B2开始，B7/B8不填零，不加入虚构方差或训练重放。配色/字体及脚本版本
+均保留。该图展示原曲线波动，不能用其替代成熟方法、独立重复或隔离测试。
+
 ### Run03 B3完整首次遇案：当前内部开发证据
 
 | 条件 | EC F1 (%) | EV F1 (%) |
