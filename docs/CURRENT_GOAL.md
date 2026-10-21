@@ -403,6 +403,13 @@ Run03_B5_IL_EV_B1_B4_exact_control_equivalence_and_B6_actual_delivery_20261021.j
 10教师2114578input/36942output，25043 reasoning属output子集，840.494秒。不含B6、
 静态编译或其他历史失败研究成本；报告
 Run03_complete_B1_B5_actual616_native_and10_teacher_costs_not_historical_budget_20261021.json。
+00:06:57完整B5两候选、C1失败/C2实际修复、唯一发布、全部616个原始成本来源、
+教师输入/响应、语义诊断、五批曲线及B6仅输入前缀共1988成员双盘逐字节保全。
+原三句柄、371/381绑定前后保持；未混入部分B6分数或TEST。
+收据Run03_B5_two_complete_candidates_final_EV_eligibility_B6_delivery_preservation_20261021.json；
+vdb/root SHA分别3150764fa736e2da8eb5cc7f530a48d342e1e09b6140c268c4dc26c263ced0b6、
+e547231c8792ae7d374a6ad98ad3859752398829382b4931c8a514e051f4defa。
+00:08已再次读回原生Goal active，目标未缩减，当前B6观察33053继续。未标完成或阻塞。
 
 ## 当前方法与修复边界
 
