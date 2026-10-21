@@ -1,219 +1,147 @@
 # 当前Goal执行索引
 
-更新：2026-10-21 Asia/Shanghai 09:45。Goal active，尚未完成。
-
-**当前执行边界：旧Run02已于09:36:18人工工件安全停止，331 native/6教师，
-不是模型故障。旧主PID1047861及ACE等待PID1532114均已退出，不得恢复。
-单8B PID3613253/start446037091仍运行。现阶段暂无线学习训练；正在修EC零标签
-资产误引不受原宏F1惩罚的通用准入盲点，计划新Run03、同128packet从空库重跑。
-2571终态成员及388旧源绑定已在两盘独立逐字节验证后才改源码。旧Run02只能
-作开发证据，不得与修正后两次学习拼成三重复。下文旧运行段落待新入口接替，
-以本段及真实progress/terminal与stop收据为准。不得使用旧冻结配置启动新源。
-B3最终只采纳AZEC，b822、6记录2051tokens；旧完整EC降0.625pp而原EC不变，
-已保全全部288父/提案/发布请求与原始评分。B4未完成，不读取其Gold或计成绩。**
-本索引用于定位，不以旧游标、状态文件或锁单独证明进程存活；每次续接先核
-实际systemd/PID及start ticks，再读当前progress和不可变批次/发布记录。
+更新：2026-10-21 Asia/Shanghai 10:07。Goal active，完整论文目标未完成。
+先核真实PID/start ticks和实际argv，再读progress；状态文件/锁或本索引不单独证明存活。
+旧Run02及旧等待器不得恢复。其历史完整保留，当前唯一主训练为下述Run03。
 
 ## 完整目标不缩减
 
-重整并持续推进法律垂直技能学习研究：以现有单实例冻结Qwen3-8B为执行者，
-证明可演化技能在后续新案及最终隔离测试上相对同工具权限、同推理预算的
-强空库和可信经验学习方法产生可复核净收益，并形成有说服力的论文证据。
-法律任务与主方法不预先锁死；优先完成OpenExempt EC/EV的连续多批机制验证，
-检验真实行为修正、训练内反例重放和技能增删改管理。候选无新案净益时查实际
-断点，不以机械单调曲线或技能数量增长为成功，也不硬拖完整无效训练。
-真正完成实现、连续学习、强对照、独立重复和隔离测试才算完成，不是单批正点差。
-继续依据当前代码、9月27日起本会话历史及师兄两个skill作实证审查，避免整库
-提示调词、换名复跑旧失败或陷入单案局部调试；历史用于追溯，当前真实状态优先。
+以单实例冻结Qwen3-8B，证明可演化法律技能在后续新案及最终隔离测试上，
+相对同权限/同推理预算的强空库、可信经验方法及自身B1库产生可复核净收益。
+优先OpenExempt EC/EV多批验证、真实行为修正、反例重放及技能增删改管理。
+不用机械单调曲线、技能增长、启动成功、单批胜空库替代完整证据。
+必须完成实现、连续学习、成熟对照、独立重复、必要消融和隔离TEST。
+数据/任务仍服务于法律论文，不因已投入时间锁死；也不遇单个负点就换名重启。
+用户补充在research/GOAL_ADDENDUM_SKILL_EVOLUTION_20261019.md，继续生效。
+师兄两个skill用于真实失效假设、公平性和成本，不采用隐瞒借鉴或预设胜出。
 
-用户追加要求见[生效补充](research/GOAL_ADDENDUM_SKILL_EVOLUTION_20261019.md)。
-其旧小时游标属于历史，以下当前入口优先。不要恢复客户路由、32B或早先旧Run。
-
-## 唯一实际训练与冻结边界
+## 当前真实运行
 
 - 项目：/media/sangfor/vdb/legal-skill-evolve；用户入口/home/yndx/hhy/legal-skill-current。
-- Run：`legal_openexempt_closed_feedback_public_assets128_20261021_run02`。
-- unit：`legal-openexempt-closed-feedback-public-assets128-20261021-run02.service`。
-- 主PID1047861，start ticks452655332，2026-10-21 02:13:55启动。
-- 模型unit：`legal-qwen3-8b.service`；PID3613253，start ticks446037091。
-  同一Qwen3-8B/bf16，revision b968826d9c46dd6066d109eabc6255188de91218。
-- 后继等待unit：`legal-openexempt-main128-to-ace128-20261021-run01.service`，
-  PID1532114/start454636337，07:44:05启动；它是等待进程，不是第二个模型或训练。
-  仅在本Run完整八批128案终态及双盘核验后接续ACE；主训练早停/失败则不接续。
-  同PID在exec后会成为ACE工作进程，须核actual argv、starting_ACE128_once及
-  目标progress；旧queued.json不能单独证明当前仍在等待。
-  若需修主链路，先核实际phase并取消尚在等待的接续，保全后再做源码转换。
-- 配置：`configs/openexempt_closed_feedback_public_assets128_20261021_run02.json`，
-  SHA00f085e343436d5028e5b81f7e1a0f5de3c4a2cb01c3d392ea0e3b04f51e1e50。
-  对应frozen清单388文件不得热改；实际学习/执行源码仍为13e67fa的绑定字节。
-  新增未绑定对照配置/文档不等于更改运行方法。模型也不重启、下载或替换。
-- 唯一canonical锁：`artifacts/openexempt_training.lock`。不与当前训练并行推理。
-  NCCL Broken pipe警告曾与真实持续生成并存；必须核实际服务/请求，不能据警告重启。
+- 主Run：legal_openexempt_closed_feedback_public_assets128_20261021_run03。
+- unit：legal-openexempt-closed-feedback-public-assets128-20261021-run03.service。
+- PID1721740/start455413980，09:53:42启动；10:07亲核活跃，B1首遇9次真实生成，
+  0教师/0条技能；没有本轮完整批次分数。三个相同空库角色和精确缓存不是独立重复。
+- 配置configs/openexempt_closed_feedback_public_assets128_20261021_run03.json，
+  SHA8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e。
+- frozen清单371文件，SHA2cc50e6cfe05fb42c230aba570eb43e9fcd41c3287011f77de8291fd89418825。
+  学习/执行代码提交6896246；后续仅文档或未绑定配置更新不等于改变算法。
+  相较旧388少的是旧启动附件、未被主运行调用的实验入口/ACE资料，不是漏掉运行依赖。
+- 单8B unit legal-qwen3-8b.service，PID3613253/start446037091，原Qwen3-8B bf16
+  revision b968826d9c46dd6066d109eabc6255188de91218；没有重启、下载或替换。
+  32768上下文/8192输出、thinking开、temp0.6/topP0.95/topK20/seed45不变。
+- canonical锁artifacts/openexempt_training.lock，不并行抢GPU或另开资格生成。
 
-实时入口是本Run的`progress.json`、`batch_summary.json`、`candidates/`及
-`publications/`，不是本索引的静态时刻。观察会话到时不是训练终止；重新核同一
-真实句柄，不因capacity提示、观察超时或旧PID记忆另启一轮。
+实时入口：本Run的progress.json、batches/、candidates/、publications/。
+NCCL警告曾与真实持续生成并存，不据警告或观察超时重启模型/训练。
+旧观察会话36819已在B3发布后退出，不复活；当前无长期只读观察会话。
 
-## 当前方法与数据
+## 当前方法与修复边界
 
-`direct_statutory_claims`版本14、`legal_scope`、`carry_partial_and_refine`。
-从空库开始，8B权重不更新；只以技能改变其后续回答。所有臂共享公开字面资产
-引用、可读法条标签、给定法域与原题面；8B自己判断适用法条和金额。
-无算式解释器、隐藏答案工具、语义修补、第二模型或fallback，operators为空。
-
-整批全部首遇预测落盘后才给教师本批TRAIN标签。教师为已有gpt-5.6-sol/high，
-每批至多两提案，可一次多项CREATE/UPDATE/DELETE/MERGE，允许明确NOOP。
-部分通过后可按真实父库继续修订；每批只作一次最终发布。整库4096 Qwen tokens。
-全已见TRAIN重放、原EC/EV和完整EV门槛、组合请求必须已有原始观测的条件不变。
-这是TRAIN优化，不是独立验证，不保证逐案/逐声明或未来无损。
-
-数据是原生OpenExempt固定构造的128来源/256项EC与EV，八批各16来源，
-ID181–308、seed2026102101。不是早先多轮咨询重构的128案，也不是两个弱模型编案。
-packet：`data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json`，
+direct_statutory_claims接口14，legal_scope，carry_partial_and_refine，从空库开始。
+同一128来源/256任务，ID181–308、seed2026102101、八批各16来源。
+packet data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json，
 SHAef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45。
-2–4资产、五州、夫妻比例0.5、给定AE法域，无额外干扰；不是官方Advanced原配置。
-EC是法条识别，EV同时给出法条及金额；同源两任务不是两个独立数据集。
-评分器和金额容差不改，夫妻上限的标注语义风险保留披露，不当作真实法律建议。
+2–4资产、五州、夫妻比例0.5、给定AE、无额外干扰，不是官方Advanced原配置。
+EC识别法条，EV直接输出法条/金额；一源两任务不算两个独立数据集。
+律师的actor_payload/direct_case_input AST、数据和生成配置已对旧源核验不变。
+无EC→EV串联、解释器、第二模型、答案修补或fallback，operators仍为空。
 
-## 已确认成绩与当前未知
+原生EC/EV precision/recall/F1与金额匹配不改。原EC在空法条目标上无论正确为空
+还是误引都得0，可能把有害修改误当原F1保持。既有完整EV审计现扩至EC；
+两任务候选分量和最终整库均保护当前/历史原F1、完整输出F1、负目标/未计分资产
+预测声明计数及格式错误计数。严格当前改善允许F1提高或上述真实错误计数减少。
+这是TRAIN优化，按群体汇总，不保证逐案/逐声明/未来无损，不替换论文主指标。
+配置中旧original_full_family_and_full_EV_acceptance_unchanged字段仅指这些原非退化
+约束仍保留，不能理解成整体准入算法未变；新admission_contract与协议决定本版。
+协议research/OPENEXEMPT_COMPLETE_OUTPUT_RETENTION_PUBLIC_ASSETS128_20261021_RUN03.md。
 
-| 观察 | EC F1 | EV F1 | 边界 |
-|---|---:|---:|---|
-| B1空库首遇 | 63.45% | 66.35% | 16来源、学习前 |
-| B1最终库同案重答 | 92.04% | 88.33% | 看过标签后的TRAIN，不是新案 |
-| B2同案强空库 | 68.71% | 64.51% | 16个新来源，本批反馈前 |
-| B2使用B1最终库 | 96.34% | 89.88% | 本批反馈前，已核全部160逻辑记录 |
-| B3同案强空库 | 64.70% | 60.79% | 16个新来源，本批反馈前 |
-| B3使用B2最终库 | 93.56% | 87.50% | 全部160逻辑记录/66真实生成已核 |
-| B3冻结本次B1库 | 93.56% | 87.50% | 后续更新的净主F1收益为零 |
+每批全部首遇预测先落盘再给TRAIN标签；教师已有gpt-5.6-sol/high，至多两提案，
+一次可多项CREATE/UPDATE/DELETE/MERGE或NOOP；库总4096tokens，不强迫增长。
+所有已见TRAIN重放/原始请求组合覆盖和每批一次最终发布保留，没有验证集。
+自身B1控制固定第一次最终发布，只评测，不送教师/准入，不取第一非空或最佳库。
 
-B1最终6记录/1995 tokens，bank SHA
-b6035a16001c5acfddcc630bc99c2e4d10a982d8e32e5e1db6646d596e310904。
-B2完整EV为63.83%→88.61%；32项任务23好0坏9平，不代表逐声明无损。
-111目标金额声明正确50→92、漏报57→15、错金额仍4；6条原本正确声明被漏掉。
-48条修复中43条是通用备选条款，6条损失全是具体条款；这是描述性拆解，
-不能把计数比例等同F1归因。15条EV漏报中的14条在另一次同库EC回答里已找到。
-当前剩余重点是同时列全法条并执行金额规则，不再笼统归因客户路由或缺少标签。
+## 为什么停止旧Run02，旧结果如何使用
 
-B2首遇时的在线库与本次B1冻结库相同，两臂持平是预期；继续更新的价值要由B3以后
-对自己的B1冻结库证明。B2教师确实收到64项已见任务的真实标签和当前父答案，
-历史失败的8条参照已刷新；提出5UPDATE、仍6记录，提案hash
-5bf8efe2fae41f10ef08a8cd3bd6f01c886338d51fa2bb55cac9673739586d06。
-候选1已完成64任务重放，只有EV:ILLINOIS被采纳，过渡父库a8f96d42，仍6记录。
-全部240目标金额声明正确200→206，原200条全部保持，新增1条错金额；完整
-整库提案却损失27条原正确声明。作用域采纳避免了本次这些损害，不保证未来。
-这是TRAIN重答与同一提案的真实组合证据，不是已完成的整库算法消融或新案收益。
-候选2真实收到64任务标签/当前父答案及16条刷新参照，只提1UPDATE亚利桑那。
-完整重放使B2金额F1从90.92%降到87.80%，被拒绝；失败和7次真实生成成本保留。
-B2最终于06:59:30发布a8f96d42，仍6记录、1989tokens，只改变伊利诺伊记录。
-此库的B1/B2已见重答EC/EV分别92.04/90.93%与96.34/90.92%，均是TRAIN，
-不是B2首遇或TEST。B3已自动用此库继续，并保留本次B1固定库b603作为真实控制。
+旧PID1047861于09:36:18按信号设置的工件安全边界停止，failure为
+InterruptedError('Operator stop at artifact-safe boundary')，不是服务崩溃。
+331次生成全部stop，2188655输入/903092输出tokens；6教师1142901输入/24343输出
+（reasoning15449属于output，不另加）。B4只留下229/230部分预测，不评分、不拼曲线。
+2571终态成员和388旧源绑定在两盘独立逐字节核验后才修改源码。
 
-不可变证据在`artifacts/research/openexempt_legal_scope_20261020/`：
+旧B2新案：强空库EC/EV68.71/64.51%，B1技能96.34/89.88%。
+旧B3新案：强空库64.70/60.79%，在线93.56/87.50%，自身B1也是93.56/87.50%。
+这些仍是开发证据，不是Run03分数、TEST或持续进化证明。
+旧B3 C1修手链却损伤工具箱，被拒；C2只采纳AZEC，b822、6记录2051tokens，
+当批EC93.56→95.64%，旧案原EC94.19%不变。但182吊坠新增戒指法条，旧完整EC
+97.34554→96.72054%；全48完整EC净值持平，TP327→328、FP4→5。
+正是这个通用计分/准入盲点促成修复，不是按个案改法条或改原答案。
+288旧父/提案/发布记录重新核算，原主值全部不变、旧完整EV也不变；新准入会拒绝
+该候选。这是回顾性根因复核，不是新算法已经学得更好。
+79项现有CPU边界检查8.21秒通过、ruff通过，0新测试文件/0额外GPU资格生成。
 
-- `MAIN128_complete_B2_160native_newcase_effect_20261021.json`：完整请求/解码/原评分及成本。
-- `MAIN128_B2_all_native_EV_claim_transitions_and_remaining_errors_20261021.json`：全部111声明。
-- `MAIN128_B2_teacher1_actual64labels_parent_refs5UPDATE_notyetadmitted_20261021.json`：真实教师输入。
-- `MAIN128_B2_candidate1_complete64_scoped_rescue_all240EV_20261021.json`：完整候选及声明损益。
-- `MAIN128_B2_teacher2_actual64labels16currentrefs_oneArizonaUPDATE_20261021.json`：真实续改父库/反馈。
-- `MAIN128_B2_candidate2_complete64_rejected_Arizona_all240EV_20261021.json`：完整失败候选。
-- `MAIN128_finalB2_210native4teachers_actualcost_and_B3_delivery_20261021.json`：正式发布、成本及B3送达。
+关键证据位于artifacts/research/openexempt_legal_scope_20261020/：
+- MAIN128_B3_C2_complete96_scopedAZ_published_all288_nativechecks_20261021.json
+- MAIN128_B3_nativeEC_negative_target_blindspot_all48_20261021.json
+- Run02_artifact_safe_stop_EC_blindspot_complete_preservation_20261021.json
+旧完整B2/B3首遇、失败、教师输入/差分及原始请求也在该目录并双盘保全。
+旧Run02不得与本版后两次学习拼成三重复。
 
-B3完整首遇相对强空库：EC+28.85pp、EV+26.71pp，32任务22好3坏7平。
-相对本次B1固定库：1好1坏30平，两个主F1均无净变化；完整EV仅+0.20pp。
-全部16项EC和11项EV请求相同，只有5项伊利诺伊EV改变；其中固定B1库已很高，
-五项剩余头部空间对全部16项EV均值仅0.69pp，但仍不能把零净收益写成持续进化。
-108条目标金额声明：空库53正确/50漏/5错金额，固定B1为86/17/5，在线87/16/5。
-在线保留B1原86正确条并补1漏，却多报手链的衣物法条；不同错误抵消主F1收益。
-剩余16漏中10条、5错金额全部在独立同库EC出现；独立EC不是EV中间答案。
-66真实生成全部stop、零解析错误；精确缓存和三个相同空库角色不算独立重复。
-主评分与全输出EV分开保留，全部409件原始证据已双盘逐字节保全。
-证据：`MAIN128_complete_B3_160native_newcase_vs_empty_and_ownB1_20261021.json`及
-`MAIN128_B3_all108_EV_targets_one_repaired_one_extra_citation_20261021.json`。
+## 真正后台等待的ACE
 
-B3教师1真实收到全部64项选定标签/父答案/轨迹及16条刷新参照，1UPDATE仅改
-伊利诺伊EC衣物/首饰边界，48项EV请求完全不变。96任务重放已完整核验：
-修224手链误引，却在204无职业用途事实的工具箱增加职业工具法条；本批EC
-+1.04pp、旧案EC-0.52pp，故拒绝。196只有法条数组顺序变化，不算F1改善。
-真实新增9次生成、56201输入/22128输出tokens全部stop，失败成本保留。
-教师2确实收到新增204反例、全部64项标签/父观察及24条刷新参照，提出Federal/
-Arizona的2UPDATE，仍只改EC；96项中39项EC请求改变、9项EC及48项EV不变。
-候选2尚未完整重放或发布，不能先算其成绩。下一步核完整96重放、最终B3与B4
-首遇；只读观察会话36819等待B3发布，同一主PID1047861/模型3613253已亲核活跃。
-旧77603、40295、22862均已结束，不复活；不挑单案或只报五项受影响子集，
-不因首个零净更新就改冻结方法或按单案补丁。
+- unit legal-openexempt-main128-run03-to-ace128-20261021-run02.service。
+- PID1738522/start455481667，10:04:59启动；10:07已核真实argv、queued与双盘收据。
+- script artifacts/launches/openexempt_main128_run03_to_ACE128_20261021.py。
+- 制品目录artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/。
+- 381 source/data/environment pins不热改；目标ACE128尚未freeze或训练。
+  同PID exec后会成为ACE进程，必须核starting_ACE128_once/目标progress/actual argv。
+- 仅Run03完整八批/128源/256首遇、末库、两文件系统终态archive和关键成员、源/
+  模型身份及账本核验通过后，在同canonical锁下扩额/freeze/exec一次。
+  早停/失败/变化/目标已存在则停止接续保留错误，不重试、不覆盖、不读TEST。
+- 原1532114已取消。首个新引导unit run01因旧归档名冲突失败，未freeze/训练/扩额；
+  失败源码和制品四成员双盘保全，现用带Run03_v2的独立归档stage，未删除旧归档。
+- 若要修改任何绑定源，先确认并取消仍在等待的接续，再保全当前训练并转换。
 
-另已核B2整提案23条漏报中21条在其独立EC回答出现，金额绑定仍会错；不是
-标签漏送、协议或截断。教师2共225284输入tokens，以轨迹而非法条字符为主。
-ScienceClaw原代码启发的下一失效假设是显式历史修复前/后对照：本次4项改善
-中的旧受控轨迹未直接送入教师，只有更新后父答案。3项完全正确、1项仅改善，
-不能都称通过。此补强尚未实施；先看B3完整新案，不为假设改当前冻结协议。
+ACE仍原生Generator/Reflector/ADD Curator与最多三轮TRAIN反思，不用本方法准入。
+只修TRAIN成功判定为合法解析且完整FP=FN=0，正确负例不再因原F1<1无谓重答。
+ACE8192库较本方法4096大、实际训练调用不同，不称等总计算或完整作者默认复现。
+当前账本1797、历史下界1225及350预约未重置。3349只在完整终态后扩，不是实际消耗。
 
-## 必要对照、消融与后续执行
-
-现有静态法条控制Run02只编译：6记录/2425 tokens，零案件、轨迹和标签，尚未
-评估，不混入主库。首版结构失败和两次教师成本均保留，不按效果重编译。
-旧32案ACE13已中止且不完整，不能充当正式基线；类型适配修正已在13e67fa。
-
-| 未来配置 | 真实状态 | 后续累计教师天花板，不是实际消耗 |
+| 后续配置 | 真实状态 | 未来累计教师天花板 |
 |---|---|---:|
-| ace_public_assets128_20261021_run01 | 同128案/接口14，已后台排队等待，未freeze/训练 | 3317 |
-| whole_bank_public_assets128_20261021_run01 | 现有整库策略，单次seed45消融，未freeze/启动 | 3349 |
-| first_commit_public_assets128_20261021_run01 | 不跨批携带/部分采纳后不续改，单次消融，未freeze/启动 | 3381 |
+| ACE128 seed45 | 实际后台等待，未freeze/训练 | 3349 |
+| whole_bank seed45 | 未freeze/启动/排队 | 3381 |
+| first_commit seed45 | 未freeze/启动/排队 | 3413 |
+| main seed145 / ACE seed145 | 只备配置 | 3445 / 4997 |
+| main seed245 / ACE seed245 | 只备配置 | 5029 / 6581 |
 
-配置均在`configs/openexempt_*.json`，协议分别为
-`research/OPENEXEMPT_ACE_PUBLIC_ASSETS128_20261021.md`和
-`research/OPENEXEMPT_PUBLIC_ASSETS128_MECHANISM_ABLATIONS_20261021.md`。
-当前账本上限仍1765。未来只能在先前绑定任务实际终态、双盘保全并保存旧账本
-之后扩额，保留全部历史下界和预约。只有上述一次性ACE等待，不重置账本。
-其接续源码和真实queued/backup记录在`artifacts/launches/openexempt_main128_to_ACE128_20261021*`。
-接续前核满256项首遇、末库、终态两盘文件与重要记录档内字节、392项当前
-source/data/environment pins；不合并代码、不重启模型、不读TEST或额外GPU资格生成。
-源码或模型变化、已有后继freeze/Run、主训练不完整均停止接续并保留失败。
-排队核验时账本上限1765、已知预约下界1573；3317仅在成功终态后生效，不是实际消耗。
-两项消融与三次独立学习尚未自动排队，仍未完成。已把主方法/ACE的seed145、245
-四份配置落实在`configs/openexempt_*public_assets128_seed*.json`，同案/批序不变，
-新Run从空库独立学习，ACE分别绑定同seed主方法配置SHA；不导入旧库或旧教师。
-协议`research/OPENEXEMPT_PUBLIC_ASSETS128_INDEPENDENT_REPEATS_20261021.md`明确
-后续顺序、账本原记录保护和未启动边界。0.052秒CPU配置差分检查不算性能；
-当前账本仍1765、预约350，后续3413/4965/4997/6549均只是未生效天花板。
-若必须修改学习算法，本Run不得与修改后两次混算三重复，须重新安排最终版本。
-ACE库8192较本方法4096大，不称相同记忆/总训练预算；first_commit也不是关闭
-所有反馈或等实际计算的纯信息消融，须报告不同调用量。
+七份未来配置已重绑Run03/同seed参考SHA；不再指向旧学习算法。
+两消融仍只有单次seed45；first_commit不是关闭全部反馈或等实际计算。
+三重复共享同TRAIN，独立从空库、日志/教师请求全新，不扩大独立来源n。
 
-最终评测/来源配对统计的改动仅在现有隔离worktree
-`.venv/evolution-control-20261020.qLon9T`，branch
-`prospective-static-frozen-control-20261021`，HEAD6caec6c，尚未部署。
-它包含真实静态库来源核验、三次学习seed45/145/245检查、按来源同时保留EC/EV
-配对的预定bootstrap，以及两项单seed策略消融的独立次要比较族；41项小CPU
-检查不算性能。c99排序反馈修复也未部署，
-不能为假设问题停掉当前正向运行。不得把隔离实现或配置写成正式实验完成。
+## 论文和下一步未完成项
 
-## 隔离TEST与论文证据缺口
+静态盲法条Run02仅旧源零案件编译，6记录2425tokens，没有性能。若新源绑定不兼容，
+须零案件重新编译Run03，保留失败/两版成本，不按成绩选库。
+最终评测/统计实现还在隔离worktree .venv/evolution-control-20261020.qLon9T，
+HEAD6caec6ca6036c111fff91a9804e06941001f78cb，未部署；须适配新完整输出字段与新
+静态绑定后再最终核验，不热合并当前371/381绑定代码/测试。c99排序修复也未部署。
 
-IID128 TEST recipe与packet已封存，语义/预测/评分未打开；官方HF TEST也未打开。
-仍须完整128流、后续更新相对B1的收益、可信经验方法与静态对照、独立学习
-重复、必要机制消融和近邻创新核对，固定完整末库矩阵及统计实现后才运行TEST。
-主方法和ACE计划各三次从空库学习，seed45/145/245；当前Run02只有算法保持
-一致才可计入。单次消融不冒充三次，复制空库预测/精确缓存不扩大独立样本数。
+独立IID128 TEST和官方HF TEST语义/预测/评分仍未打开。最终方法、可信经验/静态
+对照、三次学习、两机制消融、真实末库矩阵和统计实现固定后才统一评测。
+分析计划research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md，主要EC/EV与最低
+八比较族不变，完整EC/EV与负资产误引只作已声明描述性审计，不挑有利主指标。
+来源cluster区间以实际库和固定解码为条件，不保证算法总体稳定或跨模型/新法域。
+SkillCommit已有标签辅助修复/源重放，不能当原创或拿不同配置裸分宣布SOTA。
 
-分析计划：`research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md`。来源cluster
-bootstrap只给实际库和固定解码条件下的区间，不保证学习算法总体稳定。
-[SkillCommit原文](https://arxiv.org/html/2608.15165v2)已包含标签辅助修复和源重放，不能据此宣称原创或用不同设置的
-原文裸分宣布SOTA；公开共同渲染提交单位的额外价值仍需真实消融与同条件对照。
+直接下一步：跟本Run B1全部首遇→实际教师CRUD/新反馈→发布，再重点核B2以后
+相对强空库和自身B1的前向收益、完整输出/损害/成本；不反复B1资格测试。
+自身EC预测给EV的假设早在10/20只读分析中出现，当前48源正法条集合一致但题面
+非字节一致；尚无干预。不得把它当新发现、偷偷用Gold start3或直接替换当前任务。
 
-## 持续执行约束与历史
+最近小时计划09:30、实际09:35:31.997，下一10:30 Asia/Shanghai。
+每小时按生效补充的五项核方向/技能/证据缺口/局部循环/下一动作，不把token当时间。
+后台systemd不依赖对话在线，观察器不是独立唤醒调度产品。Goal继续active，未完成。
 
-不另设验证集；不挑案例/seed/旧好库，不拼新旧协议曲线，不修原答案或放宽原
-评分。不新增付费服务、嵌入模型、32B/第二实例或无关框架。失败、成本、源码
-双盘保全。明显系统性问题按实际证据停止对应训练，保全终态后修根因并用新Run，
-不擅停模型。普通慢调用、观察超时、单个负点不是丢弃整轮的理由。
-
-每小时按真实Asia/Shanghai时钟复核生效补充的五项。最近计划08:30、实际记录
-08:31:40.000，下一09:30；批次事件不冒充额外小时检查。后台systemd训练
-不依赖对话在线，观察器不是独立唤醒产品。无证据时等待具体活进程，不反复B1。
-师兄skill用于真实失效假设、公平性和成本，不用于固定创新数或隐藏借鉴。
-
-旧1204行索引完整归档到
-[历史索引](research/CURRENT_GOAL_HISTORICAL_through_20261020_1901.md)，
-归档前原字节另有双盘副本。历史内容仅供追溯，不作为当前训练入口。
+旧索引完整归档：research/CURRENT_GOAL_HISTORICAL_Run02_through_20261021_1007.md；
+更早1204行与9月27日起可追溯记录按旧归档链保留，不把历史游标当当前状态。
