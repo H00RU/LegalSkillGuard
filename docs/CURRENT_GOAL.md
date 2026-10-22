@@ -1,7 +1,8 @@
 # 当前Goal执行索引
 
-2026-10-22 Asia/Shanghai，状态依据09:32唯一发布、09:43完整首源投递及10:30小时核验。
-Goal仍active，完整论文目标未完成。Run03已完成七批学习，原进程正在B8首次遇案。
+2026-10-22 Asia/Shanghai，状态依据11:24完整B8首答、11:26真实教师及11:34小时核验。
+Goal仍active，完整论文目标未完成。八批128来源首次作答齐全，仅七次最终发布；
+原Run03正在B8候选1学习回放，不等于完整八批学习已完成。
 历史1237行已完整迁入[历史记录](research/RUN03_EXECUTION_HISTORY_THROUGH_B7_C1_20261022.md)，
 其中的旧“当前/下一步”不是本轮指令。先核真实PID/start ticks/argv，再读progress；
 索引、锁或观察期限都不单独证明训练存活或终止。
@@ -35,13 +36,16 @@ Goal仍active，完整论文目标未完成。Run03已完成七批学习，原�
   PID1738522/start455481667，10/21 10:04:59启动。只排ACE45，尚未训练。
   等完整主8批/128来源/256任务及最终双盘备份后，在同等待PID/锁内exec ACE。
   另外六配置未排队，不擅自另起调度器或与主训练抢GPU。
+  若原main句柄自然消失，先核`completion.json`完整八批及`publications/b8.json`，
+  再查该PID是否已exec为ACE及队列完成/失败制品；不能把正常终态当作故障重启。
+  主完成后不盲跑仍要求main存活的旧小时审计或保全程序，须以真实终态核验替代。
 - canonical锁：`artifacts/openexempt_training.lock`。
 
-当前只读观察为原生session **46189**：目标是B8两份完整首答文件均存在；
-09:34:09启动，期限12:34:09只结束观察，不结束训练。目标制品优先于main句柄
-检查，覆盖主训练自然完成的情况。不再轮询已结束19459、26541、87678，
-包装7385/7388也已正常结束；当前无functions包装运行。
-下一小时方向核对 **11:30 CST**，不要将观察超时当成重启理由。
+当前只读观察为原生session **11058**：目标是B8候选1完整决定或B8唯一最终发布；
+11:26:24启动，期限14:26:24只结束观察，不结束训练。目标制品优先于main句柄
+检查，覆盖NOOP与主训练自然完成。旧46189于11:24:24看到完整首答正常退出0，
+包装7409、CPU61360/94323均正常完成，不得再轮询；当前无functions包装运行。
+下一小时方向核对 **12:30 CST**，不要将观察超时当成重启理由。
 
 ## 冻结协议与原始绑定
 
@@ -49,7 +53,7 @@ Goal仍active，完整论文目标未完成。Run03已完成七批学习，原�
 配置：`configs/openexempt_closed_feedback_public_assets128_20261021_run03.json`，
 SHA `8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e`。
 frozen371清单SHA `2cc50e6cfe05fb42c230aba570eb43e9fcd41c3287011f77de8291fd89418825`。
-10:30 main371/static117/ACE等待381文件及50packages均原样保持。
+11:34 main371/static117/ACE等待381文件及50packages均原样保持。
 
 128固定TRAIN来源181–308，8批各16来源、每源独立EC/EV，共256任务。
 custom profile为2–4资产、五州、公开可用法域/start2，不是官方Advanced或OOD。
@@ -85,18 +89,19 @@ vLLM0.10.2/xgrammar1.23/serverseed42/maxseq1/prefixcache关/KV5368709120。
 | B5 | 86.77 / 80.83 | +1.69 / +5.43 | 6 / 2182，改IL EV |
 | B6 | 84.60 / 83.44 | +2.01 / +18.48 | 6 / 2202，改FED/PA EV |
 | B7 | 78.55 / 80.76 | 0 / +16.24 | 6 / 2223，改IL EC |
-| B8 | 待完整首答 | 待完整首答 | 待学习完成 |
+| B8 | 83.90 / 85.21 | +2.07 / +13.89 | 待学习完成，入批6 / 2223 |
 
 B7强空库EC58.125/EV61.5625%；在线EC78.54663/EV80.75521%，来源9好2坏5平。
 本批所有EC请求与自身B1精确相同，因为此前唯一后B1 EC变化在Oregon，本批无Oregon。
-不能由EC持平推断模型不可能再学EC。B3–B7的80新来源相对B1 EC+0.78373/
-EV+10.37426pp，含按设计相同B2的96来源为+0.65311/+8.64521pp；均是单学习器TRAIN。
+不能由EC持平推断模型不可能再学EC。B3–B8的96新来源相对B1 EC+0.99826/
+EV+10.95961pp，含按设计相同B2的112来源为+0.85565/+9.39396pp；均是单学习器TRAIN。
 不同批次案件不同，裸分下降不能直接当同案遗忘，也不能称单调改善或统计显著。
 
 机器曲线：`artifacts/research/openexempt_legal_scope_20261020/Run03_learning_curve_complete_prequential_batches_20261021.json`。
-新固定快照：同目录`Run03_learning_curve_complete_first7_and_unique_B7_final_snapshot_20261022.json`。
-七批PDF/PNG在`artifacts/research/learning_curves_20261022/Run03_B1_B7_prequential/`；
-40首答点完全不动，图的发布状态为绘图当时快照；不重画旧图或补B8零值/虚构CI。
+新固定快照：同目录`Run03_learning_curve_complete_first8_snapshot_20261022.json`。
+八批PDF/PNG在`artifacts/research/learning_curves_20261022/Run03_B1_B8_prequential/`；
+旧40点逐点不动，新增6点共46点，600dpi PNG及矢量PDF/SVG已渲染检查，所有源/
+输出SHA与6000x2700尺寸核同。不平滑、不画虚构CI，不把回放或TEST放进曲线。
 
 ## B7学习终态与正在验证的迁移
 
@@ -125,9 +130,7 @@ C2完整672位已复算，52新生成全stop/无格式错。实际EC当前16案7
 B8原进程10:30已到来源300；首源293为IL，09:43全部EC/EV角色10输入/10回答
 均核同，skills收到真实a232，六原始生成全stop/零解析错，EV未泄漏被拒修改。
 不是完整B8结果，未读部分B8评分或标签。
-下一步只等B8两份完整首答文件，核16来源/160逻辑记录、实际库、原始解码/评分和成本；
-随后本批有界学习、B8唯一最终发布，再按原等待器接ACE45。
-线程存储已准备`Run03_B8_complete160_newcase_audit_program`，不能将准备当完成。
+上述是当时的健康前缀；完整B8首答已在11:24完成，不能继续等待已完成的46189。
 10:30快照已核80计划输入/79完成逻辑回答、40原始引用全部stop、零解析错，
 未读部分B8评分或标签；原三句柄及绑定保持，单A40原引擎25009/49140MiB、98%。
 365预约/1797、14教师，旧350未动，ACE未开始。本Goal轮为原46189/7403核实
@@ -139,24 +142,58 @@ CPU85265正常退出0，不再轮询。B1教师无旧来源，仅32任务；64�
 收据共204成员已双盘逐字节核验保全；前后371/381/50packages及原三句柄不变。
 收据：`hourly1030_B8_final_bank79_healthy_answers_preservation_20261022.json`。
 
+## B8完整首答与当前最后一批学习
+
+293–308全部16来源/32任务/160逻辑记录原始v14解码、原生/完整评分、父库/
+控制及请求预算均复核一致。84原始生成/HTTP全stop、零格式错，552300input/
+232803output。强空库EC59.11954/EV59.96032%，B1为81.83036/71.31944%，
+在线83.90129/85.20585%。对B1 EC+2.07093/EV+13.88641pp，来源10好3坏3平；
+不是正式TEST或独立重复。报告`Run03_B8_complete160_newcase_final_B7_vs_ownB1_native_wire_cost_and_scope_20261022.json`。
+
+不得把总EC增益归于最新IL修改：全部32个B6父库请求均找到本批已观测的精确
+同输入/输出，按输入匹配而非成绩选角色，没有额外生成。仅293/302两IL EC
+实际暴露新句，前者1→1、后者1→0.88889，最新改动全批EC贡献−0.69444pp；
+早期OR变化贡献+2.76538pp。n=2不能推断总体有害或证明已迁移成功。此为固定
+原生请求复用诊断，不是新增独立B6评测臂。报告
+`Run03_B8_all32_observed_exact_wire_parent_B6_coverage_and_latest_B7_EC_vs_accumulated_skill_attribution_20261022.json`。
+
+125个EV金标对已拆：已引用86→109、漏39→16、金额错14→13，匹配内正确率
+83.72093→88.07339%；共有4修好、2变坏，新找回25含23对2错，仍9旧错。
+WI车辆有5条持续只报4000；PA通用项修对4条，不能说所有金额分支已学会。
+报告`Run03_B8_complete16_value_error_on_new_vs_shared_citations_and_all_law_contexts_20261022.json`。
+
+教师15次新鲜返回222534input/2374output、63.106秒。64实际金标/父观察/推理和
+上批两组实送8+6反馈引用均核同a232；仅CREATE一条WI EV规则，含独立资产对
+16000上限及共同配偶32000上限，其他原字段保持。拟7条bank3387b5b450f4b9107c9738562fa224915bb4405ff329ca8f113fc05d0e9c76e7
+尚未准入；连通EV:FEDERAL+OREGON+PA+WI当前12/旧64来源受保护，全部128
+来源/256任务仍完整回放。报告
+`Run03_B8_teacher1_actual64_B7_final_parent_bounded_real_feedback_and_proposal_delivery_20261022.json`。
+下一证据：完整C1（已有线程程序`Run03_B8_C1_complete768_audit_program`仅准备）、
+必要C2、唯一B8最终库和原ACE45接续。不看C1部分分数，不热改主协议。
+11:30核对实际11:34：160输入/160回答/84原始引用全stop0parse，原3句柄与绑定
+保持，A40 25009/49140MiB、97%，366预约/1797、15教师，ACE未开始。证据
+`hourly1130_Run03_B8_actual_B7_final_control_delivery_health_and_original_bindings_20261022.json`。
+
 ## 成本、备份与论文边界
 
-截至唯一B7终态的固定阶段成本：1047真实8B生成/1047 HTTP，全部stop；
-6913968输入/2907578输出tokens。14次新鲜教师3009988输入/48987输出，
-reason33910已包含输出；响应耗时1069.336秒不是GPU小时。明确不含在途B8，
+截至八批首答/教师1返回的固定阶段成本：1131真实8B生成/1131 HTTP，全部stop；
+7466268输入/3140381输出tokens。15次新鲜教师3232522输入/51361输出，
+reason35912已包含输出；响应耗时1132.442秒不是GPU小时。明确不含在途B8 C1，
 也不含静态/ACE、早期失败研究或部署。当前实时调用数继续增加，不能混用口径。
-报告：`Run03_complete_B1_B7_unique_final_phasecut1047_14_cost_20261022.json`。
-09:30共享账本365预约/1797，历史350前缀未动；旧前缀hash使用原默认JSON序列化，
+报告：`Run03_complete_first8_plus_teacher1_phasecut1131_15_cost_20261022.json`。
+11:34共享账本366预约/1797，历史350前缀未动；旧前缀hash使用原默认JSON序列化，
 不是compact canonical csha。首次错误比较仅是审计器序列化错误，不是账本损坏。
 
-最新完整双盘检查点为09:45:53的3604成员B7唯一终态档：371源码数据、1047原始
-生成/14教师、两候选全部1344位、EC实际收益/EV语义失败、首源293全部10投递、
-七批固定首答/发布快照、新当前索引与逐字保留1237行历史正文。保全前后371/381
-绑定、50packages及原三句柄不变；不含B8完整成绩或TEST。
-收据：`Run03_B7_two_complete_candidates_final_EC_only_B8_delivery_and1047_cost_preservation_20261022.json`。
-vdb档SHA `269ce1d601292844bafa24519839c9125a19015b738b2e3a90975aa4c3421868`；
-root档SHA `7ad93f4f2d48a90d8f82c8fe328af9ca29b5d5eeda2f9f6173ed902738e97e8f`。
-4865保全正常退出0，不再轮询，46189是唯一当前只读观察。
+最新完整双盘检查点为11:42:45的9381成员八批首答档：371源码数据、1131原始
+生成/15教师、全部已完成B1–B7阶段的原始输入/回答/候选/发布与B8完整160位，
+125对金额分解、全部32精确输入复用归因（新IL负差也保留）、八批46点曲线、
+当前索引和完整历史正文。保全前后371/381/50packages及原三句柄不变；
+只有七次最终发布，不含在途C1性能或ACE/TEST结果。
+收据：`Run03_complete_first8_value_exactwire_attribution_teacher1_curve_and1131_cost_preservation_20261022.json`。
+vdb档SHA `1c592cd142b1adcf7017077ab36c5f773d3c6a0150b84c5f4929ba3989fe24fe`；
+root档SHA `8c7ed989a0b56af57f632cbbd0e1e2e6188ba97019b6233647f5121cca457773`。
+88537保全正常退出0，不再轮询；11058是唯一当前只读观察，11:43:39仍核C1至253、
+1142生成/15教师，无C1完整决定或B8最终库。本轮没有额外模型小测、热改或重启。
 设备64528：`/media/sangfor/vdb/legal-skill-backups`；64517：
 `/home/yndx/hhy/legal-skill-rootdisk-backups`。不删除旧档；各gzip各自hash可能不同，
 按真实成员字节校验，不因容器hash不同误报损坏。不盲拷活动progress/账本/半写JSON。
