@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 02:52 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 03:02 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -92,17 +92,21 @@
 - `hourly0230_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `implemented_method_figure_v03_actual_source_visual_links_vector_and_unchanged_v06_curve_QA_20261023.json`
 - `manuscript_v07_exact_tables_abstracts_refs46_points_composition_scope_and_priority_source_QA_20261023.json`
+- `manuscript_v08_evidence_led_main_complete_lineage_D_exact_tables_abstracts_refs46_points_QA_20261023.json`
+- `text45_after_exact_static_run02_waiter1130167_dual_queued_no_active_budget_change_20261023.json`
 
 ## 论文与剩余实验
 
-[当前初稿v0.7](manuscript_v1_20261021.md)和[实验附录D](appendix_experimental_details_20261022.md)
+[当前初稿v0.8](manuscript_v1_20261021.md)和[实验附录D](appendix_experimental_details_20261022.md)
 描述真实直接回答、标签辅助、公开法律作用域提交与有界TRAIN反馈。
 [完整v0.6](revisions/manuscript_v06_20261023_0235.md)及其附录D逐字保留。
+[完整v0.7](revisions/manuscript_v07_20261023_0259.md)及其附录D也逐字保留。
 图1完整46个F1点/六条折线坐标不改，B8发布状态已更新，SVG/PDF/600dpi PNG可用。
 [方法总览与双语图注](figures/method_overview_caption_20261023.md)另行完成，明确标签释放
 时机、全部已见TRAIN重放、公开编辑依赖、分量组合与下一批使用；无新成绩/虚构分组。
 Georgia不可用，沿用图1实际DejaVu Serif；图像、两版摘要、所有表行与参考文献不变。
-v0.7只补真实组合/成本证据、纠正B8法条与案件范围的歧义、更新未来操作顺序，待整合图号。
+v0.7补真实组合/成本证据、纠正B8法条与案件范围歧义及更新未来操作顺序；
+v0.8将源码与适配器修复沿革归入附录，正文突出方法及实际收益，所有指标不变，待整合图号。
 正文不以工程组件、更多技能或接口支持操作数冒充创新；近邻机制须正确归属。
 已核实参考条目不因润色改标题或作者；新引用仍须主来源核实。
 
