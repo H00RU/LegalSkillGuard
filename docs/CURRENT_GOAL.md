@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-2026-10-22 16:20 Asia/Shanghai。Goal仍active，完整论文目标未完成。
+2026-10-22 16:32 Asia/Shanghai。Goal仍active，完整论文目标未完成。
 Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布齐全；
 旧ACE run01因重复技能ID被额外判为法律题零分，已于16:02:55安全停止，禁止恢复或
 充当公平正式对照。修正v3已于16:14:04以新Run ID从空库正式启动；主方法不变、不重跑。
@@ -36,7 +36,7 @@ Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布
   unit：`legal-openexempt-ace-public-assets128-20261022-run02.service`；
   PID176852/start466336240，16:14:04 CST直接启动，不是旧1738522或续接旧库。
   source commit `907d90e`；377文件/50packages在新性能前冻结。
-  16:18快照B1来源181、3原始生成、0教师、0技能，尚无完整首批成绩。
+  16:30快照B1来源184、14原始生成、0教师、0技能，尚无完整首批成绩。
   实际初始化仅七个空标题，0法律先验/0数值程序，不导入旧回答/教师/库。
   v3保留原始重复ID列表和法律答案，反思只按不同ID各标记一次；无答案修复或fallback。
   新协议：`docs/research/OPENEXEMPT_ACE_PROVENANCE_V3_20261022.md`。
@@ -58,7 +58,10 @@ Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布
   目标/终态制品优先于进程缺失判断；
   仍须核PID/start ticks/argv，不能仅凭索引、锁、progress或观察超时判断停训。
   旧11058/34994/46189/61360/94323/85265/88537均已完成，不再轮询。
-- 下一小时16:30 CST，使用新ACE176852/start466336240，不再要求旧ACE1738522存活。
+- 16:30已核新ACE176852/start466336240、原模型3613253、三份377文件/50packages
+  与主方法四个共享actor/scorer原绑定；GPU 97%，新轮无failure。
+  小时证据`hourly1630_ACEv3_Run02_actual_new_handles377_original_model_and_direction_review_20261022.json`。
+  下一小时17:30 CST，不再要求旧ACE1738522存活。
   旧15:30小时报告为旧source修订前快照，不能复用其原样断言当当前状态。
 
 ## 冻结协议与保真
@@ -68,6 +71,17 @@ Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布
 主frozen371清单SHA `2cc50e6cfe05fb42c230aba570eb43e9fcd41c3287011f77de8291fd89418825`。
 新ACE seed45 frozen377清单SHA
 `964e4a6572a5b32221e69f73d439799fd11abdac3f0abf08f97b1d9102e24155`。
+16:24实际新初始化、三份377绑定、原始生成prompt/schema不变、两处旧回答只移除
+重复ID额外拒收的复核及旧56教师完整成本，见
+`ACEv3_Run02_actual_fresh128_start377_source_raw_provenance_fix_and_old56_teacher_complete_cost_20261022.json`。
+旧ACE56次新鲜教师输入1459325/输出39429，reason10323已含输出；响应2165.565秒
+不是GPU小时。fresh response不等于供应商输入前缀缓存token为零。
+新v3三份377绑定源码/配置、16:24成本与修正证据、旧失败及当前索引已作398成员
+增量双盘保全，所有成员逐字核验、两档SHA相同：
+`69ce562c7c1e232d47e400ffc52dda618e09a5555d14b54406693bfa5e6695c5`。
+收据`ACEv3_Run02_new377_source_three_frozen_profiles_old_v2_failure_cost_and_current_goal_dual_preservation_20261022.json`，
+也各自独立复制到两盘备份目录。不包含在写progress/部分首答，完整旧主源码/轨迹仍由
+12:42联合档承接，不将本398成员增量档说成全部历史。
 旧ACE382与主371的完整旧源码均已双盘保全；当前工作树不是与旧整份清单逐字一致。
 修订只涉及ACE专属decoder/driver、对应小测试和NOTICE；四个共享直接actor/scorer
 文件与主Run原绑定完全一致。不能把“主方法未变”误写为“旧371全源当前仍原样”。
