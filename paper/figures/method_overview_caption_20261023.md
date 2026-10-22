@@ -2,7 +2,7 @@
 
 Figure number will be assigned when integrating the final manuscript. This is
 a schematic of the completed main Run03, not a new learning variant or an
-empirical comparison. The existing Figure 1 curves and manuscript v0.6 are unchanged.
+empirical comparison. The existing Figure 1 curves and performance values are unchanged.
 
 ![Implemented batchwise skill evolution](../../artifacts/research/method_overview_20261023/Run03_implemented_information_flow_v03/method_overview.svg)
 

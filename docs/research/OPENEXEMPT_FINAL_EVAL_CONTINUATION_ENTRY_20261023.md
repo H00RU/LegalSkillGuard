@@ -64,8 +64,14 @@ does not fabricate a completion file or establish full8-batch/16-arm readiness.
 Every learned main, ACE, text and ablation bank must have actually completed
 without a failure file and have a terminal-preservation receipt; those receipts
 are themselves bound in the final freeze. The isolated implementation is
-committed through `4acdae2` and its83 targeted synthetic checks pass. Import-only,
-help and closed-legacy-CLI probes did not open a real TEST packet or call a model.
+committed through `4acdae2`, at which its83 targeted synthetic checks passed.
+The current isolated head `fe5adcf` only synchronizes the text learner's
+operational predecessor declaration with the canonical source. Its existing13
+text-contract checks and the amended real-profile declaration checks pass;
+the analyst, merging, translation and inference implementation is unchanged.
+Import-only, help and closed-legacy-CLI probes did not open a real TEST packet
+or call a model. The [operational order amendment](OPENEXEMPT_PROSPECTIVE_COMPARISON_PRIORITY_20261023.md)
+does not reduce this entry's complete-bank, lineage or16-arm requirements.
 All actual completed banks, terminal preservation, full comparison matrix,
 statistical plan and evaluator source must still be frozen before the first
 real TEST prediction. TRAIN-only method optimization remains allowed; TEST
