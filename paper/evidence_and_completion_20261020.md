@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 01:03 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 01:30 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -30,6 +30,9 @@
 | 两任务都已经表现出同等强的持续进化 | UNSUPPORTED | EV持续收益较大；EC平均不到1pp，不能说同等强或统计显著 |
 | EC弱收益只是新技能投递丢失 | CONTRADICTED | 96案80案指导/原HTTP与B1相同；16案改变均真实送达，10好3坏3平 |
 | 所有EC准入拒收都只是门槛过严 | CONTRADICTED | 11个实际改变分量2接收、5有原F1损害、4有完整输出/负资产损害；未来放宽效果未知 |
+| 被拒EC更新确有实际条款主张损失 | VERIFIED | 全11分量内容/全改变TRAIN主张、294次前后投递/228原调用核同；B6相关56来源中至少42个原F1降，主要漏报原正确一般财产条款 |
+| 泛化改写或大教师输入已被证实是因果根因 | UNSUPPORTED | 观察到具体例子改写与损害同现；15请求输入123777–246267tokens，尚未做独立干预验证 |
+| 教师确实接收了冗余法律观察 | VERIFIED | 896任务视图的empty/initial答案、评分、错误等相同；调用别名元数据可异，不把全部对象字节冒充完全相同 |
 | EV指导变化与收益可复核 | VERIFIED | 96案75案改变、45好8坏22平；其余21案真实请求/回答/评分与B1相同；观察分解非因果 |
 | 教师真有正确TRAIN答案及真实父观察 | VERIFIED | 15次教师、896个含重复任务标签条目逐项核同；无未来/TEST标签 |
 | 分量组合与技能修改真实参与训练 | VERIFIED | 14非NOOP提案，9接收中5次整提案未过但分量组合获收；7创建14更新，0实际删除/合并 |
@@ -37,6 +40,7 @@
 | 原生评分与完整输出审计的口径已明确 | VERIFIED | 不改变原评分；原EC负资产使满分低于1，完整输出为独立次要口径，不把两者当同一指标 |
 | 当前八批无效、必须换法律任务 | UNSUPPORTED | 未发现使主轨迹作废的问题；当前对照修正不影响原主训练 |
 | 已胜成熟ACE、静态与其他经验方法 | PENDING | 当前只有部分ACE首答；完整ACE/静态/文本适配及最终TEST未齐，不以早期差距充当成熟胜出 |
+| 主方法与ACE之间的差异完全是记忆算法差异 | UNSUPPORTED | 原生ACE B1空记忆59.53/55.30%，直接空库63.45/66.35%；生成提示/外包装不同，正式比较须保留该解释边界 |
 | ACE v3失败文本交给教师的方式符合上游 | CONTRADICTED | 原文只留磁盘、失败观察为null；上游向Reflector传gen_response。已针对性修复 |
 | v4仍把不完整答案修成正确答案 | CONTRADICTED | 原始失败/零分/8192上限不改，只把原公开失败文本送TRAIN反思；不恢复JSON或猜ID |
 | v4接续相当于多一个独立学习重复 | CONTRADICTED | 同seed45在实际最后完整B2接续；220旧生成+102教师及64完整B3首答保留一次 |
@@ -66,6 +70,8 @@
 - `Run03_all15_teacher14_candidate8_publication_actual_scope_composition_and_library_management_accounting_20261022.json`
 - `Run03_all_postB1_EC11_changed_components8_proposals_actual_parent_scope_gate_failure_bottleneck_20261022.json`
 - `Run03_all128_TRAIN_native_target_self_F1_ceiling_and_residual_headroom_20261022.json`
+- `Run03_all11_EC_actual_changed_guidance_and_all_TRAIN_claim_transitions_raw_delivery_NOT_causal_20261023.json`
+- `Run03_all15_actual_teacher_payload_sizes_and896_duplicate_legal_control_views_alias_metadata_disclosed_NOT_quality_cause_20261023.json`
 - `ACEv3_Run02_B3_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261022.json`
 - `ACEv3_Run02_B3_failed_public_output_reflector_data_loss_safe_stop294_114_and_valid_prefix_evidence_20261022.json`
 - `ACEv3_Run02_last_completed_B2_and_complete_B3_first_forecast_continuation_receipt_20261022.json`
@@ -73,7 +79,8 @@
 - `ACEv4_actual224_228_failed_public_text_correct_targets_full_fresh_teacher_wire_verified_20261023.json`
 - `ACEv4_Run03_B3_unique_actual_publication_all32_TRAIN_failed_public_text_exact_reflections_counters_ADD_and_true_union_cost_audit_20261023.json`
 - `ACEv4_Run03_actual_B3_three_ADD_and_first_B4_source229_all15_verbatim_delivery_NOT_scores_20261023.json`
-- `hourly0030_ACEv4_Run03_actual380_nine_rebased_profiles_static400_original_model_and_direction_20261023.json`
+- `hourly0130_ACEv4_Run03_actual380_nine_rebased_profiles_static400_original_model_and_direction_20261023.json`
+- `implemented_method_figure_v03_actual_source_visual_links_vector_and_unchanged_v06_curve_QA_20261023.json`
 
 ## 论文与剩余实验
 
@@ -81,6 +88,9 @@
 描述真实直接回答、标签辅助、公开法律作用域提交与有界TRAIN反馈。
 [完整v0.5](revisions/manuscript_v05_20261022_2335.md)逐字保留。
 图1完整46个F1点/六条折线坐标不改，B8发布状态已更新，SVG/PDF/600dpi PNG可用。
+[方法总览与双语图注](figures/method_overview_caption_20261023.md)另行完成，明确标签释放
+时机、全部已见TRAIN重放、公开编辑依赖、分量组合与下一批使用；无新成绩/虚构分组。
+Georgia不可用，沿用图1实际DejaVu Serif；现有正文和图1不变，待后续整合图号。
 正文不以工程组件、更多技能或接口支持操作数冒充创新；近邻机制须正确归属。
 已核实参考条目不因润色改标题或作者；新引用仍须主来源核实。
 
