@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-状态快照：2026-10-22 Asia/Shanghai 07:45，七批首遇/112来源已完整复核，仍只有六次唯一发布；B7 EC78.54663%、EV80.75521%，对B1为EC持平、EV+16.24132pp，16来源9好2坏5平；原进程正重放仅改IL EC/EV的第一个候选，未出C1完整决定或B7最终库。用户原生Resume后已读回Goal active，
+状态快照：2026-10-22 Asia/Shanghai 08:38，七批首遇/112来源已完整复核，仍只有六次唯一发布；B7 EC78.54663%、EV80.75521%，对B1为EC持平、EV+16.24132pp，16来源9好2坏5平。C1已完整拒收，原库8de保留；教师2仅在原IL EC/EV各追加一句不动产边界，原进程正进行C2完整重放，B7最终库未出。用户原生Resume后已读回Goal active，
 沿用原目标，未重建或缩减。完整论文目标未完成。
 先核真实PID/start ticks和实际argv，再读progress；状态文件/锁或本索引不单独证明存活。
 旧Run02及旧等待器不得恢复。其历史完整保留，当前唯一主训练为下述Run03。
@@ -266,6 +266,58 @@ Run03_completed_B1_B6_plus_B7_first_and_teacher1_phasecut943_13_cost_20261022.js
 root e74e83dd0f3af3efd8fbcd2465e6705800bfe6df73a8fdce4b771083456da60b。
 不同gzip容器hash各按真实值保留；没有删旧记录或改变训练。保全5402已正常
 退出0，勿再轮询。原93111在07:54核C1至236、965生成/13教师，仍无完整决定。
+
+### 08:30 B7完整C1拒收，原库保持；C2为原父库两句边界追加
+
+原93111于08:30:00见完整C1后正常退出0；7363包装也正常完成，不得再轮询。
+CPU91200完整核112来源/224任务/672父-提案-实际记录位，原始v14解码、
+原生/完整分、messages/schema/预算及作用域/整库判定均复算一致。C1全部拒收，
+6条/2318tokens的6139候选未发布；实际父库仍8de、6条/2202tokens。
+本批16案EC78.54663→71.25496%、EV80.75521→75.02604%；旧96案
+EC85.95445→80.19635%、EV91.02830→85.79103%。当前及旧案原生与完整F1
+均降，非只因零回退或当前严格改善条件挡住净益。224任务3好31坏190平；
+按112来源平均3好20坏89平。52新增生成全stop/零格式错，333460input/
+130342output。报告Run03_B7_candidate1_complete224_all672_native_wire_gate_and_claim_failure_diagnostics_20261022.json。
+
+实际IL通用(b)漏引EC15→46、EV13→40；220及290 EC由1→0，误选(d)
+或漏通用项，2878/2291输出tokens均未截断。283住宅30000→15000确有金额
+修复，却丢耳环的正确(b)；原生分持平、完整分0.4→0.44444，不能称整库有效。
+实际推理也有承认应有(b)却最终未报的矛盾，只是未验证的模型自述，不能证明
+某一句是唯一因果。报告Run03_B7_C1_actual_IL_wildcard_omission_category_harm_specific_value_fix_and_C2_narrow_boundary_20261022.json。
+
+教师14次响应已完成，C2新鲜225209input/1637output、31.852秒。实际64目标/
+父观察/原始推理及三组反馈当前父引用均核同；上批两组实送4+3见证，本批C1
+实送8，均不是被拒6139作父库。685f0aa86cd3baf7d6b8b119db24607e8a091105137528a82e0dad3df75eff82
+为6条候选；逐字证明只在原IL EC/EV的avoid_when各追加一句不动产排除，
+其余记录、when、procedure、原avoid_when均保持，不是事后由审计器手改。
+实际仍只影响IL EC/EV各当前6+旧20，完整224任务重放。报告
+Run03_B7_teacher2_actual64_unchanged_parent_real_C1_feedback_two_boundary_sentences_C2_delivery_20261022.json。
+
+08:31:10新只读观察19459跟C2完整决定或B7唯一发布，覆盖NOOP，期限11:31
+不是训练期限。08:30小时核对（实际08:32:51）371/117/381绑定、50packages、
+原三句柄保持；单A40原引擎25009/49140MiB、97%。365预约/1797，旧350未动，
+ACE仍未开始。C2已完成前缀28/29全部stop、零解析错，不读部分效果。快照
+hourly0830_Run03_B7_complete_C1_rejected_C2_actual_parent_delivery_and_original_bindings_20261022.json。
+下一小时核对09:30，下一性能证据是C2完整决定/B7最终库，然后原B8，不新增小测。
+
+08:37固定完成阶段成本重算为995次8B生成/995 HTTP，全stop，6582510input/
+2778912output；14教师3009988input/48987output，reason33910已含输出，
+响应耗时1069.336秒非GPU小时。此口径包含C1及教师2返回，不含在途C2回放。
+报告Run03_completed_B1_B6_plus_B7_C1_and_teacher2_phasecut995_14_cost_20261022.json。
+另记录283显式公司用途与所给§12-1001一般个人用途限制/金标(b)(d)之间的
+字面张力，尚未证实法律错误，需专业解释；不改案、不改标签或主指标，不据
+此称所有候选规则均合法正确。报告
+Run03_TRAIN283_supplied_business_use_clause_annotation_tension_not_relabelled_20261022.json。
+
+08:40:53完整C1全部672位、真实拒收损害/局部金额修复、教师2的64目标/父引用/
+4+3+8反例及两句窄改、08:30状态、995原始调用/14教师、371源数据与七批图，
+共2683成员双盘逐成员字节校验保全，371/381/50packages与原三句柄前后不变。
+收据Run03_B7_C1_complete672_harm_teacher2_actual64_narrow_C2_and995_cost_preservation_20261022.json。
+vdb SHA5b3cfc424704fa2ee34d4c8295abddff59da6b6aa6782428772ed89ac7a4ff38，
+root SHA d1a2ea9b7e2077ad6b6e37711865c2a2e92722543d5d577264cf67b2d197fd37。
+77370保全正常退出0，不再轮询；19459仍是唯一当前只读观察，08:40:55核C2
+至219、1003生成/14教师，无C2决定或B7发布。当前阶段未读部分候选分数；
+没有追加小测、改变准入/源代码或重启。后续C2完整审计已准备，不能当作已完成。
 
 最新完整首遇为B7，入批实际库为B6 C1接收且B6最终保留的6条/2202tokens；七批曲线见
 Run03_learning_curve_complete_prequential_batches_20261021.json及
