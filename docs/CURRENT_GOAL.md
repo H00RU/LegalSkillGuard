@@ -1,6 +1,6 @@
 # Current legal skill-evolution goal
 
-更新：2026-10-23 03:11 CST。本页是当前执行入口。此前523行运行索引逐字保存在
+更新：2026-10-23 03:54 CST。本页是当前执行入口。此前523行运行索引逐字保存在
 [历史快照](research/checkpoints/CURRENT_GOAL_before_ACEv4_20261022_2212.md)，
 旧PID、观察会话和旧配置不能当作当前状态。
 
@@ -199,18 +199,33 @@ ACE145/245从空库用同v4算法；Trace2Skill是text-analysis/OpenExempt适配
 [新增方法总览图及双语图注](../paper/figures/method_overview_caption_20261023.md)
 已按实际信息流绘制并视觉检查，正文已引导至该图；曲线数值不变，图号待正式整合。
 
-最终矩阵16arms、10主要EC/EV对比、4次要消融对比，128来源为独立单位。
+当前声明最终矩阵16arms、10主要EC/EV对比、4次要消融对比，128来源为独立单位。
 3个实际独立学习库不是384个独立案例。配对source bootstrap20000/PCG64seed2026102192，
 区间以实际学得库和固定seed45评价为条件。独立学习变异与损害/成本另报。
 首次真实TEST预测之前，所有实际末库、完整矩阵、统计与评价源码都必须冻结。
-隔离评价worktree `.venv/evolution-control-20261020.qLon9T`当前fe5adcf；
+隔离评价worktree `.venv/evolution-control-20261020.qLon9T`当前089d376；
 已同步v4 actor，补齐最后B2接续的1301制品/原空库/完整B3来源与成本校验，
 所有学得库的完成及保全记录都进入最终冻结。核心4acdae2通过83项合成检查；
-fe5adcf仅同步文本前置数量闸门，13项文本合同及新profile准入检查通过，未读TEST。
+fe5adcf同步文本操作前置。089d376只准备最终推理调度：默认串行保留，可显式选择
+同一实例四请求并发，105项CPU合成检查21.03s通过。完整请求锁保留精确响应复用，
+进度写入串行，失败取消排队、等已发请求留档后退出；全部预测之后才评分。
+13份执行器源码副本与实际根源码逐字一致，11个活动/未来profile绑定与50packages
+仍匹配。当前单序列环境不能伪装为四并发，四并发真实配置/部署尚不存在。
 [唯一正式入口](research/OPENEXEMPT_FINAL_EVAL_CONTINUATION_ENTRY_20261023.md)
 从项目根目录运行隔离文件，导入真正根actor，强制16arms/128来源完整设计。
 旧根最小CLI已在读配置前关闭；不改动活动训练绑定文件。
 **实现就绪不等于实验已齐；缺少的实际末库/重复仍阻止正式TEST启动。**
+
+按主Run1158次生成的文件区间均值80.49s，4096个不复用请求的串行情景外推为
+91.58h，不是实际TEST耗时、GPU忙时或ETA，也没有实测并发加速。
+[单实例评测调度增补](research/OPENEXEMPT_FROZEN_EVAL_SINGLE_INSTANCE_DISPATCH_20261023.md)
+只供全部学习终态保全后的最终评测准备。当前训练、两队列、原3613253服务不改；
+新评测环境、实际库/矩阵/分析及源码仍须在第一条TEST预测之前重新完整冻结。
+
+Text45成熟TRAIN对照后，还须按[真实粒度审查](../paper/method_scope_and_failure_decisions_20261021.md)
+决定是否前瞻补task_local独立学习消融，或将贡献限定为任务/公开作用域联合提交。
+五次整库救回不自动证明法律依赖机制独立优于分任务提交。当前16臂及九profile
+未因此改变；任何必要设计增补须先于TEST，不能看TEST后挑设计。
 
 TEST packet SHA
 `6a5f72559a021d425d5b6ee41ba19f1a8e10d7da1ac11e0725d469a281c5164d`，
@@ -224,10 +239,11 @@ HFrev842cedec770ff2e45636fb5cb526ba0708ceb908、IDs1000001–1000128。
    原HTTP/解码/评分审计程序核算；不因ACE中期低分停掉对照，不挑库或重启服务。
 2. B4全部96首答已独立核算，论文v0.8数值/旧快照/50链接QA通过；真正完整TEST、
    独立学习及消融仍未完成，不能把九份冻结配置当成已运行结果。
-3. 已保全B3全部原始记录和正式评价4acdae2的657成员增量及032eecb/4acdae2完整
-   Git双盘包；保存新增EC内容/教师冗余审计及方法图，不重做全量资格检查。
-4. 下一小时03:30核当前380、新优先级九配置、静态400及原句柄/方向。
-   当前证据hourly0230_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json，
-   11份profile/50packages、原句柄及依赖匹配，A40 28693/49140MiB、96%。
+3. 完整B4、v0.8、九份新profile与Text队列的477成员增量和650d4b6/fe5adcf完整Git
+   双盘包已核；03:25五成员检查点保存全部下一步程序。新增089d376调度准备也须
+   小范围双盘保全，不重做模型资格循环，不把105项CPU检查当作GPU部署。
+4. 下一小时04:30核当前380、新优先级九配置、静态400、Text队列及原句柄/方向。
+   当前证据hourly0330_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json，
+   11份profile/50packages、原句柄及依赖匹配，A40 29137/49140MiB、96%。98807已结束。
 5. 当前ACE和排队静态完整结束后，已排队unit自动衔接完整Text45。若成熟TRAIN对照不足以支持
    主方法，就根因优化重训并同步受影响重复/消融；最终完成可信论文，不锁死旧八批。

@@ -65,7 +65,7 @@ Every learned main, ACE, text and ablation bank must have actually completed
 without a failure file and have a terminal-preservation receipt; those receipts
 are themselves bound in the final freeze. The isolated implementation is
 committed through `4acdae2`, at which its83 targeted synthetic checks passed.
-The current isolated head `fe5adcf` only synchronizes the text learner's
+The historical isolated head `fe5adcf` only synchronizes the text learner's
 operational predecessor declaration with the canonical source. Its existing13
 text-contract checks and the amended real-profile declaration checks pass;
 the analyst, merging, translation and inference implementation is unchanged.
@@ -76,3 +76,24 @@ All actual completed banks, terminal preservation, full comparison matrix,
 statistical plan and evaluator source must still be frozen before the first
 real TEST prediction. TRAIN-only method optimization remains allowed; TEST
 outcomes are not a tuning signal.
+
+## Prospective dispatch preparation, not a deployed evaluation
+
+The current isolated head `089d376` adds a default-preserving evaluation-only
+single-instance request schedule. One request worker remains the default.
+Four workers require an explicit policy and a captured four-sequence serving
+environment under the [dispatch amendment](OPENEXEMPT_FROZEN_EVAL_SINGLE_INSTANCE_DISPATCH_20261023.md).
+Every task retains its rotating arm order; complete-wire locks retain one raw
+origin for identical requests across workers. Progress writes are serialized.
+Failure cancels queued work and drains original in-flight records before
+terminal preservation. Grading remains after all sources and arms finish.
+
+All105 synthetic checks pass in21.03s, including duplicate public inputs,
+direct/ACE cache reuse, source ordering, failure paths and profile guards.
+All13 actor copies match the canonical root bytes. Import-only canonical QA
+verified that the current one-sequence server is rejected for four-worker use;
+it did not read TEST or call a model. No active training, queued TRAIN stage,
+budget or service is changed. No actual four-worker configuration or serving
+environment has yet been captured. GPU integration, measured speedup and the
+full actual16-arm bank matrix remain unverified. Do not start TEST or restart
+the current model on the strength of CPU checks alone.
