@@ -35,6 +35,8 @@ real TEST prediction. The full-bank/provenance/16-arm/128-source gates remain.
   actor's cache lookup, generation, insertion and alias recording. Identical
   requests retain one raw origin, including across concurrent source rows.
   They are not additional independent predictions or a resampling opportunity.
+  Origin ownership can depend on dispatch order. Shared physical cost is counted
+  once and disclosed, not interpreted as free computation for an alias arm.
 - Each original transport call owns its native client and immutable raw log.
   Progress-file updates are serialized. There is no new teacher, solver,
   response repair, truncation, answer-dependent retry or inference fallback.

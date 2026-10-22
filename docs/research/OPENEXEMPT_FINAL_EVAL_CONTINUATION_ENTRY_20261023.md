@@ -79,7 +79,7 @@ outcomes are not a tuning signal.
 
 ## Prospective dispatch preparation, not a deployed evaluation
 
-The current isolated head `089d376` adds a default-preserving evaluation-only
+The isolated head `089d376` adds a default-preserving evaluation-only
 single-instance request schedule. One request worker remains the default.
 Four workers require an explicit policy and a captured four-sequence serving
 environment under the [dispatch amendment](OPENEXEMPT_FROZEN_EVAL_SINGLE_INSTANCE_DISPATCH_20261023.md).
@@ -88,7 +88,10 @@ origin for identical requests across workers. Progress writes are serialized.
 Failure cancels queued work and drains original in-flight records before
 terminal preservation. Grading remains after all sources and arms finish.
 
-All105 synthetic checks pass in21.03s, including duplicate public inputs,
+Current head `81333d9` additionally requires the final actor endpoint to match
+the learning endpoints, preventing an undeclared second model URL. All106
+synthetic checks pass in20.81s, with the actual command/stdout/source hashes
+retained, including duplicate public inputs,
 direct/ACE cache reuse, source ordering, failure paths and profile guards.
 All13 actor copies match the canonical root bytes. Import-only canonical QA
 verified that the current one-sequence server is rejected for four-worker use;

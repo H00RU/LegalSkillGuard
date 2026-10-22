@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 03:54 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 04:01 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -62,8 +62,8 @@
 | 三次独立学习、两项消融已完成 | PENDING | 当前只有主seed45；其余真实实验仍须执行，不以CPU结构检查替代 |
 | Trace2Skill对照是原工具式作者复现 | UNSUPPORTED | 已实现的是text-analysis/OpenExempt适配，三个profile未启动，差异须披露 |
 | 已优于SkillCommit/全部SOTA | UNSUPPORTED | 最近邻只作机制/引用比较，未量化复现；custom profile不能裸比分数冒充官方Advanced榜单 |
-| 正式评价实现已接入v4与同一学习器接续来源 | VERIFIED | 核心4acdae2通过83合成；089d376保留来源/原空库/最后B2/1301哈希/全B3与退休成本检查，并准备最终并发调度；真实TEST未读 |
-| 完整评测的并发加速已经实际部署 | PARTIAL | 隔离入口105项CPU检查21.03s通过，13执行器副本/11profile/50packages匹配；默认串行保留，当前单序列环境拒绝四请求模式。尚无真实四并发配置、服务切换或实测速度 |
+| 正式评价实现已接入v4与同一学习器接续来源 | VERIFIED | 核心4acdae2通过83合成；81333d9保留来源/原空库/最后B2/1301哈希/全B3与退休成本检查，准备并发调度并约束相同端点；真实TEST未读 |
+| 完整评测的并发加速已经实际部署 | PARTIAL | 隔离入口106项CPU检查20.81s通过，原stdout存档，13执行器副本/11profile/50packages匹配；默认串行保留，当前单序列环境拒绝四请求模式。尚无真实四并发配置、服务切换或实测速度 |
 | 正式16-arm TEST矩阵现在已经可运行 | PENDING | 所有实际末库/重复尚未齐；唯一正式CLI拒绝不完整设计，不能启动TEST |
 | 真实TEST已经用于调优 | CONTRADICTED | 目前只允许字节哈希；语义/标签/预测/结果未读，无验证集 |
 
@@ -99,6 +99,8 @@
 - `text45_after_exact_static_run02_waiter1130167_dual_queued_no_active_budget_change_20261023.json`
 - `hourly0330_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `frozen_eval_four_worker_cpu105_exact_cache_failure_drain_active11_unchanged_serial91h_scenario_NOT_deployed_20261023.json`
+- `frozen_eval_parallel_dispatch_endpoint_bound_final_CPU_check_stdout_20261023.json`
+- `frozen_eval_four_worker_cpu106_endpoint_exact_cache_drain_active11_unchanged_NOT_deployed_20261023.json`
 
 ## 论文与剩余实验
 
