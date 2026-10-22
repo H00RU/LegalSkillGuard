@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-2026-10-22 14:58 Asia/Shanghai。Goal仍active，完整论文目标未完成。
+2026-10-22 15:32 Asia/Shanghai。Goal仍active，完整论文目标未完成。
 Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布齐全；
 原等待PID于12:10自然exec为ACE128，主训练不得恢复、重启或误报为失联。
 本索引覆盖先前运行状态；完整早期记录见
@@ -42,7 +42,7 @@ Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布
   14:48:19.368172已实际发布B1库，9条/774 Qwen tokens，bank
   `970db9aa95a49ba0b021bfbcb0fcd21713bb58dc580211952910942ed2ab2621`。
   32条TRAIN轨迹、47次逐案反思和1次curator均完成并复核；B1共109原始8B生成/
-  48新鲜教师响应。14:57快照121生成/48教师，B2首次遇案已到200；完整B2仍待完成。
+  48新鲜教师响应。15:31快照154生成/48教师，B2首次遇案已到208；完整B2仍待完成。
   尚无完整后续新案ACE成绩，不据单案或训练重答宣称成熟对照胜出。
   初始化仅原生七个空标题，0法律先验/0数值程序，无旧库或主训练记忆导入。
   ACE原生Generator/Reflector/ADD curator，最多3轮TRAIN反思；不是作者默认原样复现，
@@ -57,11 +57,13 @@ Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布
   目标/终态制品优先于进程缺失判断；
   仍须核PID/start ticks/argv，不能仅凭索引、锁、progress或观察超时判断停训。
   旧11058/34994/46189/61360/94323/85265/88537均已完成，不再轮询。
-- 14:30方向复核完成；下一小时15:30 CST。原主PID不再存活是正确终态，
+- 15:30方向复核完成；下一小时16:30 CST。原主PID不再存活是正确终态，
   不复用仍要求main存活的旧小时/保全程序。
-  `hourly1430_ACE128_actual_original_handles_source_environment_and_direction_review_20261022.json`
-  确认原模型/ACE句柄、371/382绑定文件和50packages均未变，A40当时97%；
+  `hourly1530_ACE128_actual_original_handles_source_environment_and_direction_review_corrected_20261022.json`
+  确认原模型/ACE句柄、371/382绑定文件和50packages均未变，A40当时98%；
   属实际活进程上的verified wait，不是新的科学结果、资格测试或方法完成。
+  corrected仅澄清playbook逻辑hash与publication文件hash的不同，原报告也保留，
+  未改原时间、观察或任何科学结果。只读包装7514已正常结束，不再轮询，22314仍在。
 
 ## 冻结协议与保真
 
@@ -142,6 +144,10 @@ code栏是文字核查模板，没有宿主解释器/求解器。发布确有可
 未来/TEST反馈；自报使用不是因果效果，未读取或挑报部分B2成绩。
 证据：`ACE128_B1_unique_actual_publication_all32_TRAIN_native_ADD_labels_tokens_and_cost_audit_20261022.json`、
 `ACE128_B1_actual9_bullet_content_and_B2_first197_exact_wire_delivery_without_partial_scores_20261022.json`。
+完整B1阶段696成员已于15:01在双物理盘逐字保全，包含109原始生成、48教师、
+32 TRAIN、实际库和固定的首个B2投递证明，不含在写B2/进度/账本。两档SHA同为
+`4c31291f9b3996398269efe7c3f53c447bb35c37064793d47817fdf61e539357`；
+收据`ACE128_B1_actual_publication9_774_complete32TRAIN48teacher_and_B2_delivery_dual_preservation_20261022.json`。
 
 B7最终`a232fc0b795b84155526b411f4c19a5143441ac47ef8ff25e1eaa3781f032e0a`。
 C1广泛改写有实际损害，已全部拒收；C2仅改IL EC一句，EV全保留。
