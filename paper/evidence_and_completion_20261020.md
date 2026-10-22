@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 02:42 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 02:52 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -55,6 +55,7 @@
 | B3接续批成本可核且未重复算前缀 | VERIFIED | 原64首答+40新TRAIN生成共104native；45fresh教师；退役10/12与前两批另计 |
 | 原失败成本被丢弃 | CONTRADICTED | 旧Run02完整294native/114教师双盘1643成员；退役B3的10native/12教师单列，不导入新训练 |
 | 完整静态TRAIN控制已经跑出成绩 | PENDING | run02配置400/50冻结，PID821776仅Bash等待完整ACE；固定原7条/2411token、零新教师 |
+| 同接口文本对照已自动衔接且已完成学习 | PARTIAL | 02:51:53具体交接unit已启动，PID1130167只等待原静态；无Text运行目录或新调用。完整主/ACE/静态与终态保全后才扩额3349→3991并启动一次Text45 |
 | 九个后续学习profile仍可按当前代码执行 | VERIFIED | 新23日377/383/378文件版本冻存双盘，02:30当前字节/50packages匹配，全未启动；旧22日版保留不再作启动入口 |
 | 为提前比较而改了文本学习算法 | CONTRADICTED | 只把无关前序学习器数量8→2，运行时自然完成/无failure/保全/同锁检查保留；归纳/合并/翻译/执行AST未改，13合同及算法字段核验通过 |
 | 三次独立学习、两项消融已完成 | PENDING | 当前只有主seed45；其余真实实验仍须执行，不以CPU结构检查替代 |
@@ -87,6 +88,7 @@
 - `ACEv4_Run03_actual_B3_three_ADD_and_first_B4_source229_all15_verbatim_delivery_NOT_scores_20261023.json`
 - `ACEv4_Run03_B4_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json`
 - `prospective_priority_first_common_actor_text_full9_new_profiles_frozen_no_active_change_20261023.json`
+- `prospective_priority20261023_operational_semantics_early2_legacy8_canonical_entry_source_validation_20261023.json`
 - `hourly0230_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `implemented_method_figure_v03_actual_source_visual_links_vector_and_unchanged_v06_curve_QA_20261023.json`
 - `manuscript_v07_exact_tables_abstracts_refs46_points_composition_scope_and_priority_source_QA_20261023.json`
