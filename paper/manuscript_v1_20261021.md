@@ -2,7 +2,7 @@
 
 中文暂题：面向冻结8B语言模型法律规则适用的可演化技能学习
 
-工作初稿 v0.4，2026-10-22。保留10月20日v0.1、Git中的v0.2及[完整v0.3快照](revisions/manuscript_v03_20261022_1804.md)，不覆盖旧运行结果。本次补充已冻结的文本归纳对比及十项主要比较设计、完整TRAIN指导投递审计和ACE首个已学习库的B2新案表现；表1八批主Run、实际技能管理及成本数值不变。正式TEST、独立重复及学习消融尚未完成。中英文共享数字表和证据边界。标题不预设优越性，方法名称、最终贡献和投稿期刊尚未确定。内部证据和缺口见[写作证据表](evidence_and_completion_20261020.md)。
+工作初稿 v0.5，2026-10-22。保留10月20日v0.1、Git中的v0.2、[完整v0.3快照](revisions/manuscript_v03_20261022_1804.md)及[完整v0.4快照](revisions/manuscript_v04_20261022_2041.md)，不覆盖旧运行结果。本次接入完整八批TRAIN曲线、真实末批发布状态、[实验附录D](appendix_experimental_details_20261022.md)及已冻结的固定静态TRAIN对照设计；表1、表2与所有既有指标和成本数值不变。正式TEST、独立重复及学习消融尚未完成。中英文共享数字表和证据边界。标题不预设优越性，方法名称、最终贡献和投稿期刊尚未确定。内部证据和缺口见[写作证据表](evidence_and_completion_20261020.md)。
 
 ## Abstract / 摘要
 
@@ -90,6 +90,8 @@ The current run initializes an empty library once; subsequent batches use the ac
 
 **Mechanism and cost.** Each batch should report source counts; first-encounter scores; paired gains and harms; proposed, rejected, and published edits; parent/child hashes; library size and tokens; guidance actually delivered; invalid responses; physical model calls; teacher attempts and tokens; and wall-clock time. Text delivery is not proof that a skill caused an improvement; controlled memory interventions and policy ablations remain necessary for attribution. More skills, more calls, or more successful training gates do not themselves demonstrate useful learning.
 
+The fixed static library also has a frozen full-TRAIN inference control, pending execution after the complete ACE run and its preservation. It uses the same 128 sources, direct actor, generation settings and public scope projection, without a new teacher or library update. All 256 predictions precede grading. Its descriptive comparisons use the actual evolving first forecasts and common empty reference, not a terminal main bank replay or a new validation/test split. This adds no final TEST arm or primary contrast. Exact endpoint, information-access, cost and fairness definitions are in [Appendix D](appendix_experimental_details_20261022.md); the [fixed-control protocol](../docs/research/OPENEXEMPT_FIXED_STATIC_TRAIN_CONTROL_20261022.md) preserves the unchanged zero-case library.
+
 **Prespecified analysis; execution incomplete.** The source-disjoint IID128 test packet and analysis rules were declared before test exposure in `docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md`, not before all development. The 22 October text-method addendum expands the declared primary family without using that method's results or opening TEST. Planned learning seeds are 45, 145, and 245 for the proposed method, ACE, and Trace2Skill (text analysis, OpenExempt adaptation), with each learner starting without learned legal guidance. The main seed-45 run completed all eight batches on 22 October; corrected ACE v3 seed 45 is running. Four additional main/ACE repeats, two separately learned mechanism ablations, and three text-adaptation builds are frozen but unstarted: nine future learning runs, not nine completed replications.
 
 ACE retains its native generator–reflector–curator principle with a disclosed label-assisted task wrapper, up to three TRAIN reflection rounds, an 8,192-token memory cap, and its native generator prompt. It is neither an equal-training-compute comparison nor an exact author-default reproduction. The earlier adapter incorrectly invalidated two legal answers because their valid metadata contained repeated skill IDs. That run was stopped and preserved, not rescored into the formal comparison. The corrected run starts afresh, preserves the original ID list and legal answer, and marks distinct referenced IDs once during reflection. No legal answer is repaired. The affected later-case feedback had not reached its teacher or a batch-2 curator/publication; the fresh restart was a conservative provenance choice, not evidence that the previous B1 library was corrupted.
@@ -111,6 +113,8 @@ For each endpoint, the planned test contrast averages paired source-level F1 dif
 **对照。** 当前开发比较是在同一批首次新案上，进化库相对强直接回答空库的差异。为审计续接保留的空库、固定初库与直接空库三个名称，现在产生相同请求，代表一个参照条件而非三个独立基线。相同请求共享原始回答，不是独立样本。B1技能库仍为空，不能证明在线学习。自身B1控制提供另一份固定学习库。零案件、无轨迹和标签的盲法条静态库已编译，但性能及自适应方法对比仍待完成。
 
 **机制与成本。** 每批记录真实来源、首次表现、配对收益与损害、候选与拒绝及发布编辑、父子hash、库规模和token、实际投递的指导、非法回答、物理调用、教师消耗与墙钟时间。文本送达不证明技能造成改善，归因仍需受控记忆干预与策略消融。技能多、调用多、训练准入通过均不能单独证明有效学习。
+
+固定静态库的完整TRAIN推理对照也已冻结，等待ACE完整终态及保全后执行。它使用同128来源、直接执行器、生成设置和公开范围投影，零新教师、不更新库，全部256预测后才评分。描述性比较采用主方法当时的在线首答及共同空库，不冒称主末库重答，也不新增验证/测试划分、最终TEST臂或主要比较。精确指标、信息权限、成本和公平性见[附录D](appendix_experimental_details_20261022.md)，原零案例库及执行边界见[固定对照协议](../docs/research/OPENEXEMPT_FIXED_STATIC_TRAIN_CONTROL_20261022.md)。
 
 **分析规则已声明，实验未完成。** 独立IID128封存测试及分析规则在TEST暴露前声明，不冒称整个开发过程事前注册。10月22日增补在没有文本补充方法成绩、未打开TEST的前提下扩大主要比较族。主方法、ACE及Trace2Skill文本适配各预定seed45/145/245三次独立学习，均从无已学习法律指导开始。主方法seed45已完整结束八批，修正后的ACE v3 seed45正在学习；其余四次主方法/ACE重复、两次学习消融及三次文本适配构建共九次未来学习已冻结但未启动，不是已完成重复。
 
@@ -148,6 +152,14 @@ Across all 112 sources in B2–B8, the evolving bank exceeded own-B1 by 0.86 poi
 相对固定初次学得的B1库，继续更新在金额任务上的描述性收益大于法条分类。表1覆盖唯一主学习器的全部八批、128来源、256个在线首次预测和八次最终发布；每批完整16来源，均在本批标签释放前保存，在线与空库格式无效均为零。表内是TRAIN开发首答，不是隔离TEST、独立学习重复或批后重放。批后库只服务后续新案，不反向替换本批首答。B2与B1库按设计相同；B2–B8全部112来源上持续进化比B1提高EC 0.86、EV 9.39个百分点，B3–B8全部96来源为1.00和10.96个百分点，均由未舍入值计算。EC增量小、B4 EC有损害，不隐藏这些结果。批间换案使裸分下降不能单独证明遗忘，也不据单次TRAIN收益宣称统计显著或胜成熟经验方法。
 
 Machine-readable source for Table 1: [complete eight-batch first-forecast and final-publication record](../artifacts/research/openexempt_legal_scope_20261020/Run03_learning_curve_complete_first8_final8_publications_20261022.json). Its values were checked against the actual run completion, not transcribed from a partial monitoring snapshot.
+
+![Complete single-learner TRAIN first forecasts against same-case empty and own frozen B1 controls](../artifacts/research/learning_curves_20261022/Run03_B1_B8_prequential_final_publications/learning_curve.svg)
+
+Figure 1. Continued learning has a larger descriptive gain on EV than on EC in the complete seed-45 TRAIN stream. Each point represents all 16 sources in its batch; the stream contains 128 sources and one learned trajectory. Own-B1 is undefined at B1 and equals the evolving bank at B2 by construction. Lines connect unmodified batch means without smoothing or uncertainty bands. The end-of-B8 library has seven records and 2,486 tokens, published after the plotted B8 forecasts; its added skill has not thereby been evaluated on a later TRAIN batch. Different cases across batches require same-case comparisons, not an inference of forgetting from a falling raw score. This is neither post-update replay nor TEST, independent-learning variability, significance or mature-method superiority.
+
+图1为同一学习器完整TRAIN首答，不是重放或TEST；每点完整16来源，总128来源，一次独立学习。自身B1在首批尚未定义、第二批按设计与在线库相同。原批均值不平滑、不加虚构误差带；末批后才发布七条、2,486 tokens，不能把该新技能说成已在后续TRAIN新案验证。换案裸分下降不单独证明遗忘，当前描述性收益也不证明显著、跨学习稳定或胜成熟对照。
+
+Figure assets: [vector PDF](../artifacts/research/learning_curves_20261022/Run03_B1_B8_prequential_final_publications/learning_curve.pdf), [600-dpi PNG](../artifacts/research/learning_curves_20261022/Run03_B1_B8_prequential_final_publications/learning_curve_600dpi.png), and [exact values with source/publication hashes](../artifacts/research/learning_curves_20261022/Run03_B1_B8_prequential_final_publications/source_data_and_provenance.json). All 46 F1 values and curve coordinates equal the previous B8 plot; only completed-publication provenance and footer status were updated.
 
 ### 5.2 Published skills and actual cost / 真实发布技能与成本
 

@@ -1,7 +1,7 @@
 """Render completed Run03 TRAIN forecasts; no model, labels or TEST access.
 
 Uses the existing system Python GI/Rsvg/Cairo stack, not the frozen learner env.
-Run: /usr/bin/python3 paper/figures/render_run03_prequential.py --through-batch 6
+Run: /usr/bin/python3 paper/figures/render_run03_prequential.py --through-batch 8
 """
 
 import argparse
@@ -13,7 +13,7 @@ from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[2]
 RUN = "legal_openexempt_closed_feedback_public_assets128_20261021_run03"
-CURVE = ROOT / "artifacts/research/openexempt_legal_scope_20261020/Run03_learning_curve_complete_prequential_batches_20261021.json"
+CURVE = ROOT / "artifacts/research/openexempt_legal_scope_20261020/Run03_learning_curve_complete_first8_final8_publications_20261022.json"
 COLORS = {"empty": "#808080", "frozen_after_B1": "#3C78A8", "skills": "#D6337F"}
 ROLES = ("empty", "frozen_after_B1", "skills")
 
@@ -24,9 +24,10 @@ def digest(path):
 
 def plot_data(through):
     curve = json.loads(CURVE.read_text())
-    assert curve["run_id"] == RUN and 1 <= through <= 8
+    assert curve["run_id"] == RUN and through == 8
     rows = [r for r in curve["batch_rows"] if r["batch"] <= through]
     assert [r["batch"] for r in rows] == list(range(1, through + 1))
+    assert len(rows) == 8 and all(r["completed_unique_final_publication"] for r in rows)
     paths = {str(CURVE.relative_to(ROOT)): digest(CURVE)}
     for row in rows:
         assert row["source_cases"] == 16 and row["tasks"] == 32
@@ -36,9 +37,16 @@ def plot_data(through):
             for head in ("EC", "EV"):
                 assert heads[head] == original[role][head]["f1"]
         paths[str(path.relative_to(ROOT))] = digest(path)
+        publication_path = ROOT / "runs" / RUN / "publications" / f'b{row["batch"]}.json'
+        publication = json.loads(publication_path.read_text())
+        reported = row["completed_unique_final_publication"]
+        assert publication["bank_sha256"] == reported["bank_sha256"]
+        assert publication["at"] == reported["at"] and len(publication["bank"]) == reported["records"]
+        paths[str(publication_path.relative_to(ROOT))] = digest(publication_path)
     return {
         "run_id": RUN, "through_batch": through, "planned_batches": 8,
         "source_cases_per_batch": 16, "complete_forecast_sources": 16 * through,
+        "complete_final_publications": 8,
         "rows": rows, "source_artifact_sha256": paths,
         "endpoint": "original per-source task macro-F1, displayed as percent",
         "boundary": "One adaptive learner's first-encounter TRAIN trace, not replay or TEST",
@@ -85,12 +93,6 @@ def svg_document(data):
         width, top, bottom = 460, 120, 395
         px = lambda batch: left + (batch - 1) * width / 7
         py = lambda value: bottom - value * (bottom - top) / 100
-        if data["through_batch"] < 8:
-            start = px(data["through_batch"] + 0.5)
-            parts.append(f'<rect x="{start:.3f}" y="{top}" width="{left+width-start:.3f}" height="{bottom-top}" fill="#f4f4f4"/>')
-            pending_label = "B8" if data["through_batch"] == 7 else f'B{data["through_batch"]+1}-B8'
-            text((start + left + width)/2, 242, pending_label, 14, "middle", "#626262")
-            text((start + left + width)/2, 265, "pending", 14, "middle", "#626262")
         text(left, 109, title, 18)
         for value in range(0, 101, 20):
             y = py(value)
@@ -116,24 +118,24 @@ def svg_document(data):
         text(left-47, 258, "Original macro-F1 (%)", 15, "middle", extra=f'transform="rotate(-90 {left-47} 258)"')
 
     sizes = ", ".join(str(r["entering_library_records"]) for r in rows)
-    last_status = "published" if rows[-1]["completed_unique_final_publication"] else "update pending"
-    text(42, 474, f'Entering library sizes: {sizes}. B{rows[-1]["batch"]} {last_status}; skill count alone is not learning evidence.', 13.5)
+    publication = rows[-1]["completed_unique_final_publication"]
+    text(42, 474, f'Entering records: {sizes}. After B8: {publication["records"]} records / {publication["tokens"]} tokens; size is not benefit.', 13.5)
     text(42, 498, "Descriptive single-learner TRAIN trace. Cohorts differ; compare same-case arms. No repeated-run uncertainty shown.", 13.5)
-    text(42, 522, "No replay scores or TEST outcomes plotted. ACE/static comparisons and sealed evaluation remain pending.", 13.5)
+    text(42, 522, "No replay scores or TEST outcomes plotted. Mature ACE/static comparisons and sealed evaluation remain pending.", 13.5)
     parts.append("</svg>")
     return "\n".join(parts)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--through-batch", type=int, default=6)
+    parser.add_argument("--through-batch", type=int, choices=(8,), default=8)
     args = parser.parse_args()
     data = plot_data(args.through_batch)
     import gi
     gi.require_version("Rsvg", "2.0")
     from gi.repository import Rsvg
     import cairo
-    output = ROOT / f"artifacts/research/learning_curves_20261022/Run03_B1_B{args.through_batch}_prequential"
+    output = ROOT / f"artifacts/research/learning_curves_20261022/Run03_B1_B{args.through_batch}_prequential_final_publications"
     output.mkdir(parents=True, exist_ok=False)
     svg = output / "learning_curve.svg"
     with svg.open("x", encoding="utf-8") as stream:
