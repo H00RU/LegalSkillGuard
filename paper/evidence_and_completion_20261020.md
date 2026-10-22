@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 03:02 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 03:11 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -52,6 +52,7 @@
 | B3真实技能更新且已经交给下一批执行器 | VERIFIED | 00:29:46唯一发布，12→15条/1530tokens，3ADD旧内容不改；229 EC/EV HTTP含全部15条，EV自报引用新err-00015 |
 | B3训练重答改善等于B4新案改善 | CONTRADICTED | 同案4/32→27/32完全答对；完整B4 ACE49.46/56.15%，空库54.95/57.17%，不能把拟合当迁移 |
 | 完整B4同案对照及技能投递可核 | VERIFIED | 16源/每臂32任务/96逻辑记录，全部15条送达；主方法83.85/79.84%；64原调用、230EC一条8192截断零分保留，不是成熟8批或TEST |
+| B4实际学习及本批成本可复核 | VERIFIED | 03:07:36唯一发布15→17条/1784tokens；32完整TRAIN、2ADD、原15内容不改；3/32→24/32同案完全答对是拟合，114native/54fresh教师，不混前批/恢复调用 |
 | B3接续批成本可核且未重复算前缀 | VERIFIED | 原64首答+40新TRAIN生成共104native；45fresh教师；退役10/12与前两批另计 |
 | 原失败成本被丢弃 | CONTRADICTED | 旧Run02完整294native/114教师双盘1643成员；退役B3的10native/12教师单列，不导入新训练 |
 | 完整静态TRAIN控制已经跑出成绩 | PENDING | run02配置400/50冻结，PID821776仅Bash等待完整ACE；固定原7条/2411token、零新教师 |
@@ -87,6 +88,7 @@
 - `ACEv4_Run03_B3_unique_actual_publication_all32_TRAIN_failed_public_text_exact_reflections_counters_ADD_and_true_union_cost_audit_20261023.json`
 - `ACEv4_Run03_actual_B3_three_ADD_and_first_B4_source229_all15_verbatim_delivery_NOT_scores_20261023.json`
 - `ACEv4_Run03_B4_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json`
+- `ACEv4_Run03_B4_unique_actual_publication_all32_TRAIN_failed_public_text_exact_reflections_counters_ADD_and_true_union_cost_audit_20261023.json`
 - `prospective_priority_first_common_actor_text_full9_new_profiles_frozen_no_active_change_20261023.json`
 - `prospective_priority20261023_operational_semantics_early2_legacy8_canonical_entry_source_validation_20261023.json`
 - `hourly0230_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
