@@ -58,8 +58,8 @@ def validate_profile(cfg):
     if cfg["planned_teacher_responses_max"] != 321 or cfg["planned_teacher_transport_attempts_max"] != 642:
         raise ValueError("Account for 256 analysts, 64 merges and one translation")
     predecessors = cfg.get("required_completed_predecessors", [])
-    if len(predecessors) < 8 or len(predecessors) != len(set(predecessors)):
-        raise ValueError("Declare the two current and six already-planned completed learners")
+    if len(predecessors) < 2 or len(predecessors) != len(set(predecessors)):
+        raise ValueError("Declare distinct completed current learners as operational predecessors")
 
 
 class Trace2Skill:
