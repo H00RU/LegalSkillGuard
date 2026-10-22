@@ -2,7 +2,7 @@
 
 中文暂题：面向冻结8B语言模型法律规则适用的可演化技能学习
 
-工作初稿 v0.9，2026-10-23。本文围绕法律规则适用中的程序性技能持续学习展开；当前结果来自完整八批TRAIN流，正式TEST、独立学习重复及机制消融仍待完成。中英文共享数字表与证据边界。内部版本和完成状态见[写作证据表](evidence_and_completion_20261020.md)。
+工作初稿 v0.10，2026-10-23。本文围绕法律规则适用中的程序性技能持续学习展开；当前结果来自完整八批TRAIN流，正式TEST、独立学习重复及机制消融仍待完成。中英文共享数字表与证据边界。内部版本和完成状态见[写作证据表](evidence_and_completion_20261020.md)。
 
 ## Abstract / 摘要
 
@@ -27,6 +27,16 @@ Our research hypothesis is that controlling the scope of reusable edits can impr
 可信的技能学习结果不能只看技能库变大或训练重答得分提高。静态先验可能在学习开始前就胜过空库，回答接口改变也可能独立影响成绩；候选也可能在训练平均分上获益，却损害其他法律范围。因此本文区分首次遇案表现、更新后的训练重放和最终冻结库测试，并在共享回答接口下检查实际发布的编辑和后续案件收到的指导。
 
 本文假设：约束可复用编辑的作用范围，有助于训练经验迁移并减少不同法律情境间的干扰。SkillCommit研究了经行为验证的作用域扩张和基于重放的行为保持[3]。本文检验公开共同可见的法律情境所诱导的编辑依赖，并保留执行器直接作答的法律接口。[待填分析：通过近邻方法比较和既定消融确定方法差异。][待填结果：整合正式对比的发现。]
+
+## 1.1 Related work / 相关工作
+
+**Experience-based memory.** External memory provides a learning channel for agents whose parameters remain fixed. Experience-based systems extract natural-language insights and recall previous trials, while workflow memories induce recurring action routines that can be supplied to later tasks [5,6]. Reasoning memories use both self-judged successes and failures, and memory-aware scaling adds contrastive experience for distillation [7]. These approaches differ in storage, feedback, and retrieval; our evaluation distinguishes a newly learned prior from continued revision through a fixed first-batch library, and retains an empty-library condition under the same legal answer interface.
+
+**Procedural consolidation and legal evaluation.** Procedural consolidation turns trajectory evidence into reusable resources, with distinct criteria for deciding when an abstraction is useful. Global playbook adaptation uses generation, reflection, and curation [2]; parallel skill induction merges trajectory-local patches into portable files [4]; behaviorally validated consolidation uses source replay and cross-instance compatibility before broadening a skill's scope [3]. Complementary audits examine artifact–executor compatibility and regressions of previously correct behavior separately from aggregate utility [8], while OpenExempt supplies a statutory-rule environment with machine-computable reference solutions [1]. We assess proposed edits in dependency-closed groups determined by the public legal contexts rendered together, use seen-source replay to control publication, and distinguish that training operation from subsequent-case and frozen-library evaluations.
+
+**基于经验的记忆。** 外部记忆为参数保持冻结的智能体提供学习渠道。经验式系统从历史任务中提取自然语言见解并回忆既往尝试，工作流记忆则归纳可供后续任务使用的重复行动程序[5,6]。推理记忆同时利用智能体自判成功与失败的经验，并通过记忆感知的扩展计算增加用于归纳的对比经验[7]。这些方法在存储、反馈和检索方式上有所不同；本文用固定首批学习库区分初次获得先验与持续修订的价值，并在相同法律回答接口下保留空库条件。
+
+**程序性归纳与法律评价。** 程序性归纳将轨迹证据转为可复用资源，不同方法采用不同标准判断抽象何时有用。全局playbook适应采用生成、反思和策展[2]；并行技能归纳将轨迹局部补丁合并为可携带的技能文件[4]；经行为验证的归纳则在扩张技能范围之前，使用源案重放和跨实例兼容性检查[3]。补充性审计将技能产物与执行器的兼容性、既有正确行为的退化作为区别于总体效用的评价问题[8]，OpenExempt则提供具有可计算参考答案的法律规则环境[1]。本文依据共同呈现的公开法律情境，将提案编辑分为依赖闭合的组，以已见来源重放控制发布，并将这项训练操作与后续新案和冻结库评价分开。
 
 ## 2. Task and data / 任务与数据
 
@@ -232,4 +242,9 @@ The present setup studies synthetic statutory-rule application in the exemption 
 3. He, Y., and Yang, W. (2026). *SkillCommit: Evolving Agent Skills through Behaviorally Validated Scope Expansion*. [arXiv v2](https://arxiv.org/html/2608.15165v2). Closest-neighbour scope/replay contributions must be credited and distinguished before a novelty claim.
 4. Ni, J., Liu, Y., Liu, X., Sun, Y., Zhou, M., Cheng, P., Wang, D., Zhao, E., Jiang, X., and Jiang, G. (2026). *Trace2Skill: Distill Trajectory-Local Lessons into Transferable Agent Skills*. [arXiv v5](https://arxiv.org/abs/2603.25158v5), revised 4 June 2026; DOI 10.48550/arXiv.2603.25158. [Author repository](https://github.com/Qwen-Applications/Trace2Skill). The implemented comparison is a disclosed text-analysis task adaptation, not the original ReAct runtime.
 
-当前仅核实上述与本稿直接关联的来源，不声称已经完成相关工作综述；模型卡、完整基线与其余必要文献待逐项补齐。没有编造引用、统计显著性、理论保证或发布链接。
+5. Zhao, A., Huang, D., Xu, Q., Lin, M., Liu, Y.-J., and Huang, G. (2024). *ExpeL: LLM Agents Are Experiential Learners*. Proceedings of the AAAI Conference on Artificial Intelligence, 38(17), 19632–19642. [Publisher record](https://ojs.aaai.org/index.php/AAAI/article/view/29936); DOI 10.1609/aaai.v38i17.29936.
+6. Wang, Z. Z., Mao, J., Fried, D., and Neubig, G. (2024). *Agent Workflow Memory*. [arXiv v1](https://arxiv.org/abs/2409.07429v1); DOI 10.48550/arXiv.2409.07429.
+7. Ouyang, S., Yan, J., Hsu, I.-H., et al. (2025; revised 2026). *ReasoningBank: Scaling Agent Self-Evolving with Reasoning Memory*. [arXiv v2](https://arxiv.org/abs/2509.25140v2); DOI 10.48550/arXiv.2509.25140.
+8. Li, J., and Zhu, J. (2026). *Auditing Self-Evolution in Financial Agents: Capability Gains, Security Drift, and Execution-Interface Mismatch*. [arXiv v1](https://arxiv.org/abs/2608.17684v1); DOI 10.48550/arXiv.2608.17684.
+
+以上条目的题名、作者顺序及所列版本/出版信息已核原始来源；模型卡、投稿格式与其余必要文献仍待逐项补齐。相关工作不表示已复现新增引用的方法，也不增加当前实验矩阵。

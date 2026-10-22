@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 06:10 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 06:33 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -76,6 +76,7 @@
 | 正式评价实现已接入v4与同一学习器接续来源 | VERIFIED | 核心4acdae2通过83合成；81333d9保留来源/原空库/最后B2/1301哈希/全B3与退休成本检查，准备并发调度并约束相同端点；真实TEST未读 |
 | 完整评测的并发加速已经实际部署 | PARTIAL | 隔离入口106项CPU检查20.81s通过，原stdout存档，13执行器副本/11profile/50packages匹配；默认串行保留，当前单序列环境拒绝四请求模式。尚无真实四并发配置、服务切换或实测速度 |
 | 正式16-arm TEST矩阵现在已经可运行 | PENDING | 所有实际末库/重复尚未齐；唯一正式CLI拒绝不完整设计，不能启动TEST |
+| 相关工作已补机制分类及四条主来源 | VERIFIED | v0.10中英两主题，原四文献逐字保留；新增ExpeL/工作流记忆/ReasoningBank/兼容性审计，不表示已复现新增方法；摘要/方法/结果/表/科学数字不改，41链接及11绑定通过 |
 | 真实TEST已经用于调优 | CONTRADICTED | 目前只允许字节哈希；语义/标签/预测/结果未读，无验证集 |
 
 ## 已完成证据入口
@@ -118,25 +119,31 @@
 - `text45_after_exact_static_run02_waiter1130167_dual_queued_no_active_budget_change_20261023.json`
 - `hourly0330_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `hourly0530_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
+- `hourly0630_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
+- `manuscript_v010_related_work_primary_refs_exact_v09_scientific_body_11profiles_QA_20261023.json`
 - `frozen_eval_four_worker_cpu105_exact_cache_failure_drain_active11_unchanged_serial91h_scenario_NOT_deployed_20261023.json`
 - `frozen_eval_parallel_dispatch_endpoint_bound_final_CPU_check_stdout_20261023.json`
 - `frozen_eval_four_worker_cpu106_endpoint_exact_cache_drain_active11_unchanged_NOT_deployed_20261023.json`
 
 ## 论文与剩余实验
 
-[当前初稿v0.9](manuscript_v1_20261021.md)和[实验附录D](appendix_experimental_details_20261022.md)
+[当前初稿v0.10](manuscript_v1_20261021.md)和[实验附录D](appendix_experimental_details_20261022.md)
 描述真实直接回答、标签辅助、公开法律作用域提交与有界TRAIN反馈。
 [完整v0.6](revisions/manuscript_v06_20261023_0235.md)及其附录D逐字保留。
 [完整v0.7](revisions/manuscript_v07_20261023_0259.md)及其附录D也逐字保留。
 [完整v0.8](revisions/manuscript_v08_20261023_0452.md)及[同期附录D](revisions/appendix_D_v08_20261023_0452.md)逐字保留。
+[完整v0.9](revisions/manuscript_v09_20261023_0627.md)及[同期附录D](revisions/appendix_D_v09_20261023_0627.md)也已逐字保留。
 图1完整46个F1点/六条折线坐标不改，B8发布状态已更新，SVG/PDF/600dpi PNG可用。
 [方法总览与双语图注](figures/method_overview_caption_20261023.md)另行完成，明确标签释放
 时机、全部已见TRAIN重放、公开编辑依赖、分量组合与下一批使用；无新成绩/虚构分组。
-Georgia不可用，沿用图1实际DejaVu Serif；图像、两版摘要、所有表行与参考文献不变。
+Georgia不可用，沿用图1实际DejaVu Serif；图像、两版摘要和所有表行不变。
 v0.7补真实组合/成本证据、纠正B8法条与案件范围歧义及更新未来操作顺序；
 v0.8将源码与适配器修复沿革归入附录，正文突出方法及实际收益，所有指标不变，待整合图号。
 v0.9精简正文的内部版本前言，明确1158只计生成端点HTTP，不含分词和就绪查询；
 不改任何科学效果、生成成本数值、摘要、表、图或参考文献。
+v0.10补两主题相关工作及ExpeL、AWM、ReasoningBank、执行兼容性审计四条已核主来源；
+旧四条参考文献保留，摘要、方法、结果和表及所有科学数值逐字不变，附录正文不变。
+它不新增实验臂，也不借引用声称已复现或验证这些方法；41条本地链接及11绑定匹配。
 正文不以工程组件、更多技能或接口支持操作数冒充创新；近邻机制须正确归属。
 已核实参考条目不因润色改标题或作者；新引用仍须主来源核实。
 

@@ -1,6 +1,6 @@
 # Appendix D. Experimental details and evidence boundaries
 
-Working appendix, updated 23 October 2026. Companion to [manuscript v0.9](manuscript_v1_20261021.md). Exact v0.8 text is retained in the [previous appendix snapshot](revisions/appendix_D_v08_20261023_0452.md). This document describes the executed main TRAIN method and declared remaining experiments. It does not add an experiment, change a score, or imply that a planned comparison has finished. Pending final results, release permissions, and submission metadata remain explicit.
+Working appendix, updated 23 October 2026. Companion to [manuscript v0.10](manuscript_v1_20261021.md). Exact v0.9 text is retained in the [previous appendix snapshot](revisions/appendix_D_v09_20261023_0627.md). This document describes the executed main TRAIN method and declared remaining experiments. It does not add an experiment, change a score, or imply that a planned comparison has finished. Pending final results, release permissions, and submission metadata remain explicit.
 
 ## D.1 Tasks, sources and information access
 
