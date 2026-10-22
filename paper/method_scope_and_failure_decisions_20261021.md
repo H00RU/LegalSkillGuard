@@ -85,6 +85,24 @@ C3/C4中的联邦块确实有改动，不能用这个潜在改进宣称已解释
 
 [全部九次组合的实际请求、原样本、解码、分数与均值恒等式证据](../artifacts/research/openexempt_legal_scope_20261020/Run03_all9_actual_compositions1152_TRAIN_views_public_side_raw_reuse_fresh_decode_and_mean_identity_20261023.json)。
 
+## 当前profile的真实分量与贡献分解
+
+全部14个非NOOP提案的公开依赖分区均为每任务三个集合：ARIZONA、ILLINOIS、
+FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN，两任务合计六个分量。这是当前公开
+共同可见关系的实际结果，不是算法硬设三个技能类型；本流分区没有变化，也不能
+据此宣称已经实测了动态分区变化或任意法域的效果。
+
+五次完整提案未过而分量组合发布，支持它不同于整库提交。对照原已保存的任务级
+准入，其中一份B1候选还接收了EV:ILLINOIS，而该候选完整EV的任务级门槛拒收。
+但五次整库救回不能直接等同五次独立于EC/EV任务拆分的作用域收益，更不能据此
+推断独立task_local学习轨迹的成绩。当前两个既定消融不单独识别这一效应。
+
+[14份原记录与任务/法律分量准入事实](../artifacts/research/openexempt_legal_scope_20261020/Run03_all14_actual_public_partition_and_family_vs_legal_gate_distinction_NOT_independent_ablation_20261023.json)。
+完整共同执行器Text45之后，正式TEST之前，须复核最终方法贡献是否需要前瞻的
+task_local独立学习消融，或将贡献收窄为任务/公开作用域的联合提交；不能用当前
+两消融声称法律依赖机制的独立因果优势。当前16臂、九份未来冻结profile及运行
+不因此记录改变；若修改设计，应另存增补并在任何TEST预测之前完成冻结。
+
 ## 与近邻工作的边界
 
 [SkillCommit](https://arxiv.org/html/2608.15165v2)已经研究标签辅助的局部修复、
