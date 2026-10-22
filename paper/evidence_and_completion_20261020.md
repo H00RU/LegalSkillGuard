@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 04:01 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 04:42 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -53,6 +53,9 @@
 | B3训练重答改善等于B4新案改善 | CONTRADICTED | 同案4/32→27/32完全答对；完整B4 ACE49.46/56.15%，空库54.95/57.17%，不能把拟合当迁移 |
 | 完整B4同案对照及技能投递可核 | VERIFIED | 16源/每臂32任务/96逻辑记录，全部15条送达；主方法83.85/79.84%；64原调用、230EC一条8192截断零分保留，不是成熟8批或TEST |
 | B4实际学习及本批成本可复核 | VERIFIED | 03:07:36唯一发布15→17条/1784tokens；32完整TRAIN、2ADD、原15内容不改；3/32→24/32同案完全答对是拟合，114native/54fresh教师，不混前批/恢复调用 |
+| 完整B5首答及新技能实际投递可核 | VERIFIED | 16来源/96逻辑，ACE56.875/55.94595%、同案空库55.97222/65.3125%、原主方法86.77083/80.82837%；17条全部送达；251EV、254EC长度零分保留，64次生成端点请求、472192输入/157651输出 |
+| B5的EV不足仅由格式截断解释 | CONTRADICTED | 仅1/16 EV格式零分；即使假设该值变成1，其均值上界仍为62.20%，低于空库65.31%。不是改分结果，也不单独识别原生提示、语言或记忆的因果效应 |
+| TCPStore心跳告警意味着模型已经退出 | CONTRADICTED | 原API/engine/ACE及两等待PID、argv/start仍在，GPU97%，日志仍有生成；完整B5及新TRAIN调用继续完成。确切store-peer原因未定，没有停训或重启服务 |
 | B3接续批成本可核且未重复算前缀 | VERIFIED | 原64首答+40新TRAIN生成共104native；45fresh教师；退役10/12与前两批另计 |
 | 原失败成本被丢弃 | CONTRADICTED | 旧Run02完整294native/114教师双盘1643成员；退役B3的10native/12教师单列，不导入新训练 |
 | 完整静态TRAIN控制已经跑出成绩 | PENDING | run02配置400/50冻结，PID821776仅Bash等待完整ACE；固定原7条/2411token、零新教师 |
@@ -90,6 +93,9 @@
 - `ACEv4_Run03_actual_B3_three_ADD_and_first_B4_source229_all15_verbatim_delivery_NOT_scores_20261023.json`
 - `ACEv4_Run03_B4_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json`
 - `ACEv4_Run03_B4_unique_actual_publication_all32_TRAIN_failed_public_text_exact_reflections_counters_ADD_and_true_union_cost_audit_20261023.json`
+- `ACEv4_Run03_B5_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json`
+- `ACEv4_B5_full96_new_bullet_uses_EV_format_bound_and_nonterminal_NCCL_warning_observation_20261023.json`
+- `Run03_final_B8_bank_complete128_TRAIN_replay_reference_for_mature_text_NOT_prequential_or_TEST_20261023.json`
 - `prospective_priority_first_common_actor_text_full9_new_profiles_frozen_no_active_change_20261023.json`
 - `prospective_priority20261023_operational_semantics_early2_legacy8_canonical_entry_source_validation_20261023.json`
 - `hourly0230_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
@@ -128,3 +134,8 @@ v0.8将源码与适配器修复沿革归入附录，正文突出方法及实际�
 不足以支持方法收益，就继续TRAIN根因优化与新运行，
 并重新完成受影响的正式学习比较。论文写作与这些实验并行，不能只停在清单、
 历史审计或等待结果，也不能提前填上尚未得到的优越性结论。
+
+Text是离线构建，未来的末库TRAIN拟合必须与本方法实际末库的完整128来源重放
+对齐，不能直接与各批当时的在线首答比较。现有B8组合已提供全256任务参照，
+原F1 EC86.03/EV89.30%，新增生成为零；本方法已在这些样本上准入优化，
+因此该比较偏向本方法，只作TRAIN诊断，不替代原曲线或正式TEST。
