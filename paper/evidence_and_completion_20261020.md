@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 06:33 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 07:07 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -24,6 +24,7 @@
 | 所有本批回答先于本批标签和教师反馈 | VERIFIED | execute顺序、原始input/HTTP/answer、评分与教师记录；回放不替换首答 |
 | 主执行器/评分没有随ACE修改而变化 | VERIFIED | 原6896246四个主actor/scorer仍匹配371绑定；不是整份旧源码当前未变 |
 | 完整主训练实际消耗可核 | VERIFIED | 1158native生成/生成端点HTTP全stop，7655443输入/3232344输出；15教师、3232522输入/51361输出，含拒收工作，不是全部HTTP查询数 |
+| 额外B1评测是主训练后期耗时的主要来源 | CONTRADICTED | 全程实际首答/学习引用1077、仅B1评测81，原1158不减；主B6的249中169为候选重放。224个逻辑B1评测记录不能当224次额外生成，也不把1077当反事实训练时长 |
 | 学得库在后续TRAIN比同案强空库更好 | VERIFIED | 完整八批表；B8 EC83.90/EV85.21%，同案空库59.12/59.96%；不是独立TEST |
 | 持续进化超过首批学得库 | VERIFIED | 全112个B2–B8来源EC+0.85565/EV+9.39396pp；B2按设计差0 |
 | 真正额外更新后的后续来源增益 | VERIFIED | 全96个B3–B8来源EC+0.99826/EV+10.95961pp，未删不利批次 |
@@ -36,6 +37,7 @@
 | 末库残余错误仍无可核具体模式 | CONTRADICTED | 全128来源256任务完整清单逐项匹配原完整输出TP/FP/FN；EC173漏报/19误报，EV150漏报/85误报，不是新主指标 |
 | 四类通用条款的140条EC遗漏都未收到技能 | CONTRADICTED | 全部对应原HTTP有明确程序；占173条漏报的80.9%，不是案件/F1损失占比；256个末库完整messages/schema/generation均与实际调用核同 |
 | EV金额不足只是缺少金额规则 | CONTRADICTED | 全部八个俄勒冈(p)金额错输出400美元，题面值明确低于400且目标相同，已送规则要求取较小者；不能据此识别注意力/表示方式等因果原因 |
+| 八个OR(p)金额错误全是末尾JSON损坏或都由B6新引入 | CONTRADICTED | 六个保存推理计划已写错，八个同资产联邦(d)(5)金额正确；实际B5父库是5正确变错/2漏报/1已错。全67目标主张另有14低值正确、14漏报、31上限正确；不是67独立案件或新指标，不证明单一措辞根因 |
 | 末库已经做过人工法律专家验证 | UNSUPPORTED | 仅助手全文与公开数值来源审查；七记录/五EC七EV/operators空，18种美元数值有公开额度或组合来源，不能证明法律适用或排除过拟合 |
 | EV指导变化与收益可复核 | VERIFIED | 96案75案改变、45好8坏22平；其余21案真实请求/回答/评分与B1相同；观察分解非因果 |
 | 教师真有正确TRAIN答案及真实父观察 | VERIFIED | 15次教师、896个含重复任务标签条目逐项核同；无未来/TEST标签 |
@@ -62,7 +64,8 @@
 | 完整B5首答及新技能实际投递可核 | VERIFIED | 16来源/96逻辑，ACE56.875/55.94595%、同案空库55.97222/65.3125%、原主方法86.77083/80.82837%；17条全部送达；251EV、254EC长度零分保留，64次生成端点请求、472192输入/157651输出 |
 | B5的EV不足仅由格式截断解释 | CONTRADICTED | 仅1/16 EV格式零分；即使假设该值变成1，其均值上界仍为62.20%，低于空库65.31%。不是改分结果，也不单独识别原生提示、语言或记忆的因果效应 |
 | B5实际发布仍未完成或必须强制增加技能 | CONTRADICTED | 05:32:56完整32TRAIN后原生0ADD，17条内容保留、计数更新，1784tokens/SHA44142a6；全链独立核同。4/32→26/32是拟合；110原生成/51新教师，两条截断零分保留 |
-| B6已自动推进并有完整成绩 | PARTIAL | 原812509进入来源261–276，观察40234只等待全部96首答；父库固定实际B5，不报部分分数或用训练重答冒充新案 |
+| B6全部96首答、实际父库与原分数已核 | VERIFIED | 07:01:38完整，原ACE62.70833/57.06019%、空库56.31055/67.72321%、主方法84.60317/83.43502%；17条全部送达，261EC/EV两长度零分保留；64生成476048输入/182121输出 |
+| B6唯一发布与全部32TRAIN已独立核完 | PENDING | 原进程继续反思；46438已接续实际发布后的全32轨迹/正确标签/计数/成本审计及双盘保全，只增加一次只读分词元数据，不额外作答 |
 | TCPStore心跳告警意味着模型已经退出 | CONTRADICTED | 原API/engine/ACE及两等待PID、argv/start仍在，GPU97%，日志仍有生成；完整B5及新TRAIN调用继续完成。确切store-peer原因未定，没有停训或重启服务 |
 | B3接续批成本可核且未重复算前缀 | VERIFIED | 原64首答+40新TRAIN生成共104native；45fresh教师；退役10/12与前两批另计 |
 | 原失败成本被丢弃 | CONTRADICTED | 旧Run02完整294native/114教师双盘1643成员；退役B3的10native/12教师单列，不导入新训练 |
@@ -110,6 +113,10 @@
 - `Run03_final128_raw_delivery140_explicit_general_omissions_and8_public_value_cap_errors_NOT_causal_20261023.json`
 - `Run03_final7_skill_content_public_caps_vs_blind_static_assistant_review_v02_20261023.json`
 - `Run03_vs_ACEv4_complete_B1_B5_equal80_prequential_original_metrics_and616_548_retired10_12_cost_NOT_final_TEST_20261023.json`
+- `Run03_complete128_all1158_native_core_vs_fixedB1_only_actual_role_attribution_not_counterfactual_20261023.json`
+- `Run03_complete128_actual1077_core81_B1only_cost_role_analysis_dual_preservation_20261023.json`
+- `Run03_final128_ORp_all67_claims_wrong8_correct14_parent_regression5_and_saved_reasoning_NOT_causal_20261023.json`
+- `ACEv4_Run03_B6_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json`
 - `prospective_priority_first_common_actor_text_full9_new_profiles_frozen_no_active_change_20261023.json`
 - `prospective_priority20261023_operational_semantics_early2_legacy8_canonical_entry_source_validation_20261023.json`
 - `hourly0230_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
