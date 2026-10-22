@@ -134,7 +134,14 @@ vdb档SHA `27b265caf217e7310fe6ecdbfdc862a58781e402192d695048f4ec50d8377947`；
 root档SHA `ba80ecd9f8fe28b05f95a7ea052dd5688ce8af5dead8ae7336bc9174619a29ae`。
 终态综合审计：
 `Run03_actual_terminal8_publications1158_15_dual_runtime_archive_WI_skill_repairs_and_B1_placeholder_audit_20261022.json`。
-本轮新增报告、本文档和源码将补联合双盘检查点，完成以实际收据为准，不覆盖旧档。
+12:42联合双盘检查点已完成，14469成员逐字核验，包括全部当前跟踪文件、主371/
+ACE382/static117绑定源码、主训练完整轨迹/1158原始生成/15教师及八次发布、
+新终态审计/曲线/成本、本文档/证据账本与ACE不可变初始化和接续元数据。
+不纳入在写ACE progress或部分性能，不覆盖旧档。
+收据：
+`Run03_actual_terminal8_complete_source1158_cost_WI_repairs_B1_boundary_and_ACE_start_joint_preservation_20261022.json`。
+联合vdb档SHA `80949b16434a10f9dbb6fd947d6a83d473166b45a41909670c7ab9fb257325f0`；
+root档SHA `1f5c1afa2fb07d85217e655a2d3d7bb2530f1bd3e6903268a05b5992ff99817e`。
 
 下一步持续观察ACE全部八批，不据空B1判断成熟方法优劣，不另起重复进程。
 [最终分析计划](research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md)保持：

@@ -101,6 +101,10 @@ B8 C1全256任务/768父-提案-实际记录位已经完整v14原始解码、消
 不能误写含371源码，源码另有source与联合检查点保全。主371/ACE382文件及50packages
 均原样。12:10原等待PID1738522实际exec为ACE128，无旧法律技能/主Run记忆导入；
 ACE原生角色适配和较大训练反思预算必须披露，不称作者默认原样复现或总计算量相等。
+12:42额外联合检查点在两物理设备各14469成员逐字核验，包含主371/ACE382/static117
+源码绑定、全部当前跟踪文件、完整主轨迹、新终态报告/成本/曲线及当前文档；
+不含在写ACE progress或部分性能。收据为同目录
+`Run03_actual_terminal8_complete_source1158_cost_WI_repairs_B1_boundary_and_ACE_start_joint_preservation_20261022.json`。
 
 新增终态证据位于`artifacts/research/openexempt_legal_scope_20261020/`：
 
