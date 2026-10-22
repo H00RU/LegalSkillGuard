@@ -186,9 +186,68 @@ def test_native_reflector_tags_only_actual_citations_and_retains_train_targets()
     with pytest.raises(ValueError):
         reflector_request(row(), {**observation, "used_bullet_ids": None}, {}, BOOK, {})
     _, no_tags_schema, no_tags = reflector_request(row(), {**observation,
-        "used_bullet_ids": None, "parse_error": "actual malformed output"}, {}, BOOK, {})
+        "used_bullet_ids": None, "parse_error": "actual malformed output",
+        "unparsed_public_output": "actual incomplete public response"}, {}, BOOK, {})
     reflection["bullet_tags"] = []
     validate_reflection(reflection, no_tags_schema, no_tags)
+
+
+@pytest.mark.parametrize("finish_reason", ["length", "stop"])
+def test_failed_public_output_reaches_teacher_without_answer_or_provenance_recovery(
+        tmp_path, monkeypatch, finish_reason):
+    from experiments.openexempt_ace_online import ACEOnline
+    from legal_skill_guard.openexempt import evaluate
+
+    monkeypatch.setattr("experiments.openexempt_ace_online.ROOT", tmp_path)
+    study = ACEOnline.__new__(ACEOnline)
+    study.cfg = {"execution_contract": "direct_statutory_claims",
+                 "execution_contract_version": 13, "generation": {"max_tokens": 8192}}
+    study.playbook, study.out, study.request_cache, study.reuse_events = BOOK, tmp_path, {}, []
+    study.check = lambda: None
+    raw = '{"reasoning":"PUBLIC_FAILED_MARKER", "bullet_ids":["misc-00001"], "final_answer":'
+    study.call = lambda *a, **k: {"content": raw, "finish_reason": finish_reason}
+    source = {**row(), "source_key": "fixture"}
+    rec = study.answer(source, "b3_prequential")
+    assert rec["parse_error"] and rec["parsed"] is None
+    assert rec["actual_wrapper_submission"] is None
+    assert rec["used_bullet_ids"] is rec["public_rationale"] is None
+    assert rec["unparsed_public_output"] == raw
+    assert rec["native_finish_reason"] == finish_reason
+    assert evaluate(source, None, {"watch": []})["f1"] == 0
+    observation = {**rec, "answer": None}
+    prompt, schema, cited = reflector_request(source, observation, {"watch": []}, BOOK, {},
+                                             direct_numeric=True)
+    assert json.dumps(observation, ensure_ascii=False) in prompt
+    assert "PUBLIC_FAILED_MARKER" in prompt and cited == []
+    assert schema["properties"]["bullet_tags"]["maxItems"] == 0
+    del observation["unparsed_public_output"]
+    with pytest.raises(ValueError, match="verbatim public text"):
+        reflector_request(source, observation, {}, BOOK, {}, direct_numeric=True)
+
+
+@pytest.mark.parametrize("bad", ["role", "no_parse_failure_in_completed_prefix",
+                                 "zero_B3_TRAIN_or_teacher_import", "changed_bytes"])
+def test_continuation_refuses_unproved_or_modified_prefix(tmp_path, monkeypatch, bad):
+    from experiments.openexempt_ace_online import ACEOnline
+    from legal_skill_guard.experiment.storage import RunStore
+    from legal_skill_guard.learning.experiment import sha
+
+    monkeypatch.setattr("experiments.openexempt_ace_online.ROOT", tmp_path)
+    receipt = {"role": "exact_last_complete_ACE_prefix_not_best_checkpoint",
+               "no_parse_failure_in_completed_prefix": True,
+               "zero_B3_TRAIN_or_teacher_import": True}
+    if bad == "changed_bytes":
+        artifact = tmp_path / "artifact.json"
+        RunStore.immutable_json(artifact, {"actual": True})
+        receipt["files"] = {"artifact.json": "0" * 64}
+    else:
+        receipt[bad] = "not_proved"
+    path = tmp_path / "receipt.json"
+    RunStore.immutable_json(path, receipt)
+    study = ACEOnline.__new__(ACEOnline)
+    study.cfg, study.bindings = {"continuation_receipt": "receipt.json"}, {"receipt.json": sha(path)}
+    with pytest.raises(ValueError):
+        study.restore_prefix()
 
 
 @pytest.mark.parametrize("family", ["EC", "EV"])
@@ -277,6 +336,7 @@ def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predict
     study.out, study.playbook = tmp_path / "out", INITIAL_PLAYBOOK
     study.native, study.teachers, study.teacher_attempts, study.summaries = [], [], 0, []
     study.request_cache, study.reuse_events, study.current_batch = {}, [], 0
+    study.prefix_receipt = None
     study.episodes = {arm: [] for arm in ("ace", "empty", "empty_direct_numeric")}
     study.check, study.progress = lambda: None, lambda *a, **k: None
     study.meter = SimpleNamespace(token_count=lambda **kwargs: 100)

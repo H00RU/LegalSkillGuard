@@ -1,4 +1,4 @@
-"""Causal online ACE adaptation on public EC/EV, not an evaluated reproduction.
+"""Online ACE adaptation on public EC/EV, not an author-default reproduction.
 
 One frozen 8B generator, native TRAIN reflection/regeneration, and one batch ADD
 curator. First-encounter scores never use these labeled TRAIN regenerations.
@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import copy
 import fcntl
+import importlib.metadata
 import json
 import signal
 import traceback
@@ -50,10 +51,12 @@ ROLE_SYSTEM = (
 
 
 def validate_profile(cfg):
-    if (cfg.get("learner") != "ace_native_online_v3"
+    if (cfg.get("learner") != "ace_native_online_v4"
             or cfg.get("execution_contract") not in (
                 "source_grounded_claim_operations", "direct_statutory_claims")):
         raise ValueError("Declare this native-role ACE online adaptation")
+    if cfg.get("ace_failed_output_feedback_policy") != "verbatim_public_output_no_answer_recovery":
+        raise ValueError("Failed public outputs must reach the TRAIN reflector without answer recovery")
     if cfg.get("ace_bullet_provenance_policy") != "preserve_raw_ids_distinct_reflection_tags":
         raise ValueError("Declare raw provenance preservation without legal-score rejection of repeated IDs")
     rounds = cfg.get("ace_max_TRAIN_reflection_rounds")
@@ -109,8 +112,12 @@ class ACEOnline:
         self.request_cache, self.reuse_events = {}, []
         self.current_batch, self.stop, self.summaries = 0, False, []
         self.episodes = {arm: [] for arm in ("ace", "empty", "empty_direct_numeric")}
+        self.prefix_receipt = None
+        self.prefix_native_calls = self.prefix_teacher_calls = 0
         self.meter = WireClient(self.cfg["generation"])
         self.out.mkdir(parents=True)
+        if self.cfg.get("continuation_receipt"):
+            self.restore_prefix()
         RunStore.immutable_json(self.out / "initialization.json", {
             "playbook": self.playbook, "playbook_sha256": csha(self.playbook),
             "legal_prior_bullets": 0, "published_numerical_programs": 0,
@@ -118,6 +125,15 @@ class ACEOnline:
             "profile": "native_TRAIN_reflect_regenerate_batch_ADD_curator",
             "max_TRAIN_reflection_rounds": self.cfg["ace_max_TRAIN_reflection_rounds"],
             "bullet_provenance_policy": self.cfg["ace_bullet_provenance_policy"],
+            "failed_output_feedback_policy": self.cfg["ace_failed_output_feedback_policy"],
+            "active_bullets_at_process_start": len(bullets(self.playbook)),
+            "continued_same_learner_prefix": ({
+                "receipt": self.cfg["continuation_receipt"],
+                "source_run": self.prefix_receipt["source_run_id"],
+                "through_batch": self.prefix_receipt["through_batch"],
+                "parent_playbook_sha256": self.prefix_receipt["parent_playbook_sha256"]
+            } if self.prefix_receipt else None),
+            "not_a_new_independent_repeat_when_continued": self.prefix_receipt is not None,
             "not_unmodified_author_defaults_or_a_performance_result": True})
         for sig in (signal.SIGINT, signal.SIGTERM):
             signal.signal(sig, lambda *_: setattr(self, "stop", True))
@@ -125,6 +141,108 @@ class ACEOnline:
         if not self.meter.readiness()["ready"]:
             raise RuntimeError("Existing frozen executor unavailable; no fallback")
         self.progress("initialized")
+
+    def restore_prefix(self):
+        """Restore the last committed prefix, not a score-selected bank or retry.
+
+        This narrow recovery is for the v3 failed-output evidence omission. Only
+        a parse-valid completed prefix and the next batch's immutable forecasts
+        qualify. No unfinished TRAIN reflection or regeneration is imported.
+        """
+        path = ROOT / self.cfg["continuation_receipt"]
+        if self.bindings.get(str(path.relative_to(ROOT))) != sha(path):
+            raise ValueError("Bind the explicit continuation receipt before starting")
+        receipt = read(path)
+        if (receipt.get("role") != "exact_last_complete_ACE_prefix_not_best_checkpoint"
+                or receipt.get("no_parse_failure_in_completed_prefix") is not True
+                or receipt.get("zero_B3_TRAIN_or_teacher_import") is not True):
+            raise ValueError("Only the proved unaffected v3 prefix may be continued")
+        for name, digest in receipt["files"].items():
+            actual = (ROOT / name).resolve()
+            if (Path(name).is_absolute() or not actual.is_relative_to(ROOT.resolve())
+                    or sha(actual) != digest):
+                raise ValueError("Original continuation artifact changed: " + name)
+        old_path = ROOT / receipt["source_config"]
+        old = read(old_path)
+        if (sha(old_path) != receipt["source_config_sha256"]
+                or sha(ROOT / receipt["source_frozen"]) != receipt["source_frozen_sha256"]
+                or old["run_id"] != receipt["source_run_id"]
+                or old.get("learner") != "ace_native_online_v3"):
+            raise ValueError("Continuation must identify its actual original v3 run")
+        for key in ("generation", "input_packet", "grading_directory", "source_cases",
+                    "batch_source_cases", "planned_batches", "execution_contract",
+                    "execution_contract_version", "library_token_hard_cap",
+                    "ace_max_TRAIN_reflection_rounds", "ace_bullet_provenance_policy"):
+            if old[key] != self.cfg[key]:
+                raise ValueError("Continuation changes an unaffected algorithm input: " + key)
+        settings = lambda c: {k: v for k, v in c["teacher"].items()
+                              if k != "total_invocation_budget"}
+        if settings(old) != settings(self.cfg):
+            raise ValueError("Continuation must retain the original teacher settings")
+        source = ROOT / "runs" / old["run_id"]
+        through = receipt["through_batch"]
+        if (through != 2 or receipt["saved_first_forecast_batch"] != 3
+                or sorted(p.name for p in (source / "publications").glob("b*.json"))
+                != ["b1.json", "b2.json"]
+                or not (source / "failure.json").is_file()
+                or not (source / "terminal_preservation.json").is_file()):
+            raise ValueError("Use the unique last completed B2 at the preserved stop")
+        for name in receipt["native_origins"]:
+            if name not in receipt["files"]:
+                raise ValueError("Every restored native origin must be hash-bound")
+            origin = read(ROOT / name)
+            stage = origin["stage"]
+            if not (stage.startswith(("b1_", "b2_")) or stage == "b3_prequential"):
+                raise ValueError("Never import unfinished B3 TRAIN responses")
+            if len(origin["calls"]) != 1 or origin["transport_error"] is not None:
+                raise ValueError("Only the actual complete native transport is restored")
+            request = origin["calls"][0]["request"]
+            schema = request["response_format"]["json_schema"]["schema"]
+            fingerprint = csha({"messages": request["messages"], "schema": schema,
+                                "generation": self.cfg["generation"]})
+            if fingerprint in self.request_cache:
+                raise ValueError("Restored origins cannot double-count an identical request")
+            self.request_cache[fingerprint] = {"response": origin["response"],
+                                               "raw_call_path": name}
+            self.native.append(origin)
+        for name in receipt["teacher_responses"]:
+            if name not in receipt["files"]:
+                raise ValueError("Every restored teacher response must be hash-bound")
+            role = Path(name).parent.name
+            if not role.startswith(("b1_", "b2_")):
+                raise ValueError("Never import an unfinished B3 teacher response")
+            response = read(ROOT / name)
+            self.teachers.append({"name": role, **response})
+            self.teacher_attempts += response["capacity_transport_attempt_index"] + 1
+        summaries = read(source / "batch_summary.json")
+        if len(summaries) != through:
+            raise ValueError("Do not select a prefix from a later completed stream")
+        for batch in range(1, through + 1):
+            published = read(source / "publications" / f"b{batch}.json")
+            if csha(published["playbook"]) != published["playbook_sha256"]:
+                raise ValueError("Original publication hash differs")
+            RunStore.immutable_json(self.out / "publications" / f"b{batch}.json", published)
+            for suffix in ("records", "prequential"):
+                value = read(source / "batches" / f"b{batch}_{suffix}.json")
+                RunStore.immutable_json(self.out / "batches" / f"b{batch}_{suffix}.json", value)
+                if suffix == "records":
+                    for arm in self.episodes:
+                        self.episodes[arm].extend(value[arm])
+            self.playbook = published["playbook"]
+        if csha(self.playbook) != receipt["parent_playbook_sha256"]:
+            raise ValueError("Restored bank is not the exact last complete publication")
+        self.current_batch, self.summaries = through, summaries
+        self.prefix_native_calls, self.prefix_teacher_calls = len(self.native), len(self.teachers)
+        self.prefix_receipt = receipt
+        RunStore.immutable_json(self.out / "continuation.json", {
+            "at": now(), "source_run": old["run_id"], "receipt": self.cfg["continuation_receipt"],
+            "receipt_sha256": sha(path), "through_batch": through,
+            "restored_native_origins": self.prefix_native_calls,
+            "restored_teacher_responses": self.prefix_teacher_calls,
+            "saved_B3_first_forecasts_reused_by_exact_request_only": True,
+            "retired_B3_TRAIN_native_not_imported": receipt["retired_B3_TRAIN_native"],
+            "retired_B3_teachers_not_imported": receipt["retired_B3_teacher_responses"],
+            "not_a_new_independent_learning_repeat": True})
 
     def progress(self, stage, **extra):
         RunStore.atomic_json(self.out / "progress.json", {
@@ -192,6 +310,11 @@ class ACEOnline:
             "native_program": None if decoded is None else decoded["native_program"],
             "execution_receipt": None if decoded is None else decoded["execution_receipt"],
             "actual_wrapper_submission": value, "raw_call_path": raw_call_path}
+        if error is not None:
+            # Diagnostic evidence only. Never parse, complete, deduplicate or
+            # score this incomplete string as a legal answer.
+            record["unparsed_public_output"] = response["content"]
+            record["native_finish_reason"] = response["finish_reason"]
         if alias is not None:
             record["physical_alias_of_identical_wire"] = alias
         RunStore.immutable_json(path.with_suffix(".answer.json"), record)
@@ -280,7 +403,7 @@ class ACEOnline:
 
     def execute(self):
         batches = self.cfg["source_cases"] // self.cfg["batch_source_cases"]
-        for batch in range(1, batches + 1):
+        for batch in range(self.current_batch + 1, batches + 1):
             self.current_batch = batch
             current = [r for r in self.rows if r["batch"] == batch]
             records = {arm: [] for arm in self.episodes}
@@ -298,6 +421,11 @@ class ACEOnline:
                 "ace_minus_empty": paired_effect(records["empty"], records["ace"]),
                 "ace_minus_direct_numeric": paired_effect(records["empty_direct_numeric"], records["ace"]),
                 "parent_playbook_sha256": csha(self.playbook), "official_test_opened": False}
+            if self.prefix_receipt and batch == self.prefix_receipt["saved_first_forecast_batch"]:
+                original = read(ROOT / "runs" / self.prefix_receipt["source_run_id"] /
+                                "batches" / f"b{batch}_prequential.json")
+                if any(csha(summary[arm]) != csha(original[arm]) for arm in self.episodes):
+                    raise ValueError("Continued immutable first-forecast scores changed")
             RunStore.immutable_json(self.out / "batches" / f"b{batch}_prequential.json", summary)
             controls = {(r["case_id"], r["family"]): {arm: next(x for x in records[arm]
                 if (x["case_id"], x["family"]) == (r["case_id"], r["family"]))
@@ -324,6 +452,11 @@ class ACEOnline:
                 "actual_teacher_attempts": self.teacher_attempts, "raw_wire_reuses": self.reuse_events,
                 "native_prompt_tokens": sum((r.get("response") or {}).get("prompt_tokens", 0) for r in self.native),
                 "native_completion_tokens": sum((r.get("response") or {}).get("completion_tokens", 0) for r in self.native),
+                "continuation_source_run": (self.prefix_receipt or {}).get("source_run_id"),
+                "restored_native_origins": self.prefix_native_calls,
+                "restored_teacher_responses": self.prefix_teacher_calls,
+                "fresh_native_calls_after_continuation": len(self.native) - self.prefix_native_calls,
+                "fresh_teacher_responses_after_continuation": len(self.teachers) - self.prefix_teacher_calls,
                 "not_a_fair_comparison_claim_or_final_TEST_result": True})
         except Exception as exc:
             RunStore.immutable_json(self.out / "failure.json", {
@@ -351,7 +484,31 @@ def main():
     if args.action == "freeze":
         extra = [Path(__file__).resolve(), *ROOT.glob("third_party/ace/prompts/*.py"),
                  ROOT / "third_party/ace/LICENSE.txt", ROOT / "third_party/ace/NOTICE.md"]
-        print(json.dumps({"bound_files": len(freeze(config, additional_sources=extra)["files"])}))
+        if cfg.get("continuation_receipt"):
+            receipt_path = ROOT / cfg["continuation_receipt"]
+            receipt = read(receipt_path)
+            # Reuse the original complete source set, with current bytes and
+            # explicit prior TRAIN exposure. The generic fresh-run freeze's
+            # no-observed-performance flag would be false for a continuation.
+            names = set(read(ROOT / receipt["source_frozen"])["files"])
+            names.update(str(p.relative_to(ROOT)) for p in extra)
+            names.update((str(config.relative_to(ROOT)), cfg["protocol"],
+                          cfg["continuation_receipt"]))
+            manifest = {"config_sha256": sha(config),
+                "files": {n: sha(ROOT / n) for n in sorted(names)},
+                "packages": {d.metadata["Name"]: d.version
+                             for d in importlib.metadata.distributions()},
+                "prepared_at": now(), "no_this_run_performance_observed_before_freeze": False,
+                "prior_TRAIN_prefix_and_B3_forecasts_explicitly_observed": True,
+                "no_new_continuation_performance_before_freeze": True,
+                "continuation_receipt_sha256": sha(receipt_path)}
+            frozen_path = config.with_suffix(".frozen.json")
+            RunStore.immutable_json(frozen_path, manifest)
+            preserve(cfg["run_id"], "source", [*manifest["files"],
+                     str(frozen_path.relative_to(ROOT)), "docs/research/RESEARCH_RESET_20261019.md"])
+        else:
+            manifest = freeze(config, additional_sources=extra)
+        print(json.dumps({"bound_files": len(manifest["files"])}))
     else:
         with Path(cfg["exclusive_training_lock"]).open("a") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)

@@ -15,6 +15,16 @@ not a complete unmodified ACE reproduction. Task-specific citation handling,
 G4 experience and batch curation must be disclosed with actual call costs.
 No upstream JSON-repair, error-skipping or retry fallback is imported.
 
+2026-10-22: v4 preserves a failed Generator's unchanged public output for TRAIN
+reflection. The pinned batch orchestrator passes `gen_response` directly as
+`reasoning_trace`; v3 lost that evidence when parsing failed, although the raw
+file survived. The public string is now recorded as diagnostic input only.
+Original invalid scores, incomplete answers and unavailable bullet IDs remain;
+there is no partial JSON recovery, answer repair, guessed ID or inference retry.
+Seed45 resumes its proved unaffected B1/B2 prefix and exact B3 first forecasts
+under an explicit hash-bound lineage, not as a new independent repeat. Retired
+B3 TRAIN work and all original costs remain preserved. Fresh repeats start empty.
+
 2026-10-22: v3 corrects a local provenance overconstraint discovered in the
 first complete B2 of the aborted ACE run01. The pinned native Generator returns
 the JSON `bullet_ids` list without rejecting repeated IDs. We now likewise

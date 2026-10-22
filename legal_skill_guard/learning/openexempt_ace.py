@@ -129,6 +129,8 @@ def reflector_request(row, observation, target, playbook, environment_feedback, 
     """TRAIN-only feedback for this source, never used to repair its first score."""
     if (observation["case_id"], observation["family"]) != (row["case_id"], row["family"]):
         raise ValueError("Reflect only this actual source/task observation")
+    if observation.get("parse_error") and not isinstance(observation.get("unparsed_public_output"), str):
+        raise ValueError("A failed native output must retain its verbatim public text for reflection")
     known = bullets(playbook)
     # None explicitly means IDs were unavailable after a malformed native output.
     # It does not invent an empty successful answer or retry the legal task.
