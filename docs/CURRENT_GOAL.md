@@ -141,7 +141,7 @@ B3–B8全部96来源为EC+0.99826/EV+10.95961pp。单学习器TRAIN，非独立
 
 ## 真实技能收益与尚存缺口
 
-以下ACE B1/B2为已停止的旧v2开发记录，不进入正式对照或三次一致重复。
+下方标明旧ACE的B1/B2为已停止的v2开发记录，不进入正式对照或三次一致重复。
 新v3已完整B1空playbook首答；学习后新案成绩仍待完成。旧B2较差受元数据适配器
 额外零分影响，不能当作胜出。
 
@@ -157,7 +157,7 @@ reason536已含输出，前缀缓存11136已含输入，响应82.388秒不是GPU
 此为固定前三次教师的阶段成本，不是完整B1训练或实时总量，也不证明理解/泛化。
 证据`ACEv3_Run02_B1_complete_first96_64raw_and_first181EC3_actual_teacher_label_evidence_20261022.json`。
 
-ACE B1完整首答报告：
+旧v2 ACE B1完整首答报告：
 `ACE128_B1_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261022.json`。
 原生角色空playbook当前低于直接空库，32任务4好14坏14平；不是解析/截断或空库
 请求变化，不热改作者角色或据初始空库判断最终效果。14:48实际教师/curator已完成，
