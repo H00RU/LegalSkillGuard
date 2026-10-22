@@ -15,6 +15,16 @@ not a complete unmodified ACE reproduction. Task-specific citation handling,
 G4 experience and batch curation must be disclosed with actual call costs.
 No upstream JSON-repair, error-skipping or retry fallback is imported.
 
+2026-10-22: v3 corrects a local provenance overconstraint discovered in the
+first complete B2 of the aborted ACE run01. The pinned native Generator returns
+the JSON `bullet_ids` list without rejecting repeated IDs. We now likewise
+preserve that raw list and the legal answer. Reflection tags each distinct
+referenced bullet once; native last-tag batch counters remain unchanged.
+Repeated ID metadata cannot zero a schema-valid legal answer. No JSON recovery,
+answer repair, inference retry, or new legal content is introduced. Run01 and
+its original scores/costs are retained and excluded from formal ACE repeats;
+the corrected study starts empty with fresh calls under a new Run ID.
+
 2026-10-20: Optional direct-answer contract14 shares the main method's public,
 case-local asset-mention encoding across Generator, released-TRAIN regeneration,
 Reflector and Curator. This is a declared local task-interface adaptation, not

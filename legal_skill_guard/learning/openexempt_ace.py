@@ -100,9 +100,10 @@ def decode_generator(row, playbook, submitted, *, direct_numeric=False, asset_re
     _, schema = generator_payload(row, playbook, direct_numeric=direct_numeric,
                                   asset_references=asset_references)
     validate(submitted, schema)
+    # The native Generator returns this list verbatim, including repetitions.
+    # Repeated provenance does not invalidate an otherwise valid legal answer.
+    # Preserve the raw list; distinct-bullet bookkeeping belongs to reflection.
     cited = submitted["bullet_ids"]
-    if len(cited) != len(set(cited)):
-        raise ValueError("Repeated native ACE bullet citation, no deduplication")
     native = submitted["final_answer"]
     if asset_references:
         native = decode_asset_references(native, public_asset_catalog(row))
@@ -136,8 +137,11 @@ def reflector_request(row, observation, target, playbook, environment_feedback, 
         if not observation.get("parse_error"):
             raise ValueError("Missing bullet provenance without an actual parse error")
         cited = []
-    if len(cited) != len(set(cited)) or not set(cited) <= set(known):
+    if not set(cited) <= set(known):
         raise ValueError("Reflection must retain valid actual native bullet citations")
+    # Tag each distinct cited bullet once. The saved observation still contains
+    # the original list, so no model output or legal prediction is rewritten.
+    cited = list(dict.fromkeys(cited))
     fields = ("reasoning", "error_identification", "root_cause_analysis", "correct_approach", "key_insight")
     tags = {"type": "array", "minItems": len(cited), "maxItems": len(cited), "items": {
         "type": "object", "additionalProperties": False, "required": ["id", "tag"],

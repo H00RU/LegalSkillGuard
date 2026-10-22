@@ -50,10 +50,12 @@ ROLE_SYSTEM = (
 
 
 def validate_profile(cfg):
-    if (cfg.get("learner") != "ace_native_online_v2"
+    if (cfg.get("learner") != "ace_native_online_v3"
             or cfg.get("execution_contract") not in (
                 "source_grounded_claim_operations", "direct_statutory_claims")):
         raise ValueError("Declare this native-role ACE online adaptation")
+    if cfg.get("ace_bullet_provenance_policy") != "preserve_raw_ids_distinct_reflection_tags":
+        raise ValueError("Declare raw provenance preservation without legal-score rejection of repeated IDs")
     rounds = cfg.get("ace_max_TRAIN_reflection_rounds")
     if type(rounds) is not int or rounds < 1 or rounds > 3:
         raise ValueError("Declare one to three native TRAIN reflection/regeneration rounds")
@@ -115,6 +117,7 @@ class ACEOnline:
             "execution_contract": self.cfg["execution_contract"],
             "profile": "native_TRAIN_reflect_regenerate_batch_ADD_curator",
             "max_TRAIN_reflection_rounds": self.cfg["ace_max_TRAIN_reflection_rounds"],
+            "bullet_provenance_policy": self.cfg["ace_bullet_provenance_policy"],
             "not_unmodified_author_defaults_or_a_performance_result": True})
         for sig in (signal.SIGINT, signal.SIGTERM):
             signal.signal(sig, lambda *_: setattr(self, "stop", True))
@@ -175,8 +178,6 @@ class ACEOnline:
                 raise ValueError("Incomplete native ACE output: " + str(response["finish_reason"]))
             value = json.loads(response["content"])
             validate(value, schema)
-            if len(value["bullet_ids"]) != len(set(value["bullet_ids"])):
-                raise ValueError("Repeated native bullet provenance")
             used, rationale = copy.deepcopy(value["bullet_ids"]), value["reasoning"]
             decoded = decode_generator(row, book, value, direct_numeric=direct,
                                         asset_references=asset_references)

@@ -104,6 +104,52 @@ def test_ace_generator_keeps_native_bullet_reporting_without_hidden_prior_or_tar
         validate(submitted, empty_schema)
 
 
+@pytest.mark.parametrize("family", ["EC", "EV"])
+def test_repeated_native_provenance_preserves_legal_answer_and_tags_distinct_bullets_once(
+        tmp_path, monkeypatch, family):
+    from experiments.openexempt_ace_online import ACEOnline
+
+    monkeypatch.setattr("legal_skill_guard.learning.legal_namespace.asset_description_lexicon",
+                        lambda: ("watch",))
+    monkeypatch.setattr("experiments.openexempt_ace_online.ROOT", tmp_path)
+    source = {**row(family), "source_key": "fixture"}
+    reference = "Ariz. Rev. Stat. section 33-1123"
+    value = [reference] if family == "EC" else [{"citation_ref": reference, "claim_value": 999}]
+    submitted = {"reasoning": "actual public explanation", "bullet_ids": ["misc-00001"] * 3,
+                 "final_answer": {"A001": value}}
+    original = copy.deepcopy(submitted)
+    decoded = decode_generator(source, BOOK, submitted, direct_numeric=True, asset_references=True)
+    unique = {**submitted, "bullet_ids": ["misc-00001"]}
+    expected = decode_generator(source, BOOK, unique, direct_numeric=True, asset_references=True)
+    assert decoded["answer"] == expected["answer"]
+    assert decoded["used_bullet_ids"] == submitted["bullet_ids"]
+    assert submitted == original
+
+    study = ACEOnline.__new__(ACEOnline)
+    study.cfg = {"execution_contract": "direct_statutory_claims", "execution_contract_version": 14,
+                 "generation": {"seed": 45, "max_tokens": 100}}
+    study.playbook, study.out, study.request_cache, study.reuse_events = BOOK, tmp_path, {}, []
+    study.check = lambda: None
+    study.call = lambda *a, **k: {"content": json.dumps(submitted), "finish_reason": "stop"}
+    record = study.answer(source, "b2_prequential")
+    assert record["parse_error"] is None
+    assert record["parsed"] == {"answer": expected["answer"]}
+    assert record["actual_wrapper_submission"] == original
+    assert record["used_bullet_ids"] == original["bullet_ids"]
+
+    observation = {**record, "answer": record["parsed"]["answer"]}
+    prompt, schema, cited = reflector_request(source, observation, {}, BOOK, {},
+        direct_numeric=True, asset_references=True)
+    assert cited == ["misc-00001"]
+    assert json.dumps(observation, ensure_ascii=False) in prompt
+    assert schema["properties"]["bullet_tags"]["minItems"] == 1
+    assert schema["properties"]["bullet_tags"]["maxItems"] == 1
+    reflection = {k: "public finding" for k in (
+        "reasoning", "error_identification", "root_cause_analysis", "correct_approach", "key_insight")}
+    reflection["bullet_tags"] = [{"id": "misc-00001", "tag": "helpful"}]
+    validate_reflection(reflection, schema, cited)
+
+
 def test_generator_task_type_adaptation_never_removes_public_question_text():
     source = row()
     source["components"]["facts"] += (
