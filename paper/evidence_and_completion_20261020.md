@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 07:07 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 07:40 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -80,6 +80,7 @@
 | 完整评测的并发加速已经实际部署 | PARTIAL | 隔离入口106项CPU检查20.81s通过，原stdout存档，13执行器副本/11profile/50packages匹配；默认串行保留，当前单序列环境拒绝四请求模式。尚无真实四并发配置、服务切换或实测速度 |
 | 正式16-arm TEST矩阵现在已经可运行 | PENDING | 所有实际末库/重复尚未齐；唯一正式CLI拒绝不完整设计，不能启动TEST |
 | 相关工作已补机制分类及四条主来源 | VERIFIED | v0.10中英两主题，原四文献逐字保留；新增ExpeL/工作流记忆/ReasoningBank/兼容性审计，不表示已复现新增方法；摘要/方法/结果/表/科学数字不改，41链接及11绑定通过 |
+| 已有可直接审阅的完整双语PDF | VERIFIED | 内部审阅20页含附录D，330文本单元/6表/两幅已有图，实际PDF文本差异0、关键页检查；源M/D逐字v0.10、待填高亮，不是正式投稿版或实验已完成 |
 | 真实TEST已经用于调优 | CONTRADICTED | 目前只允许字节哈希；语义/标签/预测/结果未读，无验证集 |
 
 ## 已完成证据入口
@@ -127,6 +128,7 @@
 - `hourly0330_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `hourly0530_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `hourly0630_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
+- `hourly0730_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `manuscript_v010_related_work_primary_refs_exact_v09_scientific_body_11profiles_QA_20261023.json`
 - `frozen_eval_four_worker_cpu105_exact_cache_failure_drain_active11_unchanged_serial91h_scenario_NOT_deployed_20261023.json`
 - `frozen_eval_parallel_dispatch_endpoint_bound_final_CPU_check_stdout_20261023.json`
@@ -151,6 +153,10 @@ v0.9精简正文的内部版本前言，明确1158只计生成端点HTTP，不�
 v0.10补两主题相关工作及ExpeL、AWM、ReasoningBank、执行兼容性审计四条已核主来源；
 旧四条参考文献保留，摘要、方法、结果和表及所有科学数值逐字不变，附录正文不变。
 它不新增实验臂，也不借引用声称已复现或验证这些方法；41条本地链接及11绑定匹配。
+[内部双语PDF](../artifacts/research/manuscript_review_20261023/v010_bilingual_internal_v03/legal_skill_evolution_v010_bilingual_internal_review.pdf)
+完整保留上述源稿及附录D，既有两图嵌入，20页是合排审阅长度，不是英文投稿版页数。
+[最终图文核对](../artifacts/research/manuscript_review_20261023/v010_bilingual_internal_v03/final_review_QA_20261023.json)
+绑定源稿、PDF、330文本单元/6表、字体、关键页和重现程序，不改数据或学习链。
 正文不以工程组件、更多技能或接口支持操作数冒充创新；近邻机制须正确归属。
 已核实参考条目不因润色改标题或作者；新引用仍须主来源核实。
 
