@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-2026-10-22 20:41 Asia/Shanghai。Goal仍active，完整论文目标未完成。
+2026-10-22 21:20 Asia/Shanghai。Goal仍active，完整论文目标未完成。
 Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布齐全；
 旧ACE run01因重复技能ID被额外判为法律题零分，已于16:02:55安全停止，禁止恢复或
 充当公平正式对照。修正v3已于16:14:04以新Run ID从空库正式启动；主方法不变、不重跑。
@@ -65,7 +65,14 @@ paper-ideation负责问题/贡献与近邻的接缝，paper-experiments-appendix
   本方法83.67684/74.44940%；64原始生成/64HTTP全部stop，零解析错。
   全32空库原始HTTP、响应及评分均与主Run相同；10条技能均完整投递并有原生自报。
   这是首批学习后的16来源新案，不是成熟全流或TEST优势；不同原生提示包装使
-  ACE对直接空库差值不能全归因于技能内容。当前正在B2 TRAIN更新，尚未B2最终发布。
+  ACE对直接空库差值不能全归因于技能内容。21:08:30已唯一发布B2，12条/1214tokens，
+  SHA `701ee9b2b2edaa8c48de2d13b187cd47cf0fb557c9fc6595c7a2b365bb095e52`。
+  全32 TRAIN及每轮真实HTTP、同案正确标签、反思请求、本地计数和原生ADD均重建；
+  B2本身107生成/107HTTP全stop、817445输入/239307输出，50新教师响应，
+  1356393输入/46278输出；B1+B2共102教师响应/102尝试，无额外输运失败证据。
+  本批完全答对6→24/32是TRAIN拟合，不改原先B2首答。新增err-00011用途事实条件
+  与ph-00012逐法域分类两条，原十条内容保留。213EC的B3真实完整HTTP已核同全文12条，
+  自报六个不同旧ID，不将自报当因果使用；B3未完成，不读取或报告部分案成绩。
   实际初始化仅七个空标题，0法律先验/0数值程序，不导入旧回答/教师/库。
   v3保留原始重复ID列表和法律答案，反思只按不同ID各标记一次；无答案修复或fallback。
   新协议：`docs/research/OPENEXEMPT_ACE_PROVENANCE_V3_20261022.md`。
@@ -88,8 +95,12 @@ paper-ideation负责问题/贡献与近邻的接缝，paper-experiments-appendix
   更正证据`ACE128_restart_rationale_erratum_actual_old_B2_teacher197_200_no204212_or_curator_20261022.json`。
   不修改活跃377绑定的历史协议来隐去原表述，本段及该独立证据覆盖其因果措辞。
 - canonical锁：`artifacts/openexempt_training.lock`。
-- 当前只读观察session **70202**，19:58:32启动，目标唯一B2发布与全部32条TRAIN
-  逐字匹配，期限10月23日01:58:32只结束观察，不结束训练。原模型/ACE句柄不变。
+- 当前只读观察session **57953**，21:12:09启动，目标B3全部16来源/32任务/96逻辑
+  首答及summary；期限10月23日03:12:09只结束观察，不结束训练。原模型/ACE句柄不变。
+  70202已于21:09:02见唯一B2发布与32 TRAIN逐字匹配退出0；CPU78784已完整重建
+  B2学习链并退出0，不能再轮询或覆盖不可变报告。学习及投递证据：
+  `ACEv3_Run02_B2_unique_actual_publication_all32_TRAIN_exact_reflections_counters_ADD_and_batch_only_cost_audit_20261022.json`、
+  `ACEv3_Run02_B2_actual12_bullet_content_and_first_B3_full_native_delivery_no_partial_scores_20261022.json`。
   28878已于19:54:24见完整B2的16来源/32任务/96角色首答退出0，不再轮询；
   CPU25270已完成独立原始审计退出0，不重复执行覆盖报告：
   `ACEv3_Run02_B2_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261022.json`。
@@ -108,7 +119,7 @@ paper-ideation负责问题/贡献与近邻的接缝，paper-experiments-appendix
   与主方法四个共享actor/scorer原绑定；GPU 97%，新轮无failure。
   小时证据`hourly1730_ACEv3_Run02_actual_new_handles377_original_model_and_direction_review_20261022.json`。
   该报告的84986字段指已完成的首答观察；40557及当时B2观察28878也已完成，
-  现时B2发布观察为70202。
+  当时的B2发布观察70202现已完成，当前完整B3观察为57953。
   18:30再次核同三份377文件/50packages、原PID/start/argv、依赖和主四共享文件，
   该小时教师阶段GPU 0%，不是服务退出；新证据
   `hourly1830_ACEv3_Run02_actual_new_handles377_original_model_and_direction_review_20261022.json`。
@@ -403,7 +414,7 @@ SkillCommit仍是必须引用的近邻，未核实作者仓库不等于不存在
 没有重复ID、截断或解析错，10条技能每条均至少被自报5次；自报不证明因果使用。
 对直接空库32任务6好8坏18平，平均−2.38715pp；对本方法3好16坏13平。
 CPU25270与观察28878均已结束，不重复执行覆盖报告，也不采用旧Run01成绩。
-下一步用70202观察唯一B2发布和全32 TRAIN，之后继续ACE全部八批；不据空B1、训练重答或
+下一步用57953观察完整B3首答，随后继续ACE全部八批；不据空B1、训练重答或
 单个B2案例判断成熟方法优劣，不另起重复进程。
 [最终分析计划](research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md)保持：
 主/ACE各三次一致独立学习seed45/145/245，静态7条/2411tokens仍待性能，
@@ -460,3 +471,21 @@ EC/EV主要比较，共十项；两消融四项次要比较保持。独立学习
 不能冒充成熟ACE落败或纯技能因果差。当前完整八批可作为透明的TRAIN曲线与机制
 证据，不等于正式TEST、重复、消融和论文均已完成；没有证据要求再换法律任务。
 继续沿此链补证据，若遇实质问题只界定真实影响，不靠换任务、删结果重讲故事。
+
+21:20新增[实验附录D](../paper/appendix_experimental_details_20261022.md)，正文v0.4
+及其数字表/原hash不变。附录从实际固定评分代码写明asset-macro原F1与案内claim-micro
+完整输出的区别、EV原始`abs(prediction/(target+1)-1)<0.05`（相等时0）、负目标与
+无效分母、信息边界、两项真实学习消融及16臂/十主要/四次要比较，未测结果不填。
+全部128 TRAIN目标自答与解析上界逐项一致：EC最大96.875%，EV100%；后六批EC
+最大96.78819%，当前84.84954%，仍有11.93866pp空间，不能拿天花板解释EC弱增量。
+这不是模型成绩、隐藏求解器或重归一化，不读TEST。证据：
+`Run03_all128_TRAIN_native_target_self_F1_ceiling_and_residual_headroom_20261022.json`、
+`appendix_D_v02_exact_metrics_native_ceiling_fairness_language_costs_and_pending_final_matrix_bindings_20261022.json`。
+
+公平性还明示实际ACE seed45 B1/B2主体中文、主方法观察指导为英文，教师角色没有
+共用输出语言硬约束。未证明语言效应的方向或大小，不热翻译、按分数改库或宣称
+全部差异只来自编辑策略。新补充来自真实输出，不当作原生ACE一般缺陷。
+附录检查初次错向控制venv查询xgrammar，已改从原模型PID实际解释器读取0.1.23/
+vLLM0.10.2，训练和部署未坏；随后修正章节标题核对正则，最终核查成功。没有新增
+一次性测试文件、模型/教师调用或学习代码修改。后续九份配置的所有绑定源码现均
+逐字匹配，无启动版本漂移；只读检查不替代它们未来实际学习。
