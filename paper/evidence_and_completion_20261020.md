@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 05:38 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 06:10 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -46,6 +46,8 @@
 | 原生评分与完整输出审计的口径已明确 | VERIFIED | 不改变原评分；原EC负资产使满分低于1，完整输出为独立次要口径，不把两者当同一指标 |
 | 当前八批无效、必须换法律任务 | UNSUPPORTED | 未发现使主轨迹作废的问题；当前对照修正不影响原主训练 |
 | 已胜成熟ACE、静态与其他经验方法 | PENDING | 当前只有部分ACE首答；完整ACE/静态/文本适配及最终TEST未齐，不以早期差距充当成熟胜出 |
+| 同进度前五批完整80来源的比较可核 | VERIFIED | 主方法原EC/EV81.83457/76.77827%、强空库61.55704/62.82837%、原生ACE58.63765/55.74887%；含B1，全160任务/臂原评分重算，不是完整8批/末库/TEST或显著性 |
+| 主方法教师次数少就代表所有计算都更省 | CONTRADICTED | 前五批实际8B616、教师10；ACE保留548/252，另退役10/12。主585实际被学习/首答引用、31只供B1评测，不减总616、不按逻辑记录估成本；教师输入/输出分别2114578/36942与ACE6855324/231688 |
 | 主方法与ACE之间的差异完全是记忆算法差异 | UNSUPPORTED | 原生ACE B1空记忆59.53/55.30%，直接空库63.45/66.35%；生成提示/外包装不同，正式比较须保留该解释边界 |
 | ACE v3失败文本交给教师的方式符合上游 | CONTRADICTED | 原文只留磁盘、失败观察为null；上游向Reflector传gen_response。已针对性修复 |
 | v4仍把不完整答案修成正确答案 | CONTRADICTED | 原始失败/零分/8192上限不改，只把原公开失败文本送TRAIN反思；不恢复JSON或猜ID |
@@ -106,6 +108,7 @@
 - `Run03_final128_TRAIN_all256_exact_complete_output_residual_claim_inventory_NOT_new_metric_or_causal_20261023.json`
 - `Run03_final128_raw_delivery140_explicit_general_omissions_and8_public_value_cap_errors_NOT_causal_20261023.json`
 - `Run03_final7_skill_content_public_caps_vs_blind_static_assistant_review_v02_20261023.json`
+- `Run03_vs_ACEv4_complete_B1_B5_equal80_prequential_original_metrics_and616_548_retired10_12_cost_NOT_final_TEST_20261023.json`
 - `prospective_priority_first_common_actor_text_full9_new_profiles_frozen_no_active_change_20261023.json`
 - `prospective_priority20261023_operational_semantics_early2_legacy8_canonical_entry_source_validation_20261023.json`
 - `hourly0230_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
