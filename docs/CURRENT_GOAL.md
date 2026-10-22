@@ -1,8 +1,9 @@
 # 当前Goal执行索引
 
-2026-10-22 15:32 Asia/Shanghai。Goal仍active，完整论文目标未完成。
+2026-10-22 16:20 Asia/Shanghai。Goal仍active，完整论文目标未完成。
 Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布齐全；
-原等待PID于12:10自然exec为ACE128，主训练不得恢复、重启或误报为失联。
+旧ACE run01因重复技能ID被额外判为法律题零分，已于16:02:55安全停止，禁止恢复或
+充当公平正式对照。修正v3已于16:14:04以新Run ID从空库正式启动；主方法不变、不重跑。
 本索引覆盖先前运行状态；完整早期记录见
 [历史记录](research/RUN03_EXECUTION_HISTORY_THROUGH_B7_C1_20261022.md)，
 11:42八批首答检查点另保存了此前索引原文。旧“当前/下一步”不是本轮指令。
@@ -31,47 +32,45 @@ Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布
 - 原模型unit：`legal-qwen3-8b.service`，PID3613253/start446037091，engine3613750。
   Qwen3-8B bf16 revision `b968826d9c46dd6066d109eabc6255188de91218`。
   12:29单A40为25009/49140MiB、98%，未替换模型或增加实例。
-- 正在训练ACE：`legal_openexempt_ace_public_assets128_20261021_run01`。
-  unit：`legal-openexempt-main128-run03-to-ace128-20261021-run02.service`；
-  原等待PID1738522/start455481667，12:10:34.941356 CST已exec
-  `experiments.openexempt_ace_online run`，不是另起重复任务。
-  13:27完整B1首答已落盘：16来源/32任务/96逻辑记录，64原始生成/HTTP全stop、0解析错。
-  原生ACE冷启动EC59.53125/EV55.29514%，共用直接空库63.44990/66.35417%；
-  初始0技能，差异是原生提示包装效应，不是技能学习优劣，不据此提前宣称胜ACE。
-  32个共用空库请求、原生回答内容和评分与主Run逐一精确相同。
-  14:48:19.368172已实际发布B1库，9条/774 Qwen tokens，bank
-  `970db9aa95a49ba0b021bfbcb0fcd21713bb58dc580211952910942ed2ab2621`。
-  32条TRAIN轨迹、47次逐案反思和1次curator均完成并复核；B1共109原始8B生成/
-  48新鲜教师响应。15:31快照154生成/48教师，B2首次遇案已到208；完整B2仍待完成。
-  尚无完整后续新案ACE成绩，不据单案或训练重答宣称成熟对照胜出。
-  初始化仅原生七个空标题，0法律先验/0数值程序，无旧库或主训练记忆导入。
+- 正在训练ACE v3：`legal_openexempt_ace_public_assets128_20261022_run02`。
+  unit：`legal-openexempt-ace-public-assets128-20261022-run02.service`；
+  PID176852/start466336240，16:14:04 CST直接启动，不是旧1738522或续接旧库。
+  source commit `907d90e`；377文件/50packages在新性能前冻结。
+  16:18快照B1来源181、3原始生成、0教师、0技能，尚无完整首批成绩。
+  实际初始化仅七个空标题，0法律先验/0数值程序，不导入旧回答/教师/库。
+  v3保留原始重复ID列表和法律答案，反思只按不同ID各标记一次；无答案修复或fallback。
+  新协议：`docs/research/OPENEXEMPT_ACE_PROVENANCE_V3_20261022.md`。
   ACE原生Generator/Reflector/ADD curator，最多3轮TRAIN反思；不是作者默认原样复现，
   也不是总训练计算量相等。共享执行器、输入、EC/EV契约与生成上限，消耗成本另报。
-  目前只运行ACE45；另外六配置未排队，不擅自加多任务调度器抢GPU。
+  新v3 seed145/245均377文件冻结但未排队；目前仅ACE45在跑，不擅自并发抢GPU。
+- 旧ACE run01的1738522已退出，unit MainPID=0/failed/Restart=no，
+  failure明确为`InterruptedError('Operator stop at artifact-safe boundary')`，不是模型退出。
+  B2完整首答54.23859/63.06052%受额外元数据拒收影响，不能用来宣称胜ACE。
+  未改变法律答案的离线诊断EC60.76637%、EV不变，也不是新的正式运行成绩。
+  所有原始分数/177次8B/56教师保留；双盘actual-terminal各955成员已逐字核验。
+  诊断：`ACE128_Run01_integrity_stop_duplicate_metadata_root_cause955_dual_terminal_and_unmodified_legal_answer_diagnostic_20261022.json`。
 - canonical锁：`artifacts/openexempt_training.lock`。
-- 当前只读观察session **22314**，14:54:43启动，目标ACE B2完整16来源/32任务/
-  96角色首答齐全；期限20:54:43只结束观察，不结束训练。
-  67586于14:49:03看到实际B1库及全部32条TRAIN正常退出0；其包装cell7499完成，
-  CPU72443已完成唯一实际B1发布/标签/增量/成本审计，均不得再轮询。
-  旧15458/31275/7463也已完成；7480曾仅终止只读包装，不是停训。
+- 当前只读观察session **84986**，16:18:53启动，目标新v3 B1完整16来源/32任务/
+  96角色首答；期限22:18:53只结束观察，不结束训练。
+  22314/7517已于15:55看到旧B2完整首答退出0，CPU15398完成旧B2审计。
+  旧67586/72443/7499/15458/31275/7463/74968/60541/7514也均完成，不能再轮询。
+  7480曾仅终止只读包装，不是停训。
   目标/终态制品优先于进程缺失判断；
   仍须核PID/start ticks/argv，不能仅凭索引、锁、progress或观察超时判断停训。
   旧11058/34994/46189/61360/94323/85265/88537均已完成，不再轮询。
-- 15:30方向复核完成；下一小时16:30 CST。原主PID不再存活是正确终态，
-  不复用仍要求main存活的旧小时/保全程序。
-  `hourly1530_ACE128_actual_original_handles_source_environment_and_direction_review_corrected_20261022.json`
-  确认原模型/ACE句柄、371/382绑定文件和50packages均未变，A40当时98%；
-  属实际活进程上的verified wait，不是新的科学结果、资格测试或方法完成。
-  corrected仅澄清playbook逻辑hash与publication文件hash的不同，原报告也保留，
-  未改原时间、观察或任何科学结果。只读包装7514已正常结束，不再轮询，22314仍在。
+- 下一小时16:30 CST，使用新ACE176852/start466336240，不再要求旧ACE1738522存活。
+  旧15:30小时报告为旧source修订前快照，不能复用其原样断言当当前状态。
 
 ## 冻结协议与保真
 
-学习/执行代码仍`6896246`，后续只改证据与文档，不改本Run算法。
+主方法执行/评分路径仍为`6896246`的原算法；当前ACE专属代码修订为`907d90e`。
 主配置SHA `8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e`；
 主frozen371清单SHA `2cc50e6cfe05fb42c230aba570eb43e9fcd41c3287011f77de8291fd89418825`。
-ACE配置SHA `b9d21b0772cee5ab297d61367a1232fa96767f3ead5e7ede9a3bfa8074776c76`，
-12:10:34首次本轮性能前冻结382文件/50packages。终态审计核主371、ACE382和环境均原样。
+新ACE seed45 frozen377清单SHA
+`964e4a6572a5b32221e69f73d439799fd11abdac3f0abf08f97b1d9102e24155`。
+旧ACE382与主371的完整旧源码均已双盘保全；当前工作树不是与旧整份清单逐字一致。
+修订只涉及ACE专属decoder/driver、对应小测试和NOTICE；四个共享直接actor/scorer
+文件与主Run原绑定完全一致。不能把“主方法未变”误写为“旧371全源当前仍原样”。
 共享教师上限在主终态后按已授权接续1797→3349，不删除历史预约。
 
 128固定TRAIN来源181–308，8批各16来源，每源独立EC/EV，共256任务。
@@ -120,6 +119,9 @@ B3–B8全部96来源为EC+0.99826/EV+10.95961pp。单学习器TRAIN，非独立
 11:32输出的“B8 update pending”是当时快照，不代表当前未结束。不覆盖旧图或虚构CI。
 
 ## 真实技能收益与尚存缺口
+
+以下ACE B1/B2为已停止的旧v2开发记录，不进入正式对照或三次一致重复。
+新v3从空库重启，尚无完整成绩；旧B2较差受元数据适配器额外零分影响，不能当作胜出。
 
 ACE B1完整首答报告：
 `ACE128_B1_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261022.json`。
@@ -215,8 +217,9 @@ ACE382/static117绑定源码、主训练完整轨迹/1158原始生成/15教师�
 联合vdb档SHA `80949b16434a10f9dbb6fd947d6a83d473166b45a41909670c7ab9fb257325f0`；
 root档SHA `1f5c1afa2fb07d85217e655a2d3d7bb2530f1bd3e6903268a05b5992ff99817e`。
 
-下一步观察22314所等的完整B2首答，运行已经准备的全96记录v14/原始wire/评分/
-bullet使用/同案主方法与共用空库核验，再继续ACE全部八批；不据空B1、训练重答或
+下一步观察84986所等的新v3完整B1首答，使用新Run ID的独立审计程序与报告路径，
+再观察真实技能发布和B2新案。不能用旧Run01路径/审计冒充新轮结果。
+之后继续ACE全部八批；不据空B1、训练重答或
 单个B2案例判断成熟方法优劣，不另起重复进程。
 [最终分析计划](research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md)保持：
 主/ACE各三次一致独立学习seed45/145/245，静态7条/2411tokens仍待性能，
