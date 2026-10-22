@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-2026-10-22 16:32 Asia/Shanghai。Goal仍active，完整论文目标未完成。
+2026-10-22 16:52 Asia/Shanghai。Goal仍active，完整论文目标未完成。
 Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布齐全；
 旧ACE run01因重复技能ID被额外判为法律题零分，已于16:02:55安全停止，禁止恢复或
 充当公平正式对照。修正v3已于16:14:04以新Run ID从空库正式启动；主方法不变、不重跑。
@@ -36,13 +36,15 @@ Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布
   unit：`legal-openexempt-ace-public-assets128-20261022-run02.service`；
   PID176852/start466336240，16:14:04 CST直接启动，不是旧1738522或续接旧库。
   source commit `907d90e`；377文件/50packages在新性能前冻结。
-  16:30快照B1来源184、14原始生成、0教师、0技能，尚无完整首批成绩。
+  16:52快照B1来源188、31原始生成、0教师、0技能，尚无完整首批成绩。
   实际初始化仅七个空标题，0法律先验/0数值程序，不导入旧回答/教师/库。
   v3保留原始重复ID列表和法律答案，反思只按不同ID各标记一次；无答案修复或fallback。
   新协议：`docs/research/OPENEXEMPT_ACE_PROVENANCE_V3_20261022.md`。
   ACE原生Generator/Reflector/ADD curator，最多3轮TRAIN反思；不是作者默认原样复现，
   也不是总训练计算量相等。共享执行器、输入、EC/EV契约与生成上限，消耗成本另报。
-  新v3 seed145/245均377文件冻结但未排队；目前仅ACE45在跑，不擅自并发抢GPU。
+  新v3 seed145/245的正式后续候选为同日run03，均377文件冻结但未排队；
+  早先run02只冻结、未运行，其首轮账本/配对元数据已由新run03更正，不覆盖旧清单。
+  目前仅ACE45在跑，不擅自并发抢GPU。
 - 旧ACE run01的1738522已退出，unit MainPID=0/failed/Restart=no，
   failure明确为`InterruptedError('Operator stop at artifact-safe boundary')`，不是模型退出。
   B2完整首答54.23859/63.06052%受额外元数据拒收影响，不能用来宣称胜ACE。
@@ -230,6 +232,22 @@ ACE382/static117绑定源码、主训练完整轨迹/1158原始生成/15教师�
 `Run03_actual_terminal8_complete_source1158_cost_WI_repairs_B1_boundary_and_ACE_start_joint_preservation_20261022.json`。
 联合vdb档SHA `80949b16434a10f9dbb6fd947d6a83d473166b45a41909670c7ab9fb257325f0`；
 root档SHA `1f5c1afa2fb07d85217e655a2d3d7bb2530f1bd3e6903268a05b5992ff99817e`。
+
+隔离最终评测工作树已同步v3两个ACE源文件及同名回归/NOTICE，commit b76187d；
+增强的统计、静态控制和三次重复闸门及其测试与b50f24c逐字一致，没有整份覆盖为
+根目录旧评测器。仅两项重复ID既有回归通过，0.28秒CPU，不做全量资格测试。
+证明`ACEv3_Run02_isolated_final_eval_b76187d_two_provenance_regressions_and_enhanced_guards_preserved_20261022.json`
+已独立复制到两盘；当前活跃377绑定均不变。
+
+16:47后续六次完整128案学习配置已冻结和双盘逐成员保全，但均未启动/排队：
+whole_bank/first_commit、主145/245各371文件，ACE145/245 run03各377文件，
+均50packages。新ACE run03仅修正尚未启动配置的累计账本和同seed reference，
+不改v3学习策略；实际全局账本仍3349、没有在此准备中扩额。
+原主371当前仅ACE专属decoder与其测试两文件不同，其余369字节绑定仍一致；
+新主重复不改原学习算法。实际参数通过隔离评测器三次重复/两消融闸门，但没有
+伪造完成库或将13臂角色草案说成最终冻结TEST矩阵。
+证据`remaining_six128_learners_frozen_real_repeat_policy_and_two_ablations_guard_no_launch_20261022.json`。
+正式主/ACE种子45/145/245、两项单seed消融与全部末库仍须实际完成后才能打开TEST。
 
 下一步观察84986所等的新v3完整B1首答，使用新Run ID的独立审计程序与报告路径，
 再观察真实技能发布和B2新案。不能用旧Run01路径/审计冒充新轮结果。
