@@ -1,6 +1,6 @@
 # 论文证据与完成条件
 
-当前索引更新：2026-10-22 16:20 Asia/Shanghai。Run03已于12:09完整完成128来源、
+当前索引更新：2026-10-22 17:06 Asia/Shanghai。Run03已于12:09完整完成128来源、
 八批、256任务及八次唯一最终发布；原主unit成功自然退出，不应重启。
 B8首答EC83.90129/EV85.20585%，对自身B1为+2.07093/+13.88641pp；
 16来源10好3坏3平，仍为TRAIN。B8随后仅CREATE一条WI EV技能，最终7条/2486tokens，
@@ -62,12 +62,31 @@ B8首答EC83.90129/EV85.20585%，对自身B1为+2.07093/+13.88641pp；
 | 本方法已复现或胜过SkillCommit及全部近期技能方法 | UNSUPPORTED | 17:23的TEST前分析计划明确：最近邻只作必须引用的机制比较，不以替代编码器或不完整循环冒充原法复现，也不作SOTA宣称 |
 | 独立IID128 TEST分析规则已在TEST暴露前声明 | VERIFIED | `docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md`；128来源配对bootstrap，EC/EV最低八主比较 |
 | 全部方法矩阵、三次一致学习、两消融和TEST均完成 | PENDING | 必须继续实际执行并在首次TEST预测前冻结方法/矩阵/末库；无TEST语义或成绩读取 |
+| 全部15次实际主教师确实得到所选TRAIN正确答案 | VERIFIED | 896项任务标签条目逐项核同原Gold，含重复已见题，不是896独立任务；每次当前16案和至多16旧案，没有未来来源 |
+| 分量组合只存在于设计，没有参与真实学习 | CONTRADICTED | 全15教师/14非NOOP候选/8发布链精确重建，9次实际接收中5次整份提案被拒但分量组合获收；不能当作独立whole_bank消融胜出 |
+| 库管理已在本轮证明频繁删除和合并 | CONTRADICTED | 提案仅9 CREATE/24 UPDATE；实际7次创建/14次记录更新、0删除，1次明确NOOP；支持DELETE/MERGE的接口不等于已观测使用 |
+| 后续六次完整学习配置已可执行冻结 | VERIFIED | 主145/245及两消融各371文件、ACE145/245同日run03各377，50packages，双盘逐字保全；0启动/0排队，不替代训练结果 |
 | 连通作用域、重放和标签辅助修复都是本项目原创 | UNSUPPORTED | 已有SkillCommit等近邻；方法差异与贡献仍须机制证据支撑，不能按写作模板预设三创新 |
 
 当前可写的是冻结执行器、技能投递、真实教师反馈、准入与预测先于标签的执行方法。
 单学习器后续TRAIN新案的持续更新净收益已有完整记录；最终测试主结果、显著性、
 跨学习器稳定性和胜过成熟方法仍待完成。统计区间以实际
 学得库和固定解码为条件，不把三个学习库或EC/EV复制成更多独立来源。
+
+17:06已完成全主Run的教师和库管理统计：15个实际请求/响应的当前父库及操作重建，
+14个候选与8次发布逐字相同；B3第二次是明确NOOP，已写入发布决策但没有单独
+候选文件，不是教师记录丢失。5次“整份提案拒收而实际部分提交”分别为B1C2、
+B2C2、B4C1、B6C1、B7C2。组合由公开共见法域/任务连通分量重算，不按个案分数
+选择推理答案。这里证明机制确实运行，不证明另一种独立学习策略的因果差值。
+证据`artifacts/research/openexempt_legal_scope_20261020/Run03_all15_teacher14_candidate8_publication_actual_scope_composition_and_library_management_accounting_20261022.json`。
+新ACE仍B1首答，17:06快照45次8B/0教师/0技能，未有完整新批次成绩。
+
+后续六份配置已冻结，只有当前ACE45运行。两份未运行的ACE seed145/245 run02
+保留原frozen记录，新run03仅改正累计账本和同seed reference，算法仍v3；全局
+账本保持3349。准备/冻结、统计闸门通过及27成员双盘交接均不构成训练或TEST结果。
+配置及交接收据分别为同目录
+`remaining_six128_learners_frozen_real_repeat_policy_and_two_ablations_guard_no_launch_20261022.json`、
+`remaining6_frozen_profiles_isolated_final_v3_and_exact_batch_audit_programs_joint_dual_preservation_20261022.json`。
 
 内部八批进度图已于10/22 11:32导出并渲染检查，非正式TEST图；图中B8学习待完成
 是当时快照，当前12:09已完成，不覆盖旧图或将回放分数加到首答曲线：
