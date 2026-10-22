@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-2026-10-22 Asia/Shanghai，状态依据09:32唯一发布、09:43完整首源投递及09:46原句柄核验。
+2026-10-22 Asia/Shanghai，状态依据09:32唯一发布、09:43完整首源投递及10:30小时核验。
 Goal仍active，完整论文目标未完成。Run03已完成七批学习，原进程正在B8首次遇案。
 历史1237行已完整迁入[历史记录](research/RUN03_EXECUTION_HISTORY_THROUGH_B7_C1_20261022.md)，
 其中的旧“当前/下一步”不是本轮指令。先核真实PID/start ticks/argv，再读progress；
@@ -41,7 +41,7 @@ Goal仍active，完整论文目标未完成。Run03已完成七批学习，原�
 09:34:09启动，期限12:34:09只结束观察，不结束训练。目标制品优先于main句柄
 检查，覆盖主训练自然完成的情况。不再轮询已结束19459、26541、87678，
 包装7385/7388也已正常结束；当前无functions包装运行。
-下一小时方向核对 **10:30 CST**，不要将观察超时当成重启理由。
+下一小时方向核对 **11:30 CST**，不要将观察超时当成重启理由。
 
 ## 冻结协议与原始绑定
 
@@ -49,7 +49,7 @@ Goal仍active，完整论文目标未完成。Run03已完成七批学习，原�
 配置：`configs/openexempt_closed_feedback_public_assets128_20261021_run03.json`，
 SHA `8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e`。
 frozen371清单SHA `2cc50e6cfe05fb42c230aba570eb43e9fcd41c3287011f77de8291fd89418825`。
-09:30 main371/static117/ACE等待381文件及50packages均原样保持。
+10:30 main371/static117/ACE等待381文件及50packages均原样保持。
 
 128固定TRAIN来源181–308，8批各16来源、每源独立EC/EV，共256任务。
 custom profile为2–4资产、五州、公开可用法域/start2，不是官方Advanced或OOD。
@@ -57,7 +57,8 @@ v14 `direct_statutory_claims`、`legal_scope`、`carry_partial_and_refine`；
 EC/EV独立直接回答，无EC答案向EV传递。公开资产/法条引用对所有角色相同。
 库上限4096完整序列化tokens；每批至多2次教师提案，不是只允许一次技能操作。
 允许CREATE/UPDATE/DELETE/MERGE/NOOP；不强制增长或收录。
-教师gpt-5.6-sol/high，实际当前16+选旧16来源/64任务标签、真实父观察和有界失败反馈。
+教师gpt-5.6-sol/high，提供全部当前16来源与最多16旧来源、最多64任务标签，
+B1无历史来源、仅32任务；并提供真实父观察和有界失败反馈。
 模型发出的推理只供未验证证据，尾1024字符有界，全原始记录保留。
 
 所有本批首答先保存，再评分和提供标签；无验证集，无未来标签或TEST反馈。
@@ -121,12 +122,22 @@ C2完整672位已复算，52新生成全stop/无格式错。实际EC当前16案7
 - `Run03_B7_unique_final_EC_boundary_gain_EV_harm_rejected_and_B8_actual_delivery_20261022.json`。
 - `Run03_B7_teacher2_actual64_unchanged_parent_real_C1_feedback_two_boundary_sentences_C2_delivery_20261022.json`。
 
-B8原进程09:46已到来源295；首源293为IL，09:43全部EC/EV角色10输入/10回答
+B8原进程10:30已到来源300；首源293为IL，09:43全部EC/EV角色10输入/10回答
 均核同，skills收到真实a232，六原始生成全stop/零解析错，EV未泄漏被拒修改。
 不是完整B8结果，未读部分B8评分或标签。
 下一步只等B8两份完整首答文件，核16来源/160逻辑记录、实际库、原始解码/评分和成本；
 随后本批有界学习、B8唯一最终发布，再按原等待器接ACE45。
 线程存储已准备`Run03_B8_complete160_newcase_audit_program`，不能将准备当完成。
+10:30快照已核80计划输入/79完成逻辑回答、40原始引用全部stop、零解析错，
+未读部分B8评分或标签；原三句柄及绑定保持，单A40原引擎25009/49140MiB、98%。
+365预约/1797、14教师，旧350未动，ACE未开始。本Goal轮为原46189/7403核实
+等待，不是新性能提升；7403正常到达小时边界，未停止原46189或main。
+证据：`hourly1030_Run03_B8_actual_B7_final_control_delivery_health_and_original_bindings_20261022.json`。
+CPU85265正常退出0，不再轮询。B1教师无旧来源，仅32任务；64为后续最大任务数，
+本文档措辞已澄清，未改变任何实际训练设置或数据。
+10:32:02上述固定80输入/79回答/40健康原始引用、当前索引及前3604成员检查点
+收据共204成员已双盘逐字节核验保全；前后371/381/50packages及原三句柄不变。
+收据：`hourly1030_B8_final_bank79_healthy_answers_preservation_20261022.json`。
 
 ## 成本、备份与论文边界
 
