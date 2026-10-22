@@ -1,7 +1,9 @@
-"""Frozen EC/EV comparison: existing actors/scorer, no teacher or skill updates.
+"""Historical minimal EC/EV evaluator, not the current formal paper entry.
 
 This entry point is not used until methods, publications and the complete matrix
 are fixed. It never imports a TEST packet at module import or plan validation.
+Current formal execution is documented in
+docs/research/OPENEXEMPT_FINAL_EVAL_CONTINUATION_ENTRY_20261023.md.
 """
 
 from __future__ import annotations
@@ -231,22 +233,9 @@ class FrozenEvaluation:
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("action", choices=("freeze", "run"))
-    parser.add_argument("config", type=Path)
-    args = parser.parse_args()
-    path = args.config.resolve()
-    os.chdir(ROOT)
-    cfg = read(path)
-    _, _, sources = fixed_banks(cfg)
-    with (ROOT / "artifacts/openexempt_training.lock").open("a") as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        if args.action == "freeze":
-            freeze(path, additional_sources=(*sources, Path(__file__).resolve(),
-                ROOT / "experiments/openexempt_ace_online.py",
-                *ROOT.glob("third_party/ace/prompts/*.py")))
-        else:
-            FrozenEvaluation(path).run()
+    raise SystemExit(
+        "This historical minimal evaluator is not the formal paper entry; no packet was opened. "
+        "Use docs/research/OPENEXEMPT_FINAL_EVAL_CONTINUATION_ENTRY_20261023.md.")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-22 23:41 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 01:03 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -42,13 +42,18 @@
 | v4接续相当于多一个独立学习重复 | CONTRADICTED | 同seed45在实际最后完整B2接续；220旧生成+102教师及64完整B3首答保留一次 |
 | 接续改变了B3首答或选择较好答案 | CONTRADICTED | 全96逻辑预测同原HTTP来源、法律答案、错误与评分；两条EV截断仍为0 |
 | B1/B2已受此次失败文本缺失影响 | CONTRADICTED | 348保存回答无解析失败，条件修正分支在该前缀未触发 |
+| v4失败公开文本与正确TRAIN标签实际进入新教师 | VERIFIED | 固定224/228 EV的完整原文、整份反思提示/schema与fresh wire逐字一致；8192截断及原零分保留 |
+| B3真实技能更新且已经交给下一批执行器 | VERIFIED | 00:29:46唯一发布，12→15条/1530tokens，3ADD旧内容不改；229 EC/EV HTTP含全部15条，EV自报引用新err-00015 |
+| B3训练重答改善等于B4新案改善 | UNSUPPORTED | 同案4/32→27/32完全答对；B4须全96首答齐后评，当前不读部分分数 |
+| B3接续批成本可核且未重复算前缀 | VERIFIED | 原64首答+40新TRAIN生成共104native；45fresh教师；退役10/12与前两批另计 |
 | 原失败成本被丢弃 | CONTRADICTED | 旧Run02完整294native/114教师双盘1643成员；退役B3的10native/12教师单列，不导入新训练 |
 | 完整静态TRAIN控制已经跑出成绩 | PENDING | run02配置400/50冻结，PID821776仅Bash等待完整ACE；固定原7条/2411token、零新教师 |
-| 九个后续学习profile仍可按当前代码执行 | VERIFIED | 新374/380/375文件版本已冻结并双盘保存，23:30全部当前字节/50packages匹配，均未启动 |
+| 九个后续学习profile仍可按当前代码执行 | VERIFIED | 新374/380/375文件版本已冻结并双盘保存，00:32全部当前字节/50packages匹配，均未启动 |
 | 三次独立学习、两项消融已完成 | PENDING | 当前只有主seed45；其余真实实验仍须执行，不以CPU结构检查替代 |
 | Trace2Skill对照是原工具式作者复现 | UNSUPPORTED | 已实现的是text-analysis/OpenExempt适配，三个profile未启动，差异须披露 |
 | 已优于SkillCommit/全部SOTA | UNSUPPORTED | 最近邻只作机制/引用比较，未量化复现；custom profile不能裸比分数冒充官方Advanced榜单 |
-| 正式16-arm TEST矩阵现在已经可运行 | PENDING | 所有实际末库尚未齐；隔离评价还需接续来源闸门与v4 actor同步，不能启动TEST |
+| 正式评价实现已接入v4与同一学习器接续来源 | VERIFIED | 隔离4acdae2；实际原空库/最后B2/1301哈希/全B3与退休成本检查；83合成测试通过，真实TEST未读 |
+| 正式16-arm TEST矩阵现在已经可运行 | PENDING | 所有实际末库/重复尚未齐；唯一正式CLI拒绝不完整设计，不能启动TEST |
 | 真实TEST已经用于调优 | CONTRADICTED | 目前只允许字节哈希；语义/标签/预测/结果未读，无验证集 |
 
 ## 已完成证据入口
@@ -65,7 +70,10 @@
 - `ACEv3_Run02_B3_failed_public_output_reflector_data_loss_safe_stop294_114_and_valid_prefix_evidence_20261022.json`
 - `ACEv3_Run02_last_completed_B2_and_complete_B3_first_forecast_continuation_receipt_20261022.json`
 - `ACEv4_actual284_102_prefix_and_all96_unchanged_B3_forecasts_failed_public_trace_CPU_audit_20261022.json`
-- `hourly2330_ACEv4_Run03_actual380_nine_rebased_profiles_static400_original_model_and_direction_20261022.json`
+- `ACEv4_actual224_228_failed_public_text_correct_targets_full_fresh_teacher_wire_verified_20261023.json`
+- `ACEv4_Run03_B3_unique_actual_publication_all32_TRAIN_failed_public_text_exact_reflections_counters_ADD_and_true_union_cost_audit_20261023.json`
+- `ACEv4_Run03_actual_B3_three_ADD_and_first_B4_source229_all15_verbatim_delivery_NOT_scores_20261023.json`
+- `hourly0030_ACEv4_Run03_actual380_nine_rebased_profiles_static400_original_model_and_direction_20261023.json`
 
 ## 论文与剩余实验
 
