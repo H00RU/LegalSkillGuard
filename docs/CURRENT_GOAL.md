@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-2026-10-22 17:06 Asia/Shanghai。Goal仍active，完整论文目标未完成。
+2026-10-22 17:38 Asia/Shanghai。Goal仍active，完整论文目标未完成。
 Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布齐全；
 旧ACE run01因重复技能ID被额外判为法律题零分，已于16:02:55安全停止，禁止恢复或
 充当公平正式对照。修正v3已于16:14:04以新Run ID从空库正式启动；主方法不变、不重跑。
@@ -36,7 +36,9 @@ Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布
   unit：`legal-openexempt-ace-public-assets128-20261022-run02.service`；
   PID176852/start466336240，16:14:04 CST直接启动，不是旧1738522或续接旧库。
   source commit `907d90e`；377文件/50packages在新性能前冻结。
-  17:06快照B1来源192、45原始生成、0教师、0技能，尚无完整首批成绩。
+  B1完整首答已于17:30齐全并独立核验，ACE EC/EV59.53125/55.29514%，
+  同案直接空库63.44990/66.35417%；进入库0技能，不是成熟学习对照。
+  64原始生成全stop、零解析/截断；17:34快照已进TRAIN第三轮，66生成/3教师。
   实际初始化仅七个空标题，0法律先验/0数值程序，不导入旧回答/教师/库。
   v3保留原始重复ID列表和法律答案，反思只按不同ID各标记一次；无答案修复或fallback。
   新协议：`docs/research/OPENEXEMPT_ACE_PROVENANCE_V3_20261022.md`。
@@ -52,18 +54,21 @@ Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布
   所有原始分数/177次8B/56教师保留；双盘actual-terminal各955成员已逐字核验。
   诊断：`ACE128_Run01_integrity_stop_duplicate_metadata_root_cause955_dual_terminal_and_unmodified_legal_answer_diagnostic_20261022.json`。
 - canonical锁：`artifacts/openexempt_training.lock`。
-- 当前只读观察session **84986**，16:18:53启动，目标新v3 B1完整16来源/32任务/
-  96角色首答；期限22:18:53只结束观察，不结束训练。
+- 当前只读观察session **40557**，17:32:53启动，目标新v3唯一B1发布及全部32
+  TRAIN轨迹逐字匹配；期限23:32:53只结束观察，不结束训练。
+  84986及包装7599已于17:30:08见完整16来源/32任务/96角色首答退出0，
+  CPU71645已完成新B1原始审计，不能再轮询；这不是训练终止。
   22314/7517已于15:55看到旧B2完整首答退出0，CPU15398完成旧B2审计。
   旧67586/72443/7499/15458/31275/7463/74968/60541/7514也均完成，不能再轮询。
   7480曾仅终止只读包装，不是停训。
   目标/终态制品优先于进程缺失判断；
   仍须核PID/start ticks/argv，不能仅凭索引、锁、progress或观察超时判断停训。
   旧11058/34994/46189/61360/94323/85265/88537均已完成，不再轮询。
-- 16:30已核新ACE176852/start466336240、原模型3613253、三份377文件/50packages
+- 17:30已核新ACE176852/start466336240、原模型3613253、三份377文件/50packages
   与主方法四个共享actor/scorer原绑定；GPU 97%，新轮无failure。
-  小时证据`hourly1630_ACEv3_Run02_actual_new_handles377_original_model_and_direction_review_20261022.json`。
-  下一小时17:30 CST，不再要求旧ACE1738522存活。
+  小时证据`hourly1730_ACEv3_Run02_actual_new_handles377_original_model_and_direction_review_20261022.json`。
+  该报告的84986字段指已完成的首答观察，现时发布观察为40557，不把旧句柄当存活。
+  下一小时18:30 CST，不再要求旧ACE1738522存活。
   旧15:30小时报告为旧source修订前快照，不能复用其原样断言当当前状态。
 
 ## 冻结协议与保真
@@ -137,7 +142,20 @@ B3–B8全部96来源为EC+0.99826/EV+10.95961pp。单学习器TRAIN，非独立
 ## 真实技能收益与尚存缺口
 
 以下ACE B1/B2为已停止的旧v2开发记录，不进入正式对照或三次一致重复。
-新v3从空库重启，尚无完整成绩；旧B2较差受元数据适配器额外零分影响，不能当作胜出。
+新v3已完整B1空playbook首答；学习后新案成绩仍待完成。旧B2较差受元数据适配器
+额外零分影响，不能当作胜出。
+
+新v3首批报告为
+`ACEv3_Run02_B1_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261022.json`。
+96逻辑记录的原始HTTP、schema、解码及评分逐项重算，64生成/64HTTP全stop，
+421456输入/158202输出；32共用空库完整HTTP、实际内容与原分均匹配主Run。
+原生ACE冷角色在32任务上4好14坏14平，均值−7.48884pp；这不是有技能的结果，
+不据此热改角色包装或声称胜过成熟ACE。
+首个来源181 EC的三次新教师均为实际gpt-5.6-sol/high、完整正确目标字面值、
+无工具/响应复用，全部开始于本批完整首答落盘之后。三响应输入66817/输出2103，
+reason536已含输出，前缀缓存11136已含输入，响应82.388秒不是GPU小时。
+此为固定前三次教师的阶段成本，不是完整B1训练或实时总量，也不证明理解/泛化。
+证据`ACEv3_Run02_B1_complete_first96_64raw_and_first181EC3_actual_teacher_label_evidence_20261022.json`。
 
 ACE B1完整首答报告：
 `ACE128_B1_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261022.json`。
@@ -257,8 +275,9 @@ whole_bank/first_commit、主145/245各371文件，ACE145/245 run03各377文件�
 证据`remaining_six128_learners_frozen_real_repeat_policy_and_two_ablations_guard_no_launch_20261022.json`。
 正式主/ACE种子45/145/245、两项单seed消融与全部末库仍须实际完成后才能打开TEST。
 
-下一步观察84986所等的新v3完整B1首答，使用新Run ID的独立审计程序与报告路径，
-再观察真实技能发布和B2新案。不能用旧Run01路径/审计冒充新轮结果。
+下一步观察40557所等的新v3实际B1唯一发布及全部32 TRAIN轨迹，再运行新Run ID
+的完整发布审计并核实际B2投递和全部96新案角色记录。新B1首答审计已完成，不能
+重复执行覆盖报告，不能用旧Run01路径/审计冒充新轮结果。
 之后继续ACE全部八批；不据空B1、训练重答或
 单个B2案例判断成熟方法优劣，不另起重复进程。
 [最终分析计划](research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md)保持：
