@@ -1,6 +1,6 @@
 # 当前Goal执行索引
 
-2026-10-22 21:20 Asia/Shanghai。Goal仍active，完整论文目标未完成。
+2026-10-22 22:12 Asia/Shanghai。Goal仍active，完整论文目标未完成。
 Run03已于12:09完整结束八批128来源/256任务，八次唯一最终发布齐全；
 旧ACE run01因重复技能ID被额外判为法律题零分，已于16:02:55安全停止，禁止恢复或
 充当公平正式对照。修正v3已于16:14:04以新Run ID从空库正式启动；主方法不变、不重跑。
@@ -33,7 +33,7 @@ paper-ideation负责问题/贡献与近邻的接缝，paper-experiments-appendix
 |---|---|---|
 | 学得技能是否让冻结8B在未见来源变强 | 同案强空库、盲静态、外部经验方法与最终隔离TEST | 继续完成ACE；新增文本归纳适配已实现并冻结三次构建，按既定学习后顺序实际执行；首次TEST前冻结全部比较，不把只有ACE的最低矩阵自动等同充分覆盖 |
 | 后续进化是否超过初次学得的技能 | 完整八批首遇及每次学习自己的B1冻结控制，三次独立学习 | 不只盯B1/B2；执行既定完整重复，分别报告EC/EV收益与损害，不要求换案裸分机械单调 |
-| 当前两项设计为什么有用 | whole_bank及first_commit从空库独立学满八批 | 在当前ACE自然终态及保全后按既定顺序实际运行，披露单seed与计算混杂，不把日志回放冒充消融 |
+| 当前两项设计为什么有用 | whole_bank及first_commit从空库独立学满八批 | ACE自然终态及保全后先完成固定静态TRAIN对照，再按既定相对顺序实际学习，披露单seed与计算混杂，不把日志回放冒充消融 |
 | 技能实际如何生成、管理、使用，代价是什么 | 原始教师/发布/投递、实际CRUD、错误和调用成本 | 利用已有完整轨迹写机制与案例；如实区分送达、自报、关联与因果，不仅报告库条数 |
 
 上述问题对应现稿三个RQ，不另造新任务/验证集/模型或第五套调度框架。
@@ -128,7 +128,10 @@ paper-ideation负责问题/贡献与近邻的接缝，paper-experiments-appendix
   20:30已再次核同三份377文件/50packages及原PID/start/argv、主四共享文件，
   ACE正处理B2第208案，199生成/80教师/81尝试；教师阶段GPU 0%不是服务退出。
   证据`hourly2030_ACEv3_Run02_actual_new_handles377_original_model_and_direction_review_20261022.json`。
-  下一小时21:30 CST，不再要求旧ACE1738522存活。
+  21:30再次核同三份377文件/50packages、原模型/ACE PID与start/argv及主四共享文件，
+  B3首答239生成/102教师，GPU97%；
+  `hourly2130_ACEv3_Run02_actual_new_handles377_original_model_and_direction_review_20261022.json`。
+  下一小时22:30 CST，不再要求旧ACE1738522存活。
   旧15:30小时报告为旧source修订前快照，不能复用其原样断言当当前状态。
 
 ## 冻结协议与保真
@@ -489,3 +492,32 @@ EC/EV主要比较，共十项；两消融四项次要比较保持。独立学习
 vLLM0.10.2，训练和部署未坏；随后修正章节标题核对正则，最终核查成功。没有新增
 一次性测试文件、模型/教师调用或学习代码修改。后续九份配置的所有绑定源码现均
 逐字匹配，无启动版本漂移；只读检查不替代它们未来实际学习。
+
+## 固定静态库TRAIN对照：已实现冻结，后台仅等待ACE
+
+22:09单一顺序unit `legal-openexempt-fixed-static-train128-20261022-run01.service`
+已启动等待，PID705766/start468467899。它目前是bash加45秒等待，不是第二个8B或
+正在执行静态推理；静态run目录仍不存在，0新模型/教师调用。ACE继续占用原单模型。
+ACE unit不再active后，Python入口还须独立核验主/ACE真实八次发布、自然完成状态、
+无failure及终态保全，并取得相同canonical锁。ACE异常时拒绝启动，不fallback。
+等待结束的`exec`会令同一PID从bash转为Python，这是预期转换，不据此重启。
+
+source commit `6b128a8`，入口`experiments/openexempt_fixed_train_control.py`，配置
+`configs/openexempt_fixed_static_train128_20261022_run01.json`；400文件/50packages冻结，
+两盘source档各402成员全部逐字核同，SHA均为
+`8ad2b612478675d093e2d3aa9c0e917de1d8ebfb5152d7bbd4ca79e954be3beb`。
+唯一原静态库仍是run03的7条/2411tokens/4809c3...，不重新编译或按分数改库。
+复用原Online.answer/grade与原输运，主四共享文件匹配实际旧源码；完整256首答后
+才评分，0教师且类没有teacher_call/update接口。9项纯合成阶段/边界检查0.18秒通过，
+没有GPU资格测试。旧九次学习配置和活跃ACE377全部绑定未变，当前教师上限3349不变。
+
+协议`OPENEXEMPT_FIXED_STATIC_TRAIN_CONTROL_20261022.md`。固定对照检验通用法律先验
+能解释多少收益，不是改掉主方法的在线学习，也不是新验证集、正式TEST、独立训练
+重复或新测试臂。八批与B1–B8/B2–B8/B3–B8比较采用原主Run当时的完整首答，不冒充
+主末库重答全TRAIN；最后16臂和十项主要/四项次要比较保持。当前仍无静态成绩。
+
+冻结保全证据`Fixed_static_TRAIN128_full256_control400_source402_dual_frozen_unstarted_and_active_ACE377_unchanged_20261022.json`；
+独立等待句柄证据`Fixed_static_TRAIN128_unit705766_live_waiting_after_ACE_no_model_calls_20261022.json`。
+不要因为静态run目录在等待期不存在就再开一份；取消未来自动对照只停止这个精确
+等待unit，不停原模型或健康ACE。它自然完成且保全后才继续既定六次学习相对顺序，
+随后三次文本归纳构建；不要据配置冻结、unit active或9项检查冒称实验已经完成。
