@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 10:10 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 11:46 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -12,8 +12,10 @@
 参数微调或无标签TFGRPO。主文突出机制、训练收益、完整对比；调试细节不占据主线。
 必要的监督、信息边界、成本、失败及影响结论的局限仍如实披露。
 
-已完成主训练是有效的一次开发轨迹，不是必须守住的最终方法。若完整TRAIN对照
-或末库收益不足，依据TRAIN找根因再优化并重训。正式TEST不用来反复选择方法/库。
+已完成八批有足够证据进入完整对照与论文成文。对照期间未重训，没有新增主方法
+成绩不代表原有收益失效；当前保留该方法完成证据链，隔离教师交付修复不自动启用。
+也不把一次有效开发轨迹预定为最终胜出：若成熟TRAIN对照或末库收益实质不足，
+才依据TRAIN决定新版本与匹配重训。正式TEST不用来反复选择方法/库。
 不能把原先已见开发来源改名为未见测试；不删不利对照或美化原始分数。
 
 ## 当前证据账本
@@ -73,10 +75,12 @@
 | B5实际发布仍未完成或必须强制增加技能 | CONTRADICTED | 05:32:56完整32TRAIN后原生0ADD，17条内容保留、计数更新，1784tokens/SHA44142a6；全链独立核同。4/32→26/32是拟合；110原生成/51新教师，两条截断零分保留 |
 | B6全部96首答、实际父库与原分数已核 | VERIFIED | 07:01:38完整，原ACE62.70833/57.06019%、空库56.31055/67.72321%、主方法84.60317/83.43502%；17条全部送达，261EC/EV两长度零分保留；64生成476048输入/182121输出 |
 | B6唯一发布与全部32TRAIN已独立核完 | VERIFIED | 08:18:53实际发布17→19条/1958tokens、2ADD、旧17内容保留；113原生成/54新教师、原两条长度零分保留；完整32任务及478成员双盘核验，观察1587788正常退出0 |
-| B6训练改善已证明B7新案提升 | UNSUPPORTED | 4/32→24/32是同案TRAIN完全解出任务数；新增内容为输出合同与事实保持，B7完整首答未齐，不能以拟合或技能数量判定迁移 |
+| B6训练改善已证明B7新案提升 | UNSUPPORTED | 4/32→24/32是同案TRAIN完全解出任务数；完整B7首答已齐，ACE64.72/43.87%、直接空库58.13/61.56%，不是两任务都获益，拟合或技能数量不证明迁移 |
 | B6新库仍未实际交给后续新案 | CONTRADICTED | 第七批277EC完整HTTP已核全部19条内容/计数及原配置、无当前反思；没有读取部分分数或目标。后两批1633116只读服务等全96首答后自动核分数与使用 |
 | B7完整首答及19条投递可核 | VERIFIED | 09:57:36全96独立核完、288成员双盘；ACE64.72222/43.86905%、空库58.125/61.5625%、已完成主方法同案78.54663/80.75521%；64原生成，四条长度零分保留 |
 | B6两新增技能未送达或可凭自报认定有效 | CONTRADICTED | B7实际19条全送达；有效EC15/EV13回答中code18自报0/4、err19自报1/4。四失败的使用未知，非零使用或送达不证明收益，不能和未启用主方法修复混算 |
+| B7唯一发布及32任务学习已完整结束 | VERIFIED | 11:40:59实际发布19→20条/2059tokens、1ADD，旧19文本保留；120原生成/60新教师，原4长度零分保留，32任务3→21完全解出是拟合；535成员自动双盘核同 |
+| B7新技能已经实际交给B8但其新案收益未定 | PARTIAL | 293EC完整HTTP核20条内容/计数和新err-00020自报引用；仅核投递，不读部分分数或正确答案。B8全96首答及完整对照尚待完成，自报不证明有效 |
 | 只读观察器退出意味着训练也退出或需重跑 | CONTRADICTED | 旧工具汇总89759以143退出，确切来源未定；原训练/模型/两排队句柄均未变。三个观察任务已迁服务器用户服务，实际启动和脚本SHA见launch queued.json，不更改算法、预算或模型 |
 | TCPStore心跳告警意味着模型已经退出 | CONTRADICTED | 原API/engine/ACE及两等待PID、argv/start仍在，GPU97%，日志仍有生成；完整B5及新TRAIN调用继续完成。确切store-peer原因未定，没有停训或重启服务 |
 | B3接续批成本可核且未重复算前缀 | VERIFIED | 原64首答+40新TRAIN生成共104native；45fresh教师；退役10/12与前两批另计 |
@@ -135,6 +139,9 @@
 - `ACEv4_Run03_firstB7_277EC_actual_B6_all19_full_payload_not_scores_20261023.json`
 - `ACEv4_Run03_B7_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json`
 - `ACEv4_actual_complete_B7_first96_automatic_dual_preservation_20261023.json`
+- `ACEv4_Run03_B7_unique_actual_publication_all32_TRAIN_failed_public_text_exact_reflections_counters_ADD_and_true_union_cost_audit_20261023.json`
+- `ACEv4_actual_complete_B7_publication32_and_first96_automatic_dual_preservation_20261023.json`
+- `ACEv4_Run03_firstB8_293EC_actual_B7_all20_full_payload_not_scores_20261023.json`
 - `prospective_priority_first_common_actor_text_full9_new_profiles_frozen_no_active_change_20261023.json`
 - `prospective_priority20261023_operational_semantics_early2_legacy8_canonical_entry_source_validation_20261023.json`
 - `hourly0230_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
@@ -148,12 +155,16 @@
 - `hourly0730_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `hourly0830_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `hourly0930_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
+- `hourly1030_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
+- `hourly1130_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `source_key_metadata_only_train308_sealed128_disjoint_revalidation_NOT_semantic_TEST_or_performance_20261023.json`
 - `source_key_metadata_only_train308_sealed128_revalidation_dual_preservation_20261023.json`
 - `Run03_actual15_teacher_context_no_logged_compaction_vs_explicit1024_tail_delivery_NOT_quality_cause_20261023.json`
 - `Run03_actual15_teacher232_witness_delivery_source_filter_loss_true_harm_actual_HTTP_v02_NOT_causal_20261023.json`
 - `isolated_v2_teacher_delivery_all15_actual_history232witnesses_restored21_self_describing_alias_v02_NOT_performance_20261023.json`
 - `isolated_v2_final6cbc_actual_entry_binding_guard_and_exact719_teacher_pack_AST_QA_NOT_performance_20261023.json`
+- `teacher_delivery_candidate_final6cbc_complete_git_three_heads_dual_20261023.json`
+- `teacher_delivery_candidate6cbc_B7firsts_context_and_checkpoint_scoped_dual_preservation_20261023.json`
 - `manuscript_v010_related_work_primary_refs_exact_v09_scientific_body_11profiles_QA_20261023.json`
 - `frozen_eval_four_worker_cpu105_exact_cache_failure_drain_active11_unchanged_serial91h_scenario_NOT_deployed_20261023.json`
 - `frozen_eval_parallel_dispatch_endpoint_bound_final_CPU_check_stdout_20261023.json`
