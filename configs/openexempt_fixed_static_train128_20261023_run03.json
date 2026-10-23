@@ -1,0 +1,53 @@
+{
+  "run_id": "legal_openexempt_fixed_static_train128_20261023_run03",
+  "learner": "frozen_case_free_static_TRAIN_control_v1",
+  "execution_contract": "direct_statutory_claims",
+  "execution_contract_version": 14,
+  "generation": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "Qwen/Qwen3-8B",
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "context_tokens": 32768,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "timeout_seconds": 900,
+    "disable_thinking": false
+  },
+  "inference_environment": "artifacts/live_8b_environment_EOS_aligned_20261020.json",
+  "upstream_archive": "data/cache/openexempt/OpenExempt-ec6fa2547431096588ce2d3ef107b8adc33cd4fe.tar.gz",
+  "input_packet": "data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json",
+  "grading_directory": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only",
+  "same_public_packet_sha256": "ef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45",
+  "source_cases": 128,
+  "batch_source_cases": 16,
+  "planned_batches": 8,
+  "initial_library_publication": "runs/legal_openexempt_direct_law_only_static_20261021_run03/publication.json",
+  "static_bank_sha256": "4809c3b2fe336a682ad36544f036206f158c0890adad4e87bde6eb4fa6502321",
+  "library_token_hard_cap": 4096,
+  "static_compiler_config": "configs/openexempt_direct_law_only_static_20261021_run03.json",
+  "static_compiler_config_sha256": "84e98ef91f455a511dca923a10dcb268129b3a911e03049fdbec2355510f46a1",
+  "comparison_reference_config": "configs/openexempt_closed_feedback_public_assets128_20261021_run03.json",
+  "comparison_reference_config_sha256": "8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e",
+  "completed_ACE_reference_config": "configs/openexempt_ace_public_assets128_20261023_run04.json",
+  "required_completed_predecessors": [
+    "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "legal_openexempt_ace_public_assets128_20261023_run04"
+  ],
+  "exclusive_training_lock": "/media/sangfor/vdb/legal-skill-evolve/artifacts/openexempt_training.lock",
+  "planned_native_calls_max": 256,
+  "planned_new_teacher_calls": 0,
+  "no_validation_set": true,
+  "protocol": "docs/research/OPENEXEMPT_FIXED_STATIC_TRAIN_CONTROL_V2_20261022.md",
+  "inference_dependency_artifacts": [
+    "patches/vllm-0.10.2-hf-generation-eos-alignment.patch",
+    "third_party/vllm/NOTICE.md"
+  ],
+  "supersedes_unstarted_waiter": "legal-openexempt-fixed-static-train128-20261022-run02.service",
+  "same_control_algorithm_and_static_bank": true,
+  "prospective_source_rebase_from_unstarted_profile": "configs/openexempt_fixed_static_train128_20261022_run02.json",
+  "source_rebase_reason": "Operational predecessor/source rebase after ACE Run03 teacher timeout. Same fixed zero-case bank, direct actor, grading, full128 predictions-before-labels and zero teacher calls. Old waiter failed before creating its run.",
+  "previous_frozen_profile_retained_not_overwritten": true
+}
