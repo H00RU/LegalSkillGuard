@@ -7,6 +7,7 @@ import pytest
 from jsonschema import ValidationError, validate
 
 from legal_skill_guard.learning.experiment import INITIAL_PLAYBOOK, bullets
+from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
 from legal_skill_guard.learning.openexempt_ace import (
     commit_additions,
     curator_request,
@@ -324,6 +325,8 @@ def test_complete_online_ACE_batch_releases_labels_only_after_all_native_predict
     monkeypatch.setattr(ace, "ROOT", tmp_path)
     monkeypatch.setattr(common, "ROOT", tmp_path)
     study = ace.ACEOnline.__new__(ace.ACEOnline)
+    study._dispatch = PhaseDispatch({})
+    study.direct_answer = common.Online.answer.__get__(study, type(study))
     study.cfg = {"source_cases": 1, "batch_source_cases": 1, "grading_directory": "grading",
         "execution_contract": ("direct_statutory_claims" if direct
                                else "source_grounded_claim_operations"),

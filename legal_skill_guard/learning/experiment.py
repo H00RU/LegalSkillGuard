@@ -18,6 +18,7 @@ import subprocess
 import sys
 import time
 from dataclasses import asdict
+from contextlib import nullcontext
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -392,6 +393,7 @@ class Comparison:
 
     def teacher_call(self, name, system, body, schema):
         self.check()
+        dispatch = getattr(self, '_dispatch', None)
         dest = self.out / "teacher" / name
         settings = self.cfg["teacher"]
         capacity_attempt = 0
@@ -453,7 +455,8 @@ class Comparison:
             if capacity_attempt:
                 client.cache_root = dest/'cache'/f'capacity_retry_{capacity_attempt}'
             self.check()
-            self.teacher_attempts += 1
+            with dispatch.state_lock if dispatch is not None else nullcontext():
+                self.teacher_attempts += 1
             self.progress("teacher", current_arm=name, teacher_prompt_characters=chars,
                           capacity_transport_attempt_index=capacity_attempt)
             try:
@@ -481,7 +484,8 @@ class Comparison:
         response['actual_event_log_path'] = str((dest if capacity_attempt == 0 else
                                                 dest/f'capacity_retry_{capacity_attempt}')/'event_log.json')
         RunStore.immutable_json(dest / "response.json", response)
-        self.teachers.append({"name": name, **response})
+        with dispatch.state_lock if dispatch is not None else nullcontext():
+            self.teachers.append({"name": name, **response})
         if response["cache_hit"] or response["invocation"].get("tool_events_detected"):
             raise ValueError("Fresh existing teacher without tools required")
         validate(response["value"], schema)

@@ -16,10 +16,11 @@ import signal
 import traceback
 from pathlib import Path
 
-from experiments.openexempt_online import Online, freeze, preserve
+from experiments.openexempt_online import Online, direct_request_key, freeze, preserve
 from legal_skill_guard.experiment.storage import RunStore, safe_component
 from legal_skill_guard.inference.native import WireClient
 from legal_skill_guard.learning.experiment import Comparison, now, read, sha
+from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
 from legal_skill_guard.learning.trace2skill_text import (
     ANALYST_ROLE, INITIAL_FILES, MERGE_ROLE, TRANSLATOR_ROLE,
     actor_bank, apply_patch, merge_groups, patch_schema,
@@ -110,10 +111,18 @@ class Trace2Skill:
         self.native, self.teachers, self.teacher_attempts = [], [], 0
         self.request_cache, self.reuse_events = {}, []
         self.current_batch, self.stop = 0, False
+        self._dispatch = PhaseDispatch(self.cfg,
+            environment=(read(ROOT / self.cfg['inference_environment'])
+                         if self.cfg.get('phase_dispatch') is not None else None),
+            on_failure=lambda: setattr(self, 'stop', True))
+        self.answer = self._dispatch.locked_requests(self.answer,
+            lambda *args, **kwargs: direct_request_key(self.cfg, *args, **kwargs))
+        self.teacher_call = self._dispatch.limited_teacher(self.teacher_call)
         self.files, self.bank = copy.deepcopy(INITIAL_FILES), []
         self.meter = WireClient(self.cfg["generation"])
         self.out.mkdir(parents=True)
         RunStore.immutable_json(self.out / "initialization.json", {
+            "execution_dispatch": self._dispatch.receipt(),
             "at": now(), "bank": [], "patch_initial_files": self.files,
             "patch_initial_files_sha256": csha(self.files),
             "source_trajectory_skill_content": None,
@@ -127,23 +136,29 @@ class Trace2Skill:
         self.progress("initialized")
 
     def progress(self, stage, **extra):
-        RunStore.atomic_json(self.out / "progress.json", {
-            "at": now(), "run_id": self.run_id, "state": "running", "stage": stage,
-            "current_batch": self.current_batch, "completed_native_calls": len(self.native),
-            "completed_teacher_calls": len(self.teachers), "teacher_attempts": self.teacher_attempts,
-            "cross_stage_identical_wire_reuses": len(self.reuse_events), **extra})
+        with self._dispatch.progress_lock:
+            RunStore.atomic_json(self.out / "progress.json", {
+                "at": now(), "run_id": self.run_id, "state": "running", "stage": stage,
+                "current_batch": self.current_batch, "completed_native_calls": len(self.native),
+                "completed_teacher_calls": len(self.teachers), "teacher_attempts": self.teacher_attempts,
+                "execution_dispatch": self._dispatch.receipt(),
+                "cross_stage_identical_wire_reuses": len(self.reuse_events), **extra})
 
     def execute(self):
-        sources = []
-        for row in self.rows:
-            self.current_batch = row["batch"]
-            sources.append(self.answer(row, [], "source_first_forecasts", "trace2skill_source"))
+        def source_answer(row):
+            if self._dispatch.native_workers == 1:
+                self.current_batch = row["batch"]
+            return self.answer(row, [], "source_first_forecasts", "trace2skill_source")
+        sources = self._dispatch.native(source_answer, self.rows)
         # Release feedback only after the complete corpus of source predictions.
         self.grade(sources)
         RunStore.immutable_json(self.out / "source_records.json", sources)
-        patches = []
-        for row, source in zip(self.rows, sources, strict=True):
-            self.current_batch = row["batch"]
+        if self._dispatch.teacher_workers > 1:
+            self.current_batch = 0  # Multiple offline dataset batches may be active.
+        def analyze_source(pair):
+            row, source = pair
+            if self._dispatch.teacher_workers == 1:
+                self.current_batch = row["batch"]
             raw = read(ROOT / source["raw_call_path"])
             saved_input = read(self.out / "native/source_first_forecasts" /
                                f"{row['case_id']}_{row['family']}_trace2skill_source.input.json")
@@ -152,7 +167,7 @@ class Trace2Skill:
             solved = (source["parse_error"] is None
                       and source["score"]["full_output_claim_fp"] == 0
                       and source["score"]["full_output_claim_fn"] == 0)
-            patch = self.teacher_call(f"map_{row['case_id']}_{row['family']}", ANALYST_ROLE, {
+            return self.teacher_call(f"map_{row['case_id']}_{row['family']}", ANALYST_ROLE, {
                 "immutable_initial_files": INITIAL_FILES,
                 "single_source_public_messages": saved_input["messages"],
                 "single_source_public_schema": saved_input["schema"],
@@ -164,23 +179,23 @@ class Trace2Skill:
                 "outcome": "success" if solved else "failure",
                 "no_other_source_or_future_TEST_feedback": True,
             }, patch_schema())
-            patches.append(patch)
+        patches = self._dispatch.teacher(analyze_source, zip(self.rows, sources, strict=True))
         level = 0
         while len(patches) > 1:
             level += 1
             if level > self.cfg["max_merge_levels"]:
                 raise ValueError("Declared merge depth exhausted; no forced or first-patch fallback")
-            next_level = []
-            for index, group in enumerate(merge_groups(patches, self.cfg["merge_batch_size"]), 1):
-                merged = self.teacher_call(f"merge_L{level}_{index:03d}", MERGE_ROLE, {
+            def merge_group(pair):
+                index, group = pair
+                return self.teacher_call(f"merge_L{level}_{index:03d}", MERGE_ROLE, {
                     "immutable_initial_files": INITIAL_FILES,
                     "all_patches_in_this_ordered_group": group,
                     "merge_level": level,
                     "group_index": index,
                     "no_performance_based_patch_selection": True,
                 }, patch_schema())
-                next_level.append(merged)
-            patches = next_level
+            patches = self._dispatch.teacher(merge_group,
+                enumerate(merge_groups(patches, self.cfg["merge_batch_size"]), 1))
         if len(patches) != 1:
             raise ValueError("Every source must produce a recorded patch or explicit empty patch")
         final = self.teacher_call("translate_final_patch", TRANSLATOR_ROLE, {
@@ -198,10 +213,12 @@ class Trace2Skill:
             "no_original_source_forecast_replaced": True,
             "no_performance_based_skill_or_seed_selection": True}
         RunStore.immutable_json(self.out / "publications/final.json", publication)
-        final_train = []
-        for row in self.rows:
-            self.current_batch = row["batch"]
-            final_train.append(self.answer(row, self.bank, "final_TRAIN_replay", "trace2skill_final"))
+        self.current_batch = 0
+        def final_answer(row):
+            if self._dispatch.native_workers == 1:
+                self.current_batch = row["batch"]
+            return self.answer(row, self.bank, "final_TRAIN_replay", "trace2skill_final")
+        final_train = self._dispatch.native(final_answer, self.rows)
         self.grade(final_train)
         RunStore.immutable_json(self.out / "final_TRAIN_records.json", final_train)
         if len(self.teachers) > self.cfg["planned_teacher_responses_max"]:
@@ -224,6 +241,7 @@ class Trace2Skill:
             state = result["status"]
             RunStore.immutable_json(self.out / "completion.json", {
                 "at": now(), "run_id": self.run_id, **result,
+                "execution_dispatch": self._dispatch.receipt(),
                 "actual_native_calls": len(self.native), "actual_teacher_responses": len(self.teachers),
                 "actual_teacher_attempts": self.teacher_attempts, "raw_wire_reuses": self.reuse_events,
                 "native_prompt_tokens": sum((r.get("response") or {}).get("prompt_tokens", 0) for r in self.native),

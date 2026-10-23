@@ -108,8 +108,10 @@ def test_reference_delete_also_requires_removing_its_root_link():
 
 def test_full_offline_stage_order_and_all321_calls_without_any_model(monkeypatch, tmp_path):
     import experiments.openexempt_trace2skill as module
+    from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
 
     learner = module.Trace2Skill.__new__(module.Trace2Skill)
+    learner._dispatch = PhaseDispatch({})
     learner.rows = [{"case_id": case, "family": family, "batch": (case - 1) // 16 + 1}
                     for case in range(1, 129) for family in ("EC", "EV")]
     learner.cfg = {"grading_directory": "synthetic-grading", "merge_batch_size": 5,

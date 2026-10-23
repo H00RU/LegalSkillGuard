@@ -19,7 +19,7 @@ from pathlib import Path
 
 from jsonschema import ValidationError, validate
 
-from experiments.openexempt_online import Online, freeze, paired_effect, preserve
+from experiments.openexempt_online import Online, direct_request_key, freeze, paired_effect, preserve
 from legal_skill_guard.experiment.storage import RunStore, safe_component
 from legal_skill_guard.inference.native import WireClient
 from legal_skill_guard.learning.ace_native import update_bullet_counts
@@ -32,6 +32,7 @@ from legal_skill_guard.learning.experiment import (
     sha,
 )
 from legal_skill_guard.learning.legal_namespace import public_asset_catalog
+from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
 from legal_skill_guard.learning.openexempt_ace import (
     commit_additions,
     curator_request,
@@ -111,6 +112,21 @@ class ACEOnline:
         self.native, self.teachers, self.teacher_attempts = [], [], 0
         self.request_cache, self.reuse_events = {}, []
         self.current_batch, self.stop, self.summaries = 0, False, []
+        self._dispatch = PhaseDispatch(self.cfg,
+            environment=(read(ROOT / self.cfg['inference_environment'])
+                         if self.cfg.get('phase_dispatch') is not None else None),
+            on_failure=lambda: setattr(self, 'stop', True))
+        def ace_payload(row, stage, *, playbook=None, training_reflection=None, training=False):
+            return generator_payload(row, self.playbook if playbook is None else playbook,
+                direct_numeric=self.cfg['execution_contract'] == 'direct_statutory_claims',
+                training_reflection=training_reflection,
+                asset_references=self.cfg.get('execution_contract_version') == 14)
+        self.answer = self._dispatch.locked_requests(self.answer,
+            self._dispatch.payload_key(self.cfg['generation'], ace_payload))
+        self.direct_answer = self._dispatch.locked_requests(
+            Online.answer.__get__(self, type(self)),
+            lambda *args, **kwargs: direct_request_key(self.cfg, *args, **kwargs))
+        self.teacher_call = self._dispatch.limited_teacher(self.teacher_call)
         self.episodes = {arm: [] for arm in ("ace", "empty", "empty_direct_numeric")}
         self.prefix_receipt = None
         self.prefix_native_calls = self.prefix_teacher_calls = 0
@@ -119,6 +135,7 @@ class ACEOnline:
         if self.cfg.get("continuation_receipt"):
             self.restore_prefix()
         RunStore.immutable_json(self.out / "initialization.json", {
+            "execution_dispatch": self._dispatch.receipt(),
             "playbook": self.playbook, "playbook_sha256": csha(self.playbook),
             "legal_prior_bullets": 0, "published_numerical_programs": 0,
             "execution_contract": self.cfg["execution_contract"],
@@ -304,12 +321,14 @@ class ACEOnline:
         RunStore.immutable_json(self.out / "continuation.json", continuation)
 
     def progress(self, stage, **extra):
-        RunStore.atomic_json(self.out / "progress.json", {
-            "at": now(), "run_id": self.run_id, "state": "running", "stage": stage,
-            "current_batch": self.current_batch, "completed_native_calls": len(self.native),
-            "completed_teacher_calls": len(self.teachers), "teacher_attempts": self.teacher_attempts,
-            "playbook_bullets": len(bullets(self.playbook)),
-            "cross_stage_identical_wire_reuses": len(self.reuse_events), **extra})
+        with self._dispatch.progress_lock:
+            RunStore.atomic_json(self.out / "progress.json", {
+                "at": now(), "run_id": self.run_id, "state": "running", "stage": stage,
+                "current_batch": self.current_batch, "completed_native_calls": len(self.native),
+                "completed_teacher_calls": len(self.teachers), "teacher_attempts": self.teacher_attempts,
+                "playbook_bullets": len(bullets(self.playbook)),
+                "execution_dispatch": self._dispatch.receipt(),
+                "cross_stage_identical_wire_reuses": len(self.reuse_events), **extra})
 
     def answer(self, row, stage, *, playbook=None, training_reflection=None, training=False):
         self.check()
@@ -388,7 +407,9 @@ class ACEOnline:
 
     def update(self, rows, observations, controls):
         parent, reflections, all_tags, trajectories = self.playbook, [], [], []
-        for row, observation in zip(rows, observations, strict=True):
+        def train_case(pair):
+            row, observation = pair
+            tags = []
             # The complete first-encounter batch is already immutable. The native
             # TRAIN-initial call is identical under this fixed-seed profile and
             # may reuse that raw wire; it is still freshly decoded and scored.
@@ -413,7 +434,7 @@ class ACEOnline:
                 name = f"b{self.current_batch}_{row['case_id']}_{row['family']}_r{number}_reflector"
                 reflection = self.teacher_call(name, ROLE_SYSTEM, prompt, schema)
                 validate_reflection(reflection, schema, cited)
-                all_tags.extend(reflection["bullet_tags"])
+                tags.extend(reflection["bullet_tags"])
                 current = {"round": number, "teacher_role": name,
                            "actual_pre_reflection_score": prediction["score"],
                            "reflection": reflection}
@@ -430,7 +451,6 @@ class ACEOnline:
                 rounds.append(current)
                 if self.train_solved(prediction):
                     break
-            reflections.append(reflection)
             trajectory = {"source_case_id": row["case_id"], "family": row["family"],
                 "initial_first_encounter_observation": observation,
                 "TRAIN_initially_solved": initially_solved, "rounds": rounds,
@@ -439,6 +459,13 @@ class ACEOnline:
                 "TRAIN_only_not_replacement_or_generalization": True}
             RunStore.immutable_json(self.out / "training" /
                 f"b{self.current_batch}_{row['case_id']}_{row['family']}.json", trajectory)
+            return reflection, tags, trajectory
+        for reflection, tags, trajectory in self._dispatch.native(
+                train_case, zip(rows, observations, strict=True)):
+            # Native last-tag semantics depend on this original row/round order,
+            # never on which remote teacher or inference finishes first.
+            reflections.append(reflection)
+            all_tags.extend(tags)
             trajectories.append(trajectory)
         prompt, schema, counted = curator_request(parent, reflections, rows,
             current_step=self.current_batch * self.cfg["batch_source_cases"] * 2,
@@ -466,12 +493,17 @@ class ACEOnline:
             self.current_batch = batch
             current = [r for r in self.rows if r["batch"] == batch]
             records = {arm: [] for arm in self.episodes}
-            for row in current:
+            def answer_row(row):
+                answers = {}
                 arms = ("ace", "empty", "empty_direct_numeric")
                 offset = (row["case_id"] + FAMILIES[row["family"]]) % len(arms)
                 for arm in arms[offset:] + arms[:offset]:
                     record = (self.answer(row, f"b{batch}_prequential") if arm == "ace" else
-                              Online.answer(self, row, [], f"b{batch}_prequential", arm))
+                              self.direct_answer(row, [], f"b{batch}_prequential", arm))
+                    answers[arm] = record
+                return answers
+            for answers in self._dispatch.native(answer_row, current):
+                for arm, record in answers.items():
                     records[arm].append(record)
             # No current target is opened before every arm/task has a prediction.
             self.grade([r for values in records.values() for r in values])
@@ -504,6 +536,7 @@ class ACEOnline:
             state = self.execute()
             RunStore.immutable_json(self.out / "completion.json", {
                 "at": now(), "run_id": self.run_id, "status": state,
+                "execution_dispatch": self._dispatch.receipt(),
                 "final_playbook": self.playbook, "final_playbook_sha256": csha(self.playbook),
                 "batch_summary": self.summaries,
                 "prequential": {arm: metrics(values) for arm, values in self.episodes.items()},

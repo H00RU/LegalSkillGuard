@@ -20,6 +20,7 @@ import json
 import signal
 import tarfile
 import traceback
+from contextlib import nullcontext
 from pathlib import Path
 
 from jsonschema import ValidationError, validate
@@ -37,6 +38,7 @@ from legal_skill_guard.learning.claim_execution import (
     answer_schema as claim_answer_schema,
 )
 from legal_skill_guard.learning.experiment import Comparison, now, read, sha
+from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
 from legal_skill_guard.learning.legal_namespace import (
     active_bank,
     allowable_namespaces,
@@ -652,6 +654,16 @@ def preserve(run_id, stage, names):
     return receipt
 
 
+def direct_request_key(cfg, row, bank, stage, arm):
+    """Identity for locking the unchanged direct actor, not another actor."""
+    grounded = cfg.get('execution_contract') in (
+        'source_grounded_claim_operations', 'direct_statutory_claims')
+    direct = cfg.get('execution_contract') == 'direct_statutory_claims' or arm == 'empty_direct_numeric'
+    messages, schema, _ = actor_payload(row, bank, grounded=grounded,
+        direct_numeric=direct, asset_references=cfg.get('execution_contract_version') == 14)
+    return csha({'messages': messages, 'schema': schema, 'generation': cfg['generation']})
+
+
 class Online:
     # Audited transports only; no NDA initialization, scoring or old update logic.
     check = Comparison.check
@@ -689,6 +701,13 @@ class Online:
         self.native, self.teachers, self.teacher_attempts = [], [], 0
         self.request_cache, self.reuse_events = {}, []
         self.current_batch, self.stop = 0, False
+        self._dispatch = PhaseDispatch(self.cfg,
+            environment=(read(ROOT / self.cfg['inference_environment'])
+                         if self.cfg.get('phase_dispatch') is not None else None),
+            on_failure=lambda: setattr(self, 'stop', True))
+        self.answer = self._dispatch.locked_requests(self.answer,
+            lambda *args, **kwargs: direct_request_key(self.cfg, *args, **kwargs))
+        self.teacher_call = self._dispatch.limited_teacher(self.teacher_call)
         self.bank, self.latest, self.summaries = [], {}, []
         if self.cfg.get("initial_library_publication"):
             initial = read(ROOT / self.cfg["initial_library_publication"])["bank"]
@@ -708,6 +727,7 @@ class Online:
         self.meter = WireClient(self.cfg["generation"])
         self.out.mkdir(parents=True)
         RunStore.immutable_json(self.out / "initialization.json", {
+            "execution_dispatch": self._dispatch.receipt(),
             "bank": self.bank, "parent_publication": self.cfg.get("initial_library_publication"),
             "initial_library_kind": self.cfg.get("initial_library_kind"),
             "initial_case_exposure": self.cfg.get("initial_library_prior_exposure_distinct_sources", 0),
@@ -724,12 +744,15 @@ class Online:
         self.progress("initialized")
 
     def progress(self, stage, **extra):
-        RunStore.atomic_json(self.out / "progress.json", {
-            "at": now(), "run_id": self.run_id, "state": "running", "stage": stage,
-            "current_batch": self.current_batch, "completed_native_calls": len(self.native),
-            "completed_teacher_calls": len(self.teachers), "teacher_attempts": self.teacher_attempts,
-            "cross_stage_identical_wire_reuses": len(self.reuse_events),
-            "library_records": len(self.bank), **extra})
+        dispatch = getattr(self, '_dispatch', None)
+        with dispatch.progress_lock if dispatch is not None else nullcontext():
+            RunStore.atomic_json(self.out / "progress.json", {
+                "at": now(), "run_id": self.run_id, "state": "running", "stage": stage,
+                "current_batch": self.current_batch, "completed_native_calls": len(self.native),
+                "completed_teacher_calls": len(self.teachers), "teacher_attempts": self.teacher_attempts,
+                "cross_stage_identical_wire_reuses": len(self.reuse_events),
+                "library_records": len(self.bank),
+                **({'execution_dispatch': dispatch.receipt()} if dispatch is not None else {}), **extra})
 
     def answer(self, row, bank, stage, arm):
         self.check()
@@ -1108,7 +1131,8 @@ class Online:
             if candidate == before:
                 decisions.append({"accepted": False, "explicit_noop": True, "delta": delta})
                 break
-            replay = self.grade([self.answer(r, candidate, name + "_replay", "candidate") for r in seen])
+            replay = self.grade(self._dispatch.native(
+                lambda r: self.answer(r, candidate, name + "_replay", "candidate"), seen))
             keys = {r["case_id"] for r in current}
             candidate_current = [r for r in replay if r["case_id"] in keys]
             candidate_prior = [r for r in replay if r["case_id"] not in keys]
@@ -1221,7 +1245,7 @@ class Online:
             empty, skills, frozen, direct, first_frozen = [], [], [], [], []
             evaluate_first_frozen = self.cfg.get("frozen_after_first_batch_control", False)
             native_before = len(self.native)
-            for row in current:
+            def answer_row(row):
                 # Fixed rotation, and exact-wire sharing only. No quality selection.
                 arms = ("empty", "frozen_initial", "skills", "empty_direct_numeric")
                 if evaluate_first_frozen:
@@ -1236,6 +1260,8 @@ class Online:
                     # One reuse path for every arm/stage. Even an identical
                     # native response must execute against this arm's bank.
                     answers[arm] = self.answer(row, bank, f"b{batch}_prequential", arm)
+                return answers
+            for answers in self._dispatch.native(answer_row, current):
                 empty.append(answers["empty"])
                 skills.append(answers["skills"])
                 frozen.append(answers["frozen_initial"])
@@ -1310,6 +1336,7 @@ class Online:
         try:
             status = self.execute()
             completion = {"at": now(), "run_id": self.run_id, "status": status,
+                          "execution_dispatch": self._dispatch.receipt(),
                           "batch_summary": self.summaries, "bank": self.bank,
                           "prequential_empty": metrics(self.prequential_empty),
                           "prequential_skills": metrics(self.prequential_skills),
