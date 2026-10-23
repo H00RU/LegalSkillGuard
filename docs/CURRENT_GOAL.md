@@ -1,6 +1,6 @@
 # Current legal skill-evolution goal
 
-更新：2026-10-23 21:13 CST。此页是当前入口；进程状态以实际systemd和原始制品为准。
+更新：2026-10-23 21:47 CST。此页是当前入口；进程状态以实际systemd和原始制品为准。
 旧11:46入口逐字存于[恢复前快照](research/checkpoints/CURRENT_GOAL_before_teacher_timeout_recovery_20261023_1440.md)。
 旧ACE Run03、旧静态/Text等待器及旧只读观察器已失败，不可当作仍在运行。
 当前静态Run03已自然成功完成，不与旧失败运行混淆；Text45现已实际开始。
@@ -138,6 +138,13 @@ B8全部32条TRAIN反思/标签/计数/ADD已核，完全正确从5到25是同�
 - 剩余八stage：`legal-openexempt-text45-to-remaining8-20261023.service`，
   PID2183806/start474380328。当前只等上述Text进程，尚无后续训练或额度扩展。
   一次性执行已声明计划，不是新通用队列框架：
+
+Text另有仅归档的有限观察器`legal-openexempt-text45-milestone-preservation-20261023.service`，
+PID2815942/start476967418，于21:45:56实际初始化。它绑定原Text与模型PID，仅在完整
+256源轨迹封存和最终技能发布两个不可变阶段各做一次双盘逐成员hash归档，随后退出；
+不评分、不读TEST、不调用模型/教师、不改训练或队列，也不重启任何进程。
+脚本与阶段记录位于`artifacts/launches/openexempt_text45_milestone_preservation_20261023`及同名`.py`。
+21:43首批32条原生源作答已齐，均stop、无解析错、空技能输入；这不是学习效果或全量完成。
 
 | 顺序 | 方法/seed | 新profile后缀 | 阶段结束前额度 |
 |---|---|---|---:|
