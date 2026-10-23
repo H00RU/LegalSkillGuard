@@ -176,3 +176,41 @@ EV现有完整输出审计有85条误报和150条漏报：67条已选中正确�
 这些是读实际主训练轨迹的决策，不保证某项修改必定提高指标。保持完整目标：
 可复用、持续进化、有强对照与测试支撑的法律技能学习，不以完成一次128流
 或一份理论笔记作为论文证据已齐。
+
+## 细于EC/EV任务拆分的实际提交证据，2026-10-23
+
+本节供下一次正文机制结果整合使用；主方法、原八批指标和现有图表不改。
+完整枚举同一seed45学习器的14份非NOOP候选，而非只挑有利提案：
+
+| 已执行轨迹观察 | 计数 | 可以支持的解释 |
+|---|---:|---|
+| 实际接收的候选组合 | 9/14 | 接收不等于每批必增长，且候选组合不等于批末发布次数 |
+| 原整库提案未过、组合库获准 | 5/9 | 分量提交实际改变了接收结果 |
+| 实际接收库不同于任务级选择的结构组合 | 4/9 | 不能把本实现约简成只分EC、EV两组 |
+| 任务级门槛失败但其有改动的法域分量实际获准 | 1 | 细粒度提交确实保留了一项任务级检查会丢掉的修改 |
+
+最后一项发生在B1第二次候选：EV整任务的原F1和完整输出保持检查均未通过，
+但EV:ILLINOIS分量通过并被保留。该范围的全部三个已见TRAIN来源190/195/196，
+相对真实C1父库，平均原EV F1由57.41%变为79.63%，增加22.22个百分点；实际
+提交记录的原始响应路径和分数与这部分提案一致。这是三个已见来源的训练内
+局部改善，不是新案或TEST效果，不替代128来源主分母。
+
+**Proposed Results wording.** Public-context submission changed more than the
+separation of EC and EV. Across all 14 non-NOOP candidates, four of the nine
+accepted compositions differed structurally from the task-level choice. In
+the second B1 proposal, the full EV update failed its retention checks, but
+the Illinois component was retained: mean EV F1 on all three affected TRAIN
+sources rose from 57.41% to 79.63% against the actual first-candidate parent.
+These records locate an executed benefit of finer submission; they do not
+estimate independently learned task-local performance or future-case gain.
+
+结构比较固定使用本次实际父库与实际提案，只调用现有组合函数；未独立重训
+task_local，也未将其假想组合通过完整容量/运行门槛。因此不把四次结构差异
+写成四次性能胜出，不据此宣称优于所有任务级或已有技能方法。法域分量来自
+公开共可见关系及编辑依赖，不是硬编码为三个类别。
+
+[完整14候选、真实父库链与三来源例证](../artifacts/research/openexempt_legal_scope_20261020/Run03_all14_actual_component_vs_task_gate_decisions_and_B1C2_Illinois_EV_rescue_NOT_independent_ablation_20261023.json)
+保留全部接收/拒收及重算程序。两项已声明独立学习消融仍须执行；如不另做
+task_local学习对照，论文只陈述上述已记录机制差异，不声称已隔离其泛化贡献。
+师兄实验skill用于“结论—机制—证据”的段落组织，nature-paper用于守住训练内
+局部效应、结构比较与独立测试/学习实验的边界。

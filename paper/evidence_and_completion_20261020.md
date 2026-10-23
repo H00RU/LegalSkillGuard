@@ -212,3 +212,26 @@ Text是离线构建，未来的末库TRAIN拟合必须与本方法实际末库�
 对齐，不能直接与各批当时的在线首答比较。现有B8组合已提供全256任务参照，
 原F1 EC86.03/EV89.30%，新增生成为零；本方法已在这些样本上准入优化，
 因此该比较偏向本方法，只作TRAIN诊断，不替代原曲线或正式TEST。
+
+## 2026-10-23下午：当前来源交接、失败反馈与更细提交证据
+
+主方法完整八批及v0.11正文、附录D、两图和内部审阅PDF不改。没有新增主方法
+训练分数，不等于原有正向收益失效。正式主表仍待隔离测试，不填入TRAIN成绩。
+
+- [16条件/12源配置的实际协议与十主要四次要比较核对](../artifacts/research/openexempt_legal_scope_20261020/final16_current_lineage_actual_source_protocol_primary10_secondary4_plan_NOT_TEST_config_20261023.json)：
+  使用真实配置验证一致协议与自身B1配对，三个故意错配均拒绝；不是未完成末库
+  已合格，也不是可执行TEST配置。
+- [当前矩阵与执行交接](../docs/research/OPENEXEMPT_FINAL_MATRIX_CURRENT_LINEAGE_20261023.md)：
+  ACE04→静态03→Text45→两项消融和其余重复均有实际后台等待器。后续尚未开始
+  的阶段不称训练中，失败不当完成，不按表现选库或重试。Test未自动启动。
+- [B8全部两条原截断的失败反馈原样投递](../artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run04_B8_all2_original_truncations_zero_preserved_full_public_text_correct_target_exact_fresh_reflection_20261023.json)：
+  295EV/302EV原8192截断零分保留，实际教师收到完整原文与正确本案TRAIN目标。
+  96条首答除真实复用元数据外逐项相同；复用不是新生成。16成员原始证据已双盘保存。
+- [完整14候选的法域分量与任务级门槛区别](../artifacts/research/openexempt_legal_scope_20261020/Run03_all14_actual_component_vs_task_gate_decisions_and_B1C2_Illinois_EV_rescue_NOT_independent_ablation_20261023.json)：
+  九次接收中五次原整库提案未过，四次接收后的库在结构上不同于只按任务选取的
+  组合；B1C2实际保留一个整EV门槛未通过的IL分量。三个已见TRAIN来源的原EV
+  F1由57.41%变79.63%，不是新案/TEST或独立task_local学习结果。
+
+[机制结果段及完整边界](method_scope_and_failure_decisions_20261021.md)按师兄实验skill
+组织，并用nature-paper区分局部TRAIN改善、固定提案结构比较与真正独立消融。
+未增加新臂、种子、模型或运行框架，不把已有通用重放或源保持机制算作独创。

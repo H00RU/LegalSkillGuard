@@ -73,6 +73,13 @@ B3–B8全96案，EC+0.99826/EV+10.95961pp。EV持续收益明显，EC增量较�
 其余机制/内容/残余审计见[证据索引](../paper/evidence_and_completion_20261020.md)及上述历史快照。
 当前独立教师交付候选6cbc2c9仍未采用，不与现行主方法结果混用。
 
+下午补齐的14候选机制核对显示：9次实际接收中，4次库结构不同于只按EC/EV任务
+选择的组合；B1C2保留了任务级EV门槛未过的IL分量。三个已见TRAIN来源原EV
+F1从57.41%到79.63%，只作局部机制例证，不是新训练主指标、独立消融或TEST。
+[结果段及限制](../paper/method_scope_and_failure_decisions_20261021.md)与
+[完整14候选](../artifacts/research/openexempt_legal_scope_20261020/Run03_all14_actual_component_vs_task_gate_decisions_and_B1C2_Illinois_EV_rescue_NOT_independent_ablation_20261023.json)
+保留全部拒收，不额外开启任务级学习或扩大16条件矩阵。
+
 ## 当前进程及断点恢复
 
 唯一模型：`legal-qwen3-8b.service`，PID3613253/start446037091，engine3613750。
