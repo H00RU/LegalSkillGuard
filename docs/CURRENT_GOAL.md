@@ -1,6 +1,6 @@
 # Current legal skill-evolution goal
 
-更新：2026-10-23 17:10 CST。此页是当前入口；进程状态以实际systemd和原始制品为准。
+更新：2026-10-23 17:26 CST。此页是当前入口；进程状态以实际systemd和原始制品为准。
 旧11:46入口逐字存于[恢复前快照](research/checkpoints/CURRENT_GOAL_before_teacher_timeout_recovery_20261023_1440.md)。
 旧Run03、旧静态/Text等待器及旧只读观察器已失败，不可当作仍在运行。
 
@@ -86,6 +86,14 @@ F1从57.41%到79.63%，只作局部机制例证，不是新训练主指标、独
 bf16 Qwen3-8B revision b968826d9c46dd6066d109eabc6255188de91218，
 vLLM0.10.2/xgrammar0.1.23，32768/8192，thinking开，T0.6/P0.95/K20，
 serverseed42，maxseq1，prefixcache关。无模型替换、重启或第二实例。
+
+17:25本机健康误报已核清：当前工具终端有HTTP代理，普通curl到127.0.0.1会经
+代理返回502；显式`--noproxy 127.0.0.1,localhost`直连返回200。训练使用的既有
+`openai_client.py`已经通过`ProxyHandler({})`禁用环境代理，其readiness也为真。
+原服务/引擎PID未变，静态预测继续增加。同类NCCL TCPStore监控告警最早在
+10月20日17:45已出现，不能仅见这条W级日志便认定模型刚退出。没有重启、停止
+训练或修改客户端；原store断连的具体原因未据此证实，也不把告警解释成指标原因。
+[实际直连/代理/readiness与原PID进展记录](../artifacts/research/openexempt_legal_scope_20261020/static03_old_NCCL_warning_shell_proxy_health_false_alarm_actual_same_PID_readiness_forward_progress_20261023.json)。
 
 ACE旧Run03在10月23日13:28:26停止：b8_295_EV_r1_reflector超过原600秒。
 旧异常分支未保存stdout，不能证明是capacity、网络或远端推理问题，失败usage未知，
