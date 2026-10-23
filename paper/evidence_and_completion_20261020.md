@@ -85,7 +85,7 @@
 | TCPStore心跳告警意味着模型已经退出 | CONTRADICTED | 原API/engine/ACE及两等待PID、argv/start仍在，GPU97%，日志仍有生成；完整B5及新TRAIN调用继续完成。确切store-peer原因未定，没有停训或重启服务 |
 | B3接续批成本可核且未重复算前缀 | VERIFIED | 原64首答+40新TRAIN生成共104native；45fresh教师；退役10/12与前两批另计 |
 | 原失败成本被丢弃 | CONTRADICTED | 旧Run02完整294native/114教师双盘1643成员；退役B3的10native/12教师单列，不导入新训练 |
-| 完整静态TRAIN控制已经跑出成绩 | PENDING | run02配置400/50冻结，PID821776仅Bash等待完整ACE；固定原7条/2411token、零新教师 |
+| 完整静态TRAIN控制已经跑出成绩 | VERIFIED | 当前run03于20:59完成128案256预测后评分；原7条/2411tokens不变、0新教师、256stop/0格式错，EC/EV 61.73%/62.38%；不是最终TEST |
 | 同接口文本对照已自动衔接且已完成学习 | PARTIAL | 02:51:53具体交接unit已启动，PID1130167只等待原静态；无Text运行目录或新调用。完整主/ACE/静态与终态保全后才扩额3349→3991并启动一次Text45 |
 | 九个后续学习profile仍可按当前代码执行 | VERIFIED | 新23日377/383/378文件版本冻存双盘，02:30当前字节/50packages匹配，全未启动；旧22日版保留不再作启动入口 |
 | 为提前比较而改了文本学习算法 | CONTRADICTED | 只把无关前序学习器数量8→2，运行时自然完成/无failure/保全/同锁检查保留；归纳/合并/翻译/执行AST未改，13合同及算法字段核验通过 |
@@ -237,7 +237,7 @@ Text是离线构建，未来的末库TRAIN拟合必须与本方法实际末库�
 组织，并用nature-paper区分局部TRAIN改善、固定提案结构比较与真正独立消融。
 未增加新臂、种子、模型或运行框架，不把已有通用重放或源保持机制算作独创。
 
-## 当前内部审阅稿v0.12：ACE45自然完成、来源/成本齐全
+## 历史内部审阅稿v0.12：ACE45自然完成、来源/成本齐全
 
 ACE45接续Run04于10月23日15:48:37自然完成全部八批。唯一末库21条/2158tokens，
 旧20条内容保留；新增一条复合资产中心名词/修饰词的类别判定程序，不是逐案答案表。
@@ -274,3 +274,37 @@ B8全部32条真实反思、原生计数与ADD核验通过，同案完全正确5
 或公开转载；未改正文、附录D、PDF、方法、16条件或后台队列，0模型/教师/TEST调用。
 采用师兄paper-related-method、paper-ideation与实验skill组织建议，不按模板增加
 多轮咨询、验证集、新模型或未经核实的比较成绩。当前仍须完成真实后继实验。
+
+## 当前内部审阅稿v0.13：完整静态TRAIN对照与实际Text交接
+
+静态Run03于2026-10-23 20:59:00 CST自然成功结束，所有256预测先于评分，原零案件
+7条/2411-token库不变。完整同128来源的EC/EV F1为61.73%/62.38%，相较空库
++1.56/−0.54pp；主方法在线首答82.03%/79.16%，分别高20.30/16.78pp。
+B2–B8每批两端点均高于该固定库；这些是单流TRAIN描述，不是等效性检验、最终
+冻结库比较、跨学习重复区间或正式TEST。原先三个条件的数值和八批曲线不改。
+
+[全256原始来源、配对收益/损害、失误清单、成本及交接](../artifacts/research/openexempt_legal_scope_20261020/static03_complete128_256_predictions_actual_metrics_residuals_cost_dual_preservation_and_Text45_handoff_NOT_TEST_20261023.json)
+核对全量native/complete-output原分数。静态→主方法首答的EC漏引432→221次、
+EV漏引390→209次；EV金额错配50→67次，不能把整体优势写成数值执行全面改善。
+这些是主张出现次数，不是独立案件，不改主终点。两盘终态档各789成员均逐项hash
+核验，device不同；成本256次8B/256HTTP、1836443输入/640206输出、0新教师，
+约5h10m执行与评分墙钟。早期静态编译成本另行保留，不冒称整个对照无需教师。
+
+Text45按原计划于20:59:19从等待转入真实源轨迹生成，21:12快照9/256、0教师。
+它先独立保存全部预测再释放标签，不复用主方法或ACE的答案/技能；额度3991是已执行
+的共享预约上限，不是实际调用量。后继八stage仍等待Text，不自动开启TEST。
+当前证据支持继续现行主方法、共享执行器文本对照、既定消融与独立重复，不换任务、
+不自动采用教师交付候选，也不扩大16条件或改变统计规则。
+
+[v0.13正文](manuscript_v1_20261021.md)与[附录D](appendix_experimental_details_20261022.md)
+仅整合完整静态证据及真实状态；[源稿QA](../artifacts/research/openexempt_legal_scope_20261020/manuscript_v013_complete_static_TRAIN_source_protected_science_tables_refs11profiles_QA_20261023.json)
+确认只改评价节与5.4、新增静态行，原Table1/2行、摘要至方法、其他结果、讨论、文献
+及待填标记保持，11个当前/后继冻结配置的426个不同绑定文件均不变。
+精确旧源稿见[v0.12正文快照](revisions/manuscript_v012_before_static_complete_20261023.md)
+与[旧附录](revisions/appendix_D_v012_before_static_complete_20261023.md)。
+
+[当前双语21页内部审阅PDF](../artifacts/research/manuscript_review_20261023/v013_bilingual_internal_v01/legal_skill_evolution_v013_bilingual_internal_review.pdf)
+含347文本单元、6表、2原图，PDF文本/坐标差异0，实际视觉检查1/12/13/20页。
+[最终QA](../artifacts/research/manuscript_review_20261023/v013_bilingual_internal_v01/final_review_QA_20261023.json)
+保留黄色正式TEST/重复/消融待填；不是可投稿定稿。师兄实验skill组织结果与研究问题，
+nature-paper约束训练/正式证据边界；旧v0.12 PDF和源稿、所有原始失败均保留。
