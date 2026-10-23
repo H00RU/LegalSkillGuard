@@ -3,8 +3,13 @@
 import copy
 import json
 import os
+import shutil
+import sys
+import threading
+import time
 from pathlib import Path
 
+import numpy as np
 import pytest
 from jsonschema import validate
 
@@ -36,8 +41,9 @@ def plan(tmp_path, monkeypatch):
     def put(name, data):
         return RunStore.immutable_json(tmp_path / name, data)
 
-    generation = {"model": "Qwen/Qwen3-8B", "model_root": "/fixture/frozen8b",
-                  "context_tokens": 32768, "max_tokens": 8192, "seed": 45}
+    generation = {"base_url": "http://127.0.0.1:8000/v1",
+                  "model": "Qwen/Qwen3-8B", "model_root": "/fixture/frozen8b",
+                  **frozen.FINAL_DECODING}
     put("stats.json", {"fixture_only": True, "paired_unit": "source_case"})
     put("data/train/inputs.json", {"rows": [{"source_key": "TRAIN0"}, {"source_key": "TRAIN1"}]})
     train_sha = sha(tmp_path / "data/train/inputs.json")
@@ -47,9 +53,15 @@ def plan(tmp_path, monkeypatch):
     for backend in ("direct", "ace"):
         config = {"run_id": "learn_" + backend, "generation": generation,
                   "execution_contract": "direct_statutory_claims", "execution_contract_version": 14,
+                  "skill_commit_policy": "legal_scope", "candidate_feedback_policy": "carry_partial_and_refine",
+                  "library_token_hard_cap": 4096, "max_candidate_attempts": 2,
                   "source_cases": 2, "batch_source_cases": 1, "planned_batches": 2,
                   "input_packet": "data/train/inputs.json"}
         config_name = f"configs/{backend}.json"
+        if backend == "ace":
+            config.update(learner="ace_native_online_v4",
+                initial_library_kind="native_empty_section_headers_without_legal_prior",
+                ace_failed_output_feedback_policy="verbatim_public_output_no_answer_recovery")
         config_path = put(config_name, config)
         bindings = {name: sha(tmp_path / name) for name in actor_files}
         bindings.update({"data/train/inputs.json": train_sha,
@@ -57,6 +69,8 @@ def plan(tmp_path, monkeypatch):
         put(f"configs/{backend}.frozen.json", {"config_sha256": sha(config_path), "files": bindings})
         bank = [] if backend == "direct" else INITIAL_PLAYBOOK
         field = "bank" if backend == "direct" else "playbook"
+        put(f"runs/learn_{backend}/initialization.json", {field: bank, "initial_case_exposure": 0})
+        put(f"runs/learn_{backend}/terminal_preservation.json", {"synthetic_only": True})
         for batch in (1, 2):
             put(f"runs/learn_{backend}/publications/b{batch}.json", {field: bank})
         status = ("completed_bounded_mechanism_study" if backend == "direct" else
@@ -71,6 +85,82 @@ def plan(tmp_path, monkeypatch):
             arms.append({"name": name, "role": role, "backend": backend,
                          "source_config": config_name, "source_config_sha256": sha(config_path),
                          "bank_sha256": csha(bank)})
+    for seed in (145, 245):
+        for backend in ("direct", "ace"):
+            config = copy.deepcopy(read(tmp_path / f"configs/{backend}.json"))
+            config["run_id"] += str(seed)
+            config["generation"]["seed"] = seed
+            config_name = f"configs/{backend}{seed}.json"
+            config_path = put(config_name, config)
+            bindings = copy.deepcopy(read(tmp_path / f"configs/{backend}.frozen.json"))
+            bindings["config_sha256"] = sha(config_path)
+            put(f"configs/{backend}{seed}.frozen.json", bindings)
+            for batch in (1, 2):
+                put(f"runs/{config['run_id']}/publications/b{batch}.json", read(
+                    tmp_path / f"runs/learn_{backend}/publications/b{batch}.json"))
+            put(f"runs/{config['run_id']}/completion.json", read(
+                tmp_path / f"runs/learn_{backend}/completion.json"))
+            put(f"runs/{config['run_id']}/initialization.json", read(
+                tmp_path / f"runs/learn_{backend}/initialization.json"))
+            put(f"runs/{config['run_id']}/terminal_preservation.json", {"synthetic_only": True})
+            bank = [] if backend == "direct" else INITIAL_PLAYBOOK
+            for role, name in (("evolved", "ours"), ("B1_frozen", "B1")) if backend == "direct" else (
+                    ("experience", "ACE"),):
+                arms.append({"name": name + str(seed), "role": role, "backend": backend,
+                    "source_config": config_name, "source_config_sha256": sha(config_path),
+                    "bank_sha256": csha(bank)})
+    parent_path = tmp_path / "configs/direct.json"
+    for variant, policy, feedback in (
+            ("whole_bank", "whole_bank", "carry_partial_and_refine"),
+            ("first_commit", "legal_scope", "batch_only_first_commit")):
+        config = copy.deepcopy(read(parent_path))
+        config.update(run_id="learn_" + variant, ablation_variant=variant,
+                      skill_commit_policy=policy, candidate_feedback_policy=feedback,
+                      comparison_reference_run="learn_direct",
+                      comparison_reference_config_sha256=sha(parent_path))
+        config_name = f"configs/{variant}.json"
+        path = put(config_name, config)
+        bindings = copy.deepcopy(read(parent_path.with_suffix(".frozen.json")))
+        bindings["config_sha256"] = sha(path)
+        put(f"configs/{variant}.frozen.json", bindings)
+        for batch in (1, 2):
+            put(f"runs/{config['run_id']}/publications/b{batch}.json", {"bank": []})
+        for filename in ("completion.json", "initialization.json", "terminal_preservation.json"):
+            put(f"runs/{config['run_id']}/{filename}", read(tmp_path / "runs/learn_direct" / filename))
+        arms.append({"name": variant, "role": "ablation", "backend": "direct",
+                     "source_config": config_name, "source_config_sha256": sha(path),
+                     "bank_sha256": csha([])})
+    public = {key: {} for key in frozen.PUBLIC_LAW_FIELDS}
+    public["complete_public_statutes"] = {"Arizona": "Ariz. Rev. Stat. § 33-1123"}
+    public["no_cases_targets_trajectories_scores_or_prior_bank"] = True
+    public_path = put("data/public/law_only.json", public)
+    static = {"run_id": "compile_static", "generation": generation, "teacher": {"model": "fixture_teacher"},
+              "execution_contract": "direct_statutory_claims", "execution_contract_version": 14,
+              "source_cases": 0, "planned_batches": 0, "library_token_hard_cap": 4096,
+              "purpose": "one_blind_public_law_compilation_no_performance_evaluation",
+              "input_is_public_law_contract_bundle_not_case_packet": True,
+              "no_8B_generation_or_evaluation_in_compilation": True,
+              "no_current_or_future_facts_labels_trajectories_scores_or_prior_bank_to_author": True,
+              "input_packet": "data/public/law_only.json"}
+    static_path = put("configs/static.json", static)
+    bindings = {name: sha(tmp_path / name) for name in actor_files}
+    bindings[static["input_packet"]] = sha(public_path)
+    put("configs/static.frozen.json", {"config_sha256": sha(static_path), "files": bindings})
+    put("runs/compile_static/publication.json", {"bank": [], "bank_sha256": csha([]),
+        "Qwen_tokens": 2, "training_sources_seen": 0, "actual_native_generations": 0,
+        "compiled_not_evaluated": True})
+    put("runs/compile_static/completion.json", {"status": "compiled_law_only_static_bank_not_evaluated"})
+    teacher = "runs/compile_static/teacher/law_only_compilation/"
+    request = {"model": "fixture_teacher", "user_prompt": json.dumps(public)}
+    put(teacher + "wire_request.json", request)
+    event = put(teacher + "event_log.json", {"event_log": "synthetic no-tool teacher event"})
+    put(teacher + "response.json", {"value": {"bank": []}, "cache_hit": False,
+        "model": "fixture_teacher", "request_sha256": csha(request), "actual_event_log_path": str(event),
+        "invocation": {"returncode": 0, "tool_events_detected": False,
+            "event_log_sha256": csha({"event_log": "synthetic no-tool teacher event"})}})
+    arms.append({"name": "static", "role": "static_law_only", "backend": "direct",
+                 "source_config": "configs/static.json", "source_config_sha256": sha(static_path),
+                 "bank_sha256": csha([])})
     source = {"case_id": 1000001, "source_key": "TEST", "prompt": "synthetic public prompt",
               "components": {"instruction": "Find all applicable exemptions.",
                 "meta_instruction": "Only public law.",
@@ -88,10 +178,17 @@ def plan(tmp_path, monkeypatch):
     cfg = {"run_id": "synthetic_frozen", "evaluation_role": "sealed_frozen_comparison",
            "final_matrix_frozen": True, "no_validation_set": True, "generation": generation,
            "execution_contract": "direct_statutory_claims", "execution_contract_version": 14,
+           "library_token_hard_cap": 4096,
            "statistics_plan": "stats.json", "training_source_cases": 2, "training_batch_source_cases": 1,
            "training_packet_sha256": train_sha, "source_cases": 1, "reference_arm": "empty",
            "input_packet": "data/test/inputs.json", "grading_directory": "data/test/grading_only",
            "inference_environment": "env.json", "arms": arms}
+    cfg["primary_contrasts"] = [{"name": name, "after": ["ours", "ours145", "ours245"],
+                                 "before": before} for name, before in (
+        ("vs_empty", ["empty"]), ("vs_B1", ["B1", "B1145", "B1245"]),
+        ("vs_ACE", ["ACE", "ACE145", "ACE245"]), ("vs_static", ["static"]))]
+    cfg["secondary_contrasts"] = [{"name": "vs_" + name, "after": ["ours"], "before": [name]}
+                                  for name in ("whole_bank", "first_commit")]
     config_path = tmp_path / "configs/evaluation.json"
 
     def seal():
@@ -104,23 +201,269 @@ def plan(tmp_path, monkeypatch):
     return cfg, seal, tmp_path
 
 
-def test_frozen_matrix_answers_every_arm_before_any_gold_read_and_reports_real_reuse(plan, monkeypatch):
+@pytest.fixture
+def continued_ace_origin(tmp_path, monkeypatch):
+    """A three-source synthetic TRAIN lineage, never a real test packet."""
+    monkeypatch.setattr(frozen, "ROOT", tmp_path)
+    def put(name, value):
+        return RunStore.immutable_json(tmp_path / name, value)
+    rows = [{"case_id": b, "family": f, "batch": b}
+            for b in (1, 2, 3) for f in ("EC", "EV")]
+    packet = put("train/inputs.json", {"rows": rows})
+    old = {"run_id": "original_ace", "learner": "ace_native_online_v3",
+           "generation": {"seed": 45}, "teacher": {"model": "fixture", "total_invocation_budget": 100},
+           "input_packet": "train/inputs.json", "grading_directory": "TRAIN_only",
+           "source_cases": 3, "batch_source_cases": 1, "planned_batches": 3,
+           "execution_contract": "direct_statutory_claims", "execution_contract_version": 14,
+           "library_token_hard_cap": 8192, "ace_max_TRAIN_reflection_rounds": 3,
+           "ace_bullet_provenance_policy": "preserve_raw_ids_distinct_reflection_tags"}
+    old_cfg = put("old.json", old)
+    old_frozen = put("old.frozen.json", {"files": {"train/inputs.json": sha(packet)}})
+    before, after = Path("runs/original_ace"), Path("runs/continued_ace")
+    put(before / "initialization.json", {"playbook": INITIAL_PLAYBOOK})
+    origins, responses, answer_paths = [], [], []
+    parent, book = csha(INITIAL_PLAYBOOK), INITIAL_PLAYBOOK
+    for batch in (1, 2, 3):
+        records = {role: [] for role in ("ace", "empty", "empty_direct_numeric")}
+        for family in ("EC", "EV"):
+            name = before / "native" / f"b{batch}_prequential" / f"{batch}_{family}.json"
+            put(name, {"stage": f"b{batch}_prequential", "calls": [{"fixture": True}]})
+            origins.append(str(name))
+            prediction = {"case_id": batch, "family": family, "raw_call_path": str(name),
+                          "parsed": {"answer": {}}, "parse_error": None, "score": {"f1": 1.0}}
+            if batch <= 2:
+                ap = name.with_suffix(".answer.json")
+                put(ap, prediction); answer_paths.append(str(ap))
+            for role in records:
+                records[role].append(copy.deepcopy(prediction))
+        put(before / "batches" / f"b{batch}_records.json", records)
+        put(after / "batches" / f"b{batch}_records.json", records)
+        if batch <= 2:
+            book += f"\n[misc-{batch:05d}] helpful=0 harmful=0 :: synthetic TRAIN rule {batch}"
+            pub = {"playbook": book, "parent_playbook_sha256": parent, "playbook_sha256": csha(book)}
+            put(before / "publications" / f"b{batch}.json", pub)
+            put(after / "publications" / f"b{batch}.json", pub)
+            parent = pub["playbook_sha256"]
+            role = before / "teacher" / f"b{batch}_curator" / "response.json"
+            put(role, {"cache_hit": False}); responses.append(str(role))
+    summary = [{"batch": 1}, {"batch": 2}]
+    put(before / "batch_summary.json", summary)
+    put(before / "terminal_preservation.json", {"synthetic": True})
+    put(before / "failure.json", {"error": "InterruptedError('Operator stop at artifact-safe boundary')",
+        "actual_native_calls": len(origins) + 1, "actual_teacher_responses": len(responses) + 1})
+    retired_native = before / "native/b3_TRAIN_round1/3_EV.json"
+    retired_teacher = before / "teacher/b3_3_EV_r1_reflector/response.json"
+    put(retired_native, {"stage": "b3_TRAIN_round1"})
+    put(retired_teacher, {"cache_hit": False})
+    files = [old_cfg, old_frozen, packet, *(tmp_path / before).rglob("*.json")]
+    receipt = {"role": "exact_last_complete_ACE_prefix_not_best_checkpoint",
+        "through_batch": 2, "saved_first_forecast_batch": 3,
+        "source_config": "old.json", "source_config_sha256": sha(old_cfg),
+        "source_frozen": "old.frozen.json", "source_frozen_sha256": sha(old_frozen),
+        "source_run_id": old["run_id"], "parent_playbook_sha256": parent,
+        "no_parse_failure_in_completed_prefix": True, "zero_B3_TRAIN_or_teacher_import": True,
+        "native_origins": origins, "teacher_responses": responses,
+        "retired_B3_TRAIN_native": 1, "retired_B3_teacher_responses": 1,
+        "files": {str(p.relative_to(tmp_path)): sha(p) for p in files}}
+    rp = put("receipt.json", receipt)
+    initial = {"playbook": book, "not_a_new_independent_repeat_when_continued": True,
+        "continued_same_learner_prefix": {"receipt": "receipt.json", "source_run": old["run_id"],
+            "through_batch": 2, "parent_playbook_sha256": parent}}
+    continuation = {"receipt_sha256": sha(rp), "source_run": old["run_id"],
+        "not_a_new_independent_learning_repeat": True,
+        "restored_native_origins": len(origins), "restored_teacher_responses": len(responses),
+        "retired_B3_TRAIN_native_not_imported": 1, "retired_B3_teachers_not_imported": 1}
+    put(after / "continuation.json", continuation)
+    complete = {"continuation_source_run": old["run_id"], "batch_summary": summary + [{"batch": 3}],
+        "restored_native_origins": len(origins), "restored_teacher_responses": len(responses),
+        "actual_native_calls": len(origins) + 2, "fresh_native_calls_after_continuation": 2,
+        "actual_teacher_responses": len(responses) + 3, "fresh_teacher_responses_after_continuation": 3}
+    source = {**old, "run_id": "continued_ace", "learner": "ace_native_online_v4",
+        "ace_failed_output_feedback_policy": "verbatim_public_output_no_answer_recovery",
+        "initial_library_kind": "same_empty_origin_exact_last_completed_prefix_disclosed",
+        "continuation_receipt": "receipt.json"}
+    bound = {"files": {"receipt.json": sha(rp), "train/inputs.json": sha(packet)}}
+    def resign():
+        RunStore.atomic_json(rp, receipt)
+        bound["files"]["receipt.json"] = sha(rp)
+        cp = tmp_path / after / "continuation.json"
+        RunStore.atomic_json(cp, {**read(cp), "receipt_sha256": sha(rp)})
+    return source, bound, tmp_path / after, initial, complete, receipt, resign, answer_paths
+
+
+def test_exact_ACE_prefix_origin_is_valid_without_a_TEST_or_model_read(continued_ace_origin, monkeypatch):
+    source, bound, out, initial, complete, receipt, _, _ = continued_ace_origin
+    seen = []
+    def guarded(path):
+        seen.append(str(path))
+        assert "sealed_TEST" not in str(path)
+        return read(path)
+    monkeypatch.setattr(frozen, "read", guarded)
+    result = frozen.check_ace_learning_origin(source, bound, out, initial, complete)
+    assert out / "continuation.json" in result
+    assert out.parent.parent / "receipt.json" in result
+    assert all("sealed_TEST" not in p for p in seen)
+    assert len(result) == len(receipt["files"]) + 7
+
+
+@pytest.mark.parametrize("mutation", [None, "missing_text", "small_matrix", "small_TEST", "small_TRAIN",
+                                      "wrong_batch", "missing_primary", "missing_ablation"])
+def test_formal_CLI_requires_the_complete_paper_design_before_bank_or_TEST_access(
+        tmp_path, monkeypatch, mutation):
+    cfg = {"external_text_adaptation": "trace2skill_text_offline_v1", "arms": [{}] * 16,
+           "source_cases": 128, "training_source_cases": 128, "training_batch_source_cases": 16,
+           "primary_contrasts": [{}] * 5, "secondary_contrasts": [{}] * 2}
+    if mutation == "missing_text":
+        del cfg["external_text_adaptation"]
+    elif mutation == "small_matrix":
+        cfg["arms"] = cfg["arms"][:13]
+    elif mutation == "small_TEST":
+        cfg["source_cases"] = 24
+    elif mutation == "small_TRAIN":
+        cfg["training_source_cases"] = 32
+    elif mutation == "wrong_batch":
+        cfg["training_batch_source_cases"] = 8
+    elif mutation == "missing_primary":
+        cfg["primary_contrasts"] = cfg["primary_contrasts"][:4]
+    elif mutation == "missing_ablation":
+        cfg["secondary_contrasts"] = []
+    path = tmp_path / "evaluation.json"
+    RunStore.immutable_json(path, cfg)
+    monkeypatch.setattr(frozen, "ROOT", tmp_path)
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(sys, "argv", ["formal_entry", "freeze", str(path)])
+    class ActualBankGateReached(Exception):
+        pass
+    def not_a_real_bank_read(value):
+        assert mutation is None
+        raise ActualBankGateReached("Only the complete design may reach the actual bank checks")
+    monkeypatch.setattr(frozen, "fixed_banks", not_a_real_bank_read)
+    with pytest.raises(ActualBankGateReached if mutation is None else ValueError):
+        frozen.main()
+
+
+@pytest.mark.parametrize("mutation", ["unbound", "changed_artifact", "failed_prefix", "unfinished_native",
+    "unfinished_teacher", "chosen_early_prefix", "rescored_B3", "missing_B3_view", "new_seed",
+    "wrong_policy", "wrong_condition", "hidden_retired_cost", "wrong_fresh_cost"])
+def test_invalid_ACE_continuation_cannot_enter_final_banks(continued_ace_origin, mutation):
+    source, bound, out, initial, complete, receipt, resign, answer_paths = continued_ace_origin
+    root = out.parent.parent
+    if mutation == "unbound":
+        bound["files"]["receipt.json"] = "0" * 64
+    elif mutation in ("changed_artifact", "failed_prefix"):
+        path = root / answer_paths[0]
+        RunStore.atomic_json(path, {**read(path), "parse_error": "actual failed prefix"})
+        if mutation == "failed_prefix":
+            receipt["files"][answer_paths[0]] = sha(path); resign()
+    elif mutation.startswith("unfinished_"):
+        key = "native_origins" if mutation == "unfinished_native" else "teacher_responses"
+        name = ("runs/original_ace/native/b3_TRAIN_round1/3_EV.json" if key == "native_origins" else
+                "runs/original_ace/teacher/b3_3_EV_r1_reflector/response.json")
+        receipt[key].append(name); resign()
+    elif mutation == "chosen_early_prefix":
+        RunStore.immutable_json(root / "runs/original_ace/publications/b3.json", {"not_last_B2": True})
+    elif mutation == "rescored_B3":
+        path = out / "batches/b3_records.json"; data = read(path)
+        data["ace"][0]["score"]["f1"] = 0.5; RunStore.atomic_json(path, data)
+    elif mutation == "missing_B3_view":
+        for path in (out / "batches/b3_records.json", root / "runs/original_ace/batches/b3_records.json"):
+            data = read(path)
+            for role in data:
+                data[role] = data[role][:1]
+            RunStore.atomic_json(path, data)
+        name = "runs/original_ace/batches/b3_records.json"
+        receipt["files"][name] = sha(root / name); resign()
+    elif mutation == "new_seed":
+        source["generation"] = {"seed": 145}
+    elif mutation == "wrong_policy":
+        source["ace_failed_output_feedback_policy"] = "drop_failed_text"
+    elif mutation == "wrong_condition":
+        source["ace_max_TRAIN_reflection_rounds"] = 1
+    elif mutation == "hidden_retired_cost":
+        receipt["retired_B3_TRAIN_native"] = 0; resign()
+    else:
+        complete["fresh_native_calls_after_continuation"] += 1
+    with pytest.raises(ValueError):
+        frozen.check_ace_learning_origin(source, bound, out, initial, complete)
+
+
+def test_ACE_restart_metadata_is_not_a_change_in_the_verified_empty_origin_protocol(plan):
+    cfg, _, root = plan
+    sources = {a["name"]: read(root / a["source_config"]) for a in cfg["arms"] if a.get("source_config")}
+    sources["ACE"]["initial_library_kind"] = "same_empty_origin_exact_last_completed_prefix_disclosed"
+    sources["ACE"]["continuation_receipt"] = "separately_verified_in_origin_tests.json"
+    frozen.check_primary_contrasts(cfg, sources)
+    sources["ACE145"]["ace_failed_output_feedback_policy"] = "different_failure_policy"
+    with pytest.raises(ValueError, match="shared protocol"):
+        frozen.check_primary_contrasts(cfg, sources)
+
+
+@pytest.mark.parametrize("workers", [1, 4])
+@pytest.mark.parametrize("source_duplicates", [1, 2])
+@pytest.mark.parametrize("negative_asset", ["absent", "empty", "false_claim"])
+def test_frozen_matrix_answers_every_arm_before_any_gold_read_and_reports_real_reuse(
+        plan, monkeypatch, negative_asset, source_duplicates, workers):
     cfg, seal, root = plan
+    # CPU dispatch fixture only. Real frozen-mode/environment guards are checked
+    # separately below; no existing server is reconfigured or called.
+    cfg["inference_request_workers"] = workers
+    monkeypatch.setattr(frozen, "evaluation_request_workers", lambda _: workers)
+    _, _, provenance = frozen.fixed_banks(cfg)
+    assert all(root / "runs" / name / "terminal_preservation.json" in provenance
+               for name in ("learn_direct", "learn_ace", "learn_direct145", "learn_ace145",
+                            "learn_direct245", "learn_ace245", "learn_whole_bank", "learn_first_commit"))
     grade_reads, calls = [], []
+    if negative_asset != "absent":
+        packet = root / cfg["input_packet"]
+        value = read(packet)
+        for row in value["rows"]:
+            row["components"]["facts"] += " The Debtor also owns a lamp worth $25."
+        RunStore.atomic_json(packet, value)
+        target_path = root / cfg["grading_directory"] / "1000001.json"
+        target = read(target_path)
+        for family in ("EC", "EV"):
+            target["targets"][family]["lamp"] = []
+        RunStore.atomic_json(target_path, target)
+        monkeypatch.setattr("legal_skill_guard.learning.legal_namespace.asset_description_lexicon",
+                            lambda: ("watch", "lamp"))
+    if source_duplicates == 2:
+        packet = root / cfg["input_packet"]
+        rows = read(packet)["rows"]
+        copies = [{**copy.deepcopy(row), "case_id": 1000002, "source_key": "TEST2"} for row in rows]
+        RunStore.atomic_json(packet, {"rows": rows + copies})
+        RunStore.immutable_json(root / cfg["grading_directory"] / "1000002.json", read(
+            root / cfg["grading_directory"] / "1000001.json"))
+        cfg["source_cases"] = 2
+
+    concurrency_lock, concurrent_pair = threading.Lock(), threading.Event()
+    activity = {"active": 0, "max": 0, "started": 0}
 
     def grading_read(path):
         if path.parent.name == "grading_only":
-            assert len(list((root / "runs/synthetic_frozen/native").rglob("*.answer.json"))) == 8
+            assert len(list((root / "runs/synthetic_frozen/native").rglob("*.answer.json"))) == 26 * source_duplicates
             assert (root / "runs/synthetic_frozen/predictions_before_any_grading.json").is_file()
             grade_reads.append(str(path))
         return read(path)
 
     def call(self, dest, messages, schema, max_tokens, metadata):
         assert not grade_reads
+        with concurrency_lock:
+            activity["active"] += 1
+            activity["started"] += 1
+            activity["max"] = max(activity["max"], activity["active"])
+            if activity["started"] >= 2:
+                concurrent_pair.set()
+        if workers == 4:
+            assert concurrent_pair.wait(2), "Distinct synthetic requests should overlap"
+        time.sleep(0.003)
         calls.append(metadata)
         ref = "Ariz. Rev. Stat. section 33-1123"
         value = {"A001": [ref] if metadata["family"] == "EC" else
                  [{"citation_ref": ref, "claim_value": 40}]}
+        if negative_asset != "absent":
+            value["A002"] = ([] if negative_asset == "empty" else
+                             [ref] if metadata["family"] == "EC" else
+                             [{"citation_ref": ref, "claim_value": 25}])
         if metadata["arm"] == "ace":
             value = {"reasoning": "synthetic public finding", "bullet_ids": [], "final_answer": value}
         validate(value, schema)
@@ -129,6 +472,8 @@ def test_frozen_matrix_answers_every_arm_before_any_gold_read_and_reports_real_r
         raw = {"response": response, **metadata}
         RunStore.immutable_json(dest, raw)
         self.native.append(raw)
+        with concurrency_lock:
+            activity["active"] -= 1
         return response
 
     monkeypatch.setattr(common, "read", grading_read)
@@ -136,15 +481,41 @@ def test_frozen_matrix_answers_every_arm_before_any_gold_read_and_reports_real_r
     study = frozen.FrozenEvaluation(seal())
     study.run()
     result = read(study.out / "completion.json")
-    assert len(calls) == 4 and len(grade_reads) == 8
-    assert len(result["exact_wire_reuses_not_independent_draws"]) == 4
+    assert len(calls) == 4 and len(grade_reads) == 26 * source_duplicates
+    assert len(result["exact_wire_reuses_not_independent_draws"]) == 26 * source_duplicates - 4
+    assert 1 <= activity["max"] <= workers
+    assert activity["active"] == 0
+    if workers == 4:
+        assert activity["max"] >= 2
+    assert result["inference_request_workers"] == workers
+    saved = read(study.out / "predictions_before_any_grading.json")
+    for values in saved.values():
+        assert [(r["case_id"], r["family"]) for r in values] == [
+            (row["case_id"], row["family"]) for row in read(root / cfg["input_packet"])["rows"]]
     assert result["teacher_calls"] == 0
     assert result["native_prompt_tokens"] == 52 and result["native_completion_tokens"] == 68
-    assert all(v["EC"]["f1"] == v["EV"]["f1"] == 1 for v in result["metrics"].values())
+    # The original scorer gives the empty target asset zero either way. Final
+    # reporting must preserve that native score while exposing the false claim.
+    native_f1 = 1 if negative_asset == "absent" else 0.5
+    complete_f1 = 2 / 3 if negative_asset == "false_claim" else 1
+    for values in result["metrics"].values():
+        for family in ("EC", "EV"):
+            assert values[family]["f1"] == native_f1
+            assert values[family]["full_output_f1"] == pytest.approx(complete_f1)
+            assert values[family]["negative_or_unscored_asset_claims"] == (
+                source_duplicates if negative_asset == "false_claim" else 0)
     assert result["paired_vs_own_B1_frozen"]["ours"]["mean_f1_difference"] == 0
+    statistics = result["paired_source_statistics"]
+    assert statistics["sources"] == source_duplicates and statistics["primary_family_comparisons"] == 8
+    assert statistics["secondary_family_comparisons"] == 4
+    assert set(statistics["secondary_contrasts"]) == {"vs_whole_bank", "vs_first_commit"}
+    assert not statistics["all_primary_adjusted_lower_bounds_positive"]
 
 
-@pytest.mark.parametrize("mutation", ["teacher", "not_frozen", "missing_B1", "failed_learning", "zero_cases"])
+@pytest.mark.parametrize("mutation", [
+    "teacher", "not_frozen", "missing_B1", "missing_static", "missing_repeat", "missing_contrasts",
+    "failed_learning", "zero_cases", "decoding", "warm_start", "wrong_repeat_seed", "mispaired_control",
+    "repeat_policy", "repeat_teacher", "repeat_memory", "repeat_ACE_rounds", "missing_terminal", "unexpected_failure"])
 def test_reject_invalid_final_matrix_before_test_packet_read(plan, monkeypatch, mutation):
     cfg, _, root = plan
     if mutation == "teacher":
@@ -153,8 +524,45 @@ def test_reject_invalid_final_matrix_before_test_packet_read(plan, monkeypatch, 
         cfg["final_matrix_frozen"] = False
     elif mutation == "missing_B1":
         cfg["arms"] = [a for a in cfg["arms"] if a["role"] != "B1_frozen"]
+    elif mutation == "missing_static":
+        cfg["arms"] = [a for a in cfg["arms"] if a["role"] != "static_law_only"]
+    elif mutation == "missing_repeat":
+        cfg["arms"] = [a for a in cfg["arms"] if a["name"] != "ours145"]
+    elif mutation == "missing_contrasts":
+        cfg["primary_contrasts"] = []
     elif mutation == "zero_cases":
         cfg["source_cases"] = 0
+    elif mutation == "decoding":
+        cfg["generation"]["seed"] = 46
+    elif mutation == "warm_start":
+        path = root / "runs/learn_direct/initialization.json"
+        RunStore.atomic_json(path, {**read(path), "initial_case_exposure": 16})
+    elif mutation == "missing_terminal":
+        (root / "runs/learn_ace/terminal_preservation.json").unlink()
+    elif mutation == "unexpected_failure":
+        RunStore.immutable_json(root / "runs/learn_ace/failure.json", {"actual_failure": True})
+    elif mutation == "wrong_repeat_seed" or mutation.startswith("repeat_"):
+        config_name = "configs/ace145.json" if mutation == "repeat_ACE_rounds" else "configs/direct145.json"
+        path = root / config_name
+        value = read(path)
+        if mutation == "wrong_repeat_seed":
+            value["generation"]["seed"] = 45
+        elif mutation == "repeat_policy":
+            value["skill_commit_policy"] = "whole_bank"
+        elif mutation == "repeat_teacher":
+            value["teacher"] = {"model": "different_author"}
+        elif mutation == "repeat_memory":
+            value["library_token_hard_cap"] = 2048
+        else:
+            value["ace_max_TRAIN_reflection_rounds"] = 1
+        RunStore.atomic_json(path, value)
+        source_frozen = path.with_suffix(".frozen.json")
+        RunStore.atomic_json(source_frozen, {**read(source_frozen), "config_sha256": sha(path)})
+        for arm in cfg["arms"]:
+            if arm.get("source_config") == config_name:
+                arm["source_config_sha256"] = sha(path)
+    elif mutation == "mispaired_control":
+        next(c for c in cfg["primary_contrasts"] if c["name"] == "vs_B1")["before"].reverse()
     else:
         path = root / "runs/learn_direct/completion.json"
         RunStore.atomic_json(path, {**read(path), "status": "failed"})
@@ -184,12 +592,18 @@ def test_test_overlap_is_retained_as_failure_without_inference_or_resampling(pla
     assert read(packet)["rows"] == rows
 
 
-def test_native_failure_is_preserved_without_retry_or_partial_scoring(plan, monkeypatch):
-    _, seal, _ = plan
+@pytest.mark.parametrize("workers", [1, 4])
+def test_native_failure_is_preserved_without_retry_or_partial_scoring(plan, monkeypatch, workers):
+    cfg, seal, _ = plan
+    cfg["inference_request_workers"] = workers
+    monkeypatch.setattr(frozen, "evaluation_request_workers", lambda _: workers)
     calls = []
 
-    def failed_call(*args):
+    def failed_call(self, dest, messages, schema, max_tokens, metadata):
         calls.append(1)
+        raw = {"synthetic_transport_failure": True, **metadata}
+        RunStore.immutable_json(dest, raw)
+        self.native.append(raw)
         raise RuntimeError("synthetic transport failure")
 
     monkeypatch.setattr(frozen.FrozenEvaluation, "call", failed_call)
@@ -197,16 +611,66 @@ def test_native_failure_is_preserved_without_retry_or_partial_scoring(plan, monk
     study = frozen.FrozenEvaluation(seal())
     with pytest.raises(RuntimeError, match="synthetic transport failure"):
         study.run()
-    assert calls == [1]
+    assert 1 <= len(calls) <= workers
+    assert len(list((study.out / "native").rglob("*.json"))) == 2 * len(calls)
     assert (study.out / "failure.json").is_file()
     assert not (study.out / "completion.json").exists()
+    assert not (study.out / "predictions_before_any_grading.json").exists()
+    if workers == 4:
+        assert study.stop
 
 
-def test_changed_ACE_inference_adapter_cannot_be_used_with_a_differently_trained_bank(plan):
+@pytest.mark.parametrize("workers", [True, False, 0, 2, 5, "4", None])
+def test_dispatch_rejects_undeclared_worker_counts_before_any_packet_read(workers, monkeypatch):
+    monkeypatch.setattr(frozen, "read", lambda _: pytest.fail("No environment or TEST read required"))
+    with pytest.raises(ValueError, match="one or four"):
+        frozen.evaluation_request_workers({"inference_request_workers": workers})
+
+
+@pytest.mark.parametrize("argv", [
+    ["vllm", "--max-num-seqs", "4"], ["vllm"], ["vllm", "--max-num-seqs"],
+    ["vllm", "--max-num-seqs", "1"],
+    ["vllm", "--max-num-seqs", "4", "--max-num-seqs", "4"],
+])
+def test_parallel_dispatch_requires_declared_captured_four_sequence_environment(tmp_path, monkeypatch, argv):
+    monkeypatch.setattr(frozen, "ROOT", tmp_path)
+    RunStore.immutable_json(tmp_path / frozen.DISPATCH_PROTOCOL, {"synthetic_protocol_only": True})
+    RunStore.immutable_json(tmp_path / "env.json", {"actual_argv": argv})
+    cfg = {"inference_request_workers": 4, "inference_environment": "env.json",
+           "inference_dispatch_protocol": frozen.DISPATCH_PROTOCOL,
+           "inference_dispatch_policy": "four_workers_one_instance_exact_wire_lock_no_retry"}
+    if argv == ["vllm", "--max-num-seqs", "4"]:
+        assert frozen.evaluation_request_workers(cfg) == 4
+    else:
+        with pytest.raises(ValueError, match="captured four-sequence"):
+            frozen.evaluation_request_workers(cfg)
+    cfg.pop("inference_dispatch_policy")
+    with pytest.raises(ValueError, match="explicit single-instance"):
+        frozen.evaluation_request_workers(cfg)
+
+
+def test_final_actor_endpoint_cannot_differ_from_learning_endpoint(plan, monkeypatch):
+    cfg, _, _ = plan
+    cfg["generation"]["base_url"] = "http://127.0.0.1:8001/v1"
+    original = frozen.read
+
+    def guarded(path):
+        assert "data/test" not in str(path)
+        return original(path)
+
+    monkeypatch.setattr(frozen, "read", guarded)
+    with pytest.raises(ValueError, match="differs: base_url"):
+        frozen.fixed_banks(cfg)
+
+
+@pytest.mark.parametrize("dependency", [
+    "legal_skill_guard/learning/openexempt_ace.py", "third_party/ace/prompts/generator.py",
+    "legal_skill_guard/inference/openai_client.py"])
+def test_changed_ACE_inference_adapter_cannot_be_used_with_a_differently_trained_bank(plan, dependency):
     cfg, _, root = plan
     path = root / "configs/ace.frozen.json"
     changed = read(path)
-    changed["files"][frozen.ACE_ACTOR_FILES[-1]] = "not-the-trained-adapter"
+    changed["files"][dependency] = "not-the-trained-adapter"
     RunStore.atomic_json(path, changed)
     with pytest.raises(ValueError, match="Shared task actor/scorer changed"):
         frozen.fixed_banks(cfg)
@@ -228,3 +692,439 @@ def test_same_learned_bank_cannot_be_renamed_as_two_learning_repeats(plan):
     cfg["arms"].append({**ours, "name": "not_an_independent_repeat"})
     with pytest.raises(ValueError, match="not independent repeats"):
         frozen.fixed_banks(cfg)
+
+
+@pytest.mark.parametrize("mutation", [
+    "observed_cases", "public_changed", "private_field", "compile_failed", "over_cap", "duplicates",
+    "cached_teacher", "different_request", "changed_event"])
+def test_static_control_is_real_blind_compilation_not_fake_training_or_selected_bank(plan, mutation):
+    cfg, _, root = plan
+    static = next(a for a in cfg["arms"] if a["role"] == "static_law_only")
+    source_path = root / static["source_config"]
+    source = read(source_path)
+    frozen_path = source_path.with_suffix(".frozen.json")
+    bindings = read(frozen_path)
+    if mutation == "observed_cases":
+        source["source_cases"] = 1
+        RunStore.atomic_json(source_path, source)
+        static["source_config_sha256"] = bindings["config_sha256"] = sha(source_path)
+    elif mutation in {"public_changed", "private_field"}:
+        public_path = root / source["input_packet"]
+        public = read(public_path)
+        public["facts"] = "A private case must never be in this author's public bundle."
+        RunStore.atomic_json(public_path, public)
+        if mutation == "private_field":
+            bindings["files"][source["input_packet"]] = sha(public_path)
+    elif mutation == "compile_failed":
+        path = root / "runs/compile_static/completion.json"
+        RunStore.atomic_json(path, {"status": "failed"})
+    elif mutation == "over_cap":
+        path = root / "runs/compile_static/publication.json"
+        RunStore.atomic_json(path, {**read(path), "Qwen_tokens": 4097})
+    elif mutation == "duplicates":
+        cfg["arms"].append({**static, "name": "not_an_independent_static_repeat"})
+    elif mutation == "cached_teacher":
+        path = root / "runs/compile_static/teacher/law_only_compilation/response.json"
+        RunStore.atomic_json(path, {**read(path), "cache_hit": True})
+    elif mutation == "different_request":
+        path = root / "runs/compile_static/teacher/law_only_compilation/wire_request.json"
+        RunStore.atomic_json(path, {**read(path), "user_prompt": json.dumps({"facts": "private"})})
+    else:
+        path = root / "runs/compile_static/teacher/law_only_compilation/event_log.json"
+        RunStore.atomic_json(path, {"event_log": "changed synthetic event"})
+    RunStore.atomic_json(frozen_path, bindings)
+    with pytest.raises(ValueError):
+        frozen.fixed_banks(cfg)
+
+
+def test_source_bootstrap_keeps_EC_EV_and_learning_repeat_pairing_without_pseudoreplication(plan):
+    cfg, _, _ = plan
+    cfg["source_cases"] = 3
+    records = {}
+    for arm in cfg["arms"]:
+        records[arm["name"]] = []
+        for i, key in enumerate(("c", "a", "b")):
+            for family in ("EC", "EV"):
+                value = 0.5
+                if arm["role"] == "evolved":
+                    repeat = ["ours", "ours145", "ours245"].index(arm["name"])
+                    value += (0.1 * (repeat + 1) + 0.05 * i) * (1 if family == "EC" else -1)
+                records[arm["name"]].append({"source_key": key, "case_id": i + 1,
+                                            "family": family, "score": {"f1": value}})
+    result = frozen.paired_source_statistics(cfg, records)
+    assert result["sources"] == 3 and result["primary_family_comparisons"] == 8
+    assert result["source_keys_sorted"] == ["a", "b", "c"]
+    ec = result["contrasts"]["vs_empty"]["endpoints"]["EC"]
+    ev = result["contrasts"]["vs_empty"]["endpoints"]["EV"]
+    assert ec["difference_pp"] == pytest.approx(25)
+    assert ev["difference_pp"] == pytest.approx(-25)
+    assert ec["adjusted_lower_positive"] and not ev["adjusted_lower_positive"]
+    assert not result["all_primary_adjusted_lower_bounds_positive"]
+    assert ec["source_win_tie_loss"] == [3, 0, 0]
+    assert ev["sources_difference_at_most_minus_10pp"] == 3
+    assert result["contrasts"]["vs_empty"]["per_learning_repeat"]["difference_pp"] == pytest.approx(
+        np.asarray([[15, -15], [25, -25], [35, -35]]))
+    reordered = {name: list(reversed(rows)) for name, rows in reversed(list(records.items()))}
+    assert result == frozen.paired_source_statistics(cfg, reordered)
+    ordinary = ec["conditional_95pct_interval_pp"]
+    adjusted = ec["conditional_Bonferroni_interval_pp"]
+    assert adjusted[0] <= ordinary[0] <= ordinary[1] <= adjusted[1]
+    rng = np.random.Generator(np.random.PCG64(2026102192))
+    source_draws = np.asarray([25, 30, 20])[rng.integers(3, size=(20000, 3))].mean(axis=1)
+    assert ordinary == pytest.approx(np.quantile(source_draws, [0.025, 0.975], method="linear"))
+    assert adjusted == pytest.approx(np.quantile(
+        source_draws, [0.025 / 8, 1 - 0.025 / 8], method="linear"))
+    secondary = result["secondary_contrasts"]["vs_first_commit"]
+    endpoint = secondary["endpoints"]["EC"]
+    assert endpoint["difference_pp"] == pytest.approx(15)
+    assert endpoint["conditional_95pct_interval_pp"] == pytest.approx(np.quantile(
+        source_draws - 10, [0.025, 0.975], method="linear"))
+    assert endpoint["conditional_Bonferroni_interval_pp"] == pytest.approx(np.quantile(
+        source_draws - 10, [0.025 / 4, 1 - 0.025 / 4], method="linear"))
+    assert len(secondary["per_learning_repeat"]["difference_pp"]) == 1
+    assert result["secondary_single_learning_seed45_not_three_repeats_or_matched_actual_compute"]
+
+
+def _synthetic_expanded_primary(plan):
+    cfg, _, root = plan
+    sources = {a["name"]: read(root / a["source_config"])
+               for a in cfg["arms"] if a.get("source_config")}
+    names = []
+    for seed, suffix in ((45, ""), (145, "145"), (245, "245")):
+        name = "Text" + suffix
+        names.append(name)
+        source = copy.deepcopy(sources["ACE" + suffix])
+        source.update(learner="trace2skill_text_offline_v1", merge_batch_size=5,
+                      analysis_mode="synthetic_text_fixture_not_a_real_learning_run")
+        source["run_id"] = "synthetic_text" + suffix
+        source["generation"]["seed"] = seed
+        sources[name] = source
+        cfg["arms"].append({"name": name, "role": "experience", "backend": "direct",
+                            "source_config": "synthetic_not_loaded.json"})
+    cfg["external_text_adaptation"] = "trace2skill_text_offline_v1"
+    cfg["primary_contrasts"].append({"name": "vs_text_adaptation", "before": names,
+                                    "after": ["ours", "ours145", "ours245"]})
+    return cfg, sources
+
+
+def test_expanded_primary_family_is_ten_not_eight_and_still_source_paired(plan):
+    cfg, sources = _synthetic_expanded_primary(plan)
+    frozen.check_primary_contrasts(cfg, sources)
+    cfg["source_cases"] = 3
+    records = {a["name"]: [
+        {"source_key": str(case), "case_id": case, "family": family,
+         "score": {"f1": 0.6 if a["role"] == "evolved" else 0.5}}
+        for case in (1, 2, 3) for family in ("EC", "EV")]
+        for a in cfg["arms"]}
+    result = frozen.paired_source_statistics(cfg, records)
+    assert result["sources"] == 3
+    assert result["primary_family_comparisons"] == 10
+    assert result["secondary_family_comparisons"] == 4
+    assert len(result["contrasts"]["vs_text_adaptation"]["per_learning_repeat"]["difference_pp"]) == 3
+
+
+@pytest.mark.parametrize("mutation", ["missing_flag", "missing_repeat", "missing_contrast",
+                                     "mixed_method_group", "changed_text_policy"])
+def test_expanded_primary_cannot_hide_or_mix_the_new_method(plan, mutation):
+    cfg, sources = _synthetic_expanded_primary(plan)
+    if mutation == "missing_flag":
+        del cfg["external_text_adaptation"]
+    elif mutation == "missing_repeat":
+        cfg["arms"] = [a for a in cfg["arms"] if a["name"] != "Text145"]
+    elif mutation == "missing_contrast":
+        cfg["primary_contrasts"].pop()
+    elif mutation == "mixed_method_group":
+        next(c for c in cfg["primary_contrasts"] if c["name"] == "vs_ACE")["before"][0] = "Text"
+    else:
+        sources["Text145"]["merge_batch_size"] = 2
+    with pytest.raises(ValueError):
+        frozen.check_primary_contrasts(cfg, sources)
+
+
+@pytest.mark.parametrize("mutation", [None, "missing_record", "changed_files", "changed_source", "failed"])
+def test_text_bank_provenance_is_checked_without_opening_even_synthetic_TEST(plan, monkeypatch, mutation):
+    cfg, _, root = plan
+    project = Path(frozen.__file__).resolve().parents[1]
+    dependencies = ("experiments/openexempt_trace2skill.py", "legal_skill_guard/learning/trace2skill_text.py")
+    for name in dependencies:
+        target = root / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.symlink_to(project / name)
+    RunStore.immutable_json(root / "text_protocol.md", {"synthetic": True})
+    train_rows = [{"case_id": case, "source_key": f"TRAIN{case - 1}", "family": family}
+                  for case in (1, 2) for family in ("EC", "EV")]
+    train = root / "data/train/inputs.json"
+    RunStore.atomic_json(train, {"rows": train_rows})
+    train_sha = sha(train)
+    selection = root / "data/train/preselection.json"
+    RunStore.atomic_json(selection, {**read(selection), "input_packet_sha256": train_sha})
+    cfg["training_packet_sha256"] = train_sha
+    for config_path in (root / "configs").glob("*.frozen.json"):
+        value = read(config_path)
+        if "data/train/inputs.json" in value["files"]:
+            value["files"].update({"data/train/inputs.json": train_sha,
+                                    "data/train/preselection.json": sha(selection)})
+            RunStore.atomic_json(config_path, value)
+    text_names = []
+    for seed in (45, 145, 245):
+        name = "Text" + str(seed)
+        text_names.append(name)
+        source = copy.deepcopy(read(root / "configs/direct.json"))
+        source.update(run_id="synthetic_text" + str(seed), learner="trace2skill_text_offline_v1",
+                      protocol="text_protocol.md", library_token_hard_cap=8192)
+        source["generation"]["seed"] = seed
+        source_path = root / f"configs/text{seed}.json"
+        RunStore.immutable_json(source_path, source)
+        bindings = copy.deepcopy(read(root / "configs/direct.frozen.json"))
+        bindings["config_sha256"] = sha(source_path)
+        bindings["files"].update({dep: sha(root / dep) for dep in (*dependencies, "text_protocol.md")})
+        RunStore.immutable_json(source_path.with_suffix(".frozen.json"), bindings)
+        out = root / "runs" / source["run_id"]
+        files = copy.deepcopy(frozen.TRACE2SKILL_INITIAL_FILES)
+        RunStore.immutable_json(out / "initialization.json", {"bank": [], "patch_initial_files": files})
+        RunStore.immutable_json(out / "publications/final.json", {
+            "bank": [], "files": files, "files_sha256": csha(files), "library_tokens": 0})
+        RunStore.immutable_json(out / "completion.json", {
+            "status": "completed_trace2skill_text_offline_adaptation", "source_cases": 2,
+            "final_bank": [], "final_files_sha256": csha(files),
+            "actual_teacher_responses": 321, "actual_teacher_attempts": 321,
+            "source_first_forecasts": {f: {"tasks": 2} for f in ("EC", "EV")},
+            "final_TRAIN_replay": {f: {"tasks": 2} for f in ("EC", "EV")}})
+        RunStore.immutable_json(out / "terminal_preservation.json", {"synthetic_fixture_only": True})
+        for filename, stage in (("source_records.json", "source_first_forecasts"),
+                                ("final_TRAIN_records.json", "final_TRAIN_replay")):
+            RunStore.immutable_json(out / filename, [
+                {**row, "stage": stage, "bank_sha256": csha([])} for row in train_rows])
+        cfg["arms"].append({"name": name, "role": "experience", "backend": "direct",
+                            "source_config": str(source_path.relative_to(root)),
+                            "source_config_sha256": sha(source_path), "bank_sha256": csha([])})
+    cfg["external_text_adaptation"] = "trace2skill_text_offline_v1"
+    cfg["primary_contrasts"].append({"name": "vs_text", "before": text_names,
+                                    "after": ["ours", "ours145", "ours245"]})
+    # Only reduce the fixture to two synthetic TRAIN sources. Real 128-source
+    # configs are separately checked by the actual validate_profile/freeze path.
+    monkeypatch.setattr(frozen, "validate_trace2skill_profile",
+                        lambda source: source["source_cases"] == 2)
+    out = root / "runs/synthetic_text45"
+    if mutation == "missing_record":
+        path = out / "final_TRAIN_records.json"
+        RunStore.atomic_json(path, read(path)[:-1])
+    elif mutation == "changed_files":
+        path = out / "publications/final.json"
+        value = read(path)
+        value["files"]["SKILL.md"] += "\nChanged fixture text.\n"
+        RunStore.atomic_json(path, value)
+    elif mutation == "changed_source":
+        path = root / "configs/text45.frozen.json"
+        value = read(path)
+        value["files"][dependencies[1]] = "not-the-constructed-code"
+        RunStore.atomic_json(path, value)
+    elif mutation == "failed":
+        path = out / "completion.json"
+        RunStore.atomic_json(path, {**read(path), "status": "failed"})
+
+    def guarded(path):
+        assert Path(path) != root / cfg["input_packet"]
+        return read(path)
+
+    monkeypatch.setattr(frozen, "read", guarded)
+    if mutation is None:
+        banks, train_keys, _ = frozen.fixed_banks(cfg)
+        assert all(name in banks for name in text_names)
+        assert train_keys == {"TRAIN0", "TRAIN1"}
+    else:
+        with pytest.raises(ValueError):
+            frozen.fixed_banks(cfg)
+
+
+@pytest.mark.parametrize("mutation", ["missing", "mispaired", "policy", "budget", "teacher", "renamed"])
+def test_policy_ablations_are_actual_single_seed_variants_before_TEST_load(plan, monkeypatch, mutation):
+    cfg, _, root = plan
+    if mutation == "missing":
+        cfg["secondary_contrasts"].pop()
+    elif mutation == "mispaired":
+        cfg["secondary_contrasts"][0]["after"] = ["ours", "ours145", "ours245"]
+    else:
+        arm = next(a for a in cfg["arms"] if a["name"] == "whole_bank")
+        path = root / arm["source_config"]
+        source = read(path)
+        if mutation == "policy":
+            source["skill_commit_policy"] = "legal_scope"
+        elif mutation == "budget":
+            source["max_candidate_attempts"] = 1
+        elif mutation == "teacher":
+            source["teacher"] = {"model": "different_teacher"}
+        else:
+            source["run_id"] = "learn_direct"
+        RunStore.atomic_json(path, source)
+        frozen_path = path.with_suffix(".frozen.json")
+        RunStore.atomic_json(frozen_path, {**read(frozen_path), "config_sha256": sha(path)})
+        arm["source_config_sha256"] = sha(path)
+
+    def guarded(path):
+        assert path != root / cfg["input_packet"]
+        return read(path)
+
+    monkeypatch.setattr(frozen, "read", guarded)
+    with pytest.raises(ValueError):
+        frozen.fixed_banks(cfg)
+
+
+@pytest.mark.parametrize("mutation", ["missing", "duplicate", "identity", "nonfinite", "extra_arm"])
+def test_source_statistics_rejects_incomplete_or_mispaired_matrix_instead_of_dropping_cases(plan, mutation):
+    cfg, _, _ = plan
+    records = {arm["name"]: [{"case_id": 1, "source_key": "synthetic", "family": family,
+                              "score": {"f1": 0.5}} for family in ("EC", "EV")]
+               for arm in cfg["arms"]}
+    if mutation == "missing":
+        records["ours"].pop()
+    elif mutation == "duplicate":
+        records["ours"].append(copy.deepcopy(records["ours"][0]))
+    elif mutation == "identity":
+        records["ours"][0]["case_id"] = 2
+    elif mutation == "nonfinite":
+        records["ours"][0]["score"]["f1"] = float("nan")
+    else:
+        records["not_in_frozen_matrix"] = []
+    with pytest.raises(ValueError):
+        frozen.paired_source_statistics(cfg, records)
+
+
+@pytest.fixture
+def prospective_runtime(tmp_path, monkeypatch):
+    """Only source bytes and synthetic receipts; no real case or TEST is read."""
+    s = frozen.runtime_sources
+    project = Path(frozen.__file__).resolve().parents[1]
+    for name in (*s.CURRENT, 'legal_skill_guard/learning/runtime_sources.py', s.PROTOCOL):
+        target = tmp_path / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(project / name, target)
+    for name, versions in s.HISTORICAL.items():
+        for digest, stem in versions.items():
+            path = f'{s.SNAPSHOTS}/{stem}__{digest}.py'
+            target = tmp_path / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(project / path, target)
+    monkeypatch.setattr(frozen, 'ROOT', tmp_path)
+    original = frozen.read
+    def guarded(path):
+        assert 'test' not in str(path.relative_to(tmp_path)).lower()
+        return original(path)
+    monkeypatch.setattr(frozen, 'read', guarded)
+    return tmp_path
+
+
+@pytest.mark.parametrize('name,digest', [
+    (name, digest) for name, versions in frozen.runtime_sources.HISTORICAL.items()
+    for digest in versions])
+def test_exact_preserved_serial_sources_keep_protected_semantics(prospective_runtime, name, digest):
+    s = frozen.runtime_sources
+    files = s.verify_revision(prospective_runtime, name, digest)
+    assert len(files) == 7 and any(digest in path.name for path in files)
+
+
+@pytest.mark.parametrize('mutation', ['bundle', 'snapshot', 'unknown_hash', 'scorer', 'outside'])
+def test_runtime_registry_does_not_waive_unknown_changes(prospective_runtime, mutation):
+    s, root = frozen.runtime_sources, prospective_runtime
+    name = 'experiments/openexempt_online.py'
+    digest = next(iter(s.HISTORICAL[name]))
+    if mutation == 'bundle':
+        with (root / name).open('a') as stream:
+            stream.write('\n# unapproved runtime change\n')
+    elif mutation == 'snapshot':
+        path = root / s.SNAPSHOTS / f'openexempt_online__{digest}.py'
+        path.write_text('not the preserved source\n')
+    elif mutation == 'unknown_hash':
+        digest = '0' * 64
+    elif mutation == 'scorer':
+        name = 'legal_skill_guard/openexempt.py'
+    else:
+        name = '../experiments/openexempt_online.py'
+    with pytest.raises(ValueError):
+        s.verify_revision(root, name, digest)
+
+
+def _synthetic_runtime_schedule(root):
+    s = frozen.runtime_sources
+    cfg = {'learning_execution_schedule': s.SCHEDULE,
+           'learning_execution_schedule_protocol': s.PROTOCOL, 'arms': []}
+    sources = {}
+    for limit in (1, 4):
+        RunStore.immutable_json(root / f'env{limit}.json', {
+            'actual_argv': ['vllm', 'serve', 'same-frozen8b', '--max-num-seqs', str(limit)]})
+    for seed in frozen.LEARNING_SEEDS:
+        for method in ('main', 'ace', 'text'):
+            name = f'{method}{seed}'
+            source = {'run_id': name, 'source_cases': 128, 'generation': {'seed': seed},
+                      'inference_environment': f'env{1 if seed == 45 else 4}.json'}
+            bindings = dict(s.CURRENT)
+            if seed == 45:
+                bindings.update({name: next(iter(versions)) for name, versions in s.HISTORICAL.items()})
+            else:
+                source['phase_dispatch'] = copy.deepcopy(s.DECLARATION)
+            source['learner'] = {'main': 'synthetic-main', 'ace': 'ace_native_online_v4',
+                                 'text': 'trace2skill_text_offline_v1'}[method]
+            bindings[source['inference_environment']] = sha(root / source['inference_environment'])
+            path = root / f'configs/{name}.json'
+            RunStore.immutable_json(path, source)
+            RunStore.immutable_json(path.with_suffix('.frozen.json'), {'files': bindings})
+            for filename in ('initialization.json', 'completion.json'):
+                RunStore.immutable_json(root / f'runs/{name}/{filename}', {
+                    'execution_dispatch': s.SERIAL_RECEIPT if seed == 45 else s.DECLARATION})
+            cfg['arms'].append({'name': name, 'source_config': str(path.relative_to(root))})
+            sources[name] = source
+    return cfg, sources
+
+
+def test_prospective_schedule_matches_all_methods_within_real_seed_boundary(prospective_runtime):
+    cfg, sources = _synthetic_runtime_schedule(prospective_runtime)
+    extras = frozen.check_learning_execution_versions(cfg, sources)
+    assert prospective_runtime / frozen.runtime_sources.PROTOCOL in extras
+    assert {p.name for p in extras} >= {'env1.json', 'env4.json'}
+
+
+@pytest.mark.parametrize('mutation', [
+    'legacy_undeclared', 'unknown_schedule', 'wrong_protocol', 'seed45_parallel',
+    'repeat_serial', 'receipt', 'helper', 'environment_hash', 'within_seed_environment',
+    'sequence_limit', 'model_arg'])
+def test_changed_schedule_fails_before_any_case_or_TEST_access(prospective_runtime, mutation):
+    root, s = prospective_runtime, frozen.runtime_sources
+    cfg, sources = _synthetic_runtime_schedule(root)
+    if mutation == 'legacy_undeclared':
+        del cfg['learning_execution_schedule']
+    elif mutation == 'unknown_schedule':
+        cfg['learning_execution_schedule'] = 'not-an-approved-schedule'
+    elif mutation == 'wrong_protocol':
+        cfg['learning_execution_schedule_protocol'] = 'unapproved.md'
+    elif mutation == 'seed45_parallel':
+        sources['main45']['phase_dispatch'] = s.DECLARATION
+    elif mutation == 'repeat_serial':
+        del sources['ace145']['phase_dispatch']
+    elif mutation == 'receipt':
+        RunStore.atomic_json(root / 'runs/ace145/completion.json', {'execution_dispatch': s.SERIAL_RECEIPT})
+    elif mutation == 'helper':
+        path = root / 'configs/ace145.frozen.json'
+        value = read(path)
+        value['files']['legal_skill_guard/learning/phase_dispatch.py'] = 'unknown-version'
+        RunStore.atomic_json(path, value)
+    elif mutation == 'environment_hash':
+        RunStore.atomic_json(root / 'env4.json', {'actual_argv': ['changed-after-learning']})
+    elif mutation == 'within_seed_environment':
+        shutil.copyfile(root / 'env4.json', root / 'otherenv.json')
+        sources['text145']['inference_environment'] = 'otherenv.json'
+        path = root / 'configs/text145.frozen.json'
+        value = read(path)
+        value['files']['otherenv.json'] = sha(root / 'otherenv.json')
+        RunStore.atomic_json(path, value)
+    else:
+        path = root / 'env4.json'
+        value = read(path)
+        value['actual_argv'][4 if mutation == 'sequence_limit' else 2] = '2' if mutation == 'sequence_limit' else 'other-model'
+        RunStore.atomic_json(path, value)
+        for config in (root / 'configs').glob('*.frozen.json'):
+            value = read(config)
+            if 'env4.json' in value['files']:
+                value['files']['env4.json'] = sha(path)
+                RunStore.atomic_json(config, value)
+    with pytest.raises(ValueError):
+        frozen.check_learning_execution_versions(cfg, sources)

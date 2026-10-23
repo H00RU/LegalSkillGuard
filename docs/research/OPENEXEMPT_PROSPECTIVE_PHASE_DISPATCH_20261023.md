@@ -86,11 +86,17 @@ source denominators remain unchanged.
 
 ## Still required before any deployment
 
-- Complete functional and source-provenance integration, not only executor unit
-  checks. Preserve exact v1 source artifacts, approve exact v2 byte hashes, and
-  require unchanged actor/grader/transport/gate ASTs; do not waive arbitrary
-  differences in old manifests. The formal evaluator must accept both actual
-  declared execution versions without narrowing its16-arm or complete-bank gates.
+- Promote the now isolated functional/source-provenance integration only with
+  its exact source bundle and original artifacts. The approved f138 evaluator
+  has been imported without narrowing its16-arm, complete-bank, lineage, scoring
+  or statistics gates. `runtime_sources.py` binds five exact prospective hashes,
+  five exact historical source artifacts and protected inference/gate functions;
+  it rejects unknown source changes rather than waiving old manifests. Explicit
+  final schedule declaration, original serial seed45 source, matched actual
+  within-seed environment, and both actual new learner receipts are required.
+  Source counts, failed outputs and original data remain strict. Actual complete
+  final-matrix validation still awaits the not-yet-built banks, not more synthetic
+  model qualifications.
 - Publish new immutable profiles for the six unstarted repeats after actual new
   environment capture. Rebase only operational fields and declared scheduling;
   retain the complete old configs and budget history. Same attempt ceilings and
@@ -116,3 +122,13 @@ main/ACE/Text phase ordering. The original Text grouping rule initially exposed
 a wrong test expectation of globally sorted traversal; the expectation was
 corrected against the pinned original rule, not by changing the rule. Real GPU
 integration, measured speedup, new profiles and promotion remain uncompleted.
+
+The subsequent provenance integration passes206 maintained CPU checks in25.16
+seconds: the existing approved frozen-evaluation suite, the phase tests and the
+existing ACE/Text contracts, plus22 focused source/schedule cases. The17 existing
+empty-slice scorer warnings are retained. No model, teacher, real case packet,
+TEST, profile, queue or service call was made by these checks. A first direct
+registry check exposed the incorrect qualified name `grade`; it was corrected
+to the actual `Online.grade`, not by relaxing the protection. Five preserved
+historical files match their complete SHA256 digests. This is source/contract
+evidence, not a measured throughput improvement or a new performance result.
