@@ -188,16 +188,23 @@ def run_process_tree(command: list[str], **kwargs: Any) -> subprocess.CompletedP
     process = subprocess.Popen(command, start_new_session=True, **kwargs)
     try:
         stdout, stderr = process.communicate(input=input_value, timeout=timeout)
-    except subprocess.TimeoutExpired:
+    except subprocess.TimeoutExpired as exc:
         with suppress(ProcessLookupError):
             os.killpg(process.pid, signal.SIGTERM)
         try:
-            process.communicate(timeout=2)
+            stdout, stderr = process.communicate(timeout=2)
         except subprocess.TimeoutExpired:
             with suppress(ProcessLookupError):
                 os.killpg(process.pid, signal.SIGKILL)
-            process.communicate()
+            stdout, stderr = process.communicate()
         _reap_process_group(process.pid)
+        # communicate() after termination contains the complete drained stream,
+        # including events received before the deadline. Preserve it without
+        # treating a timed-out command as a successful teacher response.
+        if stdout is not None:
+            exc.output = stdout
+        if stderr is not None:
+            exc.stderr = stderr
         raise
     completed = subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
     if check:
@@ -530,6 +537,9 @@ class CodexCLIClient:
                     env=environment,
                 )
             except (OSError, subprocess.SubprocessError) as exc:
+                partial = getattr(exc, "stdout", None) or getattr(exc, "output", None) or ""
+                event_log = (partial.decode("utf-8", errors="replace")
+                             if isinstance(partial, bytes) else partial)
                 self._write_failure_artifact(
                     purpose=purpose,
                     request_sha256=request_sha256,
@@ -540,8 +550,8 @@ class CodexCLIClient:
                     error_type=type(exc).__name__,
                     error_message=str(exc),
                     returncode=None,
-                    event_log="",
-                    failure_events=[],
+                    event_log=event_log,
+                    failure_events=self._failure_events(event_log),
                 )
                 raise
             event_log = completed.stdout or ""
@@ -677,7 +687,7 @@ class CodexCLIClient:
         event_log: str,
         failure_events: list[dict[str, str]],
     ) -> None:
-        """Persist bounded transport evidence without copying prompts or hidden labels."""
+        """Persist actual transport output, never recover an answer from a failure."""
 
         finished = datetime.now(UTC)
         artifact = {
@@ -694,6 +704,7 @@ class CodexCLIClient:
             "error_type": error_type,
             "error_message": error_message[:1000],
             "event_log_sha256": canonical_json_sha256({"event_log": event_log}),
+            "event_log": event_log,
             "event_log_tail": event_log[-4000:],
             "failure_events": failure_events[:10],
             "budget_reservation": budget_reservation,

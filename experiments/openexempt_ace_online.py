@@ -145,18 +145,29 @@ class ACEOnline:
     def restore_prefix(self):
         """Restore the last committed prefix, not a score-selected bank or retry.
 
-        This narrow recovery is for the v3 failed-output evidence omission. Only
-        a parse-valid completed prefix and the next batch's immutable forecasts
-        qualify. No unfinished TRAIN reflection or regeneration is imported.
+        The legacy v3-to-v4 correction keeps its original parse-valid B2 rule.
+        Same-v4 teacher timeouts may retain any unique last committed prefix,
+        including its original invalid predictions. Only the complete next
+        first-forecast batch is reusable; uncommitted TRAIN work is retired.
         """
         path = ROOT / self.cfg["continuation_receipt"]
         if self.bindings.get(str(path.relative_to(ROOT))) != sha(path):
             raise ValueError("Bind the explicit continuation receipt before starting")
         receipt = read(path)
-        if (receipt.get("role") != "exact_last_complete_ACE_prefix_not_best_checkpoint"
-                or receipt.get("no_parse_failure_in_completed_prefix") is not True
-                or receipt.get("zero_B3_TRAIN_or_teacher_import") is not True):
-            raise ValueError("Only the proved unaffected v3 prefix may be continued")
+        contract = receipt.get("continuation_contract", "v3_failed_public_output_prefix")
+        legacy = contract == "v3_failed_public_output_prefix"
+        if contract not in ("v3_failed_public_output_prefix", "same_v4_teacher_timeout_committed_prefix_v1"):
+            raise ValueError("Declare the exact operational continuation contract")
+        if receipt.get("role") != "exact_last_complete_ACE_prefix_not_best_checkpoint":
+            raise ValueError("Only the unique last committed prefix may be continued")
+        if legacy:
+            if (receipt.get("no_parse_failure_in_completed_prefix") is not True
+                    or receipt.get("zero_B3_TRAIN_or_teacher_import") is not True):
+                raise ValueError("The v3 correction still requires its proved unaffected prefix")
+        elif (receipt.get("zero_uncommitted_TRAIN_or_teacher_import") is not True
+                or receipt.get("original_invalid_predictions_retained") is not True
+                or receipt.get("complete_next_first_forecasts_exact_request_only") is not True):
+            raise ValueError("Timeout recovery cannot alter forecasts or import partial learning")
         for name, digest in receipt["files"].items():
             actual = (ROOT / name).resolve()
             if (Path(name).is_absolute() or not actual.is_relative_to(ROOT.resolve())
@@ -167,8 +178,8 @@ class ACEOnline:
         if (sha(old_path) != receipt["source_config_sha256"]
                 or sha(ROOT / receipt["source_frozen"]) != receipt["source_frozen_sha256"]
                 or old["run_id"] != receipt["source_run_id"]
-                or old.get("learner") != "ace_native_online_v3"):
-            raise ValueError("Continuation must identify its actual original v3 run")
+                or old.get("learner") != ("ace_native_online_v3" if legacy else "ace_native_online_v4")):
+            raise ValueError("Continuation must identify its actual source learner")
         for key in ("generation", "input_packet", "grading_directory", "source_cases",
                     "batch_source_cases", "planned_batches", "execution_contract",
                     "execution_contract_version", "library_token_hard_cap",
@@ -179,21 +190,42 @@ class ACEOnline:
                               if k != "total_invocation_budget"}
         if settings(old) != settings(self.cfg):
             raise ValueError("Continuation must retain the original teacher settings")
+        if not legacy and old.get("ace_failed_output_feedback_policy") != self.cfg["ace_failed_output_feedback_policy"]:
+            raise ValueError("Timeout continuation cannot change failure-feedback semantics")
         source = ROOT / "runs" / old["run_id"]
         through = receipt["through_batch"]
-        if (through != 2 or receipt["saved_first_forecast_batch"] != 3
+        batches = self.cfg["source_cases"] // self.cfg["batch_source_cases"]
+        if (type(through) is not int or not 1 <= through < batches
+                or receipt["saved_first_forecast_batch"] != through + 1
+                or (legacy and through != 2)
                 or sorted(p.name for p in (source / "publications").glob("b*.json"))
-                != ["b1.json", "b2.json"]
+                != sorted(f"b{b}.json" for b in range(1, through + 1))
                 or not (source / "failure.json").is_file()
                 or not (source / "terminal_preservation.json").is_file()):
-            raise ValueError("Use the unique last completed B2 at the preserved stop")
+            raise ValueError("Use every unique committed batch at the preserved stop")
+        if not legacy:
+            failed_name = receipt["failed_teacher_attempt"]
+            if failed_name not in receipt["files"]:
+                raise ValueError("Bind the actual failed teacher attempt")
+            failed = read(ROOT / failed_name)
+            stopped = read(source / "failure.json")
+            wire_name = receipt["failed_teacher_wire_request"]
+            if (failed.get("error_type") != "TimeoutExpired"
+                    or "TimeoutExpired" not in stopped.get("error", "")
+                    or not failed.get("purpose", "").startswith(old["run_id"] + f"_b{through + 1}_")
+                    or wire_name not in receipt["files"]
+                    or failed.get("request_sha256") != csha(read(ROOT / wire_name))
+                    or (source / "completion.json").exists()):
+                raise ValueError("This contract is only for an actual stopped teacher timeout")
+        completed_stages = tuple(f"b{b}_" for b in range(1, through + 1))
+        saved_stage = f"b{through + 1}_prequential"
         for name in receipt["native_origins"]:
             if name not in receipt["files"]:
                 raise ValueError("Every restored native origin must be hash-bound")
             origin = read(ROOT / name)
             stage = origin["stage"]
-            if not (stage.startswith(("b1_", "b2_")) or stage == "b3_prequential"):
-                raise ValueError("Never import unfinished B3 TRAIN responses")
+            if not (stage.startswith(completed_stages) or stage == saved_stage):
+                raise ValueError("Never import uncommitted TRAIN responses")
             if len(origin["calls"]) != 1 or origin["transport_error"] is not None:
                 raise ValueError("Only the actual complete native transport is restored")
             request = origin["calls"][0]["request"]
@@ -205,12 +237,24 @@ class ACEOnline:
             self.request_cache[fingerprint] = {"response": origin["response"],
                                                "raw_call_path": name}
             self.native.append(origin)
+        if not legacy:
+            saved = read(source / "batches" / f"b{through + 1}_records.json")
+            expected = {(r["case_id"], r["family"]) for r in self.rows
+                        if r["batch"] == through + 1}
+            if set(saved) != set(self.episodes):
+                raise ValueError("Retain every original first-forecast condition")
+            for records in saved.values():
+                if (len(records) != len(expected)
+                        or {(r["case_id"], r["family"]) for r in records} != expected
+                        or any(r["stage"] != saved_stage or r.get("TRAIN_only") is True
+                               or r["raw_call_path"] not in receipt["native_origins"] for r in records)):
+                    raise ValueError("All next-batch forecasts must have exact restored raw origins")
         for name in receipt["teacher_responses"]:
             if name not in receipt["files"]:
                 raise ValueError("Every restored teacher response must be hash-bound")
             role = Path(name).parent.name
-            if not role.startswith(("b1_", "b2_")):
-                raise ValueError("Never import an unfinished B3 teacher response")
+            if not role.startswith(completed_stages):
+                raise ValueError("Never import an uncommitted teacher response")
             response = read(ROOT / name)
             self.teachers.append({"name": role, **response})
             self.teacher_attempts += response["capacity_transport_attempt_index"] + 1
@@ -234,15 +278,30 @@ class ACEOnline:
         self.current_batch, self.summaries = through, summaries
         self.prefix_native_calls, self.prefix_teacher_calls = len(self.native), len(self.teachers)
         self.prefix_receipt = receipt
-        RunStore.immutable_json(self.out / "continuation.json", {
+        continuation = {
             "at": now(), "source_run": old["run_id"], "receipt": self.cfg["continuation_receipt"],
             "receipt_sha256": sha(path), "through_batch": through,
             "restored_native_origins": self.prefix_native_calls,
             "restored_teacher_responses": self.prefix_teacher_calls,
-            "saved_B3_first_forecasts_reused_by_exact_request_only": True,
-            "retired_B3_TRAIN_native_not_imported": receipt["retired_B3_TRAIN_native"],
-            "retired_B3_teachers_not_imported": receipt["retired_B3_teacher_responses"],
-            "not_a_new_independent_learning_repeat": True})
+            "not_a_new_independent_learning_repeat": True}
+        if legacy:
+            continuation.update({"saved_B3_first_forecasts_reused_by_exact_request_only": True,
+                "retired_B3_TRAIN_native_not_imported": receipt["retired_B3_TRAIN_native"],
+                "retired_B3_teachers_not_imported": receipt["retired_B3_teacher_responses"]})
+        else:
+            if (stopped["actual_native_calls"] != len(self.native) + receipt["retired_uncommitted_TRAIN_native"]
+                    or stopped["actual_teacher_responses"] != len(self.teachers) + receipt["retired_uncommitted_teacher_responses"]
+                    or stopped["actual_teacher_attempts"] != self.teacher_attempts + receipt["retired_uncommitted_teacher_attempts"]):
+                raise ValueError("Restored and retired timeout costs must exactly partition the stopped run")
+            continuation.update({"continuation_contract": contract,
+                "saved_first_forecast_batch": through + 1,
+                "saved_next_first_forecasts_reused_by_exact_request_only": True,
+                "retired_uncommitted_TRAIN_native_not_imported": receipt["retired_uncommitted_TRAIN_native"],
+                "retired_uncommitted_teacher_responses_not_imported": receipt["retired_uncommitted_teacher_responses"],
+                "retired_uncommitted_teacher_attempts": receipt["retired_uncommitted_teacher_attempts"],
+                "failed_teacher_usage_unknown_not_zero": failed.get("usage") is None,
+                "original_invalid_predictions_retained": True})
+        RunStore.immutable_json(self.out / "continuation.json", continuation)
 
     def progress(self, stage, **extra):
         RunStore.atomic_json(self.out / "progress.json", {
@@ -500,6 +559,7 @@ def main():
                              for d in importlib.metadata.distributions()},
                 "prepared_at": now(), "no_this_run_performance_observed_before_freeze": False,
                 "prior_TRAIN_prefix_and_B3_forecasts_explicitly_observed": True,
+                "prior_saved_first_forecast_batch_explicitly_observed": receipt["saved_first_forecast_batch"],
                 "no_new_continuation_performance_before_freeze": True,
                 "continuation_receipt_sha256": sha(receipt_path)}
             frozen_path = config.with_suffix(".frozen.json")

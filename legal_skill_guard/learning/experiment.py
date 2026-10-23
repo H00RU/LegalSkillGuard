@@ -14,6 +14,7 @@ import hashlib
 import json
 import os
 import signal
+import subprocess
 import sys
 import time
 from dataclasses import asdict
@@ -398,14 +399,23 @@ class Comparison:
 
         def capture(argv, **kwargs):
             nonlocal captured
-            value = run_process_tree(argv, **kwargs)
-            captured = {
-                'returncode':value.returncode, 'event_log':value.stdout or '', 'stderr':value.stderr or ''}
-            attempt_dest = dest if capacity_attempt == 0 else dest/f'capacity_retry_{capacity_attempt}'
-            RunStore.immutable_json(
-                attempt_dest / "event_log.json", captured,
-            )
-            return value
+            try:
+                value = run_process_tree(argv, **kwargs)
+            except subprocess.TimeoutExpired as exc:
+                def text(value):
+                    return value.decode('utf-8', errors='replace') if isinstance(value, bytes) else value or ''
+                captured = {'returncode': None, 'event_log': text(exc.stdout),
+                            'stderr': text(exc.stderr), 'timed_out': True,
+                            'no_successful_response_recovered': True}
+                raise
+            else:
+                captured = {'returncode': value.returncode, 'event_log': value.stdout or '',
+                            'stderr': value.stderr or ''}
+                return value
+            finally:
+                if captured is not None:
+                    attempt_dest = dest if capacity_attempt == 0 else dest/f'capacity_retry_{capacity_attempt}'
+                    RunStore.immutable_json(attempt_dest / "event_log.json", captured)
 
         client = CodexCLIClient(
             model=settings["model"],

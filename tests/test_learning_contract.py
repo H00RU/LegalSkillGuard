@@ -2781,6 +2781,66 @@ def test_teacher_capacity_resubmission_never_retries_a_result_or_another_error(t
         assert (tmp_path/'teacher/one/capacity_retry_1/event_log.json').exists()
 
 
+def test_codex_timeout_keeps_stream_but_never_recovers_teacher_answer(tmp_path):
+    import subprocess
+    import sys
+    from legal_skill_guard.inference.codex_cli_client import CodexCLIClient, CodexInvocationError
+    events = '{"type":"thread.started"}\n{"type":"turn.started"}\n'
+    def timeout(argv, **kwargs):
+        raise subprocess.TimeoutExpired(argv, 1, output=events.encode())
+    client = CodexCLIClient(model='gpt-5.6-sol', reasoning_effort='high',
+        executable=sys.executable, cache_root=tmp_path/'cache', command_runner=timeout, retries=0)
+    schema = {'type':'object','properties':{'ok':{'type':'boolean'}},
+              'required':['ok'],'additionalProperties':False}
+    with pytest.raises(CodexInvocationError, match='TimeoutExpired'):
+        client.generate_json(purpose='one', system_prompt='same', user_prompt='same', output_schema=schema)
+    failures = list((tmp_path/'cache/_failures').rglob('*.json'))
+    assert len(failures) == 1
+    recorded = json.loads(failures[0].read_text())
+    assert recorded['event_log'] == recorded['event_log_tail'] == events
+    assert recorded['error_type'] == 'TimeoutExpired' and recorded['usage'] is None
+    assert not list((tmp_path/'cache/one').glob('*.json'))
+
+
+def test_teacher_timeout_log_is_preserved_outside_cache_without_retry(tmp_path, monkeypatch):
+    import subprocess
+    from legal_skill_guard.learning import experiment as module
+    from legal_skill_guard.inference.codex_cli_client import CodexInvocationError
+    events = '{"type":"thread.started"}\n{"type":"turn.started"}\n'
+    def timeout(argv, **kwargs):
+        raise subprocess.TimeoutExpired(argv, 1, output=events.encode())
+    monkeypatch.setattr(module, 'ROOT', tmp_path)
+    monkeypatch.setattr(module, 'run_process_tree', timeout)
+    study = module.Comparison.__new__(module.Comparison)
+    study.out, study.run_id, study.teacher_attempts, study.teachers = tmp_path/'run', 'timeout_mock', 0, []
+    study.check = lambda: None
+    study.progress = lambda *a, **kw: None
+    study.cfg = {'teacher':{'model':'gpt-5.6-sol','reasoning_effort':'high','timeout_seconds':1,
+        'ledger':'budget.json','total_invocation_budget':10,'max_input_tokens':680000,
+        'capacity_retry_attempts':1,'capacity_retry_initial_delay_seconds':1}}
+    schema = {'type':'object','properties':{'ok':{'type':'boolean'}},
+              'required':['ok'],'additionalProperties':False}
+    with pytest.raises(CodexInvocationError, match='TimeoutExpired'):
+        study.teacher_call('one', 'same', 'same', schema)
+    captured = json.loads((study.out/'teacher/one/event_log.json').read_text())
+    assert captured['event_log'] == events and captured['timed_out'] is True
+    assert captured['returncode'] is None and not study.teachers and study.teacher_attempts == 1
+    assert not (study.out/'teacher/one/response.json').exists()
+    assert len(json.loads((tmp_path/'budget.json').read_text())['reservations']) == 1
+
+
+def test_process_tree_timeout_retains_drained_stdout():
+    import subprocess
+    import sys
+    from legal_skill_guard.inference.codex_cli_client import run_process_tree
+    with pytest.raises(subprocess.TimeoutExpired) as caught:
+        run_process_tree([sys.executable, '-c', 'import time;print("TIMEOUT_STREAM",flush=True);time.sleep(5)'],
+            text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=.25)
+    output = caught.value.stdout
+    if isinstance(output, bytes): output = output.decode()
+    assert 'TIMEOUT_STREAM' in output
+
+
 def test_historical_witness_skills_preserve_original_members_and_exclude_same_source():
     from legal_skill_guard.learning.decision_evidence import (
         training_witness_catalog,materialize_witness_skills,witnessed_skill_payload,witness_knowledge_view)
