@@ -215,8 +215,9 @@ Text是离线构建，未来的末库TRAIN拟合必须与本方法实际末库�
 
 ## 2026-10-23下午：当前来源交接、失败反馈与更细提交证据
 
-主方法完整八批及v0.11正文、附录D、两图和内部审阅PDF不改。没有新增主方法
-训练分数，不等于原有正向收益失效。正式主表仍待隔离测试，不填入TRAIN成绩。
+本段记录v0.12整合前的核对；v0.11正文、附录D、两图和内部审阅PDF均按原字节
+保留。没有新增主方法训练分数，不等于原有正向收益失效。正式主表仍待隔离测试，
+不填入TRAIN成绩。当前稿件版本见下一节。
 
 - [16条件/12源配置的实际协议与十主要四次要比较核对](../artifacts/research/openexempt_legal_scope_20261020/final16_current_lineage_actual_source_protocol_primary10_secondary4_plan_NOT_TEST_config_20261023.json)：
   使用真实配置验证一致协议与自身B1配对，三个故意错配均拒绝；不是未完成末库
@@ -235,3 +236,32 @@ Text是离线构建，未来的末库TRAIN拟合必须与本方法实际末库�
 [机制结果段及完整边界](method_scope_and_failure_decisions_20261021.md)按师兄实验skill
 组织，并用nature-paper区分局部TRAIN改善、固定提案结构比较与真正独立消融。
 未增加新臂、种子、模型或运行框架，不把已有通用重放或源保持机制算作独创。
+
+## 当前内部审阅稿v0.12：ACE45自然完成、来源/成本齐全
+
+ACE45接续Run04于10月23日15:48:37自然完成全部八批。唯一末库21条/2158tokens，
+旧20条内容保留；新增一条复合资产中心名词/修饰词的类别判定程序，不是逐案答案表。
+这是助手内容审查，不是法律专家验证，也没有更晚TRAIN验证该末次更新。
+[完整末库及嵌套来源核验](../artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run04_actual_complete_bank_nested_origin_final21_content_and_all3_terminal_archives_QA_NOT_TEST_20261023.json)
+按真实completion通过，三个学习沿革的两盘终态档均核原hash。仅这一来源合格，
+不代表16臂矩阵或其余尚未完成的学习已合格。
+
+[实际完整成本](../artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run04_complete128_terminal_actual_retained_and_retired_B3_B8_cost_NOT_TEST_20261023.json)：
+保留896native/423成功教师；加旧B3的10/12及旧B8的5/7，合计911native、
+442成功教师、443attempts。一份超时usage未知，不计为0。8B输入/输出
+7258239/2304128，已知教师输入/输出11984697/427053为下界，推理129574已含输出。
+B8全部32条真实反思、原生计数与ADD核验通过，同案完全正确5→25只是拟合。
+静态TRAIN对照已于15:49:13实际开始；Text45与后继八stage仍是等待器，额度3349未扩。
+
+[v0.12主体](manuscript_v1_20261021.md)和[附录D](appendix_experimental_details_20261022.md)
+只整合完成状态、实际成本及上述细粒度提交证据；摘要、引言、相关工作、数据、方法、
+两张主结果表的原始数值、B3–B8投递分解、正式待填节、讨论和八条文献保持原样。
+[源稿核对](../artifacts/research/openexempt_legal_scope_20261020/manuscript_v012_actual_ACE_terminal_and_scope_evidence_protected_main_science_tables_refs11profiles_source_QA_20261023.json)
+验证47条本地链接、旧v0.11精确快照和11个活跃/后继冻结配置仍匹配。
+
+[当前双语内部审阅PDF](../artifacts/research/manuscript_review_20261023/v012_bilingual_internal_v01/legal_skill_evolution_v012_bilingual_internal_review.pdf)：
+21页、339文本单元、6表、2原图，所有源非空行都有呈现，实际PDF文本/坐标核对差异0。
+[最终审阅QA](../artifacts/research/manuscript_review_20261023/v012_bilingual_internal_v01/final_review_QA_20261023.json)
+绑定完整源稿、渲染程序、字体、PDF和1/11/12/20页实际视觉检查，未见重叠/裁切。
+这是内部审阅，不是期刊模板、法律专家审查或可投稿定稿。正式TEST、其余控制、
+三次学习变异和两项独立消融仍待完成；待填结果保留黄色，不填0或TRAIN成绩。

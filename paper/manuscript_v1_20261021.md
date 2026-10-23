@@ -2,7 +2,7 @@
 
 中文暂题：面向冻结8B语言模型法律规则适用的可演化技能学习
 
-工作初稿 v0.11，2026-10-23。本文围绕法律规则适用中的程序性技能持续学习展开；当前包括主方法完整八批TRAIN流及同128来源的完整首答对照，最终库测试、独立学习重复、机制消融及完整对照成本仍待完成。中英文共享数字表与证据边界。内部版本和完成状态见[写作证据表](evidence_and_completion_20261020.md)。
+工作初稿 v0.12，2026-10-23。包括主方法完整八批TRAIN流、同128来源首答对照、已完成的ACE seed45末库与实际成本及更细提交机制的轨迹证据。最终冻结库测试、其余对照、独立学习重复和机制消融仍待完成；一次超时教师调用的token用量未知。中英文共享数字表与证据边界，完成状态见[写作证据表](evidence_and_completion_20261020.md)。
 
 ## Abstract / 摘要
 
@@ -175,15 +175,21 @@ Figure assets: [vector PDF](../artifacts/research/learning_curves_20261022/Run03
 
 The published library changed through targeted revisions rather than mandatory growth. All 15 actual teacher responses, 14 non-NOOP candidate decisions, and eight publication hashes were reconstructed. Nine candidate attempts were accepted, five were rejected, and one response explicitly made no change. Five accepted attempts contained a complete proposal that failed the whole-bank gate, but an admitted composition of public-context components passed it. This establishes that component submission affected actual publications; it does not establish the counterfactual outcome of independently training the whole-bank ablation. Across the nine admitted compositions, all 1,152 repeated TRAIN task views reused exact-request raw responses and were decoded afresh, with zero additional model generations for composition.
 
+Public-context submission also changed decisions within a task. Of the nine accepted compositions, four differed structurally from taking all edits approved by the EC/EV task-level gates. In the second B1 proposal, the full EV update failed retention, but its Illinois component was retained. On all three sources in that component, mean EV F1 rose from 57.41% to 79.63% against the actual first-candidate parent. This fixed-proposal analysis locates a finer-grained TRAIN benefit; it is not an independently learned task-local ablation or evidence of future-case superiority.
+
 Teacher proposals contained nine CREATE and 24 UPDATE operations. Actual committed structural mutations were seven creations and 14 updates across the run, counting repeated revisions rather than distinct skills. There were no observed deletions or merges. The final library contains seven records and 2,486 serialized tokens: jurisdiction-conditioned guidance about category boundaries, independent general-property alternatives, amount caps, and joint ownership. For example, the last publication adds a Wisconsin vehicle-valuation procedure while preserving the prior six records byte-for-byte. Its paired seen-source replay against the actual B7 parent corrected all ten earlier Wisconsin vehicle-cap errors, while nine new amount errors appeared under co-visible federal provisions in Wisconsin-eligible cases. This is an adverse-effect audit of TRAIN replay, not proof that the final skill improves future cases.
 
 The complete main run made 1,158 original 8B generations through 1,158 generation-endpoint HTTP requests, with 7,655,443 input and 3,232,344 output tokens; every response ended with `stop`. This generation count excludes tokenizer and readiness queries. The 15 fresh teacher responses used 3,232,522 input and 51,361 output tokens, including 35,912 reasoning tokens already counted in output. These totals include rejected proposals and all training replay, but exclude ACE, static-library compilation, previous development, and model deployment. Elapsed time from the first native input to the final publication was approximately 26 h 16 min; this is wall time, not measured GPU busy time. Appendix D details runtime accounting. Matching per-answer output limits does not imply equal total learning cost across methods.
 
 技能库通过定向修改而不是强制增长演化。15份真实教师响应、14个非NOOP候选及八次发布已逐项重建：九次候选接收、五次拒收、一次明确不改。五次接收中，完整原提案未过整库门槛，但公开情境分量组合通过；这证明机制确实影响了发布，不等于已证明独立整库消融会学成什么。九次实际组合合计1,152个重复TRAIN任务视图，均复用完整请求对应的原始响应并重新解码，组合阶段新增模型生成为零，不是新增独立样本。教师提出CREATE九次、UPDATE二十四次；实际结构变化为创建七次、更新十四次，重复修改计次数，没有实际删除或合并。最终七条、2,486 tokens，内容是法域条件化的类别边界、一般财产替代条款、金额上限及共同所有权程序。B8新增威斯康星车辆金额技能，原六条逐字保留；相较实际B7父库的已见TRAIN重放，原十个威斯康星车辆额度错误全部修正，同时在威斯康星可选案件中共同可见的联邦条款下出现九个新金额错误，不能据此称新案已获益。
 
+公开情境分量也改变了同一任务内的提交。九次接收的组合中，四次在结构上不同于按EC/EV整任务门槛取编辑的组合。B1第二次提案EV整体未过保持门槛，但伊利诺伊分量获准；该范围全部三个已见来源相对真实C1父库的原EV F1由57.41%变为79.63%。这是固定实际提案的训练内机制分析，不是重新学得的task_local消融或未来新案优势。
+
 完整主Run通过1,158次生成端点HTTP请求完成1,158次原始8B生成，输入7,655,443和输出3,232,344 tokens，均以`stop`结束；该生成次数不包含分词与就绪查询。15份新教师响应输入3,232,522、输出51,361，其中35,912推理tokens已包含在输出，不重复相加。成本含拒收与全部TRAIN重放，不含ACE、静态编译、旧开发和模型部署。从首个原始输入到最终发布约26小时16分，是墙钟而非GPU忙时，运行分解见附录D。相同单答上限不等于相同总训练成本。
 
 Artifact bindings: [all teacher, candidate, and publication accounting](../artifacts/research/openexempt_legal_scope_20261020/Run03_all15_teacher14_candidate8_publication_actual_scope_composition_and_library_management_accounting_20261022.json); [complete main-run call/token cost](../artifacts/research/openexempt_legal_scope_20261020/Run03_complete_B1_B8_actual_terminal1158_15_cost_20261022.json); [batch wall-time decomposition](../artifacts/research/openexempt_legal_scope_20261020/Run03_actual_eight_batch_runtime_decomposition_and_primary_OpenExempt_comparison_boundaries_20261022.json). The original raw requests, responses, and failed candidates are preserved separately; these analysis records do not replace them. The [complete composition audit](../artifacts/research/openexempt_legal_scope_20261020/Run03_all9_actual_compositions1152_TRAIN_views_public_side_raw_reuse_fresh_decode_and_mean_identity_20261023.json) and [last-update provision-versus-case clarification](../artifacts/research/openexempt_legal_scope_20261020/Run03_B8_ten_WI_repairs_and_nine_federal_errors_same_WI_cases_no_nonWI_case_interference_clarification_20261023.json) bind these mechanism statements.
+
+Additional mechanism evidence: [all 14 actual component-versus-task gate decisions and the three-source Illinois example](../artifacts/research/openexempt_legal_scope_20261020/Run03_all14_actual_component_vs_task_gate_decisions_and_B1C2_Illinois_EV_rescue_NOT_independent_ablation_20261023.json).
 
 ### 5.3 Where continued guidance changed / 持续指导实际改变的位置
 
@@ -211,11 +217,11 @@ Table 2. Complete B1–B8 TRAIN first forecasts on the same 128 sources. Each me
 
 The main method and direct reference had no invalid predictions. ACE had four EC and nine EV invalid outputs, all retained in the 128-per-task denominators. All 256 recorded direct-empty answers and original scores matched across the two runs; this observed agreement is not a general determinism guarantee. The native ACE prompt and answer wrapper differ from the direct interface even before learning, so Table 2 compares the disclosed adaptations rather than isolating the memory-update rule. Shared-actor static and text-memory controls remain pending.
 
-At this revision, all eight ACE first-forecast batches are complete, while its last TRAIN update and final publication are still running. That final update cannot change the saved first forecasts. Final ACE learning cost, frozen-library comparisons, independent learning variation and held-out results remain to be reported.
+ACE completed its eighth update on 23 October with 21 bullets and 2,158 tokens. Including retired work from its two artifact-verified continuations, the lineage used 911 8B generations and returned 442 successful teacher responses across 443 attempts; one timed-out call has unreported token usage (Appendix D). Completion leaves the saved first forecasts unchanged. Frozen-library comparisons, independent learning variation and held-out results remain pending.
 
 在完整128来源的首次遇案训练流中，主方法相较原生角色ACE任务适配的EC和EV F1分别高20.16和25.31个百分点（表2）。每个来源均使用本批反馈之前的技能库回答，并计入空记忆起步的首批，因此比较的是经验积累过程中的表现，不是知道答案后的同案重答。每方法256个任务预测对应128个独立来源；每个进化方法只有一次seed45学习流，不把任务视图或复用记录扩成独立样本。
 
-主方法与直接空库均无无效预测；ACE有4个EC、9个EV无效输出，全部按原零分保留。两运行的256条直接空库记录答案与原分数一致，但这不构成普遍确定性保证。ACE原生提示和回答外包装在学习前就不同于直接接口，故表2比较已披露的完整适配系统，不将差异全归因于记忆更新。共享执行器的静态和文本经验对照仍待完成。本版ACE八批首答已齐，末批TRAIN更新与最终发布仍在进行；该更新不改变已保存首答。最终学习成本、冻结库比较、独立学习变异和隔离测试仍待报告。
+主方法与直接空库均无无效预测；ACE有4个EC、9个EV无效输出，全部按原零分保留。两运行的256条直接空库记录答案与原分数一致，但这不构成普遍确定性保证。ACE原生提示和回答外包装在学习前就不同于直接接口，故表2比较已披露的完整适配系统，不将差异全归因于记忆更新。共享执行器的静态和文本经验对照仍待完成。ACE已于10月23日完成第八次更新，末库21条、2,158 tokens。计入两次制品核验接续的退役工作，学习轨迹实际用了911次8B生成、442份成功教师响应和443次尝试；一次超时调用的token用量未知，见附录D。末库完成不改变已保存首答。冻结库对比、独立学习变异和隔离测试仍待报告。
 
 Evidence: [complete equal-source first-forecast aggregation](../artifacts/research/openexempt_legal_scope_20261020/Run03_vs_ACEv4_complete_B1_B8_equal128_prequential_FIRSTS_ONLY_last_learning_cost_pending_NOT_TEST_20261023.json); [all B8 raw requests, original scores, full bullet delivery and same-case controls](../artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run03_B8_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json).
 

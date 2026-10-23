@@ -1,6 +1,6 @@
 # Current legal skill-evolution goal
 
-更新：2026-10-23 14:40 CST。此页是当前入口；进程状态以实际systemd和原始制品为准。
+更新：2026-10-23 16:13 CST。此页是当前入口；进程状态以实际systemd和原始制品为准。
 旧11:46入口逐字存于[恢复前快照](research/checkpoints/CURRENT_GOAL_before_teacher_timeout_recovery_20261023_1440.md)。
 旧Run03、旧静态/Text等待器及旧只读观察器已失败，不可当作仍在运行。
 
@@ -92,13 +92,18 @@ ACE旧Run03在10月23日13:28:26停止：b8_295_EV_r1_reflector超过原600秒�
 不是零。850native/373教师响应/374attempts和3550成员终态两份档均保留。
 全部八批首答已完成，之后的学习超时不会改变这些原始分数。
 
-当前Run：`legal_openexempt_ace_public_assets128_20261023_run04`，
+已完成的ACE45接续Run：`legal_openexempt_ace_public_assets128_20261023_run04`，
 unit `legal-openexempt-ace-public-assets128-20261023-run04.service`，
-PID2150612/start474251167，14:13:14启动，source048b021，383绑定文件/50packages。
+前PID2150612/start474251167，14:13:14启动、15:48:37自然结束；source048b021，383绑定文件/50packages。
 同一学习器接续，不是新独立重复。恢复唯一B7末库20条/2059tokens，SHA
 `f609fbcc16f9d9015f98adf46d39af863ef784328fc44d21d9639562e5ea8f94`；
 恢复845原始生成、366教师响应及全部96逻辑B8首答。首答逐项原路径/答案/分数相同，
-没有新首答生成；14:35读到854native/378教师，正在296案TRAIN。
+没有新首答生成。现已自然完成896native/423成功教师/423attempts（含恢复前缀），末库21条/2158tokens，SHA
+`75ad535aed4478ce4c85832138dadcb3dc460fec8200704151a002920131af56`。
+计入旧B3与本次旧B8退役工作，总911次8B生成、442成功教师/443attempts；一次超时usage未知，
+不能按零计。[实际完整成本](../artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run04_complete128_terminal_actual_retained_and_retired_B3_B8_cost_NOT_TEST_20261023.json)。
+B8全部32条TRAIN反思/标签/计数/ADD已核，完全正确从5到25是同案拟合，不是新案收益。
+旧20条正文保留，新一条为复合资产中心名词/修饰词的类别判定程序；未在更晚TRAIN验证。
 
 本次退役B8未提交学习5native、7教师成功响应、1失败attempt，8attempts保留。
 此前退役B3的10native/12教师另外保留，不能漏掉、重复计入或导入恢复库。
@@ -109,10 +114,10 @@ PID2150612/start474251167，14:13:14启动，source048b021，383绑定文件/50p
 ## 已实际挂上的自动接续
 
 所有stage保持单实例、规范独占训练锁、新Run ID、失败即停，不按成绩选库或自动重试。
-“active”等待器不是已开始学习，下面两项仍在等ACE：
+“active”等待器不是已开始学习。ACE已完成；静态03于15:49:13实际初始化，Text45仍等待静态：
 
 - 静态TRAIN：`legal-openexempt-fixed-static-train128-20261023-run03.service`，
-  PID2155494/start474269030。ACE04自然完成并保存后执行固定原7条/2411token库、
+  PID2155494/start474269030。已接续执行固定原7条/2411token库，0教师，
   全128案256预测先于评分，0新教师。
 - Text45：`legal-openexempt-static03-to-text45-20261023.service`，
   PID2156118/start474271148。等静态03自然完成且双盘保存，再把共享额度3349扩为
@@ -147,7 +152,9 @@ PID2150612/start474251167，14:13:14启动，source048b021，383绑定文件/50p
 原B8零分保留和全部退役成本。教师日志修复所在共享文件不冒称字节未变：
 保留原hash源码，除未用于最终推理的teacher_call与其新增subprocess导入外，
 所有AST必须相同；任何native actor/scorer改动仍拒绝，原源码进入最终冻结。
-实际4873路径/6项负面探针通过，原评价CPU106项通过；不是已批准任何未完成末库。
+实际4873路径/6项负面探针及评价CPU106项通过。ACE45完成后又按实际completion通过完整
+嵌套来源检查，三份学习沿革终态档均核两盘hash；仅该来源合格，不代表16臂或未完成末库已合格。
+[已完成ACE来源与末库核验](../artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run04_actual_complete_bank_nested_origin_final21_content_and_all3_terminal_archives_QA_NOT_TEST_20261023.json)。
 [实际恢复链/actor核验](../artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run04_actual_nested_B2_B7_B8_origin_and_main_native_actor_identity_CPU_QA_20261023.json)。
 
 必须等待全部真实末库、三次学习重复、两项消融、16臂及原统计计划后冻结TEST矩阵。
@@ -159,9 +166,14 @@ PCG64 seed2026102192，十项主比较、四项次比较。法域相对task-loca
 未来单实例4请求调度已实现但未部署；当前模型maxseq1不动。只有全部学习完成保全、
 恢复资产核验及新环境捕获后才可按原协议切最终评价环境，不能热改正在训练的服务。
 
-论文工作稿v0.11和双语20页内部审阅PDF已完成，已有完整128首答对照，方法和八批
-主曲线不改。正式TEST主表、重复变异和消融结果仍待补，不把待补框填成0或训练分数。
-当前PDF供审阅，不是可投稿定稿；旧v0.10、源码、图和PDF都保留双盘证据。
+论文工作稿v0.12和双语21页内部审阅PDF已完成：补齐ACE实际末库/退役成本及细于任务拆分
+的机制证据。摘要、引言、相关工作、数据、方法、原八批表、完整首答表数值及8条文献不改。
+339文本单元/6表/2原图，实际PDF文本差异0，已视觉检查1/11/12/20页。
+[当前内部审阅PDF](../artifacts/research/manuscript_review_20261023/v012_bilingual_internal_v01/legal_skill_evolution_v012_bilingual_internal_review.pdf)
+及[最终审阅QA](../artifacts/research/manuscript_review_20261023/v012_bilingual_internal_v01/final_review_QA_20261023.json)。
+正式TEST主表、重复变异和消融结果仍待补，黄色待补不填0或TRAIN值；当前不是可投稿定稿。
+旧v0.11源稿快照与20页PDF、此前版本及两图均保留。README是活跃源码冻结快照，
+不热改其绑定字节；运行和稿件当前状态以本页为入口。
 
 下一步：审计ACE真正B8发布及完整实际成本；检查静态和Text对照是否正常并解读实际
 技能内容/投递/效果；依次完成既定重复/消融和冻结测试。遇到实质问题先看完整证据，
