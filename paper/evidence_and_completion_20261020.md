@@ -1,6 +1,6 @@
 # 当前论文证据与完成条件
 
-更新：2026-10-23 08:32 CST。本页只列当前可用证据和待完成内容。
+更新：2026-10-23 09:43 CST。本页只列当前可用证据和待完成内容。
 此前1130行开发与历史轨迹清单逐字保存在
 [历史证据快照](revisions/evidence_before_ACEv4_20261022_2212.md)，不是当前结果表。
 执行入口与句柄见[CURRENT_GOAL](../docs/CURRENT_GOAL.md)。
@@ -34,6 +34,13 @@
 | 被拒EC更新确有实际条款主张损失 | VERIFIED | 全11分量内容/全改变TRAIN主张、294次前后投递/228原调用核同；B6相关56来源中至少42个原F1降，主要漏报原正确一般财产条款 |
 | 泛化改写或大教师输入已被证实是因果根因 | UNSUPPORTED | 观察到具体例子改写与损害同现；15请求输入123777–246267tokens，尚未做独立干预验证 |
 | 教师确实接收了冗余法律观察 | VERIFIED | 896任务视图的empty/initial答案、评分、错误等相同；调用别名元数据可异，不把全部对象字节冒充完全相同 |
+| 全部已经选定的有界历史反例都真实进入本次教师 | CONTRADICTED | 重建15输入/8批真实父状态，232应交条目实际211；21项被历史来源过滤删掉。31原HTTP/解码/原评分独立核同，18项原F1下降，14不同任务，不是232个案件 |
+| 缺少的是当前批全部正确标签 | CONTRADICTED | 当前32任务仍全给；丢失的是部分有界历史反例，本次无状态教师没有这些事实/目标/前后回答。不能以历史上给过代替本次投递 |
+| 主教师被CLI自动压缩已是已证根因 | UNSUPPORTED | 15独立新会话各一成功轮、无压缩/截断事件，实际123777–246267输入低于配置800000触发线；配置本身不证明远端最大容量 |
+| 主教师获得所有学生完整推理 | CONTRADICTED | 896父观察/385不同原始调用都按显式1024字符尾段截取，原文/hash已核；不是自动压缩，也未证明影响大小 |
+| 教师交付修复已独立实现且未热改当前实验 | VERIFIED | 隔离71906f6，全部232条历史输入回放可达、原标签/父回答/控制无损、未改推理/准入/更新AST；旧profile在后端访问前被拒绝。没有新训练或新指标 |
+| 回放修复说明新方法已赢或可省相同比例计算 | UNSUPPORTED | 历史15包字符总量减6.58%、本地token估计减6.24%，个别包为补全反例更大；不是远端成本、新案收益或最终方法。采用须新Run重训及匹配验证 |
+| 封存来源仅按不同案件ID冒充独立来源 | CONTRADICTED | 仅元数据核13个TRAIN packet共308个不同规范公开事实key，与封存128无交集；Case序列化无ID、key删除生成标签。recipe同、seed独立，未读TEST语义，不证明语义近重复全无 |
 | 末库残余错误仍无可核具体模式 | CONTRADICTED | 全128来源256任务完整清单逐项匹配原完整输出TP/FP/FN；EC173漏报/19误报，EV150漏报/85误报，不是新主指标 |
 | 四类通用条款的140条EC遗漏都未收到技能 | CONTRADICTED | 全部对应原HTTP有明确程序；占173条漏报的80.9%，不是案件/F1损失占比；256个末库完整messages/schema/generation均与实际调用核同 |
 | EV金额不足只是缺少金额规则 | CONTRADICTED | 全部八个俄勒冈(p)金额错输出400美元，题面值明确低于400且目标相同，已送规则要求取较小者；不能据此识别注意力/表示方式等因果原因 |
@@ -136,6 +143,12 @@
 - `hourly0630_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `hourly0730_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
 - `hourly0830_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
+- `hourly0930_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json`
+- `source_key_metadata_only_train308_sealed128_disjoint_revalidation_NOT_semantic_TEST_or_performance_20261023.json`
+- `source_key_metadata_only_train308_sealed128_revalidation_dual_preservation_20261023.json`
+- `Run03_actual15_teacher_context_no_logged_compaction_vs_explicit1024_tail_delivery_NOT_quality_cause_20261023.json`
+- `Run03_actual15_teacher232_witness_delivery_source_filter_loss_true_harm_actual_HTTP_v02_NOT_causal_20261023.json`
+- `isolated_v2_teacher_delivery_all15_actual_history232witnesses_restored21_self_describing_alias_v02_NOT_performance_20261023.json`
 - `manuscript_v010_related_work_primary_refs_exact_v09_scientific_body_11profiles_QA_20261023.json`
 - `frozen_eval_four_worker_cpu105_exact_cache_failure_drain_active11_unchanged_serial91h_scenario_NOT_deployed_20261023.json`
 - `frozen_eval_parallel_dispatch_endpoint_bound_final_CPU_check_stdout_20261023.json`
