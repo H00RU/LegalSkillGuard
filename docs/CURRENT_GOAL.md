@@ -1,6 +1,6 @@
 # Current legal skill-evolution goal
 
-更新：2026-10-23 16:35 CST。此页是当前入口；进程状态以实际systemd和原始制品为准。
+更新：2026-10-23 17:10 CST。此页是当前入口；进程状态以实际systemd和原始制品为准。
 旧11:46入口逐字存于[恢复前快照](research/checkpoints/CURRENT_GOAL_before_teacher_timeout_recovery_20261023_1440.md)。
 旧Run03、旧静态/Text等待器及旧只读观察器已失败，不可当作仍在运行。
 
@@ -177,7 +177,8 @@ PCG64 seed2026102192，十项主比较、四项次比较。法域相对task-loca
 
 续接核实：v0.12源码、PDF和ACE终态证据的31成员增量档已双盘逐成员核验，
 见[双盘收据](../artifacts/research/openexempt_legal_scope_20261020/paper_v012_rootcd66bea_actual_ACE_terminal_scope_evidence_and_review_scoped_dual_preservation_20261023.json)。
-16:32静态03仍为原PID2155494，进入B2，完成39/256原生请求、0教师，尚未评分。
+17:08静态03仍为原PID2155494，进入B3，完成68/256原生请求、0教师，尚未评分。
+完整前两批64预测已保存；当前全部68回答均stop、无格式错误或运行失败。
 完整B1的32个实际HTTP请求已核：与主方法对应空库的题面、法条、公开映射、schema
 和采样相同，区别仅为原零案件静态库文本；32个全部stop，无数值程序/解释器。
 这是前缀执行核对，不是性能成绩或全128案完成。Text45及剩余八stage等待器
@@ -186,6 +187,15 @@ PCG64 seed2026102192，十项主比较、四项次比较。法域相对task-loca
 最近邻SkillCommit的论文、作者主页和公开仓库列表复核未找到已验证的作者实现
 链接，范围及贡献限制已记入[方法边界](../paper/method_scope_and_failure_decisions_20261021.md)。
 维持两个外部适配对照及当前16条件；不据未复现近邻的公开异协议成绩宣称胜出。
+
+17:09已补齐师兄paper-related-method所需的十篇同行原文缓存和
+[同行写法研究v1](../peer-papers/同行写法研究-v1-20261023.md)，逐篇核对摘要、引言
+组织、方法与实验设置，注明阅读范围，不声称读完所有附录或复现十个方法。
+[来源清单](../peer-papers/20261023-scope-consolidation/source_manifest.json)
+记录实际版本/URL/全文hash、摘要逐句规则计数和功能标注、抽取重算程序；原文
+缓存不提交到公开源码。新增建议聚焦最近邻归属、术语和实际对照覆盖，未修改
+正文/附录D、v0.12 PDF、原图、方法配置、16条件或队列，0原生/教师/TEST调用。
+最终写作仍等实际比较与TEST，不因同行模板另加多轮任务、验证集、模型或框架。
 
 下一步：ACE实际B8发布、完整成本及来源核对已完成；等待静态完整256预测后解读
 全部成绩和损害，再接续Text并检查实际技能内容/投递/效果，依次完成既定重复、
