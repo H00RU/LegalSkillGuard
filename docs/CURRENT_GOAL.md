@@ -132,6 +132,9 @@ PID2150612/start474251167，14:13:14启动，source048b021，383绑定文件/50p
 
 ## 最终测试与论文
 
+[当前16条件/12来源配置及十主要四次要比较交接](research/OPENEXEMPT_FINAL_MATRIX_CURRENT_LINEAGE_20261023.md)
+已按实际源配置核对；不是可执行TEST配置，不代表未完成末库已经合格。
+
 独立正式评价仍在隔离worktree
 `.venv/evolution-control-20261020.qLon9T`。现已补齐嵌套B2/B7恢复链核验、
 原B8零分保留和全部退役成本。教师日志修复所在共享文件不冒称字节未变：
