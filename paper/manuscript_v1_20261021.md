@@ -2,7 +2,7 @@
 
 中文暂题：面向冻结8B语言模型法律规则适用的可演化技能学习
 
-工作初稿 v0.10，2026-10-23。本文围绕法律规则适用中的程序性技能持续学习展开；当前结果来自完整八批TRAIN流，正式TEST、独立学习重复及机制消融仍待完成。中英文共享数字表与证据边界。内部版本和完成状态见[写作证据表](evidence_and_completion_20261020.md)。
+工作初稿 v0.11，2026-10-23。本文围绕法律规则适用中的程序性技能持续学习展开；当前包括主方法完整八批TRAIN流及同128来源的完整首答对照，最终库测试、独立学习重复、机制消融及完整对照成本仍待完成。中英文共享数字表与证据边界。内部版本和完成状态见[写作证据表](evidence_and_completion_20261020.md)。
 
 ## Abstract / 摘要
 
@@ -197,33 +197,37 @@ B1后八份提案共改动11个EC范围分量：两个接收，五个因原F1损
 
 Evidence: [all-source actual delivery decomposition](../artifacts/research/openexempt_legal_scope_20261020/Run03_complete128_first_forecast_actual_skill_projection_vs_own_B1_736_native_record_delivery_and_newcase_effect_decomposition_20261022.json); [all post-B1 EC proposal-component decisions](../artifacts/research/openexempt_legal_scope_20261020/Run03_all_postB1_EC11_changed_components8_proposals_actual_parent_scope_gate_failure_bottleneck_20261022.json).
 
-### 5.4 Early learned-ACE checkpoint, not the final method comparison / ACE初次学习后检查点，非最终方法对比
+### 5.4 Complete eight-batch first-encounter comparison / 完整八批首答对照
 
-The corrected ACE learner completed every B2 first forecast on sources 197–212. Table 2 reports all 16 sources after each online learner's first publication, before B2 targets were released. The main method enters B2 with five records and 1,591 tokens; ACE enters with ten bullets and 1,024 tokens. These are entering libraries, not post-B2 banks. All ten ACE bullets were delivered in full and each was self-referenced in at least five responses. Self-reported references establish neither correct application nor causal contribution.
+The main method exceeded the native-role ACE adaptation by 20.16 EC and 25.31 EV F1 points across the complete 128-source first-encounter stream (Table 2). Each source was answered using the library available before its batch feedback, including the cold first batch. The comparison therefore measures performance while experience accumulates, rather than same-case answers regenerated after targets are released.
 
-Table 2. Complete early B2 TRAIN first forecasts. Each condition has 16 correlated EC/EV source pairs. Scores are native F1 percent. The independent source count is 16, not 32 tasks or 96 logical records. No across-learner uncertainty interval or significance claim is available.
+Table 2. Complete B1–B8 TRAIN first forecasts on the same 128 sources. Each method has 256 task predictions, with 128 source cases as the independent unit and one seed-45 learning stream per evolving method. Scores are means of original unrounded within-case F1, reported as percent; invalid outputs retain their original zero scores. These are descriptive TRAIN results, not frozen-library TEST estimates or an across-learning-run uncertainty analysis.
 
 | Condition | EC F1 (%) | EV F1 (%) |
 |---|---:|---:|
-| Strong direct empty | 68.71 | 64.51 |
-| Main method after B1 | 83.68 | 74.45 |
-| ACE adaptation after B1 | 65.79 | 62.66 |
+| Strong direct empty | 60.17 | 62.92 |
+| Main evolving library | 82.03 | 79.16 |
+| Native-role ACE adaptation | 61.87 | 53.85 |
 
-The ACE record contains 64 actual 8B generations for 96 logical records, because identical empty requests are reused. All responses ended with `stop`, with zero legal parse errors; usage was 452,150 input and 141,983 output tokens. All 32 empty-condition HTTP requests, response contents, and original scores matched the main run on these sources. This observed equality is a diagnostic, not a general guarantee of deterministic generation. ACE was below empty at this checkpoint, with six improved, eight harmed, and 18 tied task scores. Its native generator prompt differs from the direct-empty interface, so this is not a memory-only causal estimate. It is also not evidence of a mature eight-batch or held-out advantage for the main method. The complete ACE study continues under its frozen configuration, without changing prompts or capacity in response to these scores.
+The main method and direct reference had no invalid predictions. ACE had four EC and nine EV invalid outputs, all retained in the 128-per-task denominators. All 256 recorded direct-empty answers and original scores matched across the two runs; this observed agreement is not a general determinism guarantee. The native ACE prompt and answer wrapper differ from the direct interface even before learning, so Table 2 compares the disclosed adaptations rather than isolating the memory-update rule. Shared-actor static and text-memory controls remain pending.
 
-修正ACE已完成197–212全部B2首次预测。表2是两学习器各自只学完B1后的完整16新案，均先保存首答再释放B2标签。入批时主方法为五条、1,591 tokens，ACE为十条、1,024 tokens，不误用批后库规模。十条ACE全文均送达，且每条至少在五份响应中被自报引用；自报不等于正确应用或因果贡献。ACE三条件96逻辑记录实际生成64次8B，共输入452,150、输出141,983 tokens，全部`stop`，法律解析错误为零。32个空库请求、原始回答及原分数与主Run同案完全一致，是观察到的诊断一致性而非普遍确定性保证。ACE相对空库六任务改善、八损害、十八持平，但其原生生成器提示与直接空库不同，不能归因为纯记忆效应。此早期TRAIN检查点不是成熟八批或隔离TEST的主方法胜出证据；不因中途分数更改ACE提示或容量，继续固定协议。
+At this revision, all eight ACE first-forecast batches are complete, while its last TRAIN update and final publication are still running. That final update cannot change the saved first forecasts. Final ACE learning cost, frozen-library comparisons, independent learning variation and held-out results remain to be reported.
 
-Evidence: [all B2 native requests, raw answers, metrics, bullet delivery and same-case controls](../artifacts/research/openexempt_legal_scope_20261020/ACEv3_Run02_B2_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261022.json).
+在完整128来源的首次遇案训练流中，主方法相较原生角色ACE任务适配的EC和EV F1分别高20.16和25.31个百分点（表2）。每个来源均使用本批反馈之前的技能库回答，并计入空记忆起步的首批，因此比较的是经验积累过程中的表现，不是知道答案后的同案重答。每方法256个任务预测对应128个独立来源；每个进化方法只有一次seed45学习流，不把任务视图或复用记录扩成独立样本。
+
+主方法与直接空库均无无效预测；ACE有4个EC、9个EV无效输出，全部按原零分保留。两运行的256条直接空库记录答案与原分数一致，但这不构成普遍确定性保证。ACE原生提示和回答外包装在学习前就不同于直接接口，故表2比较已披露的完整适配系统，不将差异全归因于记忆更新。共享执行器的静态和文本经验对照仍待完成。本版ACE八批首答已齐，末批TRAIN更新与最终发布仍在进行；该更新不改变已保存首答。最终学习成本、冻结库比较、独立学习变异和隔离测试仍待报告。
+
+Evidence: [complete equal-source first-forecast aggregation](../artifacts/research/openexempt_legal_scope_20261020/Run03_vs_ACEv4_complete_B1_B8_equal128_prequential_FIRSTS_ONLY_last_learning_cost_pending_NOT_TEST_20261023.json); [all B8 raw requests, original scores, full bullet delivery and same-case controls](../artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run03_B8_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json).
 
 ### 5.5 Confirmatory results pending / 正式结果待完成
 
 [PENDING RESULT — complete frozen TEST EC/EV and complete-output audit table; main versus same-case empty, own-B1, blind static library, ACE adaptation, and Trace2Skill text adaptation; arm estimates, paired effects, 95% and ten-contrast multiplicity-adjusted CIs, independent source n, completed/planned/invalid counts.]
 
-[PENDING RESULT — all three consistent independent learning runs per main method, ACE adaptation, and text adaptation, actual learned-bank variability, negative-transfer frequencies, and full cost comparison; do not substitute the stopped ACE run, cold empty-playbook scores, or early B2 checkpoint.]
+[PENDING RESULT — all three consistent independent learning runs per main method, ACE adaptation, and text adaptation, actual learned-bank variability, negative-transfer frequencies, and full cost comparison; do not substitute a stopped run, cold empty-playbook scores, or TRAIN first forecasts for final frozen-library testing.]
 
 [PENDING ANALYSIS — two independently learned single-seed mechanism ablations and the prespecified secondary comparison family; delimit feedback-policy/compute confounding rather than claiming information-only causality.]
 
-正式主表仍未完成。表1是完整TRAIN开发流，表2是仅学过首批的同案检查点，均不填入TEST主表、不从旧运行拼接曲线。主方法及两种经验适配的三次独立学习、真实末库、两项消融和正式十项比较仍须完成。不能将较易自定义profile的TRAIN值与别人的官方Advanced测试成绩横排成SOTA，不能凭胜空库或早期ACE推定胜成熟ACE、原生Trace2Skill或SkillCommit。
+正式主表仍未完成。表1是主方法完整TRAIN开发流，表2是同128来源完整八批首答对照，均不填入TEST主表、不从旧运行拼接曲线。主方法及两种经验适配的三次独立学习、真实末库、两项消融和正式十项比较仍须完成。不能将自定义profile的TRAIN值与别人的官方Advanced测试成绩横排成SOTA，不能凭首答对照推定最终库已胜出，或声称优于未复现的原生Trace2Skill及SkillCommit。
 
 ## 6. Discussion and scope / 讨论与边界
 
@@ -238,7 +242,7 @@ The present setup studies synthetic statutory-rule application in the exemption 
 ## References / 已核实参考来源
 
 1. Servantez, S., Lawsky, S. B., Jain, R., Linna Jr., D. W., and Hammond, K. (2026). *OpenExempt: A Diagnostic Benchmark for Legal Reasoning and a Framework for Creating Custom Benchmarks on Demand*. [Paper](https://arxiv.org/abs/2601.13183); [author repository](https://github.com/servantez/OpenExempt). Dataset, generator, evaluator, and symbolic targets are upstream contributions, not ours.
-2. Zhang, Q., et al. (2025; revised 2026). *Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models*. [arXiv v3](https://arxiv.org/abs/2510.04618v3). Native generation/reflection/curation is a comparison target; no completed comparison is claimed here.
+2. Zhang, Q., et al. (2025; revised 2026). *Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models*. [arXiv v3](https://arxiv.org/abs/2510.04618v3). Table 2 reports the disclosed legal-task adaptation's TRAIN first-forecast stream; final frozen-library testing remains pending.
 3. He, Y., and Yang, W. (2026). *SkillCommit: Evolving Agent Skills through Behaviorally Validated Scope Expansion*. [arXiv v2](https://arxiv.org/html/2608.15165v2). Closest-neighbour scope/replay contributions must be credited and distinguished before a novelty claim.
 4. Ni, J., Liu, Y., Liu, X., Sun, Y., Zhou, M., Cheng, P., Wang, D., Zhao, E., Jiang, X., and Jiang, G. (2026). *Trace2Skill: Distill Trajectory-Local Lessons into Transferable Agent Skills*. [arXiv v5](https://arxiv.org/abs/2603.25158v5), revised 4 June 2026; DOI 10.48550/arXiv.2603.25158. [Author repository](https://github.com/Qwen-Applications/Trace2Skill). The implemented comparison is a disclosed text-analysis task adaptation, not the original ReAct runtime.
 

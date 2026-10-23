@@ -1,6 +1,6 @@
 # Appendix D. Experimental details and evidence boundaries
 
-Working appendix, updated 23 October 2026. Companion to [manuscript v0.10](manuscript_v1_20261021.md). Exact v0.9 text is retained in the [previous appendix snapshot](revisions/appendix_D_v09_20261023_0627.md). This document describes the executed main TRAIN method and declared remaining experiments. It does not add an experiment, change a score, or imply that a planned comparison has finished. Pending final results, release permissions, and submission metadata remain explicit.
+Working appendix, updated 23 October 2026. Companion to [manuscript v0.11](manuscript_v1_20261021.md). Exact v0.10 text is retained in the [previous appendix snapshot](revisions/appendix_D_v010_before_complete128_20261023.md). This document describes the executed main TRAIN method and declared remaining experiments. It does not add an experiment, change a score, or imply that a planned comparison has finished. Pending final results, release permissions, and submission metadata remain explicit.
 
 ## D.1 Tasks, sources and information access
 
@@ -86,14 +86,14 @@ The following is the declared final matrix, not a completed outcome table. All m
 | Blind static legal library | 1 | 4,096 tokens | Compiled without cases, trajectories or labels; TEST pending |
 | Main evolving library | 3 | 4,096 tokens | Seed 45 complete; 145/245 unstarted |
 | Each main learner's own B1 | 3 | 4,096 tokens | Its unique first final publication, not a separately selected or learned best bank |
-| Native-role ACE task adaptation | 3 | 8,192 tokens | Corrected seed 45 running; 145/245 unstarted |
+| Native-role ACE task adaptation | 3 | 8,192 tokens | Seed 45 first forecasts complete; final update pending; 145/245 unstarted |
 | Trace2Skill text-task adaptation | 3 | 8,192 tokens | Three complete construction profiles frozen, all unstarted |
 | Whole-bank submission ablation | 1 | 4,096 tokens | One seed-45 full learning run, unstarted |
 | First-commit feedback-policy ablation | 1 | 4,096 tokens | One seed-45 full learning run, unstarted |
 
 The matrix has 16 arms but not 16 independent source sets. Main, ACE and the text adaptation each declare fresh learning seeds 45/145/245. Shared empty and static predictions are not copied into independent observations for each seed. Repeated structural labels, aliases and identical raw responses do not multiply the sample size.
 
-ACE retains generator, reflector, per-bullet native counters and batch ADD curation, with up to three TRAIN reflection rounds. Every first-encounter batch is immutable before target release. Same-case reflection/regeneration is fitting, not a replacement first prediction. Repeated valid bullet IDs remain in saved metadata; reflection tags each distinct ID once. This task wrapper and its legal-feedback access are disclosed, not represented as an author-default reproduction. Its early B2 result is not substituted for the mature comparator.
+ACE retains generator, reflector, per-bullet native counters and batch ADD curation, with up to three TRAIN reflection rounds. Every first-encounter batch is immutable before target release. Same-case reflection/regeneration is fitting, not a replacement first prediction. Repeated valid bullet IDs remain in saved metadata; reflection tags each distinct ID once. This task wrapper and its legal-feedback access are disclosed, not represented as an author-default reproduction. The complete 128-source first-forecast stream in Table 2 is separate from final-bank testing. Its four EC and nine EV invalid outputs retain their original zero scores; no favourable valid-only subset replaces the full denominator.
 
 An earlier adapter incorrectly invalidated two legal answers because valid metadata contained repeated skill IDs. That run was stopped and preserved, not rescored into the formal comparison. The corrected run started afresh, preserving the original ID lists and legal answers and marking each distinct cited ID once in reflection. The affected later-case feedback had not reached a teacher or a batch-2 curator/publication; the restart was a conservative provenance choice, not evidence that the previous B1 library was corrupted.
 
@@ -125,6 +125,8 @@ The longest main batch was B6, approximately 5 h 55 min with 249 original calls.
 
 The original requests, responses, source/configuration hashes, failed candidates, publications and existing dual-disk preservation receipts are retained. Exact request reuse is reported as reuse, not another physical generation. This appendix adds no model, test harness or learning-policy change. Current evidence bindings include the [complete main curve](../artifacts/research/openexempt_legal_scope_20261020/Run03_learning_curve_complete_first8_final8_publications_20261022.json), [actual cost](../artifacts/research/openexempt_legal_scope_20261020/Run03_complete_B1_B8_actual_terminal1158_15_cost_20261022.json) and [all teacher/library decisions](../artifacts/research/openexempt_legal_scope_20261020/Run03_all15_teacher14_candidate8_publication_actual_scope_composition_and_library_management_accounting_20261022.json).
 
+The [complete same-source first-forecast comparison](../artifacts/research/openexempt_legal_scope_20261020/Run03_vs_ACEv4_complete_B1_B8_equal128_prequential_FIRSTS_ONLY_last_learning_cost_pending_NOT_TEST_20261023.json) binds all 16 original batch files and aggregates their unrounded score cells, including cold B1 and all failures. This is not a new HTTP or target-scoring re-audit; the original per-batch request/target audits remain its lower-level evidence. At this revision the last ACE TRAIN update and publication are still running, so live teacher or generation counters are not reported as final learning costs. The terminal all-cost summary remains queued independently.
+
 [PENDING RESULT — complete mature comparators, remaining independent learning runs, both independently learned ablations and frozen TEST outcomes.]
 
 [PENDING METADATA — target journal/template, author/contribution details, release location and checked code/data/model redistribution permissions.]
@@ -135,4 +137,4 @@ Known TRAIN ambiguities about ownership and personal/business use have not been 
 
 本附录明确EC/EV不是三分类，也不是旧依据抽取F1。原指标先算目标资产分，再算案均值；完整输出审计是在案内汇总主张后算F1，再跨案平均，两者不能混称。EV保留原代码的金额误差式及严格小于0.05，不擅改成精确数值匹配。全部128 TRAIN的目标自答检查只检验评分器：EC最大96.88%、EV100%，后六批EC仍有11.94个百分点空间，不能拿评分天花板解释掉进化弱。
 
-同8B、同来源与单答设置不等于同提示、同容量、同总训练计算。三次独立学习、16臂矩阵、十项主要及四项次要比较是已声明计划，未运行部分仍为空；学习器自己的B1库、EC/EV视图和复用响应都不能变成额外独立样本。原始八批指标不改，封存TEST继续不读。师兄实验skill用于可复核细节与公平性，nature-paper用于区分已执行、计划和未支持主张，不据模板编造五次重复、跨骨干或理论保证。
+同8B、同来源与单答设置不等于同提示、同容量、同总训练计算。已完成同128来源的八批首答对照，ACE末批学习、最终库及终态总成本仍待完成，不能用首答成绩代替最终测试。三次独立学习、16臂矩阵、十项主要及四项次要比较是已声明计划，未运行部分仍为空；学习器自己的B1库、EC/EV视图和复用响应都不能变成额外独立样本。原始八批指标不改，封存TEST继续不读。师兄实验skill用于可复核细节与公平性，nature-paper用于区分已执行、计划和未支持主张，不据模板编造五次重复、跨骨干或理论保证。
