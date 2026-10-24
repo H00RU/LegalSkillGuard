@@ -15,7 +15,7 @@ EC/EV两端点、2,048逻辑预测。自身B1来自同一主学习器，条件�
 实际接续为`legal-openexempt-table-then-teacher-draft-20261024-run05.service`，
 PID505053/start484577057；原whole-bank4100472与8B3613253未重启，旧350157/3019419
 仅调度器被持有。额度当前4023，整库终态并两盘验证后才扩第二控制的4055，
-无自动145/245学习或final16测试路径。当前源码297c30c、隔离评价器ceff4d6；
+无自动145/245学习或final16测试路径。接续部署版本297c30c、隔离评价器ceff4d6；
 210项合成CPU检查29.16秒通过，实际共同条件/源码/进程证据及Git历史已两盘保全。
 
 论文已同步v0.16中英实验设置和附录，表1–3、参考文献、原始成本及评分定义不改。
@@ -31,6 +31,13 @@ TEST和两项消融结果保留PENDING，重复单列DEFERRED；老师审阅成�
 之后固定TRAIN控制没有新教师；ACE仍保留一次未知超时用量为下界，不填零。
 [机器资源表与重算程序](../artifacts/research/openexempt_legal_scope_20261020/Completed_Main_ACE_Text_Static_seed45_resource_table_verified_existing_costs_NOT_equal_compute_or_TEST_20261024.json)
 不新增实验，不推断等计算、GPU忙时、金钱成本或速度优势。
+
+2026-10-24 20:13 CST：另已复用既有程序生成[v0.16双语内部排版预览](../artifacts/research/manuscript_review_20261024/v016_bilingual_internal_v01/legal_skill_evolution_v016_bilingual_internal_review.pdf)。
+23页为中英合排，404文本单元、8表和2幅既有图已按实际PDF文字核对，差异0；
+1/13/14/19/21页已实际查看。[核对记录](../artifacts/research/manuscript_review_20261024/v016_bilingual_internal_v01/final_review_QA_20261024.json)
+绑定正文、附录、图和原排版程序hash；现有正文与所有实验数值未改，未安装依赖或
+调用模型。消融/TEST仍待完成，重复仍暂缓，因此本预览不是老师初稿完成或投稿就绪。
+旧PDF及其完整源快照保留；仅刷新未绑定的paper/README工作入口，根README及实验源码不改。
 
 ## 下节及后续为保留历史；执行以本节和真实进程/制品为准
 
