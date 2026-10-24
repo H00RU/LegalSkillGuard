@@ -26,7 +26,11 @@
 首答请求阶段834.01秒，旧串行同32任务2629.19秒；输出长度与调度不同，不称固定提速。
 [首答/真实输入/教师边界完整核对](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_run02_B1_complete32_firsts_all160_teacher1_full_targets_actual_speed_NOT_skill_gain_TEST_20261025.json)
 确认32个原训练标签、原回答、错误与分数均真实送入，未复用8次测速回答。
-教师首提案5次CREATE已完整阅读，现处候选重放，尚不能说5条已正式准入或学习有效。
+教师首提案5次CREATE已完整阅读；其后第一候选完整32任务重放通过，形成5条/1884tokens
+的实际父库aea71d。EC/EV标签后拟合为78.06/80.27%，并保留3个退化任务；这是当前TRAIN
+拟合，不是后续新案或TEST收益。第二教师收到的父库、32个原答案/目标/分数均核实正确，
+当前第二候选重放，B1最终发布及完整八批控制仍未完成。
+[C1原生重放、门槛、全部损害和第二教师输入](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_B1_C1_complete32_accepted5_1884_teacher2_parent_all3harms_NOT_forward_TEST_20261025.json)
 
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
