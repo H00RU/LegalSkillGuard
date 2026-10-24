@@ -42,6 +42,34 @@ C2五次UPDATE的EC/EV原生拟合实际更高（91.47/83.41%），但EV负目�
 不通过，不等于已训练/发布Task-local或任何混合库。当前继续B2完整新案首答。
 [B1最终决策、两处真实负资产错误、全96调用成本与B2正式投递](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_run02_B1_final_C1_5_1884_C2_reject_nonexempt_claims1to5_actual96_NOT_forward_TEST_20261025.json)
 
+2026-10-25 01:58 CST：新Whole-bank已完整发布B2并自动进入B3，不是旧串行B4恢复。
+B2完整批次2736.16秒（45分36秒），与新B1的45分46秒相近；后续全seen检查规模会
+增加，但输入完全相同才精确复用，不能承诺后续固定耗时或固定提速倍数。
+B2新来源197–212共16案、每臂32任务，全部160逻辑回答先于标签释放。
+空库EC/EV F1为67.64/58.58%，实际B1技能库为81.12/78.82%，新案净差
++13.48/+20.25个百分点；此时自身B1与在线库相同，不是持续进化增益或TEST。
+[完整首答、384份原制品投递和教师64个原标签/父回答核对](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_B2_complete64_firsts_teacher3_16_new_sources_NOT_continued_gain_TEST_20261025.json)
+
+B2 C1单独更新Arizona，重放64任务仅14次新生成，因EC负资产声明0→1被原门槛拒绝。
+C2更新Federal、Pennsylvania、Oregon、Illinois的EC指导，EV文本、32个EV原始响应及
+分数全部相同；64任务重放25次新生成，全部共同原门槛通过。实际发布5条/2044tokens、
+bank f5c197，未增加技能数。本批标签后EC拟合81.12→89.73%，EV保持78.82%；历史
+16案EC拟合78.06→90.48%，EV保持80.27%，所有任务级损害仍保留。这些是TRAIN
+优化，不代替接下来的B3新案或TEST。B3已保存技能输入确认使用正式f5c197库。
+全B2为103次新生成、全部stop，807份原生输入/回答/响应制品；教师2次、474867输入、
+5996输出token，其中3395推理已含输出。两项消融、最终TEST仍未完成。
+[完整B2发布、4条实际更新、64任务原门槛和真实调用成本](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_B2_final_C2_4UPDATE_5_2044_all64_gate103cost_NOT_forward_TEST_20261025.json)
+
+候选预算是每批最多两次，并非必需双候选；原设计在全接纳或明确noop时提前结束。
+只读审计发现candidate_feedback以列表相等判断全接纳，B1 C1仅排序变化却被误标
+partially_committed，从而多触发B1 C2和多送8条反馈见证。B1 C2被拒，发布库未变，
+原答案/分数/目标及准入门槛无修改，但教师关注和后续提案可能受影响，不能断言
+无学习影响或声称造成某个指标损失。额外32次8B/1次教师及原始成本全部保留。
+已完成主方法9次接纳按EC/EV实际技能投影核对：7次确为部分接纳、2次完整接纳，
+未发现此误报；不因本发现重跑主方法。新B2 C2提议和提交列表完全相同，无此误报。
+当前两项消融保持同一冻结实现，不中途热改其一，不放宽门槛、不隐瞒实现问题。
+[元数据根因、主方法影响范围和额外候选证据](../artifacts/research/openexempt_legal_scope_20261020/Candidate_feedback_order_only_false_partial_impact_main9_unaffected_WholeB1_extra_attempt_readonly_20261025.json)
+
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
 2026-10-24 18:59 CST：用户已明确授权选择第二项消融，并把全部主方法、ACE和Text

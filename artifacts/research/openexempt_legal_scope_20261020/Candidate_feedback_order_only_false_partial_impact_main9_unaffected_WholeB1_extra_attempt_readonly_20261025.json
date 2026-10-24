@@ -1,0 +1,238 @@
+{
+  "at": "2026-10-24T17:59:00+00:00",
+  "classification": "Read-only candidate-feedback metadata and extra-refinement impact audit; no live source/config/gate modification",
+  "source_file": "experiments/openexempt_online.py",
+  "function": "candidate_feedback",
+  "root_cause": "Full commit is detected with Python list equality. Composition canonicalizes record order and task representation, so list inequality alone can falsely label a semantically full commit as partially_committed.",
+  "evidence": {
+    "legal_openexempt_closed_feedback_public_assets128_20261021_run03": [
+      {
+        "candidate": "b1_candidate1",
+        "list_equal": false,
+        "record_id_equal": false,
+        "same_task_views": {
+          "EC": true,
+          "EV": false
+        },
+        "actual_partial": true,
+        "proposed_records": 5,
+        "committed_records": 5,
+        "reason": null
+      },
+      {
+        "candidate": "b1_candidate2",
+        "list_equal": false,
+        "record_id_equal": false,
+        "same_task_views": {
+          "EC": true,
+          "EV": false
+        },
+        "actual_partial": true,
+        "proposed_records": 5,
+        "committed_records": 5,
+        "reason": null
+      },
+      {
+        "candidate": "b2_candidate1",
+        "list_equal": false,
+        "record_id_equal": false,
+        "same_task_views": {
+          "EC": false,
+          "EV": false
+        },
+        "actual_partial": true,
+        "proposed_records": 6,
+        "committed_records": 6,
+        "reason": null
+      },
+      {
+        "candidate": "b2_candidate2",
+        "list_equal": false,
+        "record_id_equal": false,
+        "same_task_views": {
+          "EC": true,
+          "EV": false
+        },
+        "actual_partial": true,
+        "proposed_records": 6,
+        "committed_records": 6,
+        "reason": null
+      },
+      {
+        "candidate": "b4_candidate1",
+        "list_equal": false,
+        "record_id_equal": false,
+        "same_task_views": {
+          "EC": false,
+          "EV": true
+        },
+        "actual_partial": true,
+        "proposed_records": 6,
+        "committed_records": 6,
+        "reason": null
+      },
+      {
+        "candidate": "b5_candidate2",
+        "list_equal": true,
+        "record_id_equal": true,
+        "same_task_views": {
+          "EC": true,
+          "EV": true
+        },
+        "actual_partial": false,
+        "proposed_records": 6,
+        "committed_records": 6,
+        "reason": null
+      },
+      {
+        "candidate": "b6_candidate1",
+        "list_equal": false,
+        "record_id_equal": false,
+        "same_task_views": {
+          "EC": false,
+          "EV": false
+        },
+        "actual_partial": true,
+        "proposed_records": 6,
+        "committed_records": 6,
+        "reason": null
+      },
+      {
+        "candidate": "b7_candidate2",
+        "list_equal": false,
+        "record_id_equal": false,
+        "same_task_views": {
+          "EC": true,
+          "EV": false
+        },
+        "actual_partial": true,
+        "proposed_records": 6,
+        "committed_records": 6,
+        "reason": null
+      },
+      {
+        "candidate": "b8_candidate1",
+        "list_equal": true,
+        "record_id_equal": true,
+        "same_task_views": {
+          "EC": true,
+          "EV": true
+        },
+        "actual_partial": false,
+        "proposed_records": 7,
+        "committed_records": 7,
+        "reason": null
+      }
+    ],
+    "legal_openexempt_whole_bank_public_assets128_20261023_run02": [
+      {
+        "candidate": "b1_candidate2",
+        "list_equal": true,
+        "record_id_equal": true,
+        "same_task_views": {
+          "EC": true,
+          "EV": true
+        },
+        "actual_partial": false,
+        "proposed_records": 2,
+        "committed_records": 2,
+        "reason": null
+      },
+      {
+        "candidate": "b2_candidate1",
+        "list_equal": true,
+        "record_id_equal": true,
+        "same_task_views": {
+          "EC": true,
+          "EV": true
+        },
+        "actual_partial": false,
+        "proposed_records": 2,
+        "committed_records": 2,
+        "reason": null
+      },
+      {
+        "candidate": "b3_candidate1",
+        "list_equal": false,
+        "record_id_equal": true,
+        "same_task_views": {
+          "EC": true,
+          "EV": true
+        },
+        "actual_partial": false,
+        "proposed_records": 6,
+        "committed_records": 6,
+        "reason": null
+      }
+    ],
+    "legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02": [
+      {
+        "candidate": "b1_candidate1",
+        "list_equal": false,
+        "record_id_equal": true,
+        "same_task_views": {
+          "EC": true,
+          "EV": true
+        },
+        "actual_partial": false,
+        "proposed_records": 5,
+        "committed_records": 5,
+        "reason": null
+      }
+    ]
+  },
+  "main_completed_run": {
+    "accepted_decisions": 9,
+    "actual_partial_commits": 7,
+    "actual_full_commits": 2,
+    "false_partial_commits_observed": 0,
+    "task_views_checked": [
+      "EC",
+      "EV"
+    ],
+    "does_not_require_main_rerun_from_this_finding": true
+  },
+  "current_whole_B1": {
+    "decision": "b1_candidate1",
+    "proposed_sha256": "c37e66ce76ed1883646c4dbc6438e4942193239dd7a43e6d00ae16329ffb65de",
+    "committed_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1",
+    "same_records_by_id": true,
+    "same_actor_task_views": true,
+    "all32_actual_actor_requests_same_in_prior_complete_check": true,
+    "false_partial_feedback_delivered_to": [
+      "teacher/b1_candidate2/wire_request.json",
+      "teacher/b2_candidate1/wire_request.json",
+      "teacher/b2_candidate2/wire_request.json"
+    ],
+    "additional_bounded_candidate_triggered": true,
+    "second_candidate_rejected_published_bank_unchanged": true,
+    "additional_B1_candidate_cost": {
+      "native_calls": 32,
+      "native_input_tokens": 214620,
+      "native_output_tokens": 93168,
+      "teacher_calls": 1,
+      "teacher_input_tokens": 141326,
+      "teacher_output_tokens": 4243,
+      "reasoning_tokens_included_in_teacher_output": 1864
+    }
+  },
+  "subsequent_B2_final_publication_check": {
+    "decision": "b2_candidate2",
+    "published_at": "2026-10-24T17:58:16.084255+00:00",
+    "accepted": true,
+    "proposed_and_committed_lists_exactly_equal": true,
+    "false_partial_feedback_for_this_commit": false,
+    "actual_published_bank_sha256": "f5c197f81cd1bc67e0723b93bbbad4ad07a29ed57e14a060adaf944cc01e855e",
+    "all64_actual_actor_requests_and_original_full_gate_checked": true
+  },
+  "limits": {
+    "no_score_answer_target_or_admission_gate_corruption_observed": true,
+    "teacher_attention_and_subsequent_proposals_may_change": true,
+    "causal_metric_loss_not_established": true,
+    "two_controls_still_share_frozen_same_implementation": true,
+    "no_silent_runtime_hotfix": true,
+    "no_restart_or_rerun_authorized_or_executed_from_this_readonly_audit": true
+  },
+  "no_new_model_teacher_or_tokenizer_calls": true,
+  "official_TEST_not_opened": true
+}
