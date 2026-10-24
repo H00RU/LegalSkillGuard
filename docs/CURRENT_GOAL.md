@@ -106,6 +106,30 @@ aea71d，未读取部分B4分数或目标。后续继续B4–B8、Task-local八�
 和老师初稿；所有独立重复仍暂缓。
 [B3完整发布、96任务实际使用/门槛、全部损害和真实95调用成本](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_B3_final_C1_Wisconsin6_2491_all96_95actual_one_proposal_NOT_forward_TEST_20261025.json)
 
+2026-10-25 03:18 CST：新Whole-bank B4全部新来源229–244首答完成后才进入教师。
+空库EC/EV F1为58.27/67.70%，固定自身B1为75.36/79.13%，当前库为83.00/79.13%，
+EC相对B1净差+7.64个百分点（8案改善、1案退化、7案相同），EV全部原始响应及分数
+与B1相同。原始EC低于B3，但本批固定B1也较低，不能仅据不同案件跨批分数认定遗忘。
+本批4案Arizona、5案Illinois、4案Federal+Pennsylvania、3案Federal+Oregon，无Wisconsin
+适用案，新Wisconsin技能调用数为0，不能用本批判它有效或无效。全部160实际输入、
+指导、生成设置和公共提交已核对；76次新生成全stop，396份原制品，493307输入/
+206509输出token，首答请求阶段1880.58秒（31分21秒），不是整个B4已完成。
+
+241案EC由B1的0.8到当前0.2667，原目标9条而当前2真2假、漏7条；stop、2832输出
+token，非截断。实际模型解释仍混淆金额上限与资格，并把给定Pennsylvania军服条文
+当消费品条文；已投递的仅Federal/Pennsylvania技能正确，无Wisconsin技能误投。
+这是该案行为线索，不推断模型心理因果，不按该案改提示；全部队列保持冻结。
+当前EV负资产声明2（同B1、空库1）仍保留，格式有效不等于法律判断全正确。
+
+第6次教师收到全部本批16案和所选16历史案（历史含216、本批含241），64个原标签/父回答/
+分数/错误逐个核对正确，B3整提案全接纳后本次无误报反馈。真实教师201162输入/
+5549输出（含2588推理）、76.738秒，fresh、无工具；5次UPDATE的EC/EV文本已完整
+阅读，覆盖Arizona、Federal、Illinois、Oregon、Pennsylvania，无数值程序或实例答案表。
+仅是提案，正式库仍6条/2491tokens、64c1d15。全部64已见案/128任务都因这次广泛
+修改改变实际模型请求，不能沿用父库回答；B3只有18任务改变，故B4候选重放会明显
+更长，不能按前三批约45–49分钟恒时估算。四路并发不变、不缩减全seen准入样本。
+[完整B4新案、无Wisconsin适用、实际退化和教师/128请求工作量证据](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_B4_complete76_firsts_16_new_sources_EC_evolution_no_Wisconsin_all160_delivery_NOT_TEST_20261025.json)
+
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
 2026-10-24 18:59 CST：用户已明确授权选择第二项消融，并把全部主方法、ACE和Text
