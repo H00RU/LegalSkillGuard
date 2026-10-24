@@ -1,0 +1,193 @@
+{
+  "at": "2026-10-24T15:42:47.110315+00:00",
+  "classification": "Read-only runtime performance diagnosis of original Whole45; no new inference/teacher calls or experimental change",
+  "run_id": "legal_openexempt_whole_bank_public_assets128_20261023_run02",
+  "source_commit": "050614cf6aae9e26bfa3f13c3b3b15f1e0cf1e24",
+  "user_question": "即使是串行，这五个多小时一批也太慢，完全可以说有问题了吧，真的没有优化空间吗",
+  "B3_closed_actual_time": {
+    "B3_start_UTC": "2026-10-24T07:40:19.598612+00:00",
+    "B3_final_UTC": "2026-10-24T13:28:34.034966+00:00",
+    "wall_seconds": 20894.436354,
+    "stage": [
+      {
+        "stage": "b3_prequential",
+        "calls": 50,
+        "request_response_bracket_seconds": 4736.607957363129,
+        "output_tokens": 164454,
+        "stage_span_seconds": 4743.079840660095
+      },
+      {
+        "stage": "b3_candidate1_replay",
+        "calls": 86,
+        "request_response_bracket_seconds": 7652.413820981979,
+        "output_tokens": 264945,
+        "stage_span_seconds": 7656.653752326965
+      },
+      {
+        "stage": "b3_candidate2_replay",
+        "calls": 96,
+        "request_response_bracket_seconds": 8307.445448160172,
+        "output_tokens": 287472,
+        "stage_span_seconds": 8311.637377977371
+      }
+    ],
+    "teacher_seconds": 174.703,
+    "request_response_bracket_percent_of_wall": 99.0525270739987,
+    "other_gap_seconds_after_teacher": 23.266127494721758,
+    "mean_8B_request_bracket_seconds": 89.20891045907447,
+    "completion_tokens_per_request_bracket_second": 34.637360673899316,
+    "caution": "File input-to-native-response timestamps measure serial request brackets, not GPU busy time or an independent hardware benchmark."
+  },
+  "complete232_native_output_split": {
+    "all": {
+      "calls": 232,
+      "input_tokens": 1547858,
+      "output_tokens": 716871,
+      "mean_output_tokens": 3089.9612068965516,
+      "median_output_tokens": 2964,
+      "reasoning_retokenized_tokens": 672797,
+      "final_retokenized_tokens": 43383,
+      "reasoning_fraction_of_retokenized_split": 0.9394244463682314,
+      "max_output_tokens": 8192,
+      "finish": {
+        "stop": 231,
+        "length": 1
+      },
+      "mean_request_bracket_seconds": 89.20891045907447
+    },
+    "EC": {
+      "calls": 120,
+      "input_tokens": 792100,
+      "output_tokens": 311473,
+      "mean_output_tokens": 2595.608333333333,
+      "median_output_tokens": 2483,
+      "reasoning_retokenized_tokens": 295543,
+      "final_retokenized_tokens": 15573,
+      "reasoning_fraction_of_retokenized_split": 0.9499447151544761,
+      "max_output_tokens": 5813,
+      "finish": {
+        "stop": 120
+      },
+      "mean_request_bracket_seconds": 74.83537103533745
+    },
+    "EV": {
+      "calls": 112,
+      "input_tokens": 755758,
+      "output_tokens": 405398,
+      "mean_output_tokens": 3619.625,
+      "median_output_tokens": 3540.5,
+      "reasoning_retokenized_tokens": 377254,
+      "final_retokenized_tokens": 27810,
+      "reasoning_fraction_of_retokenized_split": 0.9313441826476804,
+      "max_output_tokens": 8192,
+      "finish": {
+        "stop": 111,
+        "length": 1
+      },
+      "mean_request_bracket_seconds": 104.6091312702213
+    }
+  },
+  "split_tokenizer_sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+  "native_generation_termination_warning": [
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/native/b3_prequential/228_EV_skills.json",
+      "stage": "b3_prequential",
+      "family": "EV",
+      "input_tokens": 6581,
+      "output_tokens": 8192,
+      "reasoning_retokenized": 5133,
+      "final_retokenized": 3057,
+      "reported_completion_token_details": null,
+      "finish": "length",
+      "input_to_raw_file_seconds": 238.61178946495056
+    }
+  ],
+  "live_observed_interval": {
+    "from": "2026-10-24T15:39:53.524078+00:00",
+    "to": "2026-10-24T15:42:47.110315+00:00",
+    "wall_seconds": 173.586,
+    "actual_generated_tokens": 6007,
+    "completed_request_count": 2,
+    "completed_prefill_seconds": 2.1465904461219907,
+    "completed_decode_seconds": 167.71396667324007,
+    "request_queue_seconds": 0.00010540615767240524,
+    "preemptions": 0,
+    "generated_tokens_per_observed_wall_second": 34.60532531425345
+  },
+  "service_cumulative_not_B3_only": {
+    "at": "2026-10-24T15:39:53.524078+00:00",
+    "completed_requests": 4659,
+    "prefill_seconds": 5176.687482724898,
+    "decode_seconds": 356323.84773731604,
+    "prefill_fraction": 0.014319999497577262,
+    "decode_fraction": 0.9856800005024228,
+    "request_queue_seconds": 13.250879101455212,
+    "preemptions": 0
+  },
+  "GPU_snapshot_not_peak_bandwidth_benchmark": {
+    "at_approx_utc": "2026-10-24T15:39:22Z",
+    "gpu": "A40",
+    "sole_compute_pid": 3613750,
+    "memory_MiB": 34666,
+    "capacity_MiB": 49140,
+    "gpu_activity_percent": 98,
+    "memory_IO_activity_percent": 100,
+    "power_W": 281.18,
+    "power_limit_W": 300,
+    "SM_MHz": 1740,
+    "max_SM_MHz": 1740,
+    "temp_C": 81,
+    "note": "Memory utilization is activity, not measured fraction of peak memory bandwidth; this snapshot does not establish optimal throughput or absence of earlier contention."
+  },
+  "code_findings": {
+    "current_model_max_num_seqs": 1,
+    "one_request_at_a_time_in_phase": true,
+    "prefix_KV_caching_disabled": true,
+    "exact_full_wire_response_reuse_already_active": true,
+    "composed_replay_requires_preexisting_all_seen_wire_and_adds_no_fresh_generations": true,
+    "max_two_candidates_and_full_seen_TRAIN_replay_are_learning_protocol_not_launch_tests": true,
+    "source_and_model_process_identity_checked_before_each_request": true,
+    "live_run_has_no_exact_midrun_resume_or_hot_engine_switch": true,
+    "prepared_phase_dispatch_exists_but_not_deployed": true
+  },
+  "optimization_assessment": {
+    "real_efficiency_issue": true,
+    "not_evidence_of_deadlock_or_idle_GPU": true,
+    "first_priority": "Uniform bounded batching of independent case/arm requests within a fixed learning phase; preserve ordered teacher inputs and all predict-before-label, candidate, admission and publication barriers.",
+    "no_measured_parallel_speedup": true,
+    "expected_input_cache_only_gain_is_limited_in_current_decode_dominated_workload": true,
+    "do_not_claim_input_cache_can_remove_decode_time": true,
+    "not_safe_to_present_as_lossless_engineering": [
+      "disable thinking",
+      "lower output token budget",
+      "remove second candidate",
+      "reduce all-seen admission coverage"
+    ],
+    "current_training_unchanged": true,
+    "both_training_controls_original_serial1": true,
+    "TaskLocal_only_early_parallel_exception_withdrawn": true,
+    "switching_requires_new_uniform_profile_and_explicit_continuation_or_new_run_not_silent_hot_edit": true,
+    "no_measured_performance_gain_claim": true
+  },
+  "primary_implementation_sources": [
+    "experiments/openexempt_online.py:Online.answer/update/execute",
+    "legal_skill_guard/learning/experiment.py:Comparison.check/call",
+    ".venv/phase-dispatch-20261023.pvio7N/legal_skill_guard/learning/phase_dispatch.py"
+  ],
+  "primary_external_sources": [
+    {
+      "url": "https://docs.vllm.ai/en/v0.10.2/features/automatic_prefix_caching.html",
+      "supports": "APC reduces prefill, not decoding time."
+    },
+    {
+      "url": "https://docs.vllm.ai/en/v0.10.2/configuration/optimization.html",
+      "supports": "Batch scheduling tradeoffs, decode vs prefill, KV-cache preemption."
+    },
+    {
+      "url": "https://docs.vllm.ai/en/v0.10.2/usage/reproducibility.html",
+      "supports": "Default serving does not guarantee reproducibility; do not promise serial/parallel bitwise-equivalent answers."
+    }
+  ],
+  "methodological_boundaries": "Reasoning/final split retokenized independently from raw actual wire fields; split boundary tokens need not sum exactly to reported completion usage. Does not estimate accuracy after disabling thinking or measured parallel speedup. Metrics cumulative same service, not B3-only.",
+  "no_runtime_source_configuration_model_TEST_or_scoring_change": true
+}

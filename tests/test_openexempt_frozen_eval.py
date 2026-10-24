@@ -1317,7 +1317,9 @@ def test_policy_ablations_are_actual_single_seed_variants_before_TEST_load(plan,
 
 
 @pytest.mark.parametrize("mutation", [None, "feedback_changed", "scope_changed", "old_first_commit",
-                                      "new_attempt_cap", "unknown_design"])
+                                      "new_attempt_cap", "unknown_design", "uniform_ok",
+                                      "uniform_workers", "uniform_environment", "uniform_budget",
+                                      "uniform_unmarked", "uniform_undeclared"])
 def test_approved_task_local_ablation_changes_only_the_declared_granularity(plan, mutation):
     cfg, _, root = plan
     sources = {a["name"]: read(root / a["source_config"])
@@ -1332,6 +1334,24 @@ def test_approved_task_local_ablation_changes_only_the_declared_granularity(plan
     for contrast in cfg["secondary_contrasts"]:
         if contrast["before"] == ["first_commit"]:
             contrast.update(name="vs_task_local", before=["task_local"])
+    if mutation and mutation.startswith("uniform_"):
+        cfg["learning_execution_schedule"] = frozen.runtime_sources.CONTROL_SCHEDULE
+        for name in ("whole_bank", "task_local"):
+            sources[name].update(
+                phase_dispatch=copy.deepcopy(frozen.runtime_sources.DECLARATION),
+                inference_environment="amended4.json",
+                ablation_execution_schedule=frozen.runtime_sources.CONTROL_SCHEDULE,
+                execution_order_addendum=frozen.runtime_sources.CONTROL_PROTOCOL)
+        if mutation == "uniform_workers":
+            variant["phase_dispatch"]["native_workers"] = 1
+        elif mutation == "uniform_environment":
+            variant["inference_environment"] = "different4.json"
+        elif mutation == "uniform_budget":
+            variant["generation"]["max_tokens"] = 4096
+        elif mutation == "uniform_unmarked":
+            del variant["ablation_execution_schedule"]
+        elif mutation == "uniform_undeclared":
+            del cfg["learning_execution_schedule"]
     if mutation == "feedback_changed":
         variant["candidate_feedback_policy"] = "batch_only_first_commit"
     elif mutation == "scope_changed":
@@ -1342,7 +1362,7 @@ def test_approved_task_local_ablation_changes_only_the_declared_granularity(plan
         variant["max_candidate_attempts"] = 1
     elif mutation == "unknown_design":
         cfg["ablation_design"] = "not_declared"
-    if mutation is None:
+    if mutation in (None, "uniform_ok"):
         frozen.check_secondary_contrasts(cfg, sources)
     else:
         with pytest.raises(ValueError):
@@ -1507,3 +1527,71 @@ def test_changed_schedule_fails_before_any_case_or_TEST_access(prospective_runti
                 RunStore.atomic_json(config, value)
     with pytest.raises(ValueError):
         frozen.check_learning_execution_versions(cfg, sources)
+
+
+@pytest.mark.parametrize('mutation', [None, 'unmarked', 'workers', 'receipt',
+                                     'old_source', 'control_environment', 'main_parallel',
+                                     'evaluation_environment'])
+def test_uniform_control_execution_keeps_original_banks_and_checks_both_controls(
+        prospective_runtime, mutation):
+    root, s = prospective_runtime, frozen.runtime_sources
+    cfg, sources = _synthetic_runtime_schedule(root)
+    cfg.update(learning_execution_schedule=s.CONTROL_SCHEDULE,
+               learning_execution_schedule_protocol=s.CONTROL_PROTOCOL,
+               evaluation_stage=frozen.INITIAL_STAGE, inference_environment='env4.json')
+    cfg['arms'] = [a for a in cfg['arms'] if a['name'].endswith('45')
+                   and not a['name'].endswith(('145', '245'))]
+    sources = {a['name']: sources[a['name']] for a in cfg['arms']}
+    for arm in cfg['arms']:
+        arm['role'] = 'evolved' if arm['name'] == 'main45' else 'experience'
+    protocol = root / s.CONTROL_PROTOCOL
+    protocol.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(Path(frozen.__file__).resolve().parents[1] / s.CONTROL_PROTOCOL, protocol)
+    for variant in ('whole_bank', 'task_local'):
+        source = copy.deepcopy(sources['main45'])
+        source.update(run_id=variant, ablation_variant=variant, skill_commit_policy=variant,
+                      candidate_feedback_policy='carry_partial_and_refine',
+                      phase_dispatch=copy.deepcopy(s.DECLARATION),
+                      ablation_execution_schedule=s.CONTROL_SCHEDULE,
+                      execution_order_addendum=s.CONTROL_PROTOCOL,
+                      inference_environment='env4.json')
+        path = root / f'configs/{variant}.json'
+        RunStore.immutable_json(path, source)
+        RunStore.immutable_json(path.with_suffix('.frozen.json'), {
+            'files': {**s.CURRENT, 'env4.json': sha(root / 'env4.json')}})
+        for filename in ('initialization.json', 'completion.json'):
+            RunStore.immutable_json(root / f'runs/{variant}/{filename}', {
+                'execution_dispatch': s.DECLARATION})
+        sources[variant] = source
+        cfg['arms'].append({'name': variant, 'role': 'ablation',
+                            'source_config': str(path.relative_to(root))})
+    if mutation == 'unmarked':
+        del sources['task_local']['ablation_execution_schedule']
+    elif mutation == 'workers':
+        sources['task_local']['phase_dispatch']['native_workers'] = 1
+    elif mutation == 'receipt':
+        RunStore.atomic_json(root / 'runs/task_local/completion.json', {
+            'execution_dispatch': s.SERIAL_RECEIPT})
+    elif mutation == 'old_source':
+        path = root / 'configs/task_local.frozen.json'
+        value = read(path)
+        value['files']['experiments/openexempt_online.py'] = next(iter(
+            s.HISTORICAL['experiments/openexempt_online.py']))
+        RunStore.atomic_json(path, value)
+    elif mutation == 'control_environment':
+        shutil.copyfile(root / 'env4.json', root / 'other4.json')
+        sources['task_local']['inference_environment'] = 'other4.json'
+        path = root / 'configs/task_local.frozen.json'
+        value = read(path)
+        value['files']['other4.json'] = sha(root / 'other4.json')
+        RunStore.atomic_json(path, value)
+    elif mutation == 'main_parallel':
+        sources['main45']['phase_dispatch'] = s.DECLARATION
+    elif mutation == 'evaluation_environment':
+        cfg['inference_environment'] = 'env1.json'
+    if mutation is None:
+        extras = frozen.check_learning_execution_versions(cfg, sources)
+        assert root / s.CONTROL_PROTOCOL in extras
+    else:
+        with pytest.raises(ValueError):
+            frozen.check_learning_execution_versions(cfg, sources)

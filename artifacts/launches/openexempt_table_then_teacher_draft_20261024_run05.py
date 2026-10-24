@@ -196,7 +196,9 @@ def contrasts(seeds):
         ("vs_text", ["text" + str(seed) for seed in seeds]))]
 
 
-def prepare_initial(stages):
+def prepare_initial(stages, *, learning_schedule=None, learning_protocol=None,
+                    evaluation_run_id="legal_openexempt_initial8_frozen_TEST_20261024_run01",
+                    additional_dependencies=()):
     from legal_skill_guard.learning import runtime_sources
     recipe = phase.read(ROOT / "configs/openexempt_IID128_sealed_TEST_20261021_recipe.json")
     source = phase.read(ROOT / BASE_CONFIGS["main45"])
@@ -228,7 +230,7 @@ def prepare_initial(stages):
         "planned_final_arms": templates, "primary_contrasts": contrasts((45, 145, 245)),
         "secondary_contrasts": secondary}
     phase.RunStore.immutable_json(ROOT / FUTURE_PLAN, future_plan)
-    cfg = {"run_id": "legal_openexempt_initial8_frozen_TEST_20261024_run01",
+    cfg = {"run_id": evaluation_run_id,
         "evaluation_role": "sealed_frozen_comparison", "evaluation_stage": "initial_single_build_descriptive",
         "final_matrix_frozen": True, "no_validation_set": True, "reference_arm": "empty",
         "execution_contract": "direct_statutory_claims", "execution_contract_version": 14,
@@ -242,13 +244,14 @@ def prepare_initial(stages):
         "future_learning_plan": FUTURE_PLAN, "future_learning_plan_sha256": phase.sha(ROOT / FUTURE_PLAN),
         "external_text_adaptation": "trace2skill_text_offline_v1",
         "ablation_design": "legal_scope_granularity_v1",
-        "learning_execution_schedule": runtime_sources.SCHEDULE,
-        "learning_execution_schedule_protocol": runtime_sources.PROTOCOL,
+        "learning_execution_schedule": learning_schedule or runtime_sources.SCHEDULE,
+        "learning_execution_schedule_protocol": learning_protocol or runtime_sources.PROTOCOL,
         "inference_request_workers": 4,
         "inference_dispatch_protocol": "docs/research/OPENEXEMPT_FROZEN_EVAL_SINGLE_INSTANCE_DISPATCH_20261023.md",
         "inference_dispatch_policy": "four_workers_one_instance_exact_wire_lock_no_retry",
         "inference_dependency_artifacts": [*source["inference_dependency_artifacts"],
-            str(Path(__file__).relative_to(ROOT)), "docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md"],
+            str(Path(__file__).relative_to(ROOT)), "docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md",
+            *additional_dependencies],
         "arms": initial, "primary_contrasts": contrasts((45,)), "secondary_contrasts": secondary}
     phase.RunStore.immutable_json(ROOT / INITIAL_CONFIG, cfg)
     return cfg

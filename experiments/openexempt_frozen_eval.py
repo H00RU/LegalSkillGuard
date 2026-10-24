@@ -192,6 +192,9 @@ def check_secondary_contrasts(cfg, source_configs):
     evolved = [n for n, a in arms.items() if a["role"] == "evolved"
                and source_configs[n]["generation"]["seed"] == 45]
     design = cfg.get("ablation_design", "scope_and_feedback_legacy")
+    uniform = cfg.get("learning_execution_schedule") == runtime_sources.CONTROL_SCHEDULE
+    if uniform and design != "legal_scope_granularity_v1":
+        raise ValueError("The uniform dispatch amendment retains the two granularity controls")
     if design == "legal_scope_granularity_v1":
         expected = {"whole_bank": ("whole_bank", "carry_partial_and_refine"),
                     "task_local": ("task_local", "carry_partial_and_refine")}
@@ -211,7 +214,7 @@ def check_secondary_contrasts(cfg, source_configs):
     if (parent.get("skill_commit_policy"), parent.get("candidate_feedback_policy")) != (
             "legal_scope", "carry_partial_and_refine"):
         raise ValueError("The full method must retain its declared scope and closed-feedback policies")
-    seen, variants = set(), set()
+    seen, variants, uniform_profile = set(), set(), None
     for contrast in contrasts:
         safe_component(contrast["name"])
         before = contrast["before"]
@@ -232,9 +235,19 @@ def check_secondary_contrasts(cfg, source_configs):
         for key in ("generation", "input_packet", "grading_directory", "source_cases",
                     "batch_source_cases", "planned_batches", "library_token_hard_cap",
                     "max_candidate_attempts", "frozen_after_first_batch_control", "input_contract",
-                    "no_validation_set", "phase_dispatch", "inference_environment"):
+                    "no_validation_set") + (() if uniform else (
+                        "phase_dispatch", "inference_environment")):
             if source.get(key) != parent.get(key):
                 raise ValueError("Ablation changes an undeclared common condition: " + key)
+        if uniform:
+            if (not runtime_sources.uniform_control(source)
+                    or source.get("phase_dispatch") != runtime_sources.DECLARATION
+                    or not source.get("inference_environment")):
+                raise ValueError("Both amended controls must declare the identical four-worker profile")
+            profile = (csha(source["phase_dispatch"]), source["inference_environment"])
+            if uniform_profile is not None and profile != uniform_profile:
+                raise ValueError("The two controls cannot use different execution environments")
+            uniform_profile = profile
         teachers = [{k: v for k, v in config.get("teacher", {}).items()
                      if k != "total_invocation_budget"} for config in (parent, source)]
         if teachers[0] != teachers[1]:
@@ -594,16 +607,18 @@ def check_shared_actor_revision(name, expected, *, allow_phase_dispatch=False):
 
 
 def check_learning_execution_versions(cfg, source_configs):
-    """Match actual within-seed runtimes without pretending seed45 was parallel."""
+    """Bind original banks and explicitly amended controls to their real runtimes."""
     schedule = cfg.get("learning_execution_schedule")
     if schedule is None:
         if any(source.get("phase_dispatch") is not None for source in source_configs.values()):
             raise ValueError("Declare the changed learning execution schedule before TEST")
         return set()
-    if (schedule != runtime_sources.SCHEDULE
-            or cfg.get("learning_execution_schedule_protocol") != runtime_sources.PROTOCOL):
+    uniform = schedule == runtime_sources.CONTROL_SCHEDULE
+    protocol_name = runtime_sources.CONTROL_PROTOCOL if uniform else runtime_sources.PROTOCOL
+    if (schedule not in (runtime_sources.SCHEDULE, runtime_sources.CONTROL_SCHEDULE)
+            or cfg.get("learning_execution_schedule_protocol") != protocol_name):
         raise ValueError("Declare the exact prospective learning execution amendment")
-    protocol = ROOT / runtime_sources.PROTOCOL
+    protocol = ROOT / protocol_name
     if not protocol.is_file():
         raise ValueError("Freeze the prospective learning execution protocol")
     extras, environments = runtime_sources.validate_bundle(ROOT) | {protocol}, {}
@@ -611,34 +626,44 @@ def check_learning_execution_versions(cfg, source_configs):
         if source.get("source_cases") == 0:
             continue  # The static author compiles public law; it does not run 8B learning.
         arm = next(a for a in cfg["arms"] if a["name"] == name)
+        control = uniform and arm.get("role") == "ablation"
+        if control and not runtime_sources.uniform_control(source):
+            raise ValueError("Both replacement controls must use their declared new execution profile")
         frozen = read((ROOT / arm["source_config"]).with_suffix(".frozen.json"))
         out = ROOT / "runs" / source["run_id"]
         environment = runtime_sources.validate_learning_receipt(
-            ROOT, source, frozen, read(out / "initialization.json"), read(out / "completion.json"))
+            ROOT, source, frozen, read(out / "initialization.json"), read(out / "completion.json"),
+            allow_uniform_control=control)
         seed = source["generation"]["seed"]
-        environments.setdefault(seed, set()).add((str(environment), sha(environment)))
+        group = "ablation45" if control else seed
+        environments.setdefault(group, set()).add((str(environment), sha(environment)))
         extras.add(environment)
     initial = cfg.get("evaluation_stage") == INITIAL_STAGE
     seeds = (45,) if initial else LEARNING_SEEDS
-    if set(environments) != set(seeds) or any(len(v) != 1 for v in environments.values()):
+    expected_groups = set(seeds) | ({"ablation45"} if uniform else set())
+    if set(environments) != expected_groups or any(len(v) != 1 for v in environments.values()):
         raise ValueError("Main, ACE, Text and controls must match their actual within-seed environment")
     if not initial and environments[145] != environments[245]:
         raise ValueError("Both future repeat seeds must use the same captured new single-model environment")
+    if uniform and not initial and environments["ablation45"] != environments[145]:
+        raise ValueError("Future recipes must use the same captured replacement service as both controls")
     normalized_argv = []
-    for seed in seeds:
-        environment = Path(next(iter(environments[seed]))[0])
+    for group in environments:
+        environment = Path(next(iter(environments[group]))[0])
         argv = list(read(environment)["actual_argv"])
         if (argv.count("--max-num-seqs") != 1
                 or argv.index("--max-num-seqs") + 1 >= len(argv)):
             raise ValueError("Capture exactly one actual serving sequence limit")
         index = argv.index("--max-num-seqs")
-        if argv[index + 1] != ("1" if seed == 45 else "4"):
+        if argv[index + 1] != ("1" if group == 45 else "4"):
             raise ValueError("The actual service does not match the declared learning-seed boundary")
         normalized_argv.append(argv[:index] + argv[index + 2:])
     if any(argv != normalized_argv[0] for argv in normalized_argv[1:]):
         raise ValueError("The serving transition changed more than the declared sequence limit")
     if initial:
         current = ROOT / cfg["inference_environment"]
+        if uniform and (str(current), sha(current)) not in environments["ablation45"]:
+            raise ValueError("The common TEST must use the exact captured service of both controls")
         argv = list(read(current)["actual_argv"])
         if argv.count("--max-num-seqs") != 1:
             raise ValueError("Capture the one declared initial TEST service sequence limit")
@@ -810,9 +835,9 @@ def fixed_banks(cfg):
     """Check completed TRAIN provenance without loading TEST questions/targets."""
     workers = evaluation_request_workers(cfg)
     schedule = cfg.get("learning_execution_schedule")
-    if schedule not in (None, runtime_sources.SCHEDULE):
+    if schedule not in (None, runtime_sources.SCHEDULE, runtime_sources.CONTROL_SCHEDULE):
         raise ValueError("Unknown learning execution schedule")
-    allow_phase_dispatch = schedule == runtime_sources.SCHEDULE
+    allow_phase_dispatch = schedule in (runtime_sources.SCHEDULE, runtime_sources.CONTROL_SCHEDULE)
     if (cfg.get("evaluation_role") != "sealed_frozen_comparison"
             or cfg.get("final_matrix_frozen") is not True
             or cfg.get("no_validation_set") is not True

@@ -14,6 +14,8 @@ from legal_skill_guard.learning.experiment import sha
 
 SCHEDULE = 'seed45_serial_seed145245_phase_dispatch_v1'
 PROTOCOL = 'docs/research/OPENEXEMPT_PROSPECTIVE_PHASE_DISPATCH_20261023.md'
+CONTROL_SCHEDULE = 'original45_serial_uniform45_controls_phase_dispatch_v2'
+CONTROL_PROTOCOL = 'docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md'
 DECLARATION = {'policy': 'ordered_independent_phases_v1', 'native_workers': 4,
                'teacher_workers': 2, 'required_max_num_seqs': 4}
 SERIAL_RECEIPT = {**DECLARATION, 'native_workers': 1, 'teacher_workers': 1,
@@ -104,13 +106,28 @@ def verify_revision(root, name, expected):
     return extras | {original}
 
 
-def validate_learning_receipt(root, source, frozen, initial, complete):
+def uniform_control(source):
+    """Only the explicitly amended two seed45 ablations, never a main repeat."""
+    variant = source.get('ablation_variant')
+    return (source.get('ablation_execution_schedule') == CONTROL_SCHEDULE
+            and source.get('execution_order_addendum') == CONTROL_PROTOCOL
+            and source.get('generation', {}).get('seed') == 45
+            and variant in ('whole_bank', 'task_local')
+            and source.get('skill_commit_policy') == variant
+            and source.get('candidate_feedback_policy') == 'carry_partial_and_refine')
+
+
+def validate_learning_receipt(root, source, frozen, initial, complete, *,
+                              allow_uniform_control=False):
     """Bind explicit scheduling, captured service and the actual learner receipts."""
     seed = source['generation']['seed']
-    expected = None if seed == 45 else DECLARATION
+    amended = allow_uniform_control and uniform_control(source)
+    if source.get('ablation_execution_schedule') is not None and not amended:
+        raise ValueError('Only the explicitly amended ablation may change its execution profile')
+    expected = DECLARATION if seed != 45 or amended else None
     if seed not in (45, 145, 245) or source.get('phase_dispatch') != expected:
         raise ValueError('Keep seed45 serial and declare the matched145/245 dispatch')
-    if seed != 45:
+    if seed != 45 or amended:
         if any(frozen['files'].get(name) != digest for name, digest in CURRENT.items()):
             raise ValueError('New learning must freeze the exact prospective runtime bundle')
         if any(record.get('execution_dispatch') != DECLARATION for record in (initial, complete)):
