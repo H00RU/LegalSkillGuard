@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-24T16:37:03Z",
+  "classification": "v0.17 execution-provenance-only manuscript revision; no new result table or final-paper completion claim",
+  "all_existing_table_rows_byte_identical": true,
+  "bibliography_unchanged": true,
+  "formal_TEST_and_ablation_results_still_pending": true,
+  "v016_PDF_retained_not_regenerated": true,
+  "sha256": {
+    "paper/manuscript_v1_20261021.md": "d215c9c8227cdff21110f6b70ff4e12f9c7c24d3c03d1ba580cc8b6138ff7db7",
+    "paper/appendix_experimental_details_20261022.md": "a178c2b9ce58112352aa9763e5024b29d3a07817ffbdc2f2270a3a38a3c1f358"
+  },
+  "source_parent_commit": "782efe9f1219603960852dc9bd1bcb5f7bd4fc80",
+  "source_version": "v0.17",
+  "retained_layout_preview_version": "v0.16, not regenerated and not relabelled current",
+  "figure_assets_not_edited": true,
+  "method_task_data_primary_endpoints_and_analysis_units_unchanged": true,
+  "actual_operational_changes_disclosed": [
+    "both replacement controls uniform phase4; completed main/ACE/Text retain original serial learning",
+    "partial old Whole492/6 preserved and not imported",
+    "actual8 unscored throughput observation, not whole-training speed guarantee",
+    "zero-exposure parent/child lock startup failure and same allocation reuse"
+  ],
+  "no_new_TEST_or_learning_calls_for_manuscript": true,
+  "all_formal_TEST_and_ablation_results_PENDING": true,
+  "all_independent_repeats_DEFERRED": true,
+  "skills_applied": "Brother experimental fairness/cost structure; nature-paper evidence and runtime/causal-claim boundaries",
+  "recomputation_program": "from pathlib import Path\nimport os,json,subprocess,hashlib\nroot=Path.cwd();git='/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/bin/git';env=dict(os.environ,GIT_EXEC_PATH='/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/lib/git-core')\ndef prior(p):return subprocess.run([git,'show','782efe9f1219603960852dc9bd1bcb5f7bd4fc80:'+p],env=env,check=True,capture_output=True,text=True).stdout\nnames=['paper/manuscript_v1_20261021.md','paper/appendix_experimental_details_20261022.md']\nfor n in names:\n old=prior(n);new=(root/n).read_text()\n assert [l for l in old.splitlines() if l.startswith('|')]==[l for l in new.splitlines() if l.startswith('|')],n\n if n.startswith('paper/manuscript'):\n  assert old[old.index('## References'):]==new[new.index('## References'):]\nprint(json.dumps({'all_existing_table_rows_byte_identical':True,'bibliography_unchanged':True,'formal_TEST_and_ablation_results_still_pending':True,'v016_PDF_retained_not_regenerated':True,'sha256':{n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in names}},ensure_ascii=False))\nr=Path('runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02')\np=json.loads((r/'progress.json').read_text());print(json.dumps({'progress':p,'B1_firsts_complete':(r/'batches/b1_prequential.json').exists(),'failure':(r/'failure.json').exists()},ensure_ascii=False))\n"
+}

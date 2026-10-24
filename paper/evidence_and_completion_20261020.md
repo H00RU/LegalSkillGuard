@@ -1,5 +1,26 @@
 # 当前论文证据与完成条件
 
+## 最新覆盖：2026-10-25，两项消融统一加速，正文源码v0.17
+
+用户明确授权尝试统一加速。旧Whole-bank在原生请求结束后人工停止，492次生成、
+6次教师及3009份终态制品均在两块盘逐成员核验；不冒称完成消融，不导入其旧库或回答。
+同8B单实例只改max-num-seqs1→4，固定TRAIN181/182×EC/EV各四个串行/并发请求，
+无标签、无评分；298.50秒→130.57秒，墙钟比2.286x，输出吞吐34.71→85.58 token/s，
+全部8响应stop。一次父子重复持锁的队列启动在Online初始化前失败，零回答/教师，
+原失败、冻结配置保留；新Run ID修复锁所有权，复用已分配额度而不重置历史。
+新Whole-bank `legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02`
+已从空库开始，实际服务端观测4请求同时执行；Task-local新配置同服务、同调度，尚未启动。
+后台单元`legal-openexempt-uniform-ablations-to-draft-20261025-run02.service`，
+PID989871/start486572881，训练989971/start486573084，单模型958223/start486445918。
+[统一协议](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)与
+[源码/配置/测速/失败记录的双盘Git检查点](../artifacts/research/openexempt_legal_scope_20261020/Root782efe9_uniform_phase4_actual_start_source_Git_verified_dual_preservation_20261025.json)
+记录完整实际切换，不把小测速比写成整批固定提速，不把启动当成论文结果。
+
+v0.17只同步中英共享执行、消融运行差异及附录沿革，表1–3、资源表、原图和引用不改。
+正式TEST和消融结果仍PENDING；独立重复仍DEFERRED。主方法、ACE、Text不重跑。
+两项控制各完整八批、统一八条件冻结TEST及真实结果整合仍是老师初稿交付条件。
+v0.16 PDF保留为旧内部预览，未伪称已更新或老师成稿。后文旧进程/串行顺序是历史。
+
 ## 现行执行：Task-local已选，全部重复暂缓，先必要实验与老师审阅初稿
 
 2026-10-24：按用户最新明确授权，第二项确定为Task-local，替换未启动的

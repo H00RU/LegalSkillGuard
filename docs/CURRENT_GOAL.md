@@ -16,7 +16,10 @@
 32次额度而不重复增加上限或重置历史记录。
 [新的有限队列](../artifacts/launches/openexempt_uniform_ablations_then_teacher_draft_20261025_run01.py)
 负责两项控制、共同八条件TEST、老师初稿交接，全部独立重复继续暂缓。
-当前正在完成新配置冻结及队列启动；不能将旧B4或测速当作新正式训练已启动/完成。
+两项新配置均已395文件冻结，新Whole-bank实际从空库开始，服务端观测4请求并行。
+现行单元`legal-openexempt-uniform-ablations-to-draft-20261025-run02.service`，
+队列989871/start486572881、训练989971/start486573084、单模型958223/start486445918；
+额度4055，第二项完整接续后为4087，无自动独立重复。不能将旧B4或测速当作新训练已完成。
 
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
