@@ -307,16 +307,25 @@ def test_exact_ACE_prefix_origin_is_valid_without_a_TEST_or_model_read(continued
 
 
 @pytest.mark.parametrize("mutation", [None, "missing_text", "small_matrix", "small_TEST", "small_TRAIN",
+                                      "old16_matrix", "missing_replication_design", "missing_amendment",
                                       "wrong_batch", "missing_primary", "missing_ablation"])
 def test_formal_CLI_requires_the_complete_paper_design_before_bank_or_TEST_access(
         tmp_path, monkeypatch, mutation):
-    cfg = {"external_text_adaptation": "trace2skill_text_offline_v1", "arms": [{}] * 16,
+    cfg = {"external_text_adaptation": "trace2skill_text_offline_v1", "arms": [{}] * 12,
+           "experience_replication_design": frozen.SINGLE_BASELINE_DESIGN,
+           "baseline_build_amendment": frozen.SINGLE_BASELINE_PROTOCOL,
            "source_cases": 128, "training_source_cases": 128, "training_batch_source_cases": 16,
            "primary_contrasts": [{}] * 5, "secondary_contrasts": [{}] * 2}
     if mutation == "missing_text":
         del cfg["external_text_adaptation"]
     elif mutation == "small_matrix":
-        cfg["arms"] = cfg["arms"][:13]
+        cfg["arms"] = cfg["arms"][:11]
+    elif mutation == "old16_matrix":
+        cfg["arms"] = [{}] * 16
+    elif mutation == "missing_replication_design":
+        del cfg["experience_replication_design"]
+    elif mutation == "missing_amendment":
+        del cfg["baseline_build_amendment"]
     elif mutation == "small_TEST":
         cfg["source_cases"] = 24
     elif mutation == "small_TRAIN":
@@ -821,6 +830,52 @@ def test_expanded_primary_family_is_ten_not_eight_and_still_source_paired(plan):
     assert result["primary_family_comparisons"] == 10
     assert result["secondary_family_comparisons"] == 4
     assert len(result["contrasts"]["vs_text_adaptation"]["per_learning_repeat"]["difference_pp"]) == 3
+
+
+def _single_actual_experience_banks(plan):
+    cfg, sources = _synthetic_expanded_primary(plan)
+    deferred = {"ACE145", "ACE245", "Text145", "Text245"}
+    cfg["arms"] = [a for a in cfg["arms"] if a["name"] not in deferred]
+    for contrast in cfg["primary_contrasts"]:
+        contrast["before"] = [n for n in contrast["before"] if n not in deferred]
+    cfg["experience_replication_design"] = frozen.SINGLE_BASELINE_DESIGN
+    cfg["baseline_build_amendment"] = frozen.SINGLE_BASELINE_PROTOCOL
+    return cfg, sources
+
+
+def test_single_experience_banks_are_shared_controls_not_three_learning_draws(plan):
+    cfg, sources = _single_actual_experience_banks(plan)
+    assert len(cfg["arms"]) == 12
+    frozen.check_primary_contrasts(cfg, sources)
+    cfg["source_cases"] = 3
+    records = {a["name"]: [
+        {"source_key": str(case), "case_id": case, "family": family,
+         "score": {"f1": 0.6 if a["role"] == "evolved" else 0.5}}
+        for case in (1, 2, 3) for family in ("EC", "EV")]
+        for a in cfg["arms"]}
+    result = frozen.paired_source_statistics(cfg, records)
+    assert result["sources"] == 3
+    assert result["primary_family_comparisons"] == 10
+    assert result["secondary_family_comparisons"] == 4
+    assert result["shared_experience_predictions_not_independent_learning_repeats"]
+    for contrast in ("vs_ACE", "vs_text_adaptation"):
+        repeat = result["contrasts"][contrast]["per_learning_repeat"]
+        assert len(repeat["before_F1_percent"]) == 1
+        assert len(repeat["after_F1_percent"]) == len(repeat["difference_pp"]) == 3
+        assert result["contrasts"][contrast]["endpoints"]["EV"]["difference_pp"] == pytest.approx(10)
+
+
+@pytest.mark.parametrize("mutation", ["missing_amendment", "wrong_seed", "duplicated_control"])
+def test_single_experience_design_rejects_missing_amendment_seed_selection_and_fake_repeats(plan, mutation):
+    cfg, sources = _single_actual_experience_banks(plan)
+    if mutation == "missing_amendment":
+        del cfg["baseline_build_amendment"]
+    elif mutation == "wrong_seed":
+        sources["Text"]["generation"]["seed"] = 145
+    else:
+        cfg["arms"].append({"name": "ACE145", "role": "experience", "backend": "ace"})
+    with pytest.raises(ValueError):
+        frozen.check_primary_contrasts(cfg, sources)
 
 
 @pytest.mark.parametrize("mutation", ["missing_flag", "missing_repeat", "missing_contrast",

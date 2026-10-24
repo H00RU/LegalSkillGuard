@@ -53,6 +53,8 @@ PUBLIC_LAW_FIELDS = {
     "public_skill_interface", "no_cases_targets_trajectories_scores_or_prior_bank",
 }
 LEARNING_SEEDS = (45, 145, 245)
+SINGLE_BASELINE_DESIGN = "single_completed_seed45_20261024"
+SINGLE_BASELINE_PROTOCOL = "docs/research/OPENEXEMPT_SINGLE_BASELINE_BUILD_AMENDMENT_20261024.md"
 FINAL_DECODING = {"seed": 45, "temperature": 0.6, "top_p": 0.95, "top_k": 20,
                   "context_tokens": 32768, "max_tokens": 8192, "disable_thinking": False}
 REPEATED_PROTOCOL_KEYS = (
@@ -91,6 +93,12 @@ def evaluation_request_workers(cfg):
 
 def check_primary_contrasts(cfg, source_configs):
     """Freeze all primary controls and three independently learned banks before TEST."""
+    design = cfg.get("experience_replication_design")
+    if design not in (None, SINGLE_BASELINE_DESIGN):
+        raise ValueError("Unknown experience-baseline replication design")
+    single_baselines = design == SINGLE_BASELINE_DESIGN
+    if single_baselines and cfg.get("baseline_build_amendment") != SINGLE_BASELINE_PROTOCOL:
+        raise ValueError("Declare the prospective single-baseline amendment")
     def require_same_protocol(names):
         protocols = []
         for name in names:
@@ -122,8 +130,10 @@ def check_primary_contrasts(cfg, source_configs):
     ace_arms = [a for a in cfg["arms"] if a["role"] == "experience" and a["backend"] == "ace"]
     if text_arms and text_design is None:
         raise ValueError("Explicitly declare the additional adapted method and larger comparison family")
-    if text_design and (len(text_arms) != 3 or len(ace_arms) != 3):
-        raise ValueError("The expanded matrix requires three ACE and three text-adaptation learners")
+    expected_experience_banks = 1 if single_baselines else 3
+    if text_design and (len(text_arms) != expected_experience_banks
+                        or len(ace_arms) != expected_experience_banks):
+        raise ValueError("Use exactly the declared actual ACE and text-adaptation bank counts")
     evolved = [a["name"] for a in cfg["arms"] if a["role"] == "evolved"]
     evolved.sort(key=lambda name: source_configs[name]["generation"]["seed"])
     if (len(evolved) != len(LEARNING_SEEDS)
@@ -147,6 +157,9 @@ def check_primary_contrasts(cfg, source_configs):
         if role in {"strong_empty", "static_law_only"}:
             if len(before) != 1:
                 raise ValueError("Empty and static predictions are one common arm, not three draws")
+        elif role == "experience" and single_baselines:
+            if len(before) != 1 or source_configs[before[0]]["generation"]["seed"] != 45:
+                raise ValueError("Each amended experience control is one actual completed seed45 bank")
         elif (len(before) != 3
               or tuple(source_configs[n]["generation"]["seed"] for n in before) != LEARNING_SEEDS):
             raise ValueError("Align three independent control learning runs by seed")
@@ -286,6 +299,9 @@ def paired_source_statistics(cfg, records):
                 "sources_difference_at_most_minus_10pp": int((d <= -0.10).sum()),
                 "paired_source_differences_pp": (100 * d).tolist()}
     return {"protocol": "conditional_paired_source_bootstrap_three_learning_runs",
+            "experience_replication_design": cfg.get("experience_replication_design", "legacy_three_seed_matched"),
+            "shared_experience_predictions_not_independent_learning_repeats": (
+                cfg.get("experience_replication_design") == SINGLE_BASELINE_DESIGN),
             "sources": len(keys), "source_keys_sorted": keys, "endpoints": list(FAMILIES),
             "bootstrap_draws": 20000, "bootstrap_seed": 2026102192,
             "rng": "NumPy Generator PCG64", "numpy_version": np.__version__, "quantile_method": "linear",
@@ -635,6 +651,11 @@ def fixed_banks(cfg):
     if sum(a["role"] == "static_law_only" for a in arms) != 1:
         raise ValueError("The single compiled static bank is not independent learning repeats")
     banks, train_keys, extras, sources = {}, set(), {ROOT / cfg["statistics_plan"]}, {}
+    if cfg.get("experience_replication_design") == SINGLE_BASELINE_DESIGN:
+        if (cfg.get("baseline_build_amendment") != SINGLE_BASELINE_PROTOCOL
+                or not (ROOT / SINGLE_BASELINE_PROTOCOL).is_file()):
+            raise ValueError("Freeze the exact single-baseline amendment before TEST")
+        extras.add(ROOT / SINGLE_BASELINE_PROTOCOL)
     if workers == 4:
         extras.add(ROOT / DISPATCH_PROTOCOL)
     source_configs = {}
@@ -972,12 +993,14 @@ def main():
     os.chdir(ROOT)
     cfg = read(path)
     if (cfg.get("external_text_adaptation") != "trace2skill_text_offline_v1"
-            or len(cfg.get("arms", [])) != 16
+            or cfg.get("experience_replication_design") != SINGLE_BASELINE_DESIGN
+            or cfg.get("baseline_build_amendment") != SINGLE_BASELINE_PROTOCOL
+            or len(cfg.get("arms", [])) != 12
             or cfg.get("source_cases") != 128 or cfg.get("training_source_cases") != 128
             or cfg.get("training_batch_source_cases") != 16
             or len(cfg.get("primary_contrasts", [])) != 5
             or len(cfg.get("secondary_contrasts", [])) != 2):
-        raise ValueError("The formal paper entry requires the full declared16-arm128-source design")
+        raise ValueError("The formal paper entry requires the amended12-arm128-source design")
     _, _, sources = fixed_banks(cfg)
     with (ROOT / "artifacts/openexempt_training.lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
