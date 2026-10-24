@@ -306,26 +306,35 @@ def test_exact_ACE_prefix_origin_is_valid_without_a_TEST_or_model_read(continued
     assert len(result) == len(receipt["files"]) + 7
 
 
+@pytest.mark.parametrize("stage", [frozen.INITIAL_STAGE, frozen.FINAL_STAGE])
 @pytest.mark.parametrize("mutation", [None, "missing_text", "small_matrix", "small_TEST", "small_TRAIN",
-                                      "old16_matrix", "missing_replication_design", "missing_amendment",
+                                      "old12_matrix", "old_single_baseline_design", "missing_stage",
+                                      "missing_plan", "missing_plan_hash", "missing_protocol",
                                       "wrong_batch", "missing_primary", "missing_ablation"])
 def test_formal_CLI_requires_the_complete_paper_design_before_bank_or_TEST_access(
-        tmp_path, monkeypatch, mutation):
-    cfg = {"external_text_adaptation": "trace2skill_text_offline_v1", "arms": [{}] * 12,
-           "experience_replication_design": frozen.SINGLE_BASELINE_DESIGN,
-           "baseline_build_amendment": frozen.SINGLE_BASELINE_PROTOCOL,
+        tmp_path, monkeypatch, stage, mutation):
+    cfg = {"external_text_adaptation": "trace2skill_text_offline_v1",
+           "arms": [{}] * (8 if stage == frozen.INITIAL_STAGE else 16),
+           "evaluation_stage": stage, "staged_comparison_protocol": frozen.STAGED_PROTOCOL,
+           "future_learning_plan": "six_recipes.json", "future_learning_plan_sha256": "a" * 64,
            "source_cases": 128, "training_source_cases": 128, "training_batch_source_cases": 16,
            "primary_contrasts": [{}] * 5, "secondary_contrasts": [{}] * 2}
     if mutation == "missing_text":
         del cfg["external_text_adaptation"]
     elif mutation == "small_matrix":
-        cfg["arms"] = cfg["arms"][:11]
-    elif mutation == "old16_matrix":
-        cfg["arms"] = [{}] * 16
-    elif mutation == "missing_replication_design":
-        del cfg["experience_replication_design"]
-    elif mutation == "missing_amendment":
-        del cfg["baseline_build_amendment"]
+        cfg["arms"] = cfg["arms"][:-1]
+    elif mutation == "old12_matrix":
+        cfg["arms"] = [{}] * 12
+    elif mutation == "old_single_baseline_design":
+        cfg["experience_replication_design"] = frozen.SINGLE_BASELINE_DESIGN
+    elif mutation == "missing_stage":
+        del cfg["evaluation_stage"]
+    elif mutation == "missing_plan":
+        del cfg["future_learning_plan"]
+    elif mutation == "missing_plan_hash":
+        del cfg["future_learning_plan_sha256"]
+    elif mutation == "missing_protocol":
+        del cfg["staged_comparison_protocol"]
     elif mutation == "small_TEST":
         cfg["source_cases"] = 24
     elif mutation == "small_TRAIN":
@@ -841,6 +850,282 @@ def _single_actual_experience_banks(plan):
     cfg["experience_replication_design"] = frozen.SINGLE_BASELINE_DESIGN
     cfg["baseline_build_amendment"] = frozen.SINGLE_BASELINE_PROTOCOL
     return cfg, sources
+
+
+def _staged_six_recipe_fixture(plan):
+    cfg, sources = _synthetic_expanded_primary(plan)
+    root = plan[2]
+    for name in frozen.runtime_sources.CURRENT:
+        target = root / name
+        original = Path(frozen.__file__).resolve().parents[1] / name
+        if target.is_symlink():
+            target.unlink()  # This fixture's own temporary symlink, not project source.
+        if not target.exists():
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(original, target)
+    entries = []
+    for arm in cfg["arms"]:
+        if arm["role"] == "strong_empty":
+            continue
+        source = sources[arm["name"]]
+        seed = source["generation"]["seed"]
+        kind = ("ace" if arm["backend"] == "ace" else
+                "text" if arm["name"].startswith("Text") else "main")
+        if arm["name"].startswith("Text"):
+            arm["source_config"] = "configs/" + arm["name"] + ".json"
+            arm["bank_sha256"] = csha([])
+        path = root / arm["source_config"]
+        if seed != 45 and arm["role"] != "B1_frozen":
+            source["run_id"] = "future_" + source["run_id"]
+            source["phase_dispatch"] = frozen.runtime_sources.DECLARATION
+            source["inference_environment"] = cfg["inference_environment"]
+        if arm["role"] == "B1_frozen" and seed != 45:
+            source = sources["ours" + str(seed)]
+            sources[arm["name"]] = source
+        RunStore.atomic_json(path, source)
+        arm["source_config_sha256"] = sha(path)
+        if seed != 45 and arm["role"] != "B1_frozen":
+            bindings = {name: sha(root / name) for name in frozen.runtime_sources.CURRENT}
+            bindings[source["input_packet"]] = cfg["training_packet_sha256"]
+            RunStore.atomic_json(path.with_suffix(".frozen.json"), {
+                "config_sha256": sha(path), "files": bindings})
+            entries.append({"kind": kind, "seed": seed, "source_config": arm["source_config"],
+                "source_config_sha256": sha(path),
+                "source_frozen_sha256": sha(path.with_suffix(".frozen.json"))})
+    # Each B1 arm shares the exact actual source config with its evolved run.
+    for arm in cfg["arms"]:
+        if arm["role"] == "B1_frozen":
+            arm["source_config_sha256"] = sha(root / arm["source_config"])
+    initial_names = [a["name"] for a in cfg["arms"] if a["role"] == "strong_empty"
+                     or sources[a["name"]]["generation"]["seed"] == 45]
+    templates = copy.deepcopy(cfg["arms"])
+    for arm in templates:
+        if arm["name"] not in initial_names:
+            arm["bank_sha256"] = None
+    future = {"policy": "six_recipes_frozen_before_initial_TEST_v1",
+              "no_TEST_feedback_to_learning": True, "all_six_builds_run_without_score_selection": True,
+              "future_recipes_not_completed_banks": True, "learning": entries,
+              "planned_final_arms": templates, "initial_arm_names": initial_names,
+              "primary_contrasts": copy.deepcopy(cfg["primary_contrasts"]),
+              "secondary_contrasts": copy.deepcopy(cfg["secondary_contrasts"])}
+    path = root / "six_recipes.json"
+    RunStore.atomic_json(path, future)
+    RunStore.immutable_json(root / frozen.STAGED_PROTOCOL, {"synthetic_protocol_only": True})
+    cfg.update(evaluation_stage=frozen.INITIAL_STAGE, staged_comparison_protocol=frozen.STAGED_PROTOCOL,
+               future_learning_plan="six_recipes.json", future_learning_plan_sha256=sha(path))
+    cfg["arms"] = [a for a in cfg["arms"] if a["name"] in initial_names]
+    cfg["primary_contrasts"] = [{**c, "after": [n for n in c["after"] if n in initial_names],
+                                 "before": [n for n in c["before"] if n in initial_names]}
+                                for c in cfg["primary_contrasts"]]
+    return cfg, sources, future, root
+
+
+@pytest.mark.parametrize("stage", [frozen.INITIAL_STAGE, frozen.FINAL_STAGE])
+@pytest.mark.parametrize("mutation", [None, "missing_recipe", "duplicate_seed", "config_hash",
+    "frozen_hash", "runtime_unbound", "warm_origin", "changed_policy", "selected_repeats",
+    "invented_bank", "initial_bank", "dropped_contrast", "started_before_initial"])
+def test_staged_six_actual_recipes_are_fixed_before_any_TEST_read(plan, monkeypatch, stage, mutation):
+    cfg, sources, future, root = _staged_six_recipe_fixture(plan)
+    if stage == frozen.FINAL_STAGE:
+        cfg["evaluation_stage"] = stage
+        cfg["arms"] = copy.deepcopy(future["planned_final_arms"])
+        for arm in cfg["arms"]:
+            if "bank_sha256" in arm and arm["bank_sha256"] is None:
+                arm["bank_sha256"] = csha([])
+        cfg["primary_contrasts"] = copy.deepcopy(future["primary_contrasts"])
+    entry = future["learning"][0]
+    if mutation == "missing_recipe":
+        future["learning"].pop()
+    elif mutation == "duplicate_seed":
+        future["learning"][-1]["seed"] = 145
+    elif mutation in ("config_hash", "frozen_hash"):
+        entry["source_config_sha256" if mutation == "config_hash" else "source_frozen_sha256"] = "0" * 64
+    elif mutation in ("runtime_unbound", "warm_origin", "changed_policy"):
+        path = root / entry["source_config"]
+        source = read(path)
+        bound_path = path.with_suffix(".frozen.json")
+        bound = read(bound_path)
+        if mutation == "runtime_unbound":
+            del bound["files"]["legal_skill_guard/learning/phase_dispatch.py"]
+        else:
+            source["initial_library_publication" if mutation == "warm_origin" else "skill_commit_policy"] = "changed"
+            RunStore.atomic_json(path, source)
+            bound["config_sha256"] = sha(path)
+            entry["source_config_sha256"] = sha(path)
+            for arm in future["planned_final_arms"] + cfg["arms"]:
+                if arm.get("source_config") == entry["source_config"]:
+                    arm["source_config_sha256"] = sha(path)
+        RunStore.atomic_json(bound_path, bound)
+        entry["source_frozen_sha256"] = sha(bound_path)
+    elif mutation == "selected_repeats":
+        future["all_six_builds_run_without_score_selection"] = False
+    elif mutation == "invented_bank":
+        next(a for a in future["planned_final_arms"] if a["name"] == "ours145")["bank_sha256"] = csha([])
+    elif mutation == "initial_bank":
+        next(a for a in cfg["arms"] if a["name"] == "ours")["bank_sha256"] = "0" * 64
+    elif mutation == "dropped_contrast":
+        cfg["primary_contrasts"].pop()
+    elif mutation == "started_before_initial":
+        (root / "runs" / read(root / entry["source_config"])["run_id"]).mkdir()
+    RunStore.atomic_json(root / cfg["future_learning_plan"], future)
+    cfg["future_learning_plan_sha256"] = sha(root / cfg["future_learning_plan"])
+    def guarded(path):
+        assert Path(path) != root / cfg["input_packet"]
+        assert "grading_only" not in Path(path).parts
+        return read(path)
+    monkeypatch.setattr(frozen, "read", guarded)
+    valid = mutation is None or (mutation == "started_before_initial" and stage == frozen.FINAL_STAGE)
+    if valid:
+        result = frozen.check_future_learning_plan(cfg, sources)
+        assert root / "six_recipes.json" in result
+        assert len([p for p in result if p.name.endswith(".frozen.json")]) == 6
+    else:
+        with pytest.raises(ValueError):
+            frozen.check_future_learning_plan(cfg, sources)
+
+
+def test_initial_single_build_intervals_are_descriptive_not_a_stopping_gate(plan):
+    cfg, sources, _, _ = _staged_six_recipe_fixture(plan)
+    frozen.check_primary_contrasts(cfg, sources)
+    cfg["source_cases"] = 3
+    records = {arm["name"]: [{"source_key": str(case), "case_id": case, "family": family,
+                "score": {"f1": 0.6 if arm["role"] == "evolved" else 0.5}}
+                for case in (1, 2, 3) for family in ("EC", "EV")] for arm in cfg["arms"]}
+    result = frozen.paired_source_statistics(cfg, records)
+    assert result["sources"] == 3
+    assert result["primary_family_comparisons"] == 10
+    assert result["secondary_family_comparisons"] == 4
+    assert result["confirmatory_analysis"] is False
+    assert result["all_primary_adjusted_lower_bounds_positive"] is None
+    assert result["initial_table_not_a_repeat_selection_or_stopping_gate"] is True
+    assert all(len(c["per_learning_repeat"]["difference_pp"]) == 1
+               for c in result["contrasts"].values())
+
+
+@pytest.mark.parametrize("mutation", [None, "changed_config", "changed_prediction", "changed_origin_index",
+                                      "different_seed", "missing_original_bank", "failed_initial"])
+def test_final_stage_requires_the_original_initial_matrix_provenance(plan, monkeypatch, mutation):
+    initial, _, future, root = _staged_six_recipe_fixture(plan)
+    initial_path = RunStore.immutable_json(root / "configs/initial_eval.json", initial)
+    bound_path = initial_path.with_suffix(".frozen.json")
+    RunStore.immutable_json(bound_path, {"config_sha256": sha(initial_path), "files": {}})
+    out = root / "runs" / initial["run_id"]
+    artifacts = {
+        "completion.json": {"status": "completed_frozen_comparison", "evaluation_stage": frozen.INITIAL_STAGE,
+            "teacher_calls": 0, "bank_sha256": {a["name"]: a.get("bank_sha256", csha([])) for a in initial["arms"]}},
+        "predictions_before_any_grading.json": {"fixture": "not real TEST"},
+        "native_origins_before_any_grading.json": {"fixture": "index validated separately"},
+        "terminal_preservation.json": {"fixture": "not actual preservation"}}
+    for name, value in artifacts.items():
+        RunStore.immutable_json(out / name, value)
+    cfg = copy.deepcopy(initial)
+    cfg.update(evaluation_stage=frozen.FINAL_STAGE, arms=copy.deepcopy(future["planned_final_arms"]))
+    cfg["initial_evaluation"] = {"source_config": str(initial_path.relative_to(root)),
+        "source_config_sha256": sha(initial_path), "source_frozen_sha256": sha(bound_path),
+        **{key: sha(out / name) for name, key in (
+            ("completion.json", "completion_sha256"),
+            ("predictions_before_any_grading.json", "predictions_sha256"),
+            ("native_origins_before_any_grading.json", "native_origins_sha256"),
+            ("terminal_preservation.json", "terminal_preservation_sha256"))}}
+    if mutation == "changed_config":
+        RunStore.atomic_json(initial_path, {**initial, "changed": True})
+    elif mutation == "changed_prediction":
+        RunStore.atomic_json(out / "predictions_before_any_grading.json", {})
+    elif mutation == "changed_origin_index":
+        RunStore.atomic_json(out / "native_origins_before_any_grading.json", {})
+    elif mutation == "different_seed":
+        cfg["generation"]["seed"] = 145
+    elif mutation == "missing_original_bank":
+        cfg["arms"] = [a for a in cfg["arms"] if a["name"] != "ours"]
+    elif mutation == "failed_initial":
+        RunStore.immutable_json(out / "failure.json", {"error": "synthetic"})
+    def guarded(path):
+        assert Path(path) != root / cfg["input_packet"]
+        assert "grading_only" not in Path(path).parts
+        return read(path)
+    monkeypatch.setattr(frozen, "read", guarded)
+    if mutation is None:
+        assert len(frozen.check_initial_evaluation(cfg)) == 6
+    else:
+        with pytest.raises(ValueError):
+            frozen.check_initial_evaluation(cfg)
+
+
+@pytest.mark.parametrize("length_ended", [False, True])
+@pytest.mark.parametrize("mutation", [None, "changed_response", "changed_wire_input", "duplicate_origin",
+                                      "changed_generation", "scored_answers", "missing_task"])
+def test_prior_stage_reuses_full_native_wire_not_scores_or_repaired_answers(plan, length_ended, mutation):
+    cfg, _, root = plan
+    rows = read(root / cfg["input_packet"])["rows"]
+    initial = {"run_id": "initial_raw_fixture", "source_cases": 1, "arms": [{"name": "ours"}]}
+    initial_path = RunStore.immutable_json(root / "configs/initial_raw.json", initial)
+    out = root / "runs" / initial["run_id"]
+    index = {"generation_sha256": csha(cfg["generation"]), "origins": []}
+    predictions = {"ours": []}
+    for row in rows:
+        messages, schema, _ = common.actor_payload(row, [], grounded=True, direct_numeric=True, asset_references=True)
+        content = json.dumps({"A001": ["Ariz. Rev. Stat. section 33-1123"] if row["family"] == "EC" else
+                              [{"citation_ref": "Ariz. Rev. Stat. section 33-1123", "claim_value": 40}]})
+        response = {"raw_id": "old_" + row["family"], "content": content,
+                    "finish_reason": "length" if length_ended else "stop", "prompt_tokens": 11, "completion_tokens": 13}
+        wire = {"messages": messages, **{k: cfg["generation"][k] for k in
+                ("model", "temperature", "top_p", "top_k", "max_tokens", "seed")},
+                "response_format": {"json_schema": {"schema": schema}}}
+        observed = {"id": response["raw_id"], "usage": {"prompt_tokens": 11, "completion_tokens": 13},
+                    "choices": [{"finish_reason": response["finish_reason"], "message": {"content": content}}]}
+        raw_path = out / "native" / (row["family"] + ".json")
+        RunStore.immutable_json(raw_path, {"response": response, "transport_error": None,
+                                         "calls": [{"request": wire, "response": observed}]})
+        RunStore.immutable_json(raw_path.with_suffix(".input.json"), {"messages": messages, "schema": schema})
+        index["origins"].append({"fingerprint": csha({"messages": messages, "schema": schema,
+                "generation": cfg["generation"]}), "raw_call_path": str(raw_path.relative_to(root)),
+                "raw_sha256": sha(raw_path), "input_sha256": sha(raw_path.with_suffix(".input.json"))})
+        predictions["ours"].append({"source_key": row["source_key"], "case_id": row["case_id"],
+            "family": row["family"], "raw_call_path": str(raw_path.relative_to(root))})
+    entry = index["origins"][0]
+    raw_path = root / entry["raw_call_path"]
+    if mutation == "changed_response":
+        value = read(raw_path)
+        value["response"]["content"] = "a fabricated answer"
+        RunStore.atomic_json(raw_path, value)
+        entry["raw_sha256"] = sha(raw_path)
+    elif mutation == "changed_wire_input":
+        value = read(raw_path.with_suffix(".input.json"))
+        value["messages"] = [{"role": "user", "content": "a different request"}]
+        RunStore.atomic_json(raw_path.with_suffix(".input.json"), value)
+        entry["input_sha256"] = sha(raw_path.with_suffix(".input.json"))
+        entry["fingerprint"] = csha({**value, "generation": cfg["generation"]})
+    elif mutation == "duplicate_origin":
+        index["origins"].append(copy.deepcopy(entry))
+    elif mutation == "changed_generation":
+        index["generation_sha256"] = "0" * 64
+    elif mutation == "scored_answers":
+        predictions["ours"][0]["score"] = {"f1": 1.0}
+    elif mutation == "missing_task":
+        predictions["ours"].pop()
+    RunStore.immutable_json(out / "native_origins_before_any_grading.json", index)
+    RunStore.immutable_json(out / "predictions_before_any_grading.json", predictions)
+    RunStore.immutable_json(out / "completion.json", {"actual_native_calls": 2})
+    study = object.__new__(frozen.FrozenEvaluation)
+    study.cfg = {**cfg, "initial_evaluation": {"source_config": str(initial_path.relative_to(root))}}
+    study.native, study.request_cache, study.reuse_events = [], {}, []
+    study.initial_arm_names, study.prior_native_origins = set(), []
+    if mutation is not None:
+        with pytest.raises(ValueError):
+            study.load_initial_raw_origins()
+        return
+    study.load_initial_raw_origins()
+    assert len(study.prior_native_origins) == 2 and not study.native
+    study.out, study.banks = root / "runs/final_raw_fixture", {"ours": []}
+    study._wire_lock_guard, study._wire_locks = threading.Lock(), {}
+    study.check, study.progress = lambda: None, lambda *args, **kwargs: None
+    def forbidden_call(*args, **kwargs):
+        raise AssertionError("An original initial-stage request must never be regenerated")
+    study.call = forbidden_call
+    answer = study.answer(rows[0], {"name": "ours", "backend": "direct"})
+    assert bool(answer["parse_error"]) == length_ended
+    assert answer["physical_alias_of_identical_wire"]["raw_call_path"] == index["origins"][0]["raw_call_path"]
+    assert not study.native and len(study.reuse_events) == 1
 
 
 def test_single_experience_banks_are_shared_controls_not_three_learning_draws(plan):
