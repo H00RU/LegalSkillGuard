@@ -37,6 +37,18 @@ PID505053/start484577057；旧350157与3019419仅调度器被持有，不能续�
 [完整决策、96视图得失、实际成本与后续投递](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_B3_final_C1_6_1712_C2_rejected_EV_halving_complete96_actual232cost_NOT_newcase_TEST_20261024.json)
 保持所有退化与原始回答，B4已保存技能请求均使用正式4fe022库，不使用被拒de22f4库。
 全八批控制、Task-local及TEST仍未完成，当前不是新的泛化或消融终态结论。
+
+B4全部16个新来源首答已在2026-10-24 23:05 CST保存，随后才释放本批标签给教师。
+Whole-bank首答EC/EV F1为79.50/86.74%，同案空库54.95/57.17%，自身B1为59.53/61.88%；
+原主方法同B4为83.85/79.84%，即本批主方法EC高、EV低，不隐藏逆向比较。
+累计B1–B4同64来源，原主方法80.60/75.77%，Whole-bank70.13/71.00%；这是部分TRAIN，
+不是完整128来源或TEST。70次新生成全部stop，28/32视图收到指导，所有不利案例保留。
+[完整首答、同案得失、真实投递与教师边界](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_B4_complete16_firsts_actual70_teacher6_targets_counterexamples_NOT_TEST_20261024.json)
+核对160个逻辑回答先于教师，全部32当前标签/原回答/错误/分数正确；203与218的
+正确父库回答及被拒C2错误减半均真实送入。教师新提案6次UPDATE仅改EC，EV完全保留，
+当前仍在第一候选重放，不能视作已发布。本轮两项训练消融维持同主方法的串行条件；
+Task-local提前单独并行的提议已撤回，四并发留到共同冻结测试安全边界，无训练热改。
+
 论文已同步v0.16的中英实验设置、八条件及Task-local；表1–3、原始成本和参考文献
 未改，TEST/消融结果仍PENDING，独立重复标DEFERRED，不以CPU检查代替新性能。
 附录D1另汇总已完成实现的实际存储、原生调用及教师token；静态含一次盲编译，
