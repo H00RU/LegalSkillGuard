@@ -2,7 +2,7 @@
 
 中文暂题：面向冻结8B语言模型法律规则适用的可演化技能学习
 
-工作初稿 v0.13，2026-10-23。包括主方法完整八批TRAIN流、同128来源首答对照、已完成的ACE seed45末库与实际成本、完整盲法条静态TRAIN对照及更细提交机制的轨迹证据。Text seed45已开始独立源轨迹生成；最终冻结库测试、其余对照、独立学习重复和机制消融仍待完成，一次超时教师调用的token用量未知。中英文共享数字表与证据边界，完成状态见[写作证据表](evidence_and_completion_20261020.md)。精确v0.12源稿见[前版快照](revisions/manuscript_v012_before_static_complete_20261023.md)。
+工作初稿 v0.14，2026-10-24。保留主方法完整八批TRAIN曲线与同128来源首答对照，新增已完成Text seed45的全量末库TRAIN拟合、逐案共享接口核验及实际成本；整库准入消融已由原队列启动。正式冻结库测试、独立学习重复和机制消融结果仍待完成，一次ACE超时教师调用的token用量未知。中英文共享数字表与证据边界，完成状态见[写作证据表](evidence_and_completion_20261020.md)。v0.13保留于本次修订的Git父版本，精确v0.12源稿另见[前版快照](revisions/manuscript_v012_before_static_complete_20261023.md)。
 
 ## Abstract / 摘要
 
@@ -102,7 +102,7 @@ The current run initializes an empty library once; subsequent batches use the ac
 
 The fixed static library completed its full-TRAIN inference control on 23 October. It uses the same 128 sources, direct actor, generation settings and public scope projection, without a new teacher or library update. All 256 predictions were saved before grading. Its descriptive comparisons use the actual evolving first forecasts and common empty reference, not a terminal main-bank replay or a new validation/test split. The static library starts complete, whereas the main library starts empty and changes using released TRAIN feedback; this contrast alone does not isolate the update mechanism. It adds no final TEST arm or primary contrast. Exact endpoint, information-access, cost and fairness definitions are in [Appendix D](appendix_experimental_details_20261022.md); the [execution protocol](../docs/research/OPENEXEMPT_FIXED_STATIC_TRAIN_CONTROL_V2_20261022.md) preserves the unchanged zero-case library and control algorithm.
 
-**Prespecified analysis; execution incomplete.** The source-disjoint IID128 test packet and analysis rules were declared before test exposure in `docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md`, not before all development. The 22 October text-method addendum expands the declared primary family without using that method's results or opening TEST. Planned learning seeds are 45, 145, and 245 for the proposed method, ACE, and Trace2Skill (text analysis, OpenExempt adaptation), with each learner starting without learned legal guidance. Main and ACE seed 45 have completed all eight batches. The first common-actor text construction began after the completed static TRAIN control, generating its own source forecasts before releasing targets. Four additional main/ACE repeats, two separately learned mechanism ablations, and two further text builds remain frozen and unstarted: eight future learning runs, not completed replications. The [operational amendment](../docs/research/OPENEXEMPT_PROSPECTIVE_COMPARISON_PRIORITY_20261023.md) preserves the learning algorithms and final matrix.
+**Prespecified analysis; execution incomplete.** The source-disjoint IID128 test packet and analysis rules were declared before test exposure in `docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md`, not before all development. The 22 October text-method addendum expands the declared primary family without using that method's results or opening TEST. Planned learning seeds are 45, 145, and 245 for the proposed method, ACE, and Trace2Skill (text analysis, OpenExempt adaptation), with each learner starting without learned legal guidance. Main and ACE seed 45 have completed all eight batches. The common-actor text seed-45 construction and complete TRAIN replay finished on 24 October; all its own source forecasts preceded target release. The queued whole-bank learning ablation has started from empty. Four further main/ACE repeats, first-commit learning and two further text builds remain unstarted: seven future runs, not completed replications. The [operational amendment](../docs/research/OPENEXEMPT_PROSPECTIVE_COMPARISON_PRIORITY_20261023.md) preserves the learning algorithms and final matrix.
 
 ACE retains its native generator–reflector–curator principle, generator prompt and response wrapper, with released TRAIN feedback, up to three reflection rounds and an 8,192-token memory cap. This compares declared end-to-end task adaptations, rather than isolating the memory rule under equal total training computation. Original legal submissions and invalid-output scores are preserved. The seed-45 learner includes a provenance-checked continuation from its last complete batch; restored, fresh and retired work are accounted for separately. Adapter semantics and the complete continuation lineage are documented in [Appendix D](appendix_experimental_details_20261022.md).
 
@@ -110,7 +110,7 @@ The complementary Trace2Skill adaptation [4] contrasts offline trajectory-wise i
 
 This is an independently implemented, label-assisted text-task adaptation, not the original tool-using ReAct error analyst or an exact author-default reproduction. All three resulting banks enter the final comparison rather than selecting the best TRAIN seed. Its result cannot establish superiority to the full native Trace2Skill system. The [method protocol](../docs/research/OPENEXEMPT_TRACE2SKILL_TEXT_COMPLEMENT_20261022.md) records source pinning, initialization, edit semantics, failures, and planned costs.
 
-The two ablations each declare one independent seed-45 learning run. `whole_bank` requires the complete proposal to pass the same retention gate rather than accepting scope components. `first_commit` disables cross-batch failure carry and stops after the first accepted proposal, including a partial acceptance. It still supplies training labels and can issue a second proposal after an initial rejection. It is therefore not a no-label or no-feedback control, and its effect combines feedback policy with potentially different actual computation. SkillCommit remains a credited nearest neighbour, not a completed quantitative baseline: substituting lexical retrieval for its declared embedding-based mechanism would not be a faithful reproduction. An advantage over ACE alone cannot support a claim against SkillCommit or all skill-evolution methods.
+The two ablations each declare one independent seed-45 learning run. `whole_bank` requires the complete proposal to pass the same retention gate rather than accepting scope components. `first_commit` disables cross-batch failure carry and stops candidate refinement within each batch after the first accepted proposal, including a partial acceptance; learning continues in later batches. It still supplies training labels and can issue a second proposal after an initial rejection. It is therefore neither a frozen-B1 nor a no-label/no-feedback control, and its effect combines feedback policy with potentially different actual computation. SkillCommit remains a credited nearest neighbour, not a completed quantitative baseline: substituting lexical retrieval for its declared embedding-based mechanism would not be a faithful reproduction. Results for the declared adaptations cannot support a claim against SkillCommit or all skill-evolution methods.
 
 For each endpoint, the planned test contrast averages paired source-level F1 differences over the actual learned libraries and then across the 128 sources. The common empty and static predictions are not independent copies for each learning seed. Paired source-cluster bootstrap uses 20,000 resamples with PCG64 seed 2026102192. Both ordinary 95% intervals and Bonferroni-adjusted intervals for the full primary comparison family are reported. The expanded family comprises EC and EV against empty, own-B1, static, ACE, and the text adaptation: ten contrasts, not the previous eight. The two single-seed mechanism ablations retain their separate four-contrast secondary family. Intervals are conditional on the observed learned libraries and fixed evaluation decoding; 128 sources and three learned banks do not become 384 independent sources. The full final matrix contains 16 arms: three banks each for the main method, own-B1, ACE, and the text adaptation, plus one each for empty, static, and the two ablations. Before any test prediction, all actual banks, the complete matrix, configurations, and evaluator must be frozen; these execution conditions are not yet satisfied. Test results cannot be used to remove an unfavourable comparator or select a method or bank. See the [preserved analysis addendum](../docs/research/OPENEXEMPT_FINAL_ANALYSIS_TEXT_COMPLEMENT_ADDENDUM_20261022.md).
 
@@ -126,7 +126,7 @@ For each endpoint, the planned test contrast averages paired source-level F1 dif
 
 固定静态库于10月23日完成全部TRAIN推理对照。它使用同128来源、直接执行器、生成设置和公开范围投影，零新教师、不更新库，全部256预测保存后才评分。描述性比较采用主方法当时的在线首答及共同空库，不冒称主末库重答，也不新增验证/测试划分、最终TEST臂或主要比较。静态库起步即完整，主方法从空库使用已释放TRAIN反馈学习，因此该对照不能单独隔离更新机制。精确指标、信息权限、成本和公平性见[附录D](appendix_experimental_details_20261022.md)，原零案例库及执行边界见[固定对照协议](../docs/research/OPENEXEMPT_FIXED_STATIC_TRAIN_CONTROL_20261022.md)。
 
-**分析规则已声明，实验未完成。** 独立IID128封存测试及分析规则在TEST暴露前声明，不冒称整个开发过程事前注册。10月22日增补在没有文本补充方法成绩、未打开TEST的前提下扩大主要比较族。主方法、ACE及Trace2Skill文本适配各预定seed45/145/245三次独立学习，均从无已学习法律指导开始。主方法和ACE seed45均已完整结束八批；首轮共享执行器文本经验对照在静态TRAIN完成后开始独立生成源轨迹，全部预测先于标签释放。其余四次主方法/ACE重复、两次学习消融及两次文本构建共八次未来学习已冻结但未启动，不是已完成重复。10月23日执行增补保持学习算法、最终矩阵和统计规则不变。
+**分析规则已声明，实验未完成。** 独立IID128封存测试及分析规则在TEST暴露前声明，不冒称整个开发过程事前注册。10月22日增补在没有文本补充方法成绩、未打开TEST的前提下扩大主要比较族。主方法、ACE及Trace2Skill文本适配各预定seed45/145/245三次独立学习，均从无已学习法律指导开始。主方法和ACE seed45均已完整结束八批；共享执行器文本seed45于10月24日完成构建和全部TRAIN重答，原始源预测均先于标签释放。整库准入消融已从空库后台启动，其余四次主方法/ACE重复、首次接收策略消融及两次文本构建共七次学习尚未启动，不是已完成重复。10月23日执行增补保持学习算法、最终矩阵和统计规则不变。
 
 ACE保留原生生成—反思—策展原则、生成器提示与回答外包装，使用已释放TRAIN反馈，至多三轮反思、8,192-token记忆。该比较针对已声明的完整任务适配，不是等总训练计算下的纯记忆规则干预。原始法律回答及无效输出分数保持不变；seed45从最后完整批次进行来源核验后的接续，恢复、新增和退役工作分别计账。适配语义及完整接续沿革见附录D。
 
@@ -134,7 +134,7 @@ ACE保留原生生成—反思—策展原则、生成器提示与回答外包�
 
 这是独立编写、标签辅助的文本任务适配，不是作者原生工具式ReAct分析员或默认原样复现。三份实际库全部进入末库比较，不按TRAIN挑最好seed；胜该变体不能推出胜完整原生Trace2Skill。[协议](../docs/research/OPENEXEMPT_TRACE2SKILL_TEXT_COMPLEMENT_20261022.md)保留源码固定、初始化、编辑语义、失败和计划成本。
 
-两项消融各声明一次seed45独立学习。`whole_bank`要求整份提案通过相同保持门槛，不按范围分量收录。`first_commit`关闭跨批失败携带，并在首次接收后停止，包括部分接收；它仍给训练标签，初次拒收后仍可再提一次，因此不是无标签或无反馈对照，效果还混合了可能不同的实际计算量。SkillCommit是必须引用和区分的最近邻，不是已完成的定量基线；用词法检索替换其声明的嵌入机制不能冒称忠实复现。即使胜ACE，也不能宣称胜SkillCommit或所有技能方法。
+两项消融各声明一次seed45独立学习。`whole_bank`要求整份提案通过相同保持门槛，不按范围分量收录。`first_commit`关闭跨批失败携带，在每批首次接收后停止本批候选细化，包括部分接收，后续批次仍继续学习；它仍给训练标签，初次拒收后仍可再提一次。因此它既不是冻结B1库，也不是无标签或无反馈对照，效果还混合了可能不同的实际计算量。SkillCommit是必须引用和区分的最近邻，不是已完成的定量基线；用词法检索替换其声明的嵌入机制不能冒称忠实复现。当前任务适配的对照结果不能推出胜SkillCommit或所有技能方法。
 
 每个终点的计划TEST差值先对实际学习库的同来源F1差取均值，再对128来源等权平均。共同空库和静态预测不能按学习seed复制成独立样本。来源配对cluster bootstrap采用20000次、PCG64 seed2026102192，报告普通95%区间及完整主要比较族的Bonferroni调整区间。增补后主要族为EC和EV分别对空库、自身B1、静态、ACE及文本适配，共十项，不再沿用八项；两项单seed学习消融仍是独立四项次要比较。区间以实际库及固定解码为条件，三库乘128来源不能算384独立来源。完整最终矩阵有16臂：主方法、自B1、ACE、文本适配各三库，空库、静态、两项消融各一库。首次TEST预测前还须真实末库、完整矩阵、配置及评测器齐备并冻结，目前未满足；不能看TEST后去掉不利对照或继续选择方法与库。详见[保留的分析增补](../docs/research/OPENEXEMPT_FINAL_ANALYSIS_TEXT_COMPLEMENT_ADDENDUM_20261022.md)。
 
@@ -216,7 +216,7 @@ Table 2. Complete B1–B8 TRAIN forecasts on the same 128 sources. Each conditio
 | Main evolving library | 82.03 | 79.16 |
 | Native-role ACE adaptation | 61.87 | 53.85 |
 
-The main method, direct reference and static control had no invalid predictions. ACE had four EC and nine EV invalid outputs, all retained in the 128-per-task denominators. All 256 recorded direct-empty answers and original scores matched across the two evolving runs; this observed agreement is not a general determinism guarantee. The native ACE prompt and answer wrapper differ from the direct interface even before learning, so Table 2 compares the disclosed adaptations rather than isolating the memory-update rule. The shared-actor text-memory control remains incomplete.
+The main method, direct reference and static control had no invalid predictions. ACE had four EC and nine EV invalid outputs, all retained in the 128-per-task denominators. All 256 recorded direct-empty answers and original scores matched across the two evolving runs; this observed agreement is not a general determinism guarantee. The native ACE prompt and answer wrapper differ from the direct interface even before learning, so Table 2 compares the disclosed adaptations rather than isolating the memory-update rule. The completed shared-actor text control is an offline construction and is compared at the final TRAIN-fitting stage in Section 5.5, not inserted into this online table.
 
 The blind static library scored 61.73% EC and 62.38% EV F1, descriptively +1.56 and −0.54 points relative to empty; this is not an equivalence test. Main first forecasts exceeded it by 20.30 EC and 16.78 EV points, with higher means at both endpoints in each B2–B8 batch. The result distinguishes this learned procedure library from this zero-case statutory summary, not all possible static prompting strategies. Diagnostic inventories found 432 versus 221 missed EC citations and 390 versus 209 omitted EV citations for static versus main first forecasts. EV amount mismatches were 50 versus 67, so the gain does not establish uniformly better numerical execution; these are claim occurrences, not independent cases or replacement F1 endpoints. The [complete static-control analysis](../artifacts/research/openexempt_legal_scope_20261020/static03_complete128_256_predictions_actual_metrics_residuals_cost_dual_preservation_and_Text45_handoff_NOT_TEST_20261023.json) binds all predictions, paired harms, exact existing score counts and costs.
 
@@ -224,7 +224,7 @@ ACE completed its eighth update on 23 October with 21 bullets and 2,158 tokens. 
 
 在完整128来源的首次遇案训练流中，主方法相较原生角色ACE任务适配的EC和EV F1分别高20.16和25.31个百分点（表2）。每个来源均使用本批反馈之前的技能库回答，并计入空记忆起步的首批，因此比较的是经验积累过程中的表现，不是知道答案后的同案重答。每方法256个任务预测对应128个独立来源；每个进化方法只有一次seed45学习流，不把任务视图或复用记录扩成独立样本。
 
-主方法、直接空库及静态控制均无无效预测；ACE有4个EC、9个EV无效输出，全部按原零分保留。两进化运行的256条直接空库记录答案与原分数一致，但这不构成普遍确定性保证。ACE原生提示和回答外包装在学习前就不同于直接接口，故表2比较已披露的完整适配系统，不将差异全归因于记忆更新；共享执行器文本经验对照仍未完成。
+主方法、直接空库及静态控制均无无效预测；ACE有4个EC、9个EV无效输出，全部按原零分保留。两进化运行的256条直接空库记录答案与原分数一致，但这不构成普遍确定性保证。ACE原生提示和回答外包装在学习前就不同于直接接口，故表2比较已披露的完整适配系统，不将差异全归因于记忆更新。共享执行器文本对照已完成，但属于离线构建，其末库TRAIN拟合在5.5节同阶段比较，不插入在线首答表。
 
 盲法条静态库EC/EV F1为61.73%/62.38%，相对空库描述性差值为+1.56/−0.54个百分点，不作等效性结论。主方法首答分别高20.30和16.78个百分点，B2–B8每批两端点均高于固定库；这区分了当前学得程序库与当前零案件法条摘要，不代表胜过所有静态提示。完整主张清单中，静态对主方法首答的EC漏引为432对221次、EV漏引为390对209次；EV金额错配为50对67次，不能由整体F1优势推出数值执行全面改善。这些是主张出现次数，不是独立案件或替代主指标。
 
@@ -232,7 +232,28 @@ ACE已于10月23日完成第八次更新，末库21条、2,158 tokens。计入�
 
 Evidence: [complete equal-source first-forecast aggregation](../artifacts/research/openexempt_legal_scope_20261020/Run03_vs_ACEv4_complete_B1_B8_equal128_prequential_FIRSTS_ONLY_last_learning_cost_pending_NOT_TEST_20261023.json); [all B8 raw requests, original scores, full bullet delivery and same-case controls](../artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run03_B8_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json).
 
-### 5.5 Confirmatory results pending / 正式结果待完成
+### 5.5 Complete final-bank TRAIN fitting / 完整末库TRAIN拟合
+
+The final main library exceeded the offline text bank by 33.29 EC and 39.56 EV F1 points on all 128 training sources (Table 3). Actual requests for all 256 task pairs shared the same system instruction, public case, response schema, model, seed and output ceiling; only the supplied guidance differed. This contrasts complete learned libraries after TRAIN feedback, rather than the online forecasts in Table 2.
+
+Table 3. Complete final-bank fitting on the same 128 TRAIN sources, one actual seed-45 learned bank per method and 256 task predictions per bank. Native F1 is averaged within each task; invalid outputs retain zero in the original 128-per-task denominator. Both libraries have used these sources for learning. This is descriptive fitting evidence, not an independent TEST result, an online curve or an uncertainty estimate across learning runs. Complete serialized library caps differ: 4,096 tokens for main and 8,192 for the text adaptation; actual sizes are 2,486 and 3,182 tokens. Total learning computation and curricula are not matched.
+
+| Final library | EC F1 (%) | EV F1 (%) | Invalid EC / EV |
+|---|---:|---:|---:|
+| Main B8 publication | 86.03 | 89.30 | 0 / 0 |
+| Trace2Skill text-task adaptation | 52.74 | 49.73 | 4 / 12 |
+
+The text learner completed all 256 trajectory analyses, 64 ordered merges and one planned translation, publishing one 3,182-token file without performance-based selection. Relative to its own saved empty forecasts, final EC and EV F1 fell by 7.43 and 13.19 points. The decline was not confined to 16 capped outputs: format-valid tasks contributed −5.51 EC and −8.61 EV points when summed over the unchanged 128-source denominators. This decomposition neither removes failures nor replaces the primary scores. Correct delivery and released targets therefore did not suffice to make this text adaptation useful for the weak actor; they do not identify the particular content or execution mechanism responsible.
+
+Main was higher on 95 EC sources and lower on three, with 30 ties; the corresponding EV counts were 101, three and 24. Complete source-paired accounting, original-score recomputation, actual request-budget checks and dual-disk preservation are bound in the [completed fitting audit](../artifacts/research/openexempt_legal_scope_20261020/Text45_complete128_256_actual_shared_actor_final_TRAIN_fit_vs_mainterminal_cost_dual_preservation_NOT_TEST_20261024.json). These observations support the separation of the delivered library from its measured utility. Attribution to scope-aware submission, independent-learning stability and unseen-case benefit still require the declared ablations, repetitions and frozen TEST.
+
+在全部128个已用训练来源上，主方法最终库相较离线文本库的EC和EV F1分别高33.29和39.56个百分点（表3）。全部256个同案任务的实际请求均核对共享system指令、公开案件、schema、模型、seed及输出上限，投递的指导不同。这比较的是获得TRAIN反馈后的完整学习库，不是表2的在线首答；每方法一份seed45库，失败仍在原128案分母，不能当隔离测试或独立重复。主方法与文本适配的完整库容量上限分别为4,096和8,192 tokens，实际库为2,486和3,182 tokens，总训练计算和课程不同。
+
+文本学习器完整执行256次逐轨迹分析、64次有序合并及一次预定翻译，发布一份3,182-token文件，不按效果选库。相对自身原始空库首答，末库EC/EV F1下降7.43/13.19个百分点。退化不只来自16条达到原预算上限的输出：格式有效任务仍在不变128案分母上贡献−5.51/−8.61个百分点；该分解不排除失败，也不替换主分数。输入送达和已释放标签并不充分保证这个文本适配能帮助弱执行器，但这些数据尚未识别具体内容或执行机制。
+
+主方法相较文本库的EC逐案计数为95好、3坏、30平，EV为101好、3坏、24平。原分数重算、真实请求预算、配对来源及双盘制品均由上述完整审计绑定。作用域提交的因果贡献、跨独立学习稳定性与新案迁移仍待预定消融、重复和冻结TEST，不能从同案拟合优势推出原生作者方法或全部技能学习方法上的SOTA。
+
+### 5.6 Confirmatory results pending / 正式结果待完成
 
 [PENDING RESULT — complete frozen TEST EC/EV and complete-output audit table; main versus same-case empty, own-B1, blind static library, ACE adaptation, and Trace2Skill text adaptation; arm estimates, paired effects, 95% and ten-contrast multiplicity-adjusted CIs, independent source n, completed/planned/invalid counts.]
 
@@ -240,7 +261,7 @@ Evidence: [complete equal-source first-forecast aggregation](../artifacts/resear
 
 [PENDING ANALYSIS — two independently learned single-seed mechanism ablations and the prespecified secondary comparison family; delimit feedback-policy/compute confounding rather than claiming information-only causality.]
 
-正式主表仍未完成。表1是主方法完整TRAIN开发流，表2是同128来源完整八批首答对照，均不填入TEST主表、不从旧运行拼接曲线。主方法及两种经验适配的三次独立学习、真实末库、两项消融和正式十项比较仍须完成。不能将自定义profile的TRAIN值与别人的官方Advanced测试成绩横排成SOTA，不能凭首答对照推定最终库已胜出，或声称优于未复现的原生Trace2Skill及SkillCommit。
+正式主表仍未完成。表1是主方法完整TRAIN开发流，表2是同128来源完整八批首答对照，表3是同阶段末库TRAIN拟合；三者均不填入TEST主表、不从旧运行拼接曲线。主方法及两种经验适配的三次独立学习、两项消融和正式十项比较仍须完成。不能将自定义profile的TRAIN值与别人的官方Advanced测试成绩横排成SOTA，不能由拟合优势推定隔离迁移，或声称优于未复现的原生Trace2Skill及SkillCommit。
 
 ## 6. Discussion and scope / 讨论与边界
 
