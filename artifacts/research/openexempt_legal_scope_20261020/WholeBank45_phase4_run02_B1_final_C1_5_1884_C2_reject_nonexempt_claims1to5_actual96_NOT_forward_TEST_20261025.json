@@ -1,0 +1,530 @@
+{
+  "at": "2026-10-24T17:22:44.920636+00:00",
+  "classification": "Complete replacement Whole45 B1 final publication, rejected C2 genuine negative-asset overclaims, actual96call costs, fixed B1 snapshot and B2 published-bank delivery; NOT forward/test results",
+  "B1_final_bank": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1",
+  "B1_records": 5,
+  "B1_tokens": 1884,
+  "publication_at": "2026-10-24T17:12:39.923385+00:00",
+  "B1_full_wall_seconds": 2746.3619389533997,
+  "C2_rejected_despite_both_native_and_full_mean_F1_improving": true,
+  "C2_proposed_bank": "e22700a27be15be726c3568e212bf382dc13b70b32d28570f0f75fe968f8bd32",
+  "C2_proposed_records": 5,
+  "C2_proposed_tokens": 1999,
+  "C2_32_actual_payload_guidance_schema_generation_checked": true,
+  "C2_original_full_gate_recomputed_exactly": true,
+  "C1_fit": {
+    "EC": {
+      "precision": 0.9401041666666666,
+      "recall": 0.69921875,
+      "f1": 0.780580357142857,
+      "exact_target": 0.25,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.8118494152046782,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "EV": {
+      "precision": 0.9121527777777778,
+      "recall": 0.7439236111111112,
+      "f1": 0.8027033730158729,
+      "exact_target": 0.125,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 1,
+      "full_output_f1": 0.790207732082732,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "mean_family_f1": 0.791641865079365
+  },
+  "C2_fit": {
+    "EC": {
+      "precision": 0.9635416666666666,
+      "recall": 0.8854166666666665,
+      "f1": 0.9146825396825398,
+      "exact_target": 0.5625,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.9383540372670809,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "EV": {
+      "precision": 0.91015625,
+      "recall": 0.7942708333333333,
+      "f1": 0.8341145833333333,
+      "exact_target": 0.1875,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 5,
+      "full_output_f1": 0.7970448456879378,
+      "negative_or_unscored_asset_claims": 5
+    },
+    "mean_family_f1": 0.8743985615079366
+  },
+  "C2_paired_contrasts": {
+    "EC": {
+      "sources": 16,
+      "native_F1_delta_pp": 13.410218253968253,
+      "help": 10,
+      "hurt": 2,
+      "tie": 4
+    },
+    "EV": {
+      "sources": 16,
+      "native_F1_delta_pp": 3.141121031746033,
+      "help": 6,
+      "hurt": 4,
+      "tie": 6
+    }
+  },
+  "all_native_taskwise_harms": [
+    {
+      "source": 181,
+      "family": "EV",
+      "before": 0.8666666666666667,
+      "after": 0.5892857142857143
+    },
+    {
+      "source": 184,
+      "family": "EV",
+      "before": 0.6583333333333332,
+      "after": 0.5
+    },
+    {
+      "source": 190,
+      "family": "EC",
+      "before": 1,
+      "after": 0.8333333333333333
+    },
+    {
+      "source": 192,
+      "family": "EC",
+      "before": 1,
+      "after": 0.8
+    },
+    {
+      "source": 192,
+      "family": "EV",
+      "before": 0.8,
+      "after": 0.6666666666666666
+    },
+    {
+      "source": 193,
+      "family": "EV",
+      "before": 0.7380952380952381,
+      "after": 0.5357142857142858
+    }
+  ],
+  "two_verified_nonexempt_asset_examples_native_F1_still1": [
+    {
+      "source": 182,
+      "family": "EV",
+      "before_negative_unscored": 1,
+      "after_negative_unscored": 4,
+      "original_native_F1_before_after": [
+        1,
+        1
+      ],
+      "confirmed_genuinely_nonexempt_by_released_EC_and_EV_targets": true,
+      "assets": {
+        "handcrafted wire-wrapped pendant with semi-precious stone": {
+          "EC_target": [],
+          "absent_from_EV_target": true,
+          "before_claims": [
+            {
+              "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+              "claim_value": 0
+            }
+          ],
+          "after_claims": [
+            {
+              "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+              "claim_value": 0
+            },
+            {
+              "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+              "claim_value": 0
+            },
+            {
+              "citation": "Ariz. Rev. Stat. § 33-1125(11)",
+              "claim_value": 0
+            },
+            {
+              "citation": "Ariz. Rev. Stat. § 33-1123",
+              "claim_value": 0
+            }
+          ]
+        }
+      },
+      "before_raw": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate1_replay/182_EV_candidate.json",
+      "after_raw": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/182_EV_candidate.json"
+    },
+    {
+      "source": 183,
+      "family": "EV",
+      "before_negative_unscored": 0,
+      "after_negative_unscored": 1,
+      "original_native_F1_before_after": [
+        1,
+        1
+      ],
+      "confirmed_genuinely_nonexempt_by_released_EC_and_EV_targets": true,
+      "assets": {
+        "18-karat gold tennis bracelet with two carats of channel-set diamonds": {
+          "EC_target": [],
+          "absent_from_EV_target": true,
+          "before_claims": [],
+          "after_claims": [
+            {
+              "citation": "Ariz. Rev. Stat. § 33-1123",
+              "claim_value": 4770
+            }
+          ]
+        }
+      },
+      "before_raw": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate1_replay/183_EV_candidate.json",
+      "after_raw": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/183_EV_candidate.json"
+    }
+  ],
+  "C2_all96_raw_input_answer_paths": [
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/181_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/181_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/181_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/181_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/181_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/181_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/182_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/182_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/182_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/182_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/182_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/182_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/183_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/183_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/183_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/183_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/183_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/183_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/184_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/184_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/184_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/184_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/184_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/184_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/185_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/185_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/185_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/185_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/185_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/185_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/186_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/186_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/186_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/186_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/186_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/186_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/187_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/187_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/187_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/187_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/187_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/187_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/188_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/188_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/188_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/188_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/188_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/188_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/189_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/189_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/189_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/189_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/189_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/189_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/190_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/190_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/190_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/190_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/190_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/190_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/191_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/191_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/191_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/191_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/191_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/191_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/192_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/192_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/192_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/192_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/192_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/192_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/193_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/193_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/193_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/193_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/193_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/193_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/194_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/194_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/194_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/194_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/194_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/194_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/195_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/195_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/195_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/195_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/195_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/195_EV_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/196_EC_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/196_EC_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/196_EC_candidate.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/196_EV_candidate.answer.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/196_EV_candidate.input.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/196_EV_candidate.json"
+  ],
+  "B1_physical_native_calls": 96,
+  "B1_native_finish_reasons": {
+    "stop": 96
+  },
+  "B1_native_usage": {
+    "input_tokens": 632624,
+    "output_tokens": 265719
+  },
+  "B1_actual_generation_stages": [
+    {
+      "stage": "b1_prequential",
+      "physical_generations": 32,
+      "usage": {
+        "input_tokens": 203944,
+        "output_tokens": 88496
+      },
+      "request_phase_wall_seconds": 834.0090863704681
+    },
+    {
+      "stage": "b1_candidate1_replay",
+      "physical_generations": 32,
+      "usage": {
+        "input_tokens": 214060,
+        "output_tokens": 84055
+      },
+      "request_phase_wall_seconds": 814.858540058136
+    },
+    {
+      "stage": "b1_candidate2_replay",
+      "physical_generations": 32,
+      "usage": {
+        "input_tokens": 214620,
+        "output_tokens": 93168
+      },
+      "request_phase_wall_seconds": 916.9118974208832
+    }
+  ],
+  "B1_teachers": [
+    {
+      "attempt": 1,
+      "elapsed_seconds": 97.117,
+      "usage": {
+        "input_tokens": 126357,
+        "cached_input_tokens": 0,
+        "output_tokens": 5010,
+        "reasoning_output_tokens": 2807
+      },
+      "model": "gpt-5.6-sol"
+    },
+    {
+      "attempt": 2,
+      "elapsed_seconds": 78.385,
+      "usage": {
+        "input_tokens": 141326,
+        "cached_input_tokens": 0,
+        "output_tokens": 4243,
+        "reasoning_output_tokens": 1864
+      },
+      "model": "gpt-5.6-sol"
+    }
+  ],
+  "B1_teacher_known_usage": {
+    "input_tokens": 267683,
+    "cached_input_tokens": 0,
+    "output_tokens": 9253,
+    "reasoning_output_tokens": 4671
+  },
+  "reasoning_tokens_already_in_output_not_added_twice": true,
+  "B1_snapshot_exact_publication_not_selected_using_B2": true,
+  "B2_saved_actual_input_bank_proofs_no_partial_scores": [
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/197_EC_frozen_after_B1.input.json",
+      "sha256": "8c1887a0d52b668d14112bf63fffdd14e365208ba98bc881a3d08ffdae3a915e",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/197_EC_skills.input.json",
+      "sha256": "8c1887a0d52b668d14112bf63fffdd14e365208ba98bc881a3d08ffdae3a915e",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/197_EV_frozen_after_B1.input.json",
+      "sha256": "dca58efac509c77c7280061ef6577325f9a43c4bf1e4dcab1a853cfb0590996a",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/197_EV_skills.input.json",
+      "sha256": "dca58efac509c77c7280061ef6577325f9a43c4bf1e4dcab1a853cfb0590996a",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/198_EC_frozen_after_B1.input.json",
+      "sha256": "2af506e051946f23e42d539db35669e8f02158e3cc1a5e89c27b8322a176f941",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/198_EC_skills.input.json",
+      "sha256": "2af506e051946f23e42d539db35669e8f02158e3cc1a5e89c27b8322a176f941",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/198_EV_frozen_after_B1.input.json",
+      "sha256": "0a2c9e9f5cf77600e64db0d33dd82f616904a844aa12e50347c3c75654d2ec8f",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/198_EV_skills.input.json",
+      "sha256": "0a2c9e9f5cf77600e64db0d33dd82f616904a844aa12e50347c3c75654d2ec8f",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/199_EC_frozen_after_B1.input.json",
+      "sha256": "167a169fc733b8ab2411cfdd4b8d4d539e2c2f52a465e08c8258d3d980d0f180",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/199_EC_skills.input.json",
+      "sha256": "167a169fc733b8ab2411cfdd4b8d4d539e2c2f52a465e08c8258d3d980d0f180",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/199_EV_frozen_after_B1.input.json",
+      "sha256": "fca32e535cf47d865cfc38eb0bf7cac746ad1bc859a93bf42aad116b5ffcd9d7",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/199_EV_skills.input.json",
+      "sha256": "fca32e535cf47d865cfc38eb0bf7cac746ad1bc859a93bf42aad116b5ffcd9d7",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/200_EC_frozen_after_B1.input.json",
+      "sha256": "8a64422c3b2e669c270336bef2768b901797c6dc601b3da469bd9e3df87ecbee",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/200_EC_skills.input.json",
+      "sha256": "8a64422c3b2e669c270336bef2768b901797c6dc601b3da469bd9e3df87ecbee",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/200_EV_frozen_after_B1.input.json",
+      "sha256": "dcf9908232b62db33f15ef30d9d81ae1365b4f902f0c470591c4c8d8ee3512db",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/200_EV_skills.input.json",
+      "sha256": "dcf9908232b62db33f15ef30d9d81ae1365b4f902f0c470591c4c8d8ee3512db",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/201_EC_frozen_after_B1.input.json",
+      "sha256": "cadb5017fb69170c8a5e36b831e2ebc3d964c8b1f71328b52319aaacc4ddf920",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/201_EC_skills.input.json",
+      "sha256": "cadb5017fb69170c8a5e36b831e2ebc3d964c8b1f71328b52319aaacc4ddf920",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/201_EV_frozen_after_B1.input.json",
+      "sha256": "e02dfbc68daa4a6fb72ec3bfcc43a9d6cbd505f3bae9dad1fd76902ce60b91d0",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/201_EV_skills.input.json",
+      "sha256": "e02dfbc68daa4a6fb72ec3bfcc43a9d6cbd505f3bae9dad1fd76902ce60b91d0",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/202_EC_frozen_after_B1.input.json",
+      "sha256": "4cf32d20ae4cf8aee7a6791e601a958de5d02689380e9b15cfa085ae529138c6",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/202_EC_skills.input.json",
+      "sha256": "4cf32d20ae4cf8aee7a6791e601a958de5d02689380e9b15cfa085ae529138c6",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/202_EV_frozen_after_B1.input.json",
+      "sha256": "b86de8f06df4c572982b437956b417a82b65b82466abd48beb06c00dbde389c0",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/202_EV_skills.input.json",
+      "sha256": "b86de8f06df4c572982b437956b417a82b65b82466abd48beb06c00dbde389c0",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/203_EC_frozen_after_B1.input.json",
+      "sha256": "0724d57fcd44a7022e04cb117f62ecffe6d3ece2e6b0e7c8ffbf393fd6a8d76a",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/203_EC_skills.input.json",
+      "sha256": "0724d57fcd44a7022e04cb117f62ecffe6d3ece2e6b0e7c8ffbf393fd6a8d76a",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/203_EV_skills.input.json",
+      "sha256": "ccea2a2fe50c9c7c838a4934fa66c519acf51e8870fbc8c64f7257019b0595c4",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/204_EC_skills.input.json",
+      "sha256": "23c1ecce48d996f9e1685fc180eff22fdb4756d482835e99f516c1a8e605ce40",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/204_EV_skills.input.json",
+      "sha256": "8ad8ff5beee45def261b7abb2879affb17056db008075f05dd5b17f9dc727418",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b2_prequential/205_EC_skills.input.json",
+      "sha256": "8d9d4624163d6ce4a2eae323034b2f077828c398e56e70f8c3e24cb5eb087094",
+      "bank_sha256": "aea71dd3df881dbe9e688f2fa90b70f8fb565f6c1590db227b2f49398e38fde1"
+    }
+  ],
+  "source_sha256": {
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b1.json": "b7e246b25ead33f64d121636be757e0c32c806831af3910ddf57626def2a83d5",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/frozen_after_B1.json": "e704d0a43c828a5fea835bd155652fbe8d8a1aa8058c1b6689f7550b123cbf60",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/candidates/b1_candidate1.json": "b12c7233dc0c270d98d5d4541ca8965061c8dab9433818ff2dab48fa0b25c45f",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/candidates/b1_candidate2.json": "7c99ee1a35fdbbd5ace3d8dff55e06bd5928bb9e1b3e70b117bf6513eb803e19",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/batches/b1_prequential.json": "fce7b537b77e0f0947ea26c8751b827096a11de6946703371dd65e2c930e1980",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/batches/b1_prequential_records.json": "6e679acf734e2e0eb90459856181393a6855cd3adb37e7d029f53847375bebd1",
+    "configs/openexempt_whole_bank_public_assets128_phase4_20261025_run02.json": "684da0d5b5b78c115920c55a5971f5ece7b8260e9e114a7fb6205702625f206a",
+    "configs/openexempt_whole_bank_public_assets128_phase4_20261025_run02.frozen.json": "144f01d70784b85e31b0314ecb4df416163c04c2662e5ea620cbe094ab8737e3",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/teacher/b1_candidate1/wire_request.json": "6df8b840b65086ed1ad3522fd8eeaa170410920db4efe3ca716aba52a41a3f63",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/teacher/b1_candidate1/response.json": "691d9f07708e9ddd9627ae5a79156d777c9a9be4bd27ced315858c6f5d9c9bfb",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/teacher/b1_candidate1/event_log.json": "9984f5f15068ec5d3f00859eb269af99fd9dc6d1a45fdef7c86525355a3cf9a1",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/teacher/b1_candidate2/wire_request.json": "b5dac3b37e58da1846ee3efa02a3617cdcd04034e092c8014272e80b1ae0aed8",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/teacher/b1_candidate2/response.json": "6d6329e7bf5ee6ecc7cbcccddc3fdc8a5452e527113024c5ed6390af3a7cb60c",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/teacher/b1_candidate2/event_log.json": "1e6869cf6103129961506c3fe6f7bffe0e643aabcf83789e54dad9d3ba361693"
+  },
+  "no_software_method_metric_teacher_or_model_changes": true,
+  "no_new_generation_teacher_tokenizer_or_TEST_calls_from_audit": true,
+  "no_TaskLocal_training_or_mixed_counterfactual_claim": true,
+  "C2_failed_original_gate": "current_negative_asset_and_format_nonregression: EV false-claim count1to5; all formats valid",
+  "recomputation_program": "from pathlib import Path\nfrom datetime import datetime,timezone\nfrom collections import Counter\nimport json,hashlib\nfrom experiments.openexempt_online import actor_payload,acceptance\nfrom legal_skill_guard.openexempt import metrics\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nroot=Path.cwd();run=root/'runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02'\nread=lambda p:json.loads(p.read_text());sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\ncfgp=root/'configs/openexempt_whole_bank_public_assets128_phase4_20261025_run02.json';cfg=read(cfgp)\nc1=read(run/'candidates/b1_candidate1.json');c2=read(run/'candidates/b1_candidate2.json');pub=read(run/'publications/b1.json');snap=read(run/'frozen_after_B1.json')\nassert c1['accepted'] and not c2['accepted'] and c2['reason']=='whole_proposal_failed_original_full_gate'\nassert pub['bank']==c1['candidate']==snap['bank'] and csha(pub['bank'])==pub['bank_sha256']==snap['bank_sha256']\nassert pub['bank_sha256']!=csha(c2['candidate']) and snap['freeze_after_exactly_batch']==1\nassert [d['accepted'] for d in pub['training_decisions']]==[True,False]\nparent=c1['actual_replay'];after=c2['actual_replay'];derived=acceptance(parent,after,[],[])\nassert not derived['accepted'] and all(c2['proposed_whole_bank_acceptance'][k]==v for k,v in derived.items())\nassert all(derived[k] for k in ['current_family_nonregression','strict_current_improvement','current_full_output_nonregression']) and not derived['current_negative_asset_and_format_nonregression']\nrows={(r['case_id'],r['family']):r for r in read(root/cfg['input_packet'])['rows']};expected={(i,f) for i in range(181,197) for f in ['EC','EV']}\npaths=set();origins=set();usage=Counter();finishes=Counter();native_ids=set()\nassert len(after)==32 and {(r['case_id'],r['family']) for r in after}==expected\nfor a in after:\n p=run/f\"native/{a['stage']}/{a['case_id']}_{a['family']}_{a['arm']}.input.json\";d=read(p);bank=c2['proposed_bank']\n messages,schema,supplied=actor_payload(rows[a['case_id'],a['family']],bank,grounded=True,direct_numeric=True,asset_references=True)\n assert d['messages']==messages and d['schema']==schema and a['bank_sha256']==d['bank_sha256']==csha(bank)\n assert d['delivered_skill_ids']==a['delivered_skill_ids']==[s['id'] for s in supplied]\n raw=read(root/a['raw_call_path']);assert len(raw['calls'])==1 and not raw['transport_error'];q=raw['calls'][0]['request']\n assert q['messages']==messages and q['response_format']['json_schema']['schema']==schema\n assert all(q[k]==cfg['generation'][k] for k in ['model','seed','max_tokens','temperature','top_p','top_k'])\n assert a['native_program'] is None and a['execution_receipt'] is None\n assert json.loads(raw['calls'][0]['response']['choices'][0]['message']['content'])==a['public_label_submission']\n paths.update([str(p.relative_to(root)),str(p.with_name(p.name.replace('.input.json','.answer.json')).relative_to(root)),a['raw_call_path']]);origins.add(a['raw_call_path'])\nassert len(origins)==32 and len(paths)==96\nstages=[];allraw=[]\nfor stage in ['b1_prequential','b1_candidate1_replay','b1_candidate2_replay']:\n raw=[p for p in (run/'native'/stage).glob('*.json') if not p.name.endswith(('.input.json','.answer.json'))];assert len(raw)==32\n total=Counter();reasons=Counter()\n for p in raw:\n  r=read(p);assert not r['transport_error'] and len(r['calls'])==1;w=r['calls'][0]['response'];native_ids.add(w['id'])\n  total['input_tokens']+=w['usage']['prompt_tokens'];total['output_tokens']+=w['usage']['completion_tokens'];reasons[w['choices'][0]['finish_reason']]+=1\n assert reasons=={'stop':32};usage.update(total);finishes.update(reasons);allraw.extend(raw)\n stages.append({'stage':stage,'physical_generations':32,'usage':dict(total),'request_phase_wall_seconds':max(p.stat().st_mtime for p in raw)-min(p.with_suffix('.input.json').stat().st_mtime for p in raw)})\nassert len(native_ids)==96 and len(allraw)==96\nbefore={(a['case_id'],a['family']):a for a in parent}\npairs={}\nfor family in ['EC','EV']:\n deltas=[a['score']['f1']-before[a['case_id'],a['family']]['score']['f1'] for a in after if a['family']==family]\n pairs[family]={'sources':16,'native_F1_delta_pp':100*sum(deltas)/16,'help':sum(d>1e-12 for d in deltas),'hurt':sum(d<-1e-12 for d in deltas),'tie':sum(abs(d)<=1e-12 for d in deltas)}\ndef neg(s):return s['negative_target_asset_predicted_claims']+s.get('officially_unscored_predicted_claims',0)\nharms=[];bad_examples=[]\nfor a in after:\n b=before[a['case_id'],a['family']]\n if a['score']['f1']<b['score']['f1']-1e-12:harms.append({'source':a['case_id'],'family':a['family'],'before':b['score']['f1'],'after':a['score']['f1']})\n if neg(a['score'])>neg(b['score']):\n  t=read(root/cfg['grading_directory']/f\"{a['case_id']}.json\")['targets']\n  bad={asset:{'EC_target':t['EC'].get(asset),'absent_from_EV_target':asset not in t['EV'],'before_claims':b['parsed']['answer'].get(asset,[]),'after_claims':a['parsed']['answer'].get(asset,[])} for asset in a['score']['officially_unscored_predicted_assets']}\n  assert all(v['EC_target']==[] and v['absent_from_EV_target'] for v in bad.values())\n  bad_examples.append({'source':a['case_id'],'family':a['family'],'before_negative_unscored':neg(b['score']),'after_negative_unscored':neg(a['score']),'original_native_F1_before_after':[b['score']['f1'],a['score']['f1']],'confirmed_genuinely_nonexempt_by_released_EC_and_EV_targets':True,'assets':bad,'before_raw':b['raw_call_path'],'after_raw':a['raw_call_path']})\nassert [x['source'] for x in bad_examples]==[182,183]\nteachers=[];teacher_total=Counter()\nfor n in [1,2]:\n response=read(run/f'teacher/b1_candidate{n}/response.json');inv=response['invocation'];teacher_total.update(inv['usage'])\n teachers.append({'attempt':n,'elapsed_seconds':inv['elapsed_seconds'],'usage':inv['usage'],'model':response['model']})\nb2inputs=[]\nfor p in sorted((run/'native/b2_prequential').glob('*.input.json')):\n if not p.name.endswith(('_skills.input.json','_frozen_after_B1.input.json')):continue\n d=read(p);assert d['bank_sha256']==pub['bank_sha256']\n b2inputs.append({'path':str(p.relative_to(root)),'sha256':sha(p),'bank_sha256':d['bank_sha256']})\nassert b2inputs\nwall=datetime.fromisoformat(pub['at']).timestamp()-(run/'initialization.json').stat().st_mtime\nsource=[run/'publications/b1.json',run/'frozen_after_B1.json',run/'candidates/b1_candidate1.json',run/'candidates/b1_candidate2.json',run/'batches/b1_prequential.json',run/'batches/b1_prequential_records.json',cfgp,cfgp.with_suffix('.frozen.json')]\nfor n in [1,2]:\n source.extend(run/f'teacher/b1_candidate{n}'/x for x in ['wire_request.json','response.json','event_log.json'])\nresult={'at':datetime.now(timezone.utc).isoformat(),'classification':'Complete replacement Whole45 B1 final publication, rejected C2 genuine negative-asset overclaims, actual96call costs, fixed B1 snapshot and B2 published-bank delivery; NOT forward/test results','B1_final_bank':pub['bank_sha256'],'B1_records':5,'B1_tokens':1884,'publication_at':pub['at'],'B1_full_wall_seconds':wall,'C2_rejected_despite_both_native_and_full_mean_F1_improving':True,'C2_proposed_bank':csha(c2['proposed_bank']),'C2_proposed_records':len(c2['proposed_bank']),'C2_proposed_tokens':c2['proposed_tokens'],'C2_32_actual_payload_guidance_schema_generation_checked':True,'C2_original_full_gate_recomputed_exactly':True,'C2_failed_original_gate':'current_negative_asset_and_format_nonregression: EV false-claim count1to5; all formats valid','C1_fit':metrics(parent),'C2_fit':metrics(after),'C2_paired_contrasts':pairs,'all_native_taskwise_harms':harms,'two_verified_nonexempt_asset_examples_native_F1_still1':bad_examples,'C2_all96_raw_input_answer_paths':sorted(paths),'B1_physical_native_calls':96,'B1_native_finish_reasons':dict(finishes),'B1_native_usage':dict(usage),'B1_actual_generation_stages':stages,'B1_teachers':teachers,'B1_teacher_known_usage':dict(teacher_total),'reasoning_tokens_already_in_output_not_added_twice':True,'B1_snapshot_exact_publication_not_selected_using_B2':True,'B2_saved_actual_input_bank_proofs_no_partial_scores':b2inputs,'source_sha256':{str(p.relative_to(root)):sha(p) for p in source},'no_software_method_metric_teacher_or_model_changes':True,'no_new_generation_teacher_tokenizer_or_TEST_calls_from_audit':True,'no_TaskLocal_training_or_mixed_counterfactual_claim':True}\nprint(json.dumps(result,ensure_ascii=False))\n"
+}

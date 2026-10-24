@@ -29,8 +29,18 @@
 教师首提案5次CREATE已完整阅读；其后第一候选完整32任务重放通过，形成5条/1884tokens
 的实际父库aea71d。EC/EV标签后拟合为78.06/80.27%，并保留3个退化任务；这是当前TRAIN
 拟合，不是后续新案或TEST收益。第二教师收到的父库、32个原答案/目标/分数均核实正确，
-当前第二候选重放，B1最终发布及完整八批控制仍未完成。
+其后B1已于2026-10-25 01:12 CST最终发布C1五条/1884tokens、bank aea71d，并冻结同一B1
+参照；B2保存的技能和自身B1请求已核实只用正式库。整批2746.36秒（45分46秒），
+96次真实生成全stop，实际632624输入/265719输出token，两次教师267683输入/9253输出，
+其中4671推理已含在输出内。完整八批控制仍未完成，不能把B1拟合当作后续收益。
 [C1原生重放、门槛、全部损害和第二教师输入](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_B1_C1_complete32_accepted5_1884_teacher2_parent_all3harms_NOT_forward_TEST_20261025.json)
+
+C2五次UPDATE的EC/EV原生拟合实际更高（91.47/83.41%），但EV负目标/未计分声明
+从1增到5，违反共同原门槛而被拒，不能误写成原生F1下降。182的非豁免吊坠被附4条
+零额法条，183的非豁免手镯被错误保护4770；已用原EC空目标和EV缺省目标确认不是
+资产匹配误差，两案原生EV F1仍为1，全部错误与任务级退化保留。EC诊断可通过而EV
+不通过，不等于已训练/发布Task-local或任何混合库。当前继续B2完整新案首答。
+[B1最终决策、两处真实负资产错误、全96调用成本与B2正式投递](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_run02_B1_final_C1_5_1884_C2_reject_nonexempt_claims1to5_actual96_NOT_forward_TEST_20261025.json)
 
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
