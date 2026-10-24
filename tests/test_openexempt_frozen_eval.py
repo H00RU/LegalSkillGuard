@@ -309,13 +309,14 @@ def test_exact_ACE_prefix_origin_is_valid_without_a_TEST_or_model_read(continued
 @pytest.mark.parametrize("stage", [frozen.INITIAL_STAGE, frozen.FINAL_STAGE])
 @pytest.mark.parametrize("mutation", [None, "missing_text", "small_matrix", "small_TEST", "small_TRAIN",
                                       "old12_matrix", "old_single_baseline_design", "missing_stage",
-                                      "missing_plan", "missing_plan_hash", "missing_protocol",
+                                      "missing_plan", "missing_plan_hash", "missing_protocol", "old_ablations",
                                       "wrong_batch", "missing_primary", "missing_ablation"])
 def test_formal_CLI_requires_the_complete_paper_design_before_bank_or_TEST_access(
         tmp_path, monkeypatch, stage, mutation):
     cfg = {"external_text_adaptation": "trace2skill_text_offline_v1",
            "arms": [{}] * (8 if stage == frozen.INITIAL_STAGE else 16),
            "evaluation_stage": stage, "staged_comparison_protocol": frozen.STAGED_PROTOCOL,
+           "ablation_design": "legal_scope_granularity_v1",
            "future_learning_plan": "six_recipes.json", "future_learning_plan_sha256": "a" * 64,
            "source_cases": 128, "training_source_cases": 128, "training_batch_source_cases": 16,
            "primary_contrasts": [{}] * 5, "secondary_contrasts": [{}] * 2}
@@ -335,6 +336,8 @@ def test_formal_CLI_requires_the_complete_paper_design_before_bank_or_TEST_acces
         del cfg["future_learning_plan_sha256"]
     elif mutation == "missing_protocol":
         del cfg["staged_comparison_protocol"]
+    elif mutation == "old_ablations":
+        cfg["ablation_design"] = "scope_and_feedback_legacy"
     elif mutation == "small_TEST":
         cfg["source_cases"] = 24
     elif mutation == "small_TRAIN":
@@ -903,7 +906,8 @@ def _staged_six_recipe_fixture(plan):
         if arm["name"] not in initial_names:
             arm["bank_sha256"] = None
     future = {"policy": "six_recipes_frozen_before_initial_TEST_v1",
-              "no_TEST_feedback_to_learning": True, "all_six_builds_run_without_score_selection": True,
+              "no_TEST_feedback_to_learning": True, "future_builds_not_selected_using_initial_scores": True,
+              "additional_learning_execution_authorization": "deferred_until_user_review_after_teacher_draft",
               "future_recipes_not_completed_banks": True, "learning": entries,
               "planned_final_arms": templates, "initial_arm_names": initial_names,
               "primary_contrasts": copy.deepcopy(cfg["primary_contrasts"]),
@@ -923,7 +927,7 @@ def _staged_six_recipe_fixture(plan):
 @pytest.mark.parametrize("stage", [frozen.INITIAL_STAGE, frozen.FINAL_STAGE])
 @pytest.mark.parametrize("mutation", [None, "missing_recipe", "duplicate_seed", "config_hash",
     "frozen_hash", "runtime_unbound", "warm_origin", "changed_policy", "selected_repeats",
-    "invented_bank", "initial_bank", "dropped_contrast", "started_before_initial"])
+    "invented_bank", "initial_bank", "dropped_contrast", "started_before_initial", "unauthorized_repeats"])
 def test_staged_six_actual_recipes_are_fixed_before_any_TEST_read(plan, monkeypatch, stage, mutation):
     cfg, sources, future, root = _staged_six_recipe_fixture(plan)
     if stage == frozen.FINAL_STAGE:
@@ -958,7 +962,7 @@ def test_staged_six_actual_recipes_are_fixed_before_any_TEST_read(plan, monkeypa
         RunStore.atomic_json(bound_path, bound)
         entry["source_frozen_sha256"] = sha(bound_path)
     elif mutation == "selected_repeats":
-        future["all_six_builds_run_without_score_selection"] = False
+        future["future_builds_not_selected_using_initial_scores"] = False
     elif mutation == "invented_bank":
         next(a for a in future["planned_final_arms"] if a["name"] == "ours145")["bank_sha256"] = csha([])
     elif mutation == "initial_bank":
@@ -967,6 +971,8 @@ def test_staged_six_actual_recipes_are_fixed_before_any_TEST_read(plan, monkeypa
         cfg["primary_contrasts"].pop()
     elif mutation == "started_before_initial":
         (root / "runs" / read(root / entry["source_config"])["run_id"]).mkdir()
+    elif mutation == "unauthorized_repeats":
+        future["additional_learning_execution_authorization"] = "execute_now"
     RunStore.atomic_json(root / cfg["future_learning_plan"], future)
     cfg["future_learning_plan_sha256"] = sha(root / cfg["future_learning_plan"])
     def guarded(path):
@@ -1308,6 +1314,39 @@ def test_policy_ablations_are_actual_single_seed_variants_before_TEST_load(plan,
     monkeypatch.setattr(frozen, "read", guarded)
     with pytest.raises(ValueError):
         frozen.fixed_banks(cfg)
+
+
+@pytest.mark.parametrize("mutation", [None, "feedback_changed", "scope_changed", "old_first_commit",
+                                      "new_attempt_cap", "unknown_design"])
+def test_approved_task_local_ablation_changes_only_the_declared_granularity(plan, mutation):
+    cfg, _, root = plan
+    sources = {a["name"]: read(root / a["source_config"])
+               for a in cfg["arms"] if a.get("source_config")}
+    cfg["ablation_design"] = "legal_scope_granularity_v1"
+    target = next(a for a in cfg["arms"] if a["name"] == "first_commit")
+    target["name"] = "task_local"
+    variant = sources.pop("first_commit")
+    variant.update(ablation_variant="task_local", skill_commit_policy="task_local",
+                   candidate_feedback_policy="carry_partial_and_refine")
+    sources["task_local"] = variant
+    for contrast in cfg["secondary_contrasts"]:
+        if contrast["before"] == ["first_commit"]:
+            contrast.update(name="vs_task_local", before=["task_local"])
+    if mutation == "feedback_changed":
+        variant["candidate_feedback_policy"] = "batch_only_first_commit"
+    elif mutation == "scope_changed":
+        variant["skill_commit_policy"] = "legal_scope"
+    elif mutation == "old_first_commit":
+        variant["ablation_variant"] = "first_commit"
+    elif mutation == "new_attempt_cap":
+        variant["max_candidate_attempts"] = 1
+    elif mutation == "unknown_design":
+        cfg["ablation_design"] = "not_declared"
+    if mutation is None:
+        frozen.check_secondary_contrasts(cfg, sources)
+    else:
+        with pytest.raises(ValueError):
+            frozen.check_secondary_contrasts(cfg, sources)
 
 
 @pytest.mark.parametrize("mutation", ["missing", "duplicate", "identity", "nonfinite", "extra_arm"])

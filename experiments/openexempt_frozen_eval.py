@@ -191,8 +191,16 @@ def check_secondary_contrasts(cfg, source_configs):
     arms = {a["name"]: a for a in cfg["arms"]}
     evolved = [n for n, a in arms.items() if a["role"] == "evolved"
                and source_configs[n]["generation"]["seed"] == 45]
-    expected = {"whole_bank": ("whole_bank", "carry_partial_and_refine"),
-                "first_commit": ("legal_scope", "batch_only_first_commit")}
+    design = cfg.get("ablation_design", "scope_and_feedback_legacy")
+    if design == "legal_scope_granularity_v1":
+        expected = {"whole_bank": ("whole_bank", "carry_partial_and_refine"),
+                    "task_local": ("task_local", "carry_partial_and_refine")}
+    elif design == "scope_and_feedback_legacy":
+        # Retain low-level checks of historical plans, never the current formal entry.
+        expected = {"whole_bank": ("whole_bank", "carry_partial_and_refine"),
+                    "first_commit": ("legal_scope", "batch_only_first_commit")}
+    else:
+        raise ValueError("Unknown predeclared two-ablation design")
     ablations = [n for n, a in arms.items() if a["role"] == "ablation"]
     contrasts = cfg.get("secondary_contrasts", [])
     if (len(evolved) != 1 or len(ablations) != 2 or len(contrasts) != 2
@@ -654,9 +662,11 @@ def check_future_learning_plan(cfg, source_configs):
     plan = read(path)
     if (plan.get("policy") != "six_recipes_frozen_before_initial_TEST_v1"
             or plan.get("no_TEST_feedback_to_learning") is not True
-            or plan.get("all_six_builds_run_without_score_selection") is not True
+            or plan.get("future_builds_not_selected_using_initial_scores") is not True
+            or plan.get("additional_learning_execution_authorization")
+            != "deferred_until_user_review_after_teacher_draft"
             or plan.get("future_recipes_not_completed_banks") is not True):
-        raise ValueError("Later learning cannot be chosen or changed using initial TEST")
+        raise ValueError("Future recipes do not authorize repeats or score-selected later learning")
     entries = plan.get("learning", [])
     pairs = [(entry.get("kind"), entry.get("seed")) for entry in entries]
     required = {(kind, seed) for kind in ("main", "ace", "text") for seed in (145, 245)}
@@ -1250,6 +1260,7 @@ def main():
     stage = cfg.get("evaluation_stage")
     if (cfg.get("external_text_adaptation") != "trace2skill_text_offline_v1"
             or stage not in (INITIAL_STAGE, FINAL_STAGE)
+            or cfg.get("ablation_design") != "legal_scope_granularity_v1"
             or cfg.get("staged_comparison_protocol") != STAGED_PROTOCOL
             or not cfg.get("future_learning_plan")
             or not cfg.get("future_learning_plan_sha256")
