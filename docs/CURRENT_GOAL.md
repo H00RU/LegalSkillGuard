@@ -205,6 +205,23 @@ B6已保存的技能输入只使用未变正式64c1d15，不读取部分B6分数
 Whole-bank B6–B8、Task-local八批、共同冻结TEST及老师初稿，独立重复继续暂缓。
 [B5完整两次拒绝、真实34+34重放、全部反馈/损害及原始文本差异](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_B5_final_both_rejected_34plus34_148actual_teacher9_three_feedback_exact_NOT_forward_TEST_20261025.json)
 
+2026-10-25 05:59 CST：Whole-bank B6的261–276共16新案首答完整，全部160逻辑回答
+先于标签释放。空库EC/EV为63.89/67.95%，固定自身B1为77.02/82.60%，当前正式库
+为81.01/80.10%；相对B1的EC +3.99、EV −2.50个百分点，不能称两项持续提升。
+EC为5改善/5退化/6相同，EV为0改善/2退化/14相同；全部7个退化任务保留。
+Wisconsin实际适用265/266/268/270/271五案，EV请求差异仅在这五案；其中265与270
+从1降为0.8。此为整库对照的新案观测，不等于隔离单技能因果或主方法/TEST成绩。
+
+82次真实生成中81次stop、1次length，539296输入/221522输出token；首答阶段
+2077.93秒（34分38秒），402份原制品。269案空库EV达到8192输出token而未完整结束，
+原始无效响应及三个相同空库别名的零分全部保留，无重答/修补/排除。当前与B1该案
+均有效且F1为1，所有当前/B1任务格式均有效，故空库截断不解释二者EV差距。
+教师10实际217746输入/2707输出（含2004推理），41.118秒；全部64个原目标/真实已
+发布父答案/分数/错误/推理尾段/call hash均已核对，不使用B4/B5被拒候选作父回答。
+其1次Federal EC/EV UPDATE全文已读，仅为候选，当前在96已见案/192任务检查。
+源代码、门槛、评分与运行进程不改；后续B7–B8、Task-local、共同TEST和老师初稿不变。
+[B6完整首答、原截断零分、真实技能投递及教师边界](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_B6_complete82_firsts_81stop_1empty_length_zero_teacher10_true_parent_EC_gain_EV_regression_NOT_TEST_20261025.json)
+
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
 2026-10-24 18:59 CST：用户已明确授权选择第二项消融，并把全部主方法、ACE和Text
