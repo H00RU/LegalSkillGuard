@@ -10,7 +10,10 @@
 输出吞吐34.71到85.58 token/s，全部stop。该小样本结果不等于整批固定提速倍数。
 [统一执行协议](research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)
 要求两项消融都从空库、用相同新服务和四工作线程执行；不导入旧库或回答，不删重放，
-不改thinking、输出预算、数据、教师、准入或评分。新配置phase4_20261025_run01。
+不改thinking、输出预算、数据、教师、准入或评分。新配置phase4_20261025_run02。
+首次加速队列在进入Online前因父子重复持锁退出，零回答、零教师、未创建run目录；
+锁所有权已修正为由训练CLI持有，旧失败启动/冻结制品保留，新Run ID复用已分配的
+32次额度而不重复增加上限或重置历史记录。
 [新的有限队列](../artifacts/launches/openexempt_uniform_ablations_then_teacher_draft_20261025_run01.py)
 负责两项控制、共同八条件TEST、老师初稿交接，全部独立重复继续暂缓。
 当前正在完成新配置冻结及队列启动；不能将旧B4或测速当作新正式训练已启动/完成。

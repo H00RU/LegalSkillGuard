@@ -25,15 +25,15 @@ table = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(table)
 phase = table.phase
 DEFERRED = copy.deepcopy(table.STAGES[2:])
-OUT = ROOT / 'artifacts/launches/openexempt_uniform_ablations_then_teacher_draft_20261025_run01'
-RUN = 'legal_openexempt_uniform_ablations_then_teacher_draft_20261025_run01'
+OUT = ROOT / 'artifacts/launches/openexempt_uniform_ablations_then_teacher_draft_20261025_run02'
+RUN = 'legal_openexempt_uniform_ablations_then_teacher_draft_20261025_run02'
 ENVIRONMENT = 'artifacts/live_8b_environment_phase_dispatch_20261025.json'
 TIMING = ROOT / 'artifacts/launches/openexempt_uniform_ablation_acceleration_20261025_run01'
 STOP = ROOT / ('artifacts/research/openexempt_legal_scope_20261020/'
     'WholeBank45_original492_user_authorized_stop_before_uniform_acceleration_verified_dual_20261025.json')
 CONFIGS = [
-    'configs/openexempt_whole_bank_public_assets128_phase4_20261025_run01.json',
-    'configs/openexempt_task_local_public_assets128_phase4_20261025_run01.json']
+    'configs/openexempt_whole_bank_public_assets128_phase4_20261025_run02.json',
+    'configs/openexempt_task_local_public_assets128_phase4_20261025_run02.json']
 INITIAL = 'configs/openexempt_initial8_frozen_TEST_20261025_run01.json'
 FUTURE = str((OUT / 'six_future_learning_recipes_before_initial_TEST.json').relative_to(ROOT))
 phase.OUT, phase.RUN = OUT, RUN
@@ -162,29 +162,40 @@ def main():
     archive('both_controls_frozen_before_any_new_learning')
     ledger = ROOT / configs[0]['teacher']['ledger']
     baseline = read(ledger)
-    if baseline['max_invocations'] != 4023:
-        raise RuntimeError('Retain the exact pre-handoff quota ceiling and all reservations')
-    with (ROOT / 'artifacts/openexempt_training.lock').open('a') as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        previous, ceiling = None, 4023
-        for path, cfg in zip(CONFIGS, configs):
-            stage = {'path': path, 'run_id': cfg['run_id'], 'ceiling': ceiling + 32}
-            if cfg['teacher']['total_invocation_budget'] != stage['ceiling']:
-                raise RuntimeError('Bind each two-candidate control to its exact declared ceiling')
-            extend(ledger, baseline, ceiling, stage, previous)
-            print('Starting matched phase4 control: ' + cfg['run_id'], flush=True)
-            phase.command([str(ROOT / '.venv/bin/python'), '-u', '-m',
-                'experiments.openexempt_online', 'run', str(ROOT / path)])
-            save(cfg['run_id'] + '_complete', phase.old.terminal(ROOT / path))
-            archive(cfg['run_id'] + '_complete')
-            previous, ceiling = ROOT / path, stage['ceiling']
-        future = freeze_future_recipes()
-        table.prepare_initial(future, learning_schedule=runtime_sources.CONTROL_SCHEDULE,
-            learning_protocol=runtime_sources.CONTROL_PROTOCOL,
-            evaluation_run_id='legal_openexempt_initial8_frozen_TEST_20261025_run01',
-            additional_dependencies=(str(Path(__file__).relative_to(ROOT)),))
-        archive('six_recipes_and_initial8_before_TEST')
-        table.evaluate(INITIAL)
+    allocation = read(ROOT / ('artifacts/launches/openexempt_uniform_ablations_then_teacher_draft_20261025_run01/'
+        'legal_openexempt_whole_bank_public_assets128_phase4_20261025_run01_before_extension.json'))['ledger']
+    original = ROOT / 'runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run01'
+    if (baseline['max_invocations'] != 4055 or original.exists()
+            or allocation['max_invocations'] != 4023
+            or {k: v for k, v in baseline.items() if k != 'max_invocations'}
+            != {k: v for k, v in allocation.items() if k != 'max_invocations'}):
+        raise RuntimeError('Reuse only the unchanged zero-exposure launch allocation; never reset usage')
+    save('same32_attempt_allocation_after_zero_call_lock_failure', {
+        'existing_ceiling': 4055, 'new_allocation': 0, 'no_original_run_directory_or_model_teacher_calls': True})
+    previous, ceiling = None, 4023
+    for path, cfg in zip(CONFIGS, configs):
+        stage = {'path': path, 'run_id': cfg['run_id'], 'ceiling': ceiling + 32}
+        if cfg['teacher']['total_invocation_budget'] != stage['ceiling']:
+            raise RuntimeError('Bind each two-candidate control to its exact declared ceiling')
+        if previous is not None:
+            with (ROOT / 'artifacts/openexempt_training.lock').open('a') as lock:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                extend(ledger, baseline, ceiling, stage, previous)
+        # The learner CLI owns its training lock. The parent must release any
+        # allocation lock before launching it; never bypass the learner's lock.
+        print('Starting matched phase4 control: ' + cfg['run_id'], flush=True)
+        phase.command([str(ROOT / '.venv/bin/python'), '-u', '-m',
+            'experiments.openexempt_online', 'run', str(ROOT / path)])
+        save(cfg['run_id'] + '_complete', phase.old.terminal(ROOT / path))
+        archive(cfg['run_id'] + '_complete')
+        previous, ceiling = ROOT / path, stage['ceiling']
+    future = freeze_future_recipes()
+    table.prepare_initial(future, learning_schedule=runtime_sources.CONTROL_SCHEDULE,
+        learning_protocol=runtime_sources.CONTROL_PROTOCOL,
+        evaluation_run_id='legal_openexempt_initial8_frozen_TEST_20261025_run01',
+        additional_dependencies=(str(Path(__file__).relative_to(ROOT)),))
+    archive('six_recipes_and_initial8_before_TEST')
+    table.evaluate(INITIAL)
     save('necessary_experiments_complete_teacher_draft_handoff', {
         'two_uniform_controls_complete': True, 'frozen8_complete_and_dual_preserved': True,
         'all_independent_repeats_deferred_not_started': True,
