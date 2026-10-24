@@ -12,14 +12,14 @@ A separate IID test packet is declared to contain 128 source cases. Its byte has
 
 | Role or artifact | Permitted information | Excluded information |
 |---|---|---|
-| Main/empty/static inference actor | Public current task, schema and labels; declared delivered text | Current task's target or feedback, private symbolic construction, solver tool, later/test feedback |
+| Main/empty/static inference actor | Public current task, answer schema and reference vocabulary; declared delivered text | Current task's target or feedback, private symbolic construction, solver tool, later/test feedback |
 | Main skill teacher | Saved current predictions and released targets; up to 16 selected past sources; current bank and bounded failure records | Unanswered-source or TEST targets; a test-driven library choice |
 | ACE reflector and curator | Own saved TRAIN trajectory, released same-case target and controls; accumulated batch reflections | Feedback in first-encounter predictions; imported main bank, answers or teacher responses |
 | Text-adaptation analyst | Own complete 256 saved source forecasts, then released TRAIN targets and verifier feedback | A source answer imported from another learner; TEST feedback |
 | Blind static library | Public statutory material, without cases, trajectories or targets | TRAIN/TEST examples or outcome-based selection |
 | Grader | A saved prediction and its target under the pinned evaluator | Acting as an inference tool or supplying a generated answer to an actor |
 
-The main run saves every logical condition for the batch before grading and learning. ACE similarly saves all batch conditions first; the offline text adaptation saves all 256 own source forecasts before releasing TRAIN labels to its analyst. Private construction fields are not a model input. Initializing the original evaluator with an empty statute list does not invoke the benchmark solver to answer a task.
+The main method and its learning ablations save all five logical conditions for the batch before grading and learning. In B1, the `frozen_after_B1` record is still an initial-empty-library placeholder: the [original B1 first-forecast record](../runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b1_prequential.json) marks `frozen_after_B1_snapshot_already_taken` as false. The actual [B1 snapshot](../runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/frozen_after_B1.json) is captured only after B1 publication and held fixed from B2 onward. ACE similarly saves all of its batch conditions first; the offline text adaptation saves all 256 own source forecasts before releasing TRAIN labels to its analyst. Private construction fields are not a model input. Initializing the original evaluator with an empty statute list does not invoke the benchmark solver to answer a task.
 
 ## D.2 Actor, teacher and direct output contract
 
