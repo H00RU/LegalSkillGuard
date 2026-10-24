@@ -1,0 +1,115 @@
+{
+  "kind": "completed_seed45_implementation_resource_table_not_equal_compute_or_TEST",
+  "source_cases_per_TRAIN_stream": 128,
+  "learned_banks_per_method": 1,
+  "rows": [
+    {
+      "method": "Main",
+      "publication_unit": "records",
+      "published_units": 7,
+      "library_tokens": 2486,
+      "native_generation_HTTP_requests": 1158,
+      "native_input_tokens": 7655443,
+      "native_output_tokens": 3232344,
+      "teacher_responses": 15,
+      "teacher_attempts": 15,
+      "teacher_known_input_tokens": 3232522,
+      "teacher_known_output_tokens": 51361,
+      "teacher_attempts_unknown_usage_not_zero": 0
+    },
+    {
+      "method": "ACE adaptation",
+      "publication_unit": "bullets",
+      "published_units": 21,
+      "library_tokens": 2158,
+      "native_generation_HTTP_requests": 911,
+      "native_input_tokens": 7258239,
+      "native_output_tokens": 2304128,
+      "teacher_responses": 442,
+      "teacher_attempts": 443,
+      "teacher_known_input_tokens": 11984697,
+      "teacher_known_output_tokens": 427053,
+      "teacher_attempts_unknown_usage_not_zero": 1
+    },
+    {
+      "method": "Text adaptation",
+      "publication_unit": "files",
+      "published_units": 1,
+      "library_tokens": 3182,
+      "native_generation_HTTP_requests": 512,
+      "native_input_tokens": 4061370,
+      "native_output_tokens": 1463066,
+      "teacher_responses": 321,
+      "teacher_attempts": 321,
+      "teacher_known_input_tokens": 6429967,
+      "teacher_known_output_tokens": 503252,
+      "teacher_attempts_unknown_usage_not_zero": 0
+    },
+    {
+      "method": "Blind static: compilation plus TRAIN",
+      "publication_unit": "records",
+      "published_units": 7,
+      "library_tokens": 2411,
+      "native_generation_HTTP_requests": 256,
+      "native_input_tokens": 1836443,
+      "native_output_tokens": 640206,
+      "teacher_responses": 1,
+      "teacher_attempts": 1,
+      "teacher_known_input_tokens": 18773,
+      "teacher_known_output_tokens": 3425,
+      "teacher_attempts_unknown_usage_not_zero": 0
+    }
+  ],
+  "retired_ACE_work_included": {
+    "native": 15,
+    "teacher_responses": 19,
+    "unknown_usage_attempts": 1
+  },
+  "reasoning_and_cache_subsets_not_added_twice": {
+    "main": {
+      "input_tokens": 3232522,
+      "cached_input_tokens": 0,
+      "output_tokens": 51361,
+      "reasoning_output_tokens": 35912
+    },
+    "ACE_reasoning_output_subset": 129574,
+    "Text": {
+      "input_tokens": 6429967,
+      "cached_input_tokens": 3318528,
+      "output_tokens": 503252,
+      "reasoning_output_tokens": 218269,
+      "elapsed_seconds_sum": 11371.602000000003
+    },
+    "static_compilation": {
+      "input_tokens": 18773,
+      "cached_input_tokens": 0,
+      "output_tokens": 3425,
+      "reasoning_output_tokens": 1203
+    }
+  },
+  "scope": [
+    "Raw 8B generation-endpoint requests only, excluding tokenizer/readiness queries",
+    "Run totals include saved learning controls, rejected proposals and replay; monitoring workloads differ",
+    "Static row includes zero-case blind compilation plus fixed128-source TRAIN evaluation, not256 learning trajectories",
+    "ACE known teacher tokens are a lower bound; one timeout usage remains unknown, not zero",
+    "Memory sizes are final stored publications, not per-case delivered prompt lengths; record/bullet/file units differ",
+    "All additional independent repetitions, both unfinished learning controls and actual frozen TEST costs excluded from completed totals",
+    "No extra model, teacher or TEST call; no monetary price or GPU-busy-time inference"
+  ],
+  "source_sha256": {
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_complete_B1_B8_actual_terminal1158_15_cost_20261022.json": "69c7768a10e2c07d956827975794225301e3c942c9b11703943ef33605d6a62e",
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run04_complete128_terminal_actual_retained_and_retired_B3_B8_cost_NOT_TEST_20261023.json": "d4be0900042a4374a57741e20b2b60d237231a6603d66c0d5b9c5f628a0617fc",
+    "artifacts/research/openexempt_legal_scope_20261020/Text45_complete128_256_actual_shared_actor_final_TRAIN_fit_vs_mainterminal_cost_dual_preservation_NOT_TEST_20261024.json": "44087cc04828a0e270d0c478a314a520016ddd5a695f06a50819470dcf273cb3",
+    "artifacts/research/openexempt_legal_scope_20261020/static03_complete128_256_predictions_actual_metrics_residuals_cost_dual_preservation_and_Text45_handoff_NOT_TEST_20261023.json": "a843469ba125b107bfe8c6e336b731873aac51923cc901df08fb5097d35169da",
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_learning_curve_complete_first8_final8_publications_20261022.json": "9d28088bfc08e06cc7c4357a947d4a2dc0e72ce46c13c041611c877df66eb43f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/completion.json": "debab8b02a2254e6add7138253ddff23fbab4c6172a60f5699f7884454c1fa9a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b8.json": "a0f9aee24b5f7ce6db15f88d0485cd0e02511c3e930d0f12f6ce828ed1d4c840",
+    "runs/legal_openexempt_ace_public_assets128_20261023_run04/publications/b8.json": "5006873b2d5ec02caa955887a87d2f839d71be22fad06b5e39c317b87622296b",
+    "runs/legal_openexempt_trace2skill_text_public_assets128_seed45_20261023_run02/publications/final.json": "051ded45dd899dce9d757fb060ce4a24d7fbeb18cce9762b15d176cb947d57c2",
+    "runs/legal_openexempt_direct_law_only_static_20261021_run03/publication.json": "c2b0b37a453bd42571ef7667d7d1fd08c678c0cfeb359e75a2932e59c2f8f0b0",
+    "runs/legal_openexempt_direct_law_only_static_20261021_run03/teacher/law_only_compilation/response.json": "d7bac06b7c25195156feafa4f479701a749f858cbb6d77a6d5fdbc059dc301f2",
+    "runs/legal_openexempt_direct_law_only_static_20261021_run03/teacher/law_only_compilation/event_log.json": "c2b5e1f5b762f352334651666f995e7596c74d242935a9c68ea2cb3f1e5f0ea5"
+  },
+  "audit_note": "Initial read-only aggregation imported bullets from the wrong module; corrected to its existing experiment.py definition. No runtime/source change or model call.",
+  "recomputation_program": "from pathlib import Path\nimport collections,hashlib,json\nfrom legal_skill_guard.inference.codex_cli_client import CodexCLIClient\nfrom legal_skill_guard.learning.experiment import bullets\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nroot=Path('/media/sangfor/vdb/legal-skill-evolve')\nbase=Path('artifacts/research/openexempt_legal_scope_20261020')\nsources={}\ndef read(name):\n    name=str(name)\n    path=root/name\n    sources[name]=hashlib.sha256(path.read_bytes()).hexdigest()\n    return json.loads(path.read_text())\nmain=read(base/'Run03_complete_B1_B8_actual_terminal1158_15_cost_20261022.json')\nace=read(base/'ACEv4_Run04_complete128_terminal_actual_retained_and_retired_B3_B8_cost_NOT_TEST_20261023.json')\ntext=read(base/'Text45_complete128_256_actual_shared_actor_final_TRAIN_fit_vs_mainterminal_cost_dual_preservation_NOT_TEST_20261024.json')\nstatic=read(base/'static03_complete128_256_predictions_actual_metrics_residuals_cost_dual_preservation_and_Text45_handoff_NOT_TEST_20261023.json')\ncurve=read(base/'Run03_learning_curve_complete_first8_final8_publications_20261022.json')\nmain_complete=read('runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/completion.json')\nmain_pub=read('runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b8.json')\nace_pub=read('runs/legal_openexempt_ace_public_assets128_20261023_run04/publications/b8.json')\ntext_pub=read('runs/legal_openexempt_trace2skill_text_public_assets128_seed45_20261023_run02/publications/final.json')\nstatic_pub=read('runs/legal_openexempt_direct_law_only_static_20261021_run03/publication.json')\ncompile_base=Path('runs/legal_openexempt_direct_law_only_static_20261021_run03/teacher/law_only_compilation')\ncomp=read(compile_base/'response.json')\nevent=read(compile_base/'event_log.json')\nassert comp['invocation']['event_log_sha256']==csha({'event_log':event['event_log']})\nassert CodexCLIClient._turn_usage(event['event_log'])==comp['invocation']['usage']\nassert comp['cache_hit'] is False and comp['invocation']['returncode']==0 and not comp['invocation']['tool_events_detected']\nassert comp['value']['bank']==static_pub['bank'] and static_pub['training_sources_seen']==0\nassert static_pub['actual_teacher_responses']==static_pub['actual_teacher_attempts']==1\nm=main['phasecut_actual_cost']\nassert sum(x['generations'] for x in main['actual_native_stage_totals'].values())==m['actual_original_generations']==1158\nassert sum(x['input_tokens'] for x in main['actual_native_stage_totals'].values())==m['actual_input_tokens']\nassert sum(x['output_tokens'] for x in main['actual_native_stage_totals'].values())==m['actual_output_tokens']\nmu={k:sum(x['usage'][k] for x in main['all15_actual_fresh_teacher_response_usages']) for k in ['input_tokens','cached_input_tokens','output_tokens','reasoning_output_tokens']}\nassert mu['input_tokens']==m['teacher_input_tokens'] and mu['output_tokens']==m['teacher_output_tokens']\nassert main_complete['actual_teacher_responses']==main_complete['actual_teacher_attempts']==15\nassert curve['batch_rows'][-1]['completed_unique_final_publication']['bank_sha256']==csha(main_pub['bank'])\nan=ace['complete_actual_native_cost'];at=ace['successful_teacher_known_usage_lower_bound']\nfor key in ['origins','HTTP','input_tokens','output_tokens']:\n    assert sum(ace[group]['native'][key] for group in ['retained','retired_B3','retired_B8'])==an[key]\nfor key in ['successful_responses','known_input_tokens','known_output_tokens','reasoning_already_subset_of_output']:\n    assert sum(ace[group]['teachers'][key] for group in ['retained','retired_B3','retired_B8'])==at[key]\nassert ace['all_actual_teacher_attempts']==443 and ace['attempts_without_known_success_usage']==1\nassert ace['final_playbook_sha256']==csha(ace_pub['playbook'])\nassert len(bullets(ace_pub['playbook']))==ace['published_bullets']==21\ntn=text['native_actual_cost_by_stage'];tt=text['actual_teacher_construction_known_cost_reused_from_complete321_evidence']\nassert sum(v['physical_native_generations'] for v in tn.values())==512\nassert sum(v['tokens']['input_tokens'] for v in tn.values())==text['native_total_input_tokens']\nassert sum(v['tokens']['output_tokens_including_reasoning'] for v in tn.values())==text['native_total_output_tokens_including_reasoning']\nassert text['actual_teacher_responses']==text['actual_teacher_attempts']==321\nassert text['final_bank_sha256']==csha(text_pub['bank']) and len(text_pub['files'])==1\nsn=static['static_actual_cost'];cu=comp['invocation']['usage']\nassert static['static_publication_bank_sha256']==csha(static_pub['bank'])\ndef row(name,kind,units,tokens,native_calls,native_in,native_out,responses,attempts,teacher_in,teacher_out,missing=0):\n    return {'method':name,'publication_unit':kind,'published_units':units,'library_tokens':tokens,\n        'native_generation_HTTP_requests':native_calls,'native_input_tokens':native_in,'native_output_tokens':native_out,\n        'teacher_responses':responses,'teacher_attempts':attempts,'teacher_known_input_tokens':teacher_in,\n        'teacher_known_output_tokens':teacher_out,'teacher_attempts_unknown_usage_not_zero':missing}\nrows=[\nrow('Main','records',len(main_pub['bank']),curve['batch_rows'][-1]['completed_unique_final_publication']['tokens'],\n    m['actual_original_generations'],m['actual_input_tokens'],m['actual_output_tokens'],15,15,mu['input_tokens'],mu['output_tokens']),\nrow('ACE adaptation','bullets',len(bullets(ace_pub['playbook'])),ace_pub['actual_tokens'],\n    an['origins'],an['input_tokens'],an['output_tokens'],at['successful_responses'],443,at['known_input_tokens'],at['known_output_tokens'],1),\nrow('Text adaptation','files',len(text_pub['files']),text_pub['library_tokens'],\n    512,text['native_total_input_tokens'],text['native_total_output_tokens_including_reasoning'],321,321,tt['input_tokens'],tt['output_tokens']),\nrow('Blind static: compilation plus TRAIN','records',len(static_pub['bank']),static_pub['Qwen_tokens'],\n    sn['native_generations'],sn['input_tokens'],sn['output_tokens'],1,1,cu['input_tokens'],cu['output_tokens'])]\nreport={'kind':'completed_seed45_implementation_resource_table_not_equal_compute_or_TEST',\n    'source_cases_per_TRAIN_stream':128,'learned_banks_per_method':1,'rows':rows,\n    'retired_ACE_work_included':{'native':15,'teacher_responses':19,'unknown_usage_attempts':1},\n    'reasoning_and_cache_subsets_not_added_twice':{'main':mu,'ACE_reasoning_output_subset':at['reasoning_already_subset_of_output'],'Text':tt,'static_compilation':cu},\n    'scope':['Raw 8B generation-endpoint requests only, excluding tokenizer/readiness queries',\n    'Run totals include saved learning controls, rejected proposals and replay; monitoring workloads differ',\n    'Static row includes zero-case blind compilation plus fixed128-source TRAIN evaluation, not256 learning trajectories',\n    'ACE known teacher tokens are a lower bound; one timeout usage remains unknown, not zero',\n    'Memory sizes are final stored publications, not per-case delivered prompt lengths; record/bullet/file units differ',\n    'All additional independent repetitions, both unfinished learning controls and actual frozen TEST costs excluded from completed totals',\n    'No extra model, teacher or TEST call; no monetary price or GPU-busy-time inference'],\n    'source_sha256':sources}\nprint(json.dumps(report,ensure_ascii=False))"
+}

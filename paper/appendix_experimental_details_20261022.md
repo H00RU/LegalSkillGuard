@@ -125,6 +125,19 @@ Source-paired cluster bootstrap uses 20,000 resamples and PCG64 seed 2026102192,
 
 ## D.7 Actual costs, reproducibility and remaining gaps
 
+Table D1. Completed seed-45 implementation resources. Each row summarizes one actual final publication and its declared TRAIN workload; totals are not matched-compute comparisons or frozen TEST costs. Stored memory units differ across formats and do not denote independently learned banks.
+
+| Implementation | Final memory: units / tokens | 8B generation requests | 8B tokens: input / output | Teacher responses / attempts | Known teacher tokens: input / output |
+|---|---:|---:|---:|---:|---:|
+| Main | 7 records / 2,486 | 1,158 | 7,655,443 / 3,232,344 | 15 / 15 | 3,232,522 / 51,361 |
+| ACE adaptation | 21 bullets / 2,158 | 911 | 7,258,239 / 2,304,128 | 442 / 443† | 11,984,697 / 427,053† |
+| Text adaptation | 1 file / 3,182 | 512 | 4,061,370 / 1,463,066 | 321 / 321 | 6,429,967 / 503,252 |
+| Static (compile + TRAIN) | 7 records / 2,411 | 256 | 1,836,443 / 640,206 | 1 / 1 | 18,773 / 3,425 |
+
+Generation counts include each run's saved controls, rejected proposals and replay, but exclude tokenizer/readiness queries. Curricula and monitoring workloads differ; these totals do not isolate learning-only work or establish a speed advantage. The static row combines zero-case blind compilation with its fixed 128-source TRAIN inference control: compilation used one teacher response with 18,773 input and 3,425 output tokens, while the subsequent 256-task control used no new teacher. †ACE includes 15 retired native generations and 19 retired successful teacher responses. Its one additional timed-out attempt has unknown usage, so the reported teacher tokens are a known lower bound, not a total with missing usage set to zero. Cached input and reasoning output are already included in their corresponding token totals. Ongoing ablations, deferred repeats, earlier development and frozen TEST are outside this completed table.
+
+The [machine-readable resource table](../artifacts/research/openexempt_legal_scope_20261020/Completed_Main_ACE_Text_Static_seed45_resource_table_verified_existing_costs_NOT_equal_compute_or_TEST_20261024.json) binds every source digest and the direct sum checks. It also verifies static compilation usage against its original event log. All existing endpoint and performance tables remain unchanged.
+
 The completed main seed-45 TRAIN implementation is `experiments/openexempt_online.py` and `legal_skill_guard/learning/task_scoped_skills.py`, source `6896246`, with `configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json` and contract `direct_statutory_claims` v14. Later ACE-only adapter revision `3dc28b5` leaves the main learner and its four shared actor/scoring files unchanged; it does not imply that every file in the current worktree equals the older manifest. Historical program-output experiments remain development records and are not spliced into the direct-answer stream. The current eight-condition TEST matrix is not yet frozen.
 
 The completed main seed-45 run contains 1,158 original 8B generations through 1,158 generation-endpoint HTTP requests, 7,655,443 input and 3,232,344 output tokens. Tokenizer and readiness queries are not included in this generation count. Its 15 fresh teacher responses use 3,232,522 input and 51,361 output tokens; the 35,912 reasoning-token subset is already included in output. Elapsed time is approximately 26 h 16 min, not a measured GPU-busy-time integral. Costs include rejected work and replay, not just admitted skills. Per-answer output-cap matching does not imply equal total training calls, teacher tokens, prompt lengths or wall time across methods.
@@ -150,6 +163,8 @@ The [complete same-source first-forecast comparison](../artifacts/research/opene
 Known TRAIN ambiguities about ownership and personal/business use have not been adjudicated by legal experts. Targets and cases remain unchanged. Benchmark agreement is not expert-validated legal correctness, and this synthetic, supplied-law, limited-jurisdiction setup does not establish real-client advice or broad legal-domain transfer.
 
 ## 中文核对摘要
+
+表D1统一列已完成实现的真实资源，三种学习方法各只有一份seed45末库；record、bullet、file是不同存储单位。8B计数含各运行保存的控制、拒收和重放，不含分词或就绪查询，不能当等学习计算或速度优势。静态行包含零案件盲编译的一次教师调用，18,773输入/3,425输出，之后256任务TRAIN对照没有新教师；不能把编译算免费。ACE含退役的15次原生生成、19份成功教师响应，另一次超时用量未知，教师token为已知下界，不填零。缓存输入及推理输出已分别计入总量；当前消融、追加重复和TEST不混进完成表。
 
 本附录明确EC/EV不是三分类，也不是旧依据抽取F1。原指标先算目标资产分，再算案均值；完整输出审计是在案内汇总主张后算F1，再跨案平均，两者不能混称。EV保留原代码的金额误差式及严格小于0.05，不擅改成精确数值匹配。全部128 TRAIN的目标自答检查只检验评分器：EC最大96.88%、EV100%，后六批EC仍有11.94个百分点空间，不能拿评分天花板解释掉进化弱。
 

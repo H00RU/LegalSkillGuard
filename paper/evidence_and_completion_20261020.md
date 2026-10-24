@@ -25,6 +25,13 @@ TEST和两项消融结果保留PENDING，重复单列DEFERRED；老师审阅成�
 [接续实际核对](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal_run05_actual_common_conditions_safe_handoff_deferred_repeats_NOT_TEST_20261024.json)
 覆盖下述旧12/16条件执行安排，不抹掉历史记录或任何不利结果。
 
+附录D1已用现有完成制品整理统一资源表，主方法/ACE/Text/盲静态各一份末库。
+原生成端点调用、教师尝试、输入/输出token及存储规模逐项绑定源hash，不混入
+进行中的消融或TEST。静态盲编译并非免费：一次教师实际18,773输入/3,425输出，
+之后固定TRAIN控制没有新教师；ACE仍保留一次未知超时用量为下界，不填零。
+[机器资源表与重算程序](../artifacts/research/openexempt_legal_scope_20261020/Completed_Main_ACE_Text_Static_seed45_resource_table_verified_existing_costs_NOT_equal_compute_or_TEST_20261024.json)
+不新增实验，不推断等计算、GPU忙时、金钱成本或速度优势。
+
 ## 下节及后续为保留历史；执行以本节和真实进程/制品为准
 
 ## 现行方案：24日用户授权暂缓四次基线追加构建
