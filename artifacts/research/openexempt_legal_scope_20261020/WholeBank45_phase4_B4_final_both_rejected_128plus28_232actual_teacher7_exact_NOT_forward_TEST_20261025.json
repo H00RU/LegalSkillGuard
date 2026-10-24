@@ -1,0 +1,1294 @@
+{
+  "at": "2026-10-24T20:31:48.215125+00:00",
+  "classification": "Complete Whole-bank B4: two rejected skill updates, real128+28 replay responses and no library publication change; NOT B5 forward/TEST/main-method result",
+  "published_at": "2026-10-24T20:27:15.240863+00:00",
+  "B4_full_wall_seconds": 5987.192298,
+  "bank_sha256": "64c1d15b6282be64d569691ba79efda7bcfe31f71796277bab6441ca42107997",
+  "parent_bank_sha256": "64c1d15b6282be64d569691ba79efda7bcfe31f71796277bab6441ca42107997",
+  "bank_unchanged": true,
+  "skill_count": 6,
+  "tokens": 2491,
+  "actual_proposals": 2,
+  "all_seen_sources": 64,
+  "all_seen_taskviews_per_candidate": 128,
+  "decisions": [
+    {
+      "attempt": 1,
+      "accepted": false,
+      "reason": "whole_proposal_failed_original_full_gate",
+      "bank_sha256": "d1688daaa9877b7a9f190112bf8ab56342a748f675a6c7c778207ce1c59e4a5b",
+      "proposed_tokens": 2985,
+      "actual_ops": {
+        "UPDATE": 5
+      },
+      "new_native_by_family": {
+        "EC": 64,
+        "EV": 64
+      },
+      "unchanged_raw_by_family": {},
+      "all128_request_submission_score_and_original_gate_checked": true,
+      "original_gate": {
+        "accepted": false,
+        "current_family_nonregression": false,
+        "prior_family_nonregression": false,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": false,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": false,
+        "prior_negative_asset_and_format_nonregression": false,
+        "parent_current": {
+          "EC": {
+            "precision": 0.8541666666666666,
+            "recall": 0.8224826388888887,
+            "f1": 0.8299851190476191,
+            "exact_target": 0.5625,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8820934547908232,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8489583333333334,
+            "recall": 0.7586805555555555,
+            "f1": 0.7913194444444444,
+            "exact_target": 0.1875,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.7772907647907648,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "mean_family_f1": 0.8106522817460318
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.9322916666666666,
+            "recall": 0.8953993055555556,
+            "f1": 0.909970238095238,
+            "exact_target": 0.4375,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.9553786744582892,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.875,
+            "recall": 0.7161458333333335,
+            "f1": 0.7749503968253969,
+            "exact_target": 0.1875,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 3,
+            "full_output_f1": 0.7432978856891901,
+            "negative_or_unscored_asset_claims": 3
+          },
+          "mean_family_f1": 0.8424603174603175
+        },
+        "parent_prior": {
+          "EC": {
+            "precision": 0.9687499999999999,
+            "recall": 0.8964120370370369,
+            "f1": 0.9211309523809526,
+            "exact_target": 0.4583333333333333,
+            "tasks": 48,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.9337399611612565,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8795717592592593,
+            "recall": 0.7523148148148149,
+            "f1": 0.797213955026455,
+            "exact_target": 0.25,
+            "tasks": 48,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.7969138325817248,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "mean_family_f1": 0.8591724537037038
+        },
+        "candidate_prior": {
+          "EC": {
+            "precision": 0.9542824074074073,
+            "recall": 0.8884548611111112,
+            "f1": 0.9070353835978836,
+            "exact_target": 0.375,
+            "tasks": 48,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.9213846443753869,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.886284722222222,
+            "recall": 0.7607060185185183,
+            "f1": 0.8076802248677248,
+            "exact_target": 0.25,
+            "tasks": 48,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.8060964324770854,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "mean_family_f1": 0.8573578042328043
+        },
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "task_head_diagnostics_not_TaskLocal_training": {
+        "EC": {
+          "accepted": false,
+          "current_nonregression": true,
+          "prior_nonregression": false,
+          "strict_current_improvement": true,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": false,
+          "current_negative_asset_and_format_nonregression": false,
+          "prior_negative_asset_and_format_nonregression": false
+        },
+        "EV": {
+          "accepted": false,
+          "current_nonregression": false,
+          "prior_nonregression": true,
+          "strict_current_improvement": false,
+          "current_full_output_nonregression": false,
+          "prior_full_output_nonregression": true,
+          "current_negative_asset_and_format_nonregression": false,
+          "prior_negative_asset_and_format_nonregression": true
+        }
+      },
+      "current_fit": {
+        "EC": {
+          "precision": 0.9322916666666666,
+          "recall": 0.8953993055555556,
+          "f1": 0.909970238095238,
+          "exact_target": 0.4375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9553786744582892,
+          "negative_or_unscored_asset_claims": 2
+        },
+        "EV": {
+          "precision": 0.875,
+          "recall": 0.7161458333333335,
+          "f1": 0.7749503968253969,
+          "exact_target": 0.1875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 3,
+          "full_output_f1": 0.7432978856891901,
+          "negative_or_unscored_asset_claims": 3
+        },
+        "mean_family_f1": 0.8424603174603175
+      },
+      "prior_fit": {
+        "EC": {
+          "precision": 0.9542824074074073,
+          "recall": 0.8884548611111112,
+          "f1": 0.9070353835978836,
+          "exact_target": 0.375,
+          "tasks": 48,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9213846443753869,
+          "negative_or_unscored_asset_claims": 2
+        },
+        "EV": {
+          "precision": 0.886284722222222,
+          "recall": 0.7607060185185183,
+          "f1": 0.8076802248677248,
+          "exact_target": 0.25,
+          "tasks": 48,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 2,
+          "full_output_f1": 0.8060964324770854,
+          "negative_or_unscored_asset_claims": 2
+        },
+        "mean_family_f1": 0.8573578042328043
+      },
+      "current_effect": {
+        "tasks": 32,
+        "help": 8,
+        "hurt": 8,
+        "ties": 16,
+        "mean_f1_difference": 0.03180803571428571
+      },
+      "prior_effect": {
+        "tasks": 96,
+        "help": 25,
+        "hurt": 21,
+        "ties": 50,
+        "mean_f1_difference": -0.0018146494708994709
+      },
+      "all_native_F1_harms_retained": [
+        {
+          "source": 181,
+          "task": "EV",
+          "parent_F1": 0.8666666666666667,
+          "candidate_F1": 0.29166666666666663
+        },
+        {
+          "source": 184,
+          "task": "EC",
+          "parent_F1": 1,
+          "candidate_F1": 0.95
+        },
+        {
+          "source": 185,
+          "task": "EC",
+          "parent_F1": 1,
+          "candidate_F1": 0.8000000000000002
+        },
+        {
+          "source": 198,
+          "task": "EC",
+          "parent_F1": 1,
+          "candidate_F1": 0.8
+        },
+        {
+          "source": 200,
+          "task": "EC",
+          "parent_F1": 0.8190476190476191,
+          "candidate_F1": 0.6555555555555556
+        },
+        {
+          "source": 202,
+          "task": "EC",
+          "parent_F1": 0.9333333333333332,
+          "candidate_F1": 0.9047619047619048
+        },
+        {
+          "source": 203,
+          "task": "EV",
+          "parent_F1": 1,
+          "candidate_F1": 0.8
+        },
+        {
+          "source": 204,
+          "task": "EC",
+          "parent_F1": 1,
+          "candidate_F1": 0.8333333333333333
+        },
+        {
+          "source": 205,
+          "task": "EC",
+          "parent_F1": 1,
+          "candidate_F1": 0.65
+        },
+        {
+          "source": 208,
+          "task": "EV",
+          "parent_F1": 0.7999999999999999,
+          "candidate_F1": 0.6825396825396824
+        },
+        {
+          "source": 210,
+          "task": "EC",
+          "parent_F1": 0.9642857142857143,
+          "candidate_F1": 0.9166666666666666
+        },
+        {
+          "source": 211,
+          "task": "EC",
+          "parent_F1": 0.625,
+          "candidate_F1": 0.575
+        },
+        {
+          "source": 212,
+          "task": "EC",
+          "parent_F1": 1,
+          "candidate_F1": 0.9047619047619048
+        },
+        {
+          "source": 212,
+          "task": "EV",
+          "parent_F1": 0.7111111111111111,
+          "candidate_F1": 0.5333333333333333
+        },
+        {
+          "source": 214,
+          "task": "EV",
+          "parent_F1": 0.7777777777777777,
+          "candidate_F1": 0.3
+        },
+        {
+          "source": 217,
+          "task": "EV",
+          "parent_F1": 0.8888888888888888,
+          "candidate_F1": 0.7936507936507936
+        },
+        {
+          "source": 220,
+          "task": "EC",
+          "parent_F1": 1,
+          "candidate_F1": 0.6666666666666666
+        },
+        {
+          "source": 220,
+          "task": "EV",
+          "parent_F1": 0.6666666666666666,
+          "candidate_F1": 0.3333333333333333
+        },
+        {
+          "source": 221,
+          "task": "EV",
+          "parent_F1": 0.8888888888888888,
+          "candidate_F1": 0.5555555555555555
+        },
+        {
+          "source": 226,
+          "task": "EV",
+          "parent_F1": 1,
+          "candidate_F1": 0.8000000000000002
+        },
+        {
+          "source": 228,
+          "task": "EC",
+          "parent_F1": 0.8999999999999999,
+          "candidate_F1": 0.8500000000000001
+        },
+        {
+          "source": 232,
+          "task": "EV",
+          "parent_F1": 0.6666666666666666,
+          "candidate_F1": 0.30000000000000004
+        },
+        {
+          "source": 235,
+          "task": "EV",
+          "parent_F1": 0.6,
+          "candidate_F1": 0.5
+        },
+        {
+          "source": 237,
+          "task": "EV",
+          "parent_F1": 1,
+          "candidate_F1": 0.7
+        },
+        {
+          "source": 238,
+          "task": "EV",
+          "parent_F1": 1,
+          "candidate_F1": 0.7142857142857143
+        },
+        {
+          "source": 240,
+          "task": "EV",
+          "parent_F1": 1,
+          "candidate_F1": 0.8571428571428571
+        },
+        {
+          "source": 241,
+          "task": "EV",
+          "parent_F1": 0.6666666666666666,
+          "candidate_F1": 0.4000000000000001
+        },
+        {
+          "source": 242,
+          "task": "EC",
+          "parent_F1": 1,
+          "candidate_F1": 0.9166666666666666
+        },
+        {
+          "source": 243,
+          "task": "EC",
+          "parent_F1": 1,
+          "candidate_F1": 0.8285714285714285
+        }
+      ],
+      "negative_unscored_claim_growth": [
+        {
+          "source": 183,
+          "task": "EC",
+          "claims_before": 0,
+          "claims_after": 1,
+          "native_F1_before": 0.75,
+          "native_F1_after": 0.75
+        },
+        {
+          "source": 207,
+          "task": "EC",
+          "claims_before": 0,
+          "claims_after": 1,
+          "native_F1_before": 0.3333333333333333,
+          "native_F1_after": 0.6666666666666666
+        },
+        {
+          "source": 230,
+          "task": "EC",
+          "claims_before": 0,
+          "claims_after": 1,
+          "native_F1_before": 0.75,
+          "native_F1_after": 0.75
+        },
+        {
+          "source": 239,
+          "task": "EC",
+          "claims_before": 0,
+          "claims_after": 1,
+          "native_F1_before": 0.6666666666666666,
+          "native_F1_after": 0.6666666666666666
+        },
+        {
+          "source": 239,
+          "task": "EV",
+          "claims_before": 1,
+          "claims_after": 2,
+          "native_F1_before": 1,
+          "native_F1_after": 1
+        }
+      ]
+    },
+    {
+      "attempt": 2,
+      "accepted": false,
+      "reason": "whole_proposal_failed_original_full_gate",
+      "bank_sha256": "9f84488dc890e09e55eebb13640eadc955c87831858f422a2429b1cf12e0f529",
+      "proposed_tokens": 2538,
+      "actual_ops": {
+        "UPDATE": 1
+      },
+      "new_native_by_family": {
+        "EC": 14,
+        "EV": 14
+      },
+      "unchanged_raw_by_family": {
+        "EC": 50,
+        "EV": 50
+      },
+      "all128_request_submission_score_and_original_gate_checked": true,
+      "original_gate": {
+        "accepted": false,
+        "current_family_nonregression": false,
+        "prior_family_nonregression": true,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": true,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "parent_current": {
+          "EC": {
+            "precision": 0.8541666666666666,
+            "recall": 0.8224826388888887,
+            "f1": 0.8299851190476191,
+            "exact_target": 0.5625,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8820934547908232,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8489583333333334,
+            "recall": 0.7586805555555555,
+            "f1": 0.7913194444444444,
+            "exact_target": 0.1875,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.7772907647907648,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "mean_family_f1": 0.8106522817460318
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.8489583333333333,
+            "recall": 0.8016493055555555,
+            "f1": 0.8195684523809523,
+            "exact_target": 0.5,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8883434547908233,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8489583333333334,
+            "recall": 0.7586805555555555,
+            "f1": 0.7913194444444444,
+            "exact_target": 0.1875,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7987193362193361,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.8054439484126983
+        },
+        "parent_prior": {
+          "EC": {
+            "precision": 0.9687499999999999,
+            "recall": 0.8964120370370369,
+            "f1": 0.9211309523809526,
+            "exact_target": 0.4583333333333333,
+            "tasks": 48,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.9337399611612565,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8795717592592593,
+            "recall": 0.7523148148148149,
+            "f1": 0.797213955026455,
+            "exact_target": 0.25,
+            "tasks": 48,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.7969138325817248,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "mean_family_f1": 0.8591724537037038
+        },
+        "candidate_prior": {
+          "EC": {
+            "precision": 0.9687499999999999,
+            "recall": 0.8964120370370369,
+            "f1": 0.9211309523809526,
+            "exact_target": 0.4583333333333333,
+            "tasks": 48,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.9337399611612565,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8795717592592593,
+            "recall": 0.7523148148148149,
+            "f1": 0.797213955026455,
+            "exact_target": 0.25,
+            "tasks": 48,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 1,
+            "full_output_f1": 0.8010804992483914,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "mean_family_f1": 0.8591724537037038
+        },
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "task_head_diagnostics_not_TaskLocal_training": {
+        "EC": {
+          "accepted": false,
+          "current_nonregression": false,
+          "prior_nonregression": true,
+          "strict_current_improvement": true,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": true,
+          "current_negative_asset_and_format_nonregression": true,
+          "prior_negative_asset_and_format_nonregression": true
+        },
+        "EV": {
+          "accepted": true,
+          "current_nonregression": true,
+          "prior_nonregression": true,
+          "strict_current_improvement": true,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": true,
+          "current_negative_asset_and_format_nonregression": true,
+          "prior_negative_asset_and_format_nonregression": true
+        }
+      },
+      "current_fit": {
+        "EC": {
+          "precision": 0.8489583333333333,
+          "recall": 0.8016493055555555,
+          "f1": 0.8195684523809523,
+          "exact_target": 0.5,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8883434547908233,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.8489583333333334,
+          "recall": 0.7586805555555555,
+          "f1": 0.7913194444444444,
+          "exact_target": 0.1875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.7987193362193361,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.8054439484126983
+      },
+      "prior_fit": {
+        "EC": {
+          "precision": 0.9687499999999999,
+          "recall": 0.8964120370370369,
+          "f1": 0.9211309523809526,
+          "exact_target": 0.4583333333333333,
+          "tasks": 48,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9337399611612565,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.8795717592592593,
+          "recall": 0.7523148148148149,
+          "f1": 0.797213955026455,
+          "exact_target": 0.25,
+          "tasks": 48,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.8010804992483914,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.8591724537037038
+      },
+      "current_effect": {
+        "tasks": 32,
+        "help": 1,
+        "hurt": 1,
+        "ties": 30,
+        "mean_f1_difference": -0.005208333333333334
+      },
+      "prior_effect": {
+        "tasks": 96,
+        "help": 0,
+        "hurt": 0,
+        "ties": 96,
+        "mean_f1_difference": 0
+      },
+      "all_native_F1_harms_retained": [
+        {
+          "source": 229,
+          "task": "EC",
+          "parent_F1": 1,
+          "candidate_F1": 0.6666666666666666
+        }
+      ],
+      "negative_unscored_claim_growth": [
+        {
+          "source": 239,
+          "task": "EC",
+          "claims_before": 0,
+          "claims_after": 1,
+          "native_F1_before": 0.6666666666666666,
+          "native_F1_after": 0.6666666666666666
+        }
+      ]
+    }
+  ],
+  "teacher7": {
+    "all64_original_targets_parent_answers_scores_errors_exact": true,
+    "all64_bounded_source_reasoning_tails_token_counts_and_raw_hashes_exact": true,
+    "selected_source_ids": [
+      181,
+      184,
+      194,
+      196,
+      200,
+      202,
+      205,
+      207,
+      211,
+      214,
+      216,
+      219,
+      220,
+      221,
+      224,
+      227,
+      229,
+      230,
+      231,
+      232,
+      233,
+      234,
+      235,
+      236,
+      237,
+      238,
+      239,
+      240,
+      241,
+      242,
+      243,
+      244
+    ],
+    "current_parent_is_actual_unchanged_B3_not_rejected_C1": true,
+    "rejected_C1_eight_witness_actual_wrong_answers_scores_and_reasoning_exact": true,
+    "all8_before_reference_raw_scores_bank_record_hashes_exact": true,
+    "actual_usage": {
+      "input_tokens": 215584,
+      "cached_input_tokens": 0,
+      "output_tokens": 1058,
+      "reasoning_output_tokens": 516
+    },
+    "elapsed_seconds": 22.624,
+    "proposal_one_Arizona_UPDATE_full_guidance_read_by_conversation_agent": true,
+    "no_numeric_operators_or_instance_answer_table_observed": true
+  },
+  "C1_three_actual_EV_harm_examples_not_a_unique_causal_proof": [
+    {
+      "source": 181,
+      "task": "EV",
+      "parent_F1": 0.8666666666666667,
+      "candidate_F1": 0.29166666666666663,
+      "parent_answer": {
+        "orange serape shawl in traditional pattern": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 24
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 24
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 24
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+            "claim_value": 24
+          }
+        ],
+        "custom framed oil painting by regional artist with gilded wood frame": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 700
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 1475
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ],
+        "wall-mounted coat rack with rustic wood and metal hooks": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 348
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 348
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ],
+        "Charter Arms Undercover .38 Special revolver": [
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 375
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+            "claim_value": 375
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ]
+      },
+      "candidate_answer": {
+        "orange serape shawl in traditional pattern": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 24
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+            "claim_value": 24
+          }
+        ],
+        "custom framed oil painting by regional artist with gilded wood frame": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 2110
+          }
+        ],
+        "wall-mounted coat rack with rustic wood and metal hooks": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 348
+          }
+        ],
+        "Charter Arms Undercover .38 Special revolver": [
+          {
+            "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+            "claim_value": 375
+          }
+        ]
+      },
+      "original_target": {
+        "orange serape shawl in traditional pattern": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 24
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 24
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 24
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+            "claim_value": 24
+          }
+        ],
+        "custom framed oil painting by regional artist with gilded wood frame": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 700
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 2110
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ],
+        "wall-mounted coat rack with rustic wood and metal hooks": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 348
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 348
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ],
+        "Charter Arms Undercover .38 Special revolver": [
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 375
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ]
+      },
+      "finish": "stop",
+      "output_tokens": 2123,
+      "raw": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b4_candidate1_replay/181_EV_candidate.json"
+    },
+    {
+      "source": 214,
+      "task": "EV",
+      "parent_F1": 0.7777777777777777,
+      "candidate_F1": 0.3,
+      "parent_answer": {
+        "platinum engagement ring with a 1.5-carat round brilliant diamond and pave band": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 700
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 1475
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 6915
+          }
+        ],
+        "CZ 457 Varmint .22 LR bolt-action target rifle": [
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 685
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 685
+          }
+        ],
+        "fur-trimmed parka with insulated lining and removable hood": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 700
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 1175
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 1175
+          }
+        ]
+      },
+      "candidate_answer": {
+        "platinum engagement ring with a 1.5-carat round brilliant diamond and pave band": [
+          {
+            "citation": "11 U.S.C. § 522(d)(4)",
+            "claim_value": 1875
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 3457.5
+          }
+        ],
+        "CZ 457 Varmint .22 LR bolt-action target rifle": [
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 685
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 342.5
+          }
+        ],
+        "fur-trimmed parka with insulated lining and removable hood": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 700
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 587.5
+          }
+        ]
+      },
+      "original_target": {
+        "platinum engagement ring with a 1.5-carat round brilliant diamond and pave band": [
+          {
+            "citation": "11 U.S.C. § 522(d)(4)",
+            "claim_value": 3750
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 6915
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 6915
+          }
+        ],
+        "CZ 457 Varmint .22 LR bolt-action target rifle": [
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 685
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 685
+          }
+        ],
+        "fur-trimmed parka with insulated lining and removable hood": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 700
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 1175
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 1175
+          }
+        ]
+      },
+      "finish": "stop",
+      "output_tokens": 5961,
+      "raw": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b4_candidate1_replay/214_EV_candidate.json"
+    },
+    {
+      "source": 232,
+      "task": "EV",
+      "parent_F1": 0.6666666666666666,
+      "candidate_F1": 0.30000000000000004,
+      "parent_answer": {
+        "amethyst ring in 10-karat gold prong setting": [
+          {
+            "citation": "11 U.S.C. § 522(d)(4)",
+            "claim_value": 735
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 735
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ],
+        "domestic conure parrot": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 460
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 460
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+            "claim_value": 460
+          }
+        ],
+        "reclining gaming chair with neck and lumbar support pillows": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 757
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 757
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ],
+        "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles": [
+          {
+            "citation": "11 U.S.C. § 522(d)(2)",
+            "claim_value": 4450
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 1475
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+            "claim_value": 15000
+          }
+        ]
+      },
+      "candidate_answer": {
+        "amethyst ring in 10-karat gold prong setting": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 700
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(4)",
+            "claim_value": 1875
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 600
+          }
+        ],
+        "domestic conure parrot": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 460
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 600
+          }
+        ],
+        "reclining gaming chair with neck and lumbar support pillows": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 700
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 600
+          }
+        ],
+        "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles": [
+          {
+            "citation": "11 U.S.C. § 522(d)(2)",
+            "claim_value": 4450
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 600
+          }
+        ]
+      },
+      "original_target": {
+        "amethyst ring in 10-karat gold prong setting": [
+          {
+            "citation": "11 U.S.C. § 522(d)(4)",
+            "claim_value": 735
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 735
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ],
+        "domestic conure parrot": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 460
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 460
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ],
+        "reclining gaming chair with neck and lumbar support pillows": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 700
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 757
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ],
+        "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles": [
+          {
+            "citation": "11 U.S.C. § 522(d)(2)",
+            "claim_value": 4450
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 15425
+          },
+          {
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "claim_value": 300
+          }
+        ]
+      },
+      "finish": "stop",
+      "output_tokens": 6817,
+      "raw": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b4_candidate1_replay/232_EV_candidate.json"
+    }
+  ],
+  "C2_EV_passes_head_diagnostic_only_not_actual_TaskLocal_run_or_published_bank": true,
+  "actual_fresh_native_calls_by_stage": {
+    "b4_prequential": 76,
+    "b4_candidate1_replay": 128,
+    "b4_candidate2_replay": 28
+  },
+  "native_usage_by_stage": {
+    "b4_prequential": {
+      "input_tokens": 493307,
+      "output_tokens": 206509
+    },
+    "b4_candidate1_replay": {
+      "input_tokens": 869104,
+      "output_tokens": 368270
+    },
+    "b4_candidate2_replay": {
+      "input_tokens": 191080,
+      "output_tokens": 44567
+    }
+  },
+  "native_finish_by_stage": {
+    "b4_prequential": {
+      "stop": 76
+    },
+    "b4_candidate1_replay": {
+      "stop": 128
+    },
+    "b4_candidate2_replay": {
+      "stop": 28
+    }
+  },
+  "native_request_phase_seconds_by_stage": {
+    "b4_prequential": 1880.575495895,
+    "b4_candidate1_replay": 3562.764891131,
+    "b4_candidate2_replay": 440.352555711
+  },
+  "B4_two_teacher_actual_usage": {
+    "input_tokens": 416746,
+    "cached_input_tokens": 0,
+    "output_tokens": 6607,
+    "reasoning_output_tokens": 3104
+  },
+  "all_B4_native_stage_names": [
+    "b4_prequential",
+    "b4_candidate1_replay",
+    "b4_candidate2_replay"
+  ],
+  "all_B4_native_artifact_count": 1064,
+  "all_B4_native_artifact_paths_sha256": "a9558da20bf046bbfcef5ccc488f232a57350c64848b2acabe789a57e88de215",
+  "B5_saved_current_bank_input_only_proofs": [
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b5_prequential/245_EC_skills.input.json",
+      "sha256": "0d6c0e9aee31b17bad90e12fd61af23b049b51617281cafb29b03a8164a082ab"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b5_prequential/245_EV_skills.input.json",
+      "sha256": "77dafbd6085970603a64dc4f86b91d0ffff2d7c66a26c23d8ac5c565a48ef131"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b5_prequential/246_EC_skills.input.json",
+      "sha256": "01366bd0955b6dba08590bed19fcf0d7c427b1c8a07e6fdcaba523770bdf0cb5"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b5_prequential/246_EV_skills.input.json",
+      "sha256": "08f29b144d8bf74fec95ffa71c8f8faede9915048ecfd690b18550a1e2d278a4"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b5_prequential/247_EC_skills.input.json",
+      "sha256": "fe6ac0839480287f7616f6948531b388b1b49abdfe3bc8a6dd126e8f50df9cd4"
+    },
+    {
+      "path": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/native/b5_prequential/247_EV_skills.input.json",
+      "sha256": "a7fdbe09e0f4fb11e9b364022581951bddb4b3c0f45837694157dc5bad64dd96"
+    }
+  ],
+  "source_sha256": {
+    "configs/openexempt_whole_bank_public_assets128_phase4_20261025_run02.json": "684da0d5b5b78c115920c55a5971f5ece7b8260e9e114a7fb6205702625f206a",
+    "configs/openexempt_whole_bank_public_assets128_phase4_20261025_run02.frozen.json": "144f01d70784b85e31b0314ecb4df416163c04c2662e5ea620cbe094ab8737e3",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b3.json": "bca242eec369b2475f87cfd2766821f274df1363df557797f5db062c974a0fbc",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b4.json": "65fdb604b1853728541bec8698fa4ec7623234f2ee8c9d04040a0df865c565ed",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/candidates/b4_candidate1.json": "c5587007020a4e6432ae86c30291db7b1fc26f3112fcdc1794472c99adaa9aca",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/candidates/b4_candidate2.json": "f2098b4be39b52b919ced24c342f1d2c789f0b38f8db54de02a5b2544f777cb5",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/batches/b4_prequential.json": "3353461c8f9a97b7992c63616850265459e3a27cecfe5659dfc563c6d2ec6ab2",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/batches/b4_prequential_records.json": "bf077c74c4631906bf6acf919672c29007990c0a3b6f9db428bcdc291d75575e",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/teacher/b4_candidate2/wire_request.json": "38ec053efd89b3e58f90c67893f5f8682566f3624a7b5859045b92ae0e6941ca",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/teacher/b4_candidate2/response.json": "6ff8cce74fe9b3966fc29683bb41c3bdda8ed4571c282260af8bcf446bb4ea04",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/teacher/b4_candidate2/event_log.json": "45921042aa3eb63ee3878a891959ea4ad5b4f4684af899a646fe1ab686732572",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/teacher/b4_candidate1/wire_request.json": "ef969d0626db2880f17f3d07f8ad9f796fe8efc4b46c701aa9198f0f6b91c1cf",
+    "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/teacher/b4_candidate1/response.json": "268db29caa403ea2c33eba5c4a5bd14fd245ae9ee3703d91286dd585fd3fb0e9"
+  },
+  "wall_clock_accounting": {
+    "firsts_seconds": 1880.575495895,
+    "C1_128_fresh_seconds": 3562.764891131,
+    "C2_28_fresh_plus100_exact_reuse_seconds": 440.352555711,
+    "teacher6_seconds": 76.738,
+    "teacher7_seconds": 22.624,
+    "other_pipeline_seconds": 4.137355263000327,
+    "full_batch_seconds": 5987.192298,
+    "output_tokens_per_second_by_native_phase": {
+      "b4_prequential": 109.8115978065101,
+      "b4_candidate1_replay": 103.36634924093818,
+      "b4_candidate2_replay": 101.20754250657508
+    },
+    "interpretation": "Observed within-run phase costs, not a controlled cross-method speed comparison. The long batch is accounted for by232 actual native generations (C1 broad128 edit versus C2 narrow28), teacher calls and small pipeline overhead; no qualification experiment is included."
+  },
+  "no_B5_partial_scores_or_targets_read": true,
+  "no_source_config_scoring_admission_or_budget_change": true,
+  "no_new_model_teacher_tokenizer_calls_from_audit": true,
+  "official_TEST_not_opened": true,
+  "all_main_ACE_Text_independent_repeats_deferred": true
+}
