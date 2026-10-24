@@ -1,5 +1,32 @@
 # 当前论文证据与完成条件
 
+## 现行执行：Task-local已选，全部重复暂缓，先必要实验与老师审阅初稿
+
+2026-10-24：按用户最新明确授权，第二项确定为Task-local，替换未启动的
+first_commit；主方法、ACE、Text的追加独立学习全部暂缓至老师审阅初稿之后。
+当前主方法、ACE八批与Text128案构建完成，整库消融继续，Task-local配置与374文件
+源冻结两盘保全但尚未运行；八条件TEST仍未开封，不能把CPU检查写成新性能。
+
+当前矩阵是每条件一份实际seed45库/参照，共六行主表及两项消融，128来源、
+EC/EV两端点、2,048逻辑预测。自身B1来自同一主学习器，条件区间不估计学习随机性。
+未来145/245配方仅在TEST前保留同算法设定，不授权执行或扩额度；独立重复不是
+老师审阅初稿的前置条件，不以单次结果冒称重复已验证。
+
+实际接续为`legal-openexempt-table-then-teacher-draft-20261024-run05.service`，
+PID505053/start484577057；原whole-bank4100472与8B3613253未重启，旧350157/3019419
+仅调度器被持有。额度当前4023，整库终态并两盘验证后才扩第二控制的4055，
+无自动145/245学习或final16测试路径。当前源码297c30c、隔离评价器ceff4d6；
+210项合成CPU检查29.16秒通过，实际共同条件/源码/进程证据及Git历史已两盘保全。
+
+论文已同步v0.16中英实验设置和附录，表1–3、参考文献、原始成本及评分定义不改。
+TEST和两项消融结果保留PENDING，重复单列DEFERRED；老师审阅成稿仍须实际结果整合。
+[现行协议](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md)、
+[粒度控制](../docs/research/OPENEXEMPT_TASK_LOCAL_GRANULARITY_CONTROL_20261024.md)及
+[接续实际核对](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal_run05_actual_common_conditions_safe_handoff_deferred_repeats_NOT_TEST_20261024.json)
+覆盖下述旧12/16条件执行安排，不抹掉历史记录或任何不利结果。
+
+## 下节及后续为保留历史；执行以本节和真实进程/制品为准
+
 ## 现行方案：24日用户授权暂缓四次基线追加构建
 
 2026-10-24 17:10 CST：用户明确暂缓ACE145/245、Text145/245，保留各自seed45原库、全部正负结果及成本，不挑seed或重跑至高分；主方法145/245重复和两项45消融保留。[现行增补](../docs/research/OPENEXEMPT_SINGLE_BASELINE_BUILD_AMENDMENT_20261024.md)在TEST开封前覆盖旧16条件与所有方法三次学习的安排。
