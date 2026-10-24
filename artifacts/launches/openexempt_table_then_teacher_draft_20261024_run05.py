@@ -1,7 +1,7 @@
-"""One finite approved order: unchanged45 controls, initial8 TEST, six builds, final16.
+"""Finite approved order: whole45, task-local45, frozen8 TEST, teacher-draft handoff.
 
-The proposed task-local substitution is not authorized by this controller.
-No performance threshold selects a run, bank, seed, comparator or later build.
+All additional learning repeats are deferred. Their frozen scientific recipes
+grant no execution authority. No TEST score selects a method, seed or bank.
 """
 from __future__ import annotations
 
@@ -27,29 +27,47 @@ owner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(owner)
 phase = owner.phase
 STAGES = copy.deepcopy(owner.ORIGINAL_STAGES)
-OUT = ROOT / "artifacts/launches/openexempt_staged_table_then_all_repeats_20261024_run04"
-RUN = "legal_openexempt_staged_table_then_all_repeats_20261024_run04"
+OLD_FIRST = copy.deepcopy(STAGES[1])
+STAGES[1] = {**OLD_FIRST, "path": "configs/openexempt_task_local_public_assets128_20261024_run01.json",
+    "run_id": "legal_openexempt_task_local_public_assets128_20261024_run01",
+    "config_sha256": "54bf4dbcd1a3a361cadc1d2d7a408ad7c7319ab5045abade53bb135d1320357a",
+    "frozen_sha256": "31384154c55d22b57cc813544d2c3ff76fb2daac732159ac7c7020e7150a211c"}
+OUT = ROOT / "artifacts/launches/openexempt_table_then_teacher_draft_20261024_run05"
+RUN = "legal_openexempt_table_then_teacher_draft_20261024_run05"
 PROTOCOL = "docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md"
 OWNER_PID, OWNER_START = 350157, "483938732"
-EVAL_COMMIT = "514e819ef602282ecbd76669eb236fa095852f89"
+EVAL_COMMIT = "ceff4d6d5b97f03a74249e2418ced02faed3840e"
 PREPARED = ROOT / ".venv/phase-dispatch-20261023.pvio7N"
 EVAL_SOURCES = {"experiments/openexempt_frozen_eval.py":
-    "438ecbb39f0db55546a897f64e33b7d519eabad48a6193220f76eff81d96c781",
+    "67419ca5942a46a7f8e6d0de88e57d2fe5d7263f66217539b7b994abeb505173",
     "tests/test_openexempt_frozen_eval.py":
-    "d7ad06e1900e59e0673340d1504a7e4c942d7e12ae3c02c0274f7d2a42b4c2e2"}
+    "5ce64a106d4e2c2b78c99c49d68452923ac47915f82626df15223bf077ff0c0a"}
 BASE_CONFIGS = {
     "main45": "configs/openexempt_closed_feedback_public_assets128_20261021_run03.json",
     "ACE45": "configs/openexempt_ace_public_assets128_20261023_run04.json",
     "text45": "configs/openexempt_trace2skill_text_public_assets128_seed45_20261023_run02.json",
     "static": "configs/openexempt_direct_law_only_static_20261021_run03.json"}
 INITIAL_CONFIG = "configs/openexempt_initial8_frozen_TEST_20261024_run01.json"
-FINAL_CONFIG = "configs/openexempt_final16_frozen_TEST_20261024_run01.json"
 FUTURE_PLAN = str((OUT / "six_future_learning_recipes_before_initial_TEST.json").relative_to(ROOT))
 
 phase.OUT, phase.RUN, phase.PROTOCOL = OUT, RUN, PROTOCOL
-phase.COMMITS = (*phase.COMMITS, "ebfc0328c867132802850d98832e3e5924778cdf", EVAL_COMMIT)
+phase.COMMITS = (*phase.COMMITS, "ebfc0328c867132802850d98832e3e5924778cdf",
+                 "514e819ef602282ecbd76669eb236fa095852f89", EVAL_COMMIT)
 phase.old.STAGES = STAGES
 owner.OUT, owner.RUN, owner.PROTOCOL = OUT, RUN, PROTOCOL
+_original_profile_factory = phase.new_profile
+
+
+def prospective_recipe(source, stage, environment, run_map):
+    # Operational predecessor rename only; the original factory checks every
+    # scientific field. No deferred recipe is executed by this controller.
+    run_map = {**run_map, OLD_FIRST["run_id"]: STAGES[1]["run_id"]}
+    result = _original_profile_factory(source, stage, environment, run_map)
+    result["additional_learning_execution_authorization"] = "deferred_until_user_review_after_teacher_draft"
+    return result
+
+
+phase.new_profile = prospective_recipe
 
 
 def archive(label):
@@ -59,7 +77,7 @@ def archive(label):
         Path(__file__), OWNER_FILE, owner.PHASE_FILE, phase.OLD, ROOT / PROTOCOL,
         phase.NEW_UNIT, ROOT / "ops/legal-qwen3-8b.service", ROOT / phase.OLD_ENV))
     names.update(str((PREPARED / name).relative_to(ROOT)) for name in EVAL_SOURCES)
-    for value in [s["path"] for s in STAGES] + list(BASE_CONFIGS.values()) + [INITIAL_CONFIG, FINAL_CONFIG]:
+    for value in [s["path"] for s in STAGES] + [OLD_FIRST["path"]] + list(BASE_CONFIGS.values()) + [INITIAL_CONFIG]:
         original = ROOT / value
         future = ROOT / value.replace("20261023_run02", "20261023_run03")
         for path in {original, future}:
@@ -90,13 +108,15 @@ def plan():
     packages = {d.metadata["Name"]: d.version for d in importlib.metadata.distributions()}
     if packages != phase.read(ROOT / "artifacts/launches/openexempt_main_only_repeats_20261024_run03/queued.json")["packages"]:
         raise RuntimeError("The canonical package environment changed")
-    for stage in STAGES:
+    for stage in [*STAGES, OLD_FIRST]:
         path = ROOT / stage["path"]
         if phase.sha(path) != stage["config_sha256"] or phase.sha(path.with_suffix(".frozen.json")) != stage["frozen_sha256"]:
             raise RuntimeError("Never overwrite an original prospective config or freeze")
     for stage in STAGES[1:]:
         if (ROOT / "runs" / stage["run_id"]).exists():
             raise RuntimeError("Only unstarted successors can be rescheduled")
+    if (ROOT / "runs" / OLD_FIRST["run_id"]).exists():
+        raise RuntimeError("The superseded first-commit must be genuinely unstarted")
     for stage in STAGES[2:]:
         path = ROOT / stage["path"].replace("20261023_run02", "20261023_run03")
         if path.exists() or path.with_suffix(".frozen.json").exists():
@@ -104,7 +124,7 @@ def plan():
     for name, digest in EVAL_SOURCES.items():
         if phase.sha(PREPARED / name) != digest:
             raise RuntimeError("The prepared verified staged evaluator changed")
-    if any((ROOT / name).exists() for name in (INITIAL_CONFIG, FINAL_CONFIG)):
+    if (ROOT / INITIAL_CONFIG).exists():
         raise RuntimeError("Never replace a TEST config or an already launched evaluation")
     ledger = ROOT / phase.read(phase.old.FIRST)["teacher"]["ledger"]
     if phase.read(ledger)["max_invocations"] != 4023:
@@ -115,11 +135,11 @@ def plan():
         "packages": packages, "original_model": [phase.old.MODEL_PID, phase.old.MODEL_START],
         "superseded_scheduler": [OWNER_PID, OWNER_START], "adopted_learner": [owner.CHILD_PID, owner.CHILD_START],
         "stages": STAGES, "source_promotion": list(phase.COMMITS),
-        "initial_actual_conditions": 8, "final_actual_conditions": 16,
+        "initial_actual_conditions": 8, "prospective_final16_not_authorized_or_completed": True,
         "six_recipes_frozen_before_initial_TEST": True,
-        "later_builds_not_selected_using_initial_result": True,
-        "second_policy_currently_declared": "first_commit; task_local substitution remains a separate proposal",
-        "active_ceiling_unchanged": 4023, "final_ceiling_after_all_six_repeats": 8507}
+        "no_additional_independent_learning_started_by_this_queue": True,
+        "second_policy_currently_declared": "task_local; user-authorized granularity control",
+        "active_ceiling_unchanged": 4023, "final_live_ceiling_after_two_controls": 4055}
 
 
 def adopt_current(queued):
@@ -187,7 +207,7 @@ def prepare_initial(stages):
         arm("ACE45", "experience", "ace", BASE_CONFIGS["ACE45"]),
         arm("text45", "experience", "direct", BASE_CONFIGS["text45"]),
         arm("whole_bank", "ablation", "direct", STAGES[0]["path"]),
-        arm("first_commit", "ablation", "direct", STAGES[1]["path"])]
+        arm("task_local", "ablation", "direct", STAGES[1]["path"])]
     templates, entries = copy.deepcopy(initial), []
     for stage in stages:
         seed, config = stage["seed"], stage["path"]
@@ -200,9 +220,10 @@ def prepare_initial(stages):
         entries.append({"kind": kind, "seed": seed, "source_config": config,
             "source_config_sha256": stage["config_sha256"], "source_frozen_sha256": stage["frozen_sha256"]})
     secondary = [{"name": "vs_" + name, "after": ["main45"], "before": [name]}
-                 for name in ("whole_bank", "first_commit")]
+                 for name in ("whole_bank", "task_local")]
     future_plan = {"policy": "six_recipes_frozen_before_initial_TEST_v1", "no_TEST_feedback_to_learning": True,
-        "all_six_builds_run_without_score_selection": True, "future_recipes_not_completed_banks": True,
+        "future_builds_not_selected_using_initial_scores": True, "future_recipes_not_completed_banks": True,
+        "additional_learning_execution_authorization": "deferred_until_user_review_after_teacher_draft",
         "learning": entries, "initial_arm_names": [a["name"] for a in initial],
         "planned_final_arms": templates, "primary_contrasts": contrasts((45, 145, 245)),
         "secondary_contrasts": secondary}
@@ -220,6 +241,7 @@ def prepare_initial(stages):
         "statistics_plan": "docs/research/OPENEXEMPT_FINAL_ANALYSIS_TEXT_COMPLEMENT_ADDENDUM_20261022.md",
         "future_learning_plan": FUTURE_PLAN, "future_learning_plan_sha256": phase.sha(ROOT / FUTURE_PLAN),
         "external_text_adaptation": "trace2skill_text_offline_v1",
+        "ablation_design": "legal_scope_granularity_v1",
         "learning_execution_schedule": runtime_sources.SCHEDULE,
         "learning_execution_schedule_protocol": runtime_sources.PROTOCOL,
         "inference_request_workers": 4,
@@ -258,33 +280,14 @@ def evaluate(config):
     archive(phase.read(ROOT / config)["run_id"] + "_complete")
 
 
-def prepare_final():
-    cfg = phase.read(ROOT / INITIAL_CONFIG)
-    future = phase.read(ROOT / FUTURE_PLAN)
-    cfg.update(run_id="legal_openexempt_final16_frozen_TEST_20261024_run01",
-               evaluation_stage="final_three_build_confirmatory",
-               primary_contrasts=future["primary_contrasts"])
-    cfg["arms"] = [arm(a["name"], a["role"], a["backend"], a["source_config"])
-                   if a.get("bank_sha256", "empty") is None else a for a in future["planned_final_arms"]]
-    initial = ROOT / INITIAL_CONFIG
-    out = ROOT / "runs" / phase.read(initial)["run_id"]
-    cfg["initial_evaluation"] = {"source_config": INITIAL_CONFIG, "source_config_sha256": phase.sha(initial),
-        "source_frozen_sha256": phase.sha(initial.with_suffix(".frozen.json")),
-        **{key: phase.sha(out / name) for name, key in (
-            ("completion.json", "completion_sha256"),
-            ("predictions_before_any_grading.json", "predictions_sha256"),
-            ("native_origins_before_any_grading.json", "native_origins_sha256"),
-            ("terminal_preservation.json", "terminal_preservation_sha256"))}}
-    phase.RunStore.immutable_json(ROOT / FINAL_CONFIG, cfg)
-
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("action", choices=("inspect", "run"))
     args = parser.parse_args()
     queued = plan()
     if args.action == "inspect":
-        print(json.dumps({"plan_valid": True, "initial8_before_six_builds_then_final16": True,
+        print(json.dumps({"plan_valid": True, "two_controls_then_frozen8_then_teacher_draft": True,
+            "no_independent_repeats_launched": True,
             "no_TEST_or_model_read_or_write": True, "second_policy": queued["second_policy_currently_declared"]}))
         return
     OUT.mkdir(exist_ok=False)
@@ -309,25 +312,14 @@ def main():
         prepare_initial(stages)
     archive("six_recipes_and_initial8_config_before_TEST")
     evaluate(INITIAL_CONFIG)
-    for stage in stages:
-        evaluation_terminal(INITIAL_CONFIG)  # Completion only; no score-driven continuation.
-        with (ROOT / "artifacts/openexempt_training.lock").open("a") as lock:
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            path = ROOT / stage["path"]
-            if (phase.sha(path) != stage["config_sha256"]
-                    or phase.sha(path.with_suffix(".frozen.json")) != stage["frozen_sha256"]
-                    or (ROOT / "runs" / stage["run_id"]).exists()
-                    or any(phase.sha(ROOT / n) != h for n, h in phase.read(path.with_suffix(".frozen.json"))["files"].items())):
-                raise RuntimeError("Future learning must use its exact pre-initial-TEST recipe once")
-            phase.extend(ledger, baseline, ceiling, stage, predecessor, queued)
-        phase.command([str(ROOT / ".venv/bin/python"), "-u", "-m", stage["module"], "run", str(path)])
-        phase.save(stage["run_id"] + "_completed", phase.old.terminal(path))
-        predecessor, ceiling = path, stage["ceiling"]
-    prepare_final()
-    evaluate(FINAL_CONFIG)
-    phase.save("all_stages_complete", {"initial8_and_final16_completed": True,
-        "six_additional_builds_completed": True, "no_score_selected_seed_or_bank": True})
-    archive("all_stages_complete")
+    phase.save("necessary_experiments_complete_teacher_draft_handoff", {
+        "initial8_completed_and_dual_preserved": True,
+        "task_local_replaced_genuinely_unstarted_first_commit": True,
+        "all_independent_repeats_deferred_not_started": True,
+        "prospective_recipes_are_not_execution_authority": True,
+        "paper_draft_still_requires_actual_result_and_claim_integration": True,
+        "teacher_ledger_ceiling_stays": 4055})
+    archive("necessary_experiments_complete_teacher_draft_handoff")
 
 
 if __name__ == "__main__":

@@ -1,25 +1,36 @@
 # Current legal skill-evolution goal
 
-## 现行顺序：首版冻结主表前置，追加独立学习随后完成
+## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
-2026-10-24 18:43 CST：用户已同意先取得首版TEST主表，再补主方法、ACE和Text
-各两次独立学习。此顺序覆盖下节临时12条件安排，并非永久取消基线重复。
-按[分阶段协议](research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md)，
-首版是八个实际seed45条件，六行主表及两项消融；后续六次学习的算法、数据、
-配置、源码和种子必须在首次TEST前冻结，最终报告16条件三库均值及预定统计。
-首版单次学习结果为描述性，不作为选择seed、删对照、改方法或停止重复的门槛。
+2026-10-24 18:59 CST：用户已明确授权选择第二项消融，并把全部主方法、ACE和Text
+独立重复暂缓至必要实验及老师审阅初稿之后。此决定覆盖下节12条件临时安排和
+此前“首表后自动六次学习”的顺序。主方法、数据与评分不改，不永久取消未来重复，
+也不允许后台自动执行。当前[分阶段协议](research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md)
+固定八个实际seed45条件：六行主表及whole-bank/task-local两项消融。
+单次学习的来源配对区间条件于实际库，不冒称跨学习运行稳定性已得到验证。
 
-阶段评价器已在隔离树提交514e819，200项合成CPU检查27.85秒通过；新旧原始请求
-匹配、六份未来配方绑定、首版/最终统计边界均已实现，源码及Git增量两盘保全。
-未调用模型或教师，未读取真实TEST题面、答案或成绩，也未部署到当前学习进程。
-新的[有限接续器](../artifacts/launches/openexempt_staged_table_then_all_repeats_20261024_run04.py)
-已完成只读检查，尚待实际接管；当前350157仍运行旧接续代码，不能把新顺序称为已部署。
+第二项已选为[Task-local](research/OPENEXEMPT_TASK_LOCAL_GRANULARITY_CONTROL_20261024.md)，
+配置与374文件冻结清单已双盘保全。它仅把主方法legal_scope提交改为EC/EV任务级
+提交，保留相同反馈、共同数据、教师、候选和容量上限、全seen-TRAIN及完整输出保持。
+原first_commit配置/冻结清单保留且确实未启动，不增加第三项消融，不丢弃不利结果。
 
-主方法八批、ACE八批、Text128案完整构建及末库重放均已完成。Text不是八次在线更新。
-Whole-bank45当前PID4100472正常进行，原8B PID3613253不变。
-第二项仍为已声明但未启动的first_commit；用task_local替换的
-[贡献及消融建议](../paper/contribution_and_experiment_design_proposal_20261024.md)仍待确认，
-不能把建议当成已经执行的实验。主方法与原评分均不变。
+新的[有限接续器](../artifacts/launches/openexempt_table_then_teacher_draft_20261024_run05.py)
+已实际部署为`legal-openexempt-table-then-teacher-draft-20261024-run05.service`，
+PID505053/start484577057；旧350157与3019419仅调度器被持有，不能续接旧计划。
+实际whole-bank学习PID4100472/start482117804及8B PID3613253/start446037091均未变。
+后续为当前整库自然完成、task-local45、共同冻结八条件TEST，再交接论文初稿。
+当前教师额度4023不变，整库自然终态与双盘保全后才扩至第二控制的4055；此队列
+没有执行六次145/245学习或final16评价的代码路径。潜在同算法配方仅在首次TEST
+前保存科学设定，调用数为零、无额度扩展，不等于未来实验执行授权。
+
+评价器ceff4d6位于隔离树，210项合成CPU检查29.16秒通过。当前45学习源码不发布
+这些修改，须两项45消融自然结束后才在既定安全边界部署。正式TEST仍未开封。
+[实际共同条件、源码、进程与接续保全核对](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal_run05_actual_common_conditions_safe_handoff_deferred_repeats_NOT_TEST_20261024.json)
+保留单次只读审计的KeyError及正确按各自源冻结核对的结果，不将审计失误说成训练故障。
+
+主方法八批、ACE八批、Text128案构建及报告型末库重放均完成；Text不是八次在线更新。
+Whole-bank当前B3候选1重放，最新276个物理调用、4个教师响应，尚未发布完整B3结果。
+论文v0.15的旧12条件段落尚待同步，不以实现/CPU检查代替实际新性能结果。
 
 ## 下节及其后的12条件安排为保留历史；冲突时以上节为准
 
