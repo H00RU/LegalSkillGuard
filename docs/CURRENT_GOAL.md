@@ -427,6 +427,14 @@ B1原生制品、两教师/两决策/正式发布和16份原训练标签；两�
 [B1完整原轨迹/Git双盘核验收据](../artifacts/research/openexempt_legal_scope_20261020/Rootc042b37_phase4_TaskLocal_B1_final80_all656_original_times_verified_dual_preservation_20261025.json)。
 训练未暂停，继续B2新案和后续批次，不再重复B1封存。
 
+2026-10-25 11:43 CST：等待B2推理时按师兄实验写作skill及nature-paper补正文/附录
+v0.18，只更新Whole已完整/Task-local活动状态、两候选为修订预算、已观察元数据
+例外和Whole真实全程成本。表1–3原行、附录D1原资源行、D6统计段及全部参考文献
+逐字不变；新证据链接均解析到已有原审计。未新增引用、TEST、模型或资格检查，
+未把部分Task-local或TRAIN数据填进TEST；当前Markdown没有冒充新PDF交付。
+[主张状态及文稿一致性记录](../artifacts/research/openexempt_legal_scope_20261020/Manuscript_v018_completed_Whole_TaskLocal_running_claim_ledger_and_unchanged_tables_stats_refs_20261025.json)。
+实验源/配置/冻结协议/评分均未编辑，活动学习器继续。
+
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
 2026-10-24 18:59 CST：用户已明确授权选择第二项消融，并把全部主方法、ACE和Text

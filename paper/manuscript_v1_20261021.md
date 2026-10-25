@@ -2,7 +2,7 @@
 
 中文暂题：面向冻结8B语言模型法律规则适用的可演化技能学习
 
-工作初稿 v0.17，2026-10-25。同步用户授权的两项消融统一四并发执行修订，保留任务、主方法、表1–3、评分及八条件测试矩阵。旧整库控制因执行效率人工停止且全部保留；新两项控制均从空库开始，不导入旧回答或技能。主方法、ACE、Text的独立重复仍全部暂缓，先完成必要实验及老师审阅初稿。正式TEST及两项消融仍待完成，一次ACE超时用量未知。见[证据表](evidence_and_completion_20261020.md)、[现行协议](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md)、[Task-local对照](../docs/research/OPENEXEMPT_TASK_LOCAL_GRANULARITY_CONTROL_20261024.md)与[统一执行修订](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)；v0.16及更早版本保留于Git和双盘归档。
+工作初稿 v0.18，2026-10-25。Whole-bank替代消融已完整八批结束并双盘保全；Task-local已发布B1，后续学习仍在运行，正式TEST未启动。同步真实执行状态、候选上限和已观察到的元数据例外，保留任务、主方法、表1–3、评分及八条件测试矩阵。两项控制均从空库开始，不导入旧回答或技能；主方法、ACE、Text的独立重复仍全部暂缓，先完成必要实验及老师审阅初稿。一次ACE超时用量仍未知，消融结果不替代TEST。见[证据表](evidence_and_completion_20261020.md)、[现行协议](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md)、[Task-local对照](../docs/research/OPENEXEMPT_TASK_LOCAL_GRANULARITY_CONTROL_20261024.md)与[统一执行修订](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)；v0.17及更早版本保留于Git和双盘归档。本次Markdown更新尚未作为新的PDF交付。
 
 ## Abstract / 摘要
 
@@ -76,11 +76,15 @@ For each task, public legal contexts define dependencies between edits: jurisdic
 
 The feedback policy preserves accepted components while exposing unresolved proposal failures to the next permitted attempt. After a partial acceptance, the committed subset becomes the real parent for the next proposal; a later rejection does not undo it. Bounded failure witnesses, at most eight task records per proposal, can be carried from the immediately preceding batch publication, rather than an unbounded history. After refinement, the final bank must also pass the full retention gate against the original batch parent. Each batch writes one final publication, including an unchanged bank when no edit is admitted. This is supervised TRAIN optimization, not group-relative policy-gradient training or label-free trajectory learning.
 
+Two attempts are a bounded revision budget, not two required candidates, two new skills or a theoretically optimal count. The intended schedule ends after full acceptance or an explicit no-change response. Appendix D records an order-only metadata mismatch that caused an extra refinement in the completed whole-bank control; its actual calls, failure feedback and costs are retained rather than described as necessary learning.
+
 本批全部首次预测完成后，教师获得已释放训练答案、实际回答、分数和当前库。当前教师为`gpt-5.6-sol`，high推理强度；每批至多两次候选尝试，支持创建、更新、合并、删除或明确不改，一次尝试可以编辑多条技能。教师按真实错误修正事实条件、法律选项、例外或金额推理，并保留正确的无关边界。通信包含全部16个本批来源及至多16个历史来源，每来源有两个任务视图；历史优先按公开法域情境取困难见证，再纳入真实提案退化及父库失败，按来源ID确定平局顺序。准入仍重放全部已见训练来源。另给完整公开法条和实际模型推理的有界尾部摘录，每条至多1,024字符，不把这些摘录当作已证实的因果解释。
 
 每个任务分别从公开法律情境建立编辑依赖：共同出现的法域、技能标识的范围移动和共享指导改变连接受影响范围，由连通分量确定必须共同评估的编辑。通过分量须有本批来源证据，并在受影响任务的本批及历史来源保持原F1与完整输出F1、负目标或未计分资产声明数不增加、格式错误数不增加。严格本批改善可以是原F1或完整输出F1提高，或上述错误计数减少。通过分量组成一个库，再检查总容量及EC、EV两任务对应的整库保持门槛。组合请求必须精确匹配已观测父库或提案请求，原始回答重新解码，不按案件结果挑答案。检查约束训练均值，不保证每案或未来新案不下降。
 
 反馈策略保留已通过分量，并将未解决的提案失败传给本批下一次允许的尝试。部分接收后的真实库成为下一提案的父库，后续拒收不会撤回它。来自紧邻上一批发布的失败见证可以有界传递，每份提案最多八个任务记录，不无限累积历史。细化后的末库还须相对本批原始父库再次通过完整保持门槛。每批只写一次最终发布，无修改通过时发布原库。这是标签辅助的TRAIN优化，不是组内相对策略梯度训练，也不是纯轨迹无标签学习。
+
+两次是有界修订预算，不是每批必有两个候选或两个新技能，也不声称理论最优。设计上完整接纳或明确不改时提前结束。已完成整库控制出现过一次仅由列表顺序引起的元数据误判，额外触发一次修订；附录D保留其实际调用、失败反馈和成本，不把它解释成必要学习。
 
 ### 3.3 Initialization, alternatives, and learning evidence / 初始化、替代方案与学习证据
 
@@ -102,7 +106,7 @@ The current run initializes an empty library once; subsequent batches use the ac
 
 The fixed static library completed its full-TRAIN inference control on 23 October. It uses the same 128 sources, direct actor, generation settings and public scope projection, without a new teacher or library update. All 256 predictions were saved before grading. Its descriptive comparisons use the actual evolving first forecasts and common empty reference, not a terminal main-bank replay or a new validation/test split. The static library starts complete, whereas the main library starts empty and changes using released TRAIN feedback; this contrast alone does not isolate the update mechanism. It adds no final TEST arm or primary contrast. Exact endpoint, information-access, cost and fairness definitions are in [Appendix D](appendix_experimental_details_20261022.md); the [execution protocol](../docs/research/OPENEXEMPT_FIXED_STATIC_TRAIN_CONTROL_V2_20261022.md) preserves the unchanged zero-case library and control algorithm.
 
-**Pre-TEST analysis; execution incomplete.** The source-disjoint IID128 test and analysis rules were declared before TEST exposure, not before all development. The 22 October text-method addendum expanded the primary family before its outcomes or TEST exposure. The 24 October amendment fixes eight actual conditions for the first table and defers all main, ACE and Text learning repetitions until teacher review. Those methods retain their completed seed-45 libraries and adverse results, without best-seed selection. The [25 October operational amendment](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md) replaces the unfinished serial whole-bank control with two uniformly scheduled, fresh empty-bank controls after an eight-call unscored throughput comparison. The old partial trajectory and its costs remain preserved; it supplies neither a final bank nor an imported prefix. Whole-bank is now running under the replacement profile; task-local is frozen but unstarted. The task, main algorithm and scoring are unchanged. Prospective same-algorithm repeat recipes are bound before TEST but authorize no execution.
+**Pre-TEST analysis; execution incomplete.** The source-disjoint IID128 test and analysis rules were declared before TEST exposure, not before all development. The 22 October text-method addendum expanded the primary family before its outcomes or TEST exposure. The 24 October amendment fixes eight actual conditions for the first table and defers all main, ACE and Text learning repetitions until teacher review. Those methods retain their completed seed-45 libraries and adverse results, without best-seed selection. The [25 October operational amendment](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md) replaces the unfinished serial whole-bank control with two uniformly scheduled, fresh empty-bank controls after an eight-call unscored throughput comparison. The old partial trajectory and its costs remain preserved; it supplies neither a final bank nor an imported prefix. Replacement whole-bank learning has completed all eight batches; task-local has published B1 and continues learning. Their common frozen-library TEST comparisons remain pending. The task, main algorithm and scoring are unchanged. Prospective same-algorithm repeat recipes are bound before TEST but authorize no execution.
 
 ACE retains its native generator–reflector–curator principle, generator prompt and response wrapper, with released TRAIN feedback, up to three reflection rounds and an 8,192-token memory cap. This compares declared end-to-end task adaptations, rather than isolating the memory rule under equal total training computation. Original legal submissions and invalid-output scores are preserved. The seed-45 learner includes a provenance-checked continuation from its last complete batch; restored, fresh and retired work are accounted for separately. Adapter semantics and the complete continuation lineage are documented in [Appendix D](appendix_experimental_details_20261022.md).
 
@@ -126,7 +130,7 @@ For each endpoint, the actual main45 bank is compared with its source-matched co
 
 固定静态库于10月23日完成全部TRAIN推理对照。它使用同128来源、直接执行器、生成设置和公开范围投影，零新教师、不更新库，全部256预测保存后才评分。描述性比较采用主方法当时的在线首答及共同空库，不冒称主末库重答，也不新增验证/测试划分、最终TEST臂或主要比较。静态库起步即完整，主方法从空库使用已释放TRAIN反馈学习，因此该对照不能单独隔离更新机制。精确指标、信息权限、成本和公平性见[附录D](appendix_experimental_details_20261022.md)，原零案例库及执行边界见[固定对照协议](../docs/research/OPENEXEMPT_FIXED_STATIC_TRAIN_CONTROL_20261022.md)。
 
-**分析规则在TEST前声明，实验未完成。** IID128封存测试及分析规则在TEST暴露前固定，不冒称整个开发事前注册。22日增补在无文本方法结果、未开封TEST时扩大主要族。24日决定固定首版八条件，主方法、ACE、Text独立重复仍暂缓至老师审阅初稿之后，原完成库及不利结果保留，不挑最好seed。[25日执行修订](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)在8次无标签吞吐比较后，用两项同配置、从空库开始的控制替换未完成的串行整库控制；旧部分轨迹和成本完整保留，不作为末库或导入前缀。新整库控制正在运行，Task-local已冻结但未启动。任务、主方法和评分不变；首次TEST前保存的同算法重复配方不构成执行授权。
+**分析规则在TEST前声明，实验未完成。** IID128封存测试及分析规则在TEST暴露前固定，不冒称整个开发事前注册。22日增补在无文本方法结果、未开封TEST时扩大主要族。24日决定固定首版八条件，主方法、ACE、Text独立重复仍暂缓至老师审阅初稿之后，原完成库及不利结果保留，不挑最好seed。[25日执行修订](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)在8次无标签吞吐比较后，用两项同配置、从空库开始的控制替换未完成的串行整库控制；旧部分轨迹和成本完整保留，不作为末库或导入前缀。替代整库控制已完整八批结束，Task-local已发布B1并继续学习，两者的共同冻结TEST比较仍待执行。任务、主方法和评分不变；首次TEST前保存的同算法重复配方不构成执行授权。
 
 ACE保留原生生成—反思—策展原则、生成器提示与回答外包装，使用已释放TRAIN反馈，至多三轮反思、8,192-token记忆。该比较针对已声明的完整任务适配，不是等总训练计算下的纯记忆规则干预。原始法律回答及无效输出分数保持不变；seed45从最后完整批次进行来源核验后的接续，恢复、新增和退役工作分别计账。适配语义及完整接续沿革见附录D。
 
@@ -195,11 +199,11 @@ Additional mechanism evidence: [all 14 actual component-versus-task gate decisio
 
 The modest continued EC gain was accompanied by limited change in delivered EC guidance, rather than an observed failure to deliver an entirely new library. Across all 96 B3–B8 sources, 80 EC requests had the same visible guidance, complete HTTP request, native response origin, decoded answer, and score as own-B1. The remaining 16 EC tasks had ten improvements, three harms, and three ties. EV guidance changed for 75 of the same 96 sources, with 45 improvements, eight harms, and 22 ties; the other 21 requests were unchanged. The full 96-source mean differences remain +1.00 EC and +10.96 EV points. The changed subsets are an observational exposure decomposition, not alternative primary denominators or a randomized test of skill causality.
 
-Admission records also show a substantive trade-off rather than eleven interchangeable opportunities for improvement. Eight post-B1 proposals edited 11 EC scope components: two were admitted, five were rejected with a native-F1 loss, and four were rejected with a complete-output or negative-asset-claim loss despite no native-F1 loss. These records do not establish that simply relaxing admission would improve new-source performance; the independently learned ablations remain pending.
+Admission records also show a substantive trade-off rather than eleven interchangeable opportunities for improvement. Eight post-B1 proposals edited 11 EC scope components: two were admitted, five were rejected with a native-F1 loss, and four were rejected with a complete-output or negative-asset-claim loss despite no native-F1 loss. These records do not establish that simply relaxing admission would improve new-source performance; common frozen-TEST comparisons with independently learned policy controls remain pending.
 
 EC持续增量较小，伴随的是实际投递指导改变覆盖有限，而非观察到整份新库完全没有送达。B3–B8全部96来源中，80个EC任务与自身B1具有相同指导、完整HTTP请求、原生响应来源、解码答案和分数；另16个为十改善、三损害、三持平。EV在同96来源中75个指导改变，四十五改善、八损害、二十二持平，余21个请求不变。完整96来源差值仍是EC +1.00、EV +10.96个百分点，不用改变子组替代主分母；这只是观察性投递分解，不是技能因果效应的随机实验。
 
-B1后八份提案共改动11个EC范围分量：两个接收，五个因原F1损失拒绝，另四个虽无原F1损失，仍有完整输出或负资产主张损害而拒绝。不能由此推断放宽准入就会改善新案；独立学习消融仍待完成。
+B1后八份提案共改动11个EC范围分量：两个接收，五个因原F1损失拒绝，另四个虽无原F1损失，仍有完整输出或负资产主张损害而拒绝。不能由此推断放宽准入就会改善新案；与独立学习策略控制的共同冻结TEST比较仍待完成。
 
 Evidence: [all-source actual delivery decomposition](../artifacts/research/openexempt_legal_scope_20261020/Run03_complete128_first_forecast_actual_skill_projection_vs_own_B1_736_native_record_delivery_and_newcase_effect_decomposition_20261022.json); [all post-B1 EC proposal-component decisions](../artifacts/research/openexempt_legal_scope_20261020/Run03_all_postB1_EC11_changed_components8_proposals_actual_parent_scope_gate_failure_bottleneck_20261022.json).
 
@@ -259,9 +263,9 @@ Main was higher on 95 EC sources and lower on three, with 30 ties; the correspon
 
 [DEFERRED EXPERIMENT — independent main/ACE/Text learning repetitions and any three-bank aggregate; not executed and not a prerequisite for the teacher-facing draft. Current single-build results do not estimate learning-run variability.]
 
-[PENDING ANALYSIS — whole-bank and task-local single-seed learning ablations under the common feedback policy; report the four secondary endpoint contrasts, all case harms and actual computation.]
+[PENDING ANALYSIS — finish task-local learning and the common frozen-TEST comparisons with both single-seed granularity controls; report the four secondary endpoint contrasts, all case harms and actual computation. Completed whole-bank TRAIN artifacts do not fill these TEST estimates.]
 
-正式主表仍未完成。表1完整TRAIN开发流、表2同128来源八批首答及表3同阶段末库拟合不填入TEST，也不拼接旧曲线。当前必要实验为whole-bank及task-local两项学习消融、八条件冻结测试和配对分析；六个主表方法/参照与两项消融均各一份实际库。全部独立重复暂缓，待老师审阅初稿后再决定，不称已验证跨学习稳定性。保留十主要、四次要比较及原始失败，不把自定义配置与官方Advanced成绩横排SOTA。
+正式主表仍未完成。表1完整TRAIN开发流、表2同128来源八批首答及表3同阶段末库拟合不填入TEST，也不拼接旧曲线。Whole-bank八批学习已完成，当前必要实验为Task-local剩余学习、八条件冻结测试和配对分析；六个主表方法/参照与两项消融各保留唯一实际库，不挑候选末库。全部独立重复暂缓，待老师审阅初稿后再决定，不称已验证跨学习稳定性。保留十主要、四次要比较及原始失败，不把自定义配置与官方Advanced成绩横排SOTA。
 
 ## 6. Discussion and scope / 讨论与边界
 
