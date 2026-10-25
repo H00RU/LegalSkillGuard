@@ -2,7 +2,7 @@
 
 中文暂题：面向冻结8B语言模型法律规则适用的可演化技能学习
 
-工作初稿 v0.19，2026-10-25。Whole-bank替代消融已完整八批结束并双盘保全；Task-local已发布四批，B5完整首答已出、候选学习仍在运行，正式TEST未启动。本次仅补充与既有代码一致的训练算法说明及执行状态，不改变已执行主方法、表1–3、评分、统计方案或八条件测试矩阵。两项控制均从空库开始，不导入旧回答或技能；主方法、ACE、Text的独立重复仍全部暂缓，先完成必要实验及老师审阅初稿。一次ACE超时用量仍未知，消融结果不替代TEST。见[证据表](evidence_and_completion_20261020.md)、[现行协议](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md)、[Task-local对照](../docs/research/OPENEXEMPT_TASK_LOCAL_GRANULARITY_CONTROL_20261024.md)与[统一执行修订](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)；v0.18及更早版本保留于Git和双盘归档。本次Markdown更新尚未作为新的PDF交付。
+工作初稿 v0.20，2026-10-25，执行快照为11:47 UTC。Whole-bank替代消融已完整八批结束并双盘保全；Task-local已发布六批，B7完整首答已出、候选学习仍在运行，正式TEST未启动。本次只补充已核实TRAIN诊断的语义边界及执行状态，不改变已执行主方法、表1–3、评分、统计方案或八条件测试矩阵，不把训练诊断写成隔离案例研究。两项控制均从空库开始，不导入旧回答或技能；主方法、ACE、Text的独立重复仍全部暂缓，先完成必要实验及老师审阅初稿。一次ACE超时用量仍未知，消融结果不替代TEST。见[证据表](evidence_and_completion_20261020.md)、[现行协议](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md)、[Task-local对照](../docs/research/OPENEXEMPT_TASK_LOCAL_GRANULARITY_CONTROL_20261024.md)与[统一执行修订](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)；v0.19及更早版本保留于Git和双盘归档。本次Markdown更新尚未作为新的PDF交付。
 
 ## Abstract / 摘要
 
@@ -276,6 +276,10 @@ Main was higher on 95 EC sources and lower on three, with 30 ties; the correspon
 The development stream suggests that procedural memory can support continued improvement in legal valuation beyond the initial learned prior. Its larger EV than EC gain points to a useful distinction: retaining an applicable citation and correctly computing its consequence are related but separable learning outcomes. The proposed dependency-aware submission mechanism makes the unit of skill revision explicit. Whether that mechanism explains the observed benefit, and whether it transfers to source-disjoint cases, are the questions for the independently learned ablations and frozen-library test.
 
 开发轨迹提示：程序性记忆可以在初次学得的先验之上，继续改善法律金额适用。EV收益大于EC，说明保留适用法条与正确计算法律后果是相关但可分辨的学习结果。所提出的依赖感知提交机制明确了技能修订的评估单位；机制能否解释实际收益、能否迁移到隔离新案，仍由独立学习消融和冻结库测试检验。
+
+Behavioural retention does not certify the legal content of a stored instruction. Inspection of the frozen main library identified a business-use exclusion that disagreed with released TRAIN references; recorded answers also sometimes violated explicitly stated asset-value ceilings. These observations distinguish errors in skill induction from failures to follow a supplied procedure. They are TRAIN diagnostics, not held-out case studies or causal identification of an individual edit. [Appendix D.8](appendix_experimental_details_20261022.md#d8-training-diagnostics-and-semantic-boundaries) records this evidence boundary; frozen-TEST conclusions remain pending.
+
+行为保持不等于技能内容获得法律正确性认证。冻结主库中观察到与已释放TRAIN参考答案不一致的商业用途排除条件，原始回答也有违反已明确资产价值上限的情形。这区分了技能归纳错误与执行器未遵循已有程序两类问题。以上是TRAIN诊断，不是隔离案例研究，也不识别某次编辑的因果作用；证据边界见[附录D.8](appendix_experimental_details_20261022.md#d8-training-diagnostics-and-semantic-boundaries)，冻结TEST结论仍待完成。
 
 The present setup studies synthetic statutory-rule application in the exemption domain with supplied laws and allowable jurisdictions. It does not establish competence on Chinese law, open-world legal retrieval, real-client advice, or broad legal reasoning. Replay-based preservation is a training property and need not generalize to unseen cases. Known TRAIN ambiguities involving joint ownership and personal-versus-business use have not been adjudicated by legal experts; original cases, targets, and scores remain unchanged. Benchmark agreement is therefore not expert-validated legal correctness. The final discussion must examine negative transfer, teacher supervision and cost, template dependence, benchmark-scoring limitations, and whether guidance changes legal selection rather than merely response presentation. [PENDING RESULT — conclusions warranted by the completed formal study.]
 
