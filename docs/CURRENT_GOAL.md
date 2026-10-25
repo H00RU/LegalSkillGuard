@@ -5,7 +5,7 @@
 Whole-bank phase4 run02已完整8/8并双盘保全。Task-local phase4 run02已完成B2，
 B3新案首答正在运行；正式库5条/1776tokens、fe13c8，非旧串行控制。活动学习器
 1891083/start490284148、原队列989871/start486572881、单8B模型958223/start486445918。
-主方法/ACE/Text/静态结果冻结，B2最终原记录已核验，正在本轮双盘封存。
+主方法/ACE/Text/静态结果冻结，B2最终原记录已核验并完整双盘封存。
 后续只继续Task-local B3–B8、共同八条件128新来源TEST（全部预测后评分）、配对统计
 和老师初稿；全部独立重复仍暂缓。下列旧PID及未完成状态均按其历史时间解读。
 
@@ -521,6 +521,14 @@ B3已保存的实际当前输入均使用正式fe13c8库，未使用C2被拒EC�
 B3目标或部分分数。继续B3–B8，随后共同八条件TEST全部预测后评分、配对分析及老师
 初稿，全部独立重复仍暂缓。
 [完整B2最终发布、所有真实输入/损害、成本及B3投递](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B2_final_C1EC_C2EV5_1776_all64wires_152native_costs_all_harms_NOT_B3_TEST_20261025.json)。
+
+2026-10-25 13:10 CST：完整Task-local B2终态已双盘保全1289成员，含全部984份
+B2原生制品、152份原始响应逐文件hash、32份原训练标签、两教师真实父参考闭包、
+C1/C2最终原评分/拒收/损害及v0.18。原字节/权限/精确mtime_ns逐成员核对；
+两盘压缩包与Git增量字节一致，使用已保全cb8f254自包含完整源码/Git基底。
+[完整B2双盘核验收据](../artifacts/research/openexempt_legal_scope_20261020/Root3abbd59_phase4_TaskLocal_B2_final152_all984_original_times_v018_verified_dual_preservation_20261025.json)。
+B2全量核验/封存关闭，不重评分、不重答、不重新资格测试；活动B3从实际fe13c8
+正式库继续，B3目标或部分分数尚未读取。后续只看新案与自身B1的真实进化差异。
 
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
