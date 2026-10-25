@@ -2,7 +2,7 @@
 
 中文暂题：面向冻结8B语言模型法律规则适用的可演化技能学习
 
-工作初稿 v0.18，2026-10-25。Whole-bank替代消融已完整八批结束并双盘保全；Task-local已发布B1，后续学习仍在运行，正式TEST未启动。同步真实执行状态、候选上限和已观察到的元数据例外，保留任务、主方法、表1–3、评分及八条件测试矩阵。两项控制均从空库开始，不导入旧回答或技能；主方法、ACE、Text的独立重复仍全部暂缓，先完成必要实验及老师审阅初稿。一次ACE超时用量仍未知，消融结果不替代TEST。见[证据表](evidence_and_completion_20261020.md)、[现行协议](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md)、[Task-local对照](../docs/research/OPENEXEMPT_TASK_LOCAL_GRANULARITY_CONTROL_20261024.md)与[统一执行修订](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)；v0.17及更早版本保留于Git和双盘归档。本次Markdown更新尚未作为新的PDF交付。
+工作初稿 v0.19，2026-10-25。Whole-bank替代消融已完整八批结束并双盘保全；Task-local已发布四批，B5完整首答已出、候选学习仍在运行，正式TEST未启动。本次仅补充与既有代码一致的训练算法说明及执行状态，不改变已执行主方法、表1–3、评分、统计方案或八条件测试矩阵。两项控制均从空库开始，不导入旧回答或技能；主方法、ACE、Text的独立重复仍全部暂缓，先完成必要实验及老师审阅初稿。一次ACE超时用量仍未知，消融结果不替代TEST。见[证据表](evidence_and_completion_20261020.md)、[现行协议](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md)、[Task-local对照](../docs/research/OPENEXEMPT_TASK_LOCAL_GRANULARITY_CONTROL_20261024.md)与[统一执行修订](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)；v0.18及更早版本保留于Git和双盘归档。本次Markdown更新尚未作为新的PDF交付。
 
 ## Abstract / 摘要
 
@@ -85,6 +85,10 @@ Two attempts are a bounded revision budget, not two required candidates, two new
 反馈策略保留已通过分量，并将未解决的提案失败传给本批下一次允许的尝试。部分接收后的真实库成为下一提案的父库，后续拒收不会撤回它。来自紧邻上一批发布的失败见证可以有界传递，每份提案最多八个任务记录，不无限累积历史。细化后的末库还须相对本批原始父库再次通过完整保持门槛。每批只写一次最终发布，无修改通过时发布原库。这是标签辅助的TRAIN优化，不是组内相对策略梯度训练，也不是纯轨迹无标签学习。
 
 两次是有界修订预算，不是每批必有两个候选或两个新技能，也不声称理论最优。设计上完整接纳或明确不改时提前结束。已完成整库控制出现过一次仅由列表顺序引起的元数据误判，额外触发一次修订；附录D保留其实际调用、失败反馈和成本，不把它解释成必要学习。
+
+Algorithm 1 in [Appendix D.4](appendix_experimental_details_20261022.md#d4-library-optimization-management-and-failure-accounting) summarizes the executed main learning loop, including the true-parent update after a partial commit, exact-request composition checks, the implemented feedback-based stopping condition and the existing development-stream harm guard. It describes training optimization, not an additional inference module or a transfer guarantee.
+
+[附录D.4](appendix_experimental_details_20261022.md#d4-library-optimization-management-and-failure-accounting)的算法1对应已执行主训练循环，列明部分接纳后的真实父库更新、完整请求组合检查、实际反馈停止条件和已有开发流损害停止规则；它描述训练优化，不增加推理模块，也不构成泛化保证。
 
 ### 3.3 Initialization, alternatives, and learning evidence / 初始化、替代方案与学习证据
 

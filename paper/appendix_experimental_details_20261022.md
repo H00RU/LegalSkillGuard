@@ -1,6 +1,6 @@
 # Appendix D. Experimental details and evidence boundaries
 
-Working appendix, updated 25 October 2026. Companion to [manuscript v0.18](manuscript_v1_20261021.md). The previous v0.17 is retained in Git and recovery archives. Completed seed-45 evidence and the eight-condition frozen test remain separate. The replacement whole-bank control has completed all eight batches under the uniform execution amendment; task-local has published B1 and continues learning. Their common frozen TEST remains pending. All additional main/ACE/Text learning repetitions remain deferred until teacher review, not automatically queued.
+Working appendix, updated 25 October 2026. Companion to [manuscript v0.19](manuscript_v1_20261021.md). The previous v0.18 is retained in Git and recovery archives. This revision adds a code-aligned account of the existing learning algorithm, not a new intervention. Completed seed-45 evidence and the eight-condition frozen test remain separate. The replacement whole-bank control has completed all eight batches under the uniform execution amendment; task-local has published four batches and is learning from its complete B5 first forecasts. Their common frozen TEST remains pending. All additional main/ACE/Text learning repetitions remain deferred until teacher review, not automatically queued.
 
 ## D.1 Tasks, sources and information access
 
@@ -80,6 +80,44 @@ The interface permits create, update, merge and delete. The completed main run a
 
 Capacity, structural, teacher or model failures remain recorded. There is no silent first-patch fallback, truncation to a fitting old bank, hidden solver, answer repair or score-selected resampling. The declared teacher capacity retry is a transport retry without a returned result, not another legal-answer sample. Failed and rejected work is included in actual cost reporting.
 
+### Algorithm 1. Executed bounded learning and publication
+
+The following summarizes the main `legal_scope` policy in the preserved [serial main source](../artifacts/research/openexempt_legal_scope_20261020/source_snapshots/runtime_versions_20261023/openexempt_online__732f1a924d0e49333de0384b5d6a63a25d990eb9d187874a9b1e54d114032c1c.py), the current [training loop](../experiments/openexempt_online.py) and its [component construction and composition](../legal_skill_guard/learning/task_scoped_skills.py). Within these learning-loop functions, the later execution amendment changes independent-phase dispatch; the gate, feedback, composition and dependency construction remain unchanged. This does not imply identical serial and concurrent samples. `Gate` denotes the native-F1, complete-output-F1, negative/unscored-claim and invalid-count conditions stated above, including strict improvement on the current cohort. Component gates use their affected task/context cohorts; a composed bank must also pass the full EC/EV gate. Teacher communication is bounded, whereas proposal replay covers every seen TRAIN source.
+
+```text
+Initialize the library B as empty once.
+For each TRAIN batch C_t, with seen-source set S_t:
+    Save all logical first forecasts on C_t before releasing its targets.
+    Grade those forecasts; retain B_start and the actual parent observations.
+    Initialize feedback from the immediately preceding publication, if present.
+    For at most two proposal attempts:
+        Propose and apply teacher edits against the current actual B.
+        If the applied bank fails its bank/scope checks or serialized cap:
+            record the failed attempt; retain B; continue within the budget.
+        If the proposal P equals B: record NOOP and end refinement.
+        Answer and grade every source/task in S_t under P;
+            reuse a raw response only for an identical complete request.
+        Form public-context dependency components for B versus P.
+        Select the components passing their current/prior TRAIN gates.
+        If none pass: record rejection; retain B and the actual observations.
+        Otherwise, compose those edits with the unselected parent guidance.
+            If the mixture fails its cap or complete-request preflight:
+                record rejection; retain B and the actual observations.
+            Otherwise, decode exact matched raw responses afresh and grade them.
+                If the full gate fails: record rejection; retain B and observations.
+                Otherwise: commit the mixture and update B and actual observations.
+        Apply candidate_feedback to the decision and actual observations.
+        End refinement if it returns no further feedback; otherwise carry it forward.
+    If B changed, require the final full gate against B_start and its observations.
+    Write one final publication, including an unchanged B when no edit passed.
+    After B1, freeze that unique publication for evaluation only.
+    Apply the existing development-stream forward-harm stopping rule.
+```
+
+The implementation updates the parent only after an accepted composition; a later rejection cannot replace it with an uncommitted proposal. Composition selects reusable edit components, not a different answer for each case. Its preflight requires matching messages, output schema and generation settings for every seen task before decoding any mixed-bank response; if this check fails, the attempt is rejected without a new mixed-bank generation. The implemented early-ending test uses `candidate_feedback`, including the order-only exception documented below, rather than assuming semantic equality of differently ordered lists.
+
+The existing harm guard is evaluated after publication from B3 onward. It stops when both most recent batches began with a nonempty bank and each shows either a paired mean native-F1 loss greater than 0.02 across its EC/EV task views against an empty-reference alias, or an EV complete-output-F1 loss greater than 0.02 against the fixed-initial empty reference. The three empty aliases have identical requests in this profile; they are not independent tests. This is a fixed development-stream falsification guard, not selection of a historically best bank, a test-set decision or a statistical guarantee of retention. Uncaught proposal-application and transport failures stop with preserved artifacts; only the explicitly handled validation, cap and composition rejections can continue within the same two-attempt budget.
+
 ### Bounded revisions and an observed metadata exception
 
 The two-attempt limit bounds TRAIN revision cost; it does not require two candidates, two new skills or two independently learned banks. Full acceptance and explicit NOOP are intended early-stopping conditions. The completed whole-bank stream used 14 teacher responses over eight batches, with one attempt in B3 and B6 and two in the other batches.
@@ -99,7 +137,7 @@ The following is the current eight-condition frozen matrix, not a completed outc
 | Native-role ACE task adaptation | 1 | 8,192 tokens | Original seed 45 complete;145/245 deferred by user before TEST |
 | Trace2Skill text-task adaptation | 1 | 8,192 tokens | Original seed 45 complete;145/245 deferred by user before TEST |
 | Whole-bank submission ablation | 1 | 4,096 tokens | Eight batches complete; final six-record, 2,615-token bank; TEST pending |
-| Task-local submission ablation | 1 | 4,096 tokens | Learning active after B1 publication; complete eight-batch result and TEST pending |
+| Task-local submission ablation | 1 | 4,096 tokens | Four batches published; B5 learning active; complete eight-batch result and TEST pending |
 
 The matrix has eight conditions, six main-table method/reference rows and two component rows, each answering EC/EV on the same 128 TEST sources: 2,048 logical predictions. They are not independent source sets. The [latest protocol](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md) defers all main, ACE and Text repetitions until a teacher-facing draft is reviewed. The six prospective recipes preserve the existing algorithms and seeds before TEST but grant no execution authority. This single-build table estimates source-conditional effects, not learning-run variability.
 
@@ -123,7 +161,7 @@ The once-only unscored timing comparison used public TRAIN181/182 x EC/EV, four 
 
 Whole-bank submission accepts or rejects the entire proposal under the same retention gate. Task-local instead assesses EC and EV edits separately, whereas the main method uses public-context dependencies within each task. All three use the same carry_partial_and_refine feedback, complete TRAIN stream and ordered teacher inputs, teacher settings, two-candidate limit, 4,096-token total cap, replay and original full-output retention checks. Both controls independently learn from empty over eight batches; neither is a hand-edited final library. Granularity is the changed learning-policy setting. The disclosed original-versus-replacement execution difference and resulting candidates and actual computation must also be reported, rather than treated as perfectly matched total compute or deterministic realizations.
 
-Whole-bank completed its eighth publication at 02:45 UTC on 25 October; its actual final bank is `e6a66efb4e3c3b1115af263ccc5075a8cc50debb06ba2d7a1b5a607c7736ebcc`. Task-local then initialized independently from empty and published B1 at 03:29 UTC. That first publication contains five EV-only records after a genuine partial acceptance, not the ordering exception above. Its partial learning status does not fill the final-bank matrix or estimate later-source benefit. Each learner retains its own same-case empty and unique B1 reference; replacement-control sampling is not assumed to reproduce the original serial run's empty answers. Completed and partial states are bound in the [whole-bank terminal audit](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_full8_terminal_B8_C1_AZ_reject_C2_WI_EV_accept27_all256_full_costs_NOT_TEST_20261025.json) and [task-local B1 record](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B1_final_EV_only5_1178_all80stop_actual_costs_B2_delivery_NOT_newcase_TEST_20261025.json).
+Whole-bank completed its eighth publication at 02:45 UTC on 25 October; its actual final bank is `e6a66efb4e3c3b1115af263ccc5075a8cc50debb06ba2d7a1b5a607c7736ebcc`. Task-local then initialized independently from empty and published B1 at 03:29 UTC. That first publication contains five EV-only records after a genuine partial acceptance, not the ordering exception above. It subsequently published B4 at 07:01 UTC and saved complete B5 first forecasts before the next teacher update. Its partial learning status does not fill the final-bank matrix or the common frozen-TEST outcomes. Each learner retains its own same-case empty and unique B1 reference; replacement-control sampling is not assumed to reproduce the original serial run's empty answers. The [whole-bank terminal audit](../artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_full8_terminal_B8_C1_AZ_reject_C2_WI_EV_accept27_all256_full_costs_NOT_TEST_20261025.json), [task-local B1 record](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B1_final_EV_only5_1178_all80stop_actual_costs_B2_delivery_NOT_newcase_TEST_20261025.json), [B4 publication audit](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B4_final_twoEC_PA_AZ5_1980_all256C2_118native_costs_all4harms_NOT_B5_TEST_20261025.json) and [B5 first-forecast record](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B5_complete80_firsts_EV_plus897_EC_acquisition_all160_teacher9_true64targets_248cap_adverse_NOT_final_TEST_20261025.json) bind these distinct states.
 
 The finer-scope mechanism audit enumerates all 14 non-NOOP candidates rather than a selected set of successes. Four of nine accepted libraries differ structurally from the task-level recombination. The B1 second proposal retains an Illinois EV component despite failure of the full-task EV checks; its mean native F1 is 57.4074% before and 79.6296% after on all three affected seen sources. These are original TRAIN score cells, not new predictions. Structural task-only recombinations were not independently trained or capacity-qualified, so their differences do not establish task-local policy performance. Historical failure witnesses are also bounded by source selection in the executed communication packet; they are not a guarantee of complete counterexample delivery. The separate witness-delivery candidate is not adopted in these runs.
 
