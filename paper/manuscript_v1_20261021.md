@@ -2,7 +2,7 @@
 
 中文暂题：面向冻结8B语言模型法律规则适用的可演化技能学习
 
-工作初稿 v0.21，2026-10-26，执行快照为2026-10-25 16:30 UTC。Whole-bank与Task-local替代消融均已完整八批结束、冻结唯一末库并双盘保全；共同八条件TEST已于25日15:31 UTC开始预测，研究侧只监控进程及计数，未读取测试案件内容、预测、标签或成绩。本次补齐完成消融的TRAIN阶段对比、技能编辑和实际成本，不改变已执行主方法、表1–3、评分、统计方案或测试矩阵，不把训练诊断写成隔离结果。两项控制均从空库开始，不导入旧回答或技能；主方法、ACE、Text的独立重复仍全部暂缓，先完成必要实验及老师审阅初稿。一次ACE超时用量仍未知。见[证据表](evidence_and_completion_20261020.md)、[现行协议](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md)、[Task-local对照](../docs/research/OPENEXEMPT_TASK_LOCAL_GRANULARITY_CONTROL_20261024.md)与[统一执行修订](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)；v0.20及更早版本保留于Git和双盘归档。本次Markdown更新尚未作为新的PDF交付。
+工作初稿 v0.22，2026-10-26，执行快照为2026-10-25 16:53 UTC。本次依据最近邻原文及既有代码收口引言的方法区别：研究同次技能库修订的提交单位，不把外部记忆、标签辅助教师或重放本身列为原创。任务、方法、全部已有结果、成本和统计规则沿用v0.21，不新增实验。两项消融均已完整八批结束、冻结唯一末库并双盘保全；共同八条件TEST已于25日15:31 UTC开始预测，研究侧只监控进程及计数，未读取测试案件内容、预测、标签或成绩。主方法、ACE、Text的独立重复仍全部暂缓，先完成必要实验及老师审阅初稿。一次ACE超时用量仍未知。见[证据表](evidence_and_completion_20261020.md)、[现行协议](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md)、[Task-local对照](../docs/research/OPENEXEMPT_TASK_LOCAL_GRANULARITY_CONTROL_20261024.md)与[统一执行修订](../docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md)；v0.21及更早版本保留于Git和双盘归档。本次Markdown更新尚未作为新的PDF交付。
 
 ## Abstract / 摘要
 
@@ -18,7 +18,7 @@ Legal exemption reasoning offers a setting in which factual eligibility and nume
 
 A convincing skill-learning result requires more than a larger library or an improved replay score. A static prior can outperform an empty prompt before any experience is collected, and changing the answer interface can affect performance independently of learning. A candidate can also improve a training average while damaging other legal contexts. We therefore distinguish first-encounter performance, post-update training replay, and final frozen-library testing. We inspect which edits are published and which guidance reaches each subsequent case under a shared answer interface.
 
-Our research hypothesis is that controlling the scope of reusable edits can improve experience transfer while limiting interference between legal contexts. SkillCommit studies behaviorally validated scope expansion and replay-based preservation [3]. Here, we examine edit dependencies induced by publicly co-visible legal contexts while retaining the executor's direct legal answer interface. [PENDING ANALYSIS — finalize the methodological distinction through nearest-neighbour comparison and the declared ablations.] [PENDING RESULT — integrate the completed formal comparison.]
+Our research hypothesis is that controlling edit dependencies can improve transfer while limiting cross-context interference. SkillCommit validates local patches and their broader consolidation through behavioral replay [3]. We study a different unit: edits within one library revision whose guidance can become jointly visible in a public legal task. Dependency-connected edits are assessed together; an accepted mixture must also match previously observed complete requests on every replayed task. Whole-bank and task-level learning controls test the value of this finer submission unit under the declared execution profiles. This distinguishes the implemented revision rule from prior skill consolidation, without treating replay itself as new. [PENDING RESULT — common-profile frozen-library effects and evidence for or against the proposed granularity benefit.]
 
 外部技能库让参数冻结的语言模型能够跨任务复用程序性知识。技能库的进化改变模型可以利用的经验，而不更新其权重。ACE通过生成、反思和策展研究上下文适应[2]。本文关注更具体的问题：连续批次积累的经验，能否让小模型更好地将法律规则应用于此前未回答的案件，并产生超出静态法律先验和额外计算支持的收益？
 
@@ -26,7 +26,7 @@ Our research hypothesis is that controlling the scope of reusable edits can impr
 
 可信的技能学习结果不能只看技能库变大或训练重答得分提高。静态先验可能在学习开始前就胜过空库，回答接口改变也可能独立影响成绩；候选也可能在训练平均分上获益，却损害其他法律范围。因此本文区分首次遇案表现、更新后的训练重放和最终冻结库测试，并在共享回答接口下检查实际发布的编辑和后续案件收到的指导。
 
-本文假设：约束可复用编辑的作用范围，有助于训练经验迁移并减少不同法律情境间的干扰。SkillCommit研究了经行为验证的作用域扩张和基于重放的行为保持[3]。本文检验公开共同可见的法律情境所诱导的编辑依赖，并保留执行器直接作答的法律接口。[待填分析：通过近邻方法比较和既定消融确定方法差异。][待填结果：整合正式对比的发现。]
+本文假设：控制编辑依赖有助于迁移，并限制跨法律情境干扰。SkillCommit通过行为重放验证局部补丁及其更广范围的归纳[3]。本文检验另一种单位：同次技能库修订中，指导可能在公开法律任务里共同出现的编辑。依赖相连的编辑共同评估；接纳后的混合库还必须在每个重放任务上生成与既有观测完全相同的完整请求。整库与任务级学习控制按已披露的执行配置检验细分提交的价值。这明确了实际修订规则与既有技能归纳的区别，不把重放本身当作新贡献。[待填结果：统一配置的冻结库效应，以及支持或反对细粒度收益的证据。]
 
 ## 1.1 Related work / 相关工作
 

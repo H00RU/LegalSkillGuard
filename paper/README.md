@@ -1,11 +1,11 @@
 # 论文工作入口
 
-当前正文/附录源码为v0.21，已补齐两项完整八批消融、TRAIN分阶段指标及真实资源；保留的PDF仍是v0.16内部预览，
+当前正文/附录源码为v0.22，保留完整消融、TRAIN分阶段指标及真实资源，并收口引言的最近邻方法区别；保留的PDF仍是v0.16内部预览，
 尚不是完成版老师初稿或投稿终稿。23页包含中英
 双语正文和实验附录D，不代表英文投稿版有23页；期刊模板、作者信息和正式
 中英文分版仍待确定。必要实验及实际结果整合完成后再交付老师审阅稿。
 
-- [保留的v0.16双语内部排版预览（当前源码已到v0.21，整篇PDF尚未更新）](../artifacts/research/manuscript_review_20261024/v016_bilingual_internal_v01/legal_skill_evolution_v016_bilingual_internal_review.pdf)
+- [保留的v0.16双语内部排版预览（当前源码已到v0.22，整篇PDF尚未更新）](../artifacts/research/manuscript_review_20261024/v016_bilingual_internal_v01/legal_skill_evolution_v016_bilingual_internal_review.pdf)
 - [双语正文源稿](manuscript_v1_20261021.md)
 - [实验附录D](appendix_experimental_details_20261022.md)
 - [当前证据与剩余工作](evidence_and_completion_20261020.md)
