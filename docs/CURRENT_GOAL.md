@@ -1,5 +1,32 @@
 # Current legal skill-evolution goal
 
+## 最新实况：2026-10-26 00:30 CST，全部必要学习完成，统一八条件TEST预测中
+
+主方法/ACE/Text/静态TRAIN及Whole-bank、Task-local两项替代八批控制均已结束并冻结。
+Whole-bank末库六条/2615tokens，Task-local末库六条/2435tokens；后者15次教师、1502次
+真实8B生成、九接纳六拒绝，实际6CREATE/23UPDATE/零DELETE或MERGE。B7/B8未更新库，
+第八批反弹不等于该批学习成功。完整运行、395科学源码、稿件v0.20及完整Git基包09127f1
+已在两块盘保全；后续源码稿件升为v0.21，历史v0.20档案不覆盖，不用旧hash校验新稿。
+
+25日23:31 CST，原有限队列自动启动`legal_openexempt_initial8_frozen_TEST_20261025_run01`。
+当前TEST PID3009040/start494879937，原队列989871/start486572881、单8B958223/start486445918。
+128来源、8条件、2任务=2048逻辑预测，统一四工作线程，全部先预测再评分；教师调用为零。
+监控只读进程身份、白名单计数及冻结配置，不读未完成TEST的问题、预测、标签或成绩。
+观察窗口到期不是工作终态，不因此重启TEST、队列或模型。全部独立学习重复仍暂缓，
+六份未来145/245配方冻结不授权执行或新增额度。
+
+完整TRAIN首答主方法EC/EV82.03/79.16%、整库82.80/75.38%、任务级80.71/79.85%；
+末库TRAIN拟合分别86.03/89.30%、90.06/81.74%、90.76/87.25%。保留混合排序与全部失败，
+不把拟合填入TEST或将技能送达冒充收益。正文v0.21及附录D1/D.9补齐完成控制和成本；
+摘要、主方法、表1–3、指标、统计族与参考文献不变。现存PDF仍是v0.16内部预览。
+后续仅完成冻结TEST、来源配对统计和老师初稿，绝不据TEST选库或调参。
+普通95%及Bonferroni区间、20,000次PCG64 seed2026102192、十主要/四次要比较保持。
+完整目标仍active，TEST/正式主表/老师稿和暂缓的独立重复未冒称完成。以下均为历史快照。
+
+[完整Task-local终态](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_full8_terminal1502_15_B8bothreject6_2435_allcosts_9accept6reject_NOT_TEST_20261025.json)；
+[全运行/源码/完整Git双盘保全](../artifacts/research/openexempt_legal_scope_20261020/Root09127f1_phase4_TaskLocal_full8_all10311_v020_fullGit_verified_dual_preservation_20261026.json)；
+[当前论文入口](../paper/README.md)。
+
 ## 最新实况快照：2026-10-25，B5于16:52 CST发布
 
 Whole-bank phase4 run02已完整8/8并双盘保全。Task-local phase4 run02已完成B5，

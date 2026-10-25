@@ -1,0 +1,144 @@
+{
+  "at": "2026-10-25T16:38:48.490546+00:00",
+  "classification": "Paper v0.21 completed-control TRAIN results/resources update; metadata-only TEST monitoring; no outcome inspection or runtime change.",
+  "version": "v0.21",
+  "before_file_sha256": {
+    "paper/manuscript_v1_20261021.md": "1a6b042596cf5fd361ec0022fd1e8d8676e17b1f6b688bd2c929cbbdf6d04fb7",
+    "paper/appendix_experimental_details_20261022.md": "217d906569e107d4f37d96342d2fa3aad463635072b83831636347a49acbcae5",
+    "paper/README.md": "ab113b68f8c0c4366f1f8b0945a7bef31091d132eb4edf78fcc7c5a6a808e953",
+    "paper/evidence_and_completion_20261020.md": "d40d0c48064db06e655a548798272e382eb2860d9d34272fb95a6111abad3a82",
+    "docs/CURRENT_GOAL.md": "9c1bd855fe4964e68c70d8dd2cf8efa4e2522e7f4e447f3c8a9ede195e4c7fe5"
+  },
+  "after_file_sha256": {
+    "paper/manuscript_v1_20261021.md": "799676b1dfb97dee9dfb6d7974691ce786e8010ba2760b53151494999d5316aa",
+    "paper/appendix_experimental_details_20261022.md": "0d8cfb7155f45b9a9fb5ac7775205f4febead0900f8963fe0aa31bb04f6bf929",
+    "paper/README.md": "087bbd567a45460146b265fa3bb5b597b78328b73f14fdc3db53f609d5730328",
+    "paper/evidence_and_completion_20261020.md": "690ebe8507a4e84702e8e44e1f3d45ad493ef962a2893de3fb3acd8d4d930cc3",
+    "docs/CURRENT_GOAL.md": "1aa7681e47ed67d9ef1fc1b3c3fa2c7d2c710c70f6e450f0e1acdeddaba05050"
+  },
+  "protected_section_sha256": {
+    "main_abstract": "d0ef2d47c65a989445f2303c15f88d72a03ca851c4b8a4790d69870f5f9c37ce",
+    "main_methods": "9b10eff71351f8501f2e5ff3db171865af853b32e32c297252f5c3207f1cd0d9",
+    "main_results_5_1_to_5_5": "b0184fa2693cffe91b882013f7cdd7274b0edf46bde699a286a1c7b8cbed3bef",
+    "main_references": "cd195a6f021385593f5046e8e330de55971e4f1273f9afc6cea71c98c50f4908",
+    "appendix_D3": "cb817b6de4f617bdcd6620ddd4d18d9537e387823e75b97add5fb29b290be7e2",
+    "appendix_algorithm": "8e1c9a345b9768fc754e9c11f6cc4a6e93c574767eade2a1b283bad96dffcf12",
+    "appendix_D6_statistics_body": "114a08dc1c6b2a12a58cc233c2dc9c82cd3ebd642c29e86b29a18139229b0468"
+  },
+  "all7_protected_scientific_sections_byte_identical": true,
+  "original_main_Tables1_2_3_and_four_original_resource_rows_unchanged": true,
+  "D1_resource_rows_verified": 6,
+  "D2_three_policy_F1_cells_verified": 12,
+  "D2_actual_bank_size_cells_verified": 3,
+  "D2_source_derived_rows": [
+    {
+      "policy": "main",
+      "source_n": 128,
+      "firsts": {
+        "EC": 0.8202799479166664,
+        "EV": 0.7916093129960315
+      },
+      "final_seen_TRAIN_fit": {
+        "EC": 0.8603050595238092,
+        "EV": 0.8929909680886244
+      },
+      "records": 7,
+      "tokens": 2486
+    },
+    {
+      "policy": "whole_bank",
+      "source_n": 128,
+      "firsts": {
+        "EC": 0.8279904990842492,
+        "EV": 0.7537569635225881
+      },
+      "final_seen_TRAIN_fit": {
+        "EC": 0.9006231398809527,
+        "EV": 0.8173735119047616
+      },
+      "records": 6,
+      "tokens": 2615
+    },
+    {
+      "policy": "task_local",
+      "source_n": 128,
+      "firsts": {
+        "EC": 0.8071104242979242,
+        "EV": 0.7984747023809525
+      },
+      "final_seen_TRAIN_fit": {
+        "EC": 0.9076326884920637,
+        "EV": 0.8725074404761907
+      },
+      "records": 6,
+      "tokens": 2435
+    }
+  ],
+  "claim_ledger": [
+    {
+      "state": "VERIFIED",
+      "claim": "All necessary original seed45 builds and both replacement8batch controls completed; original banks retained.",
+      "support": [
+        "whole_terminal",
+        "task_terminal",
+        "original_resource_rows"
+      ]
+    },
+    {
+      "state": "VERIFIED",
+      "claim": "Complete TRAIN first-forecast and final-fit stages have mixed rankings; no uniform main dominance.",
+      "support": [
+        "three_policy_firsts",
+        "whole_terminal",
+        "task_terminal",
+        "main_text_fitting"
+      ]
+    },
+    {
+      "state": "VERIFIED",
+      "claim": "Task-local1502 fresh native calls/15teacher responses,9accept6reject,6CREATE23UPDATE and no DELETE/MERGE; four length responses retained.",
+      "support": [
+        "task_terminal"
+      ]
+    },
+    {
+      "state": "VERIFIED",
+      "claim": "Abstract, executed main method, main Results5.1-5.5 including Tables1-3, endpoint definitions, Algorithm1/feedback exception, statistics body and references unchanged byte-for-byte.",
+      "support": "protected_section_sha256"
+    },
+    {
+      "state": "PENDING",
+      "claim": "Common frozen TEST predictions, original-grade and complete-output endpoints, ten primary/four secondary paired contrasts,20kPCG64 bootstrap and actual evaluation cost.",
+      "not_filled_from_TRAIN": true
+    },
+    {
+      "state": "PLANNED",
+      "claim": "Six prospective145/245 learning recipes frozen before TEST; all independent learning repetitions remain USER-DEFERRED and unexecuted.",
+      "execution_authorized": false
+    },
+    {
+      "state": "UNSUPPORTED",
+      "claim": "Current evidence proves uniform granularity superiority, learning-run stability, native-author SOTA, real-client legal correctness or monotonic per-batch improvement.",
+      "action": "No such inference in this revision."
+    }
+  ],
+  "source_report_sha256": {
+    "artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B8_complete80stop_firsts_EC9609_EV8743_all160_true_teacher14_full8_online_not_final_TEST_20261025.json": "ad938f983584d266aa0a71a866ebe02ba3b46597f4c19b0409a5c1a4b3ba60b6",
+    "artifacts/research/openexempt_legal_scope_20261020/WholeBank45_phase4_full8_terminal_B8_C1_AZ_reject_C2_WI_EV_accept27_all256_full_costs_NOT_TEST_20261025.json": "093a814fc976a5731f195fbe23f491e1bedf4b3df11deff234084f77edce2a0a",
+    "artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_full8_terminal1502_15_B8bothreject6_2435_allcosts_9accept6reject_NOT_TEST_20261025.json": "6c6245aa6da0134ff6910d4deba82bced02738f9d2e27c4a9071df1f7b1236ee",
+    "artifacts/research/openexempt_legal_scope_20261020/Text45_complete128_256_actual_shared_actor_final_TRAIN_fit_vs_mainterminal_cost_dual_preservation_NOT_TEST_20261024.json": "44087cc04828a0e270d0c478a314a520016ddd5a695f06a50819470dcf273cb3",
+    "artifacts/research/openexempt_legal_scope_20261020/Completed_Main_ACE_Text_Static_seed45_resource_table_verified_existing_costs_NOT_equal_compute_or_TEST_20261024.json": "4b866108827cf0465d06b25f67c0eca507e816faa4d67508bd3a8b013238fe49"
+  },
+  "critical_runtime_source_sha256_unchanged": {
+    "experiments/openexempt_online.py": "e8a2d2e4eff63d2d1cda876e3de545db60459bbf69a7573e2fc098ff94773705",
+    "legal_skill_guard/learning/task_scoped_skills.py": "51e89480a294a6b2716ed16cb4c624cd27d47809fd260e5898eeb84bb9fe79a0"
+  },
+  "all_local_links_exist": 223,
+  "no_new_model_teacher_tokenizer_grading_qualification_calls": true,
+  "no_TEST_case_text_prediction_target_or_outcome_read": true,
+  "TEST_prediction_phase_precedes_all_grading": true,
+  "statistics_unchanged": "128source;20000PCG64 seed2026102192;ordinary95% and Bonferroni;10primary/4secondary;conditionaloneactualbank.",
+  "no_new_manuscript_PDF_rendered": "Existing v0.16 internal preview remains explicitly historical.",
+  "historical_v020_ARCHIVES_remain_valid_and_unchanged": true,
+  "recomputation_program": "from pathlib import Path\nimport hashlib,json,re,datetime,subprocess\nroot=Path('.')\nbefore=json.loads(\"{\\\"before_file_sha256\\\":{\\\"paper/manuscript_v1_20261021.md\\\":\\\"1a6b042596cf5fd361ec0022fd1e8d8676e17b1f6b688bd2c929cbbdf6d04fb7\\\",\\\"paper/appendix_experimental_details_20261022.md\\\":\\\"217d906569e107d4f37d96342d2fa3aad463635072b83831636347a49acbcae5\\\",\\\"paper/README.md\\\":\\\"ab113b68f8c0c4366f1f8b0945a7bef31091d132eb4edf78fcc7c5a6a808e953\\\",\\\"paper/evidence_and_completion_20261020.md\\\":\\\"d40d0c48064db06e655a548798272e382eb2860d9d34272fb95a6111abad3a82\\\",\\\"docs/CURRENT_GOAL.md\\\":\\\"9c1bd855fe4964e68c70d8dd2cf8efa4e2522e7f4e447f3c8a9ede195e4c7fe5\\\"},\\\"protected_sections\\\":{\\\"main_abstract\\\":\\\"d0ef2d47c65a989445f2303c15f88d72a03ca851c4b8a4790d69870f5f9c37ce\\\",\\\"main_methods\\\":\\\"9b10eff71351f8501f2e5ff3db171865af853b32e32c297252f5c3207f1cd0d9\\\",\\\"main_results_5_1_to_5_5\\\":\\\"b0184fa2693cffe91b882013f7cdd7274b0edf46bde699a286a1c7b8cbed3bef\\\",\\\"main_references\\\":\\\"cd195a6f021385593f5046e8e330de55971e4f1273f9afc6cea71c98c50f4908\\\",\\\"appendix_D3\\\":\\\"cb817b6de4f617bdcd6620ddd4d18d9537e387823e75b97add5fb29b290be7e2\\\",\\\"appendix_algorithm\\\":\\\"8e1c9a345b9768fc754e9c11f6cc4a6e93c574767eade2a1b283bad96dffcf12\\\",\\\"appendix_D6_statistics_body\\\":\\\"114a08dc1c6b2a12a58cc233c2dc9c82cd3ebd642c29e86b29a18139229b0468\\\"}}\")\nnames=list(before['before_file_sha256'])\ntexts={n:Path(n).read_text() for n in names}\ndef sha(data): return hashlib.sha256(data).hexdigest()\ndef digest(s): return sha(s.encode())\ndef section(text,start,end=None):\n    tail=text[text.index(start):]\n    return tail if end is None else tail[:tail.index(end)]\nm=texts[names[0]];a=texts[names[1]]\nprotected={\n 'main_abstract':section(m,'## Abstract','## 1.'),\n 'main_methods':section(m,'## 3.','## 4.'),\n 'main_results_5_1_to_5_5':section(m,'### 5.1','### 5.6'),\n 'main_references':section(m,'## References'),\n 'appendix_D3':section(a,'## D.3','## D.4'),\n 'appendix_algorithm':section(a,'### Algorithm 1.','## D.5'),\n 'appendix_D6_statistics_body':section(a,'Each primary contrast','## D.7'),\n}\nhashes={n:digest(s) for n,s in protected.items()}\nassert hashes==before['protected_sections'], 'Protected scientific text changed'\nbase=Path('artifacts/research/openexempt_legal_scope_20261020')\nsources={\n 'three_policy_firsts':base/'TaskLocal45_phase4_B8_complete80stop_firsts_EC9609_EV8743_all160_true_teacher14_full8_online_not_final_TEST_20261025.json',\n 'whole_terminal':base/'WholeBank45_phase4_full8_terminal_B8_C1_AZ_reject_C2_WI_EV_accept27_all256_full_costs_NOT_TEST_20261025.json',\n 'task_terminal':base/'TaskLocal45_phase4_full8_terminal1502_15_B8bothreject6_2435_allcosts_9accept6reject_NOT_TEST_20261025.json',\n 'main_text_fitting':base/'Text45_complete128_256_actual_shared_actor_final_TRAIN_fit_vs_mainterminal_cost_dual_preservation_NOT_TEST_20261024.json',\n 'original_resource_rows':base/'Completed_Main_ACE_Text_Static_seed45_resource_table_verified_existing_costs_NOT_equal_compute_or_TEST_20261024.json',\n}\nobj={k:json.loads(p.read_text()) for k,p in sources.items()}\ncurves=obj['three_policy_firsts']['completed8_firsts_training_comparison']['runs']\nw=obj['whole_terminal']['Whole8_terminal'];t=obj['task_terminal']\nfits={'main':obj['main_text_fitting']['main_complete_terminal_TRAIN_metrics'],\n      'whole_bank':w['final_TRAIN_fit_not_TEST'],\n      'task_local':t['all128_TRAIN_final_fit_not_TEST']}\nsize={'main':(7,2486),'whole_bank':(w['records'],w['tokens']),'task_local':(t['records'],t['tokens'])}\ndef cells(label):\n    line=next(x for x in a.splitlines() if x.startswith('| '+label+' |'))\n    return [x.strip() for x in line.strip('|').split('|')]\nd2=[]\nfor key,label in [('main','Main public-context dependencies'),('whole_bank','Whole-bank proposal'),('task_local','Task-local EC/EV')]:\n    first=curves[key]['all128_firsts_f1']\n    exp=[label]+[f'{100*first[e]:.2f}' for e in ('EC','EV')]+[f'{100*fits[key][e][\"f1\"]:.2f}' for e in ('EC','EV')]+[f'{size[key][0]} / {size[key][1]:,}']\n    assert cells(label)==exp,(label,cells(label),exp)\n    d2.append({'policy':key,'source_n':128,'firsts':first,'final_seen_TRAIN_fit':{e:fits[key][e]['f1'] for e in ('EC','EV')},'records':size[key][0],'tokens':size[key][1]})\nrows=obj['original_resource_rows']['rows']\nlabels=['Main','ACE adaptation','Text adaptation','Static (compile + TRAIN)']\nfor row,label in zip(rows,labels):\n    unit='file' if row['publication_unit']=='files' and row['published_units']==1 else row['publication_unit']\n    expected=[label,f'{row[\"published_units\"]} {unit} / {row[\"library_tokens\"]:,}',f'{row[\"native_generation_HTTP_requests\"]:,}',f'{row[\"native_input_tokens\"]:,} / {row[\"native_output_tokens\"]:,}',f'{row[\"teacher_responses\"]} / {row[\"teacher_attempts\"]}'+('†' if label=='ACE adaptation' else ''),f'{row[\"teacher_known_input_tokens\"]:,} / {row[\"teacher_known_output_tokens\"]:,}'+('†' if label=='ACE adaptation' else '')]\n    assert cells(label)==expected,(label,cells(label),expected)\ncontrols=[\n ('Whole-bank (four workers)',w['records'],w['tokens'],w['actual_native_total'],w['native_usage'],w['actual_teacher_responses'],w['actual_teacher_attempts'],w['actual_teacher_usage']),\n ('Task-local (four workers)',t['records'],t['tokens'],t['actual_fresh_native'],t['native_actual_usage'],t['actual_teacher_responses'],t['actual_teacher_attempts'],t['actual_teacher_usage'])\n]\nfor label,rec,tokens,calls,native,responses,attempts,teacher in controls:\n    expected=[label,f'{rec} records / {tokens:,}',f'{calls:,}',f'{native[\"input_tokens\"]:,} / {native[\"output_tokens\"]:,}',f'{responses} / {attempts}',f'{teacher[\"input_tokens\"]:,} / {teacher[\"output_tokens\"]:,}']\n    assert cells(label)==expected,(label,cells(label),expected)\nruntime_expected={'experiments/openexempt_online.py':'e8a2d2e4eff63d2d1cda876e3de545db60459bbf69a7573e2fc098ff94773705','legal_skill_guard/learning/task_scoped_skills.py':'51e89480a294a6b2716ed16cb4c624cd27d47809fd260e5898eeb84bb9fe79a0'}\nassert {n:sha(Path(n).read_bytes()) for n in runtime_expected}==runtime_expected\nlocal_links=0\nfor name,text in texts.items():\n    for url in re.findall(r'\\]\\(([^)]+)\\)',text):\n        if '://' in url or url.startswith('#'):continue\n        local_links+=1\n        assert (Path(name).parent/url.split('#')[0]).resolve().exists(),(name,url)\nassert t['accepted_decisions']==9 and t['rejected_decisions']==6\nassert t['actual_record_change_events']=={'CREATE':6,'UPDATE':23,'DELETE':0}\nassert t['actual_MERGE_events']==0\nassert t['finish_reasons']=={'stop':1498,'length':4}\nassert t['logical_answer_calls']==4352 and t['exact_wire_reuses']==2850\nassert 'finish task-local learning' not in m\nassert 'This gate is not yet met.' not in a\nassert 'task-local has published six batches' not in a\nchecks={\n 'source':sha(Path(n).read_bytes()) for n in runtime_expected\n}\nclaims=[\n {'state':'VERIFIED','claim':'All necessary original seed45 builds and both replacement8batch controls completed; original banks retained.','support':['whole_terminal','task_terminal','original_resource_rows']},\n {'state':'VERIFIED','claim':'Complete TRAIN first-forecast and final-fit stages have mixed rankings; no uniform main dominance.','support':['three_policy_firsts','whole_terminal','task_terminal','main_text_fitting']},\n {'state':'VERIFIED','claim':'Task-local1502 fresh native calls/15teacher responses,9accept6reject,6CREATE23UPDATE and no DELETE/MERGE; four length responses retained.','support':['task_terminal']},\n {'state':'VERIFIED','claim':'Abstract, executed main method, main Results5.1-5.5 including Tables1-3, endpoint definitions, Algorithm1/feedback exception, statistics body and references unchanged byte-for-byte.','support':'protected_section_sha256'},\n {'state':'PENDING','claim':'Common frozen TEST predictions, original-grade and complete-output endpoints, ten primary/four secondary paired contrasts,20kPCG64 bootstrap and actual evaluation cost.','not_filled_from_TRAIN':True},\n {'state':'PLANNED','claim':'Six prospective145/245 learning recipes frozen before TEST; all independent learning repetitions remain USER-DEFERRED and unexecuted.','execution_authorized':False},\n {'state':'UNSUPPORTED','claim':'Current evidence proves uniform granularity superiority, learning-run stability, native-author SOTA, real-client legal correctness or monotonic per-batch improvement.','action':'No such inference in this revision.'},\n]\nprint(json.dumps({\n 'at':datetime.datetime.now(datetime.timezone.utc).isoformat(),\n 'classification':'Paper v0.21 completed-control TRAIN results/resources update; metadata-only TEST monitoring; no outcome inspection or runtime change.',\n 'version':'v0.21',\n 'before_file_sha256':before['before_file_sha256'],\n 'after_file_sha256':{n:digest(s) for n,s in texts.items()},\n 'protected_section_sha256':hashes,\n 'all7_protected_scientific_sections_byte_identical':True,\n 'original_main_Tables1_2_3_and_four_original_resource_rows_unchanged':True,\n 'D1_resource_rows_verified':6,\n 'D2_three_policy_F1_cells_verified':12,\n 'D2_actual_bank_size_cells_verified':3,\n 'D2_source_derived_rows':d2,\n 'claim_ledger':claims,\n 'source_report_sha256':{str(p):sha(p.read_bytes()) for p in sources.values()},\n 'critical_runtime_source_sha256_unchanged':runtime_expected,\n 'all_local_links_exist':local_links,\n 'no_new_model_teacher_tokenizer_grading_qualification_calls':True,\n 'no_TEST_case_text_prediction_target_or_outcome_read':True,\n 'TEST_prediction_phase_precedes_all_grading':True,\n 'statistics_unchanged':'128source;20000PCG64 seed2026102192;ordinary95% and Bonferroni;10primary/4secondary;conditionaloneactualbank.',\n 'no_new_manuscript_PDF_rendered':'Existing v0.16 internal preview remains explicitly historical.',\n 'historical_v020_ARCHIVES_remain_valid_and_unchanged':True\n},ensure_ascii=False,indent=2))\n"
+}
