@@ -28,6 +28,11 @@ empty/frozen_initial/empty_direct_numeric三逻辑视图共享该次失败，全
 尚未接纳。由于涉及五条指导，实际新生成可能远多于B4局部更新，不能承诺固定批时长。
 [完整B5首答、真实教师证据、原截断及全部附加损害](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B5_complete80_firsts_EV_plus897_EC_acquisition_all160_teacher9_true64targets_248cap_adverse_NOT_final_TEST_20261025.json)
 
+B5完整首答已一次性双盘保全，1937成员包含全部400原生制品、80原始响应独立hash、
+原截断与全部附加损害、教师9真实父库/32来源目标闭包及v0.18稿件，字节/原mtime_ns/
+模式逐成员一致。44d70c1源码增量依赖两盘均已有的完整cb8f254 Git基包。
+首答/教师9审计和保全均关闭；后续仅跟进C1/C2真实决定与本批最终结果，不重复执行。
+
 2026-10-25 15:01 CST：Task-local B4最终发布两次EC更新，仍5记录/1980tokens，
 bank4a916b；C1仅接纳PA EC，C2给原AZ EV-only记录补EC，EV原文与64个EV原响应/分数
 自本批原父库起逐项不变。当前16案标签后EC/EV为82.5694/83.6310%，历史48案为
