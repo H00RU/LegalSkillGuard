@@ -24,6 +24,10 @@ schema、解码预算、公开范围投递、原响应来源和原分数均值�
 这是两例输出层错误，不是新法律专家裁决或全局因果诊断，也不因此热修消融。
 [完整B4首答、全部原输入和真实教师信号](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B4_complete76_firsts_EC_gain_EV_minus034_all160_teacher7_true64targets_NOT_final_TEST_20261025.json)
 
+B4完整首答与教师7实际父库/原目标闭包已一次性双盘保全：1576成员含全部396原生制品，
+76次生成的独立hash、原mtime_ns和模式逐成员核验通过；源码增量77bab0b依赖两盘
+均已有的完整cb8f254 Git基包。C1回放继续运行，不重做本首答审计或保全。
+
 2026-10-25 14:03 CST：Task-local B3完整耗时4499.07秒（74分59秒），比B2的
 4750.93秒略短，并非后续必然单调变慢。单候选seen任务由64增至96，但本批真实生成
 143次、全部stop，352逻辑回答中209次仅精确复用，原生输入945552/输出433771token；
