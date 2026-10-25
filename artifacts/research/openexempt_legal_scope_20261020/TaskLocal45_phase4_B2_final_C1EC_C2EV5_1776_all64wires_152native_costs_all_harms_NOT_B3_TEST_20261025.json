@@ -1,0 +1,705 @@
+{
+  "at": "2026-10-25T05:00:55.272522+00:00",
+  "classification": "Task-local45 phase4 COMPLETE B2 only: C1EC and C2EV complementary partial commits, all64C2 original saved score means/native wires/composition verified; B3 partial inputs only, NOT new-B3 performance/full8/TEST",
+  "published_at": "2026-10-25T04:48:15.033725+00:00",
+  "bank_sha256": "fe13c822bcf42125660eed5c55aa697bbb83c8bc5bcb4705596eb5ca686bc437",
+  "batch_parent_sha256": "bde4d7ec16dbe6d668d6d7ab52a994b239dc328833273c5068dad26bf2c259bc",
+  "C2_attempt_parent_sha256": "19ae16871c4335f19615a5393dcf134e8285d4c9726bbd3822483a6c0e7d0b64",
+  "records": 5,
+  "tokens": 1776,
+  "task_heads": {
+    "EC": 4,
+    "EV": 5
+  },
+  "C1_prior_verified_report_sha256": "0bc300d9a02f2ec50050327034a55edc7889a7368d101b4fc5fcd722a0cf324a",
+  "C1_closed_audit_not_regraded": true,
+  "C1_current_effect": {
+    "tasks": 32,
+    "help": 7,
+    "hurt": 2,
+    "ties": 23,
+    "mean_f1_difference": 0.07208581349206349
+  },
+  "C1_prior_effect": {
+    "tasks": 32,
+    "help": 9,
+    "hurt": 2,
+    "ties": 21,
+    "mean_f1_difference": 0.06622596153846154
+  },
+  "C1_all4_committed_harms": {
+    "help": 16,
+    "hurt": 4,
+    "ties": 44,
+    "all_harms": [
+      {
+        "source": 184,
+        "task": "EC",
+        "parent_F1": 0.6333333333333333,
+        "candidate_F1": 0.6166666666666667,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_prequential/184_EC_frozen_initial.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate1_replay/184_EC_candidate.json"
+      },
+      {
+        "source": 185,
+        "task": "EC",
+        "parent_F1": 0.8000000000000002,
+        "candidate_F1": 0.6,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_prequential/185_EC_skills.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate1_replay/185_EC_candidate.json"
+      },
+      {
+        "source": 210,
+        "task": "EC",
+        "parent_F1": 0.8095238095238095,
+        "candidate_F1": 0.7142857142857143,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/210_EC_skills.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate1_replay/210_EC_candidate.json"
+      },
+      {
+        "source": 211,
+        "task": "EC",
+        "parent_F1": 0.5,
+        "candidate_F1": 0.325,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/211_EC_empty_direct_numeric.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate1_replay/211_EC_candidate.json"
+      }
+    ],
+    "task_views": 64,
+    "independent_sources": 32
+  },
+  "C2_accepted_tasks": [
+    "EV"
+  ],
+  "C2_original_proposal_full_gate": {
+    "accepted": false,
+    "current_family_nonregression": true,
+    "prior_family_nonregression": true,
+    "strict_current_improvement": true,
+    "current_full_output_nonregression": true,
+    "prior_full_output_nonregression": true,
+    "current_negative_asset_and_format_nonregression": true,
+    "prior_negative_asset_and_format_nonregression": false,
+    "parent_current": {
+      "EC": {
+        "precision": 0.9270833333333334,
+        "recall": 0.7191840277777777,
+        "f1": 0.7919890873015873,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8000825593395254,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8142361111111112,
+        "recall": 0.7565104166666665,
+        "f1": 0.7716765873015872,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.7728623958887118,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.7818328373015873
+    },
+    "candidate_current": {
+      "EC": {
+        "precision": 0.9479166666666666,
+        "recall": 0.8211805555555556,
+        "f1": 0.8658482142857142,
+        "exact_target": 0.5,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8922619047619048,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9470486111111112,
+        "recall": 0.7994791666666666,
+        "f1": 0.8525049603174603,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8531131337487762,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.8591765873015873
+    },
+    "parent_prior": {
+      "EC": {
+        "precision": 0.9088541666666666,
+        "recall": 0.6762152777777778,
+        "f1": 0.7503720238095237,
+        "exact_target": 0.25,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.7909800269175269,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9127604166666666,
+        "recall": 0.8151041666666665,
+        "f1": 0.8467881944444444,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.8352404828967329,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.7985801091269841
+    },
+    "candidate_prior": {
+      "EC": {
+        "precision": 0.9453125,
+        "recall": 0.7191840277777778,
+        "f1": 0.7880704365079363,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8038241382196472,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "EV": {
+        "precision": 0.9401041666666666,
+        "recall": 0.8177083333333333,
+        "f1": 0.8628720238095239,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.8553233225108224,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.8254712301587301
+    },
+    "TRAIN_optimization_not_independent_validation": true
+  },
+  "C2_task_gates": {
+    "EC": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": true,
+      "prior_negative_asset_and_format_nonregression": false
+    },
+    "EV": {
+      "accepted": true,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": true,
+      "prior_negative_asset_and_format_nonregression": true
+    }
+  },
+  "C2_actual_current_metrics": {
+    "EC": {
+      "precision": 0.9270833333333334,
+      "recall": 0.7191840277777777,
+      "f1": 0.7919890873015873,
+      "exact_target": 0.375,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.8000825593395254,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "EV": {
+      "precision": 0.9470486111111112,
+      "recall": 0.7994791666666666,
+      "f1": 0.8525049603174603,
+      "exact_target": 0.3125,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.8531131337487762,
+      "negative_or_unscored_asset_claims": 0
+    },
+    "mean_family_f1": 0.8222470238095239
+  },
+  "C2_actual_prior_metrics": {
+    "EC": {
+      "precision": 0.9088541666666666,
+      "recall": 0.6762152777777778,
+      "f1": 0.7503720238095237,
+      "exact_target": 0.25,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.7909800269175269,
+      "negative_or_unscored_asset_claims": 0
+    },
+    "EV": {
+      "precision": 0.9401041666666666,
+      "recall": 0.8177083333333333,
+      "f1": 0.8628720238095239,
+      "exact_target": 0.3125,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 1,
+      "full_output_f1": 0.8553233225108224,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "mean_family_f1": 0.8066220238095239
+  },
+  "all32_EC_parent_raw_scores_and_submissions_identical": true,
+  "all32_EV_proposal_raw_scores_and_submissions_identical": true,
+  "all128_C2_proposal_and_composed_input_messages_schema_generation_and_delivery_match_original_physical_request": true,
+  "all64_composed_views_no_new_generation": true,
+  "all_original_saved_score_means_and_final_batch_parent_retention_conditions_checked_without_regrading": true,
+  "C2_current_effect": {
+    "tasks": 32,
+    "help": 7,
+    "hurt": 5,
+    "ties": 20,
+    "mean_f1_difference": 0.04041418650793652
+  },
+  "C2_prior_effect": {
+    "tasks": 32,
+    "help": 5,
+    "hurt": 4,
+    "ties": 23,
+    "mean_f1_difference": 0.008041914682539685
+  },
+  "C2_all9_committed_EV_harms": {
+    "help": 12,
+    "hurt": 9,
+    "ties": 43,
+    "all_harms": [
+      {
+        "source": 181,
+        "task": "EV",
+        "parent_F1": 0.7916666666666666,
+        "candidate_F1": 0.6059523809523809,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/181_EV_candidate.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/181_EV_candidate.json"
+      },
+      {
+        "source": 187,
+        "task": "EV",
+        "parent_F1": 0.9375,
+        "candidate_F1": 0.875,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/187_EV_candidate.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/187_EV_candidate.json"
+      },
+      {
+        "source": 191,
+        "task": "EV",
+        "parent_F1": 0.8095238095238095,
+        "candidate_F1": 0.5833333333333333,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/191_EV_candidate.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/191_EV_candidate.json"
+      },
+      {
+        "source": 192,
+        "task": "EV",
+        "parent_F1": 0.6666666666666666,
+        "candidate_F1": 0.6000000000000001,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/192_EV_candidate.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/192_EV_candidate.json"
+      },
+      {
+        "source": 198,
+        "task": "EV",
+        "parent_F1": 0.9,
+        "candidate_F1": 0.65,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/198_EV_skills.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/198_EV_candidate.json"
+      },
+      {
+        "source": 203,
+        "task": "EV",
+        "parent_F1": 1,
+        "candidate_F1": 0.8,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/203_EV_skills.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/203_EV_candidate.json"
+      },
+      {
+        "source": 205,
+        "task": "EV",
+        "parent_F1": 0.8333333333333333,
+        "candidate_F1": 0.8,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/205_EV_frozen_after_B1.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/205_EV_candidate.json"
+      },
+      {
+        "source": 206,
+        "task": "EV",
+        "parent_F1": 0.75,
+        "candidate_F1": 0.6190476190476191,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/206_EV_frozen_after_B1.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/206_EV_candidate.json"
+      },
+      {
+        "source": 212,
+        "task": "EV",
+        "parent_F1": 0.7777777777777777,
+        "candidate_F1": 0.7111111111111111,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/212_EV_skills.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/212_EV_candidate.json"
+      }
+    ],
+    "task_views": 64,
+    "independent_sources": 32
+  },
+  "C2_proposed_EC_negative_growth_not_committed": [
+    {
+      "source": 182,
+      "task": "EC",
+      "parent_negative_claims": 0,
+      "proposed_negative_claims": 1,
+      "proposed_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/182_EC_candidate.json",
+      "proposed_decoded_answer": {
+        "handcrafted wire-wrapped pendant with semi-precious stone": [
+          "Ariz. Rev. Stat. § 33-1125(1)"
+        ],
+        "desktop computer tower with gaming GPU and dual-monitor setup": [
+          "Ariz. Rev. Stat. § 33-1123"
+        ],
+        "homestead: three-bedroom, one-and-a-half-bath townhome with private entry": [
+          "Ariz. Rev. Stat. § 33-1101(A)",
+          "Ariz. Rev. Stat. § 33-1101(B)"
+        ]
+      }
+    },
+    {
+      "source": 183,
+      "task": "EC",
+      "parent_negative_claims": 0,
+      "proposed_negative_claims": 1,
+      "proposed_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/183_EC_candidate.json",
+      "proposed_decoded_answer": {
+        "Antique flintlock dueling pistol": [
+          "Ariz. Rev. Stat. § 33-1125(10)"
+        ],
+        "18-karat gold tennis bracelet with two carats of channel-set diamonds": [
+          "Ariz. Rev. Stat. § 33-1125(4)"
+        ],
+        "classic red 1999 Mazda Miata MX-5 roadster - 88k miles": [
+          "Ariz. Rev. Stat. § 33-1125(8)"
+        ],
+        "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup": [
+          "Ariz. Rev. Stat. § 33-1125(8)"
+        ]
+      }
+    }
+  ],
+  "final_vs_batch_parent_all13_task_harms": {
+    "help": 28,
+    "hurt": 13,
+    "ties": 23,
+    "all_harms": [
+      {
+        "source": 181,
+        "task": "EV",
+        "parent_F1": 0.7916666666666666,
+        "candidate_F1": 0.6059523809523809,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/181_EV_candidate.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/181_EV_candidate.json"
+      },
+      {
+        "source": 184,
+        "task": "EC",
+        "parent_F1": 0.6333333333333333,
+        "candidate_F1": 0.6166666666666667,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_prequential/184_EC_frozen_initial.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate1_replay/184_EC_candidate.json"
+      },
+      {
+        "source": 185,
+        "task": "EC",
+        "parent_F1": 0.8000000000000002,
+        "candidate_F1": 0.6,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_prequential/185_EC_skills.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate1_replay/185_EC_candidate.json"
+      },
+      {
+        "source": 187,
+        "task": "EV",
+        "parent_F1": 0.9375,
+        "candidate_F1": 0.875,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/187_EV_candidate.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/187_EV_candidate.json"
+      },
+      {
+        "source": 191,
+        "task": "EV",
+        "parent_F1": 0.8095238095238095,
+        "candidate_F1": 0.5833333333333333,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/191_EV_candidate.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/191_EV_candidate.json"
+      },
+      {
+        "source": 192,
+        "task": "EV",
+        "parent_F1": 0.6666666666666666,
+        "candidate_F1": 0.6000000000000001,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b1_candidate2_replay/192_EV_candidate.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/192_EV_candidate.json"
+      },
+      {
+        "source": 198,
+        "task": "EV",
+        "parent_F1": 0.9,
+        "candidate_F1": 0.65,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/198_EV_skills.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/198_EV_candidate.json"
+      },
+      {
+        "source": 203,
+        "task": "EV",
+        "parent_F1": 1,
+        "candidate_F1": 0.8,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/203_EV_skills.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/203_EV_candidate.json"
+      },
+      {
+        "source": 205,
+        "task": "EV",
+        "parent_F1": 0.8333333333333333,
+        "candidate_F1": 0.8,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/205_EV_frozen_after_B1.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/205_EV_candidate.json"
+      },
+      {
+        "source": 206,
+        "task": "EV",
+        "parent_F1": 0.75,
+        "candidate_F1": 0.6190476190476191,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/206_EV_frozen_after_B1.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/206_EV_candidate.json"
+      },
+      {
+        "source": 210,
+        "task": "EC",
+        "parent_F1": 0.8095238095238095,
+        "candidate_F1": 0.7142857142857143,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/210_EC_skills.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate1_replay/210_EC_candidate.json"
+      },
+      {
+        "source": 211,
+        "task": "EC",
+        "parent_F1": 0.5,
+        "candidate_F1": 0.325,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/211_EC_empty_direct_numeric.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate1_replay/211_EC_candidate.json"
+      },
+      {
+        "source": 212,
+        "task": "EV",
+        "parent_F1": 0.7777777777777777,
+        "candidate_F1": 0.7111111111111111,
+        "parent_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_prequential/212_EV_skills.json",
+        "candidate_raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/212_EV_candidate.json"
+      }
+    ],
+    "task_views": 64,
+    "independent_sources": 32
+  },
+  "actual_per_case_negative_growth_despite_group_nonincrease": [
+    {
+      "source": 183,
+      "task": "EV",
+      "parent_negative_claims": 0,
+      "committed_negative_claims": 1,
+      "raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/183_EV_candidate.json"
+    }
+  ],
+  "final_seen32_TRAIN_fit_not_TEST": {
+    "EC": {
+      "f1": 0.7711805555555555,
+      "full_output_f1": 0.7955312931285261,
+      "negative_or_unscored_asset_claims": 1,
+      "invalid_format": 0,
+      "tasks": 32
+    },
+    "EV": {
+      "f1": 0.8576884920634923,
+      "full_output_f1": 0.8542182281297994,
+      "negative_or_unscored_asset_claims": 1,
+      "invalid_format": 0,
+      "tasks": 32
+    }
+  },
+  "source211_original_firsts_zero_kept": true,
+  "source211_C2_replay": {
+    "F1": 0.7499999999999999,
+    "finish": "stop",
+    "output_tokens": 7211,
+    "raw": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b2_candidate2_replay/211_EV_candidate.json",
+    "not_fully_correct_or_a_replacement_first_forecast": true
+  },
+  "actual_fresh_native": 152,
+  "actual_generation_HTTP_attempts": 152,
+  "all_B2_native_artifacts": 984,
+  "logical_answer_calls": 416,
+  "exact_wire_reuses": 264,
+  "native_actual_usage": {
+    "input_tokens": 1014825,
+    "output_tokens": 458891
+  },
+  "finish_reasons": {
+    "stop": 151,
+    "length": 1
+  },
+  "native_by_stage": {
+    "b2_prequential": {
+      "logical_saved_answers": 160,
+      "new_native": 48,
+      "native_artifacts": 368,
+      "usage": {
+        "input_tokens": 312844,
+        "output_tokens": 132982
+      },
+      "finish_reasons": {
+        "stop": 47,
+        "length": 1
+      },
+      "request_phase_seconds": 1377.437290821
+    },
+    "b2_candidate1_replay": {
+      "logical_saved_answers": 64,
+      "new_native": 57,
+      "native_artifacts": 185,
+      "usage": {
+        "input_tokens": 381524,
+        "output_tokens": 179521
+      },
+      "finish_reasons": {
+        "stop": 57
+      },
+      "request_phase_seconds": 1724.529755933
+    },
+    "b2_candidate1_composed_replay": {
+      "logical_saved_answers": 64,
+      "new_native": 0,
+      "native_artifacts": 128,
+      "usage": {},
+      "finish_reasons": {},
+      "request_phase_seconds": null
+    },
+    "b2_candidate2_replay": {
+      "logical_saved_answers": 64,
+      "new_native": 47,
+      "native_artifacts": 175,
+      "usage": {
+        "input_tokens": 320457,
+        "output_tokens": 146388
+      },
+      "finish_reasons": {
+        "stop": 47
+      },
+      "request_phase_seconds": 1467.898580612
+    },
+    "b2_candidate2_composed_replay": {
+      "logical_saved_answers": 64,
+      "new_native": 0,
+      "native_artifacts": 128,
+      "usage": {},
+      "finish_reasons": {},
+      "request_phase_seconds": null
+    }
+  },
+  "actual_teacher_responses": 2,
+  "actual_teacher_attempts": 2,
+  "actual_teacher_usage": {
+    "input_tokens": 454590,
+    "cached_input_tokens": 0,
+    "output_tokens": 10949,
+    "reasoning_output_tokens": 6520
+  },
+  "B2_full_wall_seconds": 4750.933971,
+  "B1_to_B2_workload_not_causal_speed_diagnosis": {
+    "B1_seconds": 2619.702829837799,
+    "B2_seconds": 4750.933971,
+    "wall_ratio": 1.8135392750994426,
+    "fresh_call_ratio": 1.9,
+    "output_token_ratio": 1.8544347277899909,
+    "B1_output_over_entire_batch_wall_tokens_per_second": 94.45956891809803,
+    "B2_output_over_entire_batch_wall_tokens_per_second": 96.58963959530895,
+    "not_GPU_busy_time_or_equal_workload_latency_benchmark": true
+  },
+  "source_sha256": {
+    "configs/openexempt_task_local_public_assets128_phase4_20261025_run02.json": "d87a9612006b6bb6b3eec3ac3c7ff46c7f8eeab078341f045cf48e3c4c8623a4",
+    "configs/openexempt_task_local_public_assets128_phase4_20261025_run02.frozen.json": "55a8187f057a6a02c6d73a907340ade2c5840c8a4d604bccab93118a7531d1ba",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b1.json": "dd2ca7ef35ec6b3946610dd4984ed462090b2594291fcad20735a47bef5cd243",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b2.json": "532323d8c636e70be98b8bc060dfd3018a8b7869fe28493104c6c856ff2d6a83",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/candidates/b2_candidate1.json": "f4a52beb476798bed208b03ce8a65733df2242b2a8aecd1766b8c1a6cb06bddf",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/candidates/b2_candidate2.json": "67cc7b42a2b73ef565aafc9775c483b249416b0742198c1c3c0f843b6b4f1d02",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/batches/b2_prequential.json": "d0f19af2613373aa4fcb3c5baa5fdd5038c014186a0f389703e3e8792d12468f",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/batches/b2_prequential_records.json": "493eda472f8d595427076748c182ffd298a0a46447e2b8f9b6e220f169f9b074",
+    "artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B2_C1_EC_only57stop_EV_prior_regression_real_teacher4_parent_NOT_final_TEST_20261025.json": "0bc300d9a02f2ec50050327034a55edc7889a7368d101b4fc5fcd722a0cf324a",
+    "artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B1_final_EV_only5_1178_all80stop_actual_costs_B2_delivery_NOT_newcase_TEST_20261025.json": "add97a104852dc7202ef377d9d7c01b1f1f77768e1f108ab28e5c7d354894724",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/teacher/b2_candidate1/wire_request.json": "19ae2cf140cd4fd10dc71bfd97b172739fb202342a64ca0124eedacf7065d7da",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/teacher/b2_candidate1/response.json": "8ed6ba771e3323058bbd75af31bf95ec6b18ec6cd5186271ca810c75aee57b3d",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/teacher/b2_candidate1/event_log.json": "bc84a0649b8fcd10ffb759fb665e3f48bbfd815ae15eae9cfd9d26de97342a6b",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/teacher/b2_candidate2/wire_request.json": "fb0a73ceeb6020e856b8d2cd411de1110bfc77fc58a9da5fca08374b2f2edc2a",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/teacher/b2_candidate2/response.json": "0a232587e51f0ea71f86b0b6c1bc5272e79aac597d7aa055df66c707577bc240",
+    "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/teacher/b2_candidate2/event_log.json": "49d2f406fc6d7bdd6ad62a35fee208e9a91cfd768e3bdc96e4169010577c3d3d"
+  },
+  "B3_targets_or_partial_scores_not_read": true,
+  "no_new_model_teacher_tokenizer_grading_or_qualification_calls_from_audit": true,
+  "no_source_config_gate_scoring_or_budget_change": true,
+  "official_TEST_not_opened": true,
+  "all_independent_repeats_user_deferred": true,
+  "all_B2_original_raw_native_inventory": {
+    "files": 152,
+    "canonical_path_sha256_map_digest": "9da2edde82ded00f55146ed3b6177e53669a7e85561c92c49f2a110525aadf7f",
+    "all_per_member_hashes_also_sealed_in_next_dual_preservation_manifest": true
+  },
+  "B3_partial_actual_input_delivery_not_outcomes": {
+    "checked_input_count": 11,
+    "all_checked_inputs_bound_to_actual_B2_publication": true,
+    "canonical_delivery_list_digest": "dda15ce6ba940b02a958eaa13e7cbf701af581bb1ed768175955cd0d71540b04",
+    "first4_actual_input_examples": [
+      {
+        "path": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b3_prequential/213_EC_skills.input.json",
+        "sha256": "5384a74c7eb7e9881f440a74cb39f0717b7a7e826a830e772b90eb7554ad5f4c",
+        "bank_sha256": "fe13c822bcf42125660eed5c55aa697bbb83c8bc5bcb4705596eb5ca686bc437",
+        "delivered_skill_ids": [
+          "federal-wildcard-independent-alternative"
+        ]
+      },
+      {
+        "path": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b3_prequential/213_EV_skills.input.json",
+        "sha256": "2b5bcb72d0bbe038342a9c7ca93303c49fabc061a30edd405134f870cf4542dd",
+        "bank_sha256": "fe13c822bcf42125660eed5c55aa697bbb83c8bc5bcb4705596eb5ca686bc437",
+        "delivered_skill_ids": [
+          "federal-wildcard-independent-alternative"
+        ]
+      },
+      {
+        "path": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b3_prequential/214_EC_skills.input.json",
+        "sha256": "42b90e019f936261c028b3bdd0a5ac1624410ca0c2adc532f2c999a0129f85ef",
+        "bank_sha256": "fe13c822bcf42125660eed5c55aa697bbb83c8bc5bcb4705596eb5ca686bc437",
+        "delivered_skill_ids": [
+          "federal-wildcard-independent-alternative"
+        ]
+      },
+      {
+        "path": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/native/b3_prequential/214_EV_skills.input.json",
+        "sha256": "c01063b28b6467c8f33344ea9a966391b165708a4ed879676a8e2264043906d3",
+        "bank_sha256": "fe13c822bcf42125660eed5c55aa697bbb83c8bc5bcb4705596eb5ca686bc437",
+        "delivered_skill_ids": [
+          "federal-wildcard-independent-alternative"
+        ]
+      }
+    ],
+    "snapshot_not_B3_scores_or_full_delivery": true
+  },
+  "prior_full_readonly_audit_exit_code0_output_transport_only_truncated": true,
+  "retention_boundary": "Task/group mean and aggregate error-count retention, not per-source/asset nonregression or expert-validated legal safety. One newly false old EV asset is retained despite unchanged total old EV negative-asset count; all adverse outcomes preserved."
+}
