@@ -556,6 +556,14 @@ fresh、事件无工具，收到B2 C1/C2两个真实部分接纳反馈组，各8
 [完整B3新案、实际投递、全部损害、真实教师5及227依据](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B3_complete77_firsts_EC_EV_evolution_all160_teacher5_actual227_NOT_final_TEST_20261025.json)。
 继续本批学习与后续新案，Task-local是冻结对照，不据当前结果单边改法/重启挑库。
 
+2026-10-25 13:49 CST：B3完整首答/教师5/真实父引用闭包已双盘保全1146成员，
+含全部397份首答制品、77响应的逐文件原hash、32份被选训练标签、所有五处进化
+损害及v0.18。原字节/权限/精确mtime_ns逐成员核对；两盘压缩包和Git增量字节一致。
+[B3完整首答双盘核验收据](../artifacts/research/openexempt_legal_scope_20261020/Rootcb79f91_phase4_TaskLocal_B3_firsts77_all397_original_times_verified_dual_preservation_20261025.json)。
+首答核验与封存关闭，不重评分、不重答。随后观察到C1两任务均未通过：EC本批退化，
+EV虽改善本批但旧案退化；未覆盖原fe13c8库，新WI提案尚未入库。继续第二候选与
+最终B3，首答已保存的真实新案增益不因候选失败而改写。
+
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
 2026-10-24 18:59 CST：用户已明确授权选择第二项消融，并把全部主方法、ACE和Text
