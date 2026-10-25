@@ -420,6 +420,13 @@ B2已保存输入绑定上述正式库；198EV实际收到Federal/PA、199EV收�
 [完整B1实际发布、全部损害、成本及B2输入投递](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B1_final_EV_only5_1178_all80stop_actual_costs_B2_delivery_NOT_newcase_TEST_20261025.json)。
 继续B2–B8，再共同八条件128新来源TEST全部预测后评分和老师初稿；所有独立重复暂缓。
 
+2026-10-25 11:35 CST：Task-local完整B1已双盘逐成员保全699成员，含全部656份
+B1原生制品、两教师/两决策/正式发布和16份原训练标签；两盘压缩包字节一致、
+原权限和精确mtime_ns均核对。新增小Git包基于已双盘自包含cb8f254完整Git，
+无需重做395科学文件审计。B2只保存7份既有投递输入证据，未读其目标或部分分数。
+[B1完整原轨迹/Git双盘核验收据](../artifacts/research/openexempt_legal_scope_20261020/Rootc042b37_phase4_TaskLocal_B1_final80_all656_original_times_verified_dual_preservation_20261025.json)。
+训练未暂停，继续B2新案和后续批次，不再重复B1封存。
+
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
 2026-10-24 18:59 CST：用户已明确授权选择第二项消融，并把全部主方法、ACE和Text
