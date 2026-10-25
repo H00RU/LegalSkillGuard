@@ -391,6 +391,13 @@ B8 C2仅UPDATE Wisconsin的EV指导，EC逐字不变，强调夫妇合并TOTAL�
 然后共同八条件128新来源TEST全部预测后评分、来源配对统计与老师初稿交接。
 主方法/ACE/Text/静态结果和现行评分冻结，全部独立重复继续暂缓，不追加资格循环。
 
+2026-10-25 11:15 CST：完整Whole终态已两盘保全并逐成员核验，9700成员含全部9293份
+run文件、9193份原生制品和395个冻结科学文件，保留原字节/权限/精确mtime_ns；
+两盘另有42.34MB自包含完整reconstructed-main Gitbundle，不再依赖前序增量包。
+原继承统计漏计14份已有教师cache JSON，封存前已更正为9293，非新增训练或文件丢失。
+[源码/Git/完整轨迹双盘核验收据](../artifacts/research/openexempt_legal_scope_20261020/Rootcb8f254_phase4_Whole_full8_terminal_all9293_original_times_full_source_Git_verified_dual_preservation_20261025.json)。
+Whole终态保全任务关闭；只继续活动Task-local、共同八条件隔离TEST与老师初稿。
+
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
 2026-10-24 18:59 CST：用户已明确授权选择第二项消融，并把全部主方法、ACE和Text
