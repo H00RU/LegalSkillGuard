@@ -456,6 +456,15 @@ JSON末尾未闭合；不补全、不重答、不剔除。另206/212EV原分数�
 [完整B2首答、全部损害、真实技能投递与教师反馈](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B2_complete48_firsts_EV_transfer19pp_all64_teacher_targets_211cap_original_zero_NOT_evolution_TEST_20261025.json)。
 继续本批候选和后续新案，不改冻结主方法/评分，不把当前迁移填入正式TEST。
 
+2026-10-25 12:07 CST：完整B2首答/教师3/真实父响应闭包和v0.18文稿已双盘保全
+659成员，含全部368份B2首答制品、32份原训练标签、先前所需原响应及sidecar；
+原字节/权限/精确mtime_ns逐成员核对，两盘压缩包与Git增量字节一致。沿用已保全
+cb8f254自包含完整源码/Git基底，不重做B1或Whole资格/评分审计，不复制未完成候选
+冒充结果。教师3事件仅一条agent_message、无工具调用也已实际核对。
+[B2首答与v0.18双盘核验收据](../artifacts/research/openexempt_legal_scope_20261020/Root85d42f7_phase4_TaskLocal_B2_firsts48_original_times_v018_verified_dual_preservation_20261025.json)。
+下一步只跟踪活动C1、本批最终发布和B3以后新案；Whole全八批、Task-local B1与
+B2首答闭合工作不再重复。完整Task-local、共同TEST、配对分析与老师初稿仍未完成。
+
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
 2026-10-24 18:59 CST：用户已明确授权选择第二项消融，并把全部主方法、ACE和Text
