@@ -398,6 +398,28 @@ run文件、9193份原生制品和395个冻结科学文件，保留原字节/权
 [源码/Git/完整轨迹双盘核验收据](../artifacts/research/openexempt_legal_scope_20261020/Rootcb8f254_phase4_Whole_full8_terminal_all9293_original_times_full_source_Git_verified_dual_preservation_20261025.json)。
 Whole终态保全任务关闭；只继续活动Task-local、共同八条件隔离TEST与老师初稿。
 
+2026-10-25 11:33 CST：Task-local B1已于11:29 CST完整发布并自动进入B2。
+C1五条CREATE同时提出EC/EV指导，但EC负目标/未计分资产声明0→2，按任务只接纳
+EV，真实部分接纳而非列表顺序误报；EV训练拟合63.21→79.50%，EC61.79%保持。
+C2使用已接纳的真实EV-only父库20e733而非被拒整提案，实际选择五条EV UPDATE，
+没有补回EC或增加技能。共同原门槛全部通过，EV最终84.68%，EC仍61.79%。
+正式库bde4d7ec16dbe6d668d6d7ab52a994b239dc328833273c5068dad26bf2c259bc，
+5条/1178tokens，EC头0、EV头5，固定自身B1参照与正式发布一致。
+C1退化186/193EV，C2退化184/191/196EV；末库相对初始空库10改善/1退化/21相同，
+184EV从0.7333到0.55的剩余损害保留，不声称逐案不退化。
+
+全B1真实80生成（首答32、C1 32、C2 16），全部stop，656份原生JSON制品；
+288逻辑回答含208次完全相同wire复用，合成重放不新增生成。原生524806输入/
+247456输出token；教师2次，268815输入/10198输出，其中6782推理已含输出。
+从首次保存原生请求到发布2619.70秒（43分40秒），不是GPU忙时或跨方法固定提速。
+本次只读取原保存分数/门槛，没有再评分或增加模型/教师/分词调用。
+
+B2已保存输入绑定上述正式库；198EV实际收到Federal/PA、199EV收到Arizona指导，
+197EC没有EC技能是当前库的真实内容，并非漏调用。只查部分输入投递，不读B2目标
+或部分评分，不把B1的标签后21.47个百分点EV提升当作B2迁移或正式TEST。
+[完整B1实际发布、全部损害、成本及B2输入投递](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B1_final_EV_only5_1178_all80stop_actual_costs_B2_delivery_NOT_newcase_TEST_20261025.json)。
+继续B2–B8，再共同八条件128新来源TEST全部预测后评分和老师初稿；所有独立重复暂缓。
+
 ## 现行顺序：Task-local已敲定，先必要实验与老师审阅初稿，所有重复暂缓
 
 2026-10-24 18:59 CST：用户已明确授权选择第二项消融，并把全部主方法、ACE和Text
