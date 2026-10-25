@@ -1,0 +1,91 @@
+{
+  "at": "2026-10-25T17:51:28.605893+00:00",
+  "classification": "PARTIAL in-flight ungraded TEST opaque recovery checkpoint, NOT full TEST outcome, completed matrix, score audit or paper result. Reuses unchanged existing preserve() helper.",
+  "run_id": "legal_openexempt_initial8_frozen_TEST_20261025_run01",
+  "stage": "opaque-ungraded-prefix262-20261025T175125Z",
+  "progress_before_metadata_only": {
+    "at": "2026-10-25T17:50:29.721762+00:00",
+    "run_id": "legal_openexempt_initial8_frozen_TEST_20261025_run01",
+    "stage": "frozen_whole_bank",
+    "completed_native_calls": 262,
+    "teacher_calls": 0,
+    "inference_request_workers": 4,
+    "exact_wire_reuses_not_independent_draws": 8
+  },
+  "progress_after_metadata_only": {
+    "at": "2026-10-25T17:50:29.721762+00:00",
+    "run_id": "legal_openexempt_initial8_frozen_TEST_20261025_run01",
+    "stage": "frozen_whole_bank",
+    "completed_native_calls": 262,
+    "teacher_calls": 0,
+    "inference_request_workers": 4,
+    "exact_wire_reuses_not_independent_draws": 8
+  },
+  "original_handles_before": {
+    "TEST": true,
+    "queue": true,
+    "model": true
+  },
+  "original_handles_after": {
+    "TEST": true,
+    "queue": true,
+    "model": true
+  },
+  "snapshot_final_files_older_than_5s": 807,
+  "snapshot_inventory_root_sha256": "722dc7ed7de77ccc39d35022b8f0852e4d3ae4e94e5beaaf188390b74ef6b799",
+  "replicas": [
+    {
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_initial8_frozen_TEST_20261025_run01-opaque-ungraded-prefix262-20261025T175125Z.tar.gz",
+      "sha256": "466990f51563032cc6def126cf281d22684b62615fe6fdf9cdb05c937d91bd62",
+      "bytes": 5260995,
+      "device": 64528,
+      "all_original_opaque_member_bytes_verified": 807,
+      "member_inventory_root_sha256": "722dc7ed7de77ccc39d35022b8f0852e4d3ae4e94e5beaaf188390b74ef6b799"
+    },
+    {
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_initial8_frozen_TEST_20261025_run01-opaque-ungraded-prefix262-20261025T175125Z.tar.gz",
+      "sha256": "644c35cd4fa5c2c3fb492b31cbae2d2ec96ecf0694b7ddd0bda8a9dfb54dd671",
+      "bytes": 5260995,
+      "device": 64517,
+      "all_original_opaque_member_bytes_verified": 807,
+      "member_inventory_root_sha256": "722dc7ed7de77ccc39d35022b8f0852e4d3ae4e94e5beaaf188390b74ef6b799"
+    }
+  ],
+  "both_devices_same_original_selected_member_bytes": true,
+  "archives_contain_opaque_public_requests_and_generated_responses": true,
+  "no_TEST_case_or_prediction_semantics_exposed_or_parsed": true,
+  "no_TEST_target_or_score_file_loaded": true,
+  "selection_not_based_on_answers_scores_or_success": true,
+  "progress_and_temporary_files_excluded": true,
+  "snapshot_is_partial_not_atomic_whole_run_and_not_ALL2048": true,
+  "future_outputs_and_inflight_recent_files_not_claimed_complete": true,
+  "research_monitor_still_metadata_only": true,
+  "no_model_teacher_tokenizer_grader_or_qualification_call": true,
+  "no_TEST_queue_or_model_stop_restart": true,
+  "no_bank_prompt_budget_scoring_statistic_or_science_source_change": true,
+  "automatic_final2048_prediction_before_grading_and_terminal_preservation_unchanged": true,
+  "original_preserve_receipt": {
+    "at": "2026-10-25T17:51:25.795264+00:00",
+    "stage": "opaque-ungraded-prefix262-20261025T175125Z",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_initial8_frozen_TEST_20261025_run01-opaque-ungraded-prefix262-20261025T175125Z.tar.gz",
+        "sha256": "466990f51563032cc6def126cf281d22684b62615fe6fdf9cdb05c937d91bd62"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_initial8_frozen_TEST_20261025_run01-opaque-ungraded-prefix262-20261025T175125Z.tar.gz",
+        "sha256": "644c35cd4fa5c2c3fb492b31cbae2d2ec96ecf0694b7ddd0bda8a9dfb54dd671"
+      }
+    ],
+    "files": 807
+  },
+  "source_helper_and_evaluator_sha256": {
+    "experiments/openexempt_online.py": "e8a2d2e4eff63d2d1cda876e3de545db60459bbf69a7573e2fc098ff94773705",
+    "legal_skill_guard/experiment/storage.py": "466fe9104dfc5b48a1c557b55dc560bd8fce1ff37f96e01f848849f45de9dcd5",
+    "experiments/openexempt_frozen_eval.py": "26501c279eba6446f08e797898e7800b65c9c7043dee61ae3bba9594e18d24b0"
+  },
+  "snapshot_program": "from pathlib import Path\nfrom datetime import datetime,timezone\nimport json,hashlib,time,os,tarfile,stat\nfrom experiments.openexempt_online import preserve,ROOT\nroot=Path('/media/sangfor/vdb/legal-skill-evolve')\nassert ROOT.resolve()==root\nrun_id='legal_openexempt_initial8_frozen_TEST_20261025_run01'\nrun=root/'runs'/run_id\nids={'TEST':(3009040,494879937),'queue':(989871,486572881),'model':(958223,486445918)}\ndef handles():\n    out={}\n    for name,(pid,ticks) in ids.items():\n        try:\n            parts=Path(f'/proc/{pid}/stat').read_text().rsplit(')',1)[1].split()\n            out[name]=int(parts[19])==ticks and parts[0]!='Z'\n        except (FileNotFoundError,ProcessLookupError):out[name]=False\n    return out\ndef progress():\n    v=json.loads((run/'progress.json').read_text())\n    keys=['at','run_id','stage','completed_native_calls','teacher_calls','inference_request_workers','exact_wire_reuses_not_independent_draws']\n    return {k:v[k] for k in keys if k in v}\nbefore=progress();before_handles=handles()\nassert all(before_handles.values())\nassert before['teacher_calls']==0 and before['completed_native_calls']>=256\nassert not (run/'failure.json').exists() and not (run/'completion.json').exists()\ncutoff=time.time_ns()-5_000_000_000\nfiles=[]\nfor p in run.rglob('*'):\n    if not p.is_file() or p.is_symlink() or p.name=='progress.json' or p.name.startswith('.') or p.name.endswith('.tmp'):continue\n    if p.stat().st_mtime_ns>cutoff:continue\n    files.append(str(p.relative_to(root)))\nfiles=sorted(files)\nassert len(files)>256\nstage='opaque-ungraded-prefix'+str(before['completed_native_calls'])+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')\noriginal=preserve(run_id,stage,files)\ndef sha_bytes(data):return hashlib.sha256(data).hexdigest()\nsource=[]\nfor name in files:\n    p=root/name\n    source.append([name,p.stat().st_size,sha_bytes(p.read_bytes())])\ndef inventory_digest(rows):return sha_bytes(json.dumps(rows,separators=(',',':')).encode())\nexpected=inventory_digest(source)\nreplicas=[]\nfor record in original['paths']:\n    path=Path(record['path']);rows=[]\n    with tarfile.open(path,'r:gz') as tf:\n        members=tf.getmembers()\n        assert [m.name for m in members]==files\n        for member in members:\n            assert member.isfile()\n            with tf.extractfile(member) as payload:rows.append([member.name,member.size,sha_bytes(payload.read())])\n    assert inventory_digest(rows)==expected\n    replicas.append({'archive':str(path),'sha256':record['sha256'],'bytes':path.stat().st_size,'device':path.stat().st_dev,'all_original_opaque_member_bytes_verified':len(rows),'member_inventory_root_sha256':expected})\nassert len({r['device'] for r in replicas})==2\nafter=progress();after_handles=handles()\nassert all(after_handles.values())\nassert not (run/'failure.json').exists() and not (run/'completion.json').exists()\nprint(json.dumps({'at':datetime.now(timezone.utc).isoformat(),'classification':'PARTIAL in-flight ungraded TEST opaque recovery checkpoint, NOT full TEST outcome, completed matrix, score audit or paper result. Reuses unchanged existing preserve() helper.','run_id':run_id,'stage':stage,'progress_before_metadata_only':before,'progress_after_metadata_only':after,'original_handles_before':before_handles,'original_handles_after':after_handles,'snapshot_final_files_older_than_5s':len(files),'snapshot_inventory_root_sha256':expected,'replicas':replicas,'both_devices_same_original_selected_member_bytes':True,'archives_contain_opaque_public_requests_and_generated_responses':True,'no_TEST_case_or_prediction_semantics_exposed_or_parsed':True,'no_TEST_target_or_score_file_loaded':True,'selection_not_based_on_answers_scores_or_success':True,'progress_and_temporary_files_excluded':True,'snapshot_is_partial_not_atomic_whole_run_and_not_ALL2048':True,'future_outputs_and_inflight_recent_files_not_claimed_complete':True,'research_monitor_still_metadata_only':True,'no_model_teacher_tokenizer_grader_or_qualification_call':True,'no_TEST_queue_or_model_stop_restart':True,'no_bank_prompt_budget_scoring_statistic_or_science_source_change':True,'automatic_final2048_prediction_before_grading_and_terminal_preservation_unchanged':True,'original_preserve_receipt':original},ensure_ascii=False,indent=2))\n",
+  "existing_preserve_helper_reused_without_source_patch": true,
+  "independent_archive_compression_hashes_not_identical_but_all807_member_bytes_root_identical": true,
+  "snapshot_is_not_resume_resampling_or_outcome_selection_authority": true
+}
