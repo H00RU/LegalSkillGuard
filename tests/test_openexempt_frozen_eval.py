@@ -1617,13 +1617,14 @@ def adaptive_runtime(prospective_runtime):
         phase_dispatch=copy.deepcopy(s.ADAPTIVE_DECLARATION), inference_environment='env4.json',
         max_candidate_attempts=2, library_token_hard_cap=4096)
     RunStore.atomic_json(root / 'configs/main45.frozen.json', {
-        'files': {**s.ADAPTIVE_CURRENT, 'env4.json': sha(root / 'env4.json')}})
+        'files': {**{n: s.ADAPTIVE_CURRENT[n] for n in s.ADAPTIVE_LEARNING_FILES},
+                  'env4.json': sha(root / 'env4.json')}})
     for filename in ('initialization.json', 'completion.json'):
         RunStore.atomic_json(root / f'runs/main45/{filename}', {'execution_dispatch': s.ADAPTIVE_DECLARATION})
     return root, cfg, sources
 
 
-@pytest.mark.parametrize('mutation', [None, 'two_teachers', 'old_main_source', 'wrong_receipt', 'unknown_epoch',
+@pytest.mark.parametrize('mutation', [None, 'two_teachers', 'old_main_source', 'missing_phase', 'wrong_receipt', 'unknown_epoch',
                                      'old_control', 'changed_model', 'old_stage'])
 def test_adaptive_actual_one_teacher_epoch_does_not_rewrite_historical_controls(adaptive_runtime, mutation):
     root, cfg, sources = adaptive_runtime
@@ -1634,6 +1635,11 @@ def test_adaptive_actual_one_teacher_epoch_does_not_rewrite_historical_controls(
         path = root / 'configs/main45.frozen.json'
         value = read(path)
         value['files']['experiments/openexempt_online.py'] = s.CURRENT['experiments/openexempt_online.py']
+        RunStore.atomic_json(path, value)
+    elif mutation == 'missing_phase':
+        path = root / 'configs/main45.frozen.json'
+        value = read(path)
+        del value['files']['legal_skill_guard/learning/phase_dispatch.py']
         RunStore.atomic_json(path, value)
     elif mutation == 'wrong_receipt':
         RunStore.atomic_json(root / 'runs/main45/completion.json', {'execution_dispatch': s.DECLARATION})

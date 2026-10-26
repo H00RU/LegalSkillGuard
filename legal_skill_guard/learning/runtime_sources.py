@@ -40,6 +40,9 @@ ADAPTIVE_PROTOCOL = ('docs/research/'
 ADAPTIVE_DECLARATION = {**DECLARATION, 'teacher_workers': 1}
 ADAPTIVE_CURRENT = {**CURRENT, 'experiments/openexempt_online.py':
                     '41a99ca5b652ffde79cbc80e3434b9166108e20567322e5f4dba2255e171efce'}
+ADAPTIVE_LEARNING_FILES = ('experiments/openexempt_online.py',
+                           'legal_skill_guard/learning/experiment.py',
+                           'legal_skill_guard/learning/phase_dispatch.py')
 ADAPTIVE_PRIOR = {
     'experiments/openexempt_online.py': {
         CURRENT['experiments/openexempt_online.py']: 'openexempt_online_phase_dispatch_20261023'},
@@ -175,7 +178,10 @@ def validate_adaptive_learning_receipt(root, source, frozen, initial, complete):
             or source.get('max_candidate_attempts') != 2
             or source.get('library_token_hard_cap') != 4096):
         raise ValueError('Keep the exact revised adaptive learning and dispatch policy')
-    if any(frozen['files'].get(name) != digest for name, digest in ADAPTIVE_CURRENT.items()):
+    # The adaptive learner never imports the two external baseline drivers.
+    # Their current inference adapters remain pinned by validate_bundle; their
+    # own learning manifests are checked by the original receipt verifier.
+    if any(frozen['files'].get(name) != ADAPTIVE_CURRENT[name] for name in ADAPTIVE_LEARNING_FILES):
         raise ValueError('Adaptive learning must retain its actual frozen source epoch')
     if any(record.get('execution_dispatch') != ADAPTIVE_DECLARATION
            for record in (initial, complete)):
