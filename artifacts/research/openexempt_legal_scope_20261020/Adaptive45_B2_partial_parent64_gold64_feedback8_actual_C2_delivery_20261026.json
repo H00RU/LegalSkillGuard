@@ -1,0 +1,197 @@
+{
+  "at": "2026-10-26T10:51:53.776175+00:00",
+  "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+  "classification": "Actual B2 partial commit to next teacher feedback closure; not final B2 or TEST",
+  "C1_selected": {
+    "objective": "seen_source_min_family_gain_then_mean_v1",
+    "joint_gain": null,
+    "component_assessment": {
+      "accepted": true,
+      "reason": null,
+      "accepted_legal_coordinates": [
+        "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+        "EV:ILLINOIS"
+      ],
+      "bank_sha256": "c1ea45e547973b995773a14a72497c4f44a2a8b5f6bfa3a251e677e91838539e",
+      "gain": [
+        0.03348834325396821,
+        0.035407366071428636
+      ]
+    },
+    "selected": "dependency_components",
+    "only_seen_TRAIN_scores_used": true,
+    "new_native_generations": 0
+  },
+  "C1_actual_tokens": 1684,
+  "C1_global_gate_against_previous_parent": {
+    "accepted": true,
+    "current_family_nonregression": true,
+    "prior_family_nonregression": true,
+    "current_full_output_nonregression": true,
+    "prior_full_output_nonregression": true,
+    "current_negative_asset_and_format_nonregression": true,
+    "prior_negative_asset_and_format_nonregression": true
+  },
+  "C1_full_proposal_failure": {
+    "accepted": false,
+    "current_family_nonregression": true,
+    "prior_family_nonregression": true,
+    "strict_current_improvement": true,
+    "current_full_output_nonregression": true,
+    "prior_full_output_nonregression": true,
+    "current_negative_asset_and_format_nonregression": true,
+    "prior_negative_asset_and_format_nonregression": false,
+    "TRAIN_optimization_not_independent_validation": true
+  },
+  "C1_actual_current_metrics": {
+    "EC": {
+      "f1": 0.922767857142857,
+      "full_output_f1": 0.9431169241890305,
+      "invalid_format": 0,
+      "negative_or_unscored_asset_claims": 0
+    },
+    "EV": {
+      "f1": 0.773015873015873,
+      "full_output_f1": 0.7673355475793555,
+      "invalid_format": 0,
+      "negative_or_unscored_asset_claims": 1
+    }
+  },
+  "C1_actual_prior_metrics": {
+    "EC": {
+      "f1": 0.8728050595238096,
+      "full_output_f1": 0.8943874007936509,
+      "invalid_format": 0,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "EV": {
+      "f1": 0.7679191468253967,
+      "full_output_f1": 0.7694733796296297,
+      "invalid_format": 0,
+      "negative_or_unscored_asset_claims": 0
+    }
+  },
+  "checks": {
+    "actual_partial_parent_answers": 64,
+    "original_TRAIN_targets": 64,
+    "candidate_witness_answers_scores_and_raw_paths": 8
+  },
+  "feedback_witness_source_tasks": [
+    [
+      182,
+      "EV"
+    ],
+    [
+      187,
+      "EV"
+    ],
+    [
+      188,
+      "EV"
+    ],
+    [
+      200,
+      "EV"
+    ],
+    [
+      201,
+      "EV"
+    ],
+    [
+      203,
+      "EV"
+    ],
+    [
+      205,
+      "EV"
+    ],
+    [
+      211,
+      "EV"
+    ]
+  ],
+  "actual_C2_teacher_model": "gpt-5.6-sol",
+  "actual_C2_teacher_fresh": true,
+  "actual_C2_teacher_prompt_characters": 667202,
+  "actual_parent_not_rejected_full_proposal_verified": true,
+  "candidate_accepted_subset_and_unresolved_feedback_not_conflated": true,
+  "original_TRAIN_labels_delivered_for_all_witnesses": true,
+  "all64_real_parent_raw_answer_and_score_equal_original": true,
+  "response_operations": [
+    {
+      "operation": "UPDATE",
+      "id": "federal-wildcard-alternative",
+      "source_case_ids": [
+        181,
+        184,
+        185,
+        186,
+        187,
+        191,
+        192,
+        194,
+        198,
+        200,
+        205,
+        208,
+        209,
+        211,
+        212
+      ]
+    },
+    {
+      "operation": "CREATE",
+      "id": "federal-household-item-ceiling",
+      "source_case_ids": [
+        181,
+        184,
+        185,
+        187,
+        205,
+        208,
+        211,
+        212
+      ]
+    },
+    {
+      "operation": "CREATE",
+      "id": "oregon-firearm-specific-and-personal-alternatives",
+      "source_case_ids": [
+        202
+      ]
+    },
+    {
+      "operation": "UPDATE",
+      "id": "illinois-wildcard-personal-property",
+      "source_case_ids": [
+        190,
+        195,
+        196,
+        204
+      ]
+    }
+  ],
+  "no_model_teacher_tokenizer_grader_or_solver_call_during_audit": true,
+  "progress": {
+    "at": "2026-10-26T10:51:43.651626+00:00",
+    "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+    "state": "running",
+    "stage": "b2_candidate2_replay",
+    "current_batch": 2,
+    "completed_native_calls": 190,
+    "completed_teacher_calls": 3,
+    "teacher_attempts": 3,
+    "cross_stage_identical_wire_reuses": 333,
+    "library_records": 5,
+    "execution_dispatch": {
+      "policy": "ordered_independent_phases_v1",
+      "native_workers": 4,
+      "teacher_workers": 1,
+      "required_max_num_seqs": 4
+    },
+    "current_arm": "candidate",
+    "current_document_id": 188,
+    "current_call": "openexempt"
+  },
+  "audit_program": "import json\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nroot=Path.cwd()\np=root/'runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01'\ncfg=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json').read_text())\nc1=json.loads((p/'candidates/b2_candidate1.json').read_text())\nb1=json.loads((p/'publications/b1.json').read_text())\nwire_path=p/'teacher/b2_candidate2/wire_request.json'\nw=json.loads(wire_path.read_text());body=json.loads(w['user_prompt'])\nassert c1['accepted'] and not c1['proposal_fully_committed']\nassert c1['attempt_parent_bank_sha256']==b1['bank_sha256']\nassert body['current_parent_library']==c1['candidate']\nparent={(r['case_id'],r['family']):r for r in c1['actual_replay']}\nproposed={(r['case_id'],r['family']):r for r in c1['proposed_replay']}\nassert len(parent)==len(proposed)==64\nassert {(c['source_case_id'],c['family']) for c in body['already_seen_training']}==set(parent)\nchecks={'actual_partial_parent_answers':0,'original_TRAIN_targets':0,'candidate_witness_answers_scores_and_raw_paths':0}\nfor c in body['already_seen_training']:\n key=c['source_case_id'],c['family'];r=parent[key];v=c['actual_parent_answer']\n assert v['executed_answer']==(r['parsed'] or {}).get('answer') and v['score']==r['score']\n assert v['source_model_emitted_evidence']['raw_call_path']==r['raw_call_path']\n target=json.loads((root/cfg['grading_directory']/f'{key[0]}.json').read_text())['targets'][key[1]]\n assert c['original_training_target']==target\n checks['actual_partial_parent_answers']+=1;checks['original_TRAIN_targets']+=1\nfeedback=body['rejected_candidate_feedback'];assert len(feedback)==1\nf=feedback[0]\nassert f['accepted'] and f['partially_committed'] and not f['proposal_fully_committed']\nassert f['candidate_feedback_origin']=={'batch':2,'attempt':1,'current_committed_bank_sha256':c1['adaptive_commit_selection']['component_assessment']['bank_sha256']}\nfor v in f['feedback_witness_replay']:\n key=v['case_id'],v['family'];r=proposed[key]\n assert key in parent\n assert v['executed_answer']==(r['parsed'] or {}).get('answer') and v['score']==r['score']\n assert v['source_model_emitted_evidence']['raw_call_path']==r['raw_call_path']\n checks['candidate_witness_answers_scores_and_raw_paths']+=1\nwitnesses={(r['case_id'],r['family']) for r in f['feedback_witness_replay']}\nreferences={(r['case_id'],r['family']) for r in f['feedback_reference_replay']}\nassert references==witnesses and len(witnesses)==f['bounded_feedback_witness_task_count']==8\nassert body['training_evidence_manifest']['all_bounded_feedback_witnesses_included']\nassert wire_path.stat().st_mtime_ns>(p/'candidates/b2_candidate1.json').stat().st_mtime_ns\nresponse=json.loads((p/'teacher/b2_candidate2/response.json').read_text())\nassert response['model']=='gpt-5.6-sol' and response['cache_hit'] is False\nall_source_ids={k[0] for k in parent}\nfor o in response['value']['operations']:\n assert set(o.get('source_case_ids',[]))<=all_source_ids\ndef compact(m):\n return {f:{k:v[k] for k in ('f1','full_output_f1','invalid_format','negative_or_unscored_asset_claims')} for f,v in m.items() if f in ('EC','EV')}\nout={'at':datetime.now(timezone.utc).isoformat(),'run_id':cfg['run_id'],\n 'classification':'Actual B2 partial commit to next teacher feedback closure; not final B2 or TEST',\n 'C1_selected':c1['adaptive_commit_selection'],'C1_actual_tokens':c1['actual_tokens'],\n 'C1_global_gate_against_previous_parent':{k:v for k,v in c1.items() if k in ('accepted','current_family_nonregression','prior_family_nonregression','current_full_output_nonregression','prior_full_output_nonregression','current_negative_asset_and_format_nonregression','prior_negative_asset_and_format_nonregression')},\n 'C1_full_proposal_failure':{k:v for k,v in c1['proposed_whole_bank_acceptance'].items() if type(v) is bool},\n 'C1_actual_current_metrics':compact(c1['candidate_current']),'C1_actual_prior_metrics':compact(c1['candidate_prior']),\n 'checks':checks,'feedback_witness_source_tasks':sorted([list(k) for k in witnesses]),\n 'actual_C2_teacher_model':w['model'],'actual_C2_teacher_fresh':not response['cache_hit'],\n 'actual_C2_teacher_prompt_characters':len(w['user_prompt']),\n 'actual_parent_not_rejected_full_proposal_verified':True,\n 'candidate_accepted_subset_and_unresolved_feedback_not_conflated':True,\n 'original_TRAIN_labels_delivered_for_all_witnesses':True,\n 'all64_real_parent_raw_answer_and_score_equal_original':True,\n 'response_operations':[{'operation':o['operation'],'id':o.get('skill',{}).get('id'),'source_case_ids':o.get('source_case_ids',[])} for o in response['value']['operations']],\n 'no_model_teacher_tokenizer_grader_or_solver_call_during_audit':True,\n 'progress':json.loads((p/'progress.json').read_text())}\nprint(json.dumps(out,ensure_ascii=False))\n"
+}
