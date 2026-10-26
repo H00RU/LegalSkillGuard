@@ -1,0 +1,119 @@
+{
+  "at": "2026-10-26T10:31:08.782952+00:00",
+  "progress": {
+    "at": "2026-10-26T10:31:03.886981+00:00",
+    "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+    "state": "running",
+    "stage": "b2_candidate1_replay",
+    "current_batch": 2,
+    "completed_native_calls": 150,
+    "completed_teacher_calls": 2,
+    "teacher_attempts": 2,
+    "cross_stage_identical_wire_reuses": 259,
+    "library_records": 5,
+    "execution_dispatch": {
+      "policy": "ordered_independent_phases_v1",
+      "native_workers": 4,
+      "teacher_workers": 1,
+      "required_max_num_seqs": 4
+    },
+    "current_arm": "candidate",
+    "current_document_id": 195,
+    "current_call": "openexempt"
+  },
+  "actual_B2_teacher_delivery": {
+    "model": "gpt-5.6-sol",
+    "delivered_unique_sources": 32,
+    "checks": {
+      "prior_replay_answers": 32,
+      "current_first_answers": 32,
+      "original_training_targets": 64
+    },
+    "current_sources": 16,
+    "feedback_groups": 0,
+    "why_no_rejection_feedback_if_empty": "B1 proposal fully admitted; its actual replay answers and targets are verified in actual_parent_answer above",
+    "wire_saved_after_all_B2_firsts": true,
+    "all_selected_witness_sources_delivered": true
+  },
+  "B2_first_metrics": {
+    "empty": {
+      "EC": {
+        "precision": 0.8715277777777779,
+        "recall": 0.5351562499999999,
+        "f1": 0.6353174603174603,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.645945408077761,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8463541666666667,
+        "recall": 0.5190972222222222,
+        "f1": 0.6167162698412698,
+        "exact_target": 0.1875,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.6228589784576039,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.626016865079365
+    },
+    "skills": {
+      "EC": {
+        "precision": 0.96875,
+        "recall": 0.8142361111111112,
+        "f1": 0.8675099206349205,
+        "exact_target": 0.4375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8908438375350141,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.8802083333333333,
+        "recall": 0.6805555555555555,
+        "f1": 0.7521825396825396,
+        "exact_target": 0.25,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.7485855475793556,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.80984623015873
+    },
+    "frozen_after_B1": {
+      "EC": {
+        "precision": 0.96875,
+        "recall": 0.8142361111111112,
+        "f1": 0.8675099206349205,
+        "exact_target": 0.4375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8908438375350141,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.8802083333333333,
+        "recall": 0.6805555555555555,
+        "f1": 0.7521825396825396,
+        "exact_target": 0.25,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.7485855475793556,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.80984623015873
+    }
+  },
+  "failure_exists": false,
+  "classification": "Actual B2 new-source first forecasts and verified next-teacher receipt of B1 selected replay; not B2 publication, continued evolution beyond B1 or TEST",
+  "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+  "audit_program": "\nimport json\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nroot=Path.cwd();p=root/'runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01'\nout={'at':datetime.now(timezone.utc).isoformat(),'progress':json.loads((p/'progress.json').read_text())}\nwire=p/'teacher/b2_candidate1/wire_request.json'\nif wire.exists():\n w=json.loads(wire.read_text());b=json.loads(w['user_prompt'])\n prior={(r['case_id'],r['family']):r for r in json.loads((p/'publications/b1.json').read_text())['training_decisions'][-1]['actual_replay']}\n current=json.loads((p/'batches/b2_prequential_records.json').read_text())\n current_by={(r['case_id'],r['family']):r for r in current['skills']}\n checks={'prior_replay_answers':0,'current_first_answers':0,'original_training_targets':0}\n cfg=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json').read_text())\n for c in b['already_seen_training']:\n  key=c['source_case_id'],c['family'];expect=prior.get(key,current_by.get(key))\n  assert expect is not None\n  actual=c['actual_parent_answer']\n  assert actual['executed_answer']==(expect['parsed'] or {}).get('answer') and actual['score']==expect['score']\n  assert actual['source_model_emitted_evidence']['raw_call_path']==expect['raw_call_path']\n  target=json.loads((root/cfg['grading_directory']/f'{key[0]}.json').read_text())['targets'][key[1]]\n  assert c['original_training_target']==target\n  checks['original_training_targets']+=1\n  checks['prior_replay_answers' if key in prior else 'current_first_answers']+=1\n out['actual_B2_teacher_delivery']={'model':w['model'],'delivered_unique_sources':len({c['source_case_id'] for c in b['already_seen_training']}),'checks':checks,'current_sources':len(b['current_source_case_ids']),'feedback_groups':len(b['rejected_candidate_feedback']),'why_no_rejection_feedback_if_empty':'B1 proposal fully admitted; its actual replay answers and targets are verified in actual_parent_answer above','wire_saved_after_all_B2_firsts':wire.stat().st_mtime_ns>(p/'batches/b2_prequential_records.json').stat().st_mtime_ns,'all_selected_witness_sources_delivered':b['training_evidence_manifest']['all_bounded_feedback_witnesses_included']}\n out['B2_first_metrics']={arm:json.loads((p/'batches/b2_prequential.json').read_text())[arm] for arm in ['empty','skills','frozen_after_B1']}\nout['failure_exists']=(p/'failure.json').exists()\nprint(json.dumps(out,ensure_ascii=False,indent=2))\n"
+}

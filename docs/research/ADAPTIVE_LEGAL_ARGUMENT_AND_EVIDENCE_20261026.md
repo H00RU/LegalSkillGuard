@@ -9,8 +9,8 @@ improve both statutory selection and valuation as it encounters new source cases
 
 ## Mechanism to establish
 
-A legal skill revision can have useful joint effects across tasks and legal
-contexts. Adaptive commitment compares the admissible full proposal with the
+A legal skill revision affects multiple tasks and legal contexts. Adaptive
+commitment compares the admissible full proposal with the
 admissible dependency-composed proposal on the same seen-source observations.
 It chooses balanced EC/EV improvement under the existing retention checks.
 Witness-complete teacher packets keep the selected replay feedback connected to
