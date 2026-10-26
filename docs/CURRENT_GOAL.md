@@ -13,6 +13,13 @@ EC变化+0.11pp、EV+6.54pp；EV完整输出F1也由80.36%升至86.77%，不是�
 见[B3同案首答和真实教师收件](../artifacts/research/openexempt_legal_scope_20261020/Adaptive45_B3_full16_new_sources_EC9140_EV8698_vs_ownB1_EV8044_native96wires_T4_real64gold16witness_20261026.json)。
 下一重点为B3候选是否实际保留EC/EV修订、B4新案是否延续收益，继续完整八批。
 
+EC余项已用完整16案做只读语义诊断：19项漏列、2项多列；其中13项漏列为已覆盖的通用
+备选条款，6项为具体类别。216/223/227的原始输入确有相关技能，回答正常stop，分别
+2421/1933/2007输出tokens；可见额度被误当资格门槛和通用备选遗漏，非路由未送达或截断。
+这些是原目标对照及模型发出的解释，不当作新评分或模型内部因果证明。教师4已提出
+逐资产检查和具体类别修订，保持本轮冻结代码不改，先看准入与后续新案。见
+[完整EC错误清单与原始见证](../artifacts/research/openexempt_legal_scope_20261020/Adaptive45_B3_EC_all16_errors19FN2FP_generic13_category6_input_present_normal_stop_20261026.json)。
+
 2026-10-26 19:10:56 CST：B2已完整发布，原进程自动进入B3。正式库七条/2020tokens，
 bank53662e；较B1新增两条、更新四条保留技能，不是只增数量。两次提案均部分接纳，
 保留EC及EV的不同合法分量；全部64个最终重放请求的messages/schema与其原始真实
