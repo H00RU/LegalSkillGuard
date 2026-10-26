@@ -1,6 +1,6 @@
 # Appendix D. Experimental details and evidence boundaries
 
-Working appendix, updated 26 October 2026 (local date), with an execution snapshot at 16:53 UTC on 25 October. Companion to [manuscript v0.22](manuscript_v1_20261021.md). This revision synchronizes the introduction's primary-source mechanism comparison; all appendix sections D.1 onward retain the v0.21 methods, outcomes, costs and statistical rules unchanged. Previous revisions are retained in Git and recovery archives. Both replacement granularity controls have completed all eight batches and frozen their unique final banks. The common eight-condition TEST started at 15:31 UTC on 25 October and is generating predictions. Research-side monitoring has not inspected TEST case text, predictions, targets or scores. All additional main/ACE/Text learning repetitions remain deferred until teacher review, not automatically queued.
+Working appendix v0.23, updated 26 October 2026. Companion to [manuscript v0.23](manuscript_v1_20261021.md). All six learning/control constructions and the original eight-condition source-disjoint TEST are complete. TEST finished at 07:30 UTC on 26 October; original predictions, scored records, costs and both 6,052-member archives were verified before aggregate outcomes were inspected. This revision reports those outcomes and their unchanged prespecified analysis in D.10, retaining all TRAIN numerical cells, methods and adverse results. It does not tune from TEST, select a different main bank or estimate independent-learning variability. All additional main/ACE/Text learning repetitions remain user-deferred until draft review.
 
 ## D.1 Tasks, sources and information access
 
@@ -8,7 +8,7 @@ The task is statutory exemption application, not three-way classification, docum
 
 The fixed TRAIN stream contains sources 181–308, eight batches of 16, and two tasks per source. OpenExempt is pinned at `ec6fa2547431096588ce2d3ef107b8adc33cd4fe`; the custom generation seed is 2026102101. The configuration specifies 2–4 assets, 2–4 domiciles, a married-case ratio of 0.5, Arizona, Illinois, Oregon, Pennsylvania and Wisconsin, and no irrelevant facts or asset/domicile opinions. Supplied legal frameworks can include federal provisions. This is not the official Advanced Competency profile. The first 48 sources and partial predictions for two later sources had already been inspected during development. All 128 remain TRAIN/development data; “first encounter” refers to the learner, not to a researcher-unseen sample.
 
-A separate IID test packet contains 128 source cases. Its byte hash can be verified without reading its semantic contents. No TEST task, target, prediction or outcome has been used to choose a method, prompt, library, metric or threshold. The frozen evaluator is now reading public TEST tasks to generate predictions; research-side monitoring reads only process identities, whitelisted progress counters and frozen configuration metadata, not case text, predictions, targets or scores. All logical predictions must be saved before grading. No validation set is used; replay on already seen TRAIN is optimization, not independent evaluation.
+A separate IID test packet contains 128 source cases with zero TRAIN source overlap. No TEST task, target, prediction or outcome has been used to choose a method, prompt, library, metric or threshold. During prediction, research-side monitoring inspected operational metadata only; opaque-byte backup did not expose semantic contents. All 2,048 logical predictions were saved before grading. After completion, source/coverage checks and both complete archives were verified before aggregate results were inspected. This reporting used saved metadata and scores, not TEST case-text-based diagnosis or method revision. No validation set is used; replay on already seen TRAIN is optimization, not independent evaluation.
 
 | Role or artifact | Permitted information | Excluded information |
 |---|---|---|
@@ -60,7 +60,7 @@ Negative-target-asset and officially unscored-asset claim counts are reported se
 
 ### TRAIN-only score-ceiling audit
 
-For all 128 TRAIN sources, we supplied the already released target itself to the original grader and independently checked the analytic positive-target-asset fraction. This is a grader diagnostic, not an actor result, a gold-answer baseline or an inference tool. All 256 target-self checks matched the analytic maximum. No TEST contents or outcomes were accessed.
+For all 128 TRAIN sources, we supplied the already released target itself to the original grader and independently checked the analytic positive-target-asset fraction. This is a grader diagnostic, not an actor result, a gold-answer baseline or an inference tool. All 256 target-self checks matched the analytic maximum. That TRAIN-only diagnostic used no TEST contents or outcomes.
 
 | Complete TRAIN interval | Source n | Native EC maximum (%) | Main EC first forecasts (%) | Native EV maximum (%) |
 |---|---:|---:|---:|---:|
@@ -68,7 +68,7 @@ For all 128 TRAIN sources, we supplied the already released target itself to the
 | B2–B8 | 112 | 96.95 | 84.68 | 100.00 |
 | B3–B8 | 96 | 96.79 | 84.85 | 100.00 |
 
-Eleven EC sources contain a negative-target asset; no EV target map in this stream contains an empty-claim asset. Complete-output target-self F1 is 100% for both tasks. The B3–B8 EC headroom is still 11.94 points, so the native ceiling does not explain away weak continued EC improvement. These numbers do not renormalize Table 1, change admission or define a new primary endpoint. The [complete TRAIN diagnostic](../artifacts/research/openexempt_legal_scope_20261020/Run03_all128_TRAIN_native_target_self_F1_ceiling_and_residual_headroom_20261022.json) binds every source, target file and evaluator byte hash.
+Eleven EC sources contain a negative-target asset; no EV target map in this stream contains an empty-claim asset. Complete-output target-self F1 is 100% for both tasks. The B3–B8 EC headroom is still 11.94 points, so the native ceiling does not explain away weak continued EC improvement. These numbers do not renormalize Table 4, change admission or define a new primary endpoint. The [complete TRAIN diagnostic](../artifacts/research/openexempt_legal_scope_20261020/Run03_all128_TRAIN_native_target_self_F1_ceiling_and_residual_headroom_20261022.json) binds every source, target file and evaluator byte hash.
 
 ## D.4 Library optimization, management and failure accounting
 
@@ -126,24 +126,24 @@ In whole-bank B1, the list-equality check in `candidate_feedback` mislabelled a 
 
 ## D.5 Comparators, ablations and independent learning
 
-The following is the current eight-condition frozen matrix, not a completed outcome table. Each learned condition has one actual seed-45 bank; own-B1 is a snapshot of the same main learner. Methods share the 128 TRAIN sources and frozen 8B model, while library limits and actual learning computation differ.
+The following is the completed eight-condition frozen matrix. Each learned condition has one actual seed-45 bank; own-B1 is a snapshot of the same main learner. The learned methods share 128 TRAIN sources and the frozen 8B model, while library limits and actual learning computation differ. Static compilation instead uses public law only, with zero case trajectories or labels. All eight TEST conditions completed 256 logical predictions each.
 
 | Final condition | Declared banks / arms | Complete memory cap | Construction and status |
 |---|---:|---:|---|
-| Strong direct empty | 1 | No skill text | Common reference; final TEST pending |
-| Blind static legal library | 1 | 4,096 tokens | Compiled without cases, trajectories or labels; TEST pending |
+| Strong direct empty | 1 | No skill text | Complete; 256 logical TEST predictions |
+| Blind static legal library | 1 | 4,096 tokens | Zero-case public-law compilation; 256 TEST predictions complete |
 | Main evolving library | 1 | 4,096 tokens | Seed 45 complete; additional repetitions deferred |
 | Main learner's own B1 | 1 | 4,096 tokens | Its unique first final publication, not a separately selected or learned best bank |
 | Native-role ACE task adaptation | 1 | 8,192 tokens | Original seed 45 complete;145/245 deferred by user before TEST |
 | Trace2Skill text-task adaptation | 1 | 8,192 tokens | Original seed 45 complete;145/245 deferred by user before TEST |
-| Whole-bank submission ablation | 1 | 4,096 tokens | Eight batches complete; final six-record, 2,615-token bank; common TEST prediction in progress |
-| Task-local submission ablation | 1 | 4,096 tokens | Eight batches complete; final six-record, 2,435-token bank; common TEST prediction in progress |
+| Whole-bank submission ablation | 1 | 4,096 tokens | Eight batches complete; final six-record, 2,615-token bank; 256 common-profile TEST predictions complete |
+| Task-local submission ablation | 1 | 4,096 tokens | Eight batches complete; final six-record, 2,435-token bank; 256 common-profile TEST predictions complete |
 
 The matrix has eight conditions, six main-table method/reference rows and two component rows, each answering EC/EV on the same 128 TEST sources: 2,048 logical predictions. They are not independent source sets. The [latest protocol](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md) defers all main, ACE and Text repetitions until a teacher-facing draft is reviewed. The six prospective recipes preserve the existing algorithms and seeds before TEST but grant no execution authority. This single-build table estimates source-conditional effects, not learning-run variability.
 
-The blind-static TRAIN control completed on 23 October, using the original zero-case seven-record, 2,411-token publication throughout all 128 sources. Its 256 predictions were saved before target release and grading, without a new teacher, library update or answer import. It retained the actual main direct actor, public projection, schema and seed-45 generation settings. Table 2 compares the unchanged static answers with main online first forecasts and their common empty reference; it is not a comparison with the terminal main bank and adds no final TEST arm. Static begins with complete statutory guidance, whereas main begins empty and learns from released targets; memory contents and TRAIN exposure are deliberately different.
+The blind-static TRAIN control completed on 23 October, using the original zero-case seven-record, 2,411-token publication throughout all 128 sources. Its 256 predictions were saved before target release and grading, without a new teacher, library update or answer import. It retained the actual main direct actor, public projection, schema and seed-45 generation settings. Table 5 compares the unchanged static answers with main online first forecasts and their common empty reference; it is not a comparison with the terminal main bank and adds no final TEST arm. Static begins with complete statutory guidance, whereas main begins empty and learns from released targets; memory contents and TRAIN exposure are deliberately different.
 
-ACE retains generator, reflector, per-bullet native counters and batch ADD curation, with up to three TRAIN reflection rounds. Every first-encounter batch is immutable before target release. Same-case reflection/regeneration is fitting, not a replacement first prediction. Repeated valid bullet IDs remain in saved metadata; reflection tags each distinct ID once. This task wrapper and its legal-feedback access are disclosed, not represented as an author-default reproduction. The complete 128-source first-forecast stream in Table 2 is separate from final-bank testing. Its four EC and nine EV invalid outputs retain their original zero scores; no favourable valid-only subset replaces the full denominator.
+ACE retains generator, reflector, per-bullet native counters and batch ADD curation, with up to three TRAIN reflection rounds. Every first-encounter batch is immutable before target release. Same-case reflection/regeneration is fitting, not a replacement first prediction. Repeated valid bullet IDs remain in saved metadata; reflection tags each distinct ID once. This task wrapper and its legal-feedback access are disclosed, not represented as an author-default reproduction. The complete 128-source first-forecast stream in Table 5 is separate from final-bank testing. Its four EC and nine EV invalid outputs retain their original zero scores; no favourable valid-only subset replaces the full denominator.
 
 An earlier adapter incorrectly invalidated two legal answers because valid metadata contained repeated skill IDs. That run was stopped and preserved, not rescored into the formal comparison. The corrected run started afresh, preserving the original ID lists and legal answers and marking each distinct cited ID once in reflection. The affected later-case feedback had not reached a teacher or a batch-2 curator/publication; the restart was a conservative provenance choice, not evidence that the previous B1 library was corrupted.
 
@@ -169,7 +169,7 @@ The finer-scope mechanism audit enumerates all 14 non-NOOP candidates rather tha
 
 ## D.6 Paired final analysis and uncertainty
 
-All eight required actual banks, matrix, configurations, evaluator and analysis implementation were bound before the first real TEST prediction at 15:31 UTC on 25 October. The [frozen eight-condition configuration](../configs/openexempt_initial8_frozen_TEST_20261025_run01.json) executes the declared prediction-before-grading boundary. The preserved [original analysis plan](../docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md), [text-method addendum](../docs/research/OPENEXEMPT_FINAL_ANALYSIS_TEXT_COMPLEMENT_ADDENDUM_20261022.md) and [current single-build protocol](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md) precede TEST exposure, not all development. Predictions are in progress; TEST effects and intervals remain pending.
+All eight required actual banks, matrix, configurations, evaluator and analysis implementation were bound before the first real TEST prediction at 15:31 UTC on 25 October. The [frozen eight-condition configuration](../configs/openexempt_initial8_frozen_TEST_20261025_run01.json) executed the prediction-before-grading boundary. The preserved [original analysis plan](../docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md), [text-method addendum](../docs/research/OPENEXEMPT_FINAL_ANALYSIS_TEXT_COMPLEMENT_ADDENDUM_20261022.md) and [current single-build protocol](../docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md) precede TEST exposure, not all development. The complete test and all 14 declared endpoint contrasts are reported in D.10. All eight original metric objects and all 14 paired statistics were recomputed exactly from unchanged saved scores, without grader, solver, model or teacher calls.
 
 Each primary contrast compares the one actual main45 bank with its source-matched control, including that learner's own unique B1 snapshot. All conditions contribute one score per source and task. The 128-source estimate weights cases equally for EC and EV; paired task views, condition names and reused responses do not increase the independent n. Intervals describe variation across these sources conditional on the realized banks and fixed decoding. Between-learning-run variability remains unmeasured while repetitions are deferred.
 
@@ -190,7 +190,7 @@ Table D1. Completed seed-45 implementation resources. Main, ACE, Text and static
 
 Generation counts include each run's saved controls, rejected proposals and replay, but exclude tokenizer/readiness queries. Curricula and monitoring workloads differ; these totals do not isolate learning-only work or establish a speed advantage. The static row combines zero-case blind compilation with its fixed 128-source TRAIN inference control: compilation used one teacher response with 18,773 input and 3,425 output tokens, while the subsequent 256-task control used no new teacher. †ACE includes 15 retired native generations and 19 retired successful teacher responses. Its one additional timed-out attempt has unknown usage, so the reported teacher tokens are a known lower bound, not a total with missing usage set to zero. Cached input and reasoning output are already included in their corresponding token totals. Deferred repeats, earlier development, retired superseded control runs and frozen TEST are outside Table D1.
 
-The [machine-readable original-method resource table](../artifacts/research/openexempt_legal_scope_20261020/Completed_Main_ACE_Text_Static_seed45_resource_table_verified_existing_costs_NOT_equal_compute_or_TEST_20261024.json) binds the first four rows, source digests and direct sum checks, including static compilation usage against its event log. The complete control terminal audits linked below bind the added rows. Main-text Tables 1–3 remain unchanged.
+The [machine-readable original-method resource table](../artifacts/research/openexempt_legal_scope_20261020/Completed_Main_ACE_Text_Static_seed45_resource_table_verified_existing_costs_NOT_equal_compute_or_TEST_20261024.json) binds the first four rows, source digests and direct sum checks, including static compilation usage against its event log. The complete control terminal audits linked below bind the added rows. Main-text TRAIN Tables 4–6 retain the original numerical cells.
 
 The completed main seed-45 TRAIN implementation is `experiments/openexempt_online.py` and `legal_skill_guard/learning/task_scoped_skills.py`, source `6896246`, with `configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json` and contract `direct_statutory_claims` v14. Later ACE-only adapter revision `3dc28b5` leaves the main learner and its four shared actor/scoring files unchanged; it does not imply that every file in the current worktree equals the older manifest. Historical program-output experiments remain development records and are not spliced into the direct-answer stream. The common eight-condition TEST matrix and actual banks were frozen before prediction; no mid-TEST library or endpoint revision is made.
 
@@ -212,9 +212,9 @@ The complete task-local control used 1,502 fresh 8B generations through 1,502 ge
 
 The original requests, responses, source/configuration hashes, failed candidates, publications and existing dual-disk preservation receipts are retained. Exact request reuse is reported as reuse, not another physical generation. This appendix adds no model, test harness or learning-policy change. Current evidence bindings include the [complete main curve](../artifacts/research/openexempt_legal_scope_20261020/Run03_learning_curve_complete_first8_final8_publications_20261022.json), [actual cost](../artifacts/research/openexempt_legal_scope_20261020/Run03_complete_B1_B8_actual_terminal1158_15_cost_20261022.json) and [all teacher/library decisions](../artifacts/research/openexempt_legal_scope_20261020/Run03_all15_teacher14_candidate8_publication_actual_scope_composition_and_library_management_accounting_20261022.json).
 
-The [complete same-source first-forecast comparison](../artifacts/research/openexempt_legal_scope_20261020/Run03_vs_ACEv4_complete_B1_B8_equal128_prequential_FIRSTS_ONLY_last_learning_cost_pending_NOT_TEST_20261023.json) binds all 16 original batch files and unchanged unrounded scores, including cold B1 and failures. Main, ACE and Text seed 45, static TRAIN and both replacement eight-batch controls are complete. Text fitting is not inserted into the online curve. All main/ACE/Text additional learning is deferred, not complete or queued. Common frozen-TEST predictions with all eight final conditions are in progress; comparisons and evaluation costs remain pending.
+The [complete same-source first-forecast comparison](../artifacts/research/openexempt_legal_scope_20261020/Run03_vs_ACEv4_complete_B1_B8_equal128_prequential_FIRSTS_ONLY_last_learning_cost_pending_NOT_TEST_20261023.json) binds all 16 original batch files and unchanged unrounded scores, including cold B1 and failures. Main, ACE and Text seed 45, static TRAIN and both replacement eight-batch controls are complete. Text fitting is not inserted into the online curve. All main/ACE/Text additional learning is deferred, not complete or queued. The original common eight-condition frozen TEST is complete; D.10 reports its outcomes, source-paired comparisons and actual evaluation costs.
 
-[PENDING RESULT — complete common frozen-TEST predictions, eight-condition source-paired effects including both granularity controls, harms and actual evaluation costs.]
+The completed frozen TEST used 1,950 fresh native generations plus 98 exact-wire reuses for 2,048 logical predictions, and zero teacher calls. Native input/output tokens were 14,418,809/5,516,680 (19,935,489 total). Start-to-completion wall time was 57,537.675059 seconds, or 15.98 hours, not measured GPU-busy time. Reused identical responses are not additional independent generations. TEST cost is separate from Table D1 and does not revise any learner's construction cost.
 
 [PENDING METADATA — target journal/template, author/contribution details, release location and checked code/data/model redistribution permissions.]
 
@@ -224,7 +224,7 @@ Known TRAIN ambiguities about ownership and personal/business use have not been 
 
 Interface validity, instruction content and execution fidelity are distinct. Replay checks empirical native and complete-output scores, invalid formats, and negative-or-unscored-asset counts on seen sources; it does not formally verify every legal condition in a skill. Read-only inspection found a business-use exclusion in both the frozen main library and the task-local library that disagreed with released TRAIN references. Their identical initial teacher system prompts did not prescribe this exclusion, and both libraries initialized empty. Some original answers also violated asset-value ceilings that the delivered guidance stated correctly. The [shared-error scope record](../artifacts/research/openexempt_legal_scope_20261020/Completed_main_B7_same_source_EV8076_ownB16451_shared_IL_false_business_boundary_NOT_new_TEST_or_causal_ablation_20261025.json) and [task-local TRAIN diagnostic](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B7_complete80stop_firsts_EV_minus1088_all160_true_teacher12_64targets_jointvalue_business_exclusion_NOT_main_TEST_20261025.json) bind the actual instructions, responses, source scores and information access.
 
-These observations do not adjudicate legal truth, estimate held-out error rates, or identify the causal effect of a particular edit or submission policy. They are TRAIN diagnostics rather than a held-out case study; no individual example is promoted into evidence of generalization. Cases, targets, scores, frozen libraries, primary endpoints and statistical families remain unchanged. Syntax checks or nondecreasing replay averages must not be described as legal certification, per-case safety, or guaranteed future transfer. Frozen-TEST outcomes and any subsequent held-out case study remain pending; this manuscript revision used no research-side inspection of test case text, predictions, targets or outcomes.
+These observations do not adjudicate legal truth, estimate held-out error rates, or identify the causal effect of a particular edit or submission policy. They are TRAIN diagnostics rather than a held-out case study; no individual example is promoted into evidence of generalization. Cases, targets, scores, frozen libraries, primary endpoints and statistical families remain unchanged. Syntax checks or nondecreasing replay averages must not be described as legal certification, per-case safety, or guaranteed future transfer. Frozen-TEST aggregate outcomes are now reported in D.10. No TEST case-text-based error diagnosis or held-out case study was performed for this revision; these existing TRAIN examples do not become TEST evidence.
 
 ## D.9 Completed granularity-control TRAIN results
 
@@ -236,9 +236,59 @@ Table D2. Complete TRAIN-stage comparison of the three submission policies, each
 | Whole-bank proposal | 82.80 | 75.38 | 90.06 | 81.74 | 6 / 2,615 |
 | Task-local EC/EV | 80.71 | 79.85 | 90.76 | 87.25 | 6 / 2,435 |
 
-Main does not dominate both alternatives at both endpoints: whole-bank has the higher EC first-forecast mean, and task-local has the higher EV first-forecast mean. Both controls have higher final EC fitting than main, while main has higher final EV fitting. This mixed ranking is retained rather than used to choose a different bank after learning. Own-B1 gains also have different starting points: task-local B1 supplies no EC guidance, so its later EC improvement includes first acquisition of EC skills. The original serial-versus-four-worker learning difference and the whole-bank B1 feedback-order exception further limit single-factor attribution. Common-profile frozen-TEST contrasts remain the declared comparisons of the realized final banks.
+Main does not dominate both alternatives at both endpoints: whole-bank has the higher EC first-forecast mean, and task-local has the higher EV first-forecast mean. Both controls have higher final EC fitting than main, while main has higher final EV fitting. This mixed ranking is retained rather than used to choose a different bank after learning. Own-B1 gains also have different starting points: task-local B1 supplies no EC guidance, so its later EC improvement includes first acquisition of EC skills. The original serial-versus-four-worker learning difference and the whole-bank B1 feedback-order exception further limit single-factor attribution. Common-profile frozen-TEST contrasts in D.10 compare the realized final banks and likewise do not support uniform main-method superiority.
 
 The [complete three-policy first-forecast evidence](../artifacts/research/openexempt_legal_scope_20261020/TaskLocal45_phase4_B8_complete80stop_firsts_EC9609_EV8743_all160_true_teacher14_full8_online_not_final_TEST_20261025.json) binds all 48 original batch metadata/record files. Final-fitting cells are bound by the completed main/text and two control terminal audits in D.7. The [companion figure and bilingual caption](figures/granularity_prequential_caption_20261025.md) show raw batch F1 and same-cohort differences from each learner's own B1: 16 sources per point, no smoothing, uncertainty band or implied independent-run replication. B1 gain is undefined; B2 gain is zero by construction. The figure preserves adverse batches and was generated from complete first forecasts before task-local's last proposal decision.
+
+## D.10 Completed frozen TEST outcomes and preservation audit
+
+The original evaluation `legal_openexempt_initial8_frozen_TEST_20261025_run01` completed at 07:30:24 UTC on 26 October. Every condition contains the same 128 source identifiers and both endpoints: 2,048/2,048 logical records, with no dropped or selected cases and no TRAIN source overlap. Every pregrading prediction field is unchanged in its scored record. All 1,950 fresh raw origins and their input hashes were verified; 98 exact-wire reuses are not extra draws, and no origin was imported from a prior evaluation stage. The teacher was never called during TEST.
+
+The post-completion inspection gate passed at 07:47:24 UTC after both terminal archives had all 6,052 members verified against canonical bytes. Their common inventory root is `1cce4ee38df69702904b69c4a38bb468142da9326775b04395178c8068276703`. Archive gzip hashes differ because the containers differ; verified member bytes agree. The [complete result and audit report](../artifacts/research/openexempt_legal_scope_20261020/Initial8_TEST_complete2048_1950native_prespecified14contrasts_gate_recompute_conditional_singlebuild_20261026.json) binds the pregrading matrix, scored records, immutable completion, all eight banks, source/configuration hashes, exact recomputation and both distinct-device replicas. The initial read-only checker incorrectly expected the zero-case static compiler to use the TRAIN128 packet; correcting that assertion to its original public-law-only role changed neither an experiment nor an outcome.
+
+### D.10.1 Complementary output audits
+
+Table D3. All eight completed conditions, with 128 sources per endpoint. EC/EV pairs retain all invalid zeros. Complete-output F1 is claim-micro within a case and then source-macro; native F1 is asset-macro within a case, so the complete-output score need not be lower. Exact-target matching is a distinct all-case endpoint, not native F1 or legal certification. Negative-or-unscored claim counts are occurrences preserving list multiplicity, not independent cases. Native endpoint means are in main Tables 1 and 3.
+
+| Condition | Complete-output F1 EC / EV (%) | Exact-target EC / EV (%) | Invalid EC / EV | Negative-or-unscored claims EC / EV |
+|---|---:|---:|---:|---:|
+| Strong empty | 66.14 / 62.49 | 9.38 / 14.06 | 0 / 0 | 1 / 0 |
+| Blind static | 66.13 / 61.71 | 14.06 / 10.94 | 2 / 0 | 1 / 1 |
+| Evolving main | 88.18 / 86.57 | 35.16 / 37.50 | 0 / 1 | 0 / 0 |
+| Own B1 | 87.55 / 72.96 | 36.72 / 17.97 | 0 / 0 | 0 / 0 |
+| ACE adaptation | 69.33 / 58.58 | 17.19 / 11.72 | 4 / 8 | 0 / 6 |
+| Text adaptation | 61.09 / 52.88 | 10.94 / 10.94 | 5 / 11 | 0 / 0 |
+| Whole-bank | 93.47 / 81.57 | 50.00 / 31.25 | 0 / 1 | 1 / 2 |
+| Task-local | 93.82 / 83.34 | 45.31 / 29.69 | 0 / 0 | 1 / 2 |
+
+### D.10.2 All predeclared paired effects and harms
+
+Table D4. Main minus each actual comparator bank on all 128 equally weighted sources. Win/tie/loss counts sum to 128 within every row. The first ten rows use the ten-primary-contrast adjustment; the last four use the separate four-secondary-contrast family. Every interval is a source-paired percentile interval from 20,000 PCG64 resamples (seed 2026102192), conditional on the actual banks and fixed decoding. There are no independent-learning-run error bars.
+
+| Main minus comparator / endpoint | Difference (pp) | Ordinary 95% interval | Family-adjusted interval | Win / tie / loss | Sources Δ ≤ −10 pp |
+|---|---:|---:|---:|---:|---:|
+| Empty / EC | +23.35 | [19.20, 27.54] | [17.61, 29.42] | 94 / 25 / 9 | 6 |
+| Empty / EV | +24.30 | [19.68, 28.96] | [17.71, 31.00] | 92 / 30 / 6 | 5 |
+| Static / EC | +23.22 | [18.22, 28.36] | [16.02, 30.49] | 90 / 26 / 12 | 11 |
+| Static / EV | +25.37 | [20.44, 30.41] | [18.14, 32.60] | 95 / 22 / 11 | 7 |
+| Own B1 / EC | +0.98 | [−0.64, 2.69] | [−1.30, 3.54] | 18 / 99 / 11 | 8 |
+| Own B1 / EV | +13.92 | [10.12, 17.76] | [8.56, 19.36] | 77 / 37 / 14 | 8 |
+| ACE / EC | +19.77 | [15.81, 23.84] | [14.21, 25.58] | 85 / 35 / 8 | 6 |
+| ACE / EV | +28.21 | [23.17, 33.46] | [21.17, 35.81] | 93 / 28 / 7 | 6 |
+| Text / EC | +29.51 | [24.80, 34.27] | [22.92, 36.42] | 97 / 27 / 4 | 3 |
+| Text / EV | +34.15 | [28.74, 39.54] | [26.41, 42.01] | 100 / 24 / 4 | 3 |
+| Whole-bank / EC | −5.60 | [−7.69, −3.52] | [−8.23, −2.92] | 19 / 51 / 58 | 43 |
+| Whole-bank / EV | +4.86 | [1.07, 8.70] | [−0.02, 9.76] | 53 / 41 / 34 | 25 |
+| Task-local / EC | −5.82 | [−8.43, −3.17] | [−9.12, −2.46] | 17 / 49 / 62 | 43 |
+| Task-local / EV | +2.83 | [−0.28, 5.94] | [−1.14, 6.83] | 47 / 47 / 34 | 19 |
+
+All eight effects against empty, static, ACE and Text have positive primary-adjusted lower bounds. Continued evolution versus own-B1 is supported for EV, but the EC interval includes zero. Main is worse on EC than both granularity controls; its EV point estimates are higher but neither secondary-adjusted interval excludes zero. The logged equal-task mean is not a newly nominated primary endpoint, and main is not best on that descriptive mean. These results do not justify changing the selected main bank or updating admission rules from TEST.
+
+### D.10.3 Actual skill exposure and uncompleted evidence
+
+Saved metadata show one or two delivered records for every main EC task (79 and 49 tasks) and one, two or three for every main EV task (49, 52 and 27 tasks). Compared with own-B1, full wire fingerprints change on 53/128 EC and 128/128 EV tasks; 75 EC requests are identical. Own-B1 supplies no EV guidance on 23 sources. These counts report actual exposure, not proven individual-skill use or causal credit. No semantic TEST cases were selected to explain the effects.
+
+The immutable completion contains a legacy replication-design label; the executed initial-stage contrasts each use one after-bank and one before-bank. Exact recomputation verifies its original statistics without rewriting that artifact or claiming three repeats. All additional main/ACE/Text learning remains user-deferred until draft review. Case bootstrap cannot establish algorithm-level stability, and wins over these adaptations do not establish native-author SOTA, expert legal correctness or per-case safety. Any future revised method needs an honestly separated evaluation protocol; this inspected TEST cannot be relabelled as untouched.
 
 ## 中文核对摘要
 
@@ -252,4 +302,4 @@ The [complete three-policy first-forecast evidence](../artifacts/research/openex
 
 D.9按相同完整128来源分开在线首答与末库TRAIN拟合。主方法、整库、任务级首答分别82.03/79.16%、82.80/75.38%、80.71/79.85%；末库拟合分别86.03/89.30%、90.06/81.74%、90.76/87.25%。排序交叉如实保留，不据此换库或当TEST。Task-local首批没有EC指导，后续EC收益包含从无到有；其B7、B8均未接纳更新，B8反弹不是当批进化成功。副图每点16来源，不画平滑或虚构重复区间。
 
-同8B、同来源与单答设置不等于同提示、同容量或同总训练计算。主方法、ACE、Text seed45、静态TRAIN及两项八批消融均已完整结束，原曲线、Text16条截断和ACE一次超时用量未知均保留。Task-local为第二项、替换未启动的首次接收，三种粒度共用原反馈和保持机制。25日统一执行修订让两项替代消融都从空库使用同一四并发配置，原主方法和外部方法的串行学习如实保留，最终所有库统一测试。旧整库492次生成/6次教师及8次无标签测速另计，不导入旧部分轨迹，不保证逐位一致或整批固定提速。主方法及外部方法独立重复仍暂缓，先完成八条件TEST、统计和老师审阅初稿。十主要、四次要比较与128独立来源不变；各方法各一份实际库，2,048逻辑预测不扩大n。来源条件区间不估计学习随机性，未来配方冻结不等于执行授权。TEST已在冻结库上生成预测，但研究侧未检查案件内容、预测、标签或分数；不据测试调方法，不编造重复、跨骨干、理论保证或原生方法SOTA。
+同8B、同来源与单答设置不等于同提示、同容量或同总训练计算。主方法、ACE、Text seed45、静态TRAIN及两项八批消融均完整结束，Text原16条TRAIN截断、ACE一次超时用量未知及全部不利结果保留。两项替代控制都从空库使用同四并发学习配置，原主方法与外部方法的串行学习如实披露；旧整库492次生成/六次教师及八次无标签测速另计，不导入旧轨迹，不宣称确定提速。共同八条件TEST已完成：128隔离来源、2,048逻辑预测、1,950次实际生成加98次精确请求复用、零教师、15.98小时墙钟。先保存全部预测，再评分；两块盘各6,052成员及原始矩阵核验后才查看汇总，不据TEST调库。主方法EC/EV 87.43%/86.18%，空库64.08%/61.88%；相较自身B1的EV收益13.92个百分点有来源条件证据，EC 0.98尚不确定。粒度控制的EC更高，主方法EV差经校正未排除零，不能称创新机制全面更优。D.10完整保留输出失败、十主要/四次要区间及逐案损害。独立学习重复仍暂缓至老师审稿之后，来源bootstrap不估计学习随机性，不编造重复、跨骨干、法律认证或原生SOTA。

@@ -1,41 +1,30 @@
-# 论文工作入口
+# 论文初稿入口
 
-当前正文/附录源码为v0.22，保留完整消融、TRAIN分阶段指标及真实资源，并收口引言的最近邻方法区别；保留的PDF仍是v0.16内部预览，
-尚不是完成版老师初稿或投稿终稿。23页包含中英
-双语正文和实验附录D，不代表英文投稿版有23页；期刊模板、作者信息和正式
-中英文分版仍待确定。必要实验及实际结果整合完成后再交付老师审阅稿。
+当前为2026-10-26的v0.23老师审阅初稿，正文和实验附录已整合完整冻结TEST结果。
+审阅PDF共33页，包含中英双语、14张表、方法图和训练曲线；不是33页英文投稿稿。
+期刊模板、作者信息、代码/数据发布权限和正式中英文分版仍待确定。
 
-- [保留的v0.16双语内部排版预览（当前源码已到v0.22，整篇PDF尚未更新）](../artifacts/research/manuscript_review_20261024/v016_bilingual_internal_v01/legal_skill_evolution_v016_bilingual_internal_review.pdf)
+- [老师审阅PDF v0.23](../artifacts/research/manuscript_review_20261026/v023_bilingual_teacher_review_v01/legal_skill_evolution_v023_bilingual_teacher_review.pdf)
 - [双语正文源稿](manuscript_v1_20261021.md)
 - [实验附录D](appendix_experimental_details_20261022.md)
-- [当前证据与剩余工作](evidence_and_completion_20261020.md)
-- [PDF源文件、全部文本及图表核对](../artifacts/research/manuscript_review_20261024/v016_bilingual_internal_v01/final_review_QA_20261024.json)
-- [保留的v0.13内部审阅PDF](../artifacts/research/manuscript_review_20261023/v013_bilingual_internal_v01/legal_skill_evolution_v013_bilingual_internal_review.pdf)
-- [三种提交粒度的八批首答与同案B1差值副图（单次学习，不含TEST）](figures/granularity_prequential_caption_20261025.md)
+- [PDF文本、表格及关键页面核对](../artifacts/research/manuscript_review_20261026/v023_bilingual_teacher_review_v01/final_review_QA_20261026.json)
+- [完整TEST结果与来源/成本审计](../artifacts/research/openexempt_legal_scope_20261020/Initial8_TEST_complete2048_1950native_prespecified14contrasts_gate_recompute_conditional_singlebuild_20261026.json)
+- [论文证据与历史记录](evidence_and_completion_20261020.md)
 
-主方法八批、ACE八批、Text128案离线构建及静态TRAIN控制已完成。正文分别
-报告在线首答和末库TRAIN拟合，不把两阶段混比。完整八批首答中主方法EC/EV
-F1为82.03/79.16%，ACE任务适配61.87/53.85%，强直接空库60.17/62.92%；
-不是最终库或TEST成绩。Text末库TRAIN拟合52.74/49.73%的不利结果也保留。
+首轮必要实验已完成：主方法八批、ACE八批、Text128案离线构建、盲静态对照、
+整库和任务级两项八批消融，以及128隔离来源、八条件共2048逻辑预测的冻结测试。
+主方法TEST EC/EV原F1为87.43%/86.18%，强空库64.08%/61.88%；
+这些不是分类准确率或法律正确性认证。相较自身B1，EV提高13.92个百分点有来源条件证据，
+EC的0.98个百分点不确定；两个简单控制EC更高，主方法EV优势的次要校正区间均含零。
+正文不宣称细粒度机制全面领先，不据TEST换主库、改阈值或挑有利样本。
 
-当前协议保留八条件：六行主表及Whole-bank/Task-local两项粒度消融。两项替代消融
-统一使用四并发新Run ID，从空库开始；原串行整库部分结果及成本完整保留。
-新Whole-bank和Task-local均已完整八批结束，末库分别六条/2615及六条/2435tokens，
-全部末库及实际运行已双盘保全。共同八条件冻结TEST于25日23:31 CST启动，正在保存预测，
-全部逻辑预测保存后才评分；这不等于TEST成绩已完成。全部主方法、
-ACE和Text独立学习重复暂缓至必要实验和老师初稿后的用户决定，不会自动启动。
+主方法、ACE、Text的独立学习重复仍按用户决定暂缓，未自动启动。
+当前区间条件于各一份实际学习库，不估计跨学习随机性；首轮完成不等于全部论文实验完成。
+原TRAIN首答、末库拟合、所有无效输出及退化均保留，未把训练重放填入TEST主表。
 
-三种粒度的完整首答与末库TRAIN拟合已在附录D.9分列；主方法并非各阶段、各端点都领先。
-任务级B7/B8均未更新库，分数反弹不写成当批学习成功。附录D1记录两项控制的完整成本，
-不以精确请求复用扩充物理调用，不以墙钟时间冒充GPU忙时或因果提速。
+已按师兄paper-ideation、paper-experiments-appendix、paper-figures-data组织问题—证据、
+主表和附录，并用Nature skill检查表述边界。没有因模板要求编造重复、误差带或创新点。
+本次交付后按用户要求等待回复，不再自动启动实验或继续修订。
 
-保留的v0.16预览包含当时正文、附录、8张表、既有训练曲线和方法图；404个实际PDF文本
-单元核对差异为零，第1/13/14/19/21页已查看。未完成结果用待填标记区分，
-独立重复另标暂缓。附录资源表记录实际调用与已知token，不声称等总计算，
-ACE一次超时用量未知仍保留为下界。完整源快照及复用排版程序在渲染清单中，
-未填入未完成成绩。当前源码保留执行差异、反馈判定缺陷及语义诊断的证据边界，
-未将训练曲线写入TEST表，也未把暂缓的独立重复写成完成；
-当前不重新渲染PDF，待必要实验结果整合后交付老师审阅稿。
-
-最新实际执行状态见[冻结测试元数据进度](../runs/legal_openexempt_initial8_frozen_TEST_20261025_run01/progress.json)及[项目执行入口](../docs/CURRENT_GOAL.md)。研究侧只查看进程、计数和配置，不检查未完成TEST的内容或分数。冻结TEST不向教师
-提供反馈，不用于挑选库或修改后续同算法重复；任何科学修订须单独标明研究版本。
+历史版本保留于Git及双盘档案。[v0.16内部预览](../artifacts/research/manuscript_review_20261024/v016_bilingual_internal_v01/legal_skill_evolution_v016_bilingual_internal_review.pdf)
+不是当前稿件；运行时方法、模型、数据、技能库、评分和统计规则本次均未改变。

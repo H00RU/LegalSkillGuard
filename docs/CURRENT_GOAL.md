@@ -1,5 +1,22 @@
 # Current legal skill-evolution goal
 
+## 当前交付：2026-10-26，v0.23老师审阅初稿；等待用户回复
+
+首轮必要实验及完整八条件冻结TEST已结束。128隔离来源、2任务、8条件共2048逻辑预测，
+实际1950次8B生成加98次精确请求复用，零教师；全部先预测后评分。
+两块盘各6052个终态成员核验通过后才查看汇总，原记录不丢弃、不改分。
+
+TEST主方法EC/EV原F1为87.43%/86.18%，强空库64.08%/61.88%；
+相较自身B1的EV收益13.92个百分点有来源条件证据，EC的0.98不确定。
+粒度控制EC更高，主方法EV差的次要校正区间均含零；不宣称细粒度全面最优或原作者SOTA。
+各学习条件只有一份实际库，独立学习重复仍按用户决定暂缓，不能用来源bootstrap冒充学习重复。
+
+[初稿入口](../paper/README.md)、[双语正文](../paper/manuscript_v1_20261021.md)、[附录](../paper/appendix_experimental_details_20261022.md)及
+[33页老师审阅PDF](../artifacts/research/manuscript_review_20261026/v023_bilingual_teacher_review_v01/legal_skill_evolution_v023_bilingual_teacher_review.pdf)已整合完整TEST、14张表与既有图，未改TRAIN数值或实验链路。
+[完整TEST审计](../artifacts/research/openexempt_legal_scope_20261020/Initial8_TEST_complete2048_1950native_prespecified14contrasts_gate_recompute_conditional_singlebuild_20261026.json)保存来源、成本、预定区间与全部损害；期刊/作者/发布信息仍待确定。
+按用户最新指示，交付初稿位置后停止推进、等待回复，不启动实验、独立重复或新的方法优化。
+下方时间戳章节是历史记录，不覆盖本条当前状态。
+
 ## 最新写作覆盖：2026-10-26，v0.22收口引言，未改实验
 
 已将最近邻原文与实际提交图的区别写入双语引言；单一贡献候选仍是同次修订的依赖闭合
