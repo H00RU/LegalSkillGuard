@@ -1,0 +1,117 @@
+{
+  "at": "2026-10-26T10:04:15.823573+00:00",
+  "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+  "classification": "Actual completed B1 acquisition and seen-TRAIN replay; no TEST or subsequent-case outcome claimed",
+  "source_cases": 16,
+  "task_views": 32,
+  "initial_first_forecast_metrics": {
+    "EC": {
+      "precision": 0.8090277777777778,
+      "recall": 0.50390625,
+      "f1": 0.5930803571428571,
+      "exact_target": 0.0625,
+      "tasks": 16,
+      "invalid_format": 1,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.6213392857142858,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "EV": {
+      "precision": 0.8645833333333333,
+      "recall": 0.5321180555555555,
+      "f1": 0.6386160714285714,
+      "exact_target": 0.0625,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 1,
+      "full_output_f1": 0.6516305827886711,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "mean_family_f1": 0.6158482142857142
+  },
+  "published_joint_replay_metrics": {
+    "EC": {
+      "precision": 0.9557291666666666,
+      "recall": 0.8098958333333333,
+      "f1": 0.8610863095238095,
+      "exact_target": 0.4375,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.8841941884280594,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "EV": {
+      "precision": 0.7894965277777778,
+      "recall": 0.6840277777777778,
+      "f1": 0.7140997023809523,
+      "exact_target": 0.125,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.7093543320105818,
+      "negative_or_unscored_asset_claims": 0
+    },
+    "mean_family_f1": 0.7875930059523809
+  },
+  "admitted_component_alternative_reconstructed_metrics": {
+    "EC": {
+      "precision": 0.9557291666666666,
+      "recall": 0.8098958333333333,
+      "f1": 0.8610863095238095,
+      "exact_target": 0.4375,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.8841941884280594,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "EV": {
+      "precision": 0.7999131944444444,
+      "recall": 0.6345486111111112,
+      "f1": 0.6897941468253967,
+      "exact_target": 0.125,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.7160011574074074,
+      "negative_or_unscored_asset_claims": 0
+    },
+    "mean_family_f1": 0.7754402281746031
+  },
+  "joint_balanced_gain": [
+    0.07548363095238098,
+    0.17174479166666667
+  ],
+  "component_balanced_gain": [
+    0.051178075396825395,
+    0.15959201388888888
+  ],
+  "selected": "joint",
+  "component_reconstruction_complete_wire_matches": {
+    "parent": 3,
+    "proposed": 29
+  },
+  "component_metrics_exactly_reconstructed_from_original_scores": true,
+  "actual_published_records": 5,
+  "actual_published_tokens": 1551,
+  "actual_records_per_task": {
+    "EC": 5,
+    "EV": 5
+  },
+  "bank_sha256": "509fcf9408a5c92719df6a799693487db3bd8ff00fb3178e79a88b9665b87860",
+  "physical_native_generation_counts": {
+    "b1_prequential": 32,
+    "b1_candidate1_replay": 32,
+    "b1_candidate1_composed_replay": 0
+  },
+  "physical_B1_native_generations_total": 64,
+  "additional_selection_generations": 0,
+  "teacher_responses": 1,
+  "teacher_model": "gpt-5.6-sol",
+  "teacher_cache_hit": false,
+  "all_current_sources_delivered_to_teacher": true,
+  "no_model_teacher_tokenizer_grader_or_solver_call_during_this_audit": true,
+  "next_evidence": "B2 first forecasts with this bank; B3+ for evolution beyond its own B1",
+  "reconstruction_program": "\nimport copy,json\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom experiments import openexempt_online as o\nroot=Path.cwd();rid='legal_openexempt_adaptive_legal_public_assets128_20261026_run01';p=root/'runs'/rid\ncfg=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json').read_text())\npub=json.loads((p/'publications/b1.json').read_text());q=pub['training_decisions'][-1]\nfirst=json.loads((p/'batches/b1_prequential_records.json').read_text())['skills']\nall_rows=json.loads((root/cfg['input_packet']).read_text())['rows'];ids={r['case_id'] for r in first}\nrows=[r for r in all_rows if r['case_id'] in ids]\nbody=json.loads(json.loads((p/'teacher/b1_candidate1/wire_request.json').read_text())['user_prompt'])\nparent=body['current_parent_library'];proposed=q['proposed_bank']\nassess=q['adaptive_commit_selection']['component_assessment']\ncomponent=o.compose_legal_edits(parent,proposed,q['legal_edit_coordinates'],assess['accepted_legal_coordinates'])\nassert o.csha(component)==assess['bank_sha256']\nbefore={(r['case_id'],r['family']):r for r in first}\nproposal={(r['case_id'],r['family']):r for r in q['proposed_replay']}\ndef payload(row,bank):\n m,s,_=o.actor_payload(row,bank,grounded=True,direct_numeric=True,asset_references=True)\n return o.csha({'messages':m,'schema':s,'generation':cfg['generation']})\nmixed=[];origin_counts={'parent':0,'proposed':0}\nfor row in rows:\n key=row['case_id'],row['family'];fp=payload(row,component)\n if fp==payload(row,proposed):mixed.append(proposal[key]);origin_counts['proposed']+=1\n else:\n  assert fp==payload(row,parent);mixed.append(before[key]);origin_counts['parent']+=1\ngain=o.balanced_replay_gain(first,mixed);joint=o.balanced_replay_gain(first,q['actual_replay'])\nassert all(abs(a-b)<1e-12 for a,b in zip(gain,assess['gain']))\nassert joint>=gain and q['adaptive_commit_selection']['selected']=='joint'\nassert pub['bank']==q['candidate']==proposed\nassert o.acceptance(first,mixed,[],[])['accepted'] and o.acceptance(first,q['actual_replay'],[],[])['accepted']\ncounts={}\nfor stage in ['b1_prequential','b1_candidate1_replay','b1_candidate1_composed_replay']:\n counts[stage]=len([f for f in (p/'native'/stage).glob('*.json') if not f.name.endswith(('.input.json','.answer.json'))])\nassert counts=={'b1_prequential':32,'b1_candidate1_replay':32,'b1_candidate1_composed_replay':0}\nout={'at':datetime.now(timezone.utc).isoformat(),'run_id':rid,'classification':'Actual completed B1 acquisition and seen-TRAIN replay; no TEST or subsequent-case outcome claimed','source_cases':16,'task_views':32,'initial_first_forecast_metrics':o.metrics(first),'published_joint_replay_metrics':o.metrics(q['actual_replay']),'admitted_component_alternative_reconstructed_metrics':o.metrics(mixed),'joint_balanced_gain':joint,'component_balanced_gain':gain,'selected':'joint','component_reconstruction_complete_wire_matches':origin_counts,'component_metrics_exactly_reconstructed_from_original_scores':True,'actual_published_records':len(pub['bank']),'actual_published_tokens':q['actual_tokens'],'actual_records_per_task':{f:sum(f in s['hypothesis_ids'] for s in pub['bank']) for f in ['EC','EV']},'bank_sha256':pub['bank_sha256'],'physical_native_generation_counts':counts,'physical_B1_native_generations_total':sum(counts.values()),'additional_selection_generations':0,'teacher_responses':1,'teacher_model':json.loads((p/'teacher/b1_candidate1/response.json').read_text())['model'],'teacher_cache_hit':json.loads((p/'teacher/b1_candidate1/response.json').read_text())['cache_hit'],'all_current_sources_delivered_to_teacher':set(body['current_source_case_ids'])<={c['source_case_id'] for c in body['already_seen_training']},'no_model_teacher_tokenizer_grader_or_solver_call_during_this_audit':True,'next_evidence':'B2 first forecasts with this bank; B3+ for evolution beyond its own B1'}\nprint(json.dumps(out,ensure_ascii=False,indent=2))\n"
+}
