@@ -1,0 +1,181 @@
+{
+  "B2_IL_update_operations": [
+    {
+      "operation": "UPDATE",
+      "target_ids": [
+        "illinois-wildcard-personal-property"
+      ],
+      "skill": {
+        "id": "illinois-wildcard-personal-property",
+        "hypothesis_ids": [
+          "EC",
+          "EV"
+        ],
+        "guidance": {
+          "by_task": [
+            {
+              "tasks": [
+                "EC"
+              ],
+              "when": "Illinois exemptions are allowable and the asset is personal property used personally rather than for business.",
+              "procedure": "Add 735 Ill. Comp. Stat. 5/12-1001(b) as an independent alternative for any such property, including property also covered by a specific subsection. Add subsection (a) for necessary wearing apparel, Bibles, school books, or family pictures, and subsection (e) for professionally prescribed health aids. Ordinary clothing remains wearing apparel, and a work-style name alone does not establish business use.",
+              "avoid_when": "Do not apply subsection (b) when facts expressly state actual business use; do not exclude jewelry, vehicles, household property, clothing, or health aids from (b), and do not call jewelry wearing apparel."
+            },
+            {
+              "tasks": [
+                "EV"
+              ],
+              "when": "Illinois exemptions are allowable and valuing independently applicable personal-property alternatives.",
+              "procedure": "For subsection (b), report the lesser of asset value and $4,000 for one debtor; for equally owned property of two debtors, cap each half separately, allowing up to $8,000 total. Separately report subsection (c) at no more than $2,400 for a motor vehicle, and report qualifying subsection (a) wearing apparel or subsection (e) prescribed health aids at the asset value because those supplied provisions state no dollar ceiling.",
+              "avoid_when": "Do not substitute the subsection (b) ceiling for a specific subsection, report zero-value alternatives, double the $2,400 vehicle ceiling, or infer business use solely from words such as business, work, or toolbox in an item's name."
+            }
+          ],
+          "operators": [],
+          "jurisdiction": "ILLINOIS"
+        }
+      },
+      "source_case_ids": [
+        190,
+        195,
+        196,
+        204
+      ],
+      "rationale": "The parent omitted subsection (b) alongside specific exemptions, omitted the wearing-apparel alternative, used the $4,000 wildcard ceiling for an uncapped prescribed health aid, and confused the vehicle ceiling with the wildcard ceiling."
+    }
+  ],
+  "B2_IL_admission_original_case_support": [
+    {
+      "case_id": 190,
+      "batch": 1,
+      "before": 0.5833333333333333,
+      "after": 0.8333333333333333,
+      "full_before": 0.5714285714285715,
+      "full_after": 0.8,
+      "teacher_current_source": false
+    },
+    {
+      "case_id": 195,
+      "batch": 1,
+      "before": 0.2222222222222222,
+      "after": 0.6666666666666666,
+      "full_before": 0.2222222222222222,
+      "full_after": 0.6666666666666666,
+      "teacher_current_source": false
+    },
+    {
+      "case_id": 196,
+      "batch": 1,
+      "before": 0.75,
+      "after": 0.9166666666666666,
+      "full_before": 0.6,
+      "full_after": 0.888888888888889,
+      "teacher_current_source": false
+    },
+    {
+      "case_id": 204,
+      "batch": 2,
+      "before": 0.5,
+      "after": 0.8333333333333333,
+      "full_before": 0.5,
+      "full_after": 0.8,
+      "teacher_current_source": true
+    }
+  ],
+  "B2_IL_coordinate_gate": {
+    "accepted": true,
+    "current_nonregression": true,
+    "prior_nonregression": true,
+    "strict_current_improvement": true,
+    "current_full_output_nonregression": true,
+    "prior_full_output_nonregression": true,
+    "current_negative_asset_and_format_nonregression": true,
+    "prior_negative_asset_and_format_nonregression": true,
+    "current_tasks": 1,
+    "prior_tasks": 3
+  },
+  "B4_teacher_input_audit": [
+    {
+      "attempt": 1,
+      "user_prompt_characters": 700418,
+      "field_character_counts": {
+        "already_seen_training": 493643,
+        "actual_system_and_response_schema_by_public_context": 98493,
+        "rejected_candidate_feedback": 92318,
+        "complete_public_statutes": 20448,
+        "current_parent_library": 9228,
+        "public_citation_label_catalog": 4774,
+        "training_evidence_manifest": 1469,
+        "public_TRAIN_edit_coordinates_before_proposed_shared_edits": 1304
+      },
+      "explicit_actual_task_projection_in_body": false,
+      "failing_current_EV_evidence_present": [
+        {
+          "case_id": 233,
+          "facts_present": true,
+          "gold_matches_original": true,
+          "actual_answer_matches_raw_record": true,
+          "EV_score": 0.3333333333333333,
+          "emitted_reasoning_tail_characters": 1024
+        },
+        {
+          "case_id": 234,
+          "facts_present": true,
+          "gold_matches_original": true,
+          "actual_answer_matches_raw_record": true,
+          "EV_score": 0,
+          "emitted_reasoning_tail_characters": 1024
+        }
+      ],
+      "fresh_teacher_response": true,
+      "response_operations": 1
+    },
+    {
+      "attempt": 2,
+      "user_prompt_characters": 739512,
+      "field_character_counts": {
+        "already_seen_training": 491666,
+        "rejected_candidate_feedback": 134853,
+        "actual_system_and_response_schema_by_public_context": 98493,
+        "complete_public_statutes": 20448,
+        "current_parent_library": 9228,
+        "public_citation_label_catalog": 4774,
+        "training_evidence_manifest": 1494,
+        "public_TRAIN_edit_coordinates_before_proposed_shared_edits": 1304
+      },
+      "explicit_actual_task_projection_in_body": false,
+      "failing_current_EV_evidence_present": [
+        {
+          "case_id": 233,
+          "facts_present": true,
+          "gold_matches_original": true,
+          "actual_answer_matches_raw_record": true,
+          "EV_score": 0.3333333333333333,
+          "emitted_reasoning_tail_characters": 1024
+        },
+        {
+          "case_id": 234,
+          "facts_present": true,
+          "gold_matches_original": true,
+          "actual_answer_matches_raw_record": true,
+          "EV_score": 0,
+          "emitted_reasoning_tail_characters": 1024
+        }
+      ],
+      "fresh_teacher_response": true,
+      "response_operations": 0
+    }
+  ],
+  "does_not_prove_context_size_caused_NOOP": true,
+  "no_extra_teacher_or_model_call": true,
+  "at": "2026-10-26T13:54:26Z",
+  "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+  "classification": "TRAIN-only admission-to-future-execution and actual teacher-receipt audit; not a new trial or TEST",
+  "follow_on_hypothesis": {
+    "confirmed": "Original Illinois EV edit passed on all1 current+3prior real taskcases; both later failing234/233 EV views and original targets reached bothB4 teacher requests. No missing-gold or erroneous native gate diagnosis.",
+    "candidate": "Teacher sees full bank and per-task schemas, not exact actual delivered skill projections. EV does not inherit EC-only applicability instructions. Teacher NOOP may conflate knowledge written elsewhere with executable EV procedure; wording changed simultaneously, so single-factor causality not established.",
+    "minimal_future_repair_if_repeated": "After stopping and preserving a diagnosed stalled run, expose exact existing public-context task projection in teacher input and permit grounded same-rule execution rewrites. EV block must be self-contained for both legal eligibility and amount reporting, including asset-total versus per-spouse units. No implicit EC-answer feed, runtime cross-task fallback, hidden solver or manually filled skill bank. Keep original scoring and gates.",
+    "current_action": "Continue original B5 and full8; await complete cohort before scores or next teacher claims. No scientific bound-file change."
+  },
+  "context_size_observation": "Input is large and contains duplicate empty/frozen-initial semantic counterfactuals and repeated schemas. This is optional communication simplification, not established cause of teacher NOOP and not a reason for live hot changes.",
+  "reproduction_program": "import json\nfrom pathlib import Path\nfrom experiments.openexempt_online import actor_payload,paired_effect,csha\nfrom legal_skill_guard.openexempt import metrics\nroot=Path.cwd();p=root/'runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01'\ncfg=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json').read_text())\nrows={(r['case_id'],r['family']):r for r in json.loads((root/cfg['input_packet']).read_text())['rows']}\nb1=json.loads((p/'frozen_after_B1.json').read_text());b2=json.loads((p/'publications/b2.json').read_text())\nd=b2['training_decisions'][0];teacher=json.loads((p/'teacher/b2_candidate1/response.json').read_text())\nil=[op for op in teacher['value']['operations'] if op.get('skill',{}).get('id')=='illinois-wildcard-personal-property']\nc1=d['candidate'];parent_rows={}\npub1=json.loads((p/'publications/b1.json').read_text())\nfor x in pub1['training_decisions']:\n if x.get('accepted'):parent_rows={(r['case_id'],r['family']):r for r in x['actual_replay']}\nr2=json.loads((p/'batches/b2_prequential_records.json').read_text());parent_rows.update({(r['case_id'],r['family']):r for r in r2['skills']})\nc1rows={(r['case_id'],r['family']):r for r in d['actual_replay']}\nil_cases=[]\nfor k,r in c1rows.items():\n if k[1]!='EV' or 'illinois-wildcard-personal-property' not in r['delivered_skill_ids']:continue\n before=parent_rows[k]\n il_cases.append({'case_id':k[0],'batch':rows[k]['batch'],'before':before['score']['f1'],'after':r['score']['f1'],'full_before':before['score']['full_output_f1'],'full_after':r['score']['full_output_f1'],'teacher_current_source':rows[k]['batch']==2})\ncontext=[]\nfor attempt in (1,2):\n w=json.loads((p/f'teacher/b4_candidate{attempt}/wire_request.json').read_text());body=json.loads(w['user_prompt'])\n response=json.loads((p/f'teacher/b4_candidate{attempt}/response.json').read_text())\n assert response['request_sha256']==csha(w)\n per_field={k:len(json.dumps(v,ensure_ascii=False)) for k,v in body.items()}\n delivered={(v['source_case_id'],v['family']):v for v in body['already_seen_training']}\n witnesses=[]\n for cid in (233,234):\n  v=delivered[cid,'EV'];parent=v['actual_parent_answer']\n  actual=json.loads((p/'batches/b4_prequential_records.json').read_text())\n  r=next(r for r in actual['skills'] if (r['case_id'],r['family'])==(cid,'EV'))\n  assert parent['executed_answer']==r['parsed']['answer']\n  assert parent['source_model_emitted_evidence']['raw_call_path']==r['raw_call_path']\n  target=json.loads((root/cfg['grading_directory']/f'{cid}.json').read_text())['targets']['EV']\n  assert v['original_training_target']==target\n  witnesses.append({'case_id':cid,'facts_present':bool(v['facts']),'gold_matches_original':True,'actual_answer_matches_raw_record':True,'EV_score':parent['score']['f1'],'emitted_reasoning_tail_characters':len(parent['source_model_emitted_evidence']['reasoning']['text'])})\n context.append({'attempt':attempt,'user_prompt_characters':len(w['user_prompt']),'field_character_counts':dict(sorted(per_field.items(),key=lambda x:x[1],reverse=True)[:8]),'explicit_actual_task_projection_in_body':any('delivered' in k or 'projection' in k for k in body),'failing_current_EV_evidence_present':witnesses,'fresh_teacher_response':response['cache_hit'] is False,'response_operations':len(response['value']['operations'])})\nout={'B2_IL_update_operations':il,'B2_IL_admission_original_case_support':il_cases,'B2_IL_coordinate_gate':d['legal_scope_admission']['EV:ILLINOIS'],'B4_teacher_input_audit':context,'does_not_prove_context_size_caused_NOOP':True,'no_extra_teacher_or_model_call':True}\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

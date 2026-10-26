@@ -20,6 +20,13 @@ B4两次教师均为真实新响应，第一请求64条实际父库回答/原目
 512stop/1length；唯一length仍是B1空库193EC。B3+B4合计32新案相对固定B1，EC+2.21pp、
 EV−0.77pp，为TRAIN描述结果，不写成EV已稳定进化。见
 [B4首答、终库、真实教师与EV断点](../artifacts/research/openexempt_legal_scope_20261020/Adaptive45_B4_final_unchanged8_EC8668_EV7060_IL233234_execution_gap_native513_20261026.json)。
+进一步沿原请求追溯：IllinoisEV在B2准入时，1个当前来源及3个此前来源的原生和完整输出
+F1全部提高；不是门槛计算错误。B4两次教师都拿到233/234的真实错误回答和原始目标，
+故“缺少答案”已排除。见[准入到NOOP的完整证据](../artifacts/research/openexempt_legal_scope_20261020/Adaptive45_IL_B2_four_seen_improve_B4_two_fail_teacher_both_gold_delivered_NOOP_20261026.json)。
+B4全部16案EV原评分器对齐诊断：进化库31处漏选、8处多选、9处同法条金额错误，固定B1
+为28/1/11；未匹配资产声明各1条另外保留。31处漏选中30处为通用备选条款，显示金额
+纠错未伴随完整适用枚举，不能只修两案或只补额度表。该计数不是新增主指标。见
+[全16案错误原子](../artifacts/research/openexempt_legal_scope_20261020/Adaptive45_B4_EV_all16_31missing8extra9amount_teacher_projection_20261026.json)。
 下一步看完整B5同案收益和教师是否能提出自包含的EV执行修订；不热改冻结代码、人工改技能、
 放宽门槛、读半批分数或启动额外重复/TEST。前述B3闭合节点不重复审计。
 
