@@ -1,0 +1,577 @@
+{
+  "at": "2026-10-26T16:55:36.142763+00:00",
+  "classification": "Complete original publication/admission ledger through closedB6 only; B7/B8 and frozen TEST not yet complete",
+  "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+  "closed_batches": 6,
+  "actual_selection_counts": {
+    "joint": 1,
+    "dependency_components": 4,
+    "none": 5,
+    "explicit_noop": 1
+  },
+  "actual_admissions": 5,
+  "per_batch_final_banks": [
+    {
+      "batch": 1,
+      "at": "2026-10-26T09:56:17.091865+00:00",
+      "accepted_attempts": 1,
+      "actual_records_after": 5,
+      "actual_tokens_after": 1551,
+      "bank_sha256": "509fcf9408a5c92719df6a799693487db3bd8ff00fb3178e79a88b9665b87860",
+      "bank_changed": true,
+      "added_this_batch": [
+        "arizona-category-and-cap-boundaries",
+        "federal-wildcard-alternative",
+        "illinois-wildcard-personal-property",
+        "oregon-personal-property-alternative",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "removed_this_batch": []
+    },
+    {
+      "batch": 2,
+      "at": "2026-10-26T11:10:56.892902+00:00",
+      "accepted_attempts": 2,
+      "actual_records_after": 7,
+      "actual_tokens_after": 2020,
+      "bank_sha256": "53662e07350a7cdd05cfafad319425892656f18a04283e386dd2b6430ed349ca",
+      "bank_changed": true,
+      "added_this_batch": [
+        "federal-household-item-ceiling",
+        "oregon-firearm-specific-and-personal-alternatives"
+      ],
+      "removed_this_batch": []
+    },
+    {
+      "batch": 3,
+      "at": "2026-10-26T12:54:58.102163+00:00",
+      "accepted_attempts": 1,
+      "actual_records_after": 8,
+      "actual_tokens_after": 2224,
+      "bank_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84",
+      "bank_changed": true,
+      "added_this_batch": [
+        "federal-specific-category-boundaries"
+      ],
+      "removed_this_batch": []
+    },
+    {
+      "batch": 4,
+      "at": "2026-10-26T13:37:37.698300+00:00",
+      "accepted_attempts": 0,
+      "actual_records_after": 8,
+      "actual_tokens_after": 2224,
+      "bank_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84",
+      "bank_changed": false,
+      "added_this_batch": [],
+      "removed_this_batch": []
+    },
+    {
+      "batch": 5,
+      "at": "2026-10-26T14:59:24.286378+00:00",
+      "accepted_attempts": 1,
+      "actual_records_after": 8,
+      "actual_tokens_after": 2231,
+      "bank_sha256": "908ea09cee778ba358b8a11c1cef216b207c50abc5c55de43b7839f3899da2a0",
+      "bank_changed": true,
+      "added_this_batch": [],
+      "removed_this_batch": []
+    },
+    {
+      "batch": 6,
+      "at": "2026-10-26T16:35:39.045342+00:00",
+      "accepted_attempts": 0,
+      "actual_records_after": 8,
+      "actual_tokens_after": 2231,
+      "bank_sha256": "908ea09cee778ba358b8a11c1cef216b207c50abc5c55de43b7839f3899da2a0",
+      "bank_changed": false,
+      "added_this_batch": [],
+      "removed_this_batch": []
+    }
+  ],
+  "complete_decision_ledger": [
+    {
+      "batch": 1,
+      "attempt": 1,
+      "accepted": true,
+      "selection": "joint",
+      "proposal_fully_committed": true,
+      "actual_parent_before_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "actual_after_sha256": "509fcf9408a5c92719df6a799693487db3bd8ff00fb3178e79a88b9665b87860",
+      "proposed_bank_sha256": "509fcf9408a5c92719df6a799693487db3bd8ff00fb3178e79a88b9665b87860",
+      "actual_records": 5,
+      "actual_tokens": 1551,
+      "actual_skill_id_changes": {
+        "added": [
+          "arizona-category-and-cap-boundaries",
+          "federal-wildcard-alternative",
+          "illinois-wildcard-personal-property",
+          "oregon-personal-property-alternative",
+          "pennsylvania-general-monetary-alternative"
+        ],
+        "removed": [],
+        "updated": []
+      },
+      "accepted_legal_coordinates": [],
+      "selection_zero_extra_native_generations": 0,
+      "joint_gain": [
+        0.07548363095238098,
+        0.17174479166666667
+      ],
+      "component_assessment": {
+        "accepted": true,
+        "reason": null,
+        "accepted_legal_coordinates": [
+          "EC:ARIZONA",
+          "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+          "EC:ILLINOIS",
+          "EV:ARIZONA",
+          "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN"
+        ],
+        "bank_sha256": "3e53088f01859cab6c9637c3c777816555b5657f7de0ddd0fadea56062781d64",
+        "gain": [
+          0.051178075396825395,
+          0.15959201388888888
+        ]
+      },
+      "whole_proposal_acceptance": {
+        "accepted": true,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": true,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": true,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "reason": null
+    },
+    {
+      "batch": 2,
+      "attempt": 1,
+      "accepted": true,
+      "selection": "dependency_components",
+      "proposal_fully_committed": false,
+      "actual_parent_before_sha256": "509fcf9408a5c92719df6a799693487db3bd8ff00fb3178e79a88b9665b87860",
+      "actual_after_sha256": "c1ea45e547973b995773a14a72497c4f44a2a8b5f6bfa3a251e677e91838539e",
+      "proposed_bank_sha256": "e690a3b6cc6f1f2be6ad119a0dccd7359a29cb57bc01c6bfe3ba8837ee3fe13d",
+      "actual_records": 5,
+      "actual_tokens": 1684,
+      "actual_skill_id_changes": {
+        "added": [],
+        "removed": [],
+        "updated": [
+          "illinois-wildcard-personal-property",
+          "oregon-personal-property-alternative",
+          "pennsylvania-general-monetary-alternative"
+        ]
+      },
+      "accepted_legal_coordinates": [
+        "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+        "EV:ILLINOIS"
+      ],
+      "selection_zero_extra_native_generations": 0,
+      "joint_gain": null,
+      "component_assessment": {
+        "accepted": true,
+        "reason": null,
+        "accepted_legal_coordinates": [
+          "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+          "EV:ILLINOIS"
+        ],
+        "bank_sha256": "c1ea45e547973b995773a14a72497c4f44a2a8b5f6bfa3a251e677e91838539e",
+        "gain": [
+          0.03348834325396821,
+          0.035407366071428636
+        ]
+      },
+      "whole_proposal_acceptance": {
+        "accepted": false,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": true,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": true,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": false,
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "reason": null
+    },
+    {
+      "batch": 2,
+      "attempt": 2,
+      "accepted": true,
+      "selection": "dependency_components",
+      "proposal_fully_committed": false,
+      "actual_parent_before_sha256": "c1ea45e547973b995773a14a72497c4f44a2a8b5f6bfa3a251e677e91838539e",
+      "actual_after_sha256": "53662e07350a7cdd05cfafad319425892656f18a04283e386dd2b6430ed349ca",
+      "proposed_bank_sha256": "06bf7ac5267c94db44a84a38d5adc9d293661f932e54cd97f69c1d4864fded75",
+      "actual_records": 7,
+      "actual_tokens": 2020,
+      "actual_skill_id_changes": {
+        "added": [
+          "federal-household-item-ceiling",
+          "oregon-firearm-specific-and-personal-alternatives"
+        ],
+        "removed": [],
+        "updated": [
+          "federal-wildcard-alternative"
+        ]
+      },
+      "accepted_legal_coordinates": [
+        "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN"
+      ],
+      "selection_zero_extra_native_generations": 0,
+      "joint_gain": null,
+      "component_assessment": {
+        "accepted": true,
+        "reason": null,
+        "accepted_legal_coordinates": [
+          "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN"
+        ],
+        "bank_sha256": "53662e07350a7cdd05cfafad319425892656f18a04283e386dd2b6430ed349ca",
+        "gain": [
+          0,
+          0.046812996031745935
+        ]
+      },
+      "whole_proposal_acceptance": {
+        "accepted": false,
+        "current_family_nonregression": false,
+        "prior_family_nonregression": false,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": false,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "reason": null
+    },
+    {
+      "batch": 3,
+      "attempt": 1,
+      "accepted": true,
+      "selection": "dependency_components",
+      "proposal_fully_committed": false,
+      "actual_parent_before_sha256": "53662e07350a7cdd05cfafad319425892656f18a04283e386dd2b6430ed349ca",
+      "actual_after_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84",
+      "proposed_bank_sha256": "7b9d84ed313907b83e234dc9e07fb6178c037f2faf0df19105cb6242ecb5c5fe",
+      "actual_records": 8,
+      "actual_tokens": 2224,
+      "actual_skill_id_changes": {
+        "added": [
+          "federal-specific-category-boundaries"
+        ],
+        "removed": [],
+        "updated": [
+          "federal-wildcard-alternative",
+          "oregon-personal-property-alternative",
+          "pennsylvania-general-monetary-alternative"
+        ]
+      },
+      "accepted_legal_coordinates": [
+        "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN"
+      ],
+      "selection_zero_extra_native_generations": 0,
+      "joint_gain": null,
+      "component_assessment": {
+        "accepted": true,
+        "reason": null,
+        "accepted_legal_coordinates": [
+          "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN"
+        ],
+        "bank_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84",
+        "gain": [
+          -1.1102230246251565e-16,
+          0.016242972883597884
+        ]
+      },
+      "whole_proposal_acceptance": {
+        "accepted": false,
+        "current_family_nonregression": false,
+        "prior_family_nonregression": false,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": false,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "reason": null
+    },
+    {
+      "batch": 3,
+      "attempt": 2,
+      "accepted": false,
+      "selection": "none",
+      "proposal_fully_committed": false,
+      "actual_parent_before_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84",
+      "actual_after_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84",
+      "proposed_bank_sha256": "42f8dcab2ea8983a90ff554fad4f98c07996ed294146bbca4f1dbdea91243ef4",
+      "actual_records": 8,
+      "actual_tokens": 2224,
+      "actual_skill_id_changes": {
+        "added": [],
+        "removed": [],
+        "updated": []
+      },
+      "accepted_legal_coordinates": [],
+      "selection_zero_extra_native_generations": 0,
+      "joint_gain": null,
+      "component_assessment": {
+        "accepted": false,
+        "reason": "no_independently_improving_legal_edit",
+        "accepted_legal_coordinates": [],
+        "bank_sha256": null,
+        "gain": null
+      },
+      "whole_proposal_acceptance": {
+        "accepted": false,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": false,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "reason": "no_independently_improving_legal_edit"
+    },
+    {
+      "batch": 4,
+      "attempt": 1,
+      "accepted": false,
+      "selection": "none",
+      "proposal_fully_committed": false,
+      "actual_parent_before_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84",
+      "actual_after_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84",
+      "proposed_bank_sha256": "fedf32d438f517018ac0be0b9be46ee29e9d5790b2e29669cc75b09ace361608",
+      "actual_records": 8,
+      "actual_tokens": 2224,
+      "actual_skill_id_changes": {
+        "added": [],
+        "removed": [],
+        "updated": []
+      },
+      "accepted_legal_coordinates": [],
+      "selection_zero_extra_native_generations": 0,
+      "joint_gain": null,
+      "component_assessment": {
+        "accepted": false,
+        "reason": "no_independently_improving_legal_edit",
+        "accepted_legal_coordinates": [],
+        "bank_sha256": null,
+        "gain": null
+      },
+      "whole_proposal_acceptance": {
+        "accepted": false,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": true,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": false,
+        "prior_negative_asset_and_format_nonregression": false,
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "reason": "no_independently_improving_legal_edit"
+    },
+    {
+      "batch": 4,
+      "attempt": 2,
+      "accepted": false,
+      "selection": "explicit_noop",
+      "proposal_fully_committed": null,
+      "actual_parent_before_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84",
+      "actual_after_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84",
+      "proposed_bank_sha256": null,
+      "actual_records": 8,
+      "actual_tokens": 2224,
+      "actual_skill_id_changes": {
+        "added": [],
+        "removed": [],
+        "updated": []
+      },
+      "accepted_legal_coordinates": [],
+      "selection_zero_extra_native_generations": null,
+      "joint_gain": null,
+      "component_assessment": null,
+      "whole_proposal_acceptance": {},
+      "reason": null
+    },
+    {
+      "batch": 5,
+      "attempt": 1,
+      "accepted": true,
+      "selection": "dependency_components",
+      "proposal_fully_committed": false,
+      "actual_parent_before_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84",
+      "actual_after_sha256": "908ea09cee778ba358b8a11c1cef216b207c50abc5c55de43b7839f3899da2a0",
+      "proposed_bank_sha256": "d249d9e65f3400e54dcb35445b2ea718e6bb468789a0e9b330f825c411571def",
+      "actual_records": 8,
+      "actual_tokens": 2231,
+      "actual_skill_id_changes": {
+        "added": [],
+        "removed": [],
+        "updated": [
+          "illinois-wildcard-personal-property"
+        ]
+      },
+      "accepted_legal_coordinates": [
+        "EV:ILLINOIS"
+      ],
+      "selection_zero_extra_native_generations": 0,
+      "joint_gain": null,
+      "component_assessment": {
+        "accepted": true,
+        "reason": null,
+        "accepted_legal_coordinates": [
+          "EV:ILLINOIS"
+        ],
+        "bank_sha256": "908ea09cee778ba358b8a11c1cef216b207c50abc5c55de43b7839f3899da2a0",
+        "gain": [
+          1.1102230246251565e-16,
+          0.020312499999999956
+        ]
+      },
+      "whole_proposal_acceptance": {
+        "accepted": false,
+        "current_family_nonregression": false,
+        "prior_family_nonregression": false,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": false,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": false,
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "reason": null
+    },
+    {
+      "batch": 5,
+      "attempt": 2,
+      "accepted": false,
+      "selection": "none",
+      "proposal_fully_committed": false,
+      "actual_parent_before_sha256": "908ea09cee778ba358b8a11c1cef216b207c50abc5c55de43b7839f3899da2a0",
+      "actual_after_sha256": "908ea09cee778ba358b8a11c1cef216b207c50abc5c55de43b7839f3899da2a0",
+      "proposed_bank_sha256": "d720dd93d4307059c5a7004971d1d6da13087b303194c03d4d90856150c882fb",
+      "actual_records": 8,
+      "actual_tokens": 2231,
+      "actual_skill_id_changes": {
+        "added": [],
+        "removed": [],
+        "updated": []
+      },
+      "accepted_legal_coordinates": [],
+      "selection_zero_extra_native_generations": 0,
+      "joint_gain": null,
+      "component_assessment": {
+        "accepted": false,
+        "reason": "no_independently_improving_legal_edit",
+        "accepted_legal_coordinates": [],
+        "bank_sha256": null,
+        "gain": null
+      },
+      "whole_proposal_acceptance": {
+        "accepted": false,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": false,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "reason": "no_independently_improving_legal_edit"
+    },
+    {
+      "batch": 6,
+      "attempt": 1,
+      "accepted": false,
+      "selection": "none",
+      "proposal_fully_committed": false,
+      "actual_parent_before_sha256": "908ea09cee778ba358b8a11c1cef216b207c50abc5c55de43b7839f3899da2a0",
+      "actual_after_sha256": "908ea09cee778ba358b8a11c1cef216b207c50abc5c55de43b7839f3899da2a0",
+      "proposed_bank_sha256": "87d1f9ef1985a4342d19884efab78354d5b7283ea2a433b8d3078bf700f26faf",
+      "actual_records": 8,
+      "actual_tokens": 2231,
+      "actual_skill_id_changes": {
+        "added": [],
+        "removed": [],
+        "updated": []
+      },
+      "accepted_legal_coordinates": [],
+      "selection_zero_extra_native_generations": 0,
+      "joint_gain": null,
+      "component_assessment": {
+        "accepted": false,
+        "reason": "no_independently_improving_legal_edit",
+        "accepted_legal_coordinates": [],
+        "bank_sha256": null,
+        "gain": null
+      },
+      "whole_proposal_acceptance": {
+        "accepted": false,
+        "current_family_nonregression": false,
+        "prior_family_nonregression": true,
+        "strict_current_improvement": false,
+        "current_full_output_nonregression": false,
+        "prior_full_output_nonregression": true,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "reason": "no_independently_improving_legal_edit"
+    },
+    {
+      "batch": 6,
+      "attempt": 2,
+      "accepted": false,
+      "selection": "none",
+      "proposal_fully_committed": false,
+      "actual_parent_before_sha256": "908ea09cee778ba358b8a11c1cef216b207c50abc5c55de43b7839f3899da2a0",
+      "actual_after_sha256": "908ea09cee778ba358b8a11c1cef216b207c50abc5c55de43b7839f3899da2a0",
+      "proposed_bank_sha256": "a27d07b8c5a3bd01747864bec137cb7aecc6309971d05e310ec2f75125f37971",
+      "actual_records": 8,
+      "actual_tokens": 2231,
+      "actual_skill_id_changes": {
+        "added": [],
+        "removed": [],
+        "updated": []
+      },
+      "accepted_legal_coordinates": [],
+      "selection_zero_extra_native_generations": 0,
+      "joint_gain": null,
+      "component_assessment": {
+        "accepted": false,
+        "reason": "no_independently_improving_legal_edit",
+        "accepted_legal_coordinates": [],
+        "bank_sha256": null,
+        "gain": null
+      },
+      "whole_proposal_acceptance": {
+        "accepted": false,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": false,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "reason": "no_independently_improving_legal_edit"
+    }
+  ],
+  "not_a_counterfactual_full_policy_ablation": true,
+  "not_a_proof_of_unseen_gain_or_all8_training_trend": true,
+  "no_extra_model_teacher_tokenizer_native_grader_or_symbolic_solver_call": true,
+  "reproducer_readonly_python": "import json,collections\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nroot=Path.cwd();rid='legal_openexempt_adaptive_legal_public_assets128_20261026_run01';p=root/'runs'/rid\nbank=[];tokens=0;counts=collections.Counter();decisions=[];batches=[]\nfor batch in range(1,7):\n pub=json.loads((p/f'publications/b{batch}.json').read_text())\n assert pub['parent_bank_sha256']==csha(bank)\n before_batch=bank\n attempt_rows=[]\n for attempt,d in enumerate(pub['training_decisions'],1):\n  storedpath=p/f'candidates/b{batch}_candidate{attempt}.json'\n  if d.get('explicit_noop'):\n   assert not storedpath.exists() and d['accepted'] is False\n   tr=json.loads((p/f'teacher/b{batch}_candidate{attempt}/response.json').read_text())\n   assert tr['value']==d['delta'] and tr['value']['operations']==[] and tr['cache_hit'] is False\n  else:\n   assert storedpath.exists() and json.loads(storedpath.read_text())==d\n  previous=bank\n  proposed=d.get('proposed_bank')\n  accepted=d.get('accepted') is True\n  selection=d.get('adaptive_commit_selection',{})\n  kind=selection.get('selected')\n  if accepted:\n   assert kind in ('joint','dependency_components'),kind\n   bank=d['candidate'];tokens=d['actual_tokens']\n  elif d.get('explicit_noop'):\n   kind='explicit_noop'\n  else:\n   assert kind=='none',kind\n  oldmap={s['id']:s for s in previous};newmap={s['id']:s for s in bank}\n  changes={'added':sorted(newmap.keys()-oldmap.keys()),'removed':sorted(oldmap.keys()-newmap.keys()),'updated':sorted(k for k in newmap.keys()&oldmap.keys() if oldmap[k]!=newmap[k])}\n  row={'batch':batch,'attempt':attempt,'accepted':accepted,'selection':kind,'proposal_fully_committed':d.get('proposal_fully_committed'),'actual_parent_before_sha256':csha(previous),'actual_after_sha256':csha(bank),'proposed_bank_sha256':csha(proposed) if proposed is not None else None,'actual_records':len(bank),'actual_tokens':tokens,'actual_skill_id_changes':changes,'accepted_legal_coordinates':d.get('accepted_legal_coordinates',[]),'selection_zero_extra_native_generations':selection.get('new_native_generations'),'joint_gain':selection.get('joint_gain'),'component_assessment':selection.get('component_assessment'),'whole_proposal_acceptance':{key:value for key,value in d.get('proposed_whole_bank_acceptance',{}).items() if isinstance(value,bool)},'reason':d.get('reason',d.get('noop_reason'))}\n  counts[kind]+=1;attempt_rows.append(row);decisions.append(row)\n assert bank==pub['bank'] and csha(bank)==pub['bank_sha256']\n batches.append({'batch':batch,'at':pub['at'],'accepted_attempts':sum(v['accepted'] for v in attempt_rows),'actual_records_after':len(bank),'actual_tokens_after':tokens,'bank_sha256':pub['bank_sha256'],'bank_changed':before_batch!=bank,'added_this_batch':sorted({s['id'] for s in bank}-{s['id'] for s in before_batch}),'removed_this_batch':sorted({s['id'] for s in before_batch}-{s['id'] for s in bank})})\nprint(json.dumps({'at':datetime.now(timezone.utc).isoformat(),'classification':'Complete original publication/admission ledger through closedB6 only; B7/B8 and frozen TEST not yet complete','run_id':rid,'closed_batches':6,'actual_selection_counts':dict(counts),'actual_admissions':sum(v['accepted'] for v in decisions),'per_batch_final_banks':batches,'complete_decision_ledger':decisions,'not_a_counterfactual_full_policy_ablation':True,'not_a_proof_of_unseen_gain_or_all8_training_trend':True,'no_extra_model_teacher_tokenizer_native_grader_or_symbolic_solver_call':True},ensure_ascii=False))\n",
+  "interpretation": "Five actual admissions through B6: one whole-bank joint choice, four dependency-component choices; five tested proposals rejected and one teacher explicit NOOP. Count is not five new skills. Bank records5/7/8/8/8/8, tokens1551/2020/2224/2224/2231/2231. No accepted deletion/merge is observed. Both selection branches have real receipts, but the counts alone do not establish superiority over fixed policies; retain planned matched controls and final evaluation."
+}
