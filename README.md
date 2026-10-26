@@ -1,6 +1,20 @@
 # LegalSkillEvolve — legal skill learning with a frozen 8B
 
-## 当前交付：2026-10-26，v0.23老师审阅初稿；等待用户回复
+## 最新研究：2026-10-26，新的主方法优化Goal已开启
+
+用户在v0.23完整比较后明确要求分析并优化主方法，不再等待老师决定。
+已在完整TRAIN记录确认：较细的分量门槛会丢弃一份已通过整库门槛的、更平衡的提案；
+原教师包还会过滤掉已选出的部分拒绝见证。这些是训练链路证据，不以测试个案特调。
+新方案在原门槛下比较完整提案与分量组合的已见来源收益，并确保有界反馈见证实际送达。
+不改模型权重、律师权限、评分或单答预算，不增加推理fallback。
+
+实施与评测边界见[新协议](docs/research/OPENEXEMPT_ADAPTIVE_COMMIT_ROOT_REPAIR_20261026.md)。
+新完整八批Run为`legal_openexempt_adaptive_legal_public_assets128_20261026_run01`，
+其[实际进度](runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/progress.json)
+而非本文固定文字决定运行状态。旧库、原TEST及v0.23初稿全部保留；新方法尚无正式效果结论。
+当前不启动新TEST，不重学既有对照，独立重复仍暂缓。动态状态见[当前Goal](docs/CURRENT_GOAL.md)。
+
+## 历史交付：2026-10-26，v0.23老师审阅初稿；当时等待用户回复
 
 首轮必要实验及完整八条件冻结TEST已结束。128隔离来源、2任务、8条件共2048逻辑预测，
 实际1950次8B生成加98次精确请求复用，零教师；全部先预测后评分。

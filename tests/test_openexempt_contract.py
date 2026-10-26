@@ -9,6 +9,7 @@ from experiments.openexempt_online import (
     Online,
     acceptance,
     actor_payload,
+    balanced_replay_gain,
     candidate_feedback,
     legal_scope_admission,
     task_admission,
@@ -1037,15 +1038,19 @@ def test_legal_scope_admission_keeps_all_sources_prior_and_full_output_protectio
         legal_scope_admission(coordinates, parent, proposed[:1], [], [])
 
 
-def test_full_legal_scope_update_retains_unrelated_law_without_extra_generation(tmp_path, monkeypatch):
+@pytest.mark.parametrize("policy", ["legal_scope", "adaptive_legal"])
+def test_full_legal_scope_update_retains_unrelated_law_without_extra_generation(tmp_path, monkeypatch, policy):
     from types import SimpleNamespace
+    from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
 
     monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
     study = Online.__new__(Online)
     study.cfg = {"execution_contract": "source_grounded_claim_operations",
                  "generation": {"seed": 45, "max_tokens": 100},
                  "max_candidate_attempts": 1, "library_token_hard_cap": 4096,
-                 "skill_commit_policy": "legal_scope"}
+                 "skill_commit_policy": policy,
+                 "adaptive_commit_objective": "seen_source_min_family_gain_then_mean_v1"}
+    study._dispatch = PhaseDispatch({})
     study.current_batch, study.latest = 1, {}
     study.out, study.native, study.request_cache, study.reuse_events = tmp_path, [], {}, []
     study.meter = SimpleNamespace(token_count=lambda **kwargs: 300)
@@ -1100,6 +1105,89 @@ def test_full_legal_scope_update_retains_unrelated_law_without_extra_generation(
     assert next(s for s in study.bank if s["id"] == "az") == original[0]
     assert decision["candidate_current"]["EC"]["f1"] == 1
     assert decision["candidate_current"]["EV"]["f1"] == 1
+
+
+@pytest.mark.parametrize("policy", ["legal_scope", "adaptive_legal"])
+def test_adaptive_commit_can_keep_a_valid_joint_repair_without_local_gate_cherrypicking(
+        tmp_path, monkeypatch, policy):
+    from types import SimpleNamespace
+    from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
+    from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
+
+    monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
+    study = Online.__new__(Online)
+    study.cfg = {"execution_contract": "direct_statutory_claims",
+        "max_candidate_attempts": 1, "library_token_hard_cap": 4096,
+        "skill_commit_policy": policy,
+        "adaptive_commit_objective": "seen_source_min_family_gain_then_mean_v1"}
+    study._dispatch = PhaseDispatch({})
+    study.out, study.current_batch = tmp_path, 2
+    study.meter = SimpleNamespace(token_count=lambda **kwargs: 100)
+    study.bank = [{"id": sid, "hypothesis_ids": ["EC", "EV"],
+                   "guidance": guidance("old", namespace)}
+                  for sid, namespace in [("az", "ARIZONA"), ("il", "ILLINOIS")]]
+    parent_bank = copy.deepcopy(study.bank)
+    proposed = copy.deepcopy(study.bank)
+    for skill in proposed:skill["guidance"]["by_task"][0]["procedure"] = "new"
+    rows = [{**r, "case_id": r["case_id"] + offset}
+            for offset in (0, 2) for r in scope_rows()]
+    calls = []
+
+    def answer(row, bank, *args):
+        calls.append((row["case_id"], row["family"]))
+        changed = bank[0]["guidance"]["by_task"][0]["procedure"] == "new"
+        baseline = {1: .2, 2: .8, 3: .8, 4: .2}
+        revised = {1: .8, 2: .7, 3: .7, 4: .8}
+        value = (revised if changed else baseline)[row["case_id"]] if row["family"] == "EC" else .5
+        return {**record(row["family"], value), "case_id": row["case_id"],
+                "bank_sha256": csha(bank)}
+
+    study.answer, study.grade = answer, lambda records: records
+    parent = [answer(r, study.bank) for r in rows]
+    study.latest = {(r["case_id"], r["family"]): r for r in parent if r["case_id"] <= 2}
+    current = [r for r in rows if r["case_id"] > 2]
+    study.teacher_body = lambda *args: {"training_evidence_manifest": {"selected_source_ids": [1, 2, 3, 4]}}
+    study.teacher_call = lambda *args: {"noop_reason": None, "operations": [
+        {"operation": "UPDATE", "target_ids": [s["id"]], "skill": s,
+         "source_case_ids": [1, 2, 3, 4], "rationale": "Synthetic complementary TRAIN changes"}
+        for s in proposed]}
+    publication = study.update(current, rows, [r for r in parent if r["case_id"] > 2])
+    decision = publication["training_decisions"][0]
+    assert decision["proposed_whole_bank_acceptance"]["accepted"]
+    assert not any(g["accepted"] for g in decision["legal_scope_admission"].values())
+    assert len(calls) == 16  # Eight parent and eight proposed observations, no extra answers.
+    assert decision["accepted"] == (policy == "adaptive_legal")
+    assert study.bank == (proposed if policy == "adaptive_legal" else parent_bank)
+    if policy == "adaptive_legal":
+        assert decision["adaptive_commit_selection"]["selected"] == "joint"
+        assert decision["proposal_fully_committed"]
+        assert not decision["accepted_legal_coordinates"]  # Never claim that failed local gates passed.
+
+
+def test_adaptive_replay_objective_keeps_pairing_and_task_balance_explicit():
+    before = [{**record(family, .5), "case_id": 1} for family in ("EC", "EV")]
+    after = [{**record("EC", .6), "case_id": 1}, {**record("EV", .7), "case_id": 1}]
+    assert balanced_replay_gain(before, after) == pytest.approx((.1, .15))
+    with pytest.raises(ValueError, match="Unpaired"):
+        balanced_replay_gain(before, after[:1])
+    with pytest.raises(ValueError, match="distinct"):
+        balanced_replay_gain(before + before, after + after)
+
+
+def test_teacher_history_budget_never_drops_bounded_candidate_witnesses():
+    seen = [{**r, "case_id": case} for case in range(1, 45) for r in scope_rows()[:2]]
+    observations = {(r["case_id"], r["family"]): {**record(r["family"], .8), "case_id": r["case_id"]}
+                    for r in seen}
+    rejected = [{"feedback_witness_replay": [observations[(case, "EC")]
+                 for case in range(start, start + 8)]} for start in (1, 9, 17)]
+    selected, manifest = teacher_evidence_rows(seen[-8:], seen, observations, rejected)
+    assert {r["case_id"] for r in selected} == set(range(1, 25)) | set(range(41, 45))
+    assert manifest["historical_source_limit"] == 24
+    assert manifest["historical_background_source_limit"] == 16
+    assert manifest["all_bounded_feedback_witnesses_included"]
+    with pytest.raises(ValueError, match="already-seen"):
+        teacher_evidence_rows(seen[-8:], seen, observations,
+            [{"feedback_witness_replay": [{"case_id": 99, "family": "EC"}]}])
 
 
 @pytest.mark.parametrize("contract_version", [13, 14])

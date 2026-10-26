@@ -137,6 +137,11 @@ DIRECT_AUTHOR_SYSTEM = (
     "strict current improvement in at least one of those real outcomes. Native EC "
     "can hide false citations on assets with no applicable law; never call those safe. "
     "Other declared policies assess entire tasks or the whole proposal instead. "
+    "Under adaptive_legal, a globally admissible complete proposal and an admissible "
+    "dependency-composed proposal are compared using their already observed seen-TRAIN "
+    "replays. Prefer the larger minimum EC/EV native-F1 gain, then the larger mean "
+    "gain; exact ties retain the complete proposal. A complete proposal need not pass "
+    "every smaller context's gate. No extra answer generation or changed scorer is used. "
     "The final single composed library must still pass the full TRAIN gate. Replay "
     "uses ALL seen sources, not just the communication subset, and is training "
     "optimization, not validation or proof of generalization. No answer repair, "
@@ -518,6 +523,19 @@ def paired_effect(before, after):
             "mean_f1_difference": sum(delta) / len(delta) if delta else 0}
 
 
+def balanced_replay_gain(before, after):
+    """TRAIN selection over paired, already observed full replays, not a TEST metric."""
+    for records in (before, after):
+        if len({(r["case_id"], r["family"]) for r in records}) != len(records):
+            raise ValueError("Adaptive selection requires distinct paired source/tasks")
+    paired_effect(before, after)
+    a, b = metrics(before), metrics(after)
+    if not set(FAMILIES) <= set(a) or not set(FAMILIES) <= set(b):
+        raise ValueError("Adaptive selection requires complete paired EC and EV replays")
+    gains = [b[f]["f1"] - a[f]["f1"] for f in FAMILIES]
+    return min(gains), sum(gains) / len(gains)
+
+
 def candidate_feedback(decision, observations, origin, *, witness_limit=8):
     """Bound saved failure evidence; never relabel a partial commit as rejected."""
     if type(witness_limit) is not int or not 1 <= witness_limit <= 8:
@@ -525,7 +543,8 @@ def candidate_feedback(decision, observations, origin, *, witness_limit=8):
     if decision.get("explicit_noop"):
         return None
     accepted = bool(decision.get("accepted"))
-    if accepted and decision.get("proposed_bank") == decision.get("candidate"):
+    if accepted and (decision.get("proposal_fully_committed")
+                     or decision.get("proposed_bank") == decision.get("candidate")):
         return None
     pool = decision.get("proposed_replay", decision.get("actual_replay", []))
     keys = [(r["case_id"], r["family"]) for r in pool]
@@ -543,7 +562,8 @@ def candidate_feedback(decision, observations, origin, *, witness_limit=8):
     witnesses = sorted(pool, key=severity)[:witness_limit]
     fields = ("delta", "reason", "source_program_compile_error", "composition_error",
               "accepted_tasks", "accepted_legal_coordinates", "legal_scope_admission",
-              "task_admission", "proposed_whole_bank_acceptance", "attempt_parent_bank_sha256")
+              "task_admission", "proposed_whole_bank_acceptance", "attempt_parent_bank_sha256",
+              "adaptive_commit_selection", "proposal_fully_committed")
     return {**{k: copy.deepcopy(decision[k]) for k in fields if k in decision},
         "accepted": accepted, "partially_committed": accepted,
         "candidate_feedback_origin": copy.deepcopy(origin),
@@ -559,13 +579,18 @@ def candidate_feedback(decision, observations, origin, *, witness_limit=8):
 def teacher_evidence_rows(current, seen, observations, rejected, *, history_limit=16):
     """Bound teacher communication, never the full TRAIN replay or its scores.
 
-    Keep every current source, one difficult prior witness per public AE context,
-    then actual prior regressions and remaining parent failures. The count bound
-    leaves transport headroom; it is not a skill taxonomy or a generalization claim.
+    Keep every current source and every source named by bounded candidate feedback.
+    Fill the historical background budget with public-context witnesses, actual
+    regressions and parent failures. The mandatory witness union can exceed that
+    background budget; dropping a declared rejection witness is never permitted.
     """
     current_ids = {r["case_id"] for r in current}
     by_id = {r["case_id"]: r for r in seen}
     old_ids = set(by_id) - current_ids
+    mandatory = {r["case_id"] for d in rejected
+                 for r in d.get("feedback_witness_replay", [])}
+    if not mandatory <= set(by_id):
+        raise ValueError("Teacher feedback witnesses must be already-seen TRAIN sources")
     def quality(record):
         return min(record["score"]["f1"], record["score"].get("full_output_f1", 1.0))
     parent_quality = {i: min(quality(observations[(i, f)]) for f in FAMILIES)
@@ -588,7 +613,10 @@ def teacher_evidence_rows(current, seen, observations, rejected, *, history_limi
                 harm[i] = min(harm.get(i, 0.0), delta)
     regressions = sorted((i for i in harm if harm[i] < -1e-12), key=lambda i: (harm[i], i))
     failures = sorted(old_ids, key=lambda i: (parent_quality[i], i))
-    selected_old = list(dict.fromkeys(context_witnesses + regressions + failures))[:history_limit]
+    required_old = sorted(mandatory & old_ids)
+    actual_limit = max(history_limit, len(required_old))
+    selected_old = list(dict.fromkeys(
+        required_old + context_witnesses + regressions + failures))[:actual_limit]
     selected = current_ids | set(selected_old)
     return [r for r in seen if r["case_id"] in selected], {
         "current_source_ids_all_included": sorted(current_ids),
@@ -596,9 +624,12 @@ def teacher_evidence_rows(current, seen, observations, rejected, *, history_limi
         "selected_source_ids": sorted(selected),
         "all_seen_source_ids": sorted(by_id),
         "omitted_historical_source_ids": sorted(old_ids - set(selected_old)),
-        "historical_source_limit": history_limit,
+        "historical_source_limit": actual_limit,
+        "historical_background_source_limit": history_limit,
+        "mandatory_feedback_witness_source_ids": sorted(mandatory),
+        "all_bounded_feedback_witnesses_included": mandatory <= selected,
         "public_context_witnesses": [i for i in context_witnesses if i in selected],
-        "rule": "public-context witnesses, then actual rejected-candidate harm, then parent failures; ties by source ID",
+        "rule": "all bounded feedback witness sources, then public-context witnesses, actual harm and parent failures; ties by source ID",
         "full_seen_TRAIN_replay_and_acceptance_unchanged": True,
         "not_an_independent_validation_set": True}
 
@@ -687,8 +718,12 @@ class Online:
                 or self.cfg.get("execution_contract_version")
                 not in contracts[self.cfg["execution_contract"]]):
             raise ValueError("Declare numerical v12, direct v13 or public-asset-reference direct v14")
-        if self.cfg.get("skill_commit_policy") not in ("legal_scope", "task_local", "whole_bank"):
-            raise ValueError("Declare legal_scope, task_local or whole_bank before freezing")
+        if self.cfg.get("skill_commit_policy") not in (
+                "legal_scope", "task_local", "whole_bank", "adaptive_legal"):
+            raise ValueError("Declare the TRAIN commit policy before freezing")
+        if self.cfg["skill_commit_policy"] == "adaptive_legal" and self.cfg.get(
+                "adaptive_commit_objective") != "seen_source_min_family_gain_then_mean_v1":
+            raise ValueError("Freeze the adaptive seen-TRAIN selection objective explicitly")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
             raise ValueError("Frozen config mismatch")
@@ -969,6 +1004,8 @@ class Online:
                 value[count_field] = len(decision[field])
                 value[field] = [observation_view(r, include_emitted=True)
                                 for r in decision[field] if r["case_id"] in supplied_ids]
+                if field == "feedback_witness_replay" and len(value[field]) != len(decision[field]):
+                    raise ValueError("A bounded candidate feedback witness was omitted from teacher evidence")
             if "feedback_witness_replay" in decision:
                 # This parent may have changed since an earlier TRAIN attempt.
                 # Point at its current observation already supplied above; do not
@@ -1007,6 +1044,7 @@ class Online:
                        if self.cfg.get("execution_contract_version") == 14 else {})},
                 "current_parent_library": self.bank, "task_contracts": contracts,
                 "skill_commit_policy": self.cfg["skill_commit_policy"],
+                "adaptive_commit_objective": self.cfg.get("adaptive_commit_objective"),
                 "public_TRAIN_edit_coordinates_before_proposed_shared_edits":
                     legal_edit_coordinates(self.bank, self.bank, seen),
                 "full_serialized_library_token_budget": {
@@ -1140,7 +1178,7 @@ class Online:
             task_decisions = task_admission(parent_current, candidate_current, prior, candidate_prior)
             policy = self.cfg["skill_commit_policy"]
             coordinates, scope_decisions, accepted_coordinates = None, {}, []
-            if policy == "legal_scope":
+            if policy in ("legal_scope", "adaptive_legal"):
                 coordinates = legal_edit_coordinates(before, candidate, seen)
                 scope_decisions = legal_scope_admission(
                     coordinates, parent_current, candidate_current, prior, candidate_prior)
@@ -1149,7 +1187,7 @@ class Online:
                               if policy == "task_local" else
                               [f for f in FAMILIES if any(c["task"] == f and c["id"] in accepted_coordinates
                                                          for c in coordinates)]
-                              if policy == "legal_scope" else
+                              if policy in ("legal_scope", "adaptive_legal") else
                               list(FAMILIES) if full_proposal["accepted"] else [])
             decision = {"accepted": False, "candidate": candidate, "delta": delta,
                         "skill_commit_policy": policy,
@@ -1161,7 +1199,7 @@ class Online:
                         "actual_tokens": tokens, "actual_replay": replay,
                         "TRAIN_optimization_not_independent_validation": True}
             if not accepted_tasks:
-                decision["reason"] = ("no_independently_improving_legal_edit" if policy == "legal_scope" else
+                decision["reason"] = ("no_independently_improving_legal_edit" if policy in ("legal_scope", "adaptive_legal") else
                                       "no_independently_improving_task_edit" if policy == "task_local"
                                       else "whole_proposal_failed_original_full_gate")
             else:
@@ -1187,6 +1225,38 @@ class Online:
                         decision["reason"] = "composed_bank_failed_original_full_gate"
                         decision["accepted_tasks"] = []
                         decision["accepted_legal_coordinates"] = []
+            if policy == "adaptive_legal":
+                parent_replay = [*parent_current, *prior]
+                component_gain = (balanced_replay_gain(parent_replay, decision["actual_replay"])
+                                  if decision["accepted"] else None)
+                joint_gain = (balanced_replay_gain(parent_replay, replay)
+                              if full_proposal["accepted"] else None)
+                component_assessment = {
+                    "accepted": decision["accepted"], "reason": decision.get("reason"),
+                    "accepted_legal_coordinates": list(decision["accepted_legal_coordinates"]),
+                    "bank_sha256": csha(decision["candidate"]) if decision["accepted"] else None,
+                    "gain": component_gain}
+                use_joint = (joint_gain is not None
+                             and (component_gain is None or joint_gain >= component_gain))
+                if use_joint:
+                    decision.update(full_proposal)
+                    decision.update({"candidate": candidate, "actual_tokens": tokens,
+                        "actual_replay": replay, "accepted_tasks": list(FAMILIES),
+                        "accepted_legal_coordinates": [],
+                        "current_effect": paired_effect(parent_current, candidate_current),
+                        "prior_effect": paired_effect(prior, candidate_prior)})
+                    decision.pop("reason", None)
+                decision["adaptive_commit_selection"] = {
+                    "objective": self.cfg["adaptive_commit_objective"],
+                    "joint_gain": joint_gain, "component_assessment": component_assessment,
+                    "selected": "joint" if use_joint else
+                                "dependency_components" if decision["accepted"] else "none",
+                    "only_seen_TRAIN_scores_used": True, "new_native_generations": 0}
+                decision["proposal_fully_committed"] = decision["accepted"] and all(
+                    task_view(decision["candidate"], f) == task_view(candidate, f) for f in FAMILIES)
+                if decision["accepted"]:
+                    actual_current = [r for r in decision["actual_replay"] if r["case_id"] in keys]
+                    actual_prior = [r for r in decision["actual_replay"] if r["case_id"] not in keys]
             if closed_loop:
                 decision["attempt_parent_bank_sha256"] = csha(before)
             RunStore.immutable_json(self.out / "candidates" / f"{name}.json", decision)
