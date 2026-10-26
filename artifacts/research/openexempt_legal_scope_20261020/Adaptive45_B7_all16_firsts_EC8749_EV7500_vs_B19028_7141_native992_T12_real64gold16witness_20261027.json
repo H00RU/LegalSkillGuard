@@ -1,0 +1,692 @@
+{
+  "first_forecast_audit": {
+    "at": "2026-10-26T17:13:36.790128+00:00",
+    "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+    "classification": "Complete16 new-source B7 first forecasts with160 logged input identities and96 primary bank-comparison views; not training replay or TEST",
+    "source_cases": 16,
+    "B6_bank_sha256": "908ea09cee778ba358b8a11c1cef216b207c50abc5c55de43b7839f3899da2a0",
+    "own_B1_bank_sha256": "509fcf9408a5c92719df6a799693487db3bd8ff00fb3178e79a88b9665b87860",
+    "first_forecast_metrics": {
+      "empty": {
+        "EC": {
+          "precision": 0.78125,
+          "recall": 0.5290798611111112,
+          "f1": 0.6149305555555556,
+          "exact_target": 0.0625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.6401617753591439,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.6223958333333333,
+          "recall": 0.4331597222222222,
+          "f1": 0.49513888888888885,
+          "exact_target": 0.0625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.49562694250194256,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.5550347222222223
+      },
+      "skills": {
+        "EC": {
+          "precision": 0.921875,
+          "recall": 0.84765625,
+          "f1": 0.8748511904761904,
+          "exact_target": 0.3125,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8931292665667666,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.7942708333333334,
+          "recall": 0.7256944444444445,
+          "f1": 0.7500000000000001,
+          "exact_target": 0.1875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.737450396825397,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.8124255952380952
+      },
+      "frozen_after_B1": {
+        "EC": {
+          "precision": 0.953125,
+          "recall": 0.8723958333333333,
+          "f1": 0.902827380952381,
+          "exact_target": 0.5,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9066235847485848,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.8359375,
+          "recall": 0.6497395833333334,
+          "f1": 0.7140625,
+          "exact_target": 0.1875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.695413961038961,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.8084449404761905
+      },
+      "frozen_initial": {
+        "EC": {
+          "precision": 0.78125,
+          "recall": 0.5290798611111112,
+          "f1": 0.6149305555555556,
+          "exact_target": 0.0625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.6401617753591439,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.6223958333333333,
+          "recall": 0.4331597222222222,
+          "f1": 0.49513888888888885,
+          "exact_target": 0.0625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.49562694250194256,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.5550347222222223
+      },
+      "empty_direct_numeric": {
+        "EC": {
+          "precision": 0.78125,
+          "recall": 0.5290798611111112,
+          "f1": 0.6149305555555556,
+          "exact_target": 0.0625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.6401617753591439,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.6223958333333333,
+          "recall": 0.4331597222222222,
+          "f1": 0.49513888888888885,
+          "exact_target": 0.0625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.49562694250194256,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.5550347222222223
+      }
+    },
+    "same_source_paired_effects": {
+      "empty": {
+        "all_task_views": {
+          "tasks": 32,
+          "help": 22,
+          "hurt": 1,
+          "ties": 9,
+          "mean_f1_difference": 0.257390873015873
+        },
+        "by_task": {
+          "EC": {
+            "tasks": 16,
+            "help": 13,
+            "hurt": 1,
+            "ties": 2,
+            "mean_f1_difference": 0.2599206349206349
+          },
+          "EV": {
+            "tasks": 16,
+            "help": 9,
+            "hurt": 0,
+            "ties": 7,
+            "mean_f1_difference": 0.2548611111111111
+          }
+        }
+      },
+      "frozen_after_B1": {
+        "all_task_views": {
+          "tasks": 32,
+          "help": 8,
+          "hurt": 8,
+          "ties": 16,
+          "mean_f1_difference": 0.003980654761904739
+        },
+        "by_task": {
+          "EC": {
+            "tasks": 16,
+            "help": 1,
+            "hurt": 5,
+            "ties": 10,
+            "mean_f1_difference": -0.027976190476190488
+          },
+          "EV": {
+            "tasks": 16,
+            "help": 7,
+            "hurt": 3,
+            "ties": 6,
+            "mean_f1_difference": 0.03593749999999997
+          }
+        }
+      }
+    },
+    "actual_native_messages_and_schema_verified": {
+      "empty": 32,
+      "skills": 32,
+      "frozen_after_B1": 32,
+      "frozen_initial": 32,
+      "empty_direct_numeric": 32
+    },
+    "original_invalid_denominators_preserved": true,
+    "all160_logged_native_score_records_recomputed_from_original_TRAIN_targets": true,
+    "prequential_actual_new_native_calls": 86,
+    "no_new_model_teacher_tokenizer_or_symbolic_solver_call_during_audit": true,
+    "B7_teacher_delivery": {
+      "model": "gpt-5.6-sol",
+      "prepared_unique_sources": 32,
+      "verified_actual_parent_and_original_target_tasks": 64,
+      "previous_B6_feedback_groups": 2,
+      "verified_original_feedback_witness_occurrences": 16,
+      "all_selected_witnesses_have_facts_and_targets": true,
+      "prior_parent_is_real_published_B6_bank": true,
+      "response_exists": false,
+      "actual_receipt_status": "prepared request; not yet confirmed by returned response"
+    },
+    "CPU_original_native_grader_replays": 160,
+    "primary_three_bank_views": 96,
+    "two_legacy_empty_aliases_not_additional_model_predictions": true,
+    "progress": {
+      "at": "2026-10-26T17:13:18.360328+00:00",
+      "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+      "state": "running",
+      "stage": "teacher",
+      "current_batch": 7,
+      "completed_native_calls": 992,
+      "completed_teacher_calls": 11,
+      "teacher_attempts": 12,
+      "cross_stage_identical_wire_reuses": 1728,
+      "library_records": 8,
+      "execution_dispatch": {
+        "policy": "ordered_independent_phases_v1",
+        "native_workers": 4,
+        "teacher_workers": 1,
+        "required_max_num_seqs": 4
+      },
+      "current_arm": "b7_candidate1",
+      "teacher_prompt_characters": 706386,
+      "capacity_transport_attempt_index": 0
+    },
+    "failure_exists": false
+  },
+  "teacher12_actual_fresh_delivery_and_unpublished_proposal": {
+    "at": "2026-10-26T17:15:10.827609+00:00",
+    "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+    "classification": "Teacher12 original TRAIN parent/targets and previousB6 witnesses with fresh response; no new model inference or grading",
+    "B7_teacher_delivery": {
+      "model": "gpt-5.6-sol",
+      "prepared_unique_sources": 32,
+      "verified_actual_parent_and_original_target_tasks": 64,
+      "previous_B6_feedback_groups": 2,
+      "verified_original_feedback_witness_occurrences": 16,
+      "all_selected_witnesses_have_facts_and_targets": true,
+      "prior_parent_is_real_published_B6_bank": true,
+      "response_exists": true,
+      "actual_receipt_status": "fresh teacher response exists matching actual wire model",
+      "teacher_cache_hit": false,
+      "proposal_operations": 5
+    },
+    "actual_teacher12_proposal": {
+      "operations": [
+        {
+          "operation": "CREATE",
+          "target_ids": [],
+          "skill": {
+            "id": "wisconsin-category-and-joint-cap-boundaries",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Wisconsin exemptions are allowable and an asset is tested as a consumer good, motor vehicle, or occupied homestead.",
+                  "procedure": "Use Wis. Stat. § 815.18(3)(d) for personal-use tangible consumer goods, including apparel, jewelry, appliances, musical instruments, firearms, and animals; § 815.18(3)(g) for motor vehicles; and § 815.20(1) for an owner-occupied homestead. A value above a ceiling does not defeat eligibility.",
+                  "avoid_when": "Do not omit a vehicle or homestead because its value exceeds the ceiling, classify a vehicle under the consumer-goods paragraph, or infer business-property treatment without business-use facts."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Wisconsin exemptions are allowable and valuing an independently qualifying consumer good, motor vehicle, or homestead.",
+                  "procedure": "For § 815.18(3)(d), claim no more than the asset value and $12,000 for one debtor or $24,000 for joint debtors. For § 815.18(3)(g), use $4,000 for one debtor; for joint debtors use the combined $8,000 vehicle ceiling plus unused combined consumer-goods capacity, up to $32,000 total, capped by asset value. For § 815.20(1), use up to $75,000 for one debtor or $150,000 for joint debtors.",
+                  "avoid_when": "Do not stop at a single debtor's $4,000 vehicle or $75,000 homestead ceiling in a joint case, and do not report more than the asset value."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "WISCONSIN"
+            }
+          },
+          "source_case_ids": [
+            277,
+            278,
+            282,
+            287
+          ],
+          "rationale": "The parent treated Wisconsin ceilings as disqualifying or single-debtor limits: it omitted the vehicle alternative in EC sources 277 and 287, used $4,000 instead of the released joint vehicle amounts in EV sources 277, 278, and 287, and used $75,000 instead of $150,000 for the joint homestead in source 282. Sections 815.18(8), 815.18(3)(g), and 815.20(1) supply the omitted joint rules."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "federal-wildcard-alternative"
+          ],
+          "skill": {
+            "id": "federal-wildcard-alternative",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Federal exemptions are an allowable namespace and the asset is property of the estate.",
+                  "procedure": "After checking the asset-specific paragraphs, independently add 11 U.S.C. § 522(d)(5) for every asset because it covers any property. Before finalizing, check each asset separately and retain this alternative even when a specific Federal or state exemption also applies. A dollar ceiling limits value, not EC eligibility.",
+                  "avoid_when": "Do not add it when Federal exemptions are not allowable, and do not treat 11 U.S.C. §§ 522(b), 522(d), or 522(m) as asset exemptions."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Federal exemptions are allowable and valuing the independent 11 U.S.C. § 522(d)(5) alternative.",
+                  "procedure": "Always report § 522(d)(5) separately for every asset, including property also eligible under another paragraph. Unless actual homestead consumption is stated, report one asset-level amount equal to the lesser of the full asset value and $15,425 for one debtor or $30,850 for two equal joint debtors.",
+                  "avoid_when": "Do not halve a jointly owned asset's value, report only one spouse's $15,425 ceiling for joint property, omit the wildcard because a specific exemption applies, or use it outside the Federal namespace."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          "source_case_ids": [
+            206,
+            216,
+            241,
+            282,
+            287,
+            291
+          ],
+          "rationale": "The parent repeatedly halved joint property or stopped at one debtor's wildcard ceiling, producing $15,425 or half-value amounts instead of the released asset-level joint alternatives. The repair removes the ambiguous half-by-half wording while preserving the established EC rule."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "illinois-wildcard-personal-property"
+          ],
+          "skill": {
+            "id": "illinois-wildcard-personal-property",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Illinois exemptions are allowable and the debtor owns personal property.",
+                  "procedure": "Add 735 Ill. Comp. Stat. 5/12-1001(b) as an independent benchmark alternative for each item of personal property, including a vehicle or an item expressly used in a trade, even when subsection (c) or (d) also applies. Add subsection (a) only for necessary wearing apparel, Bibles, school books, or family pictures, and subsection (e) only for professionally prescribed health aids.",
+                  "avoid_when": "Do not apply subsection (b) to real property or a cemetery lot, omit it because a specific subsection applies, classify jewelry as apparel, or infer subsection (d) without explicit trade-use facts."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Illinois exemptions are allowable and valuing debtor-owned personal property.",
+                  "procedure": "Report subsection (b) independently for every personal-property item at the lesser of the full asset value and $4,000 for one debtor or $8,000 for joint debtors, without halving value. Separately report subsection (c) for a motor vehicle at no more than $2,400; subsection (d) for explicit trade property at the lesser of asset value and $1,500 for one debtor or $3,000 for joint debtors; and qualifying subsection (a) apparel or subsection (e) health aids at full asset value.",
+                  "avoid_when": "Do not apply personal-property subsections to real property or cemetery lots, omit subsection (b) from a vehicle or explicit trade item, classify jewelry as apparel, double the $2,400 vehicle ceiling, or infer trade use without facts."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "ILLINOIS"
+            }
+          },
+          "source_case_ids": [
+            279,
+            281,
+            283,
+            285,
+            292
+          ],
+          "rationale": "Current Illinois outputs omitted subsection (b) from vehicles and explicit trade items, omitted it from qualifying apparel, and falsely applied personal-property provisions to a cemetery lot. Sources 279, 283, and 285 also support the independent trade alternative and its joint amount."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "pennsylvania-general-monetary-alternative"
+          ],
+          "skill": {
+            "id": "pennsylvania-general-monetary-alternative",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Pennsylvania exemptions are allowable and the debtor has an interest in the asset.",
+                  "procedure": "Add 42 Pa. Cons. Stat. § 8123 as an independent alternative for every kind of property, including real property and business or personal property. Check every asset separately even when another Federal or Pennsylvania exemption applies. Its $300 ceiling limits protection, not eligibility. Separately add § 8124(a) subsections only when the asset actually is wearing apparel, a Bible or school book, a qualifying sewing machine, or a qualifying military uniform or accoutrement.",
+                  "avoid_when": "Do not withhold § 8123 because the asset exceeds $300 or lacks a listed § 8124 category; do not classify firearms, jewelry, household linens, or vehicles as wearing apparel, and do not cite § 8124(a) without a qualifying subsection."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Pennsylvania exemptions are allowable and valuing independent Pennsylvania alternatives.",
+                  "procedure": "For § 8123, report one asset-level amount equal to the lesser of the full asset value and $300 for one debtor or $600 for jointly owned property of two debtors. Separately value qualifying § 8124(a) property at its full asset value because the supplied category provisions state no dollar ceiling.",
+                  "avoid_when": "Do not halve joint property, report a ceiling above the asset value, impose a $500 ceiling on wearing apparel, transfer § 8124 categories to unrelated property, or use Pennsylvania amounts outside that namespace."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "PENNSYLVANIA"
+            }
+          },
+          "source_case_ids": [
+            280,
+            284,
+            291
+          ],
+          "rationale": "The parent reported § 8123 above low asset values, stopped at $300 for joint property, and invented a $500 wearing-apparel ceiling. The supplied § 8123 requires the lesser amount and permits both spouses' exemptions, while § 8124(a)(1) contains no monetary cap."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "arizona-category-and-cap-boundaries"
+          ],
+          "skill": {
+            "id": "arizona-category-and-cap-boundaries",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Arizona exemptions are allowable and the asset is being tested under §§ 33-1101, 33-1123, or 33-1125.",
+                  "procedure": "Treat statutory dollar limits as protection ceilings, not eligibility tests: a musical instrument may qualify under § 33-1125(2), a firearm under § 33-1125(10), and a motor vehicle under § 33-1125(8) even when its value exceeds the limit. Assess each listed vehicle independently. Use § 33-1125(4) only for engagement or wedding rings and § 33-1125(1) only for wearing apparel.",
+                  "avoid_when": "Do not replace the specific musical-instrument exemption with § 33-1123, extend the ring exemption to other jewelry, classify jewelry as apparel, or list administrative rules such as §§ 33-1101(B), 33-1121, or 33-1133(B) as asset exemptions."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Arizona exemptions are allowable and an asset satisfies the stated property category.",
+                  "procedure": "For each independent alternative, claim no more than the asset value and the applicable ceiling: $15,000 for a motor vehicle, $2,000 aggregate for firearms, and $2,000 aggregate for engagement and wedding rings. A qualifying over-limit asset remains eligible at the capped amount.",
+                  "avoid_when": "Do not award the ring ceiling to bracelets, necklaces, pendants, or other jewelry, and do not add administrative provisions as separate claim alternatives."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "ARIZONA"
+            }
+          },
+          "source_case_ids": [
+            286
+          ],
+          "rationale": "In source 286 EC the parent rejected § 33-1125(2) solely because the musical instrument exceeded $400 and substituted the household-furnishings provision. The released EC target and statute support the specific category despite the ceiling; the unrelated EV text is retained verbatim because its released amount conflicts with the supplied statutory ceiling."
+        }
+      ],
+      "noop_reason": null
+    },
+    "request_sha256": "4e535ef9864fc89630516bd4a17aeeb24db9368e9be61e0de95adfe3e32ca9c4",
+    "teacher_usage": {
+      "input_tokens": 230023,
+      "cached_input_tokens": 0,
+      "output_tokens": 4828,
+      "reasoning_output_tokens": 2530
+    },
+    "progress": {
+      "at": "2026-10-26T17:14:36.197650+00:00",
+      "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+      "state": "running",
+      "stage": "b7_candidate1_replay",
+      "current_batch": 7,
+      "completed_native_calls": 992,
+      "completed_teacher_calls": 12,
+      "teacher_attempts": 12,
+      "cross_stage_identical_wire_reuses": 1731,
+      "library_records": 8,
+      "execution_dispatch": {
+        "policy": "ordered_independent_phases_v1",
+        "native_workers": 4,
+        "teacher_workers": 1,
+        "required_max_num_seqs": 4
+      },
+      "current_arm": "candidate",
+      "current_document_id": 184,
+      "current_call": "openexempt"
+    }
+  },
+  "all16_by_original_public_law_groups": {
+    "at": "2026-10-26T17:19:22.691697+00:00",
+    "classification": "Complete B7 first forecasts grouped by original public allowable-law input, diagnostic not new endpoint or causal isolation of last B5 edit",
+    "public_law_groups_main_vs_ownB1": {
+      "ARIZONA": {
+        "EC": {
+          "sources": 2,
+          "main_F1": 0.875,
+          "ownB1_F1": 0.875,
+          "effect": {
+            "tasks": 2,
+            "help": 0,
+            "hurt": 0,
+            "ties": 2,
+            "mean_f1_difference": 0
+          }
+        },
+        "EV": {
+          "sources": 2,
+          "main_F1": 0.875,
+          "ownB1_F1": 0.875,
+          "effect": {
+            "tasks": 2,
+            "help": 0,
+            "hurt": 0,
+            "ties": 2,
+            "mean_f1_difference": 0
+          }
+        }
+      },
+      "FEDERAL+PENNSYLVANIA": {
+        "EC": {
+          "sources": 3,
+          "main_F1": 0.9158730158730158,
+          "ownB1_F1": 0.9761904761904763,
+          "effect": {
+            "tasks": 3,
+            "help": 0,
+            "hurt": 2,
+            "ties": 1,
+            "mean_f1_difference": -0.060317460317460325
+          }
+        },
+        "EV": {
+          "sources": 3,
+          "main_F1": 0.611111111111111,
+          "ownB1_F1": 0.525,
+          "effect": {
+            "tasks": 3,
+            "help": 2,
+            "hurt": 1,
+            "ties": 0,
+            "mean_f1_difference": 0.08611111111111112
+          }
+        }
+      },
+      "FEDERAL+WISCONSIN": {
+        "EC": {
+          "sources": 5,
+          "main_F1": 0.8666666666666666,
+          "ownB1_F1": 0.9199999999999999,
+          "effect": {
+            "tasks": 5,
+            "help": 1,
+            "hurt": 3,
+            "ties": 1,
+            "mean_f1_difference": -0.053333333333333365
+          }
+        },
+        "EV": {
+          "sources": 5,
+          "main_F1": 0.7999999999999999,
+          "ownB1_F1": 0.6866666666666668,
+          "effect": {
+            "tasks": 5,
+            "help": 4,
+            "hurt": 0,
+            "ties": 1,
+            "mean_f1_difference": 0.11333333333333324
+          }
+        }
+      },
+      "ILLINOIS": {
+        "EC": {
+          "sources": 6,
+          "main_F1": 0.861111111111111,
+          "ownB1_F1": 0.861111111111111,
+          "effect": {
+            "tasks": 6,
+            "help": 0,
+            "hurt": 0,
+            "ties": 6,
+            "mean_f1_difference": 0
+          }
+        },
+        "EV": {
+          "sources": 6,
+          "main_F1": 0.736111111111111,
+          "ownB1_F1": 0.7777777777777777,
+          "effect": {
+            "tasks": 6,
+            "help": 1,
+            "hurt": 2,
+            "ties": 3,
+            "mean_f1_difference": -0.041666666666666685
+          }
+        }
+      }
+    },
+    "all_six_Illinois_EV_first_forecasts": [
+      {
+        "case_id": 279,
+        "mainEV_F1": 0.8333333333333333,
+        "ownB1EV_F1": 0.6666666666666666,
+        "emptyEV_F1": 0.8333333333333333,
+        "mainEV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/279_EV_skills.json",
+        "ownB1EV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/279_EV_frozen_after_B1.json",
+        "EC_main_and_ownB1_same_native_origin": true
+      },
+      {
+        "case_id": 281,
+        "mainEV_F1": 0.6666666666666666,
+        "ownB1EV_F1": 0.6666666666666666,
+        "emptyEV_F1": 0,
+        "mainEV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/281_EV_skills.json",
+        "ownB1EV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/281_EV_frozen_after_B1.json",
+        "EC_main_and_ownB1_same_native_origin": true
+      },
+      {
+        "case_id": 283,
+        "mainEV_F1": 0.41666666666666663,
+        "ownB1EV_F1": 0.6666666666666666,
+        "emptyEV_F1": 0.41666666666666663,
+        "mainEV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/283_EV_skills.json",
+        "ownB1EV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/283_EV_frozen_after_B1.json",
+        "EC_main_and_ownB1_same_native_origin": true
+      },
+      {
+        "case_id": 285,
+        "mainEV_F1": 0.6666666666666666,
+        "ownB1EV_F1": 0.6666666666666666,
+        "emptyEV_F1": 0.16666666666666666,
+        "mainEV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/285_EV_skills.json",
+        "ownB1EV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/285_EV_frozen_after_B1.json",
+        "EC_main_and_ownB1_same_native_origin": true
+      },
+      {
+        "case_id": 290,
+        "mainEV_F1": 1,
+        "ownB1EV_F1": 1,
+        "emptyEV_F1": 0,
+        "mainEV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/290_EV_skills.json",
+        "ownB1EV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/290_EV_frozen_after_B1.json",
+        "EC_main_and_ownB1_same_native_origin": true
+      },
+      {
+        "case_id": 292,
+        "mainEV_F1": 0.8333333333333333,
+        "ownB1EV_F1": 1,
+        "emptyEV_F1": 0.8333333333333333,
+        "mainEV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/292_EV_skills.json",
+        "ownB1EV_raw_call_path": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/292_EV_frozen_after_B1.json",
+        "EC_main_and_ownB1_same_native_origin": true
+      }
+    ],
+    "all16_sources_retained": true,
+    "bank_used_in_B6_and_B7_identical_908ea0": true,
+    "no_extra_model_teacher_tokenizer_grader_or_symbolic_solver_call": true
+  },
+  "proposal_C1_public_cost_only_snapshot": {
+    "at": "2026-10-26T17:16:49.029719+00:00",
+    "classification": "Partial cost/request snapshot only: no candidate answer, reasoning text, score or target inspected",
+    "complete_C1_logical_requests": 224,
+    "exact_cached_requests_expected": 64,
+    "fresh_C1_generations_expected": 160,
+    "fresh_C1_completed_snapshot": 4,
+    "fresh_C1_remaining_snapshot": 156,
+    "matched_completed_case_parent_completion_tokens_mean": 2532.5,
+    "matched_completed_case_candidate_completion_tokens_mean": 2459.75,
+    "matched_completed_case_candidate_max_completion_tokens": 3240,
+    "candidate_finish_reasons_snapshot": {
+      "stop": 4
+    },
+    "candidate_bank_sha256": "7f244260c505c9d225fddcade1e315898538b930318ff9740edd994a7194c9c0",
+    "candidate_records": 9,
+    "not_a_full_cohort_quality_or_causal_latency_comparison": true,
+    "no_new_model_teacher_tokenizer_or_grader_call": true
+  },
+  "closed_native_prefix_through_B7_firsts": 992,
+  "new_B7_first_native_generations": 86,
+  "interpretation": "B7 firsts mainEC87.4851/EV75.0 vsownB1EC90.2827/EV71.40625: EC-2.797619pp,EV+3.59375pp; fulloutputEC-1.349432pp,EV+4.203644pp. This is complete pre-label forecasting, not training replay or TEST. B6/B7 use identical bank908 so cross-batch raw differences are not a between-bank update effect. Within-B7 EC negative transfer and IL_EV sixsource mixed/negative result remain. Candidate9/5operations not yet published.",
+  "reproducer_readonly_python": {
+    "firsts_and_original160_CPU_grades": "import json,collections\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom experiments.openexempt_online import actor_payload,paired_effect,csha\nfrom legal_skill_guard.openexempt import metrics,evaluate\nroot=Path.cwd();rid='legal_openexempt_adaptive_legal_public_assets128_20261026_run01';p=root/'runs'/rid\nif not ((p/'batches/b7_prequential_records.json').exists() and (p/'batches/b7_prequential.json').exists()):\n print('{\"waiting_for_complete_B7_firsts\":true}');raise SystemExit(0)\ncfg=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json').read_text())\npre=json.loads((p/'batches/b7_prequential.json').read_text())\nrecords=json.loads((p/'batches/b7_prequential_records.json').read_text())\nrows={(r['case_id'],r['family']):r for r in json.loads((root/cfg['input_packet']).read_text())['rows']}\nexpected={k for k,r in rows.items() if r.get('batch',(r['case_id']-1)//cfg['batch_source_cases']+1)==7}\nassert len(expected)==32\nb2=json.loads((p/'publications/b6.json').read_text());b1=json.loads((p/'frozen_after_B1.json').read_text())\nassert pre['parent_bank_sha256']==b2['bank_sha256'] and pre['frozen_after_B1_bank_sha256']==b1['bank_sha256']\nbanks={'empty':[],'skills':b2['bank'],'frozen_after_B1':b1['bank'],'frozen_initial':[],'empty_direct_numeric':[]}\nchecks=collections.Counter();effects={}\nfor arm,bank in banks.items():\n rs=records[arm];assert len(rs)==32 and {(r['case_id'],r['family']) for r in rs}==expected\n recalculated=metrics(rs)\n for family in ('EC','EV'):\n  for field in ('f1','full_output_f1','invalid_format','negative_or_unscored_asset_claims'):\n   assert abs(recalculated[family][field]-pre[arm][family][field])<1e-12\n for r in rs:\n  raw=json.loads((root/r['raw_call_path']).read_text())\n  messages,schema,_=actor_payload(rows[r['case_id'],r['family']],bank,grounded=True,direct_numeric=True,asset_references=True)\n  wire=raw['calls'][0]['request']\n  assert wire['messages']==messages and wire['response_format']['json_schema']['schema']==schema\n  target=json.loads((root/cfg['grading_directory']/f\"{r['case_id']}.json\").read_text())['targets'][r['family']]\n  official=evaluate(rows[r['case_id'],r['family']],r['parsed']['answer'] if r['parse_error'] is None else None,target)\n  assert official==r['score']\n  checks[arm]+=1\nfor control in ('empty','frozen_after_B1'):\n effects[control]={'all_task_views':paired_effect(records[control],records['skills']),'by_task':{}}\n for family in ('EC','EV'):\n  before=[r for r in records[control] if r['family']==family];after=[r for r in records['skills'] if r['family']==family]\n  effects[control]['by_task'][family]=paired_effect(before,after)\nout={'at':datetime.now(timezone.utc).isoformat(),'run_id':rid,'classification':'Complete16 new-source B7 first forecasts with160 logged input identities and96 primary bank-comparison views; not training replay or TEST',\n 'source_cases':16,'B6_bank_sha256':b2['bank_sha256'],'own_B1_bank_sha256':b1['bank_sha256'],\n 'first_forecast_metrics':{arm:pre[arm] for arm in banks},'same_source_paired_effects':effects,\n 'actual_native_messages_and_schema_verified':dict(checks),'original_invalid_denominators_preserved':True,'all160_logged_native_score_records_recomputed_from_original_TRAIN_targets':True,\n 'prequential_actual_new_native_calls':pre['prequential_actual_new_native_calls'],\n 'no_new_model_teacher_tokenizer_or_symbolic_solver_call_during_audit':True}\nwire_path=p/'teacher/b7_candidate1/wire_request.json';response_path=wire_path.with_name('response.json')\nif wire_path.exists():\n w=json.loads(wire_path.read_text());body=json.loads(w['user_prompt'])\n assert body['current_parent_library']==b2['bank']\n parent={}\n for prior_batch in range(1,7):\n  previous=json.loads((p/f'batches/b{prior_batch}_prequential_records.json').read_text())\n  parent.update({(r['case_id'],r['family']):r for r in previous['skills']})\n  previous_pub=json.loads((p/f'publications/b{prior_batch}.json').read_text())\n  for d in previous_pub['training_decisions']:\n   if d.get('accepted'):parent={(r['case_id'],r['family']):r for r in d['actual_replay']}\n parent.update({(r['case_id'],r['family']):r for r in records['skills']})\n count=0\n delivered={(v['source_case_id'],v['family']):v for v in body['already_seen_training']}\n for k,v in delivered.items():\n  r=parent[k];a=v['actual_parent_answer']\n  assert a['executed_answer']==(r['parsed'] or {}).get('answer') and a['score']==r['score']\n  assert a['source_model_emitted_evidence']['raw_call_path']==r['raw_call_path']\n  target=json.loads((root/cfg['grading_directory']/f'{k[0]}.json').read_text())['targets'][k[1]]\n  assert v['original_training_target']==target\n  count+=1\n witness_count=0\n for f in body['rejected_candidate_feedback']:\n  assert f['candidate_feedback_origin']['batch']==6\n  d=b2['training_decisions'][f['candidate_feedback_origin']['attempt']-1]\n  proposed={(r['case_id'],r['family']):r for r in d.get('proposed_replay',d['actual_replay'])}\n  for v in f['feedback_witness_replay']:\n   k=v['case_id'],v['family'];r=proposed[k]\n   assert k in delivered and v['executed_answer']==(r['parsed'] or {}).get('answer') and v['score']==r['score']\n   assert v['source_model_emitted_evidence']['raw_call_path']==r['raw_call_path']\n   witness_count+=1\n assert body['training_evidence_manifest']['all_bounded_feedback_witnesses_included']\n teacher={'model':w['model'],'prepared_unique_sources':len({k[0] for k in delivered}),'verified_actual_parent_and_original_target_tasks':count,'previous_B6_feedback_groups':len(body['rejected_candidate_feedback']),'verified_original_feedback_witness_occurrences':witness_count,'all_selected_witnesses_have_facts_and_targets':True,'prior_parent_is_real_published_B6_bank':True,'response_exists':response_path.exists(),'actual_receipt_status':'prepared request; not yet confirmed by returned response'}\n if response_path.exists():\n  r=json.loads(response_path.read_text());assert r['model']==w['model'] and r['cache_hit'] is False and r['request_sha256']==csha(w)\n  teacher.update({'actual_receipt_status':'fresh teacher response exists matching actual wire model','teacher_cache_hit':False,'proposal_operations':len(r['value'].get('operations',[]))})\n out['B7_teacher_delivery']=teacher\nout['CPU_original_native_grader_replays']=sum(checks.values())\nout['primary_three_bank_views']=96\nout['two_legacy_empty_aliases_not_additional_model_predictions']=True\nout['progress']=json.loads((p/'progress.json').read_text());out['failure_exists']=(p/'failure.json').exists()\nprint(json.dumps(out,ensure_ascii=False))\n",
+    "actual_teacher12_only_no_grader": "import json,collections\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom experiments.openexempt_online import csha\nroot=Path.cwd();rid='legal_openexempt_adaptive_legal_public_assets128_20261026_run01';p=root/'runs'/rid\ncfg=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json').read_text())\nrecords=json.loads((p/'batches/b7_prequential_records.json').read_text())\nb2=json.loads((p/'publications/b6.json').read_text())\nresponse_path=p/'teacher/b7_candidate1/response.json'\nif not response_path.exists():\n print('{\"waiting_for_teacher12_fresh_response\":true}');raise SystemExit(0)\nout={'at':datetime.now(timezone.utc).isoformat(),'run_id':rid,'classification':'Teacher12 original TRAIN parent/targets and previousB6 witnesses with fresh response; no new model inference or grading'}\nwire_path=p/'teacher/b7_candidate1/wire_request.json';response_path=wire_path.with_name('response.json')\nif wire_path.exists():\n w=json.loads(wire_path.read_text());body=json.loads(w['user_prompt'])\n assert body['current_parent_library']==b2['bank']\n parent={}\n for prior_batch in range(1,7):\n  previous=json.loads((p/f'batches/b{prior_batch}_prequential_records.json').read_text())\n  parent.update({(r['case_id'],r['family']):r for r in previous['skills']})\n  previous_pub=json.loads((p/f'publications/b{prior_batch}.json').read_text())\n  for d in previous_pub['training_decisions']:\n   if d.get('accepted'):parent={(r['case_id'],r['family']):r for r in d['actual_replay']}\n parent.update({(r['case_id'],r['family']):r for r in records['skills']})\n count=0\n delivered={(v['source_case_id'],v['family']):v for v in body['already_seen_training']}\n for k,v in delivered.items():\n  r=parent[k];a=v['actual_parent_answer']\n  assert a['executed_answer']==(r['parsed'] or {}).get('answer') and a['score']==r['score']\n  assert a['source_model_emitted_evidence']['raw_call_path']==r['raw_call_path']\n  target=json.loads((root/cfg['grading_directory']/f'{k[0]}.json').read_text())['targets'][k[1]]\n  assert v['original_training_target']==target\n  count+=1\n witness_count=0\n for f in body['rejected_candidate_feedback']:\n  assert f['candidate_feedback_origin']['batch']==6\n  d=b2['training_decisions'][f['candidate_feedback_origin']['attempt']-1]\n  proposed={(r['case_id'],r['family']):r for r in d.get('proposed_replay',d['actual_replay'])}\n  for v in f['feedback_witness_replay']:\n   k=v['case_id'],v['family'];r=proposed[k]\n   assert k in delivered and v['executed_answer']==(r['parsed'] or {}).get('answer') and v['score']==r['score']\n   assert v['source_model_emitted_evidence']['raw_call_path']==r['raw_call_path']\n   witness_count+=1\n assert body['training_evidence_manifest']['all_bounded_feedback_witnesses_included']\n teacher={'model':w['model'],'prepared_unique_sources':len({k[0] for k in delivered}),'verified_actual_parent_and_original_target_tasks':count,'previous_B6_feedback_groups':len(body['rejected_candidate_feedback']),'verified_original_feedback_witness_occurrences':witness_count,'all_selected_witnesses_have_facts_and_targets':True,'prior_parent_is_real_published_B6_bank':True,'response_exists':response_path.exists(),'actual_receipt_status':'prepared request; not yet confirmed by returned response'}\n if response_path.exists():\n  r=json.loads(response_path.read_text());assert r['model']==w['model'] and r['cache_hit'] is False and r['request_sha256']==csha(w)\n  teacher.update({'actual_receipt_status':'fresh teacher response exists matching actual wire model','teacher_cache_hit':False,'proposal_operations':len(r['value'].get('operations',[]))})\n out['B7_teacher_delivery']=teacher\nresponse=json.loads(response_path.read_text());w=json.loads(response_path.with_name('wire_request.json').read_text())\nassert response['invocation']['returncode']==0 and not response['invocation']['tool_events_detected']\nout['actual_teacher12_proposal']=response['value'];out['request_sha256']=response['request_sha256']\nout['teacher_usage']=response['invocation']['usage']\nout['progress']=json.loads((p/'progress.json').read_text())\nprint(json.dumps(out,ensure_ascii=False))\n",
+    "public_groups_only": "import json,collections\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom legal_skill_guard.learning.legal_namespace import allowable_namespaces\nfrom experiments.openexempt_online import paired_effect\nroot=Path.cwd();p=root/'runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01'\ncfg=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json').read_text())\nrows={(r['case_id'],r['family']):r for r in json.loads((root/cfg['input_packet']).read_text())['rows'] if r['batch']==7}\nrs=json.loads((p/'batches/b7_prequential_records.json').read_text());groups=collections.defaultdict(list)\nfor k,row in rows.items():groups['+'.join(sorted(allowable_namespaces(row)))].append(k)\nout={}\nfor group,keys in sorted(groups.items()):\n out[group]={}\n for fam in ('EC','EV'):\n  before=[r for r in rs['frozen_after_B1'] if (r['case_id'],r['family']) in keys and r['family']==fam]\n  after=[r for r in rs['skills'] if (r['case_id'],r['family']) in keys and r['family']==fam]\n  out[group][fam]={'sources':len(after),'main_F1':sum(r['score']['f1'] for r in after)/len(after),'ownB1_F1':sum(r['score']['f1'] for r in before)/len(before),'effect':paired_effect(before,after)}\nexamples=[];indexes={arm:{(r['case_id'],r['family']):r for r in records} for arm,records in rs.items()}\nfor k,row in sorted(rows.items()):\n if k[1]!='EV' or allowable_namespaces(row)!=frozenset({'ILLINOIS'}):continue\n ec=k[0],'EC'\n examples.append({'case_id':k[0],'mainEV_F1':indexes['skills'][k]['score']['f1'],'ownB1EV_F1':indexes['frozen_after_B1'][k]['score']['f1'],'emptyEV_F1':indexes['empty'][k]['score']['f1'],'mainEV_raw_call_path':indexes['skills'][k]['raw_call_path'],'ownB1EV_raw_call_path':indexes['frozen_after_B1'][k]['raw_call_path'],'EC_main_and_ownB1_same_native_origin':indexes['skills'][ec]['raw_call_path']==indexes['frozen_after_B1'][ec]['raw_call_path']})\nassert len(examples)==6\nprint(json.dumps({'at':datetime.now(timezone.utc).isoformat(),'classification':'Complete B7 first forecasts grouped by original public allowable-law input, diagnostic not new endpoint or causal isolation of last B5 edit','public_law_groups_main_vs_ownB1':out,'all_six_Illinois_EV_first_forecasts':examples,'all16_sources_retained':True,'bank_used_in_B6_and_B7_identical_908ea0':True,'no_extra_model_teacher_tokenizer_grader_or_symbolic_solver_call':True},ensure_ascii=False))\n",
+    "C1_cost_not_partial_quality": "import json,collections\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom experiments.openexempt_online import actor_payload,csha,DIRECT_GUIDANCE\nfrom legal_skill_guard.learning.publication import apply_differential_publication\nroot=Path.cwd();p=root/'runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01'\ncfg=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json').read_text())\nrows=[r for r in json.loads((root/cfg['input_packet']).read_text())['rows'] if r['batch']<=7];idx={(r['case_id'],r['family']):r for r in rows}\nt=p/'teacher/b7_candidate1';wire=json.loads((t/'wire_request.json').read_text());body=json.loads(wire['user_prompt']);response=json.loads((t/'response.json').read_text())\nassert response['request_sha256']==csha(wire) and response['cache_hit'] is False\nparent=json.loads((p/'publications/b6.json').read_text())['bank'];assert body['current_parent_library']==parent\ncandidate=apply_differential_publication(parent,response['value'],('EC','EV'),body['training_evidence_manifest']['selected_source_ids'],guidance_schema=DIRECT_GUIDANCE)\nobservations={}\nfor batch in range(1,7):\n a=json.loads((p/f'batches/b{batch}_prequential_records.json').read_text());observations.update({(r['case_id'],r['family']):r for r in a['skills']})\n for d in json.loads((p/f'publications/b{batch}.json').read_text())['training_decisions']:\n  if d['accepted']:observations={(r['case_id'],r['family']):r for r in d['actual_replay']}\na=json.loads((p/'batches/b7_prequential_records.json').read_text());observations.update({(r['case_id'],r['family']):r for r in a['skills']});assert len(observations)==224\ndef fingerprint(w):return csha({'messages':w['messages'],'schema':w['response_format']['json_schema']['schema'],'generation':cfg['generation']})\nhistory=set()\nfor f in (p/'native').glob('*/*.json'):\n if f.name.endswith(('.input.json','.answer.json')):continue\n if not (f.parent.name.startswith(('b1_','b2_','b3_','b4_','b5_','b6_')) or f.parent.name=='b7_prequential'):continue\n x=json.loads(f.read_text());history.add(fingerprint(x['calls'][0]['request']))\nassert len(history)==992\nexpected=set()\nfor row in rows:\n m,s,_=actor_payload(row,candidate,grounded=True,direct_numeric=True,asset_references=True)\n expected.add(csha({'messages':m,'schema':s,'generation':cfg['generation']}))\nassert len(expected)==224\ncompleted=[];finishes=collections.Counter();newtokens=[];oldtokens=[]\nfor f in (p/'native/b7_candidate1_replay').glob('*_candidate.json'):\n x=json.loads(f.read_text());call=x['calls'][0];assert fingerprint(call['request']) in expected-history\n k=x['document_id'],x['family'];old=json.loads((root/observations[k]['raw_call_path']).read_text())['calls'][0]['response']['usage']\n new=call['response']['usage'];newtokens.append(new['completion_tokens']);oldtokens.append(old['completion_tokens']);finishes[call['response']['choices'][0]['finish_reason']]+=1\n completed.append(k)\nout={'at':datetime.now(timezone.utc).isoformat(),'classification':'Partial cost/request snapshot only: no candidate answer, reasoning text, score or target inspected','complete_C1_logical_requests':224,'exact_cached_requests_expected':len(expected&history),'fresh_C1_generations_expected':len(expected-history),'fresh_C1_completed_snapshot':len(completed),'fresh_C1_remaining_snapshot':len(expected-history)-len(completed),'matched_completed_case_parent_completion_tokens_mean':sum(oldtokens)/len(oldtokens),'matched_completed_case_candidate_completion_tokens_mean':sum(newtokens)/len(newtokens),'matched_completed_case_candidate_max_completion_tokens':max(newtokens),'candidate_finish_reasons_snapshot':dict(finishes),'candidate_bank_sha256':csha(candidate),'candidate_records':len(candidate),'not_a_full_cohort_quality_or_causal_latency_comparison':True,'no_new_model_teacher_tokenizer_or_grader_call':True}\nprint(json.dumps(out,ensure_ascii=False))\n"
+  },
+  "cost_language_clarification": "Original native scorer CPU replay is not a new model/teacher/semantic judge/symbolic-solver call. This report records160 CPU regrades explicitly; historical firsts metadata phrased no-extra-grader refers to no new learned grader, not zero CPU native regrading."
+}
