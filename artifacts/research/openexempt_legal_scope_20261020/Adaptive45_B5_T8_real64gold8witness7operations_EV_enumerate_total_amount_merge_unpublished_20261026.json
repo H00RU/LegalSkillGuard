@@ -1,0 +1,336 @@
+{
+  "B5_teacher_delivery": {
+    "model": "gpt-5.6-sol",
+    "prepared_unique_sources": 32,
+    "verified_actual_parent_and_original_target_tasks": 64,
+    "previous_B4_feedback_groups": 1,
+    "verified_original_feedback_witness_occurrences": 8,
+    "all_selected_witnesses_have_facts_and_targets": true,
+    "prior_parent_is_real_published_B4_bank": true,
+    "response_exists": true,
+    "actual_receipt_status": "Fresh teacher8 response matches actual wire hash, model and original delivered TRAIN evidence",
+    "teacher_cache_hit": false,
+    "proposal_operations": 7,
+    "request_sha256_matches_actual_wire": true,
+    "operation_types": {
+      "MERGE": 1,
+      "UPDATE": 5,
+      "CREATE": 1
+    },
+    "delta": {
+      "operations": [
+        {
+          "operation": "MERGE",
+          "target_ids": [
+            "federal-household-item-ceiling",
+            "federal-specific-category-boundaries"
+          ],
+          "skill": {
+            "id": "federal-specific-category-boundaries",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Federal exemptions are allowable and an asset is tested under 11 U.S.C. § 522(d)(3) or (d)(4).",
+                  "procedure": "Use § 522(d)(3) for listed household goods, furnishings, apparel, appliances, books, animals, crops, or musical instruments, and § 522(d)(4) for jewelry. A value above the applicable ceiling does not defeat eligibility.",
+                  "avoid_when": "Do not classify jewelry or firearms under § 522(d)(3), and do not omit a qualifying category merely because the asset exceeds its dollar limit."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Federal exemptions are allowable and an asset qualifies under a specific paragraph of § 522(d).",
+                  "procedure": "Report one asset-level amount equal to the lesser of asset value and the applicable ceiling: $27,900 under (d)(1), $4,450 under (d)(2), $700 for each particular (d)(3) item, and $1,875 under (d)(4). Report a qualifying (d)(9) prescribed health aid at asset value. Do not double these specific ceilings merely because there are joint debtors.",
+                  "avoid_when": "Do not report a ceiling above the asset value, use (d)(3) for jewelry or firearms, or use (d)(6) without facts showing trade use."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          "source_case_ids": [
+            206,
+            208,
+            232,
+            250,
+            256,
+            258
+          ],
+          "rationale": "The parent repeatedly reported statutory ceilings instead of the lesser asset value under (d)(3) and (d)(4), while the released targets use per-item asset-level amounts. This merges the overlapping Federal category skills and adds the missing EV boundary without changing the correct EC rule."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "federal-wildcard-alternative"
+          ],
+          "skill": {
+            "id": "federal-wildcard-alternative",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Federal exemptions are an allowable namespace and the asset is property of the estate.",
+                  "procedure": "After checking the asset-specific paragraphs, independently add 11 U.S.C. § 522(d)(5) for every asset because it covers any property. Before finalizing, check each asset separately and retain this alternative even when a specific Federal or state exemption also applies. A dollar ceiling limits value, not EC eligibility.",
+                  "avoid_when": "Do not add it when Federal exemptions are not allowable, and do not treat 11 U.S.C. §§ 522(b), 522(d), or 522(m) as asset exemptions."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Federal exemptions are allowable and valuing the independent 11 U.S.C. § 522(d)(5) alternative.",
+                  "procedure": "Report one total asset-level wildcard alternative for every asset. Unless facts state actual consumption of § 522(d)(1), use the lesser of asset value and $15,425 for one debtor or $30,850 for equally owning joint debtors; do not divide the asset value into owner shares.",
+                  "avoid_when": "Do not omit the wildcard because a specific exemption applies, use only the $1,475 base without stated homestead consumption, or use it outside the Federal namespace."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          "source_case_ids": [
+            192,
+            205,
+            206,
+            208,
+            227,
+            235,
+            241,
+            245,
+            250,
+            254,
+            256,
+            258,
+            259
+          ],
+          "rationale": "The parent often omitted the wildcard or halved jointly owned asset values despite targets requiring a separate asset-level alternative. The revision removes the misleading half-by-half phrasing while preserving the existing eligibility rule."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "pennsylvania-general-monetary-alternative"
+          ],
+          "skill": {
+            "id": "pennsylvania-general-monetary-alternative",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Pennsylvania exemptions are allowable and the debtor has an interest in the asset.",
+                  "procedure": "Add 42 Pa. Cons. Stat. § 8123 as an independent alternative for every kind of property, including real property and business or personal property. Check every asset separately even when another Federal or Pennsylvania exemption applies. Its $300 ceiling limits protection, not eligibility. Separately add § 8124(a) subsections only when the asset actually is wearing apparel, a Bible or school book, a qualifying sewing machine, or a qualifying military uniform or accoutrement.",
+                  "avoid_when": "Do not withhold § 8123 because the asset exceeds $300 or lacks a listed § 8124 category; do not classify firearms, jewelry, household linens, or vehicles as wearing apparel, and do not cite § 8124(a) without a qualifying subsection."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Pennsylvania exemptions are allowable and valuing the independent § 8123 alternative.",
+                  "procedure": "Report one total asset-level amount equal to the lesser of asset value and $300 for one debtor or $600 for jointly owned property of two married debtors; do not halve the asset value or output only one spouse's $300 share.",
+                  "avoid_when": "Do not replace § 8123 with an inapplicable § 8124 category, transfer § 8124 rules to unrelated property, or use Pennsylvania amounts outside that namespace."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "PENNSYLVANIA"
+            }
+          },
+          "source_case_ids": [
+            192,
+            205,
+            232,
+            235,
+            241,
+            243,
+            249,
+            250,
+            254,
+            259
+          ],
+          "rationale": "Joint cases repeatedly received only $300, and some assets lost § 8123 or gained false § 8124 categories. The target consistently treats the spouses' amounts as one asset-level alternative capped at $600."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "illinois-wildcard-personal-property"
+          ],
+          "skill": {
+            "id": "illinois-wildcard-personal-property",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Illinois exemptions are allowable and the asset is personal property used personally rather than for business.",
+                  "procedure": "Add 735 Ill. Comp. Stat. 5/12-1001(b) as an independent alternative for any such property, including property also covered by a specific subsection. Add subsection (a) only for necessary wearing apparel, Bibles, school books, or family pictures, and subsection (e) only for professionally prescribed health aids.",
+                  "avoid_when": "Do not exclude an asset from subsection (b) merely because it is jewelry, a vehicle, household property, or a health aid; do not call jewelry wearing apparel."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Illinois exemptions are allowable and valuing personal-use personal property.",
+                  "procedure": "First report subsection (b) for every item, including jewelry, animals, firearms, household goods, musical instruments, and vehicles: use one asset-level amount equal to the lesser of asset value and $4,000 for one debtor or $8,000 for equally owning joint debtors, without halving the asset value. Separately report subsection (c) for a motor vehicle at no more than $2,400, and qualifying subsection (a) apparel or subsection (e) prescribed health aids at asset value.",
+                  "avoid_when": "Do not classify jewelry as wearing apparel, infer subsection (d) trade use without explicit business facts, omit subsection (b) because a specific subsection applies, report zero-value alternatives, or double the $2,400 vehicle ceiling."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "ILLINOIS"
+            }
+          },
+          "source_case_ids": [
+            221,
+            233,
+            234,
+            252,
+            255,
+            257,
+            260
+          ],
+          "rationale": "The parent omitted subsection (b), misclassified jewelry as apparel, and divided jointly owned values in several Illinois EV observations. The correction states the required general alternative first and distinguishes it from specific-category and ownership calculations."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "arizona-category-and-cap-boundaries"
+          ],
+          "skill": {
+            "id": "arizona-category-and-cap-boundaries",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Arizona exemptions are allowable and the asset is being tested under §§ 33-1101, 33-1123, or 33-1125.",
+                  "procedure": "Treat statutory dollar limits as protection ceilings, not eligibility tests: a firearm may qualify under § 33-1125(10) and a motor vehicle under § 33-1125(8) even when its value exceeds the limit. Assess each listed vehicle independently. Use § 33-1125(4) only for engagement or wedding rings and § 33-1125(1) only for wearing apparel.",
+                  "avoid_when": "Do not extend the ring exemption to other jewelry, do not classify jewelry as apparel, and do not list administrative rules such as §§ 33-1101(B), 33-1121, or 33-1133(B) as asset exemptions."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Arizona exemptions are allowable and an asset satisfies a stated property category.",
+                  "procedure": "Use the lesser of asset value and $15,000 for § 33-1123 household property or a § 33-1125(8) vehicle, $500 for apparel under (1), $400 for a musical instrument under (2), and $2,000 for firearms under (10) or engagement and wedding rings under (4). Report qualifying prescribed prostheses under (9) and household pets under (11) at asset value.",
+                  "avoid_when": "Do not treat non-ring jewelry as apparel, household goods, or qualifying rings; do not treat a burial plot as an Arizona homestead without a qualifying residence; and do not add administrative provisions as claim alternatives."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "ARIZONA"
+            }
+          },
+          "source_case_ids": [
+            182,
+            207,
+            239,
+            248,
+            251
+          ],
+          "rationale": "Arizona EV outputs falsely treated non-ring jewelry as apparel or household property and omitted supported musical-instrument and prescribed-device alternatives. The EC boundary is retained verbatim; the EV block now separates category selection from its amount ceiling."
+        },
+        {
+          "operation": "CREATE",
+          "target_ids": [],
+          "skill": {
+            "id": "wisconsin-consumer-and-vehicle-valuation",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Wisconsin exemptions are allowable and personal-use consumer goods or a motor vehicle qualify under Wis. Stat. § 815.18(3)(d) or (g).",
+                  "procedure": "Report one asset-level amount without dividing jointly owned value into spouse shares. Under (3)(d), use the lesser of asset value and $12,000 for one debtor or $24,000 for joint debtors. Under (3)(g), begin with $4,000 per debtor and add otherwise unused (3)(d) capacity when no consumption is stated, subject always to asset value.",
+                  "avoid_when": "Do not classify a personal-use item as business property without explicit business facts, halve the asset value merely because ownership is joint, or report more than the asset value."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "WISCONSIN"
+            }
+          },
+          "source_case_ids": [
+            227,
+            245,
+            247
+          ],
+          "rationale": "The parent halved joint consumer-property values in the current Wisconsin source and previously failed to use the statutory consumer-goods carryover for a vehicle. The new EV-only instruction addresses those observed amount errors without disturbing correct EC classifications."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "oregon-personal-property-alternative"
+          ],
+          "skill": {
+            "id": "oregon-personal-property-alternative",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Oregon exemptions are allowable and the asset is personal property.",
+                  "procedure": "In addition to every applicable specific Oregon category, independently add Or. Rev. Stat. § 18.345(1)(p) for each item of personal property, including a vehicle, firearm, household item, apparel, jewelry, or prescribed health aid. Treat apparel and jewelry under § 18.345(1)(b), and household goods or furnishings under § 18.345(1)(f). Before finalizing, run a separate (1)(p) check on every non-real-property asset.",
+                  "avoid_when": "Do not apply § 18.345(1)(p) to real property or a homestead, and do not classify clothing or jewelry as household furnishings merely because it is used personally."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Oregon exemptions are allowable and valuing the independent § 18.345(1)(p) alternative.",
+                  "procedure": "Report the lesser of the asset value and $400 for § 18.345(1)(p), independently of any specific Oregon exemption and independently for every personal-property asset, including a vehicle.",
+                  "avoid_when": "Do not increase this reported alternative merely because there are joint debtors, omit it because a specific exemption applies, or apply it to real property."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "OREGON"
+            }
+          },
+          "source_case_ids": [
+            206,
+            208,
+            256,
+            258
+          ],
+          "rationale": "The parent omitted § 18.345(1)(p) from all three personal-property rows in source 258 EC and from the vehicle in EV, despite correctly identifying their specific Oregon categories. A short final-pass instruction targets that missing-law error."
+        }
+      ],
+      "noop_reason": null
+    },
+    "parent_bank_sha256": "e35e5b5a0d39f2f6709d2bdad2d85d350085e9574e43df894c36b7df83beea84"
+  },
+  "at": "2026-10-26T14:16:37.618601+00:00",
+  "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+  "classification": "Teacher8 actual fresh response and correctly paired original TRAIN receipt; proposed edits, not admitted bank or future benefit",
+  "reproduction_program": "import json\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom experiments.openexempt_online import csha\nroot=Path.cwd();rid='legal_openexempt_adaptive_legal_public_assets128_20261026_run01';p=root/'runs'/rid\ncfg=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json').read_text())\nb2=json.loads((p/'publications/b4.json').read_text());records=json.loads((p/'batches/b5_prequential_records.json').read_text());out={}\nwire_path=p/'teacher/b5_candidate1/wire_request.json';response_path=wire_path.with_name('response.json')\nif wire_path.exists():\n w=json.loads(wire_path.read_text());body=json.loads(w['user_prompt'])\n assert body['current_parent_library']==b2['bank']\n parent={}\n for prior_batch in range(1,5):\n  previous=json.loads((p/f'batches/b{prior_batch}_prequential_records.json').read_text())\n  parent.update({(r['case_id'],r['family']):r for r in previous['skills']})\n  previous_pub=json.loads((p/f'publications/b{prior_batch}.json').read_text())\n  for d in previous_pub['training_decisions']:\n   if d.get('accepted'):parent={(r['case_id'],r['family']):r for r in d['actual_replay']}\n parent.update({(r['case_id'],r['family']):r for r in records['skills']})\n count=0\n delivered={(v['source_case_id'],v['family']):v for v in body['already_seen_training']}\n for k,v in delivered.items():\n  r=parent[k];a=v['actual_parent_answer']\n  assert a['executed_answer']==(r['parsed'] or {}).get('answer') and a['score']==r['score']\n  assert a['source_model_emitted_evidence']['raw_call_path']==r['raw_call_path']\n  target=json.loads((root/cfg['grading_directory']/f'{k[0]}.json').read_text())['targets'][k[1]]\n  assert v['original_training_target']==target\n  count+=1\n witness_count=0\n for f in body['rejected_candidate_feedback']:\n  assert f['candidate_feedback_origin']['batch']==4\n  d=b2['training_decisions'][f['candidate_feedback_origin']['attempt']-1]\n  proposed={(r['case_id'],r['family']):r for r in d.get('proposed_replay',d['actual_replay'])}\n  for v in f['feedback_witness_replay']:\n   k=v['case_id'],v['family'];r=proposed[k]\n   assert k in delivered and v['executed_answer']==(r['parsed'] or {}).get('answer') and v['score']==r['score']\n   assert v['source_model_emitted_evidence']['raw_call_path']==r['raw_call_path']\n   witness_count+=1\n assert body['training_evidence_manifest']['all_bounded_feedback_witnesses_included']\n teacher={'model':w['model'],'prepared_unique_sources':len({k[0] for k in delivered}),'verified_actual_parent_and_original_target_tasks':count,'previous_B4_feedback_groups':len(body['rejected_candidate_feedback']),'verified_original_feedback_witness_occurrences':witness_count,'all_selected_witnesses_have_facts_and_targets':True,'prior_parent_is_real_published_B4_bank':True,'response_exists':response_path.exists(),'actual_receipt_status':'prepared request; not yet confirmed by returned response'}\n if response_path.exists():\n  r=json.loads(response_path.read_text());assert r['model']==w['model'] and r['cache_hit'] is False and r['request_sha256']==csha(w)\n  teacher.update({'actual_receipt_status':'fresh teacher response exists matching actual wire model','teacher_cache_hit':False,'proposal_operations':len(r['value'].get('operations',[]))})\n out['B5_teacher_delivery']=teacher\n\nresponse=json.loads(response_path.read_text());body=json.loads(json.loads(wire_path.read_text())['user_prompt'])\nassert response['request_sha256']==csha(w)\nout['B5_teacher_delivery']['request_sha256_matches_actual_wire']=True\nout['B5_teacher_delivery']['actual_receipt_status']='Fresh teacher8 response matches actual wire hash, model and original delivered TRAIN evidence'\nout['B5_teacher_delivery']['operation_types']=dict(__import__('collections').Counter(op['operation'] for op in response['value']['operations']))\nout['B5_teacher_delivery']['delta']=response['value']\nout['B5_teacher_delivery']['parent_bank_sha256']=csha(body['current_parent_library'])\nout['at']=datetime.now(timezone.utc).isoformat()\nprint(json.dumps(out,ensure_ascii=False))\n",
+  "next_action": "Observe original full160task candidate replay and native acceptance; do not hotfix source or manually alter proposed skill. Teacher8 itself now addresses observed EV enumeration, category boundaries and asset-total units, so previous intervention hypothesis is deferred pending real outcome."
+}
