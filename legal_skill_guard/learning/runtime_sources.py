@@ -34,6 +34,16 @@ CURRENT = {
     'legal_skill_guard/learning/phase_dispatch.py':
         '7ac30f501954ef12753bf7eb91673f4cf036a2a03ffc7345691fa8cdefafa16f',
 }
+ADAPTIVE_SCHEDULE = 'preserved_controls_adaptive45_four_native_one_teacher_v1'
+ADAPTIVE_PROTOCOL = ('docs/research/'
+                     'OPENEXEMPT_ADAPTIVE_FIXED_BENCHMARK_SUPPLEMENT_PROTOCOL_20261026.md')
+ADAPTIVE_DECLARATION = {**DECLARATION, 'teacher_workers': 1}
+ADAPTIVE_CURRENT = {**CURRENT, 'experiments/openexempt_online.py':
+                    '41a99ca5b652ffde79cbc80e3434b9166108e20567322e5f4dba2255e171efce'}
+ADAPTIVE_PRIOR = {
+    'experiments/openexempt_online.py': {
+        CURRENT['experiments/openexempt_online.py']: 'openexempt_online_phase_dispatch_20261023'},
+}
 HISTORICAL = {
     'experiments/openexempt_online.py': {
         '732f1a924d0e49333de0384b5d6a63a25d990eb9d187874a9b1e54d114032c1c':
@@ -67,10 +77,11 @@ def checked_path(root, name):
     return path
 
 
-def validate_bundle(root):
-    files = {checked_path(root, name) for name in CURRENT}
+def validate_bundle(root, *, adaptive=False):
+    bundle = ADAPTIVE_CURRENT if adaptive else CURRENT
+    files = {checked_path(root, name) for name in bundle}
     if any(not (root / name).is_file() or sha(root / name) != digest
-           for name, digest in CURRENT.items()):
+           for name, digest in bundle.items()):
         raise ValueError('The prospective phase-dispatch source bundle changed')
     return files | {checked_path(root, 'legal_skill_guard/learning/runtime_sources.py')}
 
@@ -87,14 +98,16 @@ def function_ast(path, qualified):
     return ast.dump(node, include_attributes=False)
 
 
-def verify_revision(root, name, expected):
+def verify_revision(root, name, expected, *, adaptive=False):
     """Resolve only an approved runtime version, retaining its actual source."""
     if name not in HISTORICAL:
         raise ValueError('No execution-version exception for: ' + name)
-    extras = validate_bundle(root)
-    if expected == CURRENT[name]:
+    extras = validate_bundle(root, adaptive=adaptive)
+    bundle = ADAPTIVE_CURRENT if adaptive else CURRENT
+    if expected == bundle[name]:
         return extras
-    stem = HISTORICAL[name].get(expected)
+    versions = {**HISTORICAL[name], **(ADAPTIVE_PRIOR.get(name, {}) if adaptive else {})}
+    stem = versions.get(expected)
     if stem is None:
         raise ValueError('Unknown historical execution-source hash: ' + name)
     original = checked_path(root, f'{SNAPSHOTS}/{stem}__{expected}.py')
@@ -147,4 +160,27 @@ def validate_learning_receipt(root, source, frozen, initial, complete, *,
     environment = checked_path(root, source['inference_environment'])
     if frozen['files'].get(source['inference_environment']) != sha(environment):
         raise ValueError('Bind the actual learning environment, not a rewritten capture')
+    return environment
+
+
+def validate_adaptive_learning_receipt(root, source, frozen, initial, complete):
+    """The actual revised seed45 run, not an old repeat or amended control."""
+    if (source.get('skill_commit_policy') != 'adaptive_legal'
+            or source.get('adaptive_commit_objective') != 'seen_source_min_family_gain_then_mean_v1'
+            or source.get('teacher_evidence_contract') != 'all_bounded_feedback_witness_sources_mandatory_v1'
+            or source.get('candidate_feedback_policy') != 'carry_partial_and_refine'
+            or source.get('generation', {}).get('seed') != 45
+            or source.get('phase_dispatch') != ADAPTIVE_DECLARATION
+            or source.get('ablation_execution_schedule') is not None
+            or source.get('max_candidate_attempts') != 2
+            or source.get('library_token_hard_cap') != 4096):
+        raise ValueError('Keep the exact revised adaptive learning and dispatch policy')
+    if any(frozen['files'].get(name) != digest for name, digest in ADAPTIVE_CURRENT.items()):
+        raise ValueError('Adaptive learning must retain its actual frozen source epoch')
+    if any(record.get('execution_dispatch') != ADAPTIVE_DECLARATION
+           for record in (initial, complete)):
+        raise ValueError('Adaptive learning receipts disagree with four-native/one-teacher dispatch')
+    environment = checked_path(root, source['inference_environment'])
+    if frozen['files'].get(source['inference_environment']) != sha(environment):
+        raise ValueError('Bind the actual adaptive learning service capture')
     return environment

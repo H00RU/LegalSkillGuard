@@ -57,6 +57,14 @@ SINGLE_BASELINE_DESIGN = "single_completed_seed45_20261024"
 SINGLE_BASELINE_PROTOCOL = "docs/research/OPENEXEMPT_SINGLE_BASELINE_BUILD_AMENDMENT_20261024.md"
 INITIAL_STAGE = "initial_single_build_descriptive"
 FINAL_STAGE = "final_three_build_confirmatory"
+SUPPLEMENT_STAGE = "adaptive_single_build_fixed_benchmark_supplement"
+SUPPLEMENT_PROTOCOL = runtime_sources.ADAPTIVE_PROTOCOL
+SUPPLEMENT_DESIGN = "historical_whole_task_local_comparators_v1"
+INITIAL_SOURCE_SNAPSHOTS = {
+    "README.md", "tests/test_openexempt_contract.py",
+    "experiments/openexempt_frozen_eval.py", "tests/test_openexempt_frozen_eval.py",
+    "legal_skill_guard/learning/runtime_sources.py",
+}
 STAGED_PROTOCOL = "docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md"
 FINAL_DECODING = {"seed": 45, "temperature": 0.6, "top_p": 0.95, "top_k": 20,
                   "context_tokens": 32768, "max_tokens": 8192, "disable_thinking": False}
@@ -100,11 +108,13 @@ def check_primary_contrasts(cfg, source_configs):
     if design not in (None, SINGLE_BASELINE_DESIGN):
         raise ValueError("Unknown experience-baseline replication design")
     initial = cfg.get("evaluation_stage") == INITIAL_STAGE
-    learning_seeds = (45,) if initial else LEARNING_SEEDS
-    single_baselines = initial or design == SINGLE_BASELINE_DESIGN
+    supplement = cfg.get("evaluation_stage") == SUPPLEMENT_STAGE
+    single_build = initial or supplement
+    learning_seeds = (45,) if single_build else LEARNING_SEEDS
+    single_baselines = single_build or design == SINGLE_BASELINE_DESIGN
     if initial and cfg.get("staged_comparison_protocol") != STAGED_PROTOCOL:
         raise ValueError("Declare the initial-table staged protocol before TEST")
-    if not initial and single_baselines and cfg.get("baseline_build_amendment") != SINGLE_BASELINE_PROTOCOL:
+    if not single_build and single_baselines and cfg.get("baseline_build_amendment") != SINGLE_BASELINE_PROTOCOL:
         raise ValueError("Declare the prospective single-baseline amendment")
     def require_same_protocol(names):
         protocols = []
@@ -192,6 +202,36 @@ def check_secondary_contrasts(cfg, source_configs):
     evolved = [n for n, a in arms.items() if a["role"] == "evolved"
                and source_configs[n]["generation"]["seed"] == 45]
     design = cfg.get("ablation_design", "scope_and_feedback_legacy")
+    if cfg.get("evaluation_stage") == SUPPLEMENT_STAGE:
+        if (design != SUPPLEMENT_DESIGN or len(evolved) != 1
+                or cfg.get("historical_comparators_not_matched_new_ablations") is not True):
+            raise ValueError("Retain the two old policies as historical comparators, not new matched ablations")
+        original = read(ROOT / cfg["initial_evaluation"]["source_config"])
+        original_main = next(a for a in original["arms"] if a["role"] == "evolved")
+        old_source = read(ROOT / original_main["source_config"])
+        controls = {a["name"] for a in cfg["arms"] if a["role"] == "ablation"}
+        contrasts = cfg.get("secondary_contrasts", [])
+        if (len(controls) != 2 or len(contrasts) != 2
+                or {c["before"][0] for c in contrasts if len(c["before"]) == 1} != controls
+                or len({c["name"] for c in contrasts}) != 2
+                or {c["name"] for c in contrasts} & {c["name"] for c in cfg["primary_contrasts"]}):
+            raise ValueError("Keep both distinct historical comparisons in their own fixed family")
+        variants = set()
+        for contrast in contrasts:
+            safe_component(contrast["name"])
+            if contrast["after"] != evolved or len(contrast["before"]) != 1:
+                raise ValueError("Compare each historical policy only with the revised actual seed45 bank")
+            source = source_configs[contrast["before"][0]]
+            variant = source.get("ablation_variant")
+            if (variant not in ("whole_bank", "task_local") or variant in variants
+                    or source.get("skill_commit_policy") != variant
+                    or source.get("candidate_feedback_policy") != "carry_partial_and_refine"
+                    or source.get("comparison_reference_run") != old_source["run_id"]
+                    or source.get("comparison_reference_config_sha256")
+                    != original_main["source_config_sha256"]):
+                raise ValueError("Do not relabel or reconstruct the historical fixed-policy controls")
+            variants.add(variant)
+        return
     uniform = cfg.get("learning_execution_schedule") == runtime_sources.CONTROL_SCHEDULE
     if uniform and design != "legal_scope_granularity_v1":
         raise ValueError("The uniform dispatch amendment retains the two granularity controls")
@@ -288,7 +328,9 @@ def paired_source_statistics(cfg, records):
                 for name, grid in grids.items()}
     differences, repeated = [], []
     initial = cfg.get("evaluation_stage") == INITIAL_STAGE
-    expected_main_banks = 1 if initial else 3
+    supplement = cfg.get("evaluation_stage") == SUPPLEMENT_STAGE
+    single_build = initial or supplement
+    expected_main_banks = 1 if single_build else 3
     for j, contrast in enumerate(contrasts):
         after = np.stack([matrices[n] for n in contrast["after"]])
         before = np.stack([matrices[n] for n in contrast["before"]])
@@ -329,14 +371,17 @@ def paired_source_statistics(cfg, records):
                                         int((d < -1e-12).sum())],
                 "sources_difference_at_most_minus_10pp": int((d <= -0.10).sum()),
                 "paired_source_differences_pp": (100 * d).tolist()}
-    return {"protocol": ("conditional_single_build_initial_descriptive" if initial else
+    return {"protocol": ("conditional_development_informed_fixed_benchmark_supplement" if supplement else
+                         "conditional_single_build_initial_descriptive" if initial else
                          "conditional_paired_source_bootstrap_three_learning_runs"),
             "evaluation_stage": cfg.get("evaluation_stage", "legacy_final"),
             "initial_table_not_a_repeat_selection_or_stopping_gate": initial,
-            "confirmatory_analysis": not initial,
-            "experience_replication_design": cfg.get("experience_replication_design", "legacy_three_seed_matched"),
+            "confirmatory_analysis": not single_build,
+            "development_informed_fixed_benchmark_supplement": supplement,
+            "experience_replication_design": ("single_actual_seed45_fixed_benchmark_banks" if supplement else
+                cfg.get("experience_replication_design", "legacy_three_seed_matched")),
             "shared_experience_predictions_not_independent_learning_repeats": (
-                initial or cfg.get("experience_replication_design") == SINGLE_BASELINE_DESIGN),
+                single_build or cfg.get("experience_replication_design") == SINGLE_BASELINE_DESIGN),
             "sources": len(keys), "source_keys_sorted": keys, "endpoints": list(FAMILIES),
             "bootstrap_draws": 20000, "bootstrap_seed": 2026102192,
             "rng": "NumPy Generator PCG64", "numpy_version": np.__version__, "quantile_method": "linear",
@@ -345,7 +390,7 @@ def paired_source_statistics(cfg, records):
             "secondary_family_comparisons": secondary_m,
             "secondary_contrasts": {c["name"]: result[c["name"]] for c in secondary},
             "secondary_single_learning_seed45_not_three_repeats_or_matched_actual_compute": True,
-            "all_primary_adjusted_lower_bounds_positive": None if initial else all(
+            "all_primary_adjusted_lower_bounds_positive": None if single_build else all(
                 endpoint["adjusted_lower_positive"] for c in primary
                 for endpoint in result[c["name"]]["endpoints"].values()),
             "conditional_on_actual_learned_banks_and_fixed_decoding_not_algorithm_population": True,
@@ -353,7 +398,7 @@ def paired_source_statistics(cfg, records):
 
 
 def check_ace_learning_origin(source, frozen, out, initial, complete, *, _lineage=None,
-                              allow_phase_dispatch=False):
+                              allow_phase_dispatch=False, adaptive=False):
     """Verify empty-origin TRAIN lineage, including actual timeout continuations.
 
     This reads TRAIN provenance only, never a TEST packet or target. Returned
@@ -411,7 +456,7 @@ def check_ace_learning_origin(source, frozen, out, initial, complete, *, _lineag
         if sha(actual) != digest:
             if not allow_phase_dispatch or name not in runtime_sources.HISTORICAL:
                 raise ValueError("Original ACE continuation artifact changed: " + name)
-            version_sources.update(runtime_sources.verify_revision(ROOT, name, digest))
+            version_sources.update(runtime_sources.verify_revision(ROOT, name, digest, adaptive=adaptive))
     old_path = ROOT / receipt["source_config"]
     old = read(old_path)
     old_out = ROOT / "runs" / old["run_id"]
@@ -467,7 +512,7 @@ def check_ace_learning_origin(source, frozen, out, initial, complete, *, _lineag
                 stopped["actual_teacher_responses"] - prior_meta["restored_teacher_responses"]}
         extras.update(check_ace_learning_origin(
             old, old_frozen, old_out, old_initial, accounting, _lineage=seen,
-            allow_phase_dispatch=allow_phase_dispatch))
+            allow_phase_dispatch=allow_phase_dispatch, adaptive=adaptive))
     elif old_initial["playbook"] != INITIAL_PLAYBOOK:
         raise ValueError("The oldest actual ACE learner must start at the empty section headers")
     parent = csha(INITIAL_PLAYBOOK)
@@ -566,7 +611,7 @@ def check_ace_learning_origin(source, frozen, out, initial, complete, *, _lineag
             *(out / "batches" / f"b{b}_records.json" for b in range(1, through + 2))}
 
 
-def check_shared_actor_revision(name, expected, *, allow_phase_dispatch=False):
+def check_shared_actor_revision(name, expected, *, allow_phase_dispatch=False, adaptive=False):
     """Allow only the recorded teacher-log-only edit in the shared module.
 
     Final inference never calls Comparison.teacher_call. Every other AST node
@@ -574,7 +619,7 @@ def check_shared_actor_revision(name, expected, *, allow_phase_dispatch=False):
     require byte identity. The old source joins the final immutable freeze.
     """
     if allow_phase_dispatch and name in runtime_sources.HISTORICAL:
-        return runtime_sources.verify_revision(ROOT, name, expected)
+        return runtime_sources.verify_revision(ROOT, name, expected, adaptive=adaptive)
     current = ROOT / name
     if sha(current) == expected:
         return set()
@@ -609,6 +654,53 @@ def check_shared_actor_revision(name, expected, *, allow_phase_dispatch=False):
 def check_learning_execution_versions(cfg, source_configs):
     """Bind original banks and explicitly amended controls to their real runtimes."""
     schedule = cfg.get("learning_execution_schedule")
+    if cfg.get("evaluation_stage") == SUPPLEMENT_STAGE:
+        if (schedule != runtime_sources.ADAPTIVE_SCHEDULE
+                or cfg.get("learning_execution_schedule_protocol") != SUPPLEMENT_PROTOCOL):
+            raise ValueError("Declare the actual adaptive/retained-control runtime boundary")
+        extras = runtime_sources.validate_bundle(ROOT, adaptive=True) | {ROOT / SUPPLEMENT_PROTOCOL}
+        if not (ROOT / SUPPLEMENT_PROTOCOL).is_file():
+            raise ValueError("Bind the revised fixed-benchmark protocol")
+        environments, main_environment = {}, None
+        arms = {a["name"]: a for a in cfg["arms"]}
+        for name, source in source_configs.items():
+            if source.get("source_cases") == 0:
+                continue
+            arm = arms[name]
+            frozen = read((ROOT / arm["source_config"]).with_suffix(".frozen.json"))
+            out = ROOT / "runs" / source["run_id"]
+            receipts = (read(out / "initialization.json"), read(out / "completion.json"))
+            revised = arm["role"] in ("evolved", "B1_frozen")
+            if revised:
+                environment = runtime_sources.validate_adaptive_learning_receipt(
+                    ROOT, source, frozen, *receipts)
+                if main_environment is not None and environment != main_environment:
+                    raise ValueError("The revised final bank and ownB1 need the same learning service")
+                main_environment = environment
+            else:
+                if source.get("skill_commit_policy") == "adaptive_legal":
+                    raise ValueError("A retained comparator cannot become an adaptive run")
+                environment = runtime_sources.validate_learning_receipt(
+                    ROOT, source, frozen, *receipts,
+                    allow_uniform_control=arm["role"] == "ablation")
+            limit = "4" if revised or arm["role"] == "ablation" else "1"
+            environments.setdefault((str(environment), sha(environment)), set()).add(limit)
+            extras.add(environment)
+        current = ROOT / cfg["inference_environment"]
+        if main_environment != current or not environments or any(len(v) != 1 for v in environments.values()):
+            raise ValueError("The supplementary TEST uses the actual revised four-sequence service")
+        normalized = []
+        for (name, _), limits in environments.items():
+            argv = list(read(Path(name))["actual_argv"])
+            if argv.count("--max-num-seqs") != 1 or argv.index("--max-num-seqs") + 1 >= len(argv):
+                raise ValueError("Capture the one actual service sequence limit")
+            index = argv.index("--max-num-seqs")
+            if argv[index + 1] != next(iter(limits)):
+                raise ValueError("A retained or revised learning service has the wrong sequence limit")
+            normalized.append(argv[:index] + argv[index + 2:])
+        if any(argv != normalized[0] for argv in normalized[1:]):
+            raise ValueError("Retained and revised actors must use the same weights and serving arguments")
+        return extras
     if schedule is None:
         if any(source.get("phase_dispatch") is not None for source in source_configs.values()):
             raise ValueError("Declare the changed learning execution schedule before TEST")
@@ -677,6 +769,10 @@ def check_learning_execution_versions(cfg, source_configs):
 def check_future_learning_plan(cfg, source_configs):
     """Lock six actual recipes before initial TEST, not six nonexistent banks."""
     stage = cfg.get("evaluation_stage")
+    if stage == SUPPLEMENT_STAGE:
+        if cfg.get("future_learning_plan") is not None or cfg.get("future_learning_plan_sha256") is not None:
+            raise ValueError("Independent learning repeats remain deferred, not a supplementary-stage recipe")
+        return set()
     if stage not in (INITIAL_STAGE, FINAL_STAGE):
         return set()  # Small synthetic/legacy protocol checks never execute formal TEST.
     path = runtime_sources.checked_path(ROOT, cfg["future_learning_plan"])
@@ -783,7 +879,8 @@ def check_future_learning_plan(cfg, source_configs):
 def check_initial_evaluation(cfg):
     """The final table inherits the initial banks and raw outputs, never their scores."""
     reference = cfg.get("initial_evaluation")
-    if cfg.get("evaluation_stage") != FINAL_STAGE:
+    supplement = cfg.get("evaluation_stage") == SUPPLEMENT_STAGE
+    if cfg.get("evaluation_stage") not in (FINAL_STAGE, SUPPLEMENT_STAGE):
         if reference is not None:
             raise ValueError("Only the final stage can reference a completed initial evaluation")
         return set()
@@ -798,22 +895,51 @@ def check_initial_evaluation(cfg):
             or sha(frozen_path) != reference.get("source_frozen_sha256")):
         raise ValueError("Bind the original initial-stage config and freeze, not a reconstructed table")
     common = ("input_packet", "grading_directory", "generation", "inference_environment",
-              "source_cases", "training_packet_sha256", "staged_comparison_protocol",
-              "future_learning_plan", "future_learning_plan_sha256")
+              "source_cases", "training_packet_sha256") + (() if supplement else (
+                  "staged_comparison_protocol", "future_learning_plan", "future_learning_plan_sha256"))
     if any(initial.get(key) != cfg.get(key) for key in common):
         raise ValueError("The final stage changed the initial TEST sources, decoding or future recipe plan")
-    planned_initial = read(ROOT / cfg["future_learning_plan"])["initial_arm_names"]
     arms = {arm["name"]: arm for arm in cfg["arms"]}
-    if (len(initial["arms"]) != 8 or {a["name"] for a in initial["arms"]} != set(planned_initial)
-            or any(arms.get(arm["name"]) != arm for arm in initial["arms"])):
-        raise ValueError("The final stage must retain every original initial8 bank")
+    extras = {path, frozen_path}
+    if supplement:
+        retained = [a for a in initial["arms"] if a["role"] not in ("evolved", "B1_frozen")]
+        replaced = {a["name"] for a in initial["arms"]} - {a["name"] for a in retained}
+        revised = [a for a in cfg["arms"] if a["role"] in ("evolved", "B1_frozen")]
+        if (len(initial["arms"]) != 8 or len(retained) != 6 or len(arms) != 8
+                or len(revised) != 2 or {a["role"] for a in revised} != {"evolved", "B1_frozen"}
+                or set(cfg.get("retained_initial_arms", [])) != {a["name"] for a in retained}
+                or len(cfg.get("retained_initial_arms", [])) != 6
+                or any(arms.get(a["name"]) != a for a in retained)
+                or replaced & set(arms)):
+            raise ValueError("Retain exactly six original conditions and replace both old main snapshots explicitly")
+        snapshots = reference.get("preserved_source_snapshots", {})
+        if not isinstance(snapshots, dict) or not set(snapshots) <= INITIAL_SOURCE_SNAPSHOTS:
+            raise ValueError("Only explicitly unused old documentation/test/evaluator sources may use preserved bytes")
+    else:
+        planned_initial = read(ROOT / cfg["future_learning_plan"])["initial_arm_names"]
+        if (len(initial["arms"]) != 8 or {a["name"] for a in initial["arms"]} != set(planned_initial)
+                or any(arms.get(arm["name"]) != arm for arm in initial["arms"])):
+            raise ValueError("The final stage must retain every original initial8 bank")
+    used_snapshots = set()
     for name, digest in bound["files"].items():
         if sha(runtime_sources.checked_path(ROOT, name)) != digest:
-            raise ValueError("An initial-stage frozen source/input changed: " + name)
+            if supplement and name in runtime_sources.HISTORICAL:
+                extras.update(runtime_sources.verify_revision(ROOT, name, digest, adaptive=True))
+            elif supplement and name in snapshots:
+                original = runtime_sources.checked_path(ROOT, snapshots[name])
+                snapshot_dir = ROOT / ("artifacts/research/openexempt_legal_scope_20261020/"
+                                       "source_snapshots/initial_eval_20261025")
+                if not original.is_relative_to(snapshot_dir) or sha(original) != digest:
+                    raise ValueError("The exact original initial-stage unused source changed: " + name)
+                extras.add(original)
+                used_snapshots.add(name)
+            else:
+                raise ValueError("An initial-stage frozen source/input changed: " + name)
+    if supplement and used_snapshots != set(snapshots):
+        raise ValueError("Preserved source snapshots must describe exactly the actual changed unused files")
     out = ROOT / "runs" / safe_component(initial["run_id"])
     if (out / "failure.json").exists():
         raise ValueError("A failed or partial initial TEST cannot be selected for reuse")
-    extras = {path, frozen_path}
     for name, key in (("completion.json", "completion_sha256"),
                       ("predictions_before_any_grading.json", "predictions_sha256"),
                       ("native_origins_before_any_grading.json", "native_origins_sha256"),
@@ -835,9 +961,13 @@ def fixed_banks(cfg):
     """Check completed TRAIN provenance without loading TEST questions/targets."""
     workers = evaluation_request_workers(cfg)
     schedule = cfg.get("learning_execution_schedule")
-    if schedule not in (None, runtime_sources.SCHEDULE, runtime_sources.CONTROL_SCHEDULE):
+    supplement = cfg.get("evaluation_stage") == SUPPLEMENT_STAGE
+    if schedule not in (None, runtime_sources.SCHEDULE, runtime_sources.CONTROL_SCHEDULE,
+                         runtime_sources.ADAPTIVE_SCHEDULE):
         raise ValueError("Unknown learning execution schedule")
-    allow_phase_dispatch = schedule in (runtime_sources.SCHEDULE, runtime_sources.CONTROL_SCHEDULE)
+    if (schedule == runtime_sources.ADAPTIVE_SCHEDULE) != supplement:
+        raise ValueError("The revised runtime epoch belongs only to the declared supplementary stage")
+    allow_phase_dispatch = schedule is not None
     if (cfg.get("evaluation_role") != "sealed_frozen_comparison"
             or cfg.get("final_matrix_frozen") is not True
             or cfg.get("no_validation_set") is not True
@@ -897,7 +1027,8 @@ def fixed_banks(cfg):
                 raise ValueError("Source executor or inference budget differs: " + key)
         for name_ in SHARED_ACTOR_FILES + (ACE_ACTOR_FILES if arm["backend"] == "ace" else ()):
             extras.update(check_shared_actor_revision(
-                name_, frozen["files"][name_], allow_phase_dispatch=allow_phase_dispatch))
+                name_, frozen["files"][name_], allow_phase_dispatch=allow_phase_dispatch,
+                adaptive=supplement))
         out = ROOT / "runs" / source["run_id"]
         complete = read(out / "completion.json")
         if role == "static_law_only":
@@ -966,7 +1097,8 @@ def fixed_banks(cfg):
             raise ValueError("Independent learning starts from its original empty library, not a selected prior")
         if arm["backend"] == "ace":
             extras.update(check_ace_learning_origin(
-                source, frozen, out, initial, complete, allow_phase_dispatch=allow_phase_dispatch))
+                source, frozen, out, initial, complete, allow_phase_dispatch=allow_phase_dispatch,
+                adaptive=supplement))
         text_method = role == "experience" and arm["backend"] == "direct"
         if text_method:
             if cfg.get("external_text_adaptation") != "trace2skill_text_offline_v1":
@@ -975,7 +1107,8 @@ def fixed_banks(cfg):
             for dependency in ("experiments/openexempt_trace2skill.py",
                                "legal_skill_guard/learning/trace2skill_text.py", source["protocol"]):
                 if allow_phase_dispatch and dependency == "experiments/openexempt_trace2skill.py":
-                    extras.update(runtime_sources.verify_revision(ROOT, dependency, frozen["files"][dependency]))
+                    extras.update(runtime_sources.verify_revision(
+                        ROOT, dependency, frozen["files"][dependency], adaptive=supplement))
                 elif frozen["files"][dependency] != sha(ROOT / dependency):
                     raise ValueError("Text construction implementation changed since learning")
             if initial["patch_initial_files"] != TRACE2SKILL_INITIAL_FILES:
@@ -1006,6 +1139,17 @@ def fixed_banks(cfg):
         bank = published[field]
         if csha(bank) != arm["bank_sha256"]:
             raise ValueError("Do not select or rewrite a different learned bank")
+        if supplement and role == "B1_frozen":
+            snapshot_path = out / "frozen_after_B1.json"
+            snapshot = read(snapshot_path)
+            if (snapshot.get("bank") != bank or snapshot.get("bank_sha256") != csha(bank)
+                    or snapshot.get("publication_bank_sha256") != csha(bank)
+                    or snapshot.get("freeze_after_exactly_batch") != 1
+                    or snapshot.get("not_selected_by_later_performance_or_nonempty_success") is not True
+                    or snapshot.get("evaluation_only_never_teacher_or_admission_feedback") is not True
+                    or len(set(snapshot.get("source_keys_seen", []))) != source["batch_source_cases"]):
+                raise ValueError("Use the revised learner's exact original frozen B1, never a selected snapshot")
+            extras.add(snapshot_path)
         if role != "B1_frozen":
             final_field = "final_playbook" if arm["backend"] == "ace" else ("final_bank" if text_method else "bank")
             if bank != complete[final_field]:
@@ -1083,7 +1227,7 @@ class FrozenEvaluation:
             raise FileExistsError("Never overwrite or resume selected TEST answers")
         self.native, self.request_cache, self.reuse_events = [], {}, []
         self.initial_arm_names, self.prior_native_origins = set(), []
-        if self.cfg.get("evaluation_stage") == FINAL_STAGE:
+        if self.cfg.get("evaluation_stage") in (FINAL_STAGE, SUPPLEMENT_STAGE):
             self.load_initial_raw_origins()
         self.current_batch, self.stop = 0, False
         for sig in (signal.SIGINT, signal.SIGTERM):
@@ -1098,6 +1242,11 @@ class FrozenEvaluation:
         if index.get("generation_sha256") != csha(self.cfg["generation"]):
             raise ValueError("Prior raw responses use different generation settings")
         self.initial_arm_names = {arm["name"] for arm in initial["arms"]}
+        all_initial_arm_names = set(self.initial_arm_names)
+        if self.cfg.get("evaluation_stage") == SUPPLEMENT_STAGE:
+            self.initial_arm_names = set(self.cfg["retained_initial_arms"])
+            if not self.initial_arm_names <= all_initial_arm_names:
+                raise ValueError("Only original condition names may retain original predictions")
         for entry in index["origins"]:
             path = runtime_sources.checked_path(ROOT, entry["raw_call_path"])
             input_path = path.with_suffix(".input.json")
@@ -1145,7 +1294,7 @@ class FrozenEvaluation:
                     or any(r["raw_call_path"] not in origin_paths or "score" in r for r in records)):
                 raise ValueError("Reuse the full pre-grading initial matrix, not selected or scored answers")
             grids.append(grid)
-        if set(predictions) != self.initial_arm_names or any(grid != grids[0] for grid in grids):
+        if set(predictions) != all_initial_arm_names or any(grid != grids[0] for grid in grids):
             raise ValueError("The prior stage must contain every source under every original arm")
 
     def progress(self, stage, **extra):
@@ -1283,19 +1432,27 @@ def main():
     os.chdir(ROOT)
     cfg = read(path)
     stage = cfg.get("evaluation_stage")
+    supplement = stage == SUPPLEMENT_STAGE
+    if supplement and (cfg.get("supplement_protocol") != SUPPLEMENT_PROTOCOL
+            or cfg.get("protocol") != SUPPLEMENT_PROTOCOL
+            or cfg.get("benchmark_development_status") != "development_informed_fixed_benchmark"
+            or cfg.get("historical_comparators_not_matched_new_ablations") is not True
+            or cfg.get("independent_learning_repetitions") != "user_deferred"
+            or cfg.get("future_learning_plan") is not None
+            or cfg.get("future_learning_plan_sha256") is not None):
+        raise ValueError("Declare the actual fixed-benchmark supplement without fictitious repeats or untouched claims")
     if (cfg.get("external_text_adaptation") != "trace2skill_text_offline_v1"
-            or stage not in (INITIAL_STAGE, FINAL_STAGE)
-            or cfg.get("ablation_design") != "legal_scope_granularity_v1"
-            or cfg.get("staged_comparison_protocol") != STAGED_PROTOCOL
-            or not cfg.get("future_learning_plan")
-            or not cfg.get("future_learning_plan_sha256")
+            or stage not in (INITIAL_STAGE, FINAL_STAGE, SUPPLEMENT_STAGE)
+            or cfg.get("ablation_design") != (SUPPLEMENT_DESIGN if supplement else "legal_scope_granularity_v1")
+            or (not supplement and (cfg.get("staged_comparison_protocol") != STAGED_PROTOCOL
+                or not cfg.get("future_learning_plan") or not cfg.get("future_learning_plan_sha256")))
             or cfg.get("experience_replication_design") is not None
-            or len(cfg.get("arms", [])) != (8 if stage == INITIAL_STAGE else 16)
+            or len(cfg.get("arms", [])) != (8 if stage in (INITIAL_STAGE, SUPPLEMENT_STAGE) else 16)
             or cfg.get("source_cases") != 128 or cfg.get("training_source_cases") != 128
             or cfg.get("training_batch_source_cases") != 16
             or len(cfg.get("primary_contrasts", [])) != 5
             or len(cfg.get("secondary_contrasts", [])) != 2):
-        raise ValueError("The formal paper entry requires the declared initial8 or final16 staged design")
+        raise ValueError("The formal paper entry requires the declared initial8, final16 or revised supplementary8 design")
     _, _, sources = fixed_banks(cfg)
     with (ROOT / "artifacts/openexempt_training.lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)

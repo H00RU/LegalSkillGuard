@@ -860,7 +860,7 @@ def _staged_six_recipe_fixture(plan):
     root = plan[2]
     for name in frozen.runtime_sources.CURRENT:
         target = root / name
-        original = Path(frozen.__file__).resolve().parents[1] / name
+        original = _original_dispatch_source(Path(frozen.__file__).resolve().parents[1], name)
         if target.is_symlink():
             target.unlink()  # This fixture's own temporary symlink, not project source.
         if not target.exists():
@@ -1057,10 +1057,11 @@ def test_final_stage_requires_the_original_initial_matrix_provenance(plan, monke
             frozen.check_initial_evaluation(cfg)
 
 
+@pytest.mark.parametrize("stage", [frozen.FINAL_STAGE, frozen.SUPPLEMENT_STAGE])
 @pytest.mark.parametrize("length_ended", [False, True])
 @pytest.mark.parametrize("mutation", [None, "changed_response", "changed_wire_input", "duplicate_origin",
                                       "changed_generation", "scored_answers", "missing_task"])
-def test_prior_stage_reuses_full_native_wire_not_scores_or_repaired_answers(plan, length_ended, mutation):
+def test_prior_stage_reuses_full_native_wire_not_scores_or_repaired_answers(plan, stage, length_ended, mutation):
     cfg, _, root = plan
     rows = read(root / cfg["input_packet"])["rows"]
     initial = {"run_id": "initial_raw_fixture", "source_cases": 1, "arms": [{"name": "ours"}]}
@@ -1113,7 +1114,8 @@ def test_prior_stage_reuses_full_native_wire_not_scores_or_repaired_answers(plan
     RunStore.immutable_json(out / "predictions_before_any_grading.json", predictions)
     RunStore.immutable_json(out / "completion.json", {"actual_native_calls": 2})
     study = object.__new__(frozen.FrozenEvaluation)
-    study.cfg = {**cfg, "initial_evaluation": {"source_config": str(initial_path.relative_to(root))}}
+    study.cfg = {**cfg, "evaluation_stage": stage, "retained_initial_arms": ["ours"],
+                 "initial_evaluation": {"source_config": str(initial_path.relative_to(root))}}
     study.native, study.request_cache, study.reuse_events = [], {}, []
     study.initial_arm_names, study.prior_native_origins = set(), []
     if mutation is not None:
@@ -1397,9 +1399,9 @@ def prospective_runtime(tmp_path, monkeypatch):
     for name in (*s.CURRENT, 'legal_skill_guard/learning/runtime_sources.py', s.PROTOCOL):
         target = tmp_path / name
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(project / name, target)
+        shutil.copyfile(_original_dispatch_source(project, name), target)
     for name, versions in s.HISTORICAL.items():
-        for digest, stem in versions.items():
+        for digest, stem in {**versions, **s.ADAPTIVE_PRIOR.get(name, {})}.items():
             path = f'{s.SNAPSHOTS}/{stem}__{digest}.py'
             target = tmp_path / path
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -1411,6 +1413,253 @@ def prospective_runtime(tmp_path, monkeypatch):
         return original(path)
     monkeypatch.setattr(frozen, 'read', guarded)
     return tmp_path
+
+
+def _original_dispatch_source(project, name):
+    """Keep old-profile fixtures on the actual old source, not today's learner."""
+    s = frozen.runtime_sources
+    if name in s.ADAPTIVE_PRIOR:
+        digest = s.CURRENT[name]
+        return project / s.SNAPSHOTS / f'{s.ADAPTIVE_PRIOR[name][digest]}__{digest}.py'
+    return project / name
+
+
+def _synthetic_supplement(plan):
+    initial, sources, _, root = _staged_six_recipe_fixture(plan)
+    # The original fixture predates the final task-local control. Preserve it as
+    # a synthetic completed old matrix before introducing the new main recipe.
+    control = next(a for a in initial['arms'] if a['name'] == 'first_commit')
+    source = copy.deepcopy(sources.pop('first_commit'))
+    source.update(ablation_variant='task_local', skill_commit_policy='task_local',
+                  candidate_feedback_policy='carry_partial_and_refine')
+    path = root / control['source_config']
+    RunStore.atomic_json(path, source)
+    control.update(name='task_local', source_config_sha256=sha(path))
+    sources['task_local'] = source
+    initial['ablation_design'] = 'legal_scope_granularity_v1'
+    initial['secondary_contrasts'][-1].update(name='vs_task_local', before=['task_local'])
+    initial_path = RunStore.immutable_json(root / 'configs/original_initial.json', initial)
+    bound = RunStore.immutable_json(initial_path.with_suffix('.frozen.json'), {
+        'config_sha256': sha(initial_path), 'files': {}})
+    out = root / 'runs' / initial['run_id']
+    artifacts = {
+        'completion.json': {'status': 'completed_frozen_comparison',
+            'evaluation_stage': frozen.INITIAL_STAGE, 'teacher_calls': 0,
+            'bank_sha256': {a['name']: a.get('bank_sha256', csha([])) for a in initial['arms']}},
+        'predictions_before_any_grading.json': {'synthetic_unscored_fixture': True},
+        'native_origins_before_any_grading.json': {'synthetic_index_fixture': True},
+        'terminal_preservation.json': {'synthetic_only': True}}
+    for name, value in artifacts.items():
+        RunStore.immutable_json(out / name, value)
+    cfg = copy.deepcopy(initial)
+    cfg.update(evaluation_stage=frozen.SUPPLEMENT_STAGE, ablation_design=frozen.SUPPLEMENT_DESIGN,
+        historical_comparators_not_matched_new_ablations=True,
+        retained_initial_arms=[a['name'] for a in initial['arms']
+                               if a['role'] not in ('evolved', 'B1_frozen')])
+    for key in ('future_learning_plan', 'future_learning_plan_sha256', 'staged_comparison_protocol'):
+        cfg.pop(key, None)
+    for arm in cfg['arms']:
+        if arm['role'] in ('evolved', 'B1_frozen'):
+            arm['name'] = 'adaptive45' if arm['role'] == 'evolved' else 'adaptiveB1'
+            arm['source_config'] = 'configs/new_adaptive.json'
+            sources[arm['name']] = {**copy.deepcopy(sources['ours']),
+                'run_id': 'new_adaptive', 'skill_commit_policy': 'adaptive_legal'}
+    for contrast in cfg['primary_contrasts'] + cfg['secondary_contrasts']:
+        contrast['after'] = ['adaptive45']
+        contrast['before'] = ['adaptiveB1' if n == 'B1' else n for n in contrast['before']]
+    cfg['initial_evaluation'] = {'source_config': str(initial_path.relative_to(root)),
+        'source_config_sha256': sha(initial_path), 'source_frozen_sha256': sha(bound),
+        **{key: sha(out / name) for name, key in (
+            ('completion.json', 'completion_sha256'),
+            ('predictions_before_any_grading.json', 'predictions_sha256'),
+            ('native_origins_before_any_grading.json', 'native_origins_sha256'),
+            ('terminal_preservation.json', 'terminal_preservation_sha256'))}}
+    return cfg, sources, root
+
+
+@pytest.mark.parametrize('mutation', [None, 'retained_bank', 'old_main_name', 'wrong_old_policy',
+                                     'missing_control', 'invented_repeat', 'repeat_recipe'])
+def test_adaptive_supplement_retains_six_actual_old_conditions_not_new_ablations(plan, monkeypatch, mutation):
+    cfg, sources, root = _synthetic_supplement(plan)
+    if mutation == 'retained_bank':
+        next(a for a in cfg['arms'] if a['name'] == 'static')['bank_sha256'] = '0' * 64
+    elif mutation == 'old_main_name':
+        next(a for a in cfg['arms'] if a['name'] == 'adaptive45')['name'] = 'ours'
+    elif mutation == 'wrong_old_policy':
+        sources['task_local']['ablation_variant'] = 'dependency_component'
+    elif mutation == 'missing_control':
+        cfg['retained_initial_arms'].pop()
+    elif mutation == 'invented_repeat':
+        cfg['primary_contrasts'][0]['after'].append('adaptive145')
+    elif mutation == 'repeat_recipe':
+        cfg['future_learning_plan'] = 'unauthorized_repeat.json'
+    original_read = frozen.read
+    def guarded(path):
+        assert Path(path) != root / cfg['input_packet'] and 'grading_only' not in Path(path).parts
+        return original_read(path)
+    monkeypatch.setattr(frozen, 'read', guarded)
+    def check():
+        frozen.check_primary_contrasts(cfg, sources)
+        frozen.check_secondary_contrasts(cfg, sources)
+        frozen.check_future_learning_plan(cfg, sources)
+        return frozen.check_initial_evaluation(cfg)
+    if mutation is not None:
+        with pytest.raises(ValueError):
+            check()
+        return
+    assert len(check()) == 6
+    cfg['source_cases'] = 3
+    records = {arm['name']: [{'source_key': str(i), 'case_id': i, 'family': f,
+        'score': {'f1': .6 if arm['role'] == 'evolved' else .5}}
+        for i in range(3) for f in ('EC', 'EV')] for arm in cfg['arms']}
+    stats = frozen.paired_source_statistics(cfg, records)
+    assert stats['primary_family_comparisons'] == 10 and stats['secondary_family_comparisons'] == 4
+    assert stats['development_informed_fixed_benchmark_supplement'] and not stats['confirmatory_analysis']
+    assert stats['experience_replication_design'] == 'single_actual_seed45_fixed_benchmark_banks'
+    assert all(len(c['per_learning_repeat']['difference_pp']) == 1 for c in stats['contrasts'].values())
+
+
+@pytest.mark.parametrize('mutation', [None, 'wrong_snapshot', 'outside_snapshot', 'actor_exception'])
+def test_supplement_preserves_exact_old_unused_source_not_an_actor_hash_waiver(plan, mutation):
+    cfg, _, root = _synthetic_supplement(plan)
+    original = root / 'artifacts/research/openexempt_legal_scope_20261020/source_snapshots/initial_eval_20261025/original.md'
+    original.parent.mkdir(parents=True, exist_ok=True)
+    original.write_text('exact old unused documentation\n')
+    current = root / 'README.md'
+    current.write_text('new documentation\n')
+    bound_path = root / cfg['initial_evaluation']['source_config']
+    bound_path = bound_path.with_suffix('.frozen.json')
+    bound = read(bound_path)
+    bound['files']['README.md'] = sha(original)
+    RunStore.atomic_json(bound_path, bound)
+    ref = cfg['initial_evaluation']
+    ref['source_frozen_sha256'] = sha(bound_path)
+    ref['preserved_source_snapshots'] = {'README.md': str(original.relative_to(root))}
+    if mutation == 'wrong_snapshot':
+        original.write_text('not the old bytes\n')
+    elif mutation == 'outside_snapshot':
+        ref['preserved_source_snapshots']['README.md'] = 'README.md'
+    elif mutation == 'actor_exception':
+        ref['preserved_source_snapshots']['legal_skill_guard/openexempt.py'] = str(original.relative_to(root))
+    if mutation is None:
+        assert original in frozen.check_initial_evaluation(cfg)
+    else:
+        with pytest.raises(ValueError):
+            frozen.check_initial_evaluation(cfg)
+
+
+@pytest.mark.parametrize('mutation', [None, 'old_ablations', 'untouched', 'repeat', 'missing_protocol', 'small_matrix'])
+def test_formal_supplement_is_explicit_before_any_bank_or_case_access(tmp_path, monkeypatch, mutation):
+    cfg = {'evaluation_stage': frozen.SUPPLEMENT_STAGE,
+        'external_text_adaptation': 'trace2skill_text_offline_v1', 'arms': [{}] * 8,
+        'ablation_design': frozen.SUPPLEMENT_DESIGN, 'supplement_protocol': frozen.SUPPLEMENT_PROTOCOL,
+        'protocol': frozen.SUPPLEMENT_PROTOCOL, 'benchmark_development_status': 'development_informed_fixed_benchmark',
+        'historical_comparators_not_matched_new_ablations': True,
+        'independent_learning_repetitions': 'user_deferred', 'source_cases': 128,
+        'training_source_cases': 128, 'training_batch_source_cases': 16,
+        'primary_contrasts': [{}] * 5, 'secondary_contrasts': [{}] * 2}
+    if mutation == 'old_ablations':
+        cfg['ablation_design'] = 'legal_scope_granularity_v1'
+    elif mutation == 'untouched':
+        cfg['benchmark_development_status'] = 'untouched'
+    elif mutation == 'repeat':
+        cfg['future_learning_plan'] = 'repeat.json'
+    elif mutation == 'missing_protocol':
+        del cfg['supplement_protocol']
+    elif mutation == 'small_matrix':
+        cfg['arms'].pop()
+    path = RunStore.immutable_json(tmp_path / 'supplement.json', cfg)
+    monkeypatch.setattr(frozen, 'ROOT', tmp_path)
+    monkeypatch.setattr(sys, 'argv', ['formal_entry', 'freeze', str(path)])
+    class BankGateReached(Exception):
+        pass
+    def gate(_):
+        assert mutation is None
+        raise BankGateReached
+    monkeypatch.setattr(frozen, 'fixed_banks', gate)
+    with pytest.raises(BankGateReached if mutation is None else ValueError):
+        frozen.main()
+
+
+@pytest.fixture
+def adaptive_runtime(prospective_runtime):
+    root, s = prospective_runtime, frozen.runtime_sources
+    project = Path(frozen.__file__).resolve().parents[1]
+    shutil.copyfile(project / 'experiments/openexempt_online.py', root / 'experiments/openexempt_online.py')
+    protocol = root / s.ADAPTIVE_PROTOCOL
+    protocol.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(project / s.ADAPTIVE_PROTOCOL, protocol)
+    cfg, sources = _synthetic_runtime_schedule(root)
+    cfg.update(evaluation_stage=frozen.SUPPLEMENT_STAGE, inference_environment='env4.json',
+        learning_execution_schedule=s.ADAPTIVE_SCHEDULE,
+        learning_execution_schedule_protocol=s.ADAPTIVE_PROTOCOL)
+    cfg['arms'] = [a for a in cfg['arms'] if a['name'] in ('main45', 'ace45', 'text45')]
+    sources = {a['name']: sources[a['name']] for a in cfg['arms']}
+    old_main = copy.deepcopy(sources['main45'])
+    for arm in cfg['arms']:
+        arm['role'] = 'evolved' if arm['name'] == 'main45' else 'experience'
+    for variant in ('whole_bank', 'task_local'):
+        source = {**copy.deepcopy(old_main), 'run_id': variant, 'ablation_variant': variant,
+            'skill_commit_policy': variant, 'candidate_feedback_policy': 'carry_partial_and_refine',
+            'phase_dispatch': copy.deepcopy(s.DECLARATION), 'inference_environment': 'env4.json',
+            'ablation_execution_schedule': s.CONTROL_SCHEDULE, 'execution_order_addendum': s.CONTROL_PROTOCOL}
+        path = RunStore.immutable_json(root / f'configs/{variant}.json', source)
+        RunStore.immutable_json(path.with_suffix('.frozen.json'), {
+            'files': {**s.CURRENT, 'env4.json': sha(root / 'env4.json')}})
+        for filename in ('initialization.json', 'completion.json'):
+            RunStore.immutable_json(root / f'runs/{variant}/{filename}', {'execution_dispatch': s.DECLARATION})
+        cfg['arms'].append({'name': variant, 'role': 'ablation', 'source_config': str(path.relative_to(root))})
+        sources[variant] = source
+    source = sources['main45']
+    source.update(skill_commit_policy='adaptive_legal', candidate_feedback_policy='carry_partial_and_refine',
+        adaptive_commit_objective='seen_source_min_family_gain_then_mean_v1',
+        teacher_evidence_contract='all_bounded_feedback_witness_sources_mandatory_v1',
+        phase_dispatch=copy.deepcopy(s.ADAPTIVE_DECLARATION), inference_environment='env4.json',
+        max_candidate_attempts=2, library_token_hard_cap=4096)
+    RunStore.atomic_json(root / 'configs/main45.frozen.json', {
+        'files': {**s.ADAPTIVE_CURRENT, 'env4.json': sha(root / 'env4.json')}})
+    for filename in ('initialization.json', 'completion.json'):
+        RunStore.atomic_json(root / f'runs/main45/{filename}', {'execution_dispatch': s.ADAPTIVE_DECLARATION})
+    return root, cfg, sources
+
+
+@pytest.mark.parametrize('mutation', [None, 'two_teachers', 'old_main_source', 'wrong_receipt', 'unknown_epoch',
+                                     'old_control', 'changed_model', 'old_stage'])
+def test_adaptive_actual_one_teacher_epoch_does_not_rewrite_historical_controls(adaptive_runtime, mutation):
+    root, cfg, sources = adaptive_runtime
+    s = frozen.runtime_sources
+    if mutation == 'two_teachers':
+        sources['main45']['phase_dispatch']['teacher_workers'] = 2
+    elif mutation == 'old_main_source':
+        path = root / 'configs/main45.frozen.json'
+        value = read(path)
+        value['files']['experiments/openexempt_online.py'] = s.CURRENT['experiments/openexempt_online.py']
+        RunStore.atomic_json(path, value)
+    elif mutation == 'wrong_receipt':
+        RunStore.atomic_json(root / 'runs/main45/completion.json', {'execution_dispatch': s.DECLARATION})
+    elif mutation == 'unknown_epoch':
+        cfg['learning_execution_schedule'] = 'unapproved'
+    elif mutation == 'old_control':
+        sources['task_local']['phase_dispatch']['teacher_workers'] = 1
+    elif mutation == 'changed_model':
+        value = read(root / 'env4.json')
+        value['actual_argv'][2] = 'different_model'
+        RunStore.atomic_json(root / 'env4.json', value)
+        for path in (root / 'configs').glob('*.frozen.json'):
+            value = read(path)
+            if 'env4.json' in value['files']:
+                value['files']['env4.json'] = sha(root / 'env4.json')
+                RunStore.atomic_json(path, value)
+    elif mutation == 'old_stage':
+        cfg['evaluation_stage'] = frozen.INITIAL_STAGE
+    if mutation is None:
+        extras = frozen.check_learning_execution_versions(cfg, sources)
+        assert {p.name for p in extras} >= {'env1.json', 'env4.json'}
+        old = s.CURRENT['experiments/openexempt_online.py']
+        assert len(s.verify_revision(root, 'experiments/openexempt_online.py', old, adaptive=True)) == 7
+    else:
+        with pytest.raises(ValueError):
+            frozen.check_learning_execution_versions(cfg, sources)
 
 
 @pytest.mark.parametrize('name,digest', [
