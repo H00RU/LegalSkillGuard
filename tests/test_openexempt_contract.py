@@ -1164,6 +1164,77 @@ def test_adaptive_commit_can_keep_a_valid_joint_repair_without_local_gate_cherry
         assert not decision["accepted_legal_coordinates"]  # Never claim that failed local gates passed.
 
 
+@pytest.mark.parametrize("policy", ["whole_bank", "legal_scope", "adaptive_legal"])
+def test_fully_committed_task_projections_stop_refinement_under_every_policy(
+        tmp_path, monkeypatch, policy):
+    from types import SimpleNamespace
+    from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
+
+    monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
+    monkeypatch.setattr("legal_skill_guard.learning.legal_namespace.asset_description_lexicon",
+                        lambda: ("watch",))
+    study = Online.__new__(Online)
+    study.cfg = {"execution_contract": "direct_statutory_claims",
+        "execution_contract_version": 14,
+        "candidate_feedback_policy": "carry_partial_and_refine",
+        "generation": {"seed": 45, "max_tokens": 100}, "max_candidate_attempts": 2,
+        "library_token_hard_cap": 4096, "skill_commit_policy": policy,
+        "adaptive_commit_objective": "seen_source_min_family_gain_then_mean_v1"}
+    study._dispatch = PhaseDispatch({})
+    study.current_batch, study.latest = 1, {}
+    study.out, study.native, study.request_cache, study.reuse_events = tmp_path, [], {}, []
+    study.meter = SimpleNamespace(token_count=lambda **kwargs: 300)
+    study.check, study.progress = lambda: None, lambda *a, **k: None
+    study.rows = [{**row, "source_key": f"fixture{row['case_id']}", "prompt": "public original"}
+                  for row in scope_rows()]
+    study.bank = [{"id": sid, "hypothesis_ids": ["EC", "EV"],
+                   "guidance": guidance("INITIAL_PROCEDURE", namespace)}
+                  for sid, namespace in [("z_arizona", "ARIZONA"), ("a_illinois", "ILLINOIS")]]
+    proposed = copy.deepcopy(study.bank)
+    for skill in proposed:
+        skill["guidance"]["by_task"] = [
+            guidance("FIXED_PROCEDURE", tasks=(family,))["by_task"][0]
+            for family in ("EC", "EV")]
+    citations = {1: "Ariz. Rev. Stat. § 33-1123", 2: "735 Ill. Comp. Stat. 5/12-1001(b)"}
+    teachers = []
+
+    def call(dest, messages, schema, max_tokens, metadata):
+        study.native.append(metadata)
+        fixed = "FIXED_PROCEDURE" in str(messages)
+        reference = citations[metadata["document_id"]].replace("§", "section")
+        answer = ({"A001": [reference] if fixed else []} if metadata["family"] == "EC" else
+                  {"A001": [{"citation_ref": reference, "claim_value": 30 if fixed else 1}]})
+        return {"content": json.dumps(answer), "finish_reason": "stop"}
+
+    def grade(records):
+        for rec in records:
+            citation = citations[rec["case_id"]]
+            target = ({"watch": [citation]} if rec["family"] == "EC" else
+                      {"watch": [{"citation": citation, "claim_value": 30}]})
+            rec["score"] = evaluate(rec, rec["parsed"]["answer"], target)
+        return records
+
+    def teacher(name, *args):
+        teachers.append(name)
+        return {"noop_reason": None, "operations": [
+            {"operation": "UPDATE", "target_ids": [skill["id"]], "skill": skill,
+             "source_case_ids": [1, 2], "rationale": "Synthetic complete two-task repair"}
+            for skill in proposed]}
+
+    study.call, study.grade, study.teacher_call = call, grade, teacher
+    study.teacher_body = lambda *args: {"training_evidence_manifest": {"selected_source_ids": [1, 2]}}
+    parent = grade([study.answer(row, study.bank, "parent", "skills") for row in study.rows])
+    publication = study.update(study.rows, study.rows, parent)
+    assert teachers == ["b1_candidate1"]
+    assert len(publication["training_decisions"]) == 1
+    decision = publication["training_decisions"][0]
+    assert decision["accepted"] and decision["proposal_fully_committed"]
+    assert all(task_view(study.bank, family) == task_view(proposed, family) for family in ("EC", "EV"))
+    assert len(study.native) == 8  # Four parent + four proposed; composition only reuses exact wires.
+    if policy != "adaptive_legal":
+        assert study.bank != proposed  # Sorting/merging record blocks does not justify another proposal.
+
+
 def test_adaptive_replay_objective_keeps_pairing_and_task_balance_explicit():
     before = [{**record(family, .5), "case_id": 1} for family in ("EC", "EV")]
     after = [{**record("EC", .6), "case_id": 1}, {**record("EV", .7), "case_id": 1}]
@@ -1196,6 +1267,7 @@ def test_partial_commit_refinement_and_next_batch_feedback_are_real_train_only(
         tmp_path, monkeypatch, closed_loop, second_good, contract_version):
     from types import SimpleNamespace
 
+    from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
     from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
     monkeypatch.setattr("experiments.openexempt_online.ROOT", tmp_path)
@@ -1209,6 +1281,7 @@ def test_partial_commit_refinement_and_next_batch_feedback_are_real_train_only(
                                       else "batch_only_first_commit"),
         "generation": {"seed": 45, "max_tokens": 100}, "max_candidate_attempts": 2,
         "library_token_hard_cap": 4096, "skill_commit_policy": "legal_scope"}
+    study._dispatch = PhaseDispatch({})
     study.current_batch, study.latest = 1, {}
     study.out, study.native, study.request_cache, study.reuse_events = tmp_path, [], {}, []
     study.meter = SimpleNamespace(token_count=lambda **kwargs: 300)

@@ -1252,11 +1252,12 @@ class Online:
                     "selected": "joint" if use_joint else
                                 "dependency_components" if decision["accepted"] else "none",
                     "only_seen_TRAIN_scores_used": True, "new_native_generations": 0}
-                decision["proposal_fully_committed"] = decision["accepted"] and all(
-                    task_view(decision["candidate"], f) == task_view(candidate, f) for f in FAMILIES)
                 if decision["accepted"]:
                     actual_current = [r for r in decision["actual_replay"] if r["case_id"] in keys]
                     actual_prior = [r for r in decision["actual_replay"] if r["case_id"] not in keys]
+            # All policies stop on the same delivered task projections, not JSON record layout.
+            decision["proposal_fully_committed"] = decision["accepted"] and all(
+                task_view(decision["candidate"], f) == task_view(candidate, f) for f in FAMILIES)
             if closed_loop:
                 decision["attempt_parent_bank_sha256"] = csha(before)
             RunStore.immutable_json(self.out / "candidates" / f"{name}.json", decision)
