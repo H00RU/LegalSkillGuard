@@ -1,0 +1,40 @@
+{
+  "at": "2026-10-26T14:27:53.415559+00:00",
+  "classification": "Source-level proof of unchanged common legal actor, not an eval call or equality of learning methods",
+  "old_frozen_TEST_config": "configs/openexempt_initial8_frozen_TEST_20261025_run01.json",
+  "new_TRAIN_config": "configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json",
+  "old_source_git_commit": "93f03956de10092c196dcfa6231156cbed08d2ef",
+  "old_online_sha256": "e8a2d2e4eff63d2d1cda876e3de545db60459bbf69a7573e2fc098ff94773705",
+  "new_online_sha256": "41a99ca5b652ffde79cbc80e3434b9166108e20567322e5f4dba2255e171efce",
+  "exact_inference_AST_identity_sha256": {
+    "ACTOR_SYSTEM": "c39e90f5a05401698f1c20ca1ccebe78a5ac7efe9397634f7f0f6286d1ea954e",
+    "DIRECT_NUMERIC_SYSTEM": "bf3b6af7ed41d65269bad7b109ba8bc2290ced7b33b34b7ee31db92d17d40f6e",
+    "visible": "c0b203c2ad739d82ea5a87cd6aa0bbace27de332e7b050768232125e0bd477df",
+    "actor_payload": "3d1a7601b64e18deb1c52231cd6688bd350c461b535cfffa4d2c06707dab0f19",
+    "Online.answer": "2b71d59251519b7fe784a02d2b33ede7688c6a0f949a064070496a0a28bd3f7d"
+  },
+  "shared_manifest_files": 376,
+  "same_shared_runtime_Python_files": 51,
+  "changed_shared_files": [
+    "README.md",
+    "experiments/openexempt_online.py",
+    "tests/test_openexempt_contract.py"
+  ],
+  "changed_top_level_or_method_AST_nodes": [
+    "DIRECT_AUTHOR_SYSTEM",
+    "Online.__init__",
+    "Online.teacher_body",
+    "Online.update",
+    "candidate_feedback",
+    "teacher_evidence_rows"
+  ],
+  "new_top_level_or_method_AST_nodes": [
+    "balanced_replay_gain"
+  ],
+  "same_generation_configuration": true,
+  "same_direct_contract14": true,
+  "no_TEST_questions_answers_targets_predictions_or_scores_read": true,
+  "no_model_teacher_tokenizer_or_grader_calls": true,
+  "reuse_scope": "Supports source/interface consistency for legacy native-prediction reuse if original source cases, each frozen bank and actual inference profile stay identical. Does not authorize disguising new source as old, source-validation bypass or method-level equivalence. Existing frozen evaluator needs an explicit revised-study source stage after live TRAIN terminal preservation.",
+  "reproduction_program": "import ast,json,hashlib,subprocess,os\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nroot=Path.cwd();before='93f03956de10092c196dcfa6231156cbed08d2ef'\ngit='/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/bin/git';gitexec='/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/lib/git-core'\noldcode=subprocess.check_output([git,'show',before+':experiments/openexempt_online.py'],env={**os.environ,'GIT_EXEC_PATH':gitexec})\nnewcode=(root/'experiments/openexempt_online.py').read_bytes()\noldcfg=json.loads((root/'configs/openexempt_initial8_frozen_TEST_20261025_run01.json').read_text());newcfg=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json').read_text())\noldman=json.loads((root/'configs/openexempt_initial8_frozen_TEST_20261025_run01.frozen.json').read_text());newman=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.frozen.json').read_text())\nassert hashlib.sha256(oldcode).hexdigest()==oldman['files']['experiments/openexempt_online.py']\nassert hashlib.sha256(newcode).hexdigest()==newman['files']['experiments/openexempt_online.py']\ndef nodes(code):\n result={};tree=ast.parse(code)\n for n in tree.body:\n  if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)):\n   result[n.name]=ast.dump(n,include_attributes=False)\n   if isinstance(n,ast.ClassDef):\n    for m in n.body:\n     if isinstance(m,(ast.FunctionDef,ast.AsyncFunctionDef)):result[n.name+'.'+m.name]=ast.dump(m,include_attributes=False)\n  elif isinstance(n,ast.Assign):\n   for target in n.targets:\n    if isinstance(target,ast.Name):result[target.id]=ast.dump(n.value,include_attributes=False)\n return result\na=nodes(oldcode);b=nodes(newcode)\nrequired=('ACTOR_SYSTEM','DIRECT_NUMERIC_SYSTEM','visible','actor_payload','Online.answer')\nproof={}\nfor key in required:\n assert a[key]==b[key],key\n proof[key]=hashlib.sha256(b[key].encode()).hexdigest()\ncommon=set(oldman['files'])&set(newman['files']);changed=sorted(k for k in common if oldman['files'][k]!=newman['files'][k])\nassert changed==['README.md','experiments/openexempt_online.py','tests/test_openexempt_contract.py']\nruntime=[k for k in common if k.startswith('legal_skill_guard/') and k.endswith('.py')]\nassert runtime and all(oldman['files'][k]==newman['files'][k] for k in runtime)\nassert oldcfg['generation']==newcfg['generation'] and oldcfg['execution_contract']==newcfg['execution_contract']=='direct_statutory_claims' and oldcfg['execution_contract_version']==newcfg['execution_contract_version']==14\nout={'at':datetime.now(timezone.utc).isoformat(),'classification':'Source-level proof of unchanged common legal actor, not an eval call or equality of learning methods','old_frozen_TEST_config':'configs/openexempt_initial8_frozen_TEST_20261025_run01.json','new_TRAIN_config':'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json','old_source_git_commit':before,'old_online_sha256':hashlib.sha256(oldcode).hexdigest(),'new_online_sha256':hashlib.sha256(newcode).hexdigest(),'exact_inference_AST_identity_sha256':proof,'shared_manifest_files':len(common),'same_shared_runtime_Python_files':len(runtime),'changed_shared_files':changed,'changed_top_level_or_method_AST_nodes':sorted(k for k in set(a)&set(b) if a[k]!=b[k] and k!='Online'),'new_top_level_or_method_AST_nodes':sorted(set(b)-set(a)),'same_generation_configuration':True,'same_direct_contract14':True,'no_TEST_questions_answers_targets_predictions_or_scores_read':True,'no_model_teacher_tokenizer_or_grader_calls':True,'reuse_scope':'Supports source/interface consistency for legacy native-prediction reuse if original source cases, each frozen bank and actual inference profile stay identical. Does not authorize disguising new source as old, source-validation bypass or method-level equivalence. Existing frozen evaluator needs an explicit revised-study source stage after live TRAIN terminal preservation.'}\nprint(json.dumps(out,ensure_ascii=False))\n"
+}
