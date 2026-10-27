@@ -73,6 +73,7 @@ from legal_skill_guard.openexempt import (
     evaluate,
     metrics,
     prepare,
+    upstream,
 )
 from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
 
@@ -108,6 +109,18 @@ DIRECT_AUTHOR_SYSTEM = (
     "Compare the actual parent prediction, released target, and same-case controls. "
     "Identify the mistaken legal condition or omitted alternative before changing a skill. "
     "An extra law, a missing law and a wrong amount require different corrections. "
+    "The native_claim_feedback identifies these errors with the unchanged original "
+    "asset/claim matcher and amount tolerance; the original answer, target and scores "
+    "remain authoritative. Repair an omitted alternative with a public factual trigger, "
+    "not a circular condition such as 'when already valuing this paragraph'. Retain "
+    "every independently eligible alternative rather than replacing a specific law "
+    "with a general-property alternative or vice versa. For valuation repairs, state "
+    "the final protected amount for the WHOLE named asset. Distinguish a per-debtor "
+    "statutory ceiling from the asset-level output; do not leave a half-interest as "
+    "the final answer, or double every ceiling merely because two debtors exist. "
+    "Attach exclusions to the particular alternative they exclude, not every other "
+    "applicable alternative for that asset. Derive the legal branches from the supplied "
+    "statute and TRAIN evidence, not a new universal spouse or allocation rule. "
     "Verify the task and supplied statute before treating a cap as an eligibility test. "
     "Write short decision instructions: which factual condition to check, which legal "
     "alternative it enables, and which exception prevents a false positive. Keep correct "
@@ -536,6 +549,84 @@ def balanced_replay_gain(before, after):
     return min(gains), sum(gains) / len(gains)
 
 
+def native_claim_feedback(record, target):
+    """TRAIN-only explanation of the existing matcher, never an actor or a scorer."""
+    if record["parse_error"] is not None or record["score"]["invalid_format"]:
+        return {"invalid_response": True, "errors": [{"kind": "invalid_response"}]}
+    family = record["family"]
+    evaluator = upstream("evaluator").Evaluator([])
+    Claim = upstream("source.pydantic_response").Claim
+    answer = {key.strip().lower(): value for key, value in record["parsed"]["answer"].items()}
+    used, errors = set(), []
+    correct = missing = wrong_targets = extra = wrong_predictions = 0
+    for asset, truth in target.items():
+        match = evaluator._find_matching_asset_description(asset.strip().lower(), list(answer))
+        supplied = answer[match] if match is not None and match not in used else []
+        if match is not None:
+            used.add(match)
+        if family == "EC":
+            expected = {citation.strip().lower(): citation for citation in truth}
+            predicted = {citation.strip().lower(): citation for citation in supplied}
+            correct += len(expected.keys() & predicted.keys())
+            for key in sorted(expected.keys() - predicted.keys()):
+                missing += 1
+                errors.append({"kind": "missing", "asset": asset, "citation": expected[key]})
+            for key in sorted(predicted.keys() - expected.keys()):
+                extra += 1
+                errors.append({"kind": "extra", "asset": asset, "citation": predicted[key]})
+            continue
+        if family != "EV":
+            raise ValueError("Native claim feedback is defined only for EC and EV")
+        expected = {Claim(**value).normalized_citation: Claim(**value) for value in truth}
+        remaining, found = dict(expected), {}
+        for value in supplied:
+            claim = Claim(**value)
+            paired, relative_error = evaluator._find_matching_claim(claim, list(remaining.values()))
+            right = paired is not None and relative_error < .05
+            found.setdefault(claim.normalized_citation, []).append((claim.claim_value, right, paired is not None))
+            if right:
+                remaining.pop(paired.normalized_citation)
+            elif paired is None:
+                extra += 1
+                errors.append({"kind": "extra_or_duplicate", "asset": asset,
+                               "citation": claim.citation, "observed_value": claim.claim_value})
+            else:
+                wrong_predictions += 1
+        for key, claim in expected.items():
+            values = found.get(key, [])
+            right = any(ok for _, ok, _ in values)
+            if right:
+                correct += 1
+            elif values:
+                wrong_targets += 1
+            else:
+                missing += 1
+            wrong = [value for value, ok, matched in values if not ok and matched]
+            if not right or wrong:
+                errors.append({"kind": ("missing" if not values else
+                                        "incorrect_value" if not right else "incorrect_extra_value"),
+                               "asset": asset, "citation": claim.citation,
+                               "expected_value": claim.claim_value, "observed_values": wrong})
+    for asset, supplied in answer.items():
+        if asset in used:
+            continue
+        values = ({citation.strip().lower(): citation for citation in supplied}.values()
+                  if family == "EC" else supplied)
+        for value in values:
+            extra += 1
+            errors.append({"kind": "extra_asset_claim", "asset": asset,
+                           **({"citation": value} if family == "EC" else value)})
+    score = record["score"]
+    for field, actual in (("full_output_claim_tp", correct),
+                          ("full_output_claim_fn", missing + wrong_targets),
+                          ("full_output_claim_fp", extra + wrong_predictions)):
+        if field in score and score[field] != actual:
+            raise ValueError("TRAIN claim feedback disagrees with the original complete-output matcher")
+    return {"invalid_response": False, "correct": correct, "missing": missing,
+            "incorrect_value": wrong_targets, "extra_or_duplicate": extra,
+            "incorrect_value_predictions": wrong_predictions, "errors": errors}
+
+
 def candidate_feedback(decision, observations, origin, *, witness_limit=8):
     """Bound saved failure evidence; never relabel a partial commit as rejected."""
     if type(witness_limit) is not int or not 1 <= witness_limit <= 8:
@@ -703,6 +794,8 @@ class Online:
 
     def __init__(self, config_path):
         self.cfg = read(config_path)
+        if self.cfg.get("teacher_evidence_contract") != "native_claim_aligned_compact_v1":
+            raise ValueError("Declare the native-claim-aligned teacher evidence contract before learning")
         if type(self.cfg.get("frozen_after_first_batch_control", False)) is not bool:
             raise ValueError("Declare frozen-after-first-batch evaluation as a boolean")
         if self.cfg.get("candidate_feedback_policy", "batch_only_first_commit") not in (
@@ -915,6 +1008,8 @@ class Online:
     def teacher_body(self, current, seen, observations, rejected):
         evidence, evidence_manifest = teacher_evidence_rows(current, seen, observations, rejected)
         supplied_ids = set(evidence_manifest["selected_source_ids"])
+        targets = {case: read(ROOT / self.cfg["grading_directory"] / f"{case}.json")["targets"]
+                   for case in sorted(supplied_ids)}
         parent_tokens = self.meter.token_count(text=json.dumps(self.bank, ensure_ascii=False,
                                                                separators=(",", ":")))
         statutes = {csha(r["components"]["statutes"]): r["components"]["statutes"] for r in seen}
@@ -932,15 +1027,19 @@ class Online:
                 return record
             receipt = record.get("execution_receipt")
             value = {"case_id": record["case_id"], "family": record["family"],
-                    "native_program": record.get("native_program"),
-                    "physical_alias_of_identical_wire": record.get("physical_alias_of_identical_wire"),
                     "executed_answer": (record.get("parsed") or {}).get("answer"),
                     "parse_error": record["parse_error"], "execution_error": record.get("execution_error"),
-                    "score": record["score"], "actual_operations": None if receipt is None else [
+                    "score": record["score"]}
+            if record.get("native_program") is not None:
+                value["native_program"] = record["native_program"]
+            if receipt is not None:
+                value["actual_operations"] = [
                         {k: op[k] for k in ("asset_name", "asset_value", "citation", "operator_id",
                                            "limit", "claim_value")}
-                        for op in receipt["actual_claim_operations"]]}
+                        for op in receipt["actual_claim_operations"]]
             if include_emitted:
+                value["native_claim_feedback"] = native_claim_feedback(
+                    record, targets[record["case_id"]][record["family"]])
                 path = record["raw_call_path"]
                 if path not in emitted_cache:
                     call = read(ROOT / path)["calls"][0]
@@ -950,15 +1049,10 @@ class Online:
                     reasoning = message.get("reasoning_content") or ""
                     native = message.get("content") or ""
                     emitted_cache[path] = {
-                        "raw_call_path": path, "canonical_call_sha256": csha(call),
-                        "response_id": response["id"],
+                        "raw_call_path": path,
                         "finish_reason": choice["finish_reason"],
-                        "prompt_tokens": response["usage"]["prompt_tokens"],
-                        "completion_tokens": response["usage"]["completion_tokens"],
-                        "max_completion_tokens": call["request"]["max_tokens"],
                         "emitted_by_executor_unverified": True,
                         "reasoning": {"text": reasoning[-1024:], "characters": len(reasoning),
-                            "canonical_text_sha256": csha(reasoning),
                             "truncated_to_tail": len(reasoning) > 1024},
                         "native": native}
                 emitted = copy.deepcopy(emitted_cache[path])
@@ -967,7 +1061,7 @@ class Online:
                     emitted["failed_native_final"] = {
                         "head": native[:256],
                         "tail": native[-256:] if len(native) > 512 else native[256:],
-                        "characters": len(native), "canonical_text_sha256": csha(native),
+                        "characters": len(native),
                         "middle_omitted": len(native) > 512}
                 value["source_model_emitted_evidence"] = emitted
             return value
@@ -976,21 +1070,24 @@ class Online:
         empty_by_key = {(r["case_id"], r["family"]): r for r in self.prequential_empty}
         frozen_by_key = {(r["case_id"], r["family"]): r for r in self.prequential_frozen}
         for row in evidence:
-            target = read(ROOT / self.cfg["grading_directory"] /
-                          f"{row['case_id']}.json")["targets"][row["family"]]
-            cases.append({"source_case_id": row["case_id"], "family": row["family"],
+            key = row["case_id"], row["family"]
+            case = {"source_case_id": row["case_id"], "family": row["family"],
                           **({"public_asset_reference_catalog": public_asset_catalog(row)}
                              if self.cfg.get("execution_contract_version") == 14 else {}),
                           "facts": row["components"]["facts"],
                           "public_solved_steps": row["components"]["solved_steps"],
                           "public_statutes_ref": csha(row["components"]["statutes"]),
-                          "original_training_target": target,
+                          "original_training_target": targets[row["case_id"]][row["family"]],
                           "actual_same_case_empty_answer": observation_view(
-                              empty_by_key[(row["case_id"], row["family"])]),
-                          "actual_same_case_frozen_initial_answer": observation_view(
-                              frozen_by_key[(row["case_id"], row["family"])]),
+                              empty_by_key[key]),
                           "actual_parent_answer": observation_view(
-                              observations[(row["case_id"], row["family"])], include_emitted=True)})
+                              observations[key], include_emitted=True)}
+            identity = ("bank_sha256", "raw_call_path", "parsed", "parse_error", "execution_error", "score")
+            if all(frozen_by_key[key].get(field) == empty_by_key[key].get(field) for field in identity):
+                case["frozen_initial_answer_alias_of"] = "actual_same_case_empty_answer"
+            else:
+                case["actual_same_case_frozen_initial_answer"] = observation_view(frozen_by_key[key])
+            cases.append(case)
         rejected_view = []
         for decision in rejected:
             replay_fields = {"actual_replay": "full_replay_task_count",
@@ -1021,7 +1118,7 @@ class Online:
                     "bank_sha256": r.get("bank_sha256"), "score": copy.deepcopy(r["score"]),
                     "raw_call_path": r["raw_call_path"], "record_sha256": csha(r)} for r in references]
             rejected_view.append(value)
-        actual_contracts = {}
+        actual_contracts, systems, schemas, system_ids, schema_ids = {}, {}, {}, {}, {}
         for row in seen:
             key = "+".join(sorted(allowable_namespaces(row)))
             if self.cfg.get("execution_contract_version") == 14:
@@ -1031,9 +1128,17 @@ class Online:
                 messages, schema, _ = actor_payload(row, self.bank, grounded=True,
                     direct_numeric=self.cfg.get("execution_contract") == "direct_statutory_claims",
                     asset_references=self.cfg.get("execution_contract_version") == 14)
-                group[row["family"]] = {"system": messages[0]["content"],
-                                        "response_schema": schema}
+                system, schema_key = messages[0]["content"], csha(schema)
+                if system not in system_ids:
+                    system_ids[system] = f"S{len(system_ids) + 1}"
+                    systems[system_ids[system]] = system
+                if schema_key not in schema_ids:
+                    schema_ids[schema_key] = f"J{len(schema_ids) + 1}"
+                    schemas[schema_ids[schema_key]] = schema
+                group[row["family"]] = {"system_ref": system_ids[system],
+                                        "response_schema_ref": schema_ids[schema_key]}
         return {"current_source_case_ids": sorted({r["case_id"] for r in current}),
+                "teacher_evidence_contract": "native_claim_aligned_compact_v1",
                 "task_boundary": {"start_task_id": 2,
                     "public_prior": "allowable jurisdictions already supplied; do not recompute them",
                     "outputs": "all eligible asset-law alternatives, not a final jointly allocated portfolio",
@@ -1055,13 +1160,19 @@ class Online:
                               if self.cfg.get("execution_contract") == "direct_statutory_claims" else
                               "same live executor tokenizer; full library including program bodies")},
                 "public_citation_label_catalog": statutory_catalog(seen[0]["components"]["statutes"]),
-                "actual_actor_system": (next(group["EC"]["system"] for group in actual_contracts.values()
-                    if "EC" in group) if self.cfg.get("execution_contract_version") == 14 else ACTOR_SYSTEM),
+                "actual_actor_systems": systems,
+                "actual_response_schemas": schemas,
                 "complete_public_statutes": statutes,
                 "actual_system_and_response_schema_by_public_context": actual_contracts,
                 "already_seen_training": cases, "rejected_candidate_feedback": rejected_view,
                 "training_evidence_manifest": evidence_manifest,
                 "selected_record_view_preserves_program_answer_score_and_error": grounded,
+                "native_claim_feedback_contract": {
+                    "original_asset_and_claim_matcher_and_5pct_amount_tolerance": True,
+                    "original_scores_and_targets_unchanged": True,
+                    "only_selected_released_TRAIN_targets": True,
+                    "same_response_alias_is_not_an_independent_control": True,
+                    "own_B1_never_teacher_or_admission_feedback": True},
                 "bounded_emitted_evidence_contract": {
                     "roles": ["actual_parent_answer", "rejected_candidate_replay"],
                     "reasoning_tail_max_characters": 1024,

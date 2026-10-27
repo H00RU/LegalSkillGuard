@@ -12,6 +12,7 @@ from experiments.openexempt_online import (
     balanced_replay_gain,
     candidate_feedback,
     legal_scope_admission,
+    native_claim_feedback,
     task_admission,
     teacher_evidence_rows,
 )
@@ -682,7 +683,7 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
     monkeypatch.setattr("experiments.openexempt_online.read", synthetic_grade)
     body = study.teacher_body(current, seen, observations, rejected)
     if asset_references:
-        assert "asset_ref" in body["actual_actor_system"]
+        assert any("asset_ref" in system for system in body["actual_actor_systems"].values())
         encoding = body["task_boundary"]["asset_reference_encoding"]
         assert encoding["case_local_IDs_reset_per_case"]
         assert encoding["public_description_only_literal_mentions_not_ownership_or_eligibility"]
@@ -698,8 +699,18 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
     if direct:
         for context in body["actual_system_and_response_schema_by_public_context"].values():
             if "EV" in context:
-                assert "claim_value" in str(context["EV"]["response_schema"])
-                assert "limit_expression" not in str(context["EV"]["response_schema"])
+                schema = body["actual_response_schemas"][context["EV"]["response_schema_ref"]]
+                assert "claim_value" in str(schema)
+                assert "limit_expression" not in str(schema)
+    for row in seen:
+        key = "+".join(sorted(allowable_namespaces(row)))
+        if asset_references:
+            key += ";asset_mentions=1"
+        reference = body["actual_system_and_response_schema_by_public_context"][key][row["family"]]
+        messages, schema, _ = actor_payload(row, study.bank, grounded=True,
+            direct_numeric=direct, asset_references=asset_references)
+        assert body["actual_actor_systems"][reference["system_ref"]] == messages[0]["content"]
+        assert body["actual_response_schemas"][reference["response_schema_ref"]] == schema
     assert body["full_serialized_library_token_budget"]["actual_parent_tokens"] == 4008
     assert body["full_serialized_library_token_budget"]["net_growth_headroom"] == 88
     assert {r["source_case_id"] for r in body["already_seen_training"]} == ids
@@ -709,16 +720,18 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
                         if c["source_case_id"] == 21 and c["family"] == "EV")
     emitted = emitted_case["actual_parent_answer"]["source_model_emitted_evidence"]
     assert emitted["emitted_by_executor_unverified"] and emitted["finish_reason"] == "length"
-    assert emitted["completion_tokens"] == emitted["max_completion_tokens"] == 8192
     assert emitted["reasoning"]["text"] == model_trace[-1024:]
-    assert emitted["reasoning"]["canonical_text_sha256"] == canonical_json_sha256(model_trace)
     assert emitted["reasoning"]["truncated_to_tail"]
+    assert emitted["reasoning"]["characters"] == len(model_trace)
+    assert not {"response_id", "canonical_call_sha256", "prompt_tokens", "completion_tokens"} & emitted.keys()
     preview = emitted["failed_native_final"]
     assert preview["head"] == failed_output[:256] and preview["tail"] == failed_output[-256:]
-    assert preview["canonical_text_sha256"] == canonical_json_sha256(failed_output)
     assert preview["middle_omitted"] and preview["characters"] == len(failed_output)
     assert "source_model_emitted_evidence" not in emitted_case["actual_same_case_empty_answer"]
-    assert "source_model_emitted_evidence" not in emitted_case["actual_same_case_frozen_initial_answer"]
+    assert "actual_same_case_frozen_initial_answer" not in emitted_case
+    assert emitted_case["frozen_initial_answer_alias_of"] == "actual_same_case_empty_answer"
+    assert emitted_case["actual_parent_answer"]["native_claim_feedback"]["invalid_response"]
+    assert body["teacher_evidence_contract"] == "native_claim_aligned_compact_v1"
     feedback = body["rejected_candidate_feedback"][0]
     assert feedback["full_replay_task_count"] == 48
     assert len(feedback["actual_replay"]) == 40
@@ -739,6 +752,65 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
     future[0]["case_id"] = 99
     with pytest.raises(ValueError, match="already-seen TRAIN"):
         candidate_feedback({"accepted": False, "actual_replay": future}, observations, {})
+
+    study.prequential_frozen = copy.deepcopy(study.prequential_frozen)
+    distinct = next(r for r in study.prequential_frozen if r["case_id"] == 22 and r["family"] == "EV")
+    distinct["bank_sha256"] = "distinct-initial-library"
+    again = study.teacher_body(current, seen, observations, rejected)
+    distinct_case = next(c for c in again["already_seen_training"]
+                         if c["source_case_id"] == 22 and c["family"] == "EV")
+    assert "actual_same_case_frozen_initial_answer" in distinct_case
+    assert "frozen_initial_answer_alias_of" not in distinct_case
+
+
+@pytest.mark.parametrize("family", ["EC", "EV"])
+def test_native_claim_feedback_preserves_original_matching_and_never_repairs_answer(family):
+    az, il, fed = "Ariz. Rev. Stat. § 33-1123", "735 Ill. Comp. Stat. 5/12-1001(b)", "11 U.S.C. § 522(d)(5)"
+    if family == "EC":
+        target = {"watch": [az, il], "bowl": []}
+        answer = {"watch": [az, az, fed], "bowl": [il], "unlisted satellite": [az]}
+        expected = {"correct": 1, "missing": 1, "incorrect_value": 0, "extra_or_duplicate": 3}
+    else:
+        target = {"watch": [{"citation": citation, "claim_value": amount}
+                            for citation, amount in [(az, 100), (il, 20), (fed, 50)]], "bowl": []}
+        answer = {"watch": [{"citation": citation, "claim_value": amount}
+                            for citation, amount in [(az, 50), (il, 10), (il, 20), (il, 20),
+                                                     ("Or. Rev. Stat. § 18.362", 10)]],
+                  "bowl": [{"citation": az, "claim_value": 20}],
+                  "unlisted satellite": [{"citation": az, "claim_value": 30}]}
+        expected = {"correct": 1, "missing": 1, "incorrect_value": 1, "extra_or_duplicate": 4}
+    row = {"case_id": 1, "family": family}
+    record_value = {**row, "parsed": {"answer": answer}, "parse_error": None,
+                    "score": evaluate(row, answer, target)}
+    unchanged = copy.deepcopy((record_value, target))
+    feedback = native_claim_feedback(record_value, target)
+    assert all(feedback[k] == v for k, v in expected.items())
+    assert feedback["correct"] == record_value["score"]["full_output_claim_tp"]
+    assert feedback["missing"] + feedback["incorrect_value"] == record_value["score"]["full_output_claim_fn"]
+    assert feedback["extra_or_duplicate"] + feedback["incorrect_value_predictions"] == record_value["score"]["full_output_claim_fp"]
+    assert (record_value, target) == unchanged
+    if family == "EV":
+        mismatch = next(e for e in feedback["errors"] if e["kind"] == "incorrect_value")
+        assert mismatch["expected_value"] == 100 and mismatch["observed_values"] == [50]
+        assert feedback["incorrect_value_predictions"] == 2
+    invalid = {**record_value, "parse_error": "actual malformed native output", "parsed": None}
+    assert native_claim_feedback(invalid, target)["invalid_response"]
+    inconsistent = copy.deepcopy(record_value)
+    inconsistent["score"]["full_output_claim_fn"] += 1
+    with pytest.raises(ValueError, match="disagrees"):
+        native_claim_feedback(inconsistent, target)
+
+
+@pytest.mark.parametrize("amount,correct", [(100, True), (96, True), (95, False)])
+def test_native_claim_feedback_uses_original_five_percent_epsilon_rule(amount, correct):
+    citation = "Ariz. Rev. Stat. § 33-1123"
+    target = {"watch": [{"citation": citation, "claim_value": 100}]}
+    answer = {"watch": [{"citation": citation, "claim_value": amount}]}
+    row = {"case_id": 1, "family": "EV"}
+    result = native_claim_feedback({**row, "parse_error": None, "parsed": {"answer": answer},
+                                   "score": evaluate(row, answer, target)}, target)
+    assert result["correct"] == int(correct)
+    assert result["incorrect_value"] == int(not correct)
 
 
 def test_strong_direct_numeric_empty_is_not_a_program_or_host_repaired_answer(tmp_path, monkeypatch):
