@@ -397,11 +397,6 @@ def actor_payload(row, bank, *, grounded=True, direct_numeric=False, asset_refer
             "when no exemption is applicable. A reference only identifies a literal mention; "
             "it does not prove debtor ownership, eligibility, value or an exemption amount.")
     messages = [{"role": "system", "content": system}]
-    if delivered:
-        messages.append({"role": "user", "content":
-                         "Background reusable skills. The current legal case follows. "
-                         "Use these only when applicable; they are not current answers:\n" +
-                         json.dumps(delivered, ensure_ascii=False, separators=(",", ":"))})
     messages.append({"role": "user", "content":
         (("Public case-local literal asset-mention references (IDs reset in every case; "
           "closed public lexicon; all legal judgments remain yours):\n" + json.dumps(asset_catalog, ensure_ascii=False,
@@ -411,6 +406,11 @@ def actor_payload(row, bank, *, grounded=True, direct_numeric=False, asset_refer
         json.dumps(catalog, ensure_ascii=False, separators=(",", ":")) +
         "\n\n" + (direct_case_input(row, asset_references=asset_references)
                     if direct_numeric else active_case_input(row))})
+    if delivered:
+        messages.append({"role": "user", "content":
+                         "Background reusable skills. "
+                         "Use these only when applicable; they are not current answers:\n" +
+                         json.dumps(delivered, ensure_ascii=False, separators=(",", ":"))})
     labels = {"type": "string", "enum": list(catalog)}
     if row["family"] == "EV" and direct_numeric:
         schema = answer_schema("EV")

@@ -82,10 +82,11 @@ def test_actor_gets_only_original_prompt_and_scoped_knowledge():
            "components": {**copy.deepcopy(COMPONENTS),
                           "response_format": "EXAMPLE_CAR", "format_reminder": "FORMAT_ONLY"}}
     messages, schema, supplied = actor_payload(row, bank)
-    assert messages[-1]["content"].endswith(active_case_input(row))
+    assert messages[1]["content"].endswith(active_case_input(row))
     assert "EXAMPLE_CAR" not in str(messages) and "FORMAT_ONLY" not in str(messages)
-    assert "EC instruction" in messages[1]["content"]
-    assert all(row["components"][key] in messages[-1]["content"] for key in ACTIVE_CASE_FIELDS)
+    assert "EC instruction" in messages[-1]["content"]
+    assert all(row["components"][key] in messages[1]["content"] for key in ACTIVE_CASE_FIELDS)
+    assert len(messages) == 3 and "The current legal case follows" not in str(messages)
     assert "SECRET" not in str(messages)
     assert "EV instruction" not in str(messages)
     assert [s["id"] for s in supplied] == ["EC1"]
@@ -140,7 +141,7 @@ def test_public_asset_refs_only_project_descriptions_and_literal_mentions(tmp_pa
         "guidance": guidance("public procedure", tasks=(family,))}],
         direct_numeric=True, asset_references=True)
     assert schema == other_schema and messages[0] == other[0]
-    assert messages[-1] == other[-1] and row["components"]["facts"] in messages[-1]["content"]
+    assert messages[-1] == other[1] and row["components"]["facts"] in messages[-1]["content"]
     assert all(secret not in str(messages) for secret in (
         "9999997", "SECRET_LAW", "PRIVATE_CATEGORY", "PRIVATE_ANSWER", "PRIVATE_CASE"))
     assert "ownership" in messages[0]["content"]
@@ -507,7 +508,7 @@ def test_compiled_action_schema_hides_bodies_but_preserves_all_legal_choices():
     messages, schema, supplied = actor_payload(row, bank)
     assert "12345" not in str(messages)
     assert "12345" in str(supplied)  # Interpreter, not actor, receives the program.
-    delivered = json.loads(messages[1]["content"].split("\n", 1)[1])
+    delivered = json.loads(messages[-1]["content"].split("\n", 1)[1])
     assert delivered[0]["guidance"]["operators"] == [
         {"citation_ref": "Ariz. Rev. Stat. section 33-1123"}]
     assert "limit_expression" not in delivered[0]["guidance"]["operators"][0]
@@ -543,7 +544,7 @@ def test_compiled_action_schema_hides_bodies_but_preserves_all_legal_choices():
     assert actor_payload(row, bank)[:2] == actor_payload(row, changed)[:2]
     ec_row = {**row, "family": "EC"}
     assert actor_payload(ec_row, bank)[:2] == actor_payload(ec_row, changed)[:2]
-    ec_payload = json.loads(actor_payload(ec_row, bank)[0][1]["content"].split("\n", 1)[1])
+    ec_payload = json.loads(actor_payload(ec_row, bank)[0][-1]["content"].split("\n", 1)[1])
     assert "operators" not in ec_payload[0]["guidance"]
     changed[0]["guidance"]["operators"] = []
     assert actor_payload(row, bank)[:2] != actor_payload(row, changed)[:2]
@@ -833,7 +834,7 @@ def test_strong_direct_numeric_empty_is_not_a_program_or_host_repaired_answer(tm
              "guidance": guidance("Check the statutory eligibility condition", "ARIZONA")}]
     skilled_messages, skilled_schema, _ = actor_payload(row, bank, direct_numeric=True)
     assert skilled_schema == schema and skilled_messages[0] == messages[0]
-    assert skilled_messages[-1] == messages[-1]
+    assert skilled_messages[1] == messages[-1]
     assert "Check the statutory eligibility condition" in str(skilled_messages)
     assert "operators" not in str(skilled_messages)
     bad_bank = copy.deepcopy(bank)
