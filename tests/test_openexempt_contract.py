@@ -26,6 +26,7 @@ from legal_skill_guard.learning.legal_namespace import (
     public_asset_catalog,
     public_catalog,
 )
+from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
 from legal_skill_guard.learning.task_scoped_skills import (
     compose_legal_edits,
     compose_task_edits,
@@ -59,6 +60,49 @@ def guidance(text, jurisdiction="ALL", tasks=("EC", "EV")):
             "operators": [], "jurisdiction": jurisdiction}
 
 
+def test_placement_launcher_checks_run_path_before_calls_and_does_not_follow_rejection(tmp_path, monkeypatch):
+    import importlib.util
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    from legal_skill_guard.experiment.storage import RunStore
+
+    source = Path(__file__).resolve().parents[1] / "artifacts/launches/openexempt_skill_position_mechanism_20261027_run01.py"
+    spec = importlib.util.spec_from_file_location("position_launcher_contract", source)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    monkeypatch.setattr(module, "ROOT", tmp_path)
+    cfg = {"study_kind": "task_conditioned_skill_placement_TRAIN_mechanism",
+        "planned_teacher_responses_max": 0, "run_id": "probe", "mechanism_original_parent_run": "parent",
+        "on_success_formal_config": "formal.json"}
+    config = RunStore.immutable_json(tmp_path / "config.json", cfg)
+    seen = []
+
+    def checked_read(path):
+        if Path(path) == tmp_path / "runs/parent/completion.json":
+            seen.append(Path(path))
+            raise RuntimeError("deliberate pre-generation stop")
+        return json.loads(Path(path).read_text())
+
+    def unexpected(*args, **kwargs):
+        pytest.fail("No model initialization or formal freeze is permitted here")
+
+    monkeypatch.setattr(module, "read", checked_read)
+    monkeypatch.setattr(module, "Online", unexpected)
+    monkeypatch.setattr(module, "freeze", unexpected)
+    monkeypatch.setattr(module, "preserve", lambda run, stage, names: {"stage": stage, "files": len(names), "paths": []})
+    with pytest.raises(RuntimeError, match="pre-generation stop"):
+        module.run_probe(config)
+    assert seen == [tmp_path / "runs/parent/completion.json"]
+    assert json.loads((tmp_path / "runs/probe/progress.json").read_text())["state"] == "failed"
+    assert json.loads((tmp_path / "runs/probe/failure.json").read_text())["actual_native_calls"] == 0
+    RunStore.immutable_json(tmp_path / "formal.json", {"run_id": "formal"})
+    module.follow_up(SimpleNamespace(cfg=cfg), {"unchanged_original_admission_gate": {"accepted": False}})
+    decision = json.loads((tmp_path / "artifacts/launches/probe/formal_decision.json").read_text())
+    assert not decision["will_start_if_boundary_checks_pass"]
+    assert not (tmp_path / "runs/formal").exists()
+
+
 def test_public_case_group_does_not_depend_on_expert_answers():
     class Case:
         def __init__(self, target):
@@ -82,11 +126,11 @@ def test_actor_gets_only_original_prompt_and_scoped_knowledge():
            "components": {**copy.deepcopy(COMPONENTS),
                           "response_format": "EXAMPLE_CAR", "format_reminder": "FORMAT_ONLY"}}
     messages, schema, supplied = actor_payload(row, bank)
-    assert messages[1]["content"].endswith(active_case_input(row))
+    assert messages[-1]["content"].endswith(active_case_input(row))
     assert "EXAMPLE_CAR" not in str(messages) and "FORMAT_ONLY" not in str(messages)
-    assert "EC instruction" in messages[-1]["content"]
-    assert all(row["components"][key] in messages[1]["content"] for key in ACTIVE_CASE_FIELDS)
-    assert len(messages) == 3 and "The current legal case follows" not in str(messages)
+    assert "EC instruction" in messages[1]["content"]
+    assert all(row["components"][key] in messages[-1]["content"] for key in ACTIVE_CASE_FIELDS)
+    assert len(messages) == 3 and "The current legal case follows" in messages[1]["content"]
     assert "SECRET" not in str(messages)
     assert "EV instruction" not in str(messages)
     assert [s["id"] for s in supplied] == ["EC1"]
@@ -141,7 +185,8 @@ def test_public_asset_refs_only_project_descriptions_and_literal_mentions(tmp_pa
         "guidance": guidance("public procedure", tasks=(family,))}],
         direct_numeric=True, asset_references=True)
     assert schema == other_schema and messages[0] == other[0]
-    assert messages[-1] == other[1] and row["components"]["facts"] in messages[-1]["content"]
+    case_message = other[-1] if family == "EC" else other[1]
+    assert messages[-1] == case_message and row["components"]["facts"] in case_message["content"]
     assert all(secret not in str(messages) for secret in (
         "9999997", "SECRET_LAW", "PRIVATE_CATEGORY", "PRIVATE_ANSWER", "PRIVATE_CASE"))
     assert "ownership" in messages[0]["content"]
@@ -272,6 +317,7 @@ def test_frozen_initial_control_shares_native_plan_not_computed_answer(monkeypat
     study.cfg = {"batch_source_cases": 1, "source_cases": 1,
                  "execution_contract": "source_grounded_claim_operations",
                  "generation": {"seed": 45, "max_tokens": 100}}
+    study._dispatch = PhaseDispatch(study.cfg)
     study.rows = [{"case_id": 17, "source_key": "source17", "family": f, "batch": 1,
                    "prompt": "original public input",
                    "components": copy.deepcopy(COMPONENTS)}
@@ -362,6 +408,7 @@ def test_first_batch_frozen_control_is_time_fixed_and_never_update_feedback(
         "execution_contract": "direct_statutory_claims",
         "frozen_after_first_batch_control": enabled,
         "generation": {"seed": 45, "max_tokens": 100}}
+    study._dispatch = PhaseDispatch(study.cfg)
     study.rows = [{"case_id": i, "source_key": f"source{i}", "family": family,
                    "batch": i, "prompt": "public input", "components": {
                        **copy.deepcopy(COMPONENTS),
@@ -544,7 +591,7 @@ def test_compiled_action_schema_hides_bodies_but_preserves_all_legal_choices():
     assert actor_payload(row, bank)[:2] == actor_payload(row, changed)[:2]
     ec_row = {**row, "family": "EC"}
     assert actor_payload(ec_row, bank)[:2] == actor_payload(ec_row, changed)[:2]
-    ec_payload = json.loads(actor_payload(ec_row, bank)[0][-1]["content"].split("\n", 1)[1])
+    ec_payload = json.loads(actor_payload(ec_row, bank)[0][1]["content"].split("\n", 1)[1])
     assert "operators" not in ec_payload[0]["guidance"]
     changed[0]["guidance"]["operators"] = []
     assert actor_payload(row, bank)[:2] != actor_payload(row, changed)[:2]
@@ -972,6 +1019,7 @@ def test_full_update_task_local_vs_whole_bank_differs_only_in_commit_policy(
                  "generation": {"seed": 45, "max_tokens": 100},
                  "max_candidate_attempts": 1, "library_token_hard_cap": 4096,
                  "skill_commit_policy": policy}
+    study._dispatch = PhaseDispatch(study.cfg)
     study.current_batch, study.latest = 1, {}
     study.out, study.native, study.request_cache, study.reuse_events = tmp_path, [], {}, []
     study.meter = SimpleNamespace(token_count=lambda **kwargs: 300)
