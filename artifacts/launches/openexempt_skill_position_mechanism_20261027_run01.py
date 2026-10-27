@@ -67,6 +67,16 @@ def run_probe(config_path):
         rows = [r for r in study.rows if r["case_id"] in ids]
         assert len(rows) == len(ids) * 2
         before = []
+        actual_parent = {}
+        original_run = parent_path.parent
+        for batch in range(1, 9):
+            actual_parent.update({(r["case_id"], r["family"]): r for r in
+                read(original_run / "batches" / f"b{batch}_prequential_records.json")["skills"]})
+            for decision in read(original_run / "publications" / f"b{batch}.json")["training_decisions"]:
+                if decision.get("accepted"):
+                    actual_parent = {(r["case_id"], r["family"]): r for r in decision["actual_replay"]}
+        assert len(actual_parent) == 256
+        assert all(r["bank_sha256"] == csha(parent["bank"]) for r in actual_parent.values())
         for row in rows:
             stem = f"{row['case_id']}_{row['family']}_candidate"
             original = read(source / "native/b8_candidate1_replay" / (stem + ".input.json"))
@@ -108,13 +118,19 @@ def run_probe(config_path):
         prior_before = [r for r in before if r["case_id"] in historical]
         prior_after = [r for r in after if r["case_id"] in historical]
         gate = acceptance(current_before, current_after, prior_before, prior_after)
-        RunStore.immutable_json(out / "paired_records.json", {"before": before, "after": after})
+        actual_reference = [actual_parent[(r["case_id"], r["family"])] for r in rows]
+        parent_gate = acceptance([r for r in actual_reference if r["case_id"] in recent], current_after,
+            [r for r in actual_reference if r["case_id"] in historical], prior_after)
+        RunStore.immutable_json(out / "paired_records.json", {
+            "before": before, "after": after, "actual_parent9_reference": actual_reference})
         result = {"at": now(), "status": "completed_bounded_task_conditioned_TRAIN_probe",
             "bank_sha256": csha(study.bank), "fixed_sources": len(ids), "task_views": len(rows),
             "before_same_bank": metrics(before), "after_same_bank": metrics(after),
             "current_before": metrics(current_before), "current_after": metrics(current_after),
             "historical_before": metrics(prior_before), "historical_after": metrics(prior_after),
             "unchanged_original_admission_gate": gate,
+            "actual_parent9_retention_gate": parent_gate,
+            "formal_adoption_accepted": gate["accepted"] and parent_gate["accepted"],
             "EC_requests_and_scores_unchanged_not_regenerated": True,
             "actual_native_calls": len(study.native), "actual_teacher_responses": len(study.teachers),
             "exact_wire_reuses": len(study.reuse_events),
@@ -147,10 +163,10 @@ def follow_up(study, result):
     decision = RunStore.immutable_json(chain / "formal_decision.json", {
         "at": now(), "probe_run": cfg["run_id"], "formal_run": formal["run_id"],
         "formal_config_sha256": sha(formal_path),
-        "will_start_if_boundary_checks_pass": result["unchanged_original_admission_gate"]["accepted"],
+        "will_start_if_boundary_checks_pass": result["formal_adoption_accepted"],
         "gate_uses_only_TRAIN_and_is_unchanged": True,
         "formal_initial_bank_and_request_cache_must_be_empty": True})
-    if not result["unchanged_original_admission_gate"]["accepted"]:
+    if not result["formal_adoption_accepted"]:
         preserve(cfg["run_id"], "automatic-followup-not-started", [str(decision.relative_to(ROOT))])
         print(json.dumps({"stage": "formal_not_started", "reason": "TRAIN_mechanism_gate_rejected"}), flush=True)
         return

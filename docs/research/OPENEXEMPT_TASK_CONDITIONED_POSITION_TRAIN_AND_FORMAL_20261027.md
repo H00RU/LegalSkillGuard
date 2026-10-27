@@ -40,6 +40,9 @@ Decode and grade all responses normally; do not choose an answer based on qualit
 Use the existing unchanged acceptance function on current16 and historical14
 cohorts. It checks both native and full-output task F1, invalid and negative/
 unscored-asset claims, with strict current improvement and historical retention.
+Also apply that same gate against the actual retained nine-record parent's
+observations on these sources. Both comparisons must accept: outperforming only
+the rejected ten-record proposal is insufficient to start the new formal build.
 Do not loosen a threshold to allow this candidate through. Preserve the complete
 probe and all costs on both disks before deciding the next stage.
 

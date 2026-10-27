@@ -97,7 +97,7 @@ def test_placement_launcher_checks_run_path_before_calls_and_does_not_follow_rej
     assert json.loads((tmp_path / "runs/probe/progress.json").read_text())["state"] == "failed"
     assert json.loads((tmp_path / "runs/probe/failure.json").read_text())["actual_native_calls"] == 0
     RunStore.immutable_json(tmp_path / "formal.json", {"run_id": "formal"})
-    module.follow_up(SimpleNamespace(cfg=cfg), {"unchanged_original_admission_gate": {"accepted": False}})
+    module.follow_up(SimpleNamespace(cfg=cfg), {"formal_adoption_accepted": False})
     decision = json.loads((tmp_path / "artifacts/launches/probe/formal_decision.json").read_text())
     assert not decision["will_start_if_boundary_checks_pass"]
     assert not (tmp_path / "runs/formal").exists()
