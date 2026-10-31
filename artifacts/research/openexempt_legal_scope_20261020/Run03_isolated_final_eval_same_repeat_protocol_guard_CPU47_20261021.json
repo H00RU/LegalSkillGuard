@@ -1,0 +1,67 @@
+{
+  "subsequent_Run03_metadata_rebind_not_new_GPU_experiment": {
+    "at": "2026-10-21T11:47:55.803020+00:00",
+    "classification": "Synchronize seven unstarted prospective-worktree configs to authoritative Run03-bound profiles; metadata-only prospective contrast checks, not actual full matrix or completed learning",
+    "configs_synchronized": {
+      "openexempt_ace_public_assets128_20261021_run01.json": "b9d21b0772cee5ab297d61367a1232fa96767f3ead5e7ede9a3bfa8074776c76",
+      "openexempt_whole_bank_public_assets128_20261021_run01.json": "1450b60ea409b36c7052d326f3b56d3d17d147d1f5bc64df7f264fca7f24ea03",
+      "openexempt_first_commit_public_assets128_20261021_run01.json": "0eb98ddf718a5d0e58d8c922f37049d2de2a2cff9b723a554b07ea5f7da8c0bc",
+      "openexempt_closed_feedback_public_assets128_seed145_20261021_run01.json": "6865ea6a54ec9ffed3abd5d90658d8302727f7e856983ecc0604edd1ea203ff1",
+      "openexempt_ace_public_assets128_seed145_20261021_run01.json": "22f549db90b5e92aedeb12eceea3530c45ca021e26050c940df90f58024dc5ef",
+      "openexempt_closed_feedback_public_assets128_seed245_20261021_run01.json": "dd44f678e4375fdac8794c1b3bb6d943bba45f9225cb2db8100a06251b0851da",
+      "openexempt_ace_public_assets128_seed245_20261021_run01.json": "cc0ce4ec40b941dcf6bbbb165db803b8321b3109e08dac59d0006fdb5e3655d8"
+    },
+    "all13_actor_and_learning_files_identical": true,
+    "main_and_waiter_bindings_unchanged": [
+      371,
+      381
+    ],
+    "prospective_primary_control_families_checked": 4,
+    "prospective_secondary_ablation_configs_checked": 2,
+    "active_or_queued_root_config_or_source_modified": false,
+    "GPU_teacher_TEST_calls": 0,
+    "complete_repeated_learning_or_final_matrix": false,
+    "illustrative_metadata_only_not_a_runnable_TEST_config": true,
+    "future_eval_worktree": "/media/sangfor/vdb/legal-skill-evolve/.venv/evolution-control-20261020.qLon9T",
+    "eval_entry_sha256": "8bfc716f484f96fcf18fc75662c85943120433d8921f7a23d5ff79a399e32452",
+    "future_worktree_commit": "b50f24c",
+    "original_CPU47_test_results_not_rerun_or_new_performance_results": true,
+    "recomputation_program": "import json,pathlib,hashlib,importlib.util,datetime\nroot=pathlib.Path.cwd();b=root/\".venv/evolution-control-20261020.qLon9T\";read=lambda p:json.loads(p.read_text());sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nspec=importlib.util.spec_from_file_location(\"planned_frozen_eval\",b/\"experiments/openexempt_frozen_eval.py\");m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)\nnames=[\"openexempt_ace_public_assets128_20261021_run01.json\",\"openexempt_whole_bank_public_assets128_20261021_run01.json\",\"openexempt_first_commit_public_assets128_20261021_run01.json\",\"openexempt_closed_feedback_public_assets128_seed145_20261021_run01.json\",\"openexempt_ace_public_assets128_seed145_20261021_run01.json\",\"openexempt_closed_feedback_public_assets128_seed245_20261021_run01.json\",\"openexempt_ace_public_assets128_seed245_20261021_run01.json\"]\nassert all((root/\"configs\"/n).read_bytes()==(b/\"configs\"/n).read_bytes() for n in names)\nassert all((root/n).read_bytes()==(b/n).read_bytes() for n in m.SHARED_ACTOR_FILES+m.ACE_ACTOR_FILES)\narms=[{\"name\":\"empty\",\"role\":\"strong_empty\",\"backend\":\"direct\"},{\"name\":\"static\",\"role\":\"static_law_only\",\"backend\":\"direct\"}];sources={}\nfor seed in (45,145,245):\n main=\"openexempt_closed_feedback_public_assets128_20261021_run03.json\" if seed==45 else f\"openexempt_closed_feedback_public_assets128_seed{seed}_20261021_run01.json\"\n ace=\"openexempt_ace_public_assets128_20261021_run01.json\" if seed==45 else f\"openexempt_ace_public_assets128_seed{seed}_20261021_run01.json\"\n for role,name,filename in [(\"evolved\",f\"main_{seed}\",main),(\"B1_frozen\",f\"ownB1_{seed}\",main),(\"experience\",f\"ace_{seed}\",ace)]:\n  p=root/\"configs\"/filename;sources[name]=read(p);arms.append({\"name\":name,\"role\":role,\"backend\":\"ace\" if role==\"experience\" else \"direct\",\"source_config\":str(p.relative_to(root)),\"source_config_sha256\":sha(p)})\nfor variant in (\"whole_bank\",\"first_commit\"):\n p=root/\"configs\"/f\"openexempt_{variant}_public_assets128_20261021_run01.json\";sources[variant]=read(p);arms.append({\"name\":variant,\"role\":\"ablation\",\"backend\":\"direct\",\"source_config\":str(p.relative_to(root)),\"source_config_sha256\":sha(p)})\nafter=[f\"main_{s}\" for s in (45,145,245)]\ncfg={\"arms\":arms,\"primary_contrasts\":[{\"name\":\"vs_\"+role,\"before\":before,\"after\":after} for role,before in [(\"empty\",[\"empty\"]),(\"own_B1\",[f\"ownB1_{s}\" for s in (45,145,245)]),(\"ACE\",[f\"ace_{s}\" for s in (45,145,245)]),(\"law_only\",[\"static\"])]],\"secondary_contrasts\":[{\"name\":\"vs_\"+v,\"before\":[v],\"after\":[\"main_45\"]} for v in (\"whole_bank\",\"first_commit\")]}\nm.check_primary_contrasts(cfg,sources);m.check_secondary_contrasts(cfg,sources)\nmain=read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\")[\"files\"];q=read(root/\"artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/queued.json\")[\"source_data_environment_pins\"]\nassert all(sha(root/n)==h for pins in (main,q) for n,h in pins.items())\nout={\"at\":datetime.datetime.now(datetime.timezone.utc).isoformat(),\"classification\":\"Synchronize seven unstarted prospective-worktree configs to authoritative Run03-bound profiles; metadata-only prospective contrast checks, not actual full matrix or completed learning\",\"configs_synchronized\":{n:sha(root/\"configs\"/n) for n in names},\"all13_actor_and_learning_files_identical\":True,\"main_and_waiter_bindings_unchanged\":[len(main),len(q)],\"prospective_primary_control_families_checked\":4,\"prospective_secondary_ablation_configs_checked\":2,\"active_or_queued_root_config_or_source_modified\":False,\"GPU_teacher_TEST_calls\":0,\"complete_repeated_learning_or_final_matrix\":False,\"illustrative_metadata_only_not_a_runnable_TEST_config\":True,\"future_eval_worktree\":str(b),\"eval_entry_sha256\":sha(b/\"experiments/openexempt_frozen_eval.py\")}\nprint(json.dumps(out,ensure_ascii=False))\n"
+  },
+  "classification": "Isolated final-evaluation protocol guard, not current training optimization or final results",
+  "worktree": ".venv/evolution-control-20261020.qLon9T",
+  "commit": "f494f18fd9ea8fa5ae3b6d9908103c144df5990a",
+  "pytest": {
+    "chunk_id": "aa50cc",
+    "wall_time_seconds": 0.000010761,
+    "exit_code": 0,
+    "original_token_count": 25,
+    "output": "..............................................                          [100%]\n47 passed in 7.52s\n"
+  },
+  "ruff": "All checks passed",
+  "actual_repeat_contract_check": {
+    "all_six_actual_future_and_running_configs_have_matching_within_method_repeat_contracts": true,
+    "only_the_protocol_contract_checked_not_completed_runs_or_full_final_matrix": true,
+    "mismatch_controls_rejected": {
+      "changed_main_policy": "Independent learning repeats changed a shared protocol field",
+      "changed_main_memory": "Independent learning repeats changed a shared protocol field",
+      "changed_ACE_reflection_rounds": "Independent learning repeats changed a shared protocol field"
+    },
+    "all13_actor_sources_exactly_match_live_root": true,
+    "actual_config_hashes": {
+      "ours": "8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e",
+      "ours145": "6865ea6a54ec9ffed3abd5d90658d8302727f7e856983ecc0604edd1ea203ff1",
+      "ours245": "dd44f678e4375fdac8794c1b3bb6d943bba45f9225cb2db8100a06251b0851da",
+      "ACE": "b9d21b0772cee5ab297d61367a1232fa96767f3ead5e7ede9a3bfa8074776c76",
+      "ACE145": "22f549db90b5e92aedeb12eceea3530c45ca021e26050c940df90f58024dc5ef",
+      "ACE245": "cc0ce4ec40b941dcf6bbbb165db803b8321b3109e08dac59d0006fdb5e3655d8"
+    },
+    "new_model_teacher_or_TEST_calls": 0
+  },
+  "new_test_files": 0,
+  "live_main_or_queue_config_changes": 0,
+  "new_model_teacher_or_TEST_calls": 0,
+  "not_deployed_to_root": true,
+  "full_method128_controls_repeats_ablations_and_TEST_not_completed": true,
+  "audit_recomputation_program": "import pathlib,json,hashlib,copy\nimport experiments.openexempt_frozen_eval as f\nroot=pathlib.Path(\"/media/sangfor/vdb/legal-skill-evolve\")\nfiles={\n\"ours\":\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\",\n\"ours145\":\"configs/openexempt_closed_feedback_public_assets128_seed145_20261021_run01.json\",\n\"ours245\":\"configs/openexempt_closed_feedback_public_assets128_seed245_20261021_run01.json\",\n\"ACE\":\"configs/openexempt_ace_public_assets128_20261021_run01.json\",\n\"ACE145\":\"configs/openexempt_ace_public_assets128_seed145_20261021_run01.json\",\n\"ACE245\":\"configs/openexempt_ace_public_assets128_seed245_20261021_run01.json\"}\nsources={n:json.loads((root/p).read_text()) for n,p in files.items()}\narms=[{\"name\":\"empty\",\"role\":\"strong_empty\"},{\"name\":\"static\",\"role\":\"static_law_only\"}]\nfor n in files:\n arms.append({\"name\":n,\"role\":\"experience\" if n.startswith(\"ACE\") else \"evolved\",\"source_config\":files[n]})\nfor n in [\"ours\",\"ours145\",\"ours245\"]:\n b=\"B1\"+n.removeprefix(\"ours\");arms.append({\"name\":b,\"role\":\"B1_frozen\",\"source_config\":files[n]});sources[b]=sources[n]\ncfg={\"arms\":arms,\"primary_contrasts\":[{\"name\":name,\"after\":[\"ours\",\"ours145\",\"ours245\"],\"before\":before} for name,before in [\n(\"vs_empty\",[\"empty\"]),(\"vs_B1\",[\"B1\",\"B1145\",\"B1245\"]),(\"vs_ACE\",[\"ACE\",\"ACE145\",\"ACE245\"]),(\"vs_static\",[\"static\"])]]}\nf.check_primary_contrasts(cfg,sources)\nrejected={}\nfor label,name,key,value in [(\"changed_main_policy\",\"ours145\",\"skill_commit_policy\",\"whole_bank\"),(\"changed_main_memory\",\"ours145\",\"library_token_hard_cap\",2048),(\"changed_ACE_reflection_rounds\",\"ACE145\",\"ace_max_TRAIN_reflection_rounds\",1)]:\n changed=copy.deepcopy(sources);changed[name][key]=value\n try:f.check_primary_contrasts(cfg,changed)\n except ValueError as ex:rejected[label]=str(ex)\n else:raise RuntimeError(\"Mismatched protocol accepted\")\nactor_names=f.SHARED_ACTOR_FILES+f.ACE_ACTOR_FILES\nassert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==hashlib.sha256((f.ROOT/n).read_bytes()).hexdigest() for n in actor_names)\nprint(json.dumps({\"all_six_actual_future_and_running_configs_have_matching_within_method_repeat_contracts\":True,\"only_the_protocol_contract_checked_not_completed_runs_or_full_final_matrix\":True,\"mismatch_controls_rejected\":rejected,\"all13_actor_sources_exactly_match_live_root\":True,\"actual_config_hashes\":{n:hashlib.sha256((root/p).read_bytes()).hexdigest() for n,p in files.items()},\"new_model_teacher_or_TEST_calls\":0},ensure_ascii=False))\n"
+}

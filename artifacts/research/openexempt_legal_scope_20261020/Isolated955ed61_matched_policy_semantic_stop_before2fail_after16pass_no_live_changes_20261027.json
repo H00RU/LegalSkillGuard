@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-26T22:05:48Z",
+  "purpose": "Prepare matched fixed-policy controls without changing the active frozen TEST or claiming a performance gain",
+  "previous_goal_turn_classification": "verified_wait_actual_TEST_PID1407238_active",
+  "this_goal_turn_classification": "progress_reproduced_and_fixed_control_policy_stopping_in_isolation",
+  "canonical_HEAD_unchanged": "8ece0a08d323abbb252b3a43c8e5fd655ae61f72",
+  "isolated_worktree": "/tmp/legal-matched-policy-controls.3zedqP",
+  "isolated_commit": "955ed614e82e064734e51358da6b462dbcfadb8f",
+  "isolated_source_sha256": "dda16c2189b76235a46e04dc7c17e348760e572d11613a9c385894ca97ddb22e",
+  "isolated_test_sha256": "1cf52c14dfd20f90abfc6924c96a268d5ef9a3ba0f62f526e2549d86202d640c",
+  "canonical_source_sha256_unchanged": "41a99ca5b652ffde79cbc80e3434b9166108e20567322e5f4dba2255e171efce",
+  "canonical_test_sha256_unchanged": "c3a5893b3331ec06f3caf666249ff1955d8997d11ba5489a934c689aabe59074",
+  "change": {
+    "existing_semantic_full_proposal_commit_check_moved_out_of_adaptive_only_branch": true,
+    "policy_names": ["whole_bank", "legal_scope", "adaptive_legal"],
+    "semantic_criterion": "Both task_view projections match the proposed bank after acceptance",
+    "bug_reproduced": "Fixed policies requested candidate2 when candidate1 was fully delivered but composition sorted records and merged equivalent EC/EV text blocks",
+    "adaptive_policy_existing_semantics_unchanged": true,
+    "actor_prompt_schema_bank_projection_grader_acceptance_and_dispatch_unchanged": true,
+    "no_new_helper_layer_or_test_file": true,
+    "older_partial_commit_test_fixture_only": "Initialize the existing PhaseDispatch omitted by its old Online.__new__ fixture; no runtime fallback added"
+  },
+  "targeted_CPU_checks": [
+    {
+      "stage": "new_regression_test_before_source_change",
+      "result": "2 failed (fixed whole/dependency), 1 passed (adaptive)",
+      "seconds": 1.59
+    },
+    {
+      "stage": "after_semantic_stop_change_before_old_fixture_alignment",
+      "result": "10 passed, 6 failed because the old synthetic partial-commit fixture lacked _dispatch",
+      "seconds": 2.26
+    },
+    {
+      "stage": "final_targeted_regressions",
+      "result": "16 passed, 39 deselected",
+      "seconds": 3.61,
+      "command": "python -m pytest -q --tb=short tests/test_openexempt_contract.py -k 'fully_committed_task_projections_stop_refinement or partial_commit_refinement or full_legal_scope_update or adaptive_commit_can_keep or adaptive_replay_objective or teacher_history_budget or train_acceptance'"
+    }
+  ],
+  "real_8B_calls_for_this_preparation": 0,
+  "real_teacher_calls_for_this_preparation": 0,
+  "control_experiments_started": 0,
+  "performance_improvement_demonstrated_by_this_change": false,
+  "current_TEST_content_answers_targets_or_partial_scores_inspected": false,
+  "live_TEST": {
+    "run_id": "legal_openexempt_adaptive_supplement_TEST128_20261027_run01",
+    "actual_user_service_state": "active/running",
+    "PID": 1407238,
+    "native_calls_asof_220538UTC": 118,
+    "exact_wire_reuses_asof_220538UTC": 421,
+    "teacher_calls": 0
+  },
+  "dual_git_bundle": {
+    "vdb": "/media/sangfor/vdb/legal-skill-backups/legal-skill-955ed61-from-8ece0a0-matched-policy-stop-20261027.bundle",
+    "rootdisk": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal-skill-955ed61-from-8ece0a0-matched-policy-stop-20261027.bundle",
+    "both_sha256": "6425675c5b6b2c2b0bdc370dc42630768f71fa9a27dc6d754adfde33975f103b",
+    "both_git_bundle_verify_passed": true,
+    "devices": [64528, 64517]
+  },
+  "next_step": "Keep the isolated patch unapplied while frozen TEST is live; decide utility on the complete prebound TEST, then configure only necessary matched policy controls. Main/ACE/Text independent repeats remain user-deferred. Any later source adoption needs explicit provenance, not a hash waiver."
+}

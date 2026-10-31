@@ -1,0 +1,101 @@
+{
+  "at": "2026-10-20T23:22:48.176052+00:00",
+  "classification": "Actual B2teacher2 visibility of every empirically positive C1source/task repair, not a new teacher request or implementation",
+  "positive_source_task_pairs": [
+    {
+      "case_id": 190,
+      "family": "EV",
+      "before_bank": "b6035a16001c5acfddcc630bc99c2e4d10a982d8e32e5e1db6646d596e310904",
+      "after_bank": "a8f96d426fe8832fff27ebe7cf95705f961a9f2c7830100147abd7ffeef07a3f",
+      "before_F1": 0.8333333333333333,
+      "after_F1": 1,
+      "after_full_EV_F1": 1,
+      "after_F1_and_full_output_exactly1": true,
+      "before_native_trace_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/native/b1_candidate2_replay/190_EV_candidate.json",
+      "after_native_trace_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/native/b2_candidate1_replay/190_EV_candidate.json",
+      "before_native_trace_path_in_actual_teacher2": false,
+      "after_native_trace_path_in_actual_teacher2": true,
+      "before_answer_and_score_content_roles_in_teacher2": []
+    },
+    {
+      "case_id": 195,
+      "family": "EV",
+      "before_bank": "b6035a16001c5acfddcc630bc99c2e4d10a982d8e32e5e1db6646d596e310904",
+      "after_bank": "a8f96d426fe8832fff27ebe7cf95705f961a9f2c7830100147abd7ffeef07a3f",
+      "before_F1": 0.6666666666666666,
+      "after_F1": 0.8333333333333334,
+      "after_full_EV_F1": 0.8333333333333334,
+      "after_F1_and_full_output_exactly1": false,
+      "before_native_trace_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/native/b1_candidate2_replay/195_EV_candidate.json",
+      "after_native_trace_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/native/b2_candidate1_replay/195_EV_candidate.json",
+      "before_native_trace_path_in_actual_teacher2": false,
+      "after_native_trace_path_in_actual_teacher2": true,
+      "before_answer_and_score_content_roles_in_teacher2": []
+    },
+    {
+      "case_id": 196,
+      "family": "EV",
+      "before_bank": "b6035a16001c5acfddcc630bc99c2e4d10a982d8e32e5e1db6646d596e310904",
+      "after_bank": "a8f96d426fe8832fff27ebe7cf95705f961a9f2c7830100147abd7ffeef07a3f",
+      "before_F1": 0.9166666666666666,
+      "after_F1": 1,
+      "after_full_EV_F1": 1,
+      "after_F1_and_full_output_exactly1": true,
+      "before_native_trace_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/native/b1_candidate2_replay/196_EV_candidate.json",
+      "after_native_trace_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/native/b2_candidate1_replay/196_EV_candidate.json",
+      "before_native_trace_path_in_actual_teacher2": false,
+      "after_native_trace_path_in_actual_teacher2": true,
+      "before_answer_and_score_content_roles_in_teacher2": [
+        "actual_same_case_empty_answer",
+        "actual_same_case_frozen_initial_answer"
+      ]
+    },
+    {
+      "case_id": 204,
+      "family": "EV",
+      "before_bank": "b6035a16001c5acfddcc630bc99c2e4d10a982d8e32e5e1db6646d596e310904",
+      "after_bank": "a8f96d426fe8832fff27ebe7cf95705f961a9f2c7830100147abd7ffeef07a3f",
+      "before_F1": 0.8333333333333333,
+      "after_F1": 1,
+      "after_full_EV_F1": 1,
+      "after_F1_and_full_output_exactly1": true,
+      "before_native_trace_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/native/b2_prequential/204_EV_skills.json",
+      "after_native_trace_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/native/b2_candidate1_replay/204_EV_candidate.json",
+      "before_native_trace_path_in_actual_teacher2": false,
+      "after_native_trace_path_in_actual_teacher2": true,
+      "before_answer_and_score_content_roles_in_teacher2": []
+    }
+  ],
+  "positive_pairs": 4,
+  "complete_F1_and_fulloutput_success_pairs": 3,
+  "native_before_traces_visible": 0,
+  "native_after_traces_visible": 4,
+  "actual_changed_skill_old_procedure_visibility": [
+    {
+      "ID": "illinois-wildcard-and-specific-pairs",
+      "old_procedures_present_as_exact_string_values": [
+        true,
+        false
+      ]
+    }
+  ],
+  "current_parent_labels_and_after_outputs_were_all_supplied": true,
+  "current_raw_failure_feedback_was_correctly_refreshed": true,
+  "not_a_claim_that_all_positive_information_is_absent": true,
+  "candidate_interpretation": "Teacher sees correct current-parent outcomes and attempted edits, but not necessarily the same controlled historical pre-update execution or full before-procedure for positive repairs. This distinguishes available TRAINlabels from evidence of an actually effective behavioral repair. Do not label a merely improved task as a fully passing repair.",
+  "primary_code_review": {
+    "source": "https://github.com/beita6969/ScienceClaw/blob/e925f732c7ca435f557e88075bc47a58f1e984f1/packages/scienceclaw/scienceclaw/evolution/skill_patch.py",
+    "function": "build_patch_messages",
+    "observed": "Authors build skill-author input from a replay-verified failing workflow, actual control edits, and a replay-verified passing workflow. They bound public description/graph text, not our64case input. No author code was copied or invoked here."
+  },
+  "prospective_action_only_if_continuing_gain_failure": "Use bounded genuine positive historical repair pairs alongside current-parent failure evidence in the existing teacher loop, with explicit historical-bank roles and full raw provenance. Prefer fully passing original and full-output outcomes where actually available. No k4group rollouts, new actor stage, customer router or paid service implied; performance unproven, not deployed.",
+  "no_runtime_config_or_actor_change": true,
+  "new_teacher_or_model_calls": 0,
+  "TEST_access": false,
+  "evidence_paths": [
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/publications/b1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/candidates/b2_candidate1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/batches/b2_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/teacher/b2_candidate2/wire_request.json"
+  ]
+}

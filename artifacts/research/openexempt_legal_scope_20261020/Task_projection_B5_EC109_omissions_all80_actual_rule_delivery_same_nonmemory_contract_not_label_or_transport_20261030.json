@@ -1,0 +1,2191 @@
+{
+  "at": "2026-10-29T17:52:56.119719+00:00",
+  "classification": "B5_rejected_EC80_actual_candidate_memory_delivered_general_rule_retained_but_final_coverage_lost_not_missing_transport",
+  "run_id": "legal_openexempt_task_projection_public_assets128_20261029_run01",
+  "actual80_new_native_wire_origins_verified": 80,
+  "all_before_after_nonmemory_messages_schema_generation_identical": true,
+  "all_actual_parent_messages_equal_published_parent_projection": true,
+  "all_actual_candidate_messages_equal_rejected_proposed_projection": true,
+  "changed_EC_guidance": [
+    {
+      "id": "ec-arizona-category-caps",
+      "before_EC": [
+        {
+          "tasks": [
+            "EC"
+          ],
+          "when": "Arizona exemptions are allowable and the asset is a firearm, motor vehicle, apparel item, or item of jewelry.",
+          "procedure": "Classify by the statutory category: firearms under Ariz. Rev. Stat. § 33-1125(10), each motor vehicle as a candidate under § 33-1125(8), wearing apparel under § 33-1125(1), and only engagement or wedding rings under § 33-1125(4). In EC, a value or aggregate ceiling limits protection rather than citation eligibility, and the one-vehicle language does not require final portfolio allocation among separately listed vehicle candidates.",
+          "avoid_when": "Do not reject an otherwise matching firearm or vehicle solely for exceeding its ceiling. Do not treat a pendant, bracelet, or other non-apparel adornment as wearing apparel, and do not extend the ring exemption to jewelry that is not an engagement or wedding ring."
+        }
+      ],
+      "proposed_EC": [
+        {
+          "tasks": [
+            "EC"
+          ],
+          "when": "Arizona exemptions are allowable and the asset is a firearm, motor vehicle, apparel item, or item of jewelry.",
+          "procedure": "Classify physical character before considering value: use Ariz. Rev. Stat. § 33-1125(10) for firearms, (8) for each motor-vehicle candidate, (1) only for actual garments or footwear, and (4) only when facts expressly identify an engagement or wedding ring. Pendants, necklaces, bracelets, earrings, lockets, brooches, and other adornments get neither (1), (4), nor household-goods § 33-1123 merely because they are worn or personal. A ceiling limits protection, not EC citation eligibility.",
+          "avoid_when": "Do not reject an otherwise matching firearm or vehicle solely for exceeding its ceiling. Do not treat a pendant, bracelet, or other non-apparel adornment as wearing apparel, and do not extend the ring exemption to jewelry that is not an engagement or wedding ring."
+        }
+      ]
+    },
+    {
+      "id": "ec-federal-wildcard-independent",
+      "before_EC": [
+        {
+          "tasks": [
+            "EC"
+          ],
+          "when": "Federal exemptions are an allowable namespace and the facts show a debtor interest in an estate asset.",
+          "procedure": "After classifying specific exemptions, make a separate asset-by-asset wildcard pass. Add 11 U.S.C. § 522(d)(5) for every debtor-owned asset because it covers any property, including residences, vehicles, household goods, jewelry, firearms, tools and health aids; retain every independently applicable specific federal or state citation. Its ceiling limits protected value, not EC eligibility.",
+          "avoid_when": "Skip § 522(d)(5) only when federal exemptions are unavailable or the facts do not show a debtor interest. Do not skip it because another exemption applies or the asset exceeds the ceiling."
+        }
+      ],
+      "proposed_EC": [
+        {
+          "tasks": [
+            "EC"
+          ],
+          "when": "Federal exemptions are an allowable namespace and the facts show a debtor interest in an estate asset.",
+          "procedure": "Initialize every debtor-owned asset's EC array with 11 U.S.C. § 522(d)(5) before testing specific exemptions. Then add every matching specific federal or state citation; never remove (d)(5) because another citation applies or because the asset exceeds its ceiling. The ceiling limits protected value, not EC eligibility.",
+          "avoid_when": "Skip § 522(d)(5) only when federal exemptions are unavailable or the facts do not show a debtor interest. Do not skip it because another exemption applies or the asset exceeds the ceiling."
+        }
+      ]
+    },
+    {
+      "id": "ec-illinois-other-property-alternative",
+      "before_EC": [
+        {
+          "tasks": [
+            "EC"
+          ],
+          "when": "Illinois exemptions are allowable and the asset is debtor-owned personal property used personally rather than for business.",
+          "procedure": "After classifying specific exemptions, make a separate § 12-1001(b) pass over every qualifying personal-property asset. Add 735 Ill. Comp. Stat. 5/12-1001(b) alongside any motor-vehicle, necessary-apparel or prescribed-health-aid citation, as well as for jewelry and other personal property. Its $4,000 ceiling limits protected equity, not EC eligibility.",
+          "avoid_when": "Do not apply § 12-1001(b) to real property or property the facts explicitly identify as business-use. Do not omit it because a specific exemption applies, and do not classify jewelry as necessary wearing apparel."
+        }
+      ],
+      "proposed_EC": [
+        {
+          "tasks": [
+            "EC"
+          ],
+          "when": "Illinois exemptions are allowable and the asset is debtor-owned personal property used personally rather than for business.",
+          "procedure": "First add 735 Ill. Comp. Stat. 5/12-1001(b) to every qualifying asset, before classifying its type or value. Retain it while adding any matching motor-vehicle, necessary-apparel, or prescribed-health-aid citation. Its $4,000 ceiling limits protected equity, not EC eligibility.",
+          "avoid_when": "Do not apply § 12-1001(b) to real property or property the facts explicitly identify as business-use. Do not omit it because a specific exemption applies, and do not classify jewelry as necessary wearing apparel. A personal appliance is not a trade tool without business-use facts."
+        }
+      ]
+    },
+    {
+      "id": "ec-oregon-personal-property-alternative",
+      "before_EC": [
+        {
+          "tasks": [
+            "EC"
+          ],
+          "when": "Oregon exemptions are allowable and the asset is debtor-owned personal property.",
+          "procedure": "After checking category-specific Oregon exemptions, make a separate pass over every personal-property asset and add Or. Rev. Stat. § 18.345(1)(p). Retain it alongside clothing, household-goods, vehicle, animal, firearm, jewelry, instrument, health-aid and other specific alternatives. Its $400 ceiling limits protected value, not EC eligibility.",
+          "avoid_when": "Do not apply § 18.345(1)(p) to real property. Do not omit it because another Oregon exemption applies or because the personal property's value exceeds $400."
+        }
+      ],
+      "proposed_EC": [
+        {
+          "tasks": [
+            "EC"
+          ],
+          "when": "Oregon exemptions are allowable and the asset is debtor-owned personal property.",
+          "procedure": "Initialize every such asset's EC array with Or. Rev. Stat. § 18.345(1)(p) before classifying its category or considering value. Then add every matching category-specific Oregon citation; never remove (1)(p) because another exemption applies or the asset exceeds $400.",
+          "avoid_when": "Do not apply § 18.345(1)(p) to real property. Do not omit it because another Oregon exemption applies or because the personal property's value exceeds $400."
+        }
+      ]
+    },
+    {
+      "id": "ec-pennsylvania-general-monetary",
+      "before_EC": [
+        {
+          "tasks": [
+            "EC"
+          ],
+          "when": "Pennsylvania exemptions are allowable and the facts show a debtor interest in an estate asset.",
+          "procedure": "After checking particular-property exemptions, make a separate § 8123 pass over every debtor-owned asset, including real property, vehicles, household goods, jewelry and business tools. Add 42 Pa. Cons. Stat. § 8123 alongside every applicable specific citation; its $300 ceiling limits protected value, not EC eligibility.",
+          "avoid_when": "Skip § 8123 only when Pennsylvania exemptions are unavailable or the property is not the debtor's. Do not omit it because a specific exemption applies or the asset is worth more than $300."
+        }
+      ],
+      "proposed_EC": [
+        {
+          "tasks": [
+            "EC"
+          ],
+          "when": "Pennsylvania exemptions are allowable and the facts show a debtor interest in an estate asset.",
+          "procedure": "Initialize every debtor-owned asset's EC array with 42 Pa. Cons. Stat. § 8123 before checking its type or value. Then add every applicable specific citation; never remove § 8123 because another exemption applies or the asset exceeds $300. The ceiling limits protected value, not EC eligibility.",
+          "avoid_when": "Skip § 8123 only when Pennsylvania exemptions are unavailable or the property is not the debtor's. Do not omit it because a specific exemption applies or the asset is worth more than $300."
+        }
+      ]
+    }
+  ],
+  "new_expected_claim_omissions": [
+    {
+      "case_id": 181,
+      "asset": "custom framed oil painting by regional artist with gilded wood frame",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 181,
+      "asset": "Charter Arms Undercover .38 Special revolver",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 184,
+      "asset": "gold Cuban link chain necklace (24 inch length)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 184,
+      "asset": "Springfield M1A semi-automatic rifle (.308 caliber)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 185,
+      "asset": "silver-plated trombone with large bore",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 185,
+      "asset": "pair of antique mahogany nightstands with brass drawer handles",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 185,
+      "asset": "compact writing desk with open shelving and laminate finish",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 187,
+      "asset": "wooden wall clock with quartz movement and silent sweep",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 187,
+      "asset": "basic desktop monitor with 24-inch screen and HDMI input",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 187,
+      "asset": "set of pearl drop earrings with gold-filled hooks",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 187,
+      "asset": "insulated parka with faux fur hood",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 188,
+      "asset": "pair of indoor cockatiels",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 188,
+      "asset": "basic black hoodie with drawstrings and kangaroo pocket",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 191,
+      "asset": "hospital bed with pressure-relief mattress (required by doctor for treatment of a diagnosed condition)",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 193,
+      "asset": "white gold engagement ring with interlocking bands",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 193,
+      "asset": "electric can opener with magnet and cord storage",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 193,
+      "asset": "wolf gray 2024 Kia Telluride SX-Prestige crossover",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 193,
+      "asset": "pair of khaki slacks with pleated front and belt loops",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 198,
+      "asset": "1999 Chevrolet Camaro, bright purple, Z28 coupe (112k mi)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 198,
+      "asset": "circular saw for Debtor's carpentry business, including replacement blades",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 200,
+      "asset": "tablet device with 12.9-inch screen and detachable keyboard",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 200,
+      "asset": "tablet device with 12.9-inch screen and detachable keyboard",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 200,
+      "asset": "single-bedroom carriage house (year-round residence) with 12-foot ceilings",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 200,
+      "asset": "single-bedroom carriage house (year-round residence) with 12-foot ceilings",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 200,
+      "asset": "set of bath towels made from Egyptian cotton",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 200,
+      "asset": "set of bath towels made from Egyptian cotton",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 202,
+      "asset": "folding card table with vinyl top and metal legs",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 202,
+      "asset": "smart light bulb starter kit with color-changing features",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 203,
+      "asset": "vintage brocade cheongsam with frog closures",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 203,
+      "asset": "handmade classical guitar",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 204,
+      "asset": "gray business suit including jacket and matching trousers",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "actual_delivered_skill_ids": [
+        "ec-illinois-other-property-alternative",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 205,
+      "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 205,
+      "asset": "concert-grade oboe (French key system)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 206,
+      "asset": "titanium pendant dog tag necklace with engraving",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 208,
+      "asset": "four-bedroom, three-bath brick ranch homestead with a finished basement and a wood-burning fireplace",
+      "citation": "11 U.S.C. § 522(d)(1)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 208,
+      "asset": "four-bedroom, three-bath brick ranch homestead with a finished basement and a wood-burning fireplace",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 210,
+      "asset": "home office webcam with 1080p resolution and privacy shutter",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 210,
+      "asset": "stainless steel electric kettle with auto shut-off feature",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 210,
+      "asset": "black slip-resistant clogs with molded footbed",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 211,
+      "asset": "23-inch soprano ukulele with mahogany body and nylon strings",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 211,
+      "asset": "23-inch soprano ukulele with mahogany body and nylon strings",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 211,
+      "asset": "titanium engagement band with brushed finish and beveled edges",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 211,
+      "asset": "premium tablet with stylus and detachable keyboard in leather folio case",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 211,
+      "asset": "premium tablet with stylus and detachable keyboard in leather folio case",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 211,
+      "asset": "dishwasher with stainless steel tub and delayed start functionality",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 211,
+      "asset": "dishwasher with stainless steel tub and delayed start functionality",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 213,
+      "asset": "English bulldog",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 213,
+      "asset": "down-filled puffer jacket with water-resistant outer shell",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 213,
+      "asset": "down-filled puffer jacket with water-resistant outer shell",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 214,
+      "asset": "fur-trimmed parka with insulated lining and removable hood",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 216,
+      "asset": "induction cooktop with four burners and touch controls",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 216,
+      "asset": "induction cooktop with four burners and touch controls",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 216,
+      "asset": "streaming media player with 4K resolution and HDMI extender",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 216,
+      "asset": "streaming media player with 4K resolution and HDMI extender",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 216,
+      "asset": "simple platinum nose stud with single clear gemstone",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 216,
+      "asset": "simple platinum nose stud with single clear gemstone",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 216,
+      "asset": "2017 Subaru Outback 2.5i Premium in crystal black silica",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 216,
+      "asset": "2017 Subaru Outback 2.5i Premium in crystal black silica",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 217,
+      "asset": "floor-length curtains with floral embroidery",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 217,
+      "asset": "hanging macrame plant holder with ceramic pot",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 218,
+      "asset": "pet crate suitable for a medium-sized dog with locking door",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 227,
+      "asset": "physician prescribed wheelchair with foldable frame and padded armrests",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 227,
+      "asset": "professional-grade stand mixer with copper bowl and attachment bundle",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 227,
+      "asset": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 227,
+      "asset": "Hi-Point C9 9mm pistol",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 228,
+      "asset": "hand-knotted wool area rug measuring 9x12 feet with Persian motif",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 228,
+      "asset": "stainless steel refrigerator with French doors and bottom freezer drawer",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 228,
+      "asset": "pack of five pairs of ankle-length athletic socks",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 232,
+      "asset": "amethyst ring in 10-karat gold prong setting",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 232,
+      "asset": "domestic conure parrot",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 232,
+      "asset": "reclining gaming chair with neck and lumbar support pillows",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 232,
+      "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 232,
+      "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 235,
+      "asset": "65-inch OLED television with wall mount and surround sound setup",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 238,
+      "asset": "silk cocktail dress with asymmetrical neckline",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 238,
+      "asset": "silk cocktail dress with asymmetrical neckline",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 240,
+      "asset": "strand of cultured pearls with sterling silver clasp",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 240,
+      "asset": "strand of cultured pearls with sterling silver clasp",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 240,
+      "asset": "red saree with gold zari border",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 240,
+      "asset": "red saree with gold zari border",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 241,
+      "asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 241,
+      "asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 241,
+      "asset": "two-seat entryway bench with hidden shoe storage",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 241,
+      "asset": "two-seat entryway bench with hidden shoe storage",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 241,
+      "asset": "set of stacking rings made from mixed metals including rose gold and silver",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 241,
+      "asset": "set of stacking rings made from mixed metals including rose gold and silver",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 244,
+      "asset": "tailored wool overcoat with satin lining and horn buttons",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "actual_delivered_skill_ids": [
+        "ec-illinois-other-property-alternative",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 249,
+      "asset": "toaster oven with rotisserie setting and convection fan",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 249,
+      "asset": "gold-tone costume necklace with floral pendant and crystal inlays",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 250,
+      "asset": "pair of sterling silver hoop earrings with cubic zirconia accents",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 251,
+      "asset": "intermediate-grade cello with maple back",
+      "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+      "actual_delivered_skill_ids": [
+        "ec-arizona-category-caps",
+        "ec-arizona-operative-homestead-citation",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 254,
+      "asset": "brass trumpet and hard-shell case",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 254,
+      "asset": "slow cooker with programmable timer and locking lid",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 254,
+      "asset": "slow cooker with programmable timer and locking lid",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 254,
+      "asset": "high-performance cycling jersey",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 254,
+      "asset": "high-performance cycling jersey",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 255,
+      "asset": "nighthawk black pearl 2006 Honda Odyssey, 168,000 miles",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "actual_delivered_skill_ids": [
+        "ec-illinois-other-property-alternative",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 255,
+      "asset": "seamless undershirt made from bamboo fabric",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "actual_delivered_skill_ids": [
+        "ec-illinois-other-property-alternative",
+        "ec-independent-alternatives-output-discipline"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 256,
+      "asset": "bespoke two-button suit in English wool flannel with pick stitching",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 258,
+      "asset": "1996 dark cherry metallic Chevrolet Suburban LT with 203k miles",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 258,
+      "asset": "padded storage bench with tufted linen seat and hinged lid",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 258,
+      "asset": "padded storage bench with tufted linen seat and hinged lid",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 258,
+      "asset": "limited edition art glass vase signed by renowned contemporary artist",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 258,
+      "asset": "limited edition art glass vase signed by renowned contemporary artist",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-oregon-personal-property-alternative"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 259,
+      "asset": "world rally blue 2018 Subaru WRX STI Limited",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 259,
+      "asset": "world rally blue 2018 Subaru WRX STI Limited",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 259,
+      "asset": "countertop blender with 1200-watt motor and ice-crushing capability",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 259,
+      "asset": "leather belt with silver buckle",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    },
+    {
+      "case_id": 259,
+      "asset": "leather belt with silver buckle",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "actual_delivered_skill_ids": [
+        "ec-federal-wildcard-independent",
+        "ec-independent-alternatives-output-discipline",
+        "ec-pennsylvania-general-monetary",
+        "ec-pennsylvania-wearing-apparel-boundary"
+      ],
+      "new_omission_despite_actual_candidate_memory_delivery": true
+    }
+  ],
+  "new_omissions_by_citation": {
+    "11 U.S.C. § 522(d)(5)": 66,
+    "Or. Rev. Stat. § 18.345(1)(p)": 13,
+    "42 Pa. Cons. Stat. § 8123": 21,
+    "735 Ill. Comp. Stat. 5/12-1001(b)": 4,
+    "11 U.S.C. § 522(d)(1)": 1,
+    "11 U.S.C. § 522(d)(3)": 3,
+    "Ariz. Rev. Stat. § 33-1125(2)": 1
+  },
+  "candidate_only_proposal_NOT_published": "c5638003a31f8e7bdd607f3f59b8582762a0e416ad4db91ca81c3d2823898866",
+  "actual_library_preserved": "c358d0f829c05bbdf9412759dc5a6c4f99720091adba0ede696e35a28132e176",
+  "interpretation": [
+    "The proposal retains and explicitly front-loads general alternatives; these instructions were actually delivered, not removed in transport.",
+    "After-classification separate-pass wording became initialization-before-classification for the main general alternatives.",
+    "Native final outputs nevertheless omitted109 previously correct claims, including66Federal general alternatives.",
+    "This is observed non-equivalence of realized execution under semantically similar teaching, not proof a particular token order caused the losses.",
+    "Non-deterministic execution across nominally identical decoding remains a possible contributor; no new rerolls were performed."
+  ],
+  "next_action": "Keep the actual accepted parent and inspect later first-encounter utility; do not publish this rejected rewrite or relax gates. If optimization remains needed, test a bounded proposal/learning-policy hypothesis, not another missing-label patch.",
+  "no_new_model_teacher_grading_or_TEST_call": true,
+  "no_frozen_source_change": true,
+  "source_sha256": {
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/candidates/b5_candidate1.json": "42f3d4f87ee5b9245080c45baac89692559a441164923e19aeaceaa8019348b0",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/publications/b4.json": "c205b1b92858b1d8a889000fa1d3e945bacf7b2c887b6dc6c4ee7bfab624ab8f",
+    "experiments/openexempt_online.py": "5506819916802511d647183e46a19bacf530b218e30ef57e49ae42eb390f6416"
+  },
+  "all80_input_and_origin_proofs": [
+    {
+      "case_id": 181,
+      "input_sha256": "11623ed937d098d836055bad644cfa15f149d7867e5be9ccd666b30495efb6e4",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/181_EC_candidate.json",
+      "raw_sha256": "196ff2017b8b448bb786665eb33c9ba170814d177a95330ad8074a1864044cc1",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/181_EC_candidate.json",
+      "actual_parent_raw_sha256": "e91d016500ddd9ea2390d211429d20b672e6be7bfbd79a0e3b957c97a3e2421f",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 182,
+      "input_sha256": "c97c3d5d35714022027ca5a5c760f5a2aa24ce5d2aaf5a2795c278d354485e09",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/182_EC_candidate.json",
+      "raw_sha256": "089ce55b2116a6386dbfb410c4e260e28a293c90915360a3048b716eb8efa10e",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b1_candidate1_replay/182_EC_candidate.json",
+      "actual_parent_raw_sha256": "3b03bab15bedb5d35edb7e85c914580c48c4f1171df5cb8474d9881dda8c5d3c",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 183,
+      "input_sha256": "80dc618081d765a204e708312bf29967f8650267424280446bb8a8b17aa81b1e",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/183_EC_candidate.json",
+      "raw_sha256": "7eefb181da6e3e30ea4d43ba9e8e9330f1c4cf677155fb16e7bde84438a6eacd",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b1_candidate1_replay/183_EC_candidate.json",
+      "actual_parent_raw_sha256": "befb77a34806b5efd31446a5430e98f342c797c0fe548ae1a19279d9795fe32a",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 184,
+      "input_sha256": "36adda083827e922bfb630f954eb42747f60cec8635e512784038626e16244df",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/184_EC_candidate.json",
+      "raw_sha256": "fa6a5162f22aadc0d90e129b31cb274275ad86ef36ebaea2e34354ac9e856719",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/184_EC_candidate.json",
+      "actual_parent_raw_sha256": "8af67a8bd6a6d90a7836651f13ab7cea0325703ffa385ac4fe5d20d16739ba18",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 185,
+      "input_sha256": "8ee67225ae737b362c739f8197c881f138ec2b19268bb39e68e54e1b16e56838",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/185_EC_candidate.json",
+      "raw_sha256": "8066802c71cae93694b173462cc1d847e569182e53bffe2c53a43ae8c1b09a27",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/185_EC_candidate.json",
+      "actual_parent_raw_sha256": "b1f9a7d15d4611e867c9ab00b80b6ff7c09429603d88a942ce5d569cf48c1c0b",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 186,
+      "input_sha256": "eb3aea6235dc0fce6c45cc8a99bd4bb2dbbb34ab6a8cc512d011a654b04a885a",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/186_EC_candidate.json",
+      "raw_sha256": "2a2e1275f3e9854e0abe46194fcafcc169c41abff67aa1877a0e1c0bc157fe9a",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/186_EC_candidate.json",
+      "actual_parent_raw_sha256": "1c44034eeb512a98056fd350c7ecdccf29f0fddea315d85ce3b6695d59bc3dc2",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 187,
+      "input_sha256": "ff418ce4750637cafb8d96f1cebecde91241b52c4b520ae04f2893fab68db9f3",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/187_EC_candidate.json",
+      "raw_sha256": "4de7bc822e3a1f5dd821952605c6768e97658f3f52e3f4afe031a678630f2702",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/187_EC_candidate.json",
+      "actual_parent_raw_sha256": "c95b9a0d20391ddb96d19f25bf67478e436a081025eea80503b754f43577d7e0",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 188,
+      "input_sha256": "41ac098d75ee5746ff275b120948712d727c8f9005431ed37c075f2bba835211",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/188_EC_candidate.json",
+      "raw_sha256": "1d8bc1bfcc994997d1431b5f8fc1c3dc089753f56305dcf7793af49da0822bb4",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/188_EC_candidate.json",
+      "actual_parent_raw_sha256": "393ba7c8e78958e150c24ed73c8d44f39e89e3bf8a514c150822185550067c3d",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 189,
+      "input_sha256": "0a4c1029adcb8fa36b94207f80813b06d2a5d61b5ed9daa874512ab4a2c17061",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/189_EC_candidate.json",
+      "raw_sha256": "b82d38ccba4efb51131e85331f2a007375d8d4de59821a0ee383fbd660b73c82",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b1_candidate1_replay/189_EC_candidate.json",
+      "actual_parent_raw_sha256": "4177b0e6ea07a2d39e22bc4d21081fd4d78e3936fc018c52b8689b338d6cfdf1",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 190,
+      "input_sha256": "df5e056db840fcd57d064ef4cbd71b6ee0243323d0a687b4e0815f298c11473c",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/190_EC_candidate.json",
+      "raw_sha256": "208ef88eb05d5236c868215473c92f69b0ec018486834ed177b19ed8ade779ae",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/190_EC_candidate.json",
+      "actual_parent_raw_sha256": "d4adbc5574121a1fb4b0f3fb57c884727ffe260095cd5077ad08c693f7375df2",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 191,
+      "input_sha256": "57d10a9e8acff947c84ee9f083fde174c114088e05c21c5343a28178e56497f5",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/191_EC_candidate.json",
+      "raw_sha256": "113aebc9a091b5e9970d3ed9bd2009a2047758c448a1d95d321f3495e1d47539",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/191_EC_candidate.json",
+      "actual_parent_raw_sha256": "2869b7fbe105c794cfae3c38b42fc921f73dd86ad655ec9ddf6d048fd76937f6",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 192,
+      "input_sha256": "843634ae9d39b89ab888b69aec1bc5d022e29d866fa471f41f501125bcf6588f",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/192_EC_candidate.json",
+      "raw_sha256": "0d5c820070351428f9032f22ff09ad613a74a5b0307a76fe3e3e925795456798",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/192_EC_candidate.json",
+      "actual_parent_raw_sha256": "2f2970cfc104ca5f9dcd6a4e8e48d414b1e15f209c11de8e38cb524defdb3257",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 193,
+      "input_sha256": "4fa2bbe13a5f221ee306bb63a98551a4fa94e0ac8e66ae433dcea12bbb3908e3",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/193_EC_candidate.json",
+      "raw_sha256": "3bc841dbd160eee6cbc6148c6873edcfe9520cb3c0a7e15736fbe9a1ca6057db",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/193_EC_candidate.json",
+      "actual_parent_raw_sha256": "9590aa74dc66ecbace91d0bafb44443f519a3db0481cd26a8beaf9924fbd379f",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 194,
+      "input_sha256": "fa935d00cfcd1bb6ba701584bfaa517801dcb8c5d3002b30da0ae295459ecb5f",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/194_EC_candidate.json",
+      "raw_sha256": "4f6f7d682e2c0cd85029faba815b88abbec1363b277706c5a532254a6face65c",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/194_EC_candidate.json",
+      "actual_parent_raw_sha256": "8a59c54c44ed02a280a5a1d902058402d8a3f6433d9a659360024583e7fc2629",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 195,
+      "input_sha256": "7aa1d4fbcb07d8d60f44750de624b400501dcc2733be84a665cedc1eec02f657",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/195_EC_candidate.json",
+      "raw_sha256": "9a4caa0a09b17fb939e3342a664e155615a59b4d60f64d5a2234d6de97e60061",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/195_EC_candidate.json",
+      "actual_parent_raw_sha256": "dddbec26603e071499d7608024df49ac709ae2fe91e21ac36f5c7ea0c3f80b36",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 196,
+      "input_sha256": "27ffb9882c6d6f3ce489a3f4d4f849b7c8801bb5fdd46e257d86d1df099c3784",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/196_EC_candidate.json",
+      "raw_sha256": "28f836a80220bd88457ba04d59aa73c4695762265bb6a51265991ab872f93288",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/196_EC_candidate.json",
+      "actual_parent_raw_sha256": "e71f8845c9c0c6772bbef2f745529983291d73414ee0ea4cd87e0e4532d28770",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 197,
+      "input_sha256": "13681beebc4e4cb3dddc7ba80585024e4b463a62435cdc5669febcae4a849fb9",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/197_EC_candidate.json",
+      "raw_sha256": "d5e0e62ea290e27f7b0bc157b69aafdce412be0284fe2931bf7e51d53eabed43",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_prequential/197_EC_frozen_after_B1.json",
+      "actual_parent_raw_sha256": "54c79e143558d5a4e20056657031b22aec4826497f0214a634fe86900c6ebc43",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 198,
+      "input_sha256": "ee363a172c8237e42c8fdd490b508eb6aeb1eb8816906916814a72bcf83adc08",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/198_EC_candidate.json",
+      "raw_sha256": "3e650aa7f9963cc47fe4f7a707207266aa16f557cc324fbc9a66bb2241735de3",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/198_EC_candidate.json",
+      "actual_parent_raw_sha256": "f363dc90a7638d97c86acb8f5d5c5b025519cdf58d9e4907d7e152162b58fbe3",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 199,
+      "input_sha256": "cd908bdf899e1a72a7c4db959abad289874fde3a43ba7dde32e6d0c71d83d652",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/199_EC_candidate.json",
+      "raw_sha256": "4f5c75ea92e7df075fd332e898ac0ee816405416913deaacc44138c6eac786f6",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_prequential/199_EC_skills.json",
+      "actual_parent_raw_sha256": "dda35be9782bb1e0962a6fe3e07433ea5cc82d498c74451a411409f0e5a4e1de",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 200,
+      "input_sha256": "1387a0a20f956e2f19c3a52bde18ced9594fa98c7b88acfbe45b57fa6a16c251",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/200_EC_candidate.json",
+      "raw_sha256": "c429a1d645d1abda16773f30cf4a977a0715e22ddfe50949b499d6a18072998e",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/200_EC_candidate.json",
+      "actual_parent_raw_sha256": "ede0a040e4b24d422286424a97a333552593ae3a16c4dcd4c478188908573b07",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 201,
+      "input_sha256": "6655f5c753303cdcff4f1bc142d996933494f8126120472db672ceb2174158a1",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/201_EC_candidate.json",
+      "raw_sha256": "d3c5c82aa253ecf14f146d2234be01a81daa909a5f1aa94bde4668baed7c53ef",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_prequential/201_EC_frozen_after_B1.json",
+      "actual_parent_raw_sha256": "b23c7c9b6ab0e5f79ceea8a88d86742f64e2de00a707cf76131b8355ef72d646",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 202,
+      "input_sha256": "b261ac9a0798b06635d23194dbb0cf78ae0d4e620fb6715f47e127aef07eaa0a",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/202_EC_candidate.json",
+      "raw_sha256": "3dc7e8e0665de0bdcd1c14c8e0b8a5a54e5e1c79183ff7bfcdcbecca6c0977cd",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/202_EC_candidate.json",
+      "actual_parent_raw_sha256": "81fe98073b40753bdfef5f572057f3384467fc86703e0655995fde580c692159",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 203,
+      "input_sha256": "6dce99d532f1af6c9377963a1e85000f302e726771a1d208c816f7312a197031",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/203_EC_candidate.json",
+      "raw_sha256": "78b67107ecd6fce7485a353ffef09734942f2ea471d6b2cb80b21f6bc674813d",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/203_EC_candidate.json",
+      "actual_parent_raw_sha256": "d787268a329f9c89a479ce86c0693743b12f7bfc495413ea3c299fabeb0ec58f",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 204,
+      "input_sha256": "0725fa4b783c332dead1b5dbaa7a5543613e6b39d542e2de804e9be455ec6619",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/204_EC_candidate.json",
+      "raw_sha256": "40a6ae9a69c1414fff6ea8dca3027e7cfde945d76cb6a432675d79cb3d786818",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/204_EC_candidate.json",
+      "actual_parent_raw_sha256": "82c31b6a76f747a35b7b408814595189d8844598918d9e61ebf1f4778c1cff77",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 205,
+      "input_sha256": "be44d5a3e8d63103a111ac8889851687904d229104e05627dfea352b36b0a903",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/205_EC_candidate.json",
+      "raw_sha256": "ee71294e25de79577203d99b466daf8a9235a99558995f19381a0f198e365718",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/205_EC_candidate.json",
+      "actual_parent_raw_sha256": "3ffa835e5f4fec7e48252db5d8009d1b034fc38fd144340b08c5927e785e96f9",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 206,
+      "input_sha256": "ac4f274a7417c4790632c80bba4e8d3823551c34a5fe8e9faa5c76e678cab456",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/206_EC_candidate.json",
+      "raw_sha256": "c058292b399da4e2d811ee90739d76d68929858daf4ac4c3c631e5f39cb58571",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/206_EC_candidate.json",
+      "actual_parent_raw_sha256": "5deadc69d7e639fcff716c54456ad6f15b3251e0dc902dd2543081f0ddd45ba6",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 207,
+      "input_sha256": "12f07c7540be969a90e74a5b2928c831cc526a95aae77949fe319ebc024d1c0b",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/207_EC_candidate.json",
+      "raw_sha256": "440a3b074f92a8aa0122b083c7656a1b2b92990079d079acf67ce41958706894",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_prequential/207_EC_frozen_after_B1.json",
+      "actual_parent_raw_sha256": "06e6addef23eea7ed1b8c64969ac52b8c630d3c0495957b3fe2590c6ad6b8b12",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 208,
+      "input_sha256": "44794d7f5d1e202063c23de017cbefd278f396453167f9f5facb64d0b415b521",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/208_EC_candidate.json",
+      "raw_sha256": "d755babad6483dc8272b6e2321ca1d997b0504973cf3cd230f7521ca45ed17a1",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/208_EC_candidate.json",
+      "actual_parent_raw_sha256": "32c70d4d03babfe8db3e3109197e3c309752bd6f09e8797d24e22212ff5af943",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 209,
+      "input_sha256": "03e0a98d55fd8017fae38136338f2f4606821c71cf427a1eba959513e01138c7",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/209_EC_candidate.json",
+      "raw_sha256": "9f93b4160310eacd2f041635a6ef67b1eaeabf470f759bb809df8d5e088e5816",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/209_EC_candidate.json",
+      "actual_parent_raw_sha256": "93c766db9b4708f6445fa296708db89f0371706a9067de9a28b82676d2be9f88",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 210,
+      "input_sha256": "a2c0f031384dd5c5ce5f07c132be7df48726c6670b6a046857e9dd543ed044c7",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/210_EC_candidate.json",
+      "raw_sha256": "4a575b27ab9785a45954cc670318c505774a071b5e8729b3adeefcc12b8fb222",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/210_EC_candidate.json",
+      "actual_parent_raw_sha256": "a69cadafd3b8b38552b12691b0200db0a053affa5396fc5eff65708a7a86e1b2",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 211,
+      "input_sha256": "c99b90ffca51adbff8a2dc709e07c1a294f158cefbe325ad78707af610268d53",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/211_EC_candidate.json",
+      "raw_sha256": "108abe67601f550cd3b7397a51949dcd024422e3a05494be08ccab0c7bc908e7",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/211_EC_candidate.json",
+      "actual_parent_raw_sha256": "f55323a92632119d276f3919afa1ae4012425ff0d52b2e1efe936430cd36d153",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 212,
+      "input_sha256": "8ee84852568b343354af192f58f452b739ac7db12217646e8014ddd402dcf3a9",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/212_EC_candidate.json",
+      "raw_sha256": "0b2897daf7af5bdc58e67057e183ee8f0ee8b5a17f732d2f25587a5729a32a41",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate1_replay/212_EC_candidate.json",
+      "actual_parent_raw_sha256": "dc03d8c3c30d88733a26bc05f3a8afc91f89f0f45a38d4e3f990b2630525a854",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 213,
+      "input_sha256": "6942c8e440c68ae8f4330888ec088e17c0997aa008958421e32e858d6850fa35",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/213_EC_candidate.json",
+      "raw_sha256": "ecc7157b12a2dc9f57298268293d090776b2bf90fbd52b567949f4895383c679",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/213_EC_skills.json",
+      "actual_parent_raw_sha256": "e5e58aff2193590606c682f0e219db722eb9662f80d1707ce5bf6e86f440cc53",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 214,
+      "input_sha256": "adb4a60207b2d0273de2b810517208283f3511714b3a7f3c923e094522ae910e",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/214_EC_candidate.json",
+      "raw_sha256": "26b88e3d20e5329b4da69926925730c21219319dcfc3955ea91b0f7a5a679032",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/214_EC_skills.json",
+      "actual_parent_raw_sha256": "4b903321862732bc0051b92a6e2f382a146db7037fa064be6a0906cfff0ab95e",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 215,
+      "input_sha256": "30087030a102694b4eeb3d47f81acb97c4221835338704fb849467af914bb9ca",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/215_EC_candidate.json",
+      "raw_sha256": "c2ecce2f8b20f06052dbd58023c8dd000eb0ef95cd3201a40d782b7370e84818",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/215_EC_skills.json",
+      "actual_parent_raw_sha256": "3aaa2eaea296abc3c7c2044e6c16a59b004a5f6c3419e94f6a3ba1c0cde189af",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 216,
+      "input_sha256": "1373c5d6a0ddaabeb1c6232b5e8fa019c1e5fe859a1bcd3167bed698733131ff",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/216_EC_candidate.json",
+      "raw_sha256": "63a744d0bd51f6cfcf186f2942172e940b0d038834ebc848d20d2ab1ec08688f",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/216_EC_skills.json",
+      "actual_parent_raw_sha256": "7eb4005d6383d88875e5b50caa4614ed83d9fcaf30351e8054baf3001b071efd",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 217,
+      "input_sha256": "e4fb8cfa80b8ccb5a5b50c94055ab30af949f089b19737307a509e0a8768a6b1",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/217_EC_candidate.json",
+      "raw_sha256": "4cbe918751513294c53f504a53aae6ea584dd9c8cd7a9e4ca04ee6ef91c07764",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/217_EC_skills.json",
+      "actual_parent_raw_sha256": "49792157cc8aa6becf20ec60881011dd9f39f7df6904e6bf793f73f0e7a666ba",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 218,
+      "input_sha256": "14abffbda9b34f53f4b8050fcf70a2f005c771187c2b238ff53fecf3bfd85a65",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/218_EC_candidate.json",
+      "raw_sha256": "4fc448a06ecd5914e70ea350ff098994d0b0c4c2ebfeb43f0dbb679c23fac798",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/218_EC_skills.json",
+      "actual_parent_raw_sha256": "b87be127a05b840669f368765c19c5699190297de6e16bc589804f699fcbb0cf",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 219,
+      "input_sha256": "3712529acd6991f6818be20344b3a54ccd893ac8c3de4e77d2a5ca2801bb6835",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/219_EC_candidate.json",
+      "raw_sha256": "64ba18729f1ee3e6277bad0ce066a6218fd2676b24d850d1ae34a650df633ebf",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/219_EC_skills.json",
+      "actual_parent_raw_sha256": "2e3ddc147928f03e1f952ce8809bb815b2c8c1e8bf00513a10e388eb42aafed3",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 220,
+      "input_sha256": "d157340266eeb75ee112cbef8169f118d54ff7ec1af12f249cc128301b4210f5",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/220_EC_candidate.json",
+      "raw_sha256": "4e1a1db7177de67919cc2684c35e455e8244baba970d85c98c41ad8c5aabb079",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/220_EC_skills.json",
+      "actual_parent_raw_sha256": "a784c9e85a4a6a8de63b13cc360967544db9e4617407b13f6c4a6b016fef08bb",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 221,
+      "input_sha256": "a73c659a399c4f803d463b5ccc01de3d474171d61cba3f9e1bcbed7c2d9cbd6e",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/221_EC_candidate.json",
+      "raw_sha256": "113d3422f4d0e7302ef2e8bbb0ef3a9a3f7893daeef8c48eb4c10b60b85c2f21",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/221_EC_skills.json",
+      "actual_parent_raw_sha256": "8126b5c3df01a5bb94b2f818e708441b92b22c66d1a29eb887a246d486ab5d75",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 222,
+      "input_sha256": "eb8bf396940b079514cd283a0e92c7f641c9b4c66a264d20b98e9aca078f0f8f",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/222_EC_candidate.json",
+      "raw_sha256": "77b136dfd990043d86852dd8bfb6d3a2f391aeca0021061f1ec1faced3ba9d4f",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/222_EC_skills.json",
+      "actual_parent_raw_sha256": "03db3b1a999212ce1d19cdd4f0e341f0659645ea99a61933da7d805e19030e31",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 223,
+      "input_sha256": "46de918170e3a37db7181ab478138cfc3f186c83f7f856b15cf87903a9856e70",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/223_EC_candidate.json",
+      "raw_sha256": "e0e5929cf56404058e36ad4e89715a1a51089678a433e8d8cc5b97f82cacfbe5",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/223_EC_skills.json",
+      "actual_parent_raw_sha256": "2b6ff9c48e4b12e6e0c721243a6f0a768c7d5905ed1bc7c3a20df831e1cbf5ce",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 224,
+      "input_sha256": "39a1f9a664aa92d47b688ba3833a7eae195dda93f4570456dca431923c17dcb0",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/224_EC_candidate.json",
+      "raw_sha256": "8cc73db7e8b3ded9a877dea69fb020f683a47969e0add4a5b1a84bfc7851aaef",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/224_EC_skills.json",
+      "actual_parent_raw_sha256": "c8e81bf9f9962cc678aa0b41f71fd5e0900a3418b35eeed33a4dc67d98888eab",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 225,
+      "input_sha256": "e0d15e8b1acc08d4aad536908cbc4a3f9264e428d7296339b2c6730686391d89",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/225_EC_candidate.json",
+      "raw_sha256": "11449e0d3ca8302cb97ffa2beb549a2c133e517a3b2461678ee6b369c64f8920",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/225_EC_skills.json",
+      "actual_parent_raw_sha256": "c99cb1098ee6c191911e27018467caa93c56a4a8fa65e726fc093bfee06642f4",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 226,
+      "input_sha256": "0264b3de92d4eb67d8903fe52ee37188064767fc2cf4271d07a424efae86ef7c",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/226_EC_candidate.json",
+      "raw_sha256": "f463b6b400e725692f649f3d6b00e2fd0587f8454cf8271978b3b59b83f0493a",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/226_EC_skills.json",
+      "actual_parent_raw_sha256": "c7a0c865535c4a51f2dbec92e7bfa3bee6567555176eb3cf0fa66f5b223fc31d",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 227,
+      "input_sha256": "4d1ac20377b282aad5c9d7c7c3fbe48a9fa22ff41afcb2a940eab3308374bd04",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/227_EC_candidate.json",
+      "raw_sha256": "a64ed48fa7c4ebc0a2ba14475bec8d4a549664b04c82504c9f8147a3583b55d3",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/227_EC_skills.json",
+      "actual_parent_raw_sha256": "b0fbfda2ffccb97b7cc18fcc4ea341eca1d7147dda8bbf17a963a2f4e46ae782",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 228,
+      "input_sha256": "f797b604c5c8b93e41f96e60e6604f12bccd1f8faefdbdb934b5966d18004775",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/228_EC_candidate.json",
+      "raw_sha256": "d212ea82e2477e16e7bf458959a8f11601520826d2668d6c147e2985e9bb9417",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/228_EC_skills.json",
+      "actual_parent_raw_sha256": "9d0d83dfd66744791fc0380db523f4a88346cb5c072321ebe3114057d2b16c8b",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 229,
+      "input_sha256": "bcf7953f8284a966b370ad96993140114a52a578a1f652e7d8a0cf8cab112c07",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/229_EC_candidate.json",
+      "raw_sha256": "ba654dfbf39dd2dcb3d944348eef7648fbc9e77af1fd4f701cb3bfb797f5b702",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/229_EC_skills.json",
+      "actual_parent_raw_sha256": "e1c94e6360e4d5e7562851b203ec2fcfb6e22986f0ecc877503d07233ea641a9",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 230,
+      "input_sha256": "c1d6efd0fc6a8c9f005e791d970a8a7a85fc3f74eb5313800a5c1ad760e6cf80",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/230_EC_candidate.json",
+      "raw_sha256": "d2363867dfca77488f645861033fc99fa9d3e434865a2609b2eb80c4bd339f67",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/230_EC_skills.json",
+      "actual_parent_raw_sha256": "f1db0c2f47ba36797022a4b0175e35e8ac3a7450e7468022ffafa3d4caf6b5d6",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 231,
+      "input_sha256": "1982e3e0a4fada439aa25b423c4941a7a5ec6470f71ee74d00ad5168f0ec2013",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/231_EC_candidate.json",
+      "raw_sha256": "80e6a2323b657a2aa48328f67d84419d01573f21becbd337956ba758aa8af305",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/231_EC_frozen_after_B1.json",
+      "actual_parent_raw_sha256": "05a3cec36a65aa1999c185d6d95063f5475152752e50e8b9189c1392567e1cfb",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 232,
+      "input_sha256": "36f8786c1679f2967e374a11d62f5a8cb1397a508640bc7eb488b026b0c97b56",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/232_EC_candidate.json",
+      "raw_sha256": "9d997e3e3ffb0982961b3bdbbd20230e07ab0eb1a8c6e801de5f7529714de7ab",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/232_EC_skills.json",
+      "actual_parent_raw_sha256": "ef13c46af5735c836a049514afb8ef7c8955e5cd5c4115d5f60723d9ccad74e8",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 233,
+      "input_sha256": "a6716ff9e8a19088607c1936507ca4c7ea78c5e3508a6bffd8c773e3d7324c2a",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/233_EC_candidate.json",
+      "raw_sha256": "f20920fe9c6a0882b6fb896bb7796bca2bee5573ea10f965d8a41b7b24c9606f",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/233_EC_skills.json",
+      "actual_parent_raw_sha256": "b4d2ff62506d1e44484ca9f6199f27dad9411077f44e954b7e7fc7a9211da2ae",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 234,
+      "input_sha256": "cd3a3367b98bfbc83cd98107ced6a1214d53a7f88674a47416bf4a53839ec027",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/234_EC_candidate.json",
+      "raw_sha256": "86c332fd26686e41d85d6e1b0e7a713f3b4873f0f43579541546d5f86c8a2fe3",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/234_EC_skills.json",
+      "actual_parent_raw_sha256": "2365655fcf7018a74f02a01b6dc8d1d5ba6d7ae0eff65f50249ed0e83a3526a4",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 235,
+      "input_sha256": "bf85459a928604ae4cc8fb26e7b960a7dc5098bb226bc6b961e505e26ec7a739",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/235_EC_candidate.json",
+      "raw_sha256": "4d282723a3bbf3bdd970d399ca0ccd5952e1ffdec2bb94789a27f9302053ffa4",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/235_EC_skills.json",
+      "actual_parent_raw_sha256": "aea1dbba4debed0a7e4b501b91279c83c5dba7f3082f89dbf8ae35af9341b500",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 236,
+      "input_sha256": "1ae4fc0320b21c11773acc68fd34f0399791ce71d65d2a5f03d474b109a96cde",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/236_EC_candidate.json",
+      "raw_sha256": "63baac91f6f9c30db6f6ef6d926c6d9d9fccc98af363ad5654273773f90f6ca2",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/236_EC_skills.json",
+      "actual_parent_raw_sha256": "a76629ef0a397afe333e2b82e900799ecf59f1a898e91b50cd43d23bbd97718c",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 237,
+      "input_sha256": "df784a95905e4ac018481a4f102159ff39b9203483906b7042a2193c31a7a1be",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/237_EC_candidate.json",
+      "raw_sha256": "304addcf9505a5dd0cb28d619ee72e323cfee362e43a5e6ab4d8b1866683de97",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/237_EC_skills.json",
+      "actual_parent_raw_sha256": "d1089b01bb1558258bfe477b5f9233a64affd5ced7b0ce0511550f686b21856d",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 238,
+      "input_sha256": "56c5ad7c2fa248237ae7769b9e4ef261e46b4c52b07f38019d4501a012129e65",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/238_EC_candidate.json",
+      "raw_sha256": "af81424642f713afa63f58201a99546088e2b3d35bd64c9e88a5d1e5181a866d",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/238_EC_skills.json",
+      "actual_parent_raw_sha256": "7d8c8b119414988b37aaa4031facf2ee0c55cbe0d6be2b34113f090d362aff2c",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 239,
+      "input_sha256": "2d299d9bad209b69cff43d4e2c2386b46a016447634a40a06fe91428a12978c4",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/239_EC_candidate.json",
+      "raw_sha256": "555f8c54bb8feabf93333fb230a96a5aaf009448a2e1f2d5674caddda2032065",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/239_EC_skills.json",
+      "actual_parent_raw_sha256": "a68346f9243e62b623de46e8b048c663c0b2bfa1be272113ae7b24d01eda5c0c",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 240,
+      "input_sha256": "a9711ebbee83437b459c6a3245066c2acc079326c1c657bba887dd8f13907b66",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/240_EC_candidate.json",
+      "raw_sha256": "e0b148fb9a3c4a7fd692968ad88c044a12692a1aba96dc1297c87626abde7479",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/240_EC_skills.json",
+      "actual_parent_raw_sha256": "5f341da1866c2cfdf05ec4bca07f6c356f2cb301053fea1e4e93d9c41049042d",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 241,
+      "input_sha256": "d64cb88af34b62b5c8ba71554d9915a39f491f37c1209c09a786600e13e13398",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/241_EC_candidate.json",
+      "raw_sha256": "d5f2cea81c5755cafa1d92442af019d78ef07811224018a5f5ede07c98b79b5b",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/241_EC_skills.json",
+      "actual_parent_raw_sha256": "65cb70d51774c1c7d6eed3126d80ee26ef11511bc1c5ccf748b97873b6fddaf7",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 242,
+      "input_sha256": "31c0c07507740799987870668928cfed9fc649898b4758782a15100bd37c7b0f",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/242_EC_candidate.json",
+      "raw_sha256": "31f462da62a0cd3f09b7f95283988ccb05dc93eaaedb3537c03088ca77a17b4e",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/242_EC_skills.json",
+      "actual_parent_raw_sha256": "1918b103955b3d1a50432393b4245e696fcac26a5a164b166f1251a11a9a6295",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 243,
+      "input_sha256": "2d95ec6fefefabc547efdbfe4bc037a314eb1277534086b07db2c1823a1f1f94",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/243_EC_candidate.json",
+      "raw_sha256": "58f6b8b7dce6165c429a224bbb69332305a5c209fd810050de43a1d88b20603b",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/243_EC_skills.json",
+      "actual_parent_raw_sha256": "d4324c2a44573ca2d9721401c2fb93cf0817ee2d418ccf7e2f88129131d84335",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 244,
+      "input_sha256": "18c6f0a5d980a69cce4cac7b81082d5b47f16dd7c011c1c8c3bae10eff82f12c",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/244_EC_candidate.json",
+      "raw_sha256": "58cc141627fc88f4863e7b0c4012f4adf674800266f63d9dcc285bcb823255c6",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/244_EC_skills.json",
+      "actual_parent_raw_sha256": "3b0f0120d0f52eed1593e56172af5c15f2aea50e866842a5d018498486c31019",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 245,
+      "input_sha256": "d78b94f918b644fada8a6224709d430e79fe7f58772380cb80f724503e9fe4ef",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/245_EC_candidate.json",
+      "raw_sha256": "40f524478c029ffcfbe9519b8c89fcca7260c31df25457b9c909e18cdf54ba22",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/245_EC_skills.json",
+      "actual_parent_raw_sha256": "d7baf20a328742f5af48715d1dcaf52b5ae29edeb1724198cebdf6b7fb08a399",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 246,
+      "input_sha256": "7a5a347a8abf781dc378bc71925e0b46a3dc3ec4a2490433fdbd01c9d7590339",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/246_EC_candidate.json",
+      "raw_sha256": "63e3cb2b0109a228c91f276f0905326f0e9bad33cf1401fc02e40669ae615420",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/246_EC_frozen_after_B1.json",
+      "actual_parent_raw_sha256": "583206299a1ed63af6417ffa3139efcde216996baae27396edc26d72d8898e4e",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 247,
+      "input_sha256": "8f9099e1e90bc643ab4ce1afed99f77b26fce0bdea44e52a7462c3d305b7c2ec",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/247_EC_candidate.json",
+      "raw_sha256": "869d06f46dd32cabdfe34f31b22e0391377bda2a2bc76b5dbd498a7ab3dac080",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/247_EC_skills.json",
+      "actual_parent_raw_sha256": "a5343934672c7dabfd86313893dff3718f7b4a687ae21fbf3cd6b50bb471c399",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 248,
+      "input_sha256": "deda0425c7aaf4d2fb2ee044337b2943a26d599f749ab98a0e6c24edd8c260c7",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/248_EC_candidate.json",
+      "raw_sha256": "4ff7447bb57e717b4ac4c8af091d28ce1c8603a76eaf521ad381df343e432edf",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/248_EC_skills.json",
+      "actual_parent_raw_sha256": "1252401c55f22a5c9c123cf84c7b89ea78ce6f668c0c0bf28232cb43f02583d7",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 249,
+      "input_sha256": "a32a45e87373a333c4913e3ddf246faf0a5aee7c5b05da77510f3e4898c8bc9b",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/249_EC_candidate.json",
+      "raw_sha256": "2e39d7b4e2a939a9072934a009f14fbfd9158bea6ba71678394c5414edc60801",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/249_EC_skills.json",
+      "actual_parent_raw_sha256": "afa0b12aa6ba72a2404b141507824159baf89dd7d102da8c89e70d9a66466ec2",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 250,
+      "input_sha256": "6ffdce522ca56a85363c9b8fa2090e6843f42e54c7f4f137b235b1343e071367",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/250_EC_candidate.json",
+      "raw_sha256": "0a688dd806d6d4e30108aaa61dcdc3cb41e062d2fa5f6a012e27ab7c004ffdbf",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/250_EC_skills.json",
+      "actual_parent_raw_sha256": "36721065ca533ccbec6de0900253f40635f6458e6604236e3d47c43b04257d4b",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 251,
+      "input_sha256": "288c6d13e0fdab3410dda799995830bde1c0ade35e6c4bdb7298bf9507beff41",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/251_EC_candidate.json",
+      "raw_sha256": "87e1016257b2f28970406578a65c0d3286bace1114216c3a38ef20b05b94f873",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/251_EC_frozen_after_B1.json",
+      "actual_parent_raw_sha256": "f52db72040c130526b27b55b1020ef67eeb48cd110dc71dd664278e0398623ab",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 252,
+      "input_sha256": "16201040085447570a3523a55ff2c52f17195efc069b5137aa1507fa4e0644ff",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/252_EC_candidate.json",
+      "raw_sha256": "5a322051eedc692b2b157370ae68143dc97627a1db5d43b6cae0774b3d6cd585",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/252_EC_skills.json",
+      "actual_parent_raw_sha256": "18db86a228d5a0c067aee02e57aa7dfecc93967422f4507ec051cbdff3e0ef05",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 253,
+      "input_sha256": "8180cdc6acd88106e27344e8788d0297614e60dc5822e8db8bc4f7024ae98b78",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/253_EC_candidate.json",
+      "raw_sha256": "36844115efeb25ceca85a18dfbcc0fc1a063444674547642a4eefec52813d2e6",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/253_EC_skills.json",
+      "actual_parent_raw_sha256": "70d22536ea1b767f831bae0636a8aadbea2b04333413c502c8b39f5de473e8e9",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 254,
+      "input_sha256": "f1336a0ec27da14d95c10b65447325c94e8c13343104aaec9a4fd1666811dffc",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/254_EC_candidate.json",
+      "raw_sha256": "900027c65a6be7984591c561893932bb7364aa7f363b991db89808541d0635de",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/254_EC_skills.json",
+      "actual_parent_raw_sha256": "c03bd46286ca6638bd94e8df0db6d198c2d1fa1a7fa5faeba2c5325d3711b60c",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 255,
+      "input_sha256": "c79199c814e6b1b62ec2fa59784cc0f694ef7f80fca7986ac7e44e33c9d2960e",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/255_EC_candidate.json",
+      "raw_sha256": "c4da2aae0eccdc53d56e18797da00c8f5e3150ab4b39d4bdf2ae29f95b3fb157",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/255_EC_skills.json",
+      "actual_parent_raw_sha256": "e202fedaa6059e08c52ce7de7a9b527d1f0fc45d92afea4a3d6691289a8ae916",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 256,
+      "input_sha256": "5c7e80da935b3a1849b3e09b735ba2736e58e20cafc8ff5350cc58b9d1d3d9d8",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/256_EC_candidate.json",
+      "raw_sha256": "ba5626199f76a5eac923cb4c8339b4a71cb51a3b991b7c1c72edf089697f2e0f",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/256_EC_skills.json",
+      "actual_parent_raw_sha256": "ed73ccec903426c4a3642e42f8c6f1679f0a8bfe1bd87df92c295093dcc2b087",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 257,
+      "input_sha256": "3d1a4b06f933983a271b7342dc0d63c6a2b0cc777aa68db4aa17e7cccc279924",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/257_EC_candidate.json",
+      "raw_sha256": "1c541b71740b29d6a906951887aa3add820f3b70ca0121719fc367d5b7951564",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/257_EC_skills.json",
+      "actual_parent_raw_sha256": "1e1c530bd522c2a106261c6cabd67aba699f19a0d1e3ae64718a3507791f7bf3",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 258,
+      "input_sha256": "9a297519485101a9506fa80bc20db12b568267477505fa23d86b02ce30e9c868",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/258_EC_candidate.json",
+      "raw_sha256": "8010d81d853d0483151b786a8e7af247ad3d6eac38272cb72cfdd5df0df469c1",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/258_EC_skills.json",
+      "actual_parent_raw_sha256": "e22b3b2a0546f364b37639c18bb6b06310f87432927e97334a26aac505725f07",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 259,
+      "input_sha256": "2f0187a896dd6e019ead33a4fd585254bbb8a0509e705919b99187a77f28771c",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/259_EC_candidate.json",
+      "raw_sha256": "715f48363f17eaf6f39999873db1afcae57b4394d0dd19f6c83b7c700609f1c7",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/259_EC_skills.json",
+      "actual_parent_raw_sha256": "f9e937cf13491deea2646cc8cd7e7513146e35539648e4ac54b4ee627a2ce203",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    },
+    {
+      "case_id": 260,
+      "input_sha256": "6f474fceb1d7d162e07274bc90b38d51fe5c051002f3fc5ded61d3a4dd684af8",
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_candidate1_replay/260_EC_candidate.json",
+      "raw_sha256": "775cbfc49edc2b92ec9b28b79574da15925c406a3c88d3688979fb3bb53a4b06",
+      "actual_parent_raw_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/260_EC_skills.json",
+      "actual_parent_raw_sha256": "0c61c9a9ecf4b962afd7a5f9330209b9acb8410f1b0cc47250fa813cc80d6cb4",
+      "nonmemory_messages_schema_and_sampling_identical": true,
+      "candidate_memory_exact": true
+    }
+  ]
+}

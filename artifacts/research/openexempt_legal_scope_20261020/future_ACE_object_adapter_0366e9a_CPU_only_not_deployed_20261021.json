@@ -1,0 +1,67 @@
+{
+  "at": "2026-10-20T17:30:37.060954+00:00",
+  "isolated_source_commit": "0366e9a89c2e330589ab93e68a75cf82ccc51162",
+  "live_main_commit": "1e81b36",
+  "code_not_deployed_to_main": true,
+  "changes": "Remove contradictory string final_answer and unavailable example bullet IDs before interpolating the public question. Keep native role learning/ADD/count/grade behavior. Fail closed on changed upstream template.",
+  "isolated_source_sha256": {
+    "legal_skill_guard/learning/openexempt_ace.py": "9819900b92bb6e2762cb3310dddf78beccfc5ff64a4e01cfd7688776fbcc4e6d",
+    "tests/test_openexempt_ace.py": "5f00ce5be03a2d675f7cbfb21f08701aeac6a7f97374df8c80e697ecdbe35da6"
+  },
+  "portable_patch": "artifacts/research/openexempt_legal_scope_20261020/future_ACE_task_object_output_type_fix_20261021.patch",
+  "portable_patch_sha256": "9d64d56fb2517815874c2f7664e79413962af9abc03d8c7568e6f2a68c1f5b62",
+  "git_apply_check_main_passed_no_changes_applied": true,
+  "initial_CPU_check": {
+    "passed": 8,
+    "failed": 9,
+    "seconds": 1.26,
+    "reason": "isolated worktree lacks upstream cache; all9 fail FileNotFoundError before official scoring"
+  },
+  "explicit_same_pinned_cache_CPU_check": {
+    "passed": 17,
+    "warnings": 12,
+    "seconds": 2.64,
+    "scorer_cache": "/media/sangfor/vdb/legal-skill-evolve/data/cache/openexempt/servantez-OpenExempt-ec6fa25",
+    "no_mock_scorer": true
+  },
+  "ruff": "passed",
+  "fresh_NN_teacher_calls": 0,
+  "live_ACE_bound_files_unchanged": 185,
+  "target128_config_unchanged_sha256": "5181ce6f1d4a5efc96154a53991780ab4491681d7e69d295aecb3c19ecdd291c",
+  "no_claim_of_causal_or_performance_gain_from_type_fix": true,
+  "B2_source157_EV_actual_TRAIN_corrections_not_first_encounter_or_transfer": [
+    {
+      "round": 1,
+      "before_f1": 0.0,
+      "after_f1": 0.75,
+      "raw_call_path": "runs/legal_openexempt_ace_TRAIN_reflect_online_20261020_run01/native/b2_TRAIN_round1/157_EV_ace.json",
+      "final_asset_keys": [
+        "beige 1995 Toyota Camry LE (168,000 miles)",
+        "ice blue metallic 2022 Chevrolet Bolt EV hatchback"
+      ],
+      "finally_solved_this_round": false
+    },
+    {
+      "round": 2,
+      "before_f1": 0.75,
+      "after_f1": 0.5,
+      "raw_call_path": "runs/legal_openexempt_ace_TRAIN_reflect_online_20261020_run01/native/b2_TRAIN_round2/157_EV_ace.json",
+      "final_asset_keys": [
+        "1995 Toyota Camry LE (168,000 miles)",
+        "2022 Chevrolet Bolt EV hatchback"
+      ],
+      "finally_solved_this_round": false
+    },
+    {
+      "round": 3,
+      "before_f1": 0.5,
+      "after_f1": 0.0,
+      "raw_call_path": "runs/legal_openexempt_ace_TRAIN_reflect_online_20261020_run01/native/b2_TRAIN_round3/157_EV_ace.json",
+      "final_asset_keys": [
+        "\"1995 Toyota Camry LE (168,000 miles)\": [{"
+      ],
+      "finally_solved_this_round": false
+    }
+  ],
+  "deployment_boundary": "After all active main-tree source-bound runs are terminal and preserved; integrate only0366e9a or its exact portable patch, NOT old isolated1749 config. Then declare/freeze corrected common14 full128 baseline. Do not hotpatch live185 bindings or change queued128."
+}

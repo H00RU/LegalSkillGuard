@@ -1,0 +1,170 @@
+{
+  "at": "2026-10-20T18:04:59.782581+00:00",
+  "old_direct13_forward24_root": {
+    "all_EV_tasks": 24,
+    "EV_tasks_with_real_guidance": 19,
+    "EV_no_guidance_cases": [
+      164,
+      168,
+      170,
+      177,
+      180
+    ],
+    "all_five_public_namespace_ILLINOIS_only": true,
+    "not_router_misdelivery": "No published IL-EV scope existed. It was proposed eachbatch and rejected, not accidentally withheld by the router.",
+    "IL_candidate_failure_history": [
+      {
+        "candidate": "b1_candidate1",
+        "proposed_IL_EV": true,
+        "IL_EV_admission": {
+          "accepted": false,
+          "current_nonregression": false,
+          "prior_nonregression": true,
+          "strict_current_improvement": false,
+          "current_full_output_nonregression": false,
+          "prior_full_output_nonregression": true,
+          "current_tasks": 1,
+          "prior_tasks": 0
+        },
+        "actual_149_EV_candidate_f1": 0.3333333333333333,
+        "actual_149_EV_raw_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/149_EV_candidate.json",
+        "actual_teacher_rejected_feedback_array_lengths": [
+          0
+        ]
+      },
+      {
+        "candidate": "b2_candidate1",
+        "proposed_IL_EV": true,
+        "IL_EV_admission": {
+          "accepted": false,
+          "current_nonregression": true,
+          "prior_nonregression": false,
+          "strict_current_improvement": true,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": false,
+          "current_tasks": 1,
+          "prior_tasks": 1
+        },
+        "actual_149_EV_candidate_f1": 0.3333333333333333,
+        "actual_149_EV_raw_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/149_EV_candidate.json",
+        "actual_teacher_rejected_feedback_array_lengths": [
+          0
+        ]
+      },
+      {
+        "candidate": "b3_candidate1",
+        "proposed_IL_EV": true,
+        "IL_EV_admission": {
+          "accepted": false,
+          "current_nonregression": true,
+          "prior_nonregression": false,
+          "strict_current_improvement": true,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": false,
+          "current_tasks": 2,
+          "prior_tasks": 2
+        },
+        "actual_149_EV_candidate_f1": 0.3333333333333333,
+        "actual_149_EV_raw_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/149_EV_candidate.json",
+        "actual_teacher_rejected_feedback_array_lengths": [
+          0
+        ]
+      },
+      {
+        "candidate": "b4_candidate1",
+        "proposed_IL_EV": true,
+        "IL_EV_admission": {
+          "accepted": false,
+          "current_nonregression": true,
+          "prior_nonregression": false,
+          "strict_current_improvement": false,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": false,
+          "current_tasks": 2,
+          "prior_tasks": 4
+        },
+        "actual_149_EV_candidate_f1": 0.3333333333333333,
+        "actual_149_EV_raw_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b4_candidate1_replay/149_EV_candidate.json",
+        "actual_teacher_rejected_feedback_array_lengths": [
+          0
+        ]
+      }
+    ],
+    "same_assets_matched_in_both_arms": 63,
+    "target_claim_error_counts_on_only_those_same_assets": {
+      "empty": {
+        "correct_target_claim": 71,
+        "missing_law": 77,
+        "wrong_amount": 12
+      },
+      "skills": {
+        "correct_target_claim": 85,
+        "missing_law": 66,
+        "wrong_amount": 9
+      }
+    },
+    "different_asset_match_cases": [
+      {
+        "case_id": 160,
+        "asset": "wall-mounted coat rack with rustic wood and metal hooks",
+        "matched_arms": [
+          "empty"
+        ]
+      },
+      {
+        "case_id": 160,
+        "asset": "titanium pendant dog tag necklace with engraving",
+        "matched_arms": [
+          "empty"
+        ]
+      },
+      {
+        "case_id": 160,
+        "asset": "reclining leather armchair with built-in cup holder and USB charging port",
+        "matched_arms": [
+          "empty"
+        ]
+      },
+      {
+        "case_id": 160,
+        "asset": "enameled pendant featuring a patron saint figure",
+        "matched_arms": [
+          "empty"
+        ]
+      }
+    ],
+    "single_skill_placeholder_case160": "All4asset names became asset_description:[]; originalEVF1empty2/3 vs skills0. It alone contributes-2.7778pp to the observed24case difference. Do NOT drop it or report a repaired counterfactual score.",
+    "unaltered_all24_original_EV_difference_pp": 3.0555555555555567,
+    "interpretation": "Evidence supports addressing output identity and rejected-feedback closure together. On jointly matched assets real correct target claims rise, but this diagnostic subset is not a new benchmark score or causal estimate. Shared14 benefits empty too, not just our skills; genuine amount/law failures remain."
+  },
+  "actual_ACE_C2": {
+    "published_at": "2026-10-20T17:57:10.104129+00:00",
+    "bullets": 11,
+    "tokens": 783,
+    "parent_hash": "c2a3c41eb246af69007f9268e966bde2b148f348df71a8e824667b20654e6478",
+    "hash": "608bc766209436bc9cfb3008c7d6e514095b345e71357de2f50965be1eb1e752",
+    "new_contents": {
+      "calc-00010": "For a jointly owned asset of value V held equally by n debtors, when the governing statute expressly applies separately or permits combination, calculate combined protection as min(V, Σ min(V/n, C_i)), where C_i is each debtor’s available cap. Do not automatically multiply a cap when the statute supplies one shared household or marital limit.",
+      "code-00009": "Derive each output key from the asset’s complete identifying noun phrase, not from the entire surrounding fact sentence: retain intrinsic descriptors such as color, model, features, mileage, and parentheticals, but omit narrative ownership language, valuation clauses, and prices unless the output contract expressly includes them in the asset description.",
+      "err-00011": "Do not output an enabling or computational provision as a direct asset exemption merely because it affects availability or amount. Opt-out/election rules, separate-debtor rules, and a homestead provision whose unused amount enlarges a wildcard may guide the analysis without themselves covering the asset; output only provisions whose property scope directly includes it."
+    },
+    "existing_content_unchanged": true,
+    "complete_B2_TRAIN": {
+      "tasks": 16,
+      "initially_solved": 4,
+      "finally_solved": 12,
+      "reflections": 28,
+      "logical_regenerations": 24,
+      "not_first_encounter_or_transfer": true
+    },
+    "actual_B3_C2_delivery_inputs_checked": [
+      "runs/legal_openexempt_ace_TRAIN_reflect_online_20261020_run01/native/b3_prequential/165_EC_ace.input.json",
+      "runs/legal_openexempt_ace_TRAIN_reflect_online_20261020_run01/native/b3_prequential/165_EV_ace.input.json"
+    ],
+    "B3_complete_transfer_not_claimed": true,
+    "prospective_risk_from_seen_TRAIN_only": "Newcalc00010 joint-cap stacking is legally conditional. Pinned native labels already show the previously recorded joint federal per-item/vehicle tension in releasedTRAIN. Do not assume the formula improves benchmark EV or change labels; inspect future actual error types after completeB3. No claim of expert adjudication."
+  },
+  "changes_to_live_source_or_method": false,
+  "new_NN_teacher_calls_for_audit": 0,
+  "new128_and_sealedTEST_semantic_contents_not_read": true
+}

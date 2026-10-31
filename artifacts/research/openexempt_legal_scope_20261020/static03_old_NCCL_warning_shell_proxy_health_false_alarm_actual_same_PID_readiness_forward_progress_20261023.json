@@ -1,0 +1,85 @@
+{
+  "at": "2026-10-23T09:25:35.526298+00:00",
+  "classification": "non-mutating runtime diagnosis; no actual service exit or restart",
+  "direct_model_health_HTTP": "200",
+  "current_shell_default_route_health_HTTP": "502",
+  "shell_proxy_presence_only": {
+    "HTTP_PROXY": true,
+    "HTTPS_PROXY": true,
+    "ALL_PROXY": true,
+    "NO_PROXY": false
+  },
+  "existing_native_client_readiness": {
+    "ready": true,
+    "reason": "model_contract_matches",
+    "model": "Qwen/Qwen3-8B",
+    "observed_model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "expected_model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "observed_max_model_len": 32768,
+    "expected_max_model_len": 32768,
+    "checks": {
+      "model_id_matches": true,
+      "model_root_matches": true,
+      "max_model_len_matches": true
+    },
+    "failed_checks": []
+  },
+  "existing_native_client_explicitly_disables_environment_proxy": true,
+  "native_client_source_sha256": "22ac51062eb64eb26394a2b4d681eef7dcb5d2fa3ec8a1c914c457051ab9921b",
+  "units": {
+    "legal-qwen3-8b.service": {
+      "MainPID": "3613253",
+      "NRestarts": "0",
+      "ExecMainStatus": "0",
+      "Id": "legal-qwen3-8b.service",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "legal-openexempt-fixed-static-train128-20261023-run03.service": {
+      "MainPID": "2155494",
+      "NRestarts": "0",
+      "ExecMainStatus": "0",
+      "Id": "legal-openexempt-fixed-static-train128-20261023-run03.service",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "legal-openexempt-static03-to-text45-20261023.service": {
+      "MainPID": "2156118",
+      "NRestarts": "0",
+      "ExecMainStatus": "0",
+      "Id": "legal-openexempt-static03-to-text45-20261023.service",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "legal-openexempt-text45-to-remaining8-20261023.service": {
+      "MainPID": "2183806",
+      "NRestarts": "0",
+      "ExecMainStatus": "0",
+      "Id": "legal-openexempt-text45-to-remaining8-20261023.service",
+      "ActiveState": "active",
+      "SubState": "running"
+    }
+  },
+  "actual_progress": {
+    "at": "2026-10-23T09:25:27.233821+00:00",
+    "run_id": "legal_openexempt_fixed_static_train128_20261023_run03",
+    "state": "running",
+    "stage": "b3_fixed",
+    "current_batch": 3,
+    "completed_native_calls": 82,
+    "completed_teacher_calls": 0,
+    "teacher_attempts": 0,
+    "cross_stage_identical_wire_reuses": 0,
+    "library_records": 7,
+    "current_arm": "static",
+    "current_document_id": 222,
+    "current_call": "openexempt"
+  },
+  "oldest_matching_NCCL_warning_observed_CST": "2026-10-20 17:45:40",
+  "oldest_matching_Broken_pipe_warning_observed_CST": "2026-10-20 17:45:42",
+  "warning_observation_source": "journalctl --user -u legal-qwen3-8b.service --since 2026-10-20 07:50:00 --grep 'Failed to check the should-dump flag' (original journal query retained in conversation)",
+  "interpretation": "Existing TCPStore warning does not by itself establish service failure; same original process continues to return native answers. This does not establish an exact cause of the old store disconnect or prove all possible numerical effects absent.",
+  "diagnostic_new_generation_or_teacher_calls": 0,
+  "no_restart_repair_fallback_or_run_change": true,
+  "formal_TEST_opened": false
+}

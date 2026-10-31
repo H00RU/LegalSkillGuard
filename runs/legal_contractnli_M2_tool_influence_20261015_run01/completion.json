@@ -1,0 +1,392 @@
+{
+  "at": "2026-10-15T15:33:00.033994+00:00",
+  "results": {
+    "strong_empty": {
+      "documents": 6,
+      "hypotheses": 102,
+      "label_correct": 78,
+      "label_accuracy": 0.7647058823529411,
+      "gold_non_neutral_queries": 71,
+      "evidence_tp": 72,
+      "evidence_fp": 31,
+      "evidence_fn": 83,
+      "evidence_micro_f1_gold_non_neutral": 0.5581395348837209,
+      "evidence_query_mean_f1_gold_non_neutral": 0.5855730341645833,
+      "joint_exact_correct": 33,
+      "joint_soft_mean": 0.5611995303171772,
+      "public_valid_documents": 6,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 60,
+          "correct": 54
+        },
+        "Contradiction": {
+          "n": 11,
+          "correct": 7
+        },
+        "NotMentioned": {
+          "n": 31,
+          "correct": 17
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 17,
+      "nonneutral_label_and_all_evidence_correct": 16,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 27266,
+        "completion_tokens": 11358
+      },
+      "joint_exact_accuracy": 0.3235294117647059
+    },
+    "same_M2_procedures_with_tool": {
+      "documents": 6,
+      "hypotheses": 102,
+      "label_correct": 82,
+      "label_accuracy": 0.803921568627451,
+      "gold_non_neutral_queries": 71,
+      "evidence_tp": 81,
+      "evidence_fp": 20,
+      "evidence_fn": 74,
+      "evidence_micro_f1_gold_non_neutral": 0.6328125,
+      "evidence_query_mean_f1_gold_non_neutral": 0.6334674714956403,
+      "joint_exact_correct": 41,
+      "joint_soft_mean": 0.6272175536881417,
+      "public_valid_documents": 6,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 60,
+          "correct": 55
+        },
+        "Contradiction": {
+          "n": 11,
+          "correct": 6
+        },
+        "NotMentioned": {
+          "n": 31,
+          "correct": 21
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 21,
+      "nonneutral_label_and_all_evidence_correct": 20,
+      "reported_skill_use_queries": 102,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 39965,
+        "completion_tokens": 14701
+      },
+      "joint_exact_accuracy": 0.4019607843137255
+    },
+    "same_M2_procedures_without_tool": {
+      "documents": 6,
+      "hypotheses": 102,
+      "label_correct": 78,
+      "label_accuracy": 0.7647058823529411,
+      "gold_non_neutral_queries": 71,
+      "evidence_tp": 67,
+      "evidence_fp": 48,
+      "evidence_fn": 88,
+      "evidence_micro_f1_gold_non_neutral": 0.4962962962962963,
+      "evidence_query_mean_f1_gold_non_neutral": 0.5251532505053632,
+      "joint_exact_correct": 32,
+      "joint_soft_mean": 0.520776609011903,
+      "public_valid_documents": 6,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 60,
+          "correct": 54
+        },
+        "Contradiction": {
+          "n": 11,
+          "correct": 7
+        },
+        "NotMentioned": {
+          "n": 31,
+          "correct": 17
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 17,
+      "nonneutral_label_and_all_evidence_correct": 15,
+      "reported_skill_use_queries": 102,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 35858,
+        "completion_tokens": 13669
+      },
+      "joint_exact_accuracy": 0.3137254901960784
+    }
+  },
+  "paired_without_tool_minus_control": {
+    "strong_empty": {
+      "original_hypotheses": 102,
+      "label_corrected": [
+        [
+          273,
+          "nda-12"
+        ],
+        [
+          261,
+          "nda-12"
+        ],
+        [
+          487,
+          "nda-5"
+        ],
+        [
+          377,
+          "nda-20"
+        ],
+        [
+          159,
+          "nda-20"
+        ]
+      ],
+      "label_broken": [
+        [
+          273,
+          "nda-1"
+        ],
+        [
+          416,
+          "nda-10"
+        ],
+        [
+          377,
+          "nda-8"
+        ],
+        [
+          377,
+          "nda-4"
+        ],
+        [
+          159,
+          "nda-1"
+        ]
+      ],
+      "net_label_correct": 0,
+      "joint_exact_corrected": [
+        [
+          416,
+          "nda-15"
+        ],
+        [
+          416,
+          "nda-1"
+        ],
+        [
+          261,
+          "nda-16"
+        ],
+        [
+          261,
+          "nda-12"
+        ],
+        [
+          487,
+          "nda-3"
+        ],
+        [
+          377,
+          "nda-20"
+        ],
+        [
+          159,
+          "nda-20"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          416,
+          "nda-10"
+        ],
+        [
+          416,
+          "nda-2"
+        ],
+        [
+          416,
+          "nda-7"
+        ],
+        [
+          416,
+          "nda-5"
+        ],
+        [
+          261,
+          "nda-13"
+        ],
+        [
+          377,
+          "nda-8"
+        ],
+        [
+          159,
+          "nda-1"
+        ],
+        [
+          159,
+          "nda-19"
+        ]
+      ]
+    },
+    "same_M2_procedures_with_tool": {
+      "original_hypotheses": 102,
+      "label_corrected": [
+        [
+          261,
+          "nda-1"
+        ],
+        [
+          487,
+          "nda-5"
+        ],
+        [
+          377,
+          "nda-15"
+        ],
+        [
+          159,
+          "nda-20"
+        ]
+      ],
+      "label_broken": [
+        [
+          273,
+          "nda-15"
+        ],
+        [
+          273,
+          "nda-10"
+        ],
+        [
+          273,
+          "nda-17"
+        ],
+        [
+          273,
+          "nda-13"
+        ],
+        [
+          416,
+          "nda-17"
+        ],
+        [
+          487,
+          "nda-10"
+        ],
+        [
+          377,
+          "nda-8"
+        ],
+        [
+          159,
+          "nda-1"
+        ]
+      ],
+      "net_label_correct": -4,
+      "joint_exact_corrected": [
+        [
+          416,
+          "nda-1"
+        ],
+        [
+          261,
+          "nda-16"
+        ],
+        [
+          261,
+          "nda-15"
+        ],
+        [
+          261,
+          "nda-1"
+        ],
+        [
+          487,
+          "nda-3"
+        ],
+        [
+          159,
+          "nda-20"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          273,
+          "nda-15"
+        ],
+        [
+          273,
+          "nda-17"
+        ],
+        [
+          416,
+          "nda-2"
+        ],
+        [
+          416,
+          "nda-12"
+        ],
+        [
+          416,
+          "nda-7"
+        ],
+        [
+          416,
+          "nda-17"
+        ],
+        [
+          416,
+          "nda-13"
+        ],
+        [
+          261,
+          "nda-2"
+        ],
+        [
+          261,
+          "nda-13"
+        ],
+        [
+          487,
+          "nda-10"
+        ],
+        [
+          377,
+          "nda-16"
+        ],
+        [
+          377,
+          "nda-19"
+        ],
+        [
+          377,
+          "nda-8"
+        ],
+        [
+          159,
+          "nda-1"
+        ],
+        [
+          159,
+          "nda-12"
+        ]
+      ]
+    }
+  },
+  "new_native_calls": 6,
+  "new_teacher_calls": 0,
+  "explicit_reused_parent_responses": 12,
+  "new_native_usage": {
+    "prompt_tokens": 35858,
+    "completion_tokens": 13669
+  },
+  "source_model_proposal_full_library_schema_wire_and_original_score_audit_passed": true,
+  "not_complete_online_learning_or_independent_repeat_or_primary_method_selection": true
+}

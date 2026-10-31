@@ -1,0 +1,303 @@
+{
+  "at": "2026-10-29T21:31:22.296749+00:00",
+  "classification": "TRAIN-only branch-discriminating witness audit, not alternative scoring or a causal teacher experiment",
+  "run_id": "legal_openexempt_task_projection_public_assets128_20261029_run01",
+  "source_decisions": [
+    {
+      "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/candidates/b7_candidate1.json",
+      "sha256": "d3e09ece1123b81136680fcbd17ff72e7ffdebaaa1e1cfb404759371699be9c8"
+    },
+    {
+      "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/candidates/b7_candidate2.json",
+      "sha256": "5f8f9bed454cbed44f8acb2b99a25a1a5c829d612fcb2a06fc5a2ad93e6fba30"
+    }
+  ],
+  "citation": "Wis. Stat. § 815.18(3)(g)",
+  "definition": "Joint facts plus original gold above16000 enough that single-debtor16000 would FAIL the unchanged original strict5percent matcher. Low vehicle values cannot distinguish correct two-debtor cap from using a one-debtor cap.",
+  "strata": {
+    "all112": {
+      "single": {
+        "pairs": 2,
+        "source_ids": [
+          227,
+          271
+        ],
+        "correct_before": 1,
+        "correct_after": 2,
+        "invalid_before": 0,
+        "invalid_after": 0
+      },
+      "joint_nondiscriminating": {
+        "pairs": 2,
+        "source_ids": [
+          277,
+          278
+        ],
+        "correct_before": 0,
+        "correct_after": 2,
+        "invalid_before": 0,
+        "invalid_after": 0
+      },
+      "joint_discriminating": {
+        "pairs": 1,
+        "source_ids": [
+          287
+        ],
+        "correct_before": 0,
+        "correct_after": 0,
+        "invalid_before": 0,
+        "invalid_after": 0
+      }
+    },
+    "current16": {
+      "single": {
+        "pairs": 0,
+        "source_ids": [],
+        "correct_before": 0,
+        "correct_after": 0,
+        "invalid_before": 0,
+        "invalid_after": 0
+      },
+      "joint_nondiscriminating": {
+        "pairs": 2,
+        "source_ids": [
+          277,
+          278
+        ],
+        "correct_before": 0,
+        "correct_after": 2,
+        "invalid_before": 0,
+        "invalid_after": 0
+      },
+      "joint_discriminating": {
+        "pairs": 1,
+        "source_ids": [
+          287
+        ],
+        "correct_before": 0,
+        "correct_after": 0,
+        "invalid_before": 0,
+        "invalid_after": 0
+      }
+    },
+    "prior96": {
+      "single": {
+        "pairs": 2,
+        "source_ids": [
+          227,
+          271
+        ],
+        "correct_before": 1,
+        "correct_after": 2,
+        "invalid_before": 0,
+        "invalid_after": 0
+      },
+      "joint_nondiscriminating": {
+        "pairs": 0,
+        "source_ids": [],
+        "correct_before": 0,
+        "correct_after": 0,
+        "invalid_before": 0,
+        "invalid_after": 0
+      },
+      "joint_discriminating": {
+        "pairs": 0,
+        "source_ids": [],
+        "correct_before": 0,
+        "correct_after": 0,
+        "invalid_before": 0,
+        "invalid_after": 0
+      }
+    }
+  },
+  "pairs": [
+    {
+      "case_id": 227,
+      "asset": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+      "joint_in_original_public_facts": false,
+      "original_target": 6825,
+      "single16000_cap_would_fail_original5pct_matcher": false,
+      "stratum": "single",
+      "current_B7": false,
+      "before": {
+        "invalid_response": false,
+        "correct_target_under_original_matcher": false,
+        "errors": [
+          {
+            "kind": "incorrect_value",
+            "asset": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "expected_value": 6825.0,
+            "observed_values": [
+              4000.0
+            ]
+          }
+        ],
+        "raw": {
+          "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/227_EV_candidate.json",
+          "sha256": "a2645b58ca3a51c74da7e16212b8a00b4cd5bb0ef8c716ba465fa7d65dd0e9cc"
+        }
+      },
+      "after": {
+        "invalid_response": false,
+        "correct_target_under_original_matcher": true,
+        "errors": [],
+        "raw": {
+          "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/227_EV_candidate.json",
+          "sha256": "ac6ebbffbdb34763929de27f53c374c5f19e669a077d65e8f9db4342ebf1a108"
+        }
+      }
+    },
+    {
+      "case_id": 271,
+      "asset": "2017 Lincoln Navigator in magnetic gray",
+      "joint_in_original_public_facts": false,
+      "original_target": 16000,
+      "single16000_cap_would_fail_original5pct_matcher": false,
+      "stratum": "single",
+      "current_B7": false,
+      "before": {
+        "invalid_response": false,
+        "correct_target_under_original_matcher": true,
+        "errors": [],
+        "raw": {
+          "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/271_EV_skills.json",
+          "sha256": "9a43da1370e8041c56e92a62f1cbeddfa06ed0b05a9e8a6ed08cb45d8e8a761c"
+        }
+      },
+      "after": {
+        "invalid_response": false,
+        "correct_target_under_original_matcher": true,
+        "errors": [],
+        "raw": {
+          "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/271_EV_candidate.json",
+          "sha256": "a5c06980748a7b99b239c19801e285862e769001352c37c99e055b47ace7db69"
+        }
+      }
+    },
+    {
+      "case_id": 277,
+      "asset": "oxford white 2003 Ford Explorer XLT SUV, 4-door configuration, 145k miles",
+      "joint_in_original_public_facts": true,
+      "original_target": 4275,
+      "single16000_cap_would_fail_original5pct_matcher": false,
+      "stratum": "joint_nondiscriminating",
+      "current_B7": true,
+      "before": {
+        "invalid_response": false,
+        "correct_target_under_original_matcher": false,
+        "errors": [
+          {
+            "kind": "incorrect_value",
+            "asset": "oxford white 2003 Ford Explorer XLT SUV, 4-door configuration, 145k miles",
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "expected_value": 4275.0,
+            "observed_values": [
+              4000.0
+            ]
+          }
+        ],
+        "raw": {
+          "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/277_EV_skills.json",
+          "sha256": "77176731a6350f24d474734a8775af290d981abefd840118226398d608ba6821"
+        }
+      },
+      "after": {
+        "invalid_response": false,
+        "correct_target_under_original_matcher": true,
+        "errors": [],
+        "raw": {
+          "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/277_EV_candidate.json",
+          "sha256": "3185f39abba74c87ee6061832c8da2cb2aee1a07aa90bf0acaf0b80ceb295a6d"
+        }
+      }
+    },
+    {
+      "case_id": 278,
+      "asset": "silverstone metallic 2008 Chevrolet Malibu LT (143k mi)",
+      "joint_in_original_public_facts": true,
+      "original_target": 5618,
+      "single16000_cap_would_fail_original5pct_matcher": false,
+      "stratum": "joint_nondiscriminating",
+      "current_B7": true,
+      "before": {
+        "invalid_response": false,
+        "correct_target_under_original_matcher": false,
+        "errors": [
+          {
+            "kind": "incorrect_value",
+            "asset": "silverstone metallic 2008 Chevrolet Malibu LT (143k mi)",
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "expected_value": 5618.0,
+            "observed_values": [
+              4000.0
+            ]
+          }
+        ],
+        "raw": {
+          "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/278_EV_skills.json",
+          "sha256": "ccbacef4690647b12fc234d3c344730a02c440eca6074cb72d1ef812040ec36d"
+        }
+      },
+      "after": {
+        "invalid_response": false,
+        "correct_target_under_original_matcher": true,
+        "errors": [],
+        "raw": {
+          "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/278_EV_candidate.json",
+          "sha256": "b967d30a6fd4298e13e33a9730d5de9e71d5bb7fbf0c011685d6b236ae241fdd"
+        }
+      }
+    },
+    {
+      "case_id": 287,
+      "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+      "joint_in_original_public_facts": true,
+      "original_target": 32000,
+      "single16000_cap_would_fail_original5pct_matcher": true,
+      "stratum": "joint_discriminating",
+      "current_B7": true,
+      "before": {
+        "invalid_response": false,
+        "correct_target_under_original_matcher": false,
+        "errors": [
+          {
+            "kind": "incorrect_value",
+            "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "expected_value": 32000.0,
+            "observed_values": [
+              4000.0
+            ]
+          }
+        ],
+        "raw": {
+          "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/287_EV_skills.json",
+          "sha256": "6723dd3c9ce255f173791653670b7dc583c4b7021ded225353af2dc8e87d36ea"
+        }
+      },
+      "after": {
+        "invalid_response": false,
+        "correct_target_under_original_matcher": false,
+        "errors": [
+          {
+            "kind": "incorrect_value",
+            "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "expected_value": 32000.0,
+            "observed_values": [
+              16000.0
+            ]
+          }
+        ],
+        "raw": {
+          "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/287_EV_candidate.json",
+          "sha256": "5d1be4d9ed4764264b5e91d120e358ac73156606973b037b0a585a25f798045b"
+        }
+      }
+    }
+  ],
+  "interpretation": "Current277/278 amounts below16000 are net repairs but do not demonstrate joint-cap composition; inspect true discriminating old/current witnesses separately before claiming joint execution learned. Teacher16 actual evidence should be checked for still-failing discriminating witnesses after it exists.",
+  "no_new_model_teacher_official_scoring_TEST_calls": true,
+  "original_labels_scores_and_full112_denominator_unchanged": true
+}

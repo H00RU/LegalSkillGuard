@@ -1,0 +1,2582 @@
+{
+  "at": "2026-10-21T05:41:30.536496+08:00",
+  "classification": "complete all16 B2 newcase EV native-claim decomposition, no new inference, not finalTEST or pooled replacement F1",
+  "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run02",
+  "native_target_claims": 111,
+  "status_counts": {
+    "empty": {
+      "correct": 50,
+      "omitted": 57,
+      "wrong_amount": 4
+    },
+    "skills": {
+      "correct": 92,
+      "omitted": 15,
+      "wrong_amount": 4
+    }
+  },
+  "full_output_false_positive_types": {
+    "empty": {
+      "unmatched_asset_claims": 1,
+      "extra_or_wrong_citation": 5,
+      "wrong_amount": 4
+    },
+    "skills": {
+      "unmatched_asset_claims": 1,
+      "extra_or_wrong_citation": 2,
+      "wrong_amount": 4
+    }
+  },
+  "transitions": {
+    "correct->correct": 44,
+    "omitted->correct": 46,
+    "omitted->omitted": 9,
+    "correct->omitted": 6,
+    "omitted->wrong_amount": 2,
+    "wrong_amount->correct": 2,
+    "wrong_amount->wrong_amount": 2
+  },
+  "lost_originally_correct_claims_count": 6,
+  "lost_originally_correct_claims_all": [
+    {
+      "case_id": 202,
+      "asset": "FN Five-seveN pistol chambered in 5.7x28mm",
+      "citation": "Or. Rev. Stat. § 18.362",
+      "native_gold_value": 1000.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          1000.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+      "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+      "native_gold_value": 3000.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          3000.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "titanium pendant dog tag necklace with engraving",
+      "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+      "native_gold_value": 295.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          295.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "handmade quilt featuring patchwork patterns and embroidery",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "native_gold_value": 475.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          475.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "compact digital camera with optical zoom and SD card slot",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "native_gold_value": 1535.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          1535.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "four-bedroom, three-bath brick ranch homestead with a finished basement and a wood-burning fireplace",
+      "citation": "11 U.S.C. § 522(d)(1)",
+      "native_gold_value": 27900.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          27900.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    }
+  ],
+  "all_remaining_native_errors": [
+    {
+      "case_id": 200,
+      "asset": "set of bath towels made from Egyptian cotton",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 175.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "FN Five-seveN pistol chambered in 5.7x28mm",
+      "citation": "Or. Rev. Stat. § 18.362",
+      "native_gold_value": 1000.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          1000.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 204,
+      "asset": "gray business suit including jacket and matching trousers",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "native_gold_value": 700.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 205,
+      "asset": "concert-grade oboe (French key system)",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 600.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 30850.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          15425.0
+        ]
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+      "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+      "native_gold_value": 3000.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          3000.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "titanium pendant dog tag necklace with engraving",
+      "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+      "native_gold_value": 295.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          295.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "handmade quilt featuring patchwork patterns and embroidery",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 475.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "handmade quilt featuring patchwork patterns and embroidery",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "native_gold_value": 475.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          475.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "compact digital camera with optical zoom and SD card slot",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 1535.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "compact digital camera with optical zoom and SD card slot",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "native_gold_value": 1535.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          1535.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "four-bedroom, three-bath brick ranch homestead with a finished basement and a wood-burning fireplace",
+      "citation": "11 U.S.C. § 522(d)(1)",
+      "native_gold_value": 27900.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          27900.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "four-bedroom, three-bath brick ranch homestead with a finished basement and a wood-burning fireplace",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 30850.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          15425.0
+        ]
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "23-inch soprano ukulele with mahogany body and nylon strings",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 730.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "titanium engagement band with brushed finish and beveled edges",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 221.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "premium tablet with stylus and detachable keyboard in leather folio case",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 700.0,
+      "empty": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          1480.0
+        ]
+      },
+      "skills": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          1480.0
+        ]
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "premium tablet with stylus and detachable keyboard in leather folio case",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 1480.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "dishwasher with stainless steel tub and delayed start functionality",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 700.0,
+      "empty": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          1720.0
+        ]
+      },
+      "skills": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          1720.0
+        ]
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "dishwasher with stainless steel tub and delayed start functionality",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 1720.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    }
+  ],
+  "all_native_target_claims": [
+    {
+      "case_id": 197,
+      "asset": "wall-mounted floating shelf made of reclaimed barn wood",
+      "citation": "Ariz. Rev. Stat. § 33-1123",
+      "native_gold_value": 800.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          800.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          800.0
+        ]
+      }
+    },
+    {
+      "case_id": 197,
+      "asset": "2015 BMW 328i in mineral white",
+      "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+      "native_gold_value": 15000.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          15000.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          15000.0
+        ]
+      }
+    },
+    {
+      "case_id": 198,
+      "asset": "1999 Chevrolet Camaro, bright purple, Z28 coupe (112k mi)",
+      "citation": "11 U.S.C. § 522(d)(2)",
+      "native_gold_value": 4450.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          4450.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          4450.0
+        ]
+      }
+    },
+    {
+      "case_id": 198,
+      "asset": "1999 Chevrolet Camaro, bright purple, Z28 coupe (112k mi)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 6875.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          6875.0
+        ]
+      }
+    },
+    {
+      "case_id": 198,
+      "asset": "1999 Chevrolet Camaro, bright purple, Z28 coupe (112k mi)",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 600.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          600.0
+        ]
+      }
+    },
+    {
+      "case_id": 198,
+      "asset": "circular saw for Debtor's carpentry business, including replacement blades",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 1600.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          1600.0
+        ]
+      }
+    },
+    {
+      "case_id": 198,
+      "asset": "circular saw for Debtor's carpentry business, including replacement blades",
+      "citation": "11 U.S.C. § 522(d)(6)",
+      "native_gold_value": 1600.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          1600.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          1600.0
+        ]
+      }
+    },
+    {
+      "case_id": 198,
+      "asset": "circular saw for Debtor's carpentry business, including replacement blades",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 600.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          600.0
+        ]
+      }
+    },
+    {
+      "case_id": 199,
+      "asset": "portable DVD player with 10-inch screen and battery pack",
+      "citation": "Ariz. Rev. Stat. § 33-1123",
+      "native_gold_value": 250.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          250.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          250.0
+        ]
+      }
+    },
+    {
+      "case_id": 199,
+      "asset": "brown canvas blazer with waterproof coating",
+      "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+      "native_gold_value": 385.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          385.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          385.0
+        ]
+      }
+    },
+    {
+      "case_id": 200,
+      "asset": "tablet device with 12.9-inch screen and detachable keyboard",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 638.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          638.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          638.0
+        ]
+      }
+    },
+    {
+      "case_id": 200,
+      "asset": "tablet device with 12.9-inch screen and detachable keyboard",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 638.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          638.0
+        ]
+      }
+    },
+    {
+      "case_id": 200,
+      "asset": "tablet device with 12.9-inch screen and detachable keyboard",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 300.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          300.0
+        ]
+      }
+    },
+    {
+      "case_id": 200,
+      "asset": "single-bedroom carriage house (year-round residence) with 12-foot ceilings",
+      "citation": "11 U.S.C. § 522(d)(1)",
+      "native_gold_value": 27900.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          27900.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          27900.0
+        ]
+      }
+    },
+    {
+      "case_id": 200,
+      "asset": "single-bedroom carriage house (year-round residence) with 12-foot ceilings",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 15425.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          15425.0
+        ]
+      }
+    },
+    {
+      "case_id": 200,
+      "asset": "single-bedroom carriage house (year-round residence) with 12-foot ceilings",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 300.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          300.0
+        ]
+      }
+    },
+    {
+      "case_id": 200,
+      "asset": "set of bath towels made from Egyptian cotton",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 175.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          175.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          175.0
+        ]
+      }
+    },
+    {
+      "case_id": 200,
+      "asset": "set of bath towels made from Egyptian cotton",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 175.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          175.0
+        ]
+      }
+    },
+    {
+      "case_id": 200,
+      "asset": "set of bath towels made from Egyptian cotton",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 175.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 201,
+      "asset": "trench coat in beige with belt and shoulder epaulets",
+      "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+      "native_gold_value": 200.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          200.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          200.0
+        ]
+      }
+    },
+    {
+      "case_id": 201,
+      "asset": "construction overalls made of heavy-duty denim with tool loops",
+      "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+      "native_gold_value": 37.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          37.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          37.0
+        ]
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "FN Five-seveN pistol chambered in 5.7x28mm",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 1235.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          1235.0
+        ]
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "FN Five-seveN pistol chambered in 5.7x28mm",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "native_gold_value": 400.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "FN Five-seveN pistol chambered in 5.7x28mm",
+      "citation": "Or. Rev. Stat. § 18.362",
+      "native_gold_value": 1000.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          1000.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "folding card table with vinyl top and metal legs",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 24.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "folding card table with vinyl top and metal legs",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 24.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "folding card table with vinyl top and metal legs",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "native_gold_value": 24.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "folding card table with vinyl top and metal legs",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "native_gold_value": 24.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "smart light bulb starter kit with color-changing features",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 225.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          225.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          225.0
+        ]
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "smart light bulb starter kit with color-changing features",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 225.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          225.0
+        ]
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "smart light bulb starter kit with color-changing features",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "native_gold_value": 225.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          225.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          225.0
+        ]
+      }
+    },
+    {
+      "case_id": 202,
+      "asset": "smart light bulb starter kit with color-changing features",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "native_gold_value": 225.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          225.0
+        ]
+      }
+    },
+    {
+      "case_id": 203,
+      "asset": "vintage brocade cheongsam with frog closures",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 375.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          375.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          375.0
+        ]
+      }
+    },
+    {
+      "case_id": 203,
+      "asset": "vintage brocade cheongsam with frog closures",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 375.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          375.0
+        ]
+      }
+    },
+    {
+      "case_id": 203,
+      "asset": "vintage brocade cheongsam with frog closures",
+      "citation": "Wis. Stat. § 815.18(3)(d)",
+      "native_gold_value": 375.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          375.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          375.0
+        ]
+      }
+    },
+    {
+      "case_id": 203,
+      "asset": "handmade classical guitar",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 300.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          300.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          300.0
+        ]
+      }
+    },
+    {
+      "case_id": 203,
+      "asset": "handmade classical guitar",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 300.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          300.0
+        ]
+      }
+    },
+    {
+      "case_id": 203,
+      "asset": "handmade classical guitar",
+      "citation": "Wis. Stat. § 815.18(3)(d)",
+      "native_gold_value": 300.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          300.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          300.0
+        ]
+      }
+    },
+    {
+      "case_id": 204,
+      "asset": "toolbox with socket set and screwdrivers",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "native_gold_value": 725.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          725.0
+        ]
+      }
+    },
+    {
+      "case_id": 204,
+      "asset": "gray business suit including jacket and matching trousers",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+      "native_gold_value": 700.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          700.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          700.0
+        ]
+      }
+    },
+    {
+      "case_id": 204,
+      "asset": "gray business suit including jacket and matching trousers",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "native_gold_value": 700.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 205,
+      "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+      "citation": "11 U.S.C. § 522(d)(1)",
+      "native_gold_value": 27900.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          27900.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          27900.0
+        ]
+      }
+    },
+    {
+      "case_id": 205,
+      "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 30850.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          30850.0
+        ]
+      }
+    },
+    {
+      "case_id": 205,
+      "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 600.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          600.0
+        ]
+      }
+    },
+    {
+      "case_id": 205,
+      "asset": "concert-grade oboe (French key system)",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 700.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          700.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          700.0
+        ]
+      }
+    },
+    {
+      "case_id": 205,
+      "asset": "concert-grade oboe (French key system)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 2415.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          2415.0
+        ]
+      }
+    },
+    {
+      "case_id": 205,
+      "asset": "concert-grade oboe (French key system)",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 600.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+      "citation": "11 U.S.C. § 522(d)(2)",
+      "native_gold_value": 4450.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          4450.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          4450.0
+        ]
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 30850.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          15425.0
+        ]
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+      "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+      "native_gold_value": 3000.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          3000.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "native_gold_value": 400.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "titanium pendant dog tag necklace with engraving",
+      "citation": "11 U.S.C. § 522(d)(4)",
+      "native_gold_value": 295.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          295.0
+        ]
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "titanium pendant dog tag necklace with engraving",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 295.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          295.0
+        ]
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "titanium pendant dog tag necklace with engraving",
+      "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+      "native_gold_value": 295.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          295.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 206,
+      "asset": "titanium pendant dog tag necklace with engraving",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "native_gold_value": 295.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          295.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          295.0
+        ]
+      }
+    },
+    {
+      "case_id": 207,
+      "asset": "oxygen concentrator with portable carry cart and backup battery (physician authorized)",
+      "citation": "Ariz. Rev. Stat. § 33-1125(9)",
+      "native_gold_value": 3250.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          3250.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          3250.0
+        ]
+      }
+    },
+    {
+      "case_id": 207,
+      "asset": "Siberian husky",
+      "citation": "Ariz. Rev. Stat. § 33-1125(11)",
+      "native_gold_value": 980.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          980.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          980.0
+        ]
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "handmade quilt featuring patchwork patterns and embroidery",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 475.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          475.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          475.0
+        ]
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "handmade quilt featuring patchwork patterns and embroidery",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 475.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "handmade quilt featuring patchwork patterns and embroidery",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "native_gold_value": 475.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          475.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "handmade quilt featuring patchwork patterns and embroidery",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "native_gold_value": 400.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "compact digital camera with optical zoom and SD card slot",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 700.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          700.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          700.0
+        ]
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "compact digital camera with optical zoom and SD card slot",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 1535.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "compact digital camera with optical zoom and SD card slot",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "native_gold_value": 1535.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          1535.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "compact digital camera with optical zoom and SD card slot",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "native_gold_value": 400.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "four-bedroom, three-bath brick ranch homestead with a finished basement and a wood-burning fireplace",
+      "citation": "11 U.S.C. § 522(d)(1)",
+      "native_gold_value": 27900.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          27900.0
+        ]
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "four-bedroom, three-bath brick ranch homestead with a finished basement and a wood-burning fireplace",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 30850.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          15425.0
+        ]
+      }
+    },
+    {
+      "case_id": 208,
+      "asset": "four-bedroom, three-bath brick ranch homestead with a finished basement and a wood-burning fireplace",
+      "citation": "Or. Rev. Stat. § 18.395(1)",
+      "native_gold_value": 50000.0,
+      "empty": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          40000.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          50000.0
+        ]
+      }
+    },
+    {
+      "case_id": 209,
+      "asset": "white wood crib with adjustable mattress levels and storage drawer",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 250.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          250.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          250.0
+        ]
+      }
+    },
+    {
+      "case_id": 209,
+      "asset": "white wood crib with adjustable mattress levels and storage drawer",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 250.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          250.0
+        ]
+      }
+    },
+    {
+      "case_id": 209,
+      "asset": "white wood crib with adjustable mattress levels and storage drawer",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 250.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          250.0
+        ]
+      }
+    },
+    {
+      "case_id": 209,
+      "asset": "set of three ceramic wall planters with succulents",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 300.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          300.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          300.0
+        ]
+      }
+    },
+    {
+      "case_id": 209,
+      "asset": "set of three ceramic wall planters with succulents",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 300.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          300.0
+        ]
+      }
+    },
+    {
+      "case_id": 209,
+      "asset": "set of three ceramic wall planters with succulents",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 300.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          300.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "home office webcam with 1080p resolution and privacy shutter",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 700.0,
+      "empty": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          1200.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          700.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "home office webcam with 1080p resolution and privacy shutter",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 1200.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          1200.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "home office webcam with 1080p resolution and privacy shutter",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "native_gold_value": 1200.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          1200.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          1200.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "home office webcam with 1080p resolution and privacy shutter",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "native_gold_value": 400.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "stainless steel electric kettle with auto shut-off feature",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 24.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "stainless steel electric kettle with auto shut-off feature",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 24.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "stainless steel electric kettle with auto shut-off feature",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "native_gold_value": 24.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "stainless steel electric kettle with auto shut-off feature",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "native_gold_value": 24.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          24.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "black slip-resistant clogs with molded footbed",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 26.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          26.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          26.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "black slip-resistant clogs with molded footbed",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 26.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          26.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "black slip-resistant clogs with molded footbed",
+      "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+      "native_gold_value": 26.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          26.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          26.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "black slip-resistant clogs with molded footbed",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "native_gold_value": 26.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          26.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "compact Bluetooth speaker with splash-resistant casing",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 400.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "compact Bluetooth speaker with splash-resistant casing",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 400.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "compact Bluetooth speaker with splash-resistant casing",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "native_gold_value": 400.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      }
+    },
+    {
+      "case_id": 210,
+      "asset": "compact Bluetooth speaker with splash-resistant casing",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "native_gold_value": 400.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          400.0
+        ]
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "23-inch soprano ukulele with mahogany body and nylon strings",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 700.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          700.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          730.0
+        ]
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "23-inch soprano ukulele with mahogany body and nylon strings",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 730.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "23-inch soprano ukulele with mahogany body and nylon strings",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 600.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          600.0
+        ]
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "titanium engagement band with brushed finish and beveled edges",
+      "citation": "11 U.S.C. § 522(d)(4)",
+      "native_gold_value": 221.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          221.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          221.0
+        ]
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "titanium engagement band with brushed finish and beveled edges",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 221.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "titanium engagement band with brushed finish and beveled edges",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 221.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          221.0
+        ]
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "premium tablet with stylus and detachable keyboard in leather folio case",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 700.0,
+      "empty": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          1480.0
+        ]
+      },
+      "skills": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          1480.0
+        ]
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "premium tablet with stylus and detachable keyboard in leather folio case",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 1480.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "premium tablet with stylus and detachable keyboard in leather folio case",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 600.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          600.0
+        ]
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "dishwasher with stainless steel tub and delayed start functionality",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 700.0,
+      "empty": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          1720.0
+        ]
+      },
+      "skills": {
+        "state": "wrong_amount",
+        "predicted_values": [
+          1720.0
+        ]
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "dishwasher with stainless steel tub and delayed start functionality",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 1720.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "omitted",
+        "predicted_values": []
+      }
+    },
+    {
+      "case_id": 211,
+      "asset": "dishwasher with stainless steel tub and delayed start functionality",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "native_gold_value": 600.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          600.0
+        ]
+      }
+    },
+    {
+      "case_id": 212,
+      "asset": "silver charm bracelet",
+      "citation": "11 U.S.C. § 522(d)(4)",
+      "native_gold_value": 450.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          450.0
+        ]
+      }
+    },
+    {
+      "case_id": 212,
+      "asset": "silver charm bracelet",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 450.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          450.0
+        ]
+      }
+    },
+    {
+      "case_id": 212,
+      "asset": "silver charm bracelet",
+      "citation": "Wis. Stat. § 815.18(3)(d)",
+      "native_gold_value": 450.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          450.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          450.0
+        ]
+      }
+    },
+    {
+      "case_id": 212,
+      "asset": "charm bracelet with silver heart-shaped and birthstone-themed charms",
+      "citation": "11 U.S.C. § 522(d)(4)",
+      "native_gold_value": 587.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          587.0
+        ]
+      }
+    },
+    {
+      "case_id": 212,
+      "asset": "charm bracelet with silver heart-shaped and birthstone-themed charms",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 587.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          587.0
+        ]
+      }
+    },
+    {
+      "case_id": 212,
+      "asset": "charm bracelet with silver heart-shaped and birthstone-themed charms",
+      "citation": "Wis. Stat. § 815.18(3)(d)",
+      "native_gold_value": 587.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          587.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          587.0
+        ]
+      }
+    },
+    {
+      "case_id": 212,
+      "asset": "carbon monoxide detector with digital readout",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "native_gold_value": 47.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          47.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          47.0
+        ]
+      }
+    },
+    {
+      "case_id": 212,
+      "asset": "carbon monoxide detector with digital readout",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "native_gold_value": 47.0,
+      "empty": {
+        "state": "omitted",
+        "predicted_values": []
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          47.0
+        ]
+      }
+    },
+    {
+      "case_id": 212,
+      "asset": "carbon monoxide detector with digital readout",
+      "citation": "Wis. Stat. § 815.18(3)(d)",
+      "native_gold_value": 47.0,
+      "empty": {
+        "state": "correct",
+        "predicted_values": [
+          47.0
+        ]
+      },
+      "skills": {
+        "state": "correct",
+        "predicted_values": [
+          47.0
+        ]
+      }
+    }
+  ],
+  "all16_native_full_count_checks": [
+    {
+      "case_id": 197,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "case_id": 198,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        2,
+        0,
+        4
+      ]
+    },
+    {
+      "case_id": 199,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "case_id": 200,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        3,
+        1,
+        6
+      ]
+    },
+    {
+      "case_id": 201,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "case_id": 202,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        5,
+        0,
+        6
+      ]
+    },
+    {
+      "case_id": 203,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        4,
+        0,
+        2
+      ]
+    },
+    {
+      "case_id": 204,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        1,
+        1,
+        2
+      ]
+    },
+    {
+      "case_id": 205,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        2,
+        0,
+        4
+      ]
+    },
+    {
+      "case_id": 206,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        4,
+        1,
+        4
+      ]
+    },
+    {
+      "case_id": 207,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "case_id": 208,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        5,
+        1,
+        6
+      ]
+    },
+    {
+      "case_id": 209,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        2,
+        0,
+        4
+      ]
+    },
+    {
+      "case_id": 210,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        8,
+        1,
+        8
+      ]
+    },
+    {
+      "case_id": 211,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        2,
+        2,
+        10
+      ]
+    },
+    {
+      "case_id": 212,
+      "arm": "empty",
+      "native_full_tp_fp_fn": [
+        4,
+        2,
+        5
+      ]
+    },
+    {
+      "case_id": 197,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "case_id": 198,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        6,
+        0,
+        0
+      ]
+    },
+    {
+      "case_id": 199,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "case_id": 200,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        8,
+        1,
+        1
+      ]
+    },
+    {
+      "case_id": 201,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "case_id": 202,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        10,
+        0,
+        1
+      ]
+    },
+    {
+      "case_id": 203,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        6,
+        0,
+        0
+      ]
+    },
+    {
+      "case_id": 204,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        2,
+        0,
+        1
+      ]
+    },
+    {
+      "case_id": 205,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        5,
+        1,
+        1
+      ]
+    },
+    {
+      "case_id": 206,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        5,
+        1,
+        3
+      ]
+    },
+    {
+      "case_id": 207,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "case_id": 208,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        5,
+        1,
+        6
+      ]
+    },
+    {
+      "case_id": 209,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        6,
+        0,
+        0
+      ]
+    },
+    {
+      "case_id": 210,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        16,
+        0,
+        0
+      ]
+    },
+    {
+      "case_id": 211,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        6,
+        2,
+        6
+      ]
+    },
+    {
+      "case_id": 212,
+      "arm": "skills",
+      "native_full_tp_fp_fn": [
+        9,
+        0,
+        0
+      ]
+    }
+  ],
+  "main_macro_F1_kept_unmodified": true,
+  "all32_task_harm_zero_does_not_imply_every_claim_preserved": true,
+  "legal_semantics": "native benchmark labels/tolerance retained; not expert validation of law or joint-debtor caps",
+  "no_case_drop_label_change_or_scoring_tolerance_change": true,
+  "new_model_or_teacher_calls": 0,
+  "no_TEST_semantics_loaded": true
+}

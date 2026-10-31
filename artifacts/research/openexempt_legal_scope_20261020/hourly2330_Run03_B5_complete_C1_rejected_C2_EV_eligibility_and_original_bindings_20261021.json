@@ -1,0 +1,480 @@
+{
+  "at": "2026-10-21T15:39:30.202530+00:00",
+  "scheduled_CST": "2026-10-21T23:30:00+08:00",
+  "classification": "Hourly verified original-process wait and direction audit, not new performance evidence",
+  "processes": [
+    {
+      "role": "main",
+      "PID": 1721740,
+      "start_ticks": 455413980,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python -m experiments.openexempt_online run /media/sangfor/vdb/legal-skill-evolve/configs/openexempt_closed_feedback_public_assets128_20261021_run03.json "
+    },
+    {
+      "role": "model",
+      "PID": 3613253,
+      "start_ticks": 446037091,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python /media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm serve /media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218 --served-model-name Qwen/Qwen3-8B --host 127.0.0.1 --port 8000 --dtype bfloat16 --max-model-len 32768 --max-num-seqs 1 --seed 42 --generation-config vllm --reasoning-parser qwen3 --gpu-memory-utilization 0.48 --no-enable-prefix-caching --disable-uvicorn-access-log --guided-decoding-backend xgrammar --guided-decoding-disable-any-whitespace --kv-cache-memory-bytes 5368709120 --max-num-batched-tokens 16384 "
+    },
+    {
+      "role": "ACE_waiter",
+      "PID": 1738522,
+      "start_ticks": 455481667,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python /media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_main128_run03_to_ACE128_20261021.py "
+    }
+  ],
+  "bindings": {
+    "main": {
+      "files": 371,
+      "all_bytes_unchanged": true
+    },
+    "static": {
+      "files": 117,
+      "all_bytes_unchanged": true
+    },
+    "ACE_waiter": {
+      "files": 381,
+      "all_bytes_unchanged": true
+    }
+  },
+  "actual_packages_unchanged": 50,
+  "progress": {
+    "at": "2026-10-21T15:38:11.671420+00:00",
+    "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "state": "running",
+    "stage": "b5_candidate2_replay",
+    "current_batch": 5,
+    "completed_native_calls": 608,
+    "completed_teacher_calls": 10,
+    "teacher_attempts": 10,
+    "cross_stage_identical_wire_reuses": 1323,
+    "library_records": 6,
+    "current_arm": "candidate",
+    "current_document_id": 234,
+    "current_call": "openexempt"
+  },
+  "complete_unique_publications": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "B3_actual_final": {
+    "at": "2026-10-21T11:00:54.977423+00:00",
+    "bank_sha256": "e9844cefc4b4a8649f171d801d5035b9d378a2aae1e0ea053d90e1c79dad9e07",
+    "records": 6,
+    "unchanged_from_actual_B2": true,
+    "C1_full_rejected": true,
+    "measured_parent_tokens": 1945,
+    "C2_explicit_NOOP": true
+  },
+  "B4_complete_first_forecasts_exist": true,
+  "B4_complete_first_forecast_wire_health": {
+    "logical_answers": 160,
+    "origin_wires_including_exact_old_reuses": 70,
+    "finish_reasons": {
+      "stop": 70
+    },
+    "parse_errors": 0,
+    "online_all_actual_published_B3_bank": true,
+    "grading_targets_read_by_this_hourly_health_check": false
+  },
+  "ledger": {
+    "max_invocations": 1797,
+    "reservations": 361,
+    "old350_prefix_unchanged": true
+  },
+  "ACE_target_training_started": false,
+  "ACE_target_frozen": false,
+  "archive_free_bytes": {
+    "/media/sangfor/vdb/legal-skill-backups": 1980535791616,
+    "/home/yndx/hhy/legal-skill-rootdisk-backups": 804192473088
+  },
+  "observer": {
+    "10933_full_B5_closed_normally": true,
+    "wrapper7132_and_audit39695_closed_normally": true,
+    "85629_C1_closed_normally": true,
+    "current_C2_observer_not_yet_started": true,
+    "wrapper7126_only_stopped_for_previous_hourly_audit": true
+  },
+  "B4_actual_unique_final": {
+    "at": "2026-10-21T13:27:05.858217+00:00",
+    "bank_sha256": "7cedde5f8ccdbfd0d950bb289f304e377bf8a172847221e050367945db3fb338",
+    "records": 6,
+    "actual_tokens": 2179,
+    "accepted_C1_coordinates": [
+      "EV:ARIZONA"
+    ],
+    "C2_full_rejected": true,
+    "current_EC_EV_C1_parent": [
+      0.8385416666666666,
+      0.7984126984126984
+    ],
+    "current_C2_EC_EV": [
+      0.8385416666666666,
+      0.809077380952381
+    ],
+    "prior_C1_EC_EV": [
+      0.868328373015873,
+      0.8486235119047617
+    ],
+    "prior_C2_EC_EV": [
+      0.868328373015873,
+      0.8442418981481481
+    ]
+  },
+  "direction_check": {
+    "previous_goal_turn_classification": "Progress: full B5 learner-first160 records audited and544 source/raw/teacher members preserved on2 disks; online EC86.77083EV80.82837 remains positive vsownB1 by1.68651/5.42659pp, but all3 AZEV cases show0 original improvement withone full-output harm. No best-bank or single-new-skill success claim.",
+    "actual_C1_learning": "C1 proposes only IL EC; complete480-record audit: currentnativeflat andfullslightlydown0.0248pp, prior64 ECnativeup0.65104pp/fullup0.78125pp, allEV exact parent. Rejected under frozen current-strict/full gate; candidate2238tokens is notactive2179.",
+    "actual_new_execution_bottleneck": "B5source252 EC empty16.67to100 withguidance butEV empty66.67to16.67 withnumeric-only guidance: wrong law selection andmissingindependentclaims, notwrongprovidednumbers. Correct EC eligibility instruction is absentfromEV learnedguidance, although publiclaw remainspresent; EV doesnotconsumeEC answer. This is a supported delivery hypothesis, not isolated causal proof.",
+    "efficient_next_action": "Teacher2 already proposes self-contained IL EV eligibility-before-value update withfactualtradecondition andindependentwildcard. Audititsactual64 inputs and complete C2native outcomes, then unique B5 publication and B6 first encounters. Do not createanother shared-render driver/probe orhotpatch architecture whilethis exactsingle-editcounterfactualisrunning.",
+    "remaining_scope": "Continue full8/128 tooriginal queuedACE45. MainvsACE/static, independentrepeats, neededablations andsealedTEST remainmissing; no shrink to empty-win or onebatch.",
+    "no_new_resources": "No modelservice, bank, teacherprompt, gate/scorer changes or newnativequalification calls byroot."
+  },
+  "next_hourly_CST": "2026-10-22T00:30:00+08:00",
+  "new_native_teacher_or_TEST_calls_by_audit": 0,
+  "B5_partial_wire_health_only_not_partial_metrics": {
+    "completed_logical_answers": 160,
+    "referenced_actual_original_wires": 75,
+    "finish_reasons": {
+      "stop": 75
+    },
+    "parse_errors": 0,
+    "online_bank_matches_actual_unique_B4_final": true,
+    "partial_scores_or_targets_read": false
+  },
+  "B5_complete_first_forecasts_exist": true,
+  "already_seen64_reference_selfscore_not_model_performance": {
+    "EC": 0.9687499999999999,
+    "EV": 1.0,
+    "per_batch_EC": {
+      "1": 0.9635416666666666,
+      "2": 0.9791666666666666,
+      "3": 1.0,
+      "4": 0.9322916666666666
+    },
+    "all_full_output_F1_one": true,
+    "no_B5_or_TEST_targets_read": true,
+    "reference_report": "artifacts/research/openexempt_legal_scope_20261020/Run03_B1_B4_already_seen64_reference_self_score_original_evaluator_not_model_result_20261021.json"
+  },
+  "last_complete_B5_first_forecasts_not_C2_effect": {
+    "at": "2026-10-21T15:03:39.068300+00:00",
+    "metrics": {
+      "empty": {
+        "EC": 0.5597222222222222,
+        "EV": 0.653125
+      },
+      "frozen_after_B1": {
+        "EC": 0.8508432539682539,
+        "EV": 0.7540178571428571
+      },
+      "skills": {
+        "EC": 0.8677083333333333,
+        "EV": 0.8082837301587301
+      }
+    },
+    "source_paired": {
+      "sources": [
+        {
+          "source_id": 245,
+          "EC": {
+            "own_B1_F1": 0.9,
+            "online_F1": 0.9,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 0.6666666666666666,
+            "online_F1": 0.8333333333333333,
+            "difference_pp": 16.666666666666664
+          },
+          "mean_family_difference_pp": 8.333333333333332
+        },
+        {
+          "source_id": 246,
+          "EC": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "mean_family_difference_pp": 0.0
+        },
+        {
+          "source_id": 247,
+          "EC": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 0.5333333333333333,
+            "online_F1": 0.5333333333333333,
+            "difference_pp": 0.0
+          },
+          "mean_family_difference_pp": 0.0
+        },
+        {
+          "source_id": 248,
+          "EC": {
+            "own_B1_F1": 0.3333333333333333,
+            "online_F1": 0.3333333333333333,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "mean_family_difference_pp": 0.0
+        },
+        {
+          "source_id": 249,
+          "EC": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 0.8,
+            "online_F1": 0.8333333333333333,
+            "difference_pp": 3.3333333333333215
+          },
+          "mean_family_difference_pp": 1.6666666666666607
+        },
+        {
+          "source_id": 250,
+          "EC": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 0.7333333333333334,
+            "online_F1": 0.9285714285714286,
+            "difference_pp": 19.523809523809522
+          },
+          "mean_family_difference_pp": 9.761904761904761
+        },
+        {
+          "source_id": 251,
+          "EC": {
+            "own_B1_F1": 0.5,
+            "online_F1": 0.5,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "mean_family_difference_pp": 0.0
+        },
+        {
+          "source_id": 252,
+          "EC": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 0.16666666666666666,
+            "online_F1": 0.16666666666666666,
+            "difference_pp": 0.0
+          },
+          "mean_family_difference_pp": 0.0
+        },
+        {
+          "source_id": 253,
+          "EC": {
+            "own_B1_F1": 0.8,
+            "online_F1": 0.8,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 0.8,
+            "online_F1": 0.8,
+            "difference_pp": 0.0
+          },
+          "mean_family_difference_pp": 0.0
+        },
+        {
+          "source_id": 254,
+          "EC": {
+            "own_B1_F1": 0.9333333333333332,
+            "online_F1": 0.9333333333333332,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 0.8190476190476191,
+            "online_F1": 0.9523809523809524,
+            "difference_pp": 13.33333333333333
+          },
+          "mean_family_difference_pp": 6.666666666666665
+        },
+        {
+          "source_id": 255,
+          "EC": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 0.6666666666666666,
+            "online_F1": 0.6666666666666666,
+            "difference_pp": 0.0
+          },
+          "mean_family_difference_pp": 0.0
+        },
+        {
+          "source_id": 256,
+          "EC": {
+            "own_B1_F1": 0.7301587301587301,
+            "online_F1": 1.0,
+            "difference_pp": 26.984126984126988
+          },
+          "EV": {
+            "own_B1_F1": 0.5238095238095238,
+            "online_F1": 0.8333333333333334,
+            "difference_pp": 30.952380952380953
+          },
+          "mean_family_difference_pp": 28.96825396825397
+        },
+        {
+          "source_id": 257,
+          "EC": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "mean_family_difference_pp": 0.0
+        },
+        {
+          "source_id": 258,
+          "EC": {
+            "own_B1_F1": 0.6666666666666666,
+            "online_F1": 0.6666666666666666,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 0.7936507936507936,
+            "online_F1": 0.8333333333333334,
+            "difference_pp": 3.9682539682539764
+          },
+          "mean_family_difference_pp": 1.9841269841269882
+        },
+        {
+          "source_id": 259,
+          "EC": {
+            "own_B1_F1": 1.0,
+            "online_F1": 1.0,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 0.6444444444444445,
+            "online_F1": 0.6349206349206349,
+            "difference_pp": -0.9523809523809601
+          },
+          "mean_family_difference_pp": -0.47619047619048005
+        },
+        {
+          "source_id": 260,
+          "EC": {
+            "own_B1_F1": 0.75,
+            "online_F1": 0.75,
+            "difference_pp": 0.0
+          },
+          "EV": {
+            "own_B1_F1": 0.9166666666666666,
+            "online_F1": 0.9166666666666666,
+            "difference_pp": 0.0
+          },
+          "mean_family_difference_pp": 0.0
+        }
+      ],
+      "source_help": 6,
+      "source_hurt": 1,
+      "source_tie": 9,
+      "selection": "All fixed16 batch sources, not selected successes",
+      "not_source_population_significance_or_test": true
+    },
+    "all160_redecoded": {
+      "valid_record_occurrences_verified": 160,
+      "logical_records": 160,
+      "stored_parse_errors_not_dropped": 0
+    },
+    "AZ_EV_update_scope": {
+      "sources": [
+        {
+          "source_id": 246,
+          "previous_B3_equals_own_B1_actual_messages_schema": true,
+          "previous_B3_equals_strongempty_actual_wire": true,
+          "old_F1": 1.0,
+          "updated_F1": 1.0,
+          "difference_pp": 0.0,
+          "old_full_F1": 1.0,
+          "updated_full_F1": 1.0,
+          "new_delivered_skill_ids": [
+            "arizona-caps-are-not-eligibility-and-category-boundaries"
+          ]
+        },
+        {
+          "source_id": 248,
+          "previous_B3_equals_own_B1_actual_messages_schema": true,
+          "previous_B3_equals_strongempty_actual_wire": true,
+          "old_F1": 1.0,
+          "updated_F1": 1.0,
+          "difference_pp": 0.0,
+          "old_full_F1": 0.6666666666666666,
+          "updated_full_F1": 0.6666666666666666,
+          "new_delivered_skill_ids": [
+            "arizona-caps-are-not-eligibility-and-category-boundaries"
+          ]
+        },
+        {
+          "source_id": 251,
+          "previous_B3_equals_own_B1_actual_messages_schema": true,
+          "previous_B3_equals_strongempty_actual_wire": true,
+          "old_F1": 1.0,
+          "updated_F1": 1.0,
+          "difference_pp": 0.0,
+          "old_full_F1": 1.0,
+          "updated_full_F1": 0.8571428571428571,
+          "new_delivered_skill_ids": [
+            "arizona-caps-are-not-eligibility-and-category-boundaries"
+          ]
+        }
+      ],
+      "source_count": 3,
+      "mean_native_F1_difference_pp": 0.0,
+      "whole16_sources_remain_main_TRAIN_view": true,
+      "not_independent_training_significance_or_final_TEST": true
+    }
+  },
+  "B5_C1_actual_rejected": {
+    "parent": "7cedde5f8ccdbfd0d950bb289f304e377bf8a172847221e050367945db3fb338",
+    "candidate_bank_tokens_not_active": 2238,
+    "reason": "no_independently_improving_legal_edit",
+    "current_EC_F1": [
+      0.8677083333333333,
+      0.8677083333333333
+    ],
+    "prior_EC_F1": [
+      0.8608816964285714,
+      0.867392113095238
+    ]
+  }
+}

@@ -1,0 +1,961 @@
+{
+  "at": "2026-10-17T13:15:38.770930+00:00",
+  "parent": [
+    {
+      "id": "nda-copy-permission-polarity",
+      "hypothesis_ids": [
+        "nda-17"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "copy",
+              "copies",
+              "copying",
+              "copied",
+              "reproduce",
+              "reproduction",
+              "duplicate"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 1,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "For the copying hypothesis, inspect clauses that expressly govern the Receiving Party's making, reproducing, recording, or duplicating Confidential Information. An affirmative authorization to create copies supports the statement only within its stated conditions. A prohibition on copying or reproduction—including one framed as “not without” consent or subject to another agreement—opposes the statement; do not convert the condition for lifting a prohibition into an affirmative copying permission. A right to retain an existing archival copy, a return-or-destruction clause mentioning copies, a duty to record copies, or a requirement to reduce oral information to writing does not by itself establish permission to create a copy. Cite the operative action clause, any grammatical subject or list lead-in needed to identify the obligated actor, and any separately operative clause expressly requiring that actor to prevent copying; exclude surrounding security, retention, and certification language that does not determine copying permission. If no clause settles this precise action, treat it as unresolved."
+      }
+    }
+  ],
+  "delta": {
+    "operations": [
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-copy-permission-polarity"
+        ],
+        "skill": {
+          "id": "nda-copy-permission-polarity",
+          "hypothesis_ids": [
+            "nda-17"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "copy",
+                  "copies",
+                  "copying",
+                  "copied",
+                  "reproduce",
+                  "reproduction",
+                  "duplicate"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Apply a strict action-and-polarity test to the Receiving Party's creation of a new copy or reproduction. An express authorization to make copies supports the hypothesis, subject to its conditions; an operative prohibition or consent-qualified ban opposes it. Do not infer permission from the mere existence, return, destruction, retention, ownership, marking, logging, or certification of copies, from reducing oral information to writing, or from references to counterparts. Cite every independently operative clause that determines whether the Receiving Party may create a copy, together with any necessary subject or list preamble. If the document only mentions existing copies or does not govern creation, treat the hypothesis as unresolved."
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          167,
+          149,
+          328,
+          89,
+          319,
+          384
+        ],
+        "rationale": "The existing rule identified the right boundary, but repeated current-parent failures still treated archival copies, return clauses, copy logs, ownership, and reproduction bans as affirmative permission. The update makes express creation authorization the gate and narrows evidence to clauses that actually govern creation."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-explicit-identification-universal",
+          "hypothesis_ids": [
+            "nda-1"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "marked",
+                  "identified",
+                  "designated",
+                  "legend",
+                  "oral",
+                  "orally",
+                  "reasonable person",
+                  "circumstances"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Inspect the complete definition and every alternative route by which information becomes Confidential Information. Support the universal identification hypothesis only when identification, marking, or the specified oral-confirmation procedure is required for all covered information. A reasonable-person, inherent-confidentiality, circumstance-based, regardless-of-designation, or other unmarked route opposes it. A marking rule applicable only to one category does not establish the universal statement. Cite the governing definition, all identification conditions, and any operative alternative that defeats universality; otherwise treat the issue as unresolved."
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          149,
+          207,
+          134,
+          384,
+          426,
+          390,
+          188
+        ],
+        "rationale": "Observed answers frequently ignored universal quantification, missed identification requirements, or treated a partial marking rule as governing all information. The skill distinguishes universal identification from alternative unmarked coverage."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-return-trigger-and-object",
+          "hypothesis_ids": [
+            "nda-16"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "return",
+                  "destroy",
+                  "destruction",
+                  "delete",
+                  "dispose"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Identify the obligated actor, the material to be returned or destroyed, and the triggering event. Support the hypothesis when the Receiving Party must return or destroy at least some Confidential Information upon termination, expiration, or the stated end of the relationship or purpose. A duty triggered only by a discretionary request does not by itself establish a termination-triggered duty. Do not infer the duty from ownership, certification, permitted destruction, or a clause governing copies alone. Cite the trigger, mandatory action, object, and any exception limiting what must be returned or destroyed."
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          314,
+          167,
+          149,
+          328,
+          89,
+          134,
+          319,
+          426,
+          188
+        ],
+        "rationale": "Six request-only or otherwise unrelated clauses were mislabeled as termination duties, while complete trigger and exception evidence was often omitted. This adds the missing trigger-object boundary."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-no-license-rights-boundary",
+          "hypothesis_ids": [
+            "nda-15"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "no license",
+                  "licence",
+                  "right title",
+                  "interest",
+                  "granting",
+                  "granted",
+                  "ownership",
+                  "property"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Look for an operative no-license, no-right-title-or-interest, ownership-retention, or equivalent clause concerning Confidential Information or rights embodied in it. Such a denial supports the hypothesis even if the Receiving Party has a limited contractual permission to use or disclose information; limited use is not a grant of ownership or intellectual-property rights. Conversely, ordinary access, possession, confidentiality, or purpose clauses neither support nor oppose the no-right statement. Cite all independently operative ownership and no-grant provisions needed to establish the denial."
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          314,
+          167,
+          207,
+          89,
+          319,
+          285,
+          426,
+          188
+        ],
+        "rationale": "Current answers repeatedly converted limited use or access into a grant of rights, or inferred no-license language from general confidentiality. This skill isolates proprietary rights from operational permissions."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-technical-only-definition",
+          "hypothesis_ids": [
+            "nda-2"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "technical",
+                  "business",
+                  "financial",
+                  "commercial",
+                  "marketing",
+                  "personal",
+                  "employee",
+                  "contractual"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Read the Confidential Information definition and incorporated list as a whole. Any covered non-technical category—such as business, financial, commercial, contractual, personnel, customer, or marketing information—opposes the assertion that only technical information is included. A general reference to information is not enough unless its stated categories or scope resolve the technical-only issue. Support would require an affirmative limitation of the entire definition to technical information. Cite the definition lead-in and the non-technical categories or exclusive limitation that determine the result."
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          328,
+          89,
+          545,
+          319,
+          390
+        ],
+        "rationale": "The lawyer both invented non-technical coverage from unrelated text and missed express non-technical categories. The procedure ties the conclusion and complete evidence to the definition's actual scope."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-survival-operative-obligations",
+          "hypothesis_ids": [
+            "nda-19"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "survive",
+                  "survival",
+                  "after termination",
+                  "following termination",
+                  "remain in effect",
+                  "continue in full force",
+                  "indefinitely"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Determine whether the agreement expressly keeps any substantive obligation effective after termination, expiration, or completion, or gives it a duration extending beyond that event. Support requires operative continuation language tied to obligations, not merely a return step, remedy, governing-law provision, employment consequence, or action that happens near termination. Cite the survival or duration clause and any referenced section needed to identify which obligation continues. If no obligation is carried past the endpoint, treat the hypothesis as unresolved."
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          167,
+          285,
+          426,
+          188,
+          314,
+          328,
+          89
+        ],
+        "rationale": "Observed false positives treated remedies, employment terms, return clauses, and unrelated post-event language as survival. The skill requires an obligation and an explicit temporal continuation link."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-independent-development-exclusion",
+          "hypothesis_ids": [
+            "nda-12"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "independently developed",
+                  "independent development",
+                  "developed without",
+                  "without use",
+                  "without reference"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Find an exclusion or permission specifically covering information independently developed by the Receiving Party without use of, access to, reference to, or reliance on Confidential Information. That provision supports the hypothesis subject to its proof conditions. Prior possession, public availability, third-party receipt, permitted use of the Disclosing Party's information, disclaimers, and authorization to conduct unrelated business do not establish independent development. Cite the exclusion lead-in, the independent-development limb, and any required no-use or documentary-proof condition."
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          314,
+          167,
+          149,
+          207,
+          328,
+          89,
+          134,
+          545,
+          319,
+          384,
+          390,
+          188
+        ],
+        "rationale": "Eight neutral cases were incorrectly supported using prior knowledge, warranties, ordinary use rights, or unrelated business permissions. This separates independent creation from neighboring exclusions."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-third-party-acquisition-exclusion",
+          "hypothesis_ids": [
+            "nda-13"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "third party",
+                  "third-party",
+                  "another source",
+                  "lawfully obtained",
+                  "right to disclose",
+                  "no confidentiality obligation"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Support the hypothesis only when the document permits or excludes from protection information received or obtained by the Receiving Party from an independent third party, ordinarily conditioned on that source having a lawful right to disclose and no confidentiality restriction. Do not substitute prior possession, independent development, the Disclosing Party's disclosure to others, generic third-party ownership, a no-warranty clause, or a prohibition on unauthorized acquisition. Cite the exceptions preamble, the third-party-receipt limb, and its source-right or no-duty conditions."
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          314,
+          167,
+          149,
+          207,
+          328,
+          89,
+          134,
+          545,
+          319,
+          426,
+          390,
+          188
+        ],
+        "rationale": "Answers often cited adjacent but different exclusions or unrelated third-party references. The skill confines the inquiry to acquisition by the Receiving Party from an authorized independent source."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-permitted-recipient-class",
+          "hypothesis_ids": [
+            "nda-7",
+            "nda-5"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "employees",
+                  "employee",
+                  "agents",
+                  "advisors",
+                  "consultants",
+                  "representatives",
+                  "officers",
+                  "directors",
+                  "third party"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Identify the clause's disclosing actor and each expressly permitted recipient class. For the employee hypothesis, a need-to-know or confidentiality-conditioned permission to disclose to the Receiving Party's employees supports the statement. For the third-party hypothesis, support requires an affirmatively permitted external class such as agents, consultants, professional advisers, or representatives; employee-only permission does not transfer. A blanket prohibition, a consent mechanism for an unspecified third party, responsibility for recipients, or permission merely to use information does not itself authorize the relevant class. Cite the permission, recipient class, purpose or need condition, and binding-condition language; cite an operative class-specific prohibition when it opposes the statement."
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          314,
+          149,
+          207,
+          328,
+          89,
+          134,
+          545,
+          319,
+          285,
+          384,
+          426,
+          390,
+          188
+        ],
+        "rationale": "The same recipient-class error recurred across employee and third-party sharing: conditional permissions were mistaken for prohibitions, employee classes were transferred to outsiders, and use rights were treated as disclosure rights. One actor-recipient classification check applies to both hypotheses."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-oral-information-coverage",
+          "hypothesis_ids": [
+            "nda-3"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "oral",
+                  "orally",
+                  "verbal",
+                  "verbally",
+                  "visual",
+                  "visually",
+                  "spoken"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Determine whether orally or verbally disclosed information can qualify as Confidential Information, including through a required later written confirmation or summary. Express oral coverage supports the hypothesis subject to any timing or identification condition. Do not infer oral coverage merely from broad words such as information, communications, discussions, meetings, observation, or individually identifiable information. Cite the definition or disclosure-form rule, the oral modality, and any follow-up writing condition. If the document neither includes nor excludes oral disclosures, treat the statement as unresolved."
+          }
+        },
+        "source_case_ids": [
+          617,
+          314,
+          167,
+          149,
+          207,
+          89,
+          285,
+          384,
+          147,
+          328,
+          134,
+          390,
+          188
+        ],
+        "rationale": "Six neutral documents were incorrectly treated as covering oral information based on generic definitions, meetings, or unrelated communications. The skill requires an express modality rule and preserves its conditions."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-agreement-negotiations-confidentiality",
+          "hypothesis_ids": [
+            "nda-10"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "fact that",
+                  "negotiations",
+                  "discussions",
+                  "terms of this agreement",
+                  "contents of this agreement",
+                  "public announcement",
+                  "contractual arrangements"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Inspect whether the protected subject matter includes the existence, occurrence, status, terms, or contents of the agreement or the parties' negotiations, and whether the Receiving Party is barred from disclosing it. A prohibition supports the hypothesis; do not reverse polarity merely because the clause says the information shall not be disclosed. A clause protecting only underlying Confidential Information, or merely defining contracts generally, is insufficient unless its coverage and nondisclosure duty reach the agreement or negotiations at issue. Cite both the coverage provision and operative nondisclosure duty when they are separate."
+          }
+        },
+        "source_case_ids": [
+          147,
+          167,
+          319,
+          384,
+          426
+        ],
+        "rationale": "The lawyer missed incorporated contractual and communications coverage, confused the fact of discussions with the agreement, and reversed a public-disclosure prohibition. This skill joins protected object with prohibition polarity."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-post-return-retention-exception",
+          "hypothesis_ids": [
+            "nda-20"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "retain",
+                  "retained",
+                  "keep one copy",
+                  "archival copy",
+                  "infeasible",
+                  "return or destroy",
+                  "all copies"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "Read the return-or-destruction rule together with every retention exception. An express right or necessity to keep an archival, compliance, backup, legally required, or infeasible-to-return copy after the return or destruction event supports the hypothesis within that exception. A requirement to return or destroy all information and copies, with no retention exception, opposes it. Ownership, possession before the event, permission to create copies, or permitted use during the agreement does not establish post-event retention. Cite the baseline disposition duty and the exception or no-retention language that resolves continued possession."
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          167,
+          149,
+          328,
+          89,
+          134,
+          545,
+          319,
+          384,
+          426
+        ],
+        "rationale": "Observed answers missed an infeasibility retention exception, overlooked an all-copies disposition rule, and confused ordinary use with post-event possession. The skill requires joint inspection of the baseline duty and exceptions."
+      }
+    ],
+    "noop_reason": null
+  },
+  "publication": [
+    {
+      "id": "nda-copy-permission-polarity",
+      "hypothesis_ids": [
+        "nda-17"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "copy",
+              "copies",
+              "copying",
+              "copied",
+              "reproduce",
+              "reproduction",
+              "duplicate"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 1,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Apply a strict action-and-polarity test to the Receiving Party's creation of a new copy or reproduction. An express authorization to make copies supports the hypothesis, subject to its conditions; an operative prohibition or consent-qualified ban opposes it. Do not infer permission from the mere existence, return, destruction, retention, ownership, marking, logging, or certification of copies, from reducing oral information to writing, or from references to counterparts. Cite every independently operative clause that determines whether the Receiving Party may create a copy, together with any necessary subject or list preamble. If the document only mentions existing copies or does not govern creation, treat the hypothesis as unresolved."
+      }
+    },
+    {
+      "id": "nda-explicit-identification-universal",
+      "hypothesis_ids": [
+        "nda-1"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "marked",
+              "identified",
+              "designated",
+              "legend",
+              "oral",
+              "orally",
+              "reasonable person",
+              "circumstances"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Inspect the complete definition and every alternative route by which information becomes Confidential Information. Support the universal identification hypothesis only when identification, marking, or the specified oral-confirmation procedure is required for all covered information. A reasonable-person, inherent-confidentiality, circumstance-based, regardless-of-designation, or other unmarked route opposes it. A marking rule applicable only to one category does not establish the universal statement. Cite the governing definition, all identification conditions, and any operative alternative that defeats universality; otherwise treat the issue as unresolved."
+      }
+    },
+    {
+      "id": "nda-return-trigger-and-object",
+      "hypothesis_ids": [
+        "nda-16"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "return",
+              "destroy",
+              "destruction",
+              "delete",
+              "dispose"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Identify the obligated actor, the material to be returned or destroyed, and the triggering event. Support the hypothesis when the Receiving Party must return or destroy at least some Confidential Information upon termination, expiration, or the stated end of the relationship or purpose. A duty triggered only by a discretionary request does not by itself establish a termination-triggered duty. Do not infer the duty from ownership, certification, permitted destruction, or a clause governing copies alone. Cite the trigger, mandatory action, object, and any exception limiting what must be returned or destroyed."
+      }
+    },
+    {
+      "id": "nda-no-license-rights-boundary",
+      "hypothesis_ids": [
+        "nda-15"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "no license",
+              "licence",
+              "right title",
+              "interest",
+              "granting",
+              "granted",
+              "ownership",
+              "property"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Look for an operative no-license, no-right-title-or-interest, ownership-retention, or equivalent clause concerning Confidential Information or rights embodied in it. Such a denial supports the hypothesis even if the Receiving Party has a limited contractual permission to use or disclose information; limited use is not a grant of ownership or intellectual-property rights. Conversely, ordinary access, possession, confidentiality, or purpose clauses neither support nor oppose the no-right statement. Cite all independently operative ownership and no-grant provisions needed to establish the denial."
+      }
+    },
+    {
+      "id": "nda-technical-only-definition",
+      "hypothesis_ids": [
+        "nda-2"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "technical",
+              "business",
+              "financial",
+              "commercial",
+              "marketing",
+              "personal",
+              "employee",
+              "contractual"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 1,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Read the Confidential Information definition and incorporated list as a whole. Any covered non-technical category—such as business, financial, commercial, contractual, personnel, customer, or marketing information—opposes the assertion that only technical information is included. A general reference to information is not enough unless its stated categories or scope resolve the technical-only issue. Support would require an affirmative limitation of the entire definition to technical information. Cite the definition lead-in and the non-technical categories or exclusive limitation that determine the result."
+      }
+    },
+    {
+      "id": "nda-survival-operative-obligations",
+      "hypothesis_ids": [
+        "nda-19"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "survive",
+              "survival",
+              "after termination",
+              "following termination",
+              "remain in effect",
+              "continue in full force",
+              "indefinitely"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Determine whether the agreement expressly keeps any substantive obligation effective after termination, expiration, or completion, or gives it a duration extending beyond that event. Support requires operative continuation language tied to obligations, not merely a return step, remedy, governing-law provision, employment consequence, or action that happens near termination. Cite the survival or duration clause and any referenced section needed to identify which obligation continues. If no obligation is carried past the endpoint, treat the hypothesis as unresolved."
+      }
+    },
+    {
+      "id": "nda-independent-development-exclusion",
+      "hypothesis_ids": [
+        "nda-12"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "independently developed",
+              "independent development",
+              "developed without",
+              "without use",
+              "without reference"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Find an exclusion or permission specifically covering information independently developed by the Receiving Party without use of, access to, reference to, or reliance on Confidential Information. That provision supports the hypothesis subject to its proof conditions. Prior possession, public availability, third-party receipt, permitted use of the Disclosing Party's information, disclaimers, and authorization to conduct unrelated business do not establish independent development. Cite the exclusion lead-in, the independent-development limb, and any required no-use or documentary-proof condition."
+      }
+    },
+    {
+      "id": "nda-third-party-acquisition-exclusion",
+      "hypothesis_ids": [
+        "nda-13"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "third party",
+              "third-party",
+              "another source",
+              "lawfully obtained",
+              "right to disclose",
+              "no confidentiality obligation"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Support the hypothesis only when the document permits or excludes from protection information received or obtained by the Receiving Party from an independent third party, ordinarily conditioned on that source having a lawful right to disclose and no confidentiality restriction. Do not substitute prior possession, independent development, the Disclosing Party's disclosure to others, generic third-party ownership, a no-warranty clause, or a prohibition on unauthorized acquisition. Cite the exceptions preamble, the third-party-receipt limb, and its source-right or no-duty conditions."
+      }
+    },
+    {
+      "id": "nda-permitted-recipient-class",
+      "hypothesis_ids": [
+        "nda-7",
+        "nda-5"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "employees",
+              "employee",
+              "agents",
+              "advisors",
+              "consultants",
+              "representatives",
+              "officers",
+              "directors",
+              "third party"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Identify the clause's disclosing actor and each expressly permitted recipient class. For the employee hypothesis, a need-to-know or confidentiality-conditioned permission to disclose to the Receiving Party's employees supports the statement. For the third-party hypothesis, support requires an affirmatively permitted external class such as agents, consultants, professional advisers, or representatives; employee-only permission does not transfer. A blanket prohibition, a consent mechanism for an unspecified third party, responsibility for recipients, or permission merely to use information does not itself authorize the relevant class. Cite the permission, recipient class, purpose or need condition, and binding-condition language; cite an operative class-specific prohibition when it opposes the statement."
+      }
+    },
+    {
+      "id": "nda-oral-information-coverage",
+      "hypothesis_ids": [
+        "nda-3"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "oral",
+              "orally",
+              "verbal",
+              "verbally",
+              "visual",
+              "visually",
+              "spoken"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Determine whether orally or verbally disclosed information can qualify as Confidential Information, including through a required later written confirmation or summary. Express oral coverage supports the hypothesis subject to any timing or identification condition. Do not infer oral coverage merely from broad words such as information, communications, discussions, meetings, observation, or individually identifiable information. Cite the definition or disclosure-form rule, the oral modality, and any follow-up writing condition. If the document neither includes nor excludes oral disclosures, treat the statement as unresolved."
+      }
+    },
+    {
+      "id": "nda-agreement-negotiations-confidentiality",
+      "hypothesis_ids": [
+        "nda-10"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "fact that",
+              "negotiations",
+              "discussions",
+              "terms of this agreement",
+              "contents of this agreement",
+              "public announcement",
+              "contractual arrangements"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Inspect whether the protected subject matter includes the existence, occurrence, status, terms, or contents of the agreement or the parties' negotiations, and whether the Receiving Party is barred from disclosing it. A prohibition supports the hypothesis; do not reverse polarity merely because the clause says the information shall not be disclosed. A clause protecting only underlying Confidential Information, or merely defining contracts generally, is insufficient unless its coverage and nondisclosure duty reach the agreement or negotiations at issue. Cite both the coverage provision and operative nondisclosure duty when they are separate."
+      }
+    },
+    {
+      "id": "nda-post-return-retention-exception",
+      "hypothesis_ids": [
+        "nda-20"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "retain",
+              "retained",
+              "keep one copy",
+              "archival copy",
+              "infeasible",
+              "return or destroy",
+              "all copies"
+            ],
+            "none_phrases": [],
+            "before": 2,
+            "after": 2,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "Read the return-or-destruction rule together with every retention exception. An express right or necessity to keep an archival, compliance, backup, legally required, or infeasible-to-return copy after the return or destruction event supports the hypothesis within that exception. A requirement to return or destroy all information and copies, with no retention exception, opposes it. Ownership, possession before the event, permission to create copies, or permitted use during the agreement does not establish post-event retention. Cite the baseline disposition duty and the exception or no-retention language that resolves continued possession."
+      }
+    }
+  ],
+  "capacity": {
+    "master": 2307,
+    "with_public_scope_map": 2489,
+    "actual_one_copy_criteria": 1478
+  },
+  "statistics": {
+    "operation_counts": {
+      "CREATE": 11,
+      "UPDATE": 1,
+      "DELETE": 0,
+      "MERGE": 0
+    },
+    "explicit_noop": false,
+    "parent_skill_count": 1,
+    "published_skill_count": 12,
+    "new_ids": [
+      "nda-agreement-negotiations-confidentiality",
+      "nda-explicit-identification-universal",
+      "nda-independent-development-exclusion",
+      "nda-no-license-rights-boundary",
+      "nda-oral-information-coverage",
+      "nda-permitted-recipient-class",
+      "nda-post-return-retention-exception",
+      "nda-return-trigger-and-object",
+      "nda-survival-operative-obligations",
+      "nda-technical-only-definition",
+      "nda-third-party-acquisition-exclusion"
+    ],
+    "removed_ids": [],
+    "verbatim_retained_ids": [],
+    "revised_retained_ids": [
+      "nda-copy-permission-polarity"
+    ],
+    "serialized_library_tokens": 2307,
+    "guidance_characters": 10908,
+    "not_a_utility_score_or_publication_gate": true,
+    "non_null_criteria": 12
+  },
+  "complete_teaching_source_ids": [
+    617,
+    147,
+    314,
+    167,
+    149,
+    207,
+    328,
+    89,
+    134,
+    545,
+    319,
+    285,
+    384,
+    426,
+    390,
+    188
+  ],
+  "actual_current_parent_own_native_responses": 16,
+  "ordinary_control_model_state": "c0d59bbe7fa962b43f7ee3fe5adff98c6134c37419483263355be23fc881edb8",
+  "own_runtime_ordinary_model_state": null,
+  "all_valid_edits_null_criteria_and_NOOP_publish_without_efficacy_admission": true
+}

@@ -1,0 +1,108 @@
+{
+  "at_utc": "2026-10-27T15:23:47.807273+00:00",
+  "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+  "user_named_main_round": 3,
+  "scope": "Hourly frozen-source/package/process/original-paper and full-goal direction review; no qualification/model calls",
+  "goal_status": "active",
+  "full_objective_reviewed_and_preserved": true,
+  "frozen_manifest_sha256": "d68b70f66975f21f76a8a672953fdb801121416664210a2072602d8212627b49",
+  "config_matches_frozen": true,
+  "bound_files": 385,
+  "bound_file_changes": [],
+  "expected_packages": 50,
+  "actual_packages": 50,
+  "package_changes": {},
+  "extra_packages": [],
+  "original_v023_files": {
+    "paper/manuscript_v1_20261021.md": {
+      "sha256": "208b5acef3b65ea1dc1ac3418f02e7796bdf32c8145882b1d10a102af4426aaf",
+      "unchanged": true
+    },
+    "paper/appendix_experimental_details_20261022.md": {
+      "sha256": "67f31516c74e9f7f7077785fbc10ca78f5e78f867229bf38c6c9fea7aaa2d4eb",
+      "unchanged": true
+    },
+    "artifacts/research/manuscript_review_20261026/v023_bilingual_teacher_review_v01/legal_skill_evolution_v023_bilingual_teacher_review.pdf": {
+      "sha256": "726f555d12bdd6eefc2c285432aef991193705cfbd214112df2eaecb40d71172",
+      "unchanged": true
+    }
+  },
+  "process_identities": {
+    "958223": {
+      "expected_start_ticks": "486445918",
+      "actual_start_ticks": "486445918",
+      "unchanged": true
+    },
+    "2221402": {
+      "expected_start_ticks": "508876071",
+      "actual_start_ticks": "508876071",
+      "unchanged": true
+    }
+  },
+  "actual_services": {
+    "legal-openexempt-task-conditioned-prior30-to-formal128-20261027-run01.service": {
+      "MainPID": "2221402",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "legal-qwen3-8b-phase-dispatch.service": {
+      "MainPID": "958223",
+      "ActiveState": "active",
+      "SubState": "running"
+    }
+  },
+  "GPU_name_util_percent_usedMiB_totalMiB": "NVIDIA A40, 96, 24193, 49140",
+  "latest_progress": {
+    "at": "2026-10-27T15:23:40.375243+00:00",
+    "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+    "state": "running",
+    "stage": "b7_candidate1_replay",
+    "current_batch": 7,
+    "completed_native_calls": 1151,
+    "completed_teacher_calls": 11,
+    "teacher_attempts": 11,
+    "cross_stage_identical_wire_reuses": 2199,
+    "library_records": 8,
+    "execution_dispatch": {
+      "policy": "ordered_independent_phases_v1",
+      "native_workers": 4,
+      "teacher_workers": 1,
+      "required_max_num_seqs": 4
+    },
+    "current_arm": "candidate",
+    "current_document_id": 289,
+    "current_call": "openexempt"
+  },
+  "B6_candidate1_new_native_complete": 56,
+  "B6_candidate1_finish_counts": {
+    "stop": 56
+  },
+  "B6_firsts_complete": true,
+  "B6_final_publication_exists": true,
+  "failure_exists": false,
+  "direction": {
+    "priority": "Diagnose and repair main learning bottleneck now, not after TEST",
+    "completed_new_work": [
+      "B6 fully accepted regressions verified: 19 harmed EV sources, 13 absent from B7 teacher history, mandatory feedback empty",
+      "One already-observed TRAIN causal isolation queued in live watcher PID 2940146; at most 56 new 8B calls, zero teacher and baseline generations",
+      "Generic full/partial accepted-outcome feedback patch prepared, compiled and previewed only; not deployed, no performance benefit demonstrated"
+    ],
+    "still_required": [
+      "Finish and preserve actual third formal B7--B8 without hot edits",
+      "After actual main terminal, run the single queued TRAIN isolation before any frozen TEST or matched full controls",
+      "Use causal results to decide prospective main-source repair and necessary next formal run",
+      "Only after method freeze execute necessary matched controls and new source-disjoint frozen TEST"
+    ],
+    "live_main_source_and_queued_isolation_pins_preserved": true,
+    "no_forced_monotonicity_or_growth": true,
+    "extra_independent_main_ACE_Text_repeats": "USER-DEFERRED",
+    "no_new_model_no_TEST_semantics": true
+  },
+  "next_hourly_review_utc": "2026-10-27T16:24:00Z",
+  "integrity_ok": true,
+  "queued_diagnostic": {
+    "unit": "legal-openexempt-delayed-ev-isolation-after-third-20261027-run01.service",
+    "pid": 2940146,
+    "state": "waiting_for_actual_main_exit_no_GPU_or_teacher"
+  }
+}

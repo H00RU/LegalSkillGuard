@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-21T11:41:27.119484+00:00",
+  "receipt": {
+    "at": "2026-10-21T11:41:27.086456+00:00",
+    "stage": "B3_C1_actual_delivery_polarity_witnesses_not_causal_ablation",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-B3_C1_actual_delivery_polarity_witnesses_not_causal_ablation.tar.gz",
+        "sha256": "0b8a716315367c00e7944865bbe9ce0d7c573a08b98ae9b08950a48be5dd283f"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_goal_Run03_20261021-B3_C1_actual_delivery_polarity_witnesses_not_causal_ablation.tar.gz",
+        "sha256": "0b8a716315367c00e7944865bbe9ce0d7c573a08b98ae9b08950a48be5dd283f"
+      }
+    ],
+    "files": 4
+  },
+  "archive_devices": [
+    64528,
+    64517
+  ],
+  "complete_original_raw_already_preserved_by": "Run03_B3_C1_complete96_all288_raw_gate_preservation_20261021.json",
+  "new_model_teacher_or_TEST_calls": 0,
+  "preservation_recomputation_program": "import json,pathlib\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=pathlib.Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\";report=base/\"Run03_B3_candidate1_complete96_all288_native_wire_gate_and_claim_failure_diagnostics_20261021.json\"\na=json.loads(report.read_text());assert a[\"direct_execution_witnesses_not_causal_intervention\"][\"same_EV_PA_block_actually_present_in_both_saved_request_messages\"]\nnames=[str(report.relative_to(root)),\"docs/CURRENT_GOAL.md\",\"paper/evidence_and_completion_20261020.md\",str((base/\"Run03_B3_actual_NOOP_final_B4_first_delivery_hourly1930_preservation_20261021.json\").relative_to(root))]\nreceipt=preserve(\"legal_research_goal_Run03_20261021\",\"B3_C1_actual_delivery_polarity_witnesses_not_causal_ablation\",names)\nprint(json.dumps({\"at\":now(),\"receipt\":receipt,\"archive_devices\":[pathlib.Path(x[\"path\"]).stat().st_dev for x in receipt[\"paths\"]],\"complete_original_raw_already_preserved_by\":\"Run03_B3_C1_complete96_all288_raw_gate_preservation_20261021.json\",\"new_model_teacher_or_TEST_calls\":0},ensure_ascii=False))\n"
+}

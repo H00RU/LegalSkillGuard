@@ -1,0 +1,41 @@
+{
+  "checked_at": "2026-10-21T00:48:08+00:00",
+  "classification": "Primary-source novelty and comparison-boundary check, not implementation or comparative performance",
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2608.15165v2",
+      "title": "SkillCommit: Evolving Agent Skills through Behaviorally Validated Scope Expansion",
+      "first_public_date": "2026-08-15",
+      "verified_primary_facts": [
+        "Stage1 uses source ground truth and failed behavior to author a reference and procedural patch, then replays it.",
+        "Higher-level refinement hides source identities and ground truth; source replay determines supported scope.",
+        "Its OpenExempt evaluation uses the Advanced suite, independent task libraries, different users and decoding, and 210 construction /105 test tasks per family."
+      ],
+      "no_author_implementation_repository_verified_from_checked_paper_links": true
+    },
+    {
+      "url": "https://github.com/ace-agent/ace",
+      "pinned_local_author_commit": "82709de050e1db6e6ef2f07bcb0393560b94992a",
+      "local_audited_files": [
+        "third_party/ace/prompts/curator.py",
+        "legal_skill_guard/learning/ace_native.py",
+        "legal_skill_guard/learning/openexempt_ace.py",
+        "experiments/openexempt_ace_online.py"
+      ],
+      "verified_local_facts": [
+        "Pinned Curator permits ADD only; the local adapter preserves that semantics, not an intentionally disabled native DELETE.",
+        "Batch-delayed labels, one batch Curator, fixed single Qwen3-8B and existing teacher roles are declared adaptations, not a full author-default reproduction.",
+        "8192-token ACE and 4096-token main libraries, different actual TRAIN inference and teacher costs, must remain disclosed."
+      ]
+    }
+  ],
+  "implications_for_this_goal": [
+    "Label-assisted repair and source replay are not this project's original contribution.",
+    "Current public co-visibility commit units need actual whole-bank comparison; existing same-proposal B2 rescue is not that algorithm ablation.",
+    "Carried partial/rejected feedback needs the declared first_commit comparison; distinct actual compute prevents a pure information-only causal claim.",
+    "Current 8B/custom128 results cannot be ranked as published SkillCommit SOTA.",
+    "ACE, static, independent repetitions, two ablations and final sealed TEST remain incomplete; this audit does not replace them."
+  ],
+  "no_new_inference_teacher_TEST_calls": 0,
+  "no_live_actor_or_teacher_or_admission_source_change": true
+}

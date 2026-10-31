@@ -1,0 +1,199 @@
+{
+  "at": "2026-10-24T07:06:41.607613+00:00",
+  "classification": "Complete paired same16-source B2 first forecasts, descriptive TRAIN not finalTEST or completed ablation",
+  "source_cases": 16,
+  "task_views": 32,
+  "current_wholebank_bank_sha256": "2e5c4532cb9cb03831f86edb788597a05e5349dedf980d21a57af393fb080979",
+  "empty_F1_percent": {
+    "EC": 68.70535714285714,
+    "EV": 64.51388888888889
+  },
+  "whole_bank_F1_percent": {
+    "EC": 70.23065476190476,
+    "EV": 65.00496031746032
+  },
+  "original_main_F1_percent": {
+    "EC": 83.67683531746032,
+    "EV": 74.44940476190477
+  },
+  "whole_minus_empty_pp": {
+    "EC": 1.5252976190476275,
+    "EV": 0.4910714285714324
+  },
+  "main_minus_whole_pp": {
+    "EC": 13.446180555555554,
+    "EV": 9.444444444444455
+  },
+  "all32_actual_empty_answers_original_scores_and_source_keys_match_main": true,
+  "whole_bank_paired_task_counts": {
+    "tasks": 32,
+    "help": 6,
+    "hurt": 3,
+    "ties": 23,
+    "mean_f1_difference": 0.010081845238095247
+  },
+  "invalid_EC_EV": [
+    0,
+    0
+  ],
+  "guide_delivery": {
+    "whole_bank_nonempty": 15,
+    "main_nonempty": 28,
+    "denominator32_taskviews": true,
+    "not_independent_or_guidance_quality_causality": true
+  },
+  "wholebank_actual_B2_native_calls": 47,
+  "own_B1_equals_current_bank_by_B2_design": {
+    "tasks": 32,
+    "help": 0,
+    "hurt": 0,
+    "ties": 32,
+    "mean_f1_difference": 0
+  },
+  "teacher3_request_saved": true,
+  "teacher3_response_saved": true,
+  "no_new_model_teacher_tokenizer_or_grader_call": true,
+  "no_change_or_TEST_access": true,
+  "actual_teacher3_operations": [
+    {
+      "operation": "UPDATE",
+      "target_ids": [
+        "federal-ec-wildcard-alternative"
+      ],
+      "id": "federal-ec-wildcard-alternative",
+      "tasks": [
+        "EC",
+        "EV"
+      ],
+      "jurisdiction": "FEDERAL"
+    }
+  ],
+  "teacher3_usage": {
+    "input_tokens": 215289,
+    "cached_input_tokens": 0,
+    "output_tokens": 2598,
+    "reasoning_output_tokens": 2070
+  },
+  "actual_teacher3_update": {
+    "actual_proposal": {
+      "operations": [
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "federal-ec-wildcard-alternative"
+          ],
+          "skill": {
+            "id": "federal-ec-wildcard-alternative",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Federal exemptions are an allowable namespace and the facts establish the debtor's ownership of an estate asset.",
+                  "procedure": "Test 11 U.S.C. § 522(d)(5) independently for every such asset because it covers any property. Include it alongside every matching category-specific exemption; its dollar limit restricts value, not EC eligibility.",
+                  "avoid_when": "Do not apply it when Federal is not allowable or ownership is not established, and do not list § 522(b), § 522(d), or § 522(m) as asset exemptions."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Federal exemptions are allowable and the facts establish the debtor's ownership and value of an estate asset.",
+                  "procedure": "Report 11 U.S.C. § 522(d)(5) once as an independent alternative alongside every matching category-specific exemption. Evaluate that alternative without allocating exemptions to other assets: claim the lesser of the asset value and $1,475 plus up to $13,950 of § 522(d)(1) unused in that alternative. In a joint case, § 522(m) applies this calculation separately to each spouse's interest, permitting up to $30,850 total for jointly owned property.",
+                  "avoid_when": "Do not apply it when Federal is not allowable or ownership is not established, do not subtract claims made under separate asset-exemption alternatives, and do not report § 522(m), § 522(b), or § 522(d) as an asset exemption."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          "source_case_ids": [
+            198,
+            200,
+            203,
+            205,
+            206,
+            208,
+            210,
+            211,
+            212
+          ],
+          "rationale": "In these seen EV cases, the parent repeatedly returned category-specific federal exemptions but omitted § 522(d)(5), although the released targets include it independently for owned vehicles, trade tools, residences, household goods, apparel, jewelry, and musical instruments. The existing EC rule already states the correct eligibility boundary and is retained verbatim; the added EV block supplies only the missing independent amount calculation, joint-debtor treatment, and non-exemption citation exclusions. Unlike the rejected ALL-jurisdiction proposal, this edit is confined to the Federal namespace and instructs the actor to report the alternative only once."
+        }
+      ],
+      "noop_reason": null
+    },
+    "expected_public_wire_footprint_for_all64_seen_tasks_only_not_effect": {
+      "EC_unchanged": 32,
+      "EV_changed": 21,
+      "EV_unchanged": 11
+    },
+    "actual_teacher_usage": {
+      "input_tokens": 215289,
+      "cached_input_tokens": 0,
+      "output_tokens": 2598,
+      "reasoning_output_tokens": 2070
+    },
+    "elapsed_seconds": 66.239,
+    "teacher_model": "gpt-5.6-sol",
+    "fresh_no_tools": true,
+    "public_current_and_historical_sources": [
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198,
+      199,
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209,
+      210,
+      211,
+      212
+    ],
+    "future_labels_not_read_by_observer": true
+  },
+  "source_artifacts": {
+    "current_firsts": "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/batches/b2_prequential.json",
+    "current_records": "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/batches/b2_prequential_records.json",
+    "original_main_firsts": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b2_prequential.json",
+    "original_main_records": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b2_prequential_records.json",
+    "parent_publication": "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/publications/b1.json",
+    "actual_teacher_request": "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/teacher/b2_candidate1/wire_request.json",
+    "actual_teacher_response": "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/teacher/b2_candidate1/response.json"
+  },
+  "evidence_boundaries": [
+    "B2 means cover all16 current sources and both32 paired endpoint views, before current feedback; neither candidate replay nor independent TEST.",
+    "B2 current and own-B1 banks are the same by construction; zero difference does not test continued B2 updating.",
+    "Main comparison uses its original preB2 bank, not its final seven-record B8 bank.",
+    "Different teacher policy inputs and learned banks mean the descriptive comparison does not isolate a unique causal scope mechanism.",
+    "Guide nonempty counts describe delivered guidance, not guidance quality, independent samples or proof of coverage causality.",
+    "Teacher3 is one proposed UPDATE; public expectedEC32unchanged/EV21changed/EV11unchanged footprints are not measured new performance or a publication.",
+    "Original scores and failed examples remain unchanged; no fresh model, teacher, tokenizer or grader call by this analysis.",
+    "Full learning controls, independent builds, frozen16condition isolatedTEST and final statistics are still incomplete."
+  ]
+}

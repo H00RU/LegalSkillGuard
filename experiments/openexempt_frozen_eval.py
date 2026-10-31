@@ -10,6 +10,7 @@ import argparse
 import ast
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import fcntl
+import importlib.metadata
 import json
 import os
 import signal
@@ -20,11 +21,15 @@ from pathlib import Path
 import numpy as np
 
 from experiments.openexempt_ace_online import ACEOnline
-from experiments.openexempt_online import Online, actor_payload, freeze, paired_effect, preserve
+from experiments.openexempt_online import (
+    CONSOLIDATION_PHASE, Online, actor_payload, freeze, observed_consolidation_inputs,
+    paired_effect, preserve,
+)
 from experiments.openexempt_trace2skill import validate_profile as validate_trace2skill_profile
+from experiments.openexempt_teacher_evidence_control import validate_withheld_request
 from legal_skill_guard.experiment.storage import RunStore, safe_component
 from legal_skill_guard.learning.experiment import INITIAL_PLAYBOOK, Comparison, now, read, sha
-from legal_skill_guard.learning.legal_namespace import validate_scopes
+from legal_skill_guard.learning.legal_namespace import public_asset_catalog, validate_scopes
 from legal_skill_guard.learning.openexempt_ace import generator_payload
 from legal_skill_guard.learning import runtime_sources
 from legal_skill_guard.learning.task_scoped_skills import validate_scoped_bank
@@ -60,6 +65,96 @@ FINAL_STAGE = "final_three_build_confirmatory"
 SUPPLEMENT_STAGE = "adaptive_single_build_fixed_benchmark_supplement"
 SUPPLEMENT_PROTOCOL = runtime_sources.ADAPTIVE_PROTOCOL
 SUPPLEMENT_DESIGN = "historical_whole_task_local_comparators_v1"
+SOURCE_DISJOINT_STAGE = "native_claim_single_build_source_disjoint_IID"
+SOURCE_DISJOINT_PROTOCOL = (
+    "docs/research/OPENEXEMPT_THIRD_FORMAL_MATCHED_POLICIES_AND_IID_EVAL_20261027.md"
+)
+SOURCE_DISJOINT_PACKET = "data/packets/openexempt_IID128_prospective_TEST_20261027"
+SOURCE_DISJOINT_PACKET_SHA256 = "ec411ca55c7463d3c8c115d4a18a4afaf14d7ca3a5579fe3c125d965f50886e7"
+SOURCE_DISJOINT_ARMS = {
+    "empty": ("strong_empty", "direct", None),
+    "static": ("static_law_only", "direct", "configs/openexempt_direct_law_only_static_20261021_run03.json"),
+    "native_claim45": ("evolved", "direct", "configs/openexempt_native_claim_feedback_public_assets128_20261027_run01.json"),
+    "native_claim_own_B1_45": ("B1_frozen", "direct", "configs/openexempt_native_claim_feedback_public_assets128_20261027_run01.json"),
+    "whole_bank": ("ablation", "direct", "configs/openexempt_native_claim_whole_bank_public_assets128_20261027_run01.json"),
+    "legal_scope": ("ablation", "direct", "configs/openexempt_native_claim_legal_scope_public_assets128_20261027_run01.json"),
+    "ACE45": ("experience", "ace", "configs/openexempt_ace_public_assets128_20261023_run04.json"),
+    "ACE_common45": ("experience", "direct", "configs/openexempt_ace_public_assets128_20261023_run04.json"),
+    "text45": ("experience", "direct", "configs/openexempt_trace2skill_text_public_assets128_seed45_20261023_run02.json"),
+}
+CONTINUED_SOURCE_DISJOINT_STAGE = "completed_stream_continuation_source_disjoint_IID"
+CONTINUED_SOURCE_DISJOINT_PROTOCOL = (
+    "docs/research/OPENEXEMPT_CONTINUED_BANK_SOURCE_DISJOINT_EVALUATION_20261029.md"
+)
+CONTINUED_SOURCE_DISJOINT_ARMS = {
+    **{name: value for name, value in SOURCE_DISJOINT_ARMS.items()
+       if name not in {"whole_bank", "legal_scope"}},
+    "task_consolidated45": ("evolved", "direct",
+        "configs/openexempt_completed128_task_consolidation_20261028_run01.json"),
+    "joint_consolidated45": ("ablation", "direct",
+        "configs/openexempt_completed128_joint_consolidation_20261029_run01.json"),
+}
+CONTINUED_ONLINE_SHA256 = "4f16fdba0c87a159267c37569fe330b3b8a3016e869fb7d237395b7c00ceaff5"
+CONTINUED_SOURCE_SNAPSHOTS = {
+    "3213e92d8e3a3c2c3b4e565dd3553a17ba9b2e425e68e607232749363e8c1985":
+        "openexempt_online_acquisition",
+    "a6d5e0be6b87b230c8a777535a0ddda2dab126cf5c4fa188b54ddda4d4611a66":
+        "openexempt_online_task_continuation",
+}
+UTILITY_SOURCE_DISJOINT_STAGE = "complete_output_utility_source_disjoint_IID_v6"
+UTILITY_SOURCE_DISJOINT_PROTOCOL = (
+    "docs/research/OPENEXEMPT_V6_FINAL_SOURCE_ISOLATED_FROZEN_EVALUATION_20261030.md"
+)
+UTILITY_SOURCE_DISJOINT_PACKET = "data/packets/openexempt_IID128_confirmatory_TEST_20261030"
+UTILITY_SOURCE_DISJOINT_PACKET_SHA256 = "ff29ce066a21e9d4040ac7f51f1f855489dc7ec0723d611e9ec46cb851f3220b"
+UTILITY_SOURCE_DISJOINT_ARMS = {
+    **{name: value for name, value in SOURCE_DISJOINT_ARMS.items()
+       if name in {"empty", "static", "ACE45", "ACE_common45", "text45"}},
+    "utility45": ("evolved", "direct", "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json"),
+    "utility_own_B1_45": ("B1_frozen", "direct", "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json"),
+    "strict45": ("ablation", "direct", "configs/openexempt_v6_strict_policy_control_public_assets128_20261030_run01.json"),
+    "no_execution45": ("ablation", "direct", "configs/openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01.json"),
+    "projection45": ("version_reference", "direct", "configs/openexempt_task_projection_public_assets128_20261029_run01.json"),
+}
+SOURCE_DISJOINT_STAGES = (
+    SOURCE_DISJOINT_STAGE, CONTINUED_SOURCE_DISJOINT_STAGE, UTILITY_SOURCE_DISJOINT_STAGE,
+)
+
+
+def source_disjoint_profile(cfg):
+    """Separate explicit prospective epochs; never relabel an incomplete source."""
+    if cfg.get("evaluation_stage") == UTILITY_SOURCE_DISJOINT_STAGE:
+        return (UTILITY_SOURCE_DISJOINT_ARMS, UTILITY_SOURCE_DISJOINT_PROTOCOL, "utility45")
+    if cfg.get("evaluation_stage") == CONTINUED_SOURCE_DISJOINT_STAGE:
+        return (CONTINUED_SOURCE_DISJOINT_ARMS, CONTINUED_SOURCE_DISJOINT_PROTOCOL,
+                "task_consolidated45")
+    if cfg.get("evaluation_stage") == SOURCE_DISJOINT_STAGE:
+        return SOURCE_DISJOINT_ARMS, SOURCE_DISJOINT_PROTOCOL, "native_claim45"
+    raise ValueError("Unknown source-disjoint evaluation epoch")
+
+
+def own_B1_reference(cfg, arm):
+    source = arm["source_config"]
+    if (cfg.get("evaluation_stage") == CONTINUED_SOURCE_DISJOINT_STAGE
+            and arm["name"] in {"task_consolidated45", "joint_consolidated45"}):
+        source = SOURCE_DISJOINT_ARMS["native_claim45"][2]
+    names = [other["name"] for other in cfg["arms"]
+             if other["role"] == "B1_frozen" and other["source_config"] == source]
+    if len(names) != 1:
+        raise ValueError("Every evolved bank needs its unique actual acquisition B1 reference")
+    return names[0]
+
+
+SOURCE_DISJOINT_LEGACY_RECEIPTS = {
+    "configs/openexempt_adaptive_supplement_TEST128_20261027_run01.json":
+        "548005dd7feaa41260bbbe278ce6300fc9546fab9645445ab97dbb2e96904a1a",
+    "configs/openexempt_adaptive_supplement_TEST128_20261027_run01.frozen.json":
+        "21aa08e969cd56144c7f66b80eab0275ccf114293cda1840dafeb89c37af0188",
+    "runs/legal_openexempt_adaptive_supplement_TEST128_20261027_run01/completion.json":
+        "0120d9f140ed1d6bd92c836141e2168e8bb3b247a323b8ba76f0020a389416d7",
+    "runs/legal_openexempt_adaptive_supplement_TEST128_20261027_run01/terminal_preservation.json":
+        "41aed51690f777482ddeb0e368536e37c76c674ecfa9777650a04396cb5d0ad4",
+}
 INITIAL_SOURCE_SNAPSHOTS = {
     "README.md", "tests/test_openexempt_contract.py",
     "experiments/openexempt_frozen_eval.py", "tests/test_openexempt_frozen_eval.py",
@@ -296,6 +391,31 @@ def check_secondary_contrasts(cfg, source_configs):
         variants.add(variant)
 
 
+def pooled_complete_claim_metrics(records):
+    """Descriptive totals from original grader fields, never a replacement score."""
+    result = {}
+    fields = ("full_output_claim_tp", "full_output_claim_fp", "full_output_claim_fn")
+    for family in FAMILIES:
+        rows = [r for r in records if r["family"] == family]
+        missing = [r["case_id"] for r in rows if any(k not in r["score"] for k in fields)]
+        if missing:
+            result[family] = {"available": False, "tasks": len(rows), "f1": None,
+                "missing_original_count_case_ids": missing,
+                "reason": "original_grader_did_not_emit_complete_claim_counts; no subset or answer recovery"}
+            continue
+        if any(type(r["score"][k]) is not int or r["score"][k] < 0 for r in rows for k in fields):
+            raise ValueError("Pooled claim audits require the original nonnegative integer counts")
+        tp, fp, fn = (sum(r["score"][k] for r in rows) for k in fields)
+        denominator = 2 * tp + fp + fn
+        result[family] = {"available": bool(denominator), "tasks": len(rows),
+            "correct_claims": tp, "extra_or_incorrect_predictions": fp,
+            "missing_or_incorrect_targets": fn,
+            "precision": tp / (tp + fp) if tp + fp else None,
+            "recall": tp / (tp + fn) if tp + fn else None,
+            "f1": 2 * tp / denominator if denominator else None}
+    return result
+
+
 def paired_source_statistics(cfg, records):
     """The declared conditional paired source bootstrap; never load questions or gold."""
     names = {a["name"] for a in cfg["arms"]}
@@ -320,16 +440,25 @@ def paired_source_statistics(cfg, records):
     if (len(keys) != cfg["source_cases"] or len(set(identities.values())) != len(keys)
             or any(set(grid) != expected for grid in grids.values())):
         raise ValueError("Complete the whole source-paired matrix before inference statistics")
+    source_disjoint = cfg.get("evaluation_stage") in SOURCE_DISJOINT_STAGES
     primary, secondary = cfg["primary_contrasts"], cfg.get("secondary_contrasts", [])
-    if not primary or len(secondary) != 2:
+    if not primary or len(secondary) != (0 if source_disjoint else 2):
         raise ValueError("Prespecify the complete primary and two-ablation secondary families")
+    if source_disjoint:
+        profile, _, target = source_disjoint_profile(cfg)
+        expected = {(target, name) for name in profile if name != target}
+        observed = {(c["after"][0], c["before"][0]) for c in primary
+                    if len(c["after"]) == len(c["before"]) == 1}
+        count = len(profile) - 1
+        if len(primary) != count or observed != expected or len({c["name"] for c in primary}) != count:
+            raise ValueError("Retain every predeclared paired contrast and both native endpoints")
     contrasts = primary + secondary
     matrices = {name: np.asarray([[grid[key, f] for f in FAMILIES] for key in keys])
                 for name, grid in grids.items()}
     differences, repeated = [], []
     initial = cfg.get("evaluation_stage") == INITIAL_STAGE
     supplement = cfg.get("evaluation_stage") == SUPPLEMENT_STAGE
-    single_build = initial or supplement
+    single_build = initial or supplement or source_disjoint
     expected_main_banks = 1 if single_build else 3
     for j, contrast in enumerate(contrasts):
         after = np.stack([matrices[n] for n in contrast["after"]])
@@ -347,15 +476,19 @@ def paired_source_statistics(cfg, records):
                          "difference_range_pp": (100 * np.stack([
                              delta.mean(axis=1).min(axis=0), delta.mean(axis=1).max(axis=0)])).tolist()})
     delta = np.stack(differences, axis=1)
-    rng = np.random.Generator(np.random.PCG64(2026102192))
+    bootstrap_seed = (2026103092 if cfg.get("evaluation_stage") == UTILITY_SOURCE_DISJOINT_STAGE
+                      else 2026102792 if source_disjoint else 2026102192)
+    rng = np.random.Generator(np.random.PCG64(bootstrap_seed))
     indices = rng.integers(len(keys), size=(20000, len(keys)))
     draws = delta[indices].mean(axis=1)
     m, secondary_m = len(primary) * len(FAMILIES), len(secondary) * len(FAMILIES)
     ordinary = np.quantile(draws, [0.025, 0.975], axis=0, method="linear")
-    adjusted = np.concatenate((
-        np.quantile(draws[:, :len(primary)], [0.025 / m, 1 - 0.025 / m], axis=0, method="linear"),
-        np.quantile(draws[:, len(primary):], [0.025 / secondary_m, 1 - 0.025 / secondary_m],
-                    axis=0, method="linear")), axis=1)
+    adjusted = np.quantile(draws[:, :len(primary)], [0.025 / m, 1 - 0.025 / m],
+                           axis=0, method="linear")
+    if secondary:
+        adjusted = np.concatenate((adjusted,
+            np.quantile(draws[:, len(primary):], [0.025 / secondary_m, 1 - 0.025 / secondary_m],
+                        axis=0, method="linear")), axis=1)
     result = {}
     for j, contrast in enumerate(contrasts):
         result[contrast["name"]] = {"after": contrast["after"], "before": contrast["before"],
@@ -371,26 +504,29 @@ def paired_source_statistics(cfg, records):
                                         int((d < -1e-12).sum())],
                 "sources_difference_at_most_minus_10pp": int((d <= -0.10).sum()),
                 "paired_source_differences_pp": (100 * d).tolist()}
-    return {"protocol": ("conditional_development_informed_fixed_benchmark_supplement" if supplement else
+    return {"protocol": ("conditional_frozen_bank_source_disjoint_IID" if source_disjoint else
+                         "conditional_development_informed_fixed_benchmark_supplement" if supplement else
                          "conditional_single_build_initial_descriptive" if initial else
                          "conditional_paired_source_bootstrap_three_learning_runs"),
             "evaluation_stage": cfg.get("evaluation_stage", "legacy_final"),
             "initial_table_not_a_repeat_selection_or_stopping_gate": initial,
-            "confirmatory_analysis": not single_build,
+            "confirmatory_analysis": source_disjoint or not single_build,
+            "source_disjoint_confirmation_for_actual_frozen_banks": source_disjoint,
             "development_informed_fixed_benchmark_supplement": supplement,
-            "experience_replication_design": ("single_actual_seed45_fixed_benchmark_banks" if supplement else
+            "experience_replication_design": ("single_actual_seed45_extra_learning_repeats_user_deferred" if source_disjoint else
+                "single_actual_seed45_fixed_benchmark_banks" if supplement else
                 cfg.get("experience_replication_design", "legacy_three_seed_matched")),
             "shared_experience_predictions_not_independent_learning_repeats": (
                 single_build or cfg.get("experience_replication_design") == SINGLE_BASELINE_DESIGN),
             "sources": len(keys), "source_keys_sorted": keys, "endpoints": list(FAMILIES),
-            "bootstrap_draws": 20000, "bootstrap_seed": 2026102192,
+            "bootstrap_draws": 20000, "bootstrap_seed": bootstrap_seed,
             "rng": "NumPy Generator PCG64", "numpy_version": np.__version__, "quantile_method": "linear",
             "primary_family_comparisons": m,
             "contrasts": {c["name"]: result[c["name"]] for c in primary},
             "secondary_family_comparisons": secondary_m,
             "secondary_contrasts": {c["name"]: result[c["name"]] for c in secondary},
-            "secondary_single_learning_seed45_not_three_repeats_or_matched_actual_compute": True,
-            "all_primary_adjusted_lower_bounds_positive": None if single_build else all(
+            "secondary_single_learning_seed45_not_three_repeats_or_matched_actual_compute": None if source_disjoint else True,
+            "all_primary_adjusted_lower_bounds_positive": None if initial or supplement else all(
                 endpoint["adjusted_lower_positive"] for c in primary
                 for endpoint in result[c["name"]]["endpoints"].values()),
             "conditional_on_actual_learned_banks_and_fixed_decoding_not_algorithm_population": True,
@@ -957,8 +1093,700 @@ def check_initial_evaluation(cfg):
     return extras
 
 
+def check_source_disjoint_plan(cfg):
+    """Validate the complete new design before opening any source or TEST data."""
+    safe_component(cfg["run_id"])
+    profile, protocol, target = source_disjoint_profile(cfg)
+    utility = cfg.get("evaluation_stage") == UTILITY_SOURCE_DISJOINT_STAGE
+    packet = UTILITY_SOURCE_DISJOINT_PACKET if utility else SOURCE_DISJOINT_PACKET
+    packet_sha = UTILITY_SOURCE_DISJOINT_PACKET_SHA256 if utility else SOURCE_DISJOINT_PACKET_SHA256
+    if (cfg.get("protocol") != protocol
+            or cfg.get("statistics_plan") != protocol
+            or cfg.get("evaluation_role") != "sealed_frozen_comparison"
+            or cfg.get("final_matrix_frozen") is not True
+            or cfg.get("no_validation_set") is not True
+            or cfg.get("benchmark_development_status") != "source_disjoint_IID_frozen_bank_confirmation"
+            or cfg.get("independent_learning_repetitions") != "user_deferred"
+            or cfg.get("external_text_adaptation") != "trace2skill_text_offline_v1"
+            or cfg.get("reference_arm") != "empty"
+            or cfg.get("execution_contract") != "direct_statutory_claims"
+            or cfg.get("execution_contract_version") != 14
+            or cfg.get("library_token_hard_cap") != 4096
+            or cfg.get("input_packet") != packet + "/inputs.json"
+            or cfg.get("grading_directory") != packet + "/grading_only"
+            or cfg.get("input_packet_sha256") != packet_sha
+            or cfg.get("inference_request_workers") != 4
+            or cfg.get("inference_dispatch_protocol") != DISPATCH_PROTOCOL
+            or cfg.get("inference_dispatch_policy") != "four_workers_one_instance_exact_wire_lock_no_retry"
+            or cfg.get("inference_environment") != "artifacts/live_8b_environment_phase_dispatch_20261025.json"
+            or "teacher" in cfg or cfg.get("initial_evaluation") is not None
+            or cfg.get("future_learning_plan") is not None):
+        raise ValueError("Declare the source-disjoint frozen-bank design without learning or old TEST reuse")
+    for key, expected in (("source_cases", 128), ("training_source_cases", 128),
+                          ("training_batch_source_cases", 16)):
+        if type(cfg.get(key)) is not int or cfg[key] != expected:
+            raise ValueError("Retain the full 128-source, eight-by-sixteen learning comparison")
+    if any(cfg.get("generation", {}).get(k) != v for k, v in FINAL_DECODING.items()):
+        raise ValueError("Retain the common frozen decoding and native output budget")
+    arms = cfg.get("arms", [])
+    if len(arms) != len(profile) or {a.get("name") for a in arms} != set(profile):
+        raise ValueError("Freeze every declared condition, including both interfaces of the same ACE bank")
+    hashes = {"source_config_sha256", "source_frozen_sha256", "source_completion_sha256",
+              "source_publication_sha256", "source_terminal_preservation_sha256", "bank_sha256"}
+    for arm in arms:
+        name = arm["name"]
+        if (arm.get("role"), arm.get("backend"), arm.get("source_config")) != profile[name]:
+            raise ValueError("Do not rename historical banks or replace the matched policy sources")
+        fields = {"name", "role", "backend"}
+        if name != "empty":
+            fields |= {"source_config", *hashes}
+        if name == "ACE_common45":
+            fields |= {"representation_artifact", "representation_sha256"}
+        if utility and name in {"utility45", "utility_own_B1_45", "strict45", "no_execution45", "projection45"}:
+            fields |= {"source_snapshot", "source_snapshot_sha256"}
+        if set(arm) != fields:
+            raise ValueError("Bind each actual source, final publication and representation explicitly")
+        for key in fields & (hashes | {"representation_sha256", "source_snapshot_sha256"}):
+            value = arm[key]
+            if not isinstance(value, str) or len(value) != 64 or set(value) - set("0123456789abcdef"):
+                raise ValueError("Completed source hashes, not placeholders, are required")
+    primary = cfg.get("primary_contrasts", [])
+    expected = {(target, name) for name in profile if name != target}
+    actual = {(c["after"][0], c["before"][0]) for c in primary
+              if len(c.get("after", [])) == len(c.get("before", [])) == 1}
+    if (len(primary) != len(profile) - 1 or len({c["name"] for c in primary}) != len(profile) - 1
+            or actual != expected or cfg.get("secondary_contrasts", []) != []):
+        raise ValueError("Keep every declared paired contrast in one native-endpoint primary family")
+    for arm in arms:
+        if arm["role"] == "evolved":
+            own_B1_reference(cfg, arm)
+
+
+def ace_common_direct_bank(playbook):
+    """Lossless inference-only wrapper, not a rewritten or newly learned ACE bank."""
+    if not isinstance(playbook, str):
+        raise ValueError("The actual native ACE playbook must be text")
+    return [{"id": "ace-document", "hypothesis_ids": ["EC", "EV"], "guidance": {
+        "jurisdiction": "ALL", "operators": [], "by_task": [{"tasks": ["EC", "EV"],
+            "when": "Apply relevant instructions from this complete learned skill.",
+            "procedure": playbook,
+            "avoid_when": "Respect the skill's stated conditions and exceptions."}]}}]
+
+
+def continued_source_snapshot(digest):
+    """Resolve only the three exact, preserved execution epochs for this stage."""
+    if digest == CONTINUED_ONLINE_SHA256:
+        path = ROOT / "experiments/openexempt_online.py"
+    elif digest in CONTINUED_SOURCE_SNAPSHOTS:
+        path = ROOT / ("artifacts/research/openexempt_legal_scope_20261020/"
+            "source_snapshots/continued_eval_20261029/"
+            f"{CONTINUED_SOURCE_SNAPSHOTS[digest]}__{digest}.py")
+    else:
+        raise ValueError("No approved continued-bank source epoch for this hash")
+    if not path.is_file() or sha(path) != digest:
+        raise ValueError("The exact preserved continued-bank source changed")
+    return path
+
+
+def continued_bank_source(name, source, frozen, complete, publication, out, main, main_frozen):
+    """Validate real TRAIN continuation, never select a proposal by its scores."""
+    coordinate = name == "task_consolidated45"
+    policy = "task_projection_coordinate" if coordinate else "joint_fixed_steps"
+    digest = ("a6d5e0be6b87b230c8a777535a0ddda2dab126cf5c4fa188b54ddda4d4611a66"
+              if coordinate else CONTINUED_ONLINE_SHA256)
+    shared = ("generation", "phase_dispatch", "input_packet", "grading_directory",
+              "inference_environment", "execution_contract", "execution_contract_version")
+    if (source.get("training_phase") != CONSOLIDATION_PHASE
+            or source.get("teacher_update_policy") != policy
+            or source.get("teacher_evidence_contract") != "native_claim_task_projection_updates_v5"
+            or source.get("candidate_feedback_policy") != "carry_partial_and_refine"
+            or source.get("max_candidate_attempts") != 2
+            or source.get("task_update_schedule") != (["EC", "EV"] if coordinate else None)
+            or source.get("source_cases") != 128 or source.get("batch_source_cases") != 16
+            or source.get("planned_batches") != 1
+            or source.get("library_token_hard_cap") != 4096
+            or source.get("skill_commit_policy") != "adaptive_legal"
+            or source.get("adaptive_commit_objective") != "seen_source_min_family_gain_then_mean_v1"
+            or source.get("initial_library_prior_exposure_distinct_sources") != 128
+            or source.get("consolidation_parent_run") != main["run_id"]
+            or source.get("consolidation_parent_config") != SOURCE_DISJOINT_ARMS["native_claim45"][2]
+            or source.get("initial_library_publication") != f"runs/{main['run_id']}/publications/b8.json"
+            or any(source.get(k) != main.get(k) for k in shared)
+            or frozen["files"].get("experiments/openexempt_online.py") != digest
+            or frozen["files"].get(source["input_packet"])
+                != main_frozen["files"].get(main["input_packet"])
+            or frozen["packages"] != main_frozen["packages"]
+            or any(frozen["files"].get(p) != h for p, h in main_frozen["files"].items()
+                   if p.startswith("legal_skill_guard/"))
+            or complete.get("status") != "completed_seen_TRAIN_consolidation"
+            or complete.get("training_phase") != CONSOLIDATION_PHASE
+            or complete.get("execution_dispatch") != main["phase_dispatch"]
+            or complete.get("actual_teacher_responses") != 2
+            or not 0 <= complete.get("actual_native_calls", -1) <= (256 if coordinate else 512)):
+        raise ValueError("Require the actual declared completed continuation and its exact source epoch")
+    rows, before, _, _, parent_sources, parent_complete = observed_consolidation_inputs(source)
+    parent_path = ROOT / source["initial_library_publication"]
+    parent = read(parent_path)["bank"]
+    initial_path, start_path = out / "initialization.json", out / "consolidation_started.json"
+    result_path = out / "consolidation_result.json"
+    initial, start, result = read(initial_path), read(start_path), read(result_path)
+    if (initial.get("bank") != parent or initial.get("initial_case_exposure") != 128
+            or initial.get("parent_publication") != source["initial_library_publication"]
+            or start.get("parent_bank_sha256") != csha(parent)
+            or start.get("prior_source_exposure") != 128
+            or start.get("imported_exact_native_origins") != 512
+            or start.get("all_seen_source_ids") != sorted({r["case_id"] for r in rows})
+            or start.get("before_metrics") != metrics(before)
+            or publication.get("parent_bank_sha256") != csha(parent)
+            or publication.get("teacher_update_policy") != policy
+            or len(publication.get("training_decisions", [])) != 2):
+        raise ValueError("A continuation must start from the same actual B8 and full observed TRAIN population")
+    extras = {*parent_sources, parent_path, initial_path, start_path, result_path,
+              continued_source_snapshot(digest)}
+    actual_bank, actual_records = parent, before
+    grid = {(r["case_id"], r["family"]) for r in rows}
+    for step, decision in enumerate(publication["training_decisions"], 1):
+        wire_path = out / "teacher" / f"b1_candidate{step}" / "wire_request.json"
+        response_path = wire_path.with_name("response.json")
+        body = json.loads(read(wire_path)["user_prompt"])
+        task = tuple(FAMILIES)[step - 1] if coordinate else None
+        evidence = body["already_seen_training"]
+        families = {r["family"] for r in evidence}
+        if (csha(body["current_parent_library"]) != csha(actual_bank)
+                or body.get("teaching_task") != task
+                or len(evidence) > 32
+                or families != ({task} if coordinate else set(FAMILIES))
+                or body["training_evidence_manifest"]["consolidation_scope"]
+                    ["all_optimization_source_ids"] != start["all_seen_source_ids"]):
+            raise ValueError("Both scheduled teachers must use their actual parent and bounded task evidence")
+        extras.update((wire_path, response_path))
+        if not response_path.is_file():
+            raise ValueError("A declared teacher opportunity needs its actual completed response")
+        if decision.get("accepted"):
+            bank, records = decision["candidate"], decision["actual_replay"]
+            if (decision.get("attempt_parent_bank_sha256") != csha(actual_bank)
+                    or len(records) != len(grid)
+                    or {(r["case_id"], r["family"]) for r in records} != grid
+                    or any(r["bank_sha256"] != csha(bank) for r in records)):
+                raise ValueError("Use only actual committed TRAIN states, never the last rejected proposal")
+            actual_bank, actual_records = bank, records
+    if (publication["bank"] != actual_bank or complete.get("bank") != actual_bank
+            or publication.get("bank_sha256") != csha(actual_bank)
+            or result.get("bank_sha256") != csha(actual_bank)
+            or result.get("before") != metrics(before) or result.get("after") != metrics(actual_records)
+            or result.get("actual_new_teacher_responses") != 2
+            or result.get("linked_acquisition_teacher_responses") != parent_complete["actual_teacher_responses"]
+            or result.get("total_linked_teacher_responses") != parent_complete["actual_teacher_responses"] + 2
+            or complete.get("consolidation_result") != result):
+        raise ValueError("The final bank and all costs must retain the actual acquisition/continuation chain")
+    return actual_bank, extras
+
+
+def utility_source_disjoint_banks(cfg):
+    """Close actual v6/predecessor learning and retained banks before new questions."""
+    check_source_disjoint_plan(cfg)
+    evaluation_request_workers(cfg)
+    extras = {ROOT / UTILITY_SOURCE_DISJOINT_PROTOCOL, ROOT / DISPATCH_PROTOCOL,
+              ROOT / cfg["inference_environment"]}
+
+    def checked(name, digest):
+        path = runtime_sources.checked_path(ROOT, name)
+        if sha(path) != digest:
+            raise ValueError("An actual utility-epoch source changed: " + name)
+        extras.add(path)
+        return path
+
+    main_path = checked(UTILITY_SOURCE_DISJOINT_ARMS["utility45"][2],
+        "5e0486a5352d2e534b50265e3b902ac3aaa0c7d2c5107dd2b904f20a3191e894")
+    main_frozen_path = checked(str(main_path.with_suffix(".frozen.json").relative_to(ROOT)),
+        "182e6cbf98e6ee7da8801ad7874554da50a071a91a8a4297e20d87b4fbea30ef")
+    main, main_frozen = read(main_path), read(main_frozen_path)
+    main_out = ROOT / "runs" / safe_component(main["run_id"])
+    if (not (main_out / "completion.json").is_file()
+            or not (main_out / "terminal_preservation.json").is_file()
+            or (main_out / "failure.json").exists()):
+        raise ValueError("Finish and preserve the actual full v6 main before opening a new evaluation")
+    for name, digest in SOURCE_DISJOINT_LEGACY_RECEIPTS.items():
+        checked(name, digest)
+    legacy_cfg = read(ROOT / "configs/openexempt_adaptive_supplement_TEST128_20261027_run01.json")
+    legacy_frozen = read(ROOT / "configs/openexempt_adaptive_supplement_TEST128_20261027_run01.frozen.json")
+    if legacy_frozen["files"].get("experiments/openexempt_frozen_eval.py") != (
+            "b1430ca922add90a361cf04c0943597ef3374d25264bcabd096b2106d264915a"):
+        raise ValueError("Retain the actual validated comparator epoch")
+    for name in ACE_ACTOR_FILES:
+        digest = legacy_frozen["files"].get(name)
+        if not digest:
+            raise ValueError("The original comparison must bind every native ACE actor source")
+        checked(name, digest)
+    construction = read(checked(
+        "artifacts/research/openexempt_legal_scope_20261020/"
+        "Next_IID128_confirmatory_20261030_fixed_seed_zero_overlap564_sources_dual_sealed_not_evaluated.json",
+        "80d3a962df82247a4e5f55c45af838e384f15d2c839a89c6e075f5513b2ae589"))
+    packet = ROOT / UTILITY_SOURCE_DISJOINT_PACKET
+    checked(str((packet / "inputs.json").relative_to(ROOT)), UTILITY_SOURCE_DISJOINT_PACKET_SHA256)
+    selection, key_data = read(packet / "preselection.json"), read(packet / "exclusion_source_keys.json")
+    recipe_path = ROOT / "configs/openexempt_IID128_confirmatory_TEST_20261030_recipe.json"
+    recipe = read(recipe_path)
+    if (construction.get("source_overlap") != 0 or construction.get("source_cases") != 128
+            or construction.get("input_packet_sha256") != UTILITY_SOURCE_DISJOINT_PACKET_SHA256
+            or selection.get("seed") != 2026103001 or selection.get("source_cases") != 128
+            or selection.get("tasks") != 256 or selection.get("preselected_source_case_ids") != []
+            or selection.get("original_generator_unmodified") is not True
+            or selection.get("input_packet_sha256") != UTILITY_SOURCE_DISJOINT_PACKET_SHA256
+            or key_data.get("input_packet_sha256") != UTILITY_SOURCE_DISJOINT_PACKET_SHA256
+            or len(set(key_data.get("source_keys", []))) != 128
+            or set(selection.get("source_keys", [])) != set(key_data["source_keys"])
+            or recipe.get("dataset_seed") != 2026103001 or recipe.get("source_cases") != 128):
+        raise ValueError("Keep the original one-shot ff29 construction and source identities")
+    extras.update((packet / "preselection.json", packet / "exclusion_source_keys.json", recipe_path))
+    installed = {d.metadata["Name"]: d.version for d in importlib.metadata.distributions()}
+    if (installed != main_frozen["packages"] or cfg["generation"] != main["generation"]
+            or cfg["inference_environment"] != main["inference_environment"]):
+        raise ValueError("Keep the actual original8B packages, service capture and decoding")
+    critical = {p: h for p, h in main_frozen["files"].items() if p.startswith("legal_skill_guard/")}
+    if not critical or any(sha(ROOT / p) != h for p, h in critical.items()):
+        raise ValueError("The common task, decoder, scorer or native transport changed")
+    extras.update(ROOT / p for p in critical)
+    checked(main["input_packet"], cfg["training_packet_sha256"])
+    train = read(ROOT / main["input_packet"])["rows"]
+    source_ids = sorted({r["case_id"] for r in train})
+    train_keys = {r["source_key"] for r in train}
+    if len(train) != 256 or len(source_ids) != 128 or len(train_keys) != 128 or train_keys & set(key_data["source_keys"]):
+        raise ValueError("Use all original TRAIN128, disjoint from the new IID source keys")
+    main_arm = next(a for a in cfg["arms"] if a["name"] == "utility45")
+    main_snapshot = checked(main_arm["source_snapshot"], main_arm["source_snapshot_sha256"])
+    if sha(main_snapshot) != main_frozen["files"]["experiments/openexempt_online.py"]:
+        raise ValueError("The main source snapshot must be its actual learning-freeze bytes")
+
+    def same_actor(snapshot):
+        protected = ("actor_payload", "direct_case_input", "direct_request_key", "Online.answer", "Online.grade")
+        current = ROOT / "experiments/openexempt_online.py"
+        def constants(path):
+            return {target.id: ast.dump(node.value, include_attributes=False)
+                    for node in ast.parse(path.read_text()).body if isinstance(node, ast.Assign)
+                    for target in node.targets if isinstance(target, ast.Name)}
+        reference = constants(main_snapshot)
+        for path in (snapshot, current):
+            observed = constants(path)
+            if (any(runtime_sources.function_ast(main_snapshot, key) != runtime_sources.function_ast(path, key)
+                    for key in protected)
+                    or any(reference[k] != observed.get(k) for k in
+                           ("ACTOR_SYSTEM", "DIRECT_NUMERIC_SYSTEM", "PROGRAM_ACTOR_SYSTEM"))):
+                raise ValueError("Teaching revisions must not change the frozen actor interface")
+
+    same_actor(main_snapshot)
+    banks = {}
+    for arm in cfg["arms"]:
+        name, role = arm["name"], arm["role"]
+        if name == "empty":
+            banks[name] = []
+            continue
+        path = checked(arm["source_config"], arm["source_config_sha256"])
+        frozen_path = checked(str(path.with_suffix(".frozen.json").relative_to(ROOT)), arm["source_frozen_sha256"])
+        source, frozen = read(path), read(frozen_path)
+        if frozen["config_sha256"] != sha(path) or any(source["generation"].get(k) != cfg["generation"].get(k)
+                for k in (*FINAL_DECODING, "base_url", "model", "model_root")):
+            raise ValueError("Every source must retain its actual freeze and original executor settings")
+        out = ROOT / "runs" / safe_component(source["run_id"])
+        complete_path = checked(str((out / "completion.json").relative_to(ROOT)), arm["source_completion_sha256"])
+        checked(str((out / "terminal_preservation.json").relative_to(ROOT)), arm["source_terminal_preservation_sha256"])
+        if (out / "failure.json").exists():
+            raise ValueError("A failed or incomplete construction cannot supply a final bank")
+        complete = read(complete_path)
+        publication_name = ("publication.json" if name == "static" else "publications/final.json"
+                            if name == "text45" else "publications/b1.json" if role == "B1_frozen"
+                            else "publications/b8.json")
+        publication_path = checked(str((out / publication_name).relative_to(ROOT)), arm["source_publication_sha256"])
+        publication = read(publication_path)
+        retained = name in {"static", "ACE45", "ACE_common45", "text45"}
+        if retained:
+            old_name = "ACE45" if name == "ACE_common45" else name
+            old = next(a for a in legacy_cfg["arms"] if a["name"] == old_name)
+            if old["source_config"] != arm["source_config"]:
+                raise ValueError("Retain the declared existing comparator construction")
+            for item in (path, frozen_path, complete_path, publication_path):
+                if legacy_frozen["files"].get(str(item.relative_to(ROOT))) != sha(item):
+                    raise ValueError("The already-validated comparator construction changed")
+            if name != "static" and (source.get("source_cases") != 128
+                    or source.get("planned_batches") != 8 or source.get("batch_source_cases") != 16
+                    or frozen["files"].get(source["input_packet"]) != cfg["training_packet_sha256"]):
+                raise ValueError("Retained experience banks must use the same complete TRAIN128")
+            if name == "static":
+                if (complete["status"] != "compiled_law_only_static_bank_not_evaluated"
+                        or source.get("source_cases") != 0 or publication.get("training_sources_seen") != 0
+                        or publication.get("actual_native_generations") != 0):
+                    raise ValueError("Static must remain the original blind law-only compilation")
+                bank = publication["bank"]
+            elif name in {"ACE45", "ACE_common45"}:
+                if (complete["status"] != "completed_declared_ACE_adaptation_stream"
+                        or len(complete["batch_summary"]) != 8
+                        or publication["playbook"] != complete["final_playbook"]):
+                    raise ValueError("Use ACE's actual final eight-batch playbook")
+                bank = publication["playbook"]
+            else:
+                if (complete["status"] != "completed_trace2skill_text_offline_adaptation"
+                        or publication["bank"] != complete["final_bank"]
+                        or trace2skill_actor_bank(publication["files"]) != publication["bank"]
+                        or publication["files_sha256"] != csha(publication["files"])
+                        or complete["final_files_sha256"] != publication["files_sha256"]):
+                    raise ValueError("Retain all files of the completed Text adaptation")
+                bank = publication["bank"]
+        else:
+            snapshot = checked(arm["source_snapshot"], arm["source_snapshot_sha256"])
+            if sha(snapshot) != frozen["files"].get("experiments/openexempt_online.py"):
+                raise ValueError("Bind each learner's actual source, including historical versions")
+            same_actor(snapshot)
+            allowed = {"run_id", "protocol"}
+            if name == "strict45":
+                allowed |= {"admission_contract", "adaptive_commit_objective"}
+                if (source.get("admission_contract") != "strict_native_full_counts_v1"
+                        or source.get("adaptive_commit_objective") != "seen_source_min_family_gain_then_mean_v1"):
+                    raise ValueError("The strict control changes the declared admission/selection bundle")
+            elif name == "no_execution45":
+                allowed.add("teacher_execution_evidence_visible")
+                if source.get("teacher_execution_evidence_visible") is not False:
+                    raise ValueError("The teacher-evidence control must explicitly withhold execution outcomes")
+                entry = "experiments/openexempt_teacher_evidence_control.py"
+                if not frozen["files"].get(entry):
+                    raise ValueError("Bind the actual separate teacher-control serialization entry")
+                checked(entry, frozen["files"][entry])
+            elif name == "projection45":
+                allowed |= {"teacher_evidence_contract", "admission_contract", "feedback_retention", "adaptive_commit_objective"}
+                if (source.get("teacher_evidence_contract") != "native_claim_task_projection_updates_v5"
+                        or csha(complete["bank"]) != "02b119a968c76f1e8a2c359f6d35e950012b53f83c9dc08251874401fd7e5702"):
+                    raise ValueError("The seventh bank is a historical version, not a matched v6 ablation")
+            if (any(source.get(k) != main.get(k) for k in (set(source) | set(main)) - allowed)
+                    or frozen["packages"] != main_frozen["packages"]
+                    or any(frozen["files"].get(p) != h for p, h in critical.items())
+                    or source.get("source_cases") != 128 or source.get("planned_batches") != 8
+                    or source.get("batch_source_cases") != 16 or source.get("initial_library_publication")
+                    or source.get("warm_source_case_ids")
+                    or complete["status"] != "completed_bounded_mechanism_study"
+                    or len(complete["batch_summary"]) != 8 or complete.get("actual_teacher_responses") != 16
+                    or complete["execution_dispatch"] != main["phase_dispatch"]
+                    or frozen["files"].get(source["input_packet"]) != cfg["training_packet_sha256"]):
+                raise ValueError("Require the complete declared empty-origin eight-batch method/control")
+            initial_path = out / "initialization.json"
+            initial = read(initial_path)
+            if initial["bank"] != [] or initial.get("parent_publication") is not None or initial.get("initial_case_exposure", 0) != 0:
+                raise ValueError("No historical library or extra TRAIN exposure may enter a cold build")
+            extras.add(initial_path)
+            previous = csha([])
+            for batch in range(1, 9):
+                pub_path = out / "publications" / f"b{batch}.json"
+                first_path = out / "batches" / f"b{batch}_prequential.json"
+                records_path = out / "batches" / f"b{batch}_prequential_records.json"
+                saved, first, first_records = read(pub_path), read(first_path), read(records_path)["skills"]
+                ids = set(source_ids[(batch - 1) * 16:batch * 16])
+                grid = {(r["case_id"], r["family"], r["source_key"]) for r in train if r["case_id"] in ids}
+                if (saved["parent_bank_sha256"] != previous or first["parent_bank_sha256"] != previous
+                        or saved["bank_sha256"] != csha(saved["bank"])
+                        or first["source_cases"] != 16 or first["tasks_per_arm"] != 32
+                        or len(first_records) != 32
+                        or {(r["case_id"], r["family"], r["source_key"]) for r in first_records} != grid):
+                    raise ValueError("Preserve every original chronological source and actual publication")
+                previous = saved["bank_sha256"]
+                extras.update((pub_path, first_path, records_path))
+                if name == "no_execution45":
+                    for attempt in (1, 2):
+                        request_path = out / "teacher" / f"b{batch}_candidate{attempt}" / "wire_request.json"
+                        request = read(request_path)
+                        body = json.loads(request["user_prompt"])
+                        validate_withheld_request(request["system_prompt"], body)
+                        for case in body["already_seen_training"]:
+                            row = next(r for r in train if r["case_id"] == case["source_case_id"]
+                                       and r["family"] == case["family"])
+                            target_path = ROOT / source["grading_directory"] / f"{row['case_id']}.json"
+                            if (case["facts"] != row["components"]["facts"]
+                                    or case["public_solved_steps"] != row["components"]["solved_steps"]
+                                    or case["public_asset_reference_catalog"] != public_asset_catalog(row)
+                                    or body["complete_public_statutes"].get(case["public_statutes_ref"])
+                                       != row["components"]["statutes"]
+                                    or case["original_training_target"] != read(target_path)["targets"][row["family"]]):
+                                raise ValueError("Retain each selected original TRAIN target and all public case context")
+                        extras.add(request_path)
+            bank = publication["bank"]
+            if role == "B1_frozen":
+                snapshot_path = out / "frozen_after_B1.json"
+                snap = read(snapshot_path)
+                if (snap.get("bank") != bank or snap.get("bank_sha256") != csha(bank)
+                        or snap.get("publication_bank_sha256") != csha(bank)
+                        or snap.get("freeze_after_exactly_batch") != 1
+                        or snap.get("not_selected_by_later_performance_or_nonempty_success") is not True
+                        or snap.get("evaluation_only_never_teacher_or_admission_feedback") is not True):
+                    raise ValueError("Use the learner's actual time-fixed B1 snapshot")
+                extras.add(snapshot_path)
+            elif bank != complete["bank"] or csha(bank) != previous:
+                raise ValueError("Use the actual B8 publication even if its last proposals were rejected")
+        if name == "ACE_common45":
+            wrapped = read(checked(arm["representation_artifact"], arm["representation_sha256"]))
+            if wrapped != ace_common_direct_bank(bank):
+                raise ValueError("The shared ACE representation must retain the entire learned playbook")
+            bank = wrapped
+        if csha(bank) != arm["bank_sha256"]:
+            raise ValueError("The actual bank differs from the prebound final comparison")
+        if arm["backend"] == "direct":
+            validate_scoped_bank(bank)
+            if any(s["guidance"]["operators"] for s in bank):
+                raise ValueError("Direct inference must not introduce a hidden numerical solver")
+        banks[name] = bank
+    return banks, train_keys, extras
+
+
+def source_disjoint_banks(cfg):
+    """Read only TRAIN provenance, sealed metadata and already-validated old banks.
+
+    The former evaluation's sealed source receipts establish the retained bank
+    constructions; its predictions and scores are never imported. Every arm is
+    executed afresh on the new packet under this explicitly new inference epoch.
+    """
+    if cfg.get("evaluation_stage") == UTILITY_SOURCE_DISJOINT_STAGE:
+        return utility_source_disjoint_banks(cfg)
+    check_source_disjoint_plan(cfg)
+    evaluation_request_workers(cfg)
+    profile, protocol, _ = source_disjoint_profile(cfg)
+    continued = cfg["evaluation_stage"] == CONTINUED_SOURCE_DISJOINT_STAGE
+    extras = {ROOT / protocol, ROOT / DISPATCH_PROTOCOL,
+              ROOT / cfg["inference_environment"]}
+
+    def checked(name, expected):
+        path = runtime_sources.checked_path(ROOT, name)
+        if sha(path) != expected:
+            raise ValueError("An explicitly bound source artifact changed: " + name)
+        extras.add(path)
+        return path
+
+    for name, digest in SOURCE_DISJOINT_LEGACY_RECEIPTS.items():
+        checked(name, digest)
+    legacy_cfg = read(ROOT / "configs/openexempt_adaptive_supplement_TEST128_20261027_run01.json")
+    legacy_frozen = read(ROOT / "configs/openexempt_adaptive_supplement_TEST128_20261027_run01.frozen.json")
+    if legacy_frozen["files"].get("experiments/openexempt_frozen_eval.py") != (
+            "b1430ca922add90a361cf04c0943597ef3374d25264bcabd096b2106d264915a"):
+        raise ValueError("The retained bank receipt must come from its actual validated runtime")
+    metadata_path = ROOT / SOURCE_DISJOINT_PACKET / "construction_completion.json"
+    metadata = read(metadata_path)
+    key_path = ROOT / SOURCE_DISJOINT_PACKET / "exclusion_source_keys.json"
+    key_data = read(key_path)
+    checked(SOURCE_DISJOINT_PACKET + "/inputs.json", SOURCE_DISJOINT_PACKET_SHA256)
+    if (metadata.get("status") != "generated_sealed_not_predicted_or_graded"
+            or metadata.get("source_cases") != 128 or metadata.get("task_views") != 256
+            or metadata.get("dataset_seed") != 2026102701
+            or metadata.get("input_packet_sha256") != SOURCE_DISJOINT_PACKET_SHA256
+            or metadata.get("historical_overlap") != 0
+            or metadata.get("semantic_case_and_label_review_performed") is not False
+            or key_data.get("input_packet_sha256") != SOURCE_DISJOINT_PACKET_SHA256
+            or key_data.get("source_cases") != 128
+            or len(set(key_data.get("source_keys", []))) != 128
+            or metadata["all_new_packet_files_sha256_before_status"].get(str(key_path.relative_to(ROOT)))
+                != sha(key_path)):
+        raise ValueError("Retain the original one-shot sealed IID construction and source keys")
+    extras.update((metadata_path, key_path, ROOT / SOURCE_DISJOINT_PACKET / "preselection.json"))
+    main_path = ROOT / SOURCE_DISJOINT_ARMS["native_claim45"][2]
+    main, main_frozen = read(main_path), read(main_path.with_suffix(".frozen.json"))
+    if (sha(main_path) != "36a34352d4bc9e300a2d38c6914477d411eaa8e9c0d5e3dfb4e4735f6a4a5eb6"
+            or main_frozen["config_sha256"] != sha(main_path)
+            or cfg["generation"] != main["generation"]
+            or cfg["inference_environment"] != main["inference_environment"]):
+        raise ValueError("Use the actual third formal method and captured single-model environment")
+    installed = {d.metadata["Name"]: d.version for d in importlib.metadata.distributions()}
+    if (installed != main_frozen["packages"]
+            or main_frozen["files"].get(cfg["inference_environment"])
+                != sha(ROOT / cfg["inference_environment"])):
+        raise ValueError("Keep the actual third-run packages and immutable model-service capture")
+    critical = {p: h for p, h in main_frozen["files"].items()
+                if p.startswith("legal_skill_guard/") or p == "experiments/openexempt_online.py"}
+    if not critical:
+        raise ValueError("The current common actor/learning source differs from the actual third epoch")
+    if continued:
+        if critical.get("experiments/openexempt_online.py") != (
+                "3213e92d8e3a3c2c3b4e565dd3553a17ba9b2e425e68e607232749363e8c1985"):
+            raise ValueError("The actual third acquisition source must retain its original version")
+        original = continued_source_snapshot(critical["experiments/openexempt_online.py"])
+        current = continued_source_snapshot(CONTINUED_ONLINE_SHA256)
+        protected = ("actor_payload", "direct_case_input", "direct_request_key", "acceptance",
+                     "task_admission", "legal_scope_admission", "Online.answer", "Online.grade",
+                     "Online.composed_replay")
+        def constants(path):
+            return {target.id: ast.dump(node.value, include_attributes=False)
+                    for node in ast.parse(path.read_text()).body if isinstance(node, ast.Assign)
+                    for target in node.targets if isinstance(target, ast.Name)}
+        old_constants, current_constants = constants(original), constants(current)
+        if (any(runtime_sources.function_ast(original, key) != runtime_sources.function_ast(current, key)
+                for key in protected)
+                or any(old_constants[key] != current_constants[key] for key in
+                       ("ACTOR_SYSTEM", "DIRECT_NUMERIC_SYSTEM", "PROGRAM_ACTOR_SYSTEM"))
+                or any(sha(ROOT / p) != h for p, h in critical.items()
+                       if p != "experiments/openexempt_online.py")):
+            raise ValueError("Only the approved teaching changes may differ; the actual actor/scorer/gates must match")
+        extras.update((original, current))
+    elif any(sha(ROOT / p) != h for p, h in critical.items()):
+        raise ValueError("The current common actor/learning source differs from the actual third epoch")
+    extras.update(ROOT / p for p in critical)
+    if main_frozen["files"].get(main["input_packet"]) != cfg["training_packet_sha256"]:
+        raise ValueError("Bind the actual original TRAIN packet before provenance checks")
+    if continued:
+        checked(main["input_packet"], cfg["training_packet_sha256"])
+    train_rows = read(ROOT / main["input_packet"])["rows"]
+    source_ids = sorted({r["case_id"] for r in train_rows})
+    if len(source_ids) != 128 or len(train_rows) != 256:
+        raise ValueError("Retain the complete original TRAIN source grid")
+    banks, train_keys = {}, set()
+    for arm in cfg["arms"]:
+        name, role = arm["name"], arm["role"]
+        if name == "empty":
+            banks[name] = []
+            continue
+        path = checked(arm["source_config"], arm["source_config_sha256"])
+        frozen_path = checked(str(path.with_suffix(".frozen.json").relative_to(ROOT)), arm["source_frozen_sha256"])
+        source, frozen = read(path), read(frozen_path)
+        if frozen["config_sha256"] != sha(path):
+            raise ValueError("A source config no longer matches its learning freeze")
+        if any(source["generation"].get(k) != cfg["generation"].get(k)
+               for k in (*FINAL_DECODING, "base_url", "model", "model_root")):
+            raise ValueError("Retain the same executor, model and generation budget for every bank")
+        out = ROOT / "runs" / safe_component(source["run_id"])
+        complete_path = checked(str((out / "completion.json").relative_to(ROOT)), arm["source_completion_sha256"])
+        terminal = checked(str((out / "terminal_preservation.json").relative_to(ROOT)), arm["source_terminal_preservation_sha256"])
+        if (out / "failure.json").exists():
+            raise ValueError("A failed learner is not a completed final-bank condition")
+        complete = read(complete_path)
+        legacy_name = "ACE45" if name == "ACE_common45" else name
+        retained = name in {"static", "ACE45", "ACE_common45", "text45"}
+        if retained:
+            old = next(a for a in legacy_cfg["arms"] if a["name"] == legacy_name)
+            if (old["source_config"] != arm["source_config"]
+                    or old["source_config_sha256"] != arm["source_config_sha256"]):
+                raise ValueError("Retain the actual already-validated comparator construction")
+        publication_name = ("publication.json" if name == "static" else
+                            "publications/final.json" if name == "text45" else
+                            "publications/b1.json" if role == "B1_frozen" or
+                            name in {"task_consolidated45", "joint_consolidated45"}
+                            else "publications/b8.json")
+        publication_path = checked(str((out / publication_name).relative_to(ROOT)), arm["source_publication_sha256"])
+        publication = read(publication_path)
+        if retained:
+            for item in (path, frozen_path, complete_path, publication_path):
+                relative = str(item.relative_to(ROOT))
+                if legacy_frozen["files"].get(relative) != sha(item):
+                    raise ValueError("The retained bank's validated construction bytes changed")
+        if name == "static":
+            if (complete["status"] != "compiled_law_only_static_bank_not_evaluated"
+                    or source.get("source_cases") != 0 or source.get("planned_batches") != 0
+                    or publication.get("training_sources_seen") != 0
+                    or publication.get("actual_native_generations") != 0):
+                raise ValueError("Static must remain the original blind zero-case law compilation")
+            bank = publication["bank"]
+        elif continued and name in {"task_consolidated45", "joint_consolidated45"}:
+            bank, continuation_sources = continued_bank_source(
+                name, source, frozen, complete, publication, out, main, main_frozen)
+            extras.update(continuation_sources)
+        else:
+            if (source.get("source_cases") != 128 or source.get("batch_source_cases") != 16
+                    or source.get("planned_batches") != 8
+                    or frozen["files"].get(source["input_packet"]) != cfg["training_packet_sha256"]):
+                raise ValueError("All learned banks must use the original full TRAIN128 packet")
+            receipt_path = (ROOT / source["input_packet"]).parent / "preselection.json"
+            receipt = read(receipt_path)
+            if (receipt.get("source_cases") != 128 or len(set(receipt.get("source_keys", []))) != 128
+                    or receipt.get("input_packet_sha256") != cfg["training_packet_sha256"]
+                    or frozen["files"].get(str(receipt_path.relative_to(ROOT))) != sha(receipt_path)):
+                raise ValueError("The original TRAIN source receipt changed")
+            extras.add(receipt_path)
+            train_keys.update(receipt["source_keys"])
+            if name in {"ACE45", "ACE_common45"}:
+                if complete["status"] != "completed_declared_ACE_adaptation_stream" or len(complete["batch_summary"]) != 8:
+                    raise ValueError("ACE must retain its completed eight-batch actual lineage")
+                bank = publication["playbook"]
+                if bank != complete["final_playbook"] or csha(bank) != old["bank_sha256"]:
+                    raise ValueError("Do not choose a different ACE checkpoint or rewrite its playbook")
+            elif name == "text45":
+                if (complete["status"] != "completed_trace2skill_text_offline_adaptation"
+                        or publication["bank"] != complete["final_bank"]
+                        or trace2skill_actor_bank(publication["files"]) != publication["bank"]
+                        or publication["files_sha256"] != csha(publication["files"])
+                        or complete["final_files_sha256"] != publication["files_sha256"]):
+                    raise ValueError("Text must retain every file of its actual text-only adaptation")
+                bank = publication["bank"]
+            else:
+                allowed = {"run_id", "skill_commit_policy", "protocol", "matched_main_config", "matched_policy_contrast"}
+                policy = {"whole_bank": "whole_bank", "legal_scope": "legal_scope"}.get(name, "adaptive_legal")
+                if (source["skill_commit_policy"] != policy
+                        or any(source.get(k) != main.get(k) for k in (set(source) | set(main)) - allowed)
+                        or any(frozen["files"].get(p) != h for p, h in critical.items())
+                        or frozen["packages"] != main_frozen["packages"]
+                        or source.get("initial_library_publication") or source.get("warm_source_case_ids")
+                        or complete["status"] != "completed_bounded_mechanism_study"
+                        or len(complete["batch_summary"]) != 8
+                        or complete["execution_dispatch"] != main["phase_dispatch"]):
+                    raise ValueError("The revised controls must differ only in declared submission policy")
+                initial_path = out / "initialization.json"
+                initial = read(initial_path)
+                if (initial["bank"] != [] or initial.get("parent_publication") is not None
+                        or initial.get("initial_case_exposure", 0) != 0
+                        or initial["execution_dispatch"] != main["phase_dispatch"]
+                        or any(complete["prequential_skills"][f]["tasks"] != 128 for f in FAMILIES)):
+                    raise ValueError("Require the actual empty origin and every original task view")
+                extras.add(initial_path)
+                previous = csha([])
+                for batch in range(1, 9):
+                    p = out / "publications" / f"b{batch}.json"
+                    saved = read(p)
+                    first_path = out / "batches" / f"b{batch}_prequential.json"
+                    first = read(first_path)
+                    if (saved["parent_bank_sha256"] != previous
+                            or first["parent_bank_sha256"] != previous
+                            or saved["bank_sha256"] != csha(saved["bank"])
+                            or first["source_cases"] != 16 or first["tasks_per_arm"] != 32):
+                        raise ValueError("Require all eight actual successive publications and saved first forecasts")
+                    records_path = out / "batches" / f"b{batch}_prequential_records.json"
+                    recorded = read(records_path)["skills"]
+                    batch_ids = set(source_ids[(batch - 1) * 16:batch * 16])
+                    expected_grid = {(r["case_id"], r["family"], r["source_key"])
+                                     for r in train_rows if r["case_id"] in batch_ids}
+                    actual_grid = {(r["case_id"], r["family"], r["source_key"]) for r in recorded}
+                    if len(recorded) != 32 or actual_grid != expected_grid:
+                        raise ValueError("Do not reorder, resample or omit the shared TRAIN source batches")
+                    previous = saved["bank_sha256"]
+                    extras.update((p, first_path, records_path))
+                bank = publication["bank"]
+                if role == "B1_frozen":
+                    snapshot_path = out / "frozen_after_B1.json"
+                    snapshot = read(snapshot_path)
+                    if (snapshot.get("bank") != bank or snapshot.get("bank_sha256") != csha(bank)
+                            or snapshot.get("publication_bank_sha256") != csha(bank)
+                            or snapshot.get("freeze_after_exactly_batch") != 1
+                            or snapshot.get("not_selected_by_later_performance_or_nonempty_success") is not True
+                            or snapshot.get("evaluation_only_never_teacher_or_admission_feedback") is not True):
+                        raise ValueError("Use only the actual fixed B1 snapshot")
+                    extras.add(snapshot_path)
+                elif bank != complete["bank"] or csha(bank) != previous:
+                    raise ValueError("Use the unique actual B8 terminal bank, never a best intermediate")
+        if name == "ACE_common45":
+            representation = arm["representation_artifact"]
+            if representation != (
+                    "artifacts/research/openexempt_legal_scope_20261020/ACE_actual_final_playbook_lossless_common_direct_wrapper_20261027.json"):
+                raise ValueError("Freeze the predeclared lossless common-interface ACE representation")
+            wrapped = read(checked(representation, arm["representation_sha256"]))
+            if wrapped != ace_common_direct_bank(bank):
+                raise ValueError("The complete native playbook must be preserved verbatim")
+            bank = wrapped
+        if csha(bank) != arm["bank_sha256"]:
+            raise ValueError("The actual frozen bank differs from its prospective matrix binding")
+        if arm["backend"] == "direct":
+            validate_scoped_bank(bank)
+            if any(s["guidance"]["operators"] for s in bank):
+                raise ValueError("No direct condition may introduce a numerical interpreter")
+        banks[name] = bank
+    if (len(train_keys) != 128 or train_keys & set(key_data["source_keys"])
+            or main_frozen["files"].get(main["input_packet"]) != cfg["training_packet_sha256"]):
+        raise ValueError("Require the complete TRAIN source set disjoint from all new IID sources")
+    return banks, train_keys, extras
+
+
 def fixed_banks(cfg):
     """Check completed TRAIN provenance without loading TEST questions/targets."""
+    if cfg.get("evaluation_stage") in SOURCE_DISJOINT_STAGES:
+        return source_disjoint_banks(cfg)
     workers = evaluation_request_workers(cfg)
     schedule = cfg.get("learning_execution_schedule")
     supplement = cfg.get("evaluation_stage") == SUPPLEMENT_STAGE
@@ -1386,9 +2214,7 @@ class FrozenEvaluation:
             "paired_vs_strong_empty": {name: paired_effect(reference, values)
                                        for name, values in records.items()},
             "paired_vs_own_B1_frozen": {arm["name"]: paired_effect(
-                records[next(a["name"] for a in self.cfg["arms"]
-                             if a["role"] == "B1_frozen"
-                             and a["source_config"] == arm["source_config"])],
+                records[own_B1_reference(self.cfg, arm)],
                 records[arm["name"]]) for arm in self.cfg["arms"] if arm["role"] == "evolved"},
             "bank_sha256": {name: csha(bank) for name, bank in self.banks.items()},
             "actual_native_calls": len(self.native), "teacher_calls": 0,
@@ -1398,7 +2224,11 @@ class FrozenEvaluation:
             "native_prompt_tokens": sum(r["response"]["prompt_tokens"] for r in self.native),
             "native_completion_tokens": sum(r["response"]["completion_tokens"] for r in self.native),
             "statistics_plan": self.cfg["statistics_plan"],
-            "paired_source_statistics": paired_source_statistics(self.cfg, records)}
+            "paired_source_statistics": paired_source_statistics(self.cfg, records),
+            **({"pooled_complete_claim_metrics": {
+                    name: pooled_complete_claim_metrics(values) for name, values in records.items()}}
+               if self.cfg.get("evaluation_stage") in
+                  (CONTINUED_SOURCE_DISJOINT_STAGE, UTILITY_SOURCE_DISJOINT_STAGE) else {})}
 
     def run(self):
         self.out.mkdir(parents=True, exist_ok=False)
@@ -1432,6 +2262,28 @@ def main():
     os.chdir(ROOT)
     cfg = read(path)
     stage = cfg.get("evaluation_stage")
+    if stage in SOURCE_DISJOINT_STAGES:
+        check_source_disjoint_plan(cfg)
+        _, _, sources = fixed_banks(cfg)
+        if stage == CONTINUED_SOURCE_DISJOINT_STAGE and args.action == "freeze":
+            # Test data for the historical adaptive guard, not an allowed learner epoch.
+            digest = runtime_sources.ADAPTIVE_CURRENT["experiments/openexempt_online.py"]
+            snapshot = ROOT / ("artifacts/research/openexempt_legal_scope_20261020/"
+                "source_snapshots/continued_eval_20261029/"
+                f"openexempt_online_historical_adaptive__{digest}.py")
+            if sha(snapshot) != digest:
+                raise ValueError("The actual historical adaptive test fixture changed")
+            sources.add(snapshot)
+        with (ROOT / "artifacts/openexempt_training.lock").open("a") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            if args.action == "freeze":
+                freeze(path, additional_sources=(*sources, Path(__file__).resolve(),
+                    ROOT / "tests/test_openexempt_source_disjoint_eval.py",
+                    ROOT / "experiments/openexempt_ace_online.py",
+                    *ROOT.glob("third_party/ace/prompts/*.py")))
+            else:
+                FrozenEvaluation(path).run()
+        return
     supplement = stage == SUPPLEMENT_STAGE
     if supplement and (cfg.get("supplement_protocol") != SUPPLEMENT_PROTOCOL
             or cfg.get("protocol") != SUPPLEMENT_PROTOCOL

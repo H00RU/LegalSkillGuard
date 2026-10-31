@@ -1,0 +1,755 @@
+{
+  "observed_at_utc": "2026-10-27T16:14:08.241914+00:00",
+  "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+  "user_named_main_round": 3,
+  "scope": "Complete B8 first forecasts before label release and actual teacher evidence receipt; not post-label replay or TEST",
+  "batch": 8,
+  "first_source_id_range": [
+    293,
+    308
+  ],
+  "firsts": {
+    "empty": {
+      "EC": {
+        "precision": 0.9479166666666667,
+        "recall": 0.5859375,
+        "f1": 0.699156746031746,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.712123374991022,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.6614583333333334,
+        "recall": 0.3858506944444444,
+        "f1": 0.4736607142857143,
+        "exact_target": 0,
+        "tasks": 16,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.48181006795137227,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.5864087301587302
+    },
+    "frozen_after_B1": {
+      "EC": {
+        "precision": 0.9791666666666667,
+        "recall": 0.7877604166666666,
+        "f1": 0.8562251984126985,
+        "exact_target": 0.25,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.868888129414445,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.751736111111111,
+        "recall": 0.6766493055555555,
+        "f1": 0.7059151785714285,
+        "exact_target": 0.25,
+        "tasks": 16,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.7077330077330076,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.7810701884920634
+    },
+    "skills": {
+      "EC": {
+        "precision": 0.9557291666666667,
+        "recall": 0.8815104166666665,
+        "f1": 0.9111607142857143,
+        "exact_target": 0.5,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9232927097057533,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9309895833333333,
+        "recall": 0.9262152777777778,
+        "f1": 0.9248139880952382,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9225010781687146,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.9179873511904763
+    }
+  },
+  "gains_vs_own_B1_pp": {
+    "EC": 5.493551587301582,
+    "EV": 21.88988095238097
+  },
+  "gains_vs_empty_pp": {
+    "EC": 21.20039682539683,
+    "EV": 45.11532738095239
+  },
+  "same_case_effect_vs_own_B1": {
+    "tasks": 32,
+    "help": 18,
+    "hurt": 5,
+    "ties": 9,
+    "mean_f1_difference": 0.13691716269841267
+  },
+  "effects_by_family": {
+    "EC": {
+      "tasks": 16,
+      "help": 8,
+      "hurt": 3,
+      "ties": 5,
+      "mean_f1_difference": 0.05493551587301587
+    },
+    "EV": {
+      "tasks": 16,
+      "help": 10,
+      "hurt": 2,
+      "ties": 4,
+      "mean_f1_difference": 0.21889880952380947
+    }
+  },
+  "harms_preserved": {
+    "EC": [
+      {
+        "case_id": 298,
+        "own_B1_F1": 0.7250000000000001,
+        "main_F1": 0.7166666666666667
+      },
+      {
+        "case_id": 305,
+        "own_B1_F1": 1,
+        "main_F1": 0.8
+      },
+      {
+        "case_id": 306,
+        "own_B1_F1": 0.65,
+        "main_F1": 0.5
+      }
+    ],
+    "EV": [
+      {
+        "case_id": 303,
+        "own_B1_F1": 1,
+        "main_F1": 0.9333333333333332
+      },
+      {
+        "case_id": 305,
+        "own_B1_F1": 1,
+        "main_F1": 0.8333333333333333
+      }
+    ]
+  },
+  "native_claim_counts_original_matcher": {
+    "empty": {
+      "EC": {
+        "invalid_response": 0,
+        "correct": 65,
+        "missing": 60,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 2,
+        "incorrect_value_predictions": 0
+      },
+      "EV": {
+        "invalid_response": 1,
+        "correct": 51,
+        "missing": 59,
+        "incorrect_value": 12,
+        "extra_or_duplicate": 5,
+        "incorrect_value_predictions": 12
+      }
+    },
+    "frozen_after_B1": {
+      "EC": {
+        "invalid_response": 0,
+        "correct": 94,
+        "missing": 31,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 0,
+        "incorrect_value_predictions": 0
+      },
+      "EV": {
+        "invalid_response": 1,
+        "correct": 88,
+        "missing": 20,
+        "incorrect_value": 14,
+        "extra_or_duplicate": 4,
+        "incorrect_value_predictions": 14
+      }
+    },
+    "skills": {
+      "EC": {
+        "invalid_response": 0,
+        "correct": 108,
+        "missing": 17,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 2,
+        "incorrect_value_predictions": 0
+      },
+      "EV": {
+        "invalid_response": 0,
+        "correct": 115,
+        "missing": 4,
+        "incorrect_value": 6,
+        "extra_or_duplicate": 4,
+        "incorrect_value_predictions": 6
+      }
+    }
+  },
+  "actual_actor_messages_schema_bank_and_delivered_skill_ID_proofs": 160,
+  "fresh_native_calls": 92,
+  "finish_counts": {
+    "stop": 91,
+    "length": 1
+  },
+  "native_input_tokens": 610560,
+  "native_output_tokens": 242297,
+  "parent_bank_sha256": "ed24287606166f741e168068879bf3987b65d6a84369df8e73e0f0cb43b31420",
+  "own_B1_sha256": "02c5f64f331afdba709cb037a759c04e9b71c12b9513b720a26d5ffaccb20df6",
+  "teacher": {
+    "actual_evidence_records": 64,
+    "original_targets_actual_parent_and_empty_answers_scores_raw_and_claim_feedback_checks": {
+      "original_targets": 64,
+      "actual_parent_answers_scores_errors": 64,
+      "parent_raw_origins": 64,
+      "native_claim_feedback": 64,
+      "actual_same_case_empty_answers_scores": 64
+    },
+    "current_sources": 16,
+    "historical_sources": 16,
+    "all_mandatory_witness_sources_delivered": true,
+    "mandatory_witness_sources": 14,
+    "feedback_objects": 2,
+    "response_present": true,
+    "parent_hash_verified": true,
+    "own_B1_evaluation_only": true,
+    "elapsed_seconds": 57.175,
+    "usage": {
+      "input_tokens": 176906,
+      "cached_input_tokens": 0,
+      "output_tokens": 2395,
+      "reasoning_output_tokens": 1980
+    },
+    "cache_hit": false,
+    "tool_events_detected": false,
+    "operations": [
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "wisconsin-single-debtor-motor-vehicle-valuation"
+        ],
+        "new_skill_id": "wisconsin-single-debtor-motor-vehicle-valuation",
+        "source_case_ids": [
+          294,
+          298,
+          301,
+          306
+        ],
+        "rationale": "Current cases 294 and 298 show the parent separating the unused § 815.18(3)(d) amount into an extra claim instead of transferring it into one paragraph (g) result; case 301 leaves paragraph (g) at $4,000 for one debtor; and case 306 leaves a two-spouse vehicle at $4,000 instead of the target's combined $32,000 ceiling. The revision preserves the existing single-debtor rule while adding the statutory two-spouse branch and expressly prevents a separate paragraph (d) vehicle claim."
+      }
+    ]
+  },
+  "later_B3_to_current_first_source_descriptive_means": {
+    "skills": {
+      "EC": 0.8584242724867724,
+      "EV": 0.9030919312169313
+    },
+    "frozen_after_B1": {
+      "EC": 0.8158854166666666,
+      "EV": 0.7744171626984127
+    }
+  },
+  "interpretation": [
+    "Values are new-source first answers, never replaced by label-assisted fitting.",
+    "Relative-to-B1 gains measure realized accumulated-library utility on the same cases, not a causal estimate of the immediately preceding edit.",
+    "No EV task-view revision has been admitted after B2 through B5; later utility is not a new edit every batch.",
+    "B8 used the actual B6/B7 ed242876 bank. B6 changed EV; B7 published no edits. B8's higher first scores are not a B7 update effect or a TEST result.",
+    "B8 EV controls share one length-truncated raw response on source300. Missing/incorrect claim breakdowns exclude invalid replies; three gold claims from that invalid response are separately accounted, and original zero scores are unchanged.",
+    "Teacher13 omission of source286 exactly matches the prospective feedback-selection forecast. The undeployed v3 patch changes that evidence path without enlarging history16, but no performance benefit has been measured."
+  ],
+  "goal_status": "active",
+  "new_model_teacher_or_grader_calls_for_audit": 0,
+  "TEST_semantic_reads": 0,
+  "audit_script_corrections": [
+    "Native stage directory contains both raw call and record JSONs; count only objects with actual calls, not every non-input JSON. No generation or scores were changed."
+  ],
+  "all8_prequential_curve_and_invalid_accounting": {
+    "at_utc": "2026-10-27T16:15:24.543367+00:00",
+    "all8_complete_first_forecast_curve": {
+      "1": {
+        "empty": {
+          "EC": 0.6289964375901875,
+          "EV": 0.6797371031746031
+        },
+        "skills": {
+          "EC": 0.6289964375901875,
+          "EV": 0.6797371031746031
+        },
+        "frozen_after_B1": {
+          "EC": 0.6289964375901875,
+          "EV": 0.6797371031746031
+        }
+      },
+      "2": {
+        "empty": {
+          "EC": 0.6269841269841269,
+          "EV": 0.5170138888888889
+        },
+        "skills": {
+          "EC": 0.8105158730158731,
+          "EV": 0.6416838369963369
+        },
+        "frozen_after_B1": {
+          "EC": 0.8105158730158731,
+          "EV": 0.6416838369963369
+        }
+      },
+      "3": {
+        "empty": {
+          "EC": 0.6485367063492065,
+          "EV": 0.7129712301587301
+        },
+        "skills": {
+          "EC": 0.8723462301587303,
+          "EV": 0.894345238095238
+        },
+        "frozen_after_B1": {
+          "EC": 0.8306795634920635,
+          "EV": 0.8244543650793651
+        }
+      },
+      "4": {
+        "empty": {
+          "EC": 0.6038194444444446,
+          "EV": 0.671750992063492
+        },
+        "skills": {
+          "EC": 0.8124007936507937,
+          "EV": 0.9377480158730159
+        },
+        "frozen_after_B1": {
+          "EC": 0.8094742063492064,
+          "EV": 0.797296626984127
+        }
+      },
+      "5": {
+        "empty": {
+          "EC": 0.5940972222222223,
+          "EV": 0.5729166666666666
+        },
+        "skills": {
+          "EC": 0.8379960317460318,
+          "EV": 0.8900793650793649
+        },
+        "frozen_after_B1": {
+          "EC": 0.8187003968253967,
+          "EV": 0.7744047619047618
+        }
+      },
+      "6": {
+        "empty": {
+          "EC": 0.6934523809523808,
+          "EV": 0.6493055555555555
+        },
+        "skills": {
+          "EC": 0.8642113095238095,
+          "EV": 0.9163814484126983
+        },
+        "frozen_after_B1": {
+          "EC": 0.8428571428571427,
+          "EV": 0.7991567460317459
+        }
+      },
+      "7": {
+        "empty": {
+          "EC": 0.5909722222222222,
+          "EV": 0.5104166666666667
+        },
+        "skills": {
+          "EC": 0.8524305555555555,
+          "EV": 0.8551835317460319
+        },
+        "frozen_after_B1": {
+          "EC": 0.7373759920634921,
+          "EV": 0.7452752976190476
+        }
+      },
+      "8": {
+        "empty": {
+          "EC": 0.699156746031746,
+          "EV": 0.4736607142857143
+        },
+        "skills": {
+          "EC": 0.9111607142857143,
+          "EV": 0.9248139880952382
+        },
+        "frozen_after_B1": {
+          "EC": 0.8562251984126985,
+          "EV": 0.7059151785714285
+        }
+      }
+    },
+    "all128_prequential": {
+      "empty": {
+        "EC": {
+          "precision": 0.8441638764880952,
+          "recall": 0.543728298611111,
+          "f1": 0.635751910849567,
+          "exact_target": 0.125,
+          "tasks": 128,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.6670660123822609,
+          "negative_or_unscored_asset_claims": 8
+        },
+        "EV": {
+          "precision": 0.7707248263888886,
+          "recall": 0.51806640625,
+          "f1": 0.5984716021825398,
+          "exact_target": 0.1015625,
+          "tasks": 128,
+          "invalid_format": 2,
+          "officially_unscored_predicted_claims": 5,
+          "full_output_f1": 0.6008496446048919,
+          "negative_or_unscored_asset_claims": 5
+        },
+        "mean_family_f1": 0.6171117565160533
+      },
+      "skills": {
+        "EC": {
+          "precision": 0.9045154389880952,
+          "recall": 0.7870008680555556,
+          "f1": 0.8237572431908369,
+          "exact_target": 0.3671875,
+          "tasks": 128,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8601009995480196,
+          "negative_or_unscored_asset_claims": 4
+        },
+        "EV": {
+          "precision": 0.8981011284722223,
+          "recall": 0.8162434895833331,
+          "f1": 0.8424965659340656,
+          "exact_target": 0.3203125,
+          "tasks": 128,
+          "invalid_format": 1,
+          "officially_unscored_predicted_claims": 3,
+          "full_output_f1": 0.8369058866196983,
+          "negative_or_unscored_asset_claims": 3
+        },
+        "mean_family_f1": 0.8331269045624512
+      },
+      "frozen_after_B1": {
+        "EC": {
+          "precision": 0.8943157862103175,
+          "recall": 0.7425130208333335,
+          "f1": 0.7918531013257575,
+          "exact_target": 0.265625,
+          "tasks": 128,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8225255682435679,
+          "negative_or_unscored_asset_claims": 8
+        },
+        "EV": {
+          "precision": 0.8180555555555556,
+          "recall": 0.7083875868055555,
+          "f1": 0.745990489545177,
+          "exact_target": 0.203125,
+          "tasks": 128,
+          "invalid_format": 2,
+          "officially_unscored_predicted_claims": 6,
+          "full_output_f1": 0.740187734813232,
+          "negative_or_unscored_asset_claims": 6
+        },
+        "mean_family_f1": 0.7689217954354672
+      }
+    },
+    "all128_online_vs_own_B1": {
+      "tasks": 256,
+      "help": 83,
+      "hurt": 24,
+      "ties": 149,
+      "mean_f1_difference": 0.06420510912698411
+    },
+    "B8_claim_accounting": {
+      "empty": {
+        "EC": {
+          "invalid_responses": 0,
+          "gold_claims_in_invalid_responses_not_in_native_feedback_error_breakdown": 0
+        },
+        "EV": {
+          "invalid_responses": 1,
+          "gold_claims_in_invalid_responses_not_in_native_feedback_error_breakdown": 3
+        }
+      },
+      "skills": {
+        "EC": {
+          "invalid_responses": 0,
+          "gold_claims_in_invalid_responses_not_in_native_feedback_error_breakdown": 0
+        },
+        "EV": {
+          "invalid_responses": 0,
+          "gold_claims_in_invalid_responses_not_in_native_feedback_error_breakdown": 0
+        }
+      },
+      "frozen_after_B1": {
+        "EC": {
+          "invalid_responses": 0,
+          "gold_claims_in_invalid_responses_not_in_native_feedback_error_breakdown": 0
+        },
+        "EV": {
+          "invalid_responses": 1,
+          "gold_claims_in_invalid_responses_not_in_native_feedback_error_breakdown": 3
+        }
+      }
+    },
+    "invalid_claim_breakdown_note": "The native_claim_feedback helper reports invalid responses separately, not as legal missing/incorrect claim counts; the original primary scorer still assigns the saved invalid response its unchanged zero score. Add these target counts only for accounting, never rewrite scores.",
+    "B8_actual_invalid_response_aliases": [
+      {
+        "arm": "empty",
+        "source": 300,
+        "family": "EV",
+        "error": "Incomplete native output: length",
+        "raw_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b8_prequential/300_EV_empty_direct_numeric.json"
+      },
+      {
+        "arm": "frozen_after_B1",
+        "source": 300,
+        "family": "EV",
+        "error": "Incomplete native output: length",
+        "raw_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b8_prequential/300_EV_empty_direct_numeric.json"
+      }
+    ],
+    "prospective_feedback_omission_confirmed_on_real_teacher13": {
+      "actual_historical_sources": [
+        196,
+        197,
+        204,
+        205,
+        231,
+        234,
+        242,
+        248,
+        257,
+        267,
+        269,
+        271,
+        281,
+        285,
+        287,
+        292
+      ],
+      "prior_forecast_exact": true,
+      "source286_omitted": true,
+      "corrected_v3_would_add286_without_increasing16_history_budget": true
+    },
+    "teacher13_response_available": true,
+    "teacher13_response": {
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 176906,
+        "cached_input_tokens": 0,
+        "output_tokens": 2395,
+        "reasoning_output_tokens": 1980
+      },
+      "elapsed": 57.175,
+      "operations": [
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "wisconsin-single-debtor-motor-vehicle-valuation"
+          ],
+          "new_skill_id": "wisconsin-single-debtor-motor-vehicle-valuation",
+          "source_case_ids": [
+            294,
+            298,
+            301,
+            306
+          ],
+          "rationale": "Current cases 294 and 298 show the parent separating the unused § 815.18(3)(d) amount into an extra claim instead of transferring it into one paragraph (g) result; case 301 leaves paragraph (g) at $4,000 for one debtor; and case 306 leaves a two-spouse vehicle at $4,000 instead of the target's combined $32,000 ceiling. The revision preserves the existing single-debtor rule while adding the statutory two-spouse branch and expressly prevents a separate paragraph (d) vehicle claim."
+        }
+      ]
+    },
+    "new_model_teacher_grader_calls": 0,
+    "TEST_semantic_reads": 0,
+    "completion_status_note": "All8 first-forecast cohorts complete; B8 teacher/publication and full-run terminal preservation still pending."
+  },
+  "candidate1_plan": {
+    "parent": "ed24287606166f741e168068879bf3987b65d6a84369df8e73e0f0cb43b31420",
+    "proposed": "b013a2ce2cfc0d71b72c77e7d7c0c37c59057d851341a9a5522cd951a3f14238",
+    "library_records": 8,
+    "one_EV_WISCONSIN_update_only": true,
+    "wire_plan": {
+      "EC_identical": 128,
+      "EV_identical": 101,
+      "EV_changed": 27
+    },
+    "affected": [
+      {
+        "source": 184,
+        "family": "EV"
+      },
+      {
+        "source": 185,
+        "family": "EV"
+      },
+      {
+        "source": 186,
+        "family": "EV"
+      },
+      {
+        "source": 203,
+        "family": "EV"
+      },
+      {
+        "source": 212,
+        "family": "EV"
+      },
+      {
+        "source": 213,
+        "family": "EV"
+      },
+      {
+        "source": 214,
+        "family": "EV"
+      },
+      {
+        "source": 226,
+        "family": "EV"
+      },
+      {
+        "source": 227,
+        "family": "EV"
+      },
+      {
+        "source": 245,
+        "family": "EV"
+      },
+      {
+        "source": 247,
+        "family": "EV"
+      },
+      {
+        "source": 253,
+        "family": "EV"
+      },
+      {
+        "source": 265,
+        "family": "EV"
+      },
+      {
+        "source": 266,
+        "family": "EV"
+      },
+      {
+        "source": 268,
+        "family": "EV"
+      },
+      {
+        "source": 270,
+        "family": "EV"
+      },
+      {
+        "source": 271,
+        "family": "EV"
+      },
+      {
+        "source": 277,
+        "family": "EV"
+      },
+      {
+        "source": 278,
+        "family": "EV"
+      },
+      {
+        "source": 282,
+        "family": "EV"
+      },
+      {
+        "source": 287,
+        "family": "EV"
+      },
+      {
+        "source": 289,
+        "family": "EV"
+      },
+      {
+        "source": 294,
+        "family": "EV"
+      },
+      {
+        "source": 298,
+        "family": "EV"
+      },
+      {
+        "source": 301,
+        "family": "EV"
+      },
+      {
+        "source": 303,
+        "family": "EV"
+      },
+      {
+        "source": 306,
+        "family": "EV"
+      }
+    ],
+    "expected_native_after_candidate1": 1302,
+    "teacher13": {
+      "usage": {
+        "input_tokens": 176906,
+        "cached_input_tokens": 0,
+        "output_tokens": 2395,
+        "reasoning_output_tokens": 1980
+      },
+      "elapsed_seconds": 57.175,
+      "cache_hit": false,
+      "tool_events_detected": false,
+      "operations": [
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "wisconsin-single-debtor-motor-vehicle-valuation"
+          ],
+          "skill": {
+            "id": "wisconsin-single-debtor-motor-vehicle-valuation",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Wisconsin exemptions are allowable and the asset is a motor vehicle owned by one debtor or jointly by two debtor spouses entitled to separate exemptions under Wis. Stat. § 815.18(8).",
+                  "procedure": "Include one Wis. Stat. § 815.18(3)(g) alternative. For this independently evaluated vehicle, transfer the unused § 815.18(3)(d) consumer-goods amount into paragraph (g), rather than listing paragraph (d) separately. Use a whole-vehicle ceiling of $16,000 for one debtor and $32,000 for two joint debtor spouses, and report the lesser of the vehicle's value and the applicable ceiling.",
+                  "avoid_when": "Do not stop at $4,000, report paragraph (d) as a separate vehicle exemption, use the one-debtor $16,000 ceiling for two qualifying debtor spouses, exceed the whole vehicle's value, or allocate the amount across assets."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "WISCONSIN"
+            }
+          },
+          "source_case_ids": [
+            294,
+            298,
+            301,
+            306
+          ],
+          "rationale": "Current cases 294 and 298 show the parent separating the unused § 815.18(3)(d) amount into an extra claim instead of transferring it into one paragraph (g) result; case 301 leaves paragraph (g) at $4,000 for one debtor; and case 306 leaves a two-spouse vehicle at $4,000 instead of the target's combined $32,000 ceiling. The revision preserves the existing single-debtor rule while adding the statutory two-spouse branch and expressly prevents a separate paragraph (d) vehicle claim."
+        }
+      ]
+    },
+    "new_model_calls_for_plan": 0
+  }
+}

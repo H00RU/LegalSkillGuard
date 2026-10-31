@@ -1,0 +1,174 @@
+{
+  "at": "2026-10-28T22:24:11.496624+00:00",
+  "scope": "Completed primary physical-call transport and budget metadata only; no new questions, labels, answer semantics or scores inspected",
+  "generation_config": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "Qwen/Qwen3-8B",
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "context_tokens": 32768,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "timeout_seconds": 900,
+    "disable_thinking": false
+  },
+  "completed_physical_origins": 209,
+  "actual_request_output_budgets": {
+    "8192": 209
+  },
+  "transport_attempt_counts": {
+    "1": 209
+  },
+  "actual_generation_fields_match_all_arms": true,
+  "by_arm": {
+    "ace": {
+      "completed_physical_origins": 31,
+      "finish_reasons": {
+        "stop": 29,
+        "length": 2
+      },
+      "prompt_tokens": 276477,
+      "completion_tokens": 85557
+    },
+    "ACE_common45": {
+      "completed_physical_origins": 28,
+      "finish_reasons": {
+        "stop": 27,
+        "length": 1
+      },
+      "prompt_tokens": 242433,
+      "completion_tokens": 64587
+    },
+    "empty": {
+      "completed_physical_origins": 26,
+      "finish_reasons": {
+        "stop": 26
+      },
+      "prompt_tokens": 165965,
+      "completion_tokens": 68166
+    },
+    "joint_consolidated45": {
+      "completed_physical_origins": 12,
+      "finish_reasons": {
+        "stop": 12
+      },
+      "prompt_tokens": 82635,
+      "completion_tokens": 27233
+    },
+    "native_claim45": {
+      "completed_physical_origins": 14,
+      "finish_reasons": {
+        "stop": 14
+      },
+      "prompt_tokens": 96035,
+      "completion_tokens": 31300
+    },
+    "native_claim_own_B1_45": {
+      "completed_physical_origins": 26,
+      "finish_reasons": {
+        "stop": 26
+      },
+      "prompt_tokens": 171845,
+      "completion_tokens": 82408
+    },
+    "static": {
+      "completed_physical_origins": 29,
+      "finish_reasons": {
+        "stop": 28,
+        "length": 1
+      },
+      "prompt_tokens": 210038,
+      "completion_tokens": 71011
+    },
+    "task_consolidated45": {
+      "completed_physical_origins": 15,
+      "finish_reasons": {
+        "stop": 15
+      },
+      "prompt_tokens": 103367,
+      "completion_tokens": 41288
+    },
+    "text45": {
+      "completed_physical_origins": 28,
+      "finish_reasons": {
+        "stop": 27,
+        "length": 1
+      },
+      "prompt_tokens": 268501,
+      "completion_tokens": 64813
+    }
+  },
+  "output_limit_events": [
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000005_EV_ace.json",
+      "arm": "ace",
+      "family": "EV",
+      "case_id": 2000005,
+      "prompt_tokens": 8748,
+      "completion_tokens": 8192,
+      "max_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000012_EV_ace.json",
+      "arm": "ace",
+      "family": "EV",
+      "case_id": 2000012,
+      "prompt_tokens": 9047,
+      "completion_tokens": 8192,
+      "max_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE_common45/2000007_EV_ACE_common45.json",
+      "arm": "ACE_common45",
+      "family": "EV",
+      "case_id": 2000007,
+      "prompt_tokens": 8651,
+      "completion_tokens": 8192,
+      "max_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_static/2000004_EV_static.json",
+      "arm": "static",
+      "family": "EV",
+      "case_id": 2000004,
+      "prompt_tokens": 7379,
+      "completion_tokens": 8192,
+      "max_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_text45/2000013_EC_text45.json",
+      "arm": "text45",
+      "family": "EC",
+      "case_id": 2000013,
+      "prompt_tokens": 9416,
+      "completion_tokens": 8192,
+      "max_tokens": 8192
+    }
+  ],
+  "largest_prompt_plus_requested_output_budget": 18023,
+  "frozen_context_limit": 32768,
+  "all_observed_prompts_plus_cap_fit_context": true,
+  "failure_policy": "Preserve all failures with original scoring; no retry, output repair, case exclusion or mid-run budget change",
+  "next": "Continue same frozen study; full-arm failure and cost counts enter final interpretation after all predictions are saved. Output limit outcomes alone do not indicate transport or source-contract failure.",
+  "new_native_or_teacher_calls": 0,
+  "truncated_event_raw_and_actual_input_sha256": {
+    "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000005_EV_ace.json": "2b6132ddc74bd43e2b300576022aaaac4338d51fb6861a32884f8bb87d5abb90",
+    "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000005_EV_ace.input.json": "0ce88e9e5ee8fe349c3ea37f17b1248faf4f2bbbd6a50aa091fcb9551e73e7bf",
+    "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000012_EV_ace.json": "b4ce5743d44750e978f21f2ef2e052b3e3f632a2e033cdc178e5b37cc1131f45",
+    "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000012_EV_ace.input.json": "9de2a6f4730843dbd9674661ca567349231fdc6eb1d715b67c31d175b23b8f44",
+    "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE_common45/2000007_EV_ACE_common45.json": "78977c328e9385aaffc2dbfe50114f3cb667828fd78a7197467b99aefdebdaee",
+    "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE_common45/2000007_EV_ACE_common45.input.json": "5f1c2b8059cc654c867acd2a5606a1e2e9d4a9d6c1125388198f169b2d908aaa",
+    "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_static/2000004_EV_static.json": "c97087cd39fada63ee629c1abbf7013e1b676463d8457e8be07c74a12d0976c5",
+    "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_static/2000004_EV_static.input.json": "b515388954fc274f79622f9d7210c234b028927b1b4f82d114d4a3a73d69e074",
+    "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_text45/2000013_EC_text45.json": "111c509b1151a994f7c2e15b9c4a5bf274f662c1be99976f82b24ed99e97ea9a",
+    "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_text45/2000013_EC_text45.input.json": "59b1a946ad2448d705a694d2382b10206864846a3fd8ca447e7767919d20c2dc",
+    "configs/openexempt_continued_IID128_prospective_TEST_20261029_run01.json": "528e54dc34acbca1c8a5da6bdd720a3cbac607d90298ea48b3caddc891f721eb",
+    "configs/openexempt_continued_IID128_prospective_TEST_20261029_run01.frozen.json": "eff3322188eb2d767afcff82535ef467ea6ff8116b342a86731dc12b9d23f699"
+  },
+  "no_early_grading": true,
+  "observation_denominator_is_completed_physical_calls_not_full_matrix": true,
+  "no_performance_ranking_from_partial_failure_rates": true
+}
+

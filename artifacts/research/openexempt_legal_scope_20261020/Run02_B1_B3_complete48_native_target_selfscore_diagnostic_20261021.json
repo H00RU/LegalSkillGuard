@@ -1,0 +1,70 @@
+{
+  "at": "2026-10-21T03:23:31+00:00",
+  "classification": "Already-released Run02 TRAIN48 target-self-score diagnostic, not a new metric, solver output, independent run or TEST result",
+  "batches": [
+    {
+      "batch": 1,
+      "sources": 16,
+      "actual_first_encounter_F1": {
+        "EC": 0.6344990079365078,
+        "EV": 0.6635416666666666
+      },
+      "native_self_target_score": {
+        "EC": 0.9635416666666666,
+        "EV": 1
+      },
+      "target_empty_assets": {
+        "EC_empty_target_assets": 2,
+        "EC_entirely_negative_sources": 0,
+        "EV_empty_target_assets": 0,
+        "EV_entirely_negative_sources": 0
+      },
+      "not_a_solver_call_or_new_metric_or_new_case_or_TEST_read": true
+    },
+    {
+      "batch": 2,
+      "sources": 16,
+      "actual_first_encounter_F1": {
+        "EC": 0.9633928571428572,
+        "EV": 0.8988095238095237
+      },
+      "native_self_target_score": {
+        "EC": 0.9791666666666666,
+        "EV": 1
+      },
+      "target_empty_assets": {
+        "EC_empty_target_assets": 1,
+        "EC_entirely_negative_sources": 0,
+        "EV_empty_target_assets": 0,
+        "EV_entirely_negative_sources": 0
+      },
+      "not_a_solver_call_or_new_metric_or_new_case_or_TEST_read": true
+    },
+    {
+      "batch": 3,
+      "sources": 16,
+      "actual_first_encounter_F1": {
+        "EC": 0.9355654761904763,
+        "EV": 0.875
+      },
+      "native_self_target_score": {
+        "EC": 1,
+        "EV": 1
+      },
+      "target_empty_assets": {
+        "EC_empty_target_assets": 0,
+        "EC_entirely_negative_sources": 0,
+        "EV_empty_target_assets": 0,
+        "EV_entirely_negative_sources": 0
+      },
+      "not_a_solver_call_or_new_metric_or_new_case_or_TEST_read": true
+    }
+  ],
+  "tested_hypothesis": "The B2-to-B3 native EC decline is caused by a lower native target-self-score ceiling",
+  "hypothesis_supported": false,
+  "reason": "Native EC target-self-score increases from 97.91667% in B2 to 100% in B3 while actual first-encounter EC decreases. This rejects the ceiling-drop explanation, but different batches still do not constitute a same-case forgetting test.",
+  "primary_metrics_remain_unchanged": true,
+  "no_oracle_answers_to_actor_or_teacher_or_initialization": true,
+  "only_already_seen_181_through_228_targets_read": true,
+  "audit_recomputation_program": "import json,pathlib,collections\nfrom legal_skill_guard.openexempt import evaluate,metrics\nroot=pathlib.Path(\".\");run=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02\"\ncfg=json.loads((root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run02.json\").read_text())\nrows={(r[\"case_id\"],r[\"family\"]):r for r in json.loads((root/cfg[\"input_packet\"]).read_text())[\"rows\"] if 181<=r[\"case_id\"]<=228}\nout=[]\nfor b in (1,2,3):\n p=run/f\"batches/b{b}_prequential_records.json\";records=json.loads(p.read_text())[\"skills\"];ceil=[];negative=collections.Counter()\n for r in records:\n  row=rows[r[\"case_id\"],r[\"family\"]];target=json.loads((root/cfg[\"grading_directory\"]/f'{r[\"case_id\"]}.json').read_text())[\"targets\"][r[\"family\"]]\n  score=evaluate(row,target,target);ceil.append({\"case_id\":r[\"case_id\"],\"family\":r[\"family\"],\"score\":score})\n  negative[r[\"family\"]+\"_empty_target_assets\"]+=sum(not claims for claims in target.values())\n  negative[r[\"family\"]+\"_entirely_negative_sources\"]+=int(not any(target.values()))\n c=metrics(ceil)\n out.append({\"batch\":b,\"sources\":16,\"actual_first_encounter_F1\":{f:sum(r[\"score\"][\"f1\"] for r in records if r[\"family\"]==f)/16 for f in (\"EC\",\"EV\")},\n \"native_self_target_score\":{f:c[f][\"f1\"] for f in (\"EC\",\"EV\")},\"target_empty_assets\":dict(negative),\n \"not_a_solver_call_or_new_metric_or_new_case_or_TEST_read\":True})\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

@@ -1,0 +1,1806 @@
+{
+  "at": "2026-10-21T13:38:06.649607+00:00",
+  "classification": "Actual B4 teacher2 all16 current plus16 selected historical sources/64 TRAIN tasks, actual C1 partial parent and bounded actual previous-publication feedback sets, fresh response and completed delivery prefix; not an admitted gain",
+  "current_parent_bank_sha256": "7cedde5f8ccdbfd0d950bb289f304e377bf8a172847221e050367945db3fb338",
+  "current_parent_records": 6,
+  "proposed_bank_sha256": "40d2c2c92b175523dfd1b8f240f58aa3e81a9282f4078ff97cfefe49b43a3047",
+  "proposed_records": 6,
+  "actual_parent_answers_targets_and_trace_origins_verified": 64,
+  "actual_previous_publication_partial_or_rejected_feedback_sets": [
+    {
+      "origin": {
+        "batch": 3,
+        "attempt": 1,
+        "publication_bank_sha256": "e9844cefc4b4a8649f171d801d5035b9d378a2aae1e0ea053d90e1c79dad9e07"
+      },
+      "witness_count": 8,
+      "all_references_match_real_current_C1_partial_parent": true,
+      "stored_origin_witness_count_before_history_filter": 8,
+      "actual_delivered_reference_count": 8
+    },
+    {
+      "origin": {
+        "batch": 4,
+        "attempt": 1,
+        "current_committed_bank_sha256": "7cedde5f8ccdbfd0d950bb289f304e377bf8a172847221e050367945db3fb338"
+      },
+      "witness_count": 8,
+      "all_references_match_real_current_C1_partial_parent": true,
+      "stored_origin_witness_count_before_history_filter": 8,
+      "actual_delivered_reference_count": 8
+    }
+  ],
+  "teacher_evidence_manifest": {
+    "current_source_ids_all_included": [
+      229,
+      230,
+      231,
+      232,
+      233,
+      234,
+      235,
+      236,
+      237,
+      238,
+      239,
+      240,
+      241,
+      242,
+      243,
+      244
+    ],
+    "selected_historical_source_ids": [
+      181,
+      182,
+      184,
+      188,
+      193,
+      195,
+      198,
+      200,
+      204,
+      205,
+      207,
+      214,
+      220,
+      221,
+      223,
+      227
+    ],
+    "selected_source_ids": [
+      181,
+      182,
+      184,
+      188,
+      193,
+      195,
+      198,
+      200,
+      204,
+      205,
+      207,
+      214,
+      220,
+      221,
+      223,
+      227,
+      229,
+      230,
+      231,
+      232,
+      233,
+      234,
+      235,
+      236,
+      237,
+      238,
+      239,
+      240,
+      241,
+      242,
+      243,
+      244
+    ],
+    "all_seen_source_ids": [
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198,
+      199,
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209,
+      210,
+      211,
+      212,
+      213,
+      214,
+      215,
+      216,
+      217,
+      218,
+      219,
+      220,
+      221,
+      222,
+      223,
+      224,
+      225,
+      226,
+      227,
+      228,
+      229,
+      230,
+      231,
+      232,
+      233,
+      234,
+      235,
+      236,
+      237,
+      238,
+      239,
+      240,
+      241,
+      242,
+      243,
+      244
+    ],
+    "omitted_historical_source_ids": [
+      183,
+      185,
+      186,
+      187,
+      189,
+      190,
+      191,
+      192,
+      194,
+      196,
+      197,
+      199,
+      201,
+      202,
+      203,
+      206,
+      208,
+      209,
+      210,
+      211,
+      212,
+      213,
+      215,
+      216,
+      217,
+      218,
+      219,
+      222,
+      224,
+      225,
+      226,
+      228
+    ],
+    "historical_source_limit": 16,
+    "public_context_witnesses": [
+      223,
+      193,
+      181,
+      214,
+      195
+    ],
+    "rule": "public-context witnesses, then actual rejected-candidate harm, then parent failures; ties by source ID",
+    "full_seen_TRAIN_replay_and_acceptance_unchanged": true,
+    "not_an_independent_validation_set": true
+  },
+  "fresh_response_and_no_tools_verified": true,
+  "usage": {
+    "input_tokens": 229127,
+    "cached_input_tokens": 0,
+    "output_tokens": 2003,
+    "reasoning_output_tokens": 1552
+  },
+  "elapsed_seconds": 56.671,
+  "operation_counts": {
+    "UPDATE": 1
+  },
+  "operations": [
+    {
+      "operation": "UPDATE",
+      "target_ids": [
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "skill": {
+        "id": "pennsylvania-general-monetary-alternative",
+        "hypothesis_ids": [
+          "EC",
+          "EV"
+        ],
+        "guidance": {
+          "by_task": [
+            {
+              "tasks": [
+                "EC"
+              ],
+              "when": "PENNSYLVANIA is allowable and the debtor owns the property.",
+              "procedure": "Include 42 Pa. Cons. Stat. § 8123 as an independent general monetary exemption for the property, whether or not a specific federal or Pennsylvania exemption also applies and whether or not the property's value exceeds the monetary limit.",
+              "avoid_when": "Do not invent a specific Pennsylvania category, use a specific category belonging to a different kind of property, or treat a firearm as wearing apparel under § 8124(a)(1)."
+            },
+            {
+              "tasks": [
+                "EV"
+              ],
+              "when": "PENNSYLVANIA is allowable and § 8123 is evaluated.",
+              "procedure": "First count the debtors identified in the facts. For exactly one debtor, report the lesser of asset value and $300. Report the lesser of asset value and $600 only when the facts identify two married debtors and the property is jointly owned. Apply this independent alternative to every debtor-owned property regardless of category or value.",
+              "avoid_when": "Do not infer a second spouse, use $600 in a one-debtor case, exceed the asset value, omit § 8123 because another exemption applies, or use § 8124(a)(3) unless the property is a qualifying sewing machine."
+            }
+          ],
+          "operators": [],
+          "jurisdiction": "PENNSYLVANIA"
+        }
+      },
+      "source_case_ids": [
+        232,
+        235,
+        241,
+        243
+      ],
+      "rationale": "Current EV sources expose a debtor-count and cap calculation error rather than a missing Pennsylvania law: the parent used the $600 two-spouse amount in one-debtor sources 232 and 243, and source 241 used $600 despite the jointly owned property's lower value. Source 235 confirms that $600 is appropriate for jointly owned property of two debtors but that § 8123 must still be evaluated for each property. The EC rule is retained verbatim."
+    }
+  ],
+  "completed_C2_delivery_snapshots_at_audit": [
+    {
+      "case_id": 181,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 181,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 182,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 182,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 183,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 183,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 184,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 184,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 185,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 185,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 186,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 186,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 187,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 187,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 188,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 188,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 189,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 189,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 190,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 190,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 191,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 191,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 192,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 192,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 193,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 193,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 194,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 194,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 195,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 195,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 196,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 196,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 197,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 197,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 198,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 198,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 199,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 199,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 200,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 200,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 201,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 201,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 202,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 202,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 203,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 203,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 204,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 204,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 205,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 205,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 206,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 206,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 207,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 207,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 208,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 208,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 209,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 209,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 210,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 210,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 211,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 211,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 212,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 212,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 213,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 213,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 214,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 214,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 215,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 215,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 216,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 216,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 217,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 217,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 218,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 218,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 219,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 219,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 220,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 220,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 221,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 221,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 222,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 222,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 223,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 223,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 224,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 224,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 225,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 225,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 226,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 226,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 227,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 227,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 228,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 228,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 229,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 229,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 230,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 230,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 231,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 231,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 232,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 232,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 233,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 233,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 234,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 234,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 235,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 235,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 236,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 236,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 237,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 237,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 238,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 238,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 239,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 239,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 240,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 240,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 241,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 241,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 242,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 242,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 243,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 243,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 244,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 244,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    }
+  ],
+  "C2_complete_decision_exists_at_audit": true,
+  "candidate_effect_status": "Actual completed C2 is rejected; separate complete128/all384 report proves current/prior outcomes. This input audit does not prove future gain.",
+  "future_or_TEST_targets_read": false,
+  "new_model_teacher_or_TEST_calls": 0,
+  "evidence_paths": [
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/181.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/182.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/184.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/188.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/193.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/195.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/198.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/200.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/204.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/205.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/207.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/214.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/220.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/221.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/223.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/227.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/229.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/230.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/231.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/232.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/233.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/234.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/235.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/236.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/237.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/238.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/239.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/240.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/241.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/242.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/243.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/244.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b3_prequential.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b3_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b4_prequential.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b4_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b3_candidate1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b4_candidate1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b4_candidate2.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/181_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/182_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/183_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/184_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/185_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/186_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/189_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/190_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/190_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/192_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/194_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/195_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/195_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/196_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/196_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/181_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/184_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/185_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/186_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/187_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/188_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/191_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/193_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/198_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/200_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/202_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/203_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/205_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/206_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/208_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/210_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/212_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/187_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/188_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/191_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/193_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/202_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/206_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/208_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/210_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/197_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/198_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/199_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/200_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/201_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/203_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/204_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/204_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/205_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/207_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/209_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/211_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/212_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/213_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/213_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/214_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/214_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/215_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/216_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/217_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/217_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/218_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/218_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/219_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/219_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/220_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/220_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/221_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/221_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/222_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/222_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/223_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/224_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/224_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/225_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/226_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/226_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/227_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/227_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/228_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/182_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/183_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/189_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/197_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/199_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/201_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/207_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/215_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/223_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/225_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/229_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/230_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/231_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/239_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/181_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/181_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/181_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/182_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/182_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/183_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/183_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/184_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/184_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/185_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/185_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/186_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/186_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/187_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/187_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/188_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/188_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/189_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/189_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/190_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/190_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/191_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/191_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/192_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/192_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/192_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/193_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/193_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/194_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/194_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/194_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/195_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/195_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/196_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/196_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/197_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/197_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/198_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/198_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/198_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/199_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/199_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/200_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/200_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/200_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/201_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/201_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/202_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/202_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/203_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/203_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/204_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/204_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/205_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/205_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/205_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/206_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/206_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/207_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/207_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/208_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/208_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/209_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/209_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/209_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/210_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/210_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/211_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/211_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/211_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/212_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/212_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/213_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/213_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/214_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/214_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/215_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/215_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/216_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/216_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/216_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/217_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/217_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/218_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/218_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/219_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/219_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/220_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/220_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/221_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/221_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/222_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/222_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/223_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/223_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/224_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/224_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/225_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/225_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/226_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/226_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/227_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/227_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/228_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/228_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/228_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/229_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/229_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/230_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/230_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/231_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/231_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/232_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/232_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/232_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/233_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/233_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/234_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/234_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/235_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/235_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/235_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/236_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/236_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/237_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/237_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/238_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/238_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/239_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/239_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/240_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/240_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/241_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/241_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/241_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/242_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/242_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/243_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/243_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/243_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/244_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate2_replay/244_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/229_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/230_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/231_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/232_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/232_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/233_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/233_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/234_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/234_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/235_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/235_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/236_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/236_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/237_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/237_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/238_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/238_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/239_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/240_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/240_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/241_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/241_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/242_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/242_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/243_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/243_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/244_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/244_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b3.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b4_candidate2/event_log.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b4_candidate2/response.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b4_candidate2/wire_request.json"
+  ],
+  "audit_recomputation_program": "import json,pathlib,collections\nfrom jsonschema import validate\nimport experiments.openexempt_online as e\nfrom legal_skill_guard.learning.publication import apply_differential_publication\nfrom legal_skill_guard.learning.task_scoped_skills import SCOPED_GUIDANCE_SCHEMA,validate_scoped_bank\nfrom legal_skill_guard.learning.legal_namespace import validate_scopes\nfrom legal_skill_guard.learning.experiment import now\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nroot=pathlib.Path.cwd();r=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\";read=lambda p:json.loads(p.read_text())\ncfg=read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\")\ndecisions={(3,1):read(r/\"candidates/b3_candidate1.json\"),(4,1):read(r/\"candidates/b4_candidate1.json\")}\npub=read(r/\"publications/b3.json\");parent=decisions[4,1][\"candidate\"];parenthash=csha(parent)\nparents={(x[\"case_id\"],x[\"family\"]):x for x in decisions[4,1][\"actual_replay\"]}\nwire=r/\"teacher/b4_candidate2/wire_request.json\";response=r/\"teacher/b4_candidate2/response.json\";event=r/\"teacher/b4_candidate2/event_log.json\"\nw=read(wire);a=read(response);b=json.loads(w[\"user_prompt\"]);log=read(event)\nassert csha(w)==a[\"request_sha256\"] and csha(a[\"value\"])==a[\"response_sha256\"] and a[\"cache_hit\"] is False\nassert a[\"invocation\"][\"returncode\"]==0 and not a[\"invocation\"][\"tool_events_detected\"]\nassert csha({\"event_log\":log[\"event_log\"]})==a[\"invocation\"][\"event_log_sha256\"]\nvalidate(a[\"value\"],w[\"output_schema\"])\nassert b[\"current_parent_library\"]==parent and b[\"candidate_feedback_contract\"][\"current_attempt_parent_bank_sha256\"]==parenthash\nassert b[\"candidate_feedback_contract\"][\"attempt\"]==2 and b[\"candidate_feedback_contract\"][\"max_attempts\"]==2\nassert b[\"current_source_case_ids\"]==list(range(229,245))\nkeys={(i,f) for i in range(181,245) for f in (\"EC\",\"EV\")}\nrows={(x[\"case_id\"],x[\"family\"]):x for x in read(root/cfg[\"input_packet\"])[\"rows\"] if (x[\"case_id\"],x[\"family\"]) in keys}\nassert len(parents)==128 and len(b[\"already_seen_training\"])==64\nselected=b[\"training_evidence_manifest\"][\"selected_source_ids\"];expected_keys={(i,f) for i in selected for f in (\"EC\",\"EV\")}\nassert {(x[\"source_case_id\"],x[\"family\"]) for x in b[\"already_seen_training\"]}==expected_keys and expected_keys<=keys\nassert b[\"training_evidence_manifest\"][\"current_source_ids_all_included\"]==list(range(229,245))\nassert len(b[\"training_evidence_manifest\"][\"selected_historical_source_ids\"])==16 and set(b[\"training_evidence_manifest\"][\"selected_historical_source_ids\"])<=set(range(181,229))\nmembers={str(x.relative_to(root)) for x in [wire,response,event,r/\"candidates/b4_candidate1.json\",r/\"candidates/b4_candidate2.json\",r/\"publications/b3.json\",r/\"batches/b3_prequential_records.json\",r/\"batches/b3_prequential.json\",r/\"candidates/b3_candidate1.json\",r/\"batches/b4_prequential_records.json\",r/\"batches/b4_prequential.json\"]}\nfor x in b[\"already_seen_training\"]:\n key=x[\"source_case_id\"],x[\"family\"];expected=parents[key];row=rows[key];v=x[\"actual_parent_answer\"]\n gp=root/cfg[\"grading_directory\"]/f\"{key[0]}.json\"\n assert x[\"original_training_target\"]==read(gp)[\"targets\"][key[1]] and x[\"facts\"]==row[\"components\"][\"facts\"]\n assert v[\"executed_answer\"]==expected[\"parsed\"][\"answer\"] and v[\"score\"]==expected[\"score\"]\n messages,schema,supplied=e.actor_payload(row,parent,grounded=True,direct_numeric=True,asset_references=True)\n raw=read(root/expected[\"raw_call_path\"]);call=raw[\"calls\"][0];req=call[\"request\"]\n assert expected[\"bank_sha256\"]==parenthash and req[\"messages\"]==messages and req[\"response_format\"][\"json_schema\"][\"schema\"]==schema\n assert expected[\"delivered_skill_ids\"]==[s[\"id\"] for s in supplied]\n trace=v[\"source_model_emitted_evidence\"];reasoning=call[\"response\"][\"choices\"][0][\"message\"].get(\"reasoning_content\") or \"\"\n assert trace[\"canonical_call_sha256\"]==csha(call) and trace[\"reasoning\"][\"text\"]==reasoning[-1024:] and trace[\"reasoning\"][\"canonical_text_sha256\"]==csha(reasoning)\n members.update((expected[\"raw_call_path\"],str(gp.relative_to(root))))\nfeedback_summaries=[]\nfor f in b[\"rejected_candidate_feedback\"]:\n origin=f[\"candidate_feedback_origin\"];prior=decisions[origin[\"batch\"],origin[\"attempt\"]]\n proposals={(x[\"case_id\"],x[\"family\"]):x for x in prior.get(\"proposed_replay\",prior[\"actual_replay\"])}\n witnesses=f[\"feedback_witness_replay\"];references=f[\"feedback_reference_replay\"]\n assert 0<len(witnesses)<=8 and len(witnesses)==len(references)\n for x in witnesses:\n  expected=proposals[x[\"case_id\"],x[\"family\"]]\n  assert x[\"score\"]==expected[\"score\"] and x[\"executed_answer\"]==expected[\"parsed\"][\"answer\"]\n for x in references:\n  expected=parents[x[\"case_id\"],x[\"family\"]]\n  assert x[\"reference_is_this_request_parent\"] and x[\"bank_sha256\"]==parenthash and x[\"record_sha256\"]==csha(expected) and x[\"score\"]==expected[\"score\"]\n feedback_summaries.append({\"origin\":origin,\"witness_count\":len(witnesses),\"all_references_match_real_current_C1_partial_parent\":True,\"stored_origin_witness_count_before_history_filter\":f[\"bounded_feedback_witness_task_count\"],\"actual_delivered_reference_count\":len(references)})\nexpected_feedback_origins=[]\nfor index,decision in enumerate(pub[\"training_decisions\"],1):\n if e.candidate_feedback(decision,parents,{\"batch\":3,\"attempt\":index,\"publication_bank_sha256\":parenthash}) is not None:expected_feedback_origins.append((3,index))\nexpected_feedback_origins.append((4,1))\nassert [(f[\"origin\"][\"batch\"],f[\"origin\"][\"attempt\"]) for f in feedback_summaries]==expected_feedback_origins\nassert b[\"candidate_feedback_contract\"][\"previous_publication_only_not_unbounded_history\"] is True and b[\"future_cases_and_labels_not_supplied\"] is True\ncandidate=apply_differential_publication(parent,a[\"value\"],e.FAMILIES,b[\"training_evidence_manifest\"][\"selected_source_ids\"],guidance_schema=SCOPED_GUIDANCE_SCHEMA)\nvalidate_scoped_bank(candidate);validate_scopes(candidate,rows[181,\"EC\"][\"components\"][\"statutes\"])\nassert all(not s[\"guidance\"][\"operators\"] for s in candidate)\nchecked=[]\nfor ap in sorted((r/\"native/b4_candidate2_replay\").glob(\"*.answer.json\")):\n x=read(ap);row=rows[x[\"case_id\"],x[\"family\"]]\n messages,schema,supplied=e.actor_payload(row,candidate,grounded=True,direct_numeric=True,asset_references=True)\n raw=read(root/x[\"raw_call_path\"]);req=raw[\"calls\"][0][\"request\"]\n assert x[\"bank_sha256\"]==csha(candidate) and req[\"messages\"]==messages and req[\"response_format\"][\"json_schema\"][\"schema\"]==schema\n assert x[\"delivered_skill_ids\"]==[s[\"id\"] for s in supplied] and x[\"native_program\"] is None and x[\"execution_receipt\"] is None\n checked.append({\"case_id\":x[\"case_id\"],\"family\":x[\"family\"],\"delivered_skill_ids\":x[\"delivered_skill_ids\"],\"finish_reason\":raw[\"response\"][\"finish_reason\"],\"parse_error\":x[\"parse_error\"]})\n members.update((str(ap.relative_to(root)),x[\"raw_call_path\"]))\nout={\"at\":now(),\"classification\":\"Actual B4 teacher2 all16 current plus16 selected historical sources/64 TRAIN tasks, actual C1 partial parent and bounded actual previous-publication feedback sets, fresh response and completed delivery prefix; not an admitted gain\",\n\"current_parent_bank_sha256\":parenthash,\"current_parent_records\":len(parent),\"proposed_bank_sha256\":csha(candidate),\"proposed_records\":len(candidate),\n\"actual_parent_answers_targets_and_trace_origins_verified\":64,\"actual_previous_publication_partial_or_rejected_feedback_sets\":feedback_summaries,\"teacher_evidence_manifest\":b[\"training_evidence_manifest\"],\n\"fresh_response_and_no_tools_verified\":True,\"usage\":a[\"invocation\"][\"usage\"],\"elapsed_seconds\":a[\"invocation\"][\"elapsed_seconds\"],\n\"operation_counts\":dict(collections.Counter(x[\"operation\"] for x in a[\"value\"][\"operations\"])),\"operations\":a[\"value\"][\"operations\"],\n\"completed_C2_delivery_snapshots_at_audit\":checked,\"C2_complete_decision_exists_at_audit\":(r/\"candidates/b4_candidate2.json\").exists(),\n\"candidate_effect_status\":\"Actual completed C2 is rejected; separate complete128/all384 report proves current/prior outcomes. This input audit does not prove future gain.\",\n\"future_or_TEST_targets_read\":False,\"new_model_teacher_or_TEST_calls\":0,\"evidence_paths\":sorted(members)}\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

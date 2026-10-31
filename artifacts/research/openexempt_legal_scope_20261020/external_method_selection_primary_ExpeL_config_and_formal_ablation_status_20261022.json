@@ -1,0 +1,68 @@
+{
+  "at": "2026-10-22T19:08:59+08:00",
+  "purpose": "Read-only follow-up to the user's question about external baselines, brother-skill provenance, and ablations; not a new experiment or formal matrix amendment.",
+  "skills_used": {
+    "paper-ideation": "Sections 3 and 7: identify the mechanism and domain boundary that a comparison can actually test, rather than collect method names.",
+    "paper-experiments-appendix": "Separate external methods, controls, independently learned ablations, fairness assumptions, and actual cost. Template run counts, backbone transfer, OOD, and wins are not assumed results. Borrowed implementations remain credited."
+  },
+  "formal_matrix_unchanged": {
+    "external_adaptive_methods": ["ACE native Generator/Reflector/Curator legal-task adaptation, ace_native_online_v3"],
+    "controls_not_additional_published_methods": ["shared direct empty library", "each main learning run's own first B1 publication, kept frozen", "blind public-law-only static compilation"],
+    "main_seed45": "Complete 128 sources / 8 batches; still TRAIN evidence, not sealed TEST.",
+    "ACE_seed45": "Fresh v3 run02; B1 complete, B2 first forecasts in progress. No full learned-library B2 result at this timestamp.",
+    "main_and_ACE_repeats": "Three fresh learning banks each, seeds 45/145/245; subsequent four repeat runs frozen but not started or queued.",
+    "additional_external_methods": "Not selected, implemented, queued, or performance-screened by this audit. Any formal addition requires a preserved pre-TEST matrix revision and an expanded comparison family."
+  },
+  "ExpeL_focused_primary_code_recheck": {
+    "paper": "https://arxiv.org/abs/2308.10144",
+    "repository": "https://github.com/LeapLabTHU/ExpeL",
+    "commit": "e41ec9a24823e7b560c561ab191441b56d9bcefc",
+    "code": "https://github.com/LeapLabTHU/ExpeL/blob/e41ec9a24823e7b560c561ab191441b56d9bcefc/agent/expel.py",
+    "config": "https://github.com/LeapLabTHU/ExpeL/blob/e41ec9a24823e7b560c561ab191441b56d9bcefc/configs/agent/expel.yaml",
+    "prior_project_code_provenance": "artifacts/research/calibrated_witness128_teacher_contract_run02_20261019/expel_prompt_order_primary_code_and_actual_native_layout_recheck.json",
+    "actual_mechanisms_read": ["insight-rule storage and updates", "separate successful and failed trajectory histories", "successful-experience vector store", "task-conditioned retrieval of full successful examples, excluding the current task and filtering example length"],
+    "actual_default_retrieval_config": {
+      "fewshot_strategy": "task_similarity",
+      "embedder_type": "huggingface",
+      "embedder_path": "all-mpnet-base-v2",
+      "retriever_type": "knn",
+      "reranker": "none"
+    },
+    "important_non_claims": ["ExpeL is not intrinsically dependent on paid embedding APIs; the pinned default is a local Hugging Face encoder.", "The code has a none strategy, but disabling retrieval is not the full retrieved-success-experience method or evidence that it is an adequate strong external baseline.", "The random strategy still constructs an embedding vector store and similarity-searches before shuffling, so its name does not establish embedding-free execution.", "Existing project rule-editing or prompt-order inspiration is not a completed ExpeL reproduction.", "This audit did not download an encoder, install dependencies, edit runtime code, or add a baseline run."]
+  },
+  "SkillCommit_nearest_neighbor": {
+    "primary_paper": "https://arxiv.org/html/2608.15165v2",
+    "relevant_sections": ["3.1-3.3", "B.2 Semantic encoder", "B.3 construction budgets"],
+    "status": "Mechanism-level nearest neighbor that must be credited; not an implemented or completed quantitative baseline.",
+    "fidelity_boundary": "Published retrieval uses text-embedding-3-small, with compatibility grouping and hierarchical source-preserving consolidation. A lexical substitute or removal of those stages cannot be silently labeled an exact replication.",
+    "repository_status": "No author repository verified in this audit; this is not a proof that none exists.",
+    "decision": "No formal inclusion/exclusion amendment or new service deployment in this audit. No claim of superiority over SkillCommit or all recent methods."
+  },
+  "independently_learned_ablations": [
+    {
+      "name": "whole_bank",
+      "config": "configs/openexempt_whole_bank_public_assets128_20261021_run01.json",
+      "change": "Keep a candidate only if its entire proposed bank passes the existing gates, instead of accepting compatible legal-scope components.",
+      "not": "Not accept-all; not deleting cards from the completed main bank.",
+      "status": "Frozen, not started or queued.",
+      "learning": "Fresh empty bank, full same 128 sources / 8 batches, one seed45 run.",
+      "limitation": "Teachers see the declared commit policy, so this is not an offline randomized comparison of identical proposals. Actual compute can differ."
+    },
+    {
+      "name": "first_commit",
+      "config": "configs/openexempt_first_commit_public_assets128_20261021_run01.json",
+      "change": "Disable cross-batch failure carry and stop batch refinement after the first accepted commit, including partial acceptance.",
+      "not": "Not no-label training and not removal of every failure signal. A second proposal after initial rejection can still receive current-batch feedback.",
+      "status": "Frozen, not started or queued.",
+      "learning": "Fresh empty bank, full same 128 sources / 8 batches, one seed45 run.",
+      "limitation": "Tests the feedback/refinement policy plus its resulting compute, not the isolated causal contribution of one feedback field."
+    }
+  ],
+  "completed_performance_results_added": false,
+  "active_learning_or_model_settings_changed": false,
+  "new_native_generations": 0,
+  "new_teacher_calls": 0,
+  "new_models_or_dependencies": 0,
+  "sealed_TEST_semantics_labels_predictions_or_scores_read": false,
+  "publication_claim_boundary": "The current frozen minimum has one external adaptive method, not several. Baseline breadth, completed independent learning, the actual two ablations, and final isolated TEST are still evidence to obtain, not already sufficient publication results."
+}

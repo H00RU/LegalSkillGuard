@@ -1,0 +1,4413 @@
+{
+  "at": "2026-10-22T03:24:26.913396+00:00",
+  "classification": "Complete Run03 B8 first-encounter learner-new-source32 tasks/all160 logical records; compare actual unique B7 final bank vs own fixed B1 as well as strongempty; not training replay, completed B8 learning, independent repeats or finalTEST",
+  "ready": true,
+  "source_cases": 16,
+  "logical_records": 160,
+  "actual_native_original_and_complete_scores_and_wire_contracts_verified": true,
+  "metrics": {
+    "empty": {
+      "EC": {
+        "precision": 0.7942708333333334,
+        "recall": 0.4930555555555556,
+        "f1": 0.5911954365079364,
+        "exact_target": 0.0625,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.6101470800870955,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.7994791666666666,
+        "recall": 0.5099826388888888,
+        "f1": 0.5996031746031747,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.6082600069013112,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.5953993055555555
+    },
+    "skills": {
+      "EC": {
+        "precision": 0.9322916666666666,
+        "recall": 0.7864583333333333,
+        "f1": 0.8390128968253969,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8567437770562771,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.8887152777777779,
+        "recall": 0.8289930555555556,
+        "f1": 0.8520585317460317,
+        "exact_target": 0.4375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8513961834733894,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.8455357142857143
+    },
+    "frozen_initial": {
+      "EC": {
+        "precision": 0.7942708333333334,
+        "recall": 0.4930555555555556,
+        "f1": 0.5911954365079364,
+        "exact_target": 0.0625,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.6101470800870955,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.7994791666666666,
+        "recall": 0.5099826388888888,
+        "f1": 0.5996031746031747,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.6082600069013112,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.5953993055555555
+    },
+    "empty_direct_numeric": {
+      "EC": {
+        "precision": 0.7942708333333334,
+        "recall": 0.4930555555555556,
+        "f1": 0.5911954365079364,
+        "exact_target": 0.0625,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.6101470800870955,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.7994791666666666,
+        "recall": 0.5099826388888888,
+        "f1": 0.5996031746031747,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.6082600069013112,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.5953993055555555
+    },
+    "frozen_after_B1": {
+      "EC": {
+        "precision": 0.9453125,
+        "recall": 0.7578125,
+        "f1": 0.8183035714285715,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8385890151515151,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.8376736111111112,
+        "recall": 0.6319444444444444,
+        "f1": 0.7131944444444445,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.7205173992673992,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.7657490079365079
+    }
+  },
+  "vs_strong_empty": {
+    "tasks": 32,
+    "help": 24,
+    "hurt": 1,
+    "ties": 7,
+    "mean_f1_difference": 0.25013640873015874
+  },
+  "vs_own_B1": {
+    "tasks": 32,
+    "help": 13,
+    "hurt": 3,
+    "ties": 16,
+    "mean_f1_difference": 0.07978670634920633
+  },
+  "own_B1_equality_expected_from_actual_published_banks": false,
+  "own_B1_bank_sha256": "574af7a6d3a5f155d45aebeefb7f620884cbe557a2e5f91914bbfdd3f2eb5118",
+  "learning_stream_not_researcher_unseen_TEST_or_independent_replication": true,
+  "bank_sha256": "a232fc0b795b84155526b411f4c19a5143441ac47ef8ff25e1eaa3781f032e0a",
+  "bank_records": 6,
+  "native_raw_origins": 84,
+  "HTTP_requests": 84,
+  "prompt_tokens": 552300,
+  "completion_tokens": 232803,
+  "finish_reasons": {
+    "stop": 84
+  },
+  "parse_errors": {
+    "empty": 0,
+    "skills": 0,
+    "frozen_initial": 0,
+    "empty_direct_numeric": 0,
+    "frozen_after_B1": 0
+  },
+  "new_model_teacher_or_TEST_calls_by_audit": 0,
+  "no_current_labels_read_by_this_audit_before_complete_records": true,
+  "all160_answers_saved_before_teacher_request": true,
+  "evidence_paths": [
+    "configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json",
+    "configs/openexempt_closed_feedback_public_assets128_20261021_run03.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/293.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/294.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/295.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/296.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/297.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/298.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/299.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/300.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/301.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/302.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/303.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/304.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/305.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/306.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/307.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/308.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b2_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b3_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b4_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b5_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b6_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b7_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b8_prequential.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b8_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_frozen_initial.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/293_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_frozen_initial.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/294_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/295_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/296_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/297_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_frozen_initial.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/298_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_frozen_initial.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/299_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/300_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/301_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/302_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_frozen_initial.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/303_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_frozen_initial.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/304_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/305_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/306_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/307_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_empty.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_empty_direct_numeric.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_frozen_after_B1.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_frozen_initial.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_frozen_initial.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_skills.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b8_prequential/308_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b7.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b8_candidate1/wire_request.json"
+  ],
+  "claim_residuals": {
+    "empty": {
+      "counts": {
+        "EC_missing": 65,
+        "EC_extra_citation": 9,
+        "EV_missing": 57,
+        "EV_wrong_amount": 12,
+        "EV_extra_citation": 3
+      },
+      "by_citation": [
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "missing": 2
+        },
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "missing": 3
+        },
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(4)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "missing": 34
+        },
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(6)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EC",
+          "citation": "42 pa. cons. stat. § 8123",
+          "missing": 8
+        },
+        {
+          "family": "EC",
+          "citation": "42 pa. cons. stat. § 8124(a)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EC",
+          "citation": "735 ill. comp. stat. 5/12-1001(a)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EC",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "missing": 5
+        },
+        {
+          "family": "EC",
+          "citation": "735 ill. comp. stat. 5/12-1001(d)",
+          "extra_citation": 2
+        },
+        {
+          "family": "EC",
+          "citation": "ariz. rev. stat. § 33-1123",
+          "extra_citation": 1
+        },
+        {
+          "family": "EC",
+          "citation": "ariz. rev. stat. § 33-1125(9)",
+          "missing": 1
+        },
+        {
+          "family": "EC",
+          "citation": "or. rev. stat. § 18.345(1)(a)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EC",
+          "citation": "or. rev. stat. § 18.345(1)(d)",
+          "missing": 1
+        },
+        {
+          "family": "EC",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "extra_citation": 1,
+          "missing": 1
+        },
+        {
+          "family": "EC",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "missing": 9
+        },
+        {
+          "family": "EC",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "missing": 2
+        },
+        {
+          "family": "EV",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "wrong_amount": 4,
+          "missing": 2,
+          "extra_citation": 1
+        },
+        {
+          "family": "EV",
+          "citation": "11 u.s.c. § 522(d)(4)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EV",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "missing": 34
+        },
+        {
+          "family": "EV",
+          "citation": "42 pa. cons. stat. § 8123",
+          "missing": 8
+        },
+        {
+          "family": "EV",
+          "citation": "735 ill. comp. stat. 5/12-1001(a)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "ariz. rev. stat. § 33-1125(9)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "or. rev. stat. § 18.345(1)(a)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EV",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "missing": 8
+        },
+        {
+          "family": "EV",
+          "citation": "wis. stat. § 815.18(3)(d)",
+          "wrong_amount": 3
+        },
+        {
+          "family": "EV",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "wrong_amount": 5
+        }
+      ],
+      "case_errors": [
+        {
+          "case_id": 293,
+          "family": "EC",
+          "asset": "double waffle maker with nonstick coating",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 293,
+          "family": "EC",
+          "asset": "stainless steel wristwatch with leather band and analog dial",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 293,
+          "family": "EC",
+          "asset": "stainless steel wristwatch with leather band and analog dial",
+          "citation": "735 ill. comp. stat. 5/12-1001(a)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 294,
+          "family": "EC",
+          "asset": "water filtration system with multi-stage carbon and UV purification",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EC",
+          "asset": "navy blue blazer made of wool blend with notch lapels",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EC",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EC",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EC",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EV",
+          "asset": "water filtration system with multi-stage carbon and UV purification",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EV",
+          "asset": "water filtration system with multi-stage carbon and UV purification",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 3050.0,
+          "target": 700.0
+        },
+        {
+          "case_id": 294,
+          "family": "EV",
+          "asset": "navy blue blazer made of wool blend with notch lapels",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EV",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EV",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 8200.0
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "42 pa. cons. stat. § 8124(a)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "leather riding gloves with reinforced knuckles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "leather riding gloves with reinforced knuckles",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "portable space heater with oscillating fan and tip-over protection",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "portable space heater with oscillating fan and tip-over protection",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "leather riding gloves with reinforced knuckles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "leather riding gloves with reinforced knuckles",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "portable space heater with oscillating fan and tip-over protection",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "portable space heater with oscillating fan and tip-over protection",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "Sig Sauer P365 9mm subcompact handgun",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "Sig Sauer P365 9mm subcompact handgun",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "or. rev. stat. § 18.345(1)(d)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "rechargeable electric toothbrush with charging dock",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "Sig Sauer P365 9mm subcompact handgun",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "Sig Sauer P365 9mm subcompact handgun",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "rechargeable electric toothbrush with charging dock",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 297,
+          "family": "EC",
+          "asset": "desktop fan with three-speed settings and tilt head",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 297,
+          "family": "EC",
+          "asset": "full-length wall mirror with ornate silver frame",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 297,
+          "family": "EC",
+          "asset": "full-length wall mirror with ornate silver frame",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 297,
+          "family": "EV",
+          "asset": "desktop fan with three-speed settings and tilt head",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 297,
+          "family": "EV",
+          "asset": "full-length wall mirror with ornate silver frame",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "gun safe with biometric lock and adjustable interior shelving",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(4)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "electric skillet with glass lid and adjustable temperature",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "gun safe with biometric lock and adjustable interior shelving",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "gun safe with biometric lock and adjustable interior shelving",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 2700.0,
+          "target": 700.0
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 16000.0
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(4)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "electric skillet with glass lid and adjustable temperature",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 299,
+          "family": "EC",
+          "asset": "blood glucose sensor and transmitter system issued by medical provider for continuous glucose monitoring",
+          "citation": "ariz. rev. stat. § 33-1125(9)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 299,
+          "family": "EC",
+          "asset": "blood glucose sensor and transmitter system issued by medical provider for continuous glucose monitoring",
+          "citation": "ariz. rev. stat. § 33-1123",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 299,
+          "family": "EV",
+          "asset": "blood glucose sensor and transmitter system issued by medical provider for continuous glucose monitoring",
+          "citation": "ariz. rev. stat. § 33-1125(9)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EC",
+          "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EC",
+          "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EC",
+          "asset": "blue silk kimono with floral pattern",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 15750.0
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 9900.0
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "blue silk kimono with floral pattern",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "blue silk kimono with floral pattern",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 302,
+          "family": "EC",
+          "asset": "custom closet organization system with hardwood shelving and LED lighting",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 302,
+          "family": "EC",
+          "asset": "custom closet organization system with hardwood shelving and LED lighting",
+          "citation": "735 ill. comp. stat. 5/12-1001(d)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 302,
+          "family": "EC",
+          "asset": "L-shaped sectional sofa upholstered in dark gray microfiber",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 302,
+          "family": "EC",
+          "asset": "L-shaped sectional sofa upholstered in dark gray microfiber",
+          "citation": "735 ill. comp. stat. 5/12-1001(d)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 302,
+          "family": "EC",
+          "asset": "pair of polished black leather dress shoes with laces",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 302,
+          "family": "EV",
+          "asset": "pair of polished black leather dress shoes with laces",
+          "citation": "735 ill. comp. stat. 5/12-1001(a)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EC",
+          "asset": "step ladder with wide anti-slip treads and folding design",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EC",
+          "asset": "huipil blouse with multicolor threads",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EC",
+          "asset": "Hatfield SAS 12-gauge semi-auto shotgun",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "step ladder with wide anti-slip treads and folding design",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "step ladder with wide anti-slip treads and folding design",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 14875.0,
+          "target": 155.0
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "step ladder with wide anti-slip treads and folding design",
+          "citation": "wis. stat. § 815.18(3)(d)",
+          "kind": "wrong_amount",
+          "predicted": 12000.0,
+          "target": 155.0
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "huipil blouse with multicolor threads",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "huipil blouse with multicolor threads",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 14875.0,
+          "target": 30.0
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "huipil blouse with multicolor threads",
+          "citation": "wis. stat. § 815.18(3)(d)",
+          "kind": "wrong_amount",
+          "predicted": 12000.0,
+          "target": 30.0
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "Hatfield SAS 12-gauge semi-auto shotgun",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "Hatfield SAS 12-gauge semi-auto shotgun",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "Hatfield SAS 12-gauge semi-auto shotgun",
+          "citation": "wis. stat. § 815.18(3)(d)",
+          "kind": "wrong_amount",
+          "predicted": 12000.0,
+          "target": 305.0
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "home theater receiver with 7.2 channel support and Bluetooth connectivity",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "home theater receiver with 7.2 channel support and Bluetooth connectivity",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "medically approved prosthetic leg with carbon fiber pylon and silicone socket liner",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "medically approved prosthetic leg with carbon fiber pylon and silicone socket liner",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "home theater receiver with 7.2 channel support and Bluetooth connectivity",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "home theater receiver with 7.2 channel support and Bluetooth connectivity",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "medically approved prosthetic leg with carbon fiber pylon and silicone socket liner",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "medically approved prosthetic leg with carbon fiber pylon and silicone socket liner",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EC",
+          "asset": "USB charging hub with surge protection and 6 ports",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EC",
+          "asset": "USB charging hub with surge protection and 6 ports",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EC",
+          "asset": "tool set in hard plastic case with 50+ components",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EC",
+          "asset": "tool set in hard plastic case with 50+ components",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EC",
+          "asset": "tool set in hard plastic case with 50+ components",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EC",
+          "asset": "tool set in hard plastic case with 50+ components",
+          "citation": "11 u.s.c. § 522(d)(6)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 305,
+          "family": "EV",
+          "asset": "USB charging hub with surge protection and 6 ports",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EV",
+          "asset": "USB charging hub with surge protection and 6 ports",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EV",
+          "asset": "tool set in hard plastic case with 50+ components",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EV",
+          "asset": "tool set in hard plastic case with 50+ components",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EC",
+          "asset": "5-piece acoustic drum kit with cymbal stands",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EC",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EV",
+          "asset": "5-piece acoustic drum kit with cymbal stands",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EV",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EV",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 15345.0,
+          "target": 32000.0
+        },
+        {
+          "case_id": 307,
+          "family": "EC",
+          "asset": "personal-sized blender with travel cup and lid",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EC",
+          "asset": "personal-sized blender with travel cup and lid",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EC",
+          "asset": "reclining leather armchair with built-in cup holder and USB charging port",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EC",
+          "asset": "reclining leather armchair with built-in cup holder and USB charging port",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EV",
+          "asset": "personal-sized blender with travel cup and lid",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EV",
+          "asset": "personal-sized blender with travel cup and lid",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EV",
+          "asset": "reclining leather armchair with built-in cup holder and USB charging port",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EV",
+          "asset": "reclining leather armchair with built-in cup holder and USB charging port",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EC",
+          "asset": "framed vintage travel poster mounted behind glass",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EC",
+          "asset": "framed vintage travel poster mounted behind glass",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EC",
+          "asset": "framed vintage travel poster mounted behind glass",
+          "citation": "or. rev. stat. § 18.345(1)(a)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 308,
+          "family": "EC",
+          "asset": "fireplace screen with wrought iron frame and mesh center",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EC",
+          "asset": "fireplace screen with wrought iron frame and mesh center",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EV",
+          "asset": "framed vintage travel poster mounted behind glass",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EV",
+          "asset": "framed vintage travel poster mounted behind glass",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EV",
+          "asset": "framed vintage travel poster mounted behind glass",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EV",
+          "asset": "framed vintage travel poster mounted behind glass",
+          "citation": "or. rev. stat. § 18.345(1)(a)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 308,
+          "family": "EV",
+          "asset": "fireplace screen with wrought iron frame and mesh center",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EV",
+          "asset": "fireplace screen with wrought iron frame and mesh center",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        }
+      ]
+    },
+    "frozen_after_B1": {
+      "counts": {
+        "EC_missing": 40,
+        "EV_missing": 39,
+        "EV_wrong_amount": 14,
+        "EV_extra_citation": 1,
+        "EC_extra_citation": 1
+      },
+      "by_citation": [
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "missing": 3
+        },
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "missing": 7
+        },
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(4)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "missing": 19
+        },
+        {
+          "family": "EC",
+          "citation": "42 pa. cons. stat. § 8123",
+          "missing": 3
+        },
+        {
+          "family": "EC",
+          "citation": "or. rev. stat. § 18.345(1)(d)",
+          "missing": 1
+        },
+        {
+          "family": "EC",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "missing": 6
+        },
+        {
+          "family": "EC",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "wrong_amount": 4
+        },
+        {
+          "family": "EV",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "missing": 33
+        },
+        {
+          "family": "EV",
+          "citation": "42 pa. cons. stat. § 8123",
+          "wrong_amount": 4
+        },
+        {
+          "family": "EV",
+          "citation": "42 pa. cons. stat. § 8124(a)(1)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "ariz. rev. stat. § 33-1125(9)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "or. rev. stat. § 18.345(1)(b)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EV",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "missing": 2,
+          "wrong_amount": 1
+        },
+        {
+          "family": "EV",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "wrong_amount": 5
+        }
+      ],
+      "case_errors": [
+        {
+          "case_id": 294,
+          "family": "EC",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EC",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EV",
+          "asset": "water filtration system with multi-stage carbon and UV purification",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EV",
+          "asset": "navy blue blazer made of wool blend with notch lapels",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EV",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EV",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 8200.0
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "leather riding gloves with reinforced knuckles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "portable space heater with oscillating fan and tip-over protection",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 975.0,
+          "target": 700.0
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "wrong_amount",
+          "predicted": 600.0,
+          "target": 300.0
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "leather riding gloves with reinforced knuckles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "leather riding gloves with reinforced knuckles",
+          "citation": "42 pa. cons. stat. § 8124(a)(1)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 1250.0,
+          "target": 700.0
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "wrong_amount",
+          "predicted": 600.0,
+          "target": 300.0
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "portable space heater with oscillating fan and tip-over protection",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "Sig Sauer P365 9mm subcompact handgun",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "or. rev. stat. § 18.345(1)(d)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "rechargeable electric toothbrush with charging dock",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "rechargeable electric toothbrush with charging dock",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "or. rev. stat. § 18.345(1)(b)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "Sig Sauer P365 9mm subcompact handgun",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "rechargeable electric toothbrush with charging dock",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "rechargeable electric toothbrush with charging dock",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "wrong_amount",
+          "predicted": 400.0,
+          "target": 65.0
+        },
+        {
+          "case_id": 297,
+          "family": "EC",
+          "asset": "desktop fan with three-speed settings and tilt head",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 297,
+          "family": "EC",
+          "asset": "full-length wall mirror with ornate silver frame",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 297,
+          "family": "EC",
+          "asset": "full-length wall mirror with ornate silver frame",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 297,
+          "family": "EC",
+          "asset": "full-length wall mirror with ornate silver frame",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 297,
+          "family": "EV",
+          "asset": "desktop fan with three-speed settings and tilt head",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 297,
+          "family": "EV",
+          "asset": "full-length wall mirror with ornate silver frame",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "gun safe with biometric lock and adjustable interior shelving",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(4)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "electric skillet with glass lid and adjustable temperature",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "gun safe with biometric lock and adjustable interior shelving",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 16000.0
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "electric skillet with glass lid and adjustable temperature",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 299,
+          "family": "EV",
+          "asset": "blood glucose sensor and transmitter system issued by medical provider for continuous glucose monitoring",
+          "citation": "ariz. rev. stat. § 33-1125(9)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 15750.0
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 9900.0
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "blue silk kimono with floral pattern",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 302,
+          "family": "EV",
+          "asset": "pair of polished black leather dress shoes with laces",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EC",
+          "asset": "huipil blouse with multicolor threads",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "step ladder with wide anti-slip treads and folding design",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "huipil blouse with multicolor threads",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EV",
+          "asset": "Hatfield SAS 12-gauge semi-auto shotgun",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "home theater receiver with 7.2 channel support and Bluetooth connectivity",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "home theater receiver with 7.2 channel support and Bluetooth connectivity",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "medically approved prosthetic leg with carbon fiber pylon and silicone socket liner",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "medically approved prosthetic leg with carbon fiber pylon and silicone socket liner",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 6352.0,
+          "target": 700.0
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "home theater receiver with 7.2 channel support and Bluetooth connectivity",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "home theater receiver with 7.2 channel support and Bluetooth connectivity",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 2950.0,
+          "target": 700.0
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "medically approved prosthetic leg with carbon fiber pylon and silicone socket liner",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EC",
+          "asset": "tool set in hard plastic case with 50+ components",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EV",
+          "asset": "USB charging hub with surge protection and 6 ports",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EV",
+          "asset": "tool set in hard plastic case with 50+ components",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EV",
+          "asset": "tool set in hard plastic case with 50+ components",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "wrong_amount",
+          "predicted": 300.0,
+          "target": 600.0
+        },
+        {
+          "case_id": 306,
+          "family": "EC",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EC",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EC",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EV",
+          "asset": "5-piece acoustic drum kit with cymbal stands",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EV",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EV",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 32000.0
+        },
+        {
+          "case_id": 307,
+          "family": "EC",
+          "asset": "personal-sized blender with travel cup and lid",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EC",
+          "asset": "reclining leather armchair with built-in cup holder and USB charging port",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EV",
+          "asset": "personal-sized blender with travel cup and lid",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EV",
+          "asset": "reclining leather armchair with built-in cup holder and USB charging port",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EV",
+          "asset": "reclining leather armchair with built-in cup holder and USB charging port",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "wrong_amount",
+          "predicted": 300.0,
+          "target": 600.0
+        },
+        {
+          "case_id": 308,
+          "family": "EV",
+          "asset": "framed vintage travel poster mounted behind glass",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EV",
+          "asset": "fireplace screen with wrought iron frame and mesh center",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        }
+      ]
+    },
+    "skills": {
+      "counts": {
+        "EC_missing": 34,
+        "EV_missing": 16,
+        "EV_wrong_amount": 13,
+        "EC_extra_citation": 3,
+        "EV_extra_citation": 3
+      },
+      "by_citation": [
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "missing": 3
+        },
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "missing": 3
+        },
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(4)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EC",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "missing": 17
+        },
+        {
+          "family": "EC",
+          "citation": "42 pa. cons. stat. § 8123",
+          "missing": 3
+        },
+        {
+          "family": "EC",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "missing": 1
+        },
+        {
+          "family": "EC",
+          "citation": "or. rev. stat. § 18.345(1)(a)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EC",
+          "citation": "or. rev. stat. § 18.345(1)(b)",
+          "missing": 1
+        },
+        {
+          "family": "EC",
+          "citation": "or. rev. stat. § 18.345(1)(d)",
+          "missing": 1
+        },
+        {
+          "family": "EC",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "extra_citation": 1,
+          "missing": 1
+        },
+        {
+          "family": "EC",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "missing": 3
+        },
+        {
+          "family": "EC",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "wrong_amount": 5,
+          "extra_citation": 1,
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "11 u.s.c. § 522(d)(4)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EV",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "missing": 11,
+          "wrong_amount": 1
+        },
+        {
+          "family": "EV",
+          "citation": "42 pa. cons. stat. § 8124(a)(1)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "missing": 1
+        },
+        {
+          "family": "EV",
+          "citation": "or. rev. stat. § 18.345(1)(b)",
+          "wrong_amount": 1
+        },
+        {
+          "family": "EV",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "extra_citation": 1
+        },
+        {
+          "family": "EV",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "missing": 2
+        },
+        {
+          "family": "EV",
+          "citation": "or. rev. stat. § 18.362",
+          "wrong_amount": 1
+        },
+        {
+          "family": "EV",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "wrong_amount": 5
+        }
+      ],
+      "case_errors": [
+        {
+          "case_id": 294,
+          "family": "EC",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EC",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EV",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 294,
+          "family": "EV",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 8200.0
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "leather riding gloves with reinforced knuckles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EC",
+          "asset": "portable space heater with oscillating fan and tip-over protection",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "wrought iron candle holder centerpiece with glass inserts",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 975.0,
+          "target": 700.0
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "leather riding gloves with reinforced knuckles",
+          "citation": "42 pa. cons. stat. § 8124(a)(1)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 295,
+          "family": "EV",
+          "asset": "AI-powered robotic vacuum with automatic mop function and self-emptying base",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 1250.0,
+          "target": 700.0
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "or. rev. stat. § 18.345(1)(b)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "or. rev. stat. § 18.345(1)(d)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EC",
+          "asset": "rechargeable electric toothbrush with charging dock",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "leather motorcycle jacket with protective padding",
+          "citation": "or. rev. stat. § 18.345(1)(b)",
+          "kind": "wrong_amount",
+          "predicted": 1800.0,
+          "target": 1535.0
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "Sig Sauer P365 9mm subcompact handgun",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "Sig Sauer P365 9mm subcompact handgun",
+          "citation": "or. rev. stat. § 18.362",
+          "kind": "wrong_amount",
+          "predicted": 1000.0,
+          "target": 615.0
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "2006 Cadillac CTS (black raven) with 121k miles",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 296,
+          "family": "EV",
+          "asset": "rechargeable electric toothbrush with charging dock",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 297,
+          "family": "EV",
+          "asset": "full-length wall mirror with ornate silver frame",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "wrong_amount",
+          "predicted": 1475.0,
+          "target": 2200.0
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "gun safe with biometric lock and adjustable interior shelving",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(4)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 298,
+          "family": "EC",
+          "asset": "electric skillet with glass lid and adjustable temperature",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "gun safe with biometric lock and adjustable interior shelving",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "gun safe with biometric lock and adjustable interior shelving",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 2700.0,
+          "target": 700.0
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 16000.0
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 u.s.c. § 522(d)(4)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 298,
+          "family": "EV",
+          "asset": "electric skillet with glass lid and adjustable temperature",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 15750.0
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 9900.0
+        },
+        {
+          "case_id": 301,
+          "family": "EV",
+          "asset": "blue silk kimono with floral pattern",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 302,
+          "family": "EC",
+          "asset": "pair of polished black leather dress shoes with laces",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 302,
+          "family": "EV",
+          "asset": "pair of polished black leather dress shoes with laces",
+          "citation": "735 ill. comp. stat. 5/12-1001(b)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 303,
+          "family": "EC",
+          "asset": "huipil blouse with multicolor threads",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "home theater receiver with 7.2 channel support and Bluetooth connectivity",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "medically approved prosthetic leg with carbon fiber pylon and silicone socket liner",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EC",
+          "asset": "medically approved prosthetic leg with carbon fiber pylon and silicone socket liner",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "custom-made dining table with live-edge walnut slab top",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 6352.0,
+          "target": 700.0
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "home theater receiver with 7.2 channel support and Bluetooth connectivity",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "home theater receiver with 7.2 channel support and Bluetooth connectivity",
+          "citation": "11 u.s.c. § 522(d)(3)",
+          "kind": "wrong_amount",
+          "predicted": 2950.0,
+          "target": 700.0
+        },
+        {
+          "case_id": 304,
+          "family": "EV",
+          "asset": "medically approved prosthetic leg with carbon fiber pylon and silicone socket liner",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 305,
+          "family": "EC",
+          "asset": "tool set in hard plastic case with 50+ components",
+          "citation": "42 pa. cons. stat. § 8123",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EC",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "11 u.s.c. § 522(d)(2)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EC",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EC",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 306,
+          "family": "EV",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "wis. stat. § 815.18(3)(g)",
+          "kind": "wrong_amount",
+          "predicted": 4000.0,
+          "target": 32000.0
+        },
+        {
+          "case_id": 307,
+          "family": "EC",
+          "asset": "personal-sized blender with travel cup and lid",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 307,
+          "family": "EC",
+          "asset": "reclining leather armchair with built-in cup holder and USB charging port",
+          "citation": "11 u.s.c. § 522(d)(5)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EC",
+          "asset": "framed vintage travel poster mounted behind glass",
+          "citation": "or. rev. stat. § 18.345(1)(f)",
+          "kind": "missing"
+        },
+        {
+          "case_id": 308,
+          "family": "EC",
+          "asset": "framed vintage travel poster mounted behind glass",
+          "citation": "or. rev. stat. § 18.345(1)(a)",
+          "kind": "extra_citation"
+        },
+        {
+          "case_id": 308,
+          "family": "EC",
+          "asset": "fireplace screen with wrought iron frame and mesh center",
+          "citation": "or. rev. stat. § 18.345(1)(p)",
+          "kind": "missing"
+        }
+      ]
+    }
+  },
+  "claim_residual_scope": "Exploratory citation-presence and matched-law5percent-amount errors, not replacement primary scores or independent per-task samples.",
+  "actual_text_delivery_slots_by_skill": {
+    "skills": {
+      "illinois-overlapping-wildcard-and-stated-limits": 4,
+      "federal-independent-wildcard-and-caps": 24,
+      "pennsylvania-general-monetary-alternative": 6,
+      "oregon-general-personal-property-alternative": 8,
+      "oregon-joint-homestead-limit": 4,
+      "arizona-caps-are-not-eligibility-and-category-boundaries": 4
+    },
+    "frozen_after_B1": {
+      "illinois-overlapping-wildcard-and-stated-limits": 4,
+      "federal-independent-wildcard-and-caps": 24,
+      "pennsylvania-general-monetary-alternative": 6,
+      "oregon-general-personal-property-alternative": 8,
+      "arizona-caps-are-not-eligibility-and-category-boundaries": 2
+    }
+  },
+  "text_delivery_not_proof_of_causal_use": true,
+  "all32_tasks_actual_request_fields_except_messages_equal_across_all5_roles": true,
+  "per_role_origin_costs": {
+    "empty": {
+      "unique_origins_for_role": 32,
+      "input_tokens": 203574,
+      "output_tokens": 91753
+    },
+    "frozen_after_B1": {
+      "unique_origins_for_role": 32,
+      "input_tokens": 212582,
+      "output_tokens": 90775
+    },
+    "skills": {
+      "unique_origins_for_role": 32,
+      "input_tokens": 215451,
+      "output_tokens": 85712
+    }
+  },
+  "per_role_cost_totals_overlap_when_exact_wire_is_shared_do_not_sum_as_joint_actual_cost": true,
+  "online_vs_own_B1_same_actual_wire_tasks": 10,
+  "original_wire_fresh_v14_redecoding": {
+    "valid_record_occurrences_verified": 160,
+    "logical_records": 160,
+    "stored_parse_errors_not_dropped": 0
+  },
+  "original_wire_fresh_v14_redecoding_contract": "Every valid output independently decoded from saved original native JSON with the unchanged public reference maps, not trusted cached parsed answers.",
+  "own_B1_casewise_score_decomposition": {
+    "sources": [
+      {
+        "source_id": 293,
+        "EC": {
+          "own_B1_F1": 1.0,
+          "online_F1": 1.0,
+          "difference_pp": 0.0
+        },
+        "EV": {
+          "own_B1_F1": 1.0,
+          "online_F1": 1.0,
+          "difference_pp": 0.0
+        },
+        "mean_family_difference_pp": 0.0
+      },
+      {
+        "source_id": 294,
+        "EC": {
+          "own_B1_F1": 0.8333333333333334,
+          "online_F1": 0.8333333333333334,
+          "difference_pp": 0.0
+        },
+        "EV": {
+          "own_B1_F1": 0.6666666666666666,
+          "online_F1": 0.7999999999999999,
+          "difference_pp": 13.33333333333333
+        },
+        "mean_family_difference_pp": 6.666666666666665
+      },
+      {
+        "source_id": 295,
+        "EC": {
+          "own_B1_F1": 0.6642857142857144,
+          "online_F1": 0.6642857142857144,
+          "difference_pp": 0.0
+        },
+        "EV": {
+          "own_B1_F1": 0.3666666666666667,
+          "online_F1": 0.7976190476190476,
+          "difference_pp": 43.09523809523809
+        },
+        "mean_family_difference_pp": 21.547619047619044
+      },
+      {
+        "source_id": 296,
+        "EC": {
+          "own_B1_F1": 0.4666666666666667,
+          "online_F1": 0.6071428571428572,
+          "difference_pp": 14.047619047619053
+        },
+        "EV": {
+          "own_B1_F1": 0.6523809523809524,
+          "online_F1": 0.7380952380952381,
+          "difference_pp": 8.571428571428575
+        },
+        "mean_family_difference_pp": 11.309523809523814
+      },
+      {
+        "source_id": 297,
+        "EC": {
+          "own_B1_F1": 0.6285714285714286,
+          "online_F1": 1.0,
+          "difference_pp": 37.142857142857146
+        },
+        "EV": {
+          "own_B1_F1": 0.8571428571428571,
+          "online_F1": 0.875,
+          "difference_pp": 1.7857142857142905
+        },
+        "mean_family_difference_pp": 19.46428571428572
+      },
+      {
+        "source_id": 298,
+        "EC": {
+          "own_B1_F1": 0.7,
+          "online_F1": 0.7,
+          "difference_pp": 0.0
+        },
+        "EV": {
+          "own_B1_F1": 0.7,
+          "online_F1": 0.5,
+          "difference_pp": -19.999999999999996
+        },
+        "mean_family_difference_pp": -9.999999999999998
+      },
+      {
+        "source_id": 299,
+        "EC": {
+          "own_B1_F1": 1.0,
+          "online_F1": 1.0,
+          "difference_pp": 0.0
+        },
+        "EV": {
+          "own_B1_F1": 0.6666666666666666,
+          "online_F1": 1.0,
+          "difference_pp": 33.333333333333336
+        },
+        "mean_family_difference_pp": 16.666666666666668
+      },
+      {
+        "source_id": 300,
+        "EC": {
+          "own_B1_F1": 1.0,
+          "online_F1": 1.0,
+          "difference_pp": 0.0
+        },
+        "EV": {
+          "own_B1_F1": 1.0,
+          "online_F1": 1.0,
+          "difference_pp": 0.0
+        },
+        "mean_family_difference_pp": 0.0
+      },
+      {
+        "source_id": 301,
+        "EC": {
+          "own_B1_F1": 1.0,
+          "online_F1": 1.0,
+          "difference_pp": 0.0
+        },
+        "EV": {
+          "own_B1_F1": 0.5333333333333333,
+          "online_F1": 0.5333333333333333,
+          "difference_pp": 0.0
+        },
+        "mean_family_difference_pp": 0.0
+      },
+      {
+        "source_id": 302,
+        "EC": {
+          "own_B1_F1": 1.0,
+          "online_F1": 0.8888888888888888,
+          "difference_pp": -11.111111111111116
+        },
+        "EV": {
+          "own_B1_F1": 0.8888888888888888,
+          "online_F1": 0.8888888888888888,
+          "difference_pp": 0.0
+        },
+        "mean_family_difference_pp": -5.555555555555558
+      },
+      {
+        "source_id": 303,
+        "EC": {
+          "own_B1_F1": 0.9333333333333332,
+          "online_F1": 0.9333333333333332,
+          "difference_pp": 0.0
+        },
+        "EV": {
+          "own_B1_F1": 0.7555555555555555,
+          "online_F1": 1.0,
+          "difference_pp": 24.444444444444446
+        },
+        "mean_family_difference_pp": 12.222222222222223
+      },
+      {
+        "source_id": 304,
+        "EC": {
+          "own_B1_F1": 0.6666666666666666,
+          "online_F1": 0.7936507936507936,
+          "difference_pp": 12.698412698412698
+        },
+        "EV": {
+          "own_B1_F1": 0.6666666666666666,
+          "online_F1": 0.6666666666666666,
+          "difference_pp": 0.0
+        },
+        "mean_family_difference_pp": 6.349206349206349
+      },
+      {
+        "source_id": 305,
+        "EC": {
+          "own_B1_F1": 0.9,
+          "online_F1": 0.9,
+          "difference_pp": 0.0
+        },
+        "EV": {
+          "own_B1_F1": 0.6000000000000001,
+          "online_F1": 1.0,
+          "difference_pp": 39.99999999999999
+        },
+        "mean_family_difference_pp": 19.999999999999996
+      },
+      {
+        "source_id": 306,
+        "EC": {
+          "own_B1_F1": 0.5,
+          "online_F1": 0.5,
+          "difference_pp": 0.0
+        },
+        "EV": {
+          "own_B1_F1": 0.6000000000000001,
+          "online_F1": 0.8333333333333333,
+          "difference_pp": 23.333333333333318
+        },
+        "mean_family_difference_pp": 11.666666666666659
+      },
+      {
+        "source_id": 307,
+        "EC": {
+          "own_B1_F1": 0.8,
+          "online_F1": 0.8,
+          "difference_pp": 0.0
+        },
+        "EV": {
+          "own_B1_F1": 0.6000000000000001,
+          "online_F1": 1.0,
+          "difference_pp": 39.99999999999999
+        },
+        "mean_family_difference_pp": 19.999999999999996
+      },
+      {
+        "source_id": 308,
+        "EC": {
+          "own_B1_F1": 1.0,
+          "online_F1": 0.8035714285714286,
+          "difference_pp": -19.64285714285714
+        },
+        "EV": {
+          "own_B1_F1": 0.8571428571428571,
+          "online_F1": 1.0,
+          "difference_pp": 14.28571428571429
+        },
+        "mean_family_difference_pp": -2.6785714285714244
+      }
+    ],
+    "source_help": 10,
+    "source_hurt": 3,
+    "source_tie": 3,
+    "selection": "All fixed16 batch sources, not selected successes",
+    "not_source_population_significance_or_test": true
+  },
+  "entered_library_tokens_from_matching_accepted_or_unchanged_parent": 2223,
+  "entered_library_token_source": "accepted_decision_matching_actual_B7_final",
+  "B7_final_actual_delivery_scope_all32_tasks": [
+    {
+      "case_id": 293,
+      "family": "EC",
+      "public_namespaces": [
+        "ILLINOIS"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": true,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 1.0,
+      "online_delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ]
+    },
+    {
+      "case_id": 293,
+      "family": "EV",
+      "public_namespaces": [
+        "ILLINOIS"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 1.0,
+      "online_delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ]
+    },
+    {
+      "case_id": 294,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "WISCONSIN"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.8333333333333334,
+      "own_B1_F1": 0.8333333333333334,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ]
+    },
+    {
+      "case_id": 294,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "WISCONSIN"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.7999999999999999,
+      "own_B1_F1": 0.6666666666666666,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ]
+    },
+    {
+      "case_id": 295,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "PENNSYLVANIA"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.6642857142857144,
+      "own_B1_F1": 0.6642857142857144,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ]
+    },
+    {
+      "case_id": 295,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "PENNSYLVANIA"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.7976190476190476,
+      "own_B1_F1": 0.3666666666666667,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ]
+    },
+    {
+      "case_id": 296,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "OREGON"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.6071428571428572,
+      "own_B1_F1": 0.4666666666666667,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ]
+    },
+    {
+      "case_id": 296,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "OREGON"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.7380952380952381,
+      "own_B1_F1": 0.6523809523809524,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ]
+    },
+    {
+      "case_id": 297,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "OREGON"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 0.6285714285714286,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ]
+    },
+    {
+      "case_id": 297,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "OREGON"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.875,
+      "own_B1_F1": 0.8571428571428571,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ]
+    },
+    {
+      "case_id": 298,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "WISCONSIN"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.7,
+      "own_B1_F1": 0.7,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ]
+    },
+    {
+      "case_id": 298,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "WISCONSIN"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.5,
+      "own_B1_F1": 0.7,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ]
+    },
+    {
+      "case_id": 299,
+      "family": "EC",
+      "public_namespaces": [
+        "ARIZONA"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 1.0,
+      "online_delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ]
+    },
+    {
+      "case_id": 299,
+      "family": "EV",
+      "public_namespaces": [
+        "ARIZONA"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 0.6666666666666666,
+      "online_delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ]
+    },
+    {
+      "case_id": 300,
+      "family": "EC",
+      "public_namespaces": [
+        "ARIZONA"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 1.0,
+      "online_delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ]
+    },
+    {
+      "case_id": 300,
+      "family": "EV",
+      "public_namespaces": [
+        "ARIZONA"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 1.0,
+      "online_delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ]
+    },
+    {
+      "case_id": 301,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "WISCONSIN"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 1.0,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ]
+    },
+    {
+      "case_id": 301,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "WISCONSIN"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.5333333333333333,
+      "own_B1_F1": 0.5333333333333333,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ]
+    },
+    {
+      "case_id": 302,
+      "family": "EC",
+      "public_namespaces": [
+        "ILLINOIS"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": true,
+      "actual_online_F1": 0.8888888888888888,
+      "own_B1_F1": 1.0,
+      "online_delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ]
+    },
+    {
+      "case_id": 302,
+      "family": "EV",
+      "public_namespaces": [
+        "ILLINOIS"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.8888888888888888,
+      "own_B1_F1": 0.8888888888888888,
+      "online_delivered_skill_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ]
+    },
+    {
+      "case_id": 303,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "WISCONSIN"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.9333333333333332,
+      "own_B1_F1": 0.9333333333333332,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ]
+    },
+    {
+      "case_id": 303,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "WISCONSIN"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 0.7555555555555555,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ]
+    },
+    {
+      "case_id": 304,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "OREGON"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.7936507936507936,
+      "own_B1_F1": 0.6666666666666666,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ]
+    },
+    {
+      "case_id": 304,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "OREGON"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.6666666666666666,
+      "own_B1_F1": 0.6666666666666666,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ]
+    },
+    {
+      "case_id": 305,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "PENNSYLVANIA"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.9,
+      "own_B1_F1": 0.9,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ]
+    },
+    {
+      "case_id": 305,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "PENNSYLVANIA"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 0.6000000000000001,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ]
+    },
+    {
+      "case_id": 306,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "WISCONSIN"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.5,
+      "own_B1_F1": 0.5,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ]
+    },
+    {
+      "case_id": 306,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "WISCONSIN"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.8333333333333333,
+      "own_B1_F1": 0.6000000000000001,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps"
+      ]
+    },
+    {
+      "case_id": 307,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "PENNSYLVANIA"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.8,
+      "own_B1_F1": 0.8,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ]
+    },
+    {
+      "case_id": 307,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "PENNSYLVANIA"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 0.6000000000000001,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ]
+    },
+    {
+      "case_id": 308,
+      "family": "EC",
+      "public_namespaces": [
+        "FEDERAL",
+        "OREGON"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 0.8035714285714286,
+      "own_B1_F1": 1.0,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative"
+      ]
+    },
+    {
+      "case_id": 308,
+      "family": "EV",
+      "public_namespaces": [
+        "FEDERAL",
+        "OREGON"
+      ],
+      "B7_update_changes_actual_payload_vs_B6": false,
+      "actual_online_F1": 1.0,
+      "own_B1_F1": 0.8571428571428571,
+      "online_delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "oregon-general-personal-property-alternative",
+        "oregon-joint-homestead-limit"
+      ]
+    }
+  ],
+  "B7_specific_update_attribution_boundary": "B8 has only empty/ownB1/online arms, not actual B6-parent responses; payload changes can be verified but total B8 gain cannot be attributed solely to B7 revision. No post-B8 update is used for first-encounter scores.",
+  "cumulative_descriptive_first_forecast_comparison": {
+    "B2_B8_all_fixed_complete_first_sources": {
+      "source_cases": 112,
+      "tasks_per_role": 224,
+      "metrics": {
+        "empty": {
+          "EC": {
+            "precision": 0.7938279478458049,
+            "recall": 0.5145089285714286,
+            "f1": 0.5969862945178069,
+            "exact_target": 0.11607142857142858,
+            "tasks": 112,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.6348994364414385,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "EV": {
+            "precision": 0.7961309523809524,
+            "recall": 0.5488591269841271,
+            "f1": 0.6243339002267573,
+            "exact_target": 0.14285714285714285,
+            "tasks": 112,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 8,
+            "full_output_f1": 0.62221989768314,
+            "negative_or_unscored_asset_claims": 8
+          },
+          "mean_family_f1": 0.6106600973722821
+        },
+        "frozen_after_B1": {
+          "EC": {
+            "precision": 0.9246031746031745,
+            "recall": 0.7907986111111109,
+            "f1": 0.8382635345804986,
+            "exact_target": 0.41964285714285715,
+            "tasks": 112,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8692439290666284,
+            "negative_or_unscored_asset_claims": 4
+          },
+          "EV": {
+            "precision": 0.8389136904761904,
+            "recall": 0.6498015873015871,
+            "f1": 0.7159651360544216,
+            "exact_target": 0.16071428571428573,
+            "tasks": 112,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 8,
+            "full_output_f1": 0.7112518274291271,
+            "negative_or_unscored_asset_claims": 8
+          },
+          "mean_family_f1": 0.7771143353174601
+        },
+        "skills": {
+          "EC": {
+            "precision": 0.9212549603174602,
+            "recall": 0.8047495039682537,
+            "f1": 0.8468200821995462,
+            "exact_target": 0.41964285714285715,
+            "tasks": 112,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8771770092781278,
+            "negative_or_unscored_asset_claims": 4
+          },
+          "EV": {
+            "precision": 0.8785094246031744,
+            "recall": 0.7697172619047616,
+            "f1": 0.8099046910430837,
+            "exact_target": 0.25892857142857145,
+            "tasks": 112,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 6,
+            "full_output_f1": 0.8045151555234205,
+            "negative_or_unscored_asset_claims": 6
+          },
+          "mean_family_f1": 0.828362386621315
+        }
+      },
+      "vs_own_B1_pp": {
+        "EC": 0.8556547619047561,
+        "EV": 9.393955498866212
+      },
+      "vs_empty_pp": {
+        "EC": 24.983378768173925,
+        "EV": 18.557079081632644
+      },
+      "source_ids": [
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308
+      ],
+      "all_cases_retained": true,
+      "not_independent_learning_repeats_CI_or_finalTEST": true
+    },
+    "B3_B8_all_fixed_complete_first_sources": {
+      "source_cases": 96,
+      "tasks_per_role": 192,
+      "metrics": {
+        "empty": {
+          "EC": {
+            "precision": 0.7765376984126985,
+            "recall": 0.501953125,
+            "f1": 0.5819750816993463,
+            "exact_target": 0.10416666666666667,
+            "tasks": 96,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.6240596409720013,
+            "negative_or_unscored_asset_claims": 4
+          },
+          "EV": {
+            "precision": 0.7825520833333335,
+            "recall": 0.5491898148148151,
+            "f1": 0.620866402116402,
+            "exact_target": 0.13541666666666666,
+            "tasks": 96,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 7,
+            "full_output_f1": 0.6195326753764334,
+            "negative_or_unscored_asset_claims": 7
+          },
+          "mean_family_f1": 0.6014207419078741
+        },
+        "frozen_after_B1": {
+          "EC": {
+            "precision": 0.9248408564814815,
+            "recall": 0.7917390046296293,
+            "f1": 0.8385127314814812,
+            "exact_target": 0.4166666666666667,
+            "tasks": 96,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8693872929871209,
+            "negative_or_unscored_asset_claims": 4
+          },
+          "EV": {
+            "precision": 0.8304398148148149,
+            "recall": 0.6469184027777776,
+            "f1": 0.7112103174603172,
+            "exact_target": 0.15625,
+            "tasks": 96,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 7,
+            "full_output_f1": 0.7055988504076091,
+            "negative_or_unscored_asset_claims": 7
+          },
+          "mean_family_f1": 0.7748615244708992
+        },
+        "skills": {
+          "EC": {
+            "precision": 0.9209346064814815,
+            "recall": 0.808015046296296,
+            "f1": 0.8484953703703701,
+            "exact_target": 0.4166666666666667,
+            "tasks": 96,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8786425532338703,
+            "negative_or_unscored_asset_claims": 4
+          },
+          "EV": {
+            "precision": 0.876634837962963,
+            "recall": 0.786820023148148,
+            "f1": 0.8208064649470899,
+            "exact_target": 0.2708333333333333,
+            "tasks": 96,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 5,
+            "full_output_f1": 0.8144060665176184,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "mean_family_f1": 0.83465091765873
+        }
+      },
+      "vs_own_B1_pp": {
+        "EC": 0.9982638888888951,
+        "EV": 10.959614748677271
+      },
+      "vs_empty_pp": {
+        "EC": 26.652028867102384,
+        "EV": 19.99400628306879
+      },
+      "source_ids": [
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308
+      ],
+      "all_cases_retained": true,
+      "not_independent_learning_repeats_CI_or_finalTEST": true
+    }
+  },
+  "reference_self_score_not_model_performance": {
+    "EC": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "exact_target": 1.0,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 1.0,
+      "negative_or_unscored_asset_claims": 0
+    },
+    "EV": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "exact_target": 1.0,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 1.0,
+      "negative_or_unscored_asset_claims": 0
+    },
+    "mean_family_f1": 1.0
+  },
+  "audit_recomputation_program": "import json,pathlib,collections\nimport experiments.openexempt_online as e\nfrom legal_skill_guard.openexempt import evaluate,metrics,upstream\nfrom legal_skill_guard.learning.experiment import now\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nroot=pathlib.Path.cwd();r=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\";read=lambda p:json.loads(p.read_text())\npath=r/\"batches/b8_prequential_records.json\";summary=r/\"batches/b8_prequential.json\"\nif not path.exists() or not summary.exists():print(json.dumps({\"ready\":False,\"reason\":\"complete B8 first forecasts not both immutable\"}));raise SystemExit(0)\nrecords=read(path);saved=read(summary);cfg=read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\")\npub=read(r/\"publications/b7.json\");first=read(r/\"publications/b1.json\");frozen=read(r/\"frozen_after_B1.json\");assert first[\"bank\"]==frozen[\"bank\"]\nroles={\"empty\",\"skills\",\"frozen_initial\",\"empty_direct_numeric\",\"frozen_after_B1\"};assert set(records)==roles\nkeys={(i,f) for i in range(293,309) for f in (\"EC\",\"EV\")}\nrows={(x[\"case_id\"],x[\"family\"]):x for x in read(root/cfg[\"input_packet\"])[\"rows\"] if (x[\"case_id\"],x[\"family\"]) in keys}\ntargets={i:read(root/cfg[\"grading_directory\"]/f\"{i}.json\")[\"targets\"] for i in range(293,309)}\nraws={};members={str(path.relative_to(root)),str(summary.relative_to(root)),str((r/\"publications/b7.json\").relative_to(root)),str((r/\"publications/b1.json\").relative_to(root)),str((r/\"frozen_after_B1.json\").relative_to(root))}\nby={};saved_answers=[]\nfor role,rs in records.items():\n assert len(rs)==32 and {(x[\"case_id\"],x[\"family\"]) for x in rs}==keys\n bank=pub[\"bank\"] if role==\"skills\" else frozen[\"bank\"] if role==\"frozen_after_B1\" else [];by[role]={}\n for x in rs:\n  row=rows[x[\"case_id\"],x[\"family\"]];assert x[\"bank_sha256\"]==csha(bank)\n  answer=(x[\"parsed\"] or {}).get(\"answer\");assert csha(evaluate(row,answer,targets[x[\"case_id\"]][x[\"family\"]]))==csha(x[\"score\"])\n  messages,schema,supplied=e.actor_payload(row,bank,grounded=True,direct_numeric=True,asset_references=True)\n  raw=read(root/x[\"raw_call_path\"]);req=raw[\"calls\"][0][\"request\"]\n  assert req[\"model\"]==\"Qwen/Qwen3-8B\"\n  assert all(req[k]==cfg[\"generation\"][k] for k in (\"temperature\",\"top_p\",\"top_k\",\"max_tokens\",\"seed\"))\n  assert req[\"messages\"]==messages and req[\"response_format\"][\"json_schema\"][\"schema\"]==schema\n  assert x[\"delivered_skill_ids\"]==[s[\"id\"] for s in supplied] and x[\"native_program\"] is None and x[\"execution_receipt\"] is None\n  ap=r/\"native\"/x[\"stage\"]/f'{x[\"case_id\"]}_{x[\"family\"]}_{x[\"arm\"]}.answer.json';assert ap.exists()\n  saved_answers.append(ap);members.update((str(ap.relative_to(root)),x[\"raw_call_path\"]));raws[x[\"raw_call_path\"]]=raw\n  ip=ap.with_name(ap.name.replace(\".answer.json\",\".input.json\"));planned=read(ip)\n  assert planned[\"bank_sha256\"]==csha(bank) and planned[\"messages\"]==messages and planned[\"schema\"]==schema and planned[\"delivered_skill_ids\"]==x[\"delivered_skill_ids\"]\n  members.add(str(ip.relative_to(root)))\n  by[role][x[\"case_id\"],x[\"family\"]]=x\n assert csha(metrics(rs))==csha(saved[role])\nfor key in keys:\n for a,b in [(\"empty\",\"frozen_initial\"),(\"empty\",\"empty_direct_numeric\")]:\n  assert by[a][key][\"parsed\"]==by[b][key][\"parsed\"] and by[a][key][\"score\"]==by[b][key][\"score\"] and by[a][key][\"raw_call_path\"]==by[b][key][\"raw_call_path\"]\nteacher=r/\"teacher/b8_candidate1/wire_request.json\"\nassert max(x.stat().st_mtime_ns for x in saved_answers)<=path.stat().st_mtime_ns\nif teacher.exists():assert path.stat().st_mtime_ns<=teacher.stat().st_mtime_ns\nE=upstream(\"evaluator\").Evaluator([]);Claim=upstream(\"source.pydantic_response\").Claim\ndef errors(rs):\n aggregate=collections.defaultdict(collections.Counter);cases=[];all_counts=collections.Counter()\n for r in rs:\n  row=rows[r[\"case_id\"],r[\"family\"]];ans=(r[\"parsed\"] or {}).get(\"answer\");gold=targets[r[\"case_id\"]][r[\"family\"]]\n  raw=raws[r[\"raw_call_path\"]]\n  if r[\"parse_error\"] is not None:\n   all_counts[r[\"family\"]+\"_invalid_output\"]+=1\n   cases.append({\"case_id\":r[\"case_id\"],\"family\":r[\"family\"],\"kind\":\"invalid_output\",\"parse_error\":r[\"parse_error\"],\"finish_reason\":raw[\"response\"][\"finish_reason\"]})\n   continue\n  byasset={k.strip().lower():v for k,v in ans.items()};used=set()\n  for asset,gs in gold.items():\n   match=E._find_matching_asset_description(asset.strip().lower(),list(byasset))\n   ps=byasset[match] if match is not None and match not in used else []\n   if match is not None:used.add(match)\n   normalized=lambda cs:{(v if r[\"family\"]==\"EC\" else v[\"citation\"]).strip().lower():v for v in cs}\n   gm,pm=normalized(gs),normalized(ps)\n   for c in sorted(gm.keys()-pm.keys()):\n    aggregate[r[\"family\"],c][\"missing\"]+=1;all_counts[r[\"family\"]+\"_missing\"]+=1\n    cases.append({\"case_id\":r[\"case_id\"],\"family\":r[\"family\"],\"asset\":asset,\"citation\":c,\"kind\":\"missing\"})\n   for c in sorted(pm.keys()-gm.keys()):\n    kind=\"false_claim_on_negative_asset\" if not gs else \"extra_citation\"\n    aggregate[r[\"family\"],c][kind]+=1;all_counts[r[\"family\"]+\"_\"+kind]+=1\n    cases.append({\"case_id\":r[\"case_id\"],\"family\":r[\"family\"],\"asset\":asset,\"citation\":c,\"kind\":kind})\n   if r[\"family\"]==\"EV\":\n    for c in sorted(pm.keys()&gm.keys()):\n     pred,truth=Claim(**pm[c]),Claim(**gm[c])\n     if E._absolute_relative_error(pred.claim_value,truth.claim_value)>=0.05:\n      aggregate[r[\"family\"],c][\"wrong_amount\"]+=1;all_counts[r[\"family\"]+\"_wrong_amount\"]+=1\n      cases.append({\"case_id\":r[\"case_id\"],\"family\":r[\"family\"],\"asset\":asset,\"citation\":c,\"kind\":\"wrong_amount\",\"predicted\":pred.claim_value,\"target\":truth.claim_value})\n  for asset,ps in byasset.items():\n   if asset not in used and ps:all_counts[r[\"family\"]+\"_unmatched_asset_claims\"]+=len(ps)\n return {\"counts\":dict(all_counts),\"by_citation\":[{\"family\":k[0],\"citation\":k[1],**dict(v)} for k,v in sorted(aggregate.items())],\"case_errors\":cases}\nout={\"at\":now(),\"classification\":\"Complete Run03 B8 first-encounter learner-new-source32 tasks/all160 logical records; compare actual unique B7 final bank vs own fixed B1 as well as strongempty; not training replay, completed B8 learning, independent repeats or finalTEST\",\n\"ready\":True,\"source_cases\":16,\"logical_records\":160,\"actual_native_original_and_complete_scores_and_wire_contracts_verified\":True,\n\"metrics\":{role:metrics(rs) for role,rs in records.items()},\"vs_strong_empty\":e.paired_effect(records[\"empty\"],records[\"skills\"]),\"vs_own_B1\":e.paired_effect(records[\"frozen_after_B1\"],records[\"skills\"]),\n\"own_B1_equality_expected_from_actual_published_banks\":pub[\"bank\"]==frozen[\"bank\"],\"own_B1_bank_sha256\":frozen[\"bank_sha256\"],\"learning_stream_not_researcher_unseen_TEST_or_independent_replication\":True,\"bank_sha256\":pub[\"bank_sha256\"],\"bank_records\":len(pub[\"bank\"]),\n\"native_raw_origins\":len(raws),\"HTTP_requests\":sum(len(x[\"calls\"]) for x in raws.values()),\"prompt_tokens\":sum(x[\"response\"][\"prompt_tokens\"] for x in raws.values()),\"completion_tokens\":sum(x[\"response\"][\"completion_tokens\"] for x in raws.values()),\n\"finish_reasons\":dict(collections.Counter(x[\"response\"][\"finish_reason\"] for x in raws.values())),\"parse_errors\":{role:sum(x[\"parse_error\"] is not None for x in rs) for role,rs in records.items()},\n\"new_model_teacher_or_TEST_calls_by_audit\":0,\"no_current_labels_read_by_this_audit_before_complete_records\":True,\"all160_answers_saved_before_teacher_request\":True if teacher.exists() else None,\n\"evidence_paths\":sorted(members)}\nout[\"claim_residuals\"]={role:errors(records[role]) for role in (\"empty\",\"frozen_after_B1\",\"skills\")}\nout[\"claim_residual_scope\"]=\"Exploratory citation-presence and matched-law5percent-amount errors, not replacement primary scores or independent per-task samples.\"\nout[\"actual_text_delivery_slots_by_skill\"]={role:dict(collections.Counter(sid for x in records[role] for sid in x[\"delivered_skill_ids\"])) for role in (\"skills\",\"frozen_after_B1\")}\nout[\"text_delivery_not_proof_of_causal_use\"]=True\nfor key in keys:\n reqs=[raws[by[role][key][\"raw_call_path\"]][\"calls\"][0][\"request\"] for role in roles]\n budget=[{k:v for k,v in req.items() if k!=\"messages\"} for req in reqs]\n assert all(csha(z)==csha(budget[0]) for z in budget)\nout[\"all32_tasks_actual_request_fields_except_messages_equal_across_all5_roles\"]=True\nout[\"per_role_origin_costs\"]={}\nfor role in (\"empty\",\"frozen_after_B1\",\"skills\"):\n origins={x[\"raw_call_path\"]:raws[x[\"raw_call_path\"]] for x in records[role]}\n out[\"per_role_origin_costs\"][role]={\"unique_origins_for_role\":len(origins),\"input_tokens\":sum(x[\"response\"][\"prompt_tokens\"] for x in origins.values()),\"output_tokens\":sum(x[\"response\"][\"completion_tokens\"] for x in origins.values())}\nout[\"per_role_cost_totals_overlap_when_exact_wire_is_shared_do_not_sum_as_joint_actual_cost\"]=True\nout[\"online_vs_own_B1_same_actual_wire_tasks\"]=sum(by[\"skills\"][k][\"raw_call_path\"]==by[\"frozen_after_B1\"][k][\"raw_call_path\"] for k in keys)\nmembers.update(str((root/cfg[\"grading_directory\"]/f\"{i}.json\").relative_to(root)) for i in range(293,309))\nmembers.update((cfg[\"input_packet\"],\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\",\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\"))\nout[\"evidence_paths\"]=sorted(members)\n\nfrom jsonschema import validate\nredecoded=0\nfor role,rs in records.items():\n for x in rs:\n  if x[\"parse_error\"] is not None:continue\n  raw=raws[x[\"raw_call_path\"]];native=json.loads(raw[\"response\"][\"content\"]);req=raw[\"calls\"][0][\"request\"];schema=req[\"response_format\"][\"json_schema\"][\"schema\"]\n  assert native==json.loads(raw[\"calls\"][0][\"response\"][\"choices\"][0][\"message\"][\"content\"]);validate(native,schema);assert native==x[\"public_label_submission\"]\n  row=rows[x[\"case_id\"],x[\"family\"]];decoded=e.decode_asset_references(native,e.public_asset_catalog(row));catalog=e.public_catalog(row)\n  decoded=({\"answer\":{asset:[{\"citation\":e.decode_reference(c[\"citation_ref\"],catalog),\"claim_value\":c[\"claim_value\"]} for c in claims] for asset,claims in decoded.items()}} if x[\"family\"]==\"EV\" else {\"answer\":e.decode_classification(decoded,catalog)})\n  assert decoded==x[\"parsed\"];redecoded+=1\nout[\"original_wire_fresh_v14_redecoding\"]={\"valid_record_occurrences_verified\":redecoded,\"logical_records\":160,\"stored_parse_errors_not_dropped\":sum(x[\"parse_error\"] is not None for rs in records.values() for x in rs)}\nout[\"original_wire_fresh_v14_redecoding_contract\"]=\"Every valid output independently decoded from saved original native JSON with the unchanged public reference maps, not trusted cached parsed answers.\"\ndecomp=[]\nfor i in range(293,309):\n entry={\"source_id\":i}\n for family in (\"EC\",\"EV\"):\n  old=by[\"frozen_after_B1\"][i,family][\"score\"][\"f1\"];new=by[\"skills\"][i,family][\"score\"][\"f1\"]\n  entry[family]={\"own_B1_F1\":old,\"online_F1\":new,\"difference_pp\":100*(new-old)}\n entry[\"mean_family_difference_pp\"]=(entry[\"EC\"][\"difference_pp\"]+entry[\"EV\"][\"difference_pp\"])/2;decomp.append(entry)\nout[\"own_B1_casewise_score_decomposition\"]={\"sources\":decomp,\"source_help\":sum(x[\"mean_family_difference_pp\"]>1e-10 for x in decomp),\"source_hurt\":sum(x[\"mean_family_difference_pp\"]<-1e-10 for x in decomp),\"source_tie\":sum(abs(x[\"mean_family_difference_pp\"])<=1e-10 for x in decomp),\"selection\":\"All fixed16 batch sources, not selected successes\",\"not_source_population_significance_or_test\":True}\n\nprior_bank=read(r/\"publications/b6.json\")[\"bank\"]\nexposure=[]\nfor i in range(293,309):\n for family in (\"EC\",\"EV\"):\n  row=rows[i,family]\n  before_payload=e.actor_payload(row,prior_bank,grounded=True,direct_numeric=True,asset_references=True)\n  after_payload=e.actor_payload(row,pub[\"bank\"],grounded=True,direct_numeric=True,asset_references=True)\n  changed=csha(before_payload[:2])!=csha(after_payload[:2])\n  exposure.append({\"case_id\":i,\"family\":family,\"public_namespaces\":sorted(e.allowable_namespaces(row)),\"B7_update_changes_actual_payload_vs_B6\":changed,\"actual_online_F1\":by[\"skills\"][i,family][\"score\"][\"f1\"],\"own_B1_F1\":by[\"frozen_after_B1\"][i,family][\"score\"][\"f1\"],\"online_delivered_skill_ids\":by[\"skills\"][i,family][\"delivered_skill_ids\"]})\nassert pub[\"bank_sha256\"]==csha(pub[\"bank\"])\npublished_decisions=[d for d in pub[\"training_decisions\"] if d.get(\"accepted\") and csha(d[\"candidate\"])==pub[\"bank_sha256\"]]\nif published_decisions:\n actual_entering_tokens=published_decisions[-1][\"actual_tokens\"];token_source=\"accepted_decision_matching_actual_B7_final\"\nelse:\n parent_teacher_body=json.loads(read(r/\"teacher/b7_candidate1/wire_request.json\")[\"user_prompt\"]);assert parent_teacher_body[\"current_parent_library\"]==pub[\"bank\"]\n actual_entering_tokens=parent_teacher_body[\"full_serialized_library_token_budget\"][\"actual_parent_tokens\"];token_source=\"measured_parent_when_B7_final_unchanged\"\nout[\"entered_library_tokens_from_matching_accepted_or_unchanged_parent\"]=actual_entering_tokens\nout[\"entered_library_token_source\"]=token_source\nout[\"B7_final_actual_delivery_scope_all32_tasks\"]=exposure\nout[\"B7_specific_update_attribution_boundary\"]=\"B8 has only empty/ownB1/online arms, not actual B6-parent responses; payload changes can be verified but total B8 gain cannot be attributed solely to B7 revision. No post-B8 update is used for first-encounter scores.\"\ncum={}\nfor begin in (2,3):\n rr={role:[] for role in (\"empty\",\"frozen_after_B1\",\"skills\")}\n source_ids=[]\n for batch in range(begin,9):\n  path0=r/f\"batches/b{batch}_prequential_records.json\";data0=read(path0)\n  for role in rr:rr[role].extend(data0[role])\n  source_ids.extend(sorted({z[\"case_id\"] for z in data0[\"skills\"]}));members.add(str(path0.relative_to(root)))\n assert len(set(source_ids))==len(source_ids)==16*(9-begin)\n mm={role:metrics(z) for role,z in rr.items()}\n cum[f\"B{begin}_B8_all_fixed_complete_first_sources\"]={\"source_cases\":len(source_ids),\"tasks_per_role\":len(rr[\"skills\"]),\"metrics\":mm,\"vs_own_B1_pp\":{f:100*(mm[\"skills\"][f][\"f1\"]-mm[\"frozen_after_B1\"][f][\"f1\"]) for f in (\"EC\",\"EV\")},\"vs_empty_pp\":{f:100*(mm[\"skills\"][f][\"f1\"]-mm[\"empty\"][f][\"f1\"]) for f in (\"EC\",\"EV\")},\"source_ids\":source_ids,\"all_cases_retained\":True,\"not_independent_learning_repeats_CI_or_finalTEST\":True}\nout[\"cumulative_descriptive_first_forecast_comparison\"]=cum\nout[\"reference_self_score_not_model_performance\"]=metrics([{\"case_id\":i,\"family\":f,\"score\":evaluate(rows[i,f],targets[i][f],targets[i][f])} for i in range(293,309) for f in (\"EC\",\"EV\")])\nif teacher.exists():members.add(str(teacher.relative_to(root)))\nout[\"evidence_paths\"]=sorted(members)\nout[\"audit_recomputation_program\"]=PROGRAM\nfrom legal_skill_guard.experiment.storage import RunStore\ndest=root/\"artifacts/research/openexempt_legal_scope_20261020/Run03_B8_complete160_newcase_final_B7_vs_ownB1_native_wire_cost_and_scope_20261022.json\"\nRunStore.immutable_json(dest,out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"at\":out[\"at\"],\"ready\":True,\"metrics\":out[\"metrics\"],\"vs_empty\":out[\"vs_strong_empty\"],\"vs_own_B1\":out[\"vs_own_B1\"],\"source_effects\":out[\"own_B1_casewise_score_decomposition\"],\"raw_cost\":{k:out[k] for k in (\"native_raw_origins\",\"HTTP_requests\",\"prompt_tokens\",\"completion_tokens\",\"finish_reasons\")},\"errors\":{k:v[\"counts\"] for k,v in out[\"claim_residuals\"].items()},\"all160_redecoded\":out[\"original_wire_fresh_v14_redecoding\"],\"cumulative\":cum},ensure_ascii=False))\n"
+}

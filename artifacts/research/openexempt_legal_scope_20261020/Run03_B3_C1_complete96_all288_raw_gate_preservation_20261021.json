@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-21T11:00:38.309025+00:00",
+  "classification": "Complete immutable B3 C1 full48source/96tasks parent/proposal/accepted288 slots plus raw and completed teacher1; no in-flightC2, liveprogress or ledger files",
+  "receipt": {
+    "at": "2026-10-21T11:00:36.587649+00:00",
+    "stage": "B3_C1_complete96_all288_native_gate_and_raw_checkpoint",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-B3_C1_complete96_all288_native_gate_and_raw_checkpoint.tar.gz",
+        "sha256": "e39e316f6a9de980910b1f98a42d101959c0af298a46d0eeef0e2b2a4d51d0f6"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_goal_Run03_20261021-B3_C1_complete96_all288_native_gate_and_raw_checkpoint.tar.gz",
+        "sha256": "6ab48fbe7a6179c094d05c853c32b6104a9ed23728332d6e471b475f497ebe56"
+      }
+    ],
+    "files": 580
+  },
+  "archive_devices": [
+    64528,
+    64517
+  ],
+  "main_waiter_bindings_before_after": [
+    371,
+    381
+  ],
+  "new_native_teacher_or_TEST_calls": 0,
+  "progress_snapshot_not_archived_as_immutable": {
+    "at": "2026-10-21T11:00:21.519116+00:00",
+    "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "state": "running",
+    "stage": "teacher",
+    "current_batch": 3,
+    "completed_native_calls": 393,
+    "completed_teacher_calls": 5,
+    "teacher_attempts": 6,
+    "cross_stage_identical_wire_reuses": 567,
+    "library_records": 6,
+    "current_arm": "b3_candidate2",
+    "teacher_prompt_characters": 756013,
+    "capacity_transport_attempt_index": 0
+  },
+  "preservation_recomputation_program": "import json,pathlib,hashlib\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=pathlib.Path.cwd();read=lambda p:json.loads(p.read_text());r=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\"\nrp=root/\"artifacts/research/openexempt_legal_scope_20261020/Run03_B3_candidate1_complete96_all288_native_wire_gate_and_claim_failure_diagnostics_20261021.json\";report=read(rp);assert report[\"ready\"] and report[\"audited_record_occurrences\"]==288\nnames=set(report[\"evidence_paths\"]);names.add(str(rp.relative_to(root)))\nnames.update(str(p.relative_to(root)) for p in (r/\"native/b3_candidate1_replay\").glob(\"*.json\"))\nnames.update(str(p.relative_to(root)) for p in (r/\"teacher/b3_candidate1\").glob(\"*.json\"))\nnames.update([\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\",\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\",\"docs/CURRENT_GOAL.md\",\"paper/manuscript_v1_20261021.md\",\"paper/evidence_and_completion_20261020.md\",\"artifacts/research/openexempt_legal_scope_20261020/hourly1830_C1_completed_prefix_raw_and_WI_delivery_preservation_20261021.json\"])\npins=[read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\")[\"files\"],read(root/\"artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/queued.json\")[\"source_data_environment_pins\"]]\ndef verify():\n for d in pins:assert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==h for n,h in d.items())\nverify();receipt=preserve(\"legal_research_goal_Run03_20261021\",\"B3_C1_complete96_all288_native_gate_and_raw_checkpoint\",sorted(names));verify()\nout={\"at\":now(),\"classification\":\"Complete immutable B3 C1 full48source/96tasks parent/proposal/accepted288 slots plus raw and completed teacher1; no in-flightC2, liveprogress or ledger files\",\"receipt\":receipt,\"archive_devices\":[pathlib.Path(p[\"path\"]).stat().st_dev for p in receipt[\"paths\"]],\"main_waiter_bindings_before_after\":[len(x) for x in pins],\"new_native_teacher_or_TEST_calls\":0,\"progress_snapshot_not_archived_as_immutable\":read(r/\"progress.json\")}\nassert len(set(out[\"archive_devices\"]))==2\nprint(json.dumps(out,ensure_ascii=False))"
+}

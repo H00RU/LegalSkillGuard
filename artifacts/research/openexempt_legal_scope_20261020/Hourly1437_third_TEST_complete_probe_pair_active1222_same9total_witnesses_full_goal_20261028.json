@@ -1,0 +1,362 @@
+{
+  "at_utc": "2026-10-28T06:37:59.565581+00:00",
+  "review_was_due_utc": "2026-10-28T06:33:57.577854+00:00",
+  "next_hourly_review_utc": "2026-10-28T07:37:59.565581+00:00",
+  "scope": "Hourly full-goal review after third fixed TEST completion; prebound matched feedback probe active; no fifth formal run or new primary yet",
+  "goal_active_full_scope_reverified": true,
+  "bindings": {
+    "fourth_training": {
+      "files": 900,
+      "changed": []
+    },
+    "fourth_completed_TEST": {
+      "files": 384,
+      "changed": []
+    },
+    "third_completed_TEST": {
+      "files": 388,
+      "changed": []
+    },
+    "old_plan": {
+      "files": 11,
+      "changed": []
+    },
+    "third_ref_plan": {
+      "files": 11,
+      "changed": []
+    },
+    "probe_prepare": {
+      "files": 843,
+      "changed": []
+    },
+    "negative_arm": {
+      "files": 1222,
+      "changed": []
+    },
+    "paired_arm": {
+      "files": 1222,
+      "changed": []
+    }
+  },
+  "packages_count": 50,
+  "packages_unchanged": true,
+  "active_process_identities": {
+    "958223": {
+      "expected_ticks": "486445918",
+      "actual_ticks": "486445918",
+      "matches": true
+    },
+    "4105189": {
+      "expected_ticks": "516581411",
+      "actual_ticks": "516581411",
+      "matches": true
+    }
+  },
+  "services": {
+    "legal-qwen3-8b-phase-dispatch.service": {
+      "MainPID": "958223",
+      "ExecMainStatus": "0",
+      "ActiveState": "active"
+    },
+    "legal-paired-revision-train-queue-20261028-run03.service": {
+      "MainPID": "4105189",
+      "ExecMainStatus": "0",
+      "ActiveState": "active"
+    },
+    "legal-third-train-selected-test-20261028-run01.service": {
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "ActiveState": "inactive"
+    },
+    "legal-openexempt-deadline12h-pipeline-20261028-run01.service": {
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "ActiveState": "inactive"
+    }
+  },
+  "both_old_reference_pipelines_normally_ended": true,
+  "protected_v023_unchanged": true,
+  "old_future64_unchanged": true,
+  "sealed_new_primary_input_hash_only_unchanged": true,
+  "archives": {
+    "fourth_training": {
+      "members": 8310,
+      "two_own_archive_hashes_valid": true
+    },
+    "fourth_TEST": {
+      "members": 773,
+      "two_own_archive_hashes_valid": true
+    },
+    "third_original_training": {
+      "members": 10438,
+      "two_own_archive_hashes_valid": true
+    },
+    "third_TEST": {
+      "members": 773,
+      "two_own_archive_hashes_valid": true
+    },
+    "third_coord": {
+      "members": 14,
+      "two_own_archive_hashes_valid": true
+    },
+    "probe_preparation": {
+      "members": 846,
+      "two_own_archive_hashes_valid": true
+    },
+    "third_independent_audit": {
+      "members": 1,
+      "two_own_archive_hashes_valid": true
+    },
+    "third_completed_paper": {
+      "members": 3,
+      "two_own_archive_hashes_valid": true
+    },
+    "third_paper_and_goal": {
+      "members": 4,
+      "two_own_archive_hashes_valid": true
+    }
+  },
+  "third_completed_TEST": {
+    "metrics": {
+      "EC": {
+        "precision": 0.9761284722222223,
+        "recall": 0.9048394097222221,
+        "f1": 0.9290845114087302,
+        "exact_target": 0.4765625,
+        "tasks": 128,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9349281567461912,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9001736111111112,
+        "recall": 0.8574218749999998,
+        "f1": 0.8706628224206352,
+        "exact_target": 0.375,
+        "tasks": 128,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.8704373270193458,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.8998736669146827
+    },
+    "point_positive_endpoints": 5,
+    "adjusted_positive_lower_bound_endpoints": 2,
+    "independent768_raw_decode_and_grades_verified": true,
+    "TEST_not_all8_numeric_superior": true
+  },
+  "actual_probe_queue": {
+    "at": "2026-10-28T06:15:23.788248+00:00",
+    "stage": "one_fresh_teacher_then_full_prefix_admission",
+    "arm": "paired"
+  },
+  "probe_arms": {
+    "negative": {
+      "actual_run_id": "legal_openexempt_paired_revision_outcome_TRAIN80_follow48_20261028_run03_negative",
+      "progress": {
+        "at": "2026-10-28T06:15:08.291442+00:00",
+        "run_id": "legal_openexempt_paired_revision_outcome_TRAIN80_follow48_20261028_run03_negative",
+        "state": "running",
+        "stage": "b5_candidate1_replay",
+        "current_batch": 5,
+        "completed_native_calls": 32,
+        "completed_teacher_calls": 1,
+        "teacher_attempts": 1,
+        "cross_stage_identical_wire_reuses": 126,
+        "library_records": 6,
+        "execution_dispatch": {
+          "policy": "ordered_independent_phases_v1",
+          "native_workers": 4,
+          "teacher_workers": 1,
+          "required_max_num_seqs": 4
+        },
+        "current_arm": "candidate",
+        "current_document_id": 260,
+        "current_call": "identical_native_response_reinterpreted_not_new_generation"
+      },
+      "prefix_complete": true,
+      "teacher_fresh": true,
+      "teacher_input_matches_prebound_packet": true,
+      "actual_case_views": 64,
+      "max_source_id": 260,
+      "feedback_witnesses_per_packet_entry": [
+        1,
+        8
+      ],
+      "operations": [
+        {
+          "operation": "CREATE",
+          "target_ids": [],
+          "new_id": "arizona-musical-instrument-ceiling",
+          "scope": "ARIZONA"
+        }
+      ],
+      "published_bank_changed": false,
+      "actual_published_bank_sha256": "92c53de0370331ab725fc55cd94ce6e356834cfd181e7f7385e2386759fb25a8",
+      "learning_native_calls": 34,
+      "published_prefix_before": {
+        "EC": {
+          "precision": 0.9317708333333332,
+          "recall": 0.7714409722222221,
+          "f1": 0.8243998015873014,
+          "exact_target": 0.425,
+          "tasks": 80,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.862006894479266,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.9139583333333334,
+          "recall": 0.8295138888888889,
+          "f1": 0.8593501984126984,
+          "exact_target": 0.375,
+          "tasks": 80,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.8623955211126753,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.8418749999999999
+      },
+      "published_prefix_after": {
+        "EC": {
+          "precision": 0.9317708333333332,
+          "recall": 0.7714409722222221,
+          "f1": 0.8243998015873014,
+          "exact_target": 0.425,
+          "tasks": 80,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.862006894479266,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.9139583333333334,
+          "recall": 0.8295138888888889,
+          "f1": 0.8593501984126984,
+          "exact_target": 0.375,
+          "tasks": 80,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.8623955211126753,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.8418749999999999
+      }
+    },
+    "paired": {
+      "actual_run_id": "legal_openexempt_paired_revision_outcome_TRAIN80_follow48_20261028_run03_paired",
+      "progress": {
+        "at": "2026-10-28T06:37:51.798230+00:00",
+        "run_id": "legal_openexempt_paired_revision_outcome_TRAIN80_follow48_20261028_run03_paired",
+        "state": "running",
+        "stage": "b5_candidate1_replay",
+        "current_batch": 5,
+        "completed_native_calls": 40,
+        "completed_teacher_calls": 1,
+        "teacher_attempts": 1,
+        "cross_stage_identical_wire_reuses": 22,
+        "library_records": 6,
+        "execution_dispatch": {
+          "policy": "ordered_independent_phases_v1",
+          "native_workers": 4,
+          "teacher_workers": 1,
+          "required_max_num_seqs": 4
+        },
+        "current_arm": "candidate",
+        "current_document_id": 213,
+        "current_call": "openexempt"
+      },
+      "prefix_complete": false,
+      "teacher_fresh": true,
+      "teacher_input_matches_prebound_packet": true,
+      "actual_case_views": 64,
+      "max_source_id": 260,
+      "feedback_witnesses_per_packet_entry": [
+        1,
+        8
+      ],
+      "operations": [
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "federal-independent-wildcard-and-item-cap"
+          ],
+          "new_id": "federal-independent-wildcard-and-item-cap",
+          "scope": "FEDERAL"
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "oregon-personal-property-and-category-boundaries"
+          ],
+          "new_id": "oregon-personal-property-and-category-boundaries",
+          "scope": "OREGON"
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "pennsylvania-general-property-and-apparel-boundary"
+          ],
+          "new_id": "pennsylvania-general-property-and-apparel-boundary",
+          "scope": "PENNSYLVANIA"
+        }
+      ]
+    }
+  },
+  "actual_fresh_teacher_usage_total": {
+    "input_tokens": 331304,
+    "cached_input_tokens": 0,
+    "output_tokens": 6296,
+    "reasoning_output_tokens": 4358
+  },
+  "fixed_context_contrast": {
+    "actual_same_system": true,
+    "same64_original_target_parent_views": true,
+    "same_original_background_outside_revision_feedback": true,
+    "same_extra_inherited1_witness": true,
+    "current_proposal_eight_slots_only_changed": true,
+    "total_feedback_witnesses_per_arm": 9,
+    "no_new_source_or_original_target_added": true,
+    "two_teacher_draws_not_independent_learning_repeats": true
+  },
+  "negative_proposal_local_gain_not_publishable": {
+    "current_native_EC_before_after_pct": [
+      80.3968253968254,
+      81.9593253968254
+    ],
+    "current_native_EV_before_after_pct": [
+      90.89781746031746,
+      92.9811507936508
+    ],
+    "prior_native_EC_before_after_pct": [
+      82.95076884920634,
+      81.17246902403151
+    ],
+    "prior_EC_negative_unscored_claims_before_after": [
+      0,
+      17
+    ],
+    "prior_EV_full_before_after_pct": [
+      84.96916188457134,
+      84.10978688457134
+    ],
+    "published_bank_unchanged": true
+  },
+  "third_v1_working_draft_complete_TEST_synced_sha256": "744ff0491e783bf6d7ef5ccf7aaa6257b9a71eebc6f402283ce160fd9c59d1b5",
+  "remaining_pending_primary_marker_count": 1,
+  "direction": {
+    "same_frozen8B_and_current2e_core_no_restore_during_probe": true,
+    "subsequent48_TRAIN_responses_before_grading_required": true,
+    "paired_wider_edits_not_yet_efficacy_proof": true,
+    "no_fifth_formal_yet": true,
+    "no_new_model_router_fallback_or_task": true,
+    "fresh_primary_matched_controls_paper_still_required": true,
+    "extra_independent_main_ACE_Text_repeats": "USER-DEFERRED",
+    "new_native_teacher_calls_for_hourly": 0
+  },
+  "integrity_ok": true
+}

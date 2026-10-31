@@ -1,0 +1,252 @@
+{
+  "case_id": 120,
+  "source_key": "1a972285b0d5cf0454677943812d40d23c979b86de7456c753730ef2f6b2d236",
+  "family": "EV",
+  "stage": "retrospective_public_scope_composed_replay",
+  "arm": "candidate",
+  "bank_sha256": "7fe4fe3eb06ebb6c68ce8fa1f477da2beb12cd9bb9001f7d22534028f7fac097",
+  "parsed": {
+    "answer": {
+      "handheld garment steamer": [
+        {
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "claim_value": 180.0
+        },
+        {
+          "citation": "Wis. Stat. § 815.18(3)(d)",
+          "claim_value": 180.0
+        }
+      ],
+      "nursery rocking chair": [
+        {
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "claim_value": 700.0
+        },
+        {
+          "citation": "Wis. Stat. § 815.18(3)(d)",
+          "claim_value": 1225.0
+        }
+      ],
+      "world rally blue 2018 Subaru WRX STI Limited": [
+        {
+          "citation": "11 U.S.C. § 522(d)(2)",
+          "claim_value": 4450.0
+        },
+        {
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "claim_value": 16000.0
+        }
+      ]
+    }
+  },
+  "parse_error": null,
+  "raw_call_path": "runs/legal_openexempt_task_scoped_online_20261020_run01/native/b1_prequential/120_EV_frozen_initial.json",
+  "native_program": {
+    "assets": [
+      {
+        "asset_name": "handheld garment steamer",
+        "asset_value": 180,
+        "claims": [
+          {
+            "limit_expression": null,
+            "citation": "11 U.S.C. § 522(d)(3)"
+          },
+          {
+            "limit_expression": null,
+            "citation": "Wis. Stat. § 815.18(3)(d)"
+          }
+        ]
+      },
+      {
+        "asset_name": "nursery rocking chair",
+        "asset_value": 1225,
+        "claims": [
+          {
+            "limit_expression": null,
+            "citation": "11 U.S.C. § 522(d)(3)"
+          },
+          {
+            "limit_expression": null,
+            "citation": "Wis. Stat. § 815.18(3)(d)"
+          }
+        ]
+      },
+      {
+        "asset_name": "world rally blue 2018 Subaru WRX STI Limited",
+        "asset_value": 34900,
+        "claims": [
+          {
+            "limit_expression": null,
+            "citation": "11 U.S.C. § 522(d)(2)"
+          },
+          {
+            "limit_expression": null,
+            "citation": "Wis. Stat. § 815.18(3)(g)"
+          }
+        ]
+      }
+    ]
+  },
+  "execution_receipt": {
+    "actual_claim_operations": [
+      {
+        "asset_name": "handheld garment steamer",
+        "asset_value": "180",
+        "citation": "11 U.S.C. § 522(d)(3)",
+        "operator_id": "federal_522d/fed_household_item",
+        "limit_expression": "min(V,700*N)",
+        "numeric_literals": [
+          {
+            "value": "700"
+          }
+        ],
+        "limit": "180",
+        "claim_value": "180"
+      },
+      {
+        "asset_name": "handheld garment steamer",
+        "asset_value": "180",
+        "citation": "Wis. Stat. § 815.18(3)(d)",
+        "operator_id": "wisconsin_exemptions/wi_consumer_goods",
+        "limit_expression": "min(V,12000*N)",
+        "numeric_literals": [
+          {
+            "value": "12000"
+          }
+        ],
+        "limit": "180",
+        "claim_value": "180"
+      },
+      {
+        "asset_name": "nursery rocking chair",
+        "asset_value": "1225",
+        "citation": "11 U.S.C. § 522(d)(3)",
+        "operator_id": "federal_522d/fed_household_item",
+        "limit_expression": "min(V,700*N)",
+        "numeric_literals": [
+          {
+            "value": "700"
+          }
+        ],
+        "limit": "700",
+        "claim_value": "700"
+      },
+      {
+        "asset_name": "nursery rocking chair",
+        "asset_value": "1225",
+        "citation": "Wis. Stat. § 815.18(3)(d)",
+        "operator_id": "wisconsin_exemptions/wi_consumer_goods",
+        "limit_expression": "min(V,12000*N)",
+        "numeric_literals": [
+          {
+            "value": "12000"
+          }
+        ],
+        "limit": "1225",
+        "claim_value": "1225"
+      },
+      {
+        "asset_name": "world rally blue 2018 Subaru WRX STI Limited",
+        "asset_value": "34900",
+        "citation": "11 U.S.C. § 522(d)(2)",
+        "operator_id": "federal_522d/fed_vehicle",
+        "limit_expression": "min(V,4450*N)",
+        "numeric_literals": [
+          {
+            "value": "4450"
+          }
+        ],
+        "limit": "4450",
+        "claim_value": "4450"
+      },
+      {
+        "asset_name": "world rally blue 2018 Subaru WRX STI Limited",
+        "asset_value": "34900",
+        "citation": "Wis. Stat. § 815.18(3)(g)",
+        "operator_id": "wisconsin_exemptions/wi_vehicle_max",
+        "limit_expression": "min(V,16000*N)",
+        "numeric_literals": [
+          {
+            "value": "16000"
+          }
+        ],
+        "limit": "16000",
+        "claim_value": "16000"
+      }
+    ],
+    "actually_executed_operator_ids": [
+      "federal_522d/fed_household_item",
+      "wisconsin_exemptions/wi_consumer_goods",
+      "federal_522d/fed_household_item",
+      "wisconsin_exemptions/wi_consumer_goods",
+      "federal_522d/fed_vehicle",
+      "wisconsin_exemptions/wi_vehicle_max"
+    ],
+    "program_sha256": "f9127da1bf13352bcdb9096a0958bce2840ca2416085d3d8d9145f779c2eeed8",
+    "source_facts_sha256": "f5bbcf36e3899a0fa61dac6eabcc47cbb0669bdcff8ecd6cc6132b7706530ed2",
+    "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+    "no_Gold_solver_model_or_post_answer_repair": true,
+    "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true,
+    "execution_bank_sha256": "7fe4fe3eb06ebb6c68ce8fa1f477da2beb12cd9bb9001f7d22534028f7fac097",
+    "native_request_fingerprint": "3458073d7c191a60aaf7b6590a5f75dfa1e3e1591b2d5da6c8b928793a64f768"
+  },
+  "public_label_submission": {
+    "assets": [
+      {
+        "asset_name": "handheld garment steamer",
+        "asset_value": 180,
+        "claims": [
+          {
+            "citation_ref": "11 U.S.C. section 522(d)(3)",
+            "limit_expression": null
+          },
+          {
+            "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+            "limit_expression": null
+          }
+        ]
+      },
+      {
+        "asset_name": "nursery rocking chair",
+        "asset_value": 1225,
+        "claims": [
+          {
+            "citation_ref": "11 U.S.C. section 522(d)(3)",
+            "limit_expression": null
+          },
+          {
+            "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+            "limit_expression": null
+          }
+        ]
+      },
+      {
+        "asset_name": "world rally blue 2018 Subaru WRX STI Limited",
+        "asset_value": 34900,
+        "claims": [
+          {
+            "citation_ref": "11 U.S.C. section 522(d)(2)",
+            "limit_expression": null
+          },
+          {
+            "citation_ref": "Wis. Stat. section 815.18(3)(g)",
+            "limit_expression": null
+          }
+        ]
+      }
+    ]
+  },
+  "execution_error": null,
+  "delivered_skill_ids": [
+    "federal_522d",
+    "scheme_selection_and_ev",
+    "wisconsin_exemptions"
+  ],
+  "physical_alias_of_identical_wire": {
+    "fingerprint": "3458073d7c191a60aaf7b6590a5f75dfa1e3e1591b2d5da6c8b928793a64f768",
+    "raw_call_path": "runs/legal_openexempt_task_scoped_online_20261020_run01/native/b1_prequential/120_EV_frozen_initial.json",
+    "not_an_independent_generation": true,
+    "execution_receipt_is_from_original_call": false,
+    "reinterpreted_under_bank_sha256": "7fe4fe3eb06ebb6c68ce8fa1f477da2beb12cd9bb9001f7d22534028f7fac097"
+  }
+}

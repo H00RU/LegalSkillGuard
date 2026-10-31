@@ -1,0 +1,118 @@
+{
+  "at": "2026-10-17T12:44:21.250551+00:00",
+  "parent": [],
+  "delta": {
+    "operations": [
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-copy-permission-polarity",
+          "hypothesis_ids": [
+            "nda-17"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "copy",
+                  "copies",
+                  "copying",
+                  "copied",
+                  "reproduce",
+                  "reproduction",
+                  "duplicate"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": true
+              }
+            ],
+            "evidence_criterion": "For the copying hypothesis, inspect clauses that expressly govern the Receiving Party's making, reproducing, recording, or duplicating Confidential Information. An affirmative authorization to create copies supports the statement only within its stated conditions. A prohibition on copying or reproduction—including one framed as “not without” consent or subject to another agreement—opposes the statement; do not convert the condition for lifting a prohibition into an affirmative copying permission. A right to retain an existing archival copy, a return-or-destruction clause mentioning copies, a duty to record copies, or a requirement to reduce oral information to writing does not by itself establish permission to create a copy. Cite the operative action clause, any grammatical subject or list lead-in needed to identify the obligated actor, and any separately operative clause expressly requiring that actor to prevent copying; exclude surrounding security, retention, and certification language that does not determine copying permission. If no clause settles this precise action, treat it as unresolved."
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          149,
+          207,
+          328,
+          89
+        ],
+        "rationale": "The empty parent lacks a copying-specific polarity check. In cases 147, 328, and 89, prohibitions or consent-qualified restrictions were incorrectly read as permission; in cases 617 and 149, archival retention was incorrectly treated as permission to create a copy, and case 207 confused written identification with copying. The new skill isolates the actor/action and distinguishes affirmative creation permission, operative prohibition, and unrelated retention or writing language."
+      }
+    ],
+    "noop_reason": null
+  },
+  "publication": [
+    {
+      "id": "nda-copy-permission-polarity",
+      "hypothesis_ids": [
+        "nda-17"
+      ],
+      "guidance": {
+        "source_queries": [
+          {
+            "all_phrases": [],
+            "any_phrases": [
+              "copy",
+              "copies",
+              "copying",
+              "copied",
+              "reproduce",
+              "reproduction",
+              "duplicate"
+            ],
+            "none_phrases": [],
+            "before": 1,
+            "after": 1,
+            "include_list_preamble": true
+          }
+        ],
+        "evidence_criterion": "For the copying hypothesis, inspect clauses that expressly govern the Receiving Party's making, reproducing, recording, or duplicating Confidential Information. An affirmative authorization to create copies supports the statement only within its stated conditions. A prohibition on copying or reproduction—including one framed as “not without” consent or subject to another agreement—opposes the statement; do not convert the condition for lifting a prohibition into an affirmative copying permission. A right to retain an existing archival copy, a return-or-destruction clause mentioning copies, a duty to record copies, or a requirement to reduce oral information to writing does not by itself establish permission to create a copy. Cite the operative action clause, any grammatical subject or list lead-in needed to identify the obligated actor, and any separately operative clause expressly requiring that actor to prevent copying; exclude surrounding security, retention, and certification language that does not determine copying permission. If no clause settles this precise action, treat it as unresolved."
+      }
+    }
+  ],
+  "capacity": {
+    "master": 274,
+    "with_public_scope_map": 379,
+    "actual_one_copy_criteria": 208
+  },
+  "statistics": {
+    "operation_counts": {
+      "CREATE": 1,
+      "UPDATE": 0,
+      "DELETE": 0,
+      "MERGE": 0
+    },
+    "explicit_noop": false,
+    "parent_skill_count": 0,
+    "published_skill_count": 1,
+    "new_ids": [
+      "nda-copy-permission-polarity"
+    ],
+    "removed_ids": [],
+    "verbatim_retained_ids": [],
+    "revised_retained_ids": [],
+    "serialized_library_tokens": 274,
+    "guidance_characters": 1354,
+    "not_a_utility_score_or_publication_gate": true,
+    "non_null_criteria": 1
+  },
+  "complete_teaching_source_ids": [
+    617,
+    147,
+    314,
+    167,
+    149,
+    207,
+    328,
+    89
+  ],
+  "actual_current_parent_own_native_responses": 8,
+  "ordinary_control_model_state": "c0d59bbe7fa962b43f7ee3fe5adff98c6134c37419483263355be23fc881edb8",
+  "own_runtime_ordinary_model_state": null,
+  "all_valid_edits_null_criteria_and_NOOP_publish_without_efficacy_admission": true
+}

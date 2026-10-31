@@ -1,0 +1,292 @@
+{
+  "at": "2026-10-20T10:33:44.894839+00:00",
+  "run_id": "legal_openexempt_direct_skills_online_20261020_run01",
+  "teacher": {
+    "attempt": 1,
+    "started_at": "2026-10-20T10:30:15.568956+00:00",
+    "finished_at": "2026-10-20T10:31:36.878889+00:00",
+    "elapsed_seconds": 81.31,
+    "returncode": 0,
+    "event_log_sha256": "5fe221af0524ede07548d35dd8727396b7e1058a5cc6ac93028725615964cdb5",
+    "tool_events_detected": false,
+    "budget_reservation": {
+      "sequence": 1514,
+      "new_epoch_sequence": 289,
+      "reserved_at": "2026-10-20T10:30:15.569828+00:00",
+      "model": "gpt-5.6-sol",
+      "purpose": "legal_openexempt_direct_skills_online_20261020_run01_b1_candidate1",
+      "request_sha256": "fa499ccefeee099fd5123e22d87b83c55668681e4b0fab9dc80dd039da5ef2e0",
+      "attempt": 1
+    },
+    "usage": {
+      "input_tokens": 57440,
+      "cached_input_tokens": 0,
+      "output_tokens": 3561,
+      "reasoning_output_tokens": 1867
+    },
+    "estimated_credits": null
+  },
+  "actual_proposed_bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+  "actual_proposed_records": 6,
+  "actual_proposed_target_tokenizer_tokens": 1228,
+  "actual_delta": {
+    "operations": [
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "illinois_general_personal_property_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Illinois law applies and the asset is owned personal property.",
+                "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) as an independent general-property alternative and include it even when another subsection more specifically describes the asset; its $4,000 limit caps value rather than eligibility.",
+                "avoid_when": "Do not apply this personal-property alternative to real property, and do not omit it merely because a specific tools-of-trade or health-aid exemption also applies."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Illinois law applies and the asset is owned personal property.",
+                "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently of every specific exemption and assign the lesser of the asset's value and $4,000.",
+                "avoid_when": "Do not apply it to real property, aggregate different assets, or displace a separately applicable specific exemption."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        },
+        "source_case_ids": [
+          149
+        ],
+        "rationale": "In both EC and EV for source 149, the parent and empty control returned only the specific tools and health-aid provisions, while the released targets also contained § 5/12-1001(b) for each asset. This repairs the omitted independent general-property alternative without changing the correctly selected specific provisions."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "federal_wildcard_independent_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                "procedure": "Evaluate 11 U.S.C. § 522(d)(5) for every kind of property as a separate alternative, including property also covered by a category-specific federal exemption.",
+                "avoid_when": "Do not treat a category-specific exemption as excluding the wildcard, and do not add it where the supplied allowable jurisdictions exclude federal exemptions."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                "procedure": "For 11 U.S.C. § 522(d)(5), calculate the independent claim as the lesser of the asset value and $1,475 plus up to $13,950 of unused § 522(d)(1); when no residence uses that amount in the independent evaluation, the ceiling is $15,425.",
+                "avoid_when": "Do not aggregate allocations across assets, displace other applicable alternatives, or assume unused homestead capacity when the facts show it has been consumed."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        "source_case_ids": [
+          153,
+          154,
+          155,
+          156
+        ],
+        "rationale": "The parent repeatedly omitted § 522(d)(5): from every asset in EC sources 153–156 and from the corresponding EV alternatives, including assets with no other federal category. The targets consistently require the wildcard independently; source 155 EV also supplies the supported $15,425 ceiling when the homestead amount is unused."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "oregon_any_personal_property_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Oregon law applies and the asset is personal property.",
+                "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent alternative even when the asset also fits a specific Oregon exemption.",
+                "avoid_when": "Do not apply it to real property or treat its $400 limit as a condition that makes a more valuable item ineligible."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Oregon law applies and the asset is personal property.",
+                "procedure": "For the independent Or. Rev. Stat. § 18.345(1)(p) alternative, assign the lesser of the asset's value and $400.",
+                "avoid_when": "Do not aggregate different assets or omit separately applicable Oregon exemptions."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "OREGON"
+          }
+        },
+        "source_case_ids": [
+          153
+        ],
+        "rationale": "For source 153, the parent omitted § 18.345(1)(p) from both assets in EC and EV because it treated the specific household-goods provision as exclusive. The target includes both alternatives and caps the general personal-property claim at $400."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "pennsylvania_general_monetary_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Pennsylvania law applies to property of the judgment debtor.",
+                "procedure": "Evaluate 42 Pa. Cons. Stat. § 8123 as an independent alternative for property of any category and include it alongside any specific Pennsylvania or federal exemption.",
+                "avoid_when": "Do not restrict § 8123 to cash, and do not use its $300 limit as an eligibility test for property worth more than $300."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Pennsylvania law applies to property of the judgment debtor.",
+                "procedure": "For the independent 42 Pa. Cons. Stat. § 8123 alternative, assign the lesser of the property's value and $300.",
+                "avoid_when": "Do not aggregate assets, replace a specific exemption, or exclude tangible property merely because the statute is titled a monetary exemption."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "PENNSYLVANIA"
+          }
+        },
+        "source_case_ids": [
+          155,
+          156
+        ],
+        "rationale": "The parent incorrectly reasoned that § 8123 applied only to money. It consequently omitted that alternative throughout source 155 and for one asset in source 156; the released targets apply it to each kind of property independently, with a $300 EV ceiling."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "federal_household_item_cap_and_jewelry_boundary",
+          "hypothesis_ids": [
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "An asset is considered under 11 U.S.C. § 522(d)(3).",
+                "procedure": "First require that it be one of the listed household-use categories, then assign no more than the lesser of its value and the $700 per-item limit. Evaluate jewelry separately under § 522(d)(4).",
+                "avoid_when": "Do not use the $14,875 aggregate ceiling as the claim for one item, and do not classify jewelry under § 522(d)(3) merely because it is held for personal or household use."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        "source_case_ids": [
+          154,
+          155
+        ],
+        "rationale": "Source 154 EV contained an extra § 522(d)(3) claim for jewelry, while source 155 EV assigned $4,300 to a single household item despite the statute's $700 particular-item ceiling. This distinct correction removes the wrong legal category and fixes the wrong amount without disturbing valid § 522(d)(3) selections."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "arizona_prescribed_assistive_equipment",
+          "hypothesis_ids": [
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Arizona law applies and the facts identify an item as medically or professionally prescribed assistive equipment for the debtor or a dependent.",
+                "procedure": "Treat the item as a prescribed prosthetic or mobility aid under Ariz. Rev. Stat. § 33-1125(9) and claim its full value because the supplied provision states no dollar cap.",
+                "avoid_when": "Do not classify prescribed assistive equipment as ordinary household furniture merely because it is used in the home; do not apply this rule to ordinary furniture lacking the prescription or assistive condition."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "ARIZONA"
+          }
+        },
+        "source_case_ids": [
+          152
+        ],
+        "rationale": "In source 152 EV, the parent selected the household-furnishings provision for the medically prescribed assistive item, producing one false positive and omitting § 33-1125(9). The same-case EC answer and released EV target confirm the prescribed-aid classification; the unrelated household furnishing remains under § 33-1123."
+      }
+    ],
+    "noop_reason": null
+  },
+  "all_operators_empty": true,
+  "no_shared_ALL_guidance_created": true,
+  "candidate_native_inputs_observed": [
+    {
+      "path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/149_EC_candidate.input.json",
+      "delivered_skill_ids": [
+        "illinois_general_personal_property_alternative"
+      ],
+      "bank_sha256_verified": true,
+      "direct_final_amount_schema": null
+    },
+    {
+      "path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/149_EV_candidate.input.json",
+      "delivered_skill_ids": [
+        "illinois_general_personal_property_alternative"
+      ],
+      "bank_sha256_verified": true,
+      "direct_final_amount_schema": true
+    },
+    {
+      "path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/150_EC_candidate.input.json",
+      "delivered_skill_ids": [],
+      "bank_sha256_verified": true,
+      "direct_final_amount_schema": null
+    },
+    {
+      "path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/150_EV_candidate.input.json",
+      "delivered_skill_ids": [
+        "arizona_prescribed_assistive_equipment"
+      ],
+      "bank_sha256_verified": true,
+      "direct_final_amount_schema": true
+    }
+  ],
+  "not_yet_published_bank": true,
+  "original_B1_baseline_EC_F1": 0.7072916666666667,
+  "original_B1_baseline_EV_F1": 0.6885416666666667,
+  "actual_learning_must_be_measured_not_inferred_from_content": true,
+  "corrects_hourly1830_wording": {
+    "prior_artifact": "direct_v13_hourly1830_complete_B1_and_actual_failure_types.json",
+    "field": "five_point_review.2_actual_skills_and_effect.first_teacher_in_progress_not_yet_a_published_skill",
+    "correction": "The first teacher had returned at18:31:36; candidate replay, not teacher generation, was in progress at the18:31:41 review. Still no published skill.",
+    "actual_scheduled1830_review_at": "2026-10-20T18:31:41+08:00"
+  },
+  "only_local_tokenization_no_new_native_generation_or_teacher_call_by_audit": true,
+  "no_future_batch_Gold_or_official_TEST_read": true
+}

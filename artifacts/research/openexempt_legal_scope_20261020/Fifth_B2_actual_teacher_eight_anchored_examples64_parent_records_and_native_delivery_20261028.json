@@ -1,0 +1,255 @@
+{
+  "at": "2026-10-28T10:02:35.832706+00:00",
+  "run_id": "legal_openexempt_anchored_execution_public_assets128_20261028_run01",
+  "scope": "Actual B2 teacher execution examples and pre-score native delivery; no candidate utility assertion",
+  "teacher_actual_parent_sha256": "c05865f3c41df410b0a2cd1fa3b5cc9f86bc31690bfdcdc25fa92ec8be0052c3",
+  "all64_actual_parent_outputs_decoded_answers_scores_raw_paths_match_current32_source_observations": true,
+  "all32_released_sources_181_to212_included": true,
+  "candidate_bank_sha256": "3375eb8710f37f3ade91e62f354996c56025bcb76a9d22643ca8a7eb36333348",
+  "candidate_skill_count": 5,
+  "edit_audit": {
+    "changed_task_blocks": [
+      [
+        "arizona-category-and-cap-boundaries",
+        "EV"
+      ],
+      [
+        "federal-wildcard-independent-alternatives",
+        "EC"
+      ],
+      [
+        "federal-wildcard-independent-alternatives",
+        "EV"
+      ],
+      [
+        "illinois-other-personal-property-alternative",
+        "EC"
+      ],
+      [
+        "illinois-other-personal-property-alternative",
+        "EV"
+      ],
+      [
+        "oregon-personal-property-alternative",
+        "EC"
+      ],
+      [
+        "oregon-personal-property-alternative",
+        "EV"
+      ],
+      [
+        "pennsylvania-general-monetary-alternative",
+        "EV"
+      ]
+    ],
+    "kinds": {
+      "SKILL_DEFECT": 0,
+      "EXECUTION_LAPSE": 8
+    },
+    "diagnoses": [
+      {
+        "skill_id": "federal-wildcard-independent-alternatives",
+        "task": "EC",
+        "kind": "EXECUTION_LAPSE",
+        "rule_anchor": "Test § 522(d)(5) independently for every property type, even when a specific exemption also applies or the asset exceeds that specific exemption's ceiling.",
+        "source_case_ids": [
+          198,
+          200,
+          206,
+          208
+        ]
+      },
+      {
+        "skill_id": "federal-wildcard-independent-alternatives",
+        "task": "EV",
+        "kind": "EXECUTION_LAPSE",
+        "rule_anchor": "For each independently eligible citation, report the protected amount for the whole named asset.",
+        "source_case_ids": [
+          198,
+          200,
+          202,
+          203,
+          205,
+          206,
+          208,
+          209,
+          210,
+          211,
+          212
+        ]
+      },
+      {
+        "skill_id": "pennsylvania-general-monetary-alternative",
+        "task": "EV",
+        "kind": "EXECUTION_LAPSE",
+        "rule_anchor": "Report the protected amount for the whole named asset as the lesser of its value and $300 for one debtor.",
+        "source_case_ids": [
+          198,
+          205,
+          211
+        ]
+      },
+      {
+        "skill_id": "oregon-personal-property-alternative",
+        "task": "EC",
+        "kind": "EXECUTION_LAPSE",
+        "rule_anchor": "Include Or. Rev. Stat. § 18.345(1)(p) independently for personal property, while retaining any applicable category-specific Oregon and federal citations.",
+        "source_case_ids": [
+          206,
+          210
+        ]
+      },
+      {
+        "skill_id": "oregon-personal-property-alternative",
+        "task": "EV",
+        "kind": "EXECUTION_LAPSE",
+        "rule_anchor": "Report the protected amount for the whole named asset as the lesser of its value and $400.",
+        "source_case_ids": [
+          202,
+          206,
+          208,
+          210
+        ]
+      },
+      {
+        "skill_id": "illinois-other-personal-property-alternative",
+        "task": "EC",
+        "kind": "EXECUTION_LAPSE",
+        "rule_anchor": "Test 735 Ill. Comp. Stat. 5/12-1001(b) as an independent alternative for any other personal property.",
+        "source_case_ids": [
+          204
+        ]
+      },
+      {
+        "skill_id": "illinois-other-personal-property-alternative",
+        "task": "EV",
+        "kind": "EXECUTION_LAPSE",
+        "rule_anchor": "Emit every eligible alternative separately.",
+        "source_case_ids": [
+          204
+        ]
+      },
+      {
+        "skill_id": "arizona-category-and-cap-boundaries",
+        "task": "EV",
+        "kind": "EXECUTION_LAPSE",
+        "rule_anchor": "First apply the same category boundaries",
+        "source_case_ids": [
+          201,
+          207
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "skill_id": "federal-wildcard-independent-alternatives",
+      "family": "EC",
+      "original_knowledge_prefix_preserved": true,
+      "protected_when_avoid_jurisdiction_operators_unchanged": true,
+      "example": "For a qualifying household item, the same asset's array can contain both § 522(d)(3) and § 522(d)(5); do not stop after the specific citation."
+    },
+    {
+      "skill_id": "illinois-other-personal-property-alternative",
+      "family": "EC",
+      "original_knowledge_prefix_preserved": true,
+      "protected_when_avoid_jurisdiction_operators_unchanged": true,
+      "example": "For a personally used prescribed health aid, the asset array contains both § 12-1001(e) and the independent § 12-1001(b) alternative."
+    },
+    {
+      "skill_id": "oregon-personal-property-alternative",
+      "family": "EC",
+      "original_knowledge_prefix_preserved": true,
+      "protected_when_avoid_jurisdiction_operators_unchanged": true,
+      "example": "A qualifying household item should retain both its category-specific Oregon citation and § 18.345(1)(p) in the same asset array."
+    },
+    {
+      "skill_id": "arizona-category-and-cap-boundaries",
+      "family": "EV",
+      "original_knowledge_prefix_preserved": true,
+      "protected_when_avoid_jurisdiction_operators_unchanged": true,
+      "example": "Work-styled overalls remain wearing apparel when the facts do not state business use, so § 33-1125(1) receives the garment's value up to $500; an anniversary ring without an engagement-or-wedding fact receives no § 33-1125(4) claim."
+    },
+    {
+      "skill_id": "federal-wildcard-independent-alternatives",
+      "family": "EV",
+      "original_knowledge_prefix_preserved": true,
+      "protected_when_avoid_jurisdiction_operators_unchanged": true,
+      "example": "Hypothetically, a $900 qualifying appliance with enough unused wildcard capacity receives separate alternatives of $700 under § 522(d)(3) and $900 under § 522(d)(5)."
+    },
+    {
+      "skill_id": "illinois-other-personal-property-alternative",
+      "family": "EV",
+      "original_knowledge_prefix_preserved": true,
+      "protected_when_avoid_jurisdiction_operators_unchanged": true,
+      "example": "Hypothetically, a jointly owned high-value vehicle of two debtor spouses has separate asset-level alternatives of $8,000 under § 12-1001(b) and $2,400 under § 12-1001(c); do not double the motor-vehicle ceiling."
+    },
+    {
+      "skill_id": "oregon-personal-property-alternative",
+      "family": "EV",
+      "original_knowledge_prefix_preserved": true,
+      "protected_when_avoid_jurisdiction_operators_unchanged": true,
+      "example": "Hypothetically, a $24 household item has separate $24 alternatives under its household-goods provision and § 18.345(1)(p); the latter is not reported as $400 when the asset is worth less."
+    },
+    {
+      "skill_id": "pennsylvania-general-monetary-alternative",
+      "family": "EV",
+      "original_knowledge_prefix_preserved": true,
+      "protected_when_avoid_jurisdiction_operators_unchanged": true,
+      "example": "Hypothetically, a jointly owned $450 non-apparel item of two debtor spouses has a $450 § 8123 alternative, not $300 or $600; do not add the wearing-apparel provision merely because § 8123 also applies."
+    }
+  ],
+  "example_sections": 8,
+  "teacher_usage": {
+    "input_tokens": 164754,
+    "cached_input_tokens": 0,
+    "output_tokens": 5926,
+    "reasoning_output_tokens": 2917
+  },
+  "teacher_elapsed_seconds": 117.111,
+  "teacher_finished_at": "2026-10-28T10:00:53.468927+00:00",
+  "teacher_tools": false,
+  "currently_saved_candidate_inputs": 8,
+  "examples_observed_in_actual_native_requests": [
+    {
+      "input_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_candidate1_replay/184_EC_candidate.input.json",
+      "skill_id": "federal-wildcard-independent-alternatives",
+      "example": "For a qualifying household item, the same asset's array can contain both § 522(d)(3) and § 522(d)(5); do not stop after the specific citation."
+    },
+    {
+      "input_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_candidate1_replay/184_EV_candidate.input.json",
+      "skill_id": "federal-wildcard-independent-alternatives",
+      "example": "Hypothetically, a $900 qualifying appliance with enough unused wildcard capacity receives separate alternatives of $700 under § 522(d)(3) and $900 under § 522(d)(5)."
+    },
+    {
+      "input_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_candidate1_replay/183_EV_candidate.input.json",
+      "skill_id": "arizona-category-and-cap-boundaries",
+      "example": "Work-styled overalls remain wearing apparel when the facts do not state business use, so § 33-1125(1) receives the garment's value up to $500; an anniversary ring without an engagement-or-wedding fact receives no § 33-1125(4) claim."
+    },
+    {
+      "input_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_candidate1_replay/181_EV_candidate.input.json",
+      "skill_id": "federal-wildcard-independent-alternatives",
+      "example": "Hypothetically, a $900 qualifying appliance with enough unused wildcard capacity receives separate alternatives of $700 under § 522(d)(3) and $900 under § 522(d)(5)."
+    },
+    {
+      "input_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_candidate1_replay/181_EV_candidate.input.json",
+      "skill_id": "pennsylvania-general-monetary-alternative",
+      "example": "Hypothetically, a jointly owned $450 non-apparel item of two debtor spouses has a $450 § 8123 alternative, not $300 or $600; do not add the wearing-apparel provision merely because § 8123 also applies."
+    },
+    {
+      "input_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_candidate1_replay/182_EV_candidate.input.json",
+      "skill_id": "arizona-category-and-cap-boundaries",
+      "example": "Work-styled overalls remain wearing apparel when the facts do not state business use, so § 33-1125(1) receives the garment's value up to $500; an anniversary ring without an engagement-or-wedding fact receives no § 33-1125(4) claim."
+    },
+    {
+      "input_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_candidate1_replay/181_EC_candidate.input.json",
+      "skill_id": "federal-wildcard-independent-alternatives",
+      "example": "For a qualifying household item, the same asset's array can contain both § 522(d)(3) and § 522(d)(5); do not stop after the specific citation."
+    }
+  ],
+  "teacher_wire_sha256": "875b7bb3cb37afd27445c6a8022d686cef211c03b0a3245cda0447cbd0dd5c8e",
+  "teacher_response_sha256": "4ce9a4740e5eeba9021548e8903f9ad2c5f2178848ec7af289cc8c35b3c47bc6",
+  "classification_nuance": "Teacher classified all eight changes as EXECUTION_LAPSE. The Federal EV appliance example also makes an implicit eligibility condition concrete, so a later benefit cannot be attributed uniquely to mechanical execution rather than clarified knowledge. Preserve actual labels and measure final replay/subsequent effects.",
+  "new_teacher_or_native_calls_for_audit": 0,
+  "candidate_replay_complete_or_accepted": false
+}

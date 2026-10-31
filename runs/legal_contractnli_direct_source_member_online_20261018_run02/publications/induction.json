@@ -1,0 +1,170 @@
+{
+  "at": "2026-10-18T08:46:24.428602+00:00",
+  "parent": [],
+  "delta": {
+    "operations": [
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "nda-source-boundary-inspector-v1",
+          "hypothesis_ids": [
+            "nda-11",
+            "nda-16",
+            "nda-15",
+            "nda-10",
+            "nda-2",
+            "nda-1",
+            "nda-19",
+            "nda-12",
+            "nda-20",
+            "nda-3",
+            "nda-18",
+            "nda-7",
+            "nda-17",
+            "nda-8",
+            "nda-13",
+            "nda-5",
+            "nda-4"
+          ],
+          "guidance": {
+            "python_source": "def _segments(text, spans):\n    out = []\n    for s in spans:\n        if isinstance(s, str):\n            out.append(s)\n        elif isinstance(s, dict):\n            if \"text\" in s:\n                out.append(str(s.get(\"text\", \"\")))\n            else:\n                a = int(s.get(\"start\", s.get(\"begin\", 0)))\n                b = int(s.get(\"end\", s.get(\"stop\", a)))\n                out.append(text[a:b])\n        elif isinstance(s, (list, tuple)) and len(s) >= 2:\n            out.append(text[int(s[0]):int(s[1])])\n        else:\n            out.append(\"\")\n    return out\n\ndef _has(s, words):\n    return any(w in s for w in words)\n\ndef _heading(s):\n    t = s.strip().lower()\n    if len(t) > 100:\n        return False\n    return _has(t, (\"obligations\", \"non-disclosure\", \"nondisclosure\", \"permitted use\", \"restrictions on\", \"return of\", \"ownership\", \"remedies\", \"term and\", \"duration\", \"compelled disclosure\", \"required disclosure\", \"no solicitation\", \"non-solicitation\", \"miscellaneous\", \"general provisions\"))\n\ndef _lead(out, xs, i):\n    j = i - 1\n    while j >= 0:\n        t = xs[j].strip().lower()\n        if len(t) <= 100 and (t.endswith(\":\") or t.endswith(\"following\") or t.endswith(\"follows\") or t in (\"the recipient shall\", \"the receiving party shall\", \"recipient agrees\", \"the parties shall\")):\n            out.add(j)\n            j -= 1\n        else:\n            break\n\ndef _definition_blocks(xs):\n    blocks = []\n    for i, s in enumerate(xs):\n        t = s.lower()\n        if \"confidential information\" in t and _has(t, (\" means\", \" shall mean\", \" includes\", \" include all\", \"defined as\")):\n            e = i + 1\n            while e < len(xs):\n                q = xs[e].strip().lower()\n                if _heading(q):\n                    break\n                if \" means \" in q and \"confidential information\" not in q and len(q) < 180:\n                    break\n                e += 1\n            blocks.append((i, e))\n    return blocks\n\ndef _intro(out, xs, i):\n    j = i - 1\n    while j >= 0 and not _heading(xs[j]):\n        q = xs[j].lower()\n        if _has(q, (\"shall not include\", \"does not include\", \"shall not apply\", \"exceptions\", \"exclusions\", \"restrictions shall not apply\")):\n            out.add(j)\n            return\n        if len(q) > 250:\n            return\n        j -= 1\n\ndef propose_members(text, spans, public_hypothesis_key):\n    xs = _segments(text, spans)\n    low = [s.lower() for s in xs]\n    out = set()\n    k = public_hypothesis_key\n    if k in (\"nda-1\", \"nda-2\", \"nda-3\"):\n        for a, b in _definition_blocks(low):\n            z = \" \".join(low[a:b])\n            take = k == \"nda-1\"\n            if k == \"nda-2\":\n                take = _has(z, (\"technical\", \"business\", \"financial\", \"commercial\", \"marketing\", \"employee\", \"customer\", \"operational\", \"contractual\", \"personnel\", \"all information\"))\n            if k == \"nda-3\":\n                take = _has(z, (\"oral\", \"verbally\", \"spoken\", \"whether written\", \"regardless of form\", \"whatever form\", \"any form whatsoever\"))\n            if take:\n                out.update(range(a, b))\n    if k == \"nda-10\":\n        for i, s in enumerate(low):\n            if _has(s, (\"existence of this agreement\", \"terms of this agreement\", \"fact that discussions\", \"discussions or negotiations\", \"negotiations are\", \"public announcement\", \"subject matter or terms\", \"fact that information\")):\n                out.add(i)\n                _lead(out, low, i)\n    if k in (\"nda-12\", \"nda-13\"):\n        words = (\"independently developed\", \"independent development\", \"developed independently\", \"independently derived\", \"independently create\") if k == \"nda-12\" else (\"from a third party\", \"from third parties\", \"third party having\", \"third party who\", \"another source\", \"source other than\")\n        for i, s in enumerate(low):\n            if _has(s, words):\n                out.add(i)\n                _intro(out, low, i)\n                _lead(out, low, i)\n    if k == \"nda-15\":\n        for i, s in enumerate(low):\n            if _has(s, (\"no license\", \"no licence\", \"no right\", \"no rights\", \"shall remain the property\", \"remain the exclusive property\", \"retain all rights\", \"does not grant any right\", \"not be construed as granting\", \"no title\", \"no interest\", \"exclusive owner\")):\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-16\":\n        ends = (\"termination\", \"expiration\", \"expiry\", \"completion\", \"conclusion\", \"abandonment\", \"ceasing\", \"ceased\", \"does not wish to proceed\", \"not consummated\", \"not execute\", \"rejected\", \"assessment period is over\")\n        for i, s in enumerate(low):\n            if _has(s, ends):\n                e = i + 1\n                while e < len(low) and not _heading(low[e]):\n                    e += 1\n                if any(_has(low[j], (\"return\", \"destroy\", \"deliver\", \"surrender\", \"delete\", \"erase\")) for j in range(i, e)):\n                    out.update(range(i, e))\n    if k == \"nda-19\":\n        for i, s in enumerate(low):\n            if _has(s, (\"shall survive\", \"will survive\", \"survive termination\", \"survive expiration\", \"continue to be bound\", \"continue in force\", \"continue to apply\", \"remain in effect\", \"notwithstanding the return\", \"notwithstanding such return\", \"held subject to\", \"after termination\", \"beyond termination\")):\n                out.add(i)\n                j = i - 1\n                while j >= 0 and not _heading(low[j]) and _has(low[j], (\"notwithstanding\", \"retain\", \"retained\", \"copies\", \"confidential information\", \"(a)\", \"(b)\")):\n                    out.add(j)\n                    j -= 1\n                _lead(out, low, i)\n    if k == \"nda-20\":\n        for i, s in enumerate(low):\n            if _has(s, (\"retain\", \"retained\", \"keep one copy\", \"archiv\", \"back-up\", \"backup\", \"infeasible\", \"not required to erase\", \"not required to delete\", \"return\", \"destroy\", \"no copies\", \"retaining no copies\")):\n                if _has(s, (\"confidential\", \"information\", \"data\", \"material\", \"copies\", \"documents\", \"records\")):\n                    out.add(i)\n                    _lead(out, low, i)\n    if k in (\"nda-5\", \"nda-7\"):\n        classes = (\"employee\", \"personnel\", \"staff member\") if k == \"nda-5\" else (\"agent\", \"consultant\", \"advisor\", \"adviser\", \"counsel\", \"accountant\", \"contractor\", \"subcontractor\", \"representative\", \"third party\")\n        for i, s in enumerate(low):\n            if _has(s, classes) and _has(s, (\"disclose\", \"disclosure\", \"access\", \"furnish\", \"provide\", \"share\", \"need to know\", \"shall not disclose\", \"may disclose\", \"only to\")):\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-17\":\n        for i, s in enumerate(low):\n            if _has(s, (\"copy\", \"reproduce\", \"duplicate\", \"reduce to writing\", \"record\", \"photograph\")) and not (_has(s, (\"return\", \"destroy\")) and not _has(s, (\"may\", \"except\", \"necessary\", \"consent\", \"shall not\", \"not copy\"))):\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-8\":\n        for i, s in enumerate(low):\n            if _has(s, (\"required by law\", \"required to disclose\", \"legally compelled\", \"court order\", \"subpoena\", \"legal process\", \"governmental authority\", \"regulatory authority\")) and _has(s, (\"notice\", \"notify\", \"consult\", \"inform\", \"advise\", \"provide\")):\n                out.add(i)\n                _lead(out, low, i)\n            elif _has(s, (\"prompt notice\", \"promptly notify\", \"prior written notice\")) and \"disclos\" in s:\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-11\":\n        for i, s in enumerate(low):\n            if _has(s, (\"reverse engineer\", \"decompile\", \"disassemble\")):\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-18\":\n        for i, s in enumerate(low):\n            if _has(s, (\"solicit\", \"induce\", \"entice\", \"offer employment\", \"offer to hire\", \"employ or retain\", \"contract for the services\", \"standstill\")):\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-4\":\n        for i, s in enumerate(low):\n            if _has(s, (\"solely for\", \"only for\", \"no purpose other\", \"not use\", \"use only\", \"except for the purpose\", \"necessary for the purpose\")) and _has(s, (\"confidential\", \"information\", \"data\", \"material\", \"purpose\", \"evaluation\")):\n                out.add(i)\n                _lead(out, low, i)\n    return sorted(out)\n"
+          }
+        },
+        "source_case_ids": [
+          617,
+          147,
+          314,
+          89,
+          384,
+          616,
+          245,
+          136,
+          431,
+          114,
+          202
+        ],
+        "rationale": "CREATE a unified boundary-aware inspector because the parent is empty. The program learns definition/list propagation, exclusion introductions, endpoint-triggered disposition chains, grammatical lead-ins, scoped recipient classes, and exact operative verbs from the supplied Gold sources. Cases 147, 319, 136, and 114 motivate cross-span definition/list handling; 89, 245, 431, and 583 motivate endpoint, retention, and survival separation; 314, 384, 616, and 202 motivate exact conduct, provenance, recipient-class, and compelled-notice matching."
+      }
+    ],
+    "noop_reason": null
+  },
+  "publication": [
+    {
+      "id": "nda-source-boundary-inspector-v1",
+      "hypothesis_ids": [
+        "nda-11",
+        "nda-16",
+        "nda-15",
+        "nda-10",
+        "nda-2",
+        "nda-1",
+        "nda-19",
+        "nda-12",
+        "nda-20",
+        "nda-3",
+        "nda-18",
+        "nda-7",
+        "nda-17",
+        "nda-8",
+        "nda-13",
+        "nda-5",
+        "nda-4"
+      ],
+      "guidance": {
+        "python_source": "def _segments(text, spans):\n    out = []\n    for s in spans:\n        if isinstance(s, str):\n            out.append(s)\n        elif isinstance(s, dict):\n            if \"text\" in s:\n                out.append(str(s.get(\"text\", \"\")))\n            else:\n                a = int(s.get(\"start\", s.get(\"begin\", 0)))\n                b = int(s.get(\"end\", s.get(\"stop\", a)))\n                out.append(text[a:b])\n        elif isinstance(s, (list, tuple)) and len(s) >= 2:\n            out.append(text[int(s[0]):int(s[1])])\n        else:\n            out.append(\"\")\n    return out\n\ndef _has(s, words):\n    return any(w in s for w in words)\n\ndef _heading(s):\n    t = s.strip().lower()\n    if len(t) > 100:\n        return False\n    return _has(t, (\"obligations\", \"non-disclosure\", \"nondisclosure\", \"permitted use\", \"restrictions on\", \"return of\", \"ownership\", \"remedies\", \"term and\", \"duration\", \"compelled disclosure\", \"required disclosure\", \"no solicitation\", \"non-solicitation\", \"miscellaneous\", \"general provisions\"))\n\ndef _lead(out, xs, i):\n    j = i - 1\n    while j >= 0:\n        t = xs[j].strip().lower()\n        if len(t) <= 100 and (t.endswith(\":\") or t.endswith(\"following\") or t.endswith(\"follows\") or t in (\"the recipient shall\", \"the receiving party shall\", \"recipient agrees\", \"the parties shall\")):\n            out.add(j)\n            j -= 1\n        else:\n            break\n\ndef _definition_blocks(xs):\n    blocks = []\n    for i, s in enumerate(xs):\n        t = s.lower()\n        if \"confidential information\" in t and _has(t, (\" means\", \" shall mean\", \" includes\", \" include all\", \"defined as\")):\n            e = i + 1\n            while e < len(xs):\n                q = xs[e].strip().lower()\n                if _heading(q):\n                    break\n                if \" means \" in q and \"confidential information\" not in q and len(q) < 180:\n                    break\n                e += 1\n            blocks.append((i, e))\n    return blocks\n\ndef _intro(out, xs, i):\n    j = i - 1\n    while j >= 0 and not _heading(xs[j]):\n        q = xs[j].lower()\n        if _has(q, (\"shall not include\", \"does not include\", \"shall not apply\", \"exceptions\", \"exclusions\", \"restrictions shall not apply\")):\n            out.add(j)\n            return\n        if len(q) > 250:\n            return\n        j -= 1\n\ndef propose_members(text, spans, public_hypothesis_key):\n    xs = _segments(text, spans)\n    low = [s.lower() for s in xs]\n    out = set()\n    k = public_hypothesis_key\n    if k in (\"nda-1\", \"nda-2\", \"nda-3\"):\n        for a, b in _definition_blocks(low):\n            z = \" \".join(low[a:b])\n            take = k == \"nda-1\"\n            if k == \"nda-2\":\n                take = _has(z, (\"technical\", \"business\", \"financial\", \"commercial\", \"marketing\", \"employee\", \"customer\", \"operational\", \"contractual\", \"personnel\", \"all information\"))\n            if k == \"nda-3\":\n                take = _has(z, (\"oral\", \"verbally\", \"spoken\", \"whether written\", \"regardless of form\", \"whatever form\", \"any form whatsoever\"))\n            if take:\n                out.update(range(a, b))\n    if k == \"nda-10\":\n        for i, s in enumerate(low):\n            if _has(s, (\"existence of this agreement\", \"terms of this agreement\", \"fact that discussions\", \"discussions or negotiations\", \"negotiations are\", \"public announcement\", \"subject matter or terms\", \"fact that information\")):\n                out.add(i)\n                _lead(out, low, i)\n    if k in (\"nda-12\", \"nda-13\"):\n        words = (\"independently developed\", \"independent development\", \"developed independently\", \"independently derived\", \"independently create\") if k == \"nda-12\" else (\"from a third party\", \"from third parties\", \"third party having\", \"third party who\", \"another source\", \"source other than\")\n        for i, s in enumerate(low):\n            if _has(s, words):\n                out.add(i)\n                _intro(out, low, i)\n                _lead(out, low, i)\n    if k == \"nda-15\":\n        for i, s in enumerate(low):\n            if _has(s, (\"no license\", \"no licence\", \"no right\", \"no rights\", \"shall remain the property\", \"remain the exclusive property\", \"retain all rights\", \"does not grant any right\", \"not be construed as granting\", \"no title\", \"no interest\", \"exclusive owner\")):\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-16\":\n        ends = (\"termination\", \"expiration\", \"expiry\", \"completion\", \"conclusion\", \"abandonment\", \"ceasing\", \"ceased\", \"does not wish to proceed\", \"not consummated\", \"not execute\", \"rejected\", \"assessment period is over\")\n        for i, s in enumerate(low):\n            if _has(s, ends):\n                e = i + 1\n                while e < len(low) and not _heading(low[e]):\n                    e += 1\n                if any(_has(low[j], (\"return\", \"destroy\", \"deliver\", \"surrender\", \"delete\", \"erase\")) for j in range(i, e)):\n                    out.update(range(i, e))\n    if k == \"nda-19\":\n        for i, s in enumerate(low):\n            if _has(s, (\"shall survive\", \"will survive\", \"survive termination\", \"survive expiration\", \"continue to be bound\", \"continue in force\", \"continue to apply\", \"remain in effect\", \"notwithstanding the return\", \"notwithstanding such return\", \"held subject to\", \"after termination\", \"beyond termination\")):\n                out.add(i)\n                j = i - 1\n                while j >= 0 and not _heading(low[j]) and _has(low[j], (\"notwithstanding\", \"retain\", \"retained\", \"copies\", \"confidential information\", \"(a)\", \"(b)\")):\n                    out.add(j)\n                    j -= 1\n                _lead(out, low, i)\n    if k == \"nda-20\":\n        for i, s in enumerate(low):\n            if _has(s, (\"retain\", \"retained\", \"keep one copy\", \"archiv\", \"back-up\", \"backup\", \"infeasible\", \"not required to erase\", \"not required to delete\", \"return\", \"destroy\", \"no copies\", \"retaining no copies\")):\n                if _has(s, (\"confidential\", \"information\", \"data\", \"material\", \"copies\", \"documents\", \"records\")):\n                    out.add(i)\n                    _lead(out, low, i)\n    if k in (\"nda-5\", \"nda-7\"):\n        classes = (\"employee\", \"personnel\", \"staff member\") if k == \"nda-5\" else (\"agent\", \"consultant\", \"advisor\", \"adviser\", \"counsel\", \"accountant\", \"contractor\", \"subcontractor\", \"representative\", \"third party\")\n        for i, s in enumerate(low):\n            if _has(s, classes) and _has(s, (\"disclose\", \"disclosure\", \"access\", \"furnish\", \"provide\", \"share\", \"need to know\", \"shall not disclose\", \"may disclose\", \"only to\")):\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-17\":\n        for i, s in enumerate(low):\n            if _has(s, (\"copy\", \"reproduce\", \"duplicate\", \"reduce to writing\", \"record\", \"photograph\")) and not (_has(s, (\"return\", \"destroy\")) and not _has(s, (\"may\", \"except\", \"necessary\", \"consent\", \"shall not\", \"not copy\"))):\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-8\":\n        for i, s in enumerate(low):\n            if _has(s, (\"required by law\", \"required to disclose\", \"legally compelled\", \"court order\", \"subpoena\", \"legal process\", \"governmental authority\", \"regulatory authority\")) and _has(s, (\"notice\", \"notify\", \"consult\", \"inform\", \"advise\", \"provide\")):\n                out.add(i)\n                _lead(out, low, i)\n            elif _has(s, (\"prompt notice\", \"promptly notify\", \"prior written notice\")) and \"disclos\" in s:\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-11\":\n        for i, s in enumerate(low):\n            if _has(s, (\"reverse engineer\", \"decompile\", \"disassemble\")):\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-18\":\n        for i, s in enumerate(low):\n            if _has(s, (\"solicit\", \"induce\", \"entice\", \"offer employment\", \"offer to hire\", \"employ or retain\", \"contract for the services\", \"standstill\")):\n                out.add(i)\n                _lead(out, low, i)\n    if k == \"nda-4\":\n        for i, s in enumerate(low):\n            if _has(s, (\"solely for\", \"only for\", \"no purpose other\", \"not use\", \"use only\", \"except for the purpose\", \"necessary for the purpose\")) and _has(s, (\"confidential\", \"information\", \"data\", \"material\", \"purpose\", \"evaluation\")):\n                out.add(i)\n                _lead(out, low, i)\n    return sorted(out)\n"
+      }
+    }
+  ],
+  "statistics": {
+    "operation_counts": {
+      "CREATE": 1,
+      "UPDATE": 0,
+      "DELETE": 0,
+      "MERGE": 0
+    },
+    "explicit_noop": false,
+    "parent_skill_count": 0,
+    "published_skill_count": 1,
+    "new_ids": [
+      "nda-source-boundary-inspector-v1"
+    ],
+    "removed_ids": [],
+    "verbatim_retained_ids": [],
+    "revised_retained_ids": [],
+    "serialized_library_tokens": 2551,
+    "guidance_characters": 8998,
+    "not_a_utility_score_or_publication_gate": true
+  },
+  "original_seen_source_ids": [
+    617,
+    147,
+    314,
+    167,
+    149,
+    207,
+    328,
+    89,
+    134,
+    545,
+    319,
+    285,
+    384,
+    426,
+    390,
+    188,
+    453,
+    322,
+    348,
+    616,
+    186,
+    214,
+    567,
+    281,
+    490,
+    334,
+    88,
+    331,
+    238,
+    245,
+    262,
+    588,
+    538,
+    177,
+    136,
+    187,
+    273,
+    416,
+    261,
+    487,
+    377,
+    159,
+    500,
+    378,
+    434,
+    513,
+    103,
+    372,
+    583,
+    277,
+    217,
+    256,
+    308,
+    431,
+    114,
+    441,
+    442,
+    358,
+    341,
+    268,
+    176,
+    233,
+    520,
+    577,
+    210,
+    202
+  ],
+  "new_episode_labels_taught": 0,
+  "new_representation_learning_not_best_bank_rollback": true,
+  "all_valid_edits_publish_without_efficacy_admission": true
+}

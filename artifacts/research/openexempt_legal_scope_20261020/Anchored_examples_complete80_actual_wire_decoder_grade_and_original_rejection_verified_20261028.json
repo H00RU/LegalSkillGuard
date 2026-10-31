@@ -1,0 +1,25 @@
+{
+  "all80_actual_wires_decoding_original_grades_verified": true,
+  "all80_finish_stop": true,
+  "all_new_answers_saved_before_grading": true,
+  "frozen_files_unchanged": 518,
+  "terminal_dual_archives_verified": {
+    "at": "2026-10-28T08:34:59.946164+00:00",
+    "stage": "actual-terminal",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_anchored_execution_examples_TRAIN40_20261028_run01-actual-terminal.tar.gz",
+        "sha256": "17cfaeee0eee4723bde9aa547967cf746414ef6c65f429e5fb072fc4cea576cb"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_anchored_execution_examples_TRAIN40_20261028_run01-actual-terminal.tar.gz",
+        "sha256": "aad0adfbcb9969eb7673fe1edc787f9719c8e7543727b455cb6a55a40d2d9c80"
+      }
+    ],
+    "files": 131
+  },
+  "original_full_proposal_adoption_still_false": true,
+  "new_native_teacher_grader_calls": 0,
+  "TEST_read": false,
+  "recomputation_shell_command": ".venv/bin/python -c 'import json; from pathlib import Path; from experiments.openexempt_online import actor_payload; from legal_skill_guard.openexempt import evaluate; from legal_skill_guard.learning.legal_namespace import decode_asset_references,decode_classification,decode_reference; from legal_skill_guard.learning.experiment import sha\nroot=Path(\"runs/legal_openexempt_anchored_execution_examples_TRAIN40_20261028_run01\"); cfg=json.loads(Path(\"configs/openexempt_anchored_execution_examples_TRAIN40_20261028_run01.json\").read_text()); records=json.loads((root/\"paired_records.json\").read_text()); pre=json.loads((root/\"all_responses_before_new_grading.json\").read_text())\nbindings=json.loads(Path(\"configs/openexempt_anchored_execution_examples_TRAIN40_20261028_run01.frozen.json\").read_text()); assert all(sha(p)==h for p,h in bindings[\"files\"].items())\nparent=json.loads(Path(cfg[\"initial_library_publication\"]).read_text())[\"bank\"]; candidate=json.loads((root/\"candidate_fixed_before_new_answers.json\").read_text())[\"bank\"]; rows={(r[\"case_id\"],r[\"family\"]):r for r in json.loads(Path(cfg[\"input_packet\"]).read_text())[\"rows\"]}\nfor arm,bank in ((\"parent\",parent),(\"candidate\",candidate)):\n assert len(pre[arm])==len(records[arm])==40 and all(\"score\" not in r for r in pre[arm])\n assert pre[arm]==[{k:v for k,v in r.items() if k!=\"score\"} for r in records[arm]]\n for r in records[arm]:\n  row=rows[(r[\"case_id\"],r[\"family\"])]; raw=Path(r[\"raw_call_path\"]); w=json.loads(raw.with_suffix(\".input.json\").read_text()); m,s,skills=actor_payload(row,bank,direct_numeric=True,asset_references=True); assert w[\"messages\"]==m and w[\"schema\"]==s\n  call=json.loads(raw.read_text())[\"calls\"][0]; choice=call[\"response\"][\"choices\"][0]; assert choice[\"finish_reason\"]==\"stop\"; emitted=json.loads(choice[\"message\"][\"content\"]); assert emitted==r[\"public_label_submission\"]\n  answer=decode_asset_references(emitted,w[\"public_asset_reference_catalog\"])\n  if row[\"family\"]==\"EC\": answer=decode_classification(answer,w[\"public_citation_catalog\"])\n  else: answer={k:[{\"citation\":decode_reference(c[\"citation_ref\"],w[\"public_citation_catalog\"]),\"claim_value\":c[\"claim_value\"]} for c in v] for k,v in answer.items()}\n  assert r[\"parsed\"]=={\"answer\":answer} and r[\"native_program\"] is None and r[\"execution_receipt\"] is None\n  truth=json.loads((Path(cfg[\"grading_directory\"])/str(r[\"case_id\"])).with_suffix(\".json\").read_text())[\"targets\"][r[\"family\"]]; assert evaluate(row,answer,truth)==r[\"score\"]\nreceipt=json.loads((root/\"terminal_preservation.json\").read_text()); assert all(sha(v[\"path\"])==v[\"sha256\"] for v in receipt[\"paths\"]); assert not Path(\"/proc/308682\").exists()\nprint(json.dumps({\"all80_actual_wires_decoding_original_grades_verified\":True,\"all80_finish_stop\":True,\"all_new_answers_saved_before_grading\":True,\"frozen_files_unchanged\":len(bindings[\"files\"]),\"terminal_dual_archives_verified\":receipt,\"original_full_proposal_adoption_still_false\":not json.loads((root/\"completion.json\").read_text())[\"formal_adoption_accepted\"],\"new_native_teacher_grader_calls\":0,\"TEST_read\":False}))'"
+}

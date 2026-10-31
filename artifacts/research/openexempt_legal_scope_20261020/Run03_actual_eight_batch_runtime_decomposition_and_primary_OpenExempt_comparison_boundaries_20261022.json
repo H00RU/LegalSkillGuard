@@ -1,0 +1,617 @@
+{
+  "at": "2026-10-22T06:22:53.643540+00:00",
+  "classification": "Actual completed main Run03 latency/cost decomposition plus primary-paper metric context; no runtime-method changes or test outcomes",
+  "batch_rows": [
+    {
+      "batch": 1,
+      "start_at_UTC": "2026-10-21T01:53:42.609428+00:00",
+      "publication_at_UTC": "2026-10-21T03:57:46.926666+00:00",
+      "start_definition": "first native input-file mtime, not inferred systemd launch",
+      "elapsed_seconds": 7444.317237615585,
+      "native_original_generations": 96,
+      "first_forecast_original_generations": 32,
+      "candidate_replay_original_generations": 64,
+      "native_input_tokens": 630165,
+      "native_output_tokens": 251015,
+      "native_stage_totals": {
+        "b1_candidate1_replay": {
+          "generations": 32,
+          "HTTP_requests": 32,
+          "input_tokens": 212023,
+          "output_tokens": 75187
+        },
+        "b1_candidate2_replay": {
+          "generations": 32,
+          "HTTP_requests": 32,
+          "input_tokens": 214198,
+          "output_tokens": 84647
+        },
+        "b1_prequential": {
+          "generations": 32,
+          "HTTP_requests": 32,
+          "input_tokens": 203944,
+          "output_tokens": 91181
+        }
+      },
+      "native_input_to_raw_completion_file_intervals_seconds": 7231.385587930679,
+      "native_file_interval_share": 0.9713967523295517,
+      "output_tokens_per_file_interval_second_not_GPU_decode_speed": 34.7118815540619,
+      "teacher_recorded_response_seconds": 197.692,
+      "unassigned_residual_seconds_not_measured_GPU_idle": 15.239649684905999,
+      "largest_three_between_native_file_intervals": [
+        {
+          "seconds": 107.25415134429932,
+          "previous_stage": "b1_candidate1_replay",
+          "next_stage": "b1_candidate2_replay"
+        },
+        {
+          "seconds": 94.6185793876648,
+          "previous_stage": "b1_prequential",
+          "next_stage": "b1_candidate1_replay"
+        },
+        {
+          "seconds": 0.2359931468963623,
+          "previous_stage": "b1_prequential",
+          "next_stage": "b1_prequential"
+        }
+      ],
+      "native_interval_median_seconds": 71.21259343624115,
+      "native_interval_max_seconds": 174.47174096107483,
+      "publication_file": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b1.json",
+      "publication_sha256": "19057ad7c1f3510291abbd26f75766f39e34473796be4be669e98f0b73590408",
+      "all_native_file_interval_observations_sha256": "9a7e3570dc19ec462dc93556644fe9af72f069e1f10bd158421fdc852ea02ad4"
+    },
+    {
+      "batch": 2,
+      "start_at_UTC": "2026-10-21T03:57:46.926666+00:00",
+      "publication_at_UTC": "2026-10-21T07:14:54.091629+00:00",
+      "start_definition": "previous actual publication",
+      "elapsed_seconds": 11827.164963006973,
+      "native_original_generations": 139,
+      "first_forecast_original_generations": 60,
+      "candidate_replay_original_generations": 79,
+      "native_input_tokens": 928374,
+      "native_output_tokens": 401089,
+      "native_stage_totals": {
+        "b2_candidate1_replay": {
+          "generations": 50,
+          "HTTP_requests": 50,
+          "input_tokens": 337106,
+          "output_tokens": 163511
+        },
+        "b2_candidate2_replay": {
+          "generations": 29,
+          "HTTP_requests": 29,
+          "input_tokens": 200613,
+          "output_tokens": 93223
+        },
+        "b2_prequential": {
+          "generations": 60,
+          "HTTP_requests": 60,
+          "input_tokens": 390655,
+          "output_tokens": 144355
+        }
+      },
+      "native_input_to_raw_completion_file_intervals_seconds": 11574.584200382233,
+      "native_file_interval_share": 0.978644014570291,
+      "output_tokens_per_file_interval_second_not_GPU_decode_speed": 34.652562291330916,
+      "teacher_recorded_response_seconds": 231.10500000000002,
+      "unassigned_residual_seconds_not_measured_GPU_idle": 21.475762624740582,
+      "largest_three_between_native_file_intervals": [
+        {
+          "seconds": 144.63784527778625,
+          "previous_stage": "b2_prequential",
+          "next_stage": "b2_candidate1_replay"
+        },
+        {
+          "seconds": 92.63034987449646,
+          "previous_stage": "b2_candidate1_replay",
+          "next_stage": "b2_candidate2_replay"
+        },
+        {
+          "seconds": 0.3159933090209961,
+          "previous_stage": "b2_candidate2_replay",
+          "next_stage": "b2_candidate2_replay"
+        }
+      ],
+      "native_interval_median_seconds": 77.04257702827454,
+      "native_interval_max_seconds": 181.59329390525818,
+      "publication_file": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b2.json",
+      "publication_sha256": "8ec1054c31340fc102f908b385003b5238778fd9e901e4d61479616db8b98471",
+      "all_native_file_interval_observations_sha256": "7b05502b519af2425384c1a6e7def6af2455f8c1ad02ea7d6ad0619a4967e505"
+    },
+    {
+      "batch": 3,
+      "start_at_UTC": "2026-10-21T07:14:54.091629+00:00",
+      "publication_at_UTC": "2026-10-21T11:00:54.977423+00:00",
+      "start_definition": "previous actual publication",
+      "elapsed_seconds": 13560.885793924332,
+      "native_original_generations": 158,
+      "first_forecast_original_generations": 71,
+      "candidate_replay_original_generations": 87,
+      "native_input_tokens": 1051876,
+      "native_output_tokens": 463551,
+      "native_stage_totals": {
+        "b3_candidate1_replay": {
+          "generations": 87,
+          "HTTP_requests": 87,
+          "input_tokens": 590609,
+          "output_tokens": 253766
+        },
+        "b3_prequential": {
+          "generations": 71,
+          "HTTP_requests": 71,
+          "input_tokens": 461267,
+          "output_tokens": 209785
+        }
+      },
+      "native_input_to_raw_completion_file_intervals_seconds": 13380.675986289978,
+      "native_file_interval_share": 0.9867110592646468,
+      "output_tokens_per_file_interval_second_not_GPU_decode_speed": 34.643317009914945,
+      "teacher_recorded_response_seconds": 166.12,
+      "unassigned_residual_seconds_not_measured_GPU_idle": 14.089807634353633,
+      "largest_three_between_native_file_intervals": [
+        {
+          "seconds": 134.3779797554016,
+          "previous_stage": "b3_prequential",
+          "next_stage": "b3_candidate1_replay"
+        },
+        {
+          "seconds": 0.2239990234375,
+          "previous_stage": "b3_prequential",
+          "next_stage": "b3_prequential"
+        },
+        {
+          "seconds": 0.21199488639831543,
+          "previous_stage": "b3_prequential",
+          "next_stage": "b3_prequential"
+        }
+      ],
+      "native_interval_median_seconds": 81.84368169307709,
+      "native_interval_max_seconds": 222.114111661911,
+      "publication_file": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b3.json",
+      "publication_sha256": "f6fcd356964ca6865ab349e143a93a87a2e3df5cb1bb1296d1f56bf305ed2e22",
+      "all_native_file_interval_observations_sha256": "08823644efbfcb4c8de852e8a23af9f56e77f2f65d7a78d0887b17ff261e188d"
+    },
+    {
+      "batch": 4,
+      "start_at_UTC": "2026-10-21T11:00:54.977423+00:00",
+      "publication_at_UTC": "2026-10-21T13:27:05.858217+00:00",
+      "start_definition": "previous actual publication",
+      "elapsed_seconds": 8770.88079404831,
+      "native_original_generations": 112,
+      "first_forecast_original_generations": 70,
+      "candidate_replay_original_generations": 42,
+      "native_input_tokens": 741859,
+      "native_output_tokens": 298409,
+      "native_stage_totals": {
+        "b4_candidate1_replay": {
+          "generations": 28,
+          "HTTP_requests": 28,
+          "input_tokens": 191626,
+          "output_tokens": 43635
+        },
+        "b4_candidate2_replay": {
+          "generations": 14,
+          "HTTP_requests": 14,
+          "input_tokens": 94701,
+          "output_tokens": 55091
+        },
+        "b4_prequential": {
+          "generations": 70,
+          "HTTP_requests": 70,
+          "input_tokens": 455532,
+          "output_tokens": 199683
+        }
+      },
+      "native_input_to_raw_completion_file_intervals_seconds": 8605.905213832855,
+      "native_file_interval_share": 0.9811905344412614,
+      "output_tokens_per_file_interval_second_not_GPU_decode_speed": 34.674911306290824,
+      "teacher_recorded_response_seconds": 137.658,
+      "unassigned_residual_seconds_not_measured_GPU_idle": 27.317580215454115,
+      "largest_three_between_native_file_intervals": [
+        {
+          "seconds": 82.91455030441284,
+          "previous_stage": "b4_prequential",
+          "next_stage": "b4_candidate1_replay"
+        },
+        {
+          "seconds": 65.4707567691803,
+          "previous_stage": "b4_candidate1_replay",
+          "next_stage": "b4_candidate2_replay"
+        },
+        {
+          "seconds": 0.9399888515472412,
+          "previous_stage": "b4_candidate2_replay",
+          "next_stage": "b4_candidate2_replay"
+        }
+      ],
+      "native_interval_median_seconds": 71.13853025436401,
+      "native_interval_max_seconds": 172.46153092384338,
+      "publication_file": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b4.json",
+      "publication_sha256": "7a7a773607c9c9d8c572d1214aa011e01f1bb38253800a4788f3c26e63158259",
+      "all_native_file_interval_observations_sha256": "efbdd2d0a6096dfcf20287254d696da20d160c315ecc94f3850038be21a351ac"
+    },
+    {
+      "batch": 5,
+      "start_at_UTC": "2026-10-21T13:27:05.858217+00:00",
+      "publication_at_UTC": "2026-10-21T15:47:41.128267+00:00",
+      "start_definition": "previous actual publication",
+      "elapsed_seconds": 8435.270050048828,
+      "native_original_generations": 111,
+      "first_forecast_original_generations": 75,
+      "candidate_replay_original_generations": 36,
+      "native_input_tokens": 717667,
+      "native_output_tokens": 288162,
+      "native_stage_totals": {
+        "b5_candidate1_replay": {
+          "generations": 18,
+          "HTTP_requests": 18,
+          "input_tokens": 114393,
+          "output_tokens": 44068
+        },
+        "b5_candidate2_replay": {
+          "generations": 18,
+          "HTTP_requests": 18,
+          "input_tokens": 115228,
+          "output_tokens": 43561
+        },
+        "b5_prequential": {
+          "generations": 75,
+          "HTTP_requests": 75,
+          "input_tokens": 488046,
+          "output_tokens": 200533
+        }
+      },
+      "native_input_to_raw_completion_file_intervals_seconds": 8294.764341115952,
+      "native_file_interval_share": 0.9833430692675852,
+      "output_tokens_per_file_interval_second_not_GPU_decode_speed": 34.74022746753907,
+      "teacher_recorded_response_seconds": 107.919,
+      "unassigned_residual_seconds_not_measured_GPU_idle": 32.58670893287659,
+      "largest_three_between_native_file_intervals": [
+        {
+          "seconds": 66.13518333435059,
+          "previous_stage": "b5_prequential",
+          "next_stage": "b5_candidate1_replay"
+        },
+        {
+          "seconds": 47.3151478767395,
+          "previous_stage": "b5_candidate1_replay",
+          "next_stage": "b5_candidate2_replay"
+        },
+        {
+          "seconds": 1.3999791145324707,
+          "previous_stage": "b5_candidate1_replay",
+          "next_stage": "b5_candidate1_replay"
+        }
+      ],
+      "native_interval_median_seconds": 71.09560513496399,
+      "native_interval_max_seconds": 165.7919933795929,
+      "publication_file": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b5.json",
+      "publication_sha256": "c675b739081386859ca59eb11bdb08d2bb63d24a5eb1a2ead37142bee55fa02f",
+      "all_native_file_interval_observations_sha256": "63ede7abdd2b65cde825445400a3c0748aa8edaf48fa4f6e66d492de153b07ab"
+    },
+    {
+      "batch": 6,
+      "start_at_UTC": "2026-10-21T15:47:41.128267+00:00",
+      "publication_at_UTC": "2026-10-21T21:42:43.733110+00:00",
+      "start_definition": "previous actual publication",
+      "elapsed_seconds": 21302.60484290123,
+      "native_original_generations": 249,
+      "first_forecast_original_generations": 80,
+      "candidate_replay_original_generations": 169,
+      "native_input_tokens": 1675960,
+      "native_output_tokens": 731731,
+      "native_stage_totals": {
+        "b6_candidate1_replay": {
+          "generations": 152,
+          "HTTP_requests": 152,
+          "input_tokens": 1032595,
+          "output_tokens": 445686
+        },
+        "b6_candidate2_replay": {
+          "generations": 17,
+          "HTTP_requests": 17,
+          "input_tokens": 117823,
+          "output_tokens": 58127
+        },
+        "b6_prequential": {
+          "generations": 80,
+          "HTTP_requests": 80,
+          "input_tokens": 525542,
+          "output_tokens": 227918
+        }
+      },
+      "native_input_to_raw_completion_file_intervals_seconds": 21129.23166036606,
+      "native_file_interval_share": 0.9918614092589271,
+      "output_tokens_per_file_interval_second_not_GPU_decode_speed": 34.63121668416233,
+      "teacher_recorded_response_seconds": 136.183,
+      "unassigned_residual_seconds_not_measured_GPU_idle": 37.190182535171516,
+      "largest_three_between_native_file_intervals": [
+        {
+          "seconds": 91.20636487007141,
+          "previous_stage": "b6_prequential",
+          "next_stage": "b6_candidate1_replay"
+        },
+        {
+          "seconds": 59.55095458030701,
+          "previous_stage": "b6_candidate1_replay",
+          "next_stage": "b6_candidate2_replay"
+        },
+        {
+          "seconds": 1.4559736251831055,
+          "previous_stage": "b6_candidate2_replay",
+          "next_stage": "b6_candidate2_replay"
+        }
+      ],
+      "native_interval_median_seconds": 79.12284517288208,
+      "native_interval_max_seconds": 171.67729568481445,
+      "publication_file": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b6.json",
+      "publication_sha256": "7c93680f80180d44e887a1e13124406d7dc36635274087d15f3b2c2b22325622",
+      "all_native_file_interval_observations_sha256": "f82c019e197d3c83d03ca13a4d327414289f09c62cdb993bc1dc9c26e38daacf"
+    },
+    {
+      "batch": 7,
+      "start_at_UTC": "2026-10-21T21:42:43.733110+00:00",
+      "publication_at_UTC": "2026-10-22T01:32:03.930275+00:00",
+      "start_definition": "previous actual publication",
+      "elapsed_seconds": 13760.19716501236,
+      "native_original_generations": 182,
+      "first_forecast_original_generations": 78,
+      "candidate_replay_original_generations": 104,
+      "native_input_tokens": 1168067,
+      "native_output_tokens": 473621,
+      "native_stage_totals": {
+        "b7_candidate1_replay": {
+          "generations": 52,
+          "HTTP_requests": 52,
+          "input_tokens": 333460,
+          "output_tokens": 130342
+        },
+        "b7_candidate2_replay": {
+          "generations": 52,
+          "HTTP_requests": 52,
+          "input_tokens": 331458,
+          "output_tokens": 128666
+        },
+        "b7_prequential": {
+          "generations": 78,
+          "HTTP_requests": 78,
+          "input_tokens": 503149,
+          "output_tokens": 214613
+        }
+      },
+      "native_input_to_raw_completion_file_intervals_seconds": 13625.181612730026,
+      "native_file_interval_share": 0.9901879638305159,
+      "output_tokens_per_file_interval_second_not_GPU_decode_speed": 34.76071097338587,
+      "teacher_recorded_response_seconds": 92.659,
+      "unassigned_residual_seconds_not_measured_GPU_idle": 42.35655228233337,
+      "largest_three_between_native_file_intervals": [
+        {
+          "seconds": 63.80275845527649,
+          "previous_stage": "b7_prequential",
+          "next_stage": "b7_candidate1_replay"
+        },
+        {
+          "seconds": 34.89135503768921,
+          "previous_stage": "b7_candidate1_replay",
+          "next_stage": "b7_candidate2_replay"
+        },
+        {
+          "seconds": 1.155975580215454,
+          "previous_stage": "b7_candidate1_replay",
+          "next_stage": "b7_candidate1_replay"
+        }
+      ],
+      "native_interval_median_seconds": 70.84696090221405,
+      "native_interval_max_seconds": 169.0204541683197,
+      "publication_file": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b7.json",
+      "publication_sha256": "ca6a7164f6a221d45770179d22c0a535cb9f9c79c6d94b68894a6c9eff652164",
+      "all_native_file_interval_observations_sha256": "02e05a3184a96017311289123e9b13c7e0a827fc1b5e37febab0e1b2067b475b"
+    },
+    {
+      "batch": 8,
+      "start_at_UTC": "2026-10-22T01:32:03.930275+00:00",
+      "publication_at_UTC": "2026-10-22T04:09:47.540779+00:00",
+      "start_definition": "previous actual publication",
+      "elapsed_seconds": 9463.61050415039,
+      "native_original_generations": 111,
+      "first_forecast_original_generations": 84,
+      "candidate_replay_original_generations": 27,
+      "native_input_tokens": 741475,
+      "native_output_tokens": 324766,
+      "native_stage_totals": {
+        "b8_candidate1_replay": {
+          "generations": 27,
+          "HTTP_requests": 27,
+          "input_tokens": 189175,
+          "output_tokens": 91963
+        },
+        "b8_prequential": {
+          "generations": 84,
+          "HTTP_requests": 84,
+          "input_tokens": 552300,
+          "output_tokens": 232803
+        }
+      },
+      "native_input_to_raw_completion_file_intervals_seconds": 9367.537087917328,
+      "native_file_interval_share": 0.9898481223217155,
+      "output_tokens_per_file_interval_second_not_GPU_decode_speed": 34.66930495731881,
+      "teacher_recorded_response_seconds": 63.106,
+      "unassigned_residual_seconds_not_measured_GPU_idle": 32.96741623306274,
+      "largest_three_between_native_file_intervals": [
+        {
+          "seconds": 65.88282299041748,
+          "previous_stage": "b8_prequential",
+          "next_stage": "b8_candidate1_replay"
+        },
+        {
+          "seconds": 1.4319558143615723,
+          "previous_stage": "b8_candidate1_replay",
+          "next_stage": "b8_candidate1_replay"
+        },
+        {
+          "seconds": 1.3359403610229492,
+          "previous_stage": "b8_candidate1_replay",
+          "next_stage": "b8_candidate1_replay"
+        }
+      ],
+      "native_interval_median_seconds": 84.63981699943542,
+      "native_interval_max_seconds": 171.30777025222778,
+      "publication_file": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b8.json",
+      "publication_sha256": "a0f9aee24b5f7ce6db15f88d0485cd0e02511c3e930d0f12f6ce828ed1d4c840",
+      "all_native_file_interval_observations_sha256": "b494fc8a8ccc115e2ac6402a525edc155791282262cab559d78ae7d0dc44dadd"
+    }
+  ],
+  "totals": {
+    "elapsed_seconds_from_first_native_input_to_final_publication": 94564.93135070801,
+    "original_generations": 1158,
+    "first_forecast_generations": 550,
+    "replay_generations": 608,
+    "input_tokens": 7655443,
+    "output_tokens": 3232344,
+    "native_file_intervals_seconds": 93209.26569056511,
+    "teacher_recorded_response_seconds": 1132.442,
+    "unassigned_residual_seconds": 223.22366014289855
+  },
+  "timing_limitations": [
+    "Native intervals use immutable input-file and raw-response file mtimes; they include client checks/tokenization/HTTP/prefill/decoding/write, not kernel-only GPU time.",
+    "Publication at values are persisted runtime timestamps. B1 starts at first native input, not an unavailable retained systemd launch timestamp.",
+    "All original native requests are serial, one actual inference HTTP response, finish_reason stop and transport_error null; exact-wire logical aliases are excluded.",
+    "Stable end-to-end output-token rates and explained intervals support no progressive service slowdown; they do not establish absence of every possible hardware issue.",
+    "No-GPU-hour claim: teacher elapsed and native file-span seconds are not GPU utilization integration."
+  ],
+  "findings": {
+    "later_batches_not_monotonically_slower": true,
+    "B6_first_candidate_changed_both_task_views_and_needed_152_original_replay_generations": {
+      "EC": 76,
+      "EV": 76,
+      "source": "native/b6_candidate1_replay original records"
+    },
+    "B6_total_generations_249_includes_first80_and_replay169": true,
+    "B8_total_generations_111_includes_first84_and_replay27": true,
+    "main_replay_call_share": 0.5250431778929189,
+    "no_hot_change_to_frozen_running_ACE_or_finished_main": true,
+    "runtime_efficiency_is_a_reported_method_cost_not_a_reason_to_relabel_or_delete_replays": true
+  },
+  "primary_related_work_context": {
+    "SkillCommit_v2": {
+      "url": "https://arxiv.org/html/2608.15165v2",
+      "version_date": "2026-10-14",
+      "table": "1",
+      "metric": "OpenExempt macro-F1 percent",
+      "suite": "Advanced Competency",
+      "per_endpoint_induction_test_counts_from_Table3": [
+        210,
+        105
+      ],
+      "author_user": "Qwen3.6-35B-A3B -> Qwen3.5-9B",
+      "reported_rows_EC_EV": {
+        "No Skill": {
+          "EC": 15.61,
+          "EV": 9.97
+        },
+        "ACE": {
+          "EC": 34.57,
+          "EV": 26.31
+        },
+        "GSE": {
+          "EC": 18.86,
+          "EV": 32.18
+        },
+        "SkillCommit": {
+          "EC": 62.41,
+          "EV": 54.28
+        }
+      },
+      "DeepSeek_V4_Flash_author_user_SkillCommit_EC_EV": {
+        "EC": 96.01,
+        "EV": 94.28
+      },
+      "boundaries": "Published author-adapted held-out numbers, not our reproduction, not a matched Qwen3-8B comparison, not a verified universal SOTA. Qwen solver/replay 16384 output and thinking disabled differ from our 8192/thinking enabled."
+    },
+    "OpenExempt_original": {
+      "url": "https://arxiv.org/html/2601.13183v1",
+      "table": "2; configuration Table5",
+      "reported_Advanced_zero_shot_macro_F1_percent": {
+        "o3": {
+          "EC": 57.1,
+          "EV": 50.0
+        },
+        "GPT-5": {
+          "EC": 55.4,
+          "EV": 49.6
+        }
+      },
+      "official_Advanced_profile": "6-8 assets, married ratio1.0,5 domiciles,obfuscation,all states,no earlier solved steps",
+      "boundaries": "Original zero-shot official-benchmark conditions; not the same setup as SkillCommit or current custom TRAIN stream."
+    },
+    "current_main_boundary": {
+      "dataset_role": "custom generated TRAIN first encounters, not held-out official Advanced test",
+      "profile": "2-4 assets,married ratio0.5,five states,public allowable jurisdictions,start_task2",
+      "executing_model": "Qwen3-8B,bf16,thinking enabled,8192 max output",
+      "B8_future_first_forecast_F1_percent": {
+        "EC": 83.90129,
+        "EV": 85.20585
+      },
+      "no_direct_cross_profile_ranking_or_SOTA_claim": true,
+      "next_evidence": "Same-profile mature ACE, static prior, independent learners, prespecified isolated TEST; current ACE only B1 first forecast complete."
+    }
+  },
+  "frozen_source_checks": [
+    {
+      "manifest": "configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json",
+      "sha256": "2cc50e6cfe05fb42c230aba570eb43e9fcd41c3287011f77de8291fd89418825",
+      "files": 371,
+      "all_bound_file_bytes_unchanged": true
+    },
+    {
+      "manifest": "configs/openexempt_ace_public_assets128_20261021_run01.frozen.json",
+      "sha256": "251b9a446948155016aeb23c93f5bc45a13804a1bdd5c8368e360d8e16179ea1",
+      "files": 382,
+      "all_bound_file_bytes_unchanged": true
+    }
+  ],
+  "original_service_handles": [
+    {
+      "pid": 3613253,
+      "process_start_ticks": "446037091",
+      "argv_sha256": "f9ad85125cc7d97a464375156af9e3c5c1cc115cd21f5948e3ed30bbe299c442",
+      "original_handle_still_running": true
+    },
+    {
+      "pid": 1738522,
+      "process_start_ticks": "455481667",
+      "argv_sha256": "a39417f722ded46700f127188a815678aa14a9ed946d99eec5ea7e3e7e937208",
+      "original_handle_still_running": true
+    }
+  ],
+  "ACE_progress_snapshot": {
+    "at": "2026-10-22T06:22:11.279999+00:00",
+    "run_id": "legal_openexempt_ace_public_assets128_20261021_run01",
+    "state": "running",
+    "stage": "b1_TRAIN_round2",
+    "current_batch": 1,
+    "completed_native_calls": 94,
+    "completed_teacher_calls": 33,
+    "teacher_attempts": 33,
+    "playbook_bullets": 0,
+    "cross_stage_identical_wire_reuses": 54,
+    "current_arm": "ace",
+    "current_document_id": 191,
+    "current_call": "openexempt_ace_generator"
+  },
+  "evidence_paths": [
+    {
+      "path": "artifacts/research/openexempt_legal_scope_20261020/Run03_complete_B1_B8_actual_terminal1158_15_cost_20261022.json",
+      "sha256": "69c7768a10e2c07d956827975794225301e3c942c9b11703943ef33605d6a62e"
+    },
+    {
+      "path": "artifacts/research/openexempt_legal_scope_20261020/Run03_learning_curve_complete_first8_final8_publications_20261022.json",
+      "sha256": "9d28088bfc08e06cc7c4357a947d4a2dc0e72ce46c13c041611c877df66eb43f"
+    }
+  ],
+  "no_new_native_generation_teacher_or_TEST_calls": true,
+  "no_source_configuration_algorithm_scoring_or_running_service_changes": true,
+  "recomputation_program": "import hashlib,json,re,statistics\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom legal_skill_guard.experiment.storage import RunStore\nROOT=Path(\"/media/sangfor/vdb/legal-skill-evolve\")\ndef read(p): return json.loads((ROOT/p).read_text())\ndef sha(p): return hashlib.sha256((ROOT/p).read_bytes()).hexdigest()\ndef iso(t): return datetime.fromtimestamp(t,timezone.utc).isoformat()\nmain=\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\"\ncostpath=\"artifacts/research/openexempt_legal_scope_20261020/Run03_complete_B1_B8_actual_terminal1158_15_cost_20261022.json\"\ncurvepath=\"artifacts/research/openexempt_legal_scope_20261020/Run03_learning_curve_complete_first8_final8_publications_20261022.json\"\ncost=read(costpath)\nassert len(cost[\"all1158_raw_origins\"])==len(set(cost[\"all1158_raw_origins\"]))==1158\nallspans={i:[] for i in range(1,9)}\nfor rawpath in cost[\"all1158_raw_origins\"]:\n    p=ROOT/rawpath\n    raw=read(rawpath)\n    assert raw[\"transport_error\"] is None and len(raw[\"calls\"])==1\n    response=raw[\"calls\"][0][\"response\"]\n    assert response[\"choices\"][0][\"finish_reason\"]==\"stop\"\n    start=p.with_suffix(\".input.json\").stat().st_mtime\n    end=p.stat().st_mtime\n    created=response[\"created\"]\n    assert start-1.1<=created<=end and end>=start\n    batch=int(re.match(r\"b(\\d+)_\",raw[\"stage\"]).group(1))\n    allspans[batch].append({\"path\":rawpath,\"stage\":raw[\"stage\"],\"family\":raw[\"family\"],\n        \"start\":start,\"end\":end,\"server_created_seconds\":created,\n        \"input_tokens\":response[\"usage\"][\"prompt_tokens\"],\n        \"output_tokens\":response[\"usage\"][\"completion_tokens\"]})\nrows=[]\nprevious=None\nfor batch,spans in allspans.items():\n    spans.sort(key=lambda z:z[\"start\"])\n    pubpath=f\"{main}/publications/b{batch}.json\"\n    pub=read(pubpath)\n    end=datetime.fromisoformat(pub[\"at\"]).timestamp()\n    start=previous if previous is not None else spans[0][\"start\"]\n    wall=end-start\n    assert all(z[\"start\"]>=start-0.01 and z[\"end\"]<=end+0.01 for z in spans)\n    assert all(spans[i][\"start\"]>=spans[i-1][\"end\"]-0.01 for i in range(1,len(spans)))\n    stages={k:v for k,v in cost[\"actual_native_stage_totals\"].items()\n            if re.match(r\"b(\\d+)_\",k).group(1)==str(batch)}\n    teachers=[z for z in cost[\"all15_actual_fresh_teacher_response_usages\"]\n              if re.match(r\"b(\\d+)_\",z[\"stage\"]).group(1)==str(batch)]\n    native=sum(z[\"end\"]-z[\"start\"] for z in spans)\n    teacher=sum(z[\"response_elapsed_seconds\"] for z in teachers)\n    output=sum(z[\"output_tokens\"] for z in spans)\n    assert output==sum(z[\"output_tokens\"] for z in stages.values())\n    first=sum(z[\"generations\"] for k,z in stages.items() if k.endswith(\"_prequential\"))\n    between=sorted([{\"seconds\":spans[i][\"start\"]-spans[i-1][\"end\"],\n                      \"previous_stage\":spans[i-1][\"stage\"],\"next_stage\":spans[i][\"stage\"]}\n                    for i in range(1,len(spans))],key=lambda z:z[\"seconds\"],reverse=True)\n    rows.append({\"batch\":batch,\"start_at_UTC\":iso(start),\"publication_at_UTC\":pub[\"at\"],\n        \"start_definition\":\"previous actual publication\" if previous is not None\n            else \"first native input-file mtime, not inferred systemd launch\",\n        \"elapsed_seconds\":wall,\"native_original_generations\":len(spans),\n        \"first_forecast_original_generations\":first,\n        \"candidate_replay_original_generations\":len(spans)-first,\n        \"native_input_tokens\":sum(z[\"input_tokens\"] for z in spans),\n        \"native_output_tokens\":output,\"native_stage_totals\":stages,\n        \"native_input_to_raw_completion_file_intervals_seconds\":native,\n        \"native_file_interval_share\":native/wall,\n        \"output_tokens_per_file_interval_second_not_GPU_decode_speed\":output/native,\n        \"teacher_recorded_response_seconds\":teacher,\n        \"unassigned_residual_seconds_not_measured_GPU_idle\":wall-native-teacher,\n        \"largest_three_between_native_file_intervals\":between[:3],\n        \"native_interval_median_seconds\":statistics.median(z[\"end\"]-z[\"start\"] for z in spans),\n        \"native_interval_max_seconds\":max(z[\"end\"]-z[\"start\"] for z in spans),\n        \"publication_file\":pubpath,\"publication_sha256\":sha(pubpath),\n        \"all_native_file_interval_observations_sha256\":\n            hashlib.sha256(json.dumps(spans,sort_keys=True,separators=(\",\",\":\")).encode()).hexdigest()})\n    previous=end\nassert sum(z[\"native_original_generations\"] for z in rows)==1158\nassert sum(z[\"first_forecast_original_generations\"] for z in rows)==550\nassert sum(z[\"candidate_replay_original_generations\"] for z in rows)==608\nassert sum(z[\"native_output_tokens\"] for z in rows)==3232344\ntot={\"elapsed_seconds_from_first_native_input_to_final_publication\":sum(z[\"elapsed_seconds\"] for z in rows),\n     \"original_generations\":1158,\"first_forecast_generations\":550,\"replay_generations\":608,\n     \"input_tokens\":sum(z[\"native_input_tokens\"] for z in rows),\n     \"output_tokens\":3232344,\n     \"native_file_intervals_seconds\":sum(z[\"native_input_to_raw_completion_file_intervals_seconds\"] for z in rows),\n     \"teacher_recorded_response_seconds\":sum(z[\"teacher_recorded_response_seconds\"] for z in rows),\n     \"unassigned_residual_seconds\":sum(z[\"unassigned_residual_seconds_not_measured_GPU_idle\"] for z in rows)}\nassert tot[\"input_tokens\"]==7655443\nverified=[]\nfor frozen in (\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\",\n               \"configs/openexempt_ace_public_assets128_20261021_run01.frozen.json\"):\n    f=read(frozen)\n    for p,h in f[\"files\"].items(): assert sha(p)==h,p\n    verified.append({\"manifest\":frozen,\"sha256\":sha(frozen),\"files\":len(f[\"files\"]),\n                     \"all_bound_file_bytes_unchanged\":True})\nhandles=[]\nfor pid,ticks,needle in ((3613253,\"446037091\",\"vllm\"),\n                          (1738522,\"455481667\",\"experiments.openexempt_ace_online\")):\n    p=Path(f\"/proc/{pid}\")\n    observed=p.joinpath(\"stat\").read_text().rsplit(\")\",1)[1].split()[19]\n    argv=[x.decode() for x in p.joinpath(\"cmdline\").read_bytes().split(b\"\\0\") if x]\n    assert observed==ticks and any(needle in x for x in argv)\n    handles.append({\"pid\":pid,\"process_start_ticks\":observed,\"argv_sha256\":\n        hashlib.sha256(json.dumps(argv).encode()).hexdigest(),\"original_handle_still_running\":True})\nreport={\"at\":datetime.now(timezone.utc).isoformat(),\n    \"classification\":\"Actual completed main Run03 latency/cost decomposition plus primary-paper metric context; no runtime-method changes or test outcomes\",\n    \"batch_rows\":rows,\"totals\":tot,\n    \"timing_limitations\":[\n        \"Native intervals use immutable input-file and raw-response file mtimes; they include client checks/tokenization/HTTP/prefill/decoding/write, not kernel-only GPU time.\",\n        \"Publication at values are persisted runtime timestamps. B1 starts at first native input, not an unavailable retained systemd launch timestamp.\",\n        \"All original native requests are serial, one actual inference HTTP response, finish_reason stop and transport_error null; exact-wire logical aliases are excluded.\",\n        \"Stable end-to-end output-token rates and explained intervals support no progressive service slowdown; they do not establish absence of every possible hardware issue.\",\n        \"No-GPU-hour claim: teacher elapsed and native file-span seconds are not GPU utilization integration.\"\n    ],\n    \"findings\":{\n        \"later_batches_not_monotonically_slower\":True,\n        \"B6_first_candidate_changed_both_task_views_and_needed_152_original_replay_generations\":\n            {\"EC\":76,\"EV\":76,\"source\":\"native/b6_candidate1_replay original records\"},\n        \"B6_total_generations_249_includes_first80_and_replay169\":True,\n        \"B8_total_generations_111_includes_first84_and_replay27\":True,\n        \"main_replay_call_share\":608/1158,\n        \"no_hot_change_to_frozen_running_ACE_or_finished_main\":True,\n        \"runtime_efficiency_is_a_reported_method_cost_not_a_reason_to_relabel_or_delete_replays\":True},\n    \"primary_related_work_context\":{\n        \"SkillCommit_v2\":{\"url\":\"https://arxiv.org/html/2608.15165v2\",\"version_date\":\"2026-10-14\",\n            \"table\":\"1\",\"metric\":\"OpenExempt macro-F1 percent\",\"suite\":\"Advanced Competency\",\n            \"per_endpoint_induction_test_counts_from_Table3\":[210,105],\n            \"author_user\":\"Qwen3.6-35B-A3B -> Qwen3.5-9B\",\n            \"reported_rows_EC_EV\":{\n                \"No Skill\":{\"EC\":15.61,\"EV\":9.97},\n                \"ACE\":{\"EC\":34.57,\"EV\":26.31},\n                \"GSE\":{\"EC\":18.86,\"EV\":32.18},\n                \"SkillCommit\":{\"EC\":62.41,\"EV\":54.28}},\n            \"DeepSeek_V4_Flash_author_user_SkillCommit_EC_EV\":{\"EC\":96.01,\"EV\":94.28},\n            \"boundaries\":\"Published author-adapted held-out numbers, not our reproduction, not a matched Qwen3-8B comparison, not a verified universal SOTA. Qwen solver/replay 16384 output and thinking disabled differ from our 8192/thinking enabled.\"},\n        \"OpenExempt_original\":{\"url\":\"https://arxiv.org/html/2601.13183v1\",\n            \"table\":\"2; configuration Table5\",\n            \"reported_Advanced_zero_shot_macro_F1_percent\":{\n                \"o3\":{\"EC\":57.1,\"EV\":50.0},\"GPT-5\":{\"EC\":55.4,\"EV\":49.6}},\n            \"official_Advanced_profile\":\"6-8 assets, married ratio1.0,5 domiciles,obfuscation,all states,no earlier solved steps\",\n            \"boundaries\":\"Original zero-shot official-benchmark conditions; not the same setup as SkillCommit or current custom TRAIN stream.\"},\n        \"current_main_boundary\":{\n            \"dataset_role\":\"custom generated TRAIN first encounters, not held-out official Advanced test\",\n            \"profile\":\"2-4 assets,married ratio0.5,five states,public allowable jurisdictions,start_task2\",\n            \"executing_model\":\"Qwen3-8B,bf16,thinking enabled,8192 max output\",\n            \"B8_future_first_forecast_F1_percent\":{\"EC\":83.90129,\"EV\":85.20585},\n            \"no_direct_cross_profile_ranking_or_SOTA_claim\":True,\n            \"next_evidence\":\"Same-profile mature ACE, static prior, independent learners, prespecified isolated TEST; current ACE only B1 first forecast complete.\"}},\n    \"frozen_source_checks\":verified,\"original_service_handles\":handles,\n    \"ACE_progress_snapshot\":read(\"runs/legal_openexempt_ace_public_assets128_20261021_run01/progress.json\"),\n    \"evidence_paths\":[{\"path\":costpath,\"sha256\":sha(costpath)},{\"path\":curvepath,\"sha256\":sha(curvepath)}],\n    \"no_new_native_generation_teacher_or_TEST_calls\":True,\n    \"no_source_configuration_algorithm_scoring_or_running_service_changes\":True,\n    \"recomputation_program\":PROGRAM}\ndest=ROOT/\"artifacts/research/openexempt_legal_scope_20261020/Run03_actual_eight_batch_runtime_decomposition_and_primary_OpenExempt_comparison_boundaries_20261022.json\"\nRunStore.immutable_json(dest,report)\nprint(json.dumps({\"report\":str(dest),\"sha256\":hashlib.sha256(dest.read_bytes()).hexdigest(),\"totals\":tot,\n     \"compact_batches\":[{k:z[k] for k in (\"batch\",\"elapsed_seconds\",\"native_original_generations\",\n        \"first_forecast_original_generations\",\"candidate_replay_original_generations\",\n        \"native_output_tokens\",\"native_file_interval_share\",\"output_tokens_per_file_interval_second_not_GPU_decode_speed\")} for z in rows],\n     \"handles\":handles,\"ACE\":report[\"ACE_progress_snapshot\"]},ensure_ascii=False))\n"
+}

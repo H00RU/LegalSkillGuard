@@ -1,0 +1,319 @@
+{
+  "case_id": 124,
+  "source_key": "27ffcbe42e11822621724ae8136fd3a3f5d2b2db7b2708d2f536c9a8e26a49c7",
+  "family": "EV",
+  "stage": "retrospective_public_scope_composed_replay",
+  "arm": "candidate",
+  "bank_sha256": "7fe4fe3eb06ebb6c68ce8fa1f477da2beb12cd9bb9001f7d22534028f7fac097",
+  "parsed": {
+    "answer": {
+      "limited edition art glass vase signed by renowned contemporary artist": [
+        {
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "claim_value": 1400.0
+        },
+        {
+          "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+          "claim_value": 1200.0
+        }
+      ],
+      "pack of five pairs of ankle-length athletic socks": [
+        {
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "claim_value": 18.0
+        },
+        {
+          "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+          "claim_value": 18.0
+        }
+      ],
+      "emergency generator with automatic transfer switch and 10,000-watt capacity": [
+        {
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "claim_value": 1400.0
+        },
+        {
+          "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+          "claim_value": 3000.0
+        }
+      ],
+      "digital grand piano with ebony finish": [
+        {
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "claim_value": 1400.0
+        },
+        {
+          "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+          "claim_value": 1200.0
+        }
+      ]
+    }
+  },
+  "parse_error": null,
+  "raw_call_path": "runs/legal_openexempt_task_scoped_online_20261020_run01/native/b1_prequential/124_EV_frozen_initial.json",
+  "native_program": {
+    "assets": [
+      {
+        "asset_name": "limited edition art glass vase signed by renowned contemporary artist",
+        "asset_value": 1775,
+        "claims": [
+          {
+            "limit_expression": null,
+            "citation": "11 U.S.C. § 522(d)(3)"
+          },
+          {
+            "limit_expression": null,
+            "citation": "Or. Rev. Stat. § 18.345(1)(a)"
+          }
+        ]
+      },
+      {
+        "asset_name": "pack of five pairs of ankle-length athletic socks",
+        "asset_value": 18,
+        "claims": [
+          {
+            "limit_expression": null,
+            "citation": "11 U.S.C. § 522(d)(3)"
+          },
+          {
+            "limit_expression": null,
+            "citation": "Or. Rev. Stat. § 18.345(1)(b)"
+          }
+        ]
+      },
+      {
+        "asset_name": "emergency generator with automatic transfer switch and 10,000-watt capacity",
+        "asset_value": 3600,
+        "claims": [
+          {
+            "limit_expression": null,
+            "citation": "11 U.S.C. § 522(d)(3)"
+          },
+          {
+            "limit_expression": "min(V, 3000)",
+            "citation": "Or. Rev. Stat. § 18.345(1)(f)"
+          }
+        ]
+      },
+      {
+        "asset_name": "digital grand piano with ebony finish",
+        "asset_value": 4475,
+        "claims": [
+          {
+            "limit_expression": null,
+            "citation": "11 U.S.C. § 522(d)(3)"
+          },
+          {
+            "limit_expression": null,
+            "citation": "Or. Rev. Stat. § 18.345(1)(a)"
+          }
+        ]
+      }
+    ]
+  },
+  "execution_receipt": {
+    "actual_claim_operations": [
+      {
+        "asset_name": "limited edition art glass vase signed by renowned contemporary artist",
+        "asset_value": "1775",
+        "citation": "11 U.S.C. § 522(d)(3)",
+        "operator_id": "federal_522d/fed_household_item",
+        "limit_expression": "min(V,700*N)",
+        "numeric_literals": [
+          {
+            "value": "700"
+          }
+        ],
+        "limit": "1400",
+        "claim_value": "1400"
+      },
+      {
+        "asset_name": "limited edition art glass vase signed by renowned contemporary artist",
+        "asset_value": "1775",
+        "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+        "operator_id": "oregon_exemptions/or_books_music",
+        "limit_expression": "min(V,600*N)",
+        "numeric_literals": [
+          {
+            "value": "600"
+          }
+        ],
+        "limit": "1200",
+        "claim_value": "1200"
+      },
+      {
+        "asset_name": "pack of five pairs of ankle-length athletic socks",
+        "asset_value": "18",
+        "citation": "11 U.S.C. § 522(d)(3)",
+        "operator_id": "federal_522d/fed_household_item",
+        "limit_expression": "min(V,700*N)",
+        "numeric_literals": [
+          {
+            "value": "700"
+          }
+        ],
+        "limit": "18",
+        "claim_value": "18"
+      },
+      {
+        "asset_name": "pack of five pairs of ankle-length athletic socks",
+        "asset_value": "18",
+        "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+        "operator_id": "oregon_exemptions/or_apparel_jewelry",
+        "limit_expression": "min(V,1800*N)",
+        "numeric_literals": [
+          {
+            "value": "1800"
+          }
+        ],
+        "limit": "18",
+        "claim_value": "18"
+      },
+      {
+        "asset_name": "emergency generator with automatic transfer switch and 10,000-watt capacity",
+        "asset_value": "3600",
+        "citation": "11 U.S.C. § 522(d)(3)",
+        "operator_id": "federal_522d/fed_household_item",
+        "limit_expression": "min(V,700*N)",
+        "numeric_literals": [
+          {
+            "value": "700"
+          }
+        ],
+        "limit": "1400",
+        "claim_value": "1400"
+      },
+      {
+        "asset_name": "emergency generator with automatic transfer switch and 10,000-watt capacity",
+        "asset_value": "3600",
+        "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+        "operator_id": null,
+        "limit_expression": "min(V, 3000)",
+        "numeric_literals": [
+          {
+            "value": "3000"
+          }
+        ],
+        "limit": "3000",
+        "claim_value": "3000"
+      },
+      {
+        "asset_name": "digital grand piano with ebony finish",
+        "asset_value": "4475",
+        "citation": "11 U.S.C. § 522(d)(3)",
+        "operator_id": "federal_522d/fed_household_item",
+        "limit_expression": "min(V,700*N)",
+        "numeric_literals": [
+          {
+            "value": "700"
+          }
+        ],
+        "limit": "1400",
+        "claim_value": "1400"
+      },
+      {
+        "asset_name": "digital grand piano with ebony finish",
+        "asset_value": "4475",
+        "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+        "operator_id": "oregon_exemptions/or_books_music",
+        "limit_expression": "min(V,600*N)",
+        "numeric_literals": [
+          {
+            "value": "600"
+          }
+        ],
+        "limit": "1200",
+        "claim_value": "1200"
+      }
+    ],
+    "actually_executed_operator_ids": [
+      "federal_522d/fed_household_item",
+      "oregon_exemptions/or_books_music",
+      "federal_522d/fed_household_item",
+      "oregon_exemptions/or_apparel_jewelry",
+      "federal_522d/fed_household_item",
+      "federal_522d/fed_household_item",
+      "oregon_exemptions/or_books_music"
+    ],
+    "program_sha256": "c791d4e37b90fbf5f83c4b1f061aa8504d21855c01923ddc493dca945bc5597d",
+    "source_facts_sha256": "ce1ab8003fcdc3a23a0d3277e4b3124329d542ebcd0d6aa3ba1b516489eaf866",
+    "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+    "no_Gold_solver_model_or_post_answer_repair": true,
+    "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true,
+    "execution_bank_sha256": "7fe4fe3eb06ebb6c68ce8fa1f477da2beb12cd9bb9001f7d22534028f7fac097",
+    "native_request_fingerprint": "a0c9e55b19d1d09f7415b60b5bde98d8eaf1bf4c58c7e127653dd90fa0f412cf"
+  },
+  "public_label_submission": {
+    "assets": [
+      {
+        "asset_name": "limited edition art glass vase signed by renowned contemporary artist",
+        "asset_value": 1775,
+        "claims": [
+          {
+            "citation_ref": "11 U.S.C. section 522(d)(3)",
+            "limit_expression": null
+          },
+          {
+            "citation_ref": "Or. Rev. Stat. section 18.345(1)(a)",
+            "limit_expression": null
+          }
+        ]
+      },
+      {
+        "asset_name": "pack of five pairs of ankle-length athletic socks",
+        "asset_value": 18,
+        "claims": [
+          {
+            "citation_ref": "11 U.S.C. section 522(d)(3)",
+            "limit_expression": null
+          },
+          {
+            "citation_ref": "Or. Rev. Stat. section 18.345(1)(b)",
+            "limit_expression": null
+          }
+        ]
+      },
+      {
+        "asset_name": "emergency generator with automatic transfer switch and 10,000-watt capacity",
+        "asset_value": 3600,
+        "claims": [
+          {
+            "citation_ref": "11 U.S.C. section 522(d)(3)",
+            "limit_expression": null
+          },
+          {
+            "citation_ref": "Or. Rev. Stat. section 18.345(1)(f)",
+            "limit_expression": "min(V, 3000)"
+          }
+        ]
+      },
+      {
+        "asset_name": "digital grand piano with ebony finish",
+        "asset_value": 4475,
+        "claims": [
+          {
+            "citation_ref": "11 U.S.C. section 522(d)(3)",
+            "limit_expression": null
+          },
+          {
+            "citation_ref": "Or. Rev. Stat. section 18.345(1)(a)",
+            "limit_expression": null
+          }
+        ]
+      }
+    ]
+  },
+  "execution_error": null,
+  "delivered_skill_ids": [
+    "federal_522d",
+    "oregon_exemptions",
+    "scheme_selection_and_ev"
+  ],
+  "physical_alias_of_identical_wire": {
+    "fingerprint": "a0c9e55b19d1d09f7415b60b5bde98d8eaf1bf4c58c7e127653dd90fa0f412cf",
+    "raw_call_path": "runs/legal_openexempt_task_scoped_online_20261020_run01/native/b1_prequential/124_EV_frozen_initial.json",
+    "not_an_independent_generation": true,
+    "execution_receipt_is_from_original_call": false,
+    "reinterpreted_under_bank_sha256": "7fe4fe3eb06ebb6c68ce8fa1f477da2beb12cd9bb9001f7d22534028f7fac097"
+  }
+}

@@ -1,0 +1,2177 @@
+{
+  "at": "2026-10-23T16:21:04.908388+00:00",
+  "classification": "Existing TRAIN-only teacher-cited EC source repair and exact-gate tradeoff; not new actor results, causal attribution or relaxed-policy evaluation",
+  "all15_teacher_actual_parents_and_all8_publications_reconstructed": true,
+  "postB1_operations_with_changed_EC_guidance": 13,
+  "operation_cited_relevant_EC_source_views": 57,
+  "distinct_source_cases_in_those_repeated_views": 43,
+  "actual_unique_raw_origins_checked": 94,
+  "full_messages_schema_generation_equal_actual_HTTP": true,
+  "operations_without_EC_error_in_serialized_relevant_citations": 0,
+  "operations": [
+    {
+      "batch": 2,
+      "attempt": 1,
+      "operation_index": 1,
+      "operation": "UPDATE",
+      "target_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "public_context": "FEDERAL",
+      "teacher_rationale": "The current parent repeatedly omitted the independent § 522(d)(5) alternative, including alongside §§ 522(d)(1), (2), (3), (4), and (6). Sources 200, 205, and 208 show that the actor incorrectly conditioned the wildcard on residence usage, while source 205 also shows a separate § 522(d)(3) amount error and sources 206 and 212 show false § 522(d)(3) jewelry claims. The revision preserves the existing caps while making independent wildcard evaluation explicit.",
+      "actual_EC_before": [
+        {
+          "id": "federal-independent-wildcard-and-caps",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "FEDERAL is an allowable namespace and the asset is property of the debtor.",
+            "procedure": "Evaluate every applicable specific paragraph, then independently include 11 U.S.C. § 522(d)(5), which can protect any property. A dollar ceiling limits protection rather than eligibility. Thus a vehicle remains eligible under § 522(d)(2) above its cap, jewelry uses § 522(d)(4), and § 522(d)(5) remains an additional alternative even when a specific paragraph applies.",
+            "avoid_when": "Do not use 11 U.S.C. § 522(d)(3) for an unlisted category such as a firearm or jewelry, do not omit a specific paragraph because value exceeds its ceiling, and do not repeat a citation.",
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "federal-independent-wildcard-and-caps",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "FEDERAL is an allowable namespace and the asset is property of the debtor.",
+            "procedure": "Evaluate every applicable specific paragraph, then independently include 11 U.S.C. § 522(d)(5), which can protect any property. A dollar ceiling limits protection rather than eligibility. Thus a vehicle remains eligible under § 522(d)(2) above its cap, jewelry uses § 522(d)(4), listed household goods or musical instruments use § 522(d)(3), and trade tools may use § 522(d)(6); § 522(d)(5) remains an additional alternative in every instance.",
+            "avoid_when": "Do not use 11 U.S.C. § 522(d)(3) for an unlisted category such as a firearm or jewelry, do not omit a specific paragraph because value exceeds its ceiling, and do not omit or repeat § 522(d)(5).",
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 198,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.9,
+          "proposal_EC_native_F1": 0.9,
+          "parent_EC_complete_output_F1": 0.9090909090909091,
+          "proposal_EC_complete_output_F1": 0.9090909090909091,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/198_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/198_EC_candidate.json"
+        },
+        {
+          "source_case_id": 200,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.8666666666666667,
+          "proposal_EC_native_F1": 0.8666666666666667,
+          "parent_EC_complete_output_F1": 0.8750000000000001,
+          "proposal_EC_complete_output_F1": 0.8750000000000001,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/200_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/200_EC_candidate.json"
+        },
+        {
+          "source_case_id": 202,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.4444444444444444,
+          "proposal_EC_native_F1": 0.7380952380952381,
+          "parent_EC_complete_output_F1": 0.5333333333333333,
+          "proposal_EC_complete_output_F1": 0.7777777777777778,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/202_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/202_EC_candidate.json"
+        },
+        {
+          "source_case_id": 203,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 1.0,
+          "proposal_EC_native_F1": 1.0,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/203_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/203_EC_candidate.json"
+        },
+        {
+          "source_case_id": 205,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 1.0,
+          "proposal_EC_native_F1": 0.65,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 0.6666666666666666,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/205_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/205_EC_candidate.json"
+        },
+        {
+          "source_case_id": 206,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.9285714285714286,
+          "proposal_EC_native_F1": 0.7619047619047619,
+          "parent_EC_complete_output_F1": 0.9333333333333333,
+          "proposal_EC_complete_output_F1": 0.7692307692307693,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/206_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/206_EC_candidate.json"
+        },
+        {
+          "source_case_id": 208,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.7111111111111111,
+          "proposal_EC_native_F1": 0.8333333333333334,
+          "parent_EC_complete_output_F1": 0.7058823529411764,
+          "proposal_EC_complete_output_F1": 0.9,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/208_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/208_EC_candidate.json"
+        },
+        {
+          "source_case_id": 209,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 1.0,
+          "proposal_EC_native_F1": 1.0,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/209_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/209_EC_candidate.json"
+        },
+        {
+          "source_case_id": 210,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.9375,
+          "proposal_EC_native_F1": 0.8333333333333333,
+          "parent_EC_complete_output_F1": 0.9375,
+          "proposal_EC_complete_output_F1": 0.8571428571428571,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/210_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/210_EC_candidate.json"
+        },
+        {
+          "source_case_id": 211,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.8,
+          "proposal_EC_native_F1": 1.0,
+          "parent_EC_complete_output_F1": 0.8,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/211_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/211_EC_candidate.json"
+        },
+        {
+          "source_case_id": 212,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.8000000000000002,
+          "proposal_EC_native_F1": 0.8000000000000002,
+          "parent_EC_complete_output_F1": 0.8,
+          "proposal_EC_complete_output_F1": 0.8,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/212_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/212_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 11,
+      "serialized_relevant_cited_count": 11,
+      "serialized_parent_EC_error_count": 8,
+      "serialized_parent_EV_error_count": 11,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "tie": 5,
+        "help": 3,
+        "hurt": 3
+      },
+      "relevant_complete_output_directions": {
+        "tie": 5,
+        "help": 3,
+        "hurt": 3
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 2,
+      "attempt": 1,
+      "operation_index": 2,
+      "operation": "UPDATE",
+      "target_ids": [
+        "oregon-general-personal-property-alternative"
+      ],
+      "public_context": "OREGON",
+      "teacher_rationale": "Sources 202 and 206 show omissions of subsection (p) for firearms or vehicles, despite its general personal-property coverage. Source 210 presents a different error: a household electronic item was assigned the vehicle subsection and, in EV, another household item lost its subsection (f) alternative. The update separates the missing general alternative from the wrong specific category.",
+      "actual_EC_before": [
+        {
+          "id": "oregon-general-personal-property-alternative",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "OREGON is allowable and the asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent general personal-property alternative even when a more specific Oregon exemption also applies, including for a vehicle or professionally prescribed health aid.",
+            "avoid_when": "Do not substitute the general alternative for the specific category exemption, apply it to real property, or classify wearing apparel as household goods under § 18.345(1)(f).",
+            "operators": [],
+            "jurisdiction": "OREGON"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "oregon-general-personal-property-alternative",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "OREGON is allowable and the asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent general personal-property alternative even when a more specific Oregon exemption also applies, including for a vehicle, firearm, or professionally prescribed health aid. Retain the correct specific alternative: subsection (f) for household goods, subsection (d) for a vehicle, and § 18.362 for a qualifying firearm.",
+            "avoid_when": "Do not substitute the general alternative for the specific category exemption, apply it to real property, classify wearing apparel as household goods under § 18.345(1)(f), or use vehicle subsection (d) for nonvehicles.",
+            "operators": [],
+            "jurisdiction": "OREGON"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 202,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.4444444444444444,
+          "proposal_EC_native_F1": 0.7380952380952381,
+          "parent_EC_complete_output_F1": 0.5333333333333333,
+          "proposal_EC_complete_output_F1": 0.7777777777777778,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/202_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/202_EC_candidate.json"
+        },
+        {
+          "source_case_id": 206,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.9285714285714286,
+          "proposal_EC_native_F1": 0.7619047619047619,
+          "parent_EC_complete_output_F1": 0.9333333333333333,
+          "proposal_EC_complete_output_F1": 0.7692307692307693,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/206_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/206_EC_candidate.json"
+        },
+        {
+          "source_case_id": 210,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.9375,
+          "proposal_EC_native_F1": 0.8333333333333333,
+          "parent_EC_complete_output_F1": 0.9375,
+          "proposal_EC_complete_output_F1": 0.8571428571428571,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/210_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/210_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 3,
+      "serialized_relevant_cited_count": 3,
+      "serialized_parent_EC_error_count": 3,
+      "serialized_parent_EV_error_count": 3,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "help": 1,
+        "hurt": 2
+      },
+      "relevant_complete_output_directions": {
+        "help": 1,
+        "hurt": 2
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 2,
+      "attempt": 1,
+      "operation_index": 4,
+      "operation": "UPDATE",
+      "target_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "public_context": "ILLINOIS",
+      "teacher_rationale": "In source 204 the parent inferred trade use solely from the property's tool-like form, producing a false subsection (d) claim, and also omitted subsection (b) for both that personal-use property and necessary apparel. The update adds the missing factual predicate without changing the established overlap or valuation rules.",
+      "actual_EC_before": [
+        {
+          "id": "illinois-overlapping-wildcard-and-stated-limits",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ILLINOIS is allowable and the property is held for personal rather than business use.",
+            "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently as the any-other-property alternative, including when apparel, a motor vehicle, or a prescribed health aid also has a specific exemption. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, and (e) covers professionally prescribed health aids. A value above a limit does not eliminate either applicable alternative.",
+            "avoid_when": "Do not use § 12-1001(d) for ordinary household property; it requires implements, professional books, or tools of the debtor's trade. Do not classify jewelry or a watch as necessary wearing apparel under subsection (a), and do not omit subsection (b) merely because a specific subsection applies.",
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "illinois-overlapping-wildcard-and-stated-limits",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ILLINOIS is allowable and the property is held for personal rather than business use.",
+            "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently as the any-other-property alternative, including when apparel, a motor vehicle, or a prescribed health aid also has a specific exemption. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, and (e) covers professionally prescribed health aids. A value above a limit does not eliminate either applicable alternative. An object's name or ability to function as a tool does not establish trade use; subsection (d) requires facts showing use in the debtor's trade.",
+            "avoid_when": "Do not use § 12-1001(d) for an ordinary personal-use tool or household property. Do not classify jewelry or a watch as necessary wearing apparel under subsection (a), and do not omit subsection (b) merely because a specific subsection applies.",
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 204,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.3333333333333333,
+          "proposal_EC_native_F1": 0.8333333333333333,
+          "parent_EC_complete_output_F1": 0.4,
+          "proposal_EC_complete_output_F1": 0.8,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/204_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/204_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 1,
+      "serialized_relevant_cited_count": 1,
+      "serialized_parent_EC_error_count": 1,
+      "serialized_parent_EV_error_count": 1,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "help": 1
+      },
+      "relevant_complete_output_directions": {
+        "help": 1
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 2,
+      "attempt": 2,
+      "operation_index": 2,
+      "operation": "UPDATE",
+      "target_ids": [
+        "oregon-general-personal-property-alternative"
+      ],
+      "public_context": "OREGON",
+      "teacher_rationale": "Sources 202, 206, and 208 show omitted general personal-property alternatives or omitted specific alternatives. Source 210 supplies the distinct valuation error: the parent reported the full $400 cap for property worth less than $400 and confused a household category with the vehicle subsection.",
+      "actual_EC_before": [
+        {
+          "id": "oregon-general-personal-property-alternative",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "OREGON is allowable and the asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent general personal-property alternative even when a more specific Oregon exemption also applies, including for a vehicle or professionally prescribed health aid.",
+            "avoid_when": "Do not substitute the general alternative for the specific category exemption, apply it to real property, or classify wearing apparel as household goods under § 18.345(1)(f).",
+            "operators": [],
+            "jurisdiction": "OREGON"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "oregon-general-personal-property-alternative",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "OREGON is allowable and the asset is personal property.",
+            "procedure": "After checking every specific Oregon category, make a separate § 18.345(1)(p) check for each item of personal property and include it even when a specific exemption also applies, including for a vehicle, firearm, prescribed health aid, or household good.",
+            "avoid_when": "Do not substitute subsection (p) for the specific category, apply it to real property, classify wearing apparel as household goods under § 18.345(1)(f), or use vehicle subsection (d) for nonvehicles.",
+            "operators": [],
+            "jurisdiction": "OREGON"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 202,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.4444444444444444,
+          "proposal_EC_native_F1": 0.7380952380952381,
+          "parent_EC_complete_output_F1": 0.5333333333333333,
+          "proposal_EC_complete_output_F1": 0.7777777777777778,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/202_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/202_EC_candidate.json"
+        },
+        {
+          "source_case_id": 206,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.9285714285714286,
+          "proposal_EC_native_F1": 0.6666666666666666,
+          "parent_EC_complete_output_F1": 0.9333333333333333,
+          "proposal_EC_complete_output_F1": 0.6666666666666666,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/206_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/206_EC_candidate.json"
+        },
+        {
+          "source_case_id": 208,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.7111111111111111,
+          "proposal_EC_native_F1": 0.7111111111111111,
+          "parent_EC_complete_output_F1": 0.7058823529411764,
+          "proposal_EC_complete_output_F1": 0.7058823529411764,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/208_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/208_EC_candidate.json"
+        },
+        {
+          "source_case_id": 210,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.9375,
+          "proposal_EC_native_F1": 0.9722222222222222,
+          "parent_EC_complete_output_F1": 0.9375,
+          "proposal_EC_complete_output_F1": 0.9696969696969697,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/210_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/210_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 4,
+      "serialized_relevant_cited_count": 4,
+      "serialized_parent_EC_error_count": 4,
+      "serialized_parent_EV_error_count": 4,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "help": 2,
+        "hurt": 1,
+        "tie": 1
+      },
+      "relevant_complete_output_directions": {
+        "help": 2,
+        "hurt": 1,
+        "tie": 1
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 3,
+      "attempt": 1,
+      "operation_index": 1,
+      "operation": "UPDATE",
+      "target_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "public_context": "ARIZONA",
+      "teacher_rationale": "In source 223 the parent wrongly treated the musical-instrument limit as an eligibility threshold and substituted the household-goods law; in source 215 EV it omitted § 33-1125(9) despite the physician-approved assistive function. These are distinct category-selection errors, not reasons to alter the already-correct vehicle, jewelry, and homestead boundaries.",
+      "actual_EC_before": [
+        {
+          "id": "arizona-caps-are-not-eligibility-and-category-boundaries",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ARIZONA is allowable and the asset fits an Arizona category.",
+            "procedure": "Treat statutory dollar limits as caps, not eligibility thresholds: include § 33-1125(8) for a motor vehicle and § 33-1125(10) for a firearm even when value exceeds the limit. Include § 33-1101(A), not subsection (B), as the homestead exemption alternative. Confirm the statutory category before applying its cap.",
+            "avoid_when": "Do not classify jewelry as wearing apparel; § 33-1125(4) is limited to engagement and wedding rings, and subsection (B) is a one-homestead limitation rather than a separate asset exemption. Non-ring jewelry does not qualify under either § 33-1125(1) or § 33-1125(4).",
+            "operators": [],
+            "jurisdiction": "ARIZONA"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "arizona-caps-are-not-eligibility-and-category-boundaries",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ARIZONA is allowable and the asset fits an Arizona category.",
+            "procedure": "Treat statutory dollar limits as caps, not eligibility thresholds: include § 33-1125(8) for a motor vehicle, § 33-1125(10) for a firearm, and § 33-1125(2) for a musical instrument even when value exceeds the limit. Include § 33-1101(A), not subsection (B), as the homestead exemption alternative. Confirm the statutory category before applying its cap.",
+            "avoid_when": "Do not classify jewelry as wearing apparel; § 33-1125(4) is limited to engagement and wedding rings, and subsection (B) is a one-homestead limitation rather than a separate asset exemption. Non-ring jewelry does not qualify under either § 33-1125(1) or § 33-1125(4). Do not replace the specific musical-instrument or wearing-apparel category with § 33-1123.",
+            "operators": [],
+            "jurisdiction": "ARIZONA"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 215,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 1.0,
+          "proposal_EC_native_F1": 1.0,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/215_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/215_EC_candidate.json"
+        },
+        {
+          "source_case_id": 223,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.6666666666666666,
+          "proposal_EC_native_F1": 1.0,
+          "parent_EC_complete_output_F1": 0.6666666666666665,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": false,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/223_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/223_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 2,
+      "serialized_relevant_cited_count": 2,
+      "serialized_parent_EC_error_count": 1,
+      "serialized_parent_EV_error_count": 1,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "tie": 1,
+        "help": 1
+      },
+      "relevant_complete_output_directions": {
+        "tie": 1,
+        "help": 1
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 3,
+      "attempt": 1,
+      "operation_index": 2,
+      "operation": "UPDATE",
+      "target_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "public_context": "FEDERAL",
+      "teacher_rationale": "Sources 213 and 226 show omissions of federal alternatives for expressly listed animals or apparel, while source 227 repeatedly omitted the independent wildcard. Source 214 additionally exposes a different amount error: § 522(m) requires the two-debtor § 522(d)(4) amount of $3,750, but the parent used the one-debtor $1,875 cap.",
+      "actual_EC_before": [
+        {
+          "id": "federal-independent-wildcard-and-caps",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "FEDERAL is an allowable namespace and the asset is property of the debtor.",
+            "procedure": "Evaluate every applicable specific paragraph, then independently include 11 U.S.C. § 522(d)(5), which can protect any property. A dollar ceiling limits protection rather than eligibility. Thus a vehicle remains eligible under § 522(d)(2) above its cap, jewelry uses § 522(d)(4), and § 522(d)(5) remains an additional alternative even when a specific paragraph applies.",
+            "avoid_when": "Do not use 11 U.S.C. § 522(d)(3) for an unlisted category such as a firearm or jewelry, do not omit a specific paragraph because value exceeds its ceiling, and do not repeat a citation.",
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "federal-independent-wildcard-and-caps",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "FEDERAL is an allowable namespace and the asset is property of the debtor.",
+            "procedure": "Evaluate every applicable specific paragraph, then independently include 11 U.S.C. § 522(d)(5), which can protect any property. A dollar ceiling limits protection rather than eligibility. Section 522(d)(3) specifically includes personal-use animals, wearing apparel, musical instruments, household goods, and appliances. Thus a vehicle remains eligible under § 522(d)(2) above its cap, jewelry uses § 522(d)(4), and § 522(d)(5) remains an additional alternative even when a specific paragraph applies.",
+            "avoid_when": "Do not use 11 U.S.C. § 522(d)(3) for an unlisted category such as a firearm or jewelry, do not omit a specific paragraph because value exceeds its ceiling, and do not repeat a citation.",
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 213,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.8,
+          "proposal_EC_native_F1": 0.8,
+          "parent_EC_complete_output_F1": 0.8,
+          "proposal_EC_complete_output_F1": 0.8,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/213_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/213_EC_candidate.json"
+        },
+        {
+          "source_case_id": 214,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.9333333333333332,
+          "proposal_EC_native_F1": 1.0,
+          "parent_EC_complete_output_F1": 0.9333333333333333,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/214_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/214_EC_candidate.json"
+        },
+        {
+          "source_case_id": 226,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 1.0,
+          "proposal_EC_native_F1": 0.8000000000000002,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 0.8,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/226_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/226_EC_candidate.json"
+        },
+        {
+          "source_case_id": 227,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.7666666666666667,
+          "proposal_EC_native_F1": 0.7666666666666667,
+          "parent_EC_complete_output_F1": 0.7777777777777778,
+          "proposal_EC_complete_output_F1": 0.7777777777777778,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/227_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/227_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 4,
+      "serialized_relevant_cited_count": 4,
+      "serialized_parent_EC_error_count": 3,
+      "serialized_parent_EV_error_count": 4,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "tie": 2,
+        "help": 1,
+        "hurt": 1
+      },
+      "relevant_complete_output_directions": {
+        "tie": 2,
+        "help": 1,
+        "hurt": 1
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 4,
+      "attempt": 1,
+      "operation_index": 1,
+      "operation": "UPDATE",
+      "target_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "public_context": "ARIZONA",
+      "teacher_rationale": "Current sources 230 and 239 show false Arizona claims for non-ring jewelry, including misuse of § 33-1123 and § 33-1125(4), while source 230 also shows § 33-1123 incorrectly added to apparel. Historical sources 182 and 223 confirm the same category-boundary problem. Extending the existing boundary to EV and expressly limiting § 33-1123 addresses those false positives without changing the correct vehicle, firearm, homestead, ring, or cap rules.",
+      "actual_EC_before": [
+        {
+          "id": "arizona-caps-are-not-eligibility-and-category-boundaries",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ARIZONA is allowable and the asset fits an Arizona category.",
+            "procedure": "Treat statutory dollar limits as caps, not eligibility thresholds: include § 33-1125(8) for a motor vehicle and § 33-1125(10) for a firearm even when value exceeds the limit. Include § 33-1101(A), not subsection (B), as the homestead exemption alternative. Confirm the statutory category before applying its cap.",
+            "avoid_when": "Do not classify jewelry as wearing apparel; § 33-1125(4) is limited to engagement and wedding rings, and subsection (B) is a one-homestead limitation rather than a separate asset exemption. Non-ring jewelry does not qualify under either § 33-1125(1) or § 33-1125(4).",
+            "operators": [],
+            "jurisdiction": "ARIZONA"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "arizona-caps-are-not-eligibility-and-category-boundaries",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ARIZONA is allowable and the asset fits an Arizona category.",
+            "procedure": "Treat statutory dollar limits as caps, not eligibility thresholds: include § 33-1125(8) for a motor vehicle and § 33-1125(10) for a firearm even when value exceeds the limit. Include § 33-1101(A), not subsection (B), as the homestead exemption alternative. Confirm the statutory category before applying its cap. Section 33-1123 is limited to household furniture, furnishings, household goods, consumer electronic devices, and appliances; do not use it for wearing apparel, jewelry, or musical instruments.",
+            "avoid_when": "Do not classify jewelry as wearing apparel; § 33-1125(4) is limited to engagement and wedding rings, and subsection (B) is a one-homestead limitation rather than a separate asset exemption. Non-ring jewelry does not qualify under either § 33-1125(1) or § 33-1125(4).",
+            "operators": [],
+            "jurisdiction": "ARIZONA"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 182,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.6666666666666666,
+          "proposal_EC_native_F1": 0.6666666666666666,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/182_EC_candidate.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/182_EC_candidate.json"
+        },
+        {
+          "source_case_id": 223,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.6666666666666666,
+          "proposal_EC_native_F1": 1.0,
+          "parent_EC_complete_output_F1": 0.6666666666666665,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": false,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/223_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/223_EC_candidate.json"
+        },
+        {
+          "source_case_id": 230,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.6666666666666666,
+          "proposal_EC_native_F1": 0.75,
+          "parent_EC_complete_output_F1": 0.7499999999999999,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/230_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/230_EC_candidate.json"
+        },
+        {
+          "source_case_id": 239,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.6666666666666666,
+          "proposal_EC_native_F1": 0.6666666666666666,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/239_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/239_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 4,
+      "serialized_relevant_cited_count": 4,
+      "serialized_parent_EC_error_count": 2,
+      "serialized_parent_EV_error_count": 3,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "tie": 2,
+        "help": 2
+      },
+      "relevant_complete_output_directions": {
+        "tie": 2,
+        "help": 2
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 5,
+      "attempt": 1,
+      "operation_index": 1,
+      "operation": "UPDATE",
+      "target_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "public_context": "ILLINOIS",
+      "teacher_rationale": "In sources 195 and 260, the parent treated the subsection (b) and (c) ceilings as eligibility tests and omitted both alternatives for above-limit personal-use vehicles; source 255 confirms that both remain applicable. Source 204 separately shows that an object's tool-like name does not establish the trade-use condition required by subsection (d). The update sharpens only those EC decision conditions and leaves the EV calculation guidance unchanged.",
+      "actual_EC_before": [
+        {
+          "id": "illinois-overlapping-wildcard-and-stated-limits",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ILLINOIS is allowable and the property is held for personal rather than business use.",
+            "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently as the any-other-property alternative, including when apparel, a motor vehicle, or a prescribed health aid also has a specific exemption. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, and (e) covers professionally prescribed health aids. A value above a limit does not eliminate either applicable alternative.",
+            "avoid_when": "Do not use § 12-1001(d) for ordinary household property; it requires implements, professional books, or tools of the debtor's trade. Do not classify jewelry or a watch as necessary wearing apparel under subsection (a), and do not omit subsection (b) merely because a specific subsection applies.",
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "illinois-overlapping-wildcard-and-stated-limits",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ILLINOIS is allowable and the property is held for personal rather than business use.",
+            "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently as the any-other-property alternative, including when apparel, a motor vehicle, or a prescribed health aid also has a specific exemption. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, and (e) covers professionally prescribed health aids. A value above a limit does not eliminate either applicable alternative. Determine category eligibility before considering value: a debtor-owned personal-use motor vehicle receives both subsections (b) and (c), with their ceilings affecting valuation only.",
+            "avoid_when": "Do not use § 12-1001(d) for ordinary household property; it requires implements, professional books, or tools of the debtor's trade. Do not infer trade use merely because an object can be called a tool; require facts that it is used in the debtor's trade. Do not classify jewelry or a watch as necessary wearing apparel under subsection (a), and do not omit subsection (b) merely because a specific subsection applies.",
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 195,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.3333333333333333,
+          "proposal_EC_native_F1": 1.0,
+          "parent_EC_complete_output_F1": 0.5,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/195_EC_candidate.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/195_EC_candidate.json"
+        },
+        {
+          "source_case_id": 204,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.3333333333333333,
+          "proposal_EC_native_F1": 0.8333333333333333,
+          "parent_EC_complete_output_F1": 0.4,
+          "proposal_EC_complete_output_F1": 0.8,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/204_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/204_EC_candidate.json"
+        },
+        {
+          "source_case_id": 255,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 1.0,
+          "proposal_EC_native_F1": 0.8333333333333333,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 0.8571428571428571,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/255_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/255_EC_candidate.json"
+        },
+        {
+          "source_case_id": 260,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.75,
+          "proposal_EC_native_F1": 1.0,
+          "parent_EC_complete_output_F1": 0.7499999999999999,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/260_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/260_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 4,
+      "serialized_relevant_cited_count": 4,
+      "serialized_parent_EC_error_count": 3,
+      "serialized_parent_EV_error_count": 4,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "help": 3,
+        "hurt": 1
+      },
+      "relevant_complete_output_directions": {
+        "help": 3,
+        "hurt": 1
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 6,
+      "attempt": 1,
+      "operation_index": 1,
+      "operation": "UPDATE",
+      "target_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "public_context": "ARIZONA",
+      "teacher_rationale": "In source 274 EC, the parent omitted qualifying wearing apparel solely because its value exceeded § 33-1125(1)'s $500 cap, while the target retained that exemption. Source 251 similarly supports category eligibility for an above-cap musical instrument and shows the separate false-positive risk of treating nonresidential property as an Arizona homestead.",
+      "actual_EC_before": [
+        {
+          "id": "arizona-caps-are-not-eligibility-and-category-boundaries",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ARIZONA is allowable and the asset fits an Arizona category.",
+            "procedure": "Treat statutory dollar limits as caps, not eligibility thresholds: include § 33-1125(8) for a motor vehicle and § 33-1125(10) for a firearm even when value exceeds the limit. Include § 33-1101(A), not subsection (B), as the homestead exemption alternative. Confirm the statutory category before applying its cap.",
+            "avoid_when": "Do not classify jewelry as wearing apparel; § 33-1125(4) is limited to engagement and wedding rings, and subsection (B) is a one-homestead limitation rather than a separate asset exemption. Non-ring jewelry does not qualify under either § 33-1125(1) or § 33-1125(4).",
+            "operators": [],
+            "jurisdiction": "ARIZONA"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "arizona-caps-are-not-eligibility-and-category-boundaries",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ARIZONA is allowable and the asset fits an Arizona category.",
+            "procedure": "Treat every statutory dollar limit as a cap, not an eligibility threshold. Include § 33-1125(1) for wearing apparel above $500, § 33-1125(2) for a musical instrument above $400, § 33-1125(8) for a motor vehicle above $15,000, and § 33-1125(10) for a firearm above $2,000. Include § 33-1101(A), not subsection (B), only when the property contains a dwelling that the debtor uses as a residence.",
+            "avoid_when": "Do not classify jewelry as wearing apparel; § 33-1125(4) is limited to engagement and wedding rings. Non-ring jewelry does not qualify under § 33-1125(1), § 33-1125(4), or § 33-1123. Do not apply the homestead exemption to a nonresidential property interest.",
+            "operators": [],
+            "jurisdiction": "ARIZONA"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 251,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.5,
+          "proposal_EC_native_F1": 0.5,
+          "parent_EC_complete_output_F1": 0.8,
+          "proposal_EC_complete_output_F1": 0.8,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/251_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/251_EC_candidate.json"
+        },
+        {
+          "source_case_id": 274,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.3333333333333333,
+          "proposal_EC_native_F1": 0.6666666666666666,
+          "parent_EC_complete_output_F1": 0.6666666666666666,
+          "proposal_EC_complete_output_F1": 0.8,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": false,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/274_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/274_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 2,
+      "serialized_relevant_cited_count": 2,
+      "serialized_parent_EC_error_count": 2,
+      "serialized_parent_EV_error_count": 1,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "tie": 1,
+        "help": 1
+      },
+      "relevant_complete_output_directions": {
+        "tie": 1,
+        "help": 1
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 6,
+      "attempt": 1,
+      "operation_index": 2,
+      "operation": "UPDATE",
+      "target_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "public_context": "FEDERAL",
+      "teacher_rationale": "Current EC parents in sources 265, 266, 270, and 271 omitted the independent § 522(d)(5) alternative. Current EV parents repeatedly used only $1,475 instead of the independent $15,425 or $30,850 ceiling in sources 272, 273, and 275, and source 263 also failed to apply § 522(m)'s doubled jewelry ceiling. The update distinguishes missing alternatives from wrong amounts and preserves the category limits on § 522(d)(3).",
+      "actual_EC_before": [
+        {
+          "id": "federal-independent-wildcard-and-caps",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "FEDERAL is an allowable namespace and the asset is property of the debtor.",
+            "procedure": "Evaluate every applicable specific paragraph, then independently include 11 U.S.C. § 522(d)(5), which can protect any property. A dollar ceiling limits protection rather than eligibility. Thus a vehicle remains eligible under § 522(d)(2) above its cap, jewelry uses § 522(d)(4), and § 522(d)(5) remains an additional alternative even when a specific paragraph applies.",
+            "avoid_when": "Do not use 11 U.S.C. § 522(d)(3) for an unlisted category such as a firearm or jewelry, do not omit a specific paragraph because value exceeds its ceiling, and do not repeat a citation.",
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "federal-independent-wildcard-and-caps",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "FEDERAL is an allowable namespace and the asset is property of the debtor.",
+            "procedure": "Evaluate every applicable specific paragraph, then make a mandatory final check for 11 U.S.C. § 522(d)(5) on each debtor-owned asset. Section 522(d)(5) protects any property and remains an additional alternative even when § 522(d)(1), (2), (3), or (4) applies. Dollar ceilings limit protection rather than eligibility.",
+            "avoid_when": "Do not use § 522(d)(3) for an unlisted category such as a firearm or jewelry, omit a specific paragraph because value exceeds its ceiling, omit § 522(d)(5) because another paragraph applies, or repeat a citation.",
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 261,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.8666666666666667,
+          "proposal_EC_native_F1": 0.8190476190476191,
+          "parent_EC_complete_output_F1": 0.888888888888889,
+          "proposal_EC_complete_output_F1": 0.8235294117647058,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/261_EC_candidate.json"
+        },
+        {
+          "source_case_id": 263,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 1.0,
+          "proposal_EC_native_F1": 0.5,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 0.5,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/263_EC_candidate.json"
+        },
+        {
+          "source_case_id": 265,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.8000000000000002,
+          "proposal_EC_native_F1": 0.7000000000000001,
+          "parent_EC_complete_output_F1": 0.8,
+          "proposal_EC_complete_output_F1": 0.7142857142857143,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": false,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/265_EC_candidate.json"
+        },
+        {
+          "source_case_id": 266,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.8000000000000002,
+          "proposal_EC_native_F1": 0.8000000000000002,
+          "parent_EC_complete_output_F1": 0.8,
+          "proposal_EC_complete_output_F1": 0.8,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/266_EC_candidate.json"
+        },
+        {
+          "source_case_id": 268,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.7555555555555555,
+          "proposal_EC_native_F1": 0.8000000000000002,
+          "parent_EC_complete_output_F1": 0.75,
+          "proposal_EC_complete_output_F1": 0.8,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/268_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/268_EC_candidate.json"
+        },
+        {
+          "source_case_id": 270,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.8,
+          "proposal_EC_native_F1": 1.0,
+          "parent_EC_complete_output_F1": 0.8,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": false,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/270_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/270_EC_candidate.json"
+        },
+        {
+          "source_case_id": 271,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.8,
+          "proposal_EC_native_F1": 0.8,
+          "parent_EC_complete_output_F1": 0.8,
+          "proposal_EC_complete_output_F1": 0.8,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/271_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/271_EC_candidate.json"
+        },
+        {
+          "source_case_id": 272,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 1.0,
+          "proposal_EC_native_F1": 0.65,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 0.6666666666666666,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/272_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/272_EC_candidate.json"
+        },
+        {
+          "source_case_id": 273,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.9642857142857143,
+          "proposal_EC_native_F1": 0.5,
+          "parent_EC_complete_output_F1": 0.967741935483871,
+          "proposal_EC_complete_output_F1": 0.5454545454545454,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/273_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/273_EC_candidate.json"
+        },
+        {
+          "source_case_id": 275,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 1.0,
+          "proposal_EC_native_F1": 0.7301587301587301,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 0.7368421052631579,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/275_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/275_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 10,
+      "serialized_relevant_cited_count": 10,
+      "serialized_parent_EC_error_count": 7,
+      "serialized_parent_EV_error_count": 8,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "hurt": 6,
+        "tie": 2,
+        "help": 2
+      },
+      "relevant_complete_output_directions": {
+        "hurt": 6,
+        "tie": 2,
+        "help": 2
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 6,
+      "attempt": 1,
+      "operation_index": 3,
+      "operation": "UPDATE",
+      "target_ids": [
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "public_context": "PENNSYLVANIA",
+      "teacher_rationale": "In source 261 EC, the parent omitted § 8123 from two debtor-owned assets; in EV it omitted § 8123 from one asset and reported the $600 joint ceiling instead of the lower $435 asset value for another. Source 263 EV omitted Pennsylvania alternatives entirely. The revision makes the independent final check and lesser-of calculation explicit without broadening any specific category.",
+      "actual_EC_before": [
+        {
+          "id": "pennsylvania-general-monetary-alternative",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "PENNSYLVANIA is allowable and the debtor owns the property.",
+            "procedure": "Include 42 Pa. Cons. Stat. § 8123 as an independent general monetary exemption for the property, whether or not a specific federal or Pennsylvania exemption also applies and whether or not the property's value exceeds the monetary limit.",
+            "avoid_when": "Do not invent a specific Pennsylvania category, use a specific category belonging to a different kind of property, or treat a firearm as wearing apparel under § 8124(a)(1).",
+            "operators": [],
+            "jurisdiction": "PENNSYLVANIA"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "pennsylvania-general-monetary-alternative",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "PENNSYLVANIA is allowable and the debtor owns the property.",
+            "procedure": "For each debtor-owned asset, make a separate final check for 42 Pa. Cons. Stat. § 8123 and include it once, whether or not a federal or specific Pennsylvania exemption also applies and whether or not value exceeds its limit.",
+            "avoid_when": "Do not invent a specific Pennsylvania category, use a category belonging to a different kind of property, or treat a firearm, jewelry, or other adornment as wearing apparel under § 8124(a)(1).",
+            "operators": [],
+            "jurisdiction": "PENNSYLVANIA"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 181,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.41666666666666663,
+          "proposal_EC_native_F1": 0.5416666666666666,
+          "parent_EC_complete_output_F1": 0.47058823529411764,
+          "proposal_EC_complete_output_F1": 0.5555555555555556,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/181_EC_candidate.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/181_EC_candidate.json"
+        },
+        {
+          "source_case_id": 243,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.5833333333333333,
+          "proposal_EC_native_F1": 0.5333333333333333,
+          "parent_EC_complete_output_F1": 0.6,
+          "proposal_EC_complete_output_F1": 0.5454545454545454,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/243_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/243_EC_candidate.json"
+        },
+        {
+          "source_case_id": 261,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.8666666666666667,
+          "proposal_EC_native_F1": 0.8190476190476191,
+          "parent_EC_complete_output_F1": 0.888888888888889,
+          "proposal_EC_complete_output_F1": 0.8235294117647058,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/261_EC_candidate.json"
+        },
+        {
+          "source_case_id": 263,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 1.0,
+          "proposal_EC_native_F1": 0.5,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 0.5,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/263_EC_candidate.json"
+        },
+        {
+          "source_case_id": 272,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 1.0,
+          "proposal_EC_native_F1": 0.65,
+          "parent_EC_complete_output_F1": 1.0,
+          "proposal_EC_complete_output_F1": 0.6666666666666666,
+          "parent_EC_complete_output_error": false,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/272_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/272_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 5,
+      "serialized_relevant_cited_count": 5,
+      "serialized_parent_EC_error_count": 3,
+      "serialized_parent_EV_error_count": 5,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "help": 1,
+        "hurt": 4
+      },
+      "relevant_complete_output_directions": {
+        "help": 1,
+        "hurt": 4
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 7,
+      "attempt": 1,
+      "operation_index": 1,
+      "operation": "UPDATE",
+      "target_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "public_context": "ILLINOIS",
+      "teacher_rationale": "The parent repeatedly omitted § 12-1001(b) from above-cap vehicles and expressly identified trade tools, omitted subsection (d) because trade-property value exceeded its limit, and misclassified trade machinery under subsection (c). It also applied the personal-property wildcard to real property and doubled the joint homestead amount. These sources support separate corrections for missing overlapping alternatives, category boundaries, and claim amounts while preserving the express-facts requirement for trade tools.",
+      "actual_EC_before": [
+        {
+          "id": "illinois-overlapping-wildcard-and-stated-limits",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ILLINOIS is allowable and the property is held for personal rather than business use.",
+            "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently as the any-other-property alternative, including when apparel, a motor vehicle, or a prescribed health aid also has a specific exemption. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, and (e) covers professionally prescribed health aids. A value above a limit does not eliminate either applicable alternative.",
+            "avoid_when": "Do not use § 12-1001(d) for ordinary household property; it requires implements, professional books, or tools of the debtor's trade. Do not classify jewelry or a watch as necessary wearing apparel under subsection (a), and do not omit subsection (b) merely because a specific subsection applies.",
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "illinois-overlapping-wildcard-and-stated-limits",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ILLINOIS is allowable and the debtor owns personal property, including property expressly identified as a tool of the debtor's trade.",
+            "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently for every item of personal property, including when subsection (a), (c), (d), or (e) also applies. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, (d) covers an implement, professional book, or tool expressly used in the debtor's trade, and (e) covers a professionally prescribed health aid. A value above a limit does not eliminate an applicable alternative.",
+            "avoid_when": "Do not apply § 12-1001(b) to real property. Do not classify jewelry or a watch as necessary wearing apparel, or a device that displays pictures as a family picture. Require express trade-use facts for subsection (d), and do not classify business machinery as a motor vehicle merely because it can move.",
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 195,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.3333333333333333,
+          "proposal_EC_native_F1": 0.6666666666666666,
+          "parent_EC_complete_output_F1": 0.5,
+          "proposal_EC_complete_output_F1": 0.6666666666666666,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/195_EC_candidate.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/195_EC_candidate.json"
+        },
+        {
+          "source_case_id": 279,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.6666666666666666,
+          "proposal_EC_native_F1": 0.41666666666666663,
+          "parent_EC_complete_output_F1": 0.6666666666666666,
+          "proposal_EC_complete_output_F1": 0.4444444444444444,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "hurt",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/279_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/279_EC_candidate.json"
+        },
+        {
+          "source_case_id": 281,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.75,
+          "proposal_EC_native_F1": 0.75,
+          "parent_EC_complete_output_F1": 0.8571428571428571,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/281_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/281_EC_candidate.json"
+        },
+        {
+          "source_case_id": 283,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.5,
+          "proposal_EC_native_F1": 0.5833333333333333,
+          "parent_EC_complete_output_F1": 0.6666666666666666,
+          "proposal_EC_complete_output_F1": 0.6666666666666666,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "help",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/283_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/283_EC_candidate.json"
+        },
+        {
+          "source_case_id": 285,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.3333333333333333,
+          "proposal_EC_native_F1": 0.3333333333333333,
+          "parent_EC_complete_output_F1": 0.4444444444444444,
+          "proposal_EC_complete_output_F1": 0.4,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "hurt",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/285_EC_skills.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/285_EC_candidate.json"
+        },
+        {
+          "source_case_id": 292,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.8333333333333333,
+          "proposal_EC_native_F1": 0.8333333333333333,
+          "parent_EC_complete_output_F1": 0.8,
+          "proposal_EC_complete_output_F1": 0.8,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": false,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "tie",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/292_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/292_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 6,
+      "serialized_relevant_cited_count": 6,
+      "serialized_parent_EC_error_count": 6,
+      "serialized_parent_EV_error_count": 5,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "help": 2,
+        "hurt": 1,
+        "tie": 3
+      },
+      "relevant_complete_output_directions": {
+        "help": 2,
+        "hurt": 2,
+        "tie": 2
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    },
+    {
+      "batch": 7,
+      "attempt": 2,
+      "operation_index": 1,
+      "operation": "UPDATE",
+      "target_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "public_context": "ILLINOIS",
+      "teacher_rationale": "In source 281, the parent correctly used § 12-1001(b) for the debtor's personal property but also extended it to a real-property interest. The supplied statute confines § 12-1001 to personal property. This narrow boundary correction removes that false positive while preserving the existing overlap, category, cap, and trade-use instructions verbatim.",
+      "actual_EC_before": [
+        {
+          "id": "illinois-overlapping-wildcard-and-stated-limits",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ILLINOIS is allowable and the property is held for personal rather than business use.",
+            "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently as the any-other-property alternative, including when apparel, a motor vehicle, or a prescribed health aid also has a specific exemption. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, and (e) covers professionally prescribed health aids. A value above a limit does not eliminate either applicable alternative.",
+            "avoid_when": "Do not use § 12-1001(d) for ordinary household property; it requires implements, professional books, or tools of the debtor's trade. Do not classify jewelry or a watch as necessary wearing apparel under subsection (a), and do not omit subsection (b) merely because a specific subsection applies.",
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        }
+      ],
+      "actual_EC_proposed": [
+        {
+          "id": "illinois-overlapping-wildcard-and-stated-limits",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "ILLINOIS is allowable and the property is held for personal rather than business use.",
+            "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently as the any-other-property alternative, including when apparel, a motor vehicle, or a prescribed health aid also has a specific exemption. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, and (e) covers professionally prescribed health aids. A value above a limit does not eliminate either applicable alternative.",
+            "avoid_when": "Do not use § 12-1001(d) for ordinary household property; it requires implements, professional books, or tools of the debtor's trade. Do not classify jewelry or a watch as necessary wearing apparel under subsection (a), and do not omit subsection (b) merely because a specific subsection applies. Subsection (b) is a personal-property exemption; do not apply it to any real-property interest.",
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        }
+      ],
+      "cited_cases": [
+        {
+          "source_case_id": 281,
+          "public_context_applicable": true,
+          "EC_target_and_parent_serialized_to_teacher": true,
+          "EV_target_and_parent_serialized_to_teacher": true,
+          "parent_EC_native_F1": 0.75,
+          "proposal_EC_native_F1": 0.75,
+          "parent_EC_complete_output_F1": 0.8571428571428571,
+          "proposal_EC_complete_output_F1": 1.0,
+          "parent_EC_complete_output_error": true,
+          "parent_EV_complete_output_error": true,
+          "same_full_proposal_EC_wire_as_parent": false,
+          "native_direction": "tie",
+          "complete_output_direction": "help",
+          "parent_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/281_EC_frozen_after_B1.json",
+          "proposal_raw_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/281_EC_candidate.json"
+        }
+      ],
+      "relevant_cited_count": 1,
+      "serialized_relevant_cited_count": 1,
+      "serialized_parent_EC_error_count": 1,
+      "serialized_parent_EV_error_count": 1,
+      "no_EC_error_in_serialized_relevant_citations": false,
+      "relevant_native_directions": {
+        "tie": 1
+      },
+      "relevant_complete_output_directions": {
+        "help": 1
+      },
+      "full_proposal_not_isolated_operation_effect": true
+    }
+  ],
+  "all11_actual_changed_components_seen_pooled_diagnostics": [
+    {
+      "batch": 2,
+      "attempt": 1,
+      "coordinate": "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+      "actual_accepted": false,
+      "actual_failed_flags": [
+        "current_nonregression"
+      ],
+      "source_task_views_current": 11,
+      "source_task_views_past": 10,
+      "pooled_seen_NATIVE_F1_delta_pp": 3.5185185185185097,
+      "pooled_seen_COMPLETE_OUTPUT_F1_delta_pp": 3.541209230368725,
+      "current_negative_or_unscored_claim_delta": 0,
+      "past_negative_or_unscored_claim_delta": 0
+    },
+    {
+      "batch": 2,
+      "attempt": 1,
+      "coordinate": "EC:ILLINOIS",
+      "actual_accepted": false,
+      "actual_failed_flags": [
+        "prior_full_output_nonregression"
+      ],
+      "source_task_views_current": 1,
+      "source_task_views_past": 3,
+      "pooled_seen_NATIVE_F1_delta_pp": 16.666666666666664,
+      "pooled_seen_COMPLETE_OUTPUT_F1_delta_pp": 9.166666666666679,
+      "current_negative_or_unscored_claim_delta": 0,
+      "past_negative_or_unscored_claim_delta": 0
+    },
+    {
+      "batch": 2,
+      "attempt": 2,
+      "coordinate": "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+      "actual_accepted": true,
+      "actual_failed_flags": [],
+      "source_task_views_current": 11,
+      "source_task_views_past": 10,
+      "pooled_seen_NATIVE_F1_delta_pp": 1.6392668178382475,
+      "pooled_seen_COMPLETE_OUTPUT_F1_delta_pp": 1.1892404403925028,
+      "current_negative_or_unscored_claim_delta": 0,
+      "past_negative_or_unscored_claim_delta": 0
+    },
+    {
+      "batch": 3,
+      "attempt": 1,
+      "coordinate": "EC:ARIZONA",
+      "actual_accepted": false,
+      "actual_failed_flags": [
+        "prior_full_output_nonregression",
+        "prior_negative_asset_and_format_nonregression"
+      ],
+      "source_task_views_current": 3,
+      "source_task_views_past": 7,
+      "pooled_seen_NATIVE_F1_delta_pp": 3.3333333333333215,
+      "pooled_seen_COMPLETE_OUTPUT_F1_delta_pp": 1.333333333333353,
+      "current_negative_or_unscored_claim_delta": 0,
+      "past_negative_or_unscored_claim_delta": 1
+    },
+    {
+      "batch": 3,
+      "attempt": 1,
+      "coordinate": "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+      "actual_accepted": false,
+      "actual_failed_flags": [
+        "current_nonregression",
+        "prior_nonregression",
+        "strict_current_improvement",
+        "current_full_output_nonregression",
+        "prior_full_output_nonregression"
+      ],
+      "source_task_views_current": 8,
+      "source_task_views_past": 21,
+      "pooled_seen_NATIVE_F1_delta_pp": -7.315270935960594,
+      "pooled_seen_COMPLETE_OUTPUT_F1_delta_pp": -7.300264674747647,
+      "current_negative_or_unscored_claim_delta": 0,
+      "past_negative_or_unscored_claim_delta": 0
+    },
+    {
+      "batch": 4,
+      "attempt": 1,
+      "coordinate": "EC:ARIZONA",
+      "actual_accepted": false,
+      "actual_failed_flags": [
+        "prior_negative_asset_and_format_nonregression"
+      ],
+      "source_task_views_current": 4,
+      "source_task_views_past": 10,
+      "pooled_seen_NATIVE_F1_delta_pp": 2.9761904761904656,
+      "pooled_seen_COMPLETE_OUTPUT_F1_delta_pp": 2.7380952380952506,
+      "current_negative_or_unscored_claim_delta": -1,
+      "past_negative_or_unscored_claim_delta": 1
+    },
+    {
+      "batch": 5,
+      "attempt": 1,
+      "coordinate": "EC:ILLINOIS",
+      "actual_accepted": false,
+      "actual_failed_flags": [
+        "strict_current_improvement",
+        "current_full_output_nonregression"
+      ],
+      "source_task_views_current": 4,
+      "source_task_views_past": 14,
+      "pooled_seen_NATIVE_F1_delta_pp": 2.314814814814803,
+      "pooled_seen_COMPLETE_OUTPUT_F1_delta_pp": 2.7557319223985965,
+      "current_negative_or_unscored_claim_delta": 0,
+      "past_negative_or_unscored_claim_delta": 0
+    },
+    {
+      "batch": 6,
+      "attempt": 1,
+      "coordinate": "EC:ARIZONA",
+      "actual_accepted": false,
+      "actual_failed_flags": [
+        "prior_nonregression",
+        "current_negative_asset_and_format_nonregression"
+      ],
+      "source_task_views_current": 3,
+      "source_task_views_past": 17,
+      "pooled_seen_NATIVE_F1_delta_pp": 0.8333333333333304,
+      "pooled_seen_COMPLETE_OUTPUT_F1_delta_pp": 4.08333333333335,
+      "current_negative_or_unscored_claim_delta": 1,
+      "past_negative_or_unscored_claim_delta": -3
+    },
+    {
+      "batch": 6,
+      "attempt": 1,
+      "coordinate": "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+      "actual_accepted": false,
+      "actual_failed_flags": [
+        "current_nonregression",
+        "prior_nonregression",
+        "strict_current_improvement",
+        "current_full_output_nonregression",
+        "prior_full_output_nonregression"
+      ],
+      "source_task_views_current": 11,
+      "source_task_views_past": 45,
+      "pooled_seen_NATIVE_F1_delta_pp": -17.571570294784557,
+      "pooled_seen_COMPLETE_OUTPUT_F1_delta_pp": -16.40879978926315,
+      "current_negative_or_unscored_claim_delta": 0,
+      "past_negative_or_unscored_claim_delta": 0
+    },
+    {
+      "batch": 7,
+      "attempt": 1,
+      "coordinate": "EC:ILLINOIS",
+      "actual_accepted": false,
+      "actual_failed_flags": [
+        "current_nonregression",
+        "prior_nonregression",
+        "current_full_output_nonregression",
+        "prior_full_output_nonregression"
+      ],
+      "source_task_views_current": 6,
+      "source_task_views_past": 20,
+      "pooled_seen_NATIVE_F1_delta_pp": -25.747863247863243,
+      "pooled_seen_COMPLETE_OUTPUT_F1_delta_pp": -22.38095238095238,
+      "current_negative_or_unscored_claim_delta": -1,
+      "past_negative_or_unscored_claim_delta": 0
+    },
+    {
+      "batch": 7,
+      "attempt": 2,
+      "coordinate": "EC:ILLINOIS",
+      "actual_accepted": true,
+      "actual_failed_flags": [],
+      "source_task_views_current": 6,
+      "source_task_views_past": 20,
+      "pooled_seen_NATIVE_F1_delta_pp": 6.196581196581185,
+      "pooled_seen_COMPLETE_OUTPUT_F1_delta_pp": 4.778554778554778,
+      "current_negative_or_unscored_claim_delta": -1,
+      "past_negative_or_unscored_claim_delta": 0
+    }
+  ],
+  "rejected_components": 9,
+  "rejected_with_positive_pooled_seen_native_F1": 6,
+  "positive_pooled_rejected_with_current_or_past_negative_claim_increase": 3,
+  "cited_source_native_directions": {
+    "tie": 18,
+    "help": 20,
+    "hurt": 19
+  },
+  "cited_source_complete_output_directions": {
+    "tie": 16,
+    "help": 21,
+    "hurt": 20
+  },
+  "source_sha256": {
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b1_prequential_records.json": "5304ea4bc2b43f95e518cdb020496dfe1629b835e6a873d83b964138f27da988",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b1_candidate1/wire_request.json": "56de106e87dc9c933810f729f40a93fad5e387fcc5ed8c89287cb5face2425fb",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b1_candidate1/response.json": "6b6ca1eb01142ff230c8cc9395a5c6a0409fffff248a49846620ce78756aa99c",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b1_candidate1.json": "8c8a031e880f4e12247aabd549a23f31e5b5645b5a6420eb67eba8f0a7e48244",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b1_candidate2/wire_request.json": "6045530010cdce2e0dbe92d25ca92e51db3c357340352b57cc469c3caf3e793e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b1_candidate2/response.json": "a4b12da081b9ee2bdebe3234f4668e533e7acc3897cc9ed3a0538c4934092b92",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b1_candidate2.json": "a0205707aaf1de1a3edd2d34d1275292cdaba746b4f3a4e11716f44486d7c696",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b1.json": "19057ad7c1f3510291abbd26f75766f39e34473796be4be669e98f0b73590408",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b2_prequential_records.json": "6474e1b64e7b8d61207e4519119c048b1f74a82884bc88f83a06ba05349430fe",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b2_candidate1/wire_request.json": "09beae55cae3e21d9247979859c35fbb9fe5c162f8a6e2524c173d39fc2658a1",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b2_candidate1/response.json": "4bec5ec60108f32ec38943e2042c613690775e6a056eac72eb363972819764be",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b2_candidate1.json": "8bcd48ee093be823adf56325562cb6a6c755227b2ce86b7952e39b4e7766f716",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/198_EC_skills.json": "c675b2062570150738dea92c80a03834b089b0388b1a2c1cb4454907db1175a8",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/198_EC_skills.input.json": "43ee28ba9f6afee002f6b265d4b9eff9b7e386da70ca87069bc35b67364c7348",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/198_EC_candidate.json": "eaac8798f5cd9c092930e64b1511379e87c44fdd4720918aa8de2c5c7053037c",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/198_EC_candidate.input.json": "93cdfb3457a7b5b5c1598e38c5ab60258170544b99fa8b87fd7a8d4f628c2fc0",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/200_EC_skills.json": "c71af3df6176731387a593b48cf691ce8ec83b51aae88f77092c232306a048dc",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/200_EC_skills.input.json": "6ac25d55e3a644f26035fbf38070bf639f7c2020803a809cc281ad0e4c118776",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/200_EC_candidate.json": "c179d3de37f1a45c784810c91a77001c73744a1e72438409f959cb63c4a58b8d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/200_EC_candidate.input.json": "b06bb43ab96a81bc3ddee875f2221ee01ff211378f3d92a857d787797500284d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/202_EC_frozen_after_B1.json": "c540abd6345c8f0c816e9d2b334b5f462167b351da9730a76e7afe753e57ea10",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/202_EC_frozen_after_B1.input.json": "fcac1cc6305b4363c2b292aaa1010bce30ab6ca11789615f2ed68e63f25410c3",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/202_EC_candidate.json": "f2fcf55c4619922b0b2bfae1b92546b5d8736d27379880998b879e2b4b089bc5",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/202_EC_candidate.input.json": "9fb6ec51a954559aa873b930e9a91fc3cced6172d0c2be665b059516fae83064",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/203_EC_skills.json": "56cf99f80e558badbb239fc0de03f25b14c86fe507b0a73cf8be5fcfea32578d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/203_EC_skills.input.json": "f80cc342ea3747ec24859946d3a9a9a8c47080bc8b0f2733b2523bdebd227a9f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/203_EC_candidate.json": "e0391881b9775f8143dcd00adc4997b2cf1802beaf9911aff26b971afaaf87ba",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/203_EC_candidate.input.json": "7f239ea1bff2cfeee336607dd7b08ea83204e6944cf570430d9e3beed1ddd46a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/205_EC_skills.json": "664a758842e46f9f76d555b9ad3580e85bf4dbd55146b3c60d46671f2a02b8b3",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/205_EC_skills.input.json": "8383cf0cbfd227d659936c0c3b33970af5087466997d901775cbae2986dc5be5",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/205_EC_candidate.json": "83acd607e26e005df4182b13825caf3e6747d22c4e6924ffda5da71b6cece302",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/205_EC_candidate.input.json": "ba0b354be0d986e53ee9c67de56bd226c64c44643ee20cb651f5bc9618b30c7f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/206_EC_frozen_after_B1.json": "a7ac14335f6699d09206e746abb39a0c49d601f5a541c7647ff2832a7e8e74a1",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/206_EC_frozen_after_B1.input.json": "97b806cc137c021b022fac0b99f29b1c71fa5e31939a437a6f865822770bde3e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/206_EC_candidate.json": "2a39c01c45a17693b2f38dfa9c7ac157266f54751fb22ef0b38f8a841ffe0581",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/206_EC_candidate.input.json": "a6832e2e59949132438ca7fcc46036df547a7748a34c5e7343663ca0888ef38d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/208_EC_skills.json": "913fe5ed332d875b31e7dc54ef0fca8aba7f4a7add11ebf4444648e16fcebf64",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/208_EC_skills.input.json": "d14be87b2a740c0bf18588b09369fda9b3a1d535957f4d77aa47b1f2650dffc0",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/208_EC_candidate.json": "813baff25a78fa09313d4e38254973c3354c052c90c0b7ed3573ed106ed5f620",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/208_EC_candidate.input.json": "7ef858954ced64095931795e889e7eed08094eb1d8ccecf764b79ce40a56c047",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/209_EC_skills.json": "cd53ed2c061a680262e6c391a285c389fc391a08888617424d82559ae439d9c2",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/209_EC_skills.input.json": "676b4df6578a960a67766268ccfd2947d9cff76a09b6708ecfd665799b9630ad",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/209_EC_candidate.json": "b5b2e8f0d0e2bf57aca95cc000ce264ae07d083196f8477d1e984c1bdd1034e1",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/209_EC_candidate.input.json": "ea0d6326a89b6c90c17bfc57e7337d7a6107fda3895c398e9e4aba3063b5fe31",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/210_EC_skills.json": "7754e8e9f8f3b8b89668ffd673f83072e10848ce45e9bc8e37cc7f4876cf1d7c",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/210_EC_skills.input.json": "b880a4a62574dd90c8d05051efe7e4d8e2986059e1e9f9489afca45dacca4486",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/210_EC_candidate.json": "5b5cd63e426f30f6ea172d9728e7a418c74d7c282f55584cd88816ff0249ba28",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/210_EC_candidate.input.json": "f61aab708c39a83bfdc432124f38c85818bcb2d154647f621863b6a76f4c955f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/211_EC_frozen_after_B1.json": "cfd5363b28cf71cb9589a1f5b296a99471ae34069a725971b3ad7045eb1f395f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/211_EC_frozen_after_B1.input.json": "dead29f4083d00af869d87e1ff064f71219e14ff56b4d74393a3fa7264b045ed",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/211_EC_candidate.json": "18a1c0b8cdec7512b038cc33821bb914ad994383e416502e8e8194498b99b6d9",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/211_EC_candidate.input.json": "9564c830242bce0745d2671e9845f27e2ec5770b130d160bb21647cfdf06400f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/212_EC_frozen_after_B1.json": "1c64ed2cf046d32933606231205004600a788d045754c916c6595cd53e258b5f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/212_EC_frozen_after_B1.input.json": "9baed45dcfabf9997afde3ad5195daae5e80c8bac692e5e282d897c8a037027b",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/212_EC_candidate.json": "f8f877ae4625fa9ca87177242b485b5b3f7e2fec432f5cc4b9eba0f605d33cf5",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/212_EC_candidate.input.json": "82223c6b00e4b59017811029f02d04686c4d41bce42145f05761070dc4f6cbc2",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/204_EC_skills.json": "3f070b51d26d185f4121c5944cf8aeab49fa11aa0405ffbbd7630b8fc7d0c0ac",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/204_EC_skills.input.json": "e8a3ba681fdc6b80774ff1dd82ab2c2379ce7e71fde6df16870df587e90b6d7d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/204_EC_candidate.json": "ab066871dde474eb3c09d84a42171f51bc643fd5d5a67459d132754e00edcfe0",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/204_EC_candidate.input.json": "e8366bb453b096fefe76c27389d56c42013a80d1210b48207bb0336ea26e4199",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b2_candidate2/wire_request.json": "352bd8c1ca6c4c79fe1c51b29a79dfa55429b325c126d034069aa45b13c74334",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b2_candidate2/response.json": "a4b8203c7921470a290b729b459130bf96c91ff9775b40319f7638d262710d24",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b2_candidate2.json": "6cb975c8c9c7d8ee369d985dd67c966b9723a25861596c76b6514c99acda33c3",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/202_EC_candidate.json": "8802501ef722e0d9cf8124eef9a38fd8025428e28d5c79e9e1ef6ac735c96a2d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/202_EC_candidate.input.json": "cf7e726b6d2e283cb133637786b789759e66a24619b3e6f65dd042e11339072d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/206_EC_candidate.json": "52d5ff69df0a3a5bab43b40203d284130d31915190af5b5d2c8006e466b437fe",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/206_EC_candidate.input.json": "93db3065bd2f02cd86d6703fb97edc9b6aea374acedc076118db431f5d58188e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/208_EC_candidate.json": "fa89498726fb5a6401eca9f09d5e93911144f64034057ad121fcf4e202410c56",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/208_EC_candidate.input.json": "39e38b86aa4b69f843857a77897b6a505eb5dbbe660a500fc1004b1fdbf8ffe1",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/210_EC_candidate.json": "3038c6f7315c8e4fcee9bca088d0046ae5cd2246d873c4520c7e084016cbb9b5",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/210_EC_candidate.input.json": "f2528fd9c6e77afad03edeedeb1a4ca6e1ec131bb2a4ebbb4a4bf12a612ca76f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b2.json": "8ec1054c31340fc102f908b385003b5238778fd9e901e4d61479616db8b98471",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b3_prequential_records.json": "3f746e10fb6f404e60e2984a261b494333bbe10dc2a320ee4f9a2ba371db271d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b3_candidate1/wire_request.json": "1336bc5138613686959174b419acbbf8cd7d3dc3ac599ba834a37628c11539e8",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b3_candidate1/response.json": "efeba0cb6395aa4fb3e910481113ac90afca527f2e71c6cd5b09092c5b8ae21d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b3_candidate1.json": "8d44228ce4b281d8b4ae58b6f7079ebb0edf7227e4add1c6c1b38c5e31a7e2f6",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/215_EC_skills.json": "f03ba4c21990287bbf22fb9386f2c95fc08368dc7721537a2d069061850183f3",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/215_EC_skills.input.json": "ff3ea8b8aa77922e16cdc06c6a2ead3ed31bd825a96465bd8c6d5fcaa042e3b9",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/215_EC_candidate.json": "247774ff6472b798035948e05b4b9e372ffb136f17881b1fb845342329abd90f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/215_EC_candidate.input.json": "6967f7b8dfe7a8fb9b8e8adb2833e34dcee27beb9b09d99d760958d39a411fff",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/223_EC_skills.json": "2eccb5339e922e2cdb62e2491b54949a7a016c8fdc3c2b44ae6db0a563c2c199",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/223_EC_skills.input.json": "292a109d3c283bc3fbf0fe466b88ea5ded93317a449e7994fa616a1ec05d88cc",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/223_EC_candidate.json": "9400125f4f9d42757e97b66f5d3974678f15dc4bcdb37439b075067f3734df3a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/223_EC_candidate.input.json": "97843e03561e0b52708eb84e1e9f5fe5cab423982819fd90ab3bbfc80f680f4d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/213_EC_skills.json": "abc989246ddf5d1919922f3d0a22c5a924ef95467c2eebcbb1ead0f7e9cbe921",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/213_EC_skills.input.json": "18b450473b19f9cc309f224aa5f8aadc13ef3eb27088155b1028e59e61c065fe",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/213_EC_candidate.json": "7672a94cd709156bbe6fd8f8341c0eb99b510d92ec77ec20ef3f09fdf33d2224",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/213_EC_candidate.input.json": "184ddee90963739fcad13ed8c9cf41047a79ab682888c8039d74c81234f2aad3",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/214_EC_skills.json": "f58a2e4d596c547c3c443943d2eec81f723b0e2c4b32583554f38d7215f8e213",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/214_EC_skills.input.json": "61d2b30dcfac1bceaccab2f899e1d691c1a203cc252e36520aae910c2d0b545f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/214_EC_candidate.json": "118b35b540f99ceac594ffb34990c10df9d9efd7c52b329cfe02489a1c73f62e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/214_EC_candidate.input.json": "94761994cdd8c49567129a689e0bbc46bcb18f37770e572e115a27ecaf110f2b",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/226_EC_frozen_after_B1.json": "f12b3d6f9401564cb9a55565f668ffd7b48bdf1aa10f8eb5ec415ac6878447ee",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/226_EC_frozen_after_B1.input.json": "cc2fc62e2afd23aa253dbc255ed30aae5a8f456d89095f60da9d46a39139375e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/226_EC_candidate.json": "75381b2fab50790f3feaf93d373971ac57dbd7afe62afc361ec5f867d0364f50",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/226_EC_candidate.input.json": "5f15dbfea0489ff63f1fc68779a10f2daad1e3b8f1d3536a498152e195198e84",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/227_EC_frozen_after_B1.json": "ffcbdcf3a58012c4b7af8f50116cecdb2149e7c5bc263637b3aadc858c0fc0cd",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/227_EC_frozen_after_B1.input.json": "f7ea6f3ee6e0482171b332fc738297f7b664443a6b7169d9fedf5db8af130635",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/227_EC_candidate.json": "5a233bb438afb1cc8e574118c152a90f0752ca8d816cc7a3ccb4a31b35c10bdd",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/227_EC_candidate.input.json": "1bd99d7e0b5aac49e4593abe6300f17e20401976afc17437b95866a3fb9b7c99",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b3_candidate2/wire_request.json": "4904c136d814991e38d382cd5d1c213c75e571a62578ed95c16e15bd23cb68e5",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b3_candidate2/response.json": "85b198c36b94560c031fe7a5060f10691a7ceb75a929e10494ce2e73bf431880",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b3.json": "f6fcd356964ca6865ab349e143a93a87a2e3df5cb1bb1296d1f56bf305ed2e22",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b4_prequential_records.json": "3eb06df9078689f5d5118a4e828221e68da946b3c396f4d13d572deae2d36d87",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b4_candidate1/wire_request.json": "d47b54653ec9a10ecbd65189b0e98692de30286a15af3605dc27f5d9a259fd7f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b4_candidate1/response.json": "909f0f9931501fd0a3755c0cb7b02a9f250e7a5a1299d8120cd76036079fb170",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b4_candidate1.json": "6bf890b6ebb504d7e58abb33fbe1086bc14739d3223272b8260c182e498792a9",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/182_EC_candidate.json": "5daa010749eaa63db4878e4304a0c1342a5143ee89e6c6ffd9c155f45d2bc54a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/182_EC_candidate.input.json": "7d53a2992aee7a652a9416fe3530ff0536903ccfeb3cc2a2ab117676892a024b",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/182_EC_candidate.json": "ff87209e3ba4e9a666cb28cf12f3a61d44790d2051a307ce6291eaaf2328692d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/182_EC_candidate.input.json": "b64cbe951cb7f4ae6e60d39ffb5b55c232f5cf7c26d5b6033246adb975d8c145",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/223_EC_candidate.json": "8bc9408390a5b88b65e986c8855f1e2edb8079138fc8799d857f73597f36da11",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/223_EC_candidate.input.json": "d7c5820d01da9d3606020cff84e93542ee6cfdec1e64d95fb20c8d1619d91fc3",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/230_EC_skills.json": "95d7855ea8ad556ad7a1591aee7971d78d8650e859fa702bf517293155bbcd54",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/230_EC_skills.input.json": "b113fa263e13e87d5131880f5c5d3eeae1e828c454516162fa0369ec9fc808a3",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/230_EC_candidate.json": "948ab1cf7e4528ff76d291a75c8cb4798d66a71f17b77ebd19b06f9bd12054f0",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/230_EC_candidate.input.json": "a0470b966946a68f79aec1f83f589f7345618e1e000bfe4f365224dbd134271d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/239_EC_skills.json": "a00a69fe060c300f11df35648df0c6217e294674d70d54036c009bafd10f0531",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/239_EC_skills.input.json": "a49bfbeae5d5595baf171678d247dd4464fbfb30a714632c2d6b407c78a22f2d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/239_EC_candidate.json": "9a6b0ccb8fb0452b905168fc05e83796d6f27f364de40b0877f5231531477827",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/239_EC_candidate.input.json": "5c3c0a726b912b39f404285d6099c5af2c71de7e63c1931926c827a290941db6",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b4_candidate2/wire_request.json": "4e0308d89c8856c47aefe04bd734a348b49ba27ec0b198ec1db8ab52bd3cd4d0",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b4_candidate2/response.json": "0852a02d67544d6adb6e87533a90ea25e33deb5fa1812257a6bbfa724a5567e6",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b4_candidate2.json": "a8275ae1af9dabe105d0a5450f56e06046aa5216dc62271624d9cb6770427acf",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b4.json": "7a7a773607c9c9d8c572d1214aa011e01f1bb38253800a4788f3c26e63158259",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b5_prequential_records.json": "c83e8bba72339c43b6a7aca1bc11ba8796a41a3b80f71d9449008ba567be4aad",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b5_candidate1/wire_request.json": "95d7521c8ad3192b587ad35c97d3c924c980ebe3312c632d65a680a8253fca5e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b5_candidate1/response.json": "fde72d4642bb1a398ad35dd0b7322a56305c438d70790633959116c72a67da0a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b5_candidate1.json": "ef46c808d78b97565fe1a949843795ac628368d6c12a28d4aa6a6f6ffd14f4fd",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/195_EC_candidate.json": "2e48eb56d5a776b27d81f051292e087a71ce68b5ec09a2ac3a6c80ae9f7a61a6",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/195_EC_candidate.input.json": "57d1a45dd8a1ce84e7f14b96fe3db6c6902760274f809b16fe2d92c19657224e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/195_EC_candidate.json": "9e0136624065d1017c1d5dc1432fab3b1e2b7e7470fd5cbae2c177b058119bd1",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/195_EC_candidate.input.json": "355febfd3220d268bec6f202508f26fa66f22c2684bc4314c675a01b928b14c1",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/204_EC_candidate.json": "b1262c4cd82554daf9109b1da4a8dbcc08c3f31af987002c44d031da03759e0f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/204_EC_candidate.input.json": "30877477f32727f63b7da6de03937c6a53653718cf09e0399385ed776bea87ae",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/255_EC_skills.json": "10d50b1b9c1c38ca5c9471a19edfacf03c66e485a687395646fc21766b924f42",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/255_EC_skills.input.json": "83884d31d5afbd18208c920b76aa1918849a72daa304f2ff4fb9996a9a51cd39",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/255_EC_candidate.json": "51982be004303fc3c5b657a323bfa6bbafbbcd7696c4415587431ac2e6bb2421",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/255_EC_candidate.input.json": "b8d4443b6248c2bf0c1c5cd6bdbb5f42b7079f7f2ef93d4fbd830ab92503dd7c",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/260_EC_skills.json": "24d5f92d94d6163245b457b344d198479b9f49837f15f687f785d7adfdf8605a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/260_EC_skills.input.json": "f45c0fd1dfa2d10ea611ffa4cafc734fddb905c5ec547971bb3da9f8e4549e52",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/260_EC_candidate.json": "9dec4501c4b05a3973950c34548e5f61fca2db7ddb57e81aea98677a3de112e7",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_candidate1_replay/260_EC_candidate.input.json": "4a80333c5df58285f5870d7b0efde2d7f20637e784fe20edcc45ed107d652997",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b5_candidate2/wire_request.json": "ecaf13dca71889ef4721aa513e236208edf7697ab366241b1ec804a30986b83c",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b5_candidate2/response.json": "c6a32c768be253414c8300e67ec30df0569cd7c2cdfebaf7607ed83bc3ec8277",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b5_candidate2.json": "65f90973033c9044b9c360b929cff9488bff234a52a9dea431f7f2e998440927",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b5.json": "c675b739081386859ca59eb11bdb08d2bb63d24a5eb1a2ead37142bee55fa02f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b6_prequential_records.json": "7a89ca60b8bacbcbfa013cc9f7d87ba953e2f44224c2d3faee086f14406324bb",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b6_candidate1/wire_request.json": "b3a63159488cae78a724d3c8570d691610b9eba5f36054bbd9351c561560e2ee",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b6_candidate1/response.json": "d6d4310fb3f46d02e8bba923229bc20094a67e4811d28457b245b74ef0711526",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b6_candidate1.json": "c9fa9310a26c270141253fe31969ebcd3d44c5f9d5864ea8b182ea2de14337dd",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/251_EC_frozen_after_B1.json": "3a9693f7462c1cb1e23f74224096960fa701804353d58a1882454e19935f6a0e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/251_EC_frozen_after_B1.input.json": "474d5280aeb49bee8e774cb985e53df7923c7fced79420e2e3d7bbafa0f04635",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/251_EC_candidate.json": "ed364654748556850a909e76566de23c021abc528ae044d628c23032b901af98",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/251_EC_candidate.input.json": "a2f9ae9bb40c110e5f3dd9822b79e16fb7e05606f1a896bcc74c6b55389564b8",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/274_EC_skills.json": "983def49a12dbe5a875fa91db9ebcb8d6bdc738035b8cf9f9ed22c51589ac063",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/274_EC_skills.input.json": "122de757357ef70c33a0ba685c9cf1a31caafda30000d5e06ff0b5cadd368e14",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/274_EC_candidate.json": "9a2a010ce7b097209eb3ca5d7b77c87299e4a4987b1853de38f568508a0ef36a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/274_EC_candidate.input.json": "260ef4a92e72552925cd5cfc54630d9aba708cae24bf8be7aab481367c786da4",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EC_frozen_after_B1.json": "511f2afdedcec9cf213e520184a5bcc9ce33128e038c78276d453388b59ea595",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EC_frozen_after_B1.input.json": "7c3eeda6e45d41543a3be7dcc48c4c17843ba5927963447517d00e3d9b5e8c95",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/261_EC_candidate.json": "26ff7b8620925010b8898432842337361fae1af66f17bfe77c51c42dfb27fb81",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/261_EC_candidate.input.json": "c0703df79a8df7cbd468a7385fb9beb4d1aef081081292e5fb7910fde19f2956",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EC_skills.json": "ada667a457dc3a088985cd9410c39334e8e34a6fe2e532a34807fff4eb116373",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EC_skills.input.json": "b4161ce9d903934ea1ca638e194e8b82991d40b3268be96914dc9ba72dfa19f9",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/263_EC_candidate.json": "e29d189cbc68a9b6cd164160f3f8f5193e55137e1c777799fac2f129c7212505",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/263_EC_candidate.input.json": "736acdbb2aea79c0ceff98e94202c9f1a86687955fa9d713464bea35e1dfda41",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EC_skills.json": "962b7d22fe97e12cd36e9d0ba86859d1fe3a1c306425aad166e5ff9602da4fdf",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EC_skills.input.json": "c57eb3fd5441bd2e549f300a1c4b7c8742871c3bd8e9a762e0c68ec0c088f3b2",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/265_EC_candidate.json": "3f816c8620dc64a047c5f9c451f270e43f7d50a85716e91ad53e7d3f8cc783a7",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/265_EC_candidate.input.json": "6d8d2c00a67c5ab91668a9dccb3fdf125b76311c2adb0cd94db74d577df6a025",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EC_frozen_after_B1.json": "383488367282380cc0667abaf60e2ca49dbb1dcda272d8e44ee8761839682712",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EC_frozen_after_B1.input.json": "0512a60253f61b7988f90b288ddc057e2cf021ad04bd45b703512607850822d3",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/266_EC_candidate.json": "a7a36181ea39daca7d64320f3aea2aa6f0f79b831d5337a9afa31f0504c3a5f0",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/266_EC_candidate.input.json": "9621aa16b03b44ec4d344900bf1f6728606b681628998e35f5f661a91681e0f8",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/268_EC_skills.json": "ca606345d48a56a8e24bc120771ba17c93a94ec25a96ea70c5f7dc2089771976",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/268_EC_skills.input.json": "4b143b6d9e4142ce845238524741dd0356ac136e03f9ac22a7ffa1b8766220c1",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/268_EC_candidate.json": "32087cc0589d60850b37acc49b2a71d51580f84b560890bc0108722f6565a27c",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/268_EC_candidate.input.json": "4662f80d6c8cc67b623a0e0a48af908fd8a2db10e86a518f44bd93b66137f4c7",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/270_EC_skills.json": "a53efe8e089b1358464af8ce6d33688f684a627bce24688d512cf8c93d9cca2a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/270_EC_skills.input.json": "51b812c5414cb27888e6f20fbf08ed0adea751b1fe8a4417c6976af39492df21",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/270_EC_candidate.json": "06f0bbbafee4009143ee2e43ad2474e730618346a783cac50a1500dfb949886f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/270_EC_candidate.input.json": "220bdd25150d1f12d3df284ad9d9415cd9c945e5d0fffbd499f0635c0c5bcb7f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/271_EC_frozen_after_B1.json": "20e300cf24d73da396f0ecb6468eaf91e53b3152f9e8ed8cd456aba7329bace7",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/271_EC_frozen_after_B1.input.json": "b9923291b6748ac506a0fd11753c6f8213a63e53b1334c32bf446a6a9a318a31",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/271_EC_candidate.json": "9251f4952a2902a2df215380b1c282bdc9bbc4244d04943e110d8c0792b82fdd",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/271_EC_candidate.input.json": "77e4fe4d7caa555c34bf337e84f276e9b6d5e0158652f8d1f9fbfbcbe501caec",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/272_EC_frozen_after_B1.json": "e7386d77026b78b3dcc805921fde0a64063600441f98b3ae3c248a290d46837e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/272_EC_frozen_after_B1.input.json": "5851bfeae1795f4d28cc33733fff22df1161abf10754ba057607d5d521cfdf30",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/272_EC_candidate.json": "9ec4e771f1eba61bcfd3f345c7a9f308e1850e6dee93ee391fd62c0b35595b3f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/272_EC_candidate.input.json": "646988560319b680d8c61b4aa3a193fd1e8d3a3be45167385e390fbf70da55c6",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/273_EC_skills.json": "fdb1c3c653218e08d4a78d58d300950deaacc6b5966ed7b370e8d6d588f7797d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/273_EC_skills.input.json": "cc4e2b5f87462740f538497ee9f9255548a10b65bf8b1d4a886677bacdc0b08b",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/273_EC_candidate.json": "668c176696695c33b35c7bf554f7a614b9184798058d1fa83cea99c84976beea",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/273_EC_candidate.input.json": "298821d7c9bda6763c9008994600a77b21ffa311d5b998920ca7189c3b96626c",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/275_EC_skills.json": "03b8ab305eb70eeb05901104760f25f4558feb66b90226da8a910879ab58bbb2",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/275_EC_skills.input.json": "ca00fea6ee972be65de50c3bb16e9a883ef6d92221976478ea15989bc30b1083",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/275_EC_candidate.json": "1bf94a7d8b2c6ece9bae91dac81256edbdc7693452105de2f954be70fc813092",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/275_EC_candidate.input.json": "61e593adcdeba8053b5959c09c93e9ca59bddb1d788f7fd674bb5923b38ab820",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/181_EC_candidate.json": "2782af5a7111c380a128f540e262f69b124be45a28850ba6c8fc47ff5b459480",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/181_EC_candidate.input.json": "2b08219c8852388dc5040baeca30bbb1c2926750cd196e321b90497b1c44a447",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/181_EC_candidate.json": "e47378c5c62c474d9cd5805167bda08294883d759c68f459c20eafaa11dea94d",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/181_EC_candidate.input.json": "aa44b20518cfaee62d5fbb95cfdde472a4ef75663bfa1bfa29c84c85bc06c58e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/243_EC_skills.json": "52749d8e6200b391f0f8472cdbed3315383dbb5cfe97e594158838da49fa5659",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_prequential/243_EC_skills.input.json": "3f8fd63d030db51c22317e39d407868077995a97c19073ddc594dfa7fca87b32",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/243_EC_candidate.json": "2c298d4e6c755c2c0f564f86ddc09f595aa771004dcbb1cae39dff2cff2f91ae",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/243_EC_candidate.input.json": "8c25de152405e3d410e08addb693438b56231ca8b7af4926ae6651228c34752e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b6_candidate2/wire_request.json": "dd12501f3c2a758180b2e460045d84bca66351a6a117ee11262be1aeb162a75f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b6_candidate2/response.json": "92b5a41c5c95d97803aee3514e253a8f1f994f802e4fda184d5fa40cd0e72379",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b6_candidate2.json": "d3989633e00bc4652e2a61c97e05963de05045b3490042f03a97052a3904d097",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b6.json": "7c93680f80180d44e887a1e13124406d7dc36635274087d15f3b2c2b22325622",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b7_prequential_records.json": "8032c012429f612cad2c917080c5d770b812cf7d7cefe8006c94308e5949416c",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b7_candidate1/wire_request.json": "b916d942c55f508b0ea2f46cf27b9ff4e05fcf0a94ac02f4b6cf9fd584f4d3af",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b7_candidate1/response.json": "f614928428b5e4d6202268de905f9a92627acddd083327d91654d52b9490f937",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b7_candidate1.json": "a06e60698afc42af8599e4a9c35923e6d9cf7b640a09905c908e11c7e6e5919a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/195_EC_candidate.json": "259e502916586f18eba7749ababa4609444ef114342204c58fa422d0160e951e",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/195_EC_candidate.input.json": "ca16800753794ca286e9a1ca33b7082dfe43003ac0f01dc9a6dee308fdfbd793",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/279_EC_skills.json": "c03d7cf2faa38993d304e00b958a4d46d9d8bf0a981ac8a26cddb7c6c417c395",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/279_EC_skills.input.json": "14c915c0520de14b369a5f4de32f05d87cab4559f8000a1142c30cc3de3ceeb3",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/279_EC_candidate.json": "6a3469ba8e89e07267e9655a88c00e2831c26f59c1e85c0241e5936ea55d5843",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/279_EC_candidate.input.json": "517c57e2edba8a8462603693038a3d6807444c790a1ed63d9ec2f00ff5e1a576",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/281_EC_frozen_after_B1.json": "53e233a471c22a9aae3b2330eff3577a1eeccef9d45d586be95b42bddd8e9154",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/281_EC_frozen_after_B1.input.json": "a06926f679658187a2182ec9d7d7ead65fe81182bbe105213c69848da684783b",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/281_EC_candidate.json": "ad7689a5f0f586ed7607d3c3756139f53348e116590199523db1fd013bcdb96a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/281_EC_candidate.input.json": "db29ba3d4d4ae9c7562808ab1ce0301c47cc6fc52a0e68517f7f309208102145",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/283_EC_skills.json": "dfd17c64706cc4bf6c306ba37b89f3cd4ad838789599e57533c81f4f75b53788",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/283_EC_skills.input.json": "5e7ee49266b45e34bf43f782cf32ae7c8cf0d242d925200eaeea717f4786d00f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/283_EC_candidate.json": "6f6c38b3d918aa0bddc9309689e5b408a6a7e76c950702ca24ae95e2bb025f25",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/283_EC_candidate.input.json": "1d41a0811f0f7eb51ffedd4f3a8117069f6616f91357daeba5e6c2353e25da8f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/285_EC_skills.json": "8b6906ca6eb7b8d3522aa4ad08ff19e61e65795cddc884c5043d64f2570597fb",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/285_EC_skills.input.json": "d24b906c575e44c019d045dd677450b7b650b47388147450c9dc357b8c75a054",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/285_EC_candidate.json": "a88c905f3044fb3726501fcca09e13a2e751a6897795880831a6c52158c17f5f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/285_EC_candidate.input.json": "ea773f791371a84a498a6e240c0cfc6bdcf57af6a3dff0c08c95ca551cab0b9f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/292_EC_frozen_after_B1.json": "c307a5a3585d3cce99dd45bf859dc4cffb0430c1a23e3ce9bb222ec65c7a1cd6",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_prequential/292_EC_frozen_after_B1.input.json": "28a398b2c5fa78342e6c0b50695b837438f22f20d36e8f7f9cb004aef31a91d9",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/292_EC_candidate.json": "57ac37a8c660c3c726b23dd9a1e0c4602bb82f03c09ce9c9fbe9f25bcf5cd2b6",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate1_replay/292_EC_candidate.input.json": "91a3a0964c8c36855dcd6b15888bad7e918ad2277542539a061c01d8156aee73",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b7_candidate2/wire_request.json": "8551582c69573bd35837d190c5d286cdb29cd3af288cb31c02f978332be327d3",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b7_candidate2/response.json": "5c81ef8795a945e2c113a8bd709839327adf781dc8f3b1594b1e03e8b0c1483a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b7_candidate2.json": "8c310f48b9e958372465c7af61e249dc57a45ad1c2e8f1cfee7647dcd44632b8",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/281_EC_candidate.json": "8ddfdaf17cf1085f386fc6eb46fb12ab7684e472b4196c028e0ef77a021dbe81",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/281_EC_candidate.input.json": "ad5b9ed59512b84c9dbf50c3c0ae4a97ef9aff9905fb3d169ecb2018b5ee3645",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b7.json": "ca6a7164f6a221d45770179d22c0a535cb9f9c79c6d94b68894a6c9eff652164",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b8_prequential_records.json": "98a43266ff0563e594cf2a5db2349f45af2269ccf6afd9154cfb89e29fbc4d40",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b8_candidate1/wire_request.json": "e305495de4c7598347d5a6e195a4dbec865accee997c5387ee325c30f71b6f27",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b8_candidate1/response.json": "e0588c772618a3c354cd1afe9fdc543791710734d04f90e0e7a5a3d734b8a307",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b8_candidate1.json": "8ac57acd2eccf085e567103d7a2e9ee5a7fa5246773ff1002d8c32805378fe3a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b8.json": "a0f9aee24b5f7ce6db15f88d0485cd0e02511c3e930d0f12f6ce828ed1d4c840",
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_all_postB1_EC11_changed_components8_proposals_actual_parent_scope_gate_failure_bottleneck_20261022.json": "5ea7486c83de44e7dabcbc1661bbcc3d889de2d11e533aa4b0a0a6091f8140db"
+  },
+  "scope_limits": [
+    "Citations may justify EV or a shared rule; absence of an EC error among them does not prove the EC edit unjustified or legally false.",
+    "Cited-source outcome is the complete actual proposal, not the isolated operation; multiple operations and whole-wire stochastic changes may contribute.",
+    "Pooled current/past scores describe the fixed actual proposal only. They do not simulate a capacity-valid alternative publication or retrained policy, and cannot predict new-case effects.",
+    "Repeated teacher and component views are not independent cases. Complete-output support distinguishes native EC negative-asset ceiling effects; it does not replace the native primary metric.",
+    "No gate was relaxed, no rejected component was adopted, no source/actor/model/queue/profile/score changed, and no teacher/tokenizer/model/TEST call occurred."
+  ]
+}

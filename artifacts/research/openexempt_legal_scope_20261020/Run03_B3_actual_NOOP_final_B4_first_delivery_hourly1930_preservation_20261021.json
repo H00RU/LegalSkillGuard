@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-21T11:33:04.644008+00:00",
+  "classification": "Actual immutable B3 teacher2 NOOP, unique retained final, corrected three-batch curve, descriptive C1 diagnosis and fixed firstB4 wire, plus19:30 direction snapshot; not B4 grades or final success",
+  "receipt": {
+    "at": "2026-10-21T11:33:03.923239+00:00",
+    "stage": "B3_actual_NOOP_final_B4_first_delivery_and_hourly1930_v2",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-B3_actual_NOOP_final_B4_first_delivery_and_hourly1930_v2.tar.gz",
+        "sha256": "ff7fb48707a4bf1f1a1f8040e80d5ab837ac90cc42cdf0371984bd5b97bb4339"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_goal_Run03_20261021-B3_actual_NOOP_final_B4_first_delivery_and_hourly1930_v2.tar.gz",
+        "sha256": "849e904ac15e180b092a9688b8b4eb7f706e774d43362b35bb0f7af26d8b8023"
+      }
+    ],
+    "files": 143
+  },
+  "archive_devices": [
+    64528,
+    64517
+  ],
+  "main_waiter_bindings_before_after": [
+    371,
+    381
+  ],
+  "completed_B3_reports_and_actual_teacher2_raw_included": true,
+  "inflight_B4_or_live_progress_or_ledger_archived": false,
+  "new_native_teacher_or_TEST_calls": 0,
+  "prior_unreceipted_partial_archive_not_a_valid_backup": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-B3_actual_NOOP_final_B4_first_delivery_and_hourly1930.tar.gz",
+  "prior_partial_reason": "NOOP does not create candidates/b3_candidate2.json; actual unique publication, NOOP response and final audit preserved instead; all targets preflighted before v2 archive creation",
+  "preservation_recomputation_program": "import json,pathlib,hashlib\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=pathlib.Path.cwd();read=lambda p:json.loads(p.read_text());r=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\";base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nreports=[base/\"Run03_B3_teacher2_actual64_labels_rejected_feedback_NOOP_and_unique_final_parent_retained_20261021.json\",base/\"Run03_B3_final_retention_B4_first_source_actual_wire_delivery_no_gold_20261021.json\"]\nnames=set()\nfor rp in reports:\n a=read(rp);names.add(str(rp.relative_to(root)));names.update(a[\"evidence_paths\"])\nnames.update(str(p.relative_to(root)) for p in (r/\"teacher/b3_candidate2\").glob(\"*.json\"))\nnames.update(str(p.relative_to(root)) for p in (r/\"publications\").glob(\"b[123].json\"))\nnames.add(str((r/\"candidates/b3_candidate1.json\").relative_to(root)))\nassert read(reports[0])[\"operations\"]==[] and read(reports[0])[\"C2_has_zero_new_native_replays\"]\nnames.update(str((base/n).relative_to(root)) for n in [\"Run03_B3_candidate1_complete96_all288_native_wire_gate_and_claim_failure_diagnostics_20261021.json\",\"Run03_B3_C1_complete96_all288_raw_gate_preservation_20261021.json\",\"Run03_B3_complete160_newcase_automatic_checkpoint_preservation_20261021.json\",\"Run03_learning_curve_complete_prequential_batches_20261021.json\",\"hourly1930_Run03_B3_NOOP_final_B4_forward_alive_and_bindings_20261021.json\"])\nnames.update([\"docs/CURRENT_GOAL.md\",\"paper/evidence_and_completion_20261020.md\",\"paper/manuscript_v1_20261021.md\",\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\",\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\"])\nassert not any(n.endswith(\"/progress.json\") or \"teacher_invocation_budget\" in n for n in names)\npins=[read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\")[\"files\"],read(root/\"artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/queued.json\")[\"source_data_environment_pins\"]]\ndef verify():\n for d in pins:assert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==h for n,h in d.items())\nassert all((root/n).is_file() for n in names)\nverify();receipt=preserve(\"legal_research_goal_Run03_20261021\",\"B3_actual_NOOP_final_B4_first_delivery_and_hourly1930_v2\",sorted(names));verify()\nout={\"at\":now(),\"classification\":\"Actual immutable B3 teacher2 NOOP, unique retained final, corrected three-batch curve, descriptive C1 diagnosis and fixed firstB4 wire, plus19:30 direction snapshot; not B4 grades or final success\",\"receipt\":receipt,\"archive_devices\":[pathlib.Path(p[\"path\"]).stat().st_dev for p in receipt[\"paths\"]],\"main_waiter_bindings_before_after\":[len(x) for x in pins],\"completed_B3_reports_and_actual_teacher2_raw_included\":True,\"inflight_B4_or_live_progress_or_ledger_archived\":False,\"new_native_teacher_or_TEST_calls\":0,\"prior_unreceipted_partial_archive_not_a_valid_backup\":\"/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-B3_actual_NOOP_final_B4_first_delivery_and_hourly1930.tar.gz\",\"prior_partial_reason\":\"NOOP does not create candidates/b3_candidate2.json; actual unique publication, NOOP response and final audit preserved instead; all targets preflighted before v2 archive creation\"}\nassert len(set(out[\"archive_devices\"]))==2\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

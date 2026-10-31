@@ -1,0 +1,704 @@
+{
+  "at": "2026-10-22T08:24:18.054173+00:00",
+  "classification": "Actual v3 repair, fixed request semantics, old aborted full costs and fresh full128 background start; no formal mature advantage claimed",
+  "source_fix_commit": "907d90e",
+  "new_run_id": "legal_openexempt_ace_public_assets128_20261022_run02",
+  "new_unit": "legal-openexempt-ace-public-assets128-20261022-run02.service",
+  "new_ACE_handle": {
+    "pid": 176852,
+    "start_ticks": "466336240",
+    "start_CST": "2026-10-22 16:14:04"
+  },
+  "model_handle_unchanged": {
+    "pid": 3613253,
+    "start_ticks": "446037091"
+  },
+  "new_initial_state_empty": true,
+  "new_provenance_policy": "preserve_raw_ids_distinct_reflection_tags",
+  "three_v3_profiles_frozen": [
+    {
+      "frozen": "configs/openexempt_ace_public_assets128_20261022_run02.frozen.json",
+      "sha256": "964e4a6572a5b32221e69f73d439799fd11abdac3f0abf08f97b1d9102e24155",
+      "bound_files": 377,
+      "packages": 50,
+      "all_original": true
+    },
+    {
+      "frozen": "configs/openexempt_ace_public_assets128_seed145_20261022_run02.frozen.json",
+      "sha256": "0f198f74917bc4dbd32ef3d717a253f32341e6f949e815ed6dfbd9a4a332c192",
+      "bound_files": 377,
+      "packages": 50,
+      "all_original": true
+    },
+    {
+      "frozen": "configs/openexempt_ace_public_assets128_seed245_20261022_run02.frozen.json",
+      "sha256": "c62613fba8394a3927aca9b6e1c3f12d9bef9c6207a66ddec68bb98556c10917",
+      "bound_files": 377,
+      "packages": 50,
+      "all_original": true
+    }
+  ],
+  "other_two_runs_not_queued": true,
+  "generator_payload_function_source_exactly_unchanged": true,
+  "main_direct_actor_and_native_scoring_sha256_unchanged": {
+    "experiments/openexempt_online.py": "732f1a924d0e49333de0384b5d6a63a25d990eb9d187874a9b1e54d114032c1c",
+    "legal_skill_guard/openexempt.py": "5d6f73927a2f406a072d0d4be8b4a1b145fec5c103c7fba2a82a11d2fdb8b39b",
+    "legal_skill_guard/learning/legal_namespace.py": "81ace4115424ea35e5520814bcd61f0d92c9a2f0b7af75c402c31a86f82b9288",
+    "legal_skill_guard/learning/task_scoped_skills.py": "51e89480a294a6b2716ed16cb4c624cd27d47809fd260e5898eeb84bb9fe79a0"
+  },
+  "old_frozen_full371_382_not_claimed_equal_to_current_tree": true,
+  "actual_two_legacy_failure_decode_checks_no_new_generations": [
+    {
+      "case": 204,
+      "unchanged_raw_answer_native_F1": 0.3333333333333333,
+      "raw_ids_retained": [
+        "sai-00001",
+        "sai-00006",
+        "sai-00006",
+        "sai-00006"
+      ],
+      "distinct_reflection_ids": [
+        "sai-00001",
+        "sai-00006"
+      ],
+      "same_original_generation_messages_and_schema": true
+    },
+    {
+      "case": 212,
+      "unchanged_raw_answer_native_F1": 0.7111111111111111,
+      "raw_ids_retained": [
+        "sai-00001",
+        "sai-00006",
+        "sai-00006",
+        "sai-00006"
+      ],
+      "distinct_reflection_ids": [
+        "sai-00001",
+        "sai-00006"
+      ],
+      "same_original_generation_messages_and_schema": true
+    }
+  ],
+  "targeted_existing_CPU_regression_check": {
+    "command": ".venv/bin/python -m pytest -q tests/test_openexempt_ace.py",
+    "result": "23 passed,15 upstream empty-slice warnings",
+    "elapsed_seconds": 2.8,
+    "no_GPU_qualification_calls": true
+  },
+  "old_failed_run_counted_not_selected_as_baseline": {
+    "run": "legal_openexempt_ace_public_assets128_20261021_run01",
+    "native": {
+      "native_generations": 177,
+      "native_generation_HTTP": 177,
+      "native_input_tokens": 1228850,
+      "native_output_tokens": 406025,
+      "native_finish_reasons": {
+        "stop": 177
+      },
+      "teacher_responses": 56,
+      "teacher_attempts": 56,
+      "includes_partial_B2_TRAIN_and_all_B1_not_completed8_batches": true
+    },
+    "teacher_cost_complete": {
+      "responses": 56,
+      "input_tokens": 1459325,
+      "output_tokens": 39429,
+      "reasoning_subset_of_output": 10323,
+      "elapsed_response_seconds_not_GPU_hours": 2165.565
+    },
+    "all56_teacher_usages": [
+      {
+        "role": "b1_181_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 22121,
+          "cached_input_tokens": 0,
+          "output_tokens": 776,
+          "reasoning_output_tokens": 228
+        },
+        "elapsed_seconds": 28.328
+      },
+      {
+        "role": "b1_181_EC_r2_reflector",
+        "usage": {
+          "input_tokens": 22427,
+          "cached_input_tokens": 0,
+          "output_tokens": 627,
+          "reasoning_output_tokens": 163
+        },
+        "elapsed_seconds": 25.406
+      },
+      {
+        "role": "b1_181_EC_r3_reflector",
+        "usage": {
+          "input_tokens": 21919,
+          "cached_input_tokens": 0,
+          "output_tokens": 711,
+          "reasoning_output_tokens": 208
+        },
+        "elapsed_seconds": 28.889
+      },
+      {
+        "role": "b1_181_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22898,
+          "cached_input_tokens": 0,
+          "output_tokens": 842,
+          "reasoning_output_tokens": 188
+        },
+        "elapsed_seconds": 54.507
+      },
+      {
+        "role": "b1_181_EV_r2_reflector",
+        "usage": {
+          "input_tokens": 23127,
+          "cached_input_tokens": 11136,
+          "output_tokens": 495,
+          "reasoning_output_tokens": 102
+        },
+        "elapsed_seconds": 17.105
+      },
+      {
+        "role": "b1_181_EV_r3_reflector",
+        "usage": {
+          "input_tokens": 23127,
+          "cached_input_tokens": 11136,
+          "output_tokens": 929,
+          "reasoning_output_tokens": 243
+        },
+        "elapsed_seconds": 28.807
+      },
+      {
+        "role": "b1_182_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 22261,
+          "cached_input_tokens": 11136,
+          "output_tokens": 720,
+          "reasoning_output_tokens": 121
+        },
+        "elapsed_seconds": 87.018
+      },
+      {
+        "role": "b1_182_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22356,
+          "cached_input_tokens": 11136,
+          "output_tokens": 632,
+          "reasoning_output_tokens": 218
+        },
+        "elapsed_seconds": 26.158
+      },
+      {
+        "role": "b1_183_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21785,
+          "cached_input_tokens": 0,
+          "output_tokens": 628,
+          "reasoning_output_tokens": 117
+        },
+        "elapsed_seconds": 25.148
+      },
+      {
+        "role": "b1_183_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22376,
+          "cached_input_tokens": 11136,
+          "output_tokens": 545,
+          "reasoning_output_tokens": 100
+        },
+        "elapsed_seconds": 128.686
+      },
+      {
+        "role": "b1_184_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 22318,
+          "cached_input_tokens": 11136,
+          "output_tokens": 721,
+          "reasoning_output_tokens": 132
+        },
+        "elapsed_seconds": 25.692
+      },
+      {
+        "role": "b1_184_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 24438,
+          "cached_input_tokens": 11136,
+          "output_tokens": 865,
+          "reasoning_output_tokens": 193
+        },
+        "elapsed_seconds": 29.452
+      },
+      {
+        "role": "b1_184_EV_r2_reflector",
+        "usage": {
+          "input_tokens": 24668,
+          "cached_input_tokens": 11136,
+          "output_tokens": 868,
+          "reasoning_output_tokens": 144
+        },
+        "elapsed_seconds": 33.35
+      },
+      {
+        "role": "b1_184_EV_r3_reflector",
+        "usage": {
+          "input_tokens": 24548,
+          "cached_input_tokens": 0,
+          "output_tokens": 579,
+          "reasoning_output_tokens": 135
+        },
+        "elapsed_seconds": 23.9
+      },
+      {
+        "role": "b1_185_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 22110,
+          "cached_input_tokens": 11136,
+          "output_tokens": 592,
+          "reasoning_output_tokens": 158
+        },
+        "elapsed_seconds": 29.553
+      },
+      {
+        "role": "b1_185_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22792,
+          "cached_input_tokens": 11136,
+          "output_tokens": 602,
+          "reasoning_output_tokens": 134
+        },
+        "elapsed_seconds": 39.092
+      },
+      {
+        "role": "b1_186_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21693,
+          "cached_input_tokens": 0,
+          "output_tokens": 746,
+          "reasoning_output_tokens": 225
+        },
+        "elapsed_seconds": 30.101
+      },
+      {
+        "role": "b1_186_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22055,
+          "cached_input_tokens": 11136,
+          "output_tokens": 569,
+          "reasoning_output_tokens": 113
+        },
+        "elapsed_seconds": 27.017
+      },
+      {
+        "role": "b1_187_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 22724,
+          "cached_input_tokens": 11136,
+          "output_tokens": 887,
+          "reasoning_output_tokens": 333
+        },
+        "elapsed_seconds": 51.672
+      },
+      {
+        "role": "b1_187_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 23520,
+          "cached_input_tokens": 11136,
+          "output_tokens": 724,
+          "reasoning_output_tokens": 168
+        },
+        "elapsed_seconds": 30.374
+      },
+      {
+        "role": "b1_187_EV_r2_reflector",
+        "usage": {
+          "input_tokens": 24317,
+          "cached_input_tokens": 0,
+          "output_tokens": 736,
+          "reasoning_output_tokens": 189
+        },
+        "elapsed_seconds": 27.039
+      },
+      {
+        "role": "b1_187_EV_r3_reflector",
+        "usage": {
+          "input_tokens": 23575,
+          "cached_input_tokens": 11136,
+          "output_tokens": 692,
+          "reasoning_output_tokens": 176
+        },
+        "elapsed_seconds": 25.647
+      },
+      {
+        "role": "b1_188_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21894,
+          "cached_input_tokens": 11136,
+          "output_tokens": 635,
+          "reasoning_output_tokens": 100
+        },
+        "elapsed_seconds": 29.905
+      },
+      {
+        "role": "b1_188_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22456,
+          "cached_input_tokens": 11136,
+          "output_tokens": 579,
+          "reasoning_output_tokens": 65
+        },
+        "elapsed_seconds": 26.457
+      },
+      {
+        "role": "b1_189_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21703,
+          "cached_input_tokens": 11136,
+          "output_tokens": 319,
+          "reasoning_output_tokens": 31
+        },
+        "elapsed_seconds": 31.375
+      },
+      {
+        "role": "b1_189_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22053,
+          "cached_input_tokens": 0,
+          "output_tokens": 352,
+          "reasoning_output_tokens": 33
+        },
+        "elapsed_seconds": 32.949
+      },
+      {
+        "role": "b1_190_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21764,
+          "cached_input_tokens": 11136,
+          "output_tokens": 613,
+          "reasoning_output_tokens": 218
+        },
+        "elapsed_seconds": 36.751
+      },
+      {
+        "role": "b1_190_EC_r2_reflector",
+        "usage": {
+          "input_tokens": 22047,
+          "cached_input_tokens": 11136,
+          "output_tokens": 558,
+          "reasoning_output_tokens": 154
+        },
+        "elapsed_seconds": 176.096
+      },
+      {
+        "role": "b1_190_EC_r3_reflector",
+        "usage": {
+          "input_tokens": 21663,
+          "cached_input_tokens": 11136,
+          "output_tokens": 606,
+          "reasoning_output_tokens": 128
+        },
+        "elapsed_seconds": 28.004
+      },
+      {
+        "role": "b1_190_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22137,
+          "cached_input_tokens": 11136,
+          "output_tokens": 654,
+          "reasoning_output_tokens": 128
+        },
+        "elapsed_seconds": 28.545
+      },
+      {
+        "role": "b1_191_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 23043,
+          "cached_input_tokens": 11136,
+          "output_tokens": 685,
+          "reasoning_output_tokens": 155
+        },
+        "elapsed_seconds": 111.291
+      },
+      {
+        "role": "b1_191_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 23853,
+          "cached_input_tokens": 0,
+          "output_tokens": 746,
+          "reasoning_output_tokens": 175
+        },
+        "elapsed_seconds": 20.602
+      },
+      {
+        "role": "b1_191_EV_r2_reflector",
+        "usage": {
+          "input_tokens": 24098,
+          "cached_input_tokens": 11136,
+          "output_tokens": 792,
+          "reasoning_output_tokens": 202
+        },
+        "elapsed_seconds": 26.073
+      },
+      {
+        "role": "b1_191_EV_r3_reflector",
+        "usage": {
+          "input_tokens": 24124,
+          "cached_input_tokens": 11136,
+          "output_tokens": 802,
+          "reasoning_output_tokens": 257
+        },
+        "elapsed_seconds": 30.126
+      },
+      {
+        "role": "b1_192_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21416,
+          "cached_input_tokens": 11136,
+          "output_tokens": 639,
+          "reasoning_output_tokens": 115
+        },
+        "elapsed_seconds": 24.31
+      },
+      {
+        "role": "b1_192_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 21613,
+          "cached_input_tokens": 11136,
+          "output_tokens": 857,
+          "reasoning_output_tokens": 243
+        },
+        "elapsed_seconds": 31.609
+      },
+      {
+        "role": "b1_193_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 22752,
+          "cached_input_tokens": 11136,
+          "output_tokens": 810,
+          "reasoning_output_tokens": 146
+        },
+        "elapsed_seconds": 77.936
+      },
+      {
+        "role": "b1_193_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 23972,
+          "cached_input_tokens": 11136,
+          "output_tokens": 1159,
+          "reasoning_output_tokens": 413
+        },
+        "elapsed_seconds": 36.493
+      },
+      {
+        "role": "b1_194_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21257,
+          "cached_input_tokens": 0,
+          "output_tokens": 602,
+          "reasoning_output_tokens": 128
+        },
+        "elapsed_seconds": 25.696
+      },
+      {
+        "role": "b1_194_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 21525,
+          "cached_input_tokens": 11136,
+          "output_tokens": 630,
+          "reasoning_output_tokens": 88
+        },
+        "elapsed_seconds": 25.367
+      },
+      {
+        "role": "b1_195_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21651,
+          "cached_input_tokens": 11136,
+          "output_tokens": 493,
+          "reasoning_output_tokens": 73
+        },
+        "elapsed_seconds": 32.409
+      },
+      {
+        "role": "b1_195_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22037,
+          "cached_input_tokens": 11136,
+          "output_tokens": 755,
+          "reasoning_output_tokens": 275
+        },
+        "elapsed_seconds": 23.122
+      },
+      {
+        "role": "b1_195_EV_r2_reflector",
+        "usage": {
+          "input_tokens": 21958,
+          "cached_input_tokens": 0,
+          "output_tokens": 715,
+          "reasoning_output_tokens": 168
+        },
+        "elapsed_seconds": 66.675
+      },
+      {
+        "role": "b1_196_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21538,
+          "cached_input_tokens": 11136,
+          "output_tokens": 679,
+          "reasoning_output_tokens": 225
+        },
+        "elapsed_seconds": 24.752
+      },
+      {
+        "role": "b1_196_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22108,
+          "cached_input_tokens": 11136,
+          "output_tokens": 756,
+          "reasoning_output_tokens": 183
+        },
+        "elapsed_seconds": 37.007
+      },
+      {
+        "role": "b1_196_EV_r2_reflector",
+        "usage": {
+          "input_tokens": 22490,
+          "cached_input_tokens": 0,
+          "output_tokens": 616,
+          "reasoning_output_tokens": 180
+        },
+        "elapsed_seconds": 69.692
+      },
+      {
+        "role": "b1_196_EV_r3_reflector",
+        "usage": {
+          "input_tokens": 22329,
+          "cached_input_tokens": 11136,
+          "output_tokens": 601,
+          "reasoning_output_tokens": 128
+        },
+        "elapsed_seconds": 25.106
+      },
+      {
+        "role": "b1_curator",
+        "usage": {
+          "input_tokens": 219526,
+          "cached_input_tokens": 0,
+          "output_tokens": 1070,
+          "reasoning_output_tokens": 260
+        },
+        "elapsed_seconds": 39.053
+      },
+      {
+        "role": "b2_197_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21962,
+          "cached_input_tokens": 0,
+          "output_tokens": 609,
+          "reasoning_output_tokens": 214
+        },
+        "elapsed_seconds": 26.375
+      },
+      {
+        "role": "b2_197_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22818,
+          "cached_input_tokens": 0,
+          "output_tokens": 1309,
+          "reasoning_output_tokens": 878
+        },
+        "elapsed_seconds": 34.13
+      },
+      {
+        "role": "b2_198_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21590,
+          "cached_input_tokens": 0,
+          "output_tokens": 689,
+          "reasoning_output_tokens": 153
+        },
+        "elapsed_seconds": 26.183
+      },
+      {
+        "role": "b2_198_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22594,
+          "cached_input_tokens": 0,
+          "output_tokens": 985,
+          "reasoning_output_tokens": 309
+        },
+        "elapsed_seconds": 32.236
+      },
+      {
+        "role": "b2_199_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 21778,
+          "cached_input_tokens": 0,
+          "output_tokens": 426,
+          "reasoning_output_tokens": 86
+        },
+        "elapsed_seconds": 24.129
+      },
+      {
+        "role": "b2_199_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 22268,
+          "cached_input_tokens": 0,
+          "output_tokens": 464,
+          "reasoning_output_tokens": 83
+        },
+        "elapsed_seconds": 20.724
+      },
+      {
+        "role": "b2_200_EC_r1_reflector",
+        "usage": {
+          "input_tokens": 22806,
+          "cached_input_tokens": 0,
+          "output_tokens": 827,
+          "reasoning_output_tokens": 279
+        },
+        "elapsed_seconds": 30.285
+      },
+      {
+        "role": "b2_200_EV_r1_reflector",
+        "usage": {
+          "input_tokens": 23347,
+          "cached_input_tokens": 0,
+          "output_tokens": 911,
+          "reasoning_output_tokens": 262
+        },
+        "elapsed_seconds": 31.161
+      }
+    ],
+    "original_scores_preserved": true,
+    "not_a_final_ACE_repeat": true
+  },
+  "new_progress_snapshot": {
+    "at": "2026-10-22T08:23:08.056289+00:00",
+    "run_id": "legal_openexempt_ace_public_assets128_20261022_run02",
+    "state": "running",
+    "stage": "b1_prequential",
+    "current_batch": 1,
+    "completed_native_calls": 8,
+    "completed_teacher_calls": 0,
+    "teacher_attempts": 0,
+    "playbook_bullets": 0,
+    "cross_stage_identical_wire_reuses": 4,
+    "current_arm": "empty_direct_numeric",
+    "current_document_id": 183,
+    "current_call": "openexempt"
+  },
+  "new_observer": {
+    "session": 84986,
+    "target": "new v3 Run02 B1 complete16 sources32 tasks96 roles",
+    "deadline_CST": "2026-10-22 22:18:53",
+    "observer_timeout_not_training_terminal": true
+  },
+  "no_new_model_deployment_paid_service_or_hidden_solver": true,
+  "no_TEST_semantics_targets_predictions_outcomes_accessed": true,
+  "evidence_paths": [
+    "artifacts/research/openexempt_legal_scope_20261020/ACE128_Run01_integrity_stop_duplicate_metadata_root_cause955_dual_terminal_and_unmodified_legal_answer_diagnostic_20261022.json",
+    "configs/openexempt_ace_public_assets128_20261022_run02.json",
+    "configs/openexempt_ace_public_assets128_20261022_run02.frozen.json",
+    "docs/research/OPENEXEMPT_ACE_PROVENANCE_V3_20261022.md"
+  ],
+  "recomputation_program": "import ast,copy,hashlib,importlib.metadata,json,os,subprocess\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import bullets\nfrom legal_skill_guard.learning.openexempt_ace import decode_generator,generator_payload,reflector_request\nfrom legal_skill_guard.openexempt import evaluate\nroot=Path(\"/media/sangfor/vdb/legal-skill-evolve\")\ndef rd(p): return json.loads((root/p).read_text())\ndef sha(p): return hashlib.sha256((root/p).read_bytes()).hexdigest()\nnewcfg=\"configs/openexempt_ace_public_assets128_20261022_run02.json\"\ncfg=rd(newcfg);run=root/\"runs\"/cfg[\"run_id\"];oldroot=root/\"runs/legal_openexempt_ace_public_assets128_20261021_run01\"\nassert not Path(\"/proc/1738522\").exists()\nfor pid,ticks in ((3613253,\"446037091\"),(176852,\"466336240\")):\n assert Path(f\"/proc/{pid}/stat\").read_text().rsplit(\")\",1)[1].split()[19]==ticks\nbound=[]\nfor name in (\"openexempt_ace_public_assets128_20261022_run02\",\"openexempt_ace_public_assets128_seed145_20261022_run02\",\"openexempt_ace_public_assets128_seed245_20261022_run02\"):\n p=f\"configs/{name}.frozen.json\";f=rd(p)\n assert f[\"config_sha256\"]==sha(f\"configs/{name}.json\")\n for rel,digest in f[\"files\"].items(): assert sha(rel)==digest,rel\n for name_,version in f[\"packages\"].items(): assert importlib.metadata.version(name_)==version\n bound.append({\"frozen\":p,\"sha256\":sha(p),\"bound_files\":len(f[\"files\"]),\"packages\":len(f[\"packages\"]),\"all_original\":True})\noldsource_report=\"artifacts/research/openexempt_legal_scope_20261020/ACE128_Run01_integrity_stop_duplicate_metadata_root_cause955_dual_terminal_and_unmodified_legal_answer_diagnostic_20261022.json\"\noldreport=rd(oldsource_report)\nenv={**os.environ,\"GIT_EXEC_PATH\":\"/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/lib/git-core\"}\ngit=\"/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/bin/git\"\npath=\"legal_skill_guard/learning/openexempt_ace.py\"\nbefore=subprocess.check_output([git,\"show\",\"907d90e^:\"+path],cwd=root,env=env,text=True)\nassert hashlib.sha256(before.encode()).hexdigest()==oldreport[\"old_ACE_source_sha256_before_fix\"][path]\nafter=(root/path).read_text()\ndef fn(source,name):\n return ast.get_source_segment(source,next(n for n in ast.parse(source).body if isinstance(n,ast.FunctionDef) and n.name==name))\nassert fn(before,\"generator_payload\")==fn(after,\"generator_payload\")\nunchanged=[p for p in (\"experiments/openexempt_online.py\",\"legal_skill_guard/openexempt.py\",\"legal_skill_guard/learning/legal_namespace.py\",\"legal_skill_guard/learning/task_scoped_skills.py\")]\nfor p in unchanged: assert sha(p)==oldreport[\"main_complete_run_unchanged\"][\"shared_executed_actor_score_source_sha256\"][p]\npacket=rd(cfg[\"input_packet\"]);rows={(r[\"case_id\"],r[\"family\"]):r for r in packet[\"rows\"]}\noldbook=json.loads((oldroot/\"publications/b1.json\").read_text())[\"playbook\"];actual_checks=[]\nfor item in oldreport[\"offline_metadata_only_counterfactual_not_a_new_run_or_formal_result\"][\"case_changes\"]:\n row=rows[item[\"case\"],item[\"family\"]];raw=rd(item[\"raw_path\"]);submitted=json.loads(raw[\"response\"][\"content\"])\n saved=copy.deepcopy(submitted)\n decoded=decode_generator(row,oldbook,submitted,direct_numeric=True,asset_references=True)\n assert decoded[\"used_bullet_ids\"]==submitted[\"bullet_ids\"] and submitted==saved\n target=rd(cfg[\"grading_directory\"]+f'/{row[\"case_id\"]}.json')[\"targets\"][row[\"family\"]]\n score=evaluate(row,decoded[\"answer\"],target)\n assert score[\"f1\"]==item[\"unchanged_legal_answer_only_F1\"]\n messages,schema=generator_payload(row,oldbook,direct_numeric=True,asset_references=True)\n assert messages==raw[\"calls\"][0][\"request\"][\"messages\"]\n assert schema==raw[\"calls\"][0][\"request\"][\"response_format\"][\"json_schema\"][\"schema\"]\n view={\"case_id\":row[\"case_id\"],\"family\":row[\"family\"],\"parse_error\":None,\"answer\":decoded[\"answer\"],\"used_bullet_ids\":decoded[\"used_bullet_ids\"]}\n prompt,reflection_schema,cited=reflector_request(row,view,target,oldbook,{},direct_numeric=True,asset_references=True)\n assert cited==list(dict.fromkeys(submitted[\"bullet_ids\"]))\n assert reflection_schema[\"properties\"][\"bullet_tags\"][\"maxItems\"]==len(cited)==2\n assert json.dumps(view,ensure_ascii=False) in prompt\n actual_checks.append({\"case\":row[\"case_id\"],\"unchanged_raw_answer_native_F1\":score[\"f1\"],\"raw_ids_retained\":decoded[\"used_bullet_ids\"],\"distinct_reflection_ids\":cited,\"same_original_generation_messages_and_schema\":True})\nteachers=[]\nfor p in sorted((oldroot/\"teacher\").glob(\"*/response.json\")):\n d=json.loads(p.read_text())\n assert d[\"cache_hit\"] is False and d[\"model\"]==\"gpt-5.6-sol\"\n teachers.append({\"role\":p.parent.name,\"usage\":d[\"invocation\"][\"usage\"],\"elapsed_seconds\":d[\"invocation\"][\"elapsed_seconds\"]})\nassert len(teachers)==56\nold_teacher_cost={\"responses\":56,\"input_tokens\":sum(t[\"usage\"][\"input_tokens\"] for t in teachers),\n \"output_tokens\":sum(t[\"usage\"][\"output_tokens\"] for t in teachers),\n \"reasoning_subset_of_output\":sum(t[\"usage\"].get(\"reasoning_output_tokens\",0) for t in teachers),\n \"elapsed_response_seconds_not_GPU_hours\":sum(t[\"elapsed_seconds\"] for t in teachers)}\ninit=json.loads((run/\"initialization.json\").read_text())\nassert len(bullets(init[\"playbook\"]))==0 and init[\"legal_prior_bullets\"]==0\nassert init[\"bullet_provenance_policy\"]==\"preserve_raw_ids_distinct_reflection_tags\"\nassert not (run/\"failure.json\").exists()\nreport={\"at\":datetime.now(timezone.utc).isoformat(),\n \"classification\":\"Actual v3 repair, fixed request semantics, old aborted full costs and fresh full128 background start; no formal mature advantage claimed\",\n \"source_fix_commit\":\"907d90e\",\"new_run_id\":cfg[\"run_id\"],\"new_unit\":\"legal-openexempt-ace-public-assets128-20261022-run02.service\",\n \"new_ACE_handle\":{\"pid\":176852,\"start_ticks\":\"466336240\",\"start_CST\":\"2026-10-22 16:14:04\"},\n \"model_handle_unchanged\":{\"pid\":3613253,\"start_ticks\":\"446037091\"},\n \"new_initial_state_empty\":True,\"new_provenance_policy\":init[\"bullet_provenance_policy\"],\n \"three_v3_profiles_frozen\":bound,\"other_two_runs_not_queued\":True,\n \"generator_payload_function_source_exactly_unchanged\":True,\n \"main_direct_actor_and_native_scoring_sha256_unchanged\":{p:sha(p) for p in unchanged},\n \"old_frozen_full371_382_not_claimed_equal_to_current_tree\":True,\n \"actual_two_legacy_failure_decode_checks_no_new_generations\":actual_checks,\n \"targeted_existing_CPU_regression_check\":{\"command\":\".venv/bin/python -m pytest -q tests/test_openexempt_ace.py\",\"result\":\"23 passed,15 upstream empty-slice warnings\",\"elapsed_seconds\":2.80,\"no_GPU_qualification_calls\":True},\n \"old_failed_run_counted_not_selected_as_baseline\":{\"run\":\"legal_openexempt_ace_public_assets128_20261021_run01\",\"native\":oldreport[\"actual_terminal_cost\"],\"teacher_cost_complete\":old_teacher_cost,\"all56_teacher_usages\":teachers,\"original_scores_preserved\":True,\"not_a_final_ACE_repeat\":True},\n \"new_progress_snapshot\":json.loads((run/\"progress.json\").read_text()),\n \"new_observer\":{\"session\":84986,\"target\":\"new v3 Run02 B1 complete16 sources32 tasks96 roles\",\"deadline_CST\":\"2026-10-22 22:18:53\",\"observer_timeout_not_training_terminal\":True},\n \"no_new_model_deployment_paid_service_or_hidden_solver\":True,\n \"no_TEST_semantics_targets_predictions_outcomes_accessed\":True,\n \"evidence_paths\":[oldsource_report,newcfg,newcfg.replace(\".json\",\".frozen.json\"),\"docs/research/OPENEXEMPT_ACE_PROVENANCE_V3_20261022.md\"],\n \"recomputation_program\":PROGRAM}\ndest=root/\"artifacts/research/openexempt_legal_scope_20261020/ACEv3_Run02_actual_fresh128_start377_source_raw_provenance_fix_and_old56_teacher_complete_cost_20261022.json\"\nRunStore.immutable_json(dest,report)\nprint(json.dumps({k:v for k,v in report.items() if k not in (\"recomputation_program\",)},ensure_ascii=False)[:6500])\n"
+}

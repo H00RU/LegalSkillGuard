@@ -1,0 +1,149 @@
+{
+  "at": "2026-10-22T08:07:53.173214+00:00",
+  "classification": "Intentional ACE integrity stop: adapter metadata overconstraint, not model/service failure or a fair negative baseline",
+  "confirmed_root_cause": "Original JSON schema and pinned upstream Generator accept repeated bullet IDs, but local Online and decoder rejected the whole legal prediction. This also changes TRAIN feedback, so old run is excluded from formal ACE repeats.",
+  "upstream_primary": {
+    "url": "https://raw.githubusercontent.com/ace-agent/ace/82709de050e1db6e6ef2f07bcb0393560b94992a/ace/core/generator.py",
+    "finding": "JSON branch returns response_json.get(bullet_ids,[]) without duplicate-list rejection; no regex/recovery imported."
+  },
+  "intentional_signal": {
+    "target_unit": "legal-openexempt-main128-run03-to-ace128-20261021-run02.service",
+    "target_pid": 1738522,
+    "safe_terminal_at": "2026-10-22T08:02:55.544886+00:00",
+    "error": "InterruptedError('Operator stop at artifact-safe boundary')",
+    "unit_MainPID": 0,
+    "model3613253_not_stopped": true
+  },
+  "terminal_archives_verified": [
+    {
+      "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_ace_public_assets128_20261021_run01-actual-terminal.tar.gz",
+      "sha256": "7a91bb4cabe60a4ed9feeb9c9107beb7c4b4f8d8f663dd04c07fb42dc7e3bc08",
+      "members": 955,
+      "all_original_runtime_bytes_exact": true
+    },
+    {
+      "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_ace_public_assets128_20261021_run01-actual-terminal.tar.gz",
+      "sha256": "0dcd6673305dbc70f563485b84a2bbbb7d4c5ca031c7cca27fba0afd3391ce3f",
+      "members": 955,
+      "all_original_runtime_bytes_exact": true
+    }
+  ],
+  "actual_terminal_cost": {
+    "native_generations": 177,
+    "native_generation_HTTP": 177,
+    "native_input_tokens": 1228850,
+    "native_output_tokens": 406025,
+    "native_finish_reasons": {
+      "stop": 177
+    },
+    "teacher_responses": 56,
+    "teacher_attempts": 56,
+    "includes_partial_B2_TRAIN_and_all_B1_not_completed8_batches": true
+  },
+  "legacy_original_B2_native_F1": {
+    "EC": {
+      "precision": 0.7760416666666667,
+      "recall": 0.44661458333333326,
+      "f1": 0.5423859126984126,
+      "exact_target": 0.125,
+      "tasks": 16,
+      "invalid_format": 2,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.5653596342383107,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "EV": {
+      "precision": 0.8411458333333333,
+      "recall": 0.5386284722222221,
+      "f1": 0.6306051587301587,
+      "exact_target": 0.1875,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 1,
+      "full_output_f1": 0.623545235401853,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "mean_family_f1": 0.5864955357142856
+  },
+  "offline_metadata_only_counterfactual_not_a_new_run_or_formal_result": {
+    "case_changes": [
+      {
+        "case": 204,
+        "family": "EC",
+        "raw_path": "runs/legal_openexempt_ace_public_assets128_20261021_run01/native/b2_prequential/204_EC_ace.json",
+        "raw_sha256": "31ddead4775a2c69a99a491a231c96c179532641266a87d3d93aed7c3c2b437e",
+        "raw_reported_ids": [
+          "sai-00001",
+          "sai-00006",
+          "sai-00006",
+          "sai-00006"
+        ],
+        "original_legacy_F1": 0.0,
+        "unchanged_legal_answer_only_F1": 0.3333333333333333,
+        "JSON_schema_already_accepts_duplicate_IDs": true,
+        "raw_prediction_and_original_score_not_modified": true
+      },
+      {
+        "case": 212,
+        "family": "EC",
+        "raw_path": "runs/legal_openexempt_ace_public_assets128_20261021_run01/native/b2_prequential/212_EC_ace.json",
+        "raw_sha256": "0f928c108916377d1fabed478d9c0cee15f22aecc3d27647d245aa83fd92acbb",
+        "raw_reported_ids": [
+          "sai-00001",
+          "sai-00006",
+          "sai-00006",
+          "sai-00006"
+        ],
+        "original_legacy_F1": 0.0,
+        "unchanged_legal_answer_only_F1": 0.7111111111111111,
+        "JSON_schema_already_accepts_duplicate_IDs": true,
+        "raw_prediction_and_original_score_not_modified": true
+      }
+    ],
+    "metrics": {
+      "EC": {
+        "precision": 0.8559027777777779,
+        "recall": 0.5039062499999999,
+        "f1": 0.6076636904761904,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.6344772812971343,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8411458333333333,
+        "recall": 0.5386284722222221,
+        "f1": 0.6306051587301587,
+        "exact_target": 0.1875,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.623545235401853,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.6191344246031745
+    },
+    "all_legal_answer_bytes_unchanged": true,
+    "no_old_predictions_or_scores_rewritten": true,
+    "does_not_prove_absence_of_other_ACE_legal_errors": true
+  },
+  "main_complete_run_unchanged": {
+    "main_run": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "shared_executed_actor_score_source_sha256": {
+      "experiments/openexempt_online.py": "732f1a924d0e49333de0384b5d6a63a25d990eb9d187874a9b1e54d114032c1c",
+      "legal_skill_guard/openexempt.py": "5d6f73927a2f406a072d0d4be8b4a1b145fec5c103c7fba2a82a11d2fdb8b39b",
+      "legal_skill_guard/learning/legal_namespace.py": "81ace4115424ea35e5520814bcd61f0d92c9a2f0b7af75c402c31a86f82b9288",
+      "legal_skill_guard/learning/task_scoped_skills.py": "51e89480a294a6b2716ed16cb4c624cd27d47809fd260e5898eeb84bb9fe79a0"
+    },
+    "no_main_algorithm_or_primary_EC_EV_metric_change": true
+  },
+  "old_ACE_source_sha256_before_fix": {
+    "legal_skill_guard/learning/openexempt_ace.py": "9819900b92bb6e2762cb3310dddf78beccfc5ff64a4e01cfd7688776fbcc4e6d",
+    "experiments/openexempt_ace_online.py": "d68fe8431c852dcaf7b7d08e9c9f97a057b3084600b3d36056d58bc73e3dd9c9"
+  },
+  "no_new_student_teacher_or_TEST_calls": true,
+  "next": "Fix duplicated provenance/list versus distinct-statistic semantics only; retain raw IDs/legal predictions, start fresh ACE v3 empty under new Run ID, same input/prompts/budgets; retain failed run and full costs.",
+  "recomputation_program": "import copy,hashlib,json,tarfile,collections\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom jsonschema import validate\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.legal_namespace import decode_asset_references,decode_classification,public_asset_catalog,public_catalog\nfrom legal_skill_guard.learning.openexempt_ace import generator_payload\nfrom legal_skill_guard.openexempt import evaluate,metrics\nroot=Path(\"/media/sangfor/vdb/legal-skill-evolve\");run=root/\"runs/legal_openexempt_ace_public_assets128_20261021_run01\"\ndef rd(p): return json.loads(p.read_text())\ndef h(p): return hashlib.sha256(p.read_bytes()).hexdigest()\nassert not Path(\"/proc/1738522\").exists()\nassert Path(\"/proc/3613253/stat\").read_text().rsplit(\")\",1)[1].split()[19]==\"446037091\"\nfailure=rd(run/\"failure.json\")\nassert failure[\"error\"]==\"InterruptedError('Operator stop at artifact-safe boundary')\"\nassert not (run/\"completion.json\").exists()\nreceipt=rd(run/\"terminal_preservation.json\")\narchives=[]\nfor a in receipt[\"paths\"]:\n p=Path(a[\"path\"]);assert h(p)==a[\"sha256\"]\n with tarfile.open(p,\"r:gz\") as tf:\n  members=[m for m in tf.getmembers() if m.isfile()]\n  assert len(members)==receipt[\"files\"]==955\n  for m in members:\n   target=root/m.name\n   with tf.extractfile(m) as f: assert hashlib.sha256(f.read()).hexdigest()==h(target),m.name\n archives.append({\"path\":str(p),\"sha256\":a[\"sha256\"],\"members\":len(members),\"all_original_runtime_bytes_exact\":True})\ncfg=rd(root/\"configs/openexempt_ace_public_assets128_20261021_run01.json\")\nrecords=rd(run/\"batches/b2_records.json\")\npacket=rd(root/cfg[\"input_packet\"])\nrows={(r[\"case_id\"],r[\"family\"]):r for r in packet[\"rows\"] if r[\"batch\"]==2}\nbook=rd(run/\"publications/b1.json\")[\"playbook\"]\ndiag=copy.deepcopy(records[\"ace\"]);case_changes=[]\nfor r in diag:\n if r[\"parse_error\"]==\"ValueError('Repeated native bullet provenance')\":\n  row=rows[r[\"case_id\"],r[\"family\"]]\n  raw=rd(root/r[\"raw_call_path\"]);submitted=json.loads(raw[\"response\"][\"content\"])\n  _,schema=generator_payload(row,book,direct_numeric=True,asset_references=True)\n  validate(submitted,schema)\n  assert len(submitted[\"bullet_ids\"])>len(set(submitted[\"bullet_ids\"]))\n  final=decode_classification(decode_asset_references(submitted[\"final_answer\"],public_asset_catalog(row)),public_catalog(row))\n  target=rd(root/cfg[\"grading_directory\"]/f'{r[\"case_id\"]}.json')[\"targets\"][r[\"family\"]]\n  corrected=evaluate(row,final,target)\n  case_changes.append({\"case\":r[\"case_id\"],\"family\":r[\"family\"],\"raw_path\":r[\"raw_call_path\"],\n   \"raw_sha256\":h(root/r[\"raw_call_path\"]),\"raw_reported_ids\":submitted[\"bullet_ids\"],\n   \"original_legacy_F1\":r[\"score\"][\"f1\"],\"unchanged_legal_answer_only_F1\":corrected[\"f1\"],\n   \"JSON_schema_already_accepts_duplicate_IDs\":True,\"raw_prediction_and_original_score_not_modified\":True})\n  r[\"score\"]=corrected\nassert len(case_changes)==2\nnative=[]\nfor p in (run/\"native\").rglob(\"*.json\"):\n if p.name.endswith((\".input.json\",\".answer.json\")):continue\n d=rd(p)\n if \"calls\" in d:\n  assert len(d[\"calls\"])==1 and d[\"transport_error\"] is None\n  native.append(d)\nassert len(native)==failure[\"actual_native_calls\"]==177\nteachers=[rd(p) for p in (run/\"teacher\").glob(\"*/response.json\")]\nassert len(teachers)==failure[\"actual_teacher_responses\"]==56\nshared=(\"experiments/openexempt_online.py\",\"legal_skill_guard/openexempt.py\",\"legal_skill_guard/learning/legal_namespace.py\",\"legal_skill_guard/learning/task_scoped_skills.py\")\nmain_frozen=rd(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\")\nassert all(h(root/p)==main_frozen[\"files\"][p] for p in shared)\nreport={\"at\":datetime.now(timezone.utc).isoformat(),\"classification\":\"Intentional ACE integrity stop: adapter metadata overconstraint, not model/service failure or a fair negative baseline\",\n \"confirmed_root_cause\":\"Original JSON schema and pinned upstream Generator accept repeated bullet IDs, but local Online and decoder rejected the whole legal prediction. This also changes TRAIN feedback, so old run is excluded from formal ACE repeats.\",\n \"upstream_primary\":{\"url\":\"https://raw.githubusercontent.com/ace-agent/ace/82709de050e1db6e6ef2f07bcb0393560b94992a/ace/core/generator.py\",\"finding\":\"JSON branch returns response_json.get(bullet_ids,[]) without duplicate-list rejection; no regex/recovery imported.\"},\n \"intentional_signal\":{\"target_unit\":\"legal-openexempt-main128-run03-to-ace128-20261021-run02.service\",\"target_pid\":1738522,\"safe_terminal_at\":failure[\"at\"],\"error\":failure[\"error\"],\"unit_MainPID\":0,\"model3613253_not_stopped\":True},\n \"terminal_archives_verified\":archives,\n \"actual_terminal_cost\":{\"native_generations\":len(native),\"native_generation_HTTP\":sum(len(d[\"calls\"]) for d in native),\n  \"native_input_tokens\":sum(d[\"response\"][\"prompt_tokens\"] for d in native),\"native_output_tokens\":sum(d[\"response\"][\"completion_tokens\"] for d in native),\n  \"native_finish_reasons\":dict(collections.Counter(d[\"response\"][\"finish_reason\"] for d in native)),\n  \"teacher_responses\":len(teachers),\"teacher_attempts\":failure[\"actual_teacher_attempts\"],\n  \"includes_partial_B2_TRAIN_and_all_B1_not_completed8_batches\":True},\n \"legacy_original_B2_native_F1\":metrics(records[\"ace\"]),\n \"offline_metadata_only_counterfactual_not_a_new_run_or_formal_result\":{\"case_changes\":case_changes,\"metrics\":metrics(diag),\"all_legal_answer_bytes_unchanged\":True,\n  \"no_old_predictions_or_scores_rewritten\":True,\"does_not_prove_absence_of_other_ACE_legal_errors\":True},\n \"main_complete_run_unchanged\":{\"main_run\":\"legal_openexempt_closed_feedback_public_assets128_20261021_run03\",\"shared_executed_actor_score_source_sha256\":{p:h(root/p) for p in shared},\n  \"no_main_algorithm_or_primary_EC_EV_metric_change\":True},\n \"old_ACE_source_sha256_before_fix\":{p:h(root/p) for p in (\"legal_skill_guard/learning/openexempt_ace.py\",\"experiments/openexempt_ace_online.py\")},\n \"no_new_student_teacher_or_TEST_calls\":True,\n \"next\":\"Fix duplicated provenance/list versus distinct-statistic semantics only; retain raw IDs/legal predictions, start fresh ACE v3 empty under new Run ID, same input/prompts/budgets; retain failed run and full costs.\",\n \"recomputation_program\":PROGRAM}\ndest=root/\"artifacts/research/openexempt_legal_scope_20261020/ACE128_Run01_integrity_stop_duplicate_metadata_root_cause955_dual_terminal_and_unmodified_legal_answer_diagnostic_20261022.json\"\nRunStore.immutable_json(dest,report)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"old_terminal\":report[\"intentional_signal\"],\"archives\":archives,\"cost\":report[\"actual_terminal_cost\"],\"diagnostic_case_changes\":case_changes,\"legacy_EC_EV\":{f:report[\"legacy_original_B2_native_F1\"][f][\"f1\"] for f in (\"EC\",\"EV\")},\"offline_legal_only_EC_EV_not_formal\":{f:metrics(diag)[f][\"f1\"] for f in (\"EC\",\"EV\")},\"main_actor_files_unchanged\":True},ensure_ascii=False))\n"
+}

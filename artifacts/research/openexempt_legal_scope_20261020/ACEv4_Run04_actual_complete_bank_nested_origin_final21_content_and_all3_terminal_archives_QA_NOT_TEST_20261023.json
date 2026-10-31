@@ -1,0 +1,50 @@
+{
+  "at": "2026-10-23T08:00:39.547077+00:00",
+  "classification": "Actual completed single ACE45 bank passes complete nested TRAIN-origin check; NOT whole16-bank readiness or TEST performance",
+  "run": "legal_openexempt_ace_public_assets128_20261023_run04",
+  "actual_final_bank_sha256": "75ad535aed4478ce4c85832138dadcb3dc460fec8200704151a002920131af56",
+  "all8_unique_publications_and256_first_forecasts_complete": true,
+  "first_forecast_original_means_equal_previous_complete128_report": true,
+  "actual_nested_origin_extra_paths": 4873,
+  "all3_lineage_terminal_archives_verified": [
+    {
+      "run": "legal_openexempt_ace_public_assets128_20261022_run02",
+      "members": 1643,
+      "both_actual_archive_hashes_verified": true
+    },
+    {
+      "run": "legal_openexempt_ace_public_assets128_20261022_run03",
+      "members": 3550,
+      "both_actual_archive_hashes_verified": true
+    },
+    {
+      "run": "legal_openexempt_ace_public_assets128_20261023_run04",
+      "members": 641,
+      "both_actual_archive_hashes_verified": true
+    }
+  ],
+  "retained_native_calls": 896,
+  "retained_successful_teachers": 423,
+  "actual_total_native_including_retired": 911,
+  "actual_successful_teachers_including_retired": 442,
+  "actual_teacher_attempts_including_failed": 443,
+  "one_failed_usage_unknown_not_zero": true,
+  "final_bullets": 21,
+  "final_tokens": 2158,
+  "new_bullets": {
+    "err-00021": {
+      "id": "err-00021",
+      "helpful": 0,
+      "harmful": 0,
+      "content": "解析复合资产名称时，以中心名词及物品本身的功能确定法定类别，不要让材质、内容物、安装位置或用途修饰词取代被保护对象。例如 jewelry organizer 是收纳架而非 jewelry，gun safe 是柜体而非 firearm；wristwatch 属于饰品或计时物，除非法条明确列入，否则不得仅因可佩戴而归为 wearing apparel。",
+      "raw_line": "[err-00021] helpful=0 harmful=0 :: 解析复合资产名称时，以中心名词及物品本身的功能确定法定类别，不要让材质、内容物、安装位置或用途修饰词取代被保护对象。例如 jewelry organizer 是收纳架而非 jewelry，gun safe 是柜体而非 firearm；wristwatch 属于饰品或计时物，除非法条明确列入，否则不得仅因可佩戴而归为 wearing apparel。"
+    }
+  },
+  "assistant_content_description": "The one added procedure distinguishes an asset head noun from material, contents or use modifiers; examples concern organizers, gun safes and watches. No case-ID answer table detected in this added text; not expert legal validation.",
+  "old20_bullet_texts_preserved": true,
+  "no_later_TRAIN_case_yet_tested_this_last_update": true,
+  "formal_full_matrix_repeats_ablation_and_TEST_still_pending": true,
+  "no_actor_teacher_tokenizer_or_TEST_calls": true,
+  "source_evaluator_sha256": "89bf70a2501b0d15ea2d37848c3812854276026fde675c94351b8fea7b31b4c2",
+  "recomputation_program": "import importlib.util,json\nfrom pathlib import Path\nfrom legal_skill_guard.learning.experiment import read,sha,now,bullets\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nentry=root/\".venv/evolution-control-20261020.qLon9T/experiments/openexempt_frozen_eval.py\"\nspec=importlib.util.spec_from_file_location(\"actual_complete_ACE_origin\",entry)\nm=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);m.ROOT=root\nconfig=root/\"configs/openexempt_ace_public_assets128_20261023_run04.json\"\ncfg=read(config);frozen=read(config.with_suffix(\".frozen.json\"));out=root/\"runs\"/cfg[\"run_id\"]\ncomplete=read(out/\"completion.json\");initial=read(out/\"initialization.json\")\nassert complete[\"status\"]==\"completed_declared_ACE_adaptation_stream\" and not (out/\"failure.json\").exists()\nassert len(complete[\"batch_summary\"])==len(list((out/\"publications\").glob(\"b*.json\")))==8\nextras=m.check_ace_learning_origin(cfg,frozen,out,initial,complete)\naggregate=read(base/\"Run03_vs_ACEv4_complete_B1_B8_equal128_prequential_FIRSTS_ONLY_last_learning_cost_pending_NOT_TEST_20261023.json\")\nfor family in (\"EC\",\"EV\"):\n assert complete[\"prequential\"][\"ace\"][family][\"tasks\"]==128\n assert abs(complete[\"prequential\"][\"ace\"][family][\"f1\"]-aggregate[\"complete_original_F1_metrics\"][\"ACE\"][family][\"original_f1\"])<1e-12\npub=read(out/\"publications/b8.json\");previous=read(out/\"publications/b7.json\")\nassert csha(pub[\"playbook\"])==complete[\"final_playbook_sha256\"]==pub[\"playbook_sha256\"]\nbefore,after=bullets(previous[\"playbook\"]),bullets(pub[\"playbook\"])\nassert len(before)==20 and len(after)==21 and pub[\"actual_tokens\"]==2158\nassert all(before[k][\"content\"]==after[k][\"content\"] for k in before)\nadded={k:after[k] for k in after.keys()-before.keys()}\nassert set(added)=={\"err-00021\"}\narchives=[]\nfor run in [\"legal_openexempt_ace_public_assets128_20261022_run02\",\"legal_openexempt_ace_public_assets128_20261022_run03\",cfg[\"run_id\"]]:\n terminal=read(root/\"runs\"/run/\"terminal_preservation.json\")\n paths=terminal[\"paths\"];assert len(paths)==2 and len({Path(p[\"path\"]).stat().st_dev for p in paths})==2\n assert all(sha(Path(p[\"path\"]))==p[\"sha256\"] for p in paths)\n archives.append({\"run\":run,\"members\":terminal[\"files\"],\"both_actual_archive_hashes_verified\":True})\ncost=read(base/\"ACEv4_Run04_complete128_terminal_actual_retained_and_retired_B3_B8_cost_NOT_TEST_20261023.json\")\nassert cost[\"complete_actual_native_cost\"][\"origins\"]==911\nassert cost[\"successful_teacher_known_usage_lower_bound\"][\"successful_responses\"]==442\nassert cost[\"all_actual_teacher_attempts\"]==443 and cost[\"attempts_without_known_success_usage\"]==1\nresult={\"at\":now(),\"classification\":\"Actual completed single ACE45 bank passes complete nested TRAIN-origin check; NOT whole16-bank readiness or TEST performance\",\n \"run\":cfg[\"run_id\"],\"actual_final_bank_sha256\":complete[\"final_playbook_sha256\"],\n \"all8_unique_publications_and256_first_forecasts_complete\":True,\n \"first_forecast_original_means_equal_previous_complete128_report\":True,\n \"actual_nested_origin_extra_paths\":len(extras),\"all3_lineage_terminal_archives_verified\":archives,\n \"retained_native_calls\":complete[\"actual_native_calls\"],\"retained_successful_teachers\":complete[\"actual_teacher_responses\"],\n \"actual_total_native_including_retired\":911,\"actual_successful_teachers_including_retired\":442,\n \"actual_teacher_attempts_including_failed\":443,\"one_failed_usage_unknown_not_zero\":True,\n \"final_bullets\":21,\"final_tokens\":2158,\"new_bullets\":added,\n \"assistant_content_description\":\"The one added procedure distinguishes an asset head noun from material, contents or use modifiers; examples concern organizers, gun safes and watches. No case-ID answer table detected in this added text; not expert legal validation.\",\n \"old20_bullet_texts_preserved\":True,\"no_later_TRAIN_case_yet_tested_this_last_update\":True,\n \"formal_full_matrix_repeats_ablation_and_TEST_still_pending\":True,\n \"no_actor_teacher_tokenizer_or_TEST_calls\":True,\"source_evaluator_sha256\":sha(entry),\"recomputation_program\":PROGRAM}\ndest=base/\"ACEv4_Run04_actual_complete_bank_nested_origin_final21_content_and_all3_terminal_archives_QA_NOT_TEST_20261023.json\"\nRunStore.immutable_json(dest,result)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"actual_source_bank_origin_passed\":True,\n \"bank21_tokens\":2158,\"all3_terminal_archives_verified\":True,\"TEST_not_opened\":True}))\n"
+}

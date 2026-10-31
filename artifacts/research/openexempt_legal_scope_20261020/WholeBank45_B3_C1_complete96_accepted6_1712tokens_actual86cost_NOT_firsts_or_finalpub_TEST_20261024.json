@@ -1,0 +1,160 @@
+{
+  "kind": "WholeBank45_complete_B3_candidate1_provisional_replay_NOT_B3_publication_or_newcase_TEST",
+  "candidate_artifact": "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/candidates/b3_candidate1.json",
+  "candidate_artifact_sha256": "4debef13d185d48425740870af0343c7739096ba3a15740b854768ceb8618089",
+  "parent_B2_sha256": "585db4c09c53149aa64dcf0f9f4ed954da839c59dc3bbbf30b2a7d93f4353915",
+  "candidate_bank_sha256": "4fe0222399c9e8e4211f15cbbe9eb423753a4b3fb33ae96cf63fb481469c04a6",
+  "accepted_entire_proposal_all_records_and_fields": true,
+  "canonical_ID_order_differs_only": true,
+  "records": 6,
+  "tokens": 1712,
+  "operations": {
+    "UPDATE": 2,
+    "CREATE": 4
+  },
+  "complete_seen_TRAIN_sources": 48,
+  "logical_EC_EV_replay_views": 96,
+  "unique_original_response_origins": 96,
+  "new_candidate1_native_generations": 86,
+  "older_exact_native_responses_reused": 10,
+  "composition_additional_generations": 0,
+  "native_input_tokens": 577649,
+  "native_output_tokens": 264945,
+  "finish_reasons": {
+    "stop": 86
+  },
+  "actual_new_request_generation_budget_verified": true,
+  "metrics": {
+    "parent_current": {
+      "EC": {
+        "precision": 0.8208333333333333,
+        "recall": 0.6024305555555555,
+        "f1": 0.6733506944444444,
+        "exact_target": 0.1875,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.6802258403361344,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.6979166666666667,
+        "recall": 0.6354166666666666,
+        "f1": 0.6590277777777778,
+        "exact_target": 0.25,
+        "tasks": 16,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.6817708333333334,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.666189236111111
+    },
+    "candidate_current": {
+      "EC": {
+        "precision": 0.9609375,
+        "recall": 0.8467881944444444,
+        "f1": 0.8909474206349207,
+        "exact_target": 0.4375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8967171717171719,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.884548611111111,
+        "recall": 0.818142361111111,
+        "f1": 0.8390376984126985,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8439699792960662,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.8649925595238096
+    },
+    "parent_prior": {
+      "EC": {
+        "precision": 0.8658854166666666,
+        "recall": 0.6028645833333335,
+        "f1": 0.6825396825396826,
+        "exact_target": 0.1875,
+        "tasks": 32,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.7056309644617835,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "EV": {
+        "precision": 0.8062065972222222,
+        "recall": 0.732421875,
+        "f1": 0.7566158234126983,
+        "exact_target": 0.21875,
+        "tasks": 32,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 2,
+        "full_output_f1": 0.7487162005294588,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "mean_family_f1": 0.7195777529761904
+    },
+    "candidate_prior": {
+      "EC": {
+        "precision": 0.8723090277777777,
+        "recall": 0.7573784722222222,
+        "f1": 0.7937003968253968,
+        "exact_target": 0.375,
+        "tasks": 32,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8214915326510721,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8600260416666667,
+        "recall": 0.8090277777777778,
+        "f1": 0.8246465773809524,
+        "exact_target": 0.21875,
+        "tasks": 32,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 2,
+        "full_output_f1": 0.8145869386283441,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "mean_family_f1": 0.8091734871031746
+    }
+  },
+  "effects": {
+    "current_effect": {
+      "tasks": 32,
+      "help": 18,
+      "hurt": 5,
+      "ties": 9,
+      "mean_f1_difference": 0.19880332341269846
+    },
+    "prior_effect": {
+      "tasks": 64,
+      "help": 31,
+      "hurt": 14,
+      "ties": 19,
+      "mean_f1_difference": 0.08959573412698413
+    }
+  },
+  "retention_checks": {
+    "current_family_nonregression": true,
+    "prior_family_nonregression": true,
+    "strict_current_improvement": true,
+    "current_full_output_nonregression": true,
+    "prior_full_output_nonregression": true,
+    "current_negative_asset_and_format_nonregression": true,
+    "prior_negative_asset_and_format_nonregression": true
+  },
+  "original_harms_retained": true,
+  "current16_sources_labels_already_released": true,
+  "no_B3_first_forecast_or_TEST_replacement": true,
+  "final_B3_publication_exists_at_snapshot": false,
+  "next_candidate_replay_is_ongoing_not_scored_as_final": true,
+  "audit_note": "A first read-only list-equality assertion failed: shared composition canonicalizes record order. Per-ID records are identical; no record or guidance field was removed. No training error or method change."
+}

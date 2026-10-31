@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-21T10:36:43.822638+00:00",
+  "classification": "18:30 hourly actual state plus immutable completed C1 prefix only; not full candidate decision or performance",
+  "completed_C1_logical_records_preserved": 74,
+  "receipt": {
+    "at": "2026-10-21T10:36:43.066791+00:00",
+    "stage": "hourly1830_C1_completed_prefix_raw_health_and_actual_WI_delivery",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-hourly1830_C1_completed_prefix_raw_health_and_actual_WI_delivery.tar.gz",
+        "sha256": "e9afcbf46ffd6a658b29dea9f45f3348f2c028aede4d869d55d0651655b43ff4"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_goal_Run03_20261021-hourly1830_C1_completed_prefix_raw_health_and_actual_WI_delivery.tar.gz",
+        "sha256": "e9afcbf46ffd6a658b29dea9f45f3348f2c028aede4d869d55d0651655b43ff4"
+      }
+    ],
+    "files": 231
+  },
+  "archive_devices": [
+    64528,
+    64517
+  ],
+  "main_waiter_pins_before_after": [
+    371,
+    381
+  ],
+  "no_live_progress_ledger_or_inflight_inputs_archived": true,
+  "new_native_teacher_or_TEST_calls": 0,
+  "preservation_recomputation_program": "import json,pathlib,hashlib\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=pathlib.Path.cwd();r=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\";read=lambda p:json.loads(p.read_text())\nnames={\"docs/CURRENT_GOAL.md\",\"artifacts/research/openexempt_legal_scope_20261020/hourly1830_Run03_B3_C1_actual_forward_alive_prefix_health_and_bindings_20261021.json\",\"artifacts/research/openexempt_legal_scope_20261020/hourly1730_C1_alive_complete_curve_comparison_boundary_preservation_20261021.json\",\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\",\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\",str((r/\"publications/b2.json\").relative_to(root))}\ncompleted_paths=list((r/\"native/b3_candidate1_replay\").glob(\"*.answer.json\"))\nfor ap in completed_paths:\n a=read(ap);assert a[\"bank_sha256\"]==\"fc4e33c67e961b57424b1a8e3a216b50a195e095b74dad7afb35c635eee3be85\"\n names.update((str(ap.relative_to(root)),str(ap.with_name(ap.name[:-len(\".answer.json\")]+\".input.json\").relative_to(root)),a[\"raw_call_path\"]))\nfor p in (r/\"teacher/b3_candidate1\").glob(\"*.json\"):names.add(str(p.relative_to(root)))\npins=[read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\")[\"files\"],read(root/\"artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/queued.json\")[\"source_data_environment_pins\"]]\ndef verify():\n for ps in pins:assert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==h for n,h in ps.items())\nverify();receipt=preserve(\"legal_research_goal_Run03_20261021\",\"hourly1830_C1_completed_prefix_raw_health_and_actual_WI_delivery\",sorted(names));verify()\nout={\"at\":now(),\"classification\":\"18:30 hourly actual state plus immutable completed C1 prefix only; not full candidate decision or performance\",\"completed_C1_logical_records_preserved\":len(completed_paths),\"receipt\":receipt,\"archive_devices\":[pathlib.Path(p[\"path\"]).stat().st_dev for p in receipt[\"paths\"]],\"main_waiter_pins_before_after\":[len(x) for x in pins],\"no_live_progress_ledger_or_inflight_inputs_archived\":True,\"new_native_teacher_or_TEST_calls\":0}\nassert len(set(out[\"archive_devices\"]))==2\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

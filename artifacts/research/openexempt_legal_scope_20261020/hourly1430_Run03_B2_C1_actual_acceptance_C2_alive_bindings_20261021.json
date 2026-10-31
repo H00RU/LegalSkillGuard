@@ -1,0 +1,187 @@
+{
+  "at": "2026-10-21T06:31:10.114977+00:00",
+  "scheduled": "2026-10-21T14:30:00+08:00",
+  "processes": [
+    {
+      "role": "main",
+      "PID": 1721740,
+      "start_ticks": 455413980,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python -m experiments.openexempt_online run /media/sangfor/vdb/legal-skill-evolve/configs/openexempt_closed_feedback_public_assets128_20261021_run03.json ",
+      "same_original_handle_alive": true
+    },
+    {
+      "role": "ACE_waiter",
+      "PID": 1738522,
+      "start_ticks": 455481667,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python /media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_main128_run03_to_ACE128_20261021.py ",
+      "same_original_handle_alive": true
+    },
+    {
+      "role": "model",
+      "PID": 3613253,
+      "start_ticks": 446037091,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python /media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm serve /media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218 --served-model-name Qwen/Qwen3-8B --host 127.0.0.1 --port 8000 --dtype bfloat16 --max-model-len 32768 --max-num-seqs 1 --seed 42 --generation-config vllm --reasoning-parser qwen3 --gpu-memory-utilization 0.48 --no-enable-prefix-caching --disable-uvicorn-access-log --guided-decoding-backend xgrammar --guided-decoding-disable-any-whitespace --kv-cache-memory-bytes 5368709120 --max-num-batched-tokens 16384 ",
+      "same_original_handle_alive": true
+    }
+  ],
+  "main_actual_bindings_current": 371,
+  "static_actual_bindings_current": 117,
+  "ACE_waiter_actual_bindings_current": 381,
+  "actual_packages_current": 50,
+  "progress": {
+    "at": "2026-10-21T06:31:10.174931+00:00",
+    "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "state": "running",
+    "stage": "b2_candidate2_replay",
+    "current_batch": 2,
+    "completed_native_calls": 207,
+    "completed_teacher_calls": 4,
+    "teacher_attempts": 4,
+    "cross_stage_identical_wire_reuses": 376,
+    "library_records": 6,
+    "current_arm": "candidate",
+    "current_document_id": 184,
+    "current_call": "openexempt"
+  },
+  "B1_final_publication_exists": true,
+  "B2_C1_immutable_answer_count": 64,
+  "B2_C1_complete_decision_exists": true,
+  "B2_teacher1_response_exists": true,
+  "B2_final_publication_exists": false,
+  "B2_C2_request_exists": true,
+  "B2_C2_response_exists": true,
+  "B2_C2_immutable_answer_count": 7,
+  "B3_first_encounter_scored_records_exist": false,
+  "B2_first_encounter_scored_records_exist": true,
+  "ACE_target_training_started": false,
+  "ACE_target_frozen": false,
+  "ledger": {
+    "max_invocations": 1797,
+    "reservations": 355,
+    "old350_prefix_exactly_unchanged": true
+  },
+  "new_model_teacher_or_TEST_calls_by_hourly_audit": 0,
+  "B2_C1_actual_TRAIN_decision_snapshot": {
+    "accepted": true,
+    "accepted_legal_coordinates": [
+      "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN"
+    ],
+    "actual_tokens": 1926,
+    "proposed_tokens": 2047,
+    "attempt_parent_bank_sha256": "574af7a6d3a5f155d45aebeefb7f620884cbe557a2e5f91914bbfdd3f2eb5118",
+    "parent_current": {
+      "EC": {
+        "precision": 0.9231770833333334,
+        "recall": 0.7851562499999998,
+        "f1": 0.8367683531746032,
+        "exact_target": 0.4375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.868383745543672,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.8897569444444444,
+        "recall": 0.6671006944444444,
+        "f1": 0.7444940476190477,
+        "exact_target": 0.1875,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.7451696895582346,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.7906312003968254
+    },
+    "candidate_current": {
+      "EC": {
+        "precision": 0.9231770833333334,
+        "recall": 0.7851562499999998,
+        "f1": 0.8367683531746032,
+        "exact_target": 0.4375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.868383745543672,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9140625,
+        "recall": 0.822048611111111,
+        "f1": 0.858655753968254,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.8504357484620644,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.8477120535714286
+    },
+    "parent_prior": {
+      "EC": {
+        "precision": 0.8953125,
+        "recall": 0.7981770833333333,
+        "f1": 0.8324900793650795,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8834263584819895,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9479166666666667,
+        "recall": 0.7226562499999999,
+        "f1": 0.8078621031746034,
+        "exact_target": 0.0625,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.8064874939874941,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.8201760912698415
+    },
+    "candidate_prior": {
+      "EC": {
+        "precision": 0.8953125,
+        "recall": 0.7981770833333333,
+        "f1": 0.8324900793650795,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8834263584819895,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9440104166666666,
+        "recall": 0.7851562500000001,
+        "f1": 0.8421999007936508,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.8356376262626264,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.8373449900793651
+    },
+    "bank_sha256": "e09783d6caf5a196bd0a3092481af49328f1f65d30c454e29ec6e14ce8901769"
+  },
+  "hourly_program": "import json,pathlib,hashlib,datetime,importlib.metadata\nroot=pathlib.Path.cwd();read=lambda p:json.loads(p.read_text());out={\"at\":datetime.datetime.now(datetime.timezone.utc).isoformat(),\"scheduled\":\"2026-10-21T14:30:00+08:00\"}\nout[\"processes\"]=[]\nfor pid,expected,role in [(1721740,455413980,\"main\"),(1738522,455481667,\"ACE_waiter\"),(3613253,446037091,\"model\")]:\n p=pathlib.Path(f\"/proc/{pid}\");s=(p/\"stat\").read_text();ticks=int(s[s.rfind(\")\")+2:].split()[19]);assert ticks==expected\n out[\"processes\"].append({\"role\":role,\"PID\":pid,\"start_ticks\":ticks,\"actual_argv\":(p/\"cmdline\").read_bytes().replace(b\"\\0\",b\" \").decode(),\"same_original_handle_alive\":True})\nman=read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\")\nstatic=read(root/\"configs/openexempt_direct_law_only_static_20261021_run03.frozen.json\")\nq=read(root/\"artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/queued.json\")\nfor kind,pins in [(\"main\",man[\"files\"]),(\"static\",static[\"files\"]),(\"ACE_waiter\",q[\"source_data_environment_pins\"])]:\n mismatches=[n for n,h in pins.items() if hashlib.sha256((root/n).read_bytes()).hexdigest()!=h]\n assert not mismatches\n out[kind+\"_actual_bindings_current\"]=len(pins)\nassert man[\"packages\"]=={d.metadata[\"Name\"]:d.version for d in importlib.metadata.distributions()}\nout[\"actual_packages_current\"]=len(man[\"packages\"])\nr=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\"\nout[\"progress\"]=read(r/\"progress.json\");out[\"B1_final_publication_exists\"]=(r/\"publications/b1.json\").exists()\nout[\"B2_C1_immutable_answer_count\"]=len(list((r/\"native/b2_candidate1_replay\").glob(\"*.answer.json\")))\nout[\"B2_C1_complete_decision_exists\"]=(r/\"candidates/b2_candidate1.json\").exists()\nout[\"B2_teacher1_response_exists\"]=(r/\"teacher/b2_candidate1/response.json\").exists()\nout[\"B2_final_publication_exists\"]=(r/\"publications/b2.json\").exists()\nout[\"B2_C2_request_exists\"]=(r/\"teacher/b2_candidate2/wire_request.json\").exists()\nout[\"B2_C2_response_exists\"]=(r/\"teacher/b2_candidate2/response.json\").exists()\nout[\"B2_C2_immutable_answer_count\"]=len(list((r/\"native/b2_candidate2_replay\").glob(\"*.answer.json\")))\nout[\"B3_first_encounter_scored_records_exist\"]=(r/\"batches/b3_prequential_records.json\").exists()\nout[\"B2_first_encounter_scored_records_exist\"]=(r/\"batches/b2_prequential_records.json\").exists()\nout[\"ACE_target_training_started\"]=(root/\"runs/legal_openexempt_ace_public_assets128_20261021_run01\").exists()\nout[\"ACE_target_frozen\"]=(root/\"configs/openexempt_ace_public_assets128_20261021_run01.frozen.json\").exists()\nledger=read(root/\"artifacts/teacher_invocation_budget_reconstruction_20261015.json\")\nassert hashlib.sha256(json.dumps(ledger[\"reservations\"][:350],sort_keys=True).encode()).hexdigest()==\"b41ad3cccd7cb0d6465d64963cfa4971528a819242b66b6a837c132aedc4ae6e\"\nout[\"ledger\"]={\"max_invocations\":ledger[\"max_invocations\"],\"reservations\":len(ledger[\"reservations\"]),\"old350_prefix_exactly_unchanged\":True}\nout[\"new_model_teacher_or_TEST_calls_by_hourly_audit\"]=0\ndpath=r/\"candidates/b2_candidate1.json\"\nif dpath.exists():\n d=read(dpath)\n out[\"B2_C1_actual_TRAIN_decision_snapshot\"]={k:d[k] for k in [\"accepted\",\"accepted_legal_coordinates\",\"actual_tokens\",\"proposed_tokens\",\"attempt_parent_bank_sha256\",\"parent_current\",\"candidate_current\",\"parent_prior\",\"candidate_prior\"] if k in d}\n out[\"B2_C1_actual_TRAIN_decision_snapshot\"][\"bank_sha256\"]=hashlib.sha256(json.dumps(d[\"candidate\"],sort_keys=True,separators=(\",\",\":\"),ensure_ascii=False).encode()).hexdigest()\n\nprint(json.dumps(out,ensure_ascii=False))\n",
+  "delay_seconds": 70.114,
+  "classification": "Scheduled14:30 actual handles/bindings and completed B2 candidate1 TRAIN decision; not forward result or final publication",
+  "previous_goal_turn_classification": "verified_wait on original main1721740/455413980/observer9771",
+  "this_continuation_classification": "progress: actual complete B2 candidate1 decision and native/gate/wire audit exited0; full JSON is being recollected after tool token-limit truncation, not model truncation. Teacher2 already responded from real six-record accepted mixed parent and native candidate2 replay has begun.",
+  "next_hourly_check": "2026-10-21T15:30:00+08:00",
+  "five_point_check": {
+    "actual_work": "Original main/model/ACE-waiter handles remain alive. Actual snapshot native207, teacher responses4/attempts4, stageb2_candidate2_replay; no frozen-source changes or new epoch. Candidate1 complete64 TRAIN tasks and actual partial decision reached.",
+    "skills_and_actual_execution": "B2 candidate1 proposed6/2047tokens, actual accepted mixed temporary parent6/1926tokens. Only EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN accepted; EC remains B1 behavior. Teacher2 request and response actually exist, candidate2 replay has7 completed answer snapshots, no finalB2 publication. B1 published bank/ownB1 remains5/1591.",
+    "evidence_gaps": "Accepted TRAIN currentEV74.4494→85.8656%, historicalEV80.7862→84.2200%, ECunchanged. This is same-seen-case optimization, not new-case gain. Actual third-batch contrast with ownB1, full128, nativeACE/static, independent repeated learning, ablations and sealedTEST still required.",
+    "local_optimum_check": "Let real closed feedback drive refinement instead of manually rewriting skills or restarting B1. Partial acceptance is not full-proposal success. Read-only revisit confirms joint-cap annotation limitations already disclosed, not a new root cause or reason to relabel. Nearest primary mechanism review does not replace a baseline or establish novelty/SOTA.",
+    "next_action": "Recollect full C1 independent audit after tool-output truncation (not training truncation); inspect actual teacher2 parent64 labels/current references and rejected witnesses. Preserve complete C1 raw/report/teacher evidence on two filesystems, follow actual finalB2 and B3. Do not read B3 labels before all-role forecast completion or open TEST."
+  }
+}

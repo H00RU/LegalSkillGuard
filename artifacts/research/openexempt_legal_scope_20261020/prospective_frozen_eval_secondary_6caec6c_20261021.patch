@@ -1,0 +1,310 @@
+From 6caec6ca6036c111fff91a9804e06941001f78cb Mon Sep 17 00:00:00 2001
+From: Codex <codex@localhost>
+Date: Wed, 21 Oct 2026 06:40:29 +0800
+Subject: [PATCH] Validate actual policy ablations and separate single-seed
+ source statistics
+
+---
+ ...EXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md | 16 +++-
+ experiments/openexempt_frozen_eval.py         | 80 ++++++++++++++++---
+ tests/test_openexempt_frozen_eval.py          | 75 ++++++++++++++++-
+ 3 files changed, 157 insertions(+), 14 deletions(-)
+
+diff --git a/docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md b/docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md
+index dadfef7..e4fd7a9 100644
+--- a/docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md
++++ b/docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md
+@@ -15,7 +15,8 @@ final_matrix_frozen为true、no_validation_set为true；配置不允许teacher
+ input_packet、grading_directory。source_cases为完整TEST来源数。
+ training_source_cases、training_batch_source_cases、training_packet_sha256固定共同
+ TRAIN数据与批次。statistics_plan必须指向已明确写好的、在预测前固定的统计方案。
+-当前IID128预案不等于已完成该最终统计方案。
++来源配对及比较族规则见`OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md`；完整实际
++末库矩阵仍未固定，本入口的合成检查不等于最终实验或统计分析已经完成。
+ 
+ `primary_contrasts`在预测前列出全部主比较，每项包含唯一name、按学习seed
+ 45/145/245排序的三个after臂，以及before臂：强空库和静态库各一个共同臂，
+@@ -23,6 +24,14 @@ B1与经验方法分别为按相同seed对应的三份独立学习库。入口
+ 错配B1、重复命名同一运行、非空初始化或另选最终解码设置。完整矩阵仍须
+ 包含必要机制消融，并完成最近邻方法的可信实现核对；这些工作尚未完成。
+ 
++`secondary_contrasts`单列已声明的whole_bank与first_commit两项机制消融，每项
++after只能是学习seed45的完整方法，before只能是对应单次独立学习的消融末库。
++不能拿三个完整库的均值对一个消融库冒称三次配对学习。入口在读取TEST前核
++实际策略、独立Run、原始参照配置hash、相同数据/生成/教师和共同容量、候选
++次数上限。累计教师账本天花板可以不同，不改变两项消融实际计算量不匹配的
++披露。whole_bank仍有原整库准入，first_commit仍有标签与拒绝后重试；后者
++不是完全关闭反馈，也不支持等计算的纯信息因果结论。
++
+ 每个arm有name、role、backend；reference_arm必须是唯一strong_empty。
+ 其余arm列出source_config、source_config_sha256、bank_sha256，不能内联一份
+ 手工改写或挑出来的好库。所需role及实际取库方式：
+@@ -75,6 +84,11 @@ Bonferroni区间，四种控制乘两个终点最低为八项，不看结果删
+ 学习的点估计/范围、同源胜平负与损害尾部。区间以实际库和固定解码为条件，
+ 不代表学习算法总体变异，不把一份空库或静态预测复制成独立重复。
+ 
++两项单seed机制消融使用同一次来源抽样，独立构成两个终点乘两个变体的四项
++次要比较族，报告95%及按四项调整的区间。它们不改变主比较族的八项调整或
++主比较全部下界为正的判定，也不因有来源bootstrap就变成多次独立学习证据。
++全部预定消融必须包含，缺失不能通过默默略去该变体继续正式分析。
++
+ 任一必要臂/来源缺失、重复或配对错误就停止，不通过子集分析或补零制造结论。
+ 仍不把显著性当作模型总体稳定性，也不把benchmark标签一致性当真实法律正确性。
+ 
+diff --git a/experiments/openexempt_frozen_eval.py b/experiments/openexempt_frozen_eval.py
+index c602276..cf14805 100644
+--- a/experiments/openexempt_frozen_eval.py
++++ b/experiments/openexempt_frozen_eval.py
+@@ -93,6 +93,55 @@ def check_primary_contrasts(cfg, source_configs):
+         raise ValueError("Include every declared experience control and all required families")
+ 
+ 
++def check_secondary_contrasts(cfg, source_configs):
++    """The two declared single-seed policy ablations, not three repeated controls."""
++    arms = {a["name"]: a for a in cfg["arms"]}
++    evolved = [n for n, a in arms.items() if a["role"] == "evolved"
++               and source_configs[n]["generation"]["seed"] == 45]
++    expected = {"whole_bank": ("whole_bank", "carry_partial_and_refine"),
++                "first_commit": ("legal_scope", "batch_only_first_commit")}
++    ablations = [n for n, a in arms.items() if a["role"] == "ablation"]
++    contrasts = cfg.get("secondary_contrasts", [])
++    if (len(evolved) != 1 or len(ablations) != 2 or len(contrasts) != 2
++            or len({c["name"] for c in contrasts}) != 2
++            or {c["name"] for c in contrasts} & {c["name"] for c in cfg["primary_contrasts"]}):
++        raise ValueError("Declare both single-seed mechanism ablations in a separate comparison family")
++    parent = source_configs[evolved[0]]
++    if (parent.get("skill_commit_policy"), parent.get("candidate_feedback_policy")) != (
++            "legal_scope", "carry_partial_and_refine"):
++        raise ValueError("The full method must retain its declared scope and closed-feedback policies")
++    seen, variants = set(), set()
++    for contrast in contrasts:
++        safe_component(contrast["name"])
++        before = contrast["before"]
++        if (contrast["after"] != evolved or len(before) != 1 or before[0] not in ablations
++                or before[0] in seen):
++            raise ValueError("Pair each single-seed ablation only with the full method at learning seed45")
++        name = before[0]
++        source = source_configs[name]
++        variant = source.get("ablation_variant")
++        if (variant not in expected or variant in variants
++                or (source.get("skill_commit_policy"), source.get("candidate_feedback_policy"))
++                != expected[variant]
++                or source.get("comparison_reference_run") != parent["run_id"]
++                or source.get("comparison_reference_config_sha256")
++                != arms[evolved[0]]["source_config_sha256"]
++                or source["run_id"] == parent["run_id"]):
++            raise ValueError("Use the actual independently learned declared policy ablation")
++        for key in ("generation", "input_packet", "grading_directory", "source_cases",
++                    "batch_source_cases", "planned_batches", "library_token_hard_cap",
++                    "max_candidate_attempts", "frozen_after_first_batch_control", "input_contract",
++                    "no_validation_set"):
++            if source.get(key) != parent.get(key):
++                raise ValueError("Ablation changes an undeclared common condition: " + key)
++        teachers = [{k: v for k, v in config.get("teacher", {}).items()
++                     if k != "total_invocation_budget"} for config in (parent, source)]
++        if teachers[0] != teachers[1]:
++            raise ValueError("Ablations must retain the common teacher and invocation policy")
++        seen.add(name)
++        variants.add(variant)
++
++
+ def paired_source_statistics(cfg, records):
+     """The declared conditional paired source bootstrap; never load questions or gold."""
+     names = {a["name"] for a in cfg["arms"]}
+@@ -117,17 +166,20 @@ def paired_source_statistics(cfg, records):
+     if (len(keys) != cfg["source_cases"] or len(set(identities.values())) != len(keys)
+             or any(set(grid) != expected for grid in grids.values())):
+         raise ValueError("Complete the whole source-paired matrix before inference statistics")
+-    contrasts = cfg["primary_contrasts"]
+-    if not contrasts:
+-        raise ValueError("No prespecified primary contrast")
++    primary, secondary = cfg["primary_contrasts"], cfg.get("secondary_contrasts", [])
++    if not primary or len(secondary) != 2:
++        raise ValueError("Prespecify the complete primary and two-ablation secondary families")
++    contrasts = primary + secondary
+     matrices = {name: np.asarray([[grid[key, f] for f in FAMILIES] for key in keys])
+                 for name, grid in grids.items()}
+     differences, repeated = [], []
+-    for contrast in contrasts:
++    for j, contrast in enumerate(contrasts):
+         after = np.stack([matrices[n] for n in contrast["after"]])
+         before = np.stack([matrices[n] for n in contrast["before"]])
+-        if after.shape[0] != 3 or before.shape[0] not in (1, 3):
++        if j < len(primary) and (after.shape[0] != 3 or before.shape[0] not in (1, 3)):
+             raise ValueError("Analyze three learned banks with single common or seed-paired controls")
++        if j >= len(primary) and (after.shape[0] != 1 or before.shape[0] != 1):
++            raise ValueError("Single-seed ablations do not have three independent learning repeats")
+         delta = after - before
+         differences.append(delta.mean(axis=0))
+         repeated.append({"after_F1_percent": (100 * after.mean(axis=1)).tolist(),
+@@ -139,9 +191,12 @@ def paired_source_statistics(cfg, records):
+     rng = np.random.Generator(np.random.PCG64(2026102192))
+     indices = rng.integers(len(keys), size=(20000, len(keys)))
+     draws = delta[indices].mean(axis=1)
+-    m = len(contrasts) * len(FAMILIES)
++    m, secondary_m = len(primary) * len(FAMILIES), len(secondary) * len(FAMILIES)
+     ordinary = np.quantile(draws, [0.025, 0.975], axis=0, method="linear")
+-    adjusted = np.quantile(draws, [0.025 / m, 1 - 0.025 / m], axis=0, method="linear")
++    adjusted = np.concatenate((
++        np.quantile(draws[:, :len(primary)], [0.025 / m, 1 - 0.025 / m], axis=0, method="linear"),
++        np.quantile(draws[:, len(primary):], [0.025 / secondary_m, 1 - 0.025 / secondary_m],
++                    axis=0, method="linear")), axis=1)
+     result = {}
+     for j, contrast in enumerate(contrasts):
+         result[contrast["name"]] = {"after": contrast["after"], "before": contrast["before"],
+@@ -161,10 +216,14 @@ def paired_source_statistics(cfg, records):
+             "sources": len(keys), "source_keys_sorted": keys, "endpoints": list(FAMILIES),
+             "bootstrap_draws": 20000, "bootstrap_seed": 2026102192,
+             "rng": "NumPy Generator PCG64", "numpy_version": np.__version__, "quantile_method": "linear",
+-            "primary_family_comparisons": m, "contrasts": result,
++            "primary_family_comparisons": m,
++            "contrasts": {c["name"]: result[c["name"]] for c in primary},
++            "secondary_family_comparisons": secondary_m,
++            "secondary_contrasts": {c["name"]: result[c["name"]] for c in secondary},
++            "secondary_single_learning_seed45_not_three_repeats_or_matched_actual_compute": True,
+             "all_primary_adjusted_lower_bounds_positive": all(
+-                endpoint["adjusted_lower_positive"] for contrast in result.values()
+-                for endpoint in contrast["endpoints"].values()),
++                endpoint["adjusted_lower_positive"] for c in primary
++                for endpoint in result[c["name"]]["endpoints"].values()),
+             "conditional_on_actual_learned_banks_and_fixed_decoding_not_algorithm_population": True,
+             "single_empty_and_static_prediction_not_independent_replicates": True}
+ 
+@@ -335,6 +394,7 @@ def fixed_banks(cfg):
+         if len(run_ids) != len(set(run_ids)):
+             raise ValueError("Repeated names for one learning run are not independent repeats")
+     check_primary_contrasts(cfg, source_configs)
++    check_secondary_contrasts(cfg, source_configs)
+     return banks, train_keys, extras
+ 
+ 
+diff --git a/tests/test_openexempt_frozen_eval.py b/tests/test_openexempt_frozen_eval.py
+index 75b85dd..b4964ca 100644
+--- a/tests/test_openexempt_frozen_eval.py
++++ b/tests/test_openexempt_frozen_eval.py
+@@ -48,6 +48,8 @@ def plan(tmp_path, monkeypatch):
+     for backend in ("direct", "ace"):
+         config = {"run_id": "learn_" + backend, "generation": generation,
+                   "execution_contract": "direct_statutory_claims", "execution_contract_version": 14,
++                  "skill_commit_policy": "legal_scope", "candidate_feedback_policy": "carry_partial_and_refine",
++                  "library_token_hard_cap": 4096, "max_candidate_attempts": 2,
+                   "source_cases": 2, "batch_source_cases": 1, "planned_batches": 2,
+                   "input_packet": "data/train/inputs.json"}
+         config_name = f"configs/{backend}.json"
+@@ -96,6 +98,27 @@ def plan(tmp_path, monkeypatch):
+                 arms.append({"name": name + str(seed), "role": role, "backend": backend,
+                     "source_config": config_name, "source_config_sha256": sha(config_path),
+                     "bank_sha256": csha(bank)})
++    parent_path = tmp_path / "configs/direct.json"
++    for variant, policy, feedback in (
++            ("whole_bank", "whole_bank", "carry_partial_and_refine"),
++            ("first_commit", "legal_scope", "batch_only_first_commit")):
++        config = copy.deepcopy(read(parent_path))
++        config.update(run_id="learn_" + variant, ablation_variant=variant,
++                      skill_commit_policy=policy, candidate_feedback_policy=feedback,
++                      comparison_reference_run="learn_direct",
++                      comparison_reference_config_sha256=sha(parent_path))
++        config_name = f"configs/{variant}.json"
++        path = put(config_name, config)
++        bindings = copy.deepcopy(read(parent_path.with_suffix(".frozen.json")))
++        bindings["config_sha256"] = sha(path)
++        put(f"configs/{variant}.frozen.json", bindings)
++        for batch in (1, 2):
++            put(f"runs/{config['run_id']}/publications/b{batch}.json", {"bank": []})
++        for filename in ("completion.json", "initialization.json"):
++            put(f"runs/{config['run_id']}/{filename}", read(tmp_path / "runs/learn_direct" / filename))
++        arms.append({"name": variant, "role": "ablation", "backend": "direct",
++                     "source_config": config_name, "source_config_sha256": sha(path),
++                     "bank_sha256": csha([])})
+     public = {key: {} for key in frozen.PUBLIC_LAW_FIELDS}
+     public["complete_public_statutes"] = {"Arizona": "Ariz. Rev. Stat. § 33-1123"}
+     public["no_cases_targets_trajectories_scores_or_prior_bank"] = True
+@@ -153,6 +176,8 @@ def plan(tmp_path, monkeypatch):
+                                  "before": before} for name, before in (
+         ("vs_empty", ["empty"]), ("vs_B1", ["B1", "B1145", "B1245"]),
+         ("vs_ACE", ["ACE", "ACE145", "ACE245"]), ("vs_static", ["static"]))]
++    cfg["secondary_contrasts"] = [{"name": "vs_" + name, "after": ["ours"], "before": [name]}
++                                  for name in ("whole_bank", "first_commit")]
+     config_path = tmp_path / "configs/evaluation.json"
+ 
+     def seal():
+@@ -171,7 +196,7 @@ def test_frozen_matrix_answers_every_arm_before_any_gold_read_and_reports_real_r
+ 
+     def grading_read(path):
+         if path.parent.name == "grading_only":
+-            assert len(list((root / "runs/synthetic_frozen/native").rglob("*.answer.json"))) == 22
++            assert len(list((root / "runs/synthetic_frozen/native").rglob("*.answer.json"))) == 26
+             assert (root / "runs/synthetic_frozen/predictions_before_any_grading.json").is_file()
+             grade_reads.append(str(path))
+         return read(path)
+@@ -197,14 +222,16 @@ def test_frozen_matrix_answers_every_arm_before_any_gold_read_and_reports_real_r
+     study = frozen.FrozenEvaluation(seal())
+     study.run()
+     result = read(study.out / "completion.json")
+-    assert len(calls) == 4 and len(grade_reads) == 22
+-    assert len(result["exact_wire_reuses_not_independent_draws"]) == 18
++    assert len(calls) == 4 and len(grade_reads) == 26
++    assert len(result["exact_wire_reuses_not_independent_draws"]) == 22
+     assert result["teacher_calls"] == 0
+     assert result["native_prompt_tokens"] == 52 and result["native_completion_tokens"] == 68
+     assert all(v["EC"]["f1"] == v["EV"]["f1"] == 1 for v in result["metrics"].values())
+     assert result["paired_vs_own_B1_frozen"]["ours"]["mean_f1_difference"] == 0
+     statistics = result["paired_source_statistics"]
+     assert statistics["sources"] == 1 and statistics["primary_family_comparisons"] == 8
++    assert statistics["secondary_family_comparisons"] == 4
++    assert set(statistics["secondary_contrasts"]) == {"vs_whole_bank", "vs_first_commit"}
+     assert not statistics["all_primary_adjusted_lower_bounds_positive"]
+ 
+ 
+@@ -402,6 +429,48 @@ def test_source_bootstrap_keeps_EC_EV_and_learning_repeat_pairing_without_pseudo
+     assert ordinary == pytest.approx(np.quantile(source_draws, [0.025, 0.975], method="linear"))
+     assert adjusted == pytest.approx(np.quantile(
+         source_draws, [0.025 / 8, 1 - 0.025 / 8], method="linear"))
++    secondary = result["secondary_contrasts"]["vs_first_commit"]
++    endpoint = secondary["endpoints"]["EC"]
++    assert endpoint["difference_pp"] == pytest.approx(15)
++    assert endpoint["conditional_95pct_interval_pp"] == pytest.approx(np.quantile(
++        source_draws - 10, [0.025, 0.975], method="linear"))
++    assert endpoint["conditional_Bonferroni_interval_pp"] == pytest.approx(np.quantile(
++        source_draws - 10, [0.025 / 4, 1 - 0.025 / 4], method="linear"))
++    assert len(secondary["per_learning_repeat"]["difference_pp"]) == 1
++    assert result["secondary_single_learning_seed45_not_three_repeats_or_matched_actual_compute"]
++
++
++@pytest.mark.parametrize("mutation", ["missing", "mispaired", "policy", "budget", "teacher", "renamed"])
++def test_policy_ablations_are_actual_single_seed_variants_before_TEST_load(plan, monkeypatch, mutation):
++    cfg, _, root = plan
++    if mutation == "missing":
++        cfg["secondary_contrasts"].pop()
++    elif mutation == "mispaired":
++        cfg["secondary_contrasts"][0]["after"] = ["ours", "ours145", "ours245"]
++    else:
++        arm = next(a for a in cfg["arms"] if a["name"] == "whole_bank")
++        path = root / arm["source_config"]
++        source = read(path)
++        if mutation == "policy":
++            source["skill_commit_policy"] = "legal_scope"
++        elif mutation == "budget":
++            source["max_candidate_attempts"] = 1
++        elif mutation == "teacher":
++            source["teacher"] = {"model": "different_teacher"}
++        else:
++            source["run_id"] = "learn_direct"
++        RunStore.atomic_json(path, source)
++        frozen_path = path.with_suffix(".frozen.json")
++        RunStore.atomic_json(frozen_path, {**read(frozen_path), "config_sha256": sha(path)})
++        arm["source_config_sha256"] = sha(path)
++
++    def guarded(path):
++        assert path != root / cfg["input_packet"]
++        return read(path)
++
++    monkeypatch.setattr(frozen, "read", guarded)
++    with pytest.raises(ValueError):
++        frozen.fixed_banks(cfg)
+ 
+ 
+ @pytest.mark.parametrize("mutation", ["missing", "duplicate", "identity", "nonfinite", "extra_arm"])
+-- 
+2.25.1
+

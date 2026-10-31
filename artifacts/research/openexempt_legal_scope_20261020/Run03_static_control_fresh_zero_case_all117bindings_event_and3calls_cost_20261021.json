@@ -1,0 +1,110 @@
+{
+  "at": "2026-10-21T02:38:40.413596+00:00",
+  "classification": "Current-source zero-case law-only control compiled, not evaluated, not learning or TEST",
+  "run_id": "legal_openexempt_direct_law_only_static_20261021_run03",
+  "bank_sha256": "4809c3b2fe336a682ad36544f036206f158c0890adad4e87bde6eb4fa6502321",
+  "records": 7,
+  "Qwen_tokens": 2411,
+  "all117_source_bindings_and50packages_current": true,
+  "actual_SYSTEM_public_content_schema_same_as_old_static02": true,
+  "public_bundle_file_sha256": "ee792d5e52460469f11bcece6628aa2677def152de108608ad9b9667c185d7fd",
+  "public_bundle_canonical_sha256": "ef67958ba5ece62c1a5e8a123e7612ba338d6774eb39e36804a955c74fd50a6d",
+  "public_payload_keys_only": [
+    "complete_public_statutes",
+    "generic_contracts",
+    "actual_actor_systems",
+    "task_boundary",
+    "public_skill_interface",
+    "no_cases_targets_trajectories_scores_or_prior_bank"
+  ],
+  "no_cases_labels_scores_trajectories_or_prior_bank": true,
+  "actual_teacher_response_fresh_no_tools": true,
+  "event_hash_kind": "canonical JSON of raw event_log string, not SHA of outer saved envelope",
+  "teacher_invocation": {
+    "attempt": 1,
+    "started_at": "2026-10-21T02:26:43.941097+00:00",
+    "finished_at": "2026-10-21T02:28:02.473865+00:00",
+    "elapsed_seconds": 78.533,
+    "returncode": 0,
+    "event_log_sha256": "a85090b64bea2e33d01c171b89ec766da3982dfe45a23df7625bc60fdd93b127",
+    "tool_events_detected": false,
+    "budget_reservation": {
+      "sequence": 1576,
+      "new_epoch_sequence": 351,
+      "reserved_at": "2026-10-21T02:26:43.941994+00:00",
+      "model": "gpt-5.6-sol",
+      "purpose": "legal_openexempt_direct_law_only_static_20261021_run03_law_only_compilation",
+      "request_sha256": "082cfd611db7091b0eb66a443762e4e4f6f4e2e8abaff8d3c678b9b5c2b21895",
+      "attempt": 1
+    },
+    "usage": {
+      "input_tokens": 18773,
+      "cached_input_tokens": 0,
+      "output_tokens": 3425,
+      "reasoning_output_tokens": 1203
+    },
+    "estimated_credits": null
+  },
+  "model": "gpt-5.6-sol",
+  "actual8B_generations_or_scores": 0,
+  "verified_terminal_archives": {
+    "terminal": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_direct_law_only_static_20261021_run03-actual-terminal.tar.gz",
+        "sha256": "4af35f64d59e98b85b2a02ceb15980c64d3d1cd35b63255b00d0cb4edb92adfb",
+        "all_members_verified": 6
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_direct_law_only_static_20261021_run03-actual-terminal.tar.gz",
+        "sha256": "4af35f64d59e98b85b2a02ceb15980c64d3d1cd35b63255b00d0cb4edb92adfb",
+        "all_members_verified": 6
+      }
+    ]
+  },
+  "all3_static_calls_cost_including_failure": [
+    {
+      "run_id": "legal_openexempt_direct_law_only_static_20261021_run01",
+      "usage": {
+        "input_tokens": 18712,
+        "cached_input_tokens": 0,
+        "output_tokens": 3263,
+        "reasoning_output_tokens": 987
+      },
+      "seconds": 63.65,
+      "published": false,
+      "failed": true
+    },
+    {
+      "run_id": "legal_openexempt_direct_law_only_static_20261021_run02",
+      "usage": {
+        "input_tokens": 18771,
+        "cached_input_tokens": 0,
+        "output_tokens": 3560,
+        "reasoning_output_tokens": 1362
+      },
+      "seconds": 69.715,
+      "published": true,
+      "failed": false
+    },
+    {
+      "run_id": "legal_openexempt_direct_law_only_static_20261021_run03",
+      "usage": {
+        "input_tokens": 18773,
+        "cached_input_tokens": 0,
+        "output_tokens": 3425,
+        "reasoning_output_tokens": 1203
+      },
+      "seconds": 78.533,
+      "published": true,
+      "failed": false
+    }
+  ],
+  "total_static_input_tokens": 56256,
+  "total_static_output_tokens": 10248,
+  "total_static_seconds": 211.89800000000002,
+  "old350_ledger_prefix_verified_exact_not_just_length": true,
+  "not_imported_to_running_main": true,
+  "new_model_or_teacher_calls_by_audit": 0,
+  "no_TEST_access": true,
+  "audit_recomputation_program": "import json,hashlib,tarfile,importlib.metadata\nfrom pathlib import Path\nfrom jsonschema import validate\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nfrom legal_skill_guard.learning.experiment import now\nroot=Path.cwd();r=root/\"runs/legal_openexempt_direct_law_only_static_20261021_run03\";sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\ncfg=json.loads((root/\"configs/openexempt_direct_law_only_static_20261021_run03.json\").read_text())\nm=json.loads((root/\"configs/openexempt_direct_law_only_static_20261021_run03.frozen.json\").read_text())\nassert not [n for n,h in m[\"files\"].items() if sha(root/n)!=h]\nassert m[\"packages\"]=={d.metadata[\"Name\"]:d.version for d in importlib.metadata.distributions()}\npub=json.loads((r/\"publication.json\").read_text());resp=json.loads((r/\"teacher/law_only_compilation/response.json\").read_text());w=json.loads((r/\"teacher/law_only_compilation/wire_request.json\").read_text())\noldw=json.loads((root/\"runs/legal_openexempt_direct_law_only_static_20261021_run02/teacher/law_only_compilation/wire_request.json\").read_text())\npublic=json.loads((root/cfg[\"input_packet\"]).read_text())\nassert all(w[k]==oldw[k] for k in (\"system_prompt\",\"user_prompt\",\"output_schema\",\"model\",\"reasoning_effort\"))\nassert json.loads(w[\"user_prompt\"])==public and resp[\"value\"]=={\"bank\":pub[\"bank\"]}\nvalidate(resp[\"value\"],w[\"output_schema\"]);assert csha(pub[\"bank\"])==pub[\"bank_sha256\"]\nassert pub[\"training_sources_seen\"]==pub[\"actual_native_generations\"]==0 and pub[\"Qwen_tokens\"]<=4096\nassert resp[\"cache_hit\"] is False and resp[\"invocation\"][\"tool_events_detected\"] is False\nevent=json.loads((r/\"teacher/law_only_compilation/event_log.json\").read_text())\nassert event[\"returncode\"]==0 and csha({\"event_log\":event[\"event_log\"]})==resp[\"invocation\"][\"event_log_sha256\"]\nassert not (r/\"native\").exists()\nreceipts={}\nfor stage,receipt in ((\"terminal\",json.loads((r/\"terminal_preservation.json\").read_text())),):\n proof=[]\n for item in receipt[\"paths\"]:\n  ar=Path(item[\"path\"]);assert sha(ar)==item[\"sha256\"]\n  with tarfile.open(ar) as t:\n   for member in t:assert hashlib.sha256(t.extractfile(member).read()).hexdigest()==sha(root/member.name)\n  proof.append({\"path\":str(ar),\"sha256\":item[\"sha256\"],\"all_members_verified\":receipt[\"files\"]})\n receipts[stage]=proof\ncost=[]\nfor n in (1,2,3):\n rr=root/f\"runs/legal_openexempt_direct_law_only_static_20261021_run0{n}\"\n x=json.loads((rr/\"teacher/law_only_compilation/response.json\").read_text())\n cost.append({\"run_id\":rr.name,\"usage\":x[\"invocation\"][\"usage\"],\"seconds\":x[\"invocation\"][\"elapsed_seconds\"],\"published\":(rr/\"publication.json\").exists(),\"failed\":(rr/\"failure.json\").exists()})\nl=json.loads((root/cfg[\"teacher\"][\"ledger\"]).read_text());assert l[\"max_invocations\"]==1797\nassert hashlib.sha256(json.dumps(l[\"reservations\"][:350],sort_keys=True).encode()).hexdigest()==\"b41ad3cccd7cb0d6465d64963cfa4971528a819242b66b6a837c132aedc4ae6e\"\nout={\"at\":now(),\"classification\":\"Current-source zero-case law-only control compiled, not evaluated, not learning or TEST\",\n\"run_id\":r.name,\"bank_sha256\":pub[\"bank_sha256\"],\"records\":len(pub[\"bank\"]),\"Qwen_tokens\":pub[\"Qwen_tokens\"],\n\"all117_source_bindings_and50packages_current\":True,\"actual_SYSTEM_public_content_schema_same_as_old_static02\":True,\n\"public_bundle_file_sha256\":sha(root/cfg[\"input_packet\"]),\"public_bundle_canonical_sha256\":csha(public),\n\"public_payload_keys_only\":list(public),\"no_cases_labels_scores_trajectories_or_prior_bank\":True,\n\"actual_teacher_response_fresh_no_tools\":True,\"event_hash_kind\":\"canonical JSON of raw event_log string, not SHA of outer saved envelope\",\"teacher_invocation\":resp[\"invocation\"],\"model\":resp[\"model\"],\n\"actual8B_generations_or_scores\":0,\"verified_terminal_archives\":receipts,\"all3_static_calls_cost_including_failure\":cost,\n\"total_static_input_tokens\":sum(x[\"usage\"][\"input_tokens\"] for x in cost),\"total_static_output_tokens\":sum(x[\"usage\"][\"output_tokens\"] for x in cost),\n\"total_static_seconds\":sum(x[\"seconds\"] for x in cost),\"old350_ledger_prefix_verified_exact_not_just_length\":True,\n\"not_imported_to_running_main\":True,\"new_model_or_teacher_calls_by_audit\":0,\"no_TEST_access\":True}\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

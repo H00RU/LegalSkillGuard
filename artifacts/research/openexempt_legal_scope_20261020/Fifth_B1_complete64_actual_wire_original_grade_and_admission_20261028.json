@@ -1,0 +1,944 @@
+{
+  "at": "2026-10-28T09:37:29.082872+00:00",
+  "run_id": "legal_openexempt_anchored_execution_public_assets128_20261028_run01",
+  "scope": "Complete actual first-batch publication raw-wire, decoder, original-grade and original-gate verification; not subsequent-case or TEST gain",
+  "publication_at": "2026-10-28T09:33:31.001366+00:00",
+  "bank_sha256": "c05865f3c41df410b0a2cd1fa3b5cc9f86bc31690bfdcdc25fa92ec8be0052c3",
+  "skills": 5,
+  "bank_tokens": 1858,
+  "selected_policy": "joint",
+  "proposal_fully_committed": true,
+  "teacher_calls_for_B1": 1,
+  "parent": {
+    "EC": {
+      "precision": 0.8246527777777778,
+      "recall": 0.51953125,
+      "f1": 0.6087053571428571,
+      "exact_target": 0.0625,
+      "tasks": 16,
+      "invalid_format": 1,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.6300198412698413,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "EV": {
+      "precision": 0.8098958333333333,
+      "recall": 0.5047743055555555,
+      "f1": 0.602157738095238,
+      "exact_target": 0.0625,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 1,
+      "full_output_f1": 0.6151722494553378,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "mean_family_f1": 0.6054315476190475
+  },
+  "candidate": {
+    "EC": {
+      "precision": 0.9505208333333333,
+      "recall": 0.8020833333333333,
+      "f1": 0.8465029761904761,
+      "exact_target": 0.25,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.869615206250393,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "EV": {
+      "precision": 0.8671875,
+      "recall": 0.6796874999999999,
+      "f1": 0.7485615079365079,
+      "exact_target": 0.125,
+      "tasks": 16,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 1,
+      "full_output_f1": 0.7355324074074073,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "mean_family_f1": 0.797532242063492
+  },
+  "native_gain_pp": {
+    "EC": 23.779761904761898,
+    "EV": 14.640376984126991
+  },
+  "full_gain_pp": {
+    "EC": 23.95953649805517,
+    "EV": 12.036015795206955
+  },
+  "paired_effect": {
+    "tasks": 32,
+    "help": 20,
+    "hurt": 5,
+    "ties": 7,
+    "mean_f1_difference": 0.19210069444444447
+  },
+  "all64_actual_messages_schemas_generation_delivery_decode_and_original_score_verified": true,
+  "original_gate_recomputed": {
+    "accepted": true,
+    "current_family_nonregression": true,
+    "prior_family_nonregression": true,
+    "strict_current_improvement": true,
+    "current_full_output_nonregression": true,
+    "prior_full_output_nonregression": true,
+    "current_negative_asset_and_format_nonregression": true,
+    "prior_negative_asset_and_format_nonregression": true,
+    "parent_current": {
+      "EC": {
+        "precision": 0.8246527777777778,
+        "recall": 0.51953125,
+        "f1": 0.6087053571428571,
+        "exact_target": 0.0625,
+        "tasks": 16,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.6300198412698413,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "EV": {
+        "precision": 0.8098958333333333,
+        "recall": 0.5047743055555555,
+        "f1": 0.602157738095238,
+        "exact_target": 0.0625,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.6151722494553378,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.6054315476190475
+    },
+    "candidate_current": {
+      "EC": {
+        "precision": 0.9505208333333333,
+        "recall": 0.8020833333333333,
+        "f1": 0.8465029761904761,
+        "exact_target": 0.25,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.869615206250393,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8671875,
+        "recall": 0.6796874999999999,
+        "f1": 0.7485615079365079,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.7355324074074073,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.797532242063492
+    },
+    "parent_prior": {
+      "mean_family_f1": 0
+    },
+    "candidate_prior": {
+      "mean_family_f1": 0
+    },
+    "TRAIN_optimization_not_independent_validation": true
+  },
+  "finish_counts": {
+    "parent": {
+      "stop": 31,
+      "length": 1
+    },
+    "candidate": {
+      "stop": 32
+    }
+  },
+  "sensitivity_not_main_score_or_admission_change": {
+    "native_EC_gain_on_15_baseline_valid_tasks_pp": 19.96825396825397,
+    "main_denominator_still16": true
+  },
+  "per_task_wire_proof": [
+    {
+      "source_case_id": 181,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.41666666666666663,
+      "full_output_f1": 0.5,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/181_EC_empty_direct_numeric.json",
+      "raw_call_sha256": "d2a9c41e99d81c52a64b0843ec006f45d57b15479de3e52dbd0a69018fc956a8"
+    },
+    {
+      "source_case_id": 181,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.29166666666666663,
+      "full_output_f1": 0.35294117647058826,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/181_EV_frozen_after_B1.json",
+      "raw_call_sha256": "2d36f1b858007f7ebbc47a0a84b348849710a3faa1850bc1396657bb203fcbda"
+    },
+    {
+      "source_case_id": 182,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.5,
+      "full_output_f1": 0.5714285714285715,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/182_EC_frozen_after_B1.json",
+      "raw_call_sha256": "0f127dea6dc18003e339b5e9a5e52f76de6587dde6b53dd246d8493afca3e885"
+    },
+    {
+      "source_case_id": 182,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 1,
+      "full_output_f1": 0.8,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/182_EV_empty.json",
+      "raw_call_sha256": "7653f4d7634a6a554606137a039ce47ee03262e55affc7702ffa968655a97220"
+    },
+    {
+      "source_case_id": 183,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.5,
+      "full_output_f1": 0.6666666666666666,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/183_EC_empty.json",
+      "raw_call_sha256": "b0dac87afc2ecd52b4ca3bcf1759edbe1cffc07b0896771785a8323cb37e3d56"
+    },
+    {
+      "source_case_id": 183,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 1,
+      "full_output_f1": 1,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/183_EV_frozen_initial.json",
+      "raw_call_sha256": "579ea5ee45a9aba376bdf6d302742084efc5e3db015e1dccfda83bafc3e263ec"
+    },
+    {
+      "source_case_id": 184,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.6583333333333332,
+      "full_output_f1": 0.6666666666666666,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/184_EC_frozen_initial.json",
+      "raw_call_sha256": "bea30ac71bb0c778a69b821cc2e13ee9a4e7eadf910476eb2a91bb28eb3f4f49"
+    },
+    {
+      "source_case_id": 184,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.6333333333333333,
+      "full_output_f1": 0.625,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/184_EV_skills.json",
+      "raw_call_sha256": "201215ed6cedf020b63a5b3a1dc0ddabbf7889e06572758432d0c7f705bd7fa9"
+    },
+    {
+      "source_case_id": 185,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.8000000000000002,
+      "full_output_f1": 0.8,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/185_EC_skills.json",
+      "raw_call_sha256": "16607d795dad1ed01d1b7de3f2c85efc761a6069e7088e16210d6e111b4cefb3"
+    },
+    {
+      "source_case_id": 185,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.6666666666666667,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/185_EV_empty_direct_numeric.json",
+      "raw_call_sha256": "6e43788a6c04db3a0b3dff5b84d6ac5f03cd31d4388511eb347452391106ee0b"
+    },
+    {
+      "source_case_id": 186,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.65,
+      "full_output_f1": 0.6666666666666665,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/186_EC_empty_direct_numeric.json",
+      "raw_call_sha256": "a0d33bad262852e6b2730a4272ccc8cea41fae7916dfc16a34610478418dc8eb"
+    },
+    {
+      "source_case_id": 186,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.7333333333333334,
+      "full_output_f1": 0.7499999999999999,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/186_EV_frozen_after_B1.json",
+      "raw_call_sha256": "7f2e01e72c77c3283636a8b78c521d07bb63e67c1b5f734a0b9fe3bf34edd4b4"
+    },
+    {
+      "source_case_id": 187,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.7142857142857143,
+      "full_output_f1": 0.72,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/187_EC_frozen_after_B1.json",
+      "raw_call_sha256": "843bd2775af5f59b231a28bcd24e5224946cb20323e956a6053c31596197b518"
+    },
+    {
+      "source_case_id": 187,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.6666666666666666,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/187_EV_empty.json",
+      "raw_call_sha256": "cd9c6111ed8f6adfc2f3863ab048ab6cc903c6d529643c5f52049f8e948b8d33"
+    },
+    {
+      "source_case_id": 188,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.6666666666666666,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/188_EC_empty.json",
+      "raw_call_sha256": "1da485a2524efa075bcc6f3236aaa9cb599dde112933a92e07ec59b9aa0a8e99"
+    },
+    {
+      "source_case_id": 188,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.6666666666666666,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/188_EV_frozen_initial.json",
+      "raw_call_sha256": "7e918beac6652b775fc7d29fec9f30d5e6313ed24478990c1e4519d43f66fd3b"
+    },
+    {
+      "source_case_id": 189,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 1,
+      "full_output_f1": 1,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/189_EC_frozen_initial.json",
+      "raw_call_sha256": "a23b3bfcd0703e35f926fb4cdc8ffe7d8cdda037d8c5a6eec53da0976ecf5b10"
+    },
+    {
+      "source_case_id": 189,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 1,
+      "full_output_f1": 1,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/189_EV_skills.json",
+      "raw_call_sha256": "f737fe929e1b3aef72c90eba9ecdce98c84d97aae8c5d9c4b732bb6a78dcfca9"
+    },
+    {
+      "source_case_id": 190,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.5833333333333333,
+      "full_output_f1": 0.6,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/190_EC_skills.json",
+      "raw_call_sha256": "09dc715a6fb83419e2e21eebd9d21f72288df6dde12299c65788e5a12fc0ea79"
+    },
+    {
+      "source_case_id": 190,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.3333333333333333,
+      "full_output_f1": 0.5,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/190_EV_empty_direct_numeric.json",
+      "raw_call_sha256": "fd083edb48d505ec09ab26e9a2c9c3310046977ae449e2069355037fd77d4fab"
+    },
+    {
+      "source_case_id": 191,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.6666666666666666,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/191_EC_empty_direct_numeric.json",
+      "raw_call_sha256": "657f2536369acf62a7a36a9576c3fbd4935d40012b7e1e131c0842502585fb47"
+    },
+    {
+      "source_case_id": 191,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.8095238095238095,
+      "full_output_f1": 0.8148148148148148,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/191_EV_frozen_after_B1.json",
+      "raw_call_sha256": "671822ee8cc80e23a1cde29b401d35afaec8298de955f2416e131e0d2ba14075"
+    },
+    {
+      "source_case_id": 192,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.5,
+      "full_output_f1": 0.5,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/192_EC_frozen_after_B1.json",
+      "raw_call_sha256": "570d4e7f5489f78b676dd733abf15f4fa90bb0e33f29e90da358f6b050c9bb98"
+    },
+    {
+      "source_case_id": 192,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.5,
+      "full_output_f1": 0.5,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/192_EV_empty.json",
+      "raw_call_sha256": "e031f5c42757e5668fe4579490f897e20afa79de5156dc8dc849697cac02cae0"
+    },
+    {
+      "source_case_id": 193,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "length",
+      "delivered_skill_ids": [],
+      "native_f1": 0,
+      "full_output_f1": 0,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/193_EC_empty.json",
+      "raw_call_sha256": "a24461371984b97befe6b2946ad6c0b257c5ed2b5b052d22df84183f8c4ed7ca"
+    },
+    {
+      "source_case_id": 193,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.6666666666666666,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/193_EV_frozen_initial.json",
+      "raw_call_sha256": "3e2bf30bfebaa1ccb66519de6237910ad2015d9ea38faa1d0aec46511ba23e93"
+    },
+    {
+      "source_case_id": 194,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.5,
+      "full_output_f1": 0.5,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/194_EC_frozen_initial.json",
+      "raw_call_sha256": "3f3c346df027c9f37e311a41080fabaac84a098dc4a1d467b4eb0f88192bf120"
+    },
+    {
+      "source_case_id": 194,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.5,
+      "full_output_f1": 0.5,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/194_EV_skills.json",
+      "raw_call_sha256": "9aa4e7b9a3287e7f167ead092f0fe8b48aec57bb49eebbb0fd37e98a997f1e2b"
+    },
+    {
+      "source_case_id": 195,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.6666666666666666,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/195_EC_skills.json",
+      "raw_call_sha256": "09bbea3900d62d013dd6401dd61fd147dcca17c7d6503a00efc7b3aae664cca2"
+    },
+    {
+      "source_case_id": 195,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0,
+      "full_output_f1": 0,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/195_EV_empty_direct_numeric.json",
+      "raw_call_sha256": "7904550b834664e4216ca21b7218f83028fee879792fd5774d5837137ed8f98c"
+    },
+    {
+      "source_case_id": 196,
+      "family": "EC",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.9166666666666666,
+      "full_output_f1": 0.888888888888889,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/196_EC_empty_direct_numeric.json",
+      "raw_call_sha256": "9225f707971fce76f84094b44846a2f3e5296baf956571f32dee59dd0f912e23"
+    },
+    {
+      "source_case_id": 196,
+      "family": "EV",
+      "arm": "parent",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [],
+      "native_f1": 0.16666666666666666,
+      "full_output_f1": 0.33333333333333337,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_prequential/196_EV_frozen_after_B1.json",
+      "raw_call_sha256": "2c53475ec80f910e30141878d6a4252547fff5d965dc36948ffc528d237bd69a"
+    },
+    {
+      "source_case_id": 181,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "native_f1": 0.8999999999999999,
+      "full_output_f1": 0.9166666666666666,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/181_EC_candidate.json",
+      "raw_call_sha256": "a65856ade1b2ebb7789bdef32f7ad47afc5596ce87f5eda7cf9791c9df864739"
+    },
+    {
+      "source_case_id": 181,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "native_f1": 0.5666666666666667,
+      "full_output_f1": 0.6,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/181_EV_candidate.json",
+      "raw_call_sha256": "f1951f018c1035b6569cabd838bacd7491813c2d8c58f758e61f0029cfc258d7"
+    },
+    {
+      "source_case_id": 182,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "arizona-category-and-cap-boundaries"
+      ],
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.8,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/182_EC_candidate.json",
+      "raw_call_sha256": "f03062274931994d4da59af9f20969bcadd3dd3116f54f19817a387acb8b795d"
+    },
+    {
+      "source_case_id": 182,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "arizona-category-and-cap-boundaries"
+      ],
+      "native_f1": 1,
+      "full_output_f1": 0.8,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/182_EV_candidate.json",
+      "raw_call_sha256": "fae5ede3954e6d0d29f1fb687e91ee7c696025d6e4119a44299cac09eae0c29e"
+    },
+    {
+      "source_case_id": 183,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "arizona-category-and-cap-boundaries"
+      ],
+      "native_f1": 0.75,
+      "full_output_f1": 1,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/183_EC_candidate.json",
+      "raw_call_sha256": "a41de939766f01be674293916172105f0006c50b9dea1410d3445010985aab1d"
+    },
+    {
+      "source_case_id": 183,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "arizona-category-and-cap-boundaries"
+      ],
+      "native_f1": 1,
+      "full_output_f1": 1,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/183_EV_candidate.json",
+      "raw_call_sha256": "1bbce5c2187bd44d8c712ade659cc67f248767ad22fa3b95a290786b30a25ffa"
+    },
+    {
+      "source_case_id": 184,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives"
+      ],
+      "native_f1": 0.7083333333333333,
+      "full_output_f1": 0.7368421052631577,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/184_EC_candidate.json",
+      "raw_call_sha256": "3c3ec6b595a88f504b11118758e0d9ffffcbb5b4513dc8b612c216123c61b9cc"
+    },
+    {
+      "source_case_id": 184,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives"
+      ],
+      "native_f1": 0.6000000000000001,
+      "full_output_f1": 0.6,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/184_EV_candidate.json",
+      "raw_call_sha256": "141d87b06053208761151e49f9e985f3b83bc984abce18e3a74589a4870d70c9"
+    },
+    {
+      "source_case_id": 185,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives"
+      ],
+      "native_f1": 0.5,
+      "full_output_f1": 0.5,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/185_EC_candidate.json",
+      "raw_call_sha256": "f2175138ae355e4a37da16a3926d2db67f6a31cd1b0a7f5305c08fa16fa42979"
+    },
+    {
+      "source_case_id": 185,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives"
+      ],
+      "native_f1": 0.8000000000000002,
+      "full_output_f1": 0.8,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/185_EV_candidate.json",
+      "raw_call_sha256": "78c3497b479f3c781382c50a0ca3e402e54a90fed3f5d4b3f05e7d0d190fbf76"
+    },
+    {
+      "source_case_id": 186,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives"
+      ],
+      "native_f1": 0.9,
+      "full_output_f1": 0.888888888888889,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/186_EC_candidate.json",
+      "raw_call_sha256": "e023b683e643eb77003a5243eaf2f4e63d2775d6038c0e4de34d5d5725b8320d"
+    },
+    {
+      "source_case_id": 186,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives"
+      ],
+      "native_f1": 0.65,
+      "full_output_f1": 0.6666666666666665,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/186_EV_candidate.json",
+      "raw_call_sha256": "1e8875c394d1ed9b081ea4971836bb424c8fdcba578b87e6521ccbd4d81ad598"
+    },
+    {
+      "source_case_id": 187,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "oregon-personal-property-alternative"
+      ],
+      "native_f1": 1,
+      "full_output_f1": 1,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/187_EC_candidate.json",
+      "raw_call_sha256": "d271290b6cc7600ee04ebe3a5e304b977161e280fb4545e8f8f06c51daf73ebb"
+    },
+    {
+      "source_case_id": 187,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "oregon-personal-property-alternative"
+      ],
+      "native_f1": 0.5833333333333334,
+      "full_output_f1": 0.5833333333333334,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/187_EV_candidate.json",
+      "raw_call_sha256": "dc611d5f22a95fe198e5020de367458197bb47b1035c4ca839abd8e6a0d55b39"
+    },
+    {
+      "source_case_id": 188,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "oregon-personal-property-alternative"
+      ],
+      "native_f1": 0.9285714285714286,
+      "full_output_f1": 0.9333333333333333,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/188_EC_candidate.json",
+      "raw_call_sha256": "d1658396aef22d94c7f74726872b7d1bc95a2d01cab9fb88f0fa560f1c52d487"
+    },
+    {
+      "source_case_id": 188,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "oregon-personal-property-alternative"
+      ],
+      "native_f1": 1,
+      "full_output_f1": 1,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/188_EV_candidate.json",
+      "raw_call_sha256": "8c9c6def85b48441af8113aff93f2c49198f10a6785a5ae31b766e7999c0542b"
+    },
+    {
+      "source_case_id": 189,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "arizona-category-and-cap-boundaries"
+      ],
+      "native_f1": 1,
+      "full_output_f1": 1,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/189_EC_candidate.json",
+      "raw_call_sha256": "dd382586a32dd6753c34191dc93702ba7cd491dcba79a2e24a6d583c7cd833aa"
+    },
+    {
+      "source_case_id": 189,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "arizona-category-and-cap-boundaries"
+      ],
+      "native_f1": 1,
+      "full_output_f1": 1,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/189_EV_candidate.json",
+      "raw_call_sha256": "b77cca925bae13754fc123aac9f99d81f6a9187d5dd6e83ca0fb07c09d9644f3"
+    },
+    {
+      "source_case_id": 190,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "illinois-other-personal-property-alternative"
+      ],
+      "native_f1": 0.8333333333333333,
+      "full_output_f1": 0.8,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/190_EC_candidate.json",
+      "raw_call_sha256": "6bfb3bf33d7175983b6aa26ef12f6a2cb28d4fabf24d57f9ff74caab8eb3369f"
+    },
+    {
+      "source_case_id": 190,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "illinois-other-personal-property-alternative"
+      ],
+      "native_f1": 0.8333333333333333,
+      "full_output_f1": 0.8,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/190_EV_candidate.json",
+      "raw_call_sha256": "b19f83c7c55f35a27c68c328759a03d821f787c770d85b81d0d5d83c7b394fba"
+    },
+    {
+      "source_case_id": 191,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "oregon-personal-property-alternative"
+      ],
+      "native_f1": 0.9642857142857143,
+      "full_output_f1": 0.967741935483871,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/191_EC_candidate.json",
+      "raw_call_sha256": "1e40fe721fdd8e03b5c1403084a5bc969e003130d5e2f8cc594d024b6bc5e209"
+    },
+    {
+      "source_case_id": 191,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "oregon-personal-property-alternative"
+      ],
+      "native_f1": 0.7380952380952381,
+      "full_output_f1": 0.7407407407407406,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/191_EV_candidate.json",
+      "raw_call_sha256": "1b91f25454782b321955cbc0348e2d8e0c1c086f83b2d8c6c4095849a6abb755"
+    },
+    {
+      "source_case_id": 192,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "native_f1": 1,
+      "full_output_f1": 1,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/192_EC_candidate.json",
+      "raw_call_sha256": "ada1a907cf9c93f4f13d113542112a6cffbf0e2a54904769367f4a7ff0ce571b"
+    },
+    {
+      "source_case_id": 192,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "native_f1": 0.6000000000000001,
+      "full_output_f1": 0.6,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/192_EV_candidate.json",
+      "raw_call_sha256": "26ed005f986180bd91de55deddaa7017751138a6b7efb5b0639971155ddabde6"
+    },
+    {
+      "source_case_id": 193,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "oregon-personal-property-alternative"
+      ],
+      "native_f1": 0.8095238095238095,
+      "full_output_f1": 0.8148148148148148,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/193_EC_candidate.json",
+      "raw_call_sha256": "c5362f9761bba0739fd29fddbeef79abfb2efdae0a057be088c661fd7bb17bd7"
+    },
+    {
+      "source_case_id": 193,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "oregon-personal-property-alternative"
+      ],
+      "native_f1": 0.6666666666666667,
+      "full_output_f1": 0.6666666666666666,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/193_EV_candidate.json",
+      "raw_call_sha256": "6a53308443bb42668a9ed6fa85531c14ecef9fe63ddb3e77c4229eed5a6e051e"
+    },
+    {
+      "source_case_id": 194,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "native_f1": 1,
+      "full_output_f1": 1,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/194_EC_candidate.json",
+      "raw_call_sha256": "b7438b491e61b5f2e9d996b6c64426cdf2333f44d39a6b1aa37f993197f9ee06"
+    },
+    {
+      "source_case_id": 194,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "federal-wildcard-independent-alternatives",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "native_f1": 0.8,
+      "full_output_f1": 0.8,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/194_EV_candidate.json",
+      "raw_call_sha256": "65adfbb8f3199874c7f5e4622399a94a98672dcd2eb65c98b457c0c758d435ba"
+    },
+    {
+      "source_case_id": 195,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "illinois-other-personal-property-alternative"
+      ],
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.6666666666666666,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/195_EC_candidate.json",
+      "raw_call_sha256": "0e32f4b2443ceecc91976e37aa00bf742e925d34cd470b9ea0bc4fecedf65915"
+    },
+    {
+      "source_case_id": 195,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "illinois-other-personal-property-alternative"
+      ],
+      "native_f1": 0.2222222222222222,
+      "full_output_f1": 0.2222222222222222,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/195_EV_candidate.json",
+      "raw_call_sha256": "258691e2ee1c287cd60ed2dda7a09a77cad460d6d338e7e0bceeddb4e5675d8b"
+    },
+    {
+      "source_case_id": 196,
+      "family": "EC",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "illinois-other-personal-property-alternative"
+      ],
+      "native_f1": 0.9166666666666666,
+      "full_output_f1": 0.888888888888889,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/196_EC_candidate.json",
+      "raw_call_sha256": "101a7f27f37e34c6ab20bb5e8f799a46596bd5d5f0c15ab112c0580c8c706d29"
+    },
+    {
+      "source_case_id": 196,
+      "family": "EV",
+      "arm": "candidate",
+      "finish_reason": "stop",
+      "delivered_skill_ids": [
+        "illinois-other-personal-property-alternative"
+      ],
+      "native_f1": 0.9166666666666666,
+      "full_output_f1": 0.888888888888889,
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/196_EV_candidate.json",
+      "raw_call_sha256": "118e5b1df737d88cabd3bbe09873d66778a111cd748cc3e3ef6b332e5e01559d"
+    }
+  ],
+  "no_new_native_teacher_or_TEST_calls": true,
+  "next_action": "Same live fifth run entered B2; assess incoming new-case utility and actual evolution beyond B1, keep frozen code unchanged."
+}

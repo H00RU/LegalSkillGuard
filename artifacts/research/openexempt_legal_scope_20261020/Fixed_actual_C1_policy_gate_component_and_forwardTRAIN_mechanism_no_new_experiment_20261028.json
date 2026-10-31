@@ -1,0 +1,166 @@
+{
+  "at": "2026-10-27T20:33:46.146619+00:00",
+  "scope": "Fixed actual first proposal/admission-outcome mechanism case; not a newly trained whole/task ablation or an isolated teacher-feedback causal study",
+  "source_run": "legal_openexempt_revision_outcome_teacher_B7_prefix112_TRAIN_20261028_run01",
+  "sources": {
+    "candidate1": {
+      "path": "runs/legal_openexempt_revision_outcome_teacher_B7_prefix112_TRAIN_20261028_run01/candidates/b7_candidate1.json",
+      "sha256": "f9d408bb7274236c312c41fd524d8e514452e8c56ac32497947528045b963b3b"
+    },
+    "actual_B7": {
+      "path": "runs/legal_openexempt_revision_outcome_teacher_B7_prefix112_TRAIN_20261028_run01/publications/b7.json",
+      "sha256": "95404ce00078e7c6b57d41596c1f1dd823ba14e50b0a25f94250aaad327554a1"
+    },
+    "completed_forward_comparison": {
+      "path": "runs/legal_openexempt_revision_outcome_teacher_B7_prefix112_TRAIN_20261028_run01/completion.json",
+      "sha256": "8597b0bcf7865258040d89c332dd9e50be45acacf90372e2617a7f4b8fcb870f"
+    }
+  },
+  "same_actual_proposal_gate_results": {
+    "whole_bank": false,
+    "task_local": {
+      "EC": false,
+      "EV": false
+    },
+    "adaptive_actual": true,
+    "adaptive_selected": "dependency_components",
+    "accepted_legal_coordinates": [
+      "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN"
+    ],
+    "no_new_composed_generations": true
+  },
+  "measured_training_metrics": {
+    "parent_current16": {
+      "EC": {
+        "f1": 0.8524305555555555,
+        "full_output_f1": 0.8805288461538461,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "f1": 0.8551835317460319,
+        "full_output_f1": 0.8424349547511313,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 0
+      }
+    },
+    "whole_proposed_current16": {
+      "EC": {
+        "f1": 0.9008928571428572,
+        "full_output_f1": 0.910567037129537,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "f1": 0.7951884920634921,
+        "full_output_f1": 0.7953744172494172,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 0
+      }
+    },
+    "selected_current16": {
+      "EC": {
+        "f1": 0.9061011904761905,
+        "full_output_f1": 0.9230670371295371,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "f1": 0.8551835317460319,
+        "full_output_f1": 0.8424349547511313,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 0
+      }
+    },
+    "parent_prior96": {
+      "EC": {
+        "f1": 0.9214203042328043,
+        "full_output_f1": 0.9571470063662398,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "EV": {
+        "f1": 0.9172109237213403,
+        "full_output_f1": 0.9109021284357318,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 2
+      }
+    },
+    "whole_proposed_prior96": {
+      "EC": {
+        "f1": 0.9172102347883597,
+        "full_output_f1": 0.9541402083355809,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "EV": {
+        "f1": 0.9079861111111112,
+        "full_output_f1": 0.8998782426544613,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 4
+      }
+    },
+    "selected_prior96": {
+      "EC": {
+        "f1": 0.9218398644179895,
+        "full_output_f1": 0.9580919279123004,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "EV": {
+        "f1": 0.9172109237213403,
+        "full_output_f1": 0.9109021284357318,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 2
+      }
+    }
+  },
+  "update_fixed_before_forward16": true,
+  "forward_TRAIN16_teacher_not_exposed": {
+    "parent": {
+      "EC": {
+        "f1": 0.9111607142857143,
+        "full_output_f1": 0.9232927097057533,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "f1": 0.9248139880952382,
+        "full_output_f1": 0.9225010781687146,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 0
+      }
+    },
+    "selected": {
+      "EC": {
+        "f1": 0.9581101190476191,
+        "full_output_f1": 0.9596483402869272,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "f1": 0.9248139880952382,
+        "full_output_f1": 0.9225010781687146,
+        "invalid_format": 0,
+        "negative_or_unscored_asset_claims": 0
+      }
+    },
+    "EC_native_delta": 0.04694940476190479,
+    "EC_full_delta": 0.03635563058117397,
+    "EV_native_delta": 0,
+    "actual_paired_effect": {
+      "tasks": 32,
+      "help": 4,
+      "hurt": 3,
+      "ties": 25,
+      "mean_f1_difference": 0.023474702380952374
+    }
+  },
+  "evidence_supports": "For this fixed measured proposal, component commitment retains a beneficial EC update that full-bank/task gates would not publish; its actual released bank improves subsequent TRAIN EC without changing EV.",
+  "not_supported_by_this_case": [
+    "A fully learned counterfactual whole/task method after its own later teacher proposals",
+    "Isolated causal gain of teacher revision feedback versus another stochastic teacher generation",
+    "Unseen TEST performance, universal superiority, or independent training repeat"
+  ],
+  "new_native_or_teacher_calls_for_report": 0
+}

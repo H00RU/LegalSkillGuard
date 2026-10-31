@@ -1,0 +1,1386 @@
+{
+  "at": "2026-10-29T21:33:04.652998+00:00",
+  "classification": "Complete B7 final-bank112TRAIN residual-error mass diagnosis; prioritize common failures, not single rare branch; not heldout performance",
+  "run_id": "legal_openexempt_task_projection_public_assets128_20261029_run01",
+  "actual_final_B7_publication": {
+    "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/publications/b7.json",
+    "sha256": "7c5cd3905399e64e85ecd89ab3200b4ef0cca6e3afada2c4ec64ced66df3dbc7"
+  },
+  "bank_sha256": "02b119a968c76f1e8a2c359f6d35e950012b53f83c9dc08251874401fd7e5702",
+  "original_all112_source_records": 112,
+  "invalid_format_sources_retained_in_official_scores": [
+    235
+  ],
+  "common_valid111_claim_counts_not_replacement_score": {
+    "correct": 660,
+    "missing": 52,
+    "incorrect_value": 48,
+    "extra_or_duplicate": 20,
+    "incorrect_value_predictions": 48
+  },
+  "error_counts_by_kind_and_citation": {
+    "missing": {
+      "11 U.S.C. § 522(d)(3)": 2,
+      "42 Pa. Cons. Stat. § 8123": 17,
+      "11 U.S.C. § 522(d)(5)": 14,
+      "Or. Rev. Stat. § 18.345(1)(p)": 4,
+      "11 U.S.C. § 522(d)(4)": 1,
+      "Or. Rev. Stat. § 18.345(1)(b)": 1,
+      "735 Ill. Comp. Stat. 5/12-1001(b)": 9,
+      "735 Ill. Comp. Stat. 5/12-1001(a)": 2,
+      "Or. Rev. Stat. § 18.345(1)(f)": 1,
+      "735 Ill. Comp. Stat. 5/12-1001(d)": 1
+    },
+    "extra_or_duplicate": {
+      "42 Pa. Cons. Stat. § 8124(a)(1)": 4,
+      "Ariz. Rev. Stat. § 33-1101(B)": 1,
+      "11 U.S.C. § 522(d)(3)": 4,
+      "735 Ill. Comp. Stat. 5/12-1001(d)": 7,
+      "42 Pa. Cons. Stat. § 8124(a)(4)": 2,
+      "Or. Rev. Stat. § 18.345(1)(a)": 1
+    },
+    "incorrect_value": {
+      "11 U.S.C. § 522(d)(5)": 16,
+      "11 U.S.C. § 522(d)(2)": 1,
+      "735 Ill. Comp. Stat. 5/12-1001(b)": 2,
+      "42 Pa. Cons. Stat. § 8123": 16,
+      "11 U.S.C. § 522(d)(3)": 1,
+      "11 U.S.C. § 522(d)(4)": 1,
+      "Or. Rev. Stat. § 18.345(1)(p)": 4,
+      "42 Pa. Cons. Stat. § 8124(a)(1)": 3,
+      "Wis. Stat. § 815.20(1)": 1,
+      "735 Ill. Comp. Stat. 5/12-1001(d)": 1,
+      "Ariz. Rev. Stat. § 33-1125(2)": 1,
+      "Wis. Stat. § 815.18(3)(g)": 1
+    },
+    "extra_asset_claim": {
+      "Ariz. Rev. Stat. § 33-1125(4)": 1
+    }
+  },
+  "incorrect_value_observed_literals": {
+    "1475.0": 12,
+    "8900.0": 1,
+    "4000.0": 2,
+    "300.0": 15,
+    "15425.0": 3,
+    "700.0": 1,
+    "600.0": 2,
+    "1875.0": 1,
+    "4450.0": 1,
+    "400.0": 5,
+    "500.0": 1,
+    "75000.0": 1,
+    "1800.0": 1,
+    "1500.0": 1,
+    "16000.0": 1
+  },
+  "Federal_d5_wrong_target_claims": 16,
+  "Federal_d5_wrong_claims_with_literal1475": 12,
+  "actual_Federal_EC_EV_rule": {
+    "id": "ec-federal-wildcard-independent",
+    "hypothesis_ids": [
+      "EC",
+      "EV"
+    ],
+    "guidance": {
+      "by_task": [
+        {
+          "tasks": [
+            "EC"
+          ],
+          "when": "Federal exemptions are an allowable namespace and the facts show a debtor interest in an estate asset.",
+          "procedure": "After classifying specific exemptions, make a separate asset-by-asset wildcard pass. Add 11 U.S.C. § 522(d)(5) for every debtor-owned asset because it covers any property, including residences, vehicles, household goods, jewelry, firearms, tools and health aids; retain every independently applicable specific federal or state citation. Its ceiling limits protected value, not EC eligibility.",
+          "avoid_when": "Skip § 522(d)(5) only when federal exemptions are unavailable or the facts do not show a debtor interest. Do not skip it because another exemption applies or the asset exceeds the ceiling."
+        },
+        {
+          "tasks": [
+            "EV"
+          ],
+          "when": "Federal exemptions are allowable and the debtor or debtors own an estate asset.",
+          "procedure": "For every owned asset, add a separate 11 U.S.C. § 522(d)(5) output entry after evaluating specific exemptions. Evaluate that asset-exemption pair independently, so a simultaneously listed § 522(d)(1) entry does not consume the wildcard base. Use a $15,425 whole-asset ceiling for one debtor or $30,850 for two equal joint debtors, and report the lesser of the asset's value and that ceiling. Before submitting, verify that every owned asset has its (d)(5) entry alongside all specific alternatives.",
+          "avoid_when": "Do not use § 522(d)(5) when federal exemptions are unavailable, omit it because a specific exemption applies, default to $1,475 despite unused § 522(d)(1) capacity, or return only one debtor's half-interest."
+        }
+      ],
+      "operators": [],
+      "jurisdiction": "FEDERAL"
+    }
+  },
+  "rare_joint_branch_report": {
+    "path": "artifacts/research/openexempt_legal_scope_20261020/Task_projection_B7_Wisconsin_vehicle_branch_discriminating_witnesses_not_just_joint_cases_20261030.json",
+    "sha256": "f44976a4c97d1acbda1bc497c002b797966ee3908d882217dcb9be2d7d6e1428"
+  },
+  "scientific_boundary": "A one-source Wisconsin joint32k failure establishes a real execution gap but cannot explain all remaining EV errors. Rank residual omissions and wrong amounts across all112 before choosing changes; verify actual teacher16 evidence when it exists. Literal1475 also occurs in provided statute, so its errors do not identify negative-wording contamination as a unique cause.",
+  "errors_with_original_target_values": [
+    {
+      "case_id": 181,
+      "kind": "missing",
+      "asset": "custom framed oil painting by regional artist with gilded wood frame",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "expected_value": 700.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/181_EV_candidate.json"
+    },
+    {
+      "case_id": 181,
+      "kind": "extra_or_duplicate",
+      "asset": "Charter Arms Undercover .38 Special revolver",
+      "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+      "observed_value": 375.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/181_EV_candidate.json"
+    },
+    {
+      "case_id": 181,
+      "kind": "missing",
+      "asset": "Charter Arms Undercover .38 Special revolver",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 300.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/181_EV_candidate.json"
+    },
+    {
+      "case_id": 182,
+      "kind": "extra_or_duplicate",
+      "asset": "homestead: three-bedroom, one-and-a-half-bath townhome with private entry",
+      "citation": "Ariz. Rev. Stat. § 33-1101(B)",
+      "observed_value": 319000.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/182_EV_candidate.json"
+    },
+    {
+      "case_id": 184,
+      "kind": "incorrect_value",
+      "asset": "gold Cuban link chain necklace (24 inch length)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 2475.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/184_EV_candidate.json"
+    },
+    {
+      "case_id": 184,
+      "kind": "incorrect_value",
+      "asset": "Springfield M1A semi-automatic rifle (.308 caliber)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 1845.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/184_EV_candidate.json"
+    },
+    {
+      "case_id": 186,
+      "kind": "extra_or_duplicate",
+      "asset": "Heritage Rough Rider .22 LR single-action revolver",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "observed_value": 187.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/186_EV_candidate.json"
+    },
+    {
+      "case_id": 190,
+      "kind": "extra_or_duplicate",
+      "asset": "dry erase whiteboard with wall mount hardware",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "observed_value": 285.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate2_replay/190_EV_candidate.json"
+    },
+    {
+      "case_id": 192,
+      "kind": "incorrect_value",
+      "asset": "torch red 2024 Chevrolet Corvette Stingray Coupe",
+      "citation": "11 U.S.C. § 522(d)(2)",
+      "expected_value": 4450.0,
+      "observed_values": [
+        8900.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/192_EV_candidate.json"
+    },
+    {
+      "case_id": 192,
+      "kind": "missing",
+      "asset": "torch red 2024 Chevrolet Corvette Stingray Coupe",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 30850.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/192_EV_candidate.json"
+    },
+    {
+      "case_id": 192,
+      "kind": "missing",
+      "asset": "citrine cocktail ring set in yellow gold",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 1110.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/192_EV_candidate.json"
+    },
+    {
+      "case_id": 193,
+      "kind": "missing",
+      "asset": "white gold engagement ring with interlocking bands",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "expected_value": 400.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/193_EV_candidate.json"
+    },
+    {
+      "case_id": 195,
+      "kind": "incorrect_value",
+      "asset": "2020 Lexus RX 350 (nebula gray pearl)",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "expected_value": 8000.0,
+      "observed_values": [
+        4000.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate2_replay/195_EV_candidate.json"
+    },
+    {
+      "case_id": 195,
+      "kind": "incorrect_value",
+      "asset": "launch green 2023 Rivian R1T Adventure electric truck (9,200 mi)",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "expected_value": 8000.0,
+      "observed_values": [
+        4000.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate2_replay/195_EV_candidate.json"
+    },
+    {
+      "case_id": 198,
+      "kind": "incorrect_value",
+      "asset": "1999 Chevrolet Camaro, bright purple, Z28 coupe (112k mi)",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/198_EV_candidate.json"
+    },
+    {
+      "case_id": 198,
+      "kind": "incorrect_value",
+      "asset": "circular saw for Debtor's carpentry business, including replacement blades",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/198_EV_candidate.json"
+    },
+    {
+      "case_id": 200,
+      "kind": "extra_or_duplicate",
+      "asset": "set of bath towels made from Egyptian cotton",
+      "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+      "observed_value": 175.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/200_EV_candidate.json"
+    },
+    {
+      "case_id": 200,
+      "kind": "missing",
+      "asset": "set of bath towels made from Egyptian cotton",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 175.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/200_EV_candidate.json"
+    },
+    {
+      "case_id": 202,
+      "kind": "extra_or_duplicate",
+      "asset": "FN Five-seveN pistol chambered in 5.7x28mm",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "observed_value": 700.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/202_EV_candidate.json"
+    },
+    {
+      "case_id": 202,
+      "kind": "missing",
+      "asset": "FN Five-seveN pistol chambered in 5.7x28mm",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 1235.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/202_EV_candidate.json"
+    },
+    {
+      "case_id": 202,
+      "kind": "missing",
+      "asset": "folding card table with vinyl top and metal legs",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 24.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/202_EV_candidate.json"
+    },
+    {
+      "case_id": 202,
+      "kind": "missing",
+      "asset": "smart light bulb starter kit with color-changing features",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 225.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/202_EV_candidate.json"
+    },
+    {
+      "case_id": 204,
+      "kind": "extra_or_duplicate",
+      "asset": "toolbox with socket set and screwdrivers",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "observed_value": 725.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate2_replay/204_EV_candidate.json"
+    },
+    {
+      "case_id": 205,
+      "kind": "incorrect_value",
+      "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 30850.0,
+      "observed_values": [
+        15425.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/205_EV_candidate.json"
+    },
+    {
+      "case_id": 205,
+      "kind": "incorrect_value",
+      "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/205_EV_candidate.json"
+    },
+    {
+      "case_id": 205,
+      "kind": "incorrect_value",
+      "asset": "concert-grade oboe (French key system)",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/205_EV_candidate.json"
+    },
+    {
+      "case_id": 206,
+      "kind": "missing",
+      "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 30850.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/206_EV_candidate.json"
+    },
+    {
+      "case_id": 206,
+      "kind": "missing",
+      "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "expected_value": 400.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/206_EV_candidate.json"
+    },
+    {
+      "case_id": 206,
+      "kind": "extra_or_duplicate",
+      "asset": "titanium pendant dog tag necklace with engraving",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "observed_value": 295.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/206_EV_candidate.json"
+    },
+    {
+      "case_id": 206,
+      "kind": "missing",
+      "asset": "titanium pendant dog tag necklace with engraving",
+      "citation": "11 U.S.C. § 522(d)(4)",
+      "expected_value": 295.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/206_EV_candidate.json"
+    },
+    {
+      "case_id": 208,
+      "kind": "incorrect_value",
+      "asset": "handmade quilt featuring patchwork patterns and embroidery",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "expected_value": 475.0,
+      "observed_values": [
+        700.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/208_EV_candidate.json"
+    },
+    {
+      "case_id": 208,
+      "kind": "incorrect_value",
+      "asset": "four-bedroom, three-bath brick ranch homestead with a finished basement and a wood-burning fireplace",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 30850.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/208_EV_candidate.json"
+    },
+    {
+      "case_id": 211,
+      "kind": "incorrect_value",
+      "asset": "titanium engagement band with brushed finish and beveled edges",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 221.0,
+      "observed_values": [
+        600.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/211_EV_candidate.json"
+    },
+    {
+      "case_id": 214,
+      "kind": "incorrect_value",
+      "asset": "platinum engagement ring with a 1.5-carat round brilliant diamond and pave band",
+      "citation": "11 U.S.C. § 522(d)(4)",
+      "expected_value": 3750.0,
+      "observed_values": [
+        1875.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/214_EV_candidate.json"
+    },
+    {
+      "case_id": 216,
+      "kind": "incorrect_value",
+      "asset": "streaming media player with 4K resolution and HDMI extender",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 290.0,
+      "observed_values": [
+        600.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/216_EV_candidate.json"
+    },
+    {
+      "case_id": 216,
+      "kind": "incorrect_value",
+      "asset": "2017 Subaru Outback 2.5i Premium in crystal black silica",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 21900.0,
+      "observed_values": [
+        4450.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/216_EV_candidate.json"
+    },
+    {
+      "case_id": 217,
+      "kind": "incorrect_value",
+      "asset": "floor-length curtains with floral embroidery",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "expected_value": 280.0,
+      "observed_values": [
+        400.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/217_EV_candidate.json"
+    },
+    {
+      "case_id": 217,
+      "kind": "incorrect_value",
+      "asset": "hanging macrame plant holder with ceramic pot",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "expected_value": 195.0,
+      "observed_values": [
+        400.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/217_EV_candidate.json"
+    },
+    {
+      "case_id": 218,
+      "kind": "missing",
+      "asset": "handmade beaded necklace",
+      "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+      "expected_value": 4.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/218_EV_candidate.json"
+    },
+    {
+      "case_id": 218,
+      "kind": "missing",
+      "asset": "pet crate suitable for a medium-sized dog with locking door",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 470.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/218_EV_candidate.json"
+    },
+    {
+      "case_id": 218,
+      "kind": "missing",
+      "asset": "pair of suede ankle boots with zipper closure",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 225.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/218_EV_candidate.json"
+    },
+    {
+      "case_id": 218,
+      "kind": "incorrect_value",
+      "asset": "pair of suede ankle boots with zipper closure",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "expected_value": 225.0,
+      "observed_values": [
+        400.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/218_EV_candidate.json"
+    },
+    {
+      "case_id": 219,
+      "kind": "missing",
+      "asset": "Nappa leather short jacket",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "expected_value": 3360.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/219_EV_skills.json"
+    },
+    {
+      "case_id": 220,
+      "kind": "extra_or_duplicate",
+      "asset": "three-piece flute with silver plating and molded carrying case",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "observed_value": 925.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/220_EV_skills.json"
+    },
+    {
+      "case_id": 220,
+      "kind": "extra_or_duplicate",
+      "asset": "Pembroke Welsh corgi",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "observed_value": 1500.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/220_EV_skills.json"
+    },
+    {
+      "case_id": 220,
+      "kind": "extra_or_duplicate",
+      "asset": "chest freezer with 7-cubic-foot capacity and manual defrost",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "observed_value": 548.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/220_EV_skills.json"
+    },
+    {
+      "case_id": 228,
+      "kind": "incorrect_value",
+      "asset": "hand-knotted wool area rug measuring 9x12 feet with Persian motif",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 325.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/228_EV_candidate.json"
+    },
+    {
+      "case_id": 228,
+      "kind": "missing",
+      "asset": "stainless steel refrigerator with French doors and bottom freezer drawer",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "expected_value": 700.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/228_EV_candidate.json"
+    },
+    {
+      "case_id": 228,
+      "kind": "incorrect_value",
+      "asset": "stainless steel refrigerator with French doors and bottom freezer drawer",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/228_EV_candidate.json"
+    },
+    {
+      "case_id": 228,
+      "kind": "missing",
+      "asset": "pack of five pairs of ankle-length athletic socks",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 18.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/228_EV_candidate.json"
+    },
+    {
+      "case_id": 228,
+      "kind": "extra_or_duplicate",
+      "asset": "Stevens Model 301 single-shot .410 shotgun",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "observed_value": 215.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/228_EV_candidate.json"
+    },
+    {
+      "case_id": 228,
+      "kind": "incorrect_value",
+      "asset": "Stevens Model 301 single-shot .410 shotgun",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 215.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/228_EV_candidate.json"
+    },
+    {
+      "case_id": 232,
+      "kind": "missing",
+      "asset": "amethyst ring in 10-karat gold prong setting",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 300.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/232_EV_skills.json"
+    },
+    {
+      "case_id": 232,
+      "kind": "extra_or_duplicate",
+      "asset": "domestic conure parrot",
+      "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+      "observed_value": 460.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/232_EV_skills.json"
+    },
+    {
+      "case_id": 232,
+      "kind": "missing",
+      "asset": "domestic conure parrot",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 300.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/232_EV_skills.json"
+    },
+    {
+      "case_id": 232,
+      "kind": "extra_or_duplicate",
+      "asset": "reclining gaming chair with neck and lumbar support pillows",
+      "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+      "observed_value": 757.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/232_EV_skills.json"
+    },
+    {
+      "case_id": 232,
+      "kind": "missing",
+      "asset": "reclining gaming chair with neck and lumbar support pillows",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 300.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/232_EV_skills.json"
+    },
+    {
+      "case_id": 232,
+      "kind": "extra_or_duplicate",
+      "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+      "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+      "observed_value": 3000.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/232_EV_skills.json"
+    },
+    {
+      "case_id": 232,
+      "kind": "incorrect_value",
+      "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 15425.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/232_EV_skills.json"
+    },
+    {
+      "case_id": 232,
+      "kind": "missing",
+      "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 300.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/232_EV_skills.json"
+    },
+    {
+      "case_id": 236,
+      "kind": "missing",
+      "asset": "Stoeger Condor over/under 20-gauge shotgun with wood stock",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "expected_value": 595.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/236_EV_skills.json"
+    },
+    {
+      "case_id": 239,
+      "kind": "extra_asset_claim",
+      "asset": "traditional gold confirmation necklace inscribed with a cross",
+      "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+      "claim_value": 715,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/239_EV_candidate.json"
+    },
+    {
+      "case_id": 241,
+      "kind": "incorrect_value",
+      "asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 24925.0,
+      "observed_values": [
+        15425.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/241_EV_skills.json"
+    },
+    {
+      "case_id": 241,
+      "kind": "incorrect_value",
+      "asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/241_EV_skills.json"
+    },
+    {
+      "case_id": 241,
+      "kind": "incorrect_value",
+      "asset": "two-seat entryway bench with hidden shoe storage",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/241_EV_skills.json"
+    },
+    {
+      "case_id": 241,
+      "kind": "incorrect_value",
+      "asset": "set of stacking rings made from mixed metals including rose gold and silver",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 433.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/241_EV_skills.json"
+    },
+    {
+      "case_id": 242,
+      "kind": "missing",
+      "asset": "1992 burgundy Honda Accord EX Coupe (132k miles)",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "expected_value": 1835.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/242_EV_skills.json"
+    },
+    {
+      "case_id": 243,
+      "kind": "missing",
+      "asset": "navy leather pants with zippered pockets",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 300.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/243_EV_skills.json"
+    },
+    {
+      "case_id": 243,
+      "kind": "incorrect_value",
+      "asset": "navy leather pants with zippered pockets",
+      "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+      "expected_value": 1215.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/243_EV_skills.json"
+    },
+    {
+      "case_id": 243,
+      "kind": "missing",
+      "asset": "custom brass euphonium with silver trim",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 300.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/243_EV_skills.json"
+    },
+    {
+      "case_id": 245,
+      "kind": "missing",
+      "asset": "stained glass window panel with floral design",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 1025.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/245_EV_candidate.json"
+    },
+    {
+      "case_id": 249,
+      "kind": "incorrect_value",
+      "asset": "gold-tone costume necklace with floral pendant and crystal inlays",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 14.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/249_EV_skills.json"
+    },
+    {
+      "case_id": 252,
+      "kind": "missing",
+      "asset": "black leather cap-toe oxfords",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+      "expected_value": 327.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/252_EV_skills.json"
+    },
+    {
+      "case_id": 255,
+      "kind": "missing",
+      "asset": "nighthawk black pearl 2006 Honda Odyssey, 168,000 miles",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "expected_value": 4000.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/255_EV_skills.json"
+    },
+    {
+      "case_id": 258,
+      "kind": "missing",
+      "asset": "1996 dark cherry metallic Chevrolet Suburban LT with 203k miles",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "expected_value": 400.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/258_EV_skills.json"
+    },
+    {
+      "case_id": 258,
+      "kind": "extra_or_duplicate",
+      "asset": "limited edition art glass vase signed by renowned contemporary artist",
+      "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+      "observed_value": 600.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/258_EV_skills.json"
+    },
+    {
+      "case_id": 258,
+      "kind": "missing",
+      "asset": "limited edition art glass vase signed by renowned contemporary artist",
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "expected_value": 1775.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/258_EV_skills.json"
+    },
+    {
+      "case_id": 259,
+      "kind": "incorrect_value",
+      "asset": "countertop blender with 1200-watt motor and ice-crushing capability",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 315.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/259_EV_skills.json"
+    },
+    {
+      "case_id": 259,
+      "kind": "incorrect_value",
+      "asset": "leather belt with silver buckle",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 535.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/259_EV_skills.json"
+    },
+    {
+      "case_id": 259,
+      "kind": "missing",
+      "asset": "leather belt with silver buckle",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 300.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/259_EV_skills.json"
+    },
+    {
+      "case_id": 259,
+      "kind": "incorrect_value",
+      "asset": "leather belt with silver buckle",
+      "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+      "expected_value": 535.0,
+      "observed_values": [
+        500.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/259_EV_skills.json"
+    },
+    {
+      "case_id": 260,
+      "kind": "missing",
+      "asset": "summit white 2005 GMC Sierra 1500 SLE Extended Cab",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "expected_value": 8000.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/260_EV_skills.json"
+    },
+    {
+      "case_id": 261,
+      "kind": "incorrect_value",
+      "asset": "German shorthaired pointer",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/261_EV_skills.json"
+    },
+    {
+      "case_id": 261,
+      "kind": "incorrect_value",
+      "asset": "french horn with detachable bell",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 435.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/261_EV_skills.json"
+    },
+    {
+      "case_id": 261,
+      "kind": "missing",
+      "asset": "long-sleeve oxford shirt made of wrinkle-resistant cotton",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 119.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/261_EV_skills.json"
+    },
+    {
+      "case_id": 263,
+      "kind": "incorrect_value",
+      "asset": "luxury chronograph wristwatch with solid gold casing and automatic movement",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 7450.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/263_EV_skills.json"
+    },
+    {
+      "case_id": 263,
+      "kind": "incorrect_value",
+      "asset": "custom hardwood wall paneling with inlaid marquetry and acoustic backing",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 2625.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/263_EV_skills.json"
+    },
+    {
+      "case_id": 267,
+      "kind": "missing",
+      "asset": "beige suede hoodie with removable liner",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 63.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/267_EV_skills.json"
+    },
+    {
+      "case_id": 267,
+      "kind": "missing",
+      "asset": "digital thermostat with programmable schedules and touchscreen",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 300.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/267_EV_skills.json"
+    },
+    {
+      "case_id": 267,
+      "kind": "missing",
+      "asset": "beige 1995 Toyota Camry LE (168,000 miles)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 2200.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/267_EV_skills.json"
+    },
+    {
+      "case_id": 267,
+      "kind": "missing",
+      "asset": "beige 1995 Toyota Camry LE (168,000 miles)",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "expected_value": 400.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/267_EV_skills.json"
+    },
+    {
+      "case_id": 267,
+      "kind": "missing",
+      "asset": "holiday-themed sweater with knitted reindeer pattern",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 43.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/267_EV_skills.json"
+    },
+    {
+      "case_id": 268,
+      "kind": "missing",
+      "asset": "two-bedroom split-level primary household with walkout basement and detached single-car garage",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 15425.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/268_EV_candidate.json"
+    },
+    {
+      "case_id": 272,
+      "kind": "incorrect_value",
+      "asset": "white gold tennis bracelet with alternating sapphire and diamond stones",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 2185.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/272_EV_skills.json"
+    },
+    {
+      "case_id": 272,
+      "kind": "incorrect_value",
+      "asset": "backup power bank with solar charging panel",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 230.0,
+      "observed_values": [
+        300.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/272_EV_skills.json"
+    },
+    {
+      "case_id": 275,
+      "kind": "incorrect_value",
+      "asset": "kitchen scale with tare function and digital readout",
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "expected_value": 37.0,
+      "observed_values": [
+        400.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/275_EV_skills.json"
+    },
+    {
+      "case_id": 276,
+      "kind": "extra_or_duplicate",
+      "asset": "convertible futon with washable microfiber cover",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "observed_value": 190.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/276_EV_skills.json"
+    },
+    {
+      "case_id": 276,
+      "kind": "extra_or_duplicate",
+      "asset": "step trash can with soft-close lid and removable liner",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "observed_value": 34.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/276_EV_skills.json"
+    },
+    {
+      "case_id": 277,
+      "kind": "incorrect_value",
+      "asset": "oxford white 2003 Ford Explorer XLT SUV, 4-door configuration, 145k miles",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 4275.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/277_EV_candidate.json"
+    },
+    {
+      "case_id": 279,
+      "kind": "missing",
+      "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "expected_value": 930.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/279_EV_skills.json"
+    },
+    {
+      "case_id": 279,
+      "kind": "missing",
+      "asset": "reflex silver 2004 Volkswagen Jetta GLI",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "expected_value": 4000.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/279_EV_skills.json"
+    },
+    {
+      "case_id": 280,
+      "kind": "missing",
+      "asset": "bedside table with USB charging ports and LED nightlight",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 300.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/280_EV_skills.json"
+    },
+    {
+      "case_id": 280,
+      "kind": "missing",
+      "asset": "baseball cap with embroidered logo and adjustable strap",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 26.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/280_EV_skills.json"
+    },
+    {
+      "case_id": 282,
+      "kind": "incorrect_value",
+      "asset": "two-bedroom cottage (primary dwelling) with lofted sleeping area, and 900 square feet of interior space",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 30850.0,
+      "observed_values": [
+        15425.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/282_EV_candidate.json"
+    },
+    {
+      "case_id": 282,
+      "kind": "incorrect_value",
+      "asset": "two-bedroom cottage (primary dwelling) with lofted sleeping area, and 900 square feet of interior space",
+      "citation": "Wis. Stat. § 815.20(1)",
+      "expected_value": 150000.0,
+      "observed_values": [
+        75000.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/282_EV_candidate.json"
+    },
+    {
+      "case_id": 283,
+      "kind": "missing",
+      "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "expected_value": 3000.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/283_EV_skills.json"
+    },
+    {
+      "case_id": 283,
+      "kind": "missing",
+      "asset": "Italian leather loafers with stitched welt construction",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+      "expected_value": 1290.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/283_EV_skills.json"
+    },
+    {
+      "case_id": 284,
+      "kind": "extra_or_duplicate",
+      "asset": "Beretta A300 Outlander semi-auto 12-gauge sporting shotgun",
+      "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+      "observed_value": 1000.0,
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/284_EV_skills.json"
+    },
+    {
+      "case_id": 284,
+      "kind": "missing",
+      "asset": "Beretta A300 Outlander semi-auto 12-gauge sporting shotgun",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/284_EV_skills.json"
+    },
+    {
+      "case_id": 284,
+      "kind": "missing",
+      "asset": "cotton crewneck t-shirt with printed graphic",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 7.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/284_EV_skills.json"
+    },
+    {
+      "case_id": 284,
+      "kind": "missing",
+      "asset": "fur-lined winter coat with removable collar",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/284_EV_skills.json"
+    },
+    {
+      "case_id": 284,
+      "kind": "incorrect_value",
+      "asset": "fur-lined winter coat with removable collar",
+      "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+      "expected_value": 2900.0,
+      "observed_values": [
+        1800.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/284_EV_skills.json"
+    },
+    {
+      "case_id": 284,
+      "kind": "missing",
+      "asset": "sandals with leather straps and cushioned soles",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 80.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/284_EV_skills.json"
+    },
+    {
+      "case_id": 285,
+      "kind": "missing",
+      "asset": "modern steel metallic 2014 Honda CR-V EX-L",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "expected_value": 8000.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/285_EV_skills.json"
+    },
+    {
+      "case_id": 285,
+      "kind": "missing",
+      "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "expected_value": 2275.0,
+      "observed_values": [],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/285_EV_skills.json"
+    },
+    {
+      "case_id": 285,
+      "kind": "incorrect_value",
+      "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "expected_value": 2275.0,
+      "observed_values": [
+        1500.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/285_EV_skills.json"
+    },
+    {
+      "case_id": 286,
+      "kind": "incorrect_value",
+      "asset": "brass tenor saxophone",
+      "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+      "expected_value": 500.0,
+      "observed_values": [
+        400.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/286_EV_skills.json"
+    },
+    {
+      "case_id": 287,
+      "kind": "incorrect_value",
+      "asset": "compact 4K projector with built-in speakers",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 3335.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/287_EV_candidate.json"
+    },
+    {
+      "case_id": 287,
+      "kind": "incorrect_value",
+      "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 30850.0,
+      "observed_values": [
+        1475.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/287_EV_candidate.json"
+    },
+    {
+      "case_id": 287,
+      "kind": "incorrect_value",
+      "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+      "citation": "Wis. Stat. § 815.18(3)(g)",
+      "expected_value": 32000.0,
+      "observed_values": [
+        16000.0
+      ],
+      "raw_call_path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/287_EV_candidate.json"
+    }
+  ],
+  "raw_sha256": {
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/181_EV_candidate.json": "d45c662bb742d57f8521e6e7204ef75fac4bc7eb1df06002528d5f60cc71a663",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/182_EV_candidate.json": "e91c7dbd5edaa274b3620b17b814df39ad27946f2003619ba314d62d335949bf",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/183_EV_candidate.json": "2b1955d5b12b5fe08b2361237c82afe243b84aebc867403fe36c9d19cd7fa292",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/184_EV_candidate.json": "ada76539a5324b727a0b95598b504915714c4efaa301b93c267ab000efb45b05",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/185_EV_candidate.json": "2d4ae8837dc4301c2ce67409ac98ca51a7b6ea4f54468b02f75d4cd192d5b05c",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/186_EV_candidate.json": "c872870373b39f39c868baf5e2152b0077e087a5a1004bbb858f710618219e31",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/187_EV_candidate.json": "9be2b8d27485b960b67070c6de9889424a0545aeab2f9401131ed3001f96359b",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/188_EV_candidate.json": "a9749f8feadd58f53926cf312ac56522ccdbbd147f6a8862812bff43519d73b6",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/189_EV_candidate.json": "092a96c6aece4fdbaf8974ad71e5e5c8ec961bd6308e361745094769d4466888",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate2_replay/190_EV_candidate.json": "0b44710aa46d6436e126aa283c67a86c4aadd912c1fd45ca4755ddd48d120153",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/191_EV_candidate.json": "68faab6dfec49fb2d95e23239d1e4374cedb6bf692125bdd88a07de07f607366",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/192_EV_candidate.json": "fe0212c84c96e8e0f198933cecb737e301fc47b24c681d31beda716e5bae3fa8",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/193_EV_candidate.json": "b16028c1fa3219d8b5e33fe19815d92cff6c604a3620ccf0f7719c74f245a01b",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/194_EV_candidate.json": "abda80eddde0dc039856ef05085aa1d1b60896a76bc227e134537eb0e0082681",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate2_replay/195_EV_candidate.json": "581fcbfeebb002822f79967f3c029a3f4491c47b70d31d36e202cd26f88348ca",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate2_replay/196_EV_candidate.json": "f885af97fb9ee9490ef5e744013f801e07d34cbe8fdf6571f5b9cf3bb231d290",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/197_EV_candidate.json": "8de682c55426667442285e53fe2f8d296238db31fe85d2f829583c4493214a2d",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/198_EV_candidate.json": "098283b91d4120fd181355a44938d95fc77af88d779112bc2c352c5f79886ea1",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/199_EV_candidate.json": "61505d48d04e89353f1c5aafd373b89baf4a85b88210ceb387bfcd58f13650fd",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/200_EV_candidate.json": "2fd77ebd2e3ef6e12cb8c0e8d20c597f92a5b1f0db88189f21a723916b596b58",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/201_EV_candidate.json": "7a0a040c75b44a3f3c6f6000e754a44bebf5279c550f6fb39522e238bfb06275",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/202_EV_candidate.json": "dfd7eb2a0da2a806ea60aadf473a97c331d1a0cbdabe91443d7e6073c65dc3d0",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/203_EV_candidate.json": "608788760a07f48644887c5163e26793ccd73d89f2d1f3beddb509cb52a8bec5",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b2_candidate2_replay/204_EV_candidate.json": "a0be8ccea152bf3fbf8a11624921c3368191255a637a7030b0d11c44a48466e7",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/205_EV_candidate.json": "a0772ae31e7eb58fd45aae60a2b4f021760758e9c30b13bbb0066341418fac8b",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/206_EV_candidate.json": "0f2ab089e15b0872c9a897c9c385065f28f1104dffc2c42fa4d6fcb1681a167d",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/207_EV_candidate.json": "a466aff5ffe14f6c4e255dda18feb52c9543075ed6b7b0964dc6147c4895b4c3",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/208_EV_candidate.json": "eaf388a692c886be9a816e0c518f0deab92c17a447db72521399a1ffac5adc72",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/209_EV_candidate.json": "e8e3138faa03245322dd0355c0894c76171d2be10bf961c5978cf1cc63c6693d",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/210_EV_candidate.json": "d287a1448a797ebb49a3b7604f6bf5c594ea4bf1813bcebf07bb25eab56f45a9",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/211_EV_candidate.json": "5108cb808764381dffdcf6829a9ff6baab5bdfd79ee4b4fc60a3d5a0fc6fffdb",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/212_EV_candidate.json": "5f60828cbded003f70e4de5237b00330636593675f25e5b6604111bc0a694aa6",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/213_EV_candidate.json": "d77c2dcde7121665b3ce5c4ca15528ae19b2f24befb66950f1c44fd5620b43bf",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/214_EV_candidate.json": "600e63b527ffb3ed445024cc4a47c09a8818b324077a8c4dc64dc2dfe92c8b33",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/215_EV_candidate.json": "3318bf4b68ac152382e7f921b2c867a997390f18f15893a6db94b775b7151f5a",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/216_EV_candidate.json": "1bc37a6e9e45428edad0a35f0665b992db27997aa423efce6366d1a43a4a1aa0",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/217_EV_candidate.json": "b282613004b2ca320b4e404e3189f186bfa4f099b70e43cf873b9d838007dc94",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/218_EV_candidate.json": "926fd44b6b521f050cc5c892a6451aa7249e15298428dd543f7650bcf96e2bcf",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/219_EV_skills.json": "b8e0991eafda9472bd2a912f9cf8140999954e332efb4172d98a205b8e58b905",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/220_EV_skills.json": "2abb3ab99d3bf5fc9079fc78233bc4423710e8f7bc860b2b6ab3733e0a59417b",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/221_EV_skills.json": "90e2d28d827db2c9b9ccbe358e64bd6aaab56024dd16c9a95ab604b4d27e235f",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/222_EV_skills.json": "36d3f68b4eb43d267308c1dfaf2647facf0338342aba0ad21d402e59f3ec4b1e",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/223_EV_candidate.json": "0cdfcdac9c32b72bee750cd2134a26fa21e300bc4bb45cfcb7f3dec8615b593b",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_prequential/224_EV_skills.json": "b767da7b639a1334b8b8e285d3fda143fc31b19b7fe787012bf51c74f7080d67",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/225_EV_candidate.json": "86fbc4fbe97830024a8cacca9198718acd65b2c7b6b9c127c08997242fb9791d",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/226_EV_candidate.json": "b435759cdc7608eb44f4fba05f3686c6edcc5fbaa559b7fd09a30e15c5deb39d",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/227_EV_candidate.json": "ac6ebbffbdb34763929de27f53c374c5f19e669a077d65e8f9db4342ebf1a108",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b3_candidate2_replay/228_EV_candidate.json": "4c645a1abebedb16b45a3eec84bf789a878df527e1f78511b60acc90c0f7ca6c",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/229_EV_candidate.json": "d59ad190dcf318eb3dfd4f6e36e3776ed8585797a4a3e2e2353b072a2f660d99",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/230_EV_candidate.json": "782074755eb6ef605b5a26105b707e4ac00c022a626fde0e88265b64ea3bc76f",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/231_EV_candidate.json": "423d3bc5c6c27ecfa50648e6b2bc288a1aad05e37596b42caab4601323a995a1",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/232_EV_skills.json": "d8275a1d3a4db6458e5641c21d3b51b001e7be8f057085096df8f68727fd7311",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/233_EV_skills.json": "a28ef812348734065db4c822eb93ef96fe5e36bfaba76292a5a4546c60349d91",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/234_EV_skills.json": "b3e72326ed7dfb0d9206b3ea45a24a59f9da339bb0c0b2e4727e56660e54bf78",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/236_EV_skills.json": "6b0fef76773ed572846d31b39bacdcdecd988c2a8c747deb46ba01429eebbdd1",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/237_EV_skills.json": "2d1d6c7eab9f7c9f8cd25494ca4ba1fec8e97cb946f9d326e10d1122dc5c425d",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/238_EV_skills.json": "9d6166aa7d619f73bc20fc3c99a4561731874a3d65aa8f6c4fdbf09f2bd2f5a3",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/239_EV_candidate.json": "d7f825b1dc5d5363ac736b7e1fd3e12620a7b3532b130a5c6b8f4db7aa15b384",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/240_EV_skills.json": "51919992562cab195d7074536158d6a387b6c9251da58785f83be532cca55bde",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/241_EV_skills.json": "a8935a98f36976dd5b167d72b3d2074da8e7356db8f7c730a1497551b75e246e",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/242_EV_skills.json": "eea54a0a410bf26f73a52c606ac942e5e3edfd76e1fc799a129f7102309ceac6",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/243_EV_skills.json": "5bbe2704e4c99aac52b71c32d1ec402e66259558c6502cc1c813335b649ef84e",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b4_prequential/244_EV_skills.json": "43cf4431245d8de3092f24b3da68b4967bb270c015bb8be4100ef478b2548a9d",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/245_EV_candidate.json": "5398b6f15fb15e3cf557aa0ac477a7fb2711782d2520c09ac0c088da5ada6c2e",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/246_EV_candidate.json": "ef9d8428d109ec5cebe252270fe939aa866f7247ce241fb3000ec3a6602a0355",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/247_EV_candidate.json": "9ad5f0c27e498628b663db10a3c56e5a1d0b19ba11402a6622fab7b17440b285",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/248_EV_candidate.json": "fce4385b5f93038816d359f14f1e06024ad4d598ba4021973659c41e60c6ec22",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/249_EV_skills.json": "9249823b3b897e9d0bf1c009e819a438fe06e87d727564c7b816f64570be219f",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/250_EV_skills.json": "22383ad8093206c611b2e268568c1bd37057894bc6583cbb01ec09131e81819c",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/251_EV_candidate.json": "601962571377e5075f8845c7b61678d9998ca732f84a43e31e20719fb038957e",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/252_EV_skills.json": "1aa21dc53973e06b90855e95c4cc0cea2d2d788d46f0d98e3672c2b5bc66274c",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/253_EV_candidate.json": "7dbca33a923cc26214217f3f57fa79ce57a7d393944faa0f14d83b321de42110",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/254_EV_skills.json": "2375ebe5f423146ff52382cef5b34b9278e2c87ded256d1b997d586b89fd276c",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/255_EV_skills.json": "358e01092d5bc6e504a0448ba027acd5d76680ab02b7be6a2003b3b48fb8d88c",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/256_EV_skills.json": "07d5d288b3cd9d6fb9f795328fb286e7ab862aedd553d0d26e3e99ad3a9b22fc",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/257_EV_skills.json": "570c46e1afc43008b836f88f17f3abe2c59a58e22aafeb573cb6a025876ecdc9",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/258_EV_skills.json": "a2430d80fa659b10c19dfc1bde99b09835f95cda49bfecf1200c5d98a47f157c",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/259_EV_skills.json": "47413febdc734ed8b630c5b0a970998e01e9e9cf1d14d4fd4231013e37bea6b2",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b5_prequential/260_EV_skills.json": "137651e1467c303640f7507ebbecb1f40c2743375745c1902546eda26114f885",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/261_EV_skills.json": "0a5ccfe21f3603629c0f028abf5c5d837d11bb08361cfc6134fd1281c003a8b2",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/262_EV_candidate.json": "ce8dab871dd642cd61a9f5ab6baeb71d4803c256bc0fe12cea11fdd9f32ae0a9",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/263_EV_skills.json": "8621eaeab5647ba060d32931ab71c088bd4338ac1709c47a4f3c8d9f5fc9b50a",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/264_EV_skills.json": "c1194a41ab3071670fb0b0088b8d307d52397791d8bb9adcce5725e657ae270f",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/265_EV_candidate.json": "7560b4a5c1bad03862347a0217c7962f29a83d9af1685ec4dbf4e8f94c87c9a5",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/266_EV_candidate.json": "4fb15a5deaac352832820dbc213cac2b1b2cbfeb8c54c2e68e69cf7cdcf7c546",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/267_EV_skills.json": "dea4273ef669e0fcd05f476116d843fa3f8ceaa56f6a2738789315cca18374ce",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/268_EV_candidate.json": "9e664a0f7f46c4d94d493321aa9ad1a2729e398e49920a6d3348e0625785c43a",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/269_EV_candidate.json": "1d137fc357173eb297b498bb2b23bf286b2ac984b2ed9a08411e9eaf706ee2eb",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/270_EV_candidate.json": "09824cf1ee951d99e05578a112156b417f9c8c67a3f1941528e8543833f4667a",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/271_EV_candidate.json": "a5c06980748a7b99b239c19801e285862e769001352c37c99e055b47ace7db69",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/272_EV_skills.json": "5f6c849501573bf7cbdbfdf39252b0b13580e0712142d1d43098d48b32bec20c",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/273_EV_skills.json": "4e158907cc5709b5aa239e6838924c6c4ad9078314e1d9a06404ad5d0cbdb136",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_candidate2_replay/274_EV_candidate.json": "195498507ee5190b8aa1f2f69c94db2412f54d46aa5ea3cd967251d2031a1cfa",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/275_EV_skills.json": "fd3a418e01ffa0604c1a91fac9d6df1306197084369136e82d2e0f020dadc803",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b6_prequential/276_EV_skills.json": "1a3e953139ce653cd89d580e2a22e289b85501c7ecd0c76c0d723880ea7a2c36",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/277_EV_candidate.json": "3185f39abba74c87ee6061832c8da2cb2aee1a07aa90bf0acaf0b80ceb295a6d",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/278_EV_candidate.json": "b967d30a6fd4298e13e33a9730d5de9e71d5bb7fbf0c011685d6b236ae241fdd",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/279_EV_skills.json": "f6a83d46aadf064bb0fdc2e2a9caf2f0f37fbf14d0689e08e27cacbd65b30ced",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/280_EV_skills.json": "c00cc5572e97eb4828385aee6d87ec5c5da37ad520a04ac2b5a3360d5cad2c8f",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/281_EV_skills.json": "a7a24e8ba249ed6134663a6f9271fd7899c9533ae2577187e62e0e9aea11cb15",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/282_EV_candidate.json": "bf9e96a4dbaca6e8c629ae908e1c11e1fddd1943233bd699ab0c547f199be936",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/283_EV_skills.json": "1190d5ad061f5e5f8366630fcad21bb7bb90adb14717af3b6a394be2d8395bc9",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/284_EV_skills.json": "21da8708b0e3a70ec862f20b6012cc32650e070acd975919e4ff39be53bcbb2f",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/285_EV_skills.json": "48bc4ba9dad7b899b4d491ae5913737103c1c44b724d6f2e3827d459ab6ddfc2",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/286_EV_skills.json": "b39493391b7ad47b89b38cde710bb5cd9526d119c2c95a76fe61c8963decf9cf",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/287_EV_candidate.json": "5d1be4d9ed4764264b5e91d120e358ac73156606973b037b0a585a25f798045b",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/288_EV_skills.json": "8d65704ba5c47e6970be5fc53b0734a0a851294cb40598022e2557b4157c5061",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/289_EV_candidate.json": "0d42a257129f1e5b3229789c4ba63a0b7737f6836e30e1271ea9682ee155e8bb",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/290_EV_skills.json": "4796cd86cb8a4d7b1b202f71fc0726dc7c5df26e16ae753f37bea504f44a134f",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/291_EV_skills.json": "c6551f5f142f152e6d7b4b078c2eebf9048a489ba1546ce3091013c919e6bc42",
+    "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/292_EV_skills.json": "9d15f4d15efdbaebe45dd33fd2b68db748009d901623ca8a3074cb903f2a1c35"
+  },
+  "all379_bound_unchanged": true,
+  "no_new_model_teacher_official_scoring_TEST_call": true
+}

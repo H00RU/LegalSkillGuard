@@ -1,0 +1,315 @@
+{
+  "case_id": 121,
+  "source_key": "7bec7bdc2bf06e9a9350321d3038e539dcd530da1f327d0f7c9552dcd3a4cc8f",
+  "family": "EV",
+  "stage": "retrospective_public_scope_composed_replay",
+  "arm": "candidate",
+  "bank_sha256": "7fe4fe3eb06ebb6c68ce8fa1f477da2beb12cd9bb9001f7d22534028f7fac097",
+  "parsed": {
+    "answer": {
+      "Henry Golden Boy .22 LR lever-action rifle": [
+        {
+          "citation": "Or. Rev. Stat. § 18.362",
+          "claim_value": 600.0
+        },
+        {
+          "citation": "11 U.S.C. § 522(d)(1)",
+          "claim_value": 600.0
+        }
+      ],
+      "Insulin pump with bolus calculator and wireless data upload": [
+        {
+          "citation": "11 U.S.C. § 522(d)(9)",
+          "claim_value": 6190.0
+        },
+        {
+          "citation": "Or. Rev. Stat. § 18.345(1)(h)",
+          "claim_value": 6190.0
+        }
+      ],
+      "Four-bedroom, three-bath brick ranch homestead with finished basement and wood-burning fireplace": [
+        {
+          "citation": "11 U.S.C. § 522(d)(1)",
+          "claim_value": 55800.0
+        },
+        {
+          "citation": "Or. Rev. Stat. § 18.395(1)",
+          "claim_value": 50000.0
+        }
+      ],
+      "LED nightlight with dusk-to-dawn sensors": [
+        {
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "claim_value": 9.0
+        },
+        {
+          "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+          "claim_value": 9.0
+        }
+      ]
+    }
+  },
+  "parse_error": null,
+  "raw_call_path": "runs/legal_openexempt_task_scoped_online_20261020_run01/native/b1_prequential/121_EV_frozen_initial.json",
+  "native_program": {
+    "assets": [
+      {
+        "asset_name": "Henry Golden Boy .22 LR lever-action rifle",
+        "asset_value": 600,
+        "claims": [
+          {
+            "limit_expression": null,
+            "citation": "Or. Rev. Stat. § 18.362"
+          },
+          {
+            "limit_expression": null,
+            "citation": "11 U.S.C. § 522(d)(1)"
+          }
+        ]
+      },
+      {
+        "asset_name": "Insulin pump with bolus calculator and wireless data upload",
+        "asset_value": 6190,
+        "claims": [
+          {
+            "limit_expression": "unlimited",
+            "citation": "11 U.S.C. § 522(d)(9)"
+          },
+          {
+            "limit_expression": "unlimited",
+            "citation": "Or. Rev. Stat. § 18.345(1)(h)"
+          }
+        ]
+      },
+      {
+        "asset_name": "Four-bedroom, three-bath brick ranch homestead with finished basement and wood-burning fireplace",
+        "asset_value": 558750,
+        "claims": [
+          {
+            "limit_expression": null,
+            "citation": "11 U.S.C. § 522(d)(1)"
+          },
+          {
+            "limit_expression": null,
+            "citation": "Or. Rev. Stat. § 18.395(1)"
+          }
+        ]
+      },
+      {
+        "asset_name": "LED nightlight with dusk-to-dawn sensors",
+        "asset_value": 9,
+        "claims": [
+          {
+            "limit_expression": null,
+            "citation": "11 U.S.C. § 522(d)(3)"
+          },
+          {
+            "limit_expression": "min(V, 3000)",
+            "citation": "Or. Rev. Stat. § 18.345(1)(f)"
+          }
+        ]
+      }
+    ]
+  },
+  "execution_receipt": {
+    "actual_claim_operations": [
+      {
+        "asset_name": "Henry Golden Boy .22 LR lever-action rifle",
+        "asset_value": "600",
+        "citation": "Or. Rev. Stat. § 18.362",
+        "operator_id": "oregon_exemptions/or_firearm",
+        "limit_expression": "min(V,1000*N)",
+        "numeric_literals": [
+          {
+            "value": "1000"
+          }
+        ],
+        "limit": "600",
+        "claim_value": "600"
+      },
+      {
+        "asset_name": "Henry Golden Boy .22 LR lever-action rifle",
+        "asset_value": "600",
+        "citation": "11 U.S.C. § 522(d)(1)",
+        "operator_id": "federal_522d/fed_home",
+        "limit_expression": "min(V,27900*N)",
+        "numeric_literals": [
+          {
+            "value": "27900"
+          }
+        ],
+        "limit": "600",
+        "claim_value": "600"
+      },
+      {
+        "asset_name": "Insulin pump with bolus calculator and wireless data upload",
+        "asset_value": "6190",
+        "citation": "11 U.S.C. § 522(d)(9)",
+        "operator_id": null,
+        "limit_expression": "unlimited",
+        "numeric_literals": [],
+        "limit": null,
+        "claim_value": "6190"
+      },
+      {
+        "asset_name": "Insulin pump with bolus calculator and wireless data upload",
+        "asset_value": "6190",
+        "citation": "Or. Rev. Stat. § 18.345(1)(h)",
+        "operator_id": null,
+        "limit_expression": "unlimited",
+        "numeric_literals": [],
+        "limit": null,
+        "claim_value": "6190"
+      },
+      {
+        "asset_name": "Four-bedroom, three-bath brick ranch homestead with finished basement and wood-burning fireplace",
+        "asset_value": "558750",
+        "citation": "11 U.S.C. § 522(d)(1)",
+        "operator_id": "federal_522d/fed_home",
+        "limit_expression": "min(V,27900*N)",
+        "numeric_literals": [
+          {
+            "value": "27900"
+          }
+        ],
+        "limit": "55800",
+        "claim_value": "55800"
+      },
+      {
+        "asset_name": "Four-bedroom, three-bath brick ranch homestead with finished basement and wood-burning fireplace",
+        "asset_value": "558750",
+        "citation": "Or. Rev. Stat. § 18.395(1)",
+        "operator_id": "oregon_exemptions/or_home",
+        "limit_expression": "min(V,50000 if N==2 else 40000)",
+        "numeric_literals": [
+          {
+            "value": "50000"
+          },
+          {
+            "value": "40000"
+          },
+          {
+            "value": "2"
+          }
+        ],
+        "limit": "50000",
+        "claim_value": "50000"
+      },
+      {
+        "asset_name": "LED nightlight with dusk-to-dawn sensors",
+        "asset_value": "9",
+        "citation": "11 U.S.C. § 522(d)(3)",
+        "operator_id": "federal_522d/fed_household_item",
+        "limit_expression": "min(V,700*N)",
+        "numeric_literals": [
+          {
+            "value": "700"
+          }
+        ],
+        "limit": "9",
+        "claim_value": "9"
+      },
+      {
+        "asset_name": "LED nightlight with dusk-to-dawn sensors",
+        "asset_value": "9",
+        "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+        "operator_id": null,
+        "limit_expression": "min(V, 3000)",
+        "numeric_literals": [
+          {
+            "value": "3000"
+          }
+        ],
+        "limit": "9",
+        "claim_value": "9"
+      }
+    ],
+    "actually_executed_operator_ids": [
+      "oregon_exemptions/or_firearm",
+      "federal_522d/fed_home",
+      "federal_522d/fed_home",
+      "oregon_exemptions/or_home",
+      "federal_522d/fed_household_item"
+    ],
+    "program_sha256": "f2640938674e851b7feab0ecb6b89fc1c2ecb492578d19b2eaa34e4df5f49577",
+    "source_facts_sha256": "f49154619a43ce837fb1cd267d450eff65246e54ff8c7ebe2257162d0d87d1a1",
+    "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+    "no_Gold_solver_model_or_post_answer_repair": true,
+    "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true,
+    "execution_bank_sha256": "7fe4fe3eb06ebb6c68ce8fa1f477da2beb12cd9bb9001f7d22534028f7fac097",
+    "native_request_fingerprint": "909991e1cbdae40907ac3e4211155b53f9eb000b61691f02cadce775c778b03f"
+  },
+  "public_label_submission": {
+    "assets": [
+      {
+        "asset_name": "Henry Golden Boy .22 LR lever-action rifle",
+        "asset_value": 600,
+        "claims": [
+          {
+            "citation_ref": "Or. Rev. Stat. section 18.362",
+            "limit_expression": null
+          },
+          {
+            "citation_ref": "11 U.S.C. section 522(d)(1)",
+            "limit_expression": null
+          }
+        ]
+      },
+      {
+        "asset_name": "Insulin pump with bolus calculator and wireless data upload",
+        "asset_value": 6190,
+        "claims": [
+          {
+            "citation_ref": "11 U.S.C. section 522(d)(9)",
+            "limit_expression": "unlimited"
+          },
+          {
+            "citation_ref": "Or. Rev. Stat. section 18.345(1)(h)",
+            "limit_expression": "unlimited"
+          }
+        ]
+      },
+      {
+        "asset_name": "Four-bedroom, three-bath brick ranch homestead with finished basement and wood-burning fireplace",
+        "asset_value": 558750,
+        "claims": [
+          {
+            "citation_ref": "11 U.S.C. section 522(d)(1)",
+            "limit_expression": null
+          },
+          {
+            "citation_ref": "Or. Rev. Stat. section 18.395(1)",
+            "limit_expression": null
+          }
+        ]
+      },
+      {
+        "asset_name": "LED nightlight with dusk-to-dawn sensors",
+        "asset_value": 9,
+        "claims": [
+          {
+            "citation_ref": "11 U.S.C. section 522(d)(3)",
+            "limit_expression": null
+          },
+          {
+            "citation_ref": "Or. Rev. Stat. section 18.345(1)(f)",
+            "limit_expression": "min(V, 3000)"
+          }
+        ]
+      }
+    ]
+  },
+  "execution_error": null,
+  "delivered_skill_ids": [
+    "federal_522d",
+    "oregon_exemptions",
+    "scheme_selection_and_ev"
+  ],
+  "physical_alias_of_identical_wire": {
+    "fingerprint": "909991e1cbdae40907ac3e4211155b53f9eb000b61691f02cadce775c778b03f",
+    "raw_call_path": "runs/legal_openexempt_task_scoped_online_20261020_run01/native/b1_prequential/121_EV_frozen_initial.json",
+    "not_an_independent_generation": true,
+    "execution_receipt_is_from_original_call": false,
+    "reinterpreted_under_bank_sha256": "7fe4fe3eb06ebb6c68ce8fa1f477da2beb12cd9bb9001f7d22534028f7fac097"
+  }
+}

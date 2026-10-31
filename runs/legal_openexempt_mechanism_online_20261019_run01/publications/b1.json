@@ -1,0 +1,628 @@
+{
+  "at": "2026-10-19T09:26:09.767708+00:00",
+  "bank": [
+    {
+      "id": "benchmark_regime_and_output_gate",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "At the start of every EC or EV OpenExempt task.",
+        "procedure": "1. Copy each asset description from the facts exactly, preserving capitalization and wording; never reuse an example asset. 2. Treat the public solved statement identifying available law as the routing result. If it says only Arizona or Illinois statutes apply, exclude federal § 522(d) exemptions because the supplied statutes opt out. If it says Federal and Pennsylvania or Federal and Oregon statutes apply, examine both named bodies of law and do not discard one as an alternative election. 3. Classify first, then value only in EV. 4. In EC, output every fact asset as an exact key and use [] when none of the supplied exemptions applies. In EV, include an exact asset key only if at least one exemption applies. 5. Use only citations appearing in the supplied text and emit valid JSON with no invented assets.",
+        "avoid_when": "Do not override an explicit solved-law routing statement, add outside-law exemptions, normalize asset names, or copy keys from the response-format example."
+      }
+    },
+    {
+      "id": "exhaustive_specific_and_residual_classification",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "After the applicable federal/state bodies of law have been selected and before assigning any EV amounts.",
+        "procedure": "For each asset independently, run all of these tests and retain every passing citation, not merely the most specific or most generous one. Federal: § 522(d)(3) covers the listed personal/household classes, § 522(d)(4) jewelry, § 522(d)(9) professionally prescribed health aids, and § 522(d)(5) any property. Pennsylvania: § 8123 is the general any-property exemption; § 8124(a) is limited to its expressly listed goods. Oregon: use § 18.345(1)(b) for apparel or jewelry, (h) for professionally prescribed health aids, and also test the any-personal-property exemption in (p). Illinois: for personal rather than business property, test § 5/12-1001(b) as the residual any-other-property exemption; wearing apparel can also satisfy (a). Arizona: test the expressly named categories only; § 33-1125(10) covers firearms, § 33-1125(1) wearing apparel, and § 33-1125(4) only engagement and wedding rings. Personal use alone does not turn ordinary jewelry into apparel or into an engagement/wedding ring. Preserve an empty result when no textually matching exemption exists.",
+        "avoid_when": "Do not treat every personal object as household goods, stretch a narrow named category to nearby objects, cite Pennsylvania sewing-machine or book provisions for electronics, or stop after finding one citation when a specific and a residual exemption both apply."
+      }
+    },
+    {
+      "id": "ev_claim_is_asset_interest_capped",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "when": "For EV, after the complete citation list for an asset has been determined.",
+        "procedure": "Let V be the debtor interest in the asset and C be the ceiling for one independently evaluated exemption. For each asset-exemption pair, output claim_value = min(V,C); if the exemption has no dollar ceiling, output V. A statutory ceiling is not the claim when V is smaller. Apply the task instruction literally: evaluate each pair independently, so do not subtract claims on other assets from an aggregate allowance. For § 522(d)(5), C = 1475 + U, where U is the supported unused § 522(d)(1) amount up to 13950. For jointly owned property, begin with each spouse's equal V/2 interest and apply separate-spouse or combination language only where the supplied statute provides it; never exceed the asset's total V. Emit claim_value as a JSON number without commas or a currency sign, and use the exact citation text paired with that number.",
+        "avoid_when": "Do not output the exemption maximum merely because it appears in the statute, do not value an inapplicable citation, do not pool different assets despite the pair-independent instruction, and do not use this calculation to decide EC classification."
+      }
+    }
+  ],
+  "parent_bank_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "bank_sha256": "446aa79153d129fabb10d381350f8675c18e27e84fd2fce7293f9f704c24be55",
+  "training_decisions": [
+    {
+      "accepted": true,
+      "current_family_nonregression": true,
+      "prior_family_nonregression": true,
+      "strict_current_improvement": true,
+      "parent_current": {
+        "EC": {
+          "precision": 0.3958333333333333,
+          "recall": 0.21354166666666666,
+          "f1": 0.25833333333333336,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "EV": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "mean_family_f1": 0.12916666666666668
+      },
+      "candidate_current": {
+        "EC": {
+          "precision": 0.5208333333333333,
+          "recall": 0.26041666666666663,
+          "f1": 0.325,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "EV": {
+          "precision": 0.21875,
+          "recall": 0.13020833333333331,
+          "f1": 0.1625,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "mean_family_f1": 0.24375000000000002
+      },
+      "parent_prior": {
+        "mean_family_f1": 0
+      },
+      "candidate_prior": {
+        "mean_family_f1": 0
+      },
+      "TRAIN_optimization_not_independent_validation": true,
+      "candidate": [
+        {
+          "id": "benchmark_regime_and_output_gate",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "At the start of every EC or EV OpenExempt task.",
+            "procedure": "1. Copy each asset description from the facts exactly, preserving capitalization and wording; never reuse an example asset. 2. Treat the public solved statement identifying available law as the routing result. If it says only Arizona or Illinois statutes apply, exclude federal § 522(d) exemptions because the supplied statutes opt out. If it says Federal and Pennsylvania or Federal and Oregon statutes apply, examine both named bodies of law and do not discard one as an alternative election. 3. Classify first, then value only in EV. 4. In EC, output every fact asset as an exact key and use [] when none of the supplied exemptions applies. In EV, include an exact asset key only if at least one exemption applies. 5. Use only citations appearing in the supplied text and emit valid JSON with no invented assets.",
+            "avoid_when": "Do not override an explicit solved-law routing statement, add outside-law exemptions, normalize asset names, or copy keys from the response-format example."
+          }
+        },
+        {
+          "id": "exhaustive_specific_and_residual_classification",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "After the applicable federal/state bodies of law have been selected and before assigning any EV amounts.",
+            "procedure": "For each asset independently, run all of these tests and retain every passing citation, not merely the most specific or most generous one. Federal: § 522(d)(3) covers the listed personal/household classes, § 522(d)(4) jewelry, § 522(d)(9) professionally prescribed health aids, and § 522(d)(5) any property. Pennsylvania: § 8123 is the general any-property exemption; § 8124(a) is limited to its expressly listed goods. Oregon: use § 18.345(1)(b) for apparel or jewelry, (h) for professionally prescribed health aids, and also test the any-personal-property exemption in (p). Illinois: for personal rather than business property, test § 5/12-1001(b) as the residual any-other-property exemption; wearing apparel can also satisfy (a). Arizona: test the expressly named categories only; § 33-1125(10) covers firearms, § 33-1125(1) wearing apparel, and § 33-1125(4) only engagement and wedding rings. Personal use alone does not turn ordinary jewelry into apparel or into an engagement/wedding ring. Preserve an empty result when no textually matching exemption exists.",
+            "avoid_when": "Do not treat every personal object as household goods, stretch a narrow named category to nearby objects, cite Pennsylvania sewing-machine or book provisions for electronics, or stop after finding one citation when a specific and a residual exemption both apply."
+          }
+        },
+        {
+          "id": "ev_claim_is_asset_interest_capped",
+          "hypothesis_ids": [
+            "EV"
+          ],
+          "guidance": {
+            "when": "For EV, after the complete citation list for an asset has been determined.",
+            "procedure": "Let V be the debtor interest in the asset and C be the ceiling for one independently evaluated exemption. For each asset-exemption pair, output claim_value = min(V,C); if the exemption has no dollar ceiling, output V. A statutory ceiling is not the claim when V is smaller. Apply the task instruction literally: evaluate each pair independently, so do not subtract claims on other assets from an aggregate allowance. For § 522(d)(5), C = 1475 + U, where U is the supported unused § 522(d)(1) amount up to 13950. For jointly owned property, begin with each spouse's equal V/2 interest and apply separate-spouse or combination language only where the supplied statute provides it; never exceed the asset's total V. Emit claim_value as a JSON number without commas or a currency sign, and use the exact citation text paired with that number.",
+            "avoid_when": "Do not output the exemption maximum merely because it appears in the statute, do not value an inapplicable citation, do not pool different assets despite the pair-independent instruction, and do not use this calculation to decide EC classification."
+          }
+        }
+      ],
+      "delta": {
+        "operations": [
+          {
+            "operation": "CREATE",
+            "target_ids": [],
+            "skill": {
+              "id": "benchmark_regime_and_output_gate",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "At the start of every EC or EV OpenExempt task.",
+                "procedure": "1. Copy each asset description from the facts exactly, preserving capitalization and wording; never reuse an example asset. 2. Treat the public solved statement identifying available law as the routing result. If it says only Arizona or Illinois statutes apply, exclude federal § 522(d) exemptions because the supplied statutes opt out. If it says Federal and Pennsylvania or Federal and Oregon statutes apply, examine both named bodies of law and do not discard one as an alternative election. 3. Classify first, then value only in EV. 4. In EC, output every fact asset as an exact key and use [] when none of the supplied exemptions applies. In EV, include an exact asset key only if at least one exemption applies. 5. Use only citations appearing in the supplied text and emit valid JSON with no invented assets.",
+                "avoid_when": "Do not override an explicit solved-law routing statement, add outside-law exemptions, normalize asset names, or copy keys from the response-format example."
+              }
+            },
+            "source_case_ids": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "rationale": "The actor repeatedly selected federal law despite an Illinois-only routing statement, omitted one of two expressly available bodies of law, altered asset keys, and even inserted the format example. This gate addresses those observable errors across both families."
+          },
+          {
+            "operation": "CREATE",
+            "target_ids": [],
+            "skill": {
+              "id": "exhaustive_specific_and_residual_classification",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "After the applicable federal/state bodies of law have been selected and before assigning any EV amounts.",
+                "procedure": "For each asset independently, run all of these tests and retain every passing citation, not merely the most specific or most generous one. Federal: § 522(d)(3) covers the listed personal/household classes, § 522(d)(4) jewelry, § 522(d)(9) professionally prescribed health aids, and § 522(d)(5) any property. Pennsylvania: § 8123 is the general any-property exemption; § 8124(a) is limited to its expressly listed goods. Oregon: use § 18.345(1)(b) for apparel or jewelry, (h) for professionally prescribed health aids, and also test the any-personal-property exemption in (p). Illinois: for personal rather than business property, test § 5/12-1001(b) as the residual any-other-property exemption; wearing apparel can also satisfy (a). Arizona: test the expressly named categories only; § 33-1125(10) covers firearms, § 33-1125(1) wearing apparel, and § 33-1125(4) only engagement and wedding rings. Personal use alone does not turn ordinary jewelry into apparel or into an engagement/wedding ring. Preserve an empty result when no textually matching exemption exists.",
+                "avoid_when": "Do not treat every personal object as household goods, stretch a narrow named category to nearby objects, cite Pennsylvania sewing-machine or book provisions for electronics, or stop after finding one citation when a specific and a residual exemption both apply."
+              }
+            },
+            "source_case_ids": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "rationale": "Across the cases the actor overclassified ordinary jewelry under narrow Arizona provisions, invented Pennsylvania category matches, and systematically missed federal and state residual exemptions. The ordered all-tests rule repairs both false positives and low recall."
+          },
+          {
+            "operation": "CREATE",
+            "target_ids": [],
+            "skill": {
+              "id": "ev_claim_is_asset_interest_capped",
+              "hypothesis_ids": [
+                "EV"
+              ],
+              "guidance": {
+                "when": "For EV, after the complete citation list for an asset has been determined.",
+                "procedure": "Let V be the debtor interest in the asset and C be the ceiling for one independently evaluated exemption. For each asset-exemption pair, output claim_value = min(V,C); if the exemption has no dollar ceiling, output V. A statutory ceiling is not the claim when V is smaller. Apply the task instruction literally: evaluate each pair independently, so do not subtract claims on other assets from an aggregate allowance. For § 522(d)(5), C = 1475 + U, where U is the supported unused § 522(d)(1) amount up to 13950. For jointly owned property, begin with each spouse's equal V/2 interest and apply separate-spouse or combination language only where the supplied statute provides it; never exceed the asset's total V. Emit claim_value as a JSON number without commas or a currency sign, and use the exact citation text paired with that number.",
+                "avoid_when": "Do not output the exemption maximum merely because it appears in the statute, do not value an inapplicable citation, do not pool different assets despite the pair-independent instruction, and do not use this calculation to decide EC classification."
+              }
+            },
+            "source_case_ids": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "rationale": "Every observed EV answer substituted statutory maxima for lower asset interests, producing zero F1 and large valuation error. The min formula cleanly separates valuation from classification and is directly executable."
+          }
+        ],
+        "noop_reason": null
+      },
+      "actual_tokens": 903,
+      "current_effect": {
+        "tasks": 8,
+        "help": 4,
+        "hurt": 0,
+        "ties": 4,
+        "mean_f1_difference": 0.11458333333333333
+      },
+      "prior_effect": {
+        "tasks": 0,
+        "help": 0,
+        "hurt": 0,
+        "ties": 0,
+        "mean_f1_difference": 0
+      },
+      "actual_replay": [
+        {
+          "case_id": 1,
+          "source_key": "450e0a8683131f38f0a1a696ed83e75fcb950c1ac063c5dcee4a473b720c865d",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "446aa79153d129fabb10d381350f8675c18e27e84fd2fce7293f9f704c24be55",
+          "parsed": {
+            "public_checks": "The Debtor may claim property exemptions under Arizona statutes. The assets are classified under Arizona's exemptions for firearms, jewelry, and personal items.",
+            "answer": {
+              "Henry Golden Boy .22 LR lever-action rifle with brass receiver": [
+                "Ariz. Rev. Stat. § 33-1125(10)"
+              ],
+              "pair of sterling silver hoop earrings with cubic zirconia accents": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ],
+              "white gold tennis bracelet with alternating sapphire and diamond stones": [
+                "Ariz. Rev. Stat. § 33-1125(4)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b1_candidate1_replay/1_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.3333333333333333,
+            "recall": 0.3333333333333333,
+            "f1": 0.3333333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 1,
+          "source_key": "450e0a8683131f38f0a1a696ed83e75fcb950c1ac063c5dcee4a473b720c865d",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "446aa79153d129fabb10d381350f8675c18e27e84fd2fce7293f9f704c24be55",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Arizona statutes. The assets are classified under Arizona's exemptions for personal use items. The applicable exemptions are for wearing apparel, musical instruments, and firearms.",
+            "answer": {
+              "Henry Golden Boy .22 LR lever-action rifle with brass receiver": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                  "claim_value": 2000
+                }
+              ],
+              "pair of sterling silver hoop earrings with cubic zirconia accents": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                }
+              ],
+              "white gold tennis bracelet with alternating sapphire and diamond stones": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                  "claim_value": 2000
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b1_candidate1_replay/1_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 2.327787021630616,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 2,
+          "source_key": "538bccafed86a76e8845156047cc144bfd899ad817f644a1020be5267c806652",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "446aa79153d129fabb10d381350f8675c18e27e84fd2fce7293f9f704c24be55",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Pennsylvania statutes. The smart speaker and smart light bulb are personal/household items, qualifying under 11 U.S.C. § 522(d)(3) and 42 Pa. Cons. Stat. § 8124(a)(1).",
+            "answer": {
+              "Smart Speaker with Built-in Voice Assistant and Ambient Light Display": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ],
+              "Smart Light Bulb Starter Kit with Color-Changing Features": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b1_candidate1_replay/2_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.3333333333333333,
+            "f1": 0.4,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 2,
+          "source_key": "538bccafed86a76e8845156047cc144bfd899ad817f644a1020be5267c806652",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "446aa79153d129fabb10d381350f8675c18e27e84fd2fce7293f9f704c24be55",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Pennsylvania statutes. The smart speaker and light bulb are personal/household items, qualifying under 11 U.S.C. § 522(d)(3) and 42 Pa. Cons. Stat. § 8124(a)(1). Each item's value is under the exemption limits.",
+            "answer": {
+              "Smart Speaker with Built-in Voice Assistant and Ambient Light Display": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 245
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 245
+                }
+              ],
+              "Smart Light Bulb Starter Kit with Color-Changing Features": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 225
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 225
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b1_candidate1_replay/2_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.3333333333333333,
+            "f1": 0.4,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 3,
+          "source_key": "ae31fbee73a28724adb55bc05ad4e70929663d18b1b2a711202c131e9c7c556a",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "446aa79153d129fabb10d381350f8675c18e27e84fd2fce7293f9f704c24be55",
+          "parsed": {
+            "public_checks": "Applied Oregon statutes for personal property exemptions. Checked each asset against applicable categories: jewelry, health aids, and personal items. No federal exemptions applied as per public solved routing.",
+            "answer": {
+              "Strand of cultured pearls with sterling silver clasp": [
+                "Or. Rev. Stat. § 18.345(1)(b)"
+              ],
+              "Pair of blue denim jeans with straight-leg cut": [
+                "Or. Rev. Stat. § 18.345(1)(b)"
+              ],
+              "Custom-molded foot orthotics medically authorized for the treatment of plantar fasciitis": [
+                "Or. Rev. Stat. § 18.345(1)(h)"
+              ],
+              "Charm bracelet with silver heart-shaped and birthstone-themed charms": [
+                "Or. Rev. Stat. § 18.345(1)(b)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b1_candidate1_replay/3_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.25,
+            "f1": 0.4,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 3,
+          "source_key": "ae31fbee73a28724adb55bc05ad4e70929663d18b1b2a711202c131e9c7c556a",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "446aa79153d129fabb10d381350f8675c18e27e84fd2fce7293f9f704c24be55",
+          "parsed": {
+            "public_checks": "The task involves applying Federal and Oregon statutes to each asset. The exemptions are determined based on the asset's nature and value, with each exemption's claim value capped as per the statutes.",
+            "answer": {
+              "Cultured pearls with sterling silver clasp": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(4)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                  "claim_value": 1800
+                }
+              ],
+              "Blue denim jeans with straight-leg cut": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 37
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                  "claim_value": 1800
+                }
+              ],
+              "Custom-molded foot orthotics": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(9)",
+                  "claim_value": 266
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(h)",
+                  "claim_value": 266
+                }
+              ],
+              "Charm bracelet with silver heart-shaped and birthstone-themed charms": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 587
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                  "claim_value": 1800
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b1_candidate1_replay/3_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.375,
+            "recall": 0.1875,
+            "f1": 0.25,
+            "mare": 6.915183890639949,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 4,
+          "source_key": "c84eac4183c509419788d617fd09834853859a853eca08cc58b14fe66a986c00",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "446aa79153d129fabb10d381350f8675c18e27e84fd2fce7293f9f704c24be55",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Illinois statutes. Each asset is classified as personal/household use, and applicable exemptions are identified based on Illinois statutes.",
+            "answer": {
+              "L-shaped sectional sofa upholstered in dark gray microfiber": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)",
+                "735 Ill. Comp. Stat. 5/12-1001(d)"
+              ],
+              "ceramic pendant on leather cord": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ],
+              "light brown derby shoes with black laces": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ],
+              "step trash can with soft-close lid and removable liner": [
+                "735 Ill. Comp. Stat. 5/12-1001(d)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b1_candidate1_replay/4_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.25,
+            "recall": 0.125,
+            "f1": 0.16666666666666666,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 4,
+          "source_key": "c84eac4183c509419788d617fd09834853859a853eca08cc58b14fe66a986c00",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "446aa79153d129fabb10d381350f8675c18e27e84fd2fce7293f9f704c24be55",
+          "parsed": {
+            "public_checks": "The Debtor may claim property exemptions under Illinois statutes. Each asset is evaluated independently under Illinois exemptions. The L-shaped sectional sofa falls under household furnishings, the ceramic pendant is jewelry, the derby shoes are wearing apparel, and the step trash can is household furnishings. Each exemption is applied based on the specific value limits in Illinois statutes.",
+            "answer": {
+              "L-shaped sectional sofa upholstered in dark gray microfiber": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                  "claim_value": 1500
+                }
+              ],
+              "ceramic pendant on leather cord": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 4000
+                }
+              ],
+              "light brown derby shoes with black laces": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 500
+                }
+              ],
+              "step trash can with soft-close lid and removable liner": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                  "claim_value": 1500
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b1_candidate1_replay/4_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 70.96969696969697,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        }
+      ]
+    }
+  ],
+  "future_performance_not_used": true,
+  "training_acceptance_does_not_guarantee_generalization": true
+}

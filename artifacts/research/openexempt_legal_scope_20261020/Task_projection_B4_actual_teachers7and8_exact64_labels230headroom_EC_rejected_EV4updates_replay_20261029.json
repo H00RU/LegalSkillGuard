@@ -1,0 +1,230 @@
+{
+  "at": "2026-10-29T15:54:04.287004+00:00",
+  "classification": "actual_B4_teachers7_and8_feedback_and_budget_delivery_EC_unaccepted_EV_under_replay_not_B4_final",
+  "run_id": "legal_openexempt_task_projection_public_assets128_20261029_run01",
+  "human_alias": "第7次主训练尝试：任务保护执行教学版",
+  "teachers": [
+    {
+      "step": 1,
+      "task": "EC",
+      "wire": {
+        "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/teacher/b4_candidate1/wire_request.json",
+        "sha256": "e15d27cfde64d34226fa8554cd0a682f43361a3bfdd5ff72f51e50b675f3a153"
+      },
+      "response": {
+        "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/teacher/b4_candidate1/response.json",
+        "sha256": "2a05d5b5df70d25cf87c78b62d58be07e813d61f59735a11fb95b449540d62a4"
+      },
+      "exact_original_TRAIN_labels": 32,
+      "parent_sha256": "c358d0f829c05bbdf9412759dc5a6c4f99720091adba0ede696e35a28132e176",
+      "budget": {
+        "actual_parent_tokens": 3866,
+        "hard_cap": 4096,
+        "net_growth_headroom": 230,
+        "basis": "same live executor tokenizer; full text and metadata, no programs"
+      },
+      "usage": {
+        "input_tokens": 98760,
+        "cached_input_tokens": 0,
+        "output_tokens": 1843,
+        "reasoning_output_tokens": 1163
+      },
+      "started_at": "2026-10-29T15:39:40.203569+00:00",
+      "finished_at": "2026-10-29T15:40:20.247486+00:00",
+      "tool_events_detected": false,
+      "operations": {
+        "UPDATE": 1
+      },
+      "diagnoses": [
+        {
+          "skill_id": "ec-arizona-category-caps",
+          "task": "EC",
+          "kind": "SKILL_DEFECT",
+          "rule_anchor": "Classify by the statutory category: firearms under Ariz. Rev. Stat. § 33-1125(10), each motor vehicle as a candidate under § 33-1125(8), wearing apparel under § 33-1125(1), and only engagement or wedding rings under § 33-1125(4). In EC, a value or aggregate ceiling limits protection rather than citation eligibility, and the one-vehicle language does not require final portfolio allocation among separately listed vehicle candidates.",
+          "source_case_ids": [
+            207,
+            223,
+            229
+          ]
+        }
+      ],
+      "EV_proposed_blocks": []
+    },
+    {
+      "step": 2,
+      "task": "EV",
+      "wire": {
+        "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/teacher/b4_candidate2/wire_request.json",
+        "sha256": "d926a65e357034fb318d97aa15c49925fdc9ab6e2a540e8affc04c927ce8ed13"
+      },
+      "response": {
+        "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/teacher/b4_candidate2/response.json",
+        "sha256": "42ac2a9f05a972f9c15d700532c2a91c88d2ad74daa5a137e161c73fe36b05a3"
+      },
+      "exact_original_TRAIN_labels": 32,
+      "parent_sha256": "c358d0f829c05bbdf9412759dc5a6c4f99720091adba0ede696e35a28132e176",
+      "budget": {
+        "actual_parent_tokens": 3866,
+        "hard_cap": 4096,
+        "net_growth_headroom": 230,
+        "basis": "same live executor tokenizer; full text and metadata, no programs"
+      },
+      "usage": {
+        "input_tokens": 122541,
+        "cached_input_tokens": 0,
+        "output_tokens": 7249,
+        "reasoning_output_tokens": 5038
+      },
+      "started_at": "2026-10-29T15:44:52.555383+00:00",
+      "finished_at": "2026-10-29T15:46:43.854825+00:00",
+      "tool_events_detected": false,
+      "operations": {
+        "UPDATE": 4
+      },
+      "diagnoses": [
+        {
+          "skill_id": "ec-arizona-category-caps",
+          "task": "EV",
+          "kind": "SKILL_DEFECT",
+          "rule_anchor": "Do not treat a pendant, bracelet, watch, or other adornment as wearing apparel, extend the ring exemption to jewelry that is not an engagement or wedding ring, or perform a final allocation between separately listed vehicle candidates.",
+          "source_case_ids": [
+            230,
+            239
+          ]
+        },
+        {
+          "skill_id": "ec-federal-wildcard-independent",
+          "task": "EV",
+          "kind": "SKILL_DEFECT",
+          "rule_anchor": "For every owned asset, add a separate 11 U.S.C. § 522(d)(5) output entry after evaluating specific exemptions.",
+          "source_case_ids": [
+            232,
+            235,
+            241
+          ]
+        },
+        {
+          "skill_id": "ec-illinois-other-property-alternative",
+          "task": "EV",
+          "kind": "SKILL_DEFECT",
+          "rule_anchor": "The phrase “any other property” supplies an independent alternative even when apparel, motor-vehicle, or prescribed-health-aid protection also applies.",
+          "source_case_ids": [
+            236,
+            242
+          ]
+        },
+        {
+          "skill_id": "ec-pennsylvania-general-monetary",
+          "task": "EV",
+          "kind": "SKILL_DEFECT",
+          "rule_anchor": "For every owned asset, emit 42 Pa. Cons. Stat. § 8123 independently and report the lesser of whole-asset value and $300 for one debtor or $600 for two equal joint debtors.",
+          "source_case_ids": [
+            232,
+            235,
+            241,
+            243
+          ]
+        }
+      ],
+      "EV_proposed_blocks": [
+        {
+          "id": "ec-arizona-category-caps",
+          "by_task": [
+            {
+              "tasks": [
+                "EV"
+              ],
+              "when": "Arizona exemptions are allowable and the asset is a firearm, motor vehicle, apparel item, or item of jewelry.",
+              "procedure": "Classify before valuing: use Ariz. Rev. Stat. § 33-1125(10) for firearms up to $2,000, § 33-1125(8) for each separately listed motor-vehicle candidate up to $15,000, § 33-1125(1) for actual wearing apparel up to $500, and § 33-1125(4) only for engagement or wedding rings up to $2,000. For each eligible alternative, report the lesser of the whole asset's value and its stated ceiling.",
+              "avoid_when": "Do not treat a pendant, bracelet, watch, or other adornment as wearing apparel or as household furniture, furnishings, goods, or appliances under § 33-1123; do not extend the ring exemption to jewelry that is not an engagement or wedding ring or perform final allocation between separately listed vehicle candidates."
+            }
+          ],
+          "rationale": "The parent correctly rejected non-ring jewelry under the personal-item paragraphs but then added § 33-1123 to a locket and necklace. The added boundary excludes jewelry from that household-property alternative without broadening Arizona categories."
+        },
+        {
+          "id": "ec-federal-wildcard-independent",
+          "by_task": [
+            {
+              "tasks": [
+                "EV"
+              ],
+              "when": "Federal exemptions are allowable and the debtor or debtors own an estate asset.",
+              "procedure": "For each owned asset, first emit a separate 11 U.S.C. § 522(d)(5) entry, then retain every independently matching specific alternative. Count debtors from the facts: use a $15,425 whole-asset ceiling for one debtor or $30,850 for two equal joint debtors, and report the lesser of whole-asset value and that ceiling. A simultaneous § 522(d)(1) entry does not reduce this independently evaluated ceiling. Before submitting, check every owned asset for its (d)(5) entry.",
+              "avoid_when": "Do not omit § 522(d)(5) because a specific exemption applies, use $1,475, apply the one-debtor ceiling to two joint debtors, or return only a debtor's half-interest."
+            }
+          ],
+          "rationale": "Current joint-debtor outputs again used $1,475 or $15,425 and one response expanded into invalid output. The revised EV procedure makes debtor counting, whole-asset comparison, independent inclusion and final verification one ordered checklist while preserving EC verbatim."
+        },
+        {
+          "id": "ec-illinois-other-property-alternative",
+          "by_task": [
+            {
+              "tasks": [
+                "EV"
+              ],
+              "when": "Illinois exemptions are allowable and the asset is debtor-owned personal property used personally rather than for business.",
+              "procedure": "Begin each qualifying asset's output with a separate 735 Ill. Comp. Stat. 5/12-1001(b) entry, including vehicles, apparel, prescribed aids, firearms, jewelry, animals, musical instruments and household items. Report the lesser of whole-asset value and $4,000 for one debtor or $8,000 for two equal joint debtors. Then add every fact-supported specific subsection independently.",
+              "avoid_when": "Do not apply § 12-1001(b) to real or explicitly business-use property, omit it because another subsection applies, classify jewelry as necessary apparel, or infer § 12-1001(d) without explicit trade-use facts."
+            }
+          ],
+          "rationale": "Despite the existing independent-alternative sentence, the parent omitted § 12-1001(b) from a personally held firearm and a jointly owned vehicle. The ordered per-asset pass supplies concrete factual categories while retaining the real-property, business-use, apparel and trade-tool boundaries."
+        },
+        {
+          "id": "ec-pennsylvania-general-monetary",
+          "by_task": [
+            {
+              "tasks": [
+                "EV"
+              ],
+              "when": "Pennsylvania exemptions are allowable and the debtor or debtors own an estate asset.",
+              "procedure": "For each owned asset, first emit 42 Pa. Cons. Stat. § 8123 and report the lesser of whole-asset value and $300 for one debtor or $600 for two equal joint debtors. Independently add § 8124(a)(1) only for actual wearing apparel, (a)(2) only for a Bible or school book, (a)(3) only for a qualifying sewing machine, and (a)(4) only for a service member's uniform or accoutrements. Those qualifying § 8124(a) entries have no stated dollar ceiling, so report the whole asset's value.",
+              "avoid_when": "Do not omit § 8123 because another exemption applies or copy its ceiling into a § 8124(a) entry. Do not attach § 8124(a) to household textiles, appliances, vehicles, firearms, instruments, ordinary jewelry, animals or other property outside its stated classes."
+            }
+          ],
+          "rationale": "The parent repeatedly used one spouse's § 8123 ceiling, omitted § 8123, invented § 8124 classes, and copied $300 into a valid apparel entry. The revision separates the general-entry calculation from the closed particular-property classes and states their whole-asset valuation."
+        }
+      ]
+    }
+  ],
+  "EC_proposal": {
+    "decision": {
+      "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/candidates/b4_candidate1.json",
+      "sha256": "d1e1037ffddb204ac639d04465dda6ae2b056ba73a7887673f1a9bba1769600f"
+    },
+    "accepted": false,
+    "reason": "no_independently_improving_legal_edit",
+    "proposed_tokens": 3868,
+    "actual_parent_stays3866": true,
+    "whole_gate_flags": {
+      "accepted": false,
+      "current_family_nonregression": true,
+      "prior_family_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": false,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": false,
+      "prior_negative_asset_and_format_nonregression": true,
+      "TRAIN_optimization_not_independent_validation": true
+    },
+    "EC_AZ_gate": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": false,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": false,
+      "prior_negative_asset_and_format_nonregression": true,
+      "current_tasks": 4,
+      "prior_tasks": 10
+    }
+  },
+  "EV_proposal_valid_diagnoses_and_budget_then_replay_started": {
+    "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/teacher/b4_candidate2/edit_audit.json",
+    "sha256": "06a5ddd4817b537d47df83438e761d790fd66b2a305847d2562bb55e8c9d29a5"
+  },
+  "not_an_observed_budget_block_or_forced_skill_growth": true,
+  "no_live_hot_fix_new_teacher_or_generation_from_this_audit": true,
+  "no_future_B5_labels_or_TEST_access": true,
+  "EV_replay_outcome_not_claimed": true
+}

@@ -1,0 +1,113 @@
+{
+  "at": "2026-10-29T22:15:03.020576+00:00",
+  "classification": "Targeted primary-author source reading and actual teacher15 input-mass diagnosis; no new method adoption or model experiment",
+  "primary_papers": {
+    "COBRA": {
+      "url": "https://arxiv.org/html/2609.11682v1",
+      "first_submission": "2026-09-10",
+      "author_repository_link_verified_in_paper": true
+    },
+    "WikiSkill": {
+      "url": "https://arxiv.org/html/2608.27454v1",
+      "first_submission": "2026-08-27",
+      "author_repository_not_verified": "Search found independent implementations, not used as original-author code evidence."
+    }
+  },
+  "author_code": {
+    "repository": "https://github.com/Jerry-LuP/COBRA-Skills",
+    "commit": "44b00ef55a06a637e9bad06999b618ca2eb37288",
+    "license_reported_by_repository": "Apache-2.0",
+    "selected_file_sha256": {
+      "cobras_core/skill_ops.py": "49719cd7fe17d018b7dbb8e8f06bd36f3d4c0310bdf8a8137001e0de097713d6",
+      "scripts/mutate_skill_from_results.py": "b1437fa251f6792751b9ec37c494b062cc487c43dc55c3e44c427b98dc10530e",
+      "task_envs/livemath/scripts/mutate_livemath_skill_from_results.py": "b46ac26a42bf61aae697ea0effff7137a31e096b31e980611608e9f91d2c679b",
+      "task_envs/livemath/scripts/run_baseline_single.py": "715aecd4f2758df22994a343f0407910402da638511abb52f591526961e87ace",
+      "task_envs/livemath/cobras_adapter.py": "85dc023d439e0612833eb48f7accacc4696465967f64daef116c89582f3100dd",
+      "cobras_core/config.py": "b34585baf4202aabaf7c9f9fb273baa093145b0898589a1b851204d88fb34f77",
+      "configs/default.yaml": "359d8088d4c0f06440e5afbaedb3012b31e8a620db36a873eb3a61b748d2079e"
+    },
+    "files_not_installed_copied_or_executed": true,
+    "read_scope": "Mutation call path, LiveMath mutator entire307lines, adapter entire82, CLI entire79, selected config and evaluator record fields; not a claim whole repository or all tasks audited."
+  },
+  "verified_code_findings": {
+    "actual_route": "SkillOpsMixin._generate_rollout_mutate -> scripts.mutate_skill_from_results -> DATASETS.livemath.skill_mutator_module -> LiveMath mutation script, parent and rollout root passed through.",
+    "small_local_change_policy": "LiveMath prompt requests preserving useful wording, 2–4 conceptual edits, replacements/deletions preferred, at most2newbullets, near-original length. It returns the full revised skill, not a local legal solver.",
+    "actual_supervision_flow": "LiveMath runner writes correct_label/correct_text and rewards into result rows; mutator includes those fields with predictions and bounded traces in teacher observations. This specific path is not evidence of label-free skill learning.",
+    "sampling_scope": "Released driver/default sets rollout sample8; mutator default sampling policy is random unless overridden. Do not assert every sample guarantees both success and failure.",
+    "no_unsupported_transplant": "Not adopting population10, NN/LinearUCB, embedding service, repeated generation retries or an extra wiki layer. Prior paired-positive/negative TRAIN test already failed; do not repeat it solely because paper mentions both outcomes."
+  },
+  "teacher15_actual": {
+    "wire": {
+      "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/teacher/b8_candidate1/wire_request.json",
+      "sha256": "86377d5c990ec87f59d5d6f76a3fca8f909448b3d4fd1ae837d59d657eea6b0a"
+    },
+    "response": {
+      "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/teacher/b8_candidate1/response.json",
+      "sha256": "79c27931ae81e5cf0b4d6cc0a3e58d1124a30cda2c6343895b01db668fbb332e"
+    },
+    "actual_input_tokens": 110498,
+    "actual_output_tokens": 3716,
+    "project_configured_input_budget_not_official_model_spec": 680000,
+    "project_auto_compact_limit": 800000,
+    "raw_user_prompt_characters": 317537,
+    "compact_body_characters": 317537,
+    "output_schema_characters": 3146,
+    "body_field_serialized_characters": {
+      "current_source_case_ids": 65,
+      "teacher_evidence_contract": 41,
+      "teaching_task": 4,
+      "task_projection_update_contract": 166,
+      "execution_teaching_contract": 475,
+      "task_boundary": 405,
+      "current_parent_library": 16278,
+      "task_contracts": 547,
+      "skill_commit_policy": 16,
+      "adaptive_commit_objective": 42,
+      "public_TRAIN_edit_coordinates_before_proposed_shared_edits": 1641,
+      "full_serialized_library_token_budget": 146,
+      "public_citation_label_catalog": 4633,
+      "actual_actor_systems": 715,
+      "actual_response_schemas": 31933,
+      "actual_actor_skill_messages": 11738,
+      "actor_visibility_contract": 335,
+      "complete_public_statutes": 20447,
+      "actual_system_and_response_schema_by_public_context": 2275,
+      "already_seen_training": 175666,
+      "rejected_candidate_feedback": 46271,
+      "training_evidence_manifest": 1873,
+      "selected_record_view_preserves_program_answer_score_and_error": 4,
+      "native_claim_feedback_contract": 263,
+      "bounded_emitted_evidence_contract": 232,
+      "future_cases_and_labels_not_supplied": 4,
+      "candidate_feedback_contract": 447
+    },
+    "selected_row_fields_serialized_characters": {
+      "source_case_id": 96,
+      "frozen_initial_answer_alias_of": 992,
+      "actual_same_case_empty_answer": 29878,
+      "family": 128,
+      "actual_parent_answer": 94936,
+      "facts": 13705,
+      "public_asset_reference_catalog": 6435,
+      "public_statutes_ref": 2112,
+      "public_solved_steps": 7364,
+      "original_training_target": 12403
+    },
+    "actual_parent_fields_serialized_characters": {
+      "parse_error": 128,
+      "executed_answer": 11117,
+      "execution_error": 128,
+      "source_model_emitted_evidence": 42056,
+      "score": 16732,
+      "case_id": 96,
+      "family": 128,
+      "public_native_final_submission": 7020,
+      "native_claim_feedback": 11899
+    },
+    "character_counts_are_not_token_shares": true
+  },
+  "diagnostic_conclusion": "Teacher15 has a large317537-character evidence body, dominated by32 real selected rows and rejection evidence rather than a large output schema (3146characters). Actual110498 inputtokens is below configured limits. These facts do not establish input truncation or schema explosion, nor prove attention quality. Do not refactor schemas or cut32cases to8 based solely on a different benchmark's defaults.",
+  "possible_integration_boundary": "Use conservative evidence-grounded editing within existing teacher if complete TRAIN evidence justifies; currentteacher15 already made one generic rule update, so do not change code merely to claim borrowing. Inspect actual finalteacher16 and full128 publication, then repair confirmed contracts/retention without extra layers. No hot changes while379 bound files live.",
+  "all379_frozen_files_unchanged": true,
+  "no_new_model_teacher_official_grading_or_TEST_calls": true
+}

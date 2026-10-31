@@ -1,0 +1,50 @@
+{
+  "bank": [
+    {
+      "id": "benchmark_regime_and_output_gate",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "At the start of every EC or EV OpenExempt task, before classifying or valuing anything.",
+        "procedure": "1. Read the solved-law sentence and make a closed allowed-law list. “Arizona” means Arizona citations only; “Illinois” means Illinois citations only. “Federal and Pennsylvania/Oregon/Wisconsin” means both named bodies must be applied and their passing citations united. Never silently drop Federal law when it is named, and never add Federal law to an opt-out-state route. 2. Build the output keys directly from the facts before doing legal analysis: copy each asset noun phrase with every internal modifier and its original capitalization, but omit an introductory a/an/the, ownership language, and the stated price. JSON quotation marks delimit the key; do not insert quotation-mark characters into the key. Never title-case, shorten, or paraphrase a key. 3. Classify every asset under the allowed laws. Only afterward perform EV valuation. 4. EC must contain every asset key, using [] if nothing applies. EV contains only assets having at least one applicable exemption. 5. Emit only citations found verbatim in the supplied statutes and valid JSON.",
+        "avoid_when": "Do not use example keys, outside law, a law excluded by the solved route, altered capitalization, shortened medical or product descriptions, or valuation limits while deciding classification.",
+        "operators": []
+      }
+    },
+    {
+      "id": "exhaustive_specific_and_residual_classification",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "After the allowed-law list and exact asset keys are fixed, and before any EV dollar calculation.",
+        "procedure": "Evaluate each asset independently and collect every passing citation. Apply these mechanical tests. Federal, when allowed: add § 522(d)(5) to every asset because it covers any property; additionally add § 522(d)(3) for household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, § 522(d)(4) for jewelry, and § 522(d)(9) for an expressly professionally prescribed health aid. A firearm is not § 522(d)(3) merely because it is personal property. Pennsylvania: add § 8123 to every asset; add § 8124(a) only for its expressly listed property, such as wearing apparel, Bibles or school books, and qualifying sewing machines. Oregon: add § 18.345(1)(p) to every personal-property asset; also add (1)(b) for apparel or jewelry, (1)(h) for a professionally prescribed health aid, (1)(f) for household goods or furniture, and § 18.362 for a rifle, shotgun, or pistol. Wisconsin: add § 815.18(3)(d) for listed consumer goods, including household furnishings, apparel, jewelry, appliances, books, musical instruments, firearms, animals, sporting goods, and other tangible personal property held for personal, family, or household use. Illinois personal-use property: add § 5/12-1001(b) as the residual exemption; also add (a) for necessary wearing apparel, but use (d) only when the facts establish a trade tool. Arizona: use § 33-1123 for household furniture, furnishings, household goods, consumer electronics, or appliances; § 33-1125(1) for apparel, (2) for musical instruments, (4) only for engagement or wedding rings, (9) for an expressly professionally prescribed medical prosthesis or device, (10) for firearms, and (11) for domestic animals or household pets. After testing, check the allowed-law list again: on a Federal-plus-state route, an asset must include applicable results from both bodies, including the federal any-property citation and the applicable state residual citation.",
+        "avoid_when": "Do not stop after the first citation; confuse household objects with apparel, vehicles, animals, or trade tools; treat ordinary jewelry as an engagement or wedding ring; omit a residual any-property exemption; or import Arizona categories into another state's route.",
+        "operators": []
+      }
+    },
+    {
+      "id": "ev_claim_is_asset_interest_capped",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "when": "Only in EV, after the exact asset keys and each asset's complete applicable-citation list have been finalized.",
+        "procedure": "Use two separate passes. PASS 1—freeze inputs: make one record per asset containing (K,V,L), where K is the exact fact-pattern description, V is that asset's stated value, and L is its already-classified citations. Never borrow a value, key, or citation from another record or from the response-format example. Do not add or remove citations during valuation. PASS 2—value each citation in L independently. For each pair, first set X=V. Read only that citation. If it has a dollar ceiling C and V>C, change X to C; otherwise leave X=V. Emit X. Never begin with C. After drafting every object, compare its number with the V in the same frozen record: if X>V, overwrite X with V. Repeat this scan until no claim_value exceeds its asset value. Use a per-item ceiling when the statute states both per-item and aggregate limits. An uncapped exemption always receives V. For § 522(d)(5), calculate C=1475+U per debtor, where U is supported unused § 522(d)(1) capacity up to 13950; under the task's independent-pair convention, do not treat the simultaneously evaluated asset-citation pair as consuming that capacity. Combine debtor or spouse ceilings only when the supplied text expressly permits separate or combined exemptions and the facts establish a joint case. Emit plain JSON numbers under the frozen keys.",
+        "avoid_when": "Do not output a statutory maximum merely because it appears in the statute; use one asset's value for another asset; carry a prior citation's ceiling or result forward; substitute an aggregate ceiling for a stated per-item ceiling; value an inapplicable citation; alter the classification list; divide joint property automatically; double a ceiling without express statutory support; introduce sample, shortened, or title-cased asset keys; or emit any claim_value greater than its own asset value.",
+        "operators": []
+      }
+    }
+  ],
+  "parent_publication": "runs/legal_openexempt_mechanism_online_20261019_run01/publications/b4.json",
+  "warm_source_case_ids": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "not_all_episode_sources_are_fresh": true
+}

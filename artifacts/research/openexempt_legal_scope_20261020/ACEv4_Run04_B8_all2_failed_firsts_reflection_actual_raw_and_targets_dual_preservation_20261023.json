@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-23T07:24:09.198345+00:00",
+  "members": {
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run04_B8_all2_original_truncations_zero_preserved_full_public_text_correct_target_exact_fresh_reflection_20261023.json": "dd74e815f54db1785b96658e0c28f15ce80a28711c627008dfdc049a431a70a6",
+    "configs/openexempt_ace_public_assets128_20261023_run04.json": "0444f1cf26d005aab839d0a9e9b2b8d0cfd619081fc1a2c5df9a1bb435fed228",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/295.json": "404f521ea00e9b39efa69c1383903ec6e7128105e5c5d15ae55214d45a35f749",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/302.json": "2fe8a6932a2c4e1f0b28d7338fa0e32a81d7607373005d59087e18712c50e1f3",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b8_prequential/295_EV_ace.json": "bceafd8ac6feb4a4b743af4e34d90451eb273da54f453230e5bab1c0bc7619e9",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b8_prequential/302_EV_ace.json": "111b3fbba555d480ea15e2e4f0b88b8a0130c8ff4db2d834c644e814ab8fa5f7",
+    "runs/legal_openexempt_ace_public_assets128_20261023_run04/batches/b8_records.json": "3392e8a4fbeebf1cae51a3ab4256be22c565578f4454063c5d2f6612e78ce7c5",
+    "runs/legal_openexempt_ace_public_assets128_20261023_run04/native/b8_TRAIN_initial/295_EV_ace.answer.json": "597ca98b675abcea1f07e133c55130d269fead3efa76f9684fbf7811484a6e41",
+    "runs/legal_openexempt_ace_public_assets128_20261023_run04/native/b8_TRAIN_initial/302_EV_ace.answer.json": "fcf5d565e8e8ec9210b5efc51d37637835b8723b31d5a620b1b7787db4c6db04",
+    "runs/legal_openexempt_ace_public_assets128_20261023_run04/publications/b7.json": "c3180bfd93b3f0316f1f8574c173747a6b8da9b49c8fc8683d633bb852a75f64",
+    "runs/legal_openexempt_ace_public_assets128_20261023_run04/teacher/b8_295_EV_r1_reflector/event_log.json": "e23f1bd91091b5d6c915efbf07adbb03ad489d0ed732910eeac1b4c099d0cb02",
+    "runs/legal_openexempt_ace_public_assets128_20261023_run04/teacher/b8_295_EV_r1_reflector/response.json": "f1dbf42b1060b06e031b4e8a86423ff9b0e22a4092e4c9b617af6d64191f22eb",
+    "runs/legal_openexempt_ace_public_assets128_20261023_run04/teacher/b8_295_EV_r1_reflector/wire_request.json": "9bf8be6947e7a444b8fe57d59ff32465a58f5436d7fa474082c47c22c3f8237e",
+    "runs/legal_openexempt_ace_public_assets128_20261023_run04/teacher/b8_302_EV_r1_reflector/event_log.json": "fccc985f7d74c58d1a21d5f1b899aa753cde8bca2d3016b693cde06bf25a3f68",
+    "runs/legal_openexempt_ace_public_assets128_20261023_run04/teacher/b8_302_EV_r1_reflector/response.json": "5a6faa4d2732db8df0f669bf66996b7ccb7b4fbbd7a81ec42d7a9f953051a09d",
+    "runs/legal_openexempt_ace_public_assets128_20261023_run04/teacher/b8_302_EV_r1_reflector/wire_request.json": "3fabae672a51d3962aacd15d1cf46c3ace54d26f0a6364b641cd71c7097c6418"
+  },
+  "preservation": {
+    "at": "2026-10-23T07:24:09.081966+00:00",
+    "stage": "scoped",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_Run04_B8_all2_original_failures_exact_fresh_reflection_20261023-scoped.tar.gz",
+        "sha256": "f37d72245a64152ce280e5be6abbd805a673898b3b93431cbcea808cefb83d66"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_Run04_B8_all2_original_failures_exact_fresh_reflection_20261023-scoped.tar.gz",
+        "sha256": "f37d72245a64152ce280e5be6abbd805a673898b3b93431cbcea808cefb83d66"
+      }
+    ],
+    "files": 16
+  },
+  "both_disks_all_members_verified": true,
+  "not_new_predictions_or_TEST_results": true,
+  "recomputation_program": "from pathlib import Path\nimport json\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import read,sha,now\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\naudit=base/\"ACEv4_Run04_B8_all2_original_truncations_zero_preserved_full_public_text_correct_target_exact_fresh_reflection_20261023.json\"\ndata=read(audit);names=set(data[\"evidence_sha256\"])|{str(audit.relative_to(root))}\nassert all(sha(root/n)==h for n,h in data[\"evidence_sha256\"].items())\nreceipt=preserve(\"legal_openexempt_Run04_B8_all2_original_failures_exact_fresh_reflection_20261023\",\"scoped\",names)\nout={\"at\":now(),\"members\":{n:sha(root/n) for n in sorted(names)},\"preservation\":receipt,\n \"both_disks_all_members_verified\":True,\"not_new_predictions_or_TEST_results\":True,\"recomputation_program\":PROGRAM}\ndest=base/\"ACEv4_Run04_B8_all2_failed_firsts_reflection_actual_raw_and_targets_dual_preservation_20261023.json\"\nRunStore.immutable_json(dest,out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"members\":len(names),\"both_disks_verified\":True}))\n"
+}

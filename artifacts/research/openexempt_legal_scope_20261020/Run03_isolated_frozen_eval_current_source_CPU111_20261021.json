@@ -1,0 +1,41 @@
+{
+  "classification": "Isolated frozen comparison aligned with actual Run03 core; CPU synthetic protocol checks, not learned-performance or held-out evaluation",
+  "at": "2026-10-21T03:05:00+00:00",
+  "worktree": ".venv/evolution-control-20261020.qLon9T",
+  "branch": "prospective-static-frozen-control-20261021",
+  "commit": "3f0356ddda3de8b6d2cc7abdb7d66e7fadf12b4d",
+  "current_core_commit": "6896246",
+  "changes": "Merged current source epoch into the existing isolated evaluator; extended the existing end-to-end fixture with correctly empty and falsely claimed negative assets; no new test file or runtime framework.",
+  "pytest_command": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python -c 'import legal_skill_guard.openexempt as bridge; bridge.UPSTREAM = bridge.UPSTREAM.resolve(); import pytest; raise SystemExit(pytest.main([\"tests/test_openexempt_frozen_eval.py\", \"tests/test_openexempt_contract.py\", \"tests/test_openexempt_ace.py\", \"-q\"]))'",
+  "result": {
+    "passed": 111,
+    "warnings": 17,
+    "seconds": 14.34,
+    "exit_code": 0
+  },
+  "evaluator_only_result": {
+    "passed": 43,
+    "seconds": 6.84,
+    "exit_code": 0
+  },
+  "ruff_command": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/ruff check experiments/openexempt_frozen_eval.py tests/test_openexempt_frozen_eval.py",
+  "ruff_result": "All checks passed!",
+  "initial_environment_failures_retained": [
+    {
+      "kind": "missing untracked official dependency in isolated worktree",
+      "result": "1 failed, 40 passed in 5.51s",
+      "production_affected": false
+    },
+    {
+      "kind": "symlink dependency path versus resolved origin guard",
+      "result": "1 failed, 40 passed in 5.80s",
+      "production_affected": false
+    }
+  ],
+  "official_dependency": "Existing pinned ec6fa2547431096588ce2d3ef107b8adc33cd4fe cache; read-only link in isolated worktree and explicit resolved path in test command, not a production fallback.",
+  "new_native_generations": 0,
+  "new_teacher_calls": 0,
+  "real_TEST_packet_or_targets_opened": false,
+  "deployed_to_live_main_or_waiter": false,
+  "full_128_stream_repeats_baselines_ablations_and_final_matrix_still_required": true
+}

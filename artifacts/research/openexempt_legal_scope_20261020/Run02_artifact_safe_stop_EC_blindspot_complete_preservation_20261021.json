@@ -1,0 +1,73 @@
+{
+  "at": "2026-10-21T01:39:17.263552+00:00",
+  "classification": "Authorised artifact-safe manual stop for generic EC zero-target scoring/admission blindspot; not model service failure",
+  "progress": {
+    "at": "2026-10-21T01:36:18.163294+00:00",
+    "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run02",
+    "state": "failed",
+    "stage": "terminal",
+    "current_batch": 4,
+    "completed_native_calls": 331,
+    "completed_teacher_calls": 6,
+    "teacher_attempts": 6,
+    "cross_stage_identical_wire_reuses": 770,
+    "library_records": 6
+  },
+  "actual_failure": "InterruptedError('Operator stop at artifact-safe boundary')",
+  "old392_pins_unchanged": true,
+  "source_archives": [
+    {
+      "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_closed_feedback_public_assets128_20261021_run02-source.tar.gz",
+      "sha256": "ca0299276d532a1dc7ccceffcf2c58fe5607cae488c597ec9bc8ff204d5ad239",
+      "all_source_bindings_verified": 388
+    },
+    {
+      "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_closed_feedback_public_assets128_20261021_run02-source.tar.gz",
+      "sha256": "ca0299276d532a1dc7ccceffcf2c58fe5607cae488c597ec9bc8ff204d5ad239",
+      "all_source_bindings_verified": 388
+    }
+  ],
+  "terminal_archives": [
+    {
+      "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_closed_feedback_public_assets128_20261021_run02-actual-terminal.tar.gz",
+      "sha256": "bfb89995e98f68911ec140c2bedd5904c15a6dbed5190b0604911a432d02b514",
+      "all_members_verified": 2571
+    },
+    {
+      "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_closed_feedback_public_assets128_20261021_run02-actual-terminal.tar.gz",
+      "sha256": "b2dfe0f6d1809046910096f729cd7dac9a18f794316f3b641c4070053e8be331",
+      "all_members_verified": 2571
+    }
+  ],
+  "native_calls": 331,
+  "native_HTTP_calls": 331,
+  "native_prompt_tokens": 2188655,
+  "native_completion_tokens": 903092,
+  "native_finish_reasons": {
+    "stop": 331
+  },
+  "teacher_responses": 6,
+  "teacher_input_tokens": 1142901,
+  "teacher_output_tokens": 24343,
+  "teacher_reasoning_tokens_subset": 15449,
+  "extra_B3_audit_preservation": {
+    "at": "2026-10-21T01:39:15.241849+00:00",
+    "stage": "B3-EC-blindspot-proof-before-source-change",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_MAIN128_20261021-B3-EC-blindspot-proof-before-source-change.tar.gz",
+        "sha256": "f30389300daa5c3655aaf860d858661e42105f30ecd86f9baabf4f59c3357c95"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_MAIN128_20261021-B3-EC-blindspot-proof-before-source-change.tar.gz",
+        "sha256": "34d6ab6497ce6f94a8e3bdd822fc9ac5a832307676d94035e10a631476a52085"
+      }
+    ],
+    "files": 777
+  },
+  "B4_partial_not_scored_not_used_for_selection": true,
+  "model_PID_3613253_unchanged_running": true,
+  "cancelled_waiter_1532114_not_running": true,
+  "no_B4_or_TEST_gold_loaded_by_audit": true,
+  "audit_recomputation_program": "import json,hashlib,tarfile,collections,os\nfrom pathlib import Path\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=Path.cwd();run=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02\";rid=run.name\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nassert not Path(\"/proc/1047861\").exists() and not Path(\"/proc/1532114\").exists()\nassert Path(\"/proc/3613253/stat\").read_text().rsplit(\")\",1)[1].split()[19]==\"446037091\"\nf=json.loads((root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run02.frozen.json\").read_text())\nq=json.loads((root/\"artifacts/launches/openexempt_main128_to_ACE128_20261021/queued.json\").read_text())\nassert not [p for p,h in q[\"source_data_environment_pins\"].items() if sha(root/p)!=h]\nprogress=json.loads((run/\"progress.json\").read_text());failure=json.loads((run/\"failure.json\").read_text())\nassert progress[\"stage\"]==\"terminal\" and \"InterruptedError\" in failure[\"error\"]\nassert not (run/\"batches/b4_prequential.json\").exists() and not (run/\"teacher/b4_candidate1\").exists()\nreceipt=json.loads((run/\"terminal_preservation.json\").read_text());checks=[]\nfor p in receipt[\"paths\"]:\n ar=Path(p[\"path\"]);assert sha(ar)==p[\"sha256\"];n=0\n with tarfile.open(ar) as t:\n  assert len(t.getmembers())==receipt[\"files\"]\n  for m in t:\n   assert hashlib.sha256(t.extractfile(m).read()).hexdigest()==sha(root/m.name);n+=1\n checks.append({\"path\":str(ar),\"sha256\":p[\"sha256\"],\"all_members_verified\":n})\nsource_backups=[]\nfor base in (Path(\"/media/sangfor/vdb/legal-skill-backups\"),Path(\"/home/yndx/hhy/legal-skill-rootdisk-backups\")):\n ar=base/(rid+\"-source.tar.gz\")\n with tarfile.open(ar) as t:\n  for p,h in f[\"files\"].items():assert hashlib.sha256(t.extractfile(p).read()).hexdigest()==h\n source_backups.append({\"path\":str(ar),\"sha256\":sha(ar),\"all_source_bindings_verified\":len(f[\"files\"])})\nraws=[]\nfor p in (run/\"native\").rglob(\"*.json\"):\n if p.name.endswith((\".input.json\",\".answer.json\")):continue\n d=json.loads(p.read_text())\n if \"calls\" in d:raws.append(d)\nassert len(raws)==progress[\"completed_native_calls\"]\nteachers=[json.loads(p.read_text()) for p in (run/\"teacher\").glob(\"*/response.json\")]\nassert len(teachers)==6\nnames=set()\nfor p in (\"artifacts/research/openexempt_legal_scope_20261020/MAIN128_B3_C2_complete96_scopedAZ_published_all288_nativechecks_20261021.json\",\"artifacts/research/openexempt_legal_scope_20261020/MAIN128_B3_nativeEC_negative_target_blindspot_all48_20261021.json\",\"artifacts/research/openexempt_legal_scope_20261020/hourly0930_B3_actual_publication_EC_empty_target_blindspot_safe_stop_intent_20261021.json\"):\n names.add(p)\n d=json.loads((root/p).read_text());names.update(d.get(\"all_evidence_paths\",[]))\nnames.update((str((run/\"failure.json\").relative_to(root)),str((run/\"terminal_preservation.json\").relative_to(root)),\"configs/openexempt_closed_feedback_public_assets128_20261021_run02.frozen.json\",\"configs/openexempt_closed_feedback_public_assets128_20261021_run02.json\",\"experiments/openexempt_online.py\",\"legal_skill_guard/openexempt.py\",\"tests/test_openexempt_contract.py\"))\nextra=preserve(\"legal_research_MAIN128_20261021\",\"B3-EC-blindspot-proof-before-source-change\",sorted(names))\nout={\"at\":now(),\"classification\":\"Authorised artifact-safe manual stop for generic EC zero-target scoring/admission blindspot; not model service failure\",\n\"progress\":progress,\"actual_failure\":failure[\"error\"],\"old392_pins_unchanged\":True,\"source_archives\":source_backups,\"terminal_archives\":checks,\n\"native_calls\":len(raws),\"native_HTTP_calls\":sum(len(r[\"calls\"]) for r in raws),\"native_prompt_tokens\":sum(r[\"response\"][\"prompt_tokens\"] for r in raws),\"native_completion_tokens\":sum(r[\"response\"][\"completion_tokens\"] for r in raws),\"native_finish_reasons\":dict(collections.Counter(r[\"response\"][\"finish_reason\"] for r in raws)),\n\"teacher_responses\":len(teachers),\"teacher_input_tokens\":sum(x[\"invocation\"][\"usage\"][\"input_tokens\"] for x in teachers),\"teacher_output_tokens\":sum(x[\"invocation\"][\"usage\"][\"output_tokens\"] for x in teachers),\n\"teacher_reasoning_tokens_subset\":sum(x[\"invocation\"][\"usage\"][\"reasoning_output_tokens\"] for x in teachers),\n\"extra_B3_audit_preservation\":extra,\"B4_partial_not_scored_not_used_for_selection\":True,\"model_PID_3613253_unchanged_running\":True,\"cancelled_waiter_1532114_not_running\":True,\"no_B4_or_TEST_gold_loaded_by_audit\":True}\nprint(json.dumps(out))"
+}

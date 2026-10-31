@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-22T14:11:08.772148+00:00",
+  "classification": "One ordinary user-service sequential launch is LIVE WAITING for the current ACE service. The static TRAIN control has NOT initialized, generated or graded anything. No generic queue/controller, extra model or teacher reservation.",
+  "unit": "legal-openexempt-fixed-static-train128-20261022-run01.service",
+  "unit_properties": {
+    "Restart": "no",
+    "TimeoutStopUSec": "20min",
+    "MainPID": "705766",
+    "Result": "success",
+    "NRestarts": "0",
+    "Id": "legal-openexempt-fixed-static-train128-20261022-run01.service",
+    "ActiveState": "active",
+    "SubState": "running",
+    "FragmentPath": "/run/user/1000/systemd/transient/legal-openexempt-fixed-static-train128-20261022-run01.service"
+  },
+  "PID": 705766,
+  "process_start_ticks": "468467899",
+  "argv": [
+    "/bin/bash",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_fixed_static_train128_20261022_run01/after_ACE.sh"
+  ],
+  "launcher": "artifacts/launches/openexempt_fixed_static_train128_20261022_run01/after_ACE.sh",
+  "launcher_sha256": "ac5f66ccb4946acd38ab1a29c68a87991bae98e4fa7e15b208e906784916aa4a",
+  "transient_unit_definition": "# This is a transient unit file, created programmatically via the systemd API. Do not edit.\n[Unit]\nDescription=Frozen zero-case library TRAIN control after complete ACE\n\n[Service]\nWorkingDirectory=/media/sangfor/vdb/legal-skill-evolve\nRestart=no\nTimeoutStopSec=20min\nEnvironment=\"PYTHONUNBUFFERED=1\" \"NO_PROXY=127.0.0.1,localhost\"\nExecStart=\nExecStart=\"/bin/bash\" \"/media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_fixed_static_train128_20261022_run01/after_ACE.sh\"\n",
+  "transient_unit_definition_sha256": "2d80c4b7663221cc167f206b235c7cffd997f02018bea1b6eb6b9dc7b936852f",
+  "config": "configs/openexempt_fixed_static_train128_20261022_run01.json",
+  "config_sha256": "8489cc82b133e97c03cbbcafa22bcc09995d160047a60e79e38980d4108d0ea7",
+  "frozen_manifest_sha256": "98d221c2faa64cab5c76375aad1db4c4e848884630fae1c97544189d04230a2e",
+  "source400_both_archives_verified_report": "artifacts/research/openexempt_legal_scope_20261020/Fixed_static_TRAIN128_full256_control400_source402_dual_frozen_unstarted_and_active_ACE377_unchanged_20261022.json",
+  "static_control_directory_absent": true,
+  "static_native_calls": 0,
+  "static_new_teacher_calls": 0,
+  "original_model_and_ACE_handles_still_live": [
+    3613253,
+    176852
+  ],
+  "readiness_gate": "Bash waits45s while ACE unit active. Python then independently requires actual8publications/completion+terminalpreservation/no failure for both originalmain andACE, same source/config/model, and acquires same canonical lock; abnormal ACE cannot trigger model calls.",
+  "operator_stop_note": "This unit is separate from ACE and model. Stop this exact waiting unit if requested to cancel future automatic control; never kill the model or healthyACE to cancel a queued stage.",
+  "no_TEST_semantics_labels_predictions_or_outcomes_read": true,
+  "program": "import hashlib,json,subprocess\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nunit=\"legal-openexempt-fixed-static-train128-20261022-run01.service\"\nvalues={}\nfor line in subprocess.check_output([\"systemctl\",\"--user\",\"show\",unit,\"--property=Id,MainPID,ActiveState,SubState,Result,NRestarts,FragmentPath,Restart,TimeoutStopUSec\"],text=True).splitlines():\n k,sep,v=line.partition(\"=\")\n if sep:values[k]=v\nassert values[\"ActiveState\"]==\"active\" and values[\"SubState\"]==\"running\" and values[\"MainPID\"]==\"705766\"\nassert values[\"Restart\"]==\"no\" and values[\"NRestarts\"]==\"0\"\npid=int(values[\"MainPID\"]);proc=Path(\"/proc\")/str(pid)\nargv=[x.decode() for x in proc.joinpath(\"cmdline\").read_bytes().split(b\"\\0\") if x]\nstart=proc.joinpath(\"stat\").read_text().rsplit(\")\",1)[1].split()[19]\nlauncher=root/\"artifacts/launches/openexempt_fixed_static_train128_20261022_run01/after_ACE.sh\"\nassert argv==[\"/bin/bash\",str(launcher)]\nfor target,tick in ((3613253,\"446037091\"),(176852,\"466336240\")):\n assert Path(f\"/proc/{target}/stat\").read_text().rsplit(\")\",1)[1].split()[19]==tick\nrun=root/\"runs/legal_openexempt_fixed_static_train128_20261022_run01\"\nassert not run.exists()\ncfg=root/\"configs/openexempt_fixed_static_train128_20261022_run01.json\"\nfrozen=json.loads(cfg.with_suffix(\".frozen.json\").read_text())\nfor name in (\"experiments/openexempt_fixed_train_control.py\",str(cfg.relative_to(root))):\n assert hashlib.sha256((root/name).read_bytes()).hexdigest()==frozen[\"files\"][name],name\nfragment=Path(values[\"FragmentPath\"])\nout={\"at\":datetime.now(timezone.utc).isoformat(),\"classification\":\"One ordinary user-service sequential launch is LIVE WAITING for the current ACE service. The static TRAIN control has NOT initialized, generated or graded anything. No generic queue/controller, extra model or teacher reservation.\",\n\"unit\":unit,\"unit_properties\":values,\"PID\":pid,\"process_start_ticks\":start,\"argv\":argv,\n\"launcher\":str(launcher.relative_to(root)),\"launcher_sha256\":hashlib.sha256(launcher.read_bytes()).hexdigest(),\n\"transient_unit_definition\":fragment.read_text(),\"transient_unit_definition_sha256\":hashlib.sha256(fragment.read_bytes()).hexdigest(),\n\"config\":str(cfg.relative_to(root)),\"config_sha256\":hashlib.sha256(cfg.read_bytes()).hexdigest(),\"frozen_manifest_sha256\":hashlib.sha256(cfg.with_suffix(\".frozen.json\").read_bytes()).hexdigest(),\n\"source400_both_archives_verified_report\":\"artifacts/research/openexempt_legal_scope_20261020/Fixed_static_TRAIN128_full256_control400_source402_dual_frozen_unstarted_and_active_ACE377_unchanged_20261022.json\",\n\"static_control_directory_absent\":True,\"static_native_calls\":0,\"static_new_teacher_calls\":0,\n\"original_model_and_ACE_handles_still_live\":[3613253,176852],\n\"readiness_gate\":\"Bash waits45s while ACE unit active. Python then independently requires actual8publications/completion+terminalpreservation/no failure for both originalmain andACE, same source/config/model, and acquires same canonical lock; abnormal ACE cannot trigger model calls.\",\n\"operator_stop_note\":\"This unit is separate from ACE and model. Stop this exact waiting unit if requested to cancel future automatic control; never kill the model or healthyACE to cancel a queued stage.\",\n\"no_TEST_semantics_labels_predictions_or_outcomes_read\":True,\n\"program\":PROGRAM}\ndest=base/\"Fixed_static_TRAIN128_unit705766_live_waiting_after_ACE_no_model_calls_20261022.json\"\nRunStore.immutable_json(dest,out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"unit\":unit,\"pid\":pid,\"start_ticks\":start,\"state\":\"LIVE_WAITING_NOT_CONTROL_TRAIN_STARTED\",\"static_run_directory_absent\":True,\"model_and_ACE_live\":True,\"TEST_unread\":True},ensure_ascii=False))\n"
+}

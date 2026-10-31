@@ -1,0 +1,190 @@
+{
+  "at": "2026-10-23T06:41:56.218934+00:00",
+  "classification": "Actual restored ACE and concrete serial successor handles; operational progress, not new main performance or final TEST",
+  "source_commits": {
+    "root": "0afcbbf8b739ce9fef2332ceb4f2562ecb5e41e1",
+    "isolated_evaluation": "f138029adbf1b92a72dc1a07b802cbe81c8c96a4"
+  },
+  "units": {
+    "legal-qwen3-8b": {
+      "MainPID": "3613253",
+      "Result": "success",
+      "ActiveState": "active",
+      "SubState": "running",
+      "start_ticks": "446037091"
+    },
+    "legal-openexempt-ace-public-assets128-20261023-run04": {
+      "MainPID": "2150612",
+      "Result": "success",
+      "ActiveState": "active",
+      "SubState": "running",
+      "start_ticks": "474251167"
+    },
+    "legal-openexempt-fixed-static-train128-20261023-run03": {
+      "MainPID": "2155494",
+      "Result": "success",
+      "ActiveState": "active",
+      "SubState": "running",
+      "start_ticks": "474269030"
+    },
+    "legal-openexempt-static03-to-text45-20261023": {
+      "MainPID": "2156118",
+      "Result": "success",
+      "ActiveState": "active",
+      "SubState": "running",
+      "start_ticks": "474271148"
+    },
+    "legal-openexempt-text45-to-remaining8-20261023": {
+      "MainPID": "2183806",
+      "Result": "success",
+      "ActiveState": "active",
+      "SubState": "running",
+      "start_ticks": "474380328"
+    }
+  },
+  "actual_ACE_progress": {
+    "at": "2026-10-23T06:40:43.094066+00:00",
+    "run_id": "legal_openexempt_ace_public_assets128_20261023_run04",
+    "state": "running",
+    "stage": "b8_TRAIN_round1",
+    "current_batch": 8,
+    "completed_native_calls": 857,
+    "completed_teacher_calls": 381,
+    "teacher_attempts": 381,
+    "playbook_bullets": 20,
+    "cross_stage_identical_wire_reuses": 104,
+    "current_arm": "ace",
+    "current_document_id": 296,
+    "current_call": "openexempt_ace_generator"
+  },
+  "actual_restored_prefix": {
+    "at": "2026-10-23T06:13:15.377331+00:00",
+    "source_run": "legal_openexempt_ace_public_assets128_20261022_run03",
+    "receipt": "artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run03_last_committed_B7_complete_B8_firsts_teacher_timeout_continuation_receipt_20261023.json",
+    "receipt_sha256": "4f58c1b259a08c6b8a648590094b182c75558eb1a993fcc6cead08dff01f2b37",
+    "through_batch": 7,
+    "restored_native_origins": 845,
+    "restored_teacher_responses": 366,
+    "not_a_new_independent_learning_repeat": true,
+    "continuation_contract": "same_v4_teacher_timeout_committed_prefix_v1",
+    "saved_first_forecast_batch": 8,
+    "saved_next_first_forecasts_reused_by_exact_request_only": true,
+    "retired_uncommitted_TRAIN_native_not_imported": 5,
+    "retired_uncommitted_teacher_responses_not_imported": 7,
+    "retired_uncommitted_teacher_attempts": 8,
+    "failed_teacher_usage_unknown_not_zero": true,
+    "original_invalid_predictions_retained": true
+  },
+  "all8_first_forecasts_unchanged": true,
+  "main8_prior_gains_not_invalidated": true,
+  "teacher_ledger_ceiling_now": 3349,
+  "teacher_reservations_now": 823,
+  "successors_are_waiters_not_claimed_started_learning": true,
+  "remaining8_explicit_controller_queued": {
+    "at": "2026-10-23T06:34:46.120709+00:00",
+    "script_sha256": "b3c1f8650dbe2a3061ce0f7ee9c19dd1c287448831bd33dd908078e2783ebc07",
+    "text_PID_start": [
+      2156118,
+      "474271148"
+    ],
+    "original_model_PID_start": [
+      3613253,
+      "446037091"
+    ],
+    "stages": [
+      {
+        "path": "configs/openexempt_whole_bank_public_assets128_20261023_run02.json",
+        "run_id": "legal_openexempt_whole_bank_public_assets128_20261023_run02",
+        "learner": "main",
+        "seed": 45,
+        "ceiling": 4023,
+        "config_sha256": "b16f826de80e6fda8523d61133fa5bfe066f27d82da6d6390ae577a8277e2c0f",
+        "frozen_sha256": "388834e0f3e7f806c1fb158d009a1630b20234baddca594d5c75a169b071e88a",
+        "module": "experiments.openexempt_online",
+        "attempts": 32
+      },
+      {
+        "path": "configs/openexempt_first_commit_public_assets128_20261023_run02.json",
+        "run_id": "legal_openexempt_first_commit_public_assets128_20261023_run02",
+        "learner": "main",
+        "seed": 45,
+        "ceiling": 4055,
+        "config_sha256": "8a015d1bc54a48b6f6d47dd1262eed3aff7a8ad3ecb5d9f7be45ee2cb4c0eba4",
+        "frozen_sha256": "f8fc840b96c574f90383c231a2647c2affd5561ff6eed4ee8416789ffbd7cfd9",
+        "module": "experiments.openexempt_online",
+        "attempts": 32
+      },
+      {
+        "path": "configs/openexempt_closed_feedback_public_assets128_seed145_20261023_run02.json",
+        "run_id": "legal_openexempt_closed_feedback_public_assets128_seed145_20261023_run02",
+        "learner": "main",
+        "seed": 145,
+        "ceiling": 4087,
+        "config_sha256": "9ece11c0c90fabaeef0e6829aabad8c4071b955000e5884d7608c777449f312d",
+        "frozen_sha256": "24296fbe01ae86456e1022f538ff021a4cad15ac88fdb2815a98aad841b49e98",
+        "module": "experiments.openexempt_online",
+        "attempts": 32
+      },
+      {
+        "path": "configs/openexempt_ace_public_assets128_seed145_20261023_run02.json",
+        "run_id": "legal_openexempt_ace_public_assets128_seed145_20261023_run02",
+        "learner": "ace_native_online_v4",
+        "seed": 145,
+        "ceiling": 5639,
+        "config_sha256": "034df0ec3e4b1077229a7275a8d4e335891da5538c37fc68da813905b1bba41f",
+        "frozen_sha256": "077c669323ab0504e7af25cd600d856bda17d10bad11c623bed0986ccc4fa2d6",
+        "module": "experiments.openexempt_ace_online",
+        "attempts": 1552
+      },
+      {
+        "path": "configs/openexempt_closed_feedback_public_assets128_seed245_20261023_run02.json",
+        "run_id": "legal_openexempt_closed_feedback_public_assets128_seed245_20261023_run02",
+        "learner": "main",
+        "seed": 245,
+        "ceiling": 5671,
+        "config_sha256": "9d67a3ba981cf2acd236c3984cb44861f151f0ea1e8c74e46baf0f8fff116803",
+        "frozen_sha256": "2d15c9619a41b84aec06c94475fb2182351790bbcfdcfb871477d5c9d637ce9d",
+        "module": "experiments.openexempt_online",
+        "attempts": 32
+      },
+      {
+        "path": "configs/openexempt_ace_public_assets128_seed245_20261023_run02.json",
+        "run_id": "legal_openexempt_ace_public_assets128_seed245_20261023_run02",
+        "learner": "ace_native_online_v4",
+        "seed": 245,
+        "ceiling": 7223,
+        "config_sha256": "1aa2ecc6dfe8e37cb62451705219436f40b82ccf3ac3d17356836e1b32e4e888",
+        "frozen_sha256": "e9501f9efff3a338bfdf2e11f7c96f49082e28b1c708a311fd53d0fac134ed48",
+        "module": "experiments.openexempt_ace_online",
+        "attempts": 1552
+      },
+      {
+        "path": "configs/openexempt_trace2skill_text_public_assets128_seed145_20261023_run02.json",
+        "run_id": "legal_openexempt_trace2skill_text_public_assets128_seed145_20261023_run02",
+        "learner": "trace2skill_text_offline_v1",
+        "seed": 145,
+        "ceiling": 7865,
+        "config_sha256": "7272265d9fb94c908a6bc49f4f9c2aa1f6ce37296d07c9f6fbf11ed8b56b28a2",
+        "frozen_sha256": "64e0e0980f3f14fb049af62b84f6ec847bacbc0110ffb6d8e9d657f297f84802",
+        "module": "experiments.openexempt_trace2skill",
+        "attempts": 642
+      },
+      {
+        "path": "configs/openexempt_trace2skill_text_public_assets128_seed245_20261023_run02.json",
+        "run_id": "legal_openexempt_trace2skill_text_public_assets128_seed245_20261023_run02",
+        "learner": "trace2skill_text_offline_v1",
+        "seed": 245,
+        "ceiling": 8507,
+        "config_sha256": "0d426ff778114799dba882b52d2b5cf6d2ad5df374f14568f4668fa3e53d2811",
+        "frozen_sha256": "fad526e38dd4834277d8d027a8cbd3e7ccae320db40e0f37bcb0c1fa6cdea9e3",
+        "module": "experiments.openexempt_trace2skill",
+        "attempts": 642
+      }
+    ],
+    "current_ceiling_unchanged": 3349,
+    "last_declared_ceiling": 8507,
+    "only_waiting_no_model_teacher_or_TEST_calls": true
+  },
+  "no_main_method_change_new_teacher_model_TEST_or_extra_instance": true,
+  "recomputation_program": "import json,subprocess\nfrom pathlib import Path\nfrom legal_skill_guard.learning.experiment import read,sha,now\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nentry=root/\".venv/evolution-control-20261020.qLon9T/experiments/openexempt_frozen_eval.py\"\nqa={\"at\":now(),\"classification\":\"Actual isolated frozen-evaluation CPU suite; no real TEST or model/teacher invocation\",\n \"source_commit\":\"f138029adbf1b92a72dc1a07b802cbe81c8c96a4\",\n \"command\":\"PYTHONPATH=/media/sangfor/vdb/legal-skill-evolve/.venv/evolution-control-20261020.qLon9T /media/sangfor/vdb/legal-skill-evolve/.venv/bin/python -m pytest -q tests/test_openexempt_frozen_eval.py --tb=short\",\n \"working_directory\":str(entry.parent.parent),\"actual_completed_exec_session\":36059,\n \"actual_exit_code\":0,\"actual_result\":\"106 passed in 22.60s\",\"entry_sha256\":sha(entry),\n \"nested_actual_origin_QA\":\"ACEv4_Run04_actual_nested_B2_B7_B8_origin_and_main_native_actor_identity_CPU_QA_20261023.json\",\n \"not_complete_16_arm_matrix_or_approval_to_open_TEST\":True}\nRunStore.immutable_json(base/\"frozen_eval_f138029_nested_timeout_and_actor_identity_actual_CPU106_20261023.json\",qa)\nunits={}\nfor name in [\"legal-qwen3-8b\",\"legal-openexempt-ace-public-assets128-20261023-run04\",\"legal-openexempt-fixed-static-train128-20261023-run03\",\"legal-openexempt-static03-to-text45-20261023\",\"legal-openexempt-text45-to-remaining8-20261023\"]:\n d=dict(line.split(\"=\",1) for line in subprocess.check_output([\"systemctl\",\"--user\",\"show\",name+\".service\",\"-p\",\"MainPID\",\"-p\",\"ActiveState\",\"-p\",\"SubState\",\"-p\",\"Result\"],text=True).splitlines())\n pid=int(d[\"MainPID\"]);d[\"start_ticks\"]=Path(f\"/proc/{pid}/stat\").read_text().rsplit(\")\",1)[1].split()[19] if pid else None\n units[name]=d\nrun=root/\"runs/legal_openexempt_ace_public_assets128_20261023_run04\"\nprogress=read(run/\"progress.json\");ledger=read(root/\"artifacts/teacher_invocation_budget_reconstruction_20261015.json\")\nproof={\"at\":now(),\"classification\":\"Actual restored ACE and concrete serial successor handles; operational progress, not new main performance or final TEST\",\n \"source_commits\":{\"root\":\"0afcbbf8b739ce9fef2332ceb4f2562ecb5e41e1\",\"isolated_evaluation\":\"f138029adbf1b92a72dc1a07b802cbe81c8c96a4\"},\n \"units\":units,\"actual_ACE_progress\":progress,\"actual_restored_prefix\":read(run/\"continuation.json\"),\n \"all8_first_forecasts_unchanged\":True,\"main8_prior_gains_not_invalidated\":True,\n \"teacher_ledger_ceiling_now\":ledger[\"max_invocations\"],\"teacher_reservations_now\":len(ledger[\"reservations\"]),\n \"successors_are_waiters_not_claimed_started_learning\":True,\n \"remaining8_explicit_controller_queued\":read(root/\"artifacts/launches/openexempt_text45_to_remaining8_20261023/queued.json\"),\n \"no_main_method_change_new_teacher_model_TEST_or_extra_instance\":True,\n \"recomputation_program\":PROGRAM}\ndest=base/\"timeout_recovery_root0afcbbf_evalf138029_actual_live_handles_and_serial_plan_20261023.json\"\nRunStore.immutable_json(dest,proof)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"all5_handles_active\":all(v[\"ActiveState\"]==\"active\" for v in units.values()),\n \"native_and_teachers\": [progress[\"completed_native_calls\"],progress[\"completed_teacher_calls\"]],\"ledger\":ledger[\"max_invocations\"]}))\n"
+}

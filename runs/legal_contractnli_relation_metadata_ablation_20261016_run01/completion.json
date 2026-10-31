@@ -1,0 +1,1266 @@
+{
+  "at": "2026-10-16T05:31:34.098290+00:00",
+  "run_id": "legal_contractnli_relation_metadata_ablation_20261016_run01",
+  "new_native_calls": 8,
+  "new_teacher_calls": 0,
+  "explicit_old_references_not_new_generations": 32,
+  "metrics": {
+    "strong_empty": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 104,
+      "label_accuracy": 0.7647058823529411,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 75,
+      "evidence_fp": 28,
+      "evidence_fn": 63,
+      "evidence_micro_f1_gold_non_neutral": 0.6224066390041494,
+      "evidence_query_mean_f1_gold_non_neutral": 0.6198613622664254,
+      "joint_exact_correct": 65,
+      "joint_soft_mean": 0.632125350140056,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 57
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 9
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 38
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 38,
+      "nonneutral_label_and_all_evidence_correct": 27,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 34329,
+        "completion_tokens": 16056
+      },
+      "joint_exact_accuracy": 0.47794117647058826
+    },
+    "ordinary_memory": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 110,
+      "label_accuracy": 0.8088235294117647,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 81,
+      "evidence_fp": 8,
+      "evidence_fn": 57,
+      "evidence_micro_f1_gold_non_neutral": 0.7136563876651982,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7140144665461119,
+      "joint_exact_correct": 75,
+      "joint_soft_mean": 0.7113270308123251,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 59
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 9
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 42
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 42,
+      "nonneutral_label_and_all_evidence_correct": 33,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 38106,
+        "completion_tokens": 14477
+      },
+      "joint_exact_accuracy": 0.5514705882352942
+    },
+    "unconditional_layout": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 111,
+      "label_accuracy": 0.8161764705882353,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 76,
+      "evidence_fp": 15,
+      "evidence_fn": 62,
+      "evidence_micro_f1_gold_non_neutral": 0.6637554585152838,
+      "evidence_query_mean_f1_gold_non_neutral": 0.6664456499899536,
+      "joint_exact_correct": 75,
+      "joint_soft_mean": 0.7057539682539684,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 60
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 7
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 44
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 44,
+      "nonneutral_label_and_all_evidence_correct": 31,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 39025,
+        "completion_tokens": 15794
+      },
+      "joint_exact_accuracy": 0.5514705882352942
+    },
+    "trace_procedures": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 109,
+      "label_accuracy": 0.8014705882352942,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 75,
+      "evidence_fp": 7,
+      "evidence_fn": 63,
+      "evidence_micro_f1_gold_non_neutral": 0.6818181818181818,
+      "evidence_query_mean_f1_gold_non_neutral": 0.65210970464135,
+      "joint_exact_correct": 80,
+      "joint_soft_mean": 0.724387254901961,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 51
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 9
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 49
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 49,
+      "nonneutral_label_and_all_evidence_correct": 31,
+      "reported_skill_use_queries": 76,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 53488,
+        "completion_tokens": 16397
+      },
+      "joint_exact_accuracy": 0.5882352941176471
+    },
+    "trace_without_relation_metadata": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 110,
+      "label_accuracy": 0.8088235294117647,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 71,
+      "evidence_fp": 11,
+      "evidence_fn": 67,
+      "evidence_micro_f1_gold_non_neutral": 0.6454545454545455,
+      "evidence_query_mean_f1_gold_non_neutral": 0.6158127385975487,
+      "joint_exact_correct": 78,
+      "joint_soft_mean": 0.7155578898225958,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 53
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 5
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 52
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 52,
+      "nonneutral_label_and_all_evidence_correct": 26,
+      "reported_skill_use_queries": 80,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 52816,
+        "completion_tokens": 17965
+      },
+      "joint_exact_accuracy": 0.5735294117647058
+    }
+  },
+  "contrasts": {
+    "strong_empty": {
+      "paired": {
+        "original_hypotheses": 136,
+        "label_corrected": [
+          [
+            568,
+            "nda-15"
+          ],
+          [
+            568,
+            "nda-12"
+          ],
+          [
+            568,
+            "nda-3"
+          ],
+          [
+            568,
+            "nda-17"
+          ],
+          [
+            568,
+            "nda-4"
+          ],
+          [
+            327,
+            "nda-16"
+          ],
+          [
+            327,
+            "nda-19"
+          ],
+          [
+            342,
+            "nda-20"
+          ],
+          [
+            342,
+            "nda-17"
+          ],
+          [
+            374,
+            "nda-10"
+          ],
+          [
+            374,
+            "nda-19"
+          ],
+          [
+            374,
+            "nda-12"
+          ],
+          [
+            374,
+            "nda-3"
+          ],
+          [
+            374,
+            "nda-13"
+          ],
+          [
+            624,
+            "nda-16"
+          ],
+          [
+            624,
+            "nda-10"
+          ],
+          [
+            624,
+            "nda-1"
+          ],
+          [
+            624,
+            "nda-18"
+          ],
+          [
+            624,
+            "nda-13"
+          ],
+          [
+            270,
+            "nda-16"
+          ],
+          [
+            270,
+            "nda-3"
+          ],
+          [
+            135,
+            "nda-18"
+          ]
+        ],
+        "label_broken": [
+          [
+            327,
+            "nda-15"
+          ],
+          [
+            327,
+            "nda-1"
+          ],
+          [
+            327,
+            "nda-3"
+          ],
+          [
+            327,
+            "nda-8"
+          ],
+          [
+            342,
+            "nda-1"
+          ],
+          [
+            374,
+            "nda-18"
+          ],
+          [
+            374,
+            "nda-7"
+          ],
+          [
+            624,
+            "nda-2"
+          ],
+          [
+            624,
+            "nda-3"
+          ],
+          [
+            624,
+            "nda-7"
+          ],
+          [
+            624,
+            "nda-17"
+          ],
+          [
+            270,
+            "nda-7"
+          ],
+          [
+            341,
+            "nda-1"
+          ],
+          [
+            341,
+            "nda-17"
+          ],
+          [
+            135,
+            "nda-1"
+          ],
+          [
+            135,
+            "nda-7"
+          ]
+        ],
+        "net_label_correct": 6,
+        "joint_exact_corrected": [
+          [
+            568,
+            "nda-15"
+          ],
+          [
+            568,
+            "nda-12"
+          ],
+          [
+            568,
+            "nda-3"
+          ],
+          [
+            568,
+            "nda-17"
+          ],
+          [
+            568,
+            "nda-4"
+          ],
+          [
+            327,
+            "nda-16"
+          ],
+          [
+            327,
+            "nda-10"
+          ],
+          [
+            327,
+            "nda-19"
+          ],
+          [
+            327,
+            "nda-20"
+          ],
+          [
+            342,
+            "nda-15"
+          ],
+          [
+            342,
+            "nda-2"
+          ],
+          [
+            342,
+            "nda-20"
+          ],
+          [
+            342,
+            "nda-17"
+          ],
+          [
+            342,
+            "nda-5"
+          ],
+          [
+            374,
+            "nda-10"
+          ],
+          [
+            374,
+            "nda-19"
+          ],
+          [
+            374,
+            "nda-12"
+          ],
+          [
+            374,
+            "nda-3"
+          ],
+          [
+            374,
+            "nda-13"
+          ],
+          [
+            624,
+            "nda-16"
+          ],
+          [
+            624,
+            "nda-1"
+          ],
+          [
+            624,
+            "nda-20"
+          ],
+          [
+            270,
+            "nda-16"
+          ],
+          [
+            341,
+            "nda-15"
+          ],
+          [
+            341,
+            "nda-10"
+          ],
+          [
+            135,
+            "nda-18"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            327,
+            "nda-15"
+          ],
+          [
+            327,
+            "nda-1"
+          ],
+          [
+            327,
+            "nda-3"
+          ],
+          [
+            327,
+            "nda-8"
+          ],
+          [
+            342,
+            "nda-19"
+          ],
+          [
+            342,
+            "nda-7"
+          ],
+          [
+            374,
+            "nda-18"
+          ],
+          [
+            374,
+            "nda-7"
+          ],
+          [
+            624,
+            "nda-17"
+          ],
+          [
+            270,
+            "nda-12"
+          ],
+          [
+            270,
+            "nda-13"
+          ],
+          [
+            341,
+            "nda-19"
+          ],
+          [
+            341,
+            "nda-17"
+          ]
+        ]
+      },
+      "descriptive_source_intervals_not_independent_repeats": {
+        "label_accuracy": {
+          "point": 0.044117647058823595,
+          "ci95": [
+            -0.044117647058823595,
+            0.13970588235294124
+          ]
+        },
+        "evidence_micro_f1_gold_non_neutral": {
+          "point": 0.023047906450396116,
+          "ci95": [
+            -0.013147525542107071,
+            0.056043687010830165
+          ]
+        },
+        "evidence_query_mean_f1_gold_non_neutral": {
+          "point": -0.004048623668876705,
+          "ci95": [
+            -0.06410539215686252,
+            0.04541517797114799
+          ]
+        },
+        "joint_exact_accuracy": {
+          "point": 0.09558823529411759,
+          "ci95": [
+            0.022058823529411797,
+            0.1691176470588236
+          ]
+        }
+      }
+    },
+    "ordinary_memory": {
+      "paired": {
+        "original_hypotheses": 136,
+        "label_corrected": [
+          [
+            568,
+            "nda-15"
+          ],
+          [
+            568,
+            "nda-3"
+          ],
+          [
+            342,
+            "nda-20"
+          ],
+          [
+            374,
+            "nda-10"
+          ],
+          [
+            374,
+            "nda-19"
+          ],
+          [
+            374,
+            "nda-12"
+          ],
+          [
+            374,
+            "nda-3"
+          ],
+          [
+            374,
+            "nda-13"
+          ],
+          [
+            624,
+            "nda-16"
+          ],
+          [
+            624,
+            "nda-10"
+          ],
+          [
+            624,
+            "nda-20"
+          ],
+          [
+            270,
+            "nda-19"
+          ],
+          [
+            341,
+            "nda-12"
+          ],
+          [
+            341,
+            "nda-20"
+          ],
+          [
+            135,
+            "nda-12"
+          ]
+        ],
+        "label_broken": [
+          [
+            327,
+            "nda-15"
+          ],
+          [
+            327,
+            "nda-1"
+          ],
+          [
+            327,
+            "nda-3"
+          ],
+          [
+            327,
+            "nda-8"
+          ],
+          [
+            342,
+            "nda-1"
+          ],
+          [
+            374,
+            "nda-7"
+          ],
+          [
+            624,
+            "nda-15"
+          ],
+          [
+            624,
+            "nda-2"
+          ],
+          [
+            624,
+            "nda-3"
+          ],
+          [
+            624,
+            "nda-7"
+          ],
+          [
+            270,
+            "nda-1"
+          ],
+          [
+            270,
+            "nda-7"
+          ],
+          [
+            341,
+            "nda-1"
+          ],
+          [
+            341,
+            "nda-7"
+          ],
+          [
+            135,
+            "nda-1"
+          ]
+        ],
+        "net_label_correct": 0,
+        "joint_exact_corrected": [
+          [
+            568,
+            "nda-15"
+          ],
+          [
+            568,
+            "nda-3"
+          ],
+          [
+            342,
+            "nda-20"
+          ],
+          [
+            374,
+            "nda-10"
+          ],
+          [
+            374,
+            "nda-19"
+          ],
+          [
+            374,
+            "nda-12"
+          ],
+          [
+            374,
+            "nda-3"
+          ],
+          [
+            374,
+            "nda-13"
+          ],
+          [
+            624,
+            "nda-16"
+          ],
+          [
+            624,
+            "nda-20"
+          ],
+          [
+            270,
+            "nda-19"
+          ],
+          [
+            341,
+            "nda-12"
+          ],
+          [
+            341,
+            "nda-20"
+          ],
+          [
+            341,
+            "nda-3"
+          ],
+          [
+            135,
+            "nda-12"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            327,
+            "nda-1"
+          ],
+          [
+            327,
+            "nda-3"
+          ],
+          [
+            327,
+            "nda-8"
+          ],
+          [
+            327,
+            "nda-13"
+          ],
+          [
+            342,
+            "nda-1"
+          ],
+          [
+            342,
+            "nda-7"
+          ],
+          [
+            374,
+            "nda-7"
+          ],
+          [
+            624,
+            "nda-15"
+          ],
+          [
+            624,
+            "nda-8"
+          ],
+          [
+            270,
+            "nda-7"
+          ],
+          [
+            341,
+            "nda-1"
+          ],
+          [
+            341,
+            "nda-7"
+          ]
+        ]
+      },
+      "descriptive_source_intervals_not_independent_repeats": {
+        "label_accuracy": {
+          "point": 0.0,
+          "ci95": [
+            -0.08823529411764697,
+            0.08823529411764708
+          ]
+        },
+        "evidence_micro_f1_gold_non_neutral": {
+          "point": -0.06820184221065273,
+          "ci95": [
+            -0.09986319950398627,
+            -0.018632373766014728
+          ]
+        },
+        "evidence_query_mean_f1_gold_non_neutral": {
+          "point": -0.09820172794856319,
+          "ci95": [
+            -0.14363388257116458,
+            -0.050016375407000324
+          ]
+        },
+        "joint_exact_accuracy": {
+          "point": 0.022058823529411686,
+          "ci95": [
+            -0.06617647058823528,
+            0.11029411764705876
+          ]
+        }
+      }
+    },
+    "unconditional_layout": {
+      "paired": {
+        "original_hypotheses": 136,
+        "label_corrected": [
+          [
+            568,
+            "nda-15"
+          ],
+          [
+            568,
+            "nda-3"
+          ],
+          [
+            342,
+            "nda-20"
+          ],
+          [
+            374,
+            "nda-16"
+          ],
+          [
+            374,
+            "nda-19"
+          ],
+          [
+            374,
+            "nda-12"
+          ],
+          [
+            374,
+            "nda-17"
+          ],
+          [
+            374,
+            "nda-13"
+          ],
+          [
+            270,
+            "nda-19"
+          ],
+          [
+            341,
+            "nda-12"
+          ],
+          [
+            341,
+            "nda-20"
+          ],
+          [
+            135,
+            "nda-12"
+          ]
+        ],
+        "label_broken": [
+          [
+            327,
+            "nda-1"
+          ],
+          [
+            327,
+            "nda-3"
+          ],
+          [
+            327,
+            "nda-8"
+          ],
+          [
+            374,
+            "nda-18"
+          ],
+          [
+            374,
+            "nda-7"
+          ],
+          [
+            624,
+            "nda-15"
+          ],
+          [
+            624,
+            "nda-2"
+          ],
+          [
+            624,
+            "nda-7"
+          ],
+          [
+            270,
+            "nda-18"
+          ],
+          [
+            270,
+            "nda-7"
+          ],
+          [
+            341,
+            "nda-1"
+          ],
+          [
+            341,
+            "nda-7"
+          ],
+          [
+            135,
+            "nda-1"
+          ]
+        ],
+        "net_label_correct": -1,
+        "joint_exact_corrected": [
+          [
+            568,
+            "nda-15"
+          ],
+          [
+            568,
+            "nda-3"
+          ],
+          [
+            342,
+            "nda-20"
+          ],
+          [
+            374,
+            "nda-16"
+          ],
+          [
+            374,
+            "nda-19"
+          ],
+          [
+            374,
+            "nda-12"
+          ],
+          [
+            374,
+            "nda-17"
+          ],
+          [
+            374,
+            "nda-13"
+          ],
+          [
+            624,
+            "nda-20"
+          ],
+          [
+            270,
+            "nda-19"
+          ],
+          [
+            341,
+            "nda-12"
+          ],
+          [
+            341,
+            "nda-20"
+          ],
+          [
+            341,
+            "nda-3"
+          ],
+          [
+            135,
+            "nda-12"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            327,
+            "nda-1"
+          ],
+          [
+            327,
+            "nda-3"
+          ],
+          [
+            327,
+            "nda-8"
+          ],
+          [
+            327,
+            "nda-13"
+          ],
+          [
+            342,
+            "nda-16"
+          ],
+          [
+            374,
+            "nda-18"
+          ],
+          [
+            374,
+            "nda-7"
+          ],
+          [
+            624,
+            "nda-15"
+          ],
+          [
+            270,
+            "nda-18"
+          ],
+          [
+            341,
+            "nda-1"
+          ],
+          [
+            341,
+            "nda-7"
+          ]
+        ]
+      },
+      "descriptive_source_intervals_not_independent_repeats": {
+        "label_accuracy": {
+          "point": -0.007352941176470562,
+          "ci95": [
+            -0.08823529411764708,
+            0.07352941176470584
+          ]
+        },
+        "evidence_micro_f1_gold_non_neutral": {
+          "point": -0.018300913060738333,
+          "ci95": [
+            -0.08492477195563752,
+            0.059441511153327346
+          ]
+        },
+        "evidence_query_mean_f1_gold_non_neutral": {
+          "point": -0.05063291139240489,
+          "ci95": [
+            -0.12917331560283685,
+            0.032412439613526356
+          ]
+        },
+        "joint_exact_accuracy": {
+          "point": 0.022058823529411686,
+          "ci95": [
+            -0.06617647058823528,
+            0.09558823529411764
+          ]
+        }
+      }
+    },
+    "trace_procedures": {
+      "paired": {
+        "original_hypotheses": 136,
+        "label_corrected": [
+          [
+            327,
+            "nda-16"
+          ],
+          [
+            327,
+            "nda-7"
+          ],
+          [
+            342,
+            "nda-20"
+          ],
+          [
+            374,
+            "nda-13"
+          ],
+          [
+            624,
+            "nda-16"
+          ],
+          [
+            624,
+            "nda-20"
+          ],
+          [
+            270,
+            "nda-3"
+          ],
+          [
+            341,
+            "nda-20"
+          ],
+          [
+            135,
+            "nda-12"
+          ]
+        ],
+        "label_broken": [
+          [
+            327,
+            "nda-1"
+          ],
+          [
+            342,
+            "nda-1"
+          ],
+          [
+            374,
+            "nda-7"
+          ],
+          [
+            624,
+            "nda-2"
+          ],
+          [
+            270,
+            "nda-1"
+          ],
+          [
+            341,
+            "nda-7"
+          ],
+          [
+            341,
+            "nda-17"
+          ],
+          [
+            135,
+            "nda-7"
+          ]
+        ],
+        "net_label_correct": 1,
+        "joint_exact_corrected": [
+          [
+            327,
+            "nda-16"
+          ],
+          [
+            342,
+            "nda-20"
+          ],
+          [
+            374,
+            "nda-13"
+          ],
+          [
+            624,
+            "nda-16"
+          ],
+          [
+            624,
+            "nda-20"
+          ],
+          [
+            341,
+            "nda-20"
+          ],
+          [
+            135,
+            "nda-12"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            327,
+            "nda-1"
+          ],
+          [
+            327,
+            "nda-12"
+          ],
+          [
+            327,
+            "nda-13"
+          ],
+          [
+            342,
+            "nda-16"
+          ],
+          [
+            342,
+            "nda-1"
+          ],
+          [
+            374,
+            "nda-7"
+          ],
+          [
+            270,
+            "nda-12"
+          ],
+          [
+            341,
+            "nda-7"
+          ],
+          [
+            341,
+            "nda-17"
+          ]
+        ]
+      },
+      "descriptive_source_intervals_not_independent_repeats": {
+        "label_accuracy": {
+          "point": 0.007352941176470562,
+          "ci95": [
+            -0.014705882352941235,
+            0.02941176470588236
+          ]
+        },
+        "evidence_micro_f1_gold_non_neutral": {
+          "point": -0.036363636363636265,
+          "ci95": [
+            -0.06524865844473732,
+            -0.004786418605130468
+          ]
+        },
+        "evidence_query_mean_f1_gold_non_neutral": {
+          "point": -0.03629696604380128,
+          "ci95": [
+            -0.06987734487734465,
+            -0.005241989180191472
+          ]
+        },
+        "joint_exact_accuracy": {
+          "point": -0.014705882352941235,
+          "ci95": [
+            -0.05882352941176472,
+            0.03676470588235292
+          ]
+        }
+      }
+    }
+  },
+  "new_native_usage": {
+    "prompt_tokens": 52816,
+    "completion_tokens": 17965
+  },
+  "referenced_native_usage_not_new_spend": {
+    "prompt_tokens": 164948,
+    "completion_tokens": 62724
+  },
+  "all8_saved_all40_replayed_before_original_grading": true,
+  "not_token_matched_causal_content_estimate_or_fresh_online_learning": true,
+  "no_bank_edit_automatic_winner_publication_or_qualification_generations": true
+}

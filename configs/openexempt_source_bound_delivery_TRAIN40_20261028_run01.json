@@ -1,0 +1,96 @@
+{
+  "generation": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "Qwen/Qwen3-8B",
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "context_tokens": 32768,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "timeout_seconds": 900,
+    "disable_thinking": false
+  },
+  "inference_environment": "artifacts/live_8b_environment_phase_dispatch_20261025.json",
+  "upstream_archive": "data/cache/openexempt/OpenExempt-ec6fa2547431096588ce2d3ef107b8adc33cd4fe.tar.gz",
+  "input_packet": "data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json",
+  "grading_directory": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only",
+  "phase_dispatch": {
+    "policy": "ordered_independent_phases_v1",
+    "native_workers": 4,
+    "teacher_workers": 1,
+    "required_max_num_seqs": 4
+  },
+  "skill_commit_policy": "adaptive_legal",
+  "adaptive_commit_objective": "seen_source_min_family_gain_then_mean_v1",
+  "candidate_feedback_policy": "carry_partial_and_refine",
+  "library_token_hard_cap": 4096,
+  "execution_contract": "direct_statutory_claims",
+  "execution_contract_version": 14,
+  "run_id": "legal_openexempt_source_bound_delivery_TRAIN40_20261028_run01",
+  "study_kind": "fixed_content_source_bound_delivery_TRAIN_mechanism_not_formal_training",
+  "teacher_evidence_contract": "native_claim_aligned_revision_outcomes_v2",
+  "skill_delivery_contract": "source_bound_system_procedures_v1",
+  "source_cases": 20,
+  "batch_source_cases": 20,
+  "planned_batches": 0,
+  "max_candidate_attempts": 2,
+  "frozen_after_first_batch_control": false,
+  "initial_library_publication": "artifacts/launches/legal_openexempt_source_bound_delivery_TRAIN40_20261028_run01/original_B8C1_bank_snapshot.json",
+  "initial_library_kind": "unchanged_actual_rejected_B8C1_BANK_for_TRAIN_delivery_intervention_only",
+  "initial_library_prior_exposure_distinct_sources": 128,
+  "protocol": "docs/research/OPENEXEMPT_SOURCE_BOUND_DELIVERY_TRAIN40_20261028.md",
+  "source_main_run": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+  "source_main_config": "configs/openexempt_native_claim_feedback_public_assets128_20261027_run01.json",
+  "source_main_config_sha256": "36a34352d4bc9e300a2d38c6914477d411eaa8e9c0d5e3dfb4e4735f6a4a5eb6",
+  "source_main_manifest_sha256": "d68b70f66975f21f76a8a672953fdb801121416664210a2072602d8212627b49",
+  "source_completion_sha256": "3f0b89464df9cf25cd385720ab404488962592534232fd91685778064099a0fd",
+  "source_candidate_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/candidates/b8_candidate1.json",
+  "source_candidate_sha256": "affa292a378b85dea7f9cb3c3fbd5603b71429559585a775eef2a4c1182a7f33",
+  "fixed_bank_sha256": "b013a2ce2cfc0d71b72c77e7d7c0c37c59057d851341a9a5522cd951a3f14238",
+  "public_group_quantile_rule": "allowable namespace groups, ascending source ID, indices 0,(n-1)//3,2*(n-1)//3,n-1; both independent EC/EV tasks",
+  "selected_public_source_groups": {
+    "ARIZONA": [
+      182,
+      215,
+      248,
+      300
+    ],
+    "FEDERAL+OREGON": [
+      187,
+      210,
+      258,
+      308
+    ],
+    "FEDERAL+PENNSYLVANIA": [
+      181,
+      216,
+      259,
+      307
+    ],
+    "FEDERAL+WISCONSIN": [
+      184,
+      227,
+      277,
+      306
+    ],
+    "ILLINOIS": [
+      190,
+      233,
+      264,
+      302
+    ]
+  },
+  "new_native_calls_max": 40,
+  "new_teacher_calls_max": 0,
+  "new_baseline_calls_max": 0,
+  "adoption_minimum_balanced_native_f1_gain": 0.02,
+  "adoption_requires_both_families_native_and_full_nonregression": true,
+  "adoption_requires_no_additional_format_or_negative_claims": true,
+  "on_success_formal_config": "configs/openexempt_revision_outcomes_system_procedures_public_assets128_20261028_run01.json",
+  "all_answers_saved_before_new_grading": true,
+  "no_validation_set": true,
+  "not_a_new_TEST_or_independent_learning_repeat": true,
+  "independent_repetitions_USER_DEFERRED": true
+}

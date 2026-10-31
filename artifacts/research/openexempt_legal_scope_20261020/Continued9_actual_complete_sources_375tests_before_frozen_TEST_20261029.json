@@ -1,0 +1,76 @@
+{
+  "at": "2026-10-28T20:45:01.968703+00:00",
+  "scope": "Final actual9-bank TRAIN source readiness and execution/evaluation CPU coverage before prospective matrix freeze; no TEST prediction yet.",
+  "actual_source_readiness": {
+    "bank_count": 9,
+    "training_sources": 128,
+    "extra_source_artifacts": 1162,
+    "bank_sha256": {
+      "empty": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "static": "4809c3b2fe336a682ad36544f036206f158c0890adad4e87bde6eb4fa6502321",
+      "native_claim45": "3c63a71f1ecd7d1b9d071c4ab39750ac8f0c483c5f3ad8d25c7ee6adca813cf2",
+      "native_claim_own_B1_45": "02c5f64f331afdba709cb037a759c04e9b71c12b9513b720a26d5ffaccb20df6",
+      "ACE45": "75ad535aed4478ce4c85832138dadcb3dc460fec8200704151a002920131af56",
+      "ACE_common45": "362e9c7982d4ba7b8467c36ce372e04b3cbe46b361be2750a21dd18774e13bfc",
+      "text45": "8784dc4ea6df541d183146250670f13463c58d7877b468e5a481c0f4a10985a3",
+      "task_consolidated45": "06934565cafca0ee93488971183420828eb56da74ee7ceaac8ce45e3f1e971ce",
+      "joint_consolidated45": "b92abf7b903c70a9721fd194a859d2fae8cdb355437266b34de294df10c9d01c"
+    },
+    "new_TEST_question_or_label_reads": 0,
+    "native_or_teacher_calls": 0
+  },
+  "test_result": {
+    "command": ".venv/bin/python -m pytest -q tests/test_openexempt_contract.py tests/test_openexempt_frozen_eval.py tests/test_openexempt_source_disjoint_eval.py",
+    "passed": 375,
+    "warnings": 2,
+    "seconds": 48.87,
+    "warnings_are_original_upstream_empty_slice": true,
+    "no_native_or_teacher_calls": true
+  },
+  "current_test_and_evaluation_sources": {
+    "experiments/openexempt_frozen_eval.py": "f1a3d08e85c55b5480ff51e70710c802805ef52405e062f57c3012d43a2b0754",
+    "tests/test_openexempt_frozen_eval.py": "c0d5b73c504aef96e93a1c011159826368d5814418ce6daa72ab5e19d7ddbe1e",
+    "tests/test_openexempt_source_disjoint_eval.py": "55b6689a17e483e08fb97d8cd8c90dfaeaec8af895346881e5bdd22558da57e0"
+  },
+  "joint_terminal": {
+    "status": "completed_seen_TRAIN_consolidation",
+    "native": 416,
+    "teacher": 2,
+    "bank_sha256": "b92abf7b903c70a9721fd194a859d2fae8cdb355437266b34de294df10c9d01c",
+    "terminal_preservation_sha256": "8077e13e0beef4dbf24c70820ef1e05512a7ba4a6db68331ac3302704a7f513c"
+  },
+  "joint_incremental_native_tokens": {
+    "prompt": 2869422,
+    "completion": 1159404
+  },
+  "joint_linked_construction": {
+    "native": 1745,
+    "teacher": 16,
+    "native_prompt_tokens": 11807696,
+    "native_completion_tokens": 4811184,
+    "teacher_input_tokens": 2698853,
+    "teacher_output_tokens": 71968
+  },
+  "target_task_linked_construction": {
+    "native": 1585,
+    "teacher": 16,
+    "teacher_input_tokens": 2642479,
+    "teacher_output_tokens": 72252
+  },
+  "two_continuation_branches_shared_acquisition_counted_once": {
+    "unique_native": 2001,
+    "unique_teacher": 18,
+    "not_full_project_development_cost": true
+  },
+  "actual_compute_not_equal_across_branches": true,
+  "only_two_previously_bound_test_files_changed_AFTER_terminal_and_preservation": [
+    "tests/test_openexempt_frozen_eval.py",
+    "tests/test_openexempt_source_disjoint_eval.py"
+  ],
+  "live_training_sources_or_gates_never_hot_edited": true,
+  "selected_target_before_TEST": "task_consolidated45",
+  "joint_control_not_renamed_original_main_or_fused": true,
+  "independent_repeats": "USER_DEFERRED",
+  "primary_questions_or_labels_read": 0,
+  "new_native_or_teacher_calls_for_readiness": 0
+}

@@ -1,0 +1,270 @@
+*** Begin Patch
+*** Update File: /media/sangfor/vdb/legal-skill-evolve/experiments/openexempt_online.py
+@@
+ )
+ 
+ CANDIDATE_FEEDBACK_ADDITION = (
+-    " Candidate feedback may include a partially committed previous proposal. "
+-    "Its accepted flag describes the ORIGINAL decision, not acceptance of every edit. "
+-    "Distinguish its committed coordinates from uncommitted changes and actual failure "
+-    "witnesses. References point to this request's actual parent observations in "
+-    "already_seen_training, not invented pre-proposal runs or stale prior parents. "
+-    "Use failed replay evidence to revise unresolved "
+-    "changes, rather than repeat an unsupported edit. Each attempt targets the parent "
+-    "IDs supplied for THAT attempt; do not target IDs created within the same delta. "
+-    "A prior accepted subset remains in the current parent. All changes still require "
+-    "full seen-TRAIN replay and the unchanged admission gates. This is bounded TRAIN "
+-    "refinement, never an inference retry or future-case feedback."
++    " Candidate revision feedback describes rejected, partially committed, or fully "
++    "committed outcomes. Its accepted flag describes the original decision, not "
++    "acceptance of every edit. A full commit can retain source-level regressions "
++    "under the aggregate gate. feedback_witness_roles distinguishes uncommitted "
++    "proposal errors from remaining regressions after actual acceptance. "
++    "Witnesses concern actual changed requests, retained harms, and still-failed "
++    "proposal evidence, not unchanged background errors. "
++    "actual_parent_answer and feedback_reference_replay identify the current parent. "
++    "feedback_pre_commit_reference_replay contains genuine earlier observations "
++    "solely as before/after evidence, never as current predictions. Do not reopen "
++    "already repaired harms. Preserve useful legal branches while repairing remaining "
++    "errors without case-specific exceptions. Each attempt targets the supplied "
++    "parent IDs. Full commits still end the current batch's refinement; outcome "
++    "witnesses carry into the next batch without extra same-batch teacher calls. "
++    "All updates retain the full seen-TRAIN replay and original admission gates. "
++    "This is bounded TRAIN refinement, not an inference retry or future-case feedback."
+ )
++
+ 
+ 
+ def direct_case_input(row, *, asset_references=False):
+@@
+             "incorrect_value_predictions": wrong_predictions, "errors": errors}
+ 
+ 
++def accepted_commit_regressions(before_records, after_records, *, witness_limit=8):
++    """Bound real pre/post harms without changing aggregate admission or calling a model."""
++    if type(witness_limit) is not int or not 1 <= witness_limit <= 8:
++        raise ValueError("Commit regression evidence uses one to eight real witnesses")
++    before = {(r["case_id"], r["family"]): r for r in before_records}
++    after = {(r["case_id"], r["family"]): r for r in after_records}
++    if len(before) != len(before_records) or len(after) != len(after_records) or set(before) != set(after):
++        raise ValueError("Commit feedback requires the complete matching seen-source grid")
++    ranked = []
++    for key, record in after.items():
++        old, new = before[key]["score"], record["score"]
++        delta = min(new["f1"] - old["f1"],
++                    new.get("full_output_f1", new["f1"]) - old.get("full_output_f1", old["f1"]))
++        count_harm = any(new.get(k, 0) > old.get(k, 0) for k in
++                         ("invalid_format", "officially_unscored_predicted_claims",
++                          "negative_target_asset_predicted_claims"))
++        if delta < -1e-12 or count_harm:
++            ranked.append((delta, min(new["f1"], new.get("full_output_f1", 1)), *key))
++    if not ranked:
++        return None
++    chosen = [(v[2], v[3]) for v in sorted(ranked)[:witness_limit]]
++    return {"regressed_tasks_total": len(ranked), "witness_limit": witness_limit,
++            "before": [copy.deepcopy(before[k]) for k in chosen],
++            "after": [copy.deepcopy(after[k]) for k in chosen]}
++
++
+ def candidate_feedback(decision, observations, origin, *, witness_limit=8):
+-    """Bound saved failure evidence; never relabel a partial commit as rejected."""
++    """Bound actual changed-request outcomes, not unrelated background failures."""
+     if type(witness_limit) is not int or not 1 <= witness_limit <= 8:
+         raise ValueError("Candidate feedback allows one to eight real TRAIN witnesses")
+     if decision.get("explicit_noop"):
+         return None
+     accepted = bool(decision.get("accepted"))
+-    if accepted and (decision.get("proposal_fully_committed")
+-                     or decision.get("proposed_bank") == decision.get("candidate")):
++    fully = accepted and (decision.get("proposal_fully_committed")
++                          or decision.get("proposed_bank") == decision.get("candidate"))
++    proposed_pool = decision.get("proposed_replay", decision.get("actual_replay", []))
++    keys = [(r["case_id"], r["family"]) for r in proposed_pool]
++    if len(keys) != len(set(keys)) or not set(keys) <= set(observations):
++        raise ValueError("Feedback must reference distinct already-seen TRAIN observations")
++    intended = {source for op in (decision.get("delta") or {}).get("operations", [])
++                for source in op.get("source_case_ids", [])}
++    audit_fields = ("invalid_format", "officially_unscored_predicted_claims",
++                    "negative_target_asset_predicted_claims")
++
++    def outcome(contrast):
++        record, reference, _ = contrast
++        before, after = reference["score"], record["score"]
++        delta = min(after["f1"] - before["f1"],
++                    after.get("full_output_f1", after["f1"]) - before.get("full_output_f1", before["f1"]))
++        harmed = delta < -1e-12 or any(after.get(k, 0) > before.get(k, 0) for k in audit_fields)
++        unresolved = (after.get("full_output_f1", after["f1"]) < 1 - 1e-12
++                      or any(after.get(k, 0) > 0 for k in audit_fields))
++        return delta, harmed, unresolved
++
++    contrasts = []
++    changed_count = 0
++    if not fully:
++        for record in proposed_pool:
++            reference = observations[(record["case_id"], record["family"])]
++            # One raw origin per exact native request in the run-wide wire cache.
++            # Equal origins cannot be an effect of this proposed intervention.
++            if record["raw_call_path"] == reference["raw_call_path"]:
++                continue
++            changed_count += 1
++            contrast = (record, reference, "uncommitted_proposal")
++            _, harmed, unresolved = outcome(contrast)
++            if harmed or unresolved:
++                contrasts.append(contrast)
++    retained = decision.get("accepted_commit_regressions") if accepted else None
++    if retained:
++        for before, committed in zip(retained["before"], retained["after"], strict=True):
++            key = committed["case_id"], committed["family"]
++            if key != (before["case_id"], before["family"]) or key not in observations:
++                raise ValueError("Accepted-regression references must be actual matching observations")
++            contrast = (observations[key], before, "accepted_commit_remaining_regression")
++            if outcome(contrast)[1]:
++                contrasts.append(contrast)
++    if fully and not contrasts:
+         return None
+-    pool = decision.get("proposed_replay", decision.get("actual_replay", []))
+-    keys = [(r["case_id"], r["family"]) for r in pool]
+-    if len(keys) != len(set(keys)) or not set(keys) <= set(observations):
+-        raise ValueError("Candidate feedback must reference distinct already-seen TRAIN observations")
+-
+-    def severity(record):
+-        key = record["case_id"], record["family"]
+-        before, after = observations[key]["score"], record["score"]
+-        delta = min(after["f1"] - before["f1"],
+-            after.get("full_output_f1", after["f1"])
+-            - before.get("full_output_f1", before["f1"]))
+-        return delta, min(after["f1"], after.get("full_output_f1", 1)), *key
+-
+-    witnesses = sorted(pool, key=severity)[:witness_limit]
++
++    def severity(contrast):
++        record, _, role = contrast
++        delta, harmed, _ = outcome(contrast)
++        priority = 0 if harmed else 1 if record["case_id"] in intended else 2
++        return (priority, delta, record["score"].get("full_output_f1", record["score"]["f1"]),
++                record["case_id"], record["family"], role)
++
++    selected = sorted(contrasts, key=severity)[:witness_limit]
++    witnesses = [r for r, _, _ in selected]
+     fields = ("delta", "reason", "source_program_compile_error", "composition_error",
+               "accepted_tasks", "accepted_legal_coordinates", "legal_scope_admission",
+               "task_admission", "proposed_whole_bank_acceptance", "attempt_parent_bank_sha256",
+               "adaptive_commit_selection", "proposal_fully_committed")
+-    return {**{k: copy.deepcopy(decision[k]) for k in fields if k in decision},
+-        "accepted": accepted, "partially_committed": accepted,
+-        "candidate_feedback_origin": copy.deepcopy(origin),
++    result = {**{k: copy.deepcopy(decision[k]) for k in fields if k in decision},
++        "accepted": accepted, "partially_committed": accepted and not fully,
++        "fully_committed": bool(fully), "candidate_feedback_origin": copy.deepcopy(origin),
+         "proposed_bank_sha256": csha(decision.get("proposed_bank", decision.get("candidate"))),
+         "decision_candidate_bank_sha256": csha(decision.get("candidate")),
+-        "full_proposed_replay_task_count": len(pool),
+-        "feedback_witness_limit": witness_limit,
+-        "feedback_witness_rule": "worst current-parent delta, then remaining failure, source/task tie break",
+-        "references_are_current_parent_observations_not_invented_original_runs": True,
+-        "feedback_witness_replay": copy.deepcopy(witnesses)}
++        "full_proposed_replay_task_count": len(proposed_pool), "feedback_witness_limit": witness_limit,
++        "changed_uncommitted_native_requests": changed_count,
++        "feedback_witness_rule": "actual harms first, then unresolved intended repairs, then changed-request failures; total bounded",
++        "current_parent_references_are_actual_observations": True,
++        "feedback_witness_replay": copy.deepcopy(witnesses),
++        "feedback_witness_roles": [{
++            "index": i, "case_id": r["case_id"], "family": r["family"], "role": role,
++            "selection_reason": ("actual_regression" if outcome((r, reference, role))[1]
++                                 else "unresolved_intended_repair" if r["case_id"] in intended
++                                 else "changed_request_remaining_error")}
++            for i, (r, reference, role) in enumerate(selected)]}
++    previous = [reference for _, reference, role in selected if role == "accepted_commit_remaining_regression"]
++    if previous:
++        result.update({"feedback_pre_commit_reference_replay": copy.deepcopy(previous),
++                       "pre_commit_reference_role": "actual earlier observations, not the current parent",
++                       "regressed_tasks_at_accepted_commit": retained["regressed_tasks_total"]})
++    return result
+ 
+ 
+ def teacher_evidence_rows(current, seen, observations, rejected, *, history_limit=16):
+@@
+ 
+     def __init__(self, config_path):
+         self.cfg = read(config_path)
+-        if self.cfg.get("teacher_evidence_contract") != "native_claim_aligned_compact_v1":
++        if self.cfg.get("teacher_evidence_contract") != "native_claim_aligned_revision_outcomes_v2":
+             raise ValueError("Declare the native-claim-aligned teacher evidence contract before learning")
+         if type(self.cfg.get("frozen_after_first_batch_control", False)) is not bool:
+             raise ValueError("Declare frozen-after-first-batch evaluation as a boolean")
+@@
+             cases.append(case)
+         rejected_view = []
+         for decision in rejected:
+-            replay_fields = {"actual_replay": "full_replay_task_count",
++            replay_fields = {"feedback_pre_commit_reference_replay": "bounded_actual_pre_commit_reference_task_count",
++                             "actual_replay": "full_replay_task_count",
+                 "proposed_replay": "full_proposed_replay_task_count",
+                 "feedback_witness_replay": "bounded_feedback_witness_task_count"}
+             value = {k: v for k, v in decision.items()
+@@
+                 group[row["family"]] = {"system_ref": system_ids[system],
+                                         "response_schema_ref": schema_ids[schema_key]}
+         return {"current_source_case_ids": sorted({r["case_id"] for r in current}),
+-                "teacher_evidence_contract": "native_claim_aligned_compact_v1",
++                "teacher_evidence_contract": self.cfg["teacher_evidence_contract"],
+                 "task_boundary": {"start_task_id": 2,
+                     "public_prior": "allowable jurisdictions already supplied; do not recompute them",
+                     "outputs": "all eligible asset-law alternatives, not a final jointly allocated portfolio",
+@@
+                 "actual_response_schemas": schemas,
+                 "complete_public_statutes": statutes,
+                 "actual_system_and_response_schema_by_public_context": actual_contracts,
+-                "already_seen_training": cases, "rejected_candidate_feedback": rejected_view,
++                "already_seen_training": cases, "candidate_revision_feedback": rejected_view,
+                 "training_evidence_manifest": evidence_manifest,
+                 "selected_record_view_preserves_program_answer_score_and_error": grounded,
+                 "native_claim_feedback_contract": {
+@@
+                     "same_response_alias_is_not_an_independent_control": True,
+                     "own_B1_never_teacher_or_admission_feedback": True},
+                 "bounded_emitted_evidence_contract": {
+-                    "roles": ["actual_parent_answer", "rejected_candidate_replay"],
++                    "roles": ["actual_parent_answer", "rejected_candidate_replay",
++                              "accepted_commit_pre_and_post_observations"],
+                     "reasoning_tail_max_characters": 1024,
+                     "failed_native_final_head_tail_max_characters": 512,
+                     "unabridged_raw_artifacts_retained": True,
+@@
+                     "max_attempts": self.cfg["max_candidate_attempts"],
+                     "current_attempt_parent_bank_sha256": csha(before),
+                     "previous_publication_only_not_unbounded_history": True,
+-                    "failure_witness_limit_per_proposal": 8,
++                    "revision_outcome_witness_limit_per_proposal": 8,
+                     "single_final_publication_after_bounded_TRAIN_refinement": True}
+             delta = self.teacher_call(name, system,
+                 body,
+@@
+             # All policies stop on the same delivered task projections, not JSON record layout.
+             decision["proposal_fully_committed"] = decision["accepted"] and all(
+                 task_view(decision["candidate"], f) == task_view(candidate, f) for f in FAMILIES)
++            if decision["accepted"]:
++                decision["accepted_commit_regressions"] = accepted_commit_regressions(
++                    [*parent_current, *prior], decision["actual_replay"])
+             if closed_loop:
+                 decision["attempt_parent_bank_sha256"] = csha(before)
+             RunStore.immutable_json(self.out / "candidates" / f"{name}.json", decision)
+@@
+                 feedback = candidate_feedback(decision, self.latest, {
+                     "batch": self.current_batch, "attempt": attempt,
+                     "current_committed_bank_sha256": csha(self.bank)})
+-                if feedback is None:
++                if feedback is None or decision["proposal_fully_committed"]:
+                     break
+                 # Keep the accepted subset as the next attempt's real parent.
+                 # A failed later proposal cannot undo it or use cached scores.
+@@
+             Online(config_path).run()
+ 
+ 
++
++
+ if __name__ == "__main__":
+     main()
+*** End Patch
+

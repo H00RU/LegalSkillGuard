@@ -1,0 +1,1548 @@
+{
+  "at": "2026-10-16T01:04:01.623178+00:00",
+  "run_id": "legal_contractnli_evidence_scope_ablation_20261016_run01",
+  "new_native_calls": 26,
+  "new_teacher_calls": 0,
+  "existing_reference_answers_not_new_generation": 52,
+  "metrics": {
+    "first_encounter": {
+      "ordinary_memory": {
+        "documents": 18,
+        "hypotheses": 306,
+        "label_correct": 244,
+        "label_accuracy": 0.7973856209150327,
+        "gold_non_neutral_queries": 189,
+        "evidence_tp": 176,
+        "evidence_fp": 40,
+        "evidence_fn": 198,
+        "evidence_micro_f1_gold_non_neutral": 0.5966101694915255,
+        "evidence_query_mean_f1_gold_non_neutral": 0.619426517045565,
+        "joint_exact_correct": 146,
+        "joint_soft_mean": 0.6374889271948095,
+        "public_valid_documents": 18,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 157,
+            "correct": 143
+          },
+          "Contradiction": {
+            "n": 32,
+            "correct": 19
+          },
+          "NotMentioned": {
+            "n": 117,
+            "correct": 82
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 82,
+        "nonneutral_label_and_all_evidence_correct": 64,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 111991,
+          "completion_tokens": 36791
+        },
+        "joint_exact_accuracy": 0.477124183006536
+      },
+      "full_bank": {
+        "documents": 18,
+        "hypotheses": 306,
+        "label_correct": 234,
+        "label_accuracy": 0.7647058823529411,
+        "gold_non_neutral_queries": 189,
+        "evidence_tp": 184,
+        "evidence_fp": 72,
+        "evidence_fn": 190,
+        "evidence_micro_f1_gold_non_neutral": 0.5841269841269842,
+        "evidence_query_mean_f1_gold_non_neutral": 0.6106165733149864,
+        "joint_exact_correct": 136,
+        "joint_soft_mean": 0.613038776764267,
+        "public_valid_documents": 18,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 157,
+            "correct": 135
+          },
+          "Contradiction": {
+            "n": 32,
+            "correct": 20
+          },
+          "NotMentioned": {
+            "n": 117,
+            "correct": 79
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 79,
+        "nonneutral_label_and_all_evidence_correct": 57,
+        "reported_skill_use_queries": 268,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 164011,
+          "completion_tokens": 41401
+        },
+        "joint_exact_accuracy": 0.4444444444444444
+      },
+      "without_global_evidence_skill": {
+        "documents": 18,
+        "hypotheses": 306,
+        "label_correct": 245,
+        "label_accuracy": 0.8006535947712419,
+        "gold_non_neutral_queries": 189,
+        "evidence_tp": 175,
+        "evidence_fp": 46,
+        "evidence_fn": 199,
+        "evidence_micro_f1_gold_non_neutral": 0.5882352941176471,
+        "evidence_query_mean_f1_gold_non_neutral": 0.6152692986026322,
+        "joint_exact_correct": 147,
+        "joint_soft_mean": 0.641021451315569,
+        "public_valid_documents": 18,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 157,
+            "correct": 134
+          },
+          "Contradiction": {
+            "n": 32,
+            "correct": 25
+          },
+          "NotMentioned": {
+            "n": 117,
+            "correct": 86
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 86,
+        "nonneutral_label_and_all_evidence_correct": 61,
+        "reported_skill_use_queries": 233,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 157699,
+          "completion_tokens": 47512
+        },
+        "joint_exact_accuracy": 0.4803921568627451
+      }
+    },
+    "later": {
+      "ordinary_memory": {
+        "documents": 8,
+        "hypotheses": 136,
+        "label_correct": 110,
+        "label_accuracy": 0.8088235294117647,
+        "gold_non_neutral_queries": 79,
+        "evidence_tp": 81,
+        "evidence_fp": 8,
+        "evidence_fn": 57,
+        "evidence_micro_f1_gold_non_neutral": 0.7136563876651982,
+        "evidence_query_mean_f1_gold_non_neutral": 0.7140144665461119,
+        "joint_exact_correct": 75,
+        "joint_soft_mean": 0.7113270308123251,
+        "public_valid_documents": 8,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 65,
+            "correct": 59
+          },
+          "Contradiction": {
+            "n": 14,
+            "correct": 9
+          },
+          "NotMentioned": {
+            "n": 57,
+            "correct": 42
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 42,
+        "nonneutral_label_and_all_evidence_correct": 33,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 38106,
+          "completion_tokens": 14477
+        },
+        "joint_exact_accuracy": 0.5514705882352942
+      },
+      "full_bank": {
+        "documents": 8,
+        "hypotheses": 136,
+        "label_correct": 113,
+        "label_accuracy": 0.8308823529411765,
+        "gold_non_neutral_queries": 79,
+        "evidence_tp": 79,
+        "evidence_fp": 9,
+        "evidence_fn": 59,
+        "evidence_micro_f1_gold_non_neutral": 0.6991150442477876,
+        "evidence_query_mean_f1_gold_non_neutral": 0.7061784207353825,
+        "joint_exact_correct": 81,
+        "joint_soft_mean": 0.7386379551820729,
+        "public_valid_documents": 8,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 65,
+            "correct": 60
+          },
+          "Contradiction": {
+            "n": 14,
+            "correct": 6
+          },
+          "NotMentioned": {
+            "n": 57,
+            "correct": 47
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 47,
+        "nonneutral_label_and_all_evidence_correct": 34,
+        "reported_skill_use_queries": 127,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 67642,
+          "completion_tokens": 15244
+        },
+        "joint_exact_accuracy": 0.5955882352941176
+      },
+      "without_global_evidence_skill": {
+        "documents": 8,
+        "hypotheses": 136,
+        "label_correct": 113,
+        "label_accuracy": 0.8308823529411765,
+        "gold_non_neutral_queries": 79,
+        "evidence_tp": 76,
+        "evidence_fp": 8,
+        "evidence_fn": 62,
+        "evidence_micro_f1_gold_non_neutral": 0.6846846846846847,
+        "evidence_query_mean_f1_gold_non_neutral": 0.6905063291139238,
+        "joint_exact_correct": 80,
+        "joint_soft_mean": 0.7393382352941179,
+        "public_valid_documents": 8,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 65,
+            "correct": 59
+          },
+          "Contradiction": {
+            "n": 14,
+            "correct": 6
+          },
+          "NotMentioned": {
+            "n": 57,
+            "correct": 48
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 48,
+        "nonneutral_label_and_all_evidence_correct": 32,
+        "reported_skill_use_queries": 119,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 64690,
+          "completion_tokens": 17293
+        },
+        "joint_exact_accuracy": 0.5882352941176471
+      }
+    }
+  },
+  "paired_ablation_minus_control": {
+    "first_encounter": {
+      "ordinary_memory": {
+        "original_hypotheses": 306,
+        "label_corrected": [
+          [
+            588,
+            "nda-15"
+          ],
+          [
+            538,
+            "nda-16"
+          ],
+          [
+            177,
+            "nda-12"
+          ],
+          [
+            177,
+            "nda-20"
+          ],
+          [
+            136,
+            "nda-10"
+          ],
+          [
+            136,
+            "nda-1"
+          ],
+          [
+            187,
+            "nda-20"
+          ],
+          [
+            187,
+            "nda-17"
+          ],
+          [
+            273,
+            "nda-16"
+          ],
+          [
+            273,
+            "nda-10"
+          ],
+          [
+            416,
+            "nda-16"
+          ],
+          [
+            416,
+            "nda-20"
+          ],
+          [
+            416,
+            "nda-8"
+          ],
+          [
+            416,
+            "nda-5"
+          ],
+          [
+            261,
+            "nda-12"
+          ],
+          [
+            487,
+            "nda-20"
+          ],
+          [
+            487,
+            "nda-5"
+          ],
+          [
+            487,
+            "nda-4"
+          ],
+          [
+            377,
+            "nda-15"
+          ],
+          [
+            377,
+            "nda-3"
+          ],
+          [
+            377,
+            "nda-4"
+          ],
+          [
+            159,
+            "nda-20"
+          ],
+          [
+            159,
+            "nda-17"
+          ],
+          [
+            430,
+            "nda-15"
+          ],
+          [
+            430,
+            "nda-12"
+          ],
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            430,
+            "nda-17"
+          ],
+          [
+            430,
+            "nda-5"
+          ],
+          [
+            290,
+            "nda-2"
+          ],
+          [
+            290,
+            "nda-17"
+          ],
+          [
+            613,
+            "nda-3"
+          ],
+          [
+            383,
+            "nda-19"
+          ],
+          [
+            92,
+            "nda-2"
+          ]
+        ],
+        "label_broken": [
+          [
+            588,
+            "nda-1"
+          ],
+          [
+            588,
+            "nda-18"
+          ],
+          [
+            538,
+            "nda-1"
+          ],
+          [
+            538,
+            "nda-17"
+          ],
+          [
+            177,
+            "nda-1"
+          ],
+          [
+            177,
+            "nda-13"
+          ],
+          [
+            136,
+            "nda-15"
+          ],
+          [
+            187,
+            "nda-2"
+          ],
+          [
+            187,
+            "nda-1"
+          ],
+          [
+            187,
+            "nda-12"
+          ],
+          [
+            187,
+            "nda-13"
+          ],
+          [
+            416,
+            "nda-4"
+          ],
+          [
+            487,
+            "nda-15"
+          ],
+          [
+            377,
+            "nda-1"
+          ],
+          [
+            430,
+            "nda-19"
+          ],
+          [
+            430,
+            "nda-20"
+          ],
+          [
+            430,
+            "nda-7"
+          ],
+          [
+            430,
+            "nda-4"
+          ],
+          [
+            290,
+            "nda-16"
+          ],
+          [
+            290,
+            "nda-15"
+          ],
+          [
+            290,
+            "nda-20"
+          ],
+          [
+            290,
+            "nda-4"
+          ],
+          [
+            622,
+            "nda-4"
+          ],
+          [
+            613,
+            "nda-7"
+          ],
+          [
+            613,
+            "nda-17"
+          ],
+          [
+            383,
+            "nda-10"
+          ],
+          [
+            383,
+            "nda-1"
+          ],
+          [
+            383,
+            "nda-20"
+          ],
+          [
+            383,
+            "nda-3"
+          ],
+          [
+            383,
+            "nda-5"
+          ],
+          [
+            383,
+            "nda-4"
+          ],
+          [
+            92,
+            "nda-4"
+          ]
+        ],
+        "net_label_correct": 1,
+        "joint_exact_corrected": [
+          [
+            588,
+            "nda-15"
+          ],
+          [
+            538,
+            "nda-16"
+          ],
+          [
+            177,
+            "nda-12"
+          ],
+          [
+            177,
+            "nda-20"
+          ],
+          [
+            136,
+            "nda-10"
+          ],
+          [
+            187,
+            "nda-20"
+          ],
+          [
+            187,
+            "nda-17"
+          ],
+          [
+            273,
+            "nda-16"
+          ],
+          [
+            416,
+            "nda-16"
+          ],
+          [
+            416,
+            "nda-20"
+          ],
+          [
+            416,
+            "nda-5"
+          ],
+          [
+            261,
+            "nda-12"
+          ],
+          [
+            487,
+            "nda-20"
+          ],
+          [
+            487,
+            "nda-3"
+          ],
+          [
+            487,
+            "nda-5"
+          ],
+          [
+            487,
+            "nda-4"
+          ],
+          [
+            377,
+            "nda-3"
+          ],
+          [
+            159,
+            "nda-20"
+          ],
+          [
+            430,
+            "nda-12"
+          ],
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            430,
+            "nda-17"
+          ],
+          [
+            430,
+            "nda-5"
+          ],
+          [
+            290,
+            "nda-2"
+          ],
+          [
+            290,
+            "nda-17"
+          ],
+          [
+            613,
+            "nda-3"
+          ],
+          [
+            383,
+            "nda-19"
+          ],
+          [
+            92,
+            "nda-2"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            588,
+            "nda-1"
+          ],
+          [
+            538,
+            "nda-1"
+          ],
+          [
+            538,
+            "nda-17"
+          ],
+          [
+            177,
+            "nda-1"
+          ],
+          [
+            187,
+            "nda-16"
+          ],
+          [
+            187,
+            "nda-2"
+          ],
+          [
+            187,
+            "nda-1"
+          ],
+          [
+            187,
+            "nda-12"
+          ],
+          [
+            416,
+            "nda-7"
+          ],
+          [
+            261,
+            "nda-17"
+          ],
+          [
+            377,
+            "nda-5"
+          ],
+          [
+            430,
+            "nda-19"
+          ],
+          [
+            430,
+            "nda-20"
+          ],
+          [
+            430,
+            "nda-18"
+          ],
+          [
+            430,
+            "nda-7"
+          ],
+          [
+            290,
+            "nda-16"
+          ],
+          [
+            290,
+            "nda-15"
+          ],
+          [
+            290,
+            "nda-20"
+          ],
+          [
+            290,
+            "nda-13"
+          ],
+          [
+            290,
+            "nda-4"
+          ],
+          [
+            613,
+            "nda-17"
+          ],
+          [
+            383,
+            "nda-10"
+          ],
+          [
+            383,
+            "nda-1"
+          ],
+          [
+            383,
+            "nda-20"
+          ],
+          [
+            383,
+            "nda-4"
+          ],
+          [
+            92,
+            "nda-3"
+          ]
+        ]
+      },
+      "full_bank": {
+        "original_hypotheses": 306,
+        "label_corrected": [
+          [
+            538,
+            "nda-16"
+          ],
+          [
+            177,
+            "nda-12"
+          ],
+          [
+            136,
+            "nda-16"
+          ],
+          [
+            136,
+            "nda-10"
+          ],
+          [
+            187,
+            "nda-15"
+          ],
+          [
+            187,
+            "nda-20"
+          ],
+          [
+            273,
+            "nda-16"
+          ],
+          [
+            273,
+            "nda-10"
+          ],
+          [
+            273,
+            "nda-12"
+          ],
+          [
+            416,
+            "nda-16"
+          ],
+          [
+            261,
+            "nda-13"
+          ],
+          [
+            487,
+            "nda-5"
+          ],
+          [
+            377,
+            "nda-20"
+          ],
+          [
+            377,
+            "nda-3"
+          ],
+          [
+            377,
+            "nda-17"
+          ],
+          [
+            377,
+            "nda-4"
+          ],
+          [
+            159,
+            "nda-20"
+          ],
+          [
+            159,
+            "nda-3"
+          ],
+          [
+            159,
+            "nda-17"
+          ],
+          [
+            430,
+            "nda-17"
+          ],
+          [
+            290,
+            "nda-2"
+          ],
+          [
+            622,
+            "nda-17"
+          ],
+          [
+            613,
+            "nda-16"
+          ],
+          [
+            613,
+            "nda-1"
+          ],
+          [
+            613,
+            "nda-3"
+          ],
+          [
+            613,
+            "nda-4"
+          ],
+          [
+            383,
+            "nda-16"
+          ],
+          [
+            383,
+            "nda-19"
+          ],
+          [
+            383,
+            "nda-12"
+          ],
+          [
+            92,
+            "nda-20"
+          ],
+          [
+            92,
+            "nda-3"
+          ]
+        ],
+        "label_broken": [
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            588,
+            "nda-18"
+          ],
+          [
+            538,
+            "nda-1"
+          ],
+          [
+            538,
+            "nda-17"
+          ],
+          [
+            177,
+            "nda-1"
+          ],
+          [
+            177,
+            "nda-13"
+          ],
+          [
+            136,
+            "nda-15"
+          ],
+          [
+            187,
+            "nda-12"
+          ],
+          [
+            187,
+            "nda-13"
+          ],
+          [
+            273,
+            "nda-17"
+          ],
+          [
+            416,
+            "nda-4"
+          ],
+          [
+            487,
+            "nda-16"
+          ],
+          [
+            487,
+            "nda-15"
+          ],
+          [
+            430,
+            "nda-20"
+          ],
+          [
+            290,
+            "nda-20"
+          ],
+          [
+            622,
+            "nda-20"
+          ],
+          [
+            613,
+            "nda-7"
+          ],
+          [
+            383,
+            "nda-1"
+          ],
+          [
+            383,
+            "nda-3"
+          ],
+          [
+            383,
+            "nda-4"
+          ]
+        ],
+        "net_label_correct": 11,
+        "joint_exact_corrected": [
+          [
+            262,
+            "nda-16"
+          ],
+          [
+            538,
+            "nda-16"
+          ],
+          [
+            538,
+            "nda-4"
+          ],
+          [
+            177,
+            "nda-16"
+          ],
+          [
+            177,
+            "nda-12"
+          ],
+          [
+            136,
+            "nda-16"
+          ],
+          [
+            136,
+            "nda-10"
+          ],
+          [
+            187,
+            "nda-20"
+          ],
+          [
+            273,
+            "nda-16"
+          ],
+          [
+            416,
+            "nda-16"
+          ],
+          [
+            487,
+            "nda-3"
+          ],
+          [
+            487,
+            "nda-5"
+          ],
+          [
+            377,
+            "nda-20"
+          ],
+          [
+            377,
+            "nda-3"
+          ],
+          [
+            377,
+            "nda-17"
+          ],
+          [
+            159,
+            "nda-20"
+          ],
+          [
+            159,
+            "nda-3"
+          ],
+          [
+            430,
+            "nda-17"
+          ],
+          [
+            290,
+            "nda-2"
+          ],
+          [
+            613,
+            "nda-16"
+          ],
+          [
+            613,
+            "nda-1"
+          ],
+          [
+            613,
+            "nda-3"
+          ],
+          [
+            613,
+            "nda-4"
+          ],
+          [
+            383,
+            "nda-16"
+          ],
+          [
+            383,
+            "nda-19"
+          ],
+          [
+            383,
+            "nda-12"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            538,
+            "nda-1"
+          ],
+          [
+            538,
+            "nda-17"
+          ],
+          [
+            177,
+            "nda-1"
+          ],
+          [
+            136,
+            "nda-3"
+          ],
+          [
+            187,
+            "nda-12"
+          ],
+          [
+            273,
+            "nda-17"
+          ],
+          [
+            416,
+            "nda-7"
+          ],
+          [
+            261,
+            "nda-3"
+          ],
+          [
+            487,
+            "nda-16"
+          ],
+          [
+            377,
+            "nda-5"
+          ],
+          [
+            290,
+            "nda-20"
+          ],
+          [
+            622,
+            "nda-20"
+          ],
+          [
+            383,
+            "nda-1"
+          ],
+          [
+            383,
+            "nda-4"
+          ]
+        ]
+      }
+    },
+    "later": {
+      "ordinary_memory": {
+        "original_hypotheses": 136,
+        "label_corrected": [
+          [
+            568,
+            "nda-15"
+          ],
+          [
+            568,
+            "nda-7"
+          ],
+          [
+            374,
+            "nda-19"
+          ],
+          [
+            374,
+            "nda-12"
+          ],
+          [
+            374,
+            "nda-20"
+          ],
+          [
+            374,
+            "nda-3"
+          ],
+          [
+            374,
+            "nda-13"
+          ],
+          [
+            624,
+            "nda-10"
+          ],
+          [
+            624,
+            "nda-20"
+          ],
+          [
+            624,
+            "nda-17"
+          ],
+          [
+            270,
+            "nda-19"
+          ],
+          [
+            341,
+            "nda-17"
+          ]
+        ],
+        "label_broken": [
+          [
+            568,
+            "nda-17"
+          ],
+          [
+            568,
+            "nda-4"
+          ],
+          [
+            342,
+            "nda-1"
+          ],
+          [
+            624,
+            "nda-3"
+          ],
+          [
+            624,
+            "nda-4"
+          ],
+          [
+            270,
+            "nda-1"
+          ],
+          [
+            270,
+            "nda-3"
+          ],
+          [
+            341,
+            "nda-1"
+          ],
+          [
+            341,
+            "nda-7"
+          ]
+        ],
+        "net_label_correct": 3,
+        "joint_exact_corrected": [
+          [
+            568,
+            "nda-15"
+          ],
+          [
+            568,
+            "nda-7"
+          ],
+          [
+            342,
+            "nda-16"
+          ],
+          [
+            374,
+            "nda-19"
+          ],
+          [
+            374,
+            "nda-12"
+          ],
+          [
+            374,
+            "nda-20"
+          ],
+          [
+            374,
+            "nda-3"
+          ],
+          [
+            374,
+            "nda-13"
+          ],
+          [
+            624,
+            "nda-20"
+          ],
+          [
+            624,
+            "nda-17"
+          ],
+          [
+            270,
+            "nda-19"
+          ],
+          [
+            341,
+            "nda-3"
+          ],
+          [
+            341,
+            "nda-17"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            568,
+            "nda-17"
+          ],
+          [
+            568,
+            "nda-4"
+          ],
+          [
+            342,
+            "nda-1"
+          ],
+          [
+            342,
+            "nda-7"
+          ],
+          [
+            624,
+            "nda-8"
+          ],
+          [
+            270,
+            "nda-7"
+          ],
+          [
+            341,
+            "nda-1"
+          ],
+          [
+            341,
+            "nda-7"
+          ]
+        ]
+      },
+      "full_bank": {
+        "original_hypotheses": 136,
+        "label_corrected": [
+          [
+            568,
+            "nda-15"
+          ],
+          [
+            568,
+            "nda-2"
+          ],
+          [
+            327,
+            "nda-16"
+          ],
+          [
+            327,
+            "nda-17"
+          ],
+          [
+            374,
+            "nda-20"
+          ],
+          [
+            374,
+            "nda-3"
+          ]
+        ],
+        "label_broken": [
+          [
+            568,
+            "nda-17"
+          ],
+          [
+            342,
+            "nda-3"
+          ],
+          [
+            374,
+            "nda-10"
+          ],
+          [
+            270,
+            "nda-3"
+          ],
+          [
+            341,
+            "nda-1"
+          ],
+          [
+            135,
+            "nda-12"
+          ]
+        ],
+        "net_label_correct": 0,
+        "joint_exact_corrected": [
+          [
+            568,
+            "nda-15"
+          ],
+          [
+            568,
+            "nda-2"
+          ],
+          [
+            327,
+            "nda-16"
+          ],
+          [
+            327,
+            "nda-13"
+          ],
+          [
+            374,
+            "nda-20"
+          ],
+          [
+            374,
+            "nda-3"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            568,
+            "nda-17"
+          ],
+          [
+            342,
+            "nda-3"
+          ],
+          [
+            374,
+            "nda-10"
+          ],
+          [
+            270,
+            "nda-7"
+          ],
+          [
+            270,
+            "nda-5"
+          ],
+          [
+            341,
+            "nda-1"
+          ],
+          [
+            135,
+            "nda-12"
+          ]
+        ]
+      }
+    }
+  },
+  "descriptive_source_intervals": {
+    "first_encounter": {
+      "ordinary_memory": {
+        "label_accuracy": {
+          "point": 0.0032679738562091387,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.045751633986928164,
+            0.05228758169934644
+          ]
+        },
+        "evidence_micro_f1_gold_non_neutral": {
+          "point": -0.008374875373878377,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.05128589558552733,
+            0.02721871517820406
+          ]
+        },
+        "evidence_query_mean_f1_gold_non_neutral": {
+          "point": -0.004157218442932709,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.06045841328074606,
+            0.04835005813341387
+          ]
+        },
+        "joint_exact_accuracy": {
+          "point": 0.0032679738562091387,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.03921568627450983,
+            0.04901960784313725
+          ]
+        }
+      },
+      "full_bank": {
+        "label_accuracy": {
+          "point": 0.03594771241830075,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.0032679738562091387,
+            0.07843137254901966
+          ]
+        },
+        "evidence_micro_f1_gold_non_neutral": {
+          "point": 0.004108309990662917,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.03356894249171538,
+            0.04695949302838208
+          ]
+        },
+        "evidence_query_mean_f1_gold_non_neutral": {
+          "point": 0.00465272528764582,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.037471913958441044,
+            0.0453001302696423
+          ]
+        },
+        "joint_exact_accuracy": {
+          "point": 0.03594771241830069,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            0.006535947712418277,
+            0.06862745098039219
+          ]
+        }
+      }
+    },
+    "later": {
+      "ordinary_memory": {
+        "label_accuracy": {
+          "point": 0.022058823529411797,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.03676470588235292,
+            0.10294117647058831
+          ]
+        },
+        "evidence_micro_f1_gold_non_neutral": {
+          "point": -0.028971702980513547,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.08380566801619438,
+            0.022499279516730624
+          ]
+        },
+        "evidence_query_mean_f1_gold_non_neutral": {
+          "point": -0.023508137432188048,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.08616780045351469,
+            0.04689360119047609
+          ]
+        },
+        "joint_exact_accuracy": {
+          "point": 0.03676470588235292,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.014705882352941235,
+            0.11047794117646964
+          ]
+        }
+      },
+      "full_bank": {
+        "label_accuracy": {
+          "point": 0.0,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.044117647058823484,
+            0.044117647058823595
+          ]
+        },
+        "evidence_micro_f1_gold_non_neutral": {
+          "point": -0.014430359563102901,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.053188532028325596,
+            0.02950411935099636
+          ]
+        },
+        "evidence_query_mean_f1_gold_non_neutral": {
+          "point": -0.01567209162145866,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.0652219776187855,
+            0.04104166666666654
+          ]
+        },
+        "joint_exact_accuracy": {
+          "point": -0.007352941176470562,
+          "ci95_descriptive_fixed_banks_exposed_sources": [
+            -0.05882352941176472,
+            0.044117647058823484
+          ]
+        }
+      }
+    }
+  },
+  "new_native_usage": {
+    "prompt_tokens": 222389,
+    "completion_tokens": 64805
+  },
+  "all26_saved_all78_replayed_before_original_gold_scoring": true,
+  "no_original_scores_or_answers_changed_no_automatic_publication_or_best_bank_selection": true,
+  "not_a_new_learning_run_independent_repeat_or_formal_test": true
+}

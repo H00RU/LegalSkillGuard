@@ -1,0 +1,393 @@
+{
+  "at": "2026-10-18T22:53:10.974619+00:00",
+  "parent": [
+    {
+      "id": "complete-responsive-source-membership",
+      "hypothesis_ids": [
+        "nda-11",
+        "nda-16",
+        "nda-15",
+        "nda-10",
+        "nda-2",
+        "nda-1",
+        "nda-19",
+        "nda-12",
+        "nda-20",
+        "nda-3",
+        "nda-18",
+        "nda-7",
+        "nda-17",
+        "nda-8",
+        "nda-13",
+        "nda-5",
+        "nda-4"
+      ],
+      "guidance": {
+        "procedure": "Decide the relation from the complete contract, then perform a separate membership pass. Collect every original span that independently states, defines, qualifies, authorizes, prohibits, triggers, excepts, or continues the proposition. Follow split sentences and clause chains across adjacent spans when later fragments complete the actor, object, condition, exception, or list. Also scan other sections for independently responsive repetitions. Include a heading or lead-in only when it supplies legally necessary scope; exclude it when it is merely navigational. Exclude adjacent background, examples, and generic confidentiality language that do not resolve the proposition. Candidate leads are reading aids, so inspect beyond them and reject high-scoring topical material when its legal function differs. For NotMentioned, return no evidence only after checking the whole contract; absence from candidates is insufficient.",
+        "witness_refs": [
+          "368:nda-3",
+          "329:nda-18",
+          "304:nda-4",
+          "222:nda-12"
+        ]
+      }
+    },
+    {
+      "id": "permission-prohibition-and-trigger-polarity",
+      "hypothesis_ids": [
+        "nda-11",
+        "nda-16",
+        "nda-20",
+        "nda-18",
+        "nda-7",
+        "nda-17"
+      ],
+      "guidance": {
+        "procedure": "Normalize the proposition into actor, modality, action, object, trigger, beneficiary, and exception before comparing it with the source. An express prohibition supports a prohibitory proposition but ordinarily opposes a proposition asserting permission. A prohibition subject only to discretionary prior consent is not automatically an affirmative permission; distinguish it from an operative authorization for a defined recipient, purpose, or circumstance. For copying, sharing, retention, return, destruction, solicitation, and reverse engineering, preserve limiting conditions and carve-outs. A return or destruction duty answers an asserted termination trigger only when that trigger is actually operative; a demand or request condition must not be silently rewritten. For post-return possession, inspect backup, archival, dispute, legal-compliance, no-copy, and continuing-confidentiality language together. Cite all spans that form the operative rule and its material exception, but not unrelated confidentiality duties.",
+        "witness_refs": [
+          "193:nda-20",
+          "368:nda-20",
+          "368:nda-16",
+          "193:nda-17",
+          "255:nda-17",
+          "222:nda-11",
+          "193:nda-7",
+          "368:nda-7"
+        ]
+      }
+    },
+    {
+      "id": "confidential-information-definition-boundaries",
+      "hypothesis_ids": [
+        "nda-2",
+        "nda-1",
+        "nda-3",
+        "nda-12",
+        "nda-13"
+      ],
+      "guidance": {
+        "procedure": "Read the definition as a structured rule, not as a keyword match. For technical-only scope, determine whether every covered category is technical or whether commercial, financial, operational, oral, visual, documentary, or other material is also included. For identification requirements, distinguish an operative marking or designation condition from a mere description that information is confidential; also preserve exceptions for unmarked samples or inherently confidential material. For oral inclusion, collect both the form-inclusive definition and any designation, confirmation, or writing condition that controls coverage. For independent development and third-party acquisition, distinguish exclusions from confidentiality from permissions to obtain or develop similar information, and retain the no-access, lawful-source, nonconfidential, or no-restriction qualifications. Include definition lead-ins and continuation spans only when they jointly establish the rule; do not infer NotMentioned merely because a preferred phrase is absent.",
+        "witness_refs": [
+          "135:nda-2",
+          "368:nda-2",
+          "368:nda-1",
+          "255:nda-1",
+          "222:nda-12",
+          "304:nda-13"
+        ]
+      }
+    }
+  ],
+  "delta": {
+    "operations": [
+      {
+        "operation": "MERGE",
+        "target_ids": [
+          "complete-responsive-source-membership",
+          "permission-prohibition-and-trigger-polarity",
+          "confidential-information-definition-boundaries"
+        ],
+        "skill": {
+          "id": "relation-first-complete-evidence-inspection",
+          "hypothesis_ids": [
+            "nda-11",
+            "nda-16",
+            "nda-15",
+            "nda-10",
+            "nda-2",
+            "nda-1",
+            "nda-19",
+            "nda-12",
+            "nda-20",
+            "nda-3",
+            "nda-18",
+            "nda-7",
+            "nda-17",
+            "nda-8",
+            "nda-13",
+            "nda-5",
+            "nda-4"
+          ],
+          "guidance": {
+            "procedure": "For each proposition, first normalize the actor, modality, action, object, quantifier, trigger, beneficiary, and exceptions, then decide the relation from the complete contract without treating candidates or historical examples as answers. Only afterward make a separate evidence-membership pass. Include every original span that independently states or materially completes the operative rule, definition, condition, exception, continuation, or responsive repetition; follow split clauses and lists when their fragments jointly supply scope. Exclude headings, recitals, neighboring background, and generic confidentiality language unless they perform a necessary legal function. A prohibition supports a prohibitory proposition but opposes an asserted permission; consent-dependent conduct is not affirmative permission unless the contract operatively authorizes it. Do not replace a request, demand, or other condition with a termination trigger. Evaluate return, destruction, copying, retention, sharing, solicitation, and reverse engineering together with their carve-outs and continuing duties. For definition questions, distinguish technical-only coverage from broader commercial or other forms, marking conditions from mere confidentiality descriptions, and oral coverage from any designation or confirmation requirement. Treat independent-development and third-party-source exclusions according to their lawful-source, no-access, nonconfidential, and no-restriction qualifications rather than as unconditional permissions. Use NotMentioned with no spans only after a whole-contract search finds no operative support or opposition.",
+            "witness_refs": [
+              "193:nda-20",
+              "368:nda-20",
+              "193:nda-17",
+              "255:nda-17",
+              "193:nda-7",
+              "368:nda-7",
+              "135:nda-2",
+              "368:nda-2",
+              "368:nda-1",
+              "255:nda-1",
+              "382:nda-8",
+              "222:nda-11"
+            ]
+          }
+        },
+        "source_case_ids": [
+          135,
+          193,
+          222,
+          255,
+          368,
+          382
+        ],
+        "rationale": "Merges three overlapping records into one relation-first inspection procedure. The prior publication produced only a small evidence-micro-F1 increase while label accuracy and strict joint accuracy fell, and the current matched observations show further losses in both labels and evidence. The consolidated procedure directly addresses the observed harms: historical examples overriding current text, permissions inferred from prohibitions or consent clauses, triggers rewritten, broad definitions misread, and partial or extraneous span sets. The retained demonstrations provide explicit opposed boundaries for retention, copying, sharing, technical-only scope, and marking, plus complete fragmented compelled-disclosure and reverse-engineering evidence, while removing redundant examples that increased anchoring."
+      }
+    ],
+    "noop_reason": null
+  },
+  "publication": [
+    {
+      "id": "relation-first-complete-evidence-inspection",
+      "hypothesis_ids": [
+        "nda-11",
+        "nda-16",
+        "nda-15",
+        "nda-10",
+        "nda-2",
+        "nda-1",
+        "nda-19",
+        "nda-12",
+        "nda-20",
+        "nda-3",
+        "nda-18",
+        "nda-7",
+        "nda-17",
+        "nda-8",
+        "nda-13",
+        "nda-5",
+        "nda-4"
+      ],
+      "guidance": {
+        "procedure": "For each proposition, first normalize the actor, modality, action, object, quantifier, trigger, beneficiary, and exceptions, then decide the relation from the complete contract without treating candidates or historical examples as answers. Only afterward make a separate evidence-membership pass. Include every original span that independently states or materially completes the operative rule, definition, condition, exception, continuation, or responsive repetition; follow split clauses and lists when their fragments jointly supply scope. Exclude headings, recitals, neighboring background, and generic confidentiality language unless they perform a necessary legal function. A prohibition supports a prohibitory proposition but opposes an asserted permission; consent-dependent conduct is not affirmative permission unless the contract operatively authorizes it. Do not replace a request, demand, or other condition with a termination trigger. Evaluate return, destruction, copying, retention, sharing, solicitation, and reverse engineering together with their carve-outs and continuing duties. For definition questions, distinguish technical-only coverage from broader commercial or other forms, marking conditions from mere confidentiality descriptions, and oral coverage from any designation or confirmation requirement. Treat independent-development and third-party-source exclusions according to their lawful-source, no-access, nonconfidential, and no-restriction qualifications rather than as unconditional permissions. Use NotMentioned with no spans only after a whole-contract search finds no operative support or opposition.",
+        "witness_refs": [
+          "193:nda-20",
+          "368:nda-20",
+          "193:nda-17",
+          "255:nda-17",
+          "193:nda-7",
+          "368:nda-7",
+          "135:nda-2",
+          "368:nda-2",
+          "368:nda-1",
+          "255:nda-1",
+          "382:nda-8",
+          "222:nda-11"
+        ]
+      }
+    }
+  ],
+  "materialized_runtime_memory": [
+    {
+      "id": "relation-first-complete-evidence-inspection",
+      "hypothesis_ids": [
+        "nda-11",
+        "nda-16",
+        "nda-15",
+        "nda-10",
+        "nda-2",
+        "nda-1",
+        "nda-19",
+        "nda-12",
+        "nda-20",
+        "nda-3",
+        "nda-18",
+        "nda-7",
+        "nda-17",
+        "nda-8",
+        "nda-13",
+        "nda-5",
+        "nda-4"
+      ],
+      "procedure": "For each proposition, first normalize the actor, modality, action, object, quantifier, trigger, beneficiary, and exceptions, then decide the relation from the complete contract without treating candidates or historical examples as answers. Only afterward make a separate evidence-membership pass. Include every original span that independently states or materially completes the operative rule, definition, condition, exception, continuation, or responsive repetition; follow split clauses and lists when their fragments jointly supply scope. Exclude headings, recitals, neighboring background, and generic confidentiality language unless they perform a necessary legal function. A prohibition supports a prohibitory proposition but opposes an asserted permission; consent-dependent conduct is not affirmative permission unless the contract operatively authorizes it. Do not replace a request, demand, or other condition with a termination trigger. Evaluate return, destruction, copying, retention, sharing, solicitation, and reverse engineering together with their carve-outs and continuing duties. For definition questions, distinguish technical-only coverage from broader commercial or other forms, marking conditions from mere confidentiality descriptions, and oral coverage from any designation or confirmation requirement. Treat independent-development and third-party-source exclusions according to their lawful-source, no-access, nonconfidential, and no-restriction qualifications rather than as unconditional permissions. Use NotMentioned with no spans only after a whole-contract search finds no operative support or opposition.",
+      "witnesses": [
+        {
+          "witness_ref": "193:nda-20",
+          "source_case_id": 193,
+          "source_sha256": "133a9c080c0aec357afcda39a80a9734f6cf6bb73c60617d9f8171b583bd361a",
+          "hypothesis_id": "nda-20",
+          "original_training_label": "Contradiction",
+          "complete_original_evidence_texts": [
+            "6. All Proprietary Information disclosed hereunder, and any copies thereof made by a Receiving Party, shall be and remain the Disclosing Party's property and shall be delivered up promptly by the Receiving Party to the Disclosing Party on receipt of the Disclosing Party's written request therefor."
+          ]
+        },
+        {
+          "witness_ref": "368:nda-20",
+          "source_case_id": 368,
+          "source_sha256": "751789096f94a17e428b7d3b4abd8b5a0b78d384e9f7809e00e22f4b9c77f2a7",
+          "hypothesis_id": "nda-20",
+          "original_training_label": "Entailment",
+          "complete_original_evidence_texts": [
+            "c. Upon termination of this Agreement, Receiving Party will, within two (2) weeks of written request from Disclosing Party, return all documents concerning the Proprietary Information and NREL Protected Information and all copies of any such documents to Disclosing Party, or certify in writing their destruction, with the exception of copies of Proprietary Information and NREL Protected Information made as a matter of routine information technology or legal backup, provided that such copies will continue to be subject to the confidentiality obligations set forth in this Agreement and may only be used in resolving a dispute between the Parties regarding this Agreement."
+          ]
+        },
+        {
+          "witness_ref": "193:nda-17",
+          "source_case_id": 193,
+          "source_sha256": "133a9c080c0aec357afcda39a80a9734f6cf6bb73c60617d9f8171b583bd361a",
+          "hypothesis_id": "nda-17",
+          "original_training_label": "Entailment",
+          "complete_original_evidence_texts": [
+            "2. Subject to the provisions of Clauses 4 and 7 hereof, the Receiving Party undertakes:",
+            "(b) not to copy Proprietary Information disclosed to it under this Agreement except as is reasonably necessary for the Purpose;"
+          ]
+        },
+        {
+          "witness_ref": "255:nda-17",
+          "source_case_id": 255,
+          "source_sha256": "88ec8d93bfd2a475efdfc92262de8a1ee5d1b782debef3260f614df6f3d89a5f",
+          "hypothesis_id": "nda-17",
+          "original_training_label": "Contradiction",
+          "complete_original_evidence_texts": [
+            " Volunteer, Trainer or Evaluator agrees not to, without prior written consent from Companion Paws and The LifeLine Canada Foundation, divulge any Confidential Information to third parties or copy documents containing any Confidential Information. "
+          ]
+        },
+        {
+          "witness_ref": "193:nda-7",
+          "source_case_id": 193,
+          "source_sha256": "133a9c080c0aec357afcda39a80a9734f6cf6bb73c60617d9f8171b583bd361a",
+          "hypothesis_id": "nda-7",
+          "original_training_label": "Contradiction",
+          "complete_original_evidence_texts": [
+            "2. Subject to the provisions of Clauses 4 and 7 hereof, the Receiving Party undertakes:",
+            "(a) to keep confidential and not disclose to any third party, except with the written permission of the Disclosing Party, any part, or the whole, of any Proprietary Information disclosed to it under this Agreement;",
+            "(d) to restrict access to the Proprietary Information disclosed to it under the terms of this Agreement to those of its employees and officers who need to know the same for the Purpose."
+          ]
+        },
+        {
+          "witness_ref": "368:nda-7",
+          "source_case_id": 368,
+          "source_sha256": "751789096f94a17e428b7d3b4abd8b5a0b78d384e9f7809e00e22f4b9c77f2a7",
+          "hypothesis_id": "nda-7",
+          "original_training_label": "Entailment",
+          "complete_original_evidence_texts": [
+            "Receiving Party will not disclose such information to any third party for the duration of the Confidentiality Period without the prior written approval of Disclosing Party. ",
+            "c. Receiving Party will provide access to Proprietary Information and NREL Protected Information that is within the Scope and that is disclosed in compliance with Paragraph 2.a, above, only to Receiving Party's employees, agents, and independent contractors who are required to have access specifically related to the Purpose, and, with respect to Alliance, to DOE or its designee for auditing and inspection purposes only. "
+          ]
+        },
+        {
+          "witness_ref": "135:nda-2",
+          "source_case_id": 135,
+          "source_sha256": "508bf5382af93757b318010e301848e239d5c883733eca32ffa277b9ca4cdb19",
+          "hypothesis_id": "nda-2",
+          "original_training_label": "Entailment",
+          "complete_original_evidence_texts": [
+            "WHEREAS, each party has certain technical information described below which shall hereinafter be referred to as \"CONFIDENTIAL INFORMATION\";"
+          ]
+        },
+        {
+          "witness_ref": "368:nda-2",
+          "source_case_id": 368,
+          "source_sha256": "751789096f94a17e428b7d3b4abd8b5a0b78d384e9f7809e00e22f4b9c77f2a7",
+          "hypothesis_id": "nda-2",
+          "original_training_label": "Contradiction",
+          "complete_original_evidence_texts": [
+            "a. As used herein, “Proprietary Information” means information that ",
+            "(i) embodies trade secrets as defined under 18 U.S.C. § 1839 or ",
+            "(ii) is commercial or financial information that is privileged or confidential under the Freedom of Information Act (5 U.S.C. § 552(b)(4)), and that is developed at private expense outside this Agreement."
+          ]
+        },
+        {
+          "witness_ref": "368:nda-1",
+          "source_case_id": 368,
+          "source_sha256": "751789096f94a17e428b7d3b4abd8b5a0b78d384e9f7809e00e22f4b9c77f2a7",
+          "hypothesis_id": "nda-1",
+          "original_training_label": "Entailment",
+          "complete_original_evidence_texts": [
+            "a. Disclosing Party will identify and mark its written Proprietary Information or NREL Protected Information disclosed hereunder as “Proprietary Information” or “NREL Protected Information”, as applicable, at the time it is conveyed to Receiving Party. ",
+            "For Proprietary Information or NREL Protected Information first disclosed orally (i.e., information expressed by spoken words) hereunder, Disclosing Party will: ",
+            "(i) identify such information as Proprietary Information or NREL Protected Information, as applicable, at the time it is conveyed to Receiving Party; ",
+            "(ii) reduce such information to writing; and ",
+            "(iii) provide an appropriately identified and marked copy of such writing to Receiving Party within thirty (30) days of such disclosure."
+          ]
+        },
+        {
+          "witness_ref": "255:nda-1",
+          "source_case_id": 255,
+          "source_sha256": "88ec8d93bfd2a475efdfc92262de8a1ee5d1b782debef3260f614df6f3d89a5f",
+          "hypothesis_id": "nda-1",
+          "original_training_label": "Contradiction",
+          "complete_original_evidence_texts": [
+            "For purposes of this Agreement, “Confidential Information” means all information and materials, in whatever form, whether tangible or intangible, disclosed by Companion Paws or The LifeLine Canada Foundation or any of its authorized representatives to Volunteer or Evaluator, or to which Volunteer, Trainer or Evaluator otherwise gains access as a result of volunteering or working for Companion Paws or The LifeLine Canada Foundation, pertaining in any manner to the activities of Companion Paws and The LifeLine Canada Foundation or its affiliates, consultants, members, or any person or entity to which Companion Paws ad The LifeLine Canada Foundation owes a duty of confidentiality, whether or not labeled or identified as proprietary or confidential. "
+          ]
+        },
+        {
+          "witness_ref": "382:nda-8",
+          "source_case_id": 382,
+          "source_sha256": "aef22dceae30ed28335e99d635a12251f7895e8aa94f925e198b50e380fb396f",
+          "hypothesis_id": "nda-8",
+          "original_training_label": "Entailment",
+          "complete_original_evidence_texts": [
+            "(b) Valco and Brubaker shall have no requirement to keep information confidential, and no such information shall be considered Confidential Information, to the extent any of the following applies: ",
+            "(iii) the information is required to be disclosed ",
+            "(x) by any federal or state law, rule or regulation, ",
+            "(y) by any applicable judgment, order or decree of any court, governmental agency or arbitrator having or purporting to have jurisdiction in the matter, or ",
+            "(z) pursuant to any subpoena or other discovery request in any litigation, arbitration or other proceeding; provided, however, that if any of Valco and Brubaker proposes to disclose the information in accordance with ",
+            "(x), ",
+            "(y) or ",
+            "(z), such party shall, to the extent feasible, first give CMC reasonable prior notice of the proposed disclosure of any such information to the application of such law, rule or regulation, or to appear before any court, governmental agency or arbitration order to contest the disclosure, as the case may be."
+          ]
+        },
+        {
+          "witness_ref": "222:nda-11",
+          "source_case_id": 222,
+          "source_sha256": "8249c1e0b86821b8ea78b135270e992a7e0254b22e00b36b1a15e16d76238591",
+          "hypothesis_id": "nda-11",
+          "original_training_label": "Entailment",
+          "complete_original_evidence_texts": [
+            "4.1.2 the SP will not use (except as permitted in 3 above) or disclose or divulge or copy or reproduce or publish or circulate or reverse or engineer and/or decompile or otherwise transfer, whether directly or indirectly, the confidential information of the other party to any other person or entity; and the SP shall take all such steps as may be reasonably necessary to prevent FP's confidential information failing into the hands of unauthorised persons or entities;"
+          ]
+        }
+      ]
+    }
+  ],
+  "statistics": {
+    "operation_counts": {
+      "CREATE": 0,
+      "UPDATE": 0,
+      "DELETE": 0,
+      "MERGE": 1
+    },
+    "explicit_noop": false,
+    "parent_skill_count": 3,
+    "published_skill_count": 1,
+    "new_ids": [
+      "relation-first-complete-evidence-inspection"
+    ],
+    "removed_ids": [
+      "complete-responsive-source-membership",
+      "confidential-information-definition-boundaries",
+      "permission-prohibition-and-trigger-polarity"
+    ],
+    "verbatim_retained_ids": [],
+    "revised_retained_ids": [],
+    "serialized_library_tokens": 1880,
+    "guidance_characters": 1834,
+    "not_a_utility_score_or_publication_gate": true
+  },
+  "source_ids_actually_available_to_teacher": [
+    100,
+    135,
+    193,
+    203,
+    222,
+    255,
+    265,
+    280,
+    286,
+    304,
+    329,
+    339,
+    368,
+    382,
+    422,
+    460
+  ],
+  "all_valid_edits_used_without_utility_gate": true,
+  "complete_model_delivered_knowledge_target8B_tokens": 1880,
+  "internal_audit_storage_target8B_tokens_reported_separately": 2906,
+  "exact_tokenizer_budget_requests_not_native_generations": 156
+}

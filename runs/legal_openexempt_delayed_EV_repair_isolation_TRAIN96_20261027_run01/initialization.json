@@ -1,0 +1,203 @@
+{
+  "execution_dispatch": {
+    "policy": "ordered_independent_phases_v1",
+    "native_workers": 4,
+    "teacher_workers": 1,
+    "required_max_num_seqs": 4
+  },
+  "bank": [
+    {
+      "id": "arizona-apparel-medical-and-ring-boundaries",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Arizona exemptions are allowable and the facts describe clothing, jewelry or a ring, household goods, or a physician-authorized medical aid.",
+            "procedure": "Treat ordinary clothing, including coats, blazers, suits, and work overalls, as wearing apparel under Ariz. Rev. Stat. § 33-1125(1). Treat physician-authorized medical mobility or oxygen equipment as a prescribed prosthesis or aid under § 33-1125(9). Apply § 33-1125(4) only to engagement or wedding rings.",
+            "avoid_when": "Do not treat jewelry as wearing apparel or household furnishings, place a prescribed medical aid under § 33-1123 merely because it is kept at home, or extend the engagement-and-wedding-ring provision to anniversary, cocktail, or ordinary jewelry."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Arizona exemptions are allowable and the facts describe clothing, jewelry or a ring, or physician-authorized respiratory or mobility equipment.",
+            "procedure": "Classify the asset before valuing it. Use Ariz. Rev. Stat. § 33-1125(1) for ordinary clothing, § 33-1125(9) for physician-authorized respiratory or mobility equipment, and § 33-1125(4) only for an engagement or wedding ring. Paragraph (9) has no stated dollar ceiling, so report the whole prescribed aid's value.",
+            "avoid_when": "Do not claim § 33-1125(1) for a bracelet, necklace, or other jewelry; do not claim § 33-1125(4) for an anniversary, cocktail, or ordinary ring; and do not substitute § 33-1123 for a prescribed medical aid."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "federal-specific-personal-property-boundaries",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Federal § 522(d) exemptions are allowable and the asset qualifies as a motor vehicle under § 522(d)(2), listed household-use property under § 522(d)(3), or jewelry under § 522(d)(4).",
+            "procedure": "For § 522(d)(2), report the lesser of the whole named motor vehicle's value and $4,450. For § 522(d)(3), report the lesser of the whole named item's value and $700. For § 522(d)(4), report the lesser of the whole named jewelry asset's value and $1,875. These are asset-level outputs; retain § 522(d)(5) as a separate alternative.",
+            "avoid_when": "Do not multiply these ceilings merely because there are joint debtors or the description says pair or set, use the $14,875 aggregate ceiling for one item, classify jewelry or firearms under § 522(d)(3), or omit an eligible specific paragraph because the asset exceeds its ceiling."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "federal-wildcard-independent-alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Federal exemptions under 11 U.S.C. § 522(d) are an allowable namespace for the case.",
+            "procedure": "Treat 11 U.S.C. § 522(d)(5) as an independently applicable alternative for every estate asset because it covers any property. Retain every applicable specific federal exemption as a separate alternative; fitting a specific paragraph does not displace paragraph (5).",
+            "avoid_when": "Do not apply paragraph (5) when federal § 522(d) exemptions are unavailable under the supplied allowable jurisdictions. Do not treat its dollar ceiling as an EC eligibility test."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Federal exemptions under 11 U.S.C. § 522(d) are an allowable namespace for the case.",
+            "procedure": "Include 11 U.S.C. § 522(d)(5) independently for every asset, including real property and property covered by another federal paragraph. Report the whole named asset amount as the lesser of its value and $15,425 for one debtor, or the lesser of its value and $30,850 for two equal-interest joint debtors.",
+            "avoid_when": "Do not omit paragraph (5) because another exemption applies or the asset exceeds the ceiling, allocate it across assets, report the ceiling when the asset is worth less, use only one debtor's $15,425 for two joint debtors, or double it without two debtors."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "illinois-other-personal-property-alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Illinois exemptions are allowable and the asset is personal property used for personal rather than business purposes.",
+            "procedure": "Include 735 Ill. Comp. Stat. 5/12-1001(b) as an independent alternative for the asset even when its value exceeds $4,000. Retain any separately applicable wearing-apparel, motor-vehicle, tools-of-trade, or prescribed-health-aid alternative.",
+            "avoid_when": "Do not omit subsection (b) because a specific subsection also applies or because the asset exceeds its ceiling, and do not apply the personal-property exemptions to business-use property."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Illinois exemptions are allowable and the asset is personal property used for personal rather than business purposes.",
+            "procedure": "Always evaluate 735 Ill. Comp. Stat. 5/12-1001(b): report the lesser of value and $4,000 for one debtor, or the lesser of value and $8,000 for two equal-interest joint debtors. Independently retain subsection (a) for necessary wearing apparel at whole asset value, subsection (c) for a motor vehicle at the lesser of whole asset value and $2,400, and subsection (e) for a professionally prescribed health aid at whole asset value.",
+            "avoid_when": "Do not omit subsection (b) when a specific subsection applies or the asset exceeds $4,000, double subsection (c)'s $2,400 asset-level result merely because there are two debtors, omit subsection (a) because apparel exceeds another jurisdiction's clothing limit, treat personal-use tools as tools of trade without a business-use fact, or leave a half-interest as the final amount."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "oregon-any-personal-property-alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Oregon exemptions are allowable and the asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent alternative for the asset, while retaining every applicable category-specific Oregon and federal exemption.",
+            "avoid_when": "Do not apply paragraph (p) to real property, and do not omit it merely because the asset also fits wearing apparel, jewelry, household goods, animals, vehicles, health aids, or another specific category."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Oregon exemptions are allowable and the asset is personal property, including a vehicle, firearm, jewelry, apparel, health aid, or household item.",
+            "procedure": "Always include Or. Rev. Stat. § 18.345(1)(p) independently, then retain every applicable specific Oregon and federal alternative. Report the whole named asset amount as the lesser of its value and $400.",
+            "avoid_when": "Do not treat $400 as an eligibility cutoff, omit paragraph (p) because a specific exemption applies, apply it to real property, report $400 for property worth less, allocate it across assets, or double it solely for joint debtors."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "oregon-joint-homestead-valuation",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Oregon exemptions are allowable and the asset is an occupied homestead under Or. Rev. Stat. § 18.395(1).",
+            "procedure": "Report the protected amount for the whole homestead as the lesser of its value and $40,000 for one debtor. When two or more household members are debtors whose interests in the homestead are subject, use the statute's combined whole-homestead ceiling of $50,000.",
+            "avoid_when": "Do not use $40,000 for a qualifying joint-debtor homestead, multiply $40,000 by the number of debtors, or apply this homestead rule to personal property."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "pennsylvania-general-monetary-alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Pennsylvania exemptions are an allowable namespace for the case and the item is property of the judgment debtor.",
+            "procedure": "Include 42 Pa. Cons. Stat. § 8123 as an independent alternative for the asset because it applies to property generally. Keep any applicable federal or Pennsylvania particular-property exemption as an additional alternative.",
+            "avoid_when": "Do not treat § 8123 as displaced by a more specific exemption, and do not use it when Pennsylvania law is not among the supplied allowable jurisdictions."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Pennsylvania exemptions are allowable and the asset is property of the judgment debtor.",
+            "procedure": "Include 42 Pa. Cons. Stat. § 8123 independently for every asset, including real property, vehicles, tools, jewelry, instruments, and household property. Report the whole named asset amount as the lesser of its value and $300 for one debtor, or the lesser of its value and $600 for two equal-interest joint debtors.",
+            "avoid_when": "Do not omit § 8123 because the asset exceeds $300 or another exemption applies, allocate it across assets, substitute an unrelated § 8124 category, report only $300 for qualifying joint debtors, or report $600 when the asset is worth less."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    }
+  ],
+  "parent_publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b2.json",
+  "initial_library_kind": "historical_actual_B2_parent_for_TRAIN_counterfactual_only",
+  "initial_case_exposure": 32,
+  "all_episode_labels_unseen_before_this_run": false,
+  "prior_stateless_queries_without_label_feedback": [],
+  "input_contract": null,
+  "frozen_after_first_batch_evaluation_only": false,
+  "frozen_after_B1_answers_never_teacher_or_admission_feedback": true
+}

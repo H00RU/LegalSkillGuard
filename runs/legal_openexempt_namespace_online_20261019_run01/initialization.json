@@ -1,0 +1,314 @@
+{
+  "bank": [
+    {
+      "id": "scheme_selection_and_ev",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Always apply before classifying assets. Use only jurisdictions already declared allowable in the facts or public prior.",
+        "procedure": "Enumerate every eligible asset-citation alternative, not a final portfolio. Federal section 522(d) and applicable state/local exemptions are alternative schemes under 11 U.S.C. § 522(b); joint debtors cannot split schemes. Arizona and Illinois expressly prohibit section 522(d); do not infer another state's opt-out. For EV, assess each asset-citation pair independently, preserve the exact asset name/value and citation, and use null only when this bank publishes an operator for that citation. Aggregate caps remain legal constraints even though the task does not allocate them across assets. N is 1 or 2 debtors; spouse multiplication applies only where the supplied text supports separate exemptions.",
+        "avoid_when": "Do not recompute domicile or allowable jurisdictions, mix elected schemes into one portfolio, add claims together, infer eligibility from an operator, or treat an aggregate ceiling as a per-item entitlement.",
+        "operators": [],
+        "jurisdiction": "ALL"
+      }
+    },
+    {
+      "id": "federal_522d",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use only when the federal section 522(d) scheme is allowable: residence or burial plot (d)(1); one motor vehicle (d)(2); enumerated personal or household items (d)(3); personal/family jewelry (d)(4); any property wildcard (d)(5); trade tools/books/implements (d)(6); professionally prescribed health aids (d)(9).",
+        "procedure": "Section 522(m) gives each joint debtor a separate exemption, subject to the common scheme election. The formulas combine equal jointly owned interests. For (d)(3), the routine is for one particular item; a qualifying collection instead requires inline min(V,14875*N), while no individual item may exceed 700 per debtor. The (d)(5) routine states the maximum independent alternative: 1475 plus 13950 of wholly unused (d)(1), per debtor. If less (d)(1) remains unused, calculate the supported numeric ceiling inline. Health aids have no dollar ceiling, so use inline unlimited.",
+        "avoid_when": "Do not use section 522(d) for Arizona or Illinois residents, use (d)(3) for unlisted property, multiply a single debtor's cap merely because property is jointly held, or call the (d)(5) routine when the full unused-homestead amount is unavailable under the intended alternative.",
+        "operators": [
+          {
+            "id": "fed_home",
+            "citation": "11 U.S.C. § 522(d)(1)",
+            "limit_expression": "min(V,27900*N)"
+          },
+          {
+            "id": "fed_vehicle",
+            "citation": "11 U.S.C. § 522(d)(2)",
+            "limit_expression": "min(V,4450*N)"
+          },
+          {
+            "id": "fed_household_item",
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "limit_expression": "min(V,700*N)"
+          },
+          {
+            "id": "fed_jewelry",
+            "citation": "11 U.S.C. § 522(d)(4)",
+            "limit_expression": "min(V,1875*N)"
+          },
+          {
+            "id": "fed_wildcard_max",
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "limit_expression": "min(V,15425*N)"
+          },
+          {
+            "id": "fed_tools",
+            "citation": "11 U.S.C. § 522(d)(6)",
+            "limit_expression": "min(V,2800*N)"
+          }
+        ],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "arizona_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Arizona law. Match the occupied homestead or qualifying proceeds; household property not otherwise specifically prescribed; the specifically listed personal items; one vehicle; prescribed prostheses; one qualifying account; and qualifying business, trade, professional or farm property.",
+        "procedure": "Arizona opts out of section 522(d). Under section 33-1121 each spouse may claim and combine article exemptions, reflected by N, except section 33-1101 permits only one 400000 homestead for a married couple. Homestead proceeds retain that ceiling only while identifiable and until the earlier of eighteen months or establishing a new homestead. Section 33-1123 is residual to items specifically prescribed elsewhere. Use inline unlimited for eligible prescribed prostheses under 33-1125(9) and domestic animals or household pets under 33-1125(11).",
+        "avoid_when": "Do not double the homestead, claim multiple simultaneous homesteads, use 33-1123 for specifically prescribed property, treat a personal commuting vehicle as a trade tool, or ignore single-account, necessity, primary-use, aggregate, proceeds, or time conditions.",
+        "operators": [
+          {
+            "id": "az_home",
+            "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+            "limit_expression": "min(V,400000)"
+          },
+          {
+            "id": "az_home_proceeds",
+            "citation": "Ariz. Rev. Stat. § 33-1101(C)",
+            "limit_expression": "min(V,400000)"
+          },
+          {
+            "id": "az_household",
+            "citation": "Ariz. Rev. Stat. § 33-1123",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "az_apparel",
+            "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+            "limit_expression": "min(V,500*N)"
+          },
+          {
+            "id": "az_instruments",
+            "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+            "limit_expression": "min(V,400*N)"
+          },
+          {
+            "id": "az_livestock",
+            "citation": "Ariz. Rev. Stat. § 33-1125(3)",
+            "limit_expression": "min(V,1000*N)"
+          },
+          {
+            "id": "az_rings",
+            "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+            "limit_expression": "min(V,2000*N)"
+          },
+          {
+            "id": "az_library",
+            "citation": "Ariz. Rev. Stat. § 33-1125(5)",
+            "limit_expression": "min(V,250*N)"
+          },
+          {
+            "id": "az_watch",
+            "citation": "Ariz. Rev. Stat. § 33-1125(6)",
+            "limit_expression": "min(V,250*N)"
+          },
+          {
+            "id": "az_vehicle",
+            "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "az_firearms",
+            "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+            "limit_expression": "min(V,2000*N)"
+          },
+          {
+            "id": "az_account",
+            "citation": "Ariz. Rev. Stat. § 33-1126(A)(9)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "az_trade_tools",
+            "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "az_farm_property",
+            "citation": "Ariz. Rev. Stat. § 33-1130(2)",
+            "limit_expression": "min(V,2500*N)"
+          }
+        ],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "illinois_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Illinois law: occupied residence interests and qualifying sale proceeds; necessary apparel, Bible, school books and family pictures; the personal-property residual; one motor vehicle; trade implements/books/tools; and prescribed health aids.",
+        "procedure": "Illinois opts out of section 522(d). With the stipulated equal joint ownership, section 12-901 supplies 15000 for one debtor and a combined 30000 for two owners. Qualifying proceeds retain 15000 per entitled person for one year. Section 12-1001(b) is the residual alternative for personal property, including property also having a specific alternative; enumerate citations independently. Use inline unlimited for 12-1001(a) and (e).",
+        "avoid_when": "Do not exceed an owner's proportionate homestead share, use proceeds after one year without reinvestment protection, apply personal-property exemptions to business property, or stack independently reported alternatives into a final recovery.",
+        "operators": [
+          {
+            "id": "il_home",
+            "citation": "735 Ill. Comp. Stat. 5/12-901",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "il_home_proceeds",
+            "citation": "735 Ill. Comp. Stat. 5/12-906",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "il_residual",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "limit_expression": "min(V,4000*N)"
+          },
+          {
+            "id": "il_vehicle",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+            "limit_expression": "min(V,2400*N)"
+          },
+          {
+            "id": "il_tools",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+            "limit_expression": "min(V,1500*N)"
+          }
+        ],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "oregon_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Oregon law. Classify under the exact categories in 18.345, the personal-property residual, one qualifying firearm per person, or the occupied homestead and qualifying proceeds.",
+        "procedure": "For joint household judgment debtors, only 18.345(1)(a),(b),(c),(d),(p) are separately claimable and combinable, hence their N formulas; (e),(f),(h) are not doubled by 18.345(3). For 18.345(1)(e), write inline min(V,1000) for animals/poultry but unlimited for eligible 60-day food. For (f), write min(V,3000) for household goods and unlimited for eligible 60-day provisions or fuel. Prescribed health aids use unlimited. The homestead routine uses the special combined 50000 ceiling for two household debtors; the same ceiling governs qualifying one-year proceeds intended for another homestead.",
+        "avoid_when": "Do not double categories omitted from 18.345(3), disregard necessity or habitual-earnings requirements for tools, claim more than one qualifying firearm per person, or use the two-debtor homestead ceiling unless both household members' interests are exposed.",
+        "operators": [
+          {
+            "id": "or_books_music",
+            "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+            "limit_expression": "min(V,600*N)"
+          },
+          {
+            "id": "or_apparel_jewelry",
+            "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+            "limit_expression": "min(V,1800*N)"
+          },
+          {
+            "id": "or_tools",
+            "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "or_vehicle",
+            "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+            "limit_expression": "min(V,3000*N)"
+          },
+          {
+            "id": "or_residual",
+            "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+            "limit_expression": "min(V,400*N)"
+          },
+          {
+            "id": "or_firearm",
+            "citation": "Or. Rev. Stat. § 18.362",
+            "limit_expression": "min(V,1000*N)"
+          },
+          {
+            "id": "or_home",
+            "citation": "Or. Rev. Stat. § 18.395(1)",
+            "limit_expression": "min(V,50000 if N==2 else 40000)"
+          },
+          {
+            "id": "or_home_proceeds",
+            "citation": "Or. Rev. Stat. § 18.395(2)",
+            "limit_expression": "min(V,50000 if N==2 else 40000)"
+          }
+        ],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "pennsylvania_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Pennsylvania law. Section 8123 reaches property generally; section 8124 separately covers wearing apparel, Bibles and school books, qualifying family or seamstress sewing machines, and qualifying military uniforms and accoutrements.",
+        "procedure": "Enumerate section 8123 along with any applicable specific citation because it is expressly additional. Each spouse has a separate 300 exemption. Use inline unlimited for eligible 8124(a)(1)-(4), because those provisions state no dollar ceiling.",
+        "avoid_when": "Do not treat unlimited as eliminating the stated ownership, occupation, use, sale-or-hire, or military-status conditions; do not combine independent alternatives into a final portfolio.",
+        "operators": [
+          {
+            "id": "pa_general",
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "limit_expression": "min(V,300*N)"
+          }
+        ],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    },
+    {
+      "id": "wisconsin_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Wisconsin law: burial property; business/farm assets or the alternative closely held business interest; listed consumer goods; motor vehicles; personal nonbusiness depository accounts; and an occupied homestead or protected proceeds.",
+        "procedure": "Section 815.18(8) gives each spouse one capped exemption that may be combined, reflected by N. Business-interest paragraph (b)(2) is available only if (b)(1) is not claimed. Consumer goods have a 12000 aggregate cap per spouse. Motor vehicles have a 4000 base per spouse plus unused consumer-goods capacity; the routine gives the maximum independent ceiling of 16000 per spouse. If less consumer capacity remains, calculate a supported numeric expression inline. Burial property has no dollar ceiling and uses inline unlimited. Section 815.20 expressly allows each spouse 75000; protected sale proceeds keep that ceiling for two years while intended for another homestead.",
+        "avoid_when": "Do not claim both business alternatives, use a business account under (k), treat the transferred consumer-goods amount as available twice in a portfolio, classify a motor vehicle under the general consumer-goods residual instead of (g), or ignore occupancy, proceeds-intent, lien, tax, aggregate, or primary-use conditions.",
+        "operators": [
+          {
+            "id": "wi_business_assets",
+            "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "wi_business_interest",
+            "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "wi_consumer_goods",
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "limit_expression": "min(V,12000*N)"
+          },
+          {
+            "id": "wi_vehicle_max",
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "limit_expression": "min(V,16000*N)"
+          },
+          {
+            "id": "wi_accounts",
+            "citation": "Wis. Stat. § 815.18(3)(k)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "wi_home",
+            "citation": "Wis. Stat. § 815.20(1)",
+            "limit_expression": "min(V,75000*N)"
+          }
+        ],
+        "jurisdiction": "WISCONSIN"
+      }
+    }
+  ],
+  "parent_publication": "data/initial_libraries/openexempt_bank02_public_namespace_20261019/publication.json",
+  "initial_library_kind": "blind_bank02_unchanged_content_plus_explicit_public_namespace_metadata_not_trained_C1",
+  "initial_case_exposure": 0,
+  "all_episode_labels_unseen_before_this_run": true,
+  "prior_stateless_queries_without_label_feedback": [],
+  "input_contract": "explicit_public_AE_skill_scopes_and_common_public_labels_active_case_last"
+}

@@ -1,0 +1,240 @@
+{
+  "at": "2026-10-30T00:37:20.871049+00:00",
+  "bank": [
+    {
+      "id": "EC:independent-exemption-scan",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "For every EC asset after the allowable legal namespaces have been supplied.",
+            "procedure": "Test every exemption provision independently and retain all qualifying alternatives, including both a category-specific exemption and any independently applicable general-property exemption. A dollar ceiling limits protection; it does not make the citation ineligible merely because the asset value exceeds the ceiling. Emit each applicable citation once in a compact array.",
+            "avoid_when": "Do not cite definitions, opt-out rules, spouse-combination rules, or aggregate-limit provisions merely because they govern the case; cite them only if they themselves exempt the asset. Do not treat a specific exemption as displacing an independently applicable general-property exemption."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "For every EV asset after the allowable legal namespaces have been supplied.",
+            "procedure": "Test every substantive exemption independently. Retain every qualifying specific, wildcard, and general-property alternative together, emitting each citation once. For each alternative, report the protected amount for the whole named asset, limited by that asset's value and that provision's applicable ceiling.",
+            "avoid_when": "Do not cite enabling, opt-out, marital-coordination, or aggregate-limit provisions as asset exemptions. Do not omit a general alternative because a specific one applies. Do not leave a half-interest as the final amount or automatically double every ceiling merely because two debtors exist; apply the joint treatment stated for the particular provision."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ALL"
+      }
+    },
+    {
+      "id": "EC:federal-wildcard-and-category-eligibility",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When FEDERAL is an allowable namespace and an estate asset is being classified.",
+            "procedure": "Apply 11 U.S.C. § 522(d)(5) independently to any property, and retain it alongside every applicable specific paragraph. For §§ 522(d)(2), (3), and (4), decide EC eligibility from the asset category and stated use; the dollar limit affects the protected amount, not whether the EC citation applies.",
+            "avoid_when": "Do not impose the personal-use or listed-category conditions of §§ 522(d)(3) or (4) on the separate § 522(d)(5) alternative. Do not output §§ 522(b), 522(d), or 522(m) merely as enabling or joint-case provisions."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When FEDERAL is allowable and an estate asset is being valued.",
+            "procedure": "Apply § 522(d)(5) independently to any property and retain it beside every qualifying specific paragraph. Its ceiling is $1,475 plus up to $13,950 of unused § 522(d)(1), so use $15,425 per debtor when no used homestead amount is supplied; for two equal joint debtors, the whole-asset ceiling is $30,850. For specific alternatives, report the whole-asset value capped at $4,450 under (d)(2), $700 per particular item under (d)(3), or $1,875 under (d)(4); (d)(9) has no stated dollar ceiling.",
+            "avoid_when": "Do not restrict (d)(5) to the categories in (d)(2), (3), or (4), and do not omit it because a specific paragraph applies. Do not copy an uncapped asset value into (d)(3), or double the (d)(2), (d)(3), or (d)(4) asset-level ceiling solely because there are two debtors. Do not output §§ 522(b), 522(d), or 522(m) as asset exemptions."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "EC:oregon-general-personal-property",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When OREGON is allowable and the asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent general-personal-property alternative, even when a specific Oregon exemption also covers the asset. Also retain the applicable specific category provision; the $400 ceiling does not determine EC eligibility.",
+            "avoid_when": "Do not apply § 18.345(1)(p) to real property. Do not omit it merely because the asset exceeds $400 or because apparel, jewelry, household goods, animals, vehicles, musical instruments, or health aids have a more specific exemption."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When OREGON is allowable and the asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) independently alongside every applicable specific Oregon exemption. Its protected amount for the whole named asset is the lesser of the asset value and $400.",
+            "avoid_when": "Do not apply § 18.345(1)(p) to real property, omit it because a specific category applies, or double its $400 asset-level result merely because the property is jointly owned. Do not output § 18.345(3) as an asset exemption."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "EC:pennsylvania-general-monetary",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When PENNSYLVANIA is allowable and the asset is property of the judgment debtor.",
+            "procedure": "Include 42 Pa. Cons. Stat. § 8123 as an independent general monetary exemption alongside any applicable specific Pennsylvania or federal exemption. Its $300 amount is a protection ceiling, not an EC eligibility test.",
+            "avoid_when": "Apply § 8124(a)(1) only to wearing apparel; do not classify firearms, jewelry, or other merely wearable or carried objects as wearing apparel."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When PENNSYLVANIA is allowable and the asset is property of the judgment debtor.",
+            "procedure": "Include 42 Pa. Cons. Stat. § 8123 independently alongside every applicable specific Pennsylvania or federal exemption. Report the lesser of the whole asset value and $300 for one debtor; because each spouse receives the exemption, use a $600 whole-asset ceiling for two equal joint debtors.",
+            "avoid_when": "Do not omit § 8123 because another exemption applies. Apply § 8124(a)(1) only to actual wearing apparel; firearms, jewelry, and other carried or worn objects are not wearing apparel merely for that reason."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    },
+    {
+      "id": "EC:illinois-any-other-property",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When ILLINOIS is allowable and the debtor owns personal-use personal property.",
+            "procedure": "Include 735 Ill. Comp. Stat. 5/12-1001(b) as an independent exemption for any other property, alongside a specific exemption such as wearing apparel, motor vehicle, or professionally prescribed health aid. The $4,000 ceiling does not defeat EC eligibility.",
+            "avoid_when": "Do not apply the § 12-1001 personal-property alternatives to business-use property. Do not treat jewelry as necessary wearing apparel under § 12-1001(a) merely because it is worn."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When ILLINOIS is allowable and the debtor owns personal-use personal property.",
+            "procedure": "Include 735 Ill. Comp. Stat. 5/12-1001(b) independently alongside any qualifying specific alternative. Its whole-asset amount is limited to $4,000 for one debtor or $8,000 for two equal joint debtors. For § 12-1001(c), report the lesser of the named vehicle's value and the $2,400 asset-level ceiling; wearing apparel under (a) and professionally prescribed health aids under (e) retain the asset value because those provisions state no dollar ceiling.",
+            "avoid_when": "Do not apply these personal-property alternatives to business-use property. Do not omit (b) because (a), (c), or (e) also applies, do not double the (c) vehicle ceiling merely because two debtors exist, and do not classify jewelry as necessary wearing apparel merely because it is worn."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "EC:arizona-substantive-citations",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When ARIZONA is allowable and an asset matches an Arizona homestead, household-goods, firearm, or motor-vehicle category.",
+            "procedure": "Use the substantive asset exemption: § 33-1101(A) for a qualifying occupied homestead, § 33-1123 for household furniture, goods, electronics, or appliances, § 33-1125(10) for firearms, and § 33-1125(8) for motor vehicles. A stated value above the statutory ceiling still permits the EC citation.",
+            "avoid_when": "Do not cite § 33-1101(B) or § 33-1121 merely because the debtors are married. Do not treat jewelry as wearing apparel under § 33-1125(1)."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When ARIZONA is allowable and an asset is tested against an Arizona substantive exemption.",
+            "procedure": "For the whole named asset, use the lesser of its value and $400,000 under § 33-1101(A), $15,000 under § 33-1123, $15,000 under § 33-1125(8), or $2,000 under § 33-1125(10). Apply § 33-1125(1) only to actual wearing apparel; jewelry qualifies only under a matching listed category, such as engagement or wedding rings under (4) or one watch under (6).",
+            "avoid_when": "Do not cite § 33-1101(B) or § 33-1121 as an asset exemption. Do not treat a pendant, necklace, bracelet, or other jewelry as wearing apparel, and do not create a general Arizona jewelry exemption from the specific ring and watch provisions."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "EC:wisconsin-consumer-goods",
+      "hypothesis_ids": [
+        "EC"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When WISCONSIN is allowable and tangible personal property is held primarily for personal, family, or household use.",
+            "procedure": "Apply Wis. Stat. § 815.18(3)(d) to its listed consumer-goods categories, including household goods and furnishings, apparel, jewelry, books, musical instruments, firearms, sporting goods, and animals. Retain any independently applicable federal alternative.",
+            "avoid_when": "Do not cite Wis. Stat. § 815.18(8) as an asset exemption merely because spouses may combine exemptions; it is a marital coordination rule. Do not use § 815.18(3)(d) for property held primarily for business use."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "WISCONSIN"
+      }
+    }
+  ],
+  "bank_sha256": "b4bcf4f2b0ac2027bd0a6764ea0e5275d64b3b451deff31a3dfbb06e4ee18896",
+  "publication_bank_sha256": "b4bcf4f2b0ac2027bd0a6764ea0e5275d64b3b451deff31a3dfbb06e4ee18896",
+  "source_case_ids_seen": [
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191,
+    192,
+    193,
+    194,
+    195,
+    196
+  ],
+  "source_keys_seen": [
+    "040f803b427653fa7172612cbf99e3222d2481cd6d59b3c496c78e2aa2699ca1",
+    "123847bd8d83236999813b018c75cb8665ca6d64c411f05da3ba8a6deb7d166e",
+    "19d7f576372c0a39f616bd6fe1609e2147b88790d4a2935389366aa64cffae6a",
+    "2c92eb3d00217c6ccf13db87c144fcc8dc0383b6cb7e92205cab5d29facc8664",
+    "2e3d1eb553a193043b9272298d3f58f5cffe6983c733808f591fbee0daacc1db",
+    "4db1c37536c2bf6cd89e8bbf7cb3211d51f033411e43df7e876540d20e58d8b6",
+    "5d7017468335a54a7d9981377e6d49ac2a9413851215a26ac5cf940d0c78519b",
+    "627d6101ee176526730eb3a40f2b847fba3368c74a17d8a5ff1d996745a6a305",
+    "69d39fa8827334b82aa2f3b803012bb9d69609af416422e2fde044dca70bb809",
+    "97709497a6a56e6fc6102c89928043e2472147bf1e5b69b70329acee068d4d49",
+    "9ea86bbfe2aba19c7849e3ee04a39380203bcaa0c5ef05a511ea3c5fa10a54fd",
+    "afb027708b41c3edd04dda5003d8731a7ffb1e77b40f2d3008600d349d60306a",
+    "be132b2389ea9eff1aced44b6958b67b7ab23083364d5a7713186b8e0b8b8a3e",
+    "dcbbb0b662ff2c673a0363757723daa9870b800c24946df136e2b5fa96c4344c",
+    "dd651e16bdf626870eb9f2c310ed0498d47668759b1609ef475dee1f780aea9d",
+    "ef3904bbfed00899c0560b94dd285d2a0078e1fb643327f616837d0422185ffa"
+  ],
+  "freeze_after_exactly_batch": 1,
+  "not_selected_by_later_performance_or_nonempty_success": true,
+  "evaluation_only_never_teacher_or_admission_feedback": true
+}

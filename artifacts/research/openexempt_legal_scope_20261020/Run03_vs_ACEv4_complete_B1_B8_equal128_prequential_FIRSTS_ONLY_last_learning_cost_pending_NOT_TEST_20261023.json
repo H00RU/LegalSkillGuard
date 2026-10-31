@@ -1,0 +1,576 @@
+{
+  "at": "2026-10-23T05:15:27.299577+00:00",
+  "classification": "Complete equal128source B1-B8 first-encounter TRAIN stream only; cold B1 included. ACE last TRAIN/publication and terminal total cost still pending; not TEST, mature final-bank comparison or independent-repeat result.",
+  "streams": {
+    "main": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "native_ACE": "runs/legal_openexempt_ace_public_assets128_20261022_run03"
+  },
+  "source_count": 128,
+  "source_IDs": [
+    181,
+    308
+  ],
+  "tasks_per_method": 256,
+  "tasks_per_family": 128,
+  "not768_independent_cases": true,
+  "one_learning_stream_seed45_each": true,
+  "aggregation": "Arithmetic source mean of original unrounded within-case metric, separately EC/EV; all invalid outputs retained at original score. No case/skill selection, repair, smoothing or TRAIN regeneration replaces first forecast.",
+  "complete_original_F1_metrics": {
+    "main": {
+      "EC": {
+        "tasks": 128,
+        "original_f1": 0.8202799479166667,
+        "full_output_f1_secondary": 0.8508075064005809,
+        "invalid_format_retained": 0
+      },
+      "EV": {
+        "tasks": 128,
+        "original_f1": 0.7916093129960318,
+        "full_output_f1_secondary": 0.7859659068849036,
+        "invalid_format_retained": 0
+      }
+    },
+    "ACE": {
+      "EC": {
+        "tasks": 128,
+        "original_f1": 0.6186709449404761,
+        "full_output_f1_secondary": 0.6564668105157656,
+        "invalid_format_retained": 4
+      },
+      "EV": {
+        "tasks": 128,
+        "original_f1": 0.5384736466209625,
+        "full_output_f1_secondary": 0.5353339179212576,
+        "invalid_format_retained": 9
+      }
+    },
+    "empty": {
+      "EC": {
+        "tasks": 128,
+        "original_f1": 0.6016753836951447,
+        "full_output_f1_secondary": 0.6388146301684778,
+        "invalid_format_retained": 0
+      },
+      "EV": {
+        "tasks": 128,
+        "original_f1": 0.629234871031746,
+        "full_output_f1_secondary": 0.6264575562746582,
+        "invalid_format_retained": 0
+      }
+    }
+  },
+  "paired_original_F1_effects": {
+    "main_minus_empty": {
+      "EC": {
+        "paired_sources": 128,
+        "mean_original_f1_difference": 0.21860456422152194,
+        "help": 77,
+        "hurt": 6,
+        "tie": 45
+      },
+      "EV": {
+        "paired_sources": 128,
+        "mean_original_f1_difference": 0.16237444196428572,
+        "help": 69,
+        "hurt": 4,
+        "tie": 55
+      }
+    },
+    "main_minus_native_ACE": {
+      "EC": {
+        "paired_sources": 128,
+        "mean_original_f1_difference": 0.20160900297619047,
+        "help": 75,
+        "hurt": 10,
+        "tie": 43
+      },
+      "EV": {
+        "paired_sources": 128,
+        "mean_original_f1_difference": 0.2531356663750692,
+        "help": 86,
+        "hurt": 11,
+        "tie": 31
+      }
+    }
+  },
+  "continual_main_vs_own_B1": {
+    "B2_B8_main_minus_actual_own_B1": {
+      "EC": {
+        "paired_sources": 112,
+        "mean_original_f1_difference": 0.00855654761904762,
+        "help": 10,
+        "hurt": 3,
+        "tie": 99
+      },
+      "EV": {
+        "paired_sources": 112,
+        "mean_original_f1_difference": 0.09393955498866212,
+        "help": 45,
+        "hurt": 8,
+        "tie": 59
+      }
+    },
+    "B3_B8_main_minus_actual_own_B1": {
+      "EC": {
+        "paired_sources": 96,
+        "mean_original_f1_difference": 0.00998263888888889,
+        "help": 10,
+        "hurt": 3,
+        "tie": 83
+      },
+      "EV": {
+        "paired_sources": 96,
+        "mean_original_f1_difference": 0.10959614748677247,
+        "help": 45,
+        "hurt": 8,
+        "tie": 43
+      }
+    }
+  },
+  "batch_results": [
+    {
+      "batch": 1,
+      "sources": 16,
+      "first_before_current_feedback": true,
+      "metrics": {
+        "main": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.6344990079365079,
+            "full_output_f1_secondary": 0.666220986257751,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.6635416666666667,
+            "full_output_f1_secondary": 0.6561211664152841,
+            "invalid_format_retained": 0
+          }
+        },
+        "ACE": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.5953125,
+            "full_output_f1_secondary": 0.6257167260843731,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.5529513888888888,
+            "full_output_f1_secondary": 0.5651981516290727,
+            "invalid_format_retained": 0
+          }
+        },
+        "empty": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.6344990079365079,
+            "full_output_f1_secondary": 0.666220986257751,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.6635416666666667,
+            "full_output_f1_secondary": 0.6561211664152841,
+            "invalid_format_retained": 0
+          }
+        }
+      },
+      "all32_recorded_direct_empty_answers_and_original_scores_equal_across_runs": true
+    },
+    {
+      "batch": 2,
+      "sources": 16,
+      "first_before_current_feedback": true,
+      "metrics": {
+        "main": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.8367683531746032,
+            "full_output_f1_secondary": 0.868383745543672,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.7444940476190476,
+            "full_output_f1_secondary": 0.7451696895582345,
+            "invalid_format_retained": 0
+          }
+        },
+        "ACE": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.6578621031746031,
+            "full_output_f1_secondary": 0.6814573906485671,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.6265873015873016,
+            "full_output_f1_secondary": 0.6256625727213962,
+            "invalid_format_retained": 0
+          }
+        },
+        "empty": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.6870535714285715,
+            "full_output_f1_secondary": 0.6999382092580622,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.6451388888888889,
+            "full_output_f1_secondary": 0.6383432315233786,
+            "invalid_format_retained": 0
+          }
+        }
+      },
+      "all32_recorded_direct_empty_answers_and_original_scores_equal_across_runs": true
+    },
+    {
+      "batch": 3,
+      "sources": 16,
+      "first_before_current_feedback": true,
+      "metrics": {
+        "main": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.9142113095238096,
+            "full_output_f1_secondary": 0.9157800834431269,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.8241815476190476,
+            "full_output_f1_secondary": 0.8354843073593073,
+            "invalid_format_retained": 0
+          }
+        },
+        "ACE": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.6153645833333333,
+            "full_output_f1_secondary": 0.6412812881562882,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.4869295634920635,
+            "full_output_f1_secondary": 0.4909878863826232,
+            "invalid_format_retained": 2
+          }
+        },
+        "empty": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.6470486111111111,
+            "full_output_f1_secondary": 0.6553693871273205,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.6079365079365079,
+            "full_output_f1_secondary": 0.6354679473003777,
+            "invalid_format_retained": 0
+          }
+        }
+      },
+      "all32_recorded_direct_empty_answers_and_original_scores_equal_across_runs": true
+    },
+    {
+      "batch": 4,
+      "sources": 16,
+      "first_before_current_feedback": true,
+      "metrics": {
+        "main": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.8385416666666666,
+            "full_output_f1_secondary": 0.8966852911685184,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.7984126984126984,
+            "full_output_f1_secondary": 0.7937385531135531,
+            "invalid_format_retained": 0
+          }
+        },
+        "ACE": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.49459325396825393,
+            "full_output_f1_secondary": 0.5746103161544338,
+            "invalid_format_retained": 1
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.5615158942364825,
+            "full_output_f1_secondary": 0.55056932242594,
+            "invalid_format_retained": 0
+          }
+        },
+        "empty": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.5495287698412699,
+            "full_output_f1_secondary": 0.6367156394330308,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.5716765873015873,
+            "full_output_f1_secondary": 0.5631030427905428,
+            "invalid_format_retained": 0
+          }
+        }
+      },
+      "all32_recorded_direct_empty_answers_and_original_scores_equal_across_runs": true
+    },
+    {
+      "batch": 5,
+      "sources": 16,
+      "first_before_current_feedback": true,
+      "metrics": {
+        "main": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.8677083333333333,
+            "full_output_f1_secondary": 0.8970577485380117,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.8082837301587301,
+            "full_output_f1_secondary": 0.7773090579011632,
+            "invalid_format_retained": 0
+          }
+        },
+        "ACE": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.56875,
+            "full_output_f1_secondary": 0.6075484360410831,
+            "invalid_format_retained": 1
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.5594594559798953,
+            "full_output_f1_secondary": 0.5614735012462285,
+            "invalid_format_retained": 1
+          }
+        },
+        "empty": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.5597222222222222,
+            "full_output_f1_secondary": 0.6091853408029879,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.653125,
+            "full_output_f1_secondary": 0.6333104395604395,
+            "invalid_format_retained": 0
+          }
+        }
+      },
+      "all32_recorded_direct_empty_answers_and_original_scores_equal_across_runs": true
+    },
+    {
+      "batch": 6,
+      "sources": 16,
+      "first_before_current_feedback": true,
+      "metrics": {
+        "main": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.846031746031746,
+            "full_output_f1_secondary": 0.8976366487455197,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.8343501984126984,
+            "full_output_f1_secondary": 0.8350694444444444,
+            "invalid_format_retained": 0
+          }
+        },
+        "ACE": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.6270833333333333,
+            "full_output_f1_secondary": 0.6875,
+            "invalid_format_retained": 1
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.5706018518518519,
+            "full_output_f1_secondary": 0.5375267094017094,
+            "invalid_format_retained": 1
+          }
+        },
+        "empty": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.5631054505135388,
+            "full_output_f1_secondary": 0.612568082788671,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.6772321428571428,
+            "full_output_f1_secondary": 0.6634137426900585,
+            "invalid_format_retained": 0
+          }
+        }
+      },
+      "all32_recorded_direct_empty_answers_and_original_scores_equal_across_runs": true
+    },
+    {
+      "batch": 7,
+      "sources": 16,
+      "first_before_current_feedback": true,
+      "metrics": {
+        "main": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.7854662698412699,
+            "full_output_f1_secondary": 0.8079517704517705,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.8075520833333333,
+            "full_output_f1_secondary": 0.7934388528138528,
+            "invalid_format_retained": 0
+          }
+        },
+        "ACE": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.6472222222222223,
+            "full_output_f1_secondary": 0.6910714285714286,
+            "invalid_format_retained": 1
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.4386904761904762,
+            "full_output_f1_secondary": 0.4350676370413213,
+            "invalid_format_retained": 3
+          }
+        },
+        "empty": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.58125,
+            "full_output_f1_secondary": 0.6203723155929038,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.615625,
+            "full_output_f1_secondary": 0.613640873015873,
+            "invalid_format_retained": 0
+          }
+        }
+      },
+      "all32_recorded_direct_empty_answers_and_original_scores_equal_across_runs": true
+    },
+    {
+      "batch": 8,
+      "sources": 16,
+      "first_before_current_feedback": true,
+      "metrics": {
+        "main": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.8390128968253968,
+            "full_output_f1_secondary": 0.856743777056277,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.8520585317460317,
+            "full_output_f1_secondary": 0.8513961834733894,
+            "invalid_format_retained": 0
+          }
+        },
+        "ACE": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.7431795634920635,
+            "full_output_f1_secondary": 0.7425488984699511,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.5110532407407408,
+            "full_output_f1_secondary": 0.5161855625217694,
+            "invalid_format_retained": 2
+          }
+        },
+        "empty": {
+          "EC": {
+            "tasks": 16,
+            "original_f1": 0.5911954365079365,
+            "full_output_f1_secondary": 0.6101470800870956,
+            "invalid_format_retained": 0
+          },
+          "EV": {
+            "tasks": 16,
+            "original_f1": 0.5996031746031746,
+            "full_output_f1_secondary": 0.6082600069013112,
+            "invalid_format_retained": 0
+          }
+        }
+      },
+      "all32_recorded_direct_empty_answers_and_original_scores_equal_across_runs": true
+    }
+  ],
+  "all256_recorded_common_direct_empty_predictions_and_original_scores_equal": true,
+  "this_report_aggregates_original_score_cells_not_a_new_full_HTTP_or_scoring_reaudit": true,
+  "existing_batch_native_HTTP_and_target_audits_remain_original_evidence": true,
+  "native_ACE_EV_perfect_invalid_unrealistic_upper_bound_diagnostic": {
+    "original": 0.5384736466209625,
+    "invalid_tasks": 9,
+    "hypothetical_upper_if_all_invalid_were1": 0.6087861466209625,
+    "shared_direct_empty": 0.629234871031746,
+    "upper_still_below_direct_empty": true,
+    "not_repaired_scores_or_performance_estimate": true
+  },
+  "cold_native_ACE_prompt_wrapper_differs_from_shared_direct_reference_before_learning": true,
+  "system_difference_not_pure_memory_mechanism_causal_effect_or_statistical_significance": true,
+  "ACE_unique_B8_publication_complete": false,
+  "ACE_natural_terminal_complete": false,
+  "final_all_actual_teacher_native_cost_and_terminal_summary_are_still_queued_not_invented": true,
+  "formal_TEST_semantics_labels_predictions_scores_not_read": true,
+  "no_actor_teacher_tokenizer_or_TEST_calls": true,
+  "evidence_sha256": {
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b1_prequential_records.json": "5304ea4bc2b43f95e518cdb020496dfe1629b835e6a873d83b964138f27da988",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/batches/b1_records.json": "68872b0ff7c8e2cbc1ea8926323a5305bdf2606b556cbd9dd1a1fc83ada64a8f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b2_prequential_records.json": "6474e1b64e7b8d61207e4519119c048b1f74a82884bc88f83a06ba05349430fe",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/batches/b2_records.json": "ca660326eabcade2ab45e71d46c6c5be18fa6ff356cc45788bde40b000748662",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b3_prequential_records.json": "3f746e10fb6f404e60e2984a261b494333bbe10dc2a320ee4f9a2ba371db271d",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/batches/b3_records.json": "f3a6b1cc8c93f021abbfac3da564dc5ca75404dfc78d9369a88558baa1cd31eb",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b4_prequential_records.json": "3eb06df9078689f5d5118a4e828221e68da946b3c396f4d13d572deae2d36d87",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/batches/b4_records.json": "6c2301fafd70b1d1a78fe485c6297796debb3ccb52e599bb709a2b73aa095542",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b5_prequential_records.json": "c83e8bba72339c43b6a7aca1bc11ba8796a41a3b80f71d9449008ba567be4aad",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/batches/b5_records.json": "690933fc81190d2dacd6b419a7361d3b82727202858f7f1db1c26794734c0a5f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b6_prequential_records.json": "7a89ca60b8bacbcbfa013cc9f7d87ba953e2f44224c2d3faee086f14406324bb",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/batches/b6_records.json": "9b0763955a2ad9440195303bfb14001a9011ed0a13fb82fe72a26a9b5feb50d3",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b7_prequential_records.json": "8032c012429f612cad2c917080c5d770b812cf7d7cefe8006c94308e5949416c",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/batches/b7_records.json": "0da11eab8ab5ac72d80b17fc5a6f40a91e5b15f6fe2626761630fe23efd62796",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b8_prequential_records.json": "98a43266ff0563e594cf2a5db2349f45af2269ccf6afd9154cfb89e29fbc4d40",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/batches/b8_records.json": "6fb99f95babc6538166edb3aa57196da2888b4b308140e541b9cc472b4fc8f8f",
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_vs_ACEv4_complete_B1_B5_equal80_prequential_original_metrics_and616_548_retired10_12_cost_NOT_final_TEST_20261023.json": "a30121e585db81946f86c75a65ce076c0fc28eb2df067dbfac6f4aa0d4141732",
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run03_B8_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json": "a841296d7c6dd50d78cf78245d8ebad71f3028d6211c95122d219cbca6989d78",
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_actual_complete_B8_first96_automatic_dual_preservation_20261023.json": "893312a3388c228379a2547992d2b083d5acf2a9f89dc3b73ebf165d39b9eac0",
+    "configs/openexempt_closed_feedback_public_assets128_20261021_run03.json": "8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e",
+    "configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json": "2cc50e6cfe05fb42c230aba570eb43e9fcd41c3287011f77de8291fd89418825",
+    "configs/openexempt_ace_public_assets128_20261022_run03.json": "91b6c8d25ccb8d9a824bcda914558535da9a4fce3b59f32f48907d09379c385f",
+    "configs/openexempt_ace_public_assets128_20261022_run03.frozen.json": "2f8141c5b8e80db15885aad1895c58c1f716f2fc42cce603d74cadc758c3ffeb"
+  },
+  "recomputation_program": "import json,math,collections\nfrom pathlib import Path\nfrom legal_skill_guard.learning.experiment import read,sha,now\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nmroot=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\"\naroot=root/\"runs/legal_openexempt_ace_public_assets128_20261022_run03\"\nfamilies=(\"EC\",\"EV\");allrows={k:[] for k in (\"main\",\"ACE\",\"empty\",\"own_B1_post_B1\")}\nevidence={};by_batch=[];allcases=set();source_keys={}\nkey=lambda r:(r[\"case_id\"],r[\"family\"])\ndef metrics(rows):\n out={}\n for fam in families:\n  z=[r for r in rows if r[\"family\"]==fam];assert z\n  out[fam]={\"tasks\":len(z),\"original_f1\":math.fsum(float(r[\"score\"][\"f1\"]) for r in z)/len(z),\n   \"full_output_f1_secondary\":math.fsum(float(r[\"score\"][\"full_output_f1\"]) for r in z)/len(z),\n   \"invalid_format_retained\":sum(int(r[\"score\"].get(\"invalid_format\",0)) for r in z)}\n return out\ndef paired(left,right):\n a={key(r):r for r in left};b={key(r):r for r in right};assert a.keys()==b.keys()\n out={}\n for fam in families:\n  ds=[float(a[k][\"score\"][\"f1\"])-float(b[k][\"score\"][\"f1\"]) for k in sorted(a) if k[1]==fam]\n  out[fam]={\"paired_sources\":len(ds),\"mean_original_f1_difference\":math.fsum(ds)/len(ds),\n   \"help\":sum(d>1e-12 for d in ds),\"hurt\":sum(d< -1e-12 for d in ds),\"tie\":sum(abs(d)<=1e-12 for d in ds)}\n return out\nfor batch in range(1,9):\n mp=mroot/f\"batches/b{batch}_prequential_records.json\";ap=aroot/f\"batches/b{batch}_records.json\"\n m=read(mp);a=read(ap);evidence[str(mp.relative_to(root))]=sha(mp);evidence[str(ap.relative_to(root))]=sha(ap)\n expected={(cid,fam) for cid in range(181+(batch-1)*16,181+batch*16) for fam in families}\n for rows in [m[\"skills\"],m[\"empty_direct_numeric\"],a[\"ace\"],a[\"empty_direct_numeric\"]]:\n  assert len(rows)==32 and {key(r) for r in rows}==expected\n  assert all(r[\"stage\"]==f\"b{batch}_prequential\" for r in rows)\n  for r in rows:\n   assert 0<=float(r[\"score\"][\"f1\"])<=1\n   if r[\"case_id\"] in source_keys:assert source_keys[r[\"case_id\"]]==r[\"source_key\"]\n   else:source_keys[r[\"case_id\"]]=r[\"source_key\"]\n assert all(r[\"TRAIN_only\"] is False for r in a[\"ace\"])\n mc={key(r):r for r in m[\"empty_direct_numeric\"]};ac={key(r):r for r in a[\"empty_direct_numeric\"]}\n assert all(mc[k][\"parsed\"]==ac[k][\"parsed\"] and mc[k][\"score\"]==ac[k][\"score\"] and mc[k][\"parse_error\"]==ac[k][\"parse_error\"] for k in expected)\n assert all({key(r):r for r in a[\"empty\"]}[k][\"score\"]==ac[k][\"score\"] for k in expected)\n for method,rows in [(\"main\",m[\"skills\"]),(\"ACE\",a[\"ace\"]),(\"empty\",m[\"empty_direct_numeric\"])]:allrows[method].extend(rows)\n if batch>1:\n  assert len(m[\"frozen_after_B1\"])==32 and {key(r) for r in m[\"frozen_after_B1\"]}==expected\n  allrows[\"own_B1_post_B1\"].extend(m[\"frozen_after_B1\"])\n allcases.update(cid for cid,fam in expected)\n by_batch.append({\"batch\":batch,\"sources\":16,\"first_before_current_feedback\":True,\n  \"metrics\":{method:metrics(rows) for method,rows in [(\"main\",m[\"skills\"]),(\"ACE\",a[\"ace\"]),(\"empty\",m[\"empty_direct_numeric\"])]},\n  \"all32_recorded_direct_empty_answers_and_original_scores_equal_across_runs\":True})\nassert allcases==set(range(181,309)) and len(source_keys)==128 and len(set(source_keys.values()))==128\nfor method in (\"main\",\"ACE\",\"empty\"):\n assert len(allrows[method])==256 and len({key(r) for r in allrows[method]})==256\ntotals={method:metrics(allrows[method]) for method in (\"main\",\"ACE\",\"empty\")}\npairs={\"main_minus_empty\":paired(allrows[\"main\"],allrows[\"empty\"]),\"main_minus_native_ACE\":paired(allrows[\"main\"],allrows[\"ACE\"])}\ncontinual={}\nfor start in (2,3):\n left=[r for r in allrows[\"main\"] if r[\"case_id\"]>=181+(start-1)*16]\n right=[r for r in allrows[\"own_B1_post_B1\"] if r[\"case_id\"]>=181+(start-1)*16]\n continual[f\"B{start}_B8_main_minus_actual_own_B1\"]=paired(left,right)\n# The previously released80source checkpoint is a consistency reference, never a selector.\nfor method,expected in [(\"main\",{\"EC\":.818345734,\"EV\":.767782738}),(\"ACE\",{\"EC\":.586376488,\"EV\":.557488721})]:\n q=metrics([r for r in allrows[method] if r[\"case_id\"]<=260])\n assert all(abs(q[f][\"original_f1\"]-expected[f])<1e-7 for f in families)\nfor name in [\n\"Run03_vs_ACEv4_complete_B1_B5_equal80_prequential_original_metrics_and616_548_retired10_12_cost_NOT_final_TEST_20261023.json\",\n\"ACEv4_Run03_B8_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json\",\n\"ACEv4_actual_complete_B8_first96_automatic_dual_preservation_20261023.json\"]:\n path=base/name;evidence[str(path.relative_to(root))]=sha(path)\nfor name in [\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\",\"configs/openexempt_ace_public_assets128_20261022_run03.json\"]:\n evidence[name]=sha(root/name)\n evpath=Path(name).with_suffix(\".frozen.json\");evidence[str(evpath)]=sha(root/evpath)\ninvalid_ace=totals[\"ACE\"][\"EV\"][\"invalid_format_retained\"]\nunrealistic_upper=totals[\"ACE\"][\"EV\"][\"original_f1\"]+invalid_ace/128\nout={\"at\":now(),\"classification\":\"Complete equal128source B1-B8 first-encounter TRAIN stream only; cold B1 included. ACE last TRAIN/publication and terminal total cost still pending; not TEST, mature final-bank comparison or independent-repeat result.\",\n \"streams\":{\"main\":str(mroot.relative_to(root)),\"native_ACE\":str(aroot.relative_to(root))},\n \"source_count\":128,\"source_IDs\":[181,308],\"tasks_per_method\":256,\"tasks_per_family\":128,\n \"not768_independent_cases\":True,\"one_learning_stream_seed45_each\":True,\n \"aggregation\":\"Arithmetic source mean of original unrounded within-case metric, separately EC/EV; all invalid outputs retained at original score. No case/skill selection, repair, smoothing or TRAIN regeneration replaces first forecast.\",\n \"complete_original_F1_metrics\":totals,\"paired_original_F1_effects\":pairs,\n \"continual_main_vs_own_B1\":continual,\"batch_results\":by_batch,\n \"all256_recorded_common_direct_empty_predictions_and_original_scores_equal\":True,\n \"this_report_aggregates_original_score_cells_not_a_new_full_HTTP_or_scoring_reaudit\":True,\n \"existing_batch_native_HTTP_and_target_audits_remain_original_evidence\":True,\n \"native_ACE_EV_perfect_invalid_unrealistic_upper_bound_diagnostic\":{\"original\":totals[\"ACE\"][\"EV\"][\"original_f1\"],\"invalid_tasks\":invalid_ace,\"hypothetical_upper_if_all_invalid_were1\":unrealistic_upper,\"shared_direct_empty\":totals[\"empty\"][\"EV\"][\"original_f1\"],\"upper_still_below_direct_empty\":unrealistic_upper<totals[\"empty\"][\"EV\"][\"original_f1\"],\"not_repaired_scores_or_performance_estimate\":True},\n \"cold_native_ACE_prompt_wrapper_differs_from_shared_direct_reference_before_learning\":True,\n \"system_difference_not_pure_memory_mechanism_causal_effect_or_statistical_significance\":True,\n \"ACE_unique_B8_publication_complete\":(aroot/\"publications/b8.json\").exists(),\n \"ACE_natural_terminal_complete\":(aroot/\"completion.json\").exists(),\n \"final_all_actual_teacher_native_cost_and_terminal_summary_are_still_queued_not_invented\":True,\n \"formal_TEST_semantics_labels_predictions_scores_not_read\":True,\n \"no_actor_teacher_tokenizer_or_TEST_calls\":True,\"evidence_sha256\":evidence,\n \"recomputation_program\":PROGRAM}\ndest=base/\"Run03_vs_ACEv4_complete_B1_B8_equal128_prequential_FIRSTS_ONLY_last_learning_cost_pending_NOT_TEST_20261023.json\"\nRunStore.immutable_json(dest,out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"sources\":128,\"complete_original_F1_percent\":{method:{f:100*z[\"original_f1\"] for f,z in block.items()} for method,block in totals.items()},\n\"main_minus_native_ACE_pp\":{f:100*z[\"mean_original_f1_difference\"] for f,z in pairs[\"main_minus_native_ACE\"].items()},\n\"invalid_original_outputs\":{method:{f:z[\"invalid_format_retained\"] for f,z in block.items()} for method,block in totals.items()},\n\"ACE_EV_perfect_invalid_upper_percent\":100*unrealistic_upper,\"terminal_ACE_cost_still_pending\":True},ensure_ascii=False))\n"
+}

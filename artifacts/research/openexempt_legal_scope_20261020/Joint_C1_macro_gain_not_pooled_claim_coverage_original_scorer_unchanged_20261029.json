@@ -1,0 +1,76 @@
+{
+  "at": "2026-10-28T19:16:21.611708+00:00",
+  "scope": "Derived TRAIN metric aggregation audit only, no change to original scorer/admission or active run",
+  "EC_C1_original_native_macro": {
+    "before": 0.911514136904762,
+    "after": 0.9147755456349208
+  },
+  "EC_C1_complete_output_per_case_mean": {
+    "before": 0.9433379492571299,
+    "after": 0.9433681271829133
+  },
+  "pooled_original_claim_counts": {
+    "before": {
+      "EC": {
+        "tp": 812,
+        "fp": 11,
+        "fn": 85,
+        "f1": 0.9441860465116279
+      },
+      "EV": {
+        "tp": 797,
+        "fp": 72,
+        "fn": 100,
+        "f1": 0.9026047565118913
+      }
+    },
+    "whole": {
+      "EC": {
+        "tp": 794,
+        "fp": 19,
+        "fn": 103,
+        "f1": 0.928654970760234
+      },
+      "EV": {
+        "tp": 762,
+        "fp": 103,
+        "fn": 135,
+        "f1": 0.8649262202043133
+      }
+    },
+    "actual": {
+      "EC": {
+        "tp": 799,
+        "fp": 16,
+        "fn": 98,
+        "f1": 0.9334112149532711
+      },
+      "EV": {
+        "tp": 797,
+        "fp": 72,
+        "fn": 100,
+        "f1": 0.9026047565118913
+      }
+    }
+  },
+  "task069_EV_pooled_claims": {
+    "before": {
+      "tp": 797,
+      "fp": 72,
+      "fn": 100,
+      "f1": 0.9026047565118913
+    },
+    "after": {
+      "tp": 813,
+      "fp": 69,
+      "fn": 84,
+      "f1": 0.9139966273187183
+    }
+  },
+  "definition": "Global complete-claim microF1=2*sumTP/(2*sumTP+sumFP+sumFN); wrong-value prediction countsFP and corresponding unmet targetFN, exactly as original full-output matcher. Different aggregation, not original native benchmark score.",
+  "finding": "C1 acceptedEC native macro+0.3261pp/per-case completeF1+0.0030pp but pooledEC94.4186% to93.3411%,13fewer correct and5more extra claims. Original mean-based gate does not protect total legal-claim coverage. It is not proof of a broken native scorer or teacher-wording cause.",
+  "selection_consequence": "Do not treat or fuse the smallmacroEC gain as a broadquality improvement. Finish exact fixed2 control; compare allqualitymeasures before finalmethodchoice. No posthocchange to this live1430 protocol.",
+  "primary_plan": "Keep original nativeEC/EV primary16endpoints and complete-output per-case mean. Add explicitly named descriptive pooledclaimcounts/microF1 before opening newTEST; do not replace primary scores after inspecting results.",
+  "no_new_model_calls_or_TEST_reads": true,
+  "source_report": "artifacts/research/openexempt_legal_scope_20261020/Joint_C1_actual_EC_component208_rejected_whole_C2_real_parent32_20261029.json"
+}

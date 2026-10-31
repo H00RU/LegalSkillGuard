@@ -1,0 +1,1030 @@
+{
+  "at": "2026-10-26T21:17:32.462993+00:00",
+  "classification": "Complete rejected TRAIN C2 single WI EV card execution audit, not current TEST or a new model experiment",
+  "added_skill": {
+    "id": "wisconsin-motor-vehicle-value-with-unused-consumer-capacity",
+    "hypothesis_ids": [
+      "EV"
+    ],
+    "guidance": {
+      "by_task": [
+        {
+          "tasks": [
+            "EV"
+          ],
+          "when": "Wisconsin exemptions are allowable and valuing a motor vehicle under Wis. Stat. § 815.18(3)(g).",
+          "procedure": "Value the § 815.18(3)(g) alternative at the lesser of the vehicle value and $16,000 for one debtor or $32,000 for two equal joint debtors, because unused § 815.18(3)(d) capacity may be added to the vehicle ceiling. Reduce that maximum only if the facts state that consumer-goods capacity was actually consumed.",
+          "avoid_when": "Do not stop at the $4,000 base when the consumer-goods capacity is unused, double the ceiling for a single debtor, classify the vehicle separately under subsection (d), or apply these Wisconsin amounts to a Federal alternative."
+        }
+      ],
+      "operators": [],
+      "jurisdiction": "WISCONSIN"
+    }
+  },
+  "all9_parent_records_byte_identical": true,
+  "changed_EV_source_views": 27,
+  "unchanged_other_views": 229,
+  "native_grade_replays_matched_original_records": 54,
+  "native_matching": "Unmodified original asset matcher, Claim.normalized_citation and original relative-error<0.05 rule (epsilon1), not exact-dollar equality",
+  "cohort_all27": {
+    "sources": 27,
+    "parent_native_F1_percent": 84.11522633744859,
+    "candidate_native_F1_percent": 78.63168724279836
+  },
+  "cohort_current5": {
+    "sources": 5,
+    "parent_native_F1_percent": 71.55555555555556,
+    "candidate_native_F1_percent": 64
+  },
+  "cohort_prior22": {
+    "sources": 22,
+    "parent_native_F1_percent": 86.96969696969697,
+    "candidate_native_F1_percent": 81.9570707070707
+  },
+  "counts": {
+    "cases_hurt": 11,
+    "correct_to_missing": 15,
+    "FEDERAL__correct_to_missing": 13,
+    "correct_to_wrong_value": 11,
+    "FEDERAL__correct_to_wrong_value": 9,
+    "cases_tie": 12,
+    "cases_help": 4,
+    "wrong_value_to_correct": 8,
+    "WISCONSIN__wrong_value_to_correct": 6,
+    "FEDERAL__wrong_value_to_correct": 2,
+    "transition_candidate_exact_half_target": 6,
+    "WISCONSIN__correct_to_wrong_value": 2,
+    "WISCONSIN__correct_to_missing": 2,
+    "missing_to_correct": 2,
+    "FEDERAL__missing_to_correct": 2
+  },
+  "claim_transitions": [
+    {
+      "case_id": 184,
+      "asset": "gold Cuban link chain necklace (24 inch length)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 2475,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        2475
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 184,
+      "asset": "Springfield M1A semi-automatic rifle (.308 caliber)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 1845,
+      "parent_status": "correct",
+      "candidate_status": "wrong_value",
+      "parent_values": [
+        1845
+      ],
+      "candidate_values": [
+        1475
+      ],
+      "transition": "correct_to_wrong_value"
+    },
+    {
+      "case_id": 184,
+      "asset": "pair of ceramic table lamps with linen shades and USB ports",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 114,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        114
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 214,
+      "asset": "fur-trimmed parka with insulated lining and removable hood",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 1175,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        1175
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 227,
+      "asset": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+      "citation": "Wis. Stat. § 815.18(3)(g)",
+      "jurisdiction": "WISCONSIN",
+      "target": 6825,
+      "parent_status": "wrong_value",
+      "candidate_status": "correct",
+      "parent_values": [
+        4000
+      ],
+      "candidate_values": [
+        6825
+      ],
+      "transition": "wrong_value_to_correct"
+    },
+    {
+      "case_id": 245,
+      "asset": "Beretta 92FS 9mm handgun with laser sight",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 740,
+      "parent_status": "wrong_value",
+      "candidate_status": "correct",
+      "parent_values": [
+        370
+      ],
+      "candidate_values": [
+        740
+      ],
+      "transition": "wrong_value_to_correct"
+    },
+    {
+      "case_id": 245,
+      "asset": "Beretta 92FS 9mm handgun with laser sight",
+      "citation": "Wis. Stat. § 815.18(3)(d)",
+      "jurisdiction": "WISCONSIN",
+      "target": 740,
+      "parent_status": "wrong_value",
+      "candidate_status": "correct",
+      "parent_values": [
+        370
+      ],
+      "candidate_values": [
+        740
+      ],
+      "transition": "wrong_value_to_correct"
+    },
+    {
+      "case_id": 245,
+      "asset": "stained glass window panel with floral design",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 1025,
+      "parent_status": "wrong_value",
+      "candidate_status": "correct",
+      "parent_values": [
+        512.5
+      ],
+      "candidate_values": [
+        1025
+      ],
+      "transition": "wrong_value_to_correct"
+    },
+    {
+      "case_id": 245,
+      "asset": "stained glass window panel with floral design",
+      "citation": "Wis. Stat. § 815.18(3)(d)",
+      "jurisdiction": "WISCONSIN",
+      "target": 1025,
+      "parent_status": "wrong_value",
+      "candidate_status": "correct",
+      "parent_values": [
+        512.5
+      ],
+      "candidate_values": [
+        1025
+      ],
+      "transition": "wrong_value_to_correct"
+    },
+    {
+      "case_id": 253,
+      "asset": "seasonal wreath made of faux pine and berries",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 18,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        18
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 268,
+      "asset": "folding banquet table with adjustable height legs",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 175,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        175
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 268,
+      "asset": "two-bedroom split-level primary household with walkout basement and detached single-car garage",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 15425,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        15425
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 268,
+      "asset": "leather bomber jacket with zippered pockets and liner",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 930,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        930
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 270,
+      "asset": "cordless electric wine opener with foil cutter",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "jurisdiction": "FEDERAL",
+      "target": 460,
+      "parent_status": "correct",
+      "candidate_status": "wrong_value",
+      "parent_values": [
+        460
+      ],
+      "candidate_values": [
+        230
+      ],
+      "transition": "correct_to_wrong_value"
+    },
+    {
+      "case_id": 270,
+      "asset": "cordless electric wine opener with foil cutter",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 460,
+      "parent_status": "correct",
+      "candidate_status": "wrong_value",
+      "parent_values": [
+        460
+      ],
+      "candidate_values": [
+        230
+      ],
+      "transition": "correct_to_wrong_value"
+    },
+    {
+      "case_id": 270,
+      "asset": "cordless electric wine opener with foil cutter",
+      "citation": "Wis. Stat. § 815.18(3)(d)",
+      "jurisdiction": "WISCONSIN",
+      "target": 460,
+      "parent_status": "correct",
+      "candidate_status": "wrong_value",
+      "parent_values": [
+        460
+      ],
+      "candidate_values": [
+        230
+      ],
+      "transition": "correct_to_wrong_value"
+    },
+    {
+      "case_id": 270,
+      "asset": "emerald green satin evening gown with floor-length hem",
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "jurisdiction": "FEDERAL",
+      "target": 300,
+      "parent_status": "correct",
+      "candidate_status": "wrong_value",
+      "parent_values": [
+        300
+      ],
+      "candidate_values": [
+        150
+      ],
+      "transition": "correct_to_wrong_value"
+    },
+    {
+      "case_id": 270,
+      "asset": "emerald green satin evening gown with floor-length hem",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 300,
+      "parent_status": "correct",
+      "candidate_status": "wrong_value",
+      "parent_values": [
+        300
+      ],
+      "candidate_values": [
+        150
+      ],
+      "transition": "correct_to_wrong_value"
+    },
+    {
+      "case_id": 270,
+      "asset": "emerald green satin evening gown with floor-length hem",
+      "citation": "Wis. Stat. § 815.18(3)(d)",
+      "jurisdiction": "WISCONSIN",
+      "target": 300,
+      "parent_status": "correct",
+      "candidate_status": "wrong_value",
+      "parent_values": [
+        300
+      ],
+      "candidate_values": [
+        150
+      ],
+      "transition": "correct_to_wrong_value"
+    },
+    {
+      "case_id": 271,
+      "asset": "two-bedroom modular homestead with vinyl siding and full electric hookup",
+      "citation": "Wis. Stat. § 815.20(1)",
+      "jurisdiction": "WISCONSIN",
+      "target": 75000,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        75000
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 277,
+      "asset": "birthstone ring in sterling silver setting",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 140,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        140
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 277,
+      "asset": "oxford white 2003 Ford Explorer XLT SUV, 4-door configuration, 145k miles",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 4275,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        4275
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 278,
+      "asset": "silverstone metallic 2008 Chevrolet Malibu LT (143k mi)",
+      "citation": "11 U.S.C. § 522(d)(2)",
+      "jurisdiction": "FEDERAL",
+      "target": 4450,
+      "parent_status": "correct",
+      "candidate_status": "wrong_value",
+      "parent_values": [
+        4450
+      ],
+      "candidate_values": [
+        2809
+      ],
+      "transition": "correct_to_wrong_value"
+    },
+    {
+      "case_id": 278,
+      "asset": "silverstone metallic 2008 Chevrolet Malibu LT (143k mi)",
+      "citation": "Wis. Stat. § 815.18(3)(g)",
+      "jurisdiction": "WISCONSIN",
+      "target": 5618,
+      "parent_status": "wrong_value",
+      "candidate_status": "correct",
+      "parent_values": [
+        4000
+      ],
+      "candidate_values": [
+        5618
+      ],
+      "transition": "wrong_value_to_correct"
+    },
+    {
+      "case_id": 282,
+      "asset": "cordless electric drill with interchangeable bits and wall charger",
+      "citation": "Wis. Stat. § 815.18(3)(d)",
+      "jurisdiction": "WISCONSIN",
+      "target": 125,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        125
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 282,
+      "asset": "Glock 19 Gen5 9mm pistol with two magazines",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 575,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        575
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 287,
+      "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+      "citation": "Wis. Stat. § 815.18(3)(g)",
+      "jurisdiction": "WISCONSIN",
+      "target": 32000,
+      "parent_status": "wrong_value",
+      "candidate_status": "correct",
+      "parent_values": [
+        4000
+      ],
+      "candidate_values": [
+        32000
+      ],
+      "transition": "wrong_value_to_correct"
+    },
+    {
+      "case_id": 294,
+      "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+      "citation": "11 U.S.C. § 522(d)(2)",
+      "jurisdiction": "FEDERAL",
+      "target": 4450,
+      "parent_status": "correct",
+      "candidate_status": "wrong_value",
+      "parent_values": [
+        4450
+      ],
+      "candidate_values": [
+        8200
+      ],
+      "transition": "correct_to_wrong_value"
+    },
+    {
+      "case_id": 294,
+      "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+      "citation": "Wis. Stat. § 815.18(3)(g)",
+      "jurisdiction": "WISCONSIN",
+      "target": 8200,
+      "parent_status": "wrong_value",
+      "candidate_status": "correct",
+      "parent_values": [
+        4000
+      ],
+      "candidate_values": [
+        8000
+      ],
+      "transition": "wrong_value_to_correct"
+    },
+    {
+      "case_id": 301,
+      "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+      "citation": "11 U.S.C. § 522(d)(2)",
+      "jurisdiction": "FEDERAL",
+      "target": 4450,
+      "parent_status": "correct",
+      "candidate_status": "wrong_value",
+      "parent_values": [
+        4450
+      ],
+      "candidate_values": [
+        8900
+      ],
+      "transition": "correct_to_wrong_value"
+    },
+    {
+      "case_id": 301,
+      "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 15425,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        15425
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 301,
+      "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+      "citation": "11 U.S.C. § 522(d)(2)",
+      "jurisdiction": "FEDERAL",
+      "target": 4450,
+      "parent_status": "correct",
+      "candidate_status": "wrong_value",
+      "parent_values": [
+        4450
+      ],
+      "candidate_values": [
+        8900
+      ],
+      "transition": "correct_to_wrong_value"
+    },
+    {
+      "case_id": 301,
+      "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 9900,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        9900
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    },
+    {
+      "case_id": 303,
+      "asset": "step ladder with wide anti-slip treads and folding design",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 155,
+      "parent_status": "missing",
+      "candidate_status": "correct",
+      "parent_values": [],
+      "candidate_values": [
+        155
+      ],
+      "transition": "missing_to_correct"
+    },
+    {
+      "case_id": 303,
+      "asset": "huipil blouse with multicolor threads",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 30,
+      "parent_status": "missing",
+      "candidate_status": "correct",
+      "parent_values": [],
+      "candidate_values": [
+        30
+      ],
+      "transition": "missing_to_correct"
+    },
+    {
+      "case_id": 306,
+      "asset": "5-piece acoustic drum kit with cymbal stands",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "jurisdiction": "FEDERAL",
+      "target": 655,
+      "parent_status": "correct",
+      "candidate_status": "missing",
+      "parent_values": [
+        655
+      ],
+      "candidate_values": [],
+      "transition": "correct_to_missing"
+    }
+  ],
+  "all27_case_outcomes": [
+    {
+      "case_id": 184,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 0.7749999999999999,
+      "difference_pp": -22.500000000000007,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 0.7777777777777777,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b2_candidate2_replay/184_EV_candidate.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/184_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 3,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 185,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 1,
+      "difference_pp": 0,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 1,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b2_candidate2_replay/185_EV_candidate.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/185_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 186,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 1,
+      "difference_pp": 0,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 1,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b2_candidate2_replay/186_EV_candidate.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/186_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 203,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 1,
+      "difference_pp": 0,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 1,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b2_candidate2_replay/203_EV_candidate.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/203_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 212,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 1,
+      "difference_pp": 0,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 1,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b2_candidate2_replay/212_EV_candidate.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/212_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 213,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 1,
+      "difference_pp": 0,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 1,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b3_prequential/213_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/213_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 214,
+      "current_batch": false,
+      "parent_native_F1": 0.7999999999999999,
+      "candidate_native_F1": 0.7333333333333334,
+      "difference_pp": -6.666666666666654,
+      "parent_full_output_F1": 0.7999999999999999,
+      "candidate_full_output_F1": 0.7142857142857143,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b3_prequential/214_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/214_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 1,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 226,
+      "current_batch": false,
+      "parent_native_F1": 0.8000000000000002,
+      "candidate_native_F1": 0.8000000000000002,
+      "difference_pp": 0,
+      "parent_full_output_F1": 0.8,
+      "candidate_full_output_F1": 0.8,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b3_prequential/226_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/226_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 227,
+      "current_batch": false,
+      "parent_native_F1": 0.6666666666666666,
+      "candidate_native_F1": 0.7666666666666667,
+      "difference_pp": 10.000000000000009,
+      "parent_full_output_F1": 0.6666666666666665,
+      "candidate_full_output_F1": 0.7777777777777778,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b3_prequential/227_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/227_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 1
+    },
+    {
+      "case_id": 245,
+      "current_batch": false,
+      "parent_native_F1": 0.16666666666666666,
+      "candidate_native_F1": 1,
+      "difference_pp": 83.33333333333334,
+      "parent_full_output_F1": 0.20000000000000004,
+      "candidate_full_output_F1": 1,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b5_prequential/245_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/245_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 4
+    },
+    {
+      "case_id": 247,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 1,
+      "difference_pp": 0,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 1,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b5_prequential/247_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/247_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 253,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 0.9,
+      "difference_pp": -9.999999999999998,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 0.9090909090909091,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b5_prequential/253_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/253_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 1,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 265,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 1,
+      "difference_pp": 0,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 1,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b6_prequential/265_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/265_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 266,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 1,
+      "difference_pp": 0,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 1,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b6_prequential/266_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/266_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 268,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 0.8000000000000002,
+      "difference_pp": -19.999999999999986,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 0.8,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b6_prequential/268_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/268_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 3,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 270,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 0,
+      "difference_pp": -100,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 0,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b6_prequential/270_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/270_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 6,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 271,
+      "current_batch": false,
+      "parent_native_F1": 0.7,
+      "candidate_native_F1": 0.6000000000000001,
+      "difference_pp": -9.999999999999986,
+      "parent_full_output_F1": 0.7000000000000001,
+      "candidate_full_output_F1": 0.6,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 1,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b6_prequential/271_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/271_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 1,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 277,
+      "current_batch": false,
+      "parent_native_F1": 0.8333333333333333,
+      "candidate_native_F1": 0.6000000000000001,
+      "difference_pp": -23.333333333333318,
+      "parent_full_output_F1": 0.8333333333333334,
+      "candidate_full_output_F1": 0.6,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/277_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/277_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 2,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 278,
+      "current_batch": false,
+      "parent_native_F1": 0.7,
+      "candidate_native_F1": 0.6,
+      "difference_pp": -9.999999999999998,
+      "parent_full_output_F1": 0.7000000000000001,
+      "candidate_full_output_F1": 0.6086956521739131,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/278_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/278_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 1,
+      "native_incorrect_to_correct_claims": 1
+    },
+    {
+      "case_id": 282,
+      "current_batch": false,
+      "parent_native_F1": 0.7999999999999999,
+      "candidate_native_F1": 0.6222222222222222,
+      "difference_pp": -17.77777777777777,
+      "parent_full_output_F1": 0.7999999999999999,
+      "candidate_full_output_F1": 0.6153846153846154,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/282_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/282_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 2,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 287,
+      "current_batch": false,
+      "parent_native_F1": 0.6666666666666666,
+      "candidate_native_F1": 0.8333333333333333,
+      "difference_pp": 16.666666666666664,
+      "parent_full_output_F1": 0.6666666666666666,
+      "candidate_full_output_F1": 0.8333333333333334,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/287_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/287_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 1
+    },
+    {
+      "case_id": 289,
+      "current_batch": false,
+      "parent_native_F1": 1,
+      "candidate_native_F1": 1,
+      "difference_pp": 0,
+      "parent_full_output_F1": 1,
+      "candidate_full_output_F1": 1,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b7_prequential/289_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/289_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 294,
+      "current_batch": true,
+      "parent_native_F1": 0.6666666666666666,
+      "candidate_native_F1": 0.6666666666666666,
+      "difference_pp": 0,
+      "parent_full_output_F1": 0.6666666666666667,
+      "candidate_full_output_F1": 0.6666666666666667,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_prequential/294_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/294_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 1,
+      "native_incorrect_to_correct_claims": 1
+    },
+    {
+      "case_id": 298,
+      "current_batch": true,
+      "parent_native_F1": 0.6000000000000001,
+      "candidate_native_F1": 0.6000000000000001,
+      "difference_pp": 0,
+      "parent_full_output_F1": 0.6,
+      "candidate_full_output_F1": 0.6,
+      "parent_extra_or_duplicate_claims": 1,
+      "candidate_extra_or_duplicate_claims": 1,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_prequential/298_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/298_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 301,
+      "current_batch": true,
+      "parent_native_F1": 0.7777777777777777,
+      "candidate_native_F1": 0.3333333333333333,
+      "difference_pp": -44.444444444444436,
+      "parent_full_output_F1": 0.7777777777777778,
+      "candidate_full_output_F1": 0.375,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_prequential/301_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/301_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 4,
+      "native_incorrect_to_correct_claims": 0
+    },
+    {
+      "case_id": 303,
+      "current_batch": true,
+      "parent_native_F1": 0.8666666666666667,
+      "candidate_native_F1": 1,
+      "difference_pp": 13.33333333333333,
+      "parent_full_output_F1": 0.8571428571428571,
+      "candidate_full_output_F1": 1,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_prequential/303_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/303_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 0,
+      "native_incorrect_to_correct_claims": 2
+    },
+    {
+      "case_id": 306,
+      "current_batch": true,
+      "parent_native_F1": 0.6666666666666666,
+      "candidate_native_F1": 0.6000000000000001,
+      "difference_pp": -6.666666666666654,
+      "parent_full_output_F1": 0.6666666666666666,
+      "candidate_full_output_F1": 0.6,
+      "parent_extra_or_duplicate_claims": 0,
+      "candidate_extra_or_duplicate_claims": 0,
+      "parent_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_prequential/306_EV_skills.json",
+      "candidate_raw": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/native/b8_candidate2_replay/306_EV_candidate.json",
+      "native_correct_to_incorrect_claims": 1,
+      "native_incorrect_to_correct_claims": 0
+    }
+  ],
+  "not_a_unique_internal_model_causal_explanation_or_learning_population_estimate": true,
+  "same_frozen8B_requested_seed45_but_actual_serving_batch_history_may_differ": true,
+  "new_model_teacher_tokenizer_or_symbolic_solver_calls": 0,
+  "current_TEST_questions_predictions_targets_or_scores_read": false,
+  "reproducer_program": "import json,collections,math\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom legal_skill_guard.openexempt import upstream,evaluate\nfrom legal_skill_guard.learning.legal_namespace import citation_namespace\nroot=Path.cwd();out=root/'runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01'\ncfg=json.loads((root/'configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json').read_text())\nd=json.loads((out/'candidates/b8_candidate2.json').read_text());assert not d['accepted']\nbank=json.loads((out/'publications/b7.json').read_text())['bank'];proposed=d['proposed_bank']\na={s['id']:s for s in bank};b={s['id']:s for s in proposed}\nadded=set(b)-set(a);assert len(added)==1 and all(a[k]==b[k] for k in a)\nsid=next(iter(added));assert b[sid]['hypothesis_ids']==['EV'] and b[sid]['guidance']['jurisdiction']=='WISCONSIN'\nbefore={}\nfor batch in range(1,8):\n r=json.loads((out/f'batches/b{batch}_prequential_records.json').read_text())\n before.update({(r['case_id'],r['family']):r for r in r['skills']})\n for decision in json.loads((out/f'publications/b{batch}.json').read_text())['training_decisions']:\n  if decision['accepted']:before={(r['case_id'],r['family']):r for r in decision['actual_replay']}\nr=json.loads((out/'batches/b8_prequential_records.json').read_text())\nbefore.update({(r['case_id'],r['family']):r for r in r['skills']})\nafter={(r['case_id'],r['family']):r for r in d.get('proposed_replay',d['actual_replay'])}\nrows={(r['case_id'],r['family']):r for r in json.loads((root/cfg['input_packet']).read_text())['rows']}\nassert len(before)==len(after)==256\nchanged=[k for k in before if before[k]['raw_call_path']!=after[k]['raw_call_path']]\nassert len(changed)==27 and all(k[1]=='EV' and sid in after[k]['delivered_skill_ids'] for k in changed)\ne=upstream('evaluator').Evaluator([]);Claim=upstream('source.pydantic_response').Claim\ntransitions=[];cases=[];summary=collections.Counter();grade_checks=0\ndef view(answer,target):\n normalized={k.strip().lower():v for k,v in answer.items()};result={};used=set();extras=[]\n for asset,truth in target.items():\n  match=e._find_matching_asset_description(asset.strip().lower(),list(normalized))\n  supplied=normalized[match] if match is not None and match not in used else []\n  if match is not None:used.add(match)\n  tmap={Claim(**t).normalized_citation:Claim(**t) for t in truth}\n  all_truth={Claim(**t).normalized_citation:t for t in truth}\n  found=collections.defaultdict(list)\n  for v in supplied:\n   claim=Claim(**v);matched,rel=e._find_matching_claim(claim,list(tmap.values()))\n   correct=matched is not None and rel<.05\n   if correct:tmap.pop(matched.normalized_citation)\n   found[claim.normalized_citation].append({'value':v['claim_value'],'correct':correct,\n       'relative_error':rel,'extra_or_duplicate':matched is None})\n   if matched is None:extras.append({'asset':asset,'citation':v['citation'],'value':v['claim_value']})\n  for citation,t in all_truth.items():\n   values=found[citation];correct=any(v['correct'] for v in values)\n   result[asset,citation]={'status':'correct' if correct else 'wrong_value' if values else 'missing',\n      'values':values,'citation':t['citation'],'target':t['claim_value']}\n for asset,vv in normalized.items():\n  if asset not in used:\n   extras.extend({'asset':asset,'citation':v['citation'],'value':v['claim_value']} for v in vv)\n return result,extras\nfor key in sorted(changed):\n cid,family=key;row=rows[key]\n target=json.loads((root/cfg['grading_directory']/f'{cid}.json').read_text())['targets']['EV']\n rr=[before[key],after[key]]\n assert all(r['parse_error'] is None for r in rr)\n for r in rr:\n  fresh=evaluate(row,r['parsed']['answer'],target)\n  assert abs(fresh['f1']-r['score']['f1'])<1e-12 and abs(fresh['full_output_f1']-r['score']['full_output_f1'])<1e-12\n  grade_checks+=1\n old,oe=view(rr[0]['parsed']['answer'],target);new,ne=view(rr[1]['parsed']['answer'],target)\n delta=rr[1]['score']['f1']-rr[0]['score']['f1'];win='help' if delta>1e-12 else 'hurt' if delta< -1e-12 else 'tie'\n summary['cases_'+win]+=1\n case_changes=[]\n for k,t in old.items():\n  u=new[k];jurisdiction=citation_namespace(t['citation'])\n  if t['status']=='correct' and u['status']!='correct':kind='correct_to_'+u['status']\n  elif t['status']!='correct' and u['status']=='correct':kind=t['status']+'_to_correct'\n  else:continue\n  summary[kind]+=1;summary[jurisdiction+'__'+kind]+=1\n  event={'case_id':cid,'asset':k[0],'citation':t['citation'],'jurisdiction':jurisdiction,'target':t['target'],\n      'parent_status':t['status'],'candidate_status':u['status'],\n      'parent_values':[v['value'] for v in t['values']],'candidate_values':[v['value'] for v in u['values']],\n      'transition':kind}\n  transitions.append(event);case_changes.append(event)\n  if t['target']>0 and any(math.isclose(v['value']*2,t['target'],rel_tol=1e-9,abs_tol=1e-8) for v in u['values']):\n   summary['transition_candidate_exact_half_target']+=1\n cases.append({'case_id':cid,'current_batch':row['batch']==8,'parent_native_F1':rr[0]['score']['f1'],\n    'candidate_native_F1':rr[1]['score']['f1'],'difference_pp':100*delta,\n    'parent_full_output_F1':rr[0]['score']['full_output_f1'],'candidate_full_output_F1':rr[1]['score']['full_output_f1'],\n    'parent_extra_or_duplicate_claims':len(oe),'candidate_extra_or_duplicate_claims':len(ne),\n    'parent_raw':rr[0]['raw_call_path'],'candidate_raw':rr[1]['raw_call_path'],\n    'native_correct_to_incorrect_claims':sum(x['parent_status']=='correct' for x in case_changes),\n    'native_incorrect_to_correct_claims':sum(x['candidate_status']=='correct' for x in case_changes)})\ncurrent=[r for r in cases if r['current_batch']];prior=[r for r in cases if not r['current_batch']]\ndef cohort(rr):\n return {'sources':len(rr),'parent_native_F1_percent':100*sum(r['parent_native_F1'] for r in rr)/len(rr),\n   'candidate_native_F1_percent':100*sum(r['candidate_native_F1'] for r in rr)/len(rr)}\nout={'at':datetime.now(timezone.utc).isoformat(),'classification':'Complete rejected TRAIN C2 single WI EV card execution audit, not current TEST or a new model experiment',\n 'added_skill':b[sid],'all9_parent_records_byte_identical':True,'changed_EV_source_views':27,'unchanged_other_views':229,\n 'native_grade_replays_matched_original_records':grade_checks,'native_matching':'Unmodified original asset matcher, Claim.normalized_citation and original relative-error<0.05 rule (epsilon1), not exact-dollar equality',\n 'cohort_all27':cohort(cases),'cohort_current5':cohort(current),'cohort_prior22':cohort(prior),'counts':dict(summary),\n 'claim_transitions':transitions,'all27_case_outcomes':cases,\n 'not_a_unique_internal_model_causal_explanation_or_learning_population_estimate':True,\n 'same_frozen8B_requested_seed45_but_actual_serving_batch_history_may_differ':True,\n 'new_model_teacher_tokenizer_or_symbolic_solver_calls':0,'current_TEST_questions_predictions_targets_or_scores_read':False}\nprint(json.dumps(out,ensure_ascii=False))",
+  "citation_transition_counts": {
+    "11 U.S.C. § 522(d)(5) | correct_to_missing": 13,
+    "11 U.S.C. § 522(d)(5) | correct_to_wrong_value": 3,
+    "Wis. Stat. § 815.18(3)(g) | wrong_value_to_correct": 4,
+    "11 U.S.C. § 522(d)(5) | wrong_value_to_correct": 2,
+    "Wis. Stat. § 815.18(3)(d) | wrong_value_to_correct": 2,
+    "11 U.S.C. § 522(d)(3) | correct_to_wrong_value": 2,
+    "Wis. Stat. § 815.18(3)(d) | correct_to_wrong_value": 2,
+    "Wis. Stat. § 815.20(1) | correct_to_missing": 1,
+    "11 U.S.C. § 522(d)(2) | correct_to_wrong_value": 4,
+    "Wis. Stat. § 815.18(3)(d) | correct_to_missing": 1,
+    "11 U.S.C. § 522(d)(5) | missing_to_correct": 2
+  }
+}

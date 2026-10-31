@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-21T05:31:59.545793+00:00",
+  "classification": "Scheduled13:30 actual snapshot and actual32-paired-request budget/cost accounting preserved, no new generation/TEST",
+  "receipt": {
+    "at": "2026-10-21T05:31:59.536388+00:00",
+    "stage": "hourly1330_actual133037_B2_C1_alive_actual_inference_cost",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-hourly1330_actual133037_B2_C1_alive_actual_inference_cost.tar.gz",
+        "sha256": "85128affe27718f41616496b7144ebcd31dc3dedb6da28754e8df34d94ab5374"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_goal_Run03_20261021-hourly1330_actual133037_B2_C1_alive_actual_inference_cost.tar.gz",
+        "sha256": "85128affe27718f41616496b7144ebcd31dc3dedb6da28754e8df34d94ab5374"
+      }
+    ],
+    "files": 3
+  },
+  "archive_devices": [
+    64528,
+    64517
+  ],
+  "preservation_recomputation_program": "import json,pathlib\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=pathlib.Path.cwd();base=\"artifacts/research/openexempt_legal_scope_20261020/\"\nnames=[\"docs/CURRENT_GOAL.md\",base+\"hourly1330_Run03_B2_C1_alive_actual_inference_budget_and_cost_20261021.json\",base+\"Run03_B2_complete160_actual_teacher64_checkpoint_preservation_20261021.json\"]\nreceipt=preserve(\"legal_research_goal_Run03_20261021\",\"hourly1330_actual133037_B2_C1_alive_actual_inference_cost\",names)\nout={\"at\":now(),\"classification\":\"Scheduled13:30 actual snapshot and actual32-paired-request budget/cost accounting preserved, no new generation/TEST\",\n\"receipt\":receipt,\"archive_devices\":[pathlib.Path(p[\"path\"]).stat().st_dev for p in receipt[\"paths\"]]}\nassert len(set(out[\"archive_devices\"]))==2\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

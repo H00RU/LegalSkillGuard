@@ -1,0 +1,49 @@
+{
+  "at": "2026-10-21T03:41:06.377470+08:00",
+  "classification": "progress: real actual-teacher proposal structurally exposes order-only false partial feedback; fixed in existing isolated branch, NOT deployed",
+  "main_run": "legal_openexempt_closed_feedback_public_assets128_20261021_run02",
+  "live_source388_unchanged": true,
+  "isolated_commit": "c99bf38960c2817158eb301097bb77755d6d3a0f",
+  "isolated_branch": "prospective-openexempt-evolution-control-20261020",
+  "already_integrated_ancestor_do_not_reapply": "0366e9a is already in main13e67fa; only this new c99bf38 is a future patch",
+  "actual_teacher_proposal_origin": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run02/teacher/b1_candidate1/response.json",
+  "structural_reproduction_not_actual_candidate_acceptance": {
+    "actual_proposed_bank_sha256": "702a084cfc6a6f6108bd6f379f208c5428e0f36cd5a1e59b96e2f805eaba212a",
+    "all_accepted_structural_composed_sha256": "e47d7d8feca20c902b4d1cfdcb21fd01603967f6f340620de63fc2a62dad9c63",
+    "record_by_ID_equality": true,
+    "both_public_task_views_equal": true,
+    "bank_array_equality": false,
+    "old_candidate_feedback_nonempty": true,
+    "old_partially_committed_flag": true,
+    "no_F1_or_target_access_or_generation": true
+  },
+  "root_fix": "Compare both canonical task projections once accepted, not raw record/by_task storage order; true task/jurisdiction/deletion differences remain feedback. No helper layer, fallback or altered native score.",
+  "targeted_CPU_only_verification": {
+    "result": "14passed35deselected",
+    "seconds": 2.56,
+    "scope": "5new projection/order/change cases + existing3bounded teacher packets +6actual partial refinement/nextbatch cases",
+    "existing_pinned_official_cache_used_explicitly_not_copied": "data/cache/openexempt/servantez-OpenExempt-ec6fa25",
+    "isolated_module_path_asserted": true,
+    "ruff": "pass",
+    "diff_check": "pass",
+    "NN_teacher_calls": 0
+  },
+  "interpretation_limit": "This is a false feedback-condition case, not proof of main actual occurrence and not cause of legal F1 weakness. Real candidate1 decision still pending; do not stop main for hypothetical score effects or hotfix its frozen code.",
+  "main_progress_snapshot": {
+    "at": "2026-10-20T19:40:02.596333+00:00",
+    "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run02",
+    "state": "running",
+    "stage": "b1_candidate1_replay",
+    "current_batch": 1,
+    "completed_native_calls": 62,
+    "completed_teacher_calls": 1,
+    "teacher_attempts": 1,
+    "cross_stage_identical_wire_reuses": 128,
+    "library_records": 0,
+    "current_arm": "candidate",
+    "current_document_id": 196,
+    "current_call": "openexempt"
+  },
+  "portable_git_patch": "From c99bf38960c2817158eb301097bb77755d6d3a0f Mon Sep 17 00:00:00 2001\nFrom: Codex <codex@localhost>\nDate: Wed, 21 Oct 2026 03:40:32 +0800\nSubject: [PATCH] Compare task projections before carrying committed candidate\n feedback\n\n---\n experiments/openexempt_online.py  | 11 +++++++++--\n tests/test_openexempt_contract.py | 30 ++++++++++++++++++++++++++++++\n 2 files changed, 39 insertions(+), 2 deletions(-)\n\ndiff --git a/experiments/openexempt_online.py b/experiments/openexempt_online.py\nindex 75a2386..3fddc4b 100644\n--- a/experiments/openexempt_online.py\n+++ b/experiments/openexempt_online.py\n@@ -508,8 +508,15 @@ def candidate_feedback(decision, observations, origin, *, witness_limit=8):\n     if decision.get(\"explicit_noop\"):\n         return None\n     accepted = bool(decision.get(\"accepted\"))\n-    if accepted and decision.get(\"proposed_bank\") == decision.get(\"candidate\"):\n-        return None\n+    if accepted:\n+        proposed, committed = decision.get(\"proposed_bank\"), decision.get(\"candidate\")\n+        # Composition canonicalizes IDs and task blocks. Storage order alone is\n+        # not an uncommitted edit and must not trigger another teacher proposal.\n+        if proposed == committed or (\n+                {s[\"id\"] for s in proposed} == {s[\"id\"] for s in committed}\n+                and all(task_view(proposed, task) == task_view(committed, task)\n+                        for task in FAMILIES)):\n+            return None\n     pool = decision.get(\"proposed_replay\", decision.get(\"actual_replay\", []))\n     keys = [(r[\"case_id\"], r[\"family\"]) for r in pool]\n     if len(keys) != len(set(keys)) or not set(keys) <= set(observations):\ndiff --git a/tests/test_openexempt_contract.py b/tests/test_openexempt_contract.py\nindex 7e181fe..3da4682 100644\n--- a/tests/test_openexempt_contract.py\n+++ b/tests/test_openexempt_contract.py\n@@ -560,6 +560,36 @@ def test_reused_native_call_executes_new_body_and_never_reuses_answer_or_error(t\n     assert len(study.native) == 1  # An old execution error is not a cached raw failure.\n \n \n+@pytest.mark.parametrize(\"real_change\", [None, \"EC\", \"EV\", \"jurisdiction\", \"delete\"])\n+def test_candidate_feedback_compares_real_task_views_not_storage_order(real_change):\n+    proposed = [\n+        {\"id\": \"z\", \"hypothesis_ids\": [\"EV\", \"EC\"], \"guidance\": {\n+            \"by_task\": [guidance(\"EV step\", tasks=(\"EV\",))[\"by_task\"][0],\n+                        guidance(\"EC step\", tasks=(\"EC\",))[\"by_task\"][0]],\n+            \"operators\": [], \"jurisdiction\": \"ARIZONA\"}},\n+        {\"id\": \"a\", \"hypothesis_ids\": [\"EC\", \"EV\"],\n+         \"guidance\": guidance(\"Shared step\", jurisdiction=\"OREGON\")},\n+    ]\n+    committed = compose_task_edits(proposed, proposed, (\"EC\", \"EV\"))\n+    assert proposed != committed  # Both record and by_task ordering are normalized.\n+    assert all(task_view(proposed, task) == task_view(committed, task)\n+               for task in (\"EC\", \"EV\"))\n+    if real_change in (\"EC\", \"EV\"):\n+        block = next(b for b in committed[1][\"guidance\"][\"by_task\"]\n+                     if real_change in b[\"tasks\"])\n+        block[\"procedure\"] += \" Changed actual guidance.\"\n+    elif real_change == \"jurisdiction\":\n+        committed[1][\"guidance\"][\"jurisdiction\"] = \"ILLINOIS\"\n+    elif real_change == \"delete\":\n+        committed.pop()\n+    feedback = candidate_feedback({\"accepted\": True, \"proposed_bank\": proposed,\n+        \"candidate\": committed, \"actual_replay\": []}, {}, {\"synthetic\": True})\n+    if real_change is None:\n+        assert feedback is None\n+    else:\n+        assert feedback[\"accepted\"] and feedback[\"partially_committed\"]\n+\n+\n @pytest.mark.parametrize(\"profile\", [\"program\", \"direct\", \"asset_refs\"])\n def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_dropped(\n         monkeypatch, profile):\n-- \n2.25.1\n\n",
+  "future_integration": "Only after running bound jobs are terminal, preserved and reviewed. Recheck exact two-file scope and honest method/repeat implications; never cherry-pick into this live388-source run."
+}

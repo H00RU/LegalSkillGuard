@@ -1,0 +1,186 @@
+{
+  "at": "2026-10-28T06:05:58.680385+00:00",
+  "run_id": "legal_openexempt_third_TRAIN_selected_observed_TEST128_20261028_run01",
+  "source_training_run": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+  "bank_sha256": "3c63a71f1ecd7d1b9d071c4ab39750ac8f0c483c5f3ad8d25c7ee6adca813cf2",
+  "source_teacher_contract_v1": true,
+  "method_records_verified": 256,
+  "historical_records_verified": 512,
+  "all_wire_decode_original_grades": 768,
+  "grades_verified": 768,
+  "all_predictions_saved_without_scores_before_grading": true,
+  "new_origins": 256,
+  "new_finish_reasons": {
+    "stop": 256
+  },
+  "metrics": {
+    "EC": {
+      "precision": 0.9761284722222223,
+      "recall": 0.9048394097222221,
+      "f1": 0.9290845114087302,
+      "exact_target": 0.4765625,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.9349281567461912,
+      "negative_or_unscored_asset_claims": 0
+    },
+    "EV": {
+      "precision": 0.9001736111111112,
+      "recall": 0.8574218749999998,
+      "f1": 0.8706628224206352,
+      "exact_target": 0.375,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 1,
+      "full_output_f1": 0.8704373270193458,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "mean_family_f1": 0.8998736669146827
+  },
+  "historical_reference_metrics": {
+    "whole_bank": {
+      "EC": {
+        "precision": 0.9711914062500001,
+        "recall": 0.9069010416666667,
+        "f1": 0.9303385416666665,
+        "exact_target": 0.5,
+        "tasks": 128,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9347165777147827,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8675021701388891,
+        "recall": 0.783745659722222,
+        "f1": 0.8131603422619047,
+        "exact_target": 0.3125,
+        "tasks": 128,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 2,
+        "full_output_f1": 0.815737903836726,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "mean_family_f1": 0.8717494419642856
+    },
+    "task_local": {
+      "EC": {
+        "precision": 0.9695095486111112,
+        "recall": 0.9121093749999999,
+        "f1": 0.9324621775793651,
+        "exact_target": 0.453125,
+        "tasks": 128,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9382468220492923,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8687065972222221,
+        "recall": 0.812717013888889,
+        "f1": 0.8334728422619043,
+        "exact_target": 0.296875,
+        "tasks": 128,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 2,
+        "full_output_f1": 0.8334299924407058,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "mean_family_f1": 0.8829675099206347
+    }
+  },
+  "all8_comparison_intervals_recomputed": [
+    {
+      "reference": "whole_bank",
+      "family": "EC",
+      "metric": "f1",
+      "delta_pp": -0.1254030257936513,
+      "adjusted_interval_pp": [
+        -3.2485651894221235,
+        2.995041135757684
+      ]
+    },
+    {
+      "reference": "whole_bank",
+      "family": "EC",
+      "metric": "full_output_f1",
+      "delta_pp": 0.02115790314085866,
+      "adjusted_interval_pp": [
+        -3.02985816799584,
+        3.0706969944815476
+      ]
+    },
+    {
+      "reference": "whole_bank",
+      "family": "EV",
+      "metric": "f1",
+      "delta_pp": 5.750248015873015,
+      "adjusted_interval_pp": [
+        0.921762133401537,
+        10.615558927021326
+      ]
+    },
+    {
+      "reference": "whole_bank",
+      "family": "EV",
+      "metric": "full_output_f1",
+      "delta_pp": 5.469942318261966,
+      "adjusted_interval_pp": [
+        0.8830797056158677,
+        10.171950916608564
+      ]
+    },
+    {
+      "reference": "task_local",
+      "family": "EC",
+      "metric": "f1",
+      "delta_pp": -0.3377666170634923,
+      "adjusted_interval_pp": [
+        -3.6270165821862608,
+        3.028282528831843
+      ]
+    },
+    {
+      "reference": "task_local",
+      "family": "EC",
+      "metric": "full_output_f1",
+      "delta_pp": -0.33186653031012153,
+      "adjusted_interval_pp": [
+        -3.516634671484538,
+        2.803963221087824
+      ]
+    },
+    {
+      "reference": "task_local",
+      "family": "EV",
+      "metric": "f1",
+      "delta_pp": 3.718998015873015,
+      "adjusted_interval_pp": [
+        -1.1042272174169152,
+        8.302294049944187
+      ]
+    },
+    {
+      "reference": "task_local",
+      "family": "EV",
+      "metric": "full_output_f1",
+      "delta_pp": 3.7007334578639917,
+      "adjusted_interval_pp": [
+        -1.0105680327994295,
+        8.251939763668878
+      ]
+    }
+  ],
+  "numeric_positive_endpoints": 5,
+  "adjusted_positive_lower_bound_endpoints": 2,
+  "native_input_tokens": 1755740,
+  "native_output_tokens": 646876,
+  "actual_teacher_calls": 0,
+  "terminal_archive_members": 773,
+  "two_terminal_archives_hashes_verified": true,
+  "delivery_verified_not_proof_of_causal_or_faithful_skill_use": true,
+  "no_oracle_score_or_answer_repair": true,
+  "old_observed_TEST_not_new_primary": true,
+  "new_native_or_teacher_calls_for_audit": 0
+}

@@ -1,0 +1,75 @@
+{
+  "at": "2026-10-30T10:01:48.090125+00:00",
+  "classification": "Case-level diagnostic correction only. Original policy gates, current means, actual rejected control bank and raw answers are unchanged.",
+  "original_receipt_preserved": {
+    "path": "artifacts/research/openexempt_legal_scope_20261020/Utility_v6_strict_B1_EV_positive_native_full_rejected_one_extra_claim_exact_count_veto_counterfactual_not_new_run_20261030.json",
+    "sha256": "993b372f2cee80f7b9a61aecd2822295b71490ba95304e6ca94e113fbdab5772"
+  },
+  "correction": "The original case-only list queried an aggregate metric key directly from per-record scores, yielding an empty diagnostic list. Original summary counter1to2 and strict/utility gates were correct. Use original metrics([record]) for per-case aggregate values; do not fill unknown score fields with zero.",
+  "actual_counter_change_cases": [
+    {
+      "case_id": 182,
+      "aggregate_per_case_counter_changes": {
+        "negative_or_unscored_asset_claims": 1,
+        "invalid_format": 0
+      },
+      "parent_raw": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b1_prequential/182_EV_empty.json",
+      "proposal_raw": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b1_candidate2_replay/182_EV_candidate.json",
+      "parent_original_score": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.8,
+        "full_output_precision": 0.6666666666666666,
+        "full_output_recall": 1.0,
+        "full_output_claim_tp": 2,
+        "full_output_claim_fp": 1,
+        "full_output_claim_fn": 0,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 1,
+        "officially_unscored_predicted_assets": {
+          "handcrafted wire-wrapped pendant with semi-precious stone": 1
+        },
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "proposal_original_score": {
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.8333333333333333,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.5714285714285715,
+        "full_output_precision": 0.4,
+        "full_output_recall": 1.0,
+        "full_output_claim_tp": 2,
+        "full_output_claim_fp": 3,
+        "full_output_claim_fn": 0,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 2,
+        "officially_unscored_predicted_assets": {
+          "handcrafted wire-wrapped pendant with semi-precious stone": 2
+        },
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      }
+    }
+  ],
+  "verified_total_extra_negative_or_unscored_claim_delta": 1,
+  "strict_rejects_and_utility_accepts_identical_recorded_outputs": true,
+  "native_and_full_gain_pp_unchanged": {
+    "native": 15.337301587301589,
+    "full": 11.96685289612921
+  },
+  "actual_training_publication_unchanged": {
+    "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/publications/b1.json",
+    "sha256": "0ef8034cd6382eb4b8971428d3acc1f33c3d8ee47d3d273c302550be9ed94722"
+  },
+  "no_live_source_control_or_scoring_modification": true,
+  "no_new_model_teacher_tokenizer_or_grade_calls": true,
+  "new_TEST_semantics_unopened": true
+}

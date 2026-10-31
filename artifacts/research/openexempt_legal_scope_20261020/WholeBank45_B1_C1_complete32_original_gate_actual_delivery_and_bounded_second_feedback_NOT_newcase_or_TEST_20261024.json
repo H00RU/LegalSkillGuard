@@ -1,0 +1,232 @@
+{
+  "at": "2026-10-24T05:47:46.666547+00:00",
+  "classification": "Complete first proposal of independently learning whole-bank45, TRAIN replay and gate evidence only; not a published skill, new-case effect, final ablation, independent TEST or comparison of identical teacher proposals",
+  "run_id": "legal_openexempt_whole_bank_public_assets128_20261023_run02",
+  "source_cases": 16,
+  "task_views": 32,
+  "source_ids": [
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191,
+    192,
+    193,
+    194,
+    195,
+    196
+  ],
+  "family_pairing_not_independent_sources": true,
+  "policy": "whole_bank",
+  "candidate_bank_sha256": "0ad7d727bd5ef4ad3e7e2aeffae6535719dd101260c864be18bf191a030e6d51",
+  "proposed_records": 4,
+  "proposed_serialized_tokens": 1671,
+  "numeric_operators": 0,
+  "candidate1_accepted": false,
+  "original_rejection_reason": "whole_proposal_failed_original_full_gate",
+  "only_false_full_gate_constraint": [
+    "current_negative_asset_and_format_nonregression"
+  ],
+  "original_gate_booleans": {
+    "accepted": false,
+    "current_family_nonregression": true,
+    "prior_family_nonregression": true,
+    "strict_current_improvement": true,
+    "current_full_output_nonregression": true,
+    "prior_full_output_nonregression": true,
+    "current_negative_asset_and_format_nonregression": false,
+    "prior_negative_asset_and_format_nonregression": true,
+    "TRAIN_optimization_not_independent_validation": true
+  },
+  "original_task_admission": {
+    "EC": {
+      "accepted": true,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": true,
+      "prior_negative_asset_and_format_nonregression": true
+    },
+    "EV": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": false,
+      "prior_negative_asset_and_format_nonregression": true
+    }
+  },
+  "parent_original_scores": {
+    "EC": {
+      "source_cases": 16,
+      "native_F1": 0.6344990079365078,
+      "complete_output_F1": 0.6662209862577508,
+      "invalid": 0,
+      "negative_target_asset_predicted_claims": 1,
+      "officially_unscored_predicted_claims": 0
+    },
+    "EV": {
+      "source_cases": 16,
+      "native_F1": 0.6635416666666666,
+      "complete_output_F1": 0.6561211664152842,
+      "invalid": 0,
+      "negative_target_asset_predicted_claims": 0,
+      "officially_unscored_predicted_claims": 1
+    }
+  },
+  "candidate_original_scores": {
+    "EC": {
+      "source_cases": 16,
+      "native_F1": 0.7311603327228328,
+      "complete_output_F1": 0.7755865662115663,
+      "invalid": 0,
+      "negative_target_asset_predicted_claims": 0,
+      "officially_unscored_predicted_claims": 0
+    },
+    "EV": {
+      "source_cases": 16,
+      "native_F1": 0.6998759920634919,
+      "complete_output_F1": 0.6835572332783286,
+      "invalid": 1,
+      "negative_target_asset_predicted_claims": 0,
+      "officially_unscored_predicted_claims": 1
+    }
+  },
+  "candidate_minus_parent_F1_pp": {
+    "EC": 9.666132478632495,
+    "EV": 3.633432539682535
+  },
+  "invalid_output_retained_in_original_denominators": [
+    {
+      "case_id": 193,
+      "family": "EV",
+      "parse_error": "Incomplete native output: length",
+      "finish_reason": "length",
+      "output_tokens": 8192
+    }
+  ],
+  "candidate_finish_reasons": {
+    "stop": 31,
+    "length": 1
+  },
+  "actual_audit_checks": {
+    "record_content_matches_actual_origin_excluding_score_and_declared_alias_metadata": 64,
+    "actual_shared_generation_contract": 64,
+    "candidate_record_equals_original_answer_except_score": 32,
+    "complete_actual_candidate_actor_wire_and_schema": 32
+  },
+  "actual_physical_native_calls_source_plus_first_candidate": 64,
+  "physical_response_ids_unique_no_crossstage_reuse": true,
+  "source_logical_aliases_not_extra_independent_generations": 128,
+  "actual_64_native_cost": {
+    "input_tokens": 422625,
+    "output_tokens": 199706
+  },
+  "actual_second_teacher_feedback": {
+    "same_declared_policy": true,
+    "parent_bank_empty_after_first_rejection": true,
+    "attempt": 2,
+    "max_attempts": 2,
+    "failure_witnesses": [
+      {
+        "case_id": 193,
+        "family": "EV",
+        "parse_error": "Incomplete native output: length"
+      },
+      {
+        "case_id": 186,
+        "family": "EV",
+        "parse_error": null
+      },
+      {
+        "case_id": 193,
+        "family": "EC",
+        "parse_error": null
+      },
+      {
+        "case_id": 188,
+        "family": "EC",
+        "parse_error": null
+      },
+      {
+        "case_id": 190,
+        "family": "EC",
+        "parse_error": null
+      },
+      {
+        "case_id": 192,
+        "family": "EV",
+        "parse_error": null
+      },
+      {
+        "case_id": 191,
+        "family": "EC",
+        "parse_error": null
+      },
+      {
+        "case_id": 185,
+        "family": "EV",
+        "parse_error": null
+      }
+    ],
+    "first_actual_witness_is_193_EV_length": true,
+    "second_response_saved": true,
+    "second_proposal_operations": [
+      {
+        "operation": "CREATE",
+        "id": "federal-ec-wildcard-alternative",
+        "tasks": [
+          "EC"
+        ],
+        "jurisdiction": "FEDERAL"
+      },
+      {
+        "operation": "CREATE",
+        "id": "oregon-ev-general-personal-property",
+        "tasks": [
+          "EV"
+        ],
+        "jurisdiction": "OREGON"
+      }
+    ],
+    "second_replay_not_yet_admitted_or_scored_by_this_audit": true
+  },
+  "actual_two_teacher_usage": {
+    "responses": 2,
+    "attempts": 2,
+    "input_tokens": 260981,
+    "cached_input_tokens_included": 0,
+    "output_tokens": 9839,
+    "reasoning_output_tokens_included": 7349,
+    "elapsed_seconds_sum": 181.89600000000002
+  },
+  "source_bindings": {
+    "canonical_source_commit": "62c8860fbb2dbce3e47a1fc8f829bfb7ccb70015",
+    "config_sha256": "b16f826de80e6fda8523d61133fa5bfe066f27d82da6d6390ae577a8277e2c0f",
+    "frozen_config_manifest_sha256": "388834e0f3e7f806c1fb158d009a1630b20234baddca594d5c75a169b071e88a",
+    "original_decision_sha256": "a90c74604cf66d5fe43d0ff3996fe36e0ad9a5568e1edf4965101da6f28674c7",
+    "second_teacher_actual_request_sha256": "54a843aae909b00d25c1c83a1ec7d3b64075b5db28b0e5e1ed959e809d1716d7",
+    "existing_all128targets_source_and_Git_dual_recovery_receipt": "artifacts/research/openexempt_legal_scope_20261020/root62c8860_Text45_completed_fitting_v014_sources_all128targets_and_Git_dual_preservation_20261024.json"
+  },
+  "evidence_boundaries": [
+    "All32 current tasks retained with original native score fields; this program only aggregates existing scores, does not rerun grader",
+    "EC task gate passing is an original diagnostic, not a result of a separately learned main/ablation or a new hypothetical publication",
+    "Teacher is policy-aware and generates different proposals; no isolated pure scope-causality claim",
+    "Only the original bounded second attempt runs; no budget relaxation, rewrite, fallback, selective case/seed or fresh extra model calls",
+    "First replay and teacher inputs/responses are immutable; active progress and incomplete second replay are excluded from prefix preservation",
+    "Full8batch learning ablation, second first-commit45 and six repeats plus frozen16condition isolatedTEST remain incomplete"
+  ],
+  "observer_only_correction": "Initial reader compared logical parent alias metadata to its physical empty_direct_numeric origin. Existing arm and declared physical_alias_of_identical_wire differ by design; comparison now excludes only those two metadata fields plus score. All actual candidate records strictly equal original answer except score. No learner/runtime/output/scoring changes.",
+  "no_new_native_teacher_tokenizer_or_grader_calls_by_audit": true,
+  "no_source_model_config_score_or_TEST_change": true
+}

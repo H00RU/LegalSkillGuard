@@ -1,0 +1,1026 @@
+{
+  "all96_original_EV_scores_recomputed": true,
+  "actual_selected_bank_all_wire_messages_schema_generation_verified": true,
+  "at": "2026-10-30T15:45:09.732783+00:00",
+  "classification": "Complete strict B6 actual EC rejection and final EV decision, original whole/task/scope/actual/final-batch gates, both true teacher packets and real B7 skill delivery. Post-label TRAIN separate from complete firsts; no policy-superiority or TEST claim.",
+  "publication": {
+    "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/publications/b6.json",
+    "sha256": "9dbef230b031b7ac908ea06113275f803b84cb04400e76eba32b03cbdf2ee212"
+  },
+  "published_at": "2026-10-30T15:43:39.205903+00:00",
+  "bank_sha256": "0fa7b40364651f4897a096a8bc10d7cd970d1429df512423dba90c3f24f84be9",
+  "library_records": 11,
+  "blocks": 15,
+  "tokens": 3029,
+  "publication_is_unchanged_parent": false,
+  "unchanged_parent_does_not_require_strict_improvement": true,
+  "all379_unchanged": true,
+  "steps": [
+    {
+      "task": "EC",
+      "decision": {
+        "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/candidates/b6_candidate1.json",
+        "sha256": "d3425e0afebbab2091863e04f43798fe048bb2d3a2e92946a70f65699409ccdb"
+      },
+      "accepted": false,
+      "actual_bank_sha256_after": "898f468083c194a64e8583f2baaf9017488892192956ee74a23525cf54835bbf",
+      "actual_committed_changes": [],
+      "selection": {
+        "objective": "seen_source_min_family_gain_then_mean_v1",
+        "joint_gain": null,
+        "component_assessment": {
+          "accepted": false,
+          "reason": "no_independently_improving_legal_edit",
+          "accepted_legal_coordinates": [],
+          "bank_sha256": null,
+          "gain": null
+        },
+        "selected": "none",
+        "only_seen_TRAIN_scores_used": true,
+        "new_native_generations": 0
+      },
+      "proposal_gain_pp": {
+        "current16": {
+          "f1": 5.873015873015886,
+          "full_output_f1": 4.351357274744383
+        },
+        "prior80": {
+          "f1": -0.847883597883603,
+          "full_output_f1": -0.41520172866920113
+        },
+        "all96": {
+          "f1": 0.2722663139329784,
+          "full_output_f1": 0.37922477189974435
+        }
+      },
+      "strict_whole_gate": {
+        "accepted": false,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": false,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "parent_current": {
+          "EC": {
+            "precision": 0.8541666666666666,
+            "recall": 0.673611111111111,
+            "f1": 0.739781746031746,
+            "exact_target": 0.25,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7925200181082536,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8098958333333334,
+            "recall": 0.82421875,
+            "f1": 0.796577380952381,
+            "exact_target": 0.4375,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 6,
+            "full_output_f1": 0.7895042723429613,
+            "negative_or_unscored_asset_claims": 6
+          },
+          "mean_family_f1": 0.7681795634920634
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.8958333333333334,
+            "recall": 0.7552083333333334,
+            "f1": 0.7985119047619048,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8360335908556974,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8098958333333334,
+            "recall": 0.82421875,
+            "f1": 0.796577380952381,
+            "exact_target": 0.4375,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 6,
+            "full_output_f1": 0.7895042723429613,
+            "negative_or_unscored_asset_claims": 6
+          },
+          "mean_family_f1": 0.7975446428571429
+        },
+        "parent_prior": {
+          "EC": {
+            "precision": 0.8862003968253969,
+            "recall": 0.739409722222222,
+            "f1": 0.7841517857142855,
+            "exact_target": 0.3125,
+            "tasks": 80,
+            "invalid_format": 3,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8100665475878317,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "EV": {
+            "precision": 0.9107638888888887,
+            "recall": 0.8825520833333332,
+            "f1": 0.8848513812576311,
+            "exact_target": 0.35,
+            "tasks": 80,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 5,
+            "full_output_f1": 0.8765411133852077,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "mean_family_f1": 0.8345015834859583
+        },
+        "candidate_prior": {
+          "EC": {
+            "precision": 0.9106249999999999,
+            "recall": 0.7102430555555556,
+            "f1": 0.7756729497354494,
+            "exact_target": 0.275,
+            "tasks": 80,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8059145303011397,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.9107638888888887,
+            "recall": 0.8825520833333332,
+            "f1": 0.8848513812576311,
+            "exact_target": 0.35,
+            "tasks": 80,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 5,
+            "full_output_f1": 0.8765411133852077,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "mean_family_f1": 0.8302621654965403
+        },
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "same_recorded_outputs_utility_whole_gate_counterfactual": {
+        "accepted": true,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": false,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "parent_current": {
+          "EC": {
+            "precision": 0.8541666666666666,
+            "recall": 0.673611111111111,
+            "f1": 0.739781746031746,
+            "exact_target": 0.25,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7925200181082536,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8098958333333334,
+            "recall": 0.82421875,
+            "f1": 0.796577380952381,
+            "exact_target": 0.4375,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 6,
+            "full_output_f1": 0.7895042723429613,
+            "negative_or_unscored_asset_claims": 6
+          },
+          "mean_family_f1": 0.7681795634920634
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.8958333333333334,
+            "recall": 0.7552083333333334,
+            "f1": 0.7985119047619048,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8360335908556974,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8098958333333334,
+            "recall": 0.82421875,
+            "f1": 0.796577380952381,
+            "exact_target": 0.4375,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 6,
+            "full_output_f1": 0.7895042723429613,
+            "negative_or_unscored_asset_claims": 6
+          },
+          "mean_family_f1": 0.7975446428571429
+        },
+        "parent_prior": {
+          "EC": {
+            "precision": 0.8862003968253969,
+            "recall": 0.739409722222222,
+            "f1": 0.7841517857142855,
+            "exact_target": 0.3125,
+            "tasks": 80,
+            "invalid_format": 3,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8100665475878317,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "EV": {
+            "precision": 0.9107638888888887,
+            "recall": 0.8825520833333332,
+            "f1": 0.8848513812576311,
+            "exact_target": 0.35,
+            "tasks": 80,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 5,
+            "full_output_f1": 0.8765411133852077,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "mean_family_f1": 0.8345015834859583
+        },
+        "candidate_prior": {
+          "EC": {
+            "precision": 0.9106249999999999,
+            "recall": 0.7102430555555556,
+            "f1": 0.7756729497354494,
+            "exact_target": 0.275,
+            "tasks": 80,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8059145303011397,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.9107638888888887,
+            "recall": 0.8825520833333332,
+            "f1": 0.8848513812576311,
+            "exact_target": 0.35,
+            "tasks": 80,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 5,
+            "full_output_f1": 0.8765411133852077,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "mean_family_f1": 0.8302621654965403
+        },
+        "TRAIN_optimization_not_independent_validation": true,
+        "admission_contract": "complete_output_utility_prior1pp_v1",
+        "prior_mean_loss_limit": 0.01,
+        "prior_family_within_risk_bound": true,
+        "prior_full_output_within_risk_bound": true,
+        "all_seen_family_nonregression": true,
+        "all_seen_full_output_nonregression": true,
+        "count_changes_are_diagnostic_not_extra_vetoes": true
+      },
+      "teacher_request": {
+        "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/teacher/b6_candidate1/wire_request.json",
+        "sha256": "c76c87f8320e44b68c0c15cb7b161ccd351f3b8805d7b514b95db6d945d0734f"
+      },
+      "teacher_all32_original_gold_facts_true_current_parent_answers_verified": true,
+      "teacher_mandatory_historical_failure_sources": [
+        182,
+        186,
+        199,
+        201,
+        203,
+        205,
+        248,
+        252
+      ],
+      "not_an_executed_alternate_policy_effect": true
+    },
+    {
+      "task": "EV",
+      "decision": {
+        "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/candidates/b6_candidate2.json",
+        "sha256": "ae1182d069d12c80f1bb7e2185e97e63768f1679e790fee0f523ae613d27abec"
+      },
+      "accepted": true,
+      "actual_bank_sha256_after": "0fa7b40364651f4897a096a8bc10d7cd970d1429df512423dba90c3f24f84be9",
+      "actual_committed_changes": [
+        {
+          "id": "ec-federal-wildcard",
+          "before": {
+            "id": "ec-federal-wildcard",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Federal exemptions under 11 U.S.C. § 522(d) are allowable and the asset is property of the debtor.",
+                  "procedure": "Evaluate 11 U.S.C. § 522(d)(5) independently for every asset and include it even when a more specific federal exemption also applies. Its monetary ceiling limits protection but does not defeat EC eligibility.",
+                  "avoid_when": "Do not include § 522(d)(5) when federal subsection (d) exemptions are unavailable or the item is not the debtor's property."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Federal exemptions under 11 U.S.C. § 522(d) are allowable and the asset is debtor-owned property.",
+                  "procedure": "For every asset, add a separate § 522(d)(5) alternative while retaining every applicable specific federal alternative. Report the protected amount for the whole asset: the lesser of its value and $15,425 for one debtor, or $30,850 for jointly owned property of two joint debtors when both full ceilings are available. Compute each specific citation under its own ceiling; § 522(d)(3), for example, is capped at $700 per item.\nExecution example: For a hypothetical one-debtor household item worth $1,000, output both § 522(d)(3) at $700 and § 522(d)(5) at $1,000.",
+                  "avoid_when": "Do not use § 522(d)(5) when federal subsection (d) exemptions are unavailable or the asset is not debtor property. Do not omit it because another federal provision applies, and do not substitute its amount for that other provision's amount."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          "after": {
+            "id": "ec-federal-wildcard",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Federal exemptions under 11 U.S.C. § 522(d) are allowable and the asset is property of the debtor.",
+                  "procedure": "Evaluate 11 U.S.C. § 522(d)(5) independently for every asset and include it even when a more specific federal exemption also applies. Its monetary ceiling limits protection but does not defeat EC eligibility.",
+                  "avoid_when": "Do not include § 522(d)(5) when federal subsection (d) exemptions are unavailable or the item is not the debtor's property."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Federal exemptions under 11 U.S.C. § 522(d) are allowable and the asset is debtor-owned property.",
+                  "procedure": "For each asset, output one separate § 522(d)(5) alternative and retain every applicable specific federal alternative. The claim for the whole asset is always the lesser of its value and the applicable ceiling: § 522(d)(5) uses $15,425 for one debtor or $30,850 for jointly owned property of two joint debtors when both full ceilings are available. Apply the same lesser-of rule to specific provisions; never report a ceiling when the asset is worth less. Section 522(d)(3) is capped at $700 per item. For jointly owned jewelry of two joint debtors, § 522(d)(4) protects the lesser of the whole value and $3,750; its one-debtor ceiling is $1,875.\nExecution example: For a hypothetical jointly owned vehicle worth $20,000, retain the vehicle citation at its own $4,450 ceiling and add § 522(d)(5) at $20,000. For a hypothetical low-value specific-category item, both its specific claim and wildcard claim must be limited to the item's value.",
+                  "avoid_when": "Do not use § 522(d)(5) when federal subsection (d) exemptions are unavailable or the asset is not debtor property. Do not omit it because another federal provision applies, substitute its amount for another provision, copy any ceiling above the asset's value, or duplicate a citation."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "FEDERAL"
+            }
+          }
+        },
+        {
+          "id": "ec-illinois-wildcard",
+          "before": {
+            "id": "ec-illinois-wildcard",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Illinois exemptions are allowable and the asset is debtor-owned personal property used for personal rather than business purposes.",
+                  "procedure": "Before evaluating specific Illinois subsections, make a separate pass over every asset satisfying this condition and include 735 Ill. Comp. Stat. 5/12-1001(b). Then evaluate specific subsections independently, retaining subsection (b) when subsection (a), (c), or another specific provision also applies; “other property” does not make these alternatives mutually exclusive for EC.",
+                  "avoid_when": "Do not apply subsection (b) to business-use property, non-personal property, or property outside the debtor's ownership."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Illinois exemptions are allowable and the asset is debtor-owned personal property used for personal rather than business purposes.",
+                  "procedure": "Add a separate § 12-1001(b) entry for every such asset and retain each applicable specific subsection with its own amount. For the whole asset, subsection (b) protects the lesser of value and $4,000 for one debtor, or $8,000 for jointly owned property of two debtors. Subsection (c) remains capped at $2,400 and subsection (d) requires stated trade use.\nExecution example: For a hypothetical jointly owned personal-use vehicle worth $20,000, output subsection (b) at $8,000 and subsection (c) at $2,400; the subsection (b) amount does not replace or alter subsection (c).",
+                  "avoid_when": "Do not apply subsection (b) to business-use or nondebtor property. Do not infer subsection (d) merely because an object could be a tool; the facts must establish use in the debtor's trade."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "ILLINOIS"
+            }
+          },
+          "after": {
+            "id": "ec-illinois-wildcard",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Illinois exemptions are allowable and the asset is debtor-owned personal property used for personal rather than business purposes.",
+                  "procedure": "Before evaluating specific Illinois subsections, make a separate pass over every asset satisfying this condition and include 735 Ill. Comp. Stat. 5/12-1001(b). Then evaluate specific subsections independently, retaining subsection (b) when subsection (a), (c), or another specific provision also applies; “other property” does not make these alternatives mutually exclusive for EC.",
+                  "avoid_when": "Do not apply subsection (b) to business-use property, non-personal property, or property outside the debtor's ownership."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Illinois exemptions are allowable and the asset is debtor-owned personal property used for personal rather than business purposes.",
+                  "procedure": "Use two independent passes. First, add exactly one § 12-1001(b) entry to every such asset—including animals, clothing and property lacking a specific category—and report the lesser of whole-asset value and $4,000 for one debtor or $8,000 for jointly owned property of two debtors. Second, retain each matching specific subsection with its own amount: necessary wearing apparel under (a), a motor vehicle under (c), and a professionally prescribed health aid under uncapped (e).\nExecution example: A hypothetical prescribed personal-use aid worth $3,000 receives both (b) at $3,000 and (e) at $3,000; hypothetical clothing likewise retains both (a) and (b).",
+                  "avoid_when": "Do not apply subsection (b) to business-use or nondebtor property, omit it because a specific subsection applies, or report its ceiling above the asset's value. Do not infer subsection (d) without stated trade use, and do not duplicate citations."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "ILLINOIS"
+            }
+          }
+        },
+        {
+          "id": "ec-pennsylvania-general-property",
+          "before": {
+            "id": "ec-pennsylvania-general-property",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Pennsylvania exemptions are allowable and the asset is property of the judgment debtor.",
+                  "procedure": "Include 42 Pa. Cons. Stat. § 8123 as an independent general-property alternative, while retaining every applicable specific Pennsylvania or federal exemption.",
+                  "avoid_when": "Do not include § 8123 for property outside the debtor's interest or when Pennsylvania law is not an allowable namespace."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Pennsylvania exemptions are allowable and the asset is property of the judgment debtor.",
+                  "procedure": "For every asset, add § 8123 as a separate alternative without removing federal or specific Pennsylvania alternatives. Report the lesser of the whole asset's value and $300 for one debtor, or $600 for jointly owned property when each spouse claims the statutory exemption.",
+                  "avoid_when": "Do not apply § 8123 outside the debtor's property or a Pennsylvania namespace. Section 8124(a)(4) remains limited to a commissioned officer's or enlisted person's uniform and accoutrements; do not cite it for ordinary household property."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "PENNSYLVANIA"
+            }
+          },
+          "after": {
+            "id": "ec-pennsylvania-general-property",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Pennsylvania exemptions are allowable and the asset is property of the judgment debtor.",
+                  "procedure": "Include 42 Pa. Cons. Stat. § 8123 as an independent general-property alternative, while retaining every applicable specific Pennsylvania or federal exemption.",
+                  "avoid_when": "Do not include § 8123 for property outside the debtor's interest or when Pennsylvania law is not an allowable namespace."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Pennsylvania exemptions are allowable and the asset is property of the judgment debtor.",
+                  "procedure": "Make a separate § 8123 pass over every asset, including vehicles, household goods, jewelry, animals, clothing and business-use property. Add exactly one § 8123 entry without removing federal or specific Pennsylvania alternatives. For the whole asset, report the lesser of its value and $300 for one debtor, or the lesser of its value and $600 for jointly owned property when each spouse claims the exemption.\nExecution example: A hypothetical jointly owned item worth $180 receives a § 8123 claim of $180, not $600; an item worth more than $600 receives $600.",
+                  "avoid_when": "Do not apply § 8123 outside the debtor's property or a Pennsylvania namespace. Do not replace it with the parent citation § 8124(a), copy its ceiling when the asset is worth less, or treat the absence of a specific Pennsylvania category as a reason to omit § 8123. Section 8124(a)(4) remains limited to a commissioned officer's or enlisted person's uniform and accoutrements."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "PENNSYLVANIA"
+            }
+          }
+        },
+        {
+          "id": "ev-arizona-exact-category-pass",
+          "before": null,
+          "after": {
+            "id": "ev-arizona-exact-category-pass",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Arizona exemptions are allowable and an asset is being evaluated under the supplied Arizona property provisions.",
+                  "procedure": "Return one claim only for each exact operative category the facts establish, using the lesser of whole-asset value and its stated ceiling. Section 33-1123 covers household furniture, furnishings, goods, electronics and appliances only when not otherwise specifically prescribed. Use § 33-1125(1) only for wearing apparel, (2) for musical instruments, (8) for one motor vehicle, (9) for a factually established prescribed prosthetic or medical aid, (10) for firearms, and (11) for domestic animals or household pets. Section 33-1125(4) is limited to engagement and wedding rings. Arizona's opt-out provision excludes federal § 522(d) alternatives.",
+                  "avoid_when": "Do not classify jewelry as apparel, extend the ring provision to other jewelry, treat a specifically listed instrument or apparel item as § 33-1123 property, cite coordination or heading provisions, add zero-value claims, duplicate claims, or include federal exemptions."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "ARIZONA"
+            }
+          }
+        },
+        {
+          "id": "ev-oregon-household-category-pass",
+          "before": null,
+          "after": {
+            "id": "ev-oregon-household-category-pass",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Oregon exemptions are allowable and debtor-owned personal property is household goods, furniture, a radio, television, or utensils held primarily for personal, family or household use.",
+                  "procedure": "Include Or. Rev. Stat. § 18.345(1)(f) as a category-specific alternative and report the lesser of the whole asset's value and $3,000. Evaluate paragraph (p), federal law and any other matching Oregon paragraph independently.",
+                  "avoid_when": "Do not omit paragraph (f) because paragraph (p) or a federal alternative also applies, and do not apply it to a vehicle, apparel, jewelry, or property outside its stated household category."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "OREGON"
+            }
+          }
+        },
+        {
+          "id": "ev-wisconsin-motor-unused-consumer-cap",
+          "before": null,
+          "after": {
+            "id": "ev-wisconsin-motor-unused-consumer-cap",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Wisconsin exemptions are allowable, the asset is a motor vehicle, and the case has one debtor.",
+                  "procedure": "Include Wis. Stat. § 815.18(3)(g). Its ceiling is $4,000 plus any unused amount of the $12,000 consumer-goods exemption in paragraph (d). Because EV evaluates each asset-exemption pair independently without allocating an aggregate across other assets, use a $16,000 ceiling when the facts do not establish another use of paragraph (d), then report the lesser of the vehicle's whole value and that ceiling.",
+                  "avoid_when": "Do not blindly report $4,000 when the paragraph (d) amount is unused, report more than the vehicle's value, apply the motor-vehicle provision to nonvehicles, or infer a married-couple ceiling from this one-debtor rule."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "WISCONSIN"
+            }
+          }
+        }
+      ],
+      "selection": {
+        "objective": "seen_source_min_family_gain_then_mean_v1",
+        "joint_gain": [
+          0.0,
+          0.03205631656152491
+        ],
+        "component_assessment": {
+          "accepted": true,
+          "reason": null,
+          "accepted_legal_coordinates": [
+            "EV:ARIZONA",
+            "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+            "EV:ILLINOIS"
+          ],
+          "bank_sha256": "cc0200583c05645337a07e167ab629bdb1f8f97ac3b8ae9a33b2a5e8869c4a48",
+          "gain": [
+            0.0,
+            0.03205631656152491
+          ]
+        },
+        "selected": "joint",
+        "only_seen_TRAIN_scores_used": true,
+        "new_native_generations": 0
+      },
+      "proposal_gain_pp": {
+        "current16": {
+          "f1": 15.214533730158731,
+          "full_output_f1": 16.082545998985452
+        },
+        "prior80": {
+          "f1": 4.650609228734249,
+          "full_output_f1": 4.57157118775704
+        },
+        "all96": {
+          "f1": 6.411263312304982,
+          "full_output_f1": 6.490066989628418
+        }
+      },
+      "strict_whole_gate": {
+        "accepted": true,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": true,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": true,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "parent_current": {
+          "EC": {
+            "precision": 0.8541666666666666,
+            "recall": 0.673611111111111,
+            "f1": 0.739781746031746,
+            "exact_target": 0.25,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7925200181082536,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8098958333333334,
+            "recall": 0.82421875,
+            "f1": 0.796577380952381,
+            "exact_target": 0.4375,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 6,
+            "full_output_f1": 0.7895042723429613,
+            "negative_or_unscored_asset_claims": 6
+          },
+          "mean_family_f1": 0.7681795634920634
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.8541666666666666,
+            "recall": 0.673611111111111,
+            "f1": 0.739781746031746,
+            "exact_target": 0.25,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7925200181082536,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.9703993055555555,
+            "recall": 0.9348958333333333,
+            "f1": 0.9487227182539683,
+            "exact_target": 0.375,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.9503297323328158,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.8442522321428572
+        },
+        "parent_prior": {
+          "EC": {
+            "precision": 0.8862003968253969,
+            "recall": 0.739409722222222,
+            "f1": 0.7841517857142855,
+            "exact_target": 0.3125,
+            "tasks": 80,
+            "invalid_format": 3,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8100665475878317,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "EV": {
+            "precision": 0.9107638888888887,
+            "recall": 0.8825520833333332,
+            "f1": 0.8848513812576311,
+            "exact_target": 0.35,
+            "tasks": 80,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 5,
+            "full_output_f1": 0.8765411133852077,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "mean_family_f1": 0.8345015834859583
+        },
+        "candidate_prior": {
+          "EC": {
+            "precision": 0.8862003968253969,
+            "recall": 0.739409722222222,
+            "f1": 0.7841517857142855,
+            "exact_target": 0.3125,
+            "tasks": 80,
+            "invalid_format": 3,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8100665475878317,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "EV": {
+            "precision": 0.9411805555555557,
+            "recall": 0.9305555555555556,
+            "f1": 0.9313574735449736,
+            "exact_target": 0.5125,
+            "tasks": 80,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 4,
+            "full_output_f1": 0.9222568252627781,
+            "negative_or_unscored_asset_claims": 4
+          },
+          "mean_family_f1": 0.8577546296296295
+        },
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "same_recorded_outputs_utility_whole_gate_counterfactual": {
+        "accepted": true,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": true,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": true,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "parent_current": {
+          "EC": {
+            "precision": 0.8541666666666666,
+            "recall": 0.673611111111111,
+            "f1": 0.739781746031746,
+            "exact_target": 0.25,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7925200181082536,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.8098958333333334,
+            "recall": 0.82421875,
+            "f1": 0.796577380952381,
+            "exact_target": 0.4375,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 6,
+            "full_output_f1": 0.7895042723429613,
+            "negative_or_unscored_asset_claims": 6
+          },
+          "mean_family_f1": 0.7681795634920634
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.8541666666666666,
+            "recall": 0.673611111111111,
+            "f1": 0.739781746031746,
+            "exact_target": 0.25,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7925200181082536,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.9703993055555555,
+            "recall": 0.9348958333333333,
+            "f1": 0.9487227182539683,
+            "exact_target": 0.375,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.9503297323328158,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.8442522321428572
+        },
+        "parent_prior": {
+          "EC": {
+            "precision": 0.8862003968253969,
+            "recall": 0.739409722222222,
+            "f1": 0.7841517857142855,
+            "exact_target": 0.3125,
+            "tasks": 80,
+            "invalid_format": 3,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8100665475878317,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "EV": {
+            "precision": 0.9107638888888887,
+            "recall": 0.8825520833333332,
+            "f1": 0.8848513812576311,
+            "exact_target": 0.35,
+            "tasks": 80,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 5,
+            "full_output_f1": 0.8765411133852077,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "mean_family_f1": 0.8345015834859583
+        },
+        "candidate_prior": {
+          "EC": {
+            "precision": 0.8862003968253969,
+            "recall": 0.739409722222222,
+            "f1": 0.7841517857142855,
+            "exact_target": 0.3125,
+            "tasks": 80,
+            "invalid_format": 3,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8100665475878317,
+            "negative_or_unscored_asset_claims": 5
+          },
+          "EV": {
+            "precision": 0.9411805555555557,
+            "recall": 0.9305555555555556,
+            "f1": 0.9313574735449736,
+            "exact_target": 0.5125,
+            "tasks": 80,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 4,
+            "full_output_f1": 0.9222568252627781,
+            "negative_or_unscored_asset_claims": 4
+          },
+          "mean_family_f1": 0.8577546296296295
+        },
+        "TRAIN_optimization_not_independent_validation": true,
+        "admission_contract": "complete_output_utility_prior1pp_v1",
+        "prior_mean_loss_limit": 0.01,
+        "prior_family_within_risk_bound": true,
+        "prior_full_output_within_risk_bound": true,
+        "all_seen_family_nonregression": true,
+        "all_seen_full_output_nonregression": true,
+        "count_changes_are_diagnostic_not_extra_vetoes": true
+      },
+      "teacher_request": {
+        "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/teacher/b6_candidate2/wire_request.json",
+        "sha256": "90303e7c0ed93686c780dc6f20e2bfa084b8ae90eba5960414a4176441da7dde"
+      },
+      "teacher_all32_original_gold_facts_true_current_parent_answers_verified": true,
+      "teacher_mandatory_historical_failure_sources": [
+        182,
+        184,
+        207,
+        223,
+        225,
+        236,
+        251,
+        259
+      ],
+      "not_an_executed_alternate_policy_effect": true
+    }
+  ],
+  "final_batch_parent_gate": {
+    "accepted": true,
+    "current_family_nonregression": true,
+    "prior_family_nonregression": true,
+    "strict_current_improvement": true,
+    "current_full_output_nonregression": true,
+    "prior_full_output_nonregression": true,
+    "current_negative_asset_and_format_nonregression": true,
+    "prior_negative_asset_and_format_nonregression": true,
+    "parent_current": {
+      "EC": {
+        "precision": 0.8541666666666666,
+        "recall": 0.673611111111111,
+        "f1": 0.739781746031746,
+        "exact_target": 0.25,
+        "tasks": 16,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.7925200181082536,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8098958333333334,
+        "recall": 0.82421875,
+        "f1": 0.796577380952381,
+        "exact_target": 0.4375,
+        "tasks": 16,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 6,
+        "full_output_f1": 0.7895042723429613,
+        "negative_or_unscored_asset_claims": 6
+      },
+      "mean_family_f1": 0.7681795634920634
+    },
+    "candidate_current": {
+      "EC": {
+        "precision": 0.8541666666666666,
+        "recall": 0.673611111111111,
+        "f1": 0.739781746031746,
+        "exact_target": 0.25,
+        "tasks": 16,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.7925200181082536,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.9703993055555555,
+        "recall": 0.9348958333333333,
+        "f1": 0.9487227182539683,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9503297323328158,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.8442522321428572
+    },
+    "parent_prior": {
+      "EC": {
+        "precision": 0.8862003968253969,
+        "recall": 0.739409722222222,
+        "f1": 0.7841517857142855,
+        "exact_target": 0.3125,
+        "tasks": 80,
+        "invalid_format": 3,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8100665475878317,
+        "negative_or_unscored_asset_claims": 5
+      },
+      "EV": {
+        "precision": 0.9107638888888887,
+        "recall": 0.8825520833333332,
+        "f1": 0.8848513812576311,
+        "exact_target": 0.35,
+        "tasks": 80,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 5,
+        "full_output_f1": 0.8765411133852077,
+        "negative_or_unscored_asset_claims": 5
+      },
+      "mean_family_f1": 0.8345015834859583
+    },
+    "candidate_prior": {
+      "EC": {
+        "precision": 0.8862003968253969,
+        "recall": 0.739409722222222,
+        "f1": 0.7841517857142855,
+        "exact_target": 0.3125,
+        "tasks": 80,
+        "invalid_format": 3,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8100665475878317,
+        "negative_or_unscored_asset_claims": 5
+      },
+      "EV": {
+        "precision": 0.9411805555555557,
+        "recall": 0.9305555555555556,
+        "f1": 0.9313574735449736,
+        "exact_target": 0.5125,
+        "tasks": 80,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 4,
+        "full_output_f1": 0.9222568252627781,
+        "negative_or_unscored_asset_claims": 4
+      },
+      "mean_family_f1": 0.8577546296296295
+    },
+    "TRAIN_optimization_not_independent_validation": true
+  },
+  "postlabel_all96_TRAIN": {
+    "EC": {
+      "precision": 0.8808614417989419,
+      "recall": 0.7284432870370368,
+      "f1": 0.7767567791005289,
+      "exact_target": 0.3020833333333333,
+      "tasks": 96,
+      "invalid_format": 4,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.8071421260079018,
+      "negative_or_unscored_asset_claims": 6
+    },
+    "EV": {
+      "precision": 0.9460503472222223,
+      "recall": 0.9312789351851851,
+      "f1": 0.9342516809964727,
+      "exact_target": 0.4895833333333333,
+      "tasks": 96,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 4,
+      "full_output_f1": 0.9269356431077843,
+      "negative_or_unscored_asset_claims": 4
+    },
+    "mean_family_f1": 0.8555042300485007
+  },
+  "ownB1_snapshot": {
+    "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/frozen_after_B1.json",
+    "sha256": "98eb004f5eaf6be3c990e84d292ee1e6db261d0a1efcc6101650d7344d9e9de6"
+  },
+  "ownB1_unchanged": true,
+  "actual_native_origins": 255,
+  "native_stages": {
+    "b6_prequential": 63,
+    "b6_candidate1_replay": 96,
+    "b6_candidate2_replay": 96
+  },
+  "native_tokens": {
+    "input": 1741713,
+    "output": 731157
+  },
+  "native_finishes": {
+    "stop": 252,
+    "length": 3
+  },
+  "teacher_usage": {
+    "input_tokens": 239219,
+    "cached_input_tokens": 0,
+    "output_tokens": 7487,
+    "reasoning_output_tokens": 4430
+  },
+  "B7_actual_skill_input_prefix": [
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b7_prequential/278_EV_skills.input.json",
+      "sha256": "c85d4645fc5b709e033302a873b8f736ce6083964b7af0a1c792bf89f2b47990"
+    }
+  ],
+  "B7_partial_scores_not_read": true,
+  "complete_B6_blind_firsts_proof": {
+    "path": "artifacts/research/openexempt_legal_scope_20261020/Utility_v6_strict_B6_complete_blind_firsts_all160_original_scores_true_parent_teacher11_gold_retained_failures_not_TEST_20261030.json",
+    "sha256": "7d3b7aa6c434c73c8d3f33e36e45d65779385e2fcf09453dad579021c1996dd9"
+  },
+  "new_model_teacher_or_tokenizer_calls": 0,
+  "new_TEST_semantics_unopened": true
+}

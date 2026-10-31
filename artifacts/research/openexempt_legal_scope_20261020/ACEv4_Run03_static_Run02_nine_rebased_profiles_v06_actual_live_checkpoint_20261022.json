@@ -1,0 +1,206 @@
+{
+  "at": "2026-10-22T15:51:44.974888+00:00",
+  "root_HEAD": "1361f55",
+  "active_original_units": [
+    {
+      "unit": "legal-openexempt-ace-public-assets128-20261022-run03.service",
+      "pid": 812509,
+      "start_ticks": "468900048",
+      "actual_unit": "Restart=no\nTimeoutStopUSec=20min\nMainPID=812509\nResult=success\nExecStart={ path=/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python ; argv[]=/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python -u -m experiments.openexempt_ace_online run /media/sangfor/vdb/legal-skill-evolve/configs/openexempt_ace_public_assets128_20261022_run03.json ; ignore_errors=no ; start_time=[Thu 2026-10-22 23:21:23 CST] ; stop_time=[n/a] ; pid=812509 ; code=(null) ; status=0/0 }\nWorkingDirectory=/media/sangfor/vdb/legal-skill-evolve\nActiveState=active\nSubState=running\n"
+    },
+    {
+      "unit": "legal-qwen3-8b.service",
+      "pid": 3613253,
+      "start_ticks": "446037091",
+      "actual_unit": "Restart=no\nTimeoutStopUSec=1min 30s\nMainPID=3613253\nResult=success\nExecStart={ path=/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm ; argv[]=/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm serve /media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218 --served-model-name Qwen/Qwen3-8B --host 127.0.0.1 --port 8000 --dtype bfloat16 --max-model-len 32768 --max-num-seqs 1 --seed 42 --generation-config vllm --reasoning-parser qwen3 --gpu-memory-utilization 0.48 --no-enable-prefix-caching --disable-uvicorn-access-log --guided-decoding-backend xgrammar --guided-decoding-disable-any-whitespace --kv-cache-memory-bytes 5368709120 --max-num-batched-tokens 16384 ; ignore_errors=no ; start_time=[Tue 2026-10-20 07:50:53 CST] ; stop_time=[n/a] ; pid=3613253 ; code=(null) ; status=0/0 }\nWorkingDirectory=/media/sangfor/vdb/legal-skill-runtime\nActiveState=active\nSubState=running\n"
+    },
+    {
+      "unit": "legal-openexempt-fixed-static-train128-20261022-run02.service",
+      "pid": 821776,
+      "start_ticks": "468935458",
+      "actual_unit": "Restart=no\nTimeoutStopUSec=20min\nMainPID=821776\nResult=success\nExecStart={ path=/bin/bash ; argv[]=/bin/bash /media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_fixed_static_train128_20261022_run02/after_ACE.sh ; ignore_errors=no ; start_time=[Thu 2026-10-22 23:27:17 CST] ; stop_time=[n/a] ; pid=821776 ; code=(null) ; status=0/0 }\nWorkingDirectory=/media/sangfor/vdb/legal-skill-evolve\nActiveState=active\nSubState=running\n"
+    }
+  ],
+  "progress_snapshot_not_mutable_file": {
+    "at": "2026-10-22T15:50:55.798103+00:00",
+    "run_id": "legal_openexempt_ace_public_assets128_20261022_run03",
+    "state": "running",
+    "stage": "b3_TRAIN_round2",
+    "current_batch": 3,
+    "completed_native_calls": 298,
+    "completed_teacher_calls": 119,
+    "teacher_attempts": 119,
+    "playbook_bullets": 12,
+    "cross_stage_identical_wire_reuses": 108,
+    "current_arm": "ace",
+    "current_document_id": 218,
+    "current_call": "openexempt_ace_generator"
+  },
+  "fresh_counts": {
+    "native": 14,
+    "teacher_responses": 17
+  },
+  "source_archives_verified": [
+    {
+      "run": "legal_openexempt_ace_public_assets128_20261022_run03",
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_ace_public_assets128_20261022_run03-source.tar.gz",
+      "members": 382,
+      "sha256": "480da283bd761b02181ffc93d631115d46398f5cadc23e8536664466fd1def39",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_ace_public_assets128_20261022_run03",
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_ace_public_assets128_20261022_run03-source.tar.gz",
+      "members": 382,
+      "sha256": "c391454976af524eeca6ffba0b1f42c90ce517bfbf97efe75743ecd6a0512470",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_fixed_static_train128_20261022_run02",
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_fixed_static_train128_20261022_run02-source.tar.gz",
+      "members": 402,
+      "sha256": "ec24004f43f5c86aa89675ee34748caf4a1b51b37b9dae1882d930c09b50f8bc",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_fixed_static_train128_20261022_run02",
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_fixed_static_train128_20261022_run02-source.tar.gz",
+      "members": 402,
+      "sha256": "ec24004f43f5c86aa89675ee34748caf4a1b51b37b9dae1882d930c09b50f8bc",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_whole_bank_public_assets128_20261022_run01",
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_whole_bank_public_assets128_20261022_run01-source.tar.gz",
+      "members": 376,
+      "sha256": "350c459adf01b7615992a7acb1d1611cfacffaa9defb7adf325dbfcfac3cee19",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_whole_bank_public_assets128_20261022_run01",
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_whole_bank_public_assets128_20261022_run01-source.tar.gz",
+      "members": 376,
+      "sha256": "350c459adf01b7615992a7acb1d1611cfacffaa9defb7adf325dbfcfac3cee19",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_first_commit_public_assets128_20261022_run01",
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_first_commit_public_assets128_20261022_run01-source.tar.gz",
+      "members": 376,
+      "sha256": "8adf417302fca87da88e73a81bced1cddc37f769cea05eeb644a8e1ee2b54a44",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_first_commit_public_assets128_20261022_run01",
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_first_commit_public_assets128_20261022_run01-source.tar.gz",
+      "members": 376,
+      "sha256": "8adf417302fca87da88e73a81bced1cddc37f769cea05eeb644a8e1ee2b54a44",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_closed_feedback_public_assets128_seed145_20261022_run02",
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_closed_feedback_public_assets128_seed145_20261022_run02-source.tar.gz",
+      "members": 376,
+      "sha256": "729f710c5fe4fc98d8ee912af01623d436343e927e872960a2d144ad9ab16084",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_closed_feedback_public_assets128_seed145_20261022_run02",
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_closed_feedback_public_assets128_seed145_20261022_run02-source.tar.gz",
+      "members": 376,
+      "sha256": "bff6d27510f9a4ac16265694302957bb7e5805f8de274fb0903d7c0f30fe6bd6",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_ace_public_assets128_seed145_20261022_run04",
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_ace_public_assets128_seed145_20261022_run04-source.tar.gz",
+      "members": 382,
+      "sha256": "1d81e7fcb69ad9c6f53a5515a76917475dc100da6aa113a07b58a8a7c1a16e3f",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_ace_public_assets128_seed145_20261022_run04",
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_ace_public_assets128_seed145_20261022_run04-source.tar.gz",
+      "members": 382,
+      "sha256": "1d81e7fcb69ad9c6f53a5515a76917475dc100da6aa113a07b58a8a7c1a16e3f",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_closed_feedback_public_assets128_seed245_20261022_run02",
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_closed_feedback_public_assets128_seed245_20261022_run02-source.tar.gz",
+      "members": 376,
+      "sha256": "54bbe5c4ba34cc9e86e59fb26b70192c779c2cb8b27ca9ac969665ca0d6c6cd6",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_closed_feedback_public_assets128_seed245_20261022_run02",
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_closed_feedback_public_assets128_seed245_20261022_run02-source.tar.gz",
+      "members": 376,
+      "sha256": "54bbe5c4ba34cc9e86e59fb26b70192c779c2cb8b27ca9ac969665ca0d6c6cd6",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_ace_public_assets128_seed245_20261022_run04",
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_ace_public_assets128_seed245_20261022_run04-source.tar.gz",
+      "members": 382,
+      "sha256": "0c9babe128cd32b3f9a97771270ac40184719f3e311c890d4ea742d3af756c62",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_ace_public_assets128_seed245_20261022_run04",
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_ace_public_assets128_seed245_20261022_run04-source.tar.gz",
+      "members": 382,
+      "sha256": "0c9babe128cd32b3f9a97771270ac40184719f3e311c890d4ea742d3af756c62",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_trace2skill_text_public_assets128_seed45_20261022_run02",
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_trace2skill_text_public_assets128_seed45_20261022_run02-source.tar.gz",
+      "members": 377,
+      "sha256": "f4f765bb0b6a93502e45bcb239f226acf7c5128454342f94d3084ad84fa63b6f",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_trace2skill_text_public_assets128_seed45_20261022_run02",
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_trace2skill_text_public_assets128_seed45_20261022_run02-source.tar.gz",
+      "members": 377,
+      "sha256": "f4f765bb0b6a93502e45bcb239f226acf7c5128454342f94d3084ad84fa63b6f",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_trace2skill_text_public_assets128_seed145_20261022_run02",
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_trace2skill_text_public_assets128_seed145_20261022_run02-source.tar.gz",
+      "members": 377,
+      "sha256": "6cdcc9ac717b503757927181dc7aeeaca4e46dc8e4b7073179165917cc210d0d",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_trace2skill_text_public_assets128_seed145_20261022_run02",
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_trace2skill_text_public_assets128_seed145_20261022_run02-source.tar.gz",
+      "members": 377,
+      "sha256": "d7469648144e80bd2d5a804191abaa1a8a9e47f04f361f24b778b1c10e85da66",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_trace2skill_text_public_assets128_seed245_20261022_run02",
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_trace2skill_text_public_assets128_seed245_20261022_run02-source.tar.gz",
+      "members": 377,
+      "sha256": "c4e7d614e6779fddcba410dc1d4c7c692cf3fe580d35107f145f0b6bbb1db388",
+      "all_member_bytes_match": true
+    },
+    {
+      "run": "legal_openexempt_trace2skill_text_public_assets128_seed245_20261022_run02",
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_trace2skill_text_public_assets128_seed245_20261022_run02-source.tar.gz",
+      "members": 377,
+      "sha256": "8c8c95406ebdb48f8847e8c452fa7402f0deeb27196bfd46e12687cd7983b1de",
+      "all_member_bytes_match": true
+    }
+  ],
+  "static_still_waiting_no_run_directory": true,
+  "actual_no_extra_model": true,
+  "current_observer": 1511,
+  "current_source_algorithm_commit": "3dc28b5",
+  "future_profiles_commit": "2d07f55",
+  "paper_v06_commit": "1361f55",
+  "no_native_teacher_or_TEST_call_in_backup": true
+}

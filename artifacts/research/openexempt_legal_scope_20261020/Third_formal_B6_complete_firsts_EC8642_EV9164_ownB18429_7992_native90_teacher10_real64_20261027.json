@@ -1,0 +1,282 @@
+{
+  "observed_at_utc": "2026-10-27T13:14:18.871892+00:00",
+  "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+  "user_named_main_round": 3,
+  "scope": "Complete B6 first forecasts before label release and actual teacher evidence receipt; not post-label replay or TEST",
+  "batch": 6,
+  "first_source_id_range": [
+    261,
+    276
+  ],
+  "firsts": {
+    "empty": {
+      "EC": {
+        "precision": 0.9010416666666666,
+        "recall": 0.5907118055555556,
+        "f1": 0.6934523809523808,
+        "exact_target": 0.1875,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.7451928432191591,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8098958333333333,
+        "recall": 0.5616319444444444,
+        "f1": 0.6493055555555555,
+        "exact_target": 0.125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.6450892857142857,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.6713789682539681
+    },
+    "frozen_after_B1": {
+      "EC": {
+        "precision": 0.9479166666666666,
+        "recall": 0.7847222222222223,
+        "f1": 0.8428571428571427,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8870699475962633,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8854166666666665,
+        "recall": 0.7530381944444443,
+        "f1": 0.7991567460317459,
+        "exact_target": 0.1875,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.7882120455709165,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.8210069444444443
+    },
+    "skills": {
+      "EC": {
+        "precision": 0.9322916666666666,
+        "recall": 0.829861111111111,
+        "f1": 0.8642113095238095,
+        "exact_target": 0.5,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9262867647058824,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9318576388888887,
+        "recall": 0.9075520833333331,
+        "f1": 0.9163814484126983,
+        "exact_target": 0.4375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9171502976190475,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.8902963789682539
+    }
+  },
+  "gains_vs_own_B1_pp": {
+    "EC": 2.1354166666666785,
+    "EV": 11.722470238095239
+  },
+  "gains_vs_empty_pp": {
+    "EC": 17.075892857142872,
+    "EV": 26.707589285714285
+  },
+  "same_case_effect_vs_own_B1": {
+    "tasks": 32,
+    "help": 16,
+    "hurt": 4,
+    "ties": 12,
+    "mean_f1_difference": 0.06928943452380952
+  },
+  "effects_by_family": {
+    "EC": {
+      "tasks": 16,
+      "help": 7,
+      "hurt": 3,
+      "ties": 6,
+      "mean_f1_difference": 0.021354166666666646
+    },
+    "EV": {
+      "tasks": 16,
+      "help": 9,
+      "hurt": 1,
+      "ties": 6,
+      "mean_f1_difference": 0.1172247023809524
+    }
+  },
+  "harms_preserved": {
+    "EC": [
+      {
+        "case_id": 263,
+        "own_B1_F1": 1,
+        "main_F1": 0.8
+      },
+      {
+        "case_id": 271,
+        "own_B1_F1": 0.9,
+        "main_F1": 0.525
+      },
+      {
+        "case_id": 272,
+        "own_B1_F1": 0.9,
+        "main_F1": 0.75
+      }
+    ],
+    "EV": [
+      {
+        "case_id": 263,
+        "own_B1_F1": 0.8333333333333333,
+        "main_F1": 0.6000000000000001
+      }
+    ]
+  },
+  "native_claim_counts_original_matcher": {
+    "empty": {
+      "EC": {
+        "invalid_response": 0,
+        "correct": 73,
+        "missing": 51,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 1,
+        "incorrect_value_predictions": 0
+      },
+      "EV": {
+        "invalid_response": 0,
+        "correct": 64,
+        "missing": 54,
+        "incorrect_value": 6,
+        "extra_or_duplicate": 4,
+        "incorrect_value_predictions": 6
+      }
+    },
+    "frozen_after_B1": {
+      "EC": {
+        "invalid_response": 0,
+        "correct": 98,
+        "missing": 26,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 1,
+        "incorrect_value_predictions": 0
+      },
+      "EV": {
+        "invalid_response": 0,
+        "correct": 88,
+        "missing": 25,
+        "incorrect_value": 11,
+        "extra_or_duplicate": 1,
+        "incorrect_value_predictions": 11
+      }
+    },
+    "skills": {
+      "EC": {
+        "invalid_response": 0,
+        "correct": 107,
+        "missing": 17,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 0,
+        "incorrect_value_predictions": 0
+      },
+      "EV": {
+        "invalid_response": 0,
+        "correct": 112,
+        "missing": 4,
+        "incorrect_value": 8,
+        "extra_or_duplicate": 1,
+        "incorrect_value_predictions": 8
+      }
+    }
+  },
+  "actual_actor_messages_schema_bank_and_delivered_skill_ID_proofs": 160,
+  "fresh_native_calls": 90,
+  "finish_counts": {
+    "stop": 90
+  },
+  "native_input_tokens": 594687,
+  "native_output_tokens": 239166,
+  "parent_bank_sha256": "088211d9a31abddb528278bd6d8139ac92fd29c98fe1f82c5ebee1084eebceb6",
+  "own_B1_sha256": "02c5f64f331afdba709cb037a759c04e9b71c12b9513b720a26d5ffaccb20df6",
+  "teacher": {
+    "actual_evidence_records": 64,
+    "original_targets_actual_parent_and_empty_answers_scores_raw_and_claim_feedback_checks": {
+      "original_targets": 64,
+      "actual_parent_answers_scores_errors": 64,
+      "parent_raw_origins": 64,
+      "native_claim_feedback": 64,
+      "actual_same_case_empty_answers_scores": 64
+    },
+    "current_sources": 16,
+    "historical_sources": 16,
+    "all_mandatory_witness_sources_delivered": true,
+    "mandatory_witness_sources": 13,
+    "feedback_objects": 2,
+    "response_present": true,
+    "parent_hash_verified": true,
+    "own_B1_evaluation_only": true,
+    "elapsed_seconds": 97.287,
+    "usage": {
+      "input_tokens": 190186,
+      "cached_input_tokens": 0,
+      "output_tokens": 4771,
+      "reasoning_output_tokens": 3470
+    },
+    "cache_hit": false,
+    "tool_events_detected": false,
+    "operations": [
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "federal-specific-personal-property-boundaries"
+        ],
+        "new_skill_id": "federal-specific-personal-property-boundaries",
+        "jurisdiction": "FEDERAL"
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "oregon-any-personal-property-alternative"
+        ],
+        "new_skill_id": "oregon-any-personal-property-alternative",
+        "jurisdiction": "OREGON"
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "new_skill_id": "wisconsin-single-debtor-motor-vehicle-valuation",
+        "jurisdiction": "WISCONSIN"
+      }
+    ]
+  },
+  "later_B3_to_current_first_source_descriptive_means": {
+    "skills": {
+      "EC": 0.8467385912698413,
+      "EV": 0.9096385168650793
+    },
+    "frozen_after_B1": {
+      "EC": 0.8254278273809523,
+      "EV": 0.798828125
+    }
+  },
+  "interpretation": [
+    "Values are new-source first answers, never replaced by label-assisted fitting.",
+    "Relative-to-B1 gains measure realized accumulated-library utility on the same cases, not a causal estimate of the immediately preceding edit.",
+    "No EV task-view revision has been admitted after B2 through B5; later utility is not a new edit every batch."
+  ],
+  "goal_status": "active",
+  "new_model_teacher_or_grader_calls_for_audit": 0,
+  "TEST_semantic_reads": 0,
+  "audit_script_corrections": [
+    "Native stage directory contains both raw call and record JSONs; count only objects with actual calls, not every non-input JSON. No generation or scores were changed."
+  ]
+}

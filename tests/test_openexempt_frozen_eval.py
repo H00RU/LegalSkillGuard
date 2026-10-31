@@ -1585,7 +1585,12 @@ def test_formal_supplement_is_explicit_before_any_bank_or_case_access(tmp_path, 
 def adaptive_runtime(prospective_runtime):
     root, s = prospective_runtime, frozen.runtime_sources
     project = Path(frozen.__file__).resolve().parents[1]
-    shutil.copyfile(project / 'experiments/openexempt_online.py', root / 'experiments/openexempt_online.py')
+    digest = s.ADAPTIVE_CURRENT['experiments/openexempt_online.py']
+    historical = project / ('artifacts/research/openexempt_legal_scope_20261020/'
+        'source_snapshots/continued_eval_20261029/'
+        f'openexempt_online_historical_adaptive__{digest}.py')
+    assert sha(historical) == digest
+    shutil.copyfile(historical, root / 'experiments/openexempt_online.py')
     protocol = root / s.ADAPTIVE_PROTOCOL
     protocol.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(project / s.ADAPTIVE_PROTOCOL, protocol)

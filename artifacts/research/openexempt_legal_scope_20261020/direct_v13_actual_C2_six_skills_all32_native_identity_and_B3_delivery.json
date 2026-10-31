@@ -1,0 +1,858 @@
+{
+  "at": "2026-10-20T11:53:54.063702+00:00",
+  "run_id": "legal_openexempt_direct_skills_online_20261020_run01",
+  "actual_publication_at": "2026-10-20T11:49:47.331553+00:00",
+  "parent_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+  "published_bank_sha256": "f40d10172339a2374ee009cc446bc5f3e7131ec8b1617ce0f3bfac1b31799206",
+  "actual_skill_records": 6,
+  "actual_complete_bank_tokens": 1273,
+  "actual_bank": [
+    {
+      "id": "arizona_prescribed_assistive_equipment",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Arizona law applies and the facts identify an item as medically or professionally prescribed assistive equipment for the debtor or a dependent.",
+            "procedure": "Treat the item as a prescribed prosthetic or mobility aid under Ariz. Rev. Stat. § 33-1125(9) and claim its full value because the supplied provision states no dollar cap.",
+            "avoid_when": "Do not classify prescribed assistive equipment as ordinary household furniture merely because it is used in the home; do not apply this rule to ordinary furniture lacking the prescription or assistive condition."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "federal_household_item_cap_and_jewelry_boundary",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "An asset is considered under 11 U.S.C. § 522(d)(3) or is jewelry considered under § 522(d)(4).",
+            "procedure": "First require that a § 522(d)(3) asset be one of the listed household-use categories, then assign no more than the lesser of its value and the $700 per-item limit. Evaluate jewelry separately under § 522(d)(4), using the lesser of value and $1,875 for one debtor. For jointly owned jewelry in a joint case, apply § 522(m) to each spouse's one-half interest and add the claims, each capped at $1,875.",
+            "avoid_when": "Do not use the $14,875 aggregate ceiling as the claim for one item, classify jewelry under § 522(d)(3), or double § 522(d)(3)'s $700 cap for a particular jointly owned item."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "federal_wildcard_independent_alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+            "procedure": "Evaluate 11 U.S.C. § 522(d)(5) for every kind of property as a separate alternative, including property also covered by a category-specific federal exemption.",
+            "avoid_when": "Do not treat a category-specific exemption as excluding the wildcard, and do not add it where the supplied allowable jurisdictions exclude federal exemptions."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+            "procedure": "For 11 U.S.C. § 522(d)(5), calculate the independent claim as the lesser of the asset value and $1,475 plus up to $13,950 of unused § 522(d)(1). When no residence consumes that amount, use a $15,425 ceiling for one debtor. In a joint case, apply § 522(m) separately to each spouse's equal interest and add the two claims, so the combined ceiling is $30,850.",
+            "avoid_when": "Do not aggregate allocations across assets, displace other applicable alternatives, assume unused homestead capacity when the facts show it has been consumed, or apply the two-debtor ceiling to a single debtor."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "illinois_any_other_property_alternative",
+      "hypothesis_ids": [
+        "EC"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Illinois exemptions are allowable and the debtor owns personal property.",
+            "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) as an independent alternative for the property, including when a more specific Illinois exemption also applies.",
+            "avoid_when": "Do not use the $4,000 ceiling as an eligibility test, omit subsection (b) because a specific exemption applies, or classify jewelry as necessary wearing apparel under subsection (a) without facts establishing that condition."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "oregon_any_personal_property_alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Oregon law applies and the asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent alternative even when the asset also fits a specific Oregon exemption.",
+            "avoid_when": "Do not apply it to real property or treat its $400 limit as a condition that makes a more valuable item ineligible."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Oregon law applies and the asset is personal property.",
+            "procedure": "For the independent Or. Rev. Stat. § 18.345(1)(p) alternative, assign the lesser of the asset's value and $400.",
+            "avoid_when": "Do not aggregate different assets or omit separately applicable Oregon exemptions."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "pennsylvania_general_monetary_alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Pennsylvania law applies to property of the judgment debtor.",
+            "procedure": "Evaluate 42 Pa. Cons. Stat. § 8123 as an independent alternative for property of any category and include it alongside any specific Pennsylvania or federal exemption.",
+            "avoid_when": "Do not restrict § 8123 to cash, and do not use its $300 limit as an eligibility test for property worth more than $300."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Pennsylvania law applies to property of the judgment debtor.",
+            "procedure": "For the independent 42 Pa. Cons. Stat. § 8123 alternative, assign the lesser of the property's value and $300.",
+            "avoid_when": "Do not aggregate assets, replace a specific exemption, or exclude tangible property merely because the statute is titled a monetary exemption."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    }
+  ],
+  "actual_effective_task_sets": {
+    "arizona_prescribed_assistive_equipment": [
+      "EV"
+    ],
+    "federal_household_item_cap_and_jewelry_boundary": [
+      "EV"
+    ],
+    "federal_wildcard_independent_alternative": [
+      "EC",
+      "EV"
+    ],
+    "illinois_any_other_property_alternative": [
+      "EC"
+    ],
+    "oregon_any_personal_property_alternative": [
+      "EC",
+      "EV"
+    ],
+    "pennsylvania_general_monetary_alternative": [
+      "EC",
+      "EV"
+    ]
+  },
+  "teacher_proposed_operations": {
+    "operations": [
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "federal_wildcard_independent_alternative"
+        ],
+        "skill": {
+          "id": "federal_wildcard_independent_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                "procedure": "Evaluate 11 U.S.C. § 522(d)(5) for every kind of property as a separate alternative, including property also covered by a category-specific federal exemption.",
+                "avoid_when": "Do not treat a category-specific exemption as excluding the wildcard, and do not add it where the supplied allowable jurisdictions exclude federal exemptions."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                "procedure": "For 11 U.S.C. § 522(d)(5), calculate the independent claim as the lesser of the asset value and $1,475 plus up to $13,950 of unused § 522(d)(1). When no residence consumes that amount, use a $15,425 ceiling for one debtor. In a joint case, apply § 522(m) separately to each spouse's equal interest and add the two claims, so the combined ceiling is $30,850.",
+                "avoid_when": "Do not aggregate allocations across assets, displace other applicable alternatives, assume unused homestead capacity when the facts show it has been consumed, or apply the two-debtor ceiling to a single debtor."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        "source_case_ids": [
+          157,
+          159,
+          162,
+          163
+        ],
+        "rationale": "The parent repeatedly omitted § 522(d)(5) despite applicable specific exemptions. Case 157 additionally shows that the existing single-debtor ceiling understates a jointly owned asset because § 522(m) requires separate treatment of each spouse's interest."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "federal_household_item_cap_and_jewelry_boundary"
+        ],
+        "skill": {
+          "id": "federal_household_item_cap_and_jewelry_boundary",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "An asset is considered under 11 U.S.C. § 522(d)(3) or is jewelry considered under § 522(d)(4).",
+                "procedure": "First require a listed § 522(d)(3) household-use category, but include that exemption even when the item's value exceeds $700. Evaluate jewelry under § 522(d)(4), not § 522(d)(3), and likewise do not use the jewelry dollar ceiling as an eligibility test.",
+                "avoid_when": "Do not include property outside the listed § 522(d)(3) categories, and do not classify jewelry under § 522(d)(3) merely because it is held for personal or household use."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "An asset is considered under 11 U.S.C. § 522(d)(3) or is jewelry considered under § 522(d)(4).",
+                "procedure": "First require that a § 522(d)(3) asset be one of the listed household-use categories, then assign no more than the lesser of its value and the $700 per-item limit. Evaluate jewelry separately under § 522(d)(4), using the lesser of value and $1,875 for one debtor. For jointly owned jewelry in a joint case, apply § 522(m) to each spouse's one-half interest and add the claims, each capped at $1,875.",
+                "avoid_when": "Do not use the $14,875 aggregate ceiling as the claim for one item, classify jewelry under § 522(d)(3), or double § 522(d)(3)'s $700 cap for a particular jointly owned item."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        "source_case_ids": [
+          154,
+          159,
+          163
+        ],
+        "rationale": "Cases 154 and 159 show the jewelry-versus-household boundary error, while case 159 also requires separate joint-debtor treatment for the jewelry amount. Case 163 shows that the § 522(d)(3) per-item cap was incorrectly treated as an eligibility cutoff."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "illinois_any_other_property_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Illinois exemptions are allowable and the debtor owns personal property.",
+                "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) as an independent alternative for the property, including when a more specific Illinois exemption also applies.",
+                "avoid_when": "Do not use the $4,000 ceiling as an eligibility test, omit subsection (b) because a specific exemption applies, or classify jewelry as necessary wearing apparel under subsection (a) without facts establishing that condition."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Illinois exemptions are allowable and the debtor owns personal property.",
+                "procedure": "For the independent 735 Ill. Comp. Stat. 5/12-1001(b) alternative, assign the lesser of the property's value and $4,000.",
+                "avoid_when": "Do not aggregate allocations across assets, replace a separately applicable specific exemption, or treat ordinary jewelry as necessary wearing apparel under subsection (a)."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        },
+        "source_case_ids": [
+          149,
+          164
+        ],
+        "rationale": "In both Illinois sources the parent omitted subsection (b) from property also covered by a specific exemption; case 164 also omitted it from jewelry and instead produced an unsupported subsection (a) alternative in EV."
+      }
+    ],
+    "noop_reason": null
+  },
+  "accepted_legal_coordinates": [
+    "EC:ILLINOIS",
+    "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN"
+  ],
+  "all_legal_scope_admission": {
+    "EC:ARIZONA": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": false,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_tasks": 2,
+      "prior_tasks": 3
+    },
+    "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN": {
+      "accepted": false,
+      "current_nonregression": false,
+      "prior_nonregression": true,
+      "strict_current_improvement": false,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_tasks": 5,
+      "prior_tasks": 4
+    },
+    "EC:ILLINOIS": {
+      "accepted": true,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_tasks": 1,
+      "prior_tasks": 1
+    },
+    "EV:ARIZONA": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": false,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_tasks": 2,
+      "prior_tasks": 3
+    },
+    "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN": {
+      "accepted": true,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_tasks": 5,
+      "prior_tasks": 4
+    },
+    "EV:ILLINOIS": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": false,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": false,
+      "current_tasks": 1,
+      "prior_tasks": 1
+    }
+  },
+  "original_full_admission": {
+    "accepted": true,
+    "current_family_nonregression": true,
+    "prior_family_nonregression": true,
+    "strict_current_improvement": true,
+    "current_full_output_nonregression": true,
+    "prior_full_output_nonregression": true,
+    "parent_current": {
+      "EC": {
+        "precision": 0.90625,
+        "recall": 0.71875,
+        "f1": 0.7894345238095238,
+        "exact_target": 0.0,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0
+      },
+      "EV": {
+        "precision": 0.71875,
+        "recall": 0.5416666666666666,
+        "f1": 0.6083333333333334,
+        "exact_target": 0.125,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 2,
+        "full_output_f1": 0.6166666666666667
+      },
+      "mean_family_f1": 0.6988839285714286
+    },
+    "candidate_current": {
+      "EC": {
+        "precision": 0.96875,
+        "recall": 0.78125,
+        "f1": 0.8519345238095238,
+        "exact_target": 0.0,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0
+      },
+      "EV": {
+        "precision": 0.875,
+        "recall": 0.7013888888888888,
+        "f1": 0.7678571428571429,
+        "exact_target": 0.125,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 2,
+        "full_output_f1": 0.7757326007326009
+      },
+      "mean_family_f1": 0.8098958333333334
+    },
+    "parent_prior": {
+      "EC": {
+        "precision": 0.90625,
+        "recall": 0.6458333333333333,
+        "f1": 0.7275297619047619,
+        "exact_target": 0.0,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0
+      },
+      "EV": {
+        "precision": 0.953125,
+        "recall": 0.7552083333333334,
+        "f1": 0.825,
+        "exact_target": 0.25,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8324561403508771
+      },
+      "mean_family_f1": 0.7762648809523809
+    },
+    "candidate_prior": {
+      "EC": {
+        "precision": 0.90625,
+        "recall": 0.6458333333333333,
+        "f1": 0.7275297619047619,
+        "exact_target": 0.0,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0
+      },
+      "EV": {
+        "precision": 0.953125,
+        "recall": 0.7864583333333334,
+        "f1": 0.8421130952380953,
+        "exact_target": 0.25,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 2,
+        "full_output_f1": 0.8458333333333333
+      },
+      "mean_family_f1": 0.7848214285714286
+    }
+  },
+  "all32_actual_native_identity_decode_and_original_rescores": [
+    {
+      "source_id": 149,
+      "task": "EC",
+      "before_F1": 0.6666666666666666,
+      "actual_C2_F1": 0.6666666666666666,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/149_EC_candidate.json"
+    },
+    {
+      "source_id": 149,
+      "task": "EV",
+      "before_F1": 0.6666666666666666,
+      "actual_C2_F1": 0.6666666666666666,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/149_EV_empty.json"
+    },
+    {
+      "source_id": 150,
+      "task": "EC",
+      "before_F1": 1.0,
+      "actual_C2_F1": 1.0,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/150_EC_empty.json"
+    },
+    {
+      "source_id": 150,
+      "task": "EV",
+      "before_F1": 1.0,
+      "actual_C2_F1": 1.0,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/150_EV_candidate.json"
+    },
+    {
+      "source_id": 151,
+      "task": "EC",
+      "before_F1": 1.0,
+      "actual_C2_F1": 1.0,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/151_EC_frozen_initial.json"
+    },
+    {
+      "source_id": 151,
+      "task": "EV",
+      "before_F1": 1.0,
+      "actual_C2_F1": 1.0,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/151_EV_candidate.json"
+    },
+    {
+      "source_id": 152,
+      "task": "EC",
+      "before_F1": 1.0,
+      "actual_C2_F1": 1.0,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/152_EC_skills.json"
+    },
+    {
+      "source_id": 152,
+      "task": "EV",
+      "before_F1": 1.0,
+      "actual_C2_F1": 1.0,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/152_EV_candidate.json"
+    },
+    {
+      "source_id": 153,
+      "task": "EC",
+      "before_F1": 0.7619047619047619,
+      "actual_C2_F1": 0.7619047619047619,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/153_EC_candidate.json"
+    },
+    {
+      "source_id": 153,
+      "task": "EV",
+      "before_F1": 0.6666666666666666,
+      "actual_C2_F1": 0.9285714285714286,
+      "delta": 0.261904761904762,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/153_EV_candidate.json"
+    },
+    {
+      "source_id": 154,
+      "task": "EC",
+      "before_F1": 0.6000000000000001,
+      "actual_C2_F1": 0.6000000000000001,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/154_EC_candidate.json"
+    },
+    {
+      "source_id": 154,
+      "task": "EV",
+      "before_F1": 0.8,
+      "actual_C2_F1": 1.0,
+      "delta": 0.19999999999999996,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/154_EV_candidate.json"
+    },
+    {
+      "source_id": 155,
+      "task": "EC",
+      "before_F1": 0.29166666666666663,
+      "actual_C2_F1": 0.29166666666666663,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/155_EC_candidate.json"
+    },
+    {
+      "source_id": 155,
+      "task": "EV",
+      "before_F1": 0.4666666666666667,
+      "actual_C2_F1": 0.4916666666666667,
+      "delta": 0.025000000000000022,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/155_EV_candidate.json"
+    },
+    {
+      "source_id": 156,
+      "task": "EC",
+      "before_F1": 0.5,
+      "actual_C2_F1": 0.5,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/156_EC_candidate.json"
+    },
+    {
+      "source_id": 156,
+      "task": "EV",
+      "before_F1": 1.0,
+      "actual_C2_F1": 0.65,
+      "delta": -0.35,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/156_EV_candidate.json"
+    },
+    {
+      "source_id": 157,
+      "task": "EC",
+      "before_F1": 0.8571428571428571,
+      "actual_C2_F1": 0.8571428571428571,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/157_EC_skills.json"
+    },
+    {
+      "source_id": 157,
+      "task": "EV",
+      "before_F1": 0.3333333333333333,
+      "actual_C2_F1": 0.6190476190476191,
+      "delta": 0.28571428571428575,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/157_EV_candidate.json"
+    },
+    {
+      "source_id": 158,
+      "task": "EC",
+      "before_F1": 1.0,
+      "actual_C2_F1": 1.0,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/158_EC_empty.json"
+    },
+    {
+      "source_id": 158,
+      "task": "EV",
+      "before_F1": 1.0,
+      "actual_C2_F1": 1.0,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/158_EV_skills.json"
+    },
+    {
+      "source_id": 159,
+      "task": "EC",
+      "before_F1": 0.6000000000000001,
+      "actual_C2_F1": 0.6000000000000001,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/159_EC_skills.json"
+    },
+    {
+      "source_id": 159,
+      "task": "EV",
+      "before_F1": 0.6000000000000001,
+      "actual_C2_F1": 0.8,
+      "delta": 0.19999999999999996,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/159_EV_candidate.json"
+    },
+    {
+      "source_id": 160,
+      "task": "EC",
+      "before_F1": 1.0,
+      "actual_C2_F1": 1.0,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/160_EC_skills.json"
+    },
+    {
+      "source_id": 160,
+      "task": "EV",
+      "before_F1": 0.0,
+      "actual_C2_F1": 0.8571428571428571,
+      "delta": 0.8571428571428571,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/160_EV_candidate.json"
+    },
+    {
+      "source_id": 161,
+      "task": "EC",
+      "before_F1": 1.0,
+      "actual_C2_F1": 1.0,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/161_EC_empty_direct_numeric.json"
+    },
+    {
+      "source_id": 161,
+      "task": "EV",
+      "before_F1": 1.0,
+      "actual_C2_F1": 1.0,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/161_EV_skills.json"
+    },
+    {
+      "source_id": 162,
+      "task": "EC",
+      "before_F1": 0.8000000000000002,
+      "actual_C2_F1": 0.8000000000000002,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/162_EC_skills.json"
+    },
+    {
+      "source_id": 162,
+      "task": "EV",
+      "before_F1": 0.8000000000000002,
+      "actual_C2_F1": 0.5333333333333333,
+      "delta": -0.26666666666666683,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/162_EV_candidate.json"
+    },
+    {
+      "source_id": 163,
+      "task": "EC",
+      "before_F1": 0.7250000000000001,
+      "actual_C2_F1": 0.7250000000000001,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/163_EC_skills.json"
+    },
+    {
+      "source_id": 163,
+      "task": "EV",
+      "before_F1": 0.8,
+      "actual_C2_F1": 1.0,
+      "delta": 0.19999999999999996,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/163_EV_candidate.json"
+    },
+    {
+      "source_id": 164,
+      "task": "EC",
+      "before_F1": 0.3333333333333333,
+      "actual_C2_F1": 0.8333333333333333,
+      "delta": 0.49999999999999994,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/164_EC_candidate.json"
+    },
+    {
+      "source_id": 164,
+      "task": "EV",
+      "before_F1": 0.3333333333333333,
+      "actual_C2_F1": 0.3333333333333333,
+      "delta": 0.0,
+      "native_wire_and_decode_and_original_rescore_verified": true,
+      "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/164_EV_empty_direct_numeric.json"
+    }
+  ],
+  "current_TRAIN_paired_effect": {
+    "tasks": 16,
+    "help": 5,
+    "hurt": 1,
+    "ties": 10,
+    "mean_f1_difference": 0.11101190476190474
+  },
+  "prior_TRAIN_paired_effect": {
+    "tasks": 16,
+    "help": 3,
+    "hurt": 1,
+    "ties": 12,
+    "mean_f1_difference": 0.008556547619047623
+  },
+  "not_per_case_preservation": {
+    "old_source156_EV_before": 1.0,
+    "old_source156_EV_after": 0.65,
+    "current_source162_EV_before": 0.8000000000000002,
+    "current_source162_EV_after": 0.5333333333333333,
+    "all_sources_retained_in_training_metrics": true
+  },
+  "source160_EV_actual_train_recovery": {
+    "before": 0.0,
+    "after": 0.8571428571428571,
+    "real_four_asset_answer_not_placeholder": true,
+    "federal_wildcard_still_omitted_for_all_four_assets": true,
+    "same_model_generation_parameters_system_schema_public_case_only_skill_text_changed": true
+  },
+  "closed_B2_actual_native_cost": {
+    "b2_prequential": {
+      "actual_new_native_calls": 28,
+      "usage": {
+        "prompt_tokens": 178816,
+        "completion_tokens": 66502,
+        "total_tokens": 245318
+      },
+      "finish_reasons": {
+        "stop": 28
+      }
+    },
+    "b2_candidate1_replay": {
+      "actual_new_native_calls": 22,
+      "usage": {
+        "prompt_tokens": 144632,
+        "completion_tokens": 65110,
+        "total_tokens": 209742
+      },
+      "finish_reasons": {
+        "stop": 22
+      }
+    },
+    "b2_candidate1_composed_replay": {
+      "actual_new_native_calls": 0,
+      "usage": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      },
+      "finish_reasons": {}
+    }
+  },
+  "actual_teacher_usage": {
+    "attempt": 1,
+    "started_at": "2026-10-20T11:16:59.076647+00:00",
+    "finished_at": "2026-10-20T11:18:31.701060+00:00",
+    "elapsed_seconds": 92.624,
+    "returncode": 0,
+    "event_log_sha256": "b5ca95c1b93f5a29405ce4650cd7ae2c67e1f6c1397efcd855a0aae38808e371",
+    "tool_events_detected": false,
+    "budget_reservation": {
+      "sequence": 1515,
+      "new_epoch_sequence": 290,
+      "reserved_at": "2026-10-20T11:16:59.077439+00:00",
+      "model": "gpt-5.6-sol",
+      "purpose": "legal_openexempt_direct_skills_online_20261020_run01_b2_candidate1",
+      "request_sha256": "0aa2f11ed876fec9c5a2a91db2fec5b9af4b1fbe5d30cfbbb4dd76d67f883526",
+      "attempt": 1
+    },
+    "usage": {
+      "input_tokens": 90984,
+      "cached_input_tokens": 0,
+      "output_tokens": 3740,
+      "reasoning_output_tokens": 2586
+    },
+    "estimated_credits": null
+  },
+  "no_new_composed_bank_native_generation": true,
+  "actual_first_B3_incoming_skill_delivery": {
+    "path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/165_EC_skills.input.json",
+    "bank_sha256": "f40d10172339a2374ee009cc446bc5f3e7131ec8b1617ce0f3bfac1b31799206",
+    "skill_ids": [
+      "federal_wildcard_independent_alternative",
+      "pennsylvania_general_monetary_alternative"
+    ]
+  },
+  "source_bindings_unchanged": 176,
+  "current_main_code_config_and_scoring_not_hot_modified": true,
+  "no_B3_B4_Gold_private_construction_or_official_TEST_semantically_read": true,
+  "TRAIN_replay_not_future_source_or_formal_paper_success": true
+}

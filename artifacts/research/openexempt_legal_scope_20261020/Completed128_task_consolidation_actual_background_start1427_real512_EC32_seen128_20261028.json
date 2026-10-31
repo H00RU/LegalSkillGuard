@@ -1,0 +1,81 @@
+{
+  "at": "2026-10-28T15:22:22.539873+00:00",
+  "run_id": "legal_openexempt_completed128_task_consolidation_20261028_run01",
+  "service": "legal-openexempt-completed128-consolidation-20261028-run01.service",
+  "pid": 928880,
+  "birth": "520731728",
+  "model_pid": 958223,
+  "model_birth": "486445918",
+  "training_phase": "post_stream_seen_source_consolidation_v1",
+  "parent_run": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+  "parent_bank": "3c63a71f1ecd7d1b9d071c4ab39750ac8f0c483c5f3ad8d25c7ee6adca813cf2",
+  "initial_records": 8,
+  "prior_TRAIN_exposure": 128,
+  "actual_parent_before": {
+    "EC": {
+      "precision": 0.9486762152777777,
+      "recall": 0.8919270833333334,
+      "f1": 0.911514136904762,
+      "exact_target": 0.5859375,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.9433379492571299,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "EV": {
+      "precision": 0.9355034722222222,
+      "recall": 0.905544704861111,
+      "f1": 0.9128399884259256,
+      "exact_target": 0.4296875,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 2,
+      "full_output_f1": 0.9063070677977454,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "mean_family_f1": 0.9121770626653438
+  },
+  "imports": 512,
+  "teacher_actual_task": "EC",
+  "teacher_actual_records": 32,
+  "all_optimization_sources": 128,
+  "all1427_bindings_unchanged": true,
+  "source_archives": [
+    {
+      "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_completed128_task_consolidation_20261028_run01-source.tar.gz",
+      "sha256": "252c103a4d87b1d87a1e1ec19f151f2be20476ca9cd36fafaa2ae4aa63cf1d9f",
+      "members": 1429
+    },
+    {
+      "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_completed128_task_consolidation_20261028_run01-source.tar.gz",
+      "sha256": "3e03c71bbd9744a35409954699c6902c27241683d676a6c8fde004283b0188bd",
+      "members": 1429
+    }
+  ],
+  "progress": {
+    "at": "2026-10-28T15:20:08.206974+00:00",
+    "run_id": "legal_openexempt_completed128_task_consolidation_20261028_run01",
+    "state": "running",
+    "stage": "teacher",
+    "current_batch": 1,
+    "completed_native_calls": 0,
+    "completed_teacher_calls": 0,
+    "teacher_attempts": 1,
+    "cross_stage_identical_wire_reuses": 0,
+    "library_records": 8,
+    "execution_dispatch": {
+      "policy": "ordered_independent_phases_v1",
+      "native_workers": 4,
+      "teacher_workers": 1,
+      "required_max_num_seqs": 4
+    },
+    "current_arm": "b1_candidate1",
+    "teacher_prompt_characters": 276477,
+    "capacity_transport_attempt_index": 0
+  },
+  "not_new_empty_stream_or_independent_repeat_or_TEST": true,
+  "new_primary_not_opened": true,
+  "full_goal_active": true,
+  "next_hourly_UTC": "2026-10-28T16:15:00Z"
+}

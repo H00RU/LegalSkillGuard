@@ -1,0 +1,930 @@
+{
+  "at": "2026-10-20T13:34:06.322571+00:00",
+  "run_id": "legal_openexempt_direct_skills_online_20261020_run01",
+  "actual_publication_at": "2026-10-20T13:29:48.469007+00:00",
+  "actual_records": 7,
+  "actual_tokens": 1606,
+  "parent_bank_sha256": "f40d10172339a2374ee009cc446bc5f3e7131ec8b1617ce0f3bfac1b31799206",
+  "actual_bank_sha256": "b9e6e87afc2b52a829b422e3ee67aad25857e6dbc1d329c3517542ae78bb77d2",
+  "actual_bank": [
+    {
+      "id": "arizona_prescribed_assistive_equipment",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Arizona law applies and the facts identify an item as medically or professionally prescribed assistive equipment for the debtor or a dependent.",
+            "procedure": "Treat the item as a prescribed prosthetic or mobility aid under Ariz. Rev. Stat. § 33-1125(9) and claim its full value because the supplied provision states no dollar cap.",
+            "avoid_when": "Do not classify prescribed assistive equipment as ordinary household furniture merely because it is used in the home; do not apply this rule to ordinary furniture lacking the prescription or assistive condition."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "federal_household_item_cap_and_jewelry_boundary",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Federal exemptions are allowable and an asset fits a listed household-use category under 11 U.S.C. § 522(d)(3), or is jewelry under § 522(d)(4).",
+            "procedure": "Include § 522(d)(3) for listed household furnishings, goods, apparel, appliances, books, animals, crops, or musical instruments, and include § 522(d)(4) separately for jewelry. A value above the statutory cap limits the amount but does not defeat eligibility.",
+            "avoid_when": "Do not classify jewelry under § 522(d)(3), omit an otherwise eligible item because its value exceeds a cap, or extend either provision to property outside its listed category."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "An asset is considered under 11 U.S.C. § 522(d)(3) or is jewelry considered under § 522(d)(4).",
+            "procedure": "First require that a § 522(d)(3) asset be one of the listed household-use categories, then assign no more than the lesser of its value and the $700 per-item limit. Evaluate jewelry separately under § 522(d)(4), using the lesser of value and $1,875 for one debtor. For jointly owned jewelry in a joint case, apply § 522(m) to each spouse's one-half interest and add the claims, each capped at $1,875.",
+            "avoid_when": "Do not use the $14,875 aggregate ceiling as the claim for one item, classify jewelry under § 522(d)(3), or double § 522(d)(3)'s $700 cap for a particular jointly owned item."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "federal_residence_cap_not_eligibility",
+      "hypothesis_ids": [
+        "EC"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Federal exemptions are allowable and the debtor or a dependent uses real or personal property as a residence.",
+            "procedure": "Include 11 U.S.C. § 522(d)(1) as an applicable residence alternative even when the residence's value exceeds $27,900.",
+            "avoid_when": "Do not use the $27,900 amount as an eligibility test or apply § 522(d)(1) to property that the facts do not identify as a residence, cooperative residence, or burial plot."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "federal_wildcard_independent_alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+            "procedure": "For every asset, evaluate 11 U.S.C. § 522(d)(5) as a separate alternative, including property also eligible under § 522(d)(1), another category-specific federal provision, or an allowable state provision.",
+            "avoid_when": "Do not omit the wildcard because another exemption applies, because the asset exceeds the wildcard ceiling, or because a residence is listed; do not add it when the supplied allowable jurisdictions exclude federal exemptions."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+            "procedure": "For 11 U.S.C. § 522(d)(5), calculate the independent claim as the lesser of the asset value and $1,475 plus up to $13,950 of unused § 522(d)(1). When no residence consumes that amount, use a $15,425 ceiling for one debtor. In a joint case, apply § 522(m) separately to each spouse's equal interest and add the two claims, so the combined ceiling is $30,850.",
+            "avoid_when": "Do not aggregate allocations across assets, displace other applicable alternatives, assume unused homestead capacity when the facts show it has been consumed, or apply the two-debtor ceiling to a single debtor."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "illinois_any_other_property_alternative",
+      "hypothesis_ids": [
+        "EC"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Illinois exemptions are allowable and the debtor owns personal property.",
+            "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) as an independent alternative for the property, including when a more specific Illinois exemption also applies.",
+            "avoid_when": "Do not use the $4,000 ceiling as an eligibility test, omit subsection (b) because a specific exemption applies, or classify jewelry as necessary wearing apparel under subsection (a) without facts establishing that condition."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "oregon_any_personal_property_alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Oregon law applies and the asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent alternative even when the asset also fits a specific Oregon exemption.",
+            "avoid_when": "Do not apply it to real property or treat its $400 limit as a condition that makes a more valuable item ineligible."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Oregon law applies and the asset is personal property.",
+            "procedure": "For the independent Or. Rev. Stat. § 18.345(1)(p) alternative, assign the lesser of the asset's value and $400.",
+            "avoid_when": "Do not aggregate different assets or omit separately applicable Oregon exemptions."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "pennsylvania_general_monetary_alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Pennsylvania law applies to property of the judgment debtor.",
+            "procedure": "For every property category, include 42 Pa. Cons. Stat. § 8123 as an independent alternative alongside any specific Pennsylvania or federal exemption.",
+            "avoid_when": "Do not restrict § 8123 to cash, omit it because another exemption applies, or use its $300-per-spouse limit as an eligibility test for more valuable property."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Pennsylvania law applies to property of the judgment debtor.",
+            "procedure": "For the independent 42 Pa. Cons. Stat. § 8123 alternative, assign the lesser of the property's value and $300.",
+            "avoid_when": "Do not aggregate assets, replace a specific exemption, or exclude tangible property merely because the statute is titled a monetary exemption."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    }
+  ],
+  "actual_new_ids": [
+    "federal_residence_cap_not_eligibility"
+  ],
+  "actual_changed_existing_ids": [
+    "federal_household_item_cap_and_jewelry_boundary",
+    "federal_wildcard_independent_alternative",
+    "pennsylvania_general_monetary_alternative"
+  ],
+  "accepted_coordinates": [
+    "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN"
+  ],
+  "complete_proposal_whole_bank_rejected": true,
+  "scope_admission": {
+    "EC:ARIZONA": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": false,
+      "strict_current_improvement": false,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_tasks": 1,
+      "prior_tasks": 5
+    },
+    "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN": {
+      "accepted": true,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_tasks": 5,
+      "prior_tasks": 9
+    },
+    "EC:ILLINOIS": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": false,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_tasks": 2,
+      "prior_tasks": 2
+    },
+    "EV:ARIZONA": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": false,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": false,
+      "current_tasks": 1,
+      "prior_tasks": 5
+    },
+    "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": false,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": false,
+      "current_tasks": 5,
+      "prior_tasks": 9
+    },
+    "EV:ILLINOIS": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": false,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": false,
+      "current_tasks": 2,
+      "prior_tasks": 2
+    }
+  },
+  "actual_full_gate": {
+    "current_family_nonregression": true,
+    "prior_family_nonregression": true,
+    "strict_current_improvement": true,
+    "current_full_output_nonregression": true,
+    "prior_full_output_nonregression": true,
+    "parent_current": {
+      "EC": {
+        "precision": 0.8802083333333334,
+        "recall": 0.6354166666666666,
+        "f1": 0.7146825396825397,
+        "exact_target": 0.125,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1
+      },
+      "EV": {
+        "precision": 0.7395833333333333,
+        "recall": 0.4809027777777777,
+        "f1": 0.5673611111111111,
+        "exact_target": 0.0,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.5767857142857143
+      },
+      "mean_family_f1": 0.6410218253968254
+    },
+    "candidate_current": {
+      "EC": {
+        "precision": 0.9375,
+        "recall": 0.7760416666666666,
+        "f1": 0.8396825396825396,
+        "exact_target": 0.125,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 4
+      },
+      "EV": {
+        "precision": 0.7395833333333333,
+        "recall": 0.4809027777777777,
+        "f1": 0.5673611111111111,
+        "exact_target": 0.0,
+        "tasks": 8,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.5767857142857143
+      },
+      "mean_family_f1": 0.7035218253968254
+    },
+    "parent_prior": {
+      "EC": {
+        "precision": 0.9375,
+        "recall": 0.7135416666666666,
+        "f1": 0.7897321428571429,
+        "exact_target": 0.0,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0
+      },
+      "EV": {
+        "precision": 0.9140625,
+        "recall": 0.7439236111111112,
+        "f1": 0.8049851190476192,
+        "exact_target": 0.1875,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 4,
+        "full_output_f1": 0.8107829670329672
+      },
+      "mean_family_f1": 0.797358630952381
+    },
+    "candidate_prior": {
+      "EC": {
+        "precision": 0.9453125,
+        "recall": 0.7265625,
+        "f1": 0.8043898809523811,
+        "exact_target": 0.0,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1
+      },
+      "EV": {
+        "precision": 0.9140625,
+        "recall": 0.7439236111111112,
+        "f1": 0.8049851190476192,
+        "exact_target": 0.1875,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 4,
+        "full_output_f1": 0.8107829670329672
+      },
+      "mean_family_f1": 0.8046875000000001
+    },
+    "current_effect": {
+      "tasks": 16,
+      "help": 4,
+      "hurt": 0,
+      "ties": 12,
+      "mean_f1_difference": 0.0625
+    },
+    "prior_effect": {
+      "tasks": 32,
+      "help": 5,
+      "hurt": 3,
+      "ties": 24,
+      "mean_f1_difference": 0.007328869047619049
+    }
+  },
+  "all48_actual_native_request_identity_decode_original_score_checks": [
+    {
+      "source_case_id": 149,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/149_EC_candidate.json",
+      "original_call_sha256": "370d31becedc6cc82d31e411f4ec4966152d9192dc4bb89560682c6ebf146a7c",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 149,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/149_EV_empty.json",
+      "original_call_sha256": "03d7e361490d4d8ea53967a800c477c70ab9ca97bdb4046ad75a7aa20e0e2fcf",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 150,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/150_EC_empty.json",
+      "original_call_sha256": "f1e2ea625b7e4162202ee8a631c3f902b44dd25b32ab8dfdaddc81edfdcf30c3",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 150,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/150_EV_candidate.json",
+      "original_call_sha256": "cabbd989996886c11f9b753b53d061cdf69cb58f16d7a9edb5821748a0ad408d",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 151,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/151_EC_frozen_initial.json",
+      "original_call_sha256": "212e0ac062c50b9e896a23cf391480f4c370a6949b05319ea85b63c40d642c97",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 151,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/151_EV_candidate.json",
+      "original_call_sha256": "a1fd86c3f21b610fd42f9ea2196ad1b90ab91c0dfdfffe52523f795c49165fca",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 152,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/152_EC_skills.json",
+      "original_call_sha256": "81219b5edec33209effa0f97c79f4f578b6cac234df92bee64fa9f8d7ff596e4",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 152,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/152_EV_candidate.json",
+      "original_call_sha256": "206b42591f60090bf69b7bf1a992eab0d40f64bfea005957cf708ee8d99bc362",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 153,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/153_EC_candidate.json",
+      "original_call_sha256": "80e727b11700f0cf77f5d5571d71fde029a0e232dd8a403a7a8fd8d99a375fe6",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 153,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/153_EV_candidate.json",
+      "original_call_sha256": "821cadd210714ff4006e0b5431c5f50f1dc060a713bae9ec82b38bda94e91b71",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 154,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/154_EC_candidate.json",
+      "original_call_sha256": "a23a5bb1abace70377dc3375c925bd53ee2c4f6f48d4d4be552309412c2a798c",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 154,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/154_EV_candidate.json",
+      "original_call_sha256": "c816cd4c5c6554ca547ca4a89e8817110d70de318bfb15db0356790c7f90f884",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 155,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/155_EC_candidate.json",
+      "original_call_sha256": "cd487b0161952b070aac4a9818f5f4291916e5ce2550bb25d7a13518d993852f",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 155,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/155_EV_candidate.json",
+      "original_call_sha256": "2c2df358ee9de7bb0db3815c6de11231c8e81813e787170cbf31828bd3186e50",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 156,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/156_EC_candidate.json",
+      "original_call_sha256": "d77c23199ab130959d44188c88518be590273b023684a0212ac5e7080a4fcce4",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 156,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/156_EV_candidate.json",
+      "original_call_sha256": "d28c8a679d6e7d4d2ac3f65e4a814fd43bb5a2760bfaf7a07c09f081c0206355",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 157,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/157_EC_candidate.json",
+      "original_call_sha256": "81e276d88560fb5a38c0e5ce61f07416a38e5792c517cc6e5cb4f69690f8545b",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 157,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/157_EV_candidate.json",
+      "original_call_sha256": "4a3d238b77d9ca9aa18b12777fde9fec9ef0f5f20880692a6d5e0fc1651c7037",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 158,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/158_EC_empty.json",
+      "original_call_sha256": "9960b9161fa9b6364ad9ef14828b0dff0904b426c5f93d0b249bb5e684f2aa92",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 158,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/158_EV_skills.json",
+      "original_call_sha256": "7f346b94f8a59468422435066eaaf0d36d3d51914ccbe420622fe5c29b13efd3",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 159,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/159_EC_candidate.json",
+      "original_call_sha256": "9fc0f399fbd9a238c533b9681e2ee4b79cb3e6b5ce6a150d036b063372ea22c0",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 159,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/159_EV_candidate.json",
+      "original_call_sha256": "91797ef09114bbad4a73d169619f516d7b5ab62e9b65da31d3d0f498c7e7e12f",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 160,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/160_EC_candidate.json",
+      "original_call_sha256": "d61ebf5d5de02a2d97129141e26ecdcc32b5079ea56a0431510c53c04f97f59f",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 160,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/160_EV_candidate.json",
+      "original_call_sha256": "95732aacb597a0f0f209855826df3ced1947f1a6e11eebd9ac898d0359eea2e5",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 161,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/161_EC_empty_direct_numeric.json",
+      "original_call_sha256": "ce5f012db97b16b64ca021e3c71c16793cda03b82d2231bfb15748a79203b3b2",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 161,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/161_EV_skills.json",
+      "original_call_sha256": "277a3fc1f1a735a2c58019de398ff275af84b5ad367361cd984952105c4d0322",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 162,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/162_EC_candidate.json",
+      "original_call_sha256": "587d14c289dd29ea75175930beec56d1ed7adef36c566f35dd02433b06b40a29",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 162,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/162_EV_candidate.json",
+      "original_call_sha256": "d43009d8b8bd2595be4d71415cf50c3dc5c4c42b8f0ebe061da6fef33d3df95e",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 163,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/163_EC_candidate.json",
+      "original_call_sha256": "03814299ebd6fe108960efe235446149fa8db699256f90b8132be50464aed3a1",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 163,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/163_EV_candidate.json",
+      "original_call_sha256": "79ebf40694c67cb0079bb0dab65b4f08b33a4974ff5bba39caed0082bd28ed03",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 164,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/164_EC_candidate.json",
+      "original_call_sha256": "3d45e0ed784dfdd2d95bdb876e0166303995a8239ebd4fd42902c4c523ad9849",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 164,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/164_EV_empty_direct_numeric.json",
+      "original_call_sha256": "56ee5738397c07958f726d5c5b0487e2fd2721b3d9c6cd393a9ca93d77da39a4",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 165,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/165_EC_candidate.json",
+      "original_call_sha256": "ac2c3158047846fab9e3b0236c993ee2ac5c0845444ba846aac178fc726942b2",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 165,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/165_EV_skills.json",
+      "original_call_sha256": "7ffeb3a7da33bad14c5bd86ba0d3bf0d8c861488c23c9d88528054e3cd708529",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 166,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/166_EC_candidate.json",
+      "original_call_sha256": "dca67e58668044b4b9f9408c5275e0272d889313f5f69ec7034843ff56f372a4",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 166,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/166_EV_skills.json",
+      "original_call_sha256": "d238774291062956f95ddd249bd5cfc3b031c38c5081fe3a4603eeaf5cf7e82b",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 167,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/167_EC_frozen_initial.json",
+      "original_call_sha256": "95f564ad5cfe3c98914425e43ca523f01e60b36b6eeb195cc9804e500d34b84c",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 167,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/167_EV_skills.json",
+      "original_call_sha256": "c4cdcd7cb31d8b34278fdd9d0d234857b62598fc67ba3e8fc9575d3698172461",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 168,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/168_EC_skills.json",
+      "original_call_sha256": "d5df0784b375af3e526d8d8ced2de80676d0d1ea94ab460788725dcc9daa6561",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 168,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/168_EV_empty_direct_numeric.json",
+      "original_call_sha256": "71abed38b8437da21565e33ba0b01ad9c547002adfdb690fd1145827c700f9bd",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 169,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/169_EC_candidate.json",
+      "original_call_sha256": "31a8e16086a2fe6e48f2565506e1a785b32a885ec16ebbb0c853c1e83524b0ee",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 169,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/169_EV_skills.json",
+      "original_call_sha256": "9819c8b453ad5d5a3c421df82264ad5c2c80cafc479b66f2da7cd092067578da",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 170,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/170_EC_skills.json",
+      "original_call_sha256": "b134933887785f15d2829e4c0ea15dcc79a9e47eb05b32edf3d4eb877d4082ec",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 170,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/170_EV_frozen_initial.json",
+      "original_call_sha256": "aab0ccf0a3122a56fcb16af7c6c7f8991fc44a3fec01f9e6a3a9a7dbb804cd63",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 171,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/171_EC_candidate.json",
+      "original_call_sha256": "a19ce90b8f700880f03c66f5fd3e3c3009d394f86aaa6ca6b19034a4e0ff85bb",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 171,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/171_EV_skills.json",
+      "original_call_sha256": "65a7ec978b7f66fe8a52d21d110a44f1f705b7e92d052c8d8a3353e951ed0c4e",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 172,
+      "family": "EC",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_candidate1_replay/172_EC_candidate.json",
+      "original_call_sha256": "0b5fd0485ec86a200cad8e1b8e0c1b54f2cde6386e9462632879498e42abf5c0",
+      "fresh_decode_and_original_score_exact": true
+    },
+    {
+      "source_case_id": 172,
+      "family": "EV",
+      "original_raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b3_prequential/172_EV_skills.json",
+      "original_call_sha256": "7bd687e522c94ea5ac2a4d181b480e11461811826e50c670502c9c6bf3948a3b",
+      "fresh_decode_and_original_score_exact": true
+    }
+  ],
+  "all24_EV_C2_C3_native_request_and_answer_identity": [
+    {
+      "source_case_id": 149,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 150,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 151,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 152,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 153,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 154,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 155,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 156,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 157,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 158,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 159,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 160,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 161,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 162,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 163,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 164,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 165,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 166,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 167,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 168,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 169,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 170,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 171,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    },
+    {
+      "source_case_id": 172,
+      "same_C2_C3_request_decoded_answer_and_score": true
+    }
+  ],
+  "B3_closed_native_cost": {
+    "b3_prequential": {
+      "actual_new_generations": 29,
+      "prompt_tokens": 182092,
+      "completion_tokens": 89202,
+      "finish_reasons": {
+        "stop": 29
+      }
+    },
+    "b3_candidate1_replay": {
+      "actual_new_generations": 44,
+      "prompt_tokens": 295064,
+      "completion_tokens": 115080,
+      "finish_reasons": {
+        "stop": 44
+      }
+    },
+    "b3_candidate1_composed_replay": {
+      "actual_new_generations": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "finish_reasons": {}
+    }
+  },
+  "actual_composition_did_not_sample_new_answers": true,
+  "B4_first_actual_skill_input": {
+    "messages": [
+      {
+        "role": "system",
+        "content": "Apply only the supplied statutes and public solved steps to the original facts. Return a JSON object mapping actual asset descriptions to ALL applicable public citation label IDs from the supplied vocabulary, or [] if none. A label is only the predeclared encoding of its displayed citation; decide legal eligibility yourself."
+      },
+      {
+        "role": "user",
+        "content": "Background reusable skills. The current legal case follows. Use these only when applicable; they are not current answers:\n[{\"id\":\"federal_household_item_cap_and_jewelry_boundary\",\"hypothesis_ids\":[\"EC\"],\"guidance\":{\"when\":\"Federal exemptions are allowable and an asset fits a listed household-use category under 11 U.S.C. § 522(d)(3), or is jewelry under § 522(d)(4).\",\"procedure\":\"Include § 522(d)(3) for listed household furnishings, goods, apparel, appliances, books, animals, crops, or musical instruments, and include § 522(d)(4) separately for jewelry. A value above the statutory cap limits the amount but does not defeat eligibility.\",\"avoid_when\":\"Do not classify jewelry under § 522(d)(3), omit an otherwise eligible item because its value exceeds a cap, or extend either provision to property outside its listed category.\",\"jurisdiction\":\"FEDERAL\"}},{\"id\":\"federal_residence_cap_not_eligibility\",\"hypothesis_ids\":[\"EC\"],\"guidance\":{\"when\":\"Federal exemptions are allowable and the debtor or a dependent uses real or personal property as a residence.\",\"procedure\":\"Include 11 U.S.C. § 522(d)(1) as an applicable residence alternative even when the residence's value exceeds $27,900.\",\"avoid_when\":\"Do not use the $27,900 amount as an eligibility test or apply § 522(d)(1) to property that the facts do not identify as a residence, cooperative residence, or burial plot.\",\"jurisdiction\":\"FEDERAL\"}},{\"id\":\"federal_wildcard_independent_alternative\",\"hypothesis_ids\":[\"EC\"],\"guidance\":{\"when\":\"Federal exemptions are allowable and an estate asset is being evaluated.\",\"procedure\":\"For every asset, evaluate 11 U.S.C. § 522(d)(5) as a separate alternative, including property also eligible under § 522(d)(1), another category-specific federal provision, or an allowable state provision.\",\"avoid_when\":\"Do not omit the wildcard because another exemption applies, because the asset exceeds the wildcard ceiling, or because a residence is listed; do not add it when the supplied allowable jurisdictions exclude federal exemptions.\",\"jurisdiction\":\"FEDERAL\"}},{\"id\":\"oregon_any_personal_property_alternative\",\"hypothesis_ids\":[\"EC\"],\"guidance\":{\"when\":\"Oregon law applies and the asset is personal property.\",\"procedure\":\"Include Or. Rev. Stat. § 18.345(1)(p) as an independent alternative even when the asset also fits a specific Oregon exemption.\",\"avoid_when\":\"Do not apply it to real property or treat its $400 limit as a condition that makes a more valuable item ineligible.\",\"jurisdiction\":\"OREGON\"}}]"
+      },
+      {
+        "role": "user",
+        "content": "Public citation label vocabulary. These are public headers in the already-given allowable jurisdictions, NOT an asset-eligibility answer:\n{\"11 U.S.C. section 522(b)\":\"11 U.S.C. § 522(b)\",\"11 U.S.C. section 522(d)\":\"11 U.S.C. § 522(d)\",\"11 U.S.C. section 522(d)(1)\":\"11 U.S.C. § 522(d)(1)\",\"11 U.S.C. section 522(d)(2)\":\"11 U.S.C. § 522(d)(2)\",\"11 U.S.C. section 522(d)(3)\":\"11 U.S.C. § 522(d)(3)\",\"11 U.S.C. section 522(d)(4)\":\"11 U.S.C. § 522(d)(4)\",\"11 U.S.C. section 522(d)(5)\":\"11 U.S.C. § 522(d)(5)\",\"11 U.S.C. section 522(d)(6)\":\"11 U.S.C. § 522(d)(6)\",\"11 U.S.C. section 522(d)(9)\":\"11 U.S.C. § 522(d)(9)\",\"11 U.S.C. section 522(m)\":\"11 U.S.C. § 522(m)\",\"Or. Rev. Stat. section 18.345(1)\":\"Or. Rev. Stat. § 18.345(1)\",\"Or. Rev. Stat. section 18.345(1)(a)\":\"Or. Rev. Stat. § 18.345(1)(a)\",\"Or. Rev. Stat. section 18.345(1)(b)\":\"Or. Rev. Stat. § 18.345(1)(b)\",\"Or. Rev. Stat. section 18.345(1)(c)\":\"Or. Rev. Stat. § 18.345(1)(c)\",\"Or. Rev. Stat. section 18.345(1)(d)\":\"Or. Rev. Stat. § 18.345(1)(d)\",\"Or. Rev. Stat. section 18.345(1)(e)\":\"Or. Rev. Stat. § 18.345(1)(e)\",\"Or. Rev. Stat. section 18.345(1)(f)\":\"Or. Rev. Stat. § 18.345(1)(f)\",\"Or. Rev. Stat. section 18.345(1)(h)\":\"Or. Rev. Stat. § 18.345(1)(h)\",\"Or. Rev. Stat. section 18.345(1)(p)\":\"Or. Rev. Stat. § 18.345(1)(p)\",\"Or. Rev. Stat. section 18.345(3)\":\"Or. Rev. Stat. § 18.345(3)\",\"Or. Rev. Stat. section 18.362\":\"Or. Rev. Stat. § 18.362\",\"Or. Rev. Stat. section 18.395(1)\":\"Or. Rev. Stat. § 18.395(1)\",\"Or. Rev. Stat. section 18.395(2)\":\"Or. Rev. Stat. § 18.395(2)\"}\n\nFor each asset in the estate, identify all applicable exemptions under which that asset may be protected.\n\nYour answer to this task must be based solely on applying the provided Federal and State statutes to the given facts. If the task involves a married couple, assume all assets mentioned are jointly owned, with each spouse holding an equal undivided interest, unless explicitly stated otherwise. Assume all assets are held for the personal use of the Debtor(s), unless explicitly stated otherwise.\n\nStatutes:\nUnited States Code Title 11 - Bankruptcy\n11 U.S.C. § 522(b)\n(1) An individual debtor may exempt from property of the estate the property listed in either paragraph (2) or, in the alternative, paragraph (3) of this subsection. In joint cases, one debtor may not elect to exempt property listed in paragraph (2) and the other debtor elect to exempt property listed in paragraph (3) of this subsection.\n(2) Property listed in this paragraph is property that is specified under subsection (d), unless the State law that is applicable to the debtor under paragraph (3)(A) specifically does not so authorize.\n(3) Property listed in this paragraph is- (A) any property that is exempt under State or local law that is applicable on the date of the filing of the petition to the place in which the debtor's domicile has been located for the 730 days immediately preceding the date of the filing of the petition or if the debtor's domicile has not been located in a single State for such 730-day period, the place in which the debtor's domicile was located for 180 days immediately preceding the 730-day period or for a longer portion of such 180-day period than in any other place;\n\n11 U.S.C. § 522(d)\nThe following property may be exempted under subsection (b)(2) of this section:\n\n11 U.S.C. § 522(d)(1)\nThe debtor's aggregate interest, not to exceed $27,900 in value, in real property or personal property that the debtor or a dependent of the debtor uses as a residence, in a cooperative that owns property that the debtor or a dependent of the debtor uses as a residence, or in a burial plot for the debtor or a dependent of the debtor.\n\n11 U.S.C. § 522(d)(2)\nThe debtor's interest, not to exceed $4,450 in value, in one motor vehicle.\n\n11 U.S.C. § 522(d)(3)\nThe debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.\n\n11 U.S.C. § 522(d)(4)\nThe debtor's aggregate interest, not to exceed $1,875 in value, in jewelry held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.\n\n11 U.S.C. § 522(d)(5)\nThe debtor's aggregate interest in any property, not to exceed in value $1,475 plus up to $13,950 of any unused amount of the exemption provided under paragraph (1) of this subsection.\n\n11 U.S.C. § 522(d)(6)\nThe debtor's aggregate interest, not to exceed $2,800 in value, in any implements, professional books, or tools, of the trade of the debtor or the trade of a dependent of the debtor.\n\n11 U.S.C. § 522(d)(9)\nProfessionally prescribed health aids for the debtor or a dependent of the debtor.\n\n11 U.S.C. § 522(m)\nSubject to the limitation in subsection (b), this section shall apply separately with respect to each debtor in a joint case.\n\nArizona Revised Statutes\nAriz. Rev. Stat. § 33-1101(A)\nHomestead exemptions. Any person the age of eighteen or over, married or single, may hold as a homestead exempt from attachment, execution and forced sale, not exceeding $400,000 in value, any one of the following: The person's interest in real property in one compact body upon which exists a dwelling house in which the person resides; The person's interest in one condominium or cooperative in which the person resides; A mobile home in which the person resides; A mobile home in which the person resides plus the land upon which that mobile home is located.\n\nAriz. Rev. Stat. § 33-1101(B)\nOnly one homestead exemption may be held by a married couple or a single person under this section. The value as specified in this section refers to the equity of a single person or married couple. If a married couple lived together in a dwelling house, a condominium or cooperative, a mobile home or a mobile home plus land on which the mobile home is located and are then divorced, the total exemption allowed for that residence to either or both persons shall not exceed $400,000 in value.\n\nAriz. Rev. Stat. § 33-1101(C)\nThe homestead exemption, not exceeding the value provided for in subsection A, automatically attaches to the person's interest in identifiable cash proceeds from the voluntary or involuntary sale of the property. The homestead exemption in identifiable cash proceeds continues for eighteen months after the date of the sale of the property or until the person establishes a new homestead with the proceeds, whichever period is shorter. Only one homestead exemption at a time may be held by a person under this section.\n\nAriz. Rev. Stat. § 33-1121\nAvailability of exemptions. In the case of married persons, each spouse is entitled to the exemptions provided in this article, which may be combined with the other spouse's exemption in the same property or taken in different exempt property.\n\nAriz. Rev. Stat. § 33-1123\nHousehold furniture, furnishings and appliances. Household furniture and furnishings, household goods, including consumer electronic devices, and household appliances personally used by the debtor or a dependent of the debtor and not otherwise specifically prescribed in this chapter are exempt from process provided their aggregate fair market value does not exceed $15,000.\n\nAriz. Rev. Stat. § 33-1125\nPersonal items. The following property of a debtor used primarily for personal, family or household purposes is exempt from process:\n\nAriz. Rev. Stat. § 33-1125(1)\nAll wearing apparel of not more than a fair market value of five hundred dollars.\n\nAriz. Rev. Stat. § 33-1125(2)\nAll musical instruments provided for the debtor's individual or family use of not more than an aggregate fair market value of four hundred dollars.\n\nAriz. Rev. Stat. § 33-1125(3)\nHorses, milk cows and poultry of not more than an aggregate fair market value of one thousand dollars.\n\nAriz. Rev. Stat. § 33-1125(4)\nAll engagement and wedding rings of not more than an aggregate fair market value of two thousand dollars.\n\nAriz. Rev. Stat. § 33-1125(5)\nThe library of a debtor, including books, manuals, published materials and personal documents of not more than an aggregate fair market value of two hundred fifty dollars.\n\nAriz. Rev. Stat. § 33-1125(6)\nOne watch of not more than a fair market value of two hundred fifty dollars.\n\nAriz. Rev. Stat. § 33-1125(8)\nEquity in one motor vehicle of not more than $15,000.\n\nAriz. Rev. Stat. § 33-1125(9)\nProfessionally prescribed prostheses for the debtor or a dependent of the debtor, including a wheelchair or motorized mobility device.\n\nAriz. Rev. Stat. § 33-1125(10)\nAll firearms of not more than an aggregate fair market value of two thousand dollars.\n\nAriz. Rev. Stat. § 33-1125(11)\nAll domestic animals or household pets.\n\nAriz. Rev. Stat. § 33-1126(A)\nMoney benefits or proceeds. The following property of a debtor is exempt from execution, attachment or sale on any process issued from any court:\n\nAriz. Rev. Stat. § 33-1126(A)(9)\nA total of $5,000 held in a single account in any one financial institution.\n\nAriz. Rev. Stat. § 33-1130\nTools and equipment used in a commercial activity, trade, business or profession. The following tools and equipment of a debtor used in a commercial activity, trade, business or profession shall be exempt from process:\n\nAriz. Rev. Stat. § 33-1130(1)\nThe tools, equipment, instruments and books, including telephone numbers, client or customer contact information, or marketing tools, such as websites, domain names or any other intangible work product, in the possession of a debtor or the spouse of a debtor primarily used in, and necessary to carry on or develop, the commercial activity, trade, business or profession of the debtor or the debtor's spouse, not in excess of an aggregate fair market value of five thousand dollars. For the purpose of this paragraph, tools do not include a motor vehicle primarily used by a debtor for personal, family or household purposes such as transportation to and from the debtor's place of employment.\n\nAriz. Rev. Stat. § 33-1130(2)\nFarm machinery, utensils, implements of husbandry, feed, seed, grain and animals not in excess of an aggregate value of two thousand five hundred dollars.\n\nAriz. Rev. Stat. § 33-1133(B)\nIn accordance with 11 U.S.C. 522 (b), residents of this state are not entitled to the federal exemptions provided in 11 U.S.C. 522 (d).\n\nIllinois Compiled Statutes\n735 Ill. Comp. Stat. 5/12-901\nSec. 12-901. Amount. Every individual is entitled to an estate of homestead to the extent in value of $15,000 of his or her interest in a farm or lot of land and buildings thereon, a condominium, or personal property, owned or rightly possessed by lease or otherwise and occupied by him or her as a residence, or in a cooperative that owns property that the individual uses as a residence. That homestead and all right in and title to that homestead is exempt from attachment, judgment, levy, or judgment sale for the payment of his or her debts or other purposes and from the laws of conveyance, descent, and legacy. This Section is not applicable between joint tenants or tenants in common but it is applicable as to any creditors of those persons. If 2 or more individuals own property that is exempt as a homestead, the value of the exemption of each individual may not exceed his or her proportionate share of $30,000 based upon percentage of ownership.\n\n735 Ill. Comp. Stat. 5/12-906\nSec. 12-906. Proceeds of sale. When a homestead is conveyed by the owner thereof, such conveyance shall not subject the premises to any lien or incumbrance to which it would not be subject in the possession of such owner; and the proceeds thereof, to the extent of the amount of $15,000, shall be exempt from judgment or other process, for one year after the receipt thereof, by the person entitled to the exemption, and if reinvested in a homestead the same shall be entitled to the same exemption as the original homestead.\n\n735 Ill. Comp. Stat. 5/12-1001\nSec. 12-1001. Personal property exempt. The following personal property, owned by the debtor, is exempt from judgment, attachment, or distress for rent:\n\n735 Ill. Comp. Stat. 5/12-1001(a)\nThe necessary wearing apparel, bible, school books, and family pictures of the debtor and the debtor's dependents;\n\n735 Ill. Comp. Stat. 5/12-1001(b)\nThe debtor's equity interest, not to exceed $4,000 in value, in any other property;\n\n735 Ill. Comp. Stat. 5/12-1001(c)\nThe debtor's interest, not to exceed $2,400 in value, in any one motor vehicle;\n\n735 Ill. Comp. Stat. 5/12-1001(d)\nThe debtor's equity interest, not to exceed $1,500 in value, in any implements, professional books, or tools of the trade of the debtor;\n\n735 Ill. Comp. Stat. 5/12-1001(e)\nProfessionally prescribed health aids for the debtor or a dependent of the debtor;\n\n735 Ill. Comp. Stat. 5/12-1001\nThe personal property exemptions set forth in this Section shall apply only to individuals and only to personal property that is used for personal rather than business purposes.\n\n735 Ill. Comp. Stat. 5/12-1201\nSec. 12-1201. Bankruptcy exemption. In accordance with the provision of Section 522(b) of the Bankruptcy Code of 1978, (11 U.S.C. 522(b)), residents of this State shall be prohibited from using the federal exemptions provided in Section 522(d) of the Bankruptcy Code of 1978 (11 U.S.C. 522(d)).\n\nOregon Revised Statutes\nOr. Rev. Stat. § 18.345(1)\nExempt personal property generally. All property, including franchises, or rights or interest therein, of the judgment debtor, shall be liable to an execution, except as provided in this section. The following property, or rights or interest therein of the judgment debtor, shall be exempt from execution:\n\nOr. Rev. Stat. § 18.345(1)(a)\nBooks, pictures and musical instruments to the value of $600.\n\nOr. Rev. Stat. § 18.345(1)(b)\nWearing apparel and jewelry to the value of $1,800.\n\nOr. Rev. Stat. § 18.345(1)(c)\nThe tools, implements, apparatus, team, harness or library, necessary to enable the judgment debtor to carry on the trade, occupation or profession by which the judgment debtor habitually earns a living, to the value of $5,000.\n\nOr. Rev. Stat. § 18.345(1)(d)\nA vehicle to the value of $3,000. As used in this paragraph “vehicle” includes an automobile, truck, trailer, truck and trailer or other motor vehicle.\n\nOr. Rev. Stat. § 18.345(1)(e)\nDomestic animals and poultry kept for family use, to the total value of $1,000 and food sufficient to support such animals and poultry for 60 days.\n\nOr. Rev. Stat. § 18.345(1)(f)\nHousehold goods, furniture, radios, a television set and utensils all to the total value of $3,000, if the judgment debtor holds the property primarily for the personal, family or household use of the judgment debtor; provisions actually provided for family use and necessary for the support of a householder and family for 60 days and also 60 days' supply of fuel.\n\nOr. Rev. Stat. § 18.345(1)(h)\nAll professionally prescribed health aids for the debtor or a dependent of the debtor.\n\nOr. Rev. Stat. § 18.345(1)(p)\nThe debtor's interest, not to exceed $400 in value, in any personal property.\n\nOr. Rev. Stat. § 18.345(3)\nIf two or more members of a household are joint judgment debtors, each judgment debtor shall be entitled to claim the exemptions in subsection (1)(a), (b), (c), (d) and (p) of this section in the same or different properties. The exemptions provided by subsection (1)(a), (b), (c), (d), (j), (k) and (p) of this section, when claimed for jointly owned property, may be combined at the option of the debtors.\n\nOr. Rev. Stat. § 18.362\nExemption for firearms. Every person above the age of 16 years shall be entitled to have, hold and keep, for the own use and defense of the person and shall have exempt from execution one rifle, shotgun or pistol. The value of firearms claimed as exempt under this section may not exceed $1,000.\n\nOr. Rev. Stat. § 18.395(1)\nHomestead exemption. A homestead shall be exempt from sale on execution, from the lien of every judgment and from liability in any form for the debts of the owner to the amount in value of $40,000, except as otherwise provided by law. The exemption shall be effective without the necessity of a claim thereof by the judgment debtor. When two or more members of a household are debtors whose interests in the homestead are subject to sale on execution, the lien of a judgment or liability in any form, their combined exemptions under this section shall not exceed $50,000. The homestead must be the actual abode of and occupied by the owner, or the owner's spouse, parent or child, but the exemption shall not be impaired by: Temporary removal or temporary absence with the intention to reoccupy the same as a homestead; (b) Removal or absence from the property; or The sale of the property.\n\nOr. Rev. Stat. § 18.395(2)\nThe exemption shall extend to the proceeds derived from such sale to an amount not exceeding $40,000 or $50,000, whichever amount is applicable under subsection (1) of this section, if the proceeds are held for a period not exceeding one year and held with the intention to procure another homestead therewith.\n\nPennsylvania Consolidated Statutes\n42 Pa. Cons. Stat. § 8123\nGeneral monetary exemption. General rule.--In addition to any other property specifically exempted by this subchapter, property of the judgment debtor (including bank notes, money, securities, real property, judgments or other indebtedness due the judgment debtor) to the value of $300 shall be exempt from attachment or execution on a judgment. Within such time as may be prescribed by general rules the judgment debtor may claim the exemption in kind and may designate the specific items of property to which the exemption provided by this section shall be applicable unless the designated property is not capable of appropriate division, or the judgment debtor may claim the exemption in cash out of the proceeds of the sale. For married persons, each spouse is entitled to the exemptions provided in this section.\n\n42 Pa. Cons. Stat. § 8124(a)\nExemption of particular property. Goods.--The following personal property of the judgment debtor shall be exempt from attachment or execution on a judgment:\n\n42 Pa. Cons. Stat. § 8124(a)(1)\nWearing apparel.\n\n42 Pa. Cons. Stat. § 8124(a)(2)\nBibles and school books.\n\n42 Pa. Cons. Stat. § 8124(a)(3)\nSewing machines belonging to seamstresses or used and owned by private families, but not including sewing machines kept for sale or hire.\n\n42 Pa. Cons. Stat. § 8124(a)(4)\nThe uniform and accoutrements of every commissioned officer and enlisted person shall be free from all suits, distresses, executions or sales for debt or payment of taxes.\n\nWisconsin Statutes\nWis. Stat. § 815.18(3)\nExempt property. The debtor's interest in or right to receive the following property is exempt:\n\nWis. Stat. § 815.18(3)(a)\nProvisions for burial. Cemetery lots, aboveground burial facilities, burial monuments, tombstones, coffins, cremation urns, urn vaults, outer burial containers, or other articles for the burial of the dead owned by the debtor and intended for the burial of the debtor or the debtor's family.\n\nWis. Stat. § 815.18(3)(b)\nBusiness and farm property.\n\nWis. Stat. § 815.18(3)(b)(1)\nEquipment, inventory, farm products, and professional books used in the business of the debtor or the business of a dependent of the debtor, not to exceed $15,000 in aggregate value.\n\nWis. Stat. § 815.18(3)(b)(2)\nIf the debtor does not claim an exemption under subd. 1., any interest of the debtor, not to exceed $15,000 in aggregate value, in a closely held business that employs the debtor or in whose business the debtor is actively involved.\n\nWis. Stat. § 815.18(3)(d)\nConsumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value.\n\nWis. Stat. § 815.18(3)(g)\nMotor vehicles. Motor vehicles not to exceed $4,000 in aggregate value. Any unused amount of the aggregate value from par. (d) may be added to this exemption to increase the aggregate exempt value of motor vehicles under this paragraph.\n\nWis. Stat. § 815.18(3)(k)\nDepository accounts. Depository accounts in the aggregate value of $5,000, but only to the extent that the account is for the debtor's personal use and is not used as a business account.\n\nWis. Stat. § 815.18(8)\nMarital property rights. Each spouse is entitled to and may claim the exemptions under this section. If the property exempt under this section is limited to a specified maximum dollar amount, each spouse is entitled to one exemption. That exemption is limited to the specified maximum dollar amount, which may be combined with the other spouse's exemption in the same property or applied to different property included under the same exemption.\n\nWis. Stat. § 815.20\nHomestead exemption definition.\n\nWis. Stat. § 815.20(1)\nAn exempt homestead selected by a resident owner and occupied by him or her shall be exempt from execution, from the lien of every judgment, and from liability for the debts of the owner to the amount of $75,000, except mortgages, laborers', mechanics', and purchase money liens and taxes and except as otherwise provided. The exemption shall not be impaired by temporary removal with the intention to reoccupy the premises as a homestead nor by the sale of the homestead, but shall extend to the proceeds derived from the sale to an amount not exceeding $75,000, while held, with the intention to procure another homestead with the proceeds, for 2 years. The exemption extends to land owned by husband and wife jointly or in common or as marital property, and each spouse may claim a homestead exemption of not more than $75,000. The exemption extends to the interest therein of tenants in common, having a homestead thereon with the consent of the cotenants, and to any estate less than a fee.\n\nSolved Reasoning Steps:\nThe following reasoning steps have already been solved. Use this information to aid you in completing the remainder of the task.\nThe Debtors may claim property exemptions under Federal and Oregon statutes.\n\nFacts:\nMustafa and Ryu Yildirim (hereinafter the Debtors) filed for bankruptcy on June 29, 2024. The 48-inch LED smart TV with Roku interface currently owned by the Debtors carries a value of $850.00. Mustafa and Ryu Yildirim have a cactus gray 2021 Ford Bronco Badlands off-roader assessed at $47,950.00, in addition to a 1993 dark blue Volvo 240 DL wagon (176k miles), 4-door classic valued at $2,755.00.\n\nOutput contract: Return only a JSON object: keys are the actual asset descriptions in Facts; values are arrays of all applicable public citation label IDs from the supplied vocabulary, or [] if none. Labels are only output encodings, not eligibility answers."
+      }
+    ],
+    "schema": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "11 U.S.C. section 522(b)",
+            "11 U.S.C. section 522(d)",
+            "11 U.S.C. section 522(d)(1)",
+            "11 U.S.C. section 522(d)(2)",
+            "11 U.S.C. section 522(d)(3)",
+            "11 U.S.C. section 522(d)(4)",
+            "11 U.S.C. section 522(d)(5)",
+            "11 U.S.C. section 522(d)(6)",
+            "11 U.S.C. section 522(d)(9)",
+            "11 U.S.C. section 522(m)",
+            "Or. Rev. Stat. section 18.345(1)",
+            "Or. Rev. Stat. section 18.345(1)(a)",
+            "Or. Rev. Stat. section 18.345(1)(b)",
+            "Or. Rev. Stat. section 18.345(1)(c)",
+            "Or. Rev. Stat. section 18.345(1)(d)",
+            "Or. Rev. Stat. section 18.345(1)(e)",
+            "Or. Rev. Stat. section 18.345(1)(f)",
+            "Or. Rev. Stat. section 18.345(1)(h)",
+            "Or. Rev. Stat. section 18.345(1)(p)",
+            "Or. Rev. Stat. section 18.345(3)",
+            "Or. Rev. Stat. section 18.362",
+            "Or. Rev. Stat. section 18.395(1)",
+            "Or. Rev. Stat. section 18.395(2)"
+          ]
+        }
+      }
+    },
+    "bank_sha256": "b9e6e87afc2b52a829b422e3ee67aad25857e6dbc1d329c3517542ae78bb77d2",
+    "delivered_skill_ids": [
+      "federal_household_item_cap_and_jewelry_boundary",
+      "federal_residence_cap_not_eligibility",
+      "federal_wildcard_independent_alternative",
+      "oregon_any_personal_property_alternative"
+    ],
+    "original_prompt_sha256": "f95c477bcc10f5103b5f54df8e289dfc0ad669aeba1c1e93c95b0e892b4f7d3d",
+    "actual_active_case_input_sha256": "01ba71c7719e226fb054a859fca226ea739fc53980401569eb84e1b5e0c09d60",
+    "public_citation_catalog": {
+      "11 U.S.C. section 522(b)": "11 U.S.C. § 522(b)",
+      "11 U.S.C. section 522(d)": "11 U.S.C. § 522(d)",
+      "11 U.S.C. section 522(d)(1)": "11 U.S.C. § 522(d)(1)",
+      "11 U.S.C. section 522(d)(2)": "11 U.S.C. § 522(d)(2)",
+      "11 U.S.C. section 522(d)(3)": "11 U.S.C. § 522(d)(3)",
+      "11 U.S.C. section 522(d)(4)": "11 U.S.C. § 522(d)(4)",
+      "11 U.S.C. section 522(d)(5)": "11 U.S.C. § 522(d)(5)",
+      "11 U.S.C. section 522(d)(6)": "11 U.S.C. § 522(d)(6)",
+      "11 U.S.C. section 522(d)(9)": "11 U.S.C. § 522(d)(9)",
+      "11 U.S.C. section 522(m)": "11 U.S.C. § 522(m)",
+      "Or. Rev. Stat. section 18.345(1)": "Or. Rev. Stat. § 18.345(1)",
+      "Or. Rev. Stat. section 18.345(1)(a)": "Or. Rev. Stat. § 18.345(1)(a)",
+      "Or. Rev. Stat. section 18.345(1)(b)": "Or. Rev. Stat. § 18.345(1)(b)",
+      "Or. Rev. Stat. section 18.345(1)(c)": "Or. Rev. Stat. § 18.345(1)(c)",
+      "Or. Rev. Stat. section 18.345(1)(d)": "Or. Rev. Stat. § 18.345(1)(d)",
+      "Or. Rev. Stat. section 18.345(1)(e)": "Or. Rev. Stat. § 18.345(1)(e)",
+      "Or. Rev. Stat. section 18.345(1)(f)": "Or. Rev. Stat. § 18.345(1)(f)",
+      "Or. Rev. Stat. section 18.345(1)(h)": "Or. Rev. Stat. § 18.345(1)(h)",
+      "Or. Rev. Stat. section 18.345(1)(p)": "Or. Rev. Stat. § 18.345(1)(p)",
+      "Or. Rev. Stat. section 18.345(3)": "Or. Rev. Stat. § 18.345(3)",
+      "Or. Rev. Stat. section 18.362": "Or. Rev. Stat. § 18.362",
+      "Or. Rev. Stat. section 18.395(1)": "Or. Rev. Stat. § 18.395(1)",
+      "Or. Rev. Stat. section 18.395(2)": "Or. Rev. Stat. § 18.395(2)"
+    },
+    "public_allowable_jurisdictions": [
+      "FEDERAL",
+      "OREGON"
+    ],
+    "public_citation_catalog_sha256": "1173d90df57c7a871e4c5397305311362fef2d9e5157736a923524a72666030f",
+    "numerical_program_bodies_rendered_to_actor": false,
+    "published_citation_calls_required_by_schema": false,
+    "direct_numeric_empty_control": false,
+    "valuation_output_contract": "direct_numeric",
+    "format_only_demonstrations_not_in_inference_input": true,
+    "no_private_case_annotations_or_current_target": true
+  },
+  "B4_first_skill_input_exists_and_matches": true,
+  "B4_metrics_not_yet_available_no_gold_scored": true,
+  "C3_scores_are_TRAIN_replay_not_forward_or_TEST": true,
+  "main_frozen_bindings_unchanged": 176
+}

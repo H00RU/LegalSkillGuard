@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-20T16:43:41.077350+00:00",
+  "classification": "actual_first_ACE_publication_and_delivery_not_yet_complete_B2_effect",
+  "publication_at": "2026-10-20T16:36:12.430365+00:00",
+  "playbook_sha256": "c2a3c41eb246af69007f9268e966bde2b148f348df71a8e824667b20654e6478",
+  "actual_tokens": 538,
+  "bullet_count": 8,
+  "full_actual_playbook": "## STRATEGIES & INSIGHTS\n\n[sai-00001] helpful=0 harmful=0 :: For every asset, build an exhaustive eligibility matrix covering each available category-specific exemption and each broad wildcard or general-property exemption. A specific match does not displace an independently applicable general provision.\n## FORMULAS & CALCULATIONS\n\n[calc-00002] helpful=0 harmful=0 :: For an independently evaluated asset-exemption pair with asset value V and statutory cap C, report claim_value = min(V, C). If the provision states no monetary cap, report V. Do not reject an otherwise eligible asset merely because V exceeds C.\n## CODE SNIPPETS & TEMPLATES\n\n[code-00007] helpful=0 harmful=0 :: Treat each factual asset description as an immutable JSON key: copy the complete description verbatim, including parentheticals, dimensions, color, model, features, caliber, mileage, and use qualifiers. Emit ordinary key-array pairs rather than embedding an entire mapping inside a quoted key.\n## COMMON MISTAKES TO AVOID\n\n[err-00005] helpful=0 harmful=0 :: Do not confuse aggregate ceilings with per-item ceilings, and do not import a cap from a neighboring subsection. Read the scope and limit from the exact cited provision.\n[err-00006] helpful=0 harmful=0 :: Emit each distinct asset-citation pair once. Separate spousal entitlement or cap stacking may affect the available amount, but it does not create duplicate records for the same statutory basis.\n## PROBLEM-SOLVING HEURISTICS\n\n[ph-00003] helpful=0 harmful=0 :: Apply a fixed sequence: honor the solved jurisdiction and any opt-out rule; classify the asset from explicit use facts; test all specific provisions; test all 'any property' provisions; calculate each claim independently; then deduplicate and validate the output.\n[ph-00008] helpful=0 harmful=0 :: Perform a final parsed-structure audit: confirm one top-level JSON object, exactly one key per required asset, exact key text, arrays as actual values, vocabulary-authorized citation IDs, required numeric claim_value fields when requested, and no duplicate asset-citation pairs.\n## CONTEXT CLUES & INDICATORS\n\n[ctx-00004] helpful=0 harmful=0 :: Treat stated use qualifiers as controlling evidence. Apply the prompt's personal-use default when no contrary fact appears, but require an explicit occupational-use or necessity fact before assigning a trade-tool exemption.\n## OTHERS",
+  "B1_completed_TRAIN_tasks": 16,
+  "initially_solved": 5,
+  "finally_solved": 15,
+  "reflection_responses": 20,
+  "TRAIN_regenerations": 15,
+  "curator_responses": 1,
+  "all_reflection_plus_curator_responses": 21,
+  "TRAIN_success_not_first_encounter_or_generalization": true,
+  "directed_feedback_can_repair_but_not_all_initial_errors_assumed_repaired": true,
+  "actual_B2_delivery_inputs": [
+    {
+      "source": 157,
+      "family": "EC",
+      "actual_C1_playbook_and_schema_delivered": true,
+      "input_file": "runs/legal_openexempt_ace_TRAIN_reflect_online_20261020_run01/native/b2_prequential/157_EC_ace.input.json"
+    },
+    {
+      "source": 157,
+      "family": "EV",
+      "actual_C1_playbook_and_schema_delivered": true,
+      "input_file": "runs/legal_openexempt_ace_TRAIN_reflect_online_20261020_run01/native/b2_prequential/157_EV_ace.input.json"
+    },
+    {
+      "source": 158,
+      "family": "EC",
+      "actual_C1_playbook_and_schema_delivered": true,
+      "input_file": "runs/legal_openexempt_ace_TRAIN_reflect_online_20261020_run01/native/b2_prequential/158_EC_ace.input.json"
+    },
+    {
+      "source": 158,
+      "family": "EV",
+      "actual_C1_playbook_and_schema_delivered": true,
+      "input_file": "runs/legal_openexempt_ace_TRAIN_reflect_online_20261020_run01/native/b2_prequential/158_EV_ace.input.json"
+    }
+  ],
+  "content_observation": "These are mostly whole-task execution procedures: exhaustive eligibility matrix, independent min(V,C), immutable asset keys, cap scope, deduplication, fixed task sequence, parsed-structure audit and use qualifiers. Do not hard-code this trained bank into our empty-start next128.",
+  "what_to_learn": "If later new-case gains support it, learn the procedure-induction mechanism rather than importing an old good bank or weakening ACE. Current direct14 and closed-feedback candidate remains the declared next experiment.",
+  "C1_does_not_prove_evolution_over_multiple_publications": true,
+  "ACE185_source_unchanged": true,
+  "ACE_progress_snapshot": {
+    "at": "2026-10-20T16:42:53.318113+00:00",
+    "run_id": "legal_openexempt_ace_TRAIN_reflect_online_20261020_run01",
+    "state": "running",
+    "stage": "b2_prequential",
+    "current_batch": 2,
+    "completed_native_calls": 55,
+    "completed_teacher_calls": 21,
+    "teacher_attempts": 21,
+    "playbook_bullets": 8,
+    "cross_stage_identical_wire_reuses": 36,
+    "current_arm": "empty_direct_numeric",
+    "current_document_id": 159,
+    "current_call": "openexempt"
+  },
+  "no_new_model_or_teacher_calls_by_this_audit": true,
+  "official_TEST_and_new128_TARGETS_not_inspected": true
+}

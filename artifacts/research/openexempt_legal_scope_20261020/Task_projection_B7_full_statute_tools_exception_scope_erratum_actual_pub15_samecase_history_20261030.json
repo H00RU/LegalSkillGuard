@@ -1,0 +1,546 @@
+{
+  "at": "2026-10-29T20:56:12.082578+00:00",
+  "classification": "read_only_full_statute_scope_erratum_and_actual_B7_publication_not_a_label_correction_or_new_experiment",
+  "run_id": "legal_openexempt_task_projection_public_assets128_20261029_run01",
+  "human_alias": "第7次主训练尝试：任务保护执行教学版",
+  "corrects_scope_of_previous_reports": [
+    {
+      "path": "artifacts/research/openexempt_legal_scope_20261020/Task_projection_B7_Illinois_business_exclusion_real_skill_defect_original_statute_targets_parent_wire_20261030.json",
+      "sha256": "c4afc5986d3b40dfdc7f272fb8a6548dd0483f4f7ed5841c44c15c09bc5097fa"
+    },
+    {
+      "path": "artifacts/research/openexempt_legal_scope_20261020/Task_projection_IL_wrong_condition_B1_B6_actual_teacher_explicit_business_counterexample_delivery_timeline_20261030.json",
+      "sha256": "af45be30bba36c264909bd654033f5c839f1cecae092ee9ff5fc82e1e0bcadb4"
+    }
+  ],
+  "valid_prior_observations": "Original targets, facts, wrong/missing claims under the original matcher, actual parent skill text and supplied wire references remain valid. Earlier isolated-subsection reasoning did not account for the section-wide restriction.",
+  "retracted_overstrong_inference": "Do not infer from isolated subsection (b) that the provided statute contains no business-use exclusion. Do not infer from the global restriction alone that original tools-of-trade labels are wrong.",
+  "full_provided_restriction": "The personal property exemptions set forth in this Section shall apply only to individuals and only to personal property that is used for personal rather than business purposes.",
+  "pinned_upstream_archive": {
+    "path": "data/cache/openexempt/OpenExempt-ec6fa2547431096588ce2d3ef107b8adc33cd4fe.tar.gz",
+    "sha256": "28dfa486b5aa85c9b3d735067cea8fe658ba4eadee443496d41b7b8a4c803d0b"
+  },
+  "original_cached_files_verified": {
+    "data/statutes/illinois.json": {
+      "archive_member": "servantez-OpenExempt-ec6fa25/data/statutes/illinois.json",
+      "cached": {
+        "path": "data/cache/openexempt/servantez-OpenExempt-ec6fa25/data/statutes/illinois.json",
+        "sha256": "5ef7bc7aa0005d991de36caef493cec8f5adfa9e853db5f884a173475d3799eb"
+      },
+      "bytes_equal": true
+    },
+    "data/assets/assets.jsonl": {
+      "archive_member": "servantez-OpenExempt-ec6fa25/data/assets/assets.jsonl",
+      "cached": {
+        "path": "data/cache/openexempt/servantez-OpenExempt-ec6fa25/data/assets/assets.jsonl",
+        "sha256": "ca3b6121571b0c628eec7965e82b734e085710bfe93f05e5c172552b7afd6e99"
+      },
+      "bytes_equal": true
+    },
+    "source/solver.py": {
+      "archive_member": "servantez-OpenExempt-ec6fa25/source/solver.py",
+      "cached": {
+        "path": "data/cache/openexempt/servantez-OpenExempt-ec6fa25/source/solver.py",
+        "sha256": "0e441d571f37062bca1f202f1075fc5673ddef07c027a05965b24fe5db086285"
+      },
+      "bytes_equal": true
+    },
+    "source/asset.py": {
+      "archive_member": "servantez-OpenExempt-ec6fa25/source/asset.py",
+      "cached": {
+        "path": "data/cache/openexempt/servantez-OpenExempt-ec6fa25/source/asset.py",
+        "sha256": "80c896fac7fbde700a1915d338d5894a2a0c9cc108039c88403fb7eb7ce340c3"
+      },
+      "bytes_equal": true
+    }
+  },
+  "TRAIN_only_packet": {
+    "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json",
+    "sha256": "ef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45"
+  },
+  "TRAIN_witnesses": [
+    {
+      "case_id": 279,
+      "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+      "original_asset_annotation": {
+        "description": "commercial food mixer (used for a catering service operated by the Debtor)",
+        "dollar_value": 930,
+        "applicable_exemptions": [
+          "11 U.S.C. § 522(d)(5)",
+          "11 U.S.C. § 522(d)(6)",
+          "Ariz. Rev. Stat. § 33-1130(1)",
+          "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "735 Ill. Comp. Stat. 5/12-1001(d)",
+          "Or. Rev. Stat. § 18.345(1)(c)",
+          "Or. Rev. Stat. § 18.345(1)(p)",
+          "42 Pa. Cons. Stat. § 8123",
+          "Wis. Stat. § 815.18(3)(b)(1)"
+        ],
+        "category_hints": [
+          "personal_property"
+        ]
+      },
+      "provided_global_restriction_in_both_task_prompts": true,
+      "task_personal_use_default_explicitly_has_exception": true,
+      "observed_targets_answers_errors_and_raw_refs_unchanged": {
+        "EC": {
+          "original_target": [
+            "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "735 Ill. Comp. Stat. 5/12-1001(d)"
+          ],
+          "actual_parent_answer": [
+            "735 Ill. Comp. Stat. 5/12-1001(d)"
+          ],
+          "actual_original_matcher_errors_for_this_pair": [
+            {
+              "kind": "missing",
+              "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+            }
+          ],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/279_EC_skills.json",
+            "sha256": "f437ac132f30236d06ef16312cbe3570532127e2088625a83e271d585390a6e3"
+          },
+          "literal_wrong_parent_exclusion_verified_in_actual_wire": true
+        },
+        "EV": {
+          "original_target": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "claim_value": 930
+            },
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+              "claim_value": 930
+            }
+          ],
+          "actual_parent_answer": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+              "claim_value": 930
+            }
+          ],
+          "actual_original_matcher_errors_for_this_pair": [
+            {
+              "kind": "missing",
+              "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "expected_value": 930.0,
+              "observed_values": []
+            }
+          ],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/279_EV_skills.json",
+            "sha256": "f6a83d46aadf064bb0fdc2e2a9caf2f0f37fbf14d0689e08e27cacbd65b30ced"
+          }
+        }
+      }
+    },
+    {
+      "case_id": 283,
+      "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+      "original_asset_annotation": {
+        "description": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+        "dollar_value": 3450,
+        "applicable_exemptions": [
+          "11 U.S.C. § 522(d)(5)",
+          "11 U.S.C. § 522(d)(6)",
+          "Ariz. Rev. Stat. § 33-1130(1)",
+          "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "735 Ill. Comp. Stat. 5/12-1001(d)",
+          "Or. Rev. Stat. § 18.345(1)(c)",
+          "Or. Rev. Stat. § 18.345(1)(p)",
+          "42 Pa. Cons. Stat. § 8123",
+          "Wis. Stat. § 815.18(3)(b)(1)"
+        ],
+        "category_hints": [
+          "personal_property"
+        ]
+      },
+      "provided_global_restriction_in_both_task_prompts": true,
+      "task_personal_use_default_explicitly_has_exception": true,
+      "observed_targets_answers_errors_and_raw_refs_unchanged": {
+        "EC": {
+          "original_target": [
+            "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "735 Ill. Comp. Stat. 5/12-1001(d)"
+          ],
+          "actual_parent_answer": [],
+          "actual_original_matcher_errors_for_this_pair": [
+            {
+              "kind": "missing",
+              "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+            }
+          ],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/283_EC_skills.json",
+            "sha256": "40628ae365d082dad97c3a74c98f3e974e63838e8d89c97521de739b68b12337"
+          },
+          "literal_wrong_parent_exclusion_verified_in_actual_wire": true
+        },
+        "EV": {
+          "original_target": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "claim_value": 3450
+            },
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+              "claim_value": 3000
+            }
+          ],
+          "actual_parent_answer": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "claim_value": 3355
+            }
+          ],
+          "actual_original_matcher_errors_for_this_pair": [],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/283_EV_skills.json",
+            "sha256": "1190d5ad061f5e5f8366630fcad21bb7bb90adb14717af3b6a394be2d8395bc9"
+          }
+        }
+      }
+    },
+    {
+      "case_id": 285,
+      "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+      "original_asset_annotation": {
+        "description": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+        "dollar_value": 2275,
+        "applicable_exemptions": [
+          "11 U.S.C. § 522(d)(5)",
+          "11 U.S.C. § 522(d)(6)",
+          "Ariz. Rev. Stat. § 33-1130(1)",
+          "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "735 Ill. Comp. Stat. 5/12-1001(d)",
+          "Or. Rev. Stat. § 18.345(1)(c)",
+          "Or. Rev. Stat. § 18.345(1)(p)",
+          "42 Pa. Cons. Stat. § 8123",
+          "Wis. Stat. § 815.18(3)(b)(1)"
+        ],
+        "category_hints": [
+          "personal_property"
+        ]
+      },
+      "provided_global_restriction_in_both_task_prompts": true,
+      "task_personal_use_default_explicitly_has_exception": true,
+      "observed_targets_answers_errors_and_raw_refs_unchanged": {
+        "EC": {
+          "original_target": [
+            "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "735 Ill. Comp. Stat. 5/12-1001(d)"
+          ],
+          "actual_parent_answer": [],
+          "actual_original_matcher_errors_for_this_pair": [
+            {
+              "kind": "missing",
+              "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+            }
+          ],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/285_EC_skills.json",
+            "sha256": "ee229eda40f90764f995eefcb937d291e1e2a281c7e318512633ddf593ed3022"
+          },
+          "literal_wrong_parent_exclusion_verified_in_actual_wire": true
+        },
+        "EV": {
+          "original_target": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "claim_value": 2275
+            },
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+              "claim_value": 2275
+            }
+          ],
+          "actual_parent_answer": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+              "claim_value": 1500
+            }
+          ],
+          "actual_original_matcher_errors_for_this_pair": [
+            {
+              "kind": "missing",
+              "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "expected_value": 2275.0,
+              "observed_values": []
+            }
+          ],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/285_EV_skills.json",
+            "sha256": "48bc4ba9dad7b899b4d491ae5913737103c1c44b724d6f2e3827d459ab6ddfc2"
+          }
+        }
+      }
+    }
+  ],
+  "primary_authority_read_only": {
+    "url": "https://www.govinfo.gov/content/pkg/USCOURTS-ilcb-1_08-bk-81220/pdf/USCOURTS-ilcb-1_08-bk-81220-0.pdf",
+    "case": "In re Sidney R. Dowacter and Arletha K. Dowacter, No. 08-81220, opinion October 8, 2008",
+    "pdf_sha256_read_via_memory_and_pdftotext": "17d55ed9decaabdd122f53486e332a68adcc9f4ca32823c4371c148b1261a3b5",
+    "relevant_pages": [
+      5,
+      6,
+      7
+    ],
+    "summary": "The opinion distinguishes ordinary business property from property qualifying as implements, professional books, or tools of the trade. It discusses the latter's ability to use the tools exemption and additionally the wildcard, reconciling the section-wide restriction. Its actual debtors lacked a qualifying current trade; their objection was sustained. Thus the global restriction alone does not establish that our active-trade original labels are erroneous.",
+    "not_current_case_legal_advice": true,
+    "not_an_addition_to_actor_or_teacher_context": true
+  },
+  "root_cause_boundary": "Observed blanket skill exclusion omits a tools-of-trade exception supported by primary legal interpretation. Provided statutes do not spell out that judicial reconciliation. Record as a task-interpretation and knowledge-completeness issue, not proven bad gold. It does not uniquely explain all omissions, numerical failures, or historical performance gaps.",
+  "B7_C1_complete_receipt": {
+    "path": "artifacts/research/openexempt_legal_scope_20261020/Task_projection_B7_C1_complete112_EC_actual_knowledge_repair_and_teacher14_parent_feedback_20261030.json",
+    "sha256": "ab1830658a8173b4a14fe3fd9be7f37334180232a48d8af0911ef358b1b2ee82"
+  },
+  "B7_C2_actual": {
+    "decision": {
+      "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/candidates/b7_candidate2.json",
+      "sha256": "5f8f9bed454cbed44f8acb2b99a25a1a5c829d612fcb2a06fc5a2ad93e6fba30"
+    },
+    "fully_admitted": true,
+    "tokens": 4012,
+    "current_EV_percent": [
+      83.32093253968253,
+      85.74652777777779
+    ],
+    "prior96_EV_percent": [
+      88.88186177248677,
+      89.56473214285715
+    ],
+    "same_current_EC": true,
+    "same_prior_EC": true
+  },
+  "B7_final_publication": {
+    "reference": {
+      "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/publications/b7.json",
+      "sha256": "7c5cd3905399e64e85ecd89ab3200b4ef0cca6e3afada2c4ec64ced66df3dbc7"
+    },
+    "at": "2026-10-29T20:51:09.983500+00:00",
+    "bank_sha256": "02b119a968c76f1e8a2c359f6d35e950012b53f83c9dc08251874401fd7e5702",
+    "records": 15,
+    "tokens": 4012
+  },
+  "same_case_official_first_encounter_curves_not_replay_replacements": [
+    {
+      "batch": 1,
+      "source": {
+        "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/batches/b1_prequential.json",
+        "sha256": "a96e853023552c77190bf61751fc56a0f592b80e0c73894302348239bfaf2151"
+      },
+      "empty_percent": {
+        "EC": 59.15922619047619,
+        "EV": 61.85763888888888
+      },
+      "current_percent": {
+        "EC": 59.15922619047619,
+        "EV": 61.85763888888888
+      },
+      "own_B1_percent": {
+        "EC": 59.15922619047619,
+        "EV": 61.85763888888888
+      },
+      "old_third_percent": {
+        "EC": 62.89964375901875,
+        "EV": 67.97371031746032
+      },
+      "delta_old_third_pp": {
+        "EC": -3.7404175685425645,
+        "EV": -6.116071428571434
+      },
+      "incoming_records": 0,
+      "published_records": 9
+    },
+    {
+      "batch": 2,
+      "source": {
+        "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/batches/b2_prequential.json",
+        "sha256": "58da48e7b3cf47e3cdcb9ab44dd156f1aef81df773e4c15c058e6daf7851fcc3"
+      },
+      "empty_percent": {
+        "EC": 61.80555555555556,
+        "EV": 56.70138888888889
+      },
+      "current_percent": {
+        "EC": 78.06051587301589,
+        "EV": 80.56299603174604
+      },
+      "own_B1_percent": {
+        "EC": 78.06051587301589,
+        "EV": 80.56299603174604
+      },
+      "old_third_percent": {
+        "EC": 81.05158730158732,
+        "EV": 64.1683836996337
+      },
+      "delta_old_third_pp": {
+        "EC": -2.9910714285714235,
+        "EV": 16.394612332112345
+      },
+      "incoming_records": 9,
+      "published_records": 13
+    },
+    {
+      "batch": 3,
+      "source": {
+        "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/batches/b3_prequential.json",
+        "sha256": "1c379852d2dc0ee5d4dc052173ee7639a031faf6e32933695be796d75d26f59f"
+      },
+      "empty_percent": {
+        "EC": 65.8767361111111,
+        "EV": 68.20684523809524
+      },
+      "current_percent": {
+        "EC": 90.8953373015873,
+        "EV": 82.84970238095238
+      },
+      "own_B1_percent": {
+        "EC": 83.88392857142856,
+        "EV": 78.67311507936509
+      },
+      "old_third_percent": {
+        "EC": 87.23462301587303,
+        "EV": 89.4345238095238
+      },
+      "delta_old_third_pp": {
+        "EC": 3.6607142857142727,
+        "EV": -6.584821428571431
+      },
+      "incoming_records": 13,
+      "published_records": 14
+    },
+    {
+      "batch": 4,
+      "source": {
+        "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/batches/b4_prequential.json",
+        "sha256": "74356f9f5455a4f27ebfb27ecd201b9dc3787d403b9865f76fbb4508ffcb7a5c"
+      },
+      "empty_percent": {
+        "EC": 53.86284722222223,
+        "EV": 63.15393518518518
+      },
+      "current_percent": {
+        "EC": 84.43452380952381,
+        "EV": 84.0079365079365
+      },
+      "own_B1_percent": {
+        "EC": 70.45634920634922,
+        "EV": 78.88640873015873
+      },
+      "old_third_percent": {
+        "EC": 81.24007936507937,
+        "EV": 93.7748015873016
+      },
+      "delta_old_third_pp": {
+        "EC": 3.194444444444444,
+        "EV": -9.766865079365083
+      },
+      "incoming_records": 14,
+      "published_records": 14
+    },
+    {
+      "batch": 5,
+      "source": {
+        "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/batches/b5_prequential.json",
+        "sha256": "1a0f61e741494fc5f4a1d7eb7d5836590916e7ec1635a7d7f176419eef970050"
+      },
+      "empty_percent": {
+        "EC": 65.27777777777779,
+        "EV": 65.83333333333331
+      },
+      "current_percent": {
+        "EC": 87.20238095238095,
+        "EV": 93.87400793650794
+      },
+      "own_B1_percent": {
+        "EC": 76.26984126984127,
+        "EV": 88.59126984126983
+      },
+      "old_third_percent": {
+        "EC": 83.79960317460318,
+        "EV": 89.00793650793649
+      },
+      "delta_old_third_pp": {
+        "EC": 3.4027777777777657,
+        "EV": 4.8660714285714395
+      },
+      "incoming_records": 14,
+      "published_records": 14
+    },
+    {
+      "batch": 6,
+      "source": {
+        "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/batches/b6_prequential.json",
+        "sha256": "84f2beced65019f8e7c76afdc5e26dde96a41c9ba2603bce20e536802d464f7e"
+      },
+      "empty_percent": {
+        "EC": 59.76190476190476,
+        "EV": 74.91567460317458
+      },
+      "current_percent": {
+        "EC": 87.70833333333331,
+        "EV": 90.97718253968253
+      },
+      "own_B1_percent": {
+        "EC": 78.46230158730158,
+        "EV": 80.13888888888889
+      },
+      "old_third_percent": {
+        "EC": 86.42113095238095,
+        "EV": 91.63814484126983
+      },
+      "delta_old_third_pp": {
+        "EC": 1.287202380952368,
+        "EV": -0.6609623015872979
+      },
+      "incoming_records": 14,
+      "published_records": 14
+    },
+    {
+      "batch": 7,
+      "source": {
+        "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/batches/b7_prequential.json",
+        "sha256": "7d2ed70210d6d2df0f30cf9df703e57d19a4e225fc8ea3c6dbbee6a058264343"
+      },
+      "empty_percent": {
+        "EC": 57.8125,
+        "EV": 45.868055555555564
+      },
+      "current_percent": {
+        "EC": 88.22916666666667,
+        "EV": 83.32093253968253
+      },
+      "own_B1_percent": {
+        "EC": 78.11507936507938,
+        "EV": 73.95833333333333
+      },
+      "old_third_percent": {
+        "EC": 85.24305555555554,
+        "EV": 85.51835317460319
+      },
+      "delta_old_third_pp": {
+        "EC": 2.9861111111111227,
+        "EV": -2.197420634920655
+      },
+      "incoming_records": 14,
+      "published_records": 15
+    }
+  ],
+  "historical_curve_source": {
+    "path": "paper/figures/third_acquisition_prequential_20261029.json",
+    "sha256": "093ceac0a63f1040ca3fc3e60b9a7b333109074a89e558f5178aaa7a3745af82"
+  },
+  "cross_run_limit": "Same source cases but actual empty-model answers also differ between runs; not a single-factor causal test or independent repeated-build significance result.",
+  "all379_frozen_files_unchanged": true,
+  "no_source_or_label_or_score_changes": true,
+  "no_new_model_teacher_or_grading_calls_from_audit": true,
+  "no_new_heldout_semantic_access": true,
+  "no_training_or_model_stop_or_restart": true
+}

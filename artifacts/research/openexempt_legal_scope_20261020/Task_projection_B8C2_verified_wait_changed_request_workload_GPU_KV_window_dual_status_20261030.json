@@ -1,0 +1,114 @@
+{
+  "at": "2026-10-29T22:50:13.283489+00:00",
+  "run_id": "legal_openexempt_task_projection_public_assets128_20261029_run01",
+  "classification": "Verified wait on real original final EV replay, plus exact future-request workload and a bounded resource observation; not new scientific performance or completion",
+  "previous_turn_classification": "progress: actual B8C1 complete128 gate/claim evidence and teacher16 supervision; exact live verification",
+  "identities": {
+    "2749908": {
+      "birth": 528176807,
+      "state": "S"
+    },
+    "958223": {
+      "birth": 486445918,
+      "state": "S"
+    }
+  },
+  "runtime_metrics_snapshot": {
+    "vllm:num_requests_running": 4.0,
+    "vllm:num_requests_waiting": 0.0,
+    "vllm:gpu_cache_usage_perc": 0.9252418645558487,
+    "vllm:num_preemptions_total": 3705.0
+  },
+  "GPU_snapshot": "NVIDIA A40, 24193 MiB, 49140 MiB, 96 %",
+  "GPU_compute_processes": [
+    "958843, VLLM::EngineCore, 24184 MiB"
+  ],
+  "actual_service_safe_flags": {
+    "gpu_memory_utilization": 0.48,
+    "max_num_seqs": 4,
+    "max_model_len": 32768,
+    "max_num_batched_tokens": 16384,
+    "dtype": "bfloat16"
+  },
+  "observed_original_process_preemption_counter": [
+    {
+      "at": "2026-10-29T22:46:42.561633+00:00",
+      "value": 3702
+    },
+    {
+      "at": "2026-10-29T22:47:25.890480+00:00",
+      "value": 3702
+    },
+    {
+      "at": "2026-10-29T22:48:39.792698+00:00",
+      "value": 3703
+    }
+  ],
+  "counter_scope": "Lifetime counter belongs to original resident service, not a this-run count. Observed increase1 in117seconds shows one actual cache preemption in this short window, not its whole-phase rate or a unique latency/quality cause.",
+  "workload_scope_clarification": "Cost calculation opened the original teacher wire which contains already-known original TRAIN gold, but did not access that field in its computations, grading-directory files or C2 partial scores. The workload receipt no_partial_metrics_or_grading_targets_loaded field means no grading-directory targets loaded, not a claim teacher input is label-free.",
+  "all379_bound_unchanged": true,
+  "no_main_or_model_restart_or_hot_change": true,
+  "no_new_generation_tokenizer_teacher_grading_or_TEST_calls": true,
+  "sources": [
+    {
+      "path": "docs/CURRENT_GOAL.md",
+      "sha256": "24c521fc4d789225d4568fa9ee004516b243a828820ab6b137ceab23f751f3b2"
+    },
+    {
+      "path": "configs/openexempt_task_projection_public_assets128_20261029_run01.frozen.json",
+      "sha256": "745c6353bb94b2158ee9beba3bacc2c809bc36926b44eaae648a7ecd31b4a678"
+    },
+    {
+      "path": "artifacts/research/openexempt_legal_scope_20261020/Task_projection_B8C2_actual_changed_request_workload_no_partial_metrics_20261030.json",
+      "sha256": "72d1790a2ad4091369aaeecd8cdbf09f1c0a0e0c1769845a77d04f34d4c04743"
+    },
+    {
+      "path": "artifacts/research/openexempt_legal_scope_20261020/Task_projection_B8_C1_veto_teacher16_hour2237_full_goal_dual_status_20261030.json",
+      "sha256": "010e29be4e9c8efcbaff5e2238511c561bff77ff4a1efa1a908b8ee80bf1b886"
+    },
+    {
+      "path": "artifacts/research/openexempt_legal_scope_20261020/Task_projection_hourly2237UTC_same_complete8_goal379_B8_C1_veto_teacher16_replay_20261029.json",
+      "sha256": "5801e8fee4c31d688de23af718371ab192eac3c53563ab263c69768909bb82fb"
+    }
+  ],
+  "preservation": {
+    "at": "2026-10-29T22:50:13.194436+00:00",
+    "stage": "b8_C2_request_workload_GPU_KV_wait_2250UTC_20261030",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_task_projection_public_assets128_20261029_run01-b8_C2_request_workload_GPU_KV_wait_2250UTC_20261030.tar.gz",
+        "sha256": "06cfa92108e716e46d0fc9c9176ce818a40cb929171f91275746afb46c995d6c"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_task_projection_public_assets128_20261029_run01-b8_C2_request_workload_GPU_KV_wait_2250UTC_20261030.tar.gz",
+        "sha256": "06cfa92108e716e46d0fc9c9176ce818a40cb929171f91275746afb46c995d6c"
+      }
+    ],
+    "files": 5
+  },
+  "progress_snapshot": {
+    "at": "2026-10-29T22:50:05.697279+00:00",
+    "run_id": "legal_openexempt_task_projection_public_assets128_20261029_run01",
+    "state": "running",
+    "stage": "b8_candidate2_replay",
+    "current_batch": 8,
+    "completed_native_calls": 1346,
+    "completed_teacher_calls": 16,
+    "teacher_attempts": 16,
+    "cross_stage_identical_wire_reuses": 2540,
+    "library_records": 15,
+    "execution_dispatch": {
+      "policy": "ordered_independent_phases_v1",
+      "native_workers": 4,
+      "teacher_workers": 1,
+      "required_max_num_seqs": 4
+    },
+    "current_arm": "candidate",
+    "current_document_id": 221,
+    "current_call": "openexempt"
+  },
+  "observer_session": 9314,
+  "observer_deadline_UTC": "2026-10-29T23:18:49.437624+00:00",
+  "next_full_goal_review_UTC": "2026-10-29T23:37:23.967305+00:00",
+  "remaining_full_goal": "Actual C2 decision, final B8/terminal, necessary justified root fixes or matched mechanisms and new sealed source-isolated comparison. No new8thmain, no independent extra main/ACE/Text builds, no premature success."
+}

@@ -1,0 +1,753 @@
+{
+  "at": "2026-10-31T01:27:15.206023+00:00",
+  "classification": "C2_complete_B7_both_original_gates_actual_final_bank_all_paid_costs_and_B8_real_input_delivery_not_TEST",
+  "actual_publication": {
+    "path": "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/publications/b7.json",
+    "sha256": "dc8785601c69eaf83bfe505c56d5aa4bae3680b7a7af989dde4a72729e42463c",
+    "bank_sha256": "48d9353e824ac948c339d9f6886f2a03a724b94f160b9582ceb9b123f5a4dbf7",
+    "records": 12,
+    "changed_from_batch_parent": false,
+    "bank_equals_ownB1": false
+  },
+  "steps": [
+    {
+      "step": 1,
+      "task": "EC",
+      "decision_path": "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/candidates/b7_candidate1.json",
+      "decision_sha256": "c6e25751de25838847cc9c367a81fdbee71601e039da9e838f7e217f44381928",
+      "accepted": false,
+      "selected": "none",
+      "reason": "no_independently_improving_legal_edit",
+      "original_whole_task_legal_gates_recomputed_all224": true,
+      "original_other_task_all128_payloads_protected": true,
+      "current_gains_pp": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": -0.6502525252525149
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        }
+      },
+      "prior_gains_pp": {
+        "EC": {
+          "f1": 1.41782407407407,
+          "full_output_f1": 1.3567104192104273
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        }
+      },
+      "teacher_usage": {
+        "input_tokens": 56741,
+        "cached_input_tokens": 0,
+        "output_tokens": 2034,
+        "reasoning_output_tokens": 1552
+      },
+      "actual_teacher_request": {
+        "path": "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/teacher/b7_candidate1/wire_request.json",
+        "sha256": "049d17d167d1c45a66afd1e7bbb6911fd8d002d3540aabb6d157bf71be034c87",
+        "selected_sources": [
+          182,
+          190,
+          193,
+          195,
+          200,
+          204,
+          207,
+          224,
+          227,
+          231,
+          234,
+          236,
+          239,
+          248,
+          251,
+          269,
+          277,
+          278,
+          279,
+          280,
+          281,
+          282,
+          283,
+          284,
+          285,
+          286,
+          287,
+          288,
+          289,
+          290,
+          291,
+          292
+        ],
+        "fullfalse_original_context_and_gold_exact": true
+      }
+    },
+    {
+      "step": 2,
+      "task": "EV",
+      "decision_path": "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/candidates/b7_candidate2.json",
+      "decision_sha256": "7ebdf5eac7a56663246235b7f078226d10c224815d622c4db95b703271c289ae",
+      "accepted": false,
+      "selected": "none",
+      "reason": "no_independently_improving_legal_edit",
+      "original_whole_task_legal_gates_recomputed_all224": true,
+      "original_other_task_all128_payloads_protected": true,
+      "current_gains_pp": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -8.333333333333325,
+          "full_output_f1": -7.579365079365086
+        }
+      },
+      "prior_gains_pp": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -5.034722222222232,
+          "full_output_f1": -4.635416666666647
+        }
+      },
+      "teacher_usage": {
+        "input_tokens": 60252,
+        "cached_input_tokens": 0,
+        "output_tokens": 2543,
+        "reasoning_output_tokens": 1952
+      },
+      "actual_teacher_request": {
+        "path": "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/teacher/b7_candidate2/wire_request.json",
+        "sha256": "67c5f5de5bb55fc572d8691159d021ba5574c466e806eeda24706f12624b0ed2",
+        "selected_sources": [
+          182,
+          187,
+          194,
+          202,
+          203,
+          204,
+          206,
+          211,
+          212,
+          217,
+          234,
+          236,
+          239,
+          244,
+          248,
+          272,
+          277,
+          278,
+          279,
+          280,
+          281,
+          282,
+          283,
+          284,
+          285,
+          286,
+          287,
+          288,
+          289,
+          290,
+          291,
+          292
+        ],
+        "fullfalse_original_context_and_gold_exact": true
+      }
+    }
+  ],
+  "actual_final_batch_gate": {
+    "library_unchanged_no_strict_improvement_required_for_publication": true
+  },
+  "all224_final_postlabel_TRAIN_metrics_not_newcase_or_TEST": {
+    "EC": {
+      "precision": 0.9072420634920636,
+      "recall": 0.8131200396825399,
+      "f1": 0.8466163548752835,
+      "exact_target": 0.44642857142857145,
+      "tasks": 112,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.8797853561546631,
+      "negative_or_unscored_asset_claims": 5
+    },
+    "EV": {
+      "precision": 0.8962549603174604,
+      "recall": 0.787202380952381,
+      "f1": 0.8261869331065761,
+      "exact_target": 0.30357142857142855,
+      "tasks": 112,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 7,
+      "full_output_f1": 0.8163631439456662,
+      "negative_or_unscored_asset_claims": 7
+    },
+    "mean_family_f1": 0.8364016439909299
+  },
+  "all_actual_B7_native_origins": {
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/190_EC_candidate.json": {
+      "sha256": "79c0925f8fb87c622b950ea48c0813721992ca7fa2248fb7f3e194b466d22388",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/195_EC_candidate.json": {
+      "sha256": "db4bf1a409e6ee64ac362fa5cc2e82ea8de0bd1cb015e56d63049ed3cac01ab5",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/196_EC_candidate.json": {
+      "sha256": "42c4927cb8910a7406360f362f170aa6af5a2833a332627e8368c35dc7507eff",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/204_EC_candidate.json": {
+      "sha256": "16076e6f714e7f89ea3b77e8109e2f84dc8a580d36bd942da9b690f8b8cbf7eb",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/219_EC_candidate.json": {
+      "sha256": "931b05967ea59f96fe176188a3cd369a8a690eec14db7f671b72dffd56d7a3be",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/220_EC_candidate.json": {
+      "sha256": "30362f84d07b5c7ea0703b7f6f37cfacbd16c56e80776436a7ef8eef6ae9f264",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/221_EC_candidate.json": {
+      "sha256": "34226b807d30cbce8eb55add6711126f13d43d9909903d4ad1f56a4a2ca28bad",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/222_EC_candidate.json": {
+      "sha256": "24812b770a99ff586424762c858e2856312a15ca1bfe3fbf2f7bd72c9fa70ec2",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/224_EC_candidate.json": {
+      "sha256": "55ce0ab29341d0246d0d149938cc04b4caf4064fa21da6342e5dc9774b96ab6a",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/233_EC_candidate.json": {
+      "sha256": "313414805b23696b839b9fa9b2ef26a70135538741137c2375c3c0e6002aad2d",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/234_EC_candidate.json": {
+      "sha256": "af44558a85569bd90627313f0958ad03fd277b07b29ba73363aa66f15b8e185f",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/236_EC_candidate.json": {
+      "sha256": "0d7248dbfb2401fc7c3eb6aa039f6e072c0518ae277625131b9b31b3afc0d114",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/242_EC_candidate.json": {
+      "sha256": "33bf10fd0c8629805cc6253bd8f6a3cf522a64f60ed157c8d4c99ad9a578d34a",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/244_EC_candidate.json": {
+      "sha256": "d863aabf208272b2abf85a899d0b3a393ec86bd0e12bd2b7df5c1696681287c2",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/252_EC_candidate.json": {
+      "sha256": "6b5b2a1ccbc50a4893d8d821bcd70bfd1c03610815f5a0301681b77942f299c4",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/255_EC_candidate.json": {
+      "sha256": "988ab8137221e2cb7b577af89c1d78974a108d824e26a2ca0ed4b5c38036c6b9",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/257_EC_candidate.json": {
+      "sha256": "87a95417688a2e4c8c3fce5ac74bd796527862464298f0246ad1ae2e2510bfc1",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/260_EC_candidate.json": {
+      "sha256": "9a6160bb511fbd116e4361d86d9a6f1a4204f73f4ea2632816c6604c642fff58",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/264_EC_candidate.json": {
+      "sha256": "ed9fa04c3a6dc89e2fdea31df4d549fbfe307befeaf8d0aaf3d7ceed825c85e9",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/276_EC_candidate.json": {
+      "sha256": "2092efe0e615cdc51bd2f0f3af194688c5953fadaad940bb7456d1af606ebcc4",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/279_EC_candidate.json": {
+      "sha256": "78c7605f814d412265f6d928258c803d6d4698f1f6294f074817b41197d74088",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/281_EC_candidate.json": {
+      "sha256": "65d924c6e838850654010defd79ad38633b94b44a83ba9dcc618e8f34b62d8a1",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/283_EC_candidate.json": {
+      "sha256": "ca0e5158585232b0c695642b8278eaa6df3af90b933b7c178c109fd6d91827fa",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/285_EC_candidate.json": {
+      "sha256": "cc144a0e03ceb7fb66dd2b2d2ecf1d551ee1690f21cbbcc672226c475e38fc4d",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/290_EC_candidate.json": {
+      "sha256": "458e8d388869080e78f81e8cc3f4a1ae9d3f26e28a958cbd5a85e5b761d24c16",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate1_replay/292_EC_candidate.json": {
+      "sha256": "641894f718b6d3cdd6aebf299a40cc5528653a77c3b8c539cb76d4bc2eb1c22a",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/190_EV_candidate.json": {
+      "sha256": "94d31ccf134d6cb14476ae3b9af0a816b549552998082ab37aba9c8577192fa3",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/195_EV_candidate.json": {
+      "sha256": "6447599edda82c486d415e8b60da5016bf620adb9bddf044ec567e93c453afce",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/196_EV_candidate.json": {
+      "sha256": "49fa10d57607f0124bf655fd9002b81568f99d6357a0d152b8050916f9df06c8",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/204_EV_candidate.json": {
+      "sha256": "b3b0543360f4bcd6adb7a810dcdbf14da294bb6fe19fc0d4cf99807de341ae47",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/219_EV_candidate.json": {
+      "sha256": "98861fc1f52bf66c2174124eeff9cbdeddd4fda5bf63d86585d05d14cf4be06f",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/220_EV_candidate.json": {
+      "sha256": "bf673d86d49b283ca4eda804ba84587bf9fadfa93b749a8f4f19d04b27541df5",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/221_EV_candidate.json": {
+      "sha256": "f8f1a689c9fcd6b48f7e1d214844c0c98fd8798bb910a5cd4e483a718ef1e023",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/222_EV_candidate.json": {
+      "sha256": "10b40ce5423f73d1b32bd798233397c555a8da1f86c05d2a303d76f0a1922ed2",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/224_EV_candidate.json": {
+      "sha256": "b410632ef77d14d6a423c31a9ef06fa2621b0c76868ce695b676e69e2046b50a",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/233_EV_candidate.json": {
+      "sha256": "d8728d940d5f0dc2a496f3265ca252e65aceb359b800fef1cacfcaa3c74a9615",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/234_EV_candidate.json": {
+      "sha256": "f4ee953bb3af6516d3fc6a8c0cf4603126ca2c15cd685d33c4c0bea56baabc57",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/236_EV_candidate.json": {
+      "sha256": "133441e671b7954942866809bed05f51968a9d80a354611220fbc5052e9942c3",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/242_EV_candidate.json": {
+      "sha256": "666b179e86fa2062e99422854ab25affc1ff429c5fe187432f3f57f571f8b780",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/244_EV_candidate.json": {
+      "sha256": "096d191c70ac0e2f19e9d61a23aab9d85d334481857efc48fceb418c036ca619",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/252_EV_candidate.json": {
+      "sha256": "8820d517a072a5025795d999cf187bfdb96ddb01986db682ab1c76cb3fd03ed3",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/255_EV_candidate.json": {
+      "sha256": "fead8f7409e33dc956c7585e38b3bd3210caaf63e878bda71b6d3f2e309dc22d",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/257_EV_candidate.json": {
+      "sha256": "4c85e38263a2b58bc6f2ad56dfb7ec3e0cea781585ba81dcd6832c3011849262",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/260_EV_candidate.json": {
+      "sha256": "07678dd2a70af6aef269744acfb9116f6433d02f2bd9e270aadb5851bc50114e",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/264_EV_candidate.json": {
+      "sha256": "c271b535cda757c124a12f4ed7a3af94ad122a9b6d366739dfe4363619b85b2c",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/276_EV_candidate.json": {
+      "sha256": "8b24e69c0825e8850811e5c825d4cc96be13f41324ccc6c0a660d2cac4aa1058",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/279_EV_candidate.json": {
+      "sha256": "7583f44996b2f57fbde6b3b302dc1cd5274499ea9e5ea0c7d5bd001091fae310",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/281_EV_candidate.json": {
+      "sha256": "c5d402d474e4ea666b597a0029e53c67796a55c07026ad83809ee3ce78f0d4fa",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/283_EV_candidate.json": {
+      "sha256": "22ec54756de3eef06a2f3126aab74032ba2f3b0446d6ac96364390576952f3cc",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/285_EV_candidate.json": {
+      "sha256": "0b601d9a198e5ae5004a9a378e0173bc41f030d130549fb669805e62a934bb8c",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/290_EV_candidate.json": {
+      "sha256": "ca2206bffde952678a542eb1dc0aaec3872a086d88c3588fe2a866c9125d205d",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_candidate2_replay/292_EV_candidate.json": {
+      "sha256": "330a59fbd386cded00fe21c148c81dc948ffad370e5a08c191cfd6842e48a83f",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/277_EC_empty.json": {
+      "sha256": "4862118a368caacbd89ed7d43b86a1ee5addb18ba59067c70ee01c2247036a06",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/277_EC_frozen_after_B1.json": {
+      "sha256": "0484d9489a9b32605637f51fd4bd430e4cf3172ceaef21a93b47ae4e2f314386",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/277_EV_empty.json": {
+      "sha256": "e4a8f6001449afc55555ee6f7462657a03d8ab1af8771118344e493e803b57e9",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/277_EV_frozen_after_B1.json": {
+      "sha256": "8dfe66903e9f28b713d9719a5c26f531d2c26b35a59130140545f933d0f163fc",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/277_EV_skills.json": {
+      "sha256": "7c11efa8628f810dab036619a4a3ff6851a0e1a3d99c51953dcfc53eb4946587",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/278_EC_empty.json": {
+      "sha256": "da5b9d3c8aebe3a58c6c8df445f6b8f8bbf1f3b96d14bcb1c1c3d6e88505b826",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/278_EC_skills.json": {
+      "sha256": "de2531ec96cb19cbe3771899d81c728f36d7cff91fc100308fafc81353d574d3",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/278_EV_frozen_after_B1.json": {
+      "sha256": "6e322c839de6235b7fffe3915f12ace533c3212854b29ac42f3077fccc79411f",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/278_EV_frozen_initial.json": {
+      "sha256": "558af7e594efaaca42c03b922ee1793df5c14984f1cb45907ac0c76a824a9f15",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/278_EV_skills.json": {
+      "sha256": "f45b1a386afebaa12595a778a70be0fab3f7080f25ac91f5414cbc0bbce6b315",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/279_EC_frozen_initial.json": {
+      "sha256": "913c6927942e1cd258ee86daac50cac18bdc3113333c47a2b7b19c92866c278f",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/279_EC_skills.json": {
+      "sha256": "675b971a39c0cf211ade24b51b355625f6ac5f1d980ff6b30a1066f4852ef634",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/279_EV_empty_direct_numeric.json": {
+      "sha256": "5d2f7dd7b9de5966083de8eb03a3014f4835c17cb62b476d52c31fa9fd163fdc",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/279_EV_skills.json": {
+      "sha256": "56b1ccfddd09ac37fb41e63e446bc514054969606486ff5827807e82887bffaf",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/280_EC_empty_direct_numeric.json": {
+      "sha256": "d3f8fc19ddea7287fffed8fb0089bbe649249bb1fb60ab5d1f569169f40b43ce",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/280_EC_skills.json": {
+      "sha256": "0215062487ac623ab27f61b609f2259ef62a7feee6777d48b0eab419947c4d21",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/280_EV_empty_direct_numeric.json": {
+      "sha256": "5c448f01f359353719508915c605a03d2c3f3501850de3ea562ae67e227443ac",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/280_EV_frozen_after_B1.json": {
+      "sha256": "521e560458225a11f0bb1e344cb14217c07ce5f06c08b30db60fce720a8861c4",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/280_EV_skills.json": {
+      "sha256": "2c5e58bcb3e7c16bb1a1ebb45e2fec80bdeedd31d3303eddf7dec5018c5f7577",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/281_EC_empty_direct_numeric.json": {
+      "sha256": "92c9d4e328f176d31181448f2b9fb5cc4071fa8ea3e712f079efc938914dada4",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/281_EC_frozen_after_B1.json": {
+      "sha256": "484084324963829c907d4834f2abc87d5bcb6d14f22a025abfd7b7032ae12add",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/281_EV_empty.json": {
+      "sha256": "506e28e4865bd7c7265b69e36007622a3f41b9a3f9abee29fa789b0ed5aef909",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/281_EV_frozen_after_B1.json": {
+      "sha256": "462529fc4eb277bef3f9899ed7a8e1041fd82ab23a43288829f3bd4c30b8f960",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/282_EC_empty.json": {
+      "sha256": "b4e4143005b0a373eb53c9b90ebcfa468c69cffec1c30d6186cac192d68b623c",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/282_EC_frozen_after_B1.json": {
+      "sha256": "208629b688a5ce007f8c00c1014bc03cf6c3edf2ae50fb1735580a3287525d98",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/282_EV_empty.json": {
+      "sha256": "49f564da7eb2e1b0b8f396c07fa79382457527b7dc370d1c424c01a07a9b42e0",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/282_EV_frozen_after_B1.json": {
+      "sha256": "a8316ba91724efb34ea67ea7eaa718d10b808b586adc9ee806a98c5ae0c46d98",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/282_EV_skills.json": {
+      "sha256": "8fb5fdc4610aa2fb8d06198745c9633b82519a1f1cdbe4b81121b8cdb588e0e8",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/283_EC_empty.json": {
+      "sha256": "1f257f455088b7b17539f860782d0fb310f7c2e5b35199e0bbfd86f56466f6ef",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/283_EC_skills.json": {
+      "sha256": "bdb09b431282ead479d642694565d93b6e4ce05b6328f6cca3ae344afa6c1634",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/283_EV_frozen_initial.json": {
+      "sha256": "cd52b7043ca7a3a68c3da5818e5b2f0555bd55053f81b966c74c98db3047c626",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/283_EV_skills.json": {
+      "sha256": "2bf9092dbb924a3ba59e1657d31539d585d44dfc3456274865423ba7e2f32331",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/284_EC_frozen_initial.json": {
+      "sha256": "eeefa1ddbd9ed8ee37a357b95460888ca5c80f523d22b094a470552824799904",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/284_EC_skills.json": {
+      "sha256": "1262e8fceb2a37302587f65118a6827a46e68304a6d973479181432a729a95cf",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/284_EV_empty_direct_numeric.json": {
+      "sha256": "f7bf7b14ef541f7caf3576a120deb7eadd6f23f4465278bba6df78bad9b41422",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/284_EV_frozen_after_B1.json": {
+      "sha256": "266f2c526025d8edeed37f6631b0a41de053c80bcfd9c3b3eaa8e40e8f2d8699",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/284_EV_skills.json": {
+      "sha256": "af14d2c9c57a696f209339c8da43e837caed35bc5f73da8bdc56ebbea623cc3a",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/285_EC_empty_direct_numeric.json": {
+      "sha256": "781bdf3a048f3de1ea5af5a51c4ec489b134b772d5fbd839d99b249af6bf2a2b",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/285_EC_skills.json": {
+      "sha256": "5d946867bedf2924491de45ec102e61f750d9c07fc9e687f02975164f4fb7838",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/285_EV_empty_direct_numeric.json": {
+      "sha256": "b6e03b406fed5eea028decfd0edeeee20321a6eeaafeb8cb5dbe7a2a27b503e3",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/285_EV_frozen_after_B1.json": {
+      "sha256": "8605824be0fa7cdaa9e77375a75d50e2e02093350b09e3b8668dd022b0d27f80",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/286_EC_empty_direct_numeric.json": {
+      "sha256": "2222fa1206ec24a67221e8aa6502491ea247a9e798050faba38a55bdac75c5bb",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/286_EC_frozen_after_B1.json": {
+      "sha256": "027355d205cf530743df907c0d0c86cad8c997435a893682d7d16e0cbf842ddd",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/286_EC_skills.json": {
+      "sha256": "1c80dac8473e92d352663e61bc7ca6f586834b75f6a6036705715182864b0305",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/286_EV_empty.json": {
+      "sha256": "6a4bdaeeefd670386baa98be5eab8d6cc8d7779f714cdcbb95968b25bd6a4c19",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/286_EV_frozen_after_B1.json": {
+      "sha256": "d18e9d9d327ccc5a03eeb34f1f1d854daddf53cbd973f1b133754a1f7ce19102",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/287_EC_empty.json": {
+      "sha256": "d71cf08bee43ee2ff5ff12a6c9da3a5b70bc97a2d30d0849f83bcb965f75c493",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/287_EC_frozen_after_B1.json": {
+      "sha256": "771069268d97edc30a6d94b15e470226f76c1913c382ecfff598414d8d0f705c",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/287_EV_empty.json": {
+      "sha256": "8d821592f92148e58b72ef02d95a769ce89f0523b73da8d3bb1f70c1ce0095b2",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/287_EV_frozen_after_B1.json": {
+      "sha256": "c747769b0ee8f04f2f2562527220e2f23c7d8fab844cbdb189e78e97ff3a3e8b",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/287_EV_skills.json": {
+      "sha256": "44d345b0b4d22369769edd761c8e94386615c9edb05db99f464147a0242e8442",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/288_EC_empty.json": {
+      "sha256": "10f587336216a11b63ba9407690dcd7cd74738325a000d3919d2b9d571f1e5d0",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/288_EC_frozen_after_B1.json": {
+      "sha256": "879f68ca28148e54280022580270695fef34bea06265f04d6c289ff261def0d7",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/288_EC_skills.json": {
+      "sha256": "aee2cfd41d7fd65965871773561036ef9304745addd829c4416b3f4e490703a2",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/288_EV_frozen_initial.json": {
+      "sha256": "1f0db407b7ea7cee52e9401350f306c6f0b1f326a78cdec21976ab3de65cb629",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/288_EV_skills.json": {
+      "sha256": "7c143d4ad84a86a9baa59aa873a618944bb1126d35c3a7f41c4d22cbe1cd03c1",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/289_EC_frozen_initial.json": {
+      "sha256": "7d8d658ab5415dfa74255a6788db58bda363b17869fc3c6d6adc40097467b8c6",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/289_EC_skills.json": {
+      "sha256": "ba27ad290e4eb421ee19dd0fb6da59e87768c71697b4374774659036c639b62a",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/289_EV_empty_direct_numeric.json": {
+      "sha256": "ad6bba6ef9e1f82e47f8a26bf66235ce6c6ec4194720ad5abb716f1459ea9cba",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/289_EV_frozen_after_B1.json": {
+      "sha256": "939001d48aec2ac5059eb7779a1aea2c40a47f787e367c26ba9f16acebd04d45",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/289_EV_skills.json": {
+      "sha256": "aaacc90d6b9602001cb39d2e7581d1a3177998fb4db94f6d57d7a68fa19e2fc6",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/290_EC_empty_direct_numeric.json": {
+      "sha256": "7f1563a11e52a733c26fde026f567c3f1ce1ed0a02330fb8c7c0cb242d3c5208",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/290_EC_skills.json": {
+      "sha256": "b5e586146f950875bfcae91f1b113b1249a617557fd7864d5b885597bd01e98b",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/290_EV_empty_direct_numeric.json": {
+      "sha256": "a27df10bcdf7fc88dc30d9f3ee3df1ecff5b4474ef85f3d06d6b47d90c32ffbf",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/290_EV_frozen_after_B1.json": {
+      "sha256": "c3d76a317b866ef8d91cf6512088bf73dae0316c8522df9483fe88679976d612",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/291_EC_empty_direct_numeric.json": {
+      "sha256": "9e393008ee49854c4d0ea5fd8c07e59325025ecfbbe206386b14de3f5f2eb347",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/291_EC_frozen_after_B1.json": {
+      "sha256": "81c21d3048a9f5b2012af15228fb947d6deab71814f7044a9869bafeca99e683",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/291_EV_empty.json": {
+      "sha256": "146fceef89ee55b363a6c8931c08e5736d0038b77ad9dc3d917f623d43bc511e",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/291_EV_frozen_after_B1.json": {
+      "sha256": "2c48659ca6f30112930c501b058e82752c159f19ebc92c58d16866f5b929ad98",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/291_EV_skills.json": {
+      "sha256": "498bb450d421db619763b5dba5833ce497786bcaa3496920aef3713e3a423daa",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/292_EC_empty.json": {
+      "sha256": "5d7b30f54141835cb6bf842e65c99e2c7ecb3140443421267cc0b6f83f2e1c2f",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/292_EC_frozen_after_B1.json": {
+      "sha256": "36a2998052d5f983bd39d1ff90f964b74d4a34875d160ecd4210dd1cfa4b7987",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/292_EV_empty.json": {
+      "sha256": "efb2d6dadda067abb09140ad6096fdef9c313882b073b1c0572ec133aa9bea41",
+      "finish": "stop"
+    },
+    "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b7_prequential/292_EV_skills.json": {
+      "sha256": "ebcaa263b32c133854b626ea3fec33b203d3bc6333ab563726d899bcec96fa72",
+      "finish": "stop"
+    }
+  },
+  "native_tokens": {
+    "input": 824305,
+    "output": 315688
+  },
+  "native_finishes": {
+    "stop": 126
+  },
+  "teacher_reported_usage": {
+    "input_tokens": 116993,
+    "cached_input_tokens": 0,
+    "output_tokens": 4577,
+    "reasoning_output_tokens": 3504
+  },
+  "teacher_reasoning_cached_are_subsets": true,
+  "actual_B8_input_delivery_prefix": [
+    {
+      "path": "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b8_prequential/293_EC_empty.input.json",
+      "sha256": "32c7cf4513c912b94e520c04ec4197ad7e6c3ea23b7f3ade8147ec3c6946f68a",
+      "arm": "empty",
+      "bank_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "saved_actual_input_not_by_itself_completed_HTTP": true
+    },
+    {
+      "path": "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b8_prequential/293_EV_frozen_initial.input.json",
+      "sha256": "79ff93d34056507d68d08558ca53882ea8b406119c4557eb0e7650f5b753f505",
+      "arm": "frozen_initial",
+      "bank_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "saved_actual_input_not_by_itself_completed_HTTP": true
+    },
+    {
+      "path": "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b8_prequential/294_EC_frozen_initial.input.json",
+      "sha256": "191dab60a5c38af699d2a673a02ccfe0368bc9e8ddf3b8807bbfcf7aa32e5aa6",
+      "arm": "frozen_initial",
+      "bank_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "saved_actual_input_not_by_itself_completed_HTTP": true
+    },
+    {
+      "path": "runs/legal_openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01/native/b8_prequential/294_EV_skills.input.json",
+      "sha256": "6534b14efcd0e6641eec708c4d7cc3de56778fa75b1125ea3d515330b2d479cb",
+      "arm": "skills",
+      "bank_sha256": "48d9353e824ac948c339d9f6886f2a03a724b94f160b9582ceb9b123f5a4dbf7",
+      "saved_actual_input_not_by_itself_completed_HTTP": true
+    }
+  ],
+  "B8_inflight_saved_inputs_not_all_claimed_completed_HTTP": true,
+  "B8_partial_scores_not_read_or_selected": true,
+  "no_extra_model_tokenizer_scoring_or_TEST_calls_for_audit": true,
+  "main8_and_all_controls_original_scores_and_frozen_source_unchanged": true,
+  "all_actual_frozen_source_counts_verified_at_completion": {
+    "configs/openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01.json": 382,
+    "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json": 379,
+    "configs/openexempt_v6_strict_policy_control_public_assets128_20261030_run01.json": 379
+  }
+}

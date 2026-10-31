@@ -1,0 +1,20 @@
+{
+  "playbook": "## STRATEGIES & INSIGHTS\n\n[sai-00001] helpful=1 harmful=0 :: 先确定允许采用的豁免体系：依据题目已解出的适用法域，并检查州法是否排除联邦 § 522(d) 豁免；若联邦与州法均被明确允许，则将两套体系中的适用条款作为独立备选列出，不把它们当作可同时叠加的单一方案。\n[sai-00004] helpful=1 harmful=0 :: 严格遵守“独立评估每个资产—豁免组合”的指令：聚合额度、单车限制或实际选择冲突通常不在不同资产间消耗；仍应为每个可能适用的组合分别报告资格和金额，同时避免声称这些备选在现实中必然可同时主张。\n## FORMULAS & CALCULATIONS\n\n[calc-00003] helpful=1 harmful=0 :: 将资格与金额分两步处理：先判断资产是否符合条款类别，再计算 claim_value = min(该资产或相关所有权权益的价值, 该豁免在题设下可用的上限)。资产价值高于上限通常只意味着部分豁免，并不使条款失去适用性。\n[calc-00005] helpful=1 harmful=0 :: 夫妻共同案件先按各自等额所有权权益适用每人额度，再仅在法条明确允许分别适用或合并时汇总夫妻额度。例如 § 522(m) 使联邦豁免分别适用于各债务人，而 Pennsylvania § 8123、Oregon § 18.345(3)、Wisconsin § 815.18(8) 等须依各自明文决定能否合并；不得自动把所有上限翻倍。\n[calc-00010] helpful=0 harmful=0 :: 逐款读取并绑定正确上限，避免把相邻条款数字混用；同时区分 per-item、aggregate、per-debtor 与 combined 限额。例如联邦 § 522(d)(3) 有每件 $700 上限，Illinois 机动车款 § 12-1001(c) 为 $2,400，而其一般财产款 § 12-1001(b) 为每名债务人 $4,000。\n## CODE SNIPPETS & TEMPLATES\n\n## COMMON MISTAKES TO AVOID\n\n[err-00006] helpful=1 harmful=0 :: 不要把“可穿戴”当成“wearing apparel”：项链、吊坠、手镯、耳环和戒指属于珠宝或饰品，除非法条明确纳入，否则不能套用服装豁免；同样不得把一州的宽泛类别移植到措辞不同的联邦或他州条款。\n[err-00007] helpful=1 harmful=0 :: 只引用直接保护该资产的实体豁免条款。选举规则、夫妻合并规则、定义、总括标题、限制条款和出售收益条款本身通常不是独立资产豁免；例如无出售事实时不要引用收益条款，也不要把“一对夫妻仅有一个宅地”之类限制条款另列为宅地豁免。\n[err-00011] helpful=0 harmful=0 :: 不得仅凭物品名称推定用途型豁免的事实要件：toolbox、camera 或 home-office device 并不当然属于 tools of the trade；只有题面明确表明其实际用于且满足法条要求的商业、行业或职业活动时，才可列入相应条款。缺少用途事实时应排除专项条款，再检查通用财产豁免。\n## PROBLEM-SOLVING HEURISTICS\n\n[ph-00002] helpful=1 harmful=0 :: 建立“每项资产 × 每个候选豁免”的完整矩阵。对每项资产先扫描专项类别，再单独扫描措辞为“any property”“any personal property”或“一般财产”的通用条款；找到专项豁免后不得停止，也不得因另一资产已使用某额度而跳过组合，除非题目明确要求跨资产分配。\n[ph-00009] helpful=1 harmful=0 :: 提交前做双向审计：逐资产确认所有专项与通用豁免均已检查；逐引用确认法条的每个事实条件均有题面支持。输出必须保留全部资产键，无适用条款时使用空数组，并且只能使用给定的公开 citation_ref 标签。\n[ph-00012] helpful=0 harmful=0 :: 同一资产须在每套允许的法律体系下重新按该法条自己的词汇分类，不能直接复制另一体系的类别结论。例如某物在联邦法下属于 appliance，也应独立检验州法中的 household goods、furniture 或 utensils；逐法域建立“资产描述—法定类别—事实条件”映射可避免跨体系漏报。\n## CONTEXT CLUES & INDICATORS\n\n[ctx-00008] helpful=1 harmful=0 :: 把资产描述中的明示词作为分类线索并保持其普通法条含义：pistol/revolver/rifle/shotgun 指向 firearm，antique 不改变该类别；computer/monitor 指向 consumer electronics；doctor-required 或 professionally prescribed 指向 health aid；shawl、coat、hoodie、parka、sneakers、slacks 指向 wearing apparel；painting、clock、desk、nightstand、vase、high chair 等应逐条检验 household furnishings/goods。\n## OTHERS",
+  "playbook_sha256": "701ee9b2b2edaa8c48de2d13b187cd47cf0fb557c9fc6595c7a2b365bb095e52",
+  "legal_prior_bullets": 0,
+  "published_numerical_programs": 0,
+  "execution_contract": "direct_statutory_claims",
+  "profile": "native_TRAIN_reflect_regenerate_batch_ADD_curator",
+  "max_TRAIN_reflection_rounds": 3,
+  "bullet_provenance_policy": "preserve_raw_ids_distinct_reflection_tags",
+  "failed_output_feedback_policy": "verbatim_public_output_no_answer_recovery",
+  "active_bullets_at_process_start": 12,
+  "continued_same_learner_prefix": {
+    "receipt": "artifacts/research/openexempt_legal_scope_20261020/ACEv3_Run02_last_completed_B2_and_complete_B3_first_forecast_continuation_receipt_20261022.json",
+    "source_run": "legal_openexempt_ace_public_assets128_20261022_run02",
+    "through_batch": 2,
+    "parent_playbook_sha256": "701ee9b2b2edaa8c48de2d13b187cd47cf0fb557c9fc6595c7a2b365bb095e52"
+  },
+  "not_a_new_independent_repeat_when_continued": true,
+  "not_unmodified_author_defaults_or_a_performance_result": true
+}

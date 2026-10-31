@@ -1,0 +1,138 @@
+{
+  "at": "2026-10-22T06:53:42.708303+00:00",
+  "classification": "Actual published ACE B1 skill content and first completed B2 delivery/provenance only; no partial-batch performance selection",
+  "publication_at": "2026-10-22T06:48:19.368172+00:00",
+  "actual_bullets": 9,
+  "actual_Qwen_tokens": 774,
+  "actual_playbook_sha256": "970db9aa95a49ba0b021bfbcb0fcd21713bb58dc580211952910942ed2ab2621",
+  "actual_published_bullet_texts": [
+    {
+      "id": "sai-00001",
+      "helpful": 0,
+      "harmful": 0,
+      "content": "Use an exhaustive asset-by-provision matrix. For every asset, first test each category-specific exemption, then independently test every wildcard, residual, or general monetary exemption containing language such as “any property,” “any personal property,” or “any other property.” A specific exemption does not displace an overlapping general exemption unless the supplied text expressly makes them exclusive.",
+      "raw_line": "[sai-00001] helpful=0 harmful=0 :: Use an exhaustive asset-by-provision matrix. For every asset, first test each category-specific exemption, then independently test every wildcard, residual, or general monetary exemption containing language such as “any property,” “any personal property,” or “any other property.” A specific exemption does not displace an overlapping general exemption unless the supplied text expressly makes them exclusive."
+    },
+    {
+      "id": "sai-00006",
+      "helpful": 0,
+      "harmful": 0,
+      "content": "Cite only provisions that themselves affirmatively protect the asset on the stated facts. Do not return definitions, opt-out rules, spouse-combination rules, anti-stacking limits, parent headings, or proceeds provisions as separate asset exemptions unless the output expressly requests them and their operative triggering facts are present.",
+      "raw_line": "[sai-00006] helpful=0 harmful=0 :: Cite only provisions that themselves affirmatively protect the asset on the stated facts. Do not return definitions, opt-out rules, spouse-combination rules, anti-stacking limits, parent headings, or proceeds provisions as separate asset exemptions unless the output expressly requests them and their operative triggering facts are present."
+    },
+    {
+      "id": "calc-00003",
+      "helpful": 0,
+      "harmful": 0,
+      "content": "For each independently evaluated asset–exemption pair, ordinarily compute claim_value = min(debtor’s qualifying interest in the asset, applicable per-item or available statutory cap). A value above the cap normally permits partial protection rather than making the asset ineligible. Never report the statutory ceiling when it exceeds the asset’s value, and never use an aggregate ceiling in place of an explicit per-item ceiling.",
+      "raw_line": "[calc-00003] helpful=0 harmful=0 :: For each independently evaluated asset–exemption pair, ordinarily compute claim_value = min(debtor’s qualifying interest in the asset, applicable per-item or available statutory cap). A value above the cap normally permits partial protection rather than making the asset ineligible. Never report the statutory ceiling when it exceeds the asset’s value, and never use an aggregate ceiling in place of an explicit per-item ceiling."
+    },
+    {
+      "id": "calc-00004",
+      "helpful": 0,
+      "harmful": 0,
+      "content": "When the prompt directs independent pairwise evaluation, do not deplete an aggregate exemption across other listed assets. Apply any stated unused-capacity component to the pair as instructed. For joint debtors, calculate each debtor’s ownership interest and per-debtor allowance separately, then combine only where the cited statute authorizes separate or combined exemptions.",
+      "raw_line": "[calc-00004] helpful=0 harmful=0 :: When the prompt directs independent pairwise evaluation, do not deplete an aggregate exemption across other listed assets. Apply any stated unused-capacity component to the pair as instructed. For joint debtors, calculate each debtor’s ownership interest and per-debtor allowance separately, then combine only where the cited statute authorizes separate or combined exemptions."
+    },
+    {
+      "id": "code-00009",
+      "helpful": 0,
+      "harmful": 0,
+      "content": "Final audit template for each asset: (1) governing regime confirmed; (2) exact statutory category matched; (3) all broad residual provisions checked; (4) factual conditions verified; (5) per-item and aggregate caps distinguished; (6) debtor multiplicity and ownership applied; (7) only substantive citation labels emitted; (8) claim value capped by the asset’s qualifying interest.",
+      "raw_line": "[code-00009] helpful=0 harmful=0 :: Final audit template for each asset: (1) governing regime confirmed; (2) exact statutory category matched; (3) all broad residual provisions checked; (4) factual conditions verified; (5) per-item and aggregate caps distinguished; (6) debtor multiplicity and ownership applied; (7) only substantive citation labels emitted; (8) claim value capped by the asset’s qualifying interest."
+    },
+    {
+      "id": "err-00005",
+      "helpful": 0,
+      "harmful": 0,
+      "content": "Do not broaden statutory categories by everyday association. Jewelry or a wearable ornament is not automatically “wearing apparel”; a firearm is not a federal household good merely because another jurisdiction lists firearms as consumer goods; and an item capable of occupational use is not a tool of the trade without facts establishing actual trade use.",
+      "raw_line": "[err-00005] helpful=0 harmful=0 :: Do not broaden statutory categories by everyday association. Jewelry or a wearable ornament is not automatically “wearing apparel”; a firearm is not a federal household good merely because another jurisdiction lists firearms as consumer goods; and an item capable of occupational use is not a tool of the trade without facts establishing actual trade use."
+    },
+    {
+      "id": "err-00008",
+      "helpful": 0,
+      "harmful": 0,
+      "content": "Before returning an empty array, complete both the specific-category scan and the wildcard/residual scan. Never include an inapplicable provision with a zero-dollar claim; zero protection means the pair should be omitted.",
+      "raw_line": "[err-00008] helpful=0 harmful=0 :: Before returning an empty array, complete both the specific-category scan and the wildcard/residual scan. Never include an inapplicable provision with a zero-dollar claim; zero protection means the pair should be omitted."
+    },
+    {
+      "id": "ph-00002",
+      "helpful": 0,
+      "harmful": 0,
+      "content": "Resolve the governing exemption regime before classifying assets. Honor opt-out provisions and the supplied jurisdiction determination; when federal and state provisions are presented as independently reportable alternatives, enumerate each applicable basis but do not describe their dollar amounts as a single stackable recovery.",
+      "raw_line": "[ph-00002] helpful=0 harmful=0 :: Resolve the governing exemption regime before classifying assets. Honor opt-out provisions and the supplied jurisdiction determination; when federal and state provisions are presented as independently reportable alternatives, enumerate each applicable basis but do not describe their dollar amounts as a single stackable recovery."
+    },
+    {
+      "id": "ctx-00007",
+      "helpful": 0,
+      "harmful": 0,
+      "content": "Treat phrases such as “professionally prescribed,” “required by doctor,” “residence,” “sale proceeds,” “personal use,” and “used in a trade” as element-bearing facts. Do not infer missing medical, sale, military, commercial, or occupational facts from an asset’s name or possible function.",
+      "raw_line": "[ctx-00007] helpful=0 harmful=0 :: Treat phrases such as “professionally prescribed,” “required by doctor,” “residence,” “sale proceeds,” “personal use,” and “used in a trade” as element-bearing facts. Do not infer missing medical, sale, military, commercial, or occupational facts from an asset’s name or possible function."
+    }
+  ],
+  "content_review_not_effectiveness_proof": {
+    "observed_mechanisms": [
+      "exhaustive asset-provision matrix",
+      "independent wildcard/residual scan",
+      "substantive operative citation filtering",
+      "min(qualifying interest, applicable cap)",
+      "independent-pair aggregate handling",
+      "joint-debtor ownership",
+      "category and factual element boundaries",
+      "pre-empty-answer scan and no zero-value inapplicable claims"
+    ],
+    "native_code_section_contains_prose_audit_template_not_a_host_executed_solver": true,
+    "no_new_manual_skill_content_added": true
+  },
+  "first_actual_B2_delivery": {
+    "case_id": 197,
+    "family": "EC",
+    "all9_ids_delivered": [
+      "sai-00001",
+      "sai-00006",
+      "calc-00003",
+      "calc-00004",
+      "code-00009",
+      "err-00005",
+      "err-00008",
+      "ph-00002",
+      "ctx-00007"
+    ],
+    "exact_full_book_text_in_actual_HTTP_messages": true,
+    "actual_model_self_reported_used_ids_not_causal_effect": [
+      "sai-00001",
+      "sai-00006",
+      "calc-00003",
+      "ctx-00007"
+    ],
+    "no_TRAIN_reflection_or_future_TEST_feedback_in_first_answer": true,
+    "parse_error": null,
+    "finish_reason": "stop",
+    "no_first_case_score_used_or_reported": true
+  },
+  "old_native_observer67586_finished_exit0_do_not_repoll": true,
+  "publication_audit_session72443_finished_exit0_do_not_repoll": true,
+  "all32_training_trajectories_and_48_fresh_teacher_responses_verified_by": "artifacts/research/openexempt_legal_scope_20261020/ACE128_B1_unique_actual_publication_all32_TRAIN_native_ADD_labels_tokens_and_cost_audit_20261022.json",
+  "no_new_native_generation_teacher_or_TEST_calls": true,
+  "no_source_config_scoring_or_runtime_changes": true,
+  "evidence_paths": [
+    {
+      "path": "runs/legal_openexempt_ace_public_assets128_20261021_run01/publications/b1.json",
+      "sha256": "a0c8eb0b22ac6b795a757056b1d419aeb1713f3334ace2c4a7bc8a35089a5292"
+    },
+    {
+      "path": "runs/legal_openexempt_ace_public_assets128_20261021_run01/native/b2_prequential/197_EC_ace.input.json",
+      "sha256": "49d3a18b26709753f11eb064f1ffdd8667f0c8f93a9a03c177f136d67305c417"
+    },
+    {
+      "path": "runs/legal_openexempt_ace_public_assets128_20261021_run01/native/b2_prequential/197_EC_ace.answer.json",
+      "sha256": "bdf342e39fd85e9229169f7e2fc7e9c4d46babf802623cb6c2de1e401802c1f6"
+    },
+    {
+      "path": "runs/legal_openexempt_ace_public_assets128_20261021_run01/native/b2_prequential/197_EC_ace.json",
+      "sha256": "8a0da2509b2312519235cf3f0c87b2e672c2d773f33bff3392473867dd0b13f7"
+    }
+  ],
+  "next": "Wait for complete B2 16 sources/32 tasks/96 roles, recompute fixed native metrics and compare same-case controls; do not judge from one case.",
+  "recomputation_program": "import hashlib,json\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import bullets\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256\nroot=Path(\"/media/sangfor/vdb/legal-skill-evolve\")\nrun=\"runs/legal_openexempt_ace_public_assets128_20261021_run01\"\ndef read(p): return json.loads((root/p).read_text())\ndef sha(p): return hashlib.sha256((root/p).read_bytes()).hexdigest()\npubpath=run+\"/publications/b1.json\"\npub=read(pubpath)\nbook=pub[\"playbook\"]\nids=list(bullets(book))\nassert len(ids)==9 and pub[\"actual_tokens\"]==774\nassert canonical_json_sha256(book)==pub[\"playbook_sha256\"]==\"970db9aa95a49ba0b021bfbcb0fcd21713bb58dc580211952910942ed2ab2621\"\ninp=run+\"/native/b2_prequential/197_EC_ace.input.json\"\nans=run+\"/native/b2_prequential/197_EC_ace.answer.json\"\ni,a=read(inp),read(ans)\nrawpath=a[\"raw_call_path\"]\nraw=read(rawpath)\nassert i[\"playbook_sha256\"]==a[\"playbook_sha256\"]==pub[\"playbook_sha256\"]\nassert i[\"delivered_bullet_ids\"]==ids\nassert book in \"\\n\".join(m[\"content\"] for m in i[\"messages\"])\nassert i[\"TRAIN_only\"] is False and a[\"TRAIN_only\"] is False\nassert i[\"current_TRAIN_reflection_available\"] is False and i[\"future_or_TEST_feedback_available\"] is False\nassert a[\"parse_error\"] is None and set(a[\"used_bullet_ids\"])<=set(ids)\nassert a[\"used_bullet_ids\"]==a[\"actual_wrapper_submission\"][\"bullet_ids\"]\nassert len(raw[\"calls\"])==1 and raw[\"transport_error\"] is None\nresp=raw[\"calls\"][0][\"response\"]\nassert resp[\"choices\"][0][\"finish_reason\"]==\"stop\"\nwire=raw[\"calls\"][0][\"request\"]\nassert wire[\"messages\"]==i[\"messages\"]\nvalue=json.loads(resp[\"choices\"][0][\"message\"][\"content\"])\nassert value==a[\"actual_wrapper_submission\"]\nfor pid,tick in ((3613253,\"446037091\"),(1738522,\"455481667\")):\n    assert Path(f\"/proc/{pid}/stat\").read_text().rsplit(\")\",1)[1].split()[19]==tick\nreport={\"at\":datetime.now(timezone.utc).isoformat(),\n    \"classification\":\"Actual published ACE B1 skill content and first completed B2 delivery/provenance only; no partial-batch performance selection\",\n    \"publication_at\":pub[\"at\"],\"actual_bullets\":len(ids),\"actual_Qwen_tokens\":774,\n    \"actual_playbook_sha256\":pub[\"playbook_sha256\"],\n    \"actual_published_bullet_texts\":list(bullets(book).values()),\n    \"content_review_not_effectiveness_proof\":{\n        \"observed_mechanisms\":[\"exhaustive asset-provision matrix\",\"independent wildcard/residual scan\",\n            \"substantive operative citation filtering\",\"min(qualifying interest, applicable cap)\",\n            \"independent-pair aggregate handling\",\"joint-debtor ownership\",\"category and factual element boundaries\",\n            \"pre-empty-answer scan and no zero-value inapplicable claims\"],\n        \"native_code_section_contains_prose_audit_template_not_a_host_executed_solver\":True,\n        \"no_new_manual_skill_content_added\":True},\n    \"first_actual_B2_delivery\":{\"case_id\":197,\"family\":\"EC\",\"all9_ids_delivered\":ids,\n        \"exact_full_book_text_in_actual_HTTP_messages\":True,\n        \"actual_model_self_reported_used_ids_not_causal_effect\":a[\"used_bullet_ids\"],\n        \"no_TRAIN_reflection_or_future_TEST_feedback_in_first_answer\":True,\n        \"parse_error\":None,\"finish_reason\":\"stop\",\n        \"no_first_case_score_used_or_reported\":True},\n    \"old_native_observer67586_finished_exit0_do_not_repoll\":True,\n    \"publication_audit_session72443_finished_exit0_do_not_repoll\":True,\n    \"all32_training_trajectories_and_48_fresh_teacher_responses_verified_by\":\n        \"artifacts/research/openexempt_legal_scope_20261020/ACE128_B1_unique_actual_publication_all32_TRAIN_native_ADD_labels_tokens_and_cost_audit_20261022.json\",\n    \"no_new_native_generation_teacher_or_TEST_calls\":True,\n    \"no_source_config_scoring_or_runtime_changes\":True,\n    \"evidence_paths\":[{\"path\":p,\"sha256\":sha(p)} for p in (pubpath,inp,ans,rawpath)],\n    \"next\":\"Wait for complete B2 16 sources/32 tasks/96 roles, recompute fixed native metrics and compare same-case controls; do not judge from one case.\",\n    \"recomputation_program\":PROGRAM}\nout=root/\"artifacts/research/openexempt_legal_scope_20261020/ACE128_B1_actual9_bullet_content_and_B2_first197_exact_wire_delivery_without_partial_scores_20261022.json\"\nRunStore.immutable_json(out,report)\nprint(json.dumps({k:v for k,v in report.items() if k not in (\"recomputation_program\",\"actual_published_bullet_texts\")},ensure_ascii=False))\n"
+}

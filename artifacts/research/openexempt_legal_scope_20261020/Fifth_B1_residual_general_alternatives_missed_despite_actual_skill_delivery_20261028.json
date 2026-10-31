@@ -1,0 +1,613 @@
+{
+  "at": "2026-10-28T09:43:35.081354+00:00",
+  "run_id": "legal_openexempt_anchored_execution_public_assets128_20261028_run01",
+  "bank_sha256": "c05865f3c41df410b0a2cd1fa3b5cc9f86bc31690bfdcdc25fa92ec8be0052c3",
+  "scope": "Already-seen B1 residual failures; descriptive rule-delivery evidence, not new-case utility or isolated causal attribution",
+  "interpretation_refinement": {
+    "at": "2026-10-28T09:51:02.328579+00:00",
+    "counts_mean_rule_block_was_delivered_not_semantic_completeness_or_causality": true,
+    "federal_task_projection_evidence": {
+      "EC": {
+        "when": "The supplied allowable namespace includes FEDERAL and an estate asset is being tested under 11 U.S.C. § 522(d).",
+        "procedure": "Test § 522(d)(5) independently for every property type, even when a specific exemption also applies or the asset exceeds that specific exemption's ceiling. Retain both the specific citation and § 522(d)(5). Use § 522(d)(3) only for its listed household, apparel, appliance, book, animal, crop, or musical-instrument categories; use § 522(d)(4), not § 522(d)(3), for jewelry.",
+        "avoid_when": "Do not use federal § 522(d) exemptions when the supplied allowable jurisdiction excludes them, and do not emit § 522(b), § 522(d), or § 522(m) as asset-level alternatives.",
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      },
+      "EV": {
+        "when": "The supplied allowable namespace includes FEDERAL and a qualifying asset must receive an amount under § 522(d).",
+        "procedure": "For each independently eligible citation, report the protected amount for the whole named asset. Under § 522(d)(3), cap each particular item at $700; under § 522(d)(4), cap jewelry at $1,875. Under § 522(d)(5), use $1,475 plus up to $13,950 of unused § 522(d)(1) capacity per debtor, capped by the asset's value; § 522(m) applies that ceiling separately in a joint case, so two fully unused ceilings can protect at most $30,850 of one jointly owned asset. Retain every independently applicable specific alternative.",
+        "avoid_when": "Do not copy an aggregate or per-item ceiling as the asset value, do not treat exceeding a ceiling as loss of eligibility, and do not double a ceiling unless the statute applies separately and the facts present a joint case.",
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      },
+      "EV_does_not_receive_EC_block": true,
+      "EC_explicit_every_property_type": true,
+      "EV_independent_eligibility_condition_not_explicit_in_procedure": true
+    },
+    "representative_B1_traces": [
+      {
+        "case_id": 185,
+        "family": "EV",
+        "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/185_EV_candidate.json",
+        "raw_call_sha256": "78c3497b479f3c781382c50a0ca3e402e54a90fed3f5d4b3f05e7d0d190fbf76",
+        "delivered_skill_ids": [
+          "federal-wildcard-independent-alternatives"
+        ],
+        "reasoning_characters": 14043,
+        "snippets": [
+          {
+            "phrase": "not a residence",
+            "position": 3458,
+            "text": "ait, § 522(d)(5) is about using $1,475 plus up to $13,950 of unused § 522(d)(1) capacity. But that's for a residence. Since the trombone is not a residence, maybe not applicable. So perhaps only § 522(d)(3) applies here.\n\nAlso, check if any of these items are jewelry. The trombone isn't jewelry. The nightstands and desk are not. So § 522(d)(4) (jewelry) doesn't apply here.\n\nNow, for Wisconsin stat",
+            "present_in_last1024_teacher_tail": false
+          },
+          {
+            "phrase": "only § 522(d)(3)",
+            "position": 3508,
+            "text": "$13,950 of unused § 522(d)(1) capacity. But that's for a residence. Since the trombone is not a residence, maybe not applicable. So perhaps only § 522(d)(3) applies here.\n\nAlso, check if any of these items are jewelry. The trombone isn't jewelry. The nightstands and desk are not. So § 522(d)(4) (jewelry) doesn't apply here.\n\nNow, for Wisconsin statutes. The solved steps mention Wisconsin, so need ",
+            "present_in_last1024_teacher_tail": false
+          }
+        ],
+        "actual_final": {
+          "A001": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(3)",
+              "claim_value": 700
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 1250
+            }
+          ],
+          "A002": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(3)",
+              "claim_value": 700
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 2422
+            }
+          ],
+          "A003": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(3)",
+              "claim_value": 700
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 1825
+            }
+          ]
+        },
+        "interpretation_not_ground_truth": true
+      },
+      {
+        "case_id": 187,
+        "family": "EV",
+        "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/187_EV_candidate.json",
+        "raw_call_sha256": "dc611d5f22a95fe198e5020de367458197bb47b1035c4ca839abd8e6a0d55b39",
+        "delivered_skill_ids": [
+          "federal-wildcard-independent-alternatives",
+          "oregon-personal-property-alternative"
+        ],
+        "reasoning_characters": 9679,
+        "snippets": [
+          {
+            "phrase": "Given the complexity",
+            "position": 9602,
+            "text": "onsidered that. Alternatively, perhaps (1)(p) is an additional exemption. However, the user's solved steps might have a different approach. Given the complexity, I'll proceed with the initial analysis for each asset.\n",
+            "present_in_last1024_teacher_tail": true
+          },
+          {
+            "phrase": "both (1)(b) and (1)(p)",
+            "position": 6936,
+            "text": " solved steps might have a different approach. Wait, the Oregon statute (1)(p) is a separate exemption. So the parka could be covered under both (1)(b) and (1)(p). But the (1)(p) is a separate $400 cap. So the parka would be protected under both (1)(b) (wearing apparel) and (1)(p) (personal property). But since the value is $75, which is under $400, both would apply. However, the user's solved ste",
+            "present_in_last1024_teacher_tail": true
+          }
+        ],
+        "actual_final": {
+          "A001": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(3)",
+              "claim_value": 700
+            },
+            {
+              "citation_ref": "Or. Rev. Stat. section 18.345(1)(f)",
+              "claim_value": 900
+            }
+          ],
+          "A002": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(3)",
+              "claim_value": 460
+            },
+            {
+              "citation_ref": "Or. Rev. Stat. section 18.345(1)(f)",
+              "claim_value": 460
+            }
+          ],
+          "A003": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(4)",
+              "claim_value": 925
+            },
+            {
+              "citation_ref": "Or. Rev. Stat. section 18.345(1)(b)",
+              "claim_value": 925
+            }
+          ],
+          "A004": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(3)",
+              "claim_value": 75
+            },
+            {
+              "citation_ref": "Or. Rev. Stat. section 18.345(1)(f)",
+              "claim_value": 75
+            }
+          ]
+        },
+        "interpretation_not_ground_truth": true
+      },
+      {
+        "case_id": 195,
+        "family": "EV",
+        "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/195_EV_candidate.json",
+        "raw_call_sha256": "258691e2ee1c287cd60ed2dda7a09a77cad460d6d338e7e0bceeddb4e5675d8b",
+        "delivered_skill_ids": [
+          "illinois-other-personal-property-alternative"
+        ],
+        "reasoning_characters": 11995,
+        "snippets": [
+          {
+            "phrase": "since this is a motor vehicle",
+            "position": 1040,
+            "text": "on. Also, the user provided a solved step mentioning that for Illinois, the 12-1001(b) allows up to $4,000 for other personal property, but since this is a motor vehicle, the specific exemption under 12-1001(c) applies. So, the main exemption here is $2,400 per debtor, totaling $4,800. \n\nNext, A002 is the 2023 Rivian R1T electric truck. Again, it's a motor vehicle. The same exemption applies as A0",
+            "present_in_last1024_teacher_tail": false
+          },
+          {
+            "phrase": "total would be $4,800",
+            "position": 3767,
+            "text": "), the applicable exemption is 735 Ill. Comp. Stat. 5/12-1001(c) with a claim value of $2,400 per debtor. But since it's jointly owned, the total would be $4,800. However, the solved steps mention that for jointly owned assets, the per-debtor ceiling is combined. But the user's answer requires per asset, not per debtor. Wait, the problem says \"each value is an array of citation_ref and numeric cla",
+            "present_in_last1024_teacher_tail": false
+          }
+        ],
+        "actual_final": {
+          "A001": [
+            {
+              "citation_ref": "735 Ill. Comp. Stat. 5/12-1001(c)",
+              "claim_value": 4800
+            }
+          ],
+          "A002": [
+            {
+              "citation_ref": "735 Ill. Comp. Stat. 5/12-1001(c)",
+              "claim_value": 4800
+            }
+          ],
+          "A003": [
+            {
+              "citation_ref": "735 Ill. Comp. Stat. 5/12-1001(a)",
+              "claim_value": 899
+            }
+          ]
+        },
+        "interpretation_not_ground_truth": true
+      }
+    ],
+    "inference": "B1 residual misses mix task-local knowledge-expression gaps and nonexecution/final-output disagreement. Case185 suggests missing explicit all-property eligibility in the delivered EV block; cases187/195 show additional execution and output consistency problems. Raw model reasoning is unverified, not proof of an internal causal mechanism.",
+    "next_observation": "Inspect B2 actual teacher diagnoses for genuine knowledge changes versus protected execution examples; do not require every residual error to be classified as EXECUTION_LAPSE, and do not hot-edit this live run.",
+    "new_teacher_or_native_calls": 0
+  },
+  "historical_counterevidence_against_wording_only_restart": {
+    "historical_run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+    "stage": "B2 incoming before its B2 update",
+    "explicit_EV_eligibility_instruction": "For each asset independently, include 11 U.S.C. § 522(d)(5). Its ceiling for one debtor is $1,475 plus the unused portion of § 522(d)(1), limited to $13,950; if no qualifying residence uses paragraph (1), the ceiling is $15,425. Report the protected amount for the whole named asset: for one debtor, the lesser of asset value and that ceiling; for joint debtors, apply the ceiling separately to each equal interest under § 522(m), add the protected interests, and cap the result at the asset's whole value. Retain all specific federal alternatives.",
+    "rule_verified_in_actual_requests": true,
+    "federal_EV_missing_d5_claims": 15,
+    "cases": [
+      {
+        "case_id": 198,
+        "missing_d5_claims": 1,
+        "raw_call_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/198_EV_skills.json"
+      },
+      {
+        "case_id": 200,
+        "missing_d5_claims": 1,
+        "raw_call_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/200_EV_frozen_after_B1.json"
+      },
+      {
+        "case_id": 203,
+        "missing_d5_claims": 2,
+        "raw_call_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/203_EV_skills.json"
+      },
+      {
+        "case_id": 208,
+        "missing_d5_claims": 3,
+        "raw_call_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/208_EV_skills.json"
+      },
+      {
+        "case_id": 210,
+        "missing_d5_claims": 4,
+        "raw_call_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/210_EV_frozen_after_B1.json"
+      },
+      {
+        "case_id": 211,
+        "missing_d5_claims": 4,
+        "raw_call_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/211_EV_frozen_after_B1.json"
+      }
+    ],
+    "all_EV_error_counts": {
+      "correct": 63,
+      "missing": 38,
+      "incorrect_value": 8,
+      "extra_or_duplicate": 18,
+      "incorrect_value_predictions": 8
+    },
+    "interpretation": "An explicit all-assets eligibility sentence is not an untried sufficient fix: actual historical EV outputs still omitted wildcard claims despite receiving it. Fifth B1 task-local wording is a gap, not a complete explanation of the project bottleneck. Continue real execution-example replay rather than starting another wording-only run.",
+    "not_a_matched_factor_or_independent_repeat": true
+  },
+  "families": {
+    "EC": {
+      "claim_outcomes": {
+        "correct": 105,
+        "missing": 24,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 4,
+        "incorrect_value_predictions": 0
+      },
+      "error_counts": [
+        {
+          "kind": "missing",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "n": 12
+        },
+        {
+          "kind": "missing",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "n": 6
+        },
+        {
+          "kind": "missing",
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "n": 3
+        },
+        {
+          "kind": "missing",
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "n": 2
+        },
+        {
+          "kind": "extra",
+          "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+          "n": 1
+        },
+        {
+          "kind": "extra",
+          "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+          "n": 1
+        },
+        {
+          "kind": "missing",
+          "citation": "11 U.S.C. § 522(d)(4)",
+          "n": 1
+        },
+        {
+          "kind": "extra",
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "n": 1
+        },
+        {
+          "kind": "extra",
+          "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+          "n": 1
+        }
+      ],
+      "general_alternative_misses_despite_delivered_rule": 20,
+      "all_missing_claims": 24,
+      "delivered_rule_coverage_proof": [
+        {
+          "source_case_id": 181,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/181_EC_candidate.json",
+          "missing_claims": 1
+        },
+        {
+          "source_case_id": 184,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/184_EC_candidate.json",
+          "missing_claims": 2
+        },
+        {
+          "source_case_id": 185,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/185_EC_candidate.json",
+          "missing_claims": 3
+        },
+        {
+          "source_case_id": 186,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/186_EC_candidate.json",
+          "missing_claims": 1
+        },
+        {
+          "source_case_id": 188,
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "skill_id": "oregon-personal-property-alternative",
+          "existing_rule_anchor": "18.345(1)(p)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/188_EC_candidate.json",
+          "missing_claims": 1
+        },
+        {
+          "source_case_id": 190,
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "skill_id": "illinois-other-personal-property-alternative",
+          "existing_rule_anchor": "12-1001(b)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/190_EC_candidate.json",
+          "missing_claims": 2
+        },
+        {
+          "source_case_id": 191,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/191_EC_candidate.json",
+          "missing_claims": 1
+        },
+        {
+          "source_case_id": 193,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/193_EC_candidate.json",
+          "missing_claims": 4
+        },
+        {
+          "source_case_id": 193,
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "skill_id": "oregon-personal-property-alternative",
+          "existing_rule_anchor": "18.345(1)(p)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/193_EC_candidate.json",
+          "missing_claims": 1
+        },
+        {
+          "source_case_id": 195,
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "skill_id": "illinois-other-personal-property-alternative",
+          "existing_rule_anchor": "12-1001(b)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/195_EC_candidate.json",
+          "missing_claims": 3
+        },
+        {
+          "source_case_id": 196,
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "skill_id": "illinois-other-personal-property-alternative",
+          "existing_rule_anchor": "12-1001(b)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/196_EC_candidate.json",
+          "missing_claims": 1
+        }
+      ]
+    },
+    "EV": {
+      "claim_outcomes": {
+        "correct": 79,
+        "missing": 45,
+        "incorrect_value": 5,
+        "extra_or_duplicate": 10,
+        "incorrect_value_predictions": 5
+      },
+      "error_counts": [
+        {
+          "kind": "missing",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "n": 29
+        },
+        {
+          "kind": "missing",
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "n": 6
+        },
+        {
+          "kind": "missing",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "n": 6
+        },
+        {
+          "kind": "extra_or_duplicate",
+          "citation": "Wis. Stat. § 815.18(3)(d)",
+          "n": 4
+        },
+        {
+          "kind": "missing",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "n": 2
+        },
+        {
+          "kind": "extra_or_duplicate",
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "n": 2
+        },
+        {
+          "kind": "extra_or_duplicate",
+          "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+          "n": 2
+        },
+        {
+          "kind": "missing",
+          "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+          "n": 2
+        },
+        {
+          "kind": "incorrect_value",
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "n": 2
+        },
+        {
+          "kind": "incorrect_value",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+          "n": 2
+        },
+        {
+          "kind": "extra_or_duplicate",
+          "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+          "n": 1
+        },
+        {
+          "kind": "extra_asset_claim",
+          "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+          "n": 1
+        },
+        {
+          "kind": "incorrect_value",
+          "citation": "11 U.S.C. § 522(d)(2)",
+          "n": 1
+        }
+      ],
+      "general_alternative_misses_despite_delivered_rule": 43,
+      "all_missing_claims": 45,
+      "delivered_rule_coverage_proof": [
+        {
+          "source_case_id": 181,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/181_EV_candidate.json",
+          "missing_claims": 4
+        },
+        {
+          "source_case_id": 181,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "skill_id": "pennsylvania-general-monetary-alternative",
+          "existing_rule_anchor": "8123",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/181_EV_candidate.json",
+          "missing_claims": 2
+        },
+        {
+          "source_case_id": 184,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/184_EV_candidate.json",
+          "missing_claims": 4
+        },
+        {
+          "source_case_id": 185,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/185_EV_candidate.json",
+          "missing_claims": 3
+        },
+        {
+          "source_case_id": 186,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/186_EV_candidate.json",
+          "missing_claims": 2
+        },
+        {
+          "source_case_id": 187,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/187_EV_candidate.json",
+          "missing_claims": 4
+        },
+        {
+          "source_case_id": 187,
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "skill_id": "oregon-personal-property-alternative",
+          "existing_rule_anchor": "18.345(1)(p)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/187_EV_candidate.json",
+          "missing_claims": 4
+        },
+        {
+          "source_case_id": 190,
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "skill_id": "illinois-other-personal-property-alternative",
+          "existing_rule_anchor": "12-1001(b)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/190_EV_candidate.json",
+          "missing_claims": 2
+        },
+        {
+          "source_case_id": 191,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/191_EV_candidate.json",
+          "missing_claims": 4
+        },
+        {
+          "source_case_id": 191,
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "skill_id": "oregon-personal-property-alternative",
+          "existing_rule_anchor": "18.345(1)(p)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/191_EV_candidate.json",
+          "missing_claims": 1
+        },
+        {
+          "source_case_id": 192,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/192_EV_candidate.json",
+          "missing_claims": 2
+        },
+        {
+          "source_case_id": 193,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/193_EV_candidate.json",
+          "missing_claims": 4
+        },
+        {
+          "source_case_id": 193,
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "skill_id": "oregon-personal-property-alternative",
+          "existing_rule_anchor": "18.345(1)(p)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/193_EV_candidate.json",
+          "missing_claims": 1
+        },
+        {
+          "source_case_id": 194,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "skill_id": "federal-wildcard-independent-alternatives",
+          "existing_rule_anchor": "522(d)(5)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/194_EV_candidate.json",
+          "missing_claims": 2
+        },
+        {
+          "source_case_id": 195,
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "skill_id": "illinois-other-personal-property-alternative",
+          "existing_rule_anchor": "12-1001(b)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/195_EV_candidate.json",
+          "missing_claims": 3
+        },
+        {
+          "source_case_id": 196,
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "skill_id": "illinois-other-personal-property-alternative",
+          "existing_rule_anchor": "12-1001(b)",
+          "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/196_EV_candidate.json",
+          "missing_claims": 1
+        }
+      ]
+    }
+  },
+  "new_model_calls": 0,
+  "training_or_grading_changed": false,
+  "next_action": "Observe unchanged B2+ teacher diagnosis, real examples and original acceptance; do not hot-edit or add manually chosen repairs."
+}

@@ -1,0 +1,402 @@
+{
+  "at": "2026-10-23T06:57:08.680622+00:00",
+  "classification": "Current-lineage full16-arm source and contrast plan plus actual metadata verification; NOT executable final configuration or completed-bank eligibility",
+  "not_an_executable_evaluation_configuration": true,
+  "declared_design": {
+    "source_cases": 128,
+    "training_source_cases": 128,
+    "training_batch_source_cases": 16,
+    "external_text_adaptation": "trace2skill_text_offline_v1",
+    "arms": [
+      {
+        "name": "empty",
+        "role": "strong_empty",
+        "backend": "direct",
+        "expected_publication": null,
+        "bank_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "learning_seed": null,
+        "learning_required": false
+      },
+      {
+        "name": "static",
+        "role": "static_law_only",
+        "backend": "direct",
+        "source_config": "configs/openexempt_direct_law_only_static_20261021_run03.json",
+        "source_config_sha256": "84e98ef91f455a511dca923a10dcb268129b3a911e03049fdbec2355510f46a1",
+        "source_frozen_sha256": "f1dae51283d4343cf06c330e637959dbf62fa632d41cce3ca81cfdd71ed08414",
+        "source_run": "legal_openexempt_direct_law_only_static_20261021_run03",
+        "learning_seed": null,
+        "expected_publication": "runs/legal_openexempt_direct_law_only_static_20261021_run03/publication.json",
+        "publication_exists": true,
+        "complete_source_now": true,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [
+          "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/experiment_before_teacher_timeout_logs_20261023.py"
+        ],
+        "bank_sha256": "4809c3b2fe336a682ad36544f036206f158c0890adad4e87bde6eb4fa6502321"
+      },
+      {
+        "name": "main45",
+        "role": "evolved",
+        "backend": "direct",
+        "source_config": "configs/openexempt_closed_feedback_public_assets128_20261021_run03.json",
+        "source_config_sha256": "8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e",
+        "source_frozen_sha256": "2cc50e6cfe05fb42c230aba570eb43e9fcd41c3287011f77de8291fd89418825",
+        "source_run": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+        "learning_seed": 45,
+        "expected_publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b8.json",
+        "publication_exists": true,
+        "complete_source_now": true,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [
+          "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/experiment_before_teacher_timeout_logs_20261023.py"
+        ],
+        "bank_sha256": "3387b5b450f4b9107c9738562fa224915bb4405ff329ca8f113fc05d0e9c76e7"
+      },
+      {
+        "name": "own_B1_45",
+        "role": "B1_frozen",
+        "backend": "direct",
+        "source_config": "configs/openexempt_closed_feedback_public_assets128_20261021_run03.json",
+        "source_config_sha256": "8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e",
+        "source_frozen_sha256": "2cc50e6cfe05fb42c230aba570eb43e9fcd41c3287011f77de8291fd89418825",
+        "source_run": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+        "learning_seed": 45,
+        "expected_publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b1.json",
+        "publication_exists": true,
+        "complete_source_now": true,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [
+          "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/experiment_before_teacher_timeout_logs_20261023.py"
+        ],
+        "bank_sha256": "574af7a6d3a5f155d45aebeefb7f620884cbe557a2e5f91914bbfdd3f2eb5118"
+      },
+      {
+        "name": "ACE45",
+        "role": "experience",
+        "backend": "ace",
+        "source_config": "configs/openexempt_ace_public_assets128_20261023_run04.json",
+        "source_config_sha256": "0444f1cf26d005aab839d0a9e9b2b8d0cfd619081fc1a2c5df9a1bb435fed228",
+        "source_frozen_sha256": "42ae4d7965fdff122dcbc2ee51e1d985af2f06d415a4f6f6ddb6b665258aa9f5",
+        "source_run": "legal_openexempt_ace_public_assets128_20261023_run04",
+        "learning_seed": 45,
+        "expected_publication": "runs/legal_openexempt_ace_public_assets128_20261023_run04/publications/b8.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      },
+      {
+        "name": "text45",
+        "role": "experience",
+        "backend": "direct",
+        "source_config": "configs/openexempt_trace2skill_text_public_assets128_seed45_20261023_run02.json",
+        "source_config_sha256": "a77cbbc0e736cbad75f695f442477601dc98c014160cc3c0761d1d9f6070d892",
+        "source_frozen_sha256": "5cce8b779d5c71be3b98af3c3f816f3c16322eeff6ddc1923be27badb16fac02",
+        "source_run": "legal_openexempt_trace2skill_text_public_assets128_seed45_20261023_run02",
+        "learning_seed": 45,
+        "expected_publication": "runs/legal_openexempt_trace2skill_text_public_assets128_seed45_20261023_run02/publications/final.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      },
+      {
+        "name": "main145",
+        "role": "evolved",
+        "backend": "direct",
+        "source_config": "configs/openexempt_closed_feedback_public_assets128_seed145_20261023_run02.json",
+        "source_config_sha256": "9ece11c0c90fabaeef0e6829aabad8c4071b955000e5884d7608c777449f312d",
+        "source_frozen_sha256": "24296fbe01ae86456e1022f538ff021a4cad15ac88fdb2815a98aad841b49e98",
+        "source_run": "legal_openexempt_closed_feedback_public_assets128_seed145_20261023_run02",
+        "learning_seed": 145,
+        "expected_publication": "runs/legal_openexempt_closed_feedback_public_assets128_seed145_20261023_run02/publications/b8.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      },
+      {
+        "name": "own_B1_145",
+        "role": "B1_frozen",
+        "backend": "direct",
+        "source_config": "configs/openexempt_closed_feedback_public_assets128_seed145_20261023_run02.json",
+        "source_config_sha256": "9ece11c0c90fabaeef0e6829aabad8c4071b955000e5884d7608c777449f312d",
+        "source_frozen_sha256": "24296fbe01ae86456e1022f538ff021a4cad15ac88fdb2815a98aad841b49e98",
+        "source_run": "legal_openexempt_closed_feedback_public_assets128_seed145_20261023_run02",
+        "learning_seed": 145,
+        "expected_publication": "runs/legal_openexempt_closed_feedback_public_assets128_seed145_20261023_run02/publications/b1.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      },
+      {
+        "name": "ACE145",
+        "role": "experience",
+        "backend": "ace",
+        "source_config": "configs/openexempt_ace_public_assets128_seed145_20261023_run02.json",
+        "source_config_sha256": "034df0ec3e4b1077229a7275a8d4e335891da5538c37fc68da813905b1bba41f",
+        "source_frozen_sha256": "077c669323ab0504e7af25cd600d856bda17d10bad11c623bed0986ccc4fa2d6",
+        "source_run": "legal_openexempt_ace_public_assets128_seed145_20261023_run02",
+        "learning_seed": 145,
+        "expected_publication": "runs/legal_openexempt_ace_public_assets128_seed145_20261023_run02/publications/b8.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      },
+      {
+        "name": "text145",
+        "role": "experience",
+        "backend": "direct",
+        "source_config": "configs/openexempt_trace2skill_text_public_assets128_seed145_20261023_run02.json",
+        "source_config_sha256": "7272265d9fb94c908a6bc49f4f9c2aa1f6ce37296d07c9f6fbf11ed8b56b28a2",
+        "source_frozen_sha256": "64e0e0980f3f14fb049af62b84f6ec847bacbc0110ffb6d8e9d657f297f84802",
+        "source_run": "legal_openexempt_trace2skill_text_public_assets128_seed145_20261023_run02",
+        "learning_seed": 145,
+        "expected_publication": "runs/legal_openexempt_trace2skill_text_public_assets128_seed145_20261023_run02/publications/final.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      },
+      {
+        "name": "main245",
+        "role": "evolved",
+        "backend": "direct",
+        "source_config": "configs/openexempt_closed_feedback_public_assets128_seed245_20261023_run02.json",
+        "source_config_sha256": "9d67a3ba981cf2acd236c3984cb44861f151f0ea1e8c74e46baf0f8fff116803",
+        "source_frozen_sha256": "2d15c9619a41b84aec06c94475fb2182351790bbcfdcfb871477d5c9d637ce9d",
+        "source_run": "legal_openexempt_closed_feedback_public_assets128_seed245_20261023_run02",
+        "learning_seed": 245,
+        "expected_publication": "runs/legal_openexempt_closed_feedback_public_assets128_seed245_20261023_run02/publications/b8.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      },
+      {
+        "name": "own_B1_245",
+        "role": "B1_frozen",
+        "backend": "direct",
+        "source_config": "configs/openexempt_closed_feedback_public_assets128_seed245_20261023_run02.json",
+        "source_config_sha256": "9d67a3ba981cf2acd236c3984cb44861f151f0ea1e8c74e46baf0f8fff116803",
+        "source_frozen_sha256": "2d15c9619a41b84aec06c94475fb2182351790bbcfdcfb871477d5c9d637ce9d",
+        "source_run": "legal_openexempt_closed_feedback_public_assets128_seed245_20261023_run02",
+        "learning_seed": 245,
+        "expected_publication": "runs/legal_openexempt_closed_feedback_public_assets128_seed245_20261023_run02/publications/b1.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      },
+      {
+        "name": "ACE245",
+        "role": "experience",
+        "backend": "ace",
+        "source_config": "configs/openexempt_ace_public_assets128_seed245_20261023_run02.json",
+        "source_config_sha256": "1aa2ecc6dfe8e37cb62451705219436f40b82ccf3ac3d17356836e1b32e4e888",
+        "source_frozen_sha256": "e9501f9efff3a338bfdf2e11f7c96f49082e28b1c708a311fd53d0fac134ed48",
+        "source_run": "legal_openexempt_ace_public_assets128_seed245_20261023_run02",
+        "learning_seed": 245,
+        "expected_publication": "runs/legal_openexempt_ace_public_assets128_seed245_20261023_run02/publications/b8.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      },
+      {
+        "name": "text245",
+        "role": "experience",
+        "backend": "direct",
+        "source_config": "configs/openexempt_trace2skill_text_public_assets128_seed245_20261023_run02.json",
+        "source_config_sha256": "0d426ff778114799dba882b52d2b5cf6d2ad5df374f14568f4668fa3e53d2811",
+        "source_frozen_sha256": "fad526e38dd4834277d8d027a8cbd3e7ccae320db40e0f37bcb0c1fa6cdea9e3",
+        "source_run": "legal_openexempt_trace2skill_text_public_assets128_seed245_20261023_run02",
+        "learning_seed": 245,
+        "expected_publication": "runs/legal_openexempt_trace2skill_text_public_assets128_seed245_20261023_run02/publications/final.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      },
+      {
+        "name": "whole_bank",
+        "role": "ablation",
+        "backend": "direct",
+        "source_config": "configs/openexempt_whole_bank_public_assets128_20261023_run02.json",
+        "source_config_sha256": "b16f826de80e6fda8523d61133fa5bfe066f27d82da6d6390ae577a8277e2c0f",
+        "source_frozen_sha256": "388834e0f3e7f806c1fb158d009a1630b20234baddca594d5c75a169b071e88a",
+        "source_run": "legal_openexempt_whole_bank_public_assets128_20261023_run02",
+        "learning_seed": 45,
+        "expected_publication": "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/publications/b8.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      },
+      {
+        "name": "first_commit",
+        "role": "ablation",
+        "backend": "direct",
+        "source_config": "configs/openexempt_first_commit_public_assets128_20261023_run02.json",
+        "source_config_sha256": "8a015d1bc54a48b6f6d47dd1262eed3aff7a8ad3ecb5d9f7be45ee2cb4c0eba4",
+        "source_frozen_sha256": "f8fc840b96c574f90383c231a2647c2affd5561ff6eed4ee8416789ffbd7cfd9",
+        "source_run": "legal_openexempt_first_commit_public_assets128_20261023_run02",
+        "learning_seed": 45,
+        "expected_publication": "runs/legal_openexempt_first_commit_public_assets128_20261023_run02/publications/b8.json",
+        "publication_exists": false,
+        "complete_source_now": false,
+        "actor_source_identity_checked": true,
+        "teacher_log_only_original_source_extras": [],
+        "bank_sha256": null
+      }
+    ],
+    "primary_contrasts": [
+      {
+        "name": "evolution_vs_empty",
+        "before": [
+          "empty"
+        ],
+        "after": [
+          "main45",
+          "main145",
+          "main245"
+        ]
+      },
+      {
+        "name": "evolution_vs_static",
+        "before": [
+          "static"
+        ],
+        "after": [
+          "main45",
+          "main145",
+          "main245"
+        ]
+      },
+      {
+        "name": "continued_vs_own_B1",
+        "before": [
+          "own_B1_45",
+          "own_B1_145",
+          "own_B1_245"
+        ],
+        "after": [
+          "main45",
+          "main145",
+          "main245"
+        ]
+      },
+      {
+        "name": "evolution_vs_ACE",
+        "before": [
+          "ACE45",
+          "ACE145",
+          "ACE245"
+        ],
+        "after": [
+          "main45",
+          "main145",
+          "main245"
+        ]
+      },
+      {
+        "name": "evolution_vs_text",
+        "before": [
+          "text45",
+          "text145",
+          "text245"
+        ],
+        "after": [
+          "main45",
+          "main145",
+          "main245"
+        ]
+      }
+    ],
+    "secondary_contrasts": [
+      {
+        "name": "full_vs_whole_bank",
+        "before": [
+          "whole_bank"
+        ],
+        "after": [
+          "main45"
+        ]
+      },
+      {
+        "name": "full_vs_first_commit",
+        "before": [
+          "first_commit"
+        ],
+        "after": [
+          "main45"
+        ]
+      }
+    ]
+  },
+  "all16_actual_profile_protocol_checks_passed": true,
+  "required_negative_checks_rejected": {
+    "changed_main_repeat_algorithm": "Independent learning repeats changed a shared protocol field",
+    "wrong_own_B1_source": "Pair each evolution run with its own actual B1 snapshot",
+    "single_seed_ablation_compared_to_three_run_mean": "Pair each single-seed ablation only with the full method at learning seed45"
+  },
+  "main8_prior_result_retained_not_retrained": true,
+  "actual_actor_identity_for_all12_source_configs_checked": true,
+  "formal_learning_seeds": [
+    45,
+    145,
+    245
+  ],
+  "common_final_inference_seed": 45,
+  "primary_endpoint_contrasts": 10,
+  "secondary_endpoint_contrasts": 4,
+  "planned_logical_TEST_predictions": 4096,
+  "independent_TEST_source_unit": 128,
+  "source_bootstrap": {
+    "draws": 20000,
+    "rng": "PCG64",
+    "seed": 2026102192,
+    "conditional_on_realized_banks_and_fixed_decoding": true,
+    "ordinary_tails": [
+      0.025,
+      0.975
+    ],
+    "primary_adjusted_tails": [
+      0.0025,
+      0.9975
+    ],
+    "secondary_adjusted_tails": [
+      0.00625,
+      0.99375
+    ]
+  },
+  "original_protocol_sha256": {
+    "docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md": "07c612b93696179b610ab966013d7bc5a9aca4e2d6cf9a1785c2f1d4febfb4c1",
+    "docs/research/OPENEXEMPT_FINAL_ANALYSIS_TEXT_COMPLEMENT_ADDENDUM_20261022.md": "527df89eb20f6c00643f92c74eb01ceb54b783b05d20b42394b1e93a12d666fe",
+    "docs/research/OPENEXEMPT_ACE_TEACHER_TIMEOUT_CONTINUATION_20261023.md": "41386f0e630d059c2a5e493f72e1b076c6fa299059655a8ad22c2c06f54fd24b",
+    "docs/research/OPENEXEMPT_FROZEN_EVAL_SINGLE_INSTANCE_DISPATCH_20261023.md": "42d6574f183e75466b0b1df952c46bf45545898c03c17f20d13dd315dcc7b187"
+  },
+  "evaluator": {
+    "path": ".venv/evolution-control-20261020.qLon9T/experiments/openexempt_frozen_eval.py",
+    "sha256": "89bf70a2501b0d15ea2d37848c3812854276026fde675c94351b8fea7b31b4c2",
+    "source_commit": "f138029adbf1b92a72dc1a07b802cbe81c8c96a4"
+  },
+  "final_freeze_still_requires_all_actual_naturally_complete_banks_terminal_archives_and_full_matrix": true,
+  "no_real_TEST_content_targets_predictions_or_outcomes_read": true,
+  "no_model_teacher_solver_or_tokenizer_calls": true,
+  "recomputation_program": "import copy,importlib.util,json\nfrom pathlib import Path\nfrom legal_skill_guard.learning.experiment import read,sha\nroot=Path.cwd();entry=root/\".venv/evolution-control-20261020.qLon9T/experiments/openexempt_frozen_eval.py\"\nspec=importlib.util.spec_from_file_location(\"actual_matrix_metadata\",entry);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)\narms=[{\"name\":\"empty\",\"role\":\"strong_empty\",\"backend\":\"direct\"},\n {\"name\":\"static\",\"role\":\"static_law_only\",\"backend\":\"direct\",\n \"source_config\":\"configs/openexempt_direct_law_only_static_20261021_run03.json\"}]\nfor seed in (45,145,245):\n main=(\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\" if seed==45 else f\"configs/openexempt_closed_feedback_public_assets128_seed{seed}_20261023_run02.json\")\n ace=(\"configs/openexempt_ace_public_assets128_20261023_run04.json\" if seed==45 else f\"configs/openexempt_ace_public_assets128_seed{seed}_20261023_run02.json\")\n text=f\"configs/openexempt_trace2skill_text_public_assets128_seed{seed}_20261023_run02.json\"\n arms += [{\"name\":f\"main{seed}\",\"role\":\"evolved\",\"backend\":\"direct\",\"source_config\":main},\n  {\"name\":f\"own_B1_{seed}\",\"role\":\"B1_frozen\",\"backend\":\"direct\",\"source_config\":main},\n  {\"name\":f\"ACE{seed}\",\"role\":\"experience\",\"backend\":\"ace\",\"source_config\":ace},\n  {\"name\":f\"text{seed}\",\"role\":\"experience\",\"backend\":\"direct\",\"source_config\":text}]\nfor variant in (\"whole_bank\",\"first_commit\"):\n arms.append({\"name\":variant,\"role\":\"ablation\",\"backend\":\"direct\",\n \"source_config\":f\"configs/openexempt_{variant}_public_assets128_20261023_run02.json\"})\nsources={}\nfor arm in arms:\n if arm.get(\"source_config\"):\n  arm[\"source_config_sha256\"]=sha(root/arm[\"source_config\"])\n  sources[arm[\"name\"]]=read(root/arm[\"source_config\"])\nmain=[f\"main{s}\" for s in (45,145,245)]\nprimary=[{\"name\":name,\"before\":before,\"after\":main} for name,before in [\n (\"evolution_vs_empty\",[\"empty\"]),(\"evolution_vs_static\",[\"static\"]),\n (\"continued_vs_own_B1\",[f\"own_B1_{s}\" for s in (45,145,245)]),\n (\"evolution_vs_ACE\",[f\"ACE{s}\" for s in (45,145,245)]),\n (\"evolution_vs_text\",[f\"text{s}\" for s in (45,145,245)])]]\nsecondary=[{\"name\":f\"full_vs_{variant}\",\"before\":[variant],\"after\":[\"main45\"]} for variant in (\"whole_bank\",\"first_commit\")]\ncfg={\"external_text_adaptation\":\"trace2skill_text_offline_v1\",\"arms\":arms,\n \"primary_contrasts\":primary,\"secondary_contrasts\":secondary}\nm.check_primary_contrasts(cfg,sources);m.check_secondary_contrasts(cfg,sources)\nprint(json.dumps({\"all16_real_source_metadata_protocols_valid\":True,\"primary_comparisons\":len(primary)*2,\n \"secondary_comparisons\":len(secondary)*2,\"source_configs\":len({a.get(\"source_config\") for a in arms if a.get(\"source_config\")}),\n \"not_bank_eligibility_or_TEST_access\":True}))\n\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import now\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nm.ROOT=root\nnegative={}\ndef reject(name,design,configs,checker):\n try: checker(design,configs)\n except ValueError as exc: negative[name]=str(exc)\n else: raise AssertionError(\"Invalid declared design accepted: \"+name)\nbad=copy.deepcopy(sources);bad[\"main145\"][\"max_candidate_attempts\"]+=1\nreject(\"changed_main_repeat_algorithm\",cfg,bad,m.check_primary_contrasts)\nbad=copy.deepcopy(cfg);next(a for a in bad[\"arms\"] if a[\"name\"]==\"own_B1_45\")[\"source_config\"]=sources[\"main245\"][\"run_id\"]\nreject(\"wrong_own_B1_source\",bad,sources,m.check_primary_contrasts)\nbad=copy.deepcopy(cfg);bad[\"secondary_contrasts\"][0][\"after\"]=[\"main45\",\"main145\",\"main245\"]\nreject(\"single_seed_ablation_compared_to_three_run_mean\",bad,sources,m.check_secondary_contrasts)\nplan_arms=[]\nfor arm in arms:\n row=copy.deepcopy(arm)\n if arm[\"role\"]==\"strong_empty\":\n  row.update(expected_publication=None,bank_sha256=csha([]),learning_seed=None,learning_required=False)\n else:\n  source=sources[arm[\"name\"]];config=root/arm[\"source_config\"];frozen=read(config.with_suffix(\".frozen.json\"))\n  assert frozen[\"config_sha256\"]==sha(config)\n  actor_extras=set()\n  for name in m.SHARED_ACTOR_FILES+(m.ACE_ACTOR_FILES if arm[\"backend\"]==\"ace\" else ()):\n   actor_extras.update(m.check_shared_actor_revision(name,frozen[\"files\"][name]))\n  run=root/\"runs\"/source[\"run_id\"]\n  publication=run/(\"publication.json\" if arm[\"role\"]==\"static_law_only\" else\n   \"publications/final.json\" if source.get(\"learner\")==\"trace2skill_text_offline_v1\" else\n   \"publications/b1.json\" if arm[\"role\"]==\"B1_frozen\" else \"publications/b8.json\")\n  row.update(source_frozen_sha256=sha(config.with_suffix(\".frozen.json\")),\n   source_run=source[\"run_id\"],learning_seed=None if arm[\"role\"]==\"static_law_only\" else source[\"generation\"][\"seed\"],\n   expected_publication=str(publication.relative_to(root)),publication_exists=publication.is_file(),\n   complete_source_now=(run/\"completion.json\").is_file() and (run/\"terminal_preservation.json\").is_file() and not (run/\"failure.json\").exists(),\n   actor_source_identity_checked=True,teacher_log_only_original_source_extras=sorted(str(p.relative_to(root)) for p in actor_extras))\n  if publication.is_file():\n   published=read(publication);bank=published[\"playbook\" if arm[\"backend\"]==\"ace\" else \"bank\"]\n   row[\"bank_sha256\"]=csha(bank)\n  else:row[\"bank_sha256\"]=None\n plan_arms.append(row)\nprotocols=[\n \"docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md\",\n \"docs/research/OPENEXEMPT_FINAL_ANALYSIS_TEXT_COMPLEMENT_ADDENDUM_20261022.md\",\n \"docs/research/OPENEXEMPT_ACE_TEACHER_TIMEOUT_CONTINUATION_20261023.md\",\n \"docs/research/OPENEXEMPT_FROZEN_EVAL_SINGLE_INSTANCE_DISPATCH_20261023.md\"]\nreport={\"at\":now(),\"classification\":\"Current-lineage full16-arm source and contrast plan plus actual metadata verification; NOT executable final configuration or completed-bank eligibility\",\n \"not_an_executable_evaluation_configuration\":True,\n \"declared_design\":{\"source_cases\":128,\"training_source_cases\":128,\"training_batch_source_cases\":16,\n \"external_text_adaptation\":cfg[\"external_text_adaptation\"],\"arms\":plan_arms,\n \"primary_contrasts\":primary,\"secondary_contrasts\":secondary},\n \"all16_actual_profile_protocol_checks_passed\":True,\n \"required_negative_checks_rejected\":negative,\n \"main8_prior_result_retained_not_retrained\":True,\n \"actual_actor_identity_for_all12_source_configs_checked\":True,\n \"formal_learning_seeds\":[45,145,245],\"common_final_inference_seed\":45,\n \"primary_endpoint_contrasts\":10,\"secondary_endpoint_contrasts\":4,\n \"planned_logical_TEST_predictions\":4096,\"independent_TEST_source_unit\":128,\n \"source_bootstrap\":{\"draws\":20000,\"rng\":\"PCG64\",\"seed\":2026102192,\n \"conditional_on_realized_banks_and_fixed_decoding\":True,\n \"ordinary_tails\":[0.025,0.975],\"primary_adjusted_tails\":[0.025/10,1-0.025/10],\n \"secondary_adjusted_tails\":[0.025/4,1-0.025/4]},\n \"original_protocol_sha256\":{n:sha(root/n) for n in protocols},\n \"evaluator\":{\"path\":str(entry.relative_to(root)),\"sha256\":sha(entry),\n \"source_commit\":\"f138029adbf1b92a72dc1a07b802cbe81c8c96a4\"},\n \"final_freeze_still_requires_all_actual_naturally_complete_banks_terminal_archives_and_full_matrix\":True,\n \"no_real_TEST_content_targets_predictions_or_outcomes_read\":True,\n \"no_model_teacher_solver_or_tokenizer_calls\":True,\"recomputation_program\":PROGRAM}\ndest=root/\"artifacts/research/openexempt_legal_scope_20261020/final16_current_lineage_actual_source_protocol_primary10_secondary4_plan_NOT_TEST_config_20261023.json\"\nRunStore.immutable_json(dest,report)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"arms\":len(plan_arms),\n \"actual_source_configs\":len({a.get(\"source_config\") for a in arms if a.get(\"source_config\")}),\n \"source_ready_arms\":sum(a.get(\"complete_source_now\",False) for a in plan_arms),\n \"all_protocols_and_negative_checks_passed\":True,\"TEST_still_closed\":True}))\n"
+}

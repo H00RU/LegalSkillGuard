@@ -1,0 +1,327 @@
+{
+  "at": "2026-10-27T18:24:30.405662+00:00",
+  "response_file_sha256": "b42d63603bc8f725ac51dcaa0132ee7c351d75379575d10db520aa33683edba7",
+  "request_sha256": "6a107fb086e36de445ead5e96eada2b35b83169ead5baf0e28b5993a99e10847",
+  "actual_parent_sha256": "ed24287606166f741e168068879bf3987b65d6a84369df8e73e0f0cb43b31420",
+  "proposed_bank_sha256": "bae00a7a0e29e5abb7c6bc9238092284fc8183b333cc2e210739cecbc7a08cc0",
+  "proposed_records": 9,
+  "no_operators_or_solver": true,
+  "delta": {
+    "operations": [
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "arizona-apparel-medical-and-ring-boundaries"
+        ],
+        "skill": {
+          "id": "arizona-apparel-medical-and-ring-boundaries",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Arizona exemptions are allowable and the facts describe clothing, jewelry or a ring, household goods, a physician-authorized medical aid, a musical instrument for individual or family use, a motor vehicle, or a firearm.",
+                "procedure": "Treat ordinary clothing, including coats, blazers, suits, and work overalls, as wearing apparel under Ariz. Rev. Stat. § 33-1125(1). Treat physician-authorized medical mobility or oxygen equipment as a prescribed prosthesis or aid under § 33-1125(9). Apply § 33-1125(4) only to engagement or wedding rings. For factually qualifying wearing apparel, musical instruments, motor vehicles, and firearms, include respectively § 33-1125(1), (2), (8), or (10) even when value exceeds the stated ceiling; that ceiling limits EV amount, not EC eligibility.",
+                "avoid_when": "Do not treat jewelry as wearing apparel or household furnishings, place a prescribed medical aid under § 33-1123 merely because it is kept at home, or extend the engagement-and-wedding-ring provision to anniversary, cocktail, or ordinary jewelry. Do not use the dollar ceilings in § 33-1125(1), (2), (8), or (10) as EC eligibility cutoffs."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Arizona exemptions are allowable and the facts describe clothing, jewelry or a ring, a musical instrument for individual or family use, or physician-authorized respiratory or mobility equipment.",
+                "procedure": "Classify the asset before valuing it. Use Ariz. Rev. Stat. § 33-1125(1) for ordinary clothing, § 33-1125(9) for physician-authorized respiratory or mobility equipment, and § 33-1125(4) only for an engagement or wedding ring. For a musical instrument under § 33-1125(2), report the lesser of the whole asset's value and $400 for one debtor, or $800 when two spouses combine their exemptions under § 33-1121. Paragraph (9) has no stated dollar ceiling, so report the whole prescribed aid's value.",
+                "avoid_when": "Do not claim § 33-1125(1) for a bracelet, necklace, or other jewelry; do not claim § 33-1125(4) for an anniversary, cocktail, or ordinary ring; do not substitute § 33-1123 for a prescribed medical aid; and do not leave a jointly owned musical instrument at $400 when two debtor-spouses may combine the exemption."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "ARIZONA"
+          }
+        },
+        "source_case_ids": [
+          286
+        ],
+        "rationale": "In case 286 the parent correctly selected § 33-1125(2) but reported $400 for a $500 musical instrument jointly owned by two debtor-spouses. Section 33-1121 permits the spouses to combine their exemptions, so the whole-asset result is $500 under the combined $800 ceiling."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "federal-specific-personal-property-boundaries"
+        ],
+        "skill": {
+          "id": "federal-specific-personal-property-boundaries",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Federal § 522(d) exemptions are allowable and the asset is a motor vehicle, listed household-use property, jewelry, or a factually identified implement or tool of the debtor's trade.",
+                "procedure": "Include 11 U.S.C. § 522(d)(2) for a motor vehicle, § 522(d)(3) for listed household-use property such as furnishings, appliances, apparel, animals, or musical instruments, § 522(d)(4) for jewelry, and § 522(d)(6) for an implement or tool actually used in a trade. A dollar ceiling limits value, not EC eligibility. Retain § 522(d)(5) separately.",
+                "avoid_when": "Do not omit a specific paragraph because the asset exceeds its ceiling, classify jewelry or firearms under § 522(d)(3), infer trade use without a business-use fact, or let a specific paragraph displace § 522(d)(5)."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Federal § 522(d) exemptions are allowable and the asset qualifies as a motor vehicle under § 522(d)(2), listed household-use property under § 522(d)(3), jewelry under § 522(d)(4), or a trade implement or tool under § 522(d)(6).",
+                "procedure": "For § 522(d)(2), report the lesser of the whole motor vehicle's value and $4,450. For § 522(d)(3), report the lesser of the whole item's value and $700. Treat rings, bracelets, necklaces, earrings, pendants, and wristwatches as jewelry under § 522(d)(4), not household property: report the lesser of the whole jewelry asset's value and $1,875 for one debtor, or $3,750 for two equal-interest joint debtors. For a factually identified trade implement or tool under § 522(d)(6), report the lesser of its whole value and $2,800 for one debtor. Retain § 522(d)(5) separately.",
+                "avoid_when": "Do not output a ceiling when the asset is worth less, multiply the § 522(d)(2) or (3) asset-level ceiling merely because there are joint debtors, use the $14,875 aggregate ceiling for one item, classify jewelry or firearms under § 522(d)(3), classify decorative household objects as jewelry, infer trade use without supporting facts, or omit an eligible paragraph because its ceiling is below the asset value."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        "source_case_ids": [
+          198,
+          265,
+          291
+        ],
+        "rationale": "Case 198 shows a distinct § 522(d)(6) valuation error: the parent selected the trade-tool paragraph but output its $2,800 ceiling for a tool worth only $1,600. Cases 265 and 291 reinforce that § 522(d)(3)'s $700 ceiling must not be reused for independently applicable alternatives or treated as an eligibility cutoff."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "federal-wildcard-independent-alternative"
+        ],
+        "skill": {
+          "id": "federal-wildcard-independent-alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Federal exemptions under 11 U.S.C. § 522(d) are an allowable namespace for the case.",
+                "procedure": "For every estate asset, first include 11 U.S.C. § 522(d)(5) once as an independent alternative because it covers any property, including firearms, health aids, animals, apparel, vehicles, household property, and real property. Then retain every applicable specific federal paragraph separately. Asset value never defeats EC eligibility under paragraph (5).",
+                "avoid_when": "Do not apply paragraph (5) when federal § 522(d) exemptions are unavailable, omit it because a specific paragraph applies or the asset fits no specific paragraph, or use its dollar ceiling as an EC eligibility test."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Federal exemptions under 11 U.S.C. § 522(d) are an allowable namespace for the case.",
+                "procedure": "Include 11 U.S.C. § 522(d)(5) independently for every asset, including real property and property covered by another federal paragraph. First choose the ceiling from the debtor count: $15,425 for one debtor or $30,850 for two equal-interest joint debtors. Then report the lesser of that ceiling and the whole named asset's value.",
+                "avoid_when": "Do not omit paragraph (5) because another exemption applies, reuse another paragraph's ceiling such as $700, allocate it across assets, report the wildcard ceiling when the asset is worth less, use only one debtor's ceiling for two joint debtors, or double it without two debtors."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        "source_case_ids": [
+          205,
+          227,
+          241,
+          265,
+          282
+        ],
+        "rationale": "The current parent used the one-debtor wildcard ceiling for joint debtors in cases 205 and 241, copied the $700 household-item ceiling into wildcard claims in case 265, and omitted the wildcard from otherwise eligible assets in cases 227 and 282. The update makes debtor-count selection and the whole-asset comparison explicit without changing eligibility."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "illinois-other-personal-property-alternative"
+        ],
+        "skill": {
+          "id": "illinois-other-personal-property-alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Illinois exemptions are allowable and the asset is personal property owned by the debtor, including an implement also described as used in the debtor's trade.",
+                "procedure": "First include 735 Ill. Comp. Stat. 5/12-1001(b) for such personal property, including apparel, vehicles, health aids, animals, jewelry, firearms, appliances, household goods, and business-use implements; value above $4,000 does not defeat eligibility. Then add every applicable specific alternative, including subsection (a) for necessary wearing apparel, subsection (c) for a motor vehicle, subsection (d) when facts establish trade use, and subsection (e) for a professionally prescribed health aid.",
+                "avoid_when": "Do not replace subsection (b) with a specific subsection, apply subsection (a) to jewelry, omit subsection (c) because a vehicle exceeds $2,400, or add subsection (d) without a business-use fact."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Illinois exemptions are allowable and the asset is personal property owned by the debtor, including an implement also described as used in the debtor's trade.",
+                "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently: report the lesser of whole value and $4,000 for one debtor, or $8,000 for two equal-interest joint debtors. Also retain subsection (a) for necessary wearing apparel at whole value; subsection (c) for a motor vehicle at the lesser of whole value and $2,400; subsection (d) for a factually established trade implement at the lesser of whole value and $1,500 for one debtor or $3,000 for two equal-interest joint debtors; and subsection (e) for a professionally prescribed health aid at whole value.",
+                "avoid_when": "Do not omit subsection (b) because a specific subsection applies, the item has business use, or its value exceeds $4,000; do not double subsection (c)'s $2,400 asset-level result for joint debtors; do not confuse subsection (d)'s ceiling with subsection (c)'s; and do not add subsection (d) without a business-use fact or leave a half-interest as the final amount."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        },
+        "source_case_ids": [
+          279,
+          283,
+          285,
+          292
+        ],
+        "rationale": "Cases 279, 283, and 285 repeatedly omit subsection (b) when a vehicle or business-use implement also qualifies for a specific paragraph. Cases 283 and 285 separately establish the joint-debtor § 12-1001(d) ceiling of $3,000 and show that § 12-1001(c) remains an asset-level $2,400 result. Case 292 confirms that subsection (b) remains independent of the apparel alternative."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "pennsylvania-general-monetary-alternative"
+        ],
+        "skill": {
+          "id": "pennsylvania-general-monetary-alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Pennsylvania exemptions are allowable and the asset is property of the judgment debtor.",
+                "procedure": "Include 42 Pa. Cons. Stat. § 8123 independently for every asset, regardless of property type or value, and retain any genuinely applicable federal or Pennsylvania particular-property exemption. Apply § 8124(a)(1) only after identifying the asset as wearing apparel.",
+                "avoid_when": "Do not omit § 8123 because the asset exceeds its ceiling or another exemption applies. Do not apply § 8124(a)(1) to jewelry, vehicles, appliances, furnishings, tools, or firearms."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Pennsylvania exemptions are allowable and the asset is property of the judgment debtor.",
+                "procedure": "Include 42 Pa. Cons. Stat. § 8123 independently for every asset, including real property, vehicles, tools, jewelry, instruments, and household property. First choose $300 for one debtor or $600 for two equal-interest joint debtors, then report the lesser of that ceiling and the whole named asset's value.",
+                "avoid_when": "Do not omit § 8123 because another exemption applies, allocate it across assets, report $300 for qualifying joint debtors, report $600 when the asset is worth less, or apply § 8124(a)(1) to jewelry, vehicles, appliances, furnishings, tools, or firearms."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "PENNSYLVANIA"
+          }
+        },
+        "source_case_ids": [
+          205,
+          211,
+          228,
+          241,
+          280,
+          284,
+          291
+        ],
+        "rationale": "The parent repeatedly used $300 instead of the joint $600 ceiling in cases 205, 211, 228, and 284, while cases 228 and 241 also show that a lower asset value controls. Cases 228 and 284 separately show false apparel claims on firearms, and cases 280 and 291 show omissions of the independent § 8123 alternative."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "wisconsin-single-debtor-motor-vehicle-valuation"
+        ],
+        "skill": {
+          "id": "wisconsin-single-debtor-motor-vehicle-valuation",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Wisconsin exemptions are allowable and the asset is a motor vehicle.",
+                "procedure": "Include Wis. Stat. § 815.18(3)(g) even when the vehicle's value exceeds the available ceiling; value limits the EV amount, not EC eligibility.",
+                "avoid_when": "Do not omit paragraph (g) because the vehicle exceeds $4,000 or because federal motor-vehicle or wildcard alternatives also apply."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Wisconsin exemptions are allowable and the asset is a motor vehicle.",
+                "procedure": "For one debtor, add the unused $12,000 consumer-goods amount from § 815.18(3)(d) to the $4,000 motor-vehicle amount and report the lesser of whole vehicle value and $16,000. For two equal-interest debtor-spouses, § 815.18(8) supplies each spouse one exemption, so report the lesser of whole vehicle value and the combined $32,000.",
+                "avoid_when": "Do not stop at $4,000 when the unused consumer-goods amount is available, report more than whole vehicle value, list § 815.18(3)(d) as a separate vehicle exemption, allocate the amount across assets, or use the $32,000 joint ceiling for one debtor."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "WISCONSIN"
+          }
+        },
+        "source_case_ids": [
+          227,
+          271,
+          277,
+          278,
+          287
+        ],
+        "rationale": "Case 287 is the unresolved joint-debtor branch: the parent reported $16,000, while two spouse exemptions under § 815.18(8), each including the paragraph (d) transfer, produce a $32,000 whole-vehicle ceiling. Cases 227 and 271 support the single-debtor $16,000 branch, and cases 277 and 278 confirm that the final result cannot exceed the vehicle's value."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "wisconsin-consumer-goods-boundary",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Wisconsin exemptions are allowable and the asset is tangible personal property held for personal, family, or household use, including furnishings, apparel, jewelry, appliances, books, musical instruments, firearms, animals, or another personal-use item.",
+                "procedure": "Include Wis. Stat. § 815.18(3)(d) and retain independently applicable federal alternatives.",
+                "avoid_when": "Do not use paragraph (d) for a motor vehicle, homestead, business inventory, or depository account, and do not add § 815.18(3)(k) unless the asset is actually a depository account."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Wisconsin exemptions are allowable and the asset is tangible personal property held for personal, family, or household use, including furnishings, apparel, jewelry, appliances, books, musical instruments, firearms, animals, or another personal-use item.",
+                "procedure": "Under Wis. Stat. § 815.18(3)(d), report the lesser of the whole asset's value and $12,000 for one debtor, or $24,000 for two equal-interest debtor-spouses under § 815.18(8). Retain independently applicable federal alternatives.",
+                "avoid_when": "Do not reuse the $700 federal household-item ceiling, apply paragraph (d) separately to a motor vehicle or homestead, report more than the whole asset's value, or add § 815.18(3)(k) to a firearm or other non-account asset."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "WISCONSIN"
+          }
+        },
+        "source_case_ids": [
+          227,
+          265,
+          271,
+          278,
+          282,
+          289
+        ],
+        "rationale": "Cases 227 and 265 show omitted or misvalued Wisconsin consumer-goods alternatives for a prescribed wheelchair, appliance, and furnishings. Cases 271 and 282 show that paragraph (d) must not be listed separately for a motor vehicle and that paragraph (k) does not apply to a firearm. Cases 278 and 289 provide correct personal-use apparel, appliance, furnishing, and instrument boundaries."
+      }
+    ],
+    "noop_reason": null
+  },
+  "changed_exact_wires_by_family_and_public_context": {
+    "EC:FEDERAL+PENNSYLVANIA": 24,
+    "EV:FEDERAL+PENNSYLVANIA": 24,
+    "EV:ARIZONA": 22,
+    "EC:FEDERAL+WISCONSIN": 22,
+    "EV:FEDERAL+WISCONSIN": 22,
+    "EC:FEDERAL+OREGON": 18,
+    "EV:FEDERAL+OREGON": 18,
+    "EC:ILLINOIS": 26,
+    "EV:ILLINOIS": 26
+  },
+  "unchanged_wires": 22,
+  "response_metadata": {
+    "model": "gpt-5.6-sol",
+    "cache_hit": false,
+    "capacity_transport_attempt_index": 0
+  },
+  "admission_pending": true
+}

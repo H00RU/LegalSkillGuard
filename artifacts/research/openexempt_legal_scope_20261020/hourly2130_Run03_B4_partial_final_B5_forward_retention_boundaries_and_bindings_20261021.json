@@ -1,0 +1,140 @@
+{
+  "at": "2026-10-21T13:32:26.837274+00:00",
+  "scheduled_CST": "2026-10-21T21:30:00+08:00",
+  "classification": "Hourly verified original-process wait and direction audit, not new performance evidence",
+  "processes": [
+    {
+      "role": "main",
+      "PID": 1721740,
+      "start_ticks": 455413980,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python -m experiments.openexempt_online run /media/sangfor/vdb/legal-skill-evolve/configs/openexempt_closed_feedback_public_assets128_20261021_run03.json "
+    },
+    {
+      "role": "model",
+      "PID": 3613253,
+      "start_ticks": 446037091,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python /media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm serve /media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218 --served-model-name Qwen/Qwen3-8B --host 127.0.0.1 --port 8000 --dtype bfloat16 --max-model-len 32768 --max-num-seqs 1 --seed 42 --generation-config vllm --reasoning-parser qwen3 --gpu-memory-utilization 0.48 --no-enable-prefix-caching --disable-uvicorn-access-log --guided-decoding-backend xgrammar --guided-decoding-disable-any-whitespace --kv-cache-memory-bytes 5368709120 --max-num-batched-tokens 16384 "
+    },
+    {
+      "role": "ACE_waiter",
+      "PID": 1738522,
+      "start_ticks": 455481667,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python /media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_main128_run03_to_ACE128_20261021.py "
+    }
+  ],
+  "bindings": {
+    "main": {
+      "files": 371,
+      "all_bytes_unchanged": true
+    },
+    "static": {
+      "files": 117,
+      "all_bytes_unchanged": true
+    },
+    "ACE_waiter": {
+      "files": 381,
+      "all_bytes_unchanged": true
+    }
+  },
+  "actual_packages_unchanged": 50,
+  "progress": {
+    "at": "2026-10-21T13:31:59.127137+00:00",
+    "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "state": "running",
+    "stage": "b5_prequential",
+    "current_batch": 5,
+    "completed_native_calls": 509,
+    "completed_teacher_calls": 8,
+    "teacher_attempts": 8,
+    "cross_stage_identical_wire_reuses": 1004,
+    "library_records": 6,
+    "current_arm": "skills",
+    "current_document_id": 245,
+    "current_call": "openexempt"
+  },
+  "complete_unique_publications": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "B3_actual_final": {
+    "at": "2026-10-21T11:00:54.977423+00:00",
+    "bank_sha256": "e9844cefc4b4a8649f171d801d5035b9d378a2aae1e0ea053d90e1c79dad9e07",
+    "records": 6,
+    "unchanged_from_actual_B2": true,
+    "C1_full_rejected": true,
+    "measured_parent_tokens": 1945,
+    "C2_explicit_NOOP": true
+  },
+  "B4_complete_first_forecasts_exist": true,
+  "B4_complete_first_forecast_wire_health": {
+    "logical_answers": 160,
+    "origin_wires_including_exact_old_reuses": 70,
+    "finish_reasons": {
+      "stop": 70
+    },
+    "parse_errors": 0,
+    "online_all_actual_published_B3_bank": true,
+    "grading_targets_read_by_this_hourly_health_check": false
+  },
+  "ledger": {
+    "max_invocations": 1797,
+    "reservations": 359,
+    "old350_prefix_unchanged": true
+  },
+  "ACE_target_training_started": false,
+  "ACE_target_frozen": false,
+  "archive_free_bytes": {
+    "/media/sangfor/vdb/legal-skill-backups": 1980575178752,
+    "/home/yndx/hhy/legal-skill-rootdisk-backups": 804102000640
+  },
+  "observer": {
+    "C1_25780_closed_normally": true,
+    "C2_observer_7985ea_immediately_completed_with_final_B4": true,
+    "current_persistent_watch_session": null,
+    "observation_timeout_not_primary_terminal": true
+  },
+  "B4_actual_unique_final": {
+    "at": "2026-10-21T13:27:05.858217+00:00",
+    "bank_sha256": "7cedde5f8ccdbfd0d950bb289f304e377bf8a172847221e050367945db3fb338",
+    "records": 6,
+    "actual_tokens": 2179,
+    "accepted_C1_coordinates": [
+      "EV:ARIZONA"
+    ],
+    "C2_full_rejected": true,
+    "current_EC_EV_C1_parent": [
+      0.8385416666666666,
+      0.7984126984126984
+    ],
+    "current_C2_EC_EV": [
+      0.8385416666666666,
+      0.809077380952381
+    ],
+    "prior_C1_EC_EV": [
+      0.868328373015873,
+      0.8486235119047617
+    ],
+    "prior_C2_EC_EV": [
+      0.868328373015873,
+      0.8442418981481481
+    ]
+  },
+  "direction_check": {
+    "previous_turn_classification": "Progress in actual main: all B4 first forecasts, 2 fresh teachers, complete C1 and C2 decisions, unique final B4 publication then automatic B5; read-only diagnostics and backups are not extra algorithm gains.",
+    "user_old_replay_question": "Yes candidates replay all seen TRAIN. B4 C1 full EC native/full means improve but old negative-claim count0to1 blocks it while current1to0; C2 currentEV improves1.06647pp but priorEV declines0.43816pp. Both are more conservative boundary cases than B3>6pp prior harm; no live threshold/prompt change.",
+    "actual_skills": "B4 final6 records2179tokens is actual C1 EV:ARIZONA partial; EC unchanged and C2 Pennsylvania rewrite rejected. First B4 performance still comes from B2/B3 e984, not these new edits.",
+    "causal_boundary": "Means/negative totals do not establish future benefit of rejected edits. One blockedEC prospective remaining64TRAIN declaration made beforeB5, no driver/queue/generation; no TEST exposure.",
+    "next_action": "Audit and preserve complete B4 decisions/teachers/native raw, update fourbatch publication index; continue same full128 to queued ACE45, evaluate true B5 later only when complete immutable first forecasts exist.",
+    "missing_evidence": "B5-B8/main final, actual ACE/static performances, independent repeated learners, necessary ablations and frozen sealedTEST. No claim stable significant advantage over mature methods."
+  },
+  "next_hourly_CST": "2026-10-21T22:30:00+08:00",
+  "new_native_teacher_or_TEST_calls_by_audit": 0
+}

@@ -1,0 +1,92 @@
+{
+  "at": "2026-10-22T15:09:18.419847+00:00",
+  "classification": "Verified local ACE failed-public-output feedback omission, not evidence that native ACE cannot learn or that completed main TRAIN is invalid.",
+  "source_run": "legal_openexempt_ace_public_assets128_20261022_run02",
+  "actual_stop": "InterruptedError('Operator stop at artifact-safe boundary')",
+  "original_model_not_stopped": true,
+  "queued_static_waiter_cancelled_not_started": true,
+  "native_stop_flag_saved_all_current_output": true,
+  "two_first_forecast_failures": [
+    {
+      "case": 224,
+      "family": "EV",
+      "finish_reason": "length",
+      "tokens": 8192,
+      "raw_chars": 10441,
+      "final_answer_marker_present": true,
+      "raw_tail_preserved": "aim_value\": 870}, {\"citation_ref\": \"735 Ill. Comp. Stat. 5\\/12-1001(b)\", \"claim_value\": 870}, {\"citation_ref\": \"735 Ill. Comp. Stat. 5\\/12-1001(b)\", \"claim_value\": 870}, {\"citation_ref\": \"735 Ill. Comp. Stat. 5\\/12-1001(b)\", \"claim_value\": 870}, {\"citation_ref\": \"735 Ill. Comp. Stat. 5\\/12-1001(b)\", \"claim_value\": 870}, {\"citation_ref\": \"735 Ill. Comp. Stat. 5\\/12-1001(b)\", \"claim_value\": 870}, {\"citation_ref\": \"735 Ill. Comp. Stat. 5\\/12-1001(b)\", \"claim_value\": 870}, {\"citation_ref\": \"735 Ill.",
+      "raw_path": "runs/legal_openexempt_ace_public_assets128_20261022_run02/native/b3_prequential/224_EV_ace.json",
+      "parsed": null,
+      "teacher_failed_trace_missing_under_current_adapter": true,
+      "actual_r1_reflector_exists": false
+    },
+    {
+      "case": 228,
+      "family": "EV",
+      "finish_reason": "length",
+      "tokens": 8192,
+      "raw_chars": 14364,
+      "final_answer_marker_present": true,
+      "raw_tail_preserved": "im_value\": 0}, {\"citation_ref\": \"42 Pa. Cons. Stat. section 8124(a)(1)\", \"claim_value\": 0}, {\"citation_ref\": \"42 Pa. Cons. Stat. section 8124(a)(1)\", \"claim_value\": 0}, {\"citation_ref\": \"42 Pa. Cons. Stat. section 8124(a)(1)\", \"claim_value\": 0}, {\"citation_ref\": \"42 Pa. Cons. Stat. section 8124(a)(1)\", \"claim_value\": 0}, {\"citation_ref\": \"42 Pa. Cons. Stat. section 8124(a)(1)\", \"claim_value\": 0}, {\"citation_ref\": \"42 Pa. Cons. Stat. section 8124(a)(1)\", \"claim_value\": 0}, {\"citation_ref\": \"42 Pa",
+      "raw_path": "runs/legal_openexempt_ace_public_assets128_20261022_run02/native/b3_prequential/228_EV_ace.json",
+      "parsed": null,
+      "teacher_failed_trace_missing_under_current_adapter": true,
+      "actual_r1_reflector_exists": false
+    }
+  ],
+  "prior_B1_B2_all_saved_answers_parse_valid": 348,
+  "no_invalid_224_228_reflector_called_before_stop": true,
+  "last_B3_TRAIN_error_not_reflected_after_last_round": "216 EC round3 length, no further round before stop",
+  "upstream_pinned_primary_sources": {
+    "ace/core/generator.py": {
+      "url": "https://raw.githubusercontent.com/ace-agent/ace/82709de050e1db6e6ef2f07bcb0393560b94992a/ace/core/generator.py",
+      "sha256": "4b750a59752bd5bdb24b2f27b80938844d8a7b5d89e86d7d6bb726f3685c25f5",
+      "raw_unchanged_trace_pass": null
+    },
+    "ace/core/reflector.py": {
+      "url": "https://raw.githubusercontent.com/ace-agent/ace/82709de050e1db6e6ef2f07bcb0393560b94992a/ace/core/reflector.py",
+      "sha256": "fe5ae8fb006fd16fdef7b8e7ad38dc746195a4bf0a366a82e69c473c9982b811",
+      "raw_unchanged_trace_pass": null
+    },
+    "ace/ace_batch.py": {
+      "url": "https://raw.githubusercontent.com/ace-agent/ace/82709de050e1db6e6ef2f07bcb0393560b94992a/ace/ace_batch.py",
+      "sha256": "18e4bf974ff17383997ba28b715d0a99e83b5ea2e5d49a2fb91b4b000c0874fd",
+      "raw_unchanged_trace_pass": true
+    }
+  },
+  "local_source_sha256": {
+    "experiments/openexempt_ace_online.py": "8258b15d6f0e67e7aa8addc50e720d348f8238c6858bba2f1b0b65966549c53c",
+    "legal_skill_guard/learning/openexempt_ace.py": "3e93e1fe7301defddbb55bab0710eb224e81cde8978ffeb22a60ddde7ff896de"
+  },
+  "causal_boundary": "B1/B2 had no malformed observations, so missing failed-output evidence cannot explain already saved B3 first-forecast deficits. It would degrade prospective failed-output reflection; repair only that data loss. Retain native zero scores, full 8192-token cap and every raw answer. No JSON recovery, bullet-ID guessing, answer deduplication, inference retry or changed legal target.",
+  "stop_cost": {
+    "native": 294,
+    "teacher_responses": 114,
+    "teacher_attempts": 114
+  },
+  "retained_trajectory_prefix": {
+    "through_batch": 2,
+    "native_284_including_64_unchanged_B3_firsts": true,
+    "teacher_responses": 102
+  },
+  "retired_B3_TRAIN_work_not_imported": {
+    "native": 10,
+    "teacher": 12
+  },
+  "two_terminal_archives": {
+    "at": "2026-10-22T15:04:02.665899+00:00",
+    "stage": "actual-terminal",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_ace_public_assets128_20261022_run02-actual-terminal.tar.gz",
+        "sha256": "b2df70e79b5a80a83b39907d92caa70b403571e5747add005c628ac93f7417a9"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_ace_public_assets128_20261022_run02-actual-terminal.tar.gz",
+        "sha256": "aa18d3a2b38640ffde6c0d886f59a0fed8f2ba0b51d164dd6e2be5138a1ef169"
+      }
+    ],
+    "files": 1643
+  },
+  "no_new_actor_teacher_TEST_calls": true
+}

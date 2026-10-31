@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-23T03:45:55.766639+00:00",
+  "classification": "First B8 293EC actual full HTTP delivered unique actual B7 twenty-bullet bank; no partial score or TRAIN target read",
+  "ready": true,
+  "parent_playbook_sha256": "f609fbcc16f9d9015f98adf46d39af863ef784328fc44d21d9639562e5ea8f94",
+  "all20_full_contents_and_counters_delivered": true,
+  "new_actual_B7_full_contents": {
+    "err-00020": "不要把 citation label vocabulary、公开法条标题列表或允许标签白名单当成适用性答案；它们只限定可输出的引用字符串。每个标签仍须依次通过适用法域、直接保护资产的实体条款、法定类别及全部事实要件检查，未通过者不得输出；禁止为凑全词表而遍历附加标签，以免产生无关重复并导致 JSON 截断。"
+  },
+  "native_reported_bullet_ids_not_causal_tool_calls": [
+    "sai-00001",
+    "sai-00004",
+    "calc-00003",
+    "calc-00005",
+    "calc-00010",
+    "calc-00013",
+    "calc-00017",
+    "code-00018",
+    "err-00006",
+    "err-00007",
+    "err-00011",
+    "err-00015",
+    "err-00019",
+    "err-00020",
+    "ph-00002",
+    "ph-00009",
+    "ph-00012",
+    "ph-00014",
+    "ph-00016",
+    "ctx-00008"
+  ],
+  "generator_messages_change_from_actual_B6": true,
+  "raw_path": "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b8_prequential/293_EC_ace.json",
+  "no_partial_score_or_gold_read": true,
+  "no_actor_teacher_tokenizer_TEST_calls": true,
+  "evidence_sha256": {
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b8_prequential/293_EC_ace.answer.json": "009f522524470f7670e1ba9c65996d5ee6a0ab30c56476ec574791f62260ab03",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b8_prequential/293_EC_ace.input.json": "6511a1cf1c286f33fc219191816db484190437f461b4b8c1347ccb242fcd759e",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/publications/b7.json": "c3180bfd93b3f0316f1f8574c173747a6b8da9b49c8fc8683d633bb852a75f64",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/publications/b6.json": "c10820ae8b58ff3d98b22de7df0c1cbc490a2842aefa5347697587391eacdc31",
+    "configs/openexempt_ace_public_assets128_20261022_run03.json": "91b6c8d25ccb8d9a824bcda914558535da9a4fce3b59f32f48907d09379c385f",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b8_prequential/293_EC_ace.json": "7a25a467e6e411afd61123c54e68205e3bbea313ebf0e7a2d2982f4baeb2d94f"
+  },
+  "recomputation_program": "import json\nfrom pathlib import Path\nfrom legal_skill_guard.learning.experiment import read,bullets,sha,now\nfrom legal_skill_guard.learning.openexempt_ace import generator_payload\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path.cwd();run=root/\"runs/legal_openexempt_ace_public_assets128_20261022_run03\"\nanswer=run/\"native/b8_prequential/293_EC_ace.answer.json\"\nif not answer.exists():\n print(json.dumps({\"ready\":False,\"no_partial_score_read\":True}));raise SystemExit(0)\nrecord=read(answer);input_path=answer.with_name(answer.name.replace(\".answer.json\",\".input.json\"));inp=read(input_path)\nparent_path=run/\"publications/b7.json\";old_path=run/\"publications/b6.json\";parent=read(parent_path);old=read(old_path)\nassert parent[\"playbook_sha256\"]==csha(parent[\"playbook\"])==\"f609fbcc16f9d9015f98adf46d39af863ef784328fc44d21d9639562e5ea8f94\"\nassert parent[\"parent_playbook_sha256\"]==csha(old[\"playbook\"])==\"e47bf20877cb3e548248253875a8b9266f6b27200d05f3efe2289ffa6f8b1116\"\ncfg_path=root/\"configs/openexempt_ace_public_assets128_20261022_run03.json\";cfg=read(cfg_path)\nrow=next(x for x in read(root/cfg[\"input_packet\"])[\"rows\"] if (x[\"case_id\"],x[\"family\"])==(293,\"EC\"))\nmessages,schema=generator_payload(row,parent[\"playbook\"],direct_numeric=True,asset_references=True)\nold_messages,_=generator_payload(row,old[\"playbook\"],direct_numeric=True,asset_references=True)\nraw=read(root/record[\"raw_call_path\"]);actual=raw[\"calls\"][0][\"request\"]\nassert len(raw[\"calls\"])==1 and inp[\"messages\"]==actual[\"messages\"]==messages\nassert inp[\"schema\"]==actual[\"response_format\"][\"json_schema\"][\"schema\"]==schema\nassert len(bullets(parent[\"playbook\"]))==20 and inp[\"delivered_bullet_ids\"]==list(bullets(parent[\"playbook\"]))\nassert record[\"playbook_sha256\"]==parent[\"playbook_sha256\"] and record[\"TRAIN_only\"] is False\nassert inp[\"TRAIN_only\"] is False and inp[\"current_TRAIN_reflection_available\"] is False and inp[\"future_or_TEST_feedback_available\"] is False\nfor k in (\"model\",\"seed\",\"temperature\",\"top_p\",\"top_k\",\"max_tokens\"):assert actual[k]==cfg[\"generation\"][k]\nnew={k:v[\"content\"] for k,v in bullets(parent[\"playbook\"]).items() if k not in bullets(old[\"playbook\"])}\nassert set(new)=={\"err-00020\"}\nmembers={str(x.relative_to(root)):sha(x) for x in [answer,input_path,parent_path,old_path,cfg_path,root/record[\"raw_call_path\"]]}\nout={\"at\":now(),\"classification\":\"First B8 293EC actual full HTTP delivered unique actual B7 twenty-bullet bank; no partial score or TRAIN target read\",\n \"ready\":True,\"parent_playbook_sha256\":parent[\"playbook_sha256\"],\"all20_full_contents_and_counters_delivered\":True,\n \"new_actual_B7_full_contents\":new,\"native_reported_bullet_ids_not_causal_tool_calls\":record.get(\"used_bullet_ids\"),\n \"generator_messages_change_from_actual_B6\":messages!=old_messages,\n \"raw_path\":record[\"raw_call_path\"],\"no_partial_score_or_gold_read\":True,\"no_actor_teacher_tokenizer_TEST_calls\":True,\n \"evidence_sha256\":members,\"recomputation_program\":PROGRAM}\ndest=root/\"artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run03_firstB8_293EC_actual_B7_all20_full_payload_not_scores_20261023.json\"\nRunStore.immutable_json(dest,out)\nprint(json.dumps({\"ready\":True,\"report\":str(dest.relative_to(root)),\"actual_B7_SHA\":parent[\"playbook_sha256\"],\"bullets\":20,\"new_ids\":list(new),\"reported_ids\":record.get(\"used_bullet_ids\"),\"no_partial_score_read\":True},ensure_ascii=False))\n"
+}

@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-23T00:03:40.214790+00:00",
+  "classification": "Three exact existing read-only observers and current continuation checkpoint, source/Git provenance and launch receipt on two independent disks; original learners/model/queue unchanged",
+  "members": {
+    "artifacts/launches/openexempt_ace_run03_readonly_20261023/README.md": "9a75a627e1d4c05e47423df8792cc5f9e083450a1d7d3bf357881794e55e382e",
+    "artifacts/launches/openexempt_ace_run03_readonly_20261023/b6_publication32_observer.py": "59a310e037f398fd5ee0888bee108c47c6999c82cc3ffb1a0617f575303f37fb",
+    "artifacts/launches/openexempt_ace_run03_readonly_20261023/complete128_summary_observer.py": "e0b2cd6c40e1f7d0c7146d0a60324281d1bef8ecd12847e24e71a0d4e63e9294",
+    "artifacts/launches/openexempt_ace_run03_readonly_20261023/hourly0830_observer.py": "c92d9a73f36c9c3392da49e3375b94118e42ff5936982d42108ed98938de6ba3",
+    "artifacts/launches/openexempt_ace_run03_readonly_20261023/migration_plan.json": "86b6aa4513ec4bd277fd777bc79e3fe622298fc25127d6deed1c03f197292a39",
+    "artifacts/launches/openexempt_ace_run03_readonly_20261023/queued.json": "9f0f1ee9088fea777e73b8bae33604ae44f6625704bfe9d818b8921acfdca87c",
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_readonly_observer_services_complete_git_dual_20261023.json": "8c06182b0cebca86257bbd5135b6381ee9ab87258a572f1e87653116a5247359",
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_run03_readonly_services_actual_0754_transport_migration_no_learner_change_20261023.json": "523a806e911da673fae59bf715387aac4ef917c4d71711ee9b4b2b03d4ab4b9e",
+    "artifacts/research/openexempt_legal_scope_20261020/continuation_checkpoint_20261023_readonly_user_services_1607b3a.json": "28e3cb1b267cdd0351a33abb7b7f5c777959ff3ea19b5f296a67d2ccd26028ae",
+    "artifacts/research/openexempt_legal_scope_20261020/continuation_programs_20261023_readonly_user_services_1607b3a.json": "8dfd8e97a2e9349eb6e364e43708b39e521560e020cec2a9eea9ed825c1b4e0e",
+    "docs/CURRENT_GOAL.md": "bad4f6f92581e800f460405b41a981deacc342806f30d342617ba3b31730fc29",
+    "paper/README.md": "b64fc0519031103fad5e2762934b9a5f061d6eebd098515b599dc1b1b2e58104",
+    "paper/evidence_and_completion_20261020.md": "f40b1e70dd2432690a2d10ee1f2dee815571debc7fc4e21f652cc51a7148c1da"
+  },
+  "both_disks_all_members_verified": true,
+  "preservation": {
+    "at": "2026-10-23T00:03:40.187188+00:00",
+    "stage": "checkpoint",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_readonly_user_services_1607b3a_20261023-checkpoint.tar.gz",
+        "sha256": "f3c9e8bd16b93eed79e3b168703cf1aac846866756df1217844a70c3240b77e1"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_readonly_user_services_1607b3a_20261023-checkpoint.tar.gz",
+        "sha256": "f3c9e8bd16b93eed79e3b168703cf1aac846866756df1217844a70c3240b77e1"
+      }
+    ],
+    "files": 13
+  },
+  "HEADs": {
+    "root": "1607b3a5229b8d1a1bff2fdba6cd9dfbf00716bd",
+    "isolated": "81333d91b206232c8303440d9b6ddc53dd2550f2"
+  },
+  "actual_queued_receipt": "artifacts/launches/openexempt_ace_run03_readonly_20261023/queued.json",
+  "checkpoint": "artifacts/research/openexempt_legal_scope_20261020/continuation_checkpoint_20261023_readonly_user_services_1607b3a.json",
+  "program_catalog": "artifacts/research/openexempt_legal_scope_20261020/continuation_programs_20261023_readonly_user_services_1607b3a.json",
+  "mutable_observer_logs_not_presented_as_completed_archived_evidence": true,
+  "not_completed_B6publication_or_full8_or_TEST": true,
+  "no_actor_teacher_tokenizer_TEST_calls": true,
+  "original_failed143_signal_cause_unknown": true,
+  "old_backups_retained": true,
+  "recomputation_program": "import json\nfrom pathlib import Path\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import read,sha,now\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nlaunch=\"artifacts/launches/openexempt_ace_run03_readonly_20261023\"\ncheckpoint=\"artifacts/research/openexempt_legal_scope_20261020/continuation_checkpoint_20261023_readonly_user_services_1607b3a.json\"\ncatalog=\"artifacts/research/openexempt_legal_scope_20261020/continuation_programs_20261023_readonly_user_services_1607b3a.json\"\ncp=read(root/checkpoint);cat=read(root/catalog);queued=read(root/launch/\"queued.json\")\nassert cp[\"aliases\"][\"root_HEAD\"]==\"1607b3a5229b8d1a1bff2fdba6cd9dfbf00716bd\"\nfor v in cat[\"programs\"]:\n assert sha(root/v[\"path\"])==v[\"sha256\"]\n assert any(x[\"pid\"]==v[\"pid\"] and x[\"script_sha256\"]==v[\"sha256\"] for x in queued[\"live_user_services\"])\ngitpath=\"artifacts/research/openexempt_legal_scope_20261020/ACEv4_readonly_observer_services_complete_git_dual_20261023.json\"\ngit=read(root/gitpath);assert git[\"HEADs\"][\"root\"]==cp[\"aliases\"][\"root_HEAD\"]\nfor b in git[\"bundles\"]:assert sha(Path(b[\"path\"]))==b[\"sha256\"]\nnames={checkpoint,catalog,gitpath,\"docs/CURRENT_GOAL.md\",\"paper/evidence_and_completion_20261020.md\",\"paper/README.md\",\n \"artifacts/research/openexempt_legal_scope_20261020/ACEv4_run03_readonly_services_actual_0754_transport_migration_no_learner_change_20261023.json\"}\nnames.update(launch+\"/\"+n for n in [\"b6_publication32_observer.py\",\"complete128_summary_observer.py\",\"hourly0830_observer.py\",\"README.md\",\"migration_plan.json\",\"queued.json\"])\nmembers={n:sha(root/n) for n in sorted(names)}\nreceipt=preserve(\"legal_openexempt_readonly_user_services_1607b3a_20261023\",\"checkpoint\",names)\nassert len({Path(p[\"path\"]).stat().st_dev for p in receipt[\"paths\"]})==2\nout={\"at\":now(),\"classification\":\"Three exact existing read-only observers and current continuation checkpoint, source/Git provenance and launch receipt on two independent disks; original learners/model/queue unchanged\",\n \"members\":members,\"both_disks_all_members_verified\":True,\"preservation\":receipt,\n \"HEADs\":git[\"HEADs\"],\"actual_queued_receipt\":launch+\"/queued.json\",\n \"checkpoint\":checkpoint,\"program_catalog\":catalog,\n \"mutable_observer_logs_not_presented_as_completed_archived_evidence\":True,\n \"not_completed_B6publication_or_full8_or_TEST\":True,\"no_actor_teacher_tokenizer_TEST_calls\":True,\n \"original_failed143_signal_cause_unknown\":True,\"old_backups_retained\":True,\n \"recomputation_program\":PROGRAM}\ndest=base/\"ACEv4_readonly_user_services_1607b3a_checkpoint_dual_preservation_20261023.json\"\nRunStore.immutable_json(dest,out)\nfor b in [Path(p[\"path\"]).parent for p in receipt[\"paths\"]]:\n RunStore.immutable_json(b/\"legal_skill_readonly_user_services_1607b3a_checkpoint_20261023.json\",out)\nprint(json.dumps({\"receipt\":str(dest.relative_to(root)),\"members\":len(names),\"both_disks_verified\":True,\"archives\":receipt[\"paths\"],\"all_three_programs_match_actual_queued_SHA\":True}))\n"
+}

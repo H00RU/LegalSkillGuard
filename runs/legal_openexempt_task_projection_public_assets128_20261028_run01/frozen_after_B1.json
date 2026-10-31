@@ -1,0 +1,320 @@
+{
+  "at": "2026-10-28T12:45:00.152519+00:00",
+  "bank": [
+    {
+      "id": "ec-capped-category-candidates",
+      "hypothesis_ids": [
+        "EC"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "An asset factually matches an exemption category, but the statute states a dollar ceiling or limits the exemption to one item.",
+            "procedure": "For EC, treat the ceiling as limiting protected value rather than citation eligibility. Evaluate every matching asset independently and include the category citation for each candidate; do not make a final portfolio choice among multiple matching assets. Retain any independently applicable general-property citation as well.",
+            "avoid_when": "Do not cite the category when its factual type, use, ownership, or other nonmonetary condition is absent. This instruction does not determine the protected amount for EV."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ALL"
+      }
+    },
+    {
+      "id": "ec-federal-wildcard",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "The public solved steps authorize federal § 522(d) exemptions and the asset is property of the debtor's estate.",
+            "procedure": "Independently include 11 U.S.C. § 522(d)(5) for the asset. It applies to any property and has a base amount in addition to any unused homestead amount, so do not require the asset to lack a specific exemption or require proof of unused homestead value. Keep every applicable specific § 522(d) citation too.",
+            "avoid_when": "Do not include § 522(d)(5) when federal § 522(d) exemptions are unavailable under the supplied solved steps or the asset is not debtor property."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "The solved steps authorize federal § 522(d) exemptions and the asset is property of one or more debtors.",
+            "procedure": "Include § 522(d)(5) independently of every specific federal exemption. For each debtor, the ceiling is $1,475 plus up to $13,950 of unused § 522(d)(1) value; when no homestead value is used, that is $15,425 per debtor. Apply each ceiling to that debtor's interest, sum the protected interests, and report no more than the whole asset value.",
+            "avoid_when": "Do not require the asset to lack a specific exemption. Do not use federal § 522(d)(5) when federal exemptions are unavailable or the asset is not debtor property."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "ec-federal-household-category-boundary",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Considering 11 U.S.C. § 522(d)(3) for personal-use property.",
+            "procedure": "Include § 522(d)(3) only when the asset is one of its listed categories: household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments. Personal use alone does not place an unlisted item in this paragraph.",
+            "avoid_when": "Do not classify a firearm as § 522(d)(3) property merely because it is personally or household used; another independently applicable exemption, including § 522(d)(5), is unaffected."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Federal § 522(d) exemptions are authorized and an asset may be household furnishings or goods, apparel, an appliance, a book, an animal, a crop, or a musical instrument.",
+            "procedure": "Include § 522(d)(3) only for a listed category and report the lesser of the whole item's value and the $700 per-item ceiling. Assess § 522(d)(5) separately.",
+            "avoid_when": "Personal or household use alone is insufficient. In particular, do not treat a firearm as § 522(d)(3) property."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "ec-pennsylvania-general-property",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Pennsylvania exemptions are authorized and the asset is property of the judgment debtor.",
+            "procedure": "Include 42 Pa. Cons. Stat. § 8123 as an independent general monetary exemption for the asset, alongside every applicable particular-property exemption.",
+            "avoid_when": "Do not apply § 8123 to property that is not the debtor's or when Pennsylvania law is not an allowable namespace."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Pennsylvania exemptions are authorized and the asset is property of one or more judgment debtors.",
+            "procedure": "Include § 8123 independently alongside every applicable particular-property exemption. Protect up to $300 of each spouse's interest and report the sum for the whole asset without exceeding its value; thus one debtor has a $300 ceiling and two debtor-spouses can have a $600 whole-asset ceiling.",
+            "avoid_when": "Do not apply § 8123 to nondebtor property or when Pennsylvania law is unavailable."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    },
+    {
+      "id": "ec-oregon-any-personal-property",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Oregon exemptions are authorized and the asset is personal property in which the debtor has an interest.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent alternative, even when the asset also fits a named Oregon category or exceeds the paragraph's protected-value ceiling. Retain all applicable named-category citations.",
+            "avoid_when": "Do not apply paragraph (p) to real property, property lacking a debtor interest, or a context where Oregon law is unavailable."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Oregon exemptions are authorized and the asset is personal property in which a debtor has an interest.",
+            "procedure": "Include § 18.345(1)(p) independently even when a named Oregon exemption also applies. For this asset-exemption pair, report the lesser of the whole asset value and $400, while retaining every applicable named-category alternative.",
+            "avoid_when": "Do not apply paragraph (p) to real property, property lacking a debtor interest, or when Oregon law is unavailable."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "ec-illinois-other-personal-property",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Illinois exemptions are authorized and the debtor owns personal property used for personal rather than business purposes.",
+            "procedure": "Include 735 Ill. Comp. Stat. 5/12-1001(b) as an independent other-property alternative, including when the same asset also qualifies as apparel, a motor vehicle, or a prescribed health aid. Retain each applicable specific citation.",
+            "avoid_when": "Do not apply § 12-1001(b) to real property, nondebtor property, or property used for business rather than personal purposes."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Illinois exemptions are authorized and one or more debtors own personal property used for personal rather than business purposes.",
+            "procedure": "Include § 12-1001(b) independently, including for apparel, motor vehicles, and prescribed health aids. Apply the $4,000 ceiling to each debtor's equity interest, sum the protected interests, and cap the result at the whole asset value; retain every applicable specific citation.",
+            "avoid_when": "Do not apply paragraph (b) to real property, nondebtor property, or business-use property."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "ec-illinois-apparel-boundary",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Considering 735 Ill. Comp. Stat. 5/12-1001(a) for an Illinois personal asset.",
+            "procedure": "Use paragraph (a) for necessary wearing apparel, Bibles, school books, or family pictures. Determine whether the asset is actually within one of those listed classes; being worn or used as adornment is not enough.",
+            "avoid_when": "Do not treat ordinary jewelry as necessary wearing apparel. Its possible § 12-1001(b) alternative must be assessed independently."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Illinois exemptions are authorized and the asset may be necessary wearing apparel, a Bible, a school book, or a family picture.",
+            "procedure": "Include § 12-1001(a) only for a listed class and report the whole asset value because this paragraph states no dollar ceiling. Assess § 12-1001(b) independently.",
+            "avoid_when": "Do not treat ordinary jewelry or personal adornment as necessary wearing apparel."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "ev-illinois-motor-vehicle-value",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Illinois exemptions are authorized and the debtor owns a motor vehicle used for personal rather than business purposes.",
+            "procedure": "Include § 12-1001(c) with the lesser of the whole vehicle value and $2,400. Calculate the independent § 12-1001(b) alternative under its own equity ceiling.",
+            "avoid_when": "Do not substitute paragraph (b)'s $4,000 ceiling for paragraph (c), and do not double paragraph (c)'s ceiling merely because two debtors jointly own the vehicle."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "ev-wisconsin-consumer-goods-value",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Wisconsin exemptions are authorized and tangible personal property is held primarily for personal, family, or household use under § 815.18(3)(d).",
+            "procedure": "Include § 815.18(3)(d) and report the lesser of the whole asset value and the applicable $12,000 ceiling. The ceiling limits protection; it is not automatically the claim_value.",
+            "avoid_when": "Do not use paragraph (d) for property lacking the required personal, family, or household use, and do not report $12,000 for an asset worth less."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "WISCONSIN"
+      }
+    },
+    {
+      "id": "ev-arizona-wearing-apparel-boundary",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Arizona exemptions are authorized and § 33-1125(1) is being considered for a personal asset.",
+            "procedure": "Include § 33-1125(1) only for actual wearing apparel, with the lesser of its value and $500. Test any separately listed ring or watch provision on its own terms.",
+            "avoid_when": "Do not classify an ordinary pendant, bracelet, or other jewelry as wearing apparel merely because it is worn."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "ev-pennsylvania-apparel-boundary",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Pennsylvania exemptions are authorized and § 8124(a)(1) is being considered for personal property.",
+            "procedure": "Include § 8124(a)(1) only for wearing apparel and report the whole apparel value because the paragraph states no dollar ceiling. Assess § 8123 independently.",
+            "avoid_when": "Do not apply the wearing-apparel paragraph to firearms, jewelry, or other property merely because no more specific Pennsylvania paragraph is available."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    }
+  ],
+  "bank_sha256": "a0c958a3fa34a078f60749948721e9d5a161a439476e1da55cf7541114775cc4",
+  "publication_bank_sha256": "a0c958a3fa34a078f60749948721e9d5a161a439476e1da55cf7541114775cc4",
+  "source_case_ids_seen": [
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191,
+    192,
+    193,
+    194,
+    195,
+    196
+  ],
+  "source_keys_seen": [
+    "040f803b427653fa7172612cbf99e3222d2481cd6d59b3c496c78e2aa2699ca1",
+    "123847bd8d83236999813b018c75cb8665ca6d64c411f05da3ba8a6deb7d166e",
+    "19d7f576372c0a39f616bd6fe1609e2147b88790d4a2935389366aa64cffae6a",
+    "2c92eb3d00217c6ccf13db87c144fcc8dc0383b6cb7e92205cab5d29facc8664",
+    "2e3d1eb553a193043b9272298d3f58f5cffe6983c733808f591fbee0daacc1db",
+    "4db1c37536c2bf6cd89e8bbf7cb3211d51f033411e43df7e876540d20e58d8b6",
+    "5d7017468335a54a7d9981377e6d49ac2a9413851215a26ac5cf940d0c78519b",
+    "627d6101ee176526730eb3a40f2b847fba3368c74a17d8a5ff1d996745a6a305",
+    "69d39fa8827334b82aa2f3b803012bb9d69609af416422e2fde044dca70bb809",
+    "97709497a6a56e6fc6102c89928043e2472147bf1e5b69b70329acee068d4d49",
+    "9ea86bbfe2aba19c7849e3ee04a39380203bcaa0c5ef05a511ea3c5fa10a54fd",
+    "afb027708b41c3edd04dda5003d8731a7ffb1e77b40f2d3008600d349d60306a",
+    "be132b2389ea9eff1aced44b6958b67b7ab23083364d5a7713186b8e0b8b8a3e",
+    "dcbbb0b662ff2c673a0363757723daa9870b800c24946df136e2b5fa96c4344c",
+    "dd651e16bdf626870eb9f2c310ed0498d47668759b1609ef475dee1f780aea9d",
+    "ef3904bbfed00899c0560b94dd285d2a0078e1fb643327f616837d0422185ffa"
+  ],
+  "freeze_after_exactly_batch": 1,
+  "not_selected_by_later_performance_or_nonempty_success": true,
+  "evaluation_only_never_teacher_or_admission_feedback": true
+}

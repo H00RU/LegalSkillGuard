@@ -1,0 +1,70 @@
+{
+  "at": "2026-10-30T00:47:49.415162+00:00",
+  "classification": "Mechanism and necessary-control scope clarified from frozen code and actual complete B1 outputs; no new training or TEST experiment",
+  "run_id": "legal_openexempt_complete_output_utility_public_assets128_20261030_run01",
+  "source": {
+    "path": "experiments/openexempt_online.py",
+    "sha256": "75c60a39c26b299dd590ad10eaccbeb546bc5a15c3fa33b37a7725a5b034e0a7"
+  },
+  "config": {
+    "path": "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json",
+    "sha256": "5e0486a5352d2e534b50265e3b902ac3aaa0c7d2c5107dd2b904f20a3191e894"
+  },
+  "steps": [
+    {
+      "candidate": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/candidates/b1_candidate1.json",
+        "sha256": "b1765eae749553fe3ffe3c6f798e9a8b536b675bd9b5b6378418b0685d0e1dcd"
+      },
+      "teaching_task": "EC",
+      "protected_task": "EV",
+      "all_seen_full_gain_B1_current_is_all_seen": {
+        "EC": 0.3011960765269588,
+        "EV": 0.0
+      },
+      "actual_min_mean_rank": [
+        0.0,
+        0.1505980382634794
+      ],
+      "equivalent_changed_task_gain_half": 0.1505980382634794
+    },
+    {
+      "candidate": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/candidates/b1_candidate2.json",
+        "sha256": "d17c469ec17a9d6057a4af55f00a12260583c74cb9363b867874b057113f5923"
+      },
+      "teaching_task": "EV",
+      "protected_task": "EC",
+      "all_seen_full_gain_B1_current_is_all_seen": {
+        "EC": 0.0,
+        "EV": 0.22351576249995864
+      },
+      "actual_min_mean_rank": [
+        0.0,
+        0.11175788124997932
+      ],
+      "equivalent_changed_task_gain_half": 0.11175788124997932
+    }
+  ],
+  "general_statement_with_conditions": "For an admissible single-task projection edit with byte-identical other task wire/answer and nonnegative all-seen complete-output gains, the unchanged task has exactly zero gain; min is zero and mean orders by changed-task complete-output gain. This is not a joint-EC/EV tradeoff optimizer in the current coordinate stream.",
+  "policy_control_scope": [
+    "v6 bounded history and anchor semantics held fixed",
+    "explicit strict_native_full_counts_v1 versus complete_output_utility_prior1pp_v1",
+    "matching teacher gate/rank wording must change coherently with the declared policy",
+    "strict uses seen_source_min_family_gain_then_mean_v1; main uses seen_source_min_full_output_gain_then_mean_v2",
+    "therefore contrast is admission/selection policy bundle, not only1pp risk tolerance"
+  ],
+  "teacher_evidence_control_scope": [
+    "same v6 utility policy and actual controller, original labels and interface material",
+    "remove all explicit actor predictions, scores, native excerpts, per-claim errors, rejected-proposal outcome feedback and aliases from teacher body and reading directives",
+    "neutralize outcome-labelled witness summaries, keep actual selected IDs and label/fact coverage",
+    "controller-dependent selection and actual evolving parent retained as indirect feedback, not completely feedback-free or label-free",
+    "no source edit or control launch during live379 freeze"
+  ],
+  "old_joint_control_scope": "Old v5 joint-cold-start plan remains historical/unimplemented; task projection is a controlled representation boundary, not an independently demonstrated superiority claim. Do not force a new long joint control solely to claim more contributions. If final paper claims this advantage it still requires its genuine control.",
+  "existing_v023_and_old_granularity_results_not_relabelled": true,
+  "extra_main_ACE_Text_independent_builds_still_user_deferred": true,
+  "new_ff29_TEST_not_opened": true,
+  "no_new_model_teacher_tokenizer_or_scoring_calls": true,
+  "all379_current_frozen_files_unchanged": true
+}

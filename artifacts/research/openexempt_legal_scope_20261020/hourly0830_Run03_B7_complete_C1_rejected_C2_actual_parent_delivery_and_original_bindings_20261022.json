@@ -1,0 +1,519 @@
+{
+  "at": "2026-10-22T00:32:51.618918+00:00",
+  "scheduled_CST": "2026-10-22T08:30:00+08:00",
+  "classification": "Original Run03 B7 completed C1 effect and unchanged actual parent; current C2 planned delivery/health only, no partial C2 scores or targets and no new qualification.",
+  "processes": [
+    {
+      "role": "main",
+      "PID": 1721740,
+      "start_ticks": 455413980,
+      "alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python -m experiments.openexempt_online run /media/sangfor/vdb/legal-skill-evolve/configs/openexempt_closed_feedback_public_assets128_20261021_run03.json "
+    },
+    {
+      "role": "model",
+      "PID": 3613253,
+      "start_ticks": 446037091,
+      "alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python /media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm serve /media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218 --served-model-name Qwen/Qwen3-8B --host 127.0.0.1 --port 8000 --dtype bfloat16 --max-model-len 32768 --max-num-seqs 1 --seed 42 --generation-config vllm --reasoning-parser qwen3 --gpu-memory-utilization 0.48 --no-enable-prefix-caching --disable-uvicorn-access-log --guided-decoding-backend xgrammar --guided-decoding-disable-any-whitespace --kv-cache-memory-bytes 5368709120 --max-num-batched-tokens 16384 "
+    },
+    {
+      "role": "ACE_waiter",
+      "PID": 1738522,
+      "start_ticks": 455481667,
+      "alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python /media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_main128_run03_to_ACE128_20261021.py "
+    }
+  ],
+  "bindings": {
+    "main": {
+      "files": 371,
+      "unchanged": true
+    },
+    "static": {
+      "files": 117,
+      "unchanged": true
+    },
+    "ACE_waiter": {
+      "files": 381,
+      "unchanged": true
+    }
+  },
+  "packages_unchanged": 50,
+  "ledger": {
+    "reservations": 365,
+    "max_invocations": 1797,
+    "old350_unchanged_using_original_default_json_serializer": true
+  },
+  "actual_parent_bank_sha256": "8de3660c089acb139d048826658b74a698936683a3a37dc16a8f14679feca218",
+  "B7_complete_C1_not_published": {
+    "current16": {
+      "parent": {
+        "EC": {
+          "precision": 0.8984375,
+          "recall": 0.724392361111111,
+          "f1": 0.7854662698412699,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8079517704517706,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.84765625,
+          "recall": 0.7842881944444445,
+          "f1": 0.8075520833333334,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.7934388528138528,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.7965091765873016
+      },
+      "full_proposal": {
+        "EC": {
+          "precision": 0.84375,
+          "recall": 0.638454861111111,
+          "f1": 0.7125496031746031,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.7377136752136754,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.8059895833333334,
+          "recall": 0.7191840277777778,
+          "f1": 0.7502604166666668,
+          "exact_target": 0.1875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.7551452020202022,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.731405009920635
+      },
+      "accepted_composition": {
+        "EC": {
+          "precision": 0.8984375,
+          "recall": 0.724392361111111,
+          "f1": 0.7854662698412699,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8079517704517706,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.84765625,
+          "recall": 0.7842881944444445,
+          "f1": 0.8075520833333334,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.7934388528138528,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.7965091765873016
+      }
+    },
+    "prior96": {
+      "parent": {
+        "EC": {
+          "precision": 0.9230179398148146,
+          "recall": 0.8236400462962964,
+          "f1": 0.8595444775132273,
+          "exact_target": 0.46875,
+          "tasks": 96,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8957631094501649,
+          "negative_or_unscored_asset_claims": 3
+        },
+        "EV": {
+          "precision": 0.9369212962962966,
+          "recall": 0.8975694444444448,
+          "f1": 0.9102830136684306,
+          "exact_target": 0.40625,
+          "tasks": 96,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 4,
+          "full_output_f1": 0.9018015674873423,
+          "negative_or_unscored_asset_claims": 4
+        },
+        "mean_family_f1": 0.8849137455908289
+      },
+      "full_proposal": {
+        "EC": {
+          "precision": 0.8804832175925924,
+          "recall": 0.7594039351851855,
+          "f1": 0.8019634589947087,
+          "exact_target": 0.375,
+          "tasks": 96,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8468543792914344,
+          "negative_or_unscored_asset_claims": 3
+        },
+        "EV": {
+          "precision": 0.8969907407407409,
+          "recall": 0.8389756944444446,
+          "f1": 0.8579103284832454,
+          "exact_target": 0.3229166666666667,
+          "tasks": 96,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 4,
+          "full_output_f1": 0.8555218055825803,
+          "negative_or_unscored_asset_claims": 4
+        },
+        "mean_family_f1": 0.829936893738977
+      },
+      "accepted_composition": {
+        "EC": {
+          "precision": 0.9230179398148146,
+          "recall": 0.8236400462962964,
+          "f1": 0.8595444775132273,
+          "exact_target": 0.46875,
+          "tasks": 96,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8957631094501649,
+          "negative_or_unscored_asset_claims": 3
+        },
+        "EV": {
+          "precision": 0.9369212962962966,
+          "recall": 0.8975694444444448,
+          "f1": 0.9102830136684306,
+          "exact_target": 0.40625,
+          "tasks": 96,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 4,
+          "full_output_f1": 0.9018015674873423,
+          "negative_or_unscored_asset_claims": 4
+        },
+        "mean_family_f1": 0.8849137455908289
+      }
+    },
+    "full_proposal_gate": {
+      "accepted": false,
+      "current_family_nonregression": false,
+      "prior_family_nonregression": false,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": false,
+      "prior_full_output_nonregression": false,
+      "current_negative_asset_and_format_nonregression": true,
+      "prior_negative_asset_and_format_nonregression": true,
+      "parent_current": {
+        "EC": {
+          "precision": 0.8984375,
+          "recall": 0.724392361111111,
+          "f1": 0.7854662698412699,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8079517704517706,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.84765625,
+          "recall": 0.7842881944444445,
+          "f1": 0.8075520833333334,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.7934388528138528,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.7965091765873016
+      },
+      "candidate_current": {
+        "EC": {
+          "precision": 0.84375,
+          "recall": 0.638454861111111,
+          "f1": 0.7125496031746031,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.7377136752136754,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.8059895833333334,
+          "recall": 0.7191840277777778,
+          "f1": 0.7502604166666668,
+          "exact_target": 0.1875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.7551452020202022,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.731405009920635
+      },
+      "parent_prior": {
+        "EC": {
+          "precision": 0.9230179398148146,
+          "recall": 0.8236400462962964,
+          "f1": 0.8595444775132273,
+          "exact_target": 0.46875,
+          "tasks": 96,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8957631094501649,
+          "negative_or_unscored_asset_claims": 3
+        },
+        "EV": {
+          "precision": 0.9369212962962966,
+          "recall": 0.8975694444444448,
+          "f1": 0.9102830136684306,
+          "exact_target": 0.40625,
+          "tasks": 96,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 4,
+          "full_output_f1": 0.9018015674873423,
+          "negative_or_unscored_asset_claims": 4
+        },
+        "mean_family_f1": 0.8849137455908289
+      },
+      "candidate_prior": {
+        "EC": {
+          "precision": 0.8804832175925924,
+          "recall": 0.7594039351851855,
+          "f1": 0.8019634589947087,
+          "exact_target": 0.375,
+          "tasks": 96,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8468543792914344,
+          "negative_or_unscored_asset_claims": 3
+        },
+        "EV": {
+          "precision": 0.8969907407407409,
+          "recall": 0.8389756944444446,
+          "f1": 0.8579103284832454,
+          "exact_target": 0.3229166666666667,
+          "tasks": 96,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 4,
+          "full_output_f1": 0.8555218055825803,
+          "negative_or_unscored_asset_claims": 4
+        },
+        "mean_family_f1": 0.829936893738977
+      },
+      "TRAIN_optimization_not_independent_validation": true
+    },
+    "cost": {
+      "original_generations": 52,
+      "HTTP_requests": 52,
+      "input_tokens": 333460,
+      "output_tokens": 130342,
+      "finish_reasons": {
+        "stop": 52
+      }
+    },
+    "not_merely_current_strictness_rejection": true
+  },
+  "teacher2_completed_not_admitted": {
+    "model": "gpt-5.6-sol",
+    "parent_bank_sha256": "8de3660c089acb139d048826658b74a698936683a3a37dc16a8f14679feca218",
+    "candidate_bank_sha256": "685f0aa86cd3baf7d6b8b119db24607e8a091105137528a82e0dad3df75eff82",
+    "records": 6,
+    "actual_usage": {
+      "input_tokens": 225209,
+      "cached_input_tokens": 0,
+      "output_tokens": 1637,
+      "reasoning_output_tokens": 1034
+    },
+    "elapsed_seconds": 31.852,
+    "operations": {
+      "operations": [
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "illinois-overlapping-wildcard-and-stated-limits"
+          ],
+          "skill": {
+            "id": "illinois-overlapping-wildcard-and-stated-limits",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "ILLINOIS is allowable and the property is held for personal rather than business use.",
+                  "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently as the any-other-property alternative, including when apparel, a motor vehicle, or a prescribed health aid also has a specific exemption. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, and (e) covers professionally prescribed health aids. A value above a limit does not eliminate either applicable alternative.",
+                  "avoid_when": "Do not use § 12-1001(d) for ordinary household property; it requires implements, professional books, or tools of the debtor's trade. Do not classify jewelry or a watch as necessary wearing apparel under subsection (a), and do not omit subsection (b) merely because a specific subsection applies. Subsection (b) is a personal-property exemption; do not apply it to any real-property interest."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "ILLINOIS is allowable and the debtor owns personal-use property.",
+                  "procedure": "Determine eligibility before calculating amounts. Independently include § 12-1001(b) for any debtor-owned personal-use property, including property also covered by subsection (a), (c), or (e); a value above its ceiling does not defeat eligibility. Use the lesser of value and $4,000 for one debtor or $8,000 for jointly owned property of two debtors. For a motor vehicle, also report subsection (c) at the lesser of value and $2,400, without doubling that limit. Sections (a) and (e) use the asset value because the supplied text states no dollar ceiling.",
+                  "avoid_when": "Do not use subsection (d) merely because an item could be called a tool or implement; require facts showing use in the debtor's trade. Do not classify jewelry as necessary wearing apparel, omit subsection (b) because a specific subsection applies, treat either ceiling as an eligibility test, or apply these exemptions to business-use property. Subsection (b) applies only to personal property, not to any real-property interest."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "ILLINOIS"
+            }
+          },
+          "source_case_ids": [
+            281
+          ],
+          "rationale": "In source 281, the parent correctly used § 12-1001(b) for the debtor's personal property but also extended it to a real-property interest. The supplied statute confines § 12-1001 to personal property. This narrow boundary correction removes that false positive while preserving the existing overlap, category, cap, and trade-use instructions verbatim."
+        }
+      ],
+      "noop_reason": null
+    }
+  },
+  "C2_delivery_completed_prefix_health_only": {
+    "verified_planned_inputs": 29,
+    "completed_answers": 28,
+    "unique_raw_origins_including_exact_reuses": 28,
+    "finish_reasons": {
+      "stop": 28
+    },
+    "parse_errors": 0,
+    "partial_C2_scores_not_read": true
+  },
+  "GPU": {
+    "state": "NVIDIA A40, 25009 MiB, 49140 MiB, 97 %",
+    "compute_processes": "3613750, VLLM::EngineCore, 25000 MiB"
+  },
+  "progress_snapshot_not_terminal_proof": {
+    "at": "2026-10-22T00:32:03.036961+00:00",
+    "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "state": "running",
+    "stage": "b7_candidate2_replay",
+    "current_batch": 7,
+    "completed_native_calls": 997,
+    "completed_teacher_calls": 14,
+    "teacher_attempts": 14,
+    "cross_stage_identical_wire_reuses": 2295,
+    "library_records": 6,
+    "current_arm": "candidate",
+    "current_document_id": 195,
+    "current_call": "openexempt"
+  },
+  "B7_unique_publication_exists": false,
+  "ACE_started": false,
+  "observer": {
+    "completed93111_exit0_not_repolled": true,
+    "current19459": "C2 full decision OR unique B7 publication (coversNOOP)",
+    "deadline_not_main_terminal": "2026-10-22T11:31:10+08:00"
+  },
+  "direction": {
+    "previous_goal_turn": "Verified wait on original93111 after complete sevenbatch evidence, not a performance change",
+    "current_goal_turn": "Progress:943/13 completed-phase cost and1778-member two-volume B7 checkpoint, full672-slot C1 raw redecoding/score/gates, real degradation rejected and actual C2 parent8de kept; no new probe, hotpatch or partial-score conclusion",
+    "next": "Complete C1 failure/teacher2 actual64 labels+8feedback references and real two-sentence boundary change; await C2/final7, then originalB8 and ACE45. Fullgoal needs mature comparisons, independentlearning repeats, necessaryablations and isolatedTEST."
+  },
+  "next_hourly_CST": "2026-10-22T09:30:00+08:00",
+  "new_actor_teacher_TEST_calls_by_audit": 0,
+  "evidence_paths": [
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_B7_candidate1_complete224_all672_native_wire_gate_and_claim_failure_diagnostics_20261022.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b7_candidate1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/181_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/182_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/183_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/184_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/185_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/186_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/189_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/192_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/194_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/187_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/188_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/191_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/193_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/182_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/183_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b4_candidate1_replay/189_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/181_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/184_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/185_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/186_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/187_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/188_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/191_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/192_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/193_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_candidate1_replay/194_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/181_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/181_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/181_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/181_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/182_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/182_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/182_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/182_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/183_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/183_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/183_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/183_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/184_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/184_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/184_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/184_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/185_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/185_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/185_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/185_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/186_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/186_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/186_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/186_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/187_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/187_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/187_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/187_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/188_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/188_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/188_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/188_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/189_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/189_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/189_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/189_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/190_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/190_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/190_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/190_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/190_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/190_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/191_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/191_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/191_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/191_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/192_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/192_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/192_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/192_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/193_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/193_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/193_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/193_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/194_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/194_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/194_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/194_EV_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b7_candidate2_replay/195_EC_candidate.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b6.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b7_candidate2/response.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b7_candidate2/wire_request.json"
+  ],
+  "audit_recomputation_program": "import pathlib,json,hashlib,importlib.metadata,subprocess,datetime,collections\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nfrom legal_skill_guard.learning.experiment import now\nimport experiments.openexempt_online as e\nroot=pathlib.Path.cwd();run=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\";base=root/\"artifacts/research/openexempt_legal_scope_20261020\";read=lambda p:json.loads(p.read_text())\nout={\"at\":now(),\"scheduled_CST\":\"2026-10-22T08:30:00+08:00\",\"classification\":\"Original Run03 B7 completed C1 effect and unchanged actual parent; current C2 planned delivery/health only, no partial C2 scores or targets and no new qualification.\"}\nout[\"processes\"]=[]\nfor pid,ticks,role in ((1721740,455413980,\"main\"),(3613253,446037091,\"model\"),(1738522,455481667,\"ACE_waiter\")):\n q=pathlib.Path(f\"/proc/{pid}\");s=(q/\"stat\").read_text();a=s[s.rfind(\")\")+2:].split();assert a[0]!=\"Z\" and int(a[19])==ticks\n out[\"processes\"].append({\"role\":role,\"PID\":pid,\"start_ticks\":ticks,\"alive\":True,\"actual_argv\":(q/\"cmdline\").read_bytes().replace(b\"\\0\",b\" \").decode()})\nmf=read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\");sf=read(root/\"configs/openexempt_direct_law_only_static_20261021_run03.frozen.json\");q=read(root/\"artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/queued.json\")\nout[\"bindings\"]={}\nfor role,pins in ((\"main\",mf[\"files\"]),(\"static\",sf[\"files\"]),(\"ACE_waiter\",q[\"source_data_environment_pins\"])):\n assert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==h for n,h in pins.items());out[\"bindings\"][role]={\"files\":len(pins),\"unchanged\":True}\nassert mf[\"packages\"]=={d.metadata[\"Name\"]:d.version for d in importlib.metadata.distributions()};out[\"packages_unchanged\"]=len(mf[\"packages\"])\nledger=read(root/\"artifacts/teacher_invocation_budget_reconstruction_20261015.json\")\nassert hashlib.sha256(json.dumps(ledger[\"reservations\"][:350],sort_keys=True).encode()).hexdigest()==\"b41ad3cccd7cb0d6465d64963cfa4971528a819242b66b6a837c132aedc4ae6e\"\nout[\"ledger\"]={\"reservations\":len(ledger[\"reservations\"]),\"max_invocations\":ledger[\"max_invocations\"],\"old350_unchanged_using_original_default_json_serializer\":True}\nd=read(run/\"candidates/b7_candidate1.json\");assert not d[\"accepted\"] and not d[\"accepted_tasks\"]\npub=read(run/\"publications/b6.json\");out[\"actual_parent_bank_sha256\"]=pub[\"bank_sha256\"];assert d[\"attempt_parent_bank_sha256\"]==pub[\"bank_sha256\"]\nreport=read(base/\"Run03_B7_candidate1_complete224_all672_native_wire_gate_and_claim_failure_diagnostics_20261022.json\")\nout[\"B7_complete_C1_not_published\"]={\"current16\":report[\"current16_source_metrics\"],\"prior96\":report[\"historical96_source_metrics\"],\"full_proposal_gate\":report[\"full_proposal_gate\"],\"cost\":report[\"actual_new_C1_native_cost\"],\"not_merely_current_strictness_rejection\":True}\nt=run/\"teacher/b7_candidate2\";tw=read(t/\"wire_request.json\");tb=json.loads(tw[\"user_prompt\"]);tr=read(t/\"response.json\")\nassert csha(tb[\"current_parent_library\"])==pub[\"bank_sha256\"] and tr[\"cache_hit\"] is False\ncandidate=e.apply_differential_publication(pub[\"bank\"],tr[\"value\"],e.FAMILIES,tb[\"training_evidence_manifest\"][\"selected_source_ids\"],guidance_schema=e.DIRECT_GUIDANCE)\nout[\"teacher2_completed_not_admitted\"]={\"model\":tr[\"model\"],\"parent_bank_sha256\":pub[\"bank_sha256\"],\"candidate_bank_sha256\":csha(candidate),\"records\":len(candidate),\"actual_usage\":tr[\"invocation\"][\"usage\"],\"elapsed_seconds\":tr[\"invocation\"][\"elapsed_seconds\"],\"operations\":tr[\"value\"]}\ncfg=read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\");rows={(r[\"case_id\"],r[\"family\"]):r for r in read(root/cfg[\"input_packet\"])[\"rows\"]}\nmembers={str((run/\"publications/b6.json\").relative_to(root)),str((run/\"candidates/b7_candidate1.json\").relative_to(root)),str((t/\"wire_request.json\").relative_to(root)),str((t/\"response.json\").relative_to(root)),str((base/\"Run03_B7_candidate1_complete224_all672_native_wire_gate_and_claim_failure_diagnostics_20261022.json\").relative_to(root))}\ninputs=[];done=[];raws={}\nfor p in sorted((run/\"native/b7_candidate2_replay\").glob(\"*.input.json\")):\n x=read(p);i,f,arm=p.name.split(\".\")[0].split(\"_\",2);row=rows[int(i),f];m,s,ss=e.actor_payload(row,candidate,grounded=True,direct_numeric=True,asset_references=True)\n assert x[\"bank_sha256\"]==csha(candidate) and x[\"messages\"]==m and x[\"schema\"]==s and x[\"delivered_skill_ids\"]==[v[\"id\"] for v in ss]\n inputs.append((int(i),f));members.add(str(p.relative_to(root)))\n ap=p.with_name(p.name.replace(\".input.json\",\".answer.json\"))\n if ap.is_file():\n  a=read(ap);raw=read(root/a[\"raw_call_path\"]);req=raw[\"calls\"][0][\"request\"];assert req[\"messages\"]==m and req[\"response_format\"][\"json_schema\"][\"schema\"]==s\n  assert all(req[k]==cfg[\"generation\"][k] for k in (\"temperature\",\"top_p\",\"top_k\",\"max_tokens\",\"seed\"));done.append(a);raws[a[\"raw_call_path\"]]=raw;members.update((str(ap.relative_to(root)),a[\"raw_call_path\"]))\nout[\"C2_delivery_completed_prefix_health_only\"]={\"verified_planned_inputs\":len(inputs),\"completed_answers\":len(done),\"unique_raw_origins_including_exact_reuses\":len(raws),\"finish_reasons\":dict(collections.Counter(x[\"response\"][\"finish_reason\"] for x in raws.values())),\"parse_errors\":sum(x[\"parse_error\"] is not None for x in done),\"partial_C2_scores_not_read\":True}\nout[\"GPU\"]={\"state\":subprocess.check_output([\"nvidia-smi\",\"--query-gpu=name,memory.used,memory.total,utilization.gpu\",\"--format=csv,noheader\"],text=True).strip(),\"compute_processes\":subprocess.check_output([\"nvidia-smi\",\"--query-compute-apps=pid,process_name,used_memory\",\"--format=csv,noheader\"],text=True).strip()}\nout[\"progress_snapshot_not_terminal_proof\"]=read(run/\"progress.json\")\nout[\"B7_unique_publication_exists\"]=(run/\"publications/b7.json\").is_file();out[\"ACE_started\"]=(root/\"runs/legal_openexempt_ace_public_assets128_20261021_run01\").exists()\nout[\"observer\"]={\"completed93111_exit0_not_repolled\":True,\"current19459\":\"C2 full decision OR unique B7 publication (coversNOOP)\",\"deadline_not_main_terminal\":\"2026-10-22T11:31:10+08:00\"}\nout[\"direction\"]={\"previous_goal_turn\":\"Verified wait on original93111 after complete sevenbatch evidence, not a performance change\",\"current_goal_turn\":\"Progress:943/13 completed-phase cost and1778-member two-volume B7 checkpoint, full672-slot C1 raw redecoding/score/gates, real degradation rejected and actual C2 parent8de kept; no new probe, hotpatch or partial-score conclusion\",\"next\":\"Complete C1 failure/teacher2 actual64 labels+8feedback references and real two-sentence boundary change; await C2/final7, then originalB8 and ACE45. Fullgoal needs mature comparisons, independentlearning repeats, necessaryablations and isolatedTEST.\"}\nout[\"next_hourly_CST\"]=\"2026-10-22T09:30:00+08:00\";out[\"new_actor_teacher_TEST_calls_by_audit\"]=0;out[\"evidence_paths\"]=sorted(members);out[\"audit_recomputation_program\"]=PROGRAM\ndest=base/\"hourly0830_Run03_B7_complete_C1_rejected_C2_actual_parent_delivery_and_original_bindings_20261022.json\";RunStore.immutable_json(dest,out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"at\":out[\"at\"],\"bindings\":out[\"bindings\"],\"GPU\":out[\"GPU\"],\"packages\":out[\"packages_unchanged\"],\"ledger\":out[\"ledger\"],\"C2_delivery\":out[\"C2_delivery_completed_prefix_health_only\"],\"C2_parent\":out[\"actual_parent_bank_sha256\"],\"C2_proposed_sha\":csha(candidate),\"B7_final\":out[\"B7_unique_publication_exists\"],\"ACE_started\":out[\"ACE_started\"]},ensure_ascii=False))\n"
+}

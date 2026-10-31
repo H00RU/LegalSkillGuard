@@ -1,0 +1,2788 @@
+{
+  "at": "2026-10-19T13:47:28.498873+00:00",
+  "bank": [
+    {
+      "id": "scheme_selection_and_ev",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Always apply before classifying assets. Use only jurisdictions already declared allowable in the facts or public prior.",
+        "procedure": "Enumerate every eligible asset-citation alternative, not a final portfolio. Federal section 522(d) and applicable state/local exemptions are alternative schemes under 11 U.S.C. § 522(b); joint debtors cannot split schemes. Arizona and Illinois expressly prohibit section 522(d); do not infer another state's opt-out. For EV, assess each asset-citation pair independently, preserve the exact asset name/value and citation, and use null only when this bank publishes an operator for that citation. Aggregate caps remain legal constraints even though the task does not allocate them across assets. N is 1 or 2 debtors; spouse multiplication applies only where the supplied text supports separate exemptions.",
+        "avoid_when": "Do not recompute domicile or allowable jurisdictions, mix elected schemes into one portfolio, add claims together, infer eligibility from an operator, or treat an aggregate ceiling as a per-item entitlement.",
+        "operators": []
+      }
+    },
+    {
+      "id": "federal_522d",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use only when the federal section 522(d) scheme is allowable: residence or burial plot (d)(1); one motor vehicle (d)(2); enumerated personal or household items (d)(3); personal/family jewelry (d)(4); any property wildcard (d)(5); trade tools/books/implements (d)(6); professionally prescribed health aids (d)(9).",
+        "procedure": "Section 522(m) gives each joint debtor a separate exemption, subject to the common scheme election. The formulas combine equal jointly owned interests. For (d)(3), the routine is for one particular item; a qualifying collection instead requires inline min(V,14875*N), while no individual item may exceed 700 per debtor. The (d)(5) routine states the maximum independent alternative: 1475 plus 13950 of wholly unused (d)(1), per debtor. If less (d)(1) remains unused, calculate the supported numeric ceiling inline. Health aids have no dollar ceiling, so use inline unlimited.",
+        "avoid_when": "Do not use section 522(d) for Arizona or Illinois residents, use (d)(3) for unlisted property, multiply a single debtor's cap merely because property is jointly held, or call the (d)(5) routine when the full unused-homestead amount is unavailable under the intended alternative.",
+        "operators": [
+          {
+            "id": "fed_home",
+            "citation": "11 U.S.C. § 522(d)(1)",
+            "limit_expression": "min(V,27900*N)"
+          },
+          {
+            "id": "fed_vehicle",
+            "citation": "11 U.S.C. § 522(d)(2)",
+            "limit_expression": "min(V,4450*N)"
+          },
+          {
+            "id": "fed_household_item",
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "limit_expression": "min(V,700*N)"
+          },
+          {
+            "id": "fed_jewelry",
+            "citation": "11 U.S.C. § 522(d)(4)",
+            "limit_expression": "min(V,1875*N)"
+          },
+          {
+            "id": "fed_wildcard_max",
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "limit_expression": "min(V,15425*N)"
+          },
+          {
+            "id": "fed_tools",
+            "citation": "11 U.S.C. § 522(d)(6)",
+            "limit_expression": "min(V,2800*N)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "arizona_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use only for allowable Arizona law. Consider the occupied homestead or protected proceeds, residual household property, specifically enumerated personal items, every motor vehicle as an independent asset-law alternative, prescribed prostheses, a qualifying account, and qualifying business or farm property.",
+        "procedure": "Classify under Arizona law before applying a ceiling. Output Ariz. Rev. Stat. § 33-1125(8) for each qualifying motor vehicle even when the estate contains more than one, because this task reports alternatives rather than a simultaneous election. Ariz. Rev. Stat. § 33-1125(4) applies only when the facts identify an engagement ring or wedding ring; a ring or other jewelry without that character receives no claim under that citation. Ariz. Rev. Stat. § 33-1123 is limited to personally used household property not specifically prescribed elsewhere. Ariz. Rev. Stat. § 33-1121 permits spouses to combine article exemptions using N, but Ariz. Rev. Stat. § 33-1101(A) permits only one 400000 homestead for a married couple. Protected proceeds under Ariz. Rev. Stat. § 33-1101(C) remain subject to that ceiling and the stated time and replacement-homestead conditions. Use inline unlimited for eligible property under Ariz. Rev. Stat. § 33-1125(9) or Ariz. Rev. Stat. § 33-1125(11).",
+        "avoid_when": "Do not cite federal law or another state's law, suppress a qualifying vehicle because another vehicle is present, infer engagement or wedding status merely from the word ring, double the homestead, use Ariz. Rev. Stat. § 33-1123 for property specifically prescribed elsewhere, or treat a personal commuting vehicle as a trade tool.",
+        "operators": [
+          {
+            "id": "az_home",
+            "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+            "limit_expression": "min(V,400000)"
+          },
+          {
+            "id": "az_home_proceeds",
+            "citation": "Ariz. Rev. Stat. § 33-1101(C)",
+            "limit_expression": "min(V,400000)"
+          },
+          {
+            "id": "az_household",
+            "citation": "Ariz. Rev. Stat. § 33-1123",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "az_apparel",
+            "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+            "limit_expression": "min(V,500*N)"
+          },
+          {
+            "id": "az_instruments",
+            "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+            "limit_expression": "min(V,400*N)"
+          },
+          {
+            "id": "az_livestock",
+            "citation": "Ariz. Rev. Stat. § 33-1125(3)",
+            "limit_expression": "min(V,1000*N)"
+          },
+          {
+            "id": "az_engagement_wedding_rings",
+            "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+            "limit_expression": "min(V,2000*N)"
+          },
+          {
+            "id": "az_library",
+            "citation": "Ariz. Rev. Stat. § 33-1125(5)",
+            "limit_expression": "min(V,250*N)"
+          },
+          {
+            "id": "az_watch",
+            "citation": "Ariz. Rev. Stat. § 33-1125(6)",
+            "limit_expression": "min(V,250*N)"
+          },
+          {
+            "id": "az_vehicle",
+            "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "az_firearms",
+            "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+            "limit_expression": "min(V,2000*N)"
+          },
+          {
+            "id": "az_account",
+            "citation": "Ariz. Rev. Stat. § 33-1126(A)(9)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "az_trade_tools",
+            "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "az_farm_property",
+            "citation": "Ariz. Rev. Stat. § 33-1130(2)",
+            "limit_expression": "min(V,2500*N)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "illinois_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use only for allowable Illinois law. For personal, nonbusiness property, consider the residual exemption in 735 Ill. Comp. Stat. 5/12-1001(b). Also consider the specific provisions for an occupied residence or protected proceeds, necessary apparel and listed materials, a motor vehicle, trade implements or books, and prescribed health aids.",
+        "procedure": "Classify before valuing. For every personal-use item, test 735 Ill. Comp. Stat. 5/12-1001(b), including an ordinary household item, firearm, or motor vehicle. A qualifying motor vehicle has two independent alternatives: 735 Ill. Comp. Stat. 5/12-1001(b) and 735 Ill. Comp. Stat. 5/12-1001(c); output both full citations. Under the supplied benchmark treatment, the residual ceiling is 4000*N, while the vehicle ceiling is 2400 without multiplying by N. Section 735 Ill. Comp. Stat. 5/12-901 uses 15000*N for the stipulated equal interests, and qualifying proceeds under 735 Ill. Comp. Stat. 5/12-906 use 15000*N for one year. Eligible property under 735 Ill. Comp. Stat. 5/12-1001(a) or 735 Ill. Comp. Stat. 5/12-1001(e) has no dollar ceiling and requires inline unlimited.",
+        "avoid_when": "Do not abbreviate an Illinois citation, substitute the motor-vehicle provision for the residual alternative, classify an ordinary appliance as a trade tool without business facts, multiply the 2400 motor-vehicle ceiling by N, apply these personal-property provisions to business property, or combine independently reported alternatives into one recovery.",
+        "operators": [
+          {
+            "id": "il_home",
+            "citation": "735 Ill. Comp. Stat. 5/12-901",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "il_home_proceeds",
+            "citation": "735 Ill. Comp. Stat. 5/12-906",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "il_residual",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "limit_expression": "min(V,4000*N)"
+          },
+          {
+            "id": "il_vehicle",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+            "limit_expression": "min(V,2400)"
+          },
+          {
+            "id": "il_tools",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+            "limit_expression": "min(V,1500*N)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "oregon_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Oregon law. Classify under the exact categories in 18.345, the personal-property residual, one qualifying firearm per person, or the occupied homestead and qualifying proceeds.",
+        "procedure": "For joint household judgment debtors, only 18.345(1)(a),(b),(c),(d),(p) are separately claimable and combinable, hence their N formulas; (e),(f),(h) are not doubled by 18.345(3). For 18.345(1)(e), write inline min(V,1000) for animals/poultry but unlimited for eligible 60-day food. For (f), write min(V,3000) for household goods and unlimited for eligible 60-day provisions or fuel. Prescribed health aids use unlimited. The homestead routine uses the special combined 50000 ceiling for two household debtors; the same ceiling governs qualifying one-year proceeds intended for another homestead.",
+        "avoid_when": "Do not double categories omitted from 18.345(3), disregard necessity or habitual-earnings requirements for tools, claim more than one qualifying firearm per person, or use the two-debtor homestead ceiling unless both household members' interests are exposed.",
+        "operators": [
+          {
+            "id": "or_books_music",
+            "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+            "limit_expression": "min(V,600*N)"
+          },
+          {
+            "id": "or_apparel_jewelry",
+            "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+            "limit_expression": "min(V,1800*N)"
+          },
+          {
+            "id": "or_tools",
+            "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "or_vehicle",
+            "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+            "limit_expression": "min(V,3000*N)"
+          },
+          {
+            "id": "or_residual",
+            "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+            "limit_expression": "min(V,400*N)"
+          },
+          {
+            "id": "or_firearm",
+            "citation": "Or. Rev. Stat. § 18.362",
+            "limit_expression": "min(V,1000*N)"
+          },
+          {
+            "id": "or_home",
+            "citation": "Or. Rev. Stat. § 18.395(1)",
+            "limit_expression": "min(V,50000 if N==2 else 40000)"
+          },
+          {
+            "id": "or_home_proceeds",
+            "citation": "Or. Rev. Stat. § 18.395(2)",
+            "limit_expression": "min(V,50000 if N==2 else 40000)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pennsylvania_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Pennsylvania law. Section 8123 reaches property generally; section 8124 separately covers wearing apparel, Bibles and school books, qualifying family or seamstress sewing machines, and qualifying military uniforms and accoutrements.",
+        "procedure": "Enumerate section 8123 along with any applicable specific citation because it is expressly additional. Each spouse has a separate 300 exemption. Use inline unlimited for eligible 8124(a)(1)-(4), because those provisions state no dollar ceiling.",
+        "avoid_when": "Do not treat unlimited as eliminating the stated ownership, occupation, use, sale-or-hire, or military-status conditions; do not combine independent alternatives into a final portfolio.",
+        "operators": [
+          {
+            "id": "pa_general",
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "limit_expression": "min(V,300*N)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "wisconsin_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Wisconsin law: burial property; business/farm assets or the alternative closely held business interest; listed consumer goods; motor vehicles; personal nonbusiness depository accounts; and an occupied homestead or protected proceeds.",
+        "procedure": "Section 815.18(8) gives each spouse one capped exemption that may be combined, reflected by N. Business-interest paragraph (b)(2) is available only if (b)(1) is not claimed. Consumer goods have a 12000 aggregate cap per spouse. Motor vehicles have a 4000 base per spouse plus unused consumer-goods capacity; the routine gives the maximum independent ceiling of 16000 per spouse. If less consumer capacity remains, calculate a supported numeric expression inline. Burial property has no dollar ceiling and uses inline unlimited. Section 815.20 expressly allows each spouse 75000; protected sale proceeds keep that ceiling for two years while intended for another homestead.",
+        "avoid_when": "Do not claim both business alternatives, use a business account under (k), treat the transferred consumer-goods amount as available twice in a portfolio, classify a motor vehicle under the general consumer-goods residual instead of (g), or ignore occupancy, proceeds-intent, lien, tax, aggregate, or primary-use conditions.",
+        "operators": [
+          {
+            "id": "wi_business_assets",
+            "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "wi_business_interest",
+            "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "wi_consumer_goods",
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "limit_expression": "min(V,12000*N)"
+          },
+          {
+            "id": "wi_vehicle_max",
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "limit_expression": "min(V,16000*N)"
+          },
+          {
+            "id": "wi_accounts",
+            "citation": "Wis. Stat. § 815.18(3)(k)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "wi_home",
+            "citation": "Wis. Stat. § 815.20(1)",
+            "limit_expression": "min(V,75000*N)"
+          }
+        ]
+      }
+    }
+  ],
+  "parent_bank_sha256": "ecc5c7160e33a9cfe6b77c5fdce27bb2ff0d1dca3c67c74f911f5ff3136b576c",
+  "bank_sha256": "69b194ccaec0e94f58161cf5dd60e410255aa653305f153376c311923334d556",
+  "training_decisions": [
+    {
+      "accepted": false,
+      "current_family_nonregression": false,
+      "prior_family_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "parent_current": {
+        "EC": {
+          "precision": 0.71875,
+          "recall": 0.6875,
+          "f1": 0.6874999999999999,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0
+        },
+        "EV": {
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "f1": 0.6666666666666666,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.6833333333333332
+        },
+        "mean_family_f1": 0.6770833333333333
+      },
+      "candidate_current": {
+        "EC": {
+          "precision": 0.375,
+          "recall": 0.375,
+          "f1": 0.375,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0
+        },
+        "EV": {
+          "precision": 0.875,
+          "recall": 0.8125,
+          "f1": 0.8333333333333333,
+          "exact_target": 0.25,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.830952380952381
+        },
+        "mean_family_f1": 0.6041666666666666
+      },
+      "parent_prior": {
+        "mean_family_f1": 0
+      },
+      "candidate_prior": {
+        "mean_family_f1": 0
+      },
+      "TRAIN_optimization_not_independent_validation": true,
+      "candidate": [
+        {
+          "id": "scheme_selection_and_ev",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Apply before classifying any asset. Use only the jurisdiction or federal scheme expressly declared allowable in the supplied facts or solved steps.",
+            "procedure": "Work in this order: (1) write down the single allowable jurisdiction or scheme and exclude every citation from all others; (2) for each asset, decide every eligible citation independently of other assets and of dollar ceilings; (3) only after eligibility is fixed, value each EV pair with that citation's routine or an inline expression. A restriction such as one vehicle limits a final simultaneous election, but this task requests alternatives independently: do not suppress an otherwise qualifying asset merely because another asset could be selected instead. Copy each original asset name, value and full citation string exactly; never abbreviate a citation. Valuation cannot create or remove an exemption citation. Federal section 522(d) and state exemptions are alternative schemes under 11 U.S.C. § 522(b), and joint debtors cannot split schemes. Arizona and Illinois prohibit section 522(d); do not infer another state's opt-out.",
+            "avoid_when": "Do not recompute domicile, cite a law outside the expressly allowable scheme, mix schemes, turn alternatives into a final portfolio, infer eligibility from an operator, or apply a cap before completing asset-to-law classification.",
+            "operators": []
+          }
+        },
+        {
+          "id": "federal_522d",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use only when the federal section 522(d) scheme is allowable: residence or burial plot (d)(1); one motor vehicle (d)(2); enumerated personal or household items (d)(3); personal/family jewelry (d)(4); any property wildcard (d)(5); trade tools/books/implements (d)(6); professionally prescribed health aids (d)(9).",
+            "procedure": "Section 522(m) gives each joint debtor a separate exemption, subject to the common scheme election. The formulas combine equal jointly owned interests. For (d)(3), the routine is for one particular item; a qualifying collection instead requires inline min(V,14875*N), while no individual item may exceed 700 per debtor. The (d)(5) routine states the maximum independent alternative: 1475 plus 13950 of wholly unused (d)(1), per debtor. If less (d)(1) remains unused, calculate the supported numeric ceiling inline. Health aids have no dollar ceiling, so use inline unlimited.",
+            "avoid_when": "Do not use section 522(d) for Arizona or Illinois residents, use (d)(3) for unlisted property, multiply a single debtor's cap merely because property is jointly held, or call the (d)(5) routine when the full unused-homestead amount is unavailable under the intended alternative.",
+            "operators": [
+              {
+                "id": "fed_home",
+                "citation": "11 U.S.C. § 522(d)(1)",
+                "limit_expression": "min(V,27900*N)"
+              },
+              {
+                "id": "fed_vehicle",
+                "citation": "11 U.S.C. § 522(d)(2)",
+                "limit_expression": "min(V,4450*N)"
+              },
+              {
+                "id": "fed_household_item",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "limit_expression": "min(V,700*N)"
+              },
+              {
+                "id": "fed_jewelry",
+                "citation": "11 U.S.C. § 522(d)(4)",
+                "limit_expression": "min(V,1875*N)"
+              },
+              {
+                "id": "fed_wildcard_max",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "limit_expression": "min(V,15425*N)"
+              },
+              {
+                "id": "fed_tools",
+                "citation": "11 U.S.C. § 522(d)(6)",
+                "limit_expression": "min(V,2800*N)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "arizona_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use only for allowable Arizona law. Match the occupied homestead or qualifying proceeds; residual household property not specifically prescribed elsewhere; specifically enumerated personal items; each motor vehicle considered as an independent alternative; prescribed prostheses; one qualifying account; and qualifying business, trade, professional or farm property.",
+            "procedure": "Arizona opts out of section 522(d). First classify each asset under Arizona law only. For this task's independent alternatives, test every motor vehicle under 33-1125(8); the statutory word one does not justify omitting a vehicle because another vehicle could instead be selected. Section 33-1125(4) is limited to engagement and wedding rings: other jewelry or rings without that stated character do not qualify there. Under 33-1121 each spouse may claim and combine article exemptions, reflected by N, except 33-1101 permits only one 400000 homestead for a married couple. Homestead proceeds retain that ceiling only while identifiable and until the earlier of eighteen months or establishing a new homestead. Section 33-1123 applies only when the household item is not specifically prescribed elsewhere. Use inline unlimited for eligible prescribed prostheses under 33-1125(9) and domestic animals or household pets under 33-1125(11).",
+            "avoid_when": "Do not cite federal or another state's law, treat ordinary jewelry as an engagement or wedding ring, suppress one independently qualifying vehicle because another exists, double the homestead, use 33-1123 for specifically prescribed property, treat a personal commuting vehicle as a trade tool, or ignore single-account, necessity, primary-use, aggregate, proceeds or time conditions.",
+            "operators": [
+              {
+                "id": "az_home",
+                "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+                "limit_expression": "min(V,400000)"
+              },
+              {
+                "id": "az_home_proceeds",
+                "citation": "Ariz. Rev. Stat. § 33-1101(C)",
+                "limit_expression": "min(V,400000)"
+              },
+              {
+                "id": "az_household",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "az_apparel",
+                "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                "limit_expression": "min(V,500*N)"
+              },
+              {
+                "id": "az_instruments",
+                "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+                "limit_expression": "min(V,400*N)"
+              },
+              {
+                "id": "az_livestock",
+                "citation": "Ariz. Rev. Stat. § 33-1125(3)",
+                "limit_expression": "min(V,1000*N)"
+              },
+              {
+                "id": "az_rings",
+                "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                "limit_expression": "min(V,2000*N)"
+              },
+              {
+                "id": "az_library",
+                "citation": "Ariz. Rev. Stat. § 33-1125(5)",
+                "limit_expression": "min(V,250*N)"
+              },
+              {
+                "id": "az_watch",
+                "citation": "Ariz. Rev. Stat. § 33-1125(6)",
+                "limit_expression": "min(V,250*N)"
+              },
+              {
+                "id": "az_vehicle",
+                "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "az_firearms",
+                "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                "limit_expression": "min(V,2000*N)"
+              },
+              {
+                "id": "az_account",
+                "citation": "Ariz. Rev. Stat. § 33-1126(A)(9)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "az_trade_tools",
+                "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "az_farm_property",
+                "citation": "Ariz. Rev. Stat. § 33-1130(2)",
+                "limit_expression": "min(V,2500*N)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "illinois_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use only for allowable Illinois law and personal, nonbusiness property: an occupied residence or qualifying proceeds; necessary apparel, Bible, school books and family pictures; any other personal property under 12-1001(b); one motor vehicle under (c); trade implements, books or tools under (d); and prescribed health aids under (e).",
+            "procedure": "For each personal-use personal-property asset, test 12-1001(b) first. It covers ordinary household items and firearms and remains an independent alternative for a motor vehicle or other property that also has a specific citation. Then add every applicable specific citation; do not replace (b) with (c). Under the supplied benchmark treatment of joint debtors, combine the 4000 residual exemption using N, but the vehicle alternative has a 2400 ceiling for the asset-citation pair. Section 12-901 supplies 15000 for one debtor and a combined 30000 for two equal owners. Qualifying homestead proceeds retain 15000 per entitled person for one year. Use inline unlimited only for eligible 12-1001(a) and (e).",
+            "avoid_when": "Do not omit 12-1001(b) merely because an item is a household appliance, firearm or motor vehicle; do not multiply the 12-1001(c) vehicle ceiling by N; do not apply personal-property exemptions to business property; and do not combine independently reported alternatives into one recovery.",
+            "operators": [
+              {
+                "id": "il_home",
+                "citation": "735 Ill. Comp. Stat. 5/12-901",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "il_home_proceeds",
+                "citation": "735 Ill. Comp. Stat. 5/12-906",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "il_residual",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "limit_expression": "min(V,4000*N)"
+              },
+              {
+                "id": "il_vehicle",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                "limit_expression": "min(V,2400)"
+              },
+              {
+                "id": "il_tools",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                "limit_expression": "min(V,1500*N)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "oregon_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Oregon law. Classify under the exact categories in 18.345, the personal-property residual, one qualifying firearm per person, or the occupied homestead and qualifying proceeds.",
+            "procedure": "For joint household judgment debtors, only 18.345(1)(a),(b),(c),(d),(p) are separately claimable and combinable, hence their N formulas; (e),(f),(h) are not doubled by 18.345(3). For 18.345(1)(e), write inline min(V,1000) for animals/poultry but unlimited for eligible 60-day food. For (f), write min(V,3000) for household goods and unlimited for eligible 60-day provisions or fuel. Prescribed health aids use unlimited. The homestead routine uses the special combined 50000 ceiling for two household debtors; the same ceiling governs qualifying one-year proceeds intended for another homestead.",
+            "avoid_when": "Do not double categories omitted from 18.345(3), disregard necessity or habitual-earnings requirements for tools, claim more than one qualifying firearm per person, or use the two-debtor homestead ceiling unless both household members' interests are exposed.",
+            "operators": [
+              {
+                "id": "or_books_music",
+                "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+                "limit_expression": "min(V,600*N)"
+              },
+              {
+                "id": "or_apparel_jewelry",
+                "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                "limit_expression": "min(V,1800*N)"
+              },
+              {
+                "id": "or_tools",
+                "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "or_vehicle",
+                "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+                "limit_expression": "min(V,3000*N)"
+              },
+              {
+                "id": "or_residual",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "limit_expression": "min(V,400*N)"
+              },
+              {
+                "id": "or_firearm",
+                "citation": "Or. Rev. Stat. § 18.362",
+                "limit_expression": "min(V,1000*N)"
+              },
+              {
+                "id": "or_home",
+                "citation": "Or. Rev. Stat. § 18.395(1)",
+                "limit_expression": "min(V,50000 if N==2 else 40000)"
+              },
+              {
+                "id": "or_home_proceeds",
+                "citation": "Or. Rev. Stat. § 18.395(2)",
+                "limit_expression": "min(V,50000 if N==2 else 40000)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "pennsylvania_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Pennsylvania law. Section 8123 reaches property generally; section 8124 separately covers wearing apparel, Bibles and school books, qualifying family or seamstress sewing machines, and qualifying military uniforms and accoutrements.",
+            "procedure": "Enumerate section 8123 along with any applicable specific citation because it is expressly additional. Each spouse has a separate 300 exemption. Use inline unlimited for eligible 8124(a)(1)-(4), because those provisions state no dollar ceiling.",
+            "avoid_when": "Do not treat unlimited as eliminating the stated ownership, occupation, use, sale-or-hire, or military-status conditions; do not combine independent alternatives into a final portfolio.",
+            "operators": [
+              {
+                "id": "pa_general",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "limit_expression": "min(V,300*N)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "wisconsin_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Wisconsin law: burial property; business/farm assets or the alternative closely held business interest; listed consumer goods; motor vehicles; personal nonbusiness depository accounts; and an occupied homestead or protected proceeds.",
+            "procedure": "Section 815.18(8) gives each spouse one capped exemption that may be combined, reflected by N. Business-interest paragraph (b)(2) is available only if (b)(1) is not claimed. Consumer goods have a 12000 aggregate cap per spouse. Motor vehicles have a 4000 base per spouse plus unused consumer-goods capacity; the routine gives the maximum independent ceiling of 16000 per spouse. If less consumer capacity remains, calculate a supported numeric expression inline. Burial property has no dollar ceiling and uses inline unlimited. Section 815.20 expressly allows each spouse 75000; protected sale proceeds keep that ceiling for two years while intended for another homestead.",
+            "avoid_when": "Do not claim both business alternatives, use a business account under (k), treat the transferred consumer-goods amount as available twice in a portfolio, classify a motor vehicle under the general consumer-goods residual instead of (g), or ignore occupancy, proceeds-intent, lien, tax, aggregate, or primary-use conditions.",
+            "operators": [
+              {
+                "id": "wi_business_assets",
+                "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "wi_business_interest",
+                "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "wi_consumer_goods",
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "limit_expression": "min(V,12000*N)"
+              },
+              {
+                "id": "wi_vehicle_max",
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "limit_expression": "min(V,16000*N)"
+              },
+              {
+                "id": "wi_accounts",
+                "citation": "Wis. Stat. § 815.18(3)(k)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "wi_home",
+                "citation": "Wis. Stat. § 815.20(1)",
+                "limit_expression": "min(V,75000*N)"
+              }
+            ]
+          }
+        }
+      ],
+      "delta": {
+        "operations": [
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "scheme_selection_and_ev"
+            ],
+            "skill": {
+              "id": "scheme_selection_and_ev",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Apply before classifying any asset. Use only the jurisdiction or federal scheme expressly declared allowable in the supplied facts or solved steps.",
+                "procedure": "Work in this order: (1) write down the single allowable jurisdiction or scheme and exclude every citation from all others; (2) for each asset, decide every eligible citation independently of other assets and of dollar ceilings; (3) only after eligibility is fixed, value each EV pair with that citation's routine or an inline expression. A restriction such as one vehicle limits a final simultaneous election, but this task requests alternatives independently: do not suppress an otherwise qualifying asset merely because another asset could be selected instead. Copy each original asset name, value and full citation string exactly; never abbreviate a citation. Valuation cannot create or remove an exemption citation. Federal section 522(d) and state exemptions are alternative schemes under 11 U.S.C. § 522(b), and joint debtors cannot split schemes. Arizona and Illinois prohibit section 522(d); do not infer another state's opt-out.",
+                "avoid_when": "Do not recompute domicile, cite a law outside the expressly allowable scheme, mix schemes, turn alternatives into a final portfolio, infer eligibility from an operator, or apply a cap before completing asset-to-law classification.",
+                "operators": []
+              }
+            },
+            "source_case_ids": [
+              24
+            ],
+            "rationale": "Case 24 showed that the parent could ignore the existing jurisdiction boundary, add several out-of-jurisdiction citations, and omit a second independently eligible vehicle. This update converts the boundary into a short ordered gate and separates classification from valuation and portfolio constraints."
+          },
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "illinois_exemptions"
+            ],
+            "skill": {
+              "id": "illinois_exemptions",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Use only for allowable Illinois law and personal, nonbusiness property: an occupied residence or qualifying proceeds; necessary apparel, Bible, school books and family pictures; any other personal property under 12-1001(b); one motor vehicle under (c); trade implements, books or tools under (d); and prescribed health aids under (e).",
+                "procedure": "For each personal-use personal-property asset, test 12-1001(b) first. It covers ordinary household items and firearms and remains an independent alternative for a motor vehicle or other property that also has a specific citation. Then add every applicable specific citation; do not replace (b) with (c). Under the supplied benchmark treatment of joint debtors, combine the 4000 residual exemption using N, but the vehicle alternative has a 2400 ceiling for the asset-citation pair. Section 12-901 supplies 15000 for one debtor and a combined 30000 for two equal owners. Qualifying homestead proceeds retain 15000 per entitled person for one year. Use inline unlimited only for eligible 12-1001(a) and (e).",
+                "avoid_when": "Do not omit 12-1001(b) merely because an item is a household appliance, firearm or motor vehicle; do not multiply the 12-1001(c) vehicle ceiling by N; do not apply personal-property exemptions to business property; and do not combine independently reported alternatives into one recovery.",
+                "operators": [
+                  {
+                    "id": "il_home",
+                    "citation": "735 Ill. Comp. Stat. 5/12-901",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "il_home_proceeds",
+                    "citation": "735 Ill. Comp. Stat. 5/12-906",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "il_residual",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "limit_expression": "min(V,4000*N)"
+                  },
+                  {
+                    "id": "il_vehicle",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                    "limit_expression": "min(V,2400)"
+                  },
+                  {
+                    "id": "il_tools",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                    "limit_expression": "min(V,1500*N)"
+                  }
+                ]
+              }
+            },
+            "source_case_ids": [
+              22,
+              23
+            ],
+            "rationale": "In cases 22 and 23 the parent omitted the Illinois residual exemption from a vehicle and a firearm, and case 22 also doubled the vehicle ceiling even though the training target used the single 2400 ceiling. The empty-library results did not solve both classification errors, so the repair gives an executable residual-first checklist and corrects the harmful stored vehicle routine."
+          },
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "arizona_exemptions"
+            ],
+            "skill": {
+              "id": "arizona_exemptions",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Use only for allowable Arizona law. Match the occupied homestead or qualifying proceeds; residual household property not specifically prescribed elsewhere; specifically enumerated personal items; each motor vehicle considered as an independent alternative; prescribed prostheses; one qualifying account; and qualifying business, trade, professional or farm property.",
+                "procedure": "Arizona opts out of section 522(d). First classify each asset under Arizona law only. For this task's independent alternatives, test every motor vehicle under 33-1125(8); the statutory word one does not justify omitting a vehicle because another vehicle could instead be selected. Section 33-1125(4) is limited to engagement and wedding rings: other jewelry or rings without that stated character do not qualify there. Under 33-1121 each spouse may claim and combine article exemptions, reflected by N, except 33-1101 permits only one 400000 homestead for a married couple. Homestead proceeds retain that ceiling only while identifiable and until the earlier of eighteen months or establishing a new homestead. Section 33-1123 applies only when the household item is not specifically prescribed elsewhere. Use inline unlimited for eligible prescribed prostheses under 33-1125(9) and domestic animals or household pets under 33-1125(11).",
+                "avoid_when": "Do not cite federal or another state's law, treat ordinary jewelry as an engagement or wedding ring, suppress one independently qualifying vehicle because another exists, double the homestead, use 33-1123 for specifically prescribed property, treat a personal commuting vehicle as a trade tool, or ignore single-account, necessity, primary-use, aggregate, proceeds or time conditions.",
+                "operators": [
+                  {
+                    "id": "az_home",
+                    "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+                    "limit_expression": "min(V,400000)"
+                  },
+                  {
+                    "id": "az_home_proceeds",
+                    "citation": "Ariz. Rev. Stat. § 33-1101(C)",
+                    "limit_expression": "min(V,400000)"
+                  },
+                  {
+                    "id": "az_household",
+                    "citation": "Ariz. Rev. Stat. § 33-1123",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "az_apparel",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                    "limit_expression": "min(V,500*N)"
+                  },
+                  {
+                    "id": "az_instruments",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+                    "limit_expression": "min(V,400*N)"
+                  },
+                  {
+                    "id": "az_livestock",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(3)",
+                    "limit_expression": "min(V,1000*N)"
+                  },
+                  {
+                    "id": "az_rings",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                    "limit_expression": "min(V,2000*N)"
+                  },
+                  {
+                    "id": "az_library",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(5)",
+                    "limit_expression": "min(V,250*N)"
+                  },
+                  {
+                    "id": "az_watch",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(6)",
+                    "limit_expression": "min(V,250*N)"
+                  },
+                  {
+                    "id": "az_vehicle",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "az_firearms",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                    "limit_expression": "min(V,2000*N)"
+                  },
+                  {
+                    "id": "az_account",
+                    "citation": "Ariz. Rev. Stat. § 33-1126(A)(9)",
+                    "limit_expression": "min(V,5000*N)"
+                  },
+                  {
+                    "id": "az_trade_tools",
+                    "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+                    "limit_expression": "min(V,5000*N)"
+                  },
+                  {
+                    "id": "az_farm_property",
+                    "citation": "Ariz. Rev. Stat. § 33-1130(2)",
+                    "limit_expression": "min(V,2500*N)"
+                  }
+                ]
+              }
+            },
+            "source_case_ids": [
+              24
+            ],
+            "rationale": "Case 24 exposed three classification failures: foreign-law leakage, omission of one independently considered vehicle, and treating non-engagement jewelry as covered by the engagement-and-wedding-ring provision. The empty-library answer fixed the vehicle omission and jurisdiction leakage but retained the ring false positive, supporting these explicit category and independence boundaries."
+          }
+        ],
+        "noop_reason": null
+      },
+      "actual_tokens": 3689,
+      "current_effect": {
+        "tasks": 8,
+        "help": 3,
+        "hurt": 2,
+        "ties": 3,
+        "mean_f1_difference": -0.07291666666666666
+      },
+      "prior_effect": {
+        "tasks": 0,
+        "help": 0,
+        "hurt": 0,
+        "ties": 0,
+        "mean_f1_difference": 0
+      },
+      "actual_replay": [
+        {
+          "case_id": 21,
+          "source_key": "4bd03f57aa0ca8efd5c059a255719e3171b8dd7723f8af27defdb4ad8cfea676",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "47108d6a4e2f9b1102856a35c855c9fdab02389cae178e69fd02946bd8b6b162",
+          "parsed": {
+            "answer": {
+              "2008 silver Honda Civic LX sedan, 114k miles (4-door) valued at $6,825.00": [
+                "Ariz. Rev. Stat. § 33-1125(8)"
+              ],
+              "e-reader with adjustable backlight and waterproof casing with a value of $675.00": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "pair of ceramic table lamps with linen shades and USB ports valued at $114.00": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate1_replay/21_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 21,
+          "source_key": "4bd03f57aa0ca8efd5c059a255719e3171b8dd7723f8af27defdb4ad8cfea676",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "47108d6a4e2f9b1102856a35c855c9fdab02389cae178e69fd02946bd8b6b162",
+          "parsed": {
+            "answer": {
+              "2008 silver Honda Civic LX sedan, 114k miles (4-door)": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                  "claim_value": 6825.0
+                }
+              ],
+              "e-reader with adjustable backlight and waterproof casing": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 675.0
+                }
+              ],
+              "pair of ceramic table lamps with linen shades and USB ports": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 114.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate1_replay/21_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+                "asset_value": 6825,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "e-reader with adjustable backlight and waterproof casing",
+                "asset_value": 675,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1123",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "pair of ceramic table lamps with linen shades and USB ports",
+                "asset_value": 114,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1123",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+                "asset_value": "6825",
+                "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "6825",
+                "claim_value": "6825"
+              },
+              {
+                "asset_name": "e-reader with adjustable backlight and waterproof casing",
+                "asset_value": "675",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "675",
+                "claim_value": "675"
+              },
+              {
+                "asset_name": "pair of ceramic table lamps with linen shades and USB ports",
+                "asset_value": "114",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "114",
+                "claim_value": "114"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "1664cb06684bb06276a73331b082c90268257303b5d4bbb253ee7bad842ca152",
+            "source_facts_sha256": "c22a916ae4de4c84f5b61e6e7b3e45125b0c85303ccb799edb18ba320bb68b48",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 3,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 22,
+          "source_key": "8fe4e55abb76f66265d17b09975b7491f06491ef5b3255f8986775ad5f8ae6dc",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "47108d6a4e2f9b1102856a35c855c9fdab02389cae178e69fd02946bd8b6b162",
+          "parsed": {
+            "answer": {
+              "stainless steel electric kettle with auto shut-off feature": [
+                "12-1001(b)"
+              ],
+              "launch green 2023 Rivian R1T Adventure electric truck (9,200 mi)": [
+                "12-1001(c)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate1_replay/22_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 22,
+          "source_key": "8fe4e55abb76f66265d17b09975b7491f06491ef5b3255f8986775ad5f8ae6dc",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "47108d6a4e2f9b1102856a35c855c9fdab02389cae178e69fd02946bd8b6b162",
+          "parsed": {
+            "answer": {
+              "stainless steel electric kettle with auto shut-off feature": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 24.0
+                }
+              ],
+              "launch green 2023 Rivian R1T Adventure electric truck (9,200 mi)": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                  "claim_value": 2400.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate1_replay/22_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "stainless steel electric kettle with auto shut-off feature",
+                "asset_value": 24,
+                "claims": [
+                  {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "limit_expression": "min(V,4000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "launch green 2023 Rivian R1T Adventure electric truck (9,200 mi)",
+                "asset_value": 78900,
+                "claims": [
+                  {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                    "limit_expression": "min(V,2400)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "stainless steel electric kettle with auto shut-off feature",
+                "asset_value": "24",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "operator_id": null,
+                "limit_expression": "min(V,4000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "4000"
+                  }
+                ],
+                "limit": "24",
+                "claim_value": "24"
+              },
+              {
+                "asset_name": "launch green 2023 Rivian R1T Adventure electric truck (9,200 mi)",
+                "asset_value": "78900",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                "operator_id": null,
+                "limit_expression": "min(V,2400)",
+                "numeric_literals": [
+                  {
+                    "value": "2400"
+                  }
+                ],
+                "limit": "2400",
+                "claim_value": "2400"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "e3102801ddb5da8ac4e1608a7bfebcd325c51d184c4accce641df34bfe783dc1",
+            "source_facts_sha256": "1b50126d5a36bc5bd211ed844d73589237ac57725d638eaa1ed9601a2e5b70ca",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.75,
+            "f1": 0.8333333333333333,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.8,
+            "full_output_precision": 1.0,
+            "full_output_recall": 0.6666666666666666,
+            "full_output_claim_tp": 2,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 1,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 23,
+          "source_key": "5b984017439dc306a5464b76af6c858f6defdf452303a74a0a6b9ec802f525a8",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "47108d6a4e2f9b1102856a35c855c9fdab02389cae178e69fd02946bd8b6b162",
+          "parsed": {
+            "answer": {
+              "'Air fryer with digital controls and dishwasher-safe basket'": [
+                "12-1001(b)"
+              ],
+              "'Mossberg 500 12-gauge pump-action shotgun'": [
+                "12-1001(b)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate1_replay/23_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 23,
+          "source_key": "5b984017439dc306a5464b76af6c858f6defdf452303a74a0a6b9ec802f525a8",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "47108d6a4e2f9b1102856a35c855c9fdab02389cae178e69fd02946bd8b6b162",
+          "parsed": {
+            "answer": {
+              "air fryer with digital controls and dishwasher-safe basket": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 576.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate1_replay/23_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "air fryer with digital controls and dishwasher-safe basket",
+                "asset_value": 576,
+                "claims": [
+                  {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "limit_expression": "min(V,4000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "Mossberg 500 12-gauge pump-action shotgun with pistol grip",
+                "asset_value": 412,
+                "claims": []
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "air fryer with digital controls and dishwasher-safe basket",
+                "asset_value": "576",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "operator_id": null,
+                "limit_expression": "min(V,4000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "4000"
+                  }
+                ],
+                "limit": "576",
+                "claim_value": "576"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "cf30a44f1289731b68b24a6d240a147d97aff53631e62b85f3c19437ce6f9ff5",
+            "source_facts_sha256": "b452cd6271bb7de19034796e3c195d57b079b6faab53ea8bf46641669a1c2f5f",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.5,
+            "f1": 0.5,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.6666666666666666,
+            "full_output_precision": 1.0,
+            "full_output_recall": 0.5,
+            "full_output_claim_tp": 1,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 1,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 24,
+          "source_key": "efac5ac68270be3fdd8a5060de9ef5634589f542f26a29cd39e17540be6ef36e",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "47108d6a4e2f9b1102856a35c855c9fdab02389cae178e69fd02946bd8b6b162",
+          "parsed": {
+            "answer": {
+              "custom-made dining table with live-edge walnut slab top": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "1999 Mazda Miata MX-5 roadster - 88k miles": [
+                "Ariz. Rev. Stat. § 33-1125(8)"
+              ],
+              "2017 Subaru Outback 2.5i Premium in crystal black silica": [],
+              "set of stacking rings made from mixed metals including rose gold and silver": []
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate1_replay/24_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.5,
+            "f1": 0.5,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 24,
+          "source_key": "efac5ac68270be3fdd8a5060de9ef5634589f542f26a29cd39e17540be6ef36e",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "47108d6a4e2f9b1102856a35c855c9fdab02389cae178e69fd02946bd8b6b162",
+          "parsed": {
+            "answer": {
+              "custom-made dining table with live-edge walnut slab top": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 6352.0
+                }
+              ],
+              "1999 Mazda Miata MX-5 roadster": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                  "claim_value": 5925.0
+                }
+              ],
+              "2017 Subaru Outback 2.5i Premium": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                  "claim_value": 15000.0
+                }
+              ],
+              "set of stacking rings made from mixed metals": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                  "claim_value": 433.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate1_replay/24_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "custom-made dining table with live-edge walnut slab top",
+                "asset_value": 6352,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1123",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "1999 Mazda Miata MX-5 roadster",
+                "asset_value": 5925,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "2017 Subaru Outback 2.5i Premium",
+                "asset_value": 21900,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "set of stacking rings made from mixed metals",
+                "asset_value": 433,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                    "limit_expression": "min(V,2000*N)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "custom-made dining table with live-edge walnut slab top",
+                "asset_value": "6352",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "6352",
+                "claim_value": "6352"
+              },
+              {
+                "asset_name": "1999 Mazda Miata MX-5 roadster",
+                "asset_value": "5925",
+                "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "5925",
+                "claim_value": "5925"
+              },
+              {
+                "asset_name": "2017 Subaru Outback 2.5i Premium",
+                "asset_value": "21900",
+                "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "15000",
+                "claim_value": "15000"
+              },
+              {
+                "asset_name": "set of stacking rings made from mixed metals",
+                "asset_value": "433",
+                "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                "operator_id": null,
+                "limit_expression": "min(V,2000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "2000"
+                  }
+                ],
+                "limit": "433",
+                "claim_value": "433"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "328a8d543059c301b60d4d24bbe6655fcdbfaa8dd9086830bb1375432bc97bc7",
+            "source_facts_sha256": "7228632ccf09fec84df15c1df1e9907ce48779d6a4296f428c10508ca84df772",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.8571428571428571,
+            "full_output_precision": 0.75,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 3,
+            "full_output_claim_fp": 1,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 1,
+            "officially_unscored_predicted_assets": {
+              "set of stacking rings made from mixed metals": 1
+            },
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        }
+      ]
+    },
+    {
+      "accepted": true,
+      "current_family_nonregression": true,
+      "prior_family_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "parent_current": {
+        "EC": {
+          "precision": 0.71875,
+          "recall": 0.6875,
+          "f1": 0.6874999999999999,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0
+        },
+        "EV": {
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "f1": 0.6666666666666666,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.6833333333333332
+        },
+        "mean_family_f1": 0.6770833333333333
+      },
+      "candidate_current": {
+        "EC": {
+          "precision": 0.7291666666666666,
+          "recall": 0.6666666666666666,
+          "f1": 0.6875,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1
+        },
+        "EV": {
+          "precision": 1.0,
+          "recall": 0.9375,
+          "f1": 0.9583333333333333,
+          "exact_target": 0.5,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.95
+        },
+        "mean_family_f1": 0.8229166666666666
+      },
+      "parent_prior": {
+        "mean_family_f1": 0
+      },
+      "candidate_prior": {
+        "mean_family_f1": 0
+      },
+      "TRAIN_optimization_not_independent_validation": true,
+      "candidate": [
+        {
+          "id": "scheme_selection_and_ev",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Always apply before classifying assets. Use only jurisdictions already declared allowable in the facts or public prior.",
+            "procedure": "Enumerate every eligible asset-citation alternative, not a final portfolio. Federal section 522(d) and applicable state/local exemptions are alternative schemes under 11 U.S.C. § 522(b); joint debtors cannot split schemes. Arizona and Illinois expressly prohibit section 522(d); do not infer another state's opt-out. For EV, assess each asset-citation pair independently, preserve the exact asset name/value and citation, and use null only when this bank publishes an operator for that citation. Aggregate caps remain legal constraints even though the task does not allocate them across assets. N is 1 or 2 debtors; spouse multiplication applies only where the supplied text supports separate exemptions.",
+            "avoid_when": "Do not recompute domicile or allowable jurisdictions, mix elected schemes into one portfolio, add claims together, infer eligibility from an operator, or treat an aggregate ceiling as a per-item entitlement.",
+            "operators": []
+          }
+        },
+        {
+          "id": "federal_522d",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use only when the federal section 522(d) scheme is allowable: residence or burial plot (d)(1); one motor vehicle (d)(2); enumerated personal or household items (d)(3); personal/family jewelry (d)(4); any property wildcard (d)(5); trade tools/books/implements (d)(6); professionally prescribed health aids (d)(9).",
+            "procedure": "Section 522(m) gives each joint debtor a separate exemption, subject to the common scheme election. The formulas combine equal jointly owned interests. For (d)(3), the routine is for one particular item; a qualifying collection instead requires inline min(V,14875*N), while no individual item may exceed 700 per debtor. The (d)(5) routine states the maximum independent alternative: 1475 plus 13950 of wholly unused (d)(1), per debtor. If less (d)(1) remains unused, calculate the supported numeric ceiling inline. Health aids have no dollar ceiling, so use inline unlimited.",
+            "avoid_when": "Do not use section 522(d) for Arizona or Illinois residents, use (d)(3) for unlisted property, multiply a single debtor's cap merely because property is jointly held, or call the (d)(5) routine when the full unused-homestead amount is unavailable under the intended alternative.",
+            "operators": [
+              {
+                "id": "fed_home",
+                "citation": "11 U.S.C. § 522(d)(1)",
+                "limit_expression": "min(V,27900*N)"
+              },
+              {
+                "id": "fed_vehicle",
+                "citation": "11 U.S.C. § 522(d)(2)",
+                "limit_expression": "min(V,4450*N)"
+              },
+              {
+                "id": "fed_household_item",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "limit_expression": "min(V,700*N)"
+              },
+              {
+                "id": "fed_jewelry",
+                "citation": "11 U.S.C. § 522(d)(4)",
+                "limit_expression": "min(V,1875*N)"
+              },
+              {
+                "id": "fed_wildcard_max",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "limit_expression": "min(V,15425*N)"
+              },
+              {
+                "id": "fed_tools",
+                "citation": "11 U.S.C. § 522(d)(6)",
+                "limit_expression": "min(V,2800*N)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "arizona_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use only for allowable Arizona law. Consider the occupied homestead or protected proceeds, residual household property, specifically enumerated personal items, every motor vehicle as an independent asset-law alternative, prescribed prostheses, a qualifying account, and qualifying business or farm property.",
+            "procedure": "Classify under Arizona law before applying a ceiling. Output Ariz. Rev. Stat. § 33-1125(8) for each qualifying motor vehicle even when the estate contains more than one, because this task reports alternatives rather than a simultaneous election. Ariz. Rev. Stat. § 33-1125(4) applies only when the facts identify an engagement ring or wedding ring; a ring or other jewelry without that character receives no claim under that citation. Ariz. Rev. Stat. § 33-1123 is limited to personally used household property not specifically prescribed elsewhere. Ariz. Rev. Stat. § 33-1121 permits spouses to combine article exemptions using N, but Ariz. Rev. Stat. § 33-1101(A) permits only one 400000 homestead for a married couple. Protected proceeds under Ariz. Rev. Stat. § 33-1101(C) remain subject to that ceiling and the stated time and replacement-homestead conditions. Use inline unlimited for eligible property under Ariz. Rev. Stat. § 33-1125(9) or Ariz. Rev. Stat. § 33-1125(11).",
+            "avoid_when": "Do not cite federal law or another state's law, suppress a qualifying vehicle because another vehicle is present, infer engagement or wedding status merely from the word ring, double the homestead, use Ariz. Rev. Stat. § 33-1123 for property specifically prescribed elsewhere, or treat a personal commuting vehicle as a trade tool.",
+            "operators": [
+              {
+                "id": "az_home",
+                "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+                "limit_expression": "min(V,400000)"
+              },
+              {
+                "id": "az_home_proceeds",
+                "citation": "Ariz. Rev. Stat. § 33-1101(C)",
+                "limit_expression": "min(V,400000)"
+              },
+              {
+                "id": "az_household",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "az_apparel",
+                "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                "limit_expression": "min(V,500*N)"
+              },
+              {
+                "id": "az_instruments",
+                "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+                "limit_expression": "min(V,400*N)"
+              },
+              {
+                "id": "az_livestock",
+                "citation": "Ariz. Rev. Stat. § 33-1125(3)",
+                "limit_expression": "min(V,1000*N)"
+              },
+              {
+                "id": "az_engagement_wedding_rings",
+                "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                "limit_expression": "min(V,2000*N)"
+              },
+              {
+                "id": "az_library",
+                "citation": "Ariz. Rev. Stat. § 33-1125(5)",
+                "limit_expression": "min(V,250*N)"
+              },
+              {
+                "id": "az_watch",
+                "citation": "Ariz. Rev. Stat. § 33-1125(6)",
+                "limit_expression": "min(V,250*N)"
+              },
+              {
+                "id": "az_vehicle",
+                "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "az_firearms",
+                "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                "limit_expression": "min(V,2000*N)"
+              },
+              {
+                "id": "az_account",
+                "citation": "Ariz. Rev. Stat. § 33-1126(A)(9)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "az_trade_tools",
+                "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "az_farm_property",
+                "citation": "Ariz. Rev. Stat. § 33-1130(2)",
+                "limit_expression": "min(V,2500*N)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "illinois_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use only for allowable Illinois law. For personal, nonbusiness property, consider the residual exemption in 735 Ill. Comp. Stat. 5/12-1001(b). Also consider the specific provisions for an occupied residence or protected proceeds, necessary apparel and listed materials, a motor vehicle, trade implements or books, and prescribed health aids.",
+            "procedure": "Classify before valuing. For every personal-use item, test 735 Ill. Comp. Stat. 5/12-1001(b), including an ordinary household item, firearm, or motor vehicle. A qualifying motor vehicle has two independent alternatives: 735 Ill. Comp. Stat. 5/12-1001(b) and 735 Ill. Comp. Stat. 5/12-1001(c); output both full citations. Under the supplied benchmark treatment, the residual ceiling is 4000*N, while the vehicle ceiling is 2400 without multiplying by N. Section 735 Ill. Comp. Stat. 5/12-901 uses 15000*N for the stipulated equal interests, and qualifying proceeds under 735 Ill. Comp. Stat. 5/12-906 use 15000*N for one year. Eligible property under 735 Ill. Comp. Stat. 5/12-1001(a) or 735 Ill. Comp. Stat. 5/12-1001(e) has no dollar ceiling and requires inline unlimited.",
+            "avoid_when": "Do not abbreviate an Illinois citation, substitute the motor-vehicle provision for the residual alternative, classify an ordinary appliance as a trade tool without business facts, multiply the 2400 motor-vehicle ceiling by N, apply these personal-property provisions to business property, or combine independently reported alternatives into one recovery.",
+            "operators": [
+              {
+                "id": "il_home",
+                "citation": "735 Ill. Comp. Stat. 5/12-901",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "il_home_proceeds",
+                "citation": "735 Ill. Comp. Stat. 5/12-906",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "il_residual",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "limit_expression": "min(V,4000*N)"
+              },
+              {
+                "id": "il_vehicle",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                "limit_expression": "min(V,2400)"
+              },
+              {
+                "id": "il_tools",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                "limit_expression": "min(V,1500*N)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "oregon_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Oregon law. Classify under the exact categories in 18.345, the personal-property residual, one qualifying firearm per person, or the occupied homestead and qualifying proceeds.",
+            "procedure": "For joint household judgment debtors, only 18.345(1)(a),(b),(c),(d),(p) are separately claimable and combinable, hence their N formulas; (e),(f),(h) are not doubled by 18.345(3). For 18.345(1)(e), write inline min(V,1000) for animals/poultry but unlimited for eligible 60-day food. For (f), write min(V,3000) for household goods and unlimited for eligible 60-day provisions or fuel. Prescribed health aids use unlimited. The homestead routine uses the special combined 50000 ceiling for two household debtors; the same ceiling governs qualifying one-year proceeds intended for another homestead.",
+            "avoid_when": "Do not double categories omitted from 18.345(3), disregard necessity or habitual-earnings requirements for tools, claim more than one qualifying firearm per person, or use the two-debtor homestead ceiling unless both household members' interests are exposed.",
+            "operators": [
+              {
+                "id": "or_books_music",
+                "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+                "limit_expression": "min(V,600*N)"
+              },
+              {
+                "id": "or_apparel_jewelry",
+                "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                "limit_expression": "min(V,1800*N)"
+              },
+              {
+                "id": "or_tools",
+                "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "or_vehicle",
+                "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+                "limit_expression": "min(V,3000*N)"
+              },
+              {
+                "id": "or_residual",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "limit_expression": "min(V,400*N)"
+              },
+              {
+                "id": "or_firearm",
+                "citation": "Or. Rev. Stat. § 18.362",
+                "limit_expression": "min(V,1000*N)"
+              },
+              {
+                "id": "or_home",
+                "citation": "Or. Rev. Stat. § 18.395(1)",
+                "limit_expression": "min(V,50000 if N==2 else 40000)"
+              },
+              {
+                "id": "or_home_proceeds",
+                "citation": "Or. Rev. Stat. § 18.395(2)",
+                "limit_expression": "min(V,50000 if N==2 else 40000)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "pennsylvania_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Pennsylvania law. Section 8123 reaches property generally; section 8124 separately covers wearing apparel, Bibles and school books, qualifying family or seamstress sewing machines, and qualifying military uniforms and accoutrements.",
+            "procedure": "Enumerate section 8123 along with any applicable specific citation because it is expressly additional. Each spouse has a separate 300 exemption. Use inline unlimited for eligible 8124(a)(1)-(4), because those provisions state no dollar ceiling.",
+            "avoid_when": "Do not treat unlimited as eliminating the stated ownership, occupation, use, sale-or-hire, or military-status conditions; do not combine independent alternatives into a final portfolio.",
+            "operators": [
+              {
+                "id": "pa_general",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "limit_expression": "min(V,300*N)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "wisconsin_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Wisconsin law: burial property; business/farm assets or the alternative closely held business interest; listed consumer goods; motor vehicles; personal nonbusiness depository accounts; and an occupied homestead or protected proceeds.",
+            "procedure": "Section 815.18(8) gives each spouse one capped exemption that may be combined, reflected by N. Business-interest paragraph (b)(2) is available only if (b)(1) is not claimed. Consumer goods have a 12000 aggregate cap per spouse. Motor vehicles have a 4000 base per spouse plus unused consumer-goods capacity; the routine gives the maximum independent ceiling of 16000 per spouse. If less consumer capacity remains, calculate a supported numeric expression inline. Burial property has no dollar ceiling and uses inline unlimited. Section 815.20 expressly allows each spouse 75000; protected sale proceeds keep that ceiling for two years while intended for another homestead.",
+            "avoid_when": "Do not claim both business alternatives, use a business account under (k), treat the transferred consumer-goods amount as available twice in a portfolio, classify a motor vehicle under the general consumer-goods residual instead of (g), or ignore occupancy, proceeds-intent, lien, tax, aggregate, or primary-use conditions.",
+            "operators": [
+              {
+                "id": "wi_business_assets",
+                "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "wi_business_interest",
+                "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "wi_consumer_goods",
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "limit_expression": "min(V,12000*N)"
+              },
+              {
+                "id": "wi_vehicle_max",
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "limit_expression": "min(V,16000*N)"
+              },
+              {
+                "id": "wi_accounts",
+                "citation": "Wis. Stat. § 815.18(3)(k)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "wi_home",
+                "citation": "Wis. Stat. § 815.20(1)",
+                "limit_expression": "min(V,75000*N)"
+              }
+            ]
+          }
+        }
+      ],
+      "delta": {
+        "operations": [
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "illinois_exemptions"
+            ],
+            "skill": {
+              "id": "illinois_exemptions",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Use only for allowable Illinois law. For personal, nonbusiness property, consider the residual exemption in 735 Ill. Comp. Stat. 5/12-1001(b). Also consider the specific provisions for an occupied residence or protected proceeds, necessary apparel and listed materials, a motor vehicle, trade implements or books, and prescribed health aids.",
+                "procedure": "Classify before valuing. For every personal-use item, test 735 Ill. Comp. Stat. 5/12-1001(b), including an ordinary household item, firearm, or motor vehicle. A qualifying motor vehicle has two independent alternatives: 735 Ill. Comp. Stat. 5/12-1001(b) and 735 Ill. Comp. Stat. 5/12-1001(c); output both full citations. Under the supplied benchmark treatment, the residual ceiling is 4000*N, while the vehicle ceiling is 2400 without multiplying by N. Section 735 Ill. Comp. Stat. 5/12-901 uses 15000*N for the stipulated equal interests, and qualifying proceeds under 735 Ill. Comp. Stat. 5/12-906 use 15000*N for one year. Eligible property under 735 Ill. Comp. Stat. 5/12-1001(a) or 735 Ill. Comp. Stat. 5/12-1001(e) has no dollar ceiling and requires inline unlimited.",
+                "avoid_when": "Do not abbreviate an Illinois citation, substitute the motor-vehicle provision for the residual alternative, classify an ordinary appliance as a trade tool without business facts, multiply the 2400 motor-vehicle ceiling by N, apply these personal-property provisions to business property, or combine independently reported alternatives into one recovery.",
+                "operators": [
+                  {
+                    "id": "il_home",
+                    "citation": "735 Ill. Comp. Stat. 5/12-901",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "il_home_proceeds",
+                    "citation": "735 Ill. Comp. Stat. 5/12-906",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "il_residual",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "limit_expression": "min(V,4000*N)"
+                  },
+                  {
+                    "id": "il_vehicle",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                    "limit_expression": "min(V,2400)"
+                  },
+                  {
+                    "id": "il_tools",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                    "limit_expression": "min(V,1500*N)"
+                  }
+                ]
+              }
+            },
+            "source_case_ids": [
+              22,
+              23
+            ],
+            "rationale": "The parent omitted the residual alternative from a motor vehicle and from a firearm, and doubled the vehicle amount. The rejected revision improved EV valuation but harmed both Illinois EC replays because its prose repeatedly used shortened citations that the executor copied. This narrower revision uses full citation strings throughout, makes the residual-plus-specific operation explicit, and retains the replay-supported single 2400 vehicle routine."
+          },
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "arizona_exemptions"
+            ],
+            "skill": {
+              "id": "arizona_exemptions",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Use only for allowable Arizona law. Consider the occupied homestead or protected proceeds, residual household property, specifically enumerated personal items, every motor vehicle as an independent asset-law alternative, prescribed prostheses, a qualifying account, and qualifying business or farm property.",
+                "procedure": "Classify under Arizona law before applying a ceiling. Output Ariz. Rev. Stat. § 33-1125(8) for each qualifying motor vehicle even when the estate contains more than one, because this task reports alternatives rather than a simultaneous election. Ariz. Rev. Stat. § 33-1125(4) applies only when the facts identify an engagement ring or wedding ring; a ring or other jewelry without that character receives no claim under that citation. Ariz. Rev. Stat. § 33-1123 is limited to personally used household property not specifically prescribed elsewhere. Ariz. Rev. Stat. § 33-1121 permits spouses to combine article exemptions using N, but Ariz. Rev. Stat. § 33-1101(A) permits only one 400000 homestead for a married couple. Protected proceeds under Ariz. Rev. Stat. § 33-1101(C) remain subject to that ceiling and the stated time and replacement-homestead conditions. Use inline unlimited for eligible property under Ariz. Rev. Stat. § 33-1125(9) or Ariz. Rev. Stat. § 33-1125(11).",
+                "avoid_when": "Do not cite federal law or another state's law, suppress a qualifying vehicle because another vehicle is present, infer engagement or wedding status merely from the word ring, double the homestead, use Ariz. Rev. Stat. § 33-1123 for property specifically prescribed elsewhere, or treat a personal commuting vehicle as a trade tool.",
+                "operators": [
+                  {
+                    "id": "az_home",
+                    "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+                    "limit_expression": "min(V,400000)"
+                  },
+                  {
+                    "id": "az_home_proceeds",
+                    "citation": "Ariz. Rev. Stat. § 33-1101(C)",
+                    "limit_expression": "min(V,400000)"
+                  },
+                  {
+                    "id": "az_household",
+                    "citation": "Ariz. Rev. Stat. § 33-1123",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "az_apparel",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                    "limit_expression": "min(V,500*N)"
+                  },
+                  {
+                    "id": "az_instruments",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+                    "limit_expression": "min(V,400*N)"
+                  },
+                  {
+                    "id": "az_livestock",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(3)",
+                    "limit_expression": "min(V,1000*N)"
+                  },
+                  {
+                    "id": "az_engagement_wedding_rings",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                    "limit_expression": "min(V,2000*N)"
+                  },
+                  {
+                    "id": "az_library",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(5)",
+                    "limit_expression": "min(V,250*N)"
+                  },
+                  {
+                    "id": "az_watch",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(6)",
+                    "limit_expression": "min(V,250*N)"
+                  },
+                  {
+                    "id": "az_vehicle",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "az_firearms",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                    "limit_expression": "min(V,2000*N)"
+                  },
+                  {
+                    "id": "az_account",
+                    "citation": "Ariz. Rev. Stat. § 33-1126(A)(9)",
+                    "limit_expression": "min(V,5000*N)"
+                  },
+                  {
+                    "id": "az_trade_tools",
+                    "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+                    "limit_expression": "min(V,5000*N)"
+                  },
+                  {
+                    "id": "az_farm_property",
+                    "citation": "Ariz. Rev. Stat. § 33-1130(2)",
+                    "limit_expression": "min(V,2500*N)"
+                  }
+                ]
+              }
+            },
+            "source_case_ids": [
+              21,
+              24
+            ],
+            "rationale": "The parent leaked foreign citations, omitted one independently eligible vehicle, and treated a non-engagement, non-wedding ring as exempt. The rejected revision improved Arizona EV recall but still produced the ring false claim and omitted the additional vehicle in EC. This revision removes the harmful global formatting ritual, makes the two category decisions concise, uses full citations in guidance, and renames the internal ring routine so it does not suggest coverage of rings generally."
+          }
+        ],
+        "noop_reason": null
+      },
+      "actual_tokens": 3765,
+      "current_effect": {
+        "tasks": 8,
+        "help": 4,
+        "hurt": 2,
+        "ties": 2,
+        "mean_f1_difference": 0.14583333333333331
+      },
+      "prior_effect": {
+        "tasks": 0,
+        "help": 0,
+        "hurt": 0,
+        "ties": 0,
+        "mean_f1_difference": 0
+      },
+      "actual_replay": [
+        {
+          "case_id": 21,
+          "source_key": "4bd03f57aa0ca8efd5c059a255719e3171b8dd7723f8af27defdb4ad8cfea676",
+          "family": "EC",
+          "stage": "b1_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "69b194ccaec0e94f58161cf5dd60e410255aa653305f153376c311923334d556",
+          "parsed": {
+            "answer": {
+              "2008 silver Honda Civic LX sedan, 114k miles (4-door) valued at $6,825.00": [
+                "Ariz. Rev. Stat. § 33-1125(8)"
+              ],
+              "e-reader with adjustable backlight and waterproof casing with a value of $675.00": [],
+              "a pair of ceramic table lamps with linen shades and USB ports valued at $114.00": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate2_replay/21_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "f1": 0.6666666666666666,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 21,
+          "source_key": "4bd03f57aa0ca8efd5c059a255719e3171b8dd7723f8af27defdb4ad8cfea676",
+          "family": "EV",
+          "stage": "b1_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "69b194ccaec0e94f58161cf5dd60e410255aa653305f153376c311923334d556",
+          "parsed": {
+            "answer": {
+              "2008 silver Honda Civic LX sedan, 114k miles (4-door)": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                  "claim_value": 6825.0
+                }
+              ],
+              "e-reader with adjustable backlight and waterproof casing": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 675.0
+                }
+              ],
+              "pair of ceramic table lamps with linen shades and USB ports": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 114.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate2_replay/21_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+                "asset_value": 6825,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "e-reader with adjustable backlight and waterproof casing",
+                "asset_value": 675,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1123",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "pair of ceramic table lamps with linen shades and USB ports",
+                "asset_value": 114,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1123",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+                "asset_value": "6825",
+                "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "6825",
+                "claim_value": "6825"
+              },
+              {
+                "asset_name": "e-reader with adjustable backlight and waterproof casing",
+                "asset_value": "675",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "675",
+                "claim_value": "675"
+              },
+              {
+                "asset_name": "pair of ceramic table lamps with linen shades and USB ports",
+                "asset_value": "114",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "114",
+                "claim_value": "114"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "1664cb06684bb06276a73331b082c90268257303b5d4bbb253ee7bad842ca152",
+            "source_facts_sha256": "c22a916ae4de4c84f5b61e6e7b3e45125b0c85303ccb799edb18ba320bb68b48",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 3,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 22,
+          "source_key": "8fe4e55abb76f66265d17b09975b7491f06491ef5b3255f8986775ad5f8ae6dc",
+          "family": "EC",
+          "stage": "b1_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "69b194ccaec0e94f58161cf5dd60e410255aa653305f153376c311923334d556",
+          "parsed": {
+            "answer": {
+              "stainless steel electric kettle with auto shut-off feature": [
+                "735 Ill. Comp. Stat. 5/12-1001(b)"
+              ],
+              "launch green 2023 Rivian R1T Adventure electric truck (9,200 mi)": [
+                "735 Ill. Comp. Stat. 5/12-1001(c)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate2_replay/22_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.75,
+            "f1": 0.8333333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 22,
+          "source_key": "8fe4e55abb76f66265d17b09975b7491f06491ef5b3255f8986775ad5f8ae6dc",
+          "family": "EV",
+          "stage": "b1_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "69b194ccaec0e94f58161cf5dd60e410255aa653305f153376c311923334d556",
+          "parsed": {
+            "answer": {
+              "stainless steel electric kettle with auto shut-off feature": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 24.0
+                }
+              ],
+              "launch green 2023 Rivian R1T Adventure electric truck (9,200 mi)": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                  "claim_value": 2400.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate2_replay/22_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "stainless steel electric kettle with auto shut-off feature",
+                "asset_value": 24,
+                "claims": [
+                  {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "limit_expression": "min(V,4000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "launch green 2023 Rivian R1T Adventure electric truck (9,200 mi)",
+                "asset_value": 78900,
+                "claims": [
+                  {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                    "limit_expression": "min(V,2400)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "stainless steel electric kettle with auto shut-off feature",
+                "asset_value": "24",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "operator_id": null,
+                "limit_expression": "min(V,4000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "4000"
+                  }
+                ],
+                "limit": "24",
+                "claim_value": "24"
+              },
+              {
+                "asset_name": "launch green 2023 Rivian R1T Adventure electric truck (9,200 mi)",
+                "asset_value": "78900",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                "operator_id": null,
+                "limit_expression": "min(V,2400)",
+                "numeric_literals": [
+                  {
+                    "value": "2400"
+                  }
+                ],
+                "limit": "2400",
+                "claim_value": "2400"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "e3102801ddb5da8ac4e1608a7bfebcd325c51d184c4accce641df34bfe783dc1",
+            "source_facts_sha256": "1b50126d5a36bc5bd211ed844d73589237ac57725d638eaa1ed9601a2e5b70ca",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.75,
+            "f1": 0.8333333333333333,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.8,
+            "full_output_precision": 1.0,
+            "full_output_recall": 0.6666666666666666,
+            "full_output_claim_tp": 2,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 1,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 23,
+          "source_key": "5b984017439dc306a5464b76af6c858f6defdf452303a74a0a6b9ec802f525a8",
+          "family": "EC",
+          "stage": "b1_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "69b194ccaec0e94f58161cf5dd60e410255aa653305f153376c311923334d556",
+          "parsed": {
+            "answer": {
+              "'Air fryer with digital controls and dishwasher-safe basket'": [
+                "735 Ill. Comp. Stat. 5/12-1001(b)"
+              ],
+              "'Mossberg 500 12-gauge pump-action shotgun'": [
+                "735 Ill. Comp. Stat. 5/12-1001(b)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate2_replay/23_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 23,
+          "source_key": "5b984017439dc306a5464b76af6c858f6defdf452303a74a0a6b9ec802f525a8",
+          "family": "EV",
+          "stage": "b1_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "69b194ccaec0e94f58161cf5dd60e410255aa653305f153376c311923334d556",
+          "parsed": {
+            "answer": {
+              "air fryer with digital controls and dishwasher-safe basket": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 576.0
+                }
+              ],
+              "Mossberg 500 12-gauge pump-action shotgun with pistol grip": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 412.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate2_replay/23_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "air fryer with digital controls and dishwasher-safe basket",
+                "asset_value": 576,
+                "claims": [
+                  {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "limit_expression": "min(V,4000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "Mossberg 500 12-gauge pump-action shotgun with pistol grip",
+                "asset_value": 412,
+                "claims": [
+                  {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "limit_expression": "min(V,4000*N)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "air fryer with digital controls and dishwasher-safe basket",
+                "asset_value": "576",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "operator_id": null,
+                "limit_expression": "min(V,4000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "4000"
+                  }
+                ],
+                "limit": "576",
+                "claim_value": "576"
+              },
+              {
+                "asset_name": "Mossberg 500 12-gauge pump-action shotgun with pistol grip",
+                "asset_value": "412",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "operator_id": null,
+                "limit_expression": "min(V,4000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "4000"
+                  }
+                ],
+                "limit": "412",
+                "claim_value": "412"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "4044e6784e9bb5cae7f428c4960e136199d976334344f9bc093495f154ae662a",
+            "source_facts_sha256": "b452cd6271bb7de19034796e3c195d57b079b6faab53ea8bf46641669a1c2f5f",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 2,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 24,
+          "source_key": "efac5ac68270be3fdd8a5060de9ef5634589f542f26a29cd39e17540be6ef36e",
+          "family": "EC",
+          "stage": "b1_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "69b194ccaec0e94f58161cf5dd60e410255aa653305f153376c311923334d556",
+          "parsed": {
+            "answer": {
+              "Custom-made dining table with live-edge walnut slab top with a value of $6,352.00": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "1999 Mazda Miata MX-5 roadster - 88k miles valued at $5,925.00": [
+                "Ariz. Rev. Stat. § 33-1125(8)"
+              ],
+              "2017 Subaru Outback 2.5i Premium in crystal black silica with a fair market value of $21,900.00": [],
+              "set of stacking rings made from mixed metals including rose gold and silver valued at $433.00": [
+                "Ariz. Rev. Stat. § 33-1125(4)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate2_replay/24_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 0.25,
+            "recall": 0.25,
+            "f1": 0.25,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 1,
+            "officially_unscored_predicted_assets": {
+              "1999 mazda miata mx-5 roadster - 88k miles valued at $5,925.00": 1
+            },
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 24,
+          "source_key": "efac5ac68270be3fdd8a5060de9ef5634589f542f26a29cd39e17540be6ef36e",
+          "family": "EV",
+          "stage": "b1_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "69b194ccaec0e94f58161cf5dd60e410255aa653305f153376c311923334d556",
+          "parsed": {
+            "answer": {
+              "custom-made dining table with live-edge walnut slab top": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 6352.0
+                }
+              ],
+              "1999 Mazda Miata MX-5 roadster": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                  "claim_value": 5925.0
+                }
+              ],
+              "2017 Subaru Outback 2.5i Premium": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                  "claim_value": 15000.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_active_case_online_20261019_run01/native/b1_candidate2_replay/24_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "custom-made dining table with live-edge walnut slab top",
+                "asset_value": 6352,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1123",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "1999 Mazda Miata MX-5 roadster",
+                "asset_value": 5925,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "2017 Subaru Outback 2.5i Premium",
+                "asset_value": 21900,
+                "claims": [
+                  {
+                    "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                    "limit_expression": "min(V,15000*N)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "set of stacking rings made from mixed metals",
+                "asset_value": 433,
+                "claims": []
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "custom-made dining table with live-edge walnut slab top",
+                "asset_value": "6352",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "6352",
+                "claim_value": "6352"
+              },
+              {
+                "asset_name": "1999 Mazda Miata MX-5 roadster",
+                "asset_value": "5925",
+                "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "5925",
+                "claim_value": "5925"
+              },
+              {
+                "asset_name": "2017 Subaru Outback 2.5i Premium",
+                "asset_value": "21900",
+                "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "15000",
+                "claim_value": "15000"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "923d0dc68ac2abc215a8ba8f02a6b0d9ad7ad3dfaeb6fc16e88616d866e0896b",
+            "source_facts_sha256": "7228632ccf09fec84df15c1df1e9907ce48779d6a4296f428c10508ca84df772",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "arizona_exemptions",
+            "illinois_exemptions",
+            "oregon_exemptions",
+            "pennsylvania_exemptions",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 3,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        }
+      ]
+    }
+  ],
+  "future_performance_not_used": true,
+  "training_acceptance_does_not_guarantee_generalization": true
+}

@@ -1,0 +1,215 @@
+{
+  "at": "2026-10-28T17:02:51.905964+00:00",
+  "scope": "Posthoc read-only audit of existing128 parent and128 rejected EC calls, no new generation, score change, source edit or TEST read.",
+  "run_id": "legal_openexempt_completed128_task_consolidation_20261028_run01",
+  "not_new_metric_improvement": true,
+  "descriptive_text_screen_not_legal_correctness_classifier": {
+    "pattern": "8124\\s*\\(a\\)\\s*\\(10\\)",
+    "parent_case_ids": [
+      181,
+      228
+    ],
+    "candidate_case_ids": [
+      181,
+      228,
+      284
+    ]
+  },
+  "examples": [
+    {
+      "source_case_id": 181,
+      "parent_raw_call_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b5_candidate2_replay/181_EC_candidate.json",
+      "parent_raw_sha256": "578bd4d483516c824c64d1b4450f725e47405c87f2305637cdd522992f82c63f",
+      "candidate_raw_call_path": "runs/legal_openexempt_completed128_task_consolidation_20261028_run01/native/b1_candidate1_replay/181_EC_candidate.json",
+      "candidate_raw_sha256": "283b9ab65fcdcced67cd2547a60eca0f1ff671c57f31c184e8831fde8596bb2d",
+      "public_asset_catalog": {
+        "A001": "orange serape shawl in traditional pattern",
+        "A002": "custom framed oil painting by regional artist with gilded wood frame",
+        "A003": "wall-mounted coat rack with rustic wood and metal hooks",
+        "A004": "Charter Arms Undercover .38 Special revolver"
+      },
+      "candidate_actual_delivered_rules": [
+        {
+          "id": "federal-specific-personal-property-boundaries",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "Federal § 522(d) exemptions are allowable and the asset is a motor vehicle, listed household-use property, or jewelry.",
+            "procedure": "Classify the named asset itself before considering its value. Include 11 U.S.C. § 522(d)(2) for every motor vehicle; § 522(d)(3) for listed personal or household-use furnishings, goods, appliances, apparel, animals, or musical instruments; and § 522(d)(4) only when the named asset itself is jewelry held for personal, family, or household use. Once the category condition holds, include its citation even when the asset exceeds the statutory ceiling. Retain § 522(d)(5) separately.",
+            "avoid_when": "Do not use a ceiling as an EC eligibility cutoff, treat a decorative household object or a container for jewelry as jewelry, classify jewelry or firearms under § 522(d)(3), or let a specific paragraph displace § 522(d)(5).",
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        {
+          "id": "pennsylvania-general-monetary-alternative",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "Pennsylvania exemptions are allowable and the asset is property of the judgment debtor.",
+            "procedure": "For each output asset, include 42 Pa. Cons. Stat. § 8123 once before checking its type or value. It is an independent exemption for property of the judgment debtor, including real property, and its $300 ceiling limits EV amount rather than EC eligibility. Then retain every genuinely applicable federal or Pennsylvania particular-property exemption.",
+            "avoid_when": "Do not omit § 8123 because the asset exceeds $300, is real property, or another exemption applies. Apply § 8124(a)(1) only to wearing apparel; household linens, jewelry, vehicles, appliances, furnishings, and firearms are not wearing apparel.",
+            "jurisdiction": "PENNSYLVANIA"
+          }
+        }
+      ],
+      "actual_candidate_reasoning_paragraphs": [
+        "A004: \"Charter Arms Undercover .38 Special revolver\" valued at $375. This is a firearm. Under federal law, § 522(d)(3) includes firearms, but the value here is under the $700 limit per item. Also, the wildcard § 522(d)(5) applies. For Pennsylvania, 42 Pa. Cons. Stat. § 8124(a)(10) mentions firearms up to $2,000. Since the value is $375, which is under $2,000, that would apply. Also, the federal wildcard applies here as well.",
+        "A004: Revolver. Federal: 522(d)(3) (firearms), 522(d)(5). PA: 8124(a)(10) (firearms up to $2,000). So both federal and PA apply here.",
+        "So the final JSON would map each asset to their respective citations. But I need to check if the PA statutes have the correct sections. For example, PA's 8124(a)(10) is firearms. The user's public citation vocabulary includes \"42 Pa. Cons. Stat. section 8124(a)(10)\" as a label. So that's applicable for A004.",
+        "{\n  \"A001\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8124(a)(1)\"],\n  \"A002\": [\"11 U.S.C. section 522(d)(5)\"],\n  \"A003\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\"],\n  \"A004\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8124(a)(10)\"]\n}",
+        "But wait, the user's solved steps mention that the Debtor may claim property exemptions under federal and Pennsylvania statutes. So for each asset, check both. Also, need to ensure that the PA exemptions are correctly applied. For example, the PA statute 8124(a)(1) is for wearing apparel, which applies to the shawl. For the revolver, PA's 8124(a)(10) is for firearms. The coat rack and painting don't have PA exemptions, so only federal. The painting's value is $2,110, which is over the federal 522(d)(3) $700 per item, but the wildcard 522(d)(5) applies regardless of value. So the painting is covered by the wildcard. The coat rack is under $700, so covered by 522(d)(3) and wildcard."
+      ],
+      "actual_candidate_reasoning_tail": "ction 522(d)(5)\"],\n  \"A004\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8124(a)(10)\"]\n}\n\nBut wait, the user's solved steps mention that the Debtor may claim property exemptions under federal and Pennsylvania statutes. So for each asset, check both. Also, need to ensure that the PA exemptions are correctly applied. For example, the PA statute 8124(a)(1) is for wearing apparel, which applies to the shawl. For the revolver, PA's 8124(a)(10) is for firearms. The coat rack and painting don't have PA exemptions, so only federal. The painting's value is $2,110, which is over the federal 522(d)(3) $700 per item, but the wildcard 522(d)(5) applies regardless of value. So the painting is covered by the wildcard. The coat rack is under $700, so covered by 522(d)(3) and wildcard.\n\nSo that's the breakdown. Now, I need to make sure that each citation is present in the public vocabulary. For example, the PA 8124(a)(1) is in the list. So the answer should include those labels.\n",
+      "actual_parent_native_submission": "{\"A001\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8123\", \"42 Pa. Cons. Stat. section 8124(a)(1)\"], \"A002\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8123\"], \"A003\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8123\"], \"A004\": [\"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8123\", \"42 Pa. Cons. Stat. section 8124(a)(1)\"]}",
+      "actual_candidate_native_submission": "{\"A001\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8124(a)(1)\"], \"A002\": [\"11 U.S.C. section 522(d)(5)\"], \"A003\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\"], \"A004\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8124(a)(1)\"]}",
+      "parent_original_native_f1": 0.95,
+      "source_in_current_EC_teacher_packet": false,
+      "unsupported_a10_present_in_public_catalog": false
+    },
+    {
+      "source_case_id": 184,
+      "parent_raw_call_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b5_candidate2_replay/184_EC_candidate.json",
+      "parent_raw_sha256": "fe9dd557fea20939ef580b47b02b3344ae5208de63693c492fc56dd0d38f4337",
+      "candidate_raw_call_path": "runs/legal_openexempt_completed128_task_consolidation_20261028_run01/native/b1_candidate1_replay/184_EC_candidate.json",
+      "candidate_raw_sha256": "768d80804c579c0d8f84d632da99ccf2a1eacde9cc338adea1c861de8c51b653",
+      "public_asset_catalog": {
+        "A001": "gold Cuban link chain necklace (24 inch length)",
+        "A002": "Mossberg 500 12-gauge pump-action shotgun with pistol grip",
+        "A003": "Springfield M1A semi-automatic rifle (.308 caliber)",
+        "A004": "pair of ceramic table lamps with linen shades and USB ports"
+      },
+      "candidate_actual_delivered_rules": [
+        {
+          "id": "federal-specific-personal-property-boundaries",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "Federal § 522(d) exemptions are allowable and the asset is a motor vehicle, listed household-use property, or jewelry.",
+            "procedure": "Classify the named asset itself before considering its value. Include 11 U.S.C. § 522(d)(2) for every motor vehicle; § 522(d)(3) for listed personal or household-use furnishings, goods, appliances, apparel, animals, or musical instruments; and § 522(d)(4) only when the named asset itself is jewelry held for personal, family, or household use. Once the category condition holds, include its citation even when the asset exceeds the statutory ceiling. Retain § 522(d)(5) separately.",
+            "avoid_when": "Do not use a ceiling as an EC eligibility cutoff, treat a decorative household object or a container for jewelry as jewelry, classify jewelry or firearms under § 522(d)(3), or let a specific paragraph displace § 522(d)(5).",
+            "jurisdiction": "FEDERAL"
+          }
+        }
+      ],
+      "actual_candidate_reasoning_paragraphs": [
+        "Now moving to A002: Mossberg 500 shotgun, $412.00. This is a firearm. Under Federal, the guidance says that firearms are covered under (d)(3) as part of consumer goods. However, the Federal (d)(3) has a $700 per item limit. Since the value is $412, which is under $700, so (d)(3) applies. Also, (d)(5) applies. For Wisconsin, the (d) includes firearms, so (3)(d) applies. Also, Wisconsin has (3)(b)(1) for business property, but the asset is for personal use, so (3)(d) applies. So for A002, the Federal exemptions would be (d)(3) and (d)(5), and Wisconsin (3)(d). Wait, but the Wisconsin statute (d) includes firearms, so yes. So the citations would be [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"].",
+        "Wait, but the Wisconsin (d) includes firearms, so that's correct. Also, the Federal (d)(3) is for consumer goods, which includes firearms. So yes.",
+        "Next, A003: Springfield M1A rifle, $1,845. This is a firearm. Under Federal, (d)(3) applies if it's for personal use. But the value is $1,845, which exceeds the $700 per item limit. However, the guidance says to include the citation even if value exceeds. So (d)(3) applies. Also, (d)(5). For Wisconsin, (d) includes firearms, so (3)(d) applies. But wait, the Wisconsin (d) has a $12k aggregate limit. But the value here is $1,845, which is under that. So the same as A002. So citations would be [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"].",
+        "But wait, the Wisconsin statute (d) is for consumer goods, which includes household goods, jewelry, firearms, etc. So all four assets fall under (3)(d) in Wisconsin. However, the Federal (d)(4) applies to jewelry, and (d)(3) to the others. So that seems correct."
+      ],
+      "actual_candidate_reasoning_tail": "],\n  \"A002\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"],\n  \"A003\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"],\n  \"A004\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"]\n}\n\nBut wait, the Wisconsin statute (d) is for consumer goods, which includes household goods, jewelry, firearms, etc. So all four assets fall under (3)(d) in Wisconsin. However, the Federal (d)(4) applies to jewelry, and (d)(3) to the others. So that seems correct.\n\nBut need to check if any other Wisconsin statutes apply. For example, the (3)(k) for depository accounts, but the assets here are not accounts. Also, (3)(g) for motor vehicles, but none of the assets are vehicles. So the only applicable Wisconsin citation is (3)(d).\n\nSo the answer should be as above. However, the user's public citation labels include \"Wis. Stat. section 815.18(3)(d)\" which is correct. So that's the mapping.\n",
+      "actual_parent_native_submission": "{\"A001\": [\"11 U.S.C. section 522(d)(4)\", \"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"], \"A002\": [\"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"], \"A003\": [\"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"], \"A004\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"]}",
+      "actual_candidate_native_submission": "{\"A001\": [\"11 U.S.C. section 522(d)(4)\", \"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"], \"A002\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"], \"A003\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"], \"A004\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"Wis. Stat. section 815.18(3)(d)\"]}",
+      "parent_original_native_f1": 1.0,
+      "source_in_current_EC_teacher_packet": false,
+      "unsupported_a10_present_in_public_catalog": false
+    },
+    {
+      "source_case_id": 228,
+      "parent_raw_call_path": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b5_candidate2_replay/228_EC_candidate.json",
+      "parent_raw_sha256": "1c549270612a1b113287384e2765b6577e017409178e20fccfbbe2e57d2cf284",
+      "candidate_raw_call_path": "runs/legal_openexempt_completed128_task_consolidation_20261028_run01/native/b1_candidate1_replay/228_EC_candidate.json",
+      "candidate_raw_sha256": "2398917af95222b3902621525fcb903a7b702e10ce8b4bdad9a7cc7a56230a6f",
+      "public_asset_catalog": {
+        "A001": "hand-knotted wool area rug measuring 9x12 feet with Persian motif",
+        "A002": "stainless steel refrigerator with French doors and bottom freezer drawer",
+        "A003": "pack of five pairs of ankle-length athletic socks",
+        "A004": "Stevens Model 301 single-shot .410 shotgun"
+      },
+      "candidate_actual_delivered_rules": [
+        {
+          "id": "federal-specific-personal-property-boundaries",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "Federal § 522(d) exemptions are allowable and the asset is a motor vehicle, listed household-use property, or jewelry.",
+            "procedure": "Classify the named asset itself before considering its value. Include 11 U.S.C. § 522(d)(2) for every motor vehicle; § 522(d)(3) for listed personal or household-use furnishings, goods, appliances, apparel, animals, or musical instruments; and § 522(d)(4) only when the named asset itself is jewelry held for personal, family, or household use. Once the category condition holds, include its citation even when the asset exceeds the statutory ceiling. Retain § 522(d)(5) separately.",
+            "avoid_when": "Do not use a ceiling as an EC eligibility cutoff, treat a decorative household object or a container for jewelry as jewelry, classify jewelry or firearms under § 522(d)(3), or let a specific paragraph displace § 522(d)(5).",
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        {
+          "id": "pennsylvania-general-monetary-alternative",
+          "hypothesis_ids": [
+            "EC"
+          ],
+          "guidance": {
+            "when": "Pennsylvania exemptions are allowable and the asset is property of the judgment debtor.",
+            "procedure": "For each output asset, include 42 Pa. Cons. Stat. § 8123 once before checking its type or value. It is an independent exemption for property of the judgment debtor, including real property, and its $300 ceiling limits EV amount rather than EC eligibility. Then retain every genuinely applicable federal or Pennsylvania particular-property exemption.",
+            "avoid_when": "Do not omit § 8123 because the asset exceeds $300, is real property, or another exemption applies. Apply § 8124(a)(1) only to wearing apparel; household linens, jewelry, vehicles, appliances, furnishings, and firearms are not wearing apparel.",
+            "jurisdiction": "PENNSYLVANIA"
+          }
+        }
+      ],
+      "actual_candidate_reasoning_paragraphs": [
+        "Now, for Pennsylvania, the general monetary exemption (§8123) is $300, but the rug is a specific item. The PA statute 8124(a) lists goods, but the rug isn't listed in 8124(a)(1)-(4). However, the PA statute might have other exemptions. Wait, the PA statutes might not have a specific exemption for rugs, but the general monetary exemption applies to any property up to $300. However, the rug is a specific item, so maybe it's not covered under 8124(a) but could be covered under the general monetary exemption. However, the guidance for PA says that §8123 is an independent exemption for property of the judgment debtor, including real property, and its $300 ceiling limits EV amount rather than EC eligibility. So the rug, being personal property, might be eligible for the $300 under §8123. But the rug's value is $325, which exceeds $300. So maybe not. Wait, but the general monetary exemption is up to $300. So if the rug is over $300, then the general exemption doesn't apply. However, the rug might be covered under another PA exemption. Let me check the PA statutes again. The PA 8124(a) includes wearing apparel, bibles, school books, sewing machines, and uniforms. The rug isn't listed there. So perhaps the rug is only covered under the general monetary exemption up to $300, but since it's over, it doesn't apply. Therefore, in PA, the rug might not have any specific exemptions except the general monetary exemption, but since the value is over $300, it's not applicable. So for PA, the rug might not have any applicable exemptions. But the user's solved steps mention that the Debtors may claim under federal and PA statutes. Maybe the rug is covered under federal exemptions. So for A001, federal would have §522(d)(3) and §522(d)(5), and PA might not have anything.",
+        "Now A004: Stevens Model 301 shotgun. Federal law: firearms are covered under §522(d)(3) as household-use property. Also, §522(d)(5). However, the guidance says that firearms are classified under §522(d)(3). Also, the federal wildcard applies. So federal would have both. For PA, firearms are covered under §8124(a)(10), which allows up to $2,000. The shotgun is worth $215, so that's under $2,000. So PA would have §8124(a)(10) and the general monetary exemption (§8123). But the general monetary exemption is $300, so the shotgun is under that. However, the specific exemption for firearms is separate. So PA would have both. Also, the federal's §522(d)(3) and (d)(5) apply. So for A004, federal and PA both have their specific exemptions and the wildcard.",
+        "A001 (rug): federal has §522(d)(3) and (d)(5). PA has none? Or maybe the general? But the rug is $325, which is over $300, so the general doesn't apply. So PA might not have any exemptions for the rug. So only federal.",
+        "A004 (shotgun): federal (d)(3) and (d)(5), PA (8124(a)(10) and 8123).",
+        "But I need to check the exact citations. The public citations include 42 Pa. Cons. Stat. § 8123 and 8124(a)(1) for PA. So for the socks, the PA exemptions would be 42 Pa. Cons. Stat. § 8123 and 8124(a)(1). For the shotgun, 8124(a)(10). The general monetary exemption is 8123, which applies to any property up to $300. So the shotgun's value is $215, so it's under $300, so the general applies. So PA would have both 8123 and 8124(a)(10). Similarly, the socks would have 8123 and 8124(a)(1).",
+        "Wait, but for the shotgun, federal law says firearms are under §522(d)(3). So yes. So all four assets have federal (d)(3) and (d)(5).",
+        "For PA, the socks have 8123 and 8124(a)(1), the shotgun has 8123 and 8124(a)(10). The rug and fridge don't have PA exemptions, so their PA list is empty.",
+        "{\n  \"A001\": [\"11 U.S.C. § 522(d)(3)\", \"11 U.S.C. § 522(d)(5)\"],\n  \"A002\": [\"11 U.S.C. § 522(d)(3)\", \"11 U.S.C. § 522(d)(5)\"],\n  \"A003\": [\"11 U.S.C. § 522(d)(3)\", \"11 U.S.C. § 522(d)(5)\", \"42 Pa. Cons. Stat. § 8123\", \"42 Pa. Cons. Stat. § 8124(a)(1)\"],\n  \"A004\": [\"11 U.S.C. § 522(d)(3)\", \"11 U.S.C. § 522(d)(5)\", \"42 Pa. Cons. Stat. § 8123\", \"42 Pa. Cons. Stat. § 8124(a)(10)\"]\n}",
+        "Wait, but the user's public citations include the exact labels. For example, the PA 8124(a)(1) is \"42 Pa. Cons. Stat. § 8124(a)(1)\", and 8124(a)(10) is \"42 Pa. Cons. Stat. § 8124(a)(10)\". So I need to make sure those are the exact labels."
+      ],
+      "actual_candidate_reasoning_tail": "at. The rug isn't covered under PA's specific exemptions (like 8124(a) items), so no PA exemptions. Similarly, the fridge is not covered under PA's specific exemptions, so no PA exemptions.\n\nSo the final JSON would be:\n\n{\n  \"A001\": [\"11 U.S.C. § 522(d)(3)\", \"11 U.S.C. § 522(d)(5)\"],\n  \"A002\": [\"11 U.S.C. § 522(d)(3)\", \"11 U.S.C. § 522(d)(5)\"],\n  \"A003\": [\"11 U.S.C. § 522(d)(3)\", \"11 U.S.C. § 522(d)(5)\", \"42 Pa. Cons. Stat. § 8123\", \"42 Pa. Cons. Stat. § 8124(a)(1)\"],\n  \"A004\": [\"11 U.S.C. § 522(d)(3)\", \"11 U.S.C. § 522(d)(5)\", \"42 Pa. Cons. Stat. § 8123\", \"42 Pa. Cons. Stat. § 8124(a)(10)\"]\n}\n\nWait, but the user's public citations include the exact labels. For example, the PA 8124(a)(1) is \"42 Pa. Cons. Stat. § 8124(a)(1)\", and 8124(a)(10) is \"42 Pa. Cons. Stat. § 8124(a)(10)\". So I need to make sure those are the exact labels.\n\nYes, so the answer should include those. Also, the federal (d)(5) is included for all assets. So each asset has that, plus the specific if applicable.\n\nSo the JSON would be as above.\n",
+      "actual_parent_native_submission": "{\"A001\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8123\"], \"A002\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8123\"], \"A003\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8123\", \"42 Pa. Cons. Stat. section 8124(a)(1)\"], \"A004\": [\"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8123\", \"42 Pa. Cons. Stat. section 8124(a)(1)\"]}",
+      "actual_candidate_native_submission": "{\"A001\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\"], \"A002\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\"], \"A003\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8123\", \"42 Pa. Cons. Stat. section 8124(a)(1)\"], \"A004\": [\"11 U.S.C. section 522(d)(3)\", \"11 U.S.C. section 522(d)(5)\", \"42 Pa. Cons. Stat. section 8123\", \"42 Pa. Cons. Stat. section 8124(a)(1)\"]}",
+      "parent_original_native_f1": 0.95,
+      "source_in_current_EC_teacher_packet": false,
+      "unsupported_a10_present_in_public_catalog": false
+    }
+  ],
+  "verified_teacher_packet": {
+    "path": "runs/legal_openexempt_completed128_task_consolidation_20261028_run01/teacher/b1_candidate1/wire_request.json",
+    "sha256": "44953cc211db3e653dc4aae1257a3e8cca521376f5950c655a091f4436b453e5",
+    "selected32_source_ids": [
+      182,
+      183,
+      190,
+      200,
+      205,
+      207,
+      208,
+      216,
+      230,
+      231,
+      239,
+      244,
+      248,
+      251,
+      258,
+      261,
+      263,
+      269,
+      271,
+      272,
+      274,
+      279,
+      281,
+      282,
+      283,
+      285,
+      287,
+      291,
+      294,
+      298,
+      305,
+      306
+    ],
+    "emitted_reasoning_tail_max_characters": 1024,
+    "all_three_audited_cases_not_in_selected_packet": true
+  },
+  "findings": [
+    "In these examples the raw reasoning identifies the actual A-ref assets and attributes the wrong laws before final submission; this is not evidence for an asset-ID decoder mismatch.",
+    "Parent181 and228 already hallucinate unavailable PA8124(a)(10); the revised proposal also does so and loses previously included general alternatives.",
+    "The actual supplied revised guidance explicitly excludes firearms from federal(d)(3) and says PA8123 cap does not bar EC eligibility; the executor reasoning contradicts those rules.",
+    "Raw intended PA8124(a)(10) versus final allowed PA8124(a)(1) is an observed mismatch; the stored records do not establish a unique guided-decoder causal path.",
+    "Teacher already receives bounded actual reasoning, so adding another generic reasoning field or repeating the old citation-ID repair is not supported by this audit."
+  ],
+  "next_action_constraint": "Finish the same live EV step before any method decision. Do not start another asset-encoding, role/position sweep or unsupported ablation from this audit."
+}

@@ -1,0 +1,3725 @@
+{
+  "at": "2026-10-19T09:58:08.474886+00:00",
+  "bank": [
+    {
+      "id": "benchmark_regime_and_output_gate",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "At the start of every EC or EV OpenExempt task, before classifying or valuing anything.",
+        "procedure": "1. Read the solved-law sentence and make a closed allowed-law list. “Arizona” means Arizona citations only; “Illinois” means Illinois citations only. “Federal and Pennsylvania/Oregon/Wisconsin” means both named bodies must be applied and their passing citations united. Never silently drop Federal law when it is named, and never add Federal law to an opt-out-state route. 2. Build the output keys directly from the facts before doing legal analysis: copy each asset noun phrase with every internal modifier and its original capitalization, but omit an introductory a/an/the, ownership language, and the stated price. JSON quotation marks delimit the key; do not insert quotation-mark characters into the key. Never title-case, shorten, or paraphrase a key. 3. Classify every asset under the allowed laws. Only afterward perform EV valuation. 4. EC must contain every asset key, using [] if nothing applies. EV contains only assets having at least one applicable exemption. 5. Emit only citations found verbatim in the supplied statutes and valid JSON.",
+        "avoid_when": "Do not use example keys, outside law, a law excluded by the solved route, altered capitalization, shortened medical or product descriptions, or valuation limits while deciding classification."
+      }
+    },
+    {
+      "id": "exhaustive_specific_and_residual_classification",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "After the allowed-law list and exact asset keys are fixed, and before any EV dollar calculation.",
+        "procedure": "Evaluate each asset independently and collect every passing citation. Apply these mechanical tests. Federal, when allowed: add § 522(d)(5) to every asset because it covers any property; additionally add § 522(d)(3) for household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, § 522(d)(4) for jewelry, and § 522(d)(9) for an expressly professionally prescribed health aid. A firearm is not § 522(d)(3) merely because it is personal property. Pennsylvania: add § 8123 to every asset; add § 8124(a) only for its expressly listed property, such as wearing apparel, Bibles or school books, and qualifying sewing machines. Oregon: add § 18.345(1)(p) to every personal-property asset; also add (1)(b) for apparel or jewelry, (1)(h) for a professionally prescribed health aid, (1)(f) for household goods or furniture, and § 18.362 for a rifle, shotgun, or pistol. Wisconsin: add § 815.18(3)(d) for listed consumer goods, including household furnishings, apparel, jewelry, appliances, books, musical instruments, firearms, animals, sporting goods, and other tangible personal property held for personal, family, or household use. Illinois personal-use property: add § 5/12-1001(b) as the residual exemption; also add (a) for necessary wearing apparel, but use (d) only when the facts establish a trade tool. Arizona: use § 33-1123 for household furniture, furnishings, household goods, consumer electronics, or appliances; § 33-1125(1) for apparel, (2) for musical instruments, (4) only for engagement or wedding rings, (9) for an expressly professionally prescribed medical prosthesis or device, (10) for firearms, and (11) for domestic animals or household pets. After testing, check the allowed-law list again: on a Federal-plus-state route, an asset must include applicable results from both bodies, including the federal any-property citation and the applicable state residual citation.",
+        "avoid_when": "Do not stop after the first citation; confuse household objects with apparel, vehicles, animals, or trade tools; treat ordinary jewelry as an engagement or wedding ring; omit a residual any-property exemption; or import Arizona categories into another state's route."
+      }
+    },
+    {
+      "id": "ev_claim_is_asset_interest_capped",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "when": "Only in EV, after the exact asset keys and each asset's complete applicable-citation list have been finalized.",
+        "procedure": "Use two separate passes. PASS 1—freeze inputs: make one record per asset containing (K,V,L), where K is the exact fact-pattern description, V is that asset's stated value, and L is its already-classified citations. Never borrow a value, key, or citation from another record or from the response-format example. Do not add or remove citations during valuation. PASS 2—value each citation in L independently. For each pair, first set X=V. Read only that citation. If it has a dollar ceiling C and V>C, change X to C; otherwise leave X=V. Emit X. Never begin with C. After drafting every object, compare its number with the V in the same frozen record: if X>V, overwrite X with V. Repeat this scan until no claim_value exceeds its asset value. Use a per-item ceiling when the statute states both per-item and aggregate limits. An uncapped exemption always receives V. For § 522(d)(5), calculate C=1475+U per debtor, where U is supported unused § 522(d)(1) capacity up to 13950; under the task's independent-pair convention, do not treat the simultaneously evaluated asset-citation pair as consuming that capacity. Combine debtor or spouse ceilings only when the supplied text expressly permits separate or combined exemptions and the facts establish a joint case. Emit plain JSON numbers under the frozen keys.",
+        "avoid_when": "Do not output a statutory maximum merely because it appears in the statute; use one asset's value for another asset; carry a prior citation's ceiling or result forward; substitute an aggregate ceiling for a stated per-item ceiling; value an inapplicable citation; alter the classification list; divide joint property automatically; double a ceiling without express statutory support; introduce sample, shortened, or title-cased asset keys; or emit any claim_value greater than its own asset value."
+      }
+    }
+  ],
+  "parent_bank_sha256": "7d33fd9661c0af2a175268d9c2922ea655f78889ce678e86ba699c6d47238dd1",
+  "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+  "training_decisions": [
+    {
+      "accepted": false,
+      "current_family_nonregression": true,
+      "prior_family_nonregression": false,
+      "strict_current_improvement": true,
+      "parent_current": {
+        "EC": {
+          "precision": 0.6041666666666666,
+          "recall": 0.4600694444444444,
+          "f1": 0.5125,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "EV": {
+          "precision": 0.28125,
+          "recall": 0.19270833333333331,
+          "f1": 0.2125,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "mean_family_f1": 0.3625
+      },
+      "candidate_current": {
+        "EC": {
+          "precision": 0.7291666666666666,
+          "recall": 0.5277777777777778,
+          "f1": 0.6,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "EV": {
+          "precision": 0.375,
+          "recall": 0.23958333333333331,
+          "f1": 0.28125,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "mean_family_f1": 0.440625
+      },
+      "parent_prior": {
+        "EC": {
+          "precision": 0.7395833333333334,
+          "recall": 0.5769675925925926,
+          "f1": 0.6180224867724867,
+          "exact_target": 0.16666666666666666,
+          "tasks": 12,
+          "invalid_format": 0
+        },
+        "EV": {
+          "precision": 0.36874999999999997,
+          "recall": 0.2471064814814815,
+          "f1": 0.27206790123456787,
+          "exact_target": 0.0,
+          "tasks": 12,
+          "invalid_format": 0
+        },
+        "mean_family_f1": 0.44504519400352727
+      },
+      "candidate_prior": {
+        "EC": {
+          "precision": 0.7319444444444444,
+          "recall": 0.5144675925925926,
+          "f1": 0.5796296296296296,
+          "exact_target": 0.0,
+          "tasks": 12,
+          "invalid_format": 0
+        },
+        "EV": {
+          "precision": 0.45023148148148145,
+          "recall": 0.29050925925925924,
+          "f1": 0.32916666666666666,
+          "exact_target": 0.0,
+          "tasks": 12,
+          "invalid_format": 0
+        },
+        "mean_family_f1": 0.45439814814814816
+      },
+      "TRAIN_optimization_not_independent_validation": true,
+      "candidate": [
+        {
+          "id": "benchmark_regime_and_output_gate",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "At the start and again immediately before emitting any EC or EV answer.",
+            "procedure": "1. Read the solved-law sentence and create a closed jurisdiction list. Arizona or Illinois means that state only because its supplied statute opts out of Federal exemptions. “Federal and Pennsylvania/Oregon/Wisconsin” requires both named bodies; never substitute a different state. 2. Extract one output key per asset by copying the complete asset-description span character-for-character from the facts, excluding only an introductory a/an/the, ownership wording, and the price. Preserve capitalization, hyphens, numbers, parentheticals, dimensions, and all descriptive modifiers. Never use or copy the sample asset from the response-format template. 3. Freeze this key list before legal analysis. EC must output every frozen key, including [] for an asset with no exemption. EV must output only frozen keys having at least one applicable exemption. 4. First classify citations; in EV, value only the citations that survived classification. 5. Before emitting valid JSON, compare every output key to the frozen list and remove any invented, shortened, title-cased, or sample key. Emit citations exactly as printed in the supplied statutes.",
+            "avoid_when": "Do not infer the governing regime from general law, add Federal law to an opt-out-state route, omit Federal law from a Federal-plus-state route, paraphrase asset keys, discard parenthetical details, or let a response-format example enter the answer."
+          }
+        },
+        {
+          "id": "exhaustive_specific_and_residual_classification",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "After the jurisdiction and exact keys are frozen, before any EV arithmetic.",
+            "procedure": "For each asset independently, start an empty citation list and run only the applicable route below. Add every passing citation; classification depends on the asset's legal category, not whether its value exceeds a ceiling.\n1. Federal, when named: add § 522(d)(5) to every property item. Also add § 522(d)(1) for a residence, (d)(2) for one motor vehicle, (d)(3) for household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, (d)(4) for jewelry, (d)(6) only for facts establishing a trade tool, and (d)(9) only for a professionally prescribed health aid. Personal-use household electronics may be household goods. A firearm is not (d)(3) merely because it is personal property.\n2. Pennsylvania, when named: add § 8123 to every asset, real or personal. Additionally add § 8124(a)(1) for wearing apparel, (a)(2) for Bibles or school books, and (a)(3) only for a qualifying sewing machine.\n3. Oregon, when named: add § 18.345(1)(p) to every personal-property asset, but not a homestead. Additionally use (1)(a) for books, pictures, or musical instruments; (1)(b) for apparel or jewelry; (1)(c) only for necessary occupational tools; (1)(d) for a vehicle; (1)(e) for qualifying family-use animals; (1)(f) for household goods, furniture, radios, televisions, or utensils; (1)(h) for a professionally prescribed health aid; § 18.362 for a rifle, shotgun, or pistol; and § 18.395(1) for an occupied homestead.\n4. Wisconsin, when named: use § 815.18(3)(d) for the listed personal-use consumer goods, including household furnishings, apparel, jewelry, appliances, books, musical instruments, firearms, sporting goods, animals, and other tangible personal property; (3)(g) for motor vehicles; (3)(k) for qualifying personal depository accounts; and § 815.20(1) for an occupied homestead.\n5. Arizona-only route: use § 33-1101(A) for a qualifying homestead; § 33-1123 for household furniture, furnishings, goods, consumer electronics, or appliances; § 33-1125(1) for apparel, (2) for musical instruments, (4) only for engagement or wedding rings, (8) for one motor vehicle, (9) for an expressly professionally prescribed prosthesis or device, (10) for firearms, and (11) for domestic animals or household pets.\n6. Illinois-only route: use § 5/12-901 for an occupied homestead. For personal-use personal property, add § 5/12-1001(b) as the residual citation; additionally add (a) only for necessary apparel, a Bible, school books, or family pictures, (c) for one motor vehicle, (d) only for an established trade tool, and (e) only for a professionally prescribed health aid.\nFinally reread the route: Federal-plus-state answers must contain all applicable Federal citations and all applicable named-state citations. Do not stop at the first match.",
+            "avoid_when": "Do not use value ceilings to reject classification; confuse a container for firearms with a firearm; classify furniture, animals, instruments, or ordinary jewelry as apparel; treat ordinary jewelry as an engagement or wedding ring; call personal household property a trade tool without occupational facts; omit a residual citation; or emit a citation from a jurisdiction outside the solved route."
+          }
+        },
+        {
+          "id": "ev_claim_is_asset_interest_capped",
+          "hypothesis_ids": [
+            "EV"
+          ],
+          "guidance": {
+            "when": "Only after an asset's complete citation list has been frozen in EV.",
+            "procedure": "Value each asset-citation pair separately with this mandatory routine. 1. Copy the asset's stated dollar value into V. 2. Read only that citation and record either its ceiling C or “uncapped.” Do not use an aggregate maximum from a different citation. 3. Start the draft claim_value as V. If the citation is capped and V > C, replace it with C; otherwise leave V unchanged. Thus uncapped gives V and capped gives min(V,C). 4. Check the result numerically: 0 <= claim_value <= V. If it exceeds V, replace it with V. 5. Repeat from the original V for the next citation; never carry a previous citation's cap or result forward.\nUse the statute's per-item ceiling where stated, including the Federal § 522(d)(3) per-item ceiling, rather than its aggregate ceiling. Under § 522(d)(5), each debtor's capacity is 1475 + U, with 0 <= U <= 13950 determined by unused § 522(d)(1) capacity; combine separately available capacities in a joint case only when the supplied statute and facts support doing so. Likewise, multiply or combine a state ceiling only where the supplied text expressly grants each spouse or joint debtor an exemption. Treat the task's independent-pair instruction as ignoring consumption across different assets, not as permission to replace V with a statutory maximum. Emit plain JSON numbers and retain exactly the frozen classification citations.",
+            "avoid_when": "Do not output a statutory ceiling merely because one exists; use an aggregate ceiling when a per-item ceiling controls; value an inapplicable citation; add or remove citations during arithmetic; import caps from another jurisdiction; automatically divide a jointly owned asset's value; automatically double every ceiling; pool asset values; or introduce a new asset key."
+          }
+        }
+      ],
+      "delta": {
+        "operations": [
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "benchmark_regime_and_output_gate"
+            ],
+            "skill": {
+              "id": "benchmark_regime_and_output_gate",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "At the start and again immediately before emitting any EC or EV answer.",
+                "procedure": "1. Read the solved-law sentence and create a closed jurisdiction list. Arizona or Illinois means that state only because its supplied statute opts out of Federal exemptions. “Federal and Pennsylvania/Oregon/Wisconsin” requires both named bodies; never substitute a different state. 2. Extract one output key per asset by copying the complete asset-description span character-for-character from the facts, excluding only an introductory a/an/the, ownership wording, and the price. Preserve capitalization, hyphens, numbers, parentheticals, dimensions, and all descriptive modifiers. Never use or copy the sample asset from the response-format template. 3. Freeze this key list before legal analysis. EC must output every frozen key, including [] for an asset with no exemption. EV must output only frozen keys having at least one applicable exemption. 4. First classify citations; in EV, value only the citations that survived classification. 5. Before emitting valid JSON, compare every output key to the frozen list and remove any invented, shortened, title-cased, or sample key. Emit citations exactly as printed in the supplied statutes.",
+                "avoid_when": "Do not infer the governing regime from general law, add Federal law to an opt-out-state route, omit Federal law from a Federal-plus-state route, paraphrase asset keys, discard parenthetical details, or let a response-format example enter the answer."
+              }
+            },
+            "source_case_ids": [
+              13,
+              14,
+              15,
+              16
+            ],
+            "rationale": "The current answers repeatedly shortened or title-cased keys, dropped parenthetical and descriptive text, and in case 14 EV copied the response-format sample asset. The revised gate gives the weak executor a literal extraction-and-comparison routine while preserving the EC/EV output distinction."
+          },
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "exhaustive_specific_and_residual_classification"
+            ],
+            "skill": {
+              "id": "exhaustive_specific_and_residual_classification",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "After the jurisdiction and exact keys are frozen, before any EV arithmetic.",
+                "procedure": "For each asset independently, start an empty citation list and run only the applicable route below. Add every passing citation; classification depends on the asset's legal category, not whether its value exceeds a ceiling.\n1. Federal, when named: add § 522(d)(5) to every property item. Also add § 522(d)(1) for a residence, (d)(2) for one motor vehicle, (d)(3) for household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, (d)(4) for jewelry, (d)(6) only for facts establishing a trade tool, and (d)(9) only for a professionally prescribed health aid. Personal-use household electronics may be household goods. A firearm is not (d)(3) merely because it is personal property.\n2. Pennsylvania, when named: add § 8123 to every asset, real or personal. Additionally add § 8124(a)(1) for wearing apparel, (a)(2) for Bibles or school books, and (a)(3) only for a qualifying sewing machine.\n3. Oregon, when named: add § 18.345(1)(p) to every personal-property asset, but not a homestead. Additionally use (1)(a) for books, pictures, or musical instruments; (1)(b) for apparel or jewelry; (1)(c) only for necessary occupational tools; (1)(d) for a vehicle; (1)(e) for qualifying family-use animals; (1)(f) for household goods, furniture, radios, televisions, or utensils; (1)(h) for a professionally prescribed health aid; § 18.362 for a rifle, shotgun, or pistol; and § 18.395(1) for an occupied homestead.\n4. Wisconsin, when named: use § 815.18(3)(d) for the listed personal-use consumer goods, including household furnishings, apparel, jewelry, appliances, books, musical instruments, firearms, sporting goods, animals, and other tangible personal property; (3)(g) for motor vehicles; (3)(k) for qualifying personal depository accounts; and § 815.20(1) for an occupied homestead.\n5. Arizona-only route: use § 33-1101(A) for a qualifying homestead; § 33-1123 for household furniture, furnishings, goods, consumer electronics, or appliances; § 33-1125(1) for apparel, (2) for musical instruments, (4) only for engagement or wedding rings, (8) for one motor vehicle, (9) for an expressly professionally prescribed prosthesis or device, (10) for firearms, and (11) for domestic animals or household pets.\n6. Illinois-only route: use § 5/12-901 for an occupied homestead. For personal-use personal property, add § 5/12-1001(b) as the residual citation; additionally add (a) only for necessary apparel, a Bible, school books, or family pictures, (c) for one motor vehicle, (d) only for an established trade tool, and (e) only for a professionally prescribed health aid.\nFinally reread the route: Federal-plus-state answers must contain all applicable Federal citations and all applicable named-state citations. Do not stop at the first match.",
+                "avoid_when": "Do not use value ceilings to reject classification; confuse a container for firearms with a firearm; classify furniture, animals, instruments, or ordinary jewelry as apparel; treat ordinary jewelry as an engagement or wedding ring; call personal household property a trade tool without occupational facts; omit a residual citation; or emit a citation from a jurisdiction outside the solved route."
+              }
+            },
+            "source_case_ids": [
+              13,
+              14,
+              15,
+              16
+            ],
+            "rationale": "The current skill omitted important residence and vehicle branches and the actor consequently missed residual citations, misclassified a firearm container, and used apparel provisions for unrelated property. Cases 14 and 15 also show systematic loss of the Federal wildcard and state residual citations. The update supplies one closed, ordered route for each supported regime."
+          },
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "ev_claim_is_asset_interest_capped"
+            ],
+            "skill": {
+              "id": "ev_claim_is_asset_interest_capped",
+              "hypothesis_ids": [
+                "EV"
+              ],
+              "guidance": {
+                "when": "Only after an asset's complete citation list has been frozen in EV.",
+                "procedure": "Value each asset-citation pair separately with this mandatory routine. 1. Copy the asset's stated dollar value into V. 2. Read only that citation and record either its ceiling C or “uncapped.” Do not use an aggregate maximum from a different citation. 3. Start the draft claim_value as V. If the citation is capped and V > C, replace it with C; otherwise leave V unchanged. Thus uncapped gives V and capped gives min(V,C). 4. Check the result numerically: 0 <= claim_value <= V. If it exceeds V, replace it with V. 5. Repeat from the original V for the next citation; never carry a previous citation's cap or result forward.\nUse the statute's per-item ceiling where stated, including the Federal § 522(d)(3) per-item ceiling, rather than its aggregate ceiling. Under § 522(d)(5), each debtor's capacity is 1475 + U, with 0 <= U <= 13950 determined by unused § 522(d)(1) capacity; combine separately available capacities in a joint case only when the supplied statute and facts support doing so. Likewise, multiply or combine a state ceiling only where the supplied text expressly grants each spouse or joint debtor an exemption. Treat the task's independent-pair instruction as ignoring consumption across different assets, not as permission to replace V with a statutory maximum. Emit plain JSON numbers and retain exactly the frozen classification citations.",
+                "avoid_when": "Do not output a statutory ceiling merely because one exists; use an aggregate ceiling when a per-item ceiling controls; value an inapplicable citation; add or remove citations during arithmetic; import caps from another jurisdiction; automatically divide a jointly owned asset's value; automatically double every ceiling; pool asset values; or introduce a new asset key."
+              }
+            },
+            "source_case_ids": [
+              13,
+              14,
+              15,
+              16
+            ],
+            "rationale": "Across all four current EV cases, the actor often returned statutory maxima greater than the asset value despite the existing prose. The revised procedure makes V the initialized answer, permits only a conditional downward replacement, adds an explicit numeric invariant, and clarifies independent-pair and joint-debtor handling."
+          }
+        ],
+        "noop_reason": null
+      },
+      "actual_tokens": 1600,
+      "current_effect": {
+        "tasks": 8,
+        "help": 3,
+        "hurt": 1,
+        "ties": 4,
+        "mean_f1_difference": 0.07812499999999999
+      },
+      "prior_effect": {
+        "tasks": 24,
+        "help": 6,
+        "hurt": 6,
+        "ties": 12,
+        "mean_f1_difference": 0.009352954144620807
+      },
+      "actual_replay": [
+        {
+          "case_id": 1,
+          "source_key": "450e0a8683131f38f0a1a696ed83e75fcb950c1ac063c5dcee4a473b720c865d",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Arizona statutes. The Henry Golden Boy .22 LR lever-action rifle is exempt under Ariz. Rev. Stat. § 33-1125(10). The sterling silver hoop earrings are exempt under Ariz. Rev. Stat. § 33-1125(1). The white gold tennis bracelet is exempt under Ariz. Rev. Stat. § 33-1125(1).",
+            "answer": {
+              "Henry Golden Boy .22 LR lever-action rifle with brass receiver": [
+                "Ariz. Rev. Stat. § 33-1125(10)"
+              ],
+              "pair of sterling silver hoop earrings with cubic zirconia accents": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ],
+              "white gold tennis bracelet with alternating sapphire and diamond stones": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/1_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.3333333333333333,
+            "recall": 0.3333333333333333,
+            "f1": 0.3333333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 1,
+          "source_key": "450e0a8683131f38f0a1a696ed83e75fcb950c1ac063c5dcee4a473b720c865d",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Arizona statutes. The assets are evaluated under Arizona's exemptions for personal property. The rifle is exempt under Ariz. Rev. Stat. § 33-1125(10) with a $2,000 cap. The earrings are exempt under Ariz. Rev. Stat. § 33-1125(1) with a $500 cap. The bracelet is exempt under Ariz. Rev. Stat. § 33-1125(4) with a $2,000 cap.",
+            "answer": {
+              "Henry Golden Boy .22 LR lever-action rifle with brass receiver": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                  "claim_value": 2000
+                }
+              ],
+              "pair of sterling silver hoop earrings with cubic zirconia accents": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                }
+              ],
+              "white gold tennis bracelet with alternating sapphire and diamond stones": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                  "claim_value": 2000
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/1_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 2.327787021630616,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 2,
+          "source_key": "538bccafed86a76e8845156047cc144bfd899ad817f644a1020be5267c806652",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Pennsylvania statutes. The smart speaker and smart light bulb are personal property used for household purposes, qualifying for exemptions under 11 U.S.C. § 522(d)(3) and 42 Pa. Cons. Stat. § 8124(a)(1).",
+            "answer": {
+              "Smart Speaker with Built-in Voice Assistant and Ambient Light Display": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ],
+              "Smart Light Bulb Starter Kit with Color-Changing Features": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/2_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.3333333333333333,
+            "f1": 0.4,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 2,
+          "source_key": "538bccafed86a76e8845156047cc144bfd899ad817f644a1020be5267c806652",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Pennsylvania statutes. The smart speaker and smart light bulb are personal property used for household purposes, qualifying under 11 U.S.C. § 522(d)(3) and 42 Pa. Cons. Stat. § 8124(a)(1). The value of each item is below the applicable exemption limits.",
+            "answer": {
+              "Smart speaker with built-in voice assistant and ambient light display": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 245
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 245
+                }
+              ],
+              "Smart light bulb starter kit with color-changing features": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 225
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 225
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/2_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.3333333333333333,
+            "f1": 0.4,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 3,
+          "source_key": "ae31fbee73a28724adb55bc05ad4e70929663d18b1b2a711202c131e9c7c556a",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Federal and Oregon statutes to each asset. Checked value limits and legal categories. No hidden reasoning.",
+            "answer": {
+              "strand of cultured pearls with sterling silver clasp": [
+                "11 U.S.C. § 522(d)(4)",
+                "Or. Rev. Stat. § 18.345(1)(b)"
+              ],
+              "pair of blue denim jeans with straight-leg cut": [
+                "11 U.S.C. § 522(d)(3)",
+                "Or. Rev. Stat. § 18.345(1)(f)"
+              ],
+              "custom-molded foot orthotics": [
+                "11 U.S.C. § 522(d)(9)",
+                "Or. Rev. Stat. § 18.345(1)(h)"
+              ],
+              "charm bracelet with silver heart-shaped and birthstone-themed charms": [
+                "11 U.S.C. § 522(d)(4)",
+                "Or. Rev. Stat. § 18.345(1)(b)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/3_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.875,
+            "recall": 0.4375,
+            "f1": 0.5833333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 3,
+          "source_key": "ae31fbee73a28724adb55bc05ad4e70929663d18b1b2a711202c131e9c7c556a",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Oregon statutes to each asset. The strand of cultured pearls is jewelry, so 18.345(1)(b) applies. The jeans are apparel, so 18.345(1)(b) applies. The orthotics are health aids, so 18.345(1)(h) applies. The charm bracelet is jewelry, so 18.345(1)(b) applies.",
+            "answer": {
+              "Strand of cultured pearls with sterling silver clasp": [
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                  "claim_value": 1800
+                }
+              ],
+              "Pair of blue denim jeans with straight-leg cut": [
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                  "claim_value": 1800
+                }
+              ],
+              "Custom-molded foot orthotics medically authorized for the treatment of plantar fasciitis": [
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(h)",
+                  "claim_value": 365
+                }
+              ],
+              "Charm bracelet with silver heart-shaped and birthstone-themed charms": [
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                  "claim_value": 1800
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/3_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 13.178679881953656,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 4,
+          "source_key": "c84eac4183c509419788d617fd09834853859a853eca08cc58b14fe66a986c00",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Illinois statutes. The assets are classified as household furnishings, apparel, and personal items, which fall under 735 Ill. Comp. Stat. 5/12-1001(a), (b), (c), (d), and (e).",
+            "answer": {
+              "L-shaped sectional sofa upholstered in dark gray microfiber": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)",
+                "735 Ill. Comp. Stat. 5/12-1001(b)"
+              ],
+              "ceramic pendant on leather cord": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ],
+              "light brown derby shoes with black laces": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ],
+              "step trash can with soft-close lid and removable liner": [
+                "735 Ill. Comp. Stat. 5/12-1001(b)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/4_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.625,
+            "recall": 0.625,
+            "f1": 0.5833333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 4,
+          "source_key": "c84eac4183c509419788d617fd09834853859a853eca08cc58b14fe66a986c00",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Illinois statutes. The assets are personal property, so applicable exemptions include household furnishings, apparel, jewelry, and motor vehicles. Each asset is evaluated independently.",
+            "answer": {
+              "L-shaped sectional sofa upholstered in dark gray microfiber": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                  "claim_value": 1500
+                },
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 1125
+                }
+              ],
+              "ceramic pendant on leather cord": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 32
+                }
+              ],
+              "light brown derby shoes with black laces": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 21
+                }
+              ],
+              "step trash can with soft-close lid and removable liner": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 34
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/4_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.375,
+            "recall": 0.375,
+            "f1": 0.3333333333333333,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 5,
+          "source_key": "041a923ee4b4b9c5749f42376efab0aa972cbfcdcf038cc8f1c896962406c5c5",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Arizona statutes. The portable nebulizer with mask attachments is a professionally prescribed health aid, exempt under Ariz. Rev. Stat. § 33-1125(9). The Siberian husky is a domestic animal, exempt under Ariz. Rev. Stat. § 33-1125(11).",
+            "answer": {
+              "Portable nebulizer with mask attachments": [
+                "Ariz. Rev. Stat. § 33-1125(9)"
+              ],
+              "Siberian husky": [
+                "Ariz. Rev. Stat. § 33-1125(11)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/5_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 5,
+          "source_key": "041a923ee4b4b9c5749f42376efab0aa972cbfcdcf038cc8f1c896962406c5c5",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Arizona statutes. The nebulizer is a professionally prescribed health aid, exempt under Ariz. Rev. Stat. § 33-1125(9). The Siberian husky is a domestic animal, exempt under Ariz. Rev. Stat. § 33-1125(11).",
+            "answer": {
+              "\"professionally prescribed portable nebulizer with mask attachments\"": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(9)",
+                  "claim_value": 87
+                }
+              ],
+              "\"Siberian husky\"": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(11)",
+                  "claim_value": 980
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/5_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 6,
+          "source_key": "6f530244dd711f67f714bfb4ca1eeff189bc0860e265cb533bea6f5a88f3e846",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Oregon statutes. The firearms are exempt under Oregon's § 18.362. The sandals are exempt under Oregon's § 18.345(1)(p). The value of the firearms and sandals does not exceed the exemption limits.",
+            "answer": {
+              "Glock 19 Gen5 9mm pistol with two magazines": [
+                "11 U.S.C. § 522(d)(5)",
+                "Or. Rev. Stat. § 18.362"
+              ],
+              "Springfield M1A semi-automatic rifle (.308 caliber)": [
+                "11 U.S.C. § 522(d)(5)",
+                "Or. Rev. Stat. § 18.362"
+              ],
+              "sandals with leather straps and cushioned soles": [
+                "11 U.S.C. § 522(d)(5)",
+                "Or. Rev. Stat. § 18.345(1)(p)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/6_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.611111111111111,
+            "f1": 0.7555555555555555,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 6,
+          "source_key": "6f530244dd711f67f714bfb4ca1eeff189bc0860e265cb533bea6f5a88f3e846",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Oregon statutes for firearms and personal property exemptions. Checked each asset against applicable exemptions without aggregation.",
+            "answer": {
+              "Glock 19 Gen5 9mm pistol with two magazines": [
+                {
+                  "citation": "Or. Rev. Stat. § 18.362",
+                  "claim_value": 1000
+                }
+              ],
+              "Springfield M1A semi-automatic rifle (.308 caliber)": [
+                {
+                  "citation": "Or. Rev. Stat. § 18.362",
+                  "claim_value": 1000
+                }
+              ],
+              "sandals with leather straps and cushioned soles": [
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                  "claim_value": 80
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/6_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.6666666666666666,
+            "recall": 0.19444444444444442,
+            "f1": 0.3,
+            "mare": 0.24537037037037038,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 7,
+          "source_key": "b122eaed71dfeed5200fa698ed13991b5dcfe4aae34431812599124e7c0bdf38",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Arizona state exemptions. Checked each asset against applicable statutes. No federal exemptions used as Arizona opted out.",
+            "answer": {
+              "collapsible fabric storage cubes with label slots": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ],
+              "entry-level black bassoon": [
+                "Ariz. Rev. Stat. § 33-1125(2)"
+              ],
+              "folding banquet table with adjustable height legs": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "home theater receiver with 7.2 channel support and Bluetooth connectivity": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/7_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.75,
+            "recall": 0.75,
+            "f1": 0.75,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 7,
+          "source_key": "b122eaed71dfeed5200fa698ed13991b5dcfe4aae34431812599124e7c0bdf38",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Arizona exemptions. The collapsible fabric storage cubes are household goods under § 33-1123. The bassoon is a musical instrument under § 33-1125(2). The folding banquet table and home theater receiver are household furnishings under § 33-1123. No other exemptions apply.",
+            "answer": {
+              "Collapsible Fabric Storage Cubes with Label Slots": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 175
+                }
+              ],
+              "Entry-Level Black Bassoon": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+                  "claim_value": 400
+                }
+              ],
+              "Folding Banquet Table with Adjustable Height Legs": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 175
+                }
+              ],
+              "Home Theater Receiver with 7.2 Channel Support and Bluetooth Connectivity": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 2950
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/7_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.5,
+            "f1": 0.5,
+            "mare": 6.021381578947368,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 8,
+          "source_key": "0b91fdd335c37889fcd28a74435fa8c1b6c2f6820165fbe7c6ee7dff41c52064",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Wisconsin statutes. The handcrafted wire-wrapped pendant with semi-precious stone is personal property, and the reclining leather armchair with built-in cup holder and USB charging port is household furnishings. Both are covered under Wisconsin Stat. § 815.18(3)(d) and 11 U.S.C. § 522(d)(5).",
+            "answer": {
+              "Handcrafted wire-wrapped pendant with semi-precious stone": [
+                "11 U.S.C. § 522(d)(5)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "Reclining leather armchair with built-in cup holder and USB charging port": [
+                "11 U.S.C. § 522(d)(5)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/8_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.6666666666666666,
+            "f1": 0.8,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 8,
+          "source_key": "0b91fdd335c37889fcd28a74435fa8c1b6c2f6820165fbe7c6ee7dff41c52064",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Wisconsin statutes. The handcrafted wire-wrapped pendant is classified as wearing apparel under Wisconsin Stat. § 815.18(3)(d) with a claim value of $520. The reclining leather armchair is classified as household furnishings under Wisconsin Stat. § 815.18(3)(d) with a claim value of $645.",
+            "answer": {
+              "Handcrafted wire-wrapped pendant with semi-precious stone": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 520
+                }
+              ],
+              "Reclining leather armchair with built-in cup holder and USB charging port": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 645
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/8_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.16666666666666666,
+            "f1": 0.25,
+            "mare": 1.1993464052287581,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 9,
+          "source_key": "d602834f0ae6670a8b81b3eef7601433a9185d00cf0542fa4bf72a3bd430432c",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The task requires identifying applicable exemptions for each asset under Federal and Pennsylvania statutes. The assets are classified as personal property, and the exemptions are applied based on their category (e.g., apparel, household goods, motor vehicles). The citations are selected based on the asset's description and the applicable exemption limits.",
+            "answer": {
+              "fur-lined winter coat with removable collar": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ],
+              "tailored navy suit with silk lining and hand-finished seams": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ],
+              "mid-length utility jacket with drawstring waist and snap buttons": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/9_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 9,
+          "source_key": "d602834f0ae6670a8b81b3eef7601433a9185d00cf0542fa4bf72a3bd430432c",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied federal and state statutes to each asset. Checked exemptions based on asset type and value. Ensured no aggregation across assets.",
+            "answer": {
+              "fur-lined winter coat with removable collar": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                  "claim_value": 1800
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 1200
+                }
+              ],
+              "tailored navy suit with silk lining and hand-finished seams": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                  "claim_value": 1800
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 1200
+                }
+              ],
+              "mid-length utility jacket with drawstring waist and snap buttons": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                  "claim_value": 1800
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 1200
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/9_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.1111111111111111,
+            "recall": 0.16666666666666666,
+            "f1": 0.13333333333333333,
+            "mare": 1.4092700765043773,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 10,
+          "source_key": "2bec57032f51f7b00ac8a365352d9ad3feef4770ecd957a8b4bc7e73d439f0ca",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Illinois statutes. The indoor cockatiels fall under household pets, and the leather belt is considered apparel. Both assets are protected under Illinois exemptions.",
+            "answer": {
+              "Indoor cockatiels": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ],
+              "Leather belt with silver buckle": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/10_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.25,
+            "f1": 0.3333333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 10,
+          "source_key": "2bec57032f51f7b00ac8a365352d9ad3feef4770ecd957a8b4bc7e73d439f0ca",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Illinois statutes. The indoor cockatiels are classified as animals, which are exempt under 735 Ill. Comp. Stat. 5/12-1001(11). The leather belt is classified as wearing apparel, which is exempt under 735 Ill. Comp. Stat. 5/12-1001(a).",
+            "answer": {
+              "indoor cockatiels": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(11)",
+                  "claim_value": 260
+                }
+              ],
+              "leather belt with silver buckle": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 535
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/10_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.25,
+            "f1": 0.3333333333333333,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 11,
+          "source_key": "8c7341bad47543a19d24e84f68280c9f6d88cc63ab803832be514db03cf425b8",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The toaster oven and English bulldog are personal-use assets. The toaster oven falls under household furnishings, appliances, and animals, qualifying for exemptions. The English bulldog is an animal, also qualifying for exemptions. Both assets are protected under federal and state statutes.",
+            "answer": {
+              "Toaster oven with rotisserie setting and convection fan": [
+                "11 U.S.C. § 522(d)(3)",
+                "Ariz. Rev. Stat. § 33-1123",
+                "735 Ill. Comp. Stat. 5/12-1001(a)",
+                "Or. Rev. Stat. § 18.345(1)(f)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "English bulldog": [
+                "11 U.S.C. § 522(d)(3)",
+                "Ariz. Rev. Stat. § 33-1125(11)",
+                "735 Ill. Comp. Stat. 5/12-1001(a)",
+                "Or. Rev. Stat. § 18.345(1)(e)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/11_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.2,
+            "recall": 0.3333333333333333,
+            "f1": 0.25,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 11,
+          "source_key": "8c7341bad47543a19d24e84f68280c9f6d88cc63ab803832be514db03cf425b8",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtor's assets are evaluated under Federal and Pennsylvania statutes. The toaster oven is classified as household furnishings, qualifying for 11 U.S.C. § 522(d)(3) with a $700 per-item cap. The English bulldog is classified as an animal, qualifying for 11 U.S.C. § 522(d)(3) with a $700 per-item cap. Both assets are also subject to Pennsylvania's 42 Pa. Cons. Stat. § 8124(a)(1) for wearing apparel, but this does not apply to the toaster oven or the dog. The claim values are capped at $700 for each asset.",
+            "answer": {
+              "Toaster oven with rotisserie setting and convection fan": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 700
+                }
+              ],
+              "English bulldog": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 700
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/11_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.25,
+            "recall": 0.16666666666666666,
+            "f1": 0.2,
+            "mare": 0.544776119402985,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 12,
+          "source_key": "545390223e95c949857e744a65e2b8ab5fd55371504b9475922ef67918db00e5",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Wisconsin exemptions for personal-use items. Checked each asset against Wisconsin Stat. § 815.18(3)(d) for consumer goods, (3)(g) for motor vehicles, and other relevant sections. No other states were involved.",
+            "answer": {
+              "Nursery rocking chair with gliding motion and lumbar pillow": [
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "High-performance cycling jersey": [
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "Home office webcam with 1080p resolution and privacy shutter": [
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "Student violin with bow and rosin in lightweight case": [
+                "Wis. Stat. § 815.18(3)(d)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/12_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 12,
+          "source_key": "545390223e95c949857e744a65e2b8ab5fd55371504b9475922ef67918db00e5",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Wisconsin exemptions. Each asset is classified under Wis. Stat. § 815.18(3)(d) for consumer goods, (3)(g) for motor vehicles, and (3)(k) for depository accounts. Claim values are capped per statute.",
+            "answer": {
+              "nursery rocking chair with gliding motion and lumbar pillow": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 1225
+                }
+              ],
+              "high-performance cycling jersey": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 140
+                }
+              ],
+              "home office webcam with 1080p resolution and privacy shutter": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 1200
+                }
+              ],
+              "student violin with bow and rosin in lightweight case": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 285
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/12_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 13,
+          "source_key": "257547fac570f5620bc3b10eac4cf6145c0ccc490c61a13f189ae01a8fb9f9d8",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Arizona state exemptions. Checked each asset against applicable statutes. No federal exemptions used as Arizona opted out.",
+            "answer": {
+              "Black nylon compression leggings": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ],
+              "Gun safe with biometric lock and adjustable interior shelving": [
+                "Ariz. Rev. Stat. § 33-1125(10)"
+              ],
+              "Set of six dining chair cushions with floral upholstery": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "Beige 1995 Toyota Camry LE (168,000 miles)": [
+                "Ariz. Rev. Stat. § 33-1125(8)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/13_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.75,
+            "recall": 0.75,
+            "f1": 0.75,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 13,
+          "source_key": "257547fac570f5620bc3b10eac4cf6145c0ccc490c61a13f189ae01a8fb9f9d8",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Arizona exemptions. Checked each asset against applicable state statutes. No federal exemptions used as Arizona opted out.",
+            "answer": {
+              "black nylon compression leggings": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                }
+              ],
+              "gun safe with biometric lock and adjustable interior shelving": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                  "claim_value": 2000
+                }
+              ],
+              "set of six dining chair cushions with floral upholstery": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 215
+                }
+              ],
+              "1995 Toyota Camry LE": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                  "claim_value": 15000
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/13_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.25,
+            "recall": 0.25,
+            "f1": 0.25,
+            "mare": 3.798010473708123,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 14,
+          "source_key": "0ea113f98e4401c9f7ce309e8e431f6811896d569ea7f16fa41aea4aa7647ed6",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Pennsylvania statutes. The small mountain cabin is a principal residence, so 11 U.S.C. § 522(d)(1) and 42 Pa. Cons. Stat. § 8123 apply. The rechargeable electric toothbrush is household goods, so 11 U.S.C. § 522(d)(3) and 42 Pa. Cons. Stat. § 8124(a)(1) apply. The bracelet is jewelry, so 11 U.S.C. § 522(d)(4) and 42 Pa. Cons. Stat. § 8124(a)(1) apply. All exemptions are within the value limits.",
+            "answer": {
+              "1981 DeLorean DMC-12": [],
+              "rechargeable electric toothbrush with charging dock": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ],
+              "small mountain cabin": [
+                "11 U.S.C. § 522(d)(1)",
+                "42 Pa. Cons. Stat. § 8123"
+              ],
+              "leather and silver braided bracelet with magnetic clasp": [
+                "11 U.S.C. § 522(d)(4)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/14_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.6666666666666666,
+            "recall": 0.4444444444444444,
+            "f1": 0.5333333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 14,
+          "source_key": "0ea113f98e4401c9f7ce309e8e431f6811896d569ea7f16fa41aea4aa7647ed6",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Pennsylvania statutes. The small mountain cabin is their principal residence, so it qualifies for the $49,500 exemption under 11 U.S.C. § 522(d)(1). The bracelet and toothbrush are personal items, so they qualify for the $700 per item exemption under 11 U.S.C. § 522(d)(3).",
+            "answer": {
+              "1981 DeLorean DMC-12": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                }
+              ],
+              "Leather and silver braided bracelet with magnetic clasp": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                }
+              ],
+              "Rechargeable electric toothbrush with charging dock": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                }
+              ],
+              "Small mountain cabin": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(1)",
+                  "claim_value": 49500
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/14_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 5.190095282780133,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 15,
+          "source_key": "b6d3f379e54094bf6bfd24967842305bf4e205572c2ba3025d4ce713cf3dc88f",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Federal and Oregon statutes. Checked each asset against exemption categories. No hidden reasoning.",
+            "answer": {
+              "vintage rocking chair with worn maple finish and floral cushion": [
+                "11 U.S.C. § 522(d)(3)",
+                "Or. Rev. Stat. § 18.345(1)(f)"
+              ],
+              "compact digital camera with optical zoom and SD card slot": [
+                "11 U.S.C. § 522(d)(3)",
+                "Or. Rev. Stat. § 18.345(1)(f)"
+              ],
+              "double-wide mobile homestead with full utility hookups": [
+                "11 U.S.C. § 522(d)(1)",
+                "Or. Rev. Stat. § 18.395(1)"
+              ],
+              "portable DVD player with 10-inch screen and battery pack": [
+                "11 U.S.C. § 522(d)(3)",
+                "Or. Rev. Stat. § 18.345(1)(f)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/15_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.5416666666666666,
+            "f1": 0.7,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 15,
+          "source_key": "b6d3f379e54094bf6bfd24967842305bf4e205572c2ba3025d4ce713cf3dc88f",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Oregon statutes for each asset. The vintage rocking chair and portable DVD player fall under household furnishings, the compact digital camera under consumer electronics, and the double-wide mobile homestead under homestead exemption.",
+            "answer": {
+              "vintage rocking chair with worn maple finish and floral cushion": [
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 3000
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                }
+              ],
+              "compact digital camera with optical zoom and SD card slot": [
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 1535
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                }
+              ],
+              "double-wide mobile homestead with full utility hookups": [
+                {
+                  "citation": "Or. Rev. Stat. § 18.395(1)",
+                  "claim_value": 40000
+                }
+              ],
+              "portable DVD player with 10-inch screen and battery pack": [
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 250
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/15_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.75,
+            "recall": 0.3333333333333333,
+            "f1": 0.4583333333333333,
+            "mare": 0.29550948716278114,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 16,
+          "source_key": "661bebff5cd5713ece1031f1e644bff8c8ca9fcc3358ca318c88bf7c5e72564c",
+          "family": "EC",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Illinois statutes. The homestead is exempt under 735 Ill. Comp. Stat. 5/12-901. The convertible futon is exempt under 735 Ill. Comp. Stat. 5/12-1001(a). The wool overcoat is exempt under 735 Ill. Comp. Stat. 5/12-1001(a). The flute is exempt under 735 Ill. Comp. Stat. 5/12-1001(a).",
+            "answer": {
+              "Two-story primary homestead (4 bedrooms, two and a half bath) with 2450 square feet": [
+                "735 Ill. Comp. Stat. 5/12-901"
+              ],
+              "Convertible futon with washable microfiber cover": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ],
+              "Tailored wool overcoat with satin lining and horn buttons": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ],
+              "Three-piece flute with silver plating and molded carrying case": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/16_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.375,
+            "f1": 0.41666666666666663,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 16,
+          "source_key": "661bebff5cd5713ece1031f1e644bff8c8ca9fcc3358ca318c88bf7c5e72564c",
+          "family": "EV",
+          "stage": "b4_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "bd872f4b6b7e2036903dd183a121f94fb2facbb645dd48b2b4ced5f7b1367d6e",
+          "parsed": {
+            "public_checks": "Applied Illinois exemptions. The homestead is exempt under 735 Ill. Comp. Stat. 5/12-901. The convertible futon is exempt under 735 Ill. Comp. Stat. 5/12-1001(a). The tailored wool overcoat is exempt under 735 Ill. Comp. Stat. 5/12-1001(a). The flute is exempt under 735 Ill. Comp. Stat. 5/12-1001(a).",
+            "answer": {
+              "Two-story primary homestead (4 bedrooms, two and a half bath) with 2450 square feet": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-901",
+                  "claim_value": 15000
+                }
+              ],
+              "Convertible futon with washable microfiber cover": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 190
+                }
+              ],
+              "Tailored wool overcoat with satin lining and horn buttons": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 375
+                }
+              ],
+              "Three-piece flute with silver plating and molded carrying case": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 925
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate1_replay/16_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.375,
+            "f1": 0.41666666666666663,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        }
+      ]
+    },
+    {
+      "accepted": true,
+      "current_family_nonregression": true,
+      "prior_family_nonregression": true,
+      "strict_current_improvement": true,
+      "parent_current": {
+        "EC": {
+          "precision": 0.6041666666666666,
+          "recall": 0.4600694444444444,
+          "f1": 0.5125,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "EV": {
+          "precision": 0.28125,
+          "recall": 0.19270833333333331,
+          "f1": 0.2125,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "mean_family_f1": 0.3625
+      },
+      "candidate_current": {
+        "EC": {
+          "precision": 0.6041666666666666,
+          "recall": 0.4600694444444444,
+          "f1": 0.5125,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "EV": {
+          "precision": 0.28125,
+          "recall": 0.22916666666666666,
+          "f1": 0.24791666666666667,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0
+        },
+        "mean_family_f1": 0.3802083333333333
+      },
+      "parent_prior": {
+        "EC": {
+          "precision": 0.7395833333333334,
+          "recall": 0.5769675925925926,
+          "f1": 0.6180224867724867,
+          "exact_target": 0.16666666666666666,
+          "tasks": 12,
+          "invalid_format": 0
+        },
+        "EV": {
+          "precision": 0.36874999999999997,
+          "recall": 0.2471064814814815,
+          "f1": 0.27206790123456787,
+          "exact_target": 0.0,
+          "tasks": 12,
+          "invalid_format": 0
+        },
+        "mean_family_f1": 0.44504519400352727
+      },
+      "candidate_prior": {
+        "EC": {
+          "precision": 0.7395833333333334,
+          "recall": 0.5769675925925926,
+          "f1": 0.6180224867724867,
+          "exact_target": 0.16666666666666666,
+          "tasks": 12,
+          "invalid_format": 0
+        },
+        "EV": {
+          "precision": 0.3298611111111111,
+          "recall": 0.2609953703703704,
+          "f1": 0.2736111111111111,
+          "exact_target": 0.0,
+          "tasks": 12,
+          "invalid_format": 0
+        },
+        "mean_family_f1": 0.44581679894179893
+      },
+      "TRAIN_optimization_not_independent_validation": true,
+      "candidate": [
+        {
+          "id": "benchmark_regime_and_output_gate",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "At the start of every EC or EV OpenExempt task, before classifying or valuing anything.",
+            "procedure": "1. Read the solved-law sentence and make a closed allowed-law list. “Arizona” means Arizona citations only; “Illinois” means Illinois citations only. “Federal and Pennsylvania/Oregon/Wisconsin” means both named bodies must be applied and their passing citations united. Never silently drop Federal law when it is named, and never add Federal law to an opt-out-state route. 2. Build the output keys directly from the facts before doing legal analysis: copy each asset noun phrase with every internal modifier and its original capitalization, but omit an introductory a/an/the, ownership language, and the stated price. JSON quotation marks delimit the key; do not insert quotation-mark characters into the key. Never title-case, shorten, or paraphrase a key. 3. Classify every asset under the allowed laws. Only afterward perform EV valuation. 4. EC must contain every asset key, using [] if nothing applies. EV contains only assets having at least one applicable exemption. 5. Emit only citations found verbatim in the supplied statutes and valid JSON.",
+            "avoid_when": "Do not use example keys, outside law, a law excluded by the solved route, altered capitalization, shortened medical or product descriptions, or valuation limits while deciding classification."
+          }
+        },
+        {
+          "id": "exhaustive_specific_and_residual_classification",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "After the allowed-law list and exact asset keys are fixed, and before any EV dollar calculation.",
+            "procedure": "Evaluate each asset independently and collect every passing citation. Apply these mechanical tests. Federal, when allowed: add § 522(d)(5) to every asset because it covers any property; additionally add § 522(d)(3) for household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, § 522(d)(4) for jewelry, and § 522(d)(9) for an expressly professionally prescribed health aid. A firearm is not § 522(d)(3) merely because it is personal property. Pennsylvania: add § 8123 to every asset; add § 8124(a) only for its expressly listed property, such as wearing apparel, Bibles or school books, and qualifying sewing machines. Oregon: add § 18.345(1)(p) to every personal-property asset; also add (1)(b) for apparel or jewelry, (1)(h) for a professionally prescribed health aid, (1)(f) for household goods or furniture, and § 18.362 for a rifle, shotgun, or pistol. Wisconsin: add § 815.18(3)(d) for listed consumer goods, including household furnishings, apparel, jewelry, appliances, books, musical instruments, firearms, animals, sporting goods, and other tangible personal property held for personal, family, or household use. Illinois personal-use property: add § 5/12-1001(b) as the residual exemption; also add (a) for necessary wearing apparel, but use (d) only when the facts establish a trade tool. Arizona: use § 33-1123 for household furniture, furnishings, household goods, consumer electronics, or appliances; § 33-1125(1) for apparel, (2) for musical instruments, (4) only for engagement or wedding rings, (9) for an expressly professionally prescribed medical prosthesis or device, (10) for firearms, and (11) for domestic animals or household pets. After testing, check the allowed-law list again: on a Federal-plus-state route, an asset must include applicable results from both bodies, including the federal any-property citation and the applicable state residual citation.",
+            "avoid_when": "Do not stop after the first citation; confuse household objects with apparel, vehicles, animals, or trade tools; treat ordinary jewelry as an engagement or wedding ring; omit a residual any-property exemption; or import Arizona categories into another state's route."
+          }
+        },
+        {
+          "id": "ev_claim_is_asset_interest_capped",
+          "hypothesis_ids": [
+            "EV"
+          ],
+          "guidance": {
+            "when": "Only in EV, after the exact asset keys and each asset's complete applicable-citation list have been finalized.",
+            "procedure": "Use two separate passes. PASS 1—freeze inputs: make one record per asset containing (K,V,L), where K is the exact fact-pattern description, V is that asset's stated value, and L is its already-classified citations. Never borrow a value, key, or citation from another record or from the response-format example. Do not add or remove citations during valuation. PASS 2—value each citation in L independently. For each pair, first set X=V. Read only that citation. If it has a dollar ceiling C and V>C, change X to C; otherwise leave X=V. Emit X. Never begin with C. After drafting every object, compare its number with the V in the same frozen record: if X>V, overwrite X with V. Repeat this scan until no claim_value exceeds its asset value. Use a per-item ceiling when the statute states both per-item and aggregate limits. An uncapped exemption always receives V. For § 522(d)(5), calculate C=1475+U per debtor, where U is supported unused § 522(d)(1) capacity up to 13950; under the task's independent-pair convention, do not treat the simultaneously evaluated asset-citation pair as consuming that capacity. Combine debtor or spouse ceilings only when the supplied text expressly permits separate or combined exemptions and the facts establish a joint case. Emit plain JSON numbers under the frozen keys.",
+            "avoid_when": "Do not output a statutory maximum merely because it appears in the statute; use one asset's value for another asset; carry a prior citation's ceiling or result forward; substitute an aggregate ceiling for a stated per-item ceiling; value an inapplicable citation; alter the classification list; divide joint property automatically; double a ceiling without express statutory support; introduce sample, shortened, or title-cased asset keys; or emit any claim_value greater than its own asset value."
+          }
+        }
+      ],
+      "delta": {
+        "operations": [
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "ev_claim_is_asset_interest_capped"
+            ],
+            "skill": {
+              "id": "ev_claim_is_asset_interest_capped",
+              "hypothesis_ids": [
+                "EV"
+              ],
+              "guidance": {
+                "when": "Only in EV, after the exact asset keys and each asset's complete applicable-citation list have been finalized.",
+                "procedure": "Use two separate passes. PASS 1—freeze inputs: make one record per asset containing (K,V,L), where K is the exact fact-pattern description, V is that asset's stated value, and L is its already-classified citations. Never borrow a value, key, or citation from another record or from the response-format example. Do not add or remove citations during valuation. PASS 2—value each citation in L independently. For each pair, first set X=V. Read only that citation. If it has a dollar ceiling C and V>C, change X to C; otherwise leave X=V. Emit X. Never begin with C. After drafting every object, compare its number with the V in the same frozen record: if X>V, overwrite X with V. Repeat this scan until no claim_value exceeds its asset value. Use a per-item ceiling when the statute states both per-item and aggregate limits. An uncapped exemption always receives V. For § 522(d)(5), calculate C=1475+U per debtor, where U is supported unused § 522(d)(1) capacity up to 13950; under the task's independent-pair convention, do not treat the simultaneously evaluated asset-citation pair as consuming that capacity. Combine debtor or spouse ceilings only when the supplied text expressly permits separate or combined exemptions and the facts establish a joint case. Emit plain JSON numbers under the frozen keys.",
+                "avoid_when": "Do not output a statutory maximum merely because it appears in the statute; use one asset's value for another asset; carry a prior citation's ceiling or result forward; substitute an aggregate ceiling for a stated per-item ceiling; value an inapplicable citation; alter the classification list; divide joint property automatically; double a ceiling without express statutory support; introduce sample, shortened, or title-cased asset keys; or emit any claim_value greater than its own asset value."
+              }
+            },
+            "source_case_ids": [
+              13,
+              14,
+              15,
+              16
+            ],
+            "rationale": "The rejected candidate improved current and prior EV averages but caused prior EC regression through edits shared with EC. This revision retains only the EV-scoped repair, leaving both EC skills unchanged. Replay failures in cases 13–16 show the executor still copied statutory maxima, shortened keys, transferred values, and altered citations despite prose stating min(V,C). The revised skill forces a frozen (key,value,citations) record, initializes every result to V, permits only a downward replacement, and requires a repeatable final overwrite check."
+          }
+        ],
+        "noop_reason": null
+      },
+      "actual_tokens": 1323,
+      "current_effect": {
+        "tasks": 8,
+        "help": 1,
+        "hurt": 0,
+        "ties": 7,
+        "mean_f1_difference": 0.017708333333333336
+      },
+      "prior_effect": {
+        "tasks": 24,
+        "help": 2,
+        "hurt": 1,
+        "ties": 21,
+        "mean_f1_difference": 0.0007716049382716026
+      },
+      "actual_replay": [
+        {
+          "case_id": 1,
+          "source_key": "450e0a8683131f38f0a1a696ed83e75fcb950c1ac063c5dcee4a473b720c865d",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Arizona statutes. The assets are classified under Arizona's exemptions for household goods, jewelry, and firearms. The applicable citations are based on Arizona's specific exemptions for these categories.",
+            "answer": {
+              "Henry Golden Boy .22 LR lever-action rifle with brass receiver": [
+                "Ariz. Rev. Stat. § 33-1125(10)"
+              ],
+              "pair of sterling silver hoop earrings with cubic zirconia accents": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ],
+              "white gold tennis bracelet with alternating sapphire and diamond stones": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/1_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.3333333333333333,
+            "recall": 0.3333333333333333,
+            "f1": 0.3333333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 1,
+          "source_key": "450e0a8683131f38f0a1a696ed83e75fcb950c1ac063c5dcee4a473b720c865d",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Arizona statutes. The assets are classified under Arizona's exemptions for personal property. The values are capped according to the statutes.",
+            "answer": {
+              "Henry Golden Boy .22 LR lever-action rifle with brass receiver": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                  "claim_value": 2000
+                }
+              ],
+              "pair of sterling silver hoop earrings with cubic zirconia accents": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                }
+              ],
+              "white gold tennis bracelet with alternating sapphire and diamond stones": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                  "claim_value": 2000
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/1_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 2.327787021630616,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 2,
+          "source_key": "538bccafed86a76e8845156047cc144bfd899ad817f644a1020be5267c806652",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Pennsylvania statutes. The smart speaker and smart light bulb are considered household furnishings and consumer electronics, qualifying for exemptions under 11 U.S.C. § 522(d)(3) and 42 Pa. Cons. Stat. § 8124(a)(3).",
+            "answer": {
+              "Smart Speaker with Built-in Voice Assistant and Ambient Light Display": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(3)"
+              ],
+              "Smart Light Bulb Starter Kit with Color-Changing Features": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(3)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/2_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.3333333333333333,
+            "f1": 0.4,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 2,
+          "source_key": "538bccafed86a76e8845156047cc144bfd899ad817f644a1020be5267c806652",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Pennsylvania statutes. The smart speaker and light bulb are classified as household furnishings and goods under 11 U.S.C. § 522(d)(3) and 42 Pa. Cons. Stat. § 8124(a)(3). Their value is capped at $14,875 and $12,000 respectively.",
+            "answer": {
+              "Smart Speaker with Built-in Voice Assistant and Ambient Light Display": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 245
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(3)",
+                  "claim_value": 245
+                }
+              ],
+              "Smart Light Bulb Starter Kit with Color-Changing Features": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 225
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(3)",
+                  "claim_value": 225
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/2_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.3333333333333333,
+            "f1": 0.4,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 3,
+          "source_key": "ae31fbee73a28724adb55bc05ad4e70929663d18b1b2a711202c131e9c7c556a",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "Applied federal and Oregon exemptions based on asset descriptions and value limits. Checked all relevant statutes for each asset.",
+            "answer": {
+              "stranded cultured pearls with sterling silver clasp": [
+                "11 U.S.C. § 522(d)(4)",
+                "Or. Rev. Stat. § 18.345(1)(b)"
+              ],
+              "pair of blue denim jeans with straight-leg cut": [
+                "11 U.S.C. § 522(d)(3)",
+                "Or. Rev. Stat. § 18.345(1)(f)"
+              ],
+              "custom-molded foot orthotics": [
+                "11 U.S.C. § 522(d)(9)",
+                "Or. Rev. Stat. § 18.345(1)(h)"
+              ],
+              "charm bracelet with silver heart-shaped and birthstone-themed charms": [
+                "11 U.S.C. § 522(d)(4)",
+                "Or. Rev. Stat. § 18.345(1)(b)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/3_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.875,
+            "recall": 0.4375,
+            "f1": 0.5833333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 3,
+          "source_key": "ae31fbee73a28724adb55bc05ad4e70929663d18b1b2a711202c131e9c7c556a",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "Applied federal and Oregon statutes to each asset. Checked exemptions for household goods, jewelry, health aids, and personal property. Ensured no claim exceeds asset value.",
+            "answer": {
+              "Cultured Pearls with Sterling Silver Clasp": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(4)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                  "claim_value": 1800
+                }
+              ],
+              "Blue Denim Jeans with Straight-Leg Cut": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 37
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 3000
+                }
+              ],
+              "Custom-Molded Foot Orthotics": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(9)",
+                  "claim_value": 266
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(h)",
+                  "claim_value": 266
+                }
+              ],
+              "Charm Bracelet with Silver Heart-Shaped and Birthstone-Themed Charms": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 587
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 3000
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/3_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.375,
+            "recall": 0.1875,
+            "f1": 0.25,
+            "mare": 0.8051001821493625,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 4,
+          "source_key": "c84eac4183c509419788d617fd09834853859a853eca08cc58b14fe66a986c00",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Illinois statutes. Each asset is classified under applicable exemptions based on its nature and value. The exemptions are determined by checking the relevant statutes for each asset type.",
+            "answer": {
+              "L-shaped sectional sofa upholstered in dark gray microfiber": [
+                "11 U.S.C. § 522(d)(3)",
+                "735 Ill. Comp. Stat. 5/12-1001(d)"
+              ],
+              "ceramic pendant on leather cord": [
+                "11 U.S.C. § 522(d)(4)",
+                "735 Ill. Comp. Stat. 5/12-1001(b)"
+              ],
+              "light brown derby shoes with black laces": [
+                "11 U.S.C. § 522(d)(3)",
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ],
+              "step trash can with soft-close lid and removable liner": [
+                "11 U.S.C. § 522(d)(3)",
+                "735 Ill. Comp. Stat. 5/12-1001(d)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/4_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.25,
+            "recall": 0.375,
+            "f1": 0.29166666666666663,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 4,
+          "source_key": "c84eac4183c509419788d617fd09834853859a853eca08cc58b14fe66a986c00",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The task requires identifying applicable exemptions for each asset under Illinois law. The statutes provide specific exemptions for household furnishings, apparel, jewelry, and other personal property. Each asset is evaluated independently, and the claim values are capped according to the statutes.",
+            "answer": {
+              "L-shaped sectional sofa upholstered in dark gray microfiber": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                  "claim_value": 1500
+                },
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 4000
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 14875
+                }
+              ],
+              "ceramic pendant on leather cord": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 4000
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(4)",
+                  "claim_value": 700
+                }
+              ],
+              "light brown derby shoes with black laces": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 3000
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 14875
+                }
+              ],
+              "step trash can with soft-close lid and removable liner": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                  "claim_value": 1500
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 14875
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/4_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 86.04271848143962,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 5,
+          "source_key": "041a923ee4b4b9c5749f42376efab0aa972cbfcdcf038cc8f1c896962406c5c5",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Arizona law. The nebulizer is a professionally prescribed health aid, exempt under Ariz. Rev. Stat. § 33-1125(9). The Siberian husky is a domestic animal, exempt under Ariz. Rev. Stat. § 33-1125(11).",
+            "answer": {
+              "professionally prescribed portable nebulizer with mask attachments": [
+                "Ariz. Rev. Stat. § 33-1125(9)"
+              ],
+              "Siberian husky": [
+                "Ariz. Rev. Stat. § 33-1125(11)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/5_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 5,
+          "source_key": "041a923ee4b4b9c5749f42376efab0aa972cbfcdcf038cc8f1c896962406c5c5",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Arizona statutes. The nebulizer is a professionally prescribed health aid, exempt under Ariz. Rev. Stat. § 33-1125(9). The Siberian husky is a domestic animal, exempt under Ariz. Rev. Stat. § 33-1125(11).",
+            "answer": {
+              "\"professionally prescribed portable nebulizer with mask attachments\"": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(9)",
+                  "claim_value": 87
+                }
+              ],
+              "\"Siberian husky\"": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(11)",
+                  "claim_value": 980
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/5_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 6,
+          "source_key": "6f530244dd711f67f714bfb4ca1eeff189bc0860e265cb533bea6f5a88f3e846",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Oregon statutes. The firearms are exempt under Oregon's § 18.362. The sandals are exempt under Oregon's § 18.345(1)(b). The value of the firearms and sandals is within the exemption limits.",
+            "answer": {
+              "Glock 19 Gen5 9mm pistol with two magazines": [
+                "11 U.S.C. § 522(d)(5)",
+                "Or. Rev. Stat. § 18.362"
+              ],
+              "Springfield M1A semi-automatic rifle": [
+                "11 U.S.C. § 522(d)(5)",
+                "Or. Rev. Stat. § 18.362"
+              ],
+              "sandals with leather straps and cushioned soles": [
+                "11 U.S.C. § 522(d)(5)",
+                "Or. Rev. Stat. § 18.345(1)(b)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/6_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.611111111111111,
+            "f1": 0.7555555555555555,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 6,
+          "source_key": "6f530244dd711f67f714bfb4ca1eeff189bc0860e265cb533bea6f5a88f3e846",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Oregon statutes. The assets are classified under applicable exemptions, and claim values are capped as per the statutes.",
+            "answer": {
+              "Glock 19 Gen5 9mm pistol with two magazines": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 1000
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.362",
+                  "claim_value": 1000
+                }
+              ],
+              "Springfield M1A semi-automatic rifle (.308 caliber)": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 1000
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.362",
+                  "claim_value": 1000
+                }
+              ],
+              "sandals with leather straps and cushioned soles": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/6_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.16666666666666666,
+            "recall": 0.1111111111111111,
+            "f1": 0.13333333333333333,
+            "mare": 1.969650205761317,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 7,
+          "source_key": "b122eaed71dfeed5200fa698ed13991b5dcfe4aae34431812599124e7c0bdf38",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Arizona statutes. The assets are classified under Arizona's exemptions for household furnishings, apparel, musical instruments, and firearms. The applicable citations are based on Arizona's specific exemptions for these categories.",
+            "answer": {
+              "collapsible fabric storage cubes with label slots": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "entry-level black bassoon": [
+                "Ariz. Rev. Stat. § 33-1125(2)"
+              ],
+              "folding banquet table with adjustable height legs": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "home theater receiver with 7.2 channel support and Bluetooth connectivity": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/7_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 7,
+          "source_key": "b122eaed71dfeed5200fa698ed13991b5dcfe4aae34431812599124e7c0bdf38",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "Applied Arizona statutes for exemptions. Each asset was classified under applicable Arizona exemptions. Claim values were capped according to statutory limits.",
+            "answer": {
+              "Collapsible fabric storage cubes with label slots": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                }
+              ],
+              "Entry-level black bassoon": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+                  "claim_value": 400
+                }
+              ],
+              "Folding banquet table with adjustable height legs": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 15000
+                }
+              ],
+              "Home theater receiver with 7.2 channel support and Bluetooth connectivity": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 15000
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/7_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 30.506940582410095,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 8,
+          "source_key": "0b91fdd335c37889fcd28a74435fa8c1b6c2f6820165fbe7c6ee7dff41c52064",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Wisconsin statutes. The handcrafted wire-wrapped pendant with semi-precious stone is personal property, and the reclining leather armchair with built-in cup holder and USB charging port is household furnishings. Both are covered under Wisconsin Stat. § 815.18(3)(d) and 11 U.S.C. § 522(d)(3).",
+            "answer": {
+              "Handcrafted wire-wrapped pendant with semi-precious stone": [
+                "11 U.S.C. § 522(d)(3)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "Reclining leather armchair with built-in cup holder and USB charging port": [
+                "11 U.S.C. § 522(d)(3)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/8_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.75,
+            "recall": 0.5,
+            "f1": 0.6000000000000001,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 8,
+          "source_key": "0b91fdd335c37889fcd28a74435fa8c1b6c2f6820165fbe7c6ee7dff41c52064",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Wisconsin statutes. The handcrafted wire-wrapped pendant is classified as jewelry, and the reclining leather armchair is classified as household furnishings. Wisconsin Stat. § 815.18(3)(d) allows up to $12,000 in consumer goods, and § 815.18(3)(g) allows up to $4,000 for motor vehicles. The pendant is exempt under § 815.18(3)(d) with a $12,000 cap, and the armchair is also exempt under the same statute.",
+            "answer": {
+              "Handcrafted wire-wrapped pendant with semi-precious stone": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 12000
+                }
+              ],
+              "Reclining leather armchair with built-in cup holder and USB charging port": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 12000
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/8_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 47.503611971104235,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 9,
+          "source_key": "d602834f0ae6670a8b81b3eef7601433a9185d00cf0542fa4bf72a3bd430432c",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtor's assets are evaluated under Federal and Pennsylvania statutes. The fur-lined winter coat and tailored navy suit fall under household furnishings, qualifying for 11 U.S.C. § 522(d)(3) and 42 Pa. Cons. Stat. § 8124(a)(1). The mid-length utility jacket is apparel, qualifying for 11 U.S.C. § 522(d)(3) and 42 Pa. Cons. Stat. § 8124(a)(1).",
+            "answer": {
+              "Fur-lined winter coat with removable collar": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ],
+              "Tailored navy suit with silk lining and hand-finished seams": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ],
+              "Mid-length utility jacket with drawstring waist and snap buttons": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/9_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 9,
+          "source_key": "d602834f0ae6670a8b81b3eef7601433a9185d00cf0542fa4bf72a3bd430432c",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "Applied federal and state statutes to each asset. Checked exemptions for household goods, apparel, and personal use items. Ensured no claim exceeds asset value.",
+            "answer": {
+              "fur-lined winter coat with removable collar": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 12000
+                }
+              ],
+              "tailored navy suit with silk lining and hand-finished seams": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 12000
+                }
+              ],
+              "mid-length utility jacket with drawstring waist and snap buttons": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 12000
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/9_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.16666666666666666,
+            "recall": 0.16666666666666666,
+            "f1": 0.16666666666666666,
+            "mare": 1.4092700765043773,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 10,
+          "source_key": "2bec57032f51f7b00ac8a365352d9ad3feef4770ecd957a8b4bc7e73d439f0ca",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Illinois statutes. The indoor cockatiels fall under household animals, and the leather belt is considered apparel. Both assets are protected under Illinois exemptions.",
+            "answer": {
+              "pair of indoor cockatiels": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)",
+                "735 Ill. Comp. Stat. 5/12-1001(b)"
+              ],
+              "leather belt with silver buckle": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)",
+                "735 Ill. Comp. Stat. 5/12-1001(b)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/10_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.8333333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 10,
+          "source_key": "2bec57032f51f7b00ac8a365352d9ad3feef4770ecd957a8b4bc7e73d439f0ca",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Illinois statutes. The indoor cockatiels are classified as animals, eligible for exemption under 735 Ill. Comp. Stat. 5/12-1001(a) and 735 Ill. Comp. Stat. 5/12-1001(b). The leather belt is classified as wearing apparel, eligible for exemption under 735 Ill. Comp. Stat. 5/12-1001(a) and 735 Ill. Comp. Stat. 5/12-1001(b).",
+            "answer": {
+              "indoor cockatiels": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 260
+                },
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 260
+                }
+              ],
+              "leather belt with silver buckle": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 535
+                },
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 535
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/10_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.8333333333333333,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 11,
+          "source_key": "8c7341bad47543a19d24e84f68280c9f6d88cc63ab803832be514db03cf425b8",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The toaster oven and English bulldog are classified under household furnishings and animals. Federal exemptions include 11 U.S.C. § 522(d)(3) for household goods and 11 U.S.C. § 522(d)(5) for any property. Pennsylvania exemptions include 42 Pa. Cons. Stat. § 8124(a) for household goods and 42 Pa. Cons. Stat. § 8124(a)(1) for apparel. The English bulldog is protected under 11 U.S.C. § 522(d)(5) and 42 Pa. Cons. Stat. § 8124(a)(1) as an animal.",
+            "answer": {
+              "Toaster oven with rotisserie setting and convection fan": [
+                "11 U.S.C. § 522(d)(3)",
+                "11 U.S.C. § 522(d)(5)",
+                "42 Pa. Cons. Stat. § 8124(a)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ],
+              "English bulldog": [
+                "11 U.S.C. § 522(d)(5)",
+                "42 Pa. Cons. Stat. § 8124(a)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/11_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.41666666666666663,
+            "recall": 0.5,
+            "f1": 0.45238095238095244,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 11,
+          "source_key": "8c7341bad47543a19d24e84f68280c9f6d88cc63ab803832be514db03cf425b8",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The toaster oven is classified under household furnishings, qualifying for federal and state exemptions. The English bulldog is classified as an animal, qualifying for federal and state exemptions. Applied skills: exhaustive_specific_and_residual_classification, ev_claim_is_asset_interest_capped, benchmark_regime_and_output_gate.",
+            "answer": {
+              "Toaster oven with rotisserie setting and convection fan": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 15000
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 300
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 12000
+                }
+              ],
+              "English bulldog": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 1180
+                },
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(11)",
+                  "claim_value": 1180
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 300
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 12000
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped",
+              "benchmark_regime_and_output_gate"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/11_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 0.8864308982902889,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 12,
+          "source_key": "545390223e95c949857e744a65e2b8ab5fd55371504b9475922ef67918db00e5",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "Applied Wisconsin exemptions for household goods and musical instruments. Checked all assets against Wisconsin Stat. § 815.18(3)(d) and § 815.18(3)(g).",
+            "answer": {
+              "Nursery rocking chair with gliding motion and lumbar pillow": [
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "High-performance cycling jersey": [
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "Home office webcam with 1080p resolution and privacy shutter": [
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "Student violin with bow and rosin in lightweight case": [
+                "Wis. Stat. § 815.18(3)(d)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/12_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 12,
+          "source_key": "545390223e95c949857e744a65e2b8ab5fd55371504b9475922ef67918db00e5",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "Applied Wisconsin exemptions for personal use items. Checked each asset against Wisconsin's consumer goods exemption (§ 815.18(3)(d)) and motor vehicle exemption (§ 815.18(3)(g)).",
+            "answer": {
+              "nursery rocking chair with gliding motion and lumbar pillow": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 1200
+                }
+              ],
+              "high-performance cycling jersey": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 140
+                }
+              ],
+              "home office webcam with 1080p resolution and privacy shutter": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 1200
+                }
+              ],
+              "student violin with bow and rosin in lightweight case": [
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 285
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/12_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5,
+            "mare": 0.005301794453507341,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 13,
+          "source_key": "257547fac570f5620bc3b10eac4cf6145c0ccc490c61a13f189ae01a8fb9f9d8",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Arizona statutes. The black nylon compression leggings are exempt under Ariz. Rev. Stat. § 33-1125(1). The gun safe is exempt under Ariz. Rev. Stat. § 33-1125(10). The dining chair cushions are exempt under Ariz. Rev. Stat. § 33-1123. The 1995 Toyota Camry is exempt under Ariz. Rev. Stat. § 33-1125(8).",
+            "answer": {
+              "Black nylon compression leggings": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ],
+              "Gun safe": [
+                "Ariz. Rev. Stat. § 33-1125(10)"
+              ],
+              "Six dining chair cushions": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "1995 Toyota Camry LE": [
+                "Ariz. Rev. Stat. § 33-1125(8)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/13_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.75,
+            "recall": 0.75,
+            "f1": 0.75,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 13,
+          "source_key": "257547fac570f5620bc3b10eac4cf6145c0ccc490c61a13f189ae01a8fb9f9d8",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Arizona statutes. Each asset is evaluated independently. The black nylon compression leggings qualify under Ariz. Rev. Stat. § 33-1125(1) for $500. The gun safe is not specifically exempt, but the firearms within it may qualify under Ariz. Rev. Stat. § 33-1125(10) for $2,000. The dining chair cushions qualify under Ariz. Rev. Stat. § 33-1123 for $15,000. The 1995 Toyota Camry qualifies under Ariz. Rev. Stat. § 33-1125(8) for $15,000.",
+            "answer": {
+              "Black nylon compression leggings": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 500
+                }
+              ],
+              "Gun safe with biometric lock and adjustable interior shelving": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                  "claim_value": 2000
+                }
+              ],
+              "Set of six dining chair cushions with floral upholstery": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 15000
+                }
+              ],
+              "Beige 1995 Toyota Camry LE (168,000 miles)": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                  "claim_value": 15000
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/13_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 26.612825288522938,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 14,
+          "source_key": "0ea113f98e4401c9f7ce309e8e431f6811896d569ea7f16fa41aea4aa7647ed6",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Pennsylvania statutes. The small mountain cabin is protected under 11 U.S.C. § 522(d)(1) and 42 Pa. Cons. Stat. § 8123. The rechargeable electric toothbrush is protected under 11 U.S.C. § 522(d)(3) and 42 Pa. Cons. Stat. § 8124(a)(1). The leather and silver braided bracelet is protected under 11 U.S.C. § 522(d)(4) and 42 Pa. Cons. Stat. § 8124(a)(1).",
+            "answer": {
+              "small mountain cabin": [
+                "11 U.S.C. § 522(d)(1)",
+                "42 Pa. Cons. Stat. § 8123"
+              ],
+              "rechargeable electric toothbrush with charging dock": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ],
+              "leather and silver braided bracelet with magnetic clasp": [
+                "11 U.S.C. § 522(d)(4)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/14_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.6666666666666666,
+            "recall": 0.4444444444444444,
+            "f1": 0.5333333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 14,
+          "source_key": "0ea113f98e4401c9f7ce309e8e431f6811896d569ea7f16fa41aea4aa7647ed6",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtors may claim exemptions under Federal and Pennsylvania statutes. The small mountain cabin is their principal residence, so it qualifies for the $49,500 exemption under 11 U.S.C. § 522(d)(1). The bracelet and toothbrush are personal property, so they qualify for the $1,875 jewelry exemption under 11 U.S.C. § 522(d)(4) and the $1,500 household goods exemption under 11 U.S.C. § 522(d)(3).",
+            "answer": {
+              "1981 DeLorean DMC-12": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 1500
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(4)",
+                  "claim_value": 700
+                }
+              ],
+              "rechargeable electric toothbrush with charging dock": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 650
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(4)",
+                  "claim_value": 700
+                }
+              ],
+              "small mountain cabin": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(1)",
+                  "claim_value": 49500
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/14_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": 4.811307403992254,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 15,
+          "source_key": "b6d3f379e54094bf6bfd24967842305bf4e205572c2ba3025d4ce713cf3dc88f",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "Applied federal and Oregon exemptions. Checked each asset against applicable statutes.",
+            "answer": {
+              "vintage rocking chair with worn maple finish and floral cushion": [
+                "11 U.S.C. § 522(d)(3)",
+                "18.345(1)(f)"
+              ],
+              "compact digital camera with optical zoom and SD card slot": [
+                "11 U.S.C. § 522(d)(3)",
+                "18.345(1)(f)"
+              ],
+              "double-wide mobile homestead with full utility hookups": [
+                "11 U.S.C. § 522(d)(1)",
+                "18.395(1)"
+              ],
+              "portable DVD player with 10-inch screen and battery pack": [
+                "11 U.S.C. § 522(d)(3)",
+                "18.345(1)(f)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/15_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.2708333333333333,
+            "f1": 0.35,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 15,
+          "source_key": "b6d3f379e54094bf6bfd24967842305bf4e205572c2ba3025d4ce713cf3dc88f",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "Applied federal and Oregon exemptions. Checked each asset against applicable statutes. No hidden reasoning.",
+            "answer": {
+              "vintage rocking chair with worn maple finish and floral cushion": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 3000
+                }
+              ],
+              "compact digital camera with optical zoom and SD card slot": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 3000
+                }
+              ],
+              "double-wide mobile homestead with full utility hookups": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(1)",
+                  "claim_value": 27900
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.395(1)",
+                  "claim_value": 40000
+                }
+              ],
+              "portable DVD player with 10-inch screen and battery pack": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 3000
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/15_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.29166666666666663,
+            "f1": 0.3666666666666667,
+            "mare": 1.7789252102342694,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 16,
+          "source_key": "661bebff5cd5713ece1031f1e644bff8c8ca9fcc3358ca318c88bf7c5e72564c",
+          "family": "EC",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "The Debtor may claim exemptions under Illinois statutes. The homestead is exempt under 735 Ill. Comp. Stat. 5/12-901. The convertible futon is exempt under 735 Ill. Comp. Stat. 5/12-1001(a). The wool overcoat is exempt under 735 Ill. Comp. Stat. 5/12-1001(a). The flute is exempt under 735 Ill. Comp. Stat. 5/12-1001(a).",
+            "answer": {
+              "two-story primary homestead (4 bedrooms, two and a half bath) with 2450 square feet": [
+                "735 Ill. Comp. Stat. 5/12-901"
+              ],
+              "convertible futon with washable microfiber cover": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ],
+              "tailored wool overcoat with satin lining and horn buttons": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ],
+              "three-piece flute with silver plating and molded carrying case": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)"
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/16_EC_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.375,
+            "f1": 0.41666666666666663,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 16,
+          "source_key": "661bebff5cd5713ece1031f1e644bff8c8ca9fcc3358ca318c88bf7c5e72564c",
+          "family": "EV",
+          "stage": "b4_candidate2_replay",
+          "arm": "candidate",
+          "bank_sha256": "94c49d6bc88e508c2901619c791c6b58e504128a9f6c28f080433d89bfdf12db",
+          "parsed": {
+            "public_checks": "Applied Illinois exemptions for homestead, motor vehicle, and personal property. Checked each asset against state-specific limits.",
+            "answer": {
+              "Two-story primary homestead (4 bedrooms, two and a half bath) with 2450 square feet": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-901",
+                  "claim_value": 15000
+                }
+              ],
+              "Convertible futon with washable microfiber cover": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 190
+                },
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 4000
+                }
+              ],
+              "Tailored wool overcoat with satin lining and horn buttons": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 375
+                },
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 4000
+                }
+              ],
+              "Three-piece flute with silver plating and molded carrying case": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 925
+                }
+              ]
+            },
+            "applied_skill_ids": [
+              "benchmark_regime_and_output_gate",
+              "exhaustive_specific_and_residual_classification",
+              "ev_claim_is_asset_interest_capped"
+            ]
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_mechanism_online_20261019_run01/native/b4_candidate2_replay/16_EV_candidate.json",
+          "delivered_skill_ids": [
+            "benchmark_regime_and_output_gate",
+            "exhaustive_specific_and_residual_classification",
+            "ev_claim_is_asset_interest_capped"
+          ],
+          "score": {
+            "precision": 0.625,
+            "recall": 0.625,
+            "f1": 0.625,
+            "mare": 6.19038932828339,
+            "invalid_format": 0,
+            "exact_target": false,
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        }
+      ]
+    }
+  ],
+  "future_performance_not_used": true,
+  "training_acceptance_does_not_guarantee_generalization": true
+}

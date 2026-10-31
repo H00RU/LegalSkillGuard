@@ -1,0 +1,658 @@
+{
+  "at": "2026-10-27T08:08:05.296453+00:00",
+  "source_sha256": {
+    "experiments/openexempt_online.py": "3213e92d8e3a3c2c3b4e565dd3553a17ba9b2e425e68e607232749363e8c1985",
+    "legal_skill_guard/learning/task_scoped_skills.py": "51e89480a294a6b2716ed16cb4c624cd27d47809fd260e5898eeb84bb9fe79a0",
+    "legal_skill_guard/openexempt.py": "5d6f73927a2f406a072d0d4be8b4a1b145fec5c103c7fba2a82a11d2fdb8b39b",
+    "configs/openexempt_native_claim_feedback_public_assets128_20261027_run01.json": "36a34352d4bc9e300a2d38c6914477d411eaa8e9c0d5e3dfb4e4735f6a4a5eb6",
+    "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/candidates/b2_candidate1.json": "2edcebb062a17da4aa9eddb966c0a30b081af63d43bc28bc0801e11949b7d346",
+    "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/candidates/b1_candidate1.json": "f1af59d647cdb96118bde4d72fbd713969211663f5b6b0456acf13cfcc249890",
+    "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b1.json": "758cad9121fda3ed08ac9f1d421271c0bd141d4433b21fd4f29bfcdaa4c8c5d7",
+    "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/batches/b2_prequential_records.json": "72dc70afd1d8dc54cea65aa401c9bb34bbf3feb7bf0d55a1fcd082f402ce63cf"
+  },
+  "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+  "scope": "fixed-parent fixed-proposal TRAIN counterfactual, NOT independent policy learning or TEST",
+  "source_cases": 32,
+  "task_views": 64,
+  "task_local_accepted_tasks": [
+    "EC"
+  ],
+  "task_local_composed_bank_sha256": "761ee3a0f84c7f4498ef948d104be5377f91c1740d96e0e7977bd0c7f3ae1d10",
+  "task_local_all64_wire_identity_verified": true,
+  "task_local_gate_accepted": true,
+  "additional_native_generations": 0,
+  "additional_teacher_calls": 0,
+  "method_unchanged": true,
+  "policies": {
+    "whole_rejects_no_update": {
+      "current": {
+        "EC": {
+          "precision": 0.8635416666666668,
+          "recall": 0.7795138888888888,
+          "f1": 0.8105158730158731,
+          "exact_target": 0.3125,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8344024122807019,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.7276041666666666,
+          "recall": 0.6019965277777777,
+          "f1": 0.6416838369963369,
+          "exact_target": 0.1875,
+          "tasks": 16,
+          "invalid_format": 1,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.6350294547643619,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.7260998550061051
+      },
+      "prior": {
+        "EC": {
+          "precision": 0.859375,
+          "recall": 0.8229166666666666,
+          "f1": 0.8182787698412698,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8461025030077449,
+          "negative_or_unscored_asset_claims": 2
+        },
+        "EV": {
+          "precision": 0.8661458333333334,
+          "recall": 0.765625,
+          "f1": 0.7973214285714286,
+          "exact_target": 0.125,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.800605502867016,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.8078000992063492
+      },
+      "full32sources": {
+        "EC": {
+          "precision": 0.8614583333333332,
+          "recall": 0.8012152777777778,
+          "f1": 0.8143973214285715,
+          "exact_target": 0.28125,
+          "tasks": 32,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8402524576442234,
+          "negative_or_unscored_asset_claims": 3
+        },
+        "EV": {
+          "precision": 0.796875,
+          "recall": 0.683810763888889,
+          "f1": 0.7195026327838827,
+          "exact_target": 0.15625,
+          "tasks": 32,
+          "invalid_format": 1,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.7178174788156889,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.7669499771062271
+      },
+      "gain_min_then_mean": [
+        0,
+        0
+      ]
+    },
+    "task_local_EC_only": {
+      "current": {
+        "EC": {
+          "precision": 0.9722222222222222,
+          "recall": 0.7960069444444444,
+          "f1": 0.8573412698412698,
+          "exact_target": 0.375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8812500000000001,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.7276041666666666,
+          "recall": 0.6019965277777777,
+          "f1": 0.6416838369963369,
+          "exact_target": 0.1875,
+          "tasks": 16,
+          "invalid_format": 1,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.6350294547643619,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.7495125534188034
+      },
+      "prior": {
+        "EC": {
+          "precision": 0.9114583333333333,
+          "recall": 0.7890624999999999,
+          "f1": 0.8316964285714287,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8635903041302316,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.8661458333333334,
+          "recall": 0.765625,
+          "f1": 0.7973214285714286,
+          "exact_target": 0.125,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.800605502867016,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.8145089285714286
+      },
+      "full32sources": {
+        "EC": {
+          "precision": 0.9418402777777778,
+          "recall": 0.7925347222222222,
+          "f1": 0.8445188492063493,
+          "exact_target": 0.3125,
+          "tasks": 32,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8724201520651159,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.796875,
+          "recall": 0.683810763888889,
+          "f1": 0.7195026327838827,
+          "exact_target": 0.15625,
+          "tasks": 32,
+          "invalid_format": 1,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.7178174788156889,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.782010740995116
+      },
+      "gain_min_then_mean": [
+        0,
+        0.01506076388888894
+      ]
+    },
+    "actual_dependency_components": {
+      "current": {
+        "EC": {
+          "precision": 0.946875,
+          "recall": 0.8472222222222221,
+          "f1": 0.8834325396825398,
+          "exact_target": 0.4375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9114857456140353,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.8229166666666666,
+          "recall": 0.7243923611111112,
+          "f1": 0.7541170634920634,
+          "exact_target": 0.3125,
+          "tasks": 16,
+          "invalid_format": 1,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.7493950426923232,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.8187748015873015
+      },
+      "prior": {
+        "EC": {
+          "precision": 0.8932291666666666,
+          "recall": 0.8697916666666666,
+          "f1": 0.866889880952381,
+          "exact_target": 0.375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.898826861982104,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.9123263888888888,
+          "recall": 0.8107638888888888,
+          "f1": 0.8406746031746031,
+          "exact_target": 0.1875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8468818581929349,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.853782242063492
+      },
+      "full32sources": {
+        "EC": {
+          "precision": 0.9200520833333332,
+          "recall": 0.8585069444444445,
+          "f1": 0.8751612103174604,
+          "exact_target": 0.40625,
+          "tasks": 32,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9051563037980697,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.8676215277777777,
+          "recall": 0.7675781249999999,
+          "f1": 0.7973958333333334,
+          "exact_target": 0.25,
+          "tasks": 32,
+          "invalid_format": 1,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.798138450442629,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.836278521825397
+      },
+      "gain_min_then_mean": [
+        0.06076388888888895,
+        0.06932854471916983
+      ]
+    }
+  },
+  "wireproof": [
+    {
+      "case_id": 181,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/181_EC_candidate.json",
+      "native_fingerprint": "237bcb9736bfffdd6cd1fbc6320310d79f4f3cdb2c189d84ccd87ef23eaafd47"
+    },
+    {
+      "case_id": 181,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/181_EV_candidate.json",
+      "native_fingerprint": "db3b49b49de929cf1dc52f0aafc716fe4d1412de12ff5f9c798a907307293f5e"
+    },
+    {
+      "case_id": 182,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/182_EC_candidate.json",
+      "native_fingerprint": "449baf5ccb1dfbb81e7cb51f1e8c07bdef3ba4457cb490353393f3f357339319"
+    },
+    {
+      "case_id": 182,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_prequential/182_EV_empty.json",
+      "native_fingerprint": "ad9f8035d692c2e263905f593bfab34e7faa1d8cc50b1bc69fe02a029b5976bd"
+    },
+    {
+      "case_id": 183,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/183_EC_candidate.json",
+      "native_fingerprint": "01b1029146eeb528ed62574aad7106d9429f780a4346a955be14ec3019863f37"
+    },
+    {
+      "case_id": 183,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_prequential/183_EV_frozen_initial.json",
+      "native_fingerprint": "2a2ec31abf7a8c5704c35bbd809d6b3ff5de9470611d8a7910d44be5ff362b9c"
+    },
+    {
+      "case_id": 184,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/184_EC_candidate.json",
+      "native_fingerprint": "ff59d7c6f3b60f22426699930e3140afda93d45b5d60cec21a696f8c2395e92b"
+    },
+    {
+      "case_id": 184,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/184_EV_candidate.json",
+      "native_fingerprint": "f6c63458a5c9bdcaf38a6dc6af8b293828713d2e055345c0b47b2e697671f719"
+    },
+    {
+      "case_id": 185,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/185_EC_candidate.json",
+      "native_fingerprint": "7181be2be87f5b2edac84aa0460de76fe8bb38993b4e805e5636f7b3eef6cc16"
+    },
+    {
+      "case_id": 185,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/185_EV_candidate.json",
+      "native_fingerprint": "0af88231a506d860ab256f8deca840a3ecfe415798b39dff59e214434a4fe943"
+    },
+    {
+      "case_id": 186,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/186_EC_candidate.json",
+      "native_fingerprint": "4be01e10a5cf50da940f1147e8c09818bb214def0000111cccd03ca5ae954d7a"
+    },
+    {
+      "case_id": 186,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/186_EV_candidate.json",
+      "native_fingerprint": "7b2a9811ad9ead86cd4337dde41c86b3f6778030c7e21be3c0613e8ff9d07c9a"
+    },
+    {
+      "case_id": 187,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/187_EC_candidate.json",
+      "native_fingerprint": "5ba1b8efde728e272a8f30393e7e3d0112132ef212d9437e1cc5aa6c2263cf47"
+    },
+    {
+      "case_id": 187,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/187_EV_candidate.json",
+      "native_fingerprint": "750b585b8c644e721276ddd4478c2e82035e25edc9f58f35fd76c1d3f5daf591"
+    },
+    {
+      "case_id": 188,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/188_EC_candidate.json",
+      "native_fingerprint": "a978a6c80ef93a395f5f27fbacf15a741b65592a32f07f468a598a6c3210a492"
+    },
+    {
+      "case_id": 188,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/188_EV_candidate.json",
+      "native_fingerprint": "2fd5358cae88747533bc1bc06cea36fe8d20ce898065e541e8b090616aa0d88f"
+    },
+    {
+      "case_id": 189,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/189_EC_candidate.json",
+      "native_fingerprint": "cc8ce2504cae08eacc53e21b880447fd26289b225a1b002e76dc00d0a95433d1"
+    },
+    {
+      "case_id": 189,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_prequential/189_EV_skills.json",
+      "native_fingerprint": "dfc9259adb86849f6c7a70b6d2925ad6be03421ba00cbf031372243ff4a22b06"
+    },
+    {
+      "case_id": 190,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/190_EC_candidate.json",
+      "native_fingerprint": "c38add09a371f304cdc0985fe5e0ef760429f7240e9aaac887f1873a56f5b6cb"
+    },
+    {
+      "case_id": 190,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/190_EV_candidate.json",
+      "native_fingerprint": "7426207fce8ae00cd699ab505608b77cdcb27e17cf0453e24cdf35510b87bbd0"
+    },
+    {
+      "case_id": 191,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/191_EC_candidate.json",
+      "native_fingerprint": "478b6d745cfa228e91a11dc3df6ee9b04d89d98a02c39be9b52015ee5be5a955"
+    },
+    {
+      "case_id": 191,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/191_EV_candidate.json",
+      "native_fingerprint": "5ea1548ab52ed70b86258a6fa83f9d4875061089f90ca9e01d0c0c6afa726f16"
+    },
+    {
+      "case_id": 192,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/192_EC_candidate.json",
+      "native_fingerprint": "4e54254ee826e7da4357293f312e5f05a949c067ff3c19413e26f5d3e9ecd72e"
+    },
+    {
+      "case_id": 192,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/192_EV_candidate.json",
+      "native_fingerprint": "d7936a50f504afdc38250e1edacdd02f9bc35e1b32cf9b7325aa0d4e3df40313"
+    },
+    {
+      "case_id": 193,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/193_EC_candidate.json",
+      "native_fingerprint": "8c4388c1b6ef429780430339ba48bafe0f11b1b5dc70d37a79185c9538b12d44"
+    },
+    {
+      "case_id": 193,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/193_EV_candidate.json",
+      "native_fingerprint": "b2f07c6ecf71862e0fafe33439371987b7e76dc8c00c4e5724a2519e5ea008cf"
+    },
+    {
+      "case_id": 194,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/194_EC_candidate.json",
+      "native_fingerprint": "04262fec66569f8226d2af3b1c87091364c19a819e212154f76197390f0827d1"
+    },
+    {
+      "case_id": 194,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/194_EV_candidate.json",
+      "native_fingerprint": "b9af0734de5c289c5c9aa7dd318437b31d437f6b68e03abc75e0c737087ee1df"
+    },
+    {
+      "case_id": 195,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/195_EC_candidate.json",
+      "native_fingerprint": "4ff785a59acf421349e4abdd215e1b6b53490eabde66a2d2581252933b5dd33c"
+    },
+    {
+      "case_id": 195,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/195_EV_candidate.json",
+      "native_fingerprint": "ab65edf2b5f7eb98f8e118fd702afcde547767ba285f8715f5fa1d0b03d16070"
+    },
+    {
+      "case_id": 196,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/196_EC_candidate.json",
+      "native_fingerprint": "6d3d1b07f1a08252bf5d8c565fd299b7106161a7b2231935d5e996655fb19b59"
+    },
+    {
+      "case_id": 196,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b1_candidate1_replay/196_EV_candidate.json",
+      "native_fingerprint": "89a56e76f21fa1cc8f38e041cd1ee97e4f8f6172662bb155287d64cb785fcceb"
+    },
+    {
+      "case_id": 197,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/197_EC_candidate.json",
+      "native_fingerprint": "41a72a6c89dbf4c7f710602d9e5d679614f55ee7584f7bbe1a68aa966ce240e9"
+    },
+    {
+      "case_id": 197,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/197_EV_empty.json",
+      "native_fingerprint": "de6061aa850dc1f71ec53772ab82496f5cc77a8bc4960a2e4cc5bea664975931"
+    },
+    {
+      "case_id": 198,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/198_EC_candidate.json",
+      "native_fingerprint": "1e3f0715e40d48b1f8ceb6ba21366e31764036036847c838f35f8f5285f73789"
+    },
+    {
+      "case_id": 198,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/198_EV_skills.json",
+      "native_fingerprint": "544521c23c8572a8f54afde749ed87e1e588cb025f9d1c8f3a3e6765f27dcc7b"
+    },
+    {
+      "case_id": 199,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/199_EC_candidate.json",
+      "native_fingerprint": "bda1bdbd50eac1c833365cb00e8e3cb35518c4c88b1e5691db926822c548ec34"
+    },
+    {
+      "case_id": 199,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/199_EV_skills.json",
+      "native_fingerprint": "18b826857da1aca8886ef8db74f01f08d4bbfd5359c6265f78c0c13ceb35f5e8"
+    },
+    {
+      "case_id": 200,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/200_EC_candidate.json",
+      "native_fingerprint": "487d9df634c3ade648efd2e472eb2cdffe0a0439ebd49d98546e6330fe7f2ba5"
+    },
+    {
+      "case_id": 200,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/200_EV_frozen_after_B1.json",
+      "native_fingerprint": "d2b0ce5e9f23d7912ebbad9ba822ad22e7ab33ffa9040c2cc018b0a2fa561c21"
+    },
+    {
+      "case_id": 201,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/201_EC_candidate.json",
+      "native_fingerprint": "2531ac20cba46b8de085c43a2f7dcd56c36735b3c2cfa68a38b267c7ebff8924"
+    },
+    {
+      "case_id": 201,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/201_EV_frozen_after_B1.json",
+      "native_fingerprint": "2891ce018c22b76746e9f3e3d5d929f59e388f06e48efe0af356c2b5877d4172"
+    },
+    {
+      "case_id": 202,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/202_EC_candidate.json",
+      "native_fingerprint": "d6f2c13b7783942b03e435866f1f35a8399397c7c79565cc42d70e505532b595"
+    },
+    {
+      "case_id": 202,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/202_EV_skills.json",
+      "native_fingerprint": "883d9b9d1b1594fdf219d24840163875b349a32bfaf88e6355f7b9dacfa20aa2"
+    },
+    {
+      "case_id": 203,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/203_EC_candidate.json",
+      "native_fingerprint": "0d9a01b4dfa2a10deb618b57e2403338bba15d05dcd865a1bf0cb532badaba33"
+    },
+    {
+      "case_id": 203,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/203_EV_skills.json",
+      "native_fingerprint": "f2f695b8561843f5723298974e154b482007ca17679e8a39524e6611a95a96be"
+    },
+    {
+      "case_id": 204,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/204_EC_candidate.json",
+      "native_fingerprint": "a26cd46791179d52d0ef3371a676f6b9e16b863a31d3356a2e254b3e2f9b0b1b"
+    },
+    {
+      "case_id": 204,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/204_EV_skills.json",
+      "native_fingerprint": "cfee11e987a7f56ccc6b729c3393d49f8ed64accdc764f1018d2bf70d52b31a1"
+    },
+    {
+      "case_id": 205,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/205_EC_candidate.json",
+      "native_fingerprint": "a00e90473d537f511508aeeebf2e77b212b9aca94c426d56ed4ed8bd0dcf26ed"
+    },
+    {
+      "case_id": 205,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/205_EV_frozen_after_B1.json",
+      "native_fingerprint": "b4619f97eca34e6a0f024870a7b2cc30e41f52a5b109eeaf2c3880c64493678c"
+    },
+    {
+      "case_id": 206,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/206_EC_candidate.json",
+      "native_fingerprint": "d8c21d194ebaf54d65ff2744f7d753891b9da621196e3bbc271dc9216648a31a"
+    },
+    {
+      "case_id": 206,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/206_EV_frozen_after_B1.json",
+      "native_fingerprint": "e36ae1df041648437b2f5de5a6e41b429a7e33ec857718b547598b7b7ff6e797"
+    },
+    {
+      "case_id": 207,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/207_EC_candidate.json",
+      "native_fingerprint": "4690b5d46eea8d2566edd1f91ac31fefa42e8d0deb85ef01becf25eea250ed7b"
+    },
+    {
+      "case_id": 207,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/207_EV_empty.json",
+      "native_fingerprint": "8bd68c726bb7d0f34323c3773699b1bcc45ab595a9961210fd4be34432f13991"
+    },
+    {
+      "case_id": 208,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/208_EC_candidate.json",
+      "native_fingerprint": "120f01aa5b62aceb0c8ed857ef59bf51784d5a883d84cfefd7b947d4791b58d2"
+    },
+    {
+      "case_id": 208,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/208_EV_skills.json",
+      "native_fingerprint": "a2e9e1a3d4c039cab4852fb035fe14d21d484bb0873b55b3400f60c294b5da1f"
+    },
+    {
+      "case_id": 209,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/209_EC_candidate.json",
+      "native_fingerprint": "bda183cd546c10084d78e0435aacda69153307953bb0ee3e9f8c9592e943c600"
+    },
+    {
+      "case_id": 209,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/209_EV_skills.json",
+      "native_fingerprint": "c3326d02499f7437fbfe44af67255b9673124af70dae3b8842b316dcac3a8b67"
+    },
+    {
+      "case_id": 210,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/210_EC_candidate.json",
+      "native_fingerprint": "5fc3524d53f3079166d828343369e2bc20ec4b92f160bdd20e90bd497360f3ff"
+    },
+    {
+      "case_id": 210,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/210_EV_frozen_after_B1.json",
+      "native_fingerprint": "462c5eddc7d8d39116a1be9bd032d2a466ffc882b445a41c2c7392ab9f8f0fcc"
+    },
+    {
+      "case_id": 211,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/211_EC_candidate.json",
+      "native_fingerprint": "744c4e78c220b8b0fe6f86850e9c9a9ff3f62192dd7475b386336635447f0904"
+    },
+    {
+      "case_id": 211,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/211_EV_frozen_after_B1.json",
+      "native_fingerprint": "092196e178e7954b1a31516d890ac06782134d8ac9929e65193cce68b5cd7db4"
+    },
+    {
+      "case_id": 212,
+      "family": "EC",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_candidate1_replay/212_EC_candidate.json",
+      "native_fingerprint": "ba70b5d834fb632cfb3bcf56e072cf1f8e589e92302057a325f0da80f115d5cd"
+    },
+    {
+      "case_id": 212,
+      "family": "EV",
+      "raw_origin": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/native/b2_prequential/212_EV_skills.json",
+      "native_fingerprint": "8c015654feba8002e5dbc0ea01181ef4a75fb52a9a668f5b1909cf8479917314"
+    }
+  ],
+  "interpretation": "A fixed-parent/proposal mechanism observation only. Different end-to-end policies would generate different future teacher evidence/proposals. This is not matched128/8 policy training, unseen validation, TEST, an independent repeat, or evidence of global algorithm superiority."
+}

@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-21T09:11:01.912853+00:00",
+  "classification": "Complete B3 learner-first-encounter immutable evidence, all160 fresh-redecoded predictions, full native wires, completed teacher1 and completed C1 delivery snapshots, and v14 manuscript; no live progress/ledger or in-flight files archived",
+  "receipt": {
+    "at": "2026-10-21T09:11:00.390829+00:00",
+    "stage": "B3_complete160_newcase_automatic_checkpoint",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-B3_complete160_newcase_automatic_checkpoint.tar.gz",
+        "sha256": "f0c7d16e34fc7b7dbf1a17d8a1979fb3408a841704b772fbdb1fae26afe1bd69"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_goal_Run03_20261021-B3_complete160_newcase_automatic_checkpoint.tar.gz",
+        "sha256": "96c1eaf22d05e9e036eae6e0df58303bf5caafedd362e3f23aba0d6c48c2c9c1"
+      }
+    ],
+    "files": 492
+  },
+  "verified_main_waiter_bindings_before_and_after": [
+    371,
+    381
+  ],
+  "archive_devices": [
+    64528,
+    64517
+  ],
+  "progress_snapshot_not_archived_as_immutable": {
+    "at": "2026-10-21T09:09:20.592075+00:00",
+    "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "state": "running",
+    "stage": "b3_candidate1_replay",
+    "current_batch": 3,
+    "completed_native_calls": 315,
+    "completed_teacher_calls": 5,
+    "teacher_attempts": 5,
+    "cross_stage_identical_wire_reuses": 558,
+    "library_records": 6,
+    "current_arm": "candidate",
+    "current_document_id": 185,
+    "current_call": "openexempt"
+  },
+  "new_model_teacher_or_TEST_calls_by_preservation": 0,
+  "preservation_recomputation_program": "import json,pathlib,hashlib\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=pathlib.Path.cwd();read=lambda p:json.loads(p.read_text());r=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\"\nreportpath=root/\"artifacts/research/openexempt_legal_scope_20261020/Run03_B3_complete160_newcase_evolved_vs_ownB1_native_wire_cost_and_claim_residuals_20261021.json\"\nreport=read(reportpath);assert report[\"ready\"] and report[\"logical_records\"]==160 and report[\"source_cases\"]==16\npins_main=read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\")[\"files\"];pins_waiter=read(root/\"artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/queued.json\")[\"source_data_environment_pins\"]\ndef check():\n for pins in (pins_main,pins_waiter):\n  assert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==h for n,h in pins.items())\ncheck()\nmembers=set(report[\"evidence_paths\"]);members.add(str(reportpath.relative_to(root)))\nmembers.update(str(p.relative_to(root)) for p in (r/\"native/b3_prequential\").glob(\"*.json\"))\nmembers.update([\"paper/manuscript_v0_20261020.md\",\"paper/manuscript_v1_20261021.md\",\"paper/evidence_and_completion_20261020.md\",\"docs/CURRENT_GOAL.md\",\"artifacts/research/openexempt_legal_scope_20261020/Run03_methods_v14_current128_design_preservation_20261021.json\",\"artifacts/research/openexempt_legal_scope_20261020/Run03_B2_unique_final_publication_complete_raw_and_B3_delivery_preservation_20261021.json\",\"artifacts/research/openexempt_legal_scope_20261020/hourly1630_B3_forward_alive_preservation_20261021.json\"])\nteacher_report_path=root/\"artifacts/research/openexempt_legal_scope_20261020/Run03_B3_teacher1_actual64_labels_B2_final_parent_partial_feedback_and_C1_delivery_20261021.json\"\nteacher_report=read(teacher_report_path);assert teacher_report[\"actual_parent_answers_targets_and_trace_origins_verified\"]==64\nmembers.add(str(teacher_report_path.relative_to(root)));members.update(teacher_report[\"evidence_paths\"])\nfor name in list(members):\n if name.endswith(\".answer.json\"):\n  input_name=name[:-len(\".answer.json\")]+\".input.json\"\n  if (root/input_name).exists():members.add(input_name)\nassert all((root/p).is_file() for p in members)\nreceipt=preserve(\"legal_research_goal_Run03_20261021\",\"B3_complete160_newcase_automatic_checkpoint\",sorted(members))\ncheck()\nout={\"at\":now(),\"classification\":\"Complete B3 learner-first-encounter immutable evidence, all160 fresh-redecoded predictions, full native wires, completed teacher1 and completed C1 delivery snapshots, and v14 manuscript; no live progress/ledger or in-flight files archived\",\"receipt\":receipt,\"verified_main_waiter_bindings_before_and_after\":[len(pins_main),len(pins_waiter)],\"archive_devices\":[pathlib.Path(p[\"path\"]).stat().st_dev for p in receipt[\"paths\"]],\"progress_snapshot_not_archived_as_immutable\":read(r/\"progress.json\"),\"new_model_teacher_or_TEST_calls_by_preservation\":0}\nassert len(set(out[\"archive_devices\"]))==2\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

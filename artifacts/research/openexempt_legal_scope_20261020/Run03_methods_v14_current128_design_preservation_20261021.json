@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-21T08:47:44.402754+00:00",
+  "classification": "Factual manuscript Methods and current evidence-state synchronization only; current core, learner, sampling and TEST boundaries unchanged",
+  "receipt": {
+    "at": "2026-10-21T08:47:44.383358+00:00",
+    "stage": "methods_v14_current128_design_1647",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-methods_v14_current128_design_1647.tar.gz",
+        "sha256": "44ebfab4056ea7d327fe5b6bac937c3267f8b25ebfd4ca74cddd81154ab95475"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_goal_Run03_20261021-methods_v14_current128_design_1647.tar.gz",
+        "sha256": "44ebfab4056ea7d327fe5b6bac937c3267f8b25ebfd4ca74cddd81154ab95475"
+      }
+    ],
+    "files": 6
+  },
+  "verified_immutable_bindings": {
+    "main": 371,
+    "waiter": 381
+  },
+  "devices": [
+    64528,
+    64517
+  ],
+  "new_native_teacher_or_TEST_calls": 0,
+  "preservation_recomputation_program": "import json,pathlib,hashlib\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=pathlib.Path.cwd();read=lambda p:json.loads(p.read_text())\nnames=[\"paper/manuscript_v0_20261020.md\",\"paper/manuscript_v1_20261021.md\",\"paper/evidence_and_completion_20261020.md\",\"docs/CURRENT_GOAL.md\",\"artifacts/research/openexempt_legal_scope_20261020/hourly1630_Run03_B3_forward_alive_direction_and_actual_bindings_20261021.json\",\"artifacts/research/openexempt_legal_scope_20261020/hourly1630_B3_forward_alive_preservation_20261021.json\"]\nchecks={}\nfor kind,p,key in [(\"main\",\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\",\"files\"),(\"waiter\",\"artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/queued.json\",\"source_data_environment_pins\")]:\n pins=read(root/p)[key];assert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==h for n,h in pins.items());assert not set(names)&set(pins);checks[kind]=len(pins)\nreceipt=preserve(\"legal_research_goal_Run03_20261021\",\"methods_v14_current128_design_1647\",names)\nout={\"at\":now(),\"classification\":\"Factual manuscript Methods and current evidence-state synchronization only; current core, learner, sampling and TEST boundaries unchanged\",\"receipt\":receipt,\"verified_immutable_bindings\":checks,\"devices\":[pathlib.Path(p[\"path\"]).stat().st_dev for p in receipt[\"paths\"]],\"new_native_teacher_or_TEST_calls\":0}\nassert len(set(out[\"devices\"]))==2\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

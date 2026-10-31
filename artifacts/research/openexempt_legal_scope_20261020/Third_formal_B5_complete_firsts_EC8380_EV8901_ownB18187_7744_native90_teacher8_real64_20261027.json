@@ -1,0 +1,308 @@
+{
+  "observed_at_utc": "2026-10-27T11:38:09.806849+00:00",
+  "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+  "user_named_main_round": 3,
+  "scope": "Completed B5 first-encounter predictions and actual teacher8 evidence, not after-label fitting, final TEST or a learning repeat",
+  "firsts_scored_at_utc": "2026-10-27T11:29:34.503170Z",
+  "source_cases": 16,
+  "source_id_range": [
+    245,
+    260
+  ],
+  "task_views_per_condition": 32,
+  "logical_views": 160,
+  "actual_new_native_calls": 90,
+  "native_finish_counts": {
+    "stop": 90
+  },
+  "evolving_bank_sha256": "8f25f11c58afde540329e2e5e32a9ae8a8fb1b1dfe2afbb2d2603861f2bcf314",
+  "own_B1_bank_sha256": "02c5f64f331afdba709cb037a759c04e9b71c12b9513b720a26d5ffaccb20df6",
+  "original_metrics": {
+    "empty": {
+      "EC": {
+        "precision": 0.8020833333333334,
+        "recall": 0.5069444444444444,
+        "f1": 0.5940972222222223,
+        "exact_target": 0.0625,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.6480922672099142,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.78125,
+        "recall": 0.48263888888888895,
+        "f1": 0.5729166666666666,
+        "exact_target": 0.0625,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.5756715506715506,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.5835069444444445
+    },
+    "evolving": {
+      "EC": {
+        "precision": 0.9131944444444445,
+        "recall": 0.8020833333333333,
+        "f1": 0.8379960317460318,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8983282068808385,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9479166666666667,
+        "recall": 0.8576388888888887,
+        "f1": 0.8900793650793649,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8878339314194578,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.8640376984126983
+    },
+    "own_B1": {
+      "EC": {
+        "precision": 0.8958333333333334,
+        "recall": 0.7847222222222222,
+        "f1": 0.8187003968253967,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8628185045948203,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8281250000000001,
+        "recall": 0.743923611111111,
+        "f1": 0.7744047619047618,
+        "exact_target": 0.25,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.759906276106934,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.7965525793650793
+    }
+  },
+  "native_gain_vs_own_B1_pp": {
+    "EC": 1.9295634920635019,
+    "EV": 11.56746031746031
+  },
+  "paired_effect_vs_own_B1": {
+    "tasks": 32,
+    "help": 11,
+    "hurt": 6,
+    "ties": 15,
+    "mean_f1_difference": 0.06748511904761906
+  },
+  "paired_effect_vs_empty": {
+    "tasks": 32,
+    "help": 23,
+    "hurt": 2,
+    "ties": 7,
+    "mean_f1_difference": 0.28053075396825405
+  },
+  "paired_effect_by_family": {
+    "EC": {
+      "help": 4,
+      "hurt": 4,
+      "tie": 8,
+      "harms": [
+        {
+          "source": 249,
+          "before": 1,
+          "after": 0.9,
+          "delta_pp": -9.999999999999998
+        },
+        {
+          "source": 256,
+          "before": 0.6666666666666666,
+          "after": 0.6412698412698412,
+          "delta_pp": -2.5396825396825418
+        },
+        {
+          "source": 258,
+          "before": 0.7301587301587301,
+          "after": 0.5142857142857143,
+          "delta_pp": -21.587301587301578
+        },
+        {
+          "source": 259,
+          "before": 1,
+          "after": 0.9523809523809524,
+          "delta_pp": -4.761904761904756
+        }
+      ]
+    },
+    "EV": {
+      "help": 7,
+      "hurt": 2,
+      "tie": 7,
+      "harms": [
+        {
+          "source": 256,
+          "before": 0.75,
+          "after": 0.7142857142857143,
+          "delta_pp": -3.57142857142857
+        },
+        {
+          "source": 257,
+          "before": 1,
+          "after": 0.5,
+          "delta_pp": -50
+        }
+      ]
+    }
+  },
+  "native_claim_counts_verified": {
+    "empty": {
+      "EC": {
+        "correct": 50,
+        "missing": 49,
+        "extra": 7
+      },
+      "EV": {
+        "correct": 42,
+        "missing": 52,
+        "wrong_amount_targets": 5,
+        "wrong_value_predictions": 5,
+        "extra": 7
+      }
+    },
+    "own_B1": {
+      "EC": {
+        "correct": 79,
+        "missing": 20,
+        "extra": 2
+      },
+      "EV": {
+        "correct": 70,
+        "missing": 21,
+        "wrong_amount_targets": 8,
+        "wrong_value_predictions": 17,
+        "extra": 16
+      }
+    },
+    "evolving": {
+      "EC": {
+        "correct": 79,
+        "missing": 20,
+        "extra": 2
+      },
+      "EV": {
+        "correct": 85,
+        "missing": 11,
+        "wrong_amount_targets": 3,
+        "wrong_value_predictions": 3,
+        "extra": 1
+      }
+    }
+  },
+  "claim_targets_each_family": 99,
+  "all160_actual_actor_messages_schema_and_skill_IDs_match_original_response_origins": true,
+  "all64_actual_teacher_parent_answers_scores_raw_origins_targets_and_native_feedback_exact": true,
+  "all90_native_stop_no_quality_retries": true,
+  "evolving_negative_or_unscored_EC_EV": [
+    0,
+    0
+  ],
+  "B3_B4_B5_descriptive_later_source_prefix": {
+    "source_cases": 48,
+    "task_metrics": {
+      "EC": {
+        "evolving": 0.8409143518518519,
+        "own_B1": 0.8196180555555556,
+        "gain_pp": 2.1296296296296333
+      },
+      "EV": {
+        "evolving": 0.907390873015873,
+        "own_B1": 0.7987185846560846,
+        "gain_pp": 10.867228835978834
+      }
+    },
+    "not_full_stream_final_TEST_or_significance": true
+  },
+  "error_interpretation": {
+    "EC_correct_missing_extra_totals_equal_own_B1": true,
+    "EC_F1_gain_reflects_error_redistribution_not_more_correct_claims": true,
+    "EV_correct_claims_increase_and_missing_wrong_extra_decrease": true,
+    "all_six_harmed_tasks_retained": true,
+    "EV257_native_loss_pp": -50,
+    "EV_absolute_F1_lower_than_B4_but_EV_skill_text_is_unchanged_and_sources_differ": true,
+    "no_direct_forgetting_claim_or_primary_metric_normalization": true
+  },
+  "teacher8": {
+    "model": "gpt-5.6-sol",
+    "stage": "b5_candidate1",
+    "started_at": "2026-10-27T11:29:34.532806+00:00",
+    "finished_at": "2026-10-27T11:31:18.607389+00:00",
+    "elapsed_seconds": 104.075,
+    "usage": {
+      "input_tokens": 174272,
+      "cached_input_tokens": 0,
+      "output_tokens": 5266,
+      "reasoning_output_tokens": 4031
+    },
+    "reasoning_tokens_are_output_subset": true,
+    "cache_hit": false,
+    "tool_events_detected": false,
+    "user_prompt_characters": 535705,
+    "total_prompt_characters_from_runtime": 541983,
+    "current_sources": 16,
+    "historical_sources": 16,
+    "actual_evidence_records": 64,
+    "actual_parent_bank_sha256": "8f25f11c58afde540329e2e5e32a9ae8a8fb1b1dfe2afbb2d2603861f2bcf314",
+    "mandatory_feedback_sources": [
+      183,
+      196,
+      198,
+      204,
+      211,
+      221,
+      223,
+      224,
+      228,
+      229,
+      233,
+      234,
+      236,
+      241,
+      242
+    ],
+    "all_mandatory_sources_delivered": true,
+    "feedback_objects": 2,
+    "operations": {
+      "UPDATE": 2,
+      "CREATE": 0
+    },
+    "task_text_changes": {
+      "arizona-apparel-medical-and-ring-boundaries": [
+        "EC"
+      ],
+      "pennsylvania-general-monetary-alternative": [
+        "EC",
+        "EV"
+      ]
+    },
+    "proposed_content": "Arizona adds explicit category-specific EC applicability despite value ceilings; Pennsylvania adds independent wearing-apparel eligibility and whole-asset valuation under section8124(a)(1), retaining the existing general monetary alternative. No numerical operator, case-ID rule or instance answer is introduced.",
+    "proposal_not_yet_published": true
+  },
+  "first_native_cost": {
+    "input_tokens": 587171,
+    "output_tokens": 221978,
+    "total_tokens": 809149
+  },
+  "cumulative_native_before_this_batch_teacher": 636,
+  "goal_status": "active",
+  "next_action": "Preserve complete B5 firsts and teacher8 artifacts on both disks. Inspect real full-seen80-source/160-task proposal replay and all native/full-output/invalid/negative current/prior gates. Continue the existing formal chain; no hot edits, extra experiments, sealed TEST predictions or deferred independent repeats."
+}

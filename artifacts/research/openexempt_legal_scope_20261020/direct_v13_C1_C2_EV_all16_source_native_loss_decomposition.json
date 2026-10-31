@@ -1,0 +1,1900 @@
+{
+  "at": "2026-10-20T11:58:41.763988+00:00",
+  "run_id": "legal_openexempt_direct_skills_online_20261020_run01",
+  "native_asset_matcher_and_claim_amount_tolerance_reused": true,
+  "all32_record_full_output_TP_FP_FN_counts_match_saved_original_audit": true,
+  "micro_error_counts_are_diagnostics_not_replacement_for_original_macro_F1": true,
+  "original_target_asset_keys_and_labels_only_seen_TRAIN": true,
+  "no_B3_B4_gold_private_construction_or_TEST_read": true,
+  "no_model_teacher_calls_or_runtime_changes": true,
+  "groups": {
+    "B1_C1": {
+      "all8_source_claim_error_totals": {
+        "tp": 30,
+        "missing_law_fn": 15,
+        "fp": 2,
+        "fn": 15,
+        "wrong_law_fp": 2
+      },
+      "per_law_presence_and_native_amount_match_counts": {
+        "735 Ill. Comp. Stat. 5/12-1001(b)": {
+          "target": 2
+        },
+        "735 Ill. Comp. Stat. 5/12-1001(d)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "735 Ill. Comp. Stat. 5/12-1001(e)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "Ariz. Rev. Stat. § 33-1130(1)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "Ariz. Rev. Stat. § 33-1125(1)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "Ariz. Rev. Stat. § 33-1125(11)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "Ariz. Rev. Stat. § 33-1123": {
+          "target": 3,
+          "present_on_officially_matched_asset": 3,
+          "correct_law_and_amount": 3
+        },
+        "Ariz. Rev. Stat. § 33-1125(8)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "Ariz. Rev. Stat. § 33-1125(9)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "11 U.S.C. § 522(d)(3)": {
+          "target": 7,
+          "present_on_officially_matched_asset": 7,
+          "correct_law_and_amount": 7
+        },
+        "11 U.S.C. § 522(d)(5)": {
+          "target": 10,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "Or. Rev. Stat. § 18.345(1)(f)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "Or. Rev. Stat. § 18.345(1)(p)": {
+          "target": 2
+        },
+        "Wis. Stat. § 815.18(3)(d)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "11 U.S.C. § 522(d)(4)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "42 Pa. Cons. Stat. § 8123": {
+          "target": 6,
+          "present_on_officially_matched_asset": 4,
+          "correct_law_and_amount": 4
+        },
+        "42 Pa. Cons. Stat. § 8124(a)(1)": {
+          "target": 1
+        },
+        "11 U.S.C. § 522(d)(2)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        }
+      },
+      "all8_source_case_details": [
+        {
+          "source_case_id": 149,
+          "official_F1": 0.6666666666666666,
+          "full_output_F1": 0.6666666666666666,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/149_EV_empty.json",
+          "decomposition": {
+            "tp": 2,
+            "missing_law_fn": 2,
+            "fp": 0,
+            "fn": 2
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+              "official_matched_prediction_key": "'mechanic hand tools and rolling toolbox'",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "claim_value": 2275.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "physician prescribed wheelchair with foldable frame and padded armrests",
+              "official_matched_prediction_key": "'physician prescribed wheelchair'",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "claim_value": 649.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 150,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/150_EV_candidate.json",
+          "decomposition": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+              "official_matched_prediction_key": "24hp riding lawn mower with zero-turn capability (used in debtor's landscaping company) valued at $3,450.00",
+              "errors": []
+            },
+            {
+              "target_asset": "brown canvas blazer with waterproof coating",
+              "official_matched_prediction_key": "brown canvas blazer with waterproof coating with a value of $385.00",
+              "errors": []
+            },
+            {
+              "target_asset": "German shorthaired pointer",
+              "official_matched_prediction_key": "german shorthaired pointer, priced at $755.00",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 151,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/151_EV_candidate.json",
+          "decomposition": {
+            "tp": 4,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "tablet device with 12.9-inch screen and detachable keyboard",
+              "official_matched_prediction_key": "tablet device with 12.9-inch screen and detachable keyboard",
+              "errors": []
+            },
+            {
+              "target_asset": "rubber rain boots with pull-on handles",
+              "official_matched_prediction_key": "rubber rain boots with pull-on handles",
+              "errors": []
+            },
+            {
+              "target_asset": "curved 49-inch ultrawide monitor with high refresh rate and USB-C hub",
+              "official_matched_prediction_key": "curved 49-inch ultrawide monitor with high refresh rate and usb-c hub",
+              "errors": []
+            },
+            {
+              "target_asset": "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup",
+              "official_matched_prediction_key": "cement-colored 2018 toyota tacoma trd off-road pickup",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 152,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/152_EV_candidate.json",
+          "decomposition": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "medically prescribed shower chair with adjustable legs and non-slip feet",
+              "official_matched_prediction_key": "medically prescribed shower chair with adjustable legs and non-slip feet",
+              "errors": []
+            },
+            {
+              "target_asset": "two-seat entryway bench with hidden shoe storage",
+              "official_matched_prediction_key": "two-seat entryway bench with hidden shoe storage",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 153,
+          "official_F1": 0.6666666666666666,
+          "full_output_F1": 0.6666666666666666,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/153_EV_candidate.json",
+          "decomposition": {
+            "tp": 4,
+            "missing_law_fn": 4,
+            "fp": 0,
+            "fn": 4
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "smart wall oven with touchscreen interface and Wi-Fi recipe integration",
+              "official_matched_prediction_key": "smart wall oven with touchscreen interface and wi-fi recipe integration",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 4602.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                    "claim_value": 400.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "laser printer with wireless connectivity and scanner bed",
+              "official_matched_prediction_key": "laser printer with wireless connectivity and scanner bed",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 760.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                    "claim_value": 400.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 154,
+          "official_F1": 0.8,
+          "full_output_F1": 0.8,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/154_EV_candidate.json",
+          "decomposition": {
+            "tp": 4,
+            "missing_law_fn": 2,
+            "fp": 0,
+            "fn": 2
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "wireless home security system with motion sensors and base station",
+              "official_matched_prediction_key": "wireless home security system with motion sensors and base station",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 1000.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "pair of sterling silver hoop earrings with cubic zirconia accents",
+              "official_matched_prediction_key": "pair of sterling silver hoop earrings with cubic zirconia accents",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 98.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 155,
+          "official_F1": 0.4666666666666667,
+          "full_output_F1": 0.5263157894736842,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/155_EV_candidate.json",
+          "decomposition": {
+            "tp": 5,
+            "missing_law_fn": 7,
+            "wrong_law_fp": 2,
+            "fp": 2,
+            "fn": 7
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "tailored navy suit with silk lining and hand-finished seams",
+              "official_matched_prediction_key": "tailored navy suit with silk lining and hand-finished seams",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 500.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                    "claim_value": 500.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "solid walnut dining table that seats eight (includes two extension leaves)",
+              "official_matched_prediction_key": "solid walnut dining table that seats eight (includes two extension leaves)",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 4300.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+              "official_matched_prediction_key": "2025 lucid air grand touring electric sedan",
+              "errors": [
+                {
+                  "kind": "wrong_law_fp",
+                  "predicted": {
+                    "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                    "claim_value": 15000
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 15425.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "42 Pa. Cons. Stat. § 8123",
+                    "claim_value": 300.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "Remington 700 bolt-action hunting rifle (.308 caliber)",
+              "official_matched_prediction_key": "remington 700 bolt-action hunting rifle (.308 caliber)",
+              "errors": [
+                {
+                  "kind": "wrong_law_fp",
+                  "predicted": {
+                    "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                    "claim_value": 940
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 940.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "42 Pa. Cons. Stat. § 8123",
+                    "claim_value": 300.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 156,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/156_EV_candidate.json",
+          "decomposition": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "wifi-enabled video doorbell with motion detection",
+              "official_matched_prediction_key": "wifi-enabled video doorbell with motion detection, priced at $175.00",
+              "errors": []
+            },
+            {
+              "target_asset": "upright piano in walnut veneer",
+              "official_matched_prediction_key": "upright piano in walnut veneer valued at $555.00",
+              "errors": []
+            }
+          ]
+        }
+      ]
+    },
+    "B1_C2": {
+      "all8_source_claim_error_totals": {
+        "tp": 32,
+        "missing_law_fn": 10,
+        "fp": 3,
+        "fn": 13,
+        "unmatched_asset_fn": 3,
+        "wrong_law_fp": 1,
+        "unmatched_predicted_asset_fp": 2
+      },
+      "per_law_presence_and_native_amount_match_counts": {
+        "735 Ill. Comp. Stat. 5/12-1001(b)": {
+          "target": 2
+        },
+        "735 Ill. Comp. Stat. 5/12-1001(d)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "735 Ill. Comp. Stat. 5/12-1001(e)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "Ariz. Rev. Stat. § 33-1130(1)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "Ariz. Rev. Stat. § 33-1125(1)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "Ariz. Rev. Stat. § 33-1125(11)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "Ariz. Rev. Stat. § 33-1123": {
+          "target": 3,
+          "present_on_officially_matched_asset": 3,
+          "correct_law_and_amount": 3
+        },
+        "Ariz. Rev. Stat. § 33-1125(8)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "Ariz. Rev. Stat. § 33-1125(9)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "11 U.S.C. § 522(d)(3)": {
+          "target": 7,
+          "present_on_officially_matched_asset": 7,
+          "correct_law_and_amount": 7
+        },
+        "11 U.S.C. § 522(d)(5)": {
+          "target": 10,
+          "present_on_officially_matched_asset": 5,
+          "correct_law_and_amount": 5
+        },
+        "Or. Rev. Stat. § 18.345(1)(f)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "Or. Rev. Stat. § 18.345(1)(p)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "Wis. Stat. § 815.18(3)(d)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "11 U.S.C. § 522(d)(4)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "42 Pa. Cons. Stat. § 8123": {
+          "target": 6,
+          "present_on_officially_matched_asset": 3,
+          "correct_law_and_amount": 3
+        },
+        "42 Pa. Cons. Stat. § 8124(a)(1)": {
+          "target": 1
+        },
+        "11 U.S.C. § 522(d)(2)": {
+          "target": 1
+        }
+      },
+      "all8_source_case_details": [
+        {
+          "source_case_id": 149,
+          "official_F1": 0.6666666666666666,
+          "full_output_F1": 0.6666666666666666,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/149_EV_empty.json",
+          "decomposition": {
+            "tp": 2,
+            "missing_law_fn": 2,
+            "fp": 0,
+            "fn": 2
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+              "official_matched_prediction_key": "'mechanic hand tools and rolling toolbox'",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "claim_value": 2275.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "physician prescribed wheelchair with foldable frame and padded armrests",
+              "official_matched_prediction_key": "'physician prescribed wheelchair'",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "claim_value": 649.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 150,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/150_EV_candidate.json",
+          "decomposition": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+              "official_matched_prediction_key": "24hp riding lawn mower with zero-turn capability (used in debtor's landscaping company) valued at $3,450.00",
+              "errors": []
+            },
+            {
+              "target_asset": "brown canvas blazer with waterproof coating",
+              "official_matched_prediction_key": "brown canvas blazer with waterproof coating with a value of $385.00",
+              "errors": []
+            },
+            {
+              "target_asset": "German shorthaired pointer",
+              "official_matched_prediction_key": "german shorthaired pointer, priced at $755.00",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 151,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/151_EV_candidate.json",
+          "decomposition": {
+            "tp": 4,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "tablet device with 12.9-inch screen and detachable keyboard",
+              "official_matched_prediction_key": "tablet device with 12.9-inch screen and detachable keyboard",
+              "errors": []
+            },
+            {
+              "target_asset": "rubber rain boots with pull-on handles",
+              "official_matched_prediction_key": "rubber rain boots with pull-on handles",
+              "errors": []
+            },
+            {
+              "target_asset": "curved 49-inch ultrawide monitor with high refresh rate and USB-C hub",
+              "official_matched_prediction_key": "curved 49-inch ultrawide monitor with high refresh rate and usb-c hub",
+              "errors": []
+            },
+            {
+              "target_asset": "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup",
+              "official_matched_prediction_key": "cement-colored 2018 toyota tacoma trd off-road pickup",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 152,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/152_EV_candidate.json",
+          "decomposition": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "medically prescribed shower chair with adjustable legs and non-slip feet",
+              "official_matched_prediction_key": "medically prescribed shower chair with adjustable legs and non-slip feet",
+              "errors": []
+            },
+            {
+              "target_asset": "two-seat entryway bench with hidden shoe storage",
+              "official_matched_prediction_key": "two-seat entryway bench with hidden shoe storage",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 153,
+          "official_F1": 0.9285714285714286,
+          "full_output_F1": 0.9333333333333333,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/153_EV_candidate.json",
+          "decomposition": {
+            "tp": 7,
+            "missing_law_fn": 1,
+            "fp": 0,
+            "fn": 1
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "smart wall oven with touchscreen interface and Wi-Fi recipe integration",
+              "official_matched_prediction_key": "smart wall oven with touchscreen interface and wi-fi recipe integration appraised at $4,602.00",
+              "errors": []
+            },
+            {
+              "target_asset": "laser printer with wireless connectivity and scanner bed",
+              "official_matched_prediction_key": "laser printer with wireless connectivity and scanner bed appraised at $760.00",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                    "claim_value": 760.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 154,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/154_EV_candidate.json",
+          "decomposition": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "wireless home security system with motion sensors and base station",
+              "official_matched_prediction_key": "wireless home security system with motion sensors and base station",
+              "errors": []
+            },
+            {
+              "target_asset": "pair of sterling silver hoop earrings with cubic zirconia accents",
+              "official_matched_prediction_key": "pair of sterling silver hoop earrings with cubic zirconia accents",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 155,
+          "official_F1": 0.4916666666666667,
+          "full_output_F1": 0.5,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/155_EV_candidate.json",
+          "decomposition": {
+            "tp": 5,
+            "missing_law_fn": 4,
+            "unmatched_asset_fn": 3,
+            "wrong_law_fp": 1,
+            "unmatched_predicted_asset_fp": 2,
+            "fp": 3,
+            "fn": 7
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "tailored navy suit with silk lining and hand-finished seams",
+              "official_matched_prediction_key": "tailored navy suit with silk lining and hand-finished seams worth $500.00",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 500.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                    "claim_value": 500.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "solid walnut dining table that seats eight (includes two extension leaves)",
+              "official_matched_prediction_key": "solid walnut dining table that seats eight (includes two extension leaves) currently owned by brown carries a value of $4,300.00",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 4300.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+              "official_matched_prediction_key": null,
+              "errors": [
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(2)",
+                    "claim_value": 4450.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 15425.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "42 Pa. Cons. Stat. § 8123",
+                    "claim_value": 300.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "Remington 700 bolt-action hunting rifle (.308 caliber)",
+              "official_matched_prediction_key": "remington 700 bolt-action hunting rifle (.308 caliber) worth $940.00",
+              "errors": [
+                {
+                  "kind": "wrong_law_fp",
+                  "predicted": {
+                    "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                    "claim_value": 940
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "42 Pa. Cons. Stat. § 8123",
+                    "claim_value": 300.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 156,
+          "official_F1": 0.65,
+          "full_output_F1": 0.6666666666666666,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/156_EV_candidate.json",
+          "decomposition": {
+            "tp": 3,
+            "missing_law_fn": 3,
+            "fp": 0,
+            "fn": 3
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "wifi-enabled video doorbell with motion detection",
+              "official_matched_prediction_key": "wifi-enabled video doorbell with motion detection",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 175.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "42 Pa. Cons. Stat. § 8123",
+                    "claim_value": 175.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "upright piano in walnut veneer",
+              "official_matched_prediction_key": "upright piano in walnut veneer",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 555.0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "B2_C1": {
+      "all8_source_claim_error_totals": {
+        "tp": 25,
+        "missing_law_fn": 13,
+        "unmatched_asset_fn": 20,
+        "unmatched_predicted_asset_fp": 2,
+        "fp": 4,
+        "fn": 34,
+        "wrong_amount_fp": 1,
+        "wrong_amount_fn": 1,
+        "wrong_law_fp": 1
+      },
+      "per_law_presence_and_native_amount_match_counts": {
+        "11 U.S.C. § 522(d)(2)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "11 U.S.C. § 522(d)(5)": {
+          "target": 15
+        },
+        "Or. Rev. Stat. § 18.345(1)(d)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        },
+        "Or. Rev. Stat. § 18.345(1)(p)": {
+          "target": 6
+        },
+        "Ariz. Rev. Stat. § 33-1125(8)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "11 U.S.C. § 522(d)(4)": {
+          "target": 5,
+          "present_on_officially_matched_asset": 3,
+          "correct_law_and_amount": 2
+        },
+        "Wis. Stat. § 815.18(3)(d)": {
+          "target": 9,
+          "present_on_officially_matched_asset": 9,
+          "correct_law_and_amount": 9
+        },
+        "11 U.S.C. § 522(d)(3)": {
+          "target": 8,
+          "present_on_officially_matched_asset": 6,
+          "correct_law_and_amount": 6
+        },
+        "Or. Rev. Stat. § 18.345(1)(f)": {
+          "target": 2
+        },
+        "Or. Rev. Stat. § 18.345(1)(b)": {
+          "target": 2
+        },
+        "Ariz. Rev. Stat. § 33-1123": {
+          "target": 3,
+          "present_on_officially_matched_asset": 3,
+          "correct_law_and_amount": 3
+        },
+        "735 Ill. Comp. Stat. 5/12-1001(b)": {
+          "target": 2
+        },
+        "735 Ill. Comp. Stat. 5/12-1001(e)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        }
+      },
+      "all8_source_case_details": [
+        {
+          "source_case_id": 157,
+          "official_F1": 0.3333333333333333,
+          "full_output_F1": 0.3333333333333333,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/157_EV_skills.json",
+          "decomposition": {
+            "tp": 2,
+            "missing_law_fn": 2,
+            "unmatched_asset_fn": 4,
+            "unmatched_predicted_asset_fp": 2,
+            "fp": 2,
+            "fn": 6
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "beige 1995 Toyota Camry LE (168,000 miles)",
+              "official_matched_prediction_key": "1995 toyota camry le (168,000 miles) valued at $2,200.00",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 2200.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                    "claim_value": 400.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+              "official_matched_prediction_key": null,
+              "errors": [
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(2)",
+                    "claim_value": 4450.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 24925.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+                    "claim_value": 3000.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                    "claim_value": 400.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 158,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/158_EV_skills.json",
+          "decomposition": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+              "official_matched_prediction_key": "tesla model y long range",
+              "errors": []
+            },
+            {
+              "target_asset": "wolf gray 2024 Kia Telluride SX-Prestige crossover",
+              "official_matched_prediction_key": "kia telluride sx-prestige crossover",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 159,
+          "official_F1": 0.6000000000000001,
+          "full_output_F1": 0.6,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/159_EV_skills.json",
+          "decomposition": {
+            "wrong_amount_fp": 1,
+            "tp": 3,
+            "wrong_amount_fn": 1,
+            "missing_law_fn": 2,
+            "fp": 1,
+            "fn": 3
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "pair of diamond cluster earrings with post backs",
+              "official_matched_prediction_key": "pair of diamond cluster earrings with post backs valued at $3,355.00",
+              "errors": [
+                {
+                  "kind": "wrong_amount_fp",
+                  "predicted": {
+                    "citation": "11 U.S.C. § 522(d)(4)",
+                    "claim_value": 1875
+                  },
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(4)",
+                    "claim_value": 3355.0
+                  },
+                  "native_relative_error": 0.44129916567342076
+                },
+                {
+                  "kind": "wrong_amount_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(4)",
+                    "claim_value": 3355.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 3355.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "Nappa leather short jacket",
+              "official_matched_prediction_key": "nappa leather short jacket appraised at $3,360.00",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 3360.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 160,
+          "official_F1": 0.0,
+          "full_output_F1": 0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/160_EV_skills.json",
+          "decomposition": {
+            "unmatched_asset_fn": 16,
+            "unmatched_predicted_asset_fp": 0,
+            "fp": 0,
+            "fn": 16
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "wall-mounted coat rack with rustic wood and metal hooks",
+              "official_matched_prediction_key": null,
+              "errors": [
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(3)",
+                    "claim_value": 348.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 348.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                    "claim_value": 348.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                    "claim_value": 348.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "titanium pendant dog tag necklace with engraving",
+              "official_matched_prediction_key": null,
+              "errors": [
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(4)",
+                    "claim_value": 295.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 295.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                    "claim_value": 295.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                    "claim_value": 295.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "reclining leather armchair with built-in cup holder and USB charging port",
+              "official_matched_prediction_key": null,
+              "errors": [
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(3)",
+                    "claim_value": 645.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 645.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                    "claim_value": 645.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                    "claim_value": 400.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "enameled pendant featuring a patron saint figure",
+              "official_matched_prediction_key": null,
+              "errors": [
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(4)",
+                    "claim_value": 184.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 184.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                    "claim_value": 184.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                    "claim_value": 184.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 161,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/161_EV_skills.json",
+          "decomposition": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "induction cooktop with four burners and touch controls",
+              "official_matched_prediction_key": "induction cooktop with four burners and touch controls",
+              "errors": []
+            },
+            {
+              "target_asset": "craft table with cutting mat surface and rolling storage drawers",
+              "official_matched_prediction_key": "craft table with cutting mat surface and rolling storage drawers",
+              "errors": []
+            },
+            {
+              "target_asset": "over-the-range microwave with integrated venting system",
+              "official_matched_prediction_key": "over-the-range microwave with integrated venting system",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 162,
+          "official_F1": 0.8000000000000002,
+          "full_output_F1": 0.8,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/162_EV_skills.json",
+          "decomposition": {
+            "tp": 6,
+            "missing_law_fn": 3,
+            "fp": 0,
+            "fn": 3
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "Italian leather loafers with stitched welt construction",
+              "official_matched_prediction_key": "italian leather loafers with stitched welt construction",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 1290.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "ceramic pendant on leather cord",
+              "official_matched_prediction_key": "ceramic pendant on leather cord",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 32.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "antique violin (baroque-style)",
+              "official_matched_prediction_key": "antique violin (baroque-style)",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 650.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 163,
+          "official_F1": 0.8,
+          "full_output_F1": 0.8,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/163_EV_skills.json",
+          "decomposition": {
+            "tp": 8,
+            "missing_law_fn": 4,
+            "fp": 0,
+            "fn": 4
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "strand of cultured pearls with sterling silver clasp",
+              "official_matched_prediction_key": "strand of cultured pearls with sterling silver clasp",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 365.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "beige suede hoodie with removable liner",
+              "official_matched_prediction_key": "beige suede hoodie with removable liner",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 63.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "digital keyboard with 61 weighted keys and built-in speakers",
+              "official_matched_prediction_key": "digital keyboard with 61 weighted keys and built-in speakers",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 675.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "full-size digital piano with weighted keys",
+              "official_matched_prediction_key": "full-size digital piano with weighted keys",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 990.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 164,
+          "official_F1": 0.3333333333333333,
+          "full_output_F1": 0.4,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/164_EV_empty_direct_numeric.json",
+          "decomposition": {
+            "tp": 1,
+            "missing_law_fn": 2,
+            "wrong_law_fp": 1,
+            "fp": 1,
+            "fn": 2
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "professionally prescribed portable nebulizer with mask attachments",
+              "official_matched_prediction_key": "professionally prescribed portable nebulizer with mask attachments",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "claim_value": 87.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "fashion earrings in geometric shapes with silver-tone finish",
+              "official_matched_prediction_key": "fashion earrings in geometric shapes with silver-tone finish",
+              "errors": [
+                {
+                  "kind": "wrong_law_fp",
+                  "predicted": {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                    "claim_value": 85.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "claim_value": 85.0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "B2_C2": {
+      "all8_source_claim_error_totals": {
+        "tp": 42,
+        "missing_law_fn": 13,
+        "wrong_amount_fp": 1,
+        "wrong_amount_fn": 1,
+        "fp": 4,
+        "fn": 17,
+        "unmatched_asset_fn": 3,
+        "unmatched_predicted_asset_fp": 2,
+        "wrong_law_fp": 1
+      },
+      "per_law_presence_and_native_amount_match_counts": {
+        "11 U.S.C. § 522(d)(2)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "11 U.S.C. § 522(d)(5)": {
+          "target": 15,
+          "present_on_officially_matched_asset": 5,
+          "correct_law_and_amount": 4
+        },
+        "Or. Rev. Stat. § 18.345(1)(d)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "Or. Rev. Stat. § 18.345(1)(p)": {
+          "target": 6,
+          "present_on_officially_matched_asset": 4,
+          "correct_law_and_amount": 4
+        },
+        "Ariz. Rev. Stat. § 33-1125(8)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "11 U.S.C. § 522(d)(4)": {
+          "target": 5,
+          "present_on_officially_matched_asset": 5,
+          "correct_law_and_amount": 5
+        },
+        "Wis. Stat. § 815.18(3)(d)": {
+          "target": 9,
+          "present_on_officially_matched_asset": 8,
+          "correct_law_and_amount": 8
+        },
+        "11 U.S.C. § 522(d)(3)": {
+          "target": 8,
+          "present_on_officially_matched_asset": 7,
+          "correct_law_and_amount": 7
+        },
+        "Or. Rev. Stat. § 18.345(1)(f)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "Or. Rev. Stat. § 18.345(1)(b)": {
+          "target": 2,
+          "present_on_officially_matched_asset": 2,
+          "correct_law_and_amount": 2
+        },
+        "Ariz. Rev. Stat. § 33-1123": {
+          "target": 3,
+          "present_on_officially_matched_asset": 3,
+          "correct_law_and_amount": 3
+        },
+        "735 Ill. Comp. Stat. 5/12-1001(b)": {
+          "target": 2
+        },
+        "735 Ill. Comp. Stat. 5/12-1001(e)": {
+          "target": 1,
+          "present_on_officially_matched_asset": 1,
+          "correct_law_and_amount": 1
+        }
+      },
+      "all8_source_case_details": [
+        {
+          "source_case_id": 157,
+          "official_F1": 0.6190476190476191,
+          "full_output_F1": 0.6153846153846154,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/157_EV_candidate.json",
+          "decomposition": {
+            "tp": 4,
+            "missing_law_fn": 3,
+            "wrong_amount_fp": 1,
+            "wrong_amount_fn": 1,
+            "fp": 1,
+            "fn": 4
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "beige 1995 Toyota Camry LE (168,000 miles)",
+              "official_matched_prediction_key": "1995 toyota camry le",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 2200.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                    "claim_value": 400.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+              "official_matched_prediction_key": "2022 chevrolet bolt ev",
+              "errors": [
+                {
+                  "kind": "wrong_amount_fp",
+                  "predicted": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 1475
+                  },
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 24925.0
+                  },
+                  "native_relative_error": 0.9408248415309316
+                },
+                {
+                  "kind": "wrong_amount_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 24925.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                    "claim_value": 400.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 158,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/158_EV_skills.json",
+          "decomposition": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+              "official_matched_prediction_key": "tesla model y long range",
+              "errors": []
+            },
+            {
+              "target_asset": "wolf gray 2024 Kia Telluride SX-Prestige crossover",
+              "official_matched_prediction_key": "kia telluride sx-prestige crossover",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 159,
+          "official_F1": 0.8,
+          "full_output_F1": 0.8,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/159_EV_candidate.json",
+          "decomposition": {
+            "tp": 4,
+            "missing_law_fn": 2,
+            "fp": 0,
+            "fn": 2
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "pair of diamond cluster earrings with post backs",
+              "official_matched_prediction_key": "diamond cluster earrings with post backs",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 3355.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "Nappa leather short jacket",
+              "official_matched_prediction_key": "nappa leather short jacket",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 3360.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 160,
+          "official_F1": 0.8571428571428571,
+          "full_output_F1": 0.8571428571428571,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/160_EV_candidate.json",
+          "decomposition": {
+            "tp": 12,
+            "missing_law_fn": 4,
+            "fp": 0,
+            "fn": 4
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "wall-mounted coat rack with rustic wood and metal hooks",
+              "official_matched_prediction_key": "wall-mounted coat rack with rustic wood and metal hooks",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 348.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "titanium pendant dog tag necklace with engraving",
+              "official_matched_prediction_key": "titanium pendant dog tag necklace with engraving",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 295.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "reclining leather armchair with built-in cup holder and USB charging port",
+              "official_matched_prediction_key": "reclining leather armchair with built-in cup holder and usb charging port",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 645.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "enameled pendant featuring a patron saint figure",
+              "official_matched_prediction_key": "enameled pendant featuring a patron saint figure",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 184.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 161,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/161_EV_skills.json",
+          "decomposition": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "induction cooktop with four burners and touch controls",
+              "official_matched_prediction_key": "induction cooktop with four burners and touch controls",
+              "errors": []
+            },
+            {
+              "target_asset": "craft table with cutting mat surface and rolling storage drawers",
+              "official_matched_prediction_key": "craft table with cutting mat surface and rolling storage drawers",
+              "errors": []
+            },
+            {
+              "target_asset": "over-the-range microwave with integrated venting system",
+              "official_matched_prediction_key": "over-the-range microwave with integrated venting system",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 162,
+          "official_F1": 0.5333333333333333,
+          "full_output_F1": 0.5333333333333333,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/162_EV_candidate.json",
+          "decomposition": {
+            "tp": 4,
+            "missing_law_fn": 2,
+            "unmatched_asset_fn": 3,
+            "unmatched_predicted_asset_fp": 2,
+            "fp": 2,
+            "fn": 5
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "Italian leather loafers with stitched welt construction",
+              "official_matched_prediction_key": "italian leather loafers",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 1290.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "ceramic pendant on leather cord",
+              "official_matched_prediction_key": "ceramic pendant on leather cord",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 32.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "antique violin (baroque-style)",
+              "official_matched_prediction_key": null,
+              "errors": [
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(3)",
+                    "claim_value": 650.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "claim_value": 650.0
+                  }
+                },
+                {
+                  "kind": "unmatched_asset_fn",
+                  "target": {
+                    "citation": "Wis. Stat. § 815.18(3)(d)",
+                    "claim_value": 650.0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "source_case_id": 163,
+          "official_F1": 1.0,
+          "full_output_F1": 1.0,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_candidate1_replay/163_EV_candidate.json",
+          "decomposition": {
+            "tp": 12,
+            "fp": 0,
+            "fn": 0
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "strand of cultured pearls with sterling silver clasp",
+              "official_matched_prediction_key": "strand of cultured pearls with sterling silver clasp",
+              "errors": []
+            },
+            {
+              "target_asset": "beige suede hoodie with removable liner",
+              "official_matched_prediction_key": "beige suede hoodie with removable liner",
+              "errors": []
+            },
+            {
+              "target_asset": "digital keyboard with 61 weighted keys and built-in speakers",
+              "official_matched_prediction_key": "digital keyboard with 61 weighted keys and built-in speakers",
+              "errors": []
+            },
+            {
+              "target_asset": "full-size digital piano with weighted keys",
+              "official_matched_prediction_key": "full-size digital piano with weighted keys",
+              "errors": []
+            }
+          ]
+        },
+        {
+          "source_case_id": 164,
+          "official_F1": 0.3333333333333333,
+          "full_output_F1": 0.4,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b2_prequential/164_EV_empty_direct_numeric.json",
+          "decomposition": {
+            "tp": 1,
+            "missing_law_fn": 2,
+            "wrong_law_fp": 1,
+            "fp": 1,
+            "fn": 2
+          },
+          "target_asset_error_inventory": [
+            {
+              "target_asset": "professionally prescribed portable nebulizer with mask attachments",
+              "official_matched_prediction_key": "professionally prescribed portable nebulizer with mask attachments",
+              "errors": [
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "claim_value": 87.0
+                  }
+                }
+              ]
+            },
+            {
+              "target_asset": "fashion earrings in geometric shapes with silver-tone finish",
+              "official_matched_prediction_key": "fashion earrings in geometric shapes with silver-tone finish",
+              "errors": [
+                {
+                  "kind": "wrong_law_fp",
+                  "predicted": {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                    "claim_value": 85.0
+                  }
+                },
+                {
+                  "kind": "missing_law_fn",
+                  "target": {
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "claim_value": 85.0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

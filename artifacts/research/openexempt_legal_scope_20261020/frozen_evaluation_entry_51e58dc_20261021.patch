@@ -1,0 +1,581 @@
+From 51e58dccdc82fb4249abd440804abccc0bea921a Mon Sep 17 00:00:00 2001
+From: Codex <codex@localhost>
+Date: Wed, 21 Oct 2026 01:49:21 +0800
+Subject: [PATCH] Add inference-only frozen legal bank comparison reusing
+ native actors and scorer
+
+---
+ ...EXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md |  63 +++++
+ experiments/openexempt_frozen_eval.py         | 253 ++++++++++++++++++
+ tests/test_openexempt_frozen_eval.py          | 230 ++++++++++++++++
+ 3 files changed, 546 insertions(+)
+ create mode 100644 docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md
+ create mode 100644 experiments/openexempt_frozen_eval.py
+ create mode 100644 tests/test_openexempt_frozen_eval.py
+
+diff --git a/docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md b/docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md
+new file mode 100644
+index 0000000..b29839d
+--- /dev/null
++++ b/docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md
+@@ -0,0 +1,63 @@
++# 冻结库最终评测入口，当前未对封存数据执行
++
++`experiments/openexempt_frozen_eval.py`只复用现有Online/ACE作答方法、原生评分和
++源码/双盘保全函数。它不是新学习器、额外LLM层或验证集，不修改技能或模型。
++本入口在2026-10-21开发，仅用合成CPU样例检查，没有加载封存TEST题面或标签。
++
++## 实际启动条件
++
++必须先完成主方法、对照、学习重复和必要消融，固定全部末库与统计方案。
++再填写完整比较配置，令evaluation_role为sealed_frozen_comparison、
++final_matrix_frozen为true、no_validation_set为true；配置不允许teacher字段。
++当前没有可运行的最终比较配置，不能把入口实现或合成测试通过称为实验完成。
++
++配置沿用现有generation、inference_environment、upstream_archive、protocol、
++input_packet、grading_directory。source_cases为完整TEST来源数。
++training_source_cases、training_batch_source_cases、training_packet_sha256固定共同
++TRAIN数据与批次。statistics_plan必须指向已明确写好的、在预测前固定的统计方案。
++当前IID128预案不等于已完成该最终统计方案。
++
++每个arm有name、role、backend；reference_arm必须是唯一strong_empty。
++其余arm列出source_config、source_config_sha256、bank_sha256，不能内联一份
++手工改写或挑出来的好库。所需role及实际取库方式：
++
++| role | backend | 实际库 |
++|---|---|---|
++| strong_empty | direct | 空库，不引用学习配置 |
++| evolved | direct | 完整学习结束时的末次发布 |
++| B1_frozen | direct | 对应同一次完整学习的B1发布 |
++| experience | ace | 完整ACE学习的末次原生playbook |
++| ablation | direct | 完整消融学习的末次发布 |
++
++每份持续进化库须有其自己的B1冻结控制。学习状态、批数、EC/EV实际来源总数、
++共同数据与接口版本均核对；32案ACE13或未完成学习不能冒充128案ACE14。
++推理使用与学习相同的共享任务接口，ACE还须保持其实际学习时的Generator适配。
++因此未来0366e9a类型修正必须先整合、训练对应ACE，再评测，不能到TEST时才改它。
++同一个学习Run ID改几个名字不算独立重复，入口会拒绝这种重复声明。
++
++从项目根目录运行，且与训练共用唯一锁，不抢占模型：
++
++```
++python -m experiments.openexempt_frozen_eval freeze <已完成的最终比较配置>
++python -m experiments.openexempt_frozen_eval run <同一配置>
++```
++
++freeze复用现有源码/data字节hash和双盘保全；字节hash不是人工查看题目或答案。
++run核对冻结矩阵后先记录evaluation_started，再读取完整公共题面。该标记之后
++不得据其表现继续调方法并仍声称本集从未暴露。
++
++## 执行与结果边界
++
++全部arm、全部来源的首答均保存后，才统一打开标签评分。输出原EC/EV宏F1、
++完整EV与额外声明等原记录，以及同案相对强空库、相对本次B1库的配对差值。
++精确相同的原始请求只复用同一响应，明确不算独立生成，实报物理调用和token。
++协议/输运失败保留并停止；不能选另一答案、修答案、删题或换seed补齐好结果。
++空答案、格式失败、截断等沿用现有原评分路径，不替换成重答成绩。
++
++入口计算逐来源评分与配对点差，不自动宣称显著性、算法稳定性或重复训练独立。
++置信区间、多重比较与学习重复变异必须按已固定统计方案另行计算，并保留来源
++级EC/EV配对关系。不能用同库重复解码代替独立学习重复，也不把benchmark标签
++一致性当作真实法律建议正确性。
++
++师兄paper-experiments-appendix用于确保完整对照、原始成本和证据强度。
++当前仍须取得修复版128案真实收益、成熟同条件对照及独立重复，才可开启最终TEST。
+diff --git a/experiments/openexempt_frozen_eval.py b/experiments/openexempt_frozen_eval.py
+new file mode 100644
+index 0000000..a66b982
+--- /dev/null
++++ b/experiments/openexempt_frozen_eval.py
+@@ -0,0 +1,253 @@
++"""Frozen EC/EV comparison: existing actors/scorer, no teacher or skill updates.
++
++This entry point is not used until methods, publications and the complete matrix
++are fixed. It never imports a TEST packet at module import or plan validation.
++"""
++
++from __future__ import annotations
++
++import argparse
++import fcntl
++import os
++import signal
++import traceback
++from pathlib import Path
++
++from experiments.openexempt_ace_online import ACEOnline
++from experiments.openexempt_online import Online, freeze, paired_effect, preserve
++from legal_skill_guard.experiment.storage import RunStore, safe_component
++from legal_skill_guard.learning.experiment import Comparison, now, read, sha
++from legal_skill_guard.learning.task_scoped_skills import validate_scoped_bank
++from legal_skill_guard.openexempt import FAMILIES, ROOT, metrics
++from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
++
++SHARED_ACTOR_FILES = (
++    "experiments/openexempt_online.py",
++    "legal_skill_guard/openexempt.py",
++    "legal_skill_guard/learning/legal_namespace.py",
++    "legal_skill_guard/learning/task_scoped_skills.py",
++)
++ACE_ACTOR_FILES = ("experiments/openexempt_ace_online.py", "legal_skill_guard/learning/openexempt_ace.py")
++ROLES = {"strong_empty", "evolved", "B1_frozen", "experience", "ablation"}
++
++
++def fixed_banks(cfg):
++    """Check completed TRAIN provenance without loading TEST questions/targets."""
++    if (cfg.get("evaluation_role") != "sealed_frozen_comparison"
++            or cfg.get("final_matrix_frozen") is not True
++            or cfg.get("no_validation_set") is not True
++            or "teacher" in cfg
++            or cfg.get("execution_contract") != "direct_statutory_claims"
++            or cfg.get("execution_contract_version") != 14):
++        raise ValueError("Declare a frozen inference-only common14 comparison, without a teacher")
++    safe_component(cfg["run_id"])
++    for key in ("source_cases", "training_source_cases", "training_batch_source_cases"):
++        if type(cfg.get(key)) is not int or cfg[key] < 1:
++            raise ValueError("Positive complete evaluation/training source counts are required")
++    if not (ROOT / cfg["statistics_plan"]).is_file():
++        raise FileNotFoundError("Freeze the explicit statistics plan before TEST prediction")
++    arms = cfg["arms"]
++    names = [safe_component(a["name"]) for a in arms]
++    if len(names) != len(set(names)) or not ROLES.issuperset(a["role"] for a in arms):
++        raise ValueError("Unique comparison names and declared roles are required")
++    if not {"strong_empty", "evolved", "B1_frozen", "experience"} <= {a["role"] for a in arms}:
++        raise ValueError("Include strong empty, evolution, B1-frozen and experience controls")
++    empty = [a for a in arms if a["role"] == "strong_empty"]
++    if len(empty) != 1 or empty[0]["name"] != cfg["reference_arm"]:
++        raise ValueError("Declare exactly one strong-empty reference")
++    banks, train_keys, extras, sources = {}, set(), {ROOT / cfg["statistics_plan"]}, {}
++    for arm in arms:
++        name, role = arm["name"], arm["role"]
++        if role == "strong_empty":
++            if arm["backend"] != "direct" or arm.get("source_config"):
++                raise ValueError("Strong empty must have no learned publication")
++            banks[name] = []
++            continue
++        if arm["backend"] != ("ace" if role == "experience" else "direct"):
++            raise ValueError("Use the declared direct/ACE task adapter, not a hidden answer selector")
++        config_path = ROOT / arm["source_config"]
++        source, frozen = read(config_path), read(config_path.with_suffix(".frozen.json"))
++        if sha(config_path) != arm["source_config_sha256"] or frozen["config_sha256"] != sha(config_path):
++            raise ValueError("Learning source config differs from the declared frozen source")
++        if (source["execution_contract"] != "direct_statutory_claims"
++                or source["execution_contract_version"] != 14
++                or source["source_cases"] != cfg["training_source_cases"]
++                or source["batch_source_cases"] != cfg["training_batch_source_cases"]
++                or source["planned_batches"] * source["batch_source_cases"] != source["source_cases"]
++                or frozen["files"][source["input_packet"]] != cfg["training_packet_sha256"]):
++            raise ValueError("Final controls must share the full TRAIN packet and common14 interface")
++        for key in ("model", "model_root", "context_tokens", "max_tokens"):
++            if source["generation"][key] != cfg["generation"][key]:
++                raise ValueError("Source executor or inference budget differs: " + key)
++        for name_ in SHARED_ACTOR_FILES + (ACE_ACTOR_FILES if arm["backend"] == "ace" else ()):
++            if frozen["files"][name_] != sha(ROOT / name_):
++                raise ValueError("Shared task actor/scorer changed since learning: " + name_)
++        out = ROOT / "runs" / source["run_id"]
++        complete = read(out / "completion.json")
++        status = ("completed_declared_ACE_adaptation_stream" if arm["backend"] == "ace"
++                  else "completed_bounded_mechanism_study")
++        if complete["status"] != status or len(complete["batch_summary"]) != source["planned_batches"]:
++            raise ValueError("Incomplete or failed learning is not a final learned bank")
++        total = (complete["prequential"]["ace"] if arm["backend"] == "ace"
++                 else complete["prequential_skills"])
++        if any(total[f]["tasks"] != cfg["training_source_cases"] for f in FAMILIES):
++            raise ValueError("Learning did not evaluate every declared source in both tasks")
++        batch = 1 if role == "B1_frozen" else source["planned_batches"]
++        publication = out / "publications" / f"b{batch}.json"
++        published = read(publication)
++        field = "playbook" if arm["backend"] == "ace" else "bank"
++        bank = published[field]
++        if csha(bank) != arm["bank_sha256"]:
++            raise ValueError("Do not select or rewrite a different learned bank")
++        if role != "B1_frozen":
++            final_field = "final_playbook" if arm["backend"] == "ace" else "bank"
++            if bank != complete[final_field]:
++                raise ValueError("Use the final publication, not a winning intermediate checkpoint")
++        if arm["backend"] == "direct":
++            validate_scoped_bank(bank)
++            if any(s["guidance"]["operators"] for s in bank):
++                raise ValueError("The common direct actor has no numerical skill interpreter")
++        elif not isinstance(bank, str):
++            raise ValueError("ACE must use its actual text playbook")
++        receipt_path = (ROOT / source["input_packet"]).parent / "preselection.json"
++        receipt = read(receipt_path)
++        if (receipt["source_cases"] != cfg["training_source_cases"]
++                or receipt["input_packet_sha256"] != cfg["training_packet_sha256"]
++                or len(set(receipt["source_keys"])) != cfg["training_source_cases"]
++                or frozen["files"][str(receipt_path.relative_to(ROOT))] != sha(receipt_path)):
++            raise ValueError("Learning receipt source count differs")
++        train_keys.update(receipt["source_keys"])
++        banks[name], sources[name] = bank, source["run_id"]
++        extras.update((config_path, config_path.with_suffix(".frozen.json"), publication,
++                       out / "completion.json", receipt_path))
++    for arm in arms:
++        if arm["role"] == "evolved" and not any(
++                other["role"] == "B1_frozen" and other["source_config"] == arm["source_config"]
++                and sources[other["name"]] == sources[arm["name"]]
++                for other in arms):
++            raise ValueError("Each evolved run needs its own actual B1-frozen control")
++    for role in ("evolved", "experience", "B1_frozen"):
++        run_ids = [sources[a["name"]] for a in arms if a["role"] == role]
++        if len(run_ids) != len(set(run_ids)):
++            raise ValueError("Repeated names for one learning run are not independent repeats")
++    return banks, train_keys, extras
++
++
++class FrozenEvaluation:
++    check = Comparison.check
++    call = Comparison.call
++    grade = Online.grade
++
++    def __init__(self, config_path):
++        self.cfg = read(config_path)
++        self.banks, self.train_keys, _ = fixed_banks(self.cfg)
++        frozen = read(config_path.with_suffix(".frozen.json"))
++        if frozen["config_sha256"] != sha(config_path):
++            raise ValueError("Final evaluation matrix changed after freeze")
++        self.bindings, self.run_id = frozen["files"], self.cfg["run_id"]
++        self.out = ROOT / "runs" / self.run_id
++        if self.out.exists():
++            raise FileExistsError("Never overwrite or resume selected TEST answers")
++        self.native, self.request_cache, self.reuse_events = [], {}, []
++        self.current_batch, self.stop = 0, False
++        for sig in (signal.SIGINT, signal.SIGTERM):
++            signal.signal(sig, lambda *_: setattr(self, "stop", True))
++        self.check()
++
++    def progress(self, stage, **extra):
++        RunStore.atomic_json(self.out / "progress.json", {
++            "at": now(), "run_id": self.run_id, "stage": stage,
++            "completed_native_calls": len(self.native), "teacher_calls": 0,
++            "exact_wire_reuses_not_independent_draws": len(self.reuse_events), **extra})
++
++    def execute(self):
++        self.rows = read(ROOT / self.cfg["input_packet"])["rows"]
++        groups = {}
++        for row in self.rows:
++            if row["source_key"] in self.train_keys:
++                raise ValueError("TEST source overlaps a learning source; do not drop/resample it")
++            groups.setdefault(row["source_key"], []).append((row["case_id"], row["family"]))
++        if len(groups) != self.cfg["source_cases"] or any(
++                len(pair) != 2 or len({i for i, _ in pair}) != 1
++                or {f for _, f in pair} != set(FAMILIES) for pair in groups.values()):
++            raise ValueError("Evaluate the complete declared source-paired EC/EV packet")
++        if len({row["case_id"] for row in self.rows}) != len(groups):
++            raise ValueError("Each TEST source must have its own case identity")
++        records = {a["name"]: [] for a in self.cfg["arms"]}
++        for row in self.rows:
++            arms = self.cfg["arms"]
++            offset = (row["case_id"] + FAMILIES[row["family"]]) % len(arms)
++            for arm in arms[offset:] + arms[:offset]:
++                name = arm["name"]
++                stage = "frozen_" + name
++                bank = self.banks[name]
++                record = (ACEOnline.answer(self, row, stage, playbook=bank)
++                          if arm["backend"] == "ace" else
++                          Online.answer(self, row, bank, stage, name))
++                records[name].append(record)
++        # The only grading path is below all arms/all sources' immutable answers.
++        RunStore.immutable_json(self.out / "predictions_before_any_grading.json", records)
++        self.check()
++        self.grade([r for values in records.values() for r in values])
++        RunStore.immutable_json(self.out / "scored_records.json", records)
++        reference = records[self.cfg["reference_arm"]]
++        return {"status": "completed_frozen_comparison", "at": now(),
++            "metrics": {name: metrics(values) for name, values in records.items()},
++            "paired_vs_strong_empty": {name: paired_effect(reference, values)
++                                       for name, values in records.items()},
++            "paired_vs_own_B1_frozen": {arm["name"]: paired_effect(
++                records[next(a["name"] for a in self.cfg["arms"]
++                             if a["role"] == "B1_frozen"
++                             and a["source_config"] == arm["source_config"])],
++                records[arm["name"]]) for arm in self.cfg["arms"] if arm["role"] == "evolved"},
++            "bank_sha256": {name: csha(bank) for name, bank in self.banks.items()},
++            "actual_native_calls": len(self.native), "teacher_calls": 0,
++            "exact_wire_reuses_not_independent_draws": self.reuse_events,
++            "native_prompt_tokens": sum(r["response"]["prompt_tokens"] for r in self.native),
++            "native_completion_tokens": sum(r["response"]["completion_tokens"] for r in self.native),
++            "statistics_plan": self.cfg["statistics_plan"],
++            "source_pair_uncertainty_and_learning_repeat_analysis_not_computed_here": True}
++
++    def run(self):
++        self.out.mkdir(parents=True, exist_ok=False)
++        RunStore.immutable_json(self.out / "evaluation_started.json", {
++            "at": now(), "matrix_frozen_before_packet_load": True,
++            "no_teacher_or_learning": True, "arms": self.cfg["arms"]})
++        try:
++            result = self.execute()
++            RunStore.immutable_json(self.out / "completion.json", result)
++            self.progress("terminal", state=result["status"])
++        except Exception as exc:
++            RunStore.immutable_json(self.out / "failure.json", {
++                "at": now(), "error": repr(exc), "traceback": traceback.format_exc(),
++                "actual_native_calls": len(self.native), "teacher_calls": 0,
++                "no_retry_or_answer_selection": True})
++            self.progress("terminal", state="failed")
++            raise
++        finally:
++            names = [str(p.relative_to(ROOT)) for p in self.out.rglob("*") if p.is_file()]
++            RunStore.immutable_json(self.out / "terminal_preservation.json",
++                                    preserve(self.run_id, "actual-terminal", names))
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument("action", choices=("freeze", "run"))
++    parser.add_argument("config", type=Path)
++    args = parser.parse_args()
++    path = args.config.resolve()
++    os.chdir(ROOT)
++    cfg = read(path)
++    _, _, sources = fixed_banks(cfg)
++    with (ROOT / "artifacts/openexempt_training.lock").open("a") as lock:
++        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
++        if args.action == "freeze":
++            freeze(path, additional_sources=(*sources, Path(__file__).resolve(),
++                ROOT / "experiments/openexempt_ace_online.py",
++                *ROOT.glob("third_party/ace/prompts/*.py")))
++        else:
++            FrozenEvaluation(path).run()
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tests/test_openexempt_frozen_eval.py b/tests/test_openexempt_frozen_eval.py
+new file mode 100644
+index 0000000..d7478e8
+--- /dev/null
++++ b/tests/test_openexempt_frozen_eval.py
+@@ -0,0 +1,230 @@
++"""Synthetic protocol checks only; no held-out packet or model service is used."""
++
++import copy
++import json
++import os
++from pathlib import Path
++
++import pytest
++from jsonschema import validate
++
++import experiments.openexempt_ace_online as ace
++import experiments.openexempt_frozen_eval as frozen
++import experiments.openexempt_online as common
++import legal_skill_guard.learning.experiment as learning
++from legal_skill_guard.experiment.storage import RunStore
++from legal_skill_guard.learning.experiment import INITIAL_PLAYBOOK, read, sha
++from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
++
++
++@pytest.fixture
++def plan(tmp_path, monkeypatch):
++    project = frozen.ROOT
++    actor_files = frozen.SHARED_ACTOR_FILES + frozen.ACE_ACTOR_FILES
++    for name in actor_files:
++        dest = tmp_path / name
++        dest.parent.mkdir(parents=True, exist_ok=True)
++        dest.symlink_to(project / name)
++    for module in (frozen, common, ace, learning):
++        monkeypatch.setattr(module, "ROOT", tmp_path)
++    monkeypatch.chdir(tmp_path)
++    monkeypatch.setattr("legal_skill_guard.learning.legal_namespace.asset_description_lexicon",
++                        lambda: ("watch",))
++    monkeypatch.setattr(frozen.signal, "signal", lambda *args: None)
++    monkeypatch.setattr(frozen, "preserve", lambda run, stage, names: {
++        "files": len(names), "CPU_fixture_only_not_real_preservation": True})
++    def put(name, data):
++        return RunStore.immutable_json(tmp_path / name, data)
++
++    generation = {"model": "Qwen/Qwen3-8B", "model_root": "/fixture/frozen8b",
++                  "context_tokens": 32768, "max_tokens": 8192, "seed": 45}
++    put("stats.json", {"fixture_only": True, "paired_unit": "source_case"})
++    put("data/train/inputs.json", {"rows": [{"source_key": "TRAIN0"}, {"source_key": "TRAIN1"}]})
++    train_sha = sha(tmp_path / "data/train/inputs.json")
++    put("data/train/preselection.json", {"source_cases": 2, "source_keys": ["TRAIN0", "TRAIN1"],
++                                         "input_packet_sha256": train_sha})
++    arms = [{"name": "empty", "role": "strong_empty", "backend": "direct"}]
++    for backend in ("direct", "ace"):
++        config = {"run_id": "learn_" + backend, "generation": generation,
++                  "execution_contract": "direct_statutory_claims", "execution_contract_version": 14,
++                  "source_cases": 2, "batch_source_cases": 1, "planned_batches": 2,
++                  "input_packet": "data/train/inputs.json"}
++        config_name = f"configs/{backend}.json"
++        config_path = put(config_name, config)
++        bindings = {name: sha(tmp_path / name) for name in actor_files}
++        bindings.update({"data/train/inputs.json": train_sha,
++                         "data/train/preselection.json": sha(tmp_path / "data/train/preselection.json")})
++        put(f"configs/{backend}.frozen.json", {"config_sha256": sha(config_path), "files": bindings})
++        bank = [] if backend == "direct" else INITIAL_PLAYBOOK
++        field = "bank" if backend == "direct" else "playbook"
++        for batch in (1, 2):
++            put(f"runs/learn_{backend}/publications/b{batch}.json", {field: bank})
++        status = ("completed_bounded_mechanism_study" if backend == "direct" else
++                  "completed_declared_ACE_adaptation_stream")
++        put(f"runs/learn_{backend}/completion.json", {"status": status,
++            "batch_summary": [{"batch": 1}, {"batch": 2}],
++            "prequential_skills": {"EC": {"tasks": 2}, "EV": {"tasks": 2}},
++            "prequential": {"ace": {"EC": {"tasks": 2}, "EV": {"tasks": 2}}},
++            "bank" if backend == "direct" else "final_playbook": bank})
++        for role, name in (("evolved", "ours"), ("B1_frozen", "B1")) if backend == "direct" else (
++                ("experience", "ACE"),):
++            arms.append({"name": name, "role": role, "backend": backend,
++                         "source_config": config_name, "source_config_sha256": sha(config_path),
++                         "bank_sha256": csha(bank)})
++    source = {"case_id": 1000001, "source_key": "TEST", "prompt": "synthetic public prompt",
++              "components": {"instruction": "Find all applicable exemptions.",
++                "meta_instruction": "Only public law.",
++                "statutes": "Ariz. Rev. Stat. § 33-1123\nHousehold property up to $15,000.",
++                "solved_steps": "The Debtor may claim property exemptions under Arizona statutes.",
++                "facts": "A (hereinafter the Debtor) owns a watch worth $40."}}
++    put("data/test/inputs.json", {"rows": [{**source, "family": f} for f in ("EC", "EV")]})
++    citation = "Ariz. Rev. Stat. § 33-1123"
++    put("data/test/grading_only/1000001.json", {"targets": {
++        "EC": {"watch": [citation]}, "EV": {"watch": [{"citation": citation, "claim_value": 40}]}}})
++    proc = Path(f"/proc/{os.getpid()}")
++    put("env.json", {"pid": os.getpid(),
++        "actual_argv": [v.decode() for v in (proc / "cmdline").read_bytes().split(b"\0") if v],
++        "process_start_ticks": (proc / "stat").read_text().rsplit(")", 1)[1].split()[19]})
++    cfg = {"run_id": "synthetic_frozen", "evaluation_role": "sealed_frozen_comparison",
++           "final_matrix_frozen": True, "no_validation_set": True, "generation": generation,
++           "execution_contract": "direct_statutory_claims", "execution_contract_version": 14,
++           "statistics_plan": "stats.json", "training_source_cases": 2, "training_batch_source_cases": 1,
++           "training_packet_sha256": train_sha, "source_cases": 1, "reference_arm": "empty",
++           "input_packet": "data/test/inputs.json", "grading_directory": "data/test/grading_only",
++           "inference_environment": "env.json", "arms": arms}
++    config_path = tmp_path / "configs/evaluation.json"
++
++    def seal():
++        RunStore.atomic_json(config_path, cfg)
++        names = ["env.json", "data/test/inputs.json", "data/test/grading_only/1000001.json"]
++        RunStore.atomic_json(config_path.with_suffix(".frozen.json"), {
++            "config_sha256": sha(config_path), "files": {name: sha(tmp_path / name) for name in names}})
++        return config_path
++
++    return cfg, seal, tmp_path
++
++
++def test_frozen_matrix_answers_every_arm_before_any_gold_read_and_reports_real_reuse(plan, monkeypatch):
++    cfg, seal, root = plan
++    grade_reads, calls = [], []
++
++    def grading_read(path):
++        if path.parent.name == "grading_only":
++            assert len(list((root / "runs/synthetic_frozen/native").rglob("*.answer.json"))) == 8
++            assert (root / "runs/synthetic_frozen/predictions_before_any_grading.json").is_file()
++            grade_reads.append(str(path))
++        return read(path)
++
++    def call(self, dest, messages, schema, max_tokens, metadata):
++        assert not grade_reads
++        calls.append(metadata)
++        ref = "Ariz. Rev. Stat. section 33-1123"
++        value = {"A001": [ref] if metadata["family"] == "EC" else
++                 [{"citation_ref": ref, "claim_value": 40}]}
++        if metadata["arm"] == "ace":
++            value = {"reasoning": "synthetic public finding", "bullet_ids": [], "final_answer": value}
++        validate(value, schema)
++        response = {"content": json.dumps(value), "finish_reason": "stop",
++                    "prompt_tokens": 13, "completion_tokens": 17}
++        raw = {"response": response, **metadata}
++        RunStore.immutable_json(dest, raw)
++        self.native.append(raw)
++        return response
++
++    monkeypatch.setattr(common, "read", grading_read)
++    monkeypatch.setattr(frozen.FrozenEvaluation, "call", call)
++    study = frozen.FrozenEvaluation(seal())
++    study.run()
++    result = read(study.out / "completion.json")
++    assert len(calls) == 4 and len(grade_reads) == 8
++    assert len(result["exact_wire_reuses_not_independent_draws"]) == 4
++    assert result["teacher_calls"] == 0
++    assert result["native_prompt_tokens"] == 52 and result["native_completion_tokens"] == 68
++    assert all(v["EC"]["f1"] == v["EV"]["f1"] == 1 for v in result["metrics"].values())
++    assert result["paired_vs_own_B1_frozen"]["ours"]["mean_f1_difference"] == 0
++
++
++@pytest.mark.parametrize("mutation", ["teacher", "not_frozen", "missing_B1", "failed_learning", "zero_cases"])
++def test_reject_invalid_final_matrix_before_test_packet_read(plan, monkeypatch, mutation):
++    cfg, _, root = plan
++    if mutation == "teacher":
++        cfg["teacher"] = {"model": "not_allowed"}
++    elif mutation == "not_frozen":
++        cfg["final_matrix_frozen"] = False
++    elif mutation == "missing_B1":
++        cfg["arms"] = [a for a in cfg["arms"] if a["role"] != "B1_frozen"]
++    elif mutation == "zero_cases":
++        cfg["source_cases"] = 0
++    else:
++        path = root / "runs/learn_direct/completion.json"
++        RunStore.atomic_json(path, {**read(path), "status": "failed"})
++
++    def guarded(path):
++        assert str(path) != str(root / cfg["input_packet"])
++        return read(path)
++
++    monkeypatch.setattr(frozen, "read", guarded)
++    with pytest.raises(ValueError):
++        frozen.fixed_banks(cfg)
++
++
++def test_test_overlap_is_retained_as_failure_without_inference_or_resampling(plan, monkeypatch):
++    cfg, seal, root = plan
++    packet = root / cfg["input_packet"]
++    rows = copy.deepcopy(read(packet)["rows"])
++    for row in rows:
++        row["source_key"] = "TRAIN0"
++    RunStore.atomic_json(packet, {"rows": rows})
++    monkeypatch.setattr(frozen.FrozenEvaluation, "call", lambda *args: pytest.fail("No model call allowed"))
++    study = frozen.FrozenEvaluation(seal())
++    with pytest.raises(ValueError, match="overlaps"):
++        study.run()
++    assert (study.out / "failure.json").is_file()
++    assert not (study.out / "completion.json").exists()
++    assert read(packet)["rows"] == rows
++
++
++def test_native_failure_is_preserved_without_retry_or_partial_scoring(plan, monkeypatch):
++    _, seal, _ = plan
++    calls = []
++
++    def failed_call(*args):
++        calls.append(1)
++        raise RuntimeError("synthetic transport failure")
++
++    monkeypatch.setattr(frozen.FrozenEvaluation, "call", failed_call)
++    monkeypatch.setattr(frozen.FrozenEvaluation, "grade", lambda *args: pytest.fail("No partial scoring"))
++    study = frozen.FrozenEvaluation(seal())
++    with pytest.raises(RuntimeError, match="synthetic transport failure"):
++        study.run()
++    assert calls == [1]
++    assert (study.out / "failure.json").is_file()
++    assert not (study.out / "completion.json").exists()
++
++
++def test_changed_ACE_inference_adapter_cannot_be_used_with_a_differently_trained_bank(plan):
++    cfg, _, root = plan
++    path = root / "configs/ace.frozen.json"
++    changed = read(path)
++    changed["files"][frozen.ACE_ACTOR_FILES[-1]] = "not-the-trained-adapter"
++    RunStore.atomic_json(path, changed)
++    with pytest.raises(ValueError, match="Shared task actor/scorer changed"):
++        frozen.fixed_banks(cfg)
++
++
++def test_completed_flag_cannot_hide_missing_training_sources(plan):
++    cfg, _, root = plan
++    path = root / "runs/learn_direct/completion.json"
++    changed = read(path)
++    changed["prequential_skills"]["EV"]["tasks"] = 1
++    RunStore.atomic_json(path, changed)
++    with pytest.raises(ValueError, match="every declared source"):
++        frozen.fixed_banks(cfg)
++
++
++def test_same_learned_bank_cannot_be_renamed_as_two_learning_repeats(plan):
++    cfg, _, _ = plan
++    ours = next(a for a in cfg["arms"] if a["role"] == "evolved")
++    cfg["arms"].append({**ours, "name": "not_an_independent_repeat"})
++    with pytest.raises(ValueError, match="not independent repeats"):
++        frozen.fixed_banks(cfg)
+-- 
+2.25.1

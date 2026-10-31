@@ -1,0 +1,228 @@
+{
+  "goal_tool_confirmation": {
+    "goal": {
+      "threadId": "01a0e31e-2378-7283-bda4-f52f06014498",
+      "objective": "针对已完成OpenExempt EC/EV研究中主方法不及简单粒度消融的问题，持续进行证据驱动的根因分析、必要实现修正和主方法优化。保留原v0.23论文、八批运行、全部不利结果与原冻结TEST，不预设细粒度设计必须胜出，不将简单控制事后改名为原主方法。先从相同TRAIN来源的完整历史请求、技能文本/编辑、教师证据、准入与组合门槛、实际技能下发和执行错误定位可复现断点；区分学习策略、库内容和原串行/并发运行的混杂。只在TRAIN开发和反例重放上选择改动，优先能解释并改善EC/EV与完整输出质量的简洁机制，不增加fallback、隐藏求解器、冗余中间层或新付费服务。复用单实例冻结Qwen3-8B与既有已授权教师，通过必要的小规模机制验证后及时启动新Run ID的完整连续学习，持续关注后续批次净收益、实际技能演化/调用和全部成本，不机械追求每批单调或技能数量增长。旧TEST已经检查，后续方法不得再把它称为未见测试；在新方法冻结后按预先绑定、源案隔离的新测试协议验证，与保留的强空库、静态及经验学习适配库和必要机制控制公正比较。所有主方法/ACE/Text额外独立重复仍按用户决定暂缓，不暗中执行；新的优化方法运行不冒充旧方法独立重复。使用师兄研究设计与实验skills组织论证，必要时查阅近期权威论文及作者代码，明确借鉴和贡献边界。每小时复核总目标、防止局部调参循环，保留全部失败与源码/结果双盘备份。只有主方法收益、机制证据和新隔离评价足以支撑可信论文时才视为达成；不以审查完成、启动训练、单批好看或旧TEST择优冒充完成。",
+      "status": "active",
+      "tokensUsed": 19892144,
+      "timeUsedSeconds": 247019,
+      "createdAt": 1793004185,
+      "updatedAt": 1793268922
+    },
+    "remainingTokens": null,
+    "completionBudgetReport": null
+  },
+  "at": "2026-10-29T10:15:50.033513+00:00",
+  "scheduled_review_UTC": "2026-10-29T10:15:00Z",
+  "full_goal_active_and_not_redefined": true,
+  "previous_goal_turn_classification": "verified_wait",
+  "active_phase": "same_frozen_new_source_primary_prediction_no_learning",
+  "active_frozen_files_unchanged": 1498,
+  "packages_unchanged": 50,
+  "pid_birth": {
+    "1407407": 522691250,
+    "958223": 486445918
+  },
+  "service": "MainPID=1407407\nResult=success\nActiveState=active\nSubState=running",
+  "model_service": "MainPID=958223\nActiveState=active\nSubState=running",
+  "model_health_HTTP": 200,
+  "protected_original_v023_and_primary_input_hash": {
+    "paper/manuscript_v1_20261021.md": "208b5acef3b65ea1dc1ac3418f02e7796bdf32c8145882b1d10a102af4426aaf",
+    "paper/appendix_experimental_details_20261022.md": "67f31516c74e9f7f7077785fbc10ca78f5e78f867229bf38c6c9fea7aaa2d4eb",
+    "artifacts/research/manuscript_review_20261026/v023_bilingual_teacher_review_v01/legal_skill_evolution_v023_bilingual_teacher_review.pdf": "726f555d12bdd6eefc2c285432aef991193705cfbd214112df2eaecb40d71172",
+    "data/packets/openexempt_IID128_prospective_TEST_20261027/inputs.json": "ec411ca55c7463d3c8c115d4a18a4afaf14d7ca3a5579fe3c125d965f50886e7"
+  },
+  "working_experimental_page_sha256": "63271f44fd1be548c3a1a7f291b5490f861ed42ae0559477b4275a87772f1932",
+  "primary_input_access_after_freeze": "2026-10-28T20:47:02.542939+00:00",
+  "not_still_unopened_primary": true,
+  "no_researcher_new_primary_labels_or_scores_inspected": true,
+  "terminal_presence_only": {
+    "failure.json": false,
+    "predictions_before_any_grading.json": false,
+    "scored_records.json": false,
+    "completion.json": false
+  },
+  "progress": {
+    "at": "2026-10-29T10:15:38.352080+00:00",
+    "run_id": "legal_openexempt_continued_IID128_prospective_TEST_20261029_run01",
+    "stage": "frozen_joint_consolidated45",
+    "completed_native_calls": 1820,
+    "teacher_calls": 0,
+    "inference_request_workers": 4,
+    "exact_wire_reuses_not_independent_draws": 465,
+    "current_arm": "joint_consolidated45",
+    "current_document_id": 2000128,
+    "current_call": "openexempt"
+  },
+  "teacher_calls": 0,
+  "independent_main_ACE_Text_learning_repeats": "USER_DEFERRED_not_restarted",
+  "actual_backup_device_ids": {
+    "/media/sangfor/vdb/legal-skill-backups": 64528,
+    "/home/yndx/hhy/legal-skill-rootdisk-backups": 64517
+  },
+  "running_legal_units": "legal-openexempt-continued-iid128-test-20261029-run01.service loaded active running /media/sangfor/vdb/legal-skill-evolve/.venv/bin/python -u -m experiments.openexempt_frozen_eval run /media/sangfor/vdb/legal-skill-evolve/configs/openexempt_continued_IID128_prospective_TEST_20261029_run01.json",
+  "immutable_prefix_counts": {
+    "native_artifacts": 6394,
+    "inputs": 2289,
+    "decoded_answers": 2285,
+    "raw_transports": 1820
+  },
+  "metadata_only_finish_reasons": {
+    "stop": 1799,
+    "length": 21
+  },
+  "metadata_only_transport_errors": 0,
+  "metadata_only_decoded_parse_errors": 22,
+  "actual_generation_fields_match_all_completed_origins": true,
+  "actual_transport_attempt_counts": {
+    "1": 1820
+  },
+  "physical_prefix_token_usage": {
+    "prompt": 14037391,
+    "completion": 4588592
+  },
+  "output_length_events": [
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000005_EV_ace.json",
+      "arm": "ace",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000012_EV_ace.json",
+      "arm": "ace",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000022_EV_ace.json",
+      "arm": "ace",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000023_EV_ace.json",
+      "arm": "ace",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000027_EV_ace.json",
+      "arm": "ace",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000058_EC_ace.json",
+      "arm": "ace",
+      "family": "EC",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000072_EV_ace.json",
+      "arm": "ace",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000088_EC_ace.json",
+      "arm": "ace",
+      "family": "EC",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000113_EV_ace.json",
+      "arm": "ace",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE45/2000122_EV_ace.json",
+      "arm": "ace",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE_common45/2000007_EV_ACE_common45.json",
+      "arm": "ACE_common45",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_ACE_common45/2000125_EC_ACE_common45.json",
+      "arm": "ACE_common45",
+      "family": "EC",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_native_claim45/2000025_EC_native_claim45.json",
+      "arm": "native_claim45",
+      "family": "EC",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_native_claim_own_B1_45/2000035_EV_native_claim_own_B1_45.json",
+      "arm": "native_claim_own_B1_45",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_native_claim_own_B1_45/2000073_EV_native_claim_own_B1_45.json",
+      "arm": "native_claim_own_B1_45",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_static/2000004_EV_static.json",
+      "arm": "static",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_static/2000126_EV_static.json",
+      "arm": "static",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_text45/2000013_EC_text45.json",
+      "arm": "text45",
+      "family": "EC",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_text45/2000065_EC_text45.json",
+      "arm": "text45",
+      "family": "EC",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_text45/2000075_EV_text45.json",
+      "arm": "text45",
+      "family": "EV",
+      "output_tokens": 8192
+    },
+    {
+      "path": "runs/legal_openexempt_continued_IID128_prospective_TEST_20261029_run01/native/frozen_text45/2000094_EC_text45.json",
+      "arm": "text45",
+      "family": "EC",
+      "output_tokens": 8192
+    }
+  ],
+  "not_early_scoring_or_partial_performance_ranking": true,
+  "observer": {
+    "live_session": 89111,
+    "previous_session": 9624,
+    "previous_closed_normally_at": "2026-10-29T09:55:58.937431+00:00",
+    "observation_expiry_not_test_expiry": true
+  },
+  "new_TRAIN_evidence_since_last_hour": [],
+  "pending_full_goal_requirements": [
+    "Full new-source utility against preserved strong empty/static/B1/B8/ACE/Text and matched terminal control",
+    "Mechanism claims must match actual contrasts; joint continuation is not same-version cold granularity-learning ablation",
+    "Credible manuscript and complete cost/failed-outcome accounting; original v023 and all old TEST retained"
+  ],
+  "goal_success_not_proven_by_TRAIN_or_tests_or_paper_working_page_or_progress": true,
+  "next": "Finish same9 frozen study and original16-endpoint family; no hot edit, restart, fallback, hidden solver or teacher. Further method selection remains TRAIN-only.",
+  "next_hourly_UTC": "2026-10-29T11:15:00Z"
+}

@@ -1,0 +1,285 @@
+{
+  "at": "2026-10-15T12:19:50.946986+00:00",
+  "results": {
+    "seen_M1": {
+      "same_tool_without_procedures": {
+        "documents": 2,
+        "hypotheses": 34,
+        "label_correct": 29,
+        "label_accuracy": 0.8529411764705882,
+        "gold_non_neutral_queries": 25,
+        "evidence_tp": 29,
+        "evidence_fp": 1,
+        "evidence_fn": 13,
+        "evidence_micro_f1_gold_non_neutral": 0.8055555555555556,
+        "evidence_query_mean_f1_gold_non_neutral": 0.788888888888889,
+        "joint_exact_correct": 20,
+        "joint_soft_mean": 0.7565359477124185,
+        "public_valid_documents": 2,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 21,
+            "correct": 21
+          },
+          "Contradiction": {
+            "n": 4,
+            "correct": 1
+          },
+          "NotMentioned": {
+            "n": 9,
+            "correct": 7
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 7,
+        "nonneutral_label_and_all_evidence_correct": 13,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 11922,
+          "completion_tokens": 3613
+        },
+        "joint_exact_accuracy": 0.5882352941176471
+      },
+      "same_tool_with_procedures": {
+        "documents": 2,
+        "hypotheses": 34,
+        "label_correct": 28,
+        "label_accuracy": 0.8235294117647058,
+        "gold_non_neutral_queries": 25,
+        "evidence_tp": 32,
+        "evidence_fp": 2,
+        "evidence_fn": 10,
+        "evidence_micro_f1_gold_non_neutral": 0.8421052631578947,
+        "evidence_query_mean_f1_gold_non_neutral": 0.7555555555555555,
+        "joint_exact_correct": 24,
+        "joint_soft_mean": 0.7908496732026145,
+        "public_valid_documents": 2,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 21,
+            "correct": 18
+          },
+          "Contradiction": {
+            "n": 4,
+            "correct": 1
+          },
+          "NotMentioned": {
+            "n": 9,
+            "correct": 9
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 9,
+        "nonneutral_label_and_all_evidence_correct": 15,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 15866,
+          "completion_tokens": 3807
+        },
+        "joint_exact_accuracy": 0.7058823529411765
+      }
+    },
+    "new_to_diagnostic_teacher": {
+      "same_tool_without_procedures": {
+        "documents": 2,
+        "hypotheses": 34,
+        "label_correct": 27,
+        "label_accuracy": 0.7941176470588235,
+        "gold_non_neutral_queries": 14,
+        "evidence_tp": 18,
+        "evidence_fp": 7,
+        "evidence_fn": 21,
+        "evidence_micro_f1_gold_non_neutral": 0.5625,
+        "evidence_query_mean_f1_gold_non_neutral": 0.6207482993197279,
+        "joint_exact_correct": 17,
+        "joint_soft_mean": 0.6379551820728291,
+        "public_valid_documents": 2,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 13,
+            "correct": 13
+          },
+          "Contradiction": {
+            "n": 1,
+            "correct": 1
+          },
+          "NotMentioned": {
+            "n": 20,
+            "correct": 13
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 13,
+        "nonneutral_label_and_all_evidence_correct": 4,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 9963,
+          "completion_tokens": 4348
+        },
+        "joint_exact_accuracy": 0.5
+      },
+      "same_tool_with_procedures": {
+        "documents": 2,
+        "hypotheses": 34,
+        "label_correct": 27,
+        "label_accuracy": 0.7941176470588235,
+        "gold_non_neutral_queries": 14,
+        "evidence_tp": 14,
+        "evidence_fp": 7,
+        "evidence_fn": 25,
+        "evidence_micro_f1_gold_non_neutral": 0.4666666666666667,
+        "evidence_query_mean_f1_gold_non_neutral": 0.513265306122449,
+        "joint_exact_correct": 18,
+        "joint_soft_mean": 0.6231092436974789,
+        "public_valid_documents": 2,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 13,
+            "correct": 11
+          },
+          "Contradiction": {
+            "n": 1,
+            "correct": 1
+          },
+          "NotMentioned": {
+            "n": 20,
+            "correct": 15
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 15,
+        "nonneutral_label_and_all_evidence_correct": 3,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 13907,
+          "completion_tokens": 3334
+        },
+        "joint_exact_accuracy": 0.5294117647058824
+      }
+    }
+  },
+  "paired_procedure_minus_same_tool": {
+    "original_hypotheses": 68,
+    "label_corrected": [
+      [
+        490,
+        "nda-16"
+      ],
+      [
+        334,
+        "nda-16"
+      ],
+      [
+        262,
+        "nda-20"
+      ],
+      [
+        588,
+        "nda-1"
+      ],
+      [
+        588,
+        "nda-17"
+      ]
+    ],
+    "label_broken": [
+      [
+        334,
+        "nda-7"
+      ],
+      [
+        334,
+        "nda-17"
+      ],
+      [
+        334,
+        "nda-13"
+      ],
+      [
+        588,
+        "nda-10"
+      ],
+      [
+        588,
+        "nda-2"
+      ],
+      [
+        588,
+        "nda-18"
+      ]
+    ],
+    "net_label_correct": -1,
+    "joint_exact_corrected": [
+      [
+        490,
+        "nda-16"
+      ],
+      [
+        334,
+        "nda-16"
+      ],
+      [
+        334,
+        "nda-12"
+      ],
+      [
+        334,
+        "nda-18"
+      ],
+      [
+        334,
+        "nda-5"
+      ],
+      [
+        334,
+        "nda-4"
+      ],
+      [
+        262,
+        "nda-20"
+      ],
+      [
+        588,
+        "nda-1"
+      ],
+      [
+        588,
+        "nda-17"
+      ]
+    ],
+    "joint_exact_broken": [
+      [
+        490,
+        "nda-12"
+      ],
+      [
+        334,
+        "nda-8"
+      ],
+      [
+        588,
+        "nda-10"
+      ],
+      [
+        588,
+        "nda-2"
+      ]
+    ]
+  },
+  "new_native_calls": 8,
+  "new_teacher_calls": 1,
+  "not_complete_online_learning_or_paper_result": true,
+  "primary_run_unchanged_and_no_feedback": true,
+  "native_usage": {
+    "prompt_tokens": 51658,
+    "completion_tokens": 15102
+  }
+}

@@ -1,0 +1,277 @@
+{
+  "at": "2026-10-20T12:42:14.227375+00:00",
+  "main_docs_only_commit": "e27dc2038cd55ac6964a21a72f2877988341db69",
+  "main_frozen_bindings_unchanged": 176,
+  "B3_complete_audit": "artifacts/research/openexempt_legal_scope_20261020/direct_v13_B3_complete_new_sources_all64_native_and_original_scores.json",
+  "paper_ledger": "paper/evidence_and_completion_20261020.md",
+  "formal_manuscript_result_cells_not_filled_with_development_data": true,
+  "actual_teacher3": {
+    "sequence": 1516,
+    "operations": {
+      "operations": [
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "illinois_any_other_property_alternative"
+          ],
+          "skill": {
+            "id": "illinois_any_other_property_alternative",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Illinois exemptions are allowable and the debtor owns personal property.",
+                  "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) as an independent alternative for the property, including when a more specific Illinois exemption also applies.",
+                  "avoid_when": "Do not use the $4,000 ceiling as an eligibility test, omit subsection (b) because a specific exemption applies, or classify jewelry as necessary wearing apparel under subsection (a) without facts establishing that condition."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Illinois exemptions are allowable and the debtor owns personal property.",
+                  "procedure": "For the independent 735 Ill. Comp. Stat. 5/12-1001(b) alternative, claim the lesser of the property's value and $4,000 for one debtor; for jointly owned property in a joint case, apply the limit separately to each spouse's equal interest and add the claims.",
+                  "avoid_when": "Do not omit subsection (b) because another exemption applies. Do not substitute subsection (a), (d), or (e) unless the facts establish necessary wearing apparel, trade use, or a professionally prescribed health aid, respectively."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "ILLINOIS"
+            }
+          },
+          "source_case_ids": [
+            149,
+            164,
+            168,
+            170
+          ],
+          "rationale": "The parent omitted subsection (b) from EV and instead assigned unsupported wearing-apparel, tools-of-trade, or health-aid provisions in current Illinois cases 168 and 170. The targets and statute show that subsection (b) is an independent capped alternative for personal property; prior cases 149 and 164 confirm that it remains available alongside specific exemptions."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "federal_household_item_cap_and_jewelry_boundary"
+          ],
+          "skill": {
+            "id": "federal_household_item_cap_and_jewelry_boundary",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Federal exemptions are allowable and an asset fits a listed household-use category under 11 U.S.C. § 522(d)(3), or is jewelry under § 522(d)(4).",
+                  "procedure": "Include § 522(d)(3) for listed household furnishings, goods, apparel, appliances, books, animals, crops, or musical instruments, and include § 522(d)(4) separately for jewelry. A value above the statutory cap limits the amount but does not defeat eligibility.",
+                  "avoid_when": "Do not classify jewelry under § 522(d)(3), omit an otherwise eligible item because its value exceeds a cap, or extend either provision to property outside its listed category."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "An asset is considered under 11 U.S.C. § 522(d)(3) or is jewelry considered under § 522(d)(4).",
+                  "procedure": "First require that a § 522(d)(3) asset be one of the listed household-use categories, then assign no more than the lesser of its value and the $700 per-item limit. Evaluate jewelry separately under § 522(d)(4), using the lesser of value and $1,875 for one debtor. For jointly owned jewelry in a joint case, apply § 522(m) to each spouse's one-half interest and add the claims, each capped at $1,875. A claim never exceeds the asset's value; if a § 522(d)(3) item is worth less than $700, use its value rather than $700.",
+                  "avoid_when": "Do not use the $14,875 aggregate ceiling as the claim for one item, classify jewelry under § 522(d)(3), compare the full value of jointly owned jewelry only to one debtor's cap, or double § 522(d)(3)'s $700 cap for a particular jointly owned item."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          "source_case_ids": [
+            154,
+            159,
+            166,
+            169,
+            172
+          ],
+          "rationale": "The parent treated federal caps as eligibility thresholds in current cases 166 and 169, omitting § 522(d)(4) for jointly owned jewelry and § 522(d)(3) for a household item above $700. In case 172 it also assigned $700 to an item worth less than that amount. The supplied statute makes these amount limits rather than eligibility tests and applies § 522 separately to each joint debtor."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "federal_wildcard_independent_alternative"
+          ],
+          "skill": {
+            "id": "federal_wildcard_independent_alternative",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                  "procedure": "For every asset, evaluate 11 U.S.C. § 522(d)(5) as a separate alternative, including property also eligible under § 522(d)(1), another category-specific federal provision, or an allowable state provision.",
+                  "avoid_when": "Do not omit the wildcard because another exemption applies, because the asset exceeds the wildcard ceiling, or because a residence is listed; do not add it when the supplied allowable jurisdictions exclude federal exemptions."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                  "procedure": "For 11 U.S.C. § 522(d)(5), calculate the independent claim as the lesser of the asset value and $1,475 plus up to $13,950 of unused § 522(d)(1). In this task's independent asset-exemption evaluation, another listed § 522(d)(1) alternative does not itself consume that amount; absent facts expressly stating prior consumption, use a $15,425 ceiling for one debtor. In a joint case, apply § 522(m) separately to each spouse's equal interest and add the claims, giving a combined ceiling of $30,850.",
+                  "avoid_when": "Do not aggregate allocations across assets, displace other applicable alternatives, infer consumption merely because a residence or homestead alternative appears, or apply the two-debtor ceiling to a single debtor."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          "source_case_ids": [
+            165,
+            166,
+            169,
+            171,
+            172
+          ],
+          "rationale": "Across current federal cases the parent repeatedly omitted § 522(d)(5) even though the target includes it independently for each kind of property. Case 172 also shows that merely evaluating the residence under § 522(d)(1) is not treated as consumption when each asset-exemption pair is scored independently."
+        },
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "pennsylvania_general_monetary_alternative"
+          ],
+          "skill": {
+            "id": "pennsylvania_general_monetary_alternative",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Pennsylvania law applies to property of the judgment debtor.",
+                  "procedure": "For every property category, include 42 Pa. Cons. Stat. § 8123 as an independent alternative alongside any specific Pennsylvania or federal exemption.",
+                  "avoid_when": "Do not restrict § 8123 to cash, omit it because another exemption applies, or use its $300-per-spouse limit as an eligibility test for more valuable property."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Pennsylvania law applies to property of the judgment debtor.",
+                  "procedure": "For the independent 42 Pa. Cons. Stat. § 8123 alternative, claim the lesser of the property's value and $300 for one debtor. For jointly owned property of married debtors, apply each spouse's $300 exemption to that spouse's equal interest and add the claims, up to the lesser of the property's value and $600.",
+                  "avoid_when": "Do not aggregate allocations across assets, replace a specific exemption, restrict the provision to cash, or use only one spouse's $300 limit for jointly owned property."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "PENNSYLVANIA"
+            }
+          },
+          "source_case_ids": [
+            155,
+            156,
+            165,
+            166,
+            169
+          ],
+          "rationale": "The parent omitted § 8123 from several current Pennsylvania assets and failed to recognize the combined $600 alternative for jointly owned property in cases 166 and 169. The supplied statute covers property generally, makes each spouse separately entitled, and states a monetary limit rather than an eligibility condition."
+        },
+        {
+          "operation": "CREATE",
+          "target_ids": [],
+          "skill": {
+            "id": "arizona_joint_personal_exemption_combination",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Arizona law applies, married debtors jointly own property covered by an exemption in the personal-property article, and Ariz. Rev. Stat. § 33-1121 makes each spouse separately entitled.",
+                  "procedure": "Include the applicable personal-property exemption even when the property's value exceeds one spouse's dollar limit; § 33-1121 permits the spouses to combine their exemptions in the same property.",
+                  "avoid_when": "Do not treat a dollar cap as an eligibility test, double an exemption for a single debtor or separately owned property, or apply this combination rule to the homestead exemption, for which § 33-1101(B) allows only one exemption per married couple."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "Arizona law applies, married debtors jointly own property covered by an exemption in the personal-property article, and Ariz. Rev. Stat. § 33-1121 makes each spouse separately entitled.",
+                  "procedure": "Apply the exemption to each spouse's equal one-half interest and add the two claims. For Ariz. Rev. Stat. § 33-1125(10), cap each spouse's half-interest at $2,000, so jointly owned firearms may be claimed up to the lesser of their value and $4,000.",
+                  "avoid_when": "Do not stop at one spouse's $2,000 limit, exceed the property's value, double the limit for one debtor or separately owned property, or apply this rule to the single homestead exemption in § 33-1101(B)."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "ARIZONA"
+            }
+          },
+          "source_case_ids": [
+            167
+          ],
+          "rationale": "In current case 167 the parent excluded the jointly owned firearm in EC and limited EV to $2,000, while the released target claims its full value. The omitted condition is § 33-1121: each spouse receives the personal-property exemptions and may combine them in the same jointly owned property."
+        },
+        {
+          "operation": "CREATE",
+          "target_ids": [],
+          "skill": {
+            "id": "federal_residence_cap_not_eligibility",
+            "hypothesis_ids": [
+              "EC"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "Federal exemptions are allowable and the debtor or a dependent uses real or personal property as a residence.",
+                  "procedure": "Include 11 U.S.C. § 522(d)(1) as an applicable residence alternative even when the residence's value exceeds $27,900.",
+                  "avoid_when": "Do not use the $27,900 amount as an eligibility test or apply § 522(d)(1) to property that the facts do not identify as a residence, cooperative residence, or burial plot."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          "source_case_ids": [
+            172
+          ],
+          "rationale": "The parent omitted § 522(d)(1) from the primary residence in current EC case 172 although the target includes it. The supplied statute conditions eligibility on residential use; $27,900 limits value claimed and does not disqualify a more valuable residence."
+        }
+      ],
+      "noop_reason": null
+    },
+    "usage": {
+      "input_tokens": 126484,
+      "cached_input_tokens": 0,
+      "output_tokens": 5038,
+      "reasoning_output_tokens": 2656
+    },
+    "elapsed_seconds": 114.212
+  },
+  "actual_progress_snapshot": {
+    "at": "2026-10-20T12:41:26.121021+00:00",
+    "run_id": "legal_openexempt_direct_skills_online_20261020_run01",
+    "state": "running",
+    "stage": "b3_candidate1_replay",
+    "current_batch": 3,
+    "completed_native_calls": 115,
+    "completed_teacher_calls": 3,
+    "teacher_attempts": 3,
+    "cross_stage_identical_wire_reuses": 181,
+    "library_records": 6,
+    "current_arm": "candidate",
+    "current_document_id": 153,
+    "current_call": "openexempt"
+  },
+  "C3_not_claimed_published": true,
+  "baseline_code_isolated_not_a_performance_claim": true,
+  "previous_document_count_5_UPDATE_corrected_to_actual_4_UPDATE_before_handoff": true
+}

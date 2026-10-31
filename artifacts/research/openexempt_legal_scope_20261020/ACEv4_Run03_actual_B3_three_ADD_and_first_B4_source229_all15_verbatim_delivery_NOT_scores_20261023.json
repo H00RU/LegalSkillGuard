@@ -1,0 +1,59 @@
+{
+  "at": "2026-10-22T17:00:30.301707+00:00",
+  "classification": "Actual first B4 source skill delivery only; no partial B4 score read, computed or selected.",
+  "parent_bullets": 12,
+  "published_bullets": 15,
+  "playbook_sha256": "bb06926e4a9812bc616193ab89523e304b79194cd86a539438076d25e056e307",
+  "actual_new_bullet_contents_unedited": {
+    "calc-00013": "遇到复合或可转移额度时，先完整展开可用上限，再与资产权益取较小值：available_cap = 基础额度 + 题设下另一条款的未使用或可转入额度。例如 § 522(d)(5) 包含基础额及未使用的 § 522(d)(1) 额度，Wis. Stat. § 815.18(3)(g) 可加入未使用的 § 815.18(3)(d) 额度；不得只采用基础额。",
+    "err-00015": "不要输出重复或零金额的非适用记录。提交前以“asset_ref + citation_ref”为唯一键去重，确认每个对象只出现一次、金额不超过资产权益、所有必需资产键齐全且 JSON 完整闭合；无法通过类别资格的组合应直接省略，而不是以 claim_value 0 列报。",
+    "ph-00014": "区分真正覆盖“any property”的并列通用豁免与仅覆盖“other property”或“not otherwise specifically prescribed”财产的剩余条款。前者通常应与专项条款分别列为备选；后者须先排除更具体的法定类别，若资产已被专项条款明确规定，通常不得再列剩余条款。"
+  },
+  "old12_bullet_contents_unchanged": true,
+  "fixed_first_source_delivery": [
+    {
+      "case_id": 229,
+      "family": "EC",
+      "input_sha256": "329e741821451150b8deeb2e6d00f2ddc4f5e8a6d167ae80a0a905b81df57456",
+      "raw_call_path": "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b4_prequential/229_EC_ace.json",
+      "all15_bullet_contents_in_actual_request": true,
+      "actor_self_reported_used_bullet_ids_not_causal_proof": [
+        "sai-00001",
+        "sai-00004",
+        "calc-00003",
+        "calc-00010",
+        "err-00006",
+        "err-00007",
+        "ctx-00008"
+      ],
+      "no_TRAIN_reflection_or_labels_in_first_forecast": true
+    },
+    {
+      "case_id": 229,
+      "family": "EV",
+      "input_sha256": "38f9dfcabce1874019b6f7075df8515519a8b6c7e55e041e4bce1668fcc01a4e",
+      "raw_call_path": "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b4_prequential/229_EV_ace.json",
+      "all15_bullet_contents_in_actual_request": true,
+      "actor_self_reported_used_bullet_ids_not_causal_proof": [
+        "sai-00001",
+        "sai-00004",
+        "calc-00003",
+        "calc-00010",
+        "err-00015"
+      ],
+      "no_TRAIN_reflection_or_labels_in_first_forecast": true
+    }
+  ],
+  "no_new_inference_teacher_tokenizer_or_TEST_calls": true,
+  "evidence_sha256": {
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b4_prequential/229_EC_ace.answer.json": "bc97dcb64815dff45750b73f08bfb20461ca641f777d5e7bb9d6940685d78709",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b4_prequential/229_EC_ace.input.json": "329e741821451150b8deeb2e6d00f2ddc4f5e8a6d167ae80a0a905b81df57456",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b4_prequential/229_EC_ace.json": "9aa27419b58d7a0a2297189b1d6ce5988ff7273dc4dca42efac7b6049a690bbc",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b4_prequential/229_EV_ace.answer.json": "402264ce46ae2a2d4b004df0d7567d5667e6c7d8d396510dda5625d874373976",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b4_prequential/229_EV_ace.input.json": "38f9dfcabce1874019b6f7075df8515519a8b6c7e55e041e4bce1668fcc01a4e",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b4_prequential/229_EV_ace.json": "f85d0d0ab3760835bf3548e0407c544ae5697f03fc4bf20d915f5d32ef6b96c0",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/publications/b2.json": "3216ac8be9c0ab16714d7c625aaef67f57f4367bbbb6b928be17f6e87c628e8e",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/publications/b3.json": "66a99400c4135680027880add76b65040dfb62f349d336c10a43a32f1d06d5a5"
+  },
+  "recomputation_program": "import datetime,hashlib,json\nfrom pathlib import Path\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import bullets\nfrom legal_skill_guard.learning.openexempt_ace import generator_payload\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nroot=Path.cwd();read=lambda p:json.loads(p.read_text())\nrun=root/\"runs/legal_openexempt_ace_public_assets128_20261022_run03\"\ncfg=read(root/\"configs/openexempt_ace_public_assets128_20261022_run03.json\")\npub=read(run/\"publications/b3.json\");parent=read(run/\"publications/b2.json\")\nold,new=bullets(parent[\"playbook\"]),bullets(pub[\"playbook\"])\nadded={k:v[\"content\"] for k,v in new.items() if k not in old}\nrows=[r for r in read(root/cfg[\"input_packet\"])[\"rows\"] if r[\"case_id\"]==229]\nout=[]\nmembers={run/\"publications/b2.json\",run/\"publications/b3.json\"}\nfor row in rows:\n ans=run/\"native/b4_prequential\"/f\"229_{row['family']}_ace.answer.json\"\n inp=ans.with_name(ans.name.replace(\".answer.json\",\".input.json\"))\n a,x=read(ans),read(inp);rawp=root/a[\"raw_call_path\"];raw=read(rawp)\n messages,schema=generator_payload(row,pub[\"playbook\"],direct_numeric=True,asset_references=True)\n assert x[\"messages\"]==messages and x[\"schema\"]==schema and x[\"delivered_bullet_ids\"]==list(new)\n request=raw[\"calls\"][0][\"request\"]\n assert request[\"messages\"]==messages and request[\"response_format\"][\"json_schema\"][\"schema\"]==schema\n assert x[\"TRAIN_only\"] is False and x[\"current_TRAIN_reflection_available\"] is False\n assert a[\"playbook_sha256\"]==csha(pub[\"playbook\"])==x[\"playbook_sha256\"]\n out.append({\"case_id\":229,\"family\":row[\"family\"],\"input_sha256\":hashlib.sha256(inp.read_bytes()).hexdigest(),\n \"raw_call_path\":a[\"raw_call_path\"],\"all15_bullet_contents_in_actual_request\":True,\n \"actor_self_reported_used_bullet_ids_not_causal_proof\":a[\"used_bullet_ids\"],\n \"no_TRAIN_reflection_or_labels_in_first_forecast\":True})\n members.update((ans,inp,rawp))\nreport={\"at\":datetime.datetime.now(datetime.timezone.utc).isoformat(),\n \"classification\":\"Actual first B4 source skill delivery only; no partial B4 score read, computed or selected.\",\n \"parent_bullets\":len(old),\"published_bullets\":len(new),\"playbook_sha256\":pub[\"playbook_sha256\"],\n \"actual_new_bullet_contents_unedited\":added,\"old12_bullet_contents_unchanged\":all(new[k][\"content\"]==v[\"content\"] for k,v in old.items()),\n \"fixed_first_source_delivery\":out,\"no_new_inference_teacher_tokenizer_or_TEST_calls\":True,\n \"evidence_sha256\":{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(members)},\n \"recomputation_program\":PROGRAM}\ndest=root/\"artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run03_actual_B3_three_ADD_and_first_B4_source229_all15_verbatim_delivery_NOT_scores_20261023.json\"\nRunStore.immutable_json(dest,report)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"actual_added_IDs\":list(added),\"first_B4_source\":out,\"no_partial_scores\":True},ensure_ascii=False))\n"
+}

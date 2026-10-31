@@ -1,0 +1,291 @@
+{
+  "ready": true,
+  "at": "2026-10-24T08:59:28.151780+00:00",
+  "classification": "Complete16source B3 original first forecasts; descriptive TRAIN, not replay, full8batch or TEST",
+  "source_ids": [
+    213,
+    214,
+    215,
+    216,
+    217,
+    218,
+    219,
+    220,
+    221,
+    222,
+    223,
+    224,
+    225,
+    226,
+    227,
+    228
+  ],
+  "source_cases": 16,
+  "paired_endpoint_views": 32,
+  "actual_bank_sha256": "585db4c09c53149aa64dcf0f9f4ed954da839c59dc3bbbf30b2a7d93f4353915",
+  "own_frozen_B1_bank_sha256": "2e5c4532cb9cb03831f86edb788597a05e5349dedf980d21a57af393fb080979",
+  "F1_percent": {
+    "empty": {
+      "EC": 64.7048611111111,
+      "EV": 60.79365079365079
+    },
+    "skills": {
+      "EC": 67.33506944444444,
+      "EV": 65.90277777777777
+    },
+    "frozen_after_B1": {
+      "EC": 67.33506944444444,
+      "EV": 58.33333333333333
+    }
+  },
+  "original_main_same_B3_F1_percent": {
+    "EC": 91.42113095238096,
+    "EV": 82.41815476190476
+  },
+  "whole_minus_empty_pp": {
+    "EC": 2.6302083333333393,
+    "EV": 5.109126984126988
+  },
+  "continued_whole_minus_own_B1_pp": {
+    "EC": 0,
+    "EV": 7.569444444444451
+  },
+  "original_main_minus_whole_pp": {
+    "EC": 24.086061507936517,
+    "EV": 16.515376984126984
+  },
+  "all32_empty_parsed_answers_errors_scores_match_original_main": true,
+  "paired_continued_effect": {
+    "EC": {
+      "paired_endpoint_views": 16,
+      "source_cases": 16,
+      "help": 0,
+      "hurt": 0,
+      "ties": 16,
+      "mean_f1_difference_pp": 0,
+      "hurt_sources": []
+    },
+    "EV": {
+      "paired_endpoint_views": 16,
+      "source_cases": 16,
+      "help": 6,
+      "hurt": 1,
+      "ties": 9,
+      "mean_f1_difference_pp": 7.569444444444443,
+      "hurt_sources": [
+        228
+      ]
+    }
+  },
+  "paired_vs_empty_effect": {
+    "EC": {
+      "paired_endpoint_views": 16,
+      "source_cases": 16,
+      "help": 3,
+      "hurt": 2,
+      "ties": 11,
+      "mean_f1_difference_pp": 2.630208333333334,
+      "hurt_sources": [
+        216,
+        227
+      ]
+    },
+    "EV": {
+      "paired_endpoint_views": 16,
+      "source_cases": 16,
+      "help": 6,
+      "hurt": 1,
+      "ties": 9,
+      "mean_f1_difference_pp": 5.109126984126983,
+      "hurt_sources": [
+        228
+      ]
+    }
+  },
+  "original_invalid_counts": {
+    "empty": {
+      "EC": 0,
+      "EV": 0
+    },
+    "skills": {
+      "EC": 0,
+      "EV": 1
+    },
+    "frozen_after_B1": {
+      "EC": 0,
+      "EV": 0
+    }
+  },
+  "actual_nonempty_guide_views": {
+    "skills": 16,
+    "frozen_after_B1": 10
+  },
+  "original_main_nonempty_guide_views": 29,
+  "actual_new_native_calls_original_counter": 50,
+  "source_artifacts": [
+    "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/batches/b3_prequential.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/batches/b3_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b3_prequential.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b3_prequential_records.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/publications/b1.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/publications/b2.json"
+  ],
+  "no_new_model_teacher_tokenizer_or_grader_call": true,
+  "no_changed_original_scores_or_TEST_access": true,
+  "boundaries": [
+    "Use16 source clusters, not32 independent cases.",
+    "Source first forecasts precede B3 learning feedback.",
+    "Original main uses original preB3 published bank, not its final bank.",
+    "Whole-bank admission changes teacher feedback and later proposals; between-method score difference does not isolate one unique cause.",
+    "No partial scores or new target read; aggregates verified against saved native original scores."
+  ],
+  "actual_native_cost_and_format": {
+    "native50_cost": {
+      "input_tokens": 321516,
+      "output_tokens": 164454
+    },
+    "physical_finishes": {
+      "stop": 49,
+      "length": 1
+    },
+    "adverse": [
+      {
+        "path": "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/native/b3_prequential/228_EV_skills.json",
+        "finish_reason": "length",
+        "output_tokens": 8192
+      }
+    ],
+    "original_228_EV_parse_error_score": {
+      "parse_error": "Incomplete native output: length",
+      "F1": 0
+    },
+    "firsts_all_logical_views": 160
+  },
+  "actual_teacher4_current_target_failure_and_time_barrier_checks": {
+    "at": "2026-10-24T09:42:15.275769+00:00",
+    "actual_current_pairs": 32,
+    "current_original_targets_and_parent_errors_scores_exact": true,
+    "historical_source_ids": [
+      181,
+      182,
+      183,
+      184,
+      185,
+      190,
+      192,
+      194,
+      195,
+      196,
+      198,
+      200,
+      204,
+      205,
+      208,
+      211
+    ],
+    "no_future_source_id_over228": true,
+    "all160_first_answer_views_and_complete_B3_metrics_saved_before_teacher_request": true,
+    "invalid228_EV_actual_failure_and_zero_and_correct_target_delivered": true,
+    "actual_teacher4_usage": {
+      "input_tokens": 202351,
+      "cached_input_tokens": 0,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 4231,
+      "reasoning_output_tokens": 2055
+    },
+    "actual_teacher4_elapsed_seconds": 78.649,
+    "actual_teacher4_model": "gpt-5.6-sol",
+    "fresh_no_tools_no_result_cache_no_transport_retry": true,
+    "proposed_operations_not_publication": [
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "federal-ec-wildcard-alternative"
+        ],
+        "skill_id": "federal-ec-wildcard-alternative",
+        "tasks": [
+          "EC",
+          "EV"
+        ]
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill_id": "federal-category-cap-not-eligibility",
+        "tasks": [
+          "EC",
+          "EV"
+        ]
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "oregon-ev-general-personal-property"
+        ],
+        "skill_id": "oregon-ev-general-personal-property",
+        "tasks": [
+          "EC",
+          "EV"
+        ]
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill_id": "illinois-personal-property-wildcard",
+        "tasks": [
+          "EC",
+          "EV"
+        ]
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill_id": "pennsylvania-general-monetary-alternative",
+        "tasks": [
+          "EC",
+          "EV"
+        ]
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill_id": "arizona-category-cap-not-eligibility",
+        "tasks": [
+          "EC"
+        ]
+      }
+    ],
+    "no_new_model_teacher_or_grader_call_or_TEST_access": true
+  },
+  "actual_delivery_origin_footprint": {
+    "EC": {
+      "same_actual_raw_origin": 16,
+      "different_actual_raw_origin": 0,
+      "changed_delivered_skill_ids": 0,
+      "changed_sources": []
+    },
+    "EV": {
+      "same_actual_raw_origin": 8,
+      "different_actual_raw_origin": 8,
+      "changed_delivered_skill_ids": 8,
+      "changed_sources": [
+        213,
+        214,
+        216,
+        217,
+        218,
+        226,
+        227,
+        228
+      ]
+    }
+  },
+  "publication_boundary": "B3 C1 is a teacher proposal undergoing complete seen-TRAIN replay; it is not the bank that produced the saved B3 firsts, and is not yet a final publication in this report.",
+  "source_recovery_boundary": "Current source/heada741391 and newbaseline-repeat deferral do not change this original45 control's model/core/config/scoring. User subsequently approved staging TEST before all additional repetitions; that future order amendment does not modify these saved TRAIN predictions.",
+  "source_artifacts_additional": [
+    "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/teacher/b3_candidate1/wire_request.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/teacher/b3_candidate1/response.json",
+    "runs/legal_openexempt_whole_bank_public_assets128_20261023_run02/teacher/b3_candidate1/event_log.json"
+  ],
+  "observer_only_note": "Initial usage-event parser assumed every log line was JSON; the preserved actual log includes timestamp diagnostics. Only typed JSON turn.completed usage is counted, once; all original lines retained. This was an observer parser correction, not teacher/model fallback or training repair."
+}

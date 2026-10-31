@@ -1,0 +1,798 @@
+{
+  "at": "2026-10-30T12:09:30.969116+00:00",
+  "classification": "Complete strict-control B3 true EC admission/EV rejection, original whole/task/scope/final-parent gates and B4 input delivery. Post-label TRAIN distinct from firsts. Counterfactual utility rejection uses same observed outputs, not another run.",
+  "publication": {
+    "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/publications/b3.json",
+    "sha256": "447b5c717a10551bd5d888e1de1e58089183f1753c9908ec3edd801bfcbe66c0"
+  },
+  "bank_sha256": "9a4240e3ecd548dd9c20ba4e61d9d063c6bb00f29a5fbb9a9a128eb1f6b1b3a5",
+  "library_records": 7,
+  "blocks": 11,
+  "tokens": 1869,
+  "all379_unchanged": true,
+  "steps": [
+    {
+      "task": "EC",
+      "decision": {
+        "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/candidates/b3_candidate1.json",
+        "sha256": "184ea1e87791e5f6ae5f72afa2ac7734cbfbe90e8140c4babe38f799e98679f3"
+      },
+      "accepted": true,
+      "actual_bank_sha256": "9a4240e3ecd548dd9c20ba4e61d9d063c6bb00f29a5fbb9a9a128eb1f6b1b3a5",
+      "selection": {
+        "objective": "seen_source_min_family_gain_then_mean_v1",
+        "joint_gain": [
+          -4.440892098500626e-16,
+          0.005787037037036757
+        ],
+        "component_assessment": {
+          "accepted": true,
+          "reason": null,
+          "accepted_legal_coordinates": [
+            "EC:ILLINOIS"
+          ],
+          "bank_sha256": "b239db23b36fcf5521ce6ccc4ae2f4f6c2b53d6638eeb8a374cf8bcae1c0828b",
+          "gain": [
+            -4.440892098500626e-16,
+            0.005787037037036757
+          ]
+        },
+        "selected": "joint",
+        "only_seen_TRAIN_scores_used": true,
+        "new_native_generations": 0
+      },
+      "proposal_gain_pp": {
+        "current16": {
+          "f1": 3.472222222222221,
+          "full_output_f1": 2.8025793650793718
+        },
+        "prior32": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "all48": {
+          "f1": 1.157407407407396,
+          "full_output_f1": 0.9341931216931165
+        }
+      },
+      "strict_whole_gate": {
+        "accepted": true,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": true,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": true,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "parent_current": {
+          "EC": {
+            "precision": 0.8489583333333333,
+            "recall": 0.7282986111111109,
+            "f1": 0.7689980158730159,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.784296679197995,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "EV": {
+            "precision": 0.9027777777777778,
+            "recall": 0.8719618055555556,
+            "f1": 0.8783854166666666,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8825141974039032,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.8236917162698412
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.8697916666666666,
+            "recall": 0.7803819444444443,
+            "f1": 0.8037202380952381,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8123224728487887,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "EV": {
+            "precision": 0.9027777777777778,
+            "recall": 0.8719618055555556,
+            "f1": 0.8783854166666666,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8825141974039032,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.8410528273809523
+        },
+        "parent_prior": {
+          "EC": {
+            "precision": 0.874875992063492,
+            "recall": 0.7230902777777778,
+            "f1": 0.7718501984126984,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 2,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7859297622455517,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.8786892361111109,
+            "recall": 0.865234375,
+            "f1": 0.8566969055250304,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.8458603882116986,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "mean_family_f1": 0.8142735519688644
+        },
+        "candidate_prior": {
+          "EC": {
+            "precision": 0.874875992063492,
+            "recall": 0.7230902777777778,
+            "f1": 0.7718501984126984,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 2,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7859297622455517,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.8786892361111109,
+            "recall": 0.865234375,
+            "f1": 0.8566969055250304,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.8458603882116986,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "mean_family_f1": 0.8142735519688644
+        },
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "same_recorded_outputs_utility_whole_gate_counterfactual": {
+        "accepted": true,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": true,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": true,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "parent_current": {
+          "EC": {
+            "precision": 0.8489583333333333,
+            "recall": 0.7282986111111109,
+            "f1": 0.7689980158730159,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.784296679197995,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "EV": {
+            "precision": 0.9027777777777778,
+            "recall": 0.8719618055555556,
+            "f1": 0.8783854166666666,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8825141974039032,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.8236917162698412
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.8697916666666666,
+            "recall": 0.7803819444444443,
+            "f1": 0.8037202380952381,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8123224728487887,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "EV": {
+            "precision": 0.9027777777777778,
+            "recall": 0.8719618055555556,
+            "f1": 0.8783854166666666,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8825141974039032,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.8410528273809523
+        },
+        "parent_prior": {
+          "EC": {
+            "precision": 0.874875992063492,
+            "recall": 0.7230902777777778,
+            "f1": 0.7718501984126984,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 2,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7859297622455517,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.8786892361111109,
+            "recall": 0.865234375,
+            "f1": 0.8566969055250304,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.8458603882116986,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "mean_family_f1": 0.8142735519688644
+        },
+        "candidate_prior": {
+          "EC": {
+            "precision": 0.874875992063492,
+            "recall": 0.7230902777777778,
+            "f1": 0.7718501984126984,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 2,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7859297622455517,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.8786892361111109,
+            "recall": 0.865234375,
+            "f1": 0.8566969055250304,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.8458603882116986,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "mean_family_f1": 0.8142735519688644
+        },
+        "TRAIN_optimization_not_independent_validation": true,
+        "admission_contract": "complete_output_utility_prior1pp_v1",
+        "prior_mean_loss_limit": 0.01,
+        "prior_family_within_risk_bound": true,
+        "prior_full_output_within_risk_bound": true,
+        "all_seen_family_nonregression": true,
+        "all_seen_full_output_nonregression": true,
+        "count_changes_are_diagnostic_not_extra_vetoes": true
+      },
+      "not_an_executed_alternate_bank_or_training_policy_effect": true
+    },
+    {
+      "task": "EV",
+      "decision": {
+        "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/candidates/b3_candidate2.json",
+        "sha256": "37395f9606cff1982bd37324e9590cca0d4482e312ba55ec2165da4eae1379b1"
+      },
+      "accepted": false,
+      "actual_bank_sha256": "9a4240e3ecd548dd9c20ba4e61d9d063c6bb00f29a5fbb9a9a128eb1f6b1b3a5",
+      "selection": {
+        "objective": "seen_source_min_family_gain_then_mean_v1",
+        "joint_gain": null,
+        "component_assessment": {
+          "accepted": false,
+          "reason": "no_independently_improving_legal_edit",
+          "accepted_legal_coordinates": [],
+          "bank_sha256": null,
+          "gain": null
+        },
+        "selected": "none",
+        "only_seen_TRAIN_scores_used": true,
+        "new_native_generations": 0
+      },
+      "proposal_gain_pp": {
+        "current16": {
+          "f1": 5.9957837301587436,
+          "full_output_f1": 5.83468588104139
+        },
+        "prior32": {
+          "f1": -1.3077113858363854,
+          "full_output_f1": -1.524680695301428
+        },
+        "all48": {
+          "f1": 1.1267869861620095,
+          "full_output_f1": 0.9284414968128818
+        }
+      },
+      "strict_whole_gate": {
+        "accepted": false,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": false,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": false,
+        "parent_current": {
+          "EC": {
+            "precision": 0.8697916666666666,
+            "recall": 0.7803819444444443,
+            "f1": 0.8037202380952381,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8123224728487887,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "EV": {
+            "precision": 0.9027777777777778,
+            "recall": 0.8719618055555556,
+            "f1": 0.8783854166666666,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8825141974039032,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.8410528273809523
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.8697916666666666,
+            "recall": 0.7803819444444443,
+            "f1": 0.8037202380952381,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8123224728487887,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "EV": {
+            "precision": 0.9479166666666666,
+            "recall": 0.9388020833333333,
+            "f1": 0.938343253968254,
+            "exact_target": 0.5,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.9408610562143171,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.871031746031746
+        },
+        "parent_prior": {
+          "EC": {
+            "precision": 0.874875992063492,
+            "recall": 0.7230902777777778,
+            "f1": 0.7718501984126984,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 2,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7859297622455517,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.8786892361111109,
+            "recall": 0.865234375,
+            "f1": 0.8566969055250304,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.8458603882116986,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "mean_family_f1": 0.8142735519688644
+        },
+        "candidate_prior": {
+          "EC": {
+            "precision": 0.874875992063492,
+            "recall": 0.7230902777777778,
+            "f1": 0.7718501984126984,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 2,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7859297622455517,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.8714843750000001,
+            "recall": 0.8352864583333334,
+            "f1": 0.8436197916666666,
+            "exact_target": 0.28125,
+            "tasks": 32,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 3,
+            "full_output_f1": 0.8306135812586843,
+            "negative_or_unscored_asset_claims": 3
+          },
+          "mean_family_f1": 0.8077349950396825
+        },
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "same_recorded_outputs_utility_whole_gate_counterfactual": {
+        "accepted": false,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": false,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": false,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": false,
+        "parent_current": {
+          "EC": {
+            "precision": 0.8697916666666666,
+            "recall": 0.7803819444444443,
+            "f1": 0.8037202380952381,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8123224728487887,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "EV": {
+            "precision": 0.9027777777777778,
+            "recall": 0.8719618055555556,
+            "f1": 0.8783854166666666,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8825141974039032,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.8410528273809523
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.8697916666666666,
+            "recall": 0.7803819444444443,
+            "f1": 0.8037202380952381,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 1,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8123224728487887,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "EV": {
+            "precision": 0.9479166666666666,
+            "recall": 0.9388020833333333,
+            "f1": 0.938343253968254,
+            "exact_target": 0.5,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.9408610562143171,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.871031746031746
+        },
+        "parent_prior": {
+          "EC": {
+            "precision": 0.874875992063492,
+            "recall": 0.7230902777777778,
+            "f1": 0.7718501984126984,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 2,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7859297622455517,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.8786892361111109,
+            "recall": 0.865234375,
+            "f1": 0.8566969055250304,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.8458603882116986,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "mean_family_f1": 0.8142735519688644
+        },
+        "candidate_prior": {
+          "EC": {
+            "precision": 0.874875992063492,
+            "recall": 0.7230902777777778,
+            "f1": 0.7718501984126984,
+            "exact_target": 0.3125,
+            "tasks": 32,
+            "invalid_format": 2,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7859297622455517,
+            "negative_or_unscored_asset_claims": 2
+          },
+          "EV": {
+            "precision": 0.8714843750000001,
+            "recall": 0.8352864583333334,
+            "f1": 0.8436197916666666,
+            "exact_target": 0.28125,
+            "tasks": 32,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 3,
+            "full_output_f1": 0.8306135812586843,
+            "negative_or_unscored_asset_claims": 3
+          },
+          "mean_family_f1": 0.8077349950396825
+        },
+        "TRAIN_optimization_not_independent_validation": true,
+        "admission_contract": "complete_output_utility_prior1pp_v1",
+        "prior_mean_loss_limit": 0.01,
+        "prior_family_within_risk_bound": false,
+        "prior_full_output_within_risk_bound": false,
+        "all_seen_family_nonregression": true,
+        "all_seen_full_output_nonregression": true,
+        "count_changes_are_diagnostic_not_extra_vetoes": true
+      },
+      "not_an_executed_alternate_bank_or_training_policy_effect": true
+    }
+  ],
+  "final_batch_parent_gate": {
+    "accepted": true,
+    "current_family_nonregression": true,
+    "prior_family_nonregression": true,
+    "strict_current_improvement": true,
+    "current_full_output_nonregression": true,
+    "prior_full_output_nonregression": true,
+    "current_negative_asset_and_format_nonregression": true,
+    "prior_negative_asset_and_format_nonregression": true,
+    "parent_current": {
+      "EC": {
+        "precision": 0.8489583333333333,
+        "recall": 0.7282986111111109,
+        "f1": 0.7689980158730159,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.784296679197995,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9027777777777778,
+        "recall": 0.8719618055555556,
+        "f1": 0.8783854166666666,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8825141974039032,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.8236917162698412
+    },
+    "candidate_current": {
+      "EC": {
+        "precision": 0.8697916666666666,
+        "recall": 0.7803819444444443,
+        "f1": 0.8037202380952381,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8123224728487887,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9027777777777778,
+        "recall": 0.8719618055555556,
+        "f1": 0.8783854166666666,
+        "exact_target": 0.3125,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8825141974039032,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.8410528273809523
+    },
+    "parent_prior": {
+      "EC": {
+        "precision": 0.874875992063492,
+        "recall": 0.7230902777777778,
+        "f1": 0.7718501984126984,
+        "exact_target": 0.3125,
+        "tasks": 32,
+        "invalid_format": 2,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.7859297622455517,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "EV": {
+        "precision": 0.8786892361111109,
+        "recall": 0.865234375,
+        "f1": 0.8566969055250304,
+        "exact_target": 0.3125,
+        "tasks": 32,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 2,
+        "full_output_f1": 0.8458603882116986,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "mean_family_f1": 0.8142735519688644
+    },
+    "candidate_prior": {
+      "EC": {
+        "precision": 0.874875992063492,
+        "recall": 0.7230902777777778,
+        "f1": 0.7718501984126984,
+        "exact_target": 0.3125,
+        "tasks": 32,
+        "invalid_format": 2,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.7859297622455517,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "EV": {
+        "precision": 0.8786892361111109,
+        "recall": 0.865234375,
+        "f1": 0.8566969055250304,
+        "exact_target": 0.3125,
+        "tasks": 32,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 2,
+        "full_output_f1": 0.8458603882116986,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "mean_family_f1": 0.8142735519688644
+    },
+    "TRAIN_optimization_not_independent_validation": true
+  },
+  "published_postlabel_all48_TRAIN": {
+    "EC": {
+      "precision": 0.8731812169312171,
+      "recall": 0.7421874999999999,
+      "f1": 0.7824735449735448,
+      "exact_target": 0.3125,
+      "tasks": 48,
+      "invalid_format": 3,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.7947273324466305,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "EV": {
+      "precision": 0.8867187499999999,
+      "recall": 0.867476851851852,
+      "f1": 0.8639264092389088,
+      "exact_target": 0.3125,
+      "tasks": 48,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 2,
+      "full_output_f1": 0.8580783246090998,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "mean_family_f1": 0.8231999771062268
+  },
+  "ownB1_snapshot": {
+    "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/frozen_after_B1.json",
+    "sha256": "98eb004f5eaf6be3c990e84d292ee1e6db261d0a1efcc6101650d7344d9e9de6"
+  },
+  "ownB1_unchanged": true,
+  "actual_native_origins": 118,
+  "native_stages": {
+    "b3_candidate1_replay": 9,
+    "b3_prequential": 61,
+    "b3_candidate2_replay": 48
+  },
+  "native_tokens": {
+    "input": 793727,
+    "output": 361994
+  },
+  "native_finishes": {
+    "stop": 117,
+    "length": 1
+  },
+  "teacher_usage": {
+    "input_tokens": 236972,
+    "cached_input_tokens": 0,
+    "output_tokens": 9482,
+    "reasoning_output_tokens": 6226
+  },
+  "B4_input_prefix": [
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/229_EC_skills.input.json",
+      "sha256": "7354995fd4683c1c53d673678883493858dfb5a7605b774684689d3f20b78e35"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/229_EV_skills.input.json",
+      "sha256": "6c3555020e58bfb8b06d3ba9a3f4398575272ee6793c924c8d8d3322a873e7ed"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/230_EC_skills.input.json",
+      "sha256": "74c1b3c9cff818131e0c95faf288b288a0266b7d3384c3eff9435aedde968b3a"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/230_EV_skills.input.json",
+      "sha256": "c242236c48065ff185f79c92a045e6a2d3b46531c71731d44fc97bf09791b61b"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/231_EC_skills.input.json",
+      "sha256": "7030becc500a292d3f26b022eb861ac6c72f8a791101f67b4ef2c9c7e1260ef5"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/231_EV_skills.input.json",
+      "sha256": "3394a69127f7ff0a71750d52405092bce462d678f9a6483357a82e601f58cb9a"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/232_EC_skills.input.json",
+      "sha256": "2d1aeb2a10412e2727e10776f116a24e41d2c68ee2c82b29632378d2ac9555c7"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/232_EV_skills.input.json",
+      "sha256": "ff146f84bd186937a1d175d949c04ea7b818f3403779a702ef0a85a77e22f27d"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/233_EC_skills.input.json",
+      "sha256": "675b8e6b4b44e898f3f5bbd809c57b2a5e0e269b0677e5de5fd6ea2dd7615b31"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/233_EV_skills.input.json",
+      "sha256": "35ebf6a3f851116c395932cd8b12dc2376b7a684923f34fde50d5280ffbef37d"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/234_EC_skills.input.json",
+      "sha256": "e60cdc5890e9737c92f7e5e4a23511b9bf6fe81637f95f9f86c00026b94610ef"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/234_EV_skills.input.json",
+      "sha256": "0f7788212615512d1d776f69172ad6826a1ef955f85c6a7b88c1a8b4a4dc26d3"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/235_EC_skills.input.json",
+      "sha256": "ce5b114418815be3b7bde559e7d1e10a0d1ba1715ad58032bd5f2b1db833bdfb"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/235_EV_skills.input.json",
+      "sha256": "d24c457bd99ec78576f6fc2bb07fab6718bf7ea7ffd93c7e29a5a185e919018c"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/236_EC_skills.input.json",
+      "sha256": "96d57f12b87457f46bcd7bf2862b043138ffe193c842a610acf02d1a86a1301b"
+    },
+    {
+      "path": "runs/legal_openexempt_v6_strict_policy_control_public_assets128_20261030_run01/native/b4_prequential/236_EV_skills.input.json",
+      "sha256": "614e1241ff6f7feddd41e1e817a5e37c1622592769bcacf3226813de15ac9c19"
+    }
+  ],
+  "B4_partial_scores_not_read": true,
+  "teacher5_and6_actual_original_gold_parent_history_proofs": [
+    {
+      "path": "artifacts/research/openexempt_legal_scope_20261020/Utility_v6_strict_B3_complete_blind_firsts_real_B2_EV_newcase_gain_teacher5_true_EC_failure_history_not_TEST_20261030.json",
+      "sha256": "c40218752882b6e89ac1be5d5013d26ffdd74d9282cdd9b6b1e0f7b6c17ce212"
+    },
+    {
+      "path": "artifacts/research/openexempt_legal_scope_20261020/Utility_v6_strict_B3_C1_admitted_true_postEC_teacher6_parent_original_gold_B1_EV_history_and_C2_delivery_not_effect_20261030.json",
+      "sha256": "91b8a1c884bba1bb59fc67a94e174ab19649f7afb3728476f0c3caead0a7a146"
+    }
+  ],
+  "no_new_inference_teacher_or_tokenizer_calls": true,
+  "new_TEST_semantics_unopened": true,
+  "not_final_policy_superiority": true
+}

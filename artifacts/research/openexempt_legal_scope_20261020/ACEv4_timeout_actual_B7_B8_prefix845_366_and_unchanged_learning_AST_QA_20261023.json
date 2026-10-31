@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-23T06:06:16.373832+00:00",
+  "classification": "Actual4856-artifact exact-prefix recovery check without model/teacher calls, and v4 learning-AST identity to source6242d39",
+  "actual_prefix_through_batch": 7,
+  "restored_native": 845,
+  "restored_teachers": 366,
+  "prefix_episode_tasks_per_arm": 224,
+  "original_next_B8_firsts_all_restored_by_complete_raw_origin": true,
+  "retired_B8_native5_teacher7_failed_attempt1_not_imported": true,
+  "all_ACE_class_methods_except_restore_prefix_AST_exact_previous": [
+    "__init__",
+    "progress",
+    "answer",
+    "train_solved",
+    "update",
+    "execute",
+    "run"
+  ],
+  "teacher_model_reasoning_timeout_generation_and_learning_policy_unchanged": true,
+  "no_actor_teacher_tokenizer_or_TEST_calls": true,
+  "source_sha256": {
+    "experiments/openexempt_ace_online.py": "9321cb95d4374467484e34d46170a59e1911ba299f3a922ebd566fb7169c3fc0",
+    "legal_skill_guard/inference/codex_cli_client.py": "9c9eec110577dde47b2851e5eeefb24144a7204da40f2f1819fccba1b25f41bb",
+    "legal_skill_guard/learning/experiment.py": "07a4f9599d72da83be97eac54c04e4601ebae8645506b06615f0830a14bfca88",
+    "configs/openexempt_ace_public_assets128_20261023_run04.json": "0444f1cf26d005aab839d0a9e9b2b8d0cfd619081fc1a2c5df9a1bb435fed228",
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run03_last_committed_B7_complete_B8_firsts_teacher_timeout_continuation_receipt_20261023.json": "4f58c1b259a08c6b8a648590094b182c75558eb1a993fcc6cead08dff01f2b37"
+  },
+  "recomputation_program": "import ast,json,os,subprocess,tempfile\nfrom pathlib import Path\nfrom experiments.openexempt_ace_online import ACEOnline\nfrom legal_skill_guard.learning.experiment import read,sha,now\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\ngit=\"/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/bin/git\";env={**os.environ,\"GIT_EXEC_PATH\":\"/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/lib/git-core\"}\nold=subprocess.check_output([git,\"show\",\"6242d39635137ab72e4b5f6f3695721e680059d8:experiments/openexempt_ace_online.py\"],env=env,text=True)\nnew=(root/\"experiments/openexempt_ace_online.py\").read_text()\nmethods=lambda text:{n.name:ast.dump(n,include_attributes=False) for n in next(n for n in ast.parse(text).body if isinstance(n,ast.ClassDef) and n.name==\"ACEOnline\").body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef))}\na,b=methods(old),methods(new)\nunchanged=[k for k in a if k!=\"restore_prefix\"]\nassert all(a[k]==b[k] for k in unchanged)\ncfg=read(root/\"configs/openexempt_ace_public_assets128_20261023_run04.json\")\nreceipt=root/cfg[\"continuation_receipt\"]\nwith tempfile.TemporaryDirectory(prefix=\"legal-ace-prefix-check-\") as directory:\n study=ACEOnline.__new__(ACEOnline);study.cfg=cfg;study.bindings={cfg[\"continuation_receipt\"]:sha(receipt)}\n study.rows=read(root/cfg[\"input_packet\"])[\"rows\"];study.request_cache={};study.native=[];study.teachers=[];study.teacher_attempts=0\n study.episodes={k:[] for k in (\"ace\",\"empty\",\"empty_direct_numeric\")};study.out=Path(directory)\n study.restore_prefix()\n assert study.current_batch==7 and len(study.native)==845 and len(study.teachers)==366\n assert len(study.request_cache)==845 and csha(study.playbook)==\"f609fbcc16f9d9015f98adf46d39af863ef784328fc44d21d9639562e5ea8f94\"\n assert all(len(z)==224 for z in study.episodes.values()) and len(study.summaries)==7\n saved=read(study.out/\"continuation.json\")\n assert saved[\"retired_uncommitted_TRAIN_native_not_imported\"]==5 and saved[\"retired_uncommitted_teacher_attempts\"]==8\nout={\"at\":now(),\"classification\":\"Actual4856-artifact exact-prefix recovery check without model/teacher calls, and v4 learning-AST identity to source6242d39\",\n\"actual_prefix_through_batch\":7,\"restored_native\":845,\"restored_teachers\":366,\"prefix_episode_tasks_per_arm\":224,\"original_next_B8_firsts_all_restored_by_complete_raw_origin\":True,\n\"retired_B8_native5_teacher7_failed_attempt1_not_imported\":True,\n\"all_ACE_class_methods_except_restore_prefix_AST_exact_previous\":unchanged,\n\"teacher_model_reasoning_timeout_generation_and_learning_policy_unchanged\":True,\"no_actor_teacher_tokenizer_or_TEST_calls\":True,\n\"source_sha256\":{n:sha(root/n) for n in [\"experiments/openexempt_ace_online.py\",\"legal_skill_guard/inference/codex_cli_client.py\",\"legal_skill_guard/learning/experiment.py\",\"configs/openexempt_ace_public_assets128_20261023_run04.json\",cfg[\"continuation_receipt\"]]},\n\"recomputation_program\":PROGRAM}\ndest=base/\"ACEv4_timeout_actual_B7_B8_prefix845_366_and_unchanged_learning_AST_QA_20261023.json\"\nRunStore.immutable_json(dest,out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"actual_recovery\":True,\"restored\":[845,366],\"all_learning_AST_unchanged\":True,\"new_model_calls\":0},ensure_ascii=False))\n"
+}

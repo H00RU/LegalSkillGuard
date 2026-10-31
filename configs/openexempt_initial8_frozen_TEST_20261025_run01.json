@@ -1,0 +1,181 @@
+{
+  "run_id": "legal_openexempt_initial8_frozen_TEST_20261025_run01",
+  "evaluation_role": "sealed_frozen_comparison",
+  "evaluation_stage": "initial_single_build_descriptive",
+  "final_matrix_frozen": true,
+  "no_validation_set": true,
+  "reference_arm": "empty",
+  "execution_contract": "direct_statutory_claims",
+  "execution_contract_version": 14,
+  "library_token_hard_cap": 4096,
+  "generation": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "Qwen/Qwen3-8B",
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "context_tokens": 32768,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "timeout_seconds": 900,
+    "disable_thinking": false
+  },
+  "input_packet": "data/packets/openexempt_IID128_sealed_TEST_20261021/inputs.json",
+  "grading_directory": "data/packets/openexempt_IID128_sealed_TEST_20261021/grading_only",
+  "source_cases": 128,
+  "training_source_cases": 128,
+  "training_batch_source_cases": 16,
+  "training_packet_sha256": "ef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45",
+  "upstream_archive": "data/cache/openexempt/OpenExempt-ec6fa2547431096588ce2d3ef107b8adc33cd4fe.tar.gz",
+  "inference_environment": "artifacts/live_8b_environment_phase_dispatch_20261025.json",
+  "protocol": "docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md",
+  "staged_comparison_protocol": "docs/research/OPENEXEMPT_MAIN_TABLE_FIRST_STAGED_REPEATS_20261024.md",
+  "statistics_plan": "docs/research/OPENEXEMPT_FINAL_ANALYSIS_TEXT_COMPLEMENT_ADDENDUM_20261022.md",
+  "future_learning_plan": "artifacts/launches/openexempt_uniform_ablations_then_teacher_draft_20261025_run02/six_future_learning_recipes_before_initial_TEST.json",
+  "future_learning_plan_sha256": "5ce5950c805e2f586e76e1ad97a4fa9a2cd0c5f9403ea09a4f8a6ecf109a0724",
+  "external_text_adaptation": "trace2skill_text_offline_v1",
+  "ablation_design": "legal_scope_granularity_v1",
+  "learning_execution_schedule": "original45_serial_uniform45_controls_phase_dispatch_v2",
+  "learning_execution_schedule_protocol": "docs/research/OPENEXEMPT_UNIFORM_ABLATION_ACCELERATION_20261025.md",
+  "inference_request_workers": 4,
+  "inference_dispatch_protocol": "docs/research/OPENEXEMPT_FROZEN_EVAL_SINGLE_INSTANCE_DISPATCH_20261023.md",
+  "inference_dispatch_policy": "four_workers_one_instance_exact_wire_lock_no_retry",
+  "inference_dependency_artifacts": [
+    "patches/vllm-0.10.2-hf-generation-eos-alignment.patch",
+    "third_party/vllm/NOTICE.md",
+    "artifacts/launches/openexempt_table_then_teacher_draft_20261024_run05.py",
+    "docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md",
+    "artifacts/launches/openexempt_uniform_ablations_then_teacher_draft_20261025_run01.py"
+  ],
+  "arms": [
+    {
+      "name": "empty",
+      "role": "strong_empty",
+      "backend": "direct"
+    },
+    {
+      "name": "static",
+      "role": "static_law_only",
+      "backend": "direct",
+      "source_config": "configs/openexempt_direct_law_only_static_20261021_run03.json",
+      "source_config_sha256": "84e98ef91f455a511dca923a10dcb268129b3a911e03049fdbec2355510f46a1",
+      "bank_sha256": "4809c3b2fe336a682ad36544f036206f158c0890adad4e87bde6eb4fa6502321"
+    },
+    {
+      "name": "main45",
+      "role": "evolved",
+      "backend": "direct",
+      "source_config": "configs/openexempt_closed_feedback_public_assets128_20261021_run03.json",
+      "source_config_sha256": "8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e",
+      "bank_sha256": "3387b5b450f4b9107c9738562fa224915bb4405ff329ca8f113fc05d0e9c76e7"
+    },
+    {
+      "name": "own_B1_45",
+      "role": "B1_frozen",
+      "backend": "direct",
+      "source_config": "configs/openexempt_closed_feedback_public_assets128_20261021_run03.json",
+      "source_config_sha256": "8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e",
+      "bank_sha256": "574af7a6d3a5f155d45aebeefb7f620884cbe557a2e5f91914bbfdd3f2eb5118"
+    },
+    {
+      "name": "ACE45",
+      "role": "experience",
+      "backend": "ace",
+      "source_config": "configs/openexempt_ace_public_assets128_20261023_run04.json",
+      "source_config_sha256": "0444f1cf26d005aab839d0a9e9b2b8d0cfd619081fc1a2c5df9a1bb435fed228",
+      "bank_sha256": "75ad535aed4478ce4c85832138dadcb3dc460fec8200704151a002920131af56"
+    },
+    {
+      "name": "text45",
+      "role": "experience",
+      "backend": "direct",
+      "source_config": "configs/openexempt_trace2skill_text_public_assets128_seed45_20261023_run02.json",
+      "source_config_sha256": "a77cbbc0e736cbad75f695f442477601dc98c014160cc3c0761d1d9f6070d892",
+      "bank_sha256": "8784dc4ea6df541d183146250670f13463c58d7877b468e5a481c0f4a10985a3"
+    },
+    {
+      "name": "whole_bank",
+      "role": "ablation",
+      "backend": "direct",
+      "source_config": "configs/openexempt_whole_bank_public_assets128_phase4_20261025_run02.json",
+      "source_config_sha256": "684da0d5b5b78c115920c55a5971f5ece7b8260e9e114a7fb6205702625f206a",
+      "bank_sha256": "e6a66efb4e3c3b1115af263ccc5075a8cc50debb06ba2d7a1b5a607c7736ebcc"
+    },
+    {
+      "name": "task_local",
+      "role": "ablation",
+      "backend": "direct",
+      "source_config": "configs/openexempt_task_local_public_assets128_phase4_20261025_run02.json",
+      "source_config_sha256": "d87a9612006b6bb6b3eec3ac3c7ff46c7f8eeab078341f045cf48e3c4c8623a4",
+      "bank_sha256": "1c8e48a88829b7526361fb3a1d39f61a8df8f7dabfd89a8d7ea395b90da68a86"
+    }
+  ],
+  "primary_contrasts": [
+    {
+      "name": "vs_empty",
+      "after": [
+        "main45"
+      ],
+      "before": [
+        "empty"
+      ]
+    },
+    {
+      "name": "vs_static",
+      "after": [
+        "main45"
+      ],
+      "before": [
+        "static"
+      ]
+    },
+    {
+      "name": "vs_own_B1",
+      "after": [
+        "main45"
+      ],
+      "before": [
+        "own_B1_45"
+      ]
+    },
+    {
+      "name": "vs_ACE",
+      "after": [
+        "main45"
+      ],
+      "before": [
+        "ACE45"
+      ]
+    },
+    {
+      "name": "vs_text",
+      "after": [
+        "main45"
+      ],
+      "before": [
+        "text45"
+      ]
+    }
+  ],
+  "secondary_contrasts": [
+    {
+      "name": "vs_whole_bank",
+      "after": [
+        "main45"
+      ],
+      "before": [
+        "whole_bank"
+      ]
+    },
+    {
+      "name": "vs_task_local",
+      "after": [
+        "main45"
+      ],
+      "before": [
+        "task_local"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "at": "2026-10-30T06:22:33.188676+00:00",
+  "classification": "Correct prior human content-scope overstatement, not a training/source/teacher/score change. Teacher12 retains pre-existing independent-pair/wildcard/set rules; actual edit changes wristwatch/jewelry membership, one/two-debtor jewelry ceiling, and pre-final jewelry verification. C2 effect remains unknown.",
+  "parent_C1": {
+    "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/candidates/b6_candidate1.json",
+    "sha256": "871586c4ad8e69eb1b80d1a6c5bb671bc598ed677ee5e7da7099f9ecc1ea6e67"
+  },
+  "teacher12_request": {
+    "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/teacher/b6_candidate2/wire_request.json",
+    "sha256": "d9ad9cd05735ef6b41b905093f8c332c681ca7556ffe275d1f70e434395afcd3"
+  },
+  "teacher12_response": {
+    "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/teacher/b6_candidate2/response.json",
+    "sha256": "2b636f242330d360e61e49bef616fe048cc4b687694fd55736ae48bd140b8e76"
+  },
+  "actual_parent_bank_sha256": "0dd31adc9a4d637b8b2919c64f9f2ca13afb6dd0489582ab40aed18762250b51",
+  "actual_proposal_bank_sha256": "88b5d75b975a7fc3492de41e68e6ea7e35e3a728f93553674ae29dace288ee9b",
+  "changed_EV_ids": [
+    "EC:federal-wildcard-and-category-eligibility"
+  ],
+  "changed_fields": [
+    "procedure",
+    "avoid_when"
+  ],
+  "parent_guidance": {
+    "when": "When FEDERAL is allowable and an estate asset is being valued.",
+    "procedure": "For each asset, first select every matching specific paragraph: (d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) only for its listed household-use categories, (d)(4) for jewelry, (d)(6) only when the facts establish a trade implement, professional book, or tool, and (d)(9) for a professionally prescribed health aid. Separately add (d)(5) to every asset, even one already receiving a specific exemption. For each citation use the smaller of the whole named asset's value and its ceiling: $27,900 for (d)(1), $4,450 for (d)(2), $700 for the named particular item under (d)(3), $1,875 for (d)(4), and $2,800 for (d)(6); (d)(9) has no stated ceiling. For (d)(5), use $15,425 for one debtor or $30,850 for two equal joint debtors when no used homestead amount is supplied. Because this task evaluates asset-exemption pairs independently, do not reduce that amount merely because the same case also contains a residence claim.",
+    "avoid_when": "Do not put firearms or jewelry under (d)(3), and do not infer (d)(6) without stated trade use. Treat a pair or set presented as one named asset as one particular item for the $700 (d)(3) output. Never copy a ceiling above the asset's value, leave a half-interest as the result, or use the one-debtor (d)(5) ceiling for two equal joint debtors. Do not output §§ 522(b), 522(d), or 522(m) as asset exemptions.",
+    "operators": [],
+    "jurisdiction": "FEDERAL"
+  },
+  "proposed_guidance": {
+    "when": "When FEDERAL is allowable and an estate asset is being valued.",
+    "procedure": "For each asset, first select every matching specific paragraph: (d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) only for its listed household-use categories, (d)(4) for personal-use jewelry including a wristwatch, (d)(6) only when the facts establish a trade implement, professional book, or tool, and (d)(9) for a professionally prescribed health aid. Separately add (d)(5) to every asset, even one already receiving a specific exemption. For each citation use the smaller of the whole named asset's value and its ceiling: $27,900 for (d)(1), $4,450 for (d)(2), $700 for the named particular item under (d)(3), $1,875 for one debtor or a $3,750 combined whole-asset ceiling for two equal joint debtors under (d)(4), and $2,800 for (d)(6); (d)(9) has no stated ceiling. For (d)(5), use $15,425 for one debtor or $30,850 for two equal joint debtors when no used homestead amount is supplied. Because this task evaluates asset-exemption pairs independently, do not reduce that amount merely because the same case also contains a residence claim.",
+    "avoid_when": "Do not put firearms or jewelry under (d)(3), and do not infer (d)(6) without stated trade use. Before finalizing a jewelry asset, verify that (d)(4), not (d)(3), is present and that its debtor-count ceiling is limited by the asset's value. Treat a pair or set presented as one named asset as one particular item for the $700 (d)(3) output. Never copy a ceiling above the asset's value, leave a half-interest as the result, or use the one-debtor (d)(5) ceiling for two equal joint debtors. Do not output §§ 522(b), 522(d), or 522(m) as asset exemptions.",
+    "operators": [],
+    "jurisdiction": "FEDERAL"
+  },
+  "literal_diff": {
+    "procedure": [
+      "- For each asset, first select every matching specific paragraph: (d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) only for its listed household-use categories, (d)(4) for jewelry, (d)(6) only when the facts establish a trade implement, professional book, or tool, and (d)(9) for a professionally prescribed health aid. Separately add (d)(5) to every asset, even one already receiving a specific exemption. For each citation use the smaller of the whole named asset's value and its ceiling: $27,900 for (d)(1), $4,450 for (d)(2), $700 for the named particular item under (d)(3), $1,875 for (d)(4), and $2,800 for (d)(6); (d)(9) has no stated ceiling. For (d)(5), use $15,425 for one debtor or $30,850 for two equal joint debtors when no used homestead amount is supplied. Because this task evaluates asset-exemption pairs independently, do not reduce that amount merely because the same case also contains a residence claim.",
+      "?                                                                                                                                                                                                      ^\n",
+      "+ For each asset, first select every matching specific paragraph: (d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) only for its listed household-use categories, (d)(4) for personal-use jewelry including a wristwatch, (d)(6) only when the facts establish a trade implement, professional book, or tool, and (d)(9) for a professionally prescribed health aid. Separately add (d)(5) to every asset, even one already receiving a specific exemption. For each citation use the smaller of the whole named asset's value and its ceiling: $27,900 for (d)(1), $4,450 for (d)(2), $700 for the named particular item under (d)(3), $1,875 for one debtor or a $3,750 combined whole-asset ceiling for two equal joint debtors under (d)(4), and $2,800 for (d)(6); (d)(9) has no stated ceiling. For (d)(5), use $15,425 for one debtor or $30,850 for two equal joint debtors when no used homestead amount is supplied. Because this task evaluates asset-exemption pairs independently, do not reduce that amount merely because the same case also contains a residence claim.",
+      "?                                                                                                                                                                                              +++++++++++++        ^^^^^^^^^^^^^^^^^^^^^^^^                                                                                                                                                                                                                                                                                                                                                                                                                         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n"
+    ],
+    "avoid_when": [
+      "- Do not put firearms or jewelry under (d)(3), and do not infer (d)(6) without stated trade use. Treat a pair or set presented as one named asset as one particular item for the $700 (d)(3) output. Never copy a ceiling above the asset's value, leave a half-interest as the result, or use the one-debtor (d)(5) ceiling for two equal joint debtors. Do not output §§ 522(b), 522(d), or 522(m) as asset exemptions.",
+      "+ Do not put firearms or jewelry under (d)(3), and do not infer (d)(6) without stated trade use. Before finalizing a jewelry asset, verify that (d)(4), not (d)(3), is present and that its debtor-count ceiling is limited by the asset's value. Treat a pair or set presented as one named asset as one particular item for the $700 (d)(3) output. Never copy a ceiling above the asset's value, leave a half-interest as the result, or use the one-debtor (d)(5) ceiling for two equal joint debtors. Do not output §§ 522(b), 522(d), or 522(m) as asset exemptions.",
+      "?                                                                                                +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n"
+    ]
+  },
+  "shared_preexisting_sentences": [
+    "Separately add (d)(5) to every asset, even one already receiving a specific exemption.",
+    "Because this task evaluates asset-exemption pairs independently, do not reduce that amount merely because the same case also contains a residence claim.",
+    "Treat a pair or set presented as one named asset as one particular item for the $700 (d)(3) output."
+  ],
+  "EC_projection_unchanged": true,
+  "prior_broad_scope_receipt_preserved": {
+    "path": "artifacts/research/openexempt_legal_scope_20261020/Complete_output_utility_v6_B6_C1_EC_full100_admitted_teacher12_true_IL_failure_Federal_pair_unit_EV_proposal_not_TEST_20261030.json",
+    "sha256": "782249b45487de4cfb7376f5fc9ac43ca5ff418ce5e6408dd3cc287b04825a0a"
+  },
+  "actual_new_scope": "wristwatch classified as personal-use jewelry; (d)(4) ceiling1875 for one debtor or3750 combined whole asset for equal joint debtors; verify jewelry paragraph and value-limited debtor-count ceiling",
+  "not_a_new_fix_of_independent_alternatives_residence_or_set_units": true,
+  "hypothesis_implication": "Existing explicit instructions already require independent alternatives; persistent general-alternative omissions support an instruction-execution gap, not proof that rule wording is absent. No unique causal attribution or native-JSON effectiveness established.",
+  "C2_complete_at_observation": false,
+  "C2_partial_scores_not_read": true,
+  "new_native_teacher_tokenizer_or_grade_calls": 0,
+  "new_TEST_semantics_unopened": true
+}

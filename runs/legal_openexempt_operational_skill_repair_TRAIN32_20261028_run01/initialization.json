@@ -1,0 +1,163 @@
+{
+  "execution_dispatch": {
+    "policy": "ordered_independent_phases_v1",
+    "native_workers": 4,
+    "teacher_workers": 1,
+    "required_max_num_seqs": 4
+  },
+  "bank": [
+    {
+      "id": "arizona-category-and-cap-boundaries",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "The supplied allowable namespace includes ARIZONA and an asset is tested under the homestead, personal-item, household-goods, firearm, or motor-vehicle provisions.",
+            "procedure": "Treat a statutory dollar limit as an amount ceiling, not an eligibility threshold. Test each asset-exemption pair independently, so each described motor vehicle may cite § 33-1125(8) and a firearm may cite § 33-1125(10) even when its value exceeds the ceiling. Section 33-1125(4) is limited to engagement and wedding rings; § 33-1125(1) covers wearing apparel, not an ordinary pendant, necklace, or bracelet. For a residence, cite § 33-1101(A) as the asset exemption.",
+            "avoid_when": "Do not cite § 33-1101(B) or § 33-1121 as separate asset exemptions, and do not classify ordinary non-ring jewelry as wearing apparel or as an engagement or wedding ring without that fact."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "The supplied allowable namespace includes ARIZONA and an eligible asset needs a protected amount.",
+            "procedure": "First apply the same category boundaries, then report the protected amount for the whole named asset as the lesser of its value and the applicable ceiling: $15,000 for § 33-1125(8), $2,000 for § 33-1125(10), $500 for § 33-1125(1), $2,000 for § 33-1125(4), and $400,000 for § 33-1101(A). Evaluate each asset-exemption pair independently.",
+            "avoid_when": "Do not eliminate an otherwise eligible asset because its value exceeds the ceiling, do not double these asset-level outputs merely because two debtors exist, and do not assign a jewelry or apparel exemption without the required category fact."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "federal-wildcard-independent-alternatives",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "The supplied allowable namespace includes FEDERAL and an estate asset is being tested under 11 U.S.C. § 522(d).",
+            "procedure": "Test § 522(d)(5) independently for every property type, even when a specific exemption also applies or the asset exceeds that specific exemption's ceiling. Retain both the specific citation and § 522(d)(5). Use § 522(d)(3) only for its listed household, apparel, appliance, book, animal, crop, or musical-instrument categories; use § 522(d)(4), not § 522(d)(3), for jewelry.",
+            "avoid_when": "Do not use federal § 522(d) exemptions when the supplied allowable jurisdiction excludes them, and do not emit § 522(b), § 522(d), or § 522(m) as asset-level alternatives."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "The supplied allowable namespace includes FEDERAL and a qualifying asset must receive an amount under § 522(d).",
+            "procedure": "For each independently eligible citation, report the protected amount for the whole named asset. Under § 522(d)(3), cap each particular item at $700; under § 522(d)(4), cap jewelry at $1,875. Under § 522(d)(5), use $1,475 plus up to $13,950 of unused § 522(d)(1) capacity per debtor, capped by the asset's value; § 522(m) applies that ceiling separately in a joint case, so two fully unused ceilings can protect at most $30,850 of one jointly owned asset. Retain every independently applicable specific alternative.\nExecution example: Hypothetically, for a qualifying nonresidential household item worth $900 with sufficient unused wildcard capacity, keep its specific alternative at $700 under § 522(d)(3) and add a separate $900 alternative under § 522(d)(5) in the same asset array. Unused § 522(d)(1) capacity enlarges the wildcard; it does not restrict § 522(d)(5) to residences or replace any correct existing citation.",
+            "avoid_when": "Do not copy an aggregate or per-item ceiling as the asset value, do not treat exceeding a ceiling as loss of eligibility, and do not double a ceiling unless the statute applies separately and the facts present a joint case."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "illinois-other-personal-property-alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "The supplied allowable namespace includes ILLINOIS and the debtor owns personal property used for personal rather than business purposes.",
+            "procedure": "Test 735 Ill. Comp. Stat. 5/12-1001(b) as an independent alternative for any other personal property. Retain it alongside applicable specific provisions such as necessary apparel, a motor vehicle, or a professionally prescribed health aid.",
+            "avoid_when": "Do not apply § 12-1001(b) to real property or business-use property, and do not discard a specific exemption when the general alternative also applies."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "The supplied allowable namespace includes ILLINOIS and an eligible personal asset requires an amount.",
+            "procedure": "For § 12-1001(b), report the lesser of the whole asset value and $4,000 for one debtor; for a jointly owned asset of two debtor spouses, combine the two observed per-debtor ceilings up to $8,000. Independently, § 12-1001(c) protects at most $2,400 of a motor vehicle, while necessary apparel under § 12-1001(a) and prescribed health aids under § 12-1001(e) use the asset's value. Emit every eligible alternative separately.\nExecution example: Hypothetically, a jointly owned high-value vehicle of two debtor spouses has separate asset-level alternatives of $8,000 under § 12-1001(b) and $2,400 under § 12-1001(c); do not double the motor-vehicle ceiling.",
+            "avoid_when": "Do not substitute the $4,000 general-property ceiling for the $2,400 motor-vehicle ceiling or for an uncapped specific exemption, and do not leave a half-interest as the whole-asset result."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "oregon-personal-property-alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "The supplied allowable namespace includes OREGON and the named asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) independently for personal property, while retaining any applicable category-specific Oregon and federal citations.",
+            "avoid_when": "Do not apply § 18.345(1)(p) to real property, and do not omit it merely because a more specific personal-property exemption also applies."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "The supplied allowable namespace includes OREGON and § 18.345(1)(p) applies to the asset.",
+            "procedure": "Report the protected amount for the whole named asset as the lesser of its value and $400. Preserve the independently applicable specific alternatives and calculate each under its own ceiling.",
+            "avoid_when": "Do not double the § 18.345(1)(p) asset-level amount merely because two debtors are listed, and do not treat the $400 ceiling as an eligibility test."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "pennsylvania-general-monetary-alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "The supplied allowable namespace includes PENNSYLVANIA and the asset is property of the judgment debtor.",
+            "procedure": "Include 42 Pa. Cons. Stat. § 8123 as an independent general monetary exemption for any property. Retain it alongside every independently applicable federal or Pennsylvania-specific exemption.",
+            "avoid_when": "Do not replace a specific exemption with § 8123, and do not cite Pennsylvania provisions for property not owned by the debtor."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "The supplied allowable namespace includes PENNSYLVANIA and § 8123 applies to the asset.",
+            "procedure": "Report the protected amount for the whole named asset as the lesser of its value and $300 for one debtor. Because § 8123 expressly grants each spouse an exemption, a jointly owned asset of two debtor spouses may receive up to $600, capped by the asset's value. Keep other independently eligible alternatives and their amounts.",
+            "avoid_when": "Do not reject § 8123 merely because the asset value exceeds $300, and do not report only one spouse's half-interest as the final asset amount."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    }
+  ],
+  "parent_publication": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/publications/b2.json",
+  "initial_library_kind": "actual_stopped_fifth_B2_bank_not_empty_no_unseen_claim",
+  "initial_case_exposure": 32,
+  "all_episode_labels_unseen_before_this_run": false,
+  "prior_stateless_queries_without_label_feedback": [],
+  "input_contract": null,
+  "frozen_after_first_batch_evaluation_only": false,
+  "frozen_after_B1_answers_never_teacher_or_admission_feedback": true
+}

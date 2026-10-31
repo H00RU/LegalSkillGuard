@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-23T00:21:17.615725+00:00",
+  "classification": "First B7 277EC actual full HTTP delivered unique actual B6 nineteen-bullet bank; no partial score or TRAIN target read",
+  "ready": true,
+  "parent_playbook_sha256": "e47bf20877cb3e548248253875a8b9266f6b27200d05f3efe2289ffa6f8b1116",
+  "all19_full_contents_and_counters_delivered": true,
+  "new_actual_B6_full_contents": {
+    "code-00018": "先识别输出合同再生成记录：若要求每个资产对应 citation label ID 数组，则只输出给定标签字符串；若要求 citation_ref 与 numeric claim_value 对象，则为每个合格的资产—条款对输出一次对象并计算金额。两种模式不得混用，且始终保留题给的全部 asset_ref 键。",
+    "err-00019": "不得在理由或分类表中擅自改写资产事实。逐字保留题面的物品类型、材质、用途、所有权人数和价值；例如 cotton 不能转述为 wool，signet ring 不能补成 wedding ring。任何影响法定类别的属性都必须由题面明示，而非由常识补全。"
+  },
+  "native_reported_bullet_ids_not_causal_tool_calls": [
+    "sai-00001",
+    "sai-00004",
+    "calc-00003",
+    "calc-00010",
+    "calc-00013",
+    "ctx-00008"
+  ],
+  "generator_messages_change_from_actual_B5": true,
+  "raw_path": "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b7_prequential/277_EC_ace.json",
+  "no_partial_score_or_gold_read": true,
+  "no_actor_teacher_tokenizer_TEST_calls": true,
+  "evidence_sha256": {
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b7_prequential/277_EC_ace.answer.json": "7dad79b4473069be3a565acd7a17deb89e2f91b745c49a18befed4a289921ca8",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b7_prequential/277_EC_ace.input.json": "cead9936637b7593d53b9c74620a25c9f0e8077912ab134ab122695b6759901e",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/publications/b6.json": "c10820ae8b58ff3d98b22de7df0c1cbc490a2842aefa5347697587391eacdc31",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/publications/b5.json": "0718a508abb52cd20e451d4f819970cdfeedc78882815604fdd8e7e37bb767d4",
+    "configs/openexempt_ace_public_assets128_20261022_run03.json": "91b6c8d25ccb8d9a824bcda914558535da9a4fce3b59f32f48907d09379c385f",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/native/b7_prequential/277_EC_ace.json": "f4765bda5f1ce1bb2c11e30f28b9d8b3208aa1f2045c94d54b03ee44f68bbf61"
+  },
+  "recomputation_program": "import json\nfrom pathlib import Path\nfrom legal_skill_guard.learning.experiment import read,bullets,sha,now\nfrom legal_skill_guard.learning.openexempt_ace import generator_payload\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path.cwd();run=root/\"runs/legal_openexempt_ace_public_assets128_20261022_run03\"\nanswer=run/\"native/b7_prequential/277_EC_ace.answer.json\"\nif not answer.exists():\n print(json.dumps({\"ready\":False,\"no_partial_score_read\":True}));raise SystemExit(0)\nrecord=read(answer);input_path=answer.with_name(answer.name.replace(\".answer.json\",\".input.json\"));inp=read(input_path)\nparent_path=run/\"publications/b6.json\";old_path=run/\"publications/b5.json\";parent=read(parent_path);old=read(old_path)\nassert parent[\"playbook_sha256\"]==csha(parent[\"playbook\"])==\"e47bf20877cb3e548248253875a8b9266f6b27200d05f3efe2289ffa6f8b1116\"\nassert parent[\"parent_playbook_sha256\"]==csha(old[\"playbook\"])\ncfg_path=root/\"configs/openexempt_ace_public_assets128_20261022_run03.json\";cfg=read(cfg_path)\nrow=next(x for x in read(root/cfg[\"input_packet\"])[\"rows\"] if (x[\"case_id\"],x[\"family\"])==(277,\"EC\"))\nmessages,schema=generator_payload(row,parent[\"playbook\"],direct_numeric=True,asset_references=True)\nold_messages,_=generator_payload(row,old[\"playbook\"],direct_numeric=True,asset_references=True)\nraw=read(root/record[\"raw_call_path\"]);actual=raw[\"calls\"][0][\"request\"]\nassert len(raw[\"calls\"])==1 and inp[\"messages\"]==actual[\"messages\"]==messages\nassert inp[\"schema\"]==actual[\"response_format\"][\"json_schema\"][\"schema\"]==schema\nassert len(bullets(parent[\"playbook\"]))==19 and inp[\"delivered_bullet_ids\"]==list(bullets(parent[\"playbook\"]))\nassert record[\"playbook_sha256\"]==parent[\"playbook_sha256\"] and record[\"TRAIN_only\"] is False\nassert inp[\"TRAIN_only\"] is False and inp[\"current_TRAIN_reflection_available\"] is False and inp[\"future_or_TEST_feedback_available\"] is False\nfor k in (\"model\",\"seed\",\"temperature\",\"top_p\",\"top_k\",\"max_tokens\"):assert actual[k]==cfg[\"generation\"][k]\nnew={k:v[\"content\"] for k,v in bullets(parent[\"playbook\"]).items() if k not in bullets(old[\"playbook\"])}\nassert set(new)=={\"code-00018\",\"err-00019\"}\nmembers={str(x.relative_to(root)):sha(x) for x in [answer,input_path,parent_path,old_path,cfg_path,root/record[\"raw_call_path\"]]}\nout={\"at\":now(),\"classification\":\"First B7 277EC actual full HTTP delivered unique actual B6 nineteen-bullet bank; no partial score or TRAIN target read\",\n \"ready\":True,\"parent_playbook_sha256\":parent[\"playbook_sha256\"],\"all19_full_contents_and_counters_delivered\":True,\n \"new_actual_B6_full_contents\":new,\"native_reported_bullet_ids_not_causal_tool_calls\":record.get(\"used_bullet_ids\"),\n \"generator_messages_change_from_actual_B5\":messages!=old_messages,\n \"raw_path\":record[\"raw_call_path\"],\"no_partial_score_or_gold_read\":True,\"no_actor_teacher_tokenizer_TEST_calls\":True,\n \"evidence_sha256\":members,\"recomputation_program\":PROGRAM}\ndest=root/\"artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run03_firstB7_277EC_actual_B6_all19_full_payload_not_scores_20261023.json\"\nRunStore.immutable_json(dest,out)\nprint(json.dumps({\"ready\":True,\"report\":str(dest.relative_to(root)),\"actual_B6_SHA\":parent[\"playbook_sha256\"],\"bullets\":19,\"new_ids\":list(new),\"reported_ids\":record.get(\"used_bullet_ids\"),\"no_partial_score_read\":True},ensure_ascii=False))\n"
+}

@@ -1,0 +1,724 @@
+{
+  "at": "2026-10-28T17:19:11.916529+00:00",
+  "scope": "Completed same128 seen-TRAIN continuation, not new stream, TEST or independent repeat",
+  "run_id": "legal_openexempt_completed128_task_consolidation_20261028_run01",
+  "actual_bank_sha256": "06934565cafca0ee93488971183420828eb56da74ee7ceaac8ce45e3f1e971ce",
+  "actual_records": 8,
+  "before": {
+    "EC": {
+      "precision": 0.9486762152777777,
+      "recall": 0.8919270833333334,
+      "f1": 0.911514136904762,
+      "exact_target": 0.5859375,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.9433379492571299,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "EV": {
+      "precision": 0.9355034722222222,
+      "recall": 0.905544704861111,
+      "f1": 0.9128399884259256,
+      "exact_target": 0.4296875,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 2,
+      "full_output_f1": 0.9063070677977454,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "mean_family_f1": 0.9121770626653438
+  },
+  "actual_after": {
+    "EC": {
+      "precision": 0.9486762152777777,
+      "recall": 0.8919270833333334,
+      "f1": 0.911514136904762,
+      "exact_target": 0.5859375,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.9433379492571299,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "EV": {
+      "precision": 0.9407118055555556,
+      "recall": 0.9254014756944444,
+      "f1": 0.9278139467592591,
+      "exact_target": 0.46875,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 2,
+      "full_output_f1": 0.9257577126390153,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "mean_family_f1": 0.9196640418320106
+  },
+  "EC_byte_identical_projection_and128_original_response_origins": true,
+  "actual_EV_paired": {
+    "tasks": 128,
+    "help": 12,
+    "hurt": 1,
+    "ties": 115,
+    "mean_f1_difference": 0.014973958333333336
+  },
+  "actual_EV_counts": {
+    "before": {
+      "correct": 797,
+      "missing": 55,
+      "incorrect_value": 45,
+      "extra_or_duplicate": 27,
+      "incorrect_value_predictions": 45
+    },
+    "after": {
+      "correct": 813,
+      "missing": 42,
+      "incorrect_value": 42,
+      "extra_or_duplicate": 27,
+      "incorrect_value_predictions": 42
+    }
+  },
+  "law_error_changes": [
+    {
+      "kind": "extra_or_duplicate",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+      "change": 1
+    },
+    {
+      "kind": "extra_or_duplicate",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "change": -1
+    },
+    {
+      "kind": "incorrect_value",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+      "change": -1
+    },
+    {
+      "kind": "incorrect_value",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "change": -2
+    },
+    {
+      "kind": "missing",
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "change": -13
+    }
+  ],
+  "actual_changed_skill": [
+    {
+      "skill_id": "illinois-other-personal-property-alternative",
+      "before": {
+        "id": "illinois-other-personal-property-alternative",
+        "hypothesis_ids": [
+          "EV"
+        ],
+        "guidance": {
+          "when": "Illinois exemptions are allowable and the asset is personal property used for personal rather than business purposes.",
+          "procedure": "Always evaluate 735 Ill. Comp. Stat. 5/12-1001(b): report the lesser of value and $4,000 for one debtor, or the lesser of value and $8,000 for two equal-interest joint debtors. Independently retain subsection (a) for necessary wearing apparel at whole asset value, subsection (c) for a motor vehicle at the lesser of whole asset value and $2,400, and subsection (e) for a professionally prescribed health aid at whole asset value.",
+          "avoid_when": "Do not omit subsection (b) when a specific subsection applies or the asset exceeds $4,000, double subsection (c)'s $2,400 asset-level result merely because there are two debtors, omit subsection (a) because apparel exceeds another jurisdiction's clothing limit, treat personal-use tools as tools of trade without a business-use fact, or leave a half-interest as the final amount.",
+          "operators": [],
+          "jurisdiction": "ILLINOIS"
+        }
+      },
+      "after": {
+        "id": "illinois-other-personal-property-alternative",
+        "hypothesis_ids": [
+          "EV"
+        ],
+        "guidance": {
+          "when": "Illinois exemptions are allowable and the asset is debtor-owned personal property evaluated under 735 Ill. Comp. Stat. 5/12-1001.",
+          "procedure": "For every such asset, first append subsection (b) independently and report the lesser of whole value and $4,000 for one debtor or $8,000 for two equal-interest joint debtors. Then also append each qualifying specific alternative: subsection (a) for necessary wearing apparel at whole value; subsection (c) for a motor vehicle at the lesser of whole value and $2,400; subsection (d), when facts expressly show use in the debtor's trade or business, at the lesser of whole value and $1,500 for one debtor or $3,000 for two equal-interest joint debtors; and subsection (e) for a professionally prescribed health aid at whole value.",
+          "avoid_when": "Do not apply this personal-property block to real property, replace subsection (b) with a specific subsection, omit subsection (b) from a vehicle, apparel item, health aid, or expressly business-used tool, double subsection (c)'s $2,400 asset-level result, or claim subsection (d) without an express trade-or-business-use fact.",
+          "operators": [],
+          "jurisdiction": "ILLINOIS"
+        }
+      }
+    }
+  ],
+  "source_changes": [
+    {
+      "source_case_id": 190,
+      "before_f1": 0.8333333333333333,
+      "after_f1": 1.0,
+      "native_gain_pp": 16.666666666666675,
+      "before_full": 0.8,
+      "after_full": 1.0,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 195,
+      "before_f1": 0.6666666666666666,
+      "after_f1": 0.7777777777777777,
+      "native_gain_pp": 11.111111111111105,
+      "before_full": 0.6666666666666666,
+      "after_full": 0.8,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 204,
+      "before_f1": 0.8333333333333333,
+      "after_f1": 1.0,
+      "native_gain_pp": 16.666666666666675,
+      "before_full": 0.8,
+      "after_full": 1.0,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 219,
+      "before_f1": 0.8888888888888888,
+      "after_f1": 1.0,
+      "native_gain_pp": 11.111111111111116,
+      "before_full": 0.8571428571428571,
+      "after_full": 1.0,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 221,
+      "before_f1": 0.8888888888888888,
+      "after_f1": 1.0,
+      "native_gain_pp": 11.111111111111116,
+      "before_full": 0.8571428571428571,
+      "after_full": 1.0,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 236,
+      "before_f1": 0.7777777777777777,
+      "after_f1": 1.0,
+      "native_gain_pp": 22.222222222222232,
+      "before_full": 0.7499999999999999,
+      "after_full": 1.0,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 252,
+      "before_f1": 0.9166666666666666,
+      "after_f1": 1.0,
+      "native_gain_pp": 8.333333333333337,
+      "before_full": 0.888888888888889,
+      "after_full": 1.0,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 257,
+      "before_f1": 0.5,
+      "after_f1": 1.0,
+      "native_gain_pp": 50.0,
+      "before_full": 0.5,
+      "after_full": 1.0,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 283,
+      "before_f1": 0.6666666666666666,
+      "after_f1": 1.0,
+      "native_gain_pp": 33.333333333333336,
+      "before_full": 0.6,
+      "after_full": 1.0,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 285,
+      "before_f1": 0.5,
+      "after_f1": 0.6666666666666666,
+      "native_gain_pp": 16.666666666666664,
+      "before_full": 0.4,
+      "after_full": 0.8,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 292,
+      "before_f1": 0.8333333333333333,
+      "after_f1": 1.0,
+      "native_gain_pp": 16.666666666666675,
+      "before_full": 0.8,
+      "after_full": 1.0,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 293,
+      "before_f1": 1.0,
+      "after_f1": 0.6666666666666666,
+      "native_gain_pp": -33.333333333333336,
+      "before_full": 1.0,
+      "after_full": 0.6666666666666666,
+      "newly_generated_selected_response": true
+    },
+    {
+      "source_case_id": 302,
+      "before_f1": 0.8888888888888888,
+      "after_f1": 1.0,
+      "native_gain_pp": 11.111111111111116,
+      "before_full": 0.8571428571428571,
+      "after_full": 1.0,
+      "newly_generated_selected_response": true
+    }
+  ],
+  "all8_original_cohorts": [
+    {
+      "original_batch": 1,
+      "before": {
+        "EC": {
+          "precision": 0.9583333333333333,
+          "recall": 0.9322916666666666,
+          "f1": 0.9410714285714287,
+          "exact_target": 0.625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9635714285714285,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.98046875,
+          "recall": 0.9309895833333334,
+          "f1": 0.94609375,
+          "exact_target": 0.4375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9428993055555557,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.9435825892857144
+      },
+      "after": {
+        "EC": {
+          "precision": 0.9583333333333333,
+          "recall": 0.9322916666666666,
+          "f1": 0.9410714285714287,
+          "exact_target": 0.625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9635714285714285,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.98046875,
+          "recall": 0.95703125,
+          "f1": 0.963454861111111,
+          "exact_target": 0.4375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.963732638888889,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.9522631448412698
+      }
+    },
+    {
+      "original_batch": 2,
+      "before": {
+        "EC": {
+          "precision": 0.9722222222222222,
+          "recall": 0.9166666666666665,
+          "f1": 0.9394841269841271,
+          "exact_target": 0.6875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9603521671826627,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.9161458333333332,
+          "recall": 0.9175347222222222,
+          "f1": 0.910391865079365,
+          "exact_target": 0.3125,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9062005154932786,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.9249379960317461
+      },
+      "after": {
+        "EC": {
+          "precision": 0.9722222222222222,
+          "recall": 0.9166666666666665,
+          "f1": 0.9394841269841271,
+          "exact_target": 0.6875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9603521671826627,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.9161458333333332,
+          "recall": 0.9331597222222222,
+          "f1": 0.9208085317460316,
+          "exact_target": 0.375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9187005154932786,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.9301463293650793
+      }
+    },
+    {
+      "original_batch": 3,
+      "before": {
+        "EC": {
+          "precision": 0.9947916666666666,
+          "recall": 0.953125,
+          "f1": 0.9664930555555554,
+          "exact_target": 0.6875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9662030075187971,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.9472222222222222,
+          "recall": 0.9149305555555556,
+          "f1": 0.9181712962962963,
+          "exact_target": 0.5625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9175522077560121,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.9423321759259259
+      },
+      "after": {
+        "EC": {
+          "precision": 0.9947916666666666,
+          "recall": 0.953125,
+          "f1": 0.9664930555555554,
+          "exact_target": 0.6875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9662030075187971,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.9472222222222222,
+          "recall": 0.935763888888889,
+          "f1": 0.9320601851851852,
+          "exact_target": 0.625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9354093506131549,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.9492766203703703
+      }
+    },
+    {
+      "original_batch": 4,
+      "before": {
+        "EC": {
+          "precision": 0.9322916666666666,
+          "recall": 0.8997395833333334,
+          "f1": 0.9120535714285715,
+          "exact_target": 0.75,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9653846153846155,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.9513888888888888,
+          "recall": 0.8967013888888888,
+          "f1": 0.9140624999999999,
+          "exact_target": 0.375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 2,
+          "full_output_f1": 0.8893037518037519,
+          "negative_or_unscored_asset_claims": 2
+        },
+        "mean_family_f1": 0.9130580357142857
+      },
+      "after": {
+        "EC": {
+          "precision": 0.9322916666666666,
+          "recall": 0.8997395833333334,
+          "f1": 0.9120535714285715,
+          "exact_target": 0.75,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9653846153846155,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.9513888888888888,
+          "recall": 0.9175347222222222,
+          "f1": 0.9279513888888888,
+          "exact_target": 0.4375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 2,
+          "full_output_f1": 0.9049287518037519,
+          "negative_or_unscored_asset_claims": 2
+        },
+        "mean_family_f1": 0.9200024801587301
+      }
+    },
+    {
+      "original_batch": 5,
+      "before": {
+        "EC": {
+          "precision": 0.9322916666666667,
+          "recall": 0.8906250000000001,
+          "f1": 0.9052083333333334,
+          "exact_target": 0.5,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.961084054834055,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.9583333333333333,
+          "recall": 0.9114583333333333,
+          "f1": 0.9270833333333333,
+          "exact_target": 0.5,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9225694444444444,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.9161458333333333
+      },
+      "after": {
+        "EC": {
+          "precision": 0.9322916666666667,
+          "recall": 0.8906250000000001,
+          "f1": 0.9052083333333334,
+          "exact_target": 0.5,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.961084054834055,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.9895833333333333,
+          "recall": 0.9505208333333333,
+          "f1": 0.9635416666666665,
+          "exact_target": 0.5625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9607638888888889,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.934375
+      }
+    },
+    {
+      "original_batch": 6,
+      "before": {
+        "EC": {
+          "precision": 0.9322916666666666,
+          "recall": 0.829861111111111,
+          "f1": 0.8642113095238095,
+          "exact_target": 0.5,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9262867647058824,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.9348958333333334,
+          "recall": 0.9166666666666666,
+          "f1": 0.9241071428571428,
+          "exact_target": 0.4375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9237260536398468,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.8941592261904762
+      },
+      "after": {
+        "EC": {
+          "precision": 0.9322916666666666,
+          "recall": 0.829861111111111,
+          "f1": 0.8642113095238095,
+          "exact_target": 0.5,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9262867647058824,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.9348958333333334,
+          "recall": 0.9166666666666666,
+          "f1": 0.9241071428571428,
+          "exact_target": 0.4375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9237260536398468,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.8941592261904762
+      }
+    },
+    {
+      "original_batch": 7,
+      "before": {
+        "EC": {
+          "precision": 0.9114583333333333,
+          "recall": 0.8315972222222222,
+          "f1": 0.8524305555555555,
+          "exact_target": 0.4375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8805288461538461,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.8645833333333334,
+          "recall": 0.825954861111111,
+          "f1": 0.835763888888889,
+          "exact_target": 0.375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.823204185520362,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.8440972222222223
+      },
+      "after": {
+        "EC": {
+          "precision": 0.9114583333333333,
+          "recall": 0.8315972222222222,
+          "f1": 0.8524305555555555,
+          "exact_target": 0.4375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8805288461538461,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.8958333333333334,
+          "recall": 0.8728298611111112,
+          "f1": 0.8774305555555555,
+          "exact_target": 0.5,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.885704185520362,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.8649305555555555
+      }
+    },
+    {
+      "original_batch": 8,
+      "before": {
+        "EC": {
+          "precision": 0.9557291666666667,
+          "recall": 0.8815104166666665,
+          "f1": 0.9111607142857143,
+          "exact_target": 0.5,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9232927097057533,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.9309895833333333,
+          "recall": 0.9301215277777778,
+          "f1": 0.927046130952381,
+          "exact_target": 0.4375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9250010781687146,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.9191034226190476
+      },
+      "after": {
+        "EC": {
+          "precision": 0.9557291666666667,
+          "recall": 0.8815104166666665,
+          "f1": 0.9111607142857143,
+          "exact_target": 0.5,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9232927097057533,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.91015625,
+          "recall": 0.9197048611111112,
+          "f1": 0.9131572420634921,
+          "exact_target": 0.375,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9130963162639527,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.9121589781746032
+      }
+    }
+  ],
+  "conditional_postselection_seen_TRAIN_bootstrap95_gain_pp": {
+    "f1": [
+      0.3255208333333335,
+      2.799479166666667
+    ],
+    "full_output_f1": [
+      0.5474795386904764,
+      3.461061507936508
+    ]
+  },
+  "not_training_seed_uncertainty_or_confirmatory_TEST": true,
+  "known3_upstream_IL_business_conflicts_unchanged": [
+    {
+      "source_case_id": 283,
+      "before_f1": 0.6666666666666666,
+      "after_f1": 1.0,
+      "native_gain_pp": 33.333333333333336,
+      "before_full": 0.6,
+      "after_full": 1.0
+    },
+    {
+      "source_case_id": 285,
+      "before_f1": 0.5,
+      "after_f1": 0.6666666666666666,
+      "native_gain_pp": 16.666666666666664,
+      "before_full": 0.4,
+      "after_full": 0.8
+    }
+  ],
+  "no_extra_model_calls_for_this_audit": true,
+  "cost": {
+    "native": 256,
+    "teacher": 2,
+    "native_prompt": 1775666,
+    "native_completion": 686044,
+    "linked_acquisition_teacher": 14,
+    "total_linked_teacher": 16
+  },
+  "whole_EV_proposal_rejected": "native improves91.2840 to91.7392 but negative/unscored asset claims2 to4; only original-gate passing Illinois component committed",
+  "next": "Same originalB8 fixed2 joint32-task-record teaching control, no new empty stream or repeats; then freeze selected actual banks and source-disjoint evaluation before reading new questions."
+}

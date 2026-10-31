@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-22T21:48:07.578943+00:00",
+  "classification": "Durable current B6 next-action state, exact observer/audit/hourly programs and full finalTRAIN residual proofs; no completed goal/ACE8/TEST",
+  "members": {
+    "artifacts/research/openexempt_legal_scope_20261020/continuation_checkpoint_20261023_0550_B6_fullTRAIN_residuals_v09.json": "e730b57c9ddeee89aec7bcc6f010c565ea7f979bd0cfc5e5cea2522190ffdd48",
+    "artifacts/research/openexempt_legal_scope_20261020/continuation_programs_20261023_0550_B6_fullTRAIN_residuals_v09.json": "b0c251406604443580a8932420f8f35a2d072a7426db3ea372c95350419b1a59",
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_0542_complete_git_parallel_eval_CPU106_B5_dual_e2d17f7_81333d9_20261023.json": "90c73f87765de994e9510da4bb0f8e138a34390d81f7d28845106cad580fb76a",
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_actual_complete_B5_final_TRAIN_residual_content_and_B6_unselected_partial_dual_preservation_20261023.json": "9da413d6a8698fc3b68a45143b556e58ced454a14f54ccdab9f90bad6faf6670",
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_final128_raw_delivery140_explicit_general_omissions_and8_public_value_cap_errors_NOT_causal_20261023.json": "2a3c6f0b41eb21b14c031038e6953706d5bb6e937baba08d7d2f96c8593c441a"
+  },
+  "both_disk_all_bytes_verified": true,
+  "preservation": {
+    "at": "2026-10-22T21:48:07.533793+00:00",
+    "stage": "checkpoint",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_0550_durable_B6_fullTRAIN_residuals_v09_20261023-checkpoint.tar.gz",
+        "sha256": "fbae7d138bff3c280d894417e64a0f44806c981468d7a981ff2e86d044d8ce51"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_0550_durable_B6_fullTRAIN_residuals_v09_20261023-checkpoint.tar.gz",
+        "sha256": "fbae7d138bff3c280d894417e64a0f44806c981468d7a981ff2e86d044d8ce51"
+      }
+    ],
+    "files": 5
+  },
+  "root_HEAD": "e2d17f7a17879589b281d421f6169782ad4a7249",
+  "isolated_HEAD": "81333d91b206232c8303440d9b6ddc53dd2550f2",
+  "live_B6_firsts_observer": 40234,
+  "scheduled_readonly_hourly0630": 17001,
+  "original_model_training_and_successor_units_unchanged": true,
+  "recomputation_program": "import json\nfrom pathlib import Path\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import read,sha,now\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nnames=[str((base/n).relative_to(root)) for n in [\n \"continuation_checkpoint_20261023_0550_B6_fullTRAIN_residuals_v09.json\",\n \"continuation_programs_20261023_0550_B6_fullTRAIN_residuals_v09.json\",\n \"ACEv4_0542_complete_git_parallel_eval_CPU106_B5_dual_e2d17f7_81333d9_20261023.json\",\n \"ACEv4_actual_complete_B5_final_TRAIN_residual_content_and_B6_unselected_partial_dual_preservation_20261023.json\",\n \"Run03_final128_raw_delivery140_explicit_general_omissions_and8_public_value_cap_errors_NOT_causal_20261023.json\"]]\nstate=read(root/names[0]);programs=read(root/state[\"next_action_programs_file\"])\nassert len(programs)==6 and all(isinstance(p,str) and p for p in programs.values())\nassert state[\"current_state\"][\"live_observer\"][\"session\"]==40234\nassert state[\"current_state\"][\"last_hourly\"][\"scheduled_readonly_session\"]==17001\npub_audit=programs[\"ACEv4_Run03_B6_actual_publication_32_TRAIN_exact_reflections_counters_union_cost_audit_program\"]\nassert '.glob(\"b6*/response.json\")' in pub_audit and 'parent_pub=read(run/\"publications/b5.json\")' in pub_audit\nassert 'read(run/\"publications/b2.json\")' in pub_audit and 'current_step=192,total_samples=256' in pub_audit\nmanifest={n:sha(root/n) for n in names}\nreceipt=preserve(\"legal_openexempt_0550_durable_B6_fullTRAIN_residuals_v09_20261023\",\"checkpoint\",names)\nassert len({Path(p[\"path\"]).stat().st_dev for p in receipt[\"paths\"]})==2\nout={\"at\":now(),\"classification\":\"Durable current B6 next-action state, exact observer/audit/hourly programs and full finalTRAIN residual proofs; no completed goal/ACE8/TEST\",\n \"members\":manifest,\"both_disk_all_bytes_verified\":True,\"preservation\":receipt,\n \"root_HEAD\":\"e2d17f7a17879589b281d421f6169782ad4a7249\",\"isolated_HEAD\":\"81333d91b206232c8303440d9b6ddc53dd2550f2\",\n \"live_B6_firsts_observer\":40234,\"scheduled_readonly_hourly0630\":17001,\n \"original_model_training_and_successor_units_unchanged\":True,\"recomputation_program\":PROGRAM}\ndest=base/\"ACEv4_0550_durable_B6_fullTRAIN_residuals_v09_checkpoint_dual_preservation_20261023.json\"\nRunStore.immutable_json(dest,out)\nfor item in receipt[\"paths\"]:\n RunStore.immutable_json(Path(item[\"path\"]).parent/\"legal_skill_20261023_0550_B6_fullTRAIN_residuals_v09_checkpoint.json\",out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"five_members_verified_both_disks\":True,\"exact_programs\":6,\"live_B6_observer\":40234,\"scheduled_hourly\":17001,\"archives\":receipt[\"paths\"]}))\n"
+}

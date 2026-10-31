@@ -1,0 +1,3490 @@
+{
+  "at": "2026-10-15T15:26:23.711364+00:00",
+  "run_id": "legal_contractnli_trace_procedure_learning_20261015_run01",
+  "new_native_calls": 130,
+  "new_teacher_calls": 6,
+  "explicit_shared_cold_answers": 12,
+  "batches": [
+    {
+      "at": "2026-10-15T13:12:26.066779+00:00",
+      "batch": 1,
+      "source_ids": [
+        490,
+        334,
+        88,
+        331,
+        238,
+        245
+      ],
+      "before": {
+        "strong_empty": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 82,
+          "label_accuracy": 0.803921568627451,
+          "gold_non_neutral_queries": 68,
+          "evidence_tp": 66,
+          "evidence_fp": 10,
+          "evidence_fn": 62,
+          "evidence_micro_f1_gold_non_neutral": 0.6470588235294118,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6804271708683473,
+          "joint_exact_correct": 49,
+          "joint_soft_mean": 0.6595004668534079,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 57,
+              "correct": 53
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 5
+            },
+            "NotMentioned": {
+              "n": 34,
+              "correct": 24
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 24,
+          "nonneutral_label_and_all_evidence_correct": 25,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 23520,
+            "completion_tokens": 12107
+          },
+          "joint_exact_accuracy": 0.4803921568627451
+        },
+        "ordinary_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 82,
+          "label_accuracy": 0.803921568627451,
+          "gold_non_neutral_queries": 68,
+          "evidence_tp": 66,
+          "evidence_fp": 10,
+          "evidence_fn": 62,
+          "evidence_micro_f1_gold_non_neutral": 0.6470588235294118,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6804271708683473,
+          "joint_exact_correct": 49,
+          "joint_soft_mean": 0.6595004668534079,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 57,
+              "correct": 53
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 5
+            },
+            "NotMentioned": {
+              "n": 34,
+              "correct": 24
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 24,
+          "nonneutral_label_and_all_evidence_correct": 25,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 23520,
+            "completion_tokens": 12107
+          },
+          "joint_exact_accuracy": 0.4803921568627451
+        },
+        "trace_procedures": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 82,
+          "label_accuracy": 0.803921568627451,
+          "gold_non_neutral_queries": 68,
+          "evidence_tp": 66,
+          "evidence_fp": 10,
+          "evidence_fn": 62,
+          "evidence_micro_f1_gold_non_neutral": 0.6470588235294118,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6804271708683473,
+          "joint_exact_correct": 49,
+          "joint_soft_mean": 0.6595004668534079,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 57,
+              "correct": 53
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 5
+            },
+            "NotMentioned": {
+              "n": 34,
+              "correct": 24
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 24,
+          "nonneutral_label_and_all_evidence_correct": 25,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 23520,
+            "completion_tokens": 12107
+          },
+          "joint_exact_accuracy": 0.4803921568627451
+        }
+      },
+      "after": {
+        "trace_procedures": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 92,
+          "label_accuracy": 0.9019607843137255,
+          "gold_non_neutral_queries": 68,
+          "evidence_tp": 107,
+          "evidence_fp": 3,
+          "evidence_fn": 21,
+          "evidence_micro_f1_gold_non_neutral": 0.8991596638655462,
+          "evidence_query_mean_f1_gold_non_neutral": 0.8801757066462946,
+          "joint_exact_correct": 80,
+          "joint_soft_mean": 0.856391647568118,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 57,
+              "correct": 56
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 8
+            },
+            "NotMentioned": {
+              "n": 34,
+              "correct": 28
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 28,
+          "nonneutral_label_and_all_evidence_correct": 52,
+          "reported_skill_use_queries": 102,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 35214,
+            "completion_tokens": 12649
+          },
+          "joint_exact_accuracy": 0.7843137254901961
+        }
+      },
+      "strong_empty": {
+        "documents": 6,
+        "hypotheses": 102,
+        "label_correct": 82,
+        "label_accuracy": 0.803921568627451,
+        "gold_non_neutral_queries": 68,
+        "evidence_tp": 66,
+        "evidence_fp": 10,
+        "evidence_fn": 62,
+        "evidence_micro_f1_gold_non_neutral": 0.6470588235294118,
+        "evidence_query_mean_f1_gold_non_neutral": 0.6804271708683473,
+        "joint_exact_correct": 49,
+        "joint_soft_mean": 0.6595004668534079,
+        "public_valid_documents": 6,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 57,
+            "correct": 53
+          },
+          "Contradiction": {
+            "n": 11,
+            "correct": 5
+          },
+          "NotMentioned": {
+            "n": 34,
+            "correct": 24
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 24,
+        "nonneutral_label_and_all_evidence_correct": 25,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 23520,
+          "completion_tokens": 12107
+        },
+        "joint_exact_accuracy": 0.4803921568627451
+      },
+      "update_effects": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            490,
+            "nda-16"
+          ],
+          [
+            490,
+            "nda-7"
+          ],
+          [
+            490,
+            "nda-17"
+          ],
+          [
+            334,
+            "nda-16"
+          ],
+          [
+            334,
+            "nda-12"
+          ],
+          [
+            334,
+            "nda-13"
+          ],
+          [
+            88,
+            "nda-10"
+          ],
+          [
+            88,
+            "nda-1"
+          ],
+          [
+            88,
+            "nda-7"
+          ],
+          [
+            331,
+            "nda-16"
+          ],
+          [
+            331,
+            "nda-17"
+          ],
+          [
+            238,
+            "nda-17"
+          ],
+          [
+            245,
+            "nda-1"
+          ]
+        ],
+        "label_broken": [
+          [
+            334,
+            "nda-1"
+          ],
+          [
+            334,
+            "nda-17"
+          ],
+          [
+            88,
+            "nda-16"
+          ]
+        ],
+        "net_label_correct": 10,
+        "joint_exact_corrected": [
+          [
+            490,
+            "nda-16"
+          ],
+          [
+            490,
+            "nda-12"
+          ],
+          [
+            490,
+            "nda-3"
+          ],
+          [
+            490,
+            "nda-7"
+          ],
+          [
+            490,
+            "nda-17"
+          ],
+          [
+            490,
+            "nda-13"
+          ],
+          [
+            334,
+            "nda-16"
+          ],
+          [
+            334,
+            "nda-19"
+          ],
+          [
+            334,
+            "nda-12"
+          ],
+          [
+            334,
+            "nda-18"
+          ],
+          [
+            334,
+            "nda-7"
+          ],
+          [
+            334,
+            "nda-13"
+          ],
+          [
+            334,
+            "nda-5"
+          ],
+          [
+            334,
+            "nda-4"
+          ],
+          [
+            88,
+            "nda-10"
+          ],
+          [
+            88,
+            "nda-2"
+          ],
+          [
+            88,
+            "nda-1"
+          ],
+          [
+            88,
+            "nda-7"
+          ],
+          [
+            331,
+            "nda-16"
+          ],
+          [
+            331,
+            "nda-15"
+          ],
+          [
+            331,
+            "nda-19"
+          ],
+          [
+            331,
+            "nda-12"
+          ],
+          [
+            331,
+            "nda-17"
+          ],
+          [
+            238,
+            "nda-15"
+          ],
+          [
+            238,
+            "nda-12"
+          ],
+          [
+            238,
+            "nda-20"
+          ],
+          [
+            238,
+            "nda-17"
+          ],
+          [
+            238,
+            "nda-13"
+          ],
+          [
+            245,
+            "nda-16"
+          ],
+          [
+            245,
+            "nda-15"
+          ],
+          [
+            245,
+            "nda-2"
+          ],
+          [
+            245,
+            "nda-1"
+          ],
+          [
+            245,
+            "nda-12"
+          ],
+          [
+            245,
+            "nda-3"
+          ],
+          [
+            245,
+            "nda-8"
+          ],
+          [
+            245,
+            "nda-13"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            334,
+            "nda-1"
+          ],
+          [
+            334,
+            "nda-8"
+          ],
+          [
+            88,
+            "nda-16"
+          ],
+          [
+            88,
+            "nda-5"
+          ],
+          [
+            245,
+            "nda-17"
+          ]
+        ]
+      },
+      "first_encounter_trace_minus_ordinary": {
+        "original_hypotheses": 102,
+        "label_corrected": [],
+        "label_broken": [],
+        "net_label_correct": 0,
+        "joint_exact_corrected": [],
+        "joint_exact_broken": []
+      },
+      "library_management": {
+        "operation_counts": {
+          "CREATE": 6,
+          "UPDATE": 0,
+          "DELETE": 0,
+          "MERGE": 0
+        },
+        "explicit_noop": false,
+        "parent_skill_count": 0,
+        "published_skill_count": 6,
+        "new_ids": [
+          "nda-definition-identification-and-form",
+          "nda-disclosure-audience-and-secrecy",
+          "nda-disposition-copy-and-retention",
+          "nda-exclusion-as-permission",
+          "nda-proposition-evidence-map",
+          "nda-rights-use-and-survival"
+        ],
+        "removed_ids": [],
+        "verbatim_retained_ids": [],
+        "revised_retained_ids": [],
+        "serialized_library_tokens": 1235,
+        "guidance_characters": 5597,
+        "not_a_utility_score_or_publication_gate": true
+      },
+      "after_is_seen_fit_with_new_gold_not_a_pure_skill_effect": true
+    },
+    {
+      "at": "2026-10-15T13:37:58.311305+00:00",
+      "batch": 2,
+      "source_ids": [
+        262,
+        588,
+        538,
+        177,
+        136,
+        187
+      ],
+      "before": {
+        "strong_empty": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 81,
+          "label_accuracy": 0.7941176470588235,
+          "gold_non_neutral_queries": 60,
+          "evidence_tp": 71,
+          "evidence_fp": 34,
+          "evidence_fn": 62,
+          "evidence_micro_f1_gold_non_neutral": 0.5966386554621849,
+          "evidence_query_mean_f1_gold_non_neutral": 0.5898412698412697,
+          "joint_exact_correct": 45,
+          "joint_soft_mean": 0.625676937441643,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 51,
+              "correct": 48
+            },
+            "Contradiction": {
+              "n": 9,
+              "correct": 4
+            },
+            "NotMentioned": {
+              "n": 42,
+              "correct": 29
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 29,
+          "nonneutral_label_and_all_evidence_correct": 16,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 28317,
+            "completion_tokens": 11256
+          },
+          "joint_exact_accuracy": 0.4411764705882353
+        },
+        "ordinary_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 78,
+          "label_accuracy": 0.7647058823529411,
+          "gold_non_neutral_queries": 60,
+          "evidence_tp": 59,
+          "evidence_fp": 28,
+          "evidence_fn": 74,
+          "evidence_micro_f1_gold_non_neutral": 0.5363636363636364,
+          "evidence_query_mean_f1_gold_non_neutral": 0.5858333333333333,
+          "joint_exact_correct": 40,
+          "joint_soft_mean": 0.5799019607843134,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 51,
+              "correct": 49
+            },
+            "Contradiction": {
+              "n": 9,
+              "correct": 4
+            },
+            "NotMentioned": {
+              "n": 42,
+              "correct": 25
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 25,
+          "nonneutral_label_and_all_evidence_correct": 15,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 31583,
+            "completion_tokens": 12186
+          },
+          "joint_exact_accuracy": 0.39215686274509803
+        },
+        "trace_procedures": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 78,
+          "label_accuracy": 0.7647058823529411,
+          "gold_non_neutral_queries": 60,
+          "evidence_tp": 60,
+          "evidence_fp": 24,
+          "evidence_fn": 73,
+          "evidence_micro_f1_gold_non_neutral": 0.5529953917050692,
+          "evidence_query_mean_f1_gold_non_neutral": 0.5994480519480521,
+          "joint_exact_correct": 45,
+          "joint_soft_mean": 0.5833354553942787,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 51,
+              "correct": 46
+            },
+            "Contradiction": {
+              "n": 9,
+              "correct": 5
+            },
+            "NotMentioned": {
+              "n": 42,
+              "correct": 27
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 27,
+          "nonneutral_label_and_all_evidence_correct": 18,
+          "reported_skill_use_queries": 102,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 38885,
+            "completion_tokens": 12317
+          },
+          "joint_exact_accuracy": 0.4411764705882353
+        }
+      },
+      "after": {
+        "trace_procedures": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 83,
+          "label_accuracy": 0.8137254901960784,
+          "gold_non_neutral_queries": 60,
+          "evidence_tp": 108,
+          "evidence_fp": 3,
+          "evidence_fn": 25,
+          "evidence_micro_f1_gold_non_neutral": 0.8852459016393442,
+          "evidence_query_mean_f1_gold_non_neutral": 0.8627777777777776,
+          "joint_exact_correct": 71,
+          "joint_soft_mean": 0.7722222222222223,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 51,
+              "correct": 50
+            },
+            "Contradiction": {
+              "n": 9,
+              "correct": 4
+            },
+            "NotMentioned": {
+              "n": 42,
+              "correct": 29
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 29,
+          "nonneutral_label_and_all_evidence_correct": 42,
+          "reported_skill_use_queries": 102,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 41722,
+            "completion_tokens": 12024
+          },
+          "joint_exact_accuracy": 0.696078431372549
+        }
+      },
+      "strong_empty": {
+        "documents": 6,
+        "hypotheses": 102,
+        "label_correct": 81,
+        "label_accuracy": 0.7941176470588235,
+        "gold_non_neutral_queries": 60,
+        "evidence_tp": 71,
+        "evidence_fp": 34,
+        "evidence_fn": 62,
+        "evidence_micro_f1_gold_non_neutral": 0.5966386554621849,
+        "evidence_query_mean_f1_gold_non_neutral": 0.5898412698412697,
+        "joint_exact_correct": 45,
+        "joint_soft_mean": 0.625676937441643,
+        "public_valid_documents": 6,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 51,
+            "correct": 48
+          },
+          "Contradiction": {
+            "n": 9,
+            "correct": 4
+          },
+          "NotMentioned": {
+            "n": 42,
+            "correct": 29
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 29,
+        "nonneutral_label_and_all_evidence_correct": 16,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 28317,
+          "completion_tokens": 11256
+        },
+        "joint_exact_accuracy": 0.4411764705882353
+      },
+      "update_effects": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            262,
+            "nda-1"
+          ],
+          [
+            262,
+            "nda-7"
+          ],
+          [
+            588,
+            "nda-1"
+          ],
+          [
+            538,
+            "nda-17"
+          ],
+          [
+            538,
+            "nda-13"
+          ],
+          [
+            177,
+            "nda-7"
+          ],
+          [
+            136,
+            "nda-20"
+          ],
+          [
+            187,
+            "nda-2"
+          ],
+          [
+            187,
+            "nda-18"
+          ],
+          [
+            187,
+            "nda-17"
+          ],
+          [
+            187,
+            "nda-13"
+          ],
+          [
+            187,
+            "nda-5"
+          ]
+        ],
+        "label_broken": [
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            588,
+            "nda-17"
+          ],
+          [
+            177,
+            "nda-15"
+          ],
+          [
+            177,
+            "nda-20"
+          ],
+          [
+            177,
+            "nda-18"
+          ],
+          [
+            136,
+            "nda-11"
+          ],
+          [
+            136,
+            "nda-10"
+          ]
+        ],
+        "net_label_correct": 5,
+        "joint_exact_corrected": [
+          [
+            262,
+            "nda-1"
+          ],
+          [
+            262,
+            "nda-7"
+          ],
+          [
+            588,
+            "nda-1"
+          ],
+          [
+            588,
+            "nda-12"
+          ],
+          [
+            588,
+            "nda-8"
+          ],
+          [
+            588,
+            "nda-13"
+          ],
+          [
+            538,
+            "nda-19"
+          ],
+          [
+            538,
+            "nda-20"
+          ],
+          [
+            538,
+            "nda-18"
+          ],
+          [
+            538,
+            "nda-7"
+          ],
+          [
+            538,
+            "nda-17"
+          ],
+          [
+            538,
+            "nda-13"
+          ],
+          [
+            538,
+            "nda-5"
+          ],
+          [
+            538,
+            "nda-4"
+          ],
+          [
+            177,
+            "nda-16"
+          ],
+          [
+            177,
+            "nda-3"
+          ],
+          [
+            177,
+            "nda-7"
+          ],
+          [
+            177,
+            "nda-13"
+          ],
+          [
+            136,
+            "nda-2"
+          ],
+          [
+            136,
+            "nda-12"
+          ],
+          [
+            136,
+            "nda-20"
+          ],
+          [
+            136,
+            "nda-3"
+          ],
+          [
+            136,
+            "nda-7"
+          ],
+          [
+            136,
+            "nda-17"
+          ],
+          [
+            136,
+            "nda-13"
+          ],
+          [
+            136,
+            "nda-5"
+          ],
+          [
+            136,
+            "nda-4"
+          ],
+          [
+            187,
+            "nda-2"
+          ],
+          [
+            187,
+            "nda-18"
+          ],
+          [
+            187,
+            "nda-17"
+          ],
+          [
+            187,
+            "nda-5"
+          ],
+          [
+            187,
+            "nda-4"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            588,
+            "nda-17"
+          ],
+          [
+            177,
+            "nda-15"
+          ],
+          [
+            177,
+            "nda-20"
+          ],
+          [
+            177,
+            "nda-18"
+          ],
+          [
+            136,
+            "nda-11"
+          ]
+        ]
+      },
+      "first_encounter_trace_minus_ordinary": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            588,
+            "nda-17"
+          ],
+          [
+            538,
+            "nda-15"
+          ],
+          [
+            177,
+            "nda-15"
+          ],
+          [
+            177,
+            "nda-20"
+          ],
+          [
+            177,
+            "nda-18"
+          ],
+          [
+            136,
+            "nda-10"
+          ]
+        ],
+        "label_broken": [
+          [
+            588,
+            "nda-1"
+          ],
+          [
+            538,
+            "nda-17"
+          ],
+          [
+            538,
+            "nda-13"
+          ],
+          [
+            177,
+            "nda-7"
+          ],
+          [
+            136,
+            "nda-20"
+          ],
+          [
+            187,
+            "nda-2"
+          ],
+          [
+            187,
+            "nda-5"
+          ]
+        ],
+        "net_label_correct": 0,
+        "joint_exact_corrected": [
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            588,
+            "nda-3"
+          ],
+          [
+            588,
+            "nda-17"
+          ],
+          [
+            538,
+            "nda-15"
+          ],
+          [
+            538,
+            "nda-2"
+          ],
+          [
+            538,
+            "nda-3"
+          ],
+          [
+            177,
+            "nda-15"
+          ],
+          [
+            177,
+            "nda-20"
+          ],
+          [
+            177,
+            "nda-18"
+          ],
+          [
+            187,
+            "nda-16"
+          ],
+          [
+            187,
+            "nda-12"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            588,
+            "nda-1"
+          ],
+          [
+            538,
+            "nda-17"
+          ],
+          [
+            177,
+            "nda-16"
+          ],
+          [
+            177,
+            "nda-7"
+          ],
+          [
+            136,
+            "nda-15"
+          ],
+          [
+            187,
+            "nda-2"
+          ]
+        ]
+      },
+      "library_management": {
+        "operation_counts": {
+          "CREATE": 0,
+          "UPDATE": 5,
+          "DELETE": 0,
+          "MERGE": 0
+        },
+        "explicit_noop": false,
+        "parent_skill_count": 6,
+        "published_skill_count": 6,
+        "new_ids": [],
+        "removed_ids": [],
+        "verbatim_retained_ids": [
+          "nda-proposition-evidence-map"
+        ],
+        "revised_retained_ids": [
+          "nda-definition-identification-and-form",
+          "nda-disclosure-audience-and-secrecy",
+          "nda-disposition-copy-and-retention",
+          "nda-exclusion-as-permission",
+          "nda-rights-use-and-survival"
+        ],
+        "serialized_library_tokens": 1450,
+        "guidance_characters": 6891,
+        "not_a_utility_score_or_publication_gate": true
+      },
+      "after_is_seen_fit_with_new_gold_not_a_pure_skill_effect": true
+    },
+    {
+      "at": "2026-10-15T14:05:13.901441+00:00",
+      "batch": 3,
+      "source_ids": [
+        273,
+        416,
+        261,
+        487,
+        377,
+        159
+      ],
+      "before": {
+        "strong_empty": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 78,
+          "label_accuracy": 0.7647058823529411,
+          "gold_non_neutral_queries": 71,
+          "evidence_tp": 72,
+          "evidence_fp": 31,
+          "evidence_fn": 83,
+          "evidence_micro_f1_gold_non_neutral": 0.5581395348837209,
+          "evidence_query_mean_f1_gold_non_neutral": 0.5855730341645833,
+          "joint_exact_correct": 33,
+          "joint_soft_mean": 0.5611995303171772,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 60,
+              "correct": 54
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 7
+            },
+            "NotMentioned": {
+              "n": 31,
+              "correct": 17
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 17,
+          "nonneutral_label_and_all_evidence_correct": 16,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 27266,
+            "completion_tokens": 11358
+          },
+          "joint_exact_accuracy": 0.3235294117647059
+        },
+        "ordinary_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 78,
+          "label_accuracy": 0.7647058823529411,
+          "gold_non_neutral_queries": 71,
+          "evidence_tp": 81,
+          "evidence_fp": 22,
+          "evidence_fn": 74,
+          "evidence_micro_f1_gold_non_neutral": 0.627906976744186,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6348785017799101,
+          "joint_exact_correct": 39,
+          "joint_soft_mean": 0.6053239244415712,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 60,
+              "correct": 53
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 7
+            },
+            "NotMentioned": {
+              "n": 31,
+              "correct": 18
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 18,
+          "nonneutral_label_and_all_evidence_correct": 21,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 31373,
+            "completion_tokens": 12797
+          },
+          "joint_exact_accuracy": 0.38235294117647056
+        },
+        "trace_procedures": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 82,
+          "label_accuracy": 0.803921568627451,
+          "gold_non_neutral_queries": 71,
+          "evidence_tp": 81,
+          "evidence_fp": 20,
+          "evidence_fn": 74,
+          "evidence_micro_f1_gold_non_neutral": 0.6328125,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6334674714956403,
+          "joint_exact_correct": 41,
+          "joint_soft_mean": 0.6272175536881417,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 60,
+              "correct": 55
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 6
+            },
+            "NotMentioned": {
+              "n": 31,
+              "correct": 21
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 21,
+          "nonneutral_label_and_all_evidence_correct": 20,
+          "reported_skill_use_queries": 102,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 39965,
+            "completion_tokens": 14701
+          },
+          "joint_exact_accuracy": 0.4019607843137255
+        }
+      },
+      "after": {
+        "trace_procedures": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 80,
+          "label_accuracy": 0.7843137254901961,
+          "gold_non_neutral_queries": 71,
+          "evidence_tp": 128,
+          "evidence_fp": 4,
+          "evidence_fn": 27,
+          "evidence_micro_f1_gold_non_neutral": 0.89198606271777,
+          "evidence_query_mean_f1_gold_non_neutral": 0.8771294433266262,
+          "joint_exact_correct": 66,
+          "joint_soft_mean": 0.7429038281979458,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 60,
+              "correct": 55
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 8
+            },
+            "NotMentioned": {
+              "n": 31,
+              "correct": 17
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 17,
+          "nonneutral_label_and_all_evidence_correct": 49,
+          "reported_skill_use_queries": 102,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 42780,
+            "completion_tokens": 13359
+          },
+          "joint_exact_accuracy": 0.6470588235294118
+        }
+      },
+      "strong_empty": {
+        "documents": 6,
+        "hypotheses": 102,
+        "label_correct": 78,
+        "label_accuracy": 0.7647058823529411,
+        "gold_non_neutral_queries": 71,
+        "evidence_tp": 72,
+        "evidence_fp": 31,
+        "evidence_fn": 83,
+        "evidence_micro_f1_gold_non_neutral": 0.5581395348837209,
+        "evidence_query_mean_f1_gold_non_neutral": 0.5855730341645833,
+        "joint_exact_correct": 33,
+        "joint_soft_mean": 0.5611995303171772,
+        "public_valid_documents": 6,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 60,
+            "correct": 54
+          },
+          "Contradiction": {
+            "n": 11,
+            "correct": 7
+          },
+          "NotMentioned": {
+            "n": 31,
+            "correct": 17
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 17,
+        "nonneutral_label_and_all_evidence_correct": 16,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 27266,
+          "completion_tokens": 11358
+        },
+        "joint_exact_accuracy": 0.3235294117647059
+      },
+      "update_effects": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            416,
+            "nda-10"
+          ],
+          [
+            261,
+            "nda-10"
+          ],
+          [
+            261,
+            "nda-1"
+          ],
+          [
+            487,
+            "nda-5"
+          ],
+          [
+            377,
+            "nda-4"
+          ],
+          [
+            159,
+            "nda-20"
+          ]
+        ],
+        "label_broken": [
+          [
+            273,
+            "nda-15"
+          ],
+          [
+            273,
+            "nda-10"
+          ],
+          [
+            273,
+            "nda-17"
+          ],
+          [
+            416,
+            "nda-17"
+          ],
+          [
+            261,
+            "nda-12"
+          ],
+          [
+            261,
+            "nda-13"
+          ],
+          [
+            487,
+            "nda-10"
+          ],
+          [
+            487,
+            "nda-18"
+          ]
+        ],
+        "net_label_correct": -2,
+        "joint_exact_corrected": [
+          [
+            273,
+            "nda-19"
+          ],
+          [
+            273,
+            "nda-12"
+          ],
+          [
+            273,
+            "nda-20"
+          ],
+          [
+            273,
+            "nda-18"
+          ],
+          [
+            273,
+            "nda-7"
+          ],
+          [
+            273,
+            "nda-8"
+          ],
+          [
+            273,
+            "nda-13"
+          ],
+          [
+            273,
+            "nda-5"
+          ],
+          [
+            416,
+            "nda-10"
+          ],
+          [
+            416,
+            "nda-1"
+          ],
+          [
+            416,
+            "nda-8"
+          ],
+          [
+            416,
+            "nda-5"
+          ],
+          [
+            416,
+            "nda-4"
+          ],
+          [
+            261,
+            "nda-16"
+          ],
+          [
+            261,
+            "nda-15"
+          ],
+          [
+            261,
+            "nda-10"
+          ],
+          [
+            261,
+            "nda-1"
+          ],
+          [
+            261,
+            "nda-3"
+          ],
+          [
+            261,
+            "nda-17"
+          ],
+          [
+            487,
+            "nda-15"
+          ],
+          [
+            487,
+            "nda-2"
+          ],
+          [
+            487,
+            "nda-12"
+          ],
+          [
+            487,
+            "nda-3"
+          ],
+          [
+            487,
+            "nda-17"
+          ],
+          [
+            487,
+            "nda-13"
+          ],
+          [
+            487,
+            "nda-5"
+          ],
+          [
+            377,
+            "nda-12"
+          ],
+          [
+            377,
+            "nda-4"
+          ],
+          [
+            159,
+            "nda-10"
+          ],
+          [
+            159,
+            "nda-19"
+          ],
+          [
+            159,
+            "nda-20"
+          ],
+          [
+            159,
+            "nda-13"
+          ],
+          [
+            159,
+            "nda-5"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            273,
+            "nda-15"
+          ],
+          [
+            273,
+            "nda-17"
+          ],
+          [
+            416,
+            "nda-15"
+          ],
+          [
+            416,
+            "nda-17"
+          ],
+          [
+            261,
+            "nda-12"
+          ],
+          [
+            261,
+            "nda-13"
+          ],
+          [
+            487,
+            "nda-10"
+          ],
+          [
+            487,
+            "nda-18"
+          ]
+        ]
+      },
+      "first_encounter_trace_minus_ordinary": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            273,
+            "nda-13"
+          ],
+          [
+            416,
+            "nda-5"
+          ],
+          [
+            487,
+            "nda-1"
+          ],
+          [
+            377,
+            "nda-20"
+          ],
+          [
+            159,
+            "nda-1"
+          ],
+          [
+            159,
+            "nda-7"
+          ]
+        ],
+        "label_broken": [
+          [
+            261,
+            "nda-1"
+          ],
+          [
+            159,
+            "nda-20"
+          ]
+        ],
+        "net_label_correct": 4,
+        "joint_exact_corrected": [
+          [
+            261,
+            "nda-13"
+          ],
+          [
+            487,
+            "nda-1"
+          ],
+          [
+            377,
+            "nda-20"
+          ],
+          [
+            159,
+            "nda-1"
+          ],
+          [
+            159,
+            "nda-7"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            261,
+            "nda-1"
+          ],
+          [
+            261,
+            "nda-17"
+          ],
+          [
+            159,
+            "nda-20"
+          ]
+        ]
+      },
+      "library_management": {
+        "operation_counts": {
+          "CREATE": 0,
+          "UPDATE": 4,
+          "DELETE": 0,
+          "MERGE": 0
+        },
+        "explicit_noop": false,
+        "parent_skill_count": 6,
+        "published_skill_count": 6,
+        "new_ids": [],
+        "removed_ids": [],
+        "verbatim_retained_ids": [
+          "nda-exclusion-as-permission",
+          "nda-proposition-evidence-map"
+        ],
+        "revised_retained_ids": [
+          "nda-definition-identification-and-form",
+          "nda-disclosure-audience-and-secrecy",
+          "nda-disposition-copy-and-retention",
+          "nda-rights-use-and-survival"
+        ],
+        "serialized_library_tokens": 1687,
+        "guidance_characters": 8393,
+        "not_a_utility_score_or_publication_gate": true
+      },
+      "after_is_seen_fit_with_new_gold_not_a_pure_skill_effect": true
+    },
+    {
+      "at": "2026-10-15T14:36:27.028274+00:00",
+      "batch": 4,
+      "source_ids": [
+        430,
+        290,
+        622,
+        613,
+        383,
+        92
+      ],
+      "before": {
+        "strong_empty": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 79,
+          "label_accuracy": 0.7745098039215687,
+          "gold_non_neutral_queries": 58,
+          "evidence_tp": 48,
+          "evidence_fp": 17,
+          "evidence_fn": 38,
+          "evidence_micro_f1_gold_non_neutral": 0.6357615894039735,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6367816091954022,
+          "joint_exact_correct": 56,
+          "joint_soft_mean": 0.666013071895425,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 46,
+              "correct": 43
+            },
+            "Contradiction": {
+              "n": 12,
+              "correct": 5
+            },
+            "NotMentioned": {
+              "n": 44,
+              "correct": 31
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 31,
+          "nonneutral_label_and_all_evidence_correct": 25,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 39393,
+            "completion_tokens": 12553
+          },
+          "joint_exact_accuracy": 0.5490196078431373
+        },
+        "ordinary_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 75,
+          "label_accuracy": 0.7352941176470589,
+          "gold_non_neutral_queries": 58,
+          "evidence_tp": 51,
+          "evidence_fp": 7,
+          "evidence_fn": 35,
+          "evidence_micro_f1_gold_non_neutral": 0.7083333333333334,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact_correct": 54,
+          "joint_soft_mean": 0.6437908496732027,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 46,
+              "correct": 39
+            },
+            "Contradiction": {
+              "n": 12,
+              "correct": 5
+            },
+            "NotMentioned": {
+              "n": 44,
+              "correct": 31
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 31,
+          "nonneutral_label_and_all_evidence_correct": 23,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 42534,
+            "completion_tokens": 11867
+          },
+          "joint_exact_accuracy": 0.5294117647058824
+        },
+        "trace_procedures": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 79,
+          "label_accuracy": 0.7745098039215687,
+          "gold_non_neutral_queries": 58,
+          "evidence_tp": 57,
+          "evidence_fp": 14,
+          "evidence_fn": 29,
+          "evidence_micro_f1_gold_non_neutral": 0.7261146496815286,
+          "evidence_query_mean_f1_gold_non_neutral": 0.7390804597701148,
+          "joint_exact_correct": 60,
+          "joint_soft_mean": 0.7013071895424838,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 46,
+              "correct": 41
+            },
+            "Contradiction": {
+              "n": 12,
+              "correct": 8
+            },
+            "NotMentioned": {
+              "n": 44,
+              "correct": 30
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 30,
+          "nonneutral_label_and_all_evidence_correct": 30,
+          "reported_skill_use_queries": 102,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 52548,
+            "completion_tokens": 15704
+          },
+          "joint_exact_accuracy": 0.5882352941176471
+        }
+      },
+      "after": {
+        "trace_procedures": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 74,
+          "label_accuracy": 0.7254901960784313,
+          "gold_non_neutral_queries": 58,
+          "evidence_tp": 70,
+          "evidence_fp": 4,
+          "evidence_fn": 16,
+          "evidence_micro_f1_gold_non_neutral": 0.875,
+          "evidence_query_mean_f1_gold_non_neutral": 0.8535303776683087,
+          "joint_exact_correct": 67,
+          "joint_soft_mean": 0.7010270774976656,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 46,
+              "correct": 40
+            },
+            "Contradiction": {
+              "n": 12,
+              "correct": 6
+            },
+            "NotMentioned": {
+              "n": 44,
+              "correct": 28
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 28,
+          "nonneutral_label_and_all_evidence_correct": 39,
+          "reported_skill_use_queries": 102,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 53013,
+            "completion_tokens": 14520
+          },
+          "joint_exact_accuracy": 0.6568627450980392
+        }
+      },
+      "strong_empty": {
+        "documents": 6,
+        "hypotheses": 102,
+        "label_correct": 79,
+        "label_accuracy": 0.7745098039215687,
+        "gold_non_neutral_queries": 58,
+        "evidence_tp": 48,
+        "evidence_fp": 17,
+        "evidence_fn": 38,
+        "evidence_micro_f1_gold_non_neutral": 0.6357615894039735,
+        "evidence_query_mean_f1_gold_non_neutral": 0.6367816091954022,
+        "joint_exact_correct": 56,
+        "joint_soft_mean": 0.666013071895425,
+        "public_valid_documents": 6,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 46,
+            "correct": 43
+          },
+          "Contradiction": {
+            "n": 12,
+            "correct": 5
+          },
+          "NotMentioned": {
+            "n": 44,
+            "correct": 31
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 31,
+        "nonneutral_label_and_all_evidence_correct": 25,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 39393,
+          "completion_tokens": 12553
+        },
+        "joint_exact_accuracy": 0.5490196078431373
+      },
+      "update_effects": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            383,
+            "nda-12"
+          ],
+          [
+            383,
+            "nda-20"
+          ],
+          [
+            383,
+            "nda-13"
+          ]
+        ],
+        "label_broken": [
+          [
+            430,
+            "nda-2"
+          ],
+          [
+            430,
+            "nda-19"
+          ],
+          [
+            430,
+            "nda-12"
+          ],
+          [
+            430,
+            "nda-18"
+          ],
+          [
+            430,
+            "nda-7"
+          ],
+          [
+            430,
+            "nda-13"
+          ],
+          [
+            430,
+            "nda-5"
+          ],
+          [
+            92,
+            "nda-2"
+          ],
+          [
+            92,
+            "nda-1"
+          ]
+        ],
+        "net_label_correct": -5,
+        "joint_exact_corrected": [
+          [
+            430,
+            "nda-20"
+          ],
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            622,
+            "nda-17"
+          ],
+          [
+            622,
+            "nda-8"
+          ],
+          [
+            622,
+            "nda-13"
+          ],
+          [
+            622,
+            "nda-5"
+          ],
+          [
+            622,
+            "nda-4"
+          ],
+          [
+            383,
+            "nda-12"
+          ],
+          [
+            383,
+            "nda-20"
+          ],
+          [
+            383,
+            "nda-3"
+          ],
+          [
+            383,
+            "nda-8"
+          ],
+          [
+            383,
+            "nda-13"
+          ],
+          [
+            92,
+            "nda-12"
+          ],
+          [
+            92,
+            "nda-13"
+          ],
+          [
+            92,
+            "nda-5"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            430,
+            "nda-2"
+          ],
+          [
+            430,
+            "nda-19"
+          ],
+          [
+            430,
+            "nda-12"
+          ],
+          [
+            430,
+            "nda-7"
+          ],
+          [
+            430,
+            "nda-13"
+          ],
+          [
+            430,
+            "nda-5"
+          ],
+          [
+            92,
+            "nda-2"
+          ],
+          [
+            92,
+            "nda-1"
+          ]
+        ]
+      },
+      "first_encounter_trace_minus_ordinary": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            430,
+            "nda-19"
+          ],
+          [
+            430,
+            "nda-12"
+          ],
+          [
+            430,
+            "nda-20"
+          ],
+          [
+            430,
+            "nda-18"
+          ],
+          [
+            290,
+            "nda-1"
+          ],
+          [
+            290,
+            "nda-17"
+          ],
+          [
+            622,
+            "nda-1"
+          ],
+          [
+            622,
+            "nda-18"
+          ],
+          [
+            613,
+            "nda-13"
+          ],
+          [
+            383,
+            "nda-2"
+          ],
+          [
+            383,
+            "nda-19"
+          ],
+          [
+            92,
+            "nda-2"
+          ]
+        ],
+        "label_broken": [
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            430,
+            "nda-4"
+          ],
+          [
+            622,
+            "nda-11"
+          ],
+          [
+            613,
+            "nda-7"
+          ],
+          [
+            383,
+            "nda-15"
+          ],
+          [
+            383,
+            "nda-20"
+          ],
+          [
+            383,
+            "nda-17"
+          ],
+          [
+            383,
+            "nda-13"
+          ]
+        ],
+        "net_label_correct": 4,
+        "joint_exact_corrected": [
+          [
+            430,
+            "nda-2"
+          ],
+          [
+            430,
+            "nda-19"
+          ],
+          [
+            430,
+            "nda-12"
+          ],
+          [
+            290,
+            "nda-1"
+          ],
+          [
+            290,
+            "nda-17"
+          ],
+          [
+            622,
+            "nda-1"
+          ],
+          [
+            622,
+            "nda-18"
+          ],
+          [
+            622,
+            "nda-7"
+          ],
+          [
+            613,
+            "nda-13"
+          ],
+          [
+            383,
+            "nda-2"
+          ],
+          [
+            383,
+            "nda-19"
+          ],
+          [
+            92,
+            "nda-2"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            622,
+            "nda-11"
+          ],
+          [
+            383,
+            "nda-15"
+          ],
+          [
+            383,
+            "nda-20"
+          ],
+          [
+            383,
+            "nda-17"
+          ],
+          [
+            383,
+            "nda-13"
+          ]
+        ]
+      },
+      "library_management": {
+        "operation_counts": {
+          "CREATE": 0,
+          "UPDATE": 0,
+          "DELETE": 0,
+          "MERGE": 0
+        },
+        "explicit_noop": true,
+        "parent_skill_count": 6,
+        "published_skill_count": 6,
+        "new_ids": [],
+        "removed_ids": [],
+        "verbatim_retained_ids": [
+          "nda-definition-identification-and-form",
+          "nda-disclosure-audience-and-secrecy",
+          "nda-disposition-copy-and-retention",
+          "nda-exclusion-as-permission",
+          "nda-proposition-evidence-map",
+          "nda-rights-use-and-survival"
+        ],
+        "revised_retained_ids": [],
+        "serialized_library_tokens": 1687,
+        "guidance_characters": 8393,
+        "not_a_utility_score_or_publication_gate": true
+      },
+      "after_is_seen_fit_with_new_gold_not_a_pure_skill_effect": true
+    }
+  ],
+  "development": {
+    "strong_empty": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 111,
+      "label_accuracy": 0.8161764705882353,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 68,
+      "evidence_fp": 37,
+      "evidence_fn": 70,
+      "evidence_micro_f1_gold_non_neutral": 0.5596707818930041,
+      "evidence_query_mean_f1_gold_non_neutral": 0.5808921036769138,
+      "joint_exact_correct": 66,
+      "joint_soft_mean": 0.6536064425770308,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 61
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 6
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 44
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 44,
+      "nonneutral_label_and_all_evidence_correct": 22,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 30609,
+        "completion_tokens": 17772
+      },
+      "joint_exact_accuracy": 0.4852941176470588
+    },
+    "ordinary_memory": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 108,
+      "label_accuracy": 0.7941176470588235,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 84,
+      "evidence_fp": 15,
+      "evidence_fn": 54,
+      "evidence_micro_f1_gold_non_neutral": 0.7088607594936709,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7230560578661841,
+      "joint_exact_correct": 74,
+      "joint_soft_mean": 0.6920693277310925,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 59
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 10
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 39
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 39,
+      "nonneutral_label_and_all_evidence_correct": 35,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 35217,
+        "completion_tokens": 17179
+      },
+      "joint_exact_accuracy": 0.5441176470588235
+    },
+    "static_procedures": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 109,
+      "label_accuracy": 0.8014705882352942,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 73,
+      "evidence_fp": 16,
+      "evidence_fn": 65,
+      "evidence_micro_f1_gold_non_neutral": 0.6431718061674009,
+      "evidence_query_mean_f1_gold_non_neutral": 0.6229957805907171,
+      "joint_exact_correct": 76,
+      "joint_soft_mean": 0.6976715686274513,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 57
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 3
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 49
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 49,
+      "nonneutral_label_and_all_evidence_correct": 27,
+      "reported_skill_use_queries": 136,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 53297,
+        "completion_tokens": 19195
+      },
+      "joint_exact_accuracy": 0.5588235294117647
+    },
+    "trace_procedures": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 108,
+      "label_accuracy": 0.7941176470588235,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 87,
+      "evidence_fp": 13,
+      "evidence_fn": 51,
+      "evidence_micro_f1_gold_non_neutral": 0.7310924369747899,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7146775165762503,
+      "joint_exact_correct": 77,
+      "joint_soft_mean": 0.7068102240896359,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 57
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 8
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 43
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 43,
+      "nonneutral_label_and_all_evidence_correct": 34,
+      "reported_skill_use_queries": 136,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 48569,
+        "completion_tokens": 18491
+      },
+      "joint_exact_accuracy": 0.5661764705882353
+    },
+    "public_only_final_update": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 107,
+      "label_accuracy": 0.7867647058823529,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 85,
+      "evidence_fp": 25,
+      "evidence_fn": 53,
+      "evidence_micro_f1_gold_non_neutral": 0.6854838709677419,
+      "evidence_query_mean_f1_gold_non_neutral": 0.6810126582278478,
+      "joint_exact_correct": 77,
+      "joint_soft_mean": 0.7025735294117648,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 55
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 7
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 45
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 45,
+      "nonneutral_label_and_all_evidence_correct": 32,
+      "reported_skill_use_queries": 136,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 51649,
+        "completion_tokens": 18080
+      },
+      "joint_exact_accuracy": 0.5661764705882353
+    }
+  },
+  "paired_trace_minus_control": {
+    "strong_empty": {
+      "original_hypotheses": 136,
+      "label_corrected": [
+        [
+          568,
+          "nda-4"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          374,
+          "nda-17"
+        ],
+        [
+          624,
+          "nda-1"
+        ],
+        [
+          624,
+          "nda-18"
+        ],
+        [
+          270,
+          "nda-1"
+        ],
+        [
+          270,
+          "nda-19"
+        ],
+        [
+          270,
+          "nda-17"
+        ],
+        [
+          341,
+          "nda-1"
+        ],
+        [
+          341,
+          "nda-20"
+        ]
+      ],
+      "label_broken": [
+        [
+          568,
+          "nda-16"
+        ],
+        [
+          568,
+          "nda-12"
+        ],
+        [
+          568,
+          "nda-7"
+        ],
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          327,
+          "nda-15"
+        ],
+        [
+          342,
+          "nda-1"
+        ],
+        [
+          342,
+          "nda-3"
+        ],
+        [
+          342,
+          "nda-17"
+        ],
+        [
+          624,
+          "nda-12"
+        ],
+        [
+          624,
+          "nda-13"
+        ],
+        [
+          341,
+          "nda-12"
+        ],
+        [
+          135,
+          "nda-15"
+        ],
+        [
+          135,
+          "nda-4"
+        ]
+      ],
+      "net_label_correct": -3,
+      "joint_exact_corrected": [
+        [
+          568,
+          "nda-5"
+        ],
+        [
+          568,
+          "nda-4"
+        ],
+        [
+          327,
+          "nda-20"
+        ],
+        [
+          327,
+          "nda-13"
+        ],
+        [
+          342,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-15"
+        ],
+        [
+          342,
+          "nda-12"
+        ],
+        [
+          342,
+          "nda-13"
+        ],
+        [
+          342,
+          "nda-5"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          374,
+          "nda-17"
+        ],
+        [
+          374,
+          "nda-5"
+        ],
+        [
+          624,
+          "nda-15"
+        ],
+        [
+          624,
+          "nda-1"
+        ],
+        [
+          270,
+          "nda-19"
+        ],
+        [
+          270,
+          "nda-12"
+        ],
+        [
+          270,
+          "nda-17"
+        ],
+        [
+          270,
+          "nda-13"
+        ],
+        [
+          341,
+          "nda-19"
+        ],
+        [
+          341,
+          "nda-20"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          568,
+          "nda-16"
+        ],
+        [
+          568,
+          "nda-12"
+        ],
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-3"
+        ],
+        [
+          342,
+          "nda-17"
+        ],
+        [
+          374,
+          "nda-4"
+        ],
+        [
+          341,
+          "nda-12"
+        ],
+        [
+          135,
+          "nda-15"
+        ],
+        [
+          135,
+          "nda-4"
+        ]
+      ]
+    },
+    "ordinary_memory": {
+      "original_hypotheses": 136,
+      "label_corrected": [
+        [
+          568,
+          "nda-4"
+        ],
+        [
+          327,
+          "nda-19"
+        ],
+        [
+          327,
+          "nda-7"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          374,
+          "nda-12"
+        ],
+        [
+          374,
+          "nda-3"
+        ],
+        [
+          374,
+          "nda-17"
+        ],
+        [
+          374,
+          "nda-5"
+        ],
+        [
+          624,
+          "nda-1"
+        ],
+        [
+          624,
+          "nda-18"
+        ],
+        [
+          270,
+          "nda-19"
+        ],
+        [
+          135,
+          "nda-18"
+        ]
+      ],
+      "label_broken": [
+        [
+          568,
+          "nda-16"
+        ],
+        [
+          568,
+          "nda-15"
+        ],
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          327,
+          "nda-15"
+        ],
+        [
+          342,
+          "nda-1"
+        ],
+        [
+          342,
+          "nda-17"
+        ],
+        [
+          374,
+          "nda-20"
+        ],
+        [
+          624,
+          "nda-10"
+        ],
+        [
+          624,
+          "nda-12"
+        ],
+        [
+          624,
+          "nda-13"
+        ],
+        [
+          135,
+          "nda-15"
+        ],
+        [
+          135,
+          "nda-4"
+        ]
+      ],
+      "net_label_correct": 0,
+      "joint_exact_corrected": [
+        [
+          568,
+          "nda-4"
+        ],
+        [
+          327,
+          "nda-10"
+        ],
+        [
+          327,
+          "nda-2"
+        ],
+        [
+          327,
+          "nda-19"
+        ],
+        [
+          342,
+          "nda-5"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          374,
+          "nda-12"
+        ],
+        [
+          374,
+          "nda-3"
+        ],
+        [
+          374,
+          "nda-17"
+        ],
+        [
+          374,
+          "nda-5"
+        ],
+        [
+          624,
+          "nda-1"
+        ],
+        [
+          270,
+          "nda-19"
+        ],
+        [
+          270,
+          "nda-12"
+        ],
+        [
+          270,
+          "nda-13"
+        ],
+        [
+          341,
+          "nda-19"
+        ],
+        [
+          341,
+          "nda-20"
+        ],
+        [
+          135,
+          "nda-18"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          568,
+          "nda-16"
+        ],
+        [
+          568,
+          "nda-15"
+        ],
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          327,
+          "nda-15"
+        ],
+        [
+          342,
+          "nda-2"
+        ],
+        [
+          342,
+          "nda-1"
+        ],
+        [
+          342,
+          "nda-7"
+        ],
+        [
+          342,
+          "nda-17"
+        ],
+        [
+          374,
+          "nda-20"
+        ],
+        [
+          624,
+          "nda-20"
+        ],
+        [
+          341,
+          "nda-15"
+        ],
+        [
+          341,
+          "nda-1"
+        ],
+        [
+          135,
+          "nda-15"
+        ],
+        [
+          135,
+          "nda-4"
+        ]
+      ]
+    },
+    "static_procedures": {
+      "original_hypotheses": 136,
+      "label_corrected": [
+        [
+          342,
+          "nda-2"
+        ],
+        [
+          342,
+          "nda-13"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          624,
+          "nda-15"
+        ],
+        [
+          624,
+          "nda-2"
+        ],
+        [
+          624,
+          "nda-1"
+        ],
+        [
+          624,
+          "nda-3"
+        ],
+        [
+          270,
+          "nda-1"
+        ],
+        [
+          270,
+          "nda-13"
+        ],
+        [
+          341,
+          "nda-2"
+        ],
+        [
+          341,
+          "nda-1"
+        ],
+        [
+          341,
+          "nda-20"
+        ],
+        [
+          341,
+          "nda-13"
+        ]
+      ],
+      "label_broken": [
+        [
+          568,
+          "nda-16"
+        ],
+        [
+          568,
+          "nda-12"
+        ],
+        [
+          568,
+          "nda-7"
+        ],
+        [
+          568,
+          "nda-17"
+        ],
+        [
+          327,
+          "nda-15"
+        ],
+        [
+          342,
+          "nda-3"
+        ],
+        [
+          374,
+          "nda-15"
+        ],
+        [
+          624,
+          "nda-10"
+        ],
+        [
+          624,
+          "nda-12"
+        ],
+        [
+          270,
+          "nda-18"
+        ],
+        [
+          341,
+          "nda-12"
+        ],
+        [
+          135,
+          "nda-15"
+        ],
+        [
+          135,
+          "nda-7"
+        ],
+        [
+          135,
+          "nda-4"
+        ]
+      ],
+      "net_label_correct": -1,
+      "joint_exact_corrected": [
+        [
+          568,
+          "nda-19"
+        ],
+        [
+          327,
+          "nda-13"
+        ],
+        [
+          342,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-15"
+        ],
+        [
+          342,
+          "nda-13"
+        ],
+        [
+          342,
+          "nda-5"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          374,
+          "nda-18"
+        ],
+        [
+          624,
+          "nda-15"
+        ],
+        [
+          624,
+          "nda-1"
+        ],
+        [
+          270,
+          "nda-13"
+        ],
+        [
+          341,
+          "nda-2"
+        ],
+        [
+          341,
+          "nda-19"
+        ],
+        [
+          341,
+          "nda-20"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          568,
+          "nda-16"
+        ],
+        [
+          568,
+          "nda-12"
+        ],
+        [
+          568,
+          "nda-7"
+        ],
+        [
+          568,
+          "nda-17"
+        ],
+        [
+          342,
+          "nda-3"
+        ],
+        [
+          374,
+          "nda-15"
+        ],
+        [
+          374,
+          "nda-4"
+        ],
+        [
+          624,
+          "nda-20"
+        ],
+        [
+          270,
+          "nda-18"
+        ],
+        [
+          341,
+          "nda-15"
+        ],
+        [
+          341,
+          "nda-12"
+        ],
+        [
+          135,
+          "nda-15"
+        ],
+        [
+          135,
+          "nda-4"
+        ]
+      ]
+    },
+    "public_only_final_update": {
+      "original_hypotheses": 136,
+      "label_corrected": [
+        [
+          568,
+          "nda-4"
+        ],
+        [
+          327,
+          "nda-7"
+        ],
+        [
+          342,
+          "nda-16"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          374,
+          "nda-5"
+        ],
+        [
+          624,
+          "nda-15"
+        ],
+        [
+          624,
+          "nda-2"
+        ],
+        [
+          624,
+          "nda-20"
+        ],
+        [
+          624,
+          "nda-3"
+        ],
+        [
+          270,
+          "nda-1"
+        ],
+        [
+          341,
+          "nda-20"
+        ],
+        [
+          341,
+          "nda-17"
+        ],
+        [
+          135,
+          "nda-1"
+        ],
+        [
+          135,
+          "nda-12"
+        ],
+        [
+          135,
+          "nda-17"
+        ]
+      ],
+      "label_broken": [
+        [
+          568,
+          "nda-16"
+        ],
+        [
+          568,
+          "nda-15"
+        ],
+        [
+          568,
+          "nda-12"
+        ],
+        [
+          568,
+          "nda-7"
+        ],
+        [
+          568,
+          "nda-17"
+        ],
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          327,
+          "nda-15"
+        ],
+        [
+          342,
+          "nda-1"
+        ],
+        [
+          374,
+          "nda-15"
+        ],
+        [
+          374,
+          "nda-2"
+        ],
+        [
+          624,
+          "nda-10"
+        ],
+        [
+          624,
+          "nda-12"
+        ],
+        [
+          135,
+          "nda-15"
+        ],
+        [
+          135,
+          "nda-4"
+        ]
+      ],
+      "net_label_correct": 1,
+      "joint_exact_corrected": [
+        [
+          568,
+          "nda-4"
+        ],
+        [
+          327,
+          "nda-13"
+        ],
+        [
+          342,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-5"
+        ],
+        [
+          342,
+          "nda-4"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          374,
+          "nda-18"
+        ],
+        [
+          374,
+          "nda-7"
+        ],
+        [
+          374,
+          "nda-5"
+        ],
+        [
+          624,
+          "nda-15"
+        ],
+        [
+          341,
+          "nda-20"
+        ],
+        [
+          341,
+          "nda-17"
+        ],
+        [
+          135,
+          "nda-12"
+        ],
+        [
+          135,
+          "nda-17"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          568,
+          "nda-16"
+        ],
+        [
+          568,
+          "nda-15"
+        ],
+        [
+          568,
+          "nda-12"
+        ],
+        [
+          568,
+          "nda-7"
+        ],
+        [
+          568,
+          "nda-17"
+        ],
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-2"
+        ],
+        [
+          342,
+          "nda-7"
+        ],
+        [
+          374,
+          "nda-15"
+        ],
+        [
+          374,
+          "nda-2"
+        ],
+        [
+          341,
+          "nda-15"
+        ],
+        [
+          341,
+          "nda-1"
+        ],
+        [
+          135,
+          "nda-15"
+        ],
+        [
+          135,
+          "nda-4"
+        ]
+      ]
+    }
+  },
+  "descriptive_source_intervals": {
+    "strong_empty": {
+      "label_accuracy": {
+        "point": -0.022058823529411797,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          -0.1029411764705882,
+          0.05900735294117548
+        ]
+      },
+      "evidence_micro_f1_gold_non_neutral": {
+        "point": 0.17142165508178575,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          0.11817974872061411,
+          0.21866282083585015
+        ]
+      },
+      "evidence_query_mean_f1_gold_non_neutral": {
+        "point": 0.13378541289933654,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          0.08197208049886616,
+          0.17533950617283964
+        ]
+      },
+      "joint_exact_accuracy": {
+        "point": 0.08088235294117646,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          0.007352941176470562,
+          0.14705882352941174
+        ]
+      }
+    },
+    "ordinary_memory": {
+      "label_accuracy": {
+        "point": 0.0,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          -0.05882352941176472,
+          0.07352941176470595
+        ]
+      },
+      "evidence_micro_f1_gold_non_neutral": {
+        "point": 0.022231677481118983,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          -0.029961884599594094,
+          0.08818356447927672
+        ]
+      },
+      "evidence_query_mean_f1_gold_non_neutral": {
+        "point": -0.00837854128993376,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          -0.06597059712773981,
+          0.05628415300546452
+        ]
+      },
+      "joint_exact_accuracy": {
+        "point": 0.022058823529411797,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          -0.06617647058823528,
+          0.11029411764705876
+        ]
+      }
+    },
+    "static_procedures": {
+      "label_accuracy": {
+        "point": -0.007352941176470673,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          -0.1029411764705882,
+          0.0808823529411764
+        ]
+      },
+      "evidence_micro_f1_gold_non_neutral": {
+        "point": 0.08792063080738899,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          0.04273226124609921,
+          0.13543752269768014
+        ]
+      },
+      "evidence_query_mean_f1_gold_non_neutral": {
+        "point": 0.0916817359855332,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          0.006702309051316808,
+          0.1650461276528346
+        ]
+      },
+      "joint_exact_accuracy": {
+        "point": 0.007352941176470562,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          -0.06617647058823528,
+          0.0735294117647059
+        ]
+      }
+    },
+    "public_only_final_update": {
+      "label_accuracy": {
+        "point": 0.007352941176470562,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          -0.07352941176470595,
+          0.07352941176470584
+        ]
+      },
+      "evidence_micro_f1_gold_non_neutral": {
+        "point": 0.04560856600704799,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          0.0016694814901092592,
+          0.08107564863525034
+        ]
+      },
+      "evidence_query_mean_f1_gold_non_neutral": {
+        "point": 0.03366485834840249,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          -0.022634751051417774,
+          0.083884196250119
+        ]
+      },
+      "joint_exact_accuracy": {
+        "point": 0.0,
+        "ci95_descriptive_conditional_on_this_one_learning_run": [
+          -0.07352941176470584,
+          0.05882352941176472
+        ]
+      }
+    }
+  },
+  "native_usage": {
+    "prompt_tokens": 785771,
+    "completion_tokens": 283240
+  },
+  "teacher_usage": {
+    "input_tokens": 783882,
+    "output_tokens": 32161,
+    "reasoning_output_tokens": 22410
+  },
+  "cpu_fit_seconds": 11.258527055382729,
+  "public_only_final_update_is_one_update_information_ablation_not_full_no_trace_training": true,
+  "exposed_development_not_official_test_or_independent_learning_repeat": true,
+  "no_current_gold_to_lawyer_no_host_answer_repair_or_library_selection": true
+}

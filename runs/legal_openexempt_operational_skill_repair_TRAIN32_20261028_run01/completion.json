@@ -1,0 +1,1206 @@
+{
+  "at": "2026-10-28T11:50:19.144951+00:00",
+  "run_id": "legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01",
+  "status": "completed_single_observed_TRAIN_operational_repair",
+  "execution_dispatch": {
+    "policy": "ordered_independent_phases_v1",
+    "native_workers": 4,
+    "teacher_workers": 1,
+    "required_max_num_seqs": 4
+  },
+  "batch_summary": [
+    {
+      "at": "2026-10-28T11:50:19.142057+00:00",
+      "scope": "one observed TRAIN-prefix repair, not a new-case claim",
+      "before": {
+        "EC": {
+          "precision": 0.9544270833333334,
+          "recall": 0.8487413194444444,
+          "f1": 0.883296130952381,
+          "exact_target": 0.4375,
+          "tasks": 32,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9090971576566866,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.9038628472222222,
+          "recall": 0.6822916666666666,
+          "f1": 0.7613157242063493,
+          "exact_target": 0.125,
+          "tasks": 32,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 2,
+          "full_output_f1": 0.7578077894507499,
+          "negative_or_unscored_asset_claims": 2
+        },
+        "mean_family_f1": 0.8223059275793652
+      },
+      "after": {
+        "EC": {
+          "precision": 0.9544270833333334,
+          "recall": 0.8487413194444444,
+          "f1": 0.883296130952381,
+          "exact_target": 0.4375,
+          "tasks": 32,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.9090971576566866,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.8862847222222223,
+          "recall": 0.7810329861111113,
+          "f1": 0.817311507936508,
+          "exact_target": 0.21875,
+          "tasks": 32,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8200949461722489,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.8503038194444446
+      },
+      "before_current": {
+        "EC": {
+          "precision": 0.9583333333333333,
+          "recall": 0.8953993055555555,
+          "f1": 0.9200892857142857,
+          "exact_target": 0.625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.94857910906298,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.8975694444444444,
+          "recall": 0.65234375,
+          "f1": 0.738293650793651,
+          "exact_target": 0.1875,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.7428162931839404,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.8291914682539683
+      },
+      "after_current": {
+        "EC": {
+          "precision": 0.9583333333333333,
+          "recall": 0.8953993055555555,
+          "f1": 0.9200892857142857,
+          "exact_target": 0.625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.94857910906298,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "EV": {
+          "precision": 0.8585069444444444,
+          "recall": 0.7690972222222221,
+          "f1": 0.8047867063492062,
+          "exact_target": 0.3125,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8109113930659984,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.862437996031746
+      },
+      "before_prior": {
+        "EC": {
+          "precision": 0.9505208333333333,
+          "recall": 0.8020833333333333,
+          "f1": 0.8465029761904761,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.869615206250393,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.91015625,
+          "recall": 0.7122395833333333,
+          "f1": 0.7843377976190476,
+          "exact_target": 0.0625,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1,
+          "full_output_f1": 0.7727992857175593,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "mean_family_f1": 0.8154203869047618
+      },
+      "after_prior": {
+        "EC": {
+          "precision": 0.9505208333333333,
+          "recall": 0.8020833333333333,
+          "f1": 0.8465029761904761,
+          "exact_target": 0.25,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.869615206250393,
+          "negative_or_unscored_asset_claims": 1
+        },
+        "EV": {
+          "precision": 0.9140625,
+          "recall": 0.7929687500000001,
+          "f1": 0.8298363095238095,
+          "exact_target": 0.125,
+          "tasks": 16,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8292784992784993,
+          "negative_or_unscored_asset_claims": 0
+        },
+        "mean_family_f1": 0.8381696428571428
+      },
+      "paired": {
+        "tasks": 64,
+        "help": 13,
+        "hurt": 8,
+        "ties": 43,
+        "mean_f1_difference": 0.027997891865079352
+      },
+      "original_gate": {
+        "accepted": true,
+        "current_family_nonregression": true,
+        "prior_family_nonregression": true,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": true,
+        "current_negative_asset_and_format_nonregression": true,
+        "prior_negative_asset_and_format_nonregression": true,
+        "parent_current": {
+          "EC": {
+            "precision": 0.9583333333333333,
+            "recall": 0.8953993055555555,
+            "f1": 0.9200892857142857,
+            "exact_target": 0.625,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.94857910906298,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "EV": {
+            "precision": 0.8975694444444444,
+            "recall": 0.65234375,
+            "f1": 0.738293650793651,
+            "exact_target": 0.1875,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 1,
+            "full_output_f1": 0.7428162931839404,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "mean_family_f1": 0.8291914682539683
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.9583333333333333,
+            "recall": 0.8953993055555555,
+            "f1": 0.9200892857142857,
+            "exact_target": 0.625,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.94857910906298,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "EV": {
+            "precision": 0.8585069444444444,
+            "recall": 0.7690972222222221,
+            "f1": 0.8047867063492062,
+            "exact_target": 0.3125,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8109113930659984,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.862437996031746
+        },
+        "parent_prior": {
+          "EC": {
+            "precision": 0.9505208333333333,
+            "recall": 0.8020833333333333,
+            "f1": 0.8465029761904761,
+            "exact_target": 0.25,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.869615206250393,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.91015625,
+            "recall": 0.7122395833333333,
+            "f1": 0.7843377976190476,
+            "exact_target": 0.0625,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 1,
+            "full_output_f1": 0.7727992857175593,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "mean_family_f1": 0.8154203869047618
+        },
+        "candidate_prior": {
+          "EC": {
+            "precision": 0.9505208333333333,
+            "recall": 0.8020833333333333,
+            "f1": 0.8465029761904761,
+            "exact_target": 0.25,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.869615206250393,
+            "negative_or_unscored_asset_claims": 1
+          },
+          "EV": {
+            "precision": 0.9140625,
+            "recall": 0.7929687500000001,
+            "f1": 0.8298363095238095,
+            "exact_target": 0.125,
+            "tasks": 16,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.8292784992784993,
+            "negative_or_unscored_asset_claims": 0
+          },
+          "mean_family_f1": 0.8381696428571428
+        },
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224",
+      "strong_reference_prefix_EV": 0.9020213293650793,
+      "qualified_for_new_formal": false,
+      "no_automatic_long_training_launch": true,
+      "new_native_calls": 57,
+      "teacher_responses": 1
+    }
+  ],
+  "bank": [
+    {
+      "id": "arizona-category-and-cap-boundaries",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "The supplied allowable namespace includes ARIZONA and an asset is tested under the homestead, personal-item, household-goods, firearm, or motor-vehicle provisions.",
+            "procedure": "Treat a statutory dollar limit as an amount ceiling, not an eligibility threshold. Test each asset-exemption pair independently, so each described motor vehicle may cite § 33-1125(8) and a firearm may cite § 33-1125(10) even when its value exceeds the ceiling. Section 33-1125(4) is limited to engagement and wedding rings; § 33-1125(1) covers wearing apparel, not an ordinary pendant, necklace, or bracelet. For a residence, cite § 33-1101(A) as the asset exemption.",
+            "avoid_when": "Do not cite § 33-1101(B) or § 33-1121 as separate asset exemptions, and do not classify ordinary non-ring jewelry as wearing apparel or as an engagement or wedding ring without that fact."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "The supplied allowable namespace includes ARIZONA and a named asset requires both eligibility and protected-amount decisions.",
+            "procedure": "Classify from the stated asset facts before calculating: clothing, including work-styled clothing absent an explicit contrary use, uses § 33-1125(1); only an engagement or wedding ring uses § 33-1125(4), so a pendant, bracelet, or anniversary ring does not. Household goods and appliances use § 33-1123, motor vehicles use § 33-1125(8), firearms use § 33-1125(10), prescribed prostheses use § 33-1125(9), domestic animals or household pets use § 33-1125(11), and a qualifying residence uses § 33-1101(A). Report the lesser of the whole asset value and the applicable ceiling: $15,000 for § 33-1123 or § 33-1125(8), $2,000 for § 33-1125(10) or § 33-1125(4), $500 for § 33-1125(1), and $400,000 for § 33-1101(A); the listed prosthesis and pet provisions use the asset value.",
+            "avoid_when": "Do not eliminate an eligible asset because its value exceeds a ceiling, double these asset-level outputs merely because two debtors exist, infer nonpersonal use from work-style clothing, or assign a ring exemption without the required engagement-or-wedding fact."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "federal-wildcard-independent-alternatives",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "The supplied allowable namespace includes FEDERAL and an estate asset is being tested under 11 U.S.C. § 522(d).",
+            "procedure": "Test § 522(d)(5) independently for every property type, even when a specific exemption also applies or the asset exceeds that specific exemption's ceiling. Retain both the specific citation and § 522(d)(5). Use § 522(d)(3) only for its listed household, apparel, appliance, book, animal, crop, or musical-instrument categories; use § 522(d)(4), not § 522(d)(3), for jewelry.",
+            "avoid_when": "Do not use federal § 522(d) exemptions when the supplied allowable jurisdiction excludes them, and do not emit § 522(b), § 522(d), or § 522(m) as asset-level alternatives."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "The supplied allowable namespace includes FEDERAL and a debtor-owned asset requires eligibility and amount decisions under § 522(d).",
+            "procedure": "First add § 522(d)(5) as an independently eligible alternative for every property type. Its amount is the lesser of the whole asset value and $1,475 plus up to $13,950 of unused § 522(d)(1) capacity per debtor; with two debtors and fully available capacity, the asset-level maximum is $30,850. Then retain and value each independently applicable specific alternative: § 522(d)(1) up to $27,900 for a residence, § 522(d)(2) up to $4,450 for one motor vehicle, § 522(d)(3) up to $700 per particular listed item, § 522(d)(4) up to $1,875 for jewelry, § 522(d)(6) up to $2,800 for tools of trade, and § 522(d)(9) at the asset value for a professionally prescribed health aid.",
+            "avoid_when": "Do not require the wildcard asset itself to be a residence, suppress § 522(d)(5) because a specific exemption applies or the asset exceeds a ceiling, classify jewelry or firearms under § 522(d)(3), copy a ceiling when the asset is worth less, or double a ceiling without a joint case and a statute that applies separately."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "illinois-other-personal-property-alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "The supplied allowable namespace includes ILLINOIS and the debtor owns personal property used for personal rather than business purposes.",
+            "procedure": "Test 735 Ill. Comp. Stat. 5/12-1001(b) as an independent alternative for any other personal property. Retain it alongside applicable specific provisions such as necessary apparel, a motor vehicle, or a professionally prescribed health aid.",
+            "avoid_when": "Do not apply § 12-1001(b) to real property or business-use property, and do not discard a specific exemption when the general alternative also applies."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "The supplied allowable namespace includes ILLINOIS and an eligible personal asset requires an amount.",
+            "procedure": "For § 12-1001(b), report the lesser of the whole asset value and $4,000 for one debtor; for a jointly owned asset of two debtor spouses, combine the two observed per-debtor ceilings up to $8,000. Independently, § 12-1001(c) protects at most $2,400 of a motor vehicle, while necessary apparel under § 12-1001(a) and prescribed health aids under § 12-1001(e) use the asset's value. Emit every eligible alternative separately.\nExecution example: Hypothetically, a jointly owned high-value vehicle of two debtor spouses has separate asset-level alternatives of $8,000 under § 12-1001(b) and $2,400 under § 12-1001(c); do not double the motor-vehicle ceiling.",
+            "avoid_when": "Do not substitute the $4,000 general-property ceiling for the $2,400 motor-vehicle ceiling or for an uncapped specific exemption, and do not leave a half-interest as the whole-asset result."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "oregon-personal-property-alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "The supplied allowable namespace includes OREGON and the named asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) independently for personal property, while retaining any applicable category-specific Oregon and federal citations.",
+            "avoid_when": "Do not apply § 18.345(1)(p) to real property, and do not omit it merely because a more specific personal-property exemption also applies."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "The supplied allowable namespace includes OREGON and a debtor-owned personal-property asset requires eligibility and amount decisions.",
+            "procedure": "First add § 18.345(1)(p) independently and report the lesser of the whole asset value and $400. Then retain and value each supported specific alternative under its own rule, including § 18.345(1)(b) for wearing apparel or jewelry, § 18.345(1)(f) for household goods or appliances, § 18.345(1)(d) for a vehicle, § 18.345(1)(h) for a prescribed health aid, and § 18.362 for a qualifying firearm.",
+            "avoid_when": "Do not apply § 18.345(1)(p) to a homestead or other real property, omit it because another personal-property exemption applies, treat $400 as an eligibility threshold, double its asset-level output merely because two debtors are listed, or replace the correct apparel category with the household-goods category."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "pennsylvania-general-monetary-alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "The supplied allowable namespace includes PENNSYLVANIA and the asset is property of the judgment debtor.",
+            "procedure": "Include 42 Pa. Cons. Stat. § 8123 as an independent general monetary exemption for any property. Retain it alongside every independently applicable federal or Pennsylvania-specific exemption.",
+            "avoid_when": "Do not replace a specific exemption with § 8123, and do not cite Pennsylvania provisions for property not owned by the debtor."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "The supplied allowable namespace includes PENNSYLVANIA and the named asset is property of the judgment debtor.",
+            "procedure": "Make an independent Pennsylvania pass over every debtor-owned asset, including real property and business property, and add § 8123 whether or not another exemption applies. Report the lesser of the whole asset value and $300 for one debtor. For a jointly owned asset of two debtor spouses, § 8123 permits a combined asset-level amount up to $600, capped by value. Keep every independently eligible federal or Pennsylvania-specific alternative and calculate it under its own rule.",
+            "avoid_when": "Do not omit § 8123 because the asset has a specific federal exemption or business use, apply the $600 joint amount to a single debtor, reject § 8123 because value exceeds its ceiling, invent a Pennsylvania-specific category, or report only a half-interest."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    }
+  ],
+  "prequential_empty": {
+    "EC": {
+      "precision": 0.8706597222222221,
+      "recall": 0.5319010416666667,
+      "f1": 0.6319816468253969,
+      "exact_target": 0.125,
+      "tasks": 32,
+      "invalid_format": 1,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.6471448659592043,
+      "negative_or_unscored_asset_claims": 3
+    },
+    "EV": {
+      "precision": 0.7864583333333334,
+      "recall": 0.4845920138888888,
+      "f1": 0.5800719246031746,
+      "exact_target": 0.09375,
+      "tasks": 32,
+      "invalid_format": 1,
+      "officially_unscored_predicted_claims": 2,
+      "full_output_f1": 0.5861037953828875,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "mean_family_f1": 0.6060267857142858
+  },
+  "prequential_skills": {
+    "EC": {
+      "precision": 0.9544270833333334,
+      "recall": 0.8487413194444444,
+      "f1": 0.883296130952381,
+      "exact_target": 0.4375,
+      "tasks": 32,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.9090971576566866,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "EV": {
+      "precision": 0.9038628472222222,
+      "recall": 0.6822916666666666,
+      "f1": 0.7613157242063493,
+      "exact_target": 0.125,
+      "tasks": 32,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 2,
+      "full_output_f1": 0.7578077894507499,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "mean_family_f1": 0.8223059275793652
+  },
+  "prequential_frozen_initial": {
+    "EC": {
+      "precision": 0.9544270833333334,
+      "recall": 0.8487413194444444,
+      "f1": 0.883296130952381,
+      "exact_target": 0.4375,
+      "tasks": 32,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.9090971576566866,
+      "negative_or_unscored_asset_claims": 1
+    },
+    "EV": {
+      "precision": 0.9038628472222222,
+      "recall": 0.6822916666666666,
+      "f1": 0.7613157242063493,
+      "exact_target": 0.125,
+      "tasks": 32,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 2,
+      "full_output_f1": 0.7578077894507499,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "mean_family_f1": 0.8223059275793652
+  },
+  "prequential_empty_direct_numeric": {
+    "EC": {
+      "precision": 0.8706597222222221,
+      "recall": 0.5319010416666667,
+      "f1": 0.6319816468253969,
+      "exact_target": 0.125,
+      "tasks": 32,
+      "invalid_format": 1,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.6471448659592043,
+      "negative_or_unscored_asset_claims": 3
+    },
+    "EV": {
+      "precision": 0.7864583333333334,
+      "recall": 0.4845920138888888,
+      "f1": 0.5800719246031746,
+      "exact_target": 0.09375,
+      "tasks": 32,
+      "invalid_format": 1,
+      "officially_unscored_predicted_claims": 2,
+      "full_output_f1": 0.5861037953828875,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "mean_family_f1": 0.6060267857142858
+  },
+  "paired": {
+    "tasks": 64,
+    "help": 45,
+    "hurt": 4,
+    "ties": 15,
+    "mean_f1_difference": 0.21627914186507935
+  },
+  "online_minus_frozen": {
+    "tasks": 64,
+    "help": 0,
+    "hurt": 0,
+    "ties": 64,
+    "mean_f1_difference": 0.0
+  },
+  "online_minus_direct_numeric": {
+    "tasks": 64,
+    "help": 45,
+    "hurt": 4,
+    "ties": 15,
+    "mean_f1_difference": 0.21627914186507935
+  },
+  "actual_native_calls": 57,
+  "actual_teacher_responses": 1,
+  "actual_teacher_attempts": 1,
+  "cross_stage_identical_wire_reuses": [
+    {
+      "stage": "b1_candidate1_replay",
+      "case_id": 182,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "3e356b6ff0da95683f99a2d65e1fff2caddfccbeed9b4c5583faaec1ecb29436",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/182_EC_candidate.json",
+      "execution_bank_sha256": "8b939ccf7b31ee5bcedc04817f061d1e4a67e1084a94b0499f215ff3f132e681"
+    },
+    {
+      "stage": "b1_candidate1_replay",
+      "case_id": 183,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "f150e34617eee4c9ccb493e38bf80236b98fce68806ab76fe4ce4567fea1c1e6",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/183_EC_candidate.json",
+      "execution_bank_sha256": "8b939ccf7b31ee5bcedc04817f061d1e4a67e1084a94b0499f215ff3f132e681"
+    },
+    {
+      "stage": "b1_candidate1_replay",
+      "case_id": 189,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "0a42429d0c845360417873f447f936f6d743bce48e3843da4132123458290f4b",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/189_EC_candidate.json",
+      "execution_bank_sha256": "8b939ccf7b31ee5bcedc04817f061d1e4a67e1084a94b0499f215ff3f132e681"
+    },
+    {
+      "stage": "b1_candidate1_replay",
+      "case_id": 197,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "bcb8cc087f85c91b5c5b0afc30bdda79d8cf7f40a0c4142721148e35889abafa",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/197_EC_frozen_after_B1.json",
+      "execution_bank_sha256": "8b939ccf7b31ee5bcedc04817f061d1e4a67e1084a94b0499f215ff3f132e681"
+    },
+    {
+      "stage": "b1_candidate1_replay",
+      "case_id": 199,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "c17efb2f3126018d7fde5ef1bef05188ce84eaab34a19c88c1b5dc2278a2ce04",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/199_EC_skills.json",
+      "execution_bank_sha256": "8b939ccf7b31ee5bcedc04817f061d1e4a67e1084a94b0499f215ff3f132e681"
+    },
+    {
+      "stage": "b1_candidate1_replay",
+      "case_id": 201,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "fbc4a7e218da5e1256afe8dda71bfe24197ca5e2387aebb9a1c7f05063f00802",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/201_EC_frozen_after_B1.json",
+      "execution_bank_sha256": "8b939ccf7b31ee5bcedc04817f061d1e4a67e1084a94b0499f215ff3f132e681"
+    },
+    {
+      "stage": "b1_candidate1_replay",
+      "case_id": 207,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "08ab37b0e73c07d02590e926d4145827d48a0169cee51bb65992983227c23162",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/207_EC_frozen_after_B1.json",
+      "execution_bank_sha256": "8b939ccf7b31ee5bcedc04817f061d1e4a67e1084a94b0499f215ff3f132e681"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 181,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "604b8c3ed4e405e982bc5b0f4bb95d9fcd1aab28b48de6af9497b6107265ca50",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/181_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 181,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "723e87b62be5ba89c06de7c22f8c023554dc8664285f1e0808cbc8b52e816b6c",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/181_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 182,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "3e356b6ff0da95683f99a2d65e1fff2caddfccbeed9b4c5583faaec1ecb29436",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/182_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 182,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "315777f421152fcd51f3dc932163ca309b72249073559fef2358688eadd6972d",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/182_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 183,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "f150e34617eee4c9ccb493e38bf80236b98fce68806ab76fe4ce4567fea1c1e6",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/183_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 183,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "0c33963465265618078cc87aa34e5fecdc2d1ec6812f63561430b3ac6b95b17f",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/183_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 184,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "1a34860ef08bb28d687a1cb0a5b2c196f58804284adb00626dff55fe6dcfc66f",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/184_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 184,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "a3b987c1dfaa17f1fc69d96a090abbe4a74a582722f6d9646d5161b014092ec5",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/184_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 185,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "55facb9fdd3cb9a541ce8735e2d3a61011c9a6e8cfc896fbdbc5843ebd8e5aae",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/185_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 185,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "e95c77cd2c2de15d9efb85050e7c0cfeae4a1808db51f711b432801dfcbcfa36",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/185_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 186,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "707cd320f73d329c6d17586c36e3f68de6609ac32fc685b8151db872c33826e8",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/186_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 186,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "fbb7b0c4f9e0f609ba6cad3cfdd3802d95b8bb1a6dc76ccc8a14e84552c99d57",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/186_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 187,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "598d7b3df6ecab238b444005b65b50ec357516700f840182f09710aa2acfada2",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/187_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 187,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "5beb16da29931a5cf70f66f5945c62018c05a159a0338042c49ab73c4424a8af",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/187_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 188,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "78c1061d6bd2ab8d06bff0c57807b9bd49e6da4f2e6f75614529f242220882a5",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/188_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 188,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "a6499e028697f8edd9076bbb8787bf59258c4d5278154106a658fdb065d629a0",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/188_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 189,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "0a42429d0c845360417873f447f936f6d743bce48e3843da4132123458290f4b",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/189_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 189,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "1096fdf2dc01227e4d3040f54b2045a052c64b2c7a000a472fc8674da8898494",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/189_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 190,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "025fc727673c71502b71bcb5f955e37b699583e50b44dd8911a76ee428732262",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/190_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 190,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "9da7b6dc5d45688a353f1a917c3ad4803016cbd66db9d5a6fd60944360d4ec22",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_candidate1_replay/190_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 191,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "c153a43325157a05073c991090e97871169d54a53ad102f951272531c3daae77",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/191_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 191,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "efb52dd2cd12c530c6c538f17c281fdc2763d5cdc8465eb5ff1fc94a6f79f39a",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/191_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 192,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "fbace0210d40eb89f2c5a8f05da3d7c620768e8aafc975a0d06fe49b0ddba023",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/192_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 192,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "62276720bae1ba7299c8ef466aafe2125c22d2309fd1aabf46d06be4558eaeac",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/192_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 193,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "4dc5994f6185081d3063b9cdbce690964f760c04d4f076ea99b210498089339d",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/193_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 193,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "02b6135526b03f32509fa9dcdbbd5436ea3e6173b7038fb9d59d76e846e5783b",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/193_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 194,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "acca7a59606e44a047a37037632c674efc33e7ed0fe1af5162898d15a2c27998",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/194_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 194,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "3fbf90cbfc8f28f81b13fed6e719b0ffb9603f8ea54fb6851414d42efef16fe0",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/194_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 195,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "08273e94fe4370234d0a5129406b2f9bcfeee5585f36728fc23190a6949ebe35",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/195_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 195,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "746cc898d026ba8bf35a2d05b05c20d251b0e1a517c2ac5de0a62f4d207f37d2",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_candidate1_replay/195_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 196,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "77370d88fdd8303a0203bbe03c290ba52f5916f8a22b20cc61bc668c0a0cd986",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b1_candidate1_replay/196_EC_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 196,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "8f25f9b115f8a20010d998efb1c687e5f27753de4d7fc652580ab34c9d9a6ea6",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_candidate1_replay/196_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 197,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "bcb8cc087f85c91b5c5b0afc30bdda79d8cf7f40a0c4142721148e35889abafa",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/197_EC_frozen_after_B1.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 197,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "5fe5e881e997a242bffac9e1074c97886eb7b5543bb450f20c4c0d5737d1e8eb",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/197_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 198,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "2ea24825ad414d511cbfcb2ae67337aa029e6e1432a95688b048f660bd67ee62",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/198_EC_skills.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 198,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "164392801de31325d73741a3b0fb8ed6ee17b956e7c735bb4b91333531d3881a",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/198_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 199,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "c17efb2f3126018d7fde5ef1bef05188ce84eaab34a19c88c1b5dc2278a2ce04",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/199_EC_skills.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 199,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "4ef38ac368ea53fd67e85d8e21e78f73e08bd57ddc414aaf3c762a6e7273ccc4",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/199_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 200,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "5765ecc36cd38d4c176d915d83b9ff3a1d2b151987fa17974ac3582e2759fefd",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/200_EC_skills.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 200,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "532eb96cfdeff2158417e48a62d8d95fed30730fa66117cf8db37a65d71f4732",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/200_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 201,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "fbc4a7e218da5e1256afe8dda71bfe24197ca5e2387aebb9a1c7f05063f00802",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/201_EC_frozen_after_B1.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 201,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "fce04c054cff31bc744204269f3d29705dda04f351c8bbe72d3c7c8ce8b736b0",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/201_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 202,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "b326e89bb595c0d749769d122ba6fae999c9a7b285c62eb8ce7e67907b86bde9",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/202_EC_frozen_after_B1.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 202,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "5aad99748bce889579bde3cab342d1be9955ae15f14b860b69973c1ff72dbb95",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/202_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 203,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "41df00b3f0577bc00f90cc7881f3a8c5d1a2d6e8c2bb5e4e1f1fcbd4e04260a6",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/203_EC_skills.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 203,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "5c4270900b031af28593d50478c3cea9377b18b098c3a5feeb81d50172286bc1",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/203_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 204,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "299e066f634a6eba025279e600ac7c44f1a2bc9262e5686c433a72a1e538eef8",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/204_EC_skills.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 204,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "38919a708176bb582c698f2da11c71ccf61c496a178efcf26c4c43c50d0c3567",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_candidate1_replay/204_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 205,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "2bbdb408743b660b096168a8bd719acade303e1474f0d9750335e54421d68466",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/205_EC_skills.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 205,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "859520c6fb5a7113e50adbd7c235602b66f707c1ec3f93305b1f2b96a71ca491",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/205_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 206,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "f7b24373cd409204eb93a8cbc3ec0e3b6f6fd82ca2b2c61a533d951fead91087",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/206_EC_frozen_after_B1.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 206,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "9194a68d50c23af7befbea5a96985d219913de12847a39a7ba2b76f64c419f83",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/206_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 207,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "08ab37b0e73c07d02590e926d4145827d48a0169cee51bb65992983227c23162",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/207_EC_frozen_after_B1.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 207,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "4c0c8e3119c43ad3f46e50c3f8b609810dbbfb7c6ffe3f54ffb50bff253a8e67",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/207_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 208,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "799424b26a23fc0b37aed4db43272f2178d898479229b2a77f639c75d3981647",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/208_EC_skills.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 208,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "dc23cd74fb6dae92351d492b394a71e2f6f1c37a2a7289a87c503d490ae4fc4b",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/208_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 209,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "646545f3b07d9d573ea636801982c5bd6621b16126f718d0a91174654a8611b7",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/209_EC_skills.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 209,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "eba2b7ab2fd99b7ef6c36025fad6093709d5ad5bd96fe919b62ac55a5721c9c9",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/209_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 210,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "c9abc9c03cbe9d4c22e0ea0df496171e9efccdca8d04ca407fd4e516fd79faaf",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/210_EC_skills.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 210,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "5550de15f5ee213a773ad9c1d140643b1ed994f0c313b704796d9ad8d2834a56",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/210_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 211,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "c3697a8a915aa1d6e4974b8f57d01356d49e2267dc54389793562275a4bf5540",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/211_EC_frozen_after_B1.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 211,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "8f6fb5a5366bfeff589f6366b795f3ca24c3ad87c7ea0e2446e33a559e081478",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/211_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 212,
+      "family": "EC",
+      "arm": "candidate",
+      "fingerprint": "7e470c519a26f77cdec9015b0936cc631963e31b52372eaaaa04d473e4db4574",
+      "raw_call_path": "runs/legal_openexempt_anchored_execution_public_assets128_20261028_run01/native/b2_prequential/212_EC_frozen_after_B1.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    },
+    {
+      "stage": "b1_candidate1_composed_replay",
+      "case_id": 212,
+      "family": "EV",
+      "arm": "candidate",
+      "fingerprint": "d039912a934bf5739ab589e929e1fe391959a10400ce80c447d9f89200b8fbca",
+      "raw_call_path": "runs/legal_openexempt_operational_skill_repair_TRAIN32_20261028_run01/native/b1_candidate1_replay/212_EV_candidate.json",
+      "execution_bank_sha256": "2fb707821104af6266975bc928aca3efb5439c6c8614801a4f6e5d5465603224"
+    }
+  ],
+  "native_prompt_tokens": 387672,
+  "native_completion_tokens": 166801,
+  "no_official_test_or_paper_success_claim": true
+}

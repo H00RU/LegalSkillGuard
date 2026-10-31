@@ -15,6 +15,10 @@ from experiments.openexempt_online import (
     native_claim_feedback,
     task_admission,
     teacher_evidence_rows,
+    TEACHER_EVIDENCE_CONTRACT,
+    EXECUTION_EXAMPLE_MARKER,
+    EXECUTABLE_GUIDANCE,
+    validate_edit_diagnoses,
 )
 from legal_skill_guard.learning.legal_namespace import (
     active_bank,
@@ -58,6 +62,74 @@ def guidance(text, jurisdiction="ALL", tasks=("EC", "EV")):
     return {"by_task": [{"tasks": list(tasks), "when": "public condition",
                          "procedure": text, "avoid_when": "other"}],
             "operators": [], "jurisdiction": jurisdiction}
+
+
+def diagnosed_test_reply(study, delta):
+    """Synthetic teachers explicitly use the production classified-edit interface."""
+    from legal_skill_guard.learning.publication import apply_differential_publication
+    ids = sorted({i for op in delta["operations"] for i in op["source_case_ids"]})
+    candidate = apply_differential_publication(study.bank, delta, ("EC", "EV"), ids,
+                                               guidance_schema=EXECUTABLE_GUIDANCE)
+    before = {(s["id"], f): s for f in ("EC", "EV") for s in task_view(study.bank, f)}
+    after = {(s["id"], f): s for f in ("EC", "EV") for s in task_view(candidate, f)}
+    changed = sorted(k for k in before.keys() | after.keys() if before.get(k) != after.get(k))
+    return {"delta": delta, "diagnoses": [{"skill_id": sid, "task": task,
+        "kind": "SKILL_DEFECT", "rule_anchor": "", "source_case_ids": ids}
+        for sid, task in changed]}
+
+
+def test_execution_diagnosis_preserves_knowledge_and_replaces_example_without_growth():
+    rule = "Retain every independently applicable legal alternative."
+    parent = [{"id": "rule", "hypothesis_ids": ["EC"],
+               "guidance": guidance(rule, tasks=("EC",))}]
+    proposed = copy.deepcopy(parent)
+    proposed[0]["guidance"]["by_task"][0]["procedure"] += EXECUTION_EXAMPLE_MARKER + " Both citations."
+    audit = [{"skill_id": "rule", "task": "EC", "kind": "EXECUTION_LAPSE",
+              "rule_anchor": rule, "source_case_ids": [1]}]
+    assert validate_edit_diagnoses(parent, proposed, audit, [1])["kinds"]["EXECUTION_LAPSE"] == 1
+    revised = copy.deepcopy(proposed)
+    revised[0]["guidance"]["by_task"][0]["procedure"] = rule + EXECUTION_EXAMPLE_MARKER + " One compact revised example."
+    validate_edit_diagnoses(proposed, revised, audit, [1])
+    assert revised[0]["guidance"]["by_task"][0]["procedure"].count(EXECUTION_EXAMPLE_MARKER) == 1
+    bad = copy.deepcopy(proposed)
+    bad[0]["guidance"]["by_task"][0]["when"] = "different eligibility"
+    with pytest.raises(ValueError, match="protected legal field"):
+        validate_edit_diagnoses(parent, bad, audit, [1])
+    bad = copy.deepcopy(proposed)
+    bad[0]["guidance"]["by_task"][0]["procedure"] = "Rewritten law" + EXECUTION_EXAMPLE_MARKER + " example"
+    with pytest.raises(ValueError, match="knowledge prefix"):
+        validate_edit_diagnoses(parent, bad, audit, [1])
+
+
+def test_classified_new_knowledge_is_possible_from_empty_and_bad_anchors_do_not_pass():
+    bank = [{"id": "new", "hypothesis_ids": ["EC"],
+             "guidance": guidance("New source-supported procedure", tasks=("EC",))}]
+    audit = [{"skill_id": "new", "task": "EC", "kind": "SKILL_DEFECT",
+              "rule_anchor": "", "source_case_ids": [1]}]
+    assert validate_edit_diagnoses([], bank, audit, [1])["kinds"]["SKILL_DEFECT"] == 1
+    with pytest.raises(ValueError, match="actual changed"):
+        validate_edit_diagnoses([], bank, [], [1])
+    with pytest.raises(ValueError, match="supplied TRAIN"):
+        validate_edit_diagnoses([], bank, audit, [2])
+    audit[0]["rule_anchor"] = "invented existing law"
+    with pytest.raises(ValueError, match="actual parent"):
+        validate_edit_diagnoses([], bank, audit, [1])
+
+
+def test_operational_skill_defect_can_rewrite_true_but_circular_task_guidance():
+    rule = "For an eligible citation, report the amount under that citation."
+    parent = [{"id": "rule", "hypothesis_ids": ["EV"],
+               "guidance": guidance(rule, tasks=("EV",))}]
+    candidate = copy.deepcopy(parent)
+    block = candidate[0]["guidance"]["by_task"][0]
+    block["when"] = "The supplied public jurisdiction permits this property alternative."
+    block["procedure"] = "Check the factual eligibility condition, retain each independent alternative, then calculate its amount."
+    diagnosis = [{"skill_id": "rule", "task": "EV", "kind": "SKILL_DEFECT",
+                  "rule_anchor": rule, "source_case_ids": [1]}]
+    assert validate_edit_diagnoses(parent, candidate, diagnosis, [1])["kinds"]["SKILL_DEFECT"] == 1
+    diagnosis[0]["kind"] = "EXECUTION_LAPSE"
+    with pytest.raises(ValueError, match="protected legal field"):
+        validate_edit_diagnoses(parent, candidate, diagnosis, [1])
 
 
 def test_placement_launcher_checks_run_path_before_calls_and_does_not_follow_rejection(tmp_path, monkeypatch):
@@ -144,6 +216,165 @@ def record(family, value):
     return {"family": family, "score": {"precision": value, "recall": value,
             "f1": value, "exact_target": value == 1, "invalid_format": 0,
             "full_output_f1": value, "negative_target_asset_predicted_claims": 0}}
+
+
+def utility_cohorts():
+    """Paired current16/prior112 records; no generated or relabeled answers."""
+    def cohort(first, count, ec, ev):
+        return [{**record(family, value), "case_id": case}
+                for case in range(first, first + count)
+                for family, value in (("EC", ec), ("EV", ev))]
+    current = cohort(1, 16, .87, .86)
+    prior = cohort(17, 112, .89, .89)
+    return current, copy.deepcopy(current), prior, copy.deepcopy(prior)
+
+
+def test_utility_admission_retains_net_gain_despite_small_prior_full_loss():
+    from experiments.openexempt_online import UTILITY_ADMISSION
+
+    current, proposed, prior, replay = utility_cohorts()
+    for r in proposed:
+        if r["family"] == "EC":
+            r["score"].update(f1=.94, full_output_f1=.94)
+    for r in replay:
+        if r["family"] == "EC":
+            r["score"].update(f1=.892, full_output_f1=.8884)
+    assert not acceptance(current, proposed, prior, replay)["accepted"]
+    result = acceptance(current, proposed, prior, replay, contract=UTILITY_ADMISSION)
+    assert result["accepted"] and not result["prior_full_output_nonregression"]
+    assert result["prior_full_output_within_risk_bound"]
+    assert result["all_seen_family_nonregression"] and result["all_seen_full_output_nonregression"]
+    assert task_admission(current, proposed, prior, replay,
+                          contract=UTILITY_ADMISSION)["EC"]["accepted"]
+    coordinate = [{"id": "EC:ALL", "task": "EC", "source_case_ids": list(range(1, 129))}]
+    assert legal_scope_admission(coordinate, current, proposed, prior, replay,
+                                 contract=UTILITY_ADMISSION)["EC:ALL"]["accepted"]
+
+
+def test_utility_admission_keeps_invalid_and_false_claim_penalties_without_count_veto():
+    from experiments.openexempt_online import UTILITY_ADMISSION
+
+    current, proposed, prior, replay = utility_cohorts()
+    for r in proposed:
+        if r["family"] == "EV":
+            r["score"].update(f1=.96, full_output_f1=.96)
+    for r in replay:
+        if r["family"] == "EV":
+            r["score"].update(f1=.91, full_output_f1=.91)
+    failure = next(r for r in replay if r["case_id"] == 17 and r["family"] == "EV")
+    failure["score"].update(f1=0, full_output_f1=0, invalid_format=1)
+    extra = next(r for r in replay if r["case_id"] == 18 and r["family"] == "EV")
+    extra["score"].update(full_output_f1=.85, officially_unscored_predicted_claims=1)
+    original = copy.deepcopy((current, proposed, prior, replay))
+    assert not acceptance(current, proposed, prior, replay)["accepted"]
+    result = acceptance(current, proposed, prior, replay, contract=UTILITY_ADMISSION)
+    assert result["accepted"] and not result["prior_negative_asset_and_format_nonregression"]
+    assert result["candidate_prior"]["EV"]["invalid_format"] == 1
+    assert result["candidate_prior"]["EV"]["negative_or_unscored_asset_claims"] == 1
+    assert failure["score"]["f1"] == failure["score"]["full_output_f1"] == 0
+    assert (current, proposed, prior, replay) == original
+
+
+@pytest.mark.parametrize("kind", ["excess_prior_loss", "all_seen_loss", "current_loss"])
+def test_utility_admission_rejects_real_quality_loss(kind):
+    from experiments.openexempt_online import UTILITY_ADMISSION
+
+    current, proposed, prior, replay = utility_cohorts()
+    for r in proposed:
+        if r["family"] == "EV":
+            r["score"].update(f1=.99 if kind == "excess_prior_loss" else .861,
+                              full_output_f1=.99 if kind == "excess_prior_loss" else .861)
+    for r in replay:
+        if r["family"] == "EV":
+            value = .875 if kind == "excess_prior_loss" else .881
+            r["score"].update(f1=value, full_output_f1=value)
+    if kind == "current_loss":
+        for r in proposed:
+            if r["family"] == "EC":
+                r["score"].update(f1=.86, full_output_f1=.86)
+        for r in replay:
+            r["score"].update(f1=.99, full_output_f1=.99)
+    assert not acceptance(current, proposed, prior, replay, contract=UTILITY_ADMISSION)["accepted"]
+
+
+def test_utility_admission_and_full_output_ranking_require_real_paired_records():
+    from experiments.openexempt_online import UTILITY_ADMISSION
+
+    before = [{**record(f, .5), "case_id": 1} for f in ("EC", "EV")]
+    a, b = copy.deepcopy(before), copy.deepcopy(before)
+    for r in a:
+        r["score"].update(f1=.8, full_output_f1=.51)
+    for r in b:
+        r["score"].update(f1=.6, full_output_f1=.55)
+    assert balanced_replay_gain(before, a) > balanced_replay_gain(before, b)
+    assert (balanced_replay_gain(before, a, contract=UTILITY_ADMISSION)
+            < balanced_replay_gain(before, b, contract=UTILITY_ADMISSION))
+    with pytest.raises(ValueError, match="distinct"):
+        acceptance(before + before, a + a, [], [], contract=UTILITY_ADMISSION)
+    with pytest.raises(ValueError, match="Unknown"):
+        acceptance(before, a, [], [], contract="unfrozen_policy")
+
+
+def test_utility_teacher_system_matches_gate_anchor_and_historical_feedback_contract():
+    from experiments.openexempt_online import (
+        CANDIDATE_FEEDBACK_ADDITION, DIRECT_AUTHOR_SYSTEM, EXECUTION_AWARE_ADDITION,
+        LEGACY_ADMISSION, TASK_PROJECTION_TEACHING, UTILITY_ADMISSION, teaching_system_contract,
+    )
+
+    original = (DIRECT_AUTHOR_SYSTEM + EXECUTION_AWARE_ADDITION + TASK_PROJECTION_TEACHING
+                + CANDIDATE_FEEDBACK_ADDITION)
+    system = teaching_system_contract(original, UTILITY_ADMISSION)
+    assert "one percentage point" in system
+    assert "individual counts are diagnostics" in system
+    assert "minimum EC/EV complete-output-F1 gain" in system
+    assert "including a split or a MERGE into a new ID" in system
+    assert "NOT a new replay from the current parent" in system
+    assert "minimum EC/EV native-F1 gain" not in system
+    strict = teaching_system_contract(original, LEGACY_ADMISSION)
+    assert "avoid increases in claims on negative/unscored assets" in strict
+    assert "one percentage point" not in strict
+    assert "avoid increases in claims on negative/unscored assets" in original
+
+
+def test_retained_candidate_feedback_survives_noop_success_and_stays_one_per_task(tmp_path):
+    from experiments.openexempt_online import retained_candidate_feedback
+    from legal_skill_guard.experiment.storage import RunStore
+    from legal_skill_guard.utils.hashing import canonical_json_sha256 as csha
+
+    before, later = [], [{"id": "later_wisconsin_update"}]
+    observations = {(1, f): {**record(f, .8), "case_id": 1} for f in ("EC", "EV")}
+
+    def failed(task, path):
+        return {"accepted": False, "teaching_task": task, "candidate": [{"id": "bad"}],
+                "delta": {"operations": [], "noop_reason": None},
+                "actual_replay": [{**record(task, .1), "case_id": 1, "raw_call_path": path}]}
+
+    def publication(batch, parent, bank, decisions):
+        RunStore.immutable_json(tmp_path / "publications" / f"b{batch}.json", {
+            "parent_bank_sha256": csha(parent), "bank_sha256": csha(bank),
+            "training_decisions": decisions})
+
+    old = failed("EV", "native/real_old_failed_EV.json")
+    publication(1, before, before, [failed("EC", "native/real_old_failed_EC.json"), old])
+    publication(2, before, before, [{"accepted": False, "teaching_task": "EV", "explicit_noop": True}])
+    publication(3, before, later, [{"accepted": True, "teaching_task": "EV",
+        "candidate": later, "proposed_bank": later, "proposal_fully_committed": True}])
+    retained = retained_candidate_feedback(tmp_path, 4, observations, csha(later))
+    assert len(retained) == 2 and {v["teaching_task"] for v in retained} == {"EC", "EV"}
+    ev = next(v for v in retained if v["teaching_task"] == "EV")
+    assert ev["candidate_feedback_origin"]["batch"] == 1
+    assert ev["candidate_feedback_origin"]["historical_attempt_parent_bank_sha256"] == csha(before)
+    assert ev["candidate_feedback_origin"]["current_reference_parent_bank_sha256"] == csha(later)
+    assert ev["candidate_feedback_origin"]["historical_candidate_not_rerun"]
+    assert ev["feedback_witness_replay"] == old["actual_replay"]
+    assert len(ev["feedback_witness_replay"]) <= 8
+    newer = failed("EV", "native/real_newer_failed_EV.json")
+    publication(4, later, later, [newer])
+    retained = retained_candidate_feedback(tmp_path, 5, observations, csha(later))
+    assert len(retained) == 2
+    ev = next(v for v in retained if v["teaching_task"] == "EV")
+    assert ev["candidate_feedback_origin"]["batch"] == 4
+    assert ev["feedback_witness_replay"] == newer["actual_replay"]
 
 
 def test_train_acceptance_requires_real_improvement_and_past_retention():
@@ -759,6 +990,16 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
             direct_numeric=direct, asset_references=asset_references)
         assert body["actual_actor_systems"][reference["system_ref"]] == messages[0]["content"]
         assert body["actual_response_schemas"][reference["response_schema_ref"]] == schema
+        skill_message = next((m["content"] for m in messages
+                              if m["content"].startswith("Background reusable skills.")), None)
+        if skill_message is None:
+            assert reference["skill_message_ref"] is None
+            assert reference["skill_message_position"] is None
+        else:
+            assert body["actual_actor_skill_messages"][reference["skill_message_ref"]] == skill_message
+            assert reference["skill_message_position"] == ("before_case" if row["family"] == "EC" else "after_case")
+    assert body["actor_visibility_contract"]["EV_also_decides_eligibility_not_only_numeric_amounts"]
+    assert body["execution_teaching_contract"]["recurrent_failure_requires_instruction_reconsideration"]
     assert body["full_serialized_library_token_budget"]["actual_parent_tokens"] == 4008
     assert body["full_serialized_library_token_budget"]["net_growth_headroom"] == 88
     assert {r["source_case_id"] for r in body["already_seen_training"]} == ids
@@ -779,7 +1020,7 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
     assert "actual_same_case_frozen_initial_answer" not in emitted_case
     assert emitted_case["frozen_initial_answer_alias_of"] == "actual_same_case_empty_answer"
     assert emitted_case["actual_parent_answer"]["native_claim_feedback"]["invalid_response"]
-    assert body["teacher_evidence_contract"] == "native_claim_aligned_compact_v1"
+    assert body["teacher_evidence_contract"] == TEACHER_EVIDENCE_CONTRACT
     feedback = body["rejected_candidate_feedback"][0]
     assert feedback["full_replay_task_count"] == 48
     assert len(feedback["actual_replay"]) == 40
@@ -809,6 +1050,90 @@ def test_teacher_packet_is_bounded_but_current_sources_and_full_replay_are_not_d
                          if c["source_case_id"] == 22 and c["family"] == "EV")
     assert "actual_same_case_frozen_initial_answer" in distinct_case
     assert "frozen_initial_answer_alias_of" not in distinct_case
+
+    study.bank = [{"id": "task-visibility", "hypothesis_ids": ["EC", "EV"],
+        "guidance": {"jurisdiction": "ALL", "operators": [], "by_task": [
+            {"tasks": ["EC"], "when": "public EC condition", "procedure": "EC_ONLY_INSTRUCTION",
+             "avoid_when": "unsupported EC condition"},
+            {"tasks": ["EV"], "when": "public EV condition", "procedure": "EV_ONLY_INSTRUCTION",
+             "avoid_when": "unsupported EV condition"}]}}]
+    projected = study.teacher_body(current, seen, observations, rejected)
+    assert len(projected["actual_actor_skill_messages"]) == 2
+    for context in projected["actual_system_and_response_schema_by_public_context"].values():
+        for family, reference in context.items():
+            message = projected["actual_actor_skill_messages"][reference["skill_message_ref"]]
+            assert family + "_ONLY_INSTRUCTION" in message
+            assert ({"EC": "EV", "EV": "EC"}[family] + "_ONLY_INSTRUCTION") not in message
+            assert reference["skill_message_position"] == ("before_case" if family == "EC" else "after_case")
+    for family in ("EC", "EV"):
+        targeted = study.teacher_body(current, seen, observations, [], teaching_task=family)
+        assert targeted["teaching_task"] == family
+        assert targeted["training_evidence_manifest"]["other_task_predictions_and_targets_not_supplied"]
+        assert set(targeted["task_contracts"]) == {family}
+        assert {c["family"] for c in targeted["already_seen_training"]} == {family}
+        assert len(targeted["actual_actor_skill_messages"]) == 1
+        assert all(set(context) == {family} for context in
+                   targeted["actual_system_and_response_schema_by_public_context"].values())
+        assert {r["source_case_id"] for r in targeted["already_seen_training"]} >= {21, 22, 23, 24}
+    focused_feedback = candidate_feedback({"accepted": False, "teaching_task": "EV",
+        "actual_replay": replay}, observations, {"batch": 1, "attempt": 2})
+    assert focused_feedback["teaching_task"] == "EV"
+    assert focused_feedback["full_proposed_replay_task_count"] == 24
+    assert len(focused_feedback["feedback_witness_replay"]) == 8
+    assert all(r["family"] == "EV" for r in focused_feedback["feedback_witness_replay"])
+    if direct:
+        from experiments.openexempt_online import CONSOLIDATION_PHASE
+
+        study.cfg.update({"training_phase": CONSOLIDATION_PHASE, "batch_source_cases": 4})
+        consolidated = study.teacher_body(seen, seen, observations, [], teaching_task="EV")
+        manifest = consolidated["training_evidence_manifest"]
+        scope = manifest["consolidation_scope"]
+        assert scope["all_optimization_source_ids"] == list(range(1, 25))
+        assert len(scope["communication_focus_source_ids"]) == 4
+        assert len(consolidated["already_seen_training"]) <= 4 + 16
+        assert len(consolidated["already_seen_training"]) < 24
+        assert {c["family"] for c in consolidated["already_seen_training"]} == {"EV"}
+        assert scope["original_gate_applied_to_all_seen_sources_together"]
+        assert scope["all_sources_previously_observed_TRAIN"]
+        assert scope["no_new_cases_or_TEST_labels"]
+        assert len(seen) == 48 and len(observations) == 48
+        study.cfg["teacher_update_policy"] = "joint_fixed_steps"
+        joint = study.teacher_body(seen, seen, observations, [])
+        joint_manifest = joint["training_evidence_manifest"]
+        assert joint["teaching_task"] is None
+        assert not joint["task_projection_update_contract"]["enabled"]
+        assert {case["family"] for case in joint["already_seen_training"]} == {"EC", "EV"}
+        assert len(joint["already_seen_training"]) <= 4 + 16
+        assert joint_manifest["consolidation_scope"]["all_optimization_source_ids"] == list(range(1, 25))
+        assert len(joint_manifest["consolidation_scope"]["communication_focus_source_ids"]) == 2
+        assert joint_manifest["matched_task_record_budget"]["historical_source_limit"] == 8
+        assert joint_manifest["matched_task_record_budget"]["limit"] == 20
+        with pytest.raises(ValueError, match="silently project"):
+            study.teacher_body(seen, seen, observations, [], teaching_task="EC")
+
+
+@pytest.mark.parametrize("family", ["EC", "EV"])
+def test_task_coordinate_edit_preserves_other_actor_projection(family):
+    from experiments.openexempt_online import validate_task_projection_edit
+
+    parent = [{"id": "one-book", "hypothesis_ids": ["EC", "EV"], "guidance": {
+        "by_task": [{"tasks": ["EC", "EV"], "when": "public condition",
+                     "procedure": "original rule", "avoid_when": "unsupported condition"}],
+        "operators": [], "jurisdiction": "ARIZONA"}}]
+    candidate = copy.deepcopy(parent)
+    blocks = candidate[0]["guidance"]["by_task"]
+    blocks[:] = [{**copy.deepcopy(blocks[0]), "tasks": [f],
+                  "procedure": "repaired rule" if f == family else "original rule"}
+                 for f in ("EC", "EV")]
+    audit = validate_task_projection_edit(parent, candidate, family)
+    assert audit["other_task_projection_unchanged"]
+    wrong = copy.deepcopy(candidate)
+    other = "EV" if family == "EC" else "EC"
+    next(b for b in wrong[0]["guidance"]["by_task"] if other in b["tasks"])["procedure"] = "unrelated rewrite"
+    with pytest.raises(ValueError, match="unselected actor projection"):
+        validate_task_projection_edit(parent, wrong, family)
+    with pytest.raises(ValueError, match="Declare one original public task"):
+        validate_task_projection_edit(parent, candidate, "inferred_route")
 
 
 @pytest.mark.parametrize("family", ["EC", "EV"])
@@ -1018,7 +1343,7 @@ def test_full_update_task_local_vs_whole_bank_differs_only_in_commit_policy(
                                          else "source_grounded_claim_operations"),
                  "generation": {"seed": 45, "max_tokens": 100},
                  "max_candidate_attempts": 1, "library_token_hard_cap": 4096,
-                 "skill_commit_policy": policy}
+                 "skill_commit_policy": policy, "teacher_update_policy": "joint_bounded_refinement"}
     study._dispatch = PhaseDispatch(study.cfg)
     study.current_batch, study.latest = 1, {}
     study.out, study.native, study.request_cache, study.reuse_events = tmp_path, [], {}, []
@@ -1059,9 +1384,9 @@ def test_full_update_task_local_vs_whole_bank_differs_only_in_commit_policy(
 
     study.call, study.grade = call, grade
     study.teacher_body = lambda *args: {"training_evidence_manifest": {"selected_source_ids": [1]}}
-    study.teacher_call = lambda *args: {"noop_reason": None, "operations": [{
+    study.teacher_call = lambda *args: diagnosed_test_reply(study, {"noop_reason": None, "operations": [{
         "operation": "UPDATE", "target_ids": ["az"], "skill": proposed[0],
-        "source_case_ids": [1], "rationale": "synthetic task conflict"}]}
+        "source_case_ids": [1], "rationale": "synthetic task conflict"}]})
     parent = study.grade([study.answer(r, study.bank, "parent", "skills") for r in study.rows])
     original = copy.deepcopy(study.bank)
     publication = study.update(study.rows, study.rows, parent)
@@ -1169,7 +1494,7 @@ def test_full_legal_scope_update_retains_unrelated_law_without_extra_generation(
     study.cfg = {"execution_contract": "source_grounded_claim_operations",
                  "generation": {"seed": 45, "max_tokens": 100},
                  "max_candidate_attempts": 1, "library_token_hard_cap": 4096,
-                 "skill_commit_policy": policy,
+                 "skill_commit_policy": policy, "teacher_update_policy": "joint_bounded_refinement",
                  "adaptive_commit_objective": "seen_source_min_family_gain_then_mean_v1"}
     study._dispatch = PhaseDispatch({})
     study.current_batch, study.latest = 1, {}
@@ -1214,9 +1539,9 @@ def test_full_legal_scope_update_retains_unrelated_law_without_extra_generation(
 
     study.call, study.grade = call, grade
     study.teacher_body = lambda *args: {"training_evidence_manifest": {"selected_source_ids": [1, 2]}}
-    study.teacher_call = lambda *args: {"noop_reason": None, "operations": [{
+    study.teacher_call = lambda *args: diagnosed_test_reply(study, {"noop_reason": None, "operations": [{
         "operation": "UPDATE", "target_ids": [s["id"]], "skill": s,
-        "source_case_ids": [1, 2], "rationale": "synthetic public-scope interference"} for s in proposed]}
+        "source_case_ids": [1, 2], "rationale": "synthetic public-scope interference"} for s in proposed]})
     parent = study.grade([study.answer(r, study.bank, "parent", "skills") for r in study.rows])
     publication = study.update(study.rows, study.rows, parent)
     decision = publication["training_decisions"][0]
@@ -1239,7 +1564,7 @@ def test_adaptive_commit_can_keep_a_valid_joint_repair_without_local_gate_cherry
     study = Online.__new__(Online)
     study.cfg = {"execution_contract": "direct_statutory_claims",
         "max_candidate_attempts": 1, "library_token_hard_cap": 4096,
-        "skill_commit_policy": policy,
+        "skill_commit_policy": policy, "teacher_update_policy": "joint_bounded_refinement",
         "adaptive_commit_objective": "seen_source_min_family_gain_then_mean_v1"}
     study._dispatch = PhaseDispatch({})
     study.out, study.current_batch = tmp_path, 2
@@ -1268,10 +1593,10 @@ def test_adaptive_commit_can_keep_a_valid_joint_repair_without_local_gate_cherry
     study.latest = {(r["case_id"], r["family"]): r for r in parent if r["case_id"] <= 2}
     current = [r for r in rows if r["case_id"] > 2]
     study.teacher_body = lambda *args: {"training_evidence_manifest": {"selected_source_ids": [1, 2, 3, 4]}}
-    study.teacher_call = lambda *args: {"noop_reason": None, "operations": [
+    study.teacher_call = lambda *args: diagnosed_test_reply(study, {"noop_reason": None, "operations": [
         {"operation": "UPDATE", "target_ids": [s["id"]], "skill": s,
          "source_case_ids": [1, 2, 3, 4], "rationale": "Synthetic complementary TRAIN changes"}
-        for s in proposed]}
+        for s in proposed]})
     publication = study.update(current, rows, [r for r in parent if r["case_id"] > 2])
     decision = publication["training_decisions"][0]
     assert decision["proposed_whole_bank_acceptance"]["accepted"]
@@ -1286,8 +1611,10 @@ def test_adaptive_commit_can_keep_a_valid_joint_repair_without_local_gate_cherry
 
 
 @pytest.mark.parametrize("policy", ["whole_bank", "legal_scope", "adaptive_legal"])
-def test_fully_committed_task_projections_stop_refinement_under_every_policy(
-        tmp_path, monkeypatch, policy):
+@pytest.mark.parametrize("teacher_policy", ["joint_bounded_refinement", "joint_fixed_steps"])
+@pytest.mark.parametrize("first_noop", [False, True])
+def test_joint_teacher_opportunities_obey_declared_early_stop_or_fixed_steps(
+        tmp_path, monkeypatch, policy, teacher_policy, first_noop):
     from types import SimpleNamespace
     from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
 
@@ -1300,6 +1627,7 @@ def test_fully_committed_task_projections_stop_refinement_under_every_policy(
         "candidate_feedback_policy": "carry_partial_and_refine",
         "generation": {"seed": 45, "max_tokens": 100}, "max_candidate_attempts": 2,
         "library_token_hard_cap": 4096, "skill_commit_policy": policy,
+        "teacher_update_policy": teacher_policy,
         "adaptive_commit_objective": "seen_source_min_family_gain_then_mean_v1"}
     study._dispatch = PhaseDispatch({})
     study.current_batch, study.latest = 1, {}
@@ -1337,18 +1665,27 @@ def test_fully_committed_task_projections_stop_refinement_under_every_policy(
 
     def teacher(name, *args):
         teachers.append(name)
-        return {"noop_reason": None, "operations": [
+        if (name.endswith("candidate1") and first_noop) or (
+                name.endswith("candidate2") and not first_noop):
+            return diagnosed_test_reply(study, {"operations": [],
+                "noop_reason": "Synthetic fixed-step opportunity without another edit"})
+        return diagnosed_test_reply(study, {"noop_reason": None, "operations": [
             {"operation": "UPDATE", "target_ids": [skill["id"]], "skill": skill,
              "source_case_ids": [1, 2], "rationale": "Synthetic complete two-task repair"}
-            for skill in proposed]}
+            for skill in proposed]})
 
     study.call, study.grade, study.teacher_call = call, grade, teacher
     study.teacher_body = lambda *args: {"training_evidence_manifest": {"selected_source_ids": [1, 2]}}
     parent = grade([study.answer(row, study.bank, "parent", "skills") for row in study.rows])
     publication = study.update(study.rows, study.rows, parent)
-    assert teachers == ["b1_candidate1"]
-    assert len(publication["training_decisions"]) == 1
-    decision = publication["training_decisions"][0]
+    fixed = teacher_policy == "joint_fixed_steps"
+    assert teachers == (["b1_candidate1", "b1_candidate2"] if fixed else ["b1_candidate1"])
+    assert len(publication["training_decisions"]) == (2 if fixed else 1)
+    if first_noop and not fixed:
+        assert publication["training_decisions"][0]["explicit_noop"]
+        assert len(study.native) == 4
+        return
+    decision = publication["training_decisions"][int(first_noop)]
     assert decision["accepted"] and decision["proposal_fully_committed"]
     assert all(task_view(study.bank, family) == task_view(proposed, family) for family in ("EC", "EV"))
     assert len(study.native) == 8  # Four parent + four proposed; composition only reuses exact wires.
@@ -1383,9 +1720,11 @@ def test_teacher_history_budget_never_drops_bounded_candidate_witnesses():
 
 
 @pytest.mark.parametrize("contract_version", [13, 14])
-@pytest.mark.parametrize("closed_loop,second_good", [(False, True), (True, True), (True, False)])
+@pytest.mark.parametrize("closed_loop,second_good,coordinate", [
+    (False, True, False), (True, True, False), (True, False, False),
+    (True, True, True), (True, False, True)])
 def test_partial_commit_refinement_and_next_batch_feedback_are_real_train_only(
-        tmp_path, monkeypatch, closed_loop, second_good, contract_version):
+        tmp_path, monkeypatch, closed_loop, second_good, coordinate, contract_version):
     from types import SimpleNamespace
 
     from legal_skill_guard.learning.phase_dispatch import PhaseDispatch
@@ -1401,7 +1740,9 @@ def test_partial_commit_refinement_and_next_batch_feedback_are_real_train_only(
         "candidate_feedback_policy": ("carry_partial_and_refine" if closed_loop
                                       else "batch_only_first_commit"),
         "generation": {"seed": 45, "max_tokens": 100}, "max_candidate_attempts": 2,
-        "library_token_hard_cap": 4096, "skill_commit_policy": "legal_scope"}
+        "library_token_hard_cap": 4096, "skill_commit_policy": "legal_scope",
+        "teacher_update_policy": ("task_projection_coordinate" if coordinate else "joint_bounded_refinement"),
+        "task_update_schedule": ["EC", "EV"]}
     study._dispatch = PhaseDispatch({})
     study.current_batch, study.latest = 1, {}
     study.out, study.native, study.request_cache, study.reuse_events = tmp_path, [], {}, []
@@ -1448,19 +1789,24 @@ def test_partial_commit_refinement_and_next_batch_feedback_are_real_train_only(
             rec["score"] = evaluate(rec, rec["parsed"]["answer"], target)
         return records
 
-    def body(current, seen, observations, rejected):
+    def body(current, seen, observations, rejected, *, teaching_task=None):
         return {"current_parent_library": copy.deepcopy(study.bank),
-            "rejected_candidate_feedback": copy.deepcopy(rejected),
+            "teaching_task": teaching_task,
+            "rejected_candidate_feedback": copy.deepcopy([
+                d for d in rejected if teaching_task is None or d.get("teaching_task") == teaching_task]),
             "training_evidence_manifest": {"selected_source_ids": sorted({r["case_id"] for r in seen})}}
 
     def teacher(name, system, request, schema):
         prompts.append((name, copy.deepcopy(request)))
         if name.startswith("b2_"):
-            return {"operations": [], "noop_reason": "No additional synthetic TRAIN repair"}
+            return diagnosed_test_reply(study, {"operations": [], "noop_reason": "No additional synthetic TRAIN repair"})
         proposed = (book("EC_FIXED", "EV_FIXED") if second_good else book("EC_INITIAL", "EV_BAD")) \
             if name.endswith("candidate2") else book("EC_FIXED", "EV_BAD")
-        return {"noop_reason": None, "operations": [{"operation": "UPDATE", "target_ids": ["az"],
-            "skill": proposed[0], "source_case_ids": [1], "rationale": "Synthetic partial-repair contract"}]}
+        if coordinate:
+            proposed = (book("EC_FIXED", "EV_FIXED" if second_good else "EV_BAD")
+                        if name.endswith("candidate2") else book("EC_FIXED", "EV_INITIAL"))
+        return diagnosed_test_reply(study, {"noop_reason": None, "operations": [{"operation": "UPDATE", "target_ids": ["az"],
+            "skill": proposed[0], "source_case_ids": [1], "rationale": "Synthetic partial-repair contract"}]})
 
     study.call, study.grade, study.teacher_body, study.teacher_call = call, grade, body, teacher
     first = grade([study.answer(r, study.bank, "first_encounter", "skills") for r in study.rows])
@@ -1470,7 +1816,7 @@ def test_partial_commit_refinement_and_next_batch_feedback_are_real_train_only(
     assert publication["parent_bank_sha256"] == csha(original)
     assert publication["training_decisions"][0]["accepted_legal_coordinates"] == ["EC:ARIZONA"]
     assert len(publication["training_decisions"]) == (2 if closed_loop else 1)
-    assert len(study.native) == (5 if closed_loop and second_good else 4)
+    assert len(study.native) == (4 if coordinate else 5 if closed_loop and second_good else 4)
     assert metrics(list(study.latest.values()))["EC"]["f1"] == 1
     assert metrics(list(study.latest.values()))["EV"]["f1"] == (1 if closed_loop and second_good else .5)
     if closed_loop:
@@ -1478,8 +1824,15 @@ def test_partial_commit_refinement_and_next_batch_feedback_are_real_train_only(
         assert second["candidate_feedback_contract"]["attempt"] == 2
         assert task_view(second["current_parent_library"], "EC") == task_view(book("EC_FIXED", "EV_INITIAL"), "EC")
         assert task_view(second["current_parent_library"], "EV") == task_view(original, "EV")
-        assert second["rejected_candidate_feedback"][0]["accepted"]
-        assert second["rejected_candidate_feedback"][0]["partially_committed"]
+        if coordinate:
+            assert not second["rejected_candidate_feedback"]
+            assert [p[1]["teaching_task"] for p in prompts] == ["EC", "EV"]
+            assert publication["training_decisions"][0]["proposal_fully_committed"]
+            assert all(d["edit_audit"]["task_projection_boundary"]["other_task_projection_unchanged"]
+                       for d in publication["training_decisions"])
+        else:
+            assert second["rejected_candidate_feedback"][0]["accepted"]
+            assert second["rejected_candidate_feedback"][0]["partially_committed"]
         assert publication["training_decisions"][1]["attempt_parent_bank_sha256"] == csha(publication["training_decisions"][0]["candidate"])
         assert publication["training_decisions"][1]["accepted"] == second_good
     study.current_batch = 2
@@ -1491,8 +1844,15 @@ def test_partial_commit_refinement_and_next_batch_feedback_are_real_train_only(
     assert next_publication["parent_bank_sha256"] == csha(before_second_batch)
     assert study.bank == before_second_batch
     carried = prompts[-1][1]["rejected_candidate_feedback"]
-    assert bool(carried) == closed_loop
-    if closed_loop:
+    assert bool(carried) == (not second_good if coordinate else closed_loop)
+    if coordinate:
+        assert len(next_publication["training_decisions"]) == 2  # EC NOOP must not skip EV.
+        assert [p[1]["teaching_task"] for p in prompts[-2:]] == ["EC", "EV"]
+        if not second_good:
+            assert len(carried) == 1 and carried[0]["teaching_task"] == "EV"
+            assert not carried[0]["accepted"]
+            assert all(r["family"] == "EV" for r in carried[0]["feedback_witness_replay"])
+    elif closed_loop:
         assert len(carried) == (1 if second_good else 2)
         assert carried[0]["accepted"] and carried[0]["partially_committed"]
         assert carried[0]["candidate_feedback_origin"]["batch"] == 1

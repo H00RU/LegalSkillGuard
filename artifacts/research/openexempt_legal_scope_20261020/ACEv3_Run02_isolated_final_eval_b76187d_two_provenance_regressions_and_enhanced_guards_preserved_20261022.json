@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-22T08:37:07.985651+00:00",
+  "classification": "Prospective isolated final-evaluation source alignment with the corrected v3 ACE adapter; no current train-source or inference-path change",
+  "isolated_worktree": "/media/sangfor/vdb/legal-skill-evolve/.venv/evolution-control-20261020.qLon9T",
+  "isolated_commit": "b76187d65476209e66851091fb80d1a4d6df7097",
+  "synced_files": {
+    "experiments/openexempt_ace_online.py": "8258b15d6f0e67e7aa8addc50e720d348f8238c6858bba2f1b0b65966549c53c",
+    "legal_skill_guard/learning/openexempt_ace.py": "3e93e1fe7301defddbb55bab0710eb224e81cde8978ffeb22a60ddde7ff896de",
+    "tests/test_openexempt_ace.py": "2829ffd089637674055d96a96ca2b8cd7289606879ddb32ed6e0e606df30816f",
+    "third_party/ace/NOTICE.md": "3ddce2487dfed79e21b07ea647b4499d464f57b0d53e70e2a7a3a16f2983ec58"
+  },
+  "enhanced_final_statistics_static_and_repeat_guards_byte_unchanged_from_b50f24c": {
+    "experiments/openexempt_frozen_eval.py": "8bfc716f484f96fcf18fc75662c85943120433d8921f7a23d5ff79a399e32452",
+    "tests/test_openexempt_frozen_eval.py": "a3f5d550b5f46c71a3107d58103187cc746bbcb7798e92e5926a0af31164a413"
+  },
+  "no_wholesale_overwrite_from_older_root_final_eval": true,
+  "targeted_existing_regression_result": {
+    "command": "python -m pytest -q tests/test_openexempt_ace.py -k repeated_native_provenance",
+    "passed": 2,
+    "deselected": 21,
+    "seconds": 0.28,
+    "CPU_only": true,
+    "no_full_qualification_rerun": true
+  },
+  "active_ACE_v3_all377_bound_files_still_unchanged": true,
+  "no_new_student_teacher_or_TEST_calls": true,
+  "no_TEST_semantics_labels_predictions_or_results_accessed": true,
+  "verification_program": "import json,hashlib,subprocess,os,shutil\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path(\"/media/sangfor/vdb/legal-skill-evolve\")\nisolated=root/\".venv/evolution-control-20261020.qLon9T\"\ngit=\"/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/bin/git\"\nenv=os.environ.copy();env[\"GIT_EXEC_PATH\"]=\"/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/lib/git-core\"\ndef gitout(*a):return subprocess.check_output([git,*a],cwd=isolated,env=env)\ndef sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()\nsynced=(\"experiments/openexempt_ace_online.py\",\"legal_skill_guard/learning/openexempt_ace.py\",\"tests/test_openexempt_ace.py\",\"third_party/ace/NOTICE.md\")\nfor p in synced:assert sha(root/p)==sha(isolated/p),p\nassert gitout(\"status\",\"--porcelain\")==b\"\"\nstatistical=(\"experiments/openexempt_frozen_eval.py\",\"tests/test_openexempt_frozen_eval.py\")\nintact={}\nfor p in statistical:\n before=hashlib.sha256(gitout(\"show\",\"b50f24c:\"+p)).hexdigest()\n assert sha(isolated/p)==before\n intact[p]=before\nfrozen=json.loads((root/\"configs/openexempt_ace_public_assets128_20261022_run02.frozen.json\").read_text())\nassert all(sha(root/p)==h for p,h in frozen[\"files\"].items())\nassert len(frozen[\"files\"])==377\nout={\"at\":datetime.now(timezone.utc).isoformat(),\n\"classification\":\"Prospective isolated final-evaluation source alignment with the corrected v3 ACE adapter; no current train-source or inference-path change\",\n\"isolated_worktree\":str(isolated),\"isolated_commit\":gitout(\"rev-parse\",\"HEAD\").decode().strip(),\n\"synced_files\":{p:sha(root/p) for p in synced},\n\"enhanced_final_statistics_static_and_repeat_guards_byte_unchanged_from_b50f24c\":intact,\n\"no_wholesale_overwrite_from_older_root_final_eval\":True,\n\"targeted_existing_regression_result\":{\"command\":\"python -m pytest -q tests/test_openexempt_ace.py -k repeated_native_provenance\",\"passed\":2,\"deselected\":21,\"seconds\":0.28,\"CPU_only\":True,\"no_full_qualification_rerun\":True},\n\"active_ACE_v3_all377_bound_files_still_unchanged\":True,\n\"no_new_student_teacher_or_TEST_calls\":True,\n\"no_TEST_semantics_labels_predictions_or_results_accessed\":True,\n\"verification_program\":PROGRAM}\ndest=root/\"artifacts/research/openexempt_legal_scope_20261020/ACEv3_Run02_isolated_final_eval_b76187d_two_provenance_regressions_and_enhanced_guards_preserved_20261022.json\"\nRunStore.immutable_json(dest,out)\nfor directory in (Path(\"/media/sangfor/vdb/legal-skill-backups\"),Path(\"/home/yndx/hhy/legal-skill-rootdisk-backups\")):\n target=directory/dest.name\n with dest.open(\"rb\") as src,target.open(\"xb\") as dst:shutil.copyfileobj(src,dst)\n assert sha(target)==sha(dest)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"isolated_commit\":out[\"isolated_commit\"],\"unchanged_enhanced_final_guards\":True,\"active377_unchanged\":True,\"proof_saved_to_both_backup_devices\":True},ensure_ascii=False))\n"
+}

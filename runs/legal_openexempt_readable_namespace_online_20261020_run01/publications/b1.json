@@ -1,0 +1,1876 @@
+{
+  "at": "2026-10-19T17:07:01.232060+00:00",
+  "bank": [
+    {
+      "id": "scheme_selection_and_ev",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Apply first to every asset, using only the jurisdictions already declared allowable by the public solved step.",
+        "procedure": "Work asset by asset. (1) Copy every original asset description exactly once; for EV also copy its stated numeric value. EC object keys must be asset descriptions, never citations. (2) Decide classification without regard to whether the asset exceeds a dollar cap: excess value reduces EV but does not defeat eligibility. (3) Enumerate every independently applicable specific, general, wildcard, and residual alternative within each allowable scheme; never stop after the first matching citation. (4) For EV, create one claim per eligible asset-citation pair and evaluate each independently. Set N from the number of named debtors in Facts: N=1 for one filer and N=2 for two filers. Multiply only where the applicable statute expressly supplies separate combinable exemptions.",
+        "avoid_when": "Do not recompute domicile, introduce an undeclared jurisdiction, use citations as asset names, omit an exemption because value exceeds its ceiling, mix alternative schemes into a portfolio, add claim values together, or infer N from ownership language instead of the named filers.",
+        "operators": [],
+        "jurisdiction": "ALL"
+      }
+    },
+    {
+      "id": "federal_522d",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use only when the public solved step allows the federal section 522(d) scheme.",
+        "procedure": "For every asset, first add § 522(d)(5), because it is an independent any-property alternative. Then add every matching specific citation: residence or burial plot under (d)(1), one vehicle under (d)(2), an enumerated personal or household item under (d)(3), personal or family jewelry under (d)(4), trade implements/books/tools under (d)(6), and a professionally prescribed health aid under (d)(9). For EV, value each pair independently. Use the published routines for capped citations. The (d)(3) routine is the per-particular-item ceiling; a qualifying collection instead uses inline min(V,14875*N). Under the independent maximum wildcard alternative, (d)(5) uses 1475 plus 13950 of unused (d)(1) per debtor. Use inline unlimited for (d)(9).",
+        "avoid_when": "Do not use federal exemptions when the allowable-law step excludes them, omit (d)(5) merely because a specific citation also applies, reject an asset because its value exceeds a cap, use the (d)(3) aggregate ceiling for one item, or multiply unless Facts name two debtors.",
+        "operators": [
+          {
+            "id": "fed_home",
+            "citation": "11 U.S.C. § 522(d)(1)",
+            "limit_expression": "min(V,27900*N)"
+          },
+          {
+            "id": "fed_vehicle",
+            "citation": "11 U.S.C. § 522(d)(2)",
+            "limit_expression": "min(V,4450*N)"
+          },
+          {
+            "id": "fed_household_item",
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "limit_expression": "min(V,700*N)"
+          },
+          {
+            "id": "fed_jewelry",
+            "citation": "11 U.S.C. § 522(d)(4)",
+            "limit_expression": "min(V,1875*N)"
+          },
+          {
+            "id": "fed_wildcard_max",
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "limit_expression": "min(V,15425*N)"
+          },
+          {
+            "id": "fed_tools",
+            "citation": "11 U.S.C. § 522(d)(6)",
+            "limit_expression": "min(V,2800*N)"
+          }
+        ],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "arizona_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Arizona law. Match the occupied homestead or qualifying proceeds; household property not otherwise specifically prescribed; the specifically listed personal items; one vehicle; prescribed prostheses; one qualifying account; and qualifying business, trade, professional or farm property.",
+        "procedure": "Arizona opts out of section 522(d). Under section 33-1121 each spouse may claim and combine article exemptions, reflected by N, except section 33-1101 permits only one 400000 homestead for a married couple. Homestead proceeds retain that ceiling only while identifiable and until the earlier of eighteen months or establishing a new homestead. Section 33-1123 is residual to items specifically prescribed elsewhere. Use inline unlimited for eligible prescribed prostheses under 33-1125(9) and domestic animals or household pets under 33-1125(11).",
+        "avoid_when": "Do not double the homestead, claim multiple simultaneous homesteads, use 33-1123 for specifically prescribed property, treat a personal commuting vehicle as a trade tool, or ignore single-account, necessity, primary-use, aggregate, proceeds, or time conditions.",
+        "operators": [
+          {
+            "id": "az_home",
+            "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+            "limit_expression": "min(V,400000)"
+          },
+          {
+            "id": "az_home_proceeds",
+            "citation": "Ariz. Rev. Stat. § 33-1101(C)",
+            "limit_expression": "min(V,400000)"
+          },
+          {
+            "id": "az_household",
+            "citation": "Ariz. Rev. Stat. § 33-1123",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "az_apparel",
+            "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+            "limit_expression": "min(V,500*N)"
+          },
+          {
+            "id": "az_instruments",
+            "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+            "limit_expression": "min(V,400*N)"
+          },
+          {
+            "id": "az_livestock",
+            "citation": "Ariz. Rev. Stat. § 33-1125(3)",
+            "limit_expression": "min(V,1000*N)"
+          },
+          {
+            "id": "az_rings",
+            "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+            "limit_expression": "min(V,2000*N)"
+          },
+          {
+            "id": "az_library",
+            "citation": "Ariz. Rev. Stat. § 33-1125(5)",
+            "limit_expression": "min(V,250*N)"
+          },
+          {
+            "id": "az_watch",
+            "citation": "Ariz. Rev. Stat. § 33-1125(6)",
+            "limit_expression": "min(V,250*N)"
+          },
+          {
+            "id": "az_vehicle",
+            "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "az_firearms",
+            "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+            "limit_expression": "min(V,2000*N)"
+          },
+          {
+            "id": "az_account",
+            "citation": "Ariz. Rev. Stat. § 33-1126(A)(9)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "az_trade_tools",
+            "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "az_farm_property",
+            "citation": "Ariz. Rev. Stat. § 33-1130(2)",
+            "limit_expression": "min(V,2500*N)"
+          }
+        ],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "illinois_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use only when Illinois law is declared allowable: occupied residences or qualifying proceeds, listed necessary personal items, the personal-property residual, one vehicle, trade implements/books/tools, and prescribed health aids.",
+        "procedure": "Emit assets as the output keys or EV asset records; never emit citations as asset names. For each personal-use personal-property asset, test § 12-1001(b) independently even if a specific paragraph also applies. Thus eligible apparel may have both (a) and (b); property without a specific category may still have (b). Add (c) for one vehicle, (d) for trade property satisfying the stated conditions, and (e) for prescribed health aids. Use unlimited for (a) and (e). For the benchmark's stipulated equal joint ownership, § 12-901 gives each owner's one-half proportionate share of the 30000 joint ceiling, so the single asset-citation claim is capped at 15000; do not report 30000. Qualifying proceeds use 15000 per entitled person for one year.",
+        "avoid_when": "Do not use federal § 522(d), omit § 12-1001(b) merely because another paragraph applies, use personal-property exemptions for business property, turn citations into asset names, reject property because value exceeds a ceiling, or sum independently reported alternatives.",
+        "operators": [
+          {
+            "id": "il_home",
+            "citation": "735 Ill. Comp. Stat. 5/12-901",
+            "limit_expression": "min(V,15000)"
+          },
+          {
+            "id": "il_home_proceeds",
+            "citation": "735 Ill. Comp. Stat. 5/12-906",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "il_apparel",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+            "limit_expression": "unlimited"
+          },
+          {
+            "id": "il_residual",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "limit_expression": "min(V,4000*N)"
+          },
+          {
+            "id": "il_vehicle",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+            "limit_expression": "min(V,2400*N)"
+          },
+          {
+            "id": "il_tools",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+            "limit_expression": "min(V,1500*N)"
+          }
+        ],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "oregon_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Oregon law. Match the exact categories in § 18.345, the personal-property residual, qualifying firearms, and occupied homesteads or protected proceeds.",
+        "procedure": "For each personal-property asset, add § 18.345(1)(p) as an independent alternative even when another Oregon paragraph also applies. Then add all specific matches: books, pictures, or musical instruments under (a); apparel or jewelry under (b); necessary habitual-earnings tools under (c); a vehicle under (d); family-use animals or poultry under (e); household goods or furniture under (f); and prescribed health aids under (h). Sections (a),(b),(c),(d),(p) may combine for two joint household debtors; (e),(f),(h) do not double. For EV, use the (f) routine for capped household goods, but inline unlimited for eligible 60-day provisions or fuel. Under (e), use inline min(V,1000) for animals or poultry and unlimited for eligible 60-day food. Use unlimited for (h). Apply the special 40000/50000 homestead routine only to a qualifying occupied homestead or qualifying one-year proceeds.",
+        "avoid_when": "Do not omit (p) because a specific paragraph applies, classify real property under (p), double (e), (f), or (h), reject over-cap property, disregard necessity or habitual-earnings conditions for tools, or infer two debtors when Facts name one.",
+        "operators": [
+          {
+            "id": "or_books_music",
+            "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+            "limit_expression": "min(V,600*N)"
+          },
+          {
+            "id": "or_apparel_jewelry",
+            "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+            "limit_expression": "min(V,1800*N)"
+          },
+          {
+            "id": "or_tools",
+            "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "or_vehicle",
+            "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+            "limit_expression": "min(V,3000*N)"
+          },
+          {
+            "id": "or_household_goods",
+            "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+            "limit_expression": "min(V,3000)"
+          },
+          {
+            "id": "or_residual",
+            "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+            "limit_expression": "min(V,400*N)"
+          },
+          {
+            "id": "or_firearm",
+            "citation": "Or. Rev. Stat. § 18.362",
+            "limit_expression": "min(V,1000*N)"
+          },
+          {
+            "id": "or_home",
+            "citation": "Or. Rev. Stat. § 18.395(1)",
+            "limit_expression": "min(V,50000 if N==2 else 40000)"
+          },
+          {
+            "id": "or_home_proceeds",
+            "citation": "Or. Rev. Stat. § 18.395(2)",
+            "limit_expression": "min(V,50000 if N==2 else 40000)"
+          }
+        ],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "pennsylvania_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Pennsylvania law. Section 8123 reaches property generally; section 8124 separately covers wearing apparel, Bibles and school books, qualifying family or seamstress sewing machines, and qualifying military uniforms and accoutrements.",
+        "procedure": "Enumerate section 8123 along with any applicable specific citation because it is expressly additional. Each spouse has a separate 300 exemption. Use inline unlimited for eligible 8124(a)(1)-(4), because those provisions state no dollar ceiling.",
+        "avoid_when": "Do not treat unlimited as eliminating the stated ownership, occupation, use, sale-or-hire, or military-status conditions; do not combine independent alternatives into a final portfolio.",
+        "operators": [
+          {
+            "id": "pa_general",
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "limit_expression": "min(V,300*N)"
+          }
+        ],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    },
+    {
+      "id": "wisconsin_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Wisconsin law: burial property; business/farm assets or the alternative closely held business interest; listed consumer goods; motor vehicles; personal nonbusiness depository accounts; and an occupied homestead or protected proceeds.",
+        "procedure": "Section 815.18(8) gives each spouse one capped exemption that may be combined, reflected by N. Business-interest paragraph (b)(2) is available only if (b)(1) is not claimed. Consumer goods have a 12000 aggregate cap per spouse. Motor vehicles have a 4000 base per spouse plus unused consumer-goods capacity; the routine gives the maximum independent ceiling of 16000 per spouse. If less consumer capacity remains, calculate a supported numeric expression inline. Burial property has no dollar ceiling and uses inline unlimited. Section 815.20 expressly allows each spouse 75000; protected sale proceeds keep that ceiling for two years while intended for another homestead.",
+        "avoid_when": "Do not claim both business alternatives, use a business account under (k), treat the transferred consumer-goods amount as available twice in a portfolio, classify a motor vehicle under the general consumer-goods residual instead of (g), or ignore occupancy, proceeds-intent, lien, tax, aggregate, or primary-use conditions.",
+        "operators": [
+          {
+            "id": "wi_business_assets",
+            "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "wi_business_interest",
+            "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "wi_consumer_goods",
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "limit_expression": "min(V,12000*N)"
+          },
+          {
+            "id": "wi_vehicle_max",
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "limit_expression": "min(V,16000*N)"
+          },
+          {
+            "id": "wi_accounts",
+            "citation": "Wis. Stat. § 815.18(3)(k)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "wi_home",
+            "citation": "Wis. Stat. § 815.20(1)",
+            "limit_expression": "min(V,75000*N)"
+          }
+        ],
+        "jurisdiction": "WISCONSIN"
+      }
+    }
+  ],
+  "parent_bank_sha256": "f6549092d1c1fb3bd5ce01a3d0a53f109a6abb3ad3987580b9cf9ffc3f72353f",
+  "bank_sha256": "75c59791b90e3a17b427dc28f1edd847dfa27c7f72262a5a7c63ec66d1f4fc1e",
+  "training_decisions": [
+    {
+      "accepted": true,
+      "current_family_nonregression": true,
+      "prior_family_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "parent_current": {
+        "EC": {
+          "precision": 0.6666666666666666,
+          "recall": 0.3958333333333333,
+          "f1": 0.49236111111111114,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 3
+        },
+        "EV": {
+          "precision": 0.625,
+          "recall": 0.3958333333333333,
+          "f1": 0.48333333333333334,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 1,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.48333333333333334
+        },
+        "mean_family_f1": 0.4878472222222222
+      },
+      "candidate_current": {
+        "EC": {
+          "precision": 1.0,
+          "recall": 0.7916666666666666,
+          "f1": 0.8666666666666667,
+          "exact_target": 0.5,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0
+        },
+        "EV": {
+          "precision": 0.6875,
+          "recall": 0.5,
+          "f1": 0.5722222222222222,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 1,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.5642857142857143
+        },
+        "mean_family_f1": 0.7194444444444444
+      },
+      "parent_prior": {
+        "mean_family_f1": 0
+      },
+      "candidate_prior": {
+        "mean_family_f1": 0
+      },
+      "TRAIN_optimization_not_independent_validation": true,
+      "candidate": [
+        {
+          "id": "scheme_selection_and_ev",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Apply first to every asset, using only the jurisdictions already declared allowable by the public solved step.",
+            "procedure": "Work asset by asset. (1) Copy every original asset description exactly once; for EV also copy its stated numeric value. EC object keys must be asset descriptions, never citations. (2) Decide classification without regard to whether the asset exceeds a dollar cap: excess value reduces EV but does not defeat eligibility. (3) Enumerate every independently applicable specific, general, wildcard, and residual alternative within each allowable scheme; never stop after the first matching citation. (4) For EV, create one claim per eligible asset-citation pair and evaluate each independently. Set N from the number of named debtors in Facts: N=1 for one filer and N=2 for two filers. Multiply only where the applicable statute expressly supplies separate combinable exemptions.",
+            "avoid_when": "Do not recompute domicile, introduce an undeclared jurisdiction, use citations as asset names, omit an exemption because value exceeds its ceiling, mix alternative schemes into a portfolio, add claim values together, or infer N from ownership language instead of the named filers.",
+            "operators": [],
+            "jurisdiction": "ALL"
+          }
+        },
+        {
+          "id": "federal_522d",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use only when the public solved step allows the federal section 522(d) scheme.",
+            "procedure": "For every asset, first add § 522(d)(5), because it is an independent any-property alternative. Then add every matching specific citation: residence or burial plot under (d)(1), one vehicle under (d)(2), an enumerated personal or household item under (d)(3), personal or family jewelry under (d)(4), trade implements/books/tools under (d)(6), and a professionally prescribed health aid under (d)(9). For EV, value each pair independently. Use the published routines for capped citations. The (d)(3) routine is the per-particular-item ceiling; a qualifying collection instead uses inline min(V,14875*N). Under the independent maximum wildcard alternative, (d)(5) uses 1475 plus 13950 of unused (d)(1) per debtor. Use inline unlimited for (d)(9).",
+            "avoid_when": "Do not use federal exemptions when the allowable-law step excludes them, omit (d)(5) merely because a specific citation also applies, reject an asset because its value exceeds a cap, use the (d)(3) aggregate ceiling for one item, or multiply unless Facts name two debtors.",
+            "operators": [
+              {
+                "id": "fed_home",
+                "citation": "11 U.S.C. § 522(d)(1)",
+                "limit_expression": "min(V,27900*N)"
+              },
+              {
+                "id": "fed_vehicle",
+                "citation": "11 U.S.C. § 522(d)(2)",
+                "limit_expression": "min(V,4450*N)"
+              },
+              {
+                "id": "fed_household_item",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "limit_expression": "min(V,700*N)"
+              },
+              {
+                "id": "fed_jewelry",
+                "citation": "11 U.S.C. § 522(d)(4)",
+                "limit_expression": "min(V,1875*N)"
+              },
+              {
+                "id": "fed_wildcard_max",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "limit_expression": "min(V,15425*N)"
+              },
+              {
+                "id": "fed_tools",
+                "citation": "11 U.S.C. § 522(d)(6)",
+                "limit_expression": "min(V,2800*N)"
+              }
+            ],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        {
+          "id": "arizona_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Arizona law. Match the occupied homestead or qualifying proceeds; household property not otherwise specifically prescribed; the specifically listed personal items; one vehicle; prescribed prostheses; one qualifying account; and qualifying business, trade, professional or farm property.",
+            "procedure": "Arizona opts out of section 522(d). Under section 33-1121 each spouse may claim and combine article exemptions, reflected by N, except section 33-1101 permits only one 400000 homestead for a married couple. Homestead proceeds retain that ceiling only while identifiable and until the earlier of eighteen months or establishing a new homestead. Section 33-1123 is residual to items specifically prescribed elsewhere. Use inline unlimited for eligible prescribed prostheses under 33-1125(9) and domestic animals or household pets under 33-1125(11).",
+            "avoid_when": "Do not double the homestead, claim multiple simultaneous homesteads, use 33-1123 for specifically prescribed property, treat a personal commuting vehicle as a trade tool, or ignore single-account, necessity, primary-use, aggregate, proceeds, or time conditions.",
+            "operators": [
+              {
+                "id": "az_home",
+                "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+                "limit_expression": "min(V,400000)"
+              },
+              {
+                "id": "az_home_proceeds",
+                "citation": "Ariz. Rev. Stat. § 33-1101(C)",
+                "limit_expression": "min(V,400000)"
+              },
+              {
+                "id": "az_household",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "az_apparel",
+                "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                "limit_expression": "min(V,500*N)"
+              },
+              {
+                "id": "az_instruments",
+                "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+                "limit_expression": "min(V,400*N)"
+              },
+              {
+                "id": "az_livestock",
+                "citation": "Ariz. Rev. Stat. § 33-1125(3)",
+                "limit_expression": "min(V,1000*N)"
+              },
+              {
+                "id": "az_rings",
+                "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                "limit_expression": "min(V,2000*N)"
+              },
+              {
+                "id": "az_library",
+                "citation": "Ariz. Rev. Stat. § 33-1125(5)",
+                "limit_expression": "min(V,250*N)"
+              },
+              {
+                "id": "az_watch",
+                "citation": "Ariz. Rev. Stat. § 33-1125(6)",
+                "limit_expression": "min(V,250*N)"
+              },
+              {
+                "id": "az_vehicle",
+                "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "az_firearms",
+                "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                "limit_expression": "min(V,2000*N)"
+              },
+              {
+                "id": "az_account",
+                "citation": "Ariz. Rev. Stat. § 33-1126(A)(9)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "az_trade_tools",
+                "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "az_farm_property",
+                "citation": "Ariz. Rev. Stat. § 33-1130(2)",
+                "limit_expression": "min(V,2500*N)"
+              }
+            ],
+            "jurisdiction": "ARIZONA"
+          }
+        },
+        {
+          "id": "illinois_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use only when Illinois law is declared allowable: occupied residences or qualifying proceeds, listed necessary personal items, the personal-property residual, one vehicle, trade implements/books/tools, and prescribed health aids.",
+            "procedure": "Emit assets as the output keys or EV asset records; never emit citations as asset names. For each personal-use personal-property asset, test § 12-1001(b) independently even if a specific paragraph also applies. Thus eligible apparel may have both (a) and (b); property without a specific category may still have (b). Add (c) for one vehicle, (d) for trade property satisfying the stated conditions, and (e) for prescribed health aids. Use unlimited for (a) and (e). For the benchmark's stipulated equal joint ownership, § 12-901 gives each owner's one-half proportionate share of the 30000 joint ceiling, so the single asset-citation claim is capped at 15000; do not report 30000. Qualifying proceeds use 15000 per entitled person for one year.",
+            "avoid_when": "Do not use federal § 522(d), omit § 12-1001(b) merely because another paragraph applies, use personal-property exemptions for business property, turn citations into asset names, reject property because value exceeds a ceiling, or sum independently reported alternatives.",
+            "operators": [
+              {
+                "id": "il_home",
+                "citation": "735 Ill. Comp. Stat. 5/12-901",
+                "limit_expression": "min(V,15000)"
+              },
+              {
+                "id": "il_home_proceeds",
+                "citation": "735 Ill. Comp. Stat. 5/12-906",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "il_apparel",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                "limit_expression": "unlimited"
+              },
+              {
+                "id": "il_residual",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "limit_expression": "min(V,4000*N)"
+              },
+              {
+                "id": "il_vehicle",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                "limit_expression": "min(V,2400*N)"
+              },
+              {
+                "id": "il_tools",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                "limit_expression": "min(V,1500*N)"
+              }
+            ],
+            "jurisdiction": "ILLINOIS"
+          }
+        },
+        {
+          "id": "oregon_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Oregon law. Match the exact categories in § 18.345, the personal-property residual, qualifying firearms, and occupied homesteads or protected proceeds.",
+            "procedure": "For each personal-property asset, add § 18.345(1)(p) as an independent alternative even when another Oregon paragraph also applies. Then add all specific matches: books, pictures, or musical instruments under (a); apparel or jewelry under (b); necessary habitual-earnings tools under (c); a vehicle under (d); family-use animals or poultry under (e); household goods or furniture under (f); and prescribed health aids under (h). Sections (a),(b),(c),(d),(p) may combine for two joint household debtors; (e),(f),(h) do not double. For EV, use the (f) routine for capped household goods, but inline unlimited for eligible 60-day provisions or fuel. Under (e), use inline min(V,1000) for animals or poultry and unlimited for eligible 60-day food. Use unlimited for (h). Apply the special 40000/50000 homestead routine only to a qualifying occupied homestead or qualifying one-year proceeds.",
+            "avoid_when": "Do not omit (p) because a specific paragraph applies, classify real property under (p), double (e), (f), or (h), reject over-cap property, disregard necessity or habitual-earnings conditions for tools, or infer two debtors when Facts name one.",
+            "operators": [
+              {
+                "id": "or_books_music",
+                "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+                "limit_expression": "min(V,600*N)"
+              },
+              {
+                "id": "or_apparel_jewelry",
+                "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                "limit_expression": "min(V,1800*N)"
+              },
+              {
+                "id": "or_tools",
+                "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "or_vehicle",
+                "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+                "limit_expression": "min(V,3000*N)"
+              },
+              {
+                "id": "or_household_goods",
+                "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                "limit_expression": "min(V,3000)"
+              },
+              {
+                "id": "or_residual",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "limit_expression": "min(V,400*N)"
+              },
+              {
+                "id": "or_firearm",
+                "citation": "Or. Rev. Stat. § 18.362",
+                "limit_expression": "min(V,1000*N)"
+              },
+              {
+                "id": "or_home",
+                "citation": "Or. Rev. Stat. § 18.395(1)",
+                "limit_expression": "min(V,50000 if N==2 else 40000)"
+              },
+              {
+                "id": "or_home_proceeds",
+                "citation": "Or. Rev. Stat. § 18.395(2)",
+                "limit_expression": "min(V,50000 if N==2 else 40000)"
+              }
+            ],
+            "jurisdiction": "OREGON"
+          }
+        },
+        {
+          "id": "pennsylvania_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Pennsylvania law. Section 8123 reaches property generally; section 8124 separately covers wearing apparel, Bibles and school books, qualifying family or seamstress sewing machines, and qualifying military uniforms and accoutrements.",
+            "procedure": "Enumerate section 8123 along with any applicable specific citation because it is expressly additional. Each spouse has a separate 300 exemption. Use inline unlimited for eligible 8124(a)(1)-(4), because those provisions state no dollar ceiling.",
+            "avoid_when": "Do not treat unlimited as eliminating the stated ownership, occupation, use, sale-or-hire, or military-status conditions; do not combine independent alternatives into a final portfolio.",
+            "operators": [
+              {
+                "id": "pa_general",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "limit_expression": "min(V,300*N)"
+              }
+            ],
+            "jurisdiction": "PENNSYLVANIA"
+          }
+        },
+        {
+          "id": "wisconsin_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Wisconsin law: burial property; business/farm assets or the alternative closely held business interest; listed consumer goods; motor vehicles; personal nonbusiness depository accounts; and an occupied homestead or protected proceeds.",
+            "procedure": "Section 815.18(8) gives each spouse one capped exemption that may be combined, reflected by N. Business-interest paragraph (b)(2) is available only if (b)(1) is not claimed. Consumer goods have a 12000 aggregate cap per spouse. Motor vehicles have a 4000 base per spouse plus unused consumer-goods capacity; the routine gives the maximum independent ceiling of 16000 per spouse. If less consumer capacity remains, calculate a supported numeric expression inline. Burial property has no dollar ceiling and uses inline unlimited. Section 815.20 expressly allows each spouse 75000; protected sale proceeds keep that ceiling for two years while intended for another homestead.",
+            "avoid_when": "Do not claim both business alternatives, use a business account under (k), treat the transferred consumer-goods amount as available twice in a portfolio, classify a motor vehicle under the general consumer-goods residual instead of (g), or ignore occupancy, proceeds-intent, lien, tax, aggregate, or primary-use conditions.",
+            "operators": [
+              {
+                "id": "wi_business_assets",
+                "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "wi_business_interest",
+                "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "wi_consumer_goods",
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "limit_expression": "min(V,12000*N)"
+              },
+              {
+                "id": "wi_vehicle_max",
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "limit_expression": "min(V,16000*N)"
+              },
+              {
+                "id": "wi_accounts",
+                "citation": "Wis. Stat. § 815.18(3)(k)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "wi_home",
+                "citation": "Wis. Stat. § 815.20(1)",
+                "limit_expression": "min(V,75000*N)"
+              }
+            ],
+            "jurisdiction": "WISCONSIN"
+          }
+        }
+      ],
+      "delta": {
+        "operations": [
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "scheme_selection_and_ev"
+            ],
+            "skill": {
+              "id": "scheme_selection_and_ev",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Apply first to every asset, using only the jurisdictions already declared allowable by the public solved step.",
+                "procedure": "Work asset by asset. (1) Copy every original asset description exactly once; for EV also copy its stated numeric value. EC object keys must be asset descriptions, never citations. (2) Decide classification without regard to whether the asset exceeds a dollar cap: excess value reduces EV but does not defeat eligibility. (3) Enumerate every independently applicable specific, general, wildcard, and residual alternative within each allowable scheme; never stop after the first matching citation. (4) For EV, create one claim per eligible asset-citation pair and evaluate each independently. Set N from the number of named debtors in Facts: N=1 for one filer and N=2 for two filers. Multiply only where the applicable statute expressly supplies separate combinable exemptions.",
+                "avoid_when": "Do not recompute domicile, introduce an undeclared jurisdiction, use citations as asset names, omit an exemption because value exceeds its ceiling, mix alternative schemes into a portfolio, add claim values together, or infer N from ownership language instead of the named filers.",
+                "operators": [],
+                "jurisdiction": "ALL"
+              }
+            },
+            "source_case_ids": [
+              37,
+              38,
+              39,
+              40
+            ],
+            "rationale": "The parent repeatedly stopped after specific exemptions, omitted general alternatives, treated an over-cap vehicle as having no exemption, and in case 40 used citations as EC keys. This shared ordered pass directly addresses those observed classification and output failures without adding substantive law."
+          },
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "federal_522d"
+            ],
+            "skill": {
+              "id": "federal_522d",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Use only when the public solved step allows the federal section 522(d) scheme.",
+                "procedure": "For every asset, first add § 522(d)(5), because it is an independent any-property alternative. Then add every matching specific citation: residence or burial plot under (d)(1), one vehicle under (d)(2), an enumerated personal or household item under (d)(3), personal or family jewelry under (d)(4), trade implements/books/tools under (d)(6), and a professionally prescribed health aid under (d)(9). For EV, value each pair independently. Use the published routines for capped citations. The (d)(3) routine is the per-particular-item ceiling; a qualifying collection instead uses inline min(V,14875*N). Under the independent maximum wildcard alternative, (d)(5) uses 1475 plus 13950 of unused (d)(1) per debtor. Use inline unlimited for (d)(9).",
+                "avoid_when": "Do not use federal exemptions when the allowable-law step excludes them, omit (d)(5) merely because a specific citation also applies, reject an asset because its value exceeds a cap, use the (d)(3) aggregate ceiling for one item, or multiply unless Facts name two debtors.",
+                "operators": [
+                  {
+                    "id": "fed_home",
+                    "citation": "11 U.S.C. § 522(d)(1)",
+                    "limit_expression": "min(V,27900*N)"
+                  },
+                  {
+                    "id": "fed_vehicle",
+                    "citation": "11 U.S.C. § 522(d)(2)",
+                    "limit_expression": "min(V,4450*N)"
+                  },
+                  {
+                    "id": "fed_household_item",
+                    "citation": "11 U.S.C. § 522(d)(3)",
+                    "limit_expression": "min(V,700*N)"
+                  },
+                  {
+                    "id": "fed_jewelry",
+                    "citation": "11 U.S.C. § 522(d)(4)",
+                    "limit_expression": "min(V,1875*N)"
+                  },
+                  {
+                    "id": "fed_wildcard_max",
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "limit_expression": "min(V,15425*N)"
+                  },
+                  {
+                    "id": "fed_tools",
+                    "citation": "11 U.S.C. § 522(d)(6)",
+                    "limit_expression": "min(V,2800*N)"
+                  }
+                ],
+                "jurisdiction": "FEDERAL"
+              }
+            },
+            "source_case_ids": [
+              37,
+              38,
+              39
+            ],
+            "rationale": "Across cases 37-39 both the parent and empty-library answers omitted every applicable § 522(d)(5) claim. The parent also omitted a federal vehicle classification when its value exceeded the cap. Making wildcard addition the first mechanical classification step and separating eligibility from valuation targets the recurring errors."
+          },
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "oregon_exemptions"
+            ],
+            "skill": {
+              "id": "oregon_exemptions",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Use for allowable Oregon law. Match the exact categories in § 18.345, the personal-property residual, qualifying firearms, and occupied homesteads or protected proceeds.",
+                "procedure": "For each personal-property asset, add § 18.345(1)(p) as an independent alternative even when another Oregon paragraph also applies. Then add all specific matches: books, pictures, or musical instruments under (a); apparel or jewelry under (b); necessary habitual-earnings tools under (c); a vehicle under (d); family-use animals or poultry under (e); household goods or furniture under (f); and prescribed health aids under (h). Sections (a),(b),(c),(d),(p) may combine for two joint household debtors; (e),(f),(h) do not double. For EV, use the (f) routine for capped household goods, but inline unlimited for eligible 60-day provisions or fuel. Under (e), use inline min(V,1000) for animals or poultry and unlimited for eligible 60-day food. Use unlimited for (h). Apply the special 40000/50000 homestead routine only to a qualifying occupied homestead or qualifying one-year proceeds.",
+                "avoid_when": "Do not omit (p) because a specific paragraph applies, classify real property under (p), double (e), (f), or (h), reject over-cap property, disregard necessity or habitual-earnings conditions for tools, or infer two debtors when Facts name one.",
+                "operators": [
+                  {
+                    "id": "or_books_music",
+                    "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+                    "limit_expression": "min(V,600*N)"
+                  },
+                  {
+                    "id": "or_apparel_jewelry",
+                    "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                    "limit_expression": "min(V,1800*N)"
+                  },
+                  {
+                    "id": "or_tools",
+                    "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+                    "limit_expression": "min(V,5000*N)"
+                  },
+                  {
+                    "id": "or_vehicle",
+                    "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+                    "limit_expression": "min(V,3000*N)"
+                  },
+                  {
+                    "id": "or_household_goods",
+                    "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                    "limit_expression": "min(V,3000)"
+                  },
+                  {
+                    "id": "or_residual",
+                    "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                    "limit_expression": "min(V,400*N)"
+                  },
+                  {
+                    "id": "or_firearm",
+                    "citation": "Or. Rev. Stat. § 18.362",
+                    "limit_expression": "min(V,1000*N)"
+                  },
+                  {
+                    "id": "or_home",
+                    "citation": "Or. Rev. Stat. § 18.395(1)",
+                    "limit_expression": "min(V,50000 if N==2 else 40000)"
+                  },
+                  {
+                    "id": "or_home_proceeds",
+                    "citation": "Or. Rev. Stat. § 18.395(2)",
+                    "limit_expression": "min(V,50000 if N==2 else 40000)"
+                  }
+                ],
+                "jurisdiction": "OREGON"
+              }
+            },
+            "source_case_ids": [
+              39
+            ],
+            "rationale": "Case 39 omitted § 18.345(1)(p) for all three personal assets. The parent also incorrectly doubled federal and Oregon ceilings despite one named debtor, whereas the empty-library answer correctly valued the Oregon specific claims. The revision makes the residual overlay and non-doubling rule executable and publishes the observed household-goods ceiling."
+          },
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "illinois_exemptions"
+            ],
+            "skill": {
+              "id": "illinois_exemptions",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Use only when Illinois law is declared allowable: occupied residences or qualifying proceeds, listed necessary personal items, the personal-property residual, one vehicle, trade implements/books/tools, and prescribed health aids.",
+                "procedure": "Emit assets as the output keys or EV asset records; never emit citations as asset names. For each personal-use personal-property asset, test § 12-1001(b) independently even if a specific paragraph also applies. Thus eligible apparel may have both (a) and (b); property without a specific category may still have (b). Add (c) for one vehicle, (d) for trade property satisfying the stated conditions, and (e) for prescribed health aids. Use unlimited for (a) and (e). For the benchmark's stipulated equal joint ownership, § 12-901 gives each owner's one-half proportionate share of the 30000 joint ceiling, so the single asset-citation claim is capped at 15000; do not report 30000. Qualifying proceeds use 15000 per entitled person for one year.",
+                "avoid_when": "Do not use federal § 522(d), omit § 12-1001(b) merely because another paragraph applies, use personal-property exemptions for business property, turn citations into asset names, reject property because value exceeds a ceiling, or sum independently reported alternatives.",
+                "operators": [
+                  {
+                    "id": "il_home",
+                    "citation": "735 Ill. Comp. Stat. 5/12-901",
+                    "limit_expression": "min(V,15000)"
+                  },
+                  {
+                    "id": "il_home_proceeds",
+                    "citation": "735 Ill. Comp. Stat. 5/12-906",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "il_apparel",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                    "limit_expression": "unlimited"
+                  },
+                  {
+                    "id": "il_residual",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "limit_expression": "min(V,4000*N)"
+                  },
+                  {
+                    "id": "il_vehicle",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                    "limit_expression": "min(V,2400*N)"
+                  },
+                  {
+                    "id": "il_tools",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                    "limit_expression": "min(V,1500*N)"
+                  }
+                ],
+                "jurisdiction": "ILLINOIS"
+              }
+            },
+            "source_case_ids": [
+              40
+            ],
+            "rationale": "The parent scored zero on EC by outputting citations as keys and produced no parseable EV plan. The empty-library counterfactual restored asset records but omitted both residual claims and incorrectly valued the jointly owned homestead at 30000. The revised routine preserves the target-supported 15000 proportional ceiling and makes the residual second pass explicit."
+          }
+        ],
+        "noop_reason": null
+      },
+      "actual_tokens": 3672,
+      "current_effect": {
+        "tasks": 8,
+        "help": 5,
+        "hurt": 2,
+        "ties": 1,
+        "mean_f1_difference": 0.2315972222222222
+      },
+      "prior_effect": {
+        "tasks": 0,
+        "help": 0,
+        "hurt": 0,
+        "ties": 0,
+        "mean_f1_difference": 0
+      },
+      "actual_replay": [
+        {
+          "case_id": 37,
+          "source_key": "d4585fcf302a4c2193b4b0c7f85b9164c00ae72b5534b5598a9095a4a277704f",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "75c59791b90e3a17b427dc28f1edd847dfa27c7f72262a5a7c63ec66d1f4fc1e",
+          "parsed": {
+            "answer": {
+              "A set of glass food storage containers with snap lids with a value of $65.00": [
+                "11 U.S.C. § 522(d)(3)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "A forest green 1998 Chevrolet Silverado 1500 Extended Cab (182k miles) appraised at $3,540.00": [
+                "11 U.S.C. § 522(d)(2)",
+                "Wis. Stat. § 815.18(3)(g)"
+              ],
+              "A silver-plated trombone with large bore valued at $1,250.00": [
+                "11 U.S.C. § 522(d)(3)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "A water filtration system with multi-stage carbon and UV purification with a fair market value of $3,050.00": [
+                "11 U.S.C. § 522(d)(3)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_readable_namespace_online_20261020_run01/native/b1_candidate1_replay/37_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "A set of glass food storage containers with snap lids with a value of $65.00": [
+              "11 U.S.C. section 522(d)(3)",
+              "Wis. Stat. section 815.18(3)(d)"
+            ],
+            "A forest green 1998 Chevrolet Silverado 1500 Extended Cab (182k miles) appraised at $3,540.00": [
+              "11 U.S.C. section 522(d)(2)",
+              "Wis. Stat. section 815.18(3)(g)"
+            ],
+            "A silver-plated trombone with large bore valued at $1,250.00": [
+              "11 U.S.C. section 522(d)(3)",
+              "Wis. Stat. section 815.18(3)(d)"
+            ],
+            "A water filtration system with multi-stage carbon and UV purification with a fair market value of $3,050.00": [
+              "11 U.S.C. section 522(d)(3)",
+              "Wis. Stat. section 815.18(3)(d)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.6666666666666666,
+            "f1": 0.8,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 37,
+          "source_key": "d4585fcf302a4c2193b4b0c7f85b9164c00ae72b5534b5598a9095a4a277704f",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "75c59791b90e3a17b427dc28f1edd847dfa27c7f72262a5a7c63ec66d1f4fc1e",
+          "parsed": {
+            "answer": {
+              "glass food storage containers with snap lids": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 65.0
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 65.0
+                }
+              ],
+              "1998 Chevrolet Silverado 1500 Extended Cab": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(2)",
+                  "claim_value": 3540.0
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(g)",
+                  "claim_value": 3540.0
+                }
+              ],
+              "silver-plated trombone": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 1250.0
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 1250.0
+                }
+              ],
+              "water filtration system": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 3050.0
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 3050.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_readable_namespace_online_20261020_run01/native/b1_candidate1_replay/37_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "glass food storage containers with snap lids",
+                "asset_value": 65,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700*N)",
+                    "citation": "11 U.S.C. § 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation": "Wis. Stat. § 815.18(3)(d)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "1998 Chevrolet Silverado 1500 Extended Cab",
+                "asset_value": 3540,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,4450*N)",
+                    "citation": "11 U.S.C. § 522(d)(2)"
+                  },
+                  {
+                    "limit_expression": "min(V,4000*N)",
+                    "citation": "Wis. Stat. § 815.18(3)(g)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "silver-plated trombone",
+                "asset_value": 1250,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,14875*N)",
+                    "citation": "11 U.S.C. § 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation": "Wis. Stat. § 815.18(3)(d)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "water filtration system",
+                "asset_value": 3050,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,14875*N)",
+                    "citation": "11 U.S.C. § 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation": "Wis. Stat. § 815.18(3)(d)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "glass food storage containers with snap lids",
+                "asset_value": "65",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "operator_id": null,
+                "limit_expression": "min(V,700*N)",
+                "numeric_literals": [
+                  {
+                    "value": "700"
+                  }
+                ],
+                "limit": "65",
+                "claim_value": "65"
+              },
+              {
+                "asset_name": "glass food storage containers with snap lids",
+                "asset_value": "65",
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "operator_id": null,
+                "limit_expression": "min(V,12000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "12000"
+                  }
+                ],
+                "limit": "65",
+                "claim_value": "65"
+              },
+              {
+                "asset_name": "1998 Chevrolet Silverado 1500 Extended Cab",
+                "asset_value": "3540",
+                "citation": "11 U.S.C. § 522(d)(2)",
+                "operator_id": null,
+                "limit_expression": "min(V,4450*N)",
+                "numeric_literals": [
+                  {
+                    "value": "4450"
+                  }
+                ],
+                "limit": "3540",
+                "claim_value": "3540"
+              },
+              {
+                "asset_name": "1998 Chevrolet Silverado 1500 Extended Cab",
+                "asset_value": "3540",
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "operator_id": null,
+                "limit_expression": "min(V,4000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "4000"
+                  }
+                ],
+                "limit": "3540",
+                "claim_value": "3540"
+              },
+              {
+                "asset_name": "silver-plated trombone",
+                "asset_value": "1250",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "operator_id": null,
+                "limit_expression": "min(V,14875*N)",
+                "numeric_literals": [
+                  {
+                    "value": "14875"
+                  }
+                ],
+                "limit": "1250",
+                "claim_value": "1250"
+              },
+              {
+                "asset_name": "silver-plated trombone",
+                "asset_value": "1250",
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "operator_id": null,
+                "limit_expression": "min(V,12000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "12000"
+                  }
+                ],
+                "limit": "1250",
+                "claim_value": "1250"
+              },
+              {
+                "asset_name": "water filtration system",
+                "asset_value": "3050",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "operator_id": null,
+                "limit_expression": "min(V,14875*N)",
+                "numeric_literals": [
+                  {
+                    "value": "14875"
+                  }
+                ],
+                "limit": "3050",
+                "claim_value": "3050"
+              },
+              {
+                "asset_name": "water filtration system",
+                "asset_value": "3050",
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "operator_id": null,
+                "limit_expression": "min(V,12000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "12000"
+                  }
+                ],
+                "limit": "3050",
+                "claim_value": "3050"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "b0502fb06ee2f27dac8a23ce775e96041c0d93be39621906349328d3e52a417e",
+            "source_facts_sha256": "aba8dfe2870cda6a0d122819961c87695470a5162c0f9a0c67d72f5ff7876d05",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "public_label_submission": {
+            "assets": [
+              {
+                "asset_name": "glass food storage containers with snap lids",
+                "asset_value": 65,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700*N)",
+                    "citation_ref": "11 U.S.C. section 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation_ref": "Wis. Stat. section 815.18(3)(d)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "1998 Chevrolet Silverado 1500 Extended Cab",
+                "asset_value": 3540,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,4450*N)",
+                    "citation_ref": "11 U.S.C. section 522(d)(2)"
+                  },
+                  {
+                    "limit_expression": "min(V,4000*N)",
+                    "citation_ref": "Wis. Stat. section 815.18(3)(g)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "silver-plated trombone",
+                "asset_value": 1250,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,14875*N)",
+                    "citation_ref": "11 U.S.C. section 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation_ref": "Wis. Stat. section 815.18(3)(d)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "water filtration system",
+                "asset_value": 3050,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,14875*N)",
+                    "citation_ref": "11 U.S.C. section 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation_ref": "Wis. Stat. section 815.18(3)(d)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 0.75,
+            "recall": 0.49999999999999994,
+            "f1": 0.6,
+            "mare": 0.5167617689015692,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.6,
+            "full_output_precision": 0.75,
+            "full_output_recall": 0.5,
+            "full_output_claim_tp": 6,
+            "full_output_claim_fp": 2,
+            "full_output_claim_fn": 6,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 38,
+          "source_key": "8f57c072c6bc5062203c94e411f12aa91045337530bbc1cd8a46178d71452120",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "75c59791b90e3a17b427dc28f1edd847dfa27c7f72262a5a7c63ec66d1f4fc1e",
+          "parsed": {
+            "answer": {
+              "light brown derby shoes with black laces": [
+                "11 U.S.C. § 522(d)(3)",
+                "11 U.S.C. § 522(d)(5)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "pair of designer sneakers with leather and suede paneling": [
+                "11 U.S.C. § 522(d)(3)",
+                "11 U.S.C. § 522(d)(5)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_readable_namespace_online_20261020_run01/native/b1_candidate1_replay/38_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "light brown derby shoes with black laces": [
+              "11 U.S.C. section 522(d)(3)",
+              "11 U.S.C. section 522(d)(5)",
+              "Wis. Stat. section 815.18(3)(d)"
+            ],
+            "pair of designer sneakers with leather and suede paneling": [
+              "11 U.S.C. section 522(d)(3)",
+              "11 U.S.C. section 522(d)(5)",
+              "Wis. Stat. section 815.18(3)(d)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 38,
+          "source_key": "8f57c072c6bc5062203c94e411f12aa91045337530bbc1cd8a46178d71452120",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "75c59791b90e3a17b427dc28f1edd847dfa27c7f72262a5a7c63ec66d1f4fc1e",
+          "parsed": {
+            "answer": {
+              "light brown derby shoes with black laces": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 21.0
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 21.0
+                }
+              ],
+              "designer sneakers with leather and suede paneling": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 375.0
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 375.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_readable_namespace_online_20261020_run01/native/b1_candidate1_replay/38_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "light brown derby shoes with black laces",
+                "asset_value": 21,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700*N)",
+                    "citation": "11 U.S.C. § 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation": "Wis. Stat. § 815.18(3)(d)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "designer sneakers with leather and suede paneling",
+                "asset_value": 375,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700*N)",
+                    "citation": "11 U.S.C. § 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation": "Wis. Stat. § 815.18(3)(d)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "light brown derby shoes with black laces",
+                "asset_value": "21",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "operator_id": null,
+                "limit_expression": "min(V,700*N)",
+                "numeric_literals": [
+                  {
+                    "value": "700"
+                  }
+                ],
+                "limit": "21",
+                "claim_value": "21"
+              },
+              {
+                "asset_name": "light brown derby shoes with black laces",
+                "asset_value": "21",
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "operator_id": null,
+                "limit_expression": "min(V,12000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "12000"
+                  }
+                ],
+                "limit": "21",
+                "claim_value": "21"
+              },
+              {
+                "asset_name": "designer sneakers with leather and suede paneling",
+                "asset_value": "375",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "operator_id": null,
+                "limit_expression": "min(V,700*N)",
+                "numeric_literals": [
+                  {
+                    "value": "700"
+                  }
+                ],
+                "limit": "375",
+                "claim_value": "375"
+              },
+              {
+                "asset_name": "designer sneakers with leather and suede paneling",
+                "asset_value": "375",
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "operator_id": null,
+                "limit_expression": "min(V,12000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "12000"
+                  }
+                ],
+                "limit": "375",
+                "claim_value": "375"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "bc32d3a5e0ae42180081bcce674e3106976e578e144f1413d95af8bb86c6d9f7",
+            "source_facts_sha256": "6c144ef76938c479546934764b3ace74bb313b6d57352a2956a7516b884a62a0",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "public_label_submission": {
+            "assets": [
+              {
+                "asset_name": "light brown derby shoes with black laces",
+                "asset_value": 21,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700*N)",
+                    "citation_ref": "11 U.S.C. section 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation_ref": "Wis. Stat. section 815.18(3)(d)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "designer sneakers with leather and suede paneling",
+                "asset_value": 375,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700*N)",
+                    "citation_ref": "11 U.S.C. section 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation_ref": "Wis. Stat. section 815.18(3)(d)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.6666666666666666,
+            "f1": 0.8,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.8,
+            "full_output_precision": 1.0,
+            "full_output_recall": 0.6666666666666666,
+            "full_output_claim_tp": 4,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 2,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 39,
+          "source_key": "1132c95874089d1d366ea0bf97849f760136eaf3194cdc3aa500445673a19b95",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "75c59791b90e3a17b427dc28f1edd847dfa27c7f72262a5a7c63ec66d1f4fc1e",
+          "parsed": {
+            "answer": {
+              "Electric clothes dryer with moisture sensors and reversible door valued at $1,550.00": [
+                "11 U.S.C. § 522(d)(3)",
+                "Or. Rev. Stat. § 18.345(1)(f)"
+              ],
+              "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup owned by Bailey has been calculated to be $32,900.00": [
+                "11 U.S.C. § 522(d)(2)",
+                "Or. Rev. Stat. § 18.345(1)(d)"
+              ],
+              "adjustable orthopedic back brace for spinal injury required as part of rehabilitation protocol valued at $375.00": [
+                "11 U.S.C. § 522(d)(9)",
+                "Or. Rev. Stat. § 18.345(1)(h)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_readable_namespace_online_20261020_run01/native/b1_candidate1_replay/39_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "Electric clothes dryer with moisture sensors and reversible door valued at $1,550.00": [
+              "11 U.S.C. section 522(d)(3)",
+              "Or. Rev. Stat. section 18.345(1)(f)"
+            ],
+            "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup owned by Bailey has been calculated to be $32,900.00": [
+              "11 U.S.C. section 522(d)(2)",
+              "Or. Rev. Stat. section 18.345(1)(d)"
+            ],
+            "adjustable orthopedic back brace for spinal injury required as part of rehabilitation protocol valued at $375.00": [
+              "11 U.S.C. section 522(d)(9)",
+              "Or. Rev. Stat. section 18.345(1)(h)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "oregon_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 39,
+          "source_key": "1132c95874089d1d366ea0bf97849f760136eaf3194cdc3aa500445673a19b95",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "75c59791b90e3a17b427dc28f1edd847dfa27c7f72262a5a7c63ec66d1f4fc1e",
+          "parsed": null,
+          "parse_error": "Incomplete native output: length",
+          "raw_call_path": "runs/legal_openexempt_readable_namespace_online_20261020_run01/native/b1_candidate1_replay/39_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": null,
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "oregon_exemptions"
+          ],
+          "score": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "mare": null,
+            "invalid_format": 1,
+            "exact_target": false,
+            "full_output_f1": 0.0,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 40,
+          "source_key": "5f70876d046dcdfa27e863e62fb1cd1807aad8bc93e71b1b8290b9248aa43eb3",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "75c59791b90e3a17b427dc28f1edd847dfa27c7f72262a5a7c63ec66d1f4fc1e",
+          "parsed": {
+            "answer": {
+              "camo cargo pants with ribbed cuffs": [
+                "735 Ill. Comp. Stat. 5/12-1001(a)",
+                "735 Ill. Comp. Stat. 5/12-1001(b)"
+              ],
+              "three-bedroom ranch-style principal residence with attached two-car garage": [
+                "735 Ill. Comp. Stat. 5/12-901"
+              ],
+              "calico cat": [
+                "735 Ill. Comp. Stat. 5/12-1001(b)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_readable_namespace_online_20261020_run01/native/b1_candidate1_replay/40_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "camo cargo pants with ribbed cuffs": [
+              "735 Ill. Comp. Stat. 5/12-1001(a)",
+              "735 Ill. Comp. Stat. 5/12-1001(b)"
+            ],
+            "three-bedroom ranch-style principal residence with attached two-car garage": [
+              "735 Ill. Comp. Stat. 5/12-901"
+            ],
+            "calico cat": [
+              "735 Ill. Comp. Stat. 5/12-1001(b)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "illinois_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 40,
+          "source_key": "5f70876d046dcdfa27e863e62fb1cd1807aad8bc93e71b1b8290b9248aa43eb3",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "75c59791b90e3a17b427dc28f1edd847dfa27c7f72262a5a7c63ec66d1f4fc1e",
+          "parsed": {
+            "answer": {
+              "camo cargo pants with ribbed cuffs": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 775.0
+                }
+              ],
+              "three-bedroom ranch-style principal residence with attached two-car garage": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-901",
+                  "claim_value": 15000.0
+                }
+              ],
+              "calico cat": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 145.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_readable_namespace_online_20261020_run01/native/b1_candidate1_replay/40_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "camo cargo pants with ribbed cuffs",
+                "asset_value": 775,
+                "claims": [
+                  {
+                    "limit_expression": "unlimited",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(a)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "three-bedroom ranch-style principal residence with attached two-car garage",
+                "asset_value": 246000,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,15000)",
+                    "citation": "735 Ill. Comp. Stat. 5/12-901"
+                  }
+                ]
+              },
+              {
+                "asset_name": "calico cat",
+                "asset_value": 145,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,4000*2)",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "camo cargo pants with ribbed cuffs",
+                "asset_value": "775",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                "operator_id": null,
+                "limit_expression": "unlimited",
+                "numeric_literals": [],
+                "limit": null,
+                "claim_value": "775"
+              },
+              {
+                "asset_name": "three-bedroom ranch-style principal residence with attached two-car garage",
+                "asset_value": "246000",
+                "citation": "735 Ill. Comp. Stat. 5/12-901",
+                "operator_id": null,
+                "limit_expression": "min(V,15000)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "15000",
+                "claim_value": "15000"
+              },
+              {
+                "asset_name": "calico cat",
+                "asset_value": "145",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "operator_id": null,
+                "limit_expression": "min(V,4000*2)",
+                "numeric_literals": [
+                  {
+                    "value": "4000"
+                  },
+                  {
+                    "value": "2"
+                  }
+                ],
+                "limit": "145",
+                "claim_value": "145"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "cb5e371f3f5ec814c8147ea98fd1520152185b17ab4edf864b81adbcb52747da",
+            "source_facts_sha256": "784a1855028693a69e920af40a6c34d22b2111c09a6e42c4b5eddf7a6977c4f1",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "public_label_submission": {
+            "assets": [
+              {
+                "asset_name": "camo cargo pants with ribbed cuffs",
+                "asset_value": 775,
+                "claims": [
+                  {
+                    "limit_expression": "unlimited",
+                    "citation_ref": "735 Ill. Comp. Stat. 5/12-1001(a)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "three-bedroom ranch-style principal residence with attached two-car garage",
+                "asset_value": 246000,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,15000)",
+                    "citation_ref": "735 Ill. Comp. Stat. 5/12-901"
+                  }
+                ]
+              },
+              {
+                "asset_name": "calico cat",
+                "asset_value": 145,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,4000*2)",
+                    "citation_ref": "735 Ill. Comp. Stat. 5/12-1001(b)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "illinois_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.8333333333333334,
+            "f1": 0.8888888888888888,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.8571428571428571,
+            "full_output_precision": 1.0,
+            "full_output_recall": 0.75,
+            "full_output_claim_tp": 3,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 1,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        }
+      ]
+    }
+  ],
+  "future_performance_not_used": true,
+  "training_acceptance_does_not_guarantee_generalization": true
+}

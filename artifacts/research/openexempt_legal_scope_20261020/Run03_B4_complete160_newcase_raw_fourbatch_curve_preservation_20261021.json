@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-21T12:48:26.312249+00:00",
+  "classification": "Complete B4 all160 first forecasts, original raw and actual request inputs, errors and fourbatch curve; not B4 candidate replay or a final128 TEST result",
+  "receipt": {
+    "at": "2026-10-21T12:48:25.110937+00:00",
+    "stage": "B4_complete160_newcase_raw_fourbatch_curve_checkpoint",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-B4_complete160_newcase_raw_fourbatch_curve_checkpoint.tar.gz",
+        "sha256": "e69343a13370a26931962c50959eb866c414bee17d507a16face9420bcee02d9"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_goal_Run03_20261021-B4_complete160_newcase_raw_fourbatch_curve_checkpoint.tar.gz",
+        "sha256": "e69343a13370a26931962c50959eb866c414bee17d507a16face9420bcee02d9"
+      }
+    ],
+    "files": 420
+  },
+  "archive_devices": [
+    64528,
+    64517
+  ],
+  "main_waiter_bindings_before_after": [
+    371,
+    381
+  ],
+  "new_native_teacher_TEST_calls": 0,
+  "inflight_C1_or_live_progress_or_ledger_excluded": true,
+  "preservation_recomputation_program": "import json,pathlib,hashlib\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=pathlib.Path.cwd();read=lambda p:json.loads(p.read_text());base=root/\"artifacts/research/openexempt_legal_scope_20261020\";r=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\"\nrp=base/\"Run03_B4_complete160_newcase_retained_B3_vs_ownB1_native_wire_cost_and_claim_residuals_20261021.json\";a=read(rp);assert a[\"ready\"] and a[\"logical_records\"]==160 and a[\"original_wire_fresh_v14_redecoding\"][\"valid_record_occurrences_verified\"]==160\nnames=set(a[\"evidence_paths\"]);names.add(str(rp.relative_to(root)))\nnames.update(str(p.relative_to(root)) for p in (r/\"native/b4_prequential\").glob(\"*.json\"))\nnames.update([\"docs/CURRENT_GOAL.md\",\"paper/evidence_and_completion_20261020.md\",\"paper/manuscript_v1_20261021.md\",str((base/\"Run03_learning_curve_complete_prequential_batches_20261021.json\").relative_to(root)),str((base/\"hourly2030_B4_forward_teacher_signal_edit_credit_preservation_20261021.json\").relative_to(root))])\nassert not any(\"/b4_candidate1\" in n or n.endswith(\"/progress.json\") or \"teacher_invocation_budget\" in n for n in names)\nassert all((root/n).is_file() for n in names)\npins=[read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\")[\"files\"],read(root/\"artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/queued.json\")[\"source_data_environment_pins\"]]\ndef verify():\n for d in pins:assert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==h for n,h in d.items())\nverify();receipt=preserve(\"legal_research_goal_Run03_20261021\",\"B4_complete160_newcase_raw_fourbatch_curve_checkpoint\",sorted(names));verify()\nout={\"at\":now(),\"classification\":\"Complete B4 all160 first forecasts, original raw and actual request inputs, errors and fourbatch curve; not B4 candidate replay or a final128 TEST result\",\"receipt\":receipt,\"archive_devices\":[pathlib.Path(x[\"path\"]).stat().st_dev for x in receipt[\"paths\"]],\"main_waiter_bindings_before_after\":[len(x) for x in pins],\"new_native_teacher_TEST_calls\":0,\"inflight_C1_or_live_progress_or_ledger_excluded\":True}\nassert len(set(out[\"archive_devices\"]))==2\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

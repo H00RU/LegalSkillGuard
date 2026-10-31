@@ -1,0 +1,104 @@
+{
+  "at": "2026-10-18T20:14:21.973901+00:00",
+  "parent": [],
+  "delta": {
+    "operations": [
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "compound-responsive-span-boundaries",
+          "hypothesis_ids": [
+            "nda-16",
+            "nda-15",
+            "nda-10",
+            "nda-2",
+            "nda-1",
+            "nda-19",
+            "nda-12",
+            "nda-20",
+            "nda-3",
+            "nda-18",
+            "nda-7",
+            "nda-17",
+            "nda-8",
+            "nda-13",
+            "nda-5",
+            "nda-4"
+          ],
+          "guidance": {
+            "python_source": "def propose_evidence_groups(text, spans, public_hypothesis_key, ordinary_candidate_indices):\n    def span_text(x):\n        if isinstance(x, str):\n            return x\n        if isinstance(x, dict):\n            for k in ('literal_original_text', 'text', 'content'):\n                v = x.get(k)\n                if isinstance(v, str):\n                    return v\n            a = x.get('start')\n            b = x.get('end')\n            if isinstance(text, str) and isinstance(a, int) and isinstance(b, int):\n                return text[a:b]\n        if isinstance(x, (list, tuple)):\n            best = ''\n            for v in x:\n                if isinstance(v, str) and len(v) > len(best):\n                    best = v\n            if best:\n                return best\n            if len(x) >= 2 and isinstance(text, str) and isinstance(x[0], int) and isinstance(x[1], int):\n                return text[x[0]:x[1]]\n        return ''\n    xs = list(spans)\n    ts = [span_text(x).casefold() for x in xs]\n    ids = []\n    for p, x in enumerate(xs):\n        v = x.get('original_span_index') if isinstance(x, dict) else None\n        ids.append(v if isinstance(v, int) else p)\n    out = []\n    seen = set()\n    def has(i, terms):\n        return 0 <= i < len(ts) and any(term in ts[i] for term in terms)\n    def add(pos):\n        g = sorted(set(ids[i] for i in pos if 0 <= i < len(ids)))\n        z = tuple(g)\n        if len(g) >= 2 and z not in seen:\n            seen.add(z)\n            out.append(g)\n    def before(i, terms, width):\n        for j in reversed(range(max(0, i - width), i)):\n            if has(j, terms):\n                return j\n        return -1\n    key = public_hypothesis_key\n    if key in ('nda-12', 'nda-13'):\n        target = ('independently develop', 'independent development', 'independently discover', 'without use of', 'without reference to') if key == 'nda-12' else ('third party', 'third-party', 'third person', 'another source', 'source other than', 'outside source')\n        intro = ('does not include', 'shall not include', 'shall not apply', 'does not apply', 'foregoing shall not apply', 'exceptions', 'except information', 'excludes')\n        for i in range(len(ts)):\n            if has(i, target):\n                j = before(i, intro, 7)\n                if j >= 0:\n                    add((j, i))\n    elif key in ('nda-1', 'nda-2', 'nda-3'):\n        if key == 'nda-3':\n            marks = ('oral', 'orally', 'verbally', 'spoken', 'communicated visually')\n        elif key == 'nda-1':\n            marks = ('marked confidential', 'designated as', 'identified as', 'identify it as', 'confidential legend', 'made aware')\n        else:\n            marks = ('technical', 'technology', 'engineering', 'software', 'business', 'financial', 'commercial', 'marketing', 'personnel', 'customer')\n        leads = ('confidential information means', 'confidential information shall mean', 'proprietary information means', 'with respect to all', 'all information disclosed', 'confidential information disclosed', 'confidential information means:')\n        tails = ('reduce', 'reduced to writing', 'confirm', 'confirmed', 'within ', 'marked', 'identify', 'transmit')\n        for i in range(len(ts)):\n            if has(i, marks):\n                q = [i]\n                j = before(i, leads, 4)\n                if j >= 0:\n                    q.append(j)\n                    for k in range(j + 1, i):\n                        if has(k, marks + ('writing', 'written', 'tangible', 'including')):\n                            q.append(k)\n                if key in ('nda-1', 'nda-3'):\n                    for k in range(i + 1, min(len(ts), i + 3)):\n                        if has(k, tails):\n                            q.append(k)\n                add(q)\n    elif key in ('nda-5', 'nda-7'):\n        people = ('employee', 'consultant', 'contractor', 'advisor', 'adviser', 'agent', 'affiliate', 'representative')\n        force = ('shall not disclose', 'may disclose', 'may be disclosed', 'authorizes', 'limit access', 'disclose confidential', 'disclose evaluation', 'access to confidential')\n        definitions = ('representatives shall include', 'representatives” shall include', 'representatives shall mean')\n        for i in range(len(ts)):\n            if has(i, people) and has(i, ('disclos', 'access', 'need to know', 'receive')):\n                q = [i]\n                j = before(i, force, 5)\n                if j >= 0:\n                    q.append(j)\n                d = before(i, definitions, 9)\n                if d >= 0:\n                    q.append(d)\n                for k in range(max(0, i - 2), i):\n                    if len(ts[k].strip()) < 35 or ts[k].rstrip().endswith(('except:', 'its', 'and')):\n                        q.append(k)\n                add(q)\n    elif key == 'nda-8':\n        compel = ('required by law', 'required to disclose', 'legally compelled', 'subpoena', 'court order', 'legal process', 'governmental authority')\n        notice = ('notify', 'notice to', 'written notice', 'advised of the requirement')\n        for i in range(len(ts)):\n            if has(i, notice):\n                j = before(i, compel, 9)\n                if j >= 0:\n                    add((j, i))\n    elif key in ('nda-16', 'nda-20'):\n        ending = ('termination', 'expiration', 'conclusion', 'end of the', 'decides that it does not wish', 'completion of the project', 'discussions conclude')\n        command = ('return', 'destroy', 'delete all', 'deliver to', 'cease use', 'no copies will be', 'not retain')\n        retain = ('retain one', 'archival', 'archive', 'backup', 'recordkeeping', 'legal counsel', 'required by law')\n        for i in range(len(ts)):\n            if has(i, command):\n                q = [i]\n                j = before(i, ending, 4)\n                if j >= 0:\n                    q.append(j)\n                for k in range(max(0, i - 2), min(len(ts), i + 3)):\n                    if k != i and has(k, command):\n                        q.append(k)\n                if key == 'nda-20':\n                    for k in range(max(0, i - 5), min(len(ts), i + 6)):\n                        if has(k, retain):\n                            q.append(k)\n                if i + 1 < len(ts) and len(ts[i + 1].strip()) < 18:\n                    q.append(i + 1)\n                add(q)\n    elif key == 'nda-15':\n        strong = ('no rights in', 'no right, title', 'no title, license', 'no license', 'grants no rights', 'shall remain the sole property', 'does not grant', 'not acquire any intellectual property')\n        q = [i for i in range(len(ts)) if has(i, strong)]\n        add(q)\n    elif key == 'nda-19':\n        strong = ('shall survive', 'survive termination', 'continue to be bound', 'continue in force', 'remain subject to this agreement', 'will continue to be bound')\n        q = [i for i in range(len(ts)) if has(i, strong)]\n        add(q)\n        for i in q:\n            if has(i, ('period which is either', 'period which is', 'either ')):\n                add(range(i, min(len(ts), i + 5)))\n    elif key == 'nda-4':\n        strong = ('solely for the purpose', 'only for the purpose', 'for no other purpose', 'not use the confidential', 'use the same exclusively', 'shall not use', 'used only for')\n        q = [i for i in range(len(ts)) if has(i, strong)]\n        add(q)\n    elif key == 'nda-10':\n        facts = ('discussions or negotiations', 'agreement has been', 'fact that', 'announcement or disclosure of the project', 'terms, conditions or other facts')\n        lead = ('will not disclose', 'shall not disclose', 'confidential information subject', 'without the prior written consent')\n        for i in range(len(ts)):\n            if has(i, facts):\n                j = before(i, lead, 4)\n                if j >= 0:\n                    add((j, i))\n    elif key == 'nda-17':\n        copy = ('copy', 'copies', 'reproduction', 'duplicate')\n        condition = ('only the necessary', 'without permission', 'solely for the purpose', 'retain one', 'shall contain', 'not retain')\n        for i in range(len(ts)):\n            if has(i, copy):\n                q = [i]\n                for k in range(max(0, i - 2), min(len(ts), i + 3)):\n                    if k != i and has(k, condition):\n                        q.append(k)\n                add(q)\n    elif key == 'nda-18':\n        strong = ('solicit the employment', 'solicit any', 'employ or engage', 'contact any other employee', 'induce any employee')\n        q = [i for i in range(len(ts)) if has(i, strong)]\n        add(q)\n    return out"
+          }
+        },
+        "source_case_ids": [
+          93,
+          315,
+          169,
+          124,
+          579,
+          323,
+          396,
+          104,
+          239,
+          105,
+          324,
+          282,
+          224,
+          133,
+          141,
+          292
+        ],
+        "rationale": "Across the supplied cases, responsive evidence repeatedly forms observable compound units: definition or exception introductions paired with limbs, split disclosure and notice clauses, ending triggers paired with return duties, return commands paired with retention carve-outs, and independently responsive repeated provisions. The program derives optional groups solely from current span text and structure while preserving every singleton choice."
+      }
+    ],
+    "noop_reason": null
+  },
+  "program_library": [
+    {
+      "id": "compound-responsive-span-boundaries",
+      "hypothesis_ids": [
+        "nda-16",
+        "nda-15",
+        "nda-10",
+        "nda-2",
+        "nda-1",
+        "nda-19",
+        "nda-12",
+        "nda-20",
+        "nda-3",
+        "nda-18",
+        "nda-7",
+        "nda-17",
+        "nda-8",
+        "nda-13",
+        "nda-5",
+        "nda-4"
+      ],
+      "guidance": {
+        "python_source": "def propose_evidence_groups(text, spans, public_hypothesis_key, ordinary_candidate_indices):\n    def span_text(x):\n        if isinstance(x, str):\n            return x\n        if isinstance(x, dict):\n            for k in ('literal_original_text', 'text', 'content'):\n                v = x.get(k)\n                if isinstance(v, str):\n                    return v\n            a = x.get('start')\n            b = x.get('end')\n            if isinstance(text, str) and isinstance(a, int) and isinstance(b, int):\n                return text[a:b]\n        if isinstance(x, (list, tuple)):\n            best = ''\n            for v in x:\n                if isinstance(v, str) and len(v) > len(best):\n                    best = v\n            if best:\n                return best\n            if len(x) >= 2 and isinstance(text, str) and isinstance(x[0], int) and isinstance(x[1], int):\n                return text[x[0]:x[1]]\n        return ''\n    xs = list(spans)\n    ts = [span_text(x).casefold() for x in xs]\n    ids = []\n    for p, x in enumerate(xs):\n        v = x.get('original_span_index') if isinstance(x, dict) else None\n        ids.append(v if isinstance(v, int) else p)\n    out = []\n    seen = set()\n    def has(i, terms):\n        return 0 <= i < len(ts) and any(term in ts[i] for term in terms)\n    def add(pos):\n        g = sorted(set(ids[i] for i in pos if 0 <= i < len(ids)))\n        z = tuple(g)\n        if len(g) >= 2 and z not in seen:\n            seen.add(z)\n            out.append(g)\n    def before(i, terms, width):\n        for j in reversed(range(max(0, i - width), i)):\n            if has(j, terms):\n                return j\n        return -1\n    key = public_hypothesis_key\n    if key in ('nda-12', 'nda-13'):\n        target = ('independently develop', 'independent development', 'independently discover', 'without use of', 'without reference to') if key == 'nda-12' else ('third party', 'third-party', 'third person', 'another source', 'source other than', 'outside source')\n        intro = ('does not include', 'shall not include', 'shall not apply', 'does not apply', 'foregoing shall not apply', 'exceptions', 'except information', 'excludes')\n        for i in range(len(ts)):\n            if has(i, target):\n                j = before(i, intro, 7)\n                if j >= 0:\n                    add((j, i))\n    elif key in ('nda-1', 'nda-2', 'nda-3'):\n        if key == 'nda-3':\n            marks = ('oral', 'orally', 'verbally', 'spoken', 'communicated visually')\n        elif key == 'nda-1':\n            marks = ('marked confidential', 'designated as', 'identified as', 'identify it as', 'confidential legend', 'made aware')\n        else:\n            marks = ('technical', 'technology', 'engineering', 'software', 'business', 'financial', 'commercial', 'marketing', 'personnel', 'customer')\n        leads = ('confidential information means', 'confidential information shall mean', 'proprietary information means', 'with respect to all', 'all information disclosed', 'confidential information disclosed', 'confidential information means:')\n        tails = ('reduce', 'reduced to writing', 'confirm', 'confirmed', 'within ', 'marked', 'identify', 'transmit')\n        for i in range(len(ts)):\n            if has(i, marks):\n                q = [i]\n                j = before(i, leads, 4)\n                if j >= 0:\n                    q.append(j)\n                    for k in range(j + 1, i):\n                        if has(k, marks + ('writing', 'written', 'tangible', 'including')):\n                            q.append(k)\n                if key in ('nda-1', 'nda-3'):\n                    for k in range(i + 1, min(len(ts), i + 3)):\n                        if has(k, tails):\n                            q.append(k)\n                add(q)\n    elif key in ('nda-5', 'nda-7'):\n        people = ('employee', 'consultant', 'contractor', 'advisor', 'adviser', 'agent', 'affiliate', 'representative')\n        force = ('shall not disclose', 'may disclose', 'may be disclosed', 'authorizes', 'limit access', 'disclose confidential', 'disclose evaluation', 'access to confidential')\n        definitions = ('representatives shall include', 'representatives” shall include', 'representatives shall mean')\n        for i in range(len(ts)):\n            if has(i, people) and has(i, ('disclos', 'access', 'need to know', 'receive')):\n                q = [i]\n                j = before(i, force, 5)\n                if j >= 0:\n                    q.append(j)\n                d = before(i, definitions, 9)\n                if d >= 0:\n                    q.append(d)\n                for k in range(max(0, i - 2), i):\n                    if len(ts[k].strip()) < 35 or ts[k].rstrip().endswith(('except:', 'its', 'and')):\n                        q.append(k)\n                add(q)\n    elif key == 'nda-8':\n        compel = ('required by law', 'required to disclose', 'legally compelled', 'subpoena', 'court order', 'legal process', 'governmental authority')\n        notice = ('notify', 'notice to', 'written notice', 'advised of the requirement')\n        for i in range(len(ts)):\n            if has(i, notice):\n                j = before(i, compel, 9)\n                if j >= 0:\n                    add((j, i))\n    elif key in ('nda-16', 'nda-20'):\n        ending = ('termination', 'expiration', 'conclusion', 'end of the', 'decides that it does not wish', 'completion of the project', 'discussions conclude')\n        command = ('return', 'destroy', 'delete all', 'deliver to', 'cease use', 'no copies will be', 'not retain')\n        retain = ('retain one', 'archival', 'archive', 'backup', 'recordkeeping', 'legal counsel', 'required by law')\n        for i in range(len(ts)):\n            if has(i, command):\n                q = [i]\n                j = before(i, ending, 4)\n                if j >= 0:\n                    q.append(j)\n                for k in range(max(0, i - 2), min(len(ts), i + 3)):\n                    if k != i and has(k, command):\n                        q.append(k)\n                if key == 'nda-20':\n                    for k in range(max(0, i - 5), min(len(ts), i + 6)):\n                        if has(k, retain):\n                            q.append(k)\n                if i + 1 < len(ts) and len(ts[i + 1].strip()) < 18:\n                    q.append(i + 1)\n                add(q)\n    elif key == 'nda-15':\n        strong = ('no rights in', 'no right, title', 'no title, license', 'no license', 'grants no rights', 'shall remain the sole property', 'does not grant', 'not acquire any intellectual property')\n        q = [i for i in range(len(ts)) if has(i, strong)]\n        add(q)\n    elif key == 'nda-19':\n        strong = ('shall survive', 'survive termination', 'continue to be bound', 'continue in force', 'remain subject to this agreement', 'will continue to be bound')\n        q = [i for i in range(len(ts)) if has(i, strong)]\n        add(q)\n        for i in q:\n            if has(i, ('period which is either', 'period which is', 'either ')):\n                add(range(i, min(len(ts), i + 5)))\n    elif key == 'nda-4':\n        strong = ('solely for the purpose', 'only for the purpose', 'for no other purpose', 'not use the confidential', 'use the same exclusively', 'shall not use', 'used only for')\n        q = [i for i in range(len(ts)) if has(i, strong)]\n        add(q)\n    elif key == 'nda-10':\n        facts = ('discussions or negotiations', 'agreement has been', 'fact that', 'announcement or disclosure of the project', 'terms, conditions or other facts')\n        lead = ('will not disclose', 'shall not disclose', 'confidential information subject', 'without the prior written consent')\n        for i in range(len(ts)):\n            if has(i, facts):\n                j = before(i, lead, 4)\n                if j >= 0:\n                    add((j, i))\n    elif key == 'nda-17':\n        copy = ('copy', 'copies', 'reproduction', 'duplicate')\n        condition = ('only the necessary', 'without permission', 'solely for the purpose', 'retain one', 'shall contain', 'not retain')\n        for i in range(len(ts)):\n            if has(i, copy):\n                q = [i]\n                for k in range(max(0, i - 2), min(len(ts), i + 3)):\n                    if k != i and has(k, condition):\n                        q.append(k)\n                add(q)\n    elif key == 'nda-18':\n        strong = ('solicit the employment', 'solicit any', 'employ or engage', 'contact any other employee', 'induce any employee')\n        q = [i for i in range(len(ts)) if has(i, strong)]\n        add(q)\n    return out"
+      }
+    }
+  ],
+  "statistics": {
+    "operation_counts": {
+      "CREATE": 1,
+      "UPDATE": 0,
+      "DELETE": 0,
+      "MERGE": 0
+    },
+    "explicit_noop": false,
+    "parent_skill_count": 0,
+    "published_skill_count": 1,
+    "new_ids": [
+      "compound-responsive-span-boundaries"
+    ],
+    "removed_ids": [],
+    "verbatim_retained_ids": [],
+    "revised_retained_ids": [],
+    "serialized_library_tokens": 2432,
+    "guidance_characters": 8693,
+    "not_a_utility_score_or_publication_gate": true
+  },
+  "all_structurally_valid_programs_used_without_efficacy_gate": true,
+  "not_a_legal_verdict_or_mandatory_citation_generator": true
+}

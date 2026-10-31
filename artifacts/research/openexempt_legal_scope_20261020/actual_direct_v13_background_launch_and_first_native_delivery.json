@@ -1,0 +1,85 @@
+{
+  "at": "2026-10-20T10:15:44.145002+00:00",
+  "run_id": "legal_openexempt_direct_skills_online_20261020_run01",
+  "unit": "legal-openexempt-direct-skills-20261020-run01.service",
+  "source_head_at_launch": "492a7ee",
+  "pid": 338014,
+  "process_start_ticks": 449772508,
+  "started_CST": "2026-10-20 18:13:27+08:00",
+  "execution_contract": "direct_statutory_claims_v13",
+  "policy": "legal_scope",
+  "frozen_config_sha256": "6d0bf6b278b1dd6460af656fda4361d9dc42ac16ab56d3fc564d38aaf19f49ac",
+  "frozen_file_count": 176,
+  "all_frozen_files_match": true,
+  "model_pid": 3613253,
+  "model_start_ticks": 446037091,
+  "model_not_restarted": true,
+  "actual_initial_bank_empty": true,
+  "only_B1_starts_empty_later_batches_use_actual_published_bank": true,
+  "actual_progress_snapshot": {
+    "at": "2026-10-20T10:15:36.104759+00:00",
+    "run_id": "legal_openexempt_direct_skills_online_20261020_run01",
+    "state": "running",
+    "stage": "b1_prequential",
+    "current_batch": 1,
+    "completed_native_calls": 3,
+    "completed_teacher_calls": 0,
+    "teacher_attempts": 0,
+    "cross_stage_identical_wire_reuses": 9,
+    "library_records": 0,
+    "current_arm": "frozen_initial",
+    "current_document_id": 150,
+    "current_call": "openexempt"
+  },
+  "native_usage_so_far": [
+    {
+      "path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/149_EC_empty_direct_numeric.json",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 5894,
+        "total_tokens": 7227,
+        "completion_tokens": 1333,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/149_EV_empty.json",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 5922,
+        "total_tokens": 7755,
+        "completion_tokens": 1833,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/150_EC_empty.json",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6383,
+        "total_tokens": 7677,
+        "completion_tokens": 1294,
+        "prompt_tokens_details": null
+      }
+    }
+  ],
+  "native_input_files": 13,
+  "logical_answer_files": 12,
+  "guard": {
+    "at": "2026-10-20T10:14:26.836564+00:00",
+    "guard_pid": 339458,
+    "guard_start_ticks": 449778425,
+    "main_pid": 338014,
+    "main_start_ticks": 449772508,
+    "unit": "legal-openexempt-direct-skills-20261020-run01.service",
+    "run_id": "legal_openexempt_direct_skills_online_20261020_run01",
+    "duration_seconds": 43200,
+    "only_exact_training_PID_signaled_not_model": true,
+    "observer_timeout_not_training_terminal": true,
+    "stop_rule": "Original complete four-arm consecutive B2+B3 or B3+B4 harm, >2pp mean or full-EV decline, parent skills required"
+  },
+  "guard_tool_session": 20123,
+  "new_batch_grading_private_construction_and_official_TEST_not_inspected": true,
+  "B1_no_online_effect_by_construction": true,
+  "no_claim_online_improvement_or_paper_success": true
+}

@@ -1,0 +1,78 @@
+From 0366e9a89c2e330589ab93e68a75cf82ccc51162 Mon Sep 17 00:00:00 2001
+From: Codex <codex@localhost>
+Date: Wed, 21 Oct 2026 01:22:55 +0800
+Subject: [PATCH] Align future ACE task output types without fictitious string
+ or bullet examples
+
+---
+ legal_skill_guard/learning/openexempt_ace.py | 16 +++++++++++++++-
+ tests/test_openexempt_ace.py                 | 20 ++++++++++++++++++++
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/legal_skill_guard/learning/openexempt_ace.py b/legal_skill_guard/learning/openexempt_ace.py
+index b718db2..8d0bf0e 100644
+--- a/legal_skill_guard/learning/openexempt_ace.py
++++ b/legal_skill_guard/learning/openexempt_ace.py
+@@ -75,7 +75,21 @@ def generator_payload(row, playbook, *, direct_numeric=False, training_reflectio
+         system += (" This is a released-TRAIN regeneration with a recorded reflection. "
+                    "It never replaces the independently saved first-encounter prediction.")
+         reflection = json.dumps(training_reflection, ensure_ascii=False)
+-    prompt = public_explanation_prompt(GENERATOR_PROMPT).format(
++    template = public_explanation_prompt(GENERATOR_PROMPT)
++    marker = "\n**Answer in this exact JSON format:**\n"
++    if (template.count(marker) != 1
++            or '"final_answer": "[Your concise final answer here]"' not in template):
++        raise ValueError("Pinned ACE Generator output example changed; review the task adapter")
++    # The author's string-answer example contradicts the EC/EV object schema,
++    # and its example bullet IDs need not exist in the actual playbook. Adapt
++    # the output types before interpolation, preserving every public task byte.
++    template = template.split(marker)[0] + (
++        "\n**Output types:**\n"
++        "Follow the supplied response schema. reasoning is a string; bullet_ids is "
++        "an array of relevant IDs actually present in the supplied playbook; "
++        "final_answer is the task-answer JSON object, not a quoted or stringified "
++        "JSON document. Its keys and values follow the task's supplied schema.\n\n---\n")
++    prompt = template.format(
+         playbook, reflection, original[-1]["content"],
+         "All permitted public context is in the question; no outside law or tools.")
+     return [{"role": "system", "content": system}, {"role": "user", "content": prompt}], schema
+diff --git a/tests/test_openexempt_ace.py b/tests/test_openexempt_ace.py
+index 5df0d10..05c1cb4 100644
+--- a/tests/test_openexempt_ace.py
++++ b/tests/test_openexempt_ace.py
+@@ -38,6 +38,9 @@ def test_ace_generator_keeps_native_bullet_reporting_without_hidden_prior_or_tar
+     assert all(source["components"][k] in text for k in ("facts", "statutes", "solved_steps"))
+     assert "misc-00001" in text and "no current-case feedback" in text
+     assert "chain of thought / reasoning" not in text
++    assert "final_answer is the task-answer JSON object" in text
++    assert '"final_answer": "[Your concise final answer here]"' not in text
++    assert "calc-00001" not in text and "fin-00002" not in text
+     train_messages, _ = generator_payload(source, BOOK, direct_numeric=direct,
+         training_reflection={"correct_approach": "TRAIN_ONLY_MARKER"})
+     assert "TRAIN_ONLY_MARKER" not in text
+@@ -77,6 +80,23 @@ def test_ace_generator_keeps_native_bullet_reporting_without_hidden_prior_or_tar
+         validate(submitted, empty_schema)
+ 
+ 
++def test_generator_task_type_adaptation_never_removes_public_question_text():
++    source = row()
++    source["components"]["facts"] += (
++        "\n**Answer in this exact JSON format:**\nPUBLIC_FACT_LITERAL_NOT_A_TEMPLATE")
++    messages, _ = generator_payload(source, BOOK, direct_numeric=True)
++    assert source["components"]["facts"] in messages[-1]["content"]
++    assert messages[-1]["content"].count("**Output types:**") == 1
++
++
++def test_generator_fails_closed_if_pinned_output_template_changes(monkeypatch):
++    import legal_skill_guard.learning.openexempt_ace as adapter
++
++    monkeypatch.setattr(adapter, "GENERATOR_PROMPT", "Unexpected changed upstream template")
++    with pytest.raises(ValueError, match="Pinned ACE Generator output example changed"):
++        generator_payload(row(), BOOK, direct_numeric=True)
++
++
+ def test_native_reflector_tags_only_actual_citations_and_retains_train_targets():
+     observation = {"case_id": 1, "family": "EV", "used_bullet_ids": ["misc-00001"],
+                    "answer": {}, "parse_error": None, "public_rationale": "actual saved text"}
+-- 
+2.25.1

@@ -1,0 +1,112 @@
+{
+  "at": "2026-10-21T11:30:15.339217+00:00",
+  "scheduled_CST": "2026-10-21T19:30:00+08:00",
+  "classification": "Hourly verified original-process wait and direction audit, not new performance evidence",
+  "processes": [
+    {
+      "role": "main",
+      "PID": 1721740,
+      "start_ticks": 455413980,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python -m experiments.openexempt_online run /media/sangfor/vdb/legal-skill-evolve/configs/openexempt_closed_feedback_public_assets128_20261021_run03.json "
+    },
+    {
+      "role": "model",
+      "PID": 3613253,
+      "start_ticks": 446037091,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python /media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm serve /media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218 --served-model-name Qwen/Qwen3-8B --host 127.0.0.1 --port 8000 --dtype bfloat16 --max-model-len 32768 --max-num-seqs 1 --seed 42 --generation-config vllm --reasoning-parser qwen3 --gpu-memory-utilization 0.48 --no-enable-prefix-caching --disable-uvicorn-access-log --guided-decoding-backend xgrammar --guided-decoding-disable-any-whitespace --kv-cache-memory-bytes 5368709120 --max-num-batched-tokens 16384 "
+    },
+    {
+      "role": "ACE_waiter",
+      "PID": 1738522,
+      "start_ticks": 455481667,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python /media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_main128_run03_to_ACE128_20261021.py "
+    }
+  ],
+  "bindings": {
+    "main": {
+      "files": 371,
+      "all_bytes_unchanged": true
+    },
+    "static": {
+      "files": 117,
+      "all_bytes_unchanged": true
+    },
+    "ACE_waiter": {
+      "files": 381,
+      "all_bytes_unchanged": true
+    }
+  },
+  "actual_packages_unchanged": 50,
+  "progress": {
+    "at": "2026-10-21T11:29:40.878757+00:00",
+    "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "state": "running",
+    "stage": "b4_prequential",
+    "current_batch": 4,
+    "completed_native_calls": 414,
+    "completed_teacher_calls": 6,
+    "teacher_attempts": 6,
+    "cross_stage_identical_wire_reuses": 602,
+    "library_records": 6,
+    "current_arm": "empty_direct_numeric",
+    "current_document_id": 234,
+    "current_call": "openexempt"
+  },
+  "complete_unique_publications": [
+    1,
+    2,
+    3
+  ],
+  "B3_actual_final": {
+    "at": "2026-10-21T11:00:54.977423+00:00",
+    "bank_sha256": "e9844cefc4b4a8649f171d801d5035b9d378a2aae1e0ea053d90e1c79dad9e07",
+    "records": 6,
+    "unchanged_from_actual_B2": true,
+    "C1_full_rejected": true,
+    "C2_explicit_NOOP": true,
+    "measured_parent_tokens": 1945
+  },
+  "B4_complete_first_forecasts_exist": false,
+  "B4_completed_prefix_health_not_partial_scores": {
+    "logical_answers": 56,
+    "origin_wires_including_exact_old_reuses": 21,
+    "finish_reasons": {
+      "stop": 21
+    },
+    "parse_errors": 0,
+    "online_all_actual_published_B3_bank": true,
+    "partial_B4_scores_or_targets_read": false
+  },
+  "ledger": {
+    "max_invocations": 1797,
+    "reservations": 357,
+    "old350_prefix_unchanged": true
+  },
+  "ACE_target_training_started": false,
+  "ACE_target_frozen": false,
+  "archive_free_bytes": {
+    "/media/sangfor/vdb/legal-skill-backups": 1980608344064,
+    "/home/yndx/hhy/legal-skill-rootdisk-backups": 804086038528
+  },
+  "observer": {
+    "current_B4_session": 17663,
+    "C1_20507_closed_normally": true,
+    "observation_timeout_not_training_terminal": true
+  },
+  "direction_check": {
+    "previous_goal_turn": "Verified wait: original process-bound B4 observer17663 polled live at19:25 with46 logical answers; status reply is not counted as algorithm improvement.",
+    "actual_research_progress": "B3 true final6/1945 retained after rejectedC1 and explicitNOOP; B4 advances under that exact bank. Post-decision TRAIN diagnostics refute omitted-label-only explanation for specific supplied old harms, not establish a unique causal formulation defect.",
+    "current_bottleneck": "Useful B2-to-B3 first-encounter transfer exists, but B3 produced no admitted improvement. Do not conflate anti-regression filtering with a solved continuing-learning mechanism.",
+    "missing_final_evidence": "Remaining5 main batches, actualACE/static comparisons,3 independent learners,2 mechanism ablations and frozen matrix/TEST; current3-batch TRAIN curve is not final success.",
+    "next_action": "Continue same full128 run and observer17663; audit complete160 B4 first forecasts only when both immutable files exist; preserve B3 NOOP/final and actual B4 delivery. No live prompt/code/model/scorer changes."
+  },
+  "next_hourly_CST": "2026-10-21T20:30:00+08:00",
+  "new_native_teacher_or_TEST_calls_by_audit": 0,
+  "hourly_program": "import json,pathlib,hashlib,datetime,importlib.metadata,collections,shutil\nroot=pathlib.Path.cwd();read=lambda p:json.loads(p.read_text());r=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\"\nout={\"at\":datetime.datetime.now(datetime.timezone.utc).isoformat(),\"scheduled_CST\":\"2026-10-21T19:30:00+08:00\",\"classification\":\"Hourly verified original-process wait and direction audit, not new performance evidence\"}\nout[\"processes\"]=[]\nfor pid,ticks,role in [(1721740,455413980,\"main\"),(3613253,446037091,\"model\"),(1738522,455481667,\"ACE_waiter\")]:\n p=pathlib.Path(f\"/proc/{pid}\");s=(p/\"stat\").read_text();parts=s[s.rfind(\")\")+2:].split();assert int(parts[19])==ticks and parts[0]!=\"Z\"\n out[\"processes\"].append({\"role\":role,\"PID\":pid,\"start_ticks\":ticks,\"state\":parts[0],\"same_original_handle_alive\":True,\"actual_argv\":(p/\"cmdline\").read_bytes().replace(b\"\\0\",b\" \").decode()})\nman=read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\");static=read(root/\"configs/openexempt_direct_law_only_static_20261021_run03.frozen.json\");queue=read(root/\"artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/queued.json\")\nout[\"bindings\"]={}\nfor role,pins in [(\"main\",man[\"files\"]),(\"static\",static[\"files\"]),(\"ACE_waiter\",queue[\"source_data_environment_pins\"])]:\n assert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==h for n,h in pins.items());out[\"bindings\"][role]={\"files\":len(pins),\"all_bytes_unchanged\":True}\nassert man[\"packages\"]=={d.metadata[\"Name\"]:d.version for d in importlib.metadata.distributions()};out[\"actual_packages_unchanged\"]=len(man[\"packages\"])\nout[\"progress\"]=read(r/\"progress.json\");out[\"complete_unique_publications\"]=[b for b in range(1,9) if (r/f\"publications/b{b}.json\").exists()]\npub=read(r/\"publications/b3.json\");b2=read(r/\"publications/b2.json\");assert pub[\"bank\"]==b2[\"bank\"] and pub[\"bank_sha256\"]==pub[\"parent_bank_sha256\"]==b2[\"bank_sha256\"]\nout[\"B3_actual_final\"]={\"at\":pub[\"at\"],\"bank_sha256\":pub[\"bank_sha256\"],\"records\":len(pub[\"bank\"]),\"unchanged_from_actual_B2\":True,\"C1_full_rejected\":not read(r/\"candidates/b3_candidate1.json\")[\"accepted\"],\"measured_parent_tokens\":json.loads(read(r/\"teacher/b3_candidate1/wire_request.json\")[\"user_prompt\"])[\"full_serialized_library_token_budget\"][\"actual_parent_tokens\"]}\nb3r=root/\"artifacts/research/openexempt_legal_scope_20261020/Run03_B3_teacher2_actual64_labels_rejected_feedback_NOOP_and_unique_final_parent_retained_20261021.json\";t=read(b3r);assert t[\"operations\"]==[] and t[\"C2_has_zero_new_native_replays\"]\nout[\"B3_actual_final\"][\"C2_explicit_NOOP\"]=True\nanswers=[read(p) for p in (r/\"native/b4_prequential\").glob(\"*.answer.json\")];origins={a[\"raw_call_path\"]:read(root/a[\"raw_call_path\"]) for a in answers}\nout[\"B4_complete_first_forecasts_exist\"]=(r/\"batches/b4_prequential.json\").exists() and (r/\"batches/b4_prequential_records.json\").exists()\nout[\"B4_completed_prefix_health_not_partial_scores\"]={\"logical_answers\":len(answers),\"origin_wires_including_exact_old_reuses\":len(origins),\"finish_reasons\":dict(collections.Counter(x[\"response\"][\"finish_reason\"] for x in origins.values())),\"parse_errors\":sum(x[\"parse_error\"] is not None for x in answers),\"online_all_actual_published_B3_bank\":all(x[\"bank_sha256\"]==pub[\"bank_sha256\"] for x in answers if x[\"arm\"]==\"skills\"),\"partial_B4_scores_or_targets_read\":False}\nledger=read(root/\"artifacts/teacher_invocation_budget_reconstruction_20261015.json\");assert hashlib.sha256(json.dumps(ledger[\"reservations\"][:350],sort_keys=True).encode()).hexdigest()==\"b41ad3cccd7cb0d6465d64963cfa4971528a819242b66b6a837c132aedc4ae6e\"\nout[\"ledger\"]={\"max_invocations\":ledger[\"max_invocations\"],\"reservations\":len(ledger[\"reservations\"]),\"old350_prefix_unchanged\":True}\nout[\"ACE_target_training_started\"]=(root/\"runs/legal_openexempt_ace_public_assets128_20261021_run01\").exists();out[\"ACE_target_frozen\"]=(root/\"configs/openexempt_ace_public_assets128_20261021_run01.frozen.json\").exists()\nout[\"archive_free_bytes\"]={str(p):shutil.disk_usage(p).free for p in (\"/media/sangfor/vdb/legal-skill-backups\",\"/home/yndx/hhy/legal-skill-rootdisk-backups\")}\nout[\"observer\"]={\"current_B4_session\":17663,\"C1_20507_closed_normally\":True,\"observation_timeout_not_training_terminal\":True}\nout[\"direction_check\"]={\"previous_goal_turn\":\"Verified wait: original process-bound B4 observer17663 polled live at19:25 with46 logical answers; status reply is not counted as algorithm improvement.\",\"actual_research_progress\":\"B3 true final6/1945 retained after rejectedC1 and explicitNOOP; B4 advances under that exact bank. Post-decision TRAIN diagnostics refute omitted-label-only explanation for specific supplied old harms, not establish a unique causal formulation defect.\",\"current_bottleneck\":\"Useful B2-to-B3 first-encounter transfer exists, but B3 produced no admitted improvement. Do not conflate anti-regression filtering with a solved continuing-learning mechanism.\",\"missing_final_evidence\":\"Remaining5 main batches, actualACE/static comparisons,3 independent learners,2 mechanism ablations and frozen matrix/TEST; current3-batch TRAIN curve is not final success.\",\"next_action\":\"Continue same full128 run and observer17663; audit complete160 B4 first forecasts only when both immutable files exist; preserve B3 NOOP/final and actual B4 delivery. No live prompt/code/model/scorer changes.\"}\nout[\"next_hourly_CST\"]=\"2026-10-21T20:30:00+08:00\";out[\"new_native_teacher_or_TEST_calls_by_audit\"]=0\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

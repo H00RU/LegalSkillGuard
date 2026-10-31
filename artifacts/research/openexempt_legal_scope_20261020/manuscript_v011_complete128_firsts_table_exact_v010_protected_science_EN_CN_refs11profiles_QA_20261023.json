@@ -1,0 +1,81 @@
+{
+  "at": "2026-10-23T05:29:31.903040+00:00",
+  "classification": "Source-bound v0.11 complete128 TRAIN table update, not TEST or method change",
+  "source_sha256": {
+    "paper/manuscript_v1_20261021.md": "a17acf94d8c889051d132282d0102e2693d1fcaeb11f2c11809b89fe11591404",
+    "paper/appendix_experimental_details_20261022.md": "9df4ae33cc65a401839f489836b72fd33c68f188830a96faaea5938095bbe94b",
+    "paper/revisions/manuscript_v010_before_complete128_20261023.md": "d7cf05ed5c67f7ab28e15747a4b7432f617358ac2175b5b9e1f9f93428350af8",
+    "paper/revisions/appendix_D_v010_before_complete128_20261023.md": "723e1be843fe42af4718c7846f14a7e102f724186b049a5f8c11ff732bdbdf82",
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_vs_ACEv4_complete_B1_B8_equal128_prequential_FIRSTS_ONLY_last_learning_cost_pending_NOT_TEST_20261023.json": "0a50223373038ca42c08cecbc2c34b5e050da9c6a2394db83b62e78f1f31ca2d"
+  },
+  "abstract_introduction_related_work_data_methods_protocol_and_main_sections5_1_to5_3_exact_v010": true,
+  "main_table1_and_all46_existing_curve_points_unchanged": true,
+  "discussion_exact_v010": true,
+  "all8_bibliographic_metadata_exact_v010_only_ref2_result_status_annotation_updated": true,
+  "ref2_primary_record_rechecked": "https://arxiv.org/abs/2510.04618v3",
+  "complete128_table2_and_EN_CN20_16_25_31_effects_match_original_unrounded_rows": true,
+  "failure4EC9EV_retained_in_full128_denominators": true,
+  "six_tables_preserved": true,
+  "pending_TEST_and_independent_learning_not_filled": true,
+  "active_future11_profiles_unchanged": [
+    {
+      "config": "configs/openexempt_ace_public_assets128_20261022_run03.json",
+      "current_frozen_bytes_match": true,
+      "files": 380
+    },
+    {
+      "config": "configs/openexempt_fixed_static_train128_20261022_run02.json",
+      "current_frozen_bytes_match": true,
+      "files": 400
+    },
+    {
+      "config": "configs/openexempt_trace2skill_text_public_assets128_seed45_20261023_run01.json",
+      "current_frozen_bytes_match": true,
+      "files": 378
+    },
+    {
+      "config": "configs/openexempt_whole_bank_public_assets128_20261023_run01.json",
+      "current_frozen_bytes_match": true,
+      "files": 377
+    },
+    {
+      "config": "configs/openexempt_first_commit_public_assets128_20261023_run01.json",
+      "current_frozen_bytes_match": true,
+      "files": 377
+    },
+    {
+      "config": "configs/openexempt_closed_feedback_public_assets128_seed145_20261023_run01.json",
+      "current_frozen_bytes_match": true,
+      "files": 377
+    },
+    {
+      "config": "configs/openexempt_ace_public_assets128_seed145_20261023_run01.json",
+      "current_frozen_bytes_match": true,
+      "files": 383
+    },
+    {
+      "config": "configs/openexempt_closed_feedback_public_assets128_seed245_20261023_run01.json",
+      "current_frozen_bytes_match": true,
+      "files": 377
+    },
+    {
+      "config": "configs/openexempt_ace_public_assets128_seed245_20261023_run01.json",
+      "current_frozen_bytes_match": true,
+      "files": 383
+    },
+    {
+      "config": "configs/openexempt_trace2skill_text_public_assets128_seed145_20261023_run01.json",
+      "current_frozen_bytes_match": true,
+      "files": 378
+    },
+    {
+      "config": "configs/openexempt_trace2skill_text_public_assets128_seed245_20261023_run01.json",
+      "current_frozen_bytes_match": true,
+      "files": 378
+    }
+  ],
+  "local_main_appendix_links_checked": true,
+  "old_review_v010_PDF_remains_preserved_new_v011_render_pending_separate_QA": true,
+  "no_actor_teacher_tokenizer_TEST_or_learning_code_change": true,
+  "recomputation_program": "import hashlib,json,re,subprocess\nfrom pathlib import Path\nfrom legal_skill_guard.learning.experiment import read,sha,now\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nM=root/\"paper/manuscript_v1_20261021.md\";D=root/\"paper/appendix_experimental_details_20261022.md\"\noldM=root/\"paper/revisions/manuscript_v010_before_complete128_20261023.md\";oldD=root/\"paper/revisions/appendix_D_v010_before_complete128_20261023.md\"\nm=M.read_text();d=D.read_text();om=oldM.read_text();od=oldD.read_text()\nassert sha(oldM)==\"d7cf05ed5c67f7ab28e15747a4b7432f617358ac2175b5b9e1f9f93428350af8\"\nassert sha(oldD)==\"723e1be843fe42af4718c7846f14a7e102f724186b049a5f8c11ff732bdbdf82\"\ndef part(s,a,b):return s.split(a,1)[1].split(b,1)[0]\nassert part(m,\"## Abstract / 摘要\",\"### 5.4 \")==part(om,\"## Abstract / 摘要\",\"### 5.4 \")\nassert part(m,\"## 6. Discussion and scope\",\"## References\")==part(om,\"## 6. Discussion and scope\",\"## References\")\nold_refs={int(k):v for k,v in re.findall(r\"^(\\d+)\\. (.+)$\",om.split(\"## References\",1)[1],flags=re.M)}\nnew_refs={int(k):v for k,v in re.findall(r\"^(\\d+)\\. (.+)$\",m.split(\"## References\",1)[1],flags=re.M)}\nassert old_refs.keys()==new_refs.keys()==set(range(1,9))\nassert all(old_refs[k]==new_refs[k] for k in old_refs if k!=2)\nassert old_refs[2].split(\" Native generation/\",1)[0]==new_refs[2].split(\" Table 2 reports\",1)[0]\nreport_path=base/\"Run03_vs_ACEv4_complete_B1_B8_equal128_prequential_FIRSTS_ONLY_last_learning_cost_pending_NOT_TEST_20261023.json\"\nstats=read(report_path)\nrows={\"empty\":\"Strong direct empty\",\"main\":\"Main evolving library\",\"ACE\":\"Native-role ACE adaptation\"}\nfor method,label in rows.items():\n vals=[100*stats[\"complete_original_F1_metrics\"][method][f][\"original_f1\"] for f in (\"EC\",\"EV\")]\n expected=f\"| {label} | {vals[0]:.2f} | {vals[1]:.2f} |\"\n assert expected in m,expected\nfor fam in (\"EC\",\"EV\"):\n v=100*stats[\"paired_original_F1_effects\"][\"main_minus_native_ACE\"][fam][\"mean_original_f1_difference\"]\n assert m.count(f\"{v:.2f}\")==2\nassert stats[\"complete_original_F1_metrics\"][\"ACE\"][\"EC\"][\"invalid_format_retained\"]==4\nassert stats[\"complete_original_F1_metrics\"][\"ACE\"][\"EV\"][\"invalid_format_retained\"]==9\ntables=lambda text:re.findall(r\"(?m)(?:^\\|.*\\n)+\",text)\nassert len(tables(m))+len(tables(d))==len(tables(om))+len(tables(od))==6\nassert tables(m)[0]==tables(om)[0]\nassert len(re.findall(r\"\\[PENDING\",m))>=len(re.findall(r\"\\[PENDING\",om))\nassert sha(root/\"paper/figures/method_overview_caption_20261023.md\")==\"130a5445700a878a78b266f2cb3fbb992cf0d99111e118bc9889adbd9dde31ee\"\nhour=read(base/\"hourly1230_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json\")\nprofiles=[]\nfor row in hour[\"profiles\"]:\n p=root/row[\"config\"];f=read(p.with_suffix(\".frozen.json\"));assert f[\"config_sha256\"]==sha(p)\n assert all(sha(root/n)==v for n,v in f[\"files\"].items())\n profiles.append({\"config\":row[\"config\"],\"current_frozen_bytes_match\":True,\"files\":len(f[\"files\"])})\nbroken=[]\nfor p,text in [(M,m),(D,d)]:\n for link in re.findall(r\"\\]\\(([^)]+)\\)\",text):\n  if link.startswith((\"http://\",\"https://\",\"#\")):continue\n  if not (p.parent/link.split(\"#\",1)[0]).exists():broken.append({\"file\":str(p),\"link\":link})\nassert not broken,broken\nout={\"at\":now(),\"classification\":\"Source-bound v0.11 complete128 TRAIN table update, not TEST or method change\",\n\"source_sha256\":{str(p.relative_to(root)):sha(p) for p in [M,D,oldM,oldD,report_path]},\n\"abstract_introduction_related_work_data_methods_protocol_and_main_sections5_1_to5_3_exact_v010\":True,\n\"main_table1_and_all46_existing_curve_points_unchanged\":True,\"discussion_exact_v010\":True,\n\"all8_bibliographic_metadata_exact_v010_only_ref2_result_status_annotation_updated\":True,\n\"ref2_primary_record_rechecked\":\"https://arxiv.org/abs/2510.04618v3\",\n\"complete128_table2_and_EN_CN20_16_25_31_effects_match_original_unrounded_rows\":True,\n\"failure4EC9EV_retained_in_full128_denominators\":True,\"six_tables_preserved\":True,\n\"pending_TEST_and_independent_learning_not_filled\":True,\"active_future11_profiles_unchanged\":profiles,\n\"local_main_appendix_links_checked\":True,\n\"old_review_v010_PDF_remains_preserved_new_v011_render_pending_separate_QA\":True,\n\"no_actor_teacher_tokenizer_TEST_or_learning_code_change\":True,\"recomputation_program\":PROGRAM}\ndest=base/\"manuscript_v011_complete128_firsts_table_exact_v010_protected_science_EN_CN_refs11profiles_QA_20261023.json\"\nRunStore.immutable_json(dest,out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"source_sha256\":out[\"source_sha256\"],\"tables\":6,\"profiles_verified\":len(profiles),\"abstract_methods_original_main_curve_unchanged\":True,\"Table2_full128_original_metrics_and_deltas_verified\":True},ensure_ascii=False))\n"
+}

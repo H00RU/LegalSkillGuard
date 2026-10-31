@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-22T14:28:49.887893+00:00",
+  "classification": "Prior completed-first8 TRAIN plot snapshot before updating only final-publication provenance/footer. All46 native-F1 values already equal authoritative completedcurve; old B8 update was pending in its render metadata. No data-shape change.",
+  "old_script_sha256": "3345941c3bfbe45082acf3ea6d4a58563be9118fed857f72d636dd66bce241e7",
+  "46_native_F1_values_exactly_preserved": true,
+  "plot_script_not_in_any_active_or_nine_future_or_static400_freezes": true,
+  "preservation": {
+    "at": "2026-10-22T14:28:49.810293+00:00",
+    "stage": "B8_plot_before_finalpub_annotation_20261022",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/paper_Run03-B8_plot_before_finalpub_annotation_20261022.tar.gz",
+        "sha256": "53908e4051897d9200dd87bdb2ad7b928d6a892791a4744c300aaa003c0d035e"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/paper_Run03-B8_plot_before_finalpub_annotation_20261022.tar.gz",
+        "sha256": "53908e4051897d9200dd87bdb2ad7b928d6a892791a4744c300aaa003c0d035e"
+      }
+    ],
+    "files": 5
+  },
+  "no_model_teacher_or_TEST_calls": true,
+  "program": "import hashlib,json,tarfile\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nscript=\"paper/figures/render_run03_prequential.py\"\nprofiles=[\"openexempt_ace_public_assets128_20261022_run02\",\"openexempt_whole_bank_public_assets128_20261021_run01\",\"openexempt_first_commit_public_assets128_20261021_run01\",\"openexempt_closed_feedback_public_assets128_seed145_20261021_run01\",\"openexempt_ace_public_assets128_seed145_20261022_run03\",\"openexempt_closed_feedback_public_assets128_seed245_20261021_run01\",\"openexempt_ace_public_assets128_seed245_20261022_run03\",\"openexempt_fixed_static_train128_20261022_run01\"]+[f\"openexempt_trace2skill_text_public_assets128_seed{s}_20261022_run01\" for s in (45,145,245)]\nassert all(script not in json.loads((root/\"configs\"/(n+\".frozen.json\")).read_text())[\"files\"] for n in profiles)\nold_dir=root/\"artifacts/research/learning_curves_20261022/Run03_B1_B8_prequential\"\nold=json.loads((old_dir/\"source_data_and_provenance.json\").read_text())\ncurrent=json.loads((base/\"Run03_learning_curve_complete_first8_final8_publications_20261022.json\").read_text())\nassert old[\"through_batch\"]==8 and old[\"rows\"][-1][\"completed_unique_final_publication\"] is None\npoints=0\nfor prior,actual in zip(old[\"rows\"],current[\"batch_rows\"],strict=True):\n assert prior[\"batch\"]==actual[\"batch\"]\n for role,values in prior[\"first_encounter_native_F1\"].items():\n  for f,v in values.items():\n   assert v==actual[\"first_encounter_native_F1\"][role][f]\n   points+=1\nassert points==46\nnames=[script]+[str(p.relative_to(root)) for p in old_dir.iterdir() if p.is_file()]\nassert len(names)==5\nreceipt=preserve(\"paper_Run03\",\"B8_plot_before_finalpub_annotation_20261022\",names)\nout={\"at\":datetime.now(timezone.utc).isoformat(),\"classification\":\"Prior completed-first8 TRAIN plot snapshot before updating only final-publication provenance/footer. All46 native-F1 values already equal authoritative completedcurve; old B8 update was pending in its render metadata. No data-shape change.\",\n\"old_script_sha256\":hashlib.sha256((root/script).read_bytes()).hexdigest(),\n\"46_native_F1_values_exactly_preserved\":True,\n\"plot_script_not_in_any_active_or_nine_future_or_static400_freezes\":True,\n\"preservation\":receipt,\"no_model_teacher_or_TEST_calls\":True,\"program\":PROGRAM}\ndest=base/\"Run03_existing_B8_plot46_points_prior_snapshot_before_final_publication_annotation_20261022.json\"\nRunStore.immutable_json(dest,out)\nprint(json.dumps({\"receipt\":str(dest.relative_to(root)),\"old_native_points_exact\":points,\"copies\":receipt[\"paths\"],\"old_script_not_frozen\":True,\"old_B8_update_pending\":True},ensure_ascii=False))\n"
+}

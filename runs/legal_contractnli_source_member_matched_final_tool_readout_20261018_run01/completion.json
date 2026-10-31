@@ -1,0 +1,4820 @@
+{
+  "at": "2026-10-18T11:31:54.618049+00:00",
+  "run_id": "legal_contractnli_source_member_matched_final_tool_readout_20261018_run01",
+  "metrics": {
+    "same114_empty": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 114,
+      "label_accuracy": 0.8382352941176471,
+      "gold_non_neutral_queries": 88,
+      "evidence_tp": 101,
+      "evidence_fp": 26,
+      "evidence_fn": 37,
+      "evidence_micro_f1_gold_non_neutral": 0.7622641509433963,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7694444444444443,
+      "joint_exact_correct": 84,
+      "joint_soft_mean": 0.7441993464052289,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 69,
+          "correct": 66
+        },
+        "Contradiction": {
+          "n": 19,
+          "correct": 12
+        },
+        "NotMentioned": {
+          "n": 48,
+          "correct": 36
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 36,
+      "nonneutral_label_and_all_evidence_correct": 48,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 39466,
+        "completion_tokens": 5227
+      },
+      "joint_exact_accuracy": 0.6176470588235294
+    },
+    "same_final_bank_fixed90": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 113,
+      "label_accuracy": 0.8308823529411765,
+      "gold_non_neutral_queries": 88,
+      "evidence_tp": 92,
+      "evidence_fp": 22,
+      "evidence_fn": 46,
+      "evidence_micro_f1_gold_non_neutral": 0.7301587301587301,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7321608946608943,
+      "joint_exact_correct": 81,
+      "joint_soft_mean": 0.7237511671335204,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 69,
+          "correct": 65
+        },
+        "Contradiction": {
+          "n": 19,
+          "correct": 11
+        },
+        "NotMentioned": {
+          "n": 48,
+          "correct": 37
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 37,
+      "nonneutral_label_and_all_evidence_correct": 44,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 42251,
+        "completion_tokens": 5095
+      },
+      "joint_exact_accuracy": 0.5955882352941176
+    },
+    "same_final_bank_same114": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 113,
+      "label_accuracy": 0.8308823529411765,
+      "gold_non_neutral_queries": 88,
+      "evidence_tp": 97,
+      "evidence_fp": 20,
+      "evidence_fn": 41,
+      "evidence_micro_f1_gold_non_neutral": 0.7607843137254902,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7626803751803749,
+      "joint_exact_correct": 80,
+      "joint_soft_mean": 0.728793183940243,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 69,
+          "correct": 66
+        },
+        "Contradiction": {
+          "n": 19,
+          "correct": 13
+        },
+        "NotMentioned": {
+          "n": 48,
+          "correct": 34
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 34,
+      "nonneutral_label_and_all_evidence_correct": 46,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 42201,
+        "completion_tokens": 5085
+      },
+      "joint_exact_accuracy": 0.5882352941176471
+    }
+  },
+  "paired_same114_skill_effect": {
+    "before": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 114,
+      "label_accuracy": 0.8382352941176471,
+      "gold_non_neutral_queries": 88,
+      "evidence_tp": 101,
+      "evidence_fp": 26,
+      "evidence_fn": 37,
+      "evidence_micro_f1_gold_non_neutral": 0.7622641509433963,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7694444444444443,
+      "joint_exact_correct": 84,
+      "joint_soft_mean": 0.7441993464052289,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 69,
+          "correct": 66
+        },
+        "Contradiction": {
+          "n": 19,
+          "correct": 12
+        },
+        "NotMentioned": {
+          "n": 48,
+          "correct": 36
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 36,
+      "nonneutral_label_and_all_evidence_correct": 48,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 39466,
+        "completion_tokens": 5227
+      },
+      "joint_exact_accuracy": 0.6176470588235294
+    },
+    "after": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 113,
+      "label_accuracy": 0.8308823529411765,
+      "gold_non_neutral_queries": 88,
+      "evidence_tp": 97,
+      "evidence_fp": 20,
+      "evidence_fn": 41,
+      "evidence_micro_f1_gold_non_neutral": 0.7607843137254902,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7626803751803749,
+      "joint_exact_correct": 80,
+      "joint_soft_mean": 0.728793183940243,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 69,
+          "correct": 66
+        },
+        "Contradiction": {
+          "n": 19,
+          "correct": 13
+        },
+        "NotMentioned": {
+          "n": 48,
+          "correct": 34
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 34,
+      "nonneutral_label_and_all_evidence_correct": 46,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 42201,
+        "completion_tokens": 5085
+      },
+      "joint_exact_accuracy": 0.5882352941176471
+    },
+    "paired_questions": {
+      "original_hypotheses": 136,
+      "label_corrected": [
+        [
+          333,
+          "nda-17"
+        ],
+        [
+          360,
+          "nda-7"
+        ]
+      ],
+      "label_broken": [
+        [
+          333,
+          "nda-10"
+        ],
+        [
+          302,
+          "nda-17"
+        ],
+        [
+          325,
+          "nda-20"
+        ]
+      ],
+      "net_label_correct": -1,
+      "joint_exact_corrected": [
+        [
+          414,
+          "nda-5"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          333,
+          "nda-16"
+        ],
+        [
+          333,
+          "nda-10"
+        ],
+        [
+          302,
+          "nda-17"
+        ],
+        [
+          360,
+          "nda-2"
+        ],
+        [
+          325,
+          "nda-20"
+        ]
+      ]
+    },
+    "source_contracts": 8,
+    "difference_after_minus_before": {
+      "label_accuracy": -0.007352941176470562,
+      "evidence_micro_f1_gold_non_neutral": -0.0014798372179061214,
+      "joint_exact_accuracy": -0.02941176470588236
+    },
+    "source_win_tie_loss": {
+      "label_accuracy": {
+        "win": 1,
+        "tie": 5,
+        "loss": 2
+      },
+      "evidence_micro_f1_gold_non_neutral": {
+        "win": 1,
+        "tie": 5,
+        "loss": 2
+      },
+      "joint_exact_accuracy": {
+        "win": 1,
+        "tie": 3,
+        "loss": 4
+      }
+    },
+    "descriptive_source_percentile_95_intervals": {
+      "label_accuracy": [
+        -0.02941176470588236,
+        0.014705882352941235
+      ],
+      "evidence_micro_f1_gold_non_neutral": [
+        -0.017902241271659527,
+        0.019300185018656987
+      ],
+      "joint_exact_accuracy": [
+        -0.06617647058823528,
+        0.007352941176470562
+      ]
+    },
+    "bootstrap_replicates": 5000,
+    "bootstrap_seed": 2026101840,
+    "conditional_on_one_adaptive_episode_not_algorithmic_stability_or_confirmatory_significance": true
+  },
+  "paired_same_final_bank_tool_change": {
+    "before": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 113,
+      "label_accuracy": 0.8308823529411765,
+      "gold_non_neutral_queries": 88,
+      "evidence_tp": 92,
+      "evidence_fp": 22,
+      "evidence_fn": 46,
+      "evidence_micro_f1_gold_non_neutral": 0.7301587301587301,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7321608946608943,
+      "joint_exact_correct": 81,
+      "joint_soft_mean": 0.7237511671335204,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 69,
+          "correct": 65
+        },
+        "Contradiction": {
+          "n": 19,
+          "correct": 11
+        },
+        "NotMentioned": {
+          "n": 48,
+          "correct": 37
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 37,
+      "nonneutral_label_and_all_evidence_correct": 44,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 42251,
+        "completion_tokens": 5095
+      },
+      "joint_exact_accuracy": 0.5955882352941176
+    },
+    "after": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 113,
+      "label_accuracy": 0.8308823529411765,
+      "gold_non_neutral_queries": 88,
+      "evidence_tp": 97,
+      "evidence_fp": 20,
+      "evidence_fn": 41,
+      "evidence_micro_f1_gold_non_neutral": 0.7607843137254902,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7626803751803749,
+      "joint_exact_correct": 80,
+      "joint_soft_mean": 0.728793183940243,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 69,
+          "correct": 66
+        },
+        "Contradiction": {
+          "n": 19,
+          "correct": 13
+        },
+        "NotMentioned": {
+          "n": 48,
+          "correct": 34
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 34,
+      "nonneutral_label_and_all_evidence_correct": 46,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 42201,
+        "completion_tokens": 5085
+      },
+      "joint_exact_accuracy": 0.5882352941176471
+    },
+    "paired_questions": {
+      "original_hypotheses": 136,
+      "label_corrected": [
+        [
+          414,
+          "nda-20"
+        ],
+        [
+          360,
+          "nda-7"
+        ],
+        [
+          86,
+          "nda-2"
+        ]
+      ],
+      "label_broken": [
+        [
+          302,
+          "nda-17"
+        ],
+        [
+          302,
+          "nda-13"
+        ],
+        [
+          102,
+          "nda-17"
+        ]
+      ],
+      "net_label_correct": 0,
+      "joint_exact_corrected": [
+        [
+          102,
+          "nda-2"
+        ],
+        [
+          102,
+          "nda-3"
+        ],
+        [
+          414,
+          "nda-3"
+        ],
+        [
+          337,
+          "nda-2"
+        ],
+        [
+          337,
+          "nda-13"
+        ],
+        [
+          86,
+          "nda-2"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          333,
+          "nda-7"
+        ],
+        [
+          302,
+          "nda-17"
+        ],
+        [
+          302,
+          "nda-13"
+        ],
+        [
+          102,
+          "nda-15"
+        ],
+        [
+          102,
+          "nda-17"
+        ],
+        [
+          360,
+          "nda-2"
+        ],
+        [
+          360,
+          "nda-20"
+        ]
+      ]
+    },
+    "source_contracts": 8,
+    "difference_after_minus_before": {
+      "label_accuracy": 0.0,
+      "evidence_micro_f1_gold_non_neutral": 0.03062558356676004,
+      "joint_exact_accuracy": -0.007352941176470562
+    },
+    "source_win_tie_loss": {
+      "label_accuracy": {
+        "win": 3,
+        "tie": 3,
+        "loss": 2
+      },
+      "evidence_micro_f1_gold_non_neutral": {
+        "win": 5,
+        "tie": 1,
+        "loss": 2
+      },
+      "joint_exact_accuracy": {
+        "win": 3,
+        "tie": 2,
+        "loss": 3
+      }
+    },
+    "descriptive_source_percentile_95_intervals": {
+      "label_accuracy": [
+        -0.044117647058823484,
+        0.03676470588235292
+      ],
+      "evidence_micro_f1_gold_non_neutral": [
+        -0.00311482716183982,
+        0.06624472573839668
+      ],
+      "joint_exact_accuracy": [
+        -0.06617647058823528,
+        0.051470588235294046
+      ]
+    },
+    "bootstrap_replicates": 5000,
+    "bootstrap_seed": 2026101841,
+    "conditional_on_one_adaptive_episode_not_algorithmic_stability_or_confirmatory_significance": true
+  },
+  "actual_new_native_teacher_CPUfits": [
+    8,
+    0,
+    0
+  ],
+  "reused_native_reference_answers": 16,
+  "source_episode_actual_native_teacher_CPUfits": [
+    136,
+    6,
+    3
+  ],
+  "actual_source_program_CPU_costs": {
+    "native_input_source_execution": {
+      "CPU_subprocesses": 136,
+      "CPU_wall_seconds": 2.7266554655507207
+    }
+  },
+  "units": [
+    {
+      "document_id": 333,
+      "condition": "skills",
+      "response": {
+        "content": "{\"nda-11\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of reverse engineering in the contract.\"}, \"nda-16\": {\"choice\": \"Entailment\", \"spans\": [22, 23], \"reason\": \"Company must destroy or return all copies of Information upon termination.\"}, \"nda-15\": {\"choice\": \"Entailment\", \"spans\": [8], \"reason\": \"All Information remains the sole property of the State Bar.\"}, \"nda-10\": {\"choice\": \"Contradiction\", \"spans\": [9], \"reason\": \"Company is prohibited from disclosing the substance of Information.\"}, \"nda-2\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No explicit mention of technical information being the only type included.\"}, \"nda-1\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No explicit identification of Confidential Information by the Disclosing Party.\"}, \"nda-19\": {\"choice\": \"Entailment\", \"spans\": [24], \"reason\": \"Confidentiality obligations survive termination of the NDA.\"}, \"nda-12\": {\"choice\": \"Entailment\", \"spans\": [15], \"reason\": \"Information not generated independently by Company is not excluded.\"}, \"nda-20\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of permissible post-agreement possession of Confidential Information.\"}, \"nda-3\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of verbally conveyed information being included.\"}, \"nda-18\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of solicitation of representatives.\"}, \"nda-7\": {\"choice\": \"Entailment\", \"spans\": [9, 13], \"reason\": \"Company may disclose Information only to those needing it for the RFP.\"}, \"nda-17\": {\"choice\": \"Contradiction\", \"spans\": [12], \"reason\": \"Company is prohibited from duplicating or reproducing Information.\"}, \"nda-8\": {\"choice\": \"Entailment\", \"spans\": [28, 29], \"reason\": \"Company must notify State Bar before compelled disclosure.\"}, \"nda-13\": {\"choice\": \"Entailment\", \"spans\": [15, 17], \"reason\": \"Information learned from third parties is not excluded.\"}, \"nda-5\": {\"choice\": \"Entailment\", \"spans\": [13], \"reason\": \"Company may disclose Information to those who need it for the RFP.\"}, \"nda-4\": {\"choice\": \"Entailment\", \"spans\": [13], \"reason\": \"Company may use Information only for responding to the RFP.\"}}",
+        "finish_reason": "stop",
+        "prompt_tokens": 3457,
+        "completion_tokens": 639,
+        "raw_id": "chatcmpl-ced761529fda4eeebee6c30dba01dfaf"
+      },
+      "stage": "matched_final114_forward8",
+      "bank_sha256": "1d0c35f3736d449f31c8a7a9a3333afac1e61aec1616f31d310f4947e39fcada",
+      "not_scored_until_all16_all4_arms_exist": true,
+      "public_valid": true,
+      "public_error": null,
+      "parsed": {
+        "nda-11": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of reverse engineering in the contract."
+        },
+        "nda-16": {
+          "choice": "Entailment",
+          "spans": [
+            22,
+            23
+          ],
+          "reason": "Company must destroy or return all copies of Information upon termination."
+        },
+        "nda-15": {
+          "choice": "Entailment",
+          "spans": [
+            8
+          ],
+          "reason": "All Information remains the sole property of the State Bar."
+        },
+        "nda-10": {
+          "choice": "Contradiction",
+          "spans": [
+            9
+          ],
+          "reason": "Company is prohibited from disclosing the substance of Information."
+        },
+        "nda-2": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No explicit mention of technical information being the only type included."
+        },
+        "nda-1": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No explicit identification of Confidential Information by the Disclosing Party."
+        },
+        "nda-19": {
+          "choice": "Entailment",
+          "spans": [
+            24
+          ],
+          "reason": "Confidentiality obligations survive termination of the NDA."
+        },
+        "nda-12": {
+          "choice": "Entailment",
+          "spans": [
+            15
+          ],
+          "reason": "Information not generated independently by Company is not excluded."
+        },
+        "nda-20": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of permissible post-agreement possession of Confidential Information."
+        },
+        "nda-3": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of verbally conveyed information being included."
+        },
+        "nda-18": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of solicitation of representatives."
+        },
+        "nda-7": {
+          "choice": "Entailment",
+          "spans": [
+            9,
+            13
+          ],
+          "reason": "Company may disclose Information only to those needing it for the RFP."
+        },
+        "nda-17": {
+          "choice": "Contradiction",
+          "spans": [
+            12
+          ],
+          "reason": "Company is prohibited from duplicating or reproducing Information."
+        },
+        "nda-8": {
+          "choice": "Entailment",
+          "spans": [
+            28,
+            29
+          ],
+          "reason": "Company must notify State Bar before compelled disclosure."
+        },
+        "nda-13": {
+          "choice": "Entailment",
+          "spans": [
+            15,
+            17
+          ],
+          "reason": "Information learned from third parties is not excluded."
+        },
+        "nda-5": {
+          "choice": "Entailment",
+          "spans": [
+            13
+          ],
+          "reason": "Company may disclose Information to those who need it for the RFP."
+        },
+        "nda-4": {
+          "choice": "Entailment",
+          "spans": [
+            13
+          ],
+          "reason": "Company may use Information only for responding to the RFP."
+        }
+      },
+      "queries": [
+        {
+          "hypothesis_id": "nda-11",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of reverse engineering in the contract."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-16",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              20,
+              21,
+              22,
+              23
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              22,
+              23
+            ],
+            "reason": "Company must destroy or return all copies of Information upon termination."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 2,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-15",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              8
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              8
+            ],
+            "reason": "All Information remains the sole property of the State Bar."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-10",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              9
+            ],
+            "reason": "Company is prohibited from disclosing the substance of Information."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-2",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No explicit mention of technical information being the only type included."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-1",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No explicit identification of Confidential Information by the Disclosing Party."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-19",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              24
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              24
+            ],
+            "reason": "Confidentiality obligations survive termination of the NDA."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-12",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              15,
+              19
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              15
+            ],
+            "reason": "Information not generated independently by Company is not excluded."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-20",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              20,
+              21,
+              22,
+              23
+            ]
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of permissible post-agreement possession of Confidential Information."
+          },
+          "label_correct": false,
+          "gold_non_neutral": true,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 4,
+          "evidence_f1_gold_non_neutral": 0.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-3",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of verbally conveyed information being included."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-18",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of solicitation of representatives."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-7",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              13
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              9,
+              13
+            ],
+            "reason": "Company may disclose Information only to those needing it for the RFP."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-17",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              9,
+              12
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              12
+            ],
+            "reason": "Company is prohibited from duplicating or reproducing Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-8",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              28,
+              29
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              28,
+              29
+            ],
+            "reason": "Company must notify State Bar before compelled disclosure."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-13",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              15,
+              17
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              15,
+              17
+            ],
+            "reason": "Information learned from third parties is not excluded."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-5",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              13
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              13
+            ],
+            "reason": "Company may disclose Information to those who need it for the RFP."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-4",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              9,
+              11
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              13
+            ],
+            "reason": "Company may use Information only for responding to the RFP."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 2,
+          "evidence_f1_gold_non_neutral": 0.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        }
+      ],
+      "native_public_answer_never_rewritten": true
+    },
+    {
+      "document_id": 302,
+      "condition": "skills",
+      "response": {
+        "content": "{\"nda-11\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of reverse engineering restrictions.\"}, \"nda-16\": {\"choice\": \"Entailment\", \"spans\": [37], \"reason\": \"Recipient must return information upon termination.\"}, \"nda-15\": {\"choice\": \"Contradiction\", \"spans\": [34], \"reason\": \"Confidential information remains property of owner.\"}, \"nda-10\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of agreement confidentiality.\"}, \"nda-2\": {\"choice\": \"Contradiction\", \"spans\": [20, 22, 23], \"reason\": \"Confidential information includes non-technical data.\"}, \"nda-1\": {\"choice\": \"Entailment\", \"spans\": [19, 20], \"reason\": \"Confidential information is classified by owner.\"}, \"nda-19\": {\"choice\": \"Entailment\", \"spans\": [36], \"reason\": \"Obligations survive termination of agreement.\"}, \"nda-12\": {\"choice\": \"Entailment\", \"spans\": [30], \"reason\": \"Information can be shared with employees needing it.\"}, \"nda-20\": {\"choice\": \"Contradiction\", \"spans\": [37], \"reason\": \"Information must be returned or destroyed.\"}, \"nda-3\": {\"choice\": \"Entailment\", \"spans\": [19], \"reason\": \"Verbal information is included as confidential.\"}, \"nda-18\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of solicitation restrictions.\"}, \"nda-7\": {\"choice\": \"Contradiction\", \"spans\": [30], \"reason\": \"Information is only shared with employees needing it.\"}, \"nda-17\": {\"choice\": \"Entailment\", \"spans\": [28], \"reason\": \"Precautions include protection from copying.\"}, \"nda-8\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of compelled disclosure notice.\"}, \"nda-13\": {\"choice\": \"Entailment\", \"spans\": [30], \"reason\": \"Information can be shared with employees needing it.\"}, \"nda-5\": {\"choice\": \"Entailment\", \"spans\": [30], \"reason\": \"Information is shared with employees needing it.\"}, \"nda-4\": {\"choice\": \"Contradiction\", \"spans\": [34], \"reason\": \"Information can be disclosed if required by law.\"}}",
+        "finish_reason": "stop",
+        "prompt_tokens": 3796,
+        "completion_tokens": 592,
+        "raw_id": "chatcmpl-78c4617002ea4b3e9b6d88ad96f24938"
+      },
+      "stage": "matched_final114_forward8",
+      "bank_sha256": "1d0c35f3736d449f31c8a7a9a3333afac1e61aec1616f31d310f4947e39fcada",
+      "not_scored_until_all16_all4_arms_exist": true,
+      "public_valid": true,
+      "public_error": null,
+      "parsed": {
+        "nda-11": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of reverse engineering restrictions."
+        },
+        "nda-16": {
+          "choice": "Entailment",
+          "spans": [
+            37
+          ],
+          "reason": "Recipient must return information upon termination."
+        },
+        "nda-15": {
+          "choice": "Contradiction",
+          "spans": [
+            34
+          ],
+          "reason": "Confidential information remains property of owner."
+        },
+        "nda-10": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of agreement confidentiality."
+        },
+        "nda-2": {
+          "choice": "Contradiction",
+          "spans": [
+            20,
+            22,
+            23
+          ],
+          "reason": "Confidential information includes non-technical data."
+        },
+        "nda-1": {
+          "choice": "Entailment",
+          "spans": [
+            19,
+            20
+          ],
+          "reason": "Confidential information is classified by owner."
+        },
+        "nda-19": {
+          "choice": "Entailment",
+          "spans": [
+            36
+          ],
+          "reason": "Obligations survive termination of agreement."
+        },
+        "nda-12": {
+          "choice": "Entailment",
+          "spans": [
+            30
+          ],
+          "reason": "Information can be shared with employees needing it."
+        },
+        "nda-20": {
+          "choice": "Contradiction",
+          "spans": [
+            37
+          ],
+          "reason": "Information must be returned or destroyed."
+        },
+        "nda-3": {
+          "choice": "Entailment",
+          "spans": [
+            19
+          ],
+          "reason": "Verbal information is included as confidential."
+        },
+        "nda-18": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of solicitation restrictions."
+        },
+        "nda-7": {
+          "choice": "Contradiction",
+          "spans": [
+            30
+          ],
+          "reason": "Information is only shared with employees needing it."
+        },
+        "nda-17": {
+          "choice": "Entailment",
+          "spans": [
+            28
+          ],
+          "reason": "Precautions include protection from copying."
+        },
+        "nda-8": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of compelled disclosure notice."
+        },
+        "nda-13": {
+          "choice": "Entailment",
+          "spans": [
+            30
+          ],
+          "reason": "Information can be shared with employees needing it."
+        },
+        "nda-5": {
+          "choice": "Entailment",
+          "spans": [
+            30
+          ],
+          "reason": "Information is shared with employees needing it."
+        },
+        "nda-4": {
+          "choice": "Contradiction",
+          "spans": [
+            34
+          ],
+          "reason": "Information can be disclosed if required by law."
+        }
+      },
+      "queries": [
+        {
+          "hypothesis_id": "nda-11",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of reverse engineering restrictions."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-16",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              37
+            ],
+            "reason": "Recipient must return information upon termination."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-15",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              34
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              34
+            ],
+            "reason": "Confidential information remains property of owner."
+          },
+          "label_correct": false,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-10",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of agreement confidentiality."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-2",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              18,
+              20,
+              21,
+              23,
+              25
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              20,
+              22,
+              23
+            ],
+            "reason": "Confidential information includes non-technical data."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 1,
+          "evidence_fn": 3,
+          "evidence_f1_gold_non_neutral": 0.5,
+          "joint_exact": false,
+          "joint_soft": 0.5
+        },
+        {
+          "hypothesis_id": "nda-1",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              19,
+              20
+            ],
+            "reason": "Confidential information is classified by owner."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 2,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-19",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              36
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              36
+            ],
+            "reason": "Obligations survive termination of agreement."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-12",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              30
+            ],
+            "reason": "Information can be shared with employees needing it."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-20",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              39
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              37
+            ],
+            "reason": "Information must be returned or destroyed."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-3",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              17,
+              18,
+              19
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              19
+            ],
+            "reason": "Verbal information is included as confidential."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 2,
+          "evidence_f1_gold_non_neutral": 0.5,
+          "joint_exact": false,
+          "joint_soft": 0.5
+        },
+        {
+          "hypothesis_id": "nda-18",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of solicitation restrictions."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-7",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              30,
+              33
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              30
+            ],
+            "reason": "Information is only shared with employees needing it."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-17",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              28
+            ],
+            "reason": "Precautions include protection from copying."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-8",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of compelled disclosure notice."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-13",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              30
+            ],
+            "reason": "Information can be shared with employees needing it."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-5",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              30
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              30
+            ],
+            "reason": "Information is shared with employees needing it."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-4",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              34
+            ],
+            "reason": "Information can be disclosed if required by law."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        }
+      ],
+      "native_public_answer_never_rewritten": true
+    },
+    {
+      "document_id": 102,
+      "condition": "skills",
+      "response": {
+        "content": "{\"nda-11\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of reverse engineering in the contract.\"}, \"nda-16\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No provision about destroying or returning Confidential Information upon termination.\"}, \"nda-15\": {\"choice\": \"Entailment\", \"spans\": [27], \"reason\": \"Confidential Information remains exclusive property of Disclosing Party.\"}, \"nda-10\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of confidentiality of the Agreement itself.\"}, \"nda-2\": {\"choice\": \"Contradiction\", \"spans\": [7, 16], \"reason\": \"Confidential Information includes non-technical information like marketing and finance documents.\"}, \"nda-1\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No explicit requirement for explicit identification of Confidential Information.\"}, \"nda-19\": {\"choice\": \"Entailment\", \"spans\": [44], \"reason\": \"Confidentiality obligations survive for 5 years after last disclosure.\"}, \"nda-12\": {\"choice\": \"Entailment\", \"spans\": [18, 22], \"reason\": \"Recipient may independently develop similar information.\"}, \"nda-20\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No provision about post-agreement possession of Confidential Information.\"}, \"nda-3\": {\"choice\": \"Entailment\", \"spans\": [16], \"reason\": \"Confidential Information includes orally conveyed information.\"}, \"nda-18\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of solicitation of representatives.\"}, \"nda-7\": {\"choice\": \"Entailment\", \"spans\": [11], \"reason\": \"Recipient may share with affiliates and their Representatives for Permitted Use.\"}, \"nda-17\": {\"choice\": \"Contradiction\", \"spans\": [10], \"reason\": \"Recipient agrees not to record any Confidential Information.\"}, \"nda-8\": {\"choice\": \"Entailment\", \"spans\": [23], \"reason\": \"Recipient must notify Disclosing Party if compelled to disclose Confidential Information.\"}, \"nda-13\": {\"choice\": \"Entailment\", \"spans\": [18, 21], \"reason\": \"Recipient may acquire similar information from unaffiliated third parties.\"}, \"nda-5\": {\"choice\": \"Entailment\", \"spans\": [11], \"reason\": \"Recipient may share with its Representatives for Permitted Use.\"}, \"nda-4\": {\"choice\": \"Entailment\", \"spans\": [14], \"reason\": \"Confidential Information may only be used for Permitted Use.\"}}",
+        "finish_reason": "stop",
+        "prompt_tokens": 4629,
+        "completion_tokens": 633,
+        "raw_id": "chatcmpl-2236cb3b9e664f729e4921d52c1bc1f1"
+      },
+      "stage": "matched_final114_forward8",
+      "bank_sha256": "1d0c35f3736d449f31c8a7a9a3333afac1e61aec1616f31d310f4947e39fcada",
+      "not_scored_until_all16_all4_arms_exist": true,
+      "public_valid": true,
+      "public_error": null,
+      "parsed": {
+        "nda-11": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of reverse engineering in the contract."
+        },
+        "nda-16": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No provision about destroying or returning Confidential Information upon termination."
+        },
+        "nda-15": {
+          "choice": "Entailment",
+          "spans": [
+            27
+          ],
+          "reason": "Confidential Information remains exclusive property of Disclosing Party."
+        },
+        "nda-10": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of confidentiality of the Agreement itself."
+        },
+        "nda-2": {
+          "choice": "Contradiction",
+          "spans": [
+            7,
+            16
+          ],
+          "reason": "Confidential Information includes non-technical information like marketing and finance documents."
+        },
+        "nda-1": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No explicit requirement for explicit identification of Confidential Information."
+        },
+        "nda-19": {
+          "choice": "Entailment",
+          "spans": [
+            44
+          ],
+          "reason": "Confidentiality obligations survive for 5 years after last disclosure."
+        },
+        "nda-12": {
+          "choice": "Entailment",
+          "spans": [
+            18,
+            22
+          ],
+          "reason": "Recipient may independently develop similar information."
+        },
+        "nda-20": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No provision about post-agreement possession of Confidential Information."
+        },
+        "nda-3": {
+          "choice": "Entailment",
+          "spans": [
+            16
+          ],
+          "reason": "Confidential Information includes orally conveyed information."
+        },
+        "nda-18": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of solicitation of representatives."
+        },
+        "nda-7": {
+          "choice": "Entailment",
+          "spans": [
+            11
+          ],
+          "reason": "Recipient may share with affiliates and their Representatives for Permitted Use."
+        },
+        "nda-17": {
+          "choice": "Contradiction",
+          "spans": [
+            10
+          ],
+          "reason": "Recipient agrees not to record any Confidential Information."
+        },
+        "nda-8": {
+          "choice": "Entailment",
+          "spans": [
+            23
+          ],
+          "reason": "Recipient must notify Disclosing Party if compelled to disclose Confidential Information."
+        },
+        "nda-13": {
+          "choice": "Entailment",
+          "spans": [
+            18,
+            21
+          ],
+          "reason": "Recipient may acquire similar information from unaffiliated third parties."
+        },
+        "nda-5": {
+          "choice": "Entailment",
+          "spans": [
+            11
+          ],
+          "reason": "Recipient may share with its Representatives for Permitted Use."
+        },
+        "nda-4": {
+          "choice": "Entailment",
+          "spans": [
+            14
+          ],
+          "reason": "Confidential Information may only be used for Permitted Use."
+        }
+      },
+      "queries": [
+        {
+          "hypothesis_id": "nda-11",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of reverse engineering in the contract."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-16",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No provision about destroying or returning Confidential Information upon termination."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-15",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              27,
+              28
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              27
+            ],
+            "reason": "Confidential Information remains exclusive property of Disclosing Party."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-10",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of confidentiality of the Agreement itself."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-2",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              7,
+              16
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              7,
+              16
+            ],
+            "reason": "Confidential Information includes non-technical information like marketing and finance documents."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-1",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              16
+            ]
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No explicit requirement for explicit identification of Confidential Information."
+          },
+          "label_correct": false,
+          "gold_non_neutral": true,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-19",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              44
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              44
+            ],
+            "reason": "Confidentiality obligations survive for 5 years after last disclosure."
+          },
+          "label_correct": false,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-12",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              18,
+              22
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              18,
+              22
+            ],
+            "reason": "Recipient may independently develop similar information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-20",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No provision about post-agreement possession of Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-3",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              16
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              16
+            ],
+            "reason": "Confidential Information includes orally conveyed information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-18",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of solicitation of representatives."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-7",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              11
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              11
+            ],
+            "reason": "Recipient may share with affiliates and their Representatives for Permitted Use."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-17",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              10
+            ],
+            "reason": "Recipient agrees not to record any Confidential Information."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-8",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              23,
+              24
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              23
+            ],
+            "reason": "Recipient must notify Disclosing Party if compelled to disclose Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-13",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              18,
+              21
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              18,
+              21
+            ],
+            "reason": "Recipient may acquire similar information from unaffiliated third parties."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-5",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              11
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              11
+            ],
+            "reason": "Recipient may share with its Representatives for Permitted Use."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-4",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              12,
+              14
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              14
+            ],
+            "reason": "Confidential Information may only be used for Permitted Use."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        }
+      ],
+      "native_public_answer_never_rewritten": true
+    },
+    {
+      "document_id": 414,
+      "condition": "skills",
+      "response": {
+        "content": "{\"nda-11\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of reverse engineering in the contract.\"}, \"nda-16\": {\"choice\": \"Entailment\", \"spans\": [21, 22], \"reason\": \"Confidential Information must be returned or destroyed upon request.\"}, \"nda-15\": {\"choice\": \"Entailment\", \"spans\": [16], \"reason\": \"Confidential Information is not granted to the Receiving Party.\"}, \"nda-10\": {\"choice\": \"Entailment\", \"spans\": [19, 22], \"reason\": \"Confidentiality of Agreement is maintained.\"}, \"nda-2\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of technical information exclusivity.\"}, \"nda-1\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No explicit identification of Confidential Information.\"}, \"nda-19\": {\"choice\": \"Entailment\", \"spans\": [22], \"reason\": \"Obligations may survive termination of Agreement.\"}, \"nda-12\": {\"choice\": \"Entailment\", \"spans\": [24, 27], \"reason\": \"Independent development of information is permissible.\"}, \"nda-20\": {\"choice\": \"Entailment\", \"spans\": [21], \"reason\": \"Confidential Information may be retained after return or destruction.\"}, \"nda-3\": {\"choice\": \"Entailment\", \"spans\": [22], \"reason\": \"Orally conveyed information is included in Confidential Information.\"}, \"nda-18\": {\"choice\": \"Entailment\", \"spans\": [29], \"reason\": \"Solicitation of representatives is prohibited.\"}, \"nda-7\": {\"choice\": \"Entailment\", \"spans\": [17], \"reason\": \"Confidential Information may be shared with third-parties.\"}, \"nda-17\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of permissible copying of Confidential Information.\"}, \"nda-8\": {\"choice\": \"Entailment\", \"spans\": [32], \"reason\": \"Notice on compelled disclosure is required.\"}, \"nda-13\": {\"choice\": \"Entailment\", \"spans\": [24, 26], \"reason\": \"Acquiring similar information from third parties is permissible.\"}, \"nda-5\": {\"choice\": \"Entailment\", \"spans\": [17], \"reason\": \"Confidential Information may be shared with employees.\"}, \"nda-4\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of limited use of Confidential Information.\"}}",
+        "finish_reason": "stop",
+        "prompt_tokens": 5136,
+        "completion_tokens": 615,
+        "raw_id": "chatcmpl-49066303d5314f9998fd6e19d95b0ca7"
+      },
+      "stage": "matched_final114_forward8",
+      "bank_sha256": "1d0c35f3736d449f31c8a7a9a3333afac1e61aec1616f31d310f4947e39fcada",
+      "not_scored_until_all16_all4_arms_exist": true,
+      "public_valid": true,
+      "public_error": null,
+      "parsed": {
+        "nda-11": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of reverse engineering in the contract."
+        },
+        "nda-16": {
+          "choice": "Entailment",
+          "spans": [
+            21,
+            22
+          ],
+          "reason": "Confidential Information must be returned or destroyed upon request."
+        },
+        "nda-15": {
+          "choice": "Entailment",
+          "spans": [
+            16
+          ],
+          "reason": "Confidential Information is not granted to the Receiving Party."
+        },
+        "nda-10": {
+          "choice": "Entailment",
+          "spans": [
+            19,
+            22
+          ],
+          "reason": "Confidentiality of Agreement is maintained."
+        },
+        "nda-2": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of technical information exclusivity."
+        },
+        "nda-1": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No explicit identification of Confidential Information."
+        },
+        "nda-19": {
+          "choice": "Entailment",
+          "spans": [
+            22
+          ],
+          "reason": "Obligations may survive termination of Agreement."
+        },
+        "nda-12": {
+          "choice": "Entailment",
+          "spans": [
+            24,
+            27
+          ],
+          "reason": "Independent development of information is permissible."
+        },
+        "nda-20": {
+          "choice": "Entailment",
+          "spans": [
+            21
+          ],
+          "reason": "Confidential Information may be retained after return or destruction."
+        },
+        "nda-3": {
+          "choice": "Entailment",
+          "spans": [
+            22
+          ],
+          "reason": "Orally conveyed information is included in Confidential Information."
+        },
+        "nda-18": {
+          "choice": "Entailment",
+          "spans": [
+            29
+          ],
+          "reason": "Solicitation of representatives is prohibited."
+        },
+        "nda-7": {
+          "choice": "Entailment",
+          "spans": [
+            17
+          ],
+          "reason": "Confidential Information may be shared with third-parties."
+        },
+        "nda-17": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of permissible copying of Confidential Information."
+        },
+        "nda-8": {
+          "choice": "Entailment",
+          "spans": [
+            32
+          ],
+          "reason": "Notice on compelled disclosure is required."
+        },
+        "nda-13": {
+          "choice": "Entailment",
+          "spans": [
+            24,
+            26
+          ],
+          "reason": "Acquiring similar information from third parties is permissible."
+        },
+        "nda-5": {
+          "choice": "Entailment",
+          "spans": [
+            17
+          ],
+          "reason": "Confidential Information may be shared with employees."
+        },
+        "nda-4": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of limited use of Confidential Information."
+        }
+      },
+      "queries": [
+        {
+          "hypothesis_id": "nda-11",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of reverse engineering in the contract."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-16",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              21,
+              22
+            ],
+            "reason": "Confidential Information must be returned or destroyed upon request."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 2,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-15",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              16
+            ],
+            "reason": "Confidential Information is not granted to the Receiving Party."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-10",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              19,
+              28
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              19,
+              22
+            ],
+            "reason": "Confidentiality of Agreement is maintained."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 1,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.5,
+          "joint_exact": false,
+          "joint_soft": 0.5
+        },
+        {
+          "hypothesis_id": "nda-2",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of technical information exclusivity."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-1",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No explicit identification of Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-19",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              22
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              22
+            ],
+            "reason": "Obligations may survive termination of Agreement."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-12",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              24,
+              27
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              24,
+              27
+            ],
+            "reason": "Independent development of information is permissible."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-20",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              22
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              21
+            ],
+            "reason": "Confidential Information may be retained after return or destruction."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-3",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              22
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              22
+            ],
+            "reason": "Orally conveyed information is included in Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-18",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              29
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              29
+            ],
+            "reason": "Solicitation of representatives is prohibited."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-7",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              17
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              17
+            ],
+            "reason": "Confidential Information may be shared with third-parties."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-17",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of permissible copying of Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-8",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              32
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              32
+            ],
+            "reason": "Notice on compelled disclosure is required."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-13",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              24,
+              26
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              24,
+              26
+            ],
+            "reason": "Acquiring similar information from third parties is permissible."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-5",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              17
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              17
+            ],
+            "reason": "Confidential Information may be shared with employees."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-4",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              16
+            ]
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of limited use of Confidential Information."
+          },
+          "label_correct": false,
+          "gold_non_neutral": true,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        }
+      ],
+      "native_public_answer_never_rewritten": true
+    },
+    {
+      "document_id": 360,
+      "condition": "skills",
+      "response": {
+        "content": "{\"nda-11\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of reverse engineering in the contract.\"}, \"nda-16\": {\"choice\": \"Entailment\", \"spans\": [44], \"reason\": \"Receiving Party must deliver copies or certify destruction upon termination.\"}, \"nda-15\": {\"choice\": \"Entailment\", \"spans\": [49], \"reason\": \"No license or title to intellectual property is granted.\"}, \"nda-10\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of confidentiality of the Agreement itself.\"}, \"nda-2\": {\"choice\": \"Contradiction\", \"spans\": [14, 35], \"reason\": \"Confidential Information includes non-technical information and can be shared with employees.\"}, \"nda-1\": {\"choice\": \"Entailment\", \"spans\": [32], \"reason\": \"Confidential Information must be marked as such when transmitted.\"}, \"nda-19\": {\"choice\": \"Entailment\", \"spans\": [47, 53], \"reason\": \"Obligations survive termination of the Agreement.\"}, \"nda-12\": {\"choice\": \"Entailment\", \"spans\": [17], \"reason\": \"Independently developed information is excluded from Confidential Information.\"}, \"nda-20\": {\"choice\": \"Entailment\", \"spans\": [44, 45], \"reason\": \"One archival copy may be retained for obligations under the Agreement.\"}, \"nda-3\": {\"choice\": \"Entailment\", \"spans\": [32], \"reason\": \"Orally disclosed information must be reduced to writing and marked as Confidential.\"}, \"nda-18\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of solicitation of representatives.\"}, \"nda-7\": {\"choice\": \"Contradiction\", \"spans\": [34, 36], \"reason\": \"Disclosure to third parties requires prior written consent and NDA.\"}, \"nda-17\": {\"choice\": \"Entailment\", \"spans\": [43], \"reason\": \"Copying is allowed only as reasonably necessary.\"}, \"nda-8\": {\"choice\": \"Entailment\", \"spans\": [39], \"reason\": \"Receiving Party must notify Disclosing Party of legal requirement to disclose.\"}, \"nda-13\": {\"choice\": \"Entailment\", \"spans\": [16, 18], \"reason\": \"Information acquired from third parties not under confidentiality obligation is excluded.\"}, \"nda-5\": {\"choice\": \"Entailment\", \"spans\": [35], \"reason\": \"Confidential Information may be disclosed to employees with confidentiality obligations.\"}, \"nda-4\": {\"choice\": \"Entailment\", \"spans\": [41], \"reason\": \"Confidential Information may only be used for the Purpose.\"}}",
+        "finish_reason": "stop",
+        "prompt_tokens": 5874,
+        "completion_tokens": 656,
+        "raw_id": "chatcmpl-db8531fab6714bd7bd2ff7d7ed47dcf7"
+      },
+      "stage": "matched_final114_forward8",
+      "bank_sha256": "1d0c35f3736d449f31c8a7a9a3333afac1e61aec1616f31d310f4947e39fcada",
+      "not_scored_until_all16_all4_arms_exist": true,
+      "public_valid": true,
+      "public_error": null,
+      "parsed": {
+        "nda-11": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of reverse engineering in the contract."
+        },
+        "nda-16": {
+          "choice": "Entailment",
+          "spans": [
+            44
+          ],
+          "reason": "Receiving Party must deliver copies or certify destruction upon termination."
+        },
+        "nda-15": {
+          "choice": "Entailment",
+          "spans": [
+            49
+          ],
+          "reason": "No license or title to intellectual property is granted."
+        },
+        "nda-10": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of confidentiality of the Agreement itself."
+        },
+        "nda-2": {
+          "choice": "Contradiction",
+          "spans": [
+            14,
+            35
+          ],
+          "reason": "Confidential Information includes non-technical information and can be shared with employees."
+        },
+        "nda-1": {
+          "choice": "Entailment",
+          "spans": [
+            32
+          ],
+          "reason": "Confidential Information must be marked as such when transmitted."
+        },
+        "nda-19": {
+          "choice": "Entailment",
+          "spans": [
+            47,
+            53
+          ],
+          "reason": "Obligations survive termination of the Agreement."
+        },
+        "nda-12": {
+          "choice": "Entailment",
+          "spans": [
+            17
+          ],
+          "reason": "Independently developed information is excluded from Confidential Information."
+        },
+        "nda-20": {
+          "choice": "Entailment",
+          "spans": [
+            44,
+            45
+          ],
+          "reason": "One archival copy may be retained for obligations under the Agreement."
+        },
+        "nda-3": {
+          "choice": "Entailment",
+          "spans": [
+            32
+          ],
+          "reason": "Orally disclosed information must be reduced to writing and marked as Confidential."
+        },
+        "nda-18": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of solicitation of representatives."
+        },
+        "nda-7": {
+          "choice": "Contradiction",
+          "spans": [
+            34,
+            36
+          ],
+          "reason": "Disclosure to third parties requires prior written consent and NDA."
+        },
+        "nda-17": {
+          "choice": "Entailment",
+          "spans": [
+            43
+          ],
+          "reason": "Copying is allowed only as reasonably necessary."
+        },
+        "nda-8": {
+          "choice": "Entailment",
+          "spans": [
+            39
+          ],
+          "reason": "Receiving Party must notify Disclosing Party of legal requirement to disclose."
+        },
+        "nda-13": {
+          "choice": "Entailment",
+          "spans": [
+            16,
+            18
+          ],
+          "reason": "Information acquired from third parties not under confidentiality obligation is excluded."
+        },
+        "nda-5": {
+          "choice": "Entailment",
+          "spans": [
+            35
+          ],
+          "reason": "Confidential Information may be disclosed to employees with confidentiality obligations."
+        },
+        "nda-4": {
+          "choice": "Entailment",
+          "spans": [
+            41
+          ],
+          "reason": "Confidential Information may only be used for the Purpose."
+        }
+      },
+      "queries": [
+        {
+          "hypothesis_id": "nda-11",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of reverse engineering in the contract."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-16",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              44
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              44
+            ],
+            "reason": "Receiving Party must deliver copies or certify destruction upon termination."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-15",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              49,
+              50
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              49
+            ],
+            "reason": "No license or title to intellectual property is granted."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-10",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of confidentiality of the Agreement itself."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-2",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              14
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              14,
+              35
+            ],
+            "reason": "Confidential Information includes non-technical information and can be shared with employees."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-1",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              32
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              32
+            ],
+            "reason": "Confidential Information must be marked as such when transmitted."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-19",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              47,
+              53
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              47,
+              53
+            ],
+            "reason": "Obligations survive termination of the Agreement."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-12",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              14,
+              17
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              17
+            ],
+            "reason": "Independently developed information is excluded from Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-20",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              45
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              44,
+              45
+            ],
+            "reason": "One archival copy may be retained for obligations under the Agreement."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-3",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              32
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              32
+            ],
+            "reason": "Orally disclosed information must be reduced to writing and marked as Confidential."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-18",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of solicitation of representatives."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-7",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              36
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              34,
+              36
+            ],
+            "reason": "Disclosure to third parties requires prior written consent and NDA."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-17",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              43
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              43
+            ],
+            "reason": "Copying is allowed only as reasonably necessary."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-8",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              39
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              39
+            ],
+            "reason": "Receiving Party must notify Disclosing Party of legal requirement to disclose."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-13",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              14,
+              18
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              16,
+              18
+            ],
+            "reason": "Information acquired from third parties not under confidentiality obligation is excluded."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 1,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.5,
+          "joint_exact": false,
+          "joint_soft": 0.5
+        },
+        {
+          "hypothesis_id": "nda-5",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              35
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              35
+            ],
+            "reason": "Confidential Information may be disclosed to employees with confidentiality obligations."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-4",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              41
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              41
+            ],
+            "reason": "Confidential Information may only be used for the Purpose."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        }
+      ],
+      "native_public_answer_never_rewritten": true
+    },
+    {
+      "document_id": 325,
+      "condition": "skills",
+      "response": {
+        "content": "{\"nda-11\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of reverse engineering in the contract.\"}, \"nda-16\": {\"choice\": \"Entailment\", \"spans\": [40], \"reason\": \"Recipient must return or destroy Confidential Information upon request.\"}, \"nda-15\": {\"choice\": \"Entailment\", \"spans\": [36, 46], \"reason\": \"Recipient retains all rights to Confidential Information.\"}, \"nda-10\": {\"choice\": \"Entailment\", \"spans\": [15], \"reason\": \"Neither Party may disclose the existence of the Agreement without approval.\"}, \"nda-2\": {\"choice\": \"Contradiction\", \"spans\": [6], \"reason\": \"Confidential Information includes non-technical information.\"}, \"nda-1\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No explicit identification of Confidential Information is required.\"}, \"nda-19\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of obligations surviving termination.\"}, \"nda-12\": {\"choice\": \"Entailment\", \"spans\": [26, 43], \"reason\": \"Recipient may develop similar information independently.\"}, \"nda-20\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of retaining Confidential Information post-agreement.\"}, \"nda-3\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of verbally conveyed information.\"}, \"nda-18\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of solicitation of representatives.\"}, \"nda-7\": {\"choice\": \"Entailment\", \"spans\": [19], \"reason\": \"Recipient may share Confidential Information with third parties under certain conditions.\"}, \"nda-17\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of permissible copying of Confidential Information.\"}, \"nda-8\": {\"choice\": \"Entailment\", \"spans\": [31], \"reason\": \"Recipient must notify Discloser if required by law to disclose Confidential Information.\"}, \"nda-13\": {\"choice\": \"Entailment\", \"spans\": [26, 28], \"reason\": \"Recipient may acquire similar information from third parties.\"}, \"nda-5\": {\"choice\": \"Entailment\", \"spans\": [19], \"reason\": \"Recipient may share Confidential Information with employees on a need-to-know basis.\"}, \"nda-4\": {\"choice\": \"Entailment\", \"spans\": [14, 18], \"reason\": \"Recipient must use Confidential Information only for stated purposes.\"}}",
+        "finish_reason": "stop",
+        "prompt_tokens": 6067,
+        "completion_tokens": 618,
+        "raw_id": "chatcmpl-a8c413b913074a069fec3ca52177d18e"
+      },
+      "stage": "matched_final114_forward8",
+      "bank_sha256": "1d0c35f3736d449f31c8a7a9a3333afac1e61aec1616f31d310f4947e39fcada",
+      "not_scored_until_all16_all4_arms_exist": true,
+      "public_valid": true,
+      "public_error": null,
+      "parsed": {
+        "nda-11": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of reverse engineering in the contract."
+        },
+        "nda-16": {
+          "choice": "Entailment",
+          "spans": [
+            40
+          ],
+          "reason": "Recipient must return or destroy Confidential Information upon request."
+        },
+        "nda-15": {
+          "choice": "Entailment",
+          "spans": [
+            36,
+            46
+          ],
+          "reason": "Recipient retains all rights to Confidential Information."
+        },
+        "nda-10": {
+          "choice": "Entailment",
+          "spans": [
+            15
+          ],
+          "reason": "Neither Party may disclose the existence of the Agreement without approval."
+        },
+        "nda-2": {
+          "choice": "Contradiction",
+          "spans": [
+            6
+          ],
+          "reason": "Confidential Information includes non-technical information."
+        },
+        "nda-1": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No explicit identification of Confidential Information is required."
+        },
+        "nda-19": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of obligations surviving termination."
+        },
+        "nda-12": {
+          "choice": "Entailment",
+          "spans": [
+            26,
+            43
+          ],
+          "reason": "Recipient may develop similar information independently."
+        },
+        "nda-20": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of retaining Confidential Information post-agreement."
+        },
+        "nda-3": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of verbally conveyed information."
+        },
+        "nda-18": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of solicitation of representatives."
+        },
+        "nda-7": {
+          "choice": "Entailment",
+          "spans": [
+            19
+          ],
+          "reason": "Recipient may share Confidential Information with third parties under certain conditions."
+        },
+        "nda-17": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of permissible copying of Confidential Information."
+        },
+        "nda-8": {
+          "choice": "Entailment",
+          "spans": [
+            31
+          ],
+          "reason": "Recipient must notify Discloser if required by law to disclose Confidential Information."
+        },
+        "nda-13": {
+          "choice": "Entailment",
+          "spans": [
+            26,
+            28
+          ],
+          "reason": "Recipient may acquire similar information from third parties."
+        },
+        "nda-5": {
+          "choice": "Entailment",
+          "spans": [
+            19
+          ],
+          "reason": "Recipient may share Confidential Information with employees on a need-to-know basis."
+        },
+        "nda-4": {
+          "choice": "Entailment",
+          "spans": [
+            14,
+            18
+          ],
+          "reason": "Recipient must use Confidential Information only for stated purposes."
+        }
+      },
+      "queries": [
+        {
+          "hypothesis_id": "nda-11",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of reverse engineering in the contract."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-16",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              40
+            ],
+            "reason": "Recipient must return or destroy Confidential Information upon request."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-15",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              36,
+              46
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              36,
+              46
+            ],
+            "reason": "Recipient retains all rights to Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-10",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              15
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              15
+            ],
+            "reason": "Neither Party may disclose the existence of the Agreement without approval."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-2",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              6
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              6
+            ],
+            "reason": "Confidential Information includes non-technical information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-1",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No explicit identification of Confidential Information is required."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-19",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              60
+            ]
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of obligations surviving termination."
+          },
+          "label_correct": false,
+          "gold_non_neutral": true,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-12",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              8,
+              26,
+              27,
+              28,
+              29,
+              30,
+              43
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              26,
+              43
+            ],
+            "reason": "Recipient may develop similar information independently."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 5,
+          "evidence_f1_gold_non_neutral": 0.4444444444444444,
+          "joint_exact": false,
+          "joint_soft": 0.4444444444444444
+        },
+        {
+          "hypothesis_id": "nda-20",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              40
+            ]
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of retaining Confidential Information post-agreement."
+          },
+          "label_correct": false,
+          "gold_non_neutral": true,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-3",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of verbally conveyed information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-18",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of solicitation of representatives."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-7",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              16,
+              19
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              19
+            ],
+            "reason": "Recipient may share Confidential Information with third parties under certain conditions."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-17",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of permissible copying of Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-8",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              31,
+              33
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              31
+            ],
+            "reason": "Recipient must notify Discloser if required by law to disclose Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-13",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              26,
+              28
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              26,
+              28
+            ],
+            "reason": "Recipient may acquire similar information from third parties."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-5",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              16,
+              19
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              19
+            ],
+            "reason": "Recipient may share Confidential Information with employees on a need-to-know basis."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-4",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              14,
+              18,
+              22
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              14,
+              18
+            ],
+            "reason": "Recipient must use Confidential Information only for stated purposes."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.8,
+          "joint_exact": false,
+          "joint_soft": 0.8
+        }
+      ],
+      "native_public_answer_never_rewritten": true
+    },
+    {
+      "document_id": 337,
+      "condition": "skills",
+      "response": {
+        "content": "{\"nda-11\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of reverse engineering in the contract.\"}, \"nda-16\": {\"choice\": \"Entailment\", \"spans\": [32, 33], \"reason\": \"Receiving Party must return or destroy Confidential Information upon termination.\"}, \"nda-15\": {\"choice\": \"Entailment\", \"spans\": [44], \"reason\": \"No license or rights granted to Receiving Party for Confidential Information.\"}, \"nda-10\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of confidentiality of the Agreement itself.\"}, \"nda-2\": {\"choice\": \"Contradiction\", \"spans\": [10], \"reason\": \"Confidential Information includes non-technical information like business plans and customer lists.\"}, \"nda-1\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No explicit requirement for the Disclosing Party to identify Confidential Information.\"}, \"nda-19\": {\"choice\": \"Entailment\", \"spans\": [32, 34, 58], \"reason\": \"Obligations survive termination for five years.\"}, \"nda-12\": {\"choice\": \"Entailment\", \"spans\": [12, 16], \"reason\": \"Receiving Party can develop its own information independently.\"}, \"nda-20\": {\"choice\": \"Entailment\", \"spans\": [32, 33, 34], \"reason\": \"Imaged Documents may remain subject to restrictions post-termination.\"}, \"nda-3\": {\"choice\": \"Entailment\", \"spans\": [10], \"reason\": \"Confidential Information includes verbally conveyed information.\"}, \"nda-18\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of solicitation of representatives.\"}, \"nda-7\": {\"choice\": \"Entailment\", \"spans\": [19, 20], \"reason\": \"Confidential Information can be shared with Advisors and Agents.\"}, \"nda-17\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of permissible copying of Confidential Information.\"}, \"nda-8\": {\"choice\": \"Entailment\", \"spans\": [24], \"reason\": \"Receiving Party must notify Disclosing Party of compelled disclosure.\"}, \"nda-13\": {\"choice\": \"Entailment\", \"spans\": [12, 14], \"reason\": \"Receiving Party can acquire similar information from third parties.\"}, \"nda-5\": {\"choice\": \"Entailment\", \"spans\": [19, 20], \"reason\": \"Confidential Information can be shared with employees.\"}, \"nda-4\": {\"choice\": \"Entailment\", \"spans\": [18], \"reason\": \"Confidential Information must be used only for specified purposes.\"}}",
+        "finish_reason": "stop",
+        "prompt_tokens": 6878,
+        "completion_tokens": 661,
+        "raw_id": "chatcmpl-89b443738b574bbca5ecbb7ebf9c3435"
+      },
+      "stage": "matched_final114_forward8",
+      "bank_sha256": "1d0c35f3736d449f31c8a7a9a3333afac1e61aec1616f31d310f4947e39fcada",
+      "not_scored_until_all16_all4_arms_exist": true,
+      "public_valid": true,
+      "public_error": null,
+      "parsed": {
+        "nda-11": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of reverse engineering in the contract."
+        },
+        "nda-16": {
+          "choice": "Entailment",
+          "spans": [
+            32,
+            33
+          ],
+          "reason": "Receiving Party must return or destroy Confidential Information upon termination."
+        },
+        "nda-15": {
+          "choice": "Entailment",
+          "spans": [
+            44
+          ],
+          "reason": "No license or rights granted to Receiving Party for Confidential Information."
+        },
+        "nda-10": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of confidentiality of the Agreement itself."
+        },
+        "nda-2": {
+          "choice": "Contradiction",
+          "spans": [
+            10
+          ],
+          "reason": "Confidential Information includes non-technical information like business plans and customer lists."
+        },
+        "nda-1": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No explicit requirement for the Disclosing Party to identify Confidential Information."
+        },
+        "nda-19": {
+          "choice": "Entailment",
+          "spans": [
+            32,
+            34,
+            58
+          ],
+          "reason": "Obligations survive termination for five years."
+        },
+        "nda-12": {
+          "choice": "Entailment",
+          "spans": [
+            12,
+            16
+          ],
+          "reason": "Receiving Party can develop its own information independently."
+        },
+        "nda-20": {
+          "choice": "Entailment",
+          "spans": [
+            32,
+            33,
+            34
+          ],
+          "reason": "Imaged Documents may remain subject to restrictions post-termination."
+        },
+        "nda-3": {
+          "choice": "Entailment",
+          "spans": [
+            10
+          ],
+          "reason": "Confidential Information includes verbally conveyed information."
+        },
+        "nda-18": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of solicitation of representatives."
+        },
+        "nda-7": {
+          "choice": "Entailment",
+          "spans": [
+            19,
+            20
+          ],
+          "reason": "Confidential Information can be shared with Advisors and Agents."
+        },
+        "nda-17": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of permissible copying of Confidential Information."
+        },
+        "nda-8": {
+          "choice": "Entailment",
+          "spans": [
+            24
+          ],
+          "reason": "Receiving Party must notify Disclosing Party of compelled disclosure."
+        },
+        "nda-13": {
+          "choice": "Entailment",
+          "spans": [
+            12,
+            14
+          ],
+          "reason": "Receiving Party can acquire similar information from third parties."
+        },
+        "nda-5": {
+          "choice": "Entailment",
+          "spans": [
+            19,
+            20
+          ],
+          "reason": "Confidential Information can be shared with employees."
+        },
+        "nda-4": {
+          "choice": "Entailment",
+          "spans": [
+            18
+          ],
+          "reason": "Confidential Information must be used only for specified purposes."
+        }
+      },
+      "queries": [
+        {
+          "hypothesis_id": "nda-11",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of reverse engineering in the contract."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-16",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              32
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              32,
+              33
+            ],
+            "reason": "Receiving Party must return or destroy Confidential Information upon termination."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-15",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              44
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              44
+            ],
+            "reason": "No license or rights granted to Receiving Party for Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-10",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              10
+            ]
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of confidentiality of the Agreement itself."
+          },
+          "label_correct": false,
+          "gold_non_neutral": true,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-2",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              10
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              10
+            ],
+            "reason": "Confidential Information includes non-technical information like business plans and customer lists."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-1",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              11
+            ]
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No explicit requirement for the Disclosing Party to identify Confidential Information."
+          },
+          "label_correct": false,
+          "gold_non_neutral": true,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.0,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-19",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              34,
+              58
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              32,
+              34,
+              58
+            ],
+            "reason": "Obligations survive termination for five years."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 0.8,
+          "joint_exact": false,
+          "joint_soft": 0.8
+        },
+        {
+          "hypothesis_id": "nda-12",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              12,
+              16
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              12,
+              16
+            ],
+            "reason": "Receiving Party can develop its own information independently."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-20",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              34
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              32,
+              33,
+              34
+            ],
+            "reason": "Imaged Documents may remain subject to restrictions post-termination."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 2,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 0.5,
+          "joint_exact": false,
+          "joint_soft": 0.5
+        },
+        {
+          "hypothesis_id": "nda-3",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              10
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              10
+            ],
+            "reason": "Confidential Information includes verbally conveyed information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-18",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of solicitation of representatives."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-7",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              19
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              19,
+              20
+            ],
+            "reason": "Confidential Information can be shared with Advisors and Agents."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-17",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of permissible copying of Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-8",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              24
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              24
+            ],
+            "reason": "Receiving Party must notify Disclosing Party of compelled disclosure."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-13",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              12,
+              14
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              12,
+              14
+            ],
+            "reason": "Receiving Party can acquire similar information from third parties."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-5",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              19
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              19,
+              20
+            ],
+            "reason": "Confidential Information can be shared with employees."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-4",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              18
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              18
+            ],
+            "reason": "Confidential Information must be used only for specified purposes."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        }
+      ],
+      "native_public_answer_never_rewritten": true
+    },
+    {
+      "document_id": 86,
+      "condition": "skills",
+      "response": {
+        "content": "{\"nda-11\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of reverse engineering in the contract.\"}, \"nda-16\": {\"choice\": \"Entailment\", \"spans\": [72, 74, 75, 76], \"reason\": \"Mentor must return or destroy Confidential Information upon termination.\"}, \"nda-15\": {\"choice\": \"Entailment\", \"spans\": [85], \"reason\": \"Mentor has no rights to Confidential Information except for limited use.\"}, \"nda-10\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of confidentiality of the agreement itself.\"}, \"nda-2\": {\"choice\": \"Contradiction\", \"spans\": [55], \"reason\": \"Confidential Information includes more than just technical information.\"}, \"nda-1\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No explicit requirement for identification of Confidential Information.\"}, \"nda-19\": {\"choice\": \"Entailment\", \"spans\": [88], \"reason\": \"Confidential Information must remain confidential even after termination.\"}, \"nda-12\": {\"choice\": \"Entailment\", \"spans\": [56, 57], \"reason\": \"Information independently developed by Mentor is not Confidential Information.\"}, \"nda-20\": {\"choice\": \"Contradiction\", \"spans\": [72, 74, 75, 76], \"reason\": \"Mentor must return or destroy Confidential Information, not retain it.\"}, \"nda-3\": {\"choice\": \"Entailment\", \"spans\": [55], \"reason\": \"Confidential Information includes data and information, which can be verbally conveyed.\"}, \"nda-18\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of solicitation of representatives.\"}, \"nda-7\": {\"choice\": \"Contradiction\", \"spans\": [63, 64], \"reason\": \"Mentor cannot disclose Confidential Information to third parties or employees without consent.\"}, \"nda-17\": {\"choice\": \"NotMentioned\", \"spans\": [], \"reason\": \"No mention of permissible copying of Confidential Information.\"}, \"nda-8\": {\"choice\": \"Entailment\", \"spans\": [82], \"reason\": \"Mentor must notify Organiser of compelled disclosure.\"}, \"nda-13\": {\"choice\": \"Entailment\", \"spans\": [56, 59], \"reason\": \"Information received from third parties is not Confidential Information.\"}, \"nda-5\": {\"choice\": \"Contradiction\", \"spans\": [63, 64], \"reason\": \"Mentor cannot disclose Confidential Information to employees without consent.\"}, \"nda-4\": {\"choice\": \"Entailment\", \"spans\": [62], \"reason\": \"Mentor may only use Confidential Information for specified purposes.\"}}",
+        "finish_reason": "stop",
+        "prompt_tokens": 6364,
+        "completion_tokens": 671,
+        "raw_id": "chatcmpl-3850c34f08d140de9a071cfbcce3e873"
+      },
+      "stage": "matched_final114_forward8",
+      "bank_sha256": "1d0c35f3736d449f31c8a7a9a3333afac1e61aec1616f31d310f4947e39fcada",
+      "not_scored_until_all16_all4_arms_exist": true,
+      "public_valid": true,
+      "public_error": null,
+      "parsed": {
+        "nda-11": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of reverse engineering in the contract."
+        },
+        "nda-16": {
+          "choice": "Entailment",
+          "spans": [
+            72,
+            74,
+            75,
+            76
+          ],
+          "reason": "Mentor must return or destroy Confidential Information upon termination."
+        },
+        "nda-15": {
+          "choice": "Entailment",
+          "spans": [
+            85
+          ],
+          "reason": "Mentor has no rights to Confidential Information except for limited use."
+        },
+        "nda-10": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of confidentiality of the agreement itself."
+        },
+        "nda-2": {
+          "choice": "Contradiction",
+          "spans": [
+            55
+          ],
+          "reason": "Confidential Information includes more than just technical information."
+        },
+        "nda-1": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No explicit requirement for identification of Confidential Information."
+        },
+        "nda-19": {
+          "choice": "Entailment",
+          "spans": [
+            88
+          ],
+          "reason": "Confidential Information must remain confidential even after termination."
+        },
+        "nda-12": {
+          "choice": "Entailment",
+          "spans": [
+            56,
+            57
+          ],
+          "reason": "Information independently developed by Mentor is not Confidential Information."
+        },
+        "nda-20": {
+          "choice": "Contradiction",
+          "spans": [
+            72,
+            74,
+            75,
+            76
+          ],
+          "reason": "Mentor must return or destroy Confidential Information, not retain it."
+        },
+        "nda-3": {
+          "choice": "Entailment",
+          "spans": [
+            55
+          ],
+          "reason": "Confidential Information includes data and information, which can be verbally conveyed."
+        },
+        "nda-18": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of solicitation of representatives."
+        },
+        "nda-7": {
+          "choice": "Contradiction",
+          "spans": [
+            63,
+            64
+          ],
+          "reason": "Mentor cannot disclose Confidential Information to third parties or employees without consent."
+        },
+        "nda-17": {
+          "choice": "NotMentioned",
+          "spans": [],
+          "reason": "No mention of permissible copying of Confidential Information."
+        },
+        "nda-8": {
+          "choice": "Entailment",
+          "spans": [
+            82
+          ],
+          "reason": "Mentor must notify Organiser of compelled disclosure."
+        },
+        "nda-13": {
+          "choice": "Entailment",
+          "spans": [
+            56,
+            59
+          ],
+          "reason": "Information received from third parties is not Confidential Information."
+        },
+        "nda-5": {
+          "choice": "Contradiction",
+          "spans": [
+            63,
+            64
+          ],
+          "reason": "Mentor cannot disclose Confidential Information to employees without consent."
+        },
+        "nda-4": {
+          "choice": "Entailment",
+          "spans": [
+            62
+          ],
+          "reason": "Mentor may only use Confidential Information for specified purposes."
+        }
+      },
+      "queries": [
+        {
+          "hypothesis_id": "nda-11",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of reverse engineering in the contract."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-16",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              72,
+              74,
+              75,
+              76
+            ],
+            "reason": "Mentor must return or destroy Confidential Information upon termination."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 4,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-15",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              85
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              85
+            ],
+            "reason": "Mentor has no rights to Confidential Information except for limited use."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-10",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of confidentiality of the agreement itself."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-2",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              55
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              55
+            ],
+            "reason": "Confidential Information includes more than just technical information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-1",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No explicit requirement for identification of Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-19",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              88
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              88
+            ],
+            "reason": "Confidential Information must remain confidential even after termination."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-12",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              56,
+              57
+            ],
+            "reason": "Information independently developed by Mentor is not Confidential Information."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 2,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-20",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              72,
+              76,
+              77
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              72,
+              74,
+              75,
+              76
+            ],
+            "reason": "Mentor must return or destroy Confidential Information, not retain it."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 2,
+          "evidence_fn": 1,
+          "evidence_f1_gold_non_neutral": 0.5714285714285714,
+          "joint_exact": false,
+          "joint_soft": 0.5714285714285714
+        },
+        {
+          "hypothesis_id": "nda-3",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              55
+            ],
+            "reason": "Confidential Information includes data and information, which can be verbally conveyed."
+          },
+          "label_correct": false,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": false,
+          "joint_soft": 0.0
+        },
+        {
+          "hypothesis_id": "nda-18",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of solicitation of representatives."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-7",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              63
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              63,
+              64
+            ],
+            "reason": "Mentor cannot disclose Confidential Information to third parties or employees without consent."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-17",
+          "gold": {
+            "choice": "NotMentioned",
+            "spans": []
+          },
+          "prediction": {
+            "choice": "NotMentioned",
+            "spans": [],
+            "reason": "No mention of permissible copying of Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": false,
+          "evidence_tp": 0,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": null,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-8",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              82
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              82
+            ],
+            "reason": "Mentor must notify Organiser of compelled disclosure."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-13",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              56,
+              59
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              56,
+              59
+            ],
+            "reason": "Information received from third parties is not Confidential Information."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 2,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        },
+        {
+          "hypothesis_id": "nda-5",
+          "gold": {
+            "choice": "Contradiction",
+            "spans": [
+              63
+            ]
+          },
+          "prediction": {
+            "choice": "Contradiction",
+            "spans": [
+              63,
+              64
+            ],
+            "reason": "Mentor cannot disclose Confidential Information to employees without consent."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 1,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 0.6666666666666666,
+          "joint_exact": false,
+          "joint_soft": 0.6666666666666666
+        },
+        {
+          "hypothesis_id": "nda-4",
+          "gold": {
+            "choice": "Entailment",
+            "spans": [
+              62
+            ]
+          },
+          "prediction": {
+            "choice": "Entailment",
+            "spans": [
+              62
+            ],
+            "reason": "Mentor may only use Confidential Information for specified purposes."
+          },
+          "label_correct": true,
+          "gold_non_neutral": true,
+          "evidence_tp": 1,
+          "evidence_fp": 0,
+          "evidence_fn": 0,
+          "evidence_f1_gold_non_neutral": 1.0,
+          "joint_exact": true,
+          "joint_soft": 1.0
+        }
+      ],
+      "native_public_answer_never_rewritten": true
+    }
+  ],
+  "final_bank": [
+    {
+      "id": "nda-source-boundary-inspector-v1",
+      "hypothesis_ids": [
+        "nda-11",
+        "nda-16",
+        "nda-15",
+        "nda-10",
+        "nda-2",
+        "nda-1",
+        "nda-19",
+        "nda-12",
+        "nda-20",
+        "nda-3",
+        "nda-18",
+        "nda-7",
+        "nda-17",
+        "nda-8",
+        "nda-13",
+        "nda-5",
+        "nda-4"
+      ],
+      "guidance": {
+        "python_source": "def _segments(text,spans):\n    out=[]\n    for x in spans:\n        if isinstance(x,str): out.append(x)\n        elif isinstance(x,dict):\n            if \"text\" in x: out.append(str(x.get(\"text\",\"\")))\n            else:\n                a=int(x.get(\"start\",x.get(\"begin\",0))); b=int(x.get(\"end\",x.get(\"stop\",a)))\n                out.append(text[a:b])\n        elif isinstance(x,(list,tuple)) and len(x)>=2: out.append(text[int(x[0]):int(x[1])])\n        else: out.append(\"\")\n    return [x.lower() for x in out]\n\ndef _has(s,words):\n    return any(w in s for w in words)\n\ndef _item(s):\n    q=s.strip()\n    return q.startswith((\"(\",\"•\",\"\",\"-\")) or (len(q)>1 and q[0].isalnum() and q[1] in (\".\",\")\"))\n\ndef _head(out,xs,i,words):\n    for j in reversed(range(i+1)):\n        if _has(xs[j],words):\n            out.add(j); return j\n    return -1\n\ndef _defhead(out,xs,i):\n    return _head(out,xs,i,(\"confidential information means\",\"confidential information shall mean\",\"proprietary information means\",\"proprietary information shall mean\",\"evaluation material means\",\"information shall mean\",\"information is defined as\"))\n\ndef _exception(out,xs,i):\n    return _head(out,xs,i,(\"shall not include\",\"does not include\",\"will not include\",\"shall not apply\",\"obligations shall not apply\",\"restrictions shall not apply\",\"does not extend to\",\"inoperative as to\",\"exceptions from\",\"exclusions from\"))\n\ndef propose_members(text,spans,public_hypothesis_key):\n    xs=_segments(text,spans); out=set(); k=public_hypothesis_key\n    for i,s in enumerate(xs):\n        if k==\"nda-11\" and _has(s,(\"reverse engineer\",\"reverse-engineer\",\"decompile\",\"de-compile\",\"disassemble\")):\n            out.add(i)\n        elif k==\"nda-15\" and _has(s,(\"no license\",\"no licence\",\"no right\",\"no rights\",\"does not grant\",\"not be construed as granting\",\"remain the property\",\"remains the property\",\"exclusive property\",\"sole property\",\"exclusive owner\",\"retain all rights\",\"reserves all rights\",\"no title\",\"no interest\",\"does not acquire\",\"not transferred\",\"not convey\",\"property of the disclos\")):\n            out.add(i)\n        elif k==\"nda-10\" and _has(s,(\"existence of this agreement\",\"existence and terms\",\"existence or contents\",\"terms of this agreement\",\"fact that discussions\",\"discussions or negotiations\",\"discussions and negotiations\",\"negotiations are taking place\",\"subject matter or terms\",\"public announcement concerning\",\"public announcements concerning\",\"transaction information\",\"fact that information has been made available\")):\n            out.add(i)\n        elif k==\"nda-2\":\n            subjects=(\"business\",\"financial\",\"commercial\",\"marketing\",\"customer\",\"client\",\"supplier\",\"employee\",\"personnel\",\"staff\",\"operational\",\"contractual\",\"sales\",\"distribution\",\"costs\",\"medical\",\"genetic\",\"patient\",\"non-technical\",\"all information\")\n            if _has(s,subjects) and (_has(s,(\"confidential information\",\"proprietary information\",\"evaluation material\",\"shall include\",\"includes, without\",\"including, without\")) or _item(s)):\n                out.add(i); _defhead(out,xs,i)\n        elif k==\"nda-1\" and _has(s,(\"marked\",\"mark or label\",\"designated\",\"identified as\",\"identified at\",\"identify it in writing\",\"reasonable person\",\"reasonably understood\",\"circumstances of disclosure\",\"nature of the information\",\"whether or not marked\",\"need not be marked\",\"does not need to be marked\",\"specifically stated otherwise\",\"list of confidential information\")) and _has(s,(\"confidential\",\"proprietary\",\"information\",\"disclos\",\"list\")):\n            out.add(i); _defhead(out,xs,i)\n        elif k==\"nda-19\" and (_has(s,(\"shall survive\",\"will survive\",\"survive termination\",\"survive expiration\",\"continue to be bound\",\"continue in force\",\"continue to apply\",\"remain binding\",\"after termination\",\"beyond termination\",\"continue beyond\",\"notwithstanding the return\",\"notwithstanding such return\",\"unlimited in time\",\"survive indefinitely\")) or (\"indefinitely\" in s and _has(s,(\"obligation\",\"agreement\",\"confidential\")))):\n            out.add(i)\n        elif k in (\"nda-12\",\"nda-13\"):\n            words=(\"independently developed\",\"independent development\",\"developed independently\",\"independently derived\",\"independently acquired\",\"right to independently develop\",\"developing information internally\") if k==\"nda-12\" else (\"from a third party\",\"from third parties\",\"third party having\",\"third party who\",\"another source\",\"independent source\",\"source other than\",\"obtained from others\",\"received from an independent\",\"lawfully obtained\",\"rightfully disclosed\")\n            if _has(s,words):\n                out.add(i); _exception(out,xs,i)\n        elif k==\"nda-3\" and _has(s,(\"oral\",\"orally\",\"verbally\",\"uttered\",\"spoken\",\"whatever form\",\"any form whatsoever\",\"tangible or intangible\",\"form or medium\")) and _has(s,(\"information\",\"disclos\",\"communicat\",\"confidential\",\"proprietary\",\"evaluation material\")):\n            out.add(i); _defhead(out,xs,i)\n        elif k==\"nda-17\" and _has(s,(\"shall not copy\",\"not copy\",\"not reproduce\",\"copy or reproduce\",\"make copies\",\"may make copies\",\"copies required\",\"copying\",\"duplicate\",\"reduce to writing\",\"reproduce in any form\")) and _has(s,(\"confidential\",\"information\",\"data\",\"material\",\"document\",\"evaluation\")):\n            out.add(i)\n        elif k==\"nda-4\" and _has(s,(\"solely for\",\"only for\",\"used solely\",\"used only\",\"no purpose other\",\"not use\",\"use only\",\"except for the purpose\",\"necessary for the purpose\",\"sole purpose\",\"for no other purpose\")) and _has(s,(\"confidential\",\"information\",\"data\",\"material\",\"purpose\",\"evaluation\",\"project\")):\n            out.add(i)\n    if k==\"nda-16\":\n        acts=(\"return\",\"destroy\",\"delete\",\"erase\",\"deliver up\",\"deliver back\",\"surrender\",\"disposal\")\n        objs=(\"information\",\"data\",\"material\",\"document\",\"copies\",\"records\")\n        timing=(\"termination\",\"expiration\",\"completion\",\"conclusion\",\"assessment period\",\"end of employment\",\"end of the term\",\"not wish to proceed\",\"not consummated\",\"ceasing to be interested\")\n        for i,s in enumerate(xs):\n            if _has(s,acts) and _has(s,objs):\n                for j in range(max(0,i-2),min(len(xs),i+3)):\n                    if _has(xs[j],timing): out.update((i,j))\n    elif k==\"nda-20\":\n        retain=(\"retain one\",\"may retain\",\"entitled to retain\",\"archival copy\",\"archive copy\",\"back-up\",\"backup\",\"not required to erase\",\"not required to delete\",\"infeasible\",\"keep one copy\",\"retain in the files\",\"not obligated to return or destroy\")\n        found=False\n        for i,s in enumerate(xs):\n            if _has(s,retain):\n                found=True; out.add(i); _head(out,xs,i,(\"notwithstanding\",\"provided that\",\"return or destruction\",\"return of\",\"disposal\"))\n        if not found:\n            for i,s in enumerate(xs):\n                if _has(s,(\"return\",\"destroy\",\"surrender\",\"deliver back\",\"disposal\")) and _has(s,(\"information\",\"data\",\"material\",\"document\",\"copies\",\"records\")): out.add(i)\n    elif k==\"nda-18\":\n        verbs=(\"solicit\",\"induce\",\"entice\",\"offer employment\",\"offer to hire\",\"employ or retain\",\"contract for the services\")\n        actors=(\"employee\",\"employment\",\"personnel\",\"representative\",\"customer\",\"client\",\"services\")\n        for i,s in enumerate(xs):\n            if _has(s,verbs):\n                for j in range(max(0,i-2),min(len(xs),i+3)):\n                    if _has(xs[j],actors): out.update((i,j))\n    elif k==\"nda-8\":\n        legal=(\"required by law\",\"required to disclose\",\"legally compelled\",\"court order\",\"subpoena\",\"legal process\",\"governmental authority\",\"regulatory authority\",\"judicial process\",\"administrative process\",\"operation of law\")\n        notice=(\"notice\",\"notify\",\"consult\",\"inform\",\"advise\")\n        for i,s in enumerate(xs):\n            if _has(s,legal):\n                for j in range(max(0,i-3),min(len(xs),i+4)):\n                    if _has(xs[j],notice): out.update((i,j)); _exception(out,xs,i)\n    elif k in (\"nda-7\",\"nda-5\"):\n        actors=(\"employee\",\"employees\",\"personnel\",\"staff member\") if k==\"nda-5\" else (\"agent\",\"consultant\",\"advisor\",\"adviser\",\"counsel\",\"accountant\",\"contractor\",\"subcontractor\",\"representative\",\"third party\",\"professional adviser\",\"authorised recipient\",\"authorized recipient\",\"affiliate\")\n        access=(\"disclose\",\"disclosure\",\"access\",\"furnish\",\"provide\",\"share\",\"supply\",\"made available\",\"need to know\",\"may reveal\",\"may discuss\",\"kept secret from\")\n        chosen=[]\n        for i,s in enumerate(xs):\n            if _has(s,actors) and _has(s,access):\n                chosen.append(i); out.add(i)\n                if _item(s): _head(out,xs,i,(\"may disclose\",\"permit access\",\"permitted to disclose\",\"disclosed only to\",\"make available\",\"disclosure to\"))\n        if any(\"representative\" in xs[i] for i in chosen):\n            for i,s in enumerate(xs):\n                if _has(s,(\"representative means\",\"representatives shall include\",\"collectively, “representatives\",\"collectively \\\"representatives\")): out.add(i)\n    return sorted(out)"
+      }
+    }
+  ],
+  "no_bank_update_threshold_retry_answer_repair_or_new_labels": true,
+  "already_scored_development_forward8_not_unseen_official_TEST_or_independent_learning": true
+}

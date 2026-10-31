@@ -1,0 +1,91 @@
+{
+  "at": "2026-10-21T15:43:40.534469+00:00",
+  "classification": "Already-complete B5 TRAIN eligibility-versus-valuation delivery witness, not a selected TEST example or proof of unique causal mechanism",
+  "case_id": 252,
+  "same_source_key_public_asset_catalog_and_statutes": true,
+  "literal_facts_equal": false,
+  "fact_paraphrases_are_a_cross_task_confound_not_an_isolated_trial": true,
+  "native_F1": {
+    "EC": {
+      "empty": 0.16666666666666666,
+      "frozen_after_B1": 1.0,
+      "skills": 1.0
+    },
+    "EV": {
+      "empty": 0.6666666666666666,
+      "frozen_after_B1": 0.16666666666666666,
+      "skills": 0.16666666666666666
+    }
+  },
+  "actual_task_guidance_views": {
+    "EC": [
+      {
+        "id": "illinois-overlapping-wildcard-and-stated-limits",
+        "hypothesis_ids": [
+          "EC"
+        ],
+        "guidance": {
+          "when": "ILLINOIS is allowable and the property is held for personal rather than business use.",
+          "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently as the any-other-property alternative, including when apparel, a motor vehicle, or a prescribed health aid also has a specific exemption. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, and (e) covers professionally prescribed health aids. A value above a limit does not eliminate either applicable alternative.",
+          "avoid_when": "Do not use § 12-1001(d) for ordinary household property; it requires implements, professional books, or tools of the debtor's trade. Do not classify jewelry or a watch as necessary wearing apparel under subsection (a), and do not omit subsection (b) merely because a specific subsection applies.",
+          "operators": [],
+          "jurisdiction": "ILLINOIS"
+        }
+      }
+    ],
+    "EV": [
+      {
+        "id": "illinois-overlapping-wildcard-and-stated-limits",
+        "hypothesis_ids": [
+          "EV"
+        ],
+        "guidance": {
+          "when": "ILLINOIS is allowable and an eligible personal-use asset-exemption pair needs valuation.",
+          "procedure": "Compute overlapping alternatives separately. For § 12-1001(b), use the lesser of value and $4,000 for one debtor, or $8,000 for jointly owned property of two debtors. For § 12-1001(c), use the lesser of value and $2,400; this vehicle limit is not doubled. Thus a jointly owned vehicle may have both an $8,000 subsection (b) alternative and a separate $2,400 subsection (c) alternative. Sections (a) and (e) have no stated dollar ceiling in the supplied text, so use the asset value.",
+          "avoid_when": "Do not assign the $8,000 joint wildcard amount to subsection (c), replace the $2,400 vehicle limit with a wildcard limit, omit subsection (b) because a specific subsection applies, or apply these personal-property exemptions to business-use property.",
+          "operators": [],
+          "jurisdiction": "ILLINOIS"
+        }
+      }
+    ]
+  },
+  "EV_current_claim_errors": {
+    "missing": 4,
+    "extra_citation": 3
+  },
+  "EC_skill_trade_condition_present_but_not_in_EV_skill_view": true,
+  "public_law_and_eligibility_information_still_available_in_EV_case_input": true,
+  "no_previous_EC_answer_supplied_to_independent_EV_actor": true,
+  "C1_EC_only_update_reuses_exact_same_EV_native_wire": true,
+  "C2_actual_existing_native_intervention": {
+    "operation": "UPDATE",
+    "target_ids": [
+      "illinois-overlapping-wildcard-and-stated-limits"
+    ],
+    "new_EV": {
+      "tasks": [
+        "EV"
+      ],
+      "when": "ILLINOIS is allowable and the debtor owns personal-use property.",
+      "procedure": "Determine eligibility before calculating amounts. Independently include § 12-1001(b) for any debtor-owned personal-use property, including property also covered by subsection (a), (c), or (e); a value above its ceiling does not defeat eligibility. Use the lesser of value and $4,000 for one debtor or $8,000 for jointly owned property of two debtors. For a motor vehicle, also report subsection (c) at the lesser of value and $2,400, without doubling that limit. Sections (a) and (e) use the asset value because the supplied text states no dollar ceiling.",
+      "avoid_when": "Do not use subsection (d) merely because an item could be called a tool or implement; require facts showing use in the debtor's trade. Do not classify jewelry as necessary wearing apparel, omit subsection (b) because a specific subsection applies, treat either ceiling as an eligibility test, or apply these exemptions to business-use property."
+    },
+    "own_C2_outcomes_not_yet_inferred": true
+  },
+  "interpretation": "Observed EV loss is law selection/coverage, not amount calculation on these low-value assets. The task-local EV skill presupposes eligibility while the EV task independently selects citations and amounts. Existing correct EC skill conditions are not delivered as EV guidance. This is a concrete content-delivery hypothesis; different fact paraphrases, task prompts/schema and stochastic generation remain, so it is not an isolated proof that copying EC guidance will fix it. Teacher2 already proposes a self-contained EV repair in the frozen real loop; evaluate that full native counterfactual and next B6 before creating another renderer/probe.",
+  "current_main_teacher_actor_gate_or_scorer_modified_by_root": false,
+  "new_native_teacher_TEST_calls": 0,
+  "evidence_paths": [
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/252.json",
+    "experiments/openexempt_online.py",
+    "legal_skill_guard/learning/task_scoped_skills.py",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b5_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b5_candidate1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/252_EC_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/252_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/252_EV_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b5_prequential/252_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b4.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b5_candidate2/response.json"
+  ]
+}

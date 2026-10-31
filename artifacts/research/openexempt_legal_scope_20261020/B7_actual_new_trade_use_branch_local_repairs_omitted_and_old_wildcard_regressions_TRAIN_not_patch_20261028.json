@@ -1,0 +1,576 @@
+{
+  "at": "2026-10-28T01:47:12.237126+00:00",
+  "scope": "Actual TRAIN-prefix factual-use shift, correct local repairs and simultaneous regressions; not a hand-coded legal fix",
+  "run_id": "legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02",
+  "maximum_source": 292,
+  "prefix_cases": 112,
+  "Illinois_prefix_cases": 26,
+  "gold_trade_tool_claims_before_B7": 0,
+  "first_gold_trade_tool_claims_in_B7": [
+    {
+      "case_id": 279,
+      "asset": "commercial food mixer (used for a catering service operated by the Debtor)"
+    },
+    {
+      "case_id": 283,
+      "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)"
+    },
+    {
+      "case_id": 285,
+      "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)"
+    }
+  ],
+  "original_meta_instruction": "Assume all assets are held for the personal use of the Debtor(s), unless explicitly stated otherwise.",
+  "actual_facts_279_283_285_explicitly_state_trade_use": true,
+  "old_Illinois_guidance": {
+    "by_task": [
+      {
+        "tasks": [
+          "EC",
+          "EV"
+        ],
+        "when": "Illinois exemptions are allowable and the asset is personal rather than business property.",
+        "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) as an independent alternative for any personal property, even when subsection (a), (c), or (e) also applies. For EV, its whole-asset ceiling is $4,000 for one debtor and $8,000 for two joint debtors; claim no more than the asset value. Under subsection (c), a motor vehicle receives at most $2,400 for the whole named vehicle. Limit subsection (a) to necessary wearing apparel, bibles, school books, and family pictures; subsection (d) to actual tools or books of the debtor's trade; and subsection (e) to professionally prescribed health aids.",
+        "avoid_when": "Do not use these personal-property exemptions for business-use property. Do not call jewelry wearing apparel or ordinary household property a tool of trade without the required facts, and do not double the subsection (c) vehicle ceiling merely because two debtors jointly own the vehicle."
+      }
+    ],
+    "operators": [],
+    "jurisdiction": "ILLINOIS"
+  },
+  "T11_candidate_Illinois_guidance": {
+    "by_task": [
+      {
+        "tasks": [
+          "EC"
+        ],
+        "when": "Illinois exemptions are allowable and the asset is personal property owned by the debtor.",
+        "procedure": "Retain 735 Ill. Comp. Stat. 5/12-1001(b) independently for every personal-property asset, including a vehicle or an actual trade tool. Add subsection (a) for necessary wearing apparel, bibles, school books, or family pictures; subsection (c) for a motor vehicle; subsection (d) for actual tools or books of the debtor's trade; and subsection (e) for professionally prescribed health aids. Stated business use can establish subsection (d) and does not remove subsection (b).",
+        "avoid_when": "Do not apply these personal-property provisions to real property. Do not call jewelry wearing apparel or ordinary household property a trade tool, and do not omit subsection (b) merely because a specific subsection applies."
+      },
+      {
+        "tasks": [
+          "EV"
+        ],
+        "when": "Illinois exemptions are allowable and the asset is personal property owned by the debtor.",
+        "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently, including for vehicles and actual trade tools, and then retain every supported specific subsection. For the whole named asset, subsection (b) protects up to $4,000 for one debtor or $8,000 for two joint debtors; subsection (c) protects up to $2,400 for a vehicle; and subsection (d) protects up to $1,500 for one debtor or $3,000 for two joint debtors. Under each alternative, claim no more than the whole asset value.",
+        "avoid_when": "Do not exclude a trade tool from subsection (b) because business use is stated, omit subsection (d) when the facts establish a trade tool, double subsection (c), or use these personal-property provisions for real property."
+      }
+    ],
+    "operators": [],
+    "jurisdiction": "ILLINOIS"
+  },
+  "same_claim_matching_tradeoff": {
+    "parent": {
+      "wildcard_missing": 17,
+      "wildcard_false": 0,
+      "trade_false": 1,
+      "other_missing": 7,
+      "other_false": 0
+    },
+    "uncommitted_T11_proposal": {
+      "wildcard_missing": 23,
+      "wildcard_false": 0,
+      "trade_false": 4,
+      "other_missing": 1,
+      "other_false": 0
+    }
+  },
+  "actual_six_source_task_contrasts": [
+    {
+      "case_id": 279,
+      "family": "EC",
+      "parent_score": {
+        "precision": 0.75,
+        "recall": 0.625,
+        "f1": 0.6666666666666666,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.6666666666666666,
+        "full_output_precision": 1.0,
+        "full_output_recall": 0.5,
+        "full_output_claim_tp": 3,
+        "full_output_claim_fp": 0,
+        "full_output_claim_fn": 3,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "candidate_score": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.8333333333333333,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.8,
+        "full_output_precision": 1.0,
+        "full_output_recall": 0.6666666666666666,
+        "full_output_claim_tp": 4,
+        "full_output_claim_fp": 0,
+        "full_output_claim_fn": 2,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "parent_claim_errors": [
+        {
+          "kind": "missing",
+          "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        },
+        {
+          "kind": "missing",
+          "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(d)"
+        },
+        {
+          "kind": "missing",
+          "asset": "reflex silver 2004 Volkswagen Jetta GLI",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        }
+      ],
+      "candidate_claim_errors": [
+        {
+          "kind": "missing",
+          "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        },
+        {
+          "kind": "missing",
+          "asset": "reflex silver 2004 Volkswagen Jetta GLI",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        }
+      ],
+      "selected_in_next_teacher_candidate_feedback": false,
+      "before_record_sha256": "61dfe1105b9f396205933640357522a195ae08a819ec459fa4fdee8a9bfe8c53",
+      "after_record_sha256": "d997881f390956c5d28fdf0a043a7cc1e50881d13afbb86b1d0c5263023c0d1b",
+      "before_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_prequential/279_EC_skills.json",
+      "after_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_candidate1_replay/279_EC_candidate.json"
+    },
+    {
+      "case_id": 279,
+      "family": "EV",
+      "parent_score": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.8333333333333333,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.8,
+        "full_output_precision": 1.0,
+        "full_output_recall": 0.6666666666666666,
+        "full_output_claim_tp": 4,
+        "full_output_claim_fp": 0,
+        "full_output_claim_fn": 2,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "candidate_score": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.8333333333333333,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.8,
+        "full_output_precision": 1.0,
+        "full_output_recall": 0.6666666666666666,
+        "full_output_claim_tp": 4,
+        "full_output_claim_fp": 0,
+        "full_output_claim_fn": 2,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "parent_claim_errors": [
+        {
+          "kind": "missing",
+          "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 930.0,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "reflex silver 2004 Volkswagen Jetta GLI",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 4000.0,
+          "observed_values": []
+        }
+      ],
+      "candidate_claim_errors": [
+        {
+          "kind": "missing",
+          "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 930.0,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "reflex silver 2004 Volkswagen Jetta GLI",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 4000.0,
+          "observed_values": []
+        }
+      ],
+      "selected_in_next_teacher_candidate_feedback": false,
+      "before_record_sha256": "c598a9ba3dac81106c1df425a0d1f9d6f0b3755437c4f839b07ac49fb123cffb",
+      "after_record_sha256": "c5ea938d6ab6accb9378a2b47b3c5a024bed4656f412cadff9b0ab86363fb376",
+      "before_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_prequential/279_EV_skills.json",
+      "after_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_candidate1_replay/279_EV_candidate.json"
+    },
+    {
+      "case_id": 283,
+      "family": "EC",
+      "parent_score": {
+        "precision": 0.75,
+        "recall": 0.5,
+        "f1": 0.5833333333333333,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.6666666666666666,
+        "full_output_precision": 1.0,
+        "full_output_recall": 0.5,
+        "full_output_claim_tp": 3,
+        "full_output_claim_fp": 0,
+        "full_output_claim_fn": 3,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "candidate_score": {
+        "precision": 0.75,
+        "recall": 0.5,
+        "f1": 0.5833333333333333,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.6666666666666666,
+        "full_output_precision": 1.0,
+        "full_output_recall": 0.5,
+        "full_output_claim_tp": 3,
+        "full_output_claim_fp": 0,
+        "full_output_claim_fn": 3,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "parent_claim_errors": [
+        {
+          "kind": "missing",
+          "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(d)"
+        },
+        {
+          "kind": "missing",
+          "asset": "pair of diamond cluster earrings with post backs",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        },
+        {
+          "kind": "missing",
+          "asset": "Italian leather loafers with stitched welt construction",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(a)"
+        }
+      ],
+      "candidate_claim_errors": [
+        {
+          "kind": "missing",
+          "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        },
+        {
+          "kind": "missing",
+          "asset": "pair of diamond cluster earrings with post backs",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        },
+        {
+          "kind": "missing",
+          "asset": "Italian leather loafers with stitched welt construction",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        }
+      ],
+      "selected_in_next_teacher_candidate_feedback": false,
+      "before_record_sha256": "ea5cc0e1c9eddec58e2021fcab8a4c2b0631eef7fdab88152f4f8fa9b135663c",
+      "after_record_sha256": "082c06521b3325e90992e4044c5233d2f4131dd7e0bd1b0e593b51f495587147",
+      "before_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_prequential/283_EC_skills.json",
+      "after_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_candidate1_replay/283_EC_candidate.json"
+    },
+    {
+      "case_id": 283,
+      "family": "EV",
+      "parent_score": {
+        "precision": 0.75,
+        "recall": 0.75,
+        "f1": 0.75,
+        "mare": 0.12504165278240587,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.7272727272727272,
+        "full_output_precision": 0.8,
+        "full_output_recall": 0.6666666666666666,
+        "full_output_claim_tp": 4,
+        "full_output_claim_fp": 1,
+        "full_output_claim_fn": 2,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "candidate_score": {
+        "precision": 0.75,
+        "recall": 0.625,
+        "f1": 0.6666666666666666,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.6,
+        "full_output_precision": 0.75,
+        "full_output_recall": 0.5,
+        "full_output_claim_tp": 3,
+        "full_output_claim_fp": 1,
+        "full_output_claim_fn": 3,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "parent_claim_errors": [
+        {
+          "kind": "missing",
+          "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 3450.0,
+          "observed_values": []
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+          "expected_value": 3000.0,
+          "observed_values": [
+            1500.0
+          ]
+        }
+      ],
+      "candidate_claim_errors": [
+        {
+          "kind": "extra_or_duplicate",
+          "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+          "observed_value": 3450.0
+        },
+        {
+          "kind": "missing",
+          "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 3450.0,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+          "expected_value": 3000.0,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "Italian leather loafers with stitched welt construction",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 1290.0,
+          "observed_values": []
+        }
+      ],
+      "selected_in_next_teacher_candidate_feedback": false,
+      "before_record_sha256": "1e84c3525c54ec23c8c7cca40b18eade3b3e68728f17c891f55cba994b1c03de",
+      "after_record_sha256": "9e3b4bf68905b9822e6cc5a88c77ae862dcd16d7de319036e66ca12b2cf8658a",
+      "before_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_prequential/283_EV_skills.json",
+      "after_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_candidate1_replay/283_EV_candidate.json"
+    },
+    {
+      "case_id": 285,
+      "family": "EC",
+      "parent_score": {
+        "precision": 0.75,
+        "recall": 0.625,
+        "f1": 0.6666666666666666,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.6666666666666666,
+        "full_output_precision": 1.0,
+        "full_output_recall": 0.5,
+        "full_output_claim_tp": 3,
+        "full_output_claim_fp": 0,
+        "full_output_claim_fn": 3,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "candidate_score": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1": 0.9166666666666666,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.9090909090909091,
+        "full_output_precision": 1.0,
+        "full_output_recall": 0.8333333333333334,
+        "full_output_claim_tp": 5,
+        "full_output_claim_fp": 0,
+        "full_output_claim_fn": 1,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "parent_claim_errors": [
+        {
+          "kind": "missing",
+          "asset": "modern steel metallic 2014 Honda CR-V EX-L",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        },
+        {
+          "kind": "missing",
+          "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        },
+        {
+          "kind": "missing",
+          "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(d)"
+        }
+      ],
+      "candidate_claim_errors": [
+        {
+          "kind": "missing",
+          "asset": "modern steel metallic 2014 Honda CR-V EX-L",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        }
+      ],
+      "selected_in_next_teacher_candidate_feedback": false,
+      "before_record_sha256": "1fc044e88b391a940bded1ca32f1bf074f7d84c72b0ad538feda54806f13f7e4",
+      "after_record_sha256": "aa38a6a707f2d89a80158d46e657f8c037599856d84a2c09e45e79ec5f06f82e",
+      "before_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_prequential/285_EC_skills.json",
+      "after_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_candidate1_replay/285_EC_candidate.json"
+    },
+    {
+      "case_id": 285,
+      "family": "EV",
+      "parent_score": {
+        "precision": 0.5,
+        "recall": 0.375,
+        "f1": 0.41666666666666663,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.5,
+        "full_output_precision": 1.0,
+        "full_output_recall": 0.3333333333333333,
+        "full_output_claim_tp": 2,
+        "full_output_claim_fp": 0,
+        "full_output_claim_fn": 4,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "candidate_score": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.8333333333333333,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.8,
+        "full_output_precision": 1.0,
+        "full_output_recall": 0.6666666666666666,
+        "full_output_claim_tp": 4,
+        "full_output_claim_fp": 0,
+        "full_output_claim_fn": 2,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "negative_target_asset_predicted_claims": 0,
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "parent_claim_errors": [
+        {
+          "kind": "missing",
+          "asset": "purebred golden retriever",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 1350.0,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "modern steel metallic 2014 Honda CR-V EX-L",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 8000.0,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 2275.0,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+          "expected_value": 2275.0,
+          "observed_values": []
+        }
+      ],
+      "candidate_claim_errors": [
+        {
+          "kind": "missing",
+          "asset": "modern steel metallic 2014 Honda CR-V EX-L",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 8000.0,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+          "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+          "expected_value": 2275.0,
+          "observed_values": []
+        }
+      ],
+      "selected_in_next_teacher_candidate_feedback": false,
+      "before_record_sha256": "5258187bd4829cb0e7f4cfc9d25c06e93459af12ebb93a17085b3d35bc0ed6ef",
+      "after_record_sha256": "faeede180f254bd654f320eb562fac49664c8b0bcc511c001c4987f42f3fd3a0",
+      "before_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_prequential/285_EV_skills.json",
+      "after_raw_call_path": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/native/b7_candidate1_replay/285_EV_candidate.json"
+    }
+  ],
+  "all_six_not_selected_in_T12_bounded_candidate_feedback": true,
+  "partial_repairs_not_claimed_as_complete_successes": true,
+  "parent_correctness_not_assumed_from_delivery": true,
+  "does_not_explain_entire_cross_version_gap_or_prove_paired_evidence_will_fix_it": true,
+  "original_released_grading_labels_unchanged": true,
+  "no_actor_teacher_source_gate_or_scoring_hot_change": true,
+  "next_action": "Complete current full8 and actualB8 observed TEST; only if needed run already fixed TRAIN paired-outcome witness test, not case-specific thresholds or added tool routing.",
+  "new_model_or_teacher_calls": 0
+}

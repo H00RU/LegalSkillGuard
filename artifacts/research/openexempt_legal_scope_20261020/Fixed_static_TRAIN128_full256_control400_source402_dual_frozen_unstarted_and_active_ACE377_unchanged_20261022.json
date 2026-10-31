@@ -1,0 +1,99 @@
+{
+  "at": "2026-10-22T14:02:43.817172+00:00",
+  "classification": "Implemented and frozen full128 TRAIN fixed-library alternative-explanation control, not started or queued and no performance observed. Original static bank and same direct actor/grader are reused; nine prior future learners and activeACE377 unchanged.",
+  "implementation_commit": "6b128a8",
+  "config": "configs/openexempt_fixed_static_train128_20261022_run01.json",
+  "config_sha256": "8489cc82b133e97c03cbbcafa22bcc09995d160047a60e79e38980d4108d0ea7",
+  "frozen_manifest": "configs/openexempt_fixed_static_train128_20261022_run01.frozen.json",
+  "frozen_manifest_sha256": "98d221c2faa64cab5c76375aad1db4c4e848884630fae1c97544189d04230a2e",
+  "bound_files": 400,
+  "packages": 50,
+  "source_copies": [
+    {
+      "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_fixed_static_train128_20261022_run01-source.tar.gz",
+      "sha256": "8ad2b612478675d093e2d3aa9c0e917de1d8ebfb5152d7bbd4ca79e954be3beb",
+      "members": 402,
+      "all_member_bytes_verified": true,
+      "bytes": 1793260,
+      "device": 64528
+    },
+    {
+      "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_fixed_static_train128_20261022_run01-source.tar.gz",
+      "sha256": "8ad2b612478675d093e2d3aa9c0e917de1d8ebfb5152d7bbd4ca79e954be3beb",
+      "members": 402,
+      "all_member_bytes_verified": true,
+      "bytes": 1793260,
+      "device": 64517
+    }
+  ],
+  "static_publication": "runs/legal_openexempt_direct_law_only_static_20261021_run03/publication.json",
+  "static_bank_sha256": "4809c3b2fe336a682ad36544f036206f158c0890adad4e87bde6eb4fa6502321",
+  "actual_new_model_teacher_and_tokenizer_calls": 0,
+  "control_run_directory_absent": true,
+  "planned_native_calls_max": 256,
+  "planned_new_teacher_calls": 0,
+  "original_8B_settings_and128_TRAIN_original4_actor_scoring_sources_match": true,
+  "min_contract_tests": {
+    "passed": 9,
+    "elapsed_seconds": 0.18,
+    "synthetic_only_no_model_TEST_or_genuine_score_qualification": true
+  },
+  "all256_predictions_before_grading_and_no_teacher_or_update_API": true,
+  "nine_existing_unstarted_profiles": [
+    {
+      "config": "openexempt_whole_bank_public_assets128_20261021_run01",
+      "unchanged_bound_files": 371,
+      "unstarted": true
+    },
+    {
+      "config": "openexempt_first_commit_public_assets128_20261021_run01",
+      "unchanged_bound_files": 371,
+      "unstarted": true
+    },
+    {
+      "config": "openexempt_closed_feedback_public_assets128_seed145_20261021_run01",
+      "unchanged_bound_files": 371,
+      "unstarted": true
+    },
+    {
+      "config": "openexempt_ace_public_assets128_seed145_20261022_run03",
+      "unchanged_bound_files": 377,
+      "unstarted": true
+    },
+    {
+      "config": "openexempt_closed_feedback_public_assets128_seed245_20261021_run01",
+      "unchanged_bound_files": 371,
+      "unstarted": true
+    },
+    {
+      "config": "openexempt_ace_public_assets128_seed245_20261022_run03",
+      "unchanged_bound_files": 377,
+      "unstarted": true
+    },
+    {
+      "config": "openexempt_trace2skill_text_public_assets128_seed45_20261022_run01",
+      "unchanged_bound_files": 374,
+      "unstarted": true
+    },
+    {
+      "config": "openexempt_trace2skill_text_public_assets128_seed145_20261022_run01",
+      "unchanged_bound_files": 374,
+      "unstarted": true
+    },
+    {
+      "config": "openexempt_trace2skill_text_public_assets128_seed245_20261022_run01",
+      "unchanged_bound_files": 374,
+      "unstarted": true
+    }
+  ],
+  "active_ACE377_source_unchanged": true,
+  "current_shared_teacher_budget_unchanged": 3349,
+  "original_paper_v04_and_appendix_sha256": {
+    "paper/manuscript_v1_20261021.md": "3fc606071c25cd00c4538c013eede3d602bd72c2491ebc5cf07d6e66ba545f07",
+    "paper/appendix_experimental_details_20261022.md": "8bd17dc3148394373aaa214d2d97aef566c04c897b40a9893ca2092f9756ab41"
+  },
+  "formal_TEST_primary10_secondary4_matrix16_unchanged": true,
+  "execute_only_after_main_and_full_ACE_terminal_and_preserved_under_same_lock": true,
+  "research_role": "Descriptive all128 TRAIN frozenstatic vs preserved actualonlinefirsts and commonempty, not an independent learning repetition, terminalmainbank comparison or final TEST. Static bank never selected/refined using these scores.",
+  "source_program": "import hashlib,importlib.metadata,json,tarfile\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import read,sha\nfrom experiments.openexempt_fixed_train_control import validate_profile\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\ncfgp=root/\"configs/openexempt_fixed_static_train128_20261022_run01.json\";cfg=read(cfgp)\nreference=validate_profile(cfg)\nfrozenp=cfgp.with_suffix(\".frozen.json\");frozen=read(frozenp)\nassert frozen[\"config_sha256\"]==sha(cfgp) and len(frozen[\"files\"])==400 and len(frozen[\"packages\"])==50\nfor rel,h in frozen[\"files\"].items():assert sha(root/rel)==h,rel\nfor name,version in frozen[\"packages\"].items():assert importlib.metadata.version(name)==version,name\nexpected=set(frozen[\"files\"])|{str(frozenp.relative_to(root)),\"docs/research/RESEARCH_RESET_20261019.md\"}\ncopies=[]\nfor d in (Path(\"/media/sangfor/vdb/legal-skill-backups\"),Path(\"/home/yndx/hhy/legal-skill-rootdisk-backups\")):\n p=d/(cfg[\"run_id\"]+\"-source.tar.gz\")\n with tarfile.open(p,\"r:gz\") as tar:\n  assert tar.getnames()==sorted(expected)\n  for n in expected:\n   f=tar.extractfile(n);assert f is not None and hashlib.sha256(f.read()).hexdigest()==sha(root/n),n\n copies.append({\"path\":str(p),\"sha256\":sha(p),\"members\":len(expected),\"all_member_bytes_verified\":True,\"bytes\":p.stat().st_size,\"device\":p.stat().st_dev})\nassert copies[0][\"device\"]!=copies[1][\"device\"]\nassert not (root/\"runs\"/cfg[\"run_id\"]).exists()\nassert \"teacher\" not in cfg and cfg[\"planned_new_teacher_calls\"]==0\nassert read(root/\"artifacts/teacher_invocation_budget_reconstruction_20261015.json\")[\"max_invocations\"]==3349\nfuture=[\"openexempt_whole_bank_public_assets128_20261021_run01\",\"openexempt_first_commit_public_assets128_20261021_run01\",\"openexempt_closed_feedback_public_assets128_seed145_20261021_run01\",\"openexempt_ace_public_assets128_seed145_20261022_run03\",\"openexempt_closed_feedback_public_assets128_seed245_20261021_run01\",\"openexempt_ace_public_assets128_seed245_20261022_run03\"]+[f\"openexempt_trace2skill_text_public_assets128_seed{s}_20261022_run01\" for s in (45,145,245)]\nprofiles=[]\nfor name in future:\n f=read(root/\"configs\"/(name+\".frozen.json\"))\n for rel,h in f[\"files\"].items():assert sha(root/rel)==h,rel\n assert not (root/\"runs\"/read(root/\"configs\"/(name+\".json\"))[\"run_id\"]).exists()\n profiles.append({\"config\":name,\"unchanged_bound_files\":len(f[\"files\"]),\"unstarted\":True})\nactive=read(root/\"configs/openexempt_ace_public_assets128_20261022_run02.frozen.json\")\nfor rel,h in active[\"files\"].items():assert sha(root/rel)==h,rel\nout={\"at\":datetime.now(timezone.utc).isoformat(),\"classification\":\"Implemented and frozen full128 TRAIN fixed-library alternative-explanation control, not started or queued and no performance observed. Original static bank and same direct actor/grader are reused; nine prior future learners and activeACE377 unchanged.\",\n\"implementation_commit\":\"6b128a8\",\"config\":str(cfgp.relative_to(root)),\"config_sha256\":sha(cfgp),\n\"frozen_manifest\":str(frozenp.relative_to(root)),\"frozen_manifest_sha256\":sha(frozenp),\"bound_files\":400,\"packages\":50,\n\"source_copies\":copies,\"static_publication\":cfg[\"initial_library_publication\"],\"static_bank_sha256\":cfg[\"static_bank_sha256\"],\n\"actual_new_model_teacher_and_tokenizer_calls\":0,\"control_run_directory_absent\":True,\n\"planned_native_calls_max\":256,\"planned_new_teacher_calls\":0,\n\"original_8B_settings_and128_TRAIN_original4_actor_scoring_sources_match\":True,\n\"min_contract_tests\":{\"passed\":9,\"elapsed_seconds\":0.18,\"synthetic_only_no_model_TEST_or_genuine_score_qualification\":True},\n\"all256_predictions_before_grading_and_no_teacher_or_update_API\":True,\n\"nine_existing_unstarted_profiles\":profiles,\"active_ACE377_source_unchanged\":True,\n\"current_shared_teacher_budget_unchanged\":3349,\n\"original_paper_v04_and_appendix_sha256\":{p:sha(root/p) for p in [\"paper/manuscript_v1_20261021.md\",\"paper/appendix_experimental_details_20261022.md\"]},\n\"formal_TEST_primary10_secondary4_matrix16_unchanged\":True,\n\"execute_only_after_main_and_full_ACE_terminal_and_preserved_under_same_lock\":True,\n\"research_role\":\"Descriptive all128 TRAIN frozenstatic vs preserved actualonlinefirsts and commonempty, not an independent learning repetition, terminalmainbank comparison or final TEST. Static bank never selected/refined using these scores.\",\n\"source_program\":PROGRAM}\ndest=base/\"Fixed_static_TRAIN128_full256_control400_source402_dual_frozen_unstarted_and_active_ACE377_unchanged_20261022.json\"\nRunStore.immutable_json(dest,out)\ndata=dest.read_bytes()\nfor copy in copies:\n p=Path(copy[\"path\"]).parent/dest.name\n with p.open(\"xb\") as f:f.write(data)\n assert p.read_bytes()==data\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"frozen_files\":400,\"packages\":50,\"copies\":copies,\"unstarted\":True,\"all_prior9_profiles_unchanged_and_unstarted\":True,\"active_ACE377_unchanged\":True,\"no_model_teacher_or_TEST_calls\":True},ensure_ascii=False))\n"
+}

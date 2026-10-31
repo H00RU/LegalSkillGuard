@@ -1,0 +1,1504 @@
+{
+  "at": "2026-10-27T02:08:43.142729+00:00",
+  "status": "completed_one_TRAIN_mechanism_rejected_no_formal_run_started",
+  "run_id": "legal_openexempt_native_claim_feedback_TRAIN_mechanism128_20261027_run01",
+  "parent_bank_sha256": "6bab10640bdea4c7728ea25f4866f12f558d2b44156442fe981fd8160b6e0b99",
+  "proposed_bank_sha256": "339d5854aefdd1cd7972b797f977a75741e972ad571029cc7b13cb8cbd10dd6a",
+  "actual_final_bank_sha256": "6bab10640bdea4c7728ea25f4866f12f558d2b44156442fe981fd8160b6e0b99",
+  "all256_proposal_answers_decoded_and_native_rescored_readonly": true,
+  "EC_all128_requests_and_scores_unchanged": true,
+  "native_feedback_counts_match_every_original_full_output_score": true,
+  "parent_all128_TRAIN": {
+    "EC": {
+      "precision": 0.9495442708333334,
+      "recall": 0.8991970486111109,
+      "f1": 0.9174169146825397,
+      "exact_target": 0.5390625,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.9476692506587276,
+      "negative_or_unscored_asset_claims": 3
+    },
+    "EV": {
+      "precision": 0.9068250868055554,
+      "recall": 0.8037109374999997,
+      "f1": 0.8402638268849205,
+      "exact_target": 0.3125,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 5,
+      "full_output_f1": 0.8319151399683478,
+      "negative_or_unscored_asset_claims": 5
+    },
+    "mean_family_f1": 0.8788403707837301
+  },
+  "proposal_all128_TRAIN": {
+    "EC": {
+      "precision": 0.9495442708333334,
+      "recall": 0.8991970486111109,
+      "f1": 0.9174169146825397,
+      "exact_target": 0.5390625,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.9476692506587276,
+      "negative_or_unscored_asset_claims": 3
+    },
+    "EV": {
+      "precision": 0.9230143229166667,
+      "recall": 0.787380642361111,
+      "f1": 0.836397879464286,
+      "exact_target": 0.25,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 5,
+      "full_output_f1": 0.8278484937775732,
+      "negative_or_unscored_asset_claims": 5
+    },
+    "mean_family_f1": 0.8769073970734129
+  },
+  "EV_target_claims": 897,
+  "EV_claim_counts": {
+    "parent": {
+      "correct": 675,
+      "missing": 156,
+      "incorrect_value": 66,
+      "extra_or_duplicate": 19,
+      "incorrect_value_predictions": 66
+    },
+    "proposal": {
+      "correct": 652,
+      "missing": 187,
+      "incorrect_value": 58,
+      "extra_or_duplicate": 13,
+      "incorrect_value_predictions": 58
+    }
+  },
+  "EV_target_outcome_transitions": [
+    {
+      "parent": "correct",
+      "proposal": "correct",
+      "claims": 562
+    },
+    {
+      "parent": "correct",
+      "proposal": "incorrect_value",
+      "claims": 18
+    },
+    {
+      "parent": "correct",
+      "proposal": "missing",
+      "claims": 95
+    },
+    {
+      "parent": "incorrect_value",
+      "proposal": "correct",
+      "claims": 24
+    },
+    {
+      "parent": "incorrect_value",
+      "proposal": "incorrect_value",
+      "claims": 29
+    },
+    {
+      "parent": "incorrect_value",
+      "proposal": "missing",
+      "claims": 13
+    },
+    {
+      "parent": "missing",
+      "proposal": "correct",
+      "claims": 66
+    },
+    {
+      "parent": "missing",
+      "proposal": "incorrect_value",
+      "claims": 11
+    },
+    {
+      "parent": "missing",
+      "proposal": "missing",
+      "claims": 79
+    }
+  ],
+  "all_law_outcomes": [
+    {
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "parent": {
+        "missing": 79,
+        "correct": 128,
+        "incorrect_value": 13
+      },
+      "proposal": {
+        "correct": 115,
+        "missing": 92,
+        "incorrect_value": 13
+      },
+      "correct_delta": -13
+    },
+    {
+      "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+      "parent": {
+        "correct": 43,
+        "incorrect_value": 6,
+        "missing": 18
+      },
+      "proposal": {
+        "missing": 33,
+        "correct": 30,
+        "incorrect_value": 4
+      },
+      "correct_delta": -13
+    },
+    {
+      "citation": "11 U.S.C. § 522(d)(2)",
+      "parent": {
+        "correct": 26
+      },
+      "proposal": {
+        "correct": 22,
+        "missing": 1,
+        "incorrect_value": 3
+      },
+      "correct_delta": -4
+    },
+    {
+      "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+      "parent": {
+        "correct": 30,
+        "missing": 1
+      },
+      "proposal": {
+        "correct": 27,
+        "missing": 4
+      },
+      "correct_delta": -3
+    },
+    {
+      "citation": "Wis. Stat. § 815.20(1)",
+      "parent": {
+        "correct": 2,
+        "incorrect_value": 1
+      },
+      "proposal": {
+        "missing": 1,
+        "correct": 1,
+        "incorrect_value": 1
+      },
+      "correct_delta": -1
+    },
+    {
+      "citation": "11 U.S.C. § 522(d)(1)",
+      "parent": {
+        "correct": 7
+      },
+      "proposal": {
+        "correct": 7
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "11 U.S.C. § 522(d)(3)",
+      "parent": {
+        "correct": 147,
+        "incorrect_value": 1,
+        "missing": 1
+      },
+      "proposal": {
+        "correct": 147,
+        "missing": 2
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "11 U.S.C. § 522(d)(6)",
+      "parent": {
+        "correct": 1
+      },
+      "proposal": {
+        "correct": 1
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "11 U.S.C. § 522(d)(9)",
+      "parent": {
+        "correct": 4
+      },
+      "proposal": {
+        "correct": 4
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+      "parent": {
+        "correct": 13,
+        "missing": 1
+      },
+      "proposal": {
+        "correct": 13,
+        "missing": 1
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "parent": {
+        "correct": 58,
+        "missing": 27
+      },
+      "proposal": {
+        "correct": 58,
+        "missing": 27
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+      "parent": {
+        "correct": 7
+      },
+      "proposal": {
+        "correct": 7
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "parent": {
+        "correct": 1,
+        "missing": 1,
+        "incorrect_value": 1
+      },
+      "proposal": {
+        "correct": 1,
+        "missing": 1,
+        "incorrect_value": 1
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(e)",
+      "parent": {
+        "correct": 2
+      },
+      "proposal": {
+        "correct": 2
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "735 Ill. Comp. Stat. 5/12-901",
+      "parent": {
+        "missing": 1
+      },
+      "proposal": {
+        "missing": 1
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+      "parent": {
+        "correct": 2
+      },
+      "proposal": {
+        "correct": 2
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Ariz. Rev. Stat. § 33-1123",
+      "parent": {
+        "correct": 25
+      },
+      "proposal": {
+        "correct": 25
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+      "parent": {
+        "correct": 12
+      },
+      "proposal": {
+        "correct": 12
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+      "parent": {
+        "correct": 3
+      },
+      "proposal": {
+        "correct": 3
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Ariz. Rev. Stat. § 33-1125(11)",
+      "parent": {
+        "correct": 1
+      },
+      "proposal": {
+        "correct": 1
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+      "parent": {
+        "correct": 3,
+        "incorrect_value": 1
+      },
+      "proposal": {
+        "correct": 3,
+        "incorrect_value": 1
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+      "parent": {
+        "correct": 9
+      },
+      "proposal": {
+        "correct": 9
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Ariz. Rev. Stat. § 33-1125(9)",
+      "parent": {
+        "missing": 1,
+        "correct": 3
+      },
+      "proposal": {
+        "missing": 1,
+        "correct": 3
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+      "parent": {
+        "correct": 17,
+        "incorrect_value": 1
+      },
+      "proposal": {
+        "correct": 17,
+        "missing": 1
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+      "parent": {
+        "correct": 9
+      },
+      "proposal": {
+        "correct": 9
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Or. Rev. Stat. § 18.345(1)(e)",
+      "parent": {
+        "correct": 2
+      },
+      "proposal": {
+        "correct": 2
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Or. Rev. Stat. § 18.362",
+      "parent": {
+        "correct": 3
+      },
+      "proposal": {
+        "correct": 3
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Or. Rev. Stat. § 18.395(1)",
+      "parent": {
+        "incorrect_value": 1
+      },
+      "proposal": {
+        "incorrect_value": 1
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "Wis. Stat. § 815.18(3)(g)",
+      "parent": {
+        "incorrect_value": 10
+      },
+      "proposal": {
+        "incorrect_value": 10
+      },
+      "correct_delta": 0
+    },
+    {
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "parent": {
+        "missing": 18,
+        "correct": 36,
+        "incorrect_value": 22
+      },
+      "proposal": {
+        "correct": 37,
+        "missing": 18,
+        "incorrect_value": 21
+      },
+      "correct_delta": 1
+    },
+    {
+      "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+      "parent": {
+        "correct": 6,
+        "missing": 4,
+        "incorrect_value": 2
+      },
+      "proposal": {
+        "missing": 3,
+        "correct": 7,
+        "incorrect_value": 2
+      },
+      "correct_delta": 1
+    },
+    {
+      "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+      "parent": {
+        "missing": 1
+      },
+      "proposal": {
+        "correct": 1
+      },
+      "correct_delta": 1
+    },
+    {
+      "citation": "Wis. Stat. § 815.18(3)(d)",
+      "parent": {
+        "correct": 61,
+        "incorrect_value": 2
+      },
+      "proposal": {
+        "correct": 62,
+        "missing": 1
+      },
+      "correct_delta": 1
+    },
+    {
+      "citation": "Or. Rev. Stat. § 18.345(1)(h)",
+      "parent": {
+        "missing": 2,
+        "correct": 1
+      },
+      "proposal": {
+        "correct": 3
+      },
+      "correct_delta": 2
+    },
+    {
+      "citation": "11 U.S.C. § 522(d)(4)",
+      "parent": {
+        "correct": 13,
+        "incorrect_value": 5,
+        "missing": 1
+      },
+      "proposal": {
+        "correct": 18,
+        "incorrect_value": 1
+      },
+      "correct_delta": 5
+    }
+  ],
+  "teacher_cited_sources_all_included": [
+    {
+      "source_case_id": 232,
+      "parent_f1": 0.3666666666666667,
+      "proposal_f1": 0.6428571428571429,
+      "parent_errors": [
+        {
+          "kind": "incorrect_value",
+          "asset": "amethyst ring in 10-karat gold prong setting",
+          "citation": "11 U.S.C. § 522(d)(4)",
+          "expected_value": 735,
+          "observed_values": [
+            1875
+          ]
+        },
+        {
+          "kind": "extra_or_duplicate",
+          "asset": "domestic conure parrot",
+          "citation": "42 Pa. Cons. Stat. § 8124(a)(3)",
+          "observed_value": 460
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "domestic conure parrot",
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "expected_value": 460,
+          "observed_values": [
+            700
+          ]
+        },
+        {
+          "kind": "missing",
+          "asset": "domestic conure parrot",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 460,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "domestic conure parrot",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 300,
+          "observed_values": []
+        },
+        {
+          "kind": "extra_or_duplicate",
+          "asset": "reclining gaming chair with neck and lumbar support pillows",
+          "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+          "observed_value": 757
+        },
+        {
+          "kind": "missing",
+          "asset": "reclining gaming chair with neck and lumbar support pillows",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 757,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "reclining gaming chair with neck and lumbar support pillows",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 300,
+          "observed_values": []
+        },
+        {
+          "kind": "extra_or_duplicate",
+          "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+          "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+          "observed_value": 15000
+        },
+        {
+          "kind": "missing",
+          "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 15425,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 300,
+          "observed_values": []
+        }
+      ],
+      "proposal_errors": [
+        {
+          "kind": "incorrect_value",
+          "asset": "amethyst ring in 10-karat gold prong setting",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 300,
+          "observed_values": [
+            600
+          ]
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "domestic conure parrot",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 300,
+          "observed_values": [
+            600
+          ]
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "reclining gaming chair with neck and lumbar support pillows",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 300,
+          "observed_values": [
+            600
+          ]
+        },
+        {
+          "kind": "extra_or_duplicate",
+          "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+          "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+          "observed_value": 15000
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 300,
+          "observed_values": [
+            600
+          ]
+        }
+      ]
+    },
+    {
+      "source_case_id": 245,
+      "parent_f1": 0.16666666666666666,
+      "proposal_f1": 0.9,
+      "parent_errors": [
+        {
+          "kind": "incorrect_value",
+          "asset": "Beretta 92FS 9mm handgun with laser sight",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 740,
+          "observed_values": [
+            370
+          ]
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "Beretta 92FS 9mm handgun with laser sight",
+          "citation": "Wis. Stat. § 815.18(3)(d)",
+          "expected_value": 740,
+          "observed_values": [
+            370
+          ]
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "stained glass window panel with floral design",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 1025,
+          "observed_values": [
+            512.5
+          ]
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "stained glass window panel with floral design",
+          "citation": "Wis. Stat. § 815.18(3)(d)",
+          "expected_value": 1025,
+          "observed_values": [
+            512.5
+          ]
+        }
+      ],
+      "proposal_errors": [
+        {
+          "kind": "missing",
+          "asset": "stained glass window panel with floral design",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 1025,
+          "observed_values": []
+        }
+      ]
+    },
+    {
+      "source_case_id": 263,
+      "parent_f1": 0.9,
+      "proposal_f1": 1,
+      "parent_errors": [
+        {
+          "kind": "missing",
+          "asset": "luxury chronograph wristwatch with solid gold casing and automatic movement",
+          "citation": "11 U.S.C. § 522(d)(4)",
+          "expected_value": 3750,
+          "observed_values": []
+        }
+      ],
+      "proposal_errors": []
+    },
+    {
+      "source_case_id": 294,
+      "parent_f1": 0.6666666666666666,
+      "proposal_f1": 0.8888888888888888,
+      "parent_errors": [
+        {
+          "kind": "missing",
+          "asset": "water filtration system with multi-stage carbon and UV purification",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 3050,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "navy blue blazer made of wool blend with notch lapels",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 675,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 8200,
+          "observed_values": []
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 8200,
+          "observed_values": [
+            4000
+          ]
+        }
+      ],
+      "proposal_errors": [
+        {
+          "kind": "incorrect_value",
+          "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 8200,
+          "observed_values": [
+            4000
+          ]
+        }
+      ]
+    },
+    {
+      "source_case_id": 298,
+      "parent_f1": 0.6000000000000001,
+      "proposal_f1": 0.9166666666666666,
+      "parent_errors": [
+        {
+          "kind": "missing",
+          "asset": "gun safe with biometric lock and adjustable interior shelving",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 2700,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 15425,
+          "observed_values": []
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 16000,
+          "observed_values": [
+            4000
+          ]
+        },
+        {
+          "kind": "extra_or_duplicate",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 U.S.C. § 522(d)(4)",
+          "observed_value": 420
+        },
+        {
+          "kind": "missing",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "expected_value": 420,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "wall-mounted jewelry organizer with mirror and hooks",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 420,
+          "observed_values": []
+        },
+        {
+          "kind": "missing",
+          "asset": "electric skillet with glass lid and adjustable temperature",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 80,
+          "observed_values": []
+        }
+      ],
+      "proposal_errors": [
+        {
+          "kind": "incorrect_value",
+          "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 16000,
+          "observed_values": [
+            4000
+          ]
+        }
+      ]
+    },
+    {
+      "source_case_id": 301,
+      "parent_f1": 0.7777777777777777,
+      "proposal_f1": 0.5333333333333333,
+      "parent_errors": [
+        {
+          "kind": "incorrect_value",
+          "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 15750,
+          "observed_values": [
+            4000
+          ]
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 9900,
+          "observed_values": [
+            4000
+          ]
+        }
+      ],
+      "proposal_errors": [
+        {
+          "kind": "missing",
+          "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 15425,
+          "observed_values": []
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 15750,
+          "observed_values": [
+            4000
+          ]
+        },
+        {
+          "kind": "missing",
+          "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 9900,
+          "observed_values": []
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 9900,
+          "observed_values": [
+            4000
+          ]
+        },
+        {
+          "kind": "missing",
+          "asset": "blue silk kimono with floral pattern",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 425,
+          "observed_values": []
+        }
+      ]
+    },
+    {
+      "source_case_id": 306,
+      "parent_f1": 0.6666666666666666,
+      "proposal_f1": 0.4,
+      "parent_errors": [
+        {
+          "kind": "incorrect_value",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 30850,
+          "observed_values": [
+            15425
+          ]
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 32000,
+          "observed_values": [
+            4000
+          ]
+        }
+      ],
+      "proposal_errors": [
+        {
+          "kind": "missing",
+          "asset": "5-piece acoustic drum kit with cymbal stands",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 655,
+          "observed_values": []
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "11 U.S.C. § 522(d)(2)",
+          "expected_value": 4450,
+          "observed_values": [
+            8900
+          ]
+        },
+        {
+          "kind": "missing",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 30850,
+          "observed_values": []
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 32000,
+          "observed_values": [
+            15345
+          ]
+        }
+      ]
+    }
+  ],
+  "EV_source_help_hurt_tie": {
+    "help": 26,
+    "hurt": 36,
+    "tie": 66
+  },
+  "whole_proposal_admission": {
+    "accepted": false,
+    "current_family_nonregression": false,
+    "prior_family_nonregression": true,
+    "strict_current_improvement": false,
+    "current_full_output_nonregression": false,
+    "prior_full_output_nonregression": true,
+    "current_negative_asset_and_format_nonregression": true,
+    "prior_negative_asset_and_format_nonregression": true,
+    "parent_current": {
+      "EC": {
+        "precision": 0.9427083333333334,
+        "recall": 0.9270833333333334,
+        "f1": 0.932638888888889,
+        "exact_target": 0.5,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9495859213250518,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.9017361111111112,
+        "recall": 0.7973090277777777,
+        "f1": 0.8363095238095238,
+        "exact_target": 0.1875,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8441958865232523,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.8844742063492064
+    },
+    "candidate_current": {
+      "EC": {
+        "precision": 0.9427083333333334,
+        "recall": 0.9270833333333334,
+        "f1": 0.932638888888889,
+        "exact_target": 0.5,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9495859213250518,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.8849826388888888,
+        "recall": 0.7465277777777778,
+        "f1": 0.7992187500000001,
+        "exact_target": 0.1875,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8053889397639399,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.8659288194444446
+    },
+    "parent_prior": {
+      "EC": {
+        "precision": 0.9505208333333333,
+        "recall": 0.8952132936507935,
+        "f1": 0.9152423469387756,
+        "exact_target": 0.5446428571428571,
+        "tasks": 112,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9473954405635385,
+        "negative_or_unscored_asset_claims": 3
+      },
+      "EV": {
+        "precision": 0.9075520833333331,
+        "recall": 0.8046254960317458,
+        "f1": 0.8408287273242631,
+        "exact_target": 0.33035714285714285,
+        "tasks": 112,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 5,
+        "full_output_f1": 0.8301607476033616,
+        "negative_or_unscored_asset_claims": 5
+      },
+      "mean_family_f1": 0.8780355371315194
+    },
+    "candidate_prior": {
+      "EC": {
+        "precision": 0.9505208333333333,
+        "recall": 0.8952132936507935,
+        "f1": 0.9152423469387756,
+        "exact_target": 0.5446428571428571,
+        "tasks": 112,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9473954405635385,
+        "negative_or_unscored_asset_claims": 3
+      },
+      "EV": {
+        "precision": 0.9284474206349207,
+        "recall": 0.7932167658730158,
+        "f1": 0.8417091836734697,
+        "exact_target": 0.25892857142857145,
+        "tasks": 112,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 5,
+        "full_output_f1": 0.8310570014938063,
+        "negative_or_unscored_asset_claims": 5
+      },
+      "mean_family_f1": 0.8784757653061226
+    },
+    "TRAIN_optimization_not_independent_validation": true
+  },
+  "legal_scope_admission": {
+    "EC:ARIZONA": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": false,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": true,
+      "prior_negative_asset_and_format_nonregression": true,
+      "current_tasks": 2,
+      "prior_tasks": 22
+    },
+    "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": false,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": true,
+      "prior_negative_asset_and_format_nonregression": true,
+      "current_tasks": 12,
+      "prior_tasks": 64
+    },
+    "EC:ILLINOIS": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": false,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": true,
+      "prior_negative_asset_and_format_nonregression": true,
+      "current_tasks": 2,
+      "prior_tasks": 26
+    },
+    "EV:ARIZONA": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": false,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": true,
+      "prior_negative_asset_and_format_nonregression": true,
+      "current_tasks": 2,
+      "prior_tasks": 22
+    },
+    "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN": {
+      "accepted": false,
+      "current_nonregression": false,
+      "prior_nonregression": true,
+      "strict_current_improvement": false,
+      "current_full_output_nonregression": false,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": true,
+      "prior_negative_asset_and_format_nonregression": true,
+      "current_tasks": 12,
+      "prior_tasks": 64
+    },
+    "EV:ILLINOIS": {
+      "accepted": false,
+      "current_nonregression": true,
+      "prior_nonregression": true,
+      "strict_current_improvement": false,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "current_negative_asset_and_format_nonregression": true,
+      "prior_negative_asset_and_format_nonregression": true,
+      "current_tasks": 2,
+      "prior_tasks": 26
+    }
+  },
+  "legal_edit_coordinates": [
+    {
+      "id": "EC:ARIZONA",
+      "task": "EC",
+      "jurisdictions": [
+        "ARIZONA"
+      ],
+      "source_case_ids": [
+        182,
+        183,
+        189,
+        197,
+        199,
+        201,
+        207,
+        215,
+        223,
+        225,
+        229,
+        230,
+        231,
+        239,
+        246,
+        248,
+        251,
+        262,
+        269,
+        274,
+        286,
+        288,
+        299,
+        300
+      ]
+    },
+    {
+      "id": "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+      "task": "EC",
+      "jurisdictions": [
+        "FEDERAL",
+        "OREGON",
+        "PENNSYLVANIA",
+        "WISCONSIN"
+      ],
+      "source_case_ids": [
+        181,
+        184,
+        185,
+        186,
+        187,
+        188,
+        191,
+        192,
+        193,
+        194,
+        198,
+        200,
+        202,
+        203,
+        205,
+        206,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        216,
+        217,
+        218,
+        226,
+        227,
+        228,
+        232,
+        235,
+        237,
+        238,
+        240,
+        241,
+        243,
+        245,
+        247,
+        249,
+        250,
+        253,
+        254,
+        256,
+        258,
+        259,
+        261,
+        263,
+        265,
+        266,
+        267,
+        268,
+        270,
+        271,
+        272,
+        273,
+        275,
+        277,
+        278,
+        280,
+        282,
+        284,
+        287,
+        289,
+        291,
+        294,
+        295,
+        296,
+        297,
+        298,
+        301,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308
+      ]
+    },
+    {
+      "id": "EC:ILLINOIS",
+      "task": "EC",
+      "jurisdictions": [
+        "ILLINOIS"
+      ],
+      "source_case_ids": [
+        190,
+        195,
+        196,
+        204,
+        219,
+        220,
+        221,
+        222,
+        224,
+        233,
+        234,
+        236,
+        242,
+        244,
+        252,
+        255,
+        257,
+        260,
+        264,
+        276,
+        279,
+        281,
+        283,
+        285,
+        290,
+        292,
+        293,
+        302
+      ]
+    },
+    {
+      "id": "EV:ARIZONA",
+      "task": "EV",
+      "jurisdictions": [
+        "ARIZONA"
+      ],
+      "source_case_ids": [
+        182,
+        183,
+        189,
+        197,
+        199,
+        201,
+        207,
+        215,
+        223,
+        225,
+        229,
+        230,
+        231,
+        239,
+        246,
+        248,
+        251,
+        262,
+        269,
+        274,
+        286,
+        288,
+        299,
+        300
+      ]
+    },
+    {
+      "id": "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+      "task": "EV",
+      "jurisdictions": [
+        "FEDERAL",
+        "OREGON",
+        "PENNSYLVANIA",
+        "WISCONSIN"
+      ],
+      "source_case_ids": [
+        181,
+        184,
+        185,
+        186,
+        187,
+        188,
+        191,
+        192,
+        193,
+        194,
+        198,
+        200,
+        202,
+        203,
+        205,
+        206,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        216,
+        217,
+        218,
+        226,
+        227,
+        228,
+        232,
+        235,
+        237,
+        238,
+        240,
+        241,
+        243,
+        245,
+        247,
+        249,
+        250,
+        253,
+        254,
+        256,
+        258,
+        259,
+        261,
+        263,
+        265,
+        266,
+        267,
+        268,
+        270,
+        271,
+        272,
+        273,
+        275,
+        277,
+        278,
+        280,
+        282,
+        284,
+        287,
+        289,
+        291,
+        294,
+        295,
+        296,
+        297,
+        298,
+        301,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308
+      ]
+    },
+    {
+      "id": "EV:ILLINOIS",
+      "task": "EV",
+      "jurisdictions": [
+        "ILLINOIS"
+      ],
+      "source_case_ids": [
+        190,
+        195,
+        196,
+        204,
+        219,
+        220,
+        221,
+        222,
+        224,
+        233,
+        234,
+        236,
+        242,
+        244,
+        252,
+        255,
+        257,
+        260,
+        264,
+        276,
+        279,
+        281,
+        283,
+        285,
+        290,
+        292,
+        293,
+        302
+      ]
+    }
+  ],
+  "actual_accepted": false,
+  "actual_final_parent_retained": true,
+  "actual_new_native_calls": 76,
+  "actual_new_teacher_responses": 1,
+  "native_finish_reasons": {
+    "stop": 76
+  },
+  "native_prompt_tokens": 543806,
+  "native_completion_tokens": 280931,
+  "teacher_usage": {
+    "input_tokens": 195587,
+    "cached_input_tokens": 0,
+    "output_tokens": 3268,
+    "reasoning_output_tokens": 2475
+  },
+  "terminal_archives": {
+    "at": "2026-10-27T02:05:43.596079+00:00",
+    "stage": "actual-terminal",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_native_claim_feedback_TRAIN_mechanism128_20261027_run01-actual-terminal.tar.gz",
+        "sha256": "97d7541f2a0e0a07bd419c45dcef3e6f4de1c2873db10d15539de6af656ad85b"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_native_claim_feedback_TRAIN_mechanism128_20261027_run01-actual-terminal.tar.gz",
+        "sha256": "a6778503e40060cc490a1494ae031c1f81895fd8767896a22e9101a875e3459d"
+      }
+    ],
+    "files": 599
+  },
+  "terminal_archive_hashes_verified_after_exit": true,
+  "not_a_TEST_result_or_independent_learning_repeat": true,
+  "this_analysis_new_model_teacher_tokenizer_or_grader_API_calls": 0,
+  "no_scores_answers_or_source_labels_modified": true
+}

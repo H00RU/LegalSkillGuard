@@ -1,0 +1,187 @@
+{
+  "at": "2026-10-27T20:21:20.805515+00:00",
+  "scope": "Actual C2 complete proposal rejection, retained C1 EC-only bank, no extra proposal or gate relaxation",
+  "run_id": "legal_openexempt_revision_outcome_teacher_B7_prefix112_TRAIN_20261028_run01",
+  "proposed_bank_sha256": "0778f5e503c32a531454108c9444bcb3be04240cfbb87b7059c988e32c762c2a",
+  "proposal_tokens": 3850,
+  "proposal_records": 11,
+  "accepted": false,
+  "reason": "no_independently_improving_legal_edit",
+  "original_current_prior_gate": {
+    "accepted": false,
+    "current_family_nonregression": false,
+    "prior_family_nonregression": false,
+    "strict_current_improvement": true,
+    "current_full_output_nonregression": false,
+    "prior_full_output_nonregression": false,
+    "current_negative_asset_and_format_nonregression": false,
+    "prior_negative_asset_and_format_nonregression": false,
+    "parent_current": {
+      "EC": {
+        "precision": 0.9409722222222223,
+        "recall": 0.8901909722222222,
+        "f1": 0.9061011904761905,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9230670371295371,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EV": {
+        "precision": 0.8932291666666667,
+        "recall": 0.8389756944444444,
+        "f1": 0.8551835317460319,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8424349547511313,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "mean_family_f1": 0.8806423611111112
+    },
+    "candidate_current": {
+      "EC": {
+        "precision": 0.9722222222222223,
+        "recall": 0.9370659722222222,
+        "f1": 0.9477678571428573,
+        "exact_target": 0.4375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9558051323676323,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "EV": {
+        "precision": 0.8793402777777778,
+        "recall": 0.8146701388888888,
+        "f1": 0.8371279761904763,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.8230692918192919,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "mean_family_f1": 0.8924479166666668
+    },
+    "parent_prior": {
+      "EC": {
+        "precision": 0.9503038194444442,
+        "recall": 0.9075520833333334,
+        "f1": 0.9218398644179895,
+        "exact_target": 0.5416666666666666,
+        "tasks": 96,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9580919279123004,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "EV": {
+        "precision": 0.9482928240740738,
+        "recall": 0.9041521990740741,
+        "f1": 0.9172109237213403,
+        "exact_target": 0.4270833333333333,
+        "tasks": 96,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 2,
+        "full_output_f1": 0.9109021284357318,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "mean_family_f1": 0.9195253940696648
+    },
+    "candidate_prior": {
+      "EC": {
+        "precision": 0.9476996527777776,
+        "recall": 0.911892361111111,
+        "f1": 0.9238653273809523,
+        "exact_target": 0.5416666666666666,
+        "tasks": 96,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.9613529608608333,
+        "negative_or_unscored_asset_claims": 2
+      },
+      "EV": {
+        "precision": 0.9435185185185183,
+        "recall": 0.9029947916666666,
+        "f1": 0.9153756062610231,
+        "exact_target": 0.40625,
+        "tasks": 96,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 3,
+        "full_output_f1": 0.9092933365603959,
+        "negative_or_unscored_asset_claims": 3
+      },
+      "mean_family_f1": 0.9196204668209877
+    },
+    "TRAIN_optimization_not_independent_validation": true
+  },
+  "actual_selected_bank_sha256": "ec8301bfce9a03fffc83f1fbe7277769b7b526d9be6ac5cccaf193d7fada3a66",
+  "actual_selected_bank_records": 9,
+  "C2_binding_safety_violations": [
+    {
+      "case_id": 182,
+      "family": "EV",
+      "audit_field_increases": {
+        "officially_unscored_predicted_claims": [
+          0,
+          1
+        ]
+      },
+      "native_f1_before_after": [
+        1,
+        1
+      ],
+      "full_f1_before_after": [
+        1,
+        0.8
+      ]
+    },
+    {
+      "case_id": 281,
+      "family": "EC",
+      "audit_field_increases": {
+        "negative_target_asset_predicted_claims": [
+          0,
+          1
+        ]
+      },
+      "native_f1_before_after": [
+        0.75,
+        0.75
+      ],
+      "full_f1_before_after": [
+        1,
+        0.8571428571428571
+      ]
+    },
+    {
+      "case_id": 281,
+      "family": "EV",
+      "audit_field_increases": {
+        "officially_unscored_predicted_claims": [
+          0,
+          1
+        ]
+      },
+      "native_f1_before_after": [
+        1,
+        1
+      ],
+      "full_f1_before_after": [
+        1,
+        0.8571428571428571
+      ]
+    }
+  ],
+  "future_TRAIN16_test_only_after_fixed_update": {
+    "changed_actual_EC_wires": 12,
+    "unchanged_EC": 4,
+    "unchanged_EV": 16,
+    "teacher_no_future_input": true
+  },
+  "all96_fresh_answers_stop": true,
+  "no_TEST_or_full8_result_yet": true
+}

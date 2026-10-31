@@ -180,6 +180,203 @@ CANDIDATE_FEEDBACK_ADDITION = (
     "refinement, never an inference retry or future-case feedback."
 )
 
+TEACHER_EVIDENCE_CONTRACT = "native_claim_task_projection_updates_v5"
+UTILITY_TEACHER_EVIDENCE_CONTRACT = "native_claim_complete_output_utility_v6"
+LEGACY_ADMISSION = "strict_native_full_counts_v1"
+UTILITY_ADMISSION = "complete_output_utility_prior1pp_v1"
+UTILITY_SELECTION = "seen_source_min_full_output_gain_then_mean_v2"
+BOUNDED_FAILURE_HISTORY = "latest_unsuccessful_per_task_v1"
+TASK_PROJECTION_TEACHING = (
+    " This call teaches only the public task declared by teaching_task. The other "
+    "task is an independent actor, not a prerequisite already solved for this one. "
+    "Change only the declared task's rendered guidance; the other task's complete "
+    "projection must remain byte-identical, including skill IDs and jurisdiction. "
+    "An existing EC-only skill may gain an EV block without changing its EC block, "
+    "and a shared block may be split to preserve the unselected task verbatim. "
+    "CREATE, UPDATE, DELETE and MERGE remain available within that boundary; do not "
+    "force a skill count or one skill per jurisdiction. Separate independently "
+    "triggered decisions when bundling them hides a reusable action. Use this task's "
+    "actual answers and released targets to repair its own missing eligibility, "
+    "co-applicable alternatives or amount computation. Resolve invariant conditions "
+    "under the declared independent-alternative task before leaving a calculation "
+    "conditional on an unavailable prerequisite. Do not rewrite the other task to "
+    "make the library look symmetric. NOOP is valid; the other scheduled task will "
+    "still be taught. This is one bounded coordinate update, not a quality retry."
+)
+CONSOLIDATION_TEACHING = (
+    " Acquisition is complete. All optimization sources were already observed during "
+    "the completed training stream; there is no new current cohort or validation set. "
+    "The packet's current_source_case_ids name a bounded communication focus, not "
+    "the full optimization population. consolidation_scope lists all seen sources "
+    "whose original answers are replayed together under the unchanged native/full-output, "
+    "negative-claim and format gate. Correct residual errors while preserving useful "
+    "guidance across this population. No new source, TEST answer, inference stage, "
+    "tolerance relaxation or extra same-task retry is available."
+)
+EXECUTION_EXAMPLE_MARKER = "\nExecution example:"
+EXECUTION_AWARE_ADDITION = (
+    " Diagnose the reusable instruction's operational adequacy, not just whether "
+    "its legal sentences are true. SKILL_DEFECT includes missing or wrong knowledge, "
+    "underspecified eligibility, unavailable prerequisites, circular triggers, "
+    "overloaded rule units and an ineffective representation of otherwise true law. "
+    "Repeated omissions across supplied sources, or the same failure after an "
+    "existing reminder, require reconsidering the instruction itself; do not call "
+    "them isolated EXECUTION_LAPSE merely because a legal sentence is correct. "
+    "Use actual_actor_skill_messages and their context references to inspect exactly "
+    "what this task sees. EC and EV do not share their skill blocks or model answers. "
+    "EV must decide eligibility as well as amounts from its own supplied inputs; "
+    "do not assume its EC classification has already been solved unless it literally "
+    "appears in the supplied public solved steps. Every task block must be usable "
+    "with those inputs alone. A circular instruction such as 'for an eligible law' "
+    "does not teach the missing eligibility condition. "
+    "For SKILL_DEFECT, rewrite or reorganize the relevant when/procedure/avoid_when "
+    "text and use the normal CREATE/UPDATE/DELETE/MERGE edits as needed. Separate "
+    "independent decisions when one overloaded block hides them, without a fixed "
+    "number of skills. Preserve supported legal conditions, exclusions and numeric "
+    "semantics, but do not freeze an inadequate wording just because it contains "
+    "a true rule. Do not import another method's library or add case-specific answers. "
+    "Reserve EXECUTION_LAPSE for an isolated slip supported by the actual comparable "
+    "success/failure observations; a quoted sentence alone does not establish that "
+    "the instruction is complete. Quote its current rule anchor. Return delta and diagnoses. "
+    "Each changed (skill_id, task) projection needs exactly one diagnosis, including "
+    "created and deleted projections. Its source_case_ids are already supplied TRAIN "
+    "sources. SKILL_DEFECT may use the normal differential edits; an empty anchor "
+    "means a genuinely missing rule, not permission to invent evidence. "
+    "For EXECUTION_LAPSE, keep the skill ID, task, jurisdiction, operators, when and "
+    "avoid_when unchanged. Preserve the entire knowledge procedure before the exact "
+    "delimiter '\\nExecution example:'. Append or replace only its compact teaching "
+    "example after that delimiter. Keep at most one example section per block; "
+    "update or deduplicate it rather than accumulating reminders. The exact anchor "
+    "must occur in that block's existing knowledge, not an invented paraphrase. "
+    "Use concrete final-output behavior, not a synonym of the existing rule: show "
+    "coexisting independently applicable citations in an asset's JSON, or binding "
+    "the protected amount to the asset's value instead of blindly copying a cap. "
+    "Only teach conditions supported by the supplied law and actual TRAIN evidence. "
+    "Public native final submissions show the actor's actual output representation; "
+    "they are not automatically successful examples. Deidentify instances and do "
+    "not save whole training answers. Mark any hypothetical numerical illustration "
+    "as hypothetical, never as a new verified successful experience. Future assets "
+    "still require their own eligibility and numeric decisions. No output repair, "
+    "extra inference call, routing layer, program, or fallback is introduced. "
+    "All text and examples share the original complete-library token cap. Empty "
+    "delta and diagnoses are valid when no reusable change is warranted. "
+)
+
+
+def teaching_system_contract(system, contract):
+    """Project the declared v6 contract into text; never change actor inputs."""
+    if contract not in (LEGACY_ADMISSION, UTILITY_ADMISSION):
+        raise ValueError("Unknown frozen admission contract")
+    old_anchor = ("SKILL_DEFECT may use the normal differential edits; an empty anchor "
+                  "means a genuinely missing rule, not permission to invent evidence.")
+    new_anchor = (
+        "SKILL_DEFECT may use the normal differential edits. For every newly created "
+        "(skill_id, task) projection, including a split or a MERGE into a new ID, use "
+        "an empty rule_anchor: the new ID has no old projection to quote. For an existing "
+        "projection, a nonempty anchor must quote that same ID/task's actual parent text. "
+        "An empty anchor for an existing projection denotes a genuinely missing rule, "
+        "not permission to invent evidence.")
+    if old_anchor not in system or CANDIDATE_FEEDBACK_ADDITION not in system:
+        raise ValueError("The v6 teacher system lost a declared contract section")
+    system = system.replace(old_anchor, new_anchor).replace(CANDIDATE_FEEDBACK_ADDITION, (
+        " Candidate feedback retains at most the latest unsuccessful or partially "
+        "committed historical proposal per teaching task, each with at most eight real "
+        "TRAIN witnesses. Its accepted flag and origin describe the original decision. "
+        "Historical candidate outputs were generated under their recorded proposed bank; "
+        "they are NOT a new replay from the current parent. Current-parent reference "
+        "answers are separately supplied in already_seen_training. Compare these actual "
+        "observations without inventing an old parent or a fresh rerun. A NOOP or an "
+        "unrelated successful edit does not erase the last failure. Target only IDs in "
+        "this attempt's actual parent, never IDs created earlier in the same delta. "
+        "Keep committed changes and correct remaining defects using the declared full "
+        "TRAIN admission contract. This is bounded training feedback, not an inference "
+        "retry or access to future cases."))
+    if contract == UTILITY_ADMISSION:
+        old_gate = (
+            "A coordinate needs current-source evidence and native task F1 nonregression on "
+            "current and prior sources. BOTH EC and EV also preserve full-output F1, avoid "
+            "increases in claims on negative/unscored assets and format failures, and require "
+            "strict current improvement in at least one of those real outcomes.")
+        new_gate = (
+            "A coordinate needs current-source evidence. Preserve BOTH native and complete-output "
+            "mean F1 on the current cohort and on ALL already-seen sources, separately per task. "
+            "On the prior cohort each mean may decrease by at most 0.01, one percentage point, "
+            "relative to its actual parent. Require strict current improvement. Invalid answers "
+            "still score zero and complete-output F1 still penalizes every false claim, including "
+            "negative or unmatched assets. Report all format and false-claim counts, but their "
+            "individual counts are diagnostics, not additional absolute zero-increase vetoes. "
+            "The all-seen constraint must also hold for the final actual composed library.")
+        old_rank = "Prefer the larger minimum EC/EV native-F1 gain, then the larger mean gain;"
+        if old_gate not in system or old_rank not in system:
+            raise ValueError("The utility teacher lost its original gate or ranking section")
+        system = system.replace(old_gate, new_gate).replace(
+            old_rank, "Prefer the larger minimum EC/EV complete-output-F1 gain, then the larger mean gain;")
+    return system
+
+
+def diagnosed_edit_schema(delta_schema, source_ids):
+    """Audit metadata stays outside the skill bank and actor prompt."""
+    diagnosis = {"type": "object", "additionalProperties": False,
+        "properties": {"skill_id": {"type": "string"},
+            "task": {"type": "string", "enum": list(FAMILIES)},
+            "kind": {"type": "string", "enum": ["SKILL_DEFECT", "EXECUTION_LAPSE"]},
+            "rule_anchor": {"type": "string"},
+            "source_case_ids": {"type": "array", "minItems": 1,
+                "items": {"type": "integer", "enum": sorted(source_ids)}}},
+        "required": ["skill_id", "task", "kind", "rule_anchor", "source_case_ids"]}
+    return {"type": "object", "additionalProperties": False,
+        "properties": {"delta": delta_schema, "diagnoses": {"type": "array", "items": diagnosis}},
+        "required": ["delta", "diagnoses"]}
+
+
+def validate_edit_diagnoses(parent, candidate, diagnoses, source_ids):
+    """Protect correct text, not scores; the original replay gates remain separate."""
+    before = {(s["id"], f): s for f in FAMILIES for s in task_view(parent, f)}
+    after = {(s["id"], f): s for f in FAMILIES for s in task_view(candidate, f)}
+    changed = {key for key in before.keys() | after.keys() if before.get(key) != after.get(key)}
+    indexed = {(d["skill_id"], d["task"]): d for d in diagnoses}
+    if len(indexed) != len(diagnoses) or set(indexed) != changed:
+        raise ValueError("Diagnose exactly the actual changed skill/task projections")
+    for key, diagnosis in indexed.items():
+        sources = diagnosis["source_case_ids"]
+        if not sources or not set(sources) <= set(source_ids):
+            raise ValueError("Edit diagnosis requires supplied TRAIN sources")
+        old, new = before.get(key), after.get(key)
+        anchor = diagnosis["rule_anchor"]
+        if diagnosis["kind"] == "EXECUTION_LAPSE":
+            if old is None or new is None:
+                raise ValueError("Execution teaching cannot create or delete legal knowledge")
+            a, b = old["guidance"], new["guidance"]
+            if any(a[k] != b[k] for k in ("when", "avoid_when", "jurisdiction", "operators")):
+                raise ValueError("Execution lapse changed a protected legal field")
+            knowledge = a["procedure"].partition(EXECUTION_EXAMPLE_MARKER)[0]
+            if (not b["procedure"].startswith(knowledge + EXECUTION_EXAMPLE_MARKER)
+                    or b["procedure"].count(EXECUTION_EXAMPLE_MARKER) != 1):
+                raise ValueError("Execution teaching must preserve the exact knowledge prefix")
+            if len(anchor) < 20 or not any(anchor in text for text in
+                    (knowledge, a["when"], a["avoid_when"])):
+                raise ValueError("Execution teaching lacks its exact existing rule anchor")
+        elif diagnosis["kind"] == "SKILL_DEFECT":
+            if anchor and (old is None or not any(anchor in old["guidance"][k]
+                    for k in ("when", "procedure", "avoid_when"))):
+                raise ValueError("Knowledge-edit anchor is not in the actual parent")
+        else:
+            raise ValueError("Unknown edit diagnosis")
+    return {"changed_task_blocks": [list(key) for key in sorted(changed)],
+            "kinds": {kind: sum(d["kind"] == kind for d in diagnoses)
+                      for kind in ("SKILL_DEFECT", "EXECUTION_LAPSE")},
+            "diagnoses": copy.deepcopy(diagnoses)}
+
+
+def validate_task_projection_edit(parent, candidate, task):
+    """A teaching step cannot silently perturb an independent actor's memory."""
+    if task not in FAMILIES:
+        raise ValueError("Declare one original public task for coordinate teaching")
+    for other in FAMILIES:
+        if other != task and task_view(parent, other) != task_view(candidate, other):
+            raise ValueError("Task-coordinate teaching changed an unselected actor projection")
+    return {"teaching_task": task, "other_task_projection_unchanged": True}
+
 
 def direct_case_input(row, *, asset_references=False):
     if row["family"] == "EC" and not asset_references:
@@ -367,14 +564,20 @@ def visible(bank, family):
     return task_view(bank, family)
 
 
-def actor_payload(row, bank, *, grounded=True, direct_numeric=False, asset_references=False):
+def actor_payload(row, bank, *, grounded=True, direct_numeric=False, asset_references=False,
+                  public_namespace_filter=True):
     if not grounded:
         raise ValueError("Only the public-namespace claim contract is implemented")
     if direct_numeric and any(s["guidance"]["operators"] for s in bank):
         raise ValueError("Direct-answer skills cannot publish numerical programs")
     if asset_references and not direct_numeric:
         raise ValueError("Public asset references require the common direct-answer contract")
-    supplied = visible(active_bank(row, bank), row["family"])
+    if type(public_namespace_filter) is not bool:
+        raise ValueError("Declare the public-namespace projection explicitly")
+    # The false branch is a content-preserving mechanism control. The ordinary
+    # actor still uses the original public AE filter; neither branch reads gold.
+    scoped = active_bank(row, bank) if public_namespace_filter else copy.deepcopy(bank)
+    supplied = visible(scoped, row["family"])
     # A caller needs the available interfaces, not their private program bodies.
     # Pure body changes still leave every rendered message and schema unchanged.
     catalog = public_catalog(row)
@@ -456,7 +659,19 @@ def actor_payload(row, bank, *, grounded=True, direct_numeric=False, asset_refer
     return messages, schema, supplied
 
 
-def acceptance(parent_current, candidate_current, parent_prior, candidate_prior):
+def acceptance(parent_current, candidate_current, parent_prior, candidate_prior, *,
+               contract=LEGACY_ADMISSION):
+    if contract not in (LEGACY_ADMISSION, UTILITY_ADMISSION):
+        raise ValueError("Unknown frozen admission contract")
+    if contract == UTILITY_ADMISSION:
+        for before, after in ((parent_current, candidate_current), (parent_prior, candidate_prior)):
+            paired_effect(before, after)
+            if any(len({(r["case_id"], r["family"]) for r in rows}) != len(rows)
+                   for rows in (before, after)):
+                raise ValueError("Utility admission requires distinct paired TRAIN tasks")
+        if ({(r["case_id"], r["family"]) for r in parent_current}
+                & {(r["case_id"], r["family"]) for r in parent_prior}):
+            raise ValueError("Current and prior TRAIN tasks must be disjoint")
     a, b = metrics(parent_current), metrics(candidate_current)
     pa, pb = metrics(parent_prior), metrics(candidate_prior)
     current_ok = all(b[f]["f1"] + 1e-12 >= a[f]["f1"] for f in FAMILIES)
@@ -468,8 +683,9 @@ def acceptance(parent_current, candidate_current, parent_prior, candidate_prior)
     current_audit_ok = all(b[f][k] <= a[f][k] for f in FAMILIES for k in audit_fields)
     prior_audit_ok = not parent_prior or all(
         pb[f][k] <= pa[f][k] for f in FAMILIES for k in audit_fields)
-    improvement = any(_head_admission(f, a, b, pa, pb)["strict_current_improvement"] for f in FAMILIES)
-    return {"accepted": (current_ok and prior_ok and current_full_ok and prior_full_ok
+    heads = {f: _head_admission(f, a, b, pa, pb, contract=contract) for f in FAMILIES}
+    improvement = any(h["strict_current_improvement"] for h in heads.values())
+    result = {"accepted": (current_ok and prior_ok and current_full_ok and prior_full_ok
                          and current_audit_ok and prior_audit_ok and improvement),
             "current_family_nonregression": current_ok,
             "prior_family_nonregression": prior_ok, "strict_current_improvement": improvement,
@@ -480,16 +696,29 @@ def acceptance(parent_current, candidate_current, parent_prior, candidate_prior)
             "parent_current": a, "candidate_current": b,
             "parent_prior": pa, "candidate_prior": pb,
             "TRAIN_optimization_not_independent_validation": True}
+    if contract == UTILITY_ADMISSION:
+        result.update({
+            "accepted": all(h["quality_constraints_satisfied"] for h in heads.values()) and improvement,
+            "admission_contract": contract, "prior_mean_loss_limit": .01,
+            "prior_family_within_risk_bound": all(h["prior_native_within_risk_bound"] for h in heads.values()),
+            "prior_full_output_within_risk_bound": all(h["prior_full_within_risk_bound"] for h in heads.values()),
+            "all_seen_family_nonregression": all(h["all_seen_native_nonregression"] for h in heads.values()),
+            "all_seen_full_output_nonregression": all(h["all_seen_full_nonregression"] for h in heads.values()),
+            "count_changes_are_diagnostic_not_extra_vetoes": True})
+    return result
 
 
-def task_admission(parent_current, candidate_current, parent_prior, candidate_prior):
+def task_admission(parent_current, candidate_current, parent_prior, candidate_prior, *,
+                   contract=LEGACY_ADMISSION):
     """Select TRAIN edit coordinates, never inference answers or case subsets."""
     a, b = metrics(parent_current), metrics(candidate_current)
     pa, pb = metrics(parent_prior), metrics(candidate_prior)
-    return {family: _head_admission(family, a, b, pa, pb) for family in FAMILIES}
+    return {family: _head_admission(family, a, b, pa, pb, contract=contract) for family in FAMILIES}
 
 
-def _head_admission(family, a, b, pa, pb):
+def _head_admission(family, a, b, pa, pb, *, contract=LEGACY_ADMISSION):
+    if contract not in (LEGACY_ADMISSION, UTILITY_ADMISSION):
+        raise ValueError("Unknown frozen admission contract")
     current_ok = b[family]["f1"] + 1e-12 >= a[family]["f1"]
     prior_ok = family not in pa or pb[family]["f1"] + 1e-12 >= pa[family]["f1"]
     strict = b[family]["f1"] > a[family]["f1"] + 1e-12
@@ -501,7 +730,7 @@ def _head_admission(family, a, b, pa, pb):
     prior_audit_ok = family not in pa or all(pb[family][k] <= pa[family][k] for k in fields)
     strict |= (b[family]["full_output_f1"] > a[family]["full_output_f1"] + 1e-12
                or any(b[family][k] < a[family][k] for k in fields))
-    return {"accepted": bool(current_ok and prior_ok and strict and full_current_ok and full_prior_ok
+    result = {"accepted": bool(current_ok and prior_ok and strict and full_current_ok and full_prior_ok
                              and current_audit_ok and prior_audit_ok),
             "current_nonregression": current_ok, "prior_nonregression": prior_ok,
             "strict_current_improvement": bool(strict),
@@ -509,9 +738,31 @@ def _head_admission(family, a, b, pa, pb):
             "prior_full_output_nonregression": full_prior_ok,
             "current_negative_asset_and_format_nonregression": current_audit_ok,
             "prior_negative_asset_and_format_nonregression": prior_audit_ok}
+    if contract == UTILITY_ADMISSION:
+        nc, np = a[family]["tasks"], pa.get(family, {}).get("tasks", 0)
+        if b[family]["tasks"] != nc or pb.get(family, {}).get("tasks", 0) != np:
+            raise ValueError("Utility admission requires matched current/prior task counts")
+        prior_native = not np or pb[family]["f1"] + .01 + 1e-12 >= pa[family]["f1"]
+        prior_full = not np or pb[family]["full_output_f1"] + .01 + 1e-12 >= pa[family]["full_output_f1"]
+        gains = {
+            field: ((b[family][field] - a[family][field]) * nc
+                    + ((pb[family][field] - pa[family][field]) * np if np else 0)) / (nc + np)
+            for field in ("f1", "full_output_f1")}
+        all_native, all_full = gains["f1"] >= -1e-12, gains["full_output_f1"] >= -1e-12
+        quality = current_ok and full_current_ok and prior_native and prior_full and all_native and all_full
+        result.update({
+            "accepted": bool(quality and strict), "admission_contract": contract,
+            "prior_mean_loss_limit": .01, "prior_native_within_risk_bound": prior_native,
+            "prior_full_within_risk_bound": prior_full,
+            "all_seen_native_nonregression": all_native, "all_seen_full_nonregression": all_full,
+            "all_seen_native_gain": gains["f1"], "all_seen_full_output_gain": gains["full_output_f1"],
+            "quality_constraints_satisfied": bool(quality),
+            "count_changes_are_diagnostic_not_extra_vetoes": True})
+    return result
 
 
-def legal_scope_admission(coordinates, parent_current, candidate_current, parent_prior, candidate_prior):
+def legal_scope_admission(coordinates, parent_current, candidate_current, parent_prior, candidate_prior, *,
+                          contract=LEGACY_ADMISSION):
     decisions = {}
     for coordinate in coordinates:
         family, ids = coordinate["task"], set(coordinate["source_case_ids"])
@@ -524,7 +775,7 @@ def legal_scope_admission(coordinates, parent_current, candidate_current, parent
             decisions[coordinate["id"]] = {"accepted": False, "reason": "no_current_sources"}
             continue
         decisions[coordinate["id"]] = {
-            **_head_admission(family, *(metrics(rows) for rows in groups)),
+            **_head_admission(family, *(metrics(rows) for rows in groups), contract=contract),
             "current_tasks": len(groups[0]), "prior_tasks": len(groups[2])}
     return decisions
 
@@ -541,7 +792,7 @@ def paired_effect(before, after):
             "mean_f1_difference": sum(delta) / len(delta) if delta else 0}
 
 
-def balanced_replay_gain(before, after):
+def balanced_replay_gain(before, after, *, contract=LEGACY_ADMISSION):
     """TRAIN selection over paired, already observed full replays, not a TEST metric."""
     for records in (before, after):
         if len({(r["case_id"], r["family"]) for r in records}) != len(records):
@@ -550,7 +801,10 @@ def balanced_replay_gain(before, after):
     a, b = metrics(before), metrics(after)
     if not set(FAMILIES) <= set(a) or not set(FAMILIES) <= set(b):
         raise ValueError("Adaptive selection requires complete paired EC and EV replays")
-    gains = [b[f]["f1"] - a[f]["f1"] for f in FAMILIES]
+    if contract not in (LEGACY_ADMISSION, UTILITY_ADMISSION):
+        raise ValueError("Unknown frozen admission contract")
+    field = "full_output_f1" if contract == UTILITY_ADMISSION else "f1"
+    gains = [b[f][field] - a[f][field] for f in FAMILIES]
     return min(gains), sum(gains) / len(gains)
 
 
@@ -643,6 +897,8 @@ def candidate_feedback(decision, observations, origin, *, witness_limit=8):
                      or decision.get("proposed_bank") == decision.get("candidate")):
         return None
     pool = decision.get("proposed_replay", decision.get("actual_replay", []))
+    if decision.get("teaching_task") is not None:
+        pool = [r for r in pool if r["family"] == decision["teaching_task"]]
     keys = [(r["case_id"], r["family"]) for r in pool]
     if len(keys) != len(set(keys)) or not set(keys) <= set(observations):
         raise ValueError("Candidate feedback must reference distinct already-seen TRAIN observations")
@@ -656,7 +912,8 @@ def candidate_feedback(decision, observations, origin, *, witness_limit=8):
         return delta, min(after["f1"], after.get("full_output_f1", 1)), *key
 
     witnesses = sorted(pool, key=severity)[:witness_limit]
-    fields = ("delta", "reason", "source_program_compile_error", "composition_error",
+    fields = ("delta", "reason", "teaching_task", "source_program_compile_error", "composition_error",
+              "diagnosis_error", "edit_diagnoses", "edit_audit",
               "accepted_tasks", "accepted_legal_coordinates", "legal_scope_admission",
               "task_admission", "proposed_whole_bank_acceptance", "attempt_parent_bank_sha256",
               "adaptive_commit_selection", "proposal_fully_committed")
@@ -672,7 +929,38 @@ def candidate_feedback(decision, observations, origin, *, witness_limit=8):
         "feedback_witness_replay": copy.deepcopy(witnesses)}
 
 
-def teacher_evidence_rows(current, seen, observations, rejected, *, history_limit=16):
+def retained_candidate_feedback(out, current_batch, observations, parent_bank_sha256):
+    """One historical failure per task, not a growing ledger or a fabricated replay."""
+    retained = {}
+    for batch in range(current_batch - 1, 0, -1):
+        publication = read(out / "publications" / f"b{batch}.json")
+        if batch == current_batch - 1 and publication["bank_sha256"] != parent_bank_sha256:
+            raise ValueError("Previous publication must match the actual current parent")
+        attempt_parent = publication["parent_bank_sha256"]
+        attempts = []
+        for index, decision in enumerate(publication["training_decisions"], 1):
+            attempts.append((index, decision, attempt_parent))
+            if decision.get("accepted"):
+                attempt_parent = csha(decision["candidate"])
+        if attempt_parent != publication["bank_sha256"]:
+            raise ValueError("Historical feedback publication has inconsistent bank lineage")
+        for index, decision, original_parent in reversed(attempts):
+            task = decision.get("teaching_task")
+            if task in retained:
+                continue
+            feedback = candidate_feedback(decision, observations, {
+                "batch": batch, "attempt": index,
+                "publication_bank_sha256": publication["bank_sha256"],
+                "historical_attempt_parent_bank_sha256": original_parent,
+                "current_reference_parent_bank_sha256": parent_bank_sha256,
+                "historical_candidate_not_rerun": True})
+            if feedback is not None:
+                retained[task] = feedback
+    return [retained[task] for task in sorted(retained, key=lambda value: value or "")]
+
+
+def teacher_evidence_rows(current, seen, observations, rejected, *, history_limit=16,
+                          families=FAMILIES):
     """Bound teacher communication, never the full TRAIN replay or its scores.
 
     Keep every current source and every source named by bounded candidate feedback.
@@ -689,7 +977,9 @@ def teacher_evidence_rows(current, seen, observations, rejected, *, history_limi
         raise ValueError("Teacher feedback witnesses must be already-seen TRAIN sources")
     def quality(record):
         return min(record["score"]["f1"], record["score"].get("full_output_f1", 1.0))
-    parent_quality = {i: min(quality(observations[(i, f)]) for f in FAMILIES)
+    if not families or not set(families) <= set(FAMILIES):
+        raise ValueError("Teacher source selection requires original public tasks")
+    parent_quality = {i: min(quality(observations[(i, f)]) for f in families)
                       for i in old_ids}
     groups = {}
     for i in sorted(old_ids):
@@ -730,6 +1020,78 @@ def teacher_evidence_rows(current, seen, observations, rejected, *, history_limi
         "not_an_independent_validation_set": True}
 
 
+CONSOLIDATION_PHASE = "post_stream_seen_source_consolidation_v1"
+
+
+def observed_consolidation_inputs(cfg):
+    """Recover a completed TRAIN bank and its real observations, never predictions by score."""
+    source = ROOT / "runs" / cfg["consolidation_parent_run"]
+    original_path = ROOT / cfg["consolidation_parent_config"]
+    original = read(original_path)
+    for key in ("generation", "phase_dispatch", "input_packet", "grading_directory",
+                "inference_environment", "execution_contract", "execution_contract_version"):
+        if cfg[key] != original[key]:
+            raise ValueError(f"Consolidation changed the parent execution contract: {key}")
+    completed = read(source / "completion.json")
+    if not completed["status"].startswith("completed"):
+        raise ValueError("Consolidation requires a completed acquisition run")
+    rows = read(ROOT / cfg["input_packet"])["rows"]
+    latest, empty, extra = {}, [], {original_path, original_path.with_suffix(".frozen.json"),
+        source / "completion.json", ROOT / original["protocol"]}
+    for batch in range(1, original["planned_batches"] + 1):
+        data_path = source / "batches" / f"b{batch}_prequential_records.json"
+        pub_path = source / "publications" / f"b{batch}.json"
+        data, publication = read(data_path), read(pub_path)
+        latest.update({(r["case_id"], r["family"]): r for r in data["skills"]})
+        empty.extend(data["empty"])
+        for decision in publication["training_decisions"]:
+            if decision.get("accepted"):
+                latest = {(r["case_id"], r["family"]): r
+                          for r in decision["actual_replay"]}
+        extra.update((data_path, pub_path))
+    parent = read(ROOT / cfg["initial_library_publication"])
+    parent_hash = csha(parent["bank"])
+    if (parent_hash != publication["bank_sha256"]
+            or parent_hash != cfg["consolidation_parent_bank_sha256"]
+            or csha(completed["bank"]) != parent_hash):
+        raise ValueError("Consolidation must use the actual completed final bank")
+    keys = {(r["case_id"], r["family"]) for r in rows}
+    if (set(latest) != keys or len(empty) != len(rows)
+            or any(r["bank_sha256"] != parent_hash for r in latest.values())):
+        raise ValueError("Incomplete original TRAIN observations")
+    before = [latest[r["case_id"], r["family"]] for r in rows]
+    empties = {(r["case_id"], r["family"]): r for r in empty}
+    origins = {}
+    for row in rows:
+        for record, bank in ((latest[row["case_id"], row["family"]], parent["bank"]),
+                             (empties[row["case_id"], row["family"]], [])):
+            path = ROOT / record["raw_call_path"]
+            raw = read(path)
+            if raw.get("transport_error") is not None or len(raw["calls"]) != 1:
+                raise ValueError("Imported observations need one real successful transport")
+            wire = raw["calls"][0]["request"]
+            messages, schema, _ = actor_payload(row, bank, grounded=True,
+                direct_numeric=True, asset_references=True)
+            if (wire["messages"] != messages
+                    or wire["response_format"]["json_schema"]["schema"] != schema
+                    or any(wire[k] != cfg["generation"][k] for k in
+                           ("model", "temperature", "top_p", "top_k", "max_tokens", "seed"))
+                    or wire.get("chat_template_kwargs", {}).get("enable_thinking", True)
+                       != (not cfg["generation"]["disable_thinking"])):
+                raise ValueError("Historical response is not the same actual native request")
+            target = read(ROOT / cfg["grading_directory"] / f"{row['case_id']}.json")["targets"][row["family"]]
+            answer = record["parsed"]["answer"] if record["parse_error"] is None else None
+            if evaluate(row, answer, target) != record["score"]:
+                raise ValueError("Imported original TRAIN grade differs")
+            key = csha({"messages": messages, "schema": schema, "generation": cfg["generation"]})
+            origin = {"response": raw["response"], "raw_call_path": record["raw_call_path"]}
+            if key in origins and origins[key] != origin:
+                raise ValueError("Ambiguous historical response; no quality selection is allowed")
+            origins[key] = origin
+            extra.update((path, path.with_suffix(".input.json")))
+    return rows, before, empty, origins, extra, completed
+
+
 def freeze(config_path, *, additional_sources=()):
     cfg = read(config_path)
     files = set(ROOT.glob("legal_skill_guard/**/*.py"))
@@ -747,11 +1109,14 @@ def freeze(config_path, *, additional_sources=()):
         files.add(ROOT / cfg["initial_library_publication"])
     files.update(ROOT / name for name in cfg.get("inference_dependency_artifacts", []))
     files.update(Path(path).resolve() for path in additional_sources)
+    if cfg.get("training_phase") == CONSOLIDATION_PHASE:
+        files.update(observed_consolidation_inputs(cfg)[4])
     bindings = {str(p.relative_to(ROOT)): sha(p) for p in sorted(files)}
     packages = {dist.metadata["Name"]: dist.version for dist in importlib.metadata.distributions()}
     manifest = {"config_sha256": sha(config_path), "files": bindings, "packages": packages,
                 "prepared_at": now(), "no_this_run_performance_observed_before_freeze": True,
-                "warm_sources_are_previously_observed_TRAIN": bool(cfg.get("warm_source_case_ids"))}
+                "warm_sources_are_previously_observed_TRAIN": bool(cfg.get("warm_source_case_ids"))
+                    or cfg.get("training_phase") == CONSOLIDATION_PHASE}
     frozen_path = Path(config_path).with_suffix(".frozen.json")
     RunStore.immutable_json(frozen_path, manifest)
     preserve(cfg["run_id"], "source", [*bindings, str(frozen_path.relative_to(ROOT)),
@@ -799,8 +1164,34 @@ class Online:
 
     def __init__(self, config_path):
         self.cfg = read(config_path)
-        if self.cfg.get("teacher_evidence_contract") != "native_claim_aligned_compact_v1":
+        evidence = self.cfg.get("teacher_evidence_contract")
+        admission = self.cfg.get("admission_contract", LEGACY_ADMISSION)
+        if evidence not in (TEACHER_EVIDENCE_CONTRACT, UTILITY_TEACHER_EVIDENCE_CONTRACT):
             raise ValueError("Declare the native-claim-aligned teacher evidence contract before learning")
+        if (admission not in (LEGACY_ADMISSION, UTILITY_ADMISSION)
+                or (evidence == TEACHER_EVIDENCE_CONTRACT and admission != LEGACY_ADMISSION)):
+            raise ValueError("The admission and teacher contracts must agree")
+        if evidence == UTILITY_TEACHER_EVIDENCE_CONTRACT and (
+                "admission_contract" not in self.cfg
+                or self.cfg.get("feedback_retention") != BOUNDED_FAILURE_HISTORY
+                or self.cfg.get("execution_contract") != "direct_statutory_claims"
+                or self.cfg.get("candidate_feedback_policy") != "carry_partial_and_refine"):
+            raise ValueError("The v6 stream requires explicit admission and bounded historical feedback")
+        if self.cfg.get("teacher_update_policy") not in (
+                "joint_bounded_refinement", "task_projection_coordinate", "joint_fixed_steps"):
+            raise ValueError("Declare the teacher update policy explicitly before learning")
+        if self.cfg["teacher_update_policy"] == "task_projection_coordinate" and (
+                self.cfg.get("task_update_schedule") != list(FAMILIES)
+                or self.cfg.get("max_candidate_attempts") != len(FAMILIES)
+                or self.cfg.get("candidate_feedback_policy") != "carry_partial_and_refine"):
+            raise ValueError("Coordinate teaching requires one scheduled EC and EV update per batch")
+        if self.cfg["teacher_update_policy"] == "joint_fixed_steps" and (
+                self.cfg.get("training_phase") != CONSOLIDATION_PHASE
+                or self.cfg.get("max_candidate_attempts") != 2
+                or self.cfg.get("candidate_feedback_policy") != "carry_partial_and_refine"
+                or self.cfg.get("task_update_schedule") is not None
+                or self.cfg.get("batch_source_cases") != 16):
+            raise ValueError("Matched joint consolidation requires two fixed steps and a32-task-record packet")
         if type(self.cfg.get("frozen_after_first_batch_control", False)) is not bool:
             raise ValueError("Declare frozen-after-first-batch evaluation as a boolean")
         if self.cfg.get("candidate_feedback_policy", "batch_only_first_commit") not in (
@@ -819,8 +1210,10 @@ class Online:
         if self.cfg.get("skill_commit_policy") not in (
                 "legal_scope", "task_local", "whole_bank", "adaptive_legal"):
             raise ValueError("Declare the TRAIN commit policy before freezing")
+        expected_objective = (UTILITY_SELECTION if admission == UTILITY_ADMISSION
+                              else "seen_source_min_family_gain_then_mean_v1")
         if self.cfg["skill_commit_policy"] == "adaptive_legal" and self.cfg.get(
-                "adaptive_commit_objective") != "seen_source_min_family_gain_then_mean_v1":
+                "adaptive_commit_objective") != expected_objective:
             raise ValueError("Freeze the adaptive seen-TRAIN selection objective explicitly")
         frozen = read(Path(config_path).with_suffix(".frozen.json"))
         if frozen["config_sha256"] != sha(config_path):
@@ -887,7 +1280,7 @@ class Online:
                 "library_records": len(self.bank),
                 **({'execution_dispatch': dispatch.receipt()} if dispatch is not None else {}), **extra})
 
-    def answer(self, row, bank, stage, arm):
+    def answer(self, row, bank, stage, arm, *, public_namespace_filter=True):
         self.check()
         grounded = self.cfg.get("execution_contract") in (
             "source_grounded_claim_operations", "direct_statutory_claims")
@@ -895,7 +1288,8 @@ class Online:
                   or arm == "empty_direct_numeric")
         asset_references = self.cfg.get("execution_contract_version") == 14
         messages, schema, supplied = actor_payload(row, bank, grounded=grounded,
-            direct_numeric=direct, asset_references=asset_references)
+            direct_numeric=direct, asset_references=asset_references,
+            public_namespace_filter=public_namespace_filter)
         asset_catalog = public_asset_catalog(row) if asset_references else None
         catalog = public_catalog(row)
         fingerprint = csha({"messages": messages, "schema": schema,
@@ -1010,8 +1404,47 @@ class Online:
             record["score"] = evaluate(row, answer, target)
         return records
 
-    def teacher_body(self, current, seen, observations, rejected):
-        evidence, evidence_manifest = teacher_evidence_rows(current, seen, observations, rejected)
+    def teacher_body(self, current, seen, observations, rejected, *, teaching_task=None):
+        fixed_joint = self.cfg.get("teacher_update_policy") == "joint_fixed_steps"
+        if fixed_joint and teaching_task is not None:
+            raise ValueError("Joint teaching cannot silently project to one task")
+        if teaching_task is not None:
+            if teaching_task not in FAMILIES:
+                raise ValueError("Unknown teaching task")
+            rejected = [d for d in rejected if d.get("teaching_task") == teaching_task]
+        consolidation = self.cfg.get("training_phase") == CONSOLIDATION_PHASE
+        optimization_ids = sorted({r["case_id"] for r in current})
+        history_limit = 16 // len(FAMILIES) if fixed_joint else 16
+        if consolidation:
+            # Communication is bounded; optimization still replays every seen source.
+            focus_limit = self.cfg["batch_source_cases"] // (len(FAMILIES) if fixed_joint else 1)
+            current, _ = teacher_evidence_rows([], current, observations, [],
+                history_limit=focus_limit,
+                families=(teaching_task,) if teaching_task else FAMILIES)
+        evidence, evidence_manifest = teacher_evidence_rows(current, seen, observations, rejected,
+            history_limit=history_limit, families=(teaching_task,) if teaching_task else FAMILIES)
+        if teaching_task is not None:
+            evidence = [r for r in evidence if r["family"] == teaching_task]
+        evidence_manifest.update({"teaching_task": teaching_task,
+            "selected_task_records": len(evidence),
+            "other_task_predictions_and_targets_not_supplied": teaching_task is not None})
+        if consolidation:
+            evidence_manifest["consolidation_scope"] = {
+                "all_optimization_source_ids": optimization_ids,
+                "all_sources_previously_observed_TRAIN": True,
+                "communication_focus_source_ids": sorted({r["case_id"] for r in current}),
+                "bounded_packet_not_a_validation_set": True,
+                "original_gate_applied_to_all_seen_sources_together": True,
+                "no_new_cases_or_TEST_labels": True}
+            if fixed_joint:
+                record_limit = self.cfg["batch_source_cases"] + 16
+                if len(evidence) > record_limit:
+                    raise ValueError("Joint teacher packet exceeds the matched task-record budget")
+                evidence_manifest["matched_task_record_budget"] = {
+                    "limit": record_limit, "actual": len(evidence),
+                    "focus_source_limit": focus_limit, "historical_source_limit": history_limit,
+                    "tasks_per_source": len(FAMILIES),
+                    "same_task_record_limit_not_same_source_coverage_or_tokens": True}
         supplied_ids = set(evidence_manifest["selected_source_ids"])
         targets = {case: read(ROOT / self.cfg["grading_directory"] / f"{case}.json")["targets"]
                    for case in sorted(supplied_ids)}
@@ -1021,7 +1454,7 @@ class Online:
         # Task text is retained exactly, but the long public law corpus appears once.
         contracts = {r["family"]: {k: r["components"][k] for k in
                      ("instruction", "meta_instruction")}
-                     for r in seen}
+                     for r in evidence}
         grounded = self.cfg.get("execution_contract") in (
             "source_grounded_claim_operations", "direct_statutory_claims")
 
@@ -1035,6 +1468,8 @@ class Online:
                     "executed_answer": (record.get("parsed") or {}).get("answer"),
                     "parse_error": record["parse_error"], "execution_error": record.get("execution_error"),
                     "score": record["score"]}
+            if self.cfg.get("teacher_evidence_contract") == UTILITY_TEACHER_EVIDENCE_CONTRACT:
+                value["bank_sha256"] = record.get("bank_sha256")
             if record.get("native_program") is not None:
                 value["native_program"] = record["native_program"]
             if receipt is not None:
@@ -1043,6 +1478,7 @@ class Online:
                                            "limit", "claim_value")}
                         for op in receipt["actual_claim_operations"]]
             if include_emitted:
+                value["public_native_final_submission"] = copy.deepcopy(record.get("public_label_submission"))
                 value["native_claim_feedback"] = native_claim_feedback(
                     record, targets[record["case_id"]][record["family"]])
                 path = record["raw_call_path"]
@@ -1090,6 +1526,9 @@ class Online:
             identity = ("bank_sha256", "raw_call_path", "parsed", "parse_error", "execution_error", "score")
             if all(frozen_by_key[key].get(field) == empty_by_key[key].get(field) for field in identity):
                 case["frozen_initial_answer_alias_of"] = "actual_same_case_empty_answer"
+            elif consolidation and all(frozen_by_key[key].get(field) == observations[key].get(field)
+                                       for field in identity):
+                case["frozen_initial_answer_alias_of"] = "actual_parent_answer"
             else:
                 case["actual_same_case_frozen_initial_answer"] = observation_view(frozen_by_key[key])
             cases.append(case)
@@ -1124,7 +1563,10 @@ class Online:
                     "raw_call_path": r["raw_call_path"], "record_sha256": csha(r)} for r in references]
             rejected_view.append(value)
         actual_contracts, systems, schemas, system_ids, schema_ids = {}, {}, {}, {}, {}
+        skill_messages, skill_message_ids = {}, {}
         for row in seen:
+            if teaching_task is not None and row["family"] != teaching_task:
+                continue
             key = "+".join(sorted(allowable_namespaces(row)))
             if self.cfg.get("execution_contract_version") == 14:
                 key += ";asset_mentions=" + str(len(public_asset_catalog(row)))
@@ -1140,10 +1582,33 @@ class Online:
                 if schema_key not in schema_ids:
                     schema_ids[schema_key] = f"J{len(schema_ids) + 1}"
                     schemas[schema_ids[schema_key]] = schema
+                skill_message = next((m["content"] for m in messages
+                    if m["content"].startswith("Background reusable skills.")), None)
+                if skill_message is not None and skill_message not in skill_message_ids:
+                    skill_message_ids[skill_message] = f"K{len(skill_message_ids) + 1}"
+                    skill_messages[skill_message_ids[skill_message]] = skill_message
                 group[row["family"]] = {"system_ref": system_ids[system],
-                                        "response_schema_ref": schema_ids[schema_key]}
-        return {"current_source_case_ids": sorted({r["case_id"] for r in current}),
-                "teacher_evidence_contract": "native_claim_aligned_compact_v1",
+                    "response_schema_ref": schema_ids[schema_key],
+                    "skill_message_ref": skill_message_ids.get(skill_message),
+                    "skill_message_position": (("before_case" if row["family"] == "EC"
+                                                else "after_case") if skill_message else None)}
+        body = {"current_source_case_ids": sorted({r["case_id"] for r in current}),
+                "teacher_evidence_contract": self.cfg.get("teacher_evidence_contract", TEACHER_EVIDENCE_CONTRACT),
+                "teaching_task": teaching_task,
+                "task_projection_update_contract": {
+                    "enabled": teaching_task is not None,
+                    "other_actor_memory_must_remain_identical": teaching_task is not None,
+                    "single_shared_library_not_independent_copies": True,
+                    "public_task_boundary_not_predicted_routing": True},
+                "execution_teaching_contract": {
+                    "knowledge_and_execution_errors_are_distinct": True,
+                    "skill_defect_includes_incomplete_or_ineffective_operational_representation": True,
+                    "true_legal_sentence_does_not_establish_instruction_adequacy": True,
+                    "recurrent_failure_requires_instruction_reconsideration": True,
+                    "correct_rule_requires_verbatim_anchor": True,
+                    "example_marker": EXECUTION_EXAMPLE_MARKER,
+                    "examples_are_in_existing_skill_text_not_a_second_layer": True,
+                    "public_native_final_is_observed_not_automatically_correct": True},
                 "task_boundary": {"start_task_id": 2,
                     "public_prior": "allowable jurisdictions already supplied; do not recompute them",
                     "outputs": "all eligible asset-law alternatives, not a final jointly allocated portfolio",
@@ -1167,6 +1632,13 @@ class Online:
                 "public_citation_label_catalog": statutory_catalog(seen[0]["components"]["statutes"]),
                 "actual_actor_systems": systems,
                 "actual_response_schemas": schemas,
+                "actual_actor_skill_messages": skill_messages,
+                "actor_visibility_contract": {
+                    "skill_messages_are_exact_task_and_public_context_projections": True,
+                    "EC_and_EV_do_not_share_skill_blocks_or_model_predictions": True,
+                    "only_literal_public_solved_steps_supply_solved_prerequisites": True,
+                    "EV_also_decides_eligibility_not_only_numeric_amounts": True,
+                    "skill_message_references_are_teacher_evidence_not_new_actor_inputs": True},
                 "complete_public_statutes": statutes,
                 "actual_system_and_response_schema_by_public_context": actual_contracts,
                 "already_seen_training": cases, "rejected_candidate_feedback": rejected_view,
@@ -1185,6 +1657,18 @@ class Online:
                     "unabridged_raw_artifacts_retained": True,
                     "not_a_verified_causal_explanation": True},
                 "future_cases_and_labels_not_supplied": True}
+        if self.cfg.get("teacher_evidence_contract") == UTILITY_TEACHER_EVIDENCE_CONTRACT:
+            body["admission_contract"] = self.cfg["admission_contract"]
+            body["admission_constraints"] = {
+                "current_native_and_full_per_task_must_not_decrease": True,
+                "all_seen_native_and_full_per_task_must_not_decrease":
+                    self.cfg["admission_contract"] == UTILITY_ADMISSION,
+                "prior_mean_loss_limit": .01 if self.cfg["admission_contract"] == UTILITY_ADMISSION else 0,
+                "count_diagnostics_are_separate_zero_increase_vetoes":
+                    self.cfg["admission_contract"] == LEGACY_ADMISSION,
+                "all_original_scores_invalid_zero_and_false_claim_penalties_unchanged": True}
+            body["execution_teaching_contract"]["new_projection_including_split_has_empty_anchor"] = True
+        return body
 
     def composed_replay(self, parent, proposed, accepted_tasks, seen, name, *,
                         legal_coordinates=None, accepted_coordinates=()):
@@ -1217,12 +1701,19 @@ class Online:
         batch_parent = copy.deepcopy(self.bank)
         before = copy.deepcopy(batch_parent)
         closed_loop = self.cfg.get("candidate_feedback_policy") == "carry_partial_and_refine"
+        coordinate = self.cfg["teacher_update_policy"] == "task_projection_coordinate"
+        admission = self.cfg.get("admission_contract", LEGACY_ADMISSION)
+        bounded_history = self.cfg.get("teacher_evidence_contract") == UTILITY_TEACHER_EVIDENCE_CONTRACT
+        fixed_steps = coordinate or self.cfg["teacher_update_policy"] == "joint_fixed_steps"
         old_rows = [r for r in seen if r["case_id"] not in {v["case_id"] for v in current}]
         prior = [self.latest[(r["case_id"], r["family"])] for r in old_rows]
         observations = {**self.latest, **{(r["case_id"], r["family"]): r for r in parent_current}}
         initial_current, initial_prior = copy.deepcopy(parent_current), copy.deepcopy(prior)
         rejected = []
-        if closed_loop and self.current_batch > 1:
+        if closed_loop and bounded_history:
+            rejected = retained_candidate_feedback(
+                self.out, self.current_batch, observations, csha(batch_parent))
+        elif closed_loop and self.current_batch > 1:
             previous = read(self.out / "publications" / f"b{self.current_batch - 1}.json")
             if previous["bank_sha256"] != csha(batch_parent):
                 raise ValueError("Previous publication must match the actual current parent")
@@ -1238,9 +1729,23 @@ class Online:
         guidance_schema = DIRECT_GUIDANCE if direct else EXECUTABLE_GUIDANCE
         for attempt in range(1, self.cfg["max_candidate_attempts"] + 1):
             name = f"b{self.current_batch}_candidate{attempt}"
-            body = self.teacher_body(current, seen, observations, rejected)
+            teaching_task = self.cfg["task_update_schedule"][attempt - 1] if coordinate else None
+            body = (self.teacher_body(current, seen, observations, rejected, teaching_task=teaching_task)
+                    if coordinate else self.teacher_body(current, seen, observations, rejected))
             supplied_ids = body["training_evidence_manifest"]["selected_source_ids"]
             system = DIRECT_AUTHOR_SYSTEM if direct else AUTHOR_SYSTEM + PROGRAM_AUTHOR_ADDITION
+            if direct:
+                system = system.replace(
+                    "Do not store case IDs, debtors, exact asset names or values, answer tables, output "
+                    "format tricks, or copied target sets in skills.",
+                    "Do not store case IDs, debtors, exact asset names or instance values, answer "
+                    "tables, or copied target sets. A deidentified procedural output illustration "
+                    "is allowed under the execution-teaching contract, not an answer lookup.")
+            system += EXECUTION_AWARE_ADDITION
+            if coordinate:
+                system += TASK_PROJECTION_TEACHING
+            if self.cfg.get("training_phase") == CONSOLIDATION_PHASE:
+                system += CONSOLIDATION_TEACHING
             if closed_loop:
                 system += CANDIDATE_FEEDBACK_ADDITION
                 body["candidate_feedback_contract"] = {
@@ -1249,13 +1754,38 @@ class Online:
                     "current_attempt_parent_bank_sha256": csha(before),
                     "previous_publication_only_not_unbounded_history": True,
                     "failure_witness_limit_per_proposal": 8,
-                    "single_final_publication_after_bounded_TRAIN_refinement": True}
-            delta = self.teacher_call(name, system,
-                body,
-                differential_schema(FAMILIES, before, supplied_ids,
-                                    guidance_schema=guidance_schema))
+                    "single_final_publication_after_bounded_TRAIN_refinement": True,
+                    "teacher_update_policy": self.cfg["teacher_update_policy"],
+                    "teaching_task": teaching_task,
+                    "coordinate_steps_not_same_task_retries": coordinate}
+            if bounded_history:
+                body["candidate_feedback_contract"].pop("previous_publication_only_not_unbounded_history")
+                body["candidate_feedback_contract"].update({
+                    "history_policy": BOUNDED_FAILURE_HISTORY,
+                    "max_historical_proposals_per_task": 1,
+                    "historical_candidates_are_not_current_parent_reruns": True})
+                system = teaching_system_contract(system, admission)
+            response = self.teacher_call(name, system, body,
+                diagnosed_edit_schema(differential_schema(FAMILIES, before, supplied_ids,
+                    guidance_schema=guidance_schema), supplied_ids))
+            delta = response["delta"]
             candidate = apply_differential_publication(before, delta, FAMILIES,
                 supplied_ids, guidance_schema=guidance_schema)
+            try:
+                edit_audit = validate_edit_diagnoses(before, candidate, response["diagnoses"], supplied_ids)
+                if coordinate:
+                    edit_audit["task_projection_boundary"] = validate_task_projection_edit(
+                        before, candidate, teaching_task)
+            except ValueError as exc:
+                decision = {"accepted": False, "reason": "invalid_edit_diagnosis_or_protected_rule",
+                    "candidate": candidate, "delta": delta, "edit_diagnoses": response["diagnoses"],
+                    "diagnosis_error": str(exc), "new_native_calls": 0,
+                    "teaching_task": teaching_task}
+                RunStore.immutable_json(self.out / "candidates" / f"{name}.json", decision)
+                decisions.append(decision)
+                rejected.append(decision)
+                continue
+            RunStore.immutable_json(self.out / "teacher" / name / "edit_audit.json", edit_audit)
             if grounded or direct:
                 try:
                     validate_scoped_bank(candidate)
@@ -1268,7 +1798,8 @@ class Online:
                             execute_limit(operator["limit_expression"], source["components"]["facts"])
                 except (ValueError, ValidationError) as exc:
                     decision = {"accepted": False, "candidate": candidate, "delta": delta,
-                                "source_program_compile_error": repr(exc), "new_native_calls": 0}
+                                "source_program_compile_error": repr(exc), "new_native_calls": 0,
+                                "teaching_task": teaching_task}
                     RunStore.immutable_json(self.out / "candidates" / f"{name}.json", decision)
                     decisions.append(decision)
                     rejected.append(decision)
@@ -1277,27 +1808,34 @@ class Online:
                                                             separators=(",", ":")))
             if tokens > self.cfg["library_token_hard_cap"]:
                 decision = {"accepted": False, "reason": "complete_library_token_cap",
-                            "actual_tokens": tokens, "candidate": candidate, "delta": delta}
+                            "actual_tokens": tokens, "candidate": candidate, "delta": delta,
+                            "teaching_task": teaching_task}
                 RunStore.immutable_json(self.out / "candidates" / f"{name}.json", decision)
                 decisions.append(decision)
                 rejected.append(decision)
                 continue
             if candidate == before:
-                decisions.append({"accepted": False, "explicit_noop": True, "delta": delta})
+                decisions.append({"accepted": False, "explicit_noop": True, "delta": delta,
+                                  "teaching_task": teaching_task})
+                if fixed_steps:
+                    continue
                 break
             replay = self.grade(self._dispatch.native(
                 lambda r: self.answer(r, candidate, name + "_replay", "candidate"), seen))
             keys = {r["case_id"] for r in current}
             candidate_current = [r for r in replay if r["case_id"] in keys]
             candidate_prior = [r for r in replay if r["case_id"] not in keys]
-            full_proposal = acceptance(parent_current, candidate_current, prior, candidate_prior)
-            task_decisions = task_admission(parent_current, candidate_current, prior, candidate_prior)
+            full_proposal = acceptance(parent_current, candidate_current, prior, candidate_prior,
+                                       contract=admission)
+            task_decisions = task_admission(parent_current, candidate_current, prior, candidate_prior,
+                                            contract=admission)
             policy = self.cfg["skill_commit_policy"]
             coordinates, scope_decisions, accepted_coordinates = None, {}, []
             if policy in ("legal_scope", "adaptive_legal"):
                 coordinates = legal_edit_coordinates(before, candidate, seen)
                 scope_decisions = legal_scope_admission(
-                    coordinates, parent_current, candidate_current, prior, candidate_prior)
+                    coordinates, parent_current, candidate_current, prior, candidate_prior,
+                    contract=admission)
                 accepted_coordinates = [c["id"] for c in coordinates if scope_decisions[c["id"]]["accepted"]]
             accepted_tasks = ([f for f in FAMILIES if task_decisions[f]["accepted"]]
                               if policy == "task_local" else
@@ -1306,6 +1844,8 @@ class Online:
                               if policy in ("legal_scope", "adaptive_legal") else
                               list(FAMILIES) if full_proposal["accepted"] else [])
             decision = {"accepted": False, "candidate": candidate, "delta": delta,
+                        "edit_audit": edit_audit,
+                        "teaching_task": teaching_task,
                         "skill_commit_policy": policy,
                         "proposed_bank": candidate, "proposed_tokens": tokens,
                         "proposed_whole_bank_acceptance": full_proposal,
@@ -1332,7 +1872,8 @@ class Online:
                     actual_current = [r for r in actual_replay if r["case_id"] in keys]
                     actual_prior = [r for r in actual_replay if r["case_id"] not in keys]
                     # The original full gate is authoritative, not the mask alone.
-                    decision.update(acceptance(parent_current, actual_current, prior, actual_prior))
+                    decision.update(acceptance(parent_current, actual_current, prior, actual_prior,
+                                               contract=admission))
                     decision.update({"candidate": committed, "actual_tokens": actual_tokens,
                         "actual_replay": actual_replay, "proposed_replay": replay,
                         "current_effect": paired_effect(parent_current, actual_current),
@@ -1343,9 +1884,10 @@ class Online:
                         decision["accepted_legal_coordinates"] = []
             if policy == "adaptive_legal":
                 parent_replay = [*parent_current, *prior]
-                component_gain = (balanced_replay_gain(parent_replay, decision["actual_replay"])
+                component_gain = (balanced_replay_gain(parent_replay, decision["actual_replay"],
+                                                      contract=admission)
                                   if decision["accepted"] else None)
-                joint_gain = (balanced_replay_gain(parent_replay, replay)
+                joint_gain = (balanced_replay_gain(parent_replay, replay, contract=admission)
                               if full_proposal["accepted"] else None)
                 component_assessment = {
                     "accepted": decision["accepted"], "reason": decision.get("reason"),
@@ -1386,11 +1928,12 @@ class Online:
                 feedback = candidate_feedback(decision, self.latest, {
                     "batch": self.current_batch, "attempt": attempt,
                     "current_committed_bank_sha256": csha(self.bank)})
-                if feedback is None:
+                if feedback is None and not fixed_steps:
                     break
                 # Keep the accepted subset as the next attempt's real parent.
                 # A failed later proposal cannot undo it or use cached scores.
-                rejected.append(feedback)
+                if feedback is not None:
+                    rejected.append(feedback)
                 before = copy.deepcopy(self.bank)
                 parent_current = actual_current
                 prior = actual_prior
@@ -1408,19 +1951,68 @@ class Online:
         elif closed_loop:
             final_current = [self.latest[(r["case_id"], r["family"])] for r in current]
             final_prior = [self.latest[(r["case_id"], r["family"])] for r in old_rows]
-            if not acceptance(initial_current, final_current, initial_prior, final_prior)["accepted"]:
+            if not acceptance(initial_current, final_current, initial_prior, final_prior,
+                              contract=admission)["accepted"]:
                 raise ValueError("Final refined bank must also pass the original batch-parent full gate")
         publication = {"at": now(), "bank": self.bank, "parent_bank_sha256": csha(batch_parent),
                        "skill_commit_policy": self.cfg["skill_commit_policy"],
+                       "teacher_update_policy": self.cfg["teacher_update_policy"],
                        "bank_sha256": csha(self.bank), "training_decisions": decisions,
                        "future_performance_not_used": True,
                        "training_acceptance_does_not_guarantee_generalization": True}
         if closed_loop:
             publication["candidate_feedback_policy"] = "carry_partial_and_refine"
+        if bounded_history:
+            publication["admission_contract"] = admission
+            publication["feedback_retention"] = BOUNDED_FAILURE_HISTORY
         RunStore.immutable_json(self.out / "publications" / f"b{self.current_batch}.json", publication)
         return publication
 
+    def consolidate(self):
+        rows, before, empty, origins, _, original = observed_consolidation_inputs(self.cfg)
+        if self.cfg.get("teacher_update_policy") not in ("task_projection_coordinate", "joint_fixed_steps"):
+            raise ValueError("Consolidation requires a declared fixed two-step teaching schedule")
+        if self.cfg["initial_library_prior_exposure_distinct_sources"] != len(rows) // len(FAMILIES):
+            raise ValueError("Consolidation must disclose the full prior TRAIN exposure")
+        self.current_batch = 1  # Continuation round, not an empty first-encounter batch.
+        self.latest = {(r["case_id"], r["family"]): copy.deepcopy(r) for r in before}
+        self.request_cache = copy.deepcopy(origins)
+        self.prequential_empty = copy.deepcopy(empty)
+        self.prequential_direct = copy.deepcopy(empty)
+        self.prequential_frozen = copy.deepcopy(before)
+        self.prequential_skills = copy.deepcopy(before)
+        RunStore.immutable_json(self.out / "consolidation_started.json", {
+            "at": now(), "training_phase": CONSOLIDATION_PHASE,
+            "parent_acquisition_run": self.cfg["consolidation_parent_run"],
+            "parent_bank_sha256": csha(self.bank), "prior_source_exposure": len(rows) // 2,
+            "imported_exact_native_origins": len(origins),
+            "before_metrics": metrics(before), "all_seen_source_ids": sorted({r["case_id"] for r in rows}),
+            "parent_acquisition_teacher_responses": original["actual_teacher_responses"],
+            "new_teacher_responses_max": self.cfg["max_candidate_attempts"],
+            "new_native_calls_max": len(rows) * (
+                2 if self.cfg["teacher_update_policy"] == "joint_fixed_steps" else 1),
+            "original_actor_scorer_and_admission_unchanged": True,
+            "not_a_new_empty_stream_or_independent_repeat_or_TEST": True})
+        publication = self.update(rows, rows, before)
+        after = [self.latest[r["case_id"], r["family"]] for r in rows]
+        if any(r["bank_sha256"] != publication["bank_sha256"] for r in after):
+            raise ValueError("Consolidation summary must use the actually published bank")
+        result = {"at": now(), "training_phase": CONSOLIDATION_PHASE,
+            "parent_acquisition_run": self.cfg["consolidation_parent_run"],
+            "before": metrics(before), "after": metrics(after), "paired": paired_effect(before, after),
+            "bank_sha256": publication["bank_sha256"], "bank_records": len(self.bank),
+            "actual_new_native_calls": len(self.native), "actual_new_teacher_responses": len(self.teachers),
+            "linked_acquisition_native_calls": original["actual_native_calls"],
+            "linked_acquisition_teacher_responses": original["actual_teacher_responses"],
+            "total_linked_teacher_responses": original["actual_teacher_responses"] + len(self.teachers),
+            "full_seen_TRAIN_only_not_future_or_TEST": True}
+        self.summaries.append(result)
+        RunStore.immutable_json(self.out / "consolidation_result.json", result)
+        return "completed_seen_TRAIN_consolidation"
+
     def execute(self):
+        if self.cfg.get("training_phase") == CONSOLIDATION_PHASE:
+            return self.consolidate()
         batch_size = self.cfg["batch_source_cases"]
         total = self.cfg["source_cases"] // batch_size
         for batch in range(1, total + 1):
@@ -1546,6 +2138,13 @@ class Online:
                         self.prequential_first_batch_frozen, self.prequential_skills),
                     "frozen_after_B1_bank_sha256": csha(self.first_batch_frozen_bank),
                     "frozen_after_B1_evaluation_only_not_teacher_feedback": True})
+            if self.cfg.get("training_phase") == CONSOLIDATION_PHASE:
+                completion = {k: v for k, v in completion.items()
+                              if not k.startswith(("prequential_", "online_minus_")) and k != "paired"}
+                completion.update({"training_phase": CONSOLIDATION_PHASE,
+                    "parent_acquisition_run": self.cfg["consolidation_parent_run"],
+                    "not_new_first_forecasts_or_independent_repeat_or_TEST": True,
+                    "consolidation_result": self.summaries[-1]})
             RunStore.immutable_json(self.out / "completion.json", completion)
         except Exception as exc:
             RunStore.immutable_json(self.out / "failure.json", {

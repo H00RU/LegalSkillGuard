@@ -1,0 +1,413 @@
+{
+  "at": "2026-10-28T02:55:35.797267+00:00",
+  "scope": "Completed third/fourth chronological TRAIN comparison, actual initial teacher input and learned libraries; no TEST contents or scores",
+  "source_runs": [
+    "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+    "legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02"
+  ],
+  "B1_actual_wire_hashes": {
+    "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/teacher/b1_candidate1/wire_request.json": "1bf11c0223f59f43efee6049378c89f8bfac4b99be52a806780fcc4a76226685",
+    "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/teacher/b1_candidate1/wire_request.json": "8b63fc633355e96f37757d21582a33a33e8ad43f3453ebddc957c17e25b18a77"
+  },
+  "B1_actor_and_feedback_examples32_identical": true,
+  "B1_target_and_parent_view_sha256": "e6f4b72f82c0e600102626e0a02c717860a857686d7b756089e7a2210f44aa5b",
+  "B1_public_statutes_interfaces_schemas_parent_library_identical": true,
+  "B1_output_delta_schema_identical": true,
+  "same_executor_generation_data_runtime_config_fields": {
+    "generation": true,
+    "phase_dispatch": true,
+    "inference_environment": true,
+    "input_packet": true,
+    "grading_directory": true,
+    "adaptive_commit_objective": true,
+    "skill_commit_policy": true
+  },
+  "B1_teacher_core_legal_instruction_prefix_identical": true,
+  "B1_feedback_instruction_tails": [
+    " Candidate feedback may include a partially committed previous proposal. Its accepted flag describes the ORIGINAL decision, not acceptance of every edit. Distinguish its committed coordinates from uncommitted changes and actual failure witnesses. References point to this request's actual parent observations in already_seen_training, not invented pre-proposal runs or stale prior parents. Use failed replay evidence to revise unresolved changes, rather than repeat an unsupported edit. Each attempt targets the parent IDs supplied for THAT attempt; do not target IDs created within the same delta. A prior accepted subset remains in the current parent. All changes still require full seen-TRAIN replay and the unchanged admission gates. This is bounded TRAIN refinement, never an inference retry or future-case feedback.",
+    " Candidate revision feedback describes rejected, partially committed, or fully committed outcomes. Its accepted flag describes the original decision, not acceptance of every edit. A full commit can retain source-level regressions under the aggregate gate. feedback_witness_roles distinguishes uncommitted proposal errors from remaining regressions after actual acceptance. Witnesses concern actual changed requests, retained harms, and still-failed proposal evidence, not unchanged background errors. actual_parent_answer and feedback_reference_replay identify the current parent. feedback_pre_commit_reference_replay contains genuine earlier observations solely as before/after evidence, never as current predictions. Do not reopen already repaired harms. Preserve useful legal branches while repairing remaining errors without case-specific exceptions. Each attempt targets the supplied parent IDs. Full commits still end the current batch's refinement; outcome witnesses carry into the next batch without extra same-batch teacher calls. All updates retain the full seen-TRAIN replay and original admission gates. This is bounded TRAIN refinement, not an inference retry or future-case feedback."
+  ],
+  "B1_changed_body_top_fields": [
+    "bounded_emitted_evidence_contract",
+    "candidate_feedback_contract",
+    "candidate_revision_feedback",
+    "rejected_candidate_feedback",
+    "skill_delivery_contract",
+    "teacher_evidence_contract"
+  ],
+  "initial_libraries": [
+    {
+      "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+      "actual_bank_sha256": "02c5f64f331afdba709cb037a759c04e9b71c12b9513b720a26d5ffaccb20df6",
+      "records": 4,
+      "tokens": 1312,
+      "layout": [
+        {
+          "id": "federal-wildcard-independent-alternative",
+          "jurisdiction": "FEDERAL",
+          "tasks": [
+            "EC",
+            "EV"
+          ]
+        },
+        {
+          "id": "pennsylvania-general-monetary-alternative",
+          "jurisdiction": "PENNSYLVANIA",
+          "tasks": [
+            "EC",
+            "EV"
+          ]
+        },
+        {
+          "id": "oregon-any-personal-property-alternative",
+          "jurisdiction": "OREGON",
+          "tasks": [
+            "EC",
+            "EV"
+          ]
+        },
+        {
+          "id": "illinois-other-personal-property-alternative",
+          "jurisdiction": "ILLINOIS",
+          "tasks": [
+            "EC",
+            "EV"
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02",
+      "actual_bank_sha256": "9aa7334a1cc37a5f67bfc571c236df7e6c5a0217156b65e8737516490fd81aaa",
+      "records": 6,
+      "tokens": 1399,
+      "layout": [
+        {
+          "id": "federal-independent-wildcard-and-item-cap",
+          "jurisdiction": "FEDERAL",
+          "tasks": [
+            "EC",
+            "EV"
+          ]
+        },
+        {
+          "id": "oregon-personal-property-and-category-boundaries",
+          "jurisdiction": "OREGON",
+          "tasks": [
+            "EC",
+            "EV"
+          ]
+        },
+        {
+          "id": "pennsylvania-general-property-and-apparel-boundary",
+          "jurisdiction": "PENNSYLVANIA",
+          "tasks": [
+            "EC",
+            "EV"
+          ]
+        },
+        {
+          "id": "illinois-wildcard-specifics-and-whole-asset-values",
+          "jurisdiction": "ILLINOIS",
+          "tasks": [
+            "EC",
+            "EV"
+          ]
+        },
+        {
+          "id": "arizona-specific-category-and-enabling-section-boundaries",
+          "jurisdiction": "ARIZONA",
+          "tasks": [
+            "EC"
+          ]
+        },
+        {
+          "id": "wisconsin-consumer-versus-business-property",
+          "jurisdiction": "WISCONSIN",
+          "tasks": [
+            "EC"
+          ]
+        }
+      ]
+    }
+  ],
+  "all8_actual_curves": [
+    {
+      "batch": 1,
+      "versions": [
+        {
+          "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+          "first_encounter_EC_EV": [
+            0.6289964375901875,
+            0.6797371031746031
+          ],
+          "actual_published_current_EC_EV": [
+            0.8182787698412698,
+            0.7973214285714286
+          ],
+          "accepted_proposals": 1,
+          "actual_bank_sha256": "02c5f64f331afdba709cb037a759c04e9b71c12b9513b720a26d5ffaccb20df6",
+          "records": 4
+        },
+        {
+          "run_id": "legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02",
+          "first_encounter_EC_EV": [
+            0.6289964375901875,
+            0.6797371031746031
+          ],
+          "actual_published_current_EC_EV": [
+            0.7683283730158731,
+            0.7678571428571429
+          ],
+          "accepted_proposals": 1,
+          "actual_bank_sha256": "9aa7334a1cc37a5f67bfc571c236df7e6c5a0217156b65e8737516490fd81aaa",
+          "records": 6
+        }
+      ]
+    },
+    {
+      "batch": 2,
+      "versions": [
+        {
+          "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+          "first_encounter_EC_EV": [
+            0.8105158730158731,
+            0.6416838369963369
+          ],
+          "actual_published_current_EC_EV": [
+            0.8834325396825398,
+            0.8889384920634921
+          ],
+          "accepted_proposals": 2,
+          "actual_bank_sha256": "a198a09dd5392384b9ad49db3d6954b085b7ac28fba4335fccac1eeda3ba56ea",
+          "records": 7
+        },
+        {
+          "run_id": "legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02",
+          "first_encounter_EC_EV": [
+            0.820734126984127,
+            0.6776909722222222
+          ],
+          "actual_published_current_EC_EV": [
+            0.8214533730158731,
+            0.716108630952381
+          ],
+          "accepted_proposals": 1,
+          "actual_bank_sha256": "c8fccaa4b5219ea395953eeba7b6bf0347de02bf0c951dfc14c93acf49752a78",
+          "records": 6
+        }
+      ]
+    },
+    {
+      "batch": 3,
+      "versions": [
+        {
+          "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+          "first_encounter_EC_EV": [
+            0.8723462301587303,
+            0.894345238095238
+          ],
+          "actual_published_current_EC_EV": [
+            0.9284722222222223,
+            0.894345238095238
+          ],
+          "accepted_proposals": 1,
+          "actual_bank_sha256": "a1344f061e25682934694c2079b8e640ed3207de52c854f71836016f896b091a",
+          "records": 7
+        },
+        {
+          "run_id": "legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02",
+          "first_encounter_EC_EV": [
+            0.8256200396825397,
+            0.851736111111111
+          ],
+          "actual_published_current_EC_EV": [
+            0.8692708333333333,
+            0.851736111111111
+          ],
+          "accepted_proposals": 1,
+          "actual_bank_sha256": "250da0eb5d2099cc5ef07509081f663bcece40d58ca06167a176fd4e8cb70cb5",
+          "records": 6
+        }
+      ]
+    },
+    {
+      "batch": 4,
+      "versions": [
+        {
+          "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+          "first_encounter_EC_EV": [
+            0.8124007936507937,
+            0.9377480158730159
+          ],
+          "actual_published_current_EC_EV": [
+            0.8453869047619047,
+            0.9377480158730159
+          ],
+          "accepted_proposals": 1,
+          "actual_bank_sha256": "8f25f11c58afde540329e2e5e32a9ae8a8fb1b1dfe2afbb2d2603861f2bcf314",
+          "records": 7
+        },
+        {
+          "run_id": "legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02",
+          "first_encounter_EC_EV": [
+            0.7787450396825396,
+            0.8788194444444444
+          ],
+          "actual_published_current_EC_EV": [
+            0.7787450396825396,
+            0.8788194444444444
+          ],
+          "accepted_proposals": 1,
+          "actual_bank_sha256": "92c53de0370331ab725fc55cd94ce6e356834cfd181e7f7385e2386759fb25a8",
+          "records": 6
+        }
+      ]
+    },
+    {
+      "batch": 5,
+      "versions": [
+        {
+          "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+          "first_encounter_EC_EV": [
+            0.8379960317460318,
+            0.8900793650793649
+          ],
+          "actual_published_current_EC_EV": [
+            0.9052083333333334,
+            0.8900793650793649
+          ],
+          "accepted_proposals": 2,
+          "actual_bank_sha256": "088211d9a31abddb528278bd6d8139ac92fd29c98fe1f82c5ebee1084eebceb6",
+          "records": 7
+        },
+        {
+          "run_id": "legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02",
+          "first_encounter_EC_EV": [
+            0.803968253968254,
+            0.9089781746031745
+          ],
+          "actual_published_current_EC_EV": [
+            0.803968253968254,
+            0.9089781746031745
+          ],
+          "accepted_proposals": 0,
+          "actual_bank_sha256": "92c53de0370331ab725fc55cd94ce6e356834cfd181e7f7385e2386759fb25a8",
+          "records": 6
+        }
+      ]
+    },
+    {
+      "batch": 6,
+      "versions": [
+        {
+          "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+          "first_encounter_EC_EV": [
+            0.8642113095238095,
+            0.9163814484126983
+          ],
+          "actual_published_current_EC_EV": [
+            0.8642113095238095,
+            0.9298115079365079
+          ],
+          "accepted_proposals": 1,
+          "actual_bank_sha256": "ed24287606166f741e168068879bf3987b65d6a84369df8e73e0f0cb43b31420",
+          "records": 8
+        },
+        {
+          "run_id": "legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02",
+          "first_encounter_EC_EV": [
+            0.7958333333333333,
+            0.832452876984127
+          ],
+          "actual_published_current_EC_EV": [
+            0.7958333333333333,
+            0.832452876984127
+          ],
+          "accepted_proposals": 0,
+          "actual_bank_sha256": "92c53de0370331ab725fc55cd94ce6e356834cfd181e7f7385e2386759fb25a8",
+          "records": 6
+        }
+      ]
+    },
+    {
+      "batch": 7,
+      "versions": [
+        {
+          "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+          "first_encounter_EC_EV": [
+            0.8524305555555555,
+            0.8551835317460319
+          ],
+          "actual_published_current_EC_EV": [
+            0.8524305555555555,
+            0.8551835317460319
+          ],
+          "accepted_proposals": 0,
+          "actual_bank_sha256": "ed24287606166f741e168068879bf3987b65d6a84369df8e73e0f0cb43b31420",
+          "records": 8
+        },
+        {
+          "run_id": "legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02",
+          "first_encounter_EC_EV": [
+            0.821577380952381,
+            0.7401041666666668
+          ],
+          "actual_published_current_EC_EV": [
+            0.821577380952381,
+            0.8122767857142859
+          ],
+          "accepted_proposals": 1,
+          "actual_bank_sha256": "2041200a449eb2b9a6a6700ed52e5018b1d090e29540053e656a76c467a54acb",
+          "records": 6
+        }
+      ]
+    },
+    {
+      "batch": 8,
+      "versions": [
+        {
+          "run_id": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+          "first_encounter_EC_EV": [
+            0.9111607142857143,
+            0.9248139880952382
+          ],
+          "actual_published_current_EC_EV": [
+            0.9111607142857143,
+            0.927046130952381
+          ],
+          "accepted_proposals": 1,
+          "actual_bank_sha256": "3c63a71f1ecd7d1b9d071c4ab39750ac8f0c483c5f3ad8d25c7ee6adca813cf2",
+          "records": 8
+        },
+        {
+          "run_id": "legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02",
+          "first_encounter_EC_EV": [
+            0.8376984126984127,
+            0.8499007936507936
+          ],
+          "actual_published_current_EC_EV": [
+            0.8376984126984127,
+            0.8499007936507936
+          ],
+          "accepted_proposals": 0,
+          "actual_bank_sha256": "2041200a449eb2b9a6a6700ed52e5018b1d090e29540053e656a76c467a54acb",
+          "records": 6
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "cross_run_gap_not_a_single_factor_feedback_policy_effect": true,
+    "same_runtime_configuration_not_bitwise_determinism_claim": true,
+    "no_missing_initial_labels_or_changed_TASK_or_empty_baseline": true,
+    "initial_bank_content_and_teacher_draw_and_feedback_description_all_differ": true,
+    "fourth_B2_firsts_both_higher_than_third_B2": true,
+    "fourth_B2_published_current_both_lower_than_third_B2": true,
+    "later_failure_is_not_explained_only_by_more_or_fewer_skills": true,
+    "does_not_disprove_actual_positive_witness_gap": true,
+    "next_action": "Already-bound same-parent, same-background, two fresh teacher TRAIN contrast, not another unisolated formal restart or a new routing layer."
+  },
+  "new_native_or_teacher_calls": 0,
+  "current_test_predictions_or_labels_read": false
+}

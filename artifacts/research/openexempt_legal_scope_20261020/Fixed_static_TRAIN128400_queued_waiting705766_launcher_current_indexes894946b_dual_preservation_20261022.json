@@ -1,0 +1,93 @@
+{
+  "at": "2026-10-22T14:16:59.608164+00:00",
+  "classification": "Queued waiting-phase shell, exact frozen control metadata/source subset and current experiment indexes preserved on both disks; static inference has not started. Not fullproject or live ACE snapshot.",
+  "root_commit": "894946b10036e29b81e1705d1a6b599f788792f3",
+  "worker_implementation": "6b128a8",
+  "unit": "legal-openexempt-fixed-static-train128-20261022-run01.service",
+  "waiting_PID": 705766,
+  "static_run_directory_absent": true,
+  "source400_full402archives_already_preserved": true,
+  "current_tracked_worktree_clean": true,
+  "preservation": {
+    "at": "2026-10-22T14:16:59.511509+00:00",
+    "stage": "queued_waiting705766_launcher_indexes894946b_20261022",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_fixed_static_train128_20261022_run01-queued_waiting705766_launcher_indexes894946b_20261022.tar.gz",
+        "sha256": "161ba42b4ce58411bbdad13a80e385ea62f462c72126b012ee6b6e857650b4de",
+        "device": 64528,
+        "members": 14,
+        "all_members_verified": true
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_fixed_static_train128_20261022_run01-queued_waiting705766_launcher_indexes894946b_20261022.tar.gz",
+        "sha256": "161ba42b4ce58411bbdad13a80e385ea62f462c72126b012ee6b6e857650b4de",
+        "device": 64517,
+        "members": 14,
+        "all_members_verified": true
+      }
+    ],
+    "files": 14
+  },
+  "files": {
+    "experiments/openexempt_fixed_train_control.py": {
+      "sha256": "047ef2a4f5b282e996bb8d54a5220ad2119814e601923bfac8a18aed96af9f5d",
+      "bytes": 14638
+    },
+    "configs/openexempt_fixed_static_train128_20261022_run01.json": {
+      "sha256": "8489cc82b133e97c03cbbcafa22bcc09995d160047a60e79e38980d4108d0ea7",
+      "bytes": 2533
+    },
+    "configs/openexempt_fixed_static_train128_20261022_run01.frozen.json": {
+      "sha256": "98d221c2faa64cab5c76375aad1db4c4e848884630fae1c97544189d04230a2e",
+      "bytes": 63704
+    },
+    "tests/test_openexempt_fixed_train_control.py": {
+      "sha256": "028413a27d80c152eb6a12320b2874cea655674e1d3261cd80da65fe422f0f67",
+      "bytes": 5921
+    },
+    "docs/research/OPENEXEMPT_FIXED_STATIC_TRAIN_CONTROL_20261022.md": {
+      "sha256": "1aee20855fc6029a9cfa9e94096b6d4db58a13e0705f18f92724ee602870f029",
+      "bytes": 3174
+    },
+    "artifacts/launches/openexempt_fixed_static_train128_20261022_run01/after_ACE.sh": {
+      "sha256": "ac5f66ccb4946acd38ab1a29c68a87991bae98e4fa7e15b208e906784916aa4a",
+      "bytes": 538
+    },
+    "artifacts/research/openexempt_legal_scope_20261020/Fixed_static_TRAIN128_unit705766_live_waiting_after_ACE_no_model_calls_20261022.json": {
+      "sha256": "050572787ed0a8def88abbd98d17895a41ce0cb8b7c45bc5d2d9180e77577e7d",
+      "bytes": 7047
+    },
+    "artifacts/research/openexempt_legal_scope_20261020/Fixed_static_TRAIN128_full256_control400_source402_dual_frozen_unstarted_and_active_ACE377_unchanged_20261022.json": {
+      "sha256": "ee8cbe7812109e853300062d78aef051a0cb23af381c6474f5069d0d52abdd96",
+      "bytes": 9601
+    },
+    "docs/CURRENT_GOAL.md": {
+      "sha256": "1dd45084bb5f0079bb22edc77afbdae08d3c903c74bd770faf185049033bcfc4",
+      "bytes": 44785
+    },
+    "paper/evidence_and_completion_20261020.md": {
+      "sha256": "d065c8e8f27d469309c9f9868fb8b2b7a31aafc5929f6efa4163270b25f1a30a",
+      "bytes": 105512
+    },
+    "paper/manuscript_v1_20261021.md": {
+      "sha256": "3fc606071c25cd00c4538c013eede3d602bd72c2491ebc5cf07d6e66ba545f07",
+      "bytes": 57138
+    },
+    "paper/appendix_experimental_details_20261022.md": {
+      "sha256": "8bd17dc3148394373aaa214d2d97aef566c04c897b40a9893ca2092f9756ab41",
+      "bytes": 21484
+    },
+    "artifacts/research/openexempt_legal_scope_20261020/hourly2130_ACEv3_Run02_actual_new_handles377_original_model_and_direction_review_20261022.json": {
+      "sha256": "3370e7f468fb8564a06174c68eb692553644b6c64b419c9e990492bbfca7362f",
+      "bytes": 21775
+    },
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv3_Run02_B2_actual12_1214_all32TRAIN107native50teacher_appendixD29b7653_full_dual_preservation_20261022.json": {
+      "sha256": "9288e3e5643e932282477fbb2d9f9681d90d2507a56b6348a11364e73d2e6158",
+      "bytes": 248007
+    }
+  },
+  "no_new_model_teacher_or_TEST_calls": true,
+  "original_v04_body_and_appendix_not_edited": true,
+  "program": "import hashlib,json,os,subprocess,tarfile\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom experiments.openexempt_online import preserve\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nrun=\"legal_openexempt_fixed_static_train128_20261022_run01\"\nunit=\"legal-openexempt-fixed-static-train128-20261022-run01.service\"\nprops=subprocess.check_output([\"systemctl\",\"--user\",\"show\",unit,\"--property=MainPID,ActiveState,SubState\"],text=True)\nassert \"MainPID=705766\" in props and \"ActiveState=active\" in props and \"SubState=running\" in props\nassert not (root/\"runs\"/run).exists()\nnames=[\n\"experiments/openexempt_fixed_train_control.py\",\n\"configs/openexempt_fixed_static_train128_20261022_run01.json\",\n\"configs/openexempt_fixed_static_train128_20261022_run01.frozen.json\",\n\"tests/test_openexempt_fixed_train_control.py\",\n\"docs/research/OPENEXEMPT_FIXED_STATIC_TRAIN_CONTROL_20261022.md\",\n\"artifacts/launches/openexempt_fixed_static_train128_20261022_run01/after_ACE.sh\",\n\"artifacts/research/openexempt_legal_scope_20261020/Fixed_static_TRAIN128_unit705766_live_waiting_after_ACE_no_model_calls_20261022.json\",\n\"artifacts/research/openexempt_legal_scope_20261020/Fixed_static_TRAIN128_full256_control400_source402_dual_frozen_unstarted_and_active_ACE377_unchanged_20261022.json\",\n\"docs/CURRENT_GOAL.md\",\"paper/evidence_and_completion_20261020.md\",\n\"paper/manuscript_v1_20261021.md\",\"paper/appendix_experimental_details_20261022.md\",\n\"artifacts/research/openexempt_legal_scope_20261020/hourly2130_ACEv3_Run02_actual_new_handles377_original_model_and_direction_review_20261022.json\",\n\"artifacts/research/openexempt_legal_scope_20261020/ACEv3_Run02_B2_actual12_1214_all32TRAIN107native50teacher_appendixD29b7653_full_dual_preservation_20261022.json\"]\nassert len(names)==len(set(names))==14\nfiles={n:{\"sha256\":hashlib.sha256((root/n).read_bytes()).hexdigest(),\"bytes\":(root/n).stat().st_size} for n in names}\nenv=dict(os.environ,GIT_EXEC_PATH=\"/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/lib/git-core\")\ngit=\"/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/bin/git\"\nhead=subprocess.check_output([git,\"rev-parse\",\"HEAD\"],env=env,text=True).strip();assert head.startswith(\"894946b\")\nassert subprocess.check_output([git,\"status\",\"--porcelain\",\"--untracked-files=no\"],env=env,text=True)==\"\"\nsaved=preserve(run,\"queued_waiting705766_launcher_indexes894946b_20261022\",names)\nfor item in saved[\"paths\"]:\n p=Path(item[\"path\"]);item[\"device\"]=p.stat().st_dev;item[\"members\"]=14\n with tarfile.open(p,\"r:gz\") as tar:\n  assert tar.getnames()==sorted(names)\n  for n in names:\n   f=tar.extractfile(n);assert f is not None and hashlib.sha256(f.read()).hexdigest()==files[n][\"sha256\"]\n item[\"all_members_verified\"]=True\nassert saved[\"paths\"][0][\"device\"]!=saved[\"paths\"][1][\"device\"]\nout={\"at\":datetime.now(timezone.utc).isoformat(),\"classification\":\"Queued waiting-phase shell, exact frozen control metadata/source subset and current experiment indexes preserved on both disks; static inference has not started. Not fullproject or live ACE snapshot.\",\n\"root_commit\":head,\"worker_implementation\":\"6b128a8\",\"unit\":unit,\"waiting_PID\":705766,\"static_run_directory_absent\":True,\n\"source400_full402archives_already_preserved\":True,\"current_tracked_worktree_clean\":True,\n\"preservation\":saved,\"files\":files,\"no_new_model_teacher_or_TEST_calls\":True,\n\"original_v04_body_and_appendix_not_edited\":True,\"program\":PROGRAM}\ndest=base/\"Fixed_static_TRAIN128400_queued_waiting705766_launcher_current_indexes894946b_dual_preservation_20261022.json\"\nRunStore.immutable_json(dest,out);rb=dest.read_bytes()\nfor item in saved[\"paths\"]:\n p=Path(item[\"path\"]).parent/dest.name\n with p.open(\"xb\") as f:f.write(rb)\n assert p.read_bytes()==rb\nprint(json.dumps({\"receipt\":str(dest.relative_to(root)),\"root_commit\":head,\"copies\":saved[\"paths\"],\"static_state\":\"WAITING_NOT_GENERATING\",\"tracked_clean\":True,\"TEST_unread\":True},ensure_ascii=False))\n"
+}

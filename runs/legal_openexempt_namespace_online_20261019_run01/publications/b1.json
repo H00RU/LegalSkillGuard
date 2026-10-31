@@ -1,0 +1,2096 @@
+{
+  "at": "2026-10-19T15:46:03.133937+00:00",
+  "bank": [
+    {
+      "id": "scheme_selection_and_ev",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Always apply before classifying assets. Use only jurisdictions already declared allowable in the facts or public prior.",
+        "procedure": "Enumerate every eligible asset-citation alternative, not a final portfolio. Federal section 522(d) and applicable state/local exemptions are alternative schemes under 11 U.S.C. § 522(b); joint debtors cannot split schemes. Arizona and Illinois expressly prohibit section 522(d); do not infer another state's opt-out. For EV, assess each asset-citation pair independently, preserve the exact asset name/value and citation, and use null only when this bank publishes an operator for that citation. Aggregate caps remain legal constraints even though the task does not allocate them across assets. N is 1 or 2 debtors; spouse multiplication applies only where the supplied text supports separate exemptions.",
+        "avoid_when": "Do not recompute domicile or allowable jurisdictions, mix elected schemes into one portfolio, add claims together, infer eligibility from an operator, or treat an aggregate ceiling as a per-item entitlement.",
+        "operators": [],
+        "jurisdiction": "ALL"
+      }
+    },
+    {
+      "id": "federal_522d",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use only when the public solved step allows the federal section 522(d) scheme.",
+        "procedure": "Classify before valuing. For every asset, first add § 522(d)(5), because it is an independent any-property alternative. Then add every specific match: (d)(1) residence or burial plot; (d)(2) motor vehicle; (d)(3) listed personal or household property, including animals, apparel and ordinary household goods; (d)(4) personal or family jewelry; (d)(6) trade items only when facts establish trade use; and (d)(9) professionally prescribed health aids. Do not infer trade use merely from an object's name: under the supplied personal-use assumption, an ordinary household toolbox can fall under (d)(3). Use inline unlimited for (d)(9). For one jointly owned vehicle, the (d)(2) ceiling is 4450, and for one particular (d)(3) item the ceiling is 700; do not multiply those item ceilings by N. A qualifying (d)(3) collection instead has the 14875*N aggregate ceiling. The maximum independent (d)(5) alternative is 15425*N; use a smaller supported inline ceiling if the facts specify that some (d)(1) amount was used.",
+        "avoid_when": "Do not use federal exemptions where the supplied allowable framework excludes them, omit (d)(5) merely because a specific exemption applies, infer (d)(6) from the physical form of an item without trade-use facts, or multiply the one-vehicle or particular-item ceiling by the debtor count.",
+        "operators": [
+          {
+            "id": "fed_home",
+            "citation": "11 U.S.C. § 522(d)(1)",
+            "limit_expression": "min(V,27900*N)"
+          },
+          {
+            "id": "fed_vehicle",
+            "citation": "11 U.S.C. § 522(d)(2)",
+            "limit_expression": "min(V,4450)"
+          },
+          {
+            "id": "fed_household_item",
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "limit_expression": "min(V,700)"
+          },
+          {
+            "id": "fed_jewelry",
+            "citation": "11 U.S.C. § 522(d)(4)",
+            "limit_expression": "min(V,1875*N)"
+          },
+          {
+            "id": "fed_wildcard_max",
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "limit_expression": "min(V,15425*N)"
+          },
+          {
+            "id": "fed_tools",
+            "citation": "11 U.S.C. § 522(d)(6)",
+            "limit_expression": "min(V,2800*N)"
+          }
+        ],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "arizona_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Arizona law.",
+        "procedure": "Classify before valuing. Use § 33-1123 for personally used household furniture, furnishings, household goods, consumer electronics and appliances not specifically prescribed elsewhere; ordinary decorative household objects, household tables and clocks remain in this residual category. Use § 33-1125(8), and no neighboring paragraph, for one motor vehicle. For a single jointly owned vehicle, apply the 15000 ceiling once rather than multiplying it by N. Use the other § 33-1125 numbered paragraphs only for their expressly listed property. Use inline unlimited for eligible prescribed prostheses under (9) and domestic animals or household pets under (11). Section 33-1121 permits spouse combination for applicable article exemptions, but the one-vehicle operation published here remains min(V,15000).",
+        "avoid_when": "Do not classify a motor vehicle as a musical instrument or prosthesis, multiply the one-vehicle ceiling by the debtor count, send ordinary household decor to farm or trade provisions, use § 33-1123 for property specifically prescribed elsewhere, or infer business use without supporting facts.",
+        "operators": [
+          {
+            "id": "az_home",
+            "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+            "limit_expression": "min(V,400000)"
+          },
+          {
+            "id": "az_home_proceeds",
+            "citation": "Ariz. Rev. Stat. § 33-1101(C)",
+            "limit_expression": "min(V,400000)"
+          },
+          {
+            "id": "az_household",
+            "citation": "Ariz. Rev. Stat. § 33-1123",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "az_apparel",
+            "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+            "limit_expression": "min(V,500*N)"
+          },
+          {
+            "id": "az_instruments",
+            "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+            "limit_expression": "min(V,400*N)"
+          },
+          {
+            "id": "az_livestock",
+            "citation": "Ariz. Rev. Stat. § 33-1125(3)",
+            "limit_expression": "min(V,1000*N)"
+          },
+          {
+            "id": "az_rings",
+            "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+            "limit_expression": "min(V,2000*N)"
+          },
+          {
+            "id": "az_library",
+            "citation": "Ariz. Rev. Stat. § 33-1125(5)",
+            "limit_expression": "min(V,250*N)"
+          },
+          {
+            "id": "az_watch",
+            "citation": "Ariz. Rev. Stat. § 33-1125(6)",
+            "limit_expression": "min(V,250*N)"
+          },
+          {
+            "id": "az_vehicle",
+            "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+            "limit_expression": "min(V,15000)"
+          },
+          {
+            "id": "az_firearms",
+            "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+            "limit_expression": "min(V,2000*N)"
+          },
+          {
+            "id": "az_account",
+            "citation": "Ariz. Rev. Stat. § 33-1126(A)(9)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "az_trade_tools",
+            "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "az_farm_property",
+            "citation": "Ariz. Rev. Stat. § 33-1130(2)",
+            "limit_expression": "min(V,2500*N)"
+          }
+        ],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "illinois_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Illinois law.",
+        "procedure": "Classify before valuing. For every personal-use asset, first add § 12-1001(b), the residual alternative for any other property, even when a specific paragraph also applies. Then add each specific match: (a) necessary apparel, Bible, school books or family pictures; (c) one motor vehicle; (d) implements, professional books or tools only when facts establish trade use; and (e) professionally prescribed health aids. Thus a personal-use motor vehicle receives both (b) and (c). Use inline unlimited for eligible (a) and (e). Apply § 12-901 only to an occupied residence interest and § 12-906 only to qualifying sale proceeds.",
+        "avoid_when": "Do not omit (b) when a specific alternative exists, treat decorative or personal household property as trade property, infer trade use from an item's form, use homestead provisions for a vehicle, or apply these personal-property exemptions to stated business property.",
+        "operators": [
+          {
+            "id": "il_home",
+            "citation": "735 Ill. Comp. Stat. 5/12-901",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "il_home_proceeds",
+            "citation": "735 Ill. Comp. Stat. 5/12-906",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "il_residual",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "limit_expression": "min(V,4000*N)"
+          },
+          {
+            "id": "il_vehicle",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+            "limit_expression": "min(V,2400*N)"
+          },
+          {
+            "id": "il_tools",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+            "limit_expression": "min(V,1500*N)"
+          }
+        ],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "oregon_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Oregon law. Classify under the exact categories in 18.345, the personal-property residual, one qualifying firearm per person, or the occupied homestead and qualifying proceeds.",
+        "procedure": "For joint household judgment debtors, only 18.345(1)(a),(b),(c),(d),(p) are separately claimable and combinable, hence their N formulas; (e),(f),(h) are not doubled by 18.345(3). For 18.345(1)(e), write inline min(V,1000) for animals/poultry but unlimited for eligible 60-day food. For (f), write min(V,3000) for household goods and unlimited for eligible 60-day provisions or fuel. Prescribed health aids use unlimited. The homestead routine uses the special combined 50000 ceiling for two household debtors; the same ceiling governs qualifying one-year proceeds intended for another homestead.",
+        "avoid_when": "Do not double categories omitted from 18.345(3), disregard necessity or habitual-earnings requirements for tools, claim more than one qualifying firearm per person, or use the two-debtor homestead ceiling unless both household members' interests are exposed.",
+        "operators": [
+          {
+            "id": "or_books_music",
+            "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+            "limit_expression": "min(V,600*N)"
+          },
+          {
+            "id": "or_apparel_jewelry",
+            "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+            "limit_expression": "min(V,1800*N)"
+          },
+          {
+            "id": "or_tools",
+            "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "or_vehicle",
+            "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+            "limit_expression": "min(V,3000*N)"
+          },
+          {
+            "id": "or_residual",
+            "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+            "limit_expression": "min(V,400*N)"
+          },
+          {
+            "id": "or_firearm",
+            "citation": "Or. Rev. Stat. § 18.362",
+            "limit_expression": "min(V,1000*N)"
+          },
+          {
+            "id": "or_home",
+            "citation": "Or. Rev. Stat. § 18.395(1)",
+            "limit_expression": "min(V,50000 if N==2 else 40000)"
+          },
+          {
+            "id": "or_home_proceeds",
+            "citation": "Or. Rev. Stat. § 18.395(2)",
+            "limit_expression": "min(V,50000 if N==2 else 40000)"
+          }
+        ],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "pennsylvania_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Pennsylvania law.",
+        "procedure": "For each asset, first add § 8123 as an independent general-property alternative and value it at min(V,300*N). Then add every applicable § 8124(a) alternative: (a)(1) wearing apparel, (a)(2) Bibles or school books, (a)(3) a qualifying family or seamstress sewing machine, and (a)(4) a qualifying military uniform or accoutrement. The § 8124 alternatives have no dollar ceiling, so use inline unlimited. Keep the exact numbered paragraph; do not substitute a neighboring paragraph.",
+        "avoid_when": "Do not omit § 8123 because a specific exemption applies, confuse wearing apparel with Bibles or school books, or apply a § 8124 category without its stated ownership, use, occupation or military condition.",
+        "operators": [
+          {
+            "id": "pa_general",
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "limit_expression": "min(V,300*N)"
+          }
+        ],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    },
+    {
+      "id": "wisconsin_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "when": "Use for allowable Wisconsin law: burial property; business/farm assets or the alternative closely held business interest; listed consumer goods; motor vehicles; personal nonbusiness depository accounts; and an occupied homestead or protected proceeds.",
+        "procedure": "Section 815.18(8) gives each spouse one capped exemption that may be combined, reflected by N. Business-interest paragraph (b)(2) is available only if (b)(1) is not claimed. Consumer goods have a 12000 aggregate cap per spouse. Motor vehicles have a 4000 base per spouse plus unused consumer-goods capacity; the routine gives the maximum independent ceiling of 16000 per spouse. If less consumer capacity remains, calculate a supported numeric expression inline. Burial property has no dollar ceiling and uses inline unlimited. Section 815.20 expressly allows each spouse 75000; protected sale proceeds keep that ceiling for two years while intended for another homestead.",
+        "avoid_when": "Do not claim both business alternatives, use a business account under (k), treat the transferred consumer-goods amount as available twice in a portfolio, classify a motor vehicle under the general consumer-goods residual instead of (g), or ignore occupancy, proceeds-intent, lien, tax, aggregate, or primary-use conditions.",
+        "operators": [
+          {
+            "id": "wi_business_assets",
+            "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "wi_business_interest",
+            "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+            "limit_expression": "min(V,15000*N)"
+          },
+          {
+            "id": "wi_consumer_goods",
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "limit_expression": "min(V,12000*N)"
+          },
+          {
+            "id": "wi_vehicle_max",
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "limit_expression": "min(V,16000*N)"
+          },
+          {
+            "id": "wi_accounts",
+            "citation": "Wis. Stat. § 815.18(3)(k)",
+            "limit_expression": "min(V,5000*N)"
+          },
+          {
+            "id": "wi_home",
+            "citation": "Wis. Stat. § 815.20(1)",
+            "limit_expression": "min(V,75000*N)"
+          }
+        ],
+        "jurisdiction": "WISCONSIN"
+      }
+    }
+  ],
+  "parent_bank_sha256": "f6549092d1c1fb3bd5ce01a3d0a53f109a6abb3ad3987580b9cf9ffc3f72353f",
+  "bank_sha256": "19123376f8824fbae12af76ab97620c455f4f7d47c077aa2a245e6d6cf1a96c8",
+  "training_decisions": [
+    {
+      "accepted": true,
+      "current_family_nonregression": true,
+      "prior_family_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "parent_current": {
+        "EC": {
+          "precision": 0.75,
+          "recall": 0.5520833333333334,
+          "f1": 0.6201388888888889,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0
+        },
+        "EV": {
+          "precision": 0.5208333333333333,
+          "recall": 0.35416666666666663,
+          "f1": 0.40555555555555556,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.41775210084033615
+        },
+        "mean_family_f1": 0.5128472222222222
+      },
+      "candidate_current": {
+        "EC": {
+          "precision": 0.8333333333333334,
+          "recall": 0.5520833333333333,
+          "f1": 0.6409722222222223,
+          "exact_target": 0.0,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0
+        },
+        "EV": {
+          "precision": 0.7395833333333333,
+          "recall": 0.5798611111111112,
+          "f1": 0.6388888888888888,
+          "exact_target": 0.25,
+          "tasks": 4,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 2,
+          "full_output_f1": 0.6511904761904762
+        },
+        "mean_family_f1": 0.6399305555555556
+      },
+      "parent_prior": {
+        "mean_family_f1": 0
+      },
+      "candidate_prior": {
+        "mean_family_f1": 0
+      },
+      "TRAIN_optimization_not_independent_validation": true,
+      "candidate": [
+        {
+          "id": "scheme_selection_and_ev",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Always apply before classifying assets. Use only jurisdictions already declared allowable in the facts or public prior.",
+            "procedure": "Enumerate every eligible asset-citation alternative, not a final portfolio. Federal section 522(d) and applicable state/local exemptions are alternative schemes under 11 U.S.C. § 522(b); joint debtors cannot split schemes. Arizona and Illinois expressly prohibit section 522(d); do not infer another state's opt-out. For EV, assess each asset-citation pair independently, preserve the exact asset name/value and citation, and use null only when this bank publishes an operator for that citation. Aggregate caps remain legal constraints even though the task does not allocate them across assets. N is 1 or 2 debtors; spouse multiplication applies only where the supplied text supports separate exemptions.",
+            "avoid_when": "Do not recompute domicile or allowable jurisdictions, mix elected schemes into one portfolio, add claims together, infer eligibility from an operator, or treat an aggregate ceiling as a per-item entitlement.",
+            "operators": [],
+            "jurisdiction": "ALL"
+          }
+        },
+        {
+          "id": "federal_522d",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use only when the public solved step allows the federal section 522(d) scheme.",
+            "procedure": "Classify before valuing. For every asset, first add § 522(d)(5), because it is an independent any-property alternative. Then add every specific match: (d)(1) residence or burial plot; (d)(2) motor vehicle; (d)(3) listed personal or household property, including animals, apparel and ordinary household goods; (d)(4) personal or family jewelry; (d)(6) trade items only when facts establish trade use; and (d)(9) professionally prescribed health aids. Do not infer trade use merely from an object's name: under the supplied personal-use assumption, an ordinary household toolbox can fall under (d)(3). Use inline unlimited for (d)(9). For one jointly owned vehicle, the (d)(2) ceiling is 4450, and for one particular (d)(3) item the ceiling is 700; do not multiply those item ceilings by N. A qualifying (d)(3) collection instead has the 14875*N aggregate ceiling. The maximum independent (d)(5) alternative is 15425*N; use a smaller supported inline ceiling if the facts specify that some (d)(1) amount was used.",
+            "avoid_when": "Do not use federal exemptions where the supplied allowable framework excludes them, omit (d)(5) merely because a specific exemption applies, infer (d)(6) from the physical form of an item without trade-use facts, or multiply the one-vehicle or particular-item ceiling by the debtor count.",
+            "operators": [
+              {
+                "id": "fed_home",
+                "citation": "11 U.S.C. § 522(d)(1)",
+                "limit_expression": "min(V,27900*N)"
+              },
+              {
+                "id": "fed_vehicle",
+                "citation": "11 U.S.C. § 522(d)(2)",
+                "limit_expression": "min(V,4450)"
+              },
+              {
+                "id": "fed_household_item",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "limit_expression": "min(V,700)"
+              },
+              {
+                "id": "fed_jewelry",
+                "citation": "11 U.S.C. § 522(d)(4)",
+                "limit_expression": "min(V,1875*N)"
+              },
+              {
+                "id": "fed_wildcard_max",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "limit_expression": "min(V,15425*N)"
+              },
+              {
+                "id": "fed_tools",
+                "citation": "11 U.S.C. § 522(d)(6)",
+                "limit_expression": "min(V,2800*N)"
+              }
+            ],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        {
+          "id": "arizona_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Arizona law.",
+            "procedure": "Classify before valuing. Use § 33-1123 for personally used household furniture, furnishings, household goods, consumer electronics and appliances not specifically prescribed elsewhere; ordinary decorative household objects, household tables and clocks remain in this residual category. Use § 33-1125(8), and no neighboring paragraph, for one motor vehicle. For a single jointly owned vehicle, apply the 15000 ceiling once rather than multiplying it by N. Use the other § 33-1125 numbered paragraphs only for their expressly listed property. Use inline unlimited for eligible prescribed prostheses under (9) and domestic animals or household pets under (11). Section 33-1121 permits spouse combination for applicable article exemptions, but the one-vehicle operation published here remains min(V,15000).",
+            "avoid_when": "Do not classify a motor vehicle as a musical instrument or prosthesis, multiply the one-vehicle ceiling by the debtor count, send ordinary household decor to farm or trade provisions, use § 33-1123 for property specifically prescribed elsewhere, or infer business use without supporting facts.",
+            "operators": [
+              {
+                "id": "az_home",
+                "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+                "limit_expression": "min(V,400000)"
+              },
+              {
+                "id": "az_home_proceeds",
+                "citation": "Ariz. Rev. Stat. § 33-1101(C)",
+                "limit_expression": "min(V,400000)"
+              },
+              {
+                "id": "az_household",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "az_apparel",
+                "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                "limit_expression": "min(V,500*N)"
+              },
+              {
+                "id": "az_instruments",
+                "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+                "limit_expression": "min(V,400*N)"
+              },
+              {
+                "id": "az_livestock",
+                "citation": "Ariz. Rev. Stat. § 33-1125(3)",
+                "limit_expression": "min(V,1000*N)"
+              },
+              {
+                "id": "az_rings",
+                "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                "limit_expression": "min(V,2000*N)"
+              },
+              {
+                "id": "az_library",
+                "citation": "Ariz. Rev. Stat. § 33-1125(5)",
+                "limit_expression": "min(V,250*N)"
+              },
+              {
+                "id": "az_watch",
+                "citation": "Ariz. Rev. Stat. § 33-1125(6)",
+                "limit_expression": "min(V,250*N)"
+              },
+              {
+                "id": "az_vehicle",
+                "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                "limit_expression": "min(V,15000)"
+              },
+              {
+                "id": "az_firearms",
+                "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                "limit_expression": "min(V,2000*N)"
+              },
+              {
+                "id": "az_account",
+                "citation": "Ariz. Rev. Stat. § 33-1126(A)(9)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "az_trade_tools",
+                "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "az_farm_property",
+                "citation": "Ariz. Rev. Stat. § 33-1130(2)",
+                "limit_expression": "min(V,2500*N)"
+              }
+            ],
+            "jurisdiction": "ARIZONA"
+          }
+        },
+        {
+          "id": "illinois_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Illinois law.",
+            "procedure": "Classify before valuing. For every personal-use asset, first add § 12-1001(b), the residual alternative for any other property, even when a specific paragraph also applies. Then add each specific match: (a) necessary apparel, Bible, school books or family pictures; (c) one motor vehicle; (d) implements, professional books or tools only when facts establish trade use; and (e) professionally prescribed health aids. Thus a personal-use motor vehicle receives both (b) and (c). Use inline unlimited for eligible (a) and (e). Apply § 12-901 only to an occupied residence interest and § 12-906 only to qualifying sale proceeds.",
+            "avoid_when": "Do not omit (b) when a specific alternative exists, treat decorative or personal household property as trade property, infer trade use from an item's form, use homestead provisions for a vehicle, or apply these personal-property exemptions to stated business property.",
+            "operators": [
+              {
+                "id": "il_home",
+                "citation": "735 Ill. Comp. Stat. 5/12-901",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "il_home_proceeds",
+                "citation": "735 Ill. Comp. Stat. 5/12-906",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "il_residual",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "limit_expression": "min(V,4000*N)"
+              },
+              {
+                "id": "il_vehicle",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                "limit_expression": "min(V,2400*N)"
+              },
+              {
+                "id": "il_tools",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                "limit_expression": "min(V,1500*N)"
+              }
+            ],
+            "jurisdiction": "ILLINOIS"
+          }
+        },
+        {
+          "id": "oregon_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Oregon law. Classify under the exact categories in 18.345, the personal-property residual, one qualifying firearm per person, or the occupied homestead and qualifying proceeds.",
+            "procedure": "For joint household judgment debtors, only 18.345(1)(a),(b),(c),(d),(p) are separately claimable and combinable, hence their N formulas; (e),(f),(h) are not doubled by 18.345(3). For 18.345(1)(e), write inline min(V,1000) for animals/poultry but unlimited for eligible 60-day food. For (f), write min(V,3000) for household goods and unlimited for eligible 60-day provisions or fuel. Prescribed health aids use unlimited. The homestead routine uses the special combined 50000 ceiling for two household debtors; the same ceiling governs qualifying one-year proceeds intended for another homestead.",
+            "avoid_when": "Do not double categories omitted from 18.345(3), disregard necessity or habitual-earnings requirements for tools, claim more than one qualifying firearm per person, or use the two-debtor homestead ceiling unless both household members' interests are exposed.",
+            "operators": [
+              {
+                "id": "or_books_music",
+                "citation": "Or. Rev. Stat. § 18.345(1)(a)",
+                "limit_expression": "min(V,600*N)"
+              },
+              {
+                "id": "or_apparel_jewelry",
+                "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                "limit_expression": "min(V,1800*N)"
+              },
+              {
+                "id": "or_tools",
+                "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "or_vehicle",
+                "citation": "Or. Rev. Stat. § 18.345(1)(d)",
+                "limit_expression": "min(V,3000*N)"
+              },
+              {
+                "id": "or_residual",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "limit_expression": "min(V,400*N)"
+              },
+              {
+                "id": "or_firearm",
+                "citation": "Or. Rev. Stat. § 18.362",
+                "limit_expression": "min(V,1000*N)"
+              },
+              {
+                "id": "or_home",
+                "citation": "Or. Rev. Stat. § 18.395(1)",
+                "limit_expression": "min(V,50000 if N==2 else 40000)"
+              },
+              {
+                "id": "or_home_proceeds",
+                "citation": "Or. Rev. Stat. § 18.395(2)",
+                "limit_expression": "min(V,50000 if N==2 else 40000)"
+              }
+            ],
+            "jurisdiction": "OREGON"
+          }
+        },
+        {
+          "id": "pennsylvania_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Pennsylvania law.",
+            "procedure": "For each asset, first add § 8123 as an independent general-property alternative and value it at min(V,300*N). Then add every applicable § 8124(a) alternative: (a)(1) wearing apparel, (a)(2) Bibles or school books, (a)(3) a qualifying family or seamstress sewing machine, and (a)(4) a qualifying military uniform or accoutrement. The § 8124 alternatives have no dollar ceiling, so use inline unlimited. Keep the exact numbered paragraph; do not substitute a neighboring paragraph.",
+            "avoid_when": "Do not omit § 8123 because a specific exemption applies, confuse wearing apparel with Bibles or school books, or apply a § 8124 category without its stated ownership, use, occupation or military condition.",
+            "operators": [
+              {
+                "id": "pa_general",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "limit_expression": "min(V,300*N)"
+              }
+            ],
+            "jurisdiction": "PENNSYLVANIA"
+          }
+        },
+        {
+          "id": "wisconsin_exemptions",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "when": "Use for allowable Wisconsin law: burial property; business/farm assets or the alternative closely held business interest; listed consumer goods; motor vehicles; personal nonbusiness depository accounts; and an occupied homestead or protected proceeds.",
+            "procedure": "Section 815.18(8) gives each spouse one capped exemption that may be combined, reflected by N. Business-interest paragraph (b)(2) is available only if (b)(1) is not claimed. Consumer goods have a 12000 aggregate cap per spouse. Motor vehicles have a 4000 base per spouse plus unused consumer-goods capacity; the routine gives the maximum independent ceiling of 16000 per spouse. If less consumer capacity remains, calculate a supported numeric expression inline. Burial property has no dollar ceiling and uses inline unlimited. Section 815.20 expressly allows each spouse 75000; protected sale proceeds keep that ceiling for two years while intended for another homestead.",
+            "avoid_when": "Do not claim both business alternatives, use a business account under (k), treat the transferred consumer-goods amount as available twice in a portfolio, classify a motor vehicle under the general consumer-goods residual instead of (g), or ignore occupancy, proceeds-intent, lien, tax, aggregate, or primary-use conditions.",
+            "operators": [
+              {
+                "id": "wi_business_assets",
+                "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "wi_business_interest",
+                "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+                "limit_expression": "min(V,15000*N)"
+              },
+              {
+                "id": "wi_consumer_goods",
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "limit_expression": "min(V,12000*N)"
+              },
+              {
+                "id": "wi_vehicle_max",
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "limit_expression": "min(V,16000*N)"
+              },
+              {
+                "id": "wi_accounts",
+                "citation": "Wis. Stat. § 815.18(3)(k)",
+                "limit_expression": "min(V,5000*N)"
+              },
+              {
+                "id": "wi_home",
+                "citation": "Wis. Stat. § 815.20(1)",
+                "limit_expression": "min(V,75000*N)"
+              }
+            ],
+            "jurisdiction": "WISCONSIN"
+          }
+        }
+      ],
+      "delta": {
+        "operations": [
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "federal_522d"
+            ],
+            "skill": {
+              "id": "federal_522d",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Use only when the public solved step allows the federal section 522(d) scheme.",
+                "procedure": "Classify before valuing. For every asset, first add § 522(d)(5), because it is an independent any-property alternative. Then add every specific match: (d)(1) residence or burial plot; (d)(2) motor vehicle; (d)(3) listed personal or household property, including animals, apparel and ordinary household goods; (d)(4) personal or family jewelry; (d)(6) trade items only when facts establish trade use; and (d)(9) professionally prescribed health aids. Do not infer trade use merely from an object's name: under the supplied personal-use assumption, an ordinary household toolbox can fall under (d)(3). Use inline unlimited for (d)(9). For one jointly owned vehicle, the (d)(2) ceiling is 4450, and for one particular (d)(3) item the ceiling is 700; do not multiply those item ceilings by N. A qualifying (d)(3) collection instead has the 14875*N aggregate ceiling. The maximum independent (d)(5) alternative is 15425*N; use a smaller supported inline ceiling if the facts specify that some (d)(1) amount was used.",
+                "avoid_when": "Do not use federal exemptions where the supplied allowable framework excludes them, omit (d)(5) merely because a specific exemption applies, infer (d)(6) from the physical form of an item without trade-use facts, or multiply the one-vehicle or particular-item ceiling by the debtor count.",
+                "operators": [
+                  {
+                    "id": "fed_home",
+                    "citation": "11 U.S.C. § 522(d)(1)",
+                    "limit_expression": "min(V,27900*N)"
+                  },
+                  {
+                    "id": "fed_vehicle",
+                    "citation": "11 U.S.C. § 522(d)(2)",
+                    "limit_expression": "min(V,4450)"
+                  },
+                  {
+                    "id": "fed_household_item",
+                    "citation": "11 U.S.C. § 522(d)(3)",
+                    "limit_expression": "min(V,700)"
+                  },
+                  {
+                    "id": "fed_jewelry",
+                    "citation": "11 U.S.C. § 522(d)(4)",
+                    "limit_expression": "min(V,1875*N)"
+                  },
+                  {
+                    "id": "fed_wildcard_max",
+                    "citation": "11 U.S.C. § 522(d)(5)",
+                    "limit_expression": "min(V,15425*N)"
+                  },
+                  {
+                    "id": "fed_tools",
+                    "citation": "11 U.S.C. § 522(d)(6)",
+                    "limit_expression": "min(V,2800*N)"
+                  }
+                ],
+                "jurisdiction": "FEDERAL"
+              }
+            },
+            "source_case_ids": [
+              29,
+              30
+            ],
+            "rationale": "Cases 29 and 30 show repeated omission of the any-property wildcard. Case 29 also directly shows that multiplying the federal one-vehicle and particular-item ceilings by two produced 8900 and 1400 instead of the target 4450 and 700. Case 30 shows that object form alone caused a false trade-tools claim and that ordinary personal household property still required (d)(3). The ordered classification pass adds missing alternatives while suppressing the observed false extra claim."
+          },
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "pennsylvania_exemptions"
+            ],
+            "skill": {
+              "id": "pennsylvania_exemptions",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Use for allowable Pennsylvania law.",
+                "procedure": "For each asset, first add § 8123 as an independent general-property alternative and value it at min(V,300*N). Then add every applicable § 8124(a) alternative: (a)(1) wearing apparel, (a)(2) Bibles or school books, (a)(3) a qualifying family or seamstress sewing machine, and (a)(4) a qualifying military uniform or accoutrement. The § 8124 alternatives have no dollar ceiling, so use inline unlimited. Keep the exact numbered paragraph; do not substitute a neighboring paragraph.",
+                "avoid_when": "Do not omit § 8123 because a specific exemption applies, confuse wearing apparel with Bibles or school books, or apply a § 8124 category without its stated ownership, use, occupation or military condition.",
+                "operators": [
+                  {
+                    "id": "pa_general",
+                    "citation": "42 Pa. Cons. Stat. § 8123",
+                    "limit_expression": "min(V,300*N)"
+                  }
+                ],
+                "jurisdiction": "PENNSYLVANIA"
+              }
+            },
+            "source_case_ids": [
+              30
+            ],
+            "rationale": "In case 30 the parent omitted § 8123 from every asset and selected § 8124(a)(2) rather than the wearing-apparel paragraph for apparel. The empty-library answer correctly identified (a)(1), confirming that the parent's more elaborate guidance was harmful on that distinction. This replacement makes the general exemption a first-pass operation and fixes the sibling-paragraph selection rule."
+          },
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "illinois_exemptions"
+            ],
+            "skill": {
+              "id": "illinois_exemptions",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Use for allowable Illinois law.",
+                "procedure": "Classify before valuing. For every personal-use asset, first add § 12-1001(b), the residual alternative for any other property, even when a specific paragraph also applies. Then add each specific match: (a) necessary apparel, Bible, school books or family pictures; (c) one motor vehicle; (d) implements, professional books or tools only when facts establish trade use; and (e) professionally prescribed health aids. Thus a personal-use motor vehicle receives both (b) and (c). Use inline unlimited for eligible (a) and (e). Apply § 12-901 only to an occupied residence interest and § 12-906 only to qualifying sale proceeds.",
+                "avoid_when": "Do not omit (b) when a specific alternative exists, treat decorative or personal household property as trade property, infer trade use from an item's form, use homestead provisions for a vehicle, or apply these personal-property exemptions to stated business property.",
+                "operators": [
+                  {
+                    "id": "il_home",
+                    "citation": "735 Ill. Comp. Stat. 5/12-901",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "il_home_proceeds",
+                    "citation": "735 Ill. Comp. Stat. 5/12-906",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "il_residual",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                    "limit_expression": "min(V,4000*N)"
+                  },
+                  {
+                    "id": "il_vehicle",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                    "limit_expression": "min(V,2400*N)"
+                  },
+                  {
+                    "id": "il_tools",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                    "limit_expression": "min(V,1500*N)"
+                  }
+                ],
+                "jurisdiction": "ILLINOIS"
+              }
+            },
+            "source_case_ids": [
+              31
+            ],
+            "rationale": "Case 31 shows the parent understood the residual rule in EC but still omitted it from the vehicle, while EV omitted it from all three assets and falsely classified two personal household objects as trade tools. Requiring a residual-first pass and explicit trade-use facts addresses both missing claims and full-output false positives."
+          },
+          {
+            "operation": "UPDATE",
+            "target_ids": [
+              "arizona_exemptions"
+            ],
+            "skill": {
+              "id": "arizona_exemptions",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "when": "Use for allowable Arizona law.",
+                "procedure": "Classify before valuing. Use § 33-1123 for personally used household furniture, furnishings, household goods, consumer electronics and appliances not specifically prescribed elsewhere; ordinary decorative household objects, household tables and clocks remain in this residual category. Use § 33-1125(8), and no neighboring paragraph, for one motor vehicle. For a single jointly owned vehicle, apply the 15000 ceiling once rather than multiplying it by N. Use the other § 33-1125 numbered paragraphs only for their expressly listed property. Use inline unlimited for eligible prescribed prostheses under (9) and domestic animals or household pets under (11). Section 33-1121 permits spouse combination for applicable article exemptions, but the one-vehicle operation published here remains min(V,15000).",
+                "avoid_when": "Do not classify a motor vehicle as a musical instrument or prosthesis, multiply the one-vehicle ceiling by the debtor count, send ordinary household decor to farm or trade provisions, use § 33-1123 for property specifically prescribed elsewhere, or infer business use without supporting facts.",
+                "operators": [
+                  {
+                    "id": "az_home",
+                    "citation": "Ariz. Rev. Stat. § 33-1101(A)",
+                    "limit_expression": "min(V,400000)"
+                  },
+                  {
+                    "id": "az_home_proceeds",
+                    "citation": "Ariz. Rev. Stat. § 33-1101(C)",
+                    "limit_expression": "min(V,400000)"
+                  },
+                  {
+                    "id": "az_household",
+                    "citation": "Ariz. Rev. Stat. § 33-1123",
+                    "limit_expression": "min(V,15000*N)"
+                  },
+                  {
+                    "id": "az_apparel",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                    "limit_expression": "min(V,500*N)"
+                  },
+                  {
+                    "id": "az_instruments",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(2)",
+                    "limit_expression": "min(V,400*N)"
+                  },
+                  {
+                    "id": "az_livestock",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(3)",
+                    "limit_expression": "min(V,1000*N)"
+                  },
+                  {
+                    "id": "az_rings",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                    "limit_expression": "min(V,2000*N)"
+                  },
+                  {
+                    "id": "az_library",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(5)",
+                    "limit_expression": "min(V,250*N)"
+                  },
+                  {
+                    "id": "az_watch",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(6)",
+                    "limit_expression": "min(V,250*N)"
+                  },
+                  {
+                    "id": "az_vehicle",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                    "limit_expression": "min(V,15000)"
+                  },
+                  {
+                    "id": "az_firearms",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(10)",
+                    "limit_expression": "min(V,2000*N)"
+                  },
+                  {
+                    "id": "az_account",
+                    "citation": "Ariz. Rev. Stat. § 33-1126(A)(9)",
+                    "limit_expression": "min(V,5000*N)"
+                  },
+                  {
+                    "id": "az_trade_tools",
+                    "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+                    "limit_expression": "min(V,5000*N)"
+                  },
+                  {
+                    "id": "az_farm_property",
+                    "citation": "Ariz. Rev. Stat. § 33-1130(2)",
+                    "limit_expression": "min(V,2500*N)"
+                  }
+                ],
+                "jurisdiction": "ARIZONA"
+              }
+            },
+            "source_case_ids": [
+              32
+            ],
+            "rationale": "Case 32 shows that the parent missed a household decorative item, confused a motor vehicle with the musical-instrument paragraph in EC, and doubled the vehicle ceiling to 30000 in EV. The empty-library answer correctly recognized all three household items under § 33-1123, although it still miscited the vehicle. The replacement preserves that useful classification signal and binds the observed one-vehicle target ceiling."
+          }
+        ],
+        "noop_reason": null
+      },
+      "actual_tokens": 3547,
+      "current_effect": {
+        "tasks": 8,
+        "help": 6,
+        "hurt": 1,
+        "ties": 1,
+        "mean_f1_difference": 0.12708333333333333
+      },
+      "prior_effect": {
+        "tasks": 0,
+        "help": 0,
+        "hurt": 0,
+        "ties": 0,
+        "mean_f1_difference": 0
+      },
+      "actual_replay": [
+        {
+          "case_id": 29,
+          "source_key": "49e32d4aebc73eab3eb0c7c90f00e7944c89c9b1fa2eb6ba132346a17e25299d",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "19123376f8824fbae12af76ab97620c455f4f7d47c077aa2a245e6d6cf1a96c8",
+          "parsed": {
+            "answer": {
+              "2020 Lexus RX 350 (nebula gray pearl)": [
+                "11 U.S.C. § 522(d)(2)",
+                "Wis. Stat. § 815.18(3)(g)"
+              ],
+              "2011 Toyota Sienna XLE minivan (132,000 miles)": [
+                "11 U.S.C. § 522(d)(2)",
+                "Wis. Stat. § 815.18(3)(g)"
+              ],
+              "full-length wall mirror with ornate silver frame": [
+                "11 U.S.C. § 522(d)(3)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_namespace_online_20261019_run01/native/b1_candidate1_replay/29_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "2020 Lexus RX 350 (nebula gray pearl)": [
+              "L004",
+              "L067"
+            ],
+            "2011 Toyota Sienna XLE minivan (132,000 miles)": [
+              "L004",
+              "L067"
+            ],
+            "full-length wall mirror with ornate silver frame": [
+              "L005",
+              "L066"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.6666666666666666,
+            "f1": 0.8000000000000002,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 29,
+          "source_key": "49e32d4aebc73eab3eb0c7c90f00e7944c89c9b1fa2eb6ba132346a17e25299d",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "19123376f8824fbae12af76ab97620c455f4f7d47c077aa2a245e6d6cf1a96c8",
+          "parsed": {
+            "answer": {
+              "2020 Lexus RX 350 (nebula gray pearl)": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(2)",
+                  "claim_value": 4450.0
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(g)",
+                  "claim_value": 32000.0
+                }
+              ],
+              "2011 Toyota Sienna XLE minivan (crimson mica)": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(2)",
+                  "claim_value": 4450.0
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(g)",
+                  "claim_value": 9900.0
+                }
+              ],
+              "Full-length wall mirror with ornate silver frame": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700.0
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 2200.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_namespace_online_20261019_run01/native/b1_candidate1_replay/29_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "2020 Lexus RX 350 (nebula gray pearl)",
+                "asset_value": 42900,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,4450)",
+                    "citation": "11 U.S.C. § 522(d)(2)"
+                  },
+                  {
+                    "limit_expression": "min(V,16000*N)",
+                    "citation": "Wis. Stat. § 815.18(3)(g)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "2011 Toyota Sienna XLE minivan (crimson mica)",
+                "asset_value": 9900,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,4450)",
+                    "citation": "11 U.S.C. § 522(d)(2)"
+                  },
+                  {
+                    "limit_expression": "min(V,16000*N)",
+                    "citation": "Wis. Stat. § 815.18(3)(g)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "Full-length wall mirror with ornate silver frame",
+                "asset_value": 2200,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700)",
+                    "citation": "11 U.S.C. § 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation": "Wis. Stat. § 815.18(3)(d)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "2020 Lexus RX 350 (nebula gray pearl)",
+                "asset_value": "42900",
+                "citation": "11 U.S.C. § 522(d)(2)",
+                "operator_id": null,
+                "limit_expression": "min(V,4450)",
+                "numeric_literals": [
+                  {
+                    "value": "4450"
+                  }
+                ],
+                "limit": "4450",
+                "claim_value": "4450"
+              },
+              {
+                "asset_name": "2020 Lexus RX 350 (nebula gray pearl)",
+                "asset_value": "42900",
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "operator_id": null,
+                "limit_expression": "min(V,16000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "16000"
+                  }
+                ],
+                "limit": "32000",
+                "claim_value": "32000"
+              },
+              {
+                "asset_name": "2011 Toyota Sienna XLE minivan (crimson mica)",
+                "asset_value": "9900",
+                "citation": "11 U.S.C. § 522(d)(2)",
+                "operator_id": null,
+                "limit_expression": "min(V,4450)",
+                "numeric_literals": [
+                  {
+                    "value": "4450"
+                  }
+                ],
+                "limit": "4450",
+                "claim_value": "4450"
+              },
+              {
+                "asset_name": "2011 Toyota Sienna XLE minivan (crimson mica)",
+                "asset_value": "9900",
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "operator_id": null,
+                "limit_expression": "min(V,16000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "16000"
+                  }
+                ],
+                "limit": "9900",
+                "claim_value": "9900"
+              },
+              {
+                "asset_name": "Full-length wall mirror with ornate silver frame",
+                "asset_value": "2200",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "operator_id": null,
+                "limit_expression": "min(V,700)",
+                "numeric_literals": [
+                  {
+                    "value": "700"
+                  }
+                ],
+                "limit": "700",
+                "claim_value": "700"
+              },
+              {
+                "asset_name": "Full-length wall mirror with ornate silver frame",
+                "asset_value": "2200",
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "operator_id": null,
+                "limit_expression": "min(V,12000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "12000"
+                  }
+                ],
+                "limit": "2200",
+                "claim_value": "2200"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "68b2c693e0e2fe6ec4c007903e8bbfffb3673109dd28e0ed955980646813aa61",
+            "source_facts_sha256": "902b1f12ba55ae1a6352703f6dc22df265ce3baf1ead2c78a8df26a4f7ba0054",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "public_label_submission": {
+            "assets": [
+              {
+                "asset_name": "2020 Lexus RX 350 (nebula gray pearl)",
+                "asset_value": 42900,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,4450)",
+                    "citation_ref": "L004"
+                  },
+                  {
+                    "limit_expression": "min(V,16000*N)",
+                    "citation_ref": "L067"
+                  }
+                ]
+              },
+              {
+                "asset_name": "2011 Toyota Sienna XLE minivan (crimson mica)",
+                "asset_value": 9900,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,4450)",
+                    "citation_ref": "L004"
+                  },
+                  {
+                    "limit_expression": "min(V,16000*N)",
+                    "citation_ref": "L067"
+                  }
+                ]
+              },
+              {
+                "asset_name": "Full-length wall mirror with ornate silver frame",
+                "asset_value": 2200,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700)",
+                    "citation_ref": "L005"
+                  },
+                  {
+                    "limit_expression": "min(V,12000*N)",
+                    "citation_ref": "L066"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "wisconsin_exemptions"
+          ],
+          "score": {
+            "precision": 0.6666666666666666,
+            "recall": 0.4444444444444444,
+            "f1": 0.5333333333333333,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.5333333333333333,
+            "full_output_precision": 0.6666666666666666,
+            "full_output_recall": 0.4444444444444444,
+            "full_output_claim_tp": 4,
+            "full_output_claim_fp": 2,
+            "full_output_claim_fn": 5,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 2,
+            "officially_unscored_predicted_assets": {
+              "2011 toyota sienna xle minivan (crimson mica)": 2
+            },
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 30,
+          "source_key": "2b8dfc81a028b6df1ca22a269bf70f6194c404a4c0aa4945f1635d134d2096f3",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "19123376f8824fbae12af76ab97620c455f4f7d47c077aa2a245e6d6cf1a96c8",
+          "parsed": {
+            "answer": {
+              "power wheelchair with joystick control and rechargeable battery pack": [
+                "11 U.S.C. § 522(d)(9)"
+              ],
+              "Siberian husky": [
+                "11 U.S.C. § 522(d)(3)"
+              ],
+              "toolbox with socket set and screwdrivers": [
+                "11 U.S.C. § 522(d)(3)"
+              ],
+              "white linen pajama pants with embroidered detail": [
+                "11 U.S.C. § 522(d)(3)",
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_namespace_online_20261019_run01/native/b1_candidate1_replay/30_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "power wheelchair with joystick control and rechargeable battery pack": [
+              "L009"
+            ],
+            "Siberian husky": [
+              "L005"
+            ],
+            "toolbox with socket set and screwdrivers": [
+              "L005"
+            ],
+            "white linen pajama pants with embroidered detail": [
+              "L005",
+              "L057"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "pennsylvania_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.375,
+            "f1": 0.5416666666666666,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 30,
+          "source_key": "2b8dfc81a028b6df1ca22a269bf70f6194c404a4c0aa4945f1635d134d2096f3",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "19123376f8824fbae12af76ab97620c455f4f7d47c077aa2a245e6d6cf1a96c8",
+          "parsed": {
+            "answer": {
+              "power wheelchair with joystick control and rechargeable battery pack": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(9)",
+                  "claim_value": 4910.0
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+                  "claim_value": 4910.0
+                }
+              ],
+              "Siberian husky": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 980.0
+                }
+              ],
+              "toolbox with socket set and screwdrivers": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700.0
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8123",
+                  "claim_value": 300.0
+                }
+              ],
+              "white linen pajama pants with embroidered detail": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 110.0
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 110.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_namespace_online_20261019_run01/native/b1_candidate1_replay/30_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "power wheelchair with joystick control and rechargeable battery pack",
+                "asset_value": 4910,
+                "claims": [
+                  {
+                    "limit_expression": "unlimited",
+                    "citation": "11 U.S.C. § 522(d)(9)"
+                  },
+                  {
+                    "limit_expression": "unlimited",
+                    "citation": "42 Pa. Cons. Stat. § 8124(a)(4)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "Siberian husky",
+                "asset_value": 980,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,14875)",
+                    "citation": "11 U.S.C. § 522(d)(3)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "toolbox with socket set and screwdrivers",
+                "asset_value": 725,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700)",
+                    "citation": "11 U.S.C. § 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,300*N)",
+                    "citation": "42 Pa. Cons. Stat. § 8123"
+                  }
+                ]
+              },
+              {
+                "asset_name": "white linen pajama pants with embroidered detail",
+                "asset_value": 110,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700)",
+                    "citation": "11 U.S.C. § 522(d)(3)"
+                  },
+                  {
+                    "limit_expression": "min(V,500)",
+                    "citation": "42 Pa. Cons. Stat. § 8124(a)(1)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "power wheelchair with joystick control and rechargeable battery pack",
+                "asset_value": "4910",
+                "citation": "11 U.S.C. § 522(d)(9)",
+                "operator_id": null,
+                "limit_expression": "unlimited",
+                "numeric_literals": [],
+                "limit": null,
+                "claim_value": "4910"
+              },
+              {
+                "asset_name": "power wheelchair with joystick control and rechargeable battery pack",
+                "asset_value": "4910",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+                "operator_id": null,
+                "limit_expression": "unlimited",
+                "numeric_literals": [],
+                "limit": null,
+                "claim_value": "4910"
+              },
+              {
+                "asset_name": "Siberian husky",
+                "asset_value": "980",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "operator_id": null,
+                "limit_expression": "min(V,14875)",
+                "numeric_literals": [
+                  {
+                    "value": "14875"
+                  }
+                ],
+                "limit": "980",
+                "claim_value": "980"
+              },
+              {
+                "asset_name": "toolbox with socket set and screwdrivers",
+                "asset_value": "725",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "operator_id": null,
+                "limit_expression": "min(V,700)",
+                "numeric_literals": [
+                  {
+                    "value": "700"
+                  }
+                ],
+                "limit": "700",
+                "claim_value": "700"
+              },
+              {
+                "asset_name": "toolbox with socket set and screwdrivers",
+                "asset_value": "725",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "operator_id": null,
+                "limit_expression": "min(V,300*N)",
+                "numeric_literals": [
+                  {
+                    "value": "300"
+                  }
+                ],
+                "limit": "300",
+                "claim_value": "300"
+              },
+              {
+                "asset_name": "white linen pajama pants with embroidered detail",
+                "asset_value": "110",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "operator_id": null,
+                "limit_expression": "min(V,700)",
+                "numeric_literals": [
+                  {
+                    "value": "700"
+                  }
+                ],
+                "limit": "110",
+                "claim_value": "110"
+              },
+              {
+                "asset_name": "white linen pajama pants with embroidered detail",
+                "asset_value": "110",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "operator_id": null,
+                "limit_expression": "min(V,500)",
+                "numeric_literals": [
+                  {
+                    "value": "500"
+                  }
+                ],
+                "limit": "110",
+                "claim_value": "110"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "97f9ea04c80b99d06798b3f9c568afe7e7a1e9f6d98bf4cf36687941f2d9fed0",
+            "source_facts_sha256": "3e67d2e212fdb7bc071b493d053a4e864be15d849e8aac98bdff5bea543f8000",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "public_label_submission": {
+            "assets": [
+              {
+                "asset_name": "power wheelchair with joystick control and rechargeable battery pack",
+                "asset_value": 4910,
+                "claims": [
+                  {
+                    "limit_expression": "unlimited",
+                    "citation_ref": "L009"
+                  },
+                  {
+                    "limit_expression": "unlimited",
+                    "citation_ref": "L060"
+                  }
+                ]
+              },
+              {
+                "asset_name": "Siberian husky",
+                "asset_value": 980,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,14875)",
+                    "citation_ref": "L005"
+                  }
+                ]
+              },
+              {
+                "asset_name": "toolbox with socket set and screwdrivers",
+                "asset_value": 725,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700)",
+                    "citation_ref": "L005"
+                  },
+                  {
+                    "limit_expression": "min(V,300*N)",
+                    "citation_ref": "L055"
+                  }
+                ]
+              },
+              {
+                "asset_name": "white linen pajama pants with embroidered detail",
+                "asset_value": 110,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,700)",
+                    "citation_ref": "L005"
+                  },
+                  {
+                    "limit_expression": "min(V,500)",
+                    "citation_ref": "L057"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "federal_522d",
+            "pennsylvania_exemptions"
+          ],
+          "score": {
+            "precision": 0.625,
+            "recall": 0.375,
+            "f1": 0.4666666666666667,
+            "mare": 0.09950071326676174,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.5,
+            "full_output_precision": 0.7142857142857143,
+            "full_output_recall": 0.38461538461538464,
+            "full_output_claim_tp": 5,
+            "full_output_claim_fp": 2,
+            "full_output_claim_fn": 8,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 31,
+          "source_key": "48ce316b922641703a00009e6b575ae5460d1b5ceadf5a7c8aab670dd06dada4",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "19123376f8824fbae12af76ab97620c455f4f7d47c077aa2a245e6d6cf1a96c8",
+          "parsed": {
+            "answer": {
+              "2001 Dodge Grand Caravan SE minivan": [
+                "735 Ill. Comp. Stat. 5/12-1001(b)"
+              ],
+              "hand-knotted Persian silk rug": [
+                "735 Ill. Comp. Stat. 5/12-1001"
+              ],
+              "cross necklace with white enamel and small diamond centerpiece": [
+                "735 Ill. Comp. Stat. 5/12-1001"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_namespace_online_20261019_run01/native/b1_candidate1_replay/31_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "2001 Dodge Grand Caravan SE minivan": [
+              "L037"
+            ],
+            "hand-knotted Persian silk rug": [
+              "L035"
+            ],
+            "cross necklace with white enamel and small diamond centerpiece": [
+              "L035"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "illinois_exemptions"
+          ],
+          "score": {
+            "precision": 0.3333333333333333,
+            "recall": 0.16666666666666666,
+            "f1": 0.2222222222222222,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 31,
+          "source_key": "48ce316b922641703a00009e6b575ae5460d1b5ceadf5a7c8aab670dd06dada4",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "19123376f8824fbae12af76ab97620c455f4f7d47c077aa2a245e6d6cf1a96c8",
+          "parsed": {
+            "answer": {
+              "deep amethyst 2001 Dodge Grand Caravan SE minivan": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                  "claim_value": 2400.0
+                }
+              ],
+              "hand-knotted Persian silk rug": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 3200.0
+                }
+              ],
+              "cross necklace with white enamel and small diamond centerpiece": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                  "claim_value": 1775.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_namespace_online_20261019_run01/native/b1_candidate1_replay/31_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "deep amethyst 2001 Dodge Grand Caravan SE minivan",
+                "asset_value": 2800,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,2400*N)",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(c)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "hand-knotted Persian silk rug",
+                "asset_value": 3200,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,4000*N)",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+                  }
+                ]
+              },
+              {
+                "asset_name": "cross necklace with white enamel and small diamond centerpiece",
+                "asset_value": 1775,
+                "claims": [
+                  {
+                    "limit_expression": "unlimited",
+                    "citation": "735 Ill. Comp. Stat. 5/12-1001(a)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "deep amethyst 2001 Dodge Grand Caravan SE minivan",
+                "asset_value": "2800",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(c)",
+                "operator_id": null,
+                "limit_expression": "min(V,2400*N)",
+                "numeric_literals": [
+                  {
+                    "value": "2400"
+                  }
+                ],
+                "limit": "2400",
+                "claim_value": "2400"
+              },
+              {
+                "asset_name": "hand-knotted Persian silk rug",
+                "asset_value": "3200",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "operator_id": null,
+                "limit_expression": "min(V,4000*N)",
+                "numeric_literals": [
+                  {
+                    "value": "4000"
+                  }
+                ],
+                "limit": "3200",
+                "claim_value": "3200"
+              },
+              {
+                "asset_name": "cross necklace with white enamel and small diamond centerpiece",
+                "asset_value": "1775",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(a)",
+                "operator_id": null,
+                "limit_expression": "unlimited",
+                "numeric_literals": [],
+                "limit": null,
+                "claim_value": "1775"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "9c34d10946a2a99386a26db4542ef58b5ff8057158d8d6b21699f48e764bb9e7",
+            "source_facts_sha256": "f89ae15f2dcd1975aa4111ede5a0aa80abe3981a60d6d4a8aa5c5a395a7b68d2",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "public_label_submission": {
+            "assets": [
+              {
+                "asset_name": "deep amethyst 2001 Dodge Grand Caravan SE minivan",
+                "asset_value": 2800,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,2400*N)",
+                    "citation_ref": "L038"
+                  }
+                ]
+              },
+              {
+                "asset_name": "hand-knotted Persian silk rug",
+                "asset_value": 3200,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,4000*N)",
+                    "citation_ref": "L037"
+                  }
+                ]
+              },
+              {
+                "asset_name": "cross necklace with white enamel and small diamond centerpiece",
+                "asset_value": 1775,
+                "claims": [
+                  {
+                    "limit_expression": "unlimited",
+                    "citation_ref": "L036"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "illinois_exemptions"
+          ],
+          "score": {
+            "precision": 0.6666666666666666,
+            "recall": 0.5,
+            "f1": 0.5555555555555555,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.5714285714285715,
+            "full_output_precision": 0.6666666666666666,
+            "full_output_recall": 0.5,
+            "full_output_claim_tp": 2,
+            "full_output_claim_fp": 1,
+            "full_output_claim_fn": 2,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 32,
+          "source_key": "874f3186475b3b80383ddfd8f6cc00853d2df7afe78137600e81515e5a22e57a",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "19123376f8824fbae12af76ab97620c455f4f7d47c077aa2a245e6d6cf1a96c8",
+          "parsed": {
+            "answer": {
+              "Framed shadow box with seashell display": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "folding banquet table with adjustable height legs": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "wooden wall clock with quartz movement and silent sweep": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "cactus gray 2021 Ford Bronco Badlands off-roader": [
+                "Ariz. Rev. Stat. § 33-1125(8)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_namespace_online_20261019_run01/native/b1_candidate1_replay/32_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "Framed shadow box with seashell display": [
+              "L015"
+            ],
+            "folding banquet table with adjustable height legs": [
+              "L015"
+            ],
+            "wooden wall clock with quartz movement and silent sweep": [
+              "L015"
+            ],
+            "cactus gray 2021 Ford Bronco Badlands off-roader": [
+              "L023"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "arizona_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 32,
+          "source_key": "874f3186475b3b80383ddfd8f6cc00853d2df7afe78137600e81515e5a22e57a",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "19123376f8824fbae12af76ab97620c455f4f7d47c077aa2a245e6d6cf1a96c8",
+          "parsed": {
+            "answer": {
+              "framed shadow box with seashell display": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 450.0
+                }
+              ],
+              "folding banquet table with adjustable height legs": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 175.0
+                }
+              ],
+              "wooden wall clock with quartz movement and silent sweep": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 900.0
+                }
+              ],
+              "cactus gray 2021 Ford Bronco Badlands off-roader": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                  "claim_value": 15000.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_namespace_online_20261019_run01/native/b1_candidate1_replay/32_EV_candidate.json",
+          "native_program": {
+            "assets": [
+              {
+                "asset_name": "framed shadow box with seashell display",
+                "asset_value": 450,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,15000*2)",
+                    "citation": "Ariz. Rev. Stat. § 33-1123"
+                  }
+                ]
+              },
+              {
+                "asset_name": "folding banquet table with adjustable height legs",
+                "asset_value": 175,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,15000*2)",
+                    "citation": "Ariz. Rev. Stat. § 33-1123"
+                  }
+                ]
+              },
+              {
+                "asset_name": "wooden wall clock with quartz movement and silent sweep",
+                "asset_value": 900,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,15000*2)",
+                    "citation": "Ariz. Rev. Stat. § 33-1123"
+                  }
+                ]
+              },
+              {
+                "asset_name": "cactus gray 2021 Ford Bronco Badlands off-roader",
+                "asset_value": 47950,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,15000)",
+                    "citation": "Ariz. Rev. Stat. § 33-1125(8)"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_receipt": {
+            "actual_claim_operations": [
+              {
+                "asset_name": "framed shadow box with seashell display",
+                "asset_value": "450",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*2)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "2"
+                  }
+                ],
+                "limit": "450",
+                "claim_value": "450"
+              },
+              {
+                "asset_name": "folding banquet table with adjustable height legs",
+                "asset_value": "175",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*2)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "2"
+                  }
+                ],
+                "limit": "175",
+                "claim_value": "175"
+              },
+              {
+                "asset_name": "wooden wall clock with quartz movement and silent sweep",
+                "asset_value": "900",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "operator_id": null,
+                "limit_expression": "min(V,15000*2)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  },
+                  {
+                    "value": "2"
+                  }
+                ],
+                "limit": "900",
+                "claim_value": "900"
+              },
+              {
+                "asset_name": "cactus gray 2021 Ford Bronco Badlands off-roader",
+                "asset_value": "47950",
+                "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                "operator_id": null,
+                "limit_expression": "min(V,15000)",
+                "numeric_literals": [
+                  {
+                    "value": "15000"
+                  }
+                ],
+                "limit": "15000",
+                "claim_value": "15000"
+              }
+            ],
+            "actually_executed_operator_ids": [],
+            "program_sha256": "d57c7b4ff5f2dd2598bfe06a12bc90aeffadc84698c0b5b61dad21968cc12c60",
+            "source_facts_sha256": "31f34371f8c4e7c8cf0befd9b5a67dd0359215c36024a0935b0d3f96e367c74c",
+            "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+            "no_Gold_solver_model_or_post_answer_repair": true,
+            "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true
+          },
+          "public_label_submission": {
+            "assets": [
+              {
+                "asset_name": "framed shadow box with seashell display",
+                "asset_value": 450,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,15000*2)",
+                    "citation_ref": "L015"
+                  }
+                ]
+              },
+              {
+                "asset_name": "folding banquet table with adjustable height legs",
+                "asset_value": 175,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,15000*2)",
+                    "citation_ref": "L015"
+                  }
+                ]
+              },
+              {
+                "asset_name": "wooden wall clock with quartz movement and silent sweep",
+                "asset_value": 900,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,15000*2)",
+                    "citation_ref": "L015"
+                  }
+                ]
+              },
+              {
+                "asset_name": "cactus gray 2021 Ford Bronco Badlands off-roader",
+                "asset_value": 47950,
+                "claims": [
+                  {
+                    "limit_expression": "min(V,15000)",
+                    "citation_ref": "L023"
+                  }
+                ]
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "scheme_selection_and_ev",
+            "arizona_exemptions"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 4,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        }
+      ]
+    }
+  ],
+  "future_performance_not_used": true,
+  "training_acceptance_does_not_guarantee_generalization": true
+}

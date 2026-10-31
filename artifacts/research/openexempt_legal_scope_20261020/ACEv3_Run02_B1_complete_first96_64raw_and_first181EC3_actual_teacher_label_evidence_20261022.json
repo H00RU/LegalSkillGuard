@@ -1,0 +1,124 @@
+{
+  "at": "2026-10-22T09:37:34.290165+00:00",
+  "classification": "Complete fresh ACE v3 B1 first-forecast phase plus the fixed first source181 EC's three completed teacher requests. Not whole B1 optimization cost, a selected good trajectory, learned-skill effect or TEST.",
+  "first_forecast_report": "artifacts/research/openexempt_legal_scope_20261020/ACEv3_Run02_B1_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261022.json",
+  "first_forecast_report_sha256": "44db083bbe70b5d22d07b4fa65370b415f8edbdbe1823b5241bc55287cf341e8",
+  "first64_native_cost_only": {
+    "actual_unique_origins_referenced": 64,
+    "HTTP_requests": 64,
+    "input_tokens": 421456,
+    "output_tokens": 158202,
+    "finish_reasons": {
+      "stop": 64
+    }
+  },
+  "cold_ACE_EC_EV_F1_percent": [
+    59.53124999999999,
+    55.29513888888887
+  ],
+  "common_empty_EC_EV_F1_percent": [
+    63.449900793650784,
+    66.35416666666666
+  ],
+  "all32_common_empty_HTTP_requests_and_actual_outputs_and_scores_match_main": {
+    "all32_full_HTTP_requests_identical": true,
+    "native_contents_equal": 32,
+    "native_scores_equal": 32,
+    "outputs_are_diagnostics_not_guaranteed_determinism_or_a_regeneration_trigger": true
+  },
+  "cold_native_role_difference_not_a_mature_skill_method_comparison": true,
+  "first3_teacher_records": [
+    {
+      "role": "b1_181_EC_r1_reflector",
+      "correct_case181_EC_target_literal": true,
+      "request_sha256": "e8744331fe4c9cf2edc2ffa7c36bba511acbecbf842c03090a6b8e523c2da486",
+      "actual_teacher_model": "gpt-5.6-sol",
+      "actual_effort": "high",
+      "fresh_response_not_reused": true,
+      "provider_prefix_cache_distinct_from_response_reuse": true,
+      "actual_started_at": "2026-10-22T09:30:08.575524+00:00",
+      "after_all_current_batch_forecasts_recorded": true,
+      "usage": {
+        "input_tokens": 22125,
+        "cached_input_tokens": 0,
+        "output_tokens": 811,
+        "reasoning_output_tokens": 226
+      },
+      "elapsed_seconds": 30.204
+    },
+    {
+      "role": "b1_181_EC_r2_reflector",
+      "correct_case181_EC_target_literal": true,
+      "request_sha256": "4aae4b59af4eb2afa933efbe5b7ff88d6224f61ef4e18d74050702a83cba2f94",
+      "actual_teacher_model": "gpt-5.6-sol",
+      "actual_effort": "high",
+      "fresh_response_not_reused": true,
+      "provider_prefix_cache_distinct_from_response_reuse": true,
+      "actual_started_at": "2026-10-22T09:31:34.327313+00:00",
+      "after_all_current_batch_forecasts_recorded": true,
+      "usage": {
+        "input_tokens": 22343,
+        "cached_input_tokens": 0,
+        "output_tokens": 670,
+        "reasoning_output_tokens": 163
+      },
+      "elapsed_seconds": 26.579
+    },
+    {
+      "role": "b1_181_EC_r3_reflector",
+      "correct_case181_EC_target_literal": true,
+      "request_sha256": "c7ac1ba9133f7b7fc8d7c8a0b44b9a079d8c644f1f0e70069758bdaea1eeb1be",
+      "actual_teacher_model": "gpt-5.6-sol",
+      "actual_effort": "high",
+      "fresh_response_not_reused": true,
+      "provider_prefix_cache_distinct_from_response_reuse": true,
+      "actual_started_at": "2026-10-22T09:33:45.629111+00:00",
+      "after_all_current_batch_forecasts_recorded": true,
+      "usage": {
+        "input_tokens": 22349,
+        "cached_input_tokens": 11136,
+        "output_tokens": 622,
+        "reasoning_output_tokens": 147
+      },
+      "elapsed_seconds": 25.605
+    }
+  ],
+  "first3_teacher_prefix_cost_not_total": {
+    "fresh_teacher_responses": 3,
+    "input_tokens": 66817,
+    "cached_input_tokens_already_in_input": 11136,
+    "output_tokens": 2103,
+    "reasoning_subset_of_output_not_added_again": 536,
+    "response_elapsed_seconds_not_GPU_hours": 82.388
+  },
+  "correct_target_received_does_not_prove_understanding_or_new_case_benefit": true,
+  "first64_score_and_predictions_never_overwritten_by_TRAIN_regenerations": true,
+  "original_handles_live": [
+    3613253,
+    176852
+  ],
+  "first96_observer84986_and_wrapper7599_completed_successfully_not_training_termination": true,
+  "new_read_only_publication_observer": {
+    "session": 40557,
+    "started_CST": "2026-10-22 17:32:53",
+    "deadline_CST": "2026-10-22 23:32:53",
+    "target": "uniqueB1 publication and all32TRAIN trace files exact",
+    "program": "import json,sys,time\nfrom pathlib import Path\nfrom datetime import datetime,timedelta,timezone\nroot=Path(\"/media/sangfor/vdb/legal-skill-evolve\")\nrun=root/\"runs/legal_openexempt_ace_public_assets128_20261022_run02\"\ndeadline=datetime.now(timezone.utc)+timedelta(hours=6)\nexpected={(i,f) for i in range(181,197) for f in (\"EC\",\"EV\")}\ndef handles():\n observed=[]\n for pid,tick,needle in ((3613253,\"446037091\",\"vllm\"),(176852,\"466336240\",\"experiments.openexempt_ace_online\")):\n  p=Path(f\"/proc/{pid}\")\n  got=p.joinpath(\"stat\").read_text().rsplit(\")\",1)[1].split()[19]\n  argv=[x.decode() for x in p.joinpath(\"cmdline\").read_bytes().split(b\"\\0\") if x]\n  if got!=tick or not any(needle in a for a in argv):raise RuntimeError(\"Original model/ACE handle changed: \"+str(pid))\n  observed.append(pid)\n return observed\nprint(json.dumps({\"observer\":\"ACEv3_Run02_B1_actual_publication32TRAIN\",\"started\":datetime.now(timezone.utc).isoformat(),\"deadline\":deadline.isoformat(),\"read_only_training_not_modified\":True}),flush=True)\nwhile True:\n at=datetime.now(timezone.utc).isoformat()\n path=run/\"publications/b1.json\"\n if path.exists():\n  pub=json.loads(path.read_text());trajectories=pub[\"actual_TRAIN_trajectories\"]\n  assert len(trajectories)==32 and {(t[\"source_case_id\"],t[\"family\"]) for t in trajectories}==expected\n  for t in trajectories:\n   p=run/\"training\"/f'b1_{t[\"source_case_id\"]}_{t[\"family\"]}.json'\n   assert p.is_file() and json.loads(p.read_text())==t\n  print(json.dumps({\"observer\":\"ACEv3_Run02_B1_actual_publication32TRAIN\",\"at\":at,\"ready\":True,\"all32_TRAIN_trace_files_match_actual_publication\":True,\"actual_playbook_sha256\":pub[\"playbook_sha256\"],\"published_tokens\":pub[\"actual_tokens\"]}),flush=True)\n  sys.exit(0)\n if (run/\"failure.json\").exists() or (run/\"completion.json\").exists():\n  print(json.dumps({\"observer\":\"ACEv3_Run02_B1_actual_publication32TRAIN\",\"at\":at,\"ready\":False,\"authoritative_terminal_artifact\":True,\"failure\":(run/\"failure.json\").exists(),\"completion\":(run/\"completion.json\").exists()}),flush=True)\n  sys.exit(2)\n live=handles()\n progress=json.loads((run/\"progress.json\").read_text())\n completed=len(list((run/\"training\").glob(\"b1_*.json\")))\n print(json.dumps({\"observer\":\"ACEv3_Run02_B1_actual_publication32TRAIN\",\"at\":at,\"handles_confirmed\":live,\"stage\":progress.get(\"stage\"),\"case\":progress.get(\"current_document_id\"),\"native\":progress.get(\"completed_native_calls\"),\"teacher\":progress.get(\"completed_teacher_calls\"),\"attempts\":progress.get(\"teacher_attempts\"),\"complete_TRAIN_trace_files\":completed,\"published_bullets\":progress.get(\"playbook_bullets\"),\"ready\":False}),flush=True)\n if datetime.now(timezone.utc)>=deadline:\n  print(json.dumps({\"observer\":\"ACEv3_Run02_B1_actual_publication32TRAIN\",\"at\":at,\"reason\":\"observer_window_expired_training_not_stopped\",\"original_handles_live\":live,\"ready\":False}),flush=True)\n  sys.exit(3)\n time.sleep(45)\n"
+  },
+  "hourly1730_original_handles_three377_profiles50packages_verified": true,
+  "next_hourly_CST": "2026-10-22 18:30",
+  "no_new_student_teacher_or_TEST_calls": true,
+  "evidence_sha256": {
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv3_Run02_B1_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261022.json": "44db083bbe70b5d22d07b4fa65370b415f8edbdbe1823b5241bc55287cf341e8",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run02/teacher/b1_181_EC_r1_reflector/event_log.json": "5ad25fb959f8a114290f426ec836f4dd8aee2ef679f693e3b2ee130faabf50f6",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run02/teacher/b1_181_EC_r1_reflector/response.json": "dda723dfe5b3a54e9c1b99cad30c048a8e7631949e685074f5be36bd8f8956e3",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run02/teacher/b1_181_EC_r1_reflector/wire_request.json": "e8744331fe4c9cf2edc2ffa7c36bba511acbecbf842c03090a6b8e523c2da486",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run02/teacher/b1_181_EC_r2_reflector/event_log.json": "04535111298756fc45169f4e455e4fe13bd2c3222c7b60d6ce18174ee6c27c32",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run02/teacher/b1_181_EC_r2_reflector/response.json": "8d09fbb1ce67db87031179c393fe6cae2cb8544ba79de8c1b54a4c3a2e21b647",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run02/teacher/b1_181_EC_r2_reflector/wire_request.json": "4aae4b59af4eb2afa933efbe5b7ff88d6224f61ef4e18d74050702a83cba2f94",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run02/teacher/b1_181_EC_r3_reflector/event_log.json": "65aa70090135752bcb218cee6aaa83337735a349cc762fc840460de6f48cf9ec",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run02/teacher/b1_181_EC_r3_reflector/response.json": "95522f954ad4b0ab340821a8449b6d2c2ee0b8e6c7ab519d1d0361573092903d",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run02/teacher/b1_181_EC_r3_reflector/wire_request.json": "c7ac1ba9133f7b7fc8d7c8a0b44b9a079d8c644f1f0e70069758bdaea1eeb1be"
+  },
+  "recomputation_program": "import json,hashlib\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom jsonschema import validate\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nroot=Path(\"/media/sangfor/vdb/legal-skill-evolve\");base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nrun=root/\"runs/legal_openexempt_ace_public_assets128_20261022_run02\"\ndef rd(p):return json.loads(p.read_text())\ndef sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()\ncfg=rd(root/\"configs/openexempt_ace_public_assets128_20261022_run02.json\")\nfirst_report=base/\"ACEv3_Run02_B1_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261022.json\"\nfirst=rd(first_report);assert first[\"logical_records\"]==96 and first[\"source_cases\"]==16\nassert first[\"native_first_forecast_cost\"][\"actual_unique_origins_referenced\"]==64 and first[\"format_errors_not_excluded\"]==[]\ntarget=rd(root/cfg[\"grading_directory\"]/\"181.json\")[\"targets\"][\"EC\"]\npre_path=run/\"batches/b1_records.json\";pre_at=datetime.fromtimestamp(pre_path.stat().st_mtime,timezone.utc)\nrecords=[];members={str(first_report.relative_to(root))}\nfor number in (1,2,3):\n name=f\"b1_181_EC_r{number}_reflector\";folder=run/\"teacher\"/name\n request,response,event=(rd(folder/n) for n in (\"wire_request.json\",\"response.json\",\"event_log.json\"))\n assert json.dumps(target,ensure_ascii=False) in request[\"user_prompt\"]\n assert request[\"model\"]==response[\"model\"]==cfg[\"teacher\"][\"model\"]==\"gpt-5.6-sol\"\n assert request[\"reasoning_effort\"]==cfg[\"teacher\"][\"reasoning_effort\"]==\"high\"\n assert response[\"request_sha256\"]==csha(request)\n assert response[\"cache_hit\"] is False and response[\"invocation\"][\"returncode\"]==event[\"returncode\"]==0\n assert not response[\"invocation\"][\"tool_events_detected\"]\n assert response[\"invocation\"][\"event_log_sha256\"]==csha({\"event_log\":event[\"event_log\"]})\n assert Path(response[\"actual_event_log_path\"])==folder/\"event_log.json\"\n started=datetime.fromisoformat(response[\"invocation\"][\"started_at\"].replace(\"Z\",\"+00:00\"))\n assert started>=pre_at\n validate(response[\"value\"],request[\"output_schema\"])\n records.append({\"role\":name,\"correct_case181_EC_target_literal\":True,\n \"request_sha256\":sha(folder/\"wire_request.json\"),\"actual_teacher_model\":request[\"model\"],\"actual_effort\":request[\"reasoning_effort\"],\n \"fresh_response_not_reused\":True,\"provider_prefix_cache_distinct_from_response_reuse\":True,\n \"actual_started_at\":response[\"invocation\"][\"started_at\"],\"after_all_current_batch_forecasts_recorded\":True,\n \"usage\":response[\"invocation\"][\"usage\"],\"elapsed_seconds\":response[\"invocation\"][\"elapsed_seconds\"]})\n members.update(str((folder/n).relative_to(root)) for n in (\"wire_request.json\",\"response.json\",\"event_log.json\"))\nfor pid,tick in ((3613253,\"446037091\"),(176852,\"466336240\")):\n assert Path(f\"/proc/{pid}/stat\").read_text().rsplit(\")\",1)[1].split()[19]==tick\ncost={\"fresh_teacher_responses\":3,\"input_tokens\":sum(r[\"usage\"][\"input_tokens\"] for r in records),\n\"cached_input_tokens_already_in_input\":sum(r[\"usage\"].get(\"cached_input_tokens\",0) for r in records),\n\"output_tokens\":sum(r[\"usage\"][\"output_tokens\"] for r in records),\n\"reasoning_subset_of_output_not_added_again\":sum(r[\"usage\"].get(\"reasoning_output_tokens\",0) for r in records),\n\"response_elapsed_seconds_not_GPU_hours\":sum(r[\"elapsed_seconds\"] for r in records)}\nout={\"at\":datetime.now(timezone.utc).isoformat(),\"classification\":\"Complete fresh ACE v3 B1 first-forecast phase plus the fixed first source181 EC's three completed teacher requests. Not whole B1 optimization cost, a selected good trajectory, learned-skill effect or TEST.\",\n\"first_forecast_report\":str(first_report.relative_to(root)),\"first_forecast_report_sha256\":sha(first_report),\n\"first64_native_cost_only\":first[\"native_first_forecast_cost\"],\n\"cold_ACE_EC_EV_F1_percent\":[100*first[\"metrics\"][\"ace\"][f][\"f1\"] for f in (\"EC\",\"EV\")],\n\"common_empty_EC_EV_F1_percent\":[100*first[\"metrics\"][\"empty\"][f][\"f1\"] for f in (\"EC\",\"EV\")],\n\"all32_common_empty_HTTP_requests_and_actual_outputs_and_scores_match_main\":first[\"cross_run_common_empty_diagnostic\"],\n\"cold_native_role_difference_not_a_mature_skill_method_comparison\":True,\n\"first3_teacher_records\":records,\"first3_teacher_prefix_cost_not_total\":cost,\n\"correct_target_received_does_not_prove_understanding_or_new_case_benefit\":True,\n\"first64_score_and_predictions_never_overwritten_by_TRAIN_regenerations\":True,\n\"original_handles_live\":[3613253,176852],\n\"first96_observer84986_and_wrapper7599_completed_successfully_not_training_termination\":True,\n\"new_read_only_publication_observer\":{\"session\":40557,\"started_CST\":\"2026-10-22 17:32:53\",\"deadline_CST\":\"2026-10-22 23:32:53\",\"target\":\"uniqueB1 publication and all32TRAIN trace files exact\",\"program\":OBSERVER_PROGRAM},\n\"hourly1730_original_handles_three377_profiles50packages_verified\":True,\"next_hourly_CST\":\"2026-10-22 18:30\",\n\"no_new_student_teacher_or_TEST_calls\":True,\"evidence_sha256\":{p:sha(root/p) for p in sorted(members)},\"recomputation_program\":PROGRAM}\ndest=base/\"ACEv3_Run02_B1_complete_first96_64raw_and_first181EC3_actual_teacher_label_evidence_20261022.json\"\nRunStore.immutable_json(dest,out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"first64_first_forecast_metrics_verified\":True,\"first3_teacher_cost_only\":cost,\"all3_literal_targets_and_fresh_gpt56_high_without_tools\":True,\"actual_new_observer\":40557,\"not_whole_training_or_mature_comparison\":True},ensure_ascii=False))\n"
+}

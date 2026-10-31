@@ -1,0 +1,218 @@
+{
+  "at": "2026-10-29T20:01:11.715152+00:00",
+  "classification": "Literal learned Illinois business-use exclusion conflicts with supplied benchmark statute and original TRAIN targets; three current EC misses align with wrong instruction, not just failure to execute a true rule",
+  "run_id": "legal_openexempt_task_projection_public_assets128_20261029_run01",
+  "parent_bank_sha256": "d68dc5880ebf84ccc29c588d21352226939ef030767db7089a7658b314c68faf",
+  "skill_id": "ec-illinois-other-property-alternative",
+  "old_actual_EC_guidance": {
+    "when": "Illinois exemptions are allowable and the asset is debtor-owned personal property used personally rather than for business.",
+    "procedure": "After classifying specific exemptions, make a separate § 12-1001(b) pass over every qualifying personal-property asset. Add 735 Ill. Comp. Stat. 5/12-1001(b) alongside any motor-vehicle, necessary-apparel or prescribed-health-aid citation, as well as for jewelry and other personal property. Its $4,000 ceiling limits protected equity, not EC eligibility.",
+    "avoid_when": "Do not apply § 12-1001(b) to real property or property the facts explicitly identify as business-use. Do not omit it because a specific exemption applies, and do not classify jewelry as necessary wearing apparel.",
+    "operators": [],
+    "jurisdiction": "ILLINOIS"
+  },
+  "teacher13_proposed_EC_guidance_not_yet_admitted": {
+    "when": "Illinois exemptions are allowable and the asset is debtor-owned personal property.",
+    "procedure": "Make a separate § 12-1001(b) pass over every such asset. Add 735 Ill. Comp. Stat. 5/12-1001(b) alongside every independently applicable paragraph (a), (c), (d), or (e), including for apparel, vehicles, jewelry, household goods, and trade tools. Its $4,000 ceiling limits protected equity, not EC eligibility.",
+    "avoid_when": "Do not apply § 12-1001(b) to real property or omit it because the asset has business use or another subsection applies. Under paragraph (a), jewelry is not necessary apparel and an electronic display is not itself a family picture; under paragraph (d), require stated trade use rather than treating a household appliance as a trade tool.",
+    "operators": [],
+    "jurisdiction": "ILLINOIS"
+  },
+  "provided_original_statute": {
+    "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+    "text": "The debtor's equity interest, not to exceed $4,000 in value, in any other property;\n"
+  },
+  "witness_discovery": "Three explicit business-use assets among actual teacher13 supplied-source IDs279,283,285; no keyword router or case-specific method rule was created. Not a census of every business asset.",
+  "witnesses": [
+    {
+      "case_id": 279,
+      "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+      "explicit_business_purpose_in_original_facts": true,
+      "fact_source_ref": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json",
+        "sha256": "ef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45"
+      },
+      "families": {
+        "EC": {
+          "original_target": [
+            "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "735 Ill. Comp. Stat. 5/12-1001(d)"
+          ],
+          "actual_parent_answer": [
+            "735 Ill. Comp. Stat. 5/12-1001(d)"
+          ],
+          "actual_original_matcher_errors_for_this_pair": [
+            {
+              "kind": "missing",
+              "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+            }
+          ],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/279_EC_skills.json",
+            "sha256": "f437ac132f30236d06ef16312cbe3570532127e2088625a83e271d585390a6e3"
+          },
+          "literal_wrong_parent_exclusion_verified_in_actual_wire": true
+        },
+        "EV": {
+          "original_target": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "claim_value": 930
+            },
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+              "claim_value": 930
+            }
+          ],
+          "actual_parent_answer": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+              "claim_value": 930
+            }
+          ],
+          "actual_original_matcher_errors_for_this_pair": [
+            {
+              "kind": "missing",
+              "asset": "commercial food mixer (used for a catering service operated by the Debtor)",
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "expected_value": 930.0,
+              "observed_values": []
+            }
+          ],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/279_EV_skills.json",
+            "sha256": "f6a83d46aadf064bb0fdc2e2a9caf2f0f37fbf14d0689e08e27cacbd65b30ced"
+          }
+        }
+      }
+    },
+    {
+      "case_id": 283,
+      "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+      "explicit_business_purpose_in_original_facts": true,
+      "fact_source_ref": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json",
+        "sha256": "ef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45"
+      },
+      "families": {
+        "EC": {
+          "original_target": [
+            "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "735 Ill. Comp. Stat. 5/12-1001(d)"
+          ],
+          "actual_parent_answer": [],
+          "actual_original_matcher_errors_for_this_pair": [
+            {
+              "kind": "missing",
+              "asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+            }
+          ],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/283_EC_skills.json",
+            "sha256": "40628ae365d082dad97c3a74c98f3e974e63838e8d89c97521de739b68b12337"
+          },
+          "literal_wrong_parent_exclusion_verified_in_actual_wire": true
+        },
+        "EV": {
+          "original_target": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "claim_value": 3450
+            },
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+              "claim_value": 3000
+            }
+          ],
+          "actual_parent_answer": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "claim_value": 3355
+            }
+          ],
+          "actual_original_matcher_errors_for_this_pair": [],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/283_EV_skills.json",
+            "sha256": "1190d5ad061f5e5f8366630fcad21bb7bb90adb14717af3b6a394be2d8395bc9"
+          }
+        }
+      }
+    },
+    {
+      "case_id": 285,
+      "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+      "explicit_business_purpose_in_original_facts": true,
+      "fact_source_ref": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json",
+        "sha256": "ef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45"
+      },
+      "families": {
+        "EC": {
+          "original_target": [
+            "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "735 Ill. Comp. Stat. 5/12-1001(d)"
+          ],
+          "actual_parent_answer": [],
+          "actual_original_matcher_errors_for_this_pair": [
+            {
+              "kind": "missing",
+              "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)"
+            }
+          ],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/285_EC_skills.json",
+            "sha256": "ee229eda40f90764f995eefcb937d291e1e2a281c7e318512633ddf593ed3022"
+          },
+          "literal_wrong_parent_exclusion_verified_in_actual_wire": true
+        },
+        "EV": {
+          "original_target": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "claim_value": 2275
+            },
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+              "claim_value": 2275
+            }
+          ],
+          "actual_parent_answer": [
+            {
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+              "claim_value": 1500
+            }
+          ],
+          "actual_original_matcher_errors_for_this_pair": [
+            {
+              "kind": "missing",
+              "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+              "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+              "expected_value": 2275.0,
+              "observed_values": []
+            }
+          ],
+          "actual_raw": {
+            "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_prequential/285_EV_skills.json",
+            "sha256": "48bc4ba9dad7b899b4d491ae5913737103c1c44b724d6f2e3827d459ab6ddfc2"
+          }
+        }
+      }
+    }
+  ],
+  "teacher13_wire": {
+    "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/teacher/b7_candidate1/wire_request.json",
+    "sha256": "ba8df5fd496255b0c91e4a4f9ae89089cabe1c67f6ca4325e68ad9a16b7139c8"
+  },
+  "teacher13_response": {
+    "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/teacher/b7_candidate1/response.json",
+    "sha256": "a389090d30bc7b7a29e45c2bba2ce24c304392de6f0066750b23c615cb56a562"
+  },
+  "EV_projection_protected_but_business_exclusion_not_yet_corrected_by_this_EC_step": true,
+  "causal_limit": "The parent instruction is wrong under these supplied labels/statutes, and the observed omissions align with it. The relative contribution of this instruction versus the 8B prior is not isolated until an actual controlled change is scored. Teacher13's full proposal also changes Federal wording and adds Arizona music eligibility; its gain cannot yet be assumed.",
+  "not_general_current_legal_advice_or_future_TEST_evidence": true,
+  "no_new_model_teacher_grading_or_TEST_call": true,
+  "formal_bank_unchanged_until_original_replay_and_admission": true
+}

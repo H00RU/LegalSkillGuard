@@ -1,0 +1,348 @@
+{
+  "at": "2026-10-30T04:26:20.893941+00:00",
+  "classification": "TRAIN-only B4 genuine EV proposal localization: actual AZ example prompts zero-valued inventories on two known nonexempt mentions, while PA rewrite worsens target amounts/alternatives. Exact text-delivery groups, all64 original scores and malformed comparisons retained. No unique wording cause or repaired-answer performance claimed.",
+  "run_id": "legal_openexempt_complete_output_utility_public_assets128_20261030_run01",
+  "all379_unchanged": true,
+  "actual_B4_proposal": {
+    "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/candidates/b4_candidate2.json",
+    "sha256": "0fcea965185a79863b92adf913a5ffb95942aeaedcfad3a86fde56632a2ad728"
+  },
+  "actual_B4_publication": {
+    "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/publications/b4.json",
+    "sha256": "681c53923de5646aad7641951edee74c4ca5e3d06fee62ca007a0acbbff0f63c"
+  },
+  "changed_EV_projection_ids": [
+    "EC:arizona-substantive-citations",
+    "EC:pennsylvania-general-monetary"
+  ],
+  "groups_by_actual_changed_instruction_delivery": [
+    {
+      "changed_delivered_skill_ids": [
+        "EC:pennsylvania-general-monetary"
+      ],
+      "sources": 14,
+      "current_sources": 4,
+      "native_delta_pp": -3.3177437641723317,
+      "full_delta_pp": -3.3820068820068827,
+      "physical_origin_changed": 14,
+      "official_all_source_denominator_unchanged": 64
+    },
+    {
+      "changed_delivered_skill_ids": [
+        "EC:arizona-substantive-citations"
+      ],
+      "sources": 14,
+      "current_sources": 4,
+      "native_delta_pp": 4.1666666666666625,
+      "full_delta_pp": -2.6831501831501847,
+      "physical_origin_changed": 14,
+      "official_all_source_denominator_unchanged": 64
+    },
+    {
+      "changed_delivered_skill_ids": [],
+      "sources": 36,
+      "current_sources": 8,
+      "native_delta_pp": 0.0,
+      "full_delta_pp": 0.0,
+      "physical_origin_changed": 0,
+      "official_all_source_denominator_unchanged": 64
+    }
+  ],
+  "all36_unchanged_delivery_outputs_scores_origins_exact": true,
+  "actual_AZ_example": "Match the asset before valuing it: use § 33-1101(A) for an occupied homestead, § 33-1123 for household furniture, goods, electronics, or appliances, § 33-1125(1) for actual wearing apparel, (4) only for engagement or wedding rings, (6) for one watch, (8) for one motor vehicle, (9) for a professionally prescribed prosthesis or physician-authorized mobility or respiratory aid, (10) for firearms, and (11) for domestic animals or household pets. For the whole named asset use the smaller of its value and $400,000 under § 33-1101(A), $15,000 under § 33-1123 or (8), $500 under (1), $2,000 under (4) or (10), or $250 under (6). The supplied provisions state no dollar ceiling for qualifying property under (9) or (11).\nExecution example: Hypothetically, a religious pendant receives an empty claim array under these provisions; it is neither wearing apparel nor an engagement or wedding ring.",
+  "actual_PA_before": {
+    "when": "When PENNSYLVANIA is allowable and the asset is property of the judgment debtor.",
+    "procedure": "Add 42 Pa. Cons. Stat. § 8123 independently to every asset alongside all qualifying federal or specific Pennsylvania alternatives. Use the smaller of the whole asset value and $300 for one debtor or $600 for two equal joint debtors; determine which ceiling applies from the stated debtor count. Add § 8124(a)(1) only for actual wearing apparel, (a)(2) only for a Bible or school book, (a)(3) only for the specified family or seamstress sewing machine, and (a)(4) only for an actual military uniform or accoutrement.",
+    "avoid_when": "Do not omit § 8123 because another exemption applies, use $600 for a single debtor, or copy a ceiling above the asset value. A firearm, jewelry item, vehicle, household textile, or other carried or household object does not become wearing apparel or military accoutrement without the required facts.",
+    "operators": [],
+    "jurisdiction": "PENNSYLVANIA"
+  },
+  "actual_PA_proposed": {
+    "when": "When PENNSYLVANIA is allowable and the asset is property of the judgment debtor.",
+    "procedure": "Use two independent passes. First add § 8123 to every asset: identify whether the facts name one debtor or two equal joint debtors, choose the corresponding $300 or $600 ceiling, and output the smaller of that ceiling and the whole asset value. Second add a specific provision only when its factual category matches: § 8124(a)(1) for an actual garment or other wearing apparel, (a)(2) for a Bible or school book, (a)(3) for the specified family or seamstress sewing machine, and (a)(4) for an actual military uniform or accoutrement. These specific provisions have no stated dollar ceiling, so a qualifying asset retains its whole value.",
+    "avoid_when": "Do not emit a nonmatching specific provision, even with a zero amount. Animals, vehicles, firearms, furniture, instruments, and household textiles not worn as clothing are not wearing apparel. Do not use $600 for one debtor, cap qualifying apparel at $300 or $600, or output § 8123 above the asset value. Retain § 8123 beside every independently matching federal or specific alternative.",
+    "operators": [],
+    "jurisdiction": "PENNSYLVANIA"
+  },
+  "zero_amount_inventory_cases": [
+    {
+      "case_id": 182,
+      "current": false,
+      "input": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_candidate2_replay/182_EV_candidate.input.json",
+        "sha256": "9b28daf4a5013af96457ce01b4d082593861b797e62c93f64ee5b3039d4b4e31"
+      },
+      "raw_native": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_candidate2_replay/182_EV_candidate.json",
+        "sha256": "19758eed5ce033ecf26a1c75d970790c2795b59a6504b5679f0697f253f6fecc"
+      },
+      "parent_unmatched": {
+        "handcrafted wire-wrapped pendant with semi-precious stone": 1
+      },
+      "candidate_unmatched": {
+        "handcrafted wire-wrapped pendant with semi-precious stone": 9
+      },
+      "all_candidate_unmatched_amounts_are_zero": true,
+      "unmatched_mentions_exist_in_public_case_asset_catalog_not_name_repair_failure": true,
+      "delta_native_pp": 0.0,
+      "delta_full_pp": -49.23076923076923,
+      "original_native_submission_exact": true,
+      "empty_array_permitted_and_explicitly_requested": true
+    },
+    {
+      "case_id": 239,
+      "current": true,
+      "input": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_candidate2_replay/239_EV_candidate.input.json",
+        "sha256": "1dc3491e42c7859551f7cebcf4c263e66e2cd9fe79ae7a35f72262d2d6069c98"
+      },
+      "raw_native": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_candidate2_replay/239_EV_candidate.json",
+        "sha256": "ee070a71ca2b1ac88e17dd547f48d4df15fe4a614610e5d0b50d40407e80bc76"
+      },
+      "parent_unmatched": {
+        "traditional gold confirmation necklace inscribed with a cross": 1
+      },
+      "candidate_unmatched": {
+        "traditional gold confirmation necklace inscribed with a cross": 8
+      },
+      "all_candidate_unmatched_amounts_are_zero": true,
+      "unmatched_mentions_exist_in_public_case_asset_catalog_not_name_repair_failure": true,
+      "delta_native_pp": 0.0,
+      "delta_full_pp": -46.666666666666664,
+      "original_native_submission_exact": true,
+      "empty_array_permitted_and_explicitly_requested": true
+    }
+  ],
+  "actual_extra_unscored_claim_count_parent": 2,
+  "actual_extra_unscored_claim_count_proposed": 17,
+  "EV_original_all64_native_delta_pp": 0.18570188492063494,
+  "EV_original_all64_full_delta_pp": -1.3267531080031087,
+  "fixed_denominator64_observed_full_delta_decomposition": {
+    "two_zero_inventory_cases_contribution_pp": -1.498397435897436,
+    "other62_cases_contribution_pp": 0.17164432789432715,
+    "not_removed_rescored_or_a_hypothetical_corrected_candidate": true
+  },
+  "PA_previously_correct_target_errors_common_valid_only": [
+    {
+      "kind": "incorrect_value",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "count": 11
+    },
+    {
+      "kind": "missing",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "count": 2
+    },
+    {
+      "kind": "incorrect_value",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "count": 2
+    },
+    {
+      "kind": "missing",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "count": 1
+    },
+    {
+      "kind": "missing",
+      "citation": "11 U.S.C. § 522(d)(4)",
+      "count": 1
+    }
+  ],
+  "PA_resolved_target_errors_common_valid_only": [
+    {
+      "kind": "missing",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "count": 4
+    },
+    {
+      "kind": "incorrect_value",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "count": 2
+    },
+    {
+      "kind": "incorrect_value",
+      "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+      "count": 1
+    }
+  ],
+  "PA_new_error_details_common_valid_only": [
+    {
+      "case_id": 198,
+      "kind": "incorrect_value",
+      "asset": "circular saw for Debtor's carpentry business, including replacement blades",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ]
+    },
+    {
+      "case_id": 198,
+      "kind": "incorrect_value",
+      "asset": "1999 Chevrolet Camaro, bright purple, Z28 coupe (112k mi)",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ]
+    },
+    {
+      "case_id": 200,
+      "kind": "incorrect_value",
+      "asset": "set of bath towels made from Egyptian cotton",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 175.0,
+      "observed_values": [
+        300.0
+      ]
+    },
+    {
+      "case_id": 205,
+      "kind": "missing",
+      "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 30850.0,
+      "observed_values": []
+    },
+    {
+      "case_id": 205,
+      "kind": "missing",
+      "asset": "concert-grade oboe (French key system)",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 2415.0,
+      "observed_values": []
+    },
+    {
+      "case_id": 205,
+      "kind": "incorrect_value",
+      "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ]
+    },
+    {
+      "case_id": 205,
+      "kind": "incorrect_value",
+      "asset": "concert-grade oboe (French key system)",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ]
+    },
+    {
+      "case_id": 211,
+      "kind": "incorrect_value",
+      "asset": "titanium engagement band with brushed finish and beveled edges",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 221.0,
+      "observed_values": [
+        600.0
+      ]
+    },
+    {
+      "case_id": 228,
+      "kind": "incorrect_value",
+      "asset": "hand-knotted wool area rug measuring 9x12 feet with Persian motif",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 325.0,
+      "observed_values": [
+        300.0
+      ]
+    },
+    {
+      "case_id": 235,
+      "kind": "missing",
+      "asset": "forest green 1998 Chevrolet Silverado 1500 Extended Cab (182k miles)",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": []
+    },
+    {
+      "case_id": 235,
+      "kind": "incorrect_value",
+      "asset": "small mountain cabin used year-round as the principal residence",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ]
+    },
+    {
+      "case_id": 235,
+      "kind": "incorrect_value",
+      "asset": "65-inch OLED television with wall mount and surround sound setup",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ]
+    },
+    {
+      "case_id": 235,
+      "kind": "incorrect_value",
+      "asset": "small mountain cabin used year-round as the principal residence",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 30850.0,
+      "observed_values": [
+        15425.0
+      ]
+    },
+    {
+      "case_id": 241,
+      "kind": "incorrect_value",
+      "asset": "two-seat entryway bench with hidden shoe storage",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ]
+    },
+    {
+      "case_id": 241,
+      "kind": "missing",
+      "asset": "set of stacking rings made from mixed metals including rose gold and silver",
+      "citation": "11 U.S.C. § 522(d)(4)",
+      "expected_value": 433.0,
+      "observed_values": []
+    },
+    {
+      "case_id": 241,
+      "kind": "incorrect_value",
+      "asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+      "citation": "11 U.S.C. § 522(d)(5)",
+      "expected_value": 24925.0,
+      "observed_values": [
+        15425.0
+      ]
+    },
+    {
+      "case_id": 241,
+      "kind": "incorrect_value",
+      "asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+      "citation": "42 Pa. Cons. Stat. § 8123",
+      "expected_value": 600.0,
+      "observed_values": [
+        300.0
+      ]
+    }
+  ],
+  "PA_invalid_pair_excluded_only_from_previously_correct_claim_subcounts_kept_in_official_scores": [
+    {
+      "case_id": 216,
+      "parent_invalid": 1,
+      "candidate_invalid": 0,
+      "parent_f1": 0.0,
+      "candidate_f1": 0.8095238095238095
+    }
+  ],
+  "new_B5_teacher_EV_not_yet_available_at_audit": true,
+  "next_scientific_check": "Read actual teacher10 after B5 forecasts complete: verify 182/239 zero-inventory failure, PA value/omission errors and true current-parent references, then examine actual next proposal/replay. Natural-language empty-array statement is present but not reliably executed; do not add decoder clamp, drop claims, relax metrics or hotedit current run.",
+  "new_TEST_semantics_unopened": true,
+  "new_student_teacher_tokenizer_or_official_grading_calls": 0,
+  "full_goal_active_not_complete": true
+}

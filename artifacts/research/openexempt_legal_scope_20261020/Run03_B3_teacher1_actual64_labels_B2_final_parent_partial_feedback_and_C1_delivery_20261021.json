@@ -1,0 +1,521 @@
+{
+  "at": "2026-10-21T09:05:03.553457+00:00",
+  "classification": "Actual B3 teacher1 all16 current plus16 selected historical sources/64 TRAIN tasks, B2-final-parent/raw-trace and two carried partial-rejection feedback sets, fresh response and completed C1 delivery snapshots; candidate not yet admitted",
+  "current_parent_bank_sha256": "e9844cefc4b4a8649f171d801d5035b9d378a2aae1e0ea053d90e1c79dad9e07",
+  "current_parent_records": 6,
+  "proposed_bank_sha256": "fc4e33c67e961b57424b1a8e3a216b50a195e095b74dad7afb35c635eee3be85",
+  "proposed_records": 7,
+  "actual_parent_answers_targets_and_trace_origins_verified": 64,
+  "actual_two_B2_partial_commit_feedback_sets": [
+    {
+      "origin": {
+        "batch": 2,
+        "attempt": 1,
+        "publication_bank_sha256": "e9844cefc4b4a8649f171d801d5035b9d378a2aae1e0ea053d90e1c79dad9e07"
+      },
+      "witness_count": 7,
+      "all_references_match_real_current_B2_final_parent": true,
+      "stored_origin_witness_count_before_history_filter": 8,
+      "actual_delivered_reference_count": 7
+    },
+    {
+      "origin": {
+        "batch": 2,
+        "attempt": 2,
+        "publication_bank_sha256": "e9844cefc4b4a8649f171d801d5035b9d378a2aae1e0ea053d90e1c79dad9e07"
+      },
+      "witness_count": 8,
+      "all_references_match_real_current_B2_final_parent": true,
+      "stored_origin_witness_count_before_history_filter": 8,
+      "actual_delivered_reference_count": 8
+    }
+  ],
+  "teacher_evidence_manifest": {
+    "current_source_ids_all_included": [
+      213,
+      214,
+      215,
+      216,
+      217,
+      218,
+      219,
+      220,
+      221,
+      222,
+      223,
+      224,
+      225,
+      226,
+      227,
+      228
+    ],
+    "selected_historical_source_ids": [
+      181,
+      182,
+      184,
+      187,
+      190,
+      191,
+      192,
+      193,
+      195,
+      198,
+      203,
+      205,
+      208,
+      209,
+      210,
+      211
+    ],
+    "selected_source_ids": [
+      181,
+      182,
+      184,
+      187,
+      190,
+      191,
+      192,
+      193,
+      195,
+      198,
+      203,
+      205,
+      208,
+      209,
+      210,
+      211,
+      213,
+      214,
+      215,
+      216,
+      217,
+      218,
+      219,
+      220,
+      221,
+      222,
+      223,
+      224,
+      225,
+      226,
+      227,
+      228
+    ],
+    "all_seen_source_ids": [
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198,
+      199,
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209,
+      210,
+      211,
+      212,
+      213,
+      214,
+      215,
+      216,
+      217,
+      218,
+      219,
+      220,
+      221,
+      222,
+      223,
+      224,
+      225,
+      226,
+      227,
+      228
+    ],
+    "omitted_historical_source_ids": [
+      183,
+      185,
+      186,
+      188,
+      189,
+      194,
+      196,
+      197,
+      199,
+      200,
+      201,
+      202,
+      204,
+      206,
+      207,
+      212
+    ],
+    "historical_source_limit": 16,
+    "public_context_witnesses": [
+      182,
+      193,
+      181,
+      184,
+      195
+    ],
+    "rule": "public-context witnesses, then actual rejected-candidate harm, then parent failures; ties by source ID",
+    "full_seen_TRAIN_replay_and_acceptance_unchanged": true,
+    "not_an_independent_validation_set": true
+  },
+  "fresh_response_and_no_tools_verified": true,
+  "usage": {
+    "input_tokens": 233106,
+    "cached_input_tokens": 0,
+    "output_tokens": 6908,
+    "reasoning_output_tokens": 4935
+  },
+  "elapsed_seconds": 132.754,
+  "operation_counts": {
+    "UPDATE": 3,
+    "CREATE": 1
+  },
+  "operations": [
+    {
+      "operation": "UPDATE",
+      "target_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "skill": {
+        "id": "arizona-caps-are-not-eligibility-and-category-boundaries",
+        "hypothesis_ids": [
+          "EC",
+          "EV"
+        ],
+        "guidance": {
+          "by_task": [
+            {
+              "tasks": [
+                "EC"
+              ],
+              "when": "ARIZONA is allowable and the asset fits an Arizona category.",
+              "procedure": "Treat statutory dollar limits as caps, not eligibility thresholds: include § 33-1125(8) for a motor vehicle, § 33-1125(10) for a firearm, and § 33-1125(2) for a musical instrument even when value exceeds the limit. Include § 33-1101(A), not subsection (B), as the homestead exemption alternative. Confirm the statutory category before applying its cap.",
+              "avoid_when": "Do not classify jewelry as wearing apparel; § 33-1125(4) is limited to engagement and wedding rings, and subsection (B) is a one-homestead limitation rather than a separate asset exemption. Non-ring jewelry does not qualify under either § 33-1125(1) or § 33-1125(4). Do not replace the specific musical-instrument or wearing-apparel category with § 33-1123."
+            },
+            {
+              "tasks": [
+                "EV"
+              ],
+              "when": "ARIZONA is allowable and the facts establish a professionally prescribed prosthetic or assistive device serving a prosthetic function.",
+              "procedure": "Include Ariz. Rev. Stat. § 33-1125(9). Because the supplied subsection states no dollar ceiling, report the asset value for that alternative.",
+              "avoid_when": "Do not apply § 33-1125(9) merely because an item has a medical or therapeutic use; the facts must establish professional prescription and a prosthetic or assistive function."
+            }
+          ],
+          "operators": [],
+          "jurisdiction": "ARIZONA"
+        }
+      },
+      "source_case_ids": [
+        215,
+        223
+      ],
+      "rationale": "In source 223 the parent wrongly treated the musical-instrument limit as an eligibility threshold and substituted the household-goods law; in source 215 EV it omitted § 33-1125(9) despite the physician-approved assistive function. These are distinct category-selection errors, not reasons to alter the already-correct vehicle, jewelry, and homestead boundaries."
+    },
+    {
+      "operation": "UPDATE",
+      "target_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "skill": {
+        "id": "federal-independent-wildcard-and-caps",
+        "hypothesis_ids": [
+          "EC",
+          "EV"
+        ],
+        "guidance": {
+          "by_task": [
+            {
+              "tasks": [
+                "EC"
+              ],
+              "when": "FEDERAL is an allowable namespace and the asset is property of the debtor.",
+              "procedure": "Evaluate every applicable specific paragraph, then independently include 11 U.S.C. § 522(d)(5), which can protect any property. A dollar ceiling limits protection rather than eligibility. Section 522(d)(3) specifically includes personal-use animals, wearing apparel, musical instruments, household goods, and appliances. Thus a vehicle remains eligible under § 522(d)(2) above its cap, jewelry uses § 522(d)(4), and § 522(d)(5) remains an additional alternative even when a specific paragraph applies.",
+              "avoid_when": "Do not use 11 U.S.C. § 522(d)(3) for an unlisted category such as a firearm or jewelry, do not omit a specific paragraph because value exceeds its ceiling, and do not repeat a citation."
+            },
+            {
+              "tasks": [
+                "EV"
+              ],
+              "when": "FEDERAL is allowable and an eligible asset-exemption pair needs a claim value.",
+              "procedure": "Compute each alternative independently. Use the lesser of asset value and $4,450 under § 522(d)(2), or $700 per item under § 522(d)(3). Under § 522(d)(4), use the lesser of value and $1,875 for one debtor, or $3,750 for jointly owned jewelry of two debtors under § 522(m). Independently include § 522(d)(5) for every debtor-owned asset: because this is a separate alternative, do not subtract a simultaneously listed § 522(d)(1) claim. Its maximum is $15,425 per debtor ($1,475 plus $13,950), or $30,850 for jointly owned property of two debtors under § 522(m), subject to the asset value.",
+              "avoid_when": "Do not omit § 522(d)(5) because a specific paragraph applies or because the asset is not a residence. Do not report more than $700 per item under § 522(d)(3), and do not treat that paragraph as covering firearms, jewelry, or other unlisted categories."
+            }
+          ],
+          "operators": [],
+          "jurisdiction": "FEDERAL"
+        }
+      },
+      "source_case_ids": [
+        213,
+        214,
+        226,
+        227
+      ],
+      "rationale": "Sources 213 and 226 show omissions of federal alternatives for expressly listed animals or apparel, while source 227 repeatedly omitted the independent wildcard. Source 214 additionally exposes a different amount error: § 522(m) requires the two-debtor § 522(d)(4) amount of $3,750, but the parent used the one-debtor $1,875 cap."
+    },
+    {
+      "operation": "UPDATE",
+      "target_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "skill": {
+        "id": "illinois-overlapping-wildcard-and-stated-limits",
+        "hypothesis_ids": [
+          "EC",
+          "EV"
+        ],
+        "guidance": {
+          "by_task": [
+            {
+              "tasks": [
+                "EC"
+              ],
+              "when": "ILLINOIS is allowable and the property is held for personal rather than business use.",
+              "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently as the any-other-property alternative, including when apparel, a motor vehicle, or a prescribed health aid also has a specific exemption. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, and (e) covers professionally prescribed health aids. A value above a limit does not eliminate either applicable alternative.",
+              "avoid_when": "Do not use § 12-1001(d) for ordinary household property; it requires implements, professional books, or tools of the debtor's trade. Do not classify jewelry or a watch as necessary wearing apparel under subsection (a), and do not omit subsection (b) merely because a specific subsection applies."
+            },
+            {
+              "tasks": [
+                "EV"
+              ],
+              "when": "ILLINOIS is allowable and an eligible debtor-owned item is personal property used for personal rather than business purposes.",
+              "procedure": "First list § 12-1001(b) for every such item, including apparel, jewelry, a motor vehicle, or a prescribed health aid; then add each applicable specific subsection. Value subsection (b) at the lesser of value and $4,000 for one debtor, or $8,000 for jointly owned property of two debtors. Value subsection (c) separately at the lesser of value and $2,400; this vehicle limit is not doubled. Sections (a) and (e) have no stated dollar ceiling in the supplied text, so use the asset value.",
+              "avoid_when": "Do not omit subsection (b) because subsection (a), (c), or (e) applies. Do not classify jewelry, a bracelet, or a watch as necessary wearing apparel, assign the joint wildcard amount to subsection (c), or apply these personal-property exemptions to business-use property."
+            }
+          ],
+          "operators": [],
+          "jurisdiction": "ILLINOIS"
+        }
+      },
+      "source_case_ids": [
+        190,
+        195,
+        219,
+        221
+      ],
+      "rationale": "The current EV parent repeatedly omitted subsection (b) when apparel or a health aid also had a specific exemption in sources 190, 195, 219, and 221. Sources 190 and 221 also show the separate false-positive condition of treating jewelry as necessary wearing apparel. The EC boundary remains verbatim."
+    },
+    {
+      "operation": "CREATE",
+      "target_ids": [],
+      "skill": {
+        "id": "wisconsin-consumer-goods-and-vehicle-add-on-boundaries",
+        "hypothesis_ids": [
+          "EV"
+        ],
+        "guidance": {
+          "by_task": [
+            {
+              "tasks": [
+                "EV"
+              ],
+              "when": "WISCONSIN is allowable and an eligible personal-use consumer good or motor vehicle needs valuation.",
+              "procedure": "For § 815.18(3)(d), use the lesser of value and $12,000 for one debtor, or $24,000 for jointly owned property of two spouses under § 815.18(8). Firearms, animals, apparel, jewelry, appliances, and other listed personal-use goods fall in subsection (d). For a one-debtor motor vehicle under § 815.18(3)(g), independently add the unused $12,000 subsection (d) amount to the $4,000 vehicle amount, giving a maximum of $16,000 subject to vehicle value; do not reduce it for other assets because this task evaluates each pair independently.",
+              "avoid_when": "Do not use the business-property exemption in § 815.18(3)(b)(1) without facts showing business use, classify a motor vehicle under subsection (d), or cap a one-debtor subsection (g) vehicle alternative at $4,000 when the subsection (d) amount is unused."
+            }
+          ],
+          "operators": [],
+          "jurisdiction": "WISCONSIN"
+        }
+      },
+      "source_case_ids": [
+        214,
+        227
+      ],
+      "rationale": "Source 214 EV falsely added the business-property law to a personal-use firearm. Source 227 EV made the distinct valuation error of stopping the Wisconsin vehicle alternative at $4,000 although subsection (g) permits the unused subsection (d) amount to be added, and the released target therefore protects the vehicle's full value."
+    }
+  ],
+  "completed_C1_delivery_snapshots_at_audit": [
+    {
+      "case_id": 181,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 181,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 182,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 182,
+      "family": "EV",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    },
+    {
+      "case_id": 183,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "arizona-caps-are-not-eligibility-and-category-boundaries"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    }
+  ],
+  "C1_complete_decision_exists_at_audit": false,
+  "candidate_effect_not_yet_measured": "Teacher updates ARIZONA, FEDERAL, ILLINOIS and creates WISCONSIN EV guidance. Only whole seen-TRAIN replay/admission and later first encounters can establish deployed effect.",
+  "future_or_TEST_targets_read": false,
+  "new_model_teacher_or_TEST_calls": 0,
+  "evidence_paths": [
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/181.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/182.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/184.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/187.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/190.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/191.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/192.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/193.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/195.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/198.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/203.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/205.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/208.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/209.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/210.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/211.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/213.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/214.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/215.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/216.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/217.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/218.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/219.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/220.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/221.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/222.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/223.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/224.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/225.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/226.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/227.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/228.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b3_prequential.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/batches/b3_prequential_records.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b2_candidate1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/candidates/b2_candidate2.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/181_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/182_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/184_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/190_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/190_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/192_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/195_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_candidate2_replay/195_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b1_prequential/182_EV_empty.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/181_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/184_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/187_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/191_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/192_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/193_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/198_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/203_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/205_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/208_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/209_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/210_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/211_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/187_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/191_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/193_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/208_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate2_replay/210_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/198_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/203_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/205_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/209_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_prequential/211_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/181_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/181_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/181_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/181_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/182_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/182_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/182_EV_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/182_EV_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/183_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_candidate1_replay/183_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/213_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/213_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/214_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/214_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/215_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/215_EV_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/216_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/216_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/217_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/217_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/218_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/218_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/219_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/219_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/220_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/220_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/221_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/221_EV_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/222_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/222_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/223_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/223_EV_frozen_initial.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/224_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/224_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/225_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/225_EV_empty_direct_numeric.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/226_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/226_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/227_EC_frozen_after_B1.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/227_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/228_EC_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b3_prequential/228_EV_skills.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b2.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b3_candidate1/event_log.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b3_candidate1/response.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b3_candidate1/wire_request.json"
+  ],
+  "audit_recomputation_program": "import json,pathlib,collections\nfrom jsonschema import validate\nimport experiments.openexempt_online as e\nfrom legal_skill_guard.learning.publication import apply_differential_publication\nfrom legal_skill_guard.learning.task_scoped_skills import SCOPED_GUIDANCE_SCHEMA,validate_scoped_bank\nfrom legal_skill_guard.learning.legal_namespace import validate_scopes\nfrom legal_skill_guard.learning.experiment import now\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nroot=pathlib.Path.cwd();r=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\";read=lambda p:json.loads(p.read_text())\ncfg=read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\")\ndecisions={(2,1):read(r/\"candidates/b2_candidate1.json\"),(2,2):read(r/\"candidates/b2_candidate2.json\")}\npub=read(r/\"publications/b2.json\");parent=pub[\"bank\"];parenthash=csha(parent);assert parenthash==pub[\"bank_sha256\"]\nparents={(x[\"case_id\"],x[\"family\"]):x for x in decisions[2,2][\"actual_replay\"]}\nparents.update({(x[\"case_id\"],x[\"family\"]):x for x in read(r/\"batches/b3_prequential_records.json\")[\"skills\"]})\nwire=r/\"teacher/b3_candidate1/wire_request.json\";response=r/\"teacher/b3_candidate1/response.json\";event=r/\"teacher/b3_candidate1/event_log.json\"\nw=read(wire);a=read(response);b=json.loads(w[\"user_prompt\"]);log=read(event)\nassert csha(w)==a[\"request_sha256\"] and csha(a[\"value\"])==a[\"response_sha256\"] and a[\"cache_hit\"] is False\nassert a[\"invocation\"][\"returncode\"]==0 and not a[\"invocation\"][\"tool_events_detected\"]\nassert csha({\"event_log\":log[\"event_log\"]})==a[\"invocation\"][\"event_log_sha256\"]\nvalidate(a[\"value\"],w[\"output_schema\"])\nassert b[\"current_parent_library\"]==parent and b[\"candidate_feedback_contract\"][\"current_attempt_parent_bank_sha256\"]==parenthash\nassert b[\"candidate_feedback_contract\"][\"attempt\"]==1 and b[\"candidate_feedback_contract\"][\"max_attempts\"]==2\nassert b[\"current_source_case_ids\"]==list(range(213,229))\nkeys={(i,f) for i in range(181,229) for f in (\"EC\",\"EV\")}\nrows={(x[\"case_id\"],x[\"family\"]):x for x in read(root/cfg[\"input_packet\"])[\"rows\"] if (x[\"case_id\"],x[\"family\"]) in keys}\nassert len(parents)==96 and len(b[\"already_seen_training\"])==64\nselected=b[\"training_evidence_manifest\"][\"selected_source_ids\"];expected_keys={(i,f) for i in selected for f in (\"EC\",\"EV\")}\nassert {(x[\"source_case_id\"],x[\"family\"]) for x in b[\"already_seen_training\"]}==expected_keys and expected_keys<=keys\nassert b[\"training_evidence_manifest\"][\"current_source_ids_all_included\"]==list(range(213,229))\nassert len(b[\"training_evidence_manifest\"][\"selected_historical_source_ids\"])==16 and set(b[\"training_evidence_manifest\"][\"selected_historical_source_ids\"])<=set(range(181,213))\nmembers={str(x.relative_to(root)) for x in [wire,response,event,r/\"candidates/b2_candidate1.json\",r/\"candidates/b2_candidate2.json\",r/\"publications/b2.json\",r/\"batches/b3_prequential_records.json\",r/\"batches/b3_prequential.json\"]}\nfor x in b[\"already_seen_training\"]:\n key=x[\"source_case_id\"],x[\"family\"];expected=parents[key];row=rows[key];v=x[\"actual_parent_answer\"]\n gp=root/cfg[\"grading_directory\"]/f\"{key[0]}.json\"\n assert x[\"original_training_target\"]==read(gp)[\"targets\"][key[1]] and x[\"facts\"]==row[\"components\"][\"facts\"]\n assert v[\"executed_answer\"]==expected[\"parsed\"][\"answer\"] and v[\"score\"]==expected[\"score\"]\n messages,schema,supplied=e.actor_payload(row,parent,grounded=True,direct_numeric=True,asset_references=True)\n raw=read(root/expected[\"raw_call_path\"]);call=raw[\"calls\"][0];req=call[\"request\"]\n assert expected[\"bank_sha256\"]==parenthash and req[\"messages\"]==messages and req[\"response_format\"][\"json_schema\"][\"schema\"]==schema\n assert expected[\"delivered_skill_ids\"]==[s[\"id\"] for s in supplied]\n trace=v[\"source_model_emitted_evidence\"];reasoning=call[\"response\"][\"choices\"][0][\"message\"].get(\"reasoning_content\") or \"\"\n assert trace[\"canonical_call_sha256\"]==csha(call) and trace[\"reasoning\"][\"text\"]==reasoning[-1024:] and trace[\"reasoning\"][\"canonical_text_sha256\"]==csha(reasoning)\n members.update((expected[\"raw_call_path\"],str(gp.relative_to(root))))\nfeedback_summaries=[]\nfor f in b[\"rejected_candidate_feedback\"]:\n origin=f[\"candidate_feedback_origin\"];prior=decisions[origin[\"batch\"],origin[\"attempt\"]]\n proposals={(x[\"case_id\"],x[\"family\"]):x for x in prior.get(\"proposed_replay\",prior[\"actual_replay\"])}\n witnesses=f[\"feedback_witness_replay\"];references=f[\"feedback_reference_replay\"]\n assert 0<len(witnesses)<=8 and len(witnesses)==len(references)\n for x in witnesses:\n  expected=proposals[x[\"case_id\"],x[\"family\"]]\n  assert x[\"score\"]==expected[\"score\"] and x[\"executed_answer\"]==expected[\"parsed\"][\"answer\"]\n for x in references:\n  expected=parents[x[\"case_id\"],x[\"family\"]]\n  assert x[\"reference_is_this_request_parent\"] and x[\"bank_sha256\"]==parenthash and x[\"record_sha256\"]==csha(expected) and x[\"score\"]==expected[\"score\"]\n feedback_summaries.append({\"origin\":origin,\"witness_count\":len(witnesses),\"all_references_match_real_current_B2_final_parent\":True,\"stored_origin_witness_count_before_history_filter\":f[\"bounded_feedback_witness_task_count\"],\"actual_delivered_reference_count\":len(references)})\nassert len(feedback_summaries)==2 and b[\"future_cases_and_labels_not_supplied\"] is True\ncandidate=apply_differential_publication(parent,a[\"value\"],e.FAMILIES,b[\"training_evidence_manifest\"][\"selected_source_ids\"],guidance_schema=SCOPED_GUIDANCE_SCHEMA)\nvalidate_scoped_bank(candidate);validate_scopes(candidate,rows[181,\"EC\"][\"components\"][\"statutes\"])\nassert all(not s[\"guidance\"][\"operators\"] for s in candidate)\nchecked=[]\nfor ap in sorted((r/\"native/b3_candidate1_replay\").glob(\"*.answer.json\")):\n x=read(ap);row=rows[x[\"case_id\"],x[\"family\"]]\n messages,schema,supplied=e.actor_payload(row,candidate,grounded=True,direct_numeric=True,asset_references=True)\n raw=read(root/x[\"raw_call_path\"]);req=raw[\"calls\"][0][\"request\"]\n assert x[\"bank_sha256\"]==csha(candidate) and req[\"messages\"]==messages and req[\"response_format\"][\"json_schema\"][\"schema\"]==schema\n assert x[\"delivered_skill_ids\"]==[s[\"id\"] for s in supplied] and x[\"native_program\"] is None and x[\"execution_receipt\"] is None\n checked.append({\"case_id\":x[\"case_id\"],\"family\":x[\"family\"],\"delivered_skill_ids\":x[\"delivered_skill_ids\"],\"finish_reason\":raw[\"response\"][\"finish_reason\"],\"parse_error\":x[\"parse_error\"]})\n members.update((str(ap.relative_to(root)),x[\"raw_call_path\"]))\nout={\"at\":now(),\"classification\":\"Actual B3 teacher1 all16 current plus16 selected historical sources/64 TRAIN tasks, B2-final-parent/raw-trace and two carried partial-rejection feedback sets, fresh response and completed C1 delivery snapshots; candidate not yet admitted\",\n\"current_parent_bank_sha256\":parenthash,\"current_parent_records\":len(parent),\"proposed_bank_sha256\":csha(candidate),\"proposed_records\":len(candidate),\n\"actual_parent_answers_targets_and_trace_origins_verified\":64,\"actual_two_B2_partial_commit_feedback_sets\":feedback_summaries,\"teacher_evidence_manifest\":b[\"training_evidence_manifest\"],\n\"fresh_response_and_no_tools_verified\":True,\"usage\":a[\"invocation\"][\"usage\"],\"elapsed_seconds\":a[\"invocation\"][\"elapsed_seconds\"],\n\"operation_counts\":dict(collections.Counter(x[\"operation\"] for x in a[\"value\"][\"operations\"])),\"operations\":a[\"value\"][\"operations\"],\n\"completed_C1_delivery_snapshots_at_audit\":checked,\"C1_complete_decision_exists_at_audit\":(r/\"candidates/b3_candidate1.json\").exists(),\n\"candidate_effect_not_yet_measured\":\"Teacher updates ARIZONA, FEDERAL, ILLINOIS and creates WISCONSIN EV guidance. Only whole seen-TRAIN replay/admission and later first encounters can establish deployed effect.\",\n\"future_or_TEST_targets_read\":False,\"new_model_teacher_or_TEST_calls\":0,\"evidence_paths\":sorted(members)}\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

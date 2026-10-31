@@ -1,0 +1,82 @@
+{
+  "at": "2026-10-26T20:45:16.806546+00:00",
+  "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+  "classification": "Teacher15 actual retained B7parent/targets with previousB7 and complete rejectedB8C1 witnesses; no model inference or grading in audit",
+  "B8_teacher_delivery": {
+    "model": "gpt-5.6-sol",
+    "prepared_unique_sources": 32,
+    "verified_actual_parent_and_original_target_tasks": 64,
+    "previous_B7_and_current_B8_feedback_groups": 2,
+    "verified_original_feedback_witness_occurrences": 16,
+    "all_selected_witnesses_have_facts_and_targets": true,
+    "prior_parent_is_real_published_B7_bank": true,
+    "response_exists": true,
+    "actual_receipt_status": "fresh teacher response exists matching actual wire model",
+    "teacher_cache_hit": false,
+    "proposal_operations": 1
+  },
+  "actual_teacher15_proposal": {
+    "operations": [
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "wisconsin-motor-vehicle-value-with-unused-consumer-capacity",
+          "hypothesis_ids": [
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Wisconsin exemptions are allowable and valuing a motor vehicle under Wis. Stat. § 815.18(3)(g).",
+                "procedure": "Value the § 815.18(3)(g) alternative at the lesser of the vehicle value and $16,000 for one debtor or $32,000 for two equal joint debtors, because unused § 815.18(3)(d) capacity may be added to the vehicle ceiling. Reduce that maximum only if the facts state that consumer-goods capacity was actually consumed.",
+                "avoid_when": "Do not stop at the $4,000 base when the consumer-goods capacity is unused, double the ceiling for a single debtor, classify the vehicle separately under subsection (d), or apply these Wisconsin amounts to a Federal alternative."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "WISCONSIN"
+          }
+        },
+        "source_case_ids": [
+          294,
+          298,
+          301,
+          306
+        ],
+        "rationale": "In all four sources, the actual parent valued the Wisconsin motor-vehicle alternative at only $4,000. The released targets instead use the vehicle ceiling plus unused § 815.18(3)(d) capacity: up to $16,000 for one debtor and $32,000 for two joint debtors, capped by vehicle value. A separate EV-only skill avoids changing the already committed Wisconsin EC boundary or contaminating Federal valuation."
+      }
+    ],
+    "noop_reason": null
+  },
+  "request_sha256": "fef7aeb5ec4bb282c0e689ace47bb6bf28e0cf12526c87b23da7a3b4658bb06b",
+  "teacher_usage": {
+    "input_tokens": 235823,
+    "cached_input_tokens": 0,
+    "output_tokens": 2690,
+    "reasoning_output_tokens": 2347
+  },
+  "progress": {
+    "at": "2026-10-26T20:44:49.948711+00:00",
+    "run_id": "legal_openexempt_adaptive_legal_public_assets128_20261026_run01",
+    "state": "running",
+    "stage": "b8_candidate2_replay",
+    "current_batch": 8,
+    "completed_native_calls": 1475,
+    "completed_teacher_calls": 15,
+    "teacher_attempts": 15,
+    "cross_stage_identical_wire_reuses": 2169,
+    "library_records": 9,
+    "execution_dispatch": {
+      "policy": "ordered_independent_phases_v1",
+      "native_workers": 4,
+      "teacher_workers": 1,
+      "required_max_num_seqs": 4
+    },
+    "current_arm": "candidate",
+    "current_document_id": 212,
+    "current_call": "openexempt"
+  }
+}

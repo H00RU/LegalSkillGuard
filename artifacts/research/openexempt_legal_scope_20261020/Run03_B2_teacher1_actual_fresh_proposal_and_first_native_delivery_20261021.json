@@ -1,0 +1,215 @@
+{
+  "at": "2026-10-21T05:11:23.466307+00:00",
+  "classification": "Actual fresh B2 teacher1 response/proposed text skill bank and completed native delivery snapshot; NOT final proposal scoring, publication, new-case improvement, or TEST",
+  "parent_bank_sha256": "574af7a6d3a5f155d45aebeefb7f620884cbe557a2e5f91914bbfdd3f2eb5118",
+  "proposed_bank_sha256": "780bf50d9782c52581f328a90f0bb2ac3d61dc539f58fd308c019d4dd5658aef",
+  "parent_skill_count": 5,
+  "proposed_skill_count": 6,
+  "operation_counts": {
+    "UPDATE": 4,
+    "CREATE": 1
+  },
+  "operations": [
+    {
+      "operation": "UPDATE",
+      "target_ids": [
+        "federal-independent-wildcard-and-caps"
+      ],
+      "id": "federal-independent-wildcard-and-caps",
+      "source_case_ids": [
+        198,
+        200,
+        202,
+        203,
+        205,
+        206,
+        208,
+        209,
+        210,
+        211,
+        212
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "FEDERAL is an allowable namespace and the asset is property of the debtor.",
+            "procedure": "Evaluate every applicable specific paragraph, then independently include 11 U.S.C. § 522(d)(5), which can protect any property. A dollar ceiling limits protection rather than eligibility. Thus a vehicle remains eligible under § 522(d)(2) above its cap, jewelry uses § 522(d)(4), listed household goods or musical instruments use § 522(d)(3), and trade tools may use § 522(d)(6); § 522(d)(5) remains an additional alternative in every instance.",
+            "avoid_when": "Do not use 11 U.S.C. § 522(d)(3) for an unlisted category such as a firearm or jewelry, do not omit a specific paragraph because value exceeds its ceiling, and do not omit or repeat § 522(d)(5)."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "FEDERAL is allowable and an eligible asset-exemption pair needs a claim value.",
+            "procedure": "Compute each alternative independently. Use the lesser of asset value and $4,450 under § 522(d)(2), $700 per item under § 522(d)(3), or $1,875 under § 522(d)(4). Independently include § 522(d)(5) for every debtor-owned asset: because this is a separate alternative, do not subtract a simultaneously listed § 522(d)(1) claim. Its maximum is $15,425 per debtor ($1,475 plus $13,950), or $30,850 for jointly owned property of two debtors under § 522(m), subject to the asset value.",
+            "avoid_when": "Do not omit § 522(d)(5) because a specific paragraph applies or because the asset is not a residence. Do not report more than $700 per item under § 522(d)(3), and do not treat that paragraph as covering firearms, jewelry, or other unlisted categories."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      },
+      "rationale": "The current parent repeatedly omitted the independent § 522(d)(5) alternative, including alongside §§ 522(d)(1), (2), (3), (4), and (6). Sources 200, 205, and 208 show that the actor incorrectly conditioned the wildcard on residence usage, while source 205 also shows a separate § 522(d)(3) amount error and sources 206 and 212 show false § 522(d)(3) jewelry claims. The revision preserves the existing caps while making independent wildcard evaluation explicit."
+    },
+    {
+      "operation": "UPDATE",
+      "target_ids": [
+        "oregon-general-personal-property-alternative"
+      ],
+      "id": "oregon-general-personal-property-alternative",
+      "source_case_ids": [
+        202,
+        206,
+        210
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "OREGON is allowable and the asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent general personal-property alternative even when a more specific Oregon exemption also applies, including for a vehicle, firearm, or professionally prescribed health aid. Retain the correct specific alternative: subsection (f) for household goods, subsection (d) for a vehicle, and § 18.362 for a qualifying firearm.",
+            "avoid_when": "Do not substitute the general alternative for the specific category exemption, apply it to real property, classify wearing apparel as household goods under § 18.345(1)(f), or use vehicle subsection (d) for nonvehicles."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "OREGON is allowable and § 18.345(1)(p) applies to personal property.",
+            "procedure": "Report the § 18.345(1)(p) alternative independently at the lesser of the asset value and $400, including when a vehicle, firearm, health aid, or household good also has a specific Oregon exemption. Retain and value the correct specific alternative separately.",
+            "avoid_when": "Do not omit subsection (p) because the asset exceeds $400 or another subsection applies. Do not classify apparel under subsection (f), use vehicle subsection (d) for household electronics, or replace a specific category with subsection (p)."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      },
+      "rationale": "Sources 202 and 206 show omissions of subsection (p) for firearms or vehicles, despite its general personal-property coverage. Source 210 presents a different error: a household electronic item was assigned the vehicle subsection and, in EV, another household item lost its subsection (f) alternative. The update separates the missing general alternative from the wrong specific category."
+    },
+    {
+      "operation": "UPDATE",
+      "target_ids": [
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "id": "pennsylvania-general-monetary-alternative",
+      "source_case_ids": [
+        198,
+        200,
+        205,
+        211
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "PENNSYLVANIA is allowable and the debtor owns the property.",
+            "procedure": "Include 42 Pa. Cons. Stat. § 8123 as an independent general monetary exemption for the property, whether or not a specific federal or Pennsylvania exemption also applies and whether or not the property's value exceeds the monetary limit.",
+            "avoid_when": "Do not invent a specific Pennsylvania category, use a specific category belonging to a different kind of property, or treat a firearm as wearing apparel under § 8124(a)(1)."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "PENNSYLVANIA is allowable and § 8123 is evaluated.",
+            "procedure": "Eligibility under § 8123 does not depend on property category or value. Report one independent alternative at the lesser of asset value and $300 for one debtor, or the lesser of asset value and $600 for jointly owned property of two married debtors.",
+            "avoid_when": "Do not omit § 8123 for real property, business tools, household goods, appliances, or property already covered federally. Do not report only $300 for jointly owned property of two married debtors, and do not use § 8124(a)(3) unless the property is a qualifying sewing machine."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      },
+      "rationale": "The current EV parent omitted § 8123 for business tools, residences, musical instruments, and household property. Source 211 also shows invented § 8124(a)(3) coverage for non-sewing-machine property. The correction distinguishes the missing general law from the false specific law and states that a joint claim is one asset-level alternative capped at $600."
+    },
+    {
+      "operation": "UPDATE",
+      "target_ids": [
+        "illinois-overlapping-wildcard-and-stated-limits"
+      ],
+      "id": "illinois-overlapping-wildcard-and-stated-limits",
+      "source_case_ids": [
+        204
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "ILLINOIS is allowable and the property is held for personal rather than business use.",
+            "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently as the any-other-property alternative, including when apparel, a motor vehicle, or a prescribed health aid also has a specific exemption. Section (a) covers necessary wearing apparel, (c) covers a motor vehicle, and (e) covers professionally prescribed health aids. A value above a limit does not eliminate either applicable alternative. An object's name or ability to function as a tool does not establish trade use; subsection (d) requires facts showing use in the debtor's trade.",
+            "avoid_when": "Do not use § 12-1001(d) for an ordinary personal-use tool or household property. Do not classify jewelry or a watch as necessary wearing apparel under subsection (a), and do not omit subsection (b) merely because a specific subsection applies."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "ILLINOIS is allowable and an eligible personal-use asset-exemption pair needs valuation.",
+            "procedure": "Compute overlapping alternatives separately. For § 12-1001(b), use the lesser of value and $4,000 for one debtor, or $8,000 for jointly owned property of two debtors. For § 12-1001(c), use the lesser of value and $2,400; this vehicle limit is not doubled. Thus a jointly owned vehicle may have both an $8,000 subsection (b) alternative and a separate $2,400 subsection (c) alternative. Sections (a) and (e) have no stated dollar ceiling in the supplied text, so use the asset value. Without stated trade use, value personal tools under subsection (b), not (d).",
+            "avoid_when": "Do not infer trade use merely from an object's being a tool, assign the $8,000 joint wildcard amount to subsection (c), omit subsection (b) because a specific subsection applies, or apply these personal-property exemptions to stated business-use property."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      },
+      "rationale": "In source 204 the parent inferred trade use solely from the property's tool-like form, producing a false subsection (d) claim, and also omitted subsection (b) for both that personal-use property and necessary apparel. The update adds the missing factual predicate without changing the established overlap or valuation rules."
+    },
+    {
+      "operation": "CREATE",
+      "target_ids": [],
+      "id": "oregon-joint-homestead-limit",
+      "source_case_ids": [
+        208
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "OREGON is allowable and an occupied homestead is jointly owned by two household debtors.",
+            "procedure": "Under Or. Rev. Stat. § 18.395(1), report the homestead alternative at the lesser of its value and the $50,000 combined limit. Use the $40,000 limit when only one debtor's homestead interest is involved.",
+            "avoid_when": "Do not use the $40,000 single-debtor limit for a jointly owned homestead of two household debtors, and do not apply either homestead limit to personal property."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      },
+      "rationale": "Source 208 shows a distinct amount error rather than a missing personal-property alternative: the parent used the $40,000 single-debtor homestead limit although the supplied statute and facts require the $50,000 combined limit for two household debtors."
+    }
+  ],
+  "usage": {
+    "input_tokens": 229061,
+    "cached_input_tokens": 0,
+    "output_tokens": 6239,
+    "reasoning_output_tokens": 3998
+  },
+  "elapsed_seconds": 143.175,
+  "fresh_response_no_tools_verified": true,
+  "completed_candidate1_native_wire_snapshots": [
+    {
+      "case_id": 181,
+      "family": "EC",
+      "delivered_skill_ids": [
+        "federal-independent-wildcard-and-caps",
+        "pennsylvania-general-monetary-alternative"
+      ],
+      "finish_reason": "stop",
+      "parse_error": null
+    }
+  ],
+  "complete_candidate_decision_exists": false,
+  "new_calls_by_audit": 0,
+  "TEST_access": false,
+  "evidence_paths": [
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/181_EC_candidate.answer.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b2_candidate1_replay/181_EC_candidate.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b2_candidate1/event_log.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b2_candidate1/response.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/teacher/b2_candidate1/wire_request.json"
+  ],
+  "audit_recomputation_program": "import json,pathlib,collections\nfrom jsonschema import validate\nimport experiments.openexempt_online as e\nfrom legal_skill_guard.learning.publication import apply_differential_publication\nfrom legal_skill_guard.learning.task_scoped_skills import SCOPED_GUIDANCE_SCHEMA,validate_scoped_bank\nfrom legal_skill_guard.learning.legal_namespace import validate_scopes\nfrom legal_skill_guard.learning.experiment import now\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nroot=pathlib.Path.cwd();r=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\";read=lambda p:json.loads(p.read_text())\nwire=r/\"teacher/b2_candidate1/wire_request.json\";response=r/\"teacher/b2_candidate1/response.json\";event=r/\"teacher/b2_candidate1/event_log.json\"\nw=read(wire);b=json.loads(w[\"user_prompt\"]);a=read(response);ev=read(event)\nassert csha(w)==a[\"request_sha256\"] and csha(a[\"value\"])==a[\"response_sha256\"]\nassert a[\"cache_hit\"] is False and a[\"invocation\"][\"returncode\"]==0 and not a[\"invocation\"][\"tool_events_detected\"]\nassert csha({\"event_log\":ev[\"event_log\"]})==a[\"invocation\"][\"event_log_sha256\"]\nvalidate(a[\"value\"],w[\"output_schema\"])\nparent=read(r/\"publications/b1.json\")[\"bank\"];assert b[\"current_parent_library\"]==parent\ncandidate=apply_differential_publication(parent,a[\"value\"],e.FAMILIES,list(range(181,213)),guidance_schema=SCOPED_GUIDANCE_SCHEMA)\nvalidate_scoped_bank(candidate)\ncfg=read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\")\nrows={(x[\"case_id\"],x[\"family\"]):x for x in read(root/cfg[\"input_packet\"])[\"rows\"] if x[\"case_id\"]<=212}\nvalidate_scopes(candidate,rows[181,\"EC\"][\"components\"][\"statutes\"])\nassert all(not s[\"guidance\"][\"operators\"] for s in candidate)\nchecked=[];members={str(p.relative_to(root)) for p in [wire,response,event]}\nfor path in sorted((r/\"native/b2_candidate1_replay\").glob(\"*.answer.json\")):\n x=read(path);row=rows[x[\"case_id\"],x[\"family\"]];messages,schema,supplied=e.actor_payload(row,candidate,grounded=True,direct_numeric=True,asset_references=True)\n raw=read(root/x[\"raw_call_path\"]);req=raw[\"calls\"][0][\"request\"]\n assert x[\"bank_sha256\"]==csha(candidate) and req[\"messages\"]==messages and req[\"response_format\"][\"json_schema\"][\"schema\"]==schema\n assert x[\"delivered_skill_ids\"]==[s[\"id\"] for s in supplied]\n checked.append({\"case_id\":x[\"case_id\"],\"family\":x[\"family\"],\"delivered_skill_ids\":x[\"delivered_skill_ids\"],\"finish_reason\":raw[\"response\"][\"finish_reason\"],\"parse_error\":x[\"parse_error\"]})\n members.update((str(path.relative_to(root)),x[\"raw_call_path\"]))\nout={\"at\":now(),\"classification\":\"Actual fresh B2 teacher1 response/proposed text skill bank and completed native delivery snapshot; NOT final proposal scoring, publication, new-case improvement, or TEST\",\n\"parent_bank_sha256\":csha(parent),\"proposed_bank_sha256\":csha(candidate),\"parent_skill_count\":len(parent),\"proposed_skill_count\":len(candidate),\n\"operation_counts\":dict(collections.Counter(x[\"operation\"] for x in a[\"value\"][\"operations\"])),\n\"operations\":[{\"operation\":x[\"operation\"],\"target_ids\":x[\"target_ids\"],\"id\":x[\"skill\"][\"id\"],\"source_case_ids\":x[\"source_case_ids\"],\"guidance\":x[\"skill\"][\"guidance\"],\"rationale\":x[\"rationale\"]} for x in a[\"value\"][\"operations\"]],\n\"usage\":a[\"invocation\"][\"usage\"],\"elapsed_seconds\":a[\"invocation\"][\"elapsed_seconds\"],\"fresh_response_no_tools_verified\":True,\n\"completed_candidate1_native_wire_snapshots\":checked,\"complete_candidate_decision_exists\":(r/\"candidates/b2_candidate1.json\").exists(),\n\"new_calls_by_audit\":0,\"TEST_access\":False,\"evidence_paths\":sorted(members)}\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

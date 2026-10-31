@@ -1,0 +1,685 @@
+{
+  "at": "2026-10-30T08:31:02.328401+00:00",
+  "classification": "Actual B8 teacher15 EC proposal and delivered input prefix validated without reading partial replay scores. Existing new WI EV text was truly delivered to all current WI 3g wrong-value sources.",
+  "teacher15_request": {
+    "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/teacher/b8_candidate1/wire_request.json",
+    "sha256": "947777c98241fdaea06efb6174b0e0b8b62c626982eef2d81cb00aa8480f7da7"
+  },
+  "teacher15_response": {
+    "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/teacher/b8_candidate1/response.json",
+    "sha256": "68b7afd756b7b3446205c602e0cb493b561ed160fdb80c762b7b82634163650c"
+  },
+  "diagnoses": [
+    {
+      "skill_id": "EC:federal-wildcard-and-category-eligibility",
+      "task": "EC",
+      "kind": "SKILL_DEFECT",
+      "rule_anchor": "Second add § 522(d)(5) to every asset without exception, including property already matching a specific paragraph.",
+      "source_case_ids": [
+        298,
+        301
+      ]
+    },
+    {
+      "skill_id": "EC:oregon-general-personal-property",
+      "task": "EC",
+      "kind": "SKILL_DEFECT",
+      "rule_anchor": "Then independently add every matching specific Oregon category exemption.",
+      "source_case_ids": [
+        296
+      ]
+    }
+  ],
+  "actual_changed_EC": {
+    "EC:oregon-general-personal-property": {
+      "parent": {
+        "id": "EC:oregon-general-personal-property",
+        "hypothesis_ids": [
+          "EC"
+        ],
+        "guidance": {
+          "when": "When OREGON is allowable and the asset is personal property.",
+          "procedure": "First include Or. Rev. Stat. § 18.345(1)(p) for every item of personal property, including a vehicle, firearm, or prescribed health aid. Then independently add every matching specific Oregon category exemption. In particular, add § 18.345(1)(f) for household-use furniture, household goods, and domestic appliances or equipment; descriptive wording such as adjustable or professional-grade does not remove an otherwise household-use item from this category. The $400 ceiling does not determine EC eligibility.",
+          "avoid_when": "Do not apply § 18.345(1)(p) to a homestead or other real property. Do not omit it because the asset exceeds $400 or because apparel, jewelry, household goods, animals, vehicles, musical instruments, firearms, or health aids have a more specific exemption.",
+          "operators": [],
+          "jurisdiction": "OREGON"
+        }
+      },
+      "proposed": {
+        "id": "EC:oregon-general-personal-property",
+        "hypothesis_ids": [
+          "EC"
+        ],
+        "guidance": {
+          "when": "When OREGON is allowable and the asset is personal property.",
+          "procedure": "First include Or. Rev. Stat. § 18.345(1)(p) for every item of personal property, including a vehicle, firearm, or prescribed health aid. Then independently add every matching specific Oregon category exemption. In particular, add § 18.345(1)(b) for wearing apparel or jewelry and § 18.345(1)(f) for household-use furniture, household goods, and domestic appliances or equipment; descriptive wording such as adjustable or professional-grade does not remove an otherwise household-use item from this category. The $400 ceiling does not determine EC eligibility.",
+          "avoid_when": "Do not apply § 18.345(1)(p) to a homestead or other real property. Do not use § 18.345(1)(f) for wearing apparel. Do not omit (1)(p) because the asset exceeds $400 or because apparel, jewelry, household goods, animals, vehicles, musical instruments, firearms, or health aids have a more specific exemption.",
+          "operators": [],
+          "jurisdiction": "OREGON"
+        }
+      }
+    },
+    "EC:federal-wildcard-and-category-eligibility": {
+      "parent": {
+        "id": "EC:federal-wildcard-and-category-eligibility",
+        "hypothesis_ids": [
+          "EC"
+        ],
+        "guidance": {
+          "when": "When FEDERAL is an allowable namespace and an estate asset is being classified.",
+          "procedure": "Use two mandatory passes for each asset. First classify from the asset facts, never its value: § 522(d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) for personally held household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, (d)(4) for personally held jewelry, (d)(6) only for facts identifying an implement, professional book, or tool of trade, and (d)(9) for a professionally prescribed health aid. A ceiling limits protection but never defeats EC eligibility. Second add § 522(d)(5) to every asset without exception, including property already matching a specific paragraph. Before emitting, verify that each asset has (d)(5) and every factually matching specific paragraph.\nExecution example: Hypothetically, personal wearing apparel receives both (d)(3) and (d)(5) even when its value exceeds the (d)(3) ceiling; do not drop (d)(3). A personal appliance described as professional-grade receives (d)(3) and (d)(5), not (d)(6), unless the facts state trade use.",
+          "avoid_when": "Do not place firearms or jewelry under § 522(d)(3), and do not infer § 522(d)(6) merely because an object could be used for work. Do not restrict § 522(d)(5) to personal property, omit it when another paragraph applies, or output §§ 522(b), 522(d), or 522(m) as asset exemptions.",
+          "operators": [],
+          "jurisdiction": "FEDERAL"
+        }
+      },
+      "proposed": {
+        "id": "EC:federal-wildcard-and-category-eligibility",
+        "hypothesis_ids": [
+          "EC"
+        ],
+        "guidance": {
+          "when": "When FEDERAL is an allowable namespace and an estate asset is being classified.",
+          "procedure": "Use two mandatory passes for each asset. First add § 522(d)(5) to every asset without exception, including property already matching a specific paragraph. Second classify from the asset facts, never its value: § 522(d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) for personally held household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, (d)(4) for personally held jewelry, (d)(6) only for facts identifying an implement, professional book, or tool of trade, and (d)(9) for a professionally prescribed health aid. A ceiling limits protection but never defeats EC eligibility. Before emitting, verify that each asset has (d)(5) and every factually matching specific paragraph.\nExecution example: Hypothetically, personal wearing apparel receives both (d)(3) and (d)(5) even when its value exceeds the (d)(3) ceiling; do not drop (d)(3). A personal appliance described as professional-grade receives (d)(3) and (d)(5), not (d)(6), unless the facts state trade use.",
+          "avoid_when": "Do not place firearms or actual jewelry under § 522(d)(3); classify an organizer or container as the item itself, not as jewelry it may hold. Do not infer § 522(d)(6) merely because an object could be used for work. Do not restrict § 522(d)(5) to personal property, omit it when another paragraph applies, or output §§ 522(b), 522(d), or 522(m) as asset exemptions.",
+          "operators": [],
+          "jurisdiction": "FEDERAL"
+        }
+      }
+    }
+  },
+  "EV_projection_byte_preserved": true,
+  "original_edit_validators_exact": true,
+  "proposed_bank_sha256": "9914cd2c23d1507b49ae4f60bb727659658c5bc3a1fc3b928b308666b76a881c",
+  "actual_C1_input_prefix": [
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/181_EC_candidate.input.json",
+      "sha256": "e56c32b9897db76db735010920cb9dd1d5a15acd83a26f940078708d1d54d842"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/181_EV_candidate.input.json",
+      "sha256": "e8aa8e2a805927458784d19425c00ad6dd06fbb37cc8a20e472077922dd2b83d"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/182_EC_candidate.input.json",
+      "sha256": "5f6d0a9044479487593e404b45d5a4a9f5923e2426d99a50b40d3b5fadd53fe0"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/182_EV_candidate.input.json",
+      "sha256": "5dd0b02154e11c6424c895a11b039fc42c237de05eee1be5648abfcf5a4fcc2d"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/183_EC_candidate.input.json",
+      "sha256": "2c2b2267544dfed430297d40475433f5b35abb9c34bd1e150f949d7a119c7438"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/183_EV_candidate.input.json",
+      "sha256": "ba065b7006f5bd3e8197cee303c47184542df68ca856663f342868f17499898a"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/184_EC_candidate.input.json",
+      "sha256": "5e105f10cc66a0d7abf93306d7d2e68b53b53327d21ec0a20b903e8aef546e43"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/184_EV_candidate.input.json",
+      "sha256": "2d411949324f714c4928e55a18e31e72629260d04672b226300bfc1c547c525f"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/185_EC_candidate.input.json",
+      "sha256": "313670689933466b7b7008dc3c64039fda02653fc16d6dd6c1765c0e6a389f03"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/185_EV_candidate.input.json",
+      "sha256": "6224129733253e82c45c71c57e3211871d4e6829e7bc4538d5df47dd8f8d66b4"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/186_EC_candidate.input.json",
+      "sha256": "0c207eb63a345760d3fe09bacec4b359f52bbd3eef41f53656621d0ccbd3c737"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/186_EV_candidate.input.json",
+      "sha256": "f1a9586c1235777a1d5e8eae3c18646979e09e4e95f48b4c398191d87fb746b0"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/187_EC_candidate.input.json",
+      "sha256": "38f1ca185781610cfd8861ce1c1f47ae332fb60bfe74fd1dd4d06e4996b6f99b"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/187_EV_candidate.input.json",
+      "sha256": "5cbb02c9ba63d6fc7ce8329e693aa56ce23ade53eaf5b1db37e81b1687a2cc75"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/188_EC_candidate.input.json",
+      "sha256": "e3c81df02d7883e8856c1db1038bfa03886fd994692798ee993f86939a8cfd00"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/188_EV_candidate.input.json",
+      "sha256": "cce572ad5763a1dc027922f8676c28c0a38ce0966014d964b423ee82d9d335c6"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/189_EC_candidate.input.json",
+      "sha256": "835b539f2f51847362fad0193f88956c514b60dc225bd383c88c92dc5d540d9c"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/189_EV_candidate.input.json",
+      "sha256": "210e008ddc689e70fa4c68792a77ac1f617845fe84e0549dca9137b5ef3bc4e6"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/190_EC_candidate.input.json",
+      "sha256": "d0f2b048b39802479a092e4fcf455893e5535753d476b6e6a352e1d3ecfc24ec"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/190_EV_candidate.input.json",
+      "sha256": "e72a69e1efb37f29ea9359c7062e0c02daaeb6c2aa574fac292320b3ddadd4c2"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/191_EC_candidate.input.json",
+      "sha256": "fb8db5e3158d961a921091158ceca1e76e84e989232ad9bde7569f8a38c2378e"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/191_EV_candidate.input.json",
+      "sha256": "8c2bb1e10ba0176ec32dca44d03e9e4ae19a8be061cd0b0f49fa8f0aea5ad7e9"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/192_EC_candidate.input.json",
+      "sha256": "55029c87df7f960a134dafe885e9c7a4f1218f841377ffbd451ed5fb22e66f11"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/192_EV_candidate.input.json",
+      "sha256": "7e0d04de5d7b0ccd0ddb0e2b3bc154861e14dab46a28a9e0c130877db6873c10"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/193_EC_candidate.input.json",
+      "sha256": "73663bc5e921a1938fb73f6e53ab192a2765628e0d5ba0028bf54d2d71a89b43"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/193_EV_candidate.input.json",
+      "sha256": "7570f18e19a6d158be75a33bc0215941b97d6b7f63ce47b819c9ca637c9a90ca"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/194_EC_candidate.input.json",
+      "sha256": "a22c646b0cbbe94a02b6362efba1808e83075d63104f91011493cb62fc31a5fb"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/194_EV_candidate.input.json",
+      "sha256": "f338e3b20caa7dfa749cac1288be1be379f2bb6a3e3d7f4859eb47c7f0d13db8"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/195_EC_candidate.input.json",
+      "sha256": "bde7eade1fd65826a9258c7e5e40bd79b155c1ba2afe4d2d2064fb26e2cd9ac4"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/195_EV_candidate.input.json",
+      "sha256": "9a6a9a2f55142ede2f563630632b02707cbd42859c44edc8843cfc2fd8f1243f"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/196_EC_candidate.input.json",
+      "sha256": "49162320eb88057d76ada94c340383659b0a87b3f4ec049d6e4312c7e25a80a4"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/196_EV_candidate.input.json",
+      "sha256": "8091417cb15131ce44ce67457a826d83c6d8715a2cca37babeaa49ddd3509b3a"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/197_EC_candidate.input.json",
+      "sha256": "47e9cf1cc980a6cf89f0296ad5670079f1638dac49d057c3535a66a0fb7f1c1a"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/197_EV_candidate.input.json",
+      "sha256": "6e47ee957c5b88aac08410729a3dfd38bf23ff49e82ade03d6e1dc3c7bd32f46"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/198_EC_candidate.input.json",
+      "sha256": "a566bd2e218cd8237c30886e1dce2405ca73f0a4598905c0bf91c7062fcd9a4c"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/198_EV_candidate.input.json",
+      "sha256": "d029813527cd6a77a20b5888b6186e51d33f525526f811ac628475d7d8b27916"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/199_EC_candidate.input.json",
+      "sha256": "4e16e90bcbe26d9e0a00804e961859381eb5ee0aa1f4e85d74e1870acf356133"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/199_EV_candidate.input.json",
+      "sha256": "0e0a88ff96cfdb6731634dcc4a4c95c14df0756ba8eb8f3f68b7ff4b455a1d71"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/200_EC_candidate.input.json",
+      "sha256": "9d6c7987c7b9e8211da2cc6fc208fb4581f08211aa37b6614fc60a34ab9680be"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/200_EV_candidate.input.json",
+      "sha256": "ed63a0903fa115d8c73ebf8f3e7aaeefd8c0e3d4d7e3a7451f29b0cc3b4d031d"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/201_EC_candidate.input.json",
+      "sha256": "3f598afc98136d8d7e3ef8ce67b3afac3bd9a6ccb0e9550a22ab72d32d9a709f"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/201_EV_candidate.input.json",
+      "sha256": "8b050c60796a32caf69f94f98d0af8c00f723a7d5b051fa896baaed8519cbd0e"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/202_EC_candidate.input.json",
+      "sha256": "b79636ffc667d4b008e521c2ab706778efca83e709e6a0425e8682434ca3effc"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/202_EV_candidate.input.json",
+      "sha256": "f98ef35d4b88e78fba46affb01ac768c1f438f4e8248c177bd0b4d15142a1246"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/203_EC_candidate.input.json",
+      "sha256": "7b638cf79aa9640aa5f34961e68252c96576435384c729a27ce3877a94f722c5"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/203_EV_candidate.input.json",
+      "sha256": "62252c59fbb47cd3576033721a0074f4e3fe89460cadeb36323d29eb9f2bc141"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/204_EC_candidate.input.json",
+      "sha256": "9e255102711f9fe1c7f7af24871e920af73094c4ffdf236c386cc498bbc80e5e"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/204_EV_candidate.input.json",
+      "sha256": "abf6683c515e2139ebd3156947ad33139e06c4340d367d2ec5bb934d94fccfc9"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/205_EC_candidate.input.json",
+      "sha256": "c3913bf7ef3bb95568f2085ed452b0878e82c8990f395cb8119e1f07921df8b2"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/205_EV_candidate.input.json",
+      "sha256": "d6f0de3c73b0ef70dac4c2f3f1f7362043d40013f0c0264754c9bea177d49d68"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/206_EC_candidate.input.json",
+      "sha256": "500aecc78abd99f00ae98d18da2ba60b2c740cfda18b42100b895091416a2364"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/206_EV_candidate.input.json",
+      "sha256": "6833fc24e09fa54bea8feae82ea06e5666dc7293c3c4887fd6500a5ca68d868a"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/207_EC_candidate.input.json",
+      "sha256": "cba476018ba223a470f0ce2b3dd0c0c724cb1419c859d15776068b173927c091"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/207_EV_candidate.input.json",
+      "sha256": "aa954c357a6765ff98b324ad65a83c733cebab79d8bf16c77c8ff8cfdf2b282d"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/208_EC_candidate.input.json",
+      "sha256": "7ad2ca3c1c26c790ee9ddf6de6e29b7067de660160c07e681817b1fa0f09e1ed"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/208_EV_candidate.input.json",
+      "sha256": "ee7aeebb89de43569bca7f60cae1a37750f60e8adf9e5f24f2c9c4c5f75f9d96"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/209_EC_candidate.input.json",
+      "sha256": "8d6ed5a0a964bdce8bc290da4092f22f8613255d26c4df37d34b9ce6ba2755b1"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/209_EV_candidate.input.json",
+      "sha256": "ed8354c8546c2a22b2c868d5969078561498349cf6f16307c982c395ee08ec62"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/210_EC_candidate.input.json",
+      "sha256": "8c6e330d1a8fa319a966d1081adab391b442b7dd566fbfd47fe901b57c7ea28a"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/210_EV_candidate.input.json",
+      "sha256": "01aef7329d31fb5b88c11fddbca5537ba2ee93e68a0fb4d63e549d2ec33c496f"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/211_EC_candidate.input.json",
+      "sha256": "77e662344d38230fb42e572f2c7f7256e76d1fad7eb40b514a031c8b8e98e0f5"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/211_EV_candidate.input.json",
+      "sha256": "0ef825dfdee45db5644ab15a796d3b1c5f3e0050d91a86dcbd9388307a053be0"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/212_EC_candidate.input.json",
+      "sha256": "b4d322b75ffc38381828905c6ddd53d6a16e925b5e6a444991004afb26d1f52e"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/212_EV_candidate.input.json",
+      "sha256": "ef6796b50cd9c52b133be0dcb862c62121f19bf205e288b7bdda066ff64cd4ac"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/213_EC_candidate.input.json",
+      "sha256": "c1e11801f1f19d121a3ff97d72022f759e76c40cfee0c38f1e32b2e956f26091"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/213_EV_candidate.input.json",
+      "sha256": "8bf77995a66953bfc798954b0e6512fce8e6335bc5121f5a6f5879215243a713"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/214_EC_candidate.input.json",
+      "sha256": "de787b5aedd8741166993ae95e4cff219b4607ac8d9aa2f680253279064c86de"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/214_EV_candidate.input.json",
+      "sha256": "9b492da696e8ef381c4af6195e59d7e9b91f0b3ef58bd5fbd873b1978aab30a7"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/215_EC_candidate.input.json",
+      "sha256": "9b14fee293d5394a953e4d9d210970625019bcf0213fda3a786204357d2a9e06"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/215_EV_candidate.input.json",
+      "sha256": "7df92d01175c167f629ab353ee294ed34dad3cff91e502bf1e97d3e2d72a6d87"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/216_EC_candidate.input.json",
+      "sha256": "18d59dd2ddb234cd08200b7fd96874c8ef4bebe983caadaa748c134bda015005"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/216_EV_candidate.input.json",
+      "sha256": "8f4afc6398005964a07e14cda0a1afcf01835daa9de2ce112fb41e83c3718253"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/217_EC_candidate.input.json",
+      "sha256": "013cefbeb091aa68306b437428cb50e4d5dbde6ecb977cd5318c4ae60c310ac7"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/217_EV_candidate.input.json",
+      "sha256": "dc67111f0ef0eba357f9eca0686a304626e10f04553e0fb9ae40a10fe9cec14c"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/218_EC_candidate.input.json",
+      "sha256": "5e9864b87864fca42be98b1b38ec7cc4fcb9a330e240c4dce434a39bfc7c4374"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/218_EV_candidate.input.json",
+      "sha256": "7a6fef4aaafee9bc0f47679a55e439609df2a37790400f6ae5a7cc94e8da9150"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/219_EC_candidate.input.json",
+      "sha256": "bfdde539d949c9a442ae8e10ed44159af2fea18aed3dcfb1fe749564891c1a48"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/219_EV_candidate.input.json",
+      "sha256": "2c9a753214f795ccb9d72205fe23db0820c8b6c77dc4998a6d5db599f5141472"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/220_EC_candidate.input.json",
+      "sha256": "edfadf36e3f02515a47b3c05d886a7f434e207ab4fa58d9a1aabe6e0c2a35228"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/220_EV_candidate.input.json",
+      "sha256": "7876e693aa4ee6ac37d64b76ca9268b1078a39786f73d3636b5d5be2fd3fcf1c"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/221_EC_candidate.input.json",
+      "sha256": "5afd8acc3a7e10b236d08372feae25575d4851e19203e3b56dde9152f117d48d"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/221_EV_candidate.input.json",
+      "sha256": "b2903fa3ff9ea04cd7071e8b9055cbc5466b4c6f8ee6d4a2c24d7b3f01ee1cbe"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/222_EC_candidate.input.json",
+      "sha256": "338b105d4207289268854da778ffd082027b6dffc60f1a257ddef95e9311f892"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/222_EV_candidate.input.json",
+      "sha256": "cfbc54dd0873563e97915ec851065fe7e7af719869c8b3af241d3486bc027b92"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/223_EC_candidate.input.json",
+      "sha256": "f7ebe8bbe2aec885378a10af2add1b336d4cd37a4334150c7807abd164ef944b"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/223_EV_candidate.input.json",
+      "sha256": "c958e8a3aff14b73649145a6c798d8ff77b0facdfa1b9c6d7883ff78d9fb4827"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/224_EC_candidate.input.json",
+      "sha256": "f0054b25d5e31532c0da04796e361c72bbaf0f4483d39b93bfe43a88f343c244"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/224_EV_candidate.input.json",
+      "sha256": "128e15540cc21838734f98ff898650a0e12f7cff19e9dda2d5c07c1c611060fd"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/225_EC_candidate.input.json",
+      "sha256": "c09381fbaee46783e776554d392b4a53af76cc56ffd32bb2c2d2bed6790d8567"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/225_EV_candidate.input.json",
+      "sha256": "fa0cd92a9a6457f78d7768540cc20587a4b83ca0f7b4193f4ee30f2f15c73aef"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/226_EC_candidate.input.json",
+      "sha256": "86e20e2afc2f82ef0c26b23974d565790f75c7519dace32a291cbc40340b686a"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/226_EV_candidate.input.json",
+      "sha256": "365854246b3bae87da0078b3feacff243e539fd1b6b811f14cb365fe84e99cd3"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/227_EC_candidate.input.json",
+      "sha256": "b3340c9ec5f121528ba914a1e0e19507c2e9f8c92d2fc40ea715773f3855ac72"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/227_EV_candidate.input.json",
+      "sha256": "9f724f9a8c9dc4db9e2746519da077252a73d2455ef5b85ad8d2d4f3c84d6ae0"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/228_EC_candidate.input.json",
+      "sha256": "498f558ff55fbd943ba1c62116a81dd8a6fbfd06e3fe93673340503f4c0f07df"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/228_EV_candidate.input.json",
+      "sha256": "369fae4e88b89b25d69e2de877bb9d8370981ff27d6bfc8df17227eaf98abd4f"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/229_EC_candidate.input.json",
+      "sha256": "22b9d716380ec0eb2f9ef7e2b7b48c4779af3d92c73c63d467346469910984a9"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/229_EV_candidate.input.json",
+      "sha256": "6a8fed6e3cef3bd0adfc9379a6eb512e90cb8da6fe79dce31626e887f2eae3a8"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/230_EC_candidate.input.json",
+      "sha256": "a965b10d82f85c98226c48e01835d810cb0b90c2b6519e3cc7e5a9f6f5fc00cf"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/230_EV_candidate.input.json",
+      "sha256": "dbde9edd85052da1791a5daa7b69cd7e26473398df6cf66d00b2233e7fd033cf"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/231_EC_candidate.input.json",
+      "sha256": "35b754caf17cf109d17c24f84bdfd10dc607a8297223ebb9d27fd1a6e45475aa"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/231_EV_candidate.input.json",
+      "sha256": "1dfe7686a3fc197a42f6edbabcf6ff23655d65d3573dae9b64afe652bdbbce08"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/232_EC_candidate.input.json",
+      "sha256": "7aad964f721b6daa29f55c399458269fbc233bbf840126c30997ee5da736e3a0"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/232_EV_candidate.input.json",
+      "sha256": "c1729740180d7130c242c41b75892bd210c4e342e7e7040742a8d6bcd9655548"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/233_EC_candidate.input.json",
+      "sha256": "bc57365a487a02fbfff76f9fd299e7f26350d57047c1a06254443e1edcb55393"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/233_EV_candidate.input.json",
+      "sha256": "69e7c3787139c18684b760a64b54bbe452a570c4991d56005ade9cd7514070c4"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/234_EC_candidate.input.json",
+      "sha256": "c730ea8ad149ca86328845f97618216cf31b3b4b3d3f4853bc7d87965591dfef"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/234_EV_candidate.input.json",
+      "sha256": "cda17f9c7c030e701b60f1e81f3d4c357f5e9051de8421b5115dc088100eaaac"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/235_EC_candidate.input.json",
+      "sha256": "f03c6a1745758c23bac1004a187c6f3dc33dc44c146a3cb2205b3a12f3f45a12"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/235_EV_candidate.input.json",
+      "sha256": "42396e7af572e46658c7a3906e04fb243720d92650eb96bf8002246b37de350c"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/236_EC_candidate.input.json",
+      "sha256": "fe4b7676d5bc97cee45aecd62ff7e1edbaa6f87ae80b5494fb45801c9a535540"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/236_EV_candidate.input.json",
+      "sha256": "60dc514f17de69148d555c47b86662f852c129b563b588331a041766f4d74c10"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/237_EC_candidate.input.json",
+      "sha256": "d78ec5162fee16dd9fde1b6bd5777624f5951d3ae82fa90fd36002615ad3d032"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/237_EV_candidate.input.json",
+      "sha256": "c6f187cc147d24d6812fef42c1e1e63123e95f3e91046a5d595cde4b98683280"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/238_EC_candidate.input.json",
+      "sha256": "8eb12e0b7b0afa9544a91c4c237f86706f6ac1dce25c0b24c5d01d46badef408"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/238_EV_candidate.input.json",
+      "sha256": "da8614241e1388a3eea7f581afe45123ff7205050100f361dbc261789135ed17"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/239_EC_candidate.input.json",
+      "sha256": "942248e7ffe6e6501fdc986720567df95ac6a40ed4280e0a42805cd329292a6c"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/239_EV_candidate.input.json",
+      "sha256": "b51c7267919f4d637a0e67abdbc8365fc4c50002af8675d9d40f2cd60b386498"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/240_EC_candidate.input.json",
+      "sha256": "7484c4b9e6e95ccaf66a050d49cec2237774a36af4d2c6f56b1f250b17d30f62"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/240_EV_candidate.input.json",
+      "sha256": "3ea63839001be3fbb96beba9694b02cc77ca20f82834759063ed3c3d958752e2"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/241_EC_candidate.input.json",
+      "sha256": "21b56f1b6e89f66128f940ea11127c659d20c65f176f135d071794fa75b93f3c"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/241_EV_candidate.input.json",
+      "sha256": "02d5bbd672d5b58ad38197a0b5ce6a1b0dc55bbd1bc598048aff70f36cf5bf6a"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/242_EC_candidate.input.json",
+      "sha256": "fffe06b428972be737f48a8fdcbb81b8f67a38ce8b58c8ba1feb631d1e6dc7ea"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/242_EV_candidate.input.json",
+      "sha256": "cafcaa27fe382186d9f779f1d7f7732930bb85438cae59762abbc046ef7ffa72"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/243_EC_candidate.input.json",
+      "sha256": "db89ed90e03ce5e7994e12925eaa2868b68883297a840481d73b96091df2b193"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/243_EV_candidate.input.json",
+      "sha256": "90b5de1fd462f14a5c749d09380cc4c94d328daca735af54adc4571c90da73a3"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/244_EC_candidate.input.json",
+      "sha256": "d8f706fb870547d633c3ebf0a8ad399f128c49abd4c7e6c12e73d15622eb5485"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/244_EV_candidate.input.json",
+      "sha256": "7c4227902f0af5c6fc38f243905da85a734b7aed12fde962a7c1baba8224cdd7"
+    },
+    {
+      "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate1_replay/245_EC_candidate.input.json",
+      "sha256": "0130968e14cb5fbb1f58093ae51a3e854eb50b0bda1bed630b8cc47213b04a66"
+    }
+  ],
+  "actual_WI_EV_program": {
+    "id": "EC:wisconsin-consumer-goods",
+    "hypothesis_ids": [
+      "EV"
+    ],
+    "guidance": {
+      "when": "When WISCONSIN is allowable and an asset is being valued.",
+      "procedure": "Match § 815.18(3)(d) to listed personal, family, or household consumer goods, including firearms, with a whole-asset ceiling of $12,000 for one debtor or $24,000 for two equal joint debtors. Match § 815.18(3)(g) to a motor vehicle; when no used consumer-goods amount is supplied in this independent-pair task, its $4,000 vehicle amount plus unused (d) gives a $16,000 ceiling for one debtor or $32,000 for two equal joint debtors. Match § 815.20(1) only to an occupied homestead, capped at $75,000 for one debtor or $150,000 for two joint spouses. For every citation report the smaller of the whole asset value and that ceiling.",
+      "avoid_when": "Do not put a motor vehicle under (3)(d). A firearm is consumer goods under (3)(d), not a depository account under (3)(k) or business property under (3)(b)(1) without the required account or business-use facts. Do not emit § 815.18(8), leave a half-interest as the result, or stop at one spouse's ceiling for jointly owned property where the statute permits both spouses' exemptions.",
+      "operators": [],
+      "jurisdiction": "WISCONSIN"
+    }
+  },
+  "actual_B8_WI3g_wrong_value_targets": [
+    {
+      "case_id": 294,
+      "kind": "incorrect_value",
+      "asset": "2000 Acura Integra GS-R (phoenix yellow)",
+      "citation": "Wis. Stat. § 815.18(3)(g)",
+      "expected_value": 8200.0,
+      "observed_values": [
+        4000.0
+      ]
+    },
+    {
+      "case_id": 298,
+      "kind": "incorrect_value",
+      "asset": "midnight silver metallic 2025 Tesla Model Y Long Range with 2,300 miles",
+      "citation": "Wis. Stat. § 815.18(3)(g)",
+      "expected_value": 16000.0,
+      "observed_values": [
+        4000.0
+      ]
+    },
+    {
+      "case_id": 301,
+      "kind": "incorrect_value",
+      "asset": "emerald green 1994 Toyota Land Cruiser 4D classic",
+      "citation": "Wis. Stat. § 815.18(3)(g)",
+      "expected_value": 15750.0,
+      "observed_values": [
+        4000.0
+      ]
+    },
+    {
+      "case_id": 301,
+      "kind": "incorrect_value",
+      "asset": "crimson mica 2011 Toyota Sienna XLE minivan (132,000 miles)",
+      "citation": "Wis. Stat. § 815.18(3)(g)",
+      "expected_value": 9900.0,
+      "observed_values": [
+        4000.0
+      ]
+    },
+    {
+      "case_id": 306,
+      "kind": "incorrect_value",
+      "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+      "citation": "Wis. Stat. § 815.18(3)(g)",
+      "expected_value": 32000.0,
+      "observed_values": [
+        15345.0
+      ]
+    }
+  ],
+  "no_longer_a_missing_WI_EV_block_or_routing_failure": true,
+  "teacher16_not_yet_audited": true,
+  "C1_complete_at_observation": false,
+  "no_partial_C1_scores_read": true,
+  "unique_causal_wording_or_sampling_effect_not_proven": true,
+  "all379_unchanged": true,
+  "no_new_model_teacher_tokenizer_or_official_grade_recomputation_calls": true,
+  "new_TEST_semantics_unopened": true
+}

@@ -1,0 +1,676 @@
+{
+  "at": "2026-10-20T02:39:54.679795+00:00",
+  "status": "completed_exact_two_old_TRAIN_witnesses_not_new_case_validation",
+  "records": [
+    {
+      "case_id": 73,
+      "source_key": "585a1072859f602793d6671051dbea9c840b252d6afa99cf5596d65adc0cc45f",
+      "family": "EV",
+      "stage": "two_TRAIN_witnesses",
+      "arm": "frozen_initial",
+      "bank_sha256": "f6549092d1c1fb3bd5ce01a3d0a53f109a6abb3ad3987580b9cf9ffc3f72353f",
+      "parsed": {
+        "answer": {
+          "bean bag chair": [
+            {
+              "citation": "11 U.S.C. § 522(d)(3)",
+              "claim_value": 125.0
+            },
+            {
+              "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+              "claim_value": 125.0
+            }
+          ],
+          "two-bedroom cottage": [
+            {
+              "citation": "11 U.S.C. § 522(d)(1)",
+              "claim_value": 27900.0
+            },
+            {
+              "citation": "42 Pa. Cons. Stat. § 8123",
+              "claim_value": 300.0
+            }
+          ],
+          "pearl drop earrings": [
+            {
+              "citation": "11 U.S.C. § 522(d)(4)",
+              "claim_value": 925.0
+            },
+            {
+              "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+              "claim_value": 925.0
+            }
+          ],
+          "beige suede hoodie": [
+            {
+              "citation": "11 U.S.C. § 522(d)(3)",
+              "claim_value": 63.0
+            },
+            {
+              "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+              "claim_value": 63.0
+            }
+          ]
+        }
+      },
+      "parse_error": null,
+      "raw_call_path": "runs/legal_openexempt_caller_two_TRAIN_witness_20261020_run01/native/two_TRAIN_witnesses/73_EV_frozen_initial.json",
+      "native_program": {
+        "assets": [
+          {
+            "asset_name": "bean bag chair",
+            "asset_value": 125,
+            "claims": [
+              {
+                "limit_expression": null,
+                "citation": "11 U.S.C. § 522(d)(3)"
+              },
+              {
+                "limit_expression": "min(V, 500)",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)"
+              }
+            ]
+          },
+          {
+            "asset_name": "two-bedroom cottage",
+            "asset_value": 210500,
+            "claims": [
+              {
+                "limit_expression": null,
+                "citation": "11 U.S.C. § 522(d)(1)"
+              },
+              {
+                "limit_expression": null,
+                "citation": "42 Pa. Cons. Stat. § 8123"
+              }
+            ]
+          },
+          {
+            "asset_name": "pearl drop earrings",
+            "asset_value": 925,
+            "claims": [
+              {
+                "limit_expression": null,
+                "citation": "11 U.S.C. § 522(d)(4)"
+              },
+              {
+                "limit_expression": "min(V, 2500)",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(4)"
+              }
+            ]
+          },
+          {
+            "asset_name": "beige suede hoodie",
+            "asset_value": 63,
+            "claims": [
+              {
+                "limit_expression": null,
+                "citation": "11 U.S.C. § 522(d)(3)"
+              },
+              {
+                "limit_expression": "min(V, 500)",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)"
+              }
+            ]
+          }
+        ]
+      },
+      "execution_receipt": {
+        "actual_claim_operations": [
+          {
+            "asset_name": "bean bag chair",
+            "asset_value": "125",
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "operator_id": "federal_522d/fed_household_item",
+            "limit_expression": "min(V,700*N)",
+            "numeric_literals": [
+              {
+                "value": "700"
+              }
+            ],
+            "limit": "125",
+            "claim_value": "125"
+          },
+          {
+            "asset_name": "bean bag chair",
+            "asset_value": "125",
+            "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+            "operator_id": null,
+            "limit_expression": "min(V, 500)",
+            "numeric_literals": [
+              {
+                "value": "500"
+              }
+            ],
+            "limit": "125",
+            "claim_value": "125"
+          },
+          {
+            "asset_name": "two-bedroom cottage",
+            "asset_value": "210500",
+            "citation": "11 U.S.C. § 522(d)(1)",
+            "operator_id": "federal_522d/fed_home",
+            "limit_expression": "min(V,27900*N)",
+            "numeric_literals": [
+              {
+                "value": "27900"
+              }
+            ],
+            "limit": "27900",
+            "claim_value": "27900"
+          },
+          {
+            "asset_name": "two-bedroom cottage",
+            "asset_value": "210500",
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "operator_id": "pennsylvania_exemptions/pa_general",
+            "limit_expression": "min(V,300*N)",
+            "numeric_literals": [
+              {
+                "value": "300"
+              }
+            ],
+            "limit": "300",
+            "claim_value": "300"
+          },
+          {
+            "asset_name": "pearl drop earrings",
+            "asset_value": "925",
+            "citation": "11 U.S.C. § 522(d)(4)",
+            "operator_id": "federal_522d/fed_jewelry",
+            "limit_expression": "min(V,1875*N)",
+            "numeric_literals": [
+              {
+                "value": "1875"
+              }
+            ],
+            "limit": "925",
+            "claim_value": "925"
+          },
+          {
+            "asset_name": "pearl drop earrings",
+            "asset_value": "925",
+            "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+            "operator_id": null,
+            "limit_expression": "min(V, 2500)",
+            "numeric_literals": [
+              {
+                "value": "2500"
+              }
+            ],
+            "limit": "925",
+            "claim_value": "925"
+          },
+          {
+            "asset_name": "beige suede hoodie",
+            "asset_value": "63",
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "operator_id": "federal_522d/fed_household_item",
+            "limit_expression": "min(V,700*N)",
+            "numeric_literals": [
+              {
+                "value": "700"
+              }
+            ],
+            "limit": "63",
+            "claim_value": "63"
+          },
+          {
+            "asset_name": "beige suede hoodie",
+            "asset_value": "63",
+            "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+            "operator_id": null,
+            "limit_expression": "min(V, 500)",
+            "numeric_literals": [
+              {
+                "value": "500"
+              }
+            ],
+            "limit": "63",
+            "claim_value": "63"
+          }
+        ],
+        "actually_executed_operator_ids": [
+          "federal_522d/fed_household_item",
+          "federal_522d/fed_home",
+          "pennsylvania_exemptions/pa_general",
+          "federal_522d/fed_jewelry",
+          "federal_522d/fed_household_item"
+        ],
+        "program_sha256": "979e88652ba301c45d9ea78b8b706d8ec8fed0bf2f270356e570752d0074d2de",
+        "source_facts_sha256": "decb730516928c2f6f5831d94be45a1297e051d98a5a4315fcaa858713b0c4f9",
+        "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+        "no_Gold_solver_model_or_post_answer_repair": true,
+        "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true,
+        "execution_bank_sha256": "f6549092d1c1fb3bd5ce01a3d0a53f109a6abb3ad3987580b9cf9ffc3f72353f",
+        "native_request_fingerprint": "92ff09af341d17652b0a768a2d63f3d15a3df3e557f784fd8433026b7402f21f"
+      },
+      "public_label_submission": {
+        "assets": [
+          {
+            "asset_name": "bean bag chair",
+            "asset_value": 125,
+            "claims": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "limit_expression": null
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8124(a)(1)",
+                "limit_expression": "min(V, 500)"
+              }
+            ]
+          },
+          {
+            "asset_name": "two-bedroom cottage",
+            "asset_value": 210500,
+            "claims": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(1)",
+                "limit_expression": null
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8123",
+                "limit_expression": null
+              }
+            ]
+          },
+          {
+            "asset_name": "pearl drop earrings",
+            "asset_value": 925,
+            "claims": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(4)",
+                "limit_expression": null
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8124(a)(4)",
+                "limit_expression": "min(V, 2500)"
+              }
+            ]
+          },
+          {
+            "asset_name": "beige suede hoodie",
+            "asset_value": 63,
+            "claims": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "limit_expression": null
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8124(a)(1)",
+                "limit_expression": "min(V, 500)"
+              }
+            ]
+          }
+        ]
+      },
+      "execution_error": null,
+      "delivered_skill_ids": [
+        "scheme_selection_and_ev",
+        "federal_522d",
+        "pennsylvania_exemptions"
+      ],
+      "score": {
+        "precision": 0.75,
+        "recall": 0.4583333333333333,
+        "f1": 0.5666666666666667,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.5714285714285714,
+        "full_output_precision": 0.75,
+        "full_output_recall": 0.46153846153846156,
+        "full_output_claim_tp": 6,
+        "full_output_claim_fp": 2,
+        "full_output_claim_fn": 7,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      }
+    },
+    {
+      "case_id": 75,
+      "source_key": "cc779ab33f50fd90ef80620b75005702bf21325493cff28cdcb0ddd17aac24b0",
+      "family": "EV",
+      "stage": "two_TRAIN_witnesses",
+      "arm": "empty",
+      "bank_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "parsed": {
+        "answer": {
+          "honey harvesting tools": [
+            {
+              "citation": "11 U.S.C. § 522(d)(6)",
+              "claim_value": 224.0
+            },
+            {
+              "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+              "claim_value": 224.0
+            }
+          ],
+          "dry erase whiteboard with wall mount hardware": [
+            {
+              "citation": "11 U.S.C. § 522(d)(6)",
+              "claim_value": 285.0
+            },
+            {
+              "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+              "claim_value": 285.0
+            }
+          ],
+          "portable dehumidifier with digital humidity control": [
+            {
+              "citation": "11 U.S.C. § 522(d)(6)",
+              "claim_value": 1125.0
+            },
+            {
+              "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+              "claim_value": 1125.0
+            }
+          ]
+        }
+      },
+      "parse_error": null,
+      "raw_call_path": "runs/legal_openexempt_caller_two_TRAIN_witness_20261020_run01/native/two_TRAIN_witnesses/75_EV_empty.json",
+      "native_program": {
+        "assets": [
+          {
+            "asset_name": "honey harvesting tools",
+            "asset_value": 224,
+            "claims": [
+              {
+                "limit_expression": "2800",
+                "citation": "11 U.S.C. § 522(d)(6)"
+              },
+              {
+                "limit_expression": "5000",
+                "citation": "Or. Rev. Stat. § 18.345(1)(c)"
+              }
+            ]
+          },
+          {
+            "asset_name": "dry erase whiteboard with wall mount hardware",
+            "asset_value": 285,
+            "claims": [
+              {
+                "limit_expression": "2800",
+                "citation": "11 U.S.C. § 522(d)(6)"
+              },
+              {
+                "limit_expression": "5000",
+                "citation": "Or. Rev. Stat. § 18.345(1)(c)"
+              }
+            ]
+          },
+          {
+            "asset_name": "portable dehumidifier with digital humidity control",
+            "asset_value": 1125,
+            "claims": [
+              {
+                "limit_expression": "2800",
+                "citation": "11 U.S.C. § 522(d)(6)"
+              },
+              {
+                "limit_expression": "5000",
+                "citation": "Or. Rev. Stat. § 18.345(1)(c)"
+              }
+            ]
+          }
+        ]
+      },
+      "execution_receipt": {
+        "actual_claim_operations": [
+          {
+            "asset_name": "honey harvesting tools",
+            "asset_value": "224",
+            "citation": "11 U.S.C. § 522(d)(6)",
+            "operator_id": null,
+            "limit_expression": "2800",
+            "numeric_literals": [
+              {
+                "value": "2800"
+              }
+            ],
+            "limit": "2800",
+            "claim_value": "224"
+          },
+          {
+            "asset_name": "honey harvesting tools",
+            "asset_value": "224",
+            "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+            "operator_id": null,
+            "limit_expression": "5000",
+            "numeric_literals": [
+              {
+                "value": "5000"
+              }
+            ],
+            "limit": "5000",
+            "claim_value": "224"
+          },
+          {
+            "asset_name": "dry erase whiteboard with wall mount hardware",
+            "asset_value": "285",
+            "citation": "11 U.S.C. § 522(d)(6)",
+            "operator_id": null,
+            "limit_expression": "2800",
+            "numeric_literals": [
+              {
+                "value": "2800"
+              }
+            ],
+            "limit": "2800",
+            "claim_value": "285"
+          },
+          {
+            "asset_name": "dry erase whiteboard with wall mount hardware",
+            "asset_value": "285",
+            "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+            "operator_id": null,
+            "limit_expression": "5000",
+            "numeric_literals": [
+              {
+                "value": "5000"
+              }
+            ],
+            "limit": "5000",
+            "claim_value": "285"
+          },
+          {
+            "asset_name": "portable dehumidifier with digital humidity control",
+            "asset_value": "1125",
+            "citation": "11 U.S.C. § 522(d)(6)",
+            "operator_id": null,
+            "limit_expression": "2800",
+            "numeric_literals": [
+              {
+                "value": "2800"
+              }
+            ],
+            "limit": "2800",
+            "claim_value": "1125"
+          },
+          {
+            "asset_name": "portable dehumidifier with digital humidity control",
+            "asset_value": "1125",
+            "citation": "Or. Rev. Stat. § 18.345(1)(c)",
+            "operator_id": null,
+            "limit_expression": "5000",
+            "numeric_literals": [
+              {
+                "value": "5000"
+              }
+            ],
+            "limit": "5000",
+            "claim_value": "1125"
+          }
+        ],
+        "actually_executed_operator_ids": [],
+        "program_sha256": "41098a45675603960e0cf1fb3f36e1ec0ad4466adde714a558d4ee4e2926a18d",
+        "source_facts_sha256": "3ff5cf6522c3c6944b23fd000da047a2224d1528eb430de0f3b97494c846048c",
+        "public_statutes_sha256": "8e2ae0153e0f1a54102e85bc79372fe2d0780e6f75a4ab5f4c023cdbaee10079",
+        "no_Gold_solver_model_or_post_answer_repair": true,
+        "runtime_does_not_judge_legal_truth_or_rewrite_names_values_citations": true,
+        "execution_bank_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "native_request_fingerprint": "6af628696360adc61dcd59f87f62d6afc2102cd29d5459189bef175f5efdaaaf"
+      },
+      "public_label_submission": {
+        "assets": [
+          {
+            "asset_name": "honey harvesting tools",
+            "asset_value": 224,
+            "claims": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(6)",
+                "limit_expression": "2800"
+              },
+              {
+                "citation_ref": "Or. Rev. Stat. section 18.345(1)(c)",
+                "limit_expression": "5000"
+              }
+            ]
+          },
+          {
+            "asset_name": "dry erase whiteboard with wall mount hardware",
+            "asset_value": 285,
+            "claims": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(6)",
+                "limit_expression": "2800"
+              },
+              {
+                "citation_ref": "Or. Rev. Stat. section 18.345(1)(c)",
+                "limit_expression": "5000"
+              }
+            ]
+          },
+          {
+            "asset_name": "portable dehumidifier with digital humidity control",
+            "asset_value": 1125,
+            "claims": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(6)",
+                "limit_expression": "2800"
+              },
+              {
+                "citation_ref": "Or. Rev. Stat. section 18.345(1)(c)",
+                "limit_expression": "5000"
+              }
+            ]
+          }
+        ]
+      },
+      "execution_error": null,
+      "delivered_skill_ids": [],
+      "score": {
+        "precision": 0.3333333333333333,
+        "recall": 0.16666666666666666,
+        "f1": 0.2222222222222222,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.2222222222222222,
+        "full_output_precision": 0.3333333333333333,
+        "full_output_recall": 0.16666666666666666,
+        "full_output_claim_tp": 2,
+        "full_output_claim_fp": 4,
+        "full_output_claim_fn": 10,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      }
+    }
+  ],
+  "old_TRAIN_comparison": [
+    {
+      "case_id": 73,
+      "arm": "frozen_initial",
+      "old_parse_error": null,
+      "new_parse_error": null,
+      "old_score": {
+        "precision": 0.25,
+        "recall": 0.08333333333333333,
+        "f1": 0.125,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.14285714285714288,
+        "full_output_precision": 1.0,
+        "full_output_recall": 0.07692307692307693,
+        "full_output_claim_tp": 1,
+        "full_output_claim_fp": 0,
+        "full_output_claim_fn": 12,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "new_score": {
+        "precision": 0.75,
+        "recall": 0.4583333333333333,
+        "f1": 0.5666666666666667,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.5714285714285714,
+        "full_output_precision": 0.75,
+        "full_output_recall": 0.46153846153846156,
+        "full_output_claim_tp": 6,
+        "full_output_claim_fp": 2,
+        "full_output_claim_fn": 7,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "old_asset_count": 1,
+      "new_asset_count": 4
+    },
+    {
+      "case_id": 75,
+      "arm": "empty",
+      "old_parse_error": "Invalid explicitly submitted action: InvalidClaimProgram('Invalid arithmetic expression')",
+      "new_parse_error": null,
+      "old_score": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "mare": null,
+        "invalid_format": 1,
+        "exact_target": false,
+        "full_output_f1": 0.0,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "new_score": {
+        "precision": 0.3333333333333333,
+        "recall": 0.16666666666666666,
+        "f1": 0.2222222222222222,
+        "mare": 0.0,
+        "invalid_format": 0,
+        "exact_target": false,
+        "full_output_f1": 0.2222222222222222,
+        "full_output_precision": 0.3333333333333333,
+        "full_output_recall": 0.16666666666666666,
+        "full_output_claim_tp": 2,
+        "full_output_claim_fp": 4,
+        "full_output_claim_fn": 10,
+        "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+        "officially_unscored_predicted_claims": 0,
+        "officially_unscored_predicted_assets": {},
+        "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+      },
+      "old_asset_count": null,
+      "new_asset_count": 3
+    }
+  ],
+  "actual_native_calls": 2,
+  "actual_teacher_calls": 0,
+  "native_prompt_tokens": 14329,
+  "native_completion_tokens": 4665,
+  "teacher_ledger_unchanged": true,
+  "not_a_success_or_generalization_claim": true
+}

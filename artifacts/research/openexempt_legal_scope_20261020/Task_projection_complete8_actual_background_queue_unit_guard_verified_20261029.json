@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-29T12:03:19.999955+00:00",
+  "classification": "Actual background unit queued behind existing TRAIN64 terminal; not8-cohort learning startup yet",
+  "run_id": "legal_openexempt_task_projection_public_assets128_20261029_run01",
+  "unit": "legal-openexempt-task-projection-public-assets128-20261029-run01.service",
+  "pid": 2749908,
+  "birth": 528176807,
+  "service": {
+    "MainPID": "2749908",
+    "Result": "success",
+    "ExecMainStartTimestamp": "Thu 2026-10-29 20:00:50 CST",
+    "ExecMainStatus": "0",
+    "ActiveState": "active",
+    "SubState": "running"
+  },
+  "startup_guard_program": "import hashlib,json,os,subprocess,time\nfrom datetime import datetime,timezone\nfrom pathlib import Path\nimport importlib.metadata\nroot=Path(\"/media/sangfor/vdb/legal-skill-evolve\")\nos.chdir(root)\nunit=\"legal-openexempt-public-scope-train16-20261029-run01.service\"\nprior=root/\"runs/legal_openexempt_public_scope_TRAIN16_20261029_run01\"\nconfig=root/\"configs/openexempt_task_projection_public_assets128_20261029_run01.json\"\nfrozen=config.with_suffix(\".frozen.json\")\ndigest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\ndef stamp():return datetime.now(timezone.utc).isoformat()\nprint(json.dumps({\"at\":stamp(),\"state\":\"waiting_for_prior_scope_terminal_and_preservation\",\"new_training_not_started\":True}),flush=True)\ndeadline=time.monotonic()+2700\nwhile True:\n    active=subprocess.check_output([\"systemctl\",\"--user\",\"show\",unit,\"--property=ActiveState\",\"--value\"],text=True).strip()\n    if active==\"inactive\":break\n    if active==\"failed\":raise RuntimeError(\"Prior scope control failed; preserve and diagnose before new learning\")\n    if time.monotonic()>deadline:raise TimeoutError(\"Prior scope control did not finish in the45-minute startup window\")\n    time.sleep(10)\nstate=dict(line.split(\"=\",1) for line in subprocess.check_output([\"systemctl\",\"--user\",\"show\",unit,\"--property=Result,ExecMainStatus\"],text=True).splitlines() if \"=\" in line)\nassert state=={\"Result\":\"success\",\"ExecMainStatus\":\"0\"},state\nassert not (prior/\"failure.json\").exists()\ndone=json.loads((prior/\"completion.json\").read_text())\nassert done[\"status\"]==\"completed_fixed_public_scope_TRAIN_mechanism\"\nassert done[\"logical_predictions\"]==64 and 0<done[\"actual_native_calls\"]<=64 and done[\"new_teacher_calls\"]==0\nassert len(json.loads((prior/\"predictions_before_grading.json\").read_text()))==64\nreceipt=json.loads((prior/\"terminal_preservation.json\").read_text())\nassert len(receipt[\"paths\"])==2\nfor item in receipt[\"paths\"]:assert digest(Path(item[\"path\"]))==item[\"sha256\"]\nassert digest(config)==\"0e912b89d9e309018c09dd39a4a51d91baefe314355545ea5726c6208a5eeed2\"\nassert digest(frozen)==\"745c6353bb94b2158ee9beba3bacc2c809bc36926b44eaae648a7ecd31b4a678\"\nbinding=json.loads(frozen.read_text())\nassert binding[\"config_sha256\"]==digest(config)\nfor name,value in binding[\"files\"].items():assert digest(root/name)==value,name\nactual={d.metadata[\"Name\"]:d.version for d in importlib.metadata.distributions()}\nassert actual==binding[\"packages\"]\nstat=Path(\"/proc/958223/stat\").read_text().rsplit(\")\",1)[1].split()\nassert stat[0] not in (\"Z\",\"X\") and int(stat[19])==486445918\nassert subprocess.check_output([\"systemctl\",\"--user\",\"show\",\"legal-qwen3-8b-phase-dispatch.service\",\"--property=MainPID\",\"--value\"],text=True).strip()==\"958223\"\ncfg=json.loads(config.read_text())\nassert not cfg.get(\"initial_library_publication\") and not cfg.get(\"training_phase\")\nassert cfg[\"planned_batches\"]==8 and cfg[\"task_update_schedule\"]==[\"EC\",\"EV\"]\nassert not (root/\"runs\"/cfg[\"run_id\"]).exists()\nfrom legal_skill_guard.experiment.storage import RunStore\npassed={\"at\":stamp(),\"state\":\"gate_passed_starting_frozen_complete8\",\"prior_scope_completion_sha256\":digest(prior/\"completion.json\"),\"prior_scope_terminal_preservation_sha256\":digest(prior/\"terminal_preservation.json\"),\"no_prior_scope_scores_used_for_recipe_selection\":True,\"config_sha256\":digest(config),\"frozen_manifest_sha256\":digest(frozen),\"frozen_files\":len(binding[\"files\"]),\"original_model_pid\":958223,\"original_model_birth\":486445918,\"empty_initial_library\":True,\"no_terminal_continuation\":True}\nRunStore.immutable_json(root/\"artifacts/research/openexempt_legal_scope_20261020/Task_projection_complete8_actual_startup_gate_passed_20261029.json\",passed)\nprint(json.dumps(passed),flush=True)\npython=str(root/\".venv/bin/python\")\nos.execv(python,[python,\"-m\",\"experiments.openexempt_online\",\"run\",str(config)])\n",
+  "startup_guard_sha256": "5998a4fba3108eecb8cefd93373ed2d2096e6294d2499a9a064fb977419f3eb4",
+  "config_sha256": "0e912b89d9e309018c09dd39a4a51d91baefe314355545ea5726c6208a5eeed2",
+  "frozen_manifest_sha256": "745c6353bb94b2158ee9beba3bacc2c809bc36926b44eaae648a7ecd31b4a678",
+  "new_run_directory_present": false,
+  "gate_requires_completed64_predictions_zero_teachers_prior_full_preservation_source379_packages50_original_model_identity": true,
+  "no_model_or_teacher_calls_from_guard": true,
+  "no_score_based_launch_gate_or_recipe_change": true,
+  "original_model_pid": 958223,
+  "original_model_birth": 486445918
+}

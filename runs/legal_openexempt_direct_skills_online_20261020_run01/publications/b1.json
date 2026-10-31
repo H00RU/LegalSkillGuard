@@ -1,0 +1,3189 @@
+{
+  "at": "2026-10-20T10:45:05.737562+00:00",
+  "bank": [
+    {
+      "id": "arizona_prescribed_assistive_equipment",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Arizona law applies and the facts identify an item as medically or professionally prescribed assistive equipment for the debtor or a dependent.",
+            "procedure": "Treat the item as a prescribed prosthetic or mobility aid under Ariz. Rev. Stat. § 33-1125(9) and claim its full value because the supplied provision states no dollar cap.",
+            "avoid_when": "Do not classify prescribed assistive equipment as ordinary household furniture merely because it is used in the home; do not apply this rule to ordinary furniture lacking the prescription or assistive condition."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "federal_household_item_cap_and_jewelry_boundary",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "An asset is considered under 11 U.S.C. § 522(d)(3).",
+            "procedure": "First require that it be one of the listed household-use categories, then assign no more than the lesser of its value and the $700 per-item limit. Evaluate jewelry separately under § 522(d)(4).",
+            "avoid_when": "Do not use the $14,875 aggregate ceiling as the claim for one item, and do not classify jewelry under § 522(d)(3) merely because it is held for personal or household use."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "federal_wildcard_independent_alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+            "procedure": "Evaluate 11 U.S.C. § 522(d)(5) for every kind of property as a separate alternative, including property also covered by a category-specific federal exemption.",
+            "avoid_when": "Do not treat a category-specific exemption as excluding the wildcard, and do not add it where the supplied allowable jurisdictions exclude federal exemptions."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+            "procedure": "For 11 U.S.C. § 522(d)(5), calculate the independent claim as the lesser of the asset value and $1,475 plus up to $13,950 of unused § 522(d)(1); when no residence uses that amount in the independent evaluation, the ceiling is $15,425.",
+            "avoid_when": "Do not aggregate allocations across assets, displace other applicable alternatives, or assume unused homestead capacity when the facts show it has been consumed."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "oregon_any_personal_property_alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Oregon law applies and the asset is personal property.",
+            "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent alternative even when the asset also fits a specific Oregon exemption.",
+            "avoid_when": "Do not apply it to real property or treat its $400 limit as a condition that makes a more valuable item ineligible."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Oregon law applies and the asset is personal property.",
+            "procedure": "For the independent Or. Rev. Stat. § 18.345(1)(p) alternative, assign the lesser of the asset's value and $400.",
+            "avoid_when": "Do not aggregate different assets or omit separately applicable Oregon exemptions."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "pennsylvania_general_monetary_alternative",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "Pennsylvania law applies to property of the judgment debtor.",
+            "procedure": "Evaluate 42 Pa. Cons. Stat. § 8123 as an independent alternative for property of any category and include it alongside any specific Pennsylvania or federal exemption.",
+            "avoid_when": "Do not restrict § 8123 to cash, and do not use its $300 limit as an eligibility test for property worth more than $300."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "Pennsylvania law applies to property of the judgment debtor.",
+            "procedure": "For the independent 42 Pa. Cons. Stat. § 8123 alternative, assign the lesser of the property's value and $300.",
+            "avoid_when": "Do not aggregate assets, replace a specific exemption, or exclude tangible property merely because the statute is titled a monetary exemption."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    }
+  ],
+  "parent_bank_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "skill_commit_policy": "legal_scope",
+  "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+  "training_decisions": [
+    {
+      "accepted": true,
+      "candidate": [
+        {
+          "id": "arizona_prescribed_assistive_equipment",
+          "hypothesis_ids": [
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Arizona law applies and the facts identify an item as medically or professionally prescribed assistive equipment for the debtor or a dependent.",
+                "procedure": "Treat the item as a prescribed prosthetic or mobility aid under Ariz. Rev. Stat. § 33-1125(9) and claim its full value because the supplied provision states no dollar cap.",
+                "avoid_when": "Do not classify prescribed assistive equipment as ordinary household furniture merely because it is used in the home; do not apply this rule to ordinary furniture lacking the prescription or assistive condition."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "ARIZONA"
+          }
+        },
+        {
+          "id": "federal_household_item_cap_and_jewelry_boundary",
+          "hypothesis_ids": [
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "An asset is considered under 11 U.S.C. § 522(d)(3).",
+                "procedure": "First require that it be one of the listed household-use categories, then assign no more than the lesser of its value and the $700 per-item limit. Evaluate jewelry separately under § 522(d)(4).",
+                "avoid_when": "Do not use the $14,875 aggregate ceiling as the claim for one item, and do not classify jewelry under § 522(d)(3) merely because it is held for personal or household use."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        {
+          "id": "federal_wildcard_independent_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                "procedure": "Evaluate 11 U.S.C. § 522(d)(5) for every kind of property as a separate alternative, including property also covered by a category-specific federal exemption.",
+                "avoid_when": "Do not treat a category-specific exemption as excluding the wildcard, and do not add it where the supplied allowable jurisdictions exclude federal exemptions."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                "procedure": "For 11 U.S.C. § 522(d)(5), calculate the independent claim as the lesser of the asset value and $1,475 plus up to $13,950 of unused § 522(d)(1); when no residence uses that amount in the independent evaluation, the ceiling is $15,425.",
+                "avoid_when": "Do not aggregate allocations across assets, displace other applicable alternatives, or assume unused homestead capacity when the facts show it has been consumed."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        {
+          "id": "oregon_any_personal_property_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Oregon law applies and the asset is personal property.",
+                "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent alternative even when the asset also fits a specific Oregon exemption.",
+                "avoid_when": "Do not apply it to real property or treat its $400 limit as a condition that makes a more valuable item ineligible."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Oregon law applies and the asset is personal property.",
+                "procedure": "For the independent Or. Rev. Stat. § 18.345(1)(p) alternative, assign the lesser of the asset's value and $400.",
+                "avoid_when": "Do not aggregate different assets or omit separately applicable Oregon exemptions."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "OREGON"
+          }
+        },
+        {
+          "id": "pennsylvania_general_monetary_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Pennsylvania law applies to property of the judgment debtor.",
+                "procedure": "Evaluate 42 Pa. Cons. Stat. § 8123 as an independent alternative for property of any category and include it alongside any specific Pennsylvania or federal exemption.",
+                "avoid_when": "Do not restrict § 8123 to cash, and do not use its $300 limit as an eligibility test for property worth more than $300."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Pennsylvania law applies to property of the judgment debtor.",
+                "procedure": "For the independent 42 Pa. Cons. Stat. § 8123 alternative, assign the lesser of the property's value and $300.",
+                "avoid_when": "Do not aggregate assets, replace a specific exemption, or exclude tangible property merely because the statute is titled a monetary exemption."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "PENNSYLVANIA"
+          }
+        }
+      ],
+      "delta": {
+        "operations": [
+          {
+            "operation": "CREATE",
+            "target_ids": [],
+            "skill": {
+              "id": "illinois_general_personal_property_alternative",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "by_task": [
+                  {
+                    "tasks": [
+                      "EC"
+                    ],
+                    "when": "Illinois law applies and the asset is owned personal property.",
+                    "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) as an independent general-property alternative and include it even when another subsection more specifically describes the asset; its $4,000 limit caps value rather than eligibility.",
+                    "avoid_when": "Do not apply this personal-property alternative to real property, and do not omit it merely because a specific tools-of-trade or health-aid exemption also applies."
+                  },
+                  {
+                    "tasks": [
+                      "EV"
+                    ],
+                    "when": "Illinois law applies and the asset is owned personal property.",
+                    "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently of every specific exemption and assign the lesser of the asset's value and $4,000.",
+                    "avoid_when": "Do not apply it to real property, aggregate different assets, or displace a separately applicable specific exemption."
+                  }
+                ],
+                "operators": [],
+                "jurisdiction": "ILLINOIS"
+              }
+            },
+            "source_case_ids": [
+              149
+            ],
+            "rationale": "In both EC and EV for source 149, the parent and empty control returned only the specific tools and health-aid provisions, while the released targets also contained § 5/12-1001(b) for each asset. This repairs the omitted independent general-property alternative without changing the correctly selected specific provisions."
+          },
+          {
+            "operation": "CREATE",
+            "target_ids": [],
+            "skill": {
+              "id": "federal_wildcard_independent_alternative",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "by_task": [
+                  {
+                    "tasks": [
+                      "EC"
+                    ],
+                    "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                    "procedure": "Evaluate 11 U.S.C. § 522(d)(5) for every kind of property as a separate alternative, including property also covered by a category-specific federal exemption.",
+                    "avoid_when": "Do not treat a category-specific exemption as excluding the wildcard, and do not add it where the supplied allowable jurisdictions exclude federal exemptions."
+                  },
+                  {
+                    "tasks": [
+                      "EV"
+                    ],
+                    "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                    "procedure": "For 11 U.S.C. § 522(d)(5), calculate the independent claim as the lesser of the asset value and $1,475 plus up to $13,950 of unused § 522(d)(1); when no residence uses that amount in the independent evaluation, the ceiling is $15,425.",
+                    "avoid_when": "Do not aggregate allocations across assets, displace other applicable alternatives, or assume unused homestead capacity when the facts show it has been consumed."
+                  }
+                ],
+                "operators": [],
+                "jurisdiction": "FEDERAL"
+              }
+            },
+            "source_case_ids": [
+              153,
+              154,
+              155,
+              156
+            ],
+            "rationale": "The parent repeatedly omitted § 522(d)(5): from every asset in EC sources 153–156 and from the corresponding EV alternatives, including assets with no other federal category. The targets consistently require the wildcard independently; source 155 EV also supplies the supported $15,425 ceiling when the homestead amount is unused."
+          },
+          {
+            "operation": "CREATE",
+            "target_ids": [],
+            "skill": {
+              "id": "oregon_any_personal_property_alternative",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "by_task": [
+                  {
+                    "tasks": [
+                      "EC"
+                    ],
+                    "when": "Oregon law applies and the asset is personal property.",
+                    "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent alternative even when the asset also fits a specific Oregon exemption.",
+                    "avoid_when": "Do not apply it to real property or treat its $400 limit as a condition that makes a more valuable item ineligible."
+                  },
+                  {
+                    "tasks": [
+                      "EV"
+                    ],
+                    "when": "Oregon law applies and the asset is personal property.",
+                    "procedure": "For the independent Or. Rev. Stat. § 18.345(1)(p) alternative, assign the lesser of the asset's value and $400.",
+                    "avoid_when": "Do not aggregate different assets or omit separately applicable Oregon exemptions."
+                  }
+                ],
+                "operators": [],
+                "jurisdiction": "OREGON"
+              }
+            },
+            "source_case_ids": [
+              153
+            ],
+            "rationale": "For source 153, the parent omitted § 18.345(1)(p) from both assets in EC and EV because it treated the specific household-goods provision as exclusive. The target includes both alternatives and caps the general personal-property claim at $400."
+          },
+          {
+            "operation": "CREATE",
+            "target_ids": [],
+            "skill": {
+              "id": "pennsylvania_general_monetary_alternative",
+              "hypothesis_ids": [
+                "EC",
+                "EV"
+              ],
+              "guidance": {
+                "by_task": [
+                  {
+                    "tasks": [
+                      "EC"
+                    ],
+                    "when": "Pennsylvania law applies to property of the judgment debtor.",
+                    "procedure": "Evaluate 42 Pa. Cons. Stat. § 8123 as an independent alternative for property of any category and include it alongside any specific Pennsylvania or federal exemption.",
+                    "avoid_when": "Do not restrict § 8123 to cash, and do not use its $300 limit as an eligibility test for property worth more than $300."
+                  },
+                  {
+                    "tasks": [
+                      "EV"
+                    ],
+                    "when": "Pennsylvania law applies to property of the judgment debtor.",
+                    "procedure": "For the independent 42 Pa. Cons. Stat. § 8123 alternative, assign the lesser of the property's value and $300.",
+                    "avoid_when": "Do not aggregate assets, replace a specific exemption, or exclude tangible property merely because the statute is titled a monetary exemption."
+                  }
+                ],
+                "operators": [],
+                "jurisdiction": "PENNSYLVANIA"
+              }
+            },
+            "source_case_ids": [
+              155,
+              156
+            ],
+            "rationale": "The parent incorrectly reasoned that § 8123 applied only to money. It consequently omitted that alternative throughout source 155 and for one asset in source 156; the released targets apply it to each kind of property independently, with a $300 EV ceiling."
+          },
+          {
+            "operation": "CREATE",
+            "target_ids": [],
+            "skill": {
+              "id": "federal_household_item_cap_and_jewelry_boundary",
+              "hypothesis_ids": [
+                "EV"
+              ],
+              "guidance": {
+                "by_task": [
+                  {
+                    "tasks": [
+                      "EV"
+                    ],
+                    "when": "An asset is considered under 11 U.S.C. § 522(d)(3).",
+                    "procedure": "First require that it be one of the listed household-use categories, then assign no more than the lesser of its value and the $700 per-item limit. Evaluate jewelry separately under § 522(d)(4).",
+                    "avoid_when": "Do not use the $14,875 aggregate ceiling as the claim for one item, and do not classify jewelry under § 522(d)(3) merely because it is held for personal or household use."
+                  }
+                ],
+                "operators": [],
+                "jurisdiction": "FEDERAL"
+              }
+            },
+            "source_case_ids": [
+              154,
+              155
+            ],
+            "rationale": "Source 154 EV contained an extra § 522(d)(3) claim for jewelry, while source 155 EV assigned $4,300 to a single household item despite the statute's $700 particular-item ceiling. This distinct correction removes the wrong legal category and fixes the wrong amount without disturbing valid § 522(d)(3) selections."
+          },
+          {
+            "operation": "CREATE",
+            "target_ids": [],
+            "skill": {
+              "id": "arizona_prescribed_assistive_equipment",
+              "hypothesis_ids": [
+                "EV"
+              ],
+              "guidance": {
+                "by_task": [
+                  {
+                    "tasks": [
+                      "EV"
+                    ],
+                    "when": "Arizona law applies and the facts identify an item as medically or professionally prescribed assistive equipment for the debtor or a dependent.",
+                    "procedure": "Treat the item as a prescribed prosthetic or mobility aid under Ariz. Rev. Stat. § 33-1125(9) and claim its full value because the supplied provision states no dollar cap.",
+                    "avoid_when": "Do not classify prescribed assistive equipment as ordinary household furniture merely because it is used in the home; do not apply this rule to ordinary furniture lacking the prescription or assistive condition."
+                  }
+                ],
+                "operators": [],
+                "jurisdiction": "ARIZONA"
+              }
+            },
+            "source_case_ids": [
+              152
+            ],
+            "rationale": "In source 152 EV, the parent selected the household-furnishings provision for the medically prescribed assistive item, producing one false positive and omitting § 33-1125(9). The same-case EC answer and released EV target confirm the prescribed-aid classification; the unrelated household furnishing remains under § 33-1123."
+          }
+        ],
+        "noop_reason": null
+      },
+      "skill_commit_policy": "legal_scope",
+      "proposed_bank": [
+        {
+          "id": "illinois_general_personal_property_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Illinois law applies and the asset is owned personal property.",
+                "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) as an independent general-property alternative and include it even when another subsection more specifically describes the asset; its $4,000 limit caps value rather than eligibility.",
+                "avoid_when": "Do not apply this personal-property alternative to real property, and do not omit it merely because a specific tools-of-trade or health-aid exemption also applies."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Illinois law applies and the asset is owned personal property.",
+                "procedure": "Evaluate 735 Ill. Comp. Stat. 5/12-1001(b) independently of every specific exemption and assign the lesser of the asset's value and $4,000.",
+                "avoid_when": "Do not apply it to real property, aggregate different assets, or displace a separately applicable specific exemption."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "ILLINOIS"
+          }
+        },
+        {
+          "id": "federal_wildcard_independent_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                "procedure": "Evaluate 11 U.S.C. § 522(d)(5) for every kind of property as a separate alternative, including property also covered by a category-specific federal exemption.",
+                "avoid_when": "Do not treat a category-specific exemption as excluding the wildcard, and do not add it where the supplied allowable jurisdictions exclude federal exemptions."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Federal exemptions are allowable and an estate asset is being evaluated.",
+                "procedure": "For 11 U.S.C. § 522(d)(5), calculate the independent claim as the lesser of the asset value and $1,475 plus up to $13,950 of unused § 522(d)(1); when no residence uses that amount in the independent evaluation, the ceiling is $15,425.",
+                "avoid_when": "Do not aggregate allocations across assets, displace other applicable alternatives, or assume unused homestead capacity when the facts show it has been consumed."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        {
+          "id": "oregon_any_personal_property_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Oregon law applies and the asset is personal property.",
+                "procedure": "Include Or. Rev. Stat. § 18.345(1)(p) as an independent alternative even when the asset also fits a specific Oregon exemption.",
+                "avoid_when": "Do not apply it to real property or treat its $400 limit as a condition that makes a more valuable item ineligible."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Oregon law applies and the asset is personal property.",
+                "procedure": "For the independent Or. Rev. Stat. § 18.345(1)(p) alternative, assign the lesser of the asset's value and $400.",
+                "avoid_when": "Do not aggregate different assets or omit separately applicable Oregon exemptions."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "OREGON"
+          }
+        },
+        {
+          "id": "pennsylvania_general_monetary_alternative",
+          "hypothesis_ids": [
+            "EC",
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EC"
+                ],
+                "when": "Pennsylvania law applies to property of the judgment debtor.",
+                "procedure": "Evaluate 42 Pa. Cons. Stat. § 8123 as an independent alternative for property of any category and include it alongside any specific Pennsylvania or federal exemption.",
+                "avoid_when": "Do not restrict § 8123 to cash, and do not use its $300 limit as an eligibility test for property worth more than $300."
+              },
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Pennsylvania law applies to property of the judgment debtor.",
+                "procedure": "For the independent 42 Pa. Cons. Stat. § 8123 alternative, assign the lesser of the property's value and $300.",
+                "avoid_when": "Do not aggregate assets, replace a specific exemption, or exclude tangible property merely because the statute is titled a monetary exemption."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "PENNSYLVANIA"
+          }
+        },
+        {
+          "id": "federal_household_item_cap_and_jewelry_boundary",
+          "hypothesis_ids": [
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "An asset is considered under 11 U.S.C. § 522(d)(3).",
+                "procedure": "First require that it be one of the listed household-use categories, then assign no more than the lesser of its value and the $700 per-item limit. Evaluate jewelry separately under § 522(d)(4).",
+                "avoid_when": "Do not use the $14,875 aggregate ceiling as the claim for one item, and do not classify jewelry under § 522(d)(3) merely because it is held for personal or household use."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "FEDERAL"
+          }
+        },
+        {
+          "id": "arizona_prescribed_assistive_equipment",
+          "hypothesis_ids": [
+            "EV"
+          ],
+          "guidance": {
+            "by_task": [
+              {
+                "tasks": [
+                  "EV"
+                ],
+                "when": "Arizona law applies and the facts identify an item as medically or professionally prescribed assistive equipment for the debtor or a dependent.",
+                "procedure": "Treat the item as a prescribed prosthetic or mobility aid under Ariz. Rev. Stat. § 33-1125(9) and claim its full value because the supplied provision states no dollar cap.",
+                "avoid_when": "Do not classify prescribed assistive equipment as ordinary household furniture merely because it is used in the home; do not apply this rule to ordinary furniture lacking the prescription or assistive condition."
+              }
+            ],
+            "operators": [],
+            "jurisdiction": "ARIZONA"
+          }
+        }
+      ],
+      "proposed_tokens": 1228,
+      "proposed_whole_bank_acceptance": {
+        "accepted": false,
+        "current_family_nonregression": false,
+        "prior_family_nonregression": true,
+        "strict_current_improvement": true,
+        "current_full_output_nonregression": true,
+        "prior_full_output_nonregression": true,
+        "parent_current": {
+          "EC": {
+            "precision": 0.9375,
+            "recall": 0.6197916666666666,
+            "f1": 0.7072916666666667,
+            "exact_target": 0.0,
+            "tasks": 8,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 1
+          },
+          "EV": {
+            "precision": 0.8541666666666666,
+            "recall": 0.609375,
+            "f1": 0.6885416666666667,
+            "exact_target": 0.0,
+            "tasks": 8,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0,
+            "full_output_f1": 0.7002840909090909
+          },
+          "mean_family_f1": 0.6979166666666667
+        },
+        "candidate_current": {
+          "EC": {
+            "precision": 0.84375,
+            "recall": 0.6145833333333333,
+            "f1": 0.6858630952380952,
+            "exact_target": 0.0,
+            "tasks": 8,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 0
+          },
+          "EV": {
+            "precision": 0.890625,
+            "recall": 0.7239583333333334,
+            "f1": 0.7833333333333333,
+            "exact_target": 0.25,
+            "tasks": 8,
+            "invalid_format": 0,
+            "officially_unscored_predicted_claims": 2,
+            "full_output_f1": 0.7848370927318296
+          },
+          "mean_family_f1": 0.7345982142857143
+        },
+        "parent_prior": {
+          "mean_family_f1": 0
+        },
+        "candidate_prior": {
+          "mean_family_f1": 0
+        },
+        "TRAIN_optimization_not_independent_validation": true
+      },
+      "task_admission": {
+        "EC": {
+          "accepted": false,
+          "current_nonregression": false,
+          "prior_nonregression": true,
+          "strict_current_improvement": false,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": true
+        },
+        "EV": {
+          "accepted": true,
+          "current_nonregression": true,
+          "prior_nonregression": true,
+          "strict_current_improvement": true,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": true
+        }
+      },
+      "accepted_tasks": [
+        "EC",
+        "EV"
+      ],
+      "legal_edit_coordinates": [
+        {
+          "id": "EC:ARIZONA",
+          "task": "EC",
+          "jurisdictions": [
+            "ARIZONA"
+          ],
+          "source_case_ids": [
+            150,
+            151,
+            152
+          ]
+        },
+        {
+          "id": "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+          "task": "EC",
+          "jurisdictions": [
+            "FEDERAL",
+            "OREGON",
+            "PENNSYLVANIA",
+            "WISCONSIN"
+          ],
+          "source_case_ids": [
+            153,
+            154,
+            155,
+            156
+          ]
+        },
+        {
+          "id": "EC:ILLINOIS",
+          "task": "EC",
+          "jurisdictions": [
+            "ILLINOIS"
+          ],
+          "source_case_ids": [
+            149
+          ]
+        },
+        {
+          "id": "EV:ARIZONA",
+          "task": "EV",
+          "jurisdictions": [
+            "ARIZONA"
+          ],
+          "source_case_ids": [
+            150,
+            151,
+            152
+          ]
+        },
+        {
+          "id": "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+          "task": "EV",
+          "jurisdictions": [
+            "FEDERAL",
+            "OREGON",
+            "PENNSYLVANIA",
+            "WISCONSIN"
+          ],
+          "source_case_ids": [
+            153,
+            154,
+            155,
+            156
+          ]
+        },
+        {
+          "id": "EV:ILLINOIS",
+          "task": "EV",
+          "jurisdictions": [
+            "ILLINOIS"
+          ],
+          "source_case_ids": [
+            149
+          ]
+        }
+      ],
+      "legal_scope_admission": {
+        "EC:ARIZONA": {
+          "accepted": false,
+          "current_nonregression": true,
+          "prior_nonregression": true,
+          "strict_current_improvement": false,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": true,
+          "current_tasks": 3,
+          "prior_tasks": 0
+        },
+        "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN": {
+          "accepted": true,
+          "current_nonregression": true,
+          "prior_nonregression": true,
+          "strict_current_improvement": true,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": true,
+          "current_tasks": 4,
+          "prior_tasks": 0
+        },
+        "EC:ILLINOIS": {
+          "accepted": false,
+          "current_nonregression": false,
+          "prior_nonregression": true,
+          "strict_current_improvement": false,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": true,
+          "current_tasks": 1,
+          "prior_tasks": 0
+        },
+        "EV:ARIZONA": {
+          "accepted": true,
+          "current_nonregression": true,
+          "prior_nonregression": true,
+          "strict_current_improvement": true,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": true,
+          "current_tasks": 3,
+          "prior_tasks": 0
+        },
+        "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN": {
+          "accepted": true,
+          "current_nonregression": true,
+          "prior_nonregression": true,
+          "strict_current_improvement": true,
+          "current_full_output_nonregression": true,
+          "prior_full_output_nonregression": true,
+          "current_tasks": 4,
+          "prior_tasks": 0
+        },
+        "EV:ILLINOIS": {
+          "accepted": false,
+          "current_nonregression": false,
+          "prior_nonregression": true,
+          "strict_current_improvement": false,
+          "current_full_output_nonregression": false,
+          "prior_full_output_nonregression": true,
+          "current_tasks": 1,
+          "prior_tasks": 0
+        }
+      },
+      "accepted_legal_coordinates": [
+        "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+        "EV:ARIZONA",
+        "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN"
+      ],
+      "actual_tokens": 990,
+      "actual_replay": [
+        {
+          "case_id": 149,
+          "source_key": "0cba205e9c5356771c3ac374ab8371becdc57f803c6f9d961ae4db9fe9ba6fe9",
+          "family": "EC",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)": [
+                "735 Ill. Comp. Stat. 5/12-1001(d)"
+              ],
+              "physician prescribed wheelchair with foldable frame and padded armrests": [
+                "735 Ill. Comp. Stat. 5/12-1001(e)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/149_EC_empty_direct_numeric.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)": [
+              "735 Ill. Comp. Stat. 5/12-1001(d)"
+            ],
+            "physician prescribed wheelchair with foldable frame and padded armrests": [
+              "735 Ill. Comp. Stat. 5/12-1001(e)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "56dc49f58540a2c693bfcdcd714062a8d073d46ac5cf1e84d408bb174a559f8d",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/149_EC_empty_direct_numeric.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 149,
+          "source_key": "0cba205e9c5356771c3ac374ab8371becdc57f803c6f9d961ae4db9fe9ba6fe9",
+          "family": "EV",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "'mechanic hand tools and rolling toolbox'": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                  "claim_value": 1500
+                }
+              ],
+              "'physician prescribed wheelchair'": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(e)",
+                  "claim_value": 649
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/149_EV_empty.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "'mechanic hand tools and rolling toolbox'": [
+              {
+                "citation_ref": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                "claim_value": 1500
+              }
+            ],
+            "'physician prescribed wheelchair'": [
+              {
+                "citation_ref": "735 Ill. Comp. Stat. 5/12-1001(e)",
+                "claim_value": 649
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "b4ddea315794839f755a9020df1f48d3c070b9de7cf72b0d80fc3d61a02a56ed",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/149_EV_empty.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.6666666666666666,
+            "full_output_precision": 1.0,
+            "full_output_recall": 0.5,
+            "full_output_claim_tp": 2,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 2,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 150,
+          "source_key": "2f77f3163a8c2c49ca074245b9d2b966297971e7ae6bfa721a6dfb133c2dfee2",
+          "family": "EC",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company) appraised at $3,450.00": [
+                "Ariz. Rev. Stat. § 33-1130(1)"
+              ],
+              "brown canvas blazer with waterproof coating currently owned by Lars and Ghada Hansen carries a value of $385.00": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ],
+              "German shorthaired pointer, priced at $755.00": [
+                "Ariz. Rev. Stat. § 33-1125(11)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/150_EC_empty.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company) appraised at $3,450.00": [
+              "Ariz. Rev. Stat. section 33-1130(1)"
+            ],
+            "brown canvas blazer with waterproof coating currently owned by Lars and Ghada Hansen carries a value of $385.00": [
+              "Ariz. Rev. Stat. section 33-1125(1)"
+            ],
+            "German shorthaired pointer, priced at $755.00": [
+              "Ariz. Rev. Stat. section 33-1125(11)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "67204fe8e566b02a63c400ee82728c5c015c5ab3126f0d0dc269995c299bd1d5",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/150_EC_empty.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 150,
+          "source_key": "2f77f3163a8c2c49ca074245b9d2b966297971e7ae6bfa721a6dfb133c2dfee2",
+          "family": "EV",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company) valued at $3,450.00": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+                  "claim_value": 3450
+                }
+              ],
+              "brown canvas blazer with waterproof coating with a value of $385.00": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 385
+                }
+              ],
+              "German shorthaired pointer, priced at $755.00": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(11)",
+                  "claim_value": 755
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/150_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company) valued at $3,450.00": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1130(1)",
+                "claim_value": 3450
+              }
+            ],
+            "brown canvas blazer with waterproof coating with a value of $385.00": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1125(1)",
+                "claim_value": 385
+              }
+            ],
+            "German shorthaired pointer, priced at $755.00": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1125(11)",
+                "claim_value": 755
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "arizona_prescribed_assistive_equipment"
+          ],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "3ab181045d7d555e6b4db15d5bdda4a5f48bfb5e005516191ab50306ec8154b2",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/150_EV_candidate.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 3,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 151,
+          "source_key": "88c118ad55e1198b75755faa648f6f5e6c79c7bc07c577b44ada9beba397ed95",
+          "family": "EC",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "tablet device with 12.9-inch screen and detachable keyboard valued at $638.00": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "rubber rain boots with pull-on handles worth $52.00": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ],
+              "curved 49-inch ultrawide monitor with high refresh rate and USB-C hub with a value of $1,825.00": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup with a market value of $32,900.00": [
+                "Ariz. Rev. Stat. § 33-1125(8)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/151_EC_frozen_initial.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "tablet device with 12.9-inch screen and detachable keyboard valued at $638.00": [
+              "Ariz. Rev. Stat. section 33-1123"
+            ],
+            "rubber rain boots with pull-on handles worth $52.00": [
+              "Ariz. Rev. Stat. section 33-1125(1)"
+            ],
+            "curved 49-inch ultrawide monitor with high refresh rate and USB-C hub with a value of $1,825.00": [
+              "Ariz. Rev. Stat. section 33-1123"
+            ],
+            "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup with a market value of $32,900.00": [
+              "Ariz. Rev. Stat. section 33-1125(8)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "32ac3a5cba4f19b28c7a7e54b2e0682be818ad1e3d5dd04299db9395d4e7be20",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/151_EC_frozen_initial.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 151,
+          "source_key": "88c118ad55e1198b75755faa648f6f5e6c79c7bc07c577b44ada9beba397ed95",
+          "family": "EV",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "tablet device with 12.9-inch screen and detachable keyboard": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 638
+                }
+              ],
+              "rubber rain boots with pull-on handles": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 52
+                }
+              ],
+              "curved 49-inch ultrawide monitor with high refresh rate and USB-C hub": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 1825
+                }
+              ],
+              "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                  "claim_value": 15000
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/151_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "tablet device with 12.9-inch screen and detachable keyboard": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1123",
+                "claim_value": 638
+              }
+            ],
+            "rubber rain boots with pull-on handles": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1125(1)",
+                "claim_value": 52
+              }
+            ],
+            "curved 49-inch ultrawide monitor with high refresh rate and USB-C hub": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1123",
+                "claim_value": 1825
+              }
+            ],
+            "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1125(8)",
+                "claim_value": 15000
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "arizona_prescribed_assistive_equipment"
+          ],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "a7fb0c92d3194b5f46bab98d869221f856a502b68b2120750414177d4cead5dd",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/151_EV_candidate.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 4,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 152,
+          "source_key": "f73e165df64afbe011ddbe7a871b34fbe7249dbcace863efc06099286f7e59dd",
+          "family": "EC",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "Two-seat entryway bench with hidden shoe storage": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "Medically prescribed shower chair with adjustable legs and non-slip feet": [
+                "Ariz. Rev. Stat. § 33-1125(9)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/152_EC_skills.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "Two-seat entryway bench with hidden shoe storage": [
+              "Ariz. Rev. Stat. section 33-1123"
+            ],
+            "Medically prescribed shower chair with adjustable legs and non-slip feet": [
+              "Ariz. Rev. Stat. section 33-1125(9)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "18856ee6468f3fbf3c1d67076c067445f0eb84288886779ba7d2173b6e84192a",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/152_EC_skills.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 152,
+          "source_key": "f73e165df64afbe011ddbe7a871b34fbe7249dbcace863efc06099286f7e59dd",
+          "family": "EV",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "medically prescribed shower chair with adjustable legs and non-slip feet": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(9)",
+                  "claim_value": 41.0
+                }
+              ],
+              "two-seat entryway bench with hidden shoe storage": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 1400.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/152_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "medically prescribed shower chair with adjustable legs and non-slip feet": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1125(9)",
+                "claim_value": 41.0
+              }
+            ],
+            "two-seat entryway bench with hidden shoe storage": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1123",
+                "claim_value": 1400.0
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "arizona_prescribed_assistive_equipment"
+          ],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "068a24e97a7ad5a63ab1aff556c27f1f74be18b0c878eba74bc5a416f6418289",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/152_EV_candidate.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 2,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 153,
+          "source_key": "bf8d4583e1b1ee9a8d39b20646507141caaafd9b4342e5d6c430c35616dd2bbd",
+          "family": "EC",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "smart wall oven with touchscreen interface and Wi-Fi recipe integration": [
+                "11 U.S.C. § 522(d)(3)",
+                "Or. Rev. Stat. § 18.345(1)(p)"
+              ],
+              "laser printer with wireless connectivity and scanner bed": [
+                "11 U.S.C. § 522(d)(3)",
+                "Or. Rev. Stat. § 18.345(1)(f)",
+                "Or. Rev. Stat. § 18.345(1)(p)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/153_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "smart wall oven with touchscreen interface and Wi-Fi recipe integration": [
+              "11 U.S.C. section 522(d)(3)",
+              "Or. Rev. Stat. section 18.345(1)(p)"
+            ],
+            "laser printer with wireless connectivity and scanner bed": [
+              "11 U.S.C. section 522(d)(3)",
+              "Or. Rev. Stat. section 18.345(1)(f)",
+              "Or. Rev. Stat. section 18.345(1)(p)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_wildcard_independent_alternative",
+            "oregon_any_personal_property_alternative"
+          ],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "ae4f22453ac9238588d490c89903bc763c53f97b3ddce7a7146c3c6647cc8545",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/153_EC_candidate.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 0.625,
+            "f1": 0.7619047619047619,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 153,
+          "source_key": "bf8d4583e1b1ee9a8d39b20646507141caaafd9b4342e5d6c430c35616dd2bbd",
+          "family": "EV",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "smart wall oven with touchscreen interface and Wi-Fi recipe integration": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 3000
+                }
+              ],
+              "laser printer with wireless connectivity and scanner bed": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 760
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/153_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "smart wall oven with touchscreen interface and Wi-Fi recipe integration": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 700
+              },
+              {
+                "citation_ref": "Or. Rev. Stat. section 18.345(1)(f)",
+                "claim_value": 3000
+              }
+            ],
+            "laser printer with wireless connectivity and scanner bed": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 700
+              },
+              {
+                "citation_ref": "Or. Rev. Stat. section 18.345(1)(f)",
+                "claim_value": 760
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_household_item_cap_and_jewelry_boundary",
+            "federal_wildcard_independent_alternative",
+            "oregon_any_personal_property_alternative"
+          ],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "838d9e97a1a70436b1b0e228889743cfb47fd2cdf2a3269b29b73f0760f8c1b8",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/153_EV_candidate.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.6666666666666666,
+            "full_output_precision": 1.0,
+            "full_output_recall": 0.5,
+            "full_output_claim_tp": 4,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 4,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 154,
+          "source_key": "c7d4e6d374d18a3fd14fc20393433569860d619e2f682ef651b6ed5465492219",
+          "family": "EC",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "wireless home security system with motion sensors and base station assessed at $1,000.00": [
+                "11 U.S.C. § 522(d)(3)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "pair of sterling silver hoop earrings with cubic zirconia accents valued at $98.00": [
+                "11 U.S.C. § 522(d)(3)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/154_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "wireless home security system with motion sensors and base station assessed at $1,000.00": [
+              "11 U.S.C. section 522(d)(3)",
+              "Wis. Stat. section 815.18(3)(d)"
+            ],
+            "pair of sterling silver hoop earrings with cubic zirconia accents valued at $98.00": [
+              "11 U.S.C. section 522(d)(3)",
+              "Wis. Stat. section 815.18(3)(d)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_wildcard_independent_alternative"
+          ],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "4d0416281decd484e940ac7fc6fa7364f188943349ce46351f256ab569bb7968",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/154_EC_candidate.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 0.75,
+            "recall": 0.5,
+            "f1": 0.6000000000000001,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 154,
+          "source_key": "c7d4e6d374d18a3fd14fc20393433569860d619e2f682ef651b6ed5465492219",
+          "family": "EV",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "wireless home security system with motion sensors and base station": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 1000
+                }
+              ],
+              "pair of sterling silver hoop earrings with cubic zirconia accents": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(4)",
+                  "claim_value": 98
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 98
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/154_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "wireless home security system with motion sensors and base station": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 700
+              },
+              {
+                "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+                "claim_value": 1000
+              }
+            ],
+            "pair of sterling silver hoop earrings with cubic zirconia accents": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(4)",
+                "claim_value": 98
+              },
+              {
+                "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+                "claim_value": 98
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_household_item_cap_and_jewelry_boundary",
+            "federal_wildcard_independent_alternative"
+          ],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "48873534aed137ad6931e0f4d1c54ccd44779671e643a770627430dcba0ecf2b",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/154_EV_candidate.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 0.6666666666666666,
+            "f1": 0.8,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.8,
+            "full_output_precision": 1.0,
+            "full_output_recall": 0.6666666666666666,
+            "full_output_claim_tp": 4,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 2,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 155,
+          "source_key": "52a84f5e557c79408410ba029b89e4824f6cd39912758d50da9c83f2363f80b1",
+          "family": "EC",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "tailored navy suit with silk lining and hand-finished seams valued at $500.00": [
+                "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "11 U.S.C. § 522(d)(3)"
+              ],
+              "solid walnut dining table that seats eight (includes two extension leaves) with a value of $4,300.00": [
+                "11 U.S.C. § 522(d)(3)"
+              ],
+              "2025 Lucid Air Grand Touring electric sedan, 900 miles valued at $125,900.00": [],
+              "Remington 700 bolt-action hunting rifle (.308 caliber) with a fair market value of $940.00": [
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/155_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "tailored navy suit with silk lining and hand-finished seams valued at $500.00": [
+              "42 Pa. Cons. Stat. section 8124(a)(1)",
+              "11 U.S.C. section 522(d)(3)"
+            ],
+            "solid walnut dining table that seats eight (includes two extension leaves) with a value of $4,300.00": [
+              "11 U.S.C. section 522(d)(3)"
+            ],
+            "2025 Lucid Air Grand Touring electric sedan, 900 miles valued at $125,900.00": [],
+            "Remington 700 bolt-action hunting rifle (.308 caliber) with a fair market value of $940.00": [
+              "42 Pa. Cons. Stat. section 8124(a)(1)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_wildcard_independent_alternative",
+            "pennsylvania_general_monetary_alternative"
+          ],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "60110181d6961a3ec9fc5b37a6c648880744b1bf6c5d7664c8ed5ba4f071591a",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/155_EC_candidate.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 0.5,
+            "recall": 0.20833333333333331,
+            "f1": 0.29166666666666663,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 155,
+          "source_key": "52a84f5e557c79408410ba029b89e4824f6cd39912758d50da9c83f2363f80b1",
+          "family": "EV",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "tailored navy suit with silk lining and hand-finished seams": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8123",
+                  "claim_value": 300
+                }
+              ],
+              "solid walnut dining table that seats eight (includes two extension leaves)": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8123",
+                  "claim_value": 300
+                }
+              ],
+              "2025 Lucid Air Grand Touring electric sedan": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(2)",
+                  "claim_value": 4450
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 15000
+                }
+              ],
+              "Remington 700 bolt-action hunting rifle (.308 caliber)": [
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 940
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/155_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "tailored navy suit with silk lining and hand-finished seams": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 500
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8123",
+                "claim_value": 300
+              }
+            ],
+            "solid walnut dining table that seats eight (includes two extension leaves)": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 700
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8123",
+                "claim_value": 300
+              }
+            ],
+            "2025 Lucid Air Grand Touring electric sedan": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(2)",
+                "claim_value": 4450
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8124(a)(1)",
+                "claim_value": 15000
+              }
+            ],
+            "Remington 700 bolt-action hunting rifle (.308 caliber)": [
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8124(a)(1)",
+                "claim_value": 940
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_household_item_cap_and_jewelry_boundary",
+            "federal_wildcard_independent_alternative",
+            "pennsylvania_general_monetary_alternative"
+          ],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "e11e1457f835b4539d42fabc8b70c2eacfd784e3acbbf6eff09c24bb41d0af34",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/155_EV_candidate.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 0.625,
+            "recall": 0.37499999999999994,
+            "f1": 0.4666666666666667,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.5263157894736842,
+            "full_output_precision": 0.7142857142857143,
+            "full_output_recall": 0.4166666666666667,
+            "full_output_claim_tp": 5,
+            "full_output_claim_fp": 2,
+            "full_output_claim_fn": 7,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 156,
+          "source_key": "c5a5c7d1f63e18197b8e867aa4de26449a02dae45d3c4334c44027e4d33bcb2a",
+          "family": "EC",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "wifi-enabled video doorbell with motion detection": [
+                "11 U.S.C. § 522(d)(3)"
+              ],
+              "upright piano in walnut veneer": [
+                "11 U.S.C. § 522(d)(3)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/156_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "wifi-enabled video doorbell with motion detection": [
+              "11 U.S.C. section 522(d)(3)"
+            ],
+            "upright piano in walnut veneer": [
+              "11 U.S.C. section 522(d)(3)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_wildcard_independent_alternative",
+            "pennsylvania_general_monetary_alternative"
+          ],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "b0122931528b440d377ad0e8b3f98a923bd101210be981fb43c3b99f54f87510",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/156_EC_candidate.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 156,
+          "source_key": "c5a5c7d1f63e18197b8e867aa4de26449a02dae45d3c4334c44027e4d33bcb2a",
+          "family": "EV",
+          "stage": "b1_candidate1_composed_replay",
+          "arm": "candidate",
+          "bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8",
+          "parsed": {
+            "answer": {
+              "wifi-enabled video doorbell with motion detection, priced at $175.00": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 175
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(5)",
+                  "claim_value": 175
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8123",
+                  "claim_value": 175
+                }
+              ],
+              "upright piano in walnut veneer valued at $555.00": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 555
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(5)",
+                  "claim_value": 555
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8123",
+                  "claim_value": 300
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/156_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "wifi-enabled video doorbell with motion detection, priced at $175.00": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 175
+              },
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(5)",
+                "claim_value": 175
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8123",
+                "claim_value": 175
+              }
+            ],
+            "upright piano in walnut veneer valued at $555.00": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 555
+              },
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(5)",
+                "claim_value": 555
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8123",
+                "claim_value": 300
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_household_item_cap_and_jewelry_boundary",
+            "federal_wildcard_independent_alternative",
+            "pennsylvania_general_monetary_alternative"
+          ],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "8348dd3b369cb692eac2884139cdc35f67e32356ec296350863f187c2d289533",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/156_EV_candidate.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "08455d09181872caf7683e0bbb1d05fd16552b66b5a51ab394312e82c2e583c8"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 6,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        }
+      ],
+      "TRAIN_optimization_not_independent_validation": true,
+      "current_family_nonregression": true,
+      "prior_family_nonregression": true,
+      "strict_current_improvement": true,
+      "current_full_output_nonregression": true,
+      "prior_full_output_nonregression": true,
+      "parent_current": {
+        "EC": {
+          "precision": 0.9375,
+          "recall": 0.6197916666666666,
+          "f1": 0.7072916666666667,
+          "exact_target": 0.0,
+          "tasks": 8,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 1
+        },
+        "EV": {
+          "precision": 0.8541666666666666,
+          "recall": 0.609375,
+          "f1": 0.6885416666666667,
+          "exact_target": 0.0,
+          "tasks": 8,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.7002840909090909
+        },
+        "mean_family_f1": 0.6979166666666667
+      },
+      "candidate_current": {
+        "EC": {
+          "precision": 0.90625,
+          "recall": 0.6458333333333333,
+          "f1": 0.7275297619047619,
+          "exact_target": 0.0,
+          "tasks": 8,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0
+        },
+        "EV": {
+          "precision": 0.953125,
+          "recall": 0.7552083333333334,
+          "f1": 0.825,
+          "exact_target": 0.25,
+          "tasks": 8,
+          "invalid_format": 0,
+          "officially_unscored_predicted_claims": 0,
+          "full_output_f1": 0.8324561403508771
+        },
+        "mean_family_f1": 0.7762648809523809
+      },
+      "parent_prior": {
+        "mean_family_f1": 0
+      },
+      "candidate_prior": {
+        "mean_family_f1": 0
+      },
+      "proposed_replay": [
+        {
+          "case_id": 149,
+          "source_key": "0cba205e9c5356771c3ac374ab8371becdc57f803c6f9d961ae4db9fe9ba6fe9",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "Set of mechanic hand tools and rolling toolbox": [],
+              "Physician prescribed wheelchair with foldable frame and padded armrests": [
+                "735 Ill. Comp. Stat. 5/12-1001(e)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/149_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "Set of mechanic hand tools and rolling toolbox": [],
+            "Physician prescribed wheelchair with foldable frame and padded armrests": [
+              "735 Ill. Comp. Stat. 5/12-1001(e)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "illinois_general_personal_property_alternative"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.25,
+            "f1": 0.3333333333333333,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 149,
+          "source_key": "0cba205e9c5356771c3ac374ab8371becdc57f803c6f9d961ae4db9fe9ba6fe9",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "mechanic_hand_tools_and_rolling_toolbox": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                  "claim_value": 0
+                },
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                  "claim_value": 0
+                }
+              ],
+              "physician_prescribed_wheelchair": [
+                {
+                  "citation": "735 Ill. Comp. Stat. 5/12-1001(e)",
+                  "claim_value": 649
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/149_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "mechanic_hand_tools_and_rolling_toolbox": [
+              {
+                "citation_ref": "735 Ill. Comp. Stat. 5/12-1001(d)",
+                "claim_value": 0
+              },
+              {
+                "citation_ref": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "claim_value": 0
+              }
+            ],
+            "physician_prescribed_wheelchair": [
+              {
+                "citation_ref": "735 Ill. Comp. Stat. 5/12-1001(e)",
+                "claim_value": 649
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "illinois_general_personal_property_alternative"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.25,
+            "f1": 0.3333333333333333,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.28571428571428575,
+            "full_output_precision": 0.3333333333333333,
+            "full_output_recall": 0.25,
+            "full_output_claim_tp": 1,
+            "full_output_claim_fp": 2,
+            "full_output_claim_fn": 3,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 2,
+            "officially_unscored_predicted_assets": {
+              "mechanic_hand_tools_and_rolling_toolbox": 2
+            },
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 150,
+          "source_key": "2f77f3163a8c2c49ca074245b9d2b966297971e7ae6bfa721a6dfb133c2dfee2",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company) appraised at $3,450.00": [
+                "Ariz. Rev. Stat. § 33-1130(1)"
+              ],
+              "brown canvas blazer with waterproof coating currently owned by Lars and Ghada Hansen carries a value of $385.00": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ],
+              "German shorthaired pointer, priced at $755.00": [
+                "Ariz. Rev. Stat. § 33-1125(11)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/150_EC_empty.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company) appraised at $3,450.00": [
+              "Ariz. Rev. Stat. section 33-1130(1)"
+            ],
+            "brown canvas blazer with waterproof coating currently owned by Lars and Ghada Hansen carries a value of $385.00": [
+              "Ariz. Rev. Stat. section 33-1125(1)"
+            ],
+            "German shorthaired pointer, priced at $755.00": [
+              "Ariz. Rev. Stat. section 33-1125(11)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "67204fe8e566b02a63c400ee82728c5c015c5ab3126f0d0dc269995c299bd1d5",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/150_EC_empty.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 150,
+          "source_key": "2f77f3163a8c2c49ca074245b9d2b966297971e7ae6bfa721a6dfb133c2dfee2",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company) valued at $3,450.00": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1130(1)",
+                  "claim_value": 3450
+                }
+              ],
+              "brown canvas blazer with waterproof coating with a value of $385.00": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 385
+                }
+              ],
+              "German shorthaired pointer, priced at $755.00": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(11)",
+                  "claim_value": 755
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/150_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company) valued at $3,450.00": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1130(1)",
+                "claim_value": 3450
+              }
+            ],
+            "brown canvas blazer with waterproof coating with a value of $385.00": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1125(1)",
+                "claim_value": 385
+              }
+            ],
+            "German shorthaired pointer, priced at $755.00": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1125(11)",
+                "claim_value": 755
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "arizona_prescribed_assistive_equipment"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 3,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 151,
+          "source_key": "88c118ad55e1198b75755faa648f6f5e6c79c7bc07c577b44ada9beba397ed95",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "tablet device with 12.9-inch screen and detachable keyboard valued at $638.00": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "rubber rain boots with pull-on handles worth $52.00": [
+                "Ariz. Rev. Stat. § 33-1125(1)"
+              ],
+              "curved 49-inch ultrawide monitor with high refresh rate and USB-C hub with a value of $1,825.00": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup with a market value of $32,900.00": [
+                "Ariz. Rev. Stat. § 33-1125(8)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/151_EC_frozen_initial.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "tablet device with 12.9-inch screen and detachable keyboard valued at $638.00": [
+              "Ariz. Rev. Stat. section 33-1123"
+            ],
+            "rubber rain boots with pull-on handles worth $52.00": [
+              "Ariz. Rev. Stat. section 33-1125(1)"
+            ],
+            "curved 49-inch ultrawide monitor with high refresh rate and USB-C hub with a value of $1,825.00": [
+              "Ariz. Rev. Stat. section 33-1123"
+            ],
+            "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup with a market value of $32,900.00": [
+              "Ariz. Rev. Stat. section 33-1125(8)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "32ac3a5cba4f19b28c7a7e54b2e0682be818ad1e3d5dd04299db9395d4e7be20",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/151_EC_frozen_initial.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 151,
+          "source_key": "88c118ad55e1198b75755faa648f6f5e6c79c7bc07c577b44ada9beba397ed95",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "tablet device with 12.9-inch screen and detachable keyboard": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 638
+                }
+              ],
+              "rubber rain boots with pull-on handles": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                  "claim_value": 52
+                }
+              ],
+              "curved 49-inch ultrawide monitor with high refresh rate and USB-C hub": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 1825
+                }
+              ],
+              "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(8)",
+                  "claim_value": 15000
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/151_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "tablet device with 12.9-inch screen and detachable keyboard": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1123",
+                "claim_value": 638
+              }
+            ],
+            "rubber rain boots with pull-on handles": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1125(1)",
+                "claim_value": 52
+              }
+            ],
+            "curved 49-inch ultrawide monitor with high refresh rate and USB-C hub": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1123",
+                "claim_value": 1825
+              }
+            ],
+            "cement-colored 2018 Toyota Tacoma TRD Off-Road pickup": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1125(8)",
+                "claim_value": 15000
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "arizona_prescribed_assistive_equipment"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 4,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 152,
+          "source_key": "f73e165df64afbe011ddbe7a871b34fbe7249dbcace863efc06099286f7e59dd",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "Two-seat entryway bench with hidden shoe storage": [
+                "Ariz. Rev. Stat. § 33-1123"
+              ],
+              "Medically prescribed shower chair with adjustable legs and non-slip feet": [
+                "Ariz. Rev. Stat. § 33-1125(9)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/152_EC_skills.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "Two-seat entryway bench with hidden shoe storage": [
+              "Ariz. Rev. Stat. section 33-1123"
+            ],
+            "Medically prescribed shower chair with adjustable legs and non-slip feet": [
+              "Ariz. Rev. Stat. section 33-1125(9)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [],
+          "physical_alias_of_identical_wire": {
+            "fingerprint": "18856ee6468f3fbf3c1d67076c067445f0eb84288886779ba7d2173b6e84192a",
+            "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_prequential/152_EC_skills.json",
+            "not_an_independent_generation": true,
+            "execution_receipt_is_from_original_call": false,
+            "reinterpreted_under_bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7"
+          },
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 152,
+          "source_key": "f73e165df64afbe011ddbe7a871b34fbe7249dbcace863efc06099286f7e59dd",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "medically prescribed shower chair with adjustable legs and non-slip feet": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1125(9)",
+                  "claim_value": 41.0
+                }
+              ],
+              "two-seat entryway bench with hidden shoe storage": [
+                {
+                  "citation": "Ariz. Rev. Stat. § 33-1123",
+                  "claim_value": 1400.0
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/152_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "medically prescribed shower chair with adjustable legs and non-slip feet": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1125(9)",
+                "claim_value": 41.0
+              }
+            ],
+            "two-seat entryway bench with hidden shoe storage": [
+              {
+                "citation_ref": "Ariz. Rev. Stat. section 33-1123",
+                "claim_value": 1400.0
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "arizona_prescribed_assistive_equipment"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": true,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 2,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 153,
+          "source_key": "bf8d4583e1b1ee9a8d39b20646507141caaafd9b4342e5d6c430c35616dd2bbd",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "smart wall oven with touchscreen interface and Wi-Fi recipe integration": [
+                "11 U.S.C. § 522(d)(3)",
+                "Or. Rev. Stat. § 18.345(1)(p)"
+              ],
+              "laser printer with wireless connectivity and scanner bed": [
+                "11 U.S.C. § 522(d)(3)",
+                "Or. Rev. Stat. § 18.345(1)(f)",
+                "Or. Rev. Stat. § 18.345(1)(p)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/153_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "smart wall oven with touchscreen interface and Wi-Fi recipe integration": [
+              "11 U.S.C. section 522(d)(3)",
+              "Or. Rev. Stat. section 18.345(1)(p)"
+            ],
+            "laser printer with wireless connectivity and scanner bed": [
+              "11 U.S.C. section 522(d)(3)",
+              "Or. Rev. Stat. section 18.345(1)(f)",
+              "Or. Rev. Stat. section 18.345(1)(p)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_wildcard_independent_alternative",
+            "oregon_any_personal_property_alternative"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.625,
+            "f1": 0.7619047619047619,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 153,
+          "source_key": "bf8d4583e1b1ee9a8d39b20646507141caaafd9b4342e5d6c430c35616dd2bbd",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "smart wall oven with touchscreen interface and Wi-Fi recipe integration": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 3000
+                }
+              ],
+              "laser printer with wireless connectivity and scanner bed": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                  "claim_value": 760
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/153_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "smart wall oven with touchscreen interface and Wi-Fi recipe integration": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 700
+              },
+              {
+                "citation_ref": "Or. Rev. Stat. section 18.345(1)(f)",
+                "claim_value": 3000
+              }
+            ],
+            "laser printer with wireless connectivity and scanner bed": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 700
+              },
+              {
+                "citation_ref": "Or. Rev. Stat. section 18.345(1)(f)",
+                "claim_value": 760
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_household_item_cap_and_jewelry_boundary",
+            "federal_wildcard_independent_alternative",
+            "oregon_any_personal_property_alternative"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.6666666666666666,
+            "full_output_precision": 1.0,
+            "full_output_recall": 0.5,
+            "full_output_claim_tp": 4,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 4,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 154,
+          "source_key": "c7d4e6d374d18a3fd14fc20393433569860d619e2f682ef651b6ed5465492219",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "wireless home security system with motion sensors and base station assessed at $1,000.00": [
+                "11 U.S.C. § 522(d)(3)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ],
+              "pair of sterling silver hoop earrings with cubic zirconia accents valued at $98.00": [
+                "11 U.S.C. § 522(d)(3)",
+                "Wis. Stat. § 815.18(3)(d)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/154_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "wireless home security system with motion sensors and base station assessed at $1,000.00": [
+              "11 U.S.C. section 522(d)(3)",
+              "Wis. Stat. section 815.18(3)(d)"
+            ],
+            "pair of sterling silver hoop earrings with cubic zirconia accents valued at $98.00": [
+              "11 U.S.C. section 522(d)(3)",
+              "Wis. Stat. section 815.18(3)(d)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_wildcard_independent_alternative"
+          ],
+          "score": {
+            "precision": 0.75,
+            "recall": 0.5,
+            "f1": 0.6000000000000001,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 154,
+          "source_key": "c7d4e6d374d18a3fd14fc20393433569860d619e2f682ef651b6ed5465492219",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "wireless home security system with motion sensors and base station": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 1000
+                }
+              ],
+              "pair of sterling silver hoop earrings with cubic zirconia accents": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(4)",
+                  "claim_value": 98
+                },
+                {
+                  "citation": "Wis. Stat. § 815.18(3)(d)",
+                  "claim_value": 98
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/154_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "wireless home security system with motion sensors and base station": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 700
+              },
+              {
+                "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+                "claim_value": 1000
+              }
+            ],
+            "pair of sterling silver hoop earrings with cubic zirconia accents": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(4)",
+                "claim_value": 98
+              },
+              {
+                "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+                "claim_value": 98
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_household_item_cap_and_jewelry_boundary",
+            "federal_wildcard_independent_alternative"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.6666666666666666,
+            "f1": 0.8,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.8,
+            "full_output_precision": 1.0,
+            "full_output_recall": 0.6666666666666666,
+            "full_output_claim_tp": 4,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 2,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 155,
+          "source_key": "52a84f5e557c79408410ba029b89e4824f6cd39912758d50da9c83f2363f80b1",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "tailored navy suit with silk lining and hand-finished seams valued at $500.00": [
+                "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "11 U.S.C. § 522(d)(3)"
+              ],
+              "solid walnut dining table that seats eight (includes two extension leaves) with a value of $4,300.00": [
+                "11 U.S.C. § 522(d)(3)"
+              ],
+              "2025 Lucid Air Grand Touring electric sedan, 900 miles valued at $125,900.00": [],
+              "Remington 700 bolt-action hunting rifle (.308 caliber) with a fair market value of $940.00": [
+                "42 Pa. Cons. Stat. § 8124(a)(1)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/155_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "tailored navy suit with silk lining and hand-finished seams valued at $500.00": [
+              "42 Pa. Cons. Stat. section 8124(a)(1)",
+              "11 U.S.C. section 522(d)(3)"
+            ],
+            "solid walnut dining table that seats eight (includes two extension leaves) with a value of $4,300.00": [
+              "11 U.S.C. section 522(d)(3)"
+            ],
+            "2025 Lucid Air Grand Touring electric sedan, 900 miles valued at $125,900.00": [],
+            "Remington 700 bolt-action hunting rifle (.308 caliber) with a fair market value of $940.00": [
+              "42 Pa. Cons. Stat. section 8124(a)(1)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_wildcard_independent_alternative",
+            "pennsylvania_general_monetary_alternative"
+          ],
+          "score": {
+            "precision": 0.5,
+            "recall": 0.20833333333333331,
+            "f1": 0.29166666666666663,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 155,
+          "source_key": "52a84f5e557c79408410ba029b89e4824f6cd39912758d50da9c83f2363f80b1",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "tailored navy suit with silk lining and hand-finished seams": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 500
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8123",
+                  "claim_value": 300
+                }
+              ],
+              "solid walnut dining table that seats eight (includes two extension leaves)": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 700
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8123",
+                  "claim_value": 300
+                }
+              ],
+              "2025 Lucid Air Grand Touring electric sedan": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(2)",
+                  "claim_value": 4450
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 15000
+                }
+              ],
+              "Remington 700 bolt-action hunting rifle (.308 caliber)": [
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                  "claim_value": 940
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/155_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "tailored navy suit with silk lining and hand-finished seams": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 500
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8123",
+                "claim_value": 300
+              }
+            ],
+            "solid walnut dining table that seats eight (includes two extension leaves)": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 700
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8123",
+                "claim_value": 300
+              }
+            ],
+            "2025 Lucid Air Grand Touring electric sedan": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(2)",
+                "claim_value": 4450
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8124(a)(1)",
+                "claim_value": 15000
+              }
+            ],
+            "Remington 700 bolt-action hunting rifle (.308 caliber)": [
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8124(a)(1)",
+                "claim_value": 940
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_household_item_cap_and_jewelry_boundary",
+            "federal_wildcard_independent_alternative",
+            "pennsylvania_general_monetary_alternative"
+          ],
+          "score": {
+            "precision": 0.625,
+            "recall": 0.37499999999999994,
+            "f1": 0.4666666666666667,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 0.5263157894736842,
+            "full_output_precision": 0.7142857142857143,
+            "full_output_recall": 0.4166666666666667,
+            "full_output_claim_tp": 5,
+            "full_output_claim_fp": 2,
+            "full_output_claim_fn": 7,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 156,
+          "source_key": "c5a5c7d1f63e18197b8e867aa4de26449a02dae45d3c4334c44027e4d33bcb2a",
+          "family": "EC",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "wifi-enabled video doorbell with motion detection": [
+                "11 U.S.C. § 522(d)(3)"
+              ],
+              "upright piano in walnut veneer": [
+                "11 U.S.C. § 522(d)(3)"
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/156_EC_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "wifi-enabled video doorbell with motion detection": [
+              "11 U.S.C. section 522(d)(3)"
+            ],
+            "upright piano in walnut veneer": [
+              "11 U.S.C. section 522(d)(3)"
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_wildcard_independent_alternative",
+            "pennsylvania_general_monetary_alternative"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5,
+            "invalid_format": 0,
+            "exact_target": false,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        },
+        {
+          "case_id": 156,
+          "source_key": "c5a5c7d1f63e18197b8e867aa4de26449a02dae45d3c4334c44027e4d33bcb2a",
+          "family": "EV",
+          "stage": "b1_candidate1_replay",
+          "arm": "candidate",
+          "bank_sha256": "068b5379035a413d9f2d065919fd5d33eaa1c217d0736833192853447feea0a7",
+          "parsed": {
+            "answer": {
+              "wifi-enabled video doorbell with motion detection, priced at $175.00": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 175
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(5)",
+                  "claim_value": 175
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8123",
+                  "claim_value": 175
+                }
+              ],
+              "upright piano in walnut veneer valued at $555.00": [
+                {
+                  "citation": "11 U.S.C. § 522(d)(3)",
+                  "claim_value": 555
+                },
+                {
+                  "citation": "11 U.S.C. § 522(d)(5)",
+                  "claim_value": 555
+                },
+                {
+                  "citation": "42 Pa. Cons. Stat. § 8123",
+                  "claim_value": 300
+                }
+              ]
+            }
+          },
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/native/b1_candidate1_replay/156_EV_candidate.json",
+          "native_program": null,
+          "execution_receipt": null,
+          "public_label_submission": {
+            "wifi-enabled video doorbell with motion detection, priced at $175.00": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 175
+              },
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(5)",
+                "claim_value": 175
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8123",
+                "claim_value": 175
+              }
+            ],
+            "upright piano in walnut veneer valued at $555.00": [
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(3)",
+                "claim_value": 555
+              },
+              {
+                "citation_ref": "11 U.S.C. section 522(d)(5)",
+                "claim_value": 555
+              },
+              {
+                "citation_ref": "42 Pa. Cons. Stat. section 8123",
+                "claim_value": 300
+              }
+            ]
+          },
+          "execution_error": null,
+          "delivered_skill_ids": [
+            "federal_household_item_cap_and_jewelry_boundary",
+            "federal_wildcard_independent_alternative",
+            "pennsylvania_general_monetary_alternative"
+          ],
+          "score": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "mare": 0.0,
+            "invalid_format": 0,
+            "exact_target": false,
+            "full_output_f1": 1.0,
+            "full_output_precision": 1.0,
+            "full_output_recall": 1.0,
+            "full_output_claim_tp": 6,
+            "full_output_claim_fp": 0,
+            "full_output_claim_fn": 0,
+            "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+            "officially_unscored_predicted_claims": 0,
+            "officially_unscored_predicted_assets": {},
+            "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+          }
+        }
+      ],
+      "current_effect": {
+        "tasks": 16,
+        "help": 5,
+        "hurt": 1,
+        "ties": 10,
+        "mean_f1_difference": 0.07834821428571428
+      },
+      "prior_effect": {
+        "tasks": 0,
+        "help": 0,
+        "hurt": 0,
+        "ties": 0,
+        "mean_f1_difference": 0
+      }
+    }
+  ],
+  "future_performance_not_used": true,
+  "training_acceptance_does_not_guarantee_generalization": true
+}

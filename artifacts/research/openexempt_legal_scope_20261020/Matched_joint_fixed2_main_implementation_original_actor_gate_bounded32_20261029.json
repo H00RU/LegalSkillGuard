@@ -1,0 +1,82 @@
+{
+  "at": "2026-10-28T17:27:02.896514+00:00",
+  "old_completed_phase_preserved_before_changes": {
+    "at": "2026-10-28T17:19:11.952623+00:00",
+    "stage": "pre-matched-joint-full-epoch",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_completed128_task_consolidation_20261028_run01-pre-matched-joint-full-epoch.tar.gz",
+        "sha256": "32853328d54859204277b330af8f8c1fc15df6069f99698b360e058a280c9b7f"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_completed128_task_consolidation_20261028_run01-pre-matched-joint-full-epoch.tar.gz",
+        "sha256": "ea07f9aaba2d665a4536b4834346f3f3921d5dbb204b40733304c826c0bc196f"
+      }
+    ],
+    "files": 3245
+  },
+  "changed_previously_bound_files": [
+    "experiments/openexempt_online.py",
+    "tests/test_openexempt_contract.py"
+  ],
+  "source_core_sha256": "4f16fdba0c87a159267c37569fe330b3b8a3016e869fb7d237395b7c00ceaff5",
+  "existing_tests_sha256": "46ca18436961b97f32de4bc6455170554a1aacca15846b256da7c04f62294fad",
+  "config_sha256": "42739c3c63d8539c2d359f1f753f7921f8a4b97cfa7aee7a023c70ead333564f",
+  "original_functions_AST_unchanged": [
+    "actor_payload",
+    "direct_case_input",
+    "direct_request_key",
+    "acceptance",
+    "_head_admission",
+    "task_admission",
+    "legal_scope_admission",
+    "balanced_replay_gain",
+    "native_claim_feedback",
+    "candidate_feedback",
+    "teacher_evidence_rows",
+    "validate_edit_diagnoses",
+    "validate_task_projection_edit",
+    "Online.answer",
+    "Online.grade",
+    "Online.composed_replay",
+    "Online.execute",
+    "Online.run"
+  ],
+  "original_constants_AST_unchanged": [
+    "ACTOR_SYSTEM",
+    "DIRECT_NUMERIC_SYSTEM",
+    "PROGRAM_ACTOR_SYSTEM",
+    "DIRECT_AUTHOR_SYSTEM",
+    "EXECUTION_AWARE_ADDITION",
+    "CONSOLIDATION_TEACHING"
+  ],
+  "same_parent_and_execution_teacher_score_gate_fields": [
+    "generation",
+    "teacher",
+    "phase_dispatch",
+    "input_packet",
+    "grading_directory",
+    "inference_environment",
+    "execution_contract",
+    "execution_contract_version",
+    "library_token_hard_cap",
+    "skill_commit_policy",
+    "adaptive_commit_objective",
+    "consolidation_parent_run",
+    "consolidation_parent_config",
+    "consolidation_parent_bank_sha256",
+    "initial_library_publication"
+  ],
+  "implementation": "Existing Online only: fixed-step joint policy,8focus+8history sources times2 tasks, no stop after first NOOP or full commit; original joint-bounded and coordinate policies retained. No actor or runtime layer added.",
+  "existing_boundary_tests": "79 passed,2unchanged upstream warnings,15.78s; extended existing packet and early-stop tests, no new test file or model qualification calls.",
+  "test_cases_added_as_parameters": [
+    "joint NOOP first still teaches second",
+    "joint full first commit still teaches second",
+    "legacy bounded NOOP/full commit still stop",
+    "joint packet includes both tasks and matches task-record bound"
+  ],
+  "current_task_result_not_used_as_joint_parent": true,
+  "new_primary_questions_or_labels_not_read": true,
+  "extra_independent_builds": "USER_DEFERRED",
+  "minor_freeze_metadata_fix": "Explicit completed-seen-source phase now marks warm sources true; previous original frozen manifest bytes remain unchanged."
+}

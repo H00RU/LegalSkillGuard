@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-22T00:37:53.206004+00:00",
+  "classification": "Specific literal tension between provided TRAIN law/fact and published annotation; expert interpretation pending. This is not proof that a gold label is legally wrong or authority to relabel/drop a case.",
+  "source_case_id": 283,
+  "public_facts": "Facts:\nLeandro and Takashi Ribeiro (hereinafter the Debtors) filed for bankruptcy on 27 June 2024. Records show that the Debtors possess a 24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company) with a value of $3,450.00. The estate of Leandro and Takashi Ribeiro includes a pair of diamond cluster earrings with post backs worth $3,355.00 and a four-bedroom tri-level principal dwelling with skylights and a terraced backyard garden valued at $433,250.00. The Italian leather loafers with stitched welt construction currently owned by Leandro and Takashi carries a value of $1,290.00.",
+  "provided_general_personal_property_section": "Sec. 12-1001. Personal property exempt. The following personal property, owned by the debtor, is exempt from judgment, attachment, or distress for rent:\n\nThe personal property exemptions set forth in this Section shall apply only to individuals and only to personal property that is used for personal rather than business purposes.\n",
+  "explicit_company_use_asset": "24HP riding lawn mower with zero-turn capability (used in Debtor's landscaping company)",
+  "official_train_EC": [
+    "735 Ill. Comp. Stat. 5/12-1001(b)",
+    "735 Ill. Comp. Stat. 5/12-1001(d)"
+  ],
+  "official_train_EV": [
+    {
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+      "claim_value": 3450
+    },
+    {
+      "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+      "claim_value": 3000
+    }
+  ],
+  "why_flag": "Supplied general clause restricts to personal rather than business use, while this asset explicitly names company use and the benchmark label grants wildcard and trade-tool exemptions. Legal interpretation of general versus specific clauses or data-generation conventions needs separate review.",
+  "do_not_infer": "Do not call C1's broad trade-property guidance legally established just because it follows labels; do not treat this literal tension as proof of an upstream legal error or explain the wholesale omission of wildcard on clearly personal-use assets220/290.",
+  "claim_boundary": "Evaluate unchanged official benchmark annotations; not validated legal advice or expert-adjudicated legal correctness. Preserve all cases, labels, primary endpoints and in-flight admission. No TEST semantics or outcomes accessed.",
+  "no_case_or_label_or_prompt_or_score_change": true,
+  "new_actor_teacher_TEST_calls": 0,
+  "evidence_paths": [
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/283.json"
+  ],
+  "audit_recomputation_program": "import json,pathlib\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as csha\nfrom legal_skill_guard.learning.experiment import now\nimport experiments.openexempt_online as e\nroot=pathlib.Path.cwd();cfg=json.loads((root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.json\").read_text());rows=json.loads((root/cfg[\"input_packet\"]).read_text())[\"rows\"];row=next(x for x in rows if x[\"case_id\"]==283 and x[\"family\"]==\"EC\")\np=root/cfg[\"grading_directory\"]/\"283.json\";targets=json.loads(p.read_text())[\"targets\"];law=e.law_blocks(row[\"components\"][\"statutes\"])[\"735 Ill. Comp. Stat. 5/12-1001\"];asset=next(a for a in targets[\"EC\"] if \"used in Debtor's landscaping company\" in a)\nassert \"only to personal property that is used for personal rather than business purposes\" in law\nassert set(targets[\"EC\"][asset])=={\"735 Ill. Comp. Stat. 5/12-1001(b)\",\"735 Ill. Comp. Stat. 5/12-1001(d)\"}\nout={\"at\":now(),\"classification\":\"Specific literal tension between provided TRAIN law/fact and published annotation; expert interpretation pending. This is not proof that a gold label is legally wrong or authority to relabel/drop a case.\",\"source_case_id\":283,\"public_facts\":row[\"components\"][\"facts\"],\"provided_general_personal_property_section\":law,\"explicit_company_use_asset\":asset,\"official_train_EC\":targets[\"EC\"][asset],\"official_train_EV\":targets[\"EV\"][asset],\"why_flag\":\"Supplied general clause restricts to personal rather than business use, while this asset explicitly names company use and the benchmark label grants wildcard and trade-tool exemptions. Legal interpretation of general versus specific clauses or data-generation conventions needs separate review.\",\"do_not_infer\":\"Do not call C1's broad trade-property guidance legally established just because it follows labels; do not treat this literal tension as proof of an upstream legal error or explain the wholesale omission of wildcard on clearly personal-use assets220/290.\",\"claim_boundary\":\"Evaluate unchanged official benchmark annotations; not validated legal advice or expert-adjudicated legal correctness. Preserve all cases, labels, primary endpoints and in-flight admission. No TEST semantics or outcomes accessed.\",\"no_case_or_label_or_prompt_or_score_change\":True,\"new_actor_teacher_TEST_calls\":0,\"evidence_paths\":[cfg[\"input_packet\"],str(p.relative_to(root))],\"audit_recomputation_program\":PROGRAM}\ndest=root/\"artifacts/research/openexempt_legal_scope_20261020/Run03_TRAIN283_supplied_business_use_clause_annotation_tension_not_relabelled_20261022.json\";RunStore.immutable_json(dest,out);print(json.dumps({\"report\":str(dest.relative_to(root)),\"at\":out[\"at\"],\"status\":\"literal_tension_verified_legal_error_unproven\",\"primary_scoring_unchanged\":True},ensure_ascii=False))\n"
+}

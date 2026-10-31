@@ -1,0 +1,58 @@
+{
+  "at": "2026-10-29T21:12:48.000439+00:00",
+  "classification": "TRAIN execution gap with correct explicit whole-joint ceiling actually delivered, distinct from previously documented annotation risk",
+  "run_id": "legal_openexempt_task_projection_public_assets128_20261029_run01",
+  "case_id": 287,
+  "raw": {
+    "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/287_EV_candidate.json",
+    "sha256": "5d1be4d9ed4764264b5e91d120e358ac73156606973b037b0a585a25f798045b"
+  },
+  "input": {
+    "path": "runs/legal_openexempt_task_projection_public_assets128_20261029_run01/native/b7_candidate2_replay/287_EV_candidate.input.json",
+    "sha256": "778fad7e0b896ca88c4f4afd54dbc58f03563fd38ed93df9ea3591a5b059a4e9"
+  },
+  "actual_delivered_joint_instruction": "for two equal joint debtors, apply § 815.18(8) to each half and sum the protected interests, up to $32,000 for the whole vehicle",
+  "original_facts": "Facts:\nRosa and Isabella Lopez (hereinafter the Debtors) filed for bankruptcy on 9.16.2024. Ownership of the compact 4K projector with built-in speakers, priced at $3,335.00, is claimed by the Lopezes. Legal documents confirm that Rosa and Isabella Lopez own a moonshot green 2025 GMC Hummer EV Pickup Edition 1 appraised at $112,400.00.",
+  "claim_error_after_C2": {
+    "kind": "incorrect_value",
+    "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+    "citation": "Wis. Stat. § 815.18(3)(g)",
+    "expected_value": 32000.0,
+    "observed_values": [
+      16000.0
+    ]
+  },
+  "before_claim_error": {
+    "kind": "incorrect_value",
+    "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+    "citation": "Wis. Stat. § 815.18(3)(g)",
+    "expected_value": 32000.0,
+    "observed_values": [
+      4000.0
+    ]
+  },
+  "actual_usage_finish": {
+    "prompt_tokens": 7443,
+    "completion_tokens": 4784,
+    "finish_reason": "stop"
+  },
+  "input_and_output_not_truncated": true,
+  "amount_selected_by_original8B_not_decoder": true,
+  "all_facts_and_original_grades_unchanged": true,
+  "current_aggregate_C2_net_repair_receipt": {
+    "path": "artifacts/research/openexempt_legal_scope_20261020/Task_projection_B7_C2_actual112_vehicle_EV_claim_repairs_regression_not_heldout_20261030.json",
+    "sha256": "7218ec64f3bda5dc35235bdea7ceed52ed71856a98ba991f5cb93c22e0314acb"
+  },
+  "scope": "This specific branch still outputs a one-debtor cap despite a supplied two-debtor instruction. This does not prove a unique psychological cause or establish that every remaining EV error is the same kind.",
+  "old_joint_annotation_risk_previously_recorded_not_new_discovery": {
+    "reference": {
+      "path": "artifacts/research/openexempt_legal_scope_20261020/direct_v13_joint_cap_annotation_risk_released_TRAIN_only_no_rescoring.json",
+      "sha256": "4e9cba3bddee15e51efc12d18f98080e37beae7f2d3ab445a460f5b0f74ee58e"
+    },
+    "at": "2026-10-20T15:14:15.509674+00:00",
+    "risk": "Original upstream EV makes one allocation per asset/citation and applies item caps; some joint-case labels can differ from a separate-debtor reading. Do not silently relabel, use alternative-law scores as native F1, or call benchmark-specific caps independently verified legal doctrine."
+  },
+  "next_action": "Read full B8 forecasts and real teacher15/16 inputs before choosing further method changes. Do not rerun old numeric-example/source-position sweeps or add another solver based on this one witness.",
+  "all379_bound_files_unchanged": true,
+  "no_new_model_teacher_official_grading_TEST_calls": true
+}

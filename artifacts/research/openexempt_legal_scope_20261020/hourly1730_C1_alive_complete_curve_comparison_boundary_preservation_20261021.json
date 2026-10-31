@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-21T09:34:43.638475+00:00",
+  "classification": "17:30 actual five-point audit, complete-only first-forecast curve, prior fullB3 receipt and pre-TEST comparison boundary preserved; not a new performance experiment",
+  "receipt": {
+    "at": "2026-10-21T09:34:43.619719+00:00",
+    "stage": "hourly1730_actual_B3_forward_gain_C1_alive_curve_and_comparison_boundary",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-hourly1730_actual_B3_forward_gain_C1_alive_curve_and_comparison_boundary.tar.gz",
+        "sha256": "2243455ddd8edf4abde6ffded9b99ed8b06201fd59281d0017668806329dc25d"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_goal_Run03_20261021-hourly1730_actual_B3_forward_gain_C1_alive_curve_and_comparison_boundary.tar.gz",
+        "sha256": "2243455ddd8edf4abde6ffded9b99ed8b06201fd59281d0017668806329dc25d"
+      }
+    ],
+    "files": 6
+  },
+  "archive_devices": [
+    64528,
+    64517
+  ],
+  "new_model_teacher_or_TEST_calls": 0,
+  "preservation_recomputation_program": "import json,pathlib\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=pathlib.Path.cwd()\nnames=[\"docs/CURRENT_GOAL.md\",\"docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md\",\"paper/evidence_and_completion_20261020.md\",\"artifacts/research/openexempt_legal_scope_20261020/Run03_learning_curve_complete_prequential_batches_20261021.json\",\"artifacts/research/openexempt_legal_scope_20261020/hourly1730_Run03_B3_forward_gain_C1_alive_direction_and_bindings_20261021.json\",\"artifacts/research/openexempt_legal_scope_20261020/Run03_B3_complete160_newcase_automatic_checkpoint_preservation_20261021.json\"]\nreceipt=preserve(\"legal_research_goal_Run03_20261021\",\"hourly1730_actual_B3_forward_gain_C1_alive_curve_and_comparison_boundary\",names)\nout={\"at\":now(),\"classification\":\"17:30 actual five-point audit, complete-only first-forecast curve, prior fullB3 receipt and pre-TEST comparison boundary preserved; not a new performance experiment\",\"receipt\":receipt,\"archive_devices\":[pathlib.Path(p[\"path\"]).stat().st_dev for p in receipt[\"paths\"]],\"new_model_teacher_or_TEST_calls\":0}\nassert len(set(out[\"archive_devices\"]))==2\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

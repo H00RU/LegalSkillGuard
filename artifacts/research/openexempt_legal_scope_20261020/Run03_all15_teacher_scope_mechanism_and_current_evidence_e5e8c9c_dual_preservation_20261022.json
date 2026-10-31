@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T09:09:22.585318+00:00",
+  "classification": "Small complete-main mechanism and evidence-ledger checkpoint; not new predictions, source-code edits or additional learning",
+  "root_commit": "e5e8c9c",
+  "files": {
+    "docs/CURRENT_GOAL.md": "30c8222914a48b3cedacaecfe6864efe63e6c8b3796b476be9e059dc783219ae",
+    "paper/evidence_and_completion_20261020.md": "55b1e91e654afa6555ff675bae24cb612994c087a6a8970793cfecc8c4721b77",
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_all15_teacher14_candidate8_publication_actual_scope_composition_and_library_management_accounting_20261022.json": "afa19c4e7f836fe6ea218a194e5c296c0f23332ef755f917f23d47dfdc7f9f0c"
+  },
+  "archives": [
+    {
+      "path": "/media/sangfor/vdb/legal-skill-backups/legal_OpenExempt_MainRun03-all15teacher14decisions8publications_actual_mechanism_e5e8c9c_20261022.tar.gz",
+      "sha256": "e1a7b225594e8c9593b83dd9ced83b1cacfc0c8f37271b4c2e31c0f577a2d5ba",
+      "device": 64528,
+      "all_member_bytes_verified_by_existing_preserve": true
+    },
+    {
+      "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_OpenExempt_MainRun03-all15teacher14decisions8publications_actual_mechanism_e5e8c9c_20261022.tar.gz",
+      "sha256": "e1a7b225594e8c9593b83dd9ced83b1cacfc0c8f37271b4c2e31c0f577a2d5ba",
+      "device": 64517,
+      "all_member_bytes_verified_by_existing_preserve": true
+    }
+  ],
+  "only_three_report_and_document_members_not_full_runtime": true,
+  "no_student_teacher_or_TEST_generation_or_active_source_change": true,
+  "preservation_program": "import json,hashlib,shutil\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path(\"/media/sangfor/vdb/legal-skill-evolve\");base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nnames=[\"docs/CURRENT_GOAL.md\",\"paper/evidence_and_completion_20261020.md\",\"artifacts/research/openexempt_legal_scope_20261020/Run03_all15_teacher14_candidate8_publication_actual_scope_composition_and_library_management_accounting_20261022.json\"]\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nhashes={n:sha(root/n) for n in names}\nr=preserve(\"legal_OpenExempt_MainRun03\",\"all15teacher14decisions8publications_actual_mechanism_e5e8c9c_20261022\",names)\nassert all(sha(root/n)==h for n,h in hashes.items())\nfor item in r[\"paths\"]:\n p=Path(item[\"path\"]);assert sha(p)==item[\"sha256\"];item[\"device\"]=p.stat().st_dev;item[\"all_member_bytes_verified_by_existing_preserve\"]=True\nassert len({i[\"device\"] for i in r[\"paths\"]})==2\nout={\"at\":datetime.now(timezone.utc).isoformat(),\"classification\":\"Small complete-main mechanism and evidence-ledger checkpoint; not new predictions, source-code edits or additional learning\",\n\"root_commit\":\"e5e8c9c\",\"files\":hashes,\"archives\":r[\"paths\"],\"only_three_report_and_document_members_not_full_runtime\":True,\n\"no_student_teacher_or_TEST_generation_or_active_source_change\":True,\"preservation_program\":PROGRAM}\ndest=base/\"Run03_all15_teacher_scope_mechanism_and_current_evidence_e5e8c9c_dual_preservation_20261022.json\"\nRunStore.immutable_json(dest,out)\nfor directory in (Path(\"/media/sangfor/vdb/legal-skill-backups\"),Path(\"/home/yndx/hhy/legal-skill-rootdisk-backups\")):\n target=directory/(dest.stem+\".receipt.json\")\n with dest.open(\"rb\") as src,target.open(\"xb\") as dst:shutil.copyfileobj(src,dst)\n assert sha(target)==sha(dest)\nprint(json.dumps({\"receipt\":str(dest.relative_to(root)),\"archives\":out[\"archives\"],\"actual_mechanism_proof_and_docs_preserved\":True},ensure_ascii=False))\n"
+}

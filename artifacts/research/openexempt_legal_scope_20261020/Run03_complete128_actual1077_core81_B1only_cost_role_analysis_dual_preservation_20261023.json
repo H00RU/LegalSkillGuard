@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-22T22:51:15.554887+00:00",
+  "classification": "Actual complete main128 cost role attribution and original full terminal archive still intact; no counterfactual cost or new model experiment",
+  "members": {
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_complete128_all1158_native_core_vs_fixedB1_only_actual_role_attribution_not_counterfactual_20261023.json": "2cf038bddb037ff347e1e9e5c9b2cbf77c6c9f8bf0bd897980faf1609f8fb82f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/completion.json": "debab8b02a2254e6add7138253ddff23fbab4c6172a60f5699f7884454c1fa9a",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/terminal_preservation.json": "7937ea3f7f4faf8598ab244c462a815030a6352ac248e68696199eed3f27457c",
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_equal80_full_raw_TRAIN_provenance_v010_relatedwork_dual_preservation_20261023.json": "34c40568c76624b117d5dc870742f71b3fe00f5c08fe5554fcbc9fc6096fbd6a"
+  },
+  "both_disks_all_members_verified": true,
+  "preservation": {
+    "at": "2026-10-22T22:51:15.439448+00:00",
+    "stage": "analysis",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_full128_main_actual1077_core81_B1only_cost_20261023-analysis.tar.gz",
+        "sha256": "6588e1cdc06ec4b56e4fcf7d914c793cceb9f12d377fc3c22748a6d302511d3f"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_full128_main_actual1077_core81_B1only_cost_20261023-analysis.tar.gz",
+        "sha256": "6588e1cdc06ec4b56e4fcf7d914c793cceb9f12d377fc3c22748a6d302511d3f"
+      }
+    ],
+    "files": 4
+  },
+  "actual_main_full_terminal_archives_still_match_original_SHA_two_disks": [
+    {
+      "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_closed_feedback_public_assets128_20261021_run03-actual-terminal.tar.gz",
+      "sha256": "27b265caf217e7310fe6ecdbfdc862a58781e402192d695048f4ec50d8377947"
+    },
+    {
+      "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_closed_feedback_public_assets128_20261021_run03-actual-terminal.tar.gz",
+      "sha256": "ba80ecd9f8fe28b05f95a7ea052dd5688ce8af5dead8ae7336bc9174619a29ae"
+    }
+  ],
+  "original1158_total_unchanged": true,
+  "actual_core_referenced1077_only_B1_eval81": true,
+  "not_a_full_raw_rearchive": "Original terminal archives retain all run artifacts; this archive adds new exact analysis and reference receipts only.",
+  "no_model_teacher_tokenizer_or_TEST_calls_or_runtime_changes": true,
+  "recomputation_program": "import json\nfrom pathlib import Path\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import read,sha,now\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nreport=base/\"Run03_complete128_all1158_native_core_vs_fixedB1_only_actual_role_attribution_not_counterfactual_20261023.json\"\nr=read(report)\nassert r[\"all_actual_native\"][\"original_generations\"]==1158\nassert r[\"core_actually_referenced_native_NOT_training_alone_counterfactual\"][\"original_generations\"]==1077\nassert r[\"only_fixed_B1_comparison_native_through_terminal\"][\"original_generations\"]==81\nrun=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03\"\nterminal=read(run/\"terminal_preservation.json\")\nassert len({Path(p[\"path\"]).stat().st_dev for p in terminal[\"paths\"]})==2\nassert all(sha(Path(p[\"path\"]))==p[\"sha256\"] for p in terminal[\"paths\"])\nnames=[str(report.relative_to(root)),str((run/\"completion.json\").relative_to(root)),\n str((run/\"terminal_preservation.json\").relative_to(root)),\n str((base/\"ACEv4_equal80_full_raw_TRAIN_provenance_v010_relatedwork_dual_preservation_20261023.json\").relative_to(root))]\nfiles={n:sha(root/n) for n in names}\npreservation=preserve(\"legal_openexempt_full128_main_actual1077_core81_B1only_cost_20261023\",\"analysis\",names)\nassert len({Path(p[\"path\"]).stat().st_dev for p in preservation[\"paths\"]})==2\nout={\"at\":now(),\"classification\":\"Actual complete main128 cost role attribution and original full terminal archive still intact; no counterfactual cost or new model experiment\",\n \"members\":files,\"both_disks_all_members_verified\":True,\"preservation\":preservation,\n \"actual_main_full_terminal_archives_still_match_original_SHA_two_disks\":terminal[\"paths\"],\n \"original1158_total_unchanged\":True,\"actual_core_referenced1077_only_B1_eval81\":True,\n \"not_a_full_raw_rearchive\":\"Original terminal archives retain all run artifacts; this archive adds new exact analysis and reference receipts only.\",\n \"no_model_teacher_tokenizer_or_TEST_calls_or_runtime_changes\":True,\"recomputation_program\":PROGRAM}\ndest=base/\"Run03_complete128_actual1077_core81_B1only_cost_role_analysis_dual_preservation_20261023.json\"\nRunStore.immutable_json(dest,out)\nfor b in [Path(p[\"path\"]).parent for p in preservation[\"paths\"]]:\n RunStore.immutable_json(b/\"legal_skill_complete128_actual1077_core81_B1only_cost_checkpoint_20261023.json\",out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"members\":len(names),\"both_disks_verified\":True,\"original_full_terminal_archives_still_match\":True,\"paths\":preservation[\"paths\"]}))\n"
+}

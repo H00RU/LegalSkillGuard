@@ -1,0 +1,207 @@
+{
+  "run_id": "legal_openexempt_adaptive_supplement_TEST128_20261027_run01",
+  "evaluation_role": "sealed_frozen_comparison",
+  "evaluation_stage": "adaptive_single_build_fixed_benchmark_supplement",
+  "final_matrix_frozen": true,
+  "no_validation_set": true,
+  "reference_arm": "empty",
+  "execution_contract": "direct_statutory_claims",
+  "execution_contract_version": 14,
+  "library_token_hard_cap": 4096,
+  "generation": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "Qwen/Qwen3-8B",
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "context_tokens": 32768,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "timeout_seconds": 900,
+    "disable_thinking": false
+  },
+  "input_packet": "data/packets/openexempt_IID128_sealed_TEST_20261021/inputs.json",
+  "grading_directory": "data/packets/openexempt_IID128_sealed_TEST_20261021/grading_only",
+  "source_cases": 128,
+  "training_source_cases": 128,
+  "training_batch_source_cases": 16,
+  "training_packet_sha256": "ef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45",
+  "upstream_archive": "data/cache/openexempt/OpenExempt-ec6fa2547431096588ce2d3ef107b8adc33cd4fe.tar.gz",
+  "inference_environment": "artifacts/live_8b_environment_phase_dispatch_20261025.json",
+  "protocol": "docs/research/OPENEXEMPT_ADAPTIVE_FIXED_BENCHMARK_SUPPLEMENT_PROTOCOL_20261026.md",
+  "statistics_plan": "docs/research/OPENEXEMPT_ADAPTIVE_FIXED_BENCHMARK_SUPPLEMENT_PROTOCOL_20261026.md",
+  "external_text_adaptation": "trace2skill_text_offline_v1",
+  "ablation_design": "historical_whole_task_local_comparators_v1",
+  "learning_execution_schedule": "preserved_controls_adaptive45_four_native_one_teacher_v1",
+  "learning_execution_schedule_protocol": "docs/research/OPENEXEMPT_ADAPTIVE_FIXED_BENCHMARK_SUPPLEMENT_PROTOCOL_20261026.md",
+  "inference_request_workers": 4,
+  "inference_dispatch_protocol": "docs/research/OPENEXEMPT_FROZEN_EVAL_SINGLE_INSTANCE_DISPATCH_20261023.md",
+  "inference_dispatch_policy": "four_workers_one_instance_exact_wire_lock_no_retry",
+  "inference_dependency_artifacts": [
+    "patches/vllm-0.10.2-hf-generation-eos-alignment.patch",
+    "third_party/vllm/NOTICE.md",
+    "artifacts/launches/openexempt_table_then_teacher_draft_20261024_run05.py",
+    "docs/research/OPENEXEMPT_FINAL_ANALYSIS_PLAN_20261021.md",
+    "artifacts/launches/openexempt_uniform_ablations_then_teacher_draft_20261025_run01.py",
+    "artifacts/research/openexempt_legal_scope_20261020/Adaptive45_terminal1501_teacher15_exact_evaluator_adoption_ab814b4_after_5unchanged_snapshot_tracking_20261027.json"
+  ],
+  "arms": [
+    {
+      "name": "empty",
+      "role": "strong_empty",
+      "backend": "direct"
+    },
+    {
+      "name": "static",
+      "role": "static_law_only",
+      "backend": "direct",
+      "source_config": "configs/openexempt_direct_law_only_static_20261021_run03.json",
+      "source_config_sha256": "84e98ef91f455a511dca923a10dcb268129b3a911e03049fdbec2355510f46a1",
+      "bank_sha256": "4809c3b2fe336a682ad36544f036206f158c0890adad4e87bde6eb4fa6502321"
+    },
+    {
+      "name": "ACE45",
+      "role": "experience",
+      "backend": "ace",
+      "source_config": "configs/openexempt_ace_public_assets128_20261023_run04.json",
+      "source_config_sha256": "0444f1cf26d005aab839d0a9e9b2b8d0cfd619081fc1a2c5df9a1bb435fed228",
+      "bank_sha256": "75ad535aed4478ce4c85832138dadcb3dc460fec8200704151a002920131af56"
+    },
+    {
+      "name": "text45",
+      "role": "experience",
+      "backend": "direct",
+      "source_config": "configs/openexempt_trace2skill_text_public_assets128_seed45_20261023_run02.json",
+      "source_config_sha256": "a77cbbc0e736cbad75f695f442477601dc98c014160cc3c0761d1d9f6070d892",
+      "bank_sha256": "8784dc4ea6df541d183146250670f13463c58d7877b468e5a481c0f4a10985a3"
+    },
+    {
+      "name": "whole_bank",
+      "role": "ablation",
+      "backend": "direct",
+      "source_config": "configs/openexempt_whole_bank_public_assets128_phase4_20261025_run02.json",
+      "source_config_sha256": "684da0d5b5b78c115920c55a5971f5ece7b8260e9e114a7fb6205702625f206a",
+      "bank_sha256": "e6a66efb4e3c3b1115af263ccc5075a8cc50debb06ba2d7a1b5a607c7736ebcc"
+    },
+    {
+      "name": "task_local",
+      "role": "ablation",
+      "backend": "direct",
+      "source_config": "configs/openexempt_task_local_public_assets128_phase4_20261025_run02.json",
+      "source_config_sha256": "d87a9612006b6bb6b3eec3ac3c7ff46c7f8eeab078341f045cf48e3c4c8623a4",
+      "bank_sha256": "1c8e48a88829b7526361fb3a1d39f61a8df8f7dabfd89a8d7ea395b90da68a86"
+    },
+    {
+      "name": "adaptive45",
+      "role": "evolved",
+      "backend": "direct",
+      "source_config": "configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json",
+      "source_config_sha256": "85a961c171c715d07b2615812e0c817359da75a6455ba2656661f3f6c05d9d29",
+      "bank_sha256": "6bab10640bdea4c7728ea25f4866f12f558d2b44156442fe981fd8160b6e0b99"
+    },
+    {
+      "name": "adaptive_own_B1_45",
+      "role": "B1_frozen",
+      "backend": "direct",
+      "source_config": "configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json",
+      "source_config_sha256": "85a961c171c715d07b2615812e0c817359da75a6455ba2656661f3f6c05d9d29",
+      "bank_sha256": "509fcf9408a5c92719df6a799693487db3bd8ff00fb3178e79a88b9665b87860"
+    }
+  ],
+  "primary_contrasts": [
+    {
+      "name": "vs_empty",
+      "after": [
+        "adaptive45"
+      ],
+      "before": [
+        "empty"
+      ]
+    },
+    {
+      "name": "vs_static",
+      "after": [
+        "adaptive45"
+      ],
+      "before": [
+        "static"
+      ]
+    },
+    {
+      "name": "vs_own_B1",
+      "after": [
+        "adaptive45"
+      ],
+      "before": [
+        "adaptive_own_B1_45"
+      ]
+    },
+    {
+      "name": "vs_ACE",
+      "after": [
+        "adaptive45"
+      ],
+      "before": [
+        "ACE45"
+      ]
+    },
+    {
+      "name": "vs_text",
+      "after": [
+        "adaptive45"
+      ],
+      "before": [
+        "text45"
+      ]
+    }
+  ],
+  "secondary_contrasts": [
+    {
+      "name": "adaptive_vs_whole_bank",
+      "after": [
+        "adaptive45"
+      ],
+      "before": [
+        "whole_bank"
+      ]
+    },
+    {
+      "name": "adaptive_vs_task_local",
+      "after": [
+        "adaptive45"
+      ],
+      "before": [
+        "task_local"
+      ]
+    }
+  ],
+  "supplement_protocol": "docs/research/OPENEXEMPT_ADAPTIVE_FIXED_BENCHMARK_SUPPLEMENT_PROTOCOL_20261026.md",
+  "benchmark_development_status": "development_informed_fixed_benchmark",
+  "historical_comparators_not_matched_new_ablations": true,
+  "independent_learning_repetitions": "user_deferred",
+  "retained_initial_arms": [
+    "empty",
+    "static",
+    "ACE45",
+    "text45",
+    "whole_bank",
+    "task_local"
+  ],
+  "initial_evaluation": {
+    "source_config": "configs/openexempt_initial8_frozen_TEST_20261025_run01.json",
+    "source_config_sha256": "5a89aefc379ea7e67b7a4684723078dbb57a0261f420c2fdf42f184bc665d5ed",
+    "source_frozen_sha256": "5d0d3033a527bed19602fef8291bf8cbba2feaf26aa3961b962d1edb228a2566",
+    "completion_sha256": "9658e2ea236d6a83aa84d788e452cc563413c93190920d38674157cea50d7154",
+    "predictions_sha256": "1c4bdfd725b9f23aa95ce7e97d020416a2ba4d77a0ec62f749f586d6c383a859",
+    "native_origins_sha256": "9529827033ef2b8e07f350d0e571fdc1bd6d3f15b30d14f92886cf7726d9ccb3",
+    "terminal_preservation_sha256": "e81fad6db38adf07153b8d8219af7645e5898e30a2ccd8ff4b5e7a09b85784a0",
+    "preserved_source_snapshots": {
+      "README.md": "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/initial_eval_20261025/README__45d45f304e90aa27adb30374efdb4285fcc20717fd00eceb8c1d894dc14acba6.md",
+      "tests/test_openexempt_contract.py": "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/initial_eval_20261025/tests__test_openexempt_contract__03591a0bc9a4b82b40694e3ba6f3b3a0c3c1b91c6051a5e68e0deabfa6d56e7f.py",
+      "experiments/openexempt_frozen_eval.py": "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/initial_eval_20261025/experiments__openexempt_frozen_eval__26501c279eba6446f08e797898e7800b65c9c7043dee61ae3bba9594e18d24b0.py",
+      "tests/test_openexempt_frozen_eval.py": "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/initial_eval_20261025/tests__test_openexempt_frozen_eval__2103e3b3e77f8950b0d672a0afc7f9abf2d337a685e59a0960aeb6a4e0bed066.py",
+      "legal_skill_guard/learning/runtime_sources.py": "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/initial_eval_20261025/legal_skill_guard__learning__runtime_sources__130cf7a88b993190b790453db867184ca0adeb6aa531346a3f842d0c8eb4b712.py"
+    }
+  }
+}

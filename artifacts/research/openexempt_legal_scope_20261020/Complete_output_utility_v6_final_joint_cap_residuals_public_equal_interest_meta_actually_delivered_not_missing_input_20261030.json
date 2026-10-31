@@ -1,0 +1,213 @@
+{
+  "at": "2026-10-30T09:51:47.491851+00:00",
+  "classification": "Focused TRAIN payload audit rules out omission of the public equal-undivided-spouse default from three joint-cap residual cases. Not proof that every factual inference is unambiguous or a native-example remedy works.",
+  "cases": [
+    {
+      "case_id": 282,
+      "public_facts": "Facts:\nHenry and Amir Evans (hereinafter the Debtors) filed for bankruptcy on Tuesday, November 19th, 2024. Ownership of the cordless electric drill with interchangeable bits and wall charger, priced at $125.00, is claimed by Henry and Amir. The Glock 19 Gen5 9mm pistol with two magazines, owned by Henry and Amir Evans, holds a monetary value of $575.00. The Debtors own a two-bedroom cottage (primary dwelling) with lofted sleeping area, and 900 square feet of interior space worth $210,500.00.",
+      "public_meta_instruction": "Your answer to this task must be based solely on applying the provided Federal and State statutes to the given facts. If the task involves a married couple, assume all assets mentioned are jointly owned, with each spouse holding an equal undivided interest, unless explicitly stated otherwise. Assume all assets are held for the personal use of the Debtor(s), unless explicitly stated otherwise.",
+      "full_meta_actually_in_native_HTTP": true,
+      "original_grade": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/282.json",
+        "sha256": "e68d924d6e9df265135f621c333d1d519335b42764848509cb2b1f7063317b4f"
+      },
+      "actual_final_raw": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate2_replay/282_EV_candidate.json",
+        "sha256": "d1610be602cecb7f41d5a5f26815dbaa840203e9967398b0ea525252121de8fa"
+      },
+      "actual_final_prediction": {
+        "cordless electric drill with interchangeable bits and wall charger": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 125
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 125
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 125
+          }
+        ],
+        "Glock 19 Gen5 9mm pistol with two magazines": [
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 575
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 575
+          }
+        ],
+        "two-bedroom cottage (primary dwelling) with lofted sleeping area, and 900 square feet of interior space": [
+          {
+            "citation": "11 U.S.C. § 522(d)(1)",
+            "claim_value": 27900
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 15425
+          },
+          {
+            "citation": "Wis. Stat. § 815.20(1)",
+            "claim_value": 75000
+          }
+        ]
+      },
+      "actual_remaining_errors": [
+        {
+          "kind": "incorrect_value",
+          "asset": "two-bedroom cottage (primary dwelling) with lofted sleeping area, and 900 square feet of interior space",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 30850.0,
+          "observed_values": [
+            15425.0
+          ]
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "two-bedroom cottage (primary dwelling) with lofted sleeping area, and 900 square feet of interior space",
+          "citation": "Wis. Stat. § 815.20(1)",
+          "expected_value": 150000.0,
+          "observed_values": [
+            75000.0
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": 287,
+      "public_facts": "Facts:\nRosa and Isabella Lopez (hereinafter the Debtors) filed for bankruptcy on 9.16.2024. Ownership of the compact 4K projector with built-in speakers, priced at $3,335.00, is claimed by the Lopezes. Legal documents confirm that Rosa and Isabella Lopez own a moonshot green 2025 GMC Hummer EV Pickup Edition 1 appraised at $112,400.00.",
+      "public_meta_instruction": "Your answer to this task must be based solely on applying the provided Federal and State statutes to the given facts. If the task involves a married couple, assume all assets mentioned are jointly owned, with each spouse holding an equal undivided interest, unless explicitly stated otherwise. Assume all assets are held for the personal use of the Debtor(s), unless explicitly stated otherwise.",
+      "full_meta_actually_in_native_HTTP": true,
+      "original_grade": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/287.json",
+        "sha256": "8736f5173050db7cb5806b5307cd93272b7c2b3f34c3aabce73307f12a15f2af"
+      },
+      "actual_final_raw": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate2_replay/287_EV_candidate.json",
+        "sha256": "6bf59032cdee091e828dfc877fede5913ac6dbbd7a20726415e9ce6251a273ab"
+      },
+      "actual_final_prediction": {
+        "compact 4K projector with built-in speakers": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 700
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 3335
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 3335
+          }
+        ],
+        "moonshot green 2025 GMC Hummer EV Pickup Edition 1": [
+          {
+            "citation": "11 U.S.C. § 522(d)(2)",
+            "claim_value": 4450
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 15425
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "claim_value": 16000
+          }
+        ]
+      },
+      "actual_remaining_errors": [
+        {
+          "kind": "incorrect_value",
+          "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 30850.0,
+          "observed_values": [
+            15425.0
+          ]
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 32000.0,
+          "observed_values": [
+            16000.0
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": 306,
+      "public_facts": "Facts:\nHans and Diana Schmidt (hereinafter the Debtors) filed for bankruptcy on 22nd of March 2024. A disclosure of assets by Hans and Diana reports a 5-piece acoustic drum kit with cymbal stands with a current value of $655.00. A valuation of $112,900.00 has been assigned to the guards red 2019 Porsche 911 Carrera S coupe owned by the Schmidts.",
+      "public_meta_instruction": "Your answer to this task must be based solely on applying the provided Federal and State statutes to the given facts. If the task involves a married couple, assume all assets mentioned are jointly owned, with each spouse holding an equal undivided interest, unless explicitly stated otherwise. Assume all assets are held for the personal use of the Debtor(s), unless explicitly stated otherwise.",
+      "full_meta_actually_in_native_HTTP": true,
+      "original_grade": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/306.json",
+        "sha256": "8708e1d33fdd3ee3d8c8e2edea99f1be77769786992ce564fcc45c3bb17cf49f"
+      },
+      "actual_final_raw": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate2_replay/306_EV_candidate.json",
+        "sha256": "154756eb6b72014dfe9304a5f58bcffc59eafd1b2cc0e0e5c049e5c110c1eeb8"
+      },
+      "actual_final_prediction": {
+        "5-piece acoustic drum kit with cymbal stands": [
+          {
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "claim_value": 655
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 30850
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 655
+          }
+        ],
+        "guards red 2019 Porsche 911 Carrera S coupe": [
+          {
+            "citation": "11 U.S.C. § 522(d)(2)",
+            "claim_value": 4450
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 30850
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "claim_value": 16000
+          }
+        ]
+      },
+      "actual_remaining_errors": [
+        {
+          "kind": "incorrect_value",
+          "asset": "5-piece acoustic drum kit with cymbal stands",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 655.0,
+          "observed_values": [
+            30850.0
+          ]
+        },
+        {
+          "kind": "incorrect_value",
+          "asset": "guards red 2019 Porsche 911 Carrera S coupe",
+          "citation": "Wis. Stat. § 815.18(3)(g)",
+          "expected_value": 32000.0,
+          "observed_values": [
+            16000.0
+          ]
+        }
+      ]
+    }
+  ],
+  "do_not_add_duplicate_joint_ownership_default_as_if_missing": true,
+  "public_meta_default_not_just_metadata_but_actual_native_input": true,
+  "does_not_uniquely_explain_marital_status_inference_or_all_numeric_errors": true,
+  "no_new_model_teacher_tokenizer_or_grade_calls": true,
+  "new_TEST_semantics_unopened": true
+}

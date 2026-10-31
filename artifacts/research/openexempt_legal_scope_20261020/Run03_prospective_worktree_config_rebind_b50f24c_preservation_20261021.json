@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-21T11:50:22.409086+00:00",
+  "receipt": {
+    "at": "2026-10-21T11:50:22.384446+00:00",
+    "stage": "prospective_repeat_config_Run03_rebind_b50f24c_not_new_performance",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-prospective_repeat_config_Run03_rebind_b50f24c_not_new_performance.tar.gz",
+        "sha256": "c23ef3d75cb67d42bda57e74e5d8f907fafb345fcbdc4d6a7f9ae1533707a8eb"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_goal_Run03_20261021-prospective_repeat_config_Run03_rebind_b50f24c_not_new_performance.tar.gz",
+        "sha256": "c23ef3d75cb67d42bda57e74e5d8f907fafb345fcbdc4d6a7f9ae1533707a8eb"
+      }
+    ],
+    "files": 18
+  },
+  "archive_devices": [
+    64528,
+    64517
+  ],
+  "prospective_worktree_commit": "b50f24c",
+  "actual_main_and_waiter_bindings_unchanged": [
+    371,
+    381
+  ],
+  "new_native_teacher_TEST_calls": 0,
+  "new_repeated_learning_queued_or_started": false,
+  "preservation_recomputation_program": "import json,pathlib,hashlib\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=pathlib.Path.cwd();branch=root/\".venv/evolution-control-20261020.qLon9T\";read=lambda p:json.loads(p.read_text());rp=root/\"artifacts/research/openexempt_legal_scope_20261020/Run03_isolated_final_eval_same_repeat_protocol_guard_CPU47_20261021.json\";a=read(rp)[\"subsequent_Run03_metadata_rebind_not_new_GPU_experiment\"]\nnames={str(rp.relative_to(root)),\"docs/CURRENT_GOAL.md\",\"docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md\"}\nfor n in a[\"configs_synchronized\"]:names.update([str((root/\"configs\"/n).relative_to(root)),str((branch/\"configs\"/n).relative_to(root))])\nnames.update(str((branch/n).relative_to(root)) for n in [\"experiments/openexempt_frozen_eval.py\"])\npins=[read(root/\"configs/openexempt_closed_feedback_public_assets128_20261021_run03.frozen.json\")[\"files\"],read(root/\"artifacts/launches/openexempt_main128_run03_to_ACE128_20261021_v2/queued.json\")[\"source_data_environment_pins\"]]\nfor pins_ in pins:assert all(hashlib.sha256((root/n).read_bytes()).hexdigest()==h for n,h in pins_.items())\nreceipt=preserve(\"legal_research_goal_Run03_20261021\",\"prospective_repeat_config_Run03_rebind_b50f24c_not_new_performance\",sorted(names))\nprint(json.dumps({\"at\":now(),\"receipt\":receipt,\"archive_devices\":[pathlib.Path(x[\"path\"]).stat().st_dev for x in receipt[\"paths\"]],\"prospective_worktree_commit\":\"b50f24c\",\"actual_main_and_waiter_bindings_unchanged\":[len(x) for x in pins],\"new_native_teacher_TEST_calls\":0,\"new_repeated_learning_queued_or_started\":False},ensure_ascii=False))\n"
+}

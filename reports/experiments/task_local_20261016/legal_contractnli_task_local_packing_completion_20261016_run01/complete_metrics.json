@@ -1,0 +1,4087 @@
+{
+  "at": "2026-10-16T13:03:30.021359+00:00",
+  "run_id": "legal_contractnli_task_local_packing_completion_20261016_run01",
+  "new_native_calls": 112,
+  "new_teacher_calls": 3,
+  "new_teacher_attempts": 3,
+  "same_run_exact_cold_aliases": 18,
+  "logical_observations": 166,
+  "distinct_native_responses": 148,
+  "explicitly_inherited_native_calls": 36,
+  "explicitly_inherited_teacher_calls": 2,
+  "whole_learning_lineage_native_teacher_calls": [
+    148,
+    5
+  ],
+  "continuation_parent": "runs/legal_contractnli_task_local_online_learning_20261016_run01",
+  "new_external_historical_native_references": 36,
+  "main_path_unique_native_calls_including_shared_cold_fit_retention_and_endpoint": 62,
+  "other_control_only_unique_native_calls": 86,
+  "inherited_logical_observations_not_new_calls": 54,
+  "new_main_path_unique_native_calls": 44,
+  "new_other_control_only_unique_native_calls": 68,
+  "main_teacher_edits": 4,
+  "static_control_teacher_calls": 1,
+  "batches": [
+    {
+      "at": "2026-10-16T11:06:00.107988+00:00",
+      "batch": 1,
+      "source_ids": [
+        490,
+        334,
+        88,
+        331,
+        238,
+        245
+      ],
+      "before": {
+        "strong_empty": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 87,
+          "label_accuracy": 0.8529411764705882,
+          "gold_non_neutral_queries": 68,
+          "evidence_tp": 67,
+          "evidence_fp": 30,
+          "evidence_fn": 61,
+          "evidence_micro_f1_gold_non_neutral": 0.5955555555555555,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6269957983193277,
+          "joint_exact_correct": 46,
+          "joint_soft_mean": 0.6663632119514471,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 57,
+              "correct": 54
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 6
+            },
+            "NotMentioned": {
+              "n": 34,
+              "correct": 27
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 27,
+          "nonneutral_label_and_all_evidence_correct": 19,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 27066,
+            "completion_tokens": 11133
+          },
+          "joint_exact_accuracy": 0.45098039215686275
+        },
+        "ordinary_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 87,
+          "label_accuracy": 0.8529411764705882,
+          "gold_non_neutral_queries": 68,
+          "evidence_tp": 67,
+          "evidence_fp": 30,
+          "evidence_fn": 61,
+          "evidence_micro_f1_gold_non_neutral": 0.5955555555555555,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6269957983193277,
+          "joint_exact_correct": 46,
+          "joint_soft_mean": 0.6663632119514471,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 57,
+              "correct": 54
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 6
+            },
+            "NotMentioned": {
+              "n": 34,
+              "correct": 27
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 27,
+          "nonneutral_label_and_all_evidence_correct": 19,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 27066,
+            "completion_tokens": 11133
+          },
+          "joint_exact_accuracy": 0.45098039215686275
+        },
+        "unconditional_layout": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 87,
+          "label_accuracy": 0.8529411764705882,
+          "gold_non_neutral_queries": 68,
+          "evidence_tp": 67,
+          "evidence_fp": 30,
+          "evidence_fn": 61,
+          "evidence_micro_f1_gold_non_neutral": 0.5955555555555555,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6269957983193277,
+          "joint_exact_correct": 46,
+          "joint_soft_mean": 0.6663632119514471,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 57,
+              "correct": 54
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 6
+            },
+            "NotMentioned": {
+              "n": 34,
+              "correct": 27
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 27,
+          "nonneutral_label_and_all_evidence_correct": 19,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 27066,
+            "completion_tokens": 11133
+          },
+          "joint_exact_accuracy": 0.45098039215686275
+        },
+        "skill_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 87,
+          "label_accuracy": 0.8529411764705882,
+          "gold_non_neutral_queries": 68,
+          "evidence_tp": 67,
+          "evidence_fp": 30,
+          "evidence_fn": 61,
+          "evidence_micro_f1_gold_non_neutral": 0.5955555555555555,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6269957983193277,
+          "joint_exact_correct": 46,
+          "joint_soft_mean": 0.6663632119514471,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 57,
+              "correct": 54
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 6
+            },
+            "NotMentioned": {
+              "n": 34,
+              "correct": 27
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 27,
+          "nonneutral_label_and_all_evidence_correct": 19,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 27066,
+            "completion_tokens": 11133
+          },
+          "joint_exact_accuracy": 0.45098039215686275
+        }
+      },
+      "after": {
+        "skill_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 94,
+          "label_accuracy": 0.9215686274509803,
+          "gold_non_neutral_queries": 68,
+          "evidence_tp": 97,
+          "evidence_fp": 1,
+          "evidence_fn": 31,
+          "evidence_micro_f1_gold_non_neutral": 0.8584070796460177,
+          "evidence_query_mean_f1_gold_non_neutral": 0.8630252100840333,
+          "joint_exact_correct": 79,
+          "joint_soft_mean": 0.8694677871148457,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 57,
+              "correct": 56
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 8
+            },
+            "NotMentioned": {
+              "n": 34,
+              "correct": 30
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 30,
+          "nonneutral_label_and_all_evidence_correct": 49,
+          "reported_skill_use_queries": 61,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 42542,
+            "completion_tokens": 14826
+          },
+          "joint_exact_accuracy": 0.7745098039215687
+        }
+      },
+      "strong_empty": {
+        "documents": 6,
+        "hypotheses": 102,
+        "label_correct": 87,
+        "label_accuracy": 0.8529411764705882,
+        "gold_non_neutral_queries": 68,
+        "evidence_tp": 67,
+        "evidence_fp": 30,
+        "evidence_fn": 61,
+        "evidence_micro_f1_gold_non_neutral": 0.5955555555555555,
+        "evidence_query_mean_f1_gold_non_neutral": 0.6269957983193277,
+        "joint_exact_correct": 46,
+        "joint_soft_mean": 0.6663632119514471,
+        "public_valid_documents": 6,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 57,
+            "correct": 54
+          },
+          "Contradiction": {
+            "n": 11,
+            "correct": 6
+          },
+          "NotMentioned": {
+            "n": 34,
+            "correct": 27
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 27,
+        "nonneutral_label_and_all_evidence_correct": 19,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 27066,
+          "completion_tokens": 11133
+        },
+        "joint_exact_accuracy": 0.45098039215686275
+      },
+      "first_encounter_skill_minus_ordinary": {
+        "original_hypotheses": 102,
+        "label_corrected": [],
+        "label_broken": [],
+        "net_label_correct": 0,
+        "joint_exact_corrected": [],
+        "joint_exact_broken": []
+      },
+      "first_encounter_skill_minus_all_layout": {
+        "original_hypotheses": 102,
+        "label_corrected": [],
+        "label_broken": [],
+        "net_label_correct": 0,
+        "joint_exact_corrected": [],
+        "joint_exact_broken": []
+      },
+      "seen_update_effects": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            490,
+            "nda-7"
+          ],
+          [
+            334,
+            "nda-16"
+          ],
+          [
+            88,
+            "nda-16"
+          ],
+          [
+            88,
+            "nda-10"
+          ],
+          [
+            88,
+            "nda-20"
+          ],
+          [
+            88,
+            "nda-3"
+          ],
+          [
+            88,
+            "nda-17"
+          ],
+          [
+            88,
+            "nda-4"
+          ],
+          [
+            331,
+            "nda-17"
+          ],
+          [
+            238,
+            "nda-15"
+          ],
+          [
+            238,
+            "nda-2"
+          ],
+          [
+            238,
+            "nda-20"
+          ],
+          [
+            238,
+            "nda-17"
+          ]
+        ],
+        "label_broken": [
+          [
+            490,
+            "nda-17"
+          ],
+          [
+            334,
+            "nda-1"
+          ],
+          [
+            88,
+            "nda-7"
+          ],
+          [
+            331,
+            "nda-13"
+          ],
+          [
+            238,
+            "nda-1"
+          ],
+          [
+            245,
+            "nda-17"
+          ]
+        ],
+        "net_label_correct": 7,
+        "joint_exact_corrected": [
+          [
+            490,
+            "nda-12"
+          ],
+          [
+            490,
+            "nda-7"
+          ],
+          [
+            334,
+            "nda-16"
+          ],
+          [
+            334,
+            "nda-15"
+          ],
+          [
+            334,
+            "nda-2"
+          ],
+          [
+            334,
+            "nda-19"
+          ],
+          [
+            334,
+            "nda-12"
+          ],
+          [
+            334,
+            "nda-20"
+          ],
+          [
+            334,
+            "nda-3"
+          ],
+          [
+            334,
+            "nda-7"
+          ],
+          [
+            334,
+            "nda-13"
+          ],
+          [
+            334,
+            "nda-5"
+          ],
+          [
+            334,
+            "nda-4"
+          ],
+          [
+            88,
+            "nda-16"
+          ],
+          [
+            88,
+            "nda-10"
+          ],
+          [
+            88,
+            "nda-2"
+          ],
+          [
+            88,
+            "nda-1"
+          ],
+          [
+            88,
+            "nda-12"
+          ],
+          [
+            88,
+            "nda-20"
+          ],
+          [
+            88,
+            "nda-3"
+          ],
+          [
+            88,
+            "nda-17"
+          ],
+          [
+            88,
+            "nda-4"
+          ],
+          [
+            331,
+            "nda-15"
+          ],
+          [
+            331,
+            "nda-1"
+          ],
+          [
+            331,
+            "nda-12"
+          ],
+          [
+            331,
+            "nda-3"
+          ],
+          [
+            331,
+            "nda-17"
+          ],
+          [
+            331,
+            "nda-5"
+          ],
+          [
+            238,
+            "nda-15"
+          ],
+          [
+            238,
+            "nda-2"
+          ],
+          [
+            238,
+            "nda-12"
+          ],
+          [
+            238,
+            "nda-20"
+          ],
+          [
+            238,
+            "nda-17"
+          ],
+          [
+            238,
+            "nda-13"
+          ],
+          [
+            245,
+            "nda-16"
+          ],
+          [
+            245,
+            "nda-15"
+          ],
+          [
+            245,
+            "nda-2"
+          ],
+          [
+            245,
+            "nda-3"
+          ],
+          [
+            245,
+            "nda-8"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            490,
+            "nda-17"
+          ],
+          [
+            334,
+            "nda-1"
+          ],
+          [
+            88,
+            "nda-7"
+          ],
+          [
+            331,
+            "nda-13"
+          ],
+          [
+            238,
+            "nda-1"
+          ],
+          [
+            245,
+            "nda-17"
+          ]
+        ]
+      },
+      "library_management": {
+        "operation_counts": {
+          "CREATE": 18,
+          "UPDATE": 0,
+          "DELETE": 0,
+          "MERGE": 0
+        },
+        "explicit_noop": false,
+        "parent_skill_count": 0,
+        "published_skill_count": 18,
+        "new_ids": [
+          "nda-copy-access-only",
+          "nda-copy-express-permission",
+          "nda-copy-express-prohibition",
+          "nda-identification-constructive-knowledge",
+          "nda-identification-required",
+          "nda-list-governance-completeness",
+          "nda-negotiation-secrecy",
+          "nda-no-license-versus-use",
+          "nda-only-technical-contradicted-by-content",
+          "nda-only-technical-no-content-proof",
+          "nda-oral-inclusion-explicit",
+          "nda-purpose-limitation-polarity",
+          "nda-retention-express-carveout",
+          "nda-retention-prohibited-after-return",
+          "nda-return-trigger-request-only",
+          "nda-return-trigger-termination",
+          "nda-third-party-sharing-excluded",
+          "nda-third-party-sharing-permitted"
+        ],
+        "removed_ids": [],
+        "verbatim_retained_ids": [],
+        "revised_retained_ids": [],
+        "serialized_library_tokens": 2093,
+        "guidance_characters": 9770,
+        "not_a_utility_score_or_publication_gate": true,
+        "serialized_scoped_delivery_tokens": 2053
+      },
+      "after_changes_supervised_tool_and_memory_not_pure_skill_effect": true,
+      "before_actual_responses_inherited": true,
+      "after_actual_responses_and_editor_inherited": true
+    },
+    {
+      "at": "2026-10-16T11:14:46.259426+00:00",
+      "batch": 2,
+      "source_ids": [
+        262,
+        588,
+        538,
+        177,
+        136,
+        187
+      ],
+      "before": {
+        "strong_empty": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 75,
+          "label_accuracy": 0.7352941176470589,
+          "gold_non_neutral_queries": 60,
+          "evidence_tp": 70,
+          "evidence_fp": 38,
+          "evidence_fn": 63,
+          "evidence_micro_f1_gold_non_neutral": 0.5809128630705395,
+          "evidence_query_mean_f1_gold_non_neutral": 0.5949290524290525,
+          "joint_exact_correct": 42,
+          "joint_soft_mean": 0.5597027699968875,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 51,
+              "correct": 47
+            },
+            "Contradiction": {
+              "n": 9,
+              "correct": 5
+            },
+            "NotMentioned": {
+              "n": 42,
+              "correct": 23
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 23,
+          "nonneutral_label_and_all_evidence_correct": 19,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 31863,
+            "completion_tokens": 11744
+          },
+          "joint_exact_accuracy": 0.4117647058823529
+        },
+        "ordinary_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 81,
+          "label_accuracy": 0.7941176470588235,
+          "gold_non_neutral_queries": 60,
+          "evidence_tp": 52,
+          "evidence_fp": 18,
+          "evidence_fn": 81,
+          "evidence_micro_f1_gold_non_neutral": 0.5123152709359606,
+          "evidence_query_mean_f1_gold_non_neutral": 0.5276190476190478,
+          "joint_exact_correct": 43,
+          "joint_soft_mean": 0.5966386554621846,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 51,
+              "correct": 47
+            },
+            "Contradiction": {
+              "n": 9,
+              "correct": 4
+            },
+            "NotMentioned": {
+              "n": 42,
+              "correct": 30
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 30,
+          "nonneutral_label_and_all_evidence_correct": 13,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 34283,
+            "completion_tokens": 10062
+          },
+          "joint_exact_accuracy": 0.4215686274509804
+        },
+        "unconditional_layout": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 77,
+          "label_accuracy": 0.7549019607843137,
+          "gold_non_neutral_queries": 60,
+          "evidence_tp": 46,
+          "evidence_fp": 15,
+          "evidence_fn": 87,
+          "evidence_micro_f1_gold_non_neutral": 0.4742268041237113,
+          "evidence_query_mean_f1_gold_non_neutral": 0.4716931216931217,
+          "joint_exact_correct": 44,
+          "joint_soft_mean": 0.5715841892312479,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 51,
+              "correct": 43
+            },
+            "Contradiction": {
+              "n": 9,
+              "correct": 4
+            },
+            "NotMentioned": {
+              "n": 42,
+              "correct": 30
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 30,
+          "nonneutral_label_and_all_evidence_correct": 14,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 34553,
+            "completion_tokens": 10437
+          },
+          "joint_exact_accuracy": 0.43137254901960786
+        },
+        "skill_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 80,
+          "label_accuracy": 0.7843137254901961,
+          "gold_non_neutral_queries": 60,
+          "evidence_tp": 56,
+          "evidence_fp": 21,
+          "evidence_fn": 77,
+          "evidence_micro_f1_gold_non_neutral": 0.5333333333333333,
+          "evidence_query_mean_f1_gold_non_neutral": 0.5761904761904761,
+          "joint_exact_correct": 44,
+          "joint_soft_mean": 0.606909430438842,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 51,
+              "correct": 45
+            },
+            "Contradiction": {
+              "n": 9,
+              "correct": 7
+            },
+            "NotMentioned": {
+              "n": 42,
+              "correct": 28
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 28,
+          "nonneutral_label_and_all_evidence_correct": 16,
+          "reported_skill_use_queries": 56,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 46137,
+            "completion_tokens": 14323
+          },
+          "joint_exact_accuracy": 0.43137254901960786
+        }
+      },
+      "after": {
+        "skill_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 89,
+          "label_accuracy": 0.8725490196078431,
+          "gold_non_neutral_queries": 60,
+          "evidence_tp": 107,
+          "evidence_fp": 0,
+          "evidence_fn": 26,
+          "evidence_micro_f1_gold_non_neutral": 0.8916666666666667,
+          "evidence_query_mean_f1_gold_non_neutral": 0.8683333333333333,
+          "joint_exact_correct": 78,
+          "joint_soft_mean": 0.8343137254901961,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 51,
+              "correct": 50
+            },
+            "Contradiction": {
+              "n": 9,
+              "correct": 6
+            },
+            "NotMentioned": {
+              "n": 42,
+              "correct": 33
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 33,
+          "nonneutral_label_and_all_evidence_correct": 45,
+          "reported_skill_use_queries": 62,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 50806,
+            "completion_tokens": 12914
+          },
+          "joint_exact_accuracy": 0.7647058823529411
+        }
+      },
+      "strong_empty": {
+        "documents": 6,
+        "hypotheses": 102,
+        "label_correct": 75,
+        "label_accuracy": 0.7352941176470589,
+        "gold_non_neutral_queries": 60,
+        "evidence_tp": 70,
+        "evidence_fp": 38,
+        "evidence_fn": 63,
+        "evidence_micro_f1_gold_non_neutral": 0.5809128630705395,
+        "evidence_query_mean_f1_gold_non_neutral": 0.5949290524290525,
+        "joint_exact_correct": 42,
+        "joint_soft_mean": 0.5597027699968875,
+        "public_valid_documents": 6,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 51,
+            "correct": 47
+          },
+          "Contradiction": {
+            "n": 9,
+            "correct": 5
+          },
+          "NotMentioned": {
+            "n": 42,
+            "correct": 23
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 23,
+        "nonneutral_label_and_all_evidence_correct": 19,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 31863,
+          "completion_tokens": 11744
+        },
+        "joint_exact_accuracy": 0.4117647058823529
+      },
+      "first_encounter_skill_minus_ordinary": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            262,
+            "nda-1"
+          ],
+          [
+            588,
+            "nda-17"
+          ],
+          [
+            177,
+            "nda-20"
+          ],
+          [
+            177,
+            "nda-4"
+          ],
+          [
+            187,
+            "nda-16"
+          ],
+          [
+            187,
+            "nda-20"
+          ],
+          [
+            187,
+            "nda-7"
+          ],
+          [
+            187,
+            "nda-17"
+          ]
+        ],
+        "label_broken": [
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            588,
+            "nda-1"
+          ],
+          [
+            588,
+            "nda-13"
+          ],
+          [
+            538,
+            "nda-18"
+          ],
+          [
+            538,
+            "nda-8"
+          ],
+          [
+            177,
+            "nda-15"
+          ],
+          [
+            177,
+            "nda-1"
+          ],
+          [
+            136,
+            "nda-7"
+          ],
+          [
+            187,
+            "nda-1"
+          ]
+        ],
+        "net_label_correct": -1,
+        "joint_exact_corrected": [
+          [
+            262,
+            "nda-1"
+          ],
+          [
+            588,
+            "nda-17"
+          ],
+          [
+            538,
+            "nda-3"
+          ],
+          [
+            177,
+            "nda-20"
+          ],
+          [
+            177,
+            "nda-4"
+          ],
+          [
+            187,
+            "nda-20"
+          ],
+          [
+            187,
+            "nda-17"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            262,
+            "nda-16"
+          ],
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            588,
+            "nda-1"
+          ],
+          [
+            177,
+            "nda-15"
+          ],
+          [
+            177,
+            "nda-1"
+          ],
+          [
+            187,
+            "nda-1"
+          ]
+        ]
+      },
+      "first_encounter_skill_minus_all_layout": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            262,
+            "nda-1"
+          ],
+          [
+            177,
+            "nda-16"
+          ],
+          [
+            177,
+            "nda-20"
+          ],
+          [
+            136,
+            "nda-20"
+          ],
+          [
+            136,
+            "nda-3"
+          ],
+          [
+            136,
+            "nda-17"
+          ],
+          [
+            187,
+            "nda-16"
+          ],
+          [
+            187,
+            "nda-20"
+          ],
+          [
+            187,
+            "nda-7"
+          ],
+          [
+            187,
+            "nda-17"
+          ]
+        ],
+        "label_broken": [
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            588,
+            "nda-1"
+          ],
+          [
+            588,
+            "nda-18"
+          ],
+          [
+            538,
+            "nda-18"
+          ],
+          [
+            538,
+            "nda-8"
+          ],
+          [
+            177,
+            "nda-1"
+          ],
+          [
+            187,
+            "nda-1"
+          ]
+        ],
+        "net_label_correct": 3,
+        "joint_exact_corrected": [
+          [
+            262,
+            "nda-1"
+          ],
+          [
+            538,
+            "nda-3"
+          ],
+          [
+            177,
+            "nda-16"
+          ],
+          [
+            177,
+            "nda-20"
+          ],
+          [
+            187,
+            "nda-20"
+          ],
+          [
+            187,
+            "nda-17"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            262,
+            "nda-16"
+          ],
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            588,
+            "nda-1"
+          ],
+          [
+            538,
+            "nda-4"
+          ],
+          [
+            177,
+            "nda-1"
+          ],
+          [
+            187,
+            "nda-1"
+          ]
+        ]
+      },
+      "seen_update_effects": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            262,
+            "nda-20"
+          ],
+          [
+            262,
+            "nda-3"
+          ],
+          [
+            588,
+            "nda-15"
+          ],
+          [
+            588,
+            "nda-18"
+          ],
+          [
+            588,
+            "nda-13"
+          ],
+          [
+            538,
+            "nda-18"
+          ],
+          [
+            538,
+            "nda-8"
+          ],
+          [
+            177,
+            "nda-15"
+          ],
+          [
+            177,
+            "nda-1"
+          ],
+          [
+            136,
+            "nda-10"
+          ],
+          [
+            136,
+            "nda-1"
+          ],
+          [
+            136,
+            "nda-7"
+          ]
+        ],
+        "label_broken": [
+          [
+            538,
+            "nda-1"
+          ],
+          [
+            177,
+            "nda-16"
+          ],
+          [
+            177,
+            "nda-20"
+          ],
+          [
+            187,
+            "nda-7"
+          ]
+        ],
+        "net_label_correct": 9,
+        "joint_exact_corrected": [
+          [
+            262,
+            "nda-16"
+          ],
+          [
+            262,
+            "nda-15"
+          ],
+          [
+            262,
+            "nda-20"
+          ],
+          [
+            262,
+            "nda-3"
+          ],
+          [
+            588,
+            "nda-15"
+          ],
+          [
+            588,
+            "nda-3"
+          ],
+          [
+            588,
+            "nda-8"
+          ],
+          [
+            538,
+            "nda-2"
+          ],
+          [
+            538,
+            "nda-19"
+          ],
+          [
+            538,
+            "nda-12"
+          ],
+          [
+            538,
+            "nda-20"
+          ],
+          [
+            538,
+            "nda-18"
+          ],
+          [
+            538,
+            "nda-7"
+          ],
+          [
+            538,
+            "nda-13"
+          ],
+          [
+            538,
+            "nda-5"
+          ],
+          [
+            538,
+            "nda-4"
+          ],
+          [
+            177,
+            "nda-15"
+          ],
+          [
+            177,
+            "nda-2"
+          ],
+          [
+            177,
+            "nda-1"
+          ],
+          [
+            177,
+            "nda-3"
+          ],
+          [
+            177,
+            "nda-13"
+          ],
+          [
+            136,
+            "nda-15"
+          ],
+          [
+            136,
+            "nda-10"
+          ],
+          [
+            136,
+            "nda-2"
+          ],
+          [
+            136,
+            "nda-1"
+          ],
+          [
+            136,
+            "nda-12"
+          ],
+          [
+            136,
+            "nda-20"
+          ],
+          [
+            136,
+            "nda-3"
+          ],
+          [
+            136,
+            "nda-7"
+          ],
+          [
+            136,
+            "nda-17"
+          ],
+          [
+            136,
+            "nda-13"
+          ],
+          [
+            136,
+            "nda-5"
+          ],
+          [
+            136,
+            "nda-4"
+          ],
+          [
+            187,
+            "nda-16"
+          ],
+          [
+            187,
+            "nda-15"
+          ],
+          [
+            187,
+            "nda-5"
+          ],
+          [
+            187,
+            "nda-4"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            538,
+            "nda-1"
+          ],
+          [
+            177,
+            "nda-16"
+          ],
+          [
+            177,
+            "nda-20"
+          ]
+        ]
+      },
+      "library_management": {
+        "operation_counts": {
+          "CREATE": 2,
+          "UPDATE": 9,
+          "DELETE": 0,
+          "MERGE": 0
+        },
+        "explicit_noop": false,
+        "parent_skill_count": 18,
+        "published_skill_count": 20,
+        "new_ids": [
+          "nda-compelled-disclosure-notice",
+          "nda-no-solicitation-operative-scope"
+        ],
+        "removed_ids": [],
+        "verbatim_retained_ids": [
+          "nda-copy-express-prohibition",
+          "nda-identification-required",
+          "nda-only-technical-contradicted-by-content",
+          "nda-only-technical-no-content-proof",
+          "nda-purpose-limitation-polarity",
+          "nda-retention-express-carveout",
+          "nda-retention-prohibited-after-return",
+          "nda-return-trigger-request-only",
+          "nda-third-party-sharing-excluded"
+        ],
+        "revised_retained_ids": [
+          "nda-copy-access-only",
+          "nda-copy-express-permission",
+          "nda-identification-constructive-knowledge",
+          "nda-list-governance-completeness",
+          "nda-negotiation-secrecy",
+          "nda-no-license-versus-use",
+          "nda-oral-inclusion-explicit",
+          "nda-return-trigger-termination",
+          "nda-third-party-sharing-permitted"
+        ],
+        "serialized_library_tokens": 2620,
+        "guidance_characters": 12592,
+        "not_a_utility_score_or_publication_gate": true,
+        "serialized_scoped_delivery_tokens": 2568
+      },
+      "after_changes_supervised_tool_and_memory_not_pure_skill_effect": true,
+      "before_actual_responses_inherited": true,
+      "after_actual_responses_and_editor_inherited": false
+    },
+    {
+      "at": "2026-10-16T11:46:10.548880+00:00",
+      "batch": 3,
+      "source_ids": [
+        273,
+        416,
+        261,
+        487,
+        377,
+        159
+      ],
+      "before": {
+        "strong_empty": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 81,
+          "label_accuracy": 0.7941176470588235,
+          "gold_non_neutral_queries": 71,
+          "evidence_tp": 66,
+          "evidence_fp": 40,
+          "evidence_fn": 89,
+          "evidence_micro_f1_gold_non_neutral": 0.5057471264367817,
+          "evidence_query_mean_f1_gold_non_neutral": 0.5373727211755378,
+          "joint_exact_correct": 37,
+          "joint_soft_mean": 0.5629424497071553,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 60,
+              "correct": 54
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 6
+            },
+            "NotMentioned": {
+              "n": 31,
+              "correct": 21
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 21,
+          "nonneutral_label_and_all_evidence_correct": 16,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 30812,
+            "completion_tokens": 9961
+          },
+          "joint_exact_accuracy": 0.3627450980392157
+        },
+        "ordinary_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 81,
+          "label_accuracy": 0.7941176470588235,
+          "gold_non_neutral_queries": 71,
+          "evidence_tp": 74,
+          "evidence_fp": 19,
+          "evidence_fn": 81,
+          "evidence_micro_f1_gold_non_neutral": 0.5967741935483871,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6026182737450341,
+          "joint_exact_correct": 41,
+          "joint_soft_mean": 0.6057440925087982,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 60,
+              "correct": 53
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 6
+            },
+            "NotMentioned": {
+              "n": 31,
+              "correct": 22
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 22,
+          "nonneutral_label_and_all_evidence_correct": 19,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 34073,
+            "completion_tokens": 12745
+          },
+          "joint_exact_accuracy": 0.4019607843137255
+        },
+        "unconditional_layout": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 83,
+          "label_accuracy": 0.8137254901960784,
+          "gold_non_neutral_queries": 71,
+          "evidence_tp": 73,
+          "evidence_fp": 14,
+          "evidence_fn": 82,
+          "evidence_micro_f1_gold_non_neutral": 0.6033057851239669,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6331347056699167,
+          "joint_exact_correct": 42,
+          "joint_soft_mean": 0.6269859225741576,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 60,
+              "correct": 55
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 7
+            },
+            "NotMentioned": {
+              "n": 31,
+              "correct": 21
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 21,
+          "nonneutral_label_and_all_evidence_correct": 21,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 34555,
+            "completion_tokens": 13538
+          },
+          "joint_exact_accuracy": 0.4117647058823529
+        },
+        "skill_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 86,
+          "label_accuracy": 0.8431372549019608,
+          "gold_non_neutral_queries": 71,
+          "evidence_tp": 74,
+          "evidence_fp": 17,
+          "evidence_fn": 81,
+          "evidence_micro_f1_gold_non_neutral": 0.6016260162601627,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6370892018779339,
+          "joint_exact_correct": 45,
+          "joint_soft_mean": 0.6526143790849671,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 60,
+              "correct": 55
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 8
+            },
+            "NotMentioned": {
+              "n": 31,
+              "correct": 23
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 23,
+          "nonneutral_label_and_all_evidence_correct": 22,
+          "reported_skill_use_queries": 70,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 49104,
+            "completion_tokens": 14959
+          },
+          "joint_exact_accuracy": 0.4411764705882353
+        }
+      },
+      "after": {
+        "skill_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 95,
+          "label_accuracy": 0.9313725490196079,
+          "gold_non_neutral_queries": 71,
+          "evidence_tp": 138,
+          "evidence_fp": 0,
+          "evidence_fn": 17,
+          "evidence_micro_f1_gold_non_neutral": 0.9419795221843004,
+          "evidence_query_mean_f1_gold_non_neutral": 0.9394813324390787,
+          "joint_exact_correct": 81,
+          "joint_soft_mean": 0.8903361344537813,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 60,
+              "correct": 58
+            },
+            "Contradiction": {
+              "n": 11,
+              "correct": 10
+            },
+            "NotMentioned": {
+              "n": 31,
+              "correct": 27
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 27,
+          "nonneutral_label_and_all_evidence_correct": 54,
+          "reported_skill_use_queries": 78,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 53737,
+            "completion_tokens": 10932
+          },
+          "joint_exact_accuracy": 0.7941176470588235
+        }
+      },
+      "strong_empty": {
+        "documents": 6,
+        "hypotheses": 102,
+        "label_correct": 81,
+        "label_accuracy": 0.7941176470588235,
+        "gold_non_neutral_queries": 71,
+        "evidence_tp": 66,
+        "evidence_fp": 40,
+        "evidence_fn": 89,
+        "evidence_micro_f1_gold_non_neutral": 0.5057471264367817,
+        "evidence_query_mean_f1_gold_non_neutral": 0.5373727211755378,
+        "joint_exact_correct": 37,
+        "joint_soft_mean": 0.5629424497071553,
+        "public_valid_documents": 6,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 60,
+            "correct": 54
+          },
+          "Contradiction": {
+            "n": 11,
+            "correct": 6
+          },
+          "NotMentioned": {
+            "n": 31,
+            "correct": 21
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 21,
+        "nonneutral_label_and_all_evidence_correct": 16,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 30812,
+          "completion_tokens": 9961
+        },
+        "joint_exact_accuracy": 0.3627450980392157
+      },
+      "first_encounter_skill_minus_ordinary": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            273,
+            "nda-16"
+          ],
+          [
+            273,
+            "nda-15"
+          ],
+          [
+            273,
+            "nda-10"
+          ],
+          [
+            416,
+            "nda-16"
+          ],
+          [
+            261,
+            "nda-13"
+          ],
+          [
+            487,
+            "nda-16"
+          ],
+          [
+            487,
+            "nda-20"
+          ],
+          [
+            487,
+            "nda-5"
+          ],
+          [
+            377,
+            "nda-15"
+          ],
+          [
+            377,
+            "nda-17"
+          ],
+          [
+            159,
+            "nda-20"
+          ]
+        ],
+        "label_broken": [
+          [
+            416,
+            "nda-10"
+          ],
+          [
+            416,
+            "nda-5"
+          ],
+          [
+            261,
+            "nda-1"
+          ],
+          [
+            261,
+            "nda-20"
+          ],
+          [
+            487,
+            "nda-1"
+          ],
+          [
+            159,
+            "nda-7"
+          ]
+        ],
+        "net_label_correct": 5,
+        "joint_exact_corrected": [
+          [
+            273,
+            "nda-16"
+          ],
+          [
+            273,
+            "nda-15"
+          ],
+          [
+            416,
+            "nda-16"
+          ],
+          [
+            261,
+            "nda-13"
+          ],
+          [
+            487,
+            "nda-16"
+          ],
+          [
+            487,
+            "nda-20"
+          ],
+          [
+            487,
+            "nda-5"
+          ],
+          [
+            377,
+            "nda-17"
+          ],
+          [
+            159,
+            "nda-20"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            416,
+            "nda-10"
+          ],
+          [
+            416,
+            "nda-5"
+          ],
+          [
+            261,
+            "nda-1"
+          ],
+          [
+            487,
+            "nda-1"
+          ],
+          [
+            159,
+            "nda-7"
+          ]
+        ]
+      },
+      "first_encounter_skill_minus_all_layout": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            273,
+            "nda-16"
+          ],
+          [
+            273,
+            "nda-10"
+          ],
+          [
+            416,
+            "nda-16"
+          ],
+          [
+            487,
+            "nda-16"
+          ],
+          [
+            487,
+            "nda-20"
+          ],
+          [
+            377,
+            "nda-15"
+          ],
+          [
+            377,
+            "nda-20"
+          ]
+        ],
+        "label_broken": [
+          [
+            416,
+            "nda-5"
+          ],
+          [
+            261,
+            "nda-1"
+          ],
+          [
+            261,
+            "nda-20"
+          ],
+          [
+            159,
+            "nda-7"
+          ]
+        ],
+        "net_label_correct": 3,
+        "joint_exact_corrected": [
+          [
+            273,
+            "nda-16"
+          ],
+          [
+            416,
+            "nda-16"
+          ],
+          [
+            261,
+            "nda-3"
+          ],
+          [
+            261,
+            "nda-13"
+          ],
+          [
+            487,
+            "nda-16"
+          ],
+          [
+            487,
+            "nda-20"
+          ],
+          [
+            377,
+            "nda-20"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            416,
+            "nda-5"
+          ],
+          [
+            261,
+            "nda-1"
+          ],
+          [
+            261,
+            "nda-17"
+          ],
+          [
+            159,
+            "nda-7"
+          ]
+        ]
+      },
+      "seen_update_effects": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            273,
+            "nda-3"
+          ],
+          [
+            416,
+            "nda-10"
+          ],
+          [
+            416,
+            "nda-20"
+          ],
+          [
+            416,
+            "nda-5"
+          ],
+          [
+            261,
+            "nda-10"
+          ],
+          [
+            261,
+            "nda-1"
+          ],
+          [
+            261,
+            "nda-12"
+          ],
+          [
+            487,
+            "nda-1"
+          ],
+          [
+            377,
+            "nda-3"
+          ],
+          [
+            377,
+            "nda-7"
+          ],
+          [
+            377,
+            "nda-4"
+          ]
+        ],
+        "label_broken": [
+          [
+            487,
+            "nda-16"
+          ],
+          [
+            377,
+            "nda-20"
+          ]
+        ],
+        "net_label_correct": 9,
+        "joint_exact_corrected": [
+          [
+            273,
+            "nda-10"
+          ],
+          [
+            273,
+            "nda-19"
+          ],
+          [
+            273,
+            "nda-12"
+          ],
+          [
+            273,
+            "nda-20"
+          ],
+          [
+            273,
+            "nda-3"
+          ],
+          [
+            273,
+            "nda-18"
+          ],
+          [
+            273,
+            "nda-7"
+          ],
+          [
+            273,
+            "nda-8"
+          ],
+          [
+            273,
+            "nda-13"
+          ],
+          [
+            273,
+            "nda-5"
+          ],
+          [
+            416,
+            "nda-10"
+          ],
+          [
+            416,
+            "nda-1"
+          ],
+          [
+            416,
+            "nda-20"
+          ],
+          [
+            416,
+            "nda-8"
+          ],
+          [
+            416,
+            "nda-5"
+          ],
+          [
+            261,
+            "nda-16"
+          ],
+          [
+            261,
+            "nda-15"
+          ],
+          [
+            261,
+            "nda-10"
+          ],
+          [
+            261,
+            "nda-1"
+          ],
+          [
+            261,
+            "nda-12"
+          ],
+          [
+            261,
+            "nda-17"
+          ],
+          [
+            487,
+            "nda-15"
+          ],
+          [
+            487,
+            "nda-1"
+          ],
+          [
+            487,
+            "nda-3"
+          ],
+          [
+            377,
+            "nda-15"
+          ],
+          [
+            377,
+            "nda-1"
+          ],
+          [
+            377,
+            "nda-12"
+          ],
+          [
+            377,
+            "nda-3"
+          ],
+          [
+            377,
+            "nda-7"
+          ],
+          [
+            377,
+            "nda-13"
+          ],
+          [
+            377,
+            "nda-4"
+          ],
+          [
+            159,
+            "nda-10"
+          ],
+          [
+            159,
+            "nda-19"
+          ],
+          [
+            159,
+            "nda-12"
+          ],
+          [
+            159,
+            "nda-8"
+          ],
+          [
+            159,
+            "nda-13"
+          ],
+          [
+            159,
+            "nda-5"
+          ],
+          [
+            159,
+            "nda-4"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            487,
+            "nda-16"
+          ],
+          [
+            377,
+            "nda-20"
+          ]
+        ]
+      },
+      "library_management": {
+        "operation_counts": {
+          "CREATE": 3,
+          "UPDATE": 5,
+          "DELETE": 0,
+          "MERGE": 0
+        },
+        "explicit_noop": false,
+        "parent_skill_count": 20,
+        "published_skill_count": 23,
+        "new_ids": [
+          "nda-employee-sharing-permitted",
+          "nda-purpose-unrestricted-use",
+          "nda-survival-operative-event"
+        ],
+        "removed_ids": [],
+        "verbatim_retained_ids": [
+          "nda-compelled-disclosure-notice",
+          "nda-copy-access-only",
+          "nda-copy-express-permission",
+          "nda-identification-required",
+          "nda-no-license-versus-use",
+          "nda-no-solicitation-operative-scope",
+          "nda-only-technical-contradicted-by-content",
+          "nda-only-technical-no-content-proof",
+          "nda-oral-inclusion-explicit",
+          "nda-purpose-limitation-polarity",
+          "nda-retention-express-carveout",
+          "nda-retention-prohibited-after-return",
+          "nda-return-trigger-request-only",
+          "nda-third-party-sharing-excluded",
+          "nda-third-party-sharing-permitted"
+        ],
+        "revised_retained_ids": [
+          "nda-copy-express-prohibition",
+          "nda-identification-constructive-knowledge",
+          "nda-list-governance-completeness",
+          "nda-negotiation-secrecy",
+          "nda-return-trigger-termination"
+        ],
+        "serialized_library_tokens": 3181,
+        "guidance_characters": 15570,
+        "not_a_utility_score_or_publication_gate": true,
+        "serialized_scoped_delivery_tokens": 3110
+      },
+      "after_changes_supervised_tool_and_memory_not_pure_skill_effect": true,
+      "before_actual_responses_inherited": false,
+      "after_actual_responses_and_editor_inherited": false
+    },
+    {
+      "at": "2026-10-16T12:18:29.438279+00:00",
+      "batch": 4,
+      "source_ids": [
+        430,
+        290,
+        622,
+        613,
+        383,
+        92
+      ],
+      "before": {
+        "strong_empty": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 77,
+          "label_accuracy": 0.7549019607843137,
+          "gold_non_neutral_queries": 58,
+          "evidence_tp": 44,
+          "evidence_fp": 21,
+          "evidence_fn": 42,
+          "evidence_micro_f1_gold_non_neutral": 0.5827814569536424,
+          "evidence_query_mean_f1_gold_non_neutral": 0.5827586206896551,
+          "joint_exact_correct": 50,
+          "joint_soft_mean": 0.6058823529411764,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 46,
+              "correct": 41
+            },
+            "Contradiction": {
+              "n": 12,
+              "correct": 7
+            },
+            "NotMentioned": {
+              "n": 44,
+              "correct": 29
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 29,
+          "nonneutral_label_and_all_evidence_correct": 21,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 42939,
+            "completion_tokens": 10990
+          },
+          "joint_exact_accuracy": 0.49019607843137253
+        },
+        "ordinary_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 80,
+          "label_accuracy": 0.7843137254901961,
+          "gold_non_neutral_queries": 58,
+          "evidence_tp": 57,
+          "evidence_fp": 21,
+          "evidence_fn": 29,
+          "evidence_micro_f1_gold_non_neutral": 0.6951219512195121,
+          "evidence_query_mean_f1_gold_non_neutral": 0.7028735632183907,
+          "joint_exact_correct": 58,
+          "joint_soft_mean": 0.6807189542483661,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 46,
+              "correct": 43
+            },
+            "Contradiction": {
+              "n": 12,
+              "correct": 6
+            },
+            "NotMentioned": {
+              "n": 44,
+              "correct": 31
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 31,
+          "nonneutral_label_and_all_evidence_correct": 27,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 45234,
+            "completion_tokens": 11660
+          },
+          "joint_exact_accuracy": 0.5686274509803921
+        },
+        "unconditional_layout": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 81,
+          "label_accuracy": 0.7941176470588235,
+          "gold_non_neutral_queries": 58,
+          "evidence_tp": 55,
+          "evidence_fp": 13,
+          "evidence_fn": 31,
+          "evidence_micro_f1_gold_non_neutral": 0.7142857142857143,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6994252873563217,
+          "joint_exact_correct": 60,
+          "joint_soft_mean": 0.6918300653594772,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 46,
+              "correct": 43
+            },
+            "Contradiction": {
+              "n": 12,
+              "correct": 7
+            },
+            "NotMentioned": {
+              "n": 44,
+              "correct": 31
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 31,
+          "nonneutral_label_and_all_evidence_correct": 29,
+          "reported_skill_use_queries": 0,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 45459,
+            "completion_tokens": 10722
+          },
+          "joint_exact_accuracy": 0.5882352941176471
+        },
+        "skill_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 82,
+          "label_accuracy": 0.803921568627451,
+          "gold_non_neutral_queries": 58,
+          "evidence_tp": 47,
+          "evidence_fp": 10,
+          "evidence_fn": 39,
+          "evidence_micro_f1_gold_non_neutral": 0.6573426573426573,
+          "evidence_query_mean_f1_gold_non_neutral": 0.6126436781609195,
+          "joint_exact_correct": 62,
+          "joint_soft_mean": 0.704575163398693,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 46,
+              "correct": 38
+            },
+            "Contradiction": {
+              "n": 12,
+              "correct": 7
+            },
+            "NotMentioned": {
+              "n": 44,
+              "correct": 37
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 37,
+          "nonneutral_label_and_all_evidence_correct": 25,
+          "reported_skill_use_queries": 60,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 63412,
+            "completion_tokens": 13429
+          },
+          "joint_exact_accuracy": 0.6078431372549019
+        }
+      },
+      "after": {
+        "skill_memory": {
+          "documents": 6,
+          "hypotheses": 102,
+          "label_correct": 88,
+          "label_accuracy": 0.8627450980392157,
+          "gold_non_neutral_queries": 58,
+          "evidence_tp": 70,
+          "evidence_fp": 1,
+          "evidence_fn": 16,
+          "evidence_micro_f1_gold_non_neutral": 0.89171974522293,
+          "evidence_query_mean_f1_gold_non_neutral": 0.8637931034482758,
+          "joint_exact_correct": 80,
+          "joint_soft_mean": 0.8375816993464053,
+          "public_valid_documents": 6,
+          "length_cutoffs": 0,
+          "class_denominators": {
+            "Entailment": {
+              "n": 46,
+              "correct": 44
+            },
+            "Contradiction": {
+              "n": 12,
+              "correct": 7
+            },
+            "NotMentioned": {
+              "n": 44,
+              "correct": 37
+            }
+          },
+          "correct_nm_with_nonempty_evidence": 0,
+          "correct_nm_with_empty_evidence": 37,
+          "nonneutral_label_and_all_evidence_correct": 43,
+          "reported_skill_use_queries": 83,
+          "reported_skill_use_not_internal_causal_proof": true,
+          "usage": {
+            "prompt_tokens": 66039,
+            "completion_tokens": 13338
+          },
+          "joint_exact_accuracy": 0.7843137254901961
+        }
+      },
+      "strong_empty": {
+        "documents": 6,
+        "hypotheses": 102,
+        "label_correct": 77,
+        "label_accuracy": 0.7549019607843137,
+        "gold_non_neutral_queries": 58,
+        "evidence_tp": 44,
+        "evidence_fp": 21,
+        "evidence_fn": 42,
+        "evidence_micro_f1_gold_non_neutral": 0.5827814569536424,
+        "evidence_query_mean_f1_gold_non_neutral": 0.5827586206896551,
+        "joint_exact_correct": 50,
+        "joint_soft_mean": 0.6058823529411764,
+        "public_valid_documents": 6,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 46,
+            "correct": 41
+          },
+          "Contradiction": {
+            "n": 12,
+            "correct": 7
+          },
+          "NotMentioned": {
+            "n": 44,
+            "correct": 29
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 29,
+        "nonneutral_label_and_all_evidence_correct": 21,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 42939,
+          "completion_tokens": 10990
+        },
+        "joint_exact_accuracy": 0.49019607843137253
+      },
+      "first_encounter_skill_minus_ordinary": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            430,
+            "nda-12"
+          ],
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            430,
+            "nda-13"
+          ],
+          [
+            290,
+            "nda-15"
+          ],
+          [
+            290,
+            "nda-2"
+          ],
+          [
+            290,
+            "nda-17"
+          ],
+          [
+            383,
+            "nda-15"
+          ],
+          [
+            383,
+            "nda-19"
+          ],
+          [
+            383,
+            "nda-12"
+          ],
+          [
+            92,
+            "nda-20"
+          ]
+        ],
+        "label_broken": [
+          [
+            430,
+            "nda-20"
+          ],
+          [
+            290,
+            "nda-20"
+          ],
+          [
+            622,
+            "nda-12"
+          ],
+          [
+            622,
+            "nda-13"
+          ],
+          [
+            613,
+            "nda-17"
+          ],
+          [
+            383,
+            "nda-5"
+          ],
+          [
+            92,
+            "nda-2"
+          ],
+          [
+            92,
+            "nda-3"
+          ]
+        ],
+        "net_label_correct": 2,
+        "joint_exact_corrected": [
+          [
+            430,
+            "nda-12"
+          ],
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            430,
+            "nda-18"
+          ],
+          [
+            430,
+            "nda-13"
+          ],
+          [
+            290,
+            "nda-15"
+          ],
+          [
+            290,
+            "nda-2"
+          ],
+          [
+            290,
+            "nda-17"
+          ],
+          [
+            383,
+            "nda-15"
+          ],
+          [
+            383,
+            "nda-19"
+          ],
+          [
+            383,
+            "nda-12"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            430,
+            "nda-20"
+          ],
+          [
+            290,
+            "nda-20"
+          ],
+          [
+            622,
+            "nda-12"
+          ],
+          [
+            613,
+            "nda-17"
+          ],
+          [
+            92,
+            "nda-2"
+          ],
+          [
+            92,
+            "nda-3"
+          ]
+        ]
+      },
+      "first_encounter_skill_minus_all_layout": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            430,
+            "nda-12"
+          ],
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            290,
+            "nda-15"
+          ],
+          [
+            290,
+            "nda-2"
+          ],
+          [
+            290,
+            "nda-17"
+          ],
+          [
+            622,
+            "nda-20"
+          ],
+          [
+            383,
+            "nda-15"
+          ],
+          [
+            383,
+            "nda-19"
+          ],
+          [
+            383,
+            "nda-12"
+          ],
+          [
+            92,
+            "nda-20"
+          ]
+        ],
+        "label_broken": [
+          [
+            430,
+            "nda-20"
+          ],
+          [
+            290,
+            "nda-20"
+          ],
+          [
+            622,
+            "nda-1"
+          ],
+          [
+            622,
+            "nda-12"
+          ],
+          [
+            622,
+            "nda-13"
+          ],
+          [
+            613,
+            "nda-17"
+          ],
+          [
+            383,
+            "nda-5"
+          ],
+          [
+            92,
+            "nda-2"
+          ],
+          [
+            92,
+            "nda-3"
+          ]
+        ],
+        "net_label_correct": 1,
+        "joint_exact_corrected": [
+          [
+            430,
+            "nda-12"
+          ],
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            430,
+            "nda-18"
+          ],
+          [
+            290,
+            "nda-15"
+          ],
+          [
+            290,
+            "nda-2"
+          ],
+          [
+            290,
+            "nda-17"
+          ],
+          [
+            622,
+            "nda-20"
+          ],
+          [
+            383,
+            "nda-15"
+          ],
+          [
+            383,
+            "nda-19"
+          ],
+          [
+            383,
+            "nda-12"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            430,
+            "nda-2"
+          ],
+          [
+            430,
+            "nda-20"
+          ],
+          [
+            290,
+            "nda-20"
+          ],
+          [
+            622,
+            "nda-1"
+          ],
+          [
+            622,
+            "nda-12"
+          ],
+          [
+            613,
+            "nda-17"
+          ],
+          [
+            92,
+            "nda-2"
+          ],
+          [
+            92,
+            "nda-3"
+          ]
+        ]
+      },
+      "seen_update_effects": {
+        "original_hypotheses": 102,
+        "label_corrected": [
+          [
+            430,
+            "nda-20"
+          ],
+          [
+            622,
+            "nda-15"
+          ],
+          [
+            622,
+            "nda-10"
+          ],
+          [
+            622,
+            "nda-12"
+          ],
+          [
+            622,
+            "nda-13"
+          ],
+          [
+            613,
+            "nda-12"
+          ],
+          [
+            613,
+            "nda-3"
+          ],
+          [
+            613,
+            "nda-17"
+          ],
+          [
+            613,
+            "nda-13"
+          ],
+          [
+            92,
+            "nda-3"
+          ],
+          [
+            92,
+            "nda-17"
+          ]
+        ],
+        "label_broken": [
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            290,
+            "nda-2"
+          ],
+          [
+            290,
+            "nda-17"
+          ],
+          [
+            613,
+            "nda-20"
+          ],
+          [
+            92,
+            "nda-1"
+          ]
+        ],
+        "net_label_correct": 6,
+        "joint_exact_corrected": [
+          [
+            430,
+            "nda-2"
+          ],
+          [
+            430,
+            "nda-20"
+          ],
+          [
+            430,
+            "nda-4"
+          ],
+          [
+            622,
+            "nda-15"
+          ],
+          [
+            622,
+            "nda-10"
+          ],
+          [
+            622,
+            "nda-12"
+          ],
+          [
+            622,
+            "nda-7"
+          ],
+          [
+            622,
+            "nda-17"
+          ],
+          [
+            622,
+            "nda-5"
+          ],
+          [
+            622,
+            "nda-4"
+          ],
+          [
+            613,
+            "nda-12"
+          ],
+          [
+            613,
+            "nda-3"
+          ],
+          [
+            613,
+            "nda-7"
+          ],
+          [
+            613,
+            "nda-17"
+          ],
+          [
+            613,
+            "nda-13"
+          ],
+          [
+            383,
+            "nda-3"
+          ],
+          [
+            383,
+            "nda-18"
+          ],
+          [
+            383,
+            "nda-8"
+          ],
+          [
+            92,
+            "nda-12"
+          ],
+          [
+            92,
+            "nda-3"
+          ],
+          [
+            92,
+            "nda-17"
+          ],
+          [
+            92,
+            "nda-13"
+          ],
+          [
+            92,
+            "nda-5"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            430,
+            "nda-3"
+          ],
+          [
+            290,
+            "nda-2"
+          ],
+          [
+            290,
+            "nda-17"
+          ],
+          [
+            613,
+            "nda-20"
+          ],
+          [
+            92,
+            "nda-1"
+          ]
+        ]
+      },
+      "library_management": {
+        "operation_counts": {
+          "CREATE": 3,
+          "UPDATE": 8,
+          "DELETE": 0,
+          "MERGE": 0
+        },
+        "explicit_noop": false,
+        "parent_skill_count": 23,
+        "published_skill_count": 26,
+        "new_ids": [
+          "nda-employee-sharing-excluded",
+          "nda-reverse-engineering-prohibition",
+          "nda-third-party-acquisition-explicit"
+        ],
+        "removed_ids": [],
+        "verbatim_retained_ids": [
+          "nda-compelled-disclosure-notice",
+          "nda-copy-express-prohibition",
+          "nda-employee-sharing-permitted",
+          "nda-identification-required",
+          "nda-negotiation-secrecy",
+          "nda-no-license-versus-use",
+          "nda-no-solicitation-operative-scope",
+          "nda-only-technical-no-content-proof",
+          "nda-purpose-limitation-polarity",
+          "nda-purpose-unrestricted-use",
+          "nda-retention-express-carveout",
+          "nda-return-trigger-request-only",
+          "nda-return-trigger-termination",
+          "nda-survival-operative-event",
+          "nda-third-party-sharing-permitted"
+        ],
+        "revised_retained_ids": [
+          "nda-copy-access-only",
+          "nda-copy-express-permission",
+          "nda-identification-constructive-knowledge",
+          "nda-list-governance-completeness",
+          "nda-only-technical-contradicted-by-content",
+          "nda-oral-inclusion-explicit",
+          "nda-retention-prohibited-after-return",
+          "nda-third-party-sharing-excluded"
+        ],
+        "serialized_library_tokens": 3735,
+        "guidance_characters": 18474,
+        "not_a_utility_score_or_publication_gate": true,
+        "serialized_scoped_delivery_tokens": 3473
+      },
+      "after_changes_supervised_tool_and_memory_not_pure_skill_effect": true,
+      "before_actual_responses_inherited": false,
+      "after_actual_responses_and_editor_inherited": false
+    }
+  ],
+  "development": {
+    "strong_empty": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 108,
+      "label_accuracy": 0.7941176470588235,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 73,
+      "evidence_fp": 18,
+      "evidence_fn": 65,
+      "evidence_micro_f1_gold_non_neutral": 0.6375545851528385,
+      "evidence_query_mean_f1_gold_non_neutral": 0.6548523206751053,
+      "joint_exact_correct": 69,
+      "joint_soft_mean": 0.6524509803921569,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 61
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 9
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 38
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 38,
+      "nonneutral_label_and_all_evidence_correct": 31,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 35337,
+        "completion_tokens": 14720
+      },
+      "joint_exact_accuracy": 0.5073529411764706
+    },
+    "ordinary_memory": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 115,
+      "label_accuracy": 0.8455882352941176,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 80,
+      "evidence_fp": 16,
+      "evidence_fn": 58,
+      "evidence_micro_f1_gold_non_neutral": 0.6837606837606838,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7086397428169579,
+      "joint_exact_correct": 76,
+      "joint_soft_mean": 0.7229108309990665,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 62
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 9
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 44
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 44,
+      "nonneutral_label_and_all_evidence_correct": 32,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 38817,
+        "completion_tokens": 14415
+      },
+      "joint_exact_accuracy": 0.5588235294117647
+    },
+    "unconditional_layout": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 121,
+      "label_accuracy": 0.8897058823529411,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 86,
+      "evidence_fp": 10,
+      "evidence_fn": 52,
+      "evidence_micro_f1_gold_non_neutral": 0.7350427350427351,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7471669680530435,
+      "joint_exact_correct": 83,
+      "joint_soft_mean": 0.779604341736695,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 62
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 11
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 48
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 48,
+      "nonneutral_label_and_all_evidence_correct": 35,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 39247,
+        "completion_tokens": 15249
+      },
+      "joint_exact_accuracy": 0.6102941176470589
+    },
+    "static_procedures": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 117,
+      "label_accuracy": 0.8602941176470589,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 79,
+      "evidence_fp": 17,
+      "evidence_fn": 59,
+      "evidence_micro_f1_gold_non_neutral": 0.6752136752136753,
+      "evidence_query_mean_f1_gold_non_neutral": 0.690556560176813,
+      "joint_exact_correct": 78,
+      "joint_soft_mean": 0.7418183940242765,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 63
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 7
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 47
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 47,
+      "nonneutral_label_and_all_evidence_correct": 31,
+      "reported_skill_use_queries": 136,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 47414,
+        "completion_tokens": 17626
+      },
+      "joint_exact_accuracy": 0.5735294117647058
+    },
+    "skill_memory": {
+      "documents": 8,
+      "hypotheses": 136,
+      "label_correct": 121,
+      "label_accuracy": 0.8897058823529411,
+      "gold_non_neutral_queries": 79,
+      "evidence_tp": 78,
+      "evidence_fp": 11,
+      "evidence_fn": 60,
+      "evidence_micro_f1_gold_non_neutral": 0.6872246696035242,
+      "evidence_query_mean_f1_gold_non_neutral": 0.7126582278481011,
+      "joint_exact_correct": 84,
+      "joint_soft_mean": 0.7693627450980395,
+      "public_valid_documents": 8,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 65,
+          "correct": 59
+        },
+        "Contradiction": {
+          "n": 14,
+          "correct": 10
+        },
+        "NotMentioned": {
+          "n": 57,
+          "correct": 52
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 52,
+      "nonneutral_label_and_all_evidence_correct": 32,
+      "reported_skill_use_queries": 136,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 66011,
+        "completion_tokens": 17578
+      },
+      "joint_exact_accuracy": 0.6176470588235294
+    }
+  },
+  "paired_skill_minus_control": {
+    "strong_empty": {
+      "original_hypotheses": 136,
+      "label_corrected": [
+        [
+          568,
+          "nda-12"
+        ],
+        [
+          568,
+          "nda-3"
+        ],
+        [
+          568,
+          "nda-17"
+        ],
+        [
+          568,
+          "nda-4"
+        ],
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-20"
+        ],
+        [
+          342,
+          "nda-17"
+        ],
+        [
+          374,
+          "nda-15"
+        ],
+        [
+          374,
+          "nda-2"
+        ],
+        [
+          374,
+          "nda-19"
+        ],
+        [
+          374,
+          "nda-12"
+        ],
+        [
+          374,
+          "nda-20"
+        ],
+        [
+          374,
+          "nda-3"
+        ],
+        [
+          374,
+          "nda-13"
+        ],
+        [
+          624,
+          "nda-10"
+        ],
+        [
+          624,
+          "nda-18"
+        ],
+        [
+          624,
+          "nda-17"
+        ],
+        [
+          270,
+          "nda-18"
+        ],
+        [
+          341,
+          "nda-1"
+        ],
+        [
+          341,
+          "nda-17"
+        ],
+        [
+          135,
+          "nda-7"
+        ],
+        [
+          135,
+          "nda-17"
+        ]
+      ],
+      "label_broken": [
+        [
+          568,
+          "nda-7"
+        ],
+        [
+          327,
+          "nda-1"
+        ],
+        [
+          342,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-1"
+        ],
+        [
+          624,
+          "nda-20"
+        ],
+        [
+          624,
+          "nda-3"
+        ],
+        [
+          270,
+          "nda-1"
+        ],
+        [
+          341,
+          "nda-12"
+        ],
+        [
+          341,
+          "nda-7"
+        ]
+      ],
+      "net_label_correct": 13,
+      "joint_exact_corrected": [
+        [
+          568,
+          "nda-19"
+        ],
+        [
+          568,
+          "nda-12"
+        ],
+        [
+          568,
+          "nda-3"
+        ],
+        [
+          568,
+          "nda-17"
+        ],
+        [
+          568,
+          "nda-4"
+        ],
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          327,
+          "nda-10"
+        ],
+        [
+          342,
+          "nda-15"
+        ],
+        [
+          342,
+          "nda-20"
+        ],
+        [
+          342,
+          "nda-17"
+        ],
+        [
+          342,
+          "nda-5"
+        ],
+        [
+          374,
+          "nda-15"
+        ],
+        [
+          374,
+          "nda-2"
+        ],
+        [
+          374,
+          "nda-19"
+        ],
+        [
+          374,
+          "nda-12"
+        ],
+        [
+          374,
+          "nda-20"
+        ],
+        [
+          374,
+          "nda-3"
+        ],
+        [
+          374,
+          "nda-13"
+        ],
+        [
+          624,
+          "nda-15"
+        ],
+        [
+          624,
+          "nda-17"
+        ],
+        [
+          270,
+          "nda-18"
+        ],
+        [
+          341,
+          "nda-15"
+        ],
+        [
+          341,
+          "nda-1"
+        ],
+        [
+          341,
+          "nda-20"
+        ],
+        [
+          341,
+          "nda-17"
+        ],
+        [
+          341,
+          "nda-8"
+        ],
+        [
+          135,
+          "nda-17"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          568,
+          "nda-7"
+        ],
+        [
+          327,
+          "nda-15"
+        ],
+        [
+          327,
+          "nda-1"
+        ],
+        [
+          374,
+          "nda-4"
+        ],
+        [
+          624,
+          "nda-20"
+        ],
+        [
+          624,
+          "nda-8"
+        ],
+        [
+          270,
+          "nda-7"
+        ],
+        [
+          341,
+          "nda-2"
+        ],
+        [
+          341,
+          "nda-19"
+        ],
+        [
+          341,
+          "nda-12"
+        ],
+        [
+          341,
+          "nda-3"
+        ],
+        [
+          341,
+          "nda-7"
+        ]
+      ]
+    },
+    "ordinary_memory": {
+      "original_hypotheses": 136,
+      "label_corrected": [
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-20"
+        ],
+        [
+          374,
+          "nda-15"
+        ],
+        [
+          374,
+          "nda-19"
+        ],
+        [
+          374,
+          "nda-20"
+        ],
+        [
+          374,
+          "nda-3"
+        ],
+        [
+          374,
+          "nda-17"
+        ],
+        [
+          624,
+          "nda-1"
+        ],
+        [
+          624,
+          "nda-17"
+        ],
+        [
+          270,
+          "nda-19"
+        ],
+        [
+          270,
+          "nda-18"
+        ],
+        [
+          135,
+          "nda-7"
+        ]
+      ],
+      "label_broken": [
+        [
+          327,
+          "nda-1"
+        ],
+        [
+          342,
+          "nda-16"
+        ],
+        [
+          624,
+          "nda-20"
+        ],
+        [
+          624,
+          "nda-3"
+        ],
+        [
+          341,
+          "nda-12"
+        ],
+        [
+          341,
+          "nda-7"
+        ]
+      ],
+      "net_label_correct": 6,
+      "joint_exact_corrected": [
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-20"
+        ],
+        [
+          374,
+          "nda-15"
+        ],
+        [
+          374,
+          "nda-2"
+        ],
+        [
+          374,
+          "nda-19"
+        ],
+        [
+          374,
+          "nda-20"
+        ],
+        [
+          374,
+          "nda-3"
+        ],
+        [
+          374,
+          "nda-17"
+        ],
+        [
+          624,
+          "nda-1"
+        ],
+        [
+          624,
+          "nda-17"
+        ],
+        [
+          270,
+          "nda-19"
+        ],
+        [
+          270,
+          "nda-18"
+        ],
+        [
+          270,
+          "nda-5"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          327,
+          "nda-1"
+        ],
+        [
+          327,
+          "nda-13"
+        ],
+        [
+          342,
+          "nda-16"
+        ],
+        [
+          341,
+          "nda-12"
+        ],
+        [
+          341,
+          "nda-7"
+        ]
+      ]
+    },
+    "unconditional_layout": {
+      "original_hypotheses": 136,
+      "label_corrected": [
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-20"
+        ],
+        [
+          374,
+          "nda-15"
+        ],
+        [
+          374,
+          "nda-2"
+        ],
+        [
+          374,
+          "nda-19"
+        ],
+        [
+          374,
+          "nda-20"
+        ],
+        [
+          624,
+          "nda-17"
+        ],
+        [
+          270,
+          "nda-18"
+        ]
+      ],
+      "label_broken": [
+        [
+          327,
+          "nda-1"
+        ],
+        [
+          342,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-1"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          624,
+          "nda-3"
+        ],
+        [
+          270,
+          "nda-1"
+        ],
+        [
+          341,
+          "nda-12"
+        ],
+        [
+          341,
+          "nda-7"
+        ]
+      ],
+      "net_label_correct": 0,
+      "joint_exact_corrected": [
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-20"
+        ],
+        [
+          374,
+          "nda-15"
+        ],
+        [
+          374,
+          "nda-2"
+        ],
+        [
+          374,
+          "nda-19"
+        ],
+        [
+          374,
+          "nda-20"
+        ],
+        [
+          624,
+          "nda-17"
+        ],
+        [
+          270,
+          "nda-18"
+        ],
+        [
+          270,
+          "nda-5"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          327,
+          "nda-1"
+        ],
+        [
+          342,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-1"
+        ],
+        [
+          342,
+          "nda-12"
+        ],
+        [
+          342,
+          "nda-13"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          341,
+          "nda-12"
+        ],
+        [
+          341,
+          "nda-7"
+        ]
+      ]
+    },
+    "static_procedures": {
+      "original_hypotheses": 136,
+      "label_corrected": [
+        [
+          568,
+          "nda-4"
+        ],
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-20"
+        ],
+        [
+          374,
+          "nda-2"
+        ],
+        [
+          374,
+          "nda-19"
+        ],
+        [
+          374,
+          "nda-20"
+        ],
+        [
+          624,
+          "nda-1"
+        ],
+        [
+          624,
+          "nda-17"
+        ],
+        [
+          270,
+          "nda-3"
+        ],
+        [
+          270,
+          "nda-18"
+        ],
+        [
+          341,
+          "nda-20"
+        ],
+        [
+          135,
+          "nda-7"
+        ]
+      ],
+      "label_broken": [
+        [
+          568,
+          "nda-7"
+        ],
+        [
+          327,
+          "nda-1"
+        ],
+        [
+          342,
+          "nda-16"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          624,
+          "nda-20"
+        ],
+        [
+          624,
+          "nda-3"
+        ],
+        [
+          341,
+          "nda-7"
+        ],
+        [
+          135,
+          "nda-12"
+        ]
+      ],
+      "net_label_correct": 4,
+      "joint_exact_corrected": [
+        [
+          568,
+          "nda-4"
+        ],
+        [
+          327,
+          "nda-16"
+        ],
+        [
+          342,
+          "nda-20"
+        ],
+        [
+          374,
+          "nda-2"
+        ],
+        [
+          374,
+          "nda-19"
+        ],
+        [
+          374,
+          "nda-20"
+        ],
+        [
+          374,
+          "nda-18"
+        ],
+        [
+          624,
+          "nda-1"
+        ],
+        [
+          624,
+          "nda-17"
+        ],
+        [
+          270,
+          "nda-18"
+        ],
+        [
+          270,
+          "nda-5"
+        ],
+        [
+          341,
+          "nda-20"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          568,
+          "nda-7"
+        ],
+        [
+          327,
+          "nda-1"
+        ],
+        [
+          342,
+          "nda-16"
+        ],
+        [
+          374,
+          "nda-10"
+        ],
+        [
+          341,
+          "nda-7"
+        ],
+        [
+          135,
+          "nda-12"
+        ]
+      ]
+    }
+  },
+  "descriptive_source_intervals_not_independent_learning_repeats": {
+    "strong_empty": {
+      "label_accuracy": {
+        "point": 0.09558823529411764,
+        "ci95_descriptive_one_learning_artifact": [
+          0.022058823529411686,
+          0.19117647058823528
+        ]
+      },
+      "evidence_micro_f1_gold_non_neutral": {
+        "point": 0.04967008445068577,
+        "ci95_descriptive_one_learning_artifact": [
+          0.00014462656678782291,
+          0.11356556638537571
+        ]
+      },
+      "evidence_query_mean_f1_gold_non_neutral": {
+        "point": 0.05780590717299572,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.0018617353308363722,
+          0.1307293357683986
+        ]
+      },
+      "joint_exact_accuracy": {
+        "point": 0.11029411764705888,
+        "ci95_descriptive_one_learning_artifact": [
+          0.02941176470588236,
+          0.20588235294117652
+        ]
+      }
+    },
+    "ordinary_memory": {
+      "label_accuracy": {
+        "point": 0.044117647058823484,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.02941176470588236,
+          0.125
+        ]
+      },
+      "evidence_micro_f1_gold_non_neutral": {
+        "point": 0.003463985842840467,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.03861243560044195,
+          0.07153686200873129
+        ]
+      },
+      "evidence_query_mean_f1_gold_non_neutral": {
+        "point": 0.004018485031143215,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.06179138321995481,
+          0.10998212844459812
+        ]
+      },
+      "joint_exact_accuracy": {
+        "point": 0.05882352941176472,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.03676470588235292,
+          0.15459558823529318
+        ]
+      }
+    },
+    "unconditional_layout": {
+      "label_accuracy": {
+        "point": 0.0,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.044117647058823595,
+          0.05882352941176472
+        ]
+      },
+      "evidence_micro_f1_gold_non_neutral": {
+        "point": -0.047818065439210855,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.09945203315467083,
+          0.01090817627301511
+        ]
+      },
+      "evidence_query_mean_f1_gold_non_neutral": {
+        "point": -0.034508740204942434,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.09617442482611006,
+          0.04293315811172941
+        ]
+      },
+      "joint_exact_accuracy": {
+        "point": 0.007352941176470562,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.06617647058823528,
+          0.07352941176470595
+        ]
+      }
+    },
+    "static_procedures": {
+      "label_accuracy": {
+        "point": 0.02941176470588225,
+        "ci95_descriptive_one_learning_artifact": [
+          0.0,
+          0.07352941176470584
+        ]
+      },
+      "evidence_micro_f1_gold_non_neutral": {
+        "point": 0.012010994389848983,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.031453720171619154,
+          0.06368772470467388
+        ]
+      },
+      "evidence_query_mean_f1_gold_non_neutral": {
+        "point": 0.022101667671288072,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.04242498060232043,
+          0.0962495055804914
+        ]
+      },
+      "joint_exact_accuracy": {
+        "point": 0.044117647058823595,
+        "ci95_descriptive_one_learning_artifact": [
+          -0.007352941176470562,
+          0.1029411764705882
+        ]
+      }
+    }
+  },
+  "new_native_usage": {
+    "prompt_tokens": 794449,
+    "completion_tokens": 227956
+  },
+  "inherited_native_usage_not_new_spend": {
+    "prompt_tokens": 216444,
+    "completion_tokens": 72525
+  },
+  "main_path_native_usage_not_to_add_again_to_total": {
+    "prompt_tokens": 400562,
+    "completion_tokens": 96330
+  },
+  "new_teacher_usage": {
+    "input_tokens": 290405,
+    "output_tokens": 15692,
+    "reasoning_output_tokens": 9072
+  },
+  "inherited_teacher_usage_not_new_spend": {
+    "input_tokens": 57962,
+    "output_tokens": 8312,
+    "reasoning_output_tokens": 3986
+  },
+  "new_CPU_fits": 0,
+  "inherited_exact_prefix_CPU_fits": 4,
+  "fresh_own_online_skill_learning_not_fixed_bank_delivery_probe": false,
+  "own_online_learning_continuation_not_fixed_bank_or_independent_repeat": true,
+  "bounded_window_changes_teacher_information_not_lossless_full_history": true,
+  "exposed_development_not_formal_test_or_independent_repeat": true,
+  "no_host_legal_decision_answer_repair_effect_admission_or_best_bank": true
+}

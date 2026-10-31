@@ -1,0 +1,165 @@
+{
+  "at": "2026-10-23T07:49:13.497252+00:00",
+  "bank": [
+    {
+      "id": "exemption_core",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC",
+              "EV"
+            ],
+            "when": "For every projected asset and allowable jurisdiction.",
+            "procedure": "Evaluate each asset separately. Use only facts stated or supplied assumptions: married-couple assets are jointly owned in equal undivided shares, and assets are for personal use unless stated otherwise. Match ownership, asset type, use, residence/occupancy, prescription, trade necessity, account-use, and proceeds/time conditions. Return every independently applicable citation, including general or wildcard provisions as alternatives to specific provisions; return [] if none. EC decides eligibility only. EV computes each asset-citation alternative independently: claim no more than the debtor's qualifying interest, the asset's stated value, and the statutory cap. For joint debtors, first allocate equal interests, apply each debtor's exemption only where the statute permits, then total the protected shares; never exceed the asset value. Ignore cap consumption by other assets, but preserve per-item limits, asset-specific limits, statutory couple/household limits, and transfer-of-unused-cap conditions. Do not select an optimal portfolio or treat a citation reference as proof of any fact.",
+            "avoid_when": "Do not recompute the host-supplied jurisdiction, import omitted law, infer unstated ownership or qualifying use, or convert unlimited status into a dollar cap."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ALL"
+      }
+    },
+    {
+      "id": "federal_522",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC",
+              "EV"
+            ],
+            "when": "When the federal §522(d) exemption scheme is within the projected allowable namespace.",
+            "procedure": "Apply 11 U.S.C. §522(b): §522(d) is unavailable when applicable state law opts out, and joint debtors cannot mix federal and state schemes. Match §522(d)(1) residence/cooperative/burial plot, $27,900; (2) one motor vehicle, $4,450; (3) personal-use listed household categories, $700 per item and $14,875 aggregate; (4) personal-use jewelry, $1,875 aggregate; (5) any property, $1,475 plus at most $13,950 of unused (d)(1); (6) trade implements/books/tools, $2,800; and (9) professionally prescribed health aids without a stated dollar cap. Under §522(m), apply the scheme separately to each eligible joint debtor, subject to §522(b), while limiting each claim to that debtor's interest. For an independent EV alternative under (d)(5), determine unused (d)(1) from the facts relevant to that alternative and never exceed the stated add-on.",
+            "avoid_when": "Do not use §522(d) for Arizona or Illinois residents under the supplied opt-out statutes; do not double a debtor's cap merely because property is joint; do not treat §522(d)'s introductory text as a separate asset exemption."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "arizona_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC",
+              "EV"
+            ],
+            "when": "When Arizona exemptions are projected.",
+            "procedure": "Arizona opts out of §522(d) under §33-1133(B). Match: qualifying occupied homestead under §33-1101(A), $400,000 equity; identifiable sale proceeds under (C), same cap for 18 months or until a new homestead is established, whichever occurs first. A married couple has one combined homestead under (B). Under §33-1121, each spouse may claim and combine the article's non-homestead exemptions. Apply §33-1123 household furnishings/goods/electronics/appliances, $15,000 aggregate; §33-1125 personal-use categories: apparel $500, instruments $400, listed livestock $1,000, engagement/wedding rings $2,000, library/materials/documents $250, one watch $250, equity in one vehicle $15,000, prescribed prostheses without stated cap, firearms $2,000 aggregate, and domestic animals/pets without stated cap; §33-1126(A)(9), $5,000 in a single account at one institution; §33-1130(1), necessary primarily used trade/business tools and listed work-product assets $5,000 aggregate, excluding a personal commuting vehicle; and (2), listed farm assets $2,500 aggregate.",
+            "avoid_when": "Do not stack spouses' homestead limits, exempt nonidentifiable or expired proceeds, apply trade-tools protection without primary use and necessity, or treat §33-1125's heading as an exemption independent of its listed paragraphs."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "illinois_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC",
+              "EV"
+            ],
+            "when": "When Illinois exemptions are projected.",
+            "procedure": "Illinois opts out of §522(d) under 735 ILCS 5/12-1201. Apply 5/12-901 to an owned or rightfully possessed and occupied residence: $15,000 per individual; where two or more own it, each is limited to that person's proportionate share of the $30,000 ceiling. Under 5/12-906, qualifying sale proceeds are protected up to $15,000 for one year and retain protection if reinvested in a homestead. For individually owned personal-use property under 5/12-1001, match (a) necessary apparel, bible, school books, and family pictures without a stated cap; (b) equity in any other property, $4,000; (c) one motor vehicle, $2,400; (d) trade implements/professional books/tools, $1,500; and (e) prescribed health aids without a stated cap. Apply each spouse's qualifying interest separately.",
+            "avoid_when": "Do not apply §12-1001 to business-use property, exceed an owner's proportional homestead ceiling, or count a statutory heading as a separate exemption."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "oregon_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC",
+              "EV"
+            ],
+            "when": "When Oregon exemptions are projected.",
+            "procedure": "Under §18.345(1), match (a) books/pictures/musical instruments $600; (b) apparel and jewelry $1,800; (c) tools and related property necessary for the occupation habitually earning the debtor's living $5,000; (d) one qualifying vehicle $3,000; (e) family-use domestic animals/poultry $1,000 plus 60 days' food; (f) personal/family household goods and listed furnishings $3,000 plus qualifying 60-day provisions and fuel; (h) prescribed health aids without stated cap; and (p) any personal property $400. Section 18.345(3) permits each joint household debtor to claim, and to combine on jointly owned property, only (a),(b),(c),(d), and (p) among the supplied categories. Section 18.362 protects one rifle, shotgun, or pistol up to $1,000. Under §18.395, protect an actually occupied homestead up to $40,000, but no more than $50,000 combined when two or more household members are debtors; qualifying sale proceeds retain that applicable cap for at most one year while held with intent to buy another homestead.",
+            "avoid_when": "Do not double categories omitted from §18.345(3), use the $50,000 homestead ceiling for one debtor, or protect sale proceeds without the replacement-homestead intent."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "pennsylvania_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC",
+              "EV"
+            ],
+            "when": "When Pennsylvania exemptions are projected.",
+            "procedure": "Apply 42 Pa.C.S. §8123 as an independently applicable $300 exemption in designated property or qualifying cash sale proceeds, in addition to specific exemptions; each spouse has a separate $300 exemption limited to that spouse's interest. Under §8124(a), protect without a stated dollar cap: (1) wearing apparel; (2) bibles and school books; (3) a family-owned/used sewing machine or one belonging to a seamstress, but not one kept for sale or hire; and (4) qualifying military uniform and accoutrements. Report both §8123 and a fitting §8124 paragraph when both independently apply.",
+            "avoid_when": "Do not invent homestead, vehicle, household-goods, or tools exemptions not present in the supplied Pennsylvania text, and do not treat §8124(a)'s heading as a separate exemption."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    },
+    {
+      "id": "wisconsin_exemptions",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC",
+              "EV"
+            ],
+            "when": "When Wisconsin exemptions are projected.",
+            "procedure": "Under §815.18(3), match (a) listed burial property intended for the debtor or family without a stated cap; (b)(1) debtor/dependent business equipment, inventory, farm products, and professional books, $15,000 aggregate; alternatively (b)(2), if no (b)(1) claim, an active interest in a closely held employing business, $15,000; (d) listed personal/family consumer goods, $12,000 aggregate; (g) motor vehicles, $4,000 aggregate plus any genuinely unused amount of (d); and (k) personal-use, nonbusiness depository accounts, $5,000 aggregate. Under §815.18(8), each spouse receives each capped exemption and may combine it on the same qualifying property or use it on different property. Under §815.20(1), an owner-occupied homestead is protected up to $75,000 per spouse; qualifying sale proceeds retain that limit for two years while held with intent to procure another homestead. For independent EV motor-vehicle alternatives, calculate any (d)-cap transfer explicitly and do not presume an amount already consumed by another asset.",
+            "avoid_when": "Do not claim both §815.18(3)(b)(1) and (b)(2) for the same debtor, treat a business account as exempt under (k), transfer more than unused (d) capacity to vehicles, or ignore occupancy and replacement intent for homestead protection."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "WISCONSIN"
+      }
+    }
+  ],
+  "bank_sha256": "4809c3b2fe336a682ad36544f036206f158c0890adad4e87bde6eb4fa6502321",
+  "original_zero_case_publication": "runs/legal_openexempt_direct_law_only_static_20261021_run03/publication.json",
+  "original_compilation_teacher_responses": 1,
+  "original_compilation_tokens": 2411,
+  "no_control_updates_or_new_teacher": true,
+  "TRAIN_diagnostic_not_final_TEST_or_online_learning": true
+}

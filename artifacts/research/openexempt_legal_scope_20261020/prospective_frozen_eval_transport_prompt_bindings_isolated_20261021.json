@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-21T05:19:00.956461+08:00",
+  "commit": "71741c241a2ee40039d7ee0438d2ebb458727890",
+  "base_implementation_commit": "cfa6797fa2ed2c3dbbbcf9e311dbb558ac5002bf",
+  "scope": "prospective evaluator source identity only, not actor/teacher/method change",
+  "actual_gap": "old source comparison omitted shared transport/helper bytes and original ACE Generator prompt loaded by author_constant",
+  "changes": "compare those already frozen source bytes too; no new test file, service or fallback",
+  "CPU_checks": {
+    "passed": 35,
+    "seconds": 4.0,
+    "seconds_note": "rounded; actual pytest output is authoritative",
+    "ruff": "pass",
+    "diff_check": "pass",
+    "existing_cache_only_no_download_or_stub": true
+  },
+  "new_model_and_teacher_calls": 0,
+  "no_TEST_questions_or_gold_loaded": true,
+  "live_main_and_static_all_bindings": {
+    "main": {
+      "count": 388,
+      "unchanged": true
+    },
+    "static": {
+      "count": 117,
+      "unchanged": true
+    }
+  },
+  "not_deployed_to_running_tree": true,
+  "prior_full_implementation_and_patch_audit": "artifacts/research/openexempt_legal_scope_20261020/prospective_static_eval_and_paired_stats_cfa6797_isolated_20261021.json",
+  "portable_single_commit_patch": "From 71741c241a2ee40039d7ee0438d2ebb458727890 Mon Sep 17 00:00:00 2001\nFrom: Codex <codex@localhost>\nDate: Wed, 21 Oct 2026 05:19:00 +0800\nSubject: [PATCH] Bind shared inference transport and author Generator bytes to\n learned controls\n\n---\n .../OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md     |  2 ++\n experiments/openexempt_frozen_eval.py                  | 10 +++++++++-\n tests/test_openexempt_frozen_eval.py                   |  7 +++++--\n 3 files changed, 16 insertions(+), 3 deletions(-)\n\ndiff --git a/docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md b/docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md\nindex 64632d9..dadfef7 100644\n--- a/docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md\n+++ b/docs/research/OPENEXEMPT_FROZEN_EVALUATION_ENTRY_20261021.md\n@@ -45,6 +45,8 @@ B1与经验方法分别为按相同seed对应的三份独立学习库。入口\n 共同数据与接口版本均核对；32案ACE13或未完成学习不能冒充128案ACE14。\n 推理使用与学习相同的共享任务接口，ACE还须保持其实际学习时的Generator适配。\n 类型修正已整合进主源码；必须训练对应ACE再评测，不能到TEST时才更换适配。\n+共享传输、公共标签/技能投影及ACE原作者Generator提示文件也与各自学习时\n+冻结字节核对，不能只检查顶层包装脚本而漏掉它实际调用的任务/提示依赖。\n 同一个学习Run ID改几个名字不算独立重复，入口会拒绝这种重复声明。\n \n 从项目根目录运行，且与训练共用唯一锁，不抢占模型：\ndiff --git a/experiments/openexempt_frozen_eval.py b/experiments/openexempt_frozen_eval.py\nindex c4cc01f..c602276 100644\n--- a/experiments/openexempt_frozen_eval.py\n+++ b/experiments/openexempt_frozen_eval.py\n@@ -30,8 +30,16 @@ SHARED_ACTOR_FILES = (\n     \"legal_skill_guard/openexempt.py\",\n     \"legal_skill_guard/learning/legal_namespace.py\",\n     \"legal_skill_guard/learning/task_scoped_skills.py\",\n+    \"legal_skill_guard/learning/claim_execution.py\",\n+    \"legal_skill_guard/learning/publication.py\",\n+    \"legal_skill_guard/learning/experiment.py\",\n+    \"legal_skill_guard/inference/native.py\",\n+    \"legal_skill_guard/inference/openai_client.py\",\n+)\n+ACE_ACTOR_FILES = (\n+    \"experiments/openexempt_ace_online.py\", \"legal_skill_guard/learning/openexempt_ace.py\",\n+    \"legal_skill_guard/learning/ace_native.py\", \"third_party/ace/prompts/generator.py\",\n )\n-ACE_ACTOR_FILES = (\"experiments/openexempt_ace_online.py\", \"legal_skill_guard/learning/openexempt_ace.py\")\n ROLES = {\"strong_empty\", \"evolved\", \"B1_frozen\", \"experience\", \"ablation\", \"static_law_only\"}\n PUBLIC_LAW_FIELDS = {\n     \"complete_public_statutes\", \"generic_contracts\", \"actual_actor_systems\", \"task_boundary\",\ndiff --git a/tests/test_openexempt_frozen_eval.py b/tests/test_openexempt_frozen_eval.py\nindex 1185bd8..75b85dd 100644\n--- a/tests/test_openexempt_frozen_eval.py\n+++ b/tests/test_openexempt_frozen_eval.py\n@@ -291,11 +291,14 @@ def test_native_failure_is_preserved_without_retry_or_partial_scoring(plan, monk\n     assert not (study.out / \"completion.json\").exists()\n \n \n-def test_changed_ACE_inference_adapter_cannot_be_used_with_a_differently_trained_bank(plan):\n+@pytest.mark.parametrize(\"dependency\", [\n+    \"legal_skill_guard/learning/openexempt_ace.py\", \"third_party/ace/prompts/generator.py\",\n+    \"legal_skill_guard/inference/openai_client.py\"])\n+def test_changed_ACE_inference_adapter_cannot_be_used_with_a_differently_trained_bank(plan, dependency):\n     cfg, _, root = plan\n     path = root / \"configs/ace.frozen.json\"\n     changed = read(path)\n-    changed[\"files\"][frozen.ACE_ACTOR_FILES[-1]] = \"not-the-trained-adapter\"\n+    changed[\"files\"][dependency] = \"not-the-trained-adapter\"\n     RunStore.atomic_json(path, changed)\n     with pytest.raises(ValueError, match=\"Shared task actor/scorer changed\"):\n         frozen.fixed_banks(cfg)\n-- \n2.25.1\n\n",
+  "goal_complete": false
+}

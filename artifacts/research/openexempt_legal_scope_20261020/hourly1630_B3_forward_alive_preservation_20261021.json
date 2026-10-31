@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-21T08:31:40.313319+00:00",
+  "classification": "Scheduled16:30 actual snapshot/index/previous receipt preserved; no new model or TEST calls",
+  "receipt": {
+    "at": "2026-10-21T08:31:40.304498+00:00",
+    "stage": "hourly1630_actual_B3_forward_alive",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_research_goal_Run03_20261021-hourly1630_actual_B3_forward_alive.tar.gz",
+        "sha256": "570292723f89a115bdef1c0a168bafe9f4f185fee86c3d7b92961bee6d3db5cf"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_research_goal_Run03_20261021-hourly1630_actual_B3_forward_alive.tar.gz",
+        "sha256": "570292723f89a115bdef1c0a168bafe9f4f185fee86c3d7b92961bee6d3db5cf"
+      }
+    ],
+    "files": 3
+  },
+  "archive_devices": [
+    64528,
+    64517
+  ],
+  "preservation_recomputation_program": "import json,pathlib\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import now\nroot=pathlib.Path.cwd()\nnames=[\"docs/CURRENT_GOAL.md\",\"artifacts/research/openexempt_legal_scope_20261020/hourly1630_Run03_B3_forward_alive_direction_and_actual_bindings_20261021.json\",\"artifacts/research/openexempt_legal_scope_20261020/hourly1530_B3_alive_user_paper_trigger_preservation_20261021.json\"]\nreceipt=preserve(\"legal_research_goal_Run03_20261021\",\"hourly1630_actual_B3_forward_alive\",names)\nout={\"at\":now(),\"classification\":\"Scheduled16:30 actual snapshot/index/previous receipt preserved; no new model or TEST calls\",\"receipt\":receipt,\"archive_devices\":[pathlib.Path(p[\"path\"]).stat().st_dev for p in receipt[\"paths\"]]}\nassert len(set(out[\"archive_devices\"]))==2\nprint(json.dumps(out,ensure_ascii=False))\n"
+}

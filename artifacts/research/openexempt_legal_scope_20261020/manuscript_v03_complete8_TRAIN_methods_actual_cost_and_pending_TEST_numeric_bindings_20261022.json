@@ -1,0 +1,138 @@
+{
+  "at": "2026-10-22T10:03:20.537685+00:00",
+  "classification": "Manuscript v0.3 exact completed single-learner TRAIN table, methods/cost and explicit pending-TEST audit; zero model generations, no test content/outcomes read, no learning/source mutation.",
+  "manuscript": "paper/manuscript_v1_20261021.md",
+  "manuscript_sha256": "e52ccadf45f380a53016564a8122a0f1b34ea99fe081818d2733855d1aa1687a",
+  "complete_eight_rows_exactly_match_curve_and_actual_completion": [
+    {
+      "batch": 1,
+      "n_sources": 16,
+      "printed_cells": [
+        "B1",
+        "63.45 / 66.35",
+        "63.45 / 66.35",
+        "Not defined",
+        "5 / 1591"
+      ]
+    },
+    {
+      "batch": 2,
+      "n_sources": 16,
+      "printed_cells": [
+        "B2",
+        "68.71 / 64.51",
+        "83.68 / 74.45",
+        "0.00 / 0.00",
+        "6 / 1945"
+      ]
+    },
+    {
+      "batch": 3,
+      "n_sources": 16,
+      "printed_cells": [
+        "B3",
+        "64.70 / 60.79",
+        "91.42 / 82.42",
+        "+0.89 / +6.72",
+        "6 / 1945"
+      ]
+    },
+    {
+      "batch": 4,
+      "n_sources": 16,
+      "printed_cells": [
+        "B4",
+        "54.95 / 57.17",
+        "83.85 / 79.84",
+        "−0.67 / +5.00",
+        "6 / 2179"
+      ]
+    },
+    {
+      "batch": 5,
+      "n_sources": 16,
+      "printed_cells": [
+        "B5",
+        "55.97 / 65.31",
+        "86.77 / 80.83",
+        "+1.69 / +5.43",
+        "6 / 2182"
+      ]
+    },
+    {
+      "batch": 6,
+      "n_sources": 16,
+      "printed_cells": [
+        "B6",
+        "56.31 / 67.72",
+        "84.60 / 83.44",
+        "+2.01 / +18.48",
+        "6 / 2202"
+      ]
+    },
+    {
+      "batch": 7,
+      "n_sources": 16,
+      "printed_cells": [
+        "B7",
+        "58.13 / 61.56",
+        "78.55 / 80.76",
+        "0.00 / +16.24",
+        "6 / 2223"
+      ]
+    },
+    {
+      "batch": 8,
+      "n_sources": 16,
+      "printed_cells": [
+        "B8",
+        "59.12 / 59.96",
+        "83.90 / 85.21",
+        "+2.07 / +13.89",
+        "7 / 2486"
+      ]
+    }
+  ],
+  "own_B1_aggregates_from_unrounded_values": {
+    "B2_B8": {
+      "sources": 112,
+      "paired_delta_vs_own_B1_pp": {
+        "EC": 0.855654761904764,
+        "EV": 9.393955498866214
+      }
+    },
+    "B3_B8": {
+      "sources": 96,
+      "paired_delta_vs_own_B1_pp": {
+        "EC": 0.9982638888888914,
+        "EV": 10.959614748677248
+      }
+    }
+  },
+  "main_cost_exact": {
+    "actual_original_generations": 1158,
+    "actual_HTTP_requests": 1158,
+    "actual_input_tokens": 7655443,
+    "actual_output_tokens": 3232344,
+    "finish_reasons": {
+      "stop": 1158
+    },
+    "actual_fresh_teacher_responses": 15,
+    "teacher_input_tokens": 3232522,
+    "teacher_output_tokens": 51361,
+    "teacher_reasoning_subset_of_output_tokens": 35912,
+    "teacher_response_elapsed_seconds_not_GPU_hours": 1132.442
+  },
+  "source_artifact_sha256": {
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_learning_curve_complete_first8_final8_publications_20261022.json": "9d28088bfc08e06cc7c4357a947d4a2dc0e72ce46c13c041611c877df66eb43f",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/completion.json": "debab8b02a2254e6add7138253ddff23fbab4c6172a60f5699f7884454c1fa9a",
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_all15_teacher14_candidate8_publication_actual_scope_composition_and_library_management_accounting_20261022.json": "afa19c4e7f836fe6ea218a194e5c296c0f23332ef755f917f23d47dfdc7f9f0c",
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_complete_B1_B8_actual_terminal1158_15_cost_20261022.json": "69c7768a10e2c07d956827975794225301e3c942c9b11703943ef33605d6a62e",
+    "artifacts/research/openexempt_legal_scope_20261020/Run03_actual_eight_batch_runtime_decomposition_and_primary_OpenExempt_comparison_boundaries_20261022.json": "7670d8fa7a6d733e50ae76776ec9f7798ac5cf94f26dbc44e6b883357ebf7165"
+  },
+  "manuscript_not_in_active_or_six_future_freezes": true,
+  "formal_test_results_and_three_consistent_runs_and_two_learning_ablations_still_pending": true,
+  "borrowed_scope_replay_and_feedback_not_claimed_as_original": true,
+  "no_model_call_or_new_test_framework": true,
+  "reproducible_readonly_analysis_program": "import hashlib, json, re\nfrom datetime import datetime, timezone\nfrom pathlib import Path\nroot=Path.cwd()\nbase=root/\"artifacts/research/openexempt_legal_scope_20261020\"\npaper_path=root/\"paper/manuscript_v1_20261021.md\"\npaper=paper_path.read_text()\ncurve_path=base/\"Run03_learning_curve_complete_first8_final8_publications_20261022.json\"\ncurve=json.loads(curve_path.read_text())\ncompletion_path=root/\"runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/completion.json\"\ncompletion=json.loads(completion_path.read_text())\nrows=[line.split(\"|\")[1:-1] for line in paper.splitlines() if line.startswith(\"| B\") and line.split(\"|\")[1].strip() in {f\"B{i}\" for i in range(1,9)}]\nassert len(rows)==8, len(rows)\nverified=[]\nfor cells,expected,actual in zip(rows,curve[\"batch_rows\"],completion[\"batch_summary\"]):\n    cells=[c.strip() for c in cells]\n    assert cells[0]==f\"B{expected['batch']}\"\n    for index,role in ((1,\"empty\"),(2,\"skills\")):\n        want=\" / \".join(f\"{100*expected['first_encounter_native_F1'][role][f]:.2f}\" for f in (\"EC\",\"EV\"))\n        assert cells[index]==want, (cells[index],want)\n        for f in (\"EC\",\"EV\"):\n            assert abs(expected[\"first_encounter_native_F1\"][role][f]-actual[role][f][\"f1\"])<1e-14\n            assert actual[role][f][\"invalid_format\"]==0\n    if expected[\"batch\"]==1:\n        assert cells[3]==\"Not defined\"\n    else:\n        want=\" / \".join((f\"{v:+.2f}\" if abs(v)>1e-12 else \"0.00\").replace(\"-\",\"−\") for v in (expected[\"difference_vs_own_B1_pp\"][f] for f in (\"EC\",\"EV\")))\n        assert cells[3]==want,(cells[3],want)\n    pub=expected[\"completed_unique_final_publication\"]\n    assert cells[4]==f\"{pub['records']} / {pub['tokens']}\"\n    verified.append({\"batch\":expected[\"batch\"],\"n_sources\":expected[\"source_cases\"],\"printed_cells\":cells})\naggregates={}\nfor start in (2,3):\n    selected=curve[\"batch_rows\"][start-1:]\n    n=sum(r[\"source_cases\"] for r in selected)\n    values={f:sum(r[\"source_cases\"]*r[\"difference_vs_own_B1_pp\"][f] for r in selected)/n for f in (\"EC\",\"EV\")}\n    for v in values.values():\n        assert f\"{v:.2f}\" in paper\n    aggregates[f\"B{start}_B8\"]={\"sources\":n,\"paired_delta_vs_own_B1_pp\":values}\nsources=[\ncurve_path, completion_path,\nbase/\"Run03_all15_teacher14_candidate8_publication_actual_scope_composition_and_library_management_accounting_20261022.json\",\nbase/\"Run03_complete_B1_B8_actual_terminal1158_15_cost_20261022.json\",\nbase/\"Run03_actual_eight_batch_runtime_decomposition_and_primary_OpenExempt_comparison_boundaries_20261022.json\"]\ncost=json.loads(sources[3].read_text())[\"phasecut_actual_cost\"]\nfor key in (\"actual_original_generations\",\"actual_HTTP_requests\",\"actual_input_tokens\",\"actual_output_tokens\",\"teacher_input_tokens\",\"teacher_output_tokens\",\"teacher_reasoning_subset_of_output_tokens\"):\n    assert f\"{cost[key]:,}\" in paper, key\naccounting=json.loads(sources[2].read_text())\nassert (accounting[\"teacher_proposals\"],accounting[\"accepted_attempts\"],accounting[\"rejected_non_NOOP_attempts\"],accounting[\"explicit_teacher_NOOP\"])==(15,9,5,1)\nassert accounting[\"actual_committed_structural_mutation_counts\"]=={\"created\":7,\"deleted\":0,\"updated\":14}\nassert \"nine CREATE and 24 UPDATE\" in paper\nassert \"26 h 16 min\" in paper and \"5 h 55 min with 249\" in paper\nruntime=json.loads(sources[4].read_text())\nassert len(runtime[\"batch_rows\"])==8\nassert runtime[\"batch_rows\"][5][\"native_original_generations\"]==249\nassert 26*3600+15*60<sum(r[\"elapsed_seconds\"] for r in runtime[\"batch_rows\"])<26*3600+17*60\nfor marker in (\"### 5.3 Confirmatory results pending\",\"[PENDING RESULT — complete frozen TEST\",\"[PENDING ANALYSIS — two independently learned single-seed\",\"not a claim of significance\",\"not a completed quantitative baseline\"):\n    assert marker in paper, marker\nassert \"A background waiter is attached\" not in paper\nassert \"当前主训练已接后台等待器\" not in paper\nfor target in re.findall(r\"\\]\\(([^)]+)\\)\",paper):\n    if target.startswith((\"https://\",\"http://\",\"#\")): continue\n    assert (paper_path.parent/target).exists(), target\noriginal_name=\"paper/manuscript_v1_20261021.md\"\nfrozen_names=[\n\"configs/openexempt_ace_public_assets128_20261022_run02.frozen.json\",\n\"configs/openexempt_whole_bank_public_assets128_20261021_run01.frozen.json\",\n\"configs/openexempt_first_commit_public_assets128_20261021_run01.frozen.json\",\n\"configs/openexempt_closed_feedback_public_assets128_seed145_20261021_run01.frozen.json\",\n\"configs/openexempt_ace_public_assets128_seed145_20261022_run03.frozen.json\",\n\"configs/openexempt_closed_feedback_public_assets128_seed245_20261021_run01.frozen.json\",\n\"configs/openexempt_ace_public_assets128_seed245_20261022_run03.frozen.json\"]\nfor name in frozen_names:\n    assert original_name not in json.loads((root/name).read_text())[\"files\"]\nreceipt={\"at\":datetime.now(timezone.utc).isoformat(),\"classification\":\"Manuscript v0.3 exact completed single-learner TRAIN table, methods/cost and explicit pending-TEST audit; zero model generations, no test content/outcomes read, no learning/source mutation.\",\"manuscript\":str(paper_path.relative_to(root)),\"manuscript_sha256\":hashlib.sha256(paper_path.read_bytes()).hexdigest(),\"complete_eight_rows_exactly_match_curve_and_actual_completion\":verified,\"own_B1_aggregates_from_unrounded_values\":aggregates,\"main_cost_exact\":cost,\"source_artifact_sha256\":{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources},\"manuscript_not_in_active_or_six_future_freezes\":True,\"formal_test_results_and_three_consistent_runs_and_two_learning_ablations_still_pending\":True,\"borrowed_scope_replay_and_feedback_not_claimed_as_original\":True,\"no_model_call_or_new_test_framework\":True}\nprint(json.dumps(receipt,ensure_ascii=False))\n"
+}

@@ -1,9 +1,11 @@
 # Evidence-adaptive commitment for legal skill evolution
 
-Methods working draft, 26 October 2026. This file describes the frozen revised
-implementation, not a completed revised-results manuscript. The original v0.23
-manuscript remains unchanged. Quantitative claims require the complete learning
-stream and the evaluations specified below.
+Methods working draft, updated 27 October 2026. The second formal 128-source
+learning stream and its fixed-benchmark supplement are complete. This file
+describes that frozen implementation, training evidence and final-library
+results; matched-policy evidence remains pending. The original v0.23 manuscript
+remains unchanged. The running third formal study is a separate revision, not
+an additional result or independent repeat of the method described here.
 
 Implementation binding: scientific source `acf383255301aa15ea575b3172ad280d9777d2f4`,
 [frozen run configuration](../configs/openexempt_adaptive_legal_public_assets128_20261026_run01.json)
@@ -54,7 +56,9 @@ answer for teacher feedback or candidate admission.
 **Released training evidence.** Once every current prediction has been saved,
 the native evaluator provides training feedback. The teacher receives current
 facts, original targets, actual parent-library answers and their verifier scores.
-Its evidence packet also includes a bounded selection of historical sources.
+For each selected source it also carries the saved strong-empty answer and
+score; the own-B1 comparison remains evaluation-only. Its evidence packet also
+includes a bounded selection of historical sources.
 Historical selection prioritizes declared feedback witnesses, public legal
 contexts, observed harms and parent failures. The teacher's communication subset
 does not restrict the sources used for replay: candidate assessment covers every
@@ -110,13 +114,14 @@ complete-library retention checks after composition.
 rendered requests. Each request must match a complete request already observed
 in this learner's cache, including the messages, response schema and generation configuration.
 Otherwise that composition is rejected. The verified match reuses the original
-response and score; it neither substitutes a different answer nor generates a
-new sample for a selected source. This makes component assessment possible
-without additional executor generations for composition.
+response, decoded and scored under the same interface and native grader; it
+neither substitutes a different answer nor generates a new sample for a selected
+source. This makes component assessment possible without additional executor
+generations for composition.
 
 ## 4. Evidence-adaptive commitment
 
-The submission unit is selected from the admissible libraries produced by that
+The commitment unit is selected from the admissible libraries produced by that
 revision. Let \(\mathcal F(L,J,C)\) contain the complete proposal and the composed
 proposal that pass their respective checks. For an admissible \(A\), define its
 paired native-F1 gain on task \(t\) using all encountered sources:
@@ -203,13 +208,127 @@ Their verified mechanisms are summarized in the
 This draft uses those existing nearest-neighbour materials rather than opening
 another broad literature survey. It introduces no new bibliography metadata.
 
+### Completed training evidence
+
+The completed run contains all 128 sources and eight final batch publications.
+Of 15 teacher proposals, one was committed as a complete proposal and five as
+dependency-component compositions; seven were rejected and two were explicit
+no-ops. These counts describe actual decisions, not the number of available
+branches in the controller. The final library contains nine records and costs
+2,426 executor-tokenizer tokens. It is the unique B8 terminal state, identical
+to B7 after both B8 proposals were rejected.
+
+The following native-F1 values are first-encounter predictions on each batch's
+16 sources, before targets or that batch's revisions are supplied. The last
+column instead records the library published **after** the batch. All values
+are percentages; EC/EV share the same sources.
+
+| Batch | Evolving library EC/EV | Own B1 control EC/EV | Empty EC/EV | Published records/tokens |
+|---|---|---|---|---|
+| B1 | 59.31/63.86 | 59.31/63.86 | 59.31/63.86 | 5/1,551 |
+| B2 | 86.75/75.22 | 86.75/75.22 | 63.53/61.67 | 7/2,020 |
+| B3 | 91.40/86.98 | 91.29/80.44 | 65.01/67.01 | 8/2,224 |
+| B4 | 86.68/70.60 | 82.38/78.69 | 60.54/53.56 | 8/2,224 |
+| B5 | 90.22/72.82 | 86.02/75.24 | 66.67/53.54 | 8/2,231 |
+| B6 | 90.16/90.04 | 89.24/73.75 | 68.82/65.03 | 8/2,231 |
+| B7 | 87.49/75.00 | 90.28/71.41 | 61.49/49.51 | 9/2,426 |
+| B8 | 93.26/83.63 | 89.39/77.36 | 65.47/52.44 | 9/2,426 |
+| All 128 sources | 85.66/77.27 | 84.33/74.50 | 63.86/58.33 | — |
+
+At B1 no learned library exists: the control column uses the same empty
+prediction, not a retrospective answer with the completed B1 library. Thereafter
+the own-B1 control is explicitly `frozen_after_B1`, snapshot
+`509fcf9408a5c92719df6a799693487db3bd8ff00fb3178e79a88b9665b87860`.
+B2 uses this same library in both conditions. Over B3–B8, the 96 sources that
+can reflect post-B1 revisions, evolving-library EC/EV averages are 89.87/79.85%
+against 88.10/76.15% for own B1: paired mean gains of 1.77/3.70 percentage
+points. The complete eight-batch table retains the task-specific regressions;
+these observed means are not frozen-TEST results or independent-learning
+stability estimates.
+
+The stream includes content revision at unchanged library size: B5 revises the
+Illinois wildcard procedure. No published transition removes a record, so this
+run is not evidence for successful skill deletion or merging. Final learned
+library SHA-256 is
+`6bab10640bdea4c7728ea25f4866f12f558d2b44156442fe981fd8160b6e0b99`.
+
+Measured TRAIN cost is 1,501 real executor generations and 15 successful teacher
+responses in 15 transport attempts. Executor usage is 10,065,456 input plus
+4,173,988 output tokens, totaling 14,239,444. Exact-request reuse is not counted
+as an additional generation. These totals exclude historical studies, the
+completed frozen supplement and the unexecuted matched controls. Source evidence:
+[terminal completion](../runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/completion.json),
+[all-eight first-forecast comparison](../artifacts/research/openexempt_legal_scope_20261020/Adaptive45_complete8_firsts_same128_old_new_EC8203_8566_EV7916_7727_not_final_TEST_20261027.json),
+and the eight immutable batch publications in the same run.
+
+### Completed fixed-benchmark supplement — second formal run
+
+The unique final library achieves 92.47% EC and 80.59% EV native F1 on the
+retained 128-source benchmark. Relative to its own B1 snapshot, continued
+learning adds 2.86 EC and 5.18 EV points. Under the predeclared ten-primary-
+comparison adjustment, the paired-source intervals are [-0.25, 5.78] and
+[0.93, 9.64], respectively: this realized bank provides positive valuation
+evidence beyond B1, while the classification contrast remains unresolved.
+
+The supplement completed at 00:24:45 UTC on 27 October. All conditions use
+the same 128 sources per task; values below are equal-source native F1, not
+classification accuracy or independent-learning averages. The original
+benchmark had already been inspected before this revision, so this is a
+development-informed fixed-benchmark comparison, not an untouched confirmation
+test. No benchmark questions, targets or predictions entered teaching or
+TRAIN admission.
+
+| Frozen condition | EC F1 (%) | EV F1 (%) | Invalid EC / EV |
+|---|---:|---:|---:|
+| Strong direct empty | 64.08 | 61.88 | 0 / 0 |
+| Blind static legal library | 64.20 | 60.81 | 2 / 0 |
+| Second-run adaptive final library | 92.47 | 80.59 | 0 / 0 |
+| Second-run own B1 snapshot | 89.61 | 75.41 | 0 / 0 |
+| ACE task adaptation | 67.66 | 57.97 | 4 / 8 |
+| Trace2Skill text-only adaptation | 57.92 | 52.03 | 5 / 11 |
+| Historical whole-bank control | 93.03 | 81.32 | 0 / 1 |
+| Historical task-local control | 93.25 | 83.35 | 0 / 0 |
+
+The six retained comparison conditions preserve their original predictions and
+scores exactly. Whole-bank and task-local are historical controls, not
+single-factor ablations of the revised teacher-evidence contract. Their four
+adjusted paired intervals contain zero; these data establish neither adaptive
+superiority nor equivalence. Matched-policy evidence is still required for the
+commitment-unit contribution.
+
+As a separate historical reference, the first formal method retained in v0.23
+achieves 87.43% EC and 86.18% EV on the same benchmark. The second run changes
+these point estimates by +5.04 and -5.59 points. The equal-task descriptive
+mean is 86.80% for the first and 86.53% for the second; it is not a newly
+selected primary endpoint. This trade-off does not establish an overall
+improvement over the first method, and is not a single-factor estimate of the
+adaptive selector.
+
+The second library's complete-output EC/EV F1 is 92.99/80.54%, with no invalid
+final-library outputs. Source-paired resampling uses 20,000 draws and seed
+2026102192, conditional on the actual frozen banks and decoding. Independent
+main/ACE/Text learning repeats remain user-deferred; these intervals do not
+estimate between-learning-run variation.
+
+Evaluation required 440 new executor generations, 1,608 exact-request reuse
+events and no teacher calls, yielding all 2,048 logical task predictions.
+Fresh evaluation usage is 2,950,405 input plus 1,240,823 output tokens,
+totaling 4,191,228. Reuses are not independent generations or learning repeats.
+The executed comparison and all adverse outcomes are retained in the
+[supplement completion](../runs/legal_openexempt_adaptive_supplement_TEST128_20261027_run01/completion.json)
+and its
+[complete result audit](../artifacts/research/openexempt_legal_scope_20261020/Adaptive45_complete_frozen_TEST128_EC9247_EV8059_ownB18961_7541_not_above_historical_controls_20261027.json).
+The original v0.23 main table and PDF have not been overwritten.
+
+### Claim ledger
+
 | Claim | State | Direct evidence / remaining requirement |
 |---|---|---|
 | Actor, scopes, dependency composition and selection describe the executed rule | VERIFIED | Frozen source/config and implementation map below |
 | Actual proposal-to-parent feedback is connected | VERIFIED for the observed B2 refinement | Original64 parent answers/targets and8 witness records in the B2 feedback audit |
-| Both submission modes have been used | VERIFIED for B1–B2 | B1 whole publication; B2 component publications |
-| Continued learning improves subsequent-case performance | PENDING | Complete later-batch paired first forecasts versus own B1 |
-| Revised final-bank fixed-benchmark performance | PLANNED | Unique B8 and own-B1 freeze, complete supplementary evaluation |
+| Both commitment modes have been used | VERIFIED for the complete stream | One joint and five component commitments among 15 teacher proposals |
+| Observed subsequent-source mean gain over own B1 | VERIFIED as a within-stream observation | B3–B8, 96 sources: EC +1.77pp and EV +3.70pp; individual batches retain regressions |
+| Revised final-bank fixed-benchmark performance | COMPLETED | Unique B8: EC92.47%/EV80.59%; own-B1 gains2.86/5.18pp with adjusted intervals[-0.25,5.78]/[0.93,9.64] |
 | Adaptive selection improves the end-to-end fixed-policy alternatives | PENDING | Matched fixed-whole/fixed-dependency learning and evaluation |
 | Uniform dominance, new untouched-test validation or independent-run stability | UNSUPPORTED by current evidence | Not stated as a result in this draft |
 

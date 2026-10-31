@@ -1,0 +1,81 @@
+{
+  "at": "2026-10-30T19:34:16.566196+00:00",
+  "classification": "actual_background_phase_only_interface_revised_once_after_preserved_failure_not_training_gain_or_TEST",
+  "config": {
+    "path": "configs/openexempt_v6_EV_phase_contract_TRAIN12_propose_20261031_run01.json",
+    "sha256": "b5b2ea91f1a13d20cb8a8c19c8d628a0a1edd909b5cb8486c6b210f7a0e7ec98"
+  },
+  "frozen": {
+    "path": "configs/openexempt_v6_EV_phase_contract_TRAIN12_propose_20261031_run01.frozen.json",
+    "sha256": "b47654531cfa413271cfa24de51515c404e4f84c2160bd1c03d6e716f6b4fb0f"
+  },
+  "source_files_unchanged": 399,
+  "packages": 50,
+  "live_processes": {
+    "diagnostic": {
+      "pid": 1338231,
+      "birth_ticks": "539526517",
+      "state": "S"
+    },
+    "original8B": {
+      "pid": 958223,
+      "birth_ticks": "486445918",
+      "state": "S"
+    }
+  },
+  "health": 200,
+  "observer_only_previous_default_proxy_health_read_502_direct_loopback_now_200_no_job_restart": true,
+  "source_dual": [
+    {
+      "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_v6_EV_phase_contract_TRAIN12_20261031_run01_propose-source.tar.gz",
+      "sha256": "2c322b922a298144413609566398d6f56bde9d86a4596b5bee5025bd59b0a73f",
+      "device": 64528
+    },
+    {
+      "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_v6_EV_phase_contract_TRAIN12_20261031_run01_propose-source.tar.gz",
+      "sha256": "2c322b922a298144413609566398d6f56bde9d86a4596b5bee5025bd59b0a73f",
+      "device": 64517
+    }
+  ],
+  "initialization": {
+    "path": "runs/legal_openexempt_v6_EV_phase_contract_TRAIN12_20261031_run01_propose/initialization.json",
+    "sha256": "fdab1ec1cb4144c6f2d91f11b939f6592e74396ba174edc6113f1118d8524769"
+  },
+  "initial_bank_sha256": "48746352543b1a75627eb3cc9480a2257f42107fde544080aefbadc9cd2fca5d",
+  "actual_progress": {
+    "at": "2026-10-30T19:33:39.754276+00:00",
+    "run_id": "legal_openexempt_v6_EV_phase_contract_TRAIN12_20261031_run01_propose",
+    "state": "running",
+    "stage": "fresh_parent12",
+    "current_batch": 0,
+    "completed_native_calls": 2,
+    "completed_teacher_calls": 0,
+    "teacher_attempts": 0,
+    "cross_stage_identical_wire_reuses": 0,
+    "library_records": 7,
+    "execution_dispatch": {
+      "policy": "ordered_independent_phases_v1",
+      "native_workers": 4,
+      "teacher_workers": 1,
+      "required_max_num_seqs": 4
+    },
+    "current_arm": "parent",
+    "current_document_id": 193,
+    "current_call": "openexempt"
+  },
+  "old_failed_window": {
+    "at": "2026-10-30T19:08:04.542055+00:00",
+    "error": "ValueError('A diagnoses content defects, not an execution-example addition')",
+    "traceback": "Traceback (most recent call last):\n  File \"/media/sangfor/vdb/legal-skill-evolve/experiments/openexempt_ev_representation.py\", line 387, in run\n    result = getattr(self, self.stage)()\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/media/sangfor/vdb/legal-skill-evolve/experiments/openexempt_ev_representation.py\", line 275, in propose\n    raise ValueError(\"A diagnoses content defects, not an execution-example addition\")\nValueError: A diagnoses content defects, not an execution-example addition\n",
+    "actual_native_calls": 12,
+    "actual_teacher_responses": 1,
+    "actual_teacher_attempts": 1,
+    "no_quality_retry_or_fallback": true
+  },
+  "new_TEST_hash_only_unchanged": true,
+  "no_candidate_outcome_or_formal_effect_claim": true,
+  "current_goal": {
+    "path": "docs/CURRENT_GOAL.md",
+    "sha256": "1893950d3a1f7f9d5b4e55243495719231150a6b428d69c123f12a5b44dfb31b"
+  }
+}

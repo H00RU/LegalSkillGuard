@@ -1,0 +1,211 @@
+{
+  "at": "2026-10-21T16:35:37.035200+00:00",
+  "scheduled_CST": "2026-10-22T00:30:00+08:00",
+  "classification": "Hourly original-process, frozen-source, actual new IL EV delivery and completed-wire health only; not partial B6 performance or extraqualification",
+  "post_snapshot_actual_HTTP_verification": {
+    "at": "2026-10-21T16:38:56+00:00",
+    "case_id": 264,
+    "family": "EV",
+    "arm": "skills",
+    "input_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EV_skills.input.json",
+    "answer_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EV_skills.answer.json",
+    "original_raw": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EV_skills.json",
+    "actual_messages_and_schema_match_new_selfcontained_guide_input": true,
+    "raw_call_sha256": "41b28c41484d456d5ab34d0fe232653f38b1de749cd2e74c6e279977f7664ce8",
+    "finish_reason": "stop",
+    "scores_not_read": true
+  },
+  "processes": [
+    {
+      "role": "main",
+      "PID": 1721740,
+      "start_ticks": 455413980,
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python -m experiments.openexempt_online run /media/sangfor/vdb/legal-skill-evolve/configs/openexempt_closed_feedback_public_assets128_20261021_run03.json "
+    },
+    {
+      "role": "model",
+      "PID": 3613253,
+      "start_ticks": 446037091,
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python /media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm serve /media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218 --served-model-name Qwen/Qwen3-8B --host 127.0.0.1 --port 8000 --dtype bfloat16 --max-model-len 32768 --max-num-seqs 1 --seed 42 --generation-config vllm --reasoning-parser qwen3 --gpu-memory-utilization 0.48 --no-enable-prefix-caching --disable-uvicorn-access-log --guided-decoding-backend xgrammar --guided-decoding-disable-any-whitespace --kv-cache-memory-bytes 5368709120 --max-num-batched-tokens 16384 "
+    },
+    {
+      "role": "ACE_waiter",
+      "PID": 1738522,
+      "start_ticks": 455481667,
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python /media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_main128_run03_to_ACE128_20261021.py "
+    }
+  ],
+  "bindings": {
+    "main": {
+      "files": 371,
+      "all_bytes_unchanged": true
+    },
+    "static": {
+      "files": 117,
+      "all_bytes_unchanged": true
+    },
+    "ACE_waiter": {
+      "files": 381,
+      "all_bytes_unchanged": true
+    }
+  },
+  "packages_unchanged": 50,
+  "progress": {
+    "at": "2026-10-21T16:35:36.855680+00:00",
+    "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "state": "running",
+    "stage": "b6_prequential",
+    "current_batch": 6,
+    "completed_native_calls": 652,
+    "completed_teacher_calls": 10,
+    "teacher_attempts": 10,
+    "cross_stage_identical_wire_reuses": 1564,
+    "library_records": 6,
+    "current_arm": "skills",
+    "current_document_id": 268,
+    "current_call": "openexempt"
+  },
+  "B6_actual_request_delivery": {
+    "verified_inputs": 73,
+    "by_role": {
+      "empty": 15,
+      "empty_direct_numeric": 14,
+      "frozen_after_B1": 14,
+      "frozen_initial": 15,
+      "skills": 15
+    },
+    "online_exact_B5_final_bank_verified": true,
+    "new_IL_EV_delivery": [
+      {
+        "case_id": 264,
+        "family": "EV",
+        "bank_sha256": "524341ef0c30f4b9bfb63e10b352bfc6961b175fe9a2776e441379901262b8e3",
+        "actual_new_selfcontained_IL_EV_guidance_verified": true,
+        "input_path": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EV_skills.input.json"
+      }
+    ],
+    "inflight_JSON_files_not_treated_as_completed": []
+  },
+  "B6_completed_wire_health_not_scores": {
+    "logical_answers": 72,
+    "actual_original_wires_referenced": 36,
+    "finish_reasons": {
+      "stop": 36
+    },
+    "parse_errors": 0,
+    "partial_scores_or_targets_read": false
+  },
+  "ledger": {
+    "max_invocations": 1797,
+    "reservations": 361,
+    "old350_prefix_unchanged": true
+  },
+  "completed_unique_publications": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "complete_B6_first_forecasts": false,
+  "ACE_training_started": false,
+  "archive_free_bytes": {
+    "/media/sangfor/vdb/legal-skill-backups": 1980507320320,
+    "/home/yndx/hhy/legal-skill-rootdisk-backups": 804236451840
+  },
+  "direction_audit": {
+    "previous_goal_turn_classification": "Progress: complete B5 first forecasts, two native proposals/all480 audits, C1 rejected and C2 EV IL accepted, teacher inputs verified and1988 files backed on2devices. The correction repaired252 and current/past EV means, not yet futureTEST.",
+    "current_goal_turn_classification": "Verified wait on original33053. Main advances B6 firstcases under actual B5 bank; full CPU auditor prepared but not run prematurely. New actual delivery and completed-wire health checked, no new method improvement claimed.",
+    "specific_next_evidence": "All16 B6 first-encounter cases vs empty and ownB1; separately verify allIL EV actor equivalence B1=B4 then measure actual B5 update effect. Include all losses and source counts.",
+    "avoid_local_optimum": "No new shared-render layer, extra probe, model, solver, fallback, source hotpatch, B1 reset or score change. Real teacher2 already supplied the self-contained EV correction; test its natural next-batch transfer first.",
+    "full_scope_remaining": "B6-B8 final learning, queued ACE45 and static performances, independentlearners, necessaryablations and frozen sealedTEST. Do not shrink to training replay or emptywin.",
+    "paper_claim_boundary": "B5 main curve remains firstforecastEV80.82837, not postlabel replay88.12004. Generic labels/replay are not claimed novel, no significance or maturemethod superiority yet."
+  },
+  "observer": {
+    "native_session": 33053,
+    "wrapper7161_ended_normally_at_hourly_boundary": true,
+    "original_observer_or_primary_not_stopped": true,
+    "observation_deadline_not_primary_terminal": true
+  },
+  "next_hourly_CST": "2026-10-22T01:30:00+08:00",
+  "new_native_teacher_TEST_calls_by_audit": 0,
+  "evidence_paths": [
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/261_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/262_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/262_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/262_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/262_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/262_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/262_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/262_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/262_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/262_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/262_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/263_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/264_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/265_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/266_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/267_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/267_EC_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/267_EC_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/267_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/267_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/267_EV_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/267_EV_empty_direct_numeric.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/267_EV_frozen_after_B1.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/267_EV_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/267_EV_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/268_EC_empty.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/268_EC_frozen_initial.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/native/b6_prequential/268_EC_skills.input.json",
+    "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b5.json"
+  ]
+}

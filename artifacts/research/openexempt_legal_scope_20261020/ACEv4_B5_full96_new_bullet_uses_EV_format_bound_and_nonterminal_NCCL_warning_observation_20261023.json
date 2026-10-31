@@ -1,0 +1,76 @@
+{
+  "at": "2026-10-22T20:38:42.814071+00:00",
+  "classification": "Interpret complete B5 only, no answer repair, rescoring, inference or mature/TEST claim",
+  "actual_full_B5_F1_percent": {
+    "ace": {
+      "EC": 56.875,
+      "EV": 55.945945597989535
+    },
+    "empty": {
+      "EC": 55.97222222222222,
+      "EV": 65.3125
+    }
+  },
+  "same_case_already_completed_main_F1_percent": {
+    "EC": 86.77083333333333,
+    "EV": 80.82837301587301
+  },
+  "native_errors_retained": [
+    {
+      "case": 251,
+      "family": "EV",
+      "role": "ace",
+      "parse_error": "ValueError('Incomplete native ACE output: length')",
+      "finish_reason": "length",
+      "independently_reproduced": true
+    },
+    {
+      "case": 254,
+      "family": "EC",
+      "role": "ace",
+      "parse_error": "ValueError('Incomplete native ACE output: length')",
+      "finish_reason": "length",
+      "independently_reproduced": true
+    }
+  ],
+  "EV_failure_upper_bound_only_not_a_score": {
+    "actual_EV_percent": 55.945945597989535,
+    "EV_format_failures": 1,
+    "all_EV_failures_replaced_by_unattainably_perfect_one_bound_percent": 62.195945597989535,
+    "same_case_empty_percent": 65.3125,
+    "even_bound_remains_below_empty": true,
+    "interpretation": "At most6.25pp can come from the one EV zero-format case. The9.37pp observed deficit cannot be fully explained by that zero. No original value is replaced or excluded."
+  },
+  "B4_new_bullet_self_report_counts_NOT_causal_tool_invocations": {
+    "EC": {
+      "ph-00016": 4,
+      "calc-00017": 1
+    },
+    "EV": {
+      "ph-00016": 4,
+      "calc-00017": 3
+    }
+  },
+  "all17_full_bullets_delivered_every_ACE_task_verified_in_parent_audit": true,
+  "all32_empty_HTTP_content_and_scores_match_saved_main_diagnostic": {
+    "all32_full_HTTP_requests_identical": true,
+    "native_contents_equal": 32,
+    "native_scores_equal": 32,
+    "outputs_are_diagnostics_not_guaranteed_determinism_or_a_regeneration_trigger": true
+  },
+  "runtime_warning_observation": {
+    "first_noticed_by_this_turn": "2026-10-23 04:24:49 CST",
+    "log_type": "ProcessGroupNCCL HeartbeatMonitor TCPStore broken-pipe warning; exact peer/store cause not established",
+    "verified_after_notice": "Original API3613253, engine3613750, ACE812509 and waiters821776/1130167 remained active with original argv/start ticks; A4097% and29,137MiB; log also reports34.7generatedtokens/s withone running/zero waiting; fullB5already96 andnewTRAINgenerations/teachers continued.",
+    "not_inferred_service_exit_or_training_failure": true,
+    "no_stop_restart_new_model_or_configuration_change": true,
+    "do_not_suppress_warning_or_restart_only_for_this_warning": true
+  },
+  "next": "Complete original frozenACE8 and queuedstatic/common-actorText45. Do not retune ACE prompts/caps or claim memory causality from a different native cold-start wrapper. Use mature TRAIN evidence to decide any main-method repair.",
+  "no_actor_teacher_tokenizer_grading_or_TEST_calls": true,
+  "evidence_sha256": {
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_Run03_B5_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json": "41cd5f6d211c5f12da79be21dfa8672793b4396a2db82b4d6896abfeedd31269",
+    "runs/legal_openexempt_ace_public_assets128_20261022_run03/batches/b5_records.json": "690933fc81190d2dacd6b419a7361d3b82727202858f7f1db1c26794734c0a5f"
+  },
+  "recomputation_program": "import datetime,json\nfrom pathlib import Path\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import read,sha\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\naudit_path=base/\"ACEv4_Run03_B5_complete96_native_wire_raw_v14_metrics_bullet_use_and_cross_run_empty_control_audit_20261023.json\"\nrecords_path=root/\"runs/legal_openexempt_ace_public_assets128_20261022_run03/batches/b5_records.json\"\naudit,records=read(audit_path),read(records_path)\nassert audit[\"source_cases\"]==16 and audit[\"logical_records\"]==96\nm=audit[\"metrics\"];failed=[e for e in audit[\"format_errors_not_excluded\"] if e[\"role\"]==\"ace\" and e[\"family\"]==\"EV\"]\nassert len(failed)==1 and m[\"ace\"][\"EV\"][\"tasks\"]==16\nfor error in failed:\n r=next(r for r in records[\"ace\"] if (r[\"case_id\"],r[\"family\"])==(error[\"case\"],error[\"family\"]))\n assert r[\"score\"][\"f1\"]==0 and r[\"parse_error\"] is not None\nassert all(0<=r[\"score\"][\"f1\"]<=1 for r in records[\"ace\"])\nupper=m[\"ace\"][\"EV\"][\"f1\"]+len(failed)/16\nout={\"at\":datetime.datetime.now(datetime.timezone.utc).isoformat(),\n\"classification\":\"Interpret complete B5 only, no answer repair, rescoring, inference or mature/TEST claim\",\n\"actual_full_B5_F1_percent\":{role:{f:100*m[role][f][\"f1\"] for f in (\"EC\",\"EV\")} for role in (\"ace\",\"empty\")},\n\"same_case_already_completed_main_F1_percent\":{f:100*audit[\"same_case_main_single_learner_first_forecasts\"][\"main_metrics\"][f][\"f1\"] for f in (\"EC\",\"EV\")},\n\"native_errors_retained\":audit[\"format_errors_not_excluded\"],\n\"EV_failure_upper_bound_only_not_a_score\":{\"actual_EV_percent\":100*m[\"ace\"][\"EV\"][\"f1\"],\n \"EV_format_failures\":len(failed),\"all_EV_failures_replaced_by_unattainably_perfect_one_bound_percent\":100*upper,\n \"same_case_empty_percent\":100*m[\"empty\"][\"EV\"][\"f1\"],\"even_bound_remains_below_empty\":upper<m[\"empty\"][\"EV\"][\"f1\"],\n \"interpretation\":\"At most6.25pp can come from the one EV zero-format case. The9.37pp observed deficit cannot be fully explained by that zero. No original value is replaced or excluded.\"},\n\"B4_new_bullet_self_report_counts_NOT_causal_tool_invocations\":{f:{i:sum(i in (r.get(\"used_bullet_ids\") or []) for r in records[\"ace\"] if r[\"family\"]==f) for i in (\"ph-00016\",\"calc-00017\")} for f in (\"EC\",\"EV\")},\n\"all17_full_bullets_delivered_every_ACE_task_verified_in_parent_audit\":True,\n\"all32_empty_HTTP_content_and_scores_match_saved_main_diagnostic\":audit[\"cross_run_common_empty_diagnostic\"],\n\"runtime_warning_observation\":{\"first_noticed_by_this_turn\":\"2026-10-23 04:24:49 CST\",\n \"log_type\":\"ProcessGroupNCCL HeartbeatMonitor TCPStore broken-pipe warning; exact peer/store cause not established\",\n \"verified_after_notice\":\"Original API3613253, engine3613750, ACE812509 and waiters821776/1130167 remained active with original argv/start ticks; A4097% and29,137MiB; log also reports34.7generatedtokens/s withone running/zero waiting; fullB5already96 andnewTRAINgenerations/teachers continued.\",\n \"not_inferred_service_exit_or_training_failure\":True,\"no_stop_restart_new_model_or_configuration_change\":True,\n \"do_not_suppress_warning_or_restart_only_for_this_warning\":True},\n\"next\":\"Complete original frozenACE8 and queuedstatic/common-actorText45. Do not retune ACE prompts/caps or claim memory causality from a different native cold-start wrapper. Use mature TRAIN evidence to decide any main-method repair.\",\n\"no_actor_teacher_tokenizer_grading_or_TEST_calls\":True,\"evidence_sha256\":{str(p.relative_to(root)):sha(p) for p in (audit_path,records_path)},\n\"recomputation_program\":PROGRAM}\ndest=base/\"ACEv4_B5_full96_new_bullet_uses_EV_format_bound_and_nonterminal_NCCL_warning_observation_20261023.json\"\nRunStore.immutable_json(dest,out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"EV_actual_vs_empty_percent\":[100*m[\"ace\"][\"EV\"][\"f1\"],100*m[\"empty\"][\"EV\"][\"f1\"]],\"hypothetical_format_only_upper_bound_NOT_a_result\":100*upper,\"no_run_model_or_original_score_change\":True}))\n"
+}

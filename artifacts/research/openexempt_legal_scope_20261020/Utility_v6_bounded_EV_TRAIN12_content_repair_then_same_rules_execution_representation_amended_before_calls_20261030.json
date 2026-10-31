@@ -1,0 +1,684 @@
+{
+  "at": "2026-10-30T10:54:52.948414+00:00",
+  "classification": "Amended before any diagnostic inference: same fixed12 TRAIN/budget, distinguish minimal rule-content correction A from execution representation B of identical corrected content. Not validation/TEST or formal training.",
+  "protocol": {
+    "path": "docs/research/OPENEXEMPT_V6_BOUNDED_EV_REPRESENTATION_TRAIN_DECISION_20261030.md",
+    "sha256": "247f6a9203205ac0500549e2052c6017f0132db2067c2837d6312cc8ad3735a1"
+  },
+  "parent_run_config": {
+    "path": "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json",
+    "sha256": "5e0486a5352d2e534b50265e3b902ac3aaa0c7d2c5107dd2b904f20a3191e894"
+  },
+  "parent_completion": {
+    "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/completion.json",
+    "sha256": "c7d099fbfd2eb147bc904cbaa5c66d723172213f2efcb592b07889d0eaae3c49"
+  },
+  "actual_parent_bank_sha256": "48746352543b1a75627eb3cc9480a2257f42107fde544080aefbadc9cd2fca5d",
+  "source_TRAIN_input_packet": {
+    "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json",
+    "sha256": "ef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45"
+  },
+  "original_final_TRAIN_metrics": {
+    "EC": {
+      "precision": 0.9568142361111113,
+      "recall": 0.9475911458333333,
+      "f1": 0.9500341021825397,
+      "exact_target": 0.671875,
+      "tasks": 128,
+      "invalid_format": 0,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.9788132828273207,
+      "negative_or_unscored_asset_claims": 3
+    },
+    "EV": {
+      "precision": 0.9198133680555556,
+      "recall": 0.8951280381944446,
+      "f1": 0.901619853670635,
+      "exact_target": 0.4375,
+      "tasks": 128,
+      "invalid_format": 1,
+      "officially_unscored_predicted_claims": 4,
+      "full_output_f1": 0.8934075190378377,
+      "negative_or_unscored_asset_claims": 4
+    },
+    "mean_family_f1": 0.9258269779265873
+  },
+  "all_public_context_counts_and_selection": [
+    {
+      "public_context": "ARIZONA",
+      "all_TRAIN_sources": 24,
+      "valid_semantic_imperfect": 6,
+      "perfect_controls_available": 18,
+      "invalid_sources": 0,
+      "selected_semantic_witness": 201,
+      "selected_correct_control": 183
+    },
+    {
+      "public_context": "FEDERAL+OREGON",
+      "all_TRAIN_sources": 22,
+      "valid_semantic_imperfect": 10,
+      "perfect_controls_available": 12,
+      "invalid_sources": 0,
+      "selected_semantic_witness": 206,
+      "selected_correct_control": 188
+    },
+    {
+      "public_context": "FEDERAL+PENNSYLVANIA",
+      "all_TRAIN_sources": 27,
+      "valid_semantic_imperfect": 18,
+      "perfect_controls_available": 8,
+      "invalid_sources": 1,
+      "selected_semantic_witness": 272,
+      "selected_correct_control": 192
+    },
+    {
+      "public_context": "FEDERAL+WISCONSIN",
+      "all_TRAIN_sources": 27,
+      "valid_semantic_imperfect": 15,
+      "perfect_controls_available": 12,
+      "invalid_sources": 0,
+      "selected_semantic_witness": 287,
+      "selected_correct_control": 185
+    },
+    {
+      "public_context": "ILLINOIS",
+      "all_TRAIN_sources": 28,
+      "valid_semantic_imperfect": 10,
+      "perfect_controls_available": 18,
+      "invalid_sources": 0,
+      "selected_semantic_witness": 285,
+      "selected_correct_control": 190
+    }
+  ],
+  "fixed_12_TRAIN_sources": [
+    {
+      "source_case_id": 183,
+      "public_context": "ARIZONA",
+      "native_f1": 1.0,
+      "full_output_f1": 1.0,
+      "invalid_format": 0,
+      "error_kinds": {},
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/183_EV_candidate.json",
+        "sha256": "5b4da4b93346356c72fff6f2070a78b8300ebcb0eced71d623cf1de3209d753f"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/183.json",
+        "sha256": "91aa2c8f9d7d56c46270ec2677f913b243e10ce01e5f73cdd618ee134af4e0e5"
+      },
+      "actual_record_sha256": "2da5d46adac5befedc29e7ee2c7a1e132f017003ad919d4e2ebeb29df7574381",
+      "original_input_row_sha256": "aaca9f26fd936dc3685de95f88f0f6eb2ab63cdba7d4ab5379300683da120b40",
+      "native_claim_feedback": {
+        "invalid_response": false,
+        "correct": 3,
+        "missing": 0,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 0,
+        "incorrect_value_predictions": 0,
+        "errors": []
+      },
+      "selection_role": "context_correct_control"
+    },
+    {
+      "source_case_id": 185,
+      "public_context": "FEDERAL+WISCONSIN",
+      "native_f1": 1.0,
+      "full_output_f1": 1.0,
+      "invalid_format": 0,
+      "error_kinds": {},
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate2_replay/185_EV_candidate.json",
+        "sha256": "6a0e90927c5541afcb1f39147f1e029f75d915da04f70a268ef85625e5749471"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/185.json",
+        "sha256": "d04aa929b7a789d9bea30814412363e39a45e7707c671b10d6c4fc0f2dbb458d"
+      },
+      "actual_record_sha256": "7dd8fe3b23b6543f2442cafd00e1e7ea501afff64afde3f51957cc67cadc41f0",
+      "original_input_row_sha256": "e74738e13795ce912647b9d1b3c4d30e86d2f2addc7490f8cbff4372254a08fc",
+      "native_claim_feedback": {
+        "invalid_response": false,
+        "correct": 9,
+        "missing": 0,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 0,
+        "incorrect_value_predictions": 0,
+        "errors": []
+      },
+      "selection_role": "context_correct_control"
+    },
+    {
+      "source_case_id": 188,
+      "public_context": "FEDERAL+OREGON",
+      "native_f1": 1.0,
+      "full_output_f1": 1.0,
+      "invalid_format": 0,
+      "error_kinds": {},
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/188_EV_candidate.json",
+        "sha256": "53106239593f6a8aff4ae43ce14f26835e240ecaabcb3150d6c013484f6c8c39"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/188.json",
+        "sha256": "460a0b4a8c5b0da6f6c360712b058a9c2053cd543a8e4307bd2776c6667554f8"
+      },
+      "actual_record_sha256": "c50e4462319d85c3cdfbd9852a3489a0790cf96b0f8a5c57c078666ccf034f01",
+      "original_input_row_sha256": "d9a7a31eb9d1f7d18f41ed8d6cd2984f23db816731fa4167f1559f590af3c94b",
+      "native_claim_feedback": {
+        "invalid_response": false,
+        "correct": 8,
+        "missing": 0,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 0,
+        "incorrect_value_predictions": 0,
+        "errors": []
+      },
+      "selection_role": "context_correct_control"
+    },
+    {
+      "source_case_id": 190,
+      "public_context": "ILLINOIS",
+      "native_f1": 1.0,
+      "full_output_f1": 1.0,
+      "invalid_format": 0,
+      "error_kinds": {},
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/190_EV_candidate.json",
+        "sha256": "b6093a199a2ed580abf782a11b4beb8806a34bc81eafea3d9b7dd6961b348682"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/190.json",
+        "sha256": "dcf02ab8e42ddff01602decbca2116e4fcd0039865d6f2ab7ded73ae0ef58e88"
+      },
+      "actual_record_sha256": "06aaa6dc4b7739362eed0ff89249067e3a7627ce19c775dd5aa33c894b652169",
+      "original_input_row_sha256": "dd1f030f890895ccfe0da7912bcea28a3677e78e0502d2971084931a0144f489",
+      "native_claim_feedback": {
+        "invalid_response": false,
+        "correct": 6,
+        "missing": 0,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 0,
+        "incorrect_value_predictions": 0,
+        "errors": []
+      },
+      "selection_role": "context_correct_control"
+    },
+    {
+      "source_case_id": 192,
+      "public_context": "FEDERAL+PENNSYLVANIA",
+      "native_f1": 1.0,
+      "full_output_f1": 1.0,
+      "invalid_format": 0,
+      "error_kinds": {},
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/192_EV_candidate.json",
+        "sha256": "eeb2f6e40f9327bb41ffe43fd92d32b2fcbcffac219e637ea2f6608501671688"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/192.json",
+        "sha256": "f9d9cef533c329638918f3866d85d177c91b328a28a712edfe4d2dbd08e573fb"
+      },
+      "actual_record_sha256": "7ce1a70a62dcd1089ed93a8dcf168d894feb829bb4f0dcec32dcf0d772300257",
+      "original_input_row_sha256": "1c62d1b74ca30cb67f9d0157e00029172d97b5190caa8abcdb7b52ddc8126da6",
+      "native_claim_feedback": {
+        "invalid_response": false,
+        "correct": 6,
+        "missing": 0,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 0,
+        "incorrect_value_predictions": 0,
+        "errors": []
+      },
+      "selection_role": "context_correct_control"
+    },
+    {
+      "source_case_id": 193,
+      "public_context": "FEDERAL+OREGON",
+      "native_f1": 0.6428571428571428,
+      "full_output_f1": 0.6428571428571429,
+      "invalid_format": 0,
+      "error_kinds": {
+        "missing": 5,
+        "incorrect_value": 2,
+        "extra_or_duplicate": 1
+      },
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/193_EV_candidate.json",
+        "sha256": "909251bfebda0efecece9491731b2331b623f97cc444fa4f215262de92290baa"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/193.json",
+        "sha256": "c08b03eeca3c7b060b8043c5242de1bb6f370ef69bc3a1f826478f88466e22ad"
+      },
+      "actual_record_sha256": "65a2c567889c5c22777e398c2e6aaeb6f7942b675a622674f7ed7e361108cbff",
+      "original_input_row_sha256": "01995e8c3e92dc249a4278b37bcd923d061283ed29d15ff07a3aded422f2a3e4",
+      "native_claim_feedback": {
+        "invalid_response": false,
+        "correct": 9,
+        "missing": 5,
+        "incorrect_value": 2,
+        "extra_or_duplicate": 1,
+        "incorrect_value_predictions": 2,
+        "errors": [
+          {
+            "kind": "missing",
+            "asset": "white gold engagement ring with interlocking bands",
+            "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+            "expected_value": 400.0,
+            "observed_values": []
+          },
+          {
+            "kind": "incorrect_value",
+            "asset": "electric can opener with magnet and cord storage",
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "expected_value": 22.0,
+            "observed_values": [
+              700.0
+            ]
+          },
+          {
+            "kind": "missing",
+            "asset": "electric can opener with magnet and cord storage",
+            "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+            "expected_value": 22.0,
+            "observed_values": []
+          },
+          {
+            "kind": "missing",
+            "asset": "wolf gray 2024 Kia Telluride SX-Prestige crossover",
+            "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+            "expected_value": 400.0,
+            "observed_values": []
+          },
+          {
+            "kind": "extra_or_duplicate",
+            "asset": "pair of khaki slacks with pleated front and belt loops",
+            "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+            "observed_value": 84.0
+          },
+          {
+            "kind": "incorrect_value",
+            "asset": "pair of khaki slacks with pleated front and belt loops",
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "expected_value": 84.0,
+            "observed_values": [
+              700.0
+            ]
+          },
+          {
+            "kind": "missing",
+            "asset": "pair of khaki slacks with pleated front and belt loops",
+            "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+            "expected_value": 84.0,
+            "observed_values": []
+          },
+          {
+            "kind": "missing",
+            "asset": "pair of khaki slacks with pleated front and belt loops",
+            "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+            "expected_value": 84.0,
+            "observed_values": []
+          }
+        ]
+      },
+      "selection_role": "missing_target_witness"
+    },
+    {
+      "source_case_id": 201,
+      "public_context": "ARIZONA",
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.6666666666666666,
+      "invalid_format": 0,
+      "error_kinds": {
+        "extra_or_duplicate": 2
+      },
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/201_EV_candidate.json",
+        "sha256": "cb94eac0c98dce387440f0271b54033213bb778fa6694f691f39e779b6e94d8e"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/201.json",
+        "sha256": "1dc5bd83b2fb279ee795fe47889cfc534853caced5b4fc8db5228781efb27304"
+      },
+      "actual_record_sha256": "88c13ea83a2ee7546d291eeb513fa3802fcb970c24b8de9269a95575fc123d87",
+      "original_input_row_sha256": "9b2a56f8d2367764c804f95948a41fe23c8b0e9c1d111292ed345a7418d3649a",
+      "native_claim_feedback": {
+        "invalid_response": false,
+        "correct": 2,
+        "missing": 0,
+        "incorrect_value": 0,
+        "extra_or_duplicate": 2,
+        "incorrect_value_predictions": 0,
+        "errors": [
+          {
+            "kind": "extra_or_duplicate",
+            "asset": "trench coat in beige with belt and shoulder epaulets",
+            "citation": "Ariz. Rev. Stat. § 33-1123",
+            "observed_value": 15000.0
+          },
+          {
+            "kind": "extra_or_duplicate",
+            "asset": "construction overalls made of heavy-duty denim with tool loops",
+            "citation": "Ariz. Rev. Stat. § 33-1123",
+            "observed_value": 15000.0
+          }
+        ]
+      },
+      "selection_role": "context_semantic_failure"
+    },
+    {
+      "source_case_id": 206,
+      "public_context": "FEDERAL+OREGON",
+      "native_f1": 0.5,
+      "full_output_f1": 0.5,
+      "invalid_format": 0,
+      "error_kinds": {
+        "incorrect_value": 4
+      },
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/206_EV_candidate.json",
+        "sha256": "6ca4883843401f33b687fdec30df6ce119ae498b456caa8e62d35891f2fecffa"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/206.json",
+        "sha256": "866e5cea1210415b75739cd7e7b26a44a65024765da3ebe0f6e0c1e405f2d335"
+      },
+      "actual_record_sha256": "60ab7744036e1bdbb0b0dc2c70039621c8db501203ca34104eea40296f11b28e",
+      "original_input_row_sha256": "ac3cb83084859fa0d098f2333e027acaec9144fedda5bf5c919c81fbcc5b62c8",
+      "native_claim_feedback": {
+        "invalid_response": false,
+        "correct": 4,
+        "missing": 0,
+        "incorrect_value": 4,
+        "extra_or_duplicate": 0,
+        "incorrect_value_predictions": 4,
+        "errors": [
+          {
+            "kind": "incorrect_value",
+            "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "expected_value": 30850.0,
+            "observed_values": [
+              15425.0
+            ]
+          },
+          {
+            "kind": "incorrect_value",
+            "asset": "titanium pendant dog tag necklace with engraving",
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "expected_value": 295.0,
+            "observed_values": [
+              15425.0
+            ]
+          },
+          {
+            "kind": "incorrect_value",
+            "asset": "titanium pendant dog tag necklace with engraving",
+            "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+            "expected_value": 295.0,
+            "observed_values": [
+              1800.0
+            ]
+          },
+          {
+            "kind": "incorrect_value",
+            "asset": "titanium pendant dog tag necklace with engraving",
+            "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+            "expected_value": 295.0,
+            "observed_values": [
+              400.0
+            ]
+          }
+        ]
+      },
+      "selection_role": "context_semantic_failure"
+    },
+    {
+      "source_case_id": 216,
+      "public_context": "FEDERAL+PENNSYLVANIA",
+      "native_f1": 0.0,
+      "full_output_f1": 0.0,
+      "invalid_format": 1,
+      "error_kinds": {
+        "invalid_response": 1
+      },
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b3_prequential/216_EV_skills.json",
+        "sha256": "97dd47dedc8bc60b95c43c24de0f675983a20c33be0fe703d850742d386b2e86"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/216.json",
+        "sha256": "b4a5c1dbf3ec658c0495cf2b1c2bbea69c61e90511a123800d3370bf5f17010c"
+      },
+      "actual_record_sha256": "bff8db57e7c6e64ebf17a70dabbcbdebdcea9d2ed527214a398c704c2b6923f2",
+      "original_input_row_sha256": "f020fb4ab70174fcb1e14ffdeb34334bfdb2c8eda1d7cd0d6adde2fa3954b81e",
+      "native_claim_feedback": {
+        "invalid_response": true,
+        "errors": [
+          {
+            "kind": "invalid_response"
+          }
+        ]
+      },
+      "selection_role": "invalid_output_witness"
+    },
+    {
+      "source_case_id": 272,
+      "public_context": "FEDERAL+PENNSYLVANIA",
+      "native_f1": 0.5,
+      "full_output_f1": 0.5,
+      "invalid_format": 0,
+      "error_kinds": {
+        "incorrect_value": 3
+      },
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b6_prequential/272_EV_skills.json",
+        "sha256": "297cb884c33998a681a8377ae42b3274e04bc175875cac20437b39f20a94ff84"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/272.json",
+        "sha256": "5309d1b93697c42e9d93b19f115ab3d8ee7b28cac7f6dae4b654c7264f4c0f79"
+      },
+      "actual_record_sha256": "351485b1dc65335d591b7670af23d6d1f326003612ba8a23adc9add6a1bc23ae",
+      "original_input_row_sha256": "1e558060c7a0f7ac6e3dcd207c0cdf316ddb844e05196b1a7aeac572ce6b24b3",
+      "native_claim_feedback": {
+        "invalid_response": false,
+        "correct": 3,
+        "missing": 0,
+        "incorrect_value": 3,
+        "extra_or_duplicate": 0,
+        "incorrect_value_predictions": 3,
+        "errors": [
+          {
+            "kind": "incorrect_value",
+            "asset": "white gold tennis bracelet with alternating sapphire and diamond stones",
+            "citation": "11 U.S.C. § 522(d)(4)",
+            "expected_value": 2185.0,
+            "observed_values": [
+              1875.0
+            ]
+          },
+          {
+            "kind": "incorrect_value",
+            "asset": "backup power bank with solar charging panel",
+            "citation": "11 U.S.C. § 522(d)(3)",
+            "expected_value": 230.0,
+            "observed_values": [
+              700.0
+            ]
+          },
+          {
+            "kind": "incorrect_value",
+            "asset": "backup power bank with solar charging panel",
+            "citation": "42 Pa. Cons. Stat. § 8123",
+            "expected_value": 230.0,
+            "observed_values": [
+              600.0
+            ]
+          }
+        ]
+      },
+      "selection_role": "context_semantic_failure"
+    },
+    {
+      "source_case_id": 285,
+      "public_context": "ILLINOIS",
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.6,
+      "invalid_format": 0,
+      "error_kinds": {
+        "missing": 2,
+        "incorrect_value": 1
+      },
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b7_prequential/285_EV_skills.json",
+        "sha256": "456635bffa6c7edae83ab3f766de07447a8b07bbc84293be8fd60e44d038d59c"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/285.json",
+        "sha256": "eaafcb6bb667352821799fde9890e2e49d549a3e1a488bbae9623f018c582774"
+      },
+      "actual_record_sha256": "68b74052b2ccddb25008d2542963d0206d5c75d836753c091300334e43e6dd68",
+      "original_input_row_sha256": "1dc78e3f50966280abc51e8be69ad5d43dd2e16f5b4a63d7fa42ee21015ccb96",
+      "native_claim_feedback": {
+        "invalid_response": false,
+        "correct": 3,
+        "missing": 2,
+        "incorrect_value": 1,
+        "extra_or_duplicate": 0,
+        "incorrect_value_predictions": 1,
+        "errors": [
+          {
+            "kind": "missing",
+            "asset": "modern steel metallic 2014 Honda CR-V EX-L",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "expected_value": 8000.0,
+            "observed_values": []
+          },
+          {
+            "kind": "missing",
+            "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+            "expected_value": 2275.0,
+            "observed_values": []
+          },
+          {
+            "kind": "incorrect_value",
+            "asset": "set of mechanic hand tools and rolling toolbox (used by Debtor to operate an auto repair service)",
+            "citation": "735 Ill. Comp. Stat. 5/12-1001(d)",
+            "expected_value": 2275.0,
+            "observed_values": [
+              1500.0
+            ]
+          }
+        ]
+      },
+      "selection_role": "context_semantic_failure"
+    },
+    {
+      "source_case_id": 287,
+      "public_context": "FEDERAL+WISCONSIN",
+      "native_f1": 0.6666666666666666,
+      "full_output_f1": 0.6666666666666666,
+      "invalid_format": 0,
+      "error_kinds": {
+        "incorrect_value": 2
+      },
+      "actual_raw_call": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b8_candidate2_replay/287_EV_candidate.json",
+        "sha256": "6bf59032cdee091e828dfc877fede5913ac6dbbd7a20726415e9ce6251a273ab"
+      },
+      "original_TRAIN_grading": {
+        "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/287.json",
+        "sha256": "8736f5173050db7cb5806b5307cd93272b7c2b3f34c3aabce73307f12a15f2af"
+      },
+      "actual_record_sha256": "5dbff87437c1f01ec1f465ff2f6b99fa3aa6674be794ec880259b01c7a75d8a6",
+      "original_input_row_sha256": "bedc120fe284d77c40ea15d31a32774ece4b803d80bb6a0b5fb28ead28c94ea7",
+      "native_claim_feedback": {
+        "invalid_response": false,
+        "correct": 4,
+        "missing": 0,
+        "incorrect_value": 2,
+        "extra_or_duplicate": 0,
+        "incorrect_value_predictions": 2,
+        "errors": [
+          {
+            "kind": "incorrect_value",
+            "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "expected_value": 30850.0,
+            "observed_values": [
+              15425.0
+            ]
+          },
+          {
+            "kind": "incorrect_value",
+            "asset": "moonshot green 2025 GMC Hummer EV Pickup Edition 1",
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "expected_value": 32000.0,
+            "observed_values": [
+              16000.0
+            ]
+          }
+        ]
+      },
+      "selection_role": "context_semantic_failure"
+    }
+  ],
+  "selection_uses_only_existing_TRAIN_outcomes_and_public_contexts": true,
+  "proposal_variants_max": 2,
+  "diagnostic_teacher_responses_max": 2,
+  "stage1_native_max": 36,
+  "stage2_native_max_if_promising": 256,
+  "nominal_total_native_max": 292,
+  "physical_native_hard_limit_including_retries": 300,
+  "original_generation": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "Qwen/Qwen3-8B",
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "context_tokens": 32768,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "timeout_seconds": 900,
+    "disable_thinking": false
+  },
+  "native_workers": 4,
+  "teacher_workers": 1,
+  "serialized_library_tokens_max": 4096,
+  "fresh_actual_parent_in_each_stage_required_not_old_cached_main8": true,
+  "screen_both_metric_gain_min_pp": 2,
+  "screen_correct_control_mean_loss_limit_pp": 1,
+  "final_all128_both_metric_gain_min_pp": 2,
+  "final_old16_mean_loss_limit_pp": 1,
+  "final_subsequent112_nonregression": true,
+  "all128_EC_HTTP_payloads_schema_must_be_identical_not_reanswered": true,
+  "no_new_model_teacher_inference_jobs_started": true,
+  "live_strict_frozen_source_not_edited": true,
+  "new_TEST_byte_hash_only_semantics_unopened": true,
+  "diagnostic_bank_not_formal_equal_budget_main_table": true,
+  "if_positive_new_method_and_matched_controls_must_be_frozen_before_TEST": true,
+  "if_negative_close_branch_no_unbounded_rewrites": true,
+  "extra_main_ACE_Text_independent_builds": "USER_DEFERRED",
+  "full_initial_manuscript_deadline": "2026-11-05 evening CST internal target, latest 2026-11-06 morning CST",
+  "supersedes_plan": {
+    "path": "artifacts/research/openexempt_legal_scope_20261020/Utility_v6_bounded_EV_representation_TRAIN12_fixed_publiccontexts_errorcoverage_292_budget_protocol_not_executed_20261030.json",
+    "sha256": "334447b41187ffdb3cf2f0e6efb47d1d5d6ad3e37fded4955e674d8d68c7592d"
+  },
+  "superseded_protocol_preserved_in": {
+    "path": "artifacts/research/openexempt_legal_scope_20261020/Utility_v6_bounded_EV_window_prior_planned_protocol_preserved_before_content_vs_execution_amendment_no_calls_20261030.json",
+    "sha256": "8ca5fbb254360b78677f96fda6f5910861172d10dfda9ae0afbae111c9c750de"
+  },
+  "candidate_A": "Teacher1 minimal original TRAIN-supported defective clause/condition repair; keep unrelated steps.",
+  "candidate_B": "Teacher2 operational representation/native worked output of the fixed A rule inventory; no A performance visible and no further rule/cap changes.",
+  "both_candidates_fixed_before_any_candidate_replay": true,
+  "all_parent_to_A_parent_to_B_A_to_B_results_retained": true,
+  "diagnostic_canonical_upstream_metadata_never_teacher_or_actor_input": true,
+  "actual_content_defect_evidence": {
+    "path": "artifacts/research/openexempt_legal_scope_20261020/Utility_v6_final_EV_unqualified_caps_conflict_actual_TRAIN_gold_Federal_joint3750_two_rejected_repairs_not_only_execution_20261030.json",
+    "sha256": "ee30bc5c7d6d80048bdb436022cc90b48f5e18b46399f26d2c5ba2a2aea58873"
+  },
+  "amendment_was_before_diagnostic_calls_and_TEST": true
+}

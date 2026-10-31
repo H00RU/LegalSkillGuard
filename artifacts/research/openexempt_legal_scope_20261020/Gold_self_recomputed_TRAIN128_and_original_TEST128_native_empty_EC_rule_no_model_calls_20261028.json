@@ -1,0 +1,88 @@
+{
+  "at_utc": "2026-10-27T17:45:22.369590+00:00",
+  "scope": "Recompute released TRAIN and already-observed original TEST gold-vs-gold only. No 8B input, teacher call, new prediction or new prospective TEST access.",
+  "upstream_grader_unchanged": true,
+  "grading_sha256": "d1608f168950e745247f8cbf567d607b68871c95fef4c1a3ea78b8adf0f4a3c0",
+  "mechanism": "For an empty target and empty prediction, native EC sets tp=fp=fn=0, then P=R=F1=0, and averages this with eligible asset F1. Correct rejection is not credited; no answer can make that empty-target asset score positive.",
+  "example": {
+    "target": {
+      "eligible watch": [
+        "Ariz. Rev. Stat. § 33-1123"
+      ],
+      "ineligible item": []
+    },
+    "identical_prediction": {
+      "eligible watch": [
+        "Ariz. Rev. Stat. § 33-1123"
+      ],
+      "ineligible item": []
+    },
+    "native_F1": 0.5,
+    "complete_output_F1": 1,
+    "exact_target": true
+  },
+  "summary": {
+    "TRAIN128": {
+      "input_sha256": "ef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45",
+      "families": {
+        "EC": {
+          "source_cases": 128,
+          "native_gold_self_mean_percent": 96.875,
+          "complete_output_gold_self_mean_percent": 100,
+          "affected_case_ids": [
+            182,
+            183,
+            207,
+            230,
+            231,
+            239,
+            248,
+            251,
+            269,
+            274,
+            281
+          ],
+          "negative_target_assets_total": 12
+        },
+        "EV": {
+          "source_cases": 128,
+          "native_gold_self_mean_percent": 100,
+          "complete_output_gold_self_mean_percent": 100,
+          "affected_case_ids": [],
+          "negative_target_assets_total": 0
+        }
+      },
+      "all_case_gold_self_equals_positive_asset_fraction": true
+    },
+    "original_already_observed_TEST128": {
+      "input_sha256": "6a5f72559a021d425d5b6ee41ba19f1a8e10d7da1ac11e0725d469a281c5164d",
+      "families": {
+        "EC": {
+          "source_cases": 128,
+          "native_gold_self_mean_percent": 99.73958333333333,
+          "complete_output_gold_self_mean_percent": 100,
+          "affected_case_ids": [
+            1000049
+          ],
+          "negative_target_assets_total": 1
+        },
+        "EV": {
+          "source_cases": 128,
+          "native_gold_self_mean_percent": 100,
+          "complete_output_gold_self_mean_percent": 100,
+          "affected_case_ids": [],
+          "negative_target_assets_total": 0
+        }
+      },
+      "all_case_gold_self_equals_positive_asset_fraction": true
+    }
+  },
+  "interpretation": {
+    "not_standard_answers_fed_to_8B": true,
+    "not_all_TRAIN_below95": true,
+    "EV_not_explained_by_metric_ceiling": true,
+    "original_native_scores_remain_reproducible_under_pinned_protocol": true,
+    "no_inference_rerun_required_for_regrading_saved_complete_predictions": true,
+    "no_silent_metric_replacement_or_test_guided_selection": true
+  }
+}

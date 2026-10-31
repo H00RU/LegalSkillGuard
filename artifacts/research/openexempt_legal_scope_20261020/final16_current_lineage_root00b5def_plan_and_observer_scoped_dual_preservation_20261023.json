@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-23T07:10:56.788100+00:00",
+  "members": {
+    "docs/CURRENT_GOAL.md": "fd1db127c85d9c9b9ab1645e98d814307c0d32e1037394c8aad8601e0e0dcfce",
+    "docs/research/OPENEXEMPT_FINAL_MATRIX_CURRENT_LINEAGE_20261023.md": "034f50b8f94d6f63a4de03c9a191389ca3e41f046ecd33b0dd27ecc9eeef60c3",
+    "artifacts/launches/openexempt_ace_run04_B8_publication_terminal_readonly_20261023.py": "f760f717178357a83d7d2d7551baca5e570e3672c43ccc3a735ac699a9abdd58",
+    "artifacts/launches/openexempt_ace_run04_B8_publication_terminal_readonly_20261023/queued.json": "0583da08a42a6c6d22d97a89e4788d9b3e4b5bade18f7f0443e7e682a6734a83",
+    "artifacts/research/openexempt_legal_scope_20261020/final16_current_lineage_actual_source_protocol_primary10_secondary4_plan_NOT_TEST_config_20261023.json": "ed5de83ef2e38b9aeac4ae3a8e0ff2b73f870314105348f68f0fb9cfdb73edf1",
+    "artifacts/research/openexempt_legal_scope_20261020/final16_current_lineage_root00b5def_incremental_git_dual_20261023.json": "2e1a3aa8a1ca4d0a6b7c3d8f0a044a87d4881a9c525beae04ec62329f9d940d0"
+  },
+  "receipt": {
+    "at": "2026-10-23T07:10:56.778047+00:00",
+    "stage": "scoped",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_final16_current_lineage_root00b5def_20261023-scoped.tar.gz",
+        "sha256": "86fce09f44e61c41769a2244a175f40c3d16f9d25b65bfa07b97c5a7218be442"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_final16_current_lineage_root00b5def_20261023-scoped.tar.gz",
+        "sha256": "86fce09f44e61c41769a2244a175f40c3d16f9d25b65bfa07b97c5a7218be442"
+      }
+    ],
+    "files": 6
+  },
+  "both_disks_all_members_verified": true,
+  "no_TEST_opened": true,
+  "recomputation_program": "import json,os,subprocess\nfrom pathlib import Path\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.learning.experiment import read,sha,now\nfrom legal_skill_guard.experiment.storage import RunStore\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\ngit=\"/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/bin/git\"\nenv={**os.environ,\"GIT_EXEC_PATH\":\"/media/sangfor/vdb/legal-skill-forensics-20261015.pr9fln/git-runtime/usr/lib/git-core\"}\ncommit=subprocess.check_output([git,\"rev-parse\",\"HEAD\"],env=env,text=True).strip()\nassert commit==\"00b5def4759ea972d70910b07511b22588c529d4\"\nbundles=[]\nfor directory in [Path(\"/media/sangfor/vdb/legal-skill-backups\"),Path(\"/home/yndx/hhy/legal-skill-rootdisk-backups\")]:\n path=directory/\"legal-skill-evolve-20261023-final16-current-lineage-root00b5def-from0afcbbf.bundle\"\n subprocess.run([git,\"bundle\",\"create\",str(path),\"reconstructed-main\",\"^0afcbbf8b739ce9fef2332ceb4f2562ecb5e41e1\"],env=env,capture_output=True,text=True,check=True)\n subprocess.run([git,\"bundle\",\"verify\",str(path)],env=env,capture_output=True,text=True,check=True)\n heads=subprocess.check_output([git,\"bundle\",\"list-heads\",str(path)],env=env,text=True)\n assert {line.split()[0] for line in heads.splitlines()}=={commit}\n bundles.append({\"path\":str(path),\"sha256\":sha(path),\"bytes\":path.stat().st_size,\"device\":path.stat().st_dev})\nassert bundles[0][\"device\"]!=bundles[1][\"device\"]\nmeta={\"at\":now(),\"source_commit\":commit,\"classification\":\"Current16 source matrix plus finite recovered-ACE observer; no main method or TEST change\",\n \"required_Git_base\":\"0afcbbf8b739ce9fef2332ceb4f2562ecb5e41e1\",\n \"not_standalone_complete_history\":True,\"bundles\":bundles}\nmeta_path=base/\"final16_current_lineage_root00b5def_incremental_git_dual_20261023.json\"\nRunStore.immutable_json(meta_path,meta)\nnames=[\n \"docs/CURRENT_GOAL.md\",\"docs/research/OPENEXEMPT_FINAL_MATRIX_CURRENT_LINEAGE_20261023.md\",\n \"artifacts/launches/openexempt_ace_run04_B8_publication_terminal_readonly_20261023.py\",\n \"artifacts/launches/openexempt_ace_run04_B8_publication_terminal_readonly_20261023/queued.json\",\n \"artifacts/research/openexempt_legal_scope_20261020/final16_current_lineage_actual_source_protocol_primary10_secondary4_plan_NOT_TEST_config_20261023.json\",\n str(meta_path.relative_to(root))]\nreceipt=preserve(\"legal_openexempt_final16_current_lineage_root00b5def_20261023\",\"scoped\",names)\nreport={\"at\":now(),\"members\":{n:sha(root/n) for n in names},\"receipt\":receipt,\n \"both_disks_all_members_verified\":True,\"no_TEST_opened\":True,\"recomputation_program\":PROGRAM}\ndest=base/\"final16_current_lineage_root00b5def_plan_and_observer_scoped_dual_preservation_20261023.json\"\nRunStore.immutable_json(dest,report)\nfor p in receipt[\"paths\"]:\n RunStore.immutable_json(Path(p[\"path\"]).parent/\"legal_openexempt_final16_current_lineage_20261023.receipt.json\",report)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"members\":len(names),\"source_root\":commit,\n \"both_disks_verified\":True,\"bundle_bytes\":[b[\"bytes\"] for b in bundles]}))\n"
+}

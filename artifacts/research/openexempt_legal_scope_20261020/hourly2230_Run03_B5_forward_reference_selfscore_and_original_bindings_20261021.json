@@ -1,0 +1,164 @@
+{
+  "at": "2026-10-21T14:31:35.378766+00:00",
+  "scheduled_CST": "2026-10-21T22:30:00+08:00",
+  "classification": "Hourly verified original-process wait and direction audit, not new performance evidence",
+  "processes": [
+    {
+      "role": "main",
+      "PID": 1721740,
+      "start_ticks": 455413980,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python -m experiments.openexempt_online run /media/sangfor/vdb/legal-skill-evolve/configs/openexempt_closed_feedback_public_assets128_20261021_run03.json "
+    },
+    {
+      "role": "model",
+      "PID": 3613253,
+      "start_ticks": 446037091,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python /media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm serve /media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218 --served-model-name Qwen/Qwen3-8B --host 127.0.0.1 --port 8000 --dtype bfloat16 --max-model-len 32768 --max-num-seqs 1 --seed 42 --generation-config vllm --reasoning-parser qwen3 --gpu-memory-utilization 0.48 --no-enable-prefix-caching --disable-uvicorn-access-log --guided-decoding-backend xgrammar --guided-decoding-disable-any-whitespace --kv-cache-memory-bytes 5368709120 --max-num-batched-tokens 16384 "
+    },
+    {
+      "role": "ACE_waiter",
+      "PID": 1738522,
+      "start_ticks": 455481667,
+      "state": "S",
+      "same_original_handle_alive": true,
+      "actual_argv": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python /media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_main128_run03_to_ACE128_20261021.py "
+    }
+  ],
+  "bindings": {
+    "main": {
+      "files": 371,
+      "all_bytes_unchanged": true
+    },
+    "static": {
+      "files": 117,
+      "all_bytes_unchanged": true
+    },
+    "ACE_waiter": {
+      "files": 381,
+      "all_bytes_unchanged": true
+    }
+  },
+  "actual_packages_unchanged": 50,
+  "progress": {
+    "at": "2026-10-21T14:30:28.890751+00:00",
+    "run_id": "legal_openexempt_closed_feedback_public_assets128_20261021_run03",
+    "state": "running",
+    "stage": "b5_prequential",
+    "current_batch": 5,
+    "completed_native_calls": 559,
+    "completed_teacher_calls": 8,
+    "teacher_attempts": 8,
+    "cross_stage_identical_wire_reuses": 1061,
+    "library_records": 6,
+    "current_arm": "empty",
+    "current_document_id": 256,
+    "current_call": "openexempt"
+  },
+  "complete_unique_publications": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "B3_actual_final": {
+    "at": "2026-10-21T11:00:54.977423+00:00",
+    "bank_sha256": "e9844cefc4b4a8649f171d801d5035b9d378a2aae1e0ea053d90e1c79dad9e07",
+    "records": 6,
+    "unchanged_from_actual_B2": true,
+    "C1_full_rejected": true,
+    "measured_parent_tokens": 1945,
+    "C2_explicit_NOOP": true
+  },
+  "B4_complete_first_forecasts_exist": true,
+  "B4_complete_first_forecast_wire_health": {
+    "logical_answers": 160,
+    "origin_wires_including_exact_old_reuses": 70,
+    "finish_reasons": {
+      "stop": 70
+    },
+    "parse_errors": 0,
+    "online_all_actual_published_B3_bank": true,
+    "grading_targets_read_by_this_hourly_health_check": false
+  },
+  "ledger": {
+    "max_invocations": 1797,
+    "reservations": 359,
+    "old350_prefix_unchanged": true
+  },
+  "ACE_target_training_started": false,
+  "ACE_target_frozen": false,
+  "archive_free_bytes": {
+    "/media/sangfor/vdb/legal-skill-backups": 1980556570624,
+    "/home/yndx/hhy/legal-skill-rootdisk-backups": 804012945408
+  },
+  "observer": {
+    "original_B5_session10933_confirmed_live_after_wrapper7126_termination": true,
+    "wrapper7126_only_stopped_for_scheduled_CPU_hour_audit": true,
+    "primary_main_model_ACE_not_stopped_or_restarted": true,
+    "read_only_complete_B5_auditor_prepared_not_yet_run": true
+  },
+  "B4_actual_unique_final": {
+    "at": "2026-10-21T13:27:05.858217+00:00",
+    "bank_sha256": "7cedde5f8ccdbfd0d950bb289f304e377bf8a172847221e050367945db3fb338",
+    "records": 6,
+    "actual_tokens": 2179,
+    "accepted_C1_coordinates": [
+      "EV:ARIZONA"
+    ],
+    "C2_full_rejected": true,
+    "current_EC_EV_C1_parent": [
+      0.8385416666666666,
+      0.7984126984126984
+    ],
+    "current_C2_EC_EV": [
+      0.8385416666666666,
+      0.809077380952381
+    ],
+    "prior_C1_EC_EV": [
+      0.868328373015873,
+      0.8486235119047617
+    ],
+    "prior_C2_EC_EV": [
+      0.868328373015873,
+      0.8442418981481481
+    ]
+  },
+  "direction_check": {
+    "previous_goal_turn_classification": "Progress: teacher64 parent/label and both8-witness feedback sets verified; single PA EV edit controlled onall128 old contexts shows PA amount error reduction10to5 but FED increase14to19; actual505-native/8-teacher costs and B5 delivery all backed on2 disks. This goal turn includes a verified wait on original10933 and reference-self-score evidence, not a new model improvement.",
+    "actual_forward_progress": "Same main/model/waiter original handles continue B5 learner-first predictions using actual B4 final6/2179. No extra qualification generation, library edit or selected re-run.",
+    "scoring_interpretation": "Perfect references score original EC96.875percent across64 and93.22917percent inB4, while EV100 and completeEC/EV100. Cross-batch raw EC shifts partly reflect negative-target conventions; do not normalize or replace primary scores or excuse native EV shortfall.",
+    "what_waiting_for": "Complete B5 immutable160 first-forecast records and summary. Score overall16 sources vs empty/ownB1; verify all ArizonaEV contexts equate ownB1 and immediate B3 actor to isolate B4 addition descriptively using existing calls.",
+    "still_missing": "Final8/128 main, actualACE/static comparison, independentlearners, ablations and sealedTEST. Main-to-ACE alreadyqueued, extra6 studies notstarted.",
+    "avoid_local_trap": "No live actor/teacher/gate/scorer/model changes, no moreB1 restarts or targetcase handpatches. Teacher2 rewrite was locally helpful but its cross-law harms remain, not mislabeled as pure guard conservatism."
+  },
+  "next_hourly_CST": "2026-10-21T23:30:00+08:00",
+  "new_native_teacher_or_TEST_calls_by_audit": 0,
+  "B5_partial_wire_health_only_not_partial_metrics": {
+    "completed_logical_answers": 116,
+    "referenced_actual_original_wires": 54,
+    "finish_reasons": {
+      "stop": 54
+    },
+    "parse_errors": 0,
+    "online_bank_matches_actual_unique_B4_final": true,
+    "partial_scores_or_targets_read": false
+  },
+  "B5_complete_first_forecasts_exist": false,
+  "already_seen64_reference_selfscore_not_model_performance": {
+    "EC": 0.9687499999999999,
+    "EV": 1.0,
+    "per_batch_EC": {
+      "1": 0.9635416666666666,
+      "2": 0.9791666666666666,
+      "3": 1.0,
+      "4": 0.9322916666666666
+    },
+    "all_full_output_F1_one": true,
+    "no_B5_or_TEST_targets_read": true,
+    "reference_report": "artifacts/research/openexempt_legal_scope_20261020/Run03_B1_B4_already_seen64_reference_self_score_original_evaluator_not_model_result_20261021.json"
+  }
+}

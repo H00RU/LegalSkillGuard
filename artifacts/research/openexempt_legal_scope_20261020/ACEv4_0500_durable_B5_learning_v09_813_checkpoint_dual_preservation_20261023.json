@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-22T20:58:52.673214+00:00",
+  "classification": "Durable exact next-action state and executable audit/hourly programs; no completed goal or TRAIN/TEST result added",
+  "members": {
+    "artifacts/research/openexempt_legal_scope_20261020/continuation_checkpoint_20261023_0500_B5_learning_v09_813.json": "3f659404944f4a370fab2c89affacfedcef9d1aa34771aca5a98ad318fe1e2f9",
+    "artifacts/research/openexempt_legal_scope_20261020/continuation_programs_20261023_0500_B5_learning_v09_813.json": "fc1ea5edc73c4cea0702dee3e4fb4bb69124bd1edf53e59ca2cf2b977d2ecc7b",
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_0456_complete_git_parallel_eval_CPU106_B5_dual_1a56449_81333d9_20261023.json": "a74add3ebcd687040c6329557d3444db22f26a54276f87288c5f5ac8c2161a22",
+    "artifacts/research/openexempt_legal_scope_20261020/ACEv4_0458_complete_B5_first96_terminal_TRAIN_reference_and_v09_dual_preservation_20261023.json": "3c258010be8bcf948fec7be01bcae11388f1907eb3b327f28edbdd6803a06144",
+    "artifacts/research/openexempt_legal_scope_20261020/manuscript_v09_final_generation_endpoint_cost_exact_scientific_body_snapshots_and11profiles_QA_20261023.json": "3534ba38947d67a643bde2be82b5d17367a7686fdf7937dc60591cdfa2e3a69d"
+  },
+  "both_disk_all_bytes_verified": true,
+  "preservation": {
+    "at": "2026-10-22T20:58:52.651600+00:00",
+    "stage": "checkpoint",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_0500_durable_B5_learning_v09_813_20261023-checkpoint.tar.gz",
+        "sha256": "d2c10521100ee8ccd7882a494ffba5fe111a890cf4723be426fd9f5f46c8239c"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_0500_durable_B5_learning_v09_813_20261023-checkpoint.tar.gz",
+        "sha256": "d2c10521100ee8ccd7882a494ffba5fe111a890cf4723be426fd9f5f46c8239c"
+      }
+    ],
+    "files": 5
+  },
+  "root_HEAD": "1a564497360960c132a6085f812d0c4599303c79",
+  "isolated_HEAD": "81333d91b206232c8303440d9b6ddc53dd2550f2",
+  "live_observer": 43235,
+  "scheduled_readonly_hourly": 90484,
+  "original_training_model_and_successor_units_unchanged": true,
+  "recomputation_program": "import json\nfrom pathlib import Path\nfrom experiments.openexempt_online import preserve\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import read,sha,now\nroot=Path.cwd();base=root/\"artifacts/research/openexempt_legal_scope_20261020\"\nnames=[str((base/n).relative_to(root)) for n in [\n \"continuation_checkpoint_20261023_0500_B5_learning_v09_813.json\",\n \"continuation_programs_20261023_0500_B5_learning_v09_813.json\",\n \"ACEv4_0456_complete_git_parallel_eval_CPU106_B5_dual_1a56449_81333d9_20261023.json\",\n \"ACEv4_0458_complete_B5_first96_terminal_TRAIN_reference_and_v09_dual_preservation_20261023.json\",\n \"manuscript_v09_final_generation_endpoint_cost_exact_scientific_body_snapshots_and11profiles_QA_20261023.json\"]]\nstate=read(root/names[0]);programs=read(root/state[\"next_action_programs_file\"])\nassert state[\"current_state\"][\"live_observer\"][\"session\"]==43235\nassert state[\"current_state\"][\"last_hourly\"][\"scheduled_readonly_session\"]==90484\nassert len(programs)==4 and all(isinstance(v,str) and v for v in programs.values())\nassert state[\"current_state\"][\"paper\"][\"version\"]==\"v0.9\"\nassert state[\"current_state\"][\"runtime_warning\"][\"original_model_and_successors_untouched\"]\nmanifest={n:sha(root/n) for n in names}\nreceipt=preserve(\"legal_openexempt_0500_durable_B5_learning_v09_813_20261023\",\"checkpoint\",names)\nassert len({Path(p[\"path\"]).stat().st_dev for p in receipt[\"paths\"]})==2\nout={\"at\":now(),\"classification\":\"Durable exact next-action state and executable audit/hourly programs; no completed goal or TRAIN/TEST result added\",\n \"members\":manifest,\"both_disk_all_bytes_verified\":True,\"preservation\":receipt,\"root_HEAD\":\"1a564497360960c132a6085f812d0c4599303c79\",\n \"isolated_HEAD\":\"81333d91b206232c8303440d9b6ddc53dd2550f2\",\"live_observer\":43235,\"scheduled_readonly_hourly\":90484,\n \"original_training_model_and_successor_units_unchanged\":True,\"recomputation_program\":PROGRAM}\ndest=base/\"ACEv4_0500_durable_B5_learning_v09_813_checkpoint_dual_preservation_20261023.json\"\nRunStore.immutable_json(dest,out)\nfor item in receipt[\"paths\"]:\n RunStore.immutable_json(Path(item[\"path\"]).parent/\"legal_skill_20261023_0500_B5_learning_v09_813_checkpoint.json\",out)\nprint(json.dumps({\"report\":str(dest.relative_to(root)),\"five_members_verified_both_disks\":True,\"live_observer\":43235,\"scheduled_hourly\":90484,\"archives\":receipt[\"paths\"]}))\n"
+}

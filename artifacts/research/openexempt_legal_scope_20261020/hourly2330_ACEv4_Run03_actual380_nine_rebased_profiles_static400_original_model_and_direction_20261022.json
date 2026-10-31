@@ -1,0 +1,171 @@
+{
+  "at": "2026-10-22T15:32:49.005939+00:00",
+  "classification": "hourly actual identity, exact source/package and direction review; no new model, teacher, tokenizer or TEST call",
+  "profiles": [
+    {
+      "config": "configs/openexempt_ace_public_assets128_20261022_run03.json",
+      "files": 380,
+      "packages": 50,
+      "all_current_bytes_match": true
+    },
+    {
+      "config": "configs/openexempt_fixed_static_train128_20261022_run02.json",
+      "files": 400,
+      "packages": 50,
+      "all_current_bytes_match": true
+    },
+    {
+      "config": "configs/openexempt_whole_bank_public_assets128_20261022_run01.json",
+      "files": 374,
+      "packages": 50,
+      "all_current_bytes_match": true
+    },
+    {
+      "config": "configs/openexempt_first_commit_public_assets128_20261022_run01.json",
+      "files": 374,
+      "packages": 50,
+      "all_current_bytes_match": true
+    },
+    {
+      "config": "configs/openexempt_closed_feedback_public_assets128_seed145_20261022_run02.json",
+      "files": 374,
+      "packages": 50,
+      "all_current_bytes_match": true
+    },
+    {
+      "config": "configs/openexempt_ace_public_assets128_seed145_20261022_run04.json",
+      "files": 380,
+      "packages": 50,
+      "all_current_bytes_match": true
+    },
+    {
+      "config": "configs/openexempt_closed_feedback_public_assets128_seed245_20261022_run02.json",
+      "files": 374,
+      "packages": 50,
+      "all_current_bytes_match": true
+    },
+    {
+      "config": "configs/openexempt_ace_public_assets128_seed245_20261022_run04.json",
+      "files": 380,
+      "packages": 50,
+      "all_current_bytes_match": true
+    },
+    {
+      "config": "configs/openexempt_trace2skill_text_public_assets128_seed45_20261022_run02.json",
+      "files": 375,
+      "packages": 50,
+      "all_current_bytes_match": true
+    },
+    {
+      "config": "configs/openexempt_trace2skill_text_public_assets128_seed145_20261022_run02.json",
+      "files": 375,
+      "packages": 50,
+      "all_current_bytes_match": true
+    },
+    {
+      "config": "configs/openexempt_trace2skill_text_public_assets128_seed245_20261022_run02.json",
+      "files": 375,
+      "packages": 50,
+      "all_current_bytes_match": true
+    }
+  ],
+  "main_four_actual_actor_scorer_bytes_unchanged": true,
+  "handles": [
+    {
+      "pid": 812509,
+      "start_ticks": "468900048",
+      "argv": [
+        "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python",
+        "-u",
+        "-m",
+        "experiments.openexempt_ace_online",
+        "run",
+        "/media/sangfor/vdb/legal-skill-evolve/configs/openexempt_ace_public_assets128_20261022_run03.json"
+      ]
+    },
+    {
+      "pid": 3613253,
+      "start_ticks": "446037091",
+      "argv": [
+        "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python",
+        "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm",
+        "serve",
+        "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+        "--served-model-name",
+        "Qwen/Qwen3-8B",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "8000",
+        "--dtype",
+        "bfloat16",
+        "--max-model-len",
+        "32768",
+        "--max-num-seqs",
+        "1",
+        "--seed",
+        "42",
+        "--generation-config",
+        "vllm",
+        "--reasoning-parser",
+        "qwen3",
+        "--gpu-memory-utilization",
+        "0.48",
+        "--no-enable-prefix-caching",
+        "--disable-uvicorn-access-log",
+        "--guided-decoding-backend",
+        "xgrammar",
+        "--guided-decoding-disable-any-whitespace",
+        "--kv-cache-memory-bytes",
+        "5368709120",
+        "--max-num-batched-tokens",
+        "16384"
+      ]
+    }
+  ],
+  "model_dependencies_unchanged": true,
+  "waiting_static": {
+    "unit": "legal-openexempt-fixed-static-train128-20261022-run02.service",
+    "pid": 821776,
+    "start_ticks": "468935458",
+    "argv": [
+      "/bin/bash",
+      "/media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_fixed_static_train128_20261022_run02/after_ACE.sh"
+    ],
+    "actual_Bash_wait_not_second_model": true,
+    "run_directory_absent": true
+  },
+  "cancelled_old_waiter_and_stopped_old_ACE_have_no_process": true,
+  "actual_progress": {
+    "at": "2026-10-22T15:31:49.639944+00:00",
+    "run_id": "legal_openexempt_ace_public_assets128_20261022_run03",
+    "state": "running",
+    "stage": "b3_TRAIN_round1",
+    "current_batch": 3,
+    "completed_native_calls": 289,
+    "completed_teacher_calls": 110,
+    "teacher_attempts": 110,
+    "playbook_bullets": 12,
+    "cross_stage_identical_wire_reuses": 104,
+    "current_arm": "ace",
+    "current_document_id": 216,
+    "current_call": "openexempt_ace_generator"
+  },
+  "restored_origins_not_new_generations": {
+    "native": 284,
+    "teacher_responses": 102
+  },
+  "fresh_current_counts": {
+    "native": 5,
+    "teacher": 8
+  },
+  "GPU": "NVIDIA A40, 27833 MiB, 49140 MiB, 97 %",
+  "observer_handle": 1511,
+  "next_hourly_CST": "2026-10-23 00:30",
+  "directions": [
+    "Complete fair correctedACE and then unchanged blindstaticTRAINcontrol; no final superiority claim from partial scores.",
+    "Main8batch is valid TRAIN, not inviolable: inadequate completed TRAIN comparisons can motivate root repair and a new main training run.",
+    "Present evidence-led strengths without a debugging diary; preserve necessary fairness, cost and heldout boundaries.",
+    "No single-batch monotonicity, skill-count target, TEST tuning, new model, fallback or expensive qualification sweep."
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-20T13:42:14.416368+00:00",
+  "classification": "actual_wire_and_frozen_code_confirmed_information_flow_gap_not_proof_of_entire_causal_effect",
+  "run_id": "legal_openexempt_direct_skills_online_20261020_run01",
+  "source_sha256": "4f57512f1dad4117c0df01a88e409bddd473d0699c5a38c63859c5f200504b3b",
+  "actual_teacher3_wire_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/teacher/b3_candidate1/wire_request.json",
+  "actual_wire_sha256": "33138edf178d2bd7a44c5af50e10b3229f0b5cdaed2145f3d9eca23d66ef724b",
+  "actual_user_prompt_sha256": "eaeb8d44c11d9e02b36cda446cbb15e6f47c03f6c2c78187384324a52a098d0c",
+  "previous_partial_publication_path": "runs/legal_openexempt_direct_skills_online_20261020_run01/publications/b2.json",
+  "previous_actual_accepted_coordinates": [
+    "EC:ILLINOIS",
+    "EV:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN"
+  ],
+  "previous_unaccepted_coordinates": [
+    "EC:ARIZONA",
+    "EC:FEDERAL+OREGON+PENNSYLVANIA+WISCONSIN",
+    "EV:ARIZONA",
+    "EV:ILLINOIS"
+  ],
+  "previous_full_proposed_replay_saved": 32,
+  "actual_teacher3_rejected_feedback_items": 0,
+  "teacher3_parent_errors_labels_and_scores_do_exist_in_already_seen_training": true,
+  "configured_max_candidate_attempts": 2,
+  "actual_C3_candidate_attempts": 1,
+  "frozen_code_behavior": [
+    "each batch initializes rejected feedback to empty",
+    "accepted partial composition sets current bank/latest and breaks",
+    "only fully unsuccessful in-batch decisions are appended to rejected list",
+    "next batch does not load previous partial rejection evidence into that field"
+  ],
+  "interpretation": "Teacher sees current parent failures and released labels, but not the previous partially rejected proposal replay/reasons. This can cause repeated unsuccessful edits; improvement from carrying the missing feedback must still be evaluated prospectively. Any fixed implementation must preserve which components actually committed and not falsely call the whole previous decision rejected.",
+  "future_repair_constraint": "Reuse existing TRAIN candidate-feedback path with bounded failure witnesses, no new service/fallback or overriding gates; no hot edit of running v13. Complete B4, then isolate any new method under new contract/run.",
+  "not_fixed_in_active_main": true,
+  "new_model_or_teacher_calls": 0,
+  "no_B4_gold_or_official_TEST_used": true
+}

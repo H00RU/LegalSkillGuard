@@ -1,0 +1,39 @@
+{
+  "scope": "Two-task TRAIN-only lossless adapter/schema/context check, no legal grading or generation",
+  "bank_path": "artifacts/research/openexempt_legal_scope_20261020/ACE_actual_final_playbook_lossless_common_direct_wrapper_20261027.json",
+  "bank_file_sha256": "eab8feab08e1d2aa3561df1db34309fab51c7ed94003c9571c1ffec1c5a1cd09",
+  "canonical_bank_sha256": "362e9c7982d4ba7b8467c36ce372e04b3cbe46b361be2750a21dd18774e13bfc",
+  "original_ACE_completion_sha256": "a8f24419c83c549b168006c1fe37202ce49797c8caa3a9f80df42a55691ad04d",
+  "original_playbook_sha256": "75ad535aed4478ce4c85832138dadcb3dc460fec8200704151a002920131af56",
+  "original_playbook_tokens": 2158,
+  "wrapped_serialized_bank_tokens": 2251,
+  "original_ACE_build_cap": 8192,
+  "native_generation_calls": 0,
+  "teacher_calls": 0,
+  "TEST_case_or_target_reads": 0,
+  "tokenization_requests": 4,
+  "checks": [
+    {
+      "TRAIN_case_id": 181,
+      "family": "EC",
+      "skill_message_index": 1,
+      "complete_playbook_verbatim": true,
+      "direct_schema_equal_to_empty": true,
+      "actual_prompt_tokens": 8474,
+      "maximum_output_tokens": 8192,
+      "context_budget": 32768
+    },
+    {
+      "TRAIN_case_id": 181,
+      "family": "EV",
+      "skill_message_index": 2,
+      "complete_playbook_verbatim": true,
+      "direct_schema_equal_to_empty": true,
+      "actual_prompt_tokens": 8559,
+      "maximum_output_tokens": 8192,
+      "context_budget": 32768
+    }
+  ],
+  "not_author_native_wrapper_or_relearning": true,
+  "audit_script_correction": "Initial diagnostic assertion mistook actor_payload third return (skill records) for skill IDs; corrected projection only, no live code or bank edits and no generation took place."
+}

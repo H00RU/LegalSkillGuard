@@ -1,0 +1,5545 @@
+{
+  "at": "2026-10-28T15:42:23.884613+00:00",
+  "scope": "Seven observed TRAIN runs: six complete8 plus stopped sixth3. Same actual one-step parents, NOT counterfactual online learning or TEST.",
+  "counts": {
+    "assessed": 90,
+    "omitted_without_full_proposal_scores": 3,
+    "by_arm": {
+      "formal1": 14,
+      "formal2": 13,
+      "formal3": 14,
+      "formal4": 14,
+      "whole": 14,
+      "task": 15,
+      "sixth_stopped": 6
+    },
+    "original_whole_accepted": 22,
+    "pooled_quality_predicate": 40,
+    "pooled_quality_and_no_added_negative_claims": 32,
+    "blocked_quality_improvements": 18,
+    "of_blocked_some_component_committed": 8,
+    "of_blocked_fully_rejected": 10,
+    "of_blocked_actual_step_dominates_full_proposal": 2,
+    "fully_rejected_quality_improvements_without_added_negative_claims": 4
+  },
+  "correction": "Earlier summary called the total100; actual per-arm counts14+13+14+14+14+15+6 sum90. This corrects only the assessed total;22/40/18/8/10 remain unchanged.",
+  "quality_definition": "Task-count-weight original macro current/prior native and complete-output F1; nonregress BOTH families in both scores, improve at least one, no new format failure. Negative claims are reported separately; this criterion alone is not safety or the installed gate.",
+  "original_admission_not_changed": true,
+  "not_a_proof_that_every_rejected_proposal_was_better_than_actual_component_commit": true,
+  "no_new_native_teacher_or_TEST_calls": true,
+  "proposals": [
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b1.json",
+      "publication_sha256": "19057ad7c1f3510291abbd26f75766f39e34473796be4be669e98f0b73590408",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.6344990079365078,
+          "full_output_f1": 0.6662209862577508
+        },
+        "EV": {
+          "f1": 0.6635416666666666,
+          "full_output_f1": 0.6561211664152842
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.7180059523809524,
+          "full_output_f1": 0.7542096560846561
+        },
+        "EV": {
+          "f1": 0.7557787698412699,
+          "full_output_f1": 0.7514054232804233
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.7180059523809524,
+          "full_output_f1": 0.7542096560846561
+        },
+        "EV": {
+          "f1": 0.7661954365079365,
+          "full_output_f1": 0.7597387566137567
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.08350694444444462,
+          "full_output_f1": 0.08798866982690523
+        },
+        "EV": {
+          "f1": 0.09223710317460332,
+          "full_output_f1": 0.09528425686513908
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b1.json",
+      "publication_sha256": "19057ad7c1f3510291abbd26f75766f39e34473796be4be669e98f0b73590408",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.7180059523809524,
+          "full_output_f1": 0.7542096560846561
+        },
+        "EV": {
+          "f1": 0.7661954365079365,
+          "full_output_f1": 0.7597387566137567
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8324900793650795,
+          "full_output_f1": 0.8834263584819895
+        },
+        "EV": {
+          "f1": 0.7054067460317459,
+          "full_output_f1": 0.693709589022089
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8324900793650795,
+          "full_output_f1": 0.8834263584819895
+        },
+        "EV": {
+          "f1": 0.8078621031746034,
+          "full_output_f1": 0.8064874939874941
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.11448412698412702,
+          "full_output_f1": 0.1292167023973334
+        },
+        "EV": {
+          "f1": -0.06078869047619062,
+          "full_output_f1": -0.06602916759166766
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": -1,
+        "EV": 1
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b2.json",
+      "publication_sha256": "8ec1054c31340fc102f908b385003b5238778fd9e901e4d61479616db8b98471",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8346292162698413,
+          "full_output_f1": 0.8759050520128308
+        },
+        "EV": {
+          "f1": 0.7761780753968255,
+          "full_output_f1": 0.7758285917728643
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8785528273809524,
+          "full_output_f1": 0.9106025709204589
+        },
+        "EV": {
+          "f1": 0.8582403273809525,
+          "full_output_f1": 0.8492866873623454
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8346292162698413,
+          "full_output_f1": 0.8759050520128309
+        },
+        "EV": {
+          "f1": 0.8504278273809524,
+          "full_output_f1": 0.8430366873623453
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.043923611111111094,
+          "full_output_f1": 0.03469751890762818
+        },
+        "EV": {
+          "f1": 0.08206225198412698,
+          "full_output_f1": 0.07345809558948102
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b2.json",
+      "publication_sha256": "8ec1054c31340fc102f908b385003b5238778fd9e901e4d61479616db8b98471",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8346292162698413,
+          "full_output_f1": 0.8759050520128308
+        },
+        "EV": {
+          "f1": 0.8504278273809525,
+          "full_output_f1": 0.8430366873623454
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8453869047619047,
+          "full_output_f1": 0.8837094424029066
+        },
+        "EV": {
+          "f1": 0.7778769841269841,
+          "full_output_f1": 0.7708503302253302
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8453869047619048,
+          "full_output_f1": 0.8837094424029067
+        },
+        "EV": {
+          "f1": 0.8504278273809524,
+          "full_output_f1": 0.8430366873623453
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.010757688492063378,
+          "full_output_f1": 0.007804390390075855
+        },
+        "EV": {
+          "f1": -0.07255084325396832,
+          "full_output_f1": -0.07218635713701516
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b3.json",
+      "publication_sha256": "f6fcd356964ca6865ab349e143a93a87a2e3df5cb1bb1296d1f56bf305ed2e22",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.868328373015873,
+          "full_output_f1": 0.8943996560829802
+        },
+        "EV": {
+          "f1": 0.8416790674603174,
+          "full_output_f1": 0.8405192273613326
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8310763888888891,
+          "full_output_f1": 0.8530716681174909
+        },
+        "EV": {
+          "f1": 0.8155299272486772,
+          "full_output_f1": 0.8214656706537834
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.868328373015873,
+          "full_output_f1": 0.8943996560829802
+        },
+        "EV": {
+          "f1": 0.8416790674603174,
+          "full_output_f1": 0.8405192273613326
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.03725198412698383,
+          "full_output_f1": -0.04132798796548931
+        },
+        "EV": {
+          "f1": -0.026149140211640165,
+          "full_output_f1": -0.019053556707549157
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 1,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b4.json",
+      "publication_sha256": "7a7a773607c9c9d8c572d1214aa011e01f1bb38253800a4788f3c26e63158259",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8608816964285714,
+          "full_output_f1": 0.8949710648543647
+        },
+        "EV": {
+          "f1": 0.8308624751984126,
+          "full_output_f1": 0.8288240587993878
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8673921130952381,
+          "full_output_f1": 0.900960648187698
+        },
+        "EV": {
+          "f1": 0.8360708085317459,
+          "full_output_f1": 0.8373062016565305
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8608816964285714,
+          "full_output_f1": 0.8949710648543646
+        },
+        "EV": {
+          "f1": 0.8360708085317456,
+          "full_output_f1": 0.8373062016565301
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.006510416666666741,
+          "full_output_f1": 0.005989583333333326
+        },
+        "EV": {
+          "f1": 0.005208333333333259,
+          "full_output_f1": 0.00848214285714266
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": -2
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b4.json",
+      "publication_sha256": "7a7a773607c9c9d8c572d1214aa011e01f1bb38253800a4788f3c26e63158259",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8608816964285714,
+          "full_output_f1": 0.8949710648543647
+        },
+        "EV": {
+          "f1": 0.8360708085317459,
+          "full_output_f1": 0.8373062016565305
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8608816964285714,
+          "full_output_f1": 0.8949710648543647
+        },
+        "EV": {
+          "f1": 0.8354507688492063,
+          "full_output_f1": 0.8365823130619978
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8608816964285714,
+          "full_output_f1": 0.8949710648543647
+        },
+        "EV": {
+          "f1": 0.8360708085317459,
+          "full_output_f1": 0.8373062016565305
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.0006200396825395416,
+          "full_output_f1": -0.0007238885945326512
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b5.json",
+      "publication_sha256": "c675b739081386859ca59eb11bdb08d2bb63d24a5eb1a2ead37142bee55fa02f",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8622470238095238,
+          "full_output_f1": 0.895388401591094
+        },
+        "EV": {
+          "f1": 0.8305133928571425,
+          "full_output_f1": 0.8253067729054567
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8674553571428572,
+          "full_output_f1": 0.9015887984164909
+        },
+        "EV": {
+          "f1": 0.8305133928571425,
+          "full_output_f1": 0.8253067729054567
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8622470238095238,
+          "full_output_f1": 0.895388401591094
+        },
+        "EV": {
+          "f1": 0.8305133928571425,
+          "full_output_f1": 0.8253067729054567
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.00520833333333337,
+          "full_output_f1": 0.006200396825396859
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b5.json",
+      "publication_sha256": "c675b739081386859ca59eb11bdb08d2bb63d24a5eb1a2ead37142bee55fa02f",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8622470238095238,
+          "full_output_f1": 0.895388401591094
+        },
+        "EV": {
+          "f1": 0.8305133928571425,
+          "full_output_f1": 0.8253067729054567
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8622470238095238,
+          "full_output_f1": 0.895388401591094
+        },
+        "EV": {
+          "f1": 0.871832837301587,
+          "full_output_f1": 0.8619490889227729
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8622470238095238,
+          "full_output_f1": 0.895388401591094
+        },
+        "EV": {
+          "f1": 0.8718328373015869,
+          "full_output_f1": 0.8619490889227726
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.041319444444444464,
+          "full_output_f1": 0.03664231601731616
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b6.json",
+      "publication_sha256": "7c93680f80180d44e887a1e13124406d7dc36635274087d15f3b2c2b22325622",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8595444775132274,
+          "full_output_f1": 0.895763109450165
+        },
+        "EV": {
+          "f1": 0.8655857308201055,
+          "full_output_f1": 0.8574691481763845
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.7587797619047617,
+          "full_output_f1": 0.8085520551239073
+        },
+        "EV": {
+          "f1": 0.9068107914462081,
+          "full_output_f1": 0.9004126785984532
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8595444775132273,
+          "full_output_f1": 0.8957631094501649
+        },
+        "EV": {
+          "f1": 0.9102830136684306,
+          "full_output_f1": 0.9018015674873423
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.10076471560846567,
+          "full_output_f1": -0.08721105432625775
+        },
+        "EV": {
+          "f1": 0.04122506062610265,
+          "full_output_f1": 0.042943530422068665
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": -2,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b6.json",
+      "publication_sha256": "7c93680f80180d44e887a1e13124406d7dc36635274087d15f3b2c2b22325622",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8595444775132274,
+          "full_output_f1": 0.895763109450165
+        },
+        "EV": {
+          "f1": 0.9102830136684305,
+          "full_output_f1": 0.901801567487342
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8595444775132274,
+          "full_output_f1": 0.895763109450165
+        },
+        "EV": {
+          "f1": 0.898762676366843,
+          "full_output_f1": 0.8915855589015579
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8595444775132274,
+          "full_output_f1": 0.895763109450165
+        },
+        "EV": {
+          "f1": 0.9102830136684305,
+          "full_output_f1": 0.901801567487342
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.011520337301587413,
+          "full_output_f1": -0.010216008585784087
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b7.json",
+      "publication_sha256": "ca6a7164f6a221d45770179d22c0a535cb9f9c79c6d94b68894a6c9eff652164",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8489618764172333,
+          "full_output_f1": 0.8832186324503943
+        },
+        "EV": {
+          "f1": 0.8956071664777024,
+          "full_output_f1": 0.8863211796768438
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.7891900510204078,
+          "full_output_f1": 0.8312628501374688
+        },
+        "EV": {
+          "f1": 0.8425317696523056,
+          "full_output_f1": 0.8411822907879548
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8489618764172333,
+          "full_output_f1": 0.8832186324503943
+        },
+        "EV": {
+          "f1": 0.8956071664777024,
+          "full_output_f1": 0.8863211796768438
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.05977182539682546,
+          "full_output_f1": -0.051955782312925525
+        },
+        "EV": {
+          "f1": -0.05307539682539686,
+          "full_output_f1": -0.04513888888888895
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": -1,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b7.json",
+      "publication_sha256": "ca6a7164f6a221d45770179d22c0a535cb9f9c79c6d94b68894a6c9eff652164",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8489618764172333,
+          "full_output_f1": 0.8832186324503943
+        },
+        "EV": {
+          "f1": 0.8956071664777024,
+          "full_output_f1": 0.8863211796768438
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.863346797052154,
+          "full_output_f1": 0.8943117060434679
+        },
+        "EV": {
+          "f1": 0.891745205026455,
+          "full_output_f1": 0.8824190632747274
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8633467970521538,
+          "full_output_f1": 0.8943117060434675
+        },
+        "EV": {
+          "f1": 0.8956071664777024,
+          "full_output_f1": 0.8863211796768439
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.014384920634920695,
+          "full_output_f1": 0.011093073593073544
+        },
+        "EV": {
+          "f1": -0.0038619614512473976,
+          "full_output_f1": -0.0039021164021163512
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": -1,
+        "EV": 5
+      }
+    },
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b8.json",
+      "publication_sha256": "a0f9aee24b5f7ce6db15f88d0485cd0e02511c3e930d0f12f6ce828ed1d4c840",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8603050595238091,
+          "full_output_f1": 0.8896157149200687
+        },
+        "EV": {
+          "f1": 0.8901635871362436,
+          "full_output_f1": 0.8819555551514121
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8603050595238091,
+          "full_output_f1": 0.8896157149200687
+        },
+        "EV": {
+          "f1": 0.8929909680886243,
+          "full_output_f1": 0.8844802874424369
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8603050595238092,
+          "full_output_f1": 0.8896157149200689
+        },
+        "EV": {
+          "f1": 0.8929909680886244,
+          "full_output_f1": 0.884480287442437
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.002827380952380776,
+          "full_output_f1": 0.0025247322910247894
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b1.json",
+      "publication_sha256": "1266f4d7b18721f2c14c2f556f61aab6961b81f81803f8a114779468e5745d74",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "joint",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.5930803571428571,
+          "full_output_f1": 0.6213392857142858
+        },
+        "EV": {
+          "f1": 0.6386160714285714,
+          "full_output_f1": 0.6516305827886711
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8610863095238095,
+          "full_output_f1": 0.8841941884280594
+        },
+        "EV": {
+          "f1": 0.7140997023809523,
+          "full_output_f1": 0.7093543320105818
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8610863095238095,
+          "full_output_f1": 0.8841941884280594
+        },
+        "EV": {
+          "f1": 0.7140997023809523,
+          "full_output_f1": 0.7093543320105818
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.2680059523809524,
+          "full_output_f1": 0.26285490271377365
+        },
+        "EV": {
+          "f1": 0.07548363095238098,
+          "full_output_f1": 0.0577237492219107
+        }
+      },
+      "format_count_change": {
+        "EC": -1,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": -1,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b2.json",
+      "publication_sha256": "b1fc54eb2ec8f97036cedb37d2996d14cab84076cd8afd4b09b46b08bac92005",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8642981150793649,
+          "full_output_f1": 0.8875190129815367
+        },
+        "EV": {
+          "f1": 0.733141121031746,
+          "full_output_f1": 0.7289699397949687
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8977864583333333,
+          "full_output_f1": 0.9187521624913406
+        },
+        "EV": {
+          "f1": 0.768985615079365,
+          "full_output_f1": 0.7620405721049104
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8977864583333333,
+          "full_output_f1": 0.9187521624913407
+        },
+        "EV": {
+          "f1": 0.7704675099206351,
+          "full_output_f1": 0.7684044636044928
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.03348834325396832,
+          "full_output_f1": 0.031233149509803937
+        },
+        "EV": {
+          "f1": 0.035844494047619024,
+          "full_output_f1": 0.03307063230994167
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b2.json",
+      "publication_sha256": "b1fc54eb2ec8f97036cedb37d2996d14cab84076cd8afd4b09b46b08bac92005",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8977864583333333,
+          "full_output_f1": 0.9187521624913406
+        },
+        "EV": {
+          "f1": 0.7704675099206348,
+          "full_output_f1": 0.7684044636044927
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8792782738095237,
+          "full_output_f1": 0.8995092203548087
+        },
+        "EV": {
+          "f1": 0.8510726686507936,
+          "full_output_f1": 0.8535870241003313
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8977864583333333,
+          "full_output_f1": 0.9187521624913407
+        },
+        "EV": {
+          "f1": 0.8640935019841269,
+          "full_output_f1": 0.8599362304495375
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.018508184523809534,
+          "full_output_f1": -0.019242942136531882
+        },
+        "EV": {
+          "f1": 0.08060515873015872,
+          "full_output_f1": 0.08518256049583861
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b3.json",
+      "publication_sha256": "5fc709ea29fe9c2709917e7f1ba981d44dc8202f169adf8c28e44eb1466910f2",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9031952711640212,
+          "full_output_f1": 0.9177682162451237
+        },
+        "EV": {
+          "f1": 0.8660094246031745,
+          "full_output_f1": 0.8625323901333667
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9379960317460317,
+          "full_output_f1": 0.95703266943763
+        },
+        "EV": {
+          "f1": 0.8099041005291004,
+          "full_output_f1": 0.8101844036907639
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9356812169312171,
+          "full_output_f1": 0.9488150768450373
+        },
+        "EV": {
+          "f1": 0.8660094246031744,
+          "full_output_f1": 0.8625323901333667
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.03480076058201054,
+          "full_output_f1": 0.039264453192506266
+        },
+        "EV": {
+          "f1": -0.05610532407407409,
+          "full_output_f1": -0.052347986442602745
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b3.json",
+      "publication_sha256": "5fc709ea29fe9c2709917e7f1ba981d44dc8202f169adf8c28e44eb1466910f2",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9356812169312171,
+          "full_output_f1": 0.9488150768450373
+        },
+        "EV": {
+          "f1": 0.8660094246031745,
+          "full_output_f1": 0.8625323901333667
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9356812169312171,
+          "full_output_f1": 0.9488150768450373
+        },
+        "EV": {
+          "f1": 0.8256489748677248,
+          "full_output_f1": 0.823504232183177
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9356812169312171,
+          "full_output_f1": 0.9488150768450373
+        },
+        "EV": {
+          "f1": 0.8660094246031745,
+          "full_output_f1": 0.8625323901333667
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.04036044973544972,
+          "full_output_f1": -0.03902815795018966
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b4.json",
+      "publication_sha256": "dee245b08fb8999f87e54d6b6847f708e4c178895a02c2e1e5311f66e4117507",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.918452380952381,
+          "full_output_f1": 0.9460663491200695
+        },
+        "EV": {
+          "f1": 0.8260137648809522,
+          "full_output_f1": 0.8201727707665953
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9258308531746032,
+          "full_output_f1": 0.9447642657867361
+        },
+        "EV": {
+          "f1": 0.8260137648809522,
+          "full_output_f1": 0.8201727707665953
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.918452380952381,
+          "full_output_f1": 0.9460663491200695
+        },
+        "EV": {
+          "f1": 0.8260137648809522,
+          "full_output_f1": 0.8201727707665953
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.00737847222222221,
+          "full_output_f1": -0.0013020833333333703
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 2,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b5.json",
+      "publication_sha256": "22a791578b1080bfc46d2abd37739e398d163a956c97dc3e49a9e78dd48dbf36",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9152083333333334,
+          "full_output_f1": 0.9465126448766735
+        },
+        "EV": {
+          "f1": 0.806455853174603,
+          "full_output_f1": 0.7956394792395386
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9088492063492062,
+          "full_output_f1": 0.940908585704066
+        },
+        "EV": {
+          "f1": 0.7831597222222222,
+          "full_output_f1": 0.7713794630435495
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9152083333333335,
+          "full_output_f1": 0.9465126448766735
+        },
+        "EV": {
+          "f1": 0.847080853174603,
+          "full_output_f1": 0.834488685588745
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.006359126984127217,
+          "full_output_f1": -0.005604059172607534
+        },
+        "EV": {
+          "f1": -0.02329613095238081,
+          "full_output_f1": -0.024260016195989054
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 1
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b5.json",
+      "publication_sha256": "22a791578b1080bfc46d2abd37739e398d163a956c97dc3e49a9e78dd48dbf36",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9152083333333334,
+          "full_output_f1": 0.9465126448766735
+        },
+        "EV": {
+          "f1": 0.847080853174603,
+          "full_output_f1": 0.834488685588745
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9152083333333334,
+          "full_output_f1": 0.9465126448766735
+        },
+        "EV": {
+          "f1": 0.8476711309523808,
+          "full_output_f1": 0.834779032496739
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9152083333333334,
+          "full_output_f1": 0.9465126448766735
+        },
+        "EV": {
+          "f1": 0.847080853174603,
+          "full_output_f1": 0.834488685588745
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.000590277777777759,
+          "full_output_f1": 0.0002903469079940102
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b6.json",
+      "publication_sha256": "5729ed5f17a3a5178d016418bf5142241d29152d7b5d22f3b788923f06746ef3",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9129464285714287,
+          "full_output_f1": 0.9488133148010958
+        },
+        "EV": {
+          "f1": 0.8559668485449734,
+          "full_output_f1": 0.8456124727330225
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9129464285714287,
+          "full_output_f1": 0.9488133148010958
+        },
+        "EV": {
+          "f1": 0.8628947585978836,
+          "full_output_f1": 0.8528095905145142
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9129464285714287,
+          "full_output_f1": 0.9488133148010958
+        },
+        "EV": {
+          "f1": 0.8559668485449734,
+          "full_output_f1": 0.8456124727330225
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.006927910052910158,
+          "full_output_f1": 0.00719711778149168
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b6.json",
+      "publication_sha256": "5729ed5f17a3a5178d016418bf5142241d29152d7b5d22f3b788923f06746ef3",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9129464285714287,
+          "full_output_f1": 0.9488133148010958
+        },
+        "EV": {
+          "f1": 0.8559668485449734,
+          "full_output_f1": 0.8456124727330225
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9039434523809523,
+          "full_output_f1": 0.9399624296594459
+        },
+        "EV": {
+          "f1": 0.8559668485449734,
+          "full_output_f1": 0.8456124727330225
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9129464285714287,
+          "full_output_f1": 0.9488133148010958
+        },
+        "EV": {
+          "f1": 0.8559668485449734,
+          "full_output_f1": 0.8456124727330225
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.009002976190476408,
+          "full_output_f1": -0.008850885141649889
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b7.json",
+      "publication_sha256": "0ac368757b3161b57ebfb395417940eae8d9b47cc74800a912383fe350c38abd",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9075042517006805,
+          "full_output_f1": 0.9408584507676201
+        },
+        "EV": {
+          "f1": 0.8408287273242631,
+          "full_output_f1": 0.8301607476033618
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9013534580498869,
+          "full_output_f1": 0.9327940697121676
+        },
+        "EV": {
+          "f1": 0.7763570011337867,
+          "full_output_f1": 0.776523314850869
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9152423469387756,
+          "full_output_f1": 0.9473954405635385
+        },
+        "EV": {
+          "f1": 0.8408287273242631,
+          "full_output_f1": 0.8301607476033616
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.006150793650793629,
+          "full_output_f1": -0.008064381055452485
+        },
+        "EV": {
+          "f1": -0.06447172619047636,
+          "full_output_f1": -0.053637432752492775
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 2,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b8.json",
+      "publication_sha256": "55c1e8204456af97cd904bb9ad8884d6433acc7f6a7f704777cbc3085f6e55c7",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9174169146825397,
+          "full_output_f1": 0.9476692506587276
+        },
+        "EV": {
+          "f1": 0.8402638268849206,
+          "full_output_f1": 0.8319151399683479
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9063523065476189,
+          "full_output_f1": 0.9341929670326933
+        },
+        "EV": {
+          "f1": 0.8193607390873016,
+          "full_output_f1": 0.8214526898019834
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9174169146825397,
+          "full_output_f1": 0.9476692506587276
+        },
+        "EV": {
+          "f1": 0.8402638268849206,
+          "full_output_f1": 0.8319151399683479
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.011064608134920828,
+          "full_output_f1": -0.013476283626034369
+        },
+        "EV": {
+          "f1": -0.02090308779761907,
+          "full_output_f1": -0.01046245016636449
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b8.json",
+      "publication_sha256": "55c1e8204456af97cd904bb9ad8884d6433acc7f6a7f704777cbc3085f6e55c7",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9174169146825397,
+          "full_output_f1": 0.9476692506587276
+        },
+        "EV": {
+          "f1": 0.8402638268849206,
+          "full_output_f1": 0.8319151399683479
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9174169146825397,
+          "full_output_f1": 0.9476692506587276
+        },
+        "EV": {
+          "f1": 0.8286969866071427,
+          "full_output_f1": 0.8205330447462388
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9174169146825397,
+          "full_output_f1": 0.9476692506587276
+        },
+        "EV": {
+          "f1": 0.8402638268849206,
+          "full_output_f1": 0.8319151399683479
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.011566840277777879,
+          "full_output_f1": -0.01138209522210909
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b1.json",
+      "publication_sha256": "758cad9121fda3ed08ac9f1d421271c0bd141d4433b21fd4f29bfcdaa4c8c5d7",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "joint",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.6289964375901875,
+          "full_output_f1": 0.6600536350903996
+        },
+        "EV": {
+          "f1": 0.6797371031746031,
+          "full_output_f1": 0.6901736111111113
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8182787698412698,
+          "full_output_f1": 0.8461025030077449
+        },
+        "EV": {
+          "f1": 0.7973214285714286,
+          "full_output_f1": 0.800605502867016
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8182787698412698,
+          "full_output_f1": 0.8461025030077449
+        },
+        "EV": {
+          "f1": 0.7973214285714286,
+          "full_output_f1": 0.800605502867016
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.18928233225108226,
+          "full_output_f1": 0.18604886791734532
+        },
+        "EV": {
+          "f1": 0.1175843253968255,
+          "full_output_f1": 0.11043189175590473
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b2.json",
+      "publication_sha256": "adc53df0af9f95ebedd0dfee769ba0912243ca8fd224b284e8447916ad37a40a",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8143973214285715,
+          "full_output_f1": 0.8402524576442234
+        },
+        "EV": {
+          "f1": 0.7195026327838827,
+          "full_output_f1": 0.717817478815689
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8445188492063492,
+          "full_output_f1": 0.8724201520651158
+        },
+        "EV": {
+          "f1": 0.8407986111111111,
+          "full_output_f1": 0.8377398212939999
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8751612103174604,
+          "full_output_f1": 0.9051563037980697
+        },
+        "EV": {
+          "f1": 0.7973958333333334,
+          "full_output_f1": 0.798138450442629
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.030121527777777768,
+          "full_output_f1": 0.0321676944208924
+        },
+        "EV": {
+          "f1": 0.12129597832722838,
+          "full_output_f1": 0.1199223424783109
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": -1
+      },
+      "negative_claim_count_change": {
+        "EC": -2,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b2.json",
+      "publication_sha256": "adc53df0af9f95ebedd0dfee769ba0912243ca8fd224b284e8447916ad37a40a",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "joint",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8751612103174604,
+          "full_output_f1": 0.9051563037980697
+        },
+        "EV": {
+          "f1": 0.7973958333333333,
+          "full_output_f1": 0.798138450442629
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8751612103174604,
+          "full_output_f1": 0.9051563037980697
+        },
+        "EV": {
+          "f1": 0.9020213293650794,
+          "full_output_f1": 0.9005751131150748
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8751612103174604,
+          "full_output_f1": 0.9051563037980697
+        },
+        "EV": {
+          "f1": 0.9020213293650793,
+          "full_output_f1": 0.9005751131150749
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.10462549603174609,
+          "full_output_f1": 0.10243666267244578
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": -1
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b3.json",
+      "publication_sha256": "2b288a317b1829da3f5ef35bb176a9639888e1e348133742c27fd9164a5dc7ce",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8742228835978837,
+          "full_output_f1": 0.8958482501510941
+        },
+        "EV": {
+          "f1": 0.8994626322751321,
+          "full_output_f1": 0.8966458846933593
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9290963955026456,
+          "full_output_f1": 0.9459599428093376
+        },
+        "EV": {
+          "f1": 0.8851975859788359,
+          "full_output_f1": 0.8815358649697128
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9290963955026453,
+          "full_output_f1": 0.9459599428093375
+        },
+        "EV": {
+          "f1": 0.899462632275132,
+          "full_output_f1": 0.8966458846933589
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.05487351190476186,
+          "full_output_f1": 0.050111692658243445
+        },
+        "EV": {
+          "f1": -0.014265046296296213,
+          "full_output_f1": -0.01511001972364645
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b3.json",
+      "publication_sha256": "2b288a317b1829da3f5ef35bb176a9639888e1e348133742c27fd9164a5dc7ce",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9290963955026456,
+          "full_output_f1": 0.9459599428093376
+        },
+        "EV": {
+          "f1": 0.8994626322751321,
+          "full_output_f1": 0.8966458846933593
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9262028769841271,
+          "full_output_f1": 0.9424877205871153
+        },
+        "EV": {
+          "f1": 0.8767857142857141,
+          "full_output_f1": 0.8748736703410532
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9290963955026456,
+          "full_output_f1": 0.9459599428093376
+        },
+        "EV": {
+          "f1": 0.8994626322751321,
+          "full_output_f1": 0.8966458846933593
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.0028935185185184897,
+          "full_output_f1": -0.003472222222222321
+        },
+        "EV": {
+          "f1": -0.022676917989418066,
+          "full_output_f1": -0.02177221435230603
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 1
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b4.json",
+      "publication_sha256": "1c63da595cd6d902945a0766e05d837d2c1b3975fcb32b1c374677d9683b9953",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8999224950396825,
+          "full_output_f1": 0.9296407767844017
+        },
+        "EV": {
+          "f1": 0.909033978174603,
+          "full_output_f1": 0.9003184978384786
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8921099950396825,
+          "full_output_f1": 0.9241720267844017
+        },
+        "EV": {
+          "f1": 0.8960131448412696,
+          "full_output_f1": 0.8931756406956215
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8999224950396825,
+          "full_output_f1": 0.9296407767844017
+        },
+        "EV": {
+          "f1": 0.909033978174603,
+          "full_output_f1": 0.9003184978384786
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.0078125,
+          "full_output_f1": -0.005468750000000022
+        },
+        "EV": {
+          "f1": -0.01302083333333337,
+          "full_output_f1": -0.0071428571428571175
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 1
+      },
+      "negative_claim_count_change": {
+        "EC": -1,
+        "EV": -2
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b4.json",
+      "publication_sha256": "1c63da595cd6d902945a0766e05d837d2c1b3975fcb32b1c374677d9683b9953",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8999224950396825,
+          "full_output_f1": 0.9296407767844017
+        },
+        "EV": {
+          "f1": 0.909033978174603,
+          "full_output_f1": 0.9003184978384786
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9133773561507936,
+          "full_output_f1": 0.9419671656732906
+        },
+        "EV": {
+          "f1": 0.8763020833333333,
+          "full_output_f1": 0.8716909713173298
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9133773561507935,
+          "full_output_f1": 0.9419671656732904
+        },
+        "EV": {
+          "f1": 0.9090339781746031,
+          "full_output_f1": 0.9003184978384783
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.01345486111111116,
+          "full_output_f1": 0.012326388888888928
+        },
+        "EV": {
+          "f1": -0.032731894841269704,
+          "full_output_f1": -0.02862752652114886
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b5.json",
+      "publication_sha256": "aeb3a47d3c084c6b75a7413eaaed62d1eb85507f028f1212fb86ec9401bfb64d",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8983010912698411,
+          "full_output_f1": 0.9332393739147999
+        },
+        "EV": {
+          "f1": 0.9052430555555555,
+          "full_output_f1": 0.8978215845546742
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9015649801587301,
+          "full_output_f1": 0.933453246458478
+        },
+        "EV": {
+          "f1": 0.8986755952380949,
+          "full_output_f1": 0.8907028164119122
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9087177579365079,
+          "full_output_f1": 0.9407393739147999
+        },
+        "EV": {
+          "f1": 0.9052430555555555,
+          "full_output_f1": 0.8978215845546742
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.003263888888888955,
+          "full_output_f1": 0.00021387254367810637
+        },
+        "EV": {
+          "f1": -0.006567460317460583,
+          "full_output_f1": -0.007118768142762022
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b5.json",
+      "publication_sha256": "aeb3a47d3c084c6b75a7413eaaed62d1eb85507f028f1212fb86ec9401bfb64d",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9087177579365079,
+          "full_output_f1": 0.9407393739148
+        },
+        "EV": {
+          "f1": 0.9052430555555555,
+          "full_output_f1": 0.8978215845546742
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9328621031746032,
+          "full_output_f1": 0.9633190546983116
+        },
+        "EV": {
+          "f1": 0.9061855158730158,
+          "full_output_f1": 0.8991933754283833
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9328621031746032,
+          "full_output_f1": 0.9633190546983114
+        },
+        "EV": {
+          "f1": 0.9052430555555555,
+          "full_output_f1": 0.8978215845546742
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.024144345238095277,
+          "full_output_f1": 0.02257968078351158
+        },
+        "EV": {
+          "f1": 0.0009424603174602586,
+          "full_output_f1": 0.001371790873709089
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b6.json",
+      "publication_sha256": "030438985e773d4b0b770b3e250cf99f82d65d096ee1b610b20d4f8c69668d43",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "joint",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9214203042328042,
+          "full_output_f1": 0.95714700636624
+        },
+        "EV": {
+          "f1": 0.9070994543650793,
+          "full_output_f1": 0.9010430367320698
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9214203042328042,
+          "full_output_f1": 0.95714700636624
+        },
+        "EV": {
+          "f1": 0.9172109237213405,
+          "full_output_f1": 0.9109021284357318
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9214203042328043,
+          "full_output_f1": 0.9571470063662398
+        },
+        "EV": {
+          "f1": 0.9172109237213403,
+          "full_output_f1": 0.9109021284357318
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.010111469356261171,
+          "full_output_f1": 0.00985909170366206
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b7.json",
+      "publication_sha256": "86ade4faa22ee91cd35d28a00037254cee17c704c5b7311a03b5b49375740e61",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9115646258503401,
+          "full_output_f1": 0.9462015549073265
+        },
+        "EV": {
+          "f1": 0.9083498677248676,
+          "full_output_f1": 0.9011211036236461
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8553465136054426,
+          "full_output_f1": 0.8947462662527899
+        },
+        "EV": {
+          "f1": 0.8939153439153439,
+          "full_output_f1": 0.8885108519257396
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9115646258503401,
+          "full_output_f1": 0.9462015549073265
+        },
+        "EV": {
+          "f1": 0.9083498677248676,
+          "full_output_f1": 0.9011211036236461
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.05621811224489759,
+          "full_output_f1": -0.051455288654536635
+        },
+        "EV": {
+          "f1": -0.014434523809523703,
+          "full_output_f1": -0.012610251697906416
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 1,
+        "EV": 2
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b7.json",
+      "publication_sha256": "86ade4faa22ee91cd35d28a00037254cee17c704c5b7311a03b5b49375740e61",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9115646258503401,
+          "full_output_f1": 0.9462015549073265
+        },
+        "EV": {
+          "f1": 0.9083498677248676,
+          "full_output_f1": 0.9011211036236461
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9115646258503401,
+          "full_output_f1": 0.9462015549073265
+        },
+        "EV": {
+          "f1": 0.909837962962963,
+          "full_output_f1": 0.9015037566848706
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9115646258503401,
+          "full_output_f1": 0.9462015549073265
+        },
+        "EV": {
+          "f1": 0.9083498677248676,
+          "full_output_f1": 0.9011211036236461
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.0014880952380954549,
+          "full_output_f1": 0.000382653061224536
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b8.json",
+      "publication_sha256": "99d7b88e3ab0357f98a1f1b656aa296bf647dd1eb2889ae9e7cf12b708b47b0e",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9115141369047621,
+          "full_output_f1": 0.9433379492571299
+        },
+        "EV": {
+          "f1": 0.9104078827711638,
+          "full_output_f1": 0.9037936004417795
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9115141369047621,
+          "full_output_f1": 0.9433379492571299
+        },
+        "EV": {
+          "f1": 0.9011041873346561,
+          "full_output_f1": 0.894707933155527
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9115141369047621,
+          "full_output_f1": 0.9433379492571299
+        },
+        "EV": {
+          "f1": 0.9104078827711638,
+          "full_output_f1": 0.9037936004417795
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.009303695436507664,
+          "full_output_f1": -0.009085667286252486
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal3",
+      "publication": "runs/legal_openexempt_native_claim_feedback_public_assets128_20261027_run01/publications/b8.json",
+      "publication_sha256": "99d7b88e3ab0357f98a1f1b656aa296bf647dd1eb2889ae9e7cf12b708b47b0e",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "joint",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9115141369047621,
+          "full_output_f1": 0.9433379492571299
+        },
+        "EV": {
+          "f1": 0.9104078827711638,
+          "full_output_f1": 0.9037936004417795
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9115141369047621,
+          "full_output_f1": 0.9433379492571299
+        },
+        "EV": {
+          "f1": 0.9128399884259257,
+          "full_output_f1": 0.9063070677977454
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.911514136904762,
+          "full_output_f1": 0.9433379492571299
+        },
+        "EV": {
+          "f1": 0.9128399884259256,
+          "full_output_f1": 0.9063070677977454
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.002432105654761929,
+          "full_output_f1": 0.002513467355965915
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b1.json",
+      "publication_sha256": "5a4c5747aebfcf03b4aeb6e66402448478826c4f8e2341bed30d1c807cf901c4",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "joint",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.6289964375901875,
+          "full_output_f1": 0.6600536350903996
+        },
+        "EV": {
+          "f1": 0.6797371031746031,
+          "full_output_f1": 0.6901736111111113
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.7683283730158731,
+          "full_output_f1": 0.8093544448383161
+        },
+        "EV": {
+          "f1": 0.7678571428571429,
+          "full_output_f1": 0.7833148448773449
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.7683283730158731,
+          "full_output_f1": 0.8093544448383161
+        },
+        "EV": {
+          "f1": 0.7678571428571429,
+          "full_output_f1": 0.7833148448773449
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.13933193542568556,
+          "full_output_f1": 0.14930080974791649
+        },
+        "EV": {
+          "f1": 0.08812003968253979,
+          "full_output_f1": 0.09314123376623362
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": -2,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b2.json",
+      "publication_sha256": "dfb47e76277b1d1fa3d9a46c84eae74f331a77c2052d8365b05093a271c1175a",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.79453125,
+          "full_output_f1": 0.8262801681160805
+        },
+        "EV": {
+          "f1": 0.7227740575396826,
+          "full_output_f1": 0.7291431979988965
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.7933717757936507,
+          "full_output_f1": 0.813244789293309
+        },
+        "EV": {
+          "f1": 0.8277405753968254,
+          "full_output_f1": 0.8157196285074575
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8176773313492064,
+          "full_output_f1": 0.8514392337377537
+        },
+        "EV": {
+          "f1": 0.7869419642857142,
+          "full_output_f1": 0.7881019337022626
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.0011594742063493202,
+          "full_output_f1": -0.013035378822771504
+        },
+        "EV": {
+          "f1": 0.10496651785714284,
+          "full_output_f1": 0.08657643050856101
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": -1
+      },
+      "negative_claim_count_change": {
+        "EC": 2,
+        "EV": 2
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b2.json",
+      "publication_sha256": "dfb47e76277b1d1fa3d9a46c84eae74f331a77c2052d8365b05093a271c1175a",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8176773313492063,
+          "full_output_f1": 0.8514392337377535
+        },
+        "EV": {
+          "f1": 0.7869419642857143,
+          "full_output_f1": 0.7881019337022627
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8176773313492063,
+          "full_output_f1": 0.8514392337377535
+        },
+        "EV": {
+          "f1": 0.8181919642857143,
+          "full_output_f1": 0.8099769337022626
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8176773313492063,
+          "full_output_f1": 0.8514392337377535
+        },
+        "EV": {
+          "f1": 0.7869419642857143,
+          "full_output_f1": 0.7881019337022627
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.03125,
+          "full_output_f1": 0.021874999999999978
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": -1
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 1
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b3.json",
+      "publication_sha256": "e48fbfa24b8b7619acf1e8c4801d967fe01b48518cdf29462f6634fc60fb8701",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.820324900793651,
+          "full_output_f1": 0.8428614529354662
+        },
+        "EV": {
+          "f1": 0.8085400132275131,
+          "full_output_f1": 0.8094939782439782
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.819808201058201,
+          "full_output_f1": 0.8387855680287367
+        },
+        "EV": {
+          "f1": 0.7527529761904762,
+          "full_output_f1": 0.7475422868253752
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8464285714285714,
+          "full_output_f1": 0.8692915204096892
+        },
+        "EV": {
+          "f1": 0.8085400132275131,
+          "full_output_f1": 0.8094939782439781
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.000516699735449988,
+          "full_output_f1": -0.004075884906729499
+        },
+        "EV": {
+          "f1": -0.05578703703703691,
+          "full_output_f1": -0.06195169141860302
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": -1
+      },
+      "negative_claim_count_change": {
+        "EC": 2,
+        "EV": 1
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b3.json",
+      "publication_sha256": "e48fbfa24b8b7619acf1e8c4801d967fe01b48518cdf29462f6634fc60fb8701",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8464285714285714,
+          "full_output_f1": 0.8692915204096892
+        },
+        "EV": {
+          "f1": 0.8085400132275131,
+          "full_output_f1": 0.8094939782439782
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8499007936507935,
+          "full_output_f1": 0.8661665204096892
+        },
+        "EV": {
+          "f1": 0.7870005862193361,
+          "full_output_f1": 0.7831676872713055
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8464285714285714,
+          "full_output_f1": 0.8692915204096892
+        },
+        "EV": {
+          "f1": 0.8085400132275131,
+          "full_output_f1": 0.8094939782439782
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.003472222222222099,
+          "full_output_f1": -0.0031249999999999334
+        },
+        "EV": {
+          "f1": -0.021539427008177014,
+          "full_output_f1": -0.026326290972672695
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 1,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b4.json",
+      "publication_sha256": "ef80b2204db38b06324db847650beef352d11276a63b304e53a06b7d2d287871",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "joint",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8295076884920635,
+          "full_output_f1": 0.8640120656319422
+        },
+        "EV": {
+          "f1": 0.8261098710317459,
+          "full_output_f1": 0.8205249521790469
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8295076884920635,
+          "full_output_f1": 0.8640120656319422
+        },
+        "EV": {
+          "f1": 0.8469432043650794,
+          "full_output_f1": 0.8496916188457136
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8295076884920634,
+          "full_output_f1": 0.8640120656319419
+        },
+        "EV": {
+          "f1": 0.8469432043650794,
+          "full_output_f1": 0.8496916188457134
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.02083333333333348,
+          "full_output_f1": 0.029166666666666785
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": -1
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": -2
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b5.json",
+      "publication_sha256": "a937d24c9317247f5e87b5953d63e2570ff1166dcb3b1882c94fad2f639e0d4f",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8243998015873014,
+          "full_output_f1": 0.8620068944792662
+        },
+        "EV": {
+          "f1": 0.8593501984126984,
+          "full_output_f1": 0.8623955211126756
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.7983581349206349,
+          "full_output_f1": 0.8344870532094246
+        },
+        "EV": {
+          "f1": 0.8767113095238097,
+          "full_output_f1": 0.8590874403045946
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8243998015873014,
+          "full_output_f1": 0.8620068944792662
+        },
+        "EV": {
+          "f1": 0.8593501984126984,
+          "full_output_f1": 0.8623955211126756
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.02604166666666652,
+          "full_output_f1": -0.027519841269841527
+        },
+        "EV": {
+          "f1": 0.01736111111111127,
+          "full_output_f1": -0.003308080808080982
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 2,
+        "EV": 6
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b5.json",
+      "publication_sha256": "a937d24c9317247f5e87b5953d63e2570ff1166dcb3b1882c94fad2f639e0d4f",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8243998015873014,
+          "full_output_f1": 0.8620068944792662
+        },
+        "EV": {
+          "f1": 0.8593501984126984,
+          "full_output_f1": 0.8623955211126756
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8243998015873014,
+          "full_output_f1": 0.8620068944792662
+        },
+        "EV": {
+          "f1": 0.8538900335775337,
+          "full_output_f1": 0.8380640751196442
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8243998015873014,
+          "full_output_f1": 0.8620068944792662
+        },
+        "EV": {
+          "f1": 0.8593501984126984,
+          "full_output_f1": 0.8623955211126756
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.00546016483516476,
+          "full_output_f1": -0.024331445993031386
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 18
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b6.json",
+      "publication_sha256": "cbba7476d04f3c7a3c90e50022f5ce0154364cbf9bb680a7c3246648cf4f3204",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8196387235449735,
+          "full_output_f1": 0.8601030989984397
+        },
+        "EV": {
+          "f1": 0.8548673115079365,
+          "full_output_f1": 0.8577763202758883
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8196387235449735,
+          "full_output_f1": 0.8601030989984397
+        },
+        "EV": {
+          "f1": 0.8483816964285715,
+          "full_output_f1": 0.8520233200181376
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8196387235449735,
+          "full_output_f1": 0.8601030989984397
+        },
+        "EV": {
+          "f1": 0.8548673115079365,
+          "full_output_f1": 0.8577763202758883
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.006485615079364959,
+          "full_output_f1": -0.005753000257750718
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b6.json",
+      "publication_sha256": "cbba7476d04f3c7a3c90e50022f5ce0154364cbf9bb680a7c3246648cf4f3204",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8196387235449735,
+          "full_output_f1": 0.8601030989984397
+        },
+        "EV": {
+          "f1": 0.8548673115079365,
+          "full_output_f1": 0.8577763202758883
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8196387235449735,
+          "full_output_f1": 0.8601030989984397
+        },
+        "EV": {
+          "f1": 0.8414413855820104,
+          "full_output_f1": 0.8441946823110268
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8196387235449735,
+          "full_output_f1": 0.8601030989984397
+        },
+        "EV": {
+          "f1": 0.8548673115079365,
+          "full_output_f1": 0.8577763202758883
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.013425925925926063,
+          "full_output_f1": -0.01358163796486156
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b7.json",
+      "publication_sha256": "515237388ec71c6ebe5d386a70f1241cf90d65bb76f98598f7ad850f72b0ce47",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8199156746031745,
+          "full_output_f1": 0.8586812806362155
+        },
+        "EV": {
+          "f1": 0.8384725765306122,
+          "full_output_f1": 0.8399554904015488
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8087549603174601,
+          "full_output_f1": 0.8511441748848239
+        },
+        "EV": {
+          "f1": 0.8097027352607711,
+          "full_output_f1": 0.8123986722197307
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8199156746031745,
+          "full_output_f1": 0.8586812806362155
+        },
+        "EV": {
+          "f1": 0.8384725765306122,
+          "full_output_f1": 0.8399554904015488
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.011160714285714413,
+          "full_output_f1": -0.0075371057513916595
+        },
+        "EV": {
+          "f1": -0.028769841269841168,
+          "full_output_f1": -0.0275568181818181
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b7.json",
+      "publication_sha256": "515237388ec71c6ebe5d386a70f1241cf90d65bb76f98598f7ad850f72b0ce47",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8199156746031745,
+          "full_output_f1": 0.8586812806362155
+        },
+        "EV": {
+          "f1": 0.8384725765306122,
+          "full_output_f1": 0.8399554904015488
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8226438492063491,
+          "full_output_f1": 0.8562365527450589
+        },
+        "EV": {
+          "f1": 0.8606877125850342,
+          "full_output_f1": 0.8571111026464467
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8199156746031745,
+          "full_output_f1": 0.8586812806362156
+        },
+        "EV": {
+          "f1": 0.8606877125850342,
+          "full_output_f1": 0.8571111026464469
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.002728174603174649,
+          "full_output_f1": -0.002444727891156573
+        },
+        "EV": {
+          "f1": 0.022215136054421936,
+          "full_output_f1": 0.017155612244897922
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 2,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b8.json",
+      "publication_sha256": "936182f71a16481e57cddaa827f555d8a3f233ca1b5de8afadb08685f66af591",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8221385168650793,
+          "full_output_f1": 0.8560995223084458
+        },
+        "EV": {
+          "f1": 0.8593393477182542,
+          "full_output_f1": 0.8559942309939073
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8221385168650793,
+          "full_output_f1": 0.8560995223084458
+        },
+        "EV": {
+          "f1": 0.8417829241071428,
+          "full_output_f1": 0.8383756857534578
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8221385168650793,
+          "full_output_f1": 0.8560995223084458
+        },
+        "EV": {
+          "f1": 0.8593393477182542,
+          "full_output_f1": 0.8559942309939073
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.017556423611111316,
+          "full_output_f1": -0.01761854524044948
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "formal4",
+      "publication": "runs/legal_openexempt_revision_outcomes_shared_controls_public_assets128_20261028_run02/publications/b8.json",
+      "publication_sha256": "936182f71a16481e57cddaa827f555d8a3f233ca1b5de8afadb08685f66af591",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8221385168650793,
+          "full_output_f1": 0.8560995223084458
+        },
+        "EV": {
+          "f1": 0.8593393477182542,
+          "full_output_f1": 0.8559942309939073
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8210534474206348,
+          "full_output_f1": 0.8595001581309565
+        },
+        "EV": {
+          "f1": 0.855433097718254,
+          "full_output_f1": 0.8542806667803431
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8221385168650793,
+          "full_output_f1": 0.8560995223084458
+        },
+        "EV": {
+          "f1": 0.8593393477182542,
+          "full_output_f1": 0.8559942309939073
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.0010850694444445308,
+          "full_output_f1": 0.0034006358225107114
+        },
+        "EV": {
+          "f1": -0.003906250000000111,
+          "full_output_f1": -0.001713564213564167
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 1,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b1.json",
+      "publication_sha256": "b7e246b25ead33f64d121636be757e0c32c806831af3910ddf57626def2a83d5",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.6099358974358973,
+          "full_output_f1": 0.6392612942612942
+        },
+        "EV": {
+          "f1": 0.5709535256410256,
+          "full_output_f1": 0.5754006410256411
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.780580357142857,
+          "full_output_f1": 0.8118494152046782
+        },
+        "EV": {
+          "f1": 0.8027033730158729,
+          "full_output_f1": 0.790207732082732
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.780580357142857,
+          "full_output_f1": 0.8118494152046782
+        },
+        "EV": {
+          "f1": 0.8027033730158729,
+          "full_output_f1": 0.790207732082732
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.17064445970695974,
+          "full_output_f1": 0.17258812094338405
+        },
+        "EV": {
+          "f1": 0.23174984737484727,
+          "full_output_f1": 0.21480709105709084
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": -1,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b1.json",
+      "publication_sha256": "b7e246b25ead33f64d121636be757e0c32c806831af3910ddf57626def2a83d5",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.780580357142857,
+          "full_output_f1": 0.8118494152046782
+        },
+        "EV": {
+          "f1": 0.8027033730158729,
+          "full_output_f1": 0.790207732082732
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9146825396825398,
+          "full_output_f1": 0.9383540372670809
+        },
+        "EV": {
+          "f1": 0.8341145833333333,
+          "full_output_f1": 0.7970448456879378
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.780580357142857,
+          "full_output_f1": 0.8118494152046782
+        },
+        "EV": {
+          "f1": 0.8027033730158729,
+          "full_output_f1": 0.790207732082732
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.13410218253968276,
+          "full_output_f1": 0.12650462206240265
+        },
+        "EV": {
+          "f1": 0.031411210317460414,
+          "full_output_f1": 0.00683711360520578
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 4
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b2.json",
+      "publication_sha256": "d0be99091cf4a9648d59d30624fb052312a75acec4c3e7d8c8783868e5a6a70f",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.7958829365079364,
+          "full_output_f1": 0.8185780718786716
+        },
+        "EV": {
+          "f1": 0.7954737103174603,
+          "full_output_f1": 0.7876657312594812
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.806299603174603,
+          "full_output_f1": 0.8279530718786716
+        },
+        "EV": {
+          "f1": 0.8110987103174603,
+          "full_output_f1": 0.8001657312594812
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.7958829365079364,
+          "full_output_f1": 0.8185780718786716
+        },
+        "EV": {
+          "f1": 0.7954737103174603,
+          "full_output_f1": 0.7876657312594812
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.01041666666666663,
+          "full_output_f1": 0.009375000000000022
+        },
+        "EV": {
+          "f1": 0.015625,
+          "full_output_f1": 0.012499999999999956
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 1,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b2.json",
+      "publication_sha256": "d0be99091cf4a9648d59d30624fb052312a75acec4c3e7d8c8783868e5a6a70f",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.7958829365079364,
+          "full_output_f1": 0.8185780718786716
+        },
+        "EV": {
+          "f1": 0.7954737103174603,
+          "full_output_f1": 0.7876657312594812
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9010540674603176,
+          "full_output_f1": 0.9194753497471921
+        },
+        "EV": {
+          "f1": 0.7954737103174603,
+          "full_output_f1": 0.7876657312594812
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9010540674603175,
+          "full_output_f1": 0.9194753497471921
+        },
+        "EV": {
+          "f1": 0.7954737103174603,
+          "full_output_f1": 0.7876657312594812
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.10517113095238118,
+          "full_output_f1": 0.10089727786852054
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b3.json",
+      "publication_sha256": "bca242eec369b2475f87cfd2766821f274df1363df557797f5db062c974a0fbc",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9118138227513227,
+          "full_output_f1": 0.9249643456518948
+        },
+        "EV": {
+          "f1": 0.792989417989418,
+          "full_output_f1": 0.7940430936428743
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9211309523809526,
+          "full_output_f1": 0.9337399611612566
+        },
+        "EV": {
+          "f1": 0.797213955026455,
+          "full_output_f1": 0.7969138325817248
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9211309523809526,
+          "full_output_f1": 0.9337399611612565
+        },
+        "EV": {
+          "f1": 0.797213955026455,
+          "full_output_f1": 0.7969138325817248
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.009317129629629828,
+          "full_output_f1": 0.00877561550936179
+        },
+        "EV": {
+          "f1": 0.004224537037036957,
+          "full_output_f1": 0.002870738938850481
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b4.json",
+      "publication_sha256": "65fdb604b1853728541bec8698fa4ec7623234f2ee8c9d04040a0df865c565ed",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8983444940476192,
+          "full_output_f1": 0.9208283345686481
+        },
+        "EV": {
+          "f1": 0.7957403273809524,
+          "full_output_f1": 0.7920080656339847
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9077690972222222,
+          "full_output_f1": 0.9298831518961125
+        },
+        "EV": {
+          "f1": 0.7994977678571429,
+          "full_output_f1": 0.7903967957801116
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8983444940476192,
+          "full_output_f1": 0.9208283345686481
+        },
+        "EV": {
+          "f1": 0.7957403273809524,
+          "full_output_f1": 0.7920080656339847
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.00942460317460303,
+          "full_output_f1": 0.009054817327464382
+        },
+        "EV": {
+          "f1": 0.0037574404761905322,
+          "full_output_f1": -0.0016112698538731651
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 2,
+        "EV": 1
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b4.json",
+      "publication_sha256": "65fdb604b1853728541bec8698fa4ec7623234f2ee8c9d04040a0df865c565ed",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8983444940476192,
+          "full_output_f1": 0.9208283345686481
+        },
+        "EV": {
+          "f1": 0.7957403273809524,
+          "full_output_f1": 0.7920080656339847
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8957403273809526,
+          "full_output_f1": 0.9223908345686482
+        },
+        "EV": {
+          "f1": 0.7957403273809524,
+          "full_output_f1": 0.8004902084911276
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8983444940476192,
+          "full_output_f1": 0.9208283345686481
+        },
+        "EV": {
+          "f1": 0.7957403273809524,
+          "full_output_f1": 0.7920080656339847
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.0026041666666666297,
+          "full_output_f1": 0.0015625000000001332
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.008482142857142883
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": -3
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b5.json",
+      "publication_sha256": "ea91a6d5d024c0eeb79a374c047491fde736e1ba4ffbeeb33e62d7dbce3b0f0a",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8913045634920636,
+          "full_output_f1": 0.9135390442023477
+        },
+        "EV": {
+          "f1": 0.7957192460317459,
+          "full_output_f1": 0.7898664792451555
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8923462301587302,
+          "full_output_f1": 0.916217615630919
+        },
+        "EV": {
+          "f1": 0.7957192460317459,
+          "full_output_f1": 0.7915331459118222
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8913045634920636,
+          "full_output_f1": 0.9135390442023477
+        },
+        "EV": {
+          "f1": 0.7957192460317459,
+          "full_output_f1": 0.7898664792451555
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0010416666666666075,
+          "full_output_f1": 0.002678571428571308
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.0016666666666667052
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 1,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b5.json",
+      "publication_sha256": "ea91a6d5d024c0eeb79a374c047491fde736e1ba4ffbeeb33e62d7dbce3b0f0a",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8913045634920636,
+          "full_output_f1": 0.9135390442023477
+        },
+        "EV": {
+          "f1": 0.7957192460317459,
+          "full_output_f1": 0.7898664792451555
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8985962301587301,
+          "full_output_f1": 0.9178842822975856
+        },
+        "EV": {
+          "f1": 0.7853025793650794,
+          "full_output_f1": 0.7890331459118223
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8913045634920636,
+          "full_output_f1": 0.9135390442023477
+        },
+        "EV": {
+          "f1": 0.7957192460317459,
+          "full_output_f1": 0.7898664792451555
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.007291666666666585,
+          "full_output_f1": 0.004345238095237902
+        },
+        "EV": {
+          "f1": -0.010416666666666519,
+          "full_output_f1": -0.0008333333333332416
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 3,
+        "EV": -3
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b6.json",
+      "publication_sha256": "48250de82f3748090ff95f215bfe72e5fa35e6b855b862404cfa46d8d4835511",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8777736441798943,
+          "full_output_f1": 0.9056652823577411
+        },
+        "EV": {
+          "f1": 0.7966063161375659,
+          "full_output_f1": 0.7919356903762539
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9064608134920636,
+          "full_output_f1": 0.9350585038537829
+        },
+        "EV": {
+          "f1": 0.8192625661375659,
+          "full_output_f1": 0.8155035094810623
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9064608134920639,
+          "full_output_f1": 0.9350585038537828
+        },
+        "EV": {
+          "f1": 0.8192625661375659,
+          "full_output_f1": 0.8155035094810624
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.028687169312169303,
+          "full_output_f1": 0.029393221496041733
+        },
+        "EV": {
+          "f1": 0.022656249999999933,
+          "full_output_f1": 0.02356781910480843
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b7.json",
+      "publication_sha256": "006372c751fb34e1e7e393af2b2f1b4d35f89629b49395379e1bcdbd31fc2fcf",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8977784863945582,
+          "full_output_f1": 0.9256862891179567
+        },
+        "EV": {
+          "f1": 0.804269416099773,
+          "full_output_f1": 0.8001070330699357
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8848090277777779,
+          "full_output_f1": 0.9109911584294055
+        },
+        "EV": {
+          "f1": 0.703068310657596,
+          "full_output_f1": 0.7064942364728308
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8977784863945582,
+          "full_output_f1": 0.9256862891179567
+        },
+        "EV": {
+          "f1": 0.804269416099773,
+          "full_output_f1": 0.8001070330699357
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.012969458616780227,
+          "full_output_f1": -0.014695130688551217
+        },
+        "EV": {
+          "f1": -0.10120110544217698,
+          "full_output_f1": -0.09361279659710486
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b7.json",
+      "publication_sha256": "006372c751fb34e1e7e393af2b2f1b4d35f89629b49395379e1bcdbd31fc2fcf",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8977784863945582,
+          "full_output_f1": 0.9256862891179567
+        },
+        "EV": {
+          "f1": 0.804269416099773,
+          "full_output_f1": 0.8001070330699357
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8977784863945582,
+          "full_output_f1": 0.9256862891179567
+        },
+        "EV": {
+          "f1": 0.8030435090702946,
+          "full_output_f1": 0.7982677746392903
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8977784863945582,
+          "full_output_f1": 0.9256862891179567
+        },
+        "EV": {
+          "f1": 0.804269416099773,
+          "full_output_f1": 0.8001070330699357
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.0012259070294783347,
+          "full_output_f1": -0.001839258430645363
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b8.json",
+      "publication_sha256": "9516a276a16b36bc1002762a464a4f5efb6c5f4dd24460811a8baa17d5ffffe0",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9006231398809526,
+          "full_output_f1": 0.9253173841998488
+        },
+        "EV": {
+          "f1": 0.801302083333333,
+          "full_output_f1": 0.7974421859144809
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9058314732142857,
+          "full_output_f1": 0.9314061738823884
+        },
+        "EV": {
+          "f1": 0.8045572916666665,
+          "full_output_f1": 0.8007717990097191
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9006231398809526,
+          "full_output_f1": 0.9253173841998488
+        },
+        "EV": {
+          "f1": 0.801302083333333,
+          "full_output_f1": 0.7974421859144809
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.005208333333333148,
+          "full_output_f1": 0.006088789682539675
+        },
+        "EV": {
+          "f1": 0.0032552083333334814,
+          "full_output_f1": 0.0033296130952381597
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 1,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "whole",
+      "publication": "runs/legal_openexempt_whole_bank_public_assets128_phase4_20261025_run02/publications/b8.json",
+      "publication_sha256": "9516a276a16b36bc1002762a464a4f5efb6c5f4dd24460811a8baa17d5ffffe0",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9006231398809526,
+          "full_output_f1": 0.9253173841998488
+        },
+        "EV": {
+          "f1": 0.801302083333333,
+          "full_output_f1": 0.7974421859144809
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9006231398809526,
+          "full_output_f1": 0.9253173841998488
+        },
+        "EV": {
+          "f1": 0.8173735119047616,
+          "full_output_f1": 0.8128134670026738
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9006231398809527,
+          "full_output_f1": 0.9253173841998488
+        },
+        "EV": {
+          "f1": 0.8173735119047616,
+          "full_output_f1": 0.8128134670026739
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.016071428571428625,
+          "full_output_f1": 0.015371281088192856
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b1.json",
+      "publication_sha256": "dd2ca7ef35ec6b3946610dd4984ed462090b2594291fcad20735a47bef5cd243",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.6179201007326007,
+          "full_output_f1": 0.6607081582633052
+        },
+        "EV": {
+          "f1": 0.6321180555555554,
+          "full_output_f1": 0.6401672979797979
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.7651537698412698,
+          "full_output_f1": 0.7970880161505162
+        },
+        "EV": {
+          "f1": 0.7949776785714284,
+          "full_output_f1": 0.7816671839190221
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.6179201007326007,
+          "full_output_f1": 0.6607081582633052
+        },
+        "EV": {
+          "f1": 0.7949776785714284,
+          "full_output_f1": 0.7816671839190221
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.14723366910866909,
+          "full_output_f1": 0.13637985788721096
+        },
+        "EV": {
+          "f1": 0.16285962301587298,
+          "full_output_f1": 0.14149988593922425
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 2,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b1.json",
+      "publication_sha256": "dd2ca7ef35ec6b3946610dd4984ed462090b2594291fcad20735a47bef5cd243",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.6179201007326007,
+          "full_output_f1": 0.6607081582633052
+        },
+        "EV": {
+          "f1": 0.7949776785714284,
+          "full_output_f1": 0.7816671839190221
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.6179201007326007,
+          "full_output_f1": 0.6607081582633052
+        },
+        "EV": {
+          "f1": 0.8467881944444444,
+          "full_output_f1": 0.8352404828967329
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.6179201007326007,
+          "full_output_f1": 0.6607081582633052
+        },
+        "EV": {
+          "f1": 0.8467881944444444,
+          "full_output_f1": 0.8352404828967329
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.051810515873015994,
+          "full_output_f1": 0.05357329897771079
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b2.json",
+      "publication_sha256": "532323d8c636e70be98b8bc060dfd3018a8b7869fe28493104c6c856ff2d6a83",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.6328687805250306,
+          "full_output_f1": 0.6599071156240275
+        },
+        "EV": {
+          "f1": 0.8092323908730158,
+          "full_output_f1": 0.8040514393927223
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.7711805555555555,
+          "full_output_f1": 0.7955312931285261
+        },
+        "EV": {
+          "f1": 0.7933407738095237,
+          "full_output_f1": 0.79292004048583
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.7711805555555555,
+          "full_output_f1": 0.7955312931285261
+        },
+        "EV": {
+          "f1": 0.8092323908730159,
+          "full_output_f1": 0.8040514393927222
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.13831177503052494,
+          "full_output_f1": 0.13562417750449862
+        },
+        "EV": {
+          "f1": -0.01589161706349207,
+          "full_output_f1": -0.011131398906892298
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": -1
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b2.json",
+      "publication_sha256": "532323d8c636e70be98b8bc060dfd3018a8b7869fe28493104c6c856ff2d6a83",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.7711805555555555,
+          "full_output_f1": 0.7955312931285261
+        },
+        "EV": {
+          "f1": 0.8092323908730158,
+          "full_output_f1": 0.8040514393927223
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8269593253968253,
+          "full_output_f1": 0.8480430214907759
+        },
+        "EV": {
+          "f1": 0.8576884920634921,
+          "full_output_f1": 0.8542182281297993
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.7711805555555555,
+          "full_output_f1": 0.7955312931285261
+        },
+        "EV": {
+          "f1": 0.8576884920634923,
+          "full_output_f1": 0.8542182281297994
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.055778769841269726,
+          "full_output_f1": 0.05251172836224982
+        },
+        "EV": {
+          "f1": 0.048456101190476275,
+          "full_output_f1": 0.05016678873707703
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": -1
+      },
+      "negative_claim_count_change": {
+        "EC": 1,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b3.json",
+      "publication_sha256": "473cbf69abae78caff346bfd0da6ef849fd31a5868838f279169d3701152c3fa",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8105654761904763,
+          "full_output_f1": 0.8271726415236224
+        },
+        "EV": {
+          "f1": 0.8665839947089949,
+          "full_output_f1": 0.8631730396892684
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8232969576719578,
+          "full_output_f1": 0.8477324058333867
+        },
+        "EV": {
+          "f1": 0.8562251984126985,
+          "full_output_f1": 0.8545089743156442
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8105654761904763,
+          "full_output_f1": 0.8271726415236224
+        },
+        "EV": {
+          "f1": 0.8665839947089949,
+          "full_output_f1": 0.8631730396892684
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.01273148148148151,
+          "full_output_f1": 0.02055976430976436
+        },
+        "EV": {
+          "f1": -0.010358796296296435,
+          "full_output_f1": -0.008664065373624186
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b3.json",
+      "publication_sha256": "473cbf69abae78caff346bfd0da6ef849fd31a5868838f279169d3701152c3fa",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8105654761904763,
+          "full_output_f1": 0.8271726415236224
+        },
+        "EV": {
+          "f1": 0.8665839947089949,
+          "full_output_f1": 0.8631730396892684
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8105654761904763,
+          "full_output_f1": 0.8271726415236224
+        },
+        "EV": {
+          "f1": 0.840327380952381,
+          "full_output_f1": 0.836348388609292
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8105654761904763,
+          "full_output_f1": 0.8271726415236224
+        },
+        "EV": {
+          "f1": 0.8665839947089949,
+          "full_output_f1": 0.8631730396892684
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.026256613756613922,
+          "full_output_f1": -0.026824651079976447
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b4.json",
+      "publication_sha256": "f6f386995f98cd3fa836e5404c7da06d5012c0e97ea88d524dccc16d45748ab0",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.7971602182539683,
+          "full_output_f1": 0.8224307570820076
+        },
+        "EV": {
+          "f1": 0.859015376984127,
+          "full_output_f1": 0.8538667217161126
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8353112599206349,
+          "full_output_f1": 0.8600806522897
+        },
+        "EV": {
+          "f1": 0.8667410714285713,
+          "full_output_f1": 0.8610210704472318
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8353112599206348,
+          "full_output_f1": 0.8600806522896998
+        },
+        "EV": {
+          "f1": 0.8590153769841271,
+          "full_output_f1": 0.8538667217161126
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.03815104166666661,
+          "full_output_f1": 0.03764989520769235
+        },
+        "EV": {
+          "f1": 0.007725694444444264,
+          "full_output_f1": 0.007154348731119198
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b4.json",
+      "publication_sha256": "f6f386995f98cd3fa836e5404c7da06d5012c0e97ea88d524dccc16d45748ab0",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8353112599206349,
+          "full_output_f1": 0.8600806522897
+        },
+        "EV": {
+          "f1": 0.859015376984127,
+          "full_output_f1": 0.8538667217161126
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8587487599206349,
+          "full_output_f1": 0.8882056522897002
+        },
+        "EV": {
+          "f1": 0.859015376984127,
+          "full_output_f1": 0.8538667217161126
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8587487599206349,
+          "full_output_f1": 0.8882056522896999
+        },
+        "EV": {
+          "f1": 0.8590153769841271,
+          "full_output_f1": 0.8538667217161126
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0234375,
+          "full_output_f1": 0.028125000000000178
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": -2,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b5.json",
+      "publication_sha256": "7e80dddbdf6b4601b8c21ef2b94bfd6707a92d5fe9f3b1755e9800951bce0247",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8534871031746032,
+          "full_output_f1": 0.8813623497348511
+        },
+        "EV": {
+          "f1": 0.8635714285714287,
+          "full_output_f1": 0.8529036119514313
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9049702380952382,
+          "full_output_f1": 0.9397049694482413
+        },
+        "EV": {
+          "f1": 0.7796676587301589,
+          "full_output_f1": 0.7783245882084889
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9049702380952385,
+          "full_output_f1": 0.9397049694482412
+        },
+        "EV": {
+          "f1": 0.8635714285714288,
+          "full_output_f1": 0.852903611951431
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.051483134920635054,
+          "full_output_f1": 0.058342619713390276
+        },
+        "EV": {
+          "f1": -0.08390376984126979,
+          "full_output_f1": -0.07457902374294234
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": -2,
+        "EV": -3
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b5.json",
+      "publication_sha256": "7e80dddbdf6b4601b8c21ef2b94bfd6707a92d5fe9f3b1755e9800951bce0247",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9049702380952382,
+          "full_output_f1": 0.9397049694482413
+        },
+        "EV": {
+          "f1": 0.8635714285714287,
+          "full_output_f1": 0.8529036119514313
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9049702380952382,
+          "full_output_f1": 0.9397049694482413
+        },
+        "EV": {
+          "f1": 0.8635714285714287,
+          "full_output_f1": 0.8574869452847647
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9049702380952385,
+          "full_output_f1": 0.9397049694482412
+        },
+        "EV": {
+          "f1": 0.8635714285714288,
+          "full_output_f1": 0.8574869452847645
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.004583333333333384
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b6.json",
+      "publication_sha256": "cd4d62cd0f397ab1cb8f3c64522ac92bfbc14926e14706635be962f9163e2596",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9036623677248681,
+          "full_output_f1": 0.9419581381902765
+        },
+        "EV": {
+          "f1": 0.8593005952380954,
+          "full_output_f1": 0.8540154199208523
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9076264880952382,
+          "full_output_f1": 0.9452437245457069
+        },
+        "EV": {
+          "f1": 0.9060805224867724,
+          "full_output_f1": 0.9003200550982048
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9076264880952384,
+          "full_output_f1": 0.9452437245457067
+        },
+        "EV": {
+          "f1": 0.9060805224867726,
+          "full_output_f1": 0.9003200550982048
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.003964120370370083,
+          "full_output_f1": 0.0032855863554304143
+        },
+        "EV": {
+          "f1": 0.04677992724867697,
+          "full_output_f1": 0.046304635177352504
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b7.json",
+      "publication_sha256": "824f6203f68305712a9af36a39188678afd979afbb1afc361100211cca6a179c",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.900028344671202,
+          "full_output_f1": 0.9377207550242398
+        },
+        "EV": {
+          "f1": 0.8722470238095239,
+          "full_output_f1": 0.868407588574574
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8209963151927439,
+          "full_output_f1": 0.8596907150730366
+        },
+        "EV": {
+          "f1": 0.7171361252834466,
+          "full_output_f1": 0.7037478465510382
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.900028344671202,
+          "full_output_f1": 0.9377207550242398
+        },
+        "EV": {
+          "f1": 0.8722470238095239,
+          "full_output_f1": 0.868407588574574
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.07903202947845811,
+          "full_output_f1": -0.07803003995120317
+        },
+        "EV": {
+          "f1": -0.1551108985260773,
+          "full_output_f1": -0.16465974202353584
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 1
+      },
+      "negative_claim_count_change": {
+        "EC": 1,
+        "EV": 6
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b7.json",
+      "publication_sha256": "824f6203f68305712a9af36a39188678afd979afbb1afc361100211cca6a179c",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.900028344671202,
+          "full_output_f1": 0.9377207550242398
+        },
+        "EV": {
+          "f1": 0.8722470238095239,
+          "full_output_f1": 0.868407588574574
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.900028344671202,
+          "full_output_f1": 0.9377207550242398
+        },
+        "EV": {
+          "f1": 0.8660218253968256,
+          "full_output_f1": 0.8621359880284543
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.900028344671202,
+          "full_output_f1": 0.9377207550242398
+        },
+        "EV": {
+          "f1": 0.8722470238095239,
+          "full_output_f1": 0.868407588574574
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.006225198412698307,
+          "full_output_f1": -0.006271600546119749
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b8.json",
+      "publication_sha256": "9a2bbeeab8fe5a9f3e2534b58eb13f08468703659d9c887c73140e41aac076ed",
+      "candidate_index": 1,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9076326884920637,
+          "full_output_f1": 0.9406881636042895
+        },
+        "EV": {
+          "f1": 0.8725074404761907,
+          "full_output_f1": 0.8691757270125562
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9027545262896827,
+          "full_output_f1": 0.9368405869481151
+        },
+        "EV": {
+          "f1": 0.8662357390873016,
+          "full_output_f1": 0.8636700474335324
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9076326884920637,
+          "full_output_f1": 0.9406881636042895
+        },
+        "EV": {
+          "f1": 0.8725074404761907,
+          "full_output_f1": 0.8691757270125562
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.00487816220238102,
+          "full_output_f1": -0.003847576656174412
+        },
+        "EV": {
+          "f1": -0.006271701388889106,
+          "full_output_f1": -0.0055056795790238144
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "task",
+      "publication": "runs/legal_openexempt_task_local_public_assets128_phase4_20261025_run02/publications/b8.json",
+      "publication_sha256": "9a2bbeeab8fe5a9f3e2534b58eb13f08468703659d9c887c73140e41aac076ed",
+      "candidate_index": 2,
+      "teaching_task": null,
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": null,
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.9076326884920637,
+          "full_output_f1": 0.9406881636042895
+        },
+        "EV": {
+          "f1": 0.8725074404761907,
+          "full_output_f1": 0.8691757270125562
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.9076326884920637,
+          "full_output_f1": 0.9406881636042895
+        },
+        "EV": {
+          "f1": 0.8705543154761907,
+          "full_output_f1": 0.8630559353458895
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.9076326884920637,
+          "full_output_f1": 0.9406881636042895
+        },
+        "EV": {
+          "f1": 0.8725074404761907,
+          "full_output_f1": 0.8691757270125562
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": -0.001953125,
+          "full_output_f1": -0.006119791666666652
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 2
+      }
+    },
+    {
+      "arm": "sixth_stopped",
+      "publication": "runs/legal_openexempt_task_projection_public_assets128_20261028_run01/publications/b1.json",
+      "publication_sha256": "3ea383189ec47313fedeca5ad8617e8b43f28682dc2417a447f22577fac73c27",
+      "candidate_index": 1,
+      "teaching_task": "EC",
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "joint",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.6034970238095237,
+          "full_output_f1": 0.6620770202020201
+        },
+        "EV": {
+          "f1": 0.5523065476190475,
+          "full_output_f1": 0.5600663021618905
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.849156746031746,
+          "full_output_f1": 0.8783532181147313
+        },
+        "EV": {
+          "f1": 0.5523065476190475,
+          "full_output_f1": 0.5600663021618905
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.849156746031746,
+          "full_output_f1": 0.8783532181147313
+        },
+        "EV": {
+          "f1": 0.5523065476190475,
+          "full_output_f1": 0.5600663021618905
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.2456597222222222,
+          "full_output_f1": 0.21627619791271124
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "sixth_stopped",
+      "publication": "runs/legal_openexempt_task_projection_public_assets128_20261028_run01/publications/b1.json",
+      "publication_sha256": "3ea383189ec47313fedeca5ad8617e8b43f28682dc2417a447f22577fac73c27",
+      "candidate_index": 2,
+      "teaching_task": "EV",
+      "original_whole_accepted": true,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "joint",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.849156746031746,
+          "full_output_f1": 0.8783532181147313
+        },
+        "EV": {
+          "f1": 0.5523065476190475,
+          "full_output_f1": 0.5600663021618905
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.849156746031746,
+          "full_output_f1": 0.8783532181147313
+        },
+        "EV": {
+          "f1": 0.7985615079365079,
+          "full_output_f1": 0.8034091757630063
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.849156746031746,
+          "full_output_f1": 0.8783532181147313
+        },
+        "EV": {
+          "f1": 0.7985615079365079,
+          "full_output_f1": 0.8034091757630063
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.24625496031746041,
+          "full_output_f1": 0.24334287360111584
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": -1
+      }
+    },
+    {
+      "arm": "sixth_stopped",
+      "publication": "runs/legal_openexempt_task_projection_public_assets128_20261028_run01/publications/b2.json",
+      "publication_sha256": "fab14f67be12d0bc642c72973ba207f0592e767a1f0eb1a2a3c3cec91c13f687",
+      "candidate_index": 1,
+      "teaching_task": "EC",
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8334201388888889,
+          "full_output_f1": 0.8525598680627222
+        },
+        "EV": {
+          "f1": 0.7660342261904762,
+          "full_output_f1": 0.7714534154428307
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8350260416666666,
+          "full_output_f1": 0.8500637199541514
+        },
+        "EV": {
+          "f1": 0.7660342261904762,
+          "full_output_f1": 0.7714534154428307
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8334201388888889,
+          "full_output_f1": 0.8525598680627222
+        },
+        "EV": {
+          "f1": 0.7660342261904762,
+          "full_output_f1": 0.7714534154428307
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0016059027777777235,
+          "full_output_f1": -0.002496148108570795
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 2,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "sixth_stopped",
+      "publication": "runs/legal_openexempt_task_projection_public_assets128_20261028_run01/publications/b2.json",
+      "publication_sha256": "fab14f67be12d0bc642c72973ba207f0592e767a1f0eb1a2a3c3cec91c13f687",
+      "candidate_index": 2,
+      "teaching_task": "EV",
+      "original_whole_accepted": false,
+      "some_actual_component_committed": true,
+      "actual_commit_selection": "dependency_components",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": true,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.8334201388888889,
+          "full_output_f1": 0.8525598680627222
+        },
+        "EV": {
+          "f1": 0.7660342261904762,
+          "full_output_f1": 0.7714534154428307
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8334201388888889,
+          "full_output_f1": 0.8525598680627222
+        },
+        "EV": {
+          "f1": 0.8463355654761904,
+          "full_output_f1": 0.840772637025331
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.8334201388888887,
+          "full_output_f1": 0.8525598680627223
+        },
+        "EV": {
+          "f1": 0.8619605654761905,
+          "full_output_f1": 0.8595226370253309
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.08030133928571415,
+          "full_output_f1": 0.06931922158250026
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": -1
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "sixth_stopped",
+      "publication": "runs/legal_openexempt_task_projection_public_assets128_20261028_run01/publications/b3.json",
+      "publication_sha256": "3d6a65c72e986f38d4d8db3b2b02255c2776efca37404045880ec7da060dda7b",
+      "candidate_index": 1,
+      "teaching_task": "EC",
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": false,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.856423611111111,
+          "full_output_f1": 0.8693406259477919
+        },
+        "EV": {
+          "f1": 0.8604896935626103,
+          "full_output_f1": 0.8592200476593436
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.8465856481481481,
+          "full_output_f1": 0.8571878481700143
+        },
+        "EV": {
+          "f1": 0.8604896935626103,
+          "full_output_f1": 0.8592200476593436
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.856423611111111,
+          "full_output_f1": 0.8693406259477919
+        },
+        "EV": {
+          "f1": 0.8604896935626103,
+          "full_output_f1": 0.8592200476593436
+        }
+      },
+      "actual_published_step_dominates_full_proposal": true,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": -0.00983796296296291,
+          "full_output_f1": -0.012152777777777679
+        },
+        "EV": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 1,
+        "EV": 0
+      }
+    },
+    {
+      "arm": "sixth_stopped",
+      "publication": "runs/legal_openexempt_task_projection_public_assets128_20261028_run01/publications/b3.json",
+      "publication_sha256": "3d6a65c72e986f38d4d8db3b2b02255c2776efca37404045880ec7da060dda7b",
+      "candidate_index": 2,
+      "teaching_task": "EV",
+      "original_whole_accepted": false,
+      "some_actual_component_committed": false,
+      "actual_commit_selection": "none",
+      "pooled_native_and_full_quality_predicate": true,
+      "quality_predicate_and_no_additional_negative_claims": false,
+      "parent_pooled_metrics": {
+        "EC": {
+          "f1": 0.856423611111111,
+          "full_output_f1": 0.8693406259477919
+        },
+        "EV": {
+          "f1": 0.8604896935626103,
+          "full_output_f1": 0.8592200476593436
+        }
+      },
+      "whole_proposal_pooled_metrics": {
+        "EC": {
+          "f1": 0.856423611111111,
+          "full_output_f1": 0.8693406259477919
+        },
+        "EV": {
+          "f1": 0.8738549933862435,
+          "full_output_f1": 0.867486877766483
+        }
+      },
+      "actual_published_step_metrics": {
+        "EC": {
+          "f1": 0.856423611111111,
+          "full_output_f1": 0.8693406259477919
+        },
+        "EV": {
+          "f1": 0.8604896935626103,
+          "full_output_f1": 0.8592200476593436
+        }
+      },
+      "actual_published_step_dominates_full_proposal": false,
+      "pooled_metric_gains": {
+        "EC": {
+          "f1": 0.0,
+          "full_output_f1": 0.0
+        },
+        "EV": {
+          "f1": 0.013365299823633214,
+          "full_output_f1": 0.008266830107139467
+        }
+      },
+      "format_count_change": {
+        "EC": 0,
+        "EV": 0
+      },
+      "negative_claim_count_change": {
+        "EC": 0,
+        "EV": 1
+      }
+    }
+  ],
+  "omitted": [
+    {
+      "arm": "formal1",
+      "publication": "runs/legal_openexempt_closed_feedback_public_assets128_20261021_run03/publications/b3.json",
+      "candidate": 2,
+      "reason": null,
+      "explicit_noop": true
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b4.json",
+      "candidate": 2,
+      "reason": null,
+      "explicit_noop": true
+    },
+    {
+      "arm": "formal2",
+      "publication": "runs/legal_openexempt_adaptive_legal_public_assets128_20261026_run01/publications/b7.json",
+      "candidate": 2,
+      "reason": null,
+      "explicit_noop": true
+    }
+  ]
+}
