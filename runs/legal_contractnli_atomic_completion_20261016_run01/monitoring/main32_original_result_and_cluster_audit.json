@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-15T18:43:17+00:00",
+  "documents": [568, 327, 342, 374, 624, 270, 341, 135],
+  "native_responses_independently_replayed": 32,
+  "queries": 544,
+  "all_original_train_source_gold_native_identity_and_component_scores_match": true,
+  "all4_point_metric_groups_match_main_completion": true,
+  "main_all122_physical_plus12_shared_audit_logical_observations": 134,
+  "bootstrap_seed": 20261015,
+  "bootstrap_draws": 2000,
+  "resampling_unit": "whole contract, 8 paired contracts",
+  "intervals_descriptive_conditional_on_this_one_learning_run_not_independent_repeats": true,
+  "vectorized_intervals_checked_against_existing_points_on9_draw_pairs": true,
+  "trace_minus_ordinary": {
+    "label_accuracy": {"point": 0.022058823529411797, "ci95": [-0.03676470588235292, 0.11029411764705876]},
+    "evidence_micro_f1_gold_non_neutral": {"point": -0.007774034724021717, "ci95": [-0.056303577620782176, 0.07075942899115363]},
+    "evidence_query_mean_f1_gold_non_neutral": {"point": -0.005877034358046873, "ci95": [-0.07657807308970088, 0.1225398629148631]},
+    "joint_exact_accuracy": {"point": 0.06617647058823528, "ci95": [-0.007352941176470562, 0.15459558823529312]}
+  },
+  "per_contract_trace_minus_ordinary": [
+    {"id": 568, "label": 1, "joint": 1, "tp": 1, "fp": 0, "fn": -1},
+    {"id": 327, "label": -1, "joint": -1, "tp": -1, "fp": 0, "fn": 1},
+    {"id": 342, "label": -1, "joint": 1, "tp": -4, "fp": -1, "fn": 4},
+    {"id": 374, "label": 5, "joint": 6, "tp": 3, "fp": -1, "fn": -3},
+    {"id": 624, "label": -1, "joint": -1, "tp": 0, "fp": 2, "fn": 0},
+    {"id": 270, "label": 0, "joint": 2, "tp": -2, "fp": -2, "fn": 2},
+    {"id": 341, "label": 0, "joint": 1, "tp": 0, "fp": -2, "fn": 0},
+    {"id": 135, "label": 0, "joint": 0, "tp": 0, "fp": 1, "fn": 0}
+  ],
+  "ordinary_class_confusion_rows_gold_E_C_NM_columns_pred_E_C_NM": [[59, 0, 6], [2, 9, 3], [14, 1, 42]],
+  "trace_class_confusion_rows_gold_E_C_NM_columns_pred_E_C_NM": [[57, 1, 7], [3, 7, 4], [6, 2, 49]],
+  "net_joint_gain9_decomposition": {"correct_NM_empty": 7, "correct_nonNM_all_evidence": 2},
+  "hypothesis_label_accuracy_ordinary_to_trace": {"nda-1": [8, 3], "nda-7": [6, 3]},
+  "all3_primary_trace_minus_ordinary_intervals_include_zero": true,
+  "strong_empty_contrast": {
+    "label_accuracy": {"point": 0.06617647058823539, "ci95": [-0.014705882352941124, 0.1470588235294118]},
+    "evidence_micro_f1_gold_non_neutral": {"point": 0.08347571393702713, "ci95": [0.04712201842255243, 0.14228675136116153]},
+    "joint_exact_accuracy": {"point": 0.13970588235294118, "ci95": [0.05882352941176472, 0.2205882352941177]}
+  },
+  "supplementary_author_style_hypothesis_macro_class_F1": {
+    "author_code_pin": "058c56fd62d56897bb4fcfbf1be71b17aee3a79c",
+    "author_evaluation_py_sha256": "f5acd4497e002652b2f29a6827fecd355b96ec041c4c174b1938eea2f8c42cf4",
+    "zero_ground_truth_class_hypotheses_excluded_as_in_author_helpers": true,
+    "eligible_E_hypotheses": 16,
+    "eligible_C_hypotheses": 5,
+    "ordinary": {"E": 0.752835705960706, "C": 0.5151515151515151},
+    "trace": {"E": 0.7805284992784993, "C": 0.38181818181818183},
+    "not_official_test_or_SOTA_comparison": true,
+    "not_replacing_declared_endpoints": true
+  },
+  "new_native_calls": 0,
+  "new_teacher_calls": 0
+}

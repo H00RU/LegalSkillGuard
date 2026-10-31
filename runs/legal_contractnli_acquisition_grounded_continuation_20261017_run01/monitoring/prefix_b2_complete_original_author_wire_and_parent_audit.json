@@ -1,0 +1,7550 @@
+{
+  "phase": "prefix",
+  "batch": 2,
+  "actual_new_native_responses": 16,
+  "metrics": {
+    "skills": {
+      "hypotheses": 272,
+      "label_correct": 229,
+      "label_accuracy": 0.8419117647058824,
+      "evidence_tp": 177,
+      "evidence_fp": 61,
+      "evidence_fn": 131,
+      "evidence_micro_f1_gold_non_neutral": 0.6483516483516484,
+      "joint_exact_correct": 146,
+      "joint_exact_accuracy": 0.5367647058823529,
+      "NN_joint": 56,
+      "NM_joint": 90,
+      "Gold_cited_outside_both_ordinary_and_program": 2,
+      "Gold_program_only_cited": 33,
+      "Gold_program_available_but_omitted": 86
+    }
+  },
+  "actual_new_native_usage": {
+    "prompt_tokens": 98685,
+    "completion_tokens": 29705
+  },
+  "all_original_query_records": [
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        17,
+        19
+      ],
+      "reason": "Termination requires return/destroy with no retention",
+      "ordinary": [
+        19
+      ],
+      "program": [
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        13,
+        14
+      ],
+      "choice": "Entailment",
+      "spans": [
+        13
+      ],
+      "reason": "No license granted for use",
+      "ordinary": [
+        13
+      ],
+      "program": [
+        12,
+        13,
+        14
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Confidentiality of agreement not addressed",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        7
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        7
+      ],
+      "reason": "Includes non-technical business plans",
+      "ordinary": [
+        7
+      ],
+      "program": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        8
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        8
+      ],
+      "reason": "No explicit identification required",
+      "ordinary": [
+        7,
+        8
+      ],
+      "program": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        17
+      ],
+      "choice": "Entailment",
+      "spans": [
+        17,
+        22
+      ],
+      "reason": "Confidentiality survives termination",
+      "ordinary": [
+        17,
+        22
+      ],
+      "program": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Independent development not addressed",
+      "ordinary": [
+        8
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        0,
+        19
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        19
+      ],
+      "reason": "Must retain no copies post-termination",
+      "ordinary": [
+        19
+      ],
+      "program": [
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        7
+      ],
+      "choice": "Entailment",
+      "spans": [
+        7
+      ],
+      "reason": "Orally disclosed information included",
+      "ordinary": [
+        7
+      ],
+      "program": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Solicitation not mentioned",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        12
+      ],
+      "choice": "Entailment",
+      "spans": [
+        10,
+        12
+      ],
+      "reason": "Limited disclosure to employees/contractors",
+      "ordinary": [
+        10,
+        12
+      ],
+      "program": [
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Copying not addressed",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Notice requirement not mentioned",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Acquiring similar info not addressed",
+      "ordinary": [
+        8,
+        10
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        12
+      ],
+      "choice": "Entailment",
+      "spans": [
+        12
+      ],
+      "reason": "Disclosure to employees permitted",
+      "ordinary": [
+        12
+      ],
+      "program": [
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 501,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        11
+      ],
+      "choice": "Entailment",
+      "spans": [
+        11
+      ],
+      "reason": "Use restricted to stated purposes",
+      "ordinary": [
+        11
+      ],
+      "program": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No termination-related return/destroy clauses.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Agreement's right-granting implications not specified.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No confidentiality of agreement terms mentioned.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Confidentiality scope not limited to technical info.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit identification requirement stated.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Survival of obligations not addressed.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Independent development not explicitly permitted.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Post-agreement possession not mentioned.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Verbal information inclusion not specified.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Solicitation restrictions not mentioned.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Third-party sharing not addressed.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Copying permissions not specified.",
+      "ordinary": [
+        9
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        10
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        10
+      ],
+      "reason": "NDA requires customer notification, not Receiving Party's duty.",
+      "ordinary": [
+        10
+      ],
+      "program": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Acquiring similar info from third parties not mentioned.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Employee sharing not addressed.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 339,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Usage limitations not specified.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [
+        22
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        34,
+        39
+      ],
+      "choice": "Entailment",
+      "spans": [
+        39
+      ],
+      "reason": "Mandates return/destroy upon termination.",
+      "ordinary": [
+        39
+      ],
+      "program": [
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        55,
+        56
+      ],
+      "choice": "Entailment",
+      "spans": [
+        55,
+        56
+      ],
+      "reason": "Confidential Info remains property of disclosing party.",
+      "ordinary": [
+        55,
+        56
+      ],
+      "program": [
+        54,
+        55,
+        56,
+        57
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        11,
+        16,
+        17
+      ],
+      "choice": "Entailment",
+      "spans": [
+        16
+      ],
+      "reason": "Agreement terms considered confidential.",
+      "ordinary": [
+        16
+      ],
+      "program": [
+        15,
+        16,
+        17,
+        18
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 2
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        11,
+        14,
+        15
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        11,
+        14,
+        15
+      ],
+      "reason": "Includes non-technical info like business plans.",
+      "ordinary": [
+        11,
+        14,
+        15
+      ],
+      "program": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 3,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit requirement for express identification.",
+      "ordinary": [
+        11,
+        13
+      ],
+      "program": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 4
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        66,
+        67,
+        68,
+        69
+      ],
+      "choice": "Entailment",
+      "spans": [
+        67,
+        68,
+        69
+      ],
+      "reason": "Obligations survive for post-termination period.",
+      "ordinary": [
+        67,
+        68,
+        69
+      ],
+      "program": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        65,
+        66,
+        67,
+        68,
+        69
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 3,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        41
+      ],
+      "reason": "Excludes info already lawfully known.",
+      "ordinary": [
+        11,
+        41
+      ],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No post-termination retention allowance.",
+      "ordinary": [
+        39
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        11
+      ],
+      "choice": "Entailment",
+      "spans": [
+        11
+      ],
+      "reason": "Includes info derived from Confidential Info.",
+      "ordinary": [
+        11
+      ],
+      "program": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No solicitation clause present.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        22,
+        47
+      ],
+      "choice": "Entailment",
+      "spans": [
+        47
+      ],
+      "reason": "Permits disclosure to Representatives.",
+      "ordinary": [
+        22
+      ],
+      "program": [
+        21,
+        22,
+        23,
+        24,
+        45,
+        46,
+        47,
+        48,
+        49,
+        51,
+        52,
+        53,
+        54,
+        55
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        34,
+        37
+      ],
+      "choice": "Entailment",
+      "spans": [
+        37
+      ],
+      "reason": "Allows necessary copies for Purpose.",
+      "ordinary": [
+        34,
+        37
+      ],
+      "program": [
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        53
+      ],
+      "choice": "Entailment",
+      "spans": [
+        53
+      ],
+      "reason": "Requires notice of compelled disclosure.",
+      "ordinary": [
+        53
+      ],
+      "program": [
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        41,
+        42
+      ],
+      "choice": "Entailment",
+      "spans": [
+        41
+      ],
+      "reason": "Excludes lawfully known information.",
+      "ordinary": [
+        11,
+        13,
+        41
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        22,
+        47
+      ],
+      "choice": "Entailment",
+      "spans": [
+        47
+      ],
+      "reason": "Permits disclosure to Representatives (employees).",
+      "ordinary": [
+        22
+      ],
+      "program": [
+        21,
+        22,
+        23,
+        24,
+        45,
+        46,
+        47,
+        48,
+        49,
+        51,
+        52,
+        53,
+        54,
+        55
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 346,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        34,
+        35
+      ],
+      "choice": "Entailment",
+      "spans": [
+        35
+      ],
+      "reason": "Limits use to specified Purpose.",
+      "ordinary": [
+        34,
+        35
+      ],
+      "program": [
+        33,
+        34,
+        35,
+        36
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        30
+      ],
+      "choice": "Entailment",
+      "spans": [
+        30
+      ],
+      "reason": "Mandates return of Confidential Information within 30 days or three years.",
+      "ordinary": [
+        30
+      ],
+      "program": [
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        32,
+        34
+      ],
+      "choice": "Entailment",
+      "spans": [
+        33,
+        34
+      ],
+      "reason": "Explicitly denies granting any rights via license or otherwise.",
+      "ordinary": [
+        33,
+        34
+      ],
+      "program": [
+        31,
+        32,
+        33,
+        34,
+        35
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 1
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        10
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No provision about disclosing agreement existence.",
+      "ordinary": [],
+      "program": [
+        10,
+        12,
+        78
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        8,
+        80
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        8,
+        19
+      ],
+      "reason": "Confidential Info includes non-technical data like financials.",
+      "ordinary": [
+        8,
+        19
+      ],
+      "program": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 1
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        27,
+        28
+      ],
+      "choice": "Entailment",
+      "spans": [
+        27,
+        28
+      ],
+      "reason": "Requires labeling of verbal/written Confidential Info.",
+      "ordinary": [
+        27,
+        28
+      ],
+      "program": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        49
+      ],
+      "choice": "Entailment",
+      "spans": [
+        49
+      ],
+      "reason": "Obligations survive for 5 years post-last disclosure.",
+      "ordinary": [
+        49
+      ],
+      "program": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        19,
+        23
+      ],
+      "choice": "Entailment",
+      "spans": [
+        23
+      ],
+      "reason": "Independently developed info is excluded from Confidential Info.",
+      "ordinary": [
+        23
+      ],
+      "program": [
+        19,
+        22,
+        23,
+        24
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        30
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of permissible post-agreement possession.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        26,
+        80
+      ],
+      "choice": "Entailment",
+      "spans": [
+        26,
+        28
+      ],
+      "reason": "Verbal/visual info must be identified as Confidential.",
+      "ordinary": [
+        8
+      ],
+      "program": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 1
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No solicitation provisions in the document.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        16
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        16
+      ],
+      "reason": "Prohibits disclosure to third parties or employees without need-to-know.",
+      "ordinary": [
+        16
+      ],
+      "program": [
+        77,
+        78,
+        79,
+        80
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        18
+      ],
+      "reason": "Allows numbered copies with sign-out logs.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No compelled disclosure notice requirement.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        19,
+        22
+      ],
+      "choice": "Entailment",
+      "spans": [
+        22
+      ],
+      "reason": "Third-party disclosures without confidentiality obligation are allowed.",
+      "ordinary": [
+        22
+      ],
+      "program": [
+        19,
+        21,
+        22,
+        23
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        16
+      ],
+      "choice": "Entailment",
+      "spans": [
+        16,
+        18
+      ],
+      "reason": "Restricts sharing with employees without need-to-know.",
+      "ordinary": [
+        16,
+        18
+      ],
+      "program": [
+        77,
+        78,
+        79,
+        80
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 422,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        12,
+        15
+      ],
+      "choice": "Entailment",
+      "spans": [
+        12
+      ],
+      "reason": "Limits use to specific consultation purposes.",
+      "ordinary": [
+        12
+      ],
+      "program": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No provision on destruction or return upon termination.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Contradiction",
+      "spans": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "reason": "Confidential data access permitted for job responsibilities.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No confidentiality of agreement terms mentioned.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        5,
+        10
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        5,
+        10
+      ],
+      "reason": "Includes non-technical data like medical records.",
+      "ordinary": [
+        5,
+        10
+      ],
+      "program": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit identification requirement stated.",
+      "ordinary": [],
+      "program": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        20
+      ],
+      "reason": "Misuse consequences survive agreement termination.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of independent development permissions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No retention provisions post-termination.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        10,
+        14
+      ],
+      "reason": "Includes verbal data and innocuous files with confidential info.",
+      "ordinary": [
+        10
+      ],
+      "program": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No solicitation restrictions mentioned.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        25
+      ],
+      "choice": "Entailment",
+      "spans": [
+        13
+      ],
+      "reason": "Authorized sharing with supervisors permitted.",
+      "ordinary": [
+        12
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 1,
+      "fn": 1
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No copying permissions specified.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No compelled disclosure notice requirement.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No acquisition of similar info from third parties.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        6,
+        25
+      ],
+      "choice": "Entailment",
+      "spans": [
+        6
+      ],
+      "reason": "Sharing with authorized persons includes employees.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 282,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        4
+      ],
+      "choice": "Entailment",
+      "spans": [
+        4
+      ],
+      "reason": "Use limited to legitimate business purposes.",
+      "ordinary": [
+        4
+      ],
+      "program": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        55
+      ],
+      "reason": "Receiving party must return Proprietary Information upon request.",
+      "ordinary": [
+        55
+      ],
+      "program": [
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        46,
+        77,
+        78
+      ],
+      "choice": "Entailment",
+      "spans": [
+        27,
+        46
+      ],
+      "reason": "Agreement does not grant rights to Proprietary Information.",
+      "ordinary": [
+        27,
+        46
+      ],
+      "program": [
+        45,
+        46,
+        47,
+        76,
+        77,
+        78,
+        79
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 2
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No confidentiality obligation on agreement terms.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Contradiction",
+      "spans": [
+        26,
+        28
+      ],
+      "reason": "Documentation includes non-technical info if marked as Proprietary.",
+      "ordinary": [
+        26
+      ],
+      "program": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        28
+      ],
+      "choice": "Entailment",
+      "spans": [
+        28
+      ],
+      "reason": "Proprietary Information must be explicitly identified.",
+      "ordinary": [
+        28
+      ],
+      "program": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        80
+      ],
+      "choice": "Entailment",
+      "spans": [
+        80
+      ],
+      "reason": "Obligations survive Contract completion.",
+      "ordinary": [],
+      "program": [
+        78,
+        79,
+        80,
+        81,
+        82
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit permission or prohibition on independent development.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        55
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of retaining info post-return/destruction.",
+      "ordinary": [
+        55
+      ],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        25,
+        26
+      ],
+      "reason": "Disclose includes verbal means; Documentation covers all media.",
+      "ordinary": [
+        26,
+        55
+      ],
+      "program": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No solicitation restrictions mentioned.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Contradiction",
+      "spans": [
+        34,
+        38
+      ],
+      "reason": "Sharing limited to Authorised Persons, not general third parties.",
+      "ordinary": [],
+      "program": [
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        33,
+        35,
+        37,
+        39
+      ],
+      "choice": "Entailment",
+      "spans": [
+        35,
+        51
+      ],
+      "reason": "Copying allowed for Authorised Purpose and record-keeping.",
+      "ordinary": [],
+      "program": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        49,
+        50,
+        51,
+        52,
+        53
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 3
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No notification requirement for compelled disclosure.",
+      "ordinary": [
+        45
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        41,
+        44
+      ],
+      "choice": "Entailment",
+      "spans": [
+        44
+      ],
+      "reason": "Acquisition from other sources is permitted.",
+      "ordinary": [
+        41
+      ],
+      "program": [
+        41,
+        43,
+        44,
+        45
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        34
+      ],
+      "reason": "Employees are Authorised Persons for sharing.",
+      "ordinary": [],
+      "program": [
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 312,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        33,
+        35,
+        37,
+        39,
+        48,
+        50
+      ],
+      "choice": "Entailment",
+      "spans": [
+        35
+      ],
+      "reason": "Use restricted to Authorised Purpose.",
+      "ordinary": [],
+      "program": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        48,
+        49,
+        50,
+        51
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 5
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        150,
+        151,
+        152,
+        153,
+        154
+      ],
+      "reason": "Mandates destruction/erasure upon request and retention exceptions.",
+      "ordinary": [],
+      "program": [
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        150,
+        151,
+        152,
+        153,
+        154
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        33,
+        34,
+        131,
+        132
+      ],
+      "choice": "Entailment",
+      "spans": [
+        132
+      ],
+      "reason": "No license granted; ownership retained by Company.",
+      "ordinary": [
+        132
+      ],
+      "program": [
+        129,
+        130,
+        131,
+        132,
+        133
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 3
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        16,
+        42,
+        43,
+        44,
+        45,
+        47
+      ],
+      "choice": "Entailment",
+      "spans": [
+        43,
+        44,
+        47,
+        49
+      ],
+      "reason": "Prohibits disclosure of Agreement existence/contents.",
+      "ordinary": [
+        43,
+        44,
+        47,
+        49
+      ],
+      "program": [
+        43,
+        44,
+        45,
+        46,
+        146,
+        147,
+        148,
+        153,
+        154,
+        155
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 3,
+      "fp": 1,
+      "fn": 3
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        18,
+        19
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit exclusion of non-technical info.",
+      "ordinary": [
+        18,
+        19
+      ],
+      "program": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 2
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit identification requirement.",
+      "ordinary": [],
+      "program": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        79,
+        122
+      ],
+      "choice": "Entailment",
+      "spans": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        77,
+        78,
+        79,
+        80,
+        81,
+        120,
+        121,
+        122,
+        123,
+        124
+      ],
+      "reason": "Surviving obligations include confidentiality, standstill, and remedies.",
+      "ordinary": [],
+      "program": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        77,
+        78,
+        79,
+        80,
+        81,
+        120,
+        121,
+        122,
+        123,
+        124
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 2,
+      "fp": 15,
+      "fn": 0
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        20,
+        21
+      ],
+      "choice": "Entailment",
+      "spans": [
+        20,
+        21
+      ],
+      "reason": "Permits independent development without Evaluation Material.",
+      "ordinary": [
+        20,
+        21
+      ],
+      "program": [
+        20,
+        21,
+        22
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        73,
+        74,
+        75,
+        76,
+        77,
+        78
+      ],
+      "choice": "Entailment",
+      "spans": [
+        77
+      ],
+      "reason": "Permits retention for litigation/compliance.",
+      "ordinary": [
+        77
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 5
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        18,
+        19
+      ],
+      "choice": "Entailment",
+      "spans": [
+        18,
+        19
+      ],
+      "reason": "Includes oral/visual forms of information.",
+      "ordinary": [
+        18,
+        19
+      ],
+      "program": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        89,
+        90,
+        91
+      ],
+      "choice": "Entailment",
+      "spans": [
+        89,
+        90,
+        95
+      ],
+      "reason": "Prohibits solicitation of Company employees/officers.",
+      "ordinary": [
+        89,
+        90,
+        95
+      ],
+      "program": [
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 2,
+      "fp": 1,
+      "fn": 1
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        30,
+        33,
+        36
+      ],
+      "choice": "Entailment",
+      "spans": [
+        30
+      ],
+      "reason": "Permits disclosure to Representatives.",
+      "ordinary": [
+        30
+      ],
+      "program": [
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 2
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of permissible copying.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        51
+      ],
+      "choice": "Entailment",
+      "spans": [
+        51
+      ],
+      "reason": "Requires notice for compelled disclosure.",
+      "ordinary": [
+        51
+      ],
+      "program": [
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        20,
+        23,
+        24
+      ],
+      "choice": "Entailment",
+      "spans": [
+        23,
+        24,
+        26
+      ],
+      "reason": "Permits third-party acquired non-confidential info.",
+      "ordinary": [
+        23,
+        24,
+        26
+      ],
+      "program": [
+        20,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 2,
+      "fp": 1,
+      "fn": 1
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        30,
+        33,
+        36
+      ],
+      "choice": "Entailment",
+      "spans": [
+        30,
+        34
+      ],
+      "reason": "Permits disclosure to Representatives (employees).",
+      "ordinary": [
+        30,
+        34
+      ],
+      "program": [
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 2
+    },
+    {
+      "document_id": 249,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        33,
+        34,
+        53,
+        137,
+        150
+      ],
+      "choice": "Entailment",
+      "spans": [
+        30,
+        33,
+        34
+      ],
+      "reason": "Limits use to specified purposes.",
+      "ordinary": [
+        30,
+        33,
+        34
+      ],
+      "program": [
+        32,
+        33,
+        34,
+        35
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 2,
+      "fp": 1,
+      "fn": 3
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        30
+      ],
+      "choice": "Entailment",
+      "spans": [
+        28,
+        29,
+        30
+      ],
+      "reason": "Mandates return/destroy documents upon termination.",
+      "ordinary": [
+        30
+      ],
+      "program": [
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 2,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        29
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit mention of granting rights.",
+      "ordinary": [],
+      "program": [
+        28,
+        29,
+        30
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        27
+      ],
+      "choice": "Entailment",
+      "spans": [
+        26,
+        27
+      ],
+      "reason": "Prohibits disclosure of discussions for 12 months.",
+      "ordinary": [
+        27
+      ],
+      "program": [
+        26,
+        27,
+        28
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        15
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        15
+      ],
+      "reason": "Includes non-technical info like business strategies.",
+      "ordinary": [
+        15
+      ],
+      "program": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        30,
+        31,
+        32
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit identification requirement.",
+      "ordinary": [],
+      "program": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        30,
+        31,
+        32
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        31,
+        47
+      ],
+      "choice": "Entailment",
+      "spans": [
+        29,
+        30,
+        45,
+        46,
+        47
+      ],
+      "reason": "Surviving obligations like document return.",
+      "ordinary": [],
+      "program": [
+        29,
+        30,
+        31,
+        32,
+        33,
+        45,
+        46,
+        47,
+        48,
+        49
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 4,
+      "fn": 1
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        16
+      ],
+      "reason": "Excludes prior knowledge, allowing independent development.",
+      "ordinary": [
+        16
+      ],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit retention allowance post-termination.",
+      "ordinary": [
+        30
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        15
+      ],
+      "choice": "Entailment",
+      "spans": [
+        31
+      ],
+      "reason": "Oral info subject to confidentiality.",
+      "ordinary": [
+        15
+      ],
+      "program": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        30,
+        31,
+        32
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 1,
+      "fn": 1
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of soliciting representatives.",
+      "ordinary": [],
+      "program": [
+        31,
+        32,
+        33,
+        34,
+        35
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        22,
+        24
+      ],
+      "choice": "Entailment",
+      "spans": [
+        22,
+        24
+      ],
+      "reason": "Allows disclosure to Representatives (including consultants).",
+      "ordinary": [
+        22,
+        24
+      ],
+      "program": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of copying permissions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No compelled disclosure notice requirement.",
+      "ordinary": [
+        30
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No third-party acquisition mention.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        22,
+        24
+      ],
+      "choice": "Entailment",
+      "spans": [
+        22,
+        24
+      ],
+      "reason": "Allows disclosure to Representatives (including employees).",
+      "ordinary": [
+        22,
+        24
+      ],
+      "program": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 603,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        24
+      ],
+      "choice": "Entailment",
+      "spans": [
+        24
+      ],
+      "reason": "Limits use to Acquisition evaluation.",
+      "ordinary": [
+        24
+      ],
+      "program": [
+        22,
+        23,
+        24,
+        25
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        56,
+        57,
+        58
+      ],
+      "choice": "Entailment",
+      "spans": [
+        56,
+        57,
+        58,
+        59
+      ],
+      "reason": "Mandatory return/destroy upon termination.",
+      "ordinary": [
+        56
+      ],
+      "program": [
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 3,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        50,
+        51,
+        52
+      ],
+      "choice": "Entailment",
+      "spans": [
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "reason": "No rights granted to Receiving Party.",
+      "ordinary": [
+        50,
+        51,
+        68
+      ],
+      "program": [
+        49,
+        50,
+        51
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 3,
+      "fp": 2,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No confidentiality obligation for agreement terms.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        12,
+        15,
+        16,
+        17
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        12
+      ],
+      "reason": "Includes non-technical info like marketing strategies.",
+      "ordinary": [
+        12
+      ],
+      "program": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 3
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        20
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Identification via marking or notification, not explicit.",
+      "ordinary": [
+        12,
+        20
+      ],
+      "program": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        60,
+        77
+      ],
+      "choice": "Entailment",
+      "spans": [
+        77,
+        75,
+        76,
+        77
+      ],
+      "reason": "Indefinite confidentiality duty post-termination.",
+      "ordinary": [
+        58
+      ],
+      "program": [
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 2,
+      "fn": 1
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        27,
+        32
+      ],
+      "choice": "Entailment",
+      "spans": [
+        32,
+        27
+      ],
+      "reason": "Independent development allowed if proven.",
+      "ordinary": [
+        27,
+        32
+      ],
+      "program": [
+        27,
+        31,
+        32,
+        33
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        60
+      ],
+      "choice": "Entailment",
+      "spans": [
+        60
+      ],
+      "reason": "Retention for legal compliance permitted.",
+      "ordinary": [
+        60
+      ],
+      "program": [
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        12,
+        20
+      ],
+      "choice": "Entailment",
+      "spans": [
+        12,
+        20
+      ],
+      "reason": "Oral disclosure notification required.",
+      "ordinary": [
+        12,
+        20
+      ],
+      "program": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No solicitation clause present.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        40,
+        47
+      ],
+      "choice": "Entailment",
+      "spans": [
+        40
+      ],
+      "reason": "Sharing with employees/agents permitted.",
+      "ordinary": [
+        40
+      ],
+      "program": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Copying not addressed explicitly.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        62
+      ],
+      "choice": "Entailment",
+      "spans": [
+        62
+      ],
+      "reason": "Notice required for compelled disclosure.",
+      "ordinary": [
+        62
+      ],
+      "program": [
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        27,
+        30
+      ],
+      "choice": "Entailment",
+      "spans": [
+        30
+      ],
+      "reason": "Third-party acquired info allowed.",
+      "ordinary": [
+        30
+      ],
+      "program": [
+        27,
+        29,
+        30,
+        31
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        40
+      ],
+      "choice": "Entailment",
+      "spans": [
+        40
+      ],
+      "reason": "Sharing with employees permitted.",
+      "ordinary": [
+        40
+      ],
+      "program": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 164,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        38,
+        45
+      ],
+      "choice": "Entailment",
+      "spans": [
+        45
+      ],
+      "reason": "Restricted to permitted purposes.",
+      "ordinary": [
+        45
+      ],
+      "program": [
+        36,
+        37,
+        38,
+        39,
+        43,
+        44,
+        45,
+        46
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        10,
+        23
+      ],
+      "reason": "Obligations to return/destroy upon request and survival of obligations",
+      "ordinary": [
+        10,
+        23
+      ],
+      "program": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        20
+      ],
+      "choice": "Entailment",
+      "spans": [
+        20
+      ],
+      "reason": "No rights conveyed to Signee",
+      "ordinary": [],
+      "program": [
+        19,
+        20,
+        21
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No confidentiality of agreement terms",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        3
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        3,
+        4
+      ],
+      "reason": "Includes non-technical business affairs and oral info",
+      "ordinary": [],
+      "program": [
+        3,
+        4,
+        5
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        4
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        3,
+        4
+      ],
+      "reason": "All info is presumed confidential without explicit identification",
+      "ordinary": [],
+      "program": [
+        3,
+        4,
+        5
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        23
+      ],
+      "choice": "Entailment",
+      "spans": [
+        23
+      ],
+      "reason": "Obligations survive termination",
+      "ordinary": [
+        23
+      ],
+      "program": [
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        14
+      ],
+      "reason": "Permitted if already possessed",
+      "ordinary": [],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No retention post-return/destroy",
+      "ordinary": [
+        10
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        4
+      ],
+      "choice": "Entailment",
+      "spans": [
+        4
+      ],
+      "reason": "Includes oral information",
+      "ordinary": [],
+      "program": [
+        3,
+        4,
+        5
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No solicitation restrictions",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Contradiction",
+      "spans": [
+        9
+      ],
+      "reason": "Requires prior written consent for disclosure",
+      "ordinary": [],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        10
+      ],
+      "reason": "Copies included in return/destroy obligations",
+      "ordinary": [],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        17,
+        18
+      ],
+      "choice": "Entailment",
+      "spans": [
+        17,
+        18
+      ],
+      "reason": "Mandatory notification of legal requests",
+      "ordinary": [
+        17
+      ],
+      "program": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        11,
+        14
+      ],
+      "choice": "Entailment",
+      "spans": [
+        14
+      ],
+      "reason": "Permitted from third parties with rights",
+      "ordinary": [
+        14
+      ],
+      "program": [
+        13,
+        14,
+        15
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Contradiction",
+      "spans": [
+        9
+      ],
+      "reason": "Requires prior consent for any disclosure",
+      "ordinary": [],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 253,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        7,
+        8,
+        21
+      ],
+      "choice": "Entailment",
+      "spans": [
+        8,
+        21
+      ],
+      "reason": "Limited to authorized purposes",
+      "ordinary": [
+        8,
+        21
+      ],
+      "program": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 2,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        21
+      ],
+      "reason": "Recipient must return/destroy materials upon request.",
+      "ordinary": [
+        21
+      ],
+      "program": [
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        41
+      ],
+      "choice": "Entailment",
+      "spans": [
+        41
+      ],
+      "reason": "Disclosing Party retains all rights; no license granted.",
+      "ordinary": [
+        41
+      ],
+      "program": [
+        40,
+        41,
+        42
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Confidentiality of agreement itself not addressed.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        9
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        9
+      ],
+      "reason": "Proprietary Information includes non-technical data like financial info.",
+      "ordinary": [
+        9
+      ],
+      "program": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        10
+      ],
+      "choice": "Entailment",
+      "spans": [
+        9,
+        10
+      ],
+      "reason": "Information must be marked as proprietary at disclosure.",
+      "ordinary": [
+        9,
+        10
+      ],
+      "program": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        34,
+        35,
+        36
+      ],
+      "choice": "Entailment",
+      "spans": [
+        33
+      ],
+      "reason": "Confidentiality obligations survive termination.",
+      "ordinary": [
+        33
+      ],
+      "program": [
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 1,
+      "fn": 3
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        11,
+        14
+      ],
+      "choice": "Entailment",
+      "spans": [
+        11,
+        14
+      ],
+      "reason": "Independently developed info is excluded from Proprietary Information.",
+      "ordinary": [
+        11,
+        14
+      ],
+      "program": [
+        11,
+        13,
+        14,
+        15
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        18,
+        21
+      ],
+      "choice": "Entailment",
+      "spans": [
+        21
+      ],
+      "reason": "Automated backups may retain copies post-termination.",
+      "ordinary": [
+        21
+      ],
+      "program": [
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        9,
+        10
+      ],
+      "reason": "Proprietary Information includes verbally conveyed data.",
+      "ordinary": [
+        9,
+        10
+      ],
+      "program": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No solicitation restrictions mentioned.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        7,
+        8,
+        18,
+        19
+      ],
+      "choice": "Entailment",
+      "spans": [
+        8,
+        19
+      ],
+      "reason": "Authorized Parties include third-party collaborators.",
+      "ordinary": [
+        8,
+        19
+      ],
+      "program": [
+        7,
+        8,
+        9,
+        10,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 2,
+      "fp": 0,
+      "fn": 2
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit permission to create copies.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        30
+      ],
+      "choice": "Entailment",
+      "spans": [
+        30
+      ],
+      "reason": "Recipient must notify Disclosing Party of legal disclosure requests.",
+      "ordinary": [
+        30
+      ],
+      "program": [
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        11,
+        13
+      ],
+      "choice": "Entailment",
+      "spans": [
+        11,
+        13
+      ],
+      "reason": "Third-party sourced info without confidentiality duty is allowed.",
+      "ordinary": [
+        11,
+        13
+      ],
+      "program": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        7,
+        8,
+        18,
+        19
+      ],
+      "choice": "Entailment",
+      "spans": [
+        8
+      ],
+      "reason": "Employees are defined as Authorized Parties.",
+      "ordinary": [
+        8
+      ],
+      "program": [
+        7,
+        8,
+        9,
+        10,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 3
+    },
+    {
+      "document_id": 371,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        18,
+        20
+      ],
+      "choice": "Entailment",
+      "spans": [
+        19,
+        20
+      ],
+      "reason": "Proprietary Information use is restricted to the Purpose.",
+      "ordinary": [
+        19,
+        20
+      ],
+      "program": [
+        18,
+        19,
+        20,
+        21
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 1
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        44
+      ],
+      "choice": "Entailment",
+      "spans": [
+        44
+      ],
+      "reason": "Mandates return or destruction upon termination.",
+      "ordinary": [
+        44
+      ],
+      "program": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        49,
+        50
+      ],
+      "choice": "Entailment",
+      "spans": [
+        49
+      ],
+      "reason": "No license granted to Receiving Party.",
+      "ordinary": [
+        49
+      ],
+      "program": [
+        47,
+        48,
+        49,
+        50
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No clause on disclosing agreement existence.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        14
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "Definition includes non-technical examples.",
+      "ordinary": [
+        14
+      ],
+      "program": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        31,
+        32,
+        33,
+        69,
+        70,
+        71
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        32
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit identification requirement.",
+      "ordinary": [],
+      "program": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        31,
+        32,
+        33,
+        69,
+        70,
+        71
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        47,
+        53
+      ],
+      "choice": "Entailment",
+      "spans": [
+        47,
+        53
+      ],
+      "reason": "Obligations survive termination.",
+      "ordinary": [
+        47,
+        53
+      ],
+      "program": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        45,
+        46,
+        47,
+        48,
+        49
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        14,
+        17
+      ],
+      "choice": "Entailment",
+      "spans": [
+        17
+      ],
+      "reason": "Independent development allowed.",
+      "ordinary": [
+        17
+      ],
+      "program": [
+        14,
+        16,
+        17,
+        18
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        45
+      ],
+      "choice": "Entailment",
+      "spans": [
+        45
+      ],
+      "reason": "Archival copy retention permitted.",
+      "ordinary": [
+        45
+      ],
+      "program": [
+        43,
+        44,
+        45,
+        46,
+        47
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        32
+      ],
+      "choice": "Entailment",
+      "spans": [
+        32
+      ],
+      "reason": "Orally disclosed info reduced to writing.",
+      "ordinary": [],
+      "program": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        31,
+        32,
+        33,
+        69,
+        70,
+        71
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No solicitation clause present.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        36
+      ],
+      "choice": "Entailment",
+      "spans": [
+        35,
+        36
+      ],
+      "reason": "Employee sharing permitted with NDAs.",
+      "ordinary": [
+        35,
+        36
+      ],
+      "program": [
+        33,
+        34,
+        35,
+        36,
+        37
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        43
+      ],
+      "choice": "Entailment",
+      "spans": [
+        43
+      ],
+      "reason": "Copying allowed for purpose fulfillment.",
+      "ordinary": [
+        43
+      ],
+      "program": [
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        39
+      ],
+      "choice": "Entailment",
+      "spans": [
+        39
+      ],
+      "reason": "Notice required for legal disclosures.",
+      "ordinary": [
+        39
+      ],
+      "program": [
+        38,
+        39,
+        40,
+        41
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        14,
+        18
+      ],
+      "choice": "Entailment",
+      "spans": [
+        18
+      ],
+      "reason": "Lawful third-party disclosure allowed.",
+      "ordinary": [
+        18
+      ],
+      "program": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        35
+      ],
+      "choice": "Entailment",
+      "spans": [
+        35
+      ],
+      "reason": "Employee disclosure permitted with obligations.",
+      "ordinary": [
+        35,
+        36
+      ],
+      "program": [
+        33,
+        34,
+        35,
+        36,
+        37
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 360,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        41
+      ],
+      "choice": "Entailment",
+      "spans": [
+        41
+      ],
+      "reason": "Use restricted to stated Purpose.",
+      "ordinary": [
+        41
+      ],
+      "program": [
+        39,
+        40,
+        41,
+        42
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        37
+      ],
+      "choice": "Entailment",
+      "spans": [
+        37,
+        38
+      ],
+      "reason": "Board Member must destroy Confidential Information upon termination.",
+      "ordinary": [],
+      "program": [
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        23,
+        36
+      ],
+      "choice": "Entailment",
+      "spans": [
+        36
+      ],
+      "reason": "No license granted under intellectual property rights.",
+      "ordinary": [
+        36
+      ],
+      "program": [
+        35,
+        36,
+        37
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of disclosing agreement existence.",
+      "ordinary": [],
+      "program": [
+        41
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        10,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        12
+      ],
+      "reason": "Confidential Info includes non-technical data like personal info.",
+      "ordinary": [],
+      "program": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 5
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        11,
+        12
+      ],
+      "reason": "Info not always expressly marked as confidential.",
+      "ordinary": [],
+      "program": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 2,
+      "fp": 0,
+      "fn": 7
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        40
+      ],
+      "choice": "Entailment",
+      "spans": [
+        40
+      ],
+      "reason": "Obligations survive termination.",
+      "ordinary": [
+        40
+      ],
+      "program": [
+        38,
+        39,
+        40,
+        41,
+        42
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        27,
+        32
+      ],
+      "choice": "Entailment",
+      "spans": [
+        32
+      ],
+      "reason": "Independent development allowed if proven.",
+      "ordinary": [
+        32
+      ],
+      "program": [
+        31,
+        32,
+        33
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        38
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of retention post-destruction.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        10,
+        12,
+        13
+      ],
+      "choice": "Entailment",
+      "spans": [
+        12
+      ],
+      "reason": "Oral communications included as Confidential Info.",
+      "ordinary": [],
+      "program": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 2
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No solicitation provisions present.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        24,
+        25,
+        26
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit sharing with third parties allowed.",
+      "ordinary": [],
+      "program": [
+        24,
+        25,
+        26,
+        27,
+        28
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 3
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        26
+      ],
+      "reason": "Confidential Info can be shared with necessary employees.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        33,
+        34
+      ],
+      "choice": "Entailment",
+      "spans": [
+        34
+      ],
+      "reason": "Notice required for legal disclosure mandates.",
+      "ordinary": [],
+      "program": [
+        32,
+        33,
+        34,
+        35
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        27,
+        30,
+        31
+      ],
+      "choice": "Entailment",
+      "spans": [
+        31
+      ],
+      "reason": "Lawful third-party acquisition permitted.",
+      "ordinary": [],
+      "program": [
+        30,
+        31,
+        32
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 2
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        26
+      ],
+      "choice": "Entailment",
+      "spans": [
+        26
+      ],
+      "reason": "Employee access limited to necessary personnel.",
+      "ordinary": [],
+      "program": [
+        24,
+        25,
+        26,
+        27,
+        28
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 125,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        23,
+        24
+      ],
+      "choice": "Entailment",
+      "spans": [
+        24
+      ],
+      "reason": "Use restricted to Board Member duties.",
+      "ordinary": [],
+      "program": [
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [
+        16,
+        24
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "reason": "Mandates return/destroy upon termination.",
+      "ordinary": [
+        41
+      ],
+      "program": [
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit mention of rights limitation.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        30
+      ],
+      "choice": "Entailment",
+      "spans": [
+        30,
+        34
+      ],
+      "reason": "Prohibits disclosure of negotiations without consent.",
+      "ordinary": [
+        30,
+        34
+      ],
+      "program": [
+        29,
+        30,
+        31
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        6
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        6,
+        13
+      ],
+      "reason": "Includes non-technical information as Evaluation Material.",
+      "ordinary": [
+        6,
+        13
+      ],
+      "program": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit identification requirement.",
+      "ordinary": [],
+      "program": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        41
+      ],
+      "choice": "Entailment",
+      "spans": [
+        41
+      ],
+      "reason": "Confidentiality obligations survive termination.",
+      "ordinary": [
+        41
+      ],
+      "program": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        39,
+        40,
+        41,
+        42,
+        43
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        14,
+        18
+      ],
+      "choice": "Entailment",
+      "spans": [
+        14,
+        18
+      ],
+      "reason": "Excludes independently developed information.",
+      "ordinary": [
+        14,
+        18
+      ],
+      "program": [
+        14,
+        17,
+        18,
+        19
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        39,
+        40
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        39,
+        40
+      ],
+      "reason": "Mandates destruction of all Evaluation Material.",
+      "ordinary": [
+        39,
+        40
+      ],
+      "program": [
+        38,
+        39,
+        40,
+        41,
+        42
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        6,
+        13
+      ],
+      "reason": "Includes verbally conveyed information as Evaluation Material.",
+      "ordinary": [
+        6,
+        13
+      ],
+      "program": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        54,
+        55,
+        77,
+        80
+      ],
+      "choice": "Entailment",
+      "spans": [
+        54
+      ],
+      "reason": "Prohibits solicitation of Company's executives.",
+      "ordinary": [
+        54
+      ],
+      "program": [
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 3
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        6,
+        24
+      ],
+      "choice": "Entailment",
+      "spans": [
+        22,
+        24
+      ],
+      "reason": "Permits disclosure to authorized Representatives.",
+      "ordinary": [
+        22,
+        24
+      ],
+      "program": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 1
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of permissible copying.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        30,
+        31,
+        34
+      ],
+      "choice": "Entailment",
+      "spans": [
+        34,
+        35
+      ],
+      "reason": "Requires notice of compelled disclosure.",
+      "ordinary": [
+        34,
+        35
+      ],
+      "program": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 2
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        14,
+        17
+      ],
+      "choice": "Entailment",
+      "spans": [
+        14,
+        17
+      ],
+      "reason": "Excludes information from non-confidential sources.",
+      "ordinary": [
+        14,
+        17
+      ],
+      "program": [
+        14,
+        16,
+        17,
+        18
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        6,
+        24
+      ],
+      "choice": "Entailment",
+      "spans": [
+        22,
+        24
+      ],
+      "reason": "Permits disclosure to authorized Representatives.",
+      "ordinary": [
+        22,
+        24
+      ],
+      "program": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 1
+    },
+    {
+      "document_id": 524,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        21,
+        22
+      ],
+      "choice": "Entailment",
+      "spans": [
+        21,
+        22,
+        24
+      ],
+      "reason": "Limits use to transaction evaluation.",
+      "ordinary": [
+        21,
+        22,
+        24
+      ],
+      "program": [
+        20,
+        21,
+        22,
+        23
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 2,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        17,
+        32
+      ],
+      "reason": "Recipient must return/destroy upon request and obligation survives termination.",
+      "ordinary": [
+        17
+      ],
+      "program": [
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        16
+      ],
+      "choice": "Entailment",
+      "spans": [
+        16
+      ],
+      "reason": "Confidential Info remains property of disclosing party.",
+      "ordinary": [
+        16
+      ],
+      "program": [
+        15,
+        16,
+        17
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        29
+      ],
+      "choice": "Entailment",
+      "spans": [
+        29
+      ],
+      "reason": "Prohibits public announcement of agreement terms.",
+      "ordinary": [],
+      "program": [
+        28,
+        29,
+        30
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        6
+      ],
+      "reason": "Confidential Info includes non-technical items like business plans.",
+      "ordinary": [
+        6
+      ],
+      "program": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 3
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        12
+      ],
+      "choice": "Entailment",
+      "spans": [
+        12,
+        13
+      ],
+      "reason": "Disclosure requires marking or notification.",
+      "ordinary": [
+        12,
+        13
+      ],
+      "program": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        31,
+        32
+      ],
+      "choice": "Entailment",
+      "spans": [
+        32
+      ],
+      "reason": "Protection obligation survives termination.",
+      "ordinary": [
+        32
+      ],
+      "program": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        19,
+        20,
+        21,
+        22,
+        25
+      ],
+      "choice": "Entailment",
+      "spans": [
+        20,
+        25
+      ],
+      "reason": "Allows development of similar info without breach.",
+      "ordinary": [
+        20,
+        25
+      ],
+      "program": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        24,
+        25,
+        26
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 2,
+      "fp": 0,
+      "fn": 3
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        17
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        17
+      ],
+      "reason": "Recipient must return/destroy upon request, retaining is prohibited.",
+      "ordinary": [
+        17
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        12
+      ],
+      "choice": "Entailment",
+      "spans": [
+        12,
+        6
+      ],
+      "reason": "Oral disclosure requires notification of confidential nature.",
+      "ordinary": [
+        6,
+        12
+      ],
+      "program": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No solicitation provisions in NDA.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        13
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        13
+      ],
+      "reason": "Prohibits sharing with third parties without approval.",
+      "ordinary": [],
+      "program": [
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit allowance for copying Confidential Info.",
+      "ordinary": [
+        13
+      ],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        15
+      ],
+      "choice": "Entailment",
+      "spans": [
+        15,
+        12
+      ],
+      "reason": "Mandatory notification for compelled disclosure.",
+      "ordinary": [
+        12,
+        15
+      ],
+      "program": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        19,
+        20,
+        21,
+        22,
+        24
+      ],
+      "choice": "Entailment",
+      "spans": [
+        20,
+        23
+      ],
+      "reason": "Permits acquiring similar info from third parties.",
+      "ordinary": [
+        20,
+        23
+      ],
+      "program": [
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 1,
+      "fn": 4
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        14
+      ],
+      "reason": "Employees must abide by confidentiality terms.",
+      "ordinary": [
+        14
+      ],
+      "program": [
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 608,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit limitation on use of Confidential Info.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-11",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of reverse engineering restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-16",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        16
+      ],
+      "choice": "Entailment",
+      "spans": [
+        14,
+        15,
+        16
+      ],
+      "reason": "Mandatory return of info upon demand.",
+      "ordinary": [
+        16
+      ],
+      "program": [
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 2,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-15",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        12,
+        13,
+        14
+      ],
+      "choice": "Entailment",
+      "spans": [
+        13,
+        14
+      ],
+      "reason": "No rights granted to Recipient.",
+      "ordinary": [
+        13
+      ],
+      "program": [
+        12,
+        13,
+        14
+      ],
+      "label_correct": true,
+      "joint_exact": false,
+      "tp": 2,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-10",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No confidentiality clause on agreement itself.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-2",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No restriction on non-technical info.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-1",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No explicit identification requirement.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-19",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No survival of obligations clause.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-12",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No prohibition on independent development.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-20",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of post-return retention.",
+      "ordinary": [
+        16
+      ],
+      "program": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-3",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No mention of verbal information.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-18",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No solicitation restrictions.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-7",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        17
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        17
+      ],
+      "reason": "Third-party sharing requires approval.",
+      "ordinary": [],
+      "program": [
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-17",
+      "condition": "skills",
+      "Gold_choice": "Contradiction",
+      "Gold_spans": [
+        15
+      ],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No copy permission clause.",
+      "ordinary": [],
+      "program": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-8",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "NotMentioned",
+      "spans": [],
+      "reason": "No compelled disclosure notice.",
+      "ordinary": [],
+      "program": [],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-13",
+      "condition": "skills",
+      "Gold_choice": "NotMentioned",
+      "Gold_spans": [],
+      "choice": "Entailment",
+      "spans": [
+        17
+      ],
+      "reason": "Third-party info acquisition prohibited.",
+      "ordinary": [
+        17
+      ],
+      "program": [],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-5",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        17
+      ],
+      "choice": "Contradiction",
+      "spans": [
+        17
+      ],
+      "reason": "Employee sharing requires approval.",
+      "ordinary": [],
+      "program": [
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "label_correct": false,
+      "joint_exact": false,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "document_id": 123,
+      "hypothesis_id": "nda-4",
+      "condition": "skills",
+      "Gold_choice": "Entailment",
+      "Gold_spans": [
+        11
+      ],
+      "choice": "Entailment",
+      "spans": [
+        11
+      ],
+      "reason": "Limited use to specified purposes.",
+      "ordinary": [
+        11
+      ],
+      "program": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "label_correct": true,
+      "joint_exact": true,
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    }
+  ],
+  "same_parent_actual_reference_metrics": {
+    "hypotheses": 272,
+    "label_correct": 229,
+    "label_accuracy": 0.8419117647058824,
+    "evidence_tp": 169,
+    "evidence_fp": 54,
+    "evidence_fn": 139,
+    "evidence_micro_f1_gold_non_neutral": 0.6365348399246704,
+    "joint_exact_correct": 143,
+    "joint_exact_accuracy": 0.5257352941176471,
+    "NN_joint": 53,
+    "NM_joint": 90,
+    "Gold_cited_outside_both_ordinary_and_program": 1,
+    "Gold_program_only_cited": 31,
+    "Gold_program_available_but_omitted": 80
+  },
+  "paired_update_effect": {
+    "label_fixes": 10,
+    "label_damage": 10,
+    "joint_fixes": 16,
+    "joint_damage": 13,
+    "true_members_gained": 17,
+    "true_members_lost": 9
+  },
+  "by_original_source_group": {
+    "1": {
+      "before": {
+        "hypotheses": 136,
+        "label_correct": 114,
+        "label_accuracy": 0.8382352941176471,
+        "evidence_tp": 76,
+        "evidence_fp": 31,
+        "evidence_fn": 64,
+        "evidence_micro_f1_gold_non_neutral": 0.6153846153846154,
+        "joint_exact_correct": 78,
+        "joint_exact_accuracy": 0.5735294117647058,
+        "NN_joint": 26,
+        "NM_joint": 52,
+        "Gold_cited_outside_both_ordinary_and_program": 1,
+        "Gold_program_only_cited": 8,
+        "Gold_program_available_but_omitted": 36
+      },
+      "after": {
+        "hypotheses": 136,
+        "label_correct": 115,
+        "label_accuracy": 0.8455882352941176,
+        "evidence_tp": 78,
+        "evidence_fp": 37,
+        "evidence_fn": 62,
+        "evidence_micro_f1_gold_non_neutral": 0.611764705882353,
+        "joint_exact_correct": 77,
+        "joint_exact_accuracy": 0.5661764705882353,
+        "NN_joint": 23,
+        "NM_joint": 54,
+        "Gold_cited_outside_both_ordinary_and_program": 1,
+        "Gold_program_only_cited": 10,
+        "Gold_program_available_but_omitted": 34
+      }
+    },
+    "2": {
+      "before": {
+        "hypotheses": 136,
+        "label_correct": 115,
+        "label_accuracy": 0.8455882352941176,
+        "evidence_tp": 93,
+        "evidence_fp": 23,
+        "evidence_fn": 75,
+        "evidence_micro_f1_gold_non_neutral": 0.6549295774647887,
+        "joint_exact_correct": 65,
+        "joint_exact_accuracy": 0.47794117647058826,
+        "NN_joint": 27,
+        "NM_joint": 38,
+        "Gold_cited_outside_both_ordinary_and_program": 0,
+        "Gold_program_only_cited": 23,
+        "Gold_program_available_but_omitted": 44
+      },
+      "after": {
+        "hypotheses": 136,
+        "label_correct": 114,
+        "label_accuracy": 0.8382352941176471,
+        "evidence_tp": 99,
+        "evidence_fp": 24,
+        "evidence_fn": 69,
+        "evidence_micro_f1_gold_non_neutral": 0.6804123711340206,
+        "joint_exact_correct": 69,
+        "joint_exact_accuracy": 0.5073529411764706,
+        "NN_joint": 33,
+        "NM_joint": 36,
+        "Gold_cited_outside_both_ordinary_and_program": 1,
+        "Gold_program_only_cited": 23,
+        "Gold_program_available_but_omitted": 52
+      }
+    }
+  },
+  "same_ABI_saved_ordinary_not_new_calls": {
+    "hypotheses": 272,
+    "label_correct": 227,
+    "label_accuracy": 0.8345588235294118,
+    "evidence_tp": 160,
+    "evidence_fp": 24,
+    "evidence_fn": 148,
+    "evidence_micro_f1_gold_non_neutral": 0.6504065040650406,
+    "joint_exact_correct": 152,
+    "joint_exact_accuracy": 0.5588235294117647,
+    "NN_joint": 60,
+    "NM_joint": 92,
+    "Gold_cited_outside_both_ordinary_and_program": 18,
+    "Gold_program_only_cited": 0,
+    "Gold_program_available_but_omitted": 0
+  },
+  "versus_saved_ordinary": {
+    "label_fixes": 12,
+    "label_damage": 10,
+    "joint_fixes": 15,
+    "joint_damage": 21,
+    "true_members_gained": 27,
+    "true_members_lost": 10
+  },
+  "at": "2026-10-17T05:11:51.180008+00:00",
+  "run_id": "legal_contractnli_acquisition_grounded_continuation_20261017_run01",
+  "bindings": {
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/live_8b_environment_for_grounded_acquisition_continuation_20261017.json": "38fc460ef459e3a02255f9703c0451257808839d90d79e068b872e8d3a045920",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/acquisition_grounded_continuation_20261017/source_only_cohort32.json": "4dd01c3c5f912fd5bca9b685f62e9ac23cc79ae4714eb7b93e869d78130812b5",
+    "/media/sangfor/vdb/legal-skill-evolve/configs/contractnli_acquisition_grounded_continuation.json": "6ff66c98087ef3e0d8548909aee172ba4ebb3e6bd450ce5e3fd378673a7f0fdf",
+    "/media/sangfor/vdb/legal-skill-evolve/data/cache/contractnli/contract-nli.download.zip": "e03fc77bbf8b53e2976a250e81d8a294bc3d5e5fb014521e477dee9340d6287b",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/contractnli_acquisition_grounded_continuation_20261017/grading_only.json": "552ea7901f69b8666f7e1ea6320f8a284b4af3732536da558a36ff9a602ff3c4",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/contractnli_acquisition_grounded_continuation_20261017/inputs.json": "5bc59f27bbebf1a4870b561d1545a4e8c49e9f1289889e02143bd31866b3485a",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/contractnli_acquisition_grounded_continuation_20261017/preselection.json": "467e19a62430ea3f392acfa6f4a6c9d3a70360514a23e645c582066b2fd74759",
+    "/media/sangfor/vdb/legal-skill-evolve/docs/CANONICAL_ACQUISITION_CONTINUATION_20261017.md": "64d99323705bf9369e5a5ec6219d34887f47efa1d04f8067c4771ab79cabf2ee",
+    "/media/sangfor/vdb/legal-skill-evolve/docs/METHOD_AND_PROTOCOL.md": "e5954cba84c1497e9548ce98301c259a328cfbdf62ae1fd36fb1be8e7427474a",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/_vendor/SCIENCECLAW_LICENSE.txt": "62316704df7426e5a79d2827ff8aca36e9abb3a73b8e68557030749ebefec667",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/_vendor/SCIENCECLAW_NOTICE.md": "7b65594a46330bcfaed5ec569186d249081438f4cf570bca7f6de7a3cde8d045",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/_vendor/__init__.py": "f12f153d076fc0000447924aa6faac34ff3dace23c4cda6546c218a52e159d5b",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/_vendor/scienceclaw_contracts.py": "30dba361fdb18eb9becd2e5aa946a0aadda7b5fe1730e4f300466594ae98576d",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py": "12757f1869c74ca57a20d763af0a1fb29c7461683bc59c859573252a23b926a6",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/data.py": "14b70bc4360d82135eb4b6d00db46d47020637cc5f737282103eceeb9fba22e2",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/experiment/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/experiment/storage.py": "466fe9104dfc5b48a1c557b55dc560bd8fce1ff37f96e01f848849f45de9dcd5",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/inference/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/inference/codex_cli_client.py": "395e940458fa89c5d8724a2dd43a71afaec5a3c88739c9f6ade6a8c75890eb0a",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/inference/native.py": "4b01387373e0fd55a8606592cecd518ca64e382dabdf69f4a7ada8d8734b990e",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/inference/openai_client.py": "22ac51062eb64eb26394a2b4d681eef7dcb5d2fa3ec8a1c914c457051ab9921b",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/ace_comparison.py": "426e2234e4d28e6c735ff729a91ffd145b07126d740856b99a1fe35a4c9c4039",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/ace_native.py": "030b3af88696cbed121c589307b15f0ec7fe5f2946d031846a921c4ec88cb843",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/acquisition.py": "0b5efc1fddd0371a434d46546da4dc5cfc75534d1bd5b254f5f4abe6fc7a4f80",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/audit.py": "809f36d3ee66b482afb65e6f2697ac0c8d35729fb1a03525d520ab60ee31f4f0",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/catalog.py": "868fad71b8c110c6b915b97cd56aba5729486efad94e773233189181e575feb3",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/clauses.py": "081be5f89c816e8609139ff363c65e1409f8c44dc4f6564a7ae60f9b97c60bb0",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/conditioned.py": "b00512b6ea37f4c63b32b2a12f3b9790afa99c3e6e4819bed71501d22ab95721",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/encoding.py": "be2fc35243064662ee7b8843df2b3d8c9c809f45239d063ee75204ca0195da85",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/evidence_programs.py": "4d94a6a45180182acc9da8644d1754d8e37b06fd89f03b3f47356a1eca2c3046",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/experiment.py": "3ba7c023a0937f13f793cacec285902f9cb928e53846a5b32780f19718f77b4c",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/feedback_history.py": "d5cc1d150da37ffb8852d5cb75b898bf169bec01bfafb82661c452efe3093e24",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/interface.py": "01eeb5aefd91616f1d00359906d311a5b255304d73b68a14ac7b3d68f7530c3c",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/literal_evidence.py": "b36aa4f2642b8dca8f53b2d46b7acda49df049e45cd576fc3fdf5bfeb61cf42d",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/operators.py": "21ece1adbec697c870f58af778c27cd84faef1da41f22770c2babcba626759fe",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/packing.py": "ce88eed782e0a2a64ad116ab459c550b6a4534bbd3658278835cee41376547ea",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/procedures.py": "2f39822bd1c7f10749fa38959e4d6db52e93a224009cac7c46ae99671a702fc6",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/publication.py": "793a2185c1e0f2d6ba4ba63451b748a841973896eee35f5af91ebb2ab08af0e4",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/review.py": "510d364cd754067c9836a8e4cf2cd4c64946af135fdfaf0063f43795c363f70f",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/skill_tables.py": "f95e13e45f1c8140e216e7017ab9535a1ffa3f1cc4e39052b00d25fdea2f2af8",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/source_condition_audit.py": "cc54314a44e0e9e6be7dc1f9673d594f8d3598fe3a6c29c8055d7a83ebc4afe2",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/source_programs.py": "15c43c4dc6895cf865aa6ceaed33e770fe9290dec379195f7ae2b54364999716",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/task_local.py": "94ce01c3b13b0090f532c7b377ded7170308d86dd3c950cf17b60e5438a1e777",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/witness_grounding.py": "90d83c3eccba4e5c2daa6e53dadc89b5c5b3043d774aad31b3377333ce0f8b48",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/report.py": "439d5c102641e1b63f9733203ad5114329a891262c5ad31b7fa7046dea228da6",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/task.py": "2ff6c6e13dac68b3de1beeacb6c4bf269336e56bb4d87673e620b52e6195a2f5",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/utils/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/utils/hashing.py": "5771e207e01fb8b12fa17f923ae7b379c61dffa4a235ee1a68bba36f96be7159",
+    "/media/sangfor/vdb/legal-skill-evolve/pyproject.toml": "5dab810758738a5c1a1bcb85de77c5fde3af37091f990bee1ddfea3d13d05390",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/complete32_native_and_original_scores.json": "489ccabe98bbc46364c767b17d2c2d661ca574530a3c77f9badc445aa3882ce2",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/completion.json": "61c96662aed4fcd8dd58b541974c4fcabc2383b4de22aa3e64660c287de1eb11",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/123.final.native.json": "c9bd9c7c366673efec5f61e41afca5a89d326b847f0aabe1a8cb86ee43158410",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/125.final.native.json": "9e489a1b3d93bca15c960772715de072129ce5482a63ee2b0b7278b5c49a52ce",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/164.final.native.json": "b605b28b0ce5c2b73297c6d3ccd0328f36658ce006ea6576a7d006b789fd4f2c",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/249.final.native.json": "e684b255ed139503bd8e234656d2de3a3123bfd9f9de758921acab70999a50e3",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/253.final.native.json": "a73d9d6a28f2afd55b2fa37b0e19827718c11407b5085fb5dedf1198eb6b3291",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/282.final.native.json": "75b943359c646b2081d9fc5ebe5d85ca0b7798ccef61bc72a5e8f888911129fe",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/312.final.native.json": "4b2ca5215d3d54fbec6c1b7a5c649a9624ee4b1acc31ed24aa2f625d18dc3981",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/339.final.native.json": "60e795dd5c8646fc689d350e75a78fc6c9c912d3170a24edfa30d3e5c36ae22d",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/346.final.native.json": "1ba9146ff53657aa716bb823093070669c61327fada7e3b6f316e4ea4084f61c",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/360.final.native.json": "16f1822f4bbd0cd48b377bf74708367427bfec368319f6095b9bb58551b889c3",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/371.final.native.json": "4e8f4877380920c19fd4b6ee4dac4c4cb82fa355b9d7f9e08916ffbc008e98bc",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/422.final.native.json": "b8a46d27d2b63c21f8baa6fe3853171943d074cd7e0e11277799a11e8c32a0b3",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/501.final.native.json": "923c2901857add30ce0dd18a60e72f5eb1cdcdbee8c96c10ae2cfe5b73983522",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/524.final.native.json": "2740986438d1cda28d9e46ad63b4392c102661ff2452284cbd19325738a228d7",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/603.final.native.json": "a9c7e0b7c69fcca870ecff0ef2737d01ba9c94d2344f3bcc7dba486ffdf45e45",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/skills/608.final.native.json": "7daba93b39babd570dfbca1eb10436c40ea9766a63989028fba93ae5480b8563",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/123.json": "b196d9fe468123c57550e8979d6dd246149d12a3703f9b8c587ae746a6e635aa",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/125.json": "bf385c9905e0c49024ac1d9da53d9433f9c8ed94aa5805eba8bc437fd5915154",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/164.json": "9ddb8e6a2ace0838acc13426294cb03a0e8ec7a46e959f708f5cf8c3a410ccc3",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/249.json": "72296420edb23247c23d5beaecad1a3793375bbf1f54ace22ea0c30253c0e09e",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/253.json": "3289fea2f4854691678493e27f1f348148ee164cb6d23bb45aa6a00749645e7d",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/282.json": "e619b6847384aeacd0c653dfd71d3a01c497b11ba70af59aaf4bed07a54ff039",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/312.json": "d0bb731a5627ccfc3a9fb40ee3640b0cb19b00b288935e84fffaac0f179b4fa2",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/339.json": "552c9fcda6bca6b1ab6514d55ae5c71cd01ef98e7e8da48f8b986ed7dfe6f259",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/346.json": "dbbc14ef55ad610c6ac737096e0998e4e8f42c4742488b4d116357262175edac",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/360.json": "2c12ca4ad00ba45f839ee3d4b0a93c612f389895bc704ceab0f1fedb63dad301",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/371.json": "5177ecdf3b47b88816d998176237f941785ee12320f83ec655a6fdcdea88110a",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/422.json": "af8cfd75c04b9125ae44599ce104f4cdd0754e493230bd3f7addc40afe0d5bf6",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/501.json": "21d346c403a4c3c149e919b8abf4f32b2e02a28d0f927d8c695676bf26a08deb",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/524.json": "ed0beb451326e5481a0373b25ee181f0303537aa588bc085547562519a8ad482",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/603.json": "651ca72c216a3dcf7a895251444773a5329c427cbcc45740e4e0658a03b874be",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/skills/608.json": "e6d6ef0c068775ccf823108123870eb9dcc232015e7cc3db2c0b4630b2946b53",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_executable_acquisition_online_20261017_run01/publications/b2.json": "16364f5c9a82d9bccecd364bb8aeefc0d8c2c955971032922ab4e02c113be574",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_grounded_feedback_20261016_run01/evidence_models/ordinary_M2.manifest.json": "9fdb458e725c7003b88c3cf6f5af6ff95434adfeea1e1240730fecb03efee99d",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_grounded_feedback_20261016_run01/evidence_models/ordinary_M2.pickle": "8453c3ed11bc02e4cc46b5b425399a2e2a3dbcc294a47d19b870cd91867a96c9",
+    "/media/sangfor/vdb/legal-skill-evolve/third_party/ace/LICENSE.txt": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "/media/sangfor/vdb/legal-skill-evolve/third_party/ace/NOTICE.md": "49dc9c40ffc96015a6e23b82d5d0ddc4e81a6b5bba1f706a38155eadf885bddf",
+    "/media/sangfor/vdb/legal-skill-evolve/third_party/ace/prompts/curator.py": "eb03d59b3f3593832f730a798199b581ad797acd503c47d1737616c68cf26107",
+    "/media/sangfor/vdb/legal-skill-evolve/third_party/ace/prompts/generator.py": "b8b12d4a6281ea4c422a2ee0bd919b50580d388027917e8740f82f97eb24eebb",
+    "/media/sangfor/vdb/legal-skill-evolve/third_party/ace/prompts/reflector.py": "72b343ce2781531dac2fd765543410b6abfc4817c39078dd4f83187c4d217e9c",
+    "/media/sangfor/vdb/legal-skill-evolve/third_party/scienceclaw/LICENSE": "62316704df7426e5a79d2827ff8aca36e9abb3a73b8e68557030749ebefec667",
+    "/media/sangfor/vdb/legal-skill-evolve/third_party/scienceclaw/NOTICE.md": "56b5b082649be8b2a0ca38d01dd2fd7b4de53caf1e6ffecdf8b22d6951ceab08",
+    "/media/sangfor/vdb/legal-skill-evolve/uv.lock": "a2529b7614559b576a22f2299658eaf7813960d33f0f93a6bf138f741d8253bf",
+    "/media/sangfor/vdb/legal-skill-evolve/configs/contractnli_acquisition_grounded_continuation.frozen.json": "5dd2db25f195c5033bc76b715dafda5a6dd1c030cddec2f1a4810c4bff45fb24",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_executable_acquisition_online_20261017_run01/monitoring/audit_batch.py": "3ce84b3bd5df0dbdfb7c0fd978ba9e2fda63cbd76e6535c9af86242cb93c9c2a",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/monitoring/audit_learning.py": "c6bf3eeb036c2dbeeec524592814d11d2689e2f6002eb4f2ae5f1d54fdf5a030",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prefix_repair_all_seen_retention.json": "95eb22c4461bb4aa2dd8679e1c238586c6dd8fdf7dd747f1b416c6d0d92de1c1",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/501.json": "06f75bfc21a32cf80a7013880ed62d4a046f8949206160e09f6b0cb74f53dd46",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/501.final.native.json": "6fb796b5f507f628d3b1ce0cc462f89e57fc4cdaa7c46562acb38f930bdf4e09",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/publications/b2.json": "e96f01a1795c982b62a142a15e7cc1d119bd63e5a1e6b8efed3af928097e9624",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/339.json": "02b9a394c5d568f8356f6d50642f8e90bc3ac159a6931ff19eaad538a0957758",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/339.final.native.json": "785565d11ee8fad61503e541cc2d0fee626a8feacfd8d268eebe94d6e72ef248",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/346.json": "f110c0c2252e23e34ecdf0c8da6b36fa079213291c8194abbe986da51f9a5ab9",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/346.final.native.json": "88f31c00d47bfe1fd57e75041be2cd37fd262b8f781b7f1aefb65fea2856f764",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/422.json": "7e051582d6d2712692a42cf2e9f5bdf4bfe8d4110d1323900b7be28fb0f565dd",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/422.final.native.json": "19e8cdc58ce9f0949cbd1f28e7b39cd01bf6052ebc8920fd4b22691bd14c6d7d",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/282.json": "22eb572b5bffe11e9ba9926e4c5b8d4e567ef27d8cd2820790238072c3ec51b6",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/282.final.native.json": "d2352648495a218822890067a7f0228c084be838a008ca6582e2fd309ac6c5be",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/312.json": "604230f214a43da78582528727abcc6c214e4b41e135308cc99553b989025b9d",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/312.final.native.json": "3d088c989f2fa552123764ac3ca94e7fc18aebecf1c30d758a6a5cf68a64090f",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/249.json": "ca5935b4961cc1148acf54bc49f5d46378b7fbee43752ccd955a3bdf8abb6a7a",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/249.final.native.json": "f6f66c6b8296446fa4c6149f3b8345877312930e4ffd7ba692019600710809e7",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/603.json": "796396646a2719350ce73c4e99cf78e74b1e76ff7c8d50ea87dc434bd1120fef",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/603.final.native.json": "6c079ec656f19571970c6b1cd06e3fb15ac8d6b62df26e5cf68c09b295a2b444",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/164.json": "508d46045ac71135bd94b1c5a2abb9aa2eb8610dd4ce3c60706fbab8811612a9",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/164.final.native.json": "9cba3ca36892f0ab482589320a707158bca6028fa5f4f5aaf66e3a7b1b5fc7da",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/253.json": "509c3c0a0e297dc42b174847e4cf74b1ada7154efab66f3e6f653f3267f23c88",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/253.final.native.json": "25e8507c92301294e8ed31f11049aed85b1332f75cf6da88a368d4af3e268b38",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/371.json": "89bea24d4b5a3fa4143a82324eb331d63cf191402ac07aa8b3be7c9fb51b79a4",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/371.final.native.json": "c54c301047052b22c4f5db386b7a5a1f80106927a80c9f5bb6a8f341c742f8a4",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/360.json": "5df99cd21301245225b260dd9d4a1d676e3b09db86e798fb58a8be085d7b5f82",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/360.final.native.json": "de3798975ee33e4adae9869d227274d7733ed03009bc13b995f54f6cfbaf2f09",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/125.json": "843a7d3c77bf7d2a4b8169c201c068d7efcf6c7422bef98eac898870a79caffa",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/125.final.native.json": "15cc7a91d7c83063ae1ca16cea2975be3421a9377914c1daa2152eab9d2c971f",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/524.json": "caeeb973c97caca943955eb239c5a708a211dcdf93a4219d39edf7eca40e8cba",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/524.final.native.json": "872448cb9e09a4057cca6a49fd1d71037aaa877e8a4bb14f6742eef4d10762f4",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/608.json": "806a71aa8838fa7313b14a08292fb598cb1f3d8c78fde78ac9a64337427a1cde",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/608.final.native.json": "3eeb296b7c8350216f47a5728e6a93c584d55be5264f7165375e0eeaefc2adde",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/prospective/prefix_after_repair/skills/123.json": "1bec41e82b28aff5d7c752dc9c765857bde9ddcfdb67b03ff7600875cfa9db31",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_grounded_continuation_20261017_run01/native/prefix_after_repair/skills/123.final.native.json": "43dbba7abe57c8290fb4a7b5a930b6a99c384624bb9dcdd5f5796ff4d75d9cff",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/501.json": "a32e7f71f9633a66ca2d75a4ac12768fb114896e3b35c0a95a324bf8313a5749",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/501.final.native.json": "aaf3b1702d29132db0b20b9919cb7643d0521e1d5a15315a34eac4485c775dcf",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/339.json": "4cbb0568f4b4b7dcd7ef96aa760ff967197dff7fc04bbd831eb93011e1f261d2",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/339.final.native.json": "3b9215aa2a48c6de122d5d9f2d920fe464d0db22918b534157071d19a86756d6",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/346.json": "70a95d36b68e8ed3702f0cc7f0ee21071a89d3ae8017463c1e3b31602baadc19",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/346.final.native.json": "7ed58a161ae6a069b7a7030377f8b3d30f50345326fab8efb00056dc4cbbd79d",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/422.json": "5566609edd3caff49974899cb183c94a3b993fd8a08a7f17703b670f3118abcb",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/422.final.native.json": "450dc086f2af9606dfd350a3922567abe8595d37e015785f45ba9675eb0f2cb2",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/282.json": "1a0cb23cc0558e5f5fce3b2b00a2864258fa6a2ea47d618134c3ef3cd72bdbfe",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/282.final.native.json": "3fe681ec1dbc71b302970cff5d0a2cc3dc8f05bffd045ba958f94adf0008bd4b",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/312.json": "51a668e199ac0580be6817c9bc9d9724f3f1a1c1400d5efbdf0d17b9a4a4c98f",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/312.final.native.json": "ce008f2431d112e51a1acf8035e5cb5ec23633be1642e60b1fb3135fec421e2f",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/249.json": "37947c849d6a76f1309400836833d4896aa521ad96b4391afc58b01edbdcd677",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/249.final.native.json": "b83465e89fb5c49895e048905a1b325ac46cf0c1beb979b08920100682f9c2fe",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/603.json": "8e1c8ac18174a21d32f68c5bedbebd6ffa7366e31642bb2f6ac6c4ef5838eb89",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/603.final.native.json": "0c4c5169fdc32c555c56392a733a5d2ae3572ebd519c80cb75e81caa9d442baa",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/164.json": "f7ff1977b06a0556fec01deb0df2cfeca8c9ebbad3da607b75c31caa02047614",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/164.final.native.json": "f07e9a2a1c7533c25514143aaeedcffd83c37842cea7392d33684310c830c084",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/253.json": "ab2b94ab0895bab55b27271ad2ab9daac5a9e3f70c87e7fa334e2d1872994089",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/253.final.native.json": "8bf2312e15dc0a1e6b25c4c70b2f9b22fa29b4329dab9888c9f370a1aeedc6c1",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/371.json": "3be384897cc00167f01cab7231a9fb89f10914d6a385b6721299fef36af01563",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/371.final.native.json": "79c3d73a58697ce140b0d51c0536636fefd0560b97219fac9ab73a24a2876b3e",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/360.json": "0cb5eb9d15566d1b01d4bbb1d76a66e261e18f313452bd7b26f993acddcf3167",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/360.final.native.json": "dd994e9e7f8e6037133ba8b226d6b6ca6f8a0042696217ad30ab15381f4cd35c",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/125.json": "dacae6b6897732e832809f9166e6b4c0de949d2f36bae8e5d5b12f82aa2050a1",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/125.final.native.json": "4973a7b69af1924e69af6c4dfda53ab872bbea0f4598ccb9b8f5749b30a48435",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/524.json": "29c04dcfe3d58f57b31e5a040183fb07ea034290d61e1da63e2345b28795ec3a",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/524.final.native.json": "1cbe35959e843fead036bf2dd90ed93ea1589f711fa161a6f2acf18693b61f0f",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/608.json": "c36579d491c9bea7c45b69efec8f9775080d862fc7b0ba9b7a5a41b8a3d09fa7",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/608.final.native.json": "ea442d274b68b0ac554aeae09f8110d0ff05ffcf6e0a2c60d86eb80bb7c0d8b6",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/prospective/held_K2_interface/ordinary/123.json": "59e8d112ed0cae812a5f7888c95eb6a94a571fcc62b2b03c180caf8d10376a01",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_contractnli_acquisition_fact_boundary_20261017_run01/native/held_K2_interface/ordinary/123.final.native.json": "89fb6ebf3f77ab29a70ca0e22c50ee1e8e705ec64afba5285d8608ea0ac6b8c2"
+  },
+  "original_author_and_actual_wire_audit_not_a_semantic_judge": true,
+  "not_proof_of_independent_learning_significance_or_official_TEST": true
+}

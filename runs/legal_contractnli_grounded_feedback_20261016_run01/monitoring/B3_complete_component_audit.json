@@ -1,0 +1,123 @@
+{
+  "at": "2026-10-15T20:31:43.437493+00:00",
+  "batch": 3,
+  "after_seen_fit_original_metrics": {
+    "documents": 6,
+    "hypotheses": 102,
+    "label_correct": 86,
+    "label_accuracy": 0.8431372549019608,
+    "gold_non_neutral_queries": 71,
+    "evidence_tp": 135,
+    "evidence_fp": 1,
+    "evidence_fn": 20,
+    "evidence_micro_f1_gold_non_neutral": 0.9278350515463918,
+    "evidence_query_mean_f1_gold_non_neutral": 0.8834786496758325,
+    "joint_exact_correct": 71,
+    "joint_soft_mean": 0.7966697790227203,
+    "public_valid_documents": 6,
+    "length_cutoffs": 0,
+    "class_denominators": {
+      "Entailment": {
+        "n": 60,
+        "correct": 53
+      },
+      "Contradiction": {
+        "n": 11,
+        "correct": 8
+      },
+      "NotMentioned": {
+        "n": 31,
+        "correct": 25
+      }
+    },
+    "correct_nm_with_nonempty_evidence": 0,
+    "correct_nm_with_empty_evidence": 25,
+    "nonneutral_label_and_all_evidence_correct": 46,
+    "reported_skill_use_queries": 93,
+    "reported_skill_use_not_internal_causal_proof": true,
+    "usage": {
+      "prompt_tokens": 55333,
+      "completion_tokens": 15557
+    },
+    "joint_exact_accuracy": 0.696078431372549
+  },
+  "ordinary_tool_membership_micro_f1": 0.9836065573770492,
+  "membership_counts": {
+    "tool_tp": 150,
+    "tool_fp": 0,
+    "tool_fn": 5,
+    "native_fn_inside_candidates": 15,
+    "native_fn_outside_candidates": 5
+  },
+  "wrong_relations_with_exact_gold_candidate_sets": {
+    "nonneutral_with_nonempty_gold": [
+      [
+        273,
+        "nda-1"
+      ],
+      [
+        273,
+        "nda-12"
+      ],
+      [
+        273,
+        "nda-4"
+      ],
+      [
+        416,
+        "nda-20"
+      ],
+      [
+        261,
+        "nda-17"
+      ],
+      [
+        261,
+        "nda-4"
+      ],
+      [
+        487,
+        "nda-20"
+      ],
+      [
+        487,
+        "nda-5"
+      ],
+      [
+        159,
+        "nda-17"
+      ],
+      [
+        159,
+        "nda-4"
+      ]
+    ],
+    "NM_with_empty_gold": [
+      [
+        273,
+        "nda-2"
+      ],
+      [
+        273,
+        "nda-3"
+      ],
+      [
+        416,
+        "nda-16"
+      ],
+      [
+        377,
+        "nda-20"
+      ],
+      [
+        377,
+        "nda-7"
+      ]
+    ]
+  },
+  "NM_empty_candidates_are_not_correct_positive_evidence": true,
+  "after_also_includes_new_supervised_tool_labels_not_pure_skill_effect": true,
+  "new_native_calls": 0,
+  "new_teacher_calls": 0,
+  "endpoint_gold_read": false
+}

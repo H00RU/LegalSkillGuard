@@ -1,0 +1,978 @@
+{
+  "value": {
+    "operations": [
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-return-copy-retention-evidence"
+        ],
+        "skill": {
+          "id": "nda-return-copy-retention-evidence",
+          "hypothesis_ids": [
+            "nda-16",
+            "nda-17",
+            "nda-20"
+          ],
+          "guidance": {
+            "inspection": "For each hit, read the entire numbered clause from its trigger or governing lead-in through every operative item, exception, retention carve-out, qualification, and continuation term. Retain independently repeated provisions. Verify actor, protected object, trigger, timing, modality, polarity, and whether the text requires return, destruction, deletion, or erasure; permits or restricts copying; or permits retention.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "return"
+                ],
+                "any_phrases": [
+                  "confidential information",
+                  "confidential data",
+                  "evaluation material",
+                  "proprietary information",
+                  "documents and materials"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "destroy"
+                ],
+                "any_phrases": [
+                  "confidential information",
+                  "confidential data",
+                  "evaluation material",
+                  "copies",
+                  "documents and materials"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "retain"
+                ],
+                "any_phrases": [
+                  "copies",
+                  "confidential information",
+                  "confidential data",
+                  "documents and materials",
+                  "back-ups",
+                  "archives"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "copy"
+                ],
+                "any_phrases": [
+                  "prior written approval",
+                  "prior written consent",
+                  "except as necessary",
+                  "strictly necessary",
+                  "may keep",
+                  "retain",
+                  "return"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "erase"
+                ],
+                "any_phrases": [
+                  "confidential information",
+                  "document",
+                  "disk",
+                  "file"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "expunge"
+                ],
+                "any_phrases": [
+                  "confidential information",
+                  "computer",
+                  "device"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "delete"
+                ],
+                "any_phrases": [
+                  "confidential information",
+                  "electronically",
+                  "copies"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          262,
+          588,
+          538,
+          177,
+          136,
+          187,
+          273,
+          416,
+          261,
+          487,
+          377,
+          159
+        ],
+        "rationale": "Broadens acquisition to Confidential Data, erasure, backup, and approval formulations while requiring reconstruction of triggers, complete lists, retention exceptions, and distinct copy polarity."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-definition-form-identification-evidence"
+        ],
+        "skill": {
+          "id": "nda-definition-form-identification-evidence",
+          "hypothesis_ids": [
+            "nda-1",
+            "nda-2",
+            "nda-3"
+          ],
+          "guidance": {
+            "inspection": "Reconstruct each protected-information definition across all continued spans. Retain its definitional introduction, every governed form or subject-matter item, identification rule and alternative, negative consequence, and linked qualification. Distinguish a broad definition of Information from the definition that makes it protected, and keep independently operative definitions without importing unrelated uses or disclosures.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "confidential information"
+                ],
+                "any_phrases": [
+                  "means",
+                  "include",
+                  "deemed",
+                  "considered"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "confidential data"
+                ],
+                "any_phrases": [
+                  "means",
+                  "include"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "information"
+                ],
+                "any_phrases": [
+                  "oral",
+                  "orally",
+                  "verbal",
+                  "any form",
+                  "whatever form"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "information"
+                ],
+                "any_phrases": [
+                  "financial",
+                  "marketing",
+                  "business affairs",
+                  "business plans",
+                  "personnel"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "marked"
+                ],
+                "any_phrases": [
+                  "confidential",
+                  "proprietary",
+                  "name of the disclosing party"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "reasonably understood"
+                ],
+                "any_phrases": [
+                  "proprietary",
+                  "confidential"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          588,
+          538,
+          136,
+          273,
+          416,
+          487,
+          377,
+          159
+        ],
+        "rationale": "Adds protected-data and identification formulations and makes forward reconstruction of fragmented definitions and enumerations explicit, addressing missed introductions, continuations, and negative marking rules."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-exception-source-development-evidence"
+        ],
+        "skill": {
+          "id": "nda-exception-source-development-evidence",
+          "hypothesis_ids": [
+            "nda-12",
+            "nda-13"
+          ],
+          "guidance": {
+            "inspection": "For each development or provenance hit, retain the governing exclusion or permission preamble, the complete operative item, and every access, use, independence, source, confidentiality, proof, and timing qualification. Inspect definition exclusions and independent permissions separately. Verify whether the actor developed information or received it from another source; do not substitute prior possession, vendor-origin protected information, or unrelated dealings.",
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "independently developed",
+                  "independently develop",
+                  "developed independently",
+                  "independently derived"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "third party"
+                ],
+                "any_phrases": [
+                  "non-confidential basis",
+                  "without obligation of confidence",
+                  "free to disclose",
+                  "source other than"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "source other than"
+                ],
+                "any_phrases": [
+                  "not bound",
+                  "no obligation",
+                  "not prohibited",
+                  "non-confidential basis"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "becomes available"
+                ],
+                "any_phrases": [
+                  "without obligation",
+                  "breach of any duty",
+                  "source other than",
+                  "non-confidential basis"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "legitimate means"
+                ],
+                "any_phrases": [
+                  "other than from",
+                  "disclosing party"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "right"
+                ],
+                "any_phrases": [
+                  "independently develop",
+                  "independently acquire"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          588,
+          538,
+          177,
+          136,
+          187,
+          273,
+          416,
+          261,
+          487,
+          377,
+          159
+        ],
+        "rationale": "Separates development from third-party provenance and adds recurring source-other-than and availability formulations that earlier queries missed or confused with prior possession and vendor data."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-authorized-recipient-evidence"
+        ],
+        "skill": {
+          "id": "nda-authorized-recipient-evidence",
+          "hypothesis_ids": [
+            "nda-5",
+            "nda-7"
+          ],
+          "guidance": {
+            "inspection": "Locate both the operative permission or restriction governing receipt or access and any definition of the recipient class. Retain disclosure lead-ins, all governed recipient items, need-to-know and purpose limits, confidentiality undertakings, liability terms, cross-references, and independently repeated permissions. A class definition or actor mention alone is only a lead; verify who may disclose what to whom and on what conditions.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "disclose"
+                ],
+                "any_phrases": [
+                  "employees",
+                  "representatives",
+                  "agents",
+                  "consultants",
+                  "professional advisers",
+                  "staff"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "may disclose",
+                  "confidential information"
+                ],
+                "any_phrases": [
+                  "representatives",
+                  "agents",
+                  "employees",
+                  "advisers"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "may be disclosed"
+                ],
+                "any_phrases": [
+                  "representatives",
+                  "employees",
+                  "agents"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "need to know"
+                ],
+                "any_phrases": [
+                  "employees",
+                  "representatives",
+                  "agents",
+                  "people"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "use and disclose"
+                ],
+                "any_phrases": [
+                  "staff",
+                  "employees",
+                  "representatives"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "do not apply to the disclosure"
+                ],
+                "any_phrases": [
+                  "representatives",
+                  "confidential information"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "representatives"
+                ],
+                "any_phrases": [
+                  "employees",
+                  "agents",
+                  "professional advisers",
+                  "consultants"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          588,
+          538,
+          136,
+          187,
+          273,
+          416,
+          261,
+          487,
+          377,
+          159
+        ],
+        "rationale": "Adds direct may-disclose, exception, need-to-know, and internal-staff formulations while requiring the operative permission and recipient definition to be retained together."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-rights-license-purpose-evidence"
+        ],
+        "skill": {
+          "id": "nda-rights-license-purpose-evidence",
+          "hypothesis_ids": [
+            "nda-15",
+            "nda-4"
+          ],
+          "guidance": {
+            "inspection": "Read each ownership, rights, licence, or use hit as a complete operative provision. Retain governing lead-ins, protected objects, stated purposes, exceptions, unrestricted-use clauses, and independently redundant ownership or no-grant clauses. Verify actor, action, scope, modality, and polarity; keep disclosure permission, limited use, unrestricted residual use, ownership, and licence grants distinct.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "grant"
+                ],
+                "any_phrases": [
+                  "license",
+                  "licence",
+                  "rights"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "no"
+                ],
+                "any_phrases": [
+                  "license",
+                  "licence",
+                  "right or license",
+                  "rights are granted"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "remain"
+                ],
+                "any_phrases": [
+                  "property",
+                  "exclusive property",
+                  "intellectual property rights"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "use"
+                ],
+                "any_phrases": [
+                  "only for",
+                  "solely for",
+                  "sole purpose",
+                  "exclusively for",
+                  "except for",
+                  "other purpose",
+                  "own benefit"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "free to use"
+                ],
+                "any_phrases": [
+                  "any purposes",
+                  "residuals"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "not have any rights"
+                ],
+                "any_phrases": [
+                  "confidential data",
+                  "confidential information"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          262,
+          588,
+          538,
+          136,
+          187,
+          273,
+          416,
+          261,
+          487,
+          377,
+          159
+        ],
+        "rationale": "Adds sole-purpose and unrestricted-residual formulations and strengthens inspection against confusing use permission with a rights grant or missing independently redundant ownership evidence."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-agreement-negotiation-secrecy-evidence"
+        ],
+        "skill": {
+          "id": "nda-agreement-negotiation-secrecy-evidence",
+          "hypothesis_ids": [
+            "nda-10"
+          ],
+          "guidance": {
+            "inspection": "Inspect confidentiality treatment and disclosure restrictions concerning an agreement's existence or terms, negotiations or discussions, contemplated transactions, prospective interest, and related announcements. Retain definitional deeming language as well as operative restrictions, consent requirements, audiences, exceptions, and independently responsive provisions. Do not require the word negotiation when the protected fact is the agreement or prospective interest itself.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "existence"
+                ],
+                "any_phrases": [
+                  "agreement",
+                  "negotiations",
+                  "discussions",
+                  "transaction"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "terms"
+                ],
+                "any_phrases": [
+                  "agreement",
+                  "negotiations",
+                  "conditions"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "public announcement"
+                ],
+                "any_phrases": [
+                  "agreement",
+                  "purpose",
+                  "transaction"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "prospective interest"
+                ],
+                "any_phrases": [
+                  "announcement",
+                  "disclosure"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "existence of this agreement"
+                ],
+                "any_phrases": [],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "discussions and negotiations"
+                ],
+                "any_phrases": [
+                  "fact that",
+                  "status",
+                  "existence",
+                  "content"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          538,
+          136,
+          273,
+          416,
+          261,
+          159
+        ],
+        "rationale": "Covers definitional confidentiality and prospective-interest announcements that do not use the same negotiation vocabulary, while preserving their complete consent and exception structure."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-survival-continuity-evidence"
+        ],
+        "skill": {
+          "id": "nda-survival-continuity-evidence",
+          "hypothesis_ids": [
+            "nda-19"
+          ],
+          "guidance": {
+            "inspection": "Collect every independently operative clause continuing obligations after termination, expiration, completion, return, destruction, or retention. Retain split lead-ins, affected obligations, duration and endpoints, exceptions, retained-material restrictions, and accrued-rights language. Follow a continuation clause through every enumerated endpoint; distinguish continuing duties from a bare termination right or mere possession.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "survive"
+                ],
+                "any_phrases": [],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "continue"
+                ],
+                "any_phrases": [
+                  "beyond termination",
+                  "after termination",
+                  "even after termination",
+                  "earlier termination",
+                  "period of"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "continue to be bound"
+                ],
+                "any_phrases": [],
+                "none_phrases": [],
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [
+                  "held subject to the terms"
+                ],
+                "any_phrases": [
+                  "retained",
+                  "confidential information"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "termination"
+                ],
+                "any_phrases": [
+                  "shall not affect",
+                  "will not affect",
+                  "accrued rights",
+                  "obligations of confidentiality"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "continue to be held"
+                ],
+                "any_phrases": [
+                  "terms of this agreement",
+                  "not further use or disclose"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          588,
+          538,
+          136,
+          273,
+          416,
+          261,
+          377,
+          159
+        ],
+        "rationale": "Adds beyond-termination and retained-material continuity wording and explicitly requires complete split endpoints, addressing empty retrievals and omitted continuation members."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-compelled-disclosure-notice-evidence"
+        ],
+        "skill": {
+          "id": "nda-compelled-disclosure-notice-evidence",
+          "hypothesis_ids": [
+            "nda-8"
+          ],
+          "guidance": {
+            "inspection": "Reconstruct the complete compelled-disclosure mechanism, including an exception or list preamble, legal or regulatory trigger, notice or consultation duty, timing, recipient, protective-order opportunity, and linked limits. Follow cross-references in both directions when the trigger and duty are split. Verify that notice concerns compelled disclosure, rejecting unauthorized-use or breach notices and bare disclosure permission.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "required by law"
+                ],
+                "any_phrases": [
+                  "notice",
+                  "notify",
+                  "consultation",
+                  "inform"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "required to disclose"
+                ],
+                "any_phrases": [
+                  "notify",
+                  "notice",
+                  "consultation",
+                  "co-operate"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "subpoena"
+                ],
+                "any_phrases": [
+                  "notify",
+                  "notice",
+                  "request",
+                  "protective order"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "operation of law"
+                ],
+                "any_phrases": [
+                  "written notice",
+                  "protective order"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "governmental agency"
+                ],
+                "any_phrases": [
+                  "notice",
+                  "notify",
+                  "protective order"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "legal or administrative process"
+                ],
+                "any_phrases": [
+                  "notify",
+                  "notice",
+                  "protective order"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "legally permissible"
+                ],
+                "any_phrases": [
+                  "consultation",
+                  "inform the other party"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          588,
+          538,
+          136,
+          273,
+          416,
+          261,
+          487,
+          159
+        ],
+        "rationale": "Adds consultation, operation-of-law, and split cross-reference formulations while sharpening the distinction between compelled-disclosure notice and unauthorized-disclosure notice."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "nda-solicitation-restriction-evidence"
+        ],
+        "skill": {
+          "id": "nda-solicitation-restriction-evidence",
+          "hypothesis_ids": [
+            "nda-18"
+          ],
+          "guidance": {
+            "inspection": "For each solicitation or standstill hit, identify the governing actor, prohibition, duration, approval condition, and exceptions, then read through every enumerated target and action until the governed list ends. Retain the preamble and all responsive items even when later items omit the solicitation word. Keep employment solicitation and proxy solicitation separately complete; reject headings or definitions without an operative restriction.",
+            "source_queries": [
+              {
+                "all_phrases": [
+                  "solicit"
+                ],
+                "any_phrases": [
+                  "hire",
+                  "employment",
+                  "employ",
+                  "restricted person",
+                  "officer",
+                  "employee"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "solicitation"
+                ],
+                "any_phrases": [
+                  "proxies",
+                  "votes",
+                  "employment",
+                  "advertising"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "employ"
+                ],
+                "any_phrases": [
+                  "restricted person",
+                  "employee",
+                  "officer"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [
+                  "standstill"
+                ],
+                "any_phrases": [
+                  "shall not",
+                  "period"
+                ],
+                "none_phrases": [],
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          588,
+          538,
+          273
+        ],
+        "rationale": "Improves acquisition of employ-without-solicit wording and makes full traversal of governed target and standstill lists mandatory, addressing repeated omissions after visible preambles."
+      }
+    ],
+    "noop_reason": null
+  },
+  "model": "gpt-5.6-sol",
+  "request_sha256": "935b51bceec989333f8de2d8e7e19e4cf3423d21460dfaa45b26c789c6c744fa",
+  "response_sha256": "6cc8a4be06a92f24f09e8f69d90221577fc5f1d6987fdad3f1c89cce70dcd92a",
+  "cache_hit": false,
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-10-16T18:55:30.867654+00:00",
+    "finished_at": "2026-10-16T18:57:12.752780+00:00",
+    "elapsed_seconds": 101.885,
+    "returncode": 0,
+    "event_log_sha256": "0befeba5837e33294fd482c1697cf4a6ec3e23c6e20f65c98ee13befc9ddc807",
+    "tool_events_detected": false,
+    "budget_reservation": {
+      "sequence": 1364,
+      "new_epoch_sequence": 139,
+      "reserved_at": "2026-10-16T18:55:30.868321+00:00",
+      "model": "gpt-5.6-sol",
+      "purpose": "legal_contractnli_source_program_online_learning_20261017_run03_task_local_b3",
+      "request_sha256": "935b51bceec989333f8de2d8e7e19e4cf3423d21460dfaa45b26c789c6c744fa",
+      "attempt": 1
+    },
+    "usage": {
+      "input_tokens": 194421,
+      "cached_input_tokens": 0,
+      "output_tokens": 6145,
+      "reasoning_output_tokens": 2355
+    },
+    "estimated_credits": null
+  }
+}

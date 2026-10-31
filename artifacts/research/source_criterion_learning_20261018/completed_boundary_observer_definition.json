@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-17T17:42:32.026580+00:00",
+  "run_directory": "runs/legal_contractnli_source_criterion_learning_20261018_run01",
+  "main_pid": 2959984,
+  "main_start_ticks": "426546946",
+  "predeclared_absolute_decline_fraction": 0.05,
+  "endpoints": [
+    "label_accuracy",
+    "evidence_micro_f1_gold_non_neutral",
+    "joint_exact_accuracy"
+  ],
+  "checks": "Complete B2-B4 all-seen only. Stop only if same endpoint declines >=5pp from actual parent AND is >=5pp below same-cohort matched empty. Ignore B1 and raw different-batch ordering.",
+  "observer_source": "import json,os,signal,sys,time\nfrom pathlib import Path\nfrom legal_skill_guard.experiment.storage import RunStore\nfrom legal_skill_guard.learning.experiment import now,read,points\nroot=Path.cwd();definition_path=Path(sys.argv[1]);definition=read(definition_path);folder=definition_path.parent;out=root/definition['run_directory'];worker=Path('/proc')/str(definition['main_pid']);done=set()\nendpoints=definition['endpoints'];cut=definition['predeclared_absolute_decline_fraction']\nwhile True:\n try: state=worker.joinpath('stat').read_text().rsplit(')',1)[1].split()\n except FileNotFoundError: break\n if state[0]=='Z' or state[19]!=definition['main_start_ticks']:break\n for batch in (2,3,4):\n  if batch in done:continue\n  summary_path=out/f'batch{batch}_summary.json';retention_path=out/f'b{batch}_all_seen_retention.json'\n  if not summary_path.exists() or not retention_path.exists():continue\n  summary=read(summary_path);retained=read(retention_path)['units'];references=[]\n  for earlier in range(1,batch+1):\n   references.extend(u for u in read(out/f'b{earlier}_before_complete.json')['units'] if u['condition']=='strong_empty')\n  assert len(retained)==len(references)==8*batch\n  own,matched_empty=points(retained),points(references)\n  publication=summary['all_seen_parent_to_published']['difference_after_minus_before']\n  below={key:own[key]-matched_empty[key] for key in endpoints}\n  harms=[key for key in endpoints if publication[key]<=-cut and below[key]<=-cut]\n  result={'at':now(),'batch':batch,'complete_all_seen_sources':len(retained),'same_cohort_publication_delta':publication,'same_cohort_published_minus_matched_empty':below,'confirmed_dual_decline_endpoints':harms,'stop_requested':bool(harms),'no_partial_scoring_or_bank_rejection_rollback_or_model_signal':True}\n  RunStore.immutable_json(folder/f'completed_boundary_observer_b{batch}.json',result);done.add(batch)\n  if harms:\n   fresh=worker.joinpath('stat').read_text().rsplit(')',1)[1].split()\n   assert fresh[19]==definition['main_start_ticks'] and fresh[0]!='Z'\n   os.kill(definition['main_pid'],signal.SIGTERM)\n   RunStore.immutable_json(folder/'completed_boundary_observer_completion.json',{'at':now(),'state':'safe_worker_stop_requested','trigger':result,'model_untouched_and_published_bank_not_reverted':True})\n   sys.exit(0)\n time.sleep(10)\nRunStore.immutable_json(folder/'completed_boundary_observer_completion.json',{'at':now(),'state':'original_worker_terminal','checked_complete_batches':sorted(done),'model_untouched_and_no_bank_admission':True})\n",
+  "observer_code_sha256": "36d441e0dee63d753dcef0a33d8512266fa1381d118aaa35b034eef99aa33ed0",
+  "only_change_from_previous_observer_is_matched_empty_reference_not_removed_ordinary_arm": true,
+  "no_effect_admission_rollback_model_signal_or_partial_scoring": true
+}

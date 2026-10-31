@@ -1,0 +1,733 @@
+{
+  "schema_version": 1,
+  "request_sha256": "ce28bae28ea57c6f493ac127bc10a7fef983148653d7ed4dae5709ece404119b",
+  "response_sha256": "41ae829aaf33b0d8cba0cef089e8a7ba634f7fe63820160b2d626c2febca1d3c",
+  "model": "gpt-5.6-sol",
+  "purpose": "legal_contractnli_acquisition_grounded_continuation_20261017_run01_update_b3",
+  "value": {
+    "operations": [
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-core-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-core-v1",
+          "hypothesis_ids": [
+            "nda-2"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "confidential information means",
+                  "confidential information shall mean",
+                  "term confidential information means",
+                  "information shall include",
+                  "confidential or sensitive data includes",
+                  "evaluation material means",
+                  "proprietary information means",
+                  "hereinafter evaluation material",
+                  "might include",
+                  "confidential information is non-public information",
+                  "means all technical or business information",
+                  "means information not generally known",
+                  "information on a confidential basis"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 5,
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          282,
+          249,
+          603,
+          164,
+          253,
+          371,
+          360,
+          524,
+          608,
+          421,
+          522,
+          230,
+          364,
+          529,
+          304
+        ],
+        "rationale": "Separate scope-definition acquisition from oral-form and identification acquisition so unrelated query families are not union-delivered. The expanded definitional variants cover recurring formulations and previously inaccessible scope witnesses, including the distinct formulations in 421, 522, 230, 364 and 304."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "source-acquisition-identification-v1",
+          "hypothesis_ids": [
+            "nda-1"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "confidential information marked",
+                  "marked confidential or proprietary",
+                  "identified and labeled confidential",
+                  "identified at the time of disclosure",
+                  "identified as non-public or confidential",
+                  "designated in writing as confidential",
+                  "presumed to be confidential information",
+                  "does not need to be identified",
+                  "not marked by notifying",
+                  "reduced to writing by disclosing party"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          312,
+          164,
+          253,
+          371,
+          360,
+          608,
+          522,
+          364,
+          529,
+          304
+        ],
+        "rationale": "Identification evidence was previously mixed with definition and oral-form windows. Atomic searches now expose positive requirements, notification alternatives, presumptions and express non-identification language without broadcasting them to other hypotheses."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "source-acquisition-oral-form-v1",
+          "hypothesis_ids": [
+            "nda-3"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "disclosed orally",
+                  "visually orally or in writing",
+                  "disclosed either visually orally or in writing",
+                  "oral visual written electronic",
+                  "verbal electronic or hardcopy",
+                  "verbal or visual information",
+                  "oral confidential information",
+                  "oral or written",
+                  "written oral or electronic",
+                  "written and spoken information",
+                  "all information oral or written",
+                  "whether in oral written"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          312,
+          249,
+          603,
+          164,
+          253,
+          360,
+          125,
+          524,
+          608,
+          619,
+          522,
+          304
+        ],
+        "rationale": "Oral-form acquisition is independently responsive and no longer receives marking or broad scope searches. Added compact recurrent form-enumeration variants cover later sources while preserving exact source text."
+      },
+      {
+        "operation": "CREATE",
+        "target_ids": [],
+        "skill": {
+          "id": "source-acquisition-reverse-engineering-v1",
+          "hypothesis_ids": [
+            "nda-11"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "reverse engineer",
+                  "reverse engineering",
+                  "disassemble",
+                  "decompile",
+                  "systematic attempt to recreate",
+                  "recreate the material",
+                  "recreate the material by memory"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          421,
+          295
+        ],
+        "rationale": "The library had no source-acquisition action for this hypothesis, and both observed witnesses were outside program access. The query covers conventional technical restrictions and the distinct recreation formulation seen in training."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-rights-term-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-rights-term-v1",
+          "hypothesis_ids": [
+            "nda-15"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "no license",
+                  "no rights",
+                  "grant any right",
+                  "grant of a license",
+                  "grants any license",
+                  "granting or conferring any rights",
+                  "does not convey any right",
+                  "grants no rights",
+                  "no license under or title",
+                  "no license or other right",
+                  "no transfer or license",
+                  "no right or license is granted",
+                  "does not grant any implied intellectual property licenses",
+                  "grant data recipient any intellectual property rights or licenses",
+                  "remain the property",
+                  "property of the disclosing party"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 1,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          312,
+          253,
+          371,
+          360,
+          123,
+          421,
+          619,
+          522,
+          230,
+          364,
+          529,
+          304
+        ],
+        "rationale": "Several later no-rights witnesses used transfer, implied-license, or intellectual-property-right wording absent from the direct query. These additions recover governing clauses in 619, 230, 364 and 304 without changing the acquisition purpose."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-sharing-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-sharing-v1",
+          "hypothesis_ids": [
+            "nda-7",
+            "nda-5"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "representative means",
+                  "representatives shall mean",
+                  "authorized parties means",
+                  "term representatives"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 2,
+                "include_list_preamble": true
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "may disclose",
+                  "only disclose",
+                  "except to its employees",
+                  "employees representatives or agents",
+                  "disclosure to representatives",
+                  "disclosed to any employee consultant",
+                  "representatives who need to know",
+                  "persons employed by",
+                  "share confidential data with persons having authorized access",
+                  "restrict dissemination of confidential information",
+                  "employees of data recipient",
+                  "contractors of data recipient",
+                  "partners employees consultants professional advisors",
+                  "employees independent contractors advisors or affiliates",
+                  "disseminate confidential information only"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 3,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          346,
+          422,
+          282,
+          312,
+          249,
+          603,
+          164,
+          371,
+          360,
+          125,
+          524,
+          608,
+          123,
+          619,
+          522,
+          230,
+          364,
+          529,
+          304
+        ],
+        "rationale": "Observed misses concentrated in personnel clauses using authorized-access, dissemination, recipient-personnel and enumerated adviser language. The enlarged local window retains governing qualifications and list members, addressing misses in 282, 522, 364, 619 and 304."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-compelled-notice-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-compelled-notice-v1",
+          "hypothesis_ids": [
+            "nda-8"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "prompt prior written notice",
+                  "prompt written notice",
+                  "written notice of such legal requirement",
+                  "shall notify",
+                  "be notified",
+                  "notify promptly",
+                  "promptly notify",
+                  "immediately notify",
+                  "give the discloser as much notice",
+                  "provide the other party with prompt notice",
+                  "after notifying the other party",
+                  "provides notification to disclosing party",
+                  "give to the other written notice",
+                  "notifies wecc",
+                  "written notice of the order or request"
+                ],
+                "none_phrases": [],
+                "before": 4,
+                "after": 2,
+                "include_list_preamble": false
+              },
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "required by law",
+                  "legally required",
+                  "legally compelled",
+                  "subpoena or similar legal process",
+                  "subpoena or other legal process",
+                  "valid and effective subpoena",
+                  "court order law"
+                ],
+                "none_phrases": [],
+                "before": 1,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          339,
+          346,
+          249,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          608,
+          619,
+          522,
+          364,
+          529,
+          304
+        ],
+        "rationale": "Notification clauses in 529, 619, 364 and 304 used recurring constructions not captured by the existing notice vocabulary. The additions acquire the notice witness together with its compelled-disclosure context rather than encoding a relation."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-limited-use-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-limited-use-v1",
+          "hypothesis_ids": [
+            "nda-4"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "solely for the purpose",
+                  "solely in connection with",
+                  "solely for purposes",
+                  "only for the purpose",
+                  "only for purposes",
+                  "used only for",
+                  "not use",
+                  "not to use",
+                  "not to use or disclose",
+                  "for no other purpose",
+                  "except for the purpose",
+                  "except in the proper performance",
+                  "proper performance of its duties",
+                  "exclusively for the permitted purpose",
+                  "legitimate business purposes"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 1,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          282,
+          312,
+          249,
+          603,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          123,
+          421,
+          619,
+          522,
+          230,
+          529,
+          304
+        ],
+        "rationale": "Plural-purpose, proper-performance and combined non-use/non-disclosure formulations caused inaccessible witnesses in 421, 230 and 304. The additions remain targeted to use restrictions and preserve adjacent governing context."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-survival-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-survival-v1",
+          "hypothesis_ids": [
+            "nda-19"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "shall survive",
+                  "survive termination",
+                  "shall survive termination or expiration",
+                  "survives any expiration or termination",
+                  "following termination",
+                  "after termination",
+                  "shall continue",
+                  "continue to be bound",
+                  "remain valid and enforceable",
+                  "remain in effect indefinitely",
+                  "shall not relieve",
+                  "no further force or effect except",
+                  "binding in perpetuity",
+                  "following completion",
+                  "remain subject to the confidentiality obligations"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          312,
+          249,
+          603,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          608,
+          421,
+          619,
+          364,
+          529,
+          304
+        ],
+        "rationale": "Added direct post-termination and expiration formulations to recover inaccessible survival clauses in 421 and 304. Removed the overly generic confidentiality-obligation phrase that directly hit a third-party condition in 529 and contributed noise unrelated to duration."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-retention-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-retention-v1",
+          "hypothesis_ids": [
+            "nda-20"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "may retain",
+                  "may each retain",
+                  "retain one archival copy",
+                  "not be required to destroy",
+                  "not required to purge",
+                  "standard electronic backup and archival procedures",
+                  "established document retention policies",
+                  "historical back-up media",
+                  "automated processes such as archiving",
+                  "except as may be otherwise required by law",
+                  "retain no copies",
+                  "no copy thereof shall be retained",
+                  "no copies will be made or retained",
+                  "all confidential information and copies",
+                  "return all proprietary information",
+                  "all material embodying confidential information"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          501,
+          346,
+          422,
+          312,
+          249,
+          164,
+          371,
+          360,
+          125,
+          524,
+          608,
+          123,
+          619,
+          522,
+          230,
+          364,
+          529
+        ],
+        "rationale": "Retention exceptions in 249, 619 and 364 were missed, while all-copy return provisions relevant to the same acquisition question were inaccessible in 422, 312 and 522. Added both exception and governing return formulations without treating either as a verdict."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-copy-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-copy-v1",
+          "hypothesis_ids": [
+            "nda-17"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "not make any copies",
+                  "not to copy",
+                  "not to copy or record",
+                  "refrain from copying",
+                  "not disclose publish reproduce or transmit",
+                  "not to make or cause to be made any copies",
+                  "no copies will be made",
+                  "use disclose or copy",
+                  "copy in hardcopy form or electronic form",
+                  "copies are made",
+                  "except as reasonably necessary",
+                  "copies reductions to writing"
+                ],
+                "none_phrases": [],
+                "before": 2,
+                "after": 2,
+                "include_list_preamble": false
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          346,
+          312,
+          360,
+          123,
+          421,
+          295,
+          230
+        ],
+        "rationale": "The prior long phrases missed shorter and syntactically distinct copy prohibitions in 421, 295 and 230. Added compact prohibition and permitted-copy variants while retaining surrounding conditions."
+      },
+      {
+        "operation": "UPDATE",
+        "target_ids": [
+          "source-acquisition-third-party-source-v1"
+        ],
+        "skill": {
+          "id": "source-acquisition-third-party-source-v1",
+          "hypothesis_ids": [
+            "nda-13"
+          ],
+          "guidance": {
+            "source_queries": [
+              {
+                "all_phrases": [],
+                "any_phrases": [
+                  "from a third party",
+                  "by a third party",
+                  "from another source",
+                  "source other than",
+                  "lawfully disclosed",
+                  "lawfully obtained",
+                  "lawfully in the possession",
+                  "rightfully received by the receiving party",
+                  "acquired by data recipient from a source other than",
+                  "subsequently communicated",
+                  "later acquired by the receiving party",
+                  "receiving information from other parties"
+                ],
+                "none_phrases": [],
+                "before": 3,
+                "after": 1,
+                "include_list_preamble": true
+              }
+            ]
+          }
+        },
+        "source_case_ids": [
+          346,
+          422,
+          312,
+          249,
+          164,
+          253,
+          371,
+          360,
+          125,
+          524,
+          608,
+          123,
+          421,
+          619,
+          522,
+          230,
+          364,
+          529,
+          304
+        ],
+        "rationale": "Added recurring lawful-possession, rightful-receipt and alternative-source formulations. A larger preceding window supplies exclusion preambles and neighboring conditions that were omitted in 346, 125, 364 and 304."
+      }
+    ],
+    "noop_reason": null
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-10-17T05:32:57.954132+00:00",
+    "finished_at": "2026-10-17T05:34:43.928191+00:00",
+    "elapsed_seconds": 105.974,
+    "returncode": 0,
+    "event_log_sha256": "2dd446113ae1a3ae679659e9a79897f2f72a209a6619631240e95c9c361ed21b",
+    "tool_events_detected": false,
+    "budget_reservation": {
+      "sequence": 1379,
+      "new_epoch_sequence": 154,
+      "reserved_at": "2026-10-17T05:32:57.954813+00:00",
+      "model": "gpt-5.6-sol",
+      "purpose": "legal_contractnli_acquisition_grounded_continuation_20261017_run01_update_b3",
+      "request_sha256": "ce28bae28ea57c6f493ac127bc10a7fef983148653d7ed4dae5709ece404119b",
+      "attempt": 1
+    },
+    "usage": {
+      "input_tokens": 212069,
+      "cached_input_tokens": 0,
+      "output_tokens": 6993,
+      "reasoning_output_tokens": 4066
+    },
+    "estimated_credits": null
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-17T06:02:28.513853+00:00",
+  "purpose": "User-requested raw learning-curve audit, not a benchmark-equivalent tolerance rule",
+  "papers": [
+    {
+      "url": "https://arxiv.org/pdf/2608.12720v2",
+      "html": "https://arxiv.org/html/2608.12720v2",
+      "pdf_page_1_based": 9,
+      "figure": 5,
+      "viewed_directly": true,
+      "observation": "Routed accuracy rises to roughly .77, drops to roughly .71, later recovers. These are visual estimates, not extracted raw data; routing and validation gating differ from our method."
+    },
+    {
+      "url": "https://arxiv.org/pdf/2609.11682v1",
+      "html": "https://arxiv.org/html/2609.11682v1",
+      "pdf_page_1_based": 9,
+      "figures": [
+        3,
+        4
+      ],
+      "viewed_directly": true,
+      "observation": "Per-round optimization traces fluctuate; checkpoint test curves use the optimization-selected best-so-far skill, not every raw update. Mean and SE over three independent optimization runs."
+    },
+    {
+      "url": "https://arxiv.org/html/2608.27454v1",
+      "sections": [
+        "3.2.4",
+        "4.2 Table1",
+        "Limitations"
+      ],
+      "viewed_directly": true,
+      "observation": "Strict validation improvement gate and rollback. Final OfficeQA Qwen3.5-4B 30.2 no-skill versus28.5 WikiSkill is a final-setting decline, NOT a per-step curve or an acceptable-drop standard."
+    }
+  ],
+  "files": {
+    "artifacts/research/learning_curves_20261017/cobra_page9.png": "3dc6fae8526587c519005989ec62e2700476cfdbf35c344804420c2fc2362d9d",
+    "artifacts/research/learning_curves_20261017/cobra_v1.pdf": "4c682b6acfd294d635537b5325a9fc88c462fe613f7a201e0ee067ae893ca5fa",
+    "artifacts/research/learning_curves_20261017/erskill_page9.png": "4b218835c9132891213b29c45620cf367be3806f2b765e1d015fae73117f47db",
+    "artifacts/research/learning_curves_20261017/erskill_v2.pdf": "648fdb966125155a9f366d5656ed76e89445307c51858b45d5d9c4e531f730d9"
+  },
+  "no_model_calls_or_TEST_access": true,
+  "no_universal_pp_decline_margin_established": true
+}

@@ -1,0 +1,578 @@
+{
+  "at": "2026-10-15T20:51:05.536660+00:00",
+  "batch": 4,
+  "results": {
+    "strong_empty": {
+      "documents": 6,
+      "hypotheses": 102,
+      "label_correct": 78,
+      "label_accuracy": 0.7647058823529411,
+      "gold_non_neutral_queries": 58,
+      "evidence_tp": 53,
+      "evidence_fp": 27,
+      "evidence_fn": 33,
+      "evidence_micro_f1_gold_non_neutral": 0.6385542168674698,
+      "evidence_query_mean_f1_gold_non_neutral": 0.6666666666666665,
+      "joint_exact_correct": 52,
+      "joint_soft_mean": 0.633986928104575,
+      "public_valid_documents": 6,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 46,
+          "correct": 42
+        },
+        "Contradiction": {
+          "n": 12,
+          "correct": 8
+        },
+        "NotMentioned": {
+          "n": 44,
+          "correct": 28
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 28,
+      "nonneutral_label_and_all_evidence_correct": 24,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 42183,
+        "completion_tokens": 13209
+      },
+      "joint_exact_accuracy": 0.5098039215686274
+    },
+    "ordinary_memory": {
+      "documents": 6,
+      "hypotheses": 102,
+      "label_correct": 81,
+      "label_accuracy": 0.7941176470588235,
+      "gold_non_neutral_queries": 58,
+      "evidence_tp": 55,
+      "evidence_fp": 9,
+      "evidence_fn": 31,
+      "evidence_micro_f1_gold_non_neutral": 0.7333333333333333,
+      "evidence_query_mean_f1_gold_non_neutral": 0.725862068965517,
+      "joint_exact_correct": 59,
+      "joint_soft_mean": 0.6872549019607845,
+      "public_valid_documents": 6,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 46,
+          "correct": 43
+        },
+        "Contradiction": {
+          "n": 12,
+          "correct": 8
+        },
+        "NotMentioned": {
+          "n": 44,
+          "correct": 30
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 30,
+      "nonneutral_label_and_all_evidence_correct": 29,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 44701,
+        "completion_tokens": 12939
+      },
+      "joint_exact_accuracy": 0.5784313725490197
+    },
+    "trace_procedures": {
+      "documents": 6,
+      "hypotheses": 102,
+      "label_correct": 68,
+      "label_accuracy": 0.6666666666666666,
+      "gold_non_neutral_queries": 58,
+      "evidence_tp": 51,
+      "evidence_fp": 31,
+      "evidence_fn": 35,
+      "evidence_micro_f1_gold_non_neutral": 0.6071428571428571,
+      "evidence_query_mean_f1_gold_non_neutral": 0.6228927203065133,
+      "joint_exact_correct": 48,
+      "joint_soft_mean": 0.5700435729847493,
+      "public_valid_documents": 6,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 46,
+          "correct": 36
+        },
+        "Contradiction": {
+          "n": 12,
+          "correct": 6
+        },
+        "NotMentioned": {
+          "n": 44,
+          "correct": 26
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 26,
+      "nonneutral_label_and_all_evidence_correct": 22,
+      "reported_skill_use_queries": 95,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 65101,
+        "completion_tokens": 13187
+      },
+      "joint_exact_accuracy": 0.47058823529411764
+    }
+  },
+  "trace_minus_control": {
+    "strong_empty": {
+      "label_accuracy": -0.0980392156862745,
+      "evidence_micro_f1_gold_non_neutral": -0.03141135972461273,
+      "joint_exact_accuracy": -0.039215686274509776
+    },
+    "ordinary_memory": {
+      "label_accuracy": -0.12745098039215685,
+      "evidence_micro_f1_gold_non_neutral": -0.1261904761904762,
+      "joint_exact_accuracy": -0.10784313725490202
+    }
+  },
+  "paired_trace_minus_control": {
+    "strong_empty": {
+      "original_hypotheses": 102,
+      "label_corrected": [
+        [
+          430,
+          "nda-15"
+        ],
+        [
+          430,
+          "nda-3"
+        ],
+        [
+          430,
+          "nda-5"
+        ],
+        [
+          622,
+          "nda-20"
+        ],
+        [
+          622,
+          "nda-18"
+        ],
+        [
+          383,
+          "nda-7"
+        ],
+        [
+          383,
+          "nda-17"
+        ],
+        [
+          92,
+          "nda-2"
+        ]
+      ],
+      "label_broken": [
+        [
+          430,
+          "nda-7"
+        ],
+        [
+          430,
+          "nda-4"
+        ],
+        [
+          290,
+          "nda-16"
+        ],
+        [
+          290,
+          "nda-15"
+        ],
+        [
+          290,
+          "nda-4"
+        ],
+        [
+          622,
+          "nda-17"
+        ],
+        [
+          622,
+          "nda-4"
+        ],
+        [
+          613,
+          "nda-16"
+        ],
+        [
+          613,
+          "nda-1"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          613,
+          "nda-4"
+        ],
+        [
+          383,
+          "nda-16"
+        ],
+        [
+          383,
+          "nda-10"
+        ],
+        [
+          383,
+          "nda-12"
+        ],
+        [
+          383,
+          "nda-20"
+        ],
+        [
+          92,
+          "nda-20"
+        ],
+        [
+          92,
+          "nda-3"
+        ],
+        [
+          92,
+          "nda-4"
+        ]
+      ],
+      "net_label_correct": -10,
+      "joint_exact_corrected": [
+        [
+          430,
+          "nda-3"
+        ],
+        [
+          430,
+          "nda-5"
+        ],
+        [
+          622,
+          "nda-19"
+        ],
+        [
+          622,
+          "nda-12"
+        ],
+        [
+          622,
+          "nda-20"
+        ],
+        [
+          622,
+          "nda-18"
+        ],
+        [
+          613,
+          "nda-15"
+        ],
+        [
+          383,
+          "nda-7"
+        ],
+        [
+          383,
+          "nda-17"
+        ],
+        [
+          92,
+          "nda-2"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          290,
+          "nda-16"
+        ],
+        [
+          290,
+          "nda-15"
+        ],
+        [
+          290,
+          "nda-13"
+        ],
+        [
+          290,
+          "nda-4"
+        ],
+        [
+          613,
+          "nda-16"
+        ],
+        [
+          613,
+          "nda-1"
+        ],
+        [
+          613,
+          "nda-7"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          613,
+          "nda-4"
+        ],
+        [
+          383,
+          "nda-16"
+        ],
+        [
+          383,
+          "nda-10"
+        ],
+        [
+          383,
+          "nda-12"
+        ],
+        [
+          383,
+          "nda-20"
+        ],
+        [
+          92,
+          "nda-3"
+        ]
+      ]
+    },
+    "ordinary_memory": {
+      "original_hypotheses": 102,
+      "label_corrected": [
+        [
+          430,
+          "nda-15"
+        ],
+        [
+          430,
+          "nda-12"
+        ],
+        [
+          430,
+          "nda-3"
+        ],
+        [
+          430,
+          "nda-5"
+        ],
+        [
+          290,
+          "nda-17"
+        ],
+        [
+          622,
+          "nda-20"
+        ],
+        [
+          92,
+          "nda-2"
+        ]
+      ],
+      "label_broken": [
+        [
+          430,
+          "nda-19"
+        ],
+        [
+          430,
+          "nda-7"
+        ],
+        [
+          430,
+          "nda-4"
+        ],
+        [
+          290,
+          "nda-16"
+        ],
+        [
+          290,
+          "nda-15"
+        ],
+        [
+          290,
+          "nda-4"
+        ],
+        [
+          622,
+          "nda-17"
+        ],
+        [
+          622,
+          "nda-4"
+        ],
+        [
+          613,
+          "nda-16"
+        ],
+        [
+          613,
+          "nda-1"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          613,
+          "nda-4"
+        ],
+        [
+          383,
+          "nda-16"
+        ],
+        [
+          383,
+          "nda-10"
+        ],
+        [
+          383,
+          "nda-12"
+        ],
+        [
+          383,
+          "nda-20"
+        ],
+        [
+          383,
+          "nda-5"
+        ],
+        [
+          92,
+          "nda-20"
+        ],
+        [
+          92,
+          "nda-3"
+        ],
+        [
+          92,
+          "nda-4"
+        ]
+      ],
+      "net_label_correct": -13,
+      "joint_exact_corrected": [
+        [
+          430,
+          "nda-12"
+        ],
+        [
+          430,
+          "nda-3"
+        ],
+        [
+          430,
+          "nda-5"
+        ],
+        [
+          290,
+          "nda-17"
+        ],
+        [
+          622,
+          "nda-20"
+        ],
+        [
+          92,
+          "nda-2"
+        ]
+      ],
+      "joint_exact_broken": [
+        [
+          430,
+          "nda-19"
+        ],
+        [
+          430,
+          "nda-20"
+        ],
+        [
+          430,
+          "nda-18"
+        ],
+        [
+          430,
+          "nda-7"
+        ],
+        [
+          290,
+          "nda-16"
+        ],
+        [
+          290,
+          "nda-15"
+        ],
+        [
+          290,
+          "nda-13"
+        ],
+        [
+          290,
+          "nda-4"
+        ],
+        [
+          613,
+          "nda-16"
+        ],
+        [
+          613,
+          "nda-1"
+        ],
+        [
+          613,
+          "nda-17"
+        ],
+        [
+          613,
+          "nda-4"
+        ],
+        [
+          383,
+          "nda-16"
+        ],
+        [
+          383,
+          "nda-10"
+        ],
+        [
+          383,
+          "nda-12"
+        ],
+        [
+          383,
+          "nda-20"
+        ],
+        [
+          92,
+          "nda-3"
+        ]
+      ]
+    }
+  },
+  "all6_actual_tool_control_source_pairs_verified": [
+    430,
+    290,
+    622,
+    613,
+    383,
+    92
+  ],
+  "same_original_source_hypotheses_candidates_floats_decode_and_NLI_constraints": true,
+  "intended_differences_are_library_declared_binding_and_skill_report_universe": true,
+  "not_literal_full_prompt_identity_or_independent_learning_repeat": true,
+  "new_native_calls": 0,
+  "new_teacher_calls": 0,
+  "endpoint_gold_read": false
+}

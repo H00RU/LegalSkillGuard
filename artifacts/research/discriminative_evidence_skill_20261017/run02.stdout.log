@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/discriminative_evidence_skill_20261017/run_study.py", line 469, in <module>
+    main()
+  File "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/discriminative_evidence_skill_20261017/run_study.py", line 457, in main
+    study.execute()
+  File "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/discriminative_evidence_skill_20261017/run_study.py", line 254, in execute
+    units = [self.answer(entry) for entry in entries]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/discriminative_evidence_skill_20261017/run_study.py", line 254, in <listcomp>
+    units = [self.answer(entry) for entry in entries]
+             ^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/discriminative_evidence_skill_20261017/run_study.py", line 226, in answer
+    response = self.call(dest, p["messages"], p["schema"], self.cfg["generation"]["max_tokens"], {
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/experiment.py", line 178, in call
+    self.check()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/experiment.py", line 163, in check
+    raise InterruptedError("Operator stop at artifact-safe boundary")
+InterruptedError: Operator stop at artifact-safe boundary

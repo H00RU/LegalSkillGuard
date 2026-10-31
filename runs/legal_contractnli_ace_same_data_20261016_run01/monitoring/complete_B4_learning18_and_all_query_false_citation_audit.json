@@ -1,0 +1,184 @@
+{
+  "at": "2026-10-16T00:10:40.490423+00:00",
+  "scope": "All18 TRAIN first encounters B2-B4, no current endpoints read",
+  "primary_original_metrics_unchanged": {
+    "ordinary_memory": {
+      "documents": 18,
+      "hypotheses": 306,
+      "label_correct": 244,
+      "label_accuracy": 0.7973856209150327,
+      "gold_non_neutral_queries": 189,
+      "evidence_tp": 176,
+      "evidence_fp": 40,
+      "evidence_fn": 198,
+      "evidence_micro_f1_gold_non_neutral": 0.5966101694915255,
+      "evidence_query_mean_f1_gold_non_neutral": 0.619426517045565,
+      "joint_exact_correct": 146,
+      "joint_soft_mean": 0.6374889271948095,
+      "public_valid_documents": 18,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 157,
+          "correct": 143
+        },
+        "Contradiction": {
+          "n": 32,
+          "correct": 19
+        },
+        "NotMentioned": {
+          "n": 117,
+          "correct": 82
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 82,
+      "nonneutral_label_and_all_evidence_correct": 64,
+      "reported_skill_use_queries": 0,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 111991,
+        "completion_tokens": 36791
+      },
+      "joint_exact_accuracy": 0.477124183006536
+    },
+    "trace_procedures": {
+      "documents": 18,
+      "hypotheses": 306,
+      "label_correct": 234,
+      "label_accuracy": 0.7647058823529411,
+      "gold_non_neutral_queries": 189,
+      "evidence_tp": 184,
+      "evidence_fp": 72,
+      "evidence_fn": 190,
+      "evidence_micro_f1_gold_non_neutral": 0.5841269841269842,
+      "evidence_query_mean_f1_gold_non_neutral": 0.6106165733149864,
+      "joint_exact_correct": 136,
+      "joint_soft_mean": 0.613038776764267,
+      "public_valid_documents": 18,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 157,
+          "correct": 135
+        },
+        "Contradiction": {
+          "n": 32,
+          "correct": 20
+        },
+        "NotMentioned": {
+          "n": 117,
+          "correct": 79
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 79,
+      "nonneutral_label_and_all_evidence_correct": 57,
+      "reported_skill_use_queries": 268,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 164011,
+        "completion_tokens": 41401
+      },
+      "joint_exact_accuracy": 0.4444444444444444
+    },
+    "ace_legal": {
+      "documents": 18,
+      "hypotheses": 306,
+      "label_correct": 228,
+      "label_accuracy": 0.7450980392156863,
+      "gold_non_neutral_queries": 189,
+      "evidence_tp": 186,
+      "evidence_fp": 54,
+      "evidence_fn": 188,
+      "evidence_micro_f1_gold_non_neutral": 0.6058631921824105,
+      "evidence_query_mean_f1_gold_non_neutral": 0.6206610849467995,
+      "joint_exact_correct": 135,
+      "joint_soft_mean": 0.596639253992195,
+      "public_valid_documents": 18,
+      "length_cutoffs": 0,
+      "class_denominators": {
+        "Entailment": {
+          "n": 157,
+          "correct": 139
+        },
+        "Contradiction": {
+          "n": 32,
+          "correct": 20
+        },
+        "NotMentioned": {
+          "n": 117,
+          "correct": 69
+        }
+      },
+      "correct_nm_with_nonempty_evidence": 0,
+      "correct_nm_with_empty_evidence": 69,
+      "nonneutral_label_and_all_evidence_correct": 66,
+      "reported_skill_use_queries": 306,
+      "reported_skill_use_not_internal_causal_proof": true,
+      "usage": {
+        "prompt_tokens": 134104,
+        "completion_tokens": 42618
+      },
+      "joint_exact_accuracy": 0.4411764705882353
+    }
+  },
+  "secondary_original_span_binary_metric_including_goldNM_false_citations": {
+    "ordinary_memory": {
+      "span_tp_all_original_queries": 176,
+      "span_fp_all_original_queries": 82,
+      "span_fn_all_original_queries": 198,
+      "gold_NM_hypotheses": 117,
+      "gold_NM_labels_correct": 82,
+      "gold_NM_excess_span_members": 42,
+      "span_micro_f1_all_original_queries_secondary_not_replacement": 0.5569620253164557
+    },
+    "trace_procedures": {
+      "span_tp_all_original_queries": 184,
+      "span_fp_all_original_queries": 136,
+      "span_fn_all_original_queries": 190,
+      "gold_NM_hypotheses": 117,
+      "gold_NM_labels_correct": 79,
+      "gold_NM_excess_span_members": 64,
+      "span_micro_f1_all_original_queries_secondary_not_replacement": 0.5302593659942363
+    },
+    "ace_legal": {
+      "span_tp_all_original_queries": 186,
+      "span_fp_all_original_queries": 117,
+      "span_fn_all_original_queries": 188,
+      "gold_NM_hypotheses": 117,
+      "gold_NM_labels_correct": 69,
+      "gold_NM_excess_span_members": 63,
+      "span_micro_f1_all_original_queries_secondary_not_replacement": 0.5494830132939439
+    }
+  },
+  "secondary_is_additional_harsher_readout_not_changed_primary_or_optimization_selection": true,
+  "different_actor_ACE_vs_main_not_pure_memory_causal_comparison": true,
+  "B4_publication": {
+    "actual_parent_count": 21,
+    "actual_new_count": 24,
+    "live_library_tokens": 1507,
+    "operations": [
+      {
+        "type": "ADD",
+        "section": "strategies_and_insights",
+        "content": "对“不授予任何权利或许可”类假设，须寻找明确的无许可、无权利或权利保留条款；保密义务、限定用途、专属利益或所有权表述本身不足以证明全面不授权。"
+      },
+      {
+        "type": "ADD",
+        "section": "context_clues_and_indicators",
+        "content": "反驳“保密信息仅包含某一类别”的全称命题，须有明示的类别外信息、具体类别外示例或“技术及非技术”等并列表述；“所有有商业价值的信息”等抽象宽泛定义通常不足以单独建立矛盾。"
+      },
+      {
+        "type": "ADD",
+        "section": "common_mistakes_to_avoid",
+        "content": "不得把例外中的状态或来源谓词改写成另一行为：独立知悉不等于独立开发，信息已为他人所知不等于接收方可从第三方取得；必须逐字核对谁实施了何种行为及其来源条件。"
+      }
+    ],
+    "all_reflections_counts_ADD_publication_replayed": true,
+    "all_old_text_retained": true
+  },
+  "no_generation_teacher_calls_original_edits_or_runtime_source_changes": true,
+  "ACE663_bindings_unchanged": 663,
+  "queued_ablation667_bindings_unchanged": 667
+}

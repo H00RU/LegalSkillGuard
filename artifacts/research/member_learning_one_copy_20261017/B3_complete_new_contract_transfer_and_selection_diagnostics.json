@@ -1,0 +1,753 @@
+{
+  "at": "2026-10-17T14:04:30.267862+00:00",
+  "run_id": "legal_contractnli_member_learning_one_copy_20261017_run03",
+  "closed_phase": "b3_before",
+  "original_author_wire_audit": "artifacts/research/member_learning_one_copy_20261017/B3_complete_before_original_author_execution_audit.json",
+  "original_author_wire_audit_sha256": "b13a67e1b4eb73c63c886fe951cae5c5723562d6883d6ef26f824297fc164a2f",
+  "paired_effects": {
+    "strong_empty": {
+      "before": {
+        "documents": 8,
+        "hypotheses": 136,
+        "label_correct": 101,
+        "label_accuracy": 0.7426470588235294,
+        "gold_non_neutral_queries": 81,
+        "evidence_tp": 82,
+        "evidence_fp": 47,
+        "evidence_fn": 74,
+        "evidence_micro_f1_gold_non_neutral": 0.5754385964912281,
+        "evidence_query_mean_f1_gold_non_neutral": 0.6198118753674308,
+        "joint_exact_correct": 55,
+        "joint_soft_mean": 0.5850840336134453,
+        "public_valid_documents": 8,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 64,
+            "correct": 56
+          },
+          "Contradiction": {
+            "n": 17,
+            "correct": 13
+          },
+          "NotMentioned": {
+            "n": 55,
+            "correct": 32
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 32,
+        "nonneutral_label_and_all_evidence_correct": 23,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 34827,
+          "completion_tokens": 14104
+        },
+        "joint_exact_accuracy": 0.40441176470588236
+      },
+      "after": {
+        "documents": 8,
+        "hypotheses": 136,
+        "label_correct": 110,
+        "label_accuracy": 0.8088235294117647,
+        "gold_non_neutral_queries": 81,
+        "evidence_tp": 79,
+        "evidence_fp": 28,
+        "evidence_fn": 77,
+        "evidence_micro_f1_gold_non_neutral": 0.6007604562737643,
+        "evidence_query_mean_f1_gold_non_neutral": 0.6283362727807169,
+        "joint_exact_correct": 70,
+        "joint_soft_mean": 0.6649159663865548,
+        "public_valid_documents": 8,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 64,
+            "correct": 57
+          },
+          "Contradiction": {
+            "n": 17,
+            "correct": 11
+          },
+          "NotMentioned": {
+            "n": 55,
+            "correct": 42
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 42,
+        "nonneutral_label_and_all_evidence_correct": 28,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 90820,
+          "completion_tokens": 14352
+        },
+        "joint_exact_accuracy": 0.5147058823529411
+      },
+      "paired_questions": {
+        "original_hypotheses": 136,
+        "label_corrected": [
+          [
+            453,
+            "nda-16"
+          ],
+          [
+            453,
+            "nda-12"
+          ],
+          [
+            453,
+            "nda-18"
+          ],
+          [
+            453,
+            "nda-17"
+          ],
+          [
+            322,
+            "nda-15"
+          ],
+          [
+            322,
+            "nda-12"
+          ],
+          [
+            322,
+            "nda-20"
+          ],
+          [
+            322,
+            "nda-3"
+          ],
+          [
+            322,
+            "nda-13"
+          ],
+          [
+            322,
+            "nda-4"
+          ],
+          [
+            348,
+            "nda-12"
+          ],
+          [
+            348,
+            "nda-20"
+          ],
+          [
+            616,
+            "nda-10"
+          ],
+          [
+            186,
+            "nda-11"
+          ],
+          [
+            186,
+            "nda-10"
+          ],
+          [
+            186,
+            "nda-19"
+          ],
+          [
+            186,
+            "nda-17"
+          ],
+          [
+            214,
+            "nda-7"
+          ],
+          [
+            281,
+            "nda-7"
+          ]
+        ],
+        "label_broken": [
+          [
+            322,
+            "nda-2"
+          ],
+          [
+            348,
+            "nda-1"
+          ],
+          [
+            616,
+            "nda-18"
+          ],
+          [
+            186,
+            "nda-7"
+          ],
+          [
+            186,
+            "nda-13"
+          ],
+          [
+            214,
+            "nda-15"
+          ],
+          [
+            214,
+            "nda-19"
+          ],
+          [
+            567,
+            "nda-8"
+          ],
+          [
+            281,
+            "nda-1"
+          ],
+          [
+            281,
+            "nda-20"
+          ]
+        ],
+        "net_label_correct": 9,
+        "joint_exact_corrected": [
+          [
+            453,
+            "nda-16"
+          ],
+          [
+            453,
+            "nda-12"
+          ],
+          [
+            453,
+            "nda-18"
+          ],
+          [
+            453,
+            "nda-17"
+          ],
+          [
+            322,
+            "nda-12"
+          ],
+          [
+            322,
+            "nda-20"
+          ],
+          [
+            322,
+            "nda-3"
+          ],
+          [
+            322,
+            "nda-13"
+          ],
+          [
+            322,
+            "nda-4"
+          ],
+          [
+            348,
+            "nda-12"
+          ],
+          [
+            348,
+            "nda-20"
+          ],
+          [
+            616,
+            "nda-11"
+          ],
+          [
+            186,
+            "nda-11"
+          ],
+          [
+            186,
+            "nda-15"
+          ],
+          [
+            186,
+            "nda-10"
+          ],
+          [
+            186,
+            "nda-19"
+          ],
+          [
+            186,
+            "nda-17"
+          ],
+          [
+            214,
+            "nda-7"
+          ],
+          [
+            214,
+            "nda-13"
+          ],
+          [
+            214,
+            "nda-4"
+          ],
+          [
+            567,
+            "nda-15"
+          ],
+          [
+            567,
+            "nda-2"
+          ],
+          [
+            567,
+            "nda-7"
+          ],
+          [
+            567,
+            "nda-5"
+          ],
+          [
+            567,
+            "nda-4"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            453,
+            "nda-10"
+          ],
+          [
+            453,
+            "nda-20"
+          ],
+          [
+            322,
+            "nda-2"
+          ],
+          [
+            348,
+            "nda-15"
+          ],
+          [
+            348,
+            "nda-2"
+          ],
+          [
+            348,
+            "nda-3"
+          ],
+          [
+            616,
+            "nda-3"
+          ],
+          [
+            214,
+            "nda-15"
+          ],
+          [
+            214,
+            "nda-19"
+          ],
+          [
+            567,
+            "nda-8"
+          ]
+        ]
+      },
+      "source_contracts": 8,
+      "difference_after_minus_before": {
+        "label_accuracy": 0.06617647058823528,
+        "evidence_micro_f1_gold_non_neutral": 0.025321859782536205,
+        "joint_exact_accuracy": 0.11029411764705876
+      },
+      "source_win_tie_loss": {
+        "label_accuracy": {
+          "win": 4,
+          "tie": 1,
+          "loss": 3
+        },
+        "evidence_micro_f1_gold_non_neutral": {
+          "win": 4,
+          "tie": 1,
+          "loss": 3
+        },
+        "joint_exact_accuracy": {
+          "win": 5,
+          "tie": 2,
+          "loss": 1
+        }
+      },
+      "descriptive_source_percentile_95_intervals": {
+        "label_accuracy": [
+          -0.022058823529411686,
+          0.16176470588235292
+        ],
+        "evidence_micro_f1_gold_non_neutral": [
+          -0.07805886369570018,
+          0.14968956122297297
+        ],
+        "joint_exact_accuracy": [
+          0.02941176470588236,
+          0.19852941176470584
+        ]
+      },
+      "bootstrap_replicates": 5000,
+      "bootstrap_seed": 2026101703,
+      "conditional_on_one_adaptive_episode_not_algorithmic_stability_or_confirmatory_significance": true
+    },
+    "ordinary": {
+      "before": {
+        "documents": 8,
+        "hypotheses": 136,
+        "label_correct": 111,
+        "label_accuracy": 0.8161764705882353,
+        "gold_non_neutral_queries": 81,
+        "evidence_tp": 75,
+        "evidence_fp": 12,
+        "evidence_fn": 81,
+        "evidence_micro_f1_gold_non_neutral": 0.6172839506172839,
+        "evidence_query_mean_f1_gold_non_neutral": 0.6197138937879676,
+        "joint_exact_correct": 69,
+        "joint_soft_mean": 0.6818394024276376,
+        "public_valid_documents": 8,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 64,
+            "correct": 59
+          },
+          "Contradiction": {
+            "n": 17,
+            "correct": 8
+          },
+          "NotMentioned": {
+            "n": 55,
+            "correct": 44
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 44,
+        "nonneutral_label_and_all_evidence_correct": 25,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 42313,
+          "completion_tokens": 15988
+        },
+        "joint_exact_accuracy": 0.5073529411764706
+      },
+      "after": {
+        "documents": 8,
+        "hypotheses": 136,
+        "label_correct": 110,
+        "label_accuracy": 0.8088235294117647,
+        "gold_non_neutral_queries": 81,
+        "evidence_tp": 79,
+        "evidence_fp": 28,
+        "evidence_fn": 77,
+        "evidence_micro_f1_gold_non_neutral": 0.6007604562737643,
+        "evidence_query_mean_f1_gold_non_neutral": 0.6283362727807169,
+        "joint_exact_correct": 70,
+        "joint_soft_mean": 0.6649159663865548,
+        "public_valid_documents": 8,
+        "length_cutoffs": 0,
+        "class_denominators": {
+          "Entailment": {
+            "n": 64,
+            "correct": 57
+          },
+          "Contradiction": {
+            "n": 17,
+            "correct": 11
+          },
+          "NotMentioned": {
+            "n": 55,
+            "correct": 42
+          }
+        },
+        "correct_nm_with_nonempty_evidence": 0,
+        "correct_nm_with_empty_evidence": 42,
+        "nonneutral_label_and_all_evidence_correct": 28,
+        "reported_skill_use_queries": 0,
+        "reported_skill_use_not_internal_causal_proof": true,
+        "usage": {
+          "prompt_tokens": 90820,
+          "completion_tokens": 14352
+        },
+        "joint_exact_accuracy": 0.5147058823529411
+      },
+      "paired_questions": {
+        "original_hypotheses": 136,
+        "label_corrected": [
+          [
+            453,
+            "nda-20"
+          ],
+          [
+            322,
+            "nda-15"
+          ],
+          [
+            322,
+            "nda-5"
+          ],
+          [
+            322,
+            "nda-4"
+          ],
+          [
+            348,
+            "nda-15"
+          ],
+          [
+            348,
+            "nda-12"
+          ],
+          [
+            348,
+            "nda-20"
+          ],
+          [
+            348,
+            "nda-17"
+          ],
+          [
+            186,
+            "nda-17"
+          ],
+          [
+            214,
+            "nda-5"
+          ],
+          [
+            281,
+            "nda-7"
+          ]
+        ],
+        "label_broken": [
+          [
+            453,
+            "nda-15"
+          ],
+          [
+            322,
+            "nda-2"
+          ],
+          [
+            348,
+            "nda-1"
+          ],
+          [
+            616,
+            "nda-2"
+          ],
+          [
+            616,
+            "nda-18"
+          ],
+          [
+            616,
+            "nda-17"
+          ],
+          [
+            186,
+            "nda-7"
+          ],
+          [
+            186,
+            "nda-13"
+          ],
+          [
+            214,
+            "nda-19"
+          ],
+          [
+            214,
+            "nda-8"
+          ],
+          [
+            567,
+            "nda-8"
+          ],
+          [
+            281,
+            "nda-17"
+          ]
+        ],
+        "net_label_correct": -1,
+        "joint_exact_corrected": [
+          [
+            322,
+            "nda-5"
+          ],
+          [
+            322,
+            "nda-4"
+          ],
+          [
+            348,
+            "nda-12"
+          ],
+          [
+            348,
+            "nda-20"
+          ],
+          [
+            348,
+            "nda-17"
+          ],
+          [
+            186,
+            "nda-15"
+          ],
+          [
+            186,
+            "nda-3"
+          ],
+          [
+            186,
+            "nda-17"
+          ],
+          [
+            186,
+            "nda-5"
+          ],
+          [
+            214,
+            "nda-13"
+          ],
+          [
+            214,
+            "nda-5"
+          ],
+          [
+            214,
+            "nda-4"
+          ],
+          [
+            567,
+            "nda-15"
+          ],
+          [
+            567,
+            "nda-4"
+          ]
+        ],
+        "joint_exact_broken": [
+          [
+            453,
+            "nda-10"
+          ],
+          [
+            453,
+            "nda-13"
+          ],
+          [
+            322,
+            "nda-2"
+          ],
+          [
+            616,
+            "nda-16"
+          ],
+          [
+            616,
+            "nda-2"
+          ],
+          [
+            616,
+            "nda-3"
+          ],
+          [
+            616,
+            "nda-17"
+          ],
+          [
+            616,
+            "nda-8"
+          ],
+          [
+            214,
+            "nda-19"
+          ],
+          [
+            214,
+            "nda-8"
+          ],
+          [
+            567,
+            "nda-8"
+          ],
+          [
+            281,
+            "nda-17"
+          ],
+          [
+            281,
+            "nda-5"
+          ]
+        ]
+      },
+      "source_contracts": 8,
+      "difference_after_minus_before": {
+        "label_accuracy": -0.007352941176470562,
+        "evidence_micro_f1_gold_non_neutral": -0.01652349434351963,
+        "joint_exact_accuracy": 0.007352941176470562
+      },
+      "source_win_tie_loss": {
+        "label_accuracy": {
+          "win": 2,
+          "tie": 2,
+          "loss": 4
+        },
+        "evidence_micro_f1_gold_non_neutral": {
+          "win": 5,
+          "tie": 0,
+          "loss": 3
+        },
+        "joint_exact_accuracy": {
+          "win": 5,
+          "tie": 0,
+          "loss": 3
+        }
+      },
+      "descriptive_source_percentile_95_intervals": {
+        "label_accuracy": [
+          -0.07352941176470595,
+          0.06617647058823528
+        ],
+        "evidence_micro_f1_gold_non_neutral": [
+          -0.09935889404052525,
+          0.11238095238095236
+        ],
+        "joint_exact_accuracy": [
+          -0.10294117647058826,
+          0.11764705882352944
+        ]
+      },
+      "bootstrap_replicates": 5000,
+      "bootstrap_seed": 2026101703,
+      "conditional_on_one_adaptive_episode_not_algorithmic_stability_or_confirmatory_significance": true
+    }
+  },
+  "actual_scoped_access_selection_memberships_GoldNN_only": {
+    "gold_members": 156,
+    "gold_with_any_scoped_lead": 108,
+    "gold_with_literal_hit": 79,
+    "TP_with_lead": 58,
+    "TP_without_lead": 21,
+    "FN_with_lead": 50,
+    "FN_without_lead": 27,
+    "FP_with_lead": 19,
+    "FP_without_lead": 9,
+    "all_lead_memberships": 953,
+    "unannotated_lead_memberships": 845,
+    "correct_label_FN_with_lead": 37,
+    "correct_label_FN_without_lead": 21
+  },
+  "full_source_always_visible_no_lead_does_not_mean_unavailable": true,
+  "unannotated_access_member_does_not_prove_semantic_irrelevance": true,
+  "role_associations_not_a_causal_ablation": true,
+  "eight_contracts_one_adaptive_episode_not_independent_learning_significance_or_official_TEST": true,
+  "no_new_native_teacher_calls": true
+}
