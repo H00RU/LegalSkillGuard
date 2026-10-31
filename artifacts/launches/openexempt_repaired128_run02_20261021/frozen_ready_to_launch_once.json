@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-20T18:13:55.865965+00:00",
+  "config_sha256": "00f085e343436d5028e5b81f7e1a0f5de3c4a2cb01c3d392ea0e3b04f51e1e50",
+  "frozen_files": 388,
+  "teacher_limit": 1765,
+  "every_historical_ledger_field_except_max_unchanged": true,
+  "no_qualification_grid_or_new_models": true,
+  "source_and_data_preserved_on_both_disks": true,
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--unit=legal-openexempt-closed-feedback-public-assets128-20261021-run02.service",
+    "--property=WorkingDirectory=/media/sangfor/vdb/legal-skill-evolve",
+    "--property=Restart=no",
+    "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python",
+    "-m",
+    "experiments.openexempt_online",
+    "run",
+    "/media/sangfor/vdb/legal-skill-evolve/configs/openexempt_closed_feedback_public_assets128_20261021_run02.json"
+  ]
+}

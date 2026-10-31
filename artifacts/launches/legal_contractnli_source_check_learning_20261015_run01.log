@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 286, in <module>
+    main()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 272, in main
+    value = worker(config, run_id, args.engineering)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 180, in worker
+    study.execute()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/review.py", line 537, in execute
+    control = self.collect(f"batch{batch}_control", self.empty_arm, [r], [])[0]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/experiment.py", line 350, in collect
+    return [
+           ^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/experiment.py", line 351, in <listcomp>
+    self.answer(stage, arm, r, bank, r["annotation_sets"][0]["annotations"]) for r in rows
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/experiment.py", line 325, in answer
+    response = self.call(
+               ^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/experiment.py", line 162, in call
+    self.check()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/experiment.py", line 147, in check
+    raise InterruptedError("Operator stop at artifact-safe boundary")
+InterruptedError: Operator stop at artifact-safe boundary

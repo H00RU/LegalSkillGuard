@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 370, in <module>
+    main()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 356, in main
+    value = worker(config, run_id, args.engineering)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 258, in worker
+    study.execute()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/task_local.py", line 633, in execute
+    self.initial_static()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/source_programs.py", line 243, in initial_static
+    tokens = self.validate_library(self.static)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/source_programs.py", line 233, in validate_library
+    raise ValueError("Full named program memory over declared capacity; no pruning")
+ValueError: Full named program memory over declared capacity; no pruning

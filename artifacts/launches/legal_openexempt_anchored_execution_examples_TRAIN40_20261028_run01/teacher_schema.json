@@ -1,0 +1,278 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "delta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operations",
+        "noop_reason"
+      ],
+      "properties": {
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "operation",
+              "target_ids",
+              "skill",
+              "source_case_ids",
+              "rationale"
+            ],
+            "properties": {
+              "operation": {
+                "type": "string",
+                "enum": [
+                  "CREATE",
+                  "UPDATE",
+                  "DELETE",
+                  "MERGE"
+                ]
+              },
+              "target_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "arizona-apparel-medical-and-ring-boundaries",
+                    "federal-specific-personal-property-boundaries",
+                    "federal-wildcard-independent-alternative",
+                    "illinois-other-personal-property-alternative",
+                    "oregon-any-personal-property-alternative",
+                    "oregon-joint-homestead-valuation",
+                    "pennsylvania-general-monetary-alternative",
+                    "wisconsin-single-debtor-motor-vehicle-valuation"
+                  ]
+                }
+              },
+              "skill": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "id",
+                      "hypothesis_ids",
+                      "guidance"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "hypothesis_ids": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "EC",
+                            "EV"
+                          ]
+                        }
+                      },
+                      "guidance": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "by_task",
+                          "operators",
+                          "jurisdiction"
+                        ],
+                        "properties": {
+                          "by_task": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 2,
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "tasks",
+                                "when",
+                                "procedure",
+                                "avoid_when"
+                              ],
+                              "properties": {
+                                "tasks": {
+                                  "type": "array",
+                                  "minItems": 1,
+                                  "maxItems": 2,
+                                  "items": {
+                                    "type": "string",
+                                    "enum": [
+                                      "EC",
+                                      "EV"
+                                    ]
+                                  }
+                                },
+                                "when": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "procedure": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "avoid_when": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              }
+                            }
+                          },
+                          "operators": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "id",
+                                "citation",
+                                "limit_expression"
+                              ],
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "citation": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "limit_expression": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              }
+                            },
+                            "maxItems": 0
+                          },
+                          "jurisdiction": {
+                            "type": "string",
+                            "enum": [
+                              "ALL",
+                              "FEDERAL",
+                              "ARIZONA",
+                              "ILLINOIS",
+                              "OREGON",
+                              "PENNSYLVANIA",
+                              "WISCONSIN"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "source_case_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "integer",
+                  "enum": [
+                    181,
+                    182,
+                    184,
+                    187,
+                    190,
+                    300,
+                    302,
+                    306,
+                    307,
+                    308
+                  ]
+                }
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "noop_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "diagnoses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "skill_id": {
+            "type": "string",
+            "enum": [
+              "arizona-apparel-medical-and-ring-boundaries",
+              "federal-specific-personal-property-boundaries",
+              "federal-wildcard-independent-alternative",
+              "illinois-other-personal-property-alternative",
+              "oregon-any-personal-property-alternative",
+              "oregon-joint-homestead-valuation",
+              "pennsylvania-general-monetary-alternative",
+              "wisconsin-single-debtor-motor-vehicle-valuation"
+            ]
+          },
+          "task": {
+            "type": "string",
+            "enum": [
+              "EC",
+              "EV"
+            ]
+          },
+          "failure_type": {
+            "type": "string",
+            "enum": [
+              "EXECUTION_LAPSE"
+            ]
+          },
+          "rule_anchor": {
+            "type": "string"
+          },
+          "source_case_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "integer",
+              "enum": [
+                181,
+                182,
+                184,
+                187,
+                190,
+                300,
+                302,
+                306,
+                307,
+                308
+              ]
+            }
+          }
+        },
+        "required": [
+          "skill_id",
+          "task",
+          "failure_type",
+          "rule_anchor",
+          "source_case_ids"
+        ]
+      }
+    }
+  },
+  "required": [
+    "delta",
+    "diagnoses"
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "at": "2026-10-24T16:26:51.542910+00:00",
+  "configs": [
+    "configs/openexempt_whole_bank_public_assets128_phase4_20261025_run02.json",
+    "configs/openexempt_task_local_public_assets128_phase4_20261025_run02.json"
+  ],
+  "timing": {
+    "at": "2026-10-24T16:13:35.928909+00:00",
+    "serial_wall_seconds": 298.49925923440605,
+    "four_worker_wall_seconds": 130.5698626935482,
+    "observed_eight_call_wall_speedup": 2.286126775939052,
+    "serial_completion_tokens": 10360,
+    "parallel_completion_tokens": 11174,
+    "serial_tokens_per_second": 34.70695380139781,
+    "parallel_tokens_per_second": 85.57870682782097,
+    "same_prompts_model_weights_generation_parameters_and_no_grading": true,
+    "not_a_guaranteed_end_to_end_training_speedup": true,
+    "no_repeated_timing_or_score_selection": true
+  },
+  "environment": {
+    "at": "2026-10-24T16:06:26.791289+00:00",
+    "pid": 958223,
+    "process_start_ticks": "486445918",
+    "actual_argv": [
+      "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python",
+      "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm",
+      "serve",
+      "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+      "--served-model-name",
+      "Qwen/Qwen3-8B",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "8000",
+      "--dtype",
+      "bfloat16",
+      "--max-model-len",
+      "32768",
+      "--max-num-seqs",
+      "4",
+      "--seed",
+      "42",
+      "--generation-config",
+      "vllm",
+      "--reasoning-parser",
+      "qwen3",
+      "--gpu-memory-utilization",
+      "0.48",
+      "--no-enable-prefix-caching",
+      "--disable-uvicorn-access-log",
+      "--guided-decoding-backend",
+      "xgrammar",
+      "--guided-decoding-disable-any-whitespace",
+      "--kv-cache-memory-bytes",
+      "5368709120",
+      "--max-num-batched-tokens",
+      "16384"
+    ],
+    "service_unit": "legal-qwen3-8b-phase-dispatch.service",
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "model_official_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "same_previously_verified_model_path_revision_no_download_no_weight_update": true,
+    "inference_dependency_source_sha256": {
+      "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/lib/python3.11/site-packages/vllm/v1/structured_output/backend_xgrammar.py": "673dc25710d9f59c42baa2c0e4e665b48aa8c1a3b8f9670a89af649875fe49da",
+      "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/lib/python3.11/site-packages/vllm/v1/structured_output/__init__.py": "f6c1bc911fef51f98139caaa03387a2535a68a9173cb8cc9a96f38c0228c5ad3",
+      "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/lib/python3.11/site-packages/vllm/reasoning/qwen3_reasoning_parser.py": "8330b9fda8def5dbf926ec394d15d020e38fe1044f6bf057664704e9c9ab6faf",
+      "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/lib/python3.11/site-packages/vllm/config/__init__.py": "261737c02dc2872f6ba91b971ff4d7b7c437795549584a16471edb40a2996d9a",
+      "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/lib/python3.11/site-packages/vllm/sampling_params.py": "84c3af26b194b18525e247e749341b91d0bfad49a6c109f7f3c9b38877fd05ce",
+      "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/lib/python3.11/site-packages/xgrammar/tokenizer_info.py": "fc19d56a65671511df3b56943067f10a95e7afd201d950c7faad9a532d41ea21"
+    },
+    "generation_EOS_and_grammar_EOS_aligned": [
+      151645,
+      151643
+    ],
+    "dependency_patch": "patches/vllm-0.10.2-hf-generation-eos-alignment.patch",
+    "readiness": {
+      "ready": true,
+      "reason": "model_contract_matches",
+      "model": "Qwen/Qwen3-8B",
+      "observed_model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+      "expected_model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+      "observed_max_model_len": 32768,
+      "expected_max_model_len": 32768,
+      "checks": {
+        "model_id_matches": true,
+        "model_root_matches": true,
+        "max_model_len_matches": true
+      },
+      "failed_checks": []
+    },
+    "actual_GPU_snapshot": "NVIDIA A40, GPU-ae41189f-fc85-bfc2-3db8-b140610cd50b, 21685 MiB, 49140 MiB",
+    "original_environment_sha256": "758d477dfbfea27889c85e61f4e701350d645b71c679dee6f06a0150e225dcd8",
+    "only_serving_change": "--max-num-seqs1to4",
+    "no_second_simultaneous_instance": true
+  },
+  "all_independent_repeats_deferred": true,
+  "old_partial_control_retained_not_imported": true
+}

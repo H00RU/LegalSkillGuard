@@ -1,0 +1,271 @@
+{
+  "policy": "six_recipes_frozen_before_initial_TEST_v1",
+  "no_TEST_feedback_to_learning": true,
+  "future_builds_not_selected_using_initial_scores": true,
+  "future_recipes_not_completed_banks": true,
+  "additional_learning_execution_authorization": "deferred_until_user_review_after_teacher_draft",
+  "learning": [
+    {
+      "kind": "main",
+      "seed": 145,
+      "source_config": "configs/openexempt_closed_feedback_public_assets128_seed145_phase4_20261025_run01.json",
+      "source_config_sha256": "b16f0084bf40f1b4d249b407afba0f6db827c6b99ace36654cf661e2ba1f22d3",
+      "source_frozen_sha256": "abe3014aa48a8c1747287c7194afb9ef038a2327b31fe4ea3e2209884fcf06c0"
+    },
+    {
+      "kind": "ace",
+      "seed": 145,
+      "source_config": "configs/openexempt_ace_public_assets128_seed145_phase4_20261025_run01.json",
+      "source_config_sha256": "b183b5ea6b4f3fc2c36b6edf88f21f2a24368570c82a5a0c37fe1445022dbe04",
+      "source_frozen_sha256": "cb5cdd5945b9cf657c7d6a35373f480dbb197687cb1001b717f072988f5eaab9"
+    },
+    {
+      "kind": "main",
+      "seed": 245,
+      "source_config": "configs/openexempt_closed_feedback_public_assets128_seed245_phase4_20261025_run01.json",
+      "source_config_sha256": "3f99ef50beb6b314da819389549e38c486d98bd7254c62cb11cc53bd762a3a30",
+      "source_frozen_sha256": "38ae779c40b1e7b2a78673c02bc473d8565066e680752b940dc30de1a1f5004b"
+    },
+    {
+      "kind": "ace",
+      "seed": 245,
+      "source_config": "configs/openexempt_ace_public_assets128_seed245_phase4_20261025_run01.json",
+      "source_config_sha256": "94c7bb4add598295d133c5a048ca7684961e9103f73c28b0ed32d2d928bcf39e",
+      "source_frozen_sha256": "bb1d1f106a86dcebd15e5dbea05ca1e50cde653be3e3b48ff0fdb350f0438b2a"
+    },
+    {
+      "kind": "text",
+      "seed": 145,
+      "source_config": "configs/openexempt_trace2skill_text_public_assets128_seed145_phase4_20261025_run01.json",
+      "source_config_sha256": "a4b8976adb40c5b114bf1da3f9a41f68789cf521bdf5486edfcb46df5468e987",
+      "source_frozen_sha256": "3645a2ec0dc7ee8e83cd82b0a38217dec0d7d4c65456b592c02ee46a2e15bf24"
+    },
+    {
+      "kind": "text",
+      "seed": 245,
+      "source_config": "configs/openexempt_trace2skill_text_public_assets128_seed245_phase4_20261025_run01.json",
+      "source_config_sha256": "7d016269498198d68ed9517d0bb7e82c940fd2f278e90dbf9b88a3ae0191beaf",
+      "source_frozen_sha256": "78931de6b5c46f0f38704cf0d1a3d685ea11c36b21de7f20866fd8cf58e9bd94"
+    }
+  ],
+  "initial_arm_names": [
+    "empty",
+    "static",
+    "main45",
+    "own_B1_45",
+    "ACE45",
+    "text45",
+    "whole_bank",
+    "task_local"
+  ],
+  "planned_final_arms": [
+    {
+      "name": "empty",
+      "role": "strong_empty",
+      "backend": "direct"
+    },
+    {
+      "name": "static",
+      "role": "static_law_only",
+      "backend": "direct",
+      "source_config": "configs/openexempt_direct_law_only_static_20261021_run03.json",
+      "source_config_sha256": "84e98ef91f455a511dca923a10dcb268129b3a911e03049fdbec2355510f46a1",
+      "bank_sha256": "4809c3b2fe336a682ad36544f036206f158c0890adad4e87bde6eb4fa6502321"
+    },
+    {
+      "name": "main45",
+      "role": "evolved",
+      "backend": "direct",
+      "source_config": "configs/openexempt_closed_feedback_public_assets128_20261021_run03.json",
+      "source_config_sha256": "8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e",
+      "bank_sha256": "3387b5b450f4b9107c9738562fa224915bb4405ff329ca8f113fc05d0e9c76e7"
+    },
+    {
+      "name": "own_B1_45",
+      "role": "B1_frozen",
+      "backend": "direct",
+      "source_config": "configs/openexempt_closed_feedback_public_assets128_20261021_run03.json",
+      "source_config_sha256": "8c858d27892f278ee9cdd6c251486ce2080637aa5f01c51d165ecdab5fe2122e",
+      "bank_sha256": "574af7a6d3a5f155d45aebeefb7f620884cbe557a2e5f91914bbfdd3f2eb5118"
+    },
+    {
+      "name": "ACE45",
+      "role": "experience",
+      "backend": "ace",
+      "source_config": "configs/openexempt_ace_public_assets128_20261023_run04.json",
+      "source_config_sha256": "0444f1cf26d005aab839d0a9e9b2b8d0cfd619081fc1a2c5df9a1bb435fed228",
+      "bank_sha256": "75ad535aed4478ce4c85832138dadcb3dc460fec8200704151a002920131af56"
+    },
+    {
+      "name": "text45",
+      "role": "experience",
+      "backend": "direct",
+      "source_config": "configs/openexempt_trace2skill_text_public_assets128_seed45_20261023_run02.json",
+      "source_config_sha256": "a77cbbc0e736cbad75f695f442477601dc98c014160cc3c0761d1d9f6070d892",
+      "bank_sha256": "8784dc4ea6df541d183146250670f13463c58d7877b468e5a481c0f4a10985a3"
+    },
+    {
+      "name": "whole_bank",
+      "role": "ablation",
+      "backend": "direct",
+      "source_config": "configs/openexempt_whole_bank_public_assets128_phase4_20261025_run02.json",
+      "source_config_sha256": "684da0d5b5b78c115920c55a5971f5ece7b8260e9e114a7fb6205702625f206a",
+      "bank_sha256": "e6a66efb4e3c3b1115af263ccc5075a8cc50debb06ba2d7a1b5a607c7736ebcc"
+    },
+    {
+      "name": "task_local",
+      "role": "ablation",
+      "backend": "direct",
+      "source_config": "configs/openexempt_task_local_public_assets128_phase4_20261025_run02.json",
+      "source_config_sha256": "d87a9612006b6bb6b3eec3ac3c7ff46c7f8eeab078341f045cf48e3c4c8623a4",
+      "bank_sha256": "1c8e48a88829b7526361fb3a1d39f61a8df8f7dabfd89a8d7ea395b90da68a86"
+    },
+    {
+      "name": "main145",
+      "role": "evolved",
+      "backend": "direct",
+      "source_config": "configs/openexempt_closed_feedback_public_assets128_seed145_phase4_20261025_run01.json",
+      "source_config_sha256": "b16f0084bf40f1b4d249b407afba0f6db827c6b99ace36654cf661e2ba1f22d3",
+      "bank_sha256": null
+    },
+    {
+      "name": "own_B1_145",
+      "role": "B1_frozen",
+      "backend": "direct",
+      "source_config": "configs/openexempt_closed_feedback_public_assets128_seed145_phase4_20261025_run01.json",
+      "source_config_sha256": "b16f0084bf40f1b4d249b407afba0f6db827c6b99ace36654cf661e2ba1f22d3",
+      "bank_sha256": null
+    },
+    {
+      "name": "ACE145",
+      "role": "experience",
+      "backend": "ace",
+      "source_config": "configs/openexempt_ace_public_assets128_seed145_phase4_20261025_run01.json",
+      "source_config_sha256": "b183b5ea6b4f3fc2c36b6edf88f21f2a24368570c82a5a0c37fe1445022dbe04",
+      "bank_sha256": null
+    },
+    {
+      "name": "main245",
+      "role": "evolved",
+      "backend": "direct",
+      "source_config": "configs/openexempt_closed_feedback_public_assets128_seed245_phase4_20261025_run01.json",
+      "source_config_sha256": "3f99ef50beb6b314da819389549e38c486d98bd7254c62cb11cc53bd762a3a30",
+      "bank_sha256": null
+    },
+    {
+      "name": "own_B1_245",
+      "role": "B1_frozen",
+      "backend": "direct",
+      "source_config": "configs/openexempt_closed_feedback_public_assets128_seed245_phase4_20261025_run01.json",
+      "source_config_sha256": "3f99ef50beb6b314da819389549e38c486d98bd7254c62cb11cc53bd762a3a30",
+      "bank_sha256": null
+    },
+    {
+      "name": "ACE245",
+      "role": "experience",
+      "backend": "ace",
+      "source_config": "configs/openexempt_ace_public_assets128_seed245_phase4_20261025_run01.json",
+      "source_config_sha256": "94c7bb4add598295d133c5a048ca7684961e9103f73c28b0ed32d2d928bcf39e",
+      "bank_sha256": null
+    },
+    {
+      "name": "text145",
+      "role": "experience",
+      "backend": "direct",
+      "source_config": "configs/openexempt_trace2skill_text_public_assets128_seed145_phase4_20261025_run01.json",
+      "source_config_sha256": "a4b8976adb40c5b114bf1da3f9a41f68789cf521bdf5486edfcb46df5468e987",
+      "bank_sha256": null
+    },
+    {
+      "name": "text245",
+      "role": "experience",
+      "backend": "direct",
+      "source_config": "configs/openexempt_trace2skill_text_public_assets128_seed245_phase4_20261025_run01.json",
+      "source_config_sha256": "7d016269498198d68ed9517d0bb7e82c940fd2f278e90dbf9b88a3ae0191beaf",
+      "bank_sha256": null
+    }
+  ],
+  "primary_contrasts": [
+    {
+      "name": "vs_empty",
+      "after": [
+        "main45",
+        "main145",
+        "main245"
+      ],
+      "before": [
+        "empty"
+      ]
+    },
+    {
+      "name": "vs_static",
+      "after": [
+        "main45",
+        "main145",
+        "main245"
+      ],
+      "before": [
+        "static"
+      ]
+    },
+    {
+      "name": "vs_own_B1",
+      "after": [
+        "main45",
+        "main145",
+        "main245"
+      ],
+      "before": [
+        "own_B1_45",
+        "own_B1_145",
+        "own_B1_245"
+      ]
+    },
+    {
+      "name": "vs_ACE",
+      "after": [
+        "main45",
+        "main145",
+        "main245"
+      ],
+      "before": [
+        "ACE45",
+        "ACE145",
+        "ACE245"
+      ]
+    },
+    {
+      "name": "vs_text",
+      "after": [
+        "main45",
+        "main145",
+        "main245"
+      ],
+      "before": [
+        "text45",
+        "text145",
+        "text245"
+      ]
+    }
+  ],
+  "secondary_contrasts": [
+    {
+      "name": "vs_whole_bank",
+      "after": [
+        "main45"
+      ],
+      "before": [
+        "whole_bank"
+      ]
+    },
+    {
+      "name": "vs_task_local",
+      "after": [
+        "main45"
+      ],
+      "before": [
+        "task_local"
+      ]
+    }
+  ]
+}

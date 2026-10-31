@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 346, in <module>
+    main()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 332, in main
+    value = worker(config, run_id, args.engineering)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 234, in worker
+    study.execute()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/task_local.py", line 619, in execute
+    self.initial_static()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/task_local.py", line 560, in initial_static
+    tokens = self.validate_library(self.static)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/task_local.py", line 478, in validate_library
+    raise ValueError("Master or delivered knowledge over declared capacity; no pruning/fallback")
+ValueError: Master or delivered knowledge over declared capacity; no pruning/fallback

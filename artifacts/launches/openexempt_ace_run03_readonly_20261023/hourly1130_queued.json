@@ -1,0 +1,97 @@
+{
+  "at": "2026-10-23T03:01:06.994523+00:00",
+  "classification": "Single exact next read-only hourly review after actual 10:30 success; not a training task",
+  "unit": "legal-openexempt-ace-run03-hourly1130-20261023.service",
+  "properties": {
+    "Restart": "no",
+    "MainPID": "1864024",
+    "Result": "success",
+    "ActiveState": "active",
+    "SubState": "running"
+  },
+  "handle": {
+    "pid": 1864024,
+    "start_ticks": "473089796",
+    "argv": [
+      "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python",
+      "-u",
+      "/media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_ace_run03_readonly_20261023/hourly1130_observer.py"
+    ]
+  },
+  "script": "artifacts/launches/openexempt_ace_run03_readonly_20261023/hourly1130_observer.py",
+  "script_sha256": "7b667bf462fcaa23b52e662fbd011a43ff10544eda84fc5c4da117778e7cd7ec",
+  "scheduled_CST": "2026-10-23 11:30",
+  "next_if_needed_CST": "2026-10-23 12:30",
+  "actual1030_report": "artifacts/research/openexempt_legal_scope_20261020/hourly1030_ACEv4_Run03_actual380_priority9_377383378_static400_original_handles_direction_20261023.json",
+  "original_native_handles_unchanged": [
+    {
+      "pid": 812509,
+      "start_ticks": "468900048",
+      "argv": [
+        "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python",
+        "-u",
+        "-m",
+        "experiments.openexempt_ace_online",
+        "run",
+        "/media/sangfor/vdb/legal-skill-evolve/configs/openexempt_ace_public_assets128_20261022_run03.json"
+      ]
+    },
+    {
+      "pid": 3613253,
+      "start_ticks": "446037091",
+      "argv": [
+        "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python",
+        "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/vllm",
+        "serve",
+        "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+        "--served-model-name",
+        "Qwen/Qwen3-8B",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "8000",
+        "--dtype",
+        "bfloat16",
+        "--max-model-len",
+        "32768",
+        "--max-num-seqs",
+        "1",
+        "--seed",
+        "42",
+        "--generation-config",
+        "vllm",
+        "--reasoning-parser",
+        "qwen3",
+        "--gpu-memory-utilization",
+        "0.48",
+        "--no-enable-prefix-caching",
+        "--disable-uvicorn-access-log",
+        "--guided-decoding-backend",
+        "xgrammar",
+        "--guided-decoding-disable-any-whitespace",
+        "--kv-cache-memory-bytes",
+        "5368709120",
+        "--max-num-batched-tokens",
+        "16384"
+      ]
+    },
+    {
+      "pid": 821776,
+      "start_ticks": "468935458",
+      "argv": [
+        "/bin/bash",
+        "/media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_fixed_static_train128_20261022_run02/after_ACE.sh"
+      ]
+    },
+    {
+      "pid": 1130167,
+      "start_ticks": "470163107",
+      "argv": [
+        "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python",
+        "-u",
+        "/media/sangfor/vdb/legal-skill-evolve/artifacts/launches/openexempt_static_run02_to_text45_20261023.py"
+      ]
+    }
+  ],
+  "no_actor_teacher_tokenizer_or_TEST_calls": true
+}

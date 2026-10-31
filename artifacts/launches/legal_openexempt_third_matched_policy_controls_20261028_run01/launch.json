@@ -1,0 +1,29 @@
+{
+  "queue_id": "legal_openexempt_third_matched_policy_controls_20261028_run01",
+  "created_at_utc": "2026-10-28 07:24:31 UTC",
+  "purpose": "Execute the two already specified v1 full-learning mechanism controls after the failed paired-feedback TRAIN probe. Not a fifth main method, not an extra independent main/ACE/Text repeat.",
+  "expected_core_sha256": "3213e92d8e3a3c2c3b4e565dd3553a17ba9b2e425e68e607232749363e8c1985",
+  "expected_contract_test_sha256": "4406c62fc73aa2718cbf2d71ee95f022178b763adea544d0df3f2f3c350e9649",
+  "configs": [
+    "configs/openexempt_native_claim_whole_bank_public_assets128_20261027_run01.json",
+    "configs/openexempt_native_claim_legal_scope_public_assets128_20261027_run01.json"
+  ],
+  "config_sha256": {
+    "configs/openexempt_native_claim_whole_bank_public_assets128_20261027_run01.json": "42fc8538e5df20b944aaf69c833b67356929085ed2b2d889837e7a6b8fc6dfd8",
+    "configs/openexempt_native_claim_legal_scope_public_assets128_20261027_run01.json": "734fc32c9115ac9ec201a70ab7eaaddc042a2d15bdbf2afed68e6d14c14cf1eb"
+  },
+  "protocol": "docs/research/OPENEXEMPT_THIRD_FORMAL_MATCHED_POLICIES_AND_IID_EVAL_20261027.md",
+  "completed_probe_receipt": "artifacts/launches/legal_openexempt_paired_revision_outcome_TRAIN80_follow48_20261028_run03/terminal_preservation.json",
+  "v2_source_preservation_receipt": "artifacts/launches/legal_openexempt_paired_revision_outcome_TRAIN80_follow48_20261028_run03/complete_v2_before_exact_v1_control_epoch_preservation.json",
+  "one_scientific_config_difference": "skill_commit_policy; identity/protocol/contrast annotations are administrative differences",
+  "same_initial_TEACHER_DRAW_claim": false,
+  "initial_bank_and_request_cache": "empty separately for both controls; no historical answer, teacher, or score import",
+  "reference_main_run": "legal_openexempt_native_claim_feedback_public_assets128_20261027_run01",
+  "native_model_pid": 958223,
+  "native_model_birth_ticks": "486445918",
+  "source3_all385_files_verified_identical_before_preparation": true,
+  "extra_independent_main_ACE_Text_repeats": "USER-DEFERRED",
+  "prospective_TEST_reads_or_predictions_in_this_queue": 0,
+  "no_full_qualification_suite_or_new_test_code": true,
+  "program": "import fcntl,json,os,sys,traceback\nfrom pathlib import Path\nfrom experiments.openexempt_online import Online,preserve\nfrom legal_skill_guard.learning.experiment import read,sha,now\nfrom legal_skill_guard.experiment.storage import RunStore\n\nplan_path=Path(sys.argv[1]).resolve()\nplan=read(plan_path)\nroot=Path.cwd()\nchain=plan_path.parent\ncompleted=[]\ndef progress(stage,**kw):\n    RunStore.atomic_json(chain/\"progress.json\",{\"at\":now(),\"stage\":stage,**kw})\ntry:\n    assert sha(root/\"experiments/openexempt_online.py\")==plan[\"expected_core_sha256\"]\n    assert sha(root/\"tests/test_openexempt_contract.py\")==plan[\"expected_contract_test_sha256\"]\n    stat=Path(\"/proc/958223/stat\").read_text().rsplit(\")\",1)[1].split()\n    assert stat[19]==\"486445918\"\n    assert not Path(\"/proc/4105189\").exists()\n    prior=read(root/plan[\"completed_probe_receipt\"])\n    assert all(sha(v[\"path\"])==v[\"sha256\"] for v in prior[\"paths\"])\n    v2=read(root/plan[\"v2_source_preservation_receipt\"])\n    assert all(sha(v[\"path\"])==v[\"sha256\"] for v in v2[\"paths\"])\n    identity={\"at\":now(),\"pid\":os.getpid(),\"birth_ticks\":Path(f\"/proc/{os.getpid()}/stat\").read_text().rsplit(\")\",1)[1].split()[19],\n              \"model_pid\":958223,\"model_birth_ticks\":\"486445918\",\"plan_sha256\":sha(plan_path),\"extra_independent_repeats\":\"USER-DEFERRED\"}\n    RunStore.immutable_json(chain/\"execution_identity.json\",identity)\n    with (root/\"artifacts/openexempt_training.lock\").open(\"a\") as lock:\n        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)\n        for config in plan[\"configs\"]:\n            path=root/config\n            assert sha(path)==plan[\"config_sha256\"][config]\n            cfg=read(path)\n            progress(\"running_prebound_same_version_policy_control\",run_id=cfg[\"run_id\"],policy=cfg[\"skill_commit_policy\"],completed=completed)\n            study=Online(path)\n            assert study.bank==[] and study.request_cache=={}\n            study.run()\n            result=read(study.out/\"completion.json\")\n            receipt=read(study.out/\"terminal_preservation.json\")\n            assert len(receipt[\"paths\"])==2 and all(sha(v[\"path\"])==v[\"sha256\"] for v in receipt[\"paths\"])\n            completed.append({\"run_id\":cfg[\"run_id\"],\"status\":result[\"status\"],\"closed_batches\":len(result[\"batch_summary\"]),\n                              \"actual_native_calls\":result[\"actual_native_calls\"],\"actual_teacher_responses\":result[\"actual_teacher_responses\"],\n                              \"terminal_receipt\":str((study.out/\"terminal_preservation.json\").relative_to(root))})\n    RunStore.immutable_json(chain/\"completion.json\",{\"at\":now(),\"status\":\"completed_prebound_policy_control_queue\",\"controls\":completed,\n        \"both_complete_eight_batches\":all(x[\"closed_batches\"]==8 for x in completed),\"prospective_TEST_opened\":False,\"not_goal_completion\":True})\n    progress(\"terminal\",completed=completed)\nexcept BaseException as exc:\n    RunStore.immutable_json(chain/\"failure.json\",{\"at\":now(),\"error\":repr(exc),\"traceback\":traceback.format_exc(),\"completed\":completed,\n        \"no_retry_fallback_or_method_substitution\":True})\n    raise\nfinally:\n    names={str(p.relative_to(root)) for p in chain.rglob(\"*\") if p.is_file()}\n    names.update(plan[\"configs\"])\n    names.update(str((root/p).with_suffix(\".frozen.json\").relative_to(root)) for p in plan[\"configs\"])\n    if names:\n        RunStore.immutable_json(chain/\"terminal_preservation.json\",preserve(plan[\"queue_id\"],\"actual-terminal\",sorted(names)))\n"
+}

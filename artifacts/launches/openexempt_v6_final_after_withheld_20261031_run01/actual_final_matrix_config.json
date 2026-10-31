@@ -1,0 +1,259 @@
+{
+  "run_id": "legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01",
+  "evaluation_stage": "complete_output_utility_source_disjoint_IID_v6",
+  "protocol": "docs/research/OPENEXEMPT_V6_FINAL_SOURCE_ISOLATED_FROZEN_EVALUATION_20261030.md",
+  "statistics_plan": "docs/research/OPENEXEMPT_V6_FINAL_SOURCE_ISOLATED_FROZEN_EVALUATION_20261030.md",
+  "evaluation_role": "sealed_frozen_comparison",
+  "final_matrix_frozen": true,
+  "no_validation_set": true,
+  "benchmark_development_status": "source_disjoint_IID_frozen_bank_confirmation",
+  "independent_learning_repetitions": "user_deferred",
+  "external_text_adaptation": "trace2skill_text_offline_v1",
+  "reference_arm": "empty",
+  "execution_contract": "direct_statutory_claims",
+  "execution_contract_version": 14,
+  "library_token_hard_cap": 4096,
+  "input_packet": "data/packets/openexempt_IID128_confirmatory_TEST_20261030/inputs.json",
+  "grading_directory": "data/packets/openexempt_IID128_confirmatory_TEST_20261030/grading_only",
+  "input_packet_sha256": "ff29ce066a21e9d4040ac7f51f1f855489dc7ec0723d611e9ec46cb851f3220b",
+  "training_packet_sha256": "ef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45",
+  "source_cases": 128,
+  "training_source_cases": 128,
+  "training_batch_source_cases": 16,
+  "generation": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "Qwen/Qwen3-8B",
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "context_tokens": 32768,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "timeout_seconds": 900,
+    "disable_thinking": false
+  },
+  "inference_request_workers": 4,
+  "inference_dispatch_protocol": "docs/research/OPENEXEMPT_FROZEN_EVAL_SINGLE_INSTANCE_DISPATCH_20261023.md",
+  "inference_dispatch_policy": "four_workers_one_instance_exact_wire_lock_no_retry",
+  "inference_environment": "artifacts/live_8b_environment_phase_dispatch_20261025.json",
+  "upstream_archive": "data/cache/openexempt/OpenExempt-ec6fa2547431096588ce2d3ef107b8adc33cd4fe.tar.gz",
+  "inference_dependency_artifacts": [
+    "patches/vllm-0.10.2-hf-generation-eos-alignment.patch",
+    "third_party/vllm/NOTICE.md",
+    "ops/legal-qwen3-8b-phase-dispatch.service",
+    "artifacts/launches/openexempt_v6_final_after_withheld_20261031_run01.py",
+    "artifacts/launches/openexempt_v6_final_after_withheld_20261031_run01/intent.json"
+  ],
+  "arms": [
+    {
+      "name": "empty",
+      "role": "strong_empty",
+      "backend": "direct"
+    },
+    {
+      "name": "static",
+      "role": "static_law_only",
+      "backend": "direct",
+      "source_config": "configs/openexempt_direct_law_only_static_20261021_run03.json",
+      "source_config_sha256": "84e98ef91f455a511dca923a10dcb268129b3a911e03049fdbec2355510f46a1",
+      "source_frozen_sha256": "f1dae51283d4343cf06c330e637959dbf62fa632d41cce3ca81cfdd71ed08414",
+      "source_completion_sha256": "55954728225da82b1f7e2004d8f17549d52f5c041008cbe906fd0f0cbfc2b5ca",
+      "source_publication_sha256": "c2b0b37a453bd42571ef7667d7d1fd08c678c0cfeb359e75a2932e59c2f8f0b0",
+      "source_terminal_preservation_sha256": "e02bb26b37abea0ca8f1f23bcf750988ddcf214249f870b0ca5db5e6102f3150",
+      "bank_sha256": "4809c3b2fe336a682ad36544f036206f158c0890adad4e87bde6eb4fa6502321"
+    },
+    {
+      "name": "ACE45",
+      "role": "experience",
+      "backend": "ace",
+      "source_config": "configs/openexempt_ace_public_assets128_20261023_run04.json",
+      "source_config_sha256": "0444f1cf26d005aab839d0a9e9b2b8d0cfd619081fc1a2c5df9a1bb435fed228",
+      "source_frozen_sha256": "42ae4d7965fdff122dcbc2ee51e1d985af2f06d415a4f6f6ddb6b665258aa9f5",
+      "source_completion_sha256": "a8f24419c83c549b168006c1fe37202ce49797c8caa3a9f80df42a55691ad04d",
+      "source_publication_sha256": "5006873b2d5ec02caa955887a87d2f839d71be22fad06b5e39c317b87622296b",
+      "source_terminal_preservation_sha256": "2db56b826b5ff71a6249ee22c32cc02f279baa36074e4a74024ed7c84878528b",
+      "bank_sha256": "75ad535aed4478ce4c85832138dadcb3dc460fec8200704151a002920131af56"
+    },
+    {
+      "name": "ACE_common45",
+      "role": "experience",
+      "backend": "direct",
+      "source_config": "configs/openexempt_ace_public_assets128_20261023_run04.json",
+      "source_config_sha256": "0444f1cf26d005aab839d0a9e9b2b8d0cfd619081fc1a2c5df9a1bb435fed228",
+      "source_frozen_sha256": "42ae4d7965fdff122dcbc2ee51e1d985af2f06d415a4f6f6ddb6b665258aa9f5",
+      "source_completion_sha256": "a8f24419c83c549b168006c1fe37202ce49797c8caa3a9f80df42a55691ad04d",
+      "source_publication_sha256": "5006873b2d5ec02caa955887a87d2f839d71be22fad06b5e39c317b87622296b",
+      "source_terminal_preservation_sha256": "2db56b826b5ff71a6249ee22c32cc02f279baa36074e4a74024ed7c84878528b",
+      "representation_artifact": "artifacts/research/openexempt_legal_scope_20261020/ACE_actual_final_playbook_lossless_common_direct_wrapper_20261027.json",
+      "representation_sha256": "eab8feab08e1d2aa3561df1db34309fab51c7ed94003c9571c1ffec1c5a1cd09",
+      "bank_sha256": "362e9c7982d4ba7b8467c36ce372e04b3cbe46b361be2750a21dd18774e13bfc"
+    },
+    {
+      "name": "text45",
+      "role": "experience",
+      "backend": "direct",
+      "source_config": "configs/openexempt_trace2skill_text_public_assets128_seed45_20261023_run02.json",
+      "source_config_sha256": "a77cbbc0e736cbad75f695f442477601dc98c014160cc3c0761d1d9f6070d892",
+      "source_frozen_sha256": "5cce8b779d5c71be3b98af3c3f816f3c16322eeff6ddc1923be27badb16fac02",
+      "source_completion_sha256": "3d7fcb93d0bc7b50b412799801a940077e6681684735575b113500daaafccc93",
+      "source_publication_sha256": "051ded45dd899dce9d757fb060ce4a24d7fbeb18cce9762b15d176cb947d57c2",
+      "source_terminal_preservation_sha256": "1910c55cb826af0aed464221921dd6f9602c8d8afe88ad6227484db43d361a0d",
+      "bank_sha256": "8784dc4ea6df541d183146250670f13463c58d7877b468e5a481c0f4a10985a3"
+    },
+    {
+      "name": "utility45",
+      "role": "evolved",
+      "backend": "direct",
+      "source_config": "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json",
+      "source_config_sha256": "5e0486a5352d2e534b50265e3b902ac3aaa0c7d2c5107dd2b904f20a3191e894",
+      "source_frozen_sha256": "182e6cbf98e6ee7da8801ad7874554da50a071a91a8a4297e20d87b4fbea30ef",
+      "source_completion_sha256": "c7d099fbfd2eb147bc904cbaa5c66d723172213f2efcb592b07889d0eaae3c49",
+      "source_publication_sha256": "a1ed2f870bb1ec0aed0cbc7f5dae23045943852a49abad0dd06d5599ffa4c038",
+      "source_terminal_preservation_sha256": "2a3663d24664be400aa28a66a302ea725b8fc3d0970f817df6495506bedb06fc",
+      "source_snapshot": "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/utility_eval_20261030/openexempt_online__75c60a39c26b299dd590ad10eaccbeb546bc5a15c3fa33b37a7725a5b034e0a7.py",
+      "source_snapshot_sha256": "75c60a39c26b299dd590ad10eaccbeb546bc5a15c3fa33b37a7725a5b034e0a7",
+      "bank_sha256": "48746352543b1a75627eb3cc9480a2257f42107fde544080aefbadc9cd2fca5d"
+    },
+    {
+      "name": "utility_own_B1_45",
+      "role": "B1_frozen",
+      "backend": "direct",
+      "source_config": "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json",
+      "source_config_sha256": "5e0486a5352d2e534b50265e3b902ac3aaa0c7d2c5107dd2b904f20a3191e894",
+      "source_frozen_sha256": "182e6cbf98e6ee7da8801ad7874554da50a071a91a8a4297e20d87b4fbea30ef",
+      "source_completion_sha256": "c7d099fbfd2eb147bc904cbaa5c66d723172213f2efcb592b07889d0eaae3c49",
+      "source_publication_sha256": "e6477b728e24c3d2d8d312320d0c1abcd490dba664f6b2322b33ee2e9af1ef52",
+      "source_terminal_preservation_sha256": "2a3663d24664be400aa28a66a302ea725b8fc3d0970f817df6495506bedb06fc",
+      "source_snapshot": "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/utility_eval_20261030/openexempt_online__75c60a39c26b299dd590ad10eaccbeb546bc5a15c3fa33b37a7725a5b034e0a7.py",
+      "source_snapshot_sha256": "75c60a39c26b299dd590ad10eaccbeb546bc5a15c3fa33b37a7725a5b034e0a7",
+      "bank_sha256": "b4bcf4f2b0ac2027bd0a6764ea0e5275d64b3b451deff31a3dfbb06e4ee18896"
+    },
+    {
+      "name": "strict45",
+      "role": "ablation",
+      "backend": "direct",
+      "source_config": "configs/openexempt_v6_strict_policy_control_public_assets128_20261030_run01.json",
+      "source_config_sha256": "131ea75b8e583ea96b52a7f800fbf42454a981fd54d27fd32a4d0bc9e5ea47b7",
+      "source_frozen_sha256": "e4d8879c5b89a7f27c77e51965b8c76e37dbef01286e802808090f79ca1f79d9",
+      "source_completion_sha256": "f26a862fd0c91ad010fbefcdc64696e00f30475ff4c6d94d64b67a1a2a1558c4",
+      "source_publication_sha256": "6067553ce70cd3f120f3f2430ef0870b9ea06704a7c0ae9c9e8eac43cc37a9e1",
+      "source_terminal_preservation_sha256": "b2210b21ddb895c86a06aca4f7c016a6f0adef2614fc4db3fc507db76854540e",
+      "source_snapshot": "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/utility_eval_20261030/openexempt_online__75c60a39c26b299dd590ad10eaccbeb546bc5a15c3fa33b37a7725a5b034e0a7.py",
+      "source_snapshot_sha256": "75c60a39c26b299dd590ad10eaccbeb546bc5a15c3fa33b37a7725a5b034e0a7",
+      "bank_sha256": "df99b6f3f80a1a954644526aa942e48e4ac4fe1b81880d98b2abbaba21035c67"
+    },
+    {
+      "name": "no_execution45",
+      "role": "ablation",
+      "backend": "direct",
+      "source_config": "configs/openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01.json",
+      "source_config_sha256": "df9285bba8bf1a34005148daecee0db4aabe7ffd54e5129f7d8ce4fcb6856e28",
+      "source_frozen_sha256": "f4491e167db7ab88f81be042a4f27483ea22d4b3088d5bccd639600c89412a04",
+      "source_completion_sha256": "8559e895a60063c07a168359c6262c45b7c3ab29bcb734f72c2b8a525fb405f4",
+      "source_publication_sha256": "6beebd0d5e90a88e3d8b6d93829180928b2fc3fa57d2a4d64cc0155e3224b905",
+      "source_terminal_preservation_sha256": "1d4c3bbd44cc54ffd8e5e7785f1dfc8ba8283e54514e7480ba81c14b64b24b8b",
+      "source_snapshot": "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/utility_eval_20261030/openexempt_online__75c60a39c26b299dd590ad10eaccbeb546bc5a15c3fa33b37a7725a5b034e0a7.py",
+      "source_snapshot_sha256": "75c60a39c26b299dd590ad10eaccbeb546bc5a15c3fa33b37a7725a5b034e0a7",
+      "bank_sha256": "6478eaae6e3bb950894be14f472731ca36c2278026adf756834163ad4ba6f458"
+    },
+    {
+      "name": "projection45",
+      "role": "version_reference",
+      "backend": "direct",
+      "source_config": "configs/openexempt_task_projection_public_assets128_20261029_run01.json",
+      "source_config_sha256": "0e912b89d9e309018c09dd39a4a51d91baefe314355545ea5726c6208a5eeed2",
+      "source_frozen_sha256": "745c6353bb94b2158ee9beba3bacc2c809bc36926b44eaae648a7ecd31b4a678",
+      "source_completion_sha256": "f3157fdf8c7a92a4d67d60248527e12e757015f439d0250fc4d8f06bcba334fb",
+      "source_publication_sha256": "8485d5200eafec453f26246150eed26daab48554466b8e2df78b20ddf0ca14a0",
+      "source_terminal_preservation_sha256": "f8c0a8a6440842c195ef61117bc58569246b8244c8c291074c937a42931d7ffc",
+      "source_snapshot": "artifacts/research/openexempt_legal_scope_20261020/source_snapshots/utility_eval_20261030/openexempt_online__5506819916802511d647183e46a19bacf530b218e30ef57e49ae42eb390f6416.py",
+      "source_snapshot_sha256": "5506819916802511d647183e46a19bacf530b218e30ef57e49ae42eb390f6416",
+      "bank_sha256": "02b119a968c76f1e8a2c359f6d35e950012b53f83c9dc08251874401fd7e5702"
+    }
+  ],
+  "primary_contrasts": [
+    {
+      "name": "vs_empty",
+      "after": [
+        "utility45"
+      ],
+      "before": [
+        "empty"
+      ]
+    },
+    {
+      "name": "vs_static",
+      "after": [
+        "utility45"
+      ],
+      "before": [
+        "static"
+      ]
+    },
+    {
+      "name": "vs_ACE45",
+      "after": [
+        "utility45"
+      ],
+      "before": [
+        "ACE45"
+      ]
+    },
+    {
+      "name": "vs_ACE_common45",
+      "after": [
+        "utility45"
+      ],
+      "before": [
+        "ACE_common45"
+      ]
+    },
+    {
+      "name": "vs_text45",
+      "after": [
+        "utility45"
+      ],
+      "before": [
+        "text45"
+      ]
+    },
+    {
+      "name": "vs_utility_own_B1_45",
+      "after": [
+        "utility45"
+      ],
+      "before": [
+        "utility_own_B1_45"
+      ]
+    },
+    {
+      "name": "vs_strict45",
+      "after": [
+        "utility45"
+      ],
+      "before": [
+        "strict45"
+      ]
+    },
+    {
+      "name": "vs_no_execution45",
+      "after": [
+        "utility45"
+      ],
+      "before": [
+        "no_execution45"
+      ]
+    },
+    {
+      "name": "vs_projection45",
+      "after": [
+        "utility45"
+      ],
+      "before": [
+        "projection45"
+      ]
+    }
+  ],
+  "secondary_contrasts": []
+}

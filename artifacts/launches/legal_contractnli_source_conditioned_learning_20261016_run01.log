@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 324, in <module>
+    main()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 310, in main
+    value = worker(config, run_id, args.engineering)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/cli.py", line 215, in worker
+    study.execute()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/conditioned.py", line 705, in execute
+    self.initial_static()
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/conditioned.py", line 417, in initial_static
+    tokens = self.validate_library(self.static)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/sangfor/vdb/legal-skill-evolve/legal_skill_guard/learning/conditioned.py", line 385, in validate_library
+    raise ValueError("Duplicate trigger groups or phrases; no repair")
+ValueError: Duplicate trigger groups or phrases; no repair
