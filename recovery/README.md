@@ -1,8 +1,10 @@
 # Full-project recovery archive
 
-Archive preparation is in progress. Do not treat this initial source commit as
-proof that the full archive has already reached GitHub. The completed manifest
-and upload-verification record will identify the actual archived files and commits.
+The complete local archive has passed its compression-checksum test: 222,521 files,
+16,767,937,779 original file bytes, compressed to 2,876,429,131 bytes in 58 ordered
+parts. Each part is at most 48 MiB. Upload is in progress; the later
+`UPLOAD_VERIFIED.json` record, not this preparation note, will certify remote
+completion and independent re-download verification.
 
 ## Scope
 
@@ -17,15 +19,35 @@ Excluded: reinstallable Python environments, bytecode/test/lint caches, external
 model-weight directories, account tokens and private keys. The archive is not a
 machine image and does not claim to back up every directory on the server.
 
-## Restoration after upload completes
+## Verification and restoration after upload completes
 
-Archive parts will be under `recovery/full-project/`. Their ordered names, byte
-sizes and SHA-256 digests will be recorded in the manifest. First verify every
-part and concatenate in the manifest's order; verify the combined archive hash
-before decompressing. Extract only into a newly created empty directory, never
-over an existing project. The `project/` archive prefix contains the original
-scientific workspace. Other prefixes contain external research-worktree and
-writing-skill copies.
+Archive parts are under `recovery/full-project/`. `archive_manifest.json` records
+their ordered names, byte sizes and SHA-256 digests. `files_manifest.json.gz`
+records the individual archived-file hashes. The local-creation status in
+`archive_manifest.json` is historical; remote upload status is recorded separately.
+
+On Ubuntu, from a fresh clone of this branch:
+
+```bash
+cd recovery/full-project
+sha256sum -c PARTS.SHA256
+cat legal-skill-evolve-complete-20261101.tar.zst.part[0-9][0-9][0-9][0-9] | sha256sum
+```
+
+The combined hash must be
+`d38510d3b7d7e34267897bd0274de3dfa4ee85bbe13d633fa6707adee3de7fa8`.
+After all checks pass, extract into a new empty temporary directory:
+
+```bash
+legal_restore_directory=$(mktemp -d)
+cat legal-skill-evolve-complete-20261101.tar.zst.part[0-9][0-9][0-9][0-9] | zstd --decompress --long=27 | tar --extract --no-same-owner --directory "$legal_restore_directory"
+```
+
+Never extract over an existing project. The `project/` archive prefix contains
+the original scientific workspace. Other prefixes contain external research
+worktree and writing-skill copies. The archive is a point-in-time snapshot;
+later backup-navigation documents, including `PROJECT_MAP.md`, are also retained
+as ordinary files in this GitHub branch.
 
 Recreate the Python environment from `pyproject.toml` and `uv.lock`; restore model
 weights separately from their recorded upstream identifiers. The archived Git

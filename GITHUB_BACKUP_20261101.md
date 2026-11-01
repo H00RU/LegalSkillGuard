@@ -5,6 +5,7 @@ The repository's existing `main` branch is not overwritten.
 
 ## Read the current work
 
+- Source map and active/historical entry points: [PROJECT_MAP.md](PROJECT_MAP.md).
 - Current status and scientific boundaries: [docs/CURRENT_GOAL.md](docs/CURRENT_GOAL.md).
 - English manuscript source: [paper/utility_skill_manuscript_working_20261030.md](paper/utility_skill_manuscript_working_20261030.md).
 - English Word/PDF: [Word](artifacts/research/manuscript_review_20261030/utility_v6_bilingual_completed_frozen_v09_20261101/utility_v6_working_en.docx), [PDF](artifacts/research/manuscript_review_20261030/utility_v6_bilingual_completed_frozen_v09_20261101/utility_v6_working_en.pdf).
@@ -15,7 +16,8 @@ The repository's existing `main` branch is not overwritten.
 The English manuscript is the submission master; the Chinese manuscript is separate auxiliary material.
 The source tree, configuration, old manuscript versions, tests, current figures,
 research reports and writing skills are retained. No scientific source is changed
-to perform this upload. The original local worktree and its index remain untouched.
+to perform this upload. Existing scientific files and the original Git index are
+unchanged; a new `PROJECT_MAP.md` supplies navigation without moving any files.
 
 ## Raw research data and recovery
 
