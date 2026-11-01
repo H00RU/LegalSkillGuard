@@ -60,6 +60,9 @@ as ordinary files in this source branch.
 
 Recreate dependencies from `pyproject.toml`, `uv.lock` and
 `ops/inference-requirements.txt`; obtain external model weights separately.
+Create the runtime environment in a separate directory or a fresh code clone.
+Do not remove or recreate the archived `project/.venv` tree: it contains preserved
+research worktrees, not the excluded Python environment packages.
 Archived Git worktree metadata contains old absolute paths. Use a fresh clone
 for normal Git operations and inspect old paths before reconnecting historical
 worktrees. No archived code, restored training or model service is automatically
