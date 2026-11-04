@@ -18,6 +18,8 @@ The v16 revision centers on continued classification learning beyond the initial
 
 ## Source and experimental evidence
 
+The v16 data commit `c57fd7fd82919d80682859522193ba20f81feb0f` was independently fetched from GitHub: all 205 updated files (334,547,708 bytes), including all seven supplementary volumes, matched SHA256. See the [verification receipt](recovery/updates/20261104_v16/UPLOAD_VERIFIED.json). The receipt/navigation commit follows that verified data commit; original main and prior versions remain intact.
+
 - [Project source map](PROJECT_MAP.md)
 - [Eleven-condition results](paper/tables/utility_frozen_results_with_skillcommit_20261104.json)
 - [Actual source-disjoint evaluation and reproduction guide](docs/research/PAPER_REPRODUCTION_GUIDE_20261102.md)
