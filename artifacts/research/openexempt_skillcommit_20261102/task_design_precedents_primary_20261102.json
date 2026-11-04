@@ -1,0 +1,42 @@
+{
+  "checked_at_utc": "2026-11-02T05:04:29Z",
+  "purpose": "Primary-source precedents for current task conditions; not new experiments, method changes, or evidence of acceptance.",
+  "precedents": [
+    {
+      "setting": "Configurable difficulty and bounded legal subtask",
+      "work": "OpenExempt: A Diagnostic Benchmark for Legal Reasoning and a Framework for Creating Custom Benchmarks on Demand",
+      "year": 2026,
+      "source": "https://arxiv.org/html/2601.13183v1#S4.SS2",
+      "supports": "Authors explicitly design configurable complexity and lower/upper competency tiers, and identify on-demand controlled task generation as a framework contribution.",
+      "does_not_establish": "Our specific 2–4-asset setting is optimal or its scores rank against the official Advanced suite."
+    },
+    {
+      "setting": "Known earlier legal-reasoning results as task inputs",
+      "work": "OpenExempt task variants and Reasoning Decomposition suite",
+      "source": "https://github.com/servantez/OpenExempt#openexempt-tasks",
+      "supports": "Framework allows some/all predecessor steps to be solved and supplied in the prompt; official Reasoning Decomposition suite studies this setting.",
+      "current_project_boundary": "AE jurisdiction result given to both EC/EV; current EC/EV targets hidden from executor; no EC answer supplied to EV.",
+      "does_not_establish": "End-to-end jurisdiction inference or full legal consultation capability."
+    },
+    {
+      "setting": "Public candidate units and fixed legal hypotheses",
+      "work": "ContractNLI: A Dataset for Document-level Natural Language Inference for Contracts",
+      "venue": "Findings of EMNLP 2021",
+      "source": "https://aclanthology.org/2021.findings-emnlp.164/",
+      "author_dataset_spec": "https://stanfordnlp.github.io/contract-nli/",
+      "supports": "NLI over fixed hypotheses; evidence identification is multi-label classification over sentence/list-item spans, whose candidate boundaries are public and whose correct evidence indices are target annotations.",
+      "analogy_limit": "A precedent for public candidate units, not an exact reproduction of our asset lexicon, legal citation vocabulary, or constrained schema."
+    },
+    {
+      "setting": "Input-dependent output grammars",
+      "work": "Grammar-Constrained Decoding for Structured NLP Tasks without Finetuning",
+      "venue": "EMNLP 2023",
+      "source": "https://aclanthology.org/2023.emnlp-main.674/",
+      "supports": "Input-dependent grammars constrain structured output spaces without weight updates.",
+      "analogy_limit": "General NLP rather than a legal skill-evolution paper; structured decoding can affect performance and is shared experimental infrastructure, not our new mechanism."
+    }
+  ],
+  "assessment": "These conditions can define a valid controlled legal task when fixed, disclosed, and shared by all arms. The empirical claim concerns incremental skill utility within these conditions; paper must not attribute shared interface help to the learned library or compare absolute scores with a different native benchmark protocol.",
+  "new_model_or_teacher_calls": 0,
+  "live_source_or_scores_modified": false
+}

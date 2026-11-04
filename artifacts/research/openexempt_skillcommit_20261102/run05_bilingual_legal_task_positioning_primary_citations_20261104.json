@@ -1,0 +1,67 @@
+{
+  "recorded_UTC": "2026-11-03 18:13:43 UTC",
+  "before": {
+    "paper/utility_skill_manuscript_working_20261030.md": {
+      "sha256": "8709962c303afdc0e87c29c04fc9ec46be935175b7d7f3856c9c8f74a3a66c53",
+      "through_abstract_sha256": "2fe9ac6f0b79d38115cf52e78e8d2f80bf3939251b36be4bacd70ee47f261606",
+      "section3_to_end_sha256": "d6feda67e4c8c7467e4fed8cc281fd192976fb3b4eb714fa5df4498c479f44d3"
+    },
+    "paper/sections-zh/utility_skill_manuscript_working_20261030.md": {
+      "sha256": "2ed75698eb121870426d5267a194a318598bb2739d79d2f2db080daf0b629cd3",
+      "through_abstract_sha256": "5f441c059474b16eabafc7ad50a004f3e80ea47e02b30ce7ff8c0e3f0d0a7535",
+      "section3_to_end_sha256": "1ba885f35015ad62b84c4a5b60862c30897aa187cc2182da0a3d23413d164954"
+    },
+    "paper/utility_skill_references_20261030.bib": {
+      "sha256": "cd2e02e7a19b183cf4618981e9515bd0d714f647f6de06105bc5916895e18501"
+    }
+  },
+  "current": {
+    "paper/utility_skill_manuscript_working_20261030.md": {
+      "sha256": "ae44f9a3e606c32e866f737db09e9915d1c76d4731430eb34bdfe7900e2f4834",
+      "through_abstract_sha256": "2fe9ac6f0b79d38115cf52e78e8d2f80bf3939251b36be4bacd70ee47f261606",
+      "section3_to_end_sha256": "d6feda67e4c8c7467e4fed8cc281fd192976fb3b4eb714fa5df4498c479f44d3"
+    },
+    "paper/sections-zh/utility_skill_manuscript_working_20261030.md": {
+      "sha256": "675e45f58061d7655fe229add90813bfd7b3c9350f8f46bbc650cb4deeb0679c",
+      "through_abstract_sha256": "5f441c059474b16eabafc7ad50a004f3e80ea47e02b30ce7ff8c0e3f0d0a7535",
+      "section3_to_end_sha256": "1ba885f35015ad62b84c4a5b60862c30897aa187cc2182da0a3d23413d164954"
+    },
+    "paper/utility_skill_references_20261030.bib": {
+      "sha256": "bcc04cb51fba860e6bd8c96118f5d3836242f501b2e87eeaae3af0333308bbaf"
+    }
+  },
+  "old_eight_bibliography_entries_preserved_byte_prefix": true,
+  "parsed_bibliography_entries": 11,
+  "all_eleven_primary_urls_cited_in_both_manuscripts": true,
+  "new_bibkeys": [
+    "guha2023legalbench",
+    "holzenberger2021factoring",
+    "dallanoce2026justifit"
+  ],
+  "pandoc_stderr": "",
+  "scope": "Three concise legal-task positioning citations only; abstract and sections3-to-end unchanged, including all methods/results/numeric tables; no experiment source/config/protocol or model call.",
+  "edited_manuscripts_and_bib_unbound": true,
+  "original_ten_condition_table_unchanged": true,
+  "primary_claim_checks": [
+    {
+      "claim": "LegalBench distinguishes rule recall, rule application and rule conclusion, with explanation assessment distinct from answer-outcome scoring.",
+      "url": "https://arxiv.org/html/2308.11462v1",
+      "sections": "3.1–3.2; rule-application/rule-conclusion definitions",
+      "used_for": "Problem positioning only; no claim of matching its benchmark scores or explanation-quality endpoint."
+    },
+    {
+      "claim": "Statutory reasoning can be decomposed into language-understanding subtasks for finer-grained diagnosis.",
+      "url": "https://aclanthology.org/2021.acl-long.213/",
+      "fulltext": "https://aclanthology.org/2021.acl-long.213.pdf",
+      "sections": "Abstract, introduction and section2 targeted verification; not a claim to have replicated its Prolog-based decomposition."
+    },
+    {
+      "claim": "JustifIT-QA studies statutory retrieval and judge-guided answer refinement.",
+      "url": "https://aclanthology.org/2026.emnlp-main.593/",
+      "fulltext": "https://aclanthology.org/2026.emnlp-main.593.pdf",
+      "sections": "Abstract; section5.2 and Algorithm1; introduction/relatedwork; no new comparator arm or cross-paper score rank."
+    }
+  ],
+  "validation_command": ".venv/bin/python - <<'PY'\nimport json,hashlib,subprocess,re\nfrom pathlib import Path\nbefore=json.loads(\"{\\\"paper/utility_skill_manuscript_working_20261030.md\\\":{\\\"sha256\\\":\\\"8709962c303afdc0e87c29c04fc9ec46be935175b7d7f3856c9c8f74a3a66c53\\\",\\\"through_abstract_sha256\\\":\\\"2fe9ac6f0b79d38115cf52e78e8d2f80bf3939251b36be4bacd70ee47f261606\\\",\\\"section3_to_end_sha256\\\":\\\"d6feda67e4c8c7467e4fed8cc281fd192976fb3b4eb714fa5df4498c479f44d3\\\"},\\\"paper/sections-zh/utility_skill_manuscript_working_20261030.md\\\":{\\\"sha256\\\":\\\"2ed75698eb121870426d5267a194a318598bb2739d79d2f2db080daf0b629cd3\\\",\\\"through_abstract_sha256\\\":\\\"5f441c059474b16eabafc7ad50a004f3e80ea47e02b30ce7ff8c0e3f0d0a7535\\\",\\\"section3_to_end_sha256\\\":\\\"1ba885f35015ad62b84c4a5b60862c30897aa187cc2182da0a3d23413d164954\\\"},\\\"paper/utility_skill_references_20261030.bib\\\":{\\\"sha256\\\":\\\"cd2e02e7a19b183cf4618981e9515bd0d714f647f6de06105bc5916895e18501\\\"}}\")\nsha=lambda data:hashlib.sha256(data).hexdigest()\ncurrent={}\nfor p,d in before.items():\n s=Path(p).read_text();new={'sha256':sha(Path(p).read_bytes())}\n if p.endswith('.md'):\n  new['through_abstract_sha256']=sha(s.split('## 1.',1)[0].encode())\n  new['section3_to_end_sha256']=sha(s.split('## 3.',1)[1].encode())\n  assert new['through_abstract_sha256']==d['through_abstract_sha256']\n  assert new['section3_to_end_sha256']==d['section3_to_end_sha256']\n current[p]=new\nbib=Path('paper/utility_skill_references_20261030.bib').read_bytes()\nold=Path('artifacts/research/manuscript_review_20261030/utility_v6_bilingual_conditions_update_v12_20261102/utility_skill_references_20261030.bib').read_bytes()\nassert sha(old)==before['paper/utility_skill_references_20261030.bib']['sha256'] and bib.startswith(old)\ncmd=['/home/yndx/hhy/.paper-tools/pandoc-3.13/bin/pandoc','--from=biblatex','--to=csljson','paper/utility_skill_references_20261030.bib']\nx=subprocess.run(cmd,check=True,capture_output=True,text=True);entries=json.loads(x.stdout)\nassert len(entries)==11 and len({x['id'] for x in entries})==11\nnewkeys=['guha2023legalbench','holzenberger2021factoring','dallanoce2026justifit']\nfor p in before:\n if not p.endswith('.md'):continue\n s=Path(p).read_text()\n for e in entries:\n  url=e.get('URL')\n  assert url and url in s,(p,e['id'],url)\nfor name in ['configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json','configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json']:\n d=json.loads(Path(name).read_text())['files']\n assert all(p not in d for p in before)\nassert sha(Path('paper/tables/utility_frozen_results_20261101.json').read_bytes())=='3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732'\nprint(json.dumps({'before':before,'current':current,'old_eight_bibliography_entries_preserved_byte_prefix':True,'parsed_bibliography_entries':len(entries),'all_eleven_primary_urls_cited_in_both_manuscripts':True,'new_bibkeys':newkeys,'pandoc_stderr':x.stderr,'scope':'Three concise legal-task positioning citations only; abstract and sections3-to-end unchanged, including all methods/results/numeric tables; no experiment source/config/protocol or model call.', 'edited_manuscripts_and_bib_unbound':True,'original_ten_condition_table_unchanged':True},ensure_ascii=False))\nPY",
+  "remaining_work": "Frozen TEST incomplete. Final integration/export will verify all11 references, rather than reusing the previous v12 eight-reference export's count."
+}

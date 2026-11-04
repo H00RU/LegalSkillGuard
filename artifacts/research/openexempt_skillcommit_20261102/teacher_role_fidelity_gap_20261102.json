@@ -1,0 +1,77 @@
+{
+  "at_UTC": "2026-11-01T23:24:31.986836+00:00",
+  "classification": "scientific_fidelity_gap_identified_read_only_not_a_score_cause_claim",
+  "current_run": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run03",
+  "primary_source": "https://arxiv.org/html/2608.15165v2#A1.SS1",
+  "local_primary_source": "peer-papers/20261023-scope-consolidation/skillcommit_2608.15165v2.html",
+  "primary_scope": "The paper's principal Appendix A.1 patch-author template, illustrated on NBA, names the same weak solver as the patch writer and supplies a verifier-accepted training-only teacher trace. This is documentary evidence about the displayed pipeline, not access to author code for each task.",
+  "current_implementation": {
+    "module": "legal_skill_guard/learning/skillcommit.py",
+    "runner": "experiments/openexempt_skillcommit.py",
+    "runner_sha256": "a3085127223729d13ef233f7b80d0a0cd68eb9c421efb7e0f7eba63005faf852",
+    "actual_patch_response": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run03/teacher/000001_patch_request/response.json",
+    "actual_patch_response_model": "gpt-5.6-sol",
+    "actual_patch_fields": [
+      "repairable",
+      "public_reference_explanation",
+      "failure_diagnosis",
+      "repair_memory",
+      "contains_instance_solution",
+      "confidence"
+    ],
+    "flow": "One strong-teacher response combines reference explanation, diagnosis and repair, then the original 8B solves the source with the repair. No separate weak patch-author call or structured teacher-reference answer verification is implemented.",
+    "retained_core": "K3 local validation, behavioral compatibility, full-scope abstraction replay and split remain implemented."
+  },
+  "interpretation": {
+    "explicitly_report_additional_role_mapping_adaptation": true,
+    "not_fully_equivalent_to_the_displayed_A1_role_split": true,
+    "not_proof_the_current_scores_are_low_because_of_this": true,
+    "replacing_strong_patch_writer_with_weak_writer_is_not_known_to_improve_scores": true,
+    "do_not_silently_count_current_adaptation_as_exact_author_reproduction": true
+  },
+  "proposed_if_authorized": "Preserve and stop run03 at an artifact-safe boundary; implement the displayed verified-reference then weak-patch-author sequence, retain task solver model/data/grader/K/L, explicitly freeze all role settings under a new Run ID; no import of run03 memories or answers, no result selection, no added paid service.",
+  "user_direction_request": {
+    "tool": "request_user_input_async",
+    "submitted": true,
+    "options": [
+      "Preserve, align the displayed role split and restart (recommended)",
+      "Continue the present adaptation with the role difference explicitly disclosed"
+    ],
+    "pending": true
+  },
+  "current_run_while_pending": "Remains running and monitored; no scientific source or protocol is edited, no automatic restart.",
+  "goal_status": "active",
+  "latest_observed_run": {
+    "observed_UTC": "2026-11-01T23:24:32.051195+00:00",
+    "service": {
+      "MainPID": "1555448",
+      "Result": "success",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "progress": {
+      "at": "2026-11-01T23:24:31.147086+00:00",
+      "state": "running",
+      "phase": "construction",
+      "stage": "arrival_complete",
+      "current_batch": 1,
+      "current_document_id": null,
+      "first_encounter_tasks": 17,
+      "completed_native_calls": 73,
+      "completed_teacher_calls": 47,
+      "teacher_attempts": 47,
+      "active_patterns": {
+        "EC": 0,
+        "EV": 0
+      },
+      "residual_patches": {
+        "EC": 3,
+        "EV": 1
+      }
+    },
+    "failure": false,
+    "build": false,
+    "complete": false
+  },
+  "no_new_experiment_or_model_calls_for_this_audit": true
+}

@@ -1,0 +1,167 @@
+{
+  "observed_UTC": "2026-11-02T10:19:42.181294+00:00",
+  "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05",
+  "classification": "Actual B3 new high-level EV pattern after complete native replay; no new inference, teacher, tokenizer or grading calls by this analysis.",
+  "pattern": {
+    "id": "sc_ev_e5e1596de90eee1bc482",
+    "family": "EV",
+    "kind": "pattern",
+    "description": {
+      "when": "Use for exact-JSON exemption-mapping tasks that require every independently applicable asset–exemption pair for each required asset.",
+      "repair": "For each proposed pair, first verify from the stated facts and operative statute that the asset fits the statutory category and that all required ownership, use, and other conditions are established; citation availability is not evidence of eligibility. Delete unsupported pairs before calculation. For each supported pair, set claim_value to the lesser of the qualifying property interest, asset value, and applicable statutory ceiling, and omit zero-value claims. Then audit that every required asset key appears exactly once, each supported citation appears at most once, only permitted citation labels are used, no claim is duplicated, and [] is used only when no pair survives. Return complete, syntactically valid JSON.",
+      "avoid_when": "Do not use citation vocabulary, hypothetical fit, or unstated facts to infer ownership, eligibility, prescribed status, trade use, or any other statutory condition. Do not emit unsupported or zero-value objects or force every available citation into the output. A genuinely eligible interest worth zero should ordinarily be omitted unless the output contract expressly requires zero-valued claims. There are no additional exclusions justified by the supplied evidence."
+    },
+    "sources": [
+      199,
+      215
+    ],
+    "parent": null
+  },
+  "absorbed_residual_ids": [
+    "sc_ev_59fed64c3d0008835001",
+    "sc_ev_fb19a9f722fb93f522bb"
+  ],
+  "remaining_active_EV_ids": [
+    "sc_ev_43b024b64e2381ff7103",
+    "sc_ev_e5e1596de90eee1bc482"
+  ],
+  "remaining_residual_EV_ids": [
+    "sc_ev_75a12279f8fc45da1459",
+    "sc_ev_5e8126ad024581db1a64",
+    "sc_ev_2b7c37b30cfc4367489a"
+  ],
+  "EV_deployable_records_before_commit": 6,
+  "EV_deployable_records_after_commit": 5,
+  "scope_replay_records": [
+    {
+      "case_id": 199,
+      "source_key": "f365ed474fc53d1ebdf28a7c3f136b20ef9200046c0a768e14cb2fc9ffe9a1d9",
+      "family": "EV",
+      "passed": true,
+      "native_F1": 1,
+      "complete_output_F1": 1,
+      "parse_error": null,
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000709_replay/199_EV_skillcommit_replay.json",
+      "actual_model": "Qwen/Qwen3-8B",
+      "actual_output_limit": 8192,
+      "actual_enable_thinking": true,
+      "finish_reasons": [
+        "stop"
+      ],
+      "usage": {
+        "prompt_tokens": 6840,
+        "total_tokens": 8026,
+        "completion_tokens": 1186,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": 215,
+      "source_key": "74dd6b185d226a0379294dea7bdedb679dc05c273e11ccea9602b465223cb6d3",
+      "family": "EV",
+      "passed": true,
+      "native_F1": 1,
+      "complete_output_F1": 1,
+      "parse_error": null,
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000709_replay/215_EV_skillcommit_replay.json",
+      "actual_model": "Qwen/Qwen3-8B",
+      "actual_output_limit": 8192,
+      "actual_enable_thinking": true,
+      "finish_reasons": [
+        "stop"
+      ],
+      "usage": {
+        "prompt_tokens": 6879,
+        "total_tokens": 8831,
+        "completion_tokens": 1952,
+        "prompt_tokens_details": null
+      }
+    }
+  ],
+  "incoming_source215_original_first_answer": {
+    "native_F1": 0,
+    "complete_output_F1": 0,
+    "parse_error": "Incomplete native output: length",
+    "finish_reasons": [
+      "length"
+    ],
+    "usage": {
+      "prompt_tokens": 7837,
+      "total_tokens": 16029,
+      "completion_tokens": 8192,
+      "prompt_tokens_details": null
+    },
+    "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/215_EV_skillcommit.json"
+  },
+  "source_files_sha256": {
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000710_pattern_commit.json": "81592aa8146bf489c00b4bec7b6a416af408275e359b6260d68d1937ecf140e7",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000709_replay.json": "5746f28cc9d2b5fb1599e2f4b273b4e6f4f903350f82475bfe7c9600bc000e30",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/replays/000709_replay.json": "c57a0d6fc27e3ff3261b67e3441c11283eafaf7d4e93542ec1858e44370e6d1c",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000709_replay/199_EV_skillcommit_replay.json": "bf52f2cd21f540c8c4765ddb3c6b4afe255327fd410c3b127a4473136be365cb",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000709_replay/199_EV_skillcommit_replay.input.json": "fa1cd28d0a02e5c9360ecaee71ebc007429e0140b9fd7cd8889cc14c2165ef01",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000709_replay/215_EV_skillcommit_replay.json": "7b509db2132ba3f04b2169d360e2702a19d0891b44ac403b8d88d58242bef337",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000709_replay/215_EV_skillcommit_replay.input.json": "c956b95984f17103d59847e8c49cf6716611d613c0d9ca7860688ec044d9b9eb",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/215_EV.json": "808c616ca8352d529e4b761ad057aa7d982eb0b5d9a17d4006e643de5a76944d",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/215_EV_skillcommit.json": "f1ef03cb032ee94224d0dbc5756abfb4f6c41e05290018eebc3324d75ebe4cbe"
+  },
+  "limits": [
+    "Passing both TRAIN sources proves the recorded source-retention check, not new-source or TEST generalization.",
+    "The original source215 first answer hit the unchanged 8192 output cap and remains a scored failure. A later successful replay does not replace it.",
+    "No claim yet that the new pattern improves the next unseen EV source or the whole B3 batch.",
+    "The shared procedure is eligibility gating, value capping and output audit. This observational trace does not isolate the causal effect of any single instruction."
+  ],
+  "next_unseen_EV_actual_followup": {
+    "followup_observed_UTC": "2026-11-02T10:28:52.551684+00:00",
+    "case_id": 216,
+    "family": "EV",
+    "source_key": "34d289a9b773e26e39a8654fb6874da68c71acd70c8db586370cee9088382bf6",
+    "retrieval_record": {
+      "memory_ids": [
+        "sc_ev_43b024b64e2381ff7103",
+        "sc_ev_75a12279f8fc45da1459",
+        "sc_ev_2b7c37b30cfc4367489a",
+        "sc_ev_5e8126ad024581db1a64"
+      ],
+      "similarities": [
+        0.8121768951600252,
+        0.7525355552169913,
+        0.7314276536627781,
+        0.7274727540335093
+      ],
+      "tokens": 1287,
+      "query_is_original_public_prompt_only": true
+    },
+    "actual_rendered_memory_ids": [
+      "sc_ev_2b7c37b30cfc4367489a",
+      "sc_ev_43b024b64e2381ff7103",
+      "sc_ev_5e8126ad024581db1a64",
+      "sc_ev_75a12279f8fc45da1459"
+    ],
+    "new_EV_pattern_id": "sc_ev_e5e1596de90eee1bc482",
+    "new_pattern_in_actual_native_request": false,
+    "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/216_EV_skillcommit.json",
+    "input_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/216_EV_skillcommit.input.json",
+    "native_F1": 0.35,
+    "complete_output_F1": 0.35294117647058826,
+    "parse_error": null,
+    "actual_finish_reasons": [
+      "stop"
+    ],
+    "usage": {
+      "prompt_tokens": 7585,
+      "total_tokens": 10279,
+      "completion_tokens": 2694,
+      "prompt_tokens_details": null
+    },
+    "source_files_sha256": {
+      "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/216_EV.json": "5c3eba2d09c41f9cdf24c876e6953cba4baff5ccec5a40f79925e8c3356aaf72",
+      "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/216_EV_skillcommit.json": "5a4bbf603316487cc2051f1049771d704c92f0771ba178d880a99aba309c4148",
+      "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/216_EV_skillcommit.input.json": "13752e068a20ac3d23c54bc146015af6fd0a8b66612b5eb7e8ffe66d3b6703d1"
+    },
+    "interpretation": "The new pattern existed, but the next unseen EV source received the fixed top-four set without it. The valid low-scoring first answer is retained; it cannot establish the new pattern helped or harmed that source. This is actual configured retrieval, not a new routing failure, causal test, or reason to change the frozen run.",
+    "analysis_command": ".venv/bin/python - <<'PY'\nimport hashlib,json\nfrom datetime import datetime,timezone\nfrom pathlib import Path\nroot=Path('runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05')\nforecast_path=root/'forecasts/216_EV.json'; d=json.loads(forecast_path.read_text());r=d['record'];delivery=d['delivery']\nraw_path=Path(r['raw_call_path']);input_path=raw_path.with_suffix('.input.json');inp=json.loads(input_path.read_text());raw=json.loads(raw_path.read_text());wire=raw['calls'][0]['request'];response=raw['calls'][0]['response']\nmessages=[m['content'] for m in wire['messages'] if isinstance(m.get('content'),str) and m['content'].startswith('Background reusable skills.')]\nassert len(messages)==1\nmemories=json.loads(messages[0].split('\\n',1)[1]); ids=[x['id'] for x in memories]\nassert set(ids)==set(delivery['memory_ids'])==set(inp['delivered_skill_ids'])\nnew='sc_ev_e5e1596de90eee1bc482'\nassert new not in ids and len(ids)==4\nout={'followup_observed_UTC':datetime.now(timezone.utc).isoformat(),'case_id':r['case_id'],'family':r['family'],'source_key':r['source_key'],'retrieval_record':delivery,'actual_rendered_memory_ids':ids,'new_EV_pattern_id':new,'new_pattern_in_actual_native_request':False,'raw_call_path':str(raw_path),'input_path':str(input_path),'native_F1':r['score']['f1'],'complete_output_F1':r['score']['full_output_f1'],'parse_error':r['parse_error'],'actual_finish_reasons':[x['finish_reason'] for x in response['choices']],'usage':response['usage'],'source_files_sha256':{str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in (forecast_path,raw_path,input_path)},'interpretation':'The new pattern existed, but the next unseen EV source received the fixed top-four set without it. The valid low-scoring first answer is retained; it cannot establish the new pattern helped or harmed that source. This is actual configured retrieval, not a new routing failure, causal test, or reason to change the frozen run.'}\nprint(json.dumps(out,ensure_ascii=False))\nPY"
+  },
+  "scientific_source_or_protocol_modified": false,
+  "original_first_answer_or_score_replaced": false,
+  "analysis_command": ".venv/bin/python - <<'PY'\nimport hashlib,json\nfrom datetime import datetime,timezone\nfrom pathlib import Path\nroot=Path('runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05')\nsha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()\ncommit_path=root/'events/000710_pattern_commit.json'\nevent_path=root/'events/000709_replay.json'\nreplay_path=root/'replays/000709_replay.json'\ncommit=json.loads(commit_path.read_text()); event=json.loads(event_path.read_text()); rows=json.loads(replay_path.read_text())\nassert commit['memory']==event['memory']\nassert {r['case_id'] for r in rows}==set(commit['memory']['sources'])=={199,215}\nchecks=[]; files=[commit_path,event_path,replay_path]\nfor r in rows:\n raw_path=Path(r['raw_call_path']); raw=json.loads(raw_path.read_text()); files.extend([raw_path,raw_path.with_suffix('.input.json')])\n assert r['passed'] and r['parse_error'] is None and r['score']['f1']==1 and r['score']['full_output_f1']==1\n assert raw['transport_error'] is None and len(raw['calls'])==1\n wire=raw['calls'][0]['request']; response=raw['calls'][0]['response']\n checks.append({'case_id':r['case_id'],'source_key':r['source_key'],'family':r['family'],'passed':r['passed'],'native_F1':r['score']['f1'],'complete_output_F1':r['score']['full_output_f1'],'parse_error':r['parse_error'],'raw_call_path':str(raw_path),'actual_model':wire['model'],'actual_output_limit':wire['max_tokens'],'actual_enable_thinking':wire.get('chat_template_kwargs',{}).get('enable_thinking',True),'finish_reasons':[c.get('finish_reason') for c in response['choices']],'usage':response['usage']})\nforecast_path=root/'forecasts/215_EV.json';forecast=json.loads(forecast_path.read_text())['record']; files.append(forecast_path)\nfirst_raw=Path(forecast['raw_call_path']);files.append(first_raw)\nfirst_response=json.loads(first_raw.read_text())['calls'][0]['response']\nout={'observed_UTC':datetime.now(timezone.utc).isoformat(),'run_id':root.name,'classification':'Actual B3 new high-level EV pattern after complete native replay; no new inference, teacher, tokenizer or grading calls by this analysis.','pattern':commit['memory'],'absorbed_residual_ids':commit['members'],'remaining_active_EV_ids':commit['active_patterns'],'remaining_residual_EV_ids':commit['residual_patches'],'EV_deployable_records_before_commit':len(commit['active_patterns'])-1+len(commit['residual_patches'])+len(commit['members']),'EV_deployable_records_after_commit':len(commit['active_patterns'])+len(commit['residual_patches']),'scope_replay_records':checks,'incoming_source215_original_first_answer':{'native_F1':forecast['score']['f1'],'complete_output_F1':forecast['score']['full_output_f1'],'parse_error':forecast['parse_error'],'finish_reasons':[x['finish_reason'] for x in first_response['choices']],'usage':first_response['usage'],'raw_call_path':str(first_raw)},'source_files_sha256':{str(p):sha(p) for p in files},'limits':['Passing both TRAIN sources proves the recorded source-retention check, not new-source or TEST generalization.','The original source215 first answer hit the unchanged 8192 output cap and remains a scored failure. A later successful replay does not replace it.','No claim yet that the new pattern improves the next unseen EV source or the whole B3 batch.','The shared procedure is eligibility gating, value capping and output audit. This observational trace does not isolate the causal effect of any single instruction.'],'scientific_source_or_protocol_modified':False,'original_first_answer_or_score_replaced':False}\nprint(json.dumps(out,ensure_ascii=False))\nPY"
+}

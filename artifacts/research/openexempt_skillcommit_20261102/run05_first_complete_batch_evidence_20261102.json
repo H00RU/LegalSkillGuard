@@ -1,0 +1,81 @@
+{
+  "observed_at_utc": "2026-11-02T05:06:56Z",
+  "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05",
+  "role": "SkillCommit independently implemented paper adaptation; not a new main-method training",
+  "source": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/batches/b1.json",
+  "source_sha256": "f0e5ca1d26cc66c40df9425e2eb51153c18b9719c926d102f39556dde8500f6f",
+  "batch": 1,
+  "source_cases": 16,
+  "first_encounter_tasks": 32,
+  "first_encounter_metrics": {
+    "EC": {
+      "native_f1": 0.6712549603174602,
+      "full_output_f1": 0.7123404917522564,
+      "invalid_format": 0
+    },
+    "EV": {
+      "native_f1": 0.6197916666666667,
+      "full_output_f1": 0.6187470821661999,
+      "invalid_format": 0
+    }
+  },
+  "library": {
+    "EC": {
+      "active_patterns": 2,
+      "residual_patches": 3,
+      "active_supported_sources": [
+        [
+          182,
+          183
+        ],
+        [
+          185,
+          187,
+          188
+        ]
+      ],
+      "residual_sources": [
+        190,
+        191,
+        195
+      ]
+    },
+    "EV": {
+      "active_patterns": 1,
+      "residual_patches": 1,
+      "active_supported_sources": [
+        [
+          189,
+          190
+        ]
+      ],
+      "residual_sources": [
+        186
+      ]
+    },
+    "total_deployable_memories": 7,
+    "per_request_maximum_delivered": 4
+  },
+  "cost": {
+    "actual_native_calls": 180,
+    "actual_teacher_responses": 117,
+    "service_start_utc": "2026-11-02T00:41:31Z",
+    "batch_file_time_utc": "2026-11-02T04:59:20.341083+00:00",
+    "wall_seconds_from_service_start": 15469.341083288193,
+    "wall_not_gpu_hours": true
+  },
+  "continuation": {
+    "real_service": "legal-skillcommit-paper-20261102-run05.service",
+    "pid": 1837514,
+    "pid_birth_ticks": 558660848,
+    "model_pid": 958223,
+    "model_pid_birth_ticks": 486445918,
+    "current_batch": 2,
+    "first_encounter_tasks": 35,
+    "completed_native_calls": 186,
+    "completed_teacher_calls": 121
+  },
+  "interpretation": "B1 task-online first answers can use earlier admitted same-stream memories but precede their own teacher feedback. These TRAIN source scores are not the existing TEST empty-bank scores, post-label replay scores or frozen-library TEST performance; do not subtract unlike cohorts.",
+  "new_experiment_launched": false,
+  "scientific_changes": false
+}

@@ -1,0 +1,68 @@
+{
+  "recorded_UTC": "2026-11-02T01:35:26Z",
+  "timestamp_scope": "Read-only metadata obtained during the bounded 09:33 CST live observation; not new model execution",
+  "environments": [
+    {
+      "role": "driver",
+      "exit_code": 0,
+      "metadata": {
+        "python": "3.11.15 (main, Aug  5 2026, 15:45:52) [Clang 22.1.3 ]",
+        "executable": "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python",
+        "packages": {
+          "jsonschema": "4.26.0",
+          "numpy": "2.4.6",
+          "tiktoken": "0.14.0",
+          "scikit-learn": "1.7.2",
+          "lightgbm": "4.6.0",
+          "inflect": "7.5.0",
+          "rapidfuzz": "3.14.1",
+          "pydantic": "2.12.0",
+          "langchain-core": "0.3.79",
+          "langsmith": "0.4.34",
+          "torch": null,
+          "transformers": null,
+          "vllm": null,
+          "tokenizers": null,
+          "safetensors": null
+        }
+      },
+      "error": null
+    },
+    {
+      "role": "encoder_and_model_runtime",
+      "exit_code": 0,
+      "metadata": {
+        "python": "3.11.15 (main, Aug  5 2026, 15:45:52) [Clang 22.1.3 ]",
+        "executable": "/media/sangfor/vdb/legal-skill-runtime/inference-qwen3-8b-vllm0102/bin/python",
+        "packages": {
+          "jsonschema": "4.26.0",
+          "numpy": "2.2.6",
+          "tiktoken": "0.14.0",
+          "scikit-learn": null,
+          "lightgbm": null,
+          "inflect": null,
+          "rapidfuzz": null,
+          "pydantic": "2.14.1",
+          "langchain-core": null,
+          "langsmith": null,
+          "torch": "2.8.0",
+          "transformers": "4.56.2",
+          "vllm": "0.10.2",
+          "tokenizers": "0.22.2",
+          "safetensors": "0.8.0"
+        }
+      },
+      "error": null
+    }
+  ],
+  "encoder_contract_source": "configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.json",
+  "encoder_module_version_contract": {
+    "torch": "2.8.0+cu128",
+    "transformers": "4.56.2"
+  },
+  "version_note": "Distribution metadata for torch is 2.8.0; the already fixed module contract includes the CUDA build suffix +cu128. This record does not import Torch or start a new model.",
+  "driver_pyproject_has_separate_service_runtime": false,
+  "runtime_relationship": "DenseEncoder appends the existing inference-runtime site-packages path; its CPU model is not another lawyer service.",
+  "no_package_installation_or_service_restart": true,
+  "clean_environment_reproduction_not_yet_executed": true
+}

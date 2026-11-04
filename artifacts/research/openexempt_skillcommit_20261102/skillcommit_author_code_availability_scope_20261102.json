@@ -1,0 +1,79 @@
+{
+  "observed_UTC": "2026-11-02 10:30:11 UTC",
+  "purpose": "Bounded primary-source recheck of author-code provenance and the distinction between construction retrieval R and separately declared deployment top-k. No method/score selection.",
+  "paper": {
+    "abstract_url": "https://arxiv.org/abs/2608.15165v2",
+    "full_text_url": "https://arxiv.org/html/2608.15165v2",
+    "authors": [
+      "Yu He",
+      "Weikai Yang"
+    ],
+    "v1_date": "2026-08-15",
+    "v2_date": "2026-10-14",
+    "observed_author_code_link": "No author-specific implementation repository link identified on the inspected canonical abstract/full text."
+  },
+  "github_primary_repository_search": {
+    "url": "https://api.github.com/search/repositories?q=skillcommit+in%3Aname%2Cdescription&per_page=10",
+    "status": 200,
+    "total_count": 2,
+    "incomplete_results": false,
+    "repositories": [
+      {
+        "full_name": "Akash-rengaraj/SkillCommit",
+        "html_url": "https://github.com/Akash-rengaraj/SkillCommit",
+        "description": "A gamified, AI-powered career roadmap and tracking platform for students and colleges.",
+        "fork": false,
+        "default_branch": "main"
+      },
+      {
+        "full_name": "maksguzik/SkillCommit",
+        "html_url": "https://github.com/maksguzik/SkillCommit",
+        "description": null,
+        "fork": false,
+        "default_branch": "main"
+      }
+    ]
+  },
+  "same_name_repository_metadata": [
+    {
+      "url": "https://api.github.com/repos/maksguzik/SkillCommit",
+      "result": {
+        "full_name": "maksguzik/SkillCommit",
+        "description": null,
+        "language": "HTML",
+        "size": 217,
+        "default_branch": "main",
+        "created_at": "2025-07-27T17:43:21Z",
+        "pushed_at": "2025-08-14T21:45:49Z",
+        "fork": false,
+        "topics": []
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/maksguzik/SkillCommit/contents",
+      "result": [
+        {
+          "name": "README.md",
+          "type": "file"
+        },
+        {
+          "name": "skillcommit",
+          "type": "dir"
+        }
+      ]
+    }
+  ],
+  "bounded_source_conclusion": "No repository attributable to the paper's authors was identified by these checks. One name match explicitly describes a career-roadmap platform; the other is an HTML repository created in July 2025, with no author-paper connection observed. This is not proof that no author code exists anywhere.",
+  "independent_implementation_identity": "The current run05 is an independently implemented paper adaptation, not an execution of author code. Its original-role, encoder, decoding, binary pass and deployment choices remain explicitly described in its frozen protocol.",
+  "deployment_scope": {
+    "paper_evidence": "Section3.2 and Table6 define R=4 as the construction candidate shortlist. B.2/B.4 describe model profiles and shared/method-specific evaluation settings; the inspected text does not establish a general OpenExempt deployment top-four value.",
+    "current_config": "configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.json",
+    "current_profile": "Fixed top four whole same-family memories, capped at8192 delivered memory tokens, original public prompt as query.",
+    "interpretation": "Deployment top four is a declared adaptation condition; do not justify it solely by the paper's R=4 construction hyperparameter or call it verified author-code behavior.",
+    "actual_new_pattern_followup": "run05_B3_EV199_215_new_pattern_commit_20261102.json: the new source-supported EV pattern was not selected on next source216. That score is not a causal test of the omitted pattern."
+  },
+  "excluded_sources": "Third-party lists and AI-generated referee commentary were not treated as evidence for scientific correctness, official implementation availability, performance or costs.",
+  "scientific_source_protocol_or_active_config_changed": false,
+  "new_model_teacher_or_grading_calls": 0,
+  "next_action": "Retain the current fixed run. Report the adaptation and actual delivered memories accurately; do not restart from a low-scoring next case or infer universal method ranking from an unverified author-code reproduction."
+}

@@ -1,0 +1,55 @@
+{
+  "checked_at_utc": "2026-11-02T04:31:21Z",
+  "primary_source": "https://arxiv.org/html/2608.15165v2#A3.SS2",
+  "paper": "SkillCommit: Evolving Agent Skills through Behaviorally Validated Scope Expansion",
+  "original_cost_table": {
+    "table": 9,
+    "appendix": "C.2",
+    "task": "RuleArena NBA",
+    "model_setting": "matched DeepSeek-V4-Flash",
+    "scope": "native construction protocols including required source trajectories; evaluation excluded",
+    "unit": "model generations and logical tokens before provider cache discounts",
+    "rows": [
+      {
+        "method": "ExpeL",
+        "generations": 559,
+        "tokens_rounded_millions": 5
+      },
+      {
+        "method": "ReasoningBank",
+        "generations": 90,
+        "tokens_rounded_millions": 0.82
+      },
+      {
+        "method": "ACE",
+        "generations": 1115,
+        "tokens_rounded_millions": 14.52
+      },
+      {
+        "method": "Trace2Skill",
+        "generations": 319,
+        "tokens_rounded_millions": 2.15
+      },
+      {
+        "method": "SkillCommit",
+        "generations": 952,
+        "tokens_rounded_millions": 7.72
+      }
+    ],
+    "reasoningbank_scope_exception": "Judge and extraction after predictions; 45 task solves excluded."
+  },
+  "absence_scope": {
+    "openexempt_equivalent_cost_table": "not reported in this version",
+    "wall_clock_and_gpu_hours": "not reported in this version",
+    "monetary_cost": "Table 9 logical tokens are not a dollar charge"
+  },
+  "interpretation": "This establishes reported construction-call/token overhead, not that our OpenExempt adaptation's projected 32–50 remaining hours is author-verified normal runtime. Distinct tasks, models, thinking settings, hardware, and teacher interfaces preclude that conversion.",
+  "decision": {
+    "mandatory_for_every_paper": false,
+    "priority_for_current_claim": "high: closest same-benchmark behaviorally validated skill-evolution comparison",
+    "fills": "Prior source/cross/abstraction validation versus our execution-evidence teaching and whole-output library utility objective.",
+    "continue": "Keep the currently authorized run05 unchanged through construction and frozen evaluation; no score-dependent stopping, added baseline list, or qualification matrix.",
+    "final_cost_claim": "Actual adaptation cost only, not minimum/optimal author-method cost; physical generations, teacher and executor token totals separately."
+  },
+  "scientific_files_modified": false
+}

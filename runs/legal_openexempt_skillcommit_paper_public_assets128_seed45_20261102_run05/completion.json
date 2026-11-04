@@ -1,0 +1,188 @@
+{
+  "at": "2026-11-03T19:31:29.050419+00:00",
+  "status": "completed_skillcommit_existing_TEST_supplement",
+  "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05",
+  "library_sha256": "93fd552b3fb54e25c37235903bcef82903ec7874b3e2098bcd3af1ba2a4a1023",
+  "metrics": {
+    "EC": {
+      "precision": 0.8795244660364148,
+      "recall": 0.5981987847222222,
+      "f1": 0.6797536541447383,
+      "exact_target": 0.203125,
+      "tasks": 128,
+      "invalid_format": 3,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.6979297184031424,
+      "negative_or_unscored_asset_claims": 16
+    },
+    "EV": {
+      "precision": 0.7692708333333335,
+      "recall": 0.5974934895833333,
+      "f1": 0.6481813759157508,
+      "exact_target": 0.1875,
+      "tasks": 128,
+      "invalid_format": 4,
+      "officially_unscored_predicted_claims": 6,
+      "full_output_f1": 0.6446804808384355,
+      "negative_or_unscored_asset_claims": 6
+    },
+    "mean_family_f1": 0.6639675150302445
+  },
+  "test_native_generations": 256,
+  "teacher_calls_during_test": 0,
+  "paired_existing_main": {
+    "direction": "existing_main_minus_SkillCommit_adaptation",
+    "analysis": "posthoc_existing_TEST_supplement_not_original_18_endpoint_family",
+    "conditional_on_actual_frozen_libraries_not_independent_build_variance": true,
+    "EC": {
+      "delta_pp": 27.48718418870073,
+      "ordinary95_pp": [
+        23.460689822606756,
+        31.698618777332584
+      ],
+      "two_endpoint_fwer95_pp": [
+        22.91856933400333,
+        32.30305879404714
+      ]
+    },
+    "EV": {
+      "delta_pp": 23.08333810286935,
+      "ordinary95_pp": [
+        18.23308841765873,
+        27.944479321676578
+      ],
+      "two_endpoint_fwer95_pp": [
+        17.546930594904225,
+        28.675356761294257
+      ]
+    }
+  },
+  "build_cost": {
+    "actual_native_generations": 2015,
+    "native_input_tokens": 13663563,
+    "native_output_tokens": 5542122,
+    "actual_teacher_responses": 930,
+    "teacher_attempts": 931,
+    "teacher_input_tokens": 19696279,
+    "teacher_output_tokens": 548224,
+    "teacher_cached_input_tokens_subset": 6026112,
+    "teacher_reasoning_output_tokens_subset": 193870,
+    "successful_teacher_usage_records_missing": 0,
+    "unsuccessful_teacher_attempts_usage_not_assumed_zero": 1,
+    "exact_request_reuses": 345,
+    "elapsed_seconds": 146241.67307270598
+  },
+  "total_build_and_TEST_cost": {
+    "actual_native_generations": 2271,
+    "native_input_tokens": 15665253,
+    "native_output_tokens": 6254238,
+    "actual_teacher_responses": 930,
+    "teacher_attempts": 931,
+    "teacher_input_tokens": 19696279,
+    "teacher_output_tokens": 548224,
+    "teacher_cached_input_tokens_subset": 6026112,
+    "teacher_reasoning_output_tokens_subset": 193870,
+    "successful_teacher_usage_records_missing": 0,
+    "unsuccessful_teacher_attempts_usage_not_assumed_zero": 1,
+    "exact_request_reuses": 345,
+    "elapsed_seconds": 154197.8379707737
+  },
+  "retired_implementation_attempt": {
+    "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run04",
+    "reason": "output-language compatibility correction: actual admitted memories were Chinese while original public tasks and pinned BGE encoder are English; retain verified-reference algorithm and all model/data/score settings",
+    "source_config_sha256": "ab82d871acedf3934a1db06555bb44c0946e325a46374e55b8d8cafe6be5c6b5",
+    "source_frozen_sha256": "f33b824c54c7780f5aed6045b920a8747501e354c6e8b9a1b8c060a436eef3f4",
+    "failure_sha256": "f7714fe7a0128398418cf4dbaf33842eecc3cc2e33b2cae367aa8c6315d665af",
+    "terminal_preservation_sha256": "1034f071afeaeae96fe78a82f20597e735a965b1798f6ec2cfb44c539c93476d",
+    "cost": {
+      "actual_native_generations": 17,
+      "native_input_tokens": 113283,
+      "native_output_tokens": 50770,
+      "actual_teacher_responses": 13,
+      "teacher_attempts": 13,
+      "teacher_input_tokens": 291170,
+      "teacher_output_tokens": 9749,
+      "teacher_cached_input_tokens_subset": 78848,
+      "teacher_reasoning_output_tokens_subset": 3166,
+      "successful_teacher_usage_records_missing": 0,
+      "unsuccessful_teacher_attempts_usage_not_assumed_zero": 0,
+      "exact_request_reuses": 1,
+      "elapsed_seconds": 1698.3176329331473
+    },
+    "no_predictions_teacher_outputs_or_library_imported": true,
+    "no_TEST_generated": true,
+    "earlier_retired_implementation_attempt": {
+      "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run03",
+      "reason": "user-authorized source-fidelity correction: native-verify a separate training-only teacher reference before patch induction; strong patch author retained per paper main §3.1 and B.2",
+      "source_config_sha256": "dde00b2558465bda0c787806e5f88a2fb7a8649c43c11b4d93c3498d8d671a74",
+      "source_frozen_sha256": "ddab3590688597750f5968d3f445ebab78b91b9d4dda8b9137cd3581d491c9b7",
+      "failure_sha256": "d254c9d83a2e8c089072920625aa495bf3401c8ba7ed77f2ffdfce96966ff836",
+      "terminal_preservation_sha256": "83794f4001304db8f2e360acaf6de9c8614c796819df7a441b985c6ee628d8cd",
+      "cost": {
+        "actual_native_generations": 94,
+        "native_input_tokens": 631898,
+        "native_output_tokens": 283046,
+        "actual_teacher_responses": 58,
+        "teacher_attempts": 58,
+        "teacher_input_tokens": 1179490,
+        "teacher_output_tokens": 36624,
+        "teacher_cached_input_tokens_subset": 438400,
+        "teacher_reasoning_output_tokens_subset": 11870,
+        "successful_teacher_usage_records_missing": 0,
+        "unsuccessful_teacher_attempts_usage_not_assumed_zero": 0,
+        "exact_request_reuses": 6,
+        "elapsed_seconds": 8560.683951546438
+      },
+      "no_predictions_teacher_outputs_or_library_imported": true,
+      "no_TEST_generated": true,
+      "earlier_retired_implementation_attempt": {
+        "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02",
+        "reason": "user-authorized correction: scope contains_instance_solution to repair_memory, excluding training-only reference explanation and diagnosis",
+        "source_config_sha256": "0bfd35a95689d263ffe0ddba1e55a39fd7a4eb8bcb31a7626d6f2e62ee79b1c9",
+        "source_frozen_sha256": "225a5c9e85ebffef936c8b6b6405afff6d4b2a0d9d2ac7b22fef55ef89d20a22",
+        "failure_sha256": "91b9791ed08fa353ec3e2883871a483c86e98fc48cb4459662a0a17e1a244a4f",
+        "terminal_preservation_sha256": "14f8cba617119340cb877cf551866f716c23c1c6a6642e14d882a1c9f32dc29b",
+        "cost": {
+          "actual_native_generations": 468,
+          "native_input_tokens": 3116203,
+          "native_output_tokens": 1272627,
+          "actual_teacher_responses": 294,
+          "teacher_attempts": 294,
+          "teacher_input_tokens": 6106484,
+          "teacher_output_tokens": 185835,
+          "teacher_cached_input_tokens_subset": 2839680,
+          "teacher_reasoning_output_tokens_subset": 80708,
+          "successful_teacher_usage_records_missing": 0,
+          "unsuccessful_teacher_attempts_usage_not_assumed_zero": 0,
+          "exact_request_reuses": 48,
+          "elapsed_seconds": 40256.490310337394
+        },
+        "no_predictions_teacher_outputs_or_library_imported": true,
+        "no_TEST_generated": true,
+        "earlier_retired_implementation_attempt": {
+          "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run01",
+          "reason": "software-correction: generic public schema field names and statutory categories are not instance-specific solution leakage",
+          "failure_sha256": "56352bbf1f892a0b5744fe30f42bdbe0fbd0b9dd51ae5abd266dcbb4a38341a5",
+          "terminal_preservation_sha256": "b594378ddb742b6de2d603add29a23b5c410a73d065af1fa3d133cf8c96c2aac",
+          "cost": {
+            "actual_native_generations": 5,
+            "native_input_tokens": 31896,
+            "native_output_tokens": 14116,
+            "actual_teacher_responses": 3,
+            "teacher_attempts": 3,
+            "teacher_input_tokens": 63145,
+            "teacher_output_tokens": 2100,
+            "teacher_cached_input_tokens_subset": 11136,
+            "teacher_reasoning_output_tokens_subset": 1001,
+            "successful_teacher_usage_records_missing": 0,
+            "unsuccessful_teacher_attempts_usage_not_assumed_zero": 0,
+            "exact_request_reuses": 0,
+            "elapsed_seconds": 469.40202609077096
+          },
+          "no_predictions_teacher_outputs_or_library_imported": true,
+          "no_TEST_generated": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "at_UTC": "2026-11-02T00:06:35Z",
+  "sources": {
+    "main_section": "https://arxiv.org/html/2608.15165v2#S3.SS1",
+    "appendix_template": "https://arxiv.org/html/2608.15165v2#A1.SS1",
+    "model_roles": "https://arxiv.org/html/2608.15165v2#A2.SS2"
+  },
+  "correction_to_earlier_0724_audit": "A.1's abbreviated weak-self-author NBA template is not a universal model-role rule. Main §3.1 says the teacher generates the patch; B.2 Table4 explicitly includes strong author to weak user. Strong patch authorship alone was overstated as an implementation mismatch.",
+  "actual_missing_stage": "run03 did not generate a structured teacher reference answer and validate it with the original task verifier before patch induction.",
+  "decision": {
+    "reason": "Read main §3.1 and model Table4/B.2 together with A.1: strong author to weak user explicitly supported. Do not force weak patch writer from single abbreviated NBA template.",
+    "author_model_unchanged": "gpt-5.6-sol",
+    "user_model_unchanged": "Qwen3-8B",
+    "change": "Generate training-only public teacher reference answer/brief verifiable rationale; verify with unchanged original parser/scorer before patch construction; source patch replay/group/consolidation unchanged",
+    "ranking_not_a_restart_condition": true
+  },
+  "authority": {
+    "user_message": "不打断你回复一下：按原文对齐重启如果是更好的就重启",
+    "interpretation": "Authorize fidelity alignment and a preserved new run, not a promise of improved scores; main method/model/data/scorer unchanged",
+    "at_UTC": "2026-11-01 23:55:45 UTC"
+  },
+  "software_checks": {
+    "command": ".venv/bin/python -m pytest -q tests/test_skillcommit.py",
+    "passed": 18,
+    "elapsed_seconds": 0.18,
+    "ruff": "All checks passed",
+    "initial_console_launcher_issue": "Direct .venv/bin/pytest did not put the repository root on sys.path; corrected invocation to python -m pytest. No workaround code or changed model/data."
+  },
+  "source_and_TRAIN_parser_checks": {
+    "historical_TRAIN_parser_parity": {
+      "records": 19,
+      "case_families": [
+        [
+          181,
+          "EC"
+        ],
+        [
+          181,
+          "EV"
+        ],
+        [
+          182,
+          "EC"
+        ],
+        [
+          182,
+          "EV"
+        ],
+        [
+          183,
+          "EC"
+        ],
+        [
+          183,
+          "EV"
+        ],
+        [
+          184,
+          "EC"
+        ],
+        [
+          184,
+          "EV"
+        ],
+        [
+          185,
+          "EC"
+        ],
+        [
+          185,
+          "EV"
+        ],
+        [
+          186,
+          "EC"
+        ],
+        [
+          186,
+          "EV"
+        ],
+        [
+          187,
+          "EC"
+        ],
+        [
+          187,
+          "EV"
+        ],
+        [
+          188,
+          "EC"
+        ],
+        [
+          188,
+          "EV"
+        ],
+        [
+          189,
+          "EC"
+        ],
+        [
+          190,
+          "EC"
+        ],
+        [
+          190,
+          "EV"
+        ]
+      ],
+      "all_match_original_actor_saved_predictions": true,
+      "no_NEW_model_or_TEST_access": true
+    },
+    "original_main_379_binding": {
+      "files": 379,
+      "mismatches": []
+    },
+    "AST": {
+      "experiments/openexempt_skillcommit.py": {
+        "changed_existing_functions": [
+          "validate_profile",
+          "SkillCommit.patch"
+        ],
+        "added_functions": [
+          "SkillCommit.teacher_reference"
+        ],
+        "deleted_functions": [],
+        "all_other_existing_functions_AST_identical": true
+      },
+      "legal_skill_guard/learning/skillcommit.py": {
+        "changed_existing_functions": [],
+        "added_functions": [
+          "decode_teacher_reference",
+          "reference_schema"
+        ],
+        "deleted_functions": [],
+        "all_other_existing_functions_AST_identical": true
+      }
+    },
+    "config_changed_keys": [
+      "run_id",
+      "learner",
+      "protocol",
+      "retired_implementation_attempt"
+    ],
+    "new_config_key": "reference_contract",
+    "same_original_teacher_generation_data_encoder_scoring_and_K_L": true
+  },
+  "baseline_score_not_a_restart_or_adaptation_objective": true,
+  "reference_collection_budget_is_declared_adaptation_not_claimed_author_setting": "one answer-aware reference response per initially failed task; unverified response retained and patch induction skipped; no semantic resampling or gold substitution",
+  "main_method_and_old_scores_unchanged": true,
+  "no_claim_of_author_code_reproduction": true
+}

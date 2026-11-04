@@ -1,0 +1,102 @@
+{
+  "recorded_UTC": "2026-11-03T19:44:58.984601+00:00",
+  "selection": "Deterministic first and last public TEST case within each task, not selected by labels or score. No labels read.",
+  "four_public_query_rankings_match_saved_deployment": true,
+  "checks": [
+    {
+      "case_id": 3000001,
+      "family": "EC",
+      "query_sha256": "7bc5d6f5516b5c4794c74ececf475993607be1d3ec645dfe9ad9acd9a55c482f",
+      "public_query_token_count": 5304,
+      "all510token_window_count": 11,
+      "ranking_equals_original_receipt": true,
+      "retrieved_ids": [
+        "sc_ec_0b69585d88dcf82939a1",
+        "sc_ec_608de336e04390d0ac7b",
+        "sc_ec_7766b0e04d300af2a012",
+        "sc_ec_64acc13f60b90ef5dbf3"
+      ],
+      "maximum_cosine_difference": 0,
+      "recomputed_cosines": [
+        0.8269246986102288,
+        0.7946313925560142,
+        0.7943368729292054,
+        0.7931176106537371
+      ]
+    },
+    {
+      "case_id": 3000128,
+      "family": "EC",
+      "query_sha256": "92fb5688a95189b8953cdc64e65857dff7507fd8b2e4cad48c513295b176b828",
+      "public_query_token_count": 5289,
+      "all510token_window_count": 11,
+      "ranking_equals_original_receipt": true,
+      "retrieved_ids": [
+        "sc_ec_0b69585d88dcf82939a1",
+        "sc_ec_608de336e04390d0ac7b",
+        "sc_ec_64acc13f60b90ef5dbf3",
+        "sc_ec_7766b0e04d300af2a012"
+      ],
+      "maximum_cosine_difference": 0,
+      "recomputed_cosines": [
+        0.8190856532467427,
+        0.7928416740314537,
+        0.7918632810005757,
+        0.7891165528351408
+      ]
+    },
+    {
+      "case_id": 3000001,
+      "family": "EV",
+      "query_sha256": "7e77651aa4923860ba54abcfa75c3aa7905c9db235db2b413c8c836b557ec3ea",
+      "public_query_token_count": 5370,
+      "all510token_window_count": 11,
+      "ranking_equals_original_receipt": true,
+      "retrieved_ids": [
+        "sc_ev_81915ed5643c665724cf",
+        "sc_ev_b6bdedf1d90cfdd34779",
+        "sc_ev_43b024b64e2381ff7103",
+        "sc_ev_367cb77035fbc3414075"
+      ],
+      "maximum_cosine_difference": 0,
+      "recomputed_cosines": [
+        0.8265764877321308,
+        0.812942599984942,
+        0.8093893699725287,
+        0.8055735679064242
+      ]
+    },
+    {
+      "case_id": 3000128,
+      "family": "EV",
+      "query_sha256": "e2f9d5d9c704ecf2dc2f1ee0606ef37aeb842379d8feaf7e3e4b146be60e41e2",
+      "public_query_token_count": 5348,
+      "all510token_window_count": 11,
+      "ranking_equals_original_receipt": true,
+      "retrieved_ids": [
+        "sc_ev_81915ed5643c665724cf",
+        "sc_ev_b6bdedf1d90cfdd34779",
+        "sc_ev_43b024b64e2381ff7103",
+        "sc_ev_367cb77035fbc3414075"
+      ],
+      "maximum_cosine_difference": 0,
+      "recomputed_cosines": [
+        0.8270494045606663,
+        0.8107238394866797,
+        0.8089089503589257,
+        0.8018211307368357
+      ]
+    }
+  ],
+  "first_last_query_embedding_cosine_by_task": {
+    "EC": 0.9953426715508927,
+    "EV": 0.995978928499474
+  },
+  "encoder_weight_and_tokenizer_six_pins_match": true,
+  "encoder_device": "cpu",
+  "elapsed_seconds": 24.410964182578027,
+  "no_lawyer_teacher_or_network_calls": true,
+  "no_experiment_or_memory_change": true,
+  "scope": "Targeted implementation-fidelity check, not all256 rankings independently re-encoded or proof that this declared local BGE adaptation matches the paper paid embedding service. Actual all256 deployment membership, full text, task scope and common-input checks are in the completed TEST audit; observed retrieval concentration is retained, not tuned away.",
+  "executed_readonly_command": "env CUDA_VISIBLE_DEVICES='' HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 TOKENIZERS_PARALLELISM=false .venv/bin/python - <<'PY'\nimport datetime,hashlib,json,socket,time\nfrom pathlib import Path\nsocket.socket.connect=lambda *a,**k:(_ for _ in ()).throw(RuntimeError('Offline encoder audit forbids network'))\nfrom legal_skill_guard.learning.skillcommit import DenseEncoder,memory_text\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as canon\nstart=time.monotonic();r=Path('runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05');cfg=json.loads(Path('configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.json').read_text());pub=json.loads((r/'publications/final.json').read_text());rows=json.loads(Path(cfg['evaluation_input_packet']).read_text())['rows']\nfor p,sha in cfg['encoder']['files_sha256'].items():assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==sha\nencoder=DenseEncoder(cfg['encoder']);checks=[];vectors={}\nfor family in ['EC','EV']:\n selected=sorted([x for x in rows if x['family']==family],key=lambda x:x['case_id']);chosen=[selected[0],selected[-1]]\n pool=[x for kind in ['active_patterns','residual_patches'] for x in pub['library'][family][kind]]\n for row in chosen:\n  rank=encoder.rank(row['prompt'],pool,cfg['deployment_memories']);saved=json.loads((r/'TEST_delivery'/f\"{row['case_id']}_{family}.json\").read_text());ids=[x['id'] for _,x in rank];scores=[s for s,_ in rank]\n  assert ids==saved['memory_ids'],(family,row['case_id'],ids,saved['memory_ids'])\n  err=max(abs(a-b) for a,b in zip(scores,saved['similarities']));assert err<=1e-6,err\n  q=encoder.encode(row['prompt']);vectors[family,row['case_id']]=q\n  toks=encoder.tokenizer(row['prompt'],add_special_tokens=False,truncation=False,verbose=False)['input_ids'];width=encoder.model.config.max_position_embeddings-2\n  checks.append({'case_id':row['case_id'],'family':family,'query_sha256':canon(row['prompt']),'public_query_token_count':len(toks),'all510token_window_count':(len(toks)+width-1)//width,'ranking_equals_original_receipt':True,'retrieved_ids':ids,'maximum_cosine_difference':err,'recomputed_cosines':scores})\nimport numpy as np\ncos={family:float(np.dot(vectors[family,min(k[1] for k in vectors if k[0]==family)],vectors[family,max(k[1] for k in vectors if k[0]==family)])) for family in ['EC','EV']}\nprint(json.dumps({'recorded_UTC':datetime.datetime.now(datetime.timezone.utc).isoformat(),'selection':'Deterministic first and last public TEST case within each task, not selected by labels or score. No labels read.','four_public_query_rankings_match_saved_deployment':True,'checks':checks,'first_last_query_embedding_cosine_by_task':cos,'encoder_weight_and_tokenizer_six_pins_match':True,'encoder_device':str(next(encoder.model.parameters()).device),'elapsed_seconds':time.monotonic()-start,'no_lawyer_teacher_or_network_calls':True,'no_experiment_or_memory_change':True,'scope':'Targeted implementation-fidelity check, not all256 rankings independently re-encoded or proof that this declared local BGE adaptation matches the paper paid embedding service. Actual all256 deployment membership, full text, task scope and common-input checks are in the completed TEST audit; observed retrieval concentration is retained, not tuned away.'},ensure_ascii=False))\nPY"
+}

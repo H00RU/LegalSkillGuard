@@ -1,0 +1,99 @@
+{
+  "recorded_UTC": "2026-11-03T19:20:33.605296+00:00",
+  "classification": "verified frozen-TEST wait; previous paper-support changes retained",
+  "source_bindings": {
+    "run05": {
+      "manifest_sha256": "b84103c8f772a10983ef1727c82c7847d0ec344333b22b6ee3574ad19316359d",
+      "files": 648,
+      "mismatches": []
+    },
+    "main8": {
+      "manifest_sha256": "182e6cbf98e6ee7da8801ad7874554da50a071a91a8a4297e20d87b4fbea30ef",
+      "files": 379,
+      "mismatches": []
+    }
+  },
+  "actual_user_services": {
+    "legal-skillcommit-paper-20261102-run05.service": {
+      "MainPID": "1837514",
+      "NRestarts": "0",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "legal-qwen3-8b-phase-dispatch.service": {
+      "MainPID": "958223",
+      "NRestarts": "0",
+      "ActiveState": "active",
+      "SubState": "running"
+    }
+  },
+  "actual_process_birth_ticks": {
+    "958223": 486445918,
+    "1837514": 558660848
+  },
+  "progress": {
+    "at": "2026-11-03T19:20:02.711843+00:00",
+    "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05",
+    "state": "running",
+    "phase": "frozen_evaluation",
+    "stage": "frozen_TEST",
+    "current_batch": 0,
+    "completed_native_calls": 2254,
+    "completed_teacher_calls": 930,
+    "teacher_attempts": 931,
+    "first_encounter_tasks": 256,
+    "active_patterns": {
+      "EC": 13,
+      "EV": 8
+    },
+    "residual_patches": {
+      "EC": 10,
+      "EV": 13
+    },
+    "elapsed_seconds": 153511.49682615604,
+    "current_arm": "skillcommit",
+    "current_document_id": 3000122,
+    "current_call": "openexempt"
+  },
+  "TEST_delivery_files": 239,
+  "completed_TEST_physical_response_files": 239,
+  "TEST_predictions_before_grading_saved": false,
+  "TEST_scored_records_saved": false,
+  "failure_present": false,
+  "completion_present": false,
+  "final_bank_file_sha256": "090af0de02fd5ba84bd053683411ea930b7fa8c9906613ccb8f5aac518b9cc89",
+  "teacher_completed_response_files": 930,
+  "completed_learning_build_cost": {
+    "actual_native_generations": 2015,
+    "native_input_tokens": 13663563,
+    "native_output_tokens": 5542122,
+    "actual_teacher_responses": 930,
+    "teacher_attempts": 931,
+    "teacher_input_tokens": 19696279,
+    "teacher_output_tokens": 548224,
+    "teacher_cached_input_tokens_subset": 6026112,
+    "teacher_reasoning_output_tokens_subset": 193870,
+    "successful_teacher_usage_records_missing": 0,
+    "unsuccessful_teacher_attempts_usage_not_assumed_zero": 1,
+    "exact_request_reuses": 345,
+    "elapsed_seconds": 146241.67307270598
+  },
+  "original_ten_condition_table_sha256": "3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732",
+  "current_unbound_paper_support_hashes": {
+    "paper/utility_skill_manuscript_working_20261030.md": "ae44f9a3e606c32e866f737db09e9915d1c76d4731430eb34bdfe7900e2f4834",
+    "paper/sections-zh/utility_skill_manuscript_working_20261030.md": "675e45f58061d7655fe229add90813bfd7b3c9350f8f46bbc650cb4deeb0679c",
+    "paper/utility_skill_references_20261030.bib": "bcc04cb51fba860e6bd8c96118f5d3836242f501b2e87eeaae3af0333308bbaf",
+    "paper/README.md": "0671e5007eb1dd457b0adceb8201aea530ce211f47c255a64b7297f6196e7c08",
+    "docs/research/PAPER_CONTRIBUTION_EVIDENCE_PLAN_20261102.md": "f0094473a94e2d05b1d00a1724ef5eba070d9e447c5d7f22a010a012d2861d9a",
+    "docs/research/PAPER_REPRODUCTION_GUIDE_20261102.md": "b2c0ac9889fe2169510f5041b3270f0ee138441eb442840eb73455665807da3f",
+    "docs/research/PAPER_SUBMISSION_PREPARATION_20261102.md": "5493057c1fc47c475e530085a61e4fdd2591b75f53121f9a912f257a78370a26"
+  },
+  "no_extra_model_teacher_or_scoring_calls_for_this_review": true,
+  "scope": "No repeat of completed B1-B8 grading, full930 log parsing, TRAIN skill-delivery audit or build failure audit. Separate in-flight filesystem counts from progress heartbeats. Preserve current completed TEST prefix and updated paper/support sources, then continue the fixed actual-final-bank TEST and prespecified two-endpoint supplementary comparison.",
+  "readonly_review_command": ".venv/bin/python - <<'PY'\nimport json,hashlib,subprocess,datetime\nfrom pathlib import Path\nroot=Path.cwd();rid='legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05';r=root/'runs'/rid\nsha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()\nchecks={}\nfor kind,name in [('run05','configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json'),('main8','configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json')]:\n d=json.loads(Path(name).read_text());bad=[]\n for name2,value in d['files'].items():\n  expected=value.get('sha256') if isinstance(value,dict) else value\n  if sha(name2)!=expected:bad.append(name2)\n assert not bad,(kind,bad)\n checks[kind]={'manifest_sha256':sha(name),'files':len(d['files']),'mismatches':bad}\nunits={};births={}\nfor unit,pid,birth in [('legal-skillcommit-paper-20261102-run05.service',1837514,558660848),('legal-qwen3-8b-phase-dispatch.service',958223,486445918)]:\n raw=subprocess.run(['systemctl','--user','show',unit,'-p','MainPID','-p','ActiveState','-p','SubState','-p','NRestarts'],capture_output=True,text=True,check=True).stdout\n st=dict(x.split('=',1) for x in raw.splitlines());units[unit]=st\n assert st['MainPID']==str(pid) and st['ActiveState']=='active' and st['NRestarts']=='0',st\n v=int(Path(f'/proc/{pid}/stat').read_text().split(') ',1)[1].split()[19]);assert v==birth,(pid,v);births[str(pid)]=v\nfinal=r/'publications/final.json';assert sha(final)=='090af0de02fd5ba84bd053683411ea930b7fa8c9906613ccb8f5aac518b9cc89'\nresponses=sorted((r/'teacher').glob('*/response.json'));assert len(responses)==930\ncost=json.loads(final.read_text())['cost'];assert cost['actual_native_generations']==2015 and cost['actual_teacher_responses']==930\nprogress=json.loads((r/'progress.json').read_text())\noriginal='paper/tables/utility_frozen_results_20261101.json';assert sha(original)=='3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732'\nfiles=['paper/utility_skill_manuscript_working_20261030.md','paper/sections-zh/utility_skill_manuscript_working_20261030.md','paper/utility_skill_references_20261030.bib','paper/README.md','docs/research/PAPER_CONTRIBUTION_EVIDENCE_PLAN_20261102.md','docs/research/PAPER_REPRODUCTION_GUIDE_20261102.md','docs/research/PAPER_SUBMISSION_PREPARATION_20261102.md']\nphys=[p for p in (r/'native/frozen_TEST').rglob('*.json') if not p.name.endswith(('.input.json','.answer.json'))]\nprint(json.dumps({'recorded_UTC':datetime.datetime.now(datetime.timezone.utc).isoformat(),'classification':'verified frozen-TEST wait; previous paper-support changes retained','source_bindings':checks,'actual_user_services':units,'actual_process_birth_ticks':births,'progress':progress,'TEST_delivery_files':len(list((r/'TEST_delivery').glob('*.json'))),'completed_TEST_physical_response_files':len(phys),'TEST_predictions_before_grading_saved':(r/'TEST_predictions_before_grading.json').exists(),'TEST_scored_records_saved':(r/'TEST_scored_records.json').exists(),'failure_present':(r/'failure.json').exists(),'completion_present':(r/'completion.json').exists(),'final_bank_file_sha256':sha(final),'teacher_completed_response_files':len(responses),'completed_learning_build_cost':cost,'original_ten_condition_table_sha256':sha(original),'current_unbound_paper_support_hashes':{p:sha(p) for p in files},'no_extra_model_teacher_or_scoring_calls_for_this_review':True,'scope':'No repeat of completed B1-B8 grading, full930 log parsing, TRAIN skill-delivery audit or build failure audit. Separate in-flight filesystem counts from progress heartbeats. Preserve current completed TEST prefix and updated paper/support sources, then continue the fixed actual-final-bank TEST and prespecified two-endpoint supplementary comparison.'},ensure_ascii=False))\nPY",
+  "previous_completed_prefix_receipt": "artifacts/research/openexempt_skillcommit_20261102/run05_hourly_immutable_prefix_preservation_20261103T182136Z.json",
+  "no_new_manuscript_changes_in_this_hour": true,
+  "original_18_endpoint_family_unchanged": true,
+  "independent_learning_repeats_still_deferred": true,
+  "next_overall_review_CST": "2026-11-04 04:20 or earlier actual TEST terminal"
+}

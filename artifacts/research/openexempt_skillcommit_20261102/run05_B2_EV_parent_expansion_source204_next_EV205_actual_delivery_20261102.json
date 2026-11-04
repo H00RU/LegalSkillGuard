@@ -1,0 +1,135 @@
+{
+  "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05",
+  "assembled_at_utc": "2026-11-02T07:03:08Z",
+  "purpose": "Verify actual B2 pattern revision, source absorption and delivery to the first subsequent EV task, not skill-count growth or an isolated causal effect.",
+  "selection": "First subsequent EV task after event 000465_pattern_commit, source 205; chosen by sequence, not by favorable outcome.",
+  "commit": {
+    "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000465_pattern_commit.json",
+    "sha256": "3f5c9bf8bb73aba7e421526873dd9fdbea8de7b0eeee7ea8f195642a093cc9c6",
+    "old_pattern_id": "sc_ev_e04fa648218b64d0a2c5",
+    "old_sources": [
+      189,
+      190
+    ],
+    "new_pattern_id": "sc_ev_43b024b64e2381ff7103",
+    "new_sources": [
+      189,
+      190,
+      204
+    ],
+    "absorbed_local_patch_id": "sc_ev_1b503ce8641f065368a3",
+    "active_EV_pattern_count_after": 1,
+    "residual_EV_patch_ids_after": [
+      "sc_ev_75a12279f8fc45da1459",
+      "sc_ev_59fed64c3d0008835001",
+      "sc_ev_5e8126ad024581db1a64"
+    ],
+    "interpretation": "Parent replacement increases covered source scope without increasing the number of active high-level patterns."
+  },
+  "validation": [
+    {
+      "version": 1,
+      "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/replays/000462_replay.json",
+      "sha256": "23d3ae2c55ede1ef9e28daa8c9793be33037418a5b749132efc7fc8a47fac560",
+      "results": [
+        {
+          "case_id": 189,
+          "native_f1": 1,
+          "full_output_f1": 1,
+          "passed": true
+        },
+        {
+          "case_id": 190,
+          "native_f1": 1,
+          "full_output_f1": 1,
+          "passed": true
+        },
+        {
+          "case_id": 204,
+          "native_f1": 0.8333333333333333,
+          "full_output_f1": 0.8,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "version": 2,
+      "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/replays/000464_replay.json",
+      "sha256": "ec36286129e31da7c6e6003562ff2ee29518f430a27f84e4bd13e1bcfd73a426",
+      "results": [
+        {
+          "case_id": 189,
+          "native_f1": 1,
+          "full_output_f1": 1,
+          "passed": true
+        },
+        {
+          "case_id": 190,
+          "native_f1": 1,
+          "full_output_f1": 1,
+          "passed": true
+        },
+        {
+          "case_id": 204,
+          "native_f1": 1,
+          "full_output_f1": 1,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "next_EV_actual_delivery": {
+    "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/205_EV_skillcommit.input.json",
+    "sha256": "a327d41343324ea162ed0e63d6101b7adb33e13604ce3b32d797406b3dda0533",
+    "actual_wire_order": [
+      "sc_ev_43b024b64e2381ff7103",
+      "sc_ev_59fed64c3d0008835001",
+      "sc_ev_5e8126ad024581db1a64",
+      "sc_ev_75a12279f8fc45da1459"
+    ],
+    "routing_metadata_order": [
+      "sc_ev_43b024b64e2381ff7103",
+      "sc_ev_75a12279f8fc45da1459",
+      "sc_ev_5e8126ad024581db1a64",
+      "sc_ev_59fed64c3d0008835001"
+    ],
+    "same_membership": true,
+    "delivery_tokens": 1297,
+    "actual_new_pattern_fields_match_commit": [
+      "when",
+      "procedure_from_repair",
+      "avoid_when"
+    ],
+    "numeric_program_rendered": false,
+    "input_no_private_case_annotations_or_current_target_flag": true,
+    "source204_public_allowable_jurisdictions": [
+      "ILLINOIS"
+    ],
+    "source205_public_allowable_jurisdictions": [
+      "FEDERAL",
+      "PENNSYLVANIA"
+    ],
+    "guidance_namespace": "ALL",
+    "content_explicitly_scoped_to_Illinois": true,
+    "note": "The SkillCommit deployment uses public-prompt similarity top-4; ALL is its unchanged adapter metadata, not proof that the Illinois procedure is appropriate for every case. The auditor checked the actual decoded memory JSON; routing order is not confused with wire order."
+  },
+  "next_EV_observed_answer": {
+    "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/205_EV.json",
+    "sha256": "3a42a7cefd55b1245ac8eb9b24faeb1c1fbf97779ad7959730688239afe0eed9",
+    "native_f1": 0.4,
+    "full_output_f1": 0.4,
+    "parse_error": null,
+    "claim_tp": 2,
+    "claim_fp": 2,
+    "claim_fn": 4,
+    "causal_skill_effect_isolated": false
+  },
+  "limits": [
+    "Three source replays are post-label admission checks, not blind new-case test performance.",
+    "Actual delivery and a committed revision do not establish future-case benefit; the observed next-case F1 was 0.4.",
+    "Source 205 is federal/Pennsylvania, not an in-scope Illinois transfer test. Its score does not isolate whether the Illinois revision helps or hurts cases where its stated conditions hold; the fixed top-4 deployment remains unchanged.",
+    "This is an observation of the fixed external-method adaptation, not a new main-method result or a reason to stop or tune the baseline.",
+    "No current scientific source, configuration, protocol, scores or learned skill content was edited."
+  ],
+  "new_model_or_teacher_calls_by_this_audit": 0
+}

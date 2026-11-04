@@ -1,6 +1,6 @@
 # 项目源码入口与归档说明
 
-更新：2026-11-01。此文件只整理入口和职责，不迁移文件、不修改训练逻辑。
+更新：2026-11-04。此文件只整理入口和职责，不迁移文件、不修改训练逻辑。
 
 ## 1. 当前主方法从这里看
 
@@ -32,15 +32,16 @@ EV 为备选给出保护金额。执行器是冻结权重的 Qwen3-8B；学习�
 - 完整交付说明：`docs/reports/UTILITY_V6_PAPER_HANDOFF_20261101.md`。
 - 英文投稿主稿：`paper/utility_skill_manuscript_working_20261030.md`。
 - 中文独立辅助稿：`paper/sections-zh/utility_skill_manuscript_working_20261030.md`。
-- 最新独立Word/PDF：`artifacts/research/manuscript_review_20261030/utility_v6_bilingual_completed_frozen_v09_20261101/`。
-- 主表机器可读数据：`paper/tables/utility_frozen_results_20261101.json`。
+- 最新独立Word/PDF（v15）：`artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/`；具体文件链接见 [paper/README.md](paper/README.md)。
+- 主表机器可读数据：`paper/tables/utility_frozen_results_with_skillcommit_20261104.json`；原十条件表 `paper/tables/utility_frozen_results_20261101.json` 原样保留。
+- 最新论文质量审查：`docs/reports/PAPER_QUALITY_REVIEW_20261104.md`；审查建议尚未覆盖主稿。
 - 图与可复核数据：`paper/figures/utility_learning_curves_20261030/`、`paper/figures/utility_method_overview_20261030/`。
 - 真实运行：`runs/`，包括教师、原生回答、技能发布、失败提案、评分及完整终态。
 - 根因、成本和一致性证据：`artifacts/research/openexempt_legal_scope_20261020/`。
 
 ## 3. 外部比较、历史方案与依赖
 
-`experiments/openexempt_ace_online.py`、`experiments/openexempt_trace2skill.py`
+`experiments/openexempt_ace_online.py`、`experiments/openexempt_trace2skill.py`、`experiments/openexempt_skillcommit.py`
 及相应的 `legal_skill_guard/learning/` 模块是经验学习比较方法。
 `openexempt_scope_control.py` 和 `openexempt_teacher_evidence_control.py`
 提供当前机制控制。其余旧法律任务、ContractNLI、早期组内探索与历次主方法
@@ -58,6 +59,9 @@ EV 为备选给出保护金额。执行器是冻结权重的 Qwen3-8B；学习�
 
 目标：`H00RU/LegalSkillGuard` 的 `backup/legal-skill-evolve-20261101` 分支。
 原 `main` 分支保持原样，不强推、不覆盖。
+
+2026-11-04 的增量更新及当前论文位置见 `GITHUB_LATEST.md`；原完整恢复分卷仍保留，
+不将旧备份日期误认为当前论文版本。
 
 1. 可浏览层：源码、配置、现有历史跟踪文件、最新论文、关键证据与结果入口。
 2. 完整恢复层：原始项目、全部现有实验记录、被忽略的数据、研究工作目录及Git对象历史。

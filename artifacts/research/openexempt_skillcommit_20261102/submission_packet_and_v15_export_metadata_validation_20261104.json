@@ -1,0 +1,119 @@
+{
+  "at_UTC": "2026-11-03T20:41:13.679153+00:00",
+  "packet": "paper/submission_materials_en_20261104.md",
+  "packet_sha256": "10df2fe1b838df6e2241034ea1a96672625e983e62c36bb5101e76e5cc7c72a1",
+  "title_and_abstract_exact_match_v15": true,
+  "abstract_words_regex": 202,
+  "abstract_words_whitespace": 192,
+  "word_count_scope": "Different explicitly stated tokenization conventions; neither is a journal system word count.",
+  "highlights": [
+    "Editable legal procedures improve a frozen 8B model without weight updates.",
+    "Execution-grounded teaching preserves task-specific legal instructions.",
+    "Frozen-test F1 reaches 95.46% for classification and 87.90% for valuation.",
+    "Continued evolution adds 11.95 classification points over the first library."
+  ],
+  "highlight_character_counts": [
+    75,
+    71,
+    74,
+    76
+  ],
+  "keyword_count": 6,
+  "cover_letter_words_whitespace": 259,
+  "claims_recomputed_from_existing_table_not_new_scores": {
+    "main_EC": 95.46254960317462,
+    "main_EV": 87.90147569444441,
+    "main_minus_empty_EC_pp": 30.979972718254032,
+    "main_minus_empty_EV_pp": 32.017299107142854,
+    "main_minus_own_B1_EC_pp": 11.952763310185233,
+    "main_minus_SkillCommit_EC_pp": 27.487184188700795,
+    "main_minus_SkillCommit_EV_pp": 23.083338102869334
+  },
+  "all_local_packet_links_exist": [
+    "README.md",
+    "tables/utility_frozen_results_20261101.json",
+    "tables/utility_frozen_results_with_skillcommit_20261104.json",
+    "tables/utility_training_evolution_cost_20261030.json",
+    "../artifacts/research/openexempt_skillcommit_20261102/run05_complete_frozen_TEST_scores_delivery_cost_and_pairing_20261104.json",
+    "../docs/research/PAPER_REPRODUCTION_GUIDE_20261102.md",
+    "../docs/research/PAPER_SUBMISSION_PREPARATION_20261102.md"
+  ],
+  "v15_scientific_sources_renderer_and_all_four_exports_unchanged": true,
+  "original_ten_condition_table_unchanged": true,
+  "two_frozen_manifest_membership_checks": [
+    {
+      "manifest": "configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json",
+      "new_or_updated_authoring_files_bound": false
+    },
+    {
+      "manifest": "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json",
+      "new_or_updated_authoring_files_bound": false
+    }
+  ],
+  "limited_export_metadata_and_visible_identifier_screen": {
+    "en": {
+      "PDF_nonempty_Author_field": false,
+      "DOCX_nonempty_creator_last_modified_fields": 0,
+      "specified_local_path_account_string_screen": {
+        "/home/yndx": {
+          "PDF": false,
+          "DOCX_body": false
+        },
+        "/media/sangfor": {
+          "PDF": false,
+          "DOCX_body": false
+        },
+        "H00RU": {
+          "PDF": false,
+          "DOCX_body": false
+        },
+        "github.com/H00RU": {
+          "PDF": false,
+          "DOCX_body": false
+        },
+        "LegalSkillGuard": {
+          "PDF": false,
+          "DOCX_body": false
+        }
+      },
+      "scope": "Export metadata and specified visible-text strings, not full author-approved anonymization of manuscript, code, data or archives."
+    },
+    "zh": {
+      "PDF_nonempty_Author_field": false,
+      "DOCX_nonempty_creator_last_modified_fields": 0,
+      "specified_local_path_account_string_screen": {
+        "/home/yndx": {
+          "PDF": false,
+          "DOCX_body": false
+        },
+        "/media/sangfor": {
+          "PDF": false,
+          "DOCX_body": false
+        },
+        "H00RU": {
+          "PDF": false,
+          "DOCX_body": false
+        },
+        "github.com/H00RU": {
+          "PDF": false,
+          "DOCX_body": false
+        },
+        "LegalSkillGuard": {
+          "PDF": false,
+          "DOCX_body": false
+        }
+      },
+      "scope": "Export metadata and specified visible-text strings, not full author-approved anonymization of manuscript, code, data or archives."
+    }
+  },
+  "no_new_generation_teacher_score_encoder_or_network_calls": true,
+  "not_submitted_or_publicly_released": true,
+  "human_decisions_remain": [
+    "Target journal and recognized quartile system/edition",
+    "Authors, order, affiliations, correspondence and actual contributions",
+    "Funding, conflicts, ethics and actual review/approval",
+    "Release scope, access address and project license",
+    "Actual originality/concurrent-submission status"
+  ],
+  "exact_read_only_validation_command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport re,json,hashlib,subprocess,zipfile,xml.etree.ElementTree as E,datetime\nroot=Path('.')\npacket=root/'paper/submission_materials_en_20261104.md'\nmain=root/'paper/utility_skill_manuscript_working_20261030.md'\ntext=packet.read_text();ms=main.read_text()\nsection=lambda s,title,next_title:s.split(title+'\\n\\n',1)[1].split('\\n\\n'+next_title,1)[0]\ntitle=section(text,'## 1. Manuscript title','## 2.')\nabstract=section(text,'## 2. Abstract for the submission system','## 3.')\noriginal_abstract=section(ms,'## Abstract','## 1.')\nassert title==ms.splitlines()[0][2:] and abstract==original_abstract\nhighlights=[x[2:] for x in section(text,'## 4. Highlights','## 5.').splitlines() if x.startswith('- ')]\nassert len(highlights)==4 and all(len(h)<=85 for h in highlights)\nkeywords=section(text,'## 3. Keywords','## 4.').split('; ')\nassert len(keywords)==6\ntable=json.loads((root/'paper/tables/utility_frozen_results_with_skillcommit_20261104.json').read_text())\nconditions={x['condition']:x for x in table['conditions']}\nv=lambda c,f:100*conditions[c]['metrics'][f]['f1']\nexpected={'main_EC':v('utility45','EC'),'main_EV':v('utility45','EV'),'main_minus_empty_EC_pp':v('utility45','EC')-v('empty','EC'),'main_minus_empty_EV_pp':v('utility45','EV')-v('empty','EV'),'main_minus_own_B1_EC_pp':v('utility45','EC')-v('utility_own_B1_45','EC'),'main_minus_SkillCommit_EC_pp':v('utility45','EC')-v('skillcommit_paper45','EC'),'main_minus_SkillCommit_EV_pp':v('utility45','EV')-v('skillcommit_paper45','EV')}\nassert {f'{x:.2f}' for x in expected.values()}=={'95.46','87.90','30.98','32.02','11.95','27.49','23.08'}\nassert all(f'{x:.2f}' in abstract for x in expected.values())\nassert '[7.33, 16.60]' in abstract and '[7.33, 16.60]' in original_abstract\ncover=section(text,'## 5. Cover letter draft','## 6.')\nassert '[Journal name]' in cover and '[Confirmed corresponding author name and affiliation]' in cover\nassert not any(x in cover.lower() for x in ['all authors have approved','not under consideration elsewhere','no competing interests','no funding','ethical approval was obtained'])\nlinks=[]\nfor target in re.findall(r'\\]\\(([^)]+)\\)',text):\n if not re.match(r'^(https?:|#)',target):\n  assert (packet.parent/target).exists(),target\n  links.append(target)\nbase=root/'artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104'\nmanifest=json.loads((base/'render_manifest.json').read_text())\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nfor name,expected_sha in manifest['source_sha256'].items():assert sha(root/name)==expected_sha\nassert sha(root/'paper/render_utility_review.py')==manifest['renderer_sha256']\nmetadata={}\nns={'dc':'http://purl.org/dc/elements/1.1/','cp':'http://schemas.openxmlformats.org/package/2006/metadata/core-properties'}\nneedles=['/home/yndx','/media/sangfor','H00RU','github.com/H00RU','LegalSkillGuard']\nfor lang in ['en','zh']:\n o=manifest['outputs'][lang]\n pdf=root/o['pdf']['path'];docx=root/o['docx']['path']\n assert sha(pdf)==o['pdf']['sha256'] and sha(docx)==o['docx']['sha256']\n info=subprocess.run(['pdfinfo',str(pdf)],capture_output=True,text=True,check=True).stdout\n with zipfile.ZipFile(docx) as z:\n  x=E.fromstring(z.read('docProps/core.xml'))\n  creators=[n.text for tag in ['dc:creator','cp:lastModifiedBy'] for n in x.findall(tag,ns) if n.text]\n  body=' '.join(E.fromstring(z.read('word/document.xml')).itertext())\n pdftext=subprocess.run(['pdftotext',str(pdf),'-'],capture_output=True,text=True,check=True).stdout\n found={n:{'PDF':n in pdftext,'DOCX_body':n in body} for n in needles}\n assert not creators and not re.search(r'^Author:\\s*\\S',info,re.M)\n assert not any(v for report in found.values() for v in report.values())\n metadata[lang]={'PDF_nonempty_Author_field':False,'DOCX_nonempty_creator_last_modified_fields':0,'specified_local_path_account_string_screen':found,'scope':'Export metadata and specified visible-text strings, not full author-approved anonymization of manuscript, code, data or archives.'}\ntargets=['paper/submission_materials_en_20261104.md','paper/README.md']\nbound=[]\nfor name in ['configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json','configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json']:\n f=json.loads((root/name).read_text())['files'];assert not any(x in f for x in targets)\n bound.append({'manifest':name,'new_or_updated_authoring_files_bound':False})\nassert sha(root/'paper/tables/utility_frozen_results_20261101.json')=='3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732'\nprint(json.dumps({'at_UTC':datetime.datetime.now(datetime.timezone.utc).isoformat(),'packet':str(packet),'packet_sha256':sha(packet),'title_and_abstract_exact_match_v15':True,'abstract_words_regex':len(re.findall(r\"[A-Za-z0-9]+(?:[-'’][A-Za-z0-9]+)*\",abstract)),'abstract_words_whitespace':len(abstract.split()),'word_count_scope':'Different explicitly stated tokenization conventions; neither is a journal system word count.','highlights':highlights,'highlight_character_counts':[len(x) for x in highlights],'keyword_count':len(keywords),'cover_letter_words_whitespace':len(cover.split()),'claims_recomputed_from_existing_table_not_new_scores':expected,'all_local_packet_links_exist':links,'v15_scientific_sources_renderer_and_all_four_exports_unchanged':True,'original_ten_condition_table_unchanged':True,'two_frozen_manifest_membership_checks':bound,'limited_export_metadata_and_visible_identifier_screen':metadata,'no_new_generation_teacher_score_encoder_or_network_calls':True,'not_submitted_or_publicly_released':True,'human_decisions_remain':['Target journal and recognized quartile system/edition','Authors, order, affiliations, correspondence and actual contributions','Funding, conflicts, ethics and actual review/approval','Release scope, access address and project license','Actual originality/concurrent-submission status']}))\nPY"
+}

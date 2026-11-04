@@ -1,0 +1,310 @@
+{
+  "evidence_kind": "Seventh complete batch immutable-prefix preservation, not terminal run or whole study",
+  "recorded_UTC": "2026-11-03 12:36:21 UTC",
+  "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05",
+  "marker": "20261103T123430Z",
+  "selection": {
+    "files": 13123,
+    "bytes": 249340059,
+    "selected_complete_physical_native_origins": 1807,
+    "selected_complete_logical_answers": 2119,
+    "selected_complete_teacher_responses": 821,
+    "selected_hash_map_sha256": "f2c0daa84d611a82339de5f020434706b0a2243d1a62e9fff507dd1cf6d74515"
+  },
+  "receipt": {
+    "at": "2026-11-03T12:34:30.551197+00:00",
+    "stage": "seventh-batch-milestone-20261103T123430Z",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-seventh-batch-milestone-20261103T123430Z.tar.gz",
+        "sha256": "9e7999154a208f8b91af7bca64ef24a2c98c54060fe8e5d74f536c12d88b2d56"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-seventh-batch-milestone-20261103T123430Z.tar.gz",
+        "sha256": "7acde124384e0b7f37c35a5afdbaf8eb3d0fdb4d7df7bf10da0a84f385f3637d"
+      }
+    ],
+    "files": 13123
+  },
+  "filesystem_devices": [
+    64528,
+    64517
+  ],
+  "all_members_verified_against_selected_snapshot_on_both_filesystems": true,
+  "scope": "Completed immutable physical and logical run05 prefix, including exact-request aliases, frozen source/data, current paper/reproducibility/status snapshots and v11/v12 exports. Excludes mutable progress/batch summary, runtime caches, unfinished requests and future outputs. Not terminal or full-study completion.",
+  "experiment_left_running": true,
+  "executed_preservation_command": ".venv/bin/python -u - <<'PY'\nimport pathlib,json,time,datetime,hashlib,tarfile\nfrom experiments.openexempt_online import preserve\nroot=pathlib.Path('/media/sangfor/vdb/legal-skill-evolve')\nrid='legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05'\nout=root/'runs'/rid\nread=lambda p:json.loads(p.read_text())\nfrozen='configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json'\nnames=set(read(root/frozen)['files'])|{frozen}\ncutoff=time.time()-2\ndef add(p,stable=True):\n    p=pathlib.Path(p)\n    if p.is_file() and (not stable or p.stat().st_mtime<cutoff):\n        resolved=p.resolve()\n        if not resolved.is_relative_to(root):raise ValueError('Backup selection escaped project')\n        names.add(str(p.relative_to(root)))\nfor rel in ['initialization.json','build_completion.json','completion.json','failure.json','TEST_predictions_before_grading.json','TEST_scored_records.json']:\n    add(out/rel)\nfor sub in ['events','replays','forecasts','batches','publications','TEST_delivery']:\n    for p in (out/sub).rglob('*'):add(p)\nnative_origins=[]\nfor p in (out/'native').rglob('*.json'):\n    if p.name.endswith(('.input.json','.answer.json')) or p.stat().st_mtime>=cutoff:continue\n    d=read(p)\n    if 'calls' not in d or 'transport_error' not in d:continue\n    native_origins.append(p);add(p);add(p.with_name(p.stem+'.input.json'));add(p.with_name(p.stem+'.answer.json'))\nlogical_answers=[]\nfor p in (out/'native').rglob('*.answer.json'):\n    if p.stat().st_mtime>=cutoff:continue\n    logical_answers.append(p);add(p);add(p.with_name(p.name[:-len('.answer.json')]+'.input.json'))\n    raw=read(p).get('raw_call_path')\n    if raw:add(root/raw)\nteachers=[]\nfor p in (out/'teacher').glob('*/response.json'):\n    if p.stat().st_mtime>=cutoff:continue\n    teachers.append(p)\n    for v in p.parent.rglob('*'):\n        if '/cache/' not in str(v):add(v)\nextra=[\n'docs/CURRENT_GOAL.md','docs/research/PAPER_CONTRIBUTION_EVIDENCE_PLAN_20261102.md',\n'docs/research/PAPER_SUBMISSION_PREPARATION_20261102.md',\n'docs/research/PAPER_REPRODUCTION_GUIDE_20261102.md',\n'docs/reports/SKILLCOMMIT_TEACHER_ROLE_FIDELITY_AUDIT_20261102.md',\n'paper/README.md','paper/utility_skill_manuscript_working_20261030.md',\n'paper/sections-zh/utility_skill_manuscript_working_20261030.md','paper/utility_skill_references_20261030.bib',\n'paper/render_utility_review.py',\n'artifacts/launches/openexempt_v6_final_after_withheld_20261031_run01/actual_final_matrix_config.json',\n'artifacts/launches/openexempt_v6_final_after_withheld_20261031_run01/actual_final_matrix_config.frozen.json']\nfor rel in extra:add(root/rel,stable=False)\nfor p in (root/'artifacts/research/openexempt_skillcommit_20261102').glob('*.json'):add(p)\nfor p in (root/'paper/tables').glob('utility*.json'):add(p)\nfor rel in ['artifacts/research/manuscript_review_20261030/utility_v6_bilingual_evidence_update_v11_20261102','artifacts/research/manuscript_review_20261030/utility_v6_bilingual_conditions_update_v12_20261102']:\n    for p in (root/rel).rglob('*'):add(p)\nfor name in names:\n    if not (root/name).is_file():raise ValueError('Selected frozen file missing: '+name)\nexpected={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in sorted(names)}\nmarker=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')\nreceipt=preserve(rid,'seventh-batch-milestone-'+marker,sorted(names))\ndevices=[]\nfor item in receipt['paths']:\n    archive=pathlib.Path(item['path']);devices.append(archive.stat().st_dev)\n    with tarfile.open(archive) as tf:\n        if tf.getnames()!=sorted(expected):raise ValueError('Preserved membership changed')\n        for member in tf:\n            payload=tf.extractfile(member)\n            if payload is None or hashlib.sha256(payload.read()).hexdigest()!=expected[member.name]:\n                raise ValueError('Archived member differs from selected snapshot: '+member.name)\nif len(set(devices))!=2:raise ValueError('Expected two independent backup filesystems')\nprint(json.dumps({'marker':marker,'selection':{'files':len(names),'bytes':sum((root/n).stat().st_size for n in names),'selected_complete_physical_native_origins':len(native_origins),'selected_complete_logical_answers':len(logical_answers),'selected_complete_teacher_responses':len(teachers),'selected_hash_map_sha256':hashlib.sha256(json.dumps(expected,sort_keys=True,separators=(',',':')).encode()).hexdigest()},'receipt':receipt,'filesystem_devices':devices,'all_members_verified_against_selected_snapshot_on_both_filesystems':True,'scope':'Completed immutable physical and logical run05 prefix, including exact-request aliases, frozen source/data, current paper/reproducibility/status snapshots and v11/v12 exports. Excludes mutable progress/batch summary, runtime caches, unfinished requests and future outputs. Not terminal or full-study completion.','experiment_left_running':True}),flush=True)\nPY",
+  "required_member_count_per_filesystem": 20,
+  "required_members_checks": [
+    {
+      "archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-seventh-batch-milestone-20261103T123430Z.tar.gz",
+      "required_member_checks": [
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/batches/b7.json",
+          "present": true,
+          "archive_sha256": "e80253f552c7869dbf1f4cf06cd5b4cd9ac8bc06638231bc4031d074ab7bb372",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "artifacts/research/openexempt_skillcommit_20261102/run05_seventh_complete_batch_evidence_20261103.json",
+          "present": true,
+          "archive_sha256": "48528cbc6164a25e77e869e940616a873296f815d9e730c67b37332c341a4402",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "artifacts/research/openexempt_skillcommit_20261102/run05_B7_existing_empty_matched_first_answer_descriptive_20261103.json",
+          "present": true,
+          "archive_sha256": "577627a1609abb104b3213c8afa2eeffc9fb392fa1ae6bfeec70ea960db1db85",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "artifacts/research/openexempt_skillcommit_20261102/run05_actual_first_answer_skill_delivery_B7_handoff_20261103.json",
+          "present": true,
+          "archive_sha256": "d6f038839f4d31e667f062b28848b143c99223f70652cddfe832230c49f0fc5c",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "docs/CURRENT_GOAL.md",
+          "present": true,
+          "archive_sha256": "29a7bc1971e098278b3ff9880806c21c964d4c3d70e967c33e424225fedcdc2b",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "artifacts/research/openexempt_skillcommit_20261102/run05_hourly_immutable_prefix_preservation_20261103T112542Z.json",
+          "present": true,
+          "archive_sha256": "ee2a1cd108f11d585c6302e94c7c85c212b983ad2102206f7eae75dafad0915e",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "paper/utility_skill_manuscript_working_20261030.md",
+          "present": true,
+          "archive_sha256": "773a1477f862cc0a03bf088b9590135f7b0d657180341bb61a927868fca50a0f",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "paper/sections-zh/utility_skill_manuscript_working_20261030.md",
+          "present": true,
+          "archive_sha256": "4feab449b8c004b2ffcad5d55acf8fa60db68f7497f62f6c95c0dcb967c780ba",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "artifacts/research/openexempt_skillcommit_20261102/run05_native_cutoffs_and_invalid_retention_provenance_20261103_1920.json",
+          "present": true,
+          "archive_sha256": "8b322aac26b59cab15988cf1b389901a2dbc5467949777125eeb6c27d6438830",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/278_EC_skillcommit.json",
+          "present": true,
+          "archive_sha256": "63cce241fb2747c0ab4f2439e49b292668e2e5edfc892990f3f87d071b7143cd",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/002357_replay/286_EC_skillcommit_replay.json",
+          "present": true,
+          "archive_sha256": "c8672573c92409e67bef91bb07aaaa0a9d09809f132d2585782763fed68e78b2",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002194_pattern_split.json",
+          "present": true,
+          "archive_sha256": "bf013d2f8ee0d9ffe84a8397b579ff31cb5b5e54232cab178b7dfa7a81133a6a",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002239_pattern_split.json",
+          "present": true,
+          "archive_sha256": "206718770fd24da7f5e5ebf9616b257db05a6bcb4145a237b7ad902f6a295711",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002315_pattern_split.json",
+          "present": true,
+          "archive_sha256": "91c0cbc2b1a5e9bea83f6a298fac9140c14471ea2091d34935bd40d8cd5afb7e",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002453_pattern_commit.json",
+          "present": true,
+          "archive_sha256": "bf2fc6f014afb5608d4d5dea82468b98e2ae55c660aed6292593ae3b288df7ec",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/response.json",
+          "present": true,
+          "archive_sha256": "3d2d1a8d9d6dd8a5a859b396bdcb0650924e881f2d27b1673dab65ea020243c9",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/failure.json",
+          "present": true,
+          "archive_sha256": "e14a5f9873fb2ebb53e3bcd63ff0410eb03720ac668e079e8fa03903f8f16e5d",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/capacity_retry_1/event_log.json",
+          "present": true,
+          "archive_sha256": "4a2652ed8a426cc5c465434108ab69ce710281c53b89321f231cd1c9ba0df8cb",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/batches/b6.json",
+          "present": true,
+          "archive_sha256": "46326cb732e382eb6e6e59a77b9a63e8b73b832cf33afae93ff671ae3867606d",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "paper/tables/utility_frozen_results_20261101.json",
+          "present": true,
+          "archive_sha256": "3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732",
+          "matches_current_completed_file": true
+        }
+      ]
+    },
+    {
+      "archive": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-seventh-batch-milestone-20261103T123430Z.tar.gz",
+      "required_member_checks": [
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/batches/b7.json",
+          "present": true,
+          "archive_sha256": "e80253f552c7869dbf1f4cf06cd5b4cd9ac8bc06638231bc4031d074ab7bb372",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "artifacts/research/openexempt_skillcommit_20261102/run05_seventh_complete_batch_evidence_20261103.json",
+          "present": true,
+          "archive_sha256": "48528cbc6164a25e77e869e940616a873296f815d9e730c67b37332c341a4402",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "artifacts/research/openexempt_skillcommit_20261102/run05_B7_existing_empty_matched_first_answer_descriptive_20261103.json",
+          "present": true,
+          "archive_sha256": "577627a1609abb104b3213c8afa2eeffc9fb392fa1ae6bfeec70ea960db1db85",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "artifacts/research/openexempt_skillcommit_20261102/run05_actual_first_answer_skill_delivery_B7_handoff_20261103.json",
+          "present": true,
+          "archive_sha256": "d6f038839f4d31e667f062b28848b143c99223f70652cddfe832230c49f0fc5c",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "docs/CURRENT_GOAL.md",
+          "present": true,
+          "archive_sha256": "29a7bc1971e098278b3ff9880806c21c964d4c3d70e967c33e424225fedcdc2b",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "artifacts/research/openexempt_skillcommit_20261102/run05_hourly_immutable_prefix_preservation_20261103T112542Z.json",
+          "present": true,
+          "archive_sha256": "ee2a1cd108f11d585c6302e94c7c85c212b983ad2102206f7eae75dafad0915e",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "paper/utility_skill_manuscript_working_20261030.md",
+          "present": true,
+          "archive_sha256": "773a1477f862cc0a03bf088b9590135f7b0d657180341bb61a927868fca50a0f",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "paper/sections-zh/utility_skill_manuscript_working_20261030.md",
+          "present": true,
+          "archive_sha256": "4feab449b8c004b2ffcad5d55acf8fa60db68f7497f62f6c95c0dcb967c780ba",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "artifacts/research/openexempt_skillcommit_20261102/run05_native_cutoffs_and_invalid_retention_provenance_20261103_1920.json",
+          "present": true,
+          "archive_sha256": "8b322aac26b59cab15988cf1b389901a2dbc5467949777125eeb6c27d6438830",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/278_EC_skillcommit.json",
+          "present": true,
+          "archive_sha256": "63cce241fb2747c0ab4f2439e49b292668e2e5edfc892990f3f87d071b7143cd",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/002357_replay/286_EC_skillcommit_replay.json",
+          "present": true,
+          "archive_sha256": "c8672573c92409e67bef91bb07aaaa0a9d09809f132d2585782763fed68e78b2",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002194_pattern_split.json",
+          "present": true,
+          "archive_sha256": "bf013d2f8ee0d9ffe84a8397b579ff31cb5b5e54232cab178b7dfa7a81133a6a",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002239_pattern_split.json",
+          "present": true,
+          "archive_sha256": "206718770fd24da7f5e5ebf9616b257db05a6bcb4145a237b7ad902f6a295711",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002315_pattern_split.json",
+          "present": true,
+          "archive_sha256": "91c0cbc2b1a5e9bea83f6a298fac9140c14471ea2091d34935bd40d8cd5afb7e",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002453_pattern_commit.json",
+          "present": true,
+          "archive_sha256": "bf2fc6f014afb5608d4d5dea82468b98e2ae55c660aed6292593ae3b288df7ec",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/response.json",
+          "present": true,
+          "archive_sha256": "3d2d1a8d9d6dd8a5a859b396bdcb0650924e881f2d27b1673dab65ea020243c9",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/failure.json",
+          "present": true,
+          "archive_sha256": "e14a5f9873fb2ebb53e3bcd63ff0410eb03720ac668e079e8fa03903f8f16e5d",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/capacity_retry_1/event_log.json",
+          "present": true,
+          "archive_sha256": "4a2652ed8a426cc5c465434108ab69ce710281c53b89321f231cd1c9ba0df8cb",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/batches/b6.json",
+          "present": true,
+          "archive_sha256": "46326cb732e382eb6e6e59a77b9a63e8b73b832cf33afae93ff671ae3867606d",
+          "matches_current_completed_file": true
+        },
+        {
+          "path": "paper/tables/utility_frozen_results_20261101.json",
+          "present": true,
+          "archive_sha256": "3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732",
+          "matches_current_completed_file": true
+        }
+      ]
+    }
+  ],
+  "executed_required_members_check_command": ".venv/bin/python - <<'PY'\nimport json,pathlib,tarfile,hashlib\nroot=pathlib.Path('/media/sangfor/vdb/legal-skill-evolve')\narchives=[\"/media/sangfor/vdb/legal-skill-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-seventh-batch-milestone-20261103T123430Z.tar.gz\",\"/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-seventh-batch-milestone-20261103T123430Z.tar.gz\"]\nrequired=[\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/batches/b7.json\",\"artifacts/research/openexempt_skillcommit_20261102/run05_seventh_complete_batch_evidence_20261103.json\",\"artifacts/research/openexempt_skillcommit_20261102/run05_B7_existing_empty_matched_first_answer_descriptive_20261103.json\",\"artifacts/research/openexempt_skillcommit_20261102/run05_actual_first_answer_skill_delivery_B7_handoff_20261103.json\",\"docs/CURRENT_GOAL.md\",\"artifacts/research/openexempt_skillcommit_20261102/run05_hourly_immutable_prefix_preservation_20261103T112542Z.json\",\"paper/utility_skill_manuscript_working_20261030.md\",\"paper/sections-zh/utility_skill_manuscript_working_20261030.md\",\"artifacts/research/openexempt_skillcommit_20261102/run05_native_cutoffs_and_invalid_retention_provenance_20261103_1920.json\",\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/278_EC_skillcommit.json\",\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/002357_replay/286_EC_skillcommit_replay.json\",\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002194_pattern_split.json\",\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002239_pattern_split.json\",\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002315_pattern_split.json\",\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/002453_pattern_commit.json\",\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/response.json\",\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/failure.json\",\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/capacity_retry_1/event_log.json\",\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/batches/b6.json\",\"paper/tables/utility_frozen_results_20261101.json\"]\nresults=[]\nfor archive in archives:\n    checks=[]\n    with tarfile.open(archive,'r:gz') as handle:\n        names=handle.getnames()\n        for rel in required:\n            matches=[n for n in names if n==rel or n.endswith('/'+rel)]\n            assert len(matches)==1,(archive,rel,len(matches))\n            member=handle.extractfile(matches[0]); assert member is not None\n            old=hashlib.sha256(member.read()).hexdigest()\n            current=hashlib.sha256((root/rel).read_bytes()).hexdigest()\n            assert old==current,(archive,rel,'bytes differ')\n            checks.append({'path':rel,'present':True,'archive_sha256':old,'matches_current_completed_file':True})\n    results.append({'archive':archive,'required_member_checks':checks})\nprint(json.dumps(results,ensure_ascii=False))\nPY",
+  "complete_B7_boundary": {
+    "cumulative_physical_native_calls": 1800,
+    "cumulative_successful_teacher_roles": 815,
+    "B7_increment_physical_native_calls": 257,
+    "B7_increment_successful_teacher_roles": 117,
+    "B7_minus_B6_wall_seconds": 17983.675695541,
+    "wall_scope": "Includes weak-model, teacher, CPU, waiting and bookkeeping; not active GPU-hours or author-method minimum. Later prefix token/count totals below are not assigned back to B7."
+  },
+  "milestone_evidence_paths": {
+    "milestone": "artifacts/research/openexempt_skillcommit_20261102/run05_seventh_complete_batch_evidence_20261103.json",
+    "matched": "artifacts/research/openexempt_skillcommit_20261102/run05_B7_existing_empty_matched_first_answer_descriptive_20261103.json",
+    "delivery": "artifacts/research/openexempt_skillcommit_20261102/run05_actual_first_answer_skill_delivery_B7_handoff_20261103.json"
+  },
+  "prior_completed_prefix_preservation_receipt": "artifacts/research/openexempt_skillcommit_20261102/run05_hourly_immutable_prefix_preservation_20261103T112542Z.json",
+  "selection_cutoff_note": "1807 complete physical8B/2119 logical/821 successfulteacher artifacts are later completed prefix, not exact B7 checkpoint1800/815. Full immutable request-start events can be retained while their response is still in flight; inclusion does not declare that response complete. Mutable progress, in-flight response payloads/still-writing logs and future results are not asserted complete. Failed or provider-unreported usage is unknown, not zero.",
+  "self_and_status_note": "This receipt is created after archive verification and is not claimed inside its own archives. Subsequent status updates are not claimed byte-identical to the pre-archive CURRENT snapshot. All20 listed core members matched current bytes at verification.",
+  "goal_complete": false,
+  "goal_blocked": false,
+  "next_action": "Keep original run05 in B8, then actual final bank on existing TEST128/256; preserve and audit terminal full results and update both-language paper with final quality/skills/separate costs and declared paired endpoints."
+}

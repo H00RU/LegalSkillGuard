@@ -1,0 +1,859 @@
+{
+  "scope": "Descriptive matched-source TRAIN first-answer comparison using already-saved main-run strong-empty responses; no new generations or grading, no effect on the active SkillCommit controller.",
+  "profile": {
+    "model": {
+      "main": "Qwen/Qwen3-8B",
+      "skillcommit": "Qwen/Qwen3-8B",
+      "equal": true
+    },
+    "model_root": {
+      "main": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+      "skillcommit": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+      "equal": true
+    },
+    "context_tokens": {
+      "main": 32768,
+      "skillcommit": 32768,
+      "equal": true
+    },
+    "temperature": {
+      "main": 0.6,
+      "skillcommit": 0.6,
+      "equal": true
+    },
+    "top_p": {
+      "main": 0.95,
+      "skillcommit": 0.95,
+      "equal": true
+    },
+    "top_k": {
+      "main": 20,
+      "skillcommit": 20,
+      "equal": true
+    },
+    "max_tokens": {
+      "main": 8192,
+      "skillcommit": 8192,
+      "equal": true
+    },
+    "seed": {
+      "main": 45,
+      "skillcommit": 45,
+      "equal": true
+    },
+    "disable_thinking": {
+      "main": false,
+      "skillcommit": false,
+      "equal": true
+    }
+  },
+  "source_cases": 16,
+  "paired_tasks": 32,
+  "main_empty_arm": "empty in the retained main eighth-build prequential records, fixed before reading pair differences",
+  "batches": [
+    {
+      "batch": 4,
+      "source_main_empty_records": {
+        "path": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/batches/b4_prequential_records.json",
+        "sha256": "95e150d23279a5b7ae22eb13f205ae8df0f53606d231415f76a1e8eb18d112ca"
+      },
+      "complete_SC_batch": {
+        "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/batches/b4.json",
+        "sha256": "8184e366f62bddd3112874146ca86e94d63ee3f0b232b3f4a7604e2c90ec0653"
+      },
+      "common_input_checks": [
+        {
+          "case_id": 229,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/229_EC_skillcommit.input.json",
+          "SC_input_sha256": "cfe42567a0996b49fc2c70f6c7ff6522dbf04de7200af7aefc957565a655263c",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/229_EC_frozen_initial.input.json",
+          "empty_input_sha256": "4aa649b51fc00d111d89990aead8f87277974d7da733cad9664e21187658353c"
+        },
+        {
+          "case_id": 229,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/229_EV_skillcommit.input.json",
+          "SC_input_sha256": "cd19f97107a8f66d99ce080dbbc50b1ee34d598ebcfbb2545996341613df2015",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/229_EV_empty_direct_numeric.input.json",
+          "empty_input_sha256": "331207d8b69051c06dc44ce896aae76fa3582dc3b819d4368f96b81e8c9f5601"
+        },
+        {
+          "case_id": 230,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/230_EC_skillcommit.input.json",
+          "SC_input_sha256": "e2ad047ba58f03842778bd8b0b8c3101c4743d57283941957f9a7c7219216eb4",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/230_EC_empty_direct_numeric.input.json",
+          "empty_input_sha256": "6de586f8afef883edc26aa7279bec53c0e67b931dd84204e2ce71665a5ec50e8"
+        },
+        {
+          "case_id": 230,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/230_EV_skillcommit.input.json",
+          "SC_input_sha256": "043cefaf209e267bc222ed41160318b5a27048469e084be4f1190509870fbd6e",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/230_EV_empty_direct_numeric.input.json",
+          "empty_input_sha256": "cb278b1622b7313a884326d34b497bf74b42910d49c98329f4270f69eecf80ea"
+        },
+        {
+          "case_id": 231,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/231_EC_skillcommit.input.json",
+          "SC_input_sha256": "25cf7c2b133b8e325c5adf072d40d406750f74195fd1ebc096f322bcf192394b",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/231_EC_empty_direct_numeric.input.json",
+          "empty_input_sha256": "c4df44da46f542eb95c370a7873261406cf5a4dec6b42c67f10311d53a91f501"
+        },
+        {
+          "case_id": 231,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/231_EV_skillcommit.input.json",
+          "SC_input_sha256": "826da779ad58a8498022c6a8f970735bc6acebe21af82f1bdf9c91007aa93b67",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/231_EV_empty.input.json",
+          "empty_input_sha256": "2ccd7c0ce8d805401855e3b222bbb8ee508ba2287b4392c3f898f34979e67d4d"
+        },
+        {
+          "case_id": 232,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/232_EC_skillcommit.input.json",
+          "SC_input_sha256": "209633f21525b154ba0655bd7a8bd4b9fc02ea149efa4c8977f6e094f707e5ae",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/232_EC_empty.input.json",
+          "empty_input_sha256": "841a949c6bdab4aea8ecaa711f1e9e9abcdbd9e89f6b2e2fb9c309915b963519"
+        },
+        {
+          "case_id": 232,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/232_EV_skillcommit.input.json",
+          "SC_input_sha256": "d79376c22e1ef17aa0e73b9b265b03dad3dd9005149e95bf0b91587a7b98b45b",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/232_EV_empty.input.json",
+          "empty_input_sha256": "1bbd78f9ab6992a4a16aa7608800f841201023c088424d313e88da89196360c5"
+        },
+        {
+          "case_id": 233,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/233_EC_skillcommit.input.json",
+          "SC_input_sha256": "0dfc06e1335feab1a044f53da648e45157f2f00570c95e5ff484cafd4ed2982f",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/233_EC_empty.input.json",
+          "empty_input_sha256": "7b7b9559cbbd7bff9c6f040db4eeb7f6a312e30ecd3c3b2ff8ed25ba4448e141"
+        },
+        {
+          "case_id": 233,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/233_EV_skillcommit.input.json",
+          "SC_input_sha256": "70e07817cf281f9db51c155b846fd9c4987c47bfe7d5d17c27384dc0c6127d97",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/233_EV_frozen_initial.input.json",
+          "empty_input_sha256": "f10030c405fe7c080ac275af7a2ae980a94939fea8d6b1951eca04fff460f906"
+        },
+        {
+          "case_id": 234,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/234_EC_skillcommit.input.json",
+          "SC_input_sha256": "e76a7dc759681e62f6e61f6e9f452d6faeb7ef76cdb739a1e24c04a358dfea7a",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/234_EC_frozen_initial.input.json",
+          "empty_input_sha256": "f94416bea016a6a7d5b6dfb07234abe533a54f36743877834f11e0ad8ca27db1"
+        },
+        {
+          "case_id": 234,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/234_EV_skillcommit.input.json",
+          "SC_input_sha256": "7d1552a34ed4271e941056e4ef22570f26b1354088e68673845c672558002665",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/234_EV_empty_direct_numeric.input.json",
+          "empty_input_sha256": "bd52df4270360c771c360a6f44d7bd999ca4cf8a3ad5b66cacee2d2285870d02"
+        },
+        {
+          "case_id": 235,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/235_EC_skillcommit.input.json",
+          "SC_input_sha256": "9d79fb5a18d25da56b22f13bab98ee45724a64f9699b4fc4ec4457882aeb6028",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/235_EC_empty_direct_numeric.input.json",
+          "empty_input_sha256": "43758c19dae2c4956df51d90521d540a4f67aed9779d3750ea2254f5a95c43f0"
+        },
+        {
+          "case_id": 235,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/235_EV_skillcommit.input.json",
+          "SC_input_sha256": "6facccc50bbbea4cf8e1c66253066a1e08fdea1a998d7945e0c05fdb77fe4df1",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/235_EV_empty_direct_numeric.input.json",
+          "empty_input_sha256": "ad3084e18e44ccf8908868d6c98f7cf68eb20ba18a5403782ede190f48ea7ade"
+        },
+        {
+          "case_id": 236,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/236_EC_skillcommit.input.json",
+          "SC_input_sha256": "72211541d68e2cbed1b5e9f8a959a681f7def537099905633e3a3140bbb185e2",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/236_EC_empty_direct_numeric.input.json",
+          "empty_input_sha256": "56e56a7b96bbed10257fa855d7899eca42af03d0c74f7afed133cf323d54d0b9"
+        },
+        {
+          "case_id": 236,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/236_EV_skillcommit.input.json",
+          "SC_input_sha256": "25cb200e2cbbf49b4fb562abc490e1890203030830456b40b543f51f64a7a6ac",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/236_EV_empty.input.json",
+          "empty_input_sha256": "d4866a66e093b0a6153d40e7b92896032567233ea1f5f12ce437849df364dfa0"
+        },
+        {
+          "case_id": 237,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/237_EC_skillcommit.input.json",
+          "SC_input_sha256": "6dc6b8c7301fbb2af6a20f2b5e07d663d44fc149f7b4fc890f02ef185acc1cb6",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/237_EC_empty.input.json",
+          "empty_input_sha256": "8e5421f385c59616e9e0c520f5be8a4db9d677ade6d853923925d87e322f70ef"
+        },
+        {
+          "case_id": 237,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/237_EV_skillcommit.input.json",
+          "SC_input_sha256": "276e1d5a17ac69b14a1911569d1763eee3920fea0d4037674a80762b2bc7cafd",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/237_EV_empty.input.json",
+          "empty_input_sha256": "f1d63ff2a2b14e9532a4cd22fb1c8a50948b1902c8174bd404a2bea5dac5f498"
+        },
+        {
+          "case_id": 238,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/238_EC_skillcommit.input.json",
+          "SC_input_sha256": "1b63e5f2f76bc0ce44a438aee2f61b12d8e1a4c54e44421371a380cb5089b0ed",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/238_EC_empty.input.json",
+          "empty_input_sha256": "70900bfc3a1ad65f0f6e8c0a78befdfc65d4afc232c433058b36c02064606b27"
+        },
+        {
+          "case_id": 238,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/238_EV_skillcommit.input.json",
+          "SC_input_sha256": "3266960571f66e74fdfb9027bf330622ad3b5b0c7fcddf6c239f7eb0db054519",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/238_EV_frozen_initial.input.json",
+          "empty_input_sha256": "811f1fe59292cc97ec3d6ceec869cd7bc4f8b841d98b0ed686057bc2ae6c03d4"
+        },
+        {
+          "case_id": 239,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/239_EC_skillcommit.input.json",
+          "SC_input_sha256": "c3283350a46183abfd34006d9bac4ea0826bb496d50ec0b6d038284dd2be8774",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/239_EC_frozen_initial.input.json",
+          "empty_input_sha256": "47514e082e3ba0cf9c29db8b3cfa835171647635a2201b38ce5fe014e54334eb"
+        },
+        {
+          "case_id": 239,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/239_EV_skillcommit.input.json",
+          "SC_input_sha256": "fa489f8a2d7f90212d8dd1fb9314591fdaa17bbd3fbe1b4fd423f452ed43addb",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/239_EV_empty_direct_numeric.input.json",
+          "empty_input_sha256": "2b87381b21a125a017e806278ed699f9d1ed11da0493383a98410cf7caf28aeb"
+        },
+        {
+          "case_id": 240,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/240_EC_skillcommit.input.json",
+          "SC_input_sha256": "fa25a9e0739af91d0999e815916a7c3cba22014270e5cbdc8f441c64cae03278",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/240_EC_empty_direct_numeric.input.json",
+          "empty_input_sha256": "49fa6a95bb30865fa78267ebd0c49ad8b19de448db78fec189aa78722502f5e5"
+        },
+        {
+          "case_id": 240,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/240_EV_skillcommit.input.json",
+          "SC_input_sha256": "ede099dd358a5d0cbc600ccd6037eaa5399068d05517db3db73f254627f04561",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/240_EV_empty_direct_numeric.input.json",
+          "empty_input_sha256": "7da58d6f6381286a57f4d7fc7bb3225a66783f6fb94b717bea07d83960d969fe"
+        },
+        {
+          "case_id": 241,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/241_EC_skillcommit.input.json",
+          "SC_input_sha256": "12f93570301c2a082b5d26a0f182520241dd1fc18b9ffd8303a86010f7dfde1c",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/241_EC_empty_direct_numeric.input.json",
+          "empty_input_sha256": "8066672050202229c4f1bdb621927821fdff95e8b1dcf5e324cc6e4c0fda2a14"
+        },
+        {
+          "case_id": 241,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/241_EV_skillcommit.input.json",
+          "SC_input_sha256": "f878f26c11c69f288d8ede566e17941216d21ecb098f5bb4becf9469aad96802",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/241_EV_empty.input.json",
+          "empty_input_sha256": "62db400caecc26f2b3d231839b1d29d9da29fc74df83c6deec06ca6c2645bc52"
+        },
+        {
+          "case_id": 242,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/242_EC_skillcommit.input.json",
+          "SC_input_sha256": "d9ed5aa5b52841f5f81c6decb26c421e38a17ec739ccfcda3b2b76c594a989db",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/242_EC_empty.input.json",
+          "empty_input_sha256": "1d5cf434aa1f4d8586a3e0fecbd78a51473e56ee4dabe68bae718667f247b597"
+        },
+        {
+          "case_id": 242,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/242_EV_skillcommit.input.json",
+          "SC_input_sha256": "22e97eb63c3fcd5877f981b30ecfbf4df98edcd1ee5bf1738990ac8a3688a924",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/242_EV_empty.input.json",
+          "empty_input_sha256": "fef7f8bbb16355a99465e34346485eb4dd6afa7a8240dd778dd49bd49625c0d4"
+        },
+        {
+          "case_id": 243,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/243_EC_skillcommit.input.json",
+          "SC_input_sha256": "a1ea81f53fc8d126c6fa330b645f03c0e0e5ccf71e69c22b7b3d77b3b181c364",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/243_EC_empty.input.json",
+          "empty_input_sha256": "d2f0763e86f7c4d2cc26a75b05d6d36d3fc4e912c2d84b9c79dab1ec80f49a30"
+        },
+        {
+          "case_id": 243,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/243_EV_skillcommit.input.json",
+          "SC_input_sha256": "0ee7929ef03f7ce3ca4c5a5ca052669174b8399880e93d768464ecee7f0f5f21",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/243_EV_frozen_initial.input.json",
+          "empty_input_sha256": "41126b66a3a2089d1301f0655cf220d54f978fdb6e093da9c69e0e98dfaf62c3"
+        },
+        {
+          "case_id": 244,
+          "family": "EC",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/244_EC_skillcommit.input.json",
+          "SC_input_sha256": "ad713a0913ef97c89f72251912b64791f275f63715375a8ea8c42050d85a1c7f",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/244_EC_frozen_initial.input.json",
+          "empty_input_sha256": "acd6bf5972211eccb1e15d4e7151b1a8565abd701f2c0b13a08d5bd6f9a9f7fd"
+        },
+        {
+          "case_id": 244,
+          "family": "EV",
+          "common_messages_and_schema_after_removing_only_skill_message": true,
+          "SC_input": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/244_EV_skillcommit.input.json",
+          "SC_input_sha256": "cc579f9e80c4b7271879cb9fe7a80ea845b4efbbd29739767773c2dc384dda2e",
+          "empty_input": "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/244_EV_empty_direct_numeric.input.json",
+          "empty_input_sha256": "93b9ee80389bec3ea1a3c09e4dbac9969cae223075b31c7fc70d9e27e8b8993c"
+        }
+      ],
+      "aggregates": {
+        "EC": {
+          "sources": 16,
+          "empty_native_f1": 0.5764384920634922,
+          "skillcommit_native_f1": 0.7126488095238095,
+          "empty_full_output_f1": 0.6579333656539539,
+          "skillcommit_full_output_f1": 0.7900290530725314,
+          "paired_native_f1_delta_pp": 13.621031746031747,
+          "native_f1_help_hurt_tie": {
+            "help": 7,
+            "hurt": 4,
+            "tie": 5
+          },
+          "paired_full_output_f1_delta_pp": 13.209568741857744,
+          "full_output_f1_help_hurt_tie": {
+            "help": 7,
+            "hurt": 4,
+            "tie": 5
+          },
+          "empty_parse_invalid": 0,
+          "skillcommit_parse_invalid": 0
+        },
+        "EV": {
+          "sources": 16,
+          "empty_native_f1": 0.6884176587301586,
+          "skillcommit_native_f1": 0.808110119047619,
+          "empty_full_output_f1": 0.6873692075897959,
+          "skillcommit_full_output_f1": 0.7821712281750645,
+          "paired_native_f1_delta_pp": 11.969246031746032,
+          "native_f1_help_hurt_tie": {
+            "help": 7,
+            "hurt": 3,
+            "tie": 6
+          },
+          "paired_full_output_f1_delta_pp": 9.480202058526865,
+          "full_output_f1_help_hurt_tie": {
+            "help": 7,
+            "hurt": 4,
+            "tie": 5
+          },
+          "empty_parse_invalid": 0,
+          "skillcommit_parse_invalid": 0
+        }
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "batch": 4,
+      "case_id": 229,
+      "family": "EC",
+      "source_key": "dd1d5f5b10fee9106ac67bed7a88a0b8c125b730ea47a77409abf904df753258",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/229_EC.json",
+      "skillcommit_forecast_record_sha256": "f115ad825edd180f74d72f102a48383bef7f666678f828ebf4dd78a887f40cbe",
+      "empty_native_f1": 1,
+      "skillcommit_native_f1": 0.6666666666666666,
+      "empty_full_output_f1": 1,
+      "skillcommit_full_output_f1": 0.8,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 229,
+      "family": "EV",
+      "source_key": "dd1d5f5b10fee9106ac67bed7a88a0b8c125b730ea47a77409abf904df753258",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/229_EV.json",
+      "skillcommit_forecast_record_sha256": "d4c2e7837d367c536d773d7551b91ecc71274dcff9918c21ba7b92cb5209d1ea",
+      "empty_native_f1": 1,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 1,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 230,
+      "family": "EC",
+      "source_key": "54c7ee781217d4eb257994379cfa535cbadbd2d99fa27b2f3f146ebfe6d7a797",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/230_EC.json",
+      "skillcommit_forecast_record_sha256": "88a08e81e930d03b2acbb10d3cd263ed8fa7ac53a85564f0993ef87f8fb9d6c4",
+      "empty_native_f1": 0.75,
+      "skillcommit_native_f1": 0.75,
+      "empty_full_output_f1": 1,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 230,
+      "family": "EV",
+      "source_key": "54c7ee781217d4eb257994379cfa535cbadbd2d99fa27b2f3f146ebfe6d7a797",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/230_EV.json",
+      "skillcommit_forecast_record_sha256": "444c84e18b1c9fe0a868414c3d3fcdf8195f170f87d248ddb4c06c44d765e779",
+      "empty_native_f1": 1,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 0.8571428571428571,
+      "skillcommit_full_output_f1": 0.8571428571428571,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 231,
+      "family": "EC",
+      "source_key": "de9ab33d19a8c8ec8ddb9bf8acb5f1dd0ff5ed1f1c5b383fa5861e22bf508f39",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/231_EC.json",
+      "skillcommit_forecast_record_sha256": "5d2177cd94ea95ced59ec1297c6e1a66a05ebb436b0be5663ddab5b3f7bc09d6",
+      "empty_native_f1": 0.5,
+      "skillcommit_native_f1": 0.5,
+      "empty_full_output_f1": 1,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 231,
+      "family": "EV",
+      "source_key": "de9ab33d19a8c8ec8ddb9bf8acb5f1dd0ff5ed1f1c5b383fa5861e22bf508f39",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/231_EV.json",
+      "skillcommit_forecast_record_sha256": "a8592efdbc41e66051b1f0e1789c18ca35f72a4939ea85bef3ec57bd287d9ace",
+      "empty_native_f1": 1,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 1,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 232,
+      "family": "EC",
+      "source_key": "400254c848294ae83a5711f488a60717743b6a85ce4231338adf613f0066c727",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/232_EC.json",
+      "skillcommit_forecast_record_sha256": "e97aea7976c1584ba1c3ffbe031ba195fd7e20e50dcc6a8119e916f01e07f920",
+      "empty_native_f1": 0.35,
+      "skillcommit_native_f1": 0.5095238095238095,
+      "empty_full_output_f1": 0.35294117647058826,
+      "skillcommit_full_output_f1": 0.5217391304347826,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 232,
+      "family": "EV",
+      "source_key": "400254c848294ae83a5711f488a60717743b6a85ce4231338adf613f0066c727",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/232_EV.json",
+      "skillcommit_forecast_record_sha256": "e3e746cf5bd0e3a9342c57d9e21cc07b9c06fc649b4506dddcc47c273c5df337",
+      "empty_native_f1": 0.55,
+      "skillcommit_native_f1": 0.3547619047619048,
+      "empty_full_output_f1": 0.5555555555555556,
+      "skillcommit_full_output_f1": 0.34782608695652173,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 233,
+      "family": "EC",
+      "source_key": "747b3ab4781fcdcd9266e2a8a664b966871332d7dcd7c54dea57d4b0bb169ad3",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/233_EC.json",
+      "skillcommit_forecast_record_sha256": "98d8f92283b3a18d44d588d761a624f0cfae2ddcc7490a563e1525b933c27694",
+      "empty_native_f1": 0,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 0,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 233,
+      "family": "EV",
+      "source_key": "747b3ab4781fcdcd9266e2a8a664b966871332d7dcd7c54dea57d4b0bb169ad3",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/233_EV.json",
+      "skillcommit_forecast_record_sha256": "d78a2d8972e76449fc99a9077d1f1ef8dfe749c9700ab1b10168257b3e221a46",
+      "empty_native_f1": 1,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 1,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 234,
+      "family": "EC",
+      "source_key": "f0698b9caa08386c3a458dfcc73a63fe4ad5e054c8c573c0876113a34b5b8ea2",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/234_EC.json",
+      "skillcommit_forecast_record_sha256": "19d85af4607a5d2f7fe415afd9c61fbbf565f11d1e7093993289721b8555ec7d",
+      "empty_native_f1": 1,
+      "skillcommit_native_f1": 0.6666666666666666,
+      "empty_full_output_f1": 1,
+      "skillcommit_full_output_f1": 0.6666666666666666,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 234,
+      "family": "EV",
+      "source_key": "f0698b9caa08386c3a458dfcc73a63fe4ad5e054c8c573c0876113a34b5b8ea2",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/234_EV.json",
+      "skillcommit_forecast_record_sha256": "961e88876b3219ab975aa756a749482373ace4596e449aa1fc774510d841fa03",
+      "empty_native_f1": 0.6666666666666666,
+      "skillcommit_native_f1": 0.8888888888888888,
+      "empty_full_output_f1": 0.8,
+      "skillcommit_full_output_f1": 0.8571428571428571,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 235,
+      "family": "EC",
+      "source_key": "4ca99c621cce5e839b782006ca336f815b7a2bea89249a31d30f96d15317561f",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/235_EC.json",
+      "skillcommit_forecast_record_sha256": "6eec77da40cfb646fb233708ee444f24d68b68099c249fd45e153d952c6e434f",
+      "empty_native_f1": 0.5,
+      "skillcommit_native_f1": 0.7333333333333334,
+      "empty_full_output_f1": 0.5,
+      "skillcommit_full_output_f1": 0.7272727272727272,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 235,
+      "family": "EV",
+      "source_key": "4ca99c621cce5e839b782006ca336f815b7a2bea89249a31d30f96d15317561f",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/235_EV.json",
+      "skillcommit_forecast_record_sha256": "17b3a0ca599f23ebcd149605b31306025def7ea6e65c01059057b4d1c82869a4",
+      "empty_native_f1": 0.35,
+      "skillcommit_native_f1": 0.35,
+      "empty_full_output_f1": 0.35294117647058826,
+      "skillcommit_full_output_f1": 0.3333333333333333,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 236,
+      "family": "EC",
+      "source_key": "97c475fe01e52b948b5e188ffa478c19013c2a5e2788d984863242f0cc6fba28",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/236_EC.json",
+      "skillcommit_forecast_record_sha256": "e39505caaee497d03a0dad36cf9c45a907b4c4b3d237f199f9f16d254868ee1f",
+      "empty_native_f1": 0.4444444444444444,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 0.5714285714285715,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 236,
+      "family": "EV",
+      "source_key": "97c475fe01e52b948b5e188ffa478c19013c2a5e2788d984863242f0cc6fba28",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/236_EV.json",
+      "skillcommit_forecast_record_sha256": "5e9dfcd781fad4c355700e0cb0a1faf5b87d93746fa99bd847f71d38902f8029",
+      "empty_native_f1": 0.4444444444444444,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 0.5714285714285715,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 237,
+      "family": "EC",
+      "source_key": "6c69cb7c207377c6f32e51705ab232f25166fe2cf8cbdebde957ec4ea487cb38",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/237_EC.json",
+      "skillcommit_forecast_record_sha256": "de2f0179e26398ec74350fcc05ebb87f0b6f5b6a0817e9a8d81718ad408b084a",
+      "empty_native_f1": 0.5,
+      "skillcommit_native_f1": 0.7428571428571429,
+      "empty_full_output_f1": 0.5,
+      "skillcommit_full_output_f1": 0.7692307692307692,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 237,
+      "family": "EV",
+      "source_key": "6c69cb7c207377c6f32e51705ab232f25166fe2cf8cbdebde957ec4ea487cb38",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/237_EV.json",
+      "skillcommit_forecast_record_sha256": "abd2f20edcc44660e60f44393c0c2364c360be5a32774f4d7584023b52a92732",
+      "empty_native_f1": 0.5416666666666666,
+      "skillcommit_native_f1": 0.5166666666666667,
+      "empty_full_output_f1": 0.5454545454545455,
+      "skillcommit_full_output_f1": 0.5217391304347827,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 238,
+      "family": "EC",
+      "source_key": "fc176b7fd7fd976a6b4cf16c4191ea27b9b3bd7c35ff6692a9ab89bcb4b1847b",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/238_EC.json",
+      "skillcommit_forecast_record_sha256": "f5e2fe47f98bd245adb0e15c76611602594e88c1cc28cd34714ef46ab83e3439",
+      "empty_native_f1": 0.7619047619047619,
+      "skillcommit_native_f1": 0.6666666666666666,
+      "empty_full_output_f1": 0.7692307692307693,
+      "skillcommit_full_output_f1": 0.6666666666666666,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 238,
+      "family": "EV",
+      "source_key": "fc176b7fd7fd976a6b4cf16c4191ea27b9b3bd7c35ff6692a9ab89bcb4b1847b",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/238_EV.json",
+      "skillcommit_forecast_record_sha256": "93f0c67fbff7e0fd7106dd7434025b6a8b35e1231482d04fb08de337285114ba",
+      "empty_native_f1": 0.5952380952380952,
+      "skillcommit_native_f1": 0.8194444444444444,
+      "empty_full_output_f1": 0.6153846153846154,
+      "skillcommit_full_output_f1": 0.823529411764706,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 239,
+      "family": "EC",
+      "source_key": "13167183d65c3a89c646f22527fdd2e89492ff14481c96575bd946bd720c63d3",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/239_EC.json",
+      "skillcommit_forecast_record_sha256": "b02205d6dfa86b43742b1492c73de399ce8f67a52b25ef74f92242590598411b",
+      "empty_native_f1": 0.6666666666666666,
+      "skillcommit_native_f1": 0.6666666666666666,
+      "empty_full_output_f1": 1,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 239,
+      "family": "EV",
+      "source_key": "13167183d65c3a89c646f22527fdd2e89492ff14481c96575bd946bd720c63d3",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/239_EV.json",
+      "skillcommit_forecast_record_sha256": "37a9128e59802f110ccbfffa9da026e99794aa2fdda56c0c907c13bb9bf5e4cc",
+      "empty_native_f1": 1,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 0.8,
+      "skillcommit_full_output_f1": 0.8,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 240,
+      "family": "EC",
+      "source_key": "fe2db8b56533d1a4e34400ceea27632484d276094d85a619e34ba6b0615e8671",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/240_EC.json",
+      "skillcommit_forecast_record_sha256": "02d99d9a40d4d6880946d1fb55ef4de02887b3a18b960b87824b3c54880cd6c0",
+      "empty_native_f1": 0.6666666666666666,
+      "skillcommit_native_f1": 0.5,
+      "empty_full_output_f1": 0.6666666666666666,
+      "skillcommit_full_output_f1": 0.5,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 240,
+      "family": "EV",
+      "source_key": "fe2db8b56533d1a4e34400ceea27632484d276094d85a619e34ba6b0615e8671",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/240_EV.json",
+      "skillcommit_forecast_record_sha256": "9eb25ba0adeab3f2b6663b417d356b9054f446b2eb5eabe15e7c1edc19a4cdaf",
+      "empty_native_f1": 0.6666666666666666,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 0.6666666666666666,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 241,
+      "family": "EC",
+      "source_key": "8381e2a61bdb04b8045a49d55c65285e4c9e82b262757d7e35ae58c61fbefc9a",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/241_EC.json",
+      "skillcommit_forecast_record_sha256": "e893cfbf36ce4d1154945ebb8bb62a5339542abba43cbde55b42fb6e72d3963f",
+      "empty_native_f1": 0.5,
+      "skillcommit_native_f1": 0.5,
+      "empty_full_output_f1": 0.5,
+      "skillcommit_full_output_f1": 0.5,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 241,
+      "family": "EV",
+      "source_key": "8381e2a61bdb04b8045a49d55c65285e4c9e82b262757d7e35ae58c61fbefc9a",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/241_EV.json",
+      "skillcommit_forecast_record_sha256": "c9f33502ba39272d2875613bdd45f2c5cec67cfd442dd3bcc8483eae15950a73",
+      "empty_native_f1": 0.5,
+      "skillcommit_native_f1": 0.43333333333333335,
+      "empty_full_output_f1": 0.5,
+      "skillcommit_full_output_f1": 0.42857142857142855,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 242,
+      "family": "EC",
+      "source_key": "986eb75079876ae5a6d1494db77b6f79682a6ae57b760594202e9e1fa28ffd7c",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/242_EC.json",
+      "skillcommit_forecast_record_sha256": "8490071b1529c014135b4dacb16634122bbc52acd53504052f3c61c9444ec295",
+      "empty_native_f1": 0.6666666666666666,
+      "skillcommit_native_f1": 0.9166666666666666,
+      "empty_full_output_f1": 0.6666666666666665,
+      "skillcommit_full_output_f1": 0.888888888888889,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 242,
+      "family": "EV",
+      "source_key": "986eb75079876ae5a6d1494db77b6f79682a6ae57b760594202e9e1fa28ffd7c",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/242_EV.json",
+      "skillcommit_forecast_record_sha256": "5d21beadafa78e3c58a7d1d2f24d4cc42bcd81b750bff238e90075e6e59f7314",
+      "empty_native_f1": 0.9166666666666666,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 0.888888888888889,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 243,
+      "family": "EC",
+      "source_key": "b715534fe2f662c8bd9a3b3539a729af14906c109f5a6639d376e414a4af5ca4",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/243_EC.json",
+      "skillcommit_forecast_record_sha256": "30271ab490934005059391bd0f2e7b1bd7ddc60b7a93801879eea22fdea2aa57",
+      "empty_native_f1": 0.5833333333333333,
+      "skillcommit_native_f1": 0.5833333333333333,
+      "empty_full_output_f1": 0.6,
+      "skillcommit_full_output_f1": 0.6,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 243,
+      "family": "EV",
+      "source_key": "b715534fe2f662c8bd9a3b3539a729af14906c109f5a6639d376e414a4af5ca4",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/243_EV.json",
+      "skillcommit_forecast_record_sha256": "31284215ce00a879deae98473f65674757fb63c22084b11a285482cc6fb7a15d",
+      "empty_native_f1": 0.45,
+      "skillcommit_native_f1": 0.5666666666666667,
+      "empty_full_output_f1": 0.4444444444444445,
+      "skillcommit_full_output_f1": 0.5454545454545454,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 244,
+      "family": "EC",
+      "source_key": "59232a4b6a76bfc74cac5cfbe792e4ef377903e74ab8b8eabe62d4ce7d9147f2",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/244_EC.json",
+      "skillcommit_forecast_record_sha256": "968f8bd2f730efb38fe59674f2cfd22ba8497ef2fe0b4c28621fd73a481a7e77",
+      "empty_native_f1": 0.3333333333333333,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 0.4,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    },
+    {
+      "batch": 4,
+      "case_id": 244,
+      "family": "EV",
+      "source_key": "59232a4b6a76bfc74cac5cfbe792e4ef377903e74ab8b8eabe62d4ce7d9147f2",
+      "skillcommit_forecast_record": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/244_EV.json",
+      "skillcommit_forecast_record_sha256": "890a277ab9dc1d7ad0a2283cc23cdd32ce80c490f3ce9f1df57321b344026964",
+      "empty_native_f1": 0.3333333333333333,
+      "skillcommit_native_f1": 1,
+      "empty_full_output_f1": 0.4,
+      "skillcommit_full_output_f1": 1,
+      "empty_parse_invalid": false,
+      "skillcommit_parse_invalid": false
+    }
+  ],
+  "limits": [
+    "SkillCommit follows task-online label release and updates within each batch; the main method follows batch-blind release. This is not equal teaching chronology or budget.",
+    "Common public base messages/schema and declared generation profile are verified; the two runs occurred at different times, not bitwise identical executions or independent learning repetitions.",
+    "Sixteen sources per batch; descriptive paired means, not a new significance test or final frozen TEST.",
+    "The comparison is not an admission, stopping, tuning or final-bank selection criterion. All 32 pairs are retained regardless of sign."
+  ],
+  "executed_command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nfrom collections import Counter\nimport hashlib,json,math\nroot=Path(\".\")\nsc=root/\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05\"\nmain=root/\"runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01\"\nsha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()\nscfg=json.loads(Path(\"configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.json\").read_text())\nmcfg=json.loads(Path(\"configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json\").read_text())\nsettings=[\"model\",\"model_root\",\"context_tokens\",\"temperature\",\"top_p\",\"top_k\",\"max_tokens\",\"seed\",\"disable_thinking\"]\nprofile={k:{\"main\":mcfg[\"generation\"].get(k),\"skillcommit\":scfg[\"generation\"].get(k),\"equal\":mcfg[\"generation\"].get(k)==scfg[\"generation\"].get(k)} for k in settings}\nassert all(x[\"equal\"] for x in profile.values())\nallpairs=[];batches=[];sources={}\nfor b in (4,):\n rp=main/\"batches\"/(\"b\"+str(b)+\"_prequential_records.json\")\n source=json.loads(rp.read_text())[\"empty\"]\n assert len(source)==32\n old={(r[\"case_id\"],r[\"family\"]):r for r in source}\n bp=sc/\"batches\"/(\"b\"+str(b)+\".json\")\n full=json.loads(bp.read_text())\n rowpairs=[];checks=[];first=[]\n for key,e in sorted(old.items()):\n  cid,family=key\n  fpath=sc/\"forecasts\"/(str(cid)+\"_\"+family+\".json\")\n  forecast=json.loads(fpath.read_text())[\"record\"]\n  assert forecast[\"case_id\"]==cid and forecast[\"family\"]==family and forecast[\"source_key\"]==e[\"source_key\"]\n  ipath=sc/\"native/first_forecasts\"/(str(cid)+\"_\"+family+\"_skillcommit.input.json\")\n  ep=Path(e[\"raw_call_path\"])\n  epath=ep.with_name(ep.stem+\".input.json\")\n  s_input=json.loads(ipath.read_text());empty_input=json.loads(epath.read_text())\n  stripped=[m for m in s_input[\"messages\"] if not (m[\"role\"]==\"user\" and m.get(\"content\",\"\").startswith(\"Background reusable skills.\"))]\n  match=(stripped==empty_input[\"messages\"] and s_input[\"schema\"]==empty_input[\"schema\"])\n  checks.append({\"case_id\":cid,\"family\":family,\"common_messages_and_schema_after_removing_only_skill_message\":match,\"SC_input\":str(ipath),\"SC_input_sha256\":sha(ipath),\"empty_input\":str(epath),\"empty_input_sha256\":sha(epath)})\n  pair={\"batch\":b,\"case_id\":cid,\"family\":family,\"source_key\":e[\"source_key\"],\"skillcommit_forecast_record\":str(fpath),\"skillcommit_forecast_record_sha256\":sha(fpath),\"empty_native_f1\":e[\"score\"][\"f1\"],\"skillcommit_native_f1\":forecast[\"score\"][\"f1\"],\"empty_full_output_f1\":e[\"score\"][\"full_output_f1\"],\"skillcommit_full_output_f1\":forecast[\"score\"][\"full_output_f1\"],\"empty_parse_invalid\":e[\"parse_error\"] is not None,\"skillcommit_parse_invalid\":forecast[\"parse_error\"] is not None}\n  rowpairs.append(pair);allpairs.append(pair)\n assert all(x[\"common_messages_and_schema_after_removing_only_skill_message\"] for x in checks)\n aggregate={}\n for family in (\"EC\",\"EV\"):\n  pairs=[x for x in rowpairs if x[\"family\"]==family]\n  assert len(pairs)==16\n  aggregate[family]={\"sources\":len(pairs)}\n  for key in (\"empty_native_f1\",\"skillcommit_native_f1\",\"empty_full_output_f1\",\"skillcommit_full_output_f1\"):\n   aggregate[family][key]=sum(p[key] for p in pairs)/len(pairs)\n  for metric in (\"native_f1\",\"full_output_f1\"):\n   deltas=[p[\"skillcommit_\"+metric]-p[\"empty_\"+metric] for p in pairs]\n   aggregate[family][\"paired_\"+metric+\"_delta_pp\"]=100*sum(deltas)/len(pairs)\n   aggregate[family][metric+\"_help_hurt_tie\"]={\"help\":sum(d>1e-12 for d in deltas),\"hurt\":sum(d< -1e-12 for d in deltas),\"tie\":sum(abs(d)<=1e-12 for d in deltas)}\n  aggregate[family][\"empty_parse_invalid\"]=sum(p[\"empty_parse_invalid\"] for p in pairs)\n  aggregate[family][\"skillcommit_parse_invalid\"]=sum(p[\"skillcommit_parse_invalid\"] for p in pairs)\n  assert math.isclose(aggregate[family][\"skillcommit_native_f1\"],full[\"first_encounter_metrics\"][family][\"f1\"],abs_tol=1e-12)\n batches.append({\"batch\":b,\"source_main_empty_records\":{\"path\":str(rp),\"sha256\":sha(rp)},\"complete_SC_batch\":{\"path\":str(bp),\"sha256\":sha(bp)},\"common_input_checks\":checks,\"aggregates\":aggregate})\nprint(json.dumps({\"scope\":\"Descriptive matched-source TRAIN first-answer comparison using already-saved main-run strong-empty responses; no new generations or grading, no effect on the active SkillCommit controller.\",\"profile\":profile,\"source_cases\":16,\"paired_tasks\":len(allpairs),\"main_empty_arm\":\"empty in the retained main eighth-build prequential records, fixed before reading pair differences\",\"batches\":batches,\"pairs\":allpairs,\"limits\":[\"SkillCommit follows task-online label release and updates within each batch; the main method follows batch-blind release. This is not equal teaching chronology or budget.\",\"Common public base messages/schema and declared generation profile are verified; the two runs occurred at different times, not bitwise identical executions or independent learning repetitions.\",\"Sixteen sources per batch; descriptive paired means, not a new significance test or final frozen TEST.\",\"The comparison is not an admission, stopping, tuning or final-bank selection criterion. All 32 pairs are retained regardless of sign.\"]},ensure_ascii=False))\nPY",
+  "new_native_teacher_grader_or_embedding_calls": 0,
+  "original_records_modified": false
+}

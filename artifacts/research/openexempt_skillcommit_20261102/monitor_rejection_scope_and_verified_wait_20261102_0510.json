@@ -1,0 +1,144 @@
+{
+  "recorded_at_UTC": "2026-11-01 21:11:55 UTC",
+  "scope": "read_only_diagnostic_and_verified_wait",
+  "previous_goal_turn_classification": "progress: goal creation, actual-state audit, adapter concern evidence",
+  "rejection_scope": {
+    "rejected_candidate_attempt_indices": {
+      "1": 24
+    },
+    "distinct_affected_tasks": 24,
+    "max_rejections_per_task": 1,
+    "progress": {
+      "at": "2026-11-01T21:07:22.362182+00:00",
+      "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02",
+      "state": "running",
+      "phase": "construction",
+      "stage": "000744_replay",
+      "current_batch": 4,
+      "completed_native_calls": 453,
+      "completed_teacher_calls": 284,
+      "teacher_attempts": 284,
+      "first_encounter_tasks": 120,
+      "active_patterns": {
+        "EC": 1,
+        "EV": 1
+      },
+      "residual_patches": {
+        "EC": 4,
+        "EV": 3
+      },
+      "elapsed_seconds": 39111.34160662908,
+      "current_arm": "skillcommit_replay",
+      "current_document_id": 240,
+      "current_call": "openexempt"
+    }
+  },
+  "replay_scope": {
+    "candidate_rejection_reasons": {
+      "author_reports_instance_solution": 24
+    },
+    "source_tasks_with_rejected_candidates": 24,
+    "source_tasks_ever_locally_replayed": 89,
+    "source_tasks_ever_passed": 12,
+    "tasks_all_three_candidates_rejected_and_never_replayed": [],
+    "last_four_rejected_repairs": [
+      {
+        "case_id": 221,
+        "family": "EV",
+        "attempt": 1,
+        "repair_memory": "Classify assets according to the statute’s precise category rather than merely how they are used. Under 735 Ill. Comp. Stat. 5/12-1001(a), apply “necessary wearing apparel” to clothing, not automatically to jewelry, ornaments, or accessories. Independently test 735 Ill. Comp. Stat. 5/12-1001(b) for every personally used item, using the lesser of the debtor’s equity and $4,000. Before finalizing, remove any categorical claim whose statutory noun does not actually describe the asset, while retaining every independently supported alternative."
+      },
+      {
+        "case_id": 234,
+        "family": "EC",
+        "attempt": 1,
+        "repair_memory": "适用伊利诺伊州个人财产豁免时，逐项核验所有权、个人用途、价值及特定类别所需事实。仅在记录明确证明财产用于债务人的行业、职业或业务时，才适用735 Ill. Comp. Stat. 5/12-1001(d)；不得由物品的工具性、实用性或可用于工作推定职业用途。若没有更具体的实体条款覆盖，应继续检验735 Ill. Comp. Stat. 5/12-1001(b)对“任何其他财产”中权益的保护及4,000美元上限。不要把标题、程序规则或联邦豁免退出条款列作单项财产豁免，最后再转换为任务要求的本地键和封闭标签。"
+      },
+      {
+        "case_id": 238,
+        "family": "EC",
+        "attempt": 1,
+        "repair_memory": "对每项由债务人拥有的财产，先测试所有具体类别豁免，再无条件独立测试适用法域中的兜底或通配条款。具体类别与兜底条款可以同时适用；金额上限通常限制受保护权益的范围，而非消灭条款适用性，除非法文明示总价值决定资格。联邦选择下应检查11 U.S.C. § 522(d)(5)对任何财产的剩余额度；俄勒冈法下应检查Or. Rev. Stat. § 18.345(1)(p)对任何个人财产的限额保护。最后仅编码实体覆盖条款，不加入标题、选择规则或夫妻合并规则。"
+      },
+      {
+        "case_id": 239,
+        "family": "EV",
+        "attempt": 1,
+        "repair_memory": "For each required asset key, start with an empty array and test each operative exemption once against that asset’s proven ownership, description, use, and other statutory elements. A citation vocabulary entry or section heading is not evidence of eligibility; exclude definitional, administrative, combination, and opt-out provisions unless they themselves create the claimed exemption. For every qualifying provision, calculate claim_value as the lesser of the asset’s value and the applicable dollar cap, accounting for joint-debtor rules only when relevant. Before emitting output, deduplicate identical citation–amount pairs, confirm every required key appears exactly once, use [] where no provision qualifies, and serialize one complete bounded JSON object without commentary or repeated blocks."
+      }
+    ],
+    "progress": {
+      "at": "2026-11-01T21:04:23.632496+00:00",
+      "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02",
+      "state": "running",
+      "phase": "construction",
+      "stage": "first_forecasts",
+      "current_batch": 4,
+      "completed_native_calls": 451,
+      "completed_teacher_calls": 282,
+      "teacher_attempts": 282,
+      "first_encounter_tasks": 119,
+      "active_patterns": {
+        "EC": 1,
+        "EV": 1
+      },
+      "residual_patches": {
+        "EC": 4,
+        "EV": 3
+      },
+      "elapsed_seconds": 38932.611921296455,
+      "current_arm": "skillcommit",
+      "current_document_id": 240,
+      "current_call": "openexempt"
+    }
+  },
+  "prefix_preservation_receipt": "artifacts/research/openexempt_skillcommit_20261102/monitor_immutable_prefix_preservation_20261101T210749Z.json",
+  "verified_live_process": {
+    "observed_at": "2026-11-01T21:09:52.523955+00:00",
+    "service": "MainPID=543732\nResult=success\nActiveState=active\nSubState=running\n",
+    "live_argv": [
+      "/media/sangfor/vdb/legal-skill-evolve/.venv/bin/python",
+      "-u",
+      "-m",
+      "experiments.openexempt_skillcommit",
+      "run",
+      "configs/openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02.json"
+    ],
+    "process_birth_ticks": "553464826",
+    "progress": {
+      "at": "2026-11-01T21:09:50.870079+00:00",
+      "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02",
+      "state": "running",
+      "phase": "construction",
+      "stage": "arrival_complete",
+      "current_batch": 4,
+      "completed_native_calls": 455,
+      "completed_teacher_calls": 285,
+      "teacher_attempts": 285,
+      "first_encounter_tasks": 120,
+      "active_patterns": {
+        "EC": 1,
+        "EV": 1
+      },
+      "residual_patches": {
+        "EC": 4,
+        "EV": 3
+      },
+      "elapsed_seconds": 39259.84950239863,
+      "completed_TRAIN_tasks": 120
+    },
+    "failure_exists": false,
+    "completion_exists": false
+  },
+  "interpretation": {
+    "all_24_flag_rejections_are_first_candidates": true,
+    "no_task_has_all_three_candidates_blocked_by_the_flag": true,
+    "not_a_complete_explanation_of_all_replay_failures": true,
+    "metric_counterfactual_unknown": true,
+    "field_scope_root_cause_is_an_inference": true,
+    "minimal_pending_change": "Clarify that contains_instance_solution assesses repair_memory only, not the expected source-specific public reference explanation or failure diagnosis; retain anti-leakage and real native validation.",
+    "pending_user_approval": true,
+    "no_running_frozen_file_changes": true,
+    "no_additional_model_calls_in_audit": true
+  }
+}

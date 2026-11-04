@@ -1,0 +1,88 @@
+{
+  "recorded_UTC": "2026-11-03 20:01:44 UTC",
+  "source_checks": {
+    "paper/utility_skill_manuscript_working_20261030.md": {
+      "old_sha256": "ae44f9a3e606c32e866f737db09e9915d1c76d4731430eb34bdfe7900e2f4834",
+      "current_sha256": "42d9b344a145e5b48e71cd96c76ff7ff1ab2ed30774f2879502f6ad29ba5fefe",
+      "old_tables": 12,
+      "new_tables": 13,
+      "unchanged_old_tables": 9,
+      "old_tables_with_only_one_SkillCommit_row_added": 3,
+      "methods_sections3_and4_unchanged": true,
+      "learning_curves_controls_discussion_conclusion_unchanged": true,
+      "new_numeric_tokens": {
+        "67.98": 2,
+        "64.82": 2,
+        "66.40": 1,
+        "69.79": 1,
+        "64.47": 1,
+        "20.31": 1,
+        "18.75": 1,
+        "27.49": 3,
+        "23.08": 3,
+        "22.92": 1,
+        "32.30": 1,
+        "17.55": 1,
+        "28.68": 1,
+        "90.97": 1,
+        "40.10": 1,
+        "2,001,690": 2,
+        "712,116": 2,
+        "9.61": 1,
+        "11.92": 1
+      }
+    },
+    "paper/sections-zh/utility_skill_manuscript_working_20261030.md": {
+      "old_sha256": "675e45f58061d7655fe229add90813bfd7b3c9350f8f46bbc650cb4deeb0679c",
+      "current_sha256": "f5b328e9501bf386bacda02c9ac8b7f45f0e2a0abe5f8ec90ca7e5ec759c54c4",
+      "old_tables": 12,
+      "new_tables": 13,
+      "unchanged_old_tables": 9,
+      "old_tables_with_only_one_SkillCommit_row_added": 3,
+      "methods_sections3_and4_unchanged": true,
+      "learning_curves_controls_discussion_conclusion_unchanged": true,
+      "new_numeric_tokens": {
+        "67.98": 2,
+        "64.82": 2,
+        "66.40": 1,
+        "69.79": 1,
+        "64.47": 1,
+        "20.31": 1,
+        "18.75": 1,
+        "27.49": 3,
+        "23.08": 3,
+        "22.92": 1,
+        "32.30": 1,
+        "17.55": 1,
+        "28.68": 1,
+        "90.97": 1,
+        "40.10": 1,
+        "2,001,690": 2,
+        "712,116": 2,
+        "9.61": 1,
+        "11.92": 1
+      }
+    },
+    "paper/README.md": {
+      "old_sha256": "0671e5007eb1dd457b0adceb8201aea530ce211f47c255a64b7297f6196e7c08",
+      "current_sha256": "bdd8694c831fabd56f7a1d1c2d3a087599366905e5d0fb403ffadee911b89c1b"
+    }
+  },
+  "new_table_sha256": "0d092894a80d1ab82721e1eeb9e96aecc40de05adfa721fb2b9e44b417e3e078",
+  "original_ten_condition_table_unchanged": true,
+  "original18_family_unchanged_and_supplement2_separate": true,
+  "original_method_learning_and_control_prose_unchanged": true,
+  "English_abstract_regex_word_count": 202,
+  "both_manuscripts_have13tables_and11references": true,
+  "all_updated_sources_unbound": true,
+  "preintegration_source_bytes_verified_in_archive": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-hourly-immutable-prefix-logical-20261103T192122Z.tar.gz",
+  "exports_still_v12_not_claimed_new": true,
+  "no_generation_teacher_or_experiment_setting_changes": true,
+  "validation_command": ".venv/bin/python - <<'PY'\nimport hashlib,json,re,subprocess,tarfile\nfrom pathlib import Path\nbefore=json.loads(\"{\\\"paper/utility_skill_manuscript_working_20261030.md\\\":{\\\"sha256\\\":\\\"ae44f9a3e606c32e866f737db09e9915d1c76d4731430eb34bdfe7900e2f4834\\\",\\\"sections3_and4_sha256\\\":\\\"2e8a433fdac10483be5212fecd358b454f5c563b76d464a7fbc5243f8c02f6cc\\\",\\\"section6_2_through_before_appendices_sha256\\\":\\\"2010b7bd48588f3a722d231b1581893fb663f2c9b0f4365adfd074367ef3d384\\\"},\\\"paper/sections-zh/utility_skill_manuscript_working_20261030.md\\\":{\\\"sha256\\\":\\\"675e45f58061d7655fe229add90813bfd7b3c9350f8f46bbc650cb4deeb0679c\\\",\\\"sections3_and4_sha256\\\":\\\"47927cd5d2b2c63046f0bbc06ed4279259810505ebbebd1767f4ac1232f9791d\\\",\\\"section6_2_through_before_appendices_sha256\\\":\\\"785e99321b135c8314df55548207bdd9a9adf4261bd52aab4a5c74c135e5f619\\\"},\\\"paper/README.md\\\":{\\\"sha256\\\":\\\"0671e5007eb1dd457b0adceb8201aea530ce211f47c255a64b7297f6196e7c08\\\"}}\");archive=\"/media/sangfor/vdb/legal-skill-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-hourly-immutable-prefix-logical-20261103T192122Z.tar.gz\"\nsha=lambda data:hashlib.sha256(data).hexdigest()\ndef tables(text):\n groups=[];b=[]\n for line in text.splitlines()+['']:\n  if line.startswith('|'):b.append(line)\n  elif b:groups.append(b);b=[]\n return groups\nchecks={};oldtexts={}\nwith tarfile.open(archive,'r:gz') as t:\n for p in before:\n  raw=t.extractfile(p).read();assert sha(raw)==before[p]['sha256'];oldtexts[p]=raw.decode()\nfor p,d in before.items():\n s=Path(p).read_text();old=oldtexts[p];result={'old_sha256':d['sha256'],'current_sha256':sha(Path(p).read_bytes())}\n if p.endswith('.md') and not p.endswith('README.md'):\n  assert sha(s.split('## 3.',1)[1].split('## 5.',1)[0].encode())==d['sections3_and4_sha256']\n  appendix='## 附录A' if '/sections-zh/' in p else '## Appendix A'\n  assert sha(s.split('### 6.2.',1)[1].split(appendix,1)[0].encode())==d['section6_2_through_before_appendices_sha256']\n  ot,nt=tables(old),tables(s);assert len(ot)==12 and len(nt)==13,(p,len(ot),len(nt))\n  kept=extended=0\n  for table in ot:\n   if table in nt:kept+=1;continue\n   variants=[x for x in nt if x[0]==table[0]]\n   matches=[x for x in variants if [line for line in x if not line.startswith('| SkillCommit')]==table]\n   assert len(matches)==1,(p,table[0]);assert sum(x.startswith('| SkillCommit') for x in matches[0])==1\n   extended+=1\n  assert kept==9 and extended==3,(p,kept,extended)\n  required=['67.98','64.82','66.40','69.79','64.47','20.31','18.75','27.49','23.08','22.92','32.30','17.55','28.68','90.97','40.10','2,001,690','712,116','9.61','11.92']\n  assert all(x in s for x in required)\n  assert '| EC | +27.49 | [23.46, 31.70] | [22.92, 32.30] |' in s\n  assert '| EV | +23.08 | [18.23, 27.94] | [17.55, 28.68] |' in s\n  result.update({'old_tables':len(ot),'new_tables':len(nt),'unchanged_old_tables':kept,'old_tables_with_only_one_SkillCommit_row_added':extended,'methods_sections3_and4_unchanged':True,'learning_curves_controls_discussion_conclusion_unchanged':True,'new_numeric_tokens':{x:s.count(x) for x in required}})\n checks[p]=result\nold=Path('paper/tables/utility_frozen_results_20261101.json');original=json.loads(old.read_text());new=json.loads(Path('paper/tables/utility_frozen_results_with_skillcommit_20261104.json').read_text());assert sha(old.read_bytes())=='3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732';assert new['conditions'][:10]==original['conditions']\nassert new['original_ten_condition_table']['primary_family_endpoints']==18\nfor manifest in ['configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json','configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json']:\n files=json.loads(Path(manifest).read_text())['files']\n assert all(p not in files for p in before)\n assert 'paper/tables/utility_frozen_results_with_skillcommit_20261104.json' not in files\nenglish=Path('paper/utility_skill_manuscript_working_20261030.md').read_text();abstract=english.split('## Abstract\\n',1)[1].split('## 1.',1)[0];words=len(re.findall(r\"\\b[A-Za-z0-9]+(?:[-’'][A-Za-z0-9]+)*\\b\",abstract));assert words<=250,words\nx=subprocess.run(['/home/yndx/hhy/.paper-tools/pandoc-3.13/bin/pandoc','--from=biblatex','--to=csljson','paper/utility_skill_references_20261030.bib'],check=True,capture_output=True,text=True);entries=json.loads(x.stdout);assert len(entries)==11\nfor p in ['paper/utility_skill_manuscript_working_20261030.md','paper/sections-zh/utility_skill_manuscript_working_20261030.md']:\n s=Path(p).read_text();assert all(x['URL'] in s for x in entries)\nprint(json.dumps({'source_checks':checks,'new_table_sha256':sha(Path('paper/tables/utility_frozen_results_with_skillcommit_20261104.json').read_bytes()),'original_ten_condition_table_unchanged':True,'original18_family_unchanged_and_supplement2_separate':True,'original_method_learning_and_control_prose_unchanged':True,'English_abstract_regex_word_count':words,'both_manuscripts_have13tables_and11references':True,'all_updated_sources_unbound':True,'preintegration_source_bytes_verified_in_archive':archive,'exports_still_v12_not_claimed_new':True,'no_generation_teacher_or_experiment_setting_changes':True},ensure_ascii=False))\nPY",
+  "combined_presentation_table": "paper/tables/utility_frozen_results_with_skillcommit_20261104.json",
+  "terminal_primary_evidence": [
+    "artifacts/research/openexempt_skillcommit_20261102/run05_complete_frozen_TEST_scores_delivery_cost_and_pairing_20261104.json",
+    "artifacts/research/openexempt_skillcommit_20261102/run05_terminal_teacher_source_hash_continuity_20261104.json",
+    "artifacts/research/openexempt_skillcommit_20261102/run05_automatic_terminal_archives_independent_verification_20261104.json"
+  ]
+}

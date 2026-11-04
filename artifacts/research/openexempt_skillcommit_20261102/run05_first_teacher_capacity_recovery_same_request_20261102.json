@@ -1,0 +1,56 @@
+{
+  "observed_UTC": "2026-11-02T13:17:52.884750+00:00",
+  "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05",
+  "logical_teacher_role": "000920_reference_request",
+  "actual_failure_time": "2026-11-02T13:04:03.508138+00:00",
+  "classification": "One capacity failure without any completed result, recovered by the already frozen same-request/model retry policy. Not valid-result resampling, model switching, bank selection or study restart.",
+  "same_configured_model": "gpt-5.6-sol",
+  "same_configured_reasoning_effort": "high",
+  "single_original_wire_request": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/wire_request.json",
+  "successful_response_request_sha256": "2f0b3c8c47832abc9d20134d63cfa593bb95175bb581deb69a0658f909da9f86",
+  "successful_response_hash_equals_original_complete_wire_payload": true,
+  "failed_CLI_returncode": 1,
+  "recovered_CLI_returncode": 0,
+  "failed_log_event_type_counts": {
+    "thread.started": 1,
+    "turn.started": 1,
+    "error": 1,
+    "turn.failed": 1
+  },
+  "successful_log_event_type_counts": {
+    "thread.started": 1,
+    "turn.started": 1,
+    "item.completed": 1,
+    "turn.completed": 1
+  },
+  "failed_log_usage_records": [],
+  "successful_log_usage_records": [
+    {
+      "input_tokens": 20805,
+      "cached_input_tokens": 0,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 240,
+      "reasoning_output_tokens": 50
+    }
+  ],
+  "failure_usage_unknown_not_zero": true,
+  "failed_attempt_count_this_logical_request": 1,
+  "successful_logical_responses_this_request": 1,
+  "capacity_transport_attempt_index": 1,
+  "no_completed_result_in_failed_attempt_verified_by_frozen_guard": true,
+  "source_files_sha256": {
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/wire_request.json": "6a97b8126afb904515c5c947252cd2c9a4f2456c23e2af9bef87aa456e1d3fba",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/failure.json": "e14a5f9873fb2ebb53e3bcd63ff0410eb03720ac668e079e8fa03903f8f16e5d",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/event_log.json": "c88c410654fac4b493045060b2b9e458cd0bb6ed75d22d0fcf4a4428a9eaa709",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/capacity_retry_1/event_log.json": "4a2652ed8a426cc5c465434108ab69ce710281c53b89321f231cd1c9ba0df8cb",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request/response.json": "3d2d1a8d9d6dd8a5a859b396bdcb0650924e881f2d27b1673dab65ea020243c9"
+  },
+  "limitations": [
+    "Outer CLI attempts and successful logical responses are distinguishable; no undocumented internal provider retry count or charge is inferred.",
+    "Visible successful-response usage remains a subtotal, with failed-attempt usage not imputed as zero.",
+    "Recovery does not establish new scientific performance or resolve the pending full build/TEST comparison."
+  ],
+  "new_model_teacher_or_scoring_calls_by_analysis": 0,
+  "active_scientific_source_config_or_teacher_model_changed": false,
+  "analysis_command": ".venv/bin/python - <<'PY'\nimport collections,hashlib,json\nfrom datetime import datetime,timezone\nfrom pathlib import Path\nfrom legal_skill_guard.learning.experiment import capacity_failure_without_result\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256\nroot=Path('runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/teacher/000920_reference_request')\npaths=[root/'wire_request.json',root/'failure.json',root/'event_log.json',root/'capacity_retry_1/event_log.json',root/'response.json']\nwire,failure,failed,success,response=[json.loads(p.read_text()) for p in paths]\nassert failed['returncode']==1 and success['returncode']==0\nassert capacity_failure_without_result(failed)\nassert failure['capacity_without_any_result_verified'] and failure['same_request_and_model_no_result_selection'] and failure['usage_unknown_not_zero']\nassert response['capacity_transport_attempt_index']==1 and response['model']==wire['model']=='gpt-5.6-sol'\nassert canonical_json_sha256(wire)==response['request_sha256']\nassert response['actual_event_log_path'].endswith('capacity_retry_1/event_log.json')\ndef events(log):\n out=[]\n for line in log.get('event_log','').splitlines():\n  try:x=json.loads(line)\n  except (ValueError,TypeError):continue\n  if isinstance(x,dict):out.append(x)\n return out\nfe,se=events(failed),events(success)\nfu=[x['usage'] for x in fe if isinstance(x.get('usage'),dict)]\nsu=[x['usage'] for x in se if isinstance(x.get('usage'),dict)]\nassert not any(x.get('type')=='turn.completed' for x in fe)\nout={'observed_UTC':datetime.now(timezone.utc).isoformat(),'run_id':'legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05','logical_teacher_role':'000920_reference_request','actual_failure_time':failure['at'],'classification':'One capacity failure without any completed result, recovered by the already frozen same-request/model retry policy. Not valid-result resampling, model switching, bank selection or study restart.','same_configured_model':wire['model'],'same_configured_reasoning_effort':wire['reasoning_effort'],'single_original_wire_request':str(paths[0]),'successful_response_request_sha256':response['request_sha256'],'successful_response_hash_equals_original_complete_wire_payload':True,'failed_CLI_returncode':failed['returncode'],'recovered_CLI_returncode':success['returncode'],'failed_log_event_type_counts':dict(collections.Counter(x.get('type') for x in fe)),'successful_log_event_type_counts':dict(collections.Counter(x.get('type') for x in se)),'failed_log_usage_records':fu,'successful_log_usage_records':su,'failure_usage_unknown_not_zero':True,'failed_attempt_count_this_logical_request':1,'successful_logical_responses_this_request':1,'capacity_transport_attempt_index':1,'no_completed_result_in_failed_attempt_verified_by_frozen_guard':True,'source_files_sha256':{str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},'limitations':['Outer CLI attempts and successful logical responses are distinguishable; no undocumented internal provider retry count or charge is inferred.','Visible successful-response usage remains a subtotal, with failed-attempt usage not imputed as zero.','Recovery does not establish new scientific performance or resolve the pending full build/TEST comparison.'],'new_model_teacher_or_scoring_calls_by_analysis':0,'active_scientific_source_config_or_teacher_model_changed':False}\nprint(json.dumps(out,ensure_ascii=False))\nPY"
+}

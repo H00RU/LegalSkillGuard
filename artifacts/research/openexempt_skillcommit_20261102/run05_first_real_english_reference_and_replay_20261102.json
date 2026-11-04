@@ -1,0 +1,83 @@
+{
+  "observed_UTC": "2026-11-02T00:45:45.098725+00:00",
+  "pid": 1837514,
+  "birth_ticks": 558660848,
+  "references": [
+    {
+      "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000002_teacher_reference_validation.json",
+      "sha256": "787ff7a0dbfc6cc7523f3ec165eb6b12e36389dc634322be1fb882d41a1ca1fd",
+      "case_id": 181,
+      "family": "EC",
+      "native_f1": 1,
+      "passed": true
+    }
+  ],
+  "actual_repair_candidates": [
+    {
+      "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000004_replay.json",
+      "sha256": "053d3a053822026f065d3af639bdf159b94226d4483594bdd3f91c210f53fcec",
+      "memory_id": "sc_ec_c6b9d582208179a7aa83",
+      "CJK_characters": 0,
+      "has_Latin_prose": true,
+      "repair_preview": "When: An exemption task includes both category-specific provisions and general or wildcard provisions. Repair: For each owned asset, first test every specific category using the asset's actual function and the stated personal-use assumption"
+    },
+    {
+      "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000006_replay.json",
+      "sha256": "5f12a00f28b38784e6de2c6c3ad050bfdf0fe2ee4d35db2571f930f719bdd188",
+      "memory_id": "sc_ec_53cd2dd649a2796b3a3c",
+      "CJK_characters": 0,
+      "has_Latin_prose": true,
+      "repair_preview": "When: The supplied law permits both category-specific exemptions and exemptions applicable to any property. Repair: Build an asset-by-exemption matrix. For every owned asset, independently test 11 U.S.C. § 522(d)(5) and 42 Pa. Cons. Stat. §"
+    }
+  ],
+  "actual_replay_inputs": [
+    {
+      "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000004_replay/181_EC_skillcommit_replay.input.json",
+      "sha256": "436a52efc5323616604d804d2b4e70ed1cb4b1c11c518282db0bb086ed887b28",
+      "delivered_skill_ids": [
+        "sc_ec_c6b9d582208179a7aa83"
+      ],
+      "no_teacher_reference_fields": true
+    },
+    {
+      "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000006_replay/181_EC_skillcommit_replay.input.json",
+      "sha256": "040b2b968ed28c72280320b7db849a49ec01087514629389212e82222e8e15ec",
+      "delivered_skill_ids": [
+        "sc_ec_53cd2dd649a2796b3a3c"
+      ],
+      "no_teacher_reference_fields": true
+    }
+  ],
+  "progress": {
+    "at": "2026-11-02T00:45:02.969224+00:00",
+    "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05",
+    "state": "running",
+    "phase": "construction",
+    "stage": "000006_replay",
+    "current_batch": 1,
+    "completed_native_calls": 2,
+    "completed_teacher_calls": 3,
+    "teacher_attempts": 3,
+    "first_encounter_tasks": 1,
+    "active_patterns": {
+      "EC": 0,
+      "EV": 0
+    },
+    "residual_patches": {
+      "EC": 0,
+      "EV": 0
+    },
+    "elapsed_seconds": 211.75420969258994,
+    "current_arm": "skillcommit_replay",
+    "current_document_id": 181,
+    "current_call": "openexempt"
+  },
+  "failure": false,
+  "classification": "First real English authoring, accepted reference and replay-wire observation; not final quality or a causal score comparison",
+  "goal_status": "active",
+  "all_observed_candidates_English_on_inspection": true,
+  "only_observed_candidate_scope_not_future_guarantee": true,
+  "reference_or_target_fields_not_delivered_to_native_replay": true,
+  "no_protocol_or_score_changes_after_formal_launch": true,
+  "next": "Observe actual admission, transfer and complete batches; finish full TRAIN and existing TEST"
+}

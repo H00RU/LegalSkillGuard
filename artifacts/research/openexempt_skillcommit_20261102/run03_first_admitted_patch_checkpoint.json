@@ -1,0 +1,128 @@
+{
+  "observed_UTC": "2026-11-01T21:59:07.486506+00:00",
+  "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run03",
+  "service": "MainPID=1555448\nNRestarts=0\nActiveState=active\nSubState=running\n",
+  "proc_birth_ticks": 557537709,
+  "manifest_sha256": "ddab3590688597750f5968d3f445ebab78b91b9d4dda8b9137cd3581d491c9b7",
+  "bound_files": 648,
+  "mismatches": [],
+  "progress": {
+    "at": "2026-11-01T21:58:08.320159+00:00",
+    "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run03",
+    "state": "running",
+    "phase": "construction",
+    "stage": "first_forecasts",
+    "current_batch": 1,
+    "completed_native_calls": 12,
+    "completed_teacher_calls": 8,
+    "teacher_attempts": 8,
+    "first_encounter_tasks": 4,
+    "active_patterns": {
+      "EC": 0,
+      "EV": 0
+    },
+    "residual_patches": {
+      "EC": 1,
+      "EV": 0
+    },
+    "elapsed_seconds": 1428.4973393250257,
+    "current_arm": "skillcommit",
+    "current_document_id": 183,
+    "current_call": "openexempt"
+  },
+  "events_by_kind": {
+    "patch_request": 8,
+    "replay": 8,
+    "arrival_complete": 4,
+    "patch_admitted": 1
+  },
+  "actual_native_responses_on_disk": 12,
+  "native_finish_reasons": {
+    "stop": 12
+  },
+  "native_input_tokens": 78899,
+  "native_output_tokens": 44344,
+  "actual_teacher_responses_on_disk": 8,
+  "teacher_input_tokens": 172623,
+  "teacher_output_tokens": 6525,
+  "missing_teacher_usage": 0,
+  "self_reported_instance_solution": [],
+  "replays_on_disk": 8,
+  "replays_passed": 1,
+  "replay_invalid": 0,
+  "accepted_patches": [
+    {
+      "event": "000019_patch_admitted",
+      "memory": {
+        "id": "sc_ec_7095ad9462841d9b967f",
+        "family": "EC",
+        "kind": "patch",
+        "description": {
+          "when": "Use this repair only when its stated factual and legal conditions apply.",
+          "repair": "Apply a strict operative-grant test to every proposed citation: quote its legal function in a short internal paraphrase and include it only if the provision itself says that the asset or its described category is exempt or protected. Exclude provisions whose function is only to define, limit, cap, allocate, combine, elect, or administer another exemption; use them to test eligibility or amount, but do not report them separately. Match property categories narrowly by ordinary meaning and the statute's express examples; personal use or wearability alone does not transform an item into a listed category. Check ownership, use, residence, value, and aggregate-cap conditions. If no operative grant expressly covers the asset, output an empty array. Before submission, audit each citation with the question: “If every other provision were removed, would this text itself authorize protection of this asset?” If not, delete it. Return exactly the required asset-reference keys and only allowed citation-label IDs.",
+          "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+        },
+        "sources": [
+          182
+        ],
+        "parent": null
+      },
+      "attempt": 2,
+      "actual_validation": {
+        "native_f1": 0.6666666666666666,
+        "full_output_f1": 1,
+        "passed": true,
+        "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run03/native/000018_replay/182_EC_skillcommit_replay.json"
+      }
+    }
+  ],
+  "scope": "Live non-atomic prefix snapshot; incomplete training is not a frozen TEST result",
+  "goal_audit": "Active, incomplete TRAIN and TEST; no stop or protocol change warranted",
+  "native_ledger_scope": "Only raw physical response envelopes; derived .answer.json and .input.json are not generations",
+  "next_EC_delivery": {
+    "input_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run03/native/first_forecasts/183_EC_skillcommit.input.json",
+    "delivered_skill_ids": [
+      "sc_ec_7095ad9462841d9b967f"
+    ]
+  },
+  "first_forecasts": [
+    {
+      "case_id": 181,
+      "task": "EC",
+      "native_f1": 0.41666666666666663,
+      "full_output_f1": 0.47058823529411764,
+      "delivered_skill_ids": []
+    },
+    {
+      "case_id": 181,
+      "task": "EV",
+      "native_f1": 0.41666666666666663,
+      "full_output_f1": 0.47058823529411764,
+      "delivered_skill_ids": []
+    },
+    {
+      "case_id": 182,
+      "task": "EC",
+      "native_f1": 0.5555555555555555,
+      "full_output_f1": 0.6666666666666666,
+      "delivered_skill_ids": []
+    },
+    {
+      "case_id": 182,
+      "task": "EV",
+      "native_f1": 1,
+      "full_output_f1": 0.8,
+      "delivered_skill_ids": []
+    }
+  ],
+  "initial_snapshot_observed_UTC": "2026-11-01T21:58:40.077326+00:00",
+  "previous_goal_turn_classification": "Progress: rechecked paired score records and baseline source evidence; current goal remains active.",
+  "current_goal_turn_classification": "Progress plus verified wait: live PID and birth confirmed before and after 55-second sleep; first actual source-admitted patch and subsequent-case input delivery inspected.",
+  "pass_contract_note": "182 EC passes the predeclared native-target self-score ceiling contract. Native F1=2/3 and full-output F1=1.0; no score or threshold was changed for this source.",
+  "publication_note": "One residual EC patch is source-validated. No higher-level pattern or cross-instance transfer outcome is yet established.",
+  "next_actions": [
+    "Continue the same live run03 through all 256 TRAIN tasks and frozen TEST evaluation.",
+    "At completed-batch milestones audit first forecasts, patch/consolidation/split events, actual delivery and physical costs.",
+    "Do not stop on low scores or change bound files; diagnose actual engineering failures and obtain direction for scientific changes."
+  ]
+}

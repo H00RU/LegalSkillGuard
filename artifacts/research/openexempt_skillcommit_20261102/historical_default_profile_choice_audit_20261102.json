@@ -1,0 +1,100 @@
+{
+  "checked_at_utc": "2026-11-02T08:11:29.348737+00:00",
+  "files": [
+    {
+      "path": "data/cache/openexempt/servantez-OpenExempt-ec6fa25/config.json",
+      "sha256": "06a10f4909f7533dfe04ad942cce9055ee044493bf191c7374404025fc42313c"
+    },
+    {
+      "path": "configs/openexempt_mechanism_online_20261019_run01.json",
+      "sha256": "05a310c6787596b0f70009e7ab26692ca8fc76b765314523d4b16d342a3bcd37"
+    },
+    {
+      "path": "data/packets/openexempt_mechanism_20261019/preselection.json",
+      "sha256": "8058321029b23bfc2346637ede4c8978185cbdb917435dedabb6f70061153c1d"
+    },
+    {
+      "path": "data/packets/openexempt_closed_feedback_public_assets128_20261021/preselection.json",
+      "sha256": "c768036ca8973b7305c039bb41bfe8e7d069c5a0ec2d97b746023a03cb38cf83"
+    },
+    {
+      "path": "docs/research/OPENEXEMPT_CLOSED_FEEDBACK_PUBLIC_ASSETS128_20261021.md",
+      "sha256": "f9fd2a418924faef2b6bfe7aecf2ccf59ae366615ec017d7c3fc2e424eeeb352"
+    }
+  ],
+  "upstream_default_generation_settings": {
+    "asset_count_min": 2,
+    "asset_count_max": 4,
+    "asset_selection": "random",
+    "married_ratio": 0.5,
+    "domicile_count_min": 2,
+    "domicile_count_max": 4,
+    "irrelevant_asset_facts": false,
+    "irrelevant_domicile_facts": false,
+    "asset_opinions": false,
+    "domicile_opinions": false,
+    "state_jurisdictions": [
+      "ARIZONA",
+      "ILLINOIS",
+      "OREGON",
+      "PENNSYLVANIA",
+      "WISCONSIN"
+    ]
+  },
+  "pilot_settings_equal_upstream_defaults": true,
+  "formal128_settings_equal_pilot": true,
+  "pilot_source_cases": 16,
+  "formal_source_cases": 128,
+  "start_task_default": 1,
+  "start_task_pilot": 2,
+  "purpose": "Recover the contemporaneous reason and actual provenance of the 2–4-asset profile, not retrospectively invent a difficulty-selection experiment.",
+  "thread_history_path": "/home/yndx/.codex/sessions/2026/09/27/rollout-2026-09-27T21-46-38-01a0e31e-2378-7283-bda4-f52f06014498.jsonl",
+  "contemporaneous_public_messages": [
+    {
+      "line": 199427,
+      "timestamp_utc": "2026-10-19T09:04:55.676Z",
+      "role": "assistant",
+      "text": "查到了一项更直接的近期证据：SkillCommit 已在法律基准 OpenExempt 上研究冻结小模型的技能学习，关键是先用真实重答确认指导能被弱模型执行，再扩大适用范围。它有法律任务的正结果，但模型不是我们的 Qwen3-8B，不能照搬成绩。[论文](https://arxiv.org/html/2608.15165)\n\n我决定先停下对旧 NDA 提示库的微调，把 OpenExempt 的资产豁免分类、估值列为第一候选，做固定样本、连续多批的机制验证。旧项目和负结果原样保留；不会把它直接宣布为新主方法，更不会调用基准自带的答案求解器来制造提升。"
+    },
+    {
+      "line": 199808,
+      "timestamp_utc": "2026-10-19T09:35:54.546Z",
+      "role": "assistant",
+      "text": "新 Goal 已创建并开始执行，目前后台已进入 B3。任务和主方法不再锁死，目标仍是：技能让固定 8B 在后续新案上真正变强，并最终经得起论文对照。\n\n按师兄的 skill 重审后，最明确的问题是：过去没有可靠打通“教师写出正确指导→8B 真正执行→迁移到新案”。例如现在已经观察到，技能写了 `min(资产价值, 法定上限)`，8B 仍直接输出上限。继续增加同义提醒不能算解决。\n\n第一候选采用 [OpenExempt](https://github.com/servantez/OpenExempt)：判断资产适用哪些豁免法条，以及能保护多少钱。已实现并启动：\n\n- 官方生成器另设种子构建 16 案、4 批训练，官方测试封存。\n- 8B 参数冻结；训练标签只供教师学习，学生不能调用基准答案求解器。\n- 技能可以增删改、合并；依据真实训练重答决定是否准入，不强制增长。\n- 每批保留同案空库对照、负结果和实际成本，源码已双盘保全。\n\n截至 17:35，已完成的新案结果如下。每批只有 4 案，均不是测试成绩。\n\n| 批次 | 分类 F1：空库→技能 | 估值 F1：空库→技能 |\n|---|---:|---:|\n| B2 | 50.00%→47.08% | 20.00%→28.33% |\n| B3 | 47.92%→61.31% | 10.00%→32.87% |\n\nB3 出现了后续新案双项收益，但样本小、估值绝对水平仍低，尚不能称为稳定突破或论文指标达标。这里是新任务的官方 F1，不是旧任务的依据 F1。\n\n接下来自动继续 B4，并根据实际错误决定哪些步骤需要真正交给可执行技能。重放准入已有相关工作采用，不能单独算创新；最终仍须强基线、成熟方法对照和独立测试。\n\n完整判断、候选排序和执行边界见[重整方案](/home/yndx/hhy/legal-skill-current/docs/research/RESEARCH_RESET_20261019.md)。Goal 保持 active。"
+    },
+    {
+      "line": 214504,
+      "timestamp_utc": "2026-10-20T13:06:41.695Z",
+      "role": "assistant",
+      "text": "查到一个重要的比较边界：当前32案是2–4项资产、已给定可用法域；官方Advanced是6–8项资产，还需从居住史推断法域，不能直接横比分数。官方Reasoning Decomposition有原生“法域已给”的变体，可作为后续测试候选。这只是澄清测试选型，当前训练任务不变。"
+    }
+  ],
+  "default_read_event": {
+    "line": 199394,
+    "timestamp": "2026-10-19T09:03:31.081Z",
+    "record_type": "response_item",
+    "payload_type": "custom_tool_call_output",
+    "name": null,
+    "line_sha256": "7110d3ad4f10f4e79c02182fa64f7a733a21936c5818a4d95880a9f3a18b5ea4",
+    "excerpt": "ectory\\\": \\\"data/templates\\\",\\nL5:     \\\"output_directory\\\": \\\"tasks\\\",\\nL6:     \\\"start_task_id\\\": 1,\\nL7:     \\\"terminal_task_id\\\": 5,\\nL8:     \\\"dataset_size\\\": 100,\\nL9:     \\\"asset_count_min\\\": 2,\\nL10:     \\\"asset_count_max\\\": 4,\\nL11:     \\\"asset_selection\\\": \\\"random\\\",\\nL12:     \\\"married_ratio\\\": 0.5,\\nL13:     \\\"domicile_count_min\\\": 2,\\nL14:     \\\"domicile_count_max\\\": 4,\\nL15:     \\\"irrelevant_asset_facts\\\": false,\\nL16:     \\\"irrelevant_domicile_facts\\\": false,\\nL17:     \\\"asset_opinions\\\": false,\\nL18:     \\\"domicile_opinions\\\": false,\\nL19:     \\\"state_jurisdictions\\\": [\\\"ARIZONA\\\", \\\"ILLINOIS\\\", \\\"OREGON\\\", \\\"PENNSYLVANIA\\\", \\\"WISCONSI"
+  },
+  "first_pilot_config_write_event": {
+    "line": 199528,
+    "timestamp": "2026-10-19T09:13:58.992Z",
+    "record_type": "response_item",
+    "payload_type": "custom_tool_call",
+    "name": "exec",
+    "line_sha256": "739e052c1edf9555baf23a620514f8020e35a6646346db2e07013a74f8df6af1",
+    "excerpt": "_20261019/grading_only\\\\\\\",\\\\n+  \\\\\\\"source_cases\\\\\\\": 16,\\\\n+  \\\\\\\"batch_source_cases\\\\\\\": 4,\\\\n+  \\\\\\\"dataset_seed\\\\\\\": 2026101907,\\\\n+  \\\\\\\"dataset_generation\\\\\\\": {\\\\n+    \\\\\\\"asset_count_min\\\\\\\": 2,\\\\n+    \\\\\\\"asset_count_max\\\\\\\": 4,\\\\n+    \\\\\\\"asset_selection\\\\\\\": \\\\\\\"random\\\\\\\",\\\\n+    \\\\\\\"married_ratio\\\\\\\": 0.5,\\\\n+    \\\\\\\"domicile_count_min\\\\\\\": 2,\\\\n+    \\\\\\\"domicile_count_max\\\\\\\": 4,\\\\n+    \\\\\\\"irrelevant_asset_facts\\\\\\\": false,\\\\n+    \\\\\\\"irrelevant_domicile_facts\\\\\\\": false,\\\\n+    \\\\\\\"asset_opinions\\\\\\\": false,\\\\n+    \\\\\\\"domicile_opinions\\\\\\\": false,\\\\n+    \\\\\\\"state_jurisdictions\\\\\\\": [\\\\\\\"ARIZONA\\\\\\\", \\\\\\\"ILLINOIS\\\\\\\", \\\\\\\"OREGON\\\\\\\", "
+  },
+  "findings": [
+    "All declared pilot dataset_generation fields equal the pinned upstream repository default config, including 2–4 assets, five states, married_ratio 0.5 and no obfuscation. These numbers were not independently invented for the current paper.",
+    "The initial 2026-10-19 public decision was a 16-source/four-batch mechanism experiment to test execution and subsequent-case transfer, not a claim that this difficulty had been optimized against Advanced.",
+    "The 128-source protocol explicitly retained the earlier profile to avoid changing task difficulty while evaluating the longer learning stream.",
+    "The 2026-10-20 public message explicitly identified the difference from Advanced before the 128-source formal expansion.",
+    "The inspected decision records do not establish that 2–4 assets is optimal or that Advanced is infeasible for the executor."
+  ],
+  "interpretation_boundary": "Provenance of the default settings is a verified fact; the mechanism-first motivation is documented. There was no matched difficulty-selection experiment in the inspected record. This evidence does not make this custom generated IID packet an official benchmark suite.",
+  "new_model_teacher_grader_calls": 0,
+  "running_source_configuration_scores_or_data_modified": false
+}

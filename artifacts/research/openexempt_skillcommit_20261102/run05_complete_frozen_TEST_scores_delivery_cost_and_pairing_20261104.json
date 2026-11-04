@@ -1,0 +1,287 @@
+{
+  "recorded_UTC": "2026-11-03T19:41:33.864038+00:00",
+  "actual_frozen_TEST_records": 256,
+  "source_cases": 128,
+  "source_disjoint_TRAIN": true,
+  "physical_TEST_calls": 256,
+  "all256_saved_predictions_have_no_score": true,
+  "all_saved_prediction_fields_unchanged_in_scored_records": true,
+  "mtime_order_ns": {
+    "latest_TEST_raw": 1793734288814850600,
+    "all_predictions_saved": 1793734288842850000,
+    "scored_records": 1793734288970847200,
+    "completion": 1793734289050845700
+  },
+  "all256_scores_reproduced_exactly_in_existing_driver_environment": true,
+  "metrics": {
+    "EC": {
+      "precision": 0.8795244660364148,
+      "recall": 0.5981987847222222,
+      "f1": 0.6797536541447383,
+      "exact_target": 0.203125,
+      "tasks": 128,
+      "invalid_format": 3,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.6979297184031424,
+      "negative_or_unscored_asset_claims": 16
+    },
+    "EV": {
+      "precision": 0.7692708333333335,
+      "recall": 0.5974934895833333,
+      "f1": 0.6481813759157508,
+      "exact_target": 0.1875,
+      "tasks": 128,
+      "invalid_format": 4,
+      "officially_unscored_predicted_claims": 6,
+      "full_output_f1": 0.6446804808384355,
+      "negative_or_unscored_asset_claims": 6
+    },
+    "mean_family_f1": 0.6639675150302445
+  },
+  "bootstrap_reproduced": {
+    "seed": 2026110101,
+    "draws": 20000,
+    "unit": "128sorted sources; same index draws for EC/EV",
+    "ordinary_quantiles": [
+      0.025,
+      0.975
+    ],
+    "two_endpoint_quantiles": [
+      0.0125,
+      0.9875
+    ],
+    "direction": "existing_main_minus_SkillCommit_adaptation",
+    "results": {
+      "EC": {
+        "delta_pp": 27.48718418870073,
+        "ordinary95_pp": [
+          23.460689822606756,
+          31.698618777332584
+        ],
+        "two_endpoint_fwer95_pp": [
+          22.91856933400333,
+          32.30305879404714
+        ]
+      },
+      "EV": {
+        "delta_pp": 23.08333810286935,
+        "ordinary95_pp": [
+          18.23308841765873,
+          27.944479321676578
+        ],
+        "two_endpoint_fwer95_pp": [
+          17.546930594904225,
+          28.675356761294257
+        ]
+      }
+    },
+    "not_original18_endpoint_family_or_build_seed_variance": true
+  },
+  "actual_TEST_skill_delivery": {
+    "all256_complete_GUIDANCEs_match_frozen_pool_and_public_task_reconstruction": true,
+    "all256_nonempty": true,
+    "all256_count": 4,
+    "tokens_recorded_min": 1351,
+    "tokens_recorded_max": 1615,
+    "count_by_memory_id": {
+      "sc_ec_0b69585d88dcf82939a1": 128,
+      "sc_ec_608de336e04390d0ac7b": 119,
+      "sc_ec_64acc13f60b90ef5dbf3": 96,
+      "sc_ec_7766b0e04d300af2a012": 123,
+      "sc_ev_367cb77035fbc3414075": 128,
+      "sc_ev_43b024b64e2381ff7103": 128,
+      "sc_ev_81915ed5643c665724cf": 128,
+      "sc_ev_b6bdedf1d90cfdd34779": 128,
+      "sc_ec_f9147cee46dc71d4f74f": 15,
+      "sc_ec_580891c36b97362b6a96": 31
+    },
+    "count_by_family": {
+      "EC": {
+        "sc_ec_0b69585d88dcf82939a1": 128,
+        "sc_ec_608de336e04390d0ac7b": 119,
+        "sc_ec_64acc13f60b90ef5dbf3": 96,
+        "sc_ec_7766b0e04d300af2a012": 123,
+        "sc_ec_f9147cee46dc71d4f74f": 15,
+        "sc_ec_580891c36b97362b6a96": 31
+      },
+      "EV": {
+        "sc_ev_367cb77035fbc3414075": 128,
+        "sc_ev_43b024b64e2381ff7103": 128,
+        "sc_ev_81915ed5643c665724cf": 128,
+        "sc_ev_b6bdedf1d90cfdd34779": 128
+      }
+    },
+    "kind_delivery_occurrences": {
+      "EC": {
+        "pattern": 512
+      },
+      "EV": {
+        "pattern": 512
+      }
+    },
+    "unused_current_memory_ids": {
+      "EC": [
+        "sc_ec_0bc1cbe0dbe32f31809f",
+        "sc_ec_0cfe1f7bba5b084c357b",
+        "sc_ec_128f7db38dbe2054dbf7",
+        "sc_ec_2002b309bc7ad10e4f5f",
+        "sc_ec_248f74e3b2e7cc3da345",
+        "sc_ec_2eb775293262446ff7ee",
+        "sc_ec_57a7bc5bb204f6b9888d",
+        "sc_ec_5901ed774ac13ca56e9f",
+        "sc_ec_6562a74743fb0b6b3526",
+        "sc_ec_68085ddddb86ebf2d938",
+        "sc_ec_6c965eb696e714dbc214",
+        "sc_ec_6d0111e553a367b39bc1",
+        "sc_ec_850a27c1273b1a15bdb9",
+        "sc_ec_9e2c482b9ddcf66b61ca",
+        "sc_ec_a4ed7bca0a11639dcde6",
+        "sc_ec_b66896d06ea66659a4bf",
+        "sc_ec_bd5df33abd2abc0f2f08"
+      ],
+      "EV": [
+        "sc_ev_0bb01dacc5977872a06f",
+        "sc_ev_102fbb5d34b1c19051e1",
+        "sc_ev_1ad0bfb5c0b329779364",
+        "sc_ev_216fb64a0bcededf49bf",
+        "sc_ev_2acc81c74f2a78f21fb2",
+        "sc_ev_2e84ad34c943594ea021",
+        "sc_ev_30b947c17bc27b297cf1",
+        "sc_ev_32a666d4f59e082bd6f1",
+        "sc_ev_44d09ad4f4c988ab6a71",
+        "sc_ev_4d357416e17d94d5ec2b",
+        "sc_ev_75a12279f8fc45da1459",
+        "sc_ev_8ed4b03f846cb17dda60",
+        "sc_ev_9a8903b733614570d108",
+        "sc_ev_a0b8ef654a39b3597630",
+        "sc_ev_e976e630d9db5f81c237",
+        "sc_ev_ee349f67046af5e6bdcb",
+        "sc_ev_ff51d79d0e6a55c1884b"
+      ]
+    },
+    "retrieval_order_vs_actual_order": "Membership matches; actual task_view is canonical ID order, not similarity rank. The selected-bank hash is not the44-memory final-pool hash.",
+    "per_task_lineage_entries": 256,
+    "per_task_lineage_map_sha256": "3d4fedb7887990d5a7e665267ca47dc06e3eb6ccaf4d8d01be0b10f602ea6386"
+  },
+  "all256_generation_and_nonmemory_HTTP_inputs_match_existing_empty": true,
+  "nonempty_structured_reasoning_records": 255,
+  "empty_structured_reasoning_field_records": [
+    {
+      "case_id": 3000106,
+      "family": "EV",
+      "finish_reason": "length",
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/frozen_TEST/3000106_EV_skillcommit.json",
+      "content_chars": 27325
+    }
+  ],
+  "thinking_configuration": "All256 actual public messages/schema/generation profiles match the existing empty counterpart; disable_thinking=false in the frozen profile. Do not equate reasoning parser field presence with per-call inference configuration.",
+  "native_finish_reasons": {
+    "stop": 249,
+    "length": 7
+  },
+  "all_invalid_retained_zero": [
+    {
+      "case_id": 3000010,
+      "family": "EC",
+      "finish_reason": "length",
+      "native_f1": 0,
+      "full_output_f1": 0,
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/frozen_TEST/3000010_EC_skillcommit.json",
+      "raw_sha256": "816ea505b12543708e0c7a83021655a45b702cbad8d6762b714071c6be044d94",
+      "prompt_tokens": 7891,
+      "completion_tokens": 8192,
+      "total_tokens": 16083
+    },
+    {
+      "case_id": 3000012,
+      "family": "EV",
+      "finish_reason": "length",
+      "native_f1": 0,
+      "full_output_f1": 0,
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/frozen_TEST/3000012_EV_skillcommit.json",
+      "raw_sha256": "9816c4f2acf89ab3abc4058eb4a11b3b3def107f2b84136df80ecbcfaebbb4af",
+      "prompt_tokens": 7951,
+      "completion_tokens": 8192,
+      "total_tokens": 16143
+    },
+    {
+      "case_id": 3000075,
+      "family": "EC",
+      "finish_reason": "length",
+      "native_f1": 0,
+      "full_output_f1": 0,
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/frozen_TEST/3000075_EC_skillcommit.json",
+      "raw_sha256": "3319bbd872684eb4d0c25b0c21493c7871d76a3179ff81f685bd144250300197",
+      "prompt_tokens": 7860,
+      "completion_tokens": 8192,
+      "total_tokens": 16052
+    },
+    {
+      "case_id": 3000100,
+      "family": "EV",
+      "finish_reason": "length",
+      "native_f1": 0,
+      "full_output_f1": 0,
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/frozen_TEST/3000100_EV_skillcommit.json",
+      "raw_sha256": "394c7967f9c5091bb25fd843614dcde971d05408213bf8fb81cfea9d25b7f84d",
+      "prompt_tokens": 7853,
+      "completion_tokens": 8192,
+      "total_tokens": 16045
+    },
+    {
+      "case_id": 3000106,
+      "family": "EV",
+      "finish_reason": "length",
+      "native_f1": 0,
+      "full_output_f1": 0,
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/frozen_TEST/3000106_EV_skillcommit.json",
+      "raw_sha256": "d9a620681331d3c834e77faccca1eac2eb739efaa7379d45140467c24572c8c3",
+      "prompt_tokens": 7846,
+      "completion_tokens": 8192,
+      "total_tokens": 16038
+    },
+    {
+      "case_id": 3000116,
+      "family": "EV",
+      "finish_reason": "length",
+      "native_f1": 0,
+      "full_output_f1": 0,
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/frozen_TEST/3000116_EV_skillcommit.json",
+      "raw_sha256": "8edabdc3bad89829f76f9918b39e9f8c559c623930427cdd7280633fb106ead1",
+      "prompt_tokens": 7955,
+      "completion_tokens": 8192,
+      "total_tokens": 16147
+    },
+    {
+      "case_id": 3000127,
+      "family": "EC",
+      "finish_reason": "length",
+      "native_f1": 0,
+      "full_output_f1": 0,
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/frozen_TEST/3000127_EC_skillcommit.json",
+      "raw_sha256": "ed408bf620c15a04b8728b07fa3cbdb5798f08b72323b2e2fd281fa580c4afd2",
+      "prompt_tokens": 7816,
+      "completion_tokens": 8192,
+      "total_tokens": 16008
+    }
+  ],
+  "TEST_usage_by_family": {
+    "EC": {
+      "prompt_tokens": 983329,
+      "completion_tokens": 324437,
+      "total_tokens": 1307766
+    },
+    "EV": {
+      "prompt_tokens": 1018361,
+      "completion_tokens": 387679,
+      "total_tokens": 1406040
+    }
+  },
+  "TEST_native_input_tokens": 2001690,
+  "TEST_native_output_tokens": 712116,
+  "teacher_calls_during_TEST": 0,
+  "source_file_hash_count": 1031,
+  "source_file_hash_map_sha256": "3148b3d8c48e6884351100e1e81b391a8f54b30f4943a10a0737b8814f73a5ac",
+  "scope": "Offline reconstruction, original-score and fixed-bootstrap audit only. No new generation, teacher, encoder, tokenizer or network call. Token values are original measured usage/delivery receipts, not newly measured GPU time. Source hash map reproducible from this command and saved files.",
+  "executed_readonly_command": ".venv/bin/python - <<'PY'\nimport copy,collections,datetime,hashlib,json,math,socket\nfrom pathlib import Path\nimport numpy as np\nsocket.socket.connect=lambda *a,**k:(_ for _ in ()).throw(RuntimeError('Offline audit forbids network'))\nfrom legal_skill_guard.openexempt import evaluate,metrics\nfrom legal_skill_guard.learning.skillcommit import actor_bank\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as canon\nfrom experiments.openexempt_online import actor_payload\nroot=Path.cwd();rid='legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05';r=root/'runs'/rid\nread=lambda p:json.loads(Path(p).read_text());sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()\nc=read('configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.json');terminal=read(r/'completion.json');pub=read(r/'publications/final.json')\nassert canon(pub['library'])==terminal['library_sha256']==pub['library_sha256']=='93fd552b3fb54e25c37235903bcef82903ec7874b3e2098bcd3af1ba2a4a1023'\nassert sha(r/'publications/final.json')=='090af0de02fd5ba84bd053683411ea930b7fa8c9906613ccb8f5aac518b9cc89'\ntrain=read(c['input_packet'])['rows'];rows=read(c['evaluation_input_packet'])['rows'];lookup={(x['case_id'],x['family']):x for x in rows};assert len(lookup)==256\nassert len({x['source_key'] for x in rows})==128 and not ({x['source_key'] for x in train}&{x['source_key'] for x in rows})\nassert sha(c['input_packet'])==c['train_packet_sha256'] and sha(c['evaluation_input_packet'])==c['evaluation_packet_sha256']\npred=read(r/'TEST_predictions_before_grading.json');records=read(r/'TEST_scored_records.json');assert len(pred)==len(records)==256\nassert all('score' not in x for x in pred)\nassert [{k:v for k,v in x.items() if k!='score'} for x in records]==pred\nassert {(x['case_id'],x['family']) for x in records}==set(lookup)\nassert len({x['raw_call_path'] for x in records})==256 and len(list((r/'TEST_delivery').glob('*.json')))==256\nold=read(c['existing_scored_records']);empty={(x['case_id'],x['family']):x for x in old['empty']};main={(x['source_key'],x['family']):x for x in old['utility45']}\npool={f:{x['id']:x for kind in ['active_patterns','residual_patches'] for x in pub['library'][f][kind]} for f in ['EC','EV']}\nhashes={};allcounts=collections.Counter();fcounts=collections.defaultdict(collections.Counter);kcounts=collections.defaultdict(collections.Counter);finishes=collections.Counter();token_counts=[];usage=collections.defaultdict(collections.Counter);invalid=[];details=[];calls=[];maxraw=0;reasoning_nonempty=0;reasoning_empty=[]\nbind=lambda p:hashes.setdefault(str(Path(p)),sha(p))\ndef no_memory(messages):return [x for x in messages if not (isinstance(x.get('content'),str) and x['content'].startswith('Background reusable skills.'))]\nfor rec in records:\n row=lookup[rec['case_id'],rec['family']];assert row['source_key']==rec['source_key'];f=rec['family'];p=Path(rec['raw_call_path']);raw=read(p);inp=read(p.with_suffix('.input.json'));dp=r/'TEST_delivery'/f\"{rec['case_id']}_{f}.json\";delivery=read(dp)\n assert raw['transport_error'] is None and len(raw['calls'])==1\n assert raw['stage']=='frozen_TEST' and raw['family']==f and raw['document_id']==row['case_id']\n wire=raw['calls'][0]['request'];response=raw['calls'][0]['response'];assert len(response['choices'])==1\n selected=delivery['memory_ids'];assert len(selected)==len(set(selected))==4 and all(x in pool[f] for x in selected)\n bank=actor_bank([pool[f][x] for x in selected]);messages,schema,supplied=actor_payload(row,bank,grounded=True,direct_numeric=True,asset_references=True)\n assert messages==inp['messages']==wire['messages'] and schema==inp['schema']\n assert canon(bank)==rec['bank_sha256']==raw['bank_sha256']==inp['bank_sha256']\n ids=[x['id'] for x in supplied];assert ids==rec['delivered_skill_ids']==inp['delivered_skill_ids'] and set(ids)==set(selected)\n texts=[m['content'] for m in wire['messages'] if m['content'].startswith('Background reusable skills.')]\n assert len(texts)==1;actual=json.loads(texts[0].split('\\n',1)[1]);rendered=copy.deepcopy(supplied)\n for item in rendered:item['guidance'].pop('operators',None)\n assert actual==rendered\n assert all(x['hypothesis_ids']==[f] and not x['guidance'].get('operators') for x in actual)\n assert inp['no_private_case_annotations_or_current_target'] is True and inp['numerical_program_bodies_rendered_to_actor'] is False\n assert delivery['query_is_original_public_prompt_only'] is True and 0<delivery['tokens']<=8192\n token_counts.append(delivery['tokens']);allcounts.update(ids);fcounts[f].update(ids);kcounts[f].update(pool[f][x]['kind'] for x in ids)\n e=empty[row['case_id'],f];eraw=read(e['raw_call_path']);ew=eraw['calls'][0]['request']\n assert no_memory(wire['messages'])==no_memory(ew['messages'])\n assert {k:v for k,v in wire.items() if k!='messages'}=={k:v for k,v in ew.items() if k!='messages'}\n for field,value in [('model','Qwen/Qwen3-8B'),('temperature',.6),('top_p',.95),('top_k',20),('max_tokens',8192),('seed',45)]:assert wire[field]==value,(f,row['case_id'],field)\n choice=response['choices'][0];finish=choice['finish_reason'];finishes[finish]+=1;reasoning_nonempty+=bool(choice['message'].get('reasoning_content'))\n if not choice['message'].get('reasoning_content'):reasoning_empty.append({'case_id':row['case_id'],'family':f,'finish_reason':finish,'raw_call_path':str(p),'content_chars':len(choice['message'].get('content') or '')})\n u=response['usage'];assert u['prompt_tokens']==raw['response']['prompt_tokens'] and u['completion_tokens']==raw['response']['completion_tokens']\n for key in ['prompt_tokens','completion_tokens','total_tokens']:usage[f][key]+=u[key]\n calls.append(str(p));maxraw=max(maxraw,p.stat().st_mtime_ns)\n gold=read(Path(c['evaluation_grading_directory'])/f\"{row['case_id']}.json\");assert gold['source_key']==row['source_key']\n answer=rec['parsed']['answer'] if rec['parse_error'] is None else None\n fresh=evaluate(row,answer,copy.deepcopy(gold['targets'][f]));assert fresh==rec['score'],(row['case_id'],f)\n if rec['parse_error'] is not None:\n  assert rec['score']['invalid_format'] and rec['score']['f1']==rec['score']['full_output_f1']==0\n  invalid.append({'case_id':row['case_id'],'family':f,'finish_reason':finish,'native_f1':0,'full_output_f1':0,'raw_call_path':str(p),'raw_sha256':sha(p),'prompt_tokens':u['prompt_tokens'],'completion_tokens':u['completion_tokens'],'total_tokens':u['total_tokens']})\n details.append({'case_id':row['case_id'],'family':f,'source_key':row['source_key'],'actual_ids':ids,'retrieval_ids':selected,'serialized_token_count_recorded_by_original_server':delivery['tokens'],'full_guidance_matches_frozen_pool':True,'input_rebuilt_only_from_public_task_and_frozen_memories':True,'generation_and_nonmemory_messages_match_existing_empty':True})\n for source in [p,p.with_suffix('.input.json'),p.with_suffix('.answer.json'),dp]:bind(source)\nassert len(list((r/'native/frozen_TEST').glob('*_skillcommit.json')))==256\nactual=metrics(records)\ndef same(a,b):\n if isinstance(a,dict):assert set(a)==set(b);[same(v,b[k]) for k,v in a.items()]\n elif isinstance(a,list):assert len(a)==len(b);[same(v,w) for v,w in zip(a,b)]\n elif isinstance(a,(int,float)):assert math.isclose(a,b,rel_tol=0,abs_tol=1e-12),(a,b)\n else:assert a==b\nsame(actual,terminal['metrics'])\norder=sorted({x['source_key'] for x in records});assert len(order)==128\nown={(x['source_key'],x['family']):x['score']['f1'] for x in records};assert set(own)==set(main)\nindices=np.random.default_rng(c['paired_bootstrap_seed']).integers(0,128,size=(20000,128));paired={}\nfor f in ['EC','EV']:\n delta=np.array([main[s,f]['score']['f1']-own[s,f] for s in order]);draws=delta[indices].mean(axis=1)\n paired[f]={'delta_pp':float(delta.mean()*100),'ordinary95_pp':(np.quantile(draws,[.025,.975])*100).tolist(),'two_endpoint_fwer95_pp':(np.quantile(draws,[.0125,.9875])*100).tolist()};same(paired[f],terminal['paired_existing_main'][f])\nassert c['paired_bootstrap_seed']==2026110101\npstat=(r/'TEST_predictions_before_grading.json').stat();sstat=(r/'TEST_scored_records.json').stat();tstat=(r/'completion.json').stat();assert maxraw<=pstat.st_mtime_ns<sstat.st_mtime_ns<tstat.st_mtime_ns\ncount=sum(usage[f]['prompt_tokens'] for f in usage);outcount=sum(usage[f]['completion_tokens'] for f in usage)\nassert count==terminal['total_build_and_TEST_cost']['native_input_tokens']-pub['cost']['native_input_tokens']\nassert outcount==terminal['total_build_and_TEST_cost']['native_output_tokens']-pub['cost']['native_output_tokens']\nassert terminal['test_native_generations']==256 and terminal['teacher_calls_during_test']==0\nfor source in [r/'completion.json',r/'publications/final.json',r/'build_completion.json',r/'TEST_predictions_before_grading.json',r/'TEST_scored_records.json',Path(c['evaluation_input_packet']),Path(c['existing_scored_records'])]:bind(source)\nprint(json.dumps({'recorded_UTC':datetime.datetime.now(datetime.timezone.utc).isoformat(),'actual_frozen_TEST_records':256,'source_cases':128,'source_disjoint_TRAIN':True,'physical_TEST_calls':len(calls),'all256_saved_predictions_have_no_score':True,'all_saved_prediction_fields_unchanged_in_scored_records':True,'mtime_order_ns':{'latest_TEST_raw':maxraw,'all_predictions_saved':pstat.st_mtime_ns,'scored_records':sstat.st_mtime_ns,'completion':tstat.st_mtime_ns},'all256_scores_reproduced_exactly_in_existing_driver_environment':True,'metrics':actual,'bootstrap_reproduced':{'seed':c['paired_bootstrap_seed'],'draws':20000,'unit':'128sorted sources; same index draws for EC/EV','ordinary_quantiles':[.025,.975],'two_endpoint_quantiles':[.0125,.9875],'direction':'existing_main_minus_SkillCommit_adaptation','results':paired,'not_original18_endpoint_family_or_build_seed_variance':True},'actual_TEST_skill_delivery':{'all256_complete_GUIDANCEs_match_frozen_pool_and_public_task_reconstruction':True,'all256_nonempty':True,'all256_count':4,'tokens_recorded_min':min(token_counts),'tokens_recorded_max':max(token_counts),'count_by_memory_id':dict(allcounts),'count_by_family':{f:dict(v) for f,v in fcounts.items()},'kind_delivery_occurrences':{f:dict(v) for f,v in kcounts.items()},'unused_current_memory_ids':{f:sorted(set(pool[f])-set(fcounts[f])) for f in pool},'retrieval_order_vs_actual_order':'Membership matches; actual task_view is canonical ID order, not similarity rank. The selected-bank hash is not the44-memory final-pool hash.','per_task_lineage_entries':len(details),'per_task_lineage_map_sha256':canon(details)},'all256_generation_and_nonmemory_HTTP_inputs_match_existing_empty':True,'nonempty_structured_reasoning_records':reasoning_nonempty,'empty_structured_reasoning_field_records':reasoning_empty,'thinking_configuration':'All256 actual public messages/schema/generation profiles match the existing empty counterpart; disable_thinking=false in the frozen profile. Do not equate reasoning parser field presence with per-call inference configuration.','native_finish_reasons':dict(finishes),'all_invalid_retained_zero':invalid,'TEST_usage_by_family':{f:dict(v) for f,v in usage.items()},'TEST_native_input_tokens':count,'TEST_native_output_tokens':outcount,'teacher_calls_during_TEST':0,'source_file_hash_count':len(hashes),'source_file_hash_map_sha256':canon(hashes),'scope':'Offline reconstruction, original-score and fixed-bootstrap audit only. No new generation, teacher, encoder, tokenizer or network call. Token values are original measured usage/delivery receipts, not newly measured GPU time. Source hash map reproducible from this command and saved files.'},ensure_ascii=False))\nPY"
+}

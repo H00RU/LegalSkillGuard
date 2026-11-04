@@ -1,0 +1,376 @@
+{
+  "observed_UTC": "2026-11-02T11:37:37.390318+00:00",
+  "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05",
+  "classification": "First successful native source-supported split in this fixed paper adaptation; actual records only, not new inference or a whole-batch/test improvement claim.",
+  "first_successful_split_event": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000793_pattern_split.json",
+  "split_memory": {
+    "id": "sc_ec_2eb775293262446ff7ee",
+    "family": "EC",
+    "kind": "pattern",
+    "description": {
+      "when": "Use when the governing exemption law provides both category-specific exemptions and an independently applicable general or wildcard monetary exemption, including 735 Ill. Comp. Stat. 5/12-1001(b), 42 Pa. Cons. Stat. § 8123, or 11 U.S.C. § 522(d)(5).",
+      "repair": "For each owned asset, create an exemption checklist before constructing the output array. First decide whether every applicable general or wildcard exemption can protect any equity; if so, record it unless the allowance is affirmatively exhausted. Then add every category-specific exemption whose complete statutory and factual conditions are established. Never treat a specific exemption, or failure of a specialized test, as displacing a general exemption. Distinguish 11 U.S.C. § 522(d)(5), the wildcard, from category-specific provisions such as § 522(d)(3). Treat monetary caps as limits on protected value unless the statute expressly makes value an eligibility condition. Apply ordinary category boundaries: wearing apparel requires an actual garment, and a prescribed health aid requires evidence of professional prescription. Before submission, reconcile every asset array against the checklist and reject any array lacking an explicit decision on each applicable general or wildcard exemption.",
+      "avoid_when": "Do not list provisions that only define terms, impose limitations, or govern exemption elections without independently protecting property. Do not apply an exemption when ownership or another express condition fails, no protectable equity exists, or the available allowance is affirmatively exhausted. Do not stretch wearing apparel to jewelry or other adornment, infer a professional prescription without evidence, or substitute a category-specific provision for the applicable wildcard."
+    },
+    "sources": [
+      209,
+      219
+    ],
+    "parent": null
+  },
+  "original_proposed_sources": [
+    190,
+    204,
+    209,
+    219
+  ],
+  "full_scope_versions": [
+    {
+      "attempt": 1,
+      "event_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000787_replay.json",
+      "memory_id": "sc_ec_7a430832cd3047774bfe",
+      "sources": [
+        190,
+        204,
+        209,
+        219
+      ],
+      "description": {
+        "when": "Use when the governing exemption law provides both category-specific exemptions and a general or wildcard monetary exemption that may independently protect the same asset.",
+        "repair": "Evaluate each owned asset independently in two passes. First, record every category-specific exemption whose statutory and factual conditions are satisfied. Second, separately test each applicable general or wildcard exemption and include it whenever it can protect some equity and its allowance is not established as exhausted. A specific exemption does not displace an independently applicable general exemption, and failure of a specialized test does not defeat the general exemption. Treat monetary caps as limits on protected value unless the statute expressly makes value an eligibility condition. Before submission, audit every asset for a documented decision under each independently applicable exemption.",
+        "avoid_when": "Do not list provisions that merely define terms, impose limits, or govern elections without independently protecting property. Do not apply an exemption when an express condition fails, no protectable equity exists, or the available allowance is established as exhausted."
+      },
+      "passed_source_ids": [],
+      "matches_committed_description": false,
+      "records": [
+        {
+          "case_id": 190,
+          "source_key": "040f803b427653fa7172612cbf99e3222d2481cd6d59b3c496c78e2aa2699ca1",
+          "native_F1": 0.3333333333333333,
+          "complete_output_F1": 0.4,
+          "passed": false,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/190_EC_skillcommit_replay.json"
+        },
+        {
+          "case_id": 204,
+          "source_key": "5f90bd21605c33d355e8aacd9266e2837a2310820d732185508e1597a8e195e0",
+          "native_F1": 0.3333333333333333,
+          "complete_output_F1": 0.4,
+          "passed": false,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/204_EC_skillcommit_replay.json"
+        },
+        {
+          "case_id": 209,
+          "source_key": "04c94a6a993bdfde8256bac70658332431ad7d99bfcb7f579fc6f9da2e3554f3",
+          "native_F1": 0.8,
+          "complete_output_F1": 0.8,
+          "passed": false,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/209_EC_skillcommit_replay.json"
+        },
+        {
+          "case_id": 219,
+          "source_key": "055a5b267224dce15a3810bca311038f796893880a14387886e6adf13ad71fd9",
+          "native_F1": 0.5555555555555555,
+          "complete_output_F1": 0.5714285714285715,
+          "passed": false,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/219_EC_skillcommit_replay.json"
+        }
+      ]
+    },
+    {
+      "attempt": 2,
+      "event_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000789_replay.json",
+      "memory_id": "sc_ec_1afefccdd36f0de58280",
+      "sources": [
+        190,
+        204,
+        209,
+        219
+      ],
+      "description": {
+        "when": "Use when the governing exemption law provides both category-specific exemptions and an independently applicable general or wildcard monetary exemption, including 735 Ill. Comp. Stat. 5/12-1001(b), 42 Pa. Cons. Stat. § 8123, or 11 U.S.C. § 522(d)(5).",
+        "repair": "For each owned asset, create an exemption checklist before constructing the output array. First decide whether every applicable general or wildcard exemption can protect any equity; if so, record it unless the allowance is affirmatively exhausted. Then add every category-specific exemption whose complete statutory and factual conditions are established. Never treat a specific exemption, or failure of a specialized test, as displacing a general exemption. Distinguish 11 U.S.C. § 522(d)(5), the wildcard, from category-specific provisions such as § 522(d)(3). Treat monetary caps as limits on protected value unless the statute expressly makes value an eligibility condition. Apply ordinary category boundaries: wearing apparel requires an actual garment, and a prescribed health aid requires evidence of professional prescription. Before submission, reconcile every asset array against the checklist and reject any array lacking an explicit decision on each applicable general or wildcard exemption.",
+        "avoid_when": "Do not list provisions that only define terms, impose limitations, or govern exemption elections without independently protecting property. Do not apply an exemption when ownership or another express condition fails, no protectable equity exists, or the available allowance is affirmatively exhausted. Do not stretch wearing apparel to jewelry or other adornment, infer a professional prescription without evidence, or substitute a category-specific provision for the applicable wildcard."
+      },
+      "passed_source_ids": [
+        209,
+        219
+      ],
+      "matches_committed_description": true,
+      "records": [
+        {
+          "case_id": 190,
+          "source_key": "040f803b427653fa7172612cbf99e3222d2481cd6d59b3c496c78e2aa2699ca1",
+          "native_F1": 0.3333333333333333,
+          "complete_output_F1": 0.4,
+          "passed": false,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/190_EC_skillcommit_replay.json"
+        },
+        {
+          "case_id": 204,
+          "source_key": "5f90bd21605c33d355e8aacd9266e2837a2310820d732185508e1597a8e195e0",
+          "native_F1": 0.3333333333333333,
+          "complete_output_F1": 0.4,
+          "passed": false,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/204_EC_skillcommit_replay.json"
+        },
+        {
+          "case_id": 209,
+          "source_key": "04c94a6a993bdfde8256bac70658332431ad7d99bfcb7f579fc6f9da2e3554f3",
+          "native_F1": 1,
+          "complete_output_F1": 1,
+          "passed": true,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/209_EC_skillcommit_replay.json"
+        },
+        {
+          "case_id": 219,
+          "source_key": "055a5b267224dce15a3810bca311038f796893880a14387886e6adf13ad71fd9",
+          "native_F1": 1,
+          "complete_output_F1": 1,
+          "passed": true,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/219_EC_skillcommit_replay.json"
+        }
+      ]
+    },
+    {
+      "attempt": 3,
+      "event_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000791_replay.json",
+      "memory_id": "sc_ec_199b0b7a7d761181ac31",
+      "sources": [
+        190,
+        204,
+        209,
+        219
+      ],
+      "description": {
+        "when": "Use when governing exemption law provides category-specific exemptions together with an independently applicable general or wildcard monetary exemption, such as 735 Ill. Comp. Stat. 5/12-1001(b), 42 Pa. Cons. Stat. § 8123, or 11 U.S.C. § 522(d)(5).",
+        "repair": "For every owned asset, begin the output array with each applicable general or wildcard exemption whenever it can protect any equity and its allowance is not affirmatively exhausted. Only then append every category-specific exemption whose complete statutory and factual conditions are established. Never let a specific exemption, or failure of a specialized category test, remove an independently applicable general exemption. Treat monetary caps as limits on the protected amount unless the statute expressly makes value an eligibility condition. Apply ordinary category boundaries: wearing apparel requires an actual garment, and a prescribed health aid requires evidence of professional prescription. Before submission, inspect every asset array and require an explicit decision for each applicable general or wildcard exemption; an array containing only a category-specific provision is incomplete unless the general exemption was affirmatively unavailable.",
+        "avoid_when": "Do not list provisions that merely define terms, impose limitations, or govern elections without independently protecting property. Do not apply an exemption when ownership or another express condition fails, no protectable equity exists, or its allowance is affirmatively exhausted. Do not stretch wearing apparel to jewelry or other adornment, infer a professional prescription without evidence, or substitute a category-specific exemption for an available general or wildcard exemption."
+      },
+      "passed_source_ids": [
+        209
+      ],
+      "matches_committed_description": false,
+      "records": [
+        {
+          "case_id": 190,
+          "source_key": "040f803b427653fa7172612cbf99e3222d2481cd6d59b3c496c78e2aa2699ca1",
+          "native_F1": 0.8333333333333333,
+          "complete_output_F1": 0.8,
+          "passed": false,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/190_EC_skillcommit_replay.json"
+        },
+        {
+          "case_id": 204,
+          "source_key": "5f90bd21605c33d355e8aacd9266e2837a2310820d732185508e1597a8e195e0",
+          "native_F1": 0.8333333333333333,
+          "complete_output_F1": 0.8571428571428571,
+          "passed": false,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/204_EC_skillcommit_replay.json"
+        },
+        {
+          "case_id": 209,
+          "source_key": "04c94a6a993bdfde8256bac70658332431ad7d99bfcb7f579fc6f9da2e3554f3",
+          "native_F1": 1,
+          "complete_output_F1": 1,
+          "passed": true,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/209_EC_skillcommit_replay.json"
+        },
+        {
+          "case_id": 219,
+          "source_key": "055a5b267224dce15a3810bca311038f796893880a14387886e6adf13ad71fd9",
+          "native_F1": 0.8888888888888888,
+          "complete_output_F1": 0.888888888888889,
+          "passed": false,
+          "parse_error": null,
+          "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/219_EC_skillcommit_replay.json"
+        }
+      ]
+    }
+  ],
+  "selected_version_attempt": 2,
+  "supported_scope_revalidation": [
+    {
+      "case_id": 209,
+      "native_F1": 1,
+      "complete_output_F1": 1,
+      "passed": true,
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000792_replay/209_EC_skillcommit_replay.json",
+      "origin_is_split_revalidation_directory": true,
+      "actual_rendered_memory_ids": [
+        "sc_ec_2eb775293262446ff7ee"
+      ],
+      "guidance_fields_exactly_match_committed_description": true,
+      "finish_reasons": [
+        "stop"
+      ],
+      "usage": {
+        "prompt_tokens": 6566,
+        "total_tokens": 9744,
+        "completion_tokens": 3178,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": 219,
+      "native_F1": 1,
+      "complete_output_F1": 1,
+      "passed": true,
+      "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000792_replay/219_EC_skillcommit_replay.json",
+      "origin_is_split_revalidation_directory": true,
+      "actual_rendered_memory_ids": [
+        "sc_ec_2eb775293262446ff7ee"
+      ],
+      "guidance_fields_exactly_match_committed_description": true,
+      "finish_reasons": [
+        "stop"
+      ],
+      "usage": {
+        "prompt_tokens": 6438,
+        "total_tokens": 9439,
+        "completion_tokens": 3001,
+        "prompt_tokens_details": null
+      }
+    }
+  ],
+  "member_id_to_source_ids": {
+    "sc_ec_d216d1788dea156d2fcb": [
+      219
+    ],
+    "sc_ec_2c82fe7a97b367d3463e": [
+      190
+    ],
+    "sc_ec_ebfcdbc83d62a9fa1d41": [
+      209
+    ],
+    "sc_ec_5bd1707f509fd4cba711": [
+      204
+    ]
+  },
+  "retained_unsupported_member_ids": [
+    "sc_ec_2c82fe7a97b367d3463e",
+    "sc_ec_5bd1707f509fd4cba711"
+  ],
+  "absorbed_supported_member_ids": [
+    "sc_ec_d216d1788dea156d2fcb",
+    "sc_ec_ebfcdbc83d62a9fa1d41"
+  ],
+  "other_active_EC_patterns_retained": [
+    "sc_ec_12fe3e29aa959f9ef8e7",
+    "sc_ec_128f7db38dbe2054dbf7"
+  ],
+  "EC_deployable_record_counts": {
+    "before": 10,
+    "after": 9,
+    "after_active_patterns": 3,
+    "after_residual_patches": 6
+  },
+  "first_completed_postsplit_EC_forecast": {
+    "selection_rule": "Earliest completed same-family forecast input after the first split commit, irrespective of answer quality or whether it selected this pattern.",
+    "case_id": 220,
+    "family": "EC",
+    "source_key": "bd99ce2258bd14f5ac3257e79847806218ce252a728c04eff1baaf93823e65ca",
+    "new_split_pattern_in_actual_native_request": true,
+    "actual_guidance_fields_exactly_match_committed_description": true,
+    "actual_memory_ids": [
+      "sc_ec_12fe3e29aa959f9ef8e7",
+      "sc_ec_2eb775293262446ff7ee",
+      "sc_ec_5bd1707f509fd4cba711",
+      "sc_ec_ad8400265b48c4a80f75"
+    ],
+    "retrieval": {
+      "memory_ids": [
+        "sc_ec_12fe3e29aa959f9ef8e7",
+        "sc_ec_ad8400265b48c4a80f75",
+        "sc_ec_2eb775293262446ff7ee",
+        "sc_ec_5bd1707f509fd4cba711"
+      ],
+      "similarities": [
+        0.7899164112423671,
+        0.7714776372373124,
+        0.7652208664877853,
+        0.7626147959590293
+      ],
+      "tokens": 1252,
+      "query_is_original_public_prompt_only": true
+    },
+    "native_F1": 1,
+    "complete_output_F1": 1,
+    "parse_error": null,
+    "raw_call_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/220_EC_skillcommit.json"
+  },
+  "source_files_sha256": {
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000167_patch_admitted.json": "57609f74e1d12739ee587865ec5fbec03c2a61572a24a310001ea57b70645179",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000429_patch_admitted.json": "6f93c61953a2c2993c512e365776a5e3459fb9566878220e1eb609d60ea7a0fd",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000546_patch_admitted.json": "e0572f49bb72ca5402df74e81f08eee2f96f090eda6172593b644655ddddb8f4",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000772_patch_admitted.json": "2c4b76bf6d30f7d30b057a726dfc8c7ee33b0d3236bbe7ddfbf678f873ecedf7",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000784_root_compatibility.json": "2082f7cfac91ab7573ff426489bb61b57d4a89f023a5efb7f08091178fff855b",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000785_mechanism_request.json": "72b0f419e901b2abfdcf6249ec8b78a18f3b9e1e92f065ba2bd59618fe59d4ac",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000786_pattern_request.json": "1e8f297dc88b97ae01383b9fb3989ab429a463f4485925a5663847052af94972",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000787_replay.json": "140627473d1425734c96b0fca3688cbddb4acc8a0544c7b16669d765240d6464",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000788_pattern_request.json": "592e23ceee18693056fdbf61034de90971f13a8d022e49a52b283cfd8881ace0",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000789_replay.json": "6b16553fb6648156cc205b2d76d257bd1c4c87430881e105ae773994417e1add",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000790_pattern_request.json": "cc5c336c49757d5d577713ad94b69778a286390bc8715a276f54c9804e0b1b87",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000791_replay.json": "db07b4eb3e1f077592cbdad96a1fae02f234fbee31908e318f11a539948610dc",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000792_replay.json": "c4db47f6b69a5d07fdd608b61b06395beeac235a24689192f05c75f275326165",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000793_pattern_split.json": "ff1cf13a366aa5d221f3c9c2b67b871cf48301324eea595e9c4baf9d76846743",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000794_arrival_complete.json": "35bdf661ac1476cd52a96c30f265ce9eda93cff1dee404d0b73e2356ea15ed4b",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/forecasts/220_EC.json": "569b2ac9c13f4e094a15b1112d790ee492aa071ad1cce47abdcc0e767c260c0b",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/190_EC_skillcommit_replay.input.json": "611d42721843d70900d2a532651ac639785dee210e835b7968bfabdf4cd2b93d",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/190_EC_skillcommit_replay.json": "66d4cd58a71e1288f372916d35af0bf732dbfb76ce644d066e12dcec6ca9f4ca",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/204_EC_skillcommit_replay.input.json": "77d98c6847dc9d6458d60a442fdab88c3dcb04ccd4ee77b68dd922734c1b4ddb",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/204_EC_skillcommit_replay.json": "8a4de24f5d2cfc4c2193589a2930eafbc6b04fe3330a6c6ce7e9bdcf2a667b20",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/209_EC_skillcommit_replay.input.json": "440e44cf2bb4c302ae7afc11773faaf14791244374519c57a7264eb46b67d836",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/209_EC_skillcommit_replay.json": "f61d37382a10e27e54a03512eb6b77dc4dc6e38a3bce566ff5954ff004749653",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/219_EC_skillcommit_replay.input.json": "7dab802a9885a5ac07b71eab97a806fc373b42aa2e9c62c3f70686ba67d7cdbc",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000787_replay/219_EC_skillcommit_replay.json": "5c0fe932870ea9c8c508ef3e3c627d8dc8bfe260be00911b109f59f265ff84a5",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/190_EC_skillcommit_replay.input.json": "85932a14be9b8cbfa3af925b49809623114571578c22e1ea1c1532a7578f94e6",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/190_EC_skillcommit_replay.json": "a07c386f12ca3cc0111f645ec92d74e7c6e61769aa05616c680671ea090ee5a8",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/204_EC_skillcommit_replay.input.json": "1754b03a4106a92a419b365d72dc006cc93360e64f2017dfeb72edd59586ec70",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/204_EC_skillcommit_replay.json": "3da6abdaf4a97bff95307b9c00567ce7769d1246f49113f454f2bc6ae2a0f4e0",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/209_EC_skillcommit_replay.input.json": "fb2bc440374df40a7da35aafc1f3f06a058ee75e289e1070590d636faaa6a536",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/209_EC_skillcommit_replay.json": "dff476e1721510a0a350a05841d8438c8bab451a22803b935c5fb0b2d2c62769",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/219_EC_skillcommit_replay.input.json": "bf22a3df3f9237fda2e2d1012cda06713b97cc110352482c64e25200b6ffb823",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000789_replay/219_EC_skillcommit_replay.json": "0b6b9d2e05c96dca55aa38d8fc4681d5bc4eb2dfc09c1a68685ffc448b972fd4",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/190_EC_skillcommit_replay.input.json": "25543c826f3eda7cb5cd2401a33ae6c5592678ea995ad90fa2453571e0bb6145",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/190_EC_skillcommit_replay.json": "5f7e12e5c82318e0ee88480f77b7604b79aa3c7cded8c93ee61cacdd911beb43",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/204_EC_skillcommit_replay.input.json": "816c45d2a8187153069b70a6d5ddd7e890718f891e38f7dbd36ed1878c6c3a82",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/204_EC_skillcommit_replay.json": "265aa6fe37efb550da9b38f55230e80c8725322a3e2338e218fc8d709f15ea8d",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/209_EC_skillcommit_replay.input.json": "6f218cee0daa240798fb8c2709e06002a9e6a6975b622ec6d9f09e01bb0b79cb",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/209_EC_skillcommit_replay.json": "fdb46de469036ea4c8602e0052ffeb3633de3ec32a3db6a6ccd5257ab53f7e81",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/219_EC_skillcommit_replay.input.json": "2f72bea3ecaa8f528b279b56fb7861dd1ab61614a91d1a1fa1aa1017ccb98d75",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000791_replay/219_EC_skillcommit_replay.json": "b7c920d896fa22cfb2b6a2043dcc09b5ba608bb51eb85e1afe6dd86ff61f039b",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000792_replay/209_EC_skillcommit_replay.input.json": "00fd024f4b86ce89f52dea4a69e40f9a347dcc09a9b4bcd0fd42dfdce266c3c9",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000792_replay/209_EC_skillcommit_replay.json": "e749a8a123101e081a16799a6ec8e4a9c12efde89d16edb8ae742fc7a637449b",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000792_replay/219_EC_skillcommit_replay.input.json": "ff59139cbdfc8a98dcbf026f1f9aac4b33c52a5cdfe8fbe575836aab96b8dea2",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/000792_replay/219_EC_skillcommit_replay.json": "362a3bf619ac6f098b5f3fb66306a414a3791529da2fa060de336caadc13ef9b",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/220_EC_skillcommit.input.json": "ca713e15863071159a0cdb8bbe29244b436cc603d5589989b81995403d53f520",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/native/first_forecasts/220_EC_skillcommit.json": "117613de3aa70196a192882460ebf09fdc825bae01316ffc4e60258e187b7cb7",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/replays/000787_replay.json": "fab0c4d472944f99f830cbd5431915a21d3063a7d52e3628cfb13a805fcb281f",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/replays/000789_replay.json": "70937254392a465b43ecbe129a7f1d43a67746abc0340680e6562a1e7a863bd1",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/replays/000791_replay.json": "1f29d2d58bd6ed7cb617b9ff63b46b9adae9b6e9e2f0a641a7b8700b24934aa5",
+    "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/replays/000792_replay.json": "781db7a9736e762aad3b2a8dd17c22a1f412afce5ac18cd7b757137fecf851cd"
+  },
+  "source_record_count": 50,
+  "new_model_teacher_tokenizer_or_grading_calls_by_analysis": 0,
+  "limits": [
+    "The three full proposed-scope attempts and failed190/204 outputs remain; the committed scope is209/219 rather than pretending all four passed.",
+    "A supported reduced scope passed its separate native validation; retained local repairs and unrelated parents were not deleted.",
+    "Source replay proves the recorded acceptance condition, not unseen-source or TEST generalization.",
+    "Any first post-split forecast uses the whole retrieved set; it cannot isolate the effect of this one pattern."
+  ],
+  "active_code_model_config_protocol_or_original_scores_changed": false,
+  "analysis_command": ".venv/bin/python - <<'PY'\nimport hashlib,json\nfrom datetime import datetime,timezone\nfrom pathlib import Path\nroot=Path('runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05')\nsha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()\nsplit_path=sorted((root/'events').glob('*_pattern_split.json'))[0]\nsplit=json.loads(split_path.read_text());memory=split['memory']\nassert split_path.name=='000793_pattern_split.json' and memory['sources']==[209,219]\nfiles={split_path};versions=[]\nfor i,name in enumerate(('000787_replay.json','000789_replay.json','000791_replay.json'),1):\n ep=root/'events'/name;rp=root/'replays'/name;ev=json.loads(ep.read_text());rows=json.loads(rp.read_text());files.update((ep,rp))\n assert ev['purpose']=='full_scope_abstraction_validation' and ev['source_ids']==[190,204,209,219]\n result=[]\n for r in rows:\n  raw_path=Path(r['raw_call_path']);files.update((raw_path,raw_path.with_suffix('.input.json')))\n  result.append({'case_id':r['case_id'],'source_key':r['source_key'],'native_F1':r['score']['f1'],'complete_output_F1':r['score']['full_output_f1'],'passed':r['passed'],'parse_error':r['parse_error'],'raw_call_path':str(raw_path)})\n versions.append({'attempt':i,'event_path':str(ep),'memory_id':ev['memory']['id'],'sources':ev['source_ids'],'description':ev['memory']['description'],'passed_source_ids':[r['case_id'] for r in rows if r['passed']],'matches_committed_description':ev['memory']['description']==memory['description'],'records':result})\nselected=[v for v in versions if v['matches_committed_description']]\nassert len(selected)==1 and selected[0]['attempt']==2\nassert set(selected[0]['passed_source_ids'])==set(memory['sources'])\nassert len(selected[0]['passed_source_ids'])==max(len(v['passed_source_ids']) for v in versions)\nep=root/'events/000792_replay.json';rp=root/'replays/000792_replay.json'\nevent=json.loads(ep.read_text());rows=json.loads(rp.read_text());files.update((ep,rp))\nassert event['purpose']=='split_scope_revalidation' and event['memory']==memory\nrevalidation=[]\nfor r in rows:\n raw_path=Path(r['raw_call_path']);inp=raw_path.with_suffix('.input.json');raw=json.loads(raw_path.read_text());files.update((raw_path,inp))\n assert r['passed'] and r['parse_error'] is None and r['score']['f1']==1 and r['score']['full_output_f1']==1\n assert raw['transport_error'] is None and len(raw['calls'])==1\n wire=raw['calls'][0]['request'];response=raw['calls'][0]['response']\n texts=[m['content'] for m in wire['messages'] if isinstance(m.get('content'),str) and m['content'].startswith('Background reusable skills.')]\n rendered=json.loads(texts[0].split('\\n',1)[1])\n assert len(rendered)==1 and rendered[0]['id']==memory['id']\n guidance=rendered[0]['guidance']\n assert guidance['jurisdiction']=='ALL'\n assert guidance['when']==memory['description']['when'] and guidance['procedure']==memory['description']['repair'] and guidance['avoid_when']==memory['description']['avoid_when']\n revalidation.append({'case_id':r['case_id'],'native_F1':r['score']['f1'],'complete_output_F1':r['score']['full_output_f1'],'passed':r['passed'],'raw_call_path':str(raw_path),'origin_is_split_revalidation_directory':'/native/000792_replay/' in str(raw_path),'actual_rendered_memory_ids':[m['id'] for m in rendered],'guidance_fields_exactly_match_committed_description':True,'finish_reasons':[c['finish_reason'] for c in response['choices']],'usage':response['usage']})\nassert {r['case_id'] for r in revalidation}==set(memory['sources'])\nadmitted={}\nfor p in (root/'events').glob('*_patch_admitted.json'):\n d=json.loads(p.read_text());m=d.get('memory',d.get('patch',{}))\n if m.get('id') in split['members']:\n  admitted[m['id']]=m['sources'];files.add(p)\nassert len(admitted)==len(split['members'])\nunsupported=[mid for mid,sources in admitted.items() if not set(sources)&set(memory['sources'])]\nabsorbed=[mid for mid,sources in admitted.items() if set(sources)&set(memory['sources'])]\nassert all(mid in split['residual_patches'] for mid in unsupported)\nassert all(mid not in split['residual_patches'] for mid in absorbed)\nassert {'sc_ec_12fe3e29aa959f9ef8e7','sc_ec_128f7db38dbe2054dbf7'}<=set(split['active_patterns'])\nfirst=None\nfor p in sorted((root/'forecasts').glob('*_EC.json'),key=lambda p:int(p.name.split('_')[0])):\n d=json.loads(p.read_text());r=d['record'];raw_path=Path(r['raw_call_path']);ip=raw_path.with_suffix('.input.json')\n if ip.stat().st_mtime<=split_path.stat().st_mtime:continue\n raw=json.loads(raw_path.read_text());wire=raw['calls'][0]['request']\n texts=[m['content'] for m in wire['messages'] if isinstance(m.get('content'),str) and m['content'].startswith('Background reusable skills.')]\n actual_memories=json.loads(texts[0].split('\\n',1)[1]) if texts else []\n ids=[m['id'] for m in actual_memories]\n selected_memories=[m for m in actual_memories if m['id']==memory['id']]\n exact_text=False\n if selected_memories:\n  g=selected_memories[0]['guidance']; assert g['jurisdiction']=='ALL'; exact_text=(g['when']==memory['description']['when'] and g['procedure']==memory['description']['repair'] and g['avoid_when']==memory['description']['avoid_when']); assert exact_text\n assert set(ids)==set(d['delivery']['memory_ids'])==set(json.loads(ip.read_text())['delivered_skill_ids'])\n first={'selection_rule':'Earliest completed same-family forecast input after the first split commit, irrespective of answer quality or whether it selected this pattern.','case_id':r['case_id'],'family':r['family'],'source_key':r['source_key'],'new_split_pattern_in_actual_native_request':memory['id'] in ids,'actual_guidance_fields_exactly_match_committed_description':exact_text,'actual_memory_ids':ids,'retrieval':d['delivery'],'native_F1':r['score']['f1'],'complete_output_F1':r['score']['full_output_f1'],'parse_error':r['parse_error'],'raw_call_path':str(raw_path)}\n files.update((p,raw_path,ip));break\nfor event_name in ('000784_root_compatibility.json','000785_mechanism_request.json','000786_pattern_request.json','000788_pattern_request.json','000790_pattern_request.json','000794_arrival_complete.json'):\n files.add(root/'events'/event_name)\nout={'observed_UTC':datetime.now(timezone.utc).isoformat(),'run_id':root.name,'classification':'First successful native source-supported split in this fixed paper adaptation; actual records only, not new inference or a whole-batch/test improvement claim.','first_successful_split_event':str(split_path),'split_memory':memory,'original_proposed_sources':[190,204,209,219],'full_scope_versions':versions,'selected_version_attempt':selected[0]['attempt'],'supported_scope_revalidation':revalidation,'member_id_to_source_ids':admitted,'retained_unsupported_member_ids':unsupported,'absorbed_supported_member_ids':absorbed,'other_active_EC_patterns_retained':['sc_ec_12fe3e29aa959f9ef8e7','sc_ec_128f7db38dbe2054dbf7'],'EC_deployable_record_counts':{'before':10,'after':9,'after_active_patterns':len(split['active_patterns']),'after_residual_patches':len(split['residual_patches'])},'first_completed_postsplit_EC_forecast':first,'source_files_sha256':{str(p):sha(p) for p in sorted(files)},'source_record_count':len(files),'new_model_teacher_tokenizer_or_grading_calls_by_analysis':0,'limits':['The three full proposed-scope attempts and failed190/204 outputs remain; the committed scope is209/219 rather than pretending all four passed.','A supported reduced scope passed its separate native validation; retained local repairs and unrelated parents were not deleted.','Source replay proves the recorded acceptance condition, not unseen-source or TEST generalization.','Any first post-split forecast uses the whole retrieved set; it cannot isolate the effect of this one pattern.'],'active_code_model_config_protocol_or_original_scores_changed':False}\nprint(json.dumps(out,ensure_ascii=False))\nPY",
+  "actual_memory_format": "Flat guidance keys when/procedure/avoid_when/jurisdiction; jurisdiction value is ALL, not a nested ALL field."
+}

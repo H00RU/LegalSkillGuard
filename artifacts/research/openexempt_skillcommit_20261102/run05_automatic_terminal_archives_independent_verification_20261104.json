@@ -1,0 +1,25 @@
+{
+  "recorded_UTC": "2026-11-03T19:39:34.465264+00:00",
+  "automatic_actual_terminal_receipt": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/terminal_preservation.json",
+  "checks": [
+    {
+      "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-actual-terminal.tar.gz",
+      "archive_sha256": "1a49d436dfcaa47ad1386a4e5d929b07d24945b010fe9f627ea37a8afc0c1372",
+      "filesystem_device": 64528,
+      "all_members_match_current_terminal_bytes": true,
+      "members": 14767,
+      "all256_TEST_deliveries_preserved": true
+    },
+    {
+      "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-actual-terminal.tar.gz",
+      "archive_sha256": "7a7ae2606b12296e56d24d0dd1bf9605d4a6093cae0eed423cf34c52575e7ab8",
+      "filesystem_device": 64517,
+      "all_members_match_current_terminal_bytes": true,
+      "members": 14767,
+      "all256_TEST_deliveries_preserved": true
+    }
+  ],
+  "all_member_map_sha256": "80e51a4489d48f21894f9481d43d39c6713b88217f635b0bd706735e103569ef",
+  "scope": "Independent verification of the driver-produced raw-run terminal archives on two filesystems; includes all256 predictions, scores and delivery records. Receipt itself was written after its own archives. External frozen sources, current papers and new audit proofs will be preserved in the augmented terminal handoff.",
+  "executed_readonly_command": ".venv/bin/python - <<'PY'\nimport json,hashlib,tarfile,datetime\nfrom pathlib import Path\nr=Path('runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05');receipt=json.loads((r/'terminal_preservation.json').read_text());checks=[];maps=[]\nrequired={str(r/x) for x in ['completion.json','TEST_predictions_before_grading.json','TEST_scored_records.json','publications/final.json','batches/b8.json','build_completion.json']}\nfor a in receipt['paths']:\n p=Path(a['path']);assert hashlib.sha256(p.read_bytes()).hexdigest()==a['sha256'];found={}\n with tarfile.open(p,'r:gz') as t:\n  for m in t:\n   raw=t.extractfile(m).read();current=Path(m.name).read_bytes();assert raw==current,m.name;found[m.name]=hashlib.sha256(raw).hexdigest()\n assert len(found)==receipt['files']==14767 and required<=set(found)\n assert sum(x.startswith(str(r/'TEST_delivery')+'/') for x in found)==256\n maps.append(found);checks.append({'path':str(p),'archive_sha256':a['sha256'],'filesystem_device':p.stat().st_dev,'all_members_match_current_terminal_bytes':True,'members':len(found),'all256_TEST_deliveries_preserved':True})\nassert maps[0]==maps[1] and checks[0]['filesystem_device']!=checks[1]['filesystem_device']\nprint(json.dumps({'recorded_UTC':datetime.datetime.now(datetime.timezone.utc).isoformat(),'automatic_actual_terminal_receipt':str(r/'terminal_preservation.json'),'checks':checks,'all_member_map_sha256':hashlib.sha256(json.dumps(maps[0],sort_keys=True,separators=(',',':')).encode()).hexdigest(),'scope':'Independent verification of the driver-produced raw-run terminal archives on two filesystems; includes all256 predictions, scores and delivery records. Receipt itself was written after its own archives. External frozen sources, current papers and new audit proofs will be preserved in the augmented terminal handoff.'}))\nPY"
+}

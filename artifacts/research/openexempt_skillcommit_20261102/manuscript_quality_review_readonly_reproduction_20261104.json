@@ -1,0 +1,1003 @@
+{
+  "purpose": "User-requested read-only audit of current bilingual manuscript, metric accuracy, source provenance, claim scope and prose. This is not a new learning run or a replacement result.",
+  "review_time_UTC": {
+    "current_time": "2026-11-04 02:51:59 UTC"
+  },
+  "canonical_manuscript_or_result_tables_modified": false,
+  "new_training_or_frozen_predictions": 0,
+  "new_teacher_calls": 0,
+  "numerical_reproduction_scope": "Fresh arithmetic and unchanged grader execution in existing project environment; not independent re-learning, not a new clean dependency environment, and not external authentication of the saved server responses.",
+  "sections": {
+    "all_2816_frozen_scores_and_aggregates": {
+      "executed_read_only_command": ".venv/bin/python - <<'PY'\nimport json, math, socket, hashlib\nfrom pathlib import Path\ndef blocked(*args, **kwargs):\n    raise RuntimeError(\"Network prohibited in this read-only numerical review\")\nsocket.socket.connect = blocked\nsocket.create_connection = blocked\nfrom legal_skill_guard.openexempt import evaluate, metrics\ndef read(p):\n    return json.loads(Path(p).read_text())\nold = read(\"runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/scored_records.json\")\nscpath = \"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/TEST_scored_records.json\"\nold[\"skillcommit_paper45\"] = read(scpath)\ntable = read(\"paper/tables/utility_frozen_results_with_skillcommit_20261104.json\")\ngold = {p.stem: read(p) for p in Path(\"data/packets/openexempt_IID128_confirmatory_TEST_20261030/grading_only\").glob(\"*.json\")}\ndef norm(x):\n    if isinstance(x, float) and not math.isfinite(x):\n        return None\n    if isinstance(x, dict):\n        return {k: norm(v) for k, v in x.items()}\n    if isinstance(x, list):\n        return [norm(v) for v in x]\n    return x\ndef canonical_unordered(x):\n    if isinstance(x, dict):\n        return {k: canonical_unordered(v) for k, v in x.items()}\n    if isinstance(x, list):\n        return sorted([canonical_unordered(v) for v in x], key=lambda v: json.dumps(v, sort_keys=True))\n    return x\nscore_mismatches, aggregate_mismatches, diagnostics = [], [], {}\nfor name, rows in old.items():\n    counts = {f: {\"n\": 0, \"strict_exact\": 0, \"order_insensitive_exact\": 0,\n                  \"native_f1_one\": 0, \"complete_f1_one\": 0,\n                  \"complete_one_but_not_strict\": 0, \"order_only_recoveries\": 0,\n                  \"order_only_example_ids\": [], \"invalid\": 0} for f in (\"EC\", \"EV\")}\n    rescored = []\n    for r in rows:\n        target = gold[str(r[\"case_id\"])][\"targets\"][r[\"family\"]]\n        assert gold[str(r[\"case_id\"])][\"source_key\"] == r[\"source_key\"]\n        answer = (r[\"parsed\"] or {}).get(\"answer\")\n        now = norm(evaluate(r, answer, target))\n        if now != norm(r[\"score\"]):\n            score_mismatches.append({\"arm\": name, \"case_id\": r[\"case_id\"],\n                                    \"family\": r[\"family\"], \"original\": r[\"score\"], \"recomputed\": now})\n        rescored.append({**r, \"score\": now})\n        c = counts[r[\"family\"]]\n        c[\"n\"] += 1\n        c[\"strict_exact\"] += int(now[\"exact_target\"])\n        unordered = canonical_unordered(answer) == canonical_unordered(target)\n        c[\"order_insensitive_exact\"] += int(unordered)\n        c[\"native_f1_one\"] += int(now[\"f1\"] == 1)\n        c[\"complete_f1_one\"] += int(now[\"full_output_f1\"] == 1)\n        c[\"complete_one_but_not_strict\"] += int(now[\"full_output_f1\"] == 1 and not now[\"exact_target\"])\n        c[\"invalid\"] += int(now[\"invalid_format\"])\n        if unordered and not now[\"exact_target\"]:\n            c[\"order_only_recoveries\"] += 1\n            if len(c[\"order_only_example_ids\"]) < 5:\n                c[\"order_only_example_ids\"].append(r[\"case_id\"])\n    published = next(a[\"metrics\"] for a in table[\"conditions\"] if a[\"condition\"] == name)\n    now_metrics = metrics(rescored)\n    if published != now_metrics:\n        aggregate_mismatches.append({\"arm\": name, \"original\": published, \"recomputed\": now_metrics})\n    diagnostics[name] = counts\nprint(json.dumps({\"purpose\": \"fresh read-only reproduction of every retained 11-condition frozen score and aggregate\",\n                  \"records\": sum(map(len, old.values())), \"score_mismatch_count\": len(score_mismatches),\n                  \"score_mismatches_first5\": score_mismatches[:5],\n                  \"aggregate_mismatch_count\": len(aggregate_mismatches),\n                  \"aggregate_mismatches_first2\": aggregate_mismatches[:2],\n                  \"nonfinite_values_normalized_to_JSON_null_before_comparison\": True,\n                  \"metric_diagnostics_not_replacements\": diagnostics,\n                  \"network_disabled\": True, \"model_or_teacher_calls\": 0}, ensure_ascii=False))\nPY",
+      "result": {
+        "purpose": "fresh read-only reproduction of every retained 11-condition frozen score and aggregate",
+        "records": 2816,
+        "score_mismatch_count": 0,
+        "score_mismatches_first5": [],
+        "aggregate_mismatch_count": 0,
+        "aggregate_mismatches_first2": [],
+        "nonfinite_values_normalized_to_JSON_null_before_comparison": true,
+        "metric_diagnostics_not_replacements": {
+          "empty": {
+            "EC": {
+              "n": 128,
+              "strict_exact": 15,
+              "order_insensitive_exact": 15,
+              "native_f1_one": 15,
+              "complete_f1_one": 15,
+              "complete_one_but_not_strict": 0,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 0
+            },
+            "EV": {
+              "n": 128,
+              "strict_exact": 11,
+              "order_insensitive_exact": 11,
+              "native_f1_one": 14,
+              "complete_f1_one": 12,
+              "complete_one_but_not_strict": 1,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 1
+            }
+          },
+          "static": {
+            "EC": {
+              "n": 128,
+              "strict_exact": 12,
+              "order_insensitive_exact": 12,
+              "native_f1_one": 10,
+              "complete_f1_one": 12,
+              "complete_one_but_not_strict": 0,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 0
+            },
+            "EV": {
+              "n": 128,
+              "strict_exact": 11,
+              "order_insensitive_exact": 11,
+              "native_f1_one": 15,
+              "complete_f1_one": 12,
+              "complete_one_but_not_strict": 1,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 3
+            }
+          },
+          "ACE45": {
+            "EC": {
+              "n": 128,
+              "strict_exact": 18,
+              "order_insensitive_exact": 18,
+              "native_f1_one": 14,
+              "complete_f1_one": 18,
+              "complete_one_but_not_strict": 0,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 6
+            },
+            "EV": {
+              "n": 128,
+              "strict_exact": 14,
+              "order_insensitive_exact": 14,
+              "native_f1_one": 17,
+              "complete_f1_one": 17,
+              "complete_one_but_not_strict": 3,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 4
+            }
+          },
+          "ACE_common45": {
+            "EC": {
+              "n": 128,
+              "strict_exact": 22,
+              "order_insensitive_exact": 22,
+              "native_f1_one": 17,
+              "complete_f1_one": 22,
+              "complete_one_but_not_strict": 0,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 1
+            },
+            "EV": {
+              "n": 128,
+              "strict_exact": 19,
+              "order_insensitive_exact": 19,
+              "native_f1_one": 23,
+              "complete_f1_one": 21,
+              "complete_one_but_not_strict": 2,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 1
+            }
+          },
+          "text45": {
+            "EC": {
+              "n": 128,
+              "strict_exact": 15,
+              "order_insensitive_exact": 15,
+              "native_f1_one": 12,
+              "complete_f1_one": 15,
+              "complete_one_but_not_strict": 0,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 5
+            },
+            "EV": {
+              "n": 128,
+              "strict_exact": 10,
+              "order_insensitive_exact": 10,
+              "native_f1_one": 13,
+              "complete_f1_one": 11,
+              "complete_one_but_not_strict": 1,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 1
+            }
+          },
+          "utility45": {
+            "EC": {
+              "n": 128,
+              "strict_exact": 74,
+              "order_insensitive_exact": 93,
+              "native_f1_one": 90,
+              "complete_f1_one": 93,
+              "complete_one_but_not_strict": 19,
+              "order_only_recoveries": 19,
+              "order_only_example_ids": [
+                3000020,
+                3000024,
+                3000036,
+                3000040,
+                3000053
+              ],
+              "invalid": 0
+            },
+            "EV": {
+              "n": 128,
+              "strict_exact": 53,
+              "order_insensitive_exact": 60,
+              "native_f1_one": 64,
+              "complete_f1_one": 63,
+              "complete_one_but_not_strict": 10,
+              "order_only_recoveries": 7,
+              "order_only_example_ids": [
+                3000016,
+                3000032,
+                3000040,
+                3000055,
+                3000081
+              ],
+              "invalid": 2
+            }
+          },
+          "utility_own_B1_45": {
+            "EC": {
+              "n": 128,
+              "strict_exact": 35,
+              "order_insensitive_exact": 50,
+              "native_f1_one": 47,
+              "complete_f1_one": 50,
+              "complete_one_but_not_strict": 15,
+              "order_only_recoveries": 15,
+              "order_only_example_ids": [
+                3000008,
+                3000012,
+                3000013,
+                3000040,
+                3000045
+              ],
+              "invalid": 0
+            },
+            "EV": {
+              "n": 128,
+              "strict_exact": 45,
+              "order_insensitive_exact": 51,
+              "native_f1_one": 55,
+              "complete_f1_one": 53,
+              "complete_one_but_not_strict": 8,
+              "order_only_recoveries": 6,
+              "order_only_example_ids": [
+                3000024,
+                3000032,
+                3000037,
+                3000040,
+                3000052
+              ],
+              "invalid": 2
+            }
+          },
+          "strict45": {
+            "EC": {
+              "n": 128,
+              "strict_exact": 34,
+              "order_insensitive_exact": 37,
+              "native_f1_one": 36,
+              "complete_f1_one": 38,
+              "complete_one_but_not_strict": 4,
+              "order_only_recoveries": 3,
+              "order_only_example_ids": [
+                3000040,
+                3000095,
+                3000115
+              ],
+              "invalid": 2
+            },
+            "EV": {
+              "n": 128,
+              "strict_exact": 57,
+              "order_insensitive_exact": 61,
+              "native_f1_one": 66,
+              "complete_f1_one": 63,
+              "complete_one_but_not_strict": 6,
+              "order_only_recoveries": 4,
+              "order_only_example_ids": [
+                3000013,
+                3000040,
+                3000055,
+                3000102
+              ],
+              "invalid": 1
+            }
+          },
+          "no_execution45": {
+            "EC": {
+              "n": 128,
+              "strict_exact": 57,
+              "order_insensitive_exact": 61,
+              "native_f1_one": 59,
+              "complete_f1_one": 61,
+              "complete_one_but_not_strict": 4,
+              "order_only_recoveries": 4,
+              "order_only_example_ids": [
+                3000040,
+                3000074,
+                3000075,
+                3000098
+              ],
+              "invalid": 0
+            },
+            "EV": {
+              "n": 128,
+              "strict_exact": 34,
+              "order_insensitive_exact": 36,
+              "native_f1_one": 40,
+              "complete_f1_one": 37,
+              "complete_one_but_not_strict": 3,
+              "order_only_recoveries": 2,
+              "order_only_example_ids": [
+                3000032,
+                3000040
+              ],
+              "invalid": 0
+            }
+          },
+          "projection45": {
+            "EC": {
+              "n": 128,
+              "strict_exact": 42,
+              "order_insensitive_exact": 53,
+              "native_f1_one": 51,
+              "complete_f1_one": 53,
+              "complete_one_but_not_strict": 11,
+              "order_only_recoveries": 11,
+              "order_only_example_ids": [
+                3000013,
+                3000014,
+                3000033,
+                3000040,
+                3000053
+              ],
+              "invalid": 0
+            },
+            "EV": {
+              "n": 128,
+              "strict_exact": 39,
+              "order_insensitive_exact": 42,
+              "native_f1_one": 48,
+              "complete_f1_one": 46,
+              "complete_one_but_not_strict": 7,
+              "order_only_recoveries": 3,
+              "order_only_example_ids": [
+                3000013,
+                3000053,
+                3000055
+              ],
+              "invalid": 1
+            }
+          },
+          "skillcommit_paper45": {
+            "EC": {
+              "n": 128,
+              "strict_exact": 26,
+              "order_insensitive_exact": 26,
+              "native_f1_one": 23,
+              "complete_f1_one": 26,
+              "complete_one_but_not_strict": 0,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 3
+            },
+            "EV": {
+              "n": 128,
+              "strict_exact": 24,
+              "order_insensitive_exact": 24,
+              "native_f1_one": 28,
+              "complete_f1_one": 25,
+              "complete_one_but_not_strict": 1,
+              "order_only_recoveries": 0,
+              "order_only_example_ids": [],
+              "invalid": 4
+            }
+          }
+        },
+        "network_disabled": true,
+        "model_or_teacher_calls": 0
+      }
+    },
+    "paired_bootstraps_tables_and_training_curves": {
+      "executed_read_only_command": ".venv/bin/python - <<'PY'\nimport json, re, math, socket, hashlib\nfrom pathlib import Path\nimport numpy as np\ndef blocked(*a, **k):\n    raise RuntimeError(\"No network in read-only review\")\nsocket.socket.connect = blocked\nsocket.create_connection = blocked\nfrom experiments.openexempt_frozen_eval import paired_source_statistics\nfrom legal_skill_guard.openexempt import evaluate, metrics\ndef read(p): return json.loads(Path(p).read_text())\ndef norm(x):\n    if isinstance(x, float) and not math.isfinite(x): return None\n    if isinstance(x, dict): return {k:norm(v) for k,v in x.items()}\n    if isinstance(x, list): return [norm(v) for v in x]\n    return x\ndef differences(a,b,path=\"\"):\n    if isinstance(a,dict) and isinstance(b,dict):\n        return [p for k in set(a)|set(b) for p in differences(a.get(k),b.get(k),path+\"/\"+str(k))]\n    if isinstance(a,list) and isinstance(b,list):\n        if len(a)!=len(b): return [path+\"/length\"]\n        return [p for i,(x,y) in enumerate(zip(a,b)) for p in differences(x,y,path+\"/\"+str(i))]\n    if isinstance(a,(int,float)) and isinstance(b,(int,float)):\n        return [] if abs(a-b)<1e-12 else [path]\n    return [] if a==b else [path]\nrecords=read(\"runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/scored_records.json\")\ncfg=read(\"artifacts/launches/openexempt_v6_final_after_withheld_20261031_run01/actual_final_matrix_config.json\")\nbase=read(\"paper/tables/utility_frozen_results_20261101.json\")\nnow=paired_source_statistics(cfg,records)\nstat_diff=differences(base[\"paired_statistics\"],now)\ntable=read(\"paper/tables/utility_frozen_results_with_skillcommit_20261104.json\")\nsc=read(\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/TEST_scored_records.json\")\nkeys=sorted({r[\"source_key\"] for r in sc})\nindices=np.random.default_rng(2026110101).integers(len(keys),size=(20000,len(keys)))\nscnow={}\nfor f in (\"EC\",\"EV\"):\n    main={r[\"source_key\"]:r[\"score\"][\"f1\"] for r in records[\"utility45\"] if r[\"family\"]==f}\n    other={r[\"source_key\"]:r[\"score\"][\"f1\"] for r in sc if r[\"family\"]==f}\n    d=np.array([main[k]-other[k] for k in keys])\n    boot=d[indices].mean(axis=1)\n    scnow[f]={\"delta_pp\":float(d.mean()*100),\"ordinary95_pp\":(100*np.quantile(boot,[.025,.975],method=\"linear\")).tolist(),\n              \"two_endpoint_fwer95_pp\":(100*np.quantile(boot,[.0125,.9875],method=\"linear\")).tolist()}\nscdiff=differences({f:table[\"supplementary_SkillCommit_source_paired_statistics\"][f] for f in (\"EC\",\"EV\")},scnow)\ndef tables(path):\n    output=[]; active=None\n    for lineno,line in enumerate(Path(path).read_text().splitlines(),1):\n        if line.startswith(\"|\"):\n            if active is None:\n                active={\"line\":lineno,\"cells\":[]}; output.append(active)\n            active[\"cells\"].append([v.strip().replace(\"**\",\"\") for v in line.strip().strip(\"|\").split(\"|\")])\n        else: active=None\n    return output\nen=tables(\"paper/utility_skill_manuscript_working_20261030.md\")\nzh=tables(\"paper/sections-zh/utility_skill_manuscript_working_20261030.md\")\nnumber=lambda s:[float(x.replace(\",\",\"\")) for x in re.findall(r\"[-+]?\\d[\\d,]*(?:\\.\\d+)?\",s)]\nbilingual=[]\nfor i,(e,z) in enumerate(zip(en,zh)):\n    if len(e[\"cells\"])!=len(z[\"cells\"]): bilingual.append({\"table\":i,\"row_count\":True}); continue\n    for j,(ec,zc) in enumerate(zip(e[\"cells\"][2:],z[\"cells\"][2:]),2):\n        ev=[n for s in ec[1:] for n in number(s)]\n        zv=[n for s in zc[1:] for n in number(s)]\n        if ev!=zv: bilingual.append({\"table\":i,\"row\":j,\"en\":ev,\"zh\":zv})\norder=[\"empty\",\"static\",\"ACE45\",\"ACE_common45\",\"text45\",\"skillcommit_paper45\",\"utility_own_B1_45\",\"strict45\",\"no_execution45\",\"projection45\",\"utility45\"]\narms={r[\"condition\"]:r for r in table[\"conditions\"]}\nmain_table_errors=[]; quality_errors=[]\nfor arm,row,qrow in zip(order,en[1][\"cells\"][2:],en[3][\"cells\"][2:]):\n    m=arms[arm][\"metrics\"]\n    wanted=[round(100*m[f][\"f1\"],2) for f in (\"EC\",\"EV\")]+[round(100*m[\"mean_family_f1\"],2)]\n    if [float(v) for v in row[1:]]!=wanted: main_table_errors.append(arm)\n    wantedq=[round(100*m[f][\"full_output_f1\"],2) for f in (\"EC\",\"EV\")]\n    wantedq += [round(100*m[f][\"exact_target\"],2) for f in (\"EC\",\"EV\")]\n    wantedq += [m[f][\"invalid_format\"] for f in (\"EC\",\"EV\")]\n    if [n for s in qrow[1:] for n in number(s)]!=wantedq: quality_errors.append(arm)\npaired_table_errors=[]\nfor contrast,row in zip(now[\"contrasts\"].values(),en[4][\"cells\"][2:]):\n    for f,cell in zip((\"EC\",\"EV\"),row[1:]):\n        ep=contrast[\"endpoints\"][f]\n        wanted=[round(ep[\"difference_pp\"],2)]+[round(v,2) for v in ep[\"conditional_Bonferroni_interval_pp\"]]\n        if number(cell)!=wanted: paired_table_errors.append({\"label\":row[0],\"task\":f})\nsc_table_errors=[]\nfor f,row in zip((\"EC\",\"EV\"),en[5][\"cells\"][2:]):\n    wanted=[round(scnow[f][\"delta_pp\"],2)]+[round(v,2) for k in (\"ordinary95_pp\",\"two_endpoint_fwer95_pp\") for v in scnow[f][k]]\n    if [n for s in row[1:] for n in number(s)]!=wanted: sc_table_errors.append(f)\ncurve=read(\"paper/figures/utility_learning_curves_20261030/source_data.json\")\ntrainroot=Path(\"runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01\")\ntrain_gold={p.stem:read(p) for p in Path(\"data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only\").glob(\"*.json\")}\ncurve_diff=[]; training_score_errors=[]; training_compared=0\ncombined={arm:[] for arm in (\"empty\",\"skills\",\"frozen_after_B1\")}\ncurve_hash_errors=[]\nfor src,series in zip(curve[\"source_files\"],curve[\"series\"]):\n    for part in (\"records\",\"summary\"):\n        p=Path(src[part][\"path\"])\n        if hashlib.sha256(p.read_bytes()).hexdigest()!=src[part][\"sha256\"]: curve_hash_errors.append(str(p))\n    rows=read(src[\"records\"][\"path\"])\n    for arm in combined:\n        rrows=rows[arm]\n        m=metrics(rrows)\n        for r in rrows:\n            target=train_gold[str(r[\"case_id\"])][\"targets\"][r[\"family\"]]\n            score=norm(evaluate(r,(r[\"parsed\"] or {}).get(\"answer\"),target))\n            training_compared+=1\n            if score!=norm(r[\"score\"]): training_score_errors.append([src[\"batch\"],arm,r[\"case_id\"],r[\"family\"]])\n        for f in (\"EC\",\"EV\"):\n            for metric in (\"f1\",\"full_output_f1\"):\n                v=m[f][metric]*100; expected=series[\"percent\"][arm][f][metric]\n                if abs(v-expected)>1e-12: curve_diff.append([src[\"batch\"],arm,f,metric])\n        if src[\"batch\"]>1: combined[arm]+=rrows\ncontinuation={arm:{f:{k:100*v for k,v in vals.items() if k in (\"f1\",\"full_output_f1\")} for f,vals in metrics(rows).items() if f in (\"EC\",\"EV\")} for arm,rows in combined.items()}\ntable2_diff=[]\nfor arm,row in zip((\"empty\",\"frozen_after_B1\",\"skills\"),en[2][\"cells\"][2:5]):\n    expected=[round(continuation[arm][f][k],2) for k in (\"f1\",\"full_output_f1\") for f in (\"EC\",\"EV\")]\n    if [float(v) for v in row[1:]]!=expected: table2_diff.append(arm)\ndiff_row=[round(continuation[\"skills\"][f][k]-continuation[\"frozen_after_B1\"][f][k],2) for k in (\"f1\",\"full_output_f1\") for f in (\"EC\",\"EV\")]\nif [float(v) for v in en[2][\"cells\"][5][1:]]!=diff_row: table2_diff.append(\"difference\")\nprint(json.dumps({\"bootstrap_original18_endpoint_difference_paths\":stat_diff,\"bootstrap_original_adjusted_positive_endpoints\":sum(v[\"adjusted_lower_positive\"] for c in now[\"contrasts\"].values() for v in c[\"endpoints\"].values()),\"bootstrap_SkillCommit2_endpoint_difference_paths\":scdiff,\n\"bootstrap_SkillCommit_recomputed\":scnow,\"EN_tables\":len(en),\"ZH_tables\":len(zh),\"bilingual_table_numeric_differences\":bilingual,\n\"main_table_errors\":main_table_errors,\"quality_table_errors\":quality_errors,\"paired_table_errors\":paired_table_errors,\"supplement_table_errors\":sc_table_errors,\n\"training_curve_record_comparisons_including_saved_reuses\":training_compared,\"training_curve_score_errors\":training_score_errors,\n\"curve_original_file_hash_errors\":curve_hash_errors,\"curve_metric_differences\":curve_diff,\"continuation_table_errors\":table2_diff,\n\"all112_first_answer_means\":continuation,\"network_disabled\":True,\"new_predictions\":0},ensure_ascii=False))\nPY",
+      "result": {
+        "bootstrap_original18_endpoint_difference_paths": [],
+        "bootstrap_original_adjusted_positive_endpoints": 15,
+        "bootstrap_SkillCommit2_endpoint_difference_paths": [],
+        "bootstrap_SkillCommit_recomputed": {
+          "EC": {
+            "delta_pp": 27.48718418870073,
+            "ordinary95_pp": [
+              23.460689822606756,
+              31.698618777332584
+            ],
+            "two_endpoint_fwer95_pp": [
+              22.91856933400333,
+              32.30305879404714
+            ]
+          },
+          "EV": {
+            "delta_pp": 23.08333810286935,
+            "ordinary95_pp": [
+              18.23308841765873,
+              27.944479321676578
+            ],
+            "two_endpoint_fwer95_pp": [
+              17.546930594904225,
+              28.675356761294257
+            ]
+          }
+        },
+        "EN_tables": 13,
+        "ZH_tables": 13,
+        "bilingual_table_numeric_differences": [
+          {
+            "table": 0,
+            "row": 10,
+            "en": [
+              0.01,
+              1
+            ],
+            "zh": [
+              1,
+              0.01
+            ]
+          }
+        ],
+        "main_table_errors": [],
+        "quality_table_errors": [],
+        "paired_table_errors": [],
+        "supplement_table_errors": [],
+        "training_curve_record_comparisons_including_saved_reuses": 768,
+        "training_curve_score_errors": [],
+        "curve_original_file_hash_errors": [],
+        "curve_metric_differences": [],
+        "continuation_table_errors": [],
+        "all112_first_answer_means": {
+          "empty": {
+            "EC": {
+              "f1": 63.20967970521541,
+              "full_output_f1": 66.55578732280132
+            },
+            "EV": {
+              "f1": 61.434240362811764,
+              "full_output_f1": 61.28571110778564
+            }
+          },
+          "skills": {
+            "EC": {
+              "f1": 91.83212868480727,
+              "full_output_f1": 94.4184788630063
+            },
+            "EV": {
+              "f1": 88.15688775510203,
+              "full_output_f1": 87.40518819996144
+            }
+          },
+          "frozen_after_B1": {
+            "EC": {
+              "f1": 80.8689413265306,
+              "full_output_f1": 84.14500259793697
+            },
+            "EV": {
+              "f1": 84.73797531833246,
+              "full_output_f1": 83.96660222237706
+            }
+          }
+        },
+        "network_disabled": true,
+        "new_predictions": 0
+      }
+    },
+    "raw_HTTP_decode_cost_and_source_split": {
+      "executed_read_only_command": ".venv/bin/python - <<'PY'\nimport json, socket, collections, hashlib\nfrom pathlib import Path\ndef blocked(*a,**k): raise RuntimeError(\"No network\")\nsocket.socket.connect=blocked\nsocket.create_connection=blocked\nfrom legal_skill_guard.learning.legal_namespace import public_asset_catalog, public_catalog, decode_asset_references, decode_classification, decode_reference\ndef read(p): return json.loads(Path(p).read_text())\nroot=Path(\".\")\nrecords=read(\"runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/scored_records.json\")\npreds=read(\"runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/predictions_before_any_grading.json\")\nscroot=Path(\"runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05\")\nrecords[\"skillcommit_paper45\"]=read(scroot/\"TEST_scored_records.json\")\npreds[\"skillcommit_paper45\"]=read(scroot/\"TEST_predictions_before_grading.json\")\npacket=read(\"data/packets/openexempt_IID128_confirmatory_TEST_20261030/inputs.json\")\nrows={(r[\"case_id\"],r[\"family\"]):r for r in packet[\"rows\"]}\ntrain=read(\"data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json\")\ntrain_keys={r[\"source_key\"] for r in train[\"rows\"]}\ntest_keys={r[\"source_key\"] for r in packet[\"rows\"]}\nasset_maps={i:public_asset_catalog(r) for i,r in rows.items()}\nlaw_maps={i:public_catalog(r) for i,r in rows.items()}\nraw_errors=[]; pred_errors=[]; controls=collections.Counter(); costs={}; rawpaths=[]; rawids=[]\nfor arm,rr in records.items():\n    costs[arm]={\"input\":0,\"output\":0,\"stop\":0,\"length\":0,\"invalid\":0}\n    pr={(r[\"case_id\"],r[\"family\"]):r for r in preds[arm]}\n    for r in rr:\n        ident=r[\"case_id\"],r[\"family\"]\n        if {k:v for k,v in r.items() if k!=\"score\"} != pr[ident]: pred_errors.append([arm,*ident])\n        p=Path(r[\"raw_call_path\"]); raw=read(p); rawpaths.append(str(p))\n        if raw.get(\"transport_error\"): raw_errors.append([arm,*ident,\"transport_error\"])\n        if len(raw[\"calls\"])!=1: raw_errors.append([arm,*ident,\"wire_call_count\"])\n        wire=raw[\"calls\"][-1]\n        resp=raw[\"response\"]; wresp=wire[\"response\"]; choice=wresp[\"choices\"][0]\n        if (choice[\"message\"].get(\"content\") or \"\").strip()!=resp[\"content\"]: raw_errors.append([arm,*ident,\"wire_content\"])\n        if choice[\"finish_reason\"]!=resp[\"finish_reason\"]: raw_errors.append([arm,*ident,\"finish_reason\"])\n        if wresp[\"id\"]!=resp[\"raw_id\"]: raw_errors.append([arm,*ident,\"response_id\"])\n        rawids.append(resp[\"raw_id\"])\n        for short,long in ((\"prompt_tokens\",\"prompt_tokens\"),(\"completion_tokens\",\"completion_tokens\")):\n            if resp[short]!=wresp[\"usage\"][long]: raw_errors.append([arm,*ident,\"usage\"])\n        costs[arm][\"input\"]+=resp[\"prompt_tokens\"]\n        costs[arm][\"output\"]+=resp[\"completion_tokens\"]\n        costs[arm][resp[\"finish_reason\"]]+=1\n        costs[arm][\"invalid\"]+=r[\"score\"][\"invalid_format\"]\n        req=wire[\"request\"]\n        controls[json.dumps({k:req.get(k) for k in (\"model\",\"seed\",\"temperature\",\"top_p\",\"top_k\",\"max_tokens\",\"chat_template_kwargs\")},sort_keys=True)]+=1\n        try: submitted=json.loads(resp[\"content\"])\n        except json.JSONDecodeError: submitted=None\n        if not r[\"score\"][\"invalid_format\"] and submitted!=r.get(\"public_label_submission\",r.get(\"actual_wrapper_submission\")): raw_errors.append([arm,*ident,\"submission_not_wire\"])\n        if r[\"score\"][\"invalid_format\"]:\n            if resp[\"finish_reason\"]!=\"length\": raw_errors.append([arm,*ident,\"invalid_non_length\"])\n            continue\n        if arm==\"ACE45\": submitted=submitted[\"final_answer\"]\n        decoded=decode_asset_references(submitted,asset_maps[ident])\n        if r[\"family\"]==\"EC\": answer=decode_classification(decoded,law_maps[ident])\n        else:\n            answer={a:[{\"citation\":decode_reference(c[\"citation_ref\"],law_maps[ident]),\"claim_value\":c[\"claim_value\"]} for c in claims] for a,claims in decoded.items()}\n        if r[\"parsed\"]!={\"answer\":answer}: raw_errors.append([arm,*ident,\"decoded_answer_differs\"])\n        if r.get(\"execution_receipt\") is not None or r.get(\"native_program\") is not None:\n            raw_errors.append([arm,*ident,\"numeric_tool_detected\"])\nmainroot=Path(\"runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01\")\nteacher_responses=[read(p) for p in sorted((mainroot/\"teacher\").glob(\"*/response.json\"))]\nteacher_summaries=[]\nfor v in teacher_responses:\n    teacher_summaries.append({\"keys\":sorted(v),\"usage\":v.get(\"usage\"),\"invocation_usage\":v.get(\"invocation\",{}).get(\"usage\")})\nprint(json.dumps({\"raw_response_records\":len(rawpaths),\"unique_raw_paths\":len(set(rawpaths)),\"unique_response_ids\":len(set(rawids)),\n\"raw_HTTP_submission_decode_usage_errors\":raw_errors,\"pregrading_prediction_vs_scored_record_errors\":pred_errors,\n\"raw_generation_profile_counts\":dict(controls),\"actual_frozen_inference_tokens_and_finishes\":costs,\n\"train_sources\":len(train_keys),\"test_sources\":len(test_keys),\"train_test_source_overlap\":len(train_keys&test_keys),\n\"main_teacher_response_files\":len(teacher_responses),\"first_main_teacher_summary\":teacher_summaries[:1],\n\"main_teacher_total_usage\":{k:sum((v.get(\"invocation\",{}).get(\"usage\") or {}).get(k,0) for v in teacher_responses) for k in (\"input_tokens\",\"output_tokens\",\"cached_input_tokens\",\"reasoning_output_tokens\")},\n\"network_disabled\":True,\"new_model_calls\":0},ensure_ascii=False))\nPY",
+      "result": {
+        "raw_response_records": 2816,
+        "unique_raw_paths": 2816,
+        "unique_response_ids": 2816,
+        "raw_HTTP_submission_decode_usage_errors": [],
+        "pregrading_prediction_vs_scored_record_errors": [],
+        "raw_generation_profile_counts": {
+          "{\"chat_template_kwargs\": null, \"max_tokens\": 8192, \"model\": \"Qwen/Qwen3-8B\", \"seed\": 45, \"temperature\": 0.6, \"top_k\": 20, \"top_p\": 0.95}": 2816
+        },
+        "actual_frozen_inference_tokens_and_finishes": {
+          "empty": {
+            "input": 1622317,
+            "output": 711638,
+            "stop": 255,
+            "length": 1,
+            "invalid": 1
+          },
+          "static": {
+            "input": 1838793,
+            "output": 627485,
+            "stop": 253,
+            "length": 3,
+            "invalid": 3
+          },
+          "ACE45": {
+            "input": 2267693,
+            "output": 694380,
+            "stop": 246,
+            "length": 10,
+            "invalid": 10
+          },
+          "ACE_common45": {
+            "input": 2200621,
+            "output": 653265,
+            "stop": 254,
+            "length": 2,
+            "invalid": 2
+          },
+          "text45": {
+            "input": 2438957,
+            "output": 661951,
+            "stop": 250,
+            "length": 6,
+            "invalid": 6
+          },
+          "utility45": {
+            "input": 1809329,
+            "output": 627240,
+            "stop": 254,
+            "length": 2,
+            "invalid": 2
+          },
+          "utility_own_B1_45": {
+            "input": 1752541,
+            "output": 785144,
+            "stop": 254,
+            "length": 2,
+            "invalid": 2
+          },
+          "strict45": {
+            "input": 1767439,
+            "output": 723505,
+            "stop": 253,
+            "length": 3,
+            "invalid": 3
+          },
+          "no_execution45": {
+            "input": 1766569,
+            "output": 621900,
+            "stop": 256,
+            "length": 0,
+            "invalid": 0
+          },
+          "projection45": {
+            "input": 1778399,
+            "output": 734899,
+            "stop": 255,
+            "length": 1,
+            "invalid": 1
+          },
+          "skillcommit_paper45": {
+            "input": 2001690,
+            "output": 712116,
+            "stop": 249,
+            "length": 7,
+            "invalid": 7
+          }
+        },
+        "train_sources": 128,
+        "test_sources": 128,
+        "train_test_source_overlap": 0,
+        "main_teacher_response_files": 16,
+        "first_main_teacher_summary": [
+          {
+            "keys": [
+              "actual_event_log_path",
+              "cache_hit",
+              "capacity_transport_attempt_index",
+              "invocation",
+              "model",
+              "request_sha256",
+              "response_sha256",
+              "value"
+            ],
+            "usage": null,
+            "invocation_usage": {
+              "input_tokens": 64720,
+              "cached_input_tokens": 0,
+              "output_tokens": 3845,
+              "reasoning_output_tokens": 1859
+            }
+          }
+        ],
+        "main_teacher_total_usage": {
+          "input_tokens": 1778335,
+          "output_tokens": 66439,
+          "cached_input_tokens": 115968,
+          "reasoning_output_tokens": 38939
+        },
+        "network_disabled": true,
+        "new_model_calls": 0
+      }
+    },
+    "frozen_bindings_actual_skill_edits_and_source_hashes": {
+      "executed_read_only_command": ".venv/bin/python - <<'PY'\nimport hashlib,json,re\nfrom pathlib import Path\ndef read(p): return json.loads(Path(p).read_text())\ndef sha(p):\n    with Path(p).open(\"rb\") as h: return hashlib.file_digest(h,\"sha256\").hexdigest()\ncache={}; frozen={}\nfor rel in (\"configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json\",\"configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json\"):\n    d=read(rel); bad=[]\n    for p,expected in d[\"files\"].items():\n        if p not in cache: cache[p]=sha(p) if Path(p).is_file() else None\n        if cache[p]!=expected: bad.append(p)\n    frozen[rel]={\"bound_files\":len(d[\"files\"]),\"manifest_sha256\":sha(rel),\"mismatch_files\":bad}\nmain=Path(\"runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01\")\nprev=[];changes=[]\nfor b in range(1,9):\n    pub=read(main/\"publications\"/f\"b{b}.json\"); bank=pub[\"bank\"]\n    project=lambda entries,f: {e[\"id\"]:v for e in entries for v in e[\"guidance\"][\"by_task\"] if f in v[\"tasks\"]}\n    counts={}; edits={}\n    for f in (\"EC\",\"EV\"):\n        before=project(prev,f);after=project(bank,f);counts[f]=len(after)\n        edits[f]={\"added\":len(set(after)-set(before)),\"removed\":len(set(before)-set(after)),\n                  \"updated\":sum(before[k]!=after[k] for k in before.keys()&after.keys())}\n    changes.append({\"batch\":b,\"records\":len(bank),\"blocks\":counts,\"edits\":edits});prev=bank\nsrc=read(\"paper/tables/utility_training_evolution_cost_20261030.json\")\nevolution_errors=[]\nfor current,recorded in zip(changes,src[\"evolution_rows\"]):\n    if current[\"records\"]!=recorded[\"records\"] or current[\"blocks\"]!=recorded[\"task_projection_counts\"]:\n        evolution_errors.append(current[\"batch\"])\n    for f in (\"EC\",\"EV\"):\n        for k in (\"added\",\"removed\",\"updated\"):\n            if current[\"edits\"][f][k]!=recorded[\"actual_projection_edits\"][f][k]:evolution_errors.append([current[\"batch\"],f,k])\npaths=[\"paper/utility_skill_manuscript_working_20261030.md\",\"paper/sections-zh/utility_skill_manuscript_working_20261030.md\",\"paper/utility_skill_references_20261030.bib\",\"paper/render_utility_review.py\",\"paper/submission_materials_en_20261104.md\",\"paper/tables/utility_frozen_results_20261101.json\",\"paper/tables/utility_frozen_results_with_skillcommit_20261104.json\"]\nvdir=Path(\"artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104\")\nexport_manifest=read(vdir/\"render_manifest.json\")\ncostmain=src[\"cost\"]; proof_cost={\"native_calls\":costmain[\"physical_native_generations\"],\"input\":costmain[\"native_input_tokens\"],\"output\":costmain[\"native_output_tokens\"],\"scope\":\"unchanged original completion and frozen evidence; not a new independent serving run\"}\noriginal=read(\"runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/scored_records.json\")\ncase_rows={name:{r[\"family\"]:100*r[\"score\"][\"f1\"] for r in original[name] if r[\"case_id\"]==3000055} for name in (\"empty\",\"utility_own_B1_45\",\"no_execution45\",\"utility45\")}\ncost_native_total=sum(1 for _ in (main/\"native\").rglob(\"*.json\"))\nprint(json.dumps({\"frozen_manifests\":frozen,\"current_authoritative_source_sha256\":{p:sha(p) for p in paths},\n\"independently_compared_actual_publication_bank_evolution\":changes,\"publication_evolution_differences\":evolution_errors,\n\"main_native_cost_retained_original_evidence\":proof_cost,\n\"case_study_3000055_original_scores_percent\":case_rows,\n\"v15_render_manifest_keys\":list(export_manifest),\n\"quantitative_bilingual_table_check_resolution\":{\"raw_flag\":\"Table implementation settings historical allowance contains [0.01,1] in EN and [1,0.01] in ZH\",\"manual_resolution\":\"equivalent quantities stated in reverse textual order: one percentage point equals 0.01 F1; no scientific discrepancy\"},\n\"no_canonical_manuscript_or_experiment_mutation\":True},ensure_ascii=False))\nPY",
+      "result": {
+        "frozen_manifests": {
+          "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json": {
+            "bound_files": 379,
+            "manifest_sha256": "182e6cbf98e6ee7da8801ad7874554da50a071a91a8a4297e20d87b4fbea30ef",
+            "mismatch_files": []
+          },
+          "configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json": {
+            "bound_files": 648,
+            "manifest_sha256": "b84103c8f772a10983ef1727c82c7847d0ec344333b22b6ee3574ad19316359d",
+            "mismatch_files": []
+          }
+        },
+        "current_authoritative_source_sha256": {
+          "paper/utility_skill_manuscript_working_20261030.md": "9170753cfd6b12fd89cc11e168b4d7fbdf5bcb73d58fbe71a60c20cf8ad59b18",
+          "paper/sections-zh/utility_skill_manuscript_working_20261030.md": "29607f06d7ef34e5d3f9ad1826ba10362149c08439e23e5aa2d3f5faec19d750",
+          "paper/utility_skill_references_20261030.bib": "bcc04cb51fba860e6bd8c96118f5d3836242f501b2e87eeaae3af0333308bbaf",
+          "paper/render_utility_review.py": "7f9aad3266a52a2c74151292f7c21d63e9256ebf05848f95e9eb5b5139982806",
+          "paper/submission_materials_en_20261104.md": "10df2fe1b838df6e2241034ea1a96672625e983e62c36bb5101e76e5cc7c72a1",
+          "paper/tables/utility_frozen_results_20261101.json": "3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732",
+          "paper/tables/utility_frozen_results_with_skillcommit_20261104.json": "0d092894a80d1ab82721e1eeb9e96aecc40de05adfa721fb2b9e44b417e3e078"
+        },
+        "independently_compared_actual_publication_bank_evolution": [
+          {
+            "batch": 1,
+            "records": 7,
+            "blocks": {
+              "EC": 7,
+              "EV": 6
+            },
+            "edits": {
+              "EC": {
+                "added": 7,
+                "removed": 0,
+                "updated": 0
+              },
+              "EV": {
+                "added": 6,
+                "removed": 0,
+                "updated": 0
+              }
+            }
+          },
+          {
+            "batch": 2,
+            "records": 7,
+            "blocks": {
+              "EC": 7,
+              "EV": 6
+            },
+            "edits": {
+              "EC": {
+                "added": 0,
+                "removed": 0,
+                "updated": 4
+              },
+              "EV": {
+                "added": 0,
+                "removed": 0,
+                "updated": 5
+              }
+            }
+          },
+          {
+            "batch": 3,
+            "records": 7,
+            "blocks": {
+              "EC": 7,
+              "EV": 6
+            },
+            "edits": {
+              "EC": {
+                "added": 0,
+                "removed": 0,
+                "updated": 3
+              },
+              "EV": {
+                "added": 0,
+                "removed": 0,
+                "updated": 0
+              }
+            }
+          },
+          {
+            "batch": 4,
+            "records": 7,
+            "blocks": {
+              "EC": 7,
+              "EV": 6
+            },
+            "edits": {
+              "EC": {
+                "added": 0,
+                "removed": 0,
+                "updated": 0
+              },
+              "EV": {
+                "added": 0,
+                "removed": 0,
+                "updated": 0
+              }
+            }
+          },
+          {
+            "batch": 5,
+            "records": 7,
+            "blocks": {
+              "EC": 7,
+              "EV": 6
+            },
+            "edits": {
+              "EC": {
+                "added": 0,
+                "removed": 0,
+                "updated": 1
+              },
+              "EV": {
+                "added": 0,
+                "removed": 0,
+                "updated": 0
+              }
+            }
+          },
+          {
+            "batch": 6,
+            "records": 7,
+            "blocks": {
+              "EC": 7,
+              "EV": 6
+            },
+            "edits": {
+              "EC": {
+                "added": 0,
+                "removed": 0,
+                "updated": 2
+              },
+              "EV": {
+                "added": 0,
+                "removed": 0,
+                "updated": 0
+              }
+            }
+          },
+          {
+            "batch": 7,
+            "records": 7,
+            "blocks": {
+              "EC": 7,
+              "EV": 7
+            },
+            "edits": {
+              "EC": {
+                "added": 0,
+                "removed": 0,
+                "updated": 0
+              },
+              "EV": {
+                "added": 1,
+                "removed": 0,
+                "updated": 0
+              }
+            }
+          },
+          {
+            "batch": 8,
+            "records": 7,
+            "blocks": {
+              "EC": 7,
+              "EV": 7
+            },
+            "edits": {
+              "EC": {
+                "added": 0,
+                "removed": 0,
+                "updated": 0
+              },
+              "EV": {
+                "added": 0,
+                "removed": 0,
+                "updated": 1
+              }
+            }
+          }
+        ],
+        "publication_evolution_differences": [],
+        "main_native_cost_retained_original_evidence": {
+          "native_calls": 1207,
+          "input": 8293891,
+          "output": 3196466,
+          "scope": "unchanged original completion and frozen evidence; not a new independent serving run"
+        },
+        "case_study_3000055_original_scores_percent": {
+          "empty": {
+            "EC": 80.00000000000001,
+            "EV": 44.44444444444444
+          },
+          "utility_own_B1_45": {
+            "EC": 93.33333333333333,
+            "EV": 83.33333333333334
+          },
+          "no_execution45": {
+            "EC": 80.00000000000001,
+            "EV": 93.33333333333333
+          },
+          "utility45": {
+            "EC": 100,
+            "EV": 100
+          }
+        },
+        "v15_render_manifest_keys": [
+          "at",
+          "classification",
+          "source_sha256",
+          "renderer_sha256",
+          "pandoc_version",
+          "pandoc_binary_sha256",
+          "reference_docx_sha256",
+          "outputs",
+          "new_prose_or_scores_written_to_source",
+          "old_v023_renderer_and_paper_untouched",
+          "no_training_model_teacher_TEST_access",
+          "bibliography_added_only_to_export",
+          "internal_review_banner_added_to_manuscript"
+        ],
+        "quantitative_bilingual_table_check_resolution": {
+          "raw_flag": "Table implementation settings historical allowance contains [0.01,1] in EN and [1,0.01] in ZH",
+          "manual_resolution": "equivalent quantities stated in reverse textual order: one percentage point equals 0.01 F1; no scientific discrepancy"
+        },
+        "no_canonical_manuscript_or_experiment_mutation": true
+      }
+    },
+    "strict_match_asset_key_contract": {
+      "executed_read_only_command": ".venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nfrom legal_skill_guard.learning.legal_namespace import public_asset_catalog\np=json.loads(Path(\"data/packets/openexempt_IID128_confirmatory_TEST_20261030/inputs.json\").read_text())\ncases={}\nfor row in p[\"rows\"]:\n    target=json.loads(Path(f'data/packets/openexempt_IID128_confirmatory_TEST_20261030/grading_only/{row[\"case_id\"]}.json').read_text())[\"targets\"][row[\"family\"]]\n    required=set(public_asset_catalog(row).values());actual=set(target)\n    missing=sorted(required-actual); outside=sorted(actual-required)\n    if missing or outside:\n        cases.setdefault(row[\"family\"],[]).append({\"id\":row[\"case_id\"],\"required_but_absent_in_reference\":missing,\"reference_but_absent_in_required\":outside})\nprint(json.dumps({\"target_key_contract_discrepancy_cases\":cases,\"structural_literal_match_ceiling_percent\":{f:(128-len(cases.get(f,[])))/128*100 for f in (\"EC\",\"EV\")},\"interpretation\":\"The source interface requires every asset ID; EV references omit some zero-claim assets. Empty submitted arrays on these assets are harmless for claim F1 but make literal decoded-object equality impossible. No published metric changed.\"},ensure_ascii=False))\nPY",
+      "result": {
+        "target_key_contract_discrepancy_cases": {
+          "EV": [
+            {
+              "id": 3000011,
+              "required_but_absent_in_reference": [
+                "enameled pendant featuring a patron saint figure"
+              ],
+              "reference_but_absent_in_required": []
+            },
+            {
+              "id": 3000042,
+              "required_but_absent_in_reference": [
+                "charm bracelet with silver heart-shaped and birthstone-themed charms",
+                "white gold bangle bracelet with etched floral design"
+              ],
+              "reference_but_absent_in_required": []
+            },
+            {
+              "id": 3000096,
+              "required_but_absent_in_reference": [
+                "string of freshwater pearls with 16-inch clasped length and hand-knotted silk thread"
+              ],
+              "reference_but_absent_in_required": []
+            },
+            {
+              "id": 3000111,
+              "required_but_absent_in_reference": [
+                "handmade beaded necklace"
+              ],
+              "reference_but_absent_in_required": []
+            },
+            {
+              "id": 3000125,
+              "required_but_absent_in_reference": [
+                "pair of small diamond stud earrings in 14-karat white gold",
+                "vintage brooch with floral enamel detailing and rhinestones"
+              ],
+              "reference_but_absent_in_required": []
+            }
+          ]
+        },
+        "structural_literal_match_ceiling_percent": {
+          "EC": 100,
+          "EV": 96.09375
+        },
+        "interpretation": "The source interface requires every asset ID; EV references omit some zero-claim assets. Empty submitted arrays on these assets are harmless for claim F1 but make literal decoded-object equality impossible. No published metric changed."
+      }
+    },
+    "reference_self_scoring_diagnostic": {
+      "executed_read_only_command": ".venv/bin/python - <<'PY'\nimport json, socket\nfrom pathlib import Path\ndef blocked(*a,**k):raise RuntimeError(\"No network\")\nsocket.socket.connect=blocked;socket.create_connection=blocked\nfrom legal_skill_guard.openexempt import evaluate,metrics\npacket=json.loads(Path(\"data/packets/openexempt_IID128_confirmatory_TEST_20261030/inputs.json\").read_text());records=[];nonperfect=[]\nfor row in packet[\"rows\"]:\n    gold=json.loads(Path(f'data/packets/openexempt_IID128_confirmatory_TEST_20261030/grading_only/{row[\"case_id\"]}.json').read_text())[\"targets\"][row[\"family\"]]\n    s=evaluate(row,gold,gold);records.append({**{k:row[k] for k in (\"case_id\",\"source_key\",\"family\")},\"score\":s})\n    if s[\"f1\"]!=1:\n        nonperfect.append({\"case_id\":row[\"case_id\"],\"family\":row[\"family\"],\"native_f1\":s[\"f1\"],\"complete_f1\":s[\"full_output_f1\"],\n                           \"empty_target_asset_count\":sum(not v for v in gold.values()),\"asset_count\":len(gold)})\nm=metrics(records)\nprint(json.dumps({\"purpose\":\"offline reference-versus-itself evaluator identity diagnostic, not actor predictions or replacement results\",\n                  \"n_rows\":len(records),\"native_F1_reference_self_score_percent\":{f:m[f][\"f1\"]*100 for f in (\"EC\",\"EV\")},\n                  \"complete_F1_reference_self_score_percent\":{f:m[f][\"full_output_f1\"]*100 for f in (\"EC\",\"EV\")},\n                  \"nonperfect_native_reference_cases\":nonperfect,\n                  \"all_original_outputs_and_scores_unchanged\":True,\"model_calls\":0},ensure_ascii=False))\nPY",
+      "result": {
+        "purpose": "offline reference-versus-itself evaluator identity diagnostic, not actor predictions or replacement results",
+        "n_rows": 256,
+        "native_F1_reference_self_score_percent": {
+          "EC": 98.50260416666666,
+          "EV": 100
+        },
+        "complete_F1_reference_self_score_percent": {
+          "EC": 100,
+          "EV": 100
+        },
+        "nonperfect_native_reference_cases": [
+          {
+            "case_id": 3000011,
+            "family": "EC",
+            "native_f1": 0.6666666666666666,
+            "complete_f1": 1,
+            "empty_target_asset_count": 1,
+            "asset_count": 3
+          },
+          {
+            "case_id": 3000042,
+            "family": "EC",
+            "native_f1": 0.5,
+            "complete_f1": 1,
+            "empty_target_asset_count": 2,
+            "asset_count": 4
+          },
+          {
+            "case_id": 3000096,
+            "family": "EC",
+            "native_f1": 0.75,
+            "complete_f1": 1,
+            "empty_target_asset_count": 1,
+            "asset_count": 4
+          },
+          {
+            "case_id": 3000111,
+            "family": "EC",
+            "native_f1": 0.6666666666666666,
+            "complete_f1": 1,
+            "empty_target_asset_count": 1,
+            "asset_count": 3
+          },
+          {
+            "case_id": 3000125,
+            "family": "EC",
+            "native_f1": 0.5,
+            "complete_f1": 1,
+            "empty_target_asset_count": 2,
+            "asset_count": 4
+          }
+        ],
+        "all_original_outputs_and_scores_unchanged": true,
+        "model_calls": 0
+      }
+    },
+    "bounded_table_layout_probe": {
+      "executed_read_only_command": ".venv/bin/python - <<'PY'\nimport json,re,subprocess,xml.etree.ElementTree as ET,zipfile\nfrom pathlib import Path\nroot=Path(\"artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104\")\nout={}\nfor lang,page_index in ((\"en\",7),(\"zh\",6)):\n    pdf=root/f\"utility_v6_working_{lang}.pdf\"\n    data=subprocess.run([\"pdftotext\",\"-bbox\",str(pdf),\"-\"],check=True,capture_output=True).stdout\n    doc=ET.fromstring(data)\n    pages=[x for x in doc.iter() if x.tag.rsplit(\"}\",1)[-1]==\"page\"]\n    words=[{\"text\":w.text,**{k:float(v) for k,v in w.attrib.items()}} for w in pages[page_index].iter() if w.tag.rsplit(\"}\",1)[-1]==\"word\"]\n    fused=[w for w in words if re.search(r\"\\d{2}\\.\\d{2}\\d{2}\\.\\d{2}\",w[\"text\"] or \"\")]\n    with zipfile.ZipFile(root/f\"utility_v6_working_{lang}.docx\") as z:\n        xml=ET.fromstring(z.read(\"word/document.xml\"))\n    ns={\"w\":\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"}\n    tables=xml.findall(\".//w:tbl\",ns)\n    grid=tables[1].findall(\"./w:tblGrid/w:gridCol\",ns)\n    out[lang]={\"PDF_page\":page_index+1,\"numeric_text_run_fusions\":fused,\n               \"main_table_column_width_twips\":[int(e.attrib[\"{\"+ns[\"w\"]+\"}w\"]) for e in grid]}\nprint(json.dumps(out,ensure_ascii=False))\nPY",
+      "result": {
+        "en": {
+          "PDF_page": 8,
+          "numeric_text_run_fusions": [],
+          "main_table_column_width_twips": [
+            3881,
+            1346,
+            1346,
+            1347
+          ]
+        },
+        "zh": {
+          "PDF_page": 7,
+          "numeric_text_run_fusions": [],
+          "main_table_column_width_twips": [
+            3881,
+            1346,
+            1346,
+            1347
+          ]
+        }
+      }
+    }
+  },
+  "numeric_bilingual_review_resolution": {
+    "raw_flag": "Table implementation settings historical allowance contains [0.01,1] in EN and [1,0.01] in ZH",
+    "manual_resolution": "equivalent quantities stated in reverse textual order: one percentage point equals 0.01 F1; no scientific discrepancy"
+  },
+  "bounded_visual_review_this_turn": {
+    "images": [
+      "paper/figures/utility_method_overview_20261030/method_overview_preview.png",
+      "paper/figures/utility_learning_curves_20261030/learning_curves_preview.png",
+      "artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/visual_review/en_p8.png",
+      "artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/visual_review/zh_p7.png",
+      "artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/visual_review/en_p22.png"
+    ],
+    "not_all_42_pages_visually_reaudited": true,
+    "main_table_numeric_fusion_suspicion_resolved": "No fused numeric word runs; bounding boxes show 40.3 pt between sampled EC and EV values in both PDFs, not a numeric concatenation error.",
+    "original_bounding_box_gap_probe_output": "en [{\"EC\": \"66.59\", \"EV\": \"66.92\", \"horizontal_gap_pt\": 40.30000000000001, \"yMin\": 491.708764}, {\"EC\": \"83.51\", \"EV\": \"84.25\", \"horizontal_gap_pt\": 40.30000000000001, \"yMin\": 543.908764}, {\"EC\": \"80.29\", \"EV\": \"89.01\", \"horizontal_gap_pt\": 40.30000000000001, \"yMin\": 561.308764}, {\"EC\": \"86.98\", \"EV\": \"80.38\", \"horizontal_gap_pt\": 40.30000000000001, \"yMin\": 578.708764}, {\"EC\": \"95.46\", \"EV\": \"87.90\", \"horizontal_gap_pt\": 40.30000000000001, \"yMin\": 613.508764}]\nzh [{\"EC\": \"66.59\", \"EV\": \"66.92\", \"horizontal_gap_pt\": 40.30000000000001, \"yMin\": 451.808764}, {\"EC\": \"83.51\", \"EV\": \"84.25\", \"horizontal_gap_pt\": 40.30000000000001, \"yMin\": 510.908764}, {\"EC\": \"80.29\", \"EV\": \"89.01\", \"horizontal_gap_pt\": 40.30000000000001, \"yMin\": 531.808764}, {\"EC\": \"86.98\", \"EV\": \"80.38\", \"horizontal_gap_pt\": 40.30000000000001, \"yMin\": 552.608764}, {\"EC\": \"95.46\", \"EV\": \"87.90\", \"horizontal_gap_pt\": 40.30000000000001, \"yMin\": 594.308764}]\n"
+  },
+  "primary_reference_checks": [
+    {
+      "work": "Qwen3",
+      "url": "https://arxiv.org/abs/2505.09388v1",
+      "finding": "metadata found; official repository BibTeX uses An Yang et al., not the current group-author shorthand"
+    },
+    {
+      "work": "OpenExempt",
+      "url": "https://arxiv.org/abs/2601.13183v1",
+      "finding": "title, authors and task-variant claims supported; configurable prerequisite solutions are described in full text"
+    },
+    {
+      "work": "ExpeL",
+      "url": "https://ojs.aaai.org/index.php/AAAI/citationstylelanguage/get/turabian-fullnote-bibliography?publicationId=28220&submissionId=29936",
+      "finding": "publisher citation endpoint supports authors, title, year and pages; main article page access was denied by bot protection"
+    },
+    {
+      "work": "ACE",
+      "url": "https://arxiv.org/abs/2510.04618v3",
+      "finding": "title, authors, version and playbook mechanism supported"
+    },
+    {
+      "work": "Trace2Skill",
+      "url": "https://arxiv.org/abs/2603.25158v5",
+      "finding": "title, authors, version and trajectory-to-procedure description supported"
+    },
+    {
+      "work": "ReasoningBank",
+      "url": "https://arxiv.org/abs/2509.25140v2",
+      "finding": "title, authors, version and success/failure memory description supported"
+    },
+    {
+      "work": "SkillCommit",
+      "url": "https://arxiv.org/html/2608.15165v2",
+      "finding": "targeted full-text check supports source-preserving consolidation; encoder and construction budgets differ from local adaptation"
+    },
+    {
+      "work": "GSE",
+      "url": "https://arxiv.org/html/2608.06153v1",
+      "finding": "targeted check supports relation graph, consolidation and historical replay; replay is not a novel concept of this manuscript"
+    },
+    {
+      "work": "LegalBench",
+      "url": "https://arxiv.org/abs/2308.11462v1",
+      "finding": "title, source and legal-reasoning taxonomy found"
+    },
+    {
+      "work": "Factoring Statutory Reasoning",
+      "url": "https://aclanthology.org/2021.acl-long.213/",
+      "finding": "title, authors, pages, DOI and decomposition claim supported"
+    },
+    {
+      "work": "JustifIT-QA",
+      "url": "https://aclanthology.org/2026.emnlp-main.593/",
+      "finding": "title, authors, pages and judge-guided refinement supported; DOI 10.18653/2026.emnlp-main.593 is missing from current bibliography"
+    }
+  ],
+  "qwen_official_citation_source": "https://github.com/QwenLM/Qwen3#citation",
+  "reference_review_scope": "Primary metadata and targeted claim checks, not full independent replication of all cited methods.",
+  "manual_review_note": "Original 18-endpoint family and later two-endpoint supplement are unchanged. Exact-target values are exact decoded Python-object equality, sensitive to list order and omitted empty asset entries. This is not semantic legal case accuracy."
+}

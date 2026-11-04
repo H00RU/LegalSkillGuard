@@ -1,0 +1,37 @@
+{
+  "at_UTC": "2026-11-03T20:56:25.396325+00:00",
+  "marker": "20261103T205625Z",
+  "receipt": {
+    "at": "2026-11-03T20:56:25.250827+00:00",
+    "stage": "goal-full-scope-final-delivery-audit-20261103T205625Z",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-goal-full-scope-final-delivery-audit-20261103T205625Z.tar.gz",
+        "sha256": "772f3e718dc4ea8148cc534dc4740f540daaf155a4b154fadaf7ae50c8a93fa7"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-goal-full-scope-final-delivery-audit-20261103T205625Z.tar.gz",
+        "sha256": "772f3e718dc4ea8148cc534dc4740f540daaf155a4b154fadaf7ae50c8a93fa7"
+      }
+    ],
+    "files": 9
+  },
+  "member_sha256": {
+    "artifacts/research/openexempt_skillcommit_20261102/goal_full_scope_delivery_completion_audit_20261104.json": "98d8f67c631814d6c7f595baf1ede20b80add03a7397d9204962198dad680671",
+    "artifacts/research/openexempt_skillcommit_20261102/run05_complete_frozen_TEST_paper_v15_two_filesystem_preservation_20261103T203048Z.json": "c2371030f44eba944bcc27306b55c22e147c1beed4982ad031d8e3763a570006",
+    "artifacts/research/openexempt_skillcommit_20261102/run05_final_v15_handoff_index_receipt_figures_preservation_20261103T203432Z.json": "ecc6466ebac9e48c834f94fbbfc7f7467b196b55c57da5f37442e9eddefded12",
+    "artifacts/research/openexempt_skillcommit_20261102/submission_packet_two_filesystem_preservation_20261103T204521Z.json": "b15d5d1f8b324c183b1e77cd315cbfc7f33f40bed7afbc76822ebbbfc79ad1c0",
+    "docs/CURRENT_GOAL.md": "a8c766db98f59d89dfef68a5aa4f194a93ad8bf62a7af32e0701822c44b3f156",
+    "docs/reports/GOAL_DELIVERY_AUDIT_20261104.md": "57c2436e4c92e8a5a660376d88c8ab30f6f34e64acda72ae9e3268edd4f1934d",
+    "docs/research/PAPER_SUBMISSION_PREPARATION_20261102.md": "bd48ec1a8d934ec48682e0ffc5e47c9e0bc1ce6bb668779ecbf7373d63cbdd13",
+    "paper/README.md": "04ac0de63897833bcc2167d883a6d9ab6007d5f6a295c3d7249c71794a874ccb",
+    "paper/submission_materials_en_20261104.md": "10df2fe1b838df6e2241034ea1a96672625e983e62c36bb5101e76e5cc7c72a1"
+  },
+  "filesystem_devices": [
+    64528,
+    64517
+  ],
+  "all_selected_members_verified_both_filesystems": true,
+  "scope": "Final full-scope requirement-audit documents and current indices with submission packet and prior complete run/export/figure/submission preservation receipts. Supplements those immutable archives; does not create a new experiment, author approval, public release, independent repetition or actual submission. Own receipt written after archives.",
+  "exact_preservation_and_verification_command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib,tarfile,datetime\nfrom experiments.openexempt_online import preserve\nrid='legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05'\nnames=[\n'docs/CURRENT_GOAL.md','paper/README.md','docs/reports/GOAL_DELIVERY_AUDIT_20261104.md',\n'artifacts/research/openexempt_skillcommit_20261102/goal_full_scope_delivery_completion_audit_20261104.json',\n'paper/submission_materials_en_20261104.md',\n'docs/research/PAPER_SUBMISSION_PREPARATION_20261102.md',\n'artifacts/research/openexempt_skillcommit_20261102/submission_packet_two_filesystem_preservation_20261103T204521Z.json',\n'artifacts/research/openexempt_skillcommit_20261102/run05_complete_frozen_TEST_paper_v15_two_filesystem_preservation_20261103T203048Z.json',\n'artifacts/research/openexempt_skillcommit_20261102/run05_final_v15_handoff_index_receipt_figures_preservation_20261103T203432Z.json']\nexpected={n:hashlib.sha256(Path(n).read_bytes()).hexdigest() for n in sorted(names)}\nmarker=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')\nreceipt=preserve(rid,'goal-full-scope-final-delivery-audit-'+marker,sorted(names))\ndevices=[]\nfor x in receipt['paths']:\n p=Path(x['path']);devices.append(p.stat().st_dev)\n with tarfile.open(p) as tf:\n  assert tf.getnames()==sorted(expected)\n  assert {m.name:hashlib.sha256(tf.extractfile(m).read()).hexdigest() for m in tf}==expected\nassert len(set(devices))==2\nprint(json.dumps({'at_UTC':datetime.datetime.now(datetime.timezone.utc).isoformat(),'marker':marker,'receipt':receipt,'member_sha256':expected,'filesystem_devices':devices,'all_selected_members_verified_both_filesystems':True,'scope':'Final full-scope requirement-audit documents and current indices with submission packet and prior complete run/export/figure/submission preservation receipts. Supplements those immutable archives; does not create a new experiment, author approval, public release, independent repetition or actual submission. Own receipt written after archives.'}))\nPY"
+}

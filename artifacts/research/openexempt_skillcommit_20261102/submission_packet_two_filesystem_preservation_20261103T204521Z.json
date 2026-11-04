@@ -1,0 +1,44 @@
+{
+  "at_UTC": "2026-11-03T20:45:21.968635+00:00",
+  "marker": "20261103T204521Z",
+  "receipt": {
+    "at": "2026-11-03T20:45:21.799831+00:00",
+    "stage": "submission-packet-and-official-readiness-20261103T204521Z",
+    "paths": [
+      {
+        "path": "/media/sangfor/vdb/legal-skill-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-submission-packet-and-official-readiness-20261103T204521Z.tar.gz",
+        "sha256": "a73bcd201439796d0fe60e9aef1948074b73c2c79a8a00bd459052d60a67ef97"
+      },
+      {
+        "path": "/home/yndx/hhy/legal-skill-rootdisk-backups/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05-submission-packet-and-official-readiness-20261103T204521Z.tar.gz",
+        "sha256": "a73bcd201439796d0fe60e9aef1948074b73c2c79a8a00bd459052d60a67ef97"
+      }
+    ],
+    "files": 14
+  },
+  "files": 14,
+  "current_member_sha256": {
+    "artifacts/research/openexempt_skillcommit_20261102/official_journal_v15_submission_readiness_recheck_20261104.json": "bd8aa2b8813ea736f1f179a1335655e78446437f3b35db0e351389192f7f42ff",
+    "artifacts/research/openexempt_skillcommit_20261102/run05_complete_frozen_TEST_paper_v15_two_filesystem_preservation_20261103T203048Z.json": "c2371030f44eba944bcc27306b55c22e147c1beed4982ad031d8e3763a570006",
+    "artifacts/research/openexempt_skillcommit_20261102/run05_final_v15_handoff_index_receipt_figures_preservation_20261103T203432Z.json": "ecc6466ebac9e48c834f94fbbfc7f7467b196b55c57da5f37442e9eddefded12",
+    "artifacts/research/openexempt_skillcommit_20261102/submission_packet_and_v15_export_metadata_validation_20261104.json": "1d1192e762ef1dbec0f1795e59ab9c4a7b400d45c8ee7c10ce697a836da95830",
+    "docs/CURRENT_GOAL.md": "07ee287c2fb20817cf405d3c5c3b374d63ac1ab5e9ec95a23d15cd8c1944117f",
+    "docs/research/PAPER_CONTRIBUTION_EVIDENCE_PLAN_20261102.md": "223c0fddc732da232db025379e08c0d9f7a236e058b2c9b9edaa815087b7f7ce",
+    "docs/research/PAPER_REPRODUCTION_GUIDE_20261102.md": "a32431311b76f228561591ebec5a01a3f26db446592ea001cdb8c895847b30c0",
+    "docs/research/PAPER_SUBMISSION_PREPARATION_20261102.md": "bd48ec1a8d934ec48682e0ffc5e47c9e0bc1ce6bb668779ecbf7373d63cbdd13",
+    "paper/README.md": "760b344589617e2f198a052226f4a2f1bbf948eca8688c10e939b82133bab92e",
+    "paper/render_utility_review.py": "7f9aad3266a52a2c74151292f7c21d63e9256ebf05848f95e9eb5b5139982806",
+    "paper/sections-zh/utility_skill_manuscript_working_20261030.md": "29607f06d7ef34e5d3f9ad1826ba10362149c08439e23e5aa2d3f5faec19d750",
+    "paper/submission_materials_en_20261104.md": "10df2fe1b838df6e2241034ea1a96672625e983e62c36bb5101e76e5cc7c72a1",
+    "paper/utility_skill_manuscript_working_20261030.md": "9170753cfd6b12fd89cc11e168b4d7fbdf5bcb73d58fbe71a60c20cf8ad59b18",
+    "paper/utility_skill_references_20261030.bib": "bcc04cb51fba860e6bd8c96118f5d3836242f501b2e87eeaae3af0333308bbaf"
+  },
+  "filesystem_devices": [
+    64528,
+    64517
+  ],
+  "all_members_verified_on_both_filesystems": true,
+  "complements_complete_run_and_export_archive_receipt": "artifacts/research/openexempt_skillcommit_20261102/run05_complete_frozen_TEST_paper_v15_two_filesystem_preservation_20261103T203048Z.json",
+  "scope": "New English submission packet, exact-source/numerical/export-metadata validation, bounded official journal readiness evidence and updated current indices, with prior verified complete-run/export and original-figure preservation receipts. No new experiment, score or scientific-manuscript revision. Receipt is written after its archives; no public release or submission.",
+  "exact_preservation_and_verification_command": ".venv/bin/python - <<'PY'\nimport pathlib,json,hashlib,tarfile,datetime\nfrom experiments.openexempt_online import preserve\nroot=pathlib.Path('.');rid='legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05'\nnames={\n'docs/CURRENT_GOAL.md','paper/README.md',\n'docs/research/PAPER_SUBMISSION_PREPARATION_20261102.md',\n'docs/research/PAPER_CONTRIBUTION_EVIDENCE_PLAN_20261102.md',\n'docs/research/PAPER_REPRODUCTION_GUIDE_20261102.md',\n'paper/submission_materials_en_20261104.md',\n'paper/utility_skill_manuscript_working_20261030.md',\n'paper/sections-zh/utility_skill_manuscript_working_20261030.md',\n'paper/utility_skill_references_20261030.bib','paper/render_utility_review.py',\n'artifacts/research/openexempt_skillcommit_20261102/submission_packet_and_v15_export_metadata_validation_20261104.json',\n'artifacts/research/openexempt_skillcommit_20261102/official_journal_v15_submission_readiness_recheck_20261104.json',\n\"artifacts/research/openexempt_skillcommit_20261102/run05_complete_frozen_TEST_paper_v15_two_filesystem_preservation_20261103T203048Z.json\",\"artifacts/research/openexempt_skillcommit_20261102/run05_final_v15_handoff_index_receipt_figures_preservation_20261103T203432Z.json\"}\nexpected={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in sorted(names)}\nmarker=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')\nreceipt=preserve(rid,'submission-packet-and-official-readiness-'+marker,sorted(names))\ndevices=[]\nfor item in receipt['paths']:\n p=pathlib.Path(item['path']);devices.append(p.stat().st_dev)\n with tarfile.open(p) as tf:\n  assert tf.getnames()==sorted(expected)\n  assert {m.name:hashlib.sha256(tf.extractfile(m).read()).hexdigest() for m in tf}==expected\nassert len(set(devices))==2\nprint(json.dumps({'at_UTC':datetime.datetime.now(datetime.timezone.utc).isoformat(),'marker':marker,'receipt':receipt,'files':len(names),'current_member_sha256':expected,'filesystem_devices':devices,'all_members_verified_on_both_filesystems':True,'complements_complete_run_and_export_archive_receipt':\"artifacts/research/openexempt_skillcommit_20261102/run05_complete_frozen_TEST_paper_v15_two_filesystem_preservation_20261103T203048Z.json\",'scope':'New English submission packet, exact-source/numerical/export-metadata validation, bounded official journal readiness evidence and updated current indices, with prior verified complete-run/export and original-figure preservation receipts. No new experiment, score or scientific-manuscript revision. Receipt is written after its archives; no public release or submission.'}))\nPY"
+}

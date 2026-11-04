@@ -1,16 +1,14 @@
 # Evidence-guided skill evolution for statutory exemption reasoning
 
-Working initial manuscript, 1 November 2026. Includes the completed chronological learning stream and source-isolated frozen comparison under the source-frozen utility-admission implementation. Extra independent learning builds remain deferred. This manuscript is separate from the preserved v0.23 study. Reference metadata are maintained in [the accompanying bibliography](utility_skill_references_20261030.bib).
-
 <!-- Implementation binding: configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json, SHA256 5e0486a5352d2e534b50265e3b902ac3aaa0c7d2c5107dd2b904f20a3191e894; frozen manifest SHA256 182e6cbf98e6ee7da8801ad7874554da50a071a91a8a4297e20d87b4fbea30ef. Method sources: experiments/openexempt_online.py, legal_skill_guard/learning/task_scoped_skills.py and legal_skill_guard/learning/publication.py. Task and scoring: legal_skill_guard/openexempt.py and pinned OpenExempt revision ec6fa2547431096588ce2d3ef107b8adc33cd4fe. Source/test bindings remain unchanged during the current build. -->
 
 ## Abstract
 
-Reusable instructions offer a learning interface for small language models whose weights remain fixed, but an initially useful memory does not establish that further experience improves it. We study this distinction in statutory exemption classification and valuation, where an answer must preserve independently applicable alternatives and assign their protected amounts. Evidence-guided skill evolution combines task-focused execution teaching with complete-output utility admission: a teacher revises legal procedures from released training targets and actual executor errors, while replay-based publication checks both omitted and false claims. A frozen Qwen3-8B learns over 128 sources in eight batches and is then evaluated on 128 source-isolated cases. Its final seven-record library achieves 95.46% classification F1 and 87.90% valuation F1, gains of 30.98 and 32.02 percentage points over the strong empty-library condition. Compared with its own first-batch library, continued evolution adds 11.95 classification points, with a family-adjusted source-paired interval of [7.33, 16.60]. Matched controls connect final-library utility to teacher-visible execution evidence and the admission/selection policy. These results demonstrate continued improvement in legal classification through editable procedures rather than parameter updates.
+Reusable instructions offer a learning interface for small language models whose weights remain fixed, but an initially useful memory does not establish that further experience improves it. We study this distinction in statutory exemption classification and valuation, where an answer must preserve independently applicable alternatives and assign their protected amounts. Evidence-guided skill evolution combines task-focused execution teaching with complete-output utility admission: a teacher revises legal procedures from released training targets and actual executor errors, while replay-based publication checks both omitted and false claims. A frozen Qwen3-8B learns over 128 sources in eight batches and is then evaluated on 128 source-isolated cases. Its final seven-record library achieves 95.46% classification F1 and 87.90% valuation F1, gains of 30.98 and 32.02 percentage points over the strong empty-library condition. Compared with its own first-batch library, continued evolution adds 11.95 classification points, with a family-adjusted source-paired interval of [7.33, 16.60]. Under the shared executor interface, it also exceeds a SkillCommit paper adaptation by 27.49 classification and 23.08 valuation points. Matched controls connect final-library utility to teacher-visible execution evidence and the admission/selection policy. These results demonstrate continued improvement in legal classification through editable procedures rather than parameter updates.
 
 ## 1. Introduction
 
-Legal rule application requires more than recalling a relevant provision: the answer must connect factual conditions to every applicable alternative and compute its consequence. [OpenExempt](https://arxiv.org/abs/2601.13183) makes these requirements measurable through generated statutory-reasoning problems with symbolic reference solutions.
+Legal rule application requires more than recalling a relevant provision: the answer must connect factual conditions to every applicable alternative and compute its consequence. [LegalBench](https://arxiv.org/abs/2308.11462v1) distinguishes rule recall from rule application in its legal-reasoning typology. [OpenExempt](https://arxiv.org/abs/2601.13183) makes these requirements measurable through generated statutory-reasoning problems with symbolic reference solutions.
 
 External experience offers an editable learning interface for a model whose parameters remain fixed. Natural-language lessons can summarize recurring errors, and evolving playbooks can carry procedures across tasks, as studied by [ExpeL](https://ojs.aaai.org/index.php/AAAI/article/view/29936) and [ACE](https://arxiv.org/abs/2510.04618v3). In a legal application, such a procedure must specify when a provision applies, which alternatives coexist, and how a statutory ceiling becomes an asset-specific amount. These are instructions that the executor must carry out, rather than additional statutory text to recall.
 
@@ -28,7 +26,7 @@ The completed comparison gives the frozen executor 95.46% EC F1 and 87.90% EV F1
 
 **Experience-based context adaptation.** External learning methods differ in how they represent and consolidate experience. [ExpeL](https://ojs.aaai.org/index.php/AAAI/article/view/29936) extracts natural-language insights from training experiences, and [ReasoningBank](https://arxiv.org/abs/2509.25140v2) distills strategies from self-judged successes and failures for later retrieval. [ACE](https://arxiv.org/abs/2510.04618v3) maintains an incrementally revised playbook through generation, reflection and curation, whereas [Trace2Skill](https://arxiv.org/abs/2603.25158v5) consolidates parallel trajectory-local lessons into a portable skill directory. Our study focuses on procedures for a fixed statutory answer interface, learned from released training labels and observed execution errors, with final-library inference separated from the learning stream.
 
-**Behavioral validation and statutory reasoning.** [SkillCommit](https://arxiv.org/abs/2608.15165v2) preserves instance-specific patches, tests cross-instance transfer and mechanism compatibility, and commits higher-level abstractions that preserve their validated behavior. It also evaluates on OpenExempt, placing legal rule application within behaviorally validated skill evolution. [OpenExempt](https://arxiv.org/abs/2601.13183) supplies expert-constructed statutory representations, generated cases and computable targets that support analysis of classification and valuation separately. We use that separation to study task-focused procedure revision and admission under both native and complete-output utility. The mechanism controls address how actual execution evidence and publication policy affect learned procedures; the fixed first-batch comparison addresses whether further evolution helps subsequent cases.
+**Behavioral validation and statutory reasoning.** [Factoring Statutory Reasoning](https://aclanthology.org/2021.acl-long.213/) decomposes rule application into language-understanding subtasks to support finer-grained diagnosis. [JustifIT-QA](https://aclanthology.org/2026.emnlp-main.593/) combines statutory retrieval with judge-guided answer refinement. For reusable experience, [GSE](https://arxiv.org/abs/2608.06153v1) combines a skill-relation graph, cluster consolidation and historical replay to validate candidate skill banks. [SkillCommit](https://arxiv.org/abs/2608.15165v2) preserves instance-specific patches, tests cross-instance transfer and mechanism compatibility, and commits higher-level abstractions that preserve their validated behavior. It also evaluates on OpenExempt, placing legal rule application within behaviorally validated skill evolution. [OpenExempt](https://arxiv.org/abs/2601.13183) supplies expert-constructed statutory representations, generated cases and computable targets that support analysis of classification and valuation separately. We use that separation to study task-focused procedure revision and admission under both native and complete-output utility. The mechanism controls address how actual execution evidence and publication policy affect learned procedures; the fixed first-batch comparison addresses whether further evolution helps subsequent cases.
 
 ## 3. Task and learning problem
 
@@ -109,15 +107,17 @@ We address four research questions. **RQ1:** How useful is the final frozen libr
 
 The training stream contains 128 source cases generated with the pinned OpenExempt procedure, with one EC and one EV view per source. We retain the original facts, reference outputs, order and statutory material. Eight batches contain 16 sources each. Current-batch targets are released after all forecast conditions have been saved. There is no validation split.
 
+The generator samples two to four assets per source, uses a configured married-debtor ratio of 0.5 and draws from Arizona, Illinois, Oregon, Pennsylvania and Wisconsin. Optional irrelevant facts and subjective opinions are disabled. These settings are shared by training and source-isolated IID evaluation.
+
 The source-isolated IID confirmation contains 128 additional source cases produced by the same generator and construction settings. Its construction excludes source keys from the training and previously used packets. Confirmation inputs were opened after the method, required controls, actual final-bank hashes, common inference conditions and statistical family had been bound. Previously inspected evaluations remain separate from this confirmation.
 
 ### 5.2. Comparators and mechanism controls
 
-The comparison includes a strong empty-library executor, a static law-only library, retained experience-learning libraries and the learned final library. The same ACE library is evaluated through its native interface and a lossless common-interface wrapper. These are two interfaces to one learned bank. Trace2Skill–Text supplies an offline, text-only trajectory-learning comparison. Both adaptations use the released training references and the same requested teacher model and reasoning effort; Appendix C specifies their formation conditions. Their existing completed libraries are reused; new test predictions follow the shared source matrix.
+The comparison includes a strong empty-library executor, a static law-only library, retained experience-learning libraries and the learned final library. The same ACE library is evaluated through its native interface and a lossless common-interface wrapper. These are two interfaces to one learned bank. Trace2Skill–Text supplies an offline, text-only trajectory-learning comparison, while the SkillCommit paper adaptation supplies task-online repair and behaviorally validated consolidation. All three adaptations use the released training references and the same requested teacher model and reasoning effort; Appendix C specifies their method-specific formation conditions.
 
 Two same-version controls address the current mechanisms. The strict-policy condition retains the teacher, anchors and bounded history while restoring the original zero-regression, count-veto and native-gain selection policy. This tests the admission/selection policy bundle. The teacher-evidence condition retains the utility policy, labels, facts, statutes, current parent and public executor interface while withholding explicit actor outcomes and outcome-labelled feedback from the teacher. Its controller still performs actual replay and admission, so the condition measures the incremental value of teacher-visible execution evidence.
 
-A completed predecessor library is retained as a historical method-version reference, separate from matched component controls. Extra independent main-method, ACE and Text learning builds are deferred in the initial study. Both control builds completed all eight batches. The frozen comparison binds all ten actual libraries before prediction.
+A completed predecessor library is retained as a historical method-version reference, separate from matched component controls. Extra independent learning builds remain deferred. Both control builds completed all eight batches. The original ten-condition comparison binds its actual libraries before prediction. The subsequent SkillCommit supplement freezes its actual eighth-batch terminal bank before evaluating the existing 128-source TEST packet; its two-endpoint comparison is reported separately (Appendix B.5).
 
 ### 5.3. Metrics and learning curves
 
@@ -125,13 +125,13 @@ Primary endpoints are the original native per-case EC and EV F1, averaged separa
 
 The chronological curve reports first answers on each new batch before its targets are released. We compare the incoming library with the same-case empty library and a snapshot fixed after exactly the first batch. This snapshot is an evaluation condition, not a teacher or admission input. B2 starts from that same library; subsequent batches measure the effect of further evolution. Post-label assessment replays are reported separately.
 
-Evaluation saves every condition's predictions before unified scoring. Source-paired resampling keeps each case's EC and EV views together and quantifies uncertainty conditional on the actual frozen libraries. The contrast family is fixed before confirmation inputs are opened. Reports include invalid outputs, omissions, incorrect amounts, extra claims, actual skill edits and delivered task blocks. Physical native origins, exact-request reuse, teacher responses and attempts, token totals and elapsed time provide cost accounting.
+Within each evaluation experiment, predictions are saved before its unified scoring. Source-paired resampling keeps each case's EC and EV views together and quantifies uncertainty conditional on the actual frozen libraries. The original contrast family is fixed before confirmation inputs are opened; the later SkillCommit supplement retains its separate declared two-endpoint analysis. Reports include invalid outputs, omissions, incorrect amounts, extra claims, actual skill edits and delivered task blocks. Physical native origins, exact-request reuse, teacher responses and attempts, token totals and elapsed time provide cost accounting.
 
 ### 5.4. Implementation settings
 
 | Setting | Value |
 |---|---|
-| Executor | Qwen3-8B, fixed weights, BF16 |
+| Executor | [Qwen3-8B](https://arxiv.org/abs/2505.09388), fixed weights, BF16 |
 | Runtime | One A40 model instance; four native workers; one teacher worker |
 | Inference software | vLLM 0.10.2; PyTorch 2.8.0 |
 | Teacher request model | `gpt-5.6-sol`, high reasoning effort |
@@ -149,7 +149,7 @@ Evaluation saves every condition's predictions before unified scoring. Source-pa
 
 ### 6.1. Final-library utility on new sources (RQ1)
 
-The final library improves both statutory classification and valuation over the empty, static and retained experience-learning libraries (Table 1). It reaches 95.46% EC F1 and 87.90% EV F1, compared with 64.48% and 55.88% for the strong empty executor: gains of 30.98 and 32.02 percentage points. Relative to the strongest retained experience condition, ACE with the common interface, the gains are 28.87 and 20.98 points. All four corresponding family-adjusted intervals are positive (Appendix B.4). The fixed backbone keeps model capacity unchanged, and the common-interface comparison shows that changing ACE's delivery interface does not account for the learned library's advantage.
+The final library improves both statutory classification and valuation over the empty, static and retained experience-learning libraries (Table 1). It reaches 95.46% EC F1 and 87.90% EV F1, compared with 64.48% and 55.88% for the strong empty executor: gains of 30.98 and 32.02 percentage points. Against ACE with the common interface, the gains are 28.87 and 20.98 points. All four corresponding family-adjusted intervals are positive (Appendix B.4). The SkillCommit paper adaptation reaches 67.98% EC F1 and 64.82% EV F1; the final library's gains of 27.49 and 23.08 points have positive intervals in the separate two-endpoint supplement (Appendix B.5). The fixed backbone keeps model capacity unchanged, and the common-interface comparison shows that changing ACE's delivery interface does not account for the learned library's advantage. Section 6.3 links final-library utility to teacher-visible execution evidence and the publication policy through matched learning controls.
 
 **Table 1. Frozen-library performance on 128 source-isolated IID cases (%).** EC and EV are the original source-mean native F1 endpoints; Avg. is their descriptive mean. Bold denotes the highest point estimate in each column. All conditions retain invalid and unfavorable outputs; formation conditions and costs are reported separately.
 
@@ -160,13 +160,14 @@ The final library improves both statutory classification and valuation over the 
 | ACE native interface | 65.00 | 58.68 | 61.84 |
 | ACE common interface | 66.59 | 66.92 | 66.75 |
 | Trace2Skill–Text | 55.08 | 53.31 | 54.19 |
+| SkillCommit paper adaptation | 67.98 | 64.82 | 66.40 |
 | Own frozen B1 | 83.51 | 84.25 | 83.88 |
 | Strict-policy control | 80.29 | **89.01** | 84.65 |
 | Execution-evidence-withheld control | 86.98 | 80.38 | 83.68 |
 | Predecessor library | 87.63 | 83.91 | 85.77 |
 | **Evidence-guided evolution** | **95.46** | 87.90 | **91.68** |
 
-The comparison comprises 2,560 actual predictions, all saved before unified scoring. ACE's two rows use one learned playbook through two interfaces. The predecessor is a method-version reference, while the strict-policy and teacher-evidence conditions are matched learning controls. Table B3 additionally reports complete-output quality, exact-target matching and format failures.
+The original ten-condition experiment contains 2,560 predictions saved before its unified scoring. The separate SkillCommit experiment adds 256 fresh predictions, saved before its own scoring, giving 2,816 predictions on the same source matrix. ACE's two rows use one learned playbook through two interfaces. The predecessor is a method-version reference, while the strict-policy and teacher-evidence conditions are matched learning controls. Table B3 additionally reports complete-output quality, exact-target matching and format failures.
 
 <!-- Actual frozen comparison: legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01; original completion SHA256 2db223a4205748fda9bb8203b7e5eb07a5b492a210c35dea9def3e6816d2f66d. All2560 actual bank/task-projection requests and original18 endpoints verified by7933c50c62a22fb2eed693b77069e39751f827aefe1d3d8ad99138c916ebfd3c. Table source: paper/tables/utility_frozen_results_20261101.json, SHA2563879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732. -->
 
@@ -279,13 +280,14 @@ The evolved library is compared with the other nine conditions on both native en
 | ACE native interface | 66.86 / 59.51 | 14.06 / 10.94 | 6 / 4 |
 | ACE common interface | 69.73 / 66.41 | 17.19 / 14.84 | 1 / 1 |
 | Trace2Skill–Text | 58.88 / 54.78 | 11.72 / 7.81 | 5 / 1 |
+| SkillCommit paper adaptation | 69.79 / 64.47 | 20.31 / 18.75 | 3 / 4 |
 | Own frozen B1 | 85.25 / 83.75 | 27.34 / 35.16 | 0 / 2 |
 | Strict-policy control | 81.60 / 88.28 | 26.56 / 44.53 | 2 / 1 |
 | Execution-evidence-withheld control | 88.51 / 79.84 | 44.53 / 26.56 | 0 / 0 |
 | Predecessor library | 88.86 / 83.33 | 32.81 / 30.47 | 0 / 1 |
 | Evidence-guided evolution | 96.67 / 87.51 | 57.81 / 41.41 | 0 / 2 |
 
-All 30 invalid outputs correspond to original output-length terminations and retain zero scores. The main library has two such EV outcomes. The original grader does not emit complete pooled counts for those malformed outputs, so no EV global micro-average is reconstructed from a favorable subset or repaired answer.
+Across the original ten conditions and the SkillCommit supplement, all 37 invalid outputs correspond to output-length terminations and retain zero scores. The main library has two such EV outcomes; SkillCommit has three EC and four EV outcomes. The original grader does not emit complete pooled counts for those malformed outputs, so no global micro-average is reconstructed from a favorable subset or repaired answer.
 
 ### B.4. Prespecified paired effects
 
@@ -303,19 +305,33 @@ All 30 invalid outputs correspond to original output-length terminations and ret
 | Execution-evidence-withheld control | +8.48 [3.91, 13.59] | +7.53 [2.38, 12.67] |
 | Predecessor library | +7.83 [4.57, 11.16] | +3.99 [-1.66, 9.86] |
 
-The EV contrasts with own B1, strict policy and the predecessor have adjusted intervals spanning zero. No equivalence or non-inferiority conclusion is inferred from these intervals. Tables 1, B3 and B4 are generated from the unchanged completed-run metrics and paired statistics in `paper/tables/utility_frozen_results_20261101.json`.
+The EV contrasts with own B1, strict policy and the predecessor have adjusted intervals spanning zero. No equivalence or non-inferiority conclusion is inferred from these intervals. Table B4 retains the original family in `paper/tables/utility_frozen_results_20261101.json`. Tables 1 and B3 extend its unchanged ten-condition rows with the SkillCommit supplement in `paper/tables/utility_frozen_results_with_skillcommit_20261104.json`.
+
+### B.5. Existing-TEST SkillCommit supplement
+
+This supplementary comparison uses the actual terminal SkillCommit bank on the existing, previously observed 128-source TEST packet. All 256 new predictions are saved before their own unified scoring. Source-paired resampling uses 20,000 draws, seed 2026110101 and the same source-index draws for EC and EV. The declared two-endpoint family uses quantiles 0.0125 and 0.9875 for simultaneous 95% intervals, separately from the unchanged original 18-endpoint family. Intervals condition on these actual frozen banks rather than independent learning-build variation.
+
+**Table B5. Main method minus SkillCommit paper adaptation native F1 (percentage points).**
+
+| Task | Paired difference | Ordinary 95% interval | Two-endpoint adjusted interval |
+|---|---:|---:|---:|
+| EC | +27.49 | [23.46, 31.70] | [22.92, 32.30] |
+| EV | +23.08 | [18.23, 27.94] | [17.55, 28.68] |
 
 ## Appendix C. Experience-library formation conditions
 
-The retained ACE and Trace2Skill–Text adaptations use the same 128 training sources and original EC/EV references. Their configurations match the main method's Qwen3-8B decoding profile and request `gpt-5.6-sol` with high reasoning effort. ACE receives the reference and actual prediction at every used reflection; Trace2Skill–Text analyzes each of the 256 empty-library trajectories with its reference, score and actual output. These are task-interface adaptations, rather than reproductions of the authors' agentic environments.
+The retained ACE, Trace2Skill–Text and SkillCommit adaptations use the same 128 training sources and original EC/EV references. Their configurations match the main method's Qwen3-8B decoding profile and request `gpt-5.6-sol` with high reasoning effort. ACE receives the reference and actual prediction at every used reflection; Trace2Skill–Text analyzes each of the 256 empty-library trajectories with its reference, score and actual output. These are task-interface adaptations, rather than reproductions of the authors' agentic environments.
 
-| Learning condition | Library formation | Complete-library token cap | Teacher responses |
+| Learning condition | Library formation | Executor memory-token cap | Teacher responses |
 |---|---|---:|---|
 | Execution-evidence evolution | Online, task-focused revision and utility admission | 4,096 | 16 used |
 | ACE adaptation | Online reflection, regeneration and incremental curation | 8,192 | 423 used in the retained stream |
 | Trace2Skill–Text | Offline trajectory analysis, hierarchical merge and text translation | 8,192 | 321 used |
+| SkillCommit paper adaptation | Task-online repair and behaviorally validated consolidation | 8,192 (top 4 memories) | 930 used |
 
 ACE's retained stream contains 415 reflections and eight batch curations. Its continuation records separately preserve 19 successful but uncommitted teacher responses; failed-request usage is unknown rather than zero. Trace2Skill–Text uses 256 trajectory analyses, 64 merges and one translation, followed by a training replay that does not select its final bank. Historical formation schedules and budgets remain distinct from the main method's four-worker learning schedule. The final comparison standardizes executor inference over these frozen libraries; formation costs are reported separately.
+
+SkillCommit repairs failed first answers using a separate training-target-assisted teacher reference, verified by the native scorer before up to three local patch attempts. EC and EV have separate pools. Consolidation uses up to four retrieved candidates, a two-thirds behavioral threshold, two reverse witnesses per active candidate and up to three abstraction versions. Full-scope replay precedes commitment; a supported subset of at least two sources can instead be narrowed and revalidated once, retaining the parent and uncovered local patches. Local BGE embeddings replace the paper's embedding service. At inference, the public query retrieves up to four complete same-task memories within the 8,192-token delivery cap, rather than capping the entire pool. The completed build contains 21 higher-level patterns and 23 residual patches. All 256 TEST tasks receive four complete patterns, occupying 1,351–1,615 recorded tokens. Actual deployment uses six distinct EC patterns and four EV patterns; every EV task receives the same four, and residual patches remain unselected. These are observed deployment counts under the declared local-encoder adaptation.
 
 ## Appendix D. Observed skill evolution and compute
 
@@ -356,7 +372,7 @@ Cached input is included in teacher input, and reasoning output is included in t
 
 ### D.3. Teacher and executor work across retained builds
 
-The main build uses fewer teacher tokens and more local generations than the two retained adaptations (Table D3). Local counts include each build's recorded forecast references and training-assessment replays. Teacher and executor tokens are reported separately because the two roles use different models; their counts do not imply a common GPU-time or monetary cost.
+The main build uses fewer teacher tokens than each of the three retained experience adaptations (Table D3). Compared with the retained SkillCommit adaptation, it uses 90.97% fewer teacher input tokens and 40.10% fewer physical executor generations under the recorded formation schedules. Local counts include each build's first answers, forecast reference conditions and training-assessment replays. Teacher and executor tokens are reported separately because the two roles use different models; method-specific formation budgets do not imply a common GPU-time or monetary cost.
 
 **Table D3. Recorded response generation in the actual retained learning streams.** Teacher input includes cached input, and teacher output includes reasoning output. Formation schedules and memory budgets are specified in Appendix C.
 
@@ -372,8 +388,14 @@ The main build uses fewer teacher tokens and more local generations than the two
 | ACE adaptation | 8B executor | 896 | 7,122,372 | 2,258,447 |
 | Trace2Skill–Text | Teacher | 321 | 6,429,967 | 503,252 |
 | Trace2Skill–Text | 8B executor | 512 | 4,061,370 | 1,463,066 |
+| SkillCommit paper adaptation | Teacher | 930 | 19,696,279 | 548,224 |
+| SkillCommit paper adaptation | 8B executor | 2,015 | 13,663,563 | 5,542,122 |
 
 ACE's operational continuations additionally retired 19 successful teacher responses, containing 458,657 input and 21,354 output tokens, and 15 executor generations, containing 135,867 input and 45,681 output tokens. These are preserved separately from the retained-stream totals. Failed-request usage that was not reported remains unknown rather than zero.
+
+Four SkillCommit implementation attempts retired before TEST separately account for 368 successful teacher responses (7,640,289 input and 234,308 output tokens) and 584 executor generations (3,893,280 input and 1,620,559 output tokens). Their outputs and memories were not imported into the retained build. Its 930 successful teacher responses came from 931 recorded attempts, with unreported failed-request usage remaining unknown. Its 345 exact-request reuses do not add physical generations. Frozen-test inference is outside the learning totals in Table D3.
+
+<!-- SkillCommit build-cost evidence: runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/publications/final.json, SHA256 090af0de02fd5ba84bd053683411ea930b7fa8c9906613ccb8f5aac518b9cc89; completed-build audit run05_eighth_complete_batch_and_build_evidence_20261104.json. Retired-attempt costs are retained in the frozen run05 configuration; these are implementation attempts, not independent learning repeats. -->
 
 <!-- Formation-cost evidence: Utility_v6_main_ACE_Text_exact_used_and_ACE_retired_success_teacher_native_tokens_not_total_cost_20261030.json, SHA256 f971c116e070104b229879d40316325e57d33996ab904bcae34b7709e4e40a34. Counts do not claim equal formation budgets, independent learning repeats or total historical project cost. -->
 
@@ -382,6 +404,28 @@ ACE's operational continuations additionally retired 19 successful teacher respo
 ### D.4. Completed frozen-evaluation cost
 
 The ten-condition frozen comparison uses 2,560 physical generations and no prior-stage answers or exact-request aliases. Total executor input/output is 19,242,658/6,841,407 tokens; teacher calls are zero. The original completion occurs after 19 h 50 min 03 s of wall time. This covers all conditions jointly and is not an estimate of active GPU hours or a main-method-only inference cost. The original 2,530 stop and 30 length outcomes are retained. All forecasts precede unified target access and scoring.
+
+The separate SkillCommit frozen evaluation uses 256 fresh physical generations, 2,001,690 input tokens and 712,116 output tokens, with zero teacher calls. Its 249 stop and seven length outcomes are all included. These inference totals are separate from its completed learning cost in Table D3.
+
+**Table D4. Actual executor token use in frozen evaluation.** Each condition contains the same 256 EC/EV tasks. Token counts include length-limited outputs.
+
+| Condition | Input tokens | Output tokens | Length-limited outputs |
+|---|---:|---:|---:|
+| Empty library | 1,622,317 | 711,638 | 1 |
+| Law-only static | 1,838,793 | 627,485 | 3 |
+| ACE, native interface | 2,267,693 | 694,380 | 10 |
+| ACE, common interface | 2,200,621 | 653,265 | 2 |
+| Trace2Skill–Text | 2,438,957 | 661,951 | 6 |
+| SkillCommit paper adaptation | 2,001,690 | 712,116 | 7 |
+| Evidence-guided evolution | 1,809,329 | 627,240 | 2 |
+| Own frozen B1 | 1,752,541 | 785,144 | 2 |
+| Strict-policy control | 1,767,439 | 723,505 | 3 |
+| Execution evidence withheld | 1,766,569 | 621,900 | 0 |
+| Predecessor library | 1,778,399 | 734,899 | 1 |
+
+Across these same tasks, the evolved library uses 17.78% fewer input tokens and 3.98% fewer output tokens than ACE under the common interface, and 9.61% fewer input tokens and 11.92% fewer output tokens than the SkillCommit adaptation. Relative to the empty library, its input use increases by 11.53% and output use decreases by 11.86%. Input and output counts describe distinct executor resources; library construction is accounted for separately.
+
+<!-- Frozen-inference cost evidence: paper/tables/utility_frozen_inference_cost_20261102.json; all 2560 unchanged raw response envelopes included. Source scored_records SHA256 ff72aa2ba7c27d1d2725c938729a278c4a68e28068871d5da09aa827ddaa9cf6. No new predictions or scoring calls. -->
 
 ### D.5. Learning-path evidence for the mechanism controls
 
@@ -398,4 +442,23 @@ The strict-policy B1 library has no EV projection, so its later EV gain relative
 The evidence-withheld condition keeps released targets and public solved material. Its fixed-B1 native EC/EV F1 is 84.54/81.91%, and its complete-output continuation changes are 0.00/-0.72 points, compared with +10.27/+3.44 for the main method. Hiding explicit teacher-visible execution evidence does not remove controller feedback or establish that labels alone cannot produce useful skills.
 
 <!-- Original full controls and strict fixed-output gate audit:6f562a601cd0d150b010605563f9e3bb34a103af0a0a10d28b37a22b46e97496;6714d193055a8b8b6c43c9338db1fbe1d04e96420ff338c30c87694a12a8b266;68f9517211db9cf6bef124437bb7a33afaddc56c30f1673fcb6a51dc684590a9. Original v0.23 and inspected earlier TEST remain separate and unchanged. -->
+
+## Appendix E. Recovering an independent legal alternative
+
+We illustrate procedure evolution on source-isolated frozen-evaluation case 3000055. The supplied prerequisites allow Federal and Wisconsin exemptions. The assets are a necklace worth $890, bath towels worth $175 and a physician-authorized prosthetic arm worth $8,300. For the arm, the benchmark references contain three independent alternatives: 11 U.S.C. § 522(d)(9), 11 U.S.C. § 522(d)(5) and Wis. Stat. § 815.18(3)(d). Each EV alternative protects $8,300 under the supplied task materials; these are alternative claims rather than additive payments.
+
+**Recorded skill evolution.** The B1 Federal EC instruction already states that the wildcard applies independently alongside specific provisions. B2 adds a separate final wildcard check, and B3 expresses the procedure as two mandatory passes with a per-asset completeness audit. The Wisconsin EV block is first published at B7 and revised at B8. The saved final-library EV request contains the Federal, cross-jurisdiction scan and Wisconsin EV projections; the B1 request contains the first two but no Wisconsin EV projection. These revisions were published before the frozen evaluation.
+
+**Table E1. Native F1 for the complete illustrative case (%).** All entries are original saved predictions under the common executor profile.
+
+| Frozen condition | EC F1 | EV F1 |
+|---|---:|---:|
+| Empty library | 80.00 | 44.44 |
+| Own frozen B1 | 93.33 | 83.33 |
+| Execution evidence withheld | 80.00 | 93.33 |
+| Final evolved library | 100.00 | 100.00 |
+
+**Key observations.** The B1 EC answer omits the wildcard for the prosthetic arm despite the general instruction already being present. Its EV answer reports the prescribed-health-aid provision alone, omitting both the wildcard and Wisconsin alternative. The final library's recorded outputs recover all three alternatives and their amounts. The empty-library EV answer additionally assigns unrelated account, business-property and vehicle provisions to the arm, illustrating why recall alone is insufficient. Across the three assets, the final EC and EV outputs each recover all nine reference claims without extras. This case connects actual instruction delivery and content revisions to the resulting legal claim set; the all-source contrasts quantify aggregate library utility.
+
+<!-- Illustrative case evidence: paper/tables/utility_frozen_case_study_20261102.json. Source key 585875d80b135e3feaf5504a5af7e9acd4891d4e6bdaafc79097e0848a5da949 is absent from TRAIN. Posthoc illustration selected by the documented smallest-ID criterion, not a new endpoint or a per-edit causal intervention. No regenerated predictions or rescoring. -->
 

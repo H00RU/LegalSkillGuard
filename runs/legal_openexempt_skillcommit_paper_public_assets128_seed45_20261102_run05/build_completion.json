@@ -1,0 +1,712 @@
+{
+  "status": "completed_skillcommit_paper_adaptation_build",
+  "at": "2026-11-03T17:18:52.884721+00:00",
+  "library": {
+    "EC": {
+      "active_patterns": [
+        {
+          "id": "sc_ec_128f7db38dbe2054dbf7",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when the supplied task treats category-specific exemptions together with wildcard exemptions and includes 11 U.S.C. § 522(d)(5) or Or. Rev. Stat. § 18.345(1)(p).",
+            "repair": "Apply a mandatory per-asset wildcard pass after identifying category-specific exemptions. Add 11 U.S.C. § 522(d)(5) to every asset for which the supplied federal exemption system is available; it may protect an interest in any property up to $1,475 plus up to $13,950 of unused § 522(d)(1) capacity. Add Or. Rev. Stat. § 18.345(1)(p) to every item of personal property when the supplied Oregon system is available; it may protect up to $400. Include each wildcard whenever it could protect any portion of the interest, even when a specific exemption also applies or the wildcard cannot cover the asset's full value. Do not infer exhaustion, an unavailable election, or incompatibility between supplied systems from silence. Before submission, audit every asset against each supplied wildcard and require an affirmative, fact-supported statutory reason for every omission.",
+            "avoid_when": "Omit a wildcard only when supplied facts establish that its exemption system is unavailable, the property lies outside its express statutory scope, or its available allowance has been fully consumed. There are no additional justified exclusions."
+          },
+          "sources": [
+            185,
+            187,
+            188
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_2eb775293262446ff7ee",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when the governing exemption law provides both category-specific exemptions and an independently applicable general or wildcard monetary exemption, including 735 Ill. Comp. Stat. 5/12-1001(b), 42 Pa. Cons. Stat. § 8123, or 11 U.S.C. § 522(d)(5).",
+            "repair": "For each owned asset, create an exemption checklist before constructing the output array. First decide whether every applicable general or wildcard exemption can protect any equity; if so, record it unless the allowance is affirmatively exhausted. Then add every category-specific exemption whose complete statutory and factual conditions are established. Never treat a specific exemption, or failure of a specialized test, as displacing a general exemption. Distinguish 11 U.S.C. § 522(d)(5), the wildcard, from category-specific provisions such as § 522(d)(3). Treat monetary caps as limits on protected value unless the statute expressly makes value an eligibility condition. Apply ordinary category boundaries: wearing apparel requires an actual garment, and a prescribed health aid requires evidence of professional prescription. Before submission, reconcile every asset array against the checklist and reject any array lacking an explicit decision on each applicable general or wildcard exemption.",
+            "avoid_when": "Do not list provisions that only define terms, impose limitations, or govern exemption elections without independently protecting property. Do not apply an exemption when ownership or another express condition fails, no protectable equity exists, or the available allowance is affirmatively exhausted. Do not stretch wearing apparel to jewelry or other adornment, infer a professional prescription without evidence, or substitute a category-specific provision for the applicable wildcard."
+          },
+          "sources": [
+            209,
+            219
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_f9147cee46dc71d4f74f",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when analyzing Illinois exemptions for an owned, personal-use asset that may qualify under both 735 Ill. Comp. Stat. 5/12-1001(b) and a category-specific provision.",
+            "repair": "For each asset, begin by independently deciding whether § 12-1001(b) protects any equity under the unexhausted $4,000 allowance; record it before considering specific categories. Then add every independently satisfied category-specific exemption without removing subsection (b). Treat actual garments as wearing apparel, but do not treat jewelry or personal adornment as apparel. Add a prescribed-health-aid exemption only when the evidence establishes professional prescription. Audit every asset containing a specific exemption: omission of subsection (b) requires an express finding of no ownership, no personal use, no protectable equity, exhausted allowance, or another statutory disqualification. Include only provisions that independently protect the asset.",
+            "avoid_when": "Do not apply an exemption when its ownership, personal-use, category, prescription, equity, or monetary conditions are unsatisfied. Do not omit § 12-1001(b) solely because a specific exemption applies, and do not include provisions that merely define, limit, or govern exemptions. There are no additional exclusions justified by the supplied evidence."
+          },
+          "sources": [
+            195,
+            221
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_580891c36b97362b6a96",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when evaluating an owned, personal-use asset under Illinois personal-property exemptions where both 735 Ill. Comp. Stat. 5/12-1001(b) and one or more category-specific provisions may apply.",
+            "repair": "Evaluate each asset independently under every operative provision. First test § 12-1001(b), including it when the asset has protectable equity and the $4,000 allowance is not established as exhausted, regardless of whether a specific exemption applies or fails. Then separately add each category-specific exemption whose complete statutory and factual conditions are established. Treat monetary caps as limits on protected value unless the statute expressly makes value an eligibility condition. Interpret necessary wearing apparel as actual garments, not jewelry or other personal adornment. Finally, audit every asset for both the general exemption and all potentially applicable specific exemptions.",
+            "avoid_when": "Do not treat a category-specific exemption as displacing § 12-1001(b), or omit the general exemption merely because a specialized exemption fails. Do not apply an exemption when ownership, personal use, category, protectable equity, prescription where required, or available-allowance conditions are unsatisfied."
+          },
+          "sources": [
+            190,
+            204,
+            224
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_0bc1cbe0dbe32f31809f",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when a supplied exemption statute identifies a property category and sets a maximum exempt value, especially for wearing apparel, household goods, consumer electronics, or motor vehicles.",
+            "repair": "For each asset, make two separate determinations: category eligibility and protected amount. Decide eligibility from the asset’s ordinary nature and all express ownership, use, and category conditions. If those conditions are satisfied, cite the independently protective exemption even when the asset’s value exceeds its cap; excess value ordinarily reduces only the protected amount. For example, qualifying wearing apparel under Ariz. Rev. Stat. § 33-1125(1) does not become ineligible solely because its value exceeds $500. Treat value as an eligibility threshold only when the statute expressly requires that result. Return every required asset key, and verify before returning no exemption that the rejection is based on a failed statutory condition rather than merely an exceeded cap.",
+            "avoid_when": "Do not use cap separation when the statute expressly makes value a condition of eligibility or when an ownership, required-use, or category condition fails. Do not expand an enumerated category to materially different property, and do not cite provisions that only aggregate, limit, or administer exemptions unless they independently protect the asset. No additional exclusions are justified."
+          },
+          "sources": [
+            182,
+            183,
+            229
+          ],
+          "parent": "sc_ec_12fe3e29aa959f9ef8e7"
+        },
+        {
+          "id": "sc_ec_64acc13f60b90ef5dbf3",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when identifying independently applicable exemptions for each owned Illinois asset held for personal rather than business use under 735 Ill. Comp. Stat. 5/12-1001.",
+            "repair": "For every asset, begin by testing 735 Ill. Comp. Stat. 5/12-1001(b), even if a category-specific exemption applies. Include subsection (b) whenever the asset has protectable equity and the $4,000 allowance is not established as exhausted; the cap limits protected value rather than category eligibility. Then independently add every category-specific exemption whose literal ownership, use, and classification requirements are satisfied. Restrict subsection (a) to necessary wearing apparel, bibles, school books, and family pictures. Before submission, audit each asset's complete exemption list to ensure that neither the general exemption nor any independently applicable specific exemption was omitted.",
+            "avoid_when": "Do not use this procedure for property that is not owned, is held for business use, lacks protectable equity, or has no available subsection (b) allowance. Do not stop after finding a category-specific exemption, classify weapons, jewelry, adornments, or other carried objects as wearing apparel, or list headings, definitions, election rules, administrative provisions, or limitation provisions as independent exemptions. There are no additional exclusions justified by the supplied evidence."
+          },
+          "sources": [
+            234,
+            255
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_a4ed7bca0a11639dcde6",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when owned personal property must be evaluated under a statutory scheme that includes both category-specific exemptions and a general or wildcard exemption, particularly when the asset's classification or occupational use is uncertain.",
+            "repair": "Use two mandatory, independent passes for every asset. First, test each category-specific exemption and accept it only if every required ownership, classification, use, value, and statutory condition is established; do not infer trade use or classification from an item's name, features, price, or possible utility. Keep apparel, jewelry, household goods, and tools distinct. Second, regardless of the first-pass result, test and record every operative general or wildcard exemption, including 11 U.S.C. § 522(d)(5) and Or. Rev. Stat. § 18.345(1)(p), whenever the asset has protectable equity and the applicable aggregate allowance remains available. A specific exemption's applicability or sufficiency never eliminates an independently applicable wildcard. Track allowances separately within each statutory scheme and perform a final asset-by-asset audit confirming that both passes were completed.",
+            "avoid_when": "Do not apply an exemption if a required fact, covered classification or use, protectable equity, or remaining allowance is absent or unproved. Do not treat personal use as occupational use, place apparel or jewelry into a household-goods category merely because it is personal property, combine allowances across statutory schemes, or omit a wildcard because another exemption protects the same asset. No additional exclusions are justified."
+          },
+          "sources": [
+            240,
+            264
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_b66896d06ea66659a4bf",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when supplied exemption law must be applied to one or more assets and an independently protective provision has both categorical conditions and a monetary limit, including cases where specific and general exemptions may overlap.",
+            "repair": "Evaluate each asset against every independently protective exemption separately. First test ownership, required use, property category, allowance availability, and all other express statutory conditions. Then determine the protected amount independently: unless the statute expressly makes value an eligibility condition, include a qualifying exemption even when the asset exceeds its cap, because the cap ordinarily limits only the amount protected. Do not omit a general exemption merely because a specific exemption also applies. Before returning, verify that every required asset was assessed against every relevant protective provision and that every qualifying provision appears in that asset’s result.",
+            "avoid_when": "Do not apply this separation when the statute expressly makes value a condition of eligibility, or when ownership, required use, category membership, available allowance, or another express condition fails. Do not broaden enumerated categories to materially different property or treat provisions that merely define, aggregate, limit, or administer exemptions as independently protective. No additional exclusions are justified."
+          },
+          "sources": [
+            182,
+            183
+          ],
+          "parent": "sc_ec_0bc1cbe0dbe32f31809f"
+        },
+        {
+          "id": "sc_ec_7766b0e04d300af2a012",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when analyzing Illinois exemptions for owned personal property used personally rather than for business, particularly when an asset may qualify under both 735 Ill. Comp. Stat. 5/12-1001(b) and a category-specific exemption.",
+            "repair": "Evaluate each operative exemption independently. First test whether § 12-1001(b) protects equity under the unexhausted $4,000 allowance, even if a specific exemption also applies. Then add each category-specific exemption whose ownership, use, classification, prescription, equity, and monetary conditions are satisfied. Treat actual garments as wearing apparel, but not jewelry or personal adornment. Require evidence of professional prescription for a prescribed-health-aid exemption. Treat monetary caps as limits on protected value unless the statute expressly makes value an eligibility condition. Audit every specifically exempted asset for § 12-1001(b); omit it only upon an express finding of no ownership, no personal use, no protectable equity, an exhausted allowance, or another statutory disqualification.",
+            "avoid_when": "Do not apply an exemption when its required ownership, personal-use, classification, prescription, equity, or monetary conditions are not satisfied. Do not omit § 12-1001(b) merely because a category-specific exemption applies, and do not include provisions that only define, limit, or administer exemptions without independently protecting the asset. There are no additional exclusions justified by the supplied evidence."
+          },
+          "sources": [
+            221,
+            276
+          ],
+          "parent": "sc_ec_f9147cee46dc71d4f74f"
+        },
+        {
+          "id": "sc_ec_608de336e04390d0ac7b",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when determining which Illinois exemptions independently protect each asset, especially owned personal property under 735 Ill. Comp. Stat. 5/12-1001.",
+            "repair": "Evaluate each asset provision by provision rather than stopping at the first match. Test 735 Ill. Comp. Stat. 5/12-1001(b) for owned personal property used personally when it has protectable equity and some of the aggregate $4,000 allowance remains; treat the cap as limiting protected value, not eligible categories. Separately add every specific exemption whose ownership, use, classification, prescription, and value requirements are fully satisfied. Limit subsection (a) to necessary wearing apparel, bibles, school books, and family pictures. Route land, burial property, and other non-personal property to the applicable property regime; test a homestead provision only when its occupancy requirement is met. Finally, audit every asset for omitted independently applicable exemptions and unsupported classifications.",
+            "avoid_when": "Do not apply a personal-property exemption to unowned property, business-use property, property without protectable equity, or property outside that statutory regime. Do not use subsection (b) when no allowance remains, expand wearing apparel to jewelry, adornments, weapons, or merely carried objects, or present definitions, election rules, administrative provisions, headings, or limitation provisions as independent exemptions. There are no additional exclusions justified by the supplied evidence."
+          },
+          "sources": [
+            234,
+            281
+          ],
+          "parent": "sc_ec_64acc13f60b90ef5dbf3"
+        },
+        {
+          "id": "sc_ec_0b69585d88dcf82939a1",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use for Illinois personal-property exemption analysis whenever an owned, personal-use asset may receive protection under the general equity exemption in 735 Ill. Comp. Stat. 5/12-1001(b), whether or not it also appears to qualify under subsection (a), (c), (d), or another category-specific provision.",
+            "repair": "For every asset, make a separate § 12-1001(b) determination before evaluating specific categories. Record subsection (b) whenever the debtor has protectable equity and a positive unexhausted amount of the $4,000 aggregate allowance; a category-specific exemption never displaces that independent protection. Then add every independently satisfied specific exemption. Treat actual garments, but not jewelry or personal adornment, as wearing apparel, and require evidence of professional prescription for a prescribed health aid. Before submission, recheck every result containing only a specific subsection: omission of subsection (b) must rest on an express failure of ownership, personal use, protectable equity, available aggregate allowance, or another statutory condition. Also recheck every empty result against all operative asset categories.",
+            "avoid_when": "Do not add an exemption if its ownership, use, classification, prescription, equity, monetary-limit, or other statutory requirements are unmet. Do not cite subsection (b) when no positive allowance remains, but do not omit it merely because subsection (a), (c), (d), or another specific exemption applies. Do not list provisions that only define, limit, administer, or govern exemptions. There are no additional exclusions justified by the supplied evidence."
+          },
+          "sources": [
+            195,
+            221
+          ],
+          "parent": "sc_ec_f9147cee46dc71d4f74f"
+        },
+        {
+          "id": "sc_ec_bd5df33abd2abc0f2f08",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Apply this procedure to Arizona personal-use medical or assistive equipment when the facts support professional prescription, approval, or issuance, especially before invoking the general household-goods exemption.",
+            "repair": "Test each asset independently against specific exemptions before applying a general category. For professionally authorized equipment, evaluate Ariz. Rev. Stat. § 33-1125(9) by therapeutic function rather than requiring the asset description to say “prosthesis”; include integral accessories and expressly covered mobility devices when supported. If that provision applies, use it instead of the displaced general exemption in § 33-1123. Apply other asset-specific exemptions and aggregate value limits separately, and audit general-category citations for exclusion or displacement clauses.",
+            "avoid_when": "Do not infer professional authorization from personal medical use alone, broaden narrowly enumerated categories based only on household or personal use, or apply § 33-1125(9) to ordinary consumer equipment without a supported therapeutic function. Do not treat statutory headings, availability rules, or opt-out provisions as asset-specific exemptions."
+          },
+          "sources": [
+            207,
+            299
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_248f74e3b2e7cc3da345",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when a task requires every exemption applicable to each asset and the governing law may allow overlapping category-specific, wildcard, general monetary, or additional exemptions subject to eligibility requirements and value caps.",
+            "repair": "Build an asset-by-exemption matrix before answering. For every asset, independently test every provision that itself protects property; do not carry forward only the asset’s category-specific result. Verify election, ownership, use, category, designation, and remaining individual or aggregate allowance. Separate eligibility from protected amount: unless value is expressly an eligibility condition, record a qualifying exemption even when it covers only part of the asset, and apply monetary caps only when calculating that protected part. Include compatible specific and general protections when the statute permits overlap. Leave a matrix cell empty only after identifying a failed express condition, exhausted allowance, or statutory incompatibility, then audit every asset row and exemption column for omissions.",
+            "avoid_when": "Do not use a provision when an express eligibility condition fails, its allowance is exhausted, value is expressly an eligibility condition and is not satisfied, or governing law makes the proposed exemptions mutually exclusive. Do not broaden enumerated categories to materially different property or treat provisions that merely define, elect, aggregate, limit, or administer exemptions as independently protective. No additional exclusions are justified."
+          },
+          "sources": [
+            182,
+            183
+          ],
+          "parent": "sc_ec_b66896d06ea66659a4bf"
+        }
+      ],
+      "residual_patches": [
+        {
+          "id": "sc_ec_6d0111e553a367b39bc1",
+          "family": "EC",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use this procedure when the operative exemption systems include 11 U.S.C. § 522(d)(5), Or. Rev. Stat. § 18.345(1)(p), or another independently applicable wildcard alongside category-specific exemptions. Repair: Evaluate category-specific provisions first, then conduct a separate mandatory wildcard pass for every asset. Add § 522(d)(5) whenever the federal system is available because it may protect an interest in any property up to $1,475 plus as much as $13,950 of unused § 522(d)(1) capacity. Add § 18.345(1)(p) whenever the Oregon system is available and the asset is personal property because it may protect up to $400. Include a wildcard even if a specific exemption also applies or the wildcard protects only part of the value. Before submitting, audit every asset against every operative wildcard and require an affirmative statutory or factual basis for each omission. Avoid when: Omit a wildcard only when the supplied facts establish that its exemption system is unavailable, the asset falls outside its express scope, or its allowance has been exhausted; never infer those conditions from silence.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            191
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_6c965eb696e714dbc214",
+          "family": "EC",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When 11 U.S.C. § 522(d) exemptions are available, analyze every asset in independent passes. First, add every category-specific exemption whose ownership, use, category, and applicable value conditions are satisfied. Second, always test § 522(d)(5), because its available wildcard amount may protect any property even when a specific exemption also applies. Include all independently applicable state exemptions as well. Treat monetary ceilings as limits on protected value unless the statute makes them eligibility conditions. Before submitting, audit every asset for a reasoned § 522(d)(5) decision; omit it only when the federal scheme is unavailable or the wildcard allowance is established as unavailable or exhausted.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            212
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_57a7bc5bb204f6b9888d",
+          "family": "EC",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use this procedure whenever the supplied law includes wildcard or general monetary exemptions alongside category-specific exemptions. Repair: For every owned asset, create separate checklist entries for each potentially applicable category exemption and for every independently protective wildcard or general exemption. Test each general exemption for each asset even when a specific exemption already applies or fails. Include 11 U.S.C. § 522(d)(5) whenever it can protect some equity and the supplied facts do not affirmatively establish that its allowance is unavailable or exhausted; do not infer exhaustion from silence. Apply the same independent test to state general monetary exemptions. Before submission, audit every asset array against the complete checklist so that a general exemption is not applied selectively across otherwise eligible assets. Avoid when: Exclude a general exemption if ownership or protectable equity is absent, its allowance is affirmatively exhausted or unavailable, or the cited provision merely controls elections, definitions, or limitations without independently protecting property.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            250
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_0cfe1f7bba5b084c357b",
+          "family": "EC",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use when 11 U.S.C. § 522(d)(5) is among the operative provisions and an owned asset has potentially protectable equity. Repair: For every asset, record a separate wildcard decision before finalizing its citations. Because § 522(d)(5) covers any property, include it whenever available wildcard capacity can protect some equity, even when another federal or state category-specific exemption also applies. Treat an unmentioned exhaustion issue as not affirmatively established. Audit the final output by checking that every asset array has an explicit § 522(d)(5) decision. Avoid when: Omit the wildcard only when the facts establish no debtor interest, no protectable equity, unavailable federal exemptions, or exhausted wildcard capacity; never omit it merely because a specific exemption already protects the asset.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            253
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_2002b309bc7ad10e4f5f",
+          "family": "EC",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use when the supplied law permits both federal and Pennsylvania exemptions and an asset may receive cumulative general, wildcard, and category-specific protection. Repair: Evaluate each asset independently under every operative provision. After testing the specific categories in 11 U.S.C. § 522(d)(3) and 42 Pa. Cons. Stat. § 8124(a), separately test the available federal wildcard under § 522(d)(5) and Pennsylvania’s additional $300 exemption under § 8123. Do not stop after finding a category exemption; monetary caps ordinarily limit protected value rather than eliminate an otherwise applicable exemption. Map the complete cumulative result to every required asset_ref, use only allowed labels, remove duplicates, and return one complete JSON object. Before submission, audit every asset for both general protections and all factually matching specific protections. Avoid when: Do not assume a wildcard or monetary allowance remains available when the facts establish exhaustion or another statutory disqualification. Do not extend a specific category to materially different property or include election, definitional, or administrative provisions as independent asset exemptions.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            261
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_9e2c482b9ddcf66b61ca",
+          "family": "EC",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use this checklist when supplied law allows an owned personal-use asset to receive both category-specific protection and a general wildcard exemption. Repair: Create one row per asset and test every row separately against three independent questions: (1) Does the asset qualify as household furnishings, household goods, wearing apparel, or another listed category under 11 U.S.C. § 522(d)(3)? If yes, include that provision even when value exceeds a cap, because the cap ordinarily limits protected value rather than category membership. (2) Is wildcard capacity under 11 U.S.C. § 522(d)(5) available? Include it for each asset unless the facts establish exhaustion or another statutory failure; never omit it merely because a specific exemption applies. (3) Does the asset qualify as personal, family, or household consumer property under Wis. Stat. § 815.18(3)(d)? Include it independently. Before returning, require an explicit yes-or-no result for all three questions in every asset row and verify that every yes appears in that asset's output array. Avoid when: Do not include a provision if ownership, personal use, category membership, or available allowance is affirmatively unsatisfied. Do not treat monetary caps as eligibility cutoffs unless the statute expressly does so, and do not list provisions that only authorize, define, combine, or administer exemptions without independently protecting property.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            265
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_68085ddddb86ebf2d938",
+          "family": "EC",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use for Illinois personal-property exemption tasks in which one asset may satisfy both the general equity provision and a category-specific provision. Repair: Evaluate every asset independently under each operative subsection of 735 Ill. Comp. Stat. 5/12-1001. Test subsection (b) even after identifying a motor-vehicle, tools-of-the-trade, or other specific exemption; treat its $4,000 ceiling as a limit on protected equity, not as a reason to omit the citation when some allowance remains. Then add every independently satisfied specific subsection, including subsection (c) for a motor vehicle and subsection (d) for qualifying trade tools. Before submitting, audit every nonempty specific-exemption result for an omitted subsection (b), and audit every empty result against all applicable categories. Avoid when: Do not add provisions lacking the required ownership, classification, use, equity, or other express statutory conditions, and do not list headings, election rules, definitions, or administrative provisions as independent asset exemptions.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            285
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_5901ed774ac13ca56e9f",
+          "family": "EC",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use this procedure whenever a listed exemption category has a monetary cap. Repair: First decide whether the asset satisfies the provision's ownership, use, and category requirements. Unless the supplied statute expressly makes the cap an eligibility condition, treat the cap as limiting the protected value rather than negating applicability; therefore, record the applicable citation even when the asset's value exceeds the cap. Evaluate every asset independently and audit each empty result for a category match before submission. Avoid when: Do not record a provision if a nonmonetary statutory requirement fails, and do not infer an exemption merely from an asset mention or citation label.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            286
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_6562a74743fb0b6b3526",
+          "family": "EC",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use when the supplied governing-law determination permits federal and Pennsylvania exemptions and the task requests every applicable provision. Repair: For each asset, run three independent checks: (1) any category-specific federal exemption; (2) the wildcard in 11 U.S.C. § 522(d)(5); and (3) Pennsylvania’s additional monetary exemption in 42 Pa. Cons. Stat. § 8123. Section 8123 expressly operates in addition to specifically exempt property and may be designated toward particular property. Record an independently available exemption even if it protects only part of the asset’s value; enforce monetary and aggregate caps as limits on protected value. Before submission, audit every asset row for both the federal wildcard and Pennsylvania monetary exemption rather than copying only its category-specific result. Avoid when: Do not include a provision if the governing election, ownership, use, designation, or remaining allowance requirements fail. Do not treat election provisions, headings, or monetary caps as independent exemptions, and do not stop after the first applicable category.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            307
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ec_850a27c1273b1a15bdb9",
+          "family": "EC",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use whenever the supplied law permits both category-specific exemptions and general exemptions covering any property or personal property. Repair: For every asset, evaluate every operative provision independently. After testing classifications such as household goods, separately test 11 U.S.C. § 522(d)(5), including its $1,475 base allowance and any available unused amount under § 522(d)(1), and Or. Rev. Stat. § 18.345(1)(p), subject to its $400 value limit. Add every independently satisfied exemption; do not stop after the first category match. Before submission, audit each asset separately for omitted general exemptions and return every required asset key. Avoid when: Do not add a general exemption if the relevant exemption system is unavailable, the debtor lacks an interest in the property, or the applicable allowance is exhausted. Do not list introductory, administrative, or combination provisions as independent asset exemptions.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            308
+          ],
+          "parent": null
+        }
+      ]
+    },
+    "EV": {
+      "active_patterns": [
+        {
+          "id": "sc_ev_43b024b64e2381ff7103",
+          "family": "EV",
+          "kind": "pattern",
+          "description": {
+            "when": "Use for Illinois personal-property exemption mapping under 735 Ill. Comp. Stat. 5/12-1001 when all independently supported exemption alternatives must be reported for each asset.",
+            "repair": "Apply subsection (b) to every asset as a mandatory independent pass, including assets that qualify under a specific exemption. If the debtor owns the property and uses it personally rather than for business, report subsection (b) with the claim limited to the lesser of qualifying equity, asset value, and $4,000; honor a task-wide personal-use assumption unless an explicit fact overrides it. Separately test subsections (a), (c), (d), and (e) against their statutory categories and factual requirements. Before submission, perform a per-asset invariant check: every asset with a specific exemption must also include subsection (b), unless an explicit ownership or business-use fact defeats subsection (b). Retain every supported alternative, preserve all required asset keys, omit unsupported alternatives instead of using zero-value placeholders, and return an empty array only when no exemption applies.",
+            "avoid_when": "Do not apply subsection (b) when ownership is absent or the property is established as business-used. Do not let apparel or any other specific exemption replace an independently supported subsection (b) claim. Do not infer apparel status, trade use, professional prescription, or another statutory condition from an asset label, possible use, or available citation. Do not apply Illinois-specific categories or limits outside 735 Ill. Comp. Stat. 5/12-1001. There are no additional exclusions justified by the supplied evidence."
+          },
+          "sources": [
+            189,
+            190,
+            204
+          ],
+          "parent": "sc_ev_e04fa648218b64d0a2c5"
+        },
+        {
+          "id": "sc_ev_81915ed5643c665724cf",
+          "family": "EV",
+          "kind": "pattern",
+          "description": {
+            "when": "Use for Illinois personal-property exemption mapping under 735 Ill. Comp. Stat. 5/12-1001 when debtor-owned assets may qualify under subsection (b), a category-specific provision, or both.",
+            "repair": "Assess every asset against each statutory alternative independently. For every debtor-owned asset used personally rather than for business, always record a separate subsection (b) alternative, even if a category-specific exemption is also supported, and limit its claim to the lesser of the debtor's equity, the asset's value, and $4,000. Add wearing-apparel, tools-of-trade, or other category-specific alternatives only when affirmative facts establish every required classification or use; an item's appearance, possible function, or an available citation is insufficient. Before submission, audit each asset receiving a category-specific exemption to confirm that subsection (b) was separately considered, then remove only unsupported alternatives and retain all independently supported ones.",
+            "avoid_when": "Do not use outside Illinois personal-property exemption mapping under 735 Ill. Comp. Stat. 5/12-1001, for property the debtor does not own, or to apply subsection (b) where the facts establish business rather than personal use. No additional exclusions are justified."
+          },
+          "sources": [
+            221,
+            234
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_216fb64a0bcededf49bf",
+          "family": "EV",
+          "kind": "pattern",
+          "description": {
+            "when": "Use for exact-JSON personal-property exemption mapping when each required asset must be evaluated against every supplied statutory provision and all independently supported asset–exemption pairs must be reported.",
+            "repair": "Evaluate each asset separately. From the stated facts, verify ownership, use, statutory category, and every other required condition before applying a provision; citation availability, thematic association, and hypothetical facts do not establish eligibility. Test each provision independently, apply its individual or aggregate cap, and limit claim value to the lesser of the applicable statutory limit, asset value, and debtor equity where relevant. Include every supported pair exactly once, omit unsupported or zero-value claims, and use [] only when no provision survives. Audit for one entry per required asset, omitted matching provisions, duplicate pairs, unauthorized citations, correct claim limits, and syntactically valid JSON.",
+            "avoid_when": "Do not infer ownership, use, category membership, prescribed status, or any other statutory condition from unstated facts or citation wording. Do not extend a provision to an asset whose statutory noun category differs, force available citations into the output, omit a directly matching provision without testing its conditions and cap, or emit unsupported or zero-value claims unless the output contract expressly requires them. Do not use this procedure outside the supplied exemption regime or when the required output is not asset-level exemption mapping. There are no additional exclusions justified by the supplied evidence."
+          },
+          "sources": [
+            199,
+            215,
+            251
+          ],
+          "parent": "sc_ev_d18d07e4abab922e9914"
+        },
+        {
+          "id": "sc_ev_ee349f67046af5e6bdcb",
+          "family": "EV",
+          "kind": "pattern",
+          "description": {
+            "when": "Use for bankruptcy exemption-mapping tasks that require every independently applicable exemption alternative for each debtor-owned asset when federal exemptions under 11 U.S.C. § 522(d) are available.",
+            "repair": "Treat the 11 U.S.C. § 522(d)(5) wildcard as a mandatory independent test for every asset, not as a fallback. For each asset, first determine whether federal eligibility, debtor ownership, positive supported value or interest, and remaining wildcard capacity are established. If so, output exactly one § 522(d)(5) alternative even when federal or state category-specific exemptions also apply. Set its claim to the lesser of the supported debtor interest, asset value, and available wildcard capacity: $1,475 plus up to $13,950 of unused § 522(d)(1) capacity. Then retain each supported category-specific alternative separately under its own requirements and limits, including the $700 per-item limit under § 522(d)(3). Before submission, inspect the actual output asset by asset and reject any output in which an eligible asset lacks its separate § 522(d)(5) entry; omit unsupported or zero-value claims.",
+            "avoid_when": "Do not add a § 522(d)(5) alternative when federal exemptions are unavailable, debtor ownership or positive interest is unsupported, or the supplied facts establish that no wildcard capacity remains. Do not infer ownership, eligibility, value, specialized use, or unused § 522(d)(1) capacity from an asset description or citation alone, and do not merge independent alternatives or treat the wildcard as only a residual fallback. No additional exclusions are justified."
+          },
+          "sources": [
+            203,
+            213,
+            266
+          ],
+          "parent": "sc_ev_dbd2ab695709c7a461d5"
+        },
+        {
+          "id": "sc_ev_367cb77035fbc3414075",
+          "family": "EV",
+          "kind": "pattern",
+          "description": {
+            "when": "Use for exact-JSON Illinois personal-property exemption mapping under 735 Ill. Comp. Stat. 5/12-1001 when every independently applicable asset–exemption pair must be reported, including overlapping alternatives for the same asset.",
+            "repair": "For each required asset, test subsection (b) first and record the result before evaluating any specific exemption. Include subsection (b) whenever affirmative facts establish debtor ownership and personal, nonbusiness use, even if subsection (a), (c), (d), or (e) also applies; set claim_value to the lesser of qualifying equity, asset value, and $4,000. Then test each specific subsection independently. Apply subsection (d) only when affirmative facts establish both a qualifying implement, professional book, or tool and use in the debtor’s trade, before applying its $1,500 cap. Omit unsupported or zero-value claims. Return valid JSON in which every required asset appears exactly once, every supported pair is included without duplication, only permitted citation labels are used, and [] appears only when no exemption qualifies. As a final audit, inspect every asset receiving a specific exemption and confirm that its separate subsection (b) result was not omitted merely because the specific exemption was included.",
+            "avoid_when": "Do not infer ownership, personal or business use, trade use, category membership, prescribed status, or any other eligibility condition from citation wording, ordinary utility, an asset description, or unstated facts. Do not treat exemptions as mutually exclusive, substitute a specific exemption for subsection (b), apply subsection (b) to non-debtor-owned or business-used property, or apply subsection (d) without explicit category and trade-use support. Do not force available citations into the output or include a claim merely because its cap is calculable. Do not use this procedure outside 735 Ill. Comp. Stat. 5/12-1001. There are no additional exclusions justified by the supplied evidence."
+          },
+          "sources": [
+            199,
+            215,
+            220,
+            276
+          ],
+          "parent": "sc_ev_d18d07e4abab922e9914"
+        },
+        {
+          "id": "sc_ev_b6bdedf1d90cfdd34779",
+          "family": "EV",
+          "kind": "pattern",
+          "description": {
+            "when": "Use for exact-JSON Illinois personal-property exemption mappings under 735 Ill. Comp. Stat. 5/12-1001 when all independently supported asset–exemption pairs, including overlapping alternatives, must be reported.",
+            "repair": "Evaluate each required asset and each exemption independently. First determine subsection (b) eligibility from affirmative evidence of debtor ownership and the required personal, nonbusiness use; if eligible, claim the lesser of qualifying value, debtor equity, and $4,000. Then separately test subsections (a), (c), (d), and (e) against their own elements and caps. For subsection (c), claim the lesser of vehicle value, debtor interest, and $2,400. For subsection (d), require affirmative evidence that the property is a qualifying implement, professional book, or tool used in the debtor’s trade, and claim the lesser of qualifying value, debtor equity, and $1,500. Return valid JSON with every required asset exactly once, every supported pair included once, unsupported and zero-value claims omitted, permitted citation labels only, and an empty array only when no exemption qualifies. Finally, audit every asset receiving a specific exemption to ensure that any independently supported subsection (b) claim was also included.",
+            "avoid_when": "Do not use this procedure outside 735 Ill. Comp. Stat. 5/12-1001. Do not infer ownership, personal or business use, trade use, statutory category, prescribed status, or another eligibility element from an asset description, ordinary utility, citation wording, or unstated facts. Do not treat exemptions as mutually exclusive, replace subsection (b) with a specific exemption, apply subsection (b) to property lacking the required ownership or use evidence, apply subsection (d) without both qualifying-category and trade-use support, force available citations into the output, or include a claim merely because its cap can be calculated. There are no additional exclusions justified by the supplied evidence."
+          },
+          "sources": [
+            199,
+            215
+          ],
+          "parent": "sc_ev_367cb77035fbc3414075"
+        },
+        {
+          "id": "sc_ev_2e84ad34c943594ea021",
+          "family": "EV",
+          "kind": "pattern",
+          "description": {
+            "when": "Use for exemption-mapping tasks that permit federal exemptions under 11 U.S.C. § 522(d) and require every independently applicable exemption alternative for each debtor-owned asset.",
+            "repair": "Create the § 522(d)(5) wildcard entry for each asset before evaluating category-specific exemptions. Include exactly one wildcard alternative whenever federal eligibility, debtor ownership, positive interest or value, and positive wildcard capacity are supported, even if another federal or state exemption covers the asset. Calculate capacity as the $1,475 base plus up to $13,950 of factually supported unused § 522(d)(1) capacity, and claim the lesser of the supported interest or value and available capacity. Preserve category-specific exemptions as separate alternatives and do not offset independently assessed asset–exemption pairs. As a mandatory final audit, count wildcard entries asset by asset and submit only when every eligible asset has exactly one wildcard entry or an explicit fact-based exclusion.",
+            "avoid_when": "Do not add the federal wildcard when federal exemptions are unavailable or excluded by the governing election, debtor ownership or positive interest or value is unsupported, or no positive wildcard capacity remains. Do not infer unused § 522(d)(1) capacity, treat independent alternatives as mutually exclusive, replace a supported category-specific exemption with the wildcard, or omit the wildcard merely because another exemption applies. No additional exclusions are justified."
+          },
+          "sources": [
+            203,
+            213,
+            266,
+            289
+          ],
+          "parent": "sc_ev_dbd2ab695709c7a461d5"
+        },
+        {
+          "id": "sc_ev_9a8903b733614570d108",
+          "family": "EV",
+          "kind": "pattern",
+          "description": {
+            "when": "Use for exact-JSON, asset-level personal-property exemption mapping when each required asset must be tested against every supplied statutory provision and all independently supported, overlapping asset–exemption pairs must be reported.",
+            "repair": "Evaluate each asset and each supplied provision in separate mandatory passes. Verify ownership or debtor interest, use, statutory category, and every other factual prerequisite from the stated facts; neither citation availability nor thematic similarity proves eligibility. Preserve every supported overlap, including applicable general-property or wildcard provisions even when a category-specific exemption also applies. Calculate each claim under its own individual or aggregate cap, limited by the supported asset value and debtor interest or equity as relevant. Omit unsupported and zero-value claims. Before returning exact JSON, audit for an explicit result for every required asset–provision test, all supported pairs, no duplicates, authorized citations, correct limits, one entry per required asset, and valid syntax; use an empty array only when no provision qualifies.",
+            "avoid_when": "Do not infer ownership, use, category membership, prescribed status, or another statutory condition from unstated facts, labels, display context, citation wording, or another exemption's applicability. Do not treat potentially overlapping exemptions as mutually exclusive, force available citations into the output, extend a provision to a different statutory noun category, or omit a provision without independently testing its conditions and cap. Do not use this procedure outside the supplied exemption regime or when the required output is not asset-level exemption mapping. There are no additional exclusions justified by the supplied evidence."
+          },
+          "sources": [
+            199,
+            215,
+            251
+          ],
+          "parent": "sc_ev_216fb64a0bcededf49bf"
+        }
+      ],
+      "residual_patches": [
+        {
+          "id": "sc_ev_75a12279f8fc45da1459",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: The task requests every independently applicable exemption and federal exemptions are permitted.\nRepair: Evaluate every asset through a mandatory three-part checklist: specific federal categories, 11 U.S.C. § 522(d)(5), and applicable state categories. Never stop after finding a specific exemption. Section 522(d)(5) can apply to any property and may coexist with a category-specific exemption; its ceiling is $1,475 plus up to $13,950 of unused § 522(d)(1) capacity. For each alternative, independently set claim_value to the lesser of the debtor’s interest, the asset value, and the available statutory limit. Before returning JSON, audit every asset row and record either a § 522(d)(5) claim or a concrete statutory or factual reason for excluding it. Use every required asset key and exact permitted citation labels.\nAvoid when: Do not use § 522(d)(5) when federal exemptions are unavailable, the debtor has no interest in the property, or the supplied facts show no remaining wildcard capacity. A citation’s presence alone does not establish eligibility.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            186
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_e976e630d9db5f81c237",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Apply this procedure when mapping Arizona exemptions and an item could fit both a general household-property provision and a specifically named personal-item provision. Repair: Classify the item under the most specific supplied statutory category first. Because Ariz. Rev. Stat. § 33-1123 covers household property only when it is not otherwise specifically prescribed, do not use it for an item expressly covered by § 33-1125. For a qualifying musical instrument held for individual or family use, apply § 33-1125(2) and calculate claim_value as the lesser of the debtor's interest, the item's value, and the $400 aggregate limit. Independently verify ownership, use, and every statutory condition, then audit the citation and cap before returning exact JSON. Avoid when: Do not infer eligibility merely from an available citation, and do not apply this Arizona-specific priority rule in another jurisdiction or when the facts do not establish the specific category and required use.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            223
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_ff51d79d0e6a55c1884b",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use for Federal-and-Oregon exemption mapping that requires every independently applicable alternative for each asset. Repair: For each debtor-owned asset, run two mandatory general-exemption checks before testing specific categories: (1) test 11 U.S.C. § 522(d)(5), calculating the claim as the lesser of the debtor's interest, the asset value, and the available wildcard allowance; and (2) test Or. Rev. Stat. § 18.345(1)(p), capped at the lesser of the debtor's interest, the asset value, and $400. Retain both supported general alternatives even when a household, firearm, or other specific exemption also applies. Then test all category-specific provisions independently and enforce each provision's own cap, including the $700 per-item limit under § 522(d)(3). Before submission, apply a per-asset invariant: every owned asset must show the disposition of both mandatory general checks, and an eligible check may not be omitted merely because a specific exemption was included. Avoid when: Do not add either general exemption without ownership and the provision's other stated conditions, do not infer specialized eligibility from citation availability or possible use, and do not emit unsupported or zero-value claims.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            237
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_8ed4b03f846cb17dda60",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use for Federal-and-Wisconsin exemption mapping requiring every independently applicable alternative for each debtor-owned asset. Repair: Test 11 U.S.C. § 522(d)(5) separately for every asset and retain it even when a specific exemption also applies; calculate the claim as the lesser of the debtor's interest, asset value, and available wildcard allowance. Then test category-specific provisions independently. Apply § 522(d)(3) only to its enumerated categories and enforce its $700 per-item cap. Separately test Wis. Stat. § 815.18(3)(d) for qualifying personal, family, or household consumer goods, including firearms and other tangible personal property, subject to its aggregate limit. Audit every asset for omitted general alternatives and unsupported category classifications. Avoid when: Do not infer eligibility merely from an available citation, do not place firearms within § 522(d)(3), and do not emit unsupported or zero-value claims.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            245
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_102fbb5d34b1c19051e1",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use for Federal-and-Wisconsin exemption mapping when every independently applicable asset–exemption alternative must be returned. Repair: Evaluate each debtor-owned asset separately under every supported provision. In addition to category-specific exemptions, always test 11 U.S.C. § 522(d)(5); if wildcard capacity is available, report a separate claim capped at the lesser of the debtor's interest, the asset value, and the available wildcard allowance. Do not let eligibility under 11 U.S.C. § 522(d)(3) or Wis. Stat. § 815.18(3)(d) displace this independent wildcard alternative. Audit every asset for the wildcard before submission. Avoid when: Do not add the wildcard without debtor ownership, available allowance, and any other stated statutory conditions. Do not infer specialized categories from citation availability or emit unsupported or zero-value claims.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            253
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_44d09ad4f4c988ab6a71",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use whenever an applicable exemption imposes a dollar ceiling. Repair: Treat the ceiling as a maximum, not an automatic claim amount. For each asset-exemption pair, calculate claim_value as the lesser of the debtor's qualifying interest or equity, the asset's stated value, and the applicable statutory cap, while respecting ownership shares and any aggregate-limit facts supplied by the task. Test exemptions independently, then audit that no claim exceeds either the asset's qualifying value or the statutory limit. Avoid when: Do not substitute a statutory cap for a lower asset value, assume unstated equity, or allocate aggregate limits across assets when the task directs independent pairwise analysis.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            262
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_4d357416e17d94d5ec2b",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use for Federal-and-Wisconsin exemption mapping where the supplied jurisdiction step permits both systems to be reported as independent alternatives. Repair: For every debtor-owned asset eligible for federal exemptions, perform and record a mandatory 11 U.S.C. § 522(d)(5) wildcard check before category checks. Calculate that claim independently as the lesser of the debtor’s interest, the asset value, and the available wildcard allowance, including the $1,475 base allowance plus any supported unused § 522(d)(1) amount. Do not subtract claims under § 522(d)(3), Wisconsin law, or any other alternative. Then test all category-specific provisions independently and apply their own limits, including the $700 per-item cap under § 522(d)(3). Before submission, audit each required asset key: if federal eligibility, ownership, positive value, and wildcard capacity are established, a separate § 522(d)(5) object must appear exactly once regardless of other exemptions. Retain every independently supported alternative. Avoid when: Do not add the wildcard without ownership, federal eligibility, positive debtor interest, and available allowance; do not infer specialized categories from citation availability; do not combine alternative claims as residual portions; and do not emit unsupported or zero-value claims.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            265
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_1ad0bfb5c0b329779364",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use for Federal-and-Wisconsin exemption mapping when every independently applicable alternative must be reported. Repair: Evaluate each debtor-owned asset separately under every available provision. In addition to category-specific checks, always test the federal wildcard in 11 U.S.C. § 522(d)(5), calculating its claim as the lesser of the debtor's interest, the asset value, and the available wildcard allowance of $1,475 plus up to $13,950 of unused § 522(d)(1) capacity. Retain that wildcard alternative even when § 522(d)(3), Wis. Stat. § 815.18(3)(d), or another specific exemption also applies. Apply each specific provision's classification requirements and caps independently, including the $700 per-item limit under § 522(d)(3), and audit every required asset key for omitted alternatives before returning exact JSON. Avoid when: Do not add the wildcard if federal exemptions are unavailable, ownership is unsupported, or no wildcard allowance remains. Do not infer ownership, eligibility, specialized use, or unused allowance merely from an asset description or available citation, and do not emit unsupported or zero-value claims.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            270
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_32a666d4f59e082bd6f1",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use for Federal-and-Wisconsin exemption mapping that requests every independently applicable alternative and directs that assets be considered without cross-asset allocation. Repair: Before testing specific categories, make a mandatory first pass over every debtor-owned asset for 11 U.S.C. § 522(d)(5). Unless a stated condition defeats it, emit one wildcard alternative for that asset, calculated as min(asset value, debtor’s interest, $1,475 + unused § 522(d)(1) amount up to $13,950). Then test category-specific exemptions independently; a specific exemption never replaces the wildcard. For every Wisconsin motor vehicle, do not stop at the $4,000 base in Wis. Stat. § 815.18(3)(g): add the unused portion of the $12,000 allowance under § 815.18(3)(d), then cap the result by the asset value and debtor’s interest. Treat each asset–exemption pair as a separate hypothetical, not as part of one portfolio. Final invariant: every eligible owned asset has a § 522(d)(5) entry, and every Wisconsin vehicle calculation expressly considers both the $4,000 base and transferable unused consumer-goods allowance. Avoid when: Do not use an exemption without ownership and its statutory conditions, infer eligibility from citation availability, exceed value or interest, emit zero-value claims, or consume an allowance across assets when the task requires independent alternatives.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            271
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_a0b8ef654a39b3597630",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "For Illinois mappings under 735 Ill. Comp. Stat. 5/12-1001, evaluate every exemption independently. First make a separate subsection (b) pass for each debtor-owned asset under the supplied task convention, using min(asset value, debtor equity, $4,000); never omit this alternative merely because a specific subsection also applies. Then test subsections (a), (c), (d), and (e) separately. For subsection (c), use min(vehicle value, debtor interest, $2,400). For subsection (d), require supported tool-of-trade status and use min(asset value, debtor equity, $1,500). Before returning exact JSON, audit every asset with a specific exemption for a separate subsection (b) entry, verify each claim against its own statutory cap, include every required asset key exactly once, and use [] only when no alternative qualifies.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            279
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_30b947c17bc27b297cf1",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use for Arizona exemption mapping whenever married debtors jointly own property qualifying under an exemption in the article governed by Ariz. Rev. Stat. § 33-1121. Repair: Make the marital calculation mandatory before emitting claim_value. For an equally owned asset of value V and a per-spouse exemption limit L, calculate each spouse separately as min(V/2, L), then report min(V, 2 × min(V/2, L)). For § 33-1125(2), L is the statutory $400 musical-instrument limit. Treat a result equal to only L as a failed invariant whenever V exceeds L but does not exceed the spouses' combined protected interests; recompute before submission. Apply the same worksheet to every independently qualifying pair and then cap the combined claim at the asset's total value. Avoid when: Do not combine exemptions expressly limited to one per married couple, exceed either spouse's ownership interest, assume joint ownership when the facts do not establish it, or ignore exemption-specific aggregate limits and contrary ownership facts.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            286
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_2acc81c74f2a78f21fb2",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use for Arizona exemption mapping under Ariz. Rev. Stat. § 33-1125(9) when the facts identify provider-issued, professionally prescribed, assistive, or mobility-related medical equipment. Repair: Evaluate both branches of subsection (9): its general coverage of professionally prescribed prostheses and its express inclusion of wheelchairs and motorized mobility devices. Do not limit “prostheses” to replacement limbs or to the expressly listed mobility examples. Treat provider-issued or professionally prescribed equipment that replaces, supports, monitors, or continuously assists a bodily function as a candidate under the general branch, and include it when the supplied facts affirmatively establish the medical-provider or prescription connection. Because subsection (9) states no monetary ceiling, use the full qualifying debtor value. Preserve every required asset key and use an empty array only after testing both the general and express branches. Avoid when: Do not require an item to be a wheelchair or mobility device before considering the general prosthesis language. Do not infer medical issuance or prescription from ordinary usefulness, an available citation, or unstated facts, and do not import a monetary cap from another subsection.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            299
+          ],
+          "parent": null
+        },
+        {
+          "id": "sc_ev_0bb01dacc5977872a06f",
+          "family": "EV",
+          "kind": "patch",
+          "description": {
+            "when": "Use this repair only when its stated factual and legal conditions apply.",
+            "repair": "When: Use for federal-and-Oregon exemption mapping that requires every independently applicable alternative for each asset. Repair: Evaluate each provision in a separate mandatory pass. For every debtor-owned asset, expressly test 11 U.S.C. § 522(d)(5), even after adding a category-specific exemption; when eligible, report the lesser of the debtor's interest, the asset value, and the available wildcard amount. Separately test Or. Rev. Stat. § 18.345(1)(p) and cap that claim at $400. Test 11 U.S.C. § 522(d)(3) and Or. Rev. Stat. § 18.345(1)(f) for personal household property, retaining all supported overlaps. Before submission, use a per-asset checklist requiring an explicit result for both general-property passes, then remove any category claim lacking affirmative factual support. Avoid when: Do not treat exemptions as mutually exclusive or omit § 522(d)(5) because a household exemption already applies. Do not infer Or. Rev. Stat. § 18.345(1)(a) merely because an item is framed, graphic, decorative, or displayed on a wall; require affirmative support that it belongs to the statutory books, pictures, or musical-instruments category. Do not force available citations into the output.",
+            "avoid_when": "Do not apply outside the repair's stated conditions or exceptions."
+          },
+          "sources": [
+            308
+          ],
+          "parent": null
+        }
+      ]
+    }
+  },
+  "library_sha256": "93fd552b3fb54e25c37235903bcef82903ec7874b3e2098bcd3af1ba2a4a1023",
+  "train_sources": 128,
+  "completed_training_tasks": 256,
+  "no_TEST_loaded_during_build": true,
+  "cost": {
+    "actual_native_generations": 2015,
+    "native_input_tokens": 13663563,
+    "native_output_tokens": 5542122,
+    "actual_teacher_responses": 930,
+    "teacher_attempts": 931,
+    "teacher_input_tokens": 19696279,
+    "teacher_output_tokens": 548224,
+    "teacher_cached_input_tokens_subset": 6026112,
+    "teacher_reasoning_output_tokens_subset": 193870,
+    "successful_teacher_usage_records_missing": 0,
+    "unsuccessful_teacher_attempts_usage_not_assumed_zero": 1,
+    "exact_request_reuses": 345,
+    "elapsed_seconds": 146241.67307270598
+  },
+  "method": "SkillCommit-paper-adaptation",
+  "not_author_code": true,
+  "first_encounter_metrics": {
+    "EC": {
+      "precision": 0.8614676339285714,
+      "recall": 0.6262478298611113,
+      "f1": 0.6986133585742961,
+      "exact_target": 0.1953125,
+      "tasks": 128,
+      "invalid_format": 3,
+      "officially_unscored_predicted_claims": 0,
+      "full_output_f1": 0.7304152681875855,
+      "negative_or_unscored_asset_claims": 2
+    },
+    "EV": {
+      "precision": 0.7655287529310967,
+      "recall": 0.6297200520833336,
+      "f1": 0.6665264278545528,
+      "exact_target": 0.1640625,
+      "tasks": 128,
+      "invalid_format": 5,
+      "officially_unscored_predicted_claims": 9,
+      "full_output_f1": 0.6545685271217448,
+      "negative_or_unscored_asset_claims": 9
+    },
+    "mean_family_f1": 0.6825698932144244
+  }
+}

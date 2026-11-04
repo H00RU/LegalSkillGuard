@@ -1,0 +1,98 @@
+{
+  "at_UTC": "2026-11-02T00:12:55.413290+00:00",
+  "goal_status": "active",
+  "previous_goal_turn_classification": "progress",
+  "current_goal_turn_classification": "progress: actual authorized source-fidelity correction and new formal run, not score-driven optimization",
+  "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run04",
+  "first_real_reference_and_replay": {
+    "observed_UTC": "2026-11-02T00:11:51.193256+00:00",
+    "reference_validations": [
+      {
+        "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run04/events/000002_teacher_reference_validation.json",
+        "sha256": "d9a241bfa1b3baed4b3c756a3d2a604987a28c430237cf0b3dcb795e9752fd52",
+        "case_id": 181,
+        "family": "EC",
+        "actual_native_f1": 1,
+        "passed": true,
+        "not_executor_generation": true
+      }
+    ],
+    "actual_replay_inputs": [
+      {
+        "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run04/native/000004_replay/181_EC_skillcommit_replay.input.json",
+        "sha256": "7a7ee5693fd1f5d62ffe3704e4ffb15a22119f6a42fbaad3cb9690c61e67e449",
+        "delivered_skill_ids": [
+          "sc_ec_0b02bd896fcfe55bc459"
+        ],
+        "no_teacher_reference_or_gold_field_in_messages": true
+      }
+    ],
+    "first_forecast_empty_library": true,
+    "progress": {
+      "at": "2026-11-02T00:10:39.021953+00:00",
+      "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run04",
+      "state": "running",
+      "phase": "construction",
+      "stage": "000004_replay",
+      "current_batch": 1,
+      "completed_native_calls": 1,
+      "completed_teacher_calls": 2,
+      "teacher_attempts": 2,
+      "first_encounter_tasks": 1,
+      "active_patterns": {
+        "EC": 0,
+        "EV": 0
+      },
+      "residual_patches": {
+        "EC": 0,
+        "EV": 0
+      },
+      "elapsed_seconds": 112.11142424400896,
+      "current_arm": "skillcommit_replay",
+      "current_document_id": 181,
+      "current_call": "openexempt"
+    },
+    "failure": false
+  },
+  "checks": {
+    "observed_UTC": "2026-11-02T00:12:55.413290+00:00",
+    "checks": {
+      "configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run04.frozen.json": {
+        "files": 648,
+        "mismatches": []
+      },
+      "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json": {
+        "files": 379,
+        "mismatches": []
+      }
+    },
+    "run_pid": 1788453,
+    "run_birth_ticks": 558464415,
+    "same_original_model_pid": 958223,
+    "same_original_model_birth_ticks": 486445918,
+    "paper_and_old_results_sha256": {
+      "paper/utility_skill_manuscript_working_20261030.md": "358275047def8b889b747f923ed65294d5775b5bc555e3c7a328cb22b4a535eb",
+      "paper/sections-zh/utility_skill_manuscript_working_20261030.md": "18226b329e9a76c3d2d1d07f2608ffafa253a59421c8913cac7c74127c6c5c36",
+      "paper/utility_skill_references_20261030.bib": "489e1e24e5e25e8756dabbe510fa46018f6401ee83878d4760a6ee4876ed6716",
+      "paper/tables/utility_frozen_results_20261101.json": "3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732"
+    }
+  },
+  "scientific_direction": "Close evidence and comparison gaps for existing paper; no new main-method training, benchmark switch, seed search or ranking-conditioned baseline changes",
+  "completed_since_previous_hour": [
+    "v11 bilingual evidence export and dual-disk preservation",
+    "reassessed paper main/B.2 and corrected overgeneralization from A.1",
+    "authorized run03 artifact-safe stop and 1361-file full dual backup",
+    "18 targeted checks plus 19 historical TRAIN parser-parity checks",
+    "run04 frozen on 648 files and 650-member dual source backups",
+    "live native-verified teacher reference precedes patch induction; no reference/target fields in replay wire"
+  ],
+  "remaining": [
+    "complete all TRAIN128/256 construction tasks",
+    "freeze actual final SkillCommit library and complete existing TEST128/256 tasks",
+    "compare quality, build and inference costs under declared conditions",
+    "integrate final comparison into English/Chinese paper without changing old scores",
+    "final contribution-evidence and submission readiness review"
+  ],
+  "no_new_main_method_or_model_instance": true,
+  "no_score_improvement_requirement_for_external_method": true
+}

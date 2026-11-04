@@ -1,0 +1,202 @@
+{
+  "at_UTC": "2026-11-02T01:15:09.408273+00:00",
+  "goal_status": "active",
+  "previous_goal_turn_classification": "progress",
+  "current_goal_turn_classification": "progress and verified live wait",
+  "live_evidence": {
+    "observed_UTC": "2026-11-02T01:15:09.408273+00:00",
+    "service": {
+      "MainPID": "1837514",
+      "Result": "success",
+      "NRestarts": "0",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "run_birth_ticks": 558660848,
+    "same_original_model_pid": 958223,
+    "model_birth_ticks": 486445918,
+    "progress": {
+      "at": "2026-11-02T01:15:00.867253+00:00",
+      "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05",
+      "state": "running",
+      "phase": "construction",
+      "stage": "teacher",
+      "current_batch": 1,
+      "completed_native_calls": 22,
+      "completed_teacher_calls": 17,
+      "teacher_attempts": 18,
+      "first_encounter_tasks": 7,
+      "active_patterns": {
+        "EC": 1,
+        "EV": 0
+      },
+      "residual_patches": {
+        "EC": 0,
+        "EV": 0
+      },
+      "elapsed_seconds": 2009.652238117531,
+      "current_arm": "000046_reference_request",
+      "teacher_prompt_characters": 32061,
+      "capacity_transport_attempt_index": 0
+    },
+    "failure": false,
+    "build": false,
+    "completion": false,
+    "native_physical_records": 22,
+    "native_transport_errors": 0,
+    "native_finishes": {
+      "stop": 22
+    },
+    "native_input_tokens": 147015,
+    "native_output_tokens": 61879,
+    "teacher_responses": 17,
+    "teacher_input_tokens": 355601,
+    "teacher_output_tokens": 10124,
+    "teacher_cached_input_subset": 112512,
+    "teacher_reasoning_output_subset": 3667,
+    "teacher_unknown_usage": 0,
+    "reference_validations": 4,
+    "reference_passes": 4,
+    "replay_summary": {
+      "local_patch_validation": {
+        "records": 10,
+        "passed": 2,
+        "parse_invalid": 0
+      },
+      "residual_directed_cross_replay": {
+        "records": 2,
+        "passed": 1,
+        "parse_invalid": 0
+      },
+      "full_scope_abstraction_validation": {
+        "records": 4,
+        "passed": 3,
+        "parse_invalid": 0
+      }
+    },
+    "actual_forecast_exposure": {
+      "EC": {
+        "completed_forecasts": 4,
+        "nonempty_delivery": 2
+      },
+      "EV": {
+        "completed_forecasts": 3,
+        "nonempty_delivery": 0
+      }
+    },
+    "bindings": {
+      "configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json": {
+        "files": 648,
+        "mismatches": []
+      },
+      "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json": {
+        "files": 379,
+        "mismatches": []
+      }
+    },
+    "paper_README_sha256": "f69cce025b482a4c67cb16dece1245480317eccbbfcf7a350d6f99ce4963065a",
+    "paper_prep_sha256": "a23a5e0f366f50534ca52d292e40f9e6a92efd8e8ada2b124a6fa1252cab618f",
+    "observed_replay_memory_events": 14,
+    "observed_replay_events_with_CJK": 0
+  },
+  "first_high_pattern_evidence": [
+    {
+      "path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05/events/000043_pattern_commit.json",
+      "sha256": "4ecf6803bfa564a9a09841820c9c569ec05c84aa526e6a631fad448a36957ef7",
+      "event": {
+        "memory": {
+          "id": "sc_ec_12fe3e29aa959f9ef8e7",
+          "family": "EC",
+          "kind": "pattern",
+          "description": {
+            "when": "Use when a supplied exemption statute enumerates specific asset categories and imposes monetary caps or related limitations.",
+            "repair": "Evaluate each asset independently and return every required asset key. Match the asset to the ordinary meaning and all express ownership, use, and category conditions of an operative exemption without extending one listed category to a distinct category. Under Ariz. Rev. Stat. § 33-1123, qualifying household goods and consumer electronic devices may be covered, but jewelry is not household goods merely because it is personally owned or used. Analyze category eligibility separately from the protected amount unless the statute expressly makes value an eligibility prerequisite; under Ariz. Rev. Stat. § 33-1125(8), equity above the motor-vehicle cap limits the protected amount rather than eliminating category eligibility. Use an empty array only when no supplied operative exemption fits.",
+            "avoid_when": "Do not apply an exemption when an express ownership, use, category, value-as-eligibility, aggregation, or other statutory condition is unsatisfied. Do not cite marital-status, proceeds, aggregation, cap, or nearby limitation provisions unless they independently protect the asset under the required citation rule."
+          },
+          "sources": [
+            182,
+            183
+          ],
+          "parent": null
+        },
+        "parent": null,
+        "members": [
+          "sc_ec_2ca2f6b305dd4b97fd9f",
+          "sc_ec_98856d05a651f96fc965"
+        ],
+        "active_patterns": [
+          "sc_ec_12fe3e29aa959f9ef8e7"
+        ],
+        "residual_patches": []
+      }
+    }
+  ],
+  "paper_index": {
+    "path": "paper/README.md",
+    "old_snapshot": "artifacts/research/openexempt_skillcommit_20261102/paper_readme_before_current_index_20261102.md",
+    "old_sha256": "287a5458165bc9d72b1ecab2dc027d4f4b84702b025ce043343b1aadbab3ecaa",
+    "new_sha256": "f69cce025b482a4c67cb16dece1245480317eccbbfcf7a350d6f99ce4963065a",
+    "new_current_links_verified": 32,
+    "broken_current_links": 0,
+    "documented_entry_commands": [
+      {
+        "cmd": ".venv/bin/python -m experiments.openexempt_online --help",
+        "chunk_id": "4dbbca",
+        "wall_time_seconds": 0.055803462,
+        "exit_code": 0,
+        "original_token_count": 46,
+        "output": "usage: openexempt_online.py [-h] {prepare,freeze,run} config\n\npositional arguments:\n  {prepare,freeze,run}\n  config\n\noptions:\n  -h, --help            show this help message and exit\n"
+      },
+      {
+        "cmd": ".venv/bin/python -m experiments.openexempt_frozen_eval --help",
+        "chunk_id": "1fa9cf",
+        "wall_time_seconds": 0.098398741,
+        "exit_code": 0,
+        "original_token_count": 41,
+        "output": "usage: openexempt_frozen_eval.py [-h] {freeze,run} config\n\npositional arguments:\n  {freeze,run}\n  config\n\noptions:\n  -h, --help    show this help message and exit\n"
+      },
+      {
+        "cmd": ".venv/bin/python -m experiments.openexempt_skillcommit --help",
+        "chunk_id": "811953",
+        "wall_time_seconds": 0.092837141,
+        "exit_code": 0,
+        "original_token_count": 41,
+        "output": "usage: openexempt_skillcommit.py [-h] {freeze,run} config\n\npositional arguments:\n  {freeze,run}\n  config\n\noptions:\n  -h, --help    show this help message and exit\n"
+      }
+    ],
+    "no_historical_prose_deleted": true
+  },
+  "paper_index_checks": {
+    "at_UTC": "2026-11-02T01:13:25.076212+00:00",
+    "frozen_source_checks": {
+      "configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json": {
+        "files": 648,
+        "mismatches": []
+      },
+      "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json": {
+        "files": 379,
+        "mismatches": []
+      }
+    },
+    "unchanged_paper_and_score_hashes": {
+      "paper/utility_skill_manuscript_working_20261030.md": "358275047def8b889b747f923ed65294d5775b5bc555e3c7a328cb22b4a535eb",
+      "paper/sections-zh/utility_skill_manuscript_working_20261030.md": "18226b329e9a76c3d2d1d07f2608ffafa253a59421c8913cac7c74127c6c5c36",
+      "paper/utility_skill_references_20261030.bib": "489e1e24e5e25e8756dabbe510fa46018f6401ee83878d4760a6ee4876ed6716",
+      "paper/tables/utility_frozen_results_20261101.json": "3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732"
+    },
+    "index_and_prep_hashes": {
+      "paper/README.md": "f69cce025b482a4c67cb16dece1245480317eccbbfcf7a350d6f99ce4963065a",
+      "docs/research/PAPER_SUBMISSION_PREPARATION_20261102.md": "a23a5e0f366f50534ca52d292e40f9e6a92efd8e8ada2b124a6fa1252cab618f",
+      "artifacts/launches/openexempt_v6_final_after_withheld_20261031_run01/actual_final_matrix_config.json": "ec592b789d5a8e3f06d2085b00f1700567ed654b533294daff242b62f5414178"
+    }
+  },
+  "direction": "Finish current faithful adaptation and frozen comparison, then integrate evidence into existing paper; no main-method retrain, benchmark change, ranking-driven stops or extra experiment matrix",
+  "still_required": [
+    "Complete all TRAIN128/256 tasks",
+    "Freeze actual final bank and complete existing TEST128/256 tasks",
+    "Integrate final same-task quality, observed skill use and resource comparison",
+    "Complete final contribution-evidence and submission-readiness review"
+  ],
+  "independent_repeats_still_user_deferred": true,
+  "normal_partial_source_or_abstraction_failures_are_not_stop_conditions": true
+}

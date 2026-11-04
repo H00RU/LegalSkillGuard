@@ -1,0 +1,89 @@
+{
+  "recorded_UTC": "2026-11-03T18:00:27Z",
+  "status": "verified_working_markdown_buildfacts_only_TEST_pending",
+  "before": {
+    "paper/utility_skill_manuscript_working_20261030.md": {
+      "sha256": "773a1477f862cc0a03bf088b9590135f7b0d657180341bb61a927868fca50a0f",
+      "pre_appendix_C_sha256": "d0283f7ceef3d35b19daa057d6cf33db2bf1c14bf9cbbf8f086d79c420653d7c",
+      "D1_D2_sha256": "98fb9b226dfc45897e331de53d33cdbf18ce313e154d67bd133c46b3718072f8",
+      "D4_to_end_sha256": "39196d5e18926e64d0014acdc3792c99a8347493a841858468fc5f951abec121"
+    },
+    "paper/sections-zh/utility_skill_manuscript_working_20261030.md": {
+      "sha256": "4feab449b8c004b2ffcad5d55acf8fa60db68f7497f62f6c95c0dcb967c780ba",
+      "pre_appendix_C_sha256": "a634ac87909b4fb7858cfabebaac528e81c5bbf9340bffce108a80123cd3d9e5",
+      "D1_D2_sha256": "2fa5bb6c7353bc36dbe13849e38a0ab4192f7df1659c8ecdde3da90cc6d583cb",
+      "D4_to_end_sha256": "da25f2323c8025887a6edab0d9ad0d0706f62566bee7077dee1fff801ce2933a"
+    },
+    "paper/README.md": {
+      "sha256": "3b91f95224b3e04b5d34582c79f6c5e41132798cf33e5716fbd63bc098c830cb"
+    }
+  },
+  "current": {
+    "paper/utility_skill_manuscript_working_20261030.md": {
+      "sha256": "8709962c303afdc0e87c29c04fc9ec46be935175b7d7f3856c9c8f74a3a66c53",
+      "pre_appendix_C_sha256_after_normalizing_date": "d0283f7ceef3d35b19daa057d6cf33db2bf1c14bf9cbbf8f086d79c420653d7c",
+      "D1_D2_sha256": "98fb9b226dfc45897e331de53d33cdbf18ce313e154d67bd133c46b3718072f8",
+      "D4_to_end_sha256": "39196d5e18926e64d0014acdc3792c99a8347493a841858468fc5f951abec121"
+    },
+    "paper/sections-zh/utility_skill_manuscript_working_20261030.md": {
+      "sha256": "2ed75698eb121870426d5267a194a318598bb2739d79d2f2db080daf0b629cd3",
+      "pre_appendix_C_sha256_after_normalizing_date": "a634ac87909b4fb7858cfabebaac528e81c5bbf9340bffce108a80123cd3d9e5",
+      "D1_D2_sha256": "2fa5bb6c7353bc36dbe13849e38a0ab4192f7df1659c8ecdde3da90cc6d583cb",
+      "D4_to_end_sha256": "da25f2323c8025887a6edab0d9ad0d0706f62566bee7077dee1fff801ce2933a"
+    },
+    "paper/README.md": {
+      "sha256": "76ec16f90b0b7454e785f95a83cdb32d79398726831cdbb12053fdb9206cca1e"
+    }
+  },
+  "checks": {
+    "run05": {
+      "manifest_sha256": "b84103c8f772a10983ef1727c82c7847d0ec344333b22b6ee3574ad19316359d",
+      "file_count": 648,
+      "mismatches": [],
+      "edited_paper_files_bound": false
+    },
+    "main8": {
+      "manifest_sha256": "182e6cbf98e6ee7da8801ad7874554da50a071a91a8a4297e20d87b4fbea30ef",
+      "file_count": 379,
+      "mismatches": [],
+      "edited_paper_files_bound": false
+    }
+  },
+  "retained_build_cost": {
+    "actual_native_generations": 2015,
+    "native_input_tokens": 13663563,
+    "native_output_tokens": 5542122,
+    "actual_teacher_responses": 930,
+    "teacher_attempts": 931,
+    "teacher_input_tokens": 19696279,
+    "teacher_output_tokens": 548224,
+    "teacher_cached_input_tokens_subset": 6026112,
+    "teacher_reasoning_output_tokens_subset": 193870,
+    "successful_teacher_usage_records_missing": 0,
+    "unsuccessful_teacher_attempts_usage_not_assumed_zero": 1,
+    "exact_request_reuses": 345,
+    "elapsed_seconds": 146241.67307270598
+  },
+  "retired_implementation_attempts": 4,
+  "retired_cost": {
+    "actual_native_generations": 584,
+    "native_input_tokens": 3893280,
+    "native_output_tokens": 1620559,
+    "actual_teacher_responses": 368,
+    "teacher_input_tokens": 7640289,
+    "teacher_output_tokens": 234308
+  },
+  "original_ten_condition_table_sha256": "3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732",
+  "TEST_scored_records_present": false,
+  "completion_present": false,
+  "scope": "Only date headers, Appendix C and D.3, and paper/README updated; original Tables1/B3/B4, D.1/D.2, D.4/end, model and frozen protocol unchanged.",
+  "skills_applied": [
+    "brother paper-writing: align verified comparison conditions and bilingual numerical content",
+    "Anti-Defensive Writing CN/EN: concise mechanism and measured work, no partial test ranking"
+  ],
+  "paper_files_are_unbound": true,
+  "original_v12_preimages_already_preserved_in": "run05_eighth_batch_complete_build_milestone_preservation_20261103T173703Z.json",
+  "exports": "Existing EN/ZH Word/PDF v12 retained unchanged; new exports await complete frozen TEST.",
+  "final_build_evidence": "artifacts/research/openexempt_skillcommit_20261102/run05_eighth_complete_batch_and_build_evidence_20261104.json",
+  "readonly_validation_command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,hashlib\nbase=Path.cwd()\nsha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()\nbefore=json.loads(\"{\\\"paper/utility_skill_manuscript_working_20261030.md\\\":{\\\"sha256\\\":\\\"773a1477f862cc0a03bf088b9590135f7b0d657180341bb61a927868fca50a0f\\\",\\\"pre_appendix_C_sha256\\\":\\\"d0283f7ceef3d35b19daa057d6cf33db2bf1c14bf9cbbf8f086d79c420653d7c\\\",\\\"D1_D2_sha256\\\":\\\"98fb9b226dfc45897e331de53d33cdbf18ce313e154d67bd133c46b3718072f8\\\",\\\"D4_to_end_sha256\\\":\\\"39196d5e18926e64d0014acdc3792c99a8347493a841858468fc5f951abec121\\\"},\\\"paper/sections-zh/utility_skill_manuscript_working_20261030.md\\\":{\\\"sha256\\\":\\\"4feab449b8c004b2ffcad5d55acf8fa60db68f7497f62f6c95c0dcb967c780ba\\\",\\\"pre_appendix_C_sha256\\\":\\\"a634ac87909b4fb7858cfabebaac528e81c5bbf9340bffce108a80123cd3d9e5\\\",\\\"D1_D2_sha256\\\":\\\"2fa5bb6c7353bc36dbe13849e38a0ab4192f7df1659c8ecdde3da90cc6d583cb\\\",\\\"D4_to_end_sha256\\\":\\\"da25f2323c8025887a6edab0d9ad0d0706f62566bee7077dee1fff801ce2933a\\\"},\\\"paper/README.md\\\":{\\\"sha256\\\":\\\"3b91f95224b3e04b5d34582c79f6c5e41132798cf33e5716fbd63bc098c830cb\\\"}}\")\nchecks={};current={}\nfor name,old in before.items():\n s=Path(name).read_text();d={'sha256':sha(name)}\n if 'README' not in name:\n  c='## 附录C.' if '/sections-zh/' in name else '## Appendix C.'\n  x=s.split(c,1)[0].replace('updated 4 November 2026','updated 2 November 2026').replace('2026年11月4日更新','2026年11月2日更新')\n  d['pre_appendix_C_sha256_after_normalizing_date']=hashlib.sha256(x.encode()).hexdigest()\n  d['D1_D2_sha256']=hashlib.sha256(s.split('### D.1.',1)[1].split('### D.3.',1)[0].encode()).hexdigest()\n  d['D4_to_end_sha256']=hashlib.sha256(s.split('### D.4.',1)[1].encode()).hexdigest()\n  for k in ['D1_D2_sha256','D4_to_end_sha256']:\n   assert d[k]==old[k],(name,k)\n  assert d['pre_appendix_C_sha256_after_normalizing_date']==old['pre_appendix_C_sha256'],name\n current[name]=d\nfor kind,name in [('run05','configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json'),('main8','configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json')]:\n d=json.loads(Path(name).read_text());items=d['files'];bad=[]\n if isinstance(items,dict): entries=items.items()\n else:\n  print(json.dumps({'unexpected_files_shape':kind,'sample':items[:1]}));raise SystemExit(1)\n for p,v in entries:\n  expected=v.get('sha256') if isinstance(v,dict) else v\n  if sha(p)!=expected: bad.append(p)\n assert not bad,(kind,bad)\n assert all(p not in items for p in before)\n checks[kind]={'manifest_sha256':sha(name),'file_count':len(items),'mismatches':bad,'edited_paper_files_bound':False}\nr=Path('runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05')\nf=json.loads((r/'publications/final.json').read_text());cost=f['cost']\nassert sha(r/'publications/final.json')=='090af0de02fd5ba84bd053683411ea930b7fa8c9906613ccb8f5aac518b9cc89'\nassert sha('paper/tables/utility_frozen_results_20261101.json')=='3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732'\nc=json.loads(Path('configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.json').read_text())\nnode=c['retired_implementation_attempt'];totals={k:0 for k in ['actual_native_generations','native_input_tokens','native_output_tokens','actual_teacher_responses','teacher_input_tokens','teacher_output_tokens']};n=0\nwhile node:\n n+=1\n for k in totals: totals[k]+=node['cost'][k]\n assert node['no_predictions_teacher_outputs_or_library_imported'] and node['no_TEST_generated']\n node=node.get('earlier_retired_implementation_attempt')\nassert n==4\nassert totals=={'actual_native_generations':584,'native_input_tokens':3893280,'native_output_tokens':1620559,'actual_teacher_responses':368,'teacher_input_tokens':7640289,'teacher_output_tokens':234308}\nfor name in before:\n if 'README' in name: continue\n s=Path(name).read_text()\n for v in [930,19696279,548224,2015,13663563,5542122,368,7640289,234308,584,3893280,1620559,931,345]:\n  assert f'{v:,}' in s or str(v) in s,(name,v)\nassert (cost['actual_native_generations'],cost['actual_teacher_responses'],cost['teacher_input_tokens'],cost['teacher_output_tokens'])==(2015,930,19696279,548224)\nprint(json.dumps({'before':before,'current':current,'checks':checks,'retained_build_cost':cost,'retired_implementation_attempts':n,'retired_cost':totals,'original_ten_condition_table_sha256':sha('paper/tables/utility_frozen_results_20261101.json'),'TEST_scored_records_present':(r/'TEST_scored_records.json').exists(),'completion_present':(r/'completion.json').exists(),'scope':'Only date headers, Appendix C and D.3, and paper/README updated; original Tables1/B3/B4, D.1/D.2, D.4/end, model and frozen protocol unchanged.'},ensure_ascii=False))\nPY"
+}

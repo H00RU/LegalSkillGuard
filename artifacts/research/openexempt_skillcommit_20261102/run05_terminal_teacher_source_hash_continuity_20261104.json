@@ -1,0 +1,23 @@
+{
+  "recorded_UTC": "2026-11-03T19:39:30.588219+00:00",
+  "completed_teacher_roles": 930,
+  "all_response_wire_actual_log_and_guard_source_hashes_unchanged_from_complete930_audit": true,
+  "source_file_hash_count": 2794,
+  "source_file_hash_map_sha256": "480f3f64ff34fb8d10060396e9a66570dd351a8d8a0a381ad09afb076420966f",
+  "role_name_set_sha256": "afa983de4b0ee7abeee34e0fb0dcad889954afec6ad3b2b5295bd59b5a598f0b",
+  "no_extra_teacher_wire_request_roles": true,
+  "source_bindings": {
+    "configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json": {
+      "files": 648,
+      "mismatches": [],
+      "manifest_sha256": "b84103c8f772a10983ef1727c82c7847d0ec344333b22b6ee3574ad19316359d"
+    },
+    "configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json": {
+      "files": 379,
+      "mismatches": [],
+      "manifest_sha256": "182e6cbf98e6ee7da8801ad7874554da50a071a91a8a4297e20d87b4fbea30ef"
+    }
+  },
+  "scope": "Byte-level extension of the completed930 actual-log/tool-boundary audit through terminal TEST; no unnecessary re-parsing of930event streams, new teacher request or provider-side information-flow claim.",
+  "executed_readonly_command": ".venv/bin/python - <<'PY'\nimport json,hashlib,datetime\nfrom pathlib import Path\nfrom legal_skill_guard.utils.hashing import canonical_json_sha256 as canon\nroot=Path.cwd();r=root/'runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05';proof=json.loads((root/'artifacts/research/openexempt_skillcommit_20261102/run05_complete_build_teacher_actual_tool_boundary_integrity_20261104.json').read_text());hashes={};roles=[];primary=set();logs=set()\ndef bind(p):hashes[str(p.relative_to(root))]=hashlib.sha256(p.read_bytes()).hexdigest()\nfor p in sorted((r/'teacher').glob('*/response.json')):\n bind(p);d=json.loads(p.read_text());q=Path(d['actual_event_log_path']).resolve();bind(q);bind(p.parent/'wire_request.json');primary.add(q);logs.update(p.parent.rglob('event_log.json'));roles.append(p.parent.name)\nfor p in logs-primary:bind(p)\nfor rel in ['legal_skill_guard/inference/codex_cli_client.py','legal_skill_guard/learning/experiment.py','legal_skill_guard/utils/hashing.py']:bind(root/rel)\nassert len(roles)==proof['completed_teacher_responses_audited']==930 and roles==proof['role_names']\nassert canon(roles)==proof['role_name_set_sha256']\nassert len(hashes)==proof['source_file_hash_record_count']==2794 and canon(hashes)==proof['source_file_hash_map_sha256']\nassert {p.parent.name for p in (r/'teacher').glob('*/wire_request.json')}==set(roles)\nfreeze={}\nfor name in ['configs/openexempt_skillcommit_paper_public_assets128_seed45_20261102_run05.frozen.json','configs/openexempt_complete_output_utility_public_assets128_20261030_run01.frozen.json']:\n d=json.loads((root/name).read_text());m=[]\n for p,v in d['files'].items():\n  expected=v.get('sha256') if isinstance(v,dict) else v\n  if hashlib.sha256((root/p).read_bytes()).hexdigest()!=expected:m.append(p)\n assert not m\n freeze[name]={'files':len(d['files']),'mismatches':m,'manifest_sha256':hashlib.sha256((root/name).read_bytes()).hexdigest()}\nprint(json.dumps({'recorded_UTC':datetime.datetime.now(datetime.timezone.utc).isoformat(),'completed_teacher_roles':len(roles),'all_response_wire_actual_log_and_guard_source_hashes_unchanged_from_complete930_audit':True,'source_file_hash_count':len(hashes),'source_file_hash_map_sha256':canon(hashes),'role_name_set_sha256':canon(roles),'no_extra_teacher_wire_request_roles':True,'source_bindings':freeze,'scope':'Byte-level extension of the completed930 actual-log/tool-boundary audit through terminal TEST; no unnecessary re-parsing of930event streams, new teacher request or provider-side information-flow claim.'}))\nPY"
+}

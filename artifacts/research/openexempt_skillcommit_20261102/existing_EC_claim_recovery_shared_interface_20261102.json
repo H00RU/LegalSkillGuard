@@ -1,0 +1,63 @@
+{
+  "checked_at_utc": "2026-11-02T07:08:43.417005+00:00",
+  "purpose": "Descriptive mechanism evidence from existing full-source EC aggregates; distinguish recovered legal alternatives from mere malformed-output repair.",
+  "source": {
+    "path": "paper/tables/utility_frozen_results_20261101.json",
+    "sha256": "3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732"
+  },
+  "original_scored_records": {
+    "path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/scored_records.json",
+    "sha256": "ff72aa2ba7c27d1d2725c938729a278c4a68e28068871d5da09aa827ddaa9cf6"
+  },
+  "rows": {
+    "empty": {
+      "sources": 128,
+      "native_f1": 0.644825768849206,
+      "native_precision": 0.8500434027777778,
+      "native_recall": 0.5506184895833329,
+      "invalid_format": 0,
+      "complete_claims": {
+        "available": true,
+        "tasks": 128,
+        "correct_claims": 483,
+        "extra_or_incorrect_predictions": 45,
+        "missing_or_incorrect_targets": 461,
+        "precision": 0.9147727272727273,
+        "recall": 0.5116525423728814,
+        "f1": 0.65625
+      }
+    },
+    "utility45": {
+      "sources": 128,
+      "native_f1": 0.9546254960317462,
+      "native_precision": 0.9647786458333334,
+      "native_recall": 0.9487304687499998,
+      "invalid_format": 0,
+      "complete_claims": {
+        "available": true,
+        "tasks": 128,
+        "correct_claims": 904,
+        "extra_or_incorrect_predictions": 26,
+        "missing_or_incorrect_targets": 40,
+        "precision": 0.9720430107526882,
+        "recall": 0.9576271186440678,
+        "f1": 0.9647812166488794
+      }
+    }
+  },
+  "derived": {
+    "shared_EC_positive_target_claim_count": 944,
+    "correct_claim_change": 421,
+    "missing_or_incorrect_target_change": -421,
+    "extra_or_incorrect_prediction_change": -19,
+    "native_EC_recall_change_pp": 39.811197916666686
+  },
+  "interpretation": "Both arms have valid EC output on all 128 sources and share the public interface. The learned-library gain therefore cannot be explained solely by fixing malformed JSON. Existing complete-claim counts show substantially more recovered legal alternatives and fewer erroneous predictions.",
+  "limits": [
+    "Counts are descriptive pooled claim totals, not the source-mean native F1 or a new significance test.",
+    "This comparison establishes utility of the actual learned library under the shared input conditions, not the isolated causal contribution of a single edit or objective.",
+    "Shared prerequisites and answer-space assistance still define the task; these counts do not demonstrate official Advanced or end-to-end performance."
+  ],
+  "new_native_teacher_or_grader_calls": 0,
+  "original_predictions_scores_and_scientific_code_modified": false
+}

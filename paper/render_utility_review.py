@@ -63,7 +63,7 @@ def visible(inlines, *, split_math=False):
             result.append(" ")
         elif kind == "Math":
             result.append("\0" if split_math else "")
-        elif kind in ("Code", "Link", "Span"):
+        elif kind in ("Code", "Link", "Span", "Cite"):
             result.append(value[-1] if kind == "Code" else visible(value[1], split_math=split_math))
         elif kind in ("Emph", "Strong", "Strikeout", "Superscript", "Subscript", "SmallCaps"):
             result.append(visible(value, split_math=split_math))
@@ -154,7 +154,7 @@ def stabilize_review_layout(path):
 
     stats = {"unsplit_rows": 0, "image_caption_links": 0,
              "table_caption_links": 0, "whole_short_table_groups": 0,
-             "targeted_column_width_tables": 0}
+             "targeted_column_width_tables": 0, "bibliography_block_grouped": 0}
     for row in doc.getElementsByTagName("w:tr"):
         flag(row, "trPr", "cantSplit")
         stats["unsplit_rows"] += 1
@@ -175,12 +175,17 @@ def stabilize_review_layout(path):
         header = [norm(text(cell)) for cell in cells]
         main = len(header) == 4 and header[0] in ("Frozenlibrary", "冻结技能库") and header[-1] == "Avg."
         control = len(header) == 5 and len(table_rows) == 4 and header[0] in ("Learningcondition", "学习条件")
-        if main or control:
+        case = len(header) == 3 and len(table_rows) == 5 and header[0] in ("Frozencondition", "冻结条件")
+        frozen_cost = (len(header) == 4 and len(table_rows) in (11, 12)
+                       and header[0] in ("Condition", "条件")
+                       and header[1] in ("Inputtokens", "输入tokens")
+                       and header[2] in ("Outputtokens", "输出tokens"))
+        formation = len(header) == 4 and header[-1] in ("Teacherresponses", "教师响应")
+        if main or control or case or frozen_cost or formation:
             for row in table_rows[:-1]:
                 for para in row.getElementsByTagName("w:p"):
                     flag(para, "pPr", "keepNext")
             stats["whole_short_table_groups"] += 1
-        formation = len(header) == 4 and header[-1] in ("Teacherresponses", "教师响应")
         ratios = (0.49, 0.17, 0.17, 0.17) if main else ((0.22, 0.36, 0.16, 0.26) if formation else None)
         if ratios is not None:
             columns = table.getElementsByTagName("w:gridCol")
@@ -208,6 +213,16 @@ def stabilize_review_layout(path):
                     cell_width.setAttribute("w:w", str(width))
                     cell_width.setAttribute("w:type", "dxa")
             stats["targeted_column_width_tables"] += 1
+    body = doc.getElementsByTagName("w:body")[0]
+    paragraphs = [n for n in body.childNodes if n.nodeType == n.ELEMENT_NODE and n.tagName == "w:p"]
+    headings = [i for i, para in enumerate(paragraphs) if text(para).strip() in ("References", "参考文献")]
+    if len(headings) == 1:
+        references = paragraphs[headings[0]:]
+        for para in references:
+            flag(para, "pPr", "keepLines")
+        for para in references[:-1]:
+            flag(para, "pPr", "keepNext")
+        stats["bibliography_block_grouped"] = len(references) - 1
     with tempfile.TemporaryDirectory(prefix="legal-docx-layout-", dir=path.parent) as temp:
         revised = Path(temp) / path.name
         with zipfile.ZipFile(revised, "w") as dest:
@@ -220,12 +235,35 @@ def stabilize_review_layout(path):
 
 def export(source, lang, out, reference):
     ast = json.loads(run([PANDOC, "--from=markdown-implicit_figures", "--to=json", source]).stdout)
-    original = copy.deepcopy(ast)
     # JSON readers do not parse CLI metadata strings as Markdown citations.
     # Let Pandoc itself construct the canonical wildcard citation metadata.
     metadata = json.loads(run([PANDOC, "--from=markdown", "--to=json"],
                               input=b"---\nnocite: '@*'\n---\n").stdout)["meta"]
     ast["meta"].update(metadata)
+    ast["meta"]["reference-section-title"] = {
+        "t": "MetaString", "c": "References" if lang == "en" else "参考文献"}
+    ast["meta"]["lang"] = {"t": "MetaString", "c": "en-US" if lang == "en" else "zh-CN"}
+    bibliography = json.loads(run([PANDOC, "--from=biblatex", "--to=csljson", BIB]).stdout)
+    citation_ids = {entry["URL"]: entry["id"] for entry in bibliography}
+    citation_counts = {}
+    for node in list(walk(ast["blocks"])):
+        if node.get("t") != "Link" or node["c"][2][0] not in citation_ids:
+            continue
+        key = citation_ids[node["c"][2][0]]
+        label = copy.deepcopy(node["c"][1])
+        citation = {"citationId": key, "citationPrefix": [], "citationSuffix": [],
+                    "citationMode": {"t": "NormalCitation"},
+                    "citationNoteNum": 0, "citationHash": 0}
+        node.clear()
+        node.update({"t": "Span", "c": [["", [], []], label + [{"t": "Space"},
+            {"t": "Cite", "c": [[citation], [{"t": "Str", "c": "[@" + key + "]"}]]}]]})
+        citation_counts[key] = citation_counts.get(key, 0) + 1
+    if set(citation_counts) != set(citation_ids.values()):
+        raise ValueError("Every bibliography entry must be cited in the source manuscript")
+    ast = json.loads(run([PANDOC, "--from=json", "--to=json", "--citeproc",
+                          "--bibliography=" + str(BIB)],
+                         input=json.dumps(ast, ensure_ascii=False).encode()).stdout)
+    original = copy.deepcopy(ast)
     assets = []
     for node in walk(ast["blocks"]):
         if node.get("t") == "Image":
@@ -241,13 +279,9 @@ def export(source, lang, out, reference):
             assets.append({"original_target": target, "rendered_path": str(image.relative_to(ROOT)), "sha256": sha(image)})
         elif node.get("t") == "Link" and node["c"][2][0].endswith(".bib"):
             node["c"][2][0] = BIB.name
-    note = ("INITIAL DRAFT REVIEW — completed source-isolated IID comparison; independent learning repeats deferred."
-            if lang == "en" else "完整初稿审阅版：来源隔离IID比较已完成；额外独立学习重复暂缓。")
-    ast["blocks"].insert(0, {"t": "Para", "c": [{"t": "Strong", "c": [{"t": "Str", "c": note}]}]})
     stem = "utility_v6_working_" + lang
     docx = out / (stem + ".docx")
-    result = run([PANDOC, "--from=json", "--to=docx", "--standalone", "--citeproc",
-                  "--bibliography=" + str(BIB),
+    result = run([PANDOC, "--from=json", "--to=docx", "--standalone",
                   "--metadata=reference-section-title=" + ("References" if lang == "en" else "参考文献"),
                   "--metadata=lang=" + ("en-US" if lang == "en" else "zh-CN"),
                   "--reference-doc=" + str(reference), "--output=" + str(docx)],
@@ -276,9 +310,8 @@ def export(source, lang, out, reference):
         raise ValueError("A source figure was omitted or changed before embedding")
     if math_count != len(expected_math) or table_count != expected_tables:
         raise ValueError("Native mathematics or table count changed in DOCX")
-    for title in ("Diagnostic Benchmark for Legal Reasoning", "Experiential Learners",
-                  "Agentic Context Engineering", "Trajectory-Local Lessons",
-                  "Scaling Agent Self-Evolving", "Behaviorally Validated Scope Expansion"):
+    for entry in bibliography:
+        title = re.sub(r"<[^>]+>", "", entry["title"])
         if norm(title).casefold() not in norm(word_text).casefold():
             raise ValueError("A cited bibliography entry was not rendered: " + title)
     shutil.copy2(source, out / (stem + ".source.md"))
@@ -288,7 +321,10 @@ def export(source, lang, out, reference):
         "source_paragraphs_and_cells": len(paragraph_text(original)), "docx_missing_source_text": missing_docx,
         "pdf_source_segments": len(segments), "pdf_missing_segments": missing_pdf,
         "PDF_text_checked_in_layout_and_raw_cell_reading_order": True,
-        "all_six_cited_primary_bibliography_entries_rendered": True,
+        "all_cited_primary_bibliography_entries_rendered": True,
+        "cited_primary_bibliography_entry_count": len(bibliography),
+        "author_year_citation_counts": citation_counts,
+        "text_integrity_compared_after_standard_citation_resolution": True,
         "source_math": expected_math, "native_OMML_math_count": math_count, "table_count": table_count,
         "figures": assets, "embedded_media_sha256": media, "layout_adjustments": layout,
         "pandoc_stderr": result.stderr.decode(), "libreoffice_stdout": converted.stdout.decode(),
@@ -314,11 +350,12 @@ def main():
     outputs = {lang: export(source, lang, out, reference) for lang, source in SOURCES.items()}
     if hashes != {str(p.relative_to(ROOT)): sha(p) for p in (*SOURCES.values(), BIB)}:
         raise ValueError("Scientific manuscript sources changed during export")
-    manifest = {"at": datetime.now(timezone.utc).isoformat(), "classification": "Bilingual utility-method initial draft with completed source-isolated frozen comparison; extra independent learning builds deferred; not a submission.",
+    manifest = {"at": datetime.now(timezone.utc).isoformat(), "classification": "Bilingual utility-method working manuscript with completed original frozen comparison and declared SkillCommit supplement; not a journal submission.",
         "source_sha256": hashes, "renderer_sha256": sha(Path(__file__)), "pandoc_version": version,
         "pandoc_binary_sha256": sha(PANDOC), "reference_docx_sha256": sha(reference), "outputs": outputs,
         "new_prose_or_scores_written_to_source": False, "old_v023_renderer_and_paper_untouched": True,
-        "no_training_model_teacher_TEST_access": True, "review_wrapper_and_bibliography_added_only_to_export": True}
+        "no_training_model_teacher_TEST_access": True, "bibliography_added_only_to_export": True,
+        "internal_review_banner_added_to_manuscript": False}
     (out / "render_manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({lang: {k: value[k] for k in ("pdf", "docx", "native_OMML_math_count", "table_count", "status", "docx_missing_source_text", "pdf_missing_segments")} for lang, value in outputs.items()}, ensure_ascii=False))
 

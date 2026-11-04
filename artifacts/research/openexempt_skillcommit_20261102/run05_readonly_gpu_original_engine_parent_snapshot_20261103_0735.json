@@ -1,0 +1,50 @@
+{
+  "observed_UTC": "2026-11-02 23:35:06 UTC",
+  "commands": [
+    "nvidia-smi --query-gpu=uuid,name,utilization.gpu,memory.used,memory.total --format=csv,noheader",
+    "nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv,noheader"
+  ],
+  "outputs": [
+    {
+      "exit_code": 0,
+      "output": "GPU-ae41189f-fc85-bfc2-3db8-b140610cd50b, NVIDIA A40, 97 %, 24193 MiB, 49140 MiB\n"
+    },
+    {
+      "exit_code": 0,
+      "output": "958843, VLLM::EngineCore, 24184 MiB\n"
+    }
+  ],
+  "parent_chain_query": ".venv/bin/python read-only /proc/{958223,958843,1837514}/{stat,comm,cgroup}",
+  "parent_chain_command_result": {
+    "chunk_id": "7d527b",
+    "wall_time_seconds": 0.00001464,
+    "exit_code": 0,
+    "original_token_count": 410,
+    "output": "[{\"PID\": 958223, \"PPID\": 1099, \"birth_ticks\": 486445918, \"comm\": \"vllm\", \"cgroup\": \"13:pids:/user.slice/user-1000.slice/user@1000.service\\n12:cpuset:/\\n11:devices:/user.slice\\n10:memory:/user.slice/user-1000.slice/user@1000.service\\n9:hugetlb:/\\n8:rdma:/\\n7:freezer:/\\n6:blkio:/\\n5:cpu,cpuacct:/\\n4:misc:/\\n3:net_cls,net_prio:/\\n2:perf_event:/\\n1:name=systemd:/user.slice/user-1000.slice/user@1000.service/legal-qwen3-8b-phase-dispatch.service\\n0::/user.slice/user-1000.slice/user@1000.service/legal-qwen3-8b-phase-dispatch.service\"}, {\"PID\": 958843, \"PPID\": 958223, \"birth_ticks\": 486447534, \"comm\": \"VLLM::EngineCor\", \"cgroup\": \"13:pids:/user.slice/user-1000.slice/user@1000.service\\n12:cpuset:/\\n11:devices:/user.slice\\n10:memory:/user.slice/user-1000.slice/user@1000.service\\n9:hugetlb:/\\n8:rdma:/\\n7:freezer:/\\n6:blkio:/\\n5:cpu,cpuacct:/\\n4:misc:/\\n3:net_cls,net_prio:/\\n2:perf_event:/\\n1:name=systemd:/user.slice/user-1000.slice/user@1000.service/legal-qwen3-8b-phase-dispatch.service\\n0::/user.slice/user-1000.slice/user@1000.service/legal-qwen3-8b-phase-dispatch.service\"}, {\"PID\": 1837514, \"PPID\": 1099, \"birth_ticks\": 558660848, \"comm\": \"python\", \"cgroup\": \"13:pids:/user.slice/user-1000.slice/user@1000.service\\n12:cpuset:/\\n11:devices:/user.slice\\n10:memory:/user.slice/user-1000.slice/user@1000.service\\n9:hugetlb:/\\n8:rdma:/\\n7:freezer:/\\n6:blkio:/\\n5:cpu,cpuacct:/\\n4:misc:/\\n3:net_cls,net_prio:/\\n2:perf_event:/\\n1:name=systemd:/user.slice/user-1000.slice/user@1000.service/legal-skillcommit-paper-20261102-run05.service\\n0::/user.slice/user-1000.slice/user@1000.service/legal-skillcommit-paper-20261102-run05.service\"}]\n"
+  },
+  "verified_process_parent_chain": [
+    {
+      "PID": 958223,
+      "PPID": 1099,
+      "birth_ticks": 486445918,
+      "comm": "vllm",
+      "cgroup": "13:pids:/user.slice/user-1000.slice/user@1000.service\n12:cpuset:/\n11:devices:/user.slice\n10:memory:/user.slice/user-1000.slice/user@1000.service\n9:hugetlb:/\n8:rdma:/\n7:freezer:/\n6:blkio:/\n5:cpu,cpuacct:/\n4:misc:/\n3:net_cls,net_prio:/\n2:perf_event:/\n1:name=systemd:/user.slice/user-1000.slice/user@1000.service/legal-qwen3-8b-phase-dispatch.service\n0::/user.slice/user-1000.slice/user@1000.service/legal-qwen3-8b-phase-dispatch.service"
+    },
+    {
+      "PID": 958843,
+      "PPID": 958223,
+      "birth_ticks": 486447534,
+      "comm": "VLLM::EngineCor",
+      "cgroup": "13:pids:/user.slice/user-1000.slice/user@1000.service\n12:cpuset:/\n11:devices:/user.slice\n10:memory:/user.slice/user-1000.slice/user@1000.service\n9:hugetlb:/\n8:rdma:/\n7:freezer:/\n6:blkio:/\n5:cpu,cpuacct:/\n4:misc:/\n3:net_cls,net_prio:/\n2:perf_event:/\n1:name=systemd:/user.slice/user-1000.slice/user@1000.service/legal-qwen3-8b-phase-dispatch.service\n0::/user.slice/user-1000.slice/user@1000.service/legal-qwen3-8b-phase-dispatch.service"
+    },
+    {
+      "PID": 1837514,
+      "PPID": 1099,
+      "birth_ticks": 558660848,
+      "comm": "python",
+      "cgroup": "13:pids:/user.slice/user-1000.slice/user@1000.service\n12:cpuset:/\n11:devices:/user.slice\n10:memory:/user.slice/user-1000.slice/user@1000.service\n9:hugetlb:/\n8:rdma:/\n7:freezer:/\n6:blkio:/\n5:cpu,cpuacct:/\n4:misc:/\n3:net_cls,net_prio:/\n2:perf_event:/\n1:name=systemd:/user.slice/user-1000.slice/user@1000.service/legal-skillcommit-paper-20261102-run05.service\n0::/user.slice/user-1000.slice/user@1000.service/legal-skillcommit-paper-20261102-run05.service"
+    }
+  ],
+  "scope": "One real GPU/process-parent snapshot at the stated observation. Does not establish total activeGPU-hours or continuous device exclusivity. No model load, training/source/profile change.",
+  "executed_process_parent_command": ".venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nrows=[]\nfor pid in [958223,958843,1837514]:\n p=Path(f'/proc/{pid}');s=(p/'stat').read_text().rsplit(') ',1)[1].split();rows.append({'PID':pid,'PPID':int(s[1]),'birth_ticks':int(s[19]),'comm':(p/'comm').read_text().strip(),'cgroup':(p/'cgroup').read_text().strip()})\nprint(json.dumps(rows,ensure_ascii=False))\nPY"
+}

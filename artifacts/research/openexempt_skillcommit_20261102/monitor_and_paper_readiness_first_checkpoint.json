@@ -1,0 +1,117 @@
+{
+  "goal_status": "active",
+  "goal_objective": "持续监控法律技能进化项目的 SkillCommit 论文适配对照 legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02（systemd 用户服务 legal-skillcommit-paper-20261101-run02.service），直到同 TRAIN128 来源构建与既有 TEST128/256任务冻结评价完成，核对真实进程及源绑定、各批首答、单案修补/抽象/拆分准入、实际技能下发、教师与8B开销和终态保全；完成后以原生F1、完整输出质量及成本同既有主方法/空库/经验方法作真实同案比较，并给出论文竞争力与缺失证据的诚实判断。保持原主方法、8B、训练/测试来源、已完成实验和原始评分不变；不因方法排序或局部低分停止或挑选结果，不新增模型、独立重复或其他实验，不改正在运行的648个绑定文件。工程异常先核实并保存诊断；需要改变科学协议、方法或新增实验时报告并另行征求用户方向。定期按真实时间更新进度，正常运行时等待而不反复全量资格测试，源代码和全部有利/不利原件保留。",
+  "recorded_at_UTC": "2026-11-01 21:01:26 UTC",
+  "scope": "read_only_monitoring_and_paper_readiness_assessment_no_live_scientific_source_changes",
+  "progress": {
+    "at": "2026-11-01T21:01:14.796808+00:00",
+    "run_id": "legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02",
+    "state": "running",
+    "phase": "construction",
+    "stage": "000735_replay",
+    "current_batch": 4,
+    "completed_native_calls": 448,
+    "completed_teacher_calls": 280,
+    "teacher_attempts": 280,
+    "first_encounter_tasks": 119,
+    "active_patterns": {
+      "EC": 1,
+      "EV": 1
+    },
+    "residual_patches": {
+      "EC": 4,
+      "EV": 3
+    },
+    "elapsed_seconds": 38743.7762332242,
+    "current_arm": "skillcommit_replay",
+    "current_document_id": 240,
+    "current_call": "openexempt"
+  },
+  "batches": [
+    {
+      "batch": 1,
+      "EC_native_F1_percent": 57.81746031746031,
+      "EV_native_F1_percent": 66.35416666666666
+    },
+    {
+      "batch": 2,
+      "EC_native_F1_percent": 65.60515873015873,
+      "EV_native_F1_percent": 64.51388888888889
+    },
+    {
+      "batch": 3,
+      "EC_native_F1_percent": 68.68055555555556,
+      "EV_native_F1_percent": 67.30215964590964
+    }
+  ],
+  "suspected_false_rejection_samples": [
+    {
+      "event_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02/events/000055_patch_leakage_reject.json",
+      "teacher_response_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02/teacher/000054_patch_request/response.json",
+      "case_id": 185,
+      "family": "EC",
+      "reason": "author_reports_instance_solution",
+      "repair_memory": "对每项财产逐条进行两轮审查：先匹配家具、家庭用品、乐器等特定类别豁免，再单独检查适用于“任何财产”的通用或剩余额度豁免。区分类别适用性与保护额度：若条文以债务人权益“不超过”某金额为限，资产价值较高通常只会限制可豁免的权益数额，而不会使该条完全不适用；涉及由未使用的其他豁免额度补充时，也应在题目询问“可受保护”的情况下保留该条，但不得假定超过法定最高额度的部分受保护。最后逐项核对所有实体豁免，排除仅规定选择、合并或程序的条款，并转换为要求的本地键及标签。"
+    },
+    {
+      "event_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02/events/000069_patch_leakage_reject.json",
+      "teacher_response_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02/teacher/000068_patch_request/response.json",
+      "case_id": 186,
+      "family": "EC",
+      "reason": "author_reports_instance_solution",
+      "repair_memory": "对每项财产先匹配明确列举的实体类别，再单独检查适用于“任何财产”的通配额豁免。11 U.S.C. § 522(d)(5)可在其基础额度及未使用的§ 522(d)(1)额度范围内覆盖任何财产；只要题目问财产“可否受到保护”且未给出足以排除可用额度的事实，就应同时保留该标签。不得因为财产已匹配某个具体类别而省略通配额豁免，也不得把未列入联邦类别条款的财产硬归入该条款。最后逐项做一次通配额标签漏项检查。"
+    },
+    {
+      "event_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02/events/000097_patch_leakage_reject.json",
+      "teacher_response_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02/teacher/000096_patch_request/response.json",
+      "case_id": 188,
+      "family": "EC",
+      "reason": "author_reports_instance_solution",
+      "repair_memory": "对每项资产分两遍审查：先匹配明确列举的具体类别，再逐一检查适用于“任何财产”或“任何个人财产”的一般豁免。具体类别与一般豁免可以同时适用，不得因已经找到更具体条款就停止。金额上限通常限制受保护权益的范围，而非取消条款的适用性；仅当事实或条文明示不满足资格条件时排除。最后复核每项资产是否已穷尽所有实体豁免，并仅用指定本地键和标签输出；不要把选举、夫妻合并或一般标题本身当作独立资产豁免。"
+    },
+    {
+      "event_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02/events/000120_patch_leakage_reject.json",
+      "teacher_response_path": "runs/legal_openexempt_skillcommit_paper_public_assets128_seed45_20261101_run02/teacher/000119_patch_request/response.json",
+      "case_id": 190,
+      "family": "EV",
+      "reason": "author_reports_instance_solution",
+      "repair_memory": "For each asset, evaluate every statutory exemption independently. First test specific categories using the ordinary meaning and all stated factual predicates; do not stretch wearing apparel to ordinary jewelry or adornment. Then separately test any residual or wildcard exemption covering “any other property,” even when a specific exemption also applies. Emit every qualifying alternative and calculate each claim as the lesser of the asset’s value or that exemption’s per-asset limit, without allocating aggregate caps across assets unless expressly required."
+    }
+  ],
+  "verified_prefix": {
+    "native_calls": 436,
+    "teacher_successes": 274,
+    "teacher_input_tokens": 5684102,
+    "teacher_output_tokens": 173350,
+    "source_bound_files": 648,
+    "source_mismatches": [],
+    "transport_errors": 0,
+    "native_finish": {
+      "stop": 434,
+      "length": 2
+    },
+    "local_patch_source_tasks": 87,
+    "local_patch_source_tasks_ever_passed": 11,
+    "local_validation_replays": 223,
+    "local_validation_parse_invalid": 0,
+    "nonempty_first_answer_deliveries": {
+      "EC": 57,
+      "EV": 25
+    },
+    "actual_first_answer_tasks_audited": {
+      "EC": 59,
+      "EV": 58
+    }
+  },
+  "readiness": {
+    "main_effectiveness": "supported_by_completed_frozen_comparison",
+    "EC_continuation": "supported_by_own_B1_and_source_paired_interval",
+    "superiority_to_recent_same_task_methods": "not_established",
+    "scope": "custom_IID_OpenExempt_EC_EV_one_8B_one_retained_build",
+    "independent_learning_repetitions": "user_deferred",
+    "baseline_issue": "at_least_four_generic_repairs_rejected_by_unscoped_teacher_contains_instance_solution_flag; field_scope_as_explanation_is_inference_not_measured_counterfactual; final_metric_effect_unknown",
+    "pending_user_decision": "requested_async_approval_for_safe_preservation_and_only_field_scope_clarification_then_same_conditions_new_run",
+    "no_source_hot_edit": true,
+    "no_new_method_training": true
+  }
+}

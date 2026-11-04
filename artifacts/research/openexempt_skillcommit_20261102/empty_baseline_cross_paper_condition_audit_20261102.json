@@ -1,0 +1,97 @@
+{
+  "checked_at_utc": "2026-11-02T04:54:00Z",
+  "purpose": "Explain cross-paper no-skill score differences without treating distinct protocols as a model-strength ranking.",
+  "primary_sources": {
+    "skillcommit": "https://arxiv.org/html/2608.15165v2",
+    "openexempt_table5": "https://arxiv.org/html/2601.13183v1#A1.SS5"
+  },
+  "reported_no_skill_native_f1_percent": [
+    {
+      "setting": "SkillCommit Table 1, Qwen3.6-35B-A3B",
+      "EC": 47.46,
+      "EV": 29.02
+    },
+    {
+      "setting": "SkillCommit Table 1, Qwen3.5-9B",
+      "EC": 15.61,
+      "EV": 9.97
+    },
+    {
+      "setting": "Existing project frozen IID128, Qwen3-8B",
+      "EC": 64.48257688492063,
+      "EV": 55.88417658730158
+    }
+  ],
+  "original_declared_conditions": {
+    "suite": "OpenExempt Advanced Competency",
+    "test_cases_per_task": 105,
+    "construction_cases_per_task": 210,
+    "assets_per_source": "6–8 per official suite definition",
+    "married_ratio": 1,
+    "domicile_count": 5,
+    "obfuscation": true,
+    "provided_solved_steps": "No in official suite Table 5; authors' actual per-request records were not available for independent inspection.",
+    "qwen_hidden_thinking": "disabled per SkillCommit B.2",
+    "solver_max_output": 16384
+  },
+  "actual_project_conditions": {
+    "suite": "custom source-isolated generator IID; not official Advanced",
+    "sources": 128,
+    "assets_per_source": "2–4",
+    "married_ratio": 0.5,
+    "domicile_count": "2–4",
+    "irrelevant_asset_facts": false,
+    "irrelevant_domicile_facts": false,
+    "asset_opinions": false,
+    "domicile_opinions": false,
+    "solved_steps": "AE allowable-jurisdiction result supplied to EC and EV; EC answer is not supplied to EV.",
+    "interface": "literal asset-mention IDs and citation vocabulary within supplied allowable jurisdictions; guided JSON schema, reversible decoding only; no hidden legal eligibility or amounts.",
+    "qwen_hidden_thinking": "enabled",
+    "solver_max_output": 8192,
+    "project_source_preselection": "data/packets/openexempt_IID128_confirmatory_TEST_20261030/preselection.json",
+    "project_scores": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/scored_records.json"
+  },
+  "actual_256_empty_request_reconstruction": {
+    "actual_saved_empty_requests": 256,
+    "checks_passed_counts": {
+      "messages_equal_public_only_rebuild": 256,
+      "schema_equal_public_only_rebuild": 256,
+      "no_delivered_skills": 256,
+      "empty_bank_hash": 256,
+      "no_program_or_execution": 256
+    },
+    "mismatches": [],
+    "literal_asset_count_histogram_by_source": {
+      "2": 42,
+      "3": 45,
+      "4": 41
+    },
+    "solved_step_classes": {
+      "('EC', 'has_AE_solved_step')": 128,
+      "('EV', 'has_AE_solved_step')": 128
+    },
+    "new_model_or_teacher_calls": 0
+  },
+  "metric_check": {
+    "EC": {
+      "n": 128,
+      "native_f1": 64.48257688492063,
+      "full_output_f1": 66.65384035848548,
+      "invalid": 0
+    },
+    "EV": {
+      "n": 128,
+      "native_f1": 55.88417658730158,
+      "full_output_f1": 56.50848373474915,
+      "invalid": 1
+    }
+  },
+  "inference_limits": [
+    "Differences demonstrate lack of direct score comparability; their individual causal contributions have not been isolated.",
+    "The saved baseline is an empty learned library, not an entirely unassisted raw benchmark prompt.",
+    "No evidence here establishes Qwen3-8B intrinsically stronger than the other models, nor establishes that every point of the cross-paper gap has been explained.",
+    "Closest-method quality comparison must use the same project cases, inputs, generation and scorer, as the currently authorized adaptation does."
+  ],
+  "scientific_code_or_scores_modified": false,
+  "new_model_or_teacher_calls": 0
+}

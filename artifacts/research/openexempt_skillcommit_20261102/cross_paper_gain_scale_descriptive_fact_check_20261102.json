@@ -1,0 +1,48 @@
+{
+  "source_paper": "https://arxiv.org/html/2608.15165v2#S4.T1",
+  "source_project": "paper/tables/utility_frozen_results_20261101.json",
+  "source_project_sha256": "3879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732",
+  "rows": [
+    {
+      "setting": "SkillCommit Table 1, Qwen3.6-35B-A3B author to Qwen3.5-9B user, Advanced",
+      "task": "EC",
+      "baseline_F1_percent": 15.61,
+      "skill_F1_percent": 62.41,
+      "gain_pp": 46.8,
+      "gain_over_distance_to_100_percent": 55.45680767863491
+    },
+    {
+      "setting": "SkillCommit Table 1, Qwen3.6-35B-A3B author to Qwen3.5-9B user, Advanced",
+      "task": "EV",
+      "baseline_F1_percent": 9.97,
+      "skill_F1_percent": 54.28,
+      "gain_pp": 44.31,
+      "gain_over_distance_to_100_percent": 49.216927690769744
+    },
+    {
+      "setting": "Current study, Qwen3-8B, custom conditioned IID128",
+      "task": "EC",
+      "baseline_F1_percent": 64.48257688492059,
+      "skill_F1_percent": 95.46254960317462,
+      "gain_pp": 30.979972718254032,
+      "gain_over_distance_to_100_percent": 87.22471959149834
+    },
+    {
+      "setting": "Current study, Qwen3-8B, custom conditioned IID128",
+      "task": "EV",
+      "baseline_F1_percent": 55.88417658730156,
+      "skill_F1_percent": 87.90147569444441,
+      "gain_pp": 32.017299107142854,
+      "gain_over_distance_to_100_percent": 72.57554462403368
+    }
+  ],
+  "interpretation": "Both studies show large within-study gains. Absolute gains in the cited SkillCommit configuration are larger; current-study gains consume much of the distance from its higher starting F1 to the theoretical 100 reference.",
+  "limits": [
+    "Different data difficulty, supplied prerequisites, public answer interface, executor, thinking mode and teacher are not controlled across these studies.",
+    "Gain divided by 100 minus baseline is an illustrative F1-scale normalization, not a factual error-reduction rate, an official metric, actual oracle ceiling, new significance test or proof of method superiority.",
+    "The ongoing same-condition fixed SkillCommit adaptation, not this arithmetic, provides the relevant method comparison."
+  ],
+  "new_model_or_teacher_calls": 0,
+  "original_scores_modified": false,
+  "not_for_same_condition_method_table": true
+}
